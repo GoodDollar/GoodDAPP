@@ -80,13 +80,11 @@ exports[`AmountInput matches snapshot 1`] = `
                 "fontWeight": "bold",
                 "letterSpacing": "1.2px",
                 "marginTop": "42.38961038961039px",
-                "msTouchAction": "manipulation",
                 "paddingBottom": "4px",
                 "paddingLeft": "32px",
                 "paddingRight": "32px",
                 "paddingTop": "4px",
                 "textAlign": "center",
-                "width": "100%",
               }
             }
             tabIndex="-1"

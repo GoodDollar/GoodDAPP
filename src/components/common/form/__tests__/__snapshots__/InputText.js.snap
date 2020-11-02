@@ -52,7 +52,6 @@ exports[`InputText empty matches snapshot 1`] = `
             "paddingRight": "32px",
             "paddingTop": "4px",
             "textAlign": "center",
-            "width": "100%",
           }
         }
         type="text"
@@ -136,7 +135,6 @@ exports[`InputText matches snapshot 1`] = `
             "paddingRight": "32px",
             "paddingTop": "4px",
             "textAlign": "center",
-            "width": "100%",
           }
         }
         type="text"

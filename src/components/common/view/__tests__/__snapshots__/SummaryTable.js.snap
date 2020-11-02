@@ -43,6 +43,9 @@ exports[`SummaryTable matches snapshot 1`] = `
           "borderBottomColor": "rgba(203,203,203,1.00)",
           "borderBottomStyle": "solid",
           "borderBottomWidth": "1px",
+          "borderLeftStyle": "solid",
+          "borderRightStyle": "solid",
+          "borderTopStyle": "solid",
           "flexDirection": "row",
           "height": "40px",
           "justifyContent": "space-between",
@@ -106,6 +109,9 @@ exports[`SummaryTable matches snapshot 1`] = `
           "borderBottomColor": "rgba(203,203,203,1.00)",
           "borderBottomStyle": "solid",
           "borderBottomWidth": "1px",
+          "borderLeftStyle": "solid",
+          "borderRightStyle": "solid",
+          "borderTopStyle": "solid",
           "flexDirection": "row",
           "height": "40px",
           "justifyContent": "space-between",
@@ -172,23 +178,27 @@ exports[`SummaryTable matches snapshot 1`] = `
           0.20
         </div>
         <div
-          className="css-text-901oao"
-          dir="auto"
+          className="css-view-1dbjc4n"
           style={
             Object {
-              "color": "rgba(66,69,74,1.00)",
-              "fontFamily": "Roboto",
-              "fontSize": "16px",
-              "fontWeight": "normal",
-              "lineHeight": "22px",
-              "textAlign": "center",
-              "textDecoration": "none",
-              "textTransform": "none",
+              "WebkitAlignItems": "center",
+              "WebkitBoxAlign": "center",
+              "WebkitBoxDirection": "normal",
+              "WebkitBoxOrient": "horizontal",
+              "WebkitBoxPack": "justify",
+              "WebkitFlexDirection": "row",
+              "WebkitJustifyContent": "space-between",
+              "alignItems": "center",
+              "flexDirection": "row",
+              "justifyContent": "space-between",
+              "msFlexAlign": "center",
+              "msFlexDirection": "row",
+              "msFlexPack": "justify",
             }
           }
         >
-          <span
-            className="css-text-901oao css-textHasAncestor-16my406"
+          <div
+            className="css-text-901oao"
             dir="auto"
             style={
               Object {
@@ -196,7 +206,7 @@ exports[`SummaryTable matches snapshot 1`] = `
                 "fontFamily": "Roboto Slab",
                 "fontSize": "14px",
                 "fontWeight": "700",
-                "lineHeight": "20px",
+                "lineHeight": "22px",
                 "textAlign": "right",
                 "textDecoration": "none",
                 "textTransform": "none",
@@ -204,9 +214,9 @@ exports[`SummaryTable matches snapshot 1`] = `
             }
           >
             G
-          </span>
-          <span
-            className="css-text-901oao css-textHasAncestor-16my406"
+          </div>
+          <div
+            className="css-text-901oao"
             dir="auto"
             style={
               Object {
@@ -214,7 +224,7 @@ exports[`SummaryTable matches snapshot 1`] = `
                 "fontFamily": "Roboto Slab",
                 "fontSize": "13.5px",
                 "fontWeight": "700",
-                "lineHeight": "16.2px",
+                "lineHeight": "22px",
                 "textAlign": "right",
                 "textDecoration": "none",
                 "textTransform": "none",
@@ -222,7 +232,7 @@ exports[`SummaryTable matches snapshot 1`] = `
             }
           >
             $
-          </span>
+          </div>
         </div>
       </div>
     </div>
@@ -241,6 +251,9 @@ exports[`SummaryTable matches snapshot 1`] = `
           "borderBottomColor": "rgba(203,203,203,1.00)",
           "borderBottomStyle": "solid",
           "borderBottomWidth": "1px",
+          "borderLeftStyle": "solid",
+          "borderRightStyle": "solid",
+          "borderTopStyle": "solid",
           "flexDirection": "row",
           "height": "40px",
           "justifyContent": "space-between",
@@ -338,6 +351,9 @@ exports[`SummaryTable matches snapshot with minimal properties 1`] = `
           "borderBottomColor": "rgba(203,203,203,1.00)",
           "borderBottomStyle": "solid",
           "borderBottomWidth": "1px",
+          "borderLeftStyle": "solid",
+          "borderRightStyle": "solid",
+          "borderTopStyle": "solid",
           "flexDirection": "row",
           "height": "40px",
           "justifyContent": "space-between",
@@ -404,23 +420,27 @@ exports[`SummaryTable matches snapshot with minimal properties 1`] = `
           0.20
         </div>
         <div
-          className="css-text-901oao"
-          dir="auto"
+          className="css-view-1dbjc4n"
           style={
             Object {
-              "color": "rgba(66,69,74,1.00)",
-              "fontFamily": "Roboto",
-              "fontSize": "16px",
-              "fontWeight": "normal",
-              "lineHeight": "22px",
-              "textAlign": "center",
-              "textDecoration": "none",
-              "textTransform": "none",
+              "WebkitAlignItems": "center",
+              "WebkitBoxAlign": "center",
+              "WebkitBoxDirection": "normal",
+              "WebkitBoxOrient": "horizontal",
+              "WebkitBoxPack": "justify",
+              "WebkitFlexDirection": "row",
+              "WebkitJustifyContent": "space-between",
+              "alignItems": "center",
+              "flexDirection": "row",
+              "justifyContent": "space-between",
+              "msFlexAlign": "center",
+              "msFlexDirection": "row",
+              "msFlexPack": "justify",
             }
           }
         >
-          <span
-            className="css-text-901oao css-textHasAncestor-16my406"
+          <div
+            className="css-text-901oao"
             dir="auto"
             style={
               Object {
@@ -428,7 +448,7 @@ exports[`SummaryTable matches snapshot with minimal properties 1`] = `
                 "fontFamily": "Roboto Slab",
                 "fontSize": "14px",
                 "fontWeight": "700",
-                "lineHeight": "20px",
+                "lineHeight": "22px",
                 "textAlign": "right",
                 "textDecoration": "none",
                 "textTransform": "none",
@@ -436,9 +456,9 @@ exports[`SummaryTable matches snapshot with minimal properties 1`] = `
             }
           >
             G
-          </span>
-          <span
-            className="css-text-901oao css-textHasAncestor-16my406"
+          </div>
+          <div
+            className="css-text-901oao"
             dir="auto"
             style={
               Object {
@@ -446,7 +466,7 @@ exports[`SummaryTable matches snapshot with minimal properties 1`] = `
                 "fontFamily": "Roboto Slab",
                 "fontSize": "13.5px",
                 "fontWeight": "700",
-                "lineHeight": "16.2px",
+                "lineHeight": "22px",
                 "textAlign": "right",
                 "textDecoration": "none",
                 "textTransform": "none",
@@ -454,7 +474,7 @@ exports[`SummaryTable matches snapshot with minimal properties 1`] = `
             }
           >
             $
-          </span>
+          </div>
         </div>
       </div>
     </div>

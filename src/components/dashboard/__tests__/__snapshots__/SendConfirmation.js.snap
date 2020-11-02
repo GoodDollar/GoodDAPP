@@ -2,21 +2,7 @@
 
 exports[`SendConfirmation matches snapshot 1`] = `
 <div
-  className="css-view-1dbjc4n"
-  style={
-    Object {
-      "WebkitBoxFlex": 1,
-      "WebkitFlexBasis": "0%",
-      "WebkitFlexGrow": 1,
-      "WebkitFlexShrink": 1,
-      "flexBasis": "0%",
-      "flexGrow": 1,
-      "flexShrink": 1,
-      "msFlexNegative": 1,
-      "msFlexPositive": 1,
-      "msFlexPreferredSize": "0%",
-    }
-  }
+  className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
     className="css-view-1dbjc4n"
@@ -28,7 +14,7 @@ exports[`SendConfirmation matches snapshot 1`] = `
         "WebkitBoxOrient": "vertical",
         "WebkitFlexDirection": "column",
         "WebkitFlexGrow": 1,
-        "backgroundImage": "linear-gradient(to bottom, #00AFFF, #2DC0F7, #28C0EF, #23C0E7, #1EC1DF, #19C1D7, #14C1CF, #0FC2C7, #0FC2C7, #0AC2BF, #05C2B7, #00C3AF)",
+        "backgroundImage": "linear-gradient(3.141592653589793rad,#00AFFF,#2DC0F7,#28C0EF,#23C0E7,#1EC1DF,#19C1D7,#14C1CF,#0FC2C7,#0FC2C7,#0AC2BF,#05C2B7,#00C3AF)",
         "display": "flex",
         "flexDirection": "column",
         "flexGrow": 1,
@@ -45,24 +31,18 @@ exports[`SendConfirmation matches snapshot 1`] = `
     }
   >
     <div
-      className="css-view-1dbjc4n"
+      className="css-view-1dbjc4n r-height-yivrw8 r-justifyContent-1777fci r-marginBottom-5oul0u r-paddingBottom-xd6kpl r-paddingLeft-f727ji r-paddingRight-1pyaxff r-paddingTop-tskmnb"
       style={
         Object {
-          "WebkitBoxPack": "center",
-          "WebkitJustifyContent": "center",
           "backgroundColor": "rgba(255,255,255,1.00)",
           "borderBottomLeftRadius": "5px",
           "borderBottomRightRadius": "5px",
           "borderTopLeftRadius": "5px",
           "borderTopRightRadius": "5px",
-          "height": "62px",
-          "justifyContent": "center",
-          "marginBottom": "8px",
-          "msFlexPack": "center",
-          "paddingBottom": "8px",
+          "paddingBottom": "16px",
           "paddingLeft": "12px",
-          "paddingRight": "8px",
-          "paddingTop": "8px",
+          "paddingRight": "12px",
+          "paddingTop": "16px",
         }
       }
     >
@@ -72,24 +52,24 @@ exports[`SendConfirmation matches snapshot 1`] = `
           Object {
             "WebkitAlignItems": "center",
             "WebkitBoxAlign": "center",
-            "WebkitBoxDirection": "reverse",
+            "WebkitBoxDirection": "normal",
             "WebkitBoxOrient": "horizontal",
             "WebkitBoxPack": "justify",
-            "WebkitFlexDirection": "row-reverse",
+            "WebkitFlexDirection": "row",
             "WebkitJustifyContent": "space-between",
             "alignItems": "center",
-            "flexDirection": "row-reverse",
+            "flexDirection": "row",
             "justifyContent": "space-between",
             "msFlexAlign": "center",
-            "msFlexDirection": "row-reverse",
+            "msFlexDirection": "row",
             "msFlexPack": "justify",
           }
         }
       >
         <div
-          aria-disabled={true}
-          className="css-view-1dbjc4n"
-          disabled={true}
+          className="css-view-1dbjc4n r-cursor-1loqt21 r-justifyContent-1777fci r-touchAction-1otgn73 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
+          data-focusable={true}
+          disabled={false}
           onKeyDown={[Function]}
           onKeyUp={[Function]}
           onResponderGrant={[Function]}
@@ -100,11 +80,9 @@ exports[`SendConfirmation matches snapshot 1`] = `
           onStartShouldSetResponder={[Function]}
           style={
             Object {
-              "MozTransitionProperty": "opacity",
-              "MozUserSelect": "none",
-              "WebkitTransitionDuration": "0.15s",
-              "WebkitTransitionProperty": "opacity",
-              "WebkitUserSelect": "none",
+              "WebkitAlignItems": "center",
+              "WebkitBoxAlign": "center",
+              "alignItems": "center",
               "backgroundColor": "rgba(203,203,203,1.00)",
               "borderBottomColor": "rgba(163,163,163,1.00)",
               "borderBottomLeftRadius": "21px",
@@ -119,74 +97,23 @@ exports[`SendConfirmation matches snapshot 1`] = `
               "borderTopRightRadius": "21px",
               "borderTopWidth": "1px",
               "height": "42px",
-              "msUserSelect": "none",
-              "transitionDuration": "0.15s",
-              "transitionProperty": "opacity",
-              "userSelect": "none",
+              "msFlexAlign": "center",
               "width": "42px",
             }
           }
+          tabIndex="0"
         >
           <div
             className="css-view-1dbjc4n"
             style={
               Object {
                 "backgroundColor": "rgba(0,0,0,0.00)",
-                "borderBottomLeftRadius": "20px",
-                "borderBottomRightRadius": "20px",
-                "borderTopLeftRadius": "20px",
-                "borderTopRightRadius": "20px",
-                "height": "40px",
-                "width": "40px",
+                "height": "42px",
+                "width": "42px",
               }
             }
           >
-            <div
-              className="css-view-1dbjc4n"
-              style={
-                Object {
-                  "WebkitFlexBasis": "auto",
-                  "borderBottomLeftRadius": "20px",
-                  "borderBottomRightRadius": "20px",
-                  "borderTopLeftRadius": "20px",
-                  "borderTopRightRadius": "20px",
-                  "flexBasis": "auto",
-                  "height": "40px",
-                  "msFlexPreferredSize": "auto",
-                  "overflowX": "hidden",
-                  "overflowY": "hidden",
-                  "width": "40px",
-                  "zIndex": 0,
-                }
-              }
-            >
-              <div
-                className="css-view-1dbjc4n"
-                style={
-                  Object {
-                    "backgroundColor": "rgba(0,0,0,0.00)",
-                    "backgroundImage": "url(\\"unknownProfile.svg\\")",
-                    "backgroundPosition": "center",
-                    "backgroundRepeat": "no-repeat",
-                    "backgroundSize": "cover",
-                    "bottom": "0px",
-                    "height": "100%",
-                    "left": "0px",
-                    "position": "absolute",
-                    "right": "0px",
-                    "top": "0px",
-                    "width": "100%",
-                    "zIndex": -1,
-                  }
-                }
-              />
-              <img
-                alt=""
-                className="css-accessibilityImage-9pa8cd"
-                draggable={false}
-                src="unknownProfile.svg"
-              />
-            </div>
+            <unknownProfile.svg />
           </div>
         </div>
       </div>
@@ -222,7 +149,7 @@ exports[`SendConfirmation matches snapshot 1`] = `
       }
     >
       <div
-        className="css-view-1dbjc4n"
+        className="css-view-1dbjc4n r-justifyContent-1777fci"
         style={
           Object {
             "WebkitAlignItems": "stretch",
@@ -230,41 +157,32 @@ exports[`SendConfirmation matches snapshot 1`] = `
             "WebkitBoxDirection": "normal",
             "WebkitBoxFlex": 1,
             "WebkitBoxOrient": "vertical",
-            "WebkitBoxPack": "center",
             "WebkitFlexDirection": "column",
             "WebkitFlexGrow": 1,
-            "WebkitJustifyContent": "center",
             "alignItems": "stretch",
             "flexDirection": "column",
             "flexGrow": 1,
-            "justifyContent": "center",
             "msFlexAlign": "stretch",
             "msFlexDirection": "column",
-            "msFlexPack": "center",
             "msFlexPositive": 1,
           }
         }
       >
         <div
-          className="css-text-901oao"
+          className="css-text-901oao r-justifyContent-1777fci"
           dir="auto"
           style={
             Object {
               "WebkitAlignItems": "center",
               "WebkitBoxAlign": "center",
-              "WebkitBoxPack": "center",
-              "WebkitJustifyContent": "center",
               "alignItems": "center",
               "color": "rgba(66,69,74,1.00)",
-              "direction": "ltr",
               "display": "flex",
               "fontFamily": "Roboto",
               "fontSize": "22px",
               "fontWeight": "500",
-              "justifyContent": "center",
               "lineHeight": "30px",
               "msFlexAlign": "center",
-              "msFlexPack": "center",
               "textAlign": "center",
               "textDecoration": "none",
               "textTransform": "none",
@@ -298,33 +216,27 @@ with your recipient.
           }
         >
           <div
-            className="css-view-1dbjc4n"
+            className="css-view-1dbjc4n r-justifyContent-1777fci"
             style={
               Object {
                 "WebkitAlignItems": "center",
                 "WebkitBoxAlign": "center",
                 "WebkitBoxDirection": "normal",
                 "WebkitBoxOrient": "horizontal",
-                "WebkitBoxPack": "center",
                 "WebkitFlexDirection": "row",
-                "WebkitJustifyContent": "center",
                 "alignItems": "center",
                 "flexDirection": "row",
-                "justifyContent": "center",
                 "msFlexAlign": "center",
                 "msFlexDirection": "row",
-                "msFlexPack": "center",
               }
             }
           >
             <div
-              className="css-view-1dbjc4n"
+              className="css-view-1dbjc4n r-justifyContent-1777fci"
               style={
                 Object {
                   "WebkitAlignItems": "center",
                   "WebkitBoxAlign": "center",
-                  "WebkitBoxPack": "center",
-                  "WebkitJustifyContent": "center",
                   "alignItems": "center",
                   "backgroundColor": "rgba(250,108,119,1.00)",
                   "borderBottomLeftRadius": "50%",
@@ -333,11 +245,9 @@ with your recipient.
                   "borderTopRightRadius": "50%",
                   "display": "flex",
                   "height": "75px",
-                  "justifyContent": "center",
                   "marginBottom": "24px",
                   "marginTop": "15px",
                   "msFlexAlign": "center",
-                  "msFlexPack": "center",
                   "position": "relative",
                   "width": "75px",
                 }
@@ -361,22 +271,17 @@ with your recipient.
             </div>
           </div>
           <div
-            className="css-text-901oao"
+            className="css-text-901oao r-justifyContent-1777fci"
             dir="auto"
             style={
               Object {
-                "WebkitBoxPack": "center",
-                "WebkitJustifyContent": "center",
                 "color": "rgba(66,69,74,1.00)",
-                "direction": "ltr",
                 "display": "flex",
                 "fontFamily": "Roboto",
                 "fontSize": "24px",
                 "fontWeight": "500",
-                "justifyContent": "center",
                 "lineHeight": "30px",
                 "marginTop": "10px",
-                "msFlexPack": "center",
                 "textAlign": "center",
                 "textDecoration": "none",
                 "textTransform": "uppercase",
@@ -406,11 +311,10 @@ with your recipient.
                 style={
                   Object {
                     "color": "rgba(250,108,119,1.00)",
-                    "direction": "ltr",
                     "fontFamily": "Roboto Slab",
                     "fontSize": "36px",
                     "fontWeight": "700",
-                    "lineHeight": "24px",
+                    "lineHeight": "36px",
                     "marginRight": "2px",
                     "textAlign": "right",
                     "textDecoration": "none",
@@ -420,20 +324,23 @@ with your recipient.
               >
                 -.--
               </span>
-              <span
-                className="css-text-901oao css-textHasAncestor-16my406"
-                dir="auto"
+              <div
+                className="css-view-1dbjc4n r-display-xoduu5"
                 style={
                   Object {
-                    "color": "rgba(66,69,74,1.00)",
-                    "direction": "ltr",
-                    "fontFamily": "Roboto",
-                    "fontSize": "16px",
-                    "fontWeight": "normal",
-                    "lineHeight": "22px",
-                    "textAlign": "center",
-                    "textDecoration": "none",
-                    "textTransform": "none",
+                    "WebkitAlignItems": "center",
+                    "WebkitBoxAlign": "center",
+                    "WebkitBoxDirection": "normal",
+                    "WebkitBoxOrient": "horizontal",
+                    "WebkitBoxPack": "justify",
+                    "WebkitFlexDirection": "row",
+                    "WebkitJustifyContent": "space-between",
+                    "alignItems": "center",
+                    "flexDirection": "row",
+                    "justifyContent": "space-between",
+                    "msFlexAlign": "center",
+                    "msFlexDirection": "row",
+                    "msFlexPack": "justify",
                   }
                 }
               >
@@ -443,11 +350,10 @@ with your recipient.
                   style={
                     Object {
                       "color": "rgba(250,108,119,1.00)",
-                      "direction": "ltr",
                       "fontFamily": "Roboto Slab",
                       "fontSize": "14px",
                       "fontWeight": "700",
-                      "lineHeight": "20px",
+                      "lineHeight": "22px",
                       "textAlign": "right",
                       "textDecoration": "none",
                       "textTransform": "none",
@@ -462,11 +368,10 @@ with your recipient.
                   style={
                     Object {
                       "color": "rgba(250,108,119,1.00)",
-                      "direction": "ltr",
                       "fontFamily": "Roboto Slab",
                       "fontSize": "13.5px",
                       "fontWeight": "700",
-                      "lineHeight": "16.2px",
+                      "lineHeight": "22px",
                       "textAlign": "right",
                       "textDecoration": "none",
                       "textTransform": "none",
@@ -475,13 +380,13 @@ with your recipient.
                 >
                   $
                 </span>
-              </span>
+              </div>
             </div>
           </div>
         </div>
       </div>
       <div
-        className="css-view-1dbjc4n"
+        className="css-view-1dbjc4n r-cursor-1loqt21 r-touchAction-1otgn73 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
         data-focusable={true}
         disabled={false}
         onKeyDown={[Function]}
@@ -494,18 +399,6 @@ with your recipient.
         onStartShouldSetResponder={[Function]}
         style={
           Object {
-            "MozTransitionProperty": "opacity",
-            "MozUserSelect": "none",
-            "WebkitTransitionDuration": "0.15s",
-            "WebkitTransitionProperty": "opacity",
-            "WebkitUserSelect": "none",
-            "cursor": "pointer",
-            "msTouchAction": "manipulation",
-            "msUserSelect": "none",
-            "touchAction": "manipulation",
-            "transitionDuration": "0.15s",
-            "transitionProperty": "opacity",
-            "userSelect": "none",
             "width": "100%",
           }
         }

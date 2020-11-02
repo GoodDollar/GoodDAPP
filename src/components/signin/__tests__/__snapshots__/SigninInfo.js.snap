@@ -2,21 +2,7 @@
 
 exports[`SigninInfo matches snapshot 1`] = `
 <div
-  className="css-view-1dbjc4n"
-  style={
-    Object {
-      "WebkitBoxFlex": 1,
-      "WebkitFlexBasis": "0%",
-      "WebkitFlexGrow": 1,
-      "WebkitFlexShrink": 1,
-      "flexBasis": "0%",
-      "flexGrow": 1,
-      "flexShrink": 1,
-      "msFlexNegative": 1,
-      "msFlexPositive": 1,
-      "msFlexPreferredSize": "0%",
-    }
-  }
+  className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
     className=""
@@ -34,25 +20,21 @@ exports[`SigninInfo matches snapshot 1`] = `
     }
   >
     <div
-      className="css-view-1dbjc4n"
+      className="css-view-1dbjc4n r-alignItems-1awozwy"
       style={
         Object {
-          "WebkitAlignItems": "center",
-          "WebkitBoxAlign": "center",
           "WebkitBoxDirection": "normal",
           "WebkitBoxFlex": 0,
           "WebkitBoxOrient": "horizontal",
           "WebkitFlexDirection": "row",
           "WebkitFlexGrow": 0,
           "WebkitFlexShrink": 0,
-          "alignItems": "center",
           "backgroundColor": "rgba(0,175,255,1.00)",
-          "boxShadow": "none, 0px 3px 4px rgba(0,0,0,0.24)",
+          "boxShadow": "none",
           "flexDirection": "row",
           "flexGrow": 0,
           "flexShrink": 0,
           "height": "56px",
-          "msFlexAlign": "center",
           "msFlexDirection": "row",
           "msFlexNegative": 0,
           "msFlexPositive": 0,
@@ -62,7 +44,7 @@ exports[`SigninInfo matches snapshot 1`] = `
       }
     >
       <div
-        className="css-text-901oao"
+        className="css-text-901oao r-cursor-1loqt21"
         data-focusable={true}
         dir="auto"
         onClick={[Function]}
@@ -70,7 +52,6 @@ exports[`SigninInfo matches snapshot 1`] = `
         style={
           Object {
             "color": "rgba(255,255,255,1.00)",
-            "cursor": "pointer",
             "fontFamily": "gooddollar",
             "fontSize": "22px",
             "fontStyle": "normal",
@@ -84,7 +65,7 @@ exports[`SigninInfo matches snapshot 1`] = `
         
       </div>
       <div
-        className="css-view-1dbjc4n"
+        className="css-view-1dbjc4n r-cursor-1loqt21 r-flex-13awgt0 r-paddingHorizontal-1e081e0 r-touchAction-1otgn73"
         data-focusable={true}
         onKeyDown={[Function]}
         onKeyUp={[Function]}
@@ -96,22 +77,7 @@ exports[`SigninInfo matches snapshot 1`] = `
         onStartShouldSetResponder={[Function]}
         style={
           Object {
-            "WebkitBoxFlex": 1,
-            "WebkitFlexBasis": "0%",
-            "WebkitFlexGrow": 1,
-            "WebkitFlexShrink": 1,
-            "cursor": "pointer",
-            "flexBasis": "0%",
-            "flexGrow": 1,
-            "flexShrink": 1,
             "marginLeft": "8px",
-            "msFlexNegative": 1,
-            "msFlexPositive": 1,
-            "msFlexPreferredSize": "0%",
-            "msTouchAction": "manipulation",
-            "paddingLeft": "12px",
-            "paddingRight": "12px",
-            "touchAction": "manipulation",
           }
         }
         tabIndex="0"
@@ -123,8 +89,7 @@ exports[`SigninInfo matches snapshot 1`] = `
           style={
             Object {
               "color": "rgba(255,255,255,1.00)",
-              "direction": "ltr",
-              "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+              "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
               "fontSize": "16px",
               "fontWeight": "500",
               "textAlign": "center",
@@ -137,7 +102,7 @@ exports[`SigninInfo matches snapshot 1`] = `
       </div>
       <div
         aria-disabled={true}
-        className="css-view-1dbjc4n"
+        className="css-view-1dbjc4n r-alignItems-1awozwy r-justifyContent-1777fci r-margin-5scogr r-overflow-1udh08x r-position-bnwqim"
         disabled={true}
         onKeyDown={[Function]}
         onKeyUp={[Function]}
@@ -149,23 +114,12 @@ exports[`SigninInfo matches snapshot 1`] = `
         role="button"
         style={
           Object {
-            "WebkitAlignItems": "center",
-            "WebkitBoxAlign": "center",
-            "WebkitBoxPack": "center",
-            "WebkitJustifyContent": "center",
-            "alignItems": "center",
-            "height": "28px",
-            "justifyContent": "center",
-            "marginBottom": "10px",
-            "marginLeft": "10px",
-            "marginRight": "10px",
-            "marginTop": "10px",
-            "msFlexAlign": "center",
-            "msFlexPack": "center",
-            "overflowX": "visible",
-            "overflowY": "visible",
-            "position": "relative",
-            "width": "28px",
+            "borderBottomLeftRadius": "18px",
+            "borderBottomRightRadius": "18px",
+            "borderTopLeftRadius": "18px",
+            "borderTopRightRadius": "18px",
+            "height": "36px",
+            "width": "36px",
           }
         }
       >
@@ -184,18 +138,10 @@ exports[`SigninInfo matches snapshot 1`] = `
           className="css-view-1dbjc4n"
         >
           <div
-            className="css-view-1dbjc4n"
+            className="css-view-1dbjc4n r-alignItems-1awozwy r-justifyContent-1777fci"
             style={
               Object {
-                "WebkitAlignItems": "center",
-                "WebkitBoxAlign": "center",
-                "WebkitBoxPack": "center",
-                "WebkitJustifyContent": "center",
-                "alignItems": "center",
                 "height": "24px",
-                "justifyContent": "center",
-                "msFlexAlign": "center",
-                "msFlexPack": "center",
                 "width": "24px",
               }
             }
@@ -220,7 +166,7 @@ exports[`SigninInfo matches snapshot 1`] = `
       </div>
     </div>
     <div
-      className="css-view-1dbjc4n"
+      className="css-view-1dbjc4n r-WebkitOverflowScrolling-150rngu r-display-6koalj r-flexDirection-eqz5dr r-flexGrow-16y2uox r-flexShrink-1wbh5a2 r-overflowX-11yh6sk r-overflowY-1rnoaur r-transform-1sncvnh"
       onResponderGrant={[Function]}
       onResponderReject={[Function]}
       onResponderRelease={[Function]}
@@ -233,106 +179,50 @@ exports[`SigninInfo matches snapshot 1`] = `
       onTouchMove={[Function]}
       onTouchStart={[Function]}
       onWheel={[Function]}
-      style={
-        Object {
-          "WebkitBoxDirection": "normal",
-          "WebkitBoxFlex": 1,
-          "WebkitBoxOrient": "vertical",
-          "WebkitFlexDirection": "column",
-          "WebkitFlexGrow": 1,
-          "WebkitFlexShrink": 1,
-          "WebkitOverflowScrolling": "touch",
-          "WebkitTransform": "translateZ(0px)",
-          "display": "flex",
-          "flexDirection": "column",
-          "flexGrow": 1,
-          "flexShrink": 1,
-          "msFlexDirection": "column",
-          "msFlexNegative": 1,
-          "msFlexPositive": 1,
-          "overflowX": "hidden",
-          "overflowY": "auto",
-          "transform": "translateZ(0px)",
-        }
-      }
     >
       <div
-        className="css-view-1dbjc4n"
-        style={
-          Object {
-            "WebkitBoxFlex": 1,
-            "WebkitFlexGrow": 1,
-            "display": "flex",
-            "flexGrow": 1,
-            "height": "100%",
-            "msFlexPositive": 1,
-          }
-        }
+        className="css-view-1dbjc4n r-display-6koalj r-flexGrow-16y2uox r-height-1pi2tsx"
       >
         <div
-          className="css-view-1dbjc4n"
+          className="css-view-1dbjc4n r-flexDirection-eqz5dr r-flexGrow-16y2uox"
           style={
             Object {
               "WebkitAlignItems": "stretch",
               "WebkitBoxAlign": "stretch",
-              "WebkitBoxDirection": "normal",
-              "WebkitBoxFlex": 1,
-              "WebkitBoxOrient": "vertical",
               "WebkitBoxPack": "start",
-              "WebkitFlexDirection": "column",
-              "WebkitFlexGrow": 1,
               "WebkitJustifyContent": "flex-start",
               "alignItems": "stretch",
-              "flexDirection": "column",
-              "flexGrow": 1,
               "justifyContent": "flex-start",
               "msFlexAlign": "stretch",
-              "msFlexDirection": "column",
               "msFlexPack": "start",
-              "msFlexPositive": 1,
             }
           }
         >
           <div
-            className="css-view-1dbjc4n"
+            className="css-view-1dbjc4n r-display-6koalj r-flexDirection-eqz5dr r-flexGrow-16y2uox r-position-bnwqim"
             data-name="viewWrapper"
             style={
               Object {
-                "WebkitBoxDirection": "normal",
-                "WebkitBoxFlex": 1,
-                "WebkitBoxOrient": "vertical",
                 "WebkitBoxPack": "space-evenly",
-                "WebkitFlexDirection": "column",
-                "WebkitFlexGrow": 1,
                 "WebkitJustifyContent": "space-evenly",
                 "backgroundColor": "rgba(255,255,255,1.00)",
-                "display": "flex",
-                "flexDirection": "column",
-                "flexGrow": 1,
                 "justifyContent": "space-evenly",
-                "maxHeight": "844px",
-                "msFlexDirection": "column",
+                "marginBottom": "15px",
+                "maxHeight": "75%",
                 "msFlexPack": "space-evenly",
-                "msFlexPositive": 1,
                 "paddingBottom": "8px",
                 "paddingLeft": "0px",
                 "paddingRight": "0px",
-                "paddingTop": "8px",
-                "position": "relative",
+                "paddingTop": "35px",
                 "width": "100%",
               }
             }
           >
             <div
-              className="css-view-1dbjc4n"
+              className="css-view-1dbjc4n r-flexGrow-16y2uox r-justifyContent-1777fci"
               style={
                 Object {
-                  "WebkitBoxFlex": 1,
-                  "WebkitFlexBasis": "auto",
-                  "WebkitFlexGrow": 1,
                   "WebkitFlexShrink": 0,
-                  "flexBasis": "auto",
-                  "flexGrow": 1,
                   "flexShrink": 0,
                   "marginBottom": "30px",
                   "marginTop": "30px",
@@ -340,58 +230,21 @@ exports[`SigninInfo matches snapshot 1`] = `
                   "maxWidth": "100%",
                   "minHeight": "118.44155844155844px",
                   "msFlexNegative": 0,
-                  "msFlexPositive": 1,
-                  "msFlexPreferredSize": "auto",
-                  "overflowX": "hidden",
-                  "overflowY": "hidden",
-                  "zIndex": 0,
+                  "width": "100%",
                 }
               }
             >
-              <div
-                className="css-view-1dbjc4n"
-                style={
-                  Object {
-                    "backgroundColor": "rgba(0,0,0,0.00)",
-                    "backgroundImage": "url(\\"illustration.svg\\")",
-                    "backgroundPosition": "center",
-                    "backgroundRepeat": "no-repeat",
-                    "backgroundSize": "contain",
-                    "bottom": "0px",
-                    "height": "100%",
-                    "left": "0px",
-                    "position": "absolute",
-                    "right": "0px",
-                    "top": "0px",
-                    "width": "100%",
-                    "zIndex": -1,
-                  }
-                }
-              />
-              <img
-                alt=""
-                className="css-accessibilityImage-9pa8cd"
-                draggable={false}
-                src="illustration.svg"
-              />
+              <illustration.svg />
             </div>
             <div
-              className="css-view-1dbjc4n"
+              className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-justifyContent-1777fci"
               style={
                 Object {
-                  "WebkitAlignItems": "center",
-                  "WebkitBoxAlign": "center",
                   "WebkitBoxDirection": "normal",
                   "WebkitBoxOrient": "horizontal",
-                  "WebkitBoxPack": "center",
                   "WebkitFlexDirection": "row",
-                  "WebkitJustifyContent": "center",
-                  "alignItems": "center",
                   "flexDirection": "row",
-                  "justifyContent": "center",
-                  "msFlexAlign": "center",
                   "msFlexDirection": "row",
-                  "msFlexPack": "center",
                 }
               }
             >
@@ -399,97 +252,87 @@ exports[`SigninInfo matches snapshot 1`] = `
                 className="css-view-1dbjc4n"
               >
                 <div
-                  className="css-text-901oao"
-                  dir="auto"
+                  className="css-view-1dbjc4n r-flexDirection-eqz5dr"
                   style={
                     Object {
-                      "color": "rgba(66,69,74,1.00)",
-                      "direction": "ltr",
-                      "fontFamily": "Roboto",
-                      "fontSize": "16px",
-                      "fontWeight": "normal",
-                      "lineHeight": "22px",
-                      "textAlign": "center",
-                      "textDecoration": "none",
-                      "textTransform": "none",
+                      "WebkitAlignItems": "stretch",
+                      "WebkitBoxAlign": "stretch",
+                      "WebkitBoxPack": "justify",
+                      "WebkitJustifyContent": "space-between",
+                      "alignItems": "stretch",
+                      "justifyContent": "space-between",
+                      "msFlexAlign": "stretch",
+                      "msFlexPack": "justify",
                     }
                   }
                 >
                   <div
-                    className="css-view-1dbjc4n"
+                    className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj"
                     style={
                       Object {
-                        "WebkitAlignItems": "baseline",
-                        "WebkitBoxAlign": "baseline",
                         "WebkitBoxDirection": "normal",
                         "WebkitBoxOrient": "horizontal",
                         "WebkitFlexDirection": "row",
-                        "alignItems": "baseline",
-                        "display": "flex",
                         "flexDirection": "row",
-                        "msFlexAlign": "baseline",
                         "msFlexDirection": "row",
                       }
                     }
                   >
                     <div
-                      className="css-view-1dbjc4n"
+                      className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-justifyContent-1777fci"
                       style={
                         Object {
-                          "WebkitBoxPack": "center",
-                          "WebkitJustifyContent": "center",
                           "backgroundColor": "rgba(0,175,255,1.00)",
                           "borderBottomLeftRadius": "50%",
                           "borderBottomRightRadius": "50%",
                           "borderTopLeftRadius": "50%",
                           "borderTopRightRadius": "50%",
                           "boxShadow": "6px 1px 0 rgba(12, 38, 61, 0.15)",
-                          "display": "flex",
                           "height": "43px",
-                          "justifyContent": "center",
                           "marginTop": "8px",
-                          "msFlexPack": "center",
                           "width": "43px",
+                          "zIndex": 10,
                         }
                       }
                     >
-                      <span
-                        className="css-text-901oao css-textHasAncestor-16my406"
+                      <div
+                        className="css-text-901oao r-fontSize-adyw6z"
                         dir="auto"
                         style={
                           Object {
                             "color": "rgba(255,255,255,1.00)",
-                            "direction": "ltr",
                             "display": "block",
                             "fontFamily": "Roboto Slab",
-                            "fontSize": "24px",
                             "fontWeight": "700",
-                            "lineHeight": "30px",
+                            "lineHeight": "24px",
                             "textAlign": "center",
                             "textDecoration": "none",
                             "textTransform": "none",
+                            "zIndex": 9999999,
                           }
                         }
                       >
                         1
-                      </span>
+                      </div>
                     </div>
                     <div
-                      className="css-view-1dbjc4n"
+                      className="css-view-1dbjc4n r-alignItems-1awozwy"
                       style={
                         Object {
-                          "display": "inline-flex",
+                          "WebkitBoxPack": "start",
+                          "WebkitJustifyContent": "flex-start",
+                          "justifyContent": "flex-start",
+                          "msFlexPack": "start",
                           "paddingLeft": "13px",
                         }
                       }
                     >
-                      <span
-                        className="css-text-901oao css-textHasAncestor-16my406"
+                      <div
+                        className="css-text-901oao"
                         dir="auto"
                         style={
                           Object {
                             "color": "rgba(66,69,74,1.00)",
-                            "direction": "ltr",
                             "fontFamily": "Roboto",
                             "fontSize": "18px",
                             "fontWeight": "normal",
@@ -507,7 +350,6 @@ exports[`SigninInfo matches snapshot 1`] = `
                           style={
                             Object {
                               "color": "rgba(66,69,74,1.00)",
-                              "direction": "ltr",
                               "fontFamily": "Roboto",
                               "fontSize": "18px",
                               "fontWeight": "700",
@@ -520,84 +362,76 @@ exports[`SigninInfo matches snapshot 1`] = `
                         >
                           email
                         </span>
-                      </span>
+                      </div>
                     </div>
                   </div>
                   <div
-                    className="css-view-1dbjc4n"
+                    className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj"
                     style={
                       Object {
-                        "WebkitAlignItems": "baseline",
-                        "WebkitBoxAlign": "baseline",
                         "WebkitBoxDirection": "normal",
                         "WebkitBoxOrient": "horizontal",
                         "WebkitFlexDirection": "row",
-                        "alignItems": "baseline",
-                        "display": "flex",
                         "flexDirection": "row",
-                        "msFlexAlign": "baseline",
                         "msFlexDirection": "row",
                       }
                     }
                   >
                     <div
-                      className="css-view-1dbjc4n"
+                      className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-justifyContent-1777fci"
                       style={
                         Object {
-                          "WebkitBoxPack": "center",
-                          "WebkitJustifyContent": "center",
                           "backgroundColor": "rgba(0,175,255,1.00)",
                           "borderBottomLeftRadius": "50%",
                           "borderBottomRightRadius": "50%",
                           "borderTopLeftRadius": "50%",
                           "borderTopRightRadius": "50%",
                           "boxShadow": "6px 1px 0 rgba(12, 38, 61, 0.15)",
-                          "display": "flex",
                           "height": "43px",
-                          "justifyContent": "center",
                           "marginTop": "8px",
-                          "msFlexPack": "center",
                           "width": "43px",
+                          "zIndex": 10,
                         }
                       }
                     >
-                      <span
-                        className="css-text-901oao css-textHasAncestor-16my406"
+                      <div
+                        className="css-text-901oao r-fontSize-adyw6z"
                         dir="auto"
                         style={
                           Object {
                             "color": "rgba(255,255,255,1.00)",
-                            "direction": "ltr",
                             "display": "block",
                             "fontFamily": "Roboto Slab",
-                            "fontSize": "24px",
                             "fontWeight": "700",
-                            "lineHeight": "30px",
+                            "lineHeight": "24px",
                             "textAlign": "center",
                             "textDecoration": "none",
                             "textTransform": "none",
+                            "zIndex": 9999999,
                           }
                         }
                       >
                         2
-                      </span>
+                      </div>
                     </div>
                     <div
-                      className="css-view-1dbjc4n"
+                      className="css-view-1dbjc4n r-alignItems-1awozwy"
                       style={
                         Object {
-                          "display": "inline-flex",
+                          "WebkitBoxPack": "start",
+                          "WebkitJustifyContent": "flex-start",
+                          "justifyContent": "flex-start",
+                          "msFlexPack": "start",
                           "paddingLeft": "13px",
                         }
                       }
                     >
-                      <span
-                        className="css-text-901oao css-textHasAncestor-16my406"
+                      <div
+                        className="css-text-901oao"
                         dir="auto"
                         style={
                           Object {
                             "color": "rgba(66,69,74,1.00)",
-                            "direction": "ltr",
                             "fontFamily": "Roboto",
                             "fontSize": "18px",
                             "fontWeight": "normal",
@@ -616,7 +450,6 @@ exports[`SigninInfo matches snapshot 1`] = `
                           style={
                             Object {
                               "color": "rgba(66,69,74,1.00)",
-                              "direction": "ltr",
                               "fontFamily": "Roboto",
                               "fontSize": "18px",
                               "fontWeight": "700",
@@ -629,84 +462,76 @@ exports[`SigninInfo matches snapshot 1`] = `
                         >
                           GoodDollar Magic Link
                         </span>
-                      </span>
+                      </div>
                     </div>
                   </div>
                   <div
-                    className="css-view-1dbjc4n"
+                    className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj"
                     style={
                       Object {
-                        "WebkitAlignItems": "center",
-                        "WebkitBoxAlign": "center",
                         "WebkitBoxDirection": "normal",
                         "WebkitBoxOrient": "horizontal",
                         "WebkitFlexDirection": "row",
-                        "alignItems": "center",
-                        "display": "flex",
                         "flexDirection": "row",
-                        "msFlexAlign": "center",
                         "msFlexDirection": "row",
                       }
                     }
                   >
                     <div
-                      className="css-view-1dbjc4n"
+                      className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-justifyContent-1777fci"
                       style={
                         Object {
-                          "WebkitBoxPack": "center",
-                          "WebkitJustifyContent": "center",
                           "backgroundColor": "rgba(0,175,255,1.00)",
                           "borderBottomLeftRadius": "50%",
                           "borderBottomRightRadius": "50%",
                           "borderTopLeftRadius": "50%",
                           "borderTopRightRadius": "50%",
                           "boxShadow": "6px 1px 0 rgba(12, 38, 61, 0.15)",
-                          "display": "flex",
                           "height": "43px",
-                          "justifyContent": "center",
                           "marginTop": "8px",
-                          "msFlexPack": "center",
                           "width": "43px",
+                          "zIndex": 10,
                         }
                       }
                     >
-                      <span
-                        className="css-text-901oao css-textHasAncestor-16my406"
+                      <div
+                        className="css-text-901oao r-fontSize-adyw6z"
                         dir="auto"
                         style={
                           Object {
                             "color": "rgba(255,255,255,1.00)",
-                            "direction": "ltr",
                             "display": "block",
                             "fontFamily": "Roboto Slab",
-                            "fontSize": "24px",
                             "fontWeight": "700",
-                            "lineHeight": "30px",
+                            "lineHeight": "24px",
                             "textAlign": "center",
                             "textDecoration": "none",
                             "textTransform": "none",
+                            "zIndex": 9999999,
                           }
                         }
                       >
                         3
-                      </span>
+                      </div>
                     </div>
                     <div
-                      className="css-view-1dbjc4n"
+                      className="css-view-1dbjc4n r-alignItems-1awozwy"
                       style={
                         Object {
-                          "display": "inline-flex",
+                          "WebkitBoxPack": "start",
+                          "WebkitJustifyContent": "flex-start",
+                          "justifyContent": "flex-start",
+                          "msFlexPack": "start",
                           "paddingLeft": "13px",
                         }
                       }
                     >
-                      <span
-                        className="css-text-901oao css-textHasAncestor-16my406"
+                      <div
+                        className="css-text-901oao"
                         dir="auto"
                         style={
                           Object {
                             "color": "rgba(66,69,74,1.00)",
-                            "direction": "ltr",
                             "fontFamily": "Roboto",
                             "fontSize": "18px",
                             "fontWeight": "normal",
@@ -724,7 +549,6 @@ exports[`SigninInfo matches snapshot 1`] = `
                           style={
                             Object {
                               "color": "rgba(66,69,74,1.00)",
-                              "direction": "ltr",
                               "fontFamily": "Roboto",
                               "fontSize": "18px",
                               "fontWeight": "700",
@@ -737,16 +561,15 @@ exports[`SigninInfo matches snapshot 1`] = `
                         >
                           Magic Link Button
                         </span>
-                      </span>
-                      <span
-                        className="css-text-901oao css-textHasAncestor-16my406"
+                      </div>
+                      <div
+                        className="css-text-901oao"
                         dir="auto"
                         letterSpacing={0.14}
                         style={
                           Object {
                             "bottom": "-13px",
                             "color": "rgba(163,163,163,1.00)",
-                            "direction": "ltr",
                             "fontFamily": "Roboto",
                             "fontSize": "14px",
                             "fontWeight": "normal",
@@ -761,7 +584,7 @@ exports[`SigninInfo matches snapshot 1`] = `
                       >
                         
 * works from any device
-                      </span>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -769,27 +592,19 @@ exports[`SigninInfo matches snapshot 1`] = `
             </div>
           </div>
           <div
-            className="css-view-1dbjc4n"
+            className="css-view-1dbjc4n r-alignItems-1awozwy r-justifyContent-1777fci"
             style={
               Object {
-                "WebkitAlignItems": "center",
-                "WebkitBoxAlign": "center",
                 "WebkitBoxDirection": "normal",
                 "WebkitBoxOrient": "horizontal",
-                "WebkitBoxPack": "center",
                 "WebkitFlexDirection": "row",
-                "WebkitJustifyContent": "center",
-                "alignItems": "center",
                 "flexDirection": "row",
-                "justifyContent": "center",
-                "msFlexAlign": "center",
                 "msFlexDirection": "row",
-                "msFlexPack": "center",
               }
             }
           >
             <div
-              className="css-view-1dbjc4n"
+              className="css-view-1dbjc4n r-cursor-1loqt21 r-touchAction-1otgn73 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
               data-focusable={true}
               onKeyDown={[Function]}
               onKeyUp={[Function]}
@@ -799,31 +614,15 @@ exports[`SigninInfo matches snapshot 1`] = `
               onResponderTerminate={[Function]}
               onResponderTerminationRequest={[Function]}
               onStartShouldSetResponder={[Function]}
-              style={
-                Object {
-                  "MozTransitionProperty": "opacity",
-                  "MozUserSelect": "none",
-                  "WebkitTransitionDuration": "0.15s",
-                  "WebkitTransitionProperty": "opacity",
-                  "WebkitUserSelect": "none",
-                  "cursor": "pointer",
-                  "msTouchAction": "manipulation",
-                  "msUserSelect": "none",
-                  "touchAction": "manipulation",
-                  "transitionDuration": "0.15s",
-                  "transitionProperty": "opacity",
-                  "userSelect": "none",
-                }
-              }
               tabIndex="0"
             >
               <div
                 className="css-text-901oao"
+                data-testid="recoverPhrase"
                 dir="auto"
                 style={
                   Object {
                     "color": "rgba(0,175,255,1.00)",
-                    "direction": "ltr",
                     "fontFamily": "Roboto",
                     "fontSize": "14px",
                     "fontWeight": "500",
@@ -840,27 +639,19 @@ exports[`SigninInfo matches snapshot 1`] = `
             </div>
           </div>
           <div
-            className="css-view-1dbjc4n"
+            className="css-view-1dbjc4n r-alignItems-1awozwy r-justifyContent-1777fci"
             style={
               Object {
-                "WebkitAlignItems": "center",
-                "WebkitBoxAlign": "center",
                 "WebkitBoxDirection": "normal",
                 "WebkitBoxOrient": "horizontal",
-                "WebkitBoxPack": "center",
                 "WebkitFlexDirection": "row",
-                "WebkitJustifyContent": "center",
-                "alignItems": "center",
                 "flexDirection": "row",
-                "justifyContent": "center",
-                "msFlexAlign": "center",
                 "msFlexDirection": "row",
-                "msFlexPack": "center",
               }
             }
           >
             <div
-              className="css-view-1dbjc4n"
+              className="css-view-1dbjc4n r-cursor-1loqt21 r-touchAction-1otgn73 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
               data-focusable={true}
               onKeyDown={[Function]}
               onKeyUp={[Function]}
@@ -870,22 +661,6 @@ exports[`SigninInfo matches snapshot 1`] = `
               onResponderTerminate={[Function]}
               onResponderTerminationRequest={[Function]}
               onStartShouldSetResponder={[Function]}
-              style={
-                Object {
-                  "MozTransitionProperty": "opacity",
-                  "MozUserSelect": "none",
-                  "WebkitTransitionDuration": "0.15s",
-                  "WebkitTransitionProperty": "opacity",
-                  "WebkitUserSelect": "none",
-                  "cursor": "pointer",
-                  "msTouchAction": "manipulation",
-                  "msUserSelect": "none",
-                  "touchAction": "manipulation",
-                  "transitionDuration": "0.15s",
-                  "transitionProperty": "opacity",
-                  "userSelect": "none",
-                }
-              }
               tabIndex="0"
             >
               <div
@@ -894,7 +669,6 @@ exports[`SigninInfo matches snapshot 1`] = `
                 style={
                   Object {
                     "color": "rgba(0,175,255,1.00)",
-                    "direction": "ltr",
                     "fontFamily": "Roboto",
                     "fontSize": "14px",
                     "fontWeight": "500",

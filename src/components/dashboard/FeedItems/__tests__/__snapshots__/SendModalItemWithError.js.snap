@@ -13,7 +13,7 @@ exports[`SendModalItemWithError matches snapshot 1`] = `
     }
   >
     <div
-      className="css-text-901oao r-textAlign-q4m81j"
+      className="css-text-901oao"
       dir="auto"
       style={
         Object {
@@ -22,6 +22,7 @@ exports[`SendModalItemWithError matches snapshot 1`] = `
           "fontSize": "22px",
           "fontWeight": "500",
           "lineHeight": "30px",
+          "textAlign": "center",
           "textDecoration": "none",
           "textTransform": "none",
         }
@@ -31,7 +32,7 @@ exports[`SendModalItemWithError matches snapshot 1`] = `
 This transaction failed.
     </div>
     <div
-      className="css-text-901oao r-textAlign-q4m81j"
+      className="css-text-901oao"
       dir="auto"
       style={
         Object {
@@ -40,6 +41,7 @@ This transaction failed.
           "fontSize": "16px",
           "fontWeight": "normal",
           "lineHeight": "22px",
+          "textAlign": "center",
           "textDecoration": "none",
           "textTransform": "none",
         }
@@ -129,6 +131,9 @@ please try again.
           "borderBottomColor": "rgba(203,203,203,1.00)",
           "borderBottomStyle": "solid",
           "borderBottomWidth": "1px",
+          "borderLeftStyle": "solid",
+          "borderRightStyle": "solid",
+          "borderTopStyle": "solid",
           "height": "40px",
           "justifyContent": "space-between",
           "marginTop": "4px",
@@ -139,7 +144,7 @@ please try again.
       }
     >
       <div
-        className="css-text-901oao r-textAlign-q4m81j"
+        className="css-text-901oao"
         dir="auto"
         style={
           Object {
@@ -148,6 +153,7 @@ please try again.
             "fontSize": "14px",
             "fontWeight": "normal",
             "lineHeight": "20px",
+            "textAlign": "center",
             "textDecoration": "none",
             "textTransform": "none",
           }
@@ -156,7 +162,7 @@ please try again.
         To:
       </div>
       <div
-        className="css-text-901oao r-textAlign-q4m81j"
+        className="css-text-901oao"
         dir="auto"
         style={
           Object {
@@ -165,6 +171,7 @@ please try again.
             "fontSize": "24px",
             "fontWeight": "normal",
             "lineHeight": "30px",
+            "textAlign": "center",
             "textDecoration": "none",
             "textTransform": "none",
           }
@@ -185,6 +192,9 @@ please try again.
           "borderBottomColor": "rgba(203,203,203,1.00)",
           "borderBottomStyle": "solid",
           "borderBottomWidth": "1px",
+          "borderLeftStyle": "solid",
+          "borderRightStyle": "solid",
+          "borderTopStyle": "solid",
           "height": "40px",
           "justifyContent": "space-between",
           "marginTop": "4px",
@@ -195,7 +205,7 @@ please try again.
       }
     >
       <div
-        className="css-text-901oao r-textAlign-q4m81j"
+        className="css-text-901oao"
         dir="auto"
         style={
           Object {
@@ -204,6 +214,7 @@ please try again.
             "fontSize": "14px",
             "fontWeight": "normal",
             "lineHeight": "20px",
+            "textAlign": "center",
             "textDecoration": "none",
             "textTransform": "none",
           }
@@ -243,22 +254,18 @@ please try again.
           0.04
         </div>
         <div
-          className="css-text-901oao r-textAlign-q4m81j"
-          dir="auto"
+          className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz"
           style={
             Object {
-              "color": "rgba(66,69,74,1.00)",
-              "fontFamily": "Roboto",
-              "fontSize": "16px",
-              "fontWeight": "normal",
-              "lineHeight": "22px",
-              "textDecoration": "none",
-              "textTransform": "none",
+              "WebkitBoxPack": "justify",
+              "WebkitJustifyContent": "space-between",
+              "justifyContent": "space-between",
+              "msFlexPack": "justify",
             }
           }
         >
-          <span
-            className="css-text-901oao css-textHasAncestor-16my406"
+          <div
+            className="css-text-901oao"
             dir="auto"
             style={
               Object {
@@ -266,7 +273,7 @@ please try again.
                 "fontFamily": "Roboto Slab",
                 "fontSize": "14px",
                 "fontWeight": "700",
-                "lineHeight": "20px",
+                "lineHeight": "22px",
                 "textAlign": "right",
                 "textDecoration": "none",
                 "textTransform": "none",
@@ -274,9 +281,9 @@ please try again.
             }
           >
             G
-          </span>
-          <span
-            className="css-text-901oao css-textHasAncestor-16my406"
+          </div>
+          <div
+            className="css-text-901oao"
             dir="auto"
             style={
               Object {
@@ -284,7 +291,7 @@ please try again.
                 "fontFamily": "Roboto Slab",
                 "fontSize": "13.5px",
                 "fontWeight": "700",
-                "lineHeight": "16.2px",
+                "lineHeight": "22px",
                 "textAlign": "right",
                 "textDecoration": "none",
                 "textTransform": "none",
@@ -292,7 +299,7 @@ please try again.
             }
           >
             $
-          </span>
+          </div>
         </div>
       </div>
     </div>
@@ -308,6 +315,9 @@ please try again.
           "borderBottomColor": "rgba(203,203,203,1.00)",
           "borderBottomStyle": "solid",
           "borderBottomWidth": "1px",
+          "borderLeftStyle": "solid",
+          "borderRightStyle": "solid",
+          "borderTopStyle": "solid",
           "height": "40px",
           "justifyContent": "space-between",
           "marginTop": "4px",
@@ -318,7 +328,7 @@ please try again.
       }
     >
       <div
-        className="css-text-901oao r-textAlign-q4m81j"
+        className="css-text-901oao"
         dir="auto"
         style={
           Object {
@@ -327,6 +337,7 @@ please try again.
             "fontSize": "14px",
             "fontWeight": "normal",
             "lineHeight": "20px",
+            "textAlign": "center",
             "textDecoration": "none",
             "textTransform": "none",
           }
@@ -421,7 +432,7 @@ please try again.
       }
     >
       <div
-        className="css-cursor-18t94o4 css-view-1dbjc4n r-cursor-1loqt21 r-overflow-1udh08x r-position-bnwqim r-touchAction-1otgn73"
+        className="css-cursor-18t94o4 css-view-1dbjc4n r-cursor-1loqt21 r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim r-touchAction-1otgn73"
         data-focusable={true}
         disabled={false}
         onKeyDown={[Function]}
@@ -436,46 +447,59 @@ please try again.
         role="button"
         style={
           Object {
+            "WebkitAlignSelf": "stretch",
+            "alignSelf": "stretch",
             "borderBottomLeftRadius": "50px",
             "borderBottomRightRadius": "50px",
             "borderTopLeftRadius": "50px",
             "borderTopRightRadius": "50px",
+            "msFlexItemAlign": "stretch",
           }
         }
         tabIndex="0"
       >
         <div
-          className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1777fci"
+          className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
+          style={
+            Object {
+              "WebkitAlignSelf": "stretch",
+              "alignSelf": "stretch",
+              "msFlexItemAlign": "stretch",
+            }
+          }
         >
           <div
-            className="css-text-901oao css-textOneLine-bfa6kz r-letterSpacing-ud0q2t r-marginHorizontal-1ydw1k6 r-marginVertical-712mwr r-textAlign-q4m81j r-textTransform-tsynxw"
-            dir="auto"
-            style={
-              Object {
-                "color": "rgba(255,255,255,1.00)",
-                "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                "fontWeight": "500",
-              }
-            }
+            className="css-view-1dbjc4n r-marginHorizontal-1ydw1k6 r-marginVertical-712mwr"
           >
-            <span
-              className="css-text-901oao css-textHasAncestor-16my406 r-alignItems-1awozwy r-justifyContent-1777fci r-textAlign-q4m81j r-textTransform-tsynxw"
-              dir="auto"
+            <div
+              className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz"
               style={
                 Object {
-                  "color": "rgba(255,255,255,1.00)",
-                  "fontFamily": "Roboto",
-                  "fontSize": "16px",
-                  "fontWeight": "500",
-                  "letterSpacing": "0px",
-                  "lineHeight": "22px",
-                  "paddingTop": "1px",
-                  "textDecoration": "none",
+                  "display": "flex",
                 }
               }
             >
-              Ok
-            </span>
+              <div
+                className="css-text-901oao r-alignItems-1awozwy r-justifyContent-1777fci"
+                dir="auto"
+                style={
+                  Object {
+                    "color": "rgba(255,255,255,1.00)",
+                    "fontFamily": "Roboto",
+                    "fontSize": "16px",
+                    "fontWeight": "500",
+                    "letterSpacing": "0px",
+                    "lineHeight": "22px",
+                    "paddingTop": "1px",
+                    "textAlign": "center",
+                    "textDecoration": "none",
+                    "textTransform": "uppercase",
+                  }
+                }
+              >
+                Ok
+              </div>
+            </div>
           </div>
         </div>
       </div>

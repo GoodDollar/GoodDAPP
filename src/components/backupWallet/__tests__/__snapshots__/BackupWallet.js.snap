@@ -50,7 +50,7 @@ exports[`BackupWallet matches snapshot 1`] = `
       }
     >
       <div
-        className="css-text-901oao r-textAlign-q4m81j"
+        className="css-text-901oao"
         dir="auto"
         grow={true}
         style={
@@ -62,6 +62,7 @@ exports[`BackupWallet matches snapshot 1`] = `
             "lineHeight": "22px",
             "marginBottom": "8px",
             "marginTop": "8px",
+            "textAlign": "center",
             "textDecoration": "none",
             "textTransform": "none",
           }
@@ -70,7 +71,7 @@ exports[`BackupWallet matches snapshot 1`] = `
         please save your 12-word pass phrase
 
         <span
-          className="css-text-901oao css-textHasAncestor-16my406 r-textAlign-q4m81j"
+          className="css-text-901oao css-textHasAncestor-16my406"
           dir="auto"
           grow={true}
           style={
@@ -82,6 +83,7 @@ exports[`BackupWallet matches snapshot 1`] = `
               "lineHeight": "22px",
               "marginBottom": "8px",
               "marginTop": "8px",
+              "textAlign": "center",
               "textDecoration": "none",
               "textTransform": "none",
             }
@@ -146,14 +148,12 @@ so you can recover your wallet anytime
                 "borderTopWidth": "1px",
                 "display": "flex",
                 "height": "44px",
-                "paddingLeft": "8px",
-                "paddingRight": "8px",
                 "width": "32px",
               }
             }
           >
             <div
-              className="css-text-901oao r-textAlign-q4m81j"
+              className="css-text-901oao"
               dir="auto"
               style={
                 Object {
@@ -162,6 +162,7 @@ so you can recover your wallet anytime
                   "fontSize": "16px",
                   "fontWeight": "normal",
                   "lineHeight": "22px",
+                  "textAlign": "center",
                   "textDecoration": "none",
                   "textTransform": "none",
                 }
@@ -235,14 +236,12 @@ so you can recover your wallet anytime
                 "borderTopWidth": "1px",
                 "display": "flex",
                 "height": "44px",
-                "paddingLeft": "8px",
-                "paddingRight": "8px",
                 "width": "32px",
               }
             }
           >
             <div
-              className="css-text-901oao r-textAlign-q4m81j"
+              className="css-text-901oao"
               dir="auto"
               style={
                 Object {
@@ -251,6 +250,7 @@ so you can recover your wallet anytime
                   "fontSize": "16px",
                   "fontWeight": "normal",
                   "lineHeight": "22px",
+                  "textAlign": "center",
                   "textDecoration": "none",
                   "textTransform": "none",
                 }
@@ -324,14 +324,12 @@ so you can recover your wallet anytime
                 "borderTopWidth": "1px",
                 "display": "flex",
                 "height": "44px",
-                "paddingLeft": "8px",
-                "paddingRight": "8px",
                 "width": "32px",
               }
             }
           >
             <div
-              className="css-text-901oao r-textAlign-q4m81j"
+              className="css-text-901oao"
               dir="auto"
               style={
                 Object {
@@ -340,6 +338,7 @@ so you can recover your wallet anytime
                   "fontSize": "16px",
                   "fontWeight": "normal",
                   "lineHeight": "22px",
+                  "textAlign": "center",
                   "textDecoration": "none",
                   "textTransform": "none",
                 }
@@ -413,14 +412,12 @@ so you can recover your wallet anytime
                 "borderTopWidth": "1px",
                 "display": "flex",
                 "height": "44px",
-                "paddingLeft": "8px",
-                "paddingRight": "8px",
                 "width": "32px",
               }
             }
           >
             <div
-              className="css-text-901oao r-textAlign-q4m81j"
+              className="css-text-901oao"
               dir="auto"
               style={
                 Object {
@@ -429,6 +426,7 @@ so you can recover your wallet anytime
                   "fontSize": "16px",
                   "fontWeight": "normal",
                   "lineHeight": "22px",
+                  "textAlign": "center",
                   "textDecoration": "none",
                   "textTransform": "none",
                 }
@@ -502,14 +500,12 @@ so you can recover your wallet anytime
                 "borderTopWidth": "1px",
                 "display": "flex",
                 "height": "44px",
-                "paddingLeft": "8px",
-                "paddingRight": "8px",
                 "width": "32px",
               }
             }
           >
             <div
-              className="css-text-901oao r-textAlign-q4m81j"
+              className="css-text-901oao"
               dir="auto"
               style={
                 Object {
@@ -518,6 +514,7 @@ so you can recover your wallet anytime
                   "fontSize": "16px",
                   "fontWeight": "normal",
                   "lineHeight": "22px",
+                  "textAlign": "center",
                   "textDecoration": "none",
                   "textTransform": "none",
                 }
@@ -591,14 +588,12 @@ so you can recover your wallet anytime
                 "borderTopWidth": "1px",
                 "display": "flex",
                 "height": "44px",
-                "paddingLeft": "8px",
-                "paddingRight": "8px",
                 "width": "32px",
               }
             }
           >
             <div
-              className="css-text-901oao r-textAlign-q4m81j"
+              className="css-text-901oao"
               dir="auto"
               style={
                 Object {
@@ -607,6 +602,7 @@ so you can recover your wallet anytime
                   "fontSize": "16px",
                   "fontWeight": "normal",
                   "lineHeight": "22px",
+                  "textAlign": "center",
                   "textDecoration": "none",
                   "textTransform": "none",
                 }
@@ -680,14 +676,12 @@ so you can recover your wallet anytime
                 "borderTopWidth": "1px",
                 "display": "flex",
                 "height": "44px",
-                "paddingLeft": "8px",
-                "paddingRight": "8px",
                 "width": "32px",
               }
             }
           >
             <div
-              className="css-text-901oao r-textAlign-q4m81j"
+              className="css-text-901oao"
               dir="auto"
               style={
                 Object {
@@ -696,6 +690,7 @@ so you can recover your wallet anytime
                   "fontSize": "16px",
                   "fontWeight": "normal",
                   "lineHeight": "22px",
+                  "textAlign": "center",
                   "textDecoration": "none",
                   "textTransform": "none",
                 }
@@ -769,14 +764,12 @@ so you can recover your wallet anytime
                 "borderTopWidth": "1px",
                 "display": "flex",
                 "height": "44px",
-                "paddingLeft": "8px",
-                "paddingRight": "8px",
                 "width": "32px",
               }
             }
           >
             <div
-              className="css-text-901oao r-textAlign-q4m81j"
+              className="css-text-901oao"
               dir="auto"
               style={
                 Object {
@@ -785,6 +778,7 @@ so you can recover your wallet anytime
                   "fontSize": "16px",
                   "fontWeight": "normal",
                   "lineHeight": "22px",
+                  "textAlign": "center",
                   "textDecoration": "none",
                   "textTransform": "none",
                 }
@@ -858,14 +852,12 @@ so you can recover your wallet anytime
                 "borderTopWidth": "1px",
                 "display": "flex",
                 "height": "44px",
-                "paddingLeft": "8px",
-                "paddingRight": "8px",
                 "width": "32px",
               }
             }
           >
             <div
-              className="css-text-901oao r-textAlign-q4m81j"
+              className="css-text-901oao"
               dir="auto"
               style={
                 Object {
@@ -874,6 +866,7 @@ so you can recover your wallet anytime
                   "fontSize": "16px",
                   "fontWeight": "normal",
                   "lineHeight": "22px",
+                  "textAlign": "center",
                   "textDecoration": "none",
                   "textTransform": "none",
                 }
@@ -947,14 +940,12 @@ so you can recover your wallet anytime
                 "borderTopWidth": "1px",
                 "display": "flex",
                 "height": "44px",
-                "paddingLeft": "8px",
-                "paddingRight": "8px",
                 "width": "32px",
               }
             }
           >
             <div
-              className="css-text-901oao r-textAlign-q4m81j"
+              className="css-text-901oao"
               dir="auto"
               style={
                 Object {
@@ -963,6 +954,7 @@ so you can recover your wallet anytime
                   "fontSize": "16px",
                   "fontWeight": "normal",
                   "lineHeight": "22px",
+                  "textAlign": "center",
                   "textDecoration": "none",
                   "textTransform": "none",
                 }
@@ -1036,14 +1028,12 @@ so you can recover your wallet anytime
                 "borderTopWidth": "1px",
                 "display": "flex",
                 "height": "44px",
-                "paddingLeft": "8px",
-                "paddingRight": "8px",
                 "width": "32px",
               }
             }
           >
             <div
-              className="css-text-901oao r-textAlign-q4m81j"
+              className="css-text-901oao"
               dir="auto"
               style={
                 Object {
@@ -1052,6 +1042,7 @@ so you can recover your wallet anytime
                   "fontSize": "16px",
                   "fontWeight": "normal",
                   "lineHeight": "22px",
+                  "textAlign": "center",
                   "textDecoration": "none",
                   "textTransform": "none",
                 }
@@ -1125,14 +1116,12 @@ so you can recover your wallet anytime
                 "borderTopWidth": "1px",
                 "display": "flex",
                 "height": "44px",
-                "paddingLeft": "8px",
-                "paddingRight": "8px",
                 "width": "32px",
               }
             }
           >
             <div
-              className="css-text-901oao r-textAlign-q4m81j"
+              className="css-text-901oao"
               dir="auto"
               style={
                 Object {
@@ -1141,6 +1130,7 @@ so you can recover your wallet anytime
                   "fontSize": "16px",
                   "fontWeight": "normal",
                   "lineHeight": "22px",
+                  "textAlign": "center",
                   "textDecoration": "none",
                   "textTransform": "none",
                 }
@@ -1250,7 +1240,7 @@ so you can recover your wallet anytime
           }
         >
           <div
-            className="css-cursor-18t94o4 css-view-1dbjc4n r-cursor-1loqt21 r-overflow-1udh08x r-position-bnwqim r-touchAction-1otgn73"
+            className="css-cursor-18t94o4 css-view-1dbjc4n r-cursor-1loqt21 r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim r-touchAction-1otgn73"
             data-focusable={true}
             disabled={false}
             onKeyDown={[Function]}
@@ -1265,47 +1255,59 @@ so you can recover your wallet anytime
             role="button"
             style={
               Object {
+                "WebkitAlignSelf": "stretch",
+                "alignSelf": "stretch",
                 "borderBottomLeftRadius": "50px",
                 "borderBottomRightRadius": "50px",
                 "borderTopLeftRadius": "50px",
                 "borderTopRightRadius": "50px",
+                "msFlexItemAlign": "stretch",
               }
             }
             tabIndex="0"
           >
             <div
-              className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1777fci"
+              className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
+              style={
+                Object {
+                  "WebkitAlignSelf": "stretch",
+                  "alignSelf": "stretch",
+                  "msFlexItemAlign": "stretch",
+                }
+              }
             >
               <div
-                className="css-text-901oao css-textOneLine-bfa6kz r-letterSpacing-ud0q2t r-marginHorizontal-1ybube5 r-marginVertical-712mwr r-textAlign-q4m81j"
-                dir="auto"
-                style={
-                  Object {
-                    "color": "rgba(0,175,255,1.00)",
-                    "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                    "fontWeight": "500",
-                  }
-                }
+                className="css-view-1dbjc4n r-marginHorizontal-1ybube5 r-marginVertical-712mwr"
               >
-                <span
-                  className="css-text-901oao css-textHasAncestor-16my406 r-alignItems-1awozwy r-justifyContent-1777fci r-textAlign-q4m81j"
-                  dir="auto"
+                <div
+                  className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz"
                   style={
                     Object {
-                      "color": "rgba(0,175,255,1.00)",
-                      "fontFamily": "Roboto",
-                      "fontSize": "15px",
-                      "fontWeight": "normal",
-                      "letterSpacing": "0px",
-                      "lineHeight": "22px",
-                      "paddingTop": "1px",
-                      "textDecoration": "underline",
-                      "textTransform": "none",
+                      "display": "flex",
                     }
                   }
                 >
-                  Copy all to clipboard
-                </span>
+                  <div
+                    className="css-text-901oao r-alignItems-1awozwy r-justifyContent-1777fci"
+                    dir="auto"
+                    style={
+                      Object {
+                        "color": "rgba(0,175,255,1.00)",
+                        "fontFamily": "Roboto",
+                        "fontSize": "15px",
+                        "fontWeight": "normal",
+                        "letterSpacing": "0px",
+                        "lineHeight": "22px",
+                        "paddingTop": "1px",
+                        "textAlign": "center",
+                        "textDecoration": "underline",
+                        "textTransform": "none",
+                      }
+                    }
+                  >
+                    Copy all to clipboard
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -1350,7 +1352,7 @@ so you can recover your wallet anytime
           }
         >
           <div
-            className="css-cursor-18t94o4 css-view-1dbjc4n r-cursor-1loqt21 r-overflow-1udh08x r-position-bnwqim r-touchAction-1otgn73"
+            className="css-cursor-18t94o4 css-view-1dbjc4n r-cursor-1loqt21 r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim r-touchAction-1otgn73"
             data-focusable={true}
             disabled={false}
             onKeyDown={[Function]}
@@ -1365,47 +1367,59 @@ so you can recover your wallet anytime
             role="button"
             style={
               Object {
+                "WebkitAlignSelf": "stretch",
+                "alignSelf": "stretch",
                 "borderBottomLeftRadius": "50px",
                 "borderBottomRightRadius": "50px",
                 "borderTopLeftRadius": "50px",
                 "borderTopRightRadius": "50px",
+                "msFlexItemAlign": "stretch",
               }
             }
             tabIndex="0"
           >
             <div
-              className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1777fci"
+              className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
+              style={
+                Object {
+                  "WebkitAlignSelf": "stretch",
+                  "alignSelf": "stretch",
+                  "msFlexItemAlign": "stretch",
+                }
+              }
             >
               <div
-                className="css-text-901oao css-textOneLine-bfa6kz r-letterSpacing-ud0q2t r-marginHorizontal-1ybube5 r-marginVertical-712mwr r-textAlign-q4m81j"
-                dir="auto"
-                style={
-                  Object {
-                    "color": "rgba(0,175,255,1.00)",
-                    "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                    "fontWeight": "500",
-                  }
-                }
+                className="css-view-1dbjc4n r-marginHorizontal-1ybube5 r-marginVertical-712mwr"
               >
-                <span
-                  className="css-text-901oao css-textHasAncestor-16my406 r-alignItems-1awozwy r-justifyContent-1777fci r-textAlign-q4m81j"
-                  dir="auto"
+                <div
+                  className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz"
                   style={
                     Object {
-                      "color": "rgba(0,175,255,1.00)",
-                      "fontFamily": "Roboto",
-                      "fontSize": "15px",
-                      "fontWeight": "normal",
-                      "letterSpacing": "0px",
-                      "lineHeight": "22px",
-                      "paddingTop": "1px",
-                      "textDecoration": "underline",
-                      "textTransform": "none",
+                      "display": "flex",
                     }
                   }
                 >
-                  Send me a backup email
-                </span>
+                  <div
+                    className="css-text-901oao r-alignItems-1awozwy r-justifyContent-1777fci"
+                    dir="auto"
+                    style={
+                      Object {
+                        "color": "rgba(0,175,255,1.00)",
+                        "fontFamily": "Roboto",
+                        "fontSize": "15px",
+                        "fontWeight": "normal",
+                        "letterSpacing": "0px",
+                        "lineHeight": "22px",
+                        "paddingTop": "1px",
+                        "textAlign": "center",
+                        "textDecoration": "underline",
+                        "textTransform": "none",
+                      }
+                    }
+                  >
+                    Send me a backup email
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -1452,58 +1466,74 @@ so you can recover your wallet anytime
         }
       >
         <div
-          aria-disabled={true}
-          className="css-view-1dbjc4n r-overflow-1udh08x r-position-bnwqim"
-          disabled={true}
+          className="css-cursor-18t94o4 css-view-1dbjc4n r-cursor-1loqt21 r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim r-touchAction-1otgn73"
+          data-focusable={true}
+          disabled={false}
           onKeyDown={[Function]}
+          onKeyPress={[Function]}
           onKeyUp={[Function]}
           onResponderGrant={[Function]}
           onResponderMove={[Function]}
+          onResponderRelease={[Function]}
           onResponderTerminate={[Function]}
           onResponderTerminationRequest={[Function]}
           onStartShouldSetResponder={[Function]}
           role="button"
           style={
             Object {
+              "WebkitAlignSelf": "stretch",
+              "alignSelf": "stretch",
               "borderBottomLeftRadius": "50px",
               "borderBottomRightRadius": "50px",
               "borderTopLeftRadius": "50px",
               "borderTopRightRadius": "50px",
+              "msFlexItemAlign": "stretch",
             }
           }
+          tabIndex="0"
         >
           <div
-            className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1777fci"
+            className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
+            style={
+              Object {
+                "WebkitAlignSelf": "stretch",
+                "alignSelf": "stretch",
+                "msFlexItemAlign": "stretch",
+              }
+            }
           >
             <div
-              className="css-text-901oao css-textOneLine-bfa6kz r-letterSpacing-ud0q2t r-marginHorizontal-1ydw1k6 r-marginVertical-712mwr r-textAlign-q4m81j r-textTransform-tsynxw"
-              dir="auto"
-              style={
-                Object {
-                  "color": "rgba(255,255,255,1.00)",
-                  "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                  "fontWeight": "500",
-                }
-              }
+              className="css-view-1dbjc4n r-marginHorizontal-1ydw1k6 r-marginVertical-712mwr"
             >
-              <span
-                className="css-text-901oao css-textHasAncestor-16my406 r-alignItems-1awozwy r-justifyContent-1777fci r-textAlign-q4m81j r-textTransform-tsynxw"
-                dir="auto"
+              <div
+                className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz"
                 style={
                   Object {
-                    "color": "rgba(255,255,255,1.00)",
-                    "fontFamily": "Roboto",
-                    "fontSize": "16px",
-                    "fontWeight": "500",
-                    "letterSpacing": "0px",
-                    "lineHeight": "22px",
-                    "paddingTop": "1px",
-                    "textDecoration": "none",
+                    "display": "flex",
                   }
                 }
               >
-                Done
-              </span>
+                <div
+                  className="css-text-901oao r-alignItems-1awozwy r-justifyContent-1777fci"
+                  dir="auto"
+                  style={
+                    Object {
+                      "color": "rgba(255,255,255,1.00)",
+                      "fontFamily": "Roboto",
+                      "fontSize": "16px",
+                      "fontWeight": "500",
+                      "letterSpacing": "0px",
+                      "lineHeight": "22px",
+                      "paddingTop": "1px",
+                      "textAlign": "center",
+                      "textDecoration": "none",
+                      "textTransform": "uppercase",
+                    }
+                  }
+                >
+                  Done
+                </div>
+              </div>
             </div>
           </div>
         </div>

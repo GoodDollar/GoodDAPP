@@ -17,6 +17,7 @@ exports[`IconWrapper matches snapshot 1`] = `
         "flexDirection": "row",
         "justifyContent": "center",
         "marginBottom": "16px",
+        "marginTop": "16px",
         "msFlexDirection": "row",
         "msFlexPack": "center",
       }

@@ -5,7 +5,7 @@ exports[`EventCounterParty receive matches snapshot 1`] = `
   className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
-    className="css-text-901oao css-textMultiLine-cens5h"
+    className="css-text-901oao css-textMultiLine-cens5h r-flex-13awgt0"
     dir="auto"
     style={
       Object {
@@ -31,9 +31,9 @@ exports[`EventCounterParty receive matches snapshot 1`] = `
           "fontFamily": "Roboto",
           "fontSize": "10px",
           "fontWeight": "normal",
-          "lineHeight": "14px",
+          "lineHeight": "16px",
           "marginRight": "3px",
-          "textAlign": "left",
+          "textAlign": "center",
           "textDecoration": "none",
           "textTransform": "none",
         }
@@ -68,7 +68,7 @@ exports[`EventCounterParty send matches snapshot 1`] = `
   className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
-    className="css-text-901oao css-textMultiLine-cens5h"
+    className="css-text-901oao css-textMultiLine-cens5h r-flex-13awgt0"
     dir="auto"
     style={
       Object {
@@ -94,9 +94,9 @@ exports[`EventCounterParty send matches snapshot 1`] = `
           "fontFamily": "Roboto",
           "fontSize": "10px",
           "fontWeight": "normal",
-          "lineHeight": "14px",
+          "lineHeight": "16px",
           "marginRight": "3px",
-          "textAlign": "left",
+          "textAlign": "center",
           "textDecoration": "none",
           "textTransform": "none",
         }
@@ -131,7 +131,7 @@ exports[`EventCounterParty withdraw matches snapshot 1`] = `
   className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
-    className="css-text-901oao css-textMultiLine-cens5h"
+    className="css-text-901oao css-textMultiLine-cens5h r-flex-13awgt0"
     dir="auto"
     style={
       Object {
@@ -157,9 +157,9 @@ exports[`EventCounterParty withdraw matches snapshot 1`] = `
           "fontFamily": "Roboto",
           "fontSize": "10px",
           "fontWeight": "normal",
-          "lineHeight": "14px",
+          "lineHeight": "16px",
           "marginRight": "3px",
-          "textAlign": "left",
+          "textAlign": "center",
           "textDecoration": "none",
           "textTransform": "none",
         }

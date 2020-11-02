@@ -2,24 +2,10 @@
 
 exports[`FaceVerification UnrecoverableError matches snapshot 1`] = `
 <div
-  className="css-view-1dbjc4n"
-  style={
-    Object {
-      "WebkitBoxFlex": 1,
-      "WebkitFlexBasis": "0%",
-      "WebkitFlexGrow": 1,
-      "WebkitFlexShrink": 1,
-      "flexBasis": "0%",
-      "flexGrow": 1,
-      "flexShrink": 1,
-      "msFlexNegative": 1,
-      "msFlexPositive": 1,
-      "msFlexPreferredSize": "0%",
-    }
-  }
+  className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
-    className="css-view-1dbjc4n"
+    className="css-view-1dbjc4n r-position-bnwqim"
     data-name="viewWrapper"
     style={
       Object {
@@ -28,7 +14,7 @@ exports[`FaceVerification UnrecoverableError matches snapshot 1`] = `
         "WebkitBoxOrient": "vertical",
         "WebkitFlexDirection": "column",
         "WebkitFlexGrow": 1,
-        "backgroundImage": "linear-gradient(to bottom, #00AFFF, #2DC0F7, #28C0EF, #23C0E7, #1EC1DF, #19C1D7, #14C1CF, #0FC2C7, #0FC2C7, #0AC2BF, #05C2B7, #00C3AF)",
+        "backgroundImage": "linear-gradient(3.141592653589793rad,#00AFFF,#2DC0F7,#28C0EF,#23C0E7,#1EC1DF,#19C1D7,#14C1CF,#0FC2C7,#0FC2C7,#0AC2BF,#05C2B7,#00C3AF)",
         "display": "flex",
         "flexDirection": "column",
         "flexGrow": 1,
@@ -39,40 +25,32 @@ exports[`FaceVerification UnrecoverableError matches snapshot 1`] = `
         "paddingLeft": "8px",
         "paddingRight": "8px",
         "paddingTop": "8px",
-        "position": "relative",
         "width": "100%",
       }
     }
   >
     <div
-      className="css-view-1dbjc4n"
+      className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0"
       style={
         Object {
-          "WebkitAlignItems": "center",
-          "WebkitBoxAlign": "center",
           "WebkitBoxFlex": 1,
           "WebkitBoxPack": "space-evenly",
-          "WebkitFlexBasis": "0%",
           "WebkitFlexGrow": 1,
           "WebkitFlexShrink": 0,
           "WebkitJustifyContent": "space-evenly",
-          "alignItems": "center",
           "backgroundColor": "rgba(255,255,255,1.00)",
           "borderBottomLeftRadius": "5px",
           "borderBottomRightRadius": "5px",
           "borderTopLeftRadius": "5px",
           "borderTopRightRadius": "5px",
           "display": "flex",
-          "flexBasis": "0%",
           "flexGrow": 1,
           "flexShrink": 0,
           "height": "100%",
           "justifyContent": "space-evenly",
-          "msFlexAlign": "center",
           "msFlexNegative": 0,
           "msFlexPack": "space-evenly",
           "msFlexPositive": 1,
-          "msFlexPreferredSize": "0%",
           "paddingBottom": "16px",
           "paddingLeft": "8px",
           "paddingRight": "8px",
@@ -81,29 +59,19 @@ exports[`FaceVerification UnrecoverableError matches snapshot 1`] = `
       }
     >
       <div
-        className="css-view-1dbjc4n"
+        className="css-view-1dbjc4n r-flex-13awgt0"
         style={
           Object {
-            "WebkitBoxFlex": 1,
             "WebkitBoxPack": "space-evenly",
-            "WebkitFlexBasis": "0%",
-            "WebkitFlexGrow": 1,
-            "WebkitFlexShrink": 1,
             "WebkitJustifyContent": "space-evenly",
             "backgroundColor": "rgba(255,255,255,1.00)",
             "borderBottomLeftRadius": "5px",
             "borderBottomRightRadius": "5px",
             "borderTopLeftRadius": "5px",
             "borderTopRightRadius": "5px",
-            "flexBasis": "0%",
-            "flexGrow": 1,
-            "flexShrink": 1,
             "justifyContent": "space-evenly",
             "marginBottom": "0px",
-            "msFlexNegative": 1,
             "msFlexPack": "space-evenly",
-            "msFlexPositive": 1,
-            "msFlexPreferredSize": "0%",
             "paddingBottom": "16px",
             "paddingLeft": "8px",
             "paddingRight": "8px",
@@ -118,7 +86,6 @@ exports[`FaceVerification UnrecoverableError matches snapshot 1`] = `
           style={
             Object {
               "color": "rgba(250,108,119,1.00)",
-              "direction": "ltr",
               "fontFamily": "Roboto",
               "fontSize": "24px",
               "fontWeight": "500",
@@ -136,47 +103,16 @@ We’re looking in to it,
 please try again later
         </div>
         <div
-          className="css-view-1dbjc4n"
+          className="css-view-1dbjc4n r-justifyContent-1777fci"
           style={
             Object {
-              "WebkitFlexBasis": "auto",
-              "flexBasis": "auto",
               "height": "286.75324675324674px",
               "marginBottom": "0px",
               "marginTop": "0px",
-              "msFlexPreferredSize": "auto",
-              "overflowX": "hidden",
-              "overflowY": "hidden",
-              "zIndex": 0,
             }
           }
         >
-          <div
-            className="css-view-1dbjc4n"
-            style={
-              Object {
-                "backgroundColor": "rgba(0,0,0,0.00)",
-                "backgroundImage": "url(\\"FRUnrecoverableError.svg\\")",
-                "backgroundPosition": "center",
-                "backgroundRepeat": "no-repeat",
-                "backgroundSize": "contain",
-                "bottom": "0px",
-                "height": "100%",
-                "left": "0px",
-                "position": "absolute",
-                "right": "0px",
-                "top": "0px",
-                "width": "100%",
-                "zIndex": -1,
-              }
-            }
-          />
-          <img
-            alt=""
-            className="css-accessibilityImage-9pa8cd"
-            draggable={false}
-            src="FRUnrecoverableError.svg"
-          />
+          <FRUnrecoverableError.svg />
         </div>
       </div>
       <div
@@ -188,13 +124,11 @@ please try again later
         }
       >
         <div
-          className="css-view-1dbjc4n"
+          className="css-view-1dbjc4n r-justifyContent-1777fci"
           style={
             Object {
               "WebkitAlignItems": "stretch",
               "WebkitBoxAlign": "stretch",
-              "WebkitBoxPack": "center",
-              "WebkitJustifyContent": "center",
               "alignItems": "stretch",
               "backgroundColor": "rgba(0,175,255,1.00)",
               "borderBottomColor": "rgba(0,175,255,1.00)",
@@ -215,7 +149,6 @@ please try again later
               "borderTopWidth": "0px",
               "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
               "display": "flex",
-              "justifyContent": "center",
               "marginBottom": "16px",
               "marginLeft": "0px",
               "marginRight": "0px",
@@ -223,7 +156,6 @@ please try again later
               "minHeight": "44px",
               "minWidth": "64px",
               "msFlexAlign": "stretch",
-              "msFlexPack": "center",
               "paddingBottom": "0px",
               "paddingLeft": "0px",
               "paddingRight": "0px",
@@ -232,7 +164,7 @@ please try again later
           }
         >
           <div
-            className="css-cursor-18t94o4 css-view-1dbjc4n"
+            className="css-cursor-18t94o4 css-view-1dbjc4n r-cursor-1loqt21 r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim r-touchAction-1otgn73"
             data-focusable={true}
             disabled={false}
             onKeyDown={[Function]}
@@ -247,104 +179,49 @@ please try again later
             role="button"
             style={
               Object {
+                "WebkitAlignSelf": "stretch",
+                "alignSelf": "stretch",
                 "borderBottomLeftRadius": "50px",
                 "borderBottomRightRadius": "50px",
                 "borderTopLeftRadius": "50px",
                 "borderTopRightRadius": "50px",
-                "cursor": "pointer",
-                "msTouchAction": "manipulation",
-                "overflowX": "hidden",
-                "overflowY": "hidden",
-                "position": "relative",
-                "touchAction": "manipulation",
+                "msFlexItemAlign": "stretch",
               }
             }
             tabIndex="0"
           >
             <div
-              className="css-view-1dbjc4n"
+              className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
               style={
                 Object {
-                  "WebkitAlignItems": "center",
-                  "WebkitBoxAlign": "center",
-                  "WebkitBoxDirection": "normal",
-                  "WebkitBoxOrient": "horizontal",
-                  "WebkitBoxPack": "center",
-                  "WebkitFlexDirection": "row",
-                  "WebkitJustifyContent": "center",
-                  "alignItems": "center",
-                  "flexDirection": "row",
-                  "justifyContent": "center",
-                  "msFlexAlign": "center",
-                  "msFlexDirection": "row",
-                  "msFlexPack": "center",
+                  "WebkitAlignSelf": "stretch",
+                  "alignSelf": "stretch",
+                  "msFlexItemAlign": "stretch",
                 }
               }
             >
               <div
-                className="css-text-901oao css-textOneLine-bfa6kz"
-                dir="auto"
-                style={
-                  Object {
-                    "color": "rgba(255,255,255,1.00)",
-                    "direction": "ltr",
-                    "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                    "letterSpacing": "1px",
-                    "marginBottom": "9px",
-                    "marginLeft": "16px",
-                    "marginRight": "16px",
-                    "marginTop": "9px",
-                    "textAlign": "center",
-                  }
-                }
+                className="css-view-1dbjc4n r-marginHorizontal-1ydw1k6 r-marginVertical-712mwr"
               >
                 <div
-                  className="css-view-1dbjc4n"
+                  className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz"
                   style={
                     Object {
-                      "WebkitAlignItems": "center",
-                      "WebkitBoxAlign": "center",
-                      "WebkitBoxDirection": "normal",
-                      "WebkitBoxFlex": 1,
-                      "WebkitBoxOrient": "horizontal",
-                      "WebkitFlexBasis": "0%",
-                      "WebkitFlexDirection": "row",
-                      "WebkitFlexGrow": 1,
-                      "WebkitFlexShrink": 1,
-                      "alignItems": "center",
                       "display": "flex",
-                      "flexBasis": "0%",
-                      "flexDirection": "row",
-                      "flexGrow": 1,
-                      "flexShrink": 1,
-                      "msFlexAlign": "center",
-                      "msFlexDirection": "row",
-                      "msFlexNegative": 1,
-                      "msFlexPositive": 1,
-                      "msFlexPreferredSize": "0%",
                     }
                   }
                 >
-                  <span
-                    className="css-text-901oao css-textHasAncestor-16my406"
+                  <div
+                    className="css-text-901oao r-alignItems-1awozwy r-justifyContent-1777fci"
                     dir="auto"
                     style={
                       Object {
-                        "WebkitAlignItems": "center",
-                        "WebkitBoxAlign": "center",
-                        "WebkitBoxPack": "center",
-                        "WebkitJustifyContent": "center",
-                        "alignItems": "center",
                         "color": "rgba(255,255,255,1.00)",
-                        "direction": "ltr",
                         "fontFamily": "Roboto",
                         "fontSize": "16px",
                         "fontWeight": "500",
-                        "justifyContent": "center",
                         "letterSpacing": "0px",
                         "lineHeight": "22px",
-                        "msFlexAlign": "center",
-                        "msFlexPack": "center",
                         "paddingTop": "1px",
                         "textAlign": "center",
                         "textDecoration": "none",
@@ -353,20 +230,18 @@ please try again later
                     }
                   >
                     OK
-                  </span>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
         <div
-          className="css-view-1dbjc4n"
+          className="css-view-1dbjc4n r-justifyContent-1777fci"
           style={
             Object {
               "WebkitAlignItems": "stretch",
               "WebkitBoxAlign": "stretch",
-              "WebkitBoxPack": "center",
-              "WebkitJustifyContent": "center",
               "alignItems": "stretch",
               "backgroundColor": "rgba(0,0,0,0.00)",
               "borderBottomColor": "rgba(0,175,255,1.00)",
@@ -386,7 +261,6 @@ please try again later
               "borderTopStyle": "solid",
               "borderTopWidth": "1px",
               "display": "flex",
-              "justifyContent": "center",
               "marginBottom": "0px",
               "marginLeft": "0px",
               "marginRight": "0px",
@@ -394,7 +268,6 @@ please try again later
               "minHeight": "44px",
               "minWidth": "64px",
               "msFlexAlign": "stretch",
-              "msFlexPack": "center",
               "paddingBottom": "0px",
               "paddingLeft": "0px",
               "paddingRight": "0px",
@@ -403,7 +276,7 @@ please try again later
           }
         >
           <div
-            className="css-cursor-18t94o4 css-view-1dbjc4n"
+            className="css-cursor-18t94o4 css-view-1dbjc4n r-cursor-1loqt21 r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim r-touchAction-1otgn73"
             data-focusable={true}
             disabled={false}
             onKeyDown={[Function]}
@@ -418,104 +291,49 @@ please try again later
             role="button"
             style={
               Object {
+                "WebkitAlignSelf": "stretch",
+                "alignSelf": "stretch",
                 "borderBottomLeftRadius": "50px",
                 "borderBottomRightRadius": "50px",
                 "borderTopLeftRadius": "50px",
                 "borderTopRightRadius": "50px",
-                "cursor": "pointer",
-                "msTouchAction": "manipulation",
-                "overflowX": "hidden",
-                "overflowY": "hidden",
-                "position": "relative",
-                "touchAction": "manipulation",
+                "msFlexItemAlign": "stretch",
               }
             }
             tabIndex="0"
           >
             <div
-              className="css-view-1dbjc4n"
+              className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
               style={
                 Object {
-                  "WebkitAlignItems": "center",
-                  "WebkitBoxAlign": "center",
-                  "WebkitBoxDirection": "normal",
-                  "WebkitBoxOrient": "horizontal",
-                  "WebkitBoxPack": "center",
-                  "WebkitFlexDirection": "row",
-                  "WebkitJustifyContent": "center",
-                  "alignItems": "center",
-                  "flexDirection": "row",
-                  "justifyContent": "center",
-                  "msFlexAlign": "center",
-                  "msFlexDirection": "row",
-                  "msFlexPack": "center",
+                  "WebkitAlignSelf": "stretch",
+                  "alignSelf": "stretch",
+                  "msFlexItemAlign": "stretch",
                 }
               }
             >
               <div
-                className="css-text-901oao css-textOneLine-bfa6kz"
-                dir="auto"
-                style={
-                  Object {
-                    "color": "rgba(0,175,255,1.00)",
-                    "direction": "ltr",
-                    "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                    "letterSpacing": "1px",
-                    "marginBottom": "9px",
-                    "marginLeft": "16px",
-                    "marginRight": "16px",
-                    "marginTop": "9px",
-                    "textAlign": "center",
-                  }
-                }
+                className="css-view-1dbjc4n r-marginHorizontal-1ydw1k6 r-marginVertical-712mwr"
               >
                 <div
-                  className="css-view-1dbjc4n"
+                  className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz"
                   style={
                     Object {
-                      "WebkitAlignItems": "center",
-                      "WebkitBoxAlign": "center",
-                      "WebkitBoxDirection": "normal",
-                      "WebkitBoxFlex": 1,
-                      "WebkitBoxOrient": "horizontal",
-                      "WebkitFlexBasis": "0%",
-                      "WebkitFlexDirection": "row",
-                      "WebkitFlexGrow": 1,
-                      "WebkitFlexShrink": 1,
-                      "alignItems": "center",
                       "display": "flex",
-                      "flexBasis": "0%",
-                      "flexDirection": "row",
-                      "flexGrow": 1,
-                      "flexShrink": 1,
-                      "msFlexAlign": "center",
-                      "msFlexDirection": "row",
-                      "msFlexNegative": 1,
-                      "msFlexPositive": 1,
-                      "msFlexPreferredSize": "0%",
                     }
                   }
                 >
-                  <span
-                    className="css-text-901oao css-textHasAncestor-16my406"
+                  <div
+                    className="css-text-901oao r-alignItems-1awozwy r-justifyContent-1777fci"
                     dir="auto"
                     style={
                       Object {
-                        "WebkitAlignItems": "center",
-                        "WebkitBoxAlign": "center",
-                        "WebkitBoxPack": "center",
-                        "WebkitJustifyContent": "center",
-                        "alignItems": "center",
                         "color": "rgba(0,175,255,1.00)",
-                        "direction": "ltr",
                         "fontFamily": "Roboto",
                         "fontSize": "16px",
                         "fontWeight": "500",
-                        "justifyContent": "center",
                         "letterSpacing": "0px",
                         "lineHeight": "22px",
-                        "msFlexAlign": "center",
-                        "msFlexPack": "center",
                         "paddingTop": "1px",
                         "textAlign": "center",
                         "textDecoration": "none",
@@ -524,7 +342,7 @@ please try again later
                     }
                   >
                     CONTACT SUPPORT
-                  </span>
+                  </div>
                 </div>
               </div>
             </div>

@@ -132,7 +132,7 @@ exports[`NameForm matches snapshot 1`] = `
                 }
               >
                 <div
-                  className="css-text-901oao r-textAlign-q4m81j"
+                  className="css-text-901oao"
                   dir="auto"
                   style={
                     Object {
@@ -143,6 +143,7 @@ exports[`NameForm matches snapshot 1`] = `
                       "lineHeight": "30px",
                       "marginBottom": "8px",
                       "marginTop": "8px",
+                      "textAlign": "center",
                       "textDecoration": "none",
                       "textTransform": "none",
                     }
@@ -170,24 +171,8 @@ exports[`NameForm matches snapshot 1`] = `
                     }
                   }
                 >
-                  <input
-                    autoCapitalize="sentences"
-                    autoComplete="on"
-                    autoCorrect="on"
-                    autoFocus={true}
-                    className="css-textinput-1cwyjr8 r-placeholderTextColor-1xktb6b"
-                    data-focusable={true}
-                    dir="auto"
-                    id="Component_input"
-                    onBlur={[Function]}
-                    onChange={[Function]}
-                    onFocus={[Function]}
-                    onKeyDown={[Function]}
-                    onKeyPress={[Function]}
-                    onSelect={[Function]}
-                    onTouchStart={[Function]}
-                    readOnly={false}
-                    spellCheck={true}
+                  <div
+                    className="css-view-1dbjc4n"
                     style={
                       Object {
                         "marginBottom": "8px",
@@ -200,7 +185,7 @@ exports[`NameForm matches snapshot 1`] = `
                       autoComplete="on"
                       autoCorrect="on"
                       autoFocus={true}
-                      className="css-textinput-1cwyjr8 r-placeholderTextColor-1xktb6b r-textAlign-q4m81j"
+                      className="css-textinput-1cwyjr8 r-placeholderTextColor-1xktb6b"
                       data-focusable={true}
                       dir="auto"
                       id="Component_input"
@@ -226,7 +211,7 @@ exports[`NameForm matches snapshot 1`] = `
                           "paddingLeft": "32px",
                           "paddingRight": "32px",
                           "paddingTop": "4px",
-                          "width": "100%",
+                          "textAlign": "center",
                         }
                       }
                       type="text"
@@ -234,7 +219,7 @@ exports[`NameForm matches snapshot 1`] = `
                     />
                   </div>
                   <div
-                    className="css-text-901oao r-textAlign-q4m81j"
+                    className="css-text-901oao"
                     dir="auto"
                     style={
                       Object {
@@ -250,6 +235,7 @@ exports[`NameForm matches snapshot 1`] = `
                         "paddingLeft": "0px",
                         "paddingRight": "12px",
                         "paddingTop": "0px",
+                        "textAlign": "center",
                         "transform": "translateY(0px)",
                       }
                     }
@@ -313,7 +299,7 @@ exports[`NameForm matches snapshot 1`] = `
             }
           >
             <div
-              className="css-cursor-18t94o4 css-view-1dbjc4n r-cursor-1loqt21 r-overflow-1udh08x r-position-bnwqim r-touchAction-1otgn73"
+              className="css-cursor-18t94o4 css-view-1dbjc4n r-cursor-1loqt21 r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim r-touchAction-1otgn73"
               data-focusable={true}
               disabled={false}
               onKeyDown={[Function]}
@@ -328,46 +314,59 @@ exports[`NameForm matches snapshot 1`] = `
               role="button"
               style={
                 Object {
+                  "WebkitAlignSelf": "stretch",
+                  "alignSelf": "stretch",
                   "borderBottomLeftRadius": "50px",
                   "borderBottomRightRadius": "50px",
                   "borderTopLeftRadius": "50px",
                   "borderTopRightRadius": "50px",
+                  "msFlexItemAlign": "stretch",
                 }
               }
               tabIndex="0"
             >
               <div
-                className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1777fci"
+                className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
+                style={
+                  Object {
+                    "WebkitAlignSelf": "stretch",
+                    "alignSelf": "stretch",
+                    "msFlexItemAlign": "stretch",
+                  }
+                }
               >
                 <div
-                  className="css-text-901oao css-textOneLine-bfa6kz r-letterSpacing-ud0q2t r-marginHorizontal-1ydw1k6 r-marginVertical-712mwr r-textAlign-q4m81j r-textTransform-tsynxw"
-                  dir="auto"
-                  style={
-                    Object {
-                      "color": "rgba(255,255,255,1.00)",
-                      "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                      "fontWeight": "500",
-                    }
-                  }
+                  className="css-view-1dbjc4n r-marginHorizontal-1ydw1k6 r-marginVertical-712mwr"
                 >
-                  <span
-                    className="css-text-901oao css-textHasAncestor-16my406 r-alignItems-1awozwy r-justifyContent-1777fci r-textAlign-q4m81j r-textTransform-tsynxw"
-                    dir="auto"
+                  <div
+                    className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz"
                     style={
                       Object {
-                        "color": "rgba(255,255,255,1.00)",
-                        "fontFamily": "Roboto",
-                        "fontSize": "16px",
-                        "fontWeight": "500",
-                        "letterSpacing": "0px",
-                        "lineHeight": "22px",
-                        "paddingTop": "1px",
-                        "textDecoration": "none",
+                        "display": "flex",
                       }
                     }
                   >
-                    Next
-                  </span>
+                    <div
+                      className="css-text-901oao r-alignItems-1awozwy r-justifyContent-1777fci"
+                      dir="auto"
+                      style={
+                        Object {
+                          "color": "rgba(255,255,255,1.00)",
+                          "fontFamily": "Roboto",
+                          "fontSize": "16px",
+                          "fontWeight": "500",
+                          "letterSpacing": "0px",
+                          "lineHeight": "22px",
+                          "paddingTop": "1px",
+                          "textAlign": "center",
+                          "textDecoration": "none",
+                          "textTransform": "uppercase",
+                        }
+                      }
+                    >
+                      Next
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -511,7 +510,7 @@ exports[`NameForm matches snapshot with empty value 1`] = `
                 }
               >
                 <div
-                  className="css-text-901oao r-textAlign-q4m81j"
+                  className="css-text-901oao"
                   dir="auto"
                   style={
                     Object {
@@ -522,6 +521,7 @@ exports[`NameForm matches snapshot with empty value 1`] = `
                       "lineHeight": "30px",
                       "marginBottom": "8px",
                       "marginTop": "8px",
+                      "textAlign": "center",
                       "textDecoration": "none",
                       "textTransform": "none",
                     }
@@ -549,24 +549,8 @@ exports[`NameForm matches snapshot with empty value 1`] = `
                     }
                   }
                 >
-                  <input
-                    autoCapitalize="sentences"
-                    autoComplete="on"
-                    autoCorrect="on"
-                    autoFocus={true}
-                    className="css-textinput-1cwyjr8 r-placeholderTextColor-1xktb6b"
-                    data-focusable={true}
-                    dir="auto"
-                    id="Component_input"
-                    onBlur={[Function]}
-                    onChange={[Function]}
-                    onFocus={[Function]}
-                    onKeyDown={[Function]}
-                    onKeyPress={[Function]}
-                    onSelect={[Function]}
-                    onTouchStart={[Function]}
-                    readOnly={false}
-                    spellCheck={true}
+                  <div
+                    className="css-view-1dbjc4n"
                     style={
                       Object {
                         "marginBottom": "8px",
@@ -579,7 +563,7 @@ exports[`NameForm matches snapshot with empty value 1`] = `
                       autoComplete="on"
                       autoCorrect="on"
                       autoFocus={true}
-                      className="css-textinput-1cwyjr8 r-placeholderTextColor-1xktb6b r-textAlign-q4m81j"
+                      className="css-textinput-1cwyjr8 r-placeholderTextColor-1xktb6b"
                       data-focusable={true}
                       dir="auto"
                       id="Component_input"
@@ -605,7 +589,7 @@ exports[`NameForm matches snapshot with empty value 1`] = `
                           "paddingLeft": "32px",
                           "paddingRight": "32px",
                           "paddingTop": "4px",
-                          "width": "100%",
+                          "textAlign": "center",
                         }
                       }
                       type="text"
@@ -613,7 +597,7 @@ exports[`NameForm matches snapshot with empty value 1`] = `
                     />
                   </div>
                   <div
-                    className="css-text-901oao r-textAlign-q4m81j"
+                    className="css-text-901oao"
                     dir="auto"
                     style={
                       Object {
@@ -629,6 +613,7 @@ exports[`NameForm matches snapshot with empty value 1`] = `
                         "paddingLeft": "0px",
                         "paddingRight": "12px",
                         "paddingTop": "0px",
+                        "textAlign": "center",
                         "transform": "translateY(0px)",
                       }
                     }
@@ -692,7 +677,7 @@ exports[`NameForm matches snapshot with empty value 1`] = `
           >
             <div
               aria-disabled={true}
-              className="css-view-1dbjc4n r-overflow-1udh08x r-position-bnwqim"
+              className="css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
               disabled={true}
               onKeyDown={[Function]}
               onKeyUp={[Function]}
@@ -704,45 +689,58 @@ exports[`NameForm matches snapshot with empty value 1`] = `
               role="button"
               style={
                 Object {
+                  "WebkitAlignSelf": "stretch",
+                  "alignSelf": "stretch",
                   "borderBottomLeftRadius": "50px",
                   "borderBottomRightRadius": "50px",
                   "borderTopLeftRadius": "50px",
                   "borderTopRightRadius": "50px",
+                  "msFlexItemAlign": "stretch",
                 }
               }
             >
               <div
-                className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1777fci"
+                className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
+                style={
+                  Object {
+                    "WebkitAlignSelf": "stretch",
+                    "alignSelf": "stretch",
+                    "msFlexItemAlign": "stretch",
+                  }
+                }
               >
                 <div
-                  className="css-text-901oao css-textOneLine-bfa6kz r-letterSpacing-ud0q2t r-marginHorizontal-1ydw1k6 r-marginVertical-712mwr r-textAlign-q4m81j r-textTransform-tsynxw"
-                  dir="auto"
-                  style={
-                    Object {
-                      "color": "rgba(0,0,0,0.32)",
-                      "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                      "fontWeight": "500",
-                    }
-                  }
+                  className="css-view-1dbjc4n r-marginHorizontal-1ydw1k6 r-marginVertical-712mwr"
                 >
-                  <span
-                    className="css-text-901oao css-textHasAncestor-16my406 r-alignItems-1awozwy r-justifyContent-1777fci r-textAlign-q4m81j r-textTransform-tsynxw"
-                    dir="auto"
+                  <div
+                    className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz"
                     style={
                       Object {
-                        "color": "rgba(255,255,255,1.00)",
-                        "fontFamily": "Roboto",
-                        "fontSize": "16px",
-                        "fontWeight": "500",
-                        "letterSpacing": "0px",
-                        "lineHeight": "22px",
-                        "paddingTop": "1px",
-                        "textDecoration": "none",
+                        "display": "flex",
                       }
                     }
                   >
-                    Next
-                  </span>
+                    <div
+                      className="css-text-901oao r-alignItems-1awozwy r-justifyContent-1777fci"
+                      dir="auto"
+                      style={
+                        Object {
+                          "color": "rgba(255,255,255,1.00)",
+                          "fontFamily": "Roboto",
+                          "fontSize": "16px",
+                          "fontWeight": "500",
+                          "letterSpacing": "0px",
+                          "lineHeight": "22px",
+                          "paddingTop": "1px",
+                          "textAlign": "center",
+                          "textDecoration": "none",
+                          "textTransform": "uppercase",
+                        }
+                      }
+                    >
+                      Next
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>

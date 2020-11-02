@@ -2,35 +2,21 @@
 
 exports[`Circle matches snapshot 1`] = `
 <div
-  className="css-view-1dbjc4n"
-  style={
-    Object {
-      "WebkitBoxFlex": 1,
-      "WebkitFlexBasis": "0%",
-      "WebkitFlexGrow": 1,
-      "WebkitFlexShrink": 1,
-      "flexBasis": "0%",
-      "flexGrow": 1,
-      "flexShrink": 1,
-      "msFlexNegative": 1,
-      "msFlexPositive": 1,
-      "msFlexPreferredSize": "0%",
-    }
-  }
+  className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
     className="css-view-1dbjc4n"
     style={
       Object {
-        "WebkitAlignItems": "baseline",
-        "WebkitBoxAlign": "baseline",
+        "WebkitAlignItems": "center",
+        "WebkitBoxAlign": "center",
         "WebkitBoxDirection": "normal",
         "WebkitBoxOrient": "horizontal",
         "WebkitFlexDirection": "row",
-        "alignItems": "baseline",
+        "alignItems": "center",
         "display": "flex",
         "flexDirection": "row",
-        "msFlexAlign": "baseline",
+        "msFlexAlign": "center",
         "msFlexDirection": "row",
       }
     }
@@ -39,8 +25,11 @@ exports[`Circle matches snapshot 1`] = `
       className="css-view-1dbjc4n"
       style={
         Object {
+          "WebkitAlignItems": "center",
+          "WebkitBoxAlign": "center",
           "WebkitBoxPack": "center",
           "WebkitJustifyContent": "center",
+          "alignItems": "center",
           "backgroundColor": "rgba(0,175,255,1.00)",
           "borderBottomLeftRadius": "50%",
           "borderBottomRightRadius": "50%",
@@ -51,8 +40,10 @@ exports[`Circle matches snapshot 1`] = `
           "height": "43px",
           "justifyContent": "center",
           "marginTop": "8px",
+          "msFlexAlign": "center",
           "msFlexPack": "center",
           "width": "43px",
+          "zIndex": 10,
         }
       }
     >
@@ -62,15 +53,15 @@ exports[`Circle matches snapshot 1`] = `
         style={
           Object {
             "color": "rgba(255,255,255,1.00)",
-            "direction": "ltr",
             "display": "block",
             "fontFamily": "Roboto Slab",
-            "fontSize": "24px",
+            "fontSize": "20px",
             "fontWeight": "700",
-            "lineHeight": "30px",
+            "lineHeight": "24px",
             "textAlign": "center",
             "textDecoration": "none",
             "textTransform": "none",
+            "zIndex": 9999999,
           }
         }
       >
@@ -81,6 +72,14 @@ exports[`Circle matches snapshot 1`] = `
       className="css-view-1dbjc4n"
       style={
         Object {
+          "WebkitAlignItems": "center",
+          "WebkitBoxAlign": "center",
+          "WebkitBoxPack": "start",
+          "WebkitJustifyContent": "flex-start",
+          "alignItems": "center",
+          "justifyContent": "flex-start",
+          "msFlexAlign": "center",
+          "msFlexPack": "start",
           "paddingLeft": "13px",
         }
       }
@@ -91,7 +90,6 @@ exports[`Circle matches snapshot 1`] = `
         style={
           Object {
             "color": "rgba(66,69,74,1.00)",
-            "direction": "ltr",
             "fontFamily": "Roboto",
             "fontSize": "18px",
             "fontWeight": "normal",

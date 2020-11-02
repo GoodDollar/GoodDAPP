@@ -55,7 +55,6 @@ exports[`InputGoodDollar matches snapshot 1`] = `
             "paddingRight": "32px",
             "paddingTop": "4px",
             "textAlign": "center",
-            "width": "100%",
           }
         }
         type="text"
@@ -143,7 +142,6 @@ exports[`InputGoodDollar matches snapshot 2`] = `
             "paddingRight": "32px",
             "paddingTop": "4px",
             "textAlign": "center",
-            "width": "100%",
           }
         }
         type="text"

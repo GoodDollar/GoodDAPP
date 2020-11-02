@@ -57,10 +57,10 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
         style={
           Object {
             "backgroundColor": "rgba(238,238,238,1.00)",
-            "borderBottomLeftRadius": "50%",
-            "borderBottomRightRadius": "50%",
-            "borderTopLeftRadius": "50%",
-            "borderTopRightRadius": "50%",
+            "borderBottomLeftRadius": "17px",
+            "borderBottomRightRadius": "17px",
+            "borderTopLeftRadius": "17px",
+            "borderTopRightRadius": "17px",
             "height": "34px",
             "width": "34px",
           }
@@ -282,10 +282,10 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
             style={
               Object {
                 "backgroundColor": "rgba(238,238,238,1.00)",
-                "borderBottomLeftRadius": "50%",
-                "borderBottomRightRadius": "50%",
-                "borderTopLeftRadius": "50%",
-                "borderTopRightRadius": "50%",
+                "borderBottomLeftRadius": "17px",
+                "borderBottomRightRadius": "17px",
+                "borderTopLeftRadius": "17px",
+                "borderTopRightRadius": "17px",
                 "height": "34px",
                 "width": "34px",
               }

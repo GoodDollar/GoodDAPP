@@ -2,24 +2,10 @@
 
 exports[`Claim matches snapshot 1`] = `
 <div
-  className="css-view-1dbjc4n"
-  style={
-    Object {
-      "WebkitBoxFlex": 1,
-      "WebkitFlexBasis": "0%",
-      "WebkitFlexGrow": 1,
-      "WebkitFlexShrink": 1,
-      "flexBasis": "0%",
-      "flexGrow": 1,
-      "flexShrink": 1,
-      "msFlexNegative": 1,
-      "msFlexPositive": 1,
-      "msFlexPreferredSize": "0%",
-    }
-  }
+  className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
-    className="css-view-1dbjc4n"
+    className="css-view-1dbjc4n r-position-bnwqim"
     data-name="viewWrapper"
     style={
       Object {
@@ -28,7 +14,6 @@ exports[`Claim matches snapshot 1`] = `
         "flexGrow": 1,
         "maxHeight": "844px",
         "msFlexPositive": 1,
-        "position": "relative",
         "width": "100%",
       }
     }
@@ -56,6 +41,9 @@ exports[`Claim matches snapshot 1`] = `
             "borderBottomRightRadius": "50%",
             "borderBottomStyle": "solid",
             "borderBottomWidth": "3px",
+            "borderLeftStyle": "solid",
+            "borderRightStyle": "solid",
+            "borderTopStyle": "solid",
             "height": "100%",
             "position": "absolute",
             "top": "-5px",
@@ -81,6 +69,7 @@ exports[`Claim matches snapshot 1`] = `
           "backgroundColor": "rgba(0,0,0,0.00)",
           "flexDirection": "column",
           "flexGrow": 1,
+          "height": "100%",
           "justifyContent": "space-between",
           "msFlexAlign": "stretch",
           "msFlexDirection": "column",
@@ -94,22 +83,17 @@ exports[`Claim matches snapshot 1`] = `
       }
     >
       <div
-        className="css-view-1dbjc4n"
+        className="css-view-1dbjc4n r-alignItems-1awozwy r-position-bnwqim"
         style={
           Object {
-            "WebkitAlignItems": "center",
-            "WebkitBoxAlign": "center",
             "WebkitBoxDirection": "normal",
             "WebkitBoxOrient": "vertical",
             "WebkitFlexDirection": "column",
-            "alignItems": "center",
             "display": "flex",
             "flexDirection": "column",
             "marginBottom": "16px",
-            "marginTop": "70px",
-            "msFlexAlign": "center",
+            "marginTop": "18px",
             "msFlexDirection": "column",
-            "position": "relative",
           }
         }
       >
@@ -119,7 +103,6 @@ exports[`Claim matches snapshot 1`] = `
           style={
             Object {
               "color": "rgba(255,255,255,1.00)",
-              "direction": "ltr",
               "fontFamily": "Roboto Slab",
               "fontSize": "30px",
               "fontWeight": "700",
@@ -136,21 +119,17 @@ Hours To Go...
         </div>
       </div>
       <div
-        className="css-view-1dbjc4n"
+        className="css-view-1dbjc4n r-alignItems-1awozwy"
         style={
           Object {
-            "WebkitAlignItems": "center",
-            "WebkitBoxAlign": "center",
             "WebkitBoxDirection": "normal",
             "WebkitBoxOrient": "vertical",
             "WebkitBoxPack": "end",
             "WebkitFlexDirection": "column",
             "WebkitJustifyContent": "flex-end",
-            "alignItems": "center",
             "flexDirection": "column",
             "justifyContent": "flex-end",
-            "marginBottom": "16px",
-            "msFlexAlign": "center",
+            "marginBottom": "20px",
             "msFlexDirection": "column",
             "msFlexPack": "end",
             "zIndex": 1,
@@ -163,7 +142,6 @@ Hours To Go...
           style={
             Object {
               "color": "rgba(255,255,255,1.00)",
-              "direction": "ltr",
               "fontFamily": "Roboto",
               "fontSize": "14px",
               "fontWeight": "normal",
@@ -179,7 +157,7 @@ to create a framework to generate
 UBI on a global scale.
 
           <span
-            className="css-text-901oao css-textHasAncestor-16my406"
+            className="css-text-901oao css-textHasAncestor-16my406 r-cursor-1loqt21"
             data-focusable={true}
             dir="auto"
             onClick={[Function]}
@@ -187,8 +165,6 @@ UBI on a global scale.
             style={
               Object {
                 "color": "rgba(255,255,255,1.00)",
-                "cursor": "pointer",
-                "direction": "ltr",
                 "fontFamily": "Roboto Slab",
                 "fontSize": "14px",
                 "fontWeight": "700",
@@ -214,21 +190,17 @@ UBI on a global scale.
         }
       />
       <div
-        className="css-view-1dbjc4n"
+        className="css-view-1dbjc4n r-alignItems-1awozwy"
         style={
           Object {
-            "WebkitAlignItems": "center",
-            "WebkitBoxAlign": "center",
             "WebkitBoxDirection": "normal",
             "WebkitBoxOrient": "vertical",
             "WebkitBoxPack": "justify",
             "WebkitFlexDirection": "column",
             "WebkitJustifyContent": "space-between",
-            "alignItems": "center",
             "bottom": "16%",
             "flexDirection": "column",
             "justifyContent": "space-between",
-            "msFlexAlign": "center",
             "msFlexDirection": "column",
             "msFlexPack": "justify",
             "position": "absolute",
@@ -238,37 +210,23 @@ UBI on a global scale.
         }
       >
         <div
-          className="css-view-1dbjc4n"
+          className="css-view-1dbjc4n r-alignItems-1awozwy"
           style={
             Object {
-              "WebkitAlignItems": "center",
-              "WebkitBoxAlign": "center",
               "WebkitTransform": "scale(1)",
-              "alignItems": "center",
               "height": "196px",
-              "msFlexAlign": "center",
               "transform": "scale(1)",
               "width": "196px",
             }
           }
         >
           <div
-            className="css-view-1dbjc4n"
+            className="css-view-1dbjc4n r-flex-13awgt0"
             style={
               Object {
-                "WebkitBoxFlex": 1,
-                "WebkitFlexBasis": "0%",
-                "WebkitFlexGrow": 1,
-                "WebkitFlexShrink": 1,
                 "WebkitTransform": "perspective(0px) rotateY(0deg)",
                 "bottom": "0px",
-                "flexBasis": "0%",
-                "flexGrow": 1,
-                "flexShrink": 1,
                 "left": "0px",
-                "msFlexNegative": 1,
-                "msFlexPositive": 1,
-                "msFlexPreferredSize": "0%",
                 "opacity": 100,
                 "position": "absolute",
                 "right": "0px",
@@ -279,17 +237,12 @@ UBI on a global scale.
             }
           >
             <div
-              className="css-view-1dbjc4n"
+              className="css-view-1dbjc4n r-alignItems-1awozwy r-justifyContent-1777fci"
               style={
                 Object {
-                  "WebkitAlignItems": "center",
-                  "WebkitBoxAlign": "center",
                   "WebkitBoxDirection": "normal",
                   "WebkitBoxOrient": "vertical",
-                  "WebkitBoxPack": "center",
                   "WebkitFlexDirection": "column",
-                  "WebkitJustifyContent": "center",
-                  "alignItems": "center",
                   "backgroundColor": "rgba(248,175,64,1.00)",
                   "borderBottomColor": "rgba(255,255,255,1.00)",
                   "borderBottomLeftRadius": "70px",
@@ -311,16 +264,13 @@ UBI on a global scale.
                   "display": "flex",
                   "flexDirection": "column",
                   "height": "140px",
-                  "justifyContent": "center",
                   "marginBottom": "0px",
                   "marginLeft": "0px",
                   "marginRight": "0px",
                   "marginTop": "0px",
                   "minHeight": "44px",
                   "minWidth": "auto",
-                  "msFlexAlign": "center",
                   "msFlexDirection": "column",
-                  "msFlexPack": "center",
                   "paddingBottom": "0px",
                   "paddingLeft": "0px",
                   "paddingRight": "0px",
@@ -330,90 +280,50 @@ UBI on a global scale.
               }
             >
               <div
-                aria-disabled={true}
-                className="css-view-1dbjc4n"
-                disabled={true}
+                className="css-cursor-18t94o4 css-view-1dbjc4n r-cursor-1loqt21 r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim r-touchAction-1otgn73"
+                data-focusable={true}
+                disabled={false}
                 onKeyDown={[Function]}
+                onKeyPress={[Function]}
                 onKeyUp={[Function]}
                 onResponderGrant={[Function]}
                 onResponderMove={[Function]}
+                onResponderRelease={[Function]}
                 onResponderTerminate={[Function]}
                 onResponderTerminationRequest={[Function]}
                 onStartShouldSetResponder={[Function]}
                 role="button"
                 style={
                   Object {
-                    "borderBottomLeftRadius": "50px",
-                    "borderBottomRightRadius": "50px",
-                    "borderTopLeftRadius": "50px",
-                    "borderTopRightRadius": "50px",
-                    "overflowX": "hidden",
-                    "overflowY": "hidden",
-                    "position": "relative",
+                    "WebkitAlignSelf": "stretch",
+                    "alignSelf": "stretch",
+                    "borderBottomLeftRadius": "70px",
+                    "borderBottomRightRadius": "70px",
+                    "borderTopLeftRadius": "70px",
+                    "borderTopRightRadius": "70px",
+                    "msFlexItemAlign": "stretch",
                   }
                 }
+                tabIndex="0"
               >
                 <div
-                  className="css-view-1dbjc4n"
+                  className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
                   style={
                     Object {
-                      "WebkitAlignItems": "center",
-                      "WebkitBoxAlign": "center",
-                      "WebkitBoxDirection": "normal",
-                      "WebkitBoxOrient": "horizontal",
-                      "WebkitBoxPack": "center",
-                      "WebkitFlexDirection": "row",
-                      "WebkitJustifyContent": "center",
-                      "alignItems": "center",
-                      "flexDirection": "row",
-                      "justifyContent": "center",
-                      "msFlexAlign": "center",
-                      "msFlexDirection": "row",
-                      "msFlexPack": "center",
+                      "WebkitAlignSelf": "stretch",
+                      "alignSelf": "stretch",
+                      "msFlexItemAlign": "stretch",
                     }
                   }
                 >
                   <div
-                    className="css-text-901oao css-textOneLine-bfa6kz"
-                    dir="auto"
-                    style={
-                      Object {
-                        "color": "rgba(255,255,255,1.00)",
-                        "direction": "ltr",
-                        "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                        "letterSpacing": "1px",
-                        "marginBottom": "9px",
-                        "marginLeft": "8px",
-                        "marginRight": "8px",
-                        "marginTop": "9px",
-                        "textAlign": "center",
-                      }
-                    }
+                    className="css-view-1dbjc4n r-marginHorizontal-1ybube5 r-marginVertical-712mwr"
                   >
                     <div
-                      className="css-view-1dbjc4n"
+                      className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz"
                       style={
                         Object {
-                          "WebkitAlignItems": "center",
-                          "WebkitBoxAlign": "center",
-                          "WebkitBoxDirection": "normal",
-                          "WebkitBoxFlex": 1,
-                          "WebkitBoxOrient": "horizontal",
-                          "WebkitFlexBasis": "0%",
-                          "WebkitFlexDirection": "row",
-                          "WebkitFlexGrow": 1,
-                          "WebkitFlexShrink": 1,
-                          "alignItems": "center",
                           "display": "flex",
-                          "flexBasis": "0%",
-                          "flexDirection": "row",
-                          "flexGrow": 1,
-                          "flexShrink": 1,
-                          "msFlexAlign": "center",
-                          "msFlexDirection": "row",
-                          "msFlexNegative": 1,
-                          "msFlexPositive": 1,
-                          "msFlexPreferredSize": "0%",
                         }
                       }
                     >
@@ -424,7 +334,6 @@ UBI on a global scale.
                             "WebkitBoxDirection": "normal",
                             "WebkitBoxOrient": "vertical",
                             "WebkitFlexDirection": "column",
-                            "display": "inline-flex",
                             "flexDirection": "column",
                             "height": "140px",
                             "msFlexDirection": "column",
@@ -432,25 +341,22 @@ UBI on a global scale.
                         }
                       >
                         <div
-                          className="css-view-1dbjc4n"
+                          className="css-view-1dbjc4n r-position-bnwqim"
                           style={
                             Object {
-                              "display": "inline-flex",
                               "left": "0px",
                               "marginBottom": "10px",
                               "marginTop": "20px",
-                              "position": "relative",
                               "top": "0px",
                             }
                           }
                         >
-                          <span
-                            className="css-text-901oao css-textHasAncestor-16my406"
+                          <div
+                            className="css-text-901oao"
                             dir="auto"
                             style={
                               Object {
                                 "color": "rgba(66,69,74,1.00)",
-                                "direction": "ltr",
                                 "fontFamily": "Roboto",
                                 "fontSize": "14px",
                                 "fontWeight": "700",
@@ -463,14 +369,13 @@ UBI on a global scale.
                             }
                           >
                             Your next
-                          </span>
-                          <span
-                            className="css-text-901oao css-textHasAncestor-16my406"
+                          </div>
+                          <div
+                            className="css-text-901oao"
                             dir="auto"
                             style={
                               Object {
                                 "color": "rgba(66,69,74,1.00)",
-                                "direction": "ltr",
                                 "fontFamily": "Roboto",
                                 "fontSize": "14px",
                                 "fontWeight": "700",
@@ -483,41 +388,30 @@ UBI on a global scale.
                             }
                           >
                             daily claim:
-                          </span>
+                          </div>
                         </div>
                         <div
-                          className="css-view-1dbjc4n"
+                          className="css-view-1dbjc4n r-flexDirection-18u37iz r-justifyContent-1777fci"
                           style={
                             Object {
                               "WebkitAlignItems": "normal",
                               "WebkitBoxAlign": "normal",
-                              "WebkitBoxDirection": "normal",
                               "WebkitBoxFlex": 1,
-                              "WebkitBoxOrient": "horizontal",
-                              "WebkitBoxPack": "center",
-                              "WebkitFlexDirection": "row",
                               "WebkitFlexGrow": 1,
-                              "WebkitJustifyContent": "center",
                               "alignItems": "normal",
-                              "display": "inline-flex",
-                              "flexDirection": "row",
                               "flexGrow": 1,
-                              "justifyContent": "center",
                               "minHeight": "0px",
                               "msFlexAlign": "normal",
-                              "msFlexDirection": "row",
-                              "msFlexPack": "center",
                               "msFlexPositive": 1,
                             }
                           }
                         >
-                          <span
-                            className="css-text-901oao css-textHasAncestor-16my406"
+                          <div
+                            className="css-text-901oao"
                             dir="auto"
                             style={
                               Object {
                                 "color": "rgba(255,255,255,1.00)",
-                                "direction": "ltr",
                                 "fontFamily": "Roboto Slab",
                                 "fontSize": "30px",
                                 "fontWeight": "700",
@@ -530,14 +424,13 @@ UBI on a global scale.
                             }
                           >
                             -
-                          </span>
-                          <span
-                            className="css-text-901oao css-textHasAncestor-16my406"
+                          </div>
+                          <div
+                            className="css-text-901oao"
                             dir="auto"
                             style={
                               Object {
                                 "color": "rgba(255,255,255,1.00)",
-                                "direction": "ltr",
                                 "fontFamily": "Roboto Slab",
                                 "fontSize": "30px",
                                 "fontWeight": "700",
@@ -550,14 +443,13 @@ UBI on a global scale.
                             }
                           >
                             -
-                          </span>
-                          <span
-                            className="css-text-901oao css-textHasAncestor-16my406"
+                          </div>
+                          <div
+                            className="css-text-901oao"
                             dir="auto"
                             style={
                               Object {
                                 "color": "rgba(255,255,255,1.00)",
-                                "direction": "ltr",
                                 "fontFamily": "Roboto Slab",
                                 "fontSize": "30px",
                                 "fontWeight": "700",
@@ -570,14 +462,13 @@ UBI on a global scale.
                             }
                           >
                             :
-                          </span>
-                          <span
-                            className="css-text-901oao css-textHasAncestor-16my406"
+                          </div>
+                          <div
+                            className="css-text-901oao"
                             dir="auto"
                             style={
                               Object {
                                 "color": "rgba(255,255,255,1.00)",
-                                "direction": "ltr",
                                 "fontFamily": "Roboto Slab",
                                 "fontSize": "30px",
                                 "fontWeight": "700",
@@ -590,14 +481,13 @@ UBI on a global scale.
                             }
                           >
                             -
-                          </span>
-                          <span
-                            className="css-text-901oao css-textHasAncestor-16my406"
+                          </div>
+                          <div
+                            className="css-text-901oao"
                             dir="auto"
                             style={
                               Object {
                                 "color": "rgba(255,255,255,1.00)",
-                                "direction": "ltr",
                                 "fontFamily": "Roboto Slab",
                                 "fontSize": "30px",
                                 "fontWeight": "700",
@@ -610,14 +500,13 @@ UBI on a global scale.
                             }
                           >
                             -
-                          </span>
-                          <span
-                            className="css-text-901oao css-textHasAncestor-16my406"
+                          </div>
+                          <div
+                            className="css-text-901oao"
                             dir="auto"
                             style={
                               Object {
                                 "color": "rgba(255,255,255,1.00)",
-                                "direction": "ltr",
                                 "fontFamily": "Roboto Slab",
                                 "fontSize": "30px",
                                 "fontWeight": "700",
@@ -630,14 +519,13 @@ UBI on a global scale.
                             }
                           >
                             :
-                          </span>
-                          <span
-                            className="css-text-901oao css-textHasAncestor-16my406"
+                          </div>
+                          <div
+                            className="css-text-901oao"
                             dir="auto"
                             style={
                               Object {
                                 "color": "rgba(255,255,255,1.00)",
-                                "direction": "ltr",
                                 "fontFamily": "Roboto Slab",
                                 "fontSize": "30px",
                                 "fontWeight": "700",
@@ -650,14 +538,13 @@ UBI on a global scale.
                             }
                           >
                             -
-                          </span>
-                          <span
-                            className="css-text-901oao css-textHasAncestor-16my406"
+                          </div>
+                          <div
+                            className="css-text-901oao"
                             dir="auto"
                             style={
                               Object {
                                 "color": "rgba(255,255,255,1.00)",
-                                "direction": "ltr",
                                 "fontFamily": "Roboto Slab",
                                 "fontSize": "30px",
                                 "fontWeight": "700",
@@ -670,7 +557,7 @@ UBI on a global scale.
                             }
                           >
                             -
-                          </span>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -680,22 +567,12 @@ UBI on a global scale.
             </div>
           </div>
           <div
-            className="css-view-1dbjc4n"
+            className="css-view-1dbjc4n r-flex-13awgt0"
             style={
               Object {
-                "WebkitBoxFlex": 1,
-                "WebkitFlexBasis": "0%",
-                "WebkitFlexGrow": 1,
-                "WebkitFlexShrink": 1,
                 "WebkitTransform": "perspective(0px) rotateY(-180deg)",
                 "bottom": "0px",
-                "flexBasis": "0%",
-                "flexGrow": 1,
-                "flexShrink": 1,
                 "left": "0px",
-                "msFlexNegative": 1,
-                "msFlexPositive": 1,
-                "msFlexPreferredSize": "0%",
                 "opacity": 0,
                 "position": "absolute",
                 "right": "0px",
@@ -706,14 +583,9 @@ UBI on a global scale.
             }
           >
             <div
-              className="css-view-1dbjc4n"
+              className="css-view-1dbjc4n r-alignItems-1awozwy r-justifyContent-1777fci"
               style={
                 Object {
-                  "WebkitAlignItems": "center",
-                  "WebkitBoxAlign": "center",
-                  "WebkitBoxPack": "center",
-                  "WebkitJustifyContent": "center",
-                  "alignItems": "center",
                   "backgroundColor": "rgba(0,175,255,1.00)",
                   "borderBottomColor": "rgba(255,255,255,1.00)",
                   "borderBottomLeftRadius": "70px",
@@ -734,15 +606,12 @@ UBI on a global scale.
                   "boxShadow": "10px 12px 25px -14px, 0px 0.75px 1.5px rgba(0,0,0,0.24)",
                   "display": "flex",
                   "height": "140px",
-                  "justifyContent": "center",
                   "marginBottom": "0px",
                   "marginLeft": "0px",
                   "marginRight": "0px",
                   "marginTop": "0px",
                   "minHeight": "44px",
                   "minWidth": "auto",
-                  "msFlexAlign": "center",
-                  "msFlexPack": "center",
                   "paddingBottom": "0px",
                   "paddingLeft": "0px",
                   "paddingRight": "0px",
@@ -752,7 +621,7 @@ UBI on a global scale.
               }
             >
               <div
-                className="css-cursor-18t94o4 css-view-1dbjc4n"
+                className="css-cursor-18t94o4 css-view-1dbjc4n r-cursor-1loqt21 r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim r-touchAction-1otgn73"
                 data-focusable={true}
                 disabled={false}
                 onKeyDown={[Function]}
@@ -767,81 +636,35 @@ UBI on a global scale.
                 role="button"
                 style={
                   Object {
-                    "borderBottomLeftRadius": "50px",
-                    "borderBottomRightRadius": "50px",
-                    "borderTopLeftRadius": "50px",
-                    "borderTopRightRadius": "50px",
-                    "cursor": "pointer",
-                    "msTouchAction": "manipulation",
-                    "overflowX": "hidden",
-                    "overflowY": "hidden",
-                    "position": "relative",
-                    "touchAction": "manipulation",
+                    "WebkitAlignSelf": "stretch",
+                    "alignSelf": "stretch",
+                    "borderBottomLeftRadius": "70px",
+                    "borderBottomRightRadius": "70px",
+                    "borderTopLeftRadius": "70px",
+                    "borderTopRightRadius": "70px",
+                    "msFlexItemAlign": "stretch",
                   }
                 }
                 tabIndex="0"
               >
                 <div
-                  className="css-view-1dbjc4n"
+                  className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
                   style={
                     Object {
-                      "WebkitAlignItems": "center",
-                      "WebkitBoxAlign": "center",
-                      "WebkitBoxDirection": "normal",
-                      "WebkitBoxOrient": "horizontal",
-                      "WebkitBoxPack": "center",
-                      "WebkitFlexDirection": "row",
-                      "WebkitJustifyContent": "center",
-                      "alignItems": "center",
-                      "flexDirection": "row",
-                      "justifyContent": "center",
-                      "msFlexAlign": "center",
-                      "msFlexDirection": "row",
-                      "msFlexPack": "center",
+                      "WebkitAlignSelf": "stretch",
+                      "alignSelf": "stretch",
+                      "msFlexItemAlign": "stretch",
                     }
                   }
                 >
                   <div
-                    className="css-text-901oao css-textOneLine-bfa6kz"
-                    dir="auto"
-                    style={
-                      Object {
-                        "color": "rgba(255,255,255,1.00)",
-                        "direction": "ltr",
-                        "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                        "letterSpacing": "1px",
-                        "marginBottom": "9px",
-                        "marginLeft": "8px",
-                        "marginRight": "8px",
-                        "marginTop": "9px",
-                        "textAlign": "center",
-                      }
-                    }
+                    className="css-view-1dbjc4n r-marginHorizontal-1ybube5 r-marginVertical-712mwr"
                   >
                     <div
-                      className="css-view-1dbjc4n"
+                      className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz"
                       style={
                         Object {
-                          "WebkitAlignItems": "center",
-                          "WebkitBoxAlign": "center",
-                          "WebkitBoxDirection": "normal",
-                          "WebkitBoxFlex": 1,
-                          "WebkitBoxOrient": "horizontal",
-                          "WebkitFlexBasis": "0%",
-                          "WebkitFlexDirection": "row",
-                          "WebkitFlexGrow": 1,
-                          "WebkitFlexShrink": 1,
-                          "alignItems": "center",
                           "display": "flex",
-                          "flexBasis": "0%",
-                          "flexDirection": "row",
-                          "flexGrow": 1,
-                          "flexShrink": 1,
-                          "msFlexAlign": "center",
-                          "msFlexDirection": "row",
-                          "msFlexNegative": 1,
-                          "msFlexPositive": 1,
-                          "msFlexPreferredSize": "0%",
                         }
                       }
                     >
@@ -852,7 +675,6 @@ UBI on a global scale.
                             "WebkitBoxDirection": "normal",
                             "WebkitBoxOrient": "vertical",
                             "WebkitFlexDirection": "column",
-                            "display": "inline-flex",
                             "flexDirection": "column",
                             "height": "140px",
                             "msFlexDirection": "column",
@@ -860,25 +682,22 @@ UBI on a global scale.
                         }
                       >
                         <div
-                          className="css-view-1dbjc4n"
+                          className="css-view-1dbjc4n r-position-bnwqim"
                           style={
                             Object {
-                              "display": "inline-flex",
                               "left": "0px",
                               "marginBottom": "10px",
                               "marginTop": "20px",
-                              "position": "relative",
                               "top": "0px",
                             }
                           }
                         >
-                          <span
-                            className="css-text-901oao css-textHasAncestor-16my406"
+                          <div
+                            className="css-text-901oao"
                             dir="auto"
                             style={
                               Object {
                                 "color": "rgba(66,69,74,1.00)",
-                                "direction": "ltr",
                                 "fontFamily": "Roboto",
                                 "fontSize": "14px",
                                 "fontWeight": "700",
@@ -891,14 +710,13 @@ UBI on a global scale.
                             }
                           >
                             Your next
-                          </span>
-                          <span
-                            className="css-text-901oao css-textHasAncestor-16my406"
+                          </div>
+                          <div
+                            className="css-text-901oao"
                             dir="auto"
                             style={
                               Object {
                                 "color": "rgba(66,69,74,1.00)",
-                                "direction": "ltr",
                                 "fontFamily": "Roboto",
                                 "fontSize": "14px",
                                 "fontWeight": "700",
@@ -911,41 +729,30 @@ UBI on a global scale.
                             }
                           >
                             daily claim:
-                          </span>
+                          </div>
                         </div>
                         <div
-                          className="css-view-1dbjc4n"
+                          className="css-view-1dbjc4n r-flexDirection-18u37iz r-justifyContent-1777fci"
                           style={
                             Object {
                               "WebkitAlignItems": "normal",
                               "WebkitBoxAlign": "normal",
-                              "WebkitBoxDirection": "normal",
                               "WebkitBoxFlex": 1,
-                              "WebkitBoxOrient": "horizontal",
-                              "WebkitBoxPack": "center",
-                              "WebkitFlexDirection": "row",
                               "WebkitFlexGrow": 1,
-                              "WebkitJustifyContent": "center",
                               "alignItems": "normal",
-                              "display": "inline-flex",
-                              "flexDirection": "row",
                               "flexGrow": 1,
-                              "justifyContent": "center",
                               "minHeight": "0px",
                               "msFlexAlign": "normal",
-                              "msFlexDirection": "row",
-                              "msFlexPack": "center",
                               "msFlexPositive": 1,
                             }
                           }
                         >
-                          <span
-                            className="css-text-901oao css-textHasAncestor-16my406"
+                          <div
+                            className="css-text-901oao"
                             dir="auto"
                             style={
                               Object {
                                 "color": "rgba(255,255,255,1.00)",
-                                "direction": "ltr",
                                 "fontFamily": "Roboto Slab",
                                 "fontSize": "30px",
                                 "fontWeight": "700",
@@ -958,14 +765,13 @@ UBI on a global scale.
                             }
                           >
                             -
-                          </span>
-                          <span
-                            className="css-text-901oao css-textHasAncestor-16my406"
+                          </div>
+                          <div
+                            className="css-text-901oao"
                             dir="auto"
                             style={
                               Object {
                                 "color": "rgba(255,255,255,1.00)",
-                                "direction": "ltr",
                                 "fontFamily": "Roboto Slab",
                                 "fontSize": "30px",
                                 "fontWeight": "700",
@@ -978,14 +784,13 @@ UBI on a global scale.
                             }
                           >
                             -
-                          </span>
-                          <span
-                            className="css-text-901oao css-textHasAncestor-16my406"
+                          </div>
+                          <div
+                            className="css-text-901oao"
                             dir="auto"
                             style={
                               Object {
                                 "color": "rgba(255,255,255,1.00)",
-                                "direction": "ltr",
                                 "fontFamily": "Roboto Slab",
                                 "fontSize": "30px",
                                 "fontWeight": "700",
@@ -998,14 +803,13 @@ UBI on a global scale.
                             }
                           >
                             :
-                          </span>
-                          <span
-                            className="css-text-901oao css-textHasAncestor-16my406"
+                          </div>
+                          <div
+                            className="css-text-901oao"
                             dir="auto"
                             style={
                               Object {
                                 "color": "rgba(255,255,255,1.00)",
-                                "direction": "ltr",
                                 "fontFamily": "Roboto Slab",
                                 "fontSize": "30px",
                                 "fontWeight": "700",
@@ -1018,14 +822,13 @@ UBI on a global scale.
                             }
                           >
                             -
-                          </span>
-                          <span
-                            className="css-text-901oao css-textHasAncestor-16my406"
+                          </div>
+                          <div
+                            className="css-text-901oao"
                             dir="auto"
                             style={
                               Object {
                                 "color": "rgba(255,255,255,1.00)",
-                                "direction": "ltr",
                                 "fontFamily": "Roboto Slab",
                                 "fontSize": "30px",
                                 "fontWeight": "700",
@@ -1038,14 +841,13 @@ UBI on a global scale.
                             }
                           >
                             -
-                          </span>
-                          <span
-                            className="css-text-901oao css-textHasAncestor-16my406"
+                          </div>
+                          <div
+                            className="css-text-901oao"
                             dir="auto"
                             style={
                               Object {
                                 "color": "rgba(255,255,255,1.00)",
-                                "direction": "ltr",
                                 "fontFamily": "Roboto Slab",
                                 "fontSize": "30px",
                                 "fontWeight": "700",
@@ -1058,14 +860,13 @@ UBI on a global scale.
                             }
                           >
                             :
-                          </span>
-                          <span
-                            className="css-text-901oao css-textHasAncestor-16my406"
+                          </div>
+                          <div
+                            className="css-text-901oao"
                             dir="auto"
                             style={
                               Object {
                                 "color": "rgba(255,255,255,1.00)",
-                                "direction": "ltr",
                                 "fontFamily": "Roboto Slab",
                                 "fontSize": "30px",
                                 "fontWeight": "700",
@@ -1078,14 +879,13 @@ UBI on a global scale.
                             }
                           >
                             -
-                          </span>
-                          <span
-                            className="css-text-901oao css-textHasAncestor-16my406"
+                          </div>
+                          <div
+                            className="css-text-901oao"
                             dir="auto"
                             style={
                               Object {
                                 "color": "rgba(255,255,255,1.00)",
-                                "direction": "ltr",
                                 "fontFamily": "Roboto Slab",
                                 "fontSize": "30px",
                                 "fontWeight": "700",
@@ -1098,7 +898,7 @@ UBI on a global scale.
                             }
                           >
                             -
-                          </span>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -1118,22 +918,13 @@ UBI on a global scale.
         }
       />
       <div
-        className="css-view-1dbjc4n"
+        className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz"
         style={
           Object {
-            "WebkitAlignItems": "center",
-            "WebkitBoxAlign": "center",
-            "WebkitBoxDirection": "normal",
-            "WebkitBoxOrient": "horizontal",
             "WebkitBoxPack": "justify",
-            "WebkitFlexDirection": "row",
             "WebkitJustifyContent": "space-between",
-            "alignItems": "center",
-            "flexDirection": "row",
             "height": "16%",
             "justifyContent": "space-between",
-            "msFlexAlign": "center",
-            "msFlexDirection": "row",
             "msFlexPack": "justify",
             "position": "absolute",
             "top": "84%",
@@ -1142,30 +933,19 @@ UBI on a global scale.
         }
       >
         <div
-          className="css-text-901oao"
-          dir="auto"
+          className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
           style={
             Object {
-              "color": "rgba(66,69,74,1.00)",
-              "direction": "ltr",
-              "fontFamily": "Roboto",
               "fontSize": "14px",
-              "fontWeight": "700",
-              "lineHeight": "22px",
-              "textAlign": "center",
-              "textDecoration": "none",
-              "textTransform": "none",
-              "width": "100%",
             }
           }
         >
-          <span
-            className="css-text-901oao css-textHasAncestor-16my406"
+          <div
+            className="css-text-901oao"
             dir="auto"
             style={
               Object {
                 "color": "rgba(66,69,74,1.00)",
-                "direction": "ltr",
                 "fontFamily": "Roboto",
                 "fontSize": "14px",
                 "fontWeight": "normal",
@@ -1177,52 +957,41 @@ UBI on a global scale.
             }
           >
             Today 
-          </span>
-          <span
-            className="css-text-901oao css-textHasAncestor-16my406"
-            dir="auto"
+          </div>
+          <div
+            className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz"
             style={
               Object {
-                "color": "rgba(66,69,74,1.00)",
-                "direction": "ltr",
-                "fontFamily": "Roboto",
+                "WebkitBoxPack": "justify",
+                "WebkitJustifyContent": "space-between",
                 "fontSize": "14px",
-                "fontWeight": "700",
-                "lineHeight": "22px",
-                "textAlign": "center",
-                "textDecoration": "none",
-                "textTransform": "none",
+                "justifyContent": "space-between",
+                "msFlexPack": "justify",
               }
             }
           >
             <div
-              className="css-view-1dbjc4n"
+              className="css-view-1dbjc4n r-flexDirection-18u37iz"
               style={
                 Object {
                   "WebkitAlignItems": "baseline",
                   "WebkitBoxAlign": "baseline",
-                  "WebkitBoxDirection": "normal",
-                  "WebkitBoxOrient": "horizontal",
-                  "WebkitFlexDirection": "row",
                   "alignItems": "baseline",
                   "display": "contents",
-                  "flexDirection": "row",
                   "msFlexAlign": "baseline",
-                  "msFlexDirection": "row",
                 }
               }
             >
-              <span
-                className="css-text-901oao css-textHasAncestor-16my406"
+              <div
+                className="css-text-901oao"
                 dir="auto"
                 style={
                   Object {
                     "color": "rgba(0,0,0,1.00)",
-                    "direction": "ltr",
                     "fontFamily": "Roboto",
                     "fontSize": "14px",
                     "fontWeight": "700",
-                    "lineHeight": "20px",
+                    "lineHeight": "22px",
                     "marginRight": "2px",
                     "textAlign": "right",
                     "textDecoration": "none",
@@ -1231,35 +1000,28 @@ UBI on a global scale.
                 }
               >
                 0
-              </span>
-              <span
-                className="css-text-901oao css-textHasAncestor-16my406"
-                dir="auto"
+              </div>
+              <div
+                className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz"
                 style={
                   Object {
-                    "color": "rgba(66,69,74,1.00)",
-                    "direction": "ltr",
-                    "fontFamily": "Roboto",
-                    "fontSize": "16px",
-                    "fontWeight": "normal",
-                    "lineHeight": "22px",
-                    "textAlign": "center",
-                    "textDecoration": "none",
-                    "textTransform": "none",
+                    "WebkitBoxPack": "justify",
+                    "WebkitJustifyContent": "space-between",
+                    "justifyContent": "space-between",
+                    "msFlexPack": "justify",
                   }
                 }
               >
-                <span
-                  className="css-text-901oao css-textHasAncestor-16my406"
+                <div
+                  className="css-text-901oao"
                   dir="auto"
                   style={
                     Object {
                       "color": "rgba(0,0,0,1.00)",
-                      "direction": "ltr",
                       "fontFamily": "Roboto",
                       "fontSize": "14px",
                       "fontWeight": "700",
-                      "lineHeight": "20px",
+                      "lineHeight": "22px",
                       "textAlign": "right",
                       "textDecoration": "none",
                       "textTransform": "none",
@@ -1267,18 +1029,17 @@ UBI on a global scale.
                   }
                 >
                   G
-                </span>
-                <span
-                  className="css-text-901oao css-textHasAncestor-16my406"
+                </div>
+                <div
+                  className="css-text-901oao"
                   dir="auto"
                   style={
                     Object {
                       "color": "rgba(0,0,0,1.00)",
-                      "direction": "ltr",
                       "fontFamily": "Roboto",
                       "fontSize": "13.5px",
                       "fontWeight": "700",
-                      "lineHeight": "16.2px",
+                      "lineHeight": "22px",
                       "textAlign": "right",
                       "textDecoration": "none",
                       "textTransform": "none",
@@ -1286,17 +1047,16 @@ UBI on a global scale.
                   }
                 >
                   $
-                </span>
-              </span>
+                </div>
+              </div>
             </div>
-          </span>
-          <span
-            className="css-text-901oao css-textHasAncestor-16my406"
+          </div>
+          <div
+            className="css-text-901oao"
             dir="auto"
             style={
               Object {
                 "color": "rgba(66,69,74,1.00)",
-                "direction": "ltr",
                 "fontFamily": "Roboto",
                 "fontSize": "14px",
                 "fontWeight": "normal",
@@ -1308,14 +1068,13 @@ UBI on a global scale.
             }
           >
              Claimed by 
-          </span>
-          <span
-            className="css-text-901oao css-textHasAncestor-16my406"
+          </div>
+          <div
+            className="css-text-901oao"
             dir="auto"
             style={
               Object {
                 "color": "rgba(0,0,0,1.00)",
-                "direction": "ltr",
                 "fontFamily": "Roboto",
                 "fontSize": "14px",
                 "fontWeight": "700",
@@ -1328,14 +1087,13 @@ UBI on a global scale.
           >
             0
              
-          </span>
-          <span
-            className="css-text-901oao css-textHasAncestor-16my406"
+          </div>
+          <div
+            className="css-text-901oao"
             dir="auto"
             style={
               Object {
                 "color": "rgba(66,69,74,1.00)",
-                "direction": "ltr",
                 "fontFamily": "Roboto",
                 "fontSize": "14px",
                 "fontWeight": "normal",
@@ -1347,7 +1105,7 @@ UBI on a global scale.
             }
           >
             Good People
-          </span>
+          </div>
         </div>
       </div>
     </div>

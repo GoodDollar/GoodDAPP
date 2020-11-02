@@ -72,6 +72,9 @@ exports[`ListEventItem receive matches snapshot 1`] = `
             "borderBottomColor": "rgba(0,187,165,1.00)",
             "borderBottomStyle": "solid",
             "borderBottomWidth": "2px",
+            "borderLeftStyle": "solid",
+            "borderRightStyle": "solid",
+            "borderTopStyle": "solid",
             "display": "flex",
             "flexDirection": "row",
             "flexShrink": 1,
@@ -158,23 +161,28 @@ exports[`ListEventItem receive matches snapshot 1`] = `
             0.04
           </div>
           <div
-            className="css-text-901oao"
-            dir="auto"
+            className="css-view-1dbjc4n"
             style={
               Object {
-                "color": "rgba(66,69,74,1.00)",
-                "fontFamily": "Roboto",
-                "fontSize": "16px",
-                "fontWeight": "normal",
+                "WebkitAlignItems": "center",
+                "WebkitBoxAlign": "center",
+                "WebkitBoxDirection": "normal",
+                "WebkitBoxOrient": "horizontal",
+                "WebkitBoxPack": "justify",
+                "WebkitFlexDirection": "row",
+                "WebkitJustifyContent": "space-between",
+                "alignItems": "center",
+                "flexDirection": "row",
+                "justifyContent": "space-between",
                 "lineHeight": "16px",
-                "textAlign": "center",
-                "textDecoration": "none",
-                "textTransform": "none",
+                "msFlexAlign": "center",
+                "msFlexDirection": "row",
+                "msFlexPack": "justify",
               }
             }
           >
-            <span
-              className="css-text-901oao css-textHasAncestor-16my406"
+            <div
+              className="css-text-901oao"
               dir="auto"
               style={
                 Object {
@@ -190,9 +198,9 @@ exports[`ListEventItem receive matches snapshot 1`] = `
               }
             >
               G
-            </span>
-            <span
-              className="css-text-901oao css-textHasAncestor-16my406"
+            </div>
+            <div
+              className="css-text-901oao"
               dir="auto"
               style={
                 Object {
@@ -208,7 +216,7 @@ exports[`ListEventItem receive matches snapshot 1`] = `
               }
             >
               $
-            </span>
+            </div>
           </div>
         </div>
       </div>
@@ -252,7 +260,12 @@ exports[`ListEventItem receive matches snapshot 1`] = `
           onStartShouldSetResponder={[Function]}
           style={
             Object {
+              "WebkitAlignItems": "center",
               "WebkitAlignSelf": "flex-start",
+              "WebkitBoxAlign": "center",
+              "WebkitBoxPack": "center",
+              "WebkitJustifyContent": "center",
+              "alignItems": "center",
               "alignSelf": "flex-start",
               "backgroundColor": "rgba(203,203,203,1.00)",
               "borderBottomColor": "rgba(163,163,163,1.00)",
@@ -268,9 +281,12 @@ exports[`ListEventItem receive matches snapshot 1`] = `
               "borderTopRightRadius": "17px",
               "borderTopWidth": "1px",
               "height": "34px",
+              "justifyContent": "center",
               "left": "-41px",
               "marginTop": "8px",
+              "msFlexAlign": "center",
               "msFlexItemAlign": "start",
+              "msFlexPack": "center",
               "width": "34px",
             }
           }
@@ -350,7 +366,7 @@ exports[`ListEventItem receive matches snapshot 1`] = `
           }
         >
           <div
-            className="css-text-901oao css-textMultiLine-cens5h"
+            className="css-text-901oao css-textMultiLine-cens5h r-flex-13awgt0 r-height-1pi2tsx"
             dir="auto"
             style={
               Object {
@@ -365,7 +381,6 @@ exports[`ListEventItem receive matches snapshot 1`] = `
                 "fontFamily": "Roboto",
                 "fontSize": "16px",
                 "fontWeight": "normal",
-                "height": "100%",
                 "lineHeight": "22px",
                 "marginTop": "6px",
                 "msFlexAlign": "end",
@@ -385,9 +400,9 @@ exports[`ListEventItem receive matches snapshot 1`] = `
                   "fontFamily": "Roboto",
                   "fontSize": "10px",
                   "fontWeight": "normal",
-                  "lineHeight": "14px",
+                  "lineHeight": "16px",
                   "marginRight": "3px",
-                  "textAlign": "left",
+                  "textAlign": "center",
                   "textDecoration": "none",
                   "textTransform": "none",
                 }
@@ -528,6 +543,9 @@ exports[`ListEventItem send matches snapshot 1`] = `
             "borderBottomColor": "rgba(250,108,119,1.00)",
             "borderBottomStyle": "solid",
             "borderBottomWidth": "2px",
+            "borderLeftStyle": "solid",
+            "borderRightStyle": "solid",
+            "borderTopStyle": "solid",
             "display": "flex",
             "flexDirection": "row",
             "flexShrink": 1,
@@ -614,23 +632,28 @@ exports[`ListEventItem send matches snapshot 1`] = `
             0.04
           </div>
           <div
-            className="css-text-901oao"
-            dir="auto"
+            className="css-view-1dbjc4n"
             style={
               Object {
-                "color": "rgba(66,69,74,1.00)",
-                "fontFamily": "Roboto",
-                "fontSize": "16px",
-                "fontWeight": "normal",
+                "WebkitAlignItems": "center",
+                "WebkitBoxAlign": "center",
+                "WebkitBoxDirection": "normal",
+                "WebkitBoxOrient": "horizontal",
+                "WebkitBoxPack": "justify",
+                "WebkitFlexDirection": "row",
+                "WebkitJustifyContent": "space-between",
+                "alignItems": "center",
+                "flexDirection": "row",
+                "justifyContent": "space-between",
                 "lineHeight": "16px",
-                "textAlign": "center",
-                "textDecoration": "none",
-                "textTransform": "none",
+                "msFlexAlign": "center",
+                "msFlexDirection": "row",
+                "msFlexPack": "justify",
               }
             }
           >
-            <span
-              className="css-text-901oao css-textHasAncestor-16my406"
+            <div
+              className="css-text-901oao"
               dir="auto"
               style={
                 Object {
@@ -646,9 +669,9 @@ exports[`ListEventItem send matches snapshot 1`] = `
               }
             >
               G
-            </span>
-            <span
-              className="css-text-901oao css-textHasAncestor-16my406"
+            </div>
+            <div
+              className="css-text-901oao"
               dir="auto"
               style={
                 Object {
@@ -664,7 +687,7 @@ exports[`ListEventItem send matches snapshot 1`] = `
               }
             >
               $
-            </span>
+            </div>
           </div>
         </div>
       </div>
@@ -708,7 +731,12 @@ exports[`ListEventItem send matches snapshot 1`] = `
           onStartShouldSetResponder={[Function]}
           style={
             Object {
+              "WebkitAlignItems": "center",
               "WebkitAlignSelf": "flex-start",
+              "WebkitBoxAlign": "center",
+              "WebkitBoxPack": "center",
+              "WebkitJustifyContent": "center",
+              "alignItems": "center",
               "alignSelf": "flex-start",
               "backgroundColor": "rgba(203,203,203,1.00)",
               "borderBottomColor": "rgba(163,163,163,1.00)",
@@ -724,9 +752,12 @@ exports[`ListEventItem send matches snapshot 1`] = `
               "borderTopRightRadius": "17px",
               "borderTopWidth": "1px",
               "height": "34px",
+              "justifyContent": "center",
               "left": "-41px",
               "marginTop": "8px",
+              "msFlexAlign": "center",
               "msFlexItemAlign": "start",
+              "msFlexPack": "center",
               "width": "34px",
             }
           }
@@ -806,7 +837,7 @@ exports[`ListEventItem send matches snapshot 1`] = `
           }
         >
           <div
-            className="css-text-901oao css-textMultiLine-cens5h"
+            className="css-text-901oao css-textMultiLine-cens5h r-flex-13awgt0 r-height-1pi2tsx"
             dir="auto"
             style={
               Object {
@@ -821,7 +852,6 @@ exports[`ListEventItem send matches snapshot 1`] = `
                 "fontFamily": "Roboto",
                 "fontSize": "16px",
                 "fontWeight": "normal",
-                "height": "100%",
                 "lineHeight": "22px",
                 "marginTop": "6px",
                 "msFlexAlign": "end",
@@ -841,9 +871,9 @@ exports[`ListEventItem send matches snapshot 1`] = `
                   "fontFamily": "Roboto",
                   "fontSize": "10px",
                   "fontWeight": "normal",
-                  "lineHeight": "14px",
+                  "lineHeight": "16px",
                   "marginRight": "3px",
-                  "textAlign": "left",
+                  "textAlign": "center",
                   "textDecoration": "none",
                   "textTransform": "none",
                 }
@@ -984,6 +1014,9 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
             "borderBottomColor": "rgba(0,195,174,1.00)",
             "borderBottomStyle": "solid",
             "borderBottomWidth": "2px",
+            "borderLeftStyle": "solid",
+            "borderRightStyle": "solid",
+            "borderTopStyle": "solid",
             "display": "flex",
             "flexDirection": "row",
             "flexShrink": 1,
@@ -1070,23 +1103,28 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
             0.04
           </div>
           <div
-            className="css-text-901oao"
-            dir="auto"
+            className="css-view-1dbjc4n"
             style={
               Object {
-                "color": "rgba(66,69,74,1.00)",
-                "fontFamily": "Roboto",
-                "fontSize": "16px",
-                "fontWeight": "normal",
+                "WebkitAlignItems": "center",
+                "WebkitBoxAlign": "center",
+                "WebkitBoxDirection": "normal",
+                "WebkitBoxOrient": "horizontal",
+                "WebkitBoxPack": "justify",
+                "WebkitFlexDirection": "row",
+                "WebkitJustifyContent": "space-between",
+                "alignItems": "center",
+                "flexDirection": "row",
+                "justifyContent": "space-between",
                 "lineHeight": "16px",
-                "textAlign": "center",
-                "textDecoration": "none",
-                "textTransform": "none",
+                "msFlexAlign": "center",
+                "msFlexDirection": "row",
+                "msFlexPack": "justify",
               }
             }
           >
-            <span
-              className="css-text-901oao css-textHasAncestor-16my406"
+            <div
+              className="css-text-901oao"
               dir="auto"
               style={
                 Object {
@@ -1102,9 +1140,9 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
               }
             >
               G
-            </span>
-            <span
-              className="css-text-901oao css-textHasAncestor-16my406"
+            </div>
+            <div
+              className="css-text-901oao"
               dir="auto"
               style={
                 Object {
@@ -1120,7 +1158,7 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
               }
             >
               $
-            </span>
+            </div>
           </div>
         </div>
       </div>
@@ -1164,7 +1202,12 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
           onStartShouldSetResponder={[Function]}
           style={
             Object {
+              "WebkitAlignItems": "center",
               "WebkitAlignSelf": "flex-start",
+              "WebkitBoxAlign": "center",
+              "WebkitBoxPack": "center",
+              "WebkitJustifyContent": "center",
+              "alignItems": "center",
               "alignSelf": "flex-start",
               "backgroundColor": "rgba(203,203,203,1.00)",
               "borderBottomColor": "rgba(163,163,163,1.00)",
@@ -1180,9 +1223,12 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
               "borderTopRightRadius": "17px",
               "borderTopWidth": "1px",
               "height": "34px",
+              "justifyContent": "center",
               "left": "-41px",
               "marginTop": "8px",
+              "msFlexAlign": "center",
               "msFlexItemAlign": "start",
+              "msFlexPack": "center",
               "width": "34px",
             }
           }
@@ -1262,7 +1308,7 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
           }
         >
           <div
-            className="css-text-901oao css-textMultiLine-cens5h"
+            className="css-text-901oao css-textMultiLine-cens5h r-flex-13awgt0 r-height-1pi2tsx"
             dir="auto"
             style={
               Object {
@@ -1277,7 +1323,6 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
                 "fontFamily": "Roboto",
                 "fontSize": "16px",
                 "fontWeight": "normal",
-                "height": "100%",
                 "lineHeight": "22px",
                 "marginTop": "6px",
                 "msFlexAlign": "end",
@@ -1297,9 +1342,9 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
                   "fontFamily": "Roboto",
                   "fontSize": "10px",
                   "fontWeight": "normal",
-                  "lineHeight": "14px",
+                  "lineHeight": "16px",
                   "marginRight": "3px",
-                  "textAlign": "left",
+                  "textAlign": "center",
                   "textDecoration": "none",
                   "textTransform": "none",
                 }

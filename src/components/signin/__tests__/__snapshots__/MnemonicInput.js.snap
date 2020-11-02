@@ -44,8 +44,6 @@ exports[`SignIn - MnemonicInput matches snapshot 1`] = `
           "justifyContent": "center",
           "msFlexAlign": "center",
           "msFlexPack": "center",
-          "paddingLeft": "8px",
-          "paddingRight": "8px",
           "width": "32px",
         }
       }
@@ -151,8 +149,6 @@ exports[`SignIn - MnemonicInput matches snapshot 1`] = `
           "justifyContent": "center",
           "msFlexAlign": "center",
           "msFlexPack": "center",
-          "paddingLeft": "8px",
-          "paddingRight": "8px",
           "width": "32px",
         }
       }
@@ -258,8 +254,6 @@ exports[`SignIn - MnemonicInput matches snapshot 1`] = `
           "justifyContent": "center",
           "msFlexAlign": "center",
           "msFlexPack": "center",
-          "paddingLeft": "8px",
-          "paddingRight": "8px",
           "width": "32px",
         }
       }
@@ -365,8 +359,6 @@ exports[`SignIn - MnemonicInput matches snapshot 1`] = `
           "justifyContent": "center",
           "msFlexAlign": "center",
           "msFlexPack": "center",
-          "paddingLeft": "8px",
-          "paddingRight": "8px",
           "width": "32px",
         }
       }
@@ -472,8 +464,6 @@ exports[`SignIn - MnemonicInput matches snapshot 1`] = `
           "justifyContent": "center",
           "msFlexAlign": "center",
           "msFlexPack": "center",
-          "paddingLeft": "8px",
-          "paddingRight": "8px",
           "width": "32px",
         }
       }
@@ -579,8 +569,6 @@ exports[`SignIn - MnemonicInput matches snapshot 1`] = `
           "justifyContent": "center",
           "msFlexAlign": "center",
           "msFlexPack": "center",
-          "paddingLeft": "8px",
-          "paddingRight": "8px",
           "width": "32px",
         }
       }
@@ -686,8 +674,6 @@ exports[`SignIn - MnemonicInput matches snapshot 1`] = `
           "justifyContent": "center",
           "msFlexAlign": "center",
           "msFlexPack": "center",
-          "paddingLeft": "8px",
-          "paddingRight": "8px",
           "width": "32px",
         }
       }
@@ -793,8 +779,6 @@ exports[`SignIn - MnemonicInput matches snapshot 1`] = `
           "justifyContent": "center",
           "msFlexAlign": "center",
           "msFlexPack": "center",
-          "paddingLeft": "8px",
-          "paddingRight": "8px",
           "width": "32px",
         }
       }
@@ -900,8 +884,6 @@ exports[`SignIn - MnemonicInput matches snapshot 1`] = `
           "justifyContent": "center",
           "msFlexAlign": "center",
           "msFlexPack": "center",
-          "paddingLeft": "8px",
-          "paddingRight": "8px",
           "width": "32px",
         }
       }
@@ -1007,8 +989,6 @@ exports[`SignIn - MnemonicInput matches snapshot 1`] = `
           "justifyContent": "center",
           "msFlexAlign": "center",
           "msFlexPack": "center",
-          "paddingLeft": "8px",
-          "paddingRight": "8px",
           "width": "32px",
         }
       }
@@ -1114,8 +1094,6 @@ exports[`SignIn - MnemonicInput matches snapshot 1`] = `
           "justifyContent": "center",
           "msFlexAlign": "center",
           "msFlexPack": "center",
-          "paddingLeft": "8px",
-          "paddingRight": "8px",
           "width": "32px",
         }
       }
@@ -1221,8 +1199,6 @@ exports[`SignIn - MnemonicInput matches snapshot 1`] = `
           "justifyContent": "center",
           "msFlexAlign": "center",
           "msFlexPack": "center",
-          "paddingLeft": "8px",
-          "paddingRight": "8px",
           "width": "32px",
         }
       }

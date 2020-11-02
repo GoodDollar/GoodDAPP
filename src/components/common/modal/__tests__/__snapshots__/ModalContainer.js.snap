@@ -16,7 +16,6 @@ exports[`ModalContainer matches snapshot 1`] = `
         "msFlexDirection": "row",
         "position": "relative",
         "width": "100%",
-        "zIndex": 1,
       }
     }
   >
@@ -45,7 +44,6 @@ exports[`ModalContainer matches snapshot with properties 1`] = `
         "msFlexPositive": 1,
         "position": "relative",
         "width": "100%",
-        "zIndex": 1,
       }
     }
   >

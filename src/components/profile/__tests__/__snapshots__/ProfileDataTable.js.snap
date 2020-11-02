@@ -2,48 +2,30 @@
 
 exports[`ProfileDataTable matches snapshot 1`] = `
 <div
-  className="css-view-1dbjc4n"
-  style={
-    Object {
-      "WebkitBoxFlex": 1,
-      "WebkitFlexBasis": "0%",
-      "WebkitFlexGrow": 1,
-      "WebkitFlexShrink": 1,
-      "flexBasis": "0%",
-      "flexGrow": 1,
-      "flexShrink": 1,
-      "msFlexNegative": 1,
-      "msFlexPositive": 1,
-      "msFlexPreferredSize": "0%",
-    }
-  }
+  className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
-    className="css-view-1dbjc4n"
+    className="css-view-1dbjc4n r-flexGrow-16y2uox"
     style={
       Object {
         "WebkitAlignItems": "center",
         "WebkitBoxAlign": "center",
         "WebkitBoxDirection": "normal",
-        "WebkitBoxFlex": 1,
         "WebkitBoxOrient": "horizontal",
         "WebkitBoxPack": "justify",
         "WebkitFlexDirection": "row",
-        "WebkitFlexGrow": 1,
         "WebkitJustifyContent": "space-between",
         "alignItems": "center",
         "flexDirection": "row",
-        "flexGrow": 1,
         "justifyContent": "space-between",
         "msFlexAlign": "center",
         "msFlexDirection": "row",
         "msFlexPack": "justify",
-        "msFlexPositive": 1,
       }
     }
   >
     <div
-      className="css-view-1dbjc4n"
+      className="css-view-1dbjc4n r-WebkitOverflowScrolling-150rngu r-flexDirection-eqz5dr r-flexGrow-16y2uox r-flexShrink-1wbh5a2 r-overflowX-11yh6sk r-overflowY-1rnoaur r-touchAction-19z077z r-transform-1sncvnh"
       onResponderGrant={[Function]}
       onResponderReject={[Function]}
       onResponderRelease={[Function]}
@@ -56,29 +38,6 @@ exports[`ProfileDataTable matches snapshot 1`] = `
       onTouchMove={[Function]}
       onTouchStart={[Function]}
       onWheel={[Function]}
-      style={
-        Object {
-          "WebkitBoxDirection": "normal",
-          "WebkitBoxFlex": 1,
-          "WebkitBoxOrient": "vertical",
-          "WebkitFlexDirection": "column",
-          "WebkitFlexGrow": 1,
-          "WebkitFlexShrink": 1,
-          "WebkitOverflowScrolling": "touch",
-          "WebkitTransform": "translateZ(0px)",
-          "flexDirection": "column",
-          "flexGrow": 1,
-          "flexShrink": 1,
-          "msFlexDirection": "column",
-          "msFlexNegative": 1,
-          "msFlexPositive": 1,
-          "msTouchAction": "none",
-          "overflowX": "hidden",
-          "overflowY": "auto",
-          "touchAction": "none",
-          "transform": "translateZ(0px)",
-        }
-      }
     >
       <div
         className="css-view-1dbjc4n"
@@ -104,20 +63,10 @@ exports[`ProfileDataTable matches snapshot 1`] = `
           }
         >
           <div
-            className="css-view-1dbjc4n"
+            className="css-view-1dbjc4n r-flex-13awgt0"
             style={
               Object {
-                "WebkitBoxFlex": 1,
-                "WebkitFlexBasis": "0%",
-                "WebkitFlexGrow": 1,
-                "WebkitFlexShrink": 1,
-                "display": "inline-flex",
-                "flexBasis": "0%",
-                "flexGrow": 1,
-                "flexShrink": 1,
-                "msFlexNegative": 1,
-                "msFlexPositive": 1,
-                "msFlexPreferredSize": "0%",
+                "display": "flex",
               }
             }
           >
@@ -148,13 +97,13 @@ exports[`ProfileDataTable matches snapshot 1`] = `
               }
             >
               <input
+                aria-disabled={true}
                 autoCapitalize="sentences"
                 autoComplete="on"
                 autoCorrect="on"
-                className="css-textinput-1cwyjr8 r-placeholderTextColor-1xktb6b"
-                data-focusable={true}
+                className="css-textinput-1cwyjr8 r-flex-13awgt0 r-placeholderTextColor-1xktb6b"
                 dir="auto"
-                disabled={false}
+                disabled={true}
                 onBlur={[Function]}
                 onChange={[Function]}
                 onFocus={[Function]}
@@ -166,24 +115,20 @@ exports[`ProfileDataTable matches snapshot 1`] = `
                 spellCheck={true}
                 style={
                   Object {
-                    "WebkitBoxFlex": 1,
-                    "WebkitFlexBasis": "0%",
-                    "WebkitFlexGrow": 1,
-                    "WebkitFlexShrink": 1,
+                    "WebkitBoxPack": "center",
+                    "WebkitJustifyContent": "center",
                     "backgroundColor": "rgba(0,0,0,0.00)",
                     "color": "rgba(66,69,74,1.00)",
-                    "flexBasis": "0%",
-                    "flexGrow": 1,
-                    "flexShrink": 1,
                     "fontFamily": "Roboto",
                     "fontSize": "14px",
                     "fontWeight": "400",
-                    "lineHeight": "36px",
-                    "msFlexNegative": 1,
-                    "msFlexPositive": 1,
-                    "msFlexPreferredSize": "0%",
+                    "justifyContent": "center",
+                    "msFlexPack": "center",
+                    "paddingBottom": "14px",
+                    "paddingTop": "14px",
                   }
                 }
+                tabIndex="-1"
                 type="text"
               />
               <div
@@ -202,7 +147,7 @@ exports[`ProfileDataTable matches snapshot 1`] = `
                     "msFlexPack": "center",
                     "position": "absolute",
                     "right": "0px",
-                    "top": "0px",
+                    "top": "1px",
                     "width": "32px",
                     "zIndex": 1,
                   }
@@ -248,20 +193,10 @@ exports[`ProfileDataTable matches snapshot 1`] = `
           }
         >
           <div
-            className="css-view-1dbjc4n"
+            className="css-view-1dbjc4n r-flex-13awgt0"
             style={
               Object {
-                "WebkitBoxFlex": 1,
-                "WebkitFlexBasis": "0%",
-                "WebkitFlexGrow": 1,
-                "WebkitFlexShrink": 1,
-                "display": "inline-flex",
-                "flexBasis": "0%",
-                "flexGrow": 1,
-                "flexShrink": 1,
-                "msFlexNegative": 1,
-                "msFlexPositive": 1,
-                "msFlexPreferredSize": "0%",
+                "display": "flex",
               }
             }
           >
@@ -292,13 +227,13 @@ exports[`ProfileDataTable matches snapshot 1`] = `
               }
             >
               <input
+                aria-disabled={true}
                 autoCapitalize="sentences"
                 autoComplete="on"
                 autoCorrect="on"
-                className="css-textinput-1cwyjr8 r-placeholderTextColor-1xktb6b"
-                data-focusable={true}
+                className="css-textinput-1cwyjr8 r-flex-13awgt0 r-placeholderTextColor-1xktb6b"
                 dir="auto"
-                disabled={false}
+                disabled={true}
                 onBlur={[Function]}
                 onChange={[Function]}
                 onFocus={[Function]}
@@ -310,24 +245,20 @@ exports[`ProfileDataTable matches snapshot 1`] = `
                 spellCheck={true}
                 style={
                   Object {
-                    "WebkitBoxFlex": 1,
-                    "WebkitFlexBasis": "0%",
-                    "WebkitFlexGrow": 1,
-                    "WebkitFlexShrink": 1,
+                    "WebkitBoxPack": "center",
+                    "WebkitJustifyContent": "center",
                     "backgroundColor": "rgba(0,0,0,0.00)",
                     "color": "rgba(66,69,74,1.00)",
-                    "flexBasis": "0%",
-                    "flexGrow": 1,
-                    "flexShrink": 1,
                     "fontFamily": "Roboto",
                     "fontSize": "14px",
                     "fontWeight": "400",
-                    "lineHeight": "36px",
-                    "msFlexNegative": 1,
-                    "msFlexPositive": 1,
-                    "msFlexPreferredSize": "0%",
+                    "justifyContent": "center",
+                    "msFlexPack": "center",
+                    "paddingBottom": "14px",
+                    "paddingTop": "14px",
                   }
                 }
+                tabIndex="-1"
                 type="text"
                 value="2222222222222"
               />
@@ -347,7 +278,7 @@ exports[`ProfileDataTable matches snapshot 1`] = `
                     "msFlexPack": "center",
                     "position": "absolute",
                     "right": "0px",
-                    "top": "0px",
+                    "top": "1px",
                     "width": "32px",
                     "zIndex": 1,
                   }
@@ -395,20 +326,10 @@ exports[`ProfileDataTable matches snapshot 1`] = `
           }
         >
           <div
-            className="css-view-1dbjc4n"
+            className="css-view-1dbjc4n r-flex-13awgt0"
             style={
               Object {
-                "WebkitBoxFlex": 1,
-                "WebkitFlexBasis": "0%",
-                "WebkitFlexGrow": 1,
-                "WebkitFlexShrink": 1,
-                "display": "inline-flex",
-                "flexBasis": "0%",
-                "flexGrow": 1,
-                "flexShrink": 1,
-                "msFlexNegative": 1,
-                "msFlexPositive": 1,
-                "msFlexPreferredSize": "0%",
+                "display": "flex",
               }
             }
           >
@@ -439,13 +360,13 @@ exports[`ProfileDataTable matches snapshot 1`] = `
               }
             >
               <input
+                aria-disabled={true}
                 autoCapitalize="sentences"
                 autoComplete="on"
                 autoCorrect="on"
-                className="css-textinput-1cwyjr8 r-placeholderTextColor-1xktb6b"
-                data-focusable={true}
+                className="css-textinput-1cwyjr8 r-flex-13awgt0 r-placeholderTextColor-1xktb6b"
                 dir="auto"
-                disabled={false}
+                disabled={true}
                 onBlur={[Function]}
                 onChange={[Function]}
                 onFocus={[Function]}
@@ -457,24 +378,20 @@ exports[`ProfileDataTable matches snapshot 1`] = `
                 spellCheck={true}
                 style={
                   Object {
-                    "WebkitBoxFlex": 1,
-                    "WebkitFlexBasis": "0%",
-                    "WebkitFlexGrow": 1,
-                    "WebkitFlexShrink": 1,
+                    "WebkitBoxPack": "center",
+                    "WebkitJustifyContent": "center",
                     "backgroundColor": "rgba(0,0,0,0.00)",
                     "color": "rgba(66,69,74,1.00)",
-                    "flexBasis": "0%",
-                    "flexGrow": 1,
-                    "flexShrink": 1,
                     "fontFamily": "Roboto",
                     "fontSize": "14px",
                     "fontWeight": "400",
-                    "lineHeight": "36px",
-                    "msFlexNegative": 1,
-                    "msFlexPositive": 1,
-                    "msFlexPreferredSize": "0%",
+                    "justifyContent": "center",
+                    "msFlexPack": "center",
+                    "paddingBottom": "14px",
+                    "paddingTop": "14px",
                   }
                 }
+                tabIndex="-1"
                 type="text"
                 value="john@doe.com"
               />
@@ -494,7 +411,7 @@ exports[`ProfileDataTable matches snapshot 1`] = `
                     "msFlexPack": "center",
                     "position": "absolute",
                     "right": "0px",
-                    "top": "0px",
+                    "top": "1px",
                     "width": "32px",
                     "zIndex": 1,
                   }
@@ -527,48 +444,30 @@ exports[`ProfileDataTable matches snapshot 1`] = `
 
 exports[`ProfileDataTable matches snapshot editable 1`] = `
 <div
-  className="css-view-1dbjc4n"
-  style={
-    Object {
-      "WebkitBoxFlex": 1,
-      "WebkitFlexBasis": "0%",
-      "WebkitFlexGrow": 1,
-      "WebkitFlexShrink": 1,
-      "flexBasis": "0%",
-      "flexGrow": 1,
-      "flexShrink": 1,
-      "msFlexNegative": 1,
-      "msFlexPositive": 1,
-      "msFlexPreferredSize": "0%",
-    }
-  }
+  className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
-    className="css-view-1dbjc4n"
+    className="css-view-1dbjc4n r-flexGrow-16y2uox"
     style={
       Object {
         "WebkitAlignItems": "center",
         "WebkitBoxAlign": "center",
         "WebkitBoxDirection": "normal",
-        "WebkitBoxFlex": 1,
         "WebkitBoxOrient": "horizontal",
         "WebkitBoxPack": "justify",
         "WebkitFlexDirection": "row",
-        "WebkitFlexGrow": 1,
         "WebkitJustifyContent": "space-between",
         "alignItems": "center",
         "flexDirection": "row",
-        "flexGrow": 1,
         "justifyContent": "space-between",
         "msFlexAlign": "center",
         "msFlexDirection": "row",
         "msFlexPack": "justify",
-        "msFlexPositive": 1,
       }
     }
   >
     <div
-      className="css-view-1dbjc4n"
+      className="css-view-1dbjc4n r-WebkitOverflowScrolling-150rngu r-flexDirection-eqz5dr r-flexGrow-16y2uox r-flexShrink-1wbh5a2 r-overflowX-11yh6sk r-overflowY-1rnoaur r-touchAction-19z077z r-transform-1sncvnh"
       onResponderGrant={[Function]}
       onResponderReject={[Function]}
       onResponderRelease={[Function]}
@@ -581,29 +480,6 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
       onTouchMove={[Function]}
       onTouchStart={[Function]}
       onWheel={[Function]}
-      style={
-        Object {
-          "WebkitBoxDirection": "normal",
-          "WebkitBoxFlex": 1,
-          "WebkitBoxOrient": "vertical",
-          "WebkitFlexDirection": "column",
-          "WebkitFlexGrow": 1,
-          "WebkitFlexShrink": 1,
-          "WebkitOverflowScrolling": "touch",
-          "WebkitTransform": "translateZ(0px)",
-          "flexDirection": "column",
-          "flexGrow": 1,
-          "flexShrink": 1,
-          "msFlexDirection": "column",
-          "msFlexNegative": 1,
-          "msFlexPositive": 1,
-          "msTouchAction": "none",
-          "overflowX": "hidden",
-          "overflowY": "auto",
-          "touchAction": "none",
-          "transform": "translateZ(0px)",
-        }
-      }
     >
       <div
         className="css-view-1dbjc4n"
@@ -629,20 +505,10 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
           }
         >
           <div
-            className="css-view-1dbjc4n"
+            className="css-view-1dbjc4n r-flex-13awgt0"
             style={
               Object {
-                "WebkitBoxFlex": 1,
-                "WebkitFlexBasis": "0%",
-                "WebkitFlexGrow": 1,
-                "WebkitFlexShrink": 1,
-                "display": "inline-flex",
-                "flexBasis": "0%",
-                "flexGrow": 1,
-                "flexShrink": 1,
-                "msFlexNegative": 1,
-                "msFlexPositive": 1,
-                "msFlexPreferredSize": "0%",
+                "display": "flex",
               }
             }
           >
@@ -676,7 +542,7 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
                 autoCapitalize="sentences"
                 autoComplete="on"
                 autoCorrect="on"
-                className="css-textinput-1cwyjr8 r-placeholderTextColor-1xktb6b"
+                className="css-textinput-1cwyjr8 r-flex-13awgt0 r-placeholderTextColor-1xktb6b"
                 data-focusable={true}
                 dir="auto"
                 disabled={false}
@@ -691,22 +557,17 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
                 spellCheck={true}
                 style={
                   Object {
-                    "WebkitBoxFlex": 1,
-                    "WebkitFlexBasis": "0%",
-                    "WebkitFlexGrow": 1,
-                    "WebkitFlexShrink": 1,
+                    "WebkitBoxPack": "center",
+                    "WebkitJustifyContent": "center",
                     "backgroundColor": "rgba(0,0,0,0.00)",
                     "color": "rgba(66,69,74,1.00)",
-                    "flexBasis": "0%",
-                    "flexGrow": 1,
-                    "flexShrink": 1,
                     "fontFamily": "Roboto",
                     "fontSize": "14px",
                     "fontWeight": "400",
-                    "lineHeight": "36px",
-                    "msFlexNegative": 1,
-                    "msFlexPositive": 1,
-                    "msFlexPreferredSize": "0%",
+                    "justifyContent": "center",
+                    "msFlexPack": "center",
+                    "paddingBottom": "10px",
+                    "paddingTop": "10px",
                   }
                 }
                 type="text"
@@ -773,26 +634,17 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
           }
         >
           <div
-            className="css-view-1dbjc4n"
+            className="css-view-1dbjc4n r-flexDirection-eqz5dr r-flexGrow-16y2uox"
             style={
               Object {
                 "WebkitAlignItems": "stretch",
                 "WebkitBoxAlign": "stretch",
-                "WebkitBoxDirection": "normal",
-                "WebkitBoxFlex": 1,
-                "WebkitBoxOrient": "vertical",
                 "WebkitBoxPack": "justify",
-                "WebkitFlexDirection": "column",
-                "WebkitFlexGrow": 1,
                 "WebkitJustifyContent": "space-between",
                 "alignItems": "stretch",
-                "flexDirection": "column",
-                "flexGrow": 1,
                 "justifyContent": "space-between",
                 "msFlexAlign": "stretch",
-                "msFlexDirection": "column",
                 "msFlexPack": "justify",
-                "msFlexPositive": 1,
               }
             }
           >
@@ -818,6 +670,16 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
             >
               <div
                 className="react-phone-number-input"
+                style={
+                  Object {
+                    "borderColor": undefined,
+                    "borderRadius": 24,
+                    "borderWidth": 1,
+                    "color": undefined,
+                    "padding": 10,
+                    "position": "relative",
+                  }
+                }
               >
                 <div
                   className="react-phone-number-input__row"
@@ -2389,6 +2251,11 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
                     onKeyDown={[Function]}
                     onPaste={[Function]}
                     placeholder="Enter phone number"
+                    textStyle={
+                      Object {
+                        "color": undefined,
+                      }
+                    }
                     type="tel"
                     value="2222222222222"
                   />
@@ -2430,6 +2297,7 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
                       "fontSize": "28px",
                       "fontStyle": "normal",
                       "fontWeight": "normal",
+                      "paddingTop": "0px",
                     }
                   }
                 >
@@ -2460,20 +2328,10 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
           }
         >
           <div
-            className="css-view-1dbjc4n"
+            className="css-view-1dbjc4n r-flex-13awgt0"
             style={
               Object {
-                "WebkitBoxFlex": 1,
-                "WebkitFlexBasis": "0%",
-                "WebkitFlexGrow": 1,
-                "WebkitFlexShrink": 1,
-                "display": "inline-flex",
-                "flexBasis": "0%",
-                "flexGrow": 1,
-                "flexShrink": 1,
-                "msFlexNegative": 1,
-                "msFlexPositive": 1,
-                "msFlexPreferredSize": "0%",
+                "display": "flex",
               }
             }
           >
@@ -2507,7 +2365,7 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
                 autoCapitalize="sentences"
                 autoComplete="on"
                 autoCorrect="on"
-                className="css-textinput-1cwyjr8 r-placeholderTextColor-1xktb6b"
+                className="css-textinput-1cwyjr8 r-flex-13awgt0 r-placeholderTextColor-1xktb6b"
                 data-focusable={true}
                 dir="auto"
                 disabled={false}
@@ -2522,22 +2380,17 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
                 spellCheck={true}
                 style={
                   Object {
-                    "WebkitBoxFlex": 1,
-                    "WebkitFlexBasis": "0%",
-                    "WebkitFlexGrow": 1,
-                    "WebkitFlexShrink": 1,
+                    "WebkitBoxPack": "center",
+                    "WebkitJustifyContent": "center",
                     "backgroundColor": "rgba(0,0,0,0.00)",
                     "color": "rgba(66,69,74,1.00)",
-                    "flexBasis": "0%",
-                    "flexGrow": 1,
-                    "flexShrink": 1,
                     "fontFamily": "Roboto",
                     "fontSize": "14px",
                     "fontWeight": "400",
-                    "lineHeight": "36px",
-                    "msFlexNegative": 1,
-                    "msFlexPositive": 1,
-                    "msFlexPreferredSize": "0%",
+                    "justifyContent": "center",
+                    "msFlexPack": "center",
+                    "paddingBottom": "10px",
+                    "paddingTop": "10px",
                   }
                 }
                 type="text"
@@ -2592,48 +2445,30 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
 
 exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
 <div
-  className="css-view-1dbjc4n"
-  style={
-    Object {
-      "WebkitBoxFlex": 1,
-      "WebkitFlexBasis": "0%",
-      "WebkitFlexGrow": 1,
-      "WebkitFlexShrink": 1,
-      "flexBasis": "0%",
-      "flexGrow": 1,
-      "flexShrink": 1,
-      "msFlexNegative": 1,
-      "msFlexPositive": 1,
-      "msFlexPreferredSize": "0%",
-    }
-  }
+  className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
-    className="css-view-1dbjc4n"
+    className="css-view-1dbjc4n r-flexGrow-16y2uox"
     style={
       Object {
         "WebkitAlignItems": "center",
         "WebkitBoxAlign": "center",
         "WebkitBoxDirection": "normal",
-        "WebkitBoxFlex": 1,
         "WebkitBoxOrient": "horizontal",
         "WebkitBoxPack": "justify",
         "WebkitFlexDirection": "row",
-        "WebkitFlexGrow": 1,
         "WebkitJustifyContent": "space-between",
         "alignItems": "center",
         "flexDirection": "row",
-        "flexGrow": 1,
         "justifyContent": "space-between",
         "msFlexAlign": "center",
         "msFlexDirection": "row",
         "msFlexPack": "justify",
-        "msFlexPositive": 1,
       }
     }
   >
     <div
-      className="css-view-1dbjc4n"
+      className="css-view-1dbjc4n r-WebkitOverflowScrolling-150rngu r-flexDirection-eqz5dr r-flexGrow-16y2uox r-flexShrink-1wbh5a2 r-overflowX-11yh6sk r-overflowY-1rnoaur r-touchAction-19z077z r-transform-1sncvnh"
       onResponderGrant={[Function]}
       onResponderReject={[Function]}
       onResponderRelease={[Function]}
@@ -2646,29 +2481,6 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
       onTouchMove={[Function]}
       onTouchStart={[Function]}
       onWheel={[Function]}
-      style={
-        Object {
-          "WebkitBoxDirection": "normal",
-          "WebkitBoxFlex": 1,
-          "WebkitBoxOrient": "vertical",
-          "WebkitFlexDirection": "column",
-          "WebkitFlexGrow": 1,
-          "WebkitFlexShrink": 1,
-          "WebkitOverflowScrolling": "touch",
-          "WebkitTransform": "translateZ(0px)",
-          "flexDirection": "column",
-          "flexGrow": 1,
-          "flexShrink": 1,
-          "msFlexDirection": "column",
-          "msFlexNegative": 1,
-          "msFlexPositive": 1,
-          "msTouchAction": "none",
-          "overflowX": "hidden",
-          "overflowY": "auto",
-          "touchAction": "none",
-          "transform": "translateZ(0px)",
-        }
-      }
     >
       <div
         className="css-view-1dbjc4n"
@@ -2694,20 +2506,10 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
           }
         >
           <div
-            className="css-view-1dbjc4n"
+            className="css-view-1dbjc4n r-flex-13awgt0"
             style={
               Object {
-                "WebkitBoxFlex": 1,
-                "WebkitFlexBasis": "0%",
-                "WebkitFlexGrow": 1,
-                "WebkitFlexShrink": 1,
-                "display": "inline-flex",
-                "flexBasis": "0%",
-                "flexGrow": 1,
-                "flexShrink": 1,
-                "msFlexNegative": 1,
-                "msFlexPositive": 1,
-                "msFlexPreferredSize": "0%",
+                "display": "flex",
               }
             }
           >
@@ -2741,7 +2543,7 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
                 autoCapitalize="sentences"
                 autoComplete="on"
                 autoCorrect="on"
-                className="css-textinput-1cwyjr8 r-placeholderTextColor-1xktb6b"
+                className="css-textinput-1cwyjr8 r-flex-13awgt0 r-placeholderTextColor-1xktb6b"
                 data-focusable={true}
                 dir="auto"
                 disabled={false}
@@ -2756,22 +2558,17 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
                 spellCheck={true}
                 style={
                   Object {
-                    "WebkitBoxFlex": 1,
-                    "WebkitFlexBasis": "0%",
-                    "WebkitFlexGrow": 1,
-                    "WebkitFlexShrink": 1,
+                    "WebkitBoxPack": "center",
+                    "WebkitJustifyContent": "center",
                     "backgroundColor": "rgba(0,0,0,0.00)",
                     "color": "rgba(66,69,74,1.00)",
-                    "flexBasis": "0%",
-                    "flexGrow": 1,
-                    "flexShrink": 1,
                     "fontFamily": "Roboto",
                     "fontSize": "14px",
                     "fontWeight": "400",
-                    "lineHeight": "36px",
-                    "msFlexNegative": 1,
-                    "msFlexPositive": 1,
-                    "msFlexPreferredSize": "0%",
+                    "justifyContent": "center",
+                    "msFlexPack": "center",
+                    "paddingBottom": "10px",
+                    "paddingTop": "10px",
                   }
                 }
                 type="text"
@@ -2838,26 +2635,17 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
           }
         >
           <div
-            className="css-view-1dbjc4n"
+            className="css-view-1dbjc4n r-flexDirection-eqz5dr r-flexGrow-16y2uox"
             style={
               Object {
                 "WebkitAlignItems": "stretch",
                 "WebkitBoxAlign": "stretch",
-                "WebkitBoxDirection": "normal",
-                "WebkitBoxFlex": 1,
-                "WebkitBoxOrient": "vertical",
                 "WebkitBoxPack": "justify",
-                "WebkitFlexDirection": "column",
-                "WebkitFlexGrow": 1,
                 "WebkitJustifyContent": "space-between",
                 "alignItems": "stretch",
-                "flexDirection": "column",
-                "flexGrow": 1,
                 "justifyContent": "space-between",
                 "msFlexAlign": "stretch",
-                "msFlexDirection": "column",
                 "msFlexPack": "justify",
-                "msFlexPositive": 1,
               }
             }
           >
@@ -2883,6 +2671,16 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
             >
               <div
                 className="react-phone-number-input react-phone-number-input--invalid"
+                style={
+                  Object {
+                    "borderColor": "#FA6C77",
+                    "borderRadius": 24,
+                    "borderWidth": 1,
+                    "color": "#FA6C77",
+                    "padding": 10,
+                    "position": "relative",
+                  }
+                }
               >
                 <div
                   className="react-phone-number-input__row"
@@ -4454,6 +4252,11 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
                     onKeyDown={[Function]}
                     onPaste={[Function]}
                     placeholder="Enter phone number"
+                    textStyle={
+                      Object {
+                        "color": "#FA6C77",
+                      }
+                    }
                     type="tel"
                     value="2222222222222"
                   />
@@ -4498,6 +4301,7 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
                       "fontSize": "28px",
                       "fontStyle": "normal",
                       "fontWeight": "normal",
+                      "paddingTop": "0px",
                     }
                   }
                 >
@@ -4515,6 +4319,7 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
                   "direction": "ltr",
                   "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                   "fontSize": "12px",
+                  "fontWeight": "400",
                   "height": "18px",
                   "marginBottom": "8px",
                   "marginTop": "8px",
@@ -4553,20 +4358,10 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
           }
         >
           <div
-            className="css-view-1dbjc4n"
+            className="css-view-1dbjc4n r-flex-13awgt0"
             style={
               Object {
-                "WebkitBoxFlex": 1,
-                "WebkitFlexBasis": "0%",
-                "WebkitFlexGrow": 1,
-                "WebkitFlexShrink": 1,
-                "display": "inline-flex",
-                "flexBasis": "0%",
-                "flexGrow": 1,
-                "flexShrink": 1,
-                "msFlexNegative": 1,
-                "msFlexPositive": 1,
-                "msFlexPreferredSize": "0%",
+                "display": "flex",
               }
             }
           >
@@ -4586,8 +4381,6 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
                   "borderTopLeftRadius": "24px",
                   "borderTopRightRadius": "24px",
                   "borderTopWidth": "1px",
-                  "marginBottom": "8px",
-                  "marginTop": "4px",
                   "paddingBottom": "0px",
                   "paddingLeft": "32px",
                   "paddingRight": "32px",
@@ -4600,7 +4393,7 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
                 autoCapitalize="sentences"
                 autoComplete="on"
                 autoCorrect="on"
-                className="css-textinput-1cwyjr8 r-placeholderTextColor-1xktb6b"
+                className="css-textinput-1cwyjr8 r-flex-13awgt0 r-placeholderTextColor-1xktb6b"
                 data-focusable={true}
                 dir="auto"
                 disabled={false}
@@ -4615,22 +4408,17 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
                 spellCheck={true}
                 style={
                   Object {
-                    "WebkitBoxFlex": 1,
-                    "WebkitFlexBasis": "0%",
-                    "WebkitFlexGrow": 1,
-                    "WebkitFlexShrink": 1,
+                    "WebkitBoxPack": "center",
+                    "WebkitJustifyContent": "center",
                     "backgroundColor": "rgba(0,0,0,0.00)",
                     "color": "rgba(250,108,119,1.00)",
-                    "flexBasis": "0%",
-                    "flexGrow": 1,
-                    "flexShrink": 1,
                     "fontFamily": "Roboto",
                     "fontSize": "14px",
                     "fontWeight": "400",
-                    "lineHeight": "36px",
-                    "msFlexNegative": 1,
-                    "msFlexPositive": 1,
-                    "msFlexPreferredSize": "0%",
+                    "justifyContent": "center",
+                    "msFlexPack": "center",
+                    "paddingBottom": "10px",
+                    "paddingTop": "10px",
                   }
                 }
                 type="text"
@@ -4685,8 +4473,10 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
                   "direction": "ltr",
                   "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                   "fontSize": "12px",
+                  "fontWeight": "400",
                   "height": "18px",
                   "marginBottom": "8px",
+                  "marginTop": "8px",
                   "opacity": 1,
                   "paddingBottom": "0px",
                   "paddingLeft": "0px",

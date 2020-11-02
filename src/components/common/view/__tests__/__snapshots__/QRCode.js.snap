@@ -2,21 +2,7 @@
 
 exports[`QRCode matches snapshot 1`] = `
 <div
-  className="css-view-1dbjc4n"
-  style={
-    Object {
-      "WebkitBoxFlex": 1,
-      "WebkitFlexBasis": "0%",
-      "WebkitFlexGrow": 1,
-      "WebkitFlexShrink": 1,
-      "flexBasis": "0%",
-      "flexGrow": 1,
-      "flexShrink": 1,
-      "msFlexNegative": 1,
-      "msFlexPositive": 1,
-      "msFlexPreferredSize": "0%",
-    }
-  }
+  className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
     className="css-view-1dbjc4n"
@@ -66,6 +52,9 @@ exports[`QRCode matches snapshot 1`] = `
         }
         theme={
           Object {
+            "animation": Object {
+              "scale": 1,
+            },
             "backdrop": Object {
               "backgroundColor": "rgba(255, 0, 0, 0.8)",
             },
@@ -91,6 +80,8 @@ exports[`QRCode matches snapshot 1`] = `
               "lightGreen": "#00BBA5",
               "lighterGray": "#A3A3A3",
               "notification": "#f50057",
+              "onBackground": "#000000",
+              "onSurface": "#000000",
               "orange": "#F8AF40",
               "placeholder": "#CBCBCB",
               "primary": "#00AFFF",
@@ -113,11 +104,23 @@ exports[`QRCode matches snapshot 1`] = `
             },
             "fonts": Object {
               "default": "Roboto",
-              "light": "Roboto-Light, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-              "medium": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-              "regular": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+              "light": Object {
+                "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                "fontWeight": "300",
+              },
+              "medium": Object {
+                "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                "fontWeight": "500",
+              },
+              "regular": Object {
+                "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                "fontWeight": "400",
+              },
               "slab": "Roboto Slab",
-              "thin": "Roboto-Thin, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+              "thin": Object {
+                "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                "fontWeight": "100",
+              },
             },
             "modals": Object {
               "activityIndicatorBackgroundColor": "rgba(255, 255, 255, 0.8)",
@@ -156,21 +159,7 @@ exports[`QRCode matches snapshot 1`] = `
 
 exports[`QRCode matches snapshot 2`] = `
 <div
-  className="css-view-1dbjc4n"
-  style={
-    Object {
-      "WebkitBoxFlex": 1,
-      "WebkitFlexBasis": "0%",
-      "WebkitFlexGrow": 1,
-      "WebkitFlexShrink": 1,
-      "flexBasis": "0%",
-      "flexGrow": 1,
-      "flexShrink": 1,
-      "msFlexNegative": 1,
-      "msFlexPositive": 1,
-      "msFlexPreferredSize": "0%",
-    }
-  }
+  className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
     className="css-view-1dbjc4n"
@@ -220,6 +209,9 @@ exports[`QRCode matches snapshot 2`] = `
         }
         theme={
           Object {
+            "animation": Object {
+              "scale": 1,
+            },
             "backdrop": Object {
               "backgroundColor": "rgba(255, 0, 0, 0.8)",
             },
@@ -245,6 +237,8 @@ exports[`QRCode matches snapshot 2`] = `
               "lightGreen": "#00BBA5",
               "lighterGray": "#A3A3A3",
               "notification": "#f50057",
+              "onBackground": "#000000",
+              "onSurface": "#000000",
               "orange": "#F8AF40",
               "placeholder": "#CBCBCB",
               "primary": "#00AFFF",
@@ -267,11 +261,23 @@ exports[`QRCode matches snapshot 2`] = `
             },
             "fonts": Object {
               "default": "Roboto",
-              "light": "Roboto-Light, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-              "medium": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-              "regular": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+              "light": Object {
+                "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                "fontWeight": "300",
+              },
+              "medium": Object {
+                "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                "fontWeight": "500",
+              },
+              "regular": Object {
+                "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                "fontWeight": "400",
+              },
               "slab": "Roboto Slab",
-              "thin": "Roboto-Thin, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+              "thin": Object {
+                "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                "fontWeight": "100",
+              },
             },
             "modals": Object {
               "activityIndicatorBackgroundColor": "rgba(255, 255, 255, 0.8)",

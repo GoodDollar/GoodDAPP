@@ -8,7 +8,7 @@ exports[`SignupCompleted matches snapshot 1`] = `
     className="css-view-1dbjc4n r-flex-13awgt0 r-paddingBottom-97e31f r-paddingLeft-bv2aro r-paddingRight-hxflta r-paddingTop-10xqauy"
   >
     <div
-      className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-position-bnwqim r-width-13qz1uu"
+      className="css-view-1dbjc4n r-position-bnwqim"
       data-name="viewWrapper"
       style={
         Object {
@@ -17,6 +17,7 @@ exports[`SignupCompleted matches snapshot 1`] = `
           "WebkitBoxOrient": "vertical",
           "WebkitFlexDirection": "column",
           "WebkitFlexGrow": 1,
+          "backgroundColor": "rgba(0,0,0,0.00)",
           "display": "flex",
           "flexDirection": "column",
           "flexGrow": 1,
@@ -27,15 +28,17 @@ exports[`SignupCompleted matches snapshot 1`] = `
           "paddingLeft": "16px",
           "paddingRight": "16px",
           "paddingTop": "16px",
+          "width": "100%",
         }
       }
     >
       <div
-        className="css-view-1dbjc4n r-backgroundColor-1niwhzg"
+        className="css-view-1dbjc4n"
         style={
           Object {
             "WebkitBoxFlex": 1,
             "WebkitFlexGrow": 1,
+            "backgroundColor": "rgba(0,0,0,0.00)",
             "borderBottomLeftRadius": "5px",
             "borderBottomRightRadius": "5px",
             "borderTopLeftRadius": "5px",
@@ -51,9 +54,30 @@ exports[`SignupCompleted matches snapshot 1`] = `
       >
         <div
           className="css-view-1dbjc4n"
+          style={
+            Object {
+              "WebkitAlignItems": "stretch",
+              "WebkitBoxAlign": "stretch",
+              "WebkitBoxDirection": "normal",
+              "WebkitBoxFlex": 1,
+              "WebkitBoxOrient": "vertical",
+              "WebkitBoxPack": "space-evenly",
+              "WebkitFlexDirection": "column",
+              "WebkitFlexGrow": 1,
+              "WebkitJustifyContent": "space-evenly",
+              "alignItems": "stretch",
+              "flexDirection": "column",
+              "flexGrow": 1,
+              "justifyContent": "space-evenly",
+              "msFlexAlign": "stretch",
+              "msFlexDirection": "column",
+              "msFlexPack": "space-evenly",
+              "msFlexPositive": 1,
+            }
+          }
         >
           <div
-            className="css-text-901oao r-textAlign-q4m81j"
+            className="css-text-901oao"
             dir="auto"
             style={
               Object {
@@ -62,6 +86,7 @@ exports[`SignupCompleted matches snapshot 1`] = `
                 "fontSize": "22px",
                 "fontWeight": "500",
                 "lineHeight": "30px",
+                "textAlign": "center",
                 "textDecoration": "none",
                 "textTransform": "none",
               }
@@ -71,14 +96,18 @@ exports[`SignupCompleted matches snapshot 1`] = `
 You're all set
           </div>
           <div
-            className="css-view-1dbjc4n r-flexBasis-1mlwlqe r-overflow-1udh08x r-zIndex-417010"
-            style={
-              Object {
-                "marginTop": "-12.8px",
-                "width": "100%",
+            className="css-view-1dbjc4n"
+          >
+            <div
+              className="css-view-1dbjc4n"
+              style={
+                Object {
+                  "marginTop": "-12.8px",
+                  "width": "100%",
+                }
               }
-            }
-          />
+            />
+          </div>
         </div>
         <div
           className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz"
@@ -132,7 +161,7 @@ You're all set
             }
           >
             <div
-              className="css-cursor-18t94o4 css-view-1dbjc4n r-cursor-1loqt21 r-overflow-1udh08x r-position-bnwqim r-touchAction-1otgn73"
+              className="css-cursor-18t94o4 css-view-1dbjc4n r-cursor-1loqt21 r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim r-touchAction-1otgn73"
               data-focusable={true}
               disabled={false}
               onKeyDown={[Function]}
@@ -147,46 +176,59 @@ You're all set
               role="button"
               style={
                 Object {
+                  "WebkitAlignSelf": "stretch",
+                  "alignSelf": "stretch",
                   "borderBottomLeftRadius": "50px",
                   "borderBottomRightRadius": "50px",
                   "borderTopLeftRadius": "50px",
                   "borderTopRightRadius": "50px",
+                  "msFlexItemAlign": "stretch",
                 }
               }
               tabIndex="0"
             >
               <div
-                className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1777fci"
+                className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
+                style={
+                  Object {
+                    "WebkitAlignSelf": "stretch",
+                    "alignSelf": "stretch",
+                    "msFlexItemAlign": "stretch",
+                  }
+                }
               >
                 <div
-                  className="css-text-901oao css-textOneLine-bfa6kz r-letterSpacing-ud0q2t r-marginHorizontal-1ydw1k6 r-marginVertical-712mwr r-textAlign-q4m81j r-textTransform-tsynxw"
-                  dir="auto"
-                  style={
-                    Object {
-                      "color": "rgba(255,255,255,1.00)",
-                      "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                      "fontWeight": "500",
-                    }
-                  }
+                  className="css-view-1dbjc4n r-marginHorizontal-1ydw1k6 r-marginVertical-712mwr"
                 >
-                  <span
-                    className="css-text-901oao css-textHasAncestor-16my406 r-alignItems-1awozwy r-justifyContent-1777fci r-textAlign-q4m81j r-textTransform-tsynxw"
-                    dir="auto"
+                  <div
+                    className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz"
                     style={
                       Object {
-                        "color": "rgba(255,255,255,1.00)",
-                        "fontFamily": "Roboto",
-                        "fontSize": "16px",
-                        "fontWeight": "500",
-                        "letterSpacing": "0px",
-                        "lineHeight": "22px",
-                        "paddingTop": "1px",
-                        "textDecoration": "none",
+                        "display": "flex",
                       }
                     }
                   >
-                    Let's start!
-                  </span>
+                    <div
+                      className="css-text-901oao r-alignItems-1awozwy r-justifyContent-1777fci"
+                      dir="auto"
+                      style={
+                        Object {
+                          "color": "rgba(255,255,255,1.00)",
+                          "fontFamily": "Roboto",
+                          "fontSize": "16px",
+                          "fontWeight": "500",
+                          "letterSpacing": "0px",
+                          "lineHeight": "22px",
+                          "paddingTop": "1px",
+                          "textAlign": "center",
+                          "textDecoration": "none",
+                          "textTransform": "uppercase",
+                        }
+                      }
+                    >
+                      Let's start!
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>

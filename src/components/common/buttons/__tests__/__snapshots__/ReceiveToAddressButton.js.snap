@@ -2,24 +2,10 @@
 
 exports[`SendToAddressButton should match snapshot 1`] = `
 <div
-  className="css-view-1dbjc4n"
-  style={
-    Object {
-      "WebkitBoxFlex": 1,
-      "WebkitFlexBasis": "0%",
-      "WebkitFlexGrow": 1,
-      "WebkitFlexShrink": 1,
-      "flexBasis": "0%",
-      "flexGrow": 1,
-      "flexShrink": 1,
-      "msFlexNegative": 1,
-      "msFlexPositive": 1,
-      "msFlexPreferredSize": "0%",
-    }
-  }
+  className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
-    className="css-view-1dbjc4n"
+    className="css-view-1dbjc4n r-cursor-1loqt21 r-touchAction-1otgn73 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
     data-focusable={true}
     onKeyDown={[Function]}
     onKeyUp={[Function]}
@@ -29,22 +15,6 @@ exports[`SendToAddressButton should match snapshot 1`] = `
     onResponderTerminate={[Function]}
     onResponderTerminationRequest={[Function]}
     onStartShouldSetResponder={[Function]}
-    style={
-      Object {
-        "MozTransitionProperty": "opacity",
-        "MozUserSelect": "none",
-        "WebkitTransitionDuration": "0.15s",
-        "WebkitTransitionProperty": "opacity",
-        "WebkitUserSelect": "none",
-        "cursor": "pointer",
-        "msTouchAction": "manipulation",
-        "msUserSelect": "none",
-        "touchAction": "manipulation",
-        "transitionDuration": "0.15s",
-        "transitionProperty": "opacity",
-        "userSelect": "none",
-      }
-    }
     tabIndex="0"
   >
     <div
@@ -106,7 +76,6 @@ exports[`SendToAddressButton should match snapshot 1`] = `
         style={
           Object {
             "color": "rgba(12,38,61,1.00)",
-            "direction": "ltr",
             "fontFamily": "Roboto",
             "fontSize": "10px",
             "fontWeight": "500",

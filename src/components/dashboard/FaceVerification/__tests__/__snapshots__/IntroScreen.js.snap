@@ -2,24 +2,10 @@
 
 exports[`FaceVerification IntroScreen matches snapshot 1`] = `
 <div
-  className="css-view-1dbjc4n"
-  style={
-    Object {
-      "WebkitBoxFlex": 1,
-      "WebkitFlexBasis": "0%",
-      "WebkitFlexGrow": 1,
-      "WebkitFlexShrink": 1,
-      "flexBasis": "0%",
-      "flexGrow": 1,
-      "flexShrink": 1,
-      "msFlexNegative": 1,
-      "msFlexPositive": 1,
-      "msFlexPreferredSize": "0%",
-    }
-  }
+  className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
-    className="css-view-1dbjc4n"
+    className="css-view-1dbjc4n r-position-bnwqim"
     data-name="viewWrapper"
     style={
       Object {
@@ -28,7 +14,7 @@ exports[`FaceVerification IntroScreen matches snapshot 1`] = `
         "WebkitBoxOrient": "vertical",
         "WebkitFlexDirection": "column",
         "WebkitFlexGrow": 1,
-        "backgroundImage": "linear-gradient(to bottom, #00AFFF, #2DC0F7, #28C0EF, #23C0E7, #1EC1DF, #19C1D7, #14C1CF, #0FC2C7, #0FC2C7, #0AC2BF, #05C2B7, #00C3AF)",
+        "backgroundImage": "linear-gradient(3.141592653589793rad,#00AFFF,#2DC0F7,#28C0EF,#23C0E7,#1EC1DF,#19C1D7,#14C1CF,#0FC2C7,#0FC2C7,#0AC2BF,#05C2B7,#00C3AF)",
         "display": "flex",
         "flexDirection": "column",
         "flexGrow": 1,
@@ -39,26 +25,20 @@ exports[`FaceVerification IntroScreen matches snapshot 1`] = `
         "paddingLeft": "8px",
         "paddingRight": "8px",
         "paddingTop": "8px",
-        "position": "relative",
         "width": "100%",
       }
     }
   >
     <div
-      className="css-view-1dbjc4n"
+      className="css-view-1dbjc4n r-alignItems-1awozwy r-justifyContent-1777fci"
       style={
         Object {
-          "WebkitAlignItems": "center",
-          "WebkitBoxAlign": "center",
           "WebkitBoxDirection": "normal",
           "WebkitBoxFlex": 1,
           "WebkitBoxOrient": "vertical",
-          "WebkitBoxPack": "center",
           "WebkitFlexDirection": "column",
           "WebkitFlexGrow": 1,
           "WebkitFlexShrink": 0,
-          "WebkitJustifyContent": "center",
-          "alignItems": "center",
           "backgroundColor": "rgba(255,255,255,1.00)",
           "borderBottomLeftRadius": "5px",
           "borderBottomRightRadius": "5px",
@@ -68,11 +48,8 @@ exports[`FaceVerification IntroScreen matches snapshot 1`] = `
           "flexDirection": "column",
           "flexGrow": 1,
           "flexShrink": 0,
-          "justifyContent": "center",
-          "msFlexAlign": "center",
           "msFlexDirection": "column",
           "msFlexNegative": 0,
-          "msFlexPack": "center",
           "msFlexPositive": 1,
           "paddingBottom": "16px",
           "paddingLeft": "8px",
@@ -105,7 +82,6 @@ exports[`FaceVerification IntroScreen matches snapshot 1`] = `
           style={
             Object {
               "color": "rgba(66,69,74,1.00)",
-              "direction": "ltr",
               "fontFamily": "Roboto",
               "fontSize": "24px",
               "fontWeight": "500",
@@ -122,7 +98,7 @@ Only a real live person
 can claim G$’s
         </div>
         <div
-          className="css-view-1dbjc4n"
+          className="css-view-1dbjc4n r-alignItems-1awozwy"
           style={
             Object {
               "height": "220px",
@@ -163,7 +139,6 @@ can claim G$’s
             style={
               Object {
                 "color": "rgba(66,69,74,1.00)",
-                "direction": "ltr",
                 "fontFamily": "Roboto",
                 "fontSize": "16px",
                 "fontWeight": "normal",
@@ -184,9 +159,8 @@ can claim G$’s
               style={
                 Object {
                   "color": "rgba(0,175,255,1.00)",
-                  "direction": "ltr",
                   "fontFamily": "Roboto",
-                  "fontSize": "18px",
+                  "fontSize": "16px",
                   "fontWeight": "700",
                   "lineHeight": "25px",
                   "textAlign": "center",
@@ -204,9 +178,8 @@ can claim G$’s
               style={
                 Object {
                   "color": "rgba(0,175,255,1.00)",
-                  "direction": "ltr",
                   "fontFamily": "Roboto",
-                  "fontSize": "18px",
+                  "fontSize": "16px",
                   "fontWeight": "normal",
                   "lineHeight": "25px",
                   "textAlign": "center",
@@ -224,9 +197,8 @@ can claim G$’s
               style={
                 Object {
                   "color": "rgba(0,175,255,1.00)",
-                  "direction": "ltr",
                   "fontFamily": "Roboto",
-                  "fontSize": "18px",
+                  "fontSize": "16px",
                   "fontWeight": "normal",
                   "lineHeight": "25px",
                   "textAlign": "center",
@@ -239,7 +211,7 @@ can claim G$’s
 
             </span>
             <span
-              className="css-text-901oao css-textHasAncestor-16my406"
+              className="css-text-901oao css-textHasAncestor-16my406 r-cursor-1loqt21"
               data-focusable={true}
               dir="auto"
               onClick={[Function]}
@@ -247,11 +219,9 @@ can claim G$’s
               style={
                 Object {
                   "color": "rgba(0,175,255,1.00)",
-                  "cursor": "pointer",
-                  "direction": "ltr",
                   "display": "block",
                   "fontFamily": "Roboto",
-                  "fontSize": "18px",
+                  "fontSize": "16px",
                   "fontWeight": "700",
                   "lineHeight": "25px",
                   "paddingTop": "32px",
@@ -281,13 +251,11 @@ can claim G$’s
           />
         </div>
         <div
-          className="css-view-1dbjc4n"
+          className="css-view-1dbjc4n r-justifyContent-1777fci"
           style={
             Object {
               "WebkitAlignItems": "stretch",
               "WebkitBoxAlign": "stretch",
-              "WebkitBoxPack": "center",
-              "WebkitJustifyContent": "center",
               "alignItems": "stretch",
               "backgroundColor": "rgba(0,0,0,0.12)",
               "borderBottomColor": "rgba(0,175,255,1.00)",
@@ -307,7 +275,6 @@ can claim G$’s
               "borderTopStyle": "solid",
               "borderTopWidth": "0px",
               "display": "flex",
-              "justifyContent": "center",
               "marginBottom": "0px",
               "marginLeft": "0px",
               "marginRight": "0px",
@@ -315,7 +282,6 @@ can claim G$’s
               "minHeight": "44px",
               "minWidth": "64px",
               "msFlexAlign": "stretch",
-              "msFlexPack": "center",
               "paddingBottom": "0px",
               "paddingLeft": "0px",
               "paddingRight": "0px",
@@ -326,7 +292,7 @@ can claim G$’s
         >
           <div
             aria-disabled={true}
-            className="css-view-1dbjc4n"
+            className="css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
             disabled={true}
             onKeyDown={[Function]}
             onKeyUp={[Function]}
@@ -338,100 +304,48 @@ can claim G$’s
             role="button"
             style={
               Object {
+                "WebkitAlignSelf": "stretch",
+                "alignSelf": "stretch",
                 "borderBottomLeftRadius": "50px",
                 "borderBottomRightRadius": "50px",
                 "borderTopLeftRadius": "50px",
                 "borderTopRightRadius": "50px",
-                "overflowX": "hidden",
-                "overflowY": "hidden",
-                "position": "relative",
+                "msFlexItemAlign": "stretch",
               }
             }
           >
             <div
-              className="css-view-1dbjc4n"
+              className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
               style={
                 Object {
-                  "WebkitAlignItems": "center",
-                  "WebkitBoxAlign": "center",
-                  "WebkitBoxDirection": "normal",
-                  "WebkitBoxOrient": "horizontal",
-                  "WebkitBoxPack": "center",
-                  "WebkitFlexDirection": "row",
-                  "WebkitJustifyContent": "center",
-                  "alignItems": "center",
-                  "flexDirection": "row",
-                  "justifyContent": "center",
-                  "msFlexAlign": "center",
-                  "msFlexDirection": "row",
-                  "msFlexPack": "center",
+                  "WebkitAlignSelf": "stretch",
+                  "alignSelf": "stretch",
+                  "msFlexItemAlign": "stretch",
                 }
               }
             >
               <div
-                className="css-text-901oao css-textOneLine-bfa6kz"
-                dir="auto"
-                style={
-                  Object {
-                    "color": "rgba(0,0,0,0.32)",
-                    "direction": "ltr",
-                    "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                    "letterSpacing": "1px",
-                    "marginBottom": "9px",
-                    "marginLeft": "16px",
-                    "marginRight": "16px",
-                    "marginTop": "9px",
-                    "textAlign": "center",
-                  }
-                }
+                className="css-view-1dbjc4n r-marginHorizontal-1ydw1k6 r-marginVertical-712mwr"
               >
                 <div
-                  className="css-view-1dbjc4n"
+                  className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz"
                   style={
                     Object {
-                      "WebkitAlignItems": "center",
-                      "WebkitBoxAlign": "center",
-                      "WebkitBoxDirection": "normal",
-                      "WebkitBoxFlex": 1,
-                      "WebkitBoxOrient": "horizontal",
-                      "WebkitFlexBasis": "0%",
-                      "WebkitFlexDirection": "row",
-                      "WebkitFlexGrow": 1,
-                      "WebkitFlexShrink": 1,
-                      "alignItems": "center",
                       "display": "flex",
-                      "flexBasis": "0%",
-                      "flexDirection": "row",
-                      "flexGrow": 1,
-                      "flexShrink": 1,
-                      "msFlexAlign": "center",
-                      "msFlexDirection": "row",
-                      "msFlexNegative": 1,
-                      "msFlexPositive": 1,
-                      "msFlexPreferredSize": "0%",
                     }
                   }
                 >
-                  <span
-                    className="css-text-901oao css-textHasAncestor-16my406"
+                  <div
+                    className="css-text-901oao r-alignItems-1awozwy r-justifyContent-1777fci"
                     dir="auto"
                     style={
                       Object {
-                        "WebkitAlignItems": "center",
-                        "WebkitBoxAlign": "center",
-                        "WebkitBoxPack": "center",
-                        "WebkitJustifyContent": "center",
-                        "alignItems": "center",
                         "color": "rgba(255,255,255,1.00)",
-                        "direction": "ltr",
                         "fontFamily": "Roboto",
                         "fontSize": "16px",
                         "fontWeight": "500",
-                        "justifyContent": "center",
                         "letterSpacing": "0px",
                         "lineHeight": "22px",
-                        "msFlexAlign": "center",
-                        "msFlexPack": "center",
                         "paddingTop": "1px",
                         "textAlign": "center",
                         "textDecoration": "none",
@@ -440,7 +354,7 @@ can claim G$’s
                     }
                   >
                     OK, VERIFY ME
-                  </span>
+                  </div>
                 </div>
               </div>
             </div>

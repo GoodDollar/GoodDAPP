@@ -31,8 +31,8 @@ exports[`OtpInput empty matches snapshot 1`] = `
           "alignItems": "center",
           "display": "flex",
           "msFlexAlign": "center",
-          "paddingLeft": "11.377777777777778px",
-          "paddingRight": "11.377777777777778px",
+          "paddingLeft": "5.277777777777778px",
+          "paddingRight": "5.277777777777778px",
         }
       }
     >
@@ -185,8 +185,8 @@ exports[`OtpInput empty matches snapshot 1`] = `
           "alignItems": "center",
           "display": "flex",
           "msFlexAlign": "center",
-          "paddingLeft": "11.377777777777778px",
-          "paddingRight": "11.377777777777778px",
+          "paddingLeft": "5.277777777777778px",
+          "paddingRight": "5.277777777777778px",
         }
       }
     >
@@ -339,8 +339,8 @@ exports[`OtpInput empty matches snapshot 1`] = `
           "alignItems": "center",
           "display": "flex",
           "msFlexAlign": "center",
-          "paddingLeft": "11.377777777777778px",
-          "paddingRight": "11.377777777777778px",
+          "paddingLeft": "5.277777777777778px",
+          "paddingRight": "5.277777777777778px",
         }
       }
     >
@@ -493,8 +493,8 @@ exports[`OtpInput empty matches snapshot 1`] = `
           "alignItems": "center",
           "display": "flex",
           "msFlexAlign": "center",
-          "paddingLeft": "11.377777777777778px",
-          "paddingRight": "11.377777777777778px",
+          "paddingLeft": "5.277777777777778px",
+          "paddingRight": "5.277777777777778px",
         }
       }
     >
@@ -647,8 +647,8 @@ exports[`OtpInput empty matches snapshot 1`] = `
           "alignItems": "center",
           "display": "flex",
           "msFlexAlign": "center",
-          "paddingLeft": "11.377777777777778px",
-          "paddingRight": "11.377777777777778px",
+          "paddingLeft": "5.277777777777778px",
+          "paddingRight": "5.277777777777778px",
         }
       }
     >
@@ -801,8 +801,8 @@ exports[`OtpInput empty matches snapshot 1`] = `
           "alignItems": "center",
           "display": "flex",
           "msFlexAlign": "center",
-          "paddingLeft": "11.377777777777778px",
-          "paddingRight": "11.377777777777778px",
+          "paddingLeft": "5.277777777777778px",
+          "paddingRight": "5.277777777777778px",
         }
       }
     >
@@ -981,8 +981,8 @@ exports[`OtpInput matches snapshot 1`] = `
           "alignItems": "center",
           "display": "flex",
           "msFlexAlign": "center",
-          "paddingLeft": "11.377777777777778px",
-          "paddingRight": "11.377777777777778px",
+          "paddingLeft": "5.277777777777778px",
+          "paddingRight": "5.277777777777778px",
         }
       }
     >
@@ -1136,8 +1136,8 @@ exports[`OtpInput matches snapshot 1`] = `
           "alignItems": "center",
           "display": "flex",
           "msFlexAlign": "center",
-          "paddingLeft": "11.377777777777778px",
-          "paddingRight": "11.377777777777778px",
+          "paddingLeft": "5.277777777777778px",
+          "paddingRight": "5.277777777777778px",
         }
       }
     >
@@ -1291,8 +1291,8 @@ exports[`OtpInput matches snapshot 1`] = `
           "alignItems": "center",
           "display": "flex",
           "msFlexAlign": "center",
-          "paddingLeft": "11.377777777777778px",
-          "paddingRight": "11.377777777777778px",
+          "paddingLeft": "5.277777777777778px",
+          "paddingRight": "5.277777777777778px",
         }
       }
     >
@@ -1446,8 +1446,8 @@ exports[`OtpInput matches snapshot 1`] = `
           "alignItems": "center",
           "display": "flex",
           "msFlexAlign": "center",
-          "paddingLeft": "11.377777777777778px",
-          "paddingRight": "11.377777777777778px",
+          "paddingLeft": "5.277777777777778px",
+          "paddingRight": "5.277777777777778px",
         }
       }
     >
@@ -1601,8 +1601,8 @@ exports[`OtpInput matches snapshot 1`] = `
           "alignItems": "center",
           "display": "flex",
           "msFlexAlign": "center",
-          "paddingLeft": "11.377777777777778px",
-          "paddingRight": "11.377777777777778px",
+          "paddingLeft": "5.277777777777778px",
+          "paddingRight": "5.277777777777778px",
         }
       }
     >
@@ -1756,8 +1756,8 @@ exports[`OtpInput matches snapshot 1`] = `
           "alignItems": "center",
           "display": "flex",
           "msFlexAlign": "center",
-          "paddingLeft": "11.377777777777778px",
-          "paddingRight": "11.377777777777778px",
+          "paddingLeft": "5.277777777777778px",
+          "paddingRight": "5.277777777777778px",
         }
       }
     >
@@ -1937,8 +1937,8 @@ exports[`OtpInput number matches snapshot 1`] = `
           "alignItems": "center",
           "display": "flex",
           "msFlexAlign": "center",
-          "paddingLeft": "11.377777777777778px",
-          "paddingRight": "11.377777777777778px",
+          "paddingLeft": "5.277777777777778px",
+          "paddingRight": "5.277777777777778px",
         }
       }
     >
@@ -2092,8 +2092,8 @@ exports[`OtpInput number matches snapshot 1`] = `
           "alignItems": "center",
           "display": "flex",
           "msFlexAlign": "center",
-          "paddingLeft": "11.377777777777778px",
-          "paddingRight": "11.377777777777778px",
+          "paddingLeft": "5.277777777777778px",
+          "paddingRight": "5.277777777777778px",
         }
       }
     >
@@ -2247,8 +2247,8 @@ exports[`OtpInput number matches snapshot 1`] = `
           "alignItems": "center",
           "display": "flex",
           "msFlexAlign": "center",
-          "paddingLeft": "11.377777777777778px",
-          "paddingRight": "11.377777777777778px",
+          "paddingLeft": "5.277777777777778px",
+          "paddingRight": "5.277777777777778px",
         }
       }
     >
@@ -2402,8 +2402,8 @@ exports[`OtpInput number matches snapshot 1`] = `
           "alignItems": "center",
           "display": "flex",
           "msFlexAlign": "center",
-          "paddingLeft": "11.377777777777778px",
-          "paddingRight": "11.377777777777778px",
+          "paddingLeft": "5.277777777777778px",
+          "paddingRight": "5.277777777777778px",
         }
       }
     >
@@ -2557,8 +2557,8 @@ exports[`OtpInput number matches snapshot 1`] = `
           "alignItems": "center",
           "display": "flex",
           "msFlexAlign": "center",
-          "paddingLeft": "11.377777777777778px",
-          "paddingRight": "11.377777777777778px",
+          "paddingLeft": "5.277777777777778px",
+          "paddingRight": "5.277777777777778px",
         }
       }
     >
@@ -2712,8 +2712,8 @@ exports[`OtpInput number matches snapshot 1`] = `
           "alignItems": "center",
           "display": "flex",
           "msFlexAlign": "center",
-          "paddingLeft": "11.377777777777778px",
-          "paddingRight": "11.377777777777778px",
+          "paddingLeft": "5.277777777777778px",
+          "paddingRight": "5.277777777777778px",
         }
       }
     >

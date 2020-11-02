@@ -38,15 +38,15 @@ const AuthType = config.torusEnabled ? AuthTorus : Auth
 const WelcomeScreen = ({ styles, screenProps, navigation }) => {
   const { navigate } = navigation
 
-  const goToSignUp = () => {
+  const goToSignUp = useCallback(() => {
     fireEvent(SIGNUP_SELECTED)
     return navigate('Auth', { screen: 'signup' })
-  }
+  }, [navigate])
 
-  const goToSignIn = () => {
+  const goToSignIn = useCallback(() => {
     fireEvent(SIGNIN_SELECTED)
     return navigate('Auth', { screen: 'signin' })
-  }
+  }, [navigate])
 
   const goToManualRegistration = useCallback(async () => {
     const curSeed = await AsyncStorage.getItem(GD_USER_MASTERSEED)
@@ -61,10 +61,10 @@ const WelcomeScreen = ({ styles, screenProps, navigation }) => {
     navigate('Signup', { regMethod: REGISTRATION_METHOD_SELF_CUSTODY })
   }, [navigate])
 
-  const goToSignInInfo = () => {
+  const goToSignInInfo = useCallback(() => {
     fireEvent(SIGNIN_METHOD_SELECTED, { method: REGISTRATION_METHOD_SELF_CUSTODY })
     navigate('SigninInfo')
-  }
+  }, [navigate])
 
   return (
     <Wrapper backgroundColor="#fff" style={styles.mainWrapper}>

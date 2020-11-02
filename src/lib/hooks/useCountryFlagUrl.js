@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { noop, get } from 'lodash'
 import config from '../../config/config'
 import API from '../../lib/API/api'
 
@@ -43,26 +44,24 @@ export default countryCode => {
 
   return getCountryFlagUrl(code)
 }
+let sharedCountryCode
 
-let countryCodeResult
 export const useCountryCode = () => {
-  const [countryCode, setCountryCode] = useState()
+  const [countryCode, setCountryCode] = useState(sharedCountryCode)
+  
   useEffect(() => {
-    const check = async () => {
-      try {
-        if (!countryCodeResult) {
-          const { data } = await API.getLocation()
-          if (data && data.country) {
-            countryCodeResult = data
-          }
-        }
-
-        setCountryCode(countryCodeResult.country)
-      } catch (e) {
-        countryCodeResult = undefined
-      }
+    if (countryCode) {
+      return
     }
-    check()
+    
+    API.getLocation().catch(noop).then(response => {
+      const code = get(response, 'data.country')
+      
+      if (code) {
+        sharedCountryCode = code
+        setCountryCode(code)
+      }
+    })
   }, [])
 
   return countryCode

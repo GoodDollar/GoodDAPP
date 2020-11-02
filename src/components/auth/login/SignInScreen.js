@@ -24,23 +24,23 @@ Image.prefetch(illustration)
 const SigninScreen = ({ styles, store, handleLoginMethod, sdkInitialized, goBack }) => {
   const [isPasswordless, setPasswordless] = useState(false)
 
-  const handlePasswordless = () => {
+  const handlePasswordless = useCallback(() => {
     setPasswordless(true)
-  }
+  }, [setPasswordless])
 
   const _goBack = useCallback(() => {
     if (isPasswordless) {
       return setPasswordless(false)
     }
     goBack()
-  })
+  }, [setPasswordless, isPasswordless, goBack])
 
   const _google = useCallback(() => {
     handleLoginMethod('google')
-  })
+  }, [handleLoginMethod])
   const _facebook = useCallback(() => {
     handleLoginMethod('facebook')
-  })
+  }, [handleLoginMethod])
 
   return (
     <Wrapper backgroundColor="#fff" style={styles.mainWrapper}>
@@ -65,7 +65,7 @@ const SigninScreen = ({ styles, store, handleLoginMethod, sdkInitialized, goBack
           that you’ve signed up with
         </Text>
         {isPasswordless === false && (
-          <React.Fragment>
+          <>
             <LoginButton
               style={[styles.buttonLayout, { backgroundColor: mainTheme.colors.googleBlue }]}
               onPress={_google}
@@ -84,7 +84,7 @@ const SigninScreen = ({ styles, store, handleLoginMethod, sdkInitialized, goBack
             >
               Log in with Facebook
             </LoginButton>
-          </React.Fragment>
+          </>
         )}
         <PasswordLess
           isSignup={false}

@@ -30,7 +30,7 @@ import { getUserModel, type UserModel } from '../../lib/gundb/UserModel'
 import Config from '../../config/config'
 import { fireEvent, identifyOnUserSignup, identifyWith } from '../../lib/analytics/analytics'
 import { parsePaymentLinkParams } from '../../lib/share'
-import { userExists2 } from '../../lib/login/userExists'
+import { userExists } from '../../lib/login/userExists'
 import { useAlreadySignedUp } from '../auth/torus/AuthTorus'
 import type { SMSRecord } from './SmsForm'
 import SignupCompleted from './SignupCompleted'
@@ -466,8 +466,8 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
   }
 
   //check if email/mobile was used to register before and offer user to login instead
-  const checkExisting = async searchBy => {
-    const { exists, fullName, provider: foundOtherProvider } = await userExists2(searchBy).catch(e => {})
+  const checkExisting = useCallback(async searchBy => {
+    const { exists, fullName, provider: foundOtherProvider } = await userExists(searchBy).catch(() => { exists: false })
     log.debug('checking userAlreadyExist', { exists, fullName, foundOtherProvider })
     let selection = 'signup'
     if (exists || foundOtherProvider) {
@@ -482,7 +482,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
       }
     }
     return selection
-  }
+  }, [showAlreadySignedUp])
 
   const done = async (data: { [string]: string }) => {
     setLoading(true)

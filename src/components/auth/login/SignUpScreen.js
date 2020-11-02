@@ -29,23 +29,24 @@ const SignupScreen = ({ screenProps, styles, store, handleLoginMethod, sdkInitia
 
   const handleNavigatePrivacyPolicy = useCallback(() => push('PrivacyPolicy'), [push])
 
-  const handlePasswordless = () => {
+  const handlePasswordless = useCallback(() => {
     setPasswordless(true)
-  }
+  }, [setPasswordless])
 
   const _goBack = useCallback(() => {
     if (isPasswordless) {
       return setPasswordless(false)
     }
     goBack()
-  })
+  }, [goBack, setPasswordless, isPasswordless])
 
   const _google = useCallback(() => {
     handleLoginMethod('google')
-  })
+  }, [handleLoginMethod])
+  
   const _facebook = useCallback(() => {
     handleLoginMethod('facebook')
-  })
+  }, [handleLoginMethod])
 
   return (
     <Wrapper backgroundColor="#fff" style={styles.mainWrapper}>

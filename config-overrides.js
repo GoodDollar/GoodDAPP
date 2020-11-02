@@ -46,7 +46,7 @@ module.exports = {
       'lottie-react-native': 'react-native-web-lottie'
     }
 
-    if (false) {
+    if (process.env.TEST_REACT_NATIVE) {
       config.coverageDirectory = 'coverageNative'
       config.preset = 'react-native'
       config.browser = false

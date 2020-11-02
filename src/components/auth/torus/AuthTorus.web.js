@@ -32,7 +32,7 @@ import { getDesignRelativeHeight } from '../../../lib/utils/sizes'
 import { isSmallDevice } from '../../../lib/utils/mobileSizeDetect'
 import normalizeText from '../../../lib/utils/normalizeText'
 import { userExists } from '../../../lib/login/userExists'
-import ready from '../torus/ready'
+import ready from '../ready'
 import SignIn from '../login/SignInScreen'
 import SignUp from '../login/SignUpScreen'
 import { timeout } from '../../../lib/utils/async'
@@ -41,13 +41,64 @@ import LoadingIcon from '../../common/modal/LoadingIcon'
 
 // import SpinnerCheckMark from '../../common/animations/SpinnerCheckMark'
 
-import useOnPress from '../../../lib/hooks/useOnPress'
 import useTorus from './hooks/useTorus'
 import { LoginStrategy } from './sdk/strategies'
 
 Image.prefetch(illustration)
 
 const log = logger.child({ from: 'AuthTorus' })
+
+export const useAlreadySignedUp = () => {
+  const [showDialog, hideDialog] = useDialog()
+
+  const show = (provider, exists, foundOtherProvider, fromSignupFlow) => {
+    let resolve
+    const promise = new Promise((res, rej) => {
+      resolve = res
+    })
+
+    const registeredBy = LoginStrategy.getTitle(foundOtherProvider)
+
+    showDialog({
+      onDismiss: () => {
+        hideDialog()
+        resolve('signup')
+      },
+      content: (
+        <View style={alreadyStyles.paragraphContainer}>
+          <Paragraph
+            style={[alreadyStyles.paragraph, alreadyStyles.paragraphBold]}
+          >{`You Already Used\n This Email/Mobile\n When You Signed Up\n With ${registeredBy}`}</Paragraph>
+        </View>
+      ),
+      buttons: [
+        {
+          text: `Login with ${registeredBy}`,
+          onPress: () => {
+            hideDialog()
+            fireEvent(SIGNUP_EXISTS_LOGIN, { provider, foundOtherProvider, exists, fromSignupFlow })
+            resolve('signin')
+          },
+          style: [alreadyStyles.marginBottom, { boxShadow: 'none' }],
+        },
+        {
+          text: 'Continue Signup',
+          onPress: () => {
+            hideDialog()
+            fireEvent(SIGNUP_EXISTS_CONTINUE, { provider, foundOtherProvider, exists, fromSignupFlow })
+            resolve('signup')
+          },
+          style: alreadyStyles.whiteButton,
+          textStyle: alreadyStyles.primaryText,
+        },
+      ],
+      buttonsContainerStyle: alreadyStyles.modalButtonsContainerStyle,
+      type: 'error',
+    })
+    return promise
+  }
+  return show
+}
 
 const AuthTorus = ({ screenProps, navigation, styles, store }) => {
   const [showDialog, hideDialog, showErrorDialog] = useDialog()
@@ -116,9 +167,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
       resolve = res
     })
     showDialog({
-      onDismiss: () => {
-        hideDialog()
-      },
+      onDismiss: hideDialog,
       content: (
         <View style={styles.paragraphContainer}>
           <Paragraph
@@ -224,7 +273,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
     }
   }
 
-  const goBack = useOnPress(() => navigate('Welcome'), [navigate])
+  const goBack = () => navigate('Welcome')
 
   // const auth0ButtonHandler = () => {
   //   if (config.torusEmailEnabled) {
@@ -336,8 +385,8 @@ const getStylesFromProps = ({ theme }) => {
     },
   }
 }
-const auth = withStyles(getStylesFromProps)(SimpleStore.withStore(AuthTorus))
-auth.navigationOptions = {
+const Auth = withStyles(getStylesFromProps)(SimpleStore.withStore(AuthTorus))
+Auth.navigationOptions = {
   title: 'Auth',
   navigationBarHidden: true,
 }
@@ -382,56 +431,5 @@ const alreadyStyles = {
     marginBottom: getDesignRelativeHeight(mainTheme.sizes.defaultDouble),
   },
 }
-const useAlreadySignedUp = () => {
-  const [showDialog, hideDialog] = useDialog()
 
-  const show = (provider, exists, foundOtherProvider, fromSignupFlow) => {
-    let resolve
-    const promise = new Promise((res, rej) => {
-      resolve = res
-    })
-
-    const registeredBy = LoginStrategy.getTitle(foundOtherProvider)
-
-    showDialog({
-      onDismiss: () => {
-        hideDialog()
-        resolve('signup')
-      },
-      content: (
-        <View style={alreadyStyles.paragraphContainer}>
-          <Paragraph
-            style={[alreadyStyles.paragraph, alreadyStyles.paragraphBold]}
-          >{`You Already Used\n This Email/Mobile\n When You Signed Up\n With ${registeredBy}`}</Paragraph>
-        </View>
-      ),
-      buttons: [
-        {
-          text: `Login with ${registeredBy}`,
-          onPress: () => {
-            hideDialog()
-            fireEvent(SIGNUP_EXISTS_LOGIN, { provider, foundOtherProvider, exists, fromSignupFlow })
-            resolve('signin')
-          },
-          style: [alreadyStyles.marginBottom, { boxShadow: 'none' }],
-        },
-        {
-          text: 'Continue Signup',
-          onPress: () => {
-            hideDialog()
-            fireEvent(SIGNUP_EXISTS_CONTINUE, { provider, foundOtherProvider, exists, fromSignupFlow })
-            resolve('signup')
-          },
-          style: alreadyStyles.whiteButton,
-          textStyle: alreadyStyles.primaryText,
-        },
-      ],
-      buttonsContainerStyle: alreadyStyles.modalButtonsContainerStyle,
-      type: 'error',
-    })
-    return promise
-  }
-  return show
-}
-
-export { auth as default, useAlreadySignedUp }
+export default Auth

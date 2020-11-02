@@ -28,7 +28,7 @@ import normalizeText from '../../../lib/utils/normalizeText'
 import NavBar from '../../appNavigation/NavBar'
 import { PrivacyPolicy, PrivacyPolicyAndTerms, SupportForUnsigned } from '../../webView/webViewInstances'
 import { createStackNavigator } from '../../appNavigation/stackNavigation'
-import ready from '../torus/ready'
+import ready from '../ready'
 import Auth from '../../auth/Auth'
 import AuthTorus from '../../auth/torus/AuthTorus'
 

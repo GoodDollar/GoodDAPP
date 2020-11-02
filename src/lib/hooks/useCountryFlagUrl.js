@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { noop, get } from 'lodash'
+import { get, noop } from 'lodash'
 import config from '../../config/config'
 import API from '../../lib/API/api'
 
@@ -48,20 +48,22 @@ let sharedCountryCode
 
 export const useCountryCode = () => {
   const [countryCode, setCountryCode] = useState(sharedCountryCode)
-  
+
   useEffect(() => {
     if (countryCode) {
       return
     }
-    
-    API.getLocation().catch(noop).then(response => {
-      const code = get(response, 'data.country')
-      
-      if (code) {
-        sharedCountryCode = code
-        setCountryCode(code)
-      }
-    })
+
+    API.getLocation()
+      .catch(noop)
+      .then(response => {
+        const code = get(response, 'data.country')
+
+        if (code) {
+          sharedCountryCode = code
+          setCountryCode(code)
+        }
+      })
   }, [])
 
   return countryCode

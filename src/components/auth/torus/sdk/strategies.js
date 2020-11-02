@@ -19,8 +19,9 @@ export const LoginStrategy = {
         return 'Passwordless Email'
       case this.PaswordlessSMS:
         return 'Passwordless SMS'
+      default:
+        return strategy || 'Self Custody'
     }
-    return strategy || 'Self Custody'
   },
 }
 

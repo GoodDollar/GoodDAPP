@@ -1,6 +1,4 @@
 /* eslint-disable require-await */
-import { upperFirst } from 'lodash'
-
 export const LoginStrategy = {
   Facebook: 'facebook',
   GoogleLegacy: 'google-old',
@@ -10,13 +8,19 @@ export const LoginStrategy = {
   PaswordlessSMS: 'auth0-pwdless-sms',
 
   getTitle(strategy) {
-    const { GoogleLegacy, PaswordlessSMS } = LoginStrategy
-
-    if (strategy.includes('pwdless')) {
-      return `Passwordless (${strategy === PaswordlessSMS ? 'SMS' : 'E-Mail'})`
+    switch (strategy) {
+      case this.Facebook:
+        return 'Facebook'
+      case this.Google:
+        return 'google'
+      case this.GoogleLegacy:
+        return 'Google (Legacy)'
+      case this.PaswordlessEmail:
+        return 'Passwordless Email'
+      case this.PaswordlessSMS:
+        return 'Passwordless SMS'
     }
-
-    return `${upperFirst(strategy)}${strategy === GoogleLegacy ? ' (legacy)' : ''}`
+    return strategy || 'Self Custody'
   },
 }
 

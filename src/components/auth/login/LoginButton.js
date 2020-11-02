@@ -9,12 +9,12 @@ import normalizeText from '../../../lib/utils/normalizeText'
 
 export const LoginButton = ({ style, onPress, testID, icon, disabled, children }) => {
   const onButtonPress = useOnPress(onPress)
-  
+
   return (
     <TouchableOpacity style={style} onPress={onButtonPress} disabled={disabled} testID={testID}>
       <View style={styles.iconBorder}>
         <Image source={icon} resizeMode="contain" style={styles.iconsStyle} />
-    </View>
+      </View>
       <Text textTransform="uppercase" style={styles.buttonText} fontWeight={'medium'} letterSpacing={0} color="white">
         {children}
       </Text>

@@ -30,9 +30,8 @@ import { showSupportDialog } from '../../common/dialogs/showSupportDialog'
 import { decorate, ExceptionCode } from '../../../lib/logger/exceptions'
 import { getDesignRelativeHeight } from '../../../lib/utils/sizes'
 import { isSmallDevice } from '../../../lib/utils/mobileSizeDetect'
-import { formatProvider } from '../../../lib/utils/formatProvider'
 import normalizeText from '../../../lib/utils/normalizeText'
-import { userExists2 } from '../../../lib/login/userExists'
+import { userExists } from '../../../lib/login/userExists'
 import ready from '../torus/ready'
 import SignIn from '../login/SignInScreen'
 import SignUp from '../login/SignUpScreen'
@@ -44,6 +43,7 @@ import LoadingIcon from '../../common/modal/LoadingIcon'
 
 import useOnPress from '../../../lib/hooks/useOnPress'
 import useTorus from './hooks/useTorus'
+import { LoginStrategy } from './sdk/strategies'
 
 Image.prefetch(illustration)
 
@@ -168,7 +168,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
       }
 
       try {
-        const { exists, fullName, provider: foundOtherProvider } = await userExists2(torusUser)
+        const { exists, fullName, provider: foundOtherProvider } = await userExists(torusUser)
         log.debug('checking userAlreadyExist', { exists, fullName, foundOtherProvider })
         let selection = authScreen
         if (isSignup) {
@@ -388,7 +388,9 @@ const useAlreadySignedUp = () => {
     const promise = new Promise((res, rej) => {
       resolve = res
     })
-    const registeredBy = formatProvider(foundOtherProvider)
+
+    const registeredBy = LoginStrategy.getTitle(foundOtherProvider)
+
     showDialog({
       onDismiss: () => {
         hideDialog()

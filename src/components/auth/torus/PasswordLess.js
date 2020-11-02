@@ -18,7 +18,7 @@ const ShowPasswordless = ({ isSignup = true, isOpen, styles, onSelect, handleLog
   //   handleLoginMethod('auth0-pwdless-email')
   // })
 
-  const _mobile = handleLoginMethod('auth0-pwdless-sms')
+  const _mobile = () => handleLoginMethod('auth0-pwdless-sms')
 
   const _onSelect = () => {
     fireEvent(isSignup ? SIGNUP_METHOD_SELECTED : SIGNIN_METHOD_SELECTED, { method: 'auth0-pwdless' })

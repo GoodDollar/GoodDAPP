@@ -94,30 +94,24 @@ const WelcomeScreen = ({ styles, screenProps, navigation }) => {
         {config.enableSelfCustody && (
           <>
             <Section.Row alignItems="center" justifyContent="center">
-              <TouchableOpacity onPress={goToManualRegistration}>
-                <Section.Text
-                  fontWeight="medium"
-                  style={styles.minSpace}
-                  textDecorationLine="underline"
-                  color="primary"
-                  fontSize={14}
-                >
-                  Agree & Continue with self custody wallet
-                </Section.Text>
-              </TouchableOpacity>
+              <CustomButton
+                textStyle={{ textDecorationLine: 'underline', fontSize: 14, fontWeight: 500 }}
+                style={styles.minSpace}
+                mode="text"
+                onPress={goToManualRegistration}
+              >
+                Agree & Continue with self custody wallet
+              </CustomButton>
             </Section.Row>
             <Section.Row alignItems="center" justifyContent="center" style={styles.signInLink}>
-              <TouchableOpacity onPress={goToSignInInfo}>
-                <Section.Text
-                  fontWeight="medium"
-                  style={styles.recoverText}
-                  textDecorationLine="underline"
-                  color="primary"
-                  fontSize={14}
-                >
-                  Sign in
-                </Section.Text>
-              </TouchableOpacity>
+              <CustomButton
+                textStyle={{ textDecorationLine: 'underline', fontSize: 14, fontWeight: 500 }}
+                style={styles.recoverText}
+                mode="text"
+                onPress={goToSignInInfo}
+              >
+                Sign in
+              </CustomButton>
             </Section.Row>
           </>
         )}
@@ -128,17 +122,15 @@ const WelcomeScreen = ({ styles, screenProps, navigation }) => {
             </CustomButton>
           </Section.Row>
           <Section.Row alignItems="center" justifyContent="center">
-            <TouchableOpacity onPress={goToSignIn}>
-              <Section.Text
-                fontWeight="bold"
-                style={styles.recoverText}
-                textDecorationLine="underline"
-                color="darkGray"
-                fontSize={14}
-              >
-                {'Already Have a Wallet? Log In >'}
-              </Section.Text>
-            </TouchableOpacity>
+            <CustomButton
+              textStyle={{ textDecorationLine: 'underline', fontSize: 14, fontWeight: 'bold' }}
+              style={styles.recoverText}
+              mode="text"
+              onPress={goToSignIn}
+              color="darkGray"
+            >
+              {'Already Have a Wallet? Log In >'}
+            </CustomButton>
           </Section.Row>
         </>
       </Section>
@@ -188,13 +180,13 @@ const getStylesFromProps = ({ theme }) => {
       marginBottom: getDesignRelativeHeight(20),
     },
     buttonSpace: {
-      marginBottom: getDesignRelativeHeight(15),
+      marginBottom: getDesignRelativeHeight(5),
     },
     recoverText: {
-      marginBottom: getDesignRelativeHeight(15),
+      marginBottom: getDesignRelativeHeight(5),
     },
     minSpace: {
-      marginBottom: getDesignRelativeHeight(5),
+      marginBottom: 0,
     },
   }
 }

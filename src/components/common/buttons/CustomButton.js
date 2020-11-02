@@ -1,8 +1,10 @@
 // @flow
 import React from 'react'
 import { View } from 'react-native'
-import { ActivityIndicator, DefaultTheme } from 'react-native-paper'
+import { ActivityIndicator } from 'react-native-paper'
+import useOnPress from '../../../lib/hooks/useOnPress'
 import { withStyles } from '../../../lib/styles'
+import { theme as DefaultTheme } from '../../theme/styles'
 import Icon from '../view/Icon'
 import Text from '../view/Text'
 import BaseButton from './BaseButton'
@@ -156,7 +158,9 @@ const CustomButton = (props: ButtonProps) => {
   } = props
   const dark = mode === 'contained'
   const uppercase = mode !== 'text'
-  const color = props.color ? props.color : theme.colors.default
+  const color = props.color ? theme.colors[props.color] || props.color : theme.colors.default
+  const onButtonPressed = useOnPress(onPress)
+
   return (
     <BaseButton
       dark={dark}
@@ -166,7 +170,7 @@ const CustomButton = (props: ButtonProps) => {
       theme={{ ...theme, roundness }}
       uppercase={uppercase}
       disabled={disabled || loading}
-      onPress={onPress}
+      onPress={onButtonPressed}
       {...buttonProps}
       color={color}
       style={[styles.buttonStyle, style]}

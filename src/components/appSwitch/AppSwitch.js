@@ -26,6 +26,7 @@ import SimpleStore, { assertStore } from '../../lib/undux/SimpleStore'
 import { preloadZoomSDK } from '../dashboard/FaceVerification/hooks/useZoomSDK'
 import DeepLinking from '../../lib/utils/deepLinking'
 import { isMobileNative } from '../../lib/utils/platform'
+import { getInviteCode } from '../invite/useInvites'
 
 type LoadingProps = {
   navigation: any,
@@ -144,9 +145,14 @@ const AppSwitch = (props: LoadingProps) => {
    * @returns {Promise<void>}
    */
   const initialize = async isLoggedInCitizen => {
+    if (!assertStore(gdstore, log, 'Failed to initialize login/citizen status')) {
+      return
+    }
+
+    getInviteCode().then(code => gdstore.set('inviteCode')(code))
+
     AsyncStorage.setItem('GD_version', 'phase' + config.phase)
 
-    // gdstore.set('inviteCode')(inviteCode)
     const regMethod = (await AsyncStorage.getItem(GD_USER_MASTERSEED).then(_ => !!_))
       ? REGISTRATION_METHOD_TORUS
       : REGISTRATION_METHOD_SELF_CUSTODY

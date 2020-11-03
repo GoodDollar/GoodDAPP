@@ -122,6 +122,7 @@
     "react-native-web-webview": "^0.2.8",
     "react-phone-number-input": "^2.3.18",
     "react-qr-reader": "^2.2.1",
+    "react-share": "^4.3.1",
     "recaptcha-v3-react": "^3.0.3",
     "rxjs": "^6.4.0",
     "svg2png": "^4.1.1",

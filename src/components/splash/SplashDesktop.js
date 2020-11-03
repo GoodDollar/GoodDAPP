@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { Platform, StyleSheet, View } from 'react-native'
 import GoodDollarImageSVG from '../../assets/Splash/goodDollar.svg'
 
@@ -8,10 +8,9 @@ import CustomButton from '../common/buttons/CustomButton'
 import Wrapper from '../common/layout/Wrapper'
 import Section from '../common/layout/Section'
 import QRCode from '../common/view/QrCode/QRCode'
-import useOnPress from '../../lib/hooks/useOnPress'
 
 const SplashDesktop = ({ onContinue, urlForQR }) => {
-  const _onContinue = useOnPress(onContinue)
+  const _onContinue = useCallback(onContinue)
   return (
     <Wrapper style={styles.wrapper}>
       <Section style={styles.container}>

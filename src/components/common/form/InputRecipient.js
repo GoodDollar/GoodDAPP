@@ -1,5 +1,5 @@
 // libraries
-import React from 'react'
+import React, { useCallback } from 'react'
 import { StyleSheet, View } from 'react-native'
 import { HelperText, TextInput } from 'react-native-paper'
 
@@ -8,7 +8,6 @@ import Icon from '../view/Icon'
 
 // hooks
 import { useClipboardPaste } from '../../../lib/hooks/useClipboard'
-import useOnPress from '../../../lib/hooks/useOnPress'
 import usePermissions from '../../permissions/hooks/usePermissions'
 
 // utils
@@ -36,7 +35,7 @@ const InputRecipient = props => {
     navigate,
   })
 
-  const handlePastePress = useOnPress(requestClipboardPermissions, [])
+  const handlePastePress = useCallback(requestClipboardPermissions)
 
   return (
     <View style={styles.iconInputContainer}>

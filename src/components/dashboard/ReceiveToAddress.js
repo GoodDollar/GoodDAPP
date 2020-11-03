@@ -1,6 +1,6 @@
 // @flow
 
-import React from 'react'
+import React, { useCallback } from 'react'
 import { View } from 'react-native'
 import GoodWallet from '../../lib/wallet/GoodWallet'
 import InputText from '../common/form/InputText'
@@ -10,7 +10,6 @@ import { withStyles } from '../../lib/styles'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
 import normalize from '../../lib/utils/normalizeText'
 import CopyButton from '../common/buttons/CopyButton'
-import useOnPress from '../../lib/hooks/useOnPress'
 import EventIcon from './FeedItems/EventIcon'
 
 export type TypeProps = {
@@ -75,7 +74,7 @@ export const GDTokensWarningBox = withStyles(warningBoxStyles)(({ styles, isSend
 ))
 
 const ReceiveToAddress = ({ screenProps, styles, address }: TypeProps) => {
-  const onPressDone = useOnPress(screenProps.goToRoot)
+  const onPressDone = useCallback(screenProps.goToRoot)
   return (
     <Wrapper>
       <TopBar

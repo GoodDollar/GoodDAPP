@@ -1,5 +1,5 @@
 // @flow
-import React, { useMemo } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { PixelRatio, View } from 'react-native'
 import { isBrowser, isMobileOnlyWeb } from '../../lib/utils/platform'
 import useNativeSharing from '../../lib/hooks/useNativeSharing'
@@ -11,7 +11,6 @@ import { CopyButton, CustomButton, QRCode, Section, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
 import { withStyles } from '../../lib/styles'
 import { getDesignRelativeHeight, getMaxDeviceHeight } from '../../lib/utils/sizes'
-import useOnPress from '../../lib/hooks/useOnPress'
 
 export type ReceiveProps = {
   screenProps: any,
@@ -39,9 +38,9 @@ const Receive = ({ screenProps, styles }: ReceiveProps) => {
 
   const shareLink = useMemo(() => share.message + ' ' + share.url, [share])
 
-  const fireReceiveDoneEvent = useOnPress(() => fireEvent('RECEIVE_DONE', { type: 'wallet' }), [])
+  const fireReceiveDoneEvent = useCallback(() => fireEvent('RECEIVE_DONE', { type: 'wallet' }), [])
 
-  const shareHandler = useOnPress(() => {
+  const shareHandler = useCallback(() => {
     // not mandatory to await for shareAction as there no visual changes after it
     shareAction(share)
     fireReceiveDoneEvent()

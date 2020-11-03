@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { View } from 'react-native'
 import { get } from 'lodash'
 import * as web3Utils from 'web3-utils'
@@ -10,7 +10,6 @@ import Text from '../common/view/Text'
 import OopsSVG from '../../assets/oops.svg'
 import logger from '../../lib/logger/pino-logger'
 import { withStyles } from '../../lib/styles'
-import useOnPress from '../../lib/hooks/useOnPress'
 
 const log = logger.child({ from: 'OutOfGasError' })
 
@@ -32,9 +31,9 @@ Don’t worry, we’ll take care off you.\n`
   const [isCheatError, setCheatError] = useState(false)
   const { screenProps } = props
 
-  const gotoDb = useOnPress(() => screenProps.navigateTo('Home'), [screenProps])
+  const gotoDb = useCallback(() => screenProps.navigateTo('Home'), [screenProps])
 
-  const gotoSupport = useOnPress(() => screenProps.navigateTo('Support'), [screenProps])
+  const gotoSupport = useCallback(() => screenProps.navigateTo('Support'), [screenProps])
 
   useEffect(() => {
     callTopWallet()

@@ -1,10 +1,10 @@
 // @flow
-import React from 'react'
+import React, { useCallback } from 'react'
 import { Platform, View } from 'react-native'
+import { noop } from 'lodash'
 import CustomButton from '../../common/buttons/CustomButton'
 import Text from '../../common/view/Text'
 import { withStyles } from '../../../lib/styles'
-import useOnPress from '../../../lib/hooks/useOnPress'
 import type { FeedEventProps } from './EventProps'
 
 const numberColors = [
@@ -21,8 +21,8 @@ const numberColors = [
   '#31AB00',
 ]
 
-const CircleNumber = ({ value, onPress, styles, theme }) => {
-  const _onPress = useOnPress(onPress)
+const CircleNumber = ({ value, onPress = noop, styles, theme }) => {
+  const _onPress = useCallback(onPress)
   return (
     <View style={styles.numberColumn}>
       <CustomButton
@@ -44,7 +44,7 @@ const CircleNumber = ({ value, onPress, styles, theme }) => {
  */
 const FeedModalItem = (props: FeedEventProps) => {
   const { item, onPress, styles, theme } = props
-  const buttonPress = useOnPress(() => {
+  const buttonPress = useCallback(() => {
     onPress(item.id)
   }, [item.id, onPress])
 
@@ -58,12 +58,12 @@ const FeedModalItem = (props: FeedEventProps) => {
       <View style={[styles.numbersContainer, { borderColor: theme.colors.primary }]}>
         <View style={styles.numbersRow}>
           {Array.from({ length: 6 }, (elem, index) => (
-            <CircleNumber key={index} value={index} onPress={() => {}} styles={styles} theme={theme} />
+            <CircleNumber key={index} value={index} styles={styles} theme={theme} />
           ))}
         </View>
         <View style={styles.bottomNumbersRow}>
           {Array.from({ length: 5 }, (elem, index) => (
-            <CircleNumber key={index + 6} value={index + 6} onPress={() => {}} styles={styles} theme={theme} />
+            <CircleNumber key={index + 6} value={index + 6} styles={styles} theme={theme} />
           ))}
         </View>
         <View style={styles.numbersDescriptionRow}>

@@ -1,5 +1,5 @@
 // @flow
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import useClipboard from '../../lib/hooks/useClipboard'
 import { useWrappedApi } from '../../lib/API/useWrappedApi'
 import { withStyles } from '../../lib/styles'
@@ -13,7 +13,6 @@ import { backupMessage } from '../../lib/gundb/UserStorageClass'
 import logger from '../../lib/logger/pino-logger'
 import { fireEvent, PHRASE_BACKUP } from '../../lib/analytics/analytics'
 import Wrapper from '../common/layout/Wrapper'
-import useOnPress from '../../lib/hooks/useOnPress'
 
 const log = logger.child({ from: 'BackupWallet' })
 const TITLE = 'Backup my wallet'
@@ -40,7 +39,7 @@ const BackupWallet = ({ screenProps, styles, theme }: BackupWalletProps) => {
     getMnemonicsValue()
   }, [])
 
-  const sendRecoveryEmail = useOnPress(async () => {
+  const sendRecoveryEmail = useCallback(async () => {
     try {
       const currentMnemonics = await getMnemonics()
       await API.sendRecoveryInstructionByEmail(currentMnemonics)
@@ -65,7 +64,7 @@ const BackupWallet = ({ screenProps, styles, theme }: BackupWalletProps) => {
     }
   }, [getMnemonics, userStorage])
 
-  const setClipboard = useOnPress(async () => {
+  const setClipboard = useCallback(async () => {
     const currentMnemonics = await getMnemonics()
 
     if (await setString(currentMnemonics)) {
@@ -77,7 +76,7 @@ const BackupWallet = ({ screenProps, styles, theme }: BackupWalletProps) => {
     }
   }, [getMnemonics])
 
-  const done = useOnPress(screenProps.pop)
+  const done = useCallback(screenProps.pop)
 
   return (
     <Wrapper style={styles.mainWrapper}>

@@ -21,7 +21,6 @@ import { withStyles } from '../../../lib/styles'
 
 import { CLICK_BTN_CARD_ACTION, fireEvent } from '../../../lib/analytics/analytics'
 import config from '../../../config/config'
-import useOnPress from '../../../lib/hooks/useOnPress'
 import { isMobile } from '../../../lib/utils/platform'
 
 const log = logger.child({ from: 'ModalActionsByFeed' })
@@ -38,7 +37,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
 
   const store = GDStore.useStore()
   const inviteCode = store.get('inviteCode')
-  const _handleModalClose = useOnPress(handleModalClose)
+  const _handleModalClose = useCallback(handleModalClose)
   const { fullName: currentUserName } = store.get('profile')
 
   const [cancellingPayment, setCancellingPayment] = useState(false)
@@ -127,31 +126,31 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
     }
   }, [generateShareLink, item, canShare, generateSendShareText, generateSendShareObject, inviteCode])
 
-  const readMore = useOnPress(() => {
+  const readMore = useCallback(() => {
     fireEventAnalytics('readMore')
     log.info({ item, action: 'readMore' })
     handleModalClose()
   }, [handleModalClose, item])
 
-  const shareMessage = useOnPress(() => {
+  const shareMessage = useCallback(() => {
     fireEventAnalytics('shareMessage')
     log.info({ item, action: 'shareMessage' })
     handleModalClose()
   }, [handleModalClose, item])
 
-  const invitePeople = useOnPress(() => {
+  const invitePeople = useCallback(() => {
     fireEventAnalytics('Rewards')
     navigation.navigate('Rewards')
     handleModalClose()
   }, [handleModalClose, navigation])
 
-  const backupPage = useOnPress(() => {
+  const backupPage = useCallback(() => {
     fireEventAnalytics('BackupWallet')
     navigation.navigate('BackupWallet')
     handleModalClose()
   }, [handleModalClose, navigation])
 
-  const goToClaimPage = useOnPress(() => {
+  const goToClaimPage = useCallback(() => {
     fireEventAnalytics('Claim')
     navigation.navigate('Claim')
     handleModalClose()
@@ -172,7 +171,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
       return (
         <View style={styles.buttonsView}>
           <View style={styles.rightButtonContainer}>
-            <ModalButton fontWeight="medium" onPress={handleModalClose}>
+            <ModalButton fontWeight="medium" onPress={_handleModalClose}>
               {config.isPhaseZero ? 'OK' : 'LET`S DO IT'}
             </ModalButton>
           </View>

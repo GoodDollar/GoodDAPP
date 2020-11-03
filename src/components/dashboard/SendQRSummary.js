@@ -2,7 +2,7 @@
 /**
  * @file Displays a summary when sending G$ directly to a blockchain address
  */
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { fireEvent } from '../../lib/analytics/analytics'
 import userStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
 import logger from '../../lib/logger/pino-logger'
@@ -14,7 +14,6 @@ import { CustomButton, Section, Wrapper } from '../common'
 import SummaryTable from '../common/view/SummaryTable'
 import TopBar from '../common/view/TopBar'
 import Config from '../../config/config'
-import useOnPress from '../../lib/hooks/useOnPress'
 import SurveySend from './SurveySend'
 import { SEND_TITLE } from './utils/sendReceiveFlow'
 
@@ -143,7 +142,7 @@ const SendQRSummary = ({ screenProps }: AmountProps, params) => {
     return () => setIsValid(undefined)
   }, [isValid])
 
-  const handleConfirm = useOnPress(() => (Config.isEToro ? setShowSurvey(true) : confirm()), [setShowSurvey, confirm])
+  const handleConfirm = useCallback(() => (Config.isEToro ? setShowSurvey(true) : confirm()), [setShowSurvey, confirm])
 
   return (
     <Wrapper>

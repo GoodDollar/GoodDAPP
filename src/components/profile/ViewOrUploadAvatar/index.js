@@ -12,7 +12,7 @@ import { fireEvent, PROFILE_IMAGE } from '../../../lib/analytics/analytics'
 import { getDesignRelativeWidth } from '../../../lib/utils/sizes'
 import CircleButtonWrapper from '../CircleButtonWrapper'
 import CameraButton from '../CameraButton'
-import useOnPress, { useDebouncedOnPress } from '../../../lib/hooks/useOnPress'
+import { useDebouncedOnPress } from '../../../lib/hooks/useOnPress'
 import openCropper from './openCropper'
 
 export const pickerOptions = {
@@ -51,7 +51,7 @@ const ViewOrUploadAvatar = props => {
     })
   }, [navigation, wrappedUserStorage, showErrorDialog, profile, avatar])
 
-  const handleClosePress = useOnPress(async () => {
+  const handleClosePress = useCallback(async () => {
     try {
       await wrappedUserStorage.removeAvatar()
     } catch (e) {
@@ -75,7 +75,7 @@ const ViewOrUploadAvatar = props => {
     [navigation, wrappedUserStorage],
   )
 
-  const goToProfile = useOnPress(() => navigation.navigate('EditProfile'), [navigation])
+  const goToProfile = useCallback(() => navigation.navigate('EditProfile'), [navigation])
 
   return (
     <Wrapper>

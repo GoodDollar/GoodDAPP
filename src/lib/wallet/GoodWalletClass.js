@@ -4,13 +4,16 @@ import IdentityABI from '@gooddollar/goodcontracts/build/contracts/Identity.min.
 import OneTimePaymentsABI from '@gooddollar/goodcontracts/build/contracts/OneTimePayments.min.json'
 import ContractsAddress from '@gooddollar/goodcontracts/releases/deployment.json'
 import StakingModelAddress from '@gooddollar/goodcontracts/stakingModel/releases/deployment.json'
+import UpgradablesAddress from '@gooddollar/goodcontracts/upgradables/releases/deployment.json'
 import ERC20ABI from '@gooddollar/goodcontracts/build/contracts/ERC20.min.json'
 import UBIABI from '@gooddollar/goodcontracts/stakingModel/build/contracts/UBIScheme.min.json'
+import InvitesABI from '@gooddollar/goodcontracts/upgradables/build/contracts/InvitesV1.min.json'
 import type Web3 from 'web3'
 import { BN, toBN } from 'web3-utils'
 import abiDecoder from 'abi-decoder'
 import { get, invokeMap, uniqBy, values } from 'lodash'
 import moment from 'moment'
+import bs58 from 'bs58'
 import Config from '../../config/config'
 import logger from '../../lib/logger/pino-logger'
 import { ExceptionCategory } from '../../lib/logger/exceptions'
@@ -121,6 +124,8 @@ export class GoodWallet {
 
   UBIContract: Web3.eth.Contract
 
+  invitesContract: Web3.eth.Contract
+
   account: string
 
   accounts: Array<string>
@@ -199,6 +204,15 @@ export class GoodWallet {
           },
         )
         abiDecoder.addABI(OneTimePaymentsABI.abi)
+
+        // UBI Contract
+        this.invitesContract = new this.wallet.eth.Contract(
+          InvitesABI.abi,
+          get(UpgradablesAddress, `${this.network}.Invites` /*UBIABI.networks[this.networkId].address*/),
+          { from: this.account },
+        )
+        abiDecoder.addABI(InvitesABI.abi)
+
         log.info('GoodWallet Ready.', { account: this.account })
       })
       .catch(e => {
@@ -208,9 +222,9 @@ export class GoodWallet {
     return this.ready
   }
 
-  getSignUpBonusAddress() {
-    const addr = get(ContractsAddress, `${this.network}.SignupBonus`).toLowerCase()
-    return addr != NULL_ADDRESS ? addr : undefined
+  getRewardsAddresses() {
+    const addr = get(UpgradablesAddress, `${this.network}.Invites`).toLowerCase()
+    return [addr].filter(_ => _ != NULL_ADDRESS)
   }
 
   setIsPollEvents(active) {
@@ -1012,6 +1026,48 @@ export class GoodWallet {
     return this.sendTransaction(cancelOtlCall, txCallbacks)
   }
 
+  async collectInviteBounties() {
+    const tx = this.invitesContract.methods.collectBounties()
+    const res = await this.sendTransaction(tx)
+    return res
+  }
+
+  async collectInviteBounty(invitee) {
+    const tx = this.invitesContract.methods.bountyFor(invitee)
+    const res = await this.sendTransaction(tx, {})
+    return res
+  }
+
+  async joinInvites(inviter, codeLength = 10) {
+    let myCode = bs58.encode(Buffer.from(this.account.slice(2), 'hex')).slice(0, codeLength)
+    const registered = await this.invitesContract.methods.codeToUser(this.wallet.utils.fromAscii(myCode)).call()
+
+    log.debug('joinInvites:', { inviter, myCode, codeLength, registered })
+
+    //not registered
+    if (registered.search(/^0x0+$/) >= 0) {
+      const tx = this.invitesContract.methods.join(
+        this.wallet.utils.fromAscii(myCode),
+        (inviter && this.wallet.utils.fromAscii(inviter)) || '0x0'.padEnd(66, 0),
+      )
+      log.debug('joinInvites registering:', { inviter, myCode, codeLength, registered })
+      await this.sendTransaction(tx).catch(e => {
+        log.error('joinInvites failed:', e.message, e, { inviter, myCode, codeLength, registered })
+        throw e
+      })
+      return myCode
+    }
+
+    //already registered
+    if (registered === this.account) {
+      return myCode
+    }
+
+    //code collission
+    log.warn('joinInvites code collision:', { inviter, myCode, codeLength, registered })
+    return this.joinInvites(inviter, codeLength + 1)
+  }
+
   handleError(e: Error) {
     log.error('handleError', e.message, e, { category: ExceptionCategory.Blockhain })
 
@@ -1113,12 +1169,12 @@ export class GoodWallet {
     { gas: setgas, gasPrice }: GasValues = { gas: undefined, gasPrice: undefined },
   ) {
     const { onTransactionHash, onReceipt, onConfirmation, onError } = { ...defaultPromiEvents, ...txCallbacks }
-    let gas = setgas || (await tx.estimateGas())
+    let gas = setgas || (await tx.estimateGas().catch(e => log.debug('estimate gas failed'))) || 200000
     gasPrice = gasPrice || this.gasPrice
     if (Config.network === 'develop' && setgas === undefined) {
       gas *= 2
     }
-    log.debug({ gas, gasPrice })
+    log.debug('sendTransaction:', { gas, gasPrice })
     const { ok } = await this.verifyHasGas(gas * gasPrice)
     if (ok === false) {
       return Promise.reject('Reached daily transactions limit or not a citizen').catch(this.handleError)

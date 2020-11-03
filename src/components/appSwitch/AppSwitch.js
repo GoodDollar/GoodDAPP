@@ -23,6 +23,7 @@ import config from '../../config/config'
 import { delay } from '../../lib/utils/async'
 import SimpleStore, { assertStore } from '../../lib/undux/SimpleStore'
 import { preloadZoomSDK } from '../dashboard/FaceVerification/hooks/useZoomSDK'
+import { getInviteCode } from '../invite/useInvites'
 
 type LoadingProps = {
   navigation: any,
@@ -138,9 +139,10 @@ const AppSwitch = (props: LoadingProps) => {
       return
     }
 
+    getInviteCode().then(code => gdstore.set('inviteCode')(code))
+
     AsyncStorage.setItem('GD_version', 'phase' + config.phase)
 
-    // gdstore.set('inviteCode')(inviteCode)
     const regMethod = (await AsyncStorage.getItem(GD_USER_MASTERSEED).then(_ => !!_))
       ? REGISTRATION_METHOD_TORUS
       : REGISTRATION_METHOD_SELF_CUSTODY

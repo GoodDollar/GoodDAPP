@@ -96,7 +96,7 @@ const Claim = props => {
   const evaluateFRValidity = async () => {
     const isValid = screenProps.screenState && screenProps.screenState.isValid
 
-    log.debug('from FR:', { isValid })
+    log.debug('from FR:', { isValid, screenProps })
     try {
       if (isValid && (await goodWallet.isCitizen())) {
         handleClaim()

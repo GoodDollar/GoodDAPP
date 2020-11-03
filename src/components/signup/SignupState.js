@@ -521,6 +521,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
     } else if (nextRoute && nextRoute.key === 'SMS') {
       try {
         const result = await checkExisting({ mobile: newState.mobile })
+
         if (result !== 'signup') {
           return
         }
@@ -548,6 +549,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
       try {
         setLoading(true)
         const result = await checkExisting({ email: newState.email })
+
         if (result !== 'signup') {
           return
         }

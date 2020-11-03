@@ -75,7 +75,7 @@ const IntroScreen = ({ styles, screenProps }) => {
   })
 
   const openPrivacy = useOnPress(() => openLink(Config.faceVerificationPrivacyUrl), [])
-  const openFaceVerification = () => screenProps.navigateTo('FaceVerification')
+  const openFaceVerification = () => screenProps.push('FaceVerification')
 
   const [, requestCameraPermissions] = usePermissions(Permissions.Camera, {
     requestOnMounted: false,

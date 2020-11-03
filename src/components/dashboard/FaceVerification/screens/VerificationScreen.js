@@ -97,7 +97,7 @@ const FaceVerification = ({ screenProps }) => {
       // 2. If user has cancelled face verification by own
       // decision - redirecting back to the into screen
       if ([cancelled, 'ForegroundLoosedError'].includes(name)) {
-        screenProps.navigateTo('FaceVerificationIntro')
+        screenProps.pop()
         return
       }
 

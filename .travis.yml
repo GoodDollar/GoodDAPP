@@ -19,6 +19,7 @@ cache:
 env:
   global:
     - REACT_ENV=development
+    - TEST_REACT_NATIVE=false
     - BUNDLESIZE_GITHUB_TOKEN=63f6d1717c6652d63234cf9629977b08f4bac3fd
     #    - REACT_APP_NETWORK_ID=4447
     - MNEMONIC="myth like bonus scare over problem client lizard pioneer submit female collect"

@@ -1,4 +1,2 @@
-export default () => {}
-export const useAlreadySignedUp = () => {
-  return () => Promise.resolve('signup')
-}
+export default () => null // empty component should return null or will fail on render
+export const useAlreadySignedUp = () => async () => 'signup'

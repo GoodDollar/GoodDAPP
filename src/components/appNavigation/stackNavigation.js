@@ -71,6 +71,7 @@ class AppView extends Component<AppViewProps, AppViewState> {
   getComponent = (Component, props) => {
     const { shouldNavigateToComponent } = Component
     if (shouldNavigateToComponent && !shouldNavigateToComponent(props)) {
+      log.warn('should not navigate to component', { props })
       return props => {
         useEffect(() => props.screenProps.goToParent(), [])
         return null
@@ -89,7 +90,7 @@ class AppView extends Component<AppViewProps, AppViewState> {
    */
   pop = (params?: any) => {
     const { navigation } = this.props
-
+    log.debug('pop:', { params })
     const currentParams = navigation.state.routes[navigation.state.index].params
     if (currentParams && currentParams.backPage) {
       this.setState({ currentState: {}, stack: [] }, () => {
@@ -102,8 +103,9 @@ class AppView extends Component<AppViewProps, AppViewState> {
     const nextRoute = this.state.stack.pop()
     if (nextRoute) {
       this.trans = true
-      const navigationParams = nextRoute.state
-      this.setState({ currentState: { ...navigationParams, ...params, route: nextRoute.route } }, () => {
+      const navigationParams = { ...nextRoute.state, ...params }
+      log.debug('pop:', { nextRoute, navigationParams, params })
+      this.setState({ currentState: { ...navigationParams, route: nextRoute.route } }, () => {
         navigation.navigate(nextRoute.route, navigationParams)
         this.trans = false
       })
@@ -270,7 +272,7 @@ class AppView extends Component<AppViewProps, AppViewState> {
             (NavigationBar ? (
               <NavigationBar />
             ) : (
-              <NavBar goBack={backButtonHidden ? undefined : this.pop} title={pageTitle} />
+              <NavBar goBack={backButtonHidden ? undefined : () => this.pop()} title={pageTitle} />
             ))}
           {disableScroll ? (
             <SceneView navigation={descriptor.navigation} component={Component} screenProps={screenProps} />

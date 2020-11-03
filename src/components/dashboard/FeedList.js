@@ -80,7 +80,7 @@ const FeedList = ({
     if (isFunction(list.scrollToOffset)) {
       list.scrollToOffset({ offset: 0 })
     }
-  }, [flRef])
+  }, [])
 
   const pressItem = item => () => {
     if (item.type !== 'empty') {

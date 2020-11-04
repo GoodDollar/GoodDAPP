@@ -4,6 +4,7 @@ import React, { memo, useCallback, useEffect, useState } from 'react'
 import { Platform, SafeAreaView, StyleSheet } from 'react-native'
 import PaperProvider from 'react-native-paper/src/core/Provider'
 import './lib/gundb/gundb'
+import { useCountryCode } from './lib/hooks/useCountryFlagUrl'
 import useServiceWorker from './lib/hooks/useServiceWorker'
 import { theme } from './components/theme/styles'
 import SimpleStore from './lib/undux/SimpleStore'
@@ -13,6 +14,7 @@ import SplashDesktop from './components/splash/SplashDesktop'
 import logger from './lib/logger/pino-logger'
 import { SimpleStoreDialog } from './components/common/dialogs/CustomDialog'
 import Config from './config/config'
+
 const log = logger.child({ from: 'App' })
 
 const SplashOrRouter = memo(({ store }) => {
@@ -29,6 +31,7 @@ const SplashOrRouter = memo(({ store }) => {
 
 const App = () => {
   const store = SimpleStore.useStore()
+  useCountryCode()
 
   useServiceWorker()
   useEffect(() => log.debug({ Config }), [])

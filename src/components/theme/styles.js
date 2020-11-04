@@ -9,6 +9,7 @@ export const theme = {
   colors: {
     ...DefaultTheme.colors,
     facebookBlue: '#1877F3',
+    googleBlue: '#3367D6',
     blue: '#006EA0',
     darkBlue: '#0C263D',
     darkGray: '#42454A',

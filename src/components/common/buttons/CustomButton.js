@@ -2,9 +2,10 @@
 import { noop } from 'lodash'
 import React from 'react'
 import { View } from 'react-native'
-import { ActivityIndicator, Button as BaseButton, DefaultTheme } from 'react-native-paper'
+import { ActivityIndicator, Button as BaseButton } from 'react-native-paper'
 import useOnPress from '../../../lib/hooks/useOnPress'
 import { withStyles } from '../../../lib/styles'
+import { theme as DefaultTheme } from '../../theme/styles'
 import Icon from '../view/Icon'
 import Text from '../view/Text'
 
@@ -149,19 +150,20 @@ const CustomButton = (props: ButtonProps) => {
     disabled,
     iconStyle,
     roundness = 50,
+    contentStyle,
     onPress = noop,
     ...buttonProps
   } = props
   const dark = mode === 'contained'
   const uppercase = mode !== 'text'
-  const color = props.color ? props.color : theme.colors.default
+  const color = props.color ? theme.colors[props.color] || props.color : theme.colors.default
   const onButtonPressed = useOnPress(onPress)
 
   return (
     <BaseButton
       dark={dark}
       mode={mode}
-      contentStyle={styles.contentStyle}
+      contentStyle={[styles.contentStyle, contentStyle]}
       theme={{ ...theme, roundness }}
       uppercase={uppercase}
       disabled={disabled || loading}

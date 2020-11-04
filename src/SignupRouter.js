@@ -1,3 +1,4 @@
+/*eslint-disable*/
 import React from 'react'
 import { createBrowserApp } from '@react-navigation/web'
 import { createSwitchNavigator } from '@react-navigation/core'
@@ -13,14 +14,14 @@ import './components/appNavigation/blurFx.css'
 import SimpleStore from './lib/undux/SimpleStore.js'
 import { getOriginalScreenHeight } from './lib/utils/orientation'
 import useNavigationStateHandler from './lib/hooks/useNavigationStateHandler'
+import Welcome from './components/auth/login/WelcomeScreen'
 
 // import IOSWebAppSignIn from './components/signin/IOSWebAppSignIn'
 
-const initialRouteName = 'Auth' // isMobileSafari && isWebApp ? 'IOSWebAppSignIn' : 'Auth'
-const AuthType = Config.torusEnabled ? AuthTorus : Auth
+const initialRouteName = 'Welcome' // isMobileSafari && isWebApp ? 'IOSWebAppSignIn' : 'Auth'
 
 const routes = {
-  Auth: AuthType,
+  Welcome,
   Signup,
 
   // IOSWebAppSignIn,

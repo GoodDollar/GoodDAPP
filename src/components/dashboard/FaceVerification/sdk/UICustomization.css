@@ -61,6 +61,14 @@
   #zoom-upload-progress-wrapper .loading::before {
     font-size: 15px;
   }
+
+  #ready-screen-header-container h2 {
+    margin-top: -20px !important;
+  }
+
+  #ready-screen-subtext {
+    margin-top: -12px !important;
+  }
 }
 
 #get-ready-for-video-screen > div > div {
@@ -68,6 +76,10 @@
   margin-top: 10px !important;
 }
 
-#unsucces-instruction-list p:last-child {
-  display: none;
+#unsucces-instruction-list p {
+  color: #fff !important;
+}
+
+#unsucces-instruction-list p span {
+  color: rgb(66, 69, 74) !important;
 }

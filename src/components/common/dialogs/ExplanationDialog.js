@@ -1,5 +1,5 @@
 // libraries
-import React from 'react'
+import React, { useMemo } from 'react'
 import { Image, View } from 'react-native'
 import { isEmpty, noop } from 'lodash'
 
@@ -18,7 +18,9 @@ import { getDesignRelativeHeight } from '../../../lib/utils/sizes'
 import { theme } from '../../theme/styles'
 import normalizeText from '../../../lib/utils/normalizeText'
 
-const ExplanationButton = ({ text = 'OK', action = noop, mode, styles }) => {
+const defaultCustomStyle = {}
+
+const ExplanationButton = ({ text = 'OK', action = noop, mode, styles, style = defaultCustomStyle }) => {
   const { buttonText, textModeButtonText, textModeButton } = styles
   const store = SimpleStore.useStore()
   const isTextMode = mode === 'text'
@@ -33,14 +35,12 @@ const ExplanationButton = ({ text = 'OK', action = noop, mode, styles }) => {
       onPress={handleActionPress}
       mode={mode}
       textStyle={[buttonText, isTextMode && textModeButtonText]}
-      style={isTextMode && textModeButton}
+      style={[isTextMode && textModeButton, style]}
     >
       {text}
     </CustomButton>
   )
 }
-
-const defaultCustomStyle = {}
 
 const ExplanationDialog = ({
   styles,
@@ -53,6 +53,7 @@ const ExplanationDialog = ({
   image: ImageComponent,
   imageHeight = 74,
   buttons,
+  buttonsContainerStyle = defaultCustomStyle,
   containerStyle = defaultCustomStyle,
   imageContainer = defaultCustomStyle,
   titleStyle = defaultCustomStyle,
@@ -60,15 +61,21 @@ const ExplanationDialog = ({
   labelStyle = defaultCustomStyle,
   imageStyle = defaultCustomStyle,
 }) => {
-  const imageProps = {
-    style: [
-      styles.image,
-      { height: getDesignRelativeHeight(imageHeight, false) },
-      { marginTop: errorMessage ? undefined : getDesignRelativeHeight(8) },
-      imageStyle,
-    ],
-    resizeMode: 'contain',
-  }
+  const imageProps = useMemo(() => {
+    if (!imageSource && !ImageComponent) {
+      return
+    }
+
+    return {
+      style: [
+        styles.image,
+        { height: getDesignRelativeHeight(imageHeight, false) },
+        { marginTop: errorMessage ? undefined : getDesignRelativeHeight(8) },
+        imageStyle,
+      ],
+      resizeMode: 'contain',
+    }
+  }, [styles.image, imageStyle, ImageComponent, imageSource])
 
   return (
     <View style={[styles.container, containerStyle]}>
@@ -88,7 +95,7 @@ const ExplanationDialog = ({
       </Text>
       {text && <Text style={[styles.description, textStyle]}>{text}</Text>}
       {!isEmpty(buttons) && (
-        <View style={styles.buttonsContainer}>
+        <View style={[styles.buttonsContainer, buttonsContainerStyle]}>
           {buttons.map(buttonProps => (
             <ExplanationButton key={buttonProps.text} styles={styles} {...buttonProps} />
           ))}

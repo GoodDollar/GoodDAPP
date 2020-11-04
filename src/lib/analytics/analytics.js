@@ -2,7 +2,7 @@
 
 // libraries
 import amplitude from 'amplitude-js'
-import { assign, debounce, forIn, get, isError, isFunction, isString, toLower } from 'lodash'
+import { assign, debounce, forIn, get, isError, isFunction, isString, remove, toLower } from 'lodash'
 import * as Sentry from '@sentry/browser'
 
 // utils
@@ -54,6 +54,7 @@ export const LOGOUT = 'LOGOUT'
 export const CARD_SLIDE = 'CARD_SLIDE'
 export const FV_INTRO = 'FV_INTRO'
 export const FV_CAMERAPERMISSION = 'FV_CAMERAPERMISSION'
+export const FV_INSTRUCTIONS = 'FV_INSTRUCTIONS'
 export const FV_GETREADY_ZOOM = 'FV_GETREADY_ZOOM'
 export const FV_PROGRESS_ZOOM = 'FV_PROGRESS_ZOOM'
 export const FV_ZOOMFAILED = 'FV_ZOOMFAILED'
@@ -292,16 +293,33 @@ export const reportToSentry = (error, extra = {}, tags = {}) => {
 }
 
 export const fireEvent = (event: string, data: any = {}) => {
-  if (!isAmplitudeEnabled) {
-    return
+  if (isAmplitudeEnabled) {
+    if (!Amplitude.logEvent(event, data)) {
+      log.warn('Amplitude event not sent', { event, data })
+    }
   }
 
-  if (!Amplitude.logEvent(event, data)) {
-    log.warn('Amplitude event not sent', { event, data })
-    return
+  //fire all events on  GA also
+  let gaEvent
+  if (isGoogleAnalyticsEnabled) {
+    gaEvent = convertToGA(data)
+
+    fireGoogleAnalyticsEvent(event, gaEvent)
   }
 
-  log.debug('fired event', { event, data })
+  log.debug('fired event', { event, data, gaEvent })
+}
+
+const convertToGA = (data: any = {}) => {
+  const values = Object.values(data)
+  const eventValues = remove(values, x => typeof x === 'number')
+  const eventStrings = remove(values, x => typeof x === 'string')
+  const gaEvent = {
+    eventValue: eventValues.shift(),
+    eventLabel: eventStrings.shift() || eventValues.shift() || JSON.stringify(values.shift()),
+    eventAction: eventStrings.shift() || eventValues.shift() || JSON.stringify(values.shift()),
+  }
+  return gaEvent
 }
 
 export const fireMauticEvent = (data: any = {}) => {

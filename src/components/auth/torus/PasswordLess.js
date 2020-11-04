@@ -66,7 +66,7 @@ const ShowPasswordless = ({ isSignup = true, isOpen, styles, onSelect, handleLog
     <CustomButton
       mode={'text'}
       color={mainTheme.colors.darkGray}
-      textStyle={{ textDecoration: 'underline', fontSize: 14 }}
+      textStyle={{ textDecorationLine: 'underline', fontSize: 14, fontWeight: 'bold' }}
       onPress={_onSelect}
     >
       {isSignup ? `Don't Have Social Accounts? Try This >` : `Signed Up Via Passwordless? Login Here >`}

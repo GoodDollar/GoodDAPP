@@ -222,7 +222,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
 
     try {
       const { exists, fullName, provider: foundOtherProvider } = await userExists(torusUser)
-      log.debug('checking userAlreadyExist', { exists, fullName, foundOtherProvider })
+      log.debug('checking userAlreadyExist', { isSignup, exists, fullName, foundOtherProvider })
       let selection = authScreen
       if (isSignup) {
         //if user identifier exists or email/mobile found in another account
@@ -232,7 +232,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
             return setAuthScreen('signin')
           }
         }
-      } else if (isSignup === false && exists === false) {
+      } else if (isSignup === false && exists !== true) {
         selection = await showNotSignedUp(provider)
         return setAuthScreen(selection)
       }

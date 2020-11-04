@@ -1,6 +1,7 @@
 //@flow
 
 import React from 'react'
+import { View } from 'react-native'
 import Text from '../view/Text'
 
 export const showSupportDialog = (
@@ -9,9 +10,16 @@ export const showSupportDialog = (
   push,
   message = 'Something went wrong on our side. Please try again',
 ) => {
+  const wrapperStyles = {
+    justifyContent: 'center',
+    flexDirection: 'row',
+    alignItems: 'center',
+    flex: 1,
+  }
+
   showErrorDialog(message, undefined, {
     boldMessage: (
-      <>
+      <View style={wrapperStyles}>
         <Text fontWeight="inherit" color="inherit">
           {'Or contact '}
         </Text>
@@ -26,7 +34,7 @@ export const showSupportDialog = (
         >
           support
         </Text>
-      </>
+      </View>
     ),
   })
 }

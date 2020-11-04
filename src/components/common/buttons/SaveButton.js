@@ -1,10 +1,9 @@
 // @flow
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { TouchableOpacity, View } from 'react-native'
 import { withStyles } from '../../../lib/styles'
 import Text from '../view/Text'
 import Icon from '../view/Icon'
-import useOnPress from '../../../lib/hooks/useOnPress'
 import CustomButton from './CustomButton'
 
 const NOT_SAVED = 'NOT_SAVED'
@@ -26,7 +25,7 @@ type SaveButtonProps = {
 
 const SaveButton = ({ children, onPress, onPressDone, doneDelay, styles, theme, ...props }: SaveButtonProps) => {
   const [state, setState] = useState(NOT_SAVED)
-  const pressAndNextState = useOnPress(async () => {
+  const pressAndNextState = useCallback(async () => {
     setState(SAVING)
 
     const result = await onPress()

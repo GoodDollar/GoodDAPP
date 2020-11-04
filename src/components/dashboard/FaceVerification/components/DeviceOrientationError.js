@@ -6,17 +6,20 @@ import Separator from '../../../common/layout/Separator'
 import { CustomButton, Section, Wrapper } from '../../../common'
 import IllustrationSVG from '../../../../assets/FRPortraitModeError.svg'
 
-import useOnPress from '../../../../lib/hooks/useOnPress'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../../lib/utils/sizes'
 import { isMobileOnly } from '../../../../lib/utils/platform'
 import { withStyles } from '../../../../lib/styles'
 
 import { fireEvent, FV_WRONGORIENTATION } from '../../../../lib/analytics/analytics'
 
-const DeviceOrientationError = ({ styles, displayTitle, onRetry }) => {
-  const onRetryPress = useOnPress(onRetry)
+const DeviceOrientationError = ({ styles, displayTitle, onRetry, exception }) => {
+  useEffect(() => {
+    if (!exception) {
+      return
+    }
 
-  useEffect(() => void fireEvent(FV_WRONGORIENTATION), [])
+    fireEvent(FV_WRONGORIENTATION)
+  }, [])
 
   return (
     <Wrapper>
@@ -43,7 +46,7 @@ const DeviceOrientationError = ({ styles, displayTitle, onRetry }) => {
           </Section>
         </Section>
         <View style={styles.action}>
-          <CustomButton onPress={onRetryPress}>PLEASE TRY AGAIN</CustomButton>
+          <CustomButton onPress={onRetry}>PLEASE TRY AGAIN</CustomButton>
         </View>
       </View>
     </Wrapper>

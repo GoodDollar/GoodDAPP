@@ -15,7 +15,7 @@ const getStylesFromProps = ({ theme, color }) => ({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'center',
-    marginBottom: theme.sizes.defaultDouble,
+    marginVertical: theme.sizes.defaultDouble,
   },
   errorIconFrame: {
     alignItems: 'center',

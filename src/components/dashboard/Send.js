@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import isEmail from 'validator/lib/isEmail'
 import { BackButton, useScreenState } from '../appNavigation/stackNavigation'
 import userStorage from '../../lib/gundb/UserStorage'
@@ -8,15 +8,14 @@ import isMobilePhone from '../../lib/validators/isMobilePhone'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import { CustomButton, IconButton, Section, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
-import useOnPress from '../../lib/hooks/useOnPress'
 
 const SEND_TITLE = 'Send G$'
 
 const log = logger.child({ from: SEND_TITLE })
 
 const ScanQRButton = ({ push, disabled }) => {
-  const _onPress = useOnPress(() => push('SendByQR'), [push])
-  return <IconButton name="link" text="Scan QR Code" onPress={_onPress} disabled={disabled} />
+  const onPress = useCallback(() => push('SendByQR'), [push])
+  return <IconButton name="link" text="Scan QR Code" onPress={onPress} disabled={disabled} />
 }
 
 /**
@@ -26,8 +25,8 @@ const ScanQRButton = ({ push, disabled }) => {
  * @param {push} props passed by navigation
  */
 const GenerateLinkButton = ({ push, disabled }) => {
-  const _onPress = useOnPress(() => push('Amount', { nextRoutes: ['Reason', 'SendLinkSummary'] }), [push])
-  return <IconButton name="qrcode" text="Generate Link" disabled={disabled} onPress={_onPress} />
+  const onPress = useCallback(() => push('Amount', { nextRoutes: ['Reason', 'SendLinkSummary'] }), [push])
+  return <IconButton name="qrcode" text="Generate Link" disabled={disabled} onPress={onPress} />
 }
 
 const validate = async to => {
@@ -47,7 +46,7 @@ const validate = async to => {
 }
 
 const ContinueButton = ({ push, to, disabled, checkError }) => {
-  const onContinue = useOnPress(async () => {
+  const onContinue = useCallback(async () => {
     if (await checkError()) {
       return
     }

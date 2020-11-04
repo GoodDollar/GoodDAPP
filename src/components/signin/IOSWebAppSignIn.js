@@ -2,7 +2,7 @@
 //eslint-disable-next-line
 
 import bip39 from 'bip39-light'
-import React, { Fragment, useState } from 'react'
+import React, { Fragment, useCallback, useState } from 'react'
 import { View } from 'react-native'
 import AsyncStorage from '../../lib/utils/asyncStorage'
 import { IS_LOGGED_IN } from '../../lib/constants/localStorage'
@@ -18,7 +18,6 @@ import InputText from '../common/form/InputText'
 import NavBar from '../appNavigation/NavBar'
 import IOSWebAppSignInSVG from '../../assets/IOSWebAppSignIn.svg'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
-import useOnPress from '../../lib/hooks/useOnPress'
 
 const TITLE = 'EASY ACCESS'
 const log = logger.child({ from: 'IOS EASY ACCESS' })
@@ -42,7 +41,7 @@ const IOSWebAppSignIn = ({ screenProps, navigation, styles }) => {
     }
   }
 
-  const recover = useOnPress(async () => {
+  const recover = useCallback(async () => {
     setRecovering(true)
 
     const errorText = 'You are using wrong sign in code'

@@ -7,7 +7,6 @@ import LoadingIcon from '../../components/common/modal/LoadingIcon'
 
 import retryImport from '../utils/retryImport'
 import restart from '../utils/restart'
-import useOnPress from './useOnPress'
 
 const log = logger.child({ from: 'useDeleteAccountDialog' })
 
@@ -33,7 +32,7 @@ export const deleteGunDB = () => {
 }
 
 export default ({ API, showErrorDialog, theme }) => {
-  const deleteHandler = useOnPress(async () => {
+  const deleteHandler = useCallback(async () => {
     showErrorDialog('', '', {
       title: 'ARE YOU SURE?',
       message: 'If you delete your account',

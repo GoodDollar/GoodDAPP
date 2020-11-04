@@ -1,7 +1,7 @@
 // @flow
 
 // libraries
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { RadioButton } from 'react-native-paper'
 import { TouchableOpacity } from 'react-native'
 import { startCase } from 'lodash'
@@ -56,9 +56,6 @@ const ProfilePrivacy = props => {
 
   // bordered box required data
   const { avatar } = gdstore.get('profile')
-
-  const avatarSource = useMemo(() => avatar || unknownProfile, [avatar])
-
   const faceRecordId = useMemo(() => userStorage.getFaceIdentifier(), [])
 
   useEffect(() => {
@@ -77,7 +74,7 @@ const ProfilePrivacy = props => {
     privacyGatherer()
   }, [])
 
-  const handleSaveShowTips = useOnPress(() => {
+  const handleSaveShowTips = useCallback(() => {
     showDialog({
       title: 'SETTINGS',
       content: (
@@ -111,7 +108,7 @@ const ProfilePrivacy = props => {
     initialPrivacy,
   ])
 
-  const handleSave = useOnPress(async () => {
+  const handleSave = useCallback(async () => {
     setLoading(true)
 
     fireEvent(PROFILE_PRIVACY, { privacy: privacy[field], field })
@@ -133,7 +130,7 @@ const ProfilePrivacy = props => {
     }
 
     setLoading(false)
-  }, [setLoading, valuesToBeUpdated, setInitialPrivacy, privacy])
+  }, [setLoading, valuesToBeUpdated, setInitialPrivacy, privacy, field])
 
   return (
     <Wrapper style={styles.mainWrapper}>
@@ -162,7 +159,8 @@ const ProfilePrivacy = props => {
           </Section.Stack>
           <Section grow justifyContent="center">
             <BorderedBox
-              imageSource={avatarSource}
+              imageSource={avatar}
+              image={!avatar && unknownProfile}
               title="My Face Record ID"
               content={faceRecordId}
               truncateContent

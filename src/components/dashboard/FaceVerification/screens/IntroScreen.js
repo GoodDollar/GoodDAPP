@@ -91,7 +91,7 @@ const IntroScreen = ({ styles, screenProps }) => {
     onUnsupported: navigateToHome,
   })
 
-  const handleVerifyClick = useOnPress(() => {
+  const handleVerifyClick = useCallback(() => {
     // if cypress is running - just redirect to FR as we're skipping
     // zoom componet (which requires camera access) in this case
     if (isE2ERunning) {

@@ -13,7 +13,6 @@ import { BackButton, NextButton, useScreenState } from '../appNavigation/stackNa
 // hooks
 import { useClipboardPaste } from '../../lib/hooks/useClipboard'
 import usePermissions from '../permissions/hooks/usePermissions'
-import useOnPress from '../../lib/hooks/useOnPress'
 import useValidatedValueState from '../../lib/utils/useValidatedValueState'
 
 // utils
@@ -67,7 +66,7 @@ const SendToAddress = (props: TypeProps) => {
     navigate: navigateTo,
   })
 
-  const handleAdornmentAction = useOnPress(requestClipboardPermissions, [])
+  const handleAdornmentAction = useCallback(requestClipboardPermissions)
 
   return (
     <Wrapper>

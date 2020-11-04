@@ -1,18 +1,19 @@
 // @flow
 
 // libraries
-import React, { useMemo } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { View } from 'react-native'
 import { get } from 'lodash'
 
 // components
 import Wrapper from '../common/layout/Wrapper'
-import { CustomButton, Section } from '../common'
+import { Section } from '../common'
 import BorderedBox from '../common/view/BorderedBox'
 import NavBar from '../appNavigation/NavBar'
 
 // hooks
-import useOnPress from '../../lib/hooks/useOnPress'
+import { useDialog } from '../../lib/undux/utils/dialog'
+import useLoading from '../../lib/hooks/useLoadingIndicator'
 
 // utils
 import { withStyles } from '../../lib/styles'
@@ -24,8 +25,7 @@ import config from '../../config/config'
 // assets
 import unknownProfile from '../../assets/unknownProfile.svg'
 import FuseLogo from '../../assets/ExportWallet/FuseLogo.svg'
-
-const web3ProviderUrl = GoodWallet.networkId && config.ethereum[GoodWallet.networkId].httpWeb3provider
+import ExportWarningPopup from './ExportWarningPopup'
 
 type ExportWalletProps = {
   styles: {},
@@ -35,14 +35,31 @@ type ExportWalletProps = {
 
 const ExportWalletData = ({ navigation, styles, theme }: ExportWalletProps) => {
   const { navigate } = navigation
+  const [showDialog] = useDialog()
   const gdstore = GDStore.useStore()
   const { avatar } = gdstore.get('profile')
+  const [showLoading, hideLoading] = useLoading()
+  const handleGoHome = useCallback(() => navigate('Home'), [navigate])
 
-  const avatarSource = useMemo(() => avatar || unknownProfile, [avatar])
+  const [publicKey, fullPrivateKey, web3ProviderUrl] = useMemo(() => {
+    const { account = '', networkId } = GoodWallet
 
-  // getting the privateKey of GD wallet address - which index is 0
-  const fullPrivateKey = get(GoodWallet, 'wallet.eth.accounts.wallet[0].privateKey', '')
-  const handleGoHome = useOnPress(() => navigate('Home'), [navigate])
+    return [
+      account,
+      get(GoodWallet, 'wallet.eth.accounts.wallet[0].privateKey', ''),
+      networkId && config.ethereum[networkId].httpWeb3provider,
+    ]
+  }, [])
+
+  const onPublicKeyCopied = useCallback(() => {
+    showLoading()
+
+    showDialog({
+      showButtons: false,
+      onDismiss: hideLoading,
+      content: <ExportWarningPopup onDismiss={hideLoading} />,
+    })
+  }, [showDialog])
 
   return (
     <Wrapper style={styles.wrapper}>
@@ -52,22 +69,39 @@ const ExportWalletData = ({ navigation, styles, theme }: ExportWalletProps) => {
           <BorderedBox
             styles={styles}
             theme={theme}
-            title="My Wallet Private Key"
+            title="My Private Key"
             content={fullPrivateKey}
             truncateContent
-            imageSource={avatarSource}
+            imageSize={50}
+            imageSource={avatar}
+            image={!avatar && unknownProfile}
             copyButtonText="Copy Key"
+            showCopyIcon={false}
+          />
+          <BorderedBox
+            styles={styles}
+            theme={theme}
+            title="My Wallet Address"
+            content={publicKey}
+            truncateContent
+            imageSize={50}
+            imageSource={avatar}
+            image={!avatar && unknownProfile}
+            copyButtonText="Copy address"
+            showCopyIcon={false}
+            onCopied={onPublicKeyCopied}
           />
           <BorderedBox
             styles={styles}
             theme={theme}
             title="Fuse Network RPC Address"
             content={web3ProviderUrl}
-            imageSource={FuseLogo}
-            copyButtonText="Copy Address"
+            imageSize={50}
+            image={FuseLogo}
+            copyButtonText="Copy RPC"
+            showCopyIcon={false}
           />
         </View>
-        <CustomButton onPress={handleGoHome}>Done</CustomButton>
       </Section>
     </Wrapper>
   )

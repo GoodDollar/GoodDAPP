@@ -67,7 +67,7 @@ const Signin = props => {
       </Wrapper>
       <Section.Row alignItems="center" justifyContent="center">
         <CustomButton
-          textStyle={{ textDecorationLine: 'underline', fontSize: 14, fontWeight: 500 }}
+          textStyle={{ textDecorationLine: 'underline', fontSize: 14, fontWeight: '500' }}
           mode="text"
           onPress={handleRecover}
           testID="recoverPhrase"
@@ -77,7 +77,7 @@ const Signin = props => {
       </Section.Row>
       <Section.Row alignItems="center" justifyContent="center">
         <CustomButton
-          textStyle={{ textDecorationLine: 'underline', fontSize: 14, fontWeight: 500 }}
+          textStyle={{ textDecorationLine: 'underline', fontSize: 14, fontWeight: '500' }}
           mode="text"
           onPress={goToSupport}
           style={styles.haveIssuesText}

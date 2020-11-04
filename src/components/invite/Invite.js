@@ -133,10 +133,10 @@ const ShareBox = ({ shareUrl }) => {
         </Text>
         <ShareButton
           style={{ width: 70, height: 32, minHeight: 32 }}
-          color={theme.colors.orange}
-          textStyle={{ fontSize: 14, color: theme.colors.darkBlue }}
+          color={theme.colors.darkBlue}
+          textStyle={{ fontSize: 14, color: theme.colors.white }}
           toCopy={shareUrl}
-          iconColor={'darkBlue'}
+          iconColor={'white'}
           onPressed={() => fireEvent(INVITE_SHARE, { method: isMobile ? 'share' : 'copy' })}
         >
           {isMobile ? 'share' : 'copy'}

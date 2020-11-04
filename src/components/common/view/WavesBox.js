@@ -11,19 +11,21 @@ export const WavesBox = ({ style, primaryColor, children, title, contentStyle })
       <ModalLeftBorder borderColor={primaryColor} />
       <ModalContents style={[styles.content, contentStyle]}>
         {title && (
-          <Section.Row>
-            <Section.Text
-              style={{ textTransform: 'capitalize' }}
-              color={primaryColor}
-              fontWeight={'bold'}
-              fontSize={18}
-              letterSpacing={0.09}
-            >
-              {title}
-            </Section.Text>
-          </Section.Row>
+          <>
+            <Section.Row>
+              <Section.Text
+                style={{ textTransform: 'capitalize' }}
+                color={primaryColor}
+                fontWeight={'bold'}
+                fontSize={18}
+                letterSpacing={0.09}
+              >
+                {title}
+              </Section.Text>
+            </Section.Row>
+            <Section.Separator style={{ marginTop: 4 }} width={1} color={primaryColor} />
+          </>
         )}
-        <Section.Separator style={{ marginTop: 4 }} width={1} color={primaryColor} />
         {children}
       </ModalContents>
     </ModalContainer>

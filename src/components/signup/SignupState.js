@@ -468,8 +468,9 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
   //check if email/mobile was used to register before and offer user to login instead
   const checkExisting = useCallback(
     async searchBy => {
-      const { exists, fullName, provider: foundOtherProvider } = await userExists(searchBy).catch(() => {
-        false
+      const { exists, fullName, provider: foundOtherProvider } = await userExists(searchBy).catch(e => {
+        log.warn('userExists check failed:', e.message, e)
+        return { exists: false }
       })
 
       log.debug('checking userAlreadyExist', { exists, fullName, foundOtherProvider })

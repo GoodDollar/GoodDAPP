@@ -52,6 +52,7 @@ const Config = {
   zoomEncryptionKey: fixNL(env.REACT_APP_ZOOM_ENCRYPTION_KEY),
   zoomLicenseKey: env.REACT_APP_ZOOM_LICENSE_KEY,
   zoomLicenseText: fixNL(env.REACT_APP_ZOOM_LICENSE_TEXT),
+  zoomApiVersion: Number(env.REACT_APP_ZOOM_API_VERSION || 8),
   faceVerificationPrivacyUrl:
     env.REACT_APP_FACE_VERIFICATION_PRIVACY_URL ||
     'https://medium.com/gooddollar/gooddollar-identity-pillar-balancing-identity-and-privacy-part-i-face-matching-d6864bcebf54',

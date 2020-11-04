@@ -113,7 +113,7 @@ const CustomDialog = ({
                       {...buttonProps}
                       Component={Component}
                       mode={mode}
-                      onPress={_onDismiss}
+                      onPress={() => onPress(_onDismiss)}
                       style={[{ marginLeft: 10 }, style]}
                       disabled={disabled || loading}
                       loading={loading}

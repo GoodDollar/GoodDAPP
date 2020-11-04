@@ -472,6 +472,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
   const checkExisting = useCallback(
     async searchBy => {
       const { exists, fullName, provider: foundOtherProvider } = await userExists(searchBy).catch(() => {
+        // eslint-disable-next-line no-unused-expressions
         false
       })
 

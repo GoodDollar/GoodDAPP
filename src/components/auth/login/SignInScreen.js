@@ -11,9 +11,10 @@ import FacebookBtnIcon from '../../../assets/Auth/btn_facebook.svg'
 import { theme as mainTheme } from '../../theme/styles'
 import Section from '../../common/layout/Section'
 import SimpleStore from '../../../lib/undux/SimpleStore'
-import { getDesignRelativeHeight, getMaxDeviceHeight } from '../../../lib/utils/sizes'
+import { getDesignRelativeHeight, getDesignRelativeWidth, getMaxDeviceHeight } from '../../../lib/utils/sizes'
 import { isSmallDevice } from '../../../lib/utils/mobileSizeDetect'
 import normalizeText from '../../../lib/utils/normalizeText'
+import { isBrowser } from '../../../lib/utils/platform'
 import { PasswordLess } from '../torus/PasswordLess'
 import { LoginButton } from './LoginButton'
 
@@ -50,7 +51,11 @@ const SigninScreen = ({ styles, store, handleLoginMethod, sdkInitialized, goBack
       </Text>
 
       <View style={styles.illustration}>
-        <Illustration />
+        <Illustration
+          width={getDesignRelativeWidth(isBrowser ? 290 : 206)}
+          height={getDesignRelativeHeight(172)}
+          viewBox="0 0 206.391 173.887"
+        />
       </View>
 
       <Section style={styles.bottomContainer}>
@@ -135,6 +140,7 @@ const getStylesFromProps = ({ theme }) => {
       marginRight: 'auto',
       marginLeft: 'auto',
       paddingTop: getDesignRelativeHeight(theme.sizes.default),
+      alignItems: 'center',
     },
     headerText: {
       marginTop: getDesignRelativeHeight(!shorterDevice ? 45 : 30),

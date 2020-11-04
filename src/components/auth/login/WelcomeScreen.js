@@ -87,15 +87,18 @@ const WelcomeScreen = ({ styles, screenProps, navigation }) => {
         </Text>
       </Text>
       <View style={styles.illustration}>
-        <Illustration />
+        <Illustration
+          width={getDesignRelativeWidth(isBrowser ? 331 : 276)}
+          height={getDesignRelativeHeight(217)}
+          viewBox="0 0 248.327 194.594"
+        />
       </View>
-      {/* <Image source={Illustration} style={styles.illustration} resizeMode="contain" /> */}
       <Section style={styles.bottomContainer}>
         {config.enableSelfCustody && (
           <>
             <Section.Row alignItems="center" justifyContent="center">
               <CustomButton
-                textStyle={{ textDecorationLine: 'underline', fontSize: 14, fontWeight: 500 }}
+                textStyle={{ textDecorationLine: 'underline', fontSize: 14, fontWeight: '500' }}
                 style={styles.minSpace}
                 mode="text"
                 onPress={goToManualRegistration}
@@ -105,7 +108,7 @@ const WelcomeScreen = ({ styles, screenProps, navigation }) => {
             </Section.Row>
             <Section.Row alignItems="center" justifyContent="center" style={styles.signInLink}>
               <CustomButton
-                textStyle={{ textDecorationLine: 'underline', fontSize: 14, fontWeight: 500 }}
+                textStyle={{ textDecorationLine: 'underline', fontSize: 14, fontWeight: '500' }}
                 style={styles.recoverText}
                 mode="text"
                 onPress={goToSignInInfo}
@@ -168,8 +171,6 @@ const getStylesFromProps = ({ theme }) => {
       flexGrow: 1,
       flexShrink: 0,
       marginBottom: getDesignRelativeHeight(theme.sizes.default),
-      width: getDesignRelativeWidth(isBrowser ? 331 : 276),
-      height: getDesignRelativeHeight(217),
       marginRight: 'auto',
       marginLeft: 'auto',
       paddingTop: getDesignRelativeHeight(theme.sizes.default),

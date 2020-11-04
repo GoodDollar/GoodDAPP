@@ -58,7 +58,6 @@ const ListEvent = ({ item: feed, theme, styles }: FeedEventProps) => {
                 bigNumberProps={{ fontSize: 20, lineHeight: 18 }}
                 bigNumberStyles={styles.bigNumberStyles}
                 bigNumberUnitProps={{ fontSize: 10, lineHeight: 11 }}
-                bigNumberUnitStyles={styles.bigNumberUnitStyles}
               />
             </React.Fragment>
           )}
@@ -214,9 +213,6 @@ const getStylesFromProps = ({ theme }) => ({
   },
   bigNumberStyles: {
     marginRight: theme.sizes.defaultHalf,
-  },
-  bigNumberUnitStyles: {
-    lineHeight: normalize(16),
   },
   transferInfo: {
     position: 'relative',

@@ -95,7 +95,7 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
       await saveMnemonics(mnemonics)
 
       // We validate that a user was registered for the specified mnemonics
-      const { exists, fullName } = await userExists(mnemonics)
+      const { exists, fullName } = await userExists({ mnemonics })
       log.debug('userExists result:', { exists, fullName })
 
       if (exists) {

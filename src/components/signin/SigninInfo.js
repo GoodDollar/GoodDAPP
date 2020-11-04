@@ -1,16 +1,17 @@
 // @flow
 import React from 'react'
-import { Platform, TouchableOpacity, View } from 'react-native'
+import { Platform, View } from 'react-native'
 import Section from '../common/layout/Section'
 import Circle from '../common/view/Circle'
 import Wrapper from '../common/layout/Wrapper'
 import Text from '../common/view/Text'
-
+import { CustomButton } from '../common'
 import { withStyles } from '../../lib/styles'
 import SingInSVG from '../../assets/Signin/illustration.svg'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import { createStackNavigator } from '../appNavigation/stackNavigation'
 import useOnPress from '../../lib/hooks/useOnPress'
+import { isMobileNative } from '../../lib/utils/platform'
 
 const Signin = props => {
   const { styles, navigation } = props
@@ -65,31 +66,24 @@ const Signin = props => {
         </Section.Row>
       </Wrapper>
       <Section.Row alignItems="center" justifyContent="center">
-        <TouchableOpacity onPress={handleRecover}>
-          <Section.Text
-            fontWeight="medium"
-            style={styles.recoverText}
-            textDecorationLine="underline"
-            fontSize={14}
-            color="primary"
-            testID="recoverPhrase"
-          >
-            {'Or, recover from pass phrase'}
-          </Section.Text>
-        </TouchableOpacity>
+        <CustomButton
+          textStyle={{ textDecorationLine: 'underline', fontSize: 14, fontWeight: '500' }}
+          mode="text"
+          onPress={handleRecover}
+          testID="recoverPhrase"
+        >
+          {'Or, recover from pass phrase'}
+        </CustomButton>
       </Section.Row>
       <Section.Row alignItems="center" justifyContent="center">
-        <TouchableOpacity onPress={goToSupport}>
-          <Section.Text
-            fontWeight="medium"
-            style={styles.haveIssuesText}
-            textDecorationLine="underline"
-            fontSize={14}
-            color="primary"
-          >
-            {'Still having issues? contact support'}
-          </Section.Text>
-        </TouchableOpacity>
+        <CustomButton
+          textStyle={{ textDecorationLine: 'underline', fontSize: 14, fontWeight: '500' }}
+          mode="text"
+          onPress={goToSupport}
+          style={styles.haveIssuesText}
+        >
+          {'Still having issues? contact support'}
+        </CustomButton>
       </Section.Row>
     </Section.Stack>
   )
@@ -162,6 +156,6 @@ export default createStackNavigator(
     signin,
   },
   {
-    backRouteName: 'Auth',
+    backRouteName: isMobileNative ? 'Welcome' : 'Auth',
   },
 )

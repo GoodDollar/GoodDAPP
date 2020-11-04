@@ -34,14 +34,14 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
   const [screenState] = useScreenState(screenProps)
   const [showDialog, hideDialog, showErrorDialog] = useDialog()
   const { canShare, generateSendShareObject, generateSendShareText } = useNativeSharing()
-  const [shared, setShared] = useState(false)
+
   const { goToRoot, navigateTo } = screenProps
-
-  const { fullName } = gdstore.get('profile')
-  const { amount, reason = null, counterPartyDisplayName, address, action, contact } = screenState
-
+  const [shared, setShared] = useState(false)
   const [survey] = useState('other')
   const [link, setLink] = useState('')
+  const { amount, reason = null, counterPartyDisplayName, contact, address, action } = screenState
+
+  const { fullName } = gdstore.get('profile')
 
   const shareStringStateDepSource = [amount, counterPartyDisplayName, fullName]
 

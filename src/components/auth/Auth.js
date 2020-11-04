@@ -1,8 +1,6 @@
 // @flow
 import React from 'react'
 import { Platform, SafeAreaView } from 'react-native'
-import { get } from 'lodash'
-import AsyncStorage from '../../lib/utils/asyncStorage'
 import Recover from '../signin/Mnemonics'
 import logger from '../../lib/logger/pino-logger'
 import { fireEvent, SIGNUP_METHOD_SELECTED } from '../../lib/analytics/analytics'
@@ -14,8 +12,6 @@ import Text from '../common/view/Text'
 import { PrivacyPolicy, PrivacyPolicyAndTerms, SupportForUnsigned } from '../webView/webViewInstances'
 import { createStackNavigator } from '../appNavigation/stackNavigation'
 import { withStyles } from '../../lib/styles'
-import config from '../../config/config'
-import { theme as mainTheme } from '../theme/styles'
 import Section from '../common/layout/Section'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import SimpleStore from '../../lib/undux/SimpleStore'
@@ -32,33 +28,10 @@ type Props = {
 
 const log = logger.child({ from: 'Auth' })
 
-class Auth extends React.Component<Props> {
-  state = {
-    asGuest: config.isEToro !== true,
-  }
-
-  componentWillMount() {
-    this.checkPaymentCode()
-  }
-
-  checkPaymentCode = async () => {
-    const destinationPath = await AsyncStorage.getItem('GD_destinationPath')
-    const paymentCode = get(destinationPath, 'params.paymentCode')
-
-    log.info('check paymentCode', paymentCode)
-
-    if (paymentCode) {
-      return this.setState({
-        asGuest: true,
-      })
-    }
-  }
-
-  handleSignUp = async () => {
-    const { store } = this.props
-
+const Auth = (props: Props) => {
+  const handleSignUp = async () => {
+    const { store } = props
     store.set('loadingIndicator')({ loading: true })
-
     try {
       if (Platform.OS === 'web') {
         const req = deleteGunDB()
@@ -77,7 +50,7 @@ class Auth extends React.Component<Props> {
 
     fireEvent(SIGNUP_METHOD_SELECTED, { method: REGISTRATION_METHOD_SELF_CUSTODY })
 
-    this.props.navigation.navigate('Signup', { regMethod: REGISTRATION_METHOD_SELF_CUSTODY })
+    props.navigation.navigate('Signup', { regMethod: REGISTRATION_METHOD_SELF_CUSTODY })
 
     if (Platform.OS === 'web') {
       //Hack to get keyboard up on mobile need focus from user event such as click
@@ -90,100 +63,78 @@ class Auth extends React.Component<Props> {
     }
   }
 
-  handleSignUpThirdParty = () => {
+  /*  const handleSignUpThirdParty = () => {
     // TODO: implement 3rd party sign up
     log.warn('3rd Party login not available yet')
   }
+*/
 
-  handleSignIn = () => {
-    this.props.navigation.navigate('SigninInfo')
+  const handleSignIn = () => {
+    props.navigation.navigate('SigninInfo')
   }
 
-  handleNavigateTermsOfUse = () => this.props.screenProps.push('PrivacyPolicyAndTerms')
+  const handleNavigateTermsOfUse = () => props.screenProps.push('PrivacyPolicyAndTerms')
 
-  handleNavigatePrivacyPolicy = () => this.props.screenProps.push('PrivacyPolicy')
+  const handleNavigatePrivacyPolicy = () => props.screenProps.push('PrivacyPolicy')
 
-  render() {
-    const { styles } = this.props
-    const { asGuest } = this.state
-    const firstButtonHandler = this.handleSignUp
-    const firstButtonText = asGuest ? (
-      'Create a wallet'
-    ) : (
-      <Text style={styles.buttonText} fontWeight="medium">
-        NEW HERE?
-        <Text style={styles.buttonText} fontWeight="black">
-          {' GET INVITED'}
+  const { styles } = props
+  const firstButtonHandler = handleSignUp
+  const firstButtonText = 'Create a wallet'
+
+  return (
+    <SafeAreaView style={styles.mainWrapper}>
+      <Wrapper backgroundColor="#fff" style={styles.mainWrapper}>
+        <Text
+          testID="welcomeLabel"
+          style={styles.headerText}
+          fontSize={22}
+          lineHeight={25}
+          fontFamily="Roboto"
+          fontWeight="medium"
+        >
+          {'Welcome to\nGoodDollar Wallet'}
         </Text>
-      </Text>
-    )
-
-    const firstButtonColor = asGuest ? undefined : mainTheme.colors.orange
-    const firstButtonTextStyle = asGuest ? undefined : styles.textBlack
-
-    return (
-      <SafeAreaView style={styles.mainWrapper}>
-        <Wrapper backgroundColor="#fff" style={styles.mainWrapper}>
-          <Text
-            testID="welcomeLabel"
-            style={styles.headerText}
-            fontSize={22}
-            lineHeight={25}
-            fontFamily="Roboto"
-            fontWeight="medium"
-          >
-            {'Welcome to\nGoodDollar Wallet'}
-          </Text>
-          <AnimationsPeopleFlying />
-          <Section style={styles.bottomContainer}>
-            {asGuest && (
-              <Text fontSize={12} color="gray80Percent">
-                {`By clicking the 'Create a wallet' button,\nyou are accepting our\n`}
-                <Text
-                  fontSize={12}
-                  color="gray80Percent"
-                  fontWeight="bold"
-                  textDecorationLine="underline"
-                  onPress={this.handleNavigateTermsOfUse}
-                >
-                  Terms of Use
-                </Text>
-                {' and '}
-                <Text
-                  fontSize={12}
-                  color="gray80Percent"
-                  fontWeight="bold"
-                  r
-                  textDecorationLine="underline"
-                  onPress={this.handleNavigatePrivacyPolicy}
-                >
-                  Privacy Policy
-                </Text>
-              </Text>
-            )}
-
-            <CustomButton
-              color={firstButtonColor}
-              style={styles.buttonLayout}
-              textStyle={firstButtonTextStyle}
-              onPress={firstButtonHandler}
-              testID="firstButton"
+        <AnimationsPeopleFlying />
+        <Section style={styles.bottomContainer}>
+          <Text fontSize={12} color="gray80Percent">
+            {`By clicking the 'Create a wallet' button,\nyou are accepting our\n`}
+            <Text
+              fontSize={12}
+              color="gray80Percent"
+              fontWeight="bold"
+              textDecorationLine="underline"
+              onPress={handleNavigateTermsOfUse}
             >
-              {firstButtonText}
-            </CustomButton>
-            <PushButton testID="signInButton" dark={false} mode="outlined" onPress={this.handleSignIn}>
-              <Text style={styles.buttonText} fontWeight="regular" color={'primary'}>
-                ALREADY REGISTERED?
-                <Text textTransform={'uppercase'} style={styles.buttonText} color={'primary'} fontWeight="black">
-                  {' SIGN IN'}
-                </Text>
+              Terms of Use
+            </Text>
+            {' and '}
+            <Text
+              fontSize={12}
+              color="gray80Percent"
+              fontWeight="bold"
+              textDecorationLine="underline"
+              onPress={handleNavigatePrivacyPolicy}
+            >
+              Privacy Policy
+            </Text>
+          </Text>
+
+          <CustomButton style={styles.buttonLayout} onPress={firstButtonHandler} testID="firstButton">
+            {firstButtonText}
+          </CustomButton>
+
+          <PushButton testID="signInButton" dark={false} mode="outlined" onPress={handleSignIn}>
+            <Text style={styles.buttonText} fontWeight="regular" color={'primary'}>
+              ALREADY REGISTERED?
+              <Text textTransform={'uppercase'} style={styles.buttonText} color={'primary'} fontWeight="black">
+                {' SIGN IN'}
               </Text>
-            </PushButton>
-          </Section>
-        </Wrapper>
-      </SafeAreaView>
-    )
-  }
+            </Text>
+          </PushButton>
+        </Section>
+      </Wrapper>
+    </SafeAreaView>
+  )
 }
 
 const getStylesFromProps = ({ theme }) => {
@@ -245,4 +196,4 @@ const routes = {
   Recover,
 }
 
-export default createStackNavigator(routes, { backRouteName: 'Auth' })
+export default createStackNavigator(routes, { backRouteName: 'Welcome' })

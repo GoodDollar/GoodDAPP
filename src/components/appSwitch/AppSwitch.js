@@ -134,10 +134,6 @@ const AppSwitch = (props: LoadingProps) => {
    * @returns {Promise<void>}
    */
   const initialize = async isLoggedInCitizen => {
-    if (!assertStore(gdstore, log, 'Failed to initialize login/citizen status')) {
-      return
-    }
-
     AsyncStorage.setItem('GD_version', 'phase' + config.phase)
 
     // gdstore.set('inviteCode')(inviteCode)
@@ -147,9 +143,8 @@ const AppSwitch = (props: LoadingProps) => {
     store.set('regMethod')(regMethod)
 
     const email = await userStorage.getProfileFieldValue('email')
-    const identifier = goodWallet.getAccountForType('login')
+    identifyWith(email, undefined)
 
-    identifyWith(email, identifier)
     if (isLoggedInCitizen) {
       API.verifyTopWallet().catch(e => {
         const message = getErrorMessage(e)
@@ -165,38 +160,6 @@ const AppSwitch = (props: LoadingProps) => {
       // initialize() will await if preload hasn't completed yet
       preloadZoomSDK(log) // eslint-disable-line require-await
     }
-
-    // if (isLoggedIn) {
-    //   if (destDetails) {
-    //     props.navigation.navigate(destDetails)
-    //     return AsyncStorage.removeItem(DESTINATION_PATH)
-    //   } else props.navigation.navigate('AppNavigation')
-    // } else {
-    //   const { jwt } = credsOrError
-    //   if (jwt) {
-    //     log.debug('New account, not verified, or did not finish signup', jwt)
-    //     //for new accounts check if link is email validation if so
-    //     //redirect to continue signup flow
-    //     if (destDetails) {
-    //       log.debug('destinationPath details found', destDetails)
-    //       if (destDetails.params.validation) {
-    //         log.debug('destinationPath redirecting to email validation')
-    //         props.navigation.navigate(destDetails)
-    //         return
-    //       }
-    //       log.debug('destinationPath saving details')
-    //       //for non loggedin users, store non email validation params to the destinationPath for later
-    //       //to be used once signed in
-    //       const destinationPath = JSON.stringify(destDetails)
-    //       AsyncStorage.setItem(DESTINATION_PATH, destinationPath)
-    //     }
-    //     props.navigation.navigate('Auth')
-    //   } else {
-    //     // TODO: handle other statuses (4xx, 5xx), consider exponential backoff
-    //     log.error('Failed to sign in', 'Failed to sign in', new Error('Failed to sign in'), { credsOrError, dialogShown: false })
-    //     props.navigation.navigate('Auth')
-    //   }
-    // }
   }
 
   const init = async () => {
@@ -211,11 +174,14 @@ const AppSwitch = (props: LoadingProps) => {
 
         // userStorage.getProfileFieldValue('inviteCode'),
       ])
-
       log.debug('initialize ready', { isLoggedIn, isLoggedInCitizen })
 
       gdstore.set('isLoggedIn')(isLoggedIn)
       gdstore.set('isLoggedInCitizen')(isLoggedInCitizen)
+
+      //identify user asap for analytics
+      const identifier = goodWallet.getAccountForType('login')
+      identifyWith(undefined, identifier)
 
       initialize(isLoggedInCitizen)
       runUpdates()

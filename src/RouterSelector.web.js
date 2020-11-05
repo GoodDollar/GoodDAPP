@@ -19,7 +19,6 @@ import SimpleStore from './lib/undux/SimpleStore'
 import { DESTINATION_PATH } from './lib/constants/localStorage'
 import { delay } from './lib/utils/async'
 import retryImport from './lib/utils/retryImport'
-import { extractQueryParams } from './lib/share/index'
 import DeepLinking from './lib/utils/deepLinking'
 import InternetConnection from './components/common/connectionDialog/internetConnection'
 import isWebApp from './lib/utils/isWebApp'
@@ -37,8 +36,7 @@ const DisconnectedSplash = () => <Splash animation={false} />
  * @returns {Promise<boolean>}
  */
 const handleLinks = async () => {
-  const decodedHref = decodeURI(window.location.href)
-  const params = extractQueryParams(decodedHref)
+  const params = DeepLinking.params
 
   try {
     const { magiclink } = params
@@ -115,8 +113,10 @@ const NestedRouter = memo(({ isLoggedIn }) => {
   useEffect(() => {
     let source, platform
     if (Platform.OS === 'web') {
+      const params = DeepLinking.params
+
       source = document.referrer.match(/^https:\/\/(www\.)?gooddollar\.org/) == null ? source : 'web3'
-      source = Object.keys(pick(DeepLinking.params, ['inviteCode', 'paymentCode', 'code'])).pop() || source
+      source = Object.keys(pick(params, ['inviteCode', 'paymentCode', 'code'])).pop() || source
       platform = isWebApp ? 'webapp' : 'web'
     } else {
       platform = 'native'

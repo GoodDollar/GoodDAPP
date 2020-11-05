@@ -241,7 +241,7 @@ export function generateShareLink(action: ActionType = 'receive', params: {} = {
   let paramsBase64 = encodeURIComponent(
     Buffer.from(JSON.stringify(params))
       .toString('base64')
-      .replace(/==$/, ''),
+      .replace(/=+$/, ''),
   )
   let queryParams = ''
 

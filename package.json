@@ -62,7 +62,7 @@
   "homepage": "https://gooddollar.org",
   "dependencies": {
     "@babel/preset-flow": "^7.0.0",
-    "@gooddollar/goodcontracts": "^2.1.2",
+    "@gooddollar/goodcontracts": "^2.2.0",
     "@gooddollar/gun": "^0.2020.902",
     "@gooddollar/gun-pk-auth": "^1.1.0",
     "@react-native-community/async-storage": "^1.12.0",

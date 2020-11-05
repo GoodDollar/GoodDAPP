@@ -1,6 +1,6 @@
 import { useCallback, useRef } from 'react'
 
-import { map } from 'lodash'
+import { isPlainObject, map } from 'lodash'
 import { MAX_ATTEMPTS_ALLOWED } from '../sdk/ZoomSDK.constants'
 
 import GDStore, { defaultVerificationState, useCurriedSetters } from '../../../../lib/undux/GDStore'
@@ -17,7 +17,9 @@ export default () => {
   const { attemptsCount, attemptsHistory } = attemptsState
 
   const updateAttemptsState = useCallback(
-    stateVars => {
+    (nameOrVars, value = null) => {
+      const stateVars = isPlainObject(nameOrVars) ? nameOrVars : { [nameOrVars]: value }
+
       const updatedState = {
         ...attemptsStateRef.current,
         ...stateVars,
@@ -70,7 +72,7 @@ export default () => {
       fireEvent(FV_TRYAGAINLATER, { attemptsErrorMessages })
 
       // 4. set "reached max attempts" flag in the store
-      updateAttemptsState({ reachedMaxAttempts: true })
+      updateAttemptsState('reachedMaxAttempts', true)
     },
 
     // resetAttempts already depends from updateAttemptsState
@@ -82,7 +84,7 @@ export default () => {
     const { reachedMaxAttempts } = attemptsStateRef.current
 
     if (reachedMaxAttempts) {
-      updateAttemptsState({ reachedMaxAttempts: true })
+      updateAttemptsState('reachedMaxAttempts', false)
     }
 
     return reachedMaxAttempts

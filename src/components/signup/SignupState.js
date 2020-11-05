@@ -471,22 +471,17 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
   //check if email/mobile was used to register before and offer user to login instead
   const checkExisting = useCallback(
     async searchBy => {
-      const { exists, fullName, provider: foundOtherProvider } = await userExists(searchBy).catch(e => {
+      const existsResult = await userExists(searchBy).catch(e => {
         log.warn('userExists check failed:', e.message, e)
         return { exists: false }
       })
 
-      log.debug('checking userAlreadyExist', { exists, fullName, foundOtherProvider })
+      log.debug('checking userAlreadyExist', { existsResult })
 
       let selection = 'signup'
 
-      if (exists || foundOtherProvider) {
-        selection = await showAlreadySignedUp(
-          torusProvider,
-          exists,
-          foundOtherProvider,
-          searchBy.email ? 'email' : 'mobile',
-        )
+      if (existsResult.exists) {
+        selection = await showAlreadySignedUp(torusProvider, existsResult, searchBy.email ? 'email' : 'mobile')
         if (selection === 'signin') {
           return navigation.navigate('Auth', { screen: 'signin' })
         }

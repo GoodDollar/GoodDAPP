@@ -48,14 +48,18 @@ const log = logger.child({ from: 'AuthTorus' })
 export const useAlreadySignedUp = () => {
   const [showDialog, hideDialog] = useDialog()
 
-  const show = (provider, exists, foundOtherProvider, fromSignupFlow) => {
+  const show = (
+    provider,
+    existsResult: { provider: string, identifier: boolean, email: boolean, mobile: boolean },
+    fromSignupFlow,
+  ) => {
     let resolve
     const promise = new Promise((res, rej) => {
       resolve = res
     })
 
-    const registeredBy = LoginStrategy.getTitle(foundOtherProvider)
-
+    const registeredBy = LoginStrategy.getTitle(existsResult.provider)
+    const usedText = existsResult.identifier ? 'Account' : existsResult.email ? 'Email' : 'Mobile'
     showDialog({
       onDismiss: () => {
         hideDialog()
@@ -65,7 +69,7 @@ export const useAlreadySignedUp = () => {
         <View style={alreadyStyles.paragraphContainer}>
           <Paragraph
             style={[alreadyStyles.paragraph, alreadyStyles.paragraphBold]}
-          >{`You Already Used\n This Email/Mobile\n When You Signed Up\n With ${registeredBy}`}</Paragraph>
+          >{`You Already Used\n This ${usedText}\n When You Signed Up\n With ${registeredBy}`}</Paragraph>
         </View>
       ),
       buttons: [
@@ -73,7 +77,7 @@ export const useAlreadySignedUp = () => {
           text: `Login with ${registeredBy}`,
           onPress: () => {
             hideDialog()
-            fireEvent(SIGNUP_EXISTS_LOGIN, { provider, foundOtherProvider, exists, fromSignupFlow })
+            fireEvent(SIGNUP_EXISTS_LOGIN, { provider, existsResult, fromSignupFlow })
             resolve('signin')
           },
           style: [alreadyStyles.marginBottom, { boxShadow: 'none' }],
@@ -82,7 +86,7 @@ export const useAlreadySignedUp = () => {
           text: 'Continue Signup',
           onPress: () => {
             hideDialog()
-            fireEvent(SIGNUP_EXISTS_CONTINUE, { provider, foundOtherProvider, exists, fromSignupFlow })
+            fireEvent(SIGNUP_EXISTS_CONTINUE, { provider, existsResult, fromSignupFlow })
             resolve('signup')
           },
           style: alreadyStyles.whiteButton,
@@ -218,18 +222,19 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
     }
 
     try {
-      const { exists, fullName, provider: foundOtherProvider } = await userExists(torusUser)
-      log.debug('checking userAlreadyExist', { isSignup, exists, fullName, foundOtherProvider })
+      const existsResult = await userExists(torusUser)
+      log.debug('checking userAlreadyExist', { isSignup, existsResult })
       let selection = authScreen
       if (isSignup) {
         //if user identifier exists or email/mobile found in another account
-        if (exists || foundOtherProvider) {
-          selection = await showAlreadySignedUp(provider, exists, foundOtherProvider)
+        if (existsResult.exists) {
+          selection = await showAlreadySignedUp(provider, existsResult)
           if (selection === 'signin') {
             return setAuthScreen('signin')
           }
         }
-      } else if (isSignup === false && exists !== true) {
+      } else if (isSignup === false && existsResult.identifier !== true) {
+        //no account with identifier found = user didnt signup
         selection = await showNotSignedUp(provider)
         return setAuthScreen(selection)
       }

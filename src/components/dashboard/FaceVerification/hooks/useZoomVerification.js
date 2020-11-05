@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef } from 'react'
 import { v4 as uuid } from 'uuid'
-import { assign, noop } from 'lodash'
+import { assign, map, noop } from 'lodash'
 
 // logger & utils
 import logger from '../../../../lib/logger/pino-logger'
@@ -58,8 +58,9 @@ export default ({
   // and execute corresponding callback on completion or error
   const startVerification = useCallback(async () => {
     // creating functions unwrapping callback/options refs
-    const [verificationOptions, onComplete, onError] = [verificationOptionsRef, onCompleteRef, onErrorRef].map(
-      ref => (...args) => ref.current(...args),
+    const [verificationOptions, onComplete, onError] = map(
+      [verificationOptionsRef, onCompleteRef, onErrorRef],
+      'current',
     )
 
     // if cypress is running
@@ -90,7 +91,7 @@ export default ({
     // setting session is running flag in the ref
     sessionInProgressRef.current = true
 
-    log.debug('Starting Zoom verification', { enrollmentIdentifier })
+    log.debug('Starting Zoom verification', { enrollmentIdentifier, verificationOptions })
 
     // initializing zoom session
     try {

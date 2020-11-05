@@ -1,9 +1,9 @@
-import { useCallback } from 'react'
+import { useCallback, useRef } from 'react'
 
 import { map } from 'lodash'
 import { MAX_ATTEMPTS_ALLOWED } from '../sdk/ZoomSDK.constants'
 
-import GDStore, { useCurriedSetters } from '../../../../lib/undux/GDStore'
+import GDStore, { defaultVerificationState, useCurriedSetters } from '../../../../lib/undux/GDStore'
 import { fireEvent, FV_TRYAGAINLATER } from '../../../../lib/analytics/analytics'
 import logger from '../../../../lib/logger/pino-logger'
 
@@ -11,25 +11,30 @@ const log = logger.child({ from: 'useVerificationAttempts' })
 
 export default () => {
   const store = GDStore.useStore()
-  const attemptsCount = store.get('attemptsCount') || 0
-  const attemptsHistory = store.get('attemptsHistory') || []
-  const reachedMaxAttempts = store.get('reachedMaxAttempts') || false
+  const [setVerificationStateInStore] = useCurriedSetters(['verification'])
+  const attemptsState = store.get('verification')
+  const attemptsStateRef = useRef(attemptsState)
+  const { attemptsCount, attemptsHistory } = attemptsState
 
-  const [setAttemptsCount, setAttemptsHistory, setReachedMaxAttempts] = useCurriedSetters([
-    'attemptsCount',
-    'attemptsHistory',
-    'reachedMaxAttempts',
-  ])
+  const updateAttemptsState = useCallback(
+    stateVars => {
+      const updatedState = {
+        ...attemptsStateRef.current,
+        ...stateVars,
+      }
 
-  const resetAttempts = useCallback(() => {
-    setAttemptsCount(0)
-    setAttemptsHistory([])
-    setReachedMaxAttempts(false)
-  }, [setAttemptsCount, setAttemptsHistory, setReachedMaxAttempts])
+      attemptsStateRef.current = updatedState
+      setVerificationStateInStore(updatedState)
+    },
+    [setVerificationStateInStore],
+  )
+
+  const resetAttempts = useCallback(() => updateAttemptsState(defaultVerificationState), [updateAttemptsState])
 
   const trackAttempt = useCallback(
     exception => {
       const { message } = exception
+      const { attemptsCount, attemptsHistory } = attemptsStateRef.current
 
       // prepare updated count & history
       const updatedCount = attemptsCount + 1
@@ -37,8 +42,11 @@ export default () => {
 
       // if we still not reached MAX_ATTEMPTS_ALLOWED - just add to the historu
       if (updatedCount < MAX_ATTEMPTS_ALLOWED) {
-        setAttemptsCount(updatedCount)
-        setAttemptsHistory(updatedHistory)
+        updateAttemptsState({
+          attemptsCount: updatedCount,
+          attemptsHistory: updatedHistory,
+        })
+
         return
       }
 
@@ -62,21 +70,23 @@ export default () => {
       fireEvent(FV_TRYAGAINLATER, { attemptsErrorMessages })
 
       // 4. set "reached max attempts" flag in the store
-      setReachedMaxAttempts(true)
+      updateAttemptsState({ reachedMaxAttempts: true })
     },
 
-    // resetAttempts already depends from setAttemptsCount, setAttemptsHistory & setReachedMaxAttempts
-    [attemptsCount, attemptsHistory, resetAttempts],
+    // resetAttempts already depends from updateAttemptsState
+    [resetAttempts],
   )
 
-  // returns isReachedMaxAttempts flag, resets it once got
+  // returns isReachedMaxAttempts flag, resets it once
   const isReachedMaxAttempts = useCallback(() => {
+    const { reachedMaxAttempts } = attemptsStateRef.current
+
     if (reachedMaxAttempts) {
-      setReachedMaxAttempts(false)
+      updateAttemptsState({ reachedMaxAttempts: true })
     }
 
     return reachedMaxAttempts
-  }, [reachedMaxAttempts, setReachedMaxAttempts])
+  }, [updateAttemptsState])
 
   return {
     trackAttempt,

@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef } from 'react'
 import { v4 as uuid } from 'uuid'
-import { assign, map, noop } from 'lodash'
+import { assign, noop } from 'lodash'
 
 // logger & utils
 import logger from '../../../../lib/logger/pino-logger'
@@ -27,41 +27,57 @@ const emptyBase64 = btoa(String.fromCharCode(0x20).repeat(40))
  *
  * @return {async () => Promise<void>} Function that starts verification/enrollment process
  */
-export default ({
-  enrollmentIdentifier,
-  onUIReady = noop,
-  onCaptureDone = noop,
-  onRetry = noop,
-  onComplete = noop,
-  onError = noop,
-  maxRetries = MAX_RETRIES_ALLOWED,
-}) => {
+export default (options = null) => {
+  const {
+    enrollmentIdentifier,
+    onUIReady = noop,
+    onCaptureDone = noop,
+    onRetry = noop,
+    onComplete = noop,
+    onError = noop,
+    maxRetries = MAX_RETRIES_ALLOWED,
+  } = options || {}
+
   // Zoom session in progress flag to avoid begin
   // a new session until current is in progress
   // Shared via Ref
   const sessionInProgressRef = useRef(false)
 
   // creating refs for callbacks & options
-  const verificationOptionsRef = useRef({ onUIReady, onCaptureDone, onRetry, maxRetries })
+  const onUIReadyRef = useRef(onUIReady)
+  const onCaptureDoneRef = useRef(onCaptureDone)
+  const onRetryRef = useRef(onRetry)
   const onCompleteRef = useRef(onComplete)
   const onErrorRef = useRef(onError)
+  const maxRetriesRef = useRef(maxRetries)
 
   // and updating them once some of callbacks/options changes
   useEffect(() => {
-    verificationOptionsRef.current = { onUIReady, onCaptureDone, onRetry, maxRetries }
+    onUIReadyRef.current = onUIReady
+    onCaptureDoneRef.current = onCaptureDone
+    onRetryRef.current = onRetry
     onCompleteRef.current = onComplete
     onErrorRef.current = onError
+    maxRetriesRef.current = maxRetries
   }, [onUIReady, onCaptureDone, onRetry, onComplete, onError, maxRetries])
 
   // Starts verification/enrollment process
   // Wrapped to useCallback for incapsulate session in a single call
   // and execute corresponding callback on completion or error
   const startVerification = useCallback(async () => {
-    // creating functions unwrapping callback/options refs
-    const [verificationOptions, onComplete, onError] = map(
-      [verificationOptionsRef, onCompleteRef, onErrorRef],
-      'current',
-    )
+    // creating functions unwrapping callback refs
+    // keeping theirs names the same like in the props
+    // for avoid code modifications
+    const [onUIReady, onCaptureDone, onRetry, onComplete, onError] = [
+      onUIReadyRef,
+      onCaptureDoneRef,
+      onRetryRef,
+      onCompleteRef,
+      onErrorRef,
+    ].map(ref => (...args) => ref.current(...args))
+
+    // unwrapping options props
+    const maxRetries = maxRetriesRef.current
 
     // if cypress is running
     if (isE2ERunning) {
@@ -87,6 +103,9 @@ export default ({
     if (sessionInProgressRef.current) {
       return
     }
+
+    // preparing varification options object
+    const verificationOptions = { onUIReady, onCaptureDone, onRetry, maxRetries }
 
     // setting session is running flag in the ref
     sessionInProgressRef.current = true

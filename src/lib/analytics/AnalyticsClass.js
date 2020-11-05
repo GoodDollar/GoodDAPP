@@ -1,5 +1,5 @@
 // @flow
-import { assign, debounce, forIn, get, isString, pick, remove, toLower } from 'lodash'
+import { assign, debounce, forIn, get, isEmpty, isString, pick, remove, toLower } from 'lodash'
 import { isMobileReactNative } from '../utils/platform'
 import { LogEvent } from '../logger/pino-logger'
 import { ExceptionCategory } from '../logger/exceptions'
@@ -317,11 +317,15 @@ export class AnalyticsClass {
       sessionUrlAtTime = fullStory.getCurrentSessionURL(true)
     }
 
-    if (
-      categoryToPassIntoLog === Unexpected &&
-      ['connection', 'websocket', 'network'].some(str => toLower(eMsg).includes(str))
-    ) {
-      categoryToPassIntoLog = Network
+    if (isString(eMsg) && !isEmpty(eMsg)) {
+      const lowerCased = toLower(eMsg)
+
+      if (
+        categoryToPassIntoLog === Unexpected &&
+        ['connection', 'websocket', 'network'].some(str => lowerCased.includes(str))
+      ) {
+        categoryToPassIntoLog = Network
+      }
     }
 
     if (isString(logMessage) && !logMessage.includes('axios')) {

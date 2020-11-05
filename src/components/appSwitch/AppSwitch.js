@@ -185,6 +185,7 @@ const AppSwitch = (props: LoadingProps) => {
     try {
       //after dynamic routes update, if user arrived here, then he is already loggedin
       //initialize the citizen status and wallet status
+      //create jwt token and initialize the API service
       const [{ isLoggedInCitizen, isLoggedIn }] = await Promise.all([
         getLoginState(),
         updateWalletStatus(gdstore),

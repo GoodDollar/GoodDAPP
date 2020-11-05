@@ -2,7 +2,7 @@
 
 // libraries
 import amplitude from 'amplitude-js'
-import { assign, debounce, forIn, get, isError, isFunction, isString, remove, toLower } from 'lodash'
+import { assign, debounce, forIn, get, isEmpty, isError, isFunction, isString, remove, toLower } from 'lodash'
 import * as Sentry from '@sentry/browser'
 
 // utils
@@ -384,11 +384,15 @@ const patchLogger = () => {
       sessionUrlAtTime = FS.getCurrentSessionURL(true)
     }
 
-    if (
-      categoryToPassIntoLog === Unexpected &&
-      ['connection', 'websocket', 'network'].some(str => toLower(eMsg).includes(str))
-    ) {
-      categoryToPassIntoLog = Network
+    if (isString(eMsg) && !isEmpty(eMsg)) {
+      const lowerCased = toLower(eMsg)
+
+      if (
+        categoryToPassIntoLog === Unexpected &&
+        ['connection', 'websocket', 'network'].some(str => lowerCased.includes(str))
+      ) {
+        categoryToPassIntoLog = Network
+      }
     }
 
     if (isString(logMessage) && !logMessage.includes('axios')) {

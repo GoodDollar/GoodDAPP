@@ -19,11 +19,7 @@ export default () => {
   const updateAttemptsState = useCallback(
     (nameOrVars, value = null) => {
       const stateVars = isPlainObject(nameOrVars) ? nameOrVars : { [nameOrVars]: value }
-
-      const updatedState = {
-        ...attemptsStateRef.current,
-        ...stateVars,
-      }
+      const updatedState = { ...attemptsStateRef.current, ...stateVars }
 
       attemptsStateRef.current = updatedState
       setVerificationStateInStore(updatedState)

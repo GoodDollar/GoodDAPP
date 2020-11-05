@@ -24,7 +24,6 @@ const AppNavigator = createNavigator(
   SwitchRouter(
     {
       About,
-
       BackupWallet,
       ExportWallet,
       AppNavigation,

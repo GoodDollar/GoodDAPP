@@ -1,8 +1,9 @@
-import { first, isNumber, noop } from 'lodash'
+import { assign, first, isFinite, isNumber } from 'lodash'
 
 import api from '../api/FaceVerificationApi'
 import ZoomAuthentication from '../../../../lib/zoom/ZoomAuthentication'
 import { UITextStrings } from './UICustomization'
+import { MAX_RETRIES_ALLOWED } from './ZoomSDK.constants'
 
 const {
   // Zoom verification session incapsulation
@@ -34,8 +35,12 @@ export class EnrollmentProcessor {
 
   resultCallback = null
 
-  constructor(subscriber = { onSessionCompleted: noop, onUIReady: noop }) {
-    this.subscriber = subscriber
+  retryAttempt = 0
+
+  constructor(subscriber, options = null) {
+    const { maxRetries = MAX_RETRIES_ALLOWED } = options || {}
+
+    assign(this, { subscriber, maxRetries })
   }
 
   // should be non-async for not confuse developers
@@ -74,7 +79,7 @@ export class EnrollmentProcessor {
    */
   async performVerification() {
     // reading current session state vars
-    const { lastResult, resultCallback, enrollmentIdentifier, subscriber } = this
+    const { lastResult, resultCallback, enrollmentIdentifier, subscriber, retryAttempt, maxRetries } = this
 
     // setting initial progress to 0 for freeze progress bar
     resultCallback.uploadProgress(0)
@@ -135,32 +140,48 @@ export class EnrollmentProcessor {
         const { enrollmentResult, error } = response
         const { isEnrolled, isLive, isDuplicate, code, subCode } = enrollmentResult || {}
 
-        // setting lastMessage from server's response
-        this.lastMessage = error
-
         // if isDuplicate is strictly true, that means we have dup face
         // despite the http status code this case should be processed like error
-        if (true === isDuplicate) {
-          this._cancelEnrollmentSession()
-          return
-        }
+        const isDuplicateIssue = true === isDuplicate
+
+        /* eslint-disable lines-around-comment */
 
         // checking if exception could be related to the liveness failure
         // there's two possible cases:
         //  a) if code is 200 then facetec server operations went ok but
         //     there could be issues with liveness check or image quality
-        //  b) if server returns subCode = livenessCheckFailed it's
+        //  b) if server returns subCode = livenessCheckFailed (v8 only) it's
         //     exactly a liveness check issue
-        if (200 === code || 'livenessCheckFailed' === subCode) {
+        const isLivenessIssue =
+          (200 === code || 'livenessCheckFailed' === subCode) &&
           // checking liveness / enrollment statuses flags
           // if liveness check failed or face wasn't enrolled by the other reasons
           // (e.g. wearing glasses or bad image quality)
-          if (false === isLive || false === isEnrolled) {
-            // showing reason and asking to retry capturing
+          (false === isLive || false === isEnrolled)
+
+        /* eslint-enable lines-around-comment */
+
+        // setting lastMessage from server's response
+        this.lastMessage = error
+
+        // if there's no duplicate issues but we have liveness issue strictly
+        // we'll check for possible session retry
+        if (!isDuplicateIssue && isLivenessIssue) {
+          const alwaysRetry = !isFinite(maxRetries) || maxRetries < 0
+
+          // if haven't reached retries threshold or max retries is disabled
+          // (is null or < 0) we'll ask to retry capturing
+          if (alwaysRetry || retryAttempt < maxRetries) {
+            // increasing retry attempts counter
+            this.retryAttempt = retryAttempt + 1
+
+            // showing reason
             ZoomCustomization.setOverrideResultScreenSuccessMessage(error)
 
+            // notifying about retry
             resultCallback.retry()
             subscriber.onRetry({ reason: error, liveness: isLive, enrolled: isEnrolled })
+
             return
           }
         }
@@ -168,7 +189,10 @@ export class EnrollmentProcessor {
 
       // the other cases (non-200 code or other issue that liveness / image quality)
       // we're processing like an error - cancelling session
-      this._cancelEnrollmentSession()
+      // this will trigger handleCompletion which in turn trigger ProcessingSubscriber.onSessionCompleted
+      // which then rejects its promise and causes ZoomSDK.faceVerification to throw which is caught by
+      // useZoomVerification
+      resultCallback.cancel()
     }
   }
 
@@ -229,21 +253,6 @@ export class EnrollmentProcessor {
       // otherwise calling completion handler with empty zoomSessionResult
       subscriber.onSessionCompleted(false, null, message)
     }
-  }
-
-  /**
-   * Cancels the enrollment session, throwing an
-   * error with the latest status code and message
-   *
-   * @private
-   */
-  _cancelEnrollmentSession() {
-    const { resultCallback } = this
-
-    // this will trigger handleCompletion which in turn trigger ProcessingSubscriber.onSessionCompleted
-    // which then rejects its promise and causes ZoomSDK.faceVerification to throw which is caught by
-    // useZoomVerification
-    resultCallback.cancel()
   }
 
   /**

@@ -1,11 +1,10 @@
-import { omit } from 'lodash'
+import { assign, noop, omit } from 'lodash'
 
 export class ProcessingSubscriber {
-  constructor(onUIReady, onCaptureDone, onRetry, logger) {
-    this.logger = logger
-    this.onRetry = onRetry
-    this.onUIReady = onUIReady
-    this.onCaptureDone = onCaptureDone
+  constructor(eventCallbacks, logger) {
+    const { onUIReady = noop, onCaptureDone = noop, onRetry = noop } = eventCallbacks || {}
+
+    assign(this, { logger, onRetry, onUIReady, onCaptureDone })
 
     this._promise = new Promise((resolve, reject) => {
       this._resolve = resolve

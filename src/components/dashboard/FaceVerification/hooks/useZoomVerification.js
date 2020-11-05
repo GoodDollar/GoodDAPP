@@ -10,7 +10,7 @@ import { isE2ERunning } from '../../../../lib/utils/platform'
 import api from '../api/FaceVerificationApi'
 import { ZoomSDK } from '../sdk/ZoomSDK'
 import { ExceptionType, kindOfSessionIssue } from '../utils/kindOfTheIssue'
-import { zoomResultSuccessMessage } from '../utils/strings'
+import { MAX_RETRIES_ALLOWED, zoomResultSuccessMessage } from '../sdk/ZoomSDK.constants'
 import { unloadZoomSDK } from './useZoomSDK'
 
 const log = logger.child({ from: 'useZoomVerification' })
@@ -34,42 +34,33 @@ export default ({
   onRetry = noop,
   onComplete = noop,
   onError = noop,
+  maxRetries = MAX_RETRIES_ALLOWED,
 }) => {
   // Zoom session in progress flag to avoid begin
   // a new session until current is in progress
   // Shared via Ref
   const sessionInProgressRef = useRef(false)
 
-  // creating refs for callback
-  const onUIReadyRef = useRef()
-  const onCaptureDoneRef = useRef()
-  const onRetryRef = useRef()
-  const onCompleteRef = useRef()
-  const onErrorRef = useRef()
+  // creating refs for callbacks & options
+  const verificationOptionsRef = useRef({ onUIReady, onCaptureDone, onRetry, maxRetries })
+  const onCompleteRef = useRef(onComplete)
+  const onErrorRef = useRef(onError)
 
-  // and updating them once some of callbacks changes
+  // and updating them once some of callbacks/options changes
   useEffect(() => {
-    onUIReadyRef.current = onUIReady
-    onCaptureDoneRef.current = onCaptureDone
-    onRetryRef.current = onRetry
+    verificationOptionsRef.current = { onUIReady, onCaptureDone, onRetry, maxRetries }
     onCompleteRef.current = onComplete
     onErrorRef.current = onError
-  }, [onUIReady, onCaptureDone, onRetry, onComplete, onError])
+  }, [onUIReady, onCaptureDone, onRetry, onComplete, onError, maxRetries])
 
   // Starts verification/enrollment process
   // Wrapped to useCallback for incapsulate session in a single call
   // and execute corresponding callback on completion or error
   const startVerification = useCallback(async () => {
-    // creating functions unwrapping callback refs
-    // keeping theirs names the same like in the props
-    // for avoid code modifications
-    const [onUIReady, onCaptureDone, onRetry, onComplete, onError] = [
-      onUIReadyRef,
-      onCaptureDoneRef,
-      onRetryRef,
-      onCompleteRef,
-      onErrorRef,
-    ].map(ref => (...args) => ref.current(...args))
+    // creating functions unwrapping callback/options refs
+    const [verificationOptions, onComplete, onError] = [verificationOptionsRef, onCompleteRef, onErrorRef].map(
+      ref => (...args) => ref.current(...args),
+    )
 
     // if cypress is running
     if (isE2ERunning) {
@@ -103,7 +94,7 @@ export default ({
 
     // initializing zoom session
     try {
-      const verificationStatus = await ZoomSDK.faceVerification(enrollmentIdentifier, onUIReady, onCaptureDone, onRetry)
+      const verificationStatus = await ZoomSDK.faceVerification(enrollmentIdentifier, verificationOptions)
 
       log.debug('Zoom verification successfull', { verificationStatus })
 

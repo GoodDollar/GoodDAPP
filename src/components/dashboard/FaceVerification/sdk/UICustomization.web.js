@@ -7,7 +7,7 @@ import { assignIn, isFinite, isString, mapKeys, memoize, pickBy, snakeCase } fro
 import { Spinner } from '../../../common/view/LoadingIndicator'
 import ZoomAuthentication from '../../../../lib/zoom/ZoomAuthentication'
 
-import { zoomResultSuccessMessage } from '../utils/strings'
+import { zoomResultSuccessMessage } from '../sdk/ZoomSDK.constants'
 import { isLargeDevice } from '../../../../lib/utils/mobileSizeDetect'
 import { theme } from '../../../theme/styles'
 import './UICustomization.css'

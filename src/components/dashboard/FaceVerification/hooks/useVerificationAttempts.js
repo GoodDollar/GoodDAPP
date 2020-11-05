@@ -1,11 +1,12 @@
 import { useCallback } from 'react'
 
 import { map } from 'lodash'
+import { MAX_ATTEMPTS_ALLOWED } from '../sdk/ZoomSDK.constants'
+
 import GDStore, { useCurriedSetters } from '../../../../lib/undux/GDStore'
 import { fireEvent, FV_TRYAGAINLATER } from '../../../../lib/analytics/analytics'
 import logger from '../../../../lib/logger/pino-logger'
 
-export const MAX_ATTEMPTS_ALLOWED = 3
 const log = logger.child({ from: 'useVerificationAttempts' })
 
 export default () => {

@@ -1,4 +1,4 @@
-import { fromPairs, isString, noop } from 'lodash'
+import { fromPairs, isString, noop, omitBy, pickBy } from 'lodash'
 import ConsoleSubscriber from 'console-subscriber'
 
 import { store } from '../../../../lib/undux/SimpleStore'
@@ -235,9 +235,12 @@ export const ZoomSDK = new class {
   }
 
   // eslint-disable-next-line require-await
-  async faceVerification(enrollmentIdentifier, onUIReady = noop, onCaptureDone = noop, onRetry = noop) {
-    const subscriber = new ProcessingSubscriber(onUIReady, onCaptureDone, onRetry, this.logger)
-    const processor = new EnrollmentProcessor(subscriber)
+  async faceVerification(enrollmentIdentifier, sessionOptions = null) {
+    const eventMatcher = (_, option) => option.startsWith('on')
+    const eventCallbacks = pickBy(sessionOptions || {}, eventMatcher)
+    const options = omitBy(sessionOptions, eventMatcher)
+    const subscriber = new ProcessingSubscriber(eventCallbacks, this.logger)
+    const processor = new EnrollmentProcessor(subscriber, options)
 
     try {
       processor.enroll(enrollmentIdentifier)

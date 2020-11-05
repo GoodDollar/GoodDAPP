@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 
 // import { isIOS } from 'mobile-device-detect'
 import { get, isNil } from 'lodash'
@@ -7,7 +7,6 @@ import { Iframe } from '../webView/iframe'
 
 import { useDialog, useErrorDialog } from '../../lib/undux/utils/dialog'
 import useLoadingIndicator from '../../lib/hooks/useLoadingIndicator'
-import useOnPress from '../../lib/hooks/useOnPress'
 
 import Config from '../../config/config'
 import logger from '../../lib/logger/pino-logger'
@@ -46,9 +45,9 @@ const RewardsTab = ({ navigation, openInNewTab = false /* TODO: isIOS */ }) => {
     return url.toString()
   }, [token, params, openInNewTab])
 
-  const onDismiss = useOnPress(() => navigation.navigate('Home'), [navigation])
+  const onDismiss = useCallback(() => navigation.navigate('Home'), [navigation])
 
-  const onPressOk = useOnPress(async () => {
+  const onPressOk = useCallback(async () => {
     try {
       await openLink(rewardsPath, '_blank')
     } catch (exception) {

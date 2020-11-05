@@ -1,5 +1,5 @@
 // @flow
-import React from 'react'
+import React, { useCallback } from 'react'
 import { Platform, StyleSheet, View } from 'react-native'
 import { Paragraph, Portal } from 'react-native-paper'
 import { isString } from 'lodash'
@@ -12,7 +12,6 @@ import ModalWrapper from '../modal/ModalWrapper'
 import { theme } from '../../theme/styles'
 import Text from '../view/Text'
 import Section from '../layout/Section'
-import useOnPress from '../../../lib/hooks/useOnPress'
 
 export type DialogButtonProps = { color?: string, mode?: string, onPress?: Function => void, text: string, style?: any }
 export type DialogProps = {
@@ -72,11 +71,13 @@ const CustomDialog = ({
   const handleMessage = _message => (isString(_message) ? Paragraph : Section.Row)
   const Message = handleMessage(message)
   const BoldMessage = handleMessage(boldMessage)
-  const _onPressOk = useOnPress(onDismiss)
+
+  const _onDismiss = useCallback(onDismiss)
+
   return visible ? (
     <Portal>
       <ModalWrapper
-        onClose={onDismiss}
+        onClose={_onDismiss}
         leftBorderColor={modalColor}
         showCloseButtons={showCloseButtons}
         showAtBottom={showAtBottom}
@@ -112,8 +113,7 @@ const CustomDialog = ({
                       {...buttonProps}
                       Component={Component}
                       mode={mode}
-                      onPress={() => onPress(onDismiss)}
-                      onDismiss={onDismiss}
+                      onPress={() => onPress(_onDismiss)}
                       style={[{ marginLeft: 10 }, style]}
                       disabled={disabled || loading}
                       loading={loading}
@@ -122,7 +122,7 @@ const CustomDialog = ({
                   ),
                 )
               ) : (
-                <CustomButton disabled={loading} loading={loading} onPress={_onPressOk} style={[styles.buttonOK]}>
+                <CustomButton disabled={loading} loading={loading} onPress={_onDismiss} style={[styles.buttonOK]}>
                   Ok
                 </CustomButton>
               )}
@@ -159,19 +159,8 @@ const SimpleStoreDialog = () => {
   )
 }
 
-const DialogButton = ({
-  onDismiss,
-  loading,
-  dismiss,
-  onPress,
-  style,
-  disabled,
-  mode,
-  Component,
-  key,
-  ...buttonProps
-}) => {
-  const pressHandler = useOnPress(() => {
+const DialogButton = ({ loading, dismiss, onPress, style, disabled, mode, Component, key, ...buttonProps }) => {
+  const pressHandler = useCallback(() => {
     if (onPress) {
       onPress()
       return

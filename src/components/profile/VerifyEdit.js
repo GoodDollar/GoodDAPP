@@ -1,5 +1,5 @@
 // @flow
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { View } from 'react-native'
 import { get } from 'lodash'
 import logger from '../../lib/logger/pino-logger'
@@ -12,7 +12,6 @@ import normalize from '../../lib/utils/normalizeText'
 import CustomButton from '../common/buttons/CustomButton'
 import API from '../../lib/API/api'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
-import useOnPress from '../../lib/hooks/useOnPress'
 import userStorage from '../../lib/gundb/UserStorage'
 
 const log = logger.child({ from: 'Verify edit profile field' })
@@ -47,9 +46,9 @@ const EditProfile = ({ screenProps, theme, styles, navigation }) => {
       break
   }
 
-  const goBack = useOnPress(() => screenProps.pop(), [screenProps])
+  const goBack = useCallback(() => screenProps.pop(), [screenProps])
 
-  const handleSubmit = useOnPress(async () => {
+  const handleSubmit = useCallback(async () => {
     try {
       setLoading(true)
 

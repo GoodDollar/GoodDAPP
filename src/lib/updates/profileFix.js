@@ -10,7 +10,7 @@ const checkProfile = async (lastUpdate, prevVersion, log) => {
   const fullName = await userStorage.getProfileField('fullName')
   userStorage.setProfileField('walletAddress', userStorage.wallet.account, 'public')
   if (!fullName || !fullName.display || !fullName.privacy || !fullName.value) {
-    const { data } = await API.userExists()
+    const { data } = await API.userExistsCheck({ identifier: userStorage.wallet.getAccountForType('login') })
     await userStorage.setProfileField('fullName', data.fullName, 'public')
   }
 }

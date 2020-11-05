@@ -1,5 +1,5 @@
 // @flow
-import React from 'react'
+import React, { useCallback } from 'react'
 import { Platform, View } from 'react-native'
 import Avatar from '../../common/view/Avatar'
 import BigGoodDollar from '../../common/view/BigGoodDollar'
@@ -10,7 +10,6 @@ import ModalPaymentStatus from '../../common/modal/ModalPaymentStatus'
 import TopImage, { getImageByType } from '../../common/modal/ModalTopImage'
 import { getFormattedDateTime } from '../../../lib/utils/FormatDate'
 import { withStyles } from '../../../lib/styles'
-import useOnPress from '../../../lib/hooks/useOnPress'
 import type { FeedEventProps } from './EventProps'
 import EventCounterParty from './EventCounterParty'
 import getEventSettingsByType from './EventSettingsByType'
@@ -25,7 +24,7 @@ import SendModalItemWithError from './SendModalItemWithError'
  */
 const FeedModalItem = (props: FeedEventProps) => {
   const { item, onPress, styles, theme, navigation } = props
-  const buttonPress = useOnPress(() => onPress(item.id), [item, onPress])
+  const buttonPress = useCallback(() => onPress(item.id), [item, onPress])
   const itemType = item.displayType || item.type
   const eventSettings = getEventSettingsByType(theme, itemType)
   const mainColor = eventSettings.color

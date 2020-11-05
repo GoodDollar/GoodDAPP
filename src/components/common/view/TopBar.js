@@ -1,8 +1,7 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { Platform, StyleSheet } from 'react-native'
 import GDStore from '../../../lib/undux/GDStore'
 import Section from '../layout/Section'
-import useOnPress from '../../../lib/hooks/useOnPress'
 import Avatar from './Avatar'
 import BigGoodDollar from './BigGoodDollar'
 
@@ -28,7 +27,7 @@ const TopBar = ({
   const { balance } = store.get('account')
   const { avatar } = store.get('profile')
 
-  const redirectToProfile = useOnPress(() => {
+  const redirectToProfile = useCallback(() => {
     if (!push || !profileAsLink) {
       return
     }

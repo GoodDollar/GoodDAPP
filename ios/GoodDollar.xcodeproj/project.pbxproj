@@ -718,7 +718,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = DYQAUXWH8K;
+				DEVELOPMENT_TEAM = 97K3Q6WTLM;
 				INFOPLIST_FILE = GoodDollar/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
@@ -728,7 +728,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = org.gooddollar;
 				PRODUCT_NAME = GoodDollar;
-				PROVISIONING_PROFILE_SPECIFIER = "GoodDollar AdHoc";
+				PROVISIONING_PROFILE_SPECIFIER = "GoodDollar Ad Hoc";
 				SWIFT_OBJC_BRIDGING_HEADER = "GoodDollar-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";

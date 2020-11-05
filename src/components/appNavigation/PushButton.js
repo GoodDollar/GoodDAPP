@@ -1,7 +1,6 @@
 // @flow
-import React from 'react'
+import React, { useCallback } from 'react'
 import CustomButton, { type ButtonProps } from '../common/buttons/CustomButton'
-import useOnPress from '../../lib/hooks/useOnPress'
 
 type PushButtonProps = {
   ...ButtonProps,
@@ -23,7 +22,7 @@ type PushButtonProps = {
  * @param {ButtonProps} props
  */
 export const PushButton = ({ routeName, screenProps, canContinue, params, ...props }: PushButtonProps) => {
-  const onPress = useOnPress(async () => {
+  const onPress = useCallback(async () => {
     if (screenProps && (await canContinue())) {
       screenProps.push(routeName, params)
     }

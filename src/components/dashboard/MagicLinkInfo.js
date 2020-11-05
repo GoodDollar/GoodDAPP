@@ -1,5 +1,5 @@
 // @flow
-import React from 'react'
+import React, { useCallback } from 'react'
 import { View } from 'react-native'
 import { fireEvent } from '../../lib/analytics/analytics'
 import API, { getErrorMessage } from '../../lib/API/api'
@@ -13,7 +13,6 @@ import { withStyles } from '../../lib/styles'
 import Illustration from '../../assets/Signup/maginLinkIllustration.svg'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import Wrapper from '../common/layout/Wrapper'
-import useOnPress from '../../lib/hooks/useOnPress'
 
 const log = logger.child({ from: 'MagicLinkInfo' })
 
@@ -21,7 +20,7 @@ const MagicLinkInfoComponent = props => {
   const { styles, screenProps } = props
   const [showDialog] = useDialog()
   const [showErrorDialog] = useErrorDialog()
-  const sendMagicEmail = useOnPress(() => {
+  const sendMagicEmail = useCallback(() => {
     API.sendMagicLinkByEmail(userStorage.getMagicLink())
       .then(r => {
         log.info('Resending magiclink')
@@ -39,9 +38,9 @@ const MagicLinkInfoComponent = props => {
         log.error('failed Resending magiclink', message, exception, { dialogShown: true })
         showErrorDialog('Could not send magic-link email. Please try again.')
       })
-  }, [screenProps, showErrorDialog])
+  }, [screenProps, showErrorDialog, showDialog])
 
-  const onPressOk = useOnPress(screenProps.pop)
+  const onPressOk = useCallback(screenProps.pop)
 
   return (
     <Wrapper backgroundColor={props.theme.colors.surface}>

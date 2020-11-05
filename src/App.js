@@ -3,8 +3,8 @@ import { ActionSheetProvider } from '@expo/react-native-action-sheet'
 import React, { Fragment, memo, useCallback, useEffect, useState } from 'react'
 import { Platform, SafeAreaView, StyleSheet } from 'react-native'
 import { Provider as PaperProvider } from 'react-native-paper'
-
 import { SimpleStoreDialog } from './components/common/dialogs/CustomDialog'
+import { useCountryCode } from './lib/hooks/useCountryFlagUrl'
 import LoadingIndicator from './components/common/view/LoadingIndicator'
 import SplashDesktop from './components/splash/SplashDesktop'
 import { theme } from './components/theme/styles'
@@ -37,6 +37,7 @@ const SplashOrRouter = memo(({ store }) => {
 
 const App = () => {
   const store = SimpleStore.useStore()
+  useCountryCode()
 
   useServiceWorker() // Only runs on Web
   useEffect(() => log.debug({ Config }), [])

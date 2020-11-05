@@ -1,21 +1,14 @@
 // @flow
-import { APIService } from '../API/api'
+import { default as API } from '../API/api'
 import { GoodWallet } from '../wallet/GoodWalletClass'
-import GoodWalletLogin from './GoodWalletLoginClass'
-export const userExists = async (mnemonics): Promise<any> => {
-  const wallet = new GoodWallet({ mnemonic: mnemonics })
+
+export const userExists = async ({ mnemonics, privateKey, email, mobile }): Promise<any> => {
+  const wallet = new GoodWallet({ mnemonic: mnemonics || privateKey })
   await wallet.ready
-
-  const login = new GoodWalletLogin(wallet, null)
-  const creds = await login.login()
-  const { jwt } = await login.requestJWT(creds)
-
-  const api = new APIService(jwt)
-  await api.ready
-
+  const identifier = wallet.getAccountForType('login')
   const {
-    data: { exists, fullName },
-  } = await api.userExists()
+    data: { exists, fullName, provider },
+  } = await API.userExistsCheck({ identifier, email, mobile })
 
-  return { exists, fullName }
+  return { exists, fullName, provider }
 }

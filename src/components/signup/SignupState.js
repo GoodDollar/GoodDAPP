@@ -1,5 +1,5 @@
 // @flow
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { Platform, ScrollView, StyleSheet, View } from 'react-native'
 import { createSwitchNavigator } from '@react-navigation/core'
 import { assign, get, isError, pickBy, toPairs } from 'lodash'
@@ -31,6 +31,8 @@ import { getUserModel, type UserModel } from '../../lib/gundb/UserModel'
 import Config from '../../config/config'
 import { fireEvent, identifyOnUserSignup, identifyWith } from '../../lib/analytics/analytics'
 import { parsePaymentLinkParams } from '../../lib/share'
+import { userExists } from '../../lib/login/userExists'
+import { useAlreadySignedUp } from '../auth/torus/AuthTorus'
 import type { SMSRecord } from './SmsForm'
 import SignupCompleted from './SignupCompleted'
 import EmailConfirmation from './EmailConfirmation'
@@ -63,6 +65,7 @@ const SignupWizardNavigator = createSwitchNavigator(routes, navigationConfig)
 
 const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
   const store = SimpleStore.useStore()
+  const showAlreadySignedUp = useAlreadySignedUp()
 
   const torusUserFromProps =
     get(navigation, 'state.params.torusUser') ||
@@ -465,6 +468,34 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
     return prevRoute
   }
 
+  //check if email/mobile was used to register before and offer user to login instead
+  const checkExisting = useCallback(
+    async searchBy => {
+      const { exists, fullName, provider: foundOtherProvider } = await userExists(searchBy).catch(e => {
+        log.warn('userExists check failed:', e.message, e)
+        return { exists: false }
+      })
+
+      log.debug('checking userAlreadyExist', { exists, fullName, foundOtherProvider })
+
+      let selection = 'signup'
+
+      if (exists || foundOtherProvider) {
+        selection = await showAlreadySignedUp(
+          torusProvider,
+          exists,
+          foundOtherProvider,
+          searchBy.email ? 'email' : 'mobile',
+        )
+        if (selection === 'signin') {
+          return navigation.navigate('Auth', { screen: 'signin' })
+        }
+      }
+      return selection
+    },
+    [navigation, showAlreadySignedUp],
+  )
+
   const done = async (data: { [string]: string }) => {
     setLoading(true)
     fireSignupEvent()
@@ -490,17 +521,24 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
       }
     } else if (nextRoute && nextRoute.key === 'SMS') {
       try {
+        const result = await checkExisting({ mobile: newState.mobile })
+
+        if (result !== 'signup') {
+          return
+        }
+
         let { data } = await API.sendOTP(newState)
         if (data.ok === 0) {
           const errorMessage =
             data.error === 'mobile_already_exists' ? 'Mobile already exists, please use a different one' : data.error
-
           log.error('Send mobile code failed', errorMessage, new Error(errorMessage), {
             data,
             dialogShown: true,
           })
+
           return showSupportDialog(showErrorDialog, hideDialog, navigation.navigate, errorMessage)
         }
+
         return navigateWithFocus(nextRoute.key)
       } catch (e) {
         log.error('Send mobile code failed', e.message, e, { dialogShown: true })
@@ -511,6 +549,12 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
     } else if (nextRoute && nextRoute.key === 'EmailConfirmation') {
       try {
         setLoading(true)
+        const result = await checkExisting({ email: newState.email })
+
+        if (result !== 'signup') {
+          return
+        }
+
         const { data } = await API.sendVerificationEmail(newState)
         if (data.ok === 0) {
           const error = new Error('Some error occurred on server')
@@ -545,6 +589,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
       }
     } else if (nextRoute.key === 'MagicLinkInfo') {
       let ok = await waitForRegistrationToFinish()
+
       if (ok) {
         const { userStorage } = await ready
         if (isRegMethodSelfCustody) {
@@ -552,6 +597,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
             .then(r => log.info('magiclink sent'))
             .catch(e => log.error('failed sendMagicLinkByEmail', e.message, e))
         }
+
         return navigateWithFocus(nextRoute.key)
       }
     } else if (nextRoute) {

@@ -1,7 +1,7 @@
 // @flow
 //eslint-disable-next-line
 
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { Platform } from 'react-native'
 import { get } from 'lodash'
 import bip39 from 'bip39-light'
@@ -21,7 +21,6 @@ import CustomButton from '../common/buttons/CustomButton'
 import InputText from '../common/form/InputText'
 import { CLICK_BTN_RECOVER_WALLET, fireEvent, RECOVER_FAILED, RECOVER_SUCCESS } from '../../lib/analytics/analytics'
 import Wrapper from '../common/layout/Wrapper'
-import useOnPress from '../../lib/hooks/useOnPress'
 
 const TITLE = 'Recover'
 const log = logger.child({ from: TITLE })
@@ -56,7 +55,7 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
     setMnemonics(mnemonics)
   }
 
-  const recover = useOnPress(async () => {
+  const recover = useCallback(async () => {
     //required to wallet and storage are reinitialized
     const curVersion = await AsyncStorage.getItem('GD_version')
     await AsyncStorage.clear()
@@ -96,7 +95,7 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
       await saveMnemonics(mnemonics)
 
       // We validate that a user was registered for the specified mnemonics
-      const { exists, fullName } = await userExists(mnemonics)
+      const { exists, fullName } = await userExists({ mnemonics })
       log.debug('userExists result:', { exists, fullName })
 
       if (exists) {

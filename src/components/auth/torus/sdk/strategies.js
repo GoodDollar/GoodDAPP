@@ -1,4 +1,29 @@
 /* eslint-disable require-await */
+export const LoginStrategy = {
+  Facebook: 'facebook',
+  GoogleLegacy: 'google-old',
+  Google: 'google',
+  Auth0: 'auth0',
+  PaswordlessEmail: 'auth0-pwdless-email',
+  PaswordlessSMS: 'auth0-pwdless-sms',
+
+  getTitle(strategy) {
+    switch (strategy) {
+      case this.Facebook:
+        return 'Facebook'
+      case this.Google:
+        return 'google'
+      case this.GoogleLegacy:
+        return 'Google (Legacy)'
+      case this.PaswordlessEmail:
+        return 'Passwordless Email'
+      case this.PaswordlessSMS:
+        return 'Passwordless SMS'
+      default:
+        return strategy || 'Self Custody'
+    }
+  },
+}
 
 class AbstractLoginStrategy {
   constructor(torus, config) {
@@ -49,7 +74,9 @@ export class GoogleStrategy extends AbstractLoginStrategy {
         {
           clientId: googleClientId,
           typeOfLogin: 'google',
-          verifier: config.env === 'production' ? 'google' : 'google-shubs', //for mainnet torus uses a different verifier
+
+          // for mainnet torus uses a different verifier
+          verifier: config.env === 'production' ? 'google' : 'google-shubs',
         },
       ],
     })

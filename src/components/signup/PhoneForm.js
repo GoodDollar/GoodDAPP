@@ -122,7 +122,7 @@ class PhoneForm extends React.Component<Props, State> {
                 {`${getFirstWord(fullName)},\nenter your phone number\nso we could verify you`}
               </Section.Title>
             </Section.Row>
-            <Section.Stack className="signup_phone_input" justifyContent="center" style={styles.column}>
+            <Section.Stack justifyContent="center" style={styles.column}>
               <FormNumberInput
                 id={key + '_input'}
                 value={this.state.mobile}

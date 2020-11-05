@@ -235,7 +235,21 @@ email again…
                 }
               >
                 <div
-                  className="css-view-1dbjc4n r-marginHorizontal-1ydw1k6 r-marginVertical-712mwr"
+                  className="css-text-901oao css-textOneLine-bfa6kz r-letterSpacing-ud0q2t r-marginHorizontal-1ydw1k6 r-marginVertical-712mwr r-textAlign-q4m81j"
+                  dir="auto"
+                  style={
+                    Object {
+                      "color": "rgba(163,163,163,1.00)",
+                      "direction": "ltr",
+                      "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                      "letterSpacing": "1px",
+                      "marginBottom": "9px",
+                      "marginLeft": "16px",
+                      "marginRight": "16px",
+                      "marginTop": "9px",
+                      "textAlign": "center",
+                    }
+                  }
                 >
                   <div
                     className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz"

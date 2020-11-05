@@ -1,11 +1,10 @@
 // @flow
-import React from 'react'
+import React, { useCallback } from 'react'
 import { Platform, View } from 'react-native'
 import Icon from '../../common/view/Icon'
 import Text from '../../common/view/Text'
 import SummaryTable from '../../common/view/SummaryTable'
 import ModalActionsByFeedType from '../../common/modal/ModalActionsByFeedType'
-import useOnPress from '../../../lib/hooks/useOnPress'
 import { withStyles } from '../../../lib/styles'
 import type { FeedEventProps } from './EventProps'
 
@@ -15,7 +14,7 @@ import type { FeedEventProps } from './EventProps'
  * @returns {HTMLElement}
  */
 const FeedModalItem = ({ item, onPress, styles, theme }: FeedEventProps) => {
-  const buttonPress = useOnPress(() => {
+  const buttonPress = useCallback(() => {
     onPress(item.id)
   }, [item, onPress])
 

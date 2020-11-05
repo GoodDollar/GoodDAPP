@@ -1,4 +1,7 @@
+import { useEffect, useState } from 'react'
+import { get, noop } from 'lodash'
 import config from '../../config/config'
+import API from '../../lib/API/api'
 
 export const getCountryFlagUrl = countryCode => {
   return `${config.flagsUrl}${countryCode}.svg`.toLowerCase()
@@ -40,4 +43,28 @@ export default countryCode => {
   const code = getCountryCodeForFlag(countryCode)
 
   return getCountryFlagUrl(code)
+}
+let sharedCountryCode
+
+export const useCountryCode = () => {
+  const [countryCode, setCountryCode] = useState(sharedCountryCode)
+
+  useEffect(() => {
+    if (countryCode) {
+      return
+    }
+
+    API.getLocation()
+      .catch(noop)
+      .then(response => {
+        const code = get(response, 'data.country')
+
+        if (code) {
+          sharedCountryCode = code
+          setCountryCode(code)
+        }
+      })
+  }, [])
+
+  return countryCode
 }

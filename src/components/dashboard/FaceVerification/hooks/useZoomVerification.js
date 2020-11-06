@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef } from 'react'
+import { useCallback, useRef } from 'react'
 import { v4 as uuid } from 'uuid'
 import { assign, noop } from 'lodash'
 
@@ -11,6 +11,7 @@ import api from '../api/FaceVerificationApi'
 import { ZoomSDK } from '../sdk/ZoomSDK'
 import { ExceptionType, kindOfSessionIssue } from '../utils/kindOfTheIssue'
 import { MAX_RETRIES_ALLOWED, zoomResultSuccessMessage } from '../sdk/ZoomSDK.constants'
+import useRealtimeProps from '../../../../lib/hooks/useRealtimeProps'
 import { unloadZoomSDK } from './useZoomSDK'
 
 const log = logger.child({ from: 'useZoomVerification' })
@@ -43,41 +44,16 @@ export default (options = null) => {
   // Shared via Ref
   const sessionInProgressRef = useRef(false)
 
-  // creating refs for callbacks & options
-  const onUIReadyRef = useRef(onUIReady)
-  const onCaptureDoneRef = useRef(onCaptureDone)
-  const onRetryRef = useRef(onRetry)
-  const onCompleteRef = useRef(onComplete)
-  const onErrorRef = useRef(onError)
-  const maxRetriesRef = useRef(maxRetries)
-
-  // and updating them once some of callbacks/options changes
-  useEffect(() => {
-    onUIReadyRef.current = onUIReady
-    onCaptureDoneRef.current = onCaptureDone
-    onRetryRef.current = onRetry
-    onCompleteRef.current = onComplete
-    onErrorRef.current = onError
-    maxRetriesRef.current = maxRetries
-  }, [onUIReady, onCaptureDone, onRetry, onComplete, onError, maxRetries])
+  // creating accessors for callbacks & options
+  const accessors = useRealtimeProps([onUIReady, onCaptureDone, onRetry, onComplete, onError, maxRetries])
 
   // Starts verification/enrollment process
   // Wrapped to useCallback for incapsulate session in a single call
   // and execute corresponding callback on completion or error
   const startVerification = useCallback(async () => {
-    // creating functions unwrapping callback refs
-    // keeping theirs names the same like in the props
-    // for avoid code modifications
-    const [onUIReady, onCaptureDone, onRetry, onComplete, onError] = [
-      onUIReadyRef,
-      onCaptureDoneRef,
-      onRetryRef,
-      onCompleteRef,
-      onErrorRef,
-    ].map(ref => (...args) => ref.current(...args))
-
-    // unwrapping options props
-    const maxRetries = maxRetriesRef.current
+    // destructuring accessors keeping theirs names the
+    // same like in the props for avoid code modifications
+    const [onUIReady, onCaptureDone, onRetry, onComplete, onError, getMaxRetries] = accessors
 
     // if cypress is running
     if (isE2ERunning) {
@@ -105,6 +81,7 @@ export default (options = null) => {
     }
 
     // preparing varification options object
+    const maxRetries = getMaxRetries()
     const verificationOptions = { onUIReady, onCaptureDone, onRetry, maxRetries }
 
     // setting session is running flag in the ref
@@ -144,7 +121,7 @@ export default (options = null) => {
       // setting session is not running flag in the ref
       sessionInProgressRef.current = false
     }
-  }, [enrollmentIdentifier])
+  }, [enrollmentIdentifier, accessors])
 
   // exposing public hook API
   return startVerification

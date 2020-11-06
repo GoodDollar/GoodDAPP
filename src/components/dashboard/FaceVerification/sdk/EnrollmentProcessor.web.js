@@ -180,7 +180,13 @@ export class EnrollmentProcessor {
 
             // notifying about retry
             resultCallback.retry()
-            subscriber.onRetry({ reason: error, liveness: isLive, enrolled: isEnrolled })
+
+            subscriber.onRetry({
+              exception,
+              reason: error,
+              liveness: isLive,
+              enrolled: isEnrolled,
+            })
 
             return
           }

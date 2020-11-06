@@ -57,9 +57,12 @@ const FaceVerification = ({ screenProps }) => {
   }, [])
 
   const retryHandler = useCallback(
-    eventData => {
+    ({ exception, ...eventData }) => {
+      const { reason } = eventData
+      let errorObject = exception || new Error(reason)
+
       fireEvent(FV_TRYAGAIN_ZOOM, eventData)
-      trackAttempt(eventData.reason)
+      trackAttempt(errorObject, reason)
     },
     [trackAttempt],
   )

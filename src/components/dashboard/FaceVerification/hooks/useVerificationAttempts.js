@@ -1,9 +1,11 @@
-import { useCallback, useRef } from 'react'
+import { useCallback } from 'react'
 
-import { isPlainObject, map } from 'lodash'
+import { map } from 'lodash'
 import { MAX_ATTEMPTS_ALLOWED } from '../sdk/ZoomSDK.constants'
 
-import GDStore, { defaultVerificationState, useCurriedSetters } from '../../../../lib/undux/GDStore'
+import useRealtimeStoreState from '../../../../lib/hooks/useRealtimeStoreState'
+
+import GDStore, { defaultVerificationState } from '../../../../lib/undux/GDStore'
 import { fireEvent, FV_TRYAGAINLATER } from '../../../../lib/analytics/analytics'
 import logger from '../../../../lib/logger/pino-logger'
 
@@ -11,28 +13,18 @@ const log = logger.child({ from: 'useVerificationAttempts' })
 
 export default () => {
   const store = GDStore.useStore()
-  const [setVerificationStateInStore] = useCurriedSetters(['verification'])
-  const attemptsState = store.get('verification')
-  const attemptsStateRef = useRef(attemptsState)
+  const [getAttemptsState, updateAttemptsState, attemptsState] = useRealtimeStoreState(store, 'verification')
+  const resetAttempts = useCallback(() => updateAttemptsState(defaultVerificationState), [updateAttemptsState])
   const { attemptsCount, attemptsHistory } = attemptsState
 
-  const updateAttemptsState = useCallback(
-    (nameOrVars, value = null) => {
-      const stateVars = isPlainObject(nameOrVars) ? nameOrVars : { [nameOrVars]: value }
-      const updatedState = { ...attemptsStateRef.current, ...stateVars }
-
-      attemptsStateRef.current = updatedState
-      setVerificationStateInStore(updatedState)
-    },
-    [setVerificationStateInStore],
-  )
-
-  const resetAttempts = useCallback(() => updateAttemptsState(defaultVerificationState), [updateAttemptsState])
-
   const trackAttempt = useCallback(
-    exception => {
-      const { message } = exception
-      const { attemptsCount, attemptsHistory } = attemptsStateRef.current
+    (exception, reason = null) => {
+      let { message } = exception
+      const { attemptsCount, attemptsHistory } = getAttemptsState()
+
+      if (reason) {
+        message = reason
+      }
 
       // prepare updated count & history
       const updatedCount = attemptsCount + 1
@@ -72,19 +64,19 @@ export default () => {
     },
 
     // resetAttempts already depends from updateAttemptsState
-    [resetAttempts],
+    [resetAttempts, getAttemptsState],
   )
 
   // returns isReachedMaxAttempts flag, resets it once
   const isReachedMaxAttempts = useCallback(() => {
-    const { reachedMaxAttempts } = attemptsStateRef.current
+    const { reachedMaxAttempts } = getAttemptsState()
 
     if (reachedMaxAttempts) {
       updateAttemptsState('reachedMaxAttempts', false)
     }
 
     return reachedMaxAttempts
-  }, [updateAttemptsState])
+  }, [updateAttemptsState, getAttemptsState])
 
   return {
     trackAttempt,

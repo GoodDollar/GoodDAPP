@@ -14,6 +14,7 @@ import GDStore from './lib/undux/GDStore'
 import AddWebApp from './components/common/view/AddWebApp'
 import isWebApp from './lib/utils/isWebApp'
 import InternetConnection from './components/common/connectionDialog/internetConnection'
+import Blurred from './components/common/view/Blurred'
 import Splash from './components/splash/Splash'
 import useNavigationStateHandler from './lib/hooks/useNavigationStateHandler'
 
@@ -36,6 +37,7 @@ const AppNavigator = createNavigator(
   ),
   navigationConfig,
 )
+
 let WebRouter
 if (Platform.OS === 'web') {
   WebRouter = createBrowserApp(AppNavigator)
@@ -51,10 +53,13 @@ const Router = () => {
       <InternetConnection onDisconnect={DisconnectedSplash} isLoggedIn={true}>
         {!isWebApp && <AddWebApp />}
         <Portal.Host>
-          <WebRouter onNavigationStateChange={navigationStateHandler} />
+          <Blurred whenDialog>
+            <WebRouter onNavigationStateChange={navigationStateHandler} />
+          </Blurred>
         </Portal.Host>
       </InternetConnection>
     </GDStore.Container>
   )
 }
+
 export default Router

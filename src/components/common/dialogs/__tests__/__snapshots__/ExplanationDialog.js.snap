@@ -2,57 +2,61 @@
 
 exports[`ExplanationDialog matches snapshot 1`] = `
 <div
-  className="css-view-1dbjc4n"
-  style={
-    Object {
-      "WebkitBoxPack": "justify",
-      "WebkitJustifyContent": "space-around",
-      "display": "flex",
-      "height": "100%",
-      "justifyContent": "space-around",
-      "marginBottom": "auto",
-      "marginTop": "auto",
-      "minHeight": "310px",
-      "msFlexPack": "distribute",
-    }
-  }
+  className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
-    className="css-text-901oao"
-    dir="auto"
+    className="css-view-1dbjc4n"
     style={
       Object {
-        "direction": "ltr",
-        "fontFamily": "Roboto Slab",
-        "fontSize": "24px",
-        "fontWeight": "700",
-        "lineHeight": "30px",
-        "marginBottom": "8px",
-        "textAlign": "center",
-        "textDecoration": "none",
-        "textTransform": "none",
+        "WebkitBoxPack": "justify",
+        "WebkitJustifyContent": "space-around",
+        "display": "flex",
+        "justifyContent": "space-around",
+        "marginBottom": "auto",
+        "marginTop": "auto",
+        "maxHeight": "100%",
+        "minHeight": "310px",
+        "msFlexPack": "distribute",
       }
     }
   >
-    test
-  </div>
-  <div
-    className="css-text-901oao"
-    dir="auto"
-    style={
-      Object {
-        "direction": "ltr",
-        "fontFamily": "Roboto",
-        "fontSize": "24px",
-        "fontWeight": "normal",
-        "lineHeight": "22px",
-        "textAlign": "center",
-        "textDecoration": "none",
-        "textTransform": "none",
+    <div
+      className="css-text-901oao"
+      dir="auto"
+      style={
+        Object {
+          "color": "rgba(66,69,74,1.00)",
+          "fontFamily": "Roboto Slab",
+          "fontSize": "24px",
+          "fontWeight": "700",
+          "lineHeight": "30px",
+          "marginBottom": "8px",
+          "textAlign": "center",
+          "textDecoration": "none",
+          "textTransform": "none",
+        }
       }
-    }
-  >
-    test
+    >
+      test
+    </div>
+    <div
+      className="css-text-901oao"
+      dir="auto"
+      style={
+        Object {
+          "color": "rgba(66,69,74,1.00)",
+          "fontFamily": "Roboto",
+          "fontSize": "24px",
+          "fontWeight": "normal",
+          "lineHeight": "22px",
+          "textAlign": "center",
+          "textDecoration": "none",
+          "textTransform": "none",
+        }
+      }
+    >
+      test
+    </div>
   </div>
 </div>
 `;

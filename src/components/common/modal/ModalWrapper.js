@@ -1,7 +1,7 @@
 // @flow
 import React from 'react'
 import { ScrollView, View } from 'react-native'
-import { isMobileNative, isMobileOnly } from '../../../lib/utils/platform'
+import { isMobileOnly } from '../../../lib/utils/platform'
 import { withStyles } from '../../../lib/styles'
 import ModalCloseButton from './ModalCloseButton'
 import ModalJaggedEdge from './ModalJaggedEdge'
@@ -47,7 +47,6 @@ const ModalWrapper = (props: any) => {
             <ModalInnerContents
               style={[
                 showJaggedEdge ? styles.modalContainerStraightenBottomRightEdge : '',
-                isMobileNative && styles.nativeBlur,
                 showTooltipArrow && styles.noneShadow,
               ]}
             >
@@ -84,16 +83,6 @@ const getStylesFromProps = ({ theme }) => ({
   },
   shadow: {
     boxShadow: '0px 2px 4px #00000029',
-  },
-  nativeBlur: {
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: theme.modals.jaggedEdgeSize,
-    },
-    shadowOpacity: 0.75,
-    shadowRadius: 16,
-    elevation: 24,
   },
   triangle: {
     position: 'absolute',

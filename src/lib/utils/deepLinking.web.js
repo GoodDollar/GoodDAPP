@@ -4,7 +4,8 @@ class DeepLinkingWeb {
   pathname = window.location.pathname
 
   get params() {
-    return extractQueryParams(window.location.href)
+    const decodedHref = decodeURI(window.location.href)
+    return extractQueryParams(decodedHref)
   }
 }
 

@@ -27,7 +27,7 @@ describe('readCode', () => {
     // Given
     const code = Buffer.from(JSON.stringify({ mnid: '3cvdwVrcFXaMDBpkeJdrFKnfCyxQ1PDx6TG' }))
       .toString('base64')
-      .replace(/==$/, '')
+      .replace(/=+$/, '')
 
     // When
     const decoded = readCode(code)

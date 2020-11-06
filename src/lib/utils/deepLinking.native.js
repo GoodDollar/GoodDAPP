@@ -82,8 +82,12 @@ class DeepLinkingNative {
     this._isFirstRun = false
     this._lastClick = clickTimestamp
     const branchLink = referingLink
+    let queryParams = params
 
-    const queryParams = nonBranchLink ? extractQueryParams(nonBranchLink) : params
+    if (nonBranchLink) {
+      const decodedLink = decodeURI(nonBranchLink)
+      queryParams = extractQueryParams(decodedLink)
+    }
 
     this.pathname = extractPathname(nonBranchLink || branchLink)
 

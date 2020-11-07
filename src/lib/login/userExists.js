@@ -6,9 +6,7 @@ export const userExists = async ({ mnemonics, privateKey, email, mobile }): Prom
   const wallet = new GoodWallet({ mnemonic: mnemonics || privateKey })
   await wallet.ready
   const identifier = wallet.getAccountForType('login')
-  const {
-    data: { exists, fullName, provider },
-  } = await API.userExistsCheck({ identifier, email, mobile })
+  const { data } = await API.userExistsCheck({ identifier, email, mobile })
 
-  return { exists, fullName, provider }
+  return data
 }

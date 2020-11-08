@@ -12,6 +12,7 @@ import ErrorText from '../common/form/ErrorText'
 import OtpInput from '../common/form/OtpInput'
 import useOnPress from '../../lib/hooks/useOnPress'
 import LoadingIndicator from '../common/view/LoadingIndicator'
+import { fireEvent, SIGNUP_RETRY_SMS } from '../../lib/analytics/analytics'
 import CustomWrapper from './signUpWrapper'
 import type { SignupState } from './SignupState'
 
@@ -101,6 +102,7 @@ class SmsForm extends React.Component<Props, State> {
     retryFunctionName = retryFunctionName || 'sendOTP'
 
     try {
+      fireEvent(SIGNUP_RETRY_SMS, { type: otpChannel })
       await API[retryFunctionName]({ ...this.props.screenProps.data, otpChannel })
       this.setState(prev => ({ ...prev, tries: prev.tries + 1, sendingCode: false, resentCode: true }))
     } catch (e) {
@@ -190,7 +192,7 @@ const SMSAction = ({
     if (showWait) {
       setTimeout(() => {
         setWait(false)
-      }, 10000 * tries)
+      }, 10000)
     }
   }, [showWait])
 

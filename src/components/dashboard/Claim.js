@@ -39,6 +39,8 @@ import type { DashboardProps } from './Dashboard'
 import useClaimCounter from './Claim/useClaimCounter'
 import ButtonBlock from './Claim/ButtonBlock'
 
+// import { WavesBox } from '../common/view/WavesBox'
+
 type ClaimProps = DashboardProps
 
 const log = logger.child({ from: 'Claim' })
@@ -122,7 +124,7 @@ const Claim = props => {
   }
 
   const init = async () => {
-    // hack to make unit test pass, activityindicator in claim button cuasing
+    // hack to make unit test pass, activityindicator in claim button causing
     if (process.env.NODE_ENV !== 'test') {
       setLoading(true)
     }
@@ -182,7 +184,7 @@ const Claim = props => {
 
       log.error('gatherStats failed', message, exception, {
         dialogShown: true,
-        category: ExceptionCategory.Blockhain,
+        category: ExceptionCategory.Blockchain,
       })
 
       showErrorDialog(uiMessage, '', {
@@ -205,7 +207,7 @@ const Claim = props => {
         }
       }
 
-      //when we come back from FR entitelment might not be set yet
+      //when we come back from FR entitlement might not be set yet
       const curEntitlement = dailyUbi || (await goodWallet.checkEntitlement().then(_ => _.toNumber()))
       if (curEntitlement == 0) {
         return
@@ -261,7 +263,7 @@ const Claim = props => {
           txHash: receipt.transactionHash,
           entitlement: curEntitlement,
           status: receipt.status,
-          category: ExceptionCategory.Blockhain,
+          category: ExceptionCategory.Blockchain,
           dialogShown: true,
         })
         showErrorDialog('Claim transaction failed', '', { boldMessage: 'Try again later.' })
@@ -284,7 +286,7 @@ const Claim = props => {
       <Section.Stack style={styles.mainContainer} justifyContent="space-between">
         <View style={styles.headerContentContainer}>
           <Section.Text color="surface" fontFamily="slab" fontWeight="bold" style={styles.headerText}>
-            {dailyUbi ? `Claim Your\nDaily Share` : `Just a Few More\nHours To Go...`}
+            {dailyUbi ? `Claim Your Share` : `Just A Little Longer...\nMore G$'s Coming Soon`}
           </Section.Text>
           {dailyUbi > 0 ? (
             <Section.Row alignItems="center" justifyContent="center" style={styles.row}>
@@ -297,16 +299,16 @@ const Claim = props => {
                     bigNumberProps={{
                       fontFamily: 'Roboto',
                       fontSize: bigFontSize,
-                      color: theme.colors.darkBlue,
+                      color: theme.colors.surface,
                       fontWeight: 'bold',
                       lineHeight: bigFontSize,
                     }}
                     bigNumberUnitProps={{
                       fontFamily: 'Roboto',
-                      fontSize: bigFontSize,
-                      color: theme.colors.darkBlue,
+                      fontSize: regularFontSize,
+                      color: theme.colors.surface,
                       fontWeight: 'medium',
-                      lineHeight: bigFontSize,
+                      lineHeight: regularFontSize,
                     }}
                   />
                 </Section.Text>

@@ -107,10 +107,7 @@ const getStylesFromProps = ({ theme }) => {
     },
     bottomContainer: {
       paddingHorizontal: theme.sizes.defaultDouble,
-      paddingBottom: getDesignRelativeHeight(theme.sizes.defaultDouble),
-
-      // justifyContent: 'space-around',
-      // minHeight: getDesignRelativeHeight(200),
+      minHeight: getDesignRelativeHeight(256),
     },
     buttonLayout: {
       marginTop: getDesignRelativeHeight(theme.sizes.default),

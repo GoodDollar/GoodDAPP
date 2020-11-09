@@ -1,6 +1,6 @@
 // libraries
 import React, { useCallback, useMemo } from 'react'
-import { Image, Platform, View } from 'react-native'
+import { Image, View } from 'react-native'
 
 // components
 import { noop } from 'lodash'
@@ -11,13 +11,11 @@ import CustomButton from '../buttons/CustomButton'
 import useClipboard from '../../../lib/hooks/useClipboard'
 
 // utils
-import { isWeb } from '../../../lib/utils/platform'
-import normalize from '../../../lib/utils/normalizeText'
 import { withStyles } from '../../../lib/styles'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../lib/utils/sizes'
 import { truncateMiddle } from '../../../lib/utils/string'
 
-const copyIconSize = isWeb ? 34 : normalize(21)
+const copyIconSize = 24
 
 const BorderedBox = ({
   styles,
@@ -41,7 +39,7 @@ const BorderedBox = ({
   }, [onCopied, setString, content])
 
   const avatarStyles = useMemo(() => {
-    const imageBoxSize = getDesignRelativeWidth(imageSize, false)
+    const imageBoxSize = getDesignRelativeWidth(imageSize, true)
     const halfBoxSize = Math.ceil(imageBoxSize / 2)
 
     return [
@@ -59,7 +57,7 @@ const BorderedBox = ({
     () => [
       styles.avatarLineSeparator,
       {
-        width: getDesignRelativeWidth(imageSize + 20, false),
+        width: getDesignRelativeWidth(imageSize + 20, true),
       },
     ],
     [imageSize, styles.avatarLineSeparator],
@@ -69,7 +67,7 @@ const BorderedBox = ({
   const imgSource = useMemo(() => imageSource && { uri: imageSource }, [imageSource])
 
   return (
-    <Section style={styles.borderedBox}>
+    <Section.Stack style={styles.borderedBox}>
       <View style={lineSeparatorStyles} />
       {imageSource ? (
         <Image source={imgSource} style={avatarStyles} />
@@ -78,17 +76,20 @@ const BorderedBox = ({
           <ImgComponent />
         </View>
       ) : null}
+      <Section.Stack style={styles.boxContent}>
+
       <Section.Text fontSize={18} fontFamily="Roboto Slab" fontWeight="bold" style={styles.boxTitle}>
         {title}
       </Section.Text>
       <Section.Text fontSize={13} letterSpacing={0.07} color={theme.colors.lighterGray}>
         {displayContent}
       </Section.Text>
+        </Section.Stack>
       <View style={[styles.copyIconLineSeparator, showCopyIcon ? null : styles.copyButtonLineSeparator]} />
       <View style={[styles.boxCopyIconWrapper, showCopyIcon ? null : styles.boxCopyButtonWrapper]}>
         <CustomButton
           onPress={copyToClipboard}
-          style={[styles.copyIconContainer, showCopyIcon ? null : styles.copyButtonContainer]}
+          style={[showCopyIcon ? styles.copyIconContainer : styles.copyButtonContainer]}
         >
           {showCopyIcon ? <Icon name="copy" size={copyIconSize} color={theme.colors.surface} /> : copyButtonText}
         </CustomButton>
@@ -98,16 +99,20 @@ const BorderedBox = ({
           </Section.Text>
         )}
       </View>
-    </Section>
+    </Section.Stack>
   )
 }
 
 const styles = ({ theme }) => {
-  const [height5, height40, height52] = [5, 40, 52].map(size => getDesignRelativeHeight(size, false))
-  const [width38, width42] = [38, 42].map(size => getDesignRelativeWidth(size, false))
+  const [height5, height40] = [5, 40].map(size => getDesignRelativeHeight(size, true))
   const height25 = Math.ceil(height5 / 2)
 
   return {
+    boxContent: {
+      marginTop: getDesignRelativeHeight(35, false),
+      marginBottom: getDesignRelativeHeight(35, false),
+      padding: 0,
+    },
     borderedBox: {
       borderWidth: 1,
       borderStyle: 'solid',
@@ -115,12 +120,15 @@ const styles = ({ theme }) => {
       borderRadius: 5,
       height: getDesignRelativeHeight(isWeb ? 123 : 130, false),
       display: 'flex',
-      justifyContent: 'center',
+      borderStyle: 'solid',
       alignItems: 'center',
       position: 'relative',
+      justifyContent: 'center',
+      borderColor: theme.colors.gray50Percent,
+      padding: 0,
     },
     boxTitle: {
-      marginBottom: getDesignRelativeHeight(10, false),
+      marginBottom: getDesignRelativeHeight(8, true),
     },
     avatarLineSeparator: {
       height: height5,
@@ -135,8 +143,8 @@ const styles = ({ theme }) => {
     },
     boxCopyIconWrapper: {
       width: getDesignRelativeWidth(88, false),
-      height: height52,
-      bottom: -Math.ceil(height52 / 2), // half of height
+      height: height40,
+      bottom: -Math.ceil(height40 / 2), // half of height
       position: 'absolute',
       zIndex: 1,
     },
@@ -148,16 +156,11 @@ const styles = ({ theme }) => {
       position: 'absolute',
     },
     copyIconContainer: {
-      width: width38,
-      height: width38,
-      minWidth: Platform.select({
-        web: width38,
-        default: width42,
-      }),
-      borderRadius: Platform.select({
-        web: Math.ceil(width38 / 2),
-        default: Math.ceil(width42 / 2),
-      }),
+      height: height40,
+      maxHeight: height40,
+      width: height40,
+      minWidth: height40,
+      borderRadius: Math.ceil(height40 / 2),
       backgroundColor: theme.colors.primary,
       display: 'flex',
       justifyContent: 'center',
@@ -168,8 +171,8 @@ const styles = ({ theme }) => {
     },
     boxCopyButtonWrapper: {
       width: getDesignRelativeWidth(174, false),
-      height: getDesignRelativeHeight(54, false),
-      bottom: -getDesignRelativeHeight(32, false), // half of height
+      height: height40,
+      bottom: -getDesignRelativeHeight(20, true), // half of height
     },
     copyButtonLineSeparator: {
       width: getDesignRelativeWidth(174, false),
@@ -177,7 +180,14 @@ const styles = ({ theme }) => {
     copyButtonContainer: {
       width: getDesignRelativeWidth(160, false),
       height: height40,
-      borderRadius: Math.ceil(height40 / 2),
+      minHeight: height40,
+      marginTop: 0,
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      marginBottom: 0,
+      marginRight: 'auto',
+      marginLeft: 'auto',
     },
   }
 }

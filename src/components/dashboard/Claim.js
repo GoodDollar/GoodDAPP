@@ -5,7 +5,8 @@ import { Platform, View } from 'react-native'
 import moment from 'moment'
 import numeral from 'numeral'
 import AsyncStorage from '../../lib/utils/asyncStorage'
-import useOnPress from '../../lib/hooks/useOnPress'
+
+// import useOnPress from '../../lib/hooks/useOnPress'
 import { isBrowser } from '../../lib/utils/platform'
 import userStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
 import goodWallet from '../../lib/wallet/GoodWallet'
@@ -15,7 +16,8 @@ import GDStore from '../../lib/undux/GDStore'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import { useDialog } from '../../lib/undux/utils/dialog'
 import wrapper from '../../lib/undux/utils/wrapper'
-import { openLink } from '../../lib/utils/linking'
+
+// import { openLink } from '../../lib/utils/linking'
 import { formatWithSIPrefix, formatWithThousandsSeparator } from '../../lib/utils/formatNumber'
 import { weiToGd } from '../../lib/wallet/utils'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
@@ -30,16 +32,16 @@ import {
   fireGoogleAnalyticsEvent,
   fireMauticEvent,
 } from '../../lib/analytics/analytics'
+
 import Config from '../../config/config'
-import { isLargeDevice, isSmallDevice } from '../../lib/utils/mobileSizeDetect'
+import { isSmallDevice } from '../../lib/utils/mobileSizeDetect'
 import Section from '../common/layout/Section'
 import BigGoodDollar from '../common/view/BigGoodDollar'
 import useAppState from '../../lib/hooks/useAppState'
+import { WavesBox } from '../common/view/WavesBox'
 import type { DashboardProps } from './Dashboard'
 import useClaimCounter from './Claim/useClaimCounter'
 import ButtonBlock from './Claim/ButtonBlock'
-
-// import { WavesBox } from '../common/view/WavesBox'
 
 type ClaimProps = DashboardProps
 
@@ -83,7 +85,7 @@ const Claim = props => {
   const advanceClaimsCounter = useClaimCounter()
 
   // A function which will open 'learn more' page in a new tab
-  const openLearnMoreLink = useOnPress(() => openLink(Config.learnMoreEconomyUrl), [])
+  // const openLearnMoreLink = useOnPress(() => openLink(Config.learnMoreEconomyUrl), [])
 
   // format number of people who did claim today
   /*eslint-disable */
@@ -167,11 +169,13 @@ const Claim = props => {
 
   const gatherStats = async () => {
     try {
-      const [{ people, amount }, [nextClaimMilis, entitlement]] = await Promise.all([
+      const [{ people, amount }, [nextClaimMilis, entitlement], activeClaimers] = await Promise.all([
         wrappedGoodWallet.getAmountAndQuantityClaimedToday(),
         wrappedGoodWallet.getNextClaimTime(),
+        wrappedGoodWallet.getActiveClaimers(),
+        wrappedGoodWallet.getTodayDistribution(),
       ])
-      log.info('gatherStats:', { people, amount, nextClaimMilis, entitlement })
+      log.info('gatherStats:', { people, amount, nextClaimMilis, entitlement, activeClaimers })
       setPeopleClaimed(people)
       setTotalClaimed(amount)
       setDailyUbi(entitlement)
@@ -318,19 +322,13 @@ const Claim = props => {
           ) : null}
         </View>
         <Section.Stack style={styles.mainText}>
-          <Section.Text color="surface" fontFamily="Roboto" style={styles.mainTextSecondContainer}>
-            {`GoodDollar is the world’s first experiment\nto create a framework to generate\nUBI on a global scale.\n`}
-            <Section.Text
-              color="surface"
-              style={styles.learnMoreLink}
-              textDecorationLine="underline"
-              fontWeight="bold"
-              fontFamily="slab"
-              onPress={openLearnMoreLink}
-            >
-              Learn More
-            </Section.Text>
-          </Section.Text>
+          <View style={styles.wavesBox}>
+            <WavesBox primaryColor={theme.colors.darkBlue} style={styles.linkBoxStyle} title={'So Far Today'}>
+              <Section.Text primaryColor={theme.colors.surface} fontFamily="Roboto">
+                So Far...
+              </Section.Text>
+            </WavesBox>
+          </View>
         </Section.Stack>
         <View style={styles.fakeClaimButton} />
         <ButtonBlock
@@ -445,7 +443,7 @@ const getStylesFromProps = ({ theme }) => {
     headerText,
     amountBlock: {
       borderWidth: 3,
-      borderColor: theme.colors.white,
+      borderColor: theme.colors.darkBlue,
       borderRadius: theme.sizes.borderRadius,
       paddingHorizontal: getDesignRelativeWidth(30),
       paddingVertical: getDesignRelativeWidth(10),
@@ -462,6 +460,19 @@ const getStylesFromProps = ({ theme }) => {
       zIndex: 1,
       justifyContent: 'flex-end',
       marginBottom: getDesignRelativeHeight(isLargeDevice ? 16 : 20),
+    },
+    wavesBox: {
+      alignItems: 'center',
+      flexDirection: 'column',
+      zIndex: 1,
+      justifyContent: 'flex-end',
+      marginBottom: getDesignRelativeHeight(isSmallDevice ? 16 : 20),
+      width: '95%',
+      color: theme.colors.surface,
+    },
+    linkBoxStyle: {
+      backgroundColor: theme.colors.surface,
+      minHeight: 100,
     },
     learnMoreLink,
     claimButtonContainer: {

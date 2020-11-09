@@ -626,6 +626,29 @@ export class GoodWallet {
     }
   }
 
+  async getActiveClaimers(): Promise<number> {
+    try {
+      const activeUsersCount = await this.UBIContract.methods.activeUsersCount().call()
+      return activeUsersCount.toNumber()
+    } catch (exception) {
+      const { message } = exception
+
+      log.warn('getActiveClaimers failed', message, exception)
+      throw exception
+    }
+  }
+
+  // async getTodayDistribution(): Promise<number> {
+  //   try {
+  //     const dailyUBIHistory = await this.UBIContract.methods.dailyUBIHistory().call()
+  //     return dailyUBIHistory
+  //   } catch (exception) {
+  //     const { message } = exception
+  //     log.warn('getTodayDistribution failed', message, exception)
+  //     throw exception
+  //   }
+  // }
+
   /**
    * Sets an id and place a callback function for this id, for the sent event
    * @dev event can have multiple subscribers, each one recieves it's own id

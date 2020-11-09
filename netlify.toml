@@ -1,6 +1,21 @@
 [build]
 command = "CI= npm run build"
 
+[[headers]]
+  for = "*"
+  [headers.values]
+    Cache-Control = "public, s-max-age=604800"
+
+[[headers]]
+  for = "/service-worker.js"
+  [headers.values]
+    cache-control = "max-age=0,no-cache,no-store,must-revalidate"
+
+[[headers]]
+  for = "/torus/sw.js"
+  [headers.values]
+    cache-control = "max-age=0,no-cache,no-store,must-revalidate"
+
 [build.environment]
 GENERATE_SOURCEMAP = "true"
 REACT_APP_SERVICE_WORKER = "true"

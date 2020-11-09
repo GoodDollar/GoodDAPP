@@ -215,9 +215,14 @@ dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "com.facebook.react:react-native:+"  // From node_modules
     implementation project(':react-native-contacts')
-    compile project(':torus-direct-react-native-sdk')
 
-  // Add v8-android - prebuilt libv8android.so into APK
+    api "com.squareup.okhttp3:okhttp:4.9.0"
+    api "com.squareup.okhttp3:logging-interceptor:4.9.0"
+    api "com.squareup.okhttp3:okhttp-urlconnection:4.9.0"
+    implementation project(':torus-direct-react-native-sdk')
+
+
+    // Add v8-android - prebuilt libv8android.so into APK
     implementation 'org.chromium:v8-android:+'
     implementation "androidx.annotation:annotation:1.1.0"
     androidTestImplementation('com.wix:detox:+') { transitive = true }

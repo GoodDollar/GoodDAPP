@@ -17,7 +17,6 @@ import useLoading from '../../lib/hooks/useLoadingIndicator'
 
 // utils
 import { withStyles } from '../../lib/styles'
-import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import GoodWallet from '../../lib/wallet/GoodWallet'
 import GDStore from '../../lib/undux/GDStore'
 import config from '../../config/config'
@@ -118,7 +117,6 @@ const styles = ({ theme }) => ({
     display: 'flex',
     justifyContent: 'space-around',
     flexGrow: 1,
-    marginBottom: getDesignRelativeHeight(10, false),
   },
 })
 

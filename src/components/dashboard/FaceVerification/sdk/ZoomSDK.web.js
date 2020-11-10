@@ -1,4 +1,4 @@
-import { fromPairs, isString, noop, omitBy, pickBy } from 'lodash'
+import { fromPairs, isEmpty, isString, noop, omitBy, pickBy, trimEnd, trimStart } from 'lodash'
 import ConsoleSubscriber from 'console-subscriber'
 
 import { store } from '../../../../lib/undux/SimpleStore'
@@ -122,11 +122,11 @@ export const ZoomSDK = new class {
         license = fromPairs(
           licenseText
             .split('\n') // exclude native-only 'appId' option from license text
-            .filter(line => !line.includes('appId'))
+            .filter(line => !isEmpty(line) && line.includes('=') && !line.includes('appId'))
             .map(line => {
-              const [option, value] = line.split('=')
+              const [option, value = ''] = line.split('=')
 
-              return [option.trimEnd(), value.trimStart()]
+              return [trimEnd(option), trimStart(value)]
             }),
         )
       }

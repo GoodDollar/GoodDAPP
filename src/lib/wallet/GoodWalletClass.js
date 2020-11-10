@@ -6,6 +6,7 @@ import ContractsAddress from '@gooddollar/goodcontracts/releases/deployment.json
 import StakingModelAddress from '@gooddollar/goodcontracts/stakingModel/releases/deployment.json'
 import ERC20ABI from '@gooddollar/goodcontracts/build/contracts/ERC20.min.json'
 import UBIABI from '@gooddollar/goodcontracts/stakingModel/build/contracts/UBIScheme.min.json'
+import SimpleDaiStaking from '@gooddollar/goodcontracts/stakingModel/build/contracts/SimpleDAIStaking.min.json'
 import type Web3 from 'web3'
 import { BN, toBN } from 'web3-utils'
 import abiDecoder from 'abi-decoder'
@@ -121,6 +122,8 @@ export class GoodWallet {
 
   UBIContract: Web3.eth.Contract
 
+  SimpleDaiStaking: Web3.eth.Contract
+
   account: string
 
   accounts: Array<string>
@@ -137,13 +140,20 @@ export class GoodWallet {
 
   isPollEvents: boolean = true
 
+  web3Mainnet: Web3
+
   constructor(walletConfig: {} = {}) {
     this.config = walletConfig
     this.init()
   }
 
   init(): Promise<any> {
-    this.ready = WalletFactory.create(GoodWallet.WalletType, this.config)
+    const mainnetNetworkId = ContractsAddress[Config.networkMainnet].networkId
+    const mainnethttpWeb3provider = Config.ethereum[mainnetNetworkId].httpWeb3provider
+    this.web3Mainnet = new Web3(mainnethttpWeb3provider)
+
+    const ready = WalletFactory.create(GoodWallet.WalletType, this.config)
+    this.ready = ready
       .then(wallet => {
         log.info('GoodWallet initial wallet created.')
         this.wallet = wallet
@@ -188,6 +198,14 @@ export class GoodWallet {
           { from: this.account },
         )
         abiDecoder.addABI(UBIABI.abi)
+
+        // SimpleDaiStaking
+        this.SimpleDaiStaking = new this.web3Mainnet.eth.Contract(
+          SimpleDaiStaking.abi,
+          get(StakingModelAddress, `${this.network}-mainnet.DAIStaking` /*UBIABI.networks[this.networkId].address*/),
+          { from: this.account },
+        )
+        abiDecoder.addABI(SimpleDaiStaking.abi)
 
         // OneTimePaymentLinks Contract
         this.oneTimePaymentsContract = new this.wallet.eth.Contract(
@@ -647,16 +665,65 @@ export class GoodWallet {
     }
   }
 
-  // async getTodayDistribution(): Promise<number> {
-  //   try {
-  //     const dailyUBIHistory = await this.UBIContract.methods.dailyUBIHistory().call()
-  //     return dailyUBIHistory
-  //   } catch (exception) {
-  //     const { message } = exception
-  //     log.warn('getTodayDistribution failed', message, exception)
-  //     throw exception
-  //   }
-  // }
+  async getAvailableDistribution(): Promise<number> {
+    try {
+      let currentDay = await this.UBIContract.methods.currentDay().call()
+      currentDay = currentDay.toNumber()
+      const dailyUBIHistory = await this.UBIContract.methods.dailyUBIHistory(currentDay).call()
+      return dailyUBIHistory.openAmount.toNumber()
+    } catch (exception) {
+      const { message } = exception
+      log.warn('getTodayDistribution failed', message, exception)
+      throw exception
+    }
+  }
+
+  async getTotalFundsStaked(): Promise<number> {
+    try {
+      let totalFundsStaked = await this.SimpleDaiStaking.methods.totalStaked().call()
+      return this.web3Mainnet.utils.fromWei(totalFundsStaked)
+    } catch (exception) {
+      const { message } = exception
+      log.warn('getTotalFundsStaked failed', message, exception)
+      throw exception
+    }
+  }
+
+  async getInterestCollected(): Promise<number> {
+    try {
+      const toBlock = await this.web3Mainnet.eth.getBlockNumber()
+      const fromBlock = parseInt(toBlock) - parseInt(Config.interestCollectedInterval)
+      const InterestCollectedEventsFilter = {
+        fromBlock,
+        toBlock,
+      }
+
+      const events = await this.SimpleDaiStaking.getPastEvents(
+        'InterestCollected',
+        InterestCollectedEventsFilter,
+      ).catch(e => {
+        //just warn about block not  found which is recoverable
+        const logFunc = e.code === -32000 ? log.warn : log.error
+        logFunc('InterestCollectedEvents failed:', e.message, e, {
+          category: ExceptionCategory.Blockhain,
+        })
+        return []
+      })
+      let interest = 0
+      if (events.length > 0) {
+        events.forEach(event => {
+          if (event.returnValues.daiValue > interest) {
+            interest = event.returnValues.daiValue
+          }
+        })
+      }
+      return this.web3Mainnet.utils.fromWei(interest)
+    } catch (exception) {
+      const { message } = exception
+      log.warn('getTotalFundsStaked failed', message, exception)
+      throw exception
+    }
+  }
 
   /**
    * Sets an id and place a callback function for this id, for the sent event

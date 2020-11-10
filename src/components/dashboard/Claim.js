@@ -81,6 +81,11 @@ const Claim = props => {
   const [peopleClaimed, setPeopleClaimed] = useState('--')
   const [totalClaimed, setTotalClaimed] = useState('--')
 
+  // const [activeClaimers, setActiveClaimers] = useState()
+  // const [availableDistribution, setAvailableDistribution] = useState()
+  // const [totalFundsStaked, setTotalFundsStaked] = useState()
+  // const [interestCollected, setInterestCollected] = useState()
+
   const wrappedGoodWallet = wrapper(goodWallet, store)
   const advanceClaimsCounter = useClaimCounter()
 
@@ -169,16 +174,41 @@ const Claim = props => {
 
   const gatherStats = async () => {
     try {
-      const [{ people, amount }, [nextClaimMilis, entitlement], activeClaimers] = await Promise.all([
+      const [
+        { people, amount },
+        [nextClaimMilis, entitlement],
+        activeClaimers,
+        availableDistribution,
+        totalFundsStaked,
+        interestCollected,
+      ] = await Promise.all([
         wrappedGoodWallet.getAmountAndQuantityClaimedToday(),
         wrappedGoodWallet.getNextClaimTime(),
         wrappedGoodWallet.getActiveClaimers(),
-        wrappedGoodWallet.getTodayDistribution(),
+        wrappedGoodWallet.getAvailableDistribution(),
+        wrappedGoodWallet.getTotalFundsStaked(),
+        wrappedGoodWallet.getInterestCollected(),
       ])
-      log.info('gatherStats:', { people, amount, nextClaimMilis, entitlement, activeClaimers })
+      log.info('gatherStats:', {
+        people,
+        amount,
+        nextClaimMilis,
+        entitlement,
+        activeClaimers,
+        availableDistribution,
+        totalFundsStaked,
+        interestCollected,
+      })
+
       setPeopleClaimed(people)
       setTotalClaimed(amount)
       setDailyUbi(entitlement)
+
+      // setActiveClaimers(activeClaimers)
+      // setAvailableDistribution(availableDistribution)
+      // setTotalFundsStaked(totalFundsStaked)
+      // setInterestCollected(interestCollected)
+
       if (nextClaimMilis) {
         setNextClaimDate(nextClaimMilis)
       }

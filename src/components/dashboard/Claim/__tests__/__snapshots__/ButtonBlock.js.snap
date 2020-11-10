@@ -791,7 +791,7 @@ exports[`ButtonBlock matches snapshot for citizen with entitlement 1`] = `
                               "color": "rgba(255,255,255,1.00)",
                               "direction": "ltr",
                               "fontFamily": "Roboto",
-                              "fontSize": "15.5px",
+                              "fontSize": "16px",
                               "fontWeight": "500",
                               "lineHeight": "20px",
                               "textAlign": "right",

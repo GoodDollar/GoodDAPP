@@ -22,15 +22,24 @@ exports[`UnsupportedBrowser matches snapshot 1`] = `
     className="css-view-1dbjc4n"
     style={
       Object {
+        "WebkitBoxFlex": 0,
         "WebkitBoxPack": "justify",
+        "WebkitFlexBasis": "0%",
+        "WebkitFlexGrow": 0,
+        "WebkitFlexShrink": 0,
         "WebkitJustifyContent": "space-around",
         "display": "flex",
+        "flexBasis": "0%",
+        "flexGrow": 0,
+        "flexShrink": 0,
         "height": "100%",
         "justifyContent": "space-around",
         "marginBottom": "auto",
         "marginTop": "auto",
-        "minHeight": "310px",
+        "msFlexNegative": 0,
         "msFlexPack": "distribute",
+        "msFlexPositive": 0,
+        "msFlexPreferredSize": "0%",
       }
     }
   >
@@ -43,8 +52,8 @@ exports[`UnsupportedBrowser matches snapshot 1`] = `
           Object {
             "WebkitFlexBasis": "auto",
             "flexBasis": "auto",
-            "height": "154.5974025974026px",
-            "marginBottom": "19.948051948051948px",
+            "height": "124px",
+            "marginBottom": "24px",
             "marginTop": "8px",
             "msFlexPreferredSize": "auto",
             "overflowX": "hidden",
@@ -93,7 +102,7 @@ exports[`UnsupportedBrowser matches snapshot 1`] = `
           "fontSize": "24px",
           "fontWeight": "700",
           "lineHeight": "30px",
-          "marginBottom": "8px",
+          "marginBottom": "24px",
           "textAlign": "center",
           "textDecoration": "none",
           "textTransform": "none",
@@ -113,6 +122,7 @@ exports[`UnsupportedBrowser matches snapshot 1`] = `
           "fontSize": "24px",
           "fontWeight": "normal",
           "lineHeight": "22px",
+          "marginBottom": "24px",
           "textAlign": "center",
           "textDecoration": "none",
           "textTransform": "none",
@@ -137,7 +147,6 @@ exports[`UnsupportedBrowser matches snapshot 1`] = `
           "msFlexPack": "end",
           "paddingLeft": "0px",
           "paddingRight": "0px",
-          "paddingTop": "19.948051948051948px",
         }
       }
     >

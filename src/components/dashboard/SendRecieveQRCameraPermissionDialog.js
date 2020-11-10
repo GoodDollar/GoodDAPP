@@ -7,7 +7,7 @@ export default () => (
   <ExplanationDialog
     title="Please allow access to your camera"
     text={`In order to complete the QR code scan`}
-    imageSource={illustration}
+    image={illustration}
   />
 )
 

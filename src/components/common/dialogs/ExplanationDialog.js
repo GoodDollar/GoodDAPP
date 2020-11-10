@@ -1,6 +1,6 @@
 // libraries
 import React, { useCallback, useMemo } from 'react'
-import { Image, View } from 'react-native'
+import { Image, Platform, View } from 'react-native'
 import { isEmpty, noop } from 'lodash'
 
 // components
@@ -85,7 +85,13 @@ const ExplanationDialog = ({
       )}
       {(imageSource || ImageComponent) && (
         <View style={[styles.centerImage, imageContainer]}>
-          {ImageComponent ? <ImageComponent {...imageProps} /> : <Image source={imageSource} {...imageProps} />}
+          {ImageComponent ? (
+            <View {...imageProps}>
+              <ImageComponent />
+            </View>
+          ) : (
+            <Image source={imageSource} {...imageProps} />
+          )}
         </View>
       )}
       {label && <Text style={[styles.label, labelStyle]}>{label}</Text>}
@@ -149,7 +155,11 @@ const mapStylesToProps = ({ theme }) => ({
     marginLeft: 'auto',
   },
   centerImage: {
-    flex: 1,
+    ...Platform.select({
+      native: {
+        flex: 1,
+      },
+    }),
     justifyContent: 'center',
     flexDirection: 'row',
     alignSelf: 'center',

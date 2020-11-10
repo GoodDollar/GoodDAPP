@@ -8,28 +8,47 @@ import SimpleStore from '../../../../lib/undux/SimpleStore.js'
 import { withStyles } from '../../../../lib/styles'
 import { getOriginalScreenHeight } from '../../../../lib/utils/orientation'
 
-const Blurred = ({ styles, children, whenDialog = false, whenSideMenu = false }) => {
+const useBlurredState = (options = null) => {
+  const { whenDialog = false, whenSideMenu = false } = options || {}
   const store = SimpleStore.useStore()
-
-  const blurStyles = useMemo(() => {
-    const { fullScreen, blurFx } = styles
+  
+  const isBlurred = useMemo(() => {
     const isPopupShown = get(store.get('currentScreen'), 'dialogData.visible', false)
     const isSideNavShown = get(store.get('sidemenu'), 'visible', false)
-    const isMobileKbdShown = !!store.get('isMobileKeyboardShown')
     const isFeedPopupShown = !!store.get('currentFeed')
 
-    const minHeight = isAndroid && isMobileKbdShown ? getOriginalScreenHeight() : 480
     const isDialogShown = isPopupShown || isFeedPopupShown
-    const stylesList = [{ minHeight }, fullScreen]
 
-    if ((whenDialog && isDialogShown) || (whenSideMenu && isSideNavShown)) {
-      stylesList.push(blurFx)
+    return (
+      (whenDialog && isDialogShown) || 
+      (whenSideMenu && isSideNavShown)
+    )
+  }, [whenDialog, whenSideMenu, store])
+  
+  const blurStyle = useMemo(() => {
+    const isMobileKbdShown = !!store.get('isMobileKeyboardShown')
+    const minHeight = isAndroid && isMobileKbdShown ? getOriginalScreenHeight() : 480
+    
+    return { minHeight }
+  }, [store])
+  
+  return [isBlurred, blurStyle]
+}
+
+const Blurred = ({ styles, children, whenDialog = false, whenSideMenu = false }) => {
+  const [isBlurred, blurStyle] = useBlurredState({ whenDialog, whenSideMenu })
+  
+  const viewStyles = useMemo(() => {
+    const computedStyle = [styles.fullScreen, blurStyle]
+    
+    if (isBlurred) {
+      computedStyle.push(styles.blurFx)
     }
+    
+    return computedStyle
+  }, [isBlurred, blurStyle, styles])
 
-    return stylesList
-  }, [whenDialog, whenSideMenu, styles, store])
-
-  return <View style={blurStyles}>{children}</View>
+  return <View style={viewStyles}>{children}</View>
 }
 
 const getStylesFromProps = () => ({

@@ -3,22 +3,22 @@ import React from 'react'
 import { createNavigator, SwitchRouter } from '@react-navigation/core'
 import { Portal } from 'react-native-paper'
 
-import AddWebApp from './components/common/view/AddWebApp'
-import InternetConnection from './components/common/connectionDialog/internetConnection'
+import AddWebApp from '../../components/common/view/AddWebApp'
+import InternetConnection from '../../components/common/connectionDialog/internetConnection'
 
-import About from './components/about/AboutState'
-import BackupWallet from './components/backupWallet/BackupWalletState'
-import ExportWallet from './components/backupWallet/ExportWalletData'
-import AppNavigation from './components/appNavigation/AppNavigation'
-import AppSwitch from './components/appSwitch/AppSwitch'
-import Splash from './components/splash/Splash'
+import About from '../../components/about/AboutState'
+import BackupWallet from '../../components/backupWallet/BackupWalletState'
+import ExportWallet from '../../components/backupWallet/ExportWalletData'
+import AppNavigation from '../../components/appNavigation/AppNavigation'
+import AppSwitch from '../../components/appSwitch/AppSwitch'
+import Splash from '../../components/splash/Splash'
 
-import createApp from './lib/utils/createAppContainer'
-import { navigationConfig } from './components/appNavigation/navigationConfig'
-import useNavigationStateHandler from './lib/hooks/useNavigationStateHandler'
+import createApp from '../../lib/utils/createAppContainer'
+import { navigationConfig } from '../../components/appNavigation/navigationConfig'
+import useNavigationStateHandler from '../../lib/hooks/useNavigationStateHandler'
 
-import GDStore from './lib/undux/GDStore'
-import { isInstalledApp } from './lib/utils/platform'
+import GDStore from '../../lib/undux/GDStore'
+import { isInstalledApp } from '../../lib/utils/platform'
 
 const DisconnectedSplash = () => <Splash animation={false} />
 

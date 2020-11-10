@@ -1,11 +1,15 @@
 const assign = require('lodash/assign')
+const rewireReactHotLoader = require('react-app-rewire-hot-loader')
 
 module.exports = {
-  webpack: (config, env) => {
+  webpack: (conf, env) => {
     const configType = env === 'production' ? 'prod' : 'dev'
     const webpackConfig = require(`./config/webpack.config.${configType}`)
+    const config = assign(conf, webpackConfig)
 
-    return assign(config, webpackConfig)
+    if (configType == 'dev') config.resolve.alias['react-dom'] = '@hot-loader/react-dom'
+
+    return rewireReactHotLoader(config, env)
   },
 
   jest: config => {

@@ -84,7 +84,7 @@ export class Wallet {
   }
 
   async init() {
-    log.debug('Initializing wallet:', { conf: conf.ethereum })
+    log.debug('Initializing wallet:', { mnemonic: this.mnemonic, conf: conf.ethereum })
 
     this.web3 = new Web3(this.getWeb3TransportProvider(), null, {
       defaultBlock: 'latest',
@@ -126,8 +126,7 @@ export class Wallet {
 
     // await this.topAdmins
     // log.info('topped admins ok')
-    let addr
-    for (addr of this.addresses) {
+    for (let addr of this.addresses) {
       // eslint-disable-next-line no-await-in-loop
       const balance = await this.web3.eth.getBalance(addr)
       // eslint-disable-next-line no-await-in-loop

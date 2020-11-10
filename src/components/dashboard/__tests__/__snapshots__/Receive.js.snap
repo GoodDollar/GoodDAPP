@@ -2,44 +2,182 @@
 
 exports[`Receive matches snapshot 1`] = `
 <div
-  className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
+  className="css-view-1dbjc4n"
+  style={
+    Object {
+      "WebkitBoxFlex": 1,
+      "WebkitFlexBasis": "0%",
+      "WebkitFlexGrow": 1,
+      "WebkitFlexShrink": 1,
+      "flexBasis": "0%",
+      "flexGrow": 1,
+      "flexShrink": 1,
+      "msFlexNegative": 1,
+      "msFlexPositive": 1,
+      "msFlexPreferredSize": "0%",
+    }
+  }
 >
   <div
-    className="css-view-1dbjc4n r-display-6koalj r-flexDirection-eqz5dr r-flexGrow-16y2uox r-maxHeight-1qalap5 r-padding-edyy15 r-position-bnwqim r-width-13qz1uu"
+    className="css-view-1dbjc4n"
     data-name="viewWrapper"
     style={
       Object {
-        "backgroundImage": "linear-gradient(3.141592653589793rad,#00AFFF,#2DC0F7,#28C0EF,#23C0E7,#1EC1DF,#19C1D7,#14C1CF,#0FC2C7,#0FC2C7,#0AC2BF,#05C2B7,#00C3AF)",
+        "WebkitBoxDirection": "normal",
+        "WebkitBoxFlex": 1,
+        "WebkitBoxOrient": "vertical",
+        "WebkitFlexDirection": "column",
+        "WebkitFlexGrow": 1,
+        "backgroundImage": "linear-gradient(to bottom, #00AFFF, #2DC0F7, #28C0EF, #23C0E7, #1EC1DF, #19C1D7, #14C1CF, #0FC2C7, #0FC2C7, #0AC2BF, #05C2B7, #00C3AF)",
+        "display": "flex",
+        "flexDirection": "column",
+        "flexGrow": 1,
+        "maxHeight": "844px",
+        "msFlexDirection": "column",
+        "msFlexPositive": 1,
+        "paddingBottom": "8px",
+        "paddingLeft": "8px",
+        "paddingRight": "8px",
+        "paddingTop": "8px",
+        "position": "relative",
+        "width": "100%",
       }
     }
   >
     <div
-      className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderRadius-1f0042m r-height-yivrw8 r-justifyContent-1777fci r-marginBottom-5oul0u r-paddingBottom-xd6kpl r-paddingHorizontal-1e081e0 r-paddingLeft-f727ji r-paddingRight-1pyaxff r-paddingTop-tskmnb r-paddingVertical-1yzf0co"
+      className="css-view-1dbjc4n"
+      style={
+        Object {
+          "WebkitBoxPack": "center",
+          "WebkitJustifyContent": "center",
+          "backgroundColor": "rgba(255,255,255,1.00)",
+          "borderBottomLeftRadius": "5px",
+          "borderBottomRightRadius": "5px",
+          "borderTopLeftRadius": "5px",
+          "borderTopRightRadius": "5px",
+          "height": "62px",
+          "justifyContent": "center",
+          "marginBottom": "8px",
+          "msFlexPack": "center",
+          "paddingBottom": "8px",
+          "paddingLeft": "12px",
+          "paddingRight": "8px",
+          "paddingTop": "8px",
+        }
+      }
     >
       <div
-        className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
+        className="css-view-1dbjc4n"
+        style={
+          Object {
+            "WebkitAlignItems": "center",
+            "WebkitBoxAlign": "center",
+            "WebkitBoxDirection": "reverse",
+            "WebkitBoxOrient": "horizontal",
+            "WebkitBoxPack": "justify",
+            "WebkitFlexDirection": "row-reverse",
+            "WebkitJustifyContent": "space-between",
+            "alignItems": "center",
+            "flexDirection": "row-reverse",
+            "justifyContent": "space-between",
+            "msFlexAlign": "center",
+            "msFlexDirection": "row-reverse",
+            "msFlexPack": "justify",
+          }
+        }
       >
         <div
-          className="css-view-1dbjc4n r-alignItems-1d09ksm r-display-6koalj r-flexDirection-18u37iz"
+          className="css-view-1dbjc4n"
+          style={
+            Object {
+              "WebkitAlignItems": "baseline",
+              "WebkitBoxAlign": "baseline",
+              "WebkitBoxDirection": "normal",
+              "WebkitBoxOrient": "horizontal",
+              "WebkitFlexDirection": "row",
+              "alignItems": "baseline",
+              "display": "flex",
+              "flexDirection": "row",
+              "msFlexAlign": "baseline",
+              "msFlexDirection": "row",
+            }
+          }
         >
           <div
-            className="css-text-901oao r-color-181bzza r-fontFamily-6jnb14 r-fontSize-3i2nvb r-fontWeight-b88u0q r-lineHeight-ueyrd6 r-marginRight-a5pmau r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+            className="css-text-901oao"
             dir="auto"
+            style={
+              Object {
+                "color": "rgba(85,85,85,1.00)",
+                "direction": "ltr",
+                "fontFamily": "Roboto Slab",
+                "fontSize": "36px",
+                "fontWeight": "700",
+                "lineHeight": "30px",
+                "marginRight": "2px",
+                "textAlign": "right",
+                "textDecoration": "none",
+                "textTransform": "none",
+              }
+            }
           >
             -.--
           </div>
           <div
-            className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
+            className="css-view-1dbjc4n"
+            style={
+              Object {
+                "WebkitAlignItems": "center",
+                "WebkitBoxAlign": "center",
+                "WebkitBoxDirection": "normal",
+                "WebkitBoxOrient": "horizontal",
+                "WebkitBoxPack": "justify",
+                "WebkitFlexDirection": "row",
+                "WebkitJustifyContent": "space-between",
+                "alignItems": "center",
+                "flexDirection": "row",
+                "justifyContent": "space-between",
+                "msFlexAlign": "center",
+                "msFlexDirection": "row",
+                "msFlexPack": "justify",
+              }
+            }
           >
             <div
-              className="css-text-901oao r-color-181bzza r-fontFamily-6jnb14 r-fontSize-1i10wst r-fontWeight-b88u0q r-lineHeight-hbpseb r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+              className="css-text-901oao"
               dir="auto"
+              style={
+                Object {
+                  "color": "rgba(85,85,85,1.00)",
+                  "direction": "ltr",
+                  "fontFamily": "Roboto Slab",
+                  "fontSize": "18px",
+                  "fontWeight": "700",
+                  "lineHeight": "22px",
+                  "textAlign": "right",
+                  "textDecoration": "none",
+                  "textTransform": "none",
+                }
+              }
             >
               G
             </div>
             <div
-              className="css-text-901oao r-color-181bzza r-fontFamily-6jnb14 r-fontSize-1i10wst r-fontWeight-b88u0q r-lineHeight-hbpseb r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+              className="css-text-901oao"
               dir="auto"
+              style={
+                Object {
+                  "color": "rgba(85,85,85,1.00)",
+                  "direction": "ltr",
+                  "fontFamily": "Roboto Slab",
+                  "fontSize": "18px",
+                  "fontWeight": "700",
+                  "lineHeight": "22px",
+                  "textAlign": "right",
+                  "textDecoration": "none",
+                  "textTransform": "none",
+                }
+              }
             >
               $
             </div>
@@ -51,25 +189,110 @@ exports[`Receive matches snapshot 1`] = `
       </div>
     </div>
     <div
-      className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderRadius-1f0042m r-flexGrow-16y2uox r-paddingHorizontal-1e081e0 r-paddingVertical-1yzf0co"
+      className="css-view-1dbjc4n"
+      style={
+        Object {
+          "WebkitBoxFlex": 1,
+          "WebkitFlexGrow": 1,
+          "backgroundColor": "rgba(255,255,255,1.00)",
+          "borderBottomLeftRadius": "5px",
+          "borderBottomRightRadius": "5px",
+          "borderTopLeftRadius": "5px",
+          "borderTopRightRadius": "5px",
+          "flexGrow": 1,
+          "msFlexPositive": 1,
+          "paddingBottom": "16px",
+          "paddingLeft": "12px",
+          "paddingRight": "12px",
+          "paddingTop": "16px",
+        }
+      }
     >
       <div
-        className="css-view-1dbjc4n r-height-vvw8rg"
+        className="css-view-1dbjc4n"
+        style={
+          Object {
+            "height": "25%",
+          }
+        }
       />
       <div
-        className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-eqz5dr r-justifyContent-1777fci"
+        className="css-view-1dbjc4n"
+        style={
+          Object {
+            "WebkitAlignItems": "center",
+            "WebkitBoxAlign": "center",
+            "WebkitBoxDirection": "normal",
+            "WebkitBoxOrient": "vertical",
+            "WebkitBoxPack": "center",
+            "WebkitFlexDirection": "column",
+            "WebkitJustifyContent": "center",
+            "alignItems": "center",
+            "flexDirection": "column",
+            "justifyContent": "center",
+            "msFlexAlign": "center",
+            "msFlexDirection": "column",
+            "msFlexPack": "center",
+          }
+        }
       >
         <div
-          className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-lineHeight-hbpseb r-marginBottom-1peese0 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+          className="css-text-901oao"
           dir="auto"
+          style={
+            Object {
+              "color": "rgba(66,69,74,1.00)",
+              "direction": "ltr",
+              "fontFamily": "Roboto",
+              "fontSize": "16px",
+              "fontWeight": "500",
+              "lineHeight": "22px",
+              "marginBottom": "24px",
+              "textAlign": "center",
+              "textDecoration": "none",
+              "textTransform": "none",
+            }
+          }
         >
           Let someone scan your wallet address
         </div>
         <div
-          className="css-view-1dbjc4n r-alignItems-1awozwy r-justifyContent-1777fci"
+          className="css-view-1dbjc4n"
+          style={
+            Object {
+              "WebkitAlignItems": "center",
+              "WebkitBoxAlign": "center",
+              "WebkitBoxPack": "center",
+              "WebkitJustifyContent": "center",
+              "alignItems": "center",
+              "justifyContent": "center",
+              "msFlexAlign": "center",
+              "msFlexPack": "center",
+            }
+          }
         >
           <div
-            className="css-view-1dbjc4n r-borderColor-17xuhkx r-borderRadius-1f0042m r-borderWidth-rs99b7 r-padding-nsbfu8"
+            className="css-view-1dbjc4n"
+            style={
+              Object {
+                "borderBottomColor": "rgba(0,175,255,1.00)",
+                "borderBottomLeftRadius": "5px",
+                "borderBottomRightRadius": "5px",
+                "borderBottomWidth": "1px",
+                "borderLeftColor": "rgba(0,175,255,1.00)",
+                "borderLeftWidth": "1px",
+                "borderRightColor": "rgba(0,175,255,1.00)",
+                "borderRightWidth": "1px",
+                "borderTopColor": "rgba(0,175,255,1.00)",
+                "borderTopLeftRadius": "5px",
+                "borderTopRightRadius": "5px",
+                "borderTopWidth": "1px",
+                "paddingBottom": "16px",
+                "paddingLeft": "16px",
+                "paddingRight": "16px",
+                "paddingTop": "16px",
+              }
+            }
           >
             <canvas
               height={128}
@@ -81,9 +304,6 @@ exports[`Receive matches snapshot 1`] = `
               }
               theme={
                 Object {
-                  "animation": Object {
-                    "scale": 1,
-                  },
                   "backdrop": Object {
                     "backgroundColor": "rgba(255, 0, 0, 0.8)",
                   },
@@ -110,8 +330,6 @@ exports[`Receive matches snapshot 1`] = `
                     "lightGreen": "#00BBA5",
                     "lighterGray": "#A3A3A3",
                     "notification": "#f50057",
-                    "onBackground": "#000000",
-                    "onSurface": "#000000",
                     "orange": "#F8AF40",
                     "placeholder": "#CBCBCB",
                     "primary": "#00AFFF",
@@ -134,23 +352,11 @@ exports[`Receive matches snapshot 1`] = `
                   },
                   "fonts": Object {
                     "default": "Roboto",
-                    "light": Object {
-                      "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                      "fontWeight": "300",
-                    },
-                    "medium": Object {
-                      "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                      "fontWeight": "500",
-                    },
-                    "regular": Object {
-                      "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                      "fontWeight": "400",
-                    },
+                    "light": "Roboto-Light, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                    "medium": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                    "regular": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                     "slab": "Roboto Slab",
-                    "thin": Object {
-                      "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                      "fontWeight": "100",
-                    },
+                    "thin": "Roboto-Thin, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                   },
                   "modals": Object {
                     "activityIndicatorBackgroundColor": "rgba(255, 255, 255, 0.8)",
@@ -186,37 +392,107 @@ exports[`Receive matches snapshot 1`] = `
         </div>
       </div>
       <div
-        className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-eqz5dr r-flexGrow-16y2uox r-justifyContent-1777fci r-marginVertical-7e3msg"
+        className="css-view-1dbjc4n"
+        style={
+          Object {
+            "WebkitAlignItems": "center",
+            "WebkitBoxAlign": "center",
+            "WebkitBoxDirection": "normal",
+            "WebkitBoxFlex": 1,
+            "WebkitBoxOrient": "vertical",
+            "WebkitBoxPack": "center",
+            "WebkitFlexDirection": "column",
+            "WebkitFlexGrow": 1,
+            "WebkitJustifyContent": "center",
+            "alignItems": "center",
+            "flexDirection": "column",
+            "flexGrow": 1,
+            "justifyContent": "center",
+            "marginBottom": "20px",
+            "marginTop": "20px",
+            "msFlexAlign": "center",
+            "msFlexDirection": "column",
+            "msFlexPack": "center",
+            "msFlexPositive": 1,
+          }
+        }
       >
         <div
-          className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-1it3c9n r-lineHeight-rjixqe r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+          className="css-text-901oao"
           dir="auto"
+          style={
+            Object {
+              "color": "rgba(66,69,74,1.00)",
+              "direction": "ltr",
+              "fontFamily": "Roboto",
+              "fontSize": "14px",
+              "fontWeight": "normal",
+              "lineHeight": "20px",
+              "textAlign": "center",
+              "textDecoration": "none",
+              "textTransform": "none",
+            }
+          }
         >
           - OR -
         </div>
       </div>
       <div
-        className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-justifyContent-1wtj0ep"
+        className="css-view-1dbjc4n"
+        style={
+          Object {
+            "WebkitAlignItems": "stretch",
+            "WebkitBoxAlign": "stretch",
+            "WebkitBoxDirection": "normal",
+            "WebkitBoxOrient": "vertical",
+            "WebkitBoxPack": "justify",
+            "WebkitFlexDirection": "column",
+            "WebkitJustifyContent": "space-between",
+            "alignItems": "stretch",
+            "flexDirection": "column",
+            "justifyContent": "space-between",
+            "msFlexAlign": "stretch",
+            "msFlexDirection": "column",
+            "msFlexPack": "justify",
+          }
+        }
       >
         <div
-          className="css-view-1dbjc4n r-alignItems-1oszu61 r-borderColor-17xuhkx r-borderWidth-rs99b7 r-display-6koalj r-justifyContent-1777fci"
+          className="css-view-1dbjc4n"
           style={
             Object {
+              "WebkitAlignItems": "stretch",
+              "WebkitBoxAlign": "stretch",
+              "WebkitBoxPack": "center",
+              "WebkitJustifyContent": "center",
+              "alignItems": "stretch",
               "backgroundColor": "rgba(0,0,0,0.00)",
+              "borderBottomColor": "rgba(0,175,255,1.00)",
               "borderBottomLeftRadius": "50px",
               "borderBottomRightRadius": "50px",
               "borderBottomStyle": "solid",
+              "borderBottomWidth": "1px",
+              "borderLeftColor": "rgba(0,175,255,1.00)",
               "borderLeftStyle": "solid",
+              "borderLeftWidth": "1px",
+              "borderRightColor": "rgba(0,175,255,1.00)",
               "borderRightStyle": "solid",
+              "borderRightWidth": "1px",
+              "borderTopColor": "rgba(0,175,255,1.00)",
               "borderTopLeftRadius": "50px",
               "borderTopRightRadius": "50px",
               "borderTopStyle": "solid",
+              "borderTopWidth": "1px",
+              "display": "flex",
+              "justifyContent": "center",
               "marginBottom": "0px",
               "marginLeft": "0px",
               "marginRight": "0px",
               "marginTop": "0px",
               "minHeight": "44px",
               "minWidth": "64px",
+              "msFlexAlign": "stretch",
+              "msFlexPack": "center",
               "paddingBottom": "0px",
               "paddingLeft": "0px",
               "paddingRight": "0px",
@@ -225,7 +501,7 @@ exports[`Receive matches snapshot 1`] = `
           }
         >
           <div
-            className="css-cursor-18t94o4 css-view-1dbjc4n r-cursor-1loqt21 r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim r-touchAction-1otgn73"
+            className="css-cursor-18t94o4 css-view-1dbjc4n"
             data-focusable={true}
             disabled={false}
             onKeyDown={[Function]}
@@ -240,72 +516,164 @@ exports[`Receive matches snapshot 1`] = `
             role="button"
             style={
               Object {
-                "WebkitAlignSelf": "stretch",
-                "alignSelf": "stretch",
                 "borderBottomLeftRadius": "50px",
                 "borderBottomRightRadius": "50px",
                 "borderTopLeftRadius": "50px",
                 "borderTopRightRadius": "50px",
-                "msFlexItemAlign": "stretch",
+                "cursor": "pointer",
+                "msTouchAction": "manipulation",
+                "overflowX": "hidden",
+                "overflowY": "hidden",
+                "position": "relative",
+                "touchAction": "manipulation",
               }
             }
             tabIndex="0"
           >
             <div
-              className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
+              className="css-view-1dbjc4n"
               style={
                 Object {
-                  "WebkitAlignSelf": "stretch",
-                  "alignSelf": "stretch",
-                  "msFlexItemAlign": "stretch",
+                  "WebkitAlignItems": "center",
+                  "WebkitBoxAlign": "center",
+                  "WebkitBoxDirection": "normal",
+                  "WebkitBoxOrient": "horizontal",
+                  "WebkitBoxPack": "center",
+                  "WebkitFlexDirection": "row",
+                  "WebkitJustifyContent": "center",
+                  "alignItems": "center",
+                  "flexDirection": "row",
+                  "justifyContent": "center",
+                  "msFlexAlign": "center",
+                  "msFlexDirection": "row",
+                  "msFlexPack": "center",
                 }
               }
             >
               <div
-                className="css-view-1dbjc4n r-marginHorizontal-1ydw1k6 r-marginVertical-712mwr"
+                className="css-text-901oao css-textOneLine-bfa6kz"
+                dir="auto"
+                style={
+                  Object {
+                    "color": "rgba(0,175,255,1.00)",
+                    "direction": "ltr",
+                    "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                    "letterSpacing": "1px",
+                    "marginBottom": "9px",
+                    "marginLeft": "16px",
+                    "marginRight": "16px",
+                    "marginTop": "9px",
+                    "textAlign": "center",
+                  }
+                }
               >
                 <div
-                  className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
+                  className="css-view-1dbjc4n"
+                  style={
+                    Object {
+                      "WebkitAlignItems": "center",
+                      "WebkitBoxAlign": "center",
+                      "WebkitBoxDirection": "normal",
+                      "WebkitBoxFlex": 1,
+                      "WebkitBoxOrient": "horizontal",
+                      "WebkitFlexBasis": "0%",
+                      "WebkitFlexDirection": "row",
+                      "WebkitFlexGrow": 1,
+                      "WebkitFlexShrink": 1,
+                      "alignItems": "center",
+                      "display": "flex",
+                      "flexBasis": "0%",
+                      "flexDirection": "row",
+                      "flexGrow": 1,
+                      "flexShrink": 1,
+                      "msFlexAlign": "center",
+                      "msFlexDirection": "row",
+                      "msFlexNegative": 1,
+                      "msFlexPositive": 1,
+                      "msFlexPreferredSize": "0%",
+                    }
+                  }
                 >
-                  <div
-                    className="css-text-901oao r-alignItems-1awozwy r-color-1q5uqvh r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-hbpseb r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
+                  <span
+                    className="css-text-901oao css-textHasAncestor-16my406"
                     dir="auto"
+                    style={
+                      Object {
+                        "WebkitAlignItems": "center",
+                        "WebkitBoxAlign": "center",
+                        "WebkitBoxPack": "center",
+                        "WebkitJustifyContent": "center",
+                        "alignItems": "center",
+                        "color": "rgba(0,175,255,1.00)",
+                        "direction": "ltr",
+                        "fontFamily": "Roboto",
+                        "fontSize": "16px",
+                        "fontWeight": "500",
+                        "justifyContent": "center",
+                        "letterSpacing": "0px",
+                        "lineHeight": "22px",
+                        "msFlexAlign": "center",
+                        "msFlexPack": "center",
+                        "paddingTop": "1px",
+                        "textAlign": "center",
+                        "textDecoration": "none",
+                        "textTransform": "uppercase",
+                      }
+                    }
                   >
                     Request specific amount
-                  </div>
+                  </span>
                 </div>
               </div>
             </div>
           </div>
         </div>
         <div
-          className="css-view-1dbjc4n r-height-10ptun7"
+          className="css-view-1dbjc4n"
+          style={
+            Object {
+              "height": "16px",
+            }
+          }
         />
         <div
-          className="css-view-1dbjc4n r-alignItems-1oszu61 r-borderColor-17xuhkx r-display-6koalj r-justifyContent-1777fci"
+          className="css-view-1dbjc4n"
           data-gdtype="copybutton"
           style={
             Object {
+              "WebkitAlignItems": "stretch",
+              "WebkitBoxAlign": "stretch",
+              "WebkitBoxPack": "center",
+              "WebkitJustifyContent": "center",
+              "alignItems": "stretch",
               "backgroundColor": "rgba(0,175,255,1.00)",
+              "borderBottomColor": "rgba(0,175,255,1.00)",
               "borderBottomLeftRadius": "50px",
               "borderBottomRightRadius": "50px",
               "borderBottomStyle": "solid",
               "borderBottomWidth": "0px",
+              "borderLeftColor": "rgba(0,175,255,1.00)",
               "borderLeftStyle": "solid",
               "borderLeftWidth": "0px",
+              "borderRightColor": "rgba(0,175,255,1.00)",
               "borderRightStyle": "solid",
               "borderRightWidth": "0px",
+              "borderTopColor": "rgba(0,175,255,1.00)",
               "borderTopLeftRadius": "50px",
               "borderTopRightRadius": "50px",
               "borderTopStyle": "solid",
               "borderTopWidth": "0px",
               "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
+              "display": "flex",
+              "justifyContent": "center",
               "marginBottom": "0px",
               "marginLeft": "0px",
               "marginRight": "0px",
               "marginTop": "0px",
               "minHeight": "44px",
               "minWidth": "64px",
+              "msFlexAlign": "stretch",
+              "msFlexPack": "center",
               "paddingBottom": "0px",
               "paddingLeft": "0px",
               "paddingRight": "0px",
@@ -314,7 +682,7 @@ exports[`Receive matches snapshot 1`] = `
           }
         >
           <div
-            className="css-cursor-18t94o4 css-view-1dbjc4n r-cursor-1loqt21 r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim r-touchAction-1otgn73"
+            className="css-cursor-18t94o4 css-view-1dbjc4n"
             data-focusable={true}
             disabled={false}
             onKeyDown={[Function]}
@@ -329,39 +697,113 @@ exports[`Receive matches snapshot 1`] = `
             role="button"
             style={
               Object {
-                "WebkitAlignSelf": "stretch",
-                "alignSelf": "stretch",
                 "borderBottomLeftRadius": "50px",
                 "borderBottomRightRadius": "50px",
                 "borderTopLeftRadius": "50px",
                 "borderTopRightRadius": "50px",
-                "msFlexItemAlign": "stretch",
+                "cursor": "pointer",
+                "msTouchAction": "manipulation",
+                "overflowX": "hidden",
+                "overflowY": "hidden",
+                "position": "relative",
+                "touchAction": "manipulation",
               }
             }
             tabIndex="0"
           >
             <div
-              className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
+              className="css-view-1dbjc4n"
               style={
                 Object {
-                  "WebkitAlignSelf": "stretch",
-                  "alignSelf": "stretch",
-                  "msFlexItemAlign": "stretch",
+                  "WebkitAlignItems": "center",
+                  "WebkitBoxAlign": "center",
+                  "WebkitBoxDirection": "normal",
+                  "WebkitBoxOrient": "horizontal",
+                  "WebkitBoxPack": "center",
+                  "WebkitFlexDirection": "row",
+                  "WebkitJustifyContent": "center",
+                  "alignItems": "center",
+                  "flexDirection": "row",
+                  "justifyContent": "center",
+                  "msFlexAlign": "center",
+                  "msFlexDirection": "row",
+                  "msFlexPack": "center",
                 }
               }
             >
               <div
-                className="css-view-1dbjc4n r-marginHorizontal-1ydw1k6 r-marginVertical-712mwr"
+                className="css-text-901oao css-textOneLine-bfa6kz"
+                dir="auto"
+                style={
+                  Object {
+                    "color": "rgba(255,255,255,1.00)",
+                    "direction": "ltr",
+                    "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                    "letterSpacing": "1px",
+                    "marginBottom": "9px",
+                    "marginLeft": "16px",
+                    "marginRight": "16px",
+                    "marginTop": "9px",
+                    "textAlign": "center",
+                  }
+                }
               >
                 <div
-                  className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
+                  className="css-view-1dbjc4n"
+                  style={
+                    Object {
+                      "WebkitAlignItems": "center",
+                      "WebkitBoxAlign": "center",
+                      "WebkitBoxDirection": "normal",
+                      "WebkitBoxFlex": 1,
+                      "WebkitBoxOrient": "horizontal",
+                      "WebkitFlexBasis": "0%",
+                      "WebkitFlexDirection": "row",
+                      "WebkitFlexGrow": 1,
+                      "WebkitFlexShrink": 1,
+                      "alignItems": "center",
+                      "display": "flex",
+                      "flexBasis": "0%",
+                      "flexDirection": "row",
+                      "flexGrow": 1,
+                      "flexShrink": 1,
+                      "msFlexAlign": "center",
+                      "msFlexDirection": "row",
+                      "msFlexNegative": 1,
+                      "msFlexPositive": 1,
+                      "msFlexPreferredSize": "0%",
+                    }
+                  }
                 >
-                  <div
-                    className="css-text-901oao r-alignItems-1awozwy r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-hbpseb r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
+                  <span
+                    className="css-text-901oao css-textHasAncestor-16my406"
                     dir="auto"
+                    style={
+                      Object {
+                        "WebkitAlignItems": "center",
+                        "WebkitBoxAlign": "center",
+                        "WebkitBoxPack": "center",
+                        "WebkitJustifyContent": "center",
+                        "alignItems": "center",
+                        "color": "rgba(255,255,255,1.00)",
+                        "direction": "ltr",
+                        "fontFamily": "Roboto",
+                        "fontSize": "16px",
+                        "fontWeight": "500",
+                        "justifyContent": "center",
+                        "letterSpacing": "0px",
+                        "lineHeight": "22px",
+                        "msFlexAlign": "center",
+                        "msFlexPack": "center",
+                        "paddingTop": "1px",
+                        "textAlign": "center",
+                        "textDecoration": "none",
+                        "textTransform": "uppercase",
+                      }
+                    }
                   >
                     Receive via wallet link
-                  </div>
+                  </span>
                 </div>
               </div>
             </div>

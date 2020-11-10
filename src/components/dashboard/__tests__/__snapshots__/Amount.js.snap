@@ -184,7 +184,7 @@ exports[`Amount matches snapshot 1`] = `
                     "color": "rgba(85,85,85,1.00)",
                     "direction": "ltr",
                     "fontFamily": "Roboto Slab",
-                    "fontSize": "17.5px",
+                    "fontSize": "18px",
                     "fontWeight": "700",
                     "lineHeight": "22px",
                     "textAlign": "right",

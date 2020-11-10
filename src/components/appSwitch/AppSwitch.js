@@ -146,7 +146,8 @@ const AppSwitch = (props: LoadingProps) => {
     identifyWith(email, undefined)
 
     if (isLoggedInCitizen) {
-      API.verifyTopWallet().catch(e => {
+      //if user has < 250000 gwei then he can request topwallet
+      goodWallet.verifyHasGas(1e9 * 250000).catch(e => {
         const message = getErrorMessage(e)
         const exception = new Error(message)
 

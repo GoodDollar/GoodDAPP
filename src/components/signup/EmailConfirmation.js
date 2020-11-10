@@ -11,6 +11,7 @@ import Section from '../common/layout/Section'
 import ErrorText from '../common/form/ErrorText'
 import OtpInput from '../common/form/OtpInput'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
+import { fireEvent, SIGNUP_RETRY_EMAIL } from '../../lib/analytics/analytics'
 import CustomWrapper from './signUpWrapper'
 import type { SignupState } from './SignupState'
 
@@ -106,6 +107,7 @@ class EmailConfirmation extends React.Component<Props, State> {
     retryFunctionName = retryFunctionName || 'sendVerificationEmail'
 
     try {
+      fireEvent(SIGNUP_RETRY_EMAIL)
       await API[retryFunctionName]({ ...this.props.screenProps.data })
       this.setState({ sendingCode: false, resentCode: true })
 

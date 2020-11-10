@@ -2,12 +2,10 @@ import React, { useEffect, useMemo, useRef, useState } from 'react'
 // eslint-disable-next-line import/named
 import { BlurView } from '@react-native-community/blur'
 import { findNodeHandle, StyleSheet, View } from 'react-native'
-import { get } from 'lodash'
-import SimpleStore from '../../../../lib/undux/SimpleStore.js'
+
+import useBlurredState from './useBlurredState'
 
 const Blurred = ({ whenDialog = false, whenSideMenu = false, ...props }) => {
-  const store = SimpleStore.useStore()
-
   const viewRef = useRef()
   const [viewRefNode, setViewRefNode] = useState()
 
@@ -16,22 +14,17 @@ const Blurred = ({ whenDialog = false, whenSideMenu = false, ...props }) => {
     setViewRefNode(node)
   }, [])
 
-  const hasBlur = useMemo(() => {
-    const isPopupShown = get(store.get('currentScreen'), 'dialogData.visible', false)
-    const isSideNavShown = get(store.get('sidemenu'), 'visible', false)
-    const isFeedPopupShown = !!store.get('currentFeed')
-    const isDialogShown = isPopupShown || isFeedPopupShown
+  const [isBlurred, blurStyle] = useBlurredState({ whenDialog, whenSideMenu })
 
-    return (whenDialog && isDialogShown) || (whenSideMenu && isSideNavShown)
-  }, [whenDialog, whenSideMenu, store])
+  const viewStyles = useMemo(() => [styles.fullView, blurStyle], [blurStyle, styles])
 
   return (
-    <View style={styles.fullView}>
+    <View style={viewStyles}>
       <View ref={viewRef} style={[styles.container, styles.fullView]}>
         {props.children}
       </View>
-      {hasBlur && <BlurView style={styles.fullView} viewRef={viewRefNode} blurType="light" blurAmount={24} />}
-      {hasBlur && <View style={[styles.fullView, styles.opacityView]} />}
+      {isBlurred && <BlurView style={styles.fullView} viewRef={viewRefNode} blurType="light" blurAmount={24} />}
+      {isBlurred && <View style={[styles.fullView, styles.opacityView]} />}
     </View>
   )
 }

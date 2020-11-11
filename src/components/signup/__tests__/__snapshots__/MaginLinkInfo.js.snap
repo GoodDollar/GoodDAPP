@@ -8,71 +8,20 @@ exports[`Sign Up Magic Link Info Screen matches snapshot 1`] = `
     className="css-view-1dbjc4n r-flex-13awgt0 r-paddingBottom-97e31f r-paddingLeft-bv2aro r-paddingRight-hxflta r-paddingTop-10xqauy"
   >
     <div
-      className="css-view-1dbjc4n r-position-bnwqim"
+      className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-display-6koalj r-flexDirection-eqz5dr r-flexGrow-16y2uox r-maxHeight-1qalap5 r-padding-nsbfu8 r-position-bnwqim r-width-13qz1uu"
       data-name="viewWrapper"
-      style={
-        Object {
-          "WebkitBoxDirection": "normal",
-          "WebkitBoxFlex": 1,
-          "WebkitBoxOrient": "vertical",
-          "WebkitFlexDirection": "column",
-          "WebkitFlexGrow": 1,
-          "backgroundColor": "rgba(0,0,0,0.00)",
-          "display": "flex",
-          "flexDirection": "column",
-          "flexGrow": 1,
-          "maxHeight": "844px",
-          "msFlexDirection": "column",
-          "msFlexPositive": 1,
-          "paddingBottom": "16px",
-          "paddingLeft": "16px",
-          "paddingRight": "16px",
-          "paddingTop": "16px",
-          "width": "100%",
-        }
-      }
     >
       <div
-        className="css-view-1dbjc4n"
-        style={
-          Object {
-            "WebkitBoxFlex": 1,
-            "WebkitFlexGrow": 1,
-            "backgroundColor": "rgba(0,0,0,0.00)",
-            "borderBottomLeftRadius": "5px",
-            "borderBottomRightRadius": "5px",
-            "borderTopLeftRadius": "5px",
-            "borderTopRightRadius": "5px",
-            "flexGrow": 1,
-            "msFlexPositive": 1,
-            "paddingBottom": "16px",
-            "paddingLeft": "12px",
-            "paddingRight": "12px",
-            "paddingTop": "16px",
-          }
-        }
+        className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-borderRadius-1f0042m r-flexGrow-16y2uox r-padding-t60dpp r-paddingHorizontal-1e081e0 r-paddingVertical-1yzf0co"
       >
         <div
-          className="css-view-1dbjc4n"
+          className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-flexGrow-16y2uox"
           style={
             Object {
-              "WebkitAlignItems": "stretch",
-              "WebkitBoxAlign": "stretch",
-              "WebkitBoxDirection": "normal",
-              "WebkitBoxFlex": 1,
-              "WebkitBoxOrient": "vertical",
               "WebkitBoxPack": "space-evenly",
-              "WebkitFlexDirection": "column",
-              "WebkitFlexGrow": 1,
               "WebkitJustifyContent": "space-evenly",
-              "alignItems": "stretch",
-              "flexDirection": "column",
-              "flexGrow": 1,
               "justifyContent": "space-evenly",
-              "msFlexAlign": "stretch",
-              "msFlexDirection": "column",
               "msFlexPack": "space-evenly",
-              "msFlexPositive": 1,
             }
           }
         >
@@ -80,55 +29,18 @@ exports[`Sign Up Magic Link Info Screen matches snapshot 1`] = `
             className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1777fci"
           >
             <div
-              className="css-view-1dbjc4n"
-              style={
-                Object {
-                  "borderBottomColor": "rgba(0,175,255,1.00)",
-                  "borderBottomStyle": "solid",
-                  "borderBottomWidth": "2px",
-                }
-              }
+              className="css-view-1dbjc4n r-borderBottomColor-lpwvss r-borderBottomStyle-rull8r r-borderBottomWidth-wgabs5"
             >
               <div
-                className="css-text-901oao"
+                className="css-text-901oao r-color-1q5uqvh r-fontFamily-6jnb14 r-fontSize-zz5t5d r-fontWeight-b88u0q r-lineHeight-vrz42v r-paddingBottom-1inuy60 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                 dir="auto"
-                style={
-                  Object {
-                    "color": "rgba(0,175,255,1.00)",
-                    "fontFamily": "Roboto Slab",
-                    "fontSize": "28px",
-                    "fontWeight": "700",
-                    "lineHeight": "28px",
-                    "paddingBottom": "5px",
-                    "textAlign": "center",
-                    "textDecoration": "none",
-                    "textTransform": "none",
-                  }
-                }
               >
                 GOOD TO KNOW
               </div>
             </div>
           </div>
           <div
-            className="css-view-1dbjc4n"
-            style={
-              Object {
-                "WebkitAlignSelf": "center",
-                "WebkitBoxFlex": 1,
-                "WebkitFlexGrow": 1,
-                "WebkitFlexShrink": 0,
-                "alignSelf": "center",
-                "flexGrow": 1,
-                "flexShrink": 0,
-                "maxHeight": "175px",
-                "minHeight": "95px",
-                "msFlexItemAlign": "center",
-                "msFlexNegative": 0,
-                "msFlexPositive": 1,
-                "width": "100%",
-              }
-            }
+            className="css-view-1dbjc4n r-alignSelf-1kihuf0 r-flexGrow-16y2uox r-flexShrink-1q142lx r-maxHeight-16tuqg2 r-minHeight-u33jf4 r-width-13qz1uu"
           >
             <maginLinkIllustration.svg />
           </div>
@@ -139,91 +51,31 @@ exports[`Sign Up Magic Link Info Screen matches snapshot 1`] = `
               className="css-view-1dbjc4n"
             >
               <div
-                className="css-text-901oao"
+                className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-evnaw r-fontWeight-majxgm r-lineHeight-17rnw9f r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                 dir="auto"
-                style={
-                  Object {
-                    "color": "rgba(66,69,74,1.00)",
-                    "fontFamily": "Roboto",
-                    "fontSize": "22px",
-                    "fontWeight": "500",
-                    "lineHeight": "30px",
-                    "textAlign": "center",
-                    "textDecoration": "none",
-                    "textTransform": "none",
-                  }
-                }
               >
                 <span
-                  className="css-text-901oao css-textHasAncestor-16my406"
+                  className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-evnaw r-fontWeight-b88u0q r-lineHeight-17rnw9f r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                   dir="auto"
-                  style={
-                    Object {
-                      "color": "rgba(66,69,74,1.00)",
-                      "fontFamily": "Roboto",
-                      "fontSize": "22px",
-                      "fontWeight": "700",
-                      "lineHeight": "30px",
-                      "textAlign": "center",
-                      "textDecoration": "none",
-                      "textTransform": "none",
-                    }
-                  }
                 >
                   Next time 
                 </span>
                 you can sign in 
               </div>
               <div
-                className="css-text-901oao"
+                className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-evnaw r-fontWeight-majxgm r-lineHeight-17rnw9f r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                 dir="auto"
-                style={
-                  Object {
-                    "color": "rgba(66,69,74,1.00)",
-                    "fontFamily": "Roboto",
-                    "fontSize": "22px",
-                    "fontWeight": "500",
-                    "lineHeight": "30px",
-                    "textAlign": "center",
-                    "textDecoration": "none",
-                    "textTransform": "none",
-                  }
-                }
               >
                 from any device 
               </div>
               <div
-                className="css-text-901oao"
+                className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-evnaw r-fontWeight-majxgm r-lineHeight-17rnw9f r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                 dir="auto"
-                style={
-                  Object {
-                    "color": "rgba(66,69,74,1.00)",
-                    "fontFamily": "Roboto",
-                    "fontSize": "22px",
-                    "fontWeight": "500",
-                    "lineHeight": "30px",
-                    "textAlign": "center",
-                    "textDecoration": "none",
-                    "textTransform": "none",
-                  }
-                }
               >
                 using your 
                 <span
-                  className="css-text-901oao css-textHasAncestor-16my406"
+                  className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-evnaw r-fontWeight-b88u0q r-lineHeight-17rnw9f r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                   dir="auto"
-                  style={
-                    Object {
-                      "color": "rgba(66,69,74,1.00)",
-                      "fontFamily": "Roboto",
-                      "fontSize": "22px",
-                      "fontWeight": "700",
-                      "lineHeight": "30px",
-                      "textAlign": "center",
-                      "textDecoration": "none",
-                      "textTransform": "none",
-                    }
-                  }
                 >
                   Magic Link
                 </span>
@@ -237,56 +89,20 @@ exports[`Sign Up Magic Link Info Screen matches snapshot 1`] = `
               className="css-view-1dbjc4n"
             >
               <div
-                className="css-text-901oao"
+                className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-1it3c9n r-lineHeight-rjixqe r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                 dir="auto"
-                style={
-                  Object {
-                    "color": "rgba(66,69,74,1.00)",
-                    "fontFamily": "Roboto",
-                    "fontSize": "14px",
-                    "fontWeight": "normal",
-                    "lineHeight": "20px",
-                    "textAlign": "center",
-                    "textDecoration": "none",
-                    "textTransform": "none",
-                  }
-                }
               >
                 Just find the 
                 <span
-                  className="css-text-901oao css-textHasAncestor-16my406"
+                  className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-b88u0q r-lineHeight-rjixqe r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                   dir="auto"
-                  style={
-                    Object {
-                      "color": "rgba(66,69,74,1.00)",
-                      "fontFamily": "Roboto",
-                      "fontSize": "14px",
-                      "fontWeight": "700",
-                      "lineHeight": "20px",
-                      "textAlign": "center",
-                      "textDecoration": "none",
-                      "textTransform": "none",
-                    }
-                  }
                 >
                   GoodDollar Magic Mail
                 </span>
               </div>
               <div
-                className="css-text-901oao"
+                className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-1it3c9n r-lineHeight-rjixqe r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                 dir="auto"
-                style={
-                  Object {
-                    "color": "rgba(66,69,74,1.00)",
-                    "fontFamily": "Roboto",
-                    "fontSize": "14px",
-                    "fontWeight": "normal",
-                    "lineHeight": "20px",
-                    "textAlign": "center",
-                    "textDecoration": "none",
-                    "textTransform": "none",
-                  }
-                }
               >
                 that we’ll soon send you 
               </div>
@@ -305,12 +121,9 @@ exports[`Sign Up Magic Link Info Screen matches snapshot 1`] = `
           }
         >
           <div
-            className="css-view-1dbjc4n r-flex-13awgt0 r-justifyContent-1777fci"
+            className="css-view-1dbjc4n r-alignItems-1oszu61 r-display-6koalj r-flex-13awgt0 r-justifyContent-1777fci r-padding-t60dpp"
             style={
               Object {
-                "WebkitAlignItems": "stretch",
-                "WebkitBoxAlign": "stretch",
-                "alignItems": "stretch",
                 "backgroundColor": "rgba(0,175,255,1.00)",
                 "borderBottomColor": "rgba(0,175,255,1.00)",
                 "borderBottomLeftRadius": "50px",
@@ -329,18 +142,14 @@ exports[`Sign Up Magic Link Info Screen matches snapshot 1`] = `
                 "borderTopStyle": "solid",
                 "borderTopWidth": "0px",
                 "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
-                "display": "flex",
                 "marginBottom": "0px",
                 "marginLeft": "0px",
                 "marginRight": "0px",
                 "marginTop": "0px",
                 "minHeight": "44px",
                 "minWidth": "64px",
-                "msFlexAlign": "stretch",
-                "paddingBottom": "0px",
                 "paddingLeft": "0px",
                 "paddingRight": "0px",
-                "paddingTop": "0px",
               }
             }
           >
@@ -385,30 +194,11 @@ exports[`Sign Up Magic Link Info Screen matches snapshot 1`] = `
                   className="css-view-1dbjc4n r-marginHorizontal-1ydw1k6 r-marginVertical-712mwr"
                 >
                   <div
-                    className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz"
-                    style={
-                      Object {
-                        "display": "flex",
-                      }
-                    }
+                    className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
                   >
                     <div
-                      className="css-text-901oao r-alignItems-1awozwy r-justifyContent-1777fci"
+                      className="css-text-901oao r-alignItems-1awozwy r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-hbpseb r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
                       dir="auto"
-                      style={
-                        Object {
-                          "color": "rgba(255,255,255,1.00)",
-                          "fontFamily": "Roboto",
-                          "fontSize": "16px",
-                          "fontWeight": "500",
-                          "letterSpacing": "0px",
-                          "lineHeight": "22px",
-                          "paddingTop": "1px",
-                          "textAlign": "center",
-                          "textDecoration": "none",
-                          "textTransform": "uppercase",
-                        }
-                      }
                     >
                       Cool, got it!
                     </div>

@@ -5,33 +5,10 @@ exports[`FeedActions matches snapshot 1`] = `
   className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
-    className="css-view-1dbjc4n"
+    className="css-view-1dbjc4n r-alignItems-1awozwy r-alignSelf-173mn98 r-borderBottomRightRadius-nefvgx r-borderTopRightRadius-3f7b68 r-display-6koalj r-height-1s5nyi r-justifyContent-1777fci r-marginRight-1kb76zh r-marginTop-knv0ih r-maxHeight-1wlz0di r-padding-edyy15 r-paddingLeft-puj83k r-paddingRight-9aemit r-width-1n20pny"
     style={
       Object {
-        "WebkitAlignItems": "center",
-        "WebkitAlignSelf": "flex-end",
-        "WebkitBoxAlign": "center",
-        "WebkitBoxPack": "center",
-        "WebkitJustifyContent": "center",
-        "alignItems": "center",
-        "alignSelf": "flex-end",
         "backgroundColor": "rgba(0,0,0,0.00)",
-        "borderBottomRightRadius": "8px",
-        "borderTopRightRadius": "8px",
-        "display": "flex",
-        "height": "84px",
-        "justifyContent": "center",
-        "marginRight": "8px",
-        "marginTop": "8px",
-        "maxHeight": "84px",
-        "msFlexAlign": "center",
-        "msFlexItemAlign": "end",
-        "msFlexPack": "center",
-        "paddingBottom": "8px",
-        "paddingLeft": "24px",
-        "paddingRight": "0px",
-        "paddingTop": "8px",
-        "width": "140px",
       }
     }
   />

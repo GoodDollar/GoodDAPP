@@ -5,85 +5,31 @@ exports[`About matches snapshot 1`] = `
   className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
-    className="css-view-1dbjc4n r-flexDirection-eqz5dr r-padding-t60dpp r-position-bnwqim r-width-13qz1uu"
+    className="css-view-1dbjc4n r-display-6koalj r-flexDirection-eqz5dr r-flexGrow-16y2uox r-maxHeight-1qalap5 r-padding-t60dpp r-position-bnwqim r-width-13qz1uu"
     data-name="viewWrapper"
     style={
       Object {
-        "WebkitBoxFlex": 1,
-        "WebkitFlexGrow": 1,
         "backgroundImage": "linear-gradient(3.141592653589793rad,#00AFFF,#2DC0F7,#28C0EF,#23C0E7,#1EC1DF,#19C1D7,#14C1CF,#0FC2C7,#0FC2C7,#0AC2BF,#05C2B7,#00C3AF)",
-        "display": "flex",
-        "flexGrow": 1,
-        "maxHeight": "844px",
-        "msFlexPositive": 1,
       }
     }
   >
     <div
-      className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1niwhzg r-flex-13awgt0 r-justifyContent-1777fci r-position-bnwqim"
-      style={
-        Object {
-          "borderBottomLeftRadius": "5px",
-          "borderBottomRightRadius": "5px",
-          "borderTopLeftRadius": "5px",
-          "borderTopRightRadius": "5px",
-          "paddingBottom": "16px",
-          "paddingLeft": "12px",
-          "paddingRight": "12px",
-          "paddingTop": "16px",
-        }
-      }
+      className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1niwhzg r-borderRadius-1f0042m r-flex-13awgt0 r-justifyContent-1777fci r-paddingHorizontal-1e081e0 r-paddingVertical-1yzf0co r-position-bnwqim"
     >
       <div
         className="css-view-1dbjc4n r-backgroundImage-o7i658 r-height-1pi2tsx r-opacity-1oec5bt r-position-u8s1d r-width-13qz1uu"
       />
       <div
-        className="css-view-1dbjc4n r-flexDirection-eqz5dr r-marginBottom-2uub5q r-marginTop-1p6u9xm"
-        style={
-          Object {
-            "WebkitAlignItems": "stretch",
-            "WebkitBoxAlign": "stretch",
-            "WebkitBoxFlex": 1,
-            "WebkitBoxPack": "justify",
-            "WebkitFlexGrow": 1,
-            "WebkitJustifyContent": "space-between",
-            "alignItems": "stretch",
-            "flexGrow": 1,
-            "justifyContent": "space-between",
-            "msFlexAlign": "stretch",
-            "msFlexPack": "justify",
-            "msFlexPositive": 1,
-          }
-        }
+        className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-flexGrow-16y2uox r-justifyContent-1wtj0ep r-marginBottom-2uub5q r-marginTop-1p6u9xm"
       >
         <div
-          className="css-text-901oao"
+          className="css-text-901oao r-color-waoq6i r-fontFamily-vnw8o6 r-fontSize-evnaw r-fontWeight-1it3c9n r-lineHeight-17rnw9f r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
           dir="auto"
-          style={
-            Object {
-              "color": "rgba(12,38,61,1.00)",
-              "fontFamily": "Roboto",
-              "fontSize": "22px",
-              "fontWeight": "normal",
-              "lineHeight": "30px",
-              "textAlign": "center",
-              "textDecoration": "none",
-              "textTransform": "none",
-            }
-          }
         >
           Welcome to
         </div>
         <div
-          className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-eqz5dr r-maxHeight-1q0xri2"
-          style={
-            Object {
-              "WebkitBoxPack": "justify",
-              "WebkitJustifyContent": "space-between",
-              "justifyContent": "space-between",
-              "msFlexPack": "justify",
-            }
-          }
+          className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-eqz5dr r-justifyContent-1wtj0ep r-maxHeight-1q0xri2"
         >
           <div
             className="css-view-1dbjc4n r-flex-13awgt0 r-maxWidth-dnmrzs r-minHeight-bga3yj r-minWidth-1nw6xo7"
@@ -102,56 +48,20 @@ exports[`About matches snapshot 1`] = `
             />
           </div>
           <div
-            className="css-text-901oao"
+            className="css-text-901oao r-color-waoq6i r-fontFamily-vnw8o6 r-fontSize-evnaw r-fontWeight-1it3c9n r-lineHeight-17rnw9f r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
             dir="auto"
-            style={
-              Object {
-                "color": "rgba(12,38,61,1.00)",
-                "fontFamily": "Roboto",
-                "fontSize": "22px",
-                "fontWeight": "normal",
-                "lineHeight": "30px",
-                "textAlign": "center",
-                "textDecoration": "none",
-                "textTransform": "none",
-              }
-            }
           >
             Vv0
           </div>
         </div>
         <div
-          className="css-text-901oao r-maxWidth-b4zvlm"
+          className="css-text-901oao r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-1i10wst r-fontWeight-1it3c9n r-lineHeight-135wba7 r-maxWidth-b4zvlm r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
           dir="auto"
-          style={
-            Object {
-              "color": "rgba(255,255,255,1.00)",
-              "fontFamily": "Roboto",
-              "fontSize": "18px",
-              "fontWeight": "normal",
-              "lineHeight": "24px",
-              "textAlign": "center",
-              "textDecoration": "none",
-              "textTransform": "none",
-            }
-          }
         >
           GoodDollar is a payment system with a built-in small basic income based on blockchain technology.
           <span
-            className="css-text-901oao css-textHasAncestor-16my406"
+            className="css-text-901oao css-textHasAncestor-16my406 r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-1i10wst r-fontWeight-b88u0q r-lineHeight-135wba7 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
             dir="auto"
-            style={
-              Object {
-                "color": "rgba(255,255,255,1.00)",
-                "fontFamily": "Roboto",
-                "fontSize": "18px",
-                "fontWeight": "700",
-                "lineHeight": "24px",
-                "textAlign": "center",
-                "textDecoration": "none",
-                "textTransform": "none",
-              }
-            }
           >
             
 Let's change the world, for good.

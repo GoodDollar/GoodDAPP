@@ -13,7 +13,7 @@ exports[`ScrollToTopButton should match snapshot 1`] = `
     }
   >
     <div
-      className="css-view-1dbjc4n r-cursor-1loqt21 r-touchAction-1otgn73"
+      className="css-view-1dbjc4n r-bottom-1p0dtai r-cursor-1loqt21 r-height-1lh3azm r-position-u8s1d r-right-zchlnj r-touchAction-1otgn73 r-width-1q42mak r-zIndex-1sg8ghl"
       data-focusable={true}
       onKeyDown={[Function]}
       onKeyUp={[Function]}
@@ -23,16 +23,6 @@ exports[`ScrollToTopButton should match snapshot 1`] = `
       onResponderTerminate={[Function]}
       onResponderTerminationRequest={[Function]}
       onStartShouldSetResponder={[Function]}
-      style={
-        Object {
-          "bottom": "0px",
-          "height": "74px",
-          "position": "absolute",
-          "right": "0px",
-          "width": "74px",
-          "zIndex": 1000,
-        }
-      }
       tabIndex="0"
     >
       <scrollToTop.svg />

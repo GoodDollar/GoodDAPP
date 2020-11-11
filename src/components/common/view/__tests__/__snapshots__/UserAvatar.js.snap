@@ -5,40 +5,14 @@ exports[`UserAvatar matches snapshot 1`] = `
   className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
-    className="css-view-1dbjc4n"
-    style={
-      Object {
-        "WebkitBoxDirection": "normal",
-        "WebkitBoxOrient": "horizontal",
-        "WebkitBoxPack": "center",
-        "WebkitFlexDirection": "row",
-        "WebkitJustifyContent": "center",
-        "flexDirection": "row",
-        "justifyContent": "center",
-        "msFlexDirection": "row",
-        "msFlexPack": "center",
-      }
-    }
+    className="css-view-1dbjc4n r-flexDirection-18u37iz r-justifyContent-1777fci"
   >
     <div
-      className="css-view-1dbjc4n r-flex-13awgt0"
-      style={
-        Object {
-          "WebkitAlignItems": "center",
-          "WebkitBoxAlign": "center",
-          "WebkitBoxDirection": "normal",
-          "WebkitBoxOrient": "vertical",
-          "WebkitFlexDirection": "column",
-          "alignItems": "center",
-          "flexDirection": "column",
-          "msFlexAlign": "center",
-          "msFlexDirection": "column",
-        }
-      }
+      className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-eqz5dr"
     >
       <div
         aria-disabled={true}
-        className="css-view-1dbjc4n r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
+        className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-qt01xk r-borderColor-y68mpx r-borderWidth-rs99b7 r-justifyContent-1777fci r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
         disabled={true}
         onKeyDown={[Function]}
         onKeyUp={[Function]}
@@ -50,28 +24,11 @@ exports[`UserAvatar matches snapshot 1`] = `
         onStartShouldSetResponder={[Function]}
         style={
           Object {
-            "WebkitAlignItems": "center",
-            "WebkitBoxAlign": "center",
-            "WebkitBoxPack": "center",
-            "WebkitJustifyContent": "center",
-            "alignItems": "center",
-            "backgroundColor": "rgba(203,203,203,1.00)",
-            "borderBottomColor": "rgba(163,163,163,1.00)",
             "borderBottomLeftRadius": "68px",
             "borderBottomRightRadius": "68px",
-            "borderBottomWidth": "1px",
-            "borderLeftColor": "rgba(163,163,163,1.00)",
-            "borderLeftWidth": "1px",
-            "borderRightColor": "rgba(163,163,163,1.00)",
-            "borderRightWidth": "1px",
-            "borderTopColor": "rgba(163,163,163,1.00)",
             "borderTopLeftRadius": "68px",
             "borderTopRightRadius": "68px",
-            "borderTopWidth": "1px",
             "height": "136px",
-            "justifyContent": "center",
-            "msFlexAlign": "center",
-            "msFlexPack": "center",
             "width": "136px",
           }
         }

@@ -5,42 +5,10 @@ exports[`QRCode matches snapshot 1`] = `
   className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
-    className="css-view-1dbjc4n"
-    style={
-      Object {
-        "WebkitAlignItems": "center",
-        "WebkitBoxAlign": "center",
-        "WebkitBoxPack": "center",
-        "WebkitJustifyContent": "center",
-        "alignItems": "center",
-        "justifyContent": "center",
-        "msFlexAlign": "center",
-        "msFlexPack": "center",
-      }
-    }
+    className="css-view-1dbjc4n r-alignItems-1awozwy r-justifyContent-1777fci"
   >
     <div
-      className="css-view-1dbjc4n"
-      style={
-        Object {
-          "borderBottomColor": "rgba(0,175,255,1.00)",
-          "borderBottomLeftRadius": "5px",
-          "borderBottomRightRadius": "5px",
-          "borderBottomWidth": "1px",
-          "borderLeftColor": "rgba(0,175,255,1.00)",
-          "borderLeftWidth": "1px",
-          "borderRightColor": "rgba(0,175,255,1.00)",
-          "borderRightWidth": "1px",
-          "borderTopColor": "rgba(0,175,255,1.00)",
-          "borderTopLeftRadius": "5px",
-          "borderTopRightRadius": "5px",
-          "borderTopWidth": "1px",
-          "paddingBottom": "16px",
-          "paddingLeft": "16px",
-          "paddingRight": "16px",
-          "paddingTop": "16px",
-        }
-      }
+      className="css-view-1dbjc4n r-borderColor-17xuhkx r-borderRadius-1f0042m r-borderWidth-rs99b7 r-padding-nsbfu8"
     >
       <canvas
         height={128}
@@ -163,42 +131,10 @@ exports[`QRCode matches snapshot 2`] = `
   className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
-    className="css-view-1dbjc4n"
-    style={
-      Object {
-        "WebkitAlignItems": "center",
-        "WebkitBoxAlign": "center",
-        "WebkitBoxPack": "center",
-        "WebkitJustifyContent": "center",
-        "alignItems": "center",
-        "justifyContent": "center",
-        "msFlexAlign": "center",
-        "msFlexPack": "center",
-      }
-    }
+    className="css-view-1dbjc4n r-alignItems-1awozwy r-justifyContent-1777fci"
   >
     <div
-      className="css-view-1dbjc4n"
-      style={
-        Object {
-          "borderBottomColor": "rgba(0,175,255,1.00)",
-          "borderBottomLeftRadius": "5px",
-          "borderBottomRightRadius": "5px",
-          "borderBottomWidth": "1px",
-          "borderLeftColor": "rgba(0,175,255,1.00)",
-          "borderLeftWidth": "1px",
-          "borderRightColor": "rgba(0,175,255,1.00)",
-          "borderRightWidth": "1px",
-          "borderTopColor": "rgba(0,175,255,1.00)",
-          "borderTopLeftRadius": "5px",
-          "borderTopRightRadius": "5px",
-          "borderTopWidth": "1px",
-          "paddingBottom": "16px",
-          "paddingLeft": "16px",
-          "paddingRight": "16px",
-          "paddingTop": "16px",
-        }
-      }
+      className="css-view-1dbjc4n r-borderColor-17xuhkx r-borderRadius-1f0042m r-borderWidth-rs99b7 r-padding-nsbfu8"
     >
       <canvas
         height={128}

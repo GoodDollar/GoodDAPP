@@ -5,103 +5,39 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
   className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
-    className="css-view-1dbjc4n r-position-bnwqim"
+    className="css-view-1dbjc4n r-backgroundColor-1b3fm86 r-display-6koalj r-flexDirection-eqz5dr r-flexGrow-16y2uox r-maxHeight-1qalap5 r-padding-edyy15 r-position-bnwqim r-width-13qz1uu"
     data-name="viewWrapper"
     style={
       Object {
-        "WebkitBoxDirection": "normal",
-        "WebkitBoxFlex": 1,
-        "WebkitBoxOrient": "vertical",
-        "WebkitFlexDirection": "column",
-        "WebkitFlexGrow": 1,
         "backgroundImage": "linear-gradient(3.141592653589793rad,#00AFFF,#2DC0F7,#28C0EF,#23C0E7,#1EC1DF,#19C1D7,#14C1CF,#0FC2C7,#0FC2C7,#0AC2BF,#05C2B7,#00C3AF)",
-        "display": "flex",
-        "flexDirection": "column",
-        "flexGrow": 1,
-        "maxHeight": "844px",
-        "msFlexDirection": "column",
-        "msFlexPositive": 1,
-        "paddingBottom": "8px",
-        "paddingLeft": "8px",
-        "paddingRight": "8px",
-        "paddingTop": "8px",
-        "width": "100%",
       }
     }
   >
     <div
-      className="css-view-1dbjc4n"
-      style={
-        Object {
-          "WebkitBoxFlex": 1,
-          "WebkitFlexGrow": 1,
-          "backgroundColor": "rgba(255,255,255,1.00)",
-          "borderBottomLeftRadius": "0px",
-          "borderBottomRightRadius": "0px",
-          "borderTopLeftRadius": "0px",
-          "borderTopRightRadius": "0px",
-          "flexGrow": 1,
-          "msFlexPositive": 1,
-          "paddingBottom": "3px",
-          "paddingLeft": "0px",
-          "paddingRight": "0px",
-          "paddingTop": "5px",
-        }
-      }
+      className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderRadius-17gur6a r-flexGrow-16y2uox r-paddingBottom-3hmvjm r-paddingHorizontal-1e081e0 r-paddingLeft-gy4na3 r-paddingRight-9aemit r-paddingTop-glunga r-paddingVertical-1yzf0co"
     >
       <div
-        className="css-view-1dbjc4n"
+        className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-flexGrow-16y2uox"
         style={
           Object {
-            "WebkitAlignItems": "stretch",
-            "WebkitBoxAlign": "stretch",
-            "WebkitBoxDirection": "normal",
-            "WebkitBoxFlex": 1,
-            "WebkitBoxOrient": "vertical",
             "WebkitBoxPack": "start",
-            "WebkitFlexDirection": "column",
-            "WebkitFlexGrow": 1,
             "WebkitJustifyContent": "flex-start",
-            "alignItems": "stretch",
-            "flexDirection": "column",
-            "flexGrow": 1,
             "justifyContent": "flex-start",
-            "msFlexAlign": "stretch",
-            "msFlexDirection": "column",
             "msFlexPack": "start",
-            "msFlexPositive": 1,
           }
         }
       >
         <div
-          className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1777fci"
-          style={
-            Object {
-              "marginBottom": "20px",
-              "maxHeight": "16%",
-            }
-          }
+          className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1777fci r-marginBottom-117bsoe r-maxHeight-15n77fl"
         >
           <div
-            className="css-text-901oao"
+            className="css-text-901oao r-color-181bzza r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-b88u0q r-lineHeight-hbpseb r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
             dir="auto"
-            style={
-              Object {
-                "color": "rgba(85,85,85,1.00)",
-                "fontFamily": "Roboto",
-                "fontSize": "16px",
-                "fontWeight": "700",
-                "lineHeight": "22px",
-                "textAlign": "center",
-                "textDecoration": "none",
-                "textTransform": "none",
-              }
-            }
           >
             Manage your privacy settings
           </div>
           <div
-            className="css-view-1dbjc4n r-cursor-1loqt21 r-touchAction-1otgn73 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
+            className="css-view-1dbjc4n r-cursor-1loqt21 r-marginLeft-1rngwi6 r-touchAction-1otgn73 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
             data-focusable={true}
             onKeyDown={[Function]}
             onKeyUp={[Function]}
@@ -111,23 +47,15 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
             onResponderTerminate={[Function]}
             onResponderTerminationRequest={[Function]}
             onStartShouldSetResponder={[Function]}
-            style={
-              Object {
-                "marginLeft": "6px",
-              }
-            }
             tabIndex="0"
           >
             <div
-              className="css-text-901oao"
+              className="css-text-901oao r-color-1q5uqvh r-fontSize-ubezar r-fontWeight-1it3c9n"
               dir="auto"
               style={
                 Object {
-                  "color": "rgba(0,175,255,1.00)",
                   "fontFamily": "gooddollar",
-                  "fontSize": "16px",
                   "fontStyle": "normal",
-                  "fontWeight": "normal",
                 }
               }
             >
@@ -136,202 +64,67 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
           </div>
         </div>
         <div
-          className="css-view-1dbjc4n"
+          className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-padding-t60dpp"
           style={
             Object {
-              "WebkitAlignItems": "stretch",
-              "WebkitBoxAlign": "stretch",
-              "WebkitBoxDirection": "normal",
-              "WebkitBoxOrient": "vertical",
               "WebkitBoxPack": "start",
-              "WebkitFlexDirection": "column",
               "WebkitJustifyContent": "flex-start",
-              "alignItems": "stretch",
-              "flexDirection": "column",
               "justifyContent": "flex-start",
-              "msFlexAlign": "stretch",
-              "msFlexDirection": "column",
               "msFlexPack": "start",
-              "paddingBottom": "0px",
-              "paddingLeft": "0px",
-              "paddingRight": "0px",
-              "paddingTop": "0px",
             }
           }
         >
           <div
-            className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz"
-            style={
-              Object {
-                "borderBottomColor": "rgba(238,238,238,1.00)",
-                "borderBottomStyle": "solid",
-                "borderBottomWidth": "1px",
-                "borderLeftStyle": "solid",
-                "borderRightStyle": "solid",
-                "borderTopStyle": "solid",
-                "display": "flex",
-                "paddingBottom": "8px",
-                "paddingLeft": "32px",
-                "paddingRight": "8px",
-                "paddingTop": "8px",
-              }
-            }
+            className="css-view-1dbjc4n r-alignItems-1awozwy r-borderBottomColor-1fn3lry r-borderBottomWidth-qklmqi r-borderStyle-1phboty r-display-6koalj r-flexDirection-18u37iz r-padding-edyy15 r-paddingLeft-gu0qjt"
           >
             <div
-              className="css-text-901oao"
+              className="css-text-901oao r-color-181bzza r-flexGrow-16xksha r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-lineHeight-hbpseb r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
               dir="auto"
-              style={
-                Object {
-                  "WebkitBoxFlex": 2,
-                  "WebkitFlexGrow": 2,
-                  "color": "rgba(85,85,85,1.00)",
-                  "flexGrow": 2,
-                  "fontFamily": "Roboto",
-                  "fontSize": "16px",
-                  "fontWeight": "500",
-                  "lineHeight": "22px",
-                  "msFlexPositive": 2,
-                  "textAlign": "left",
-                  "textDecoration": "none",
-                  "textTransform": "none",
-                }
-              }
             >
               
             </div>
             <div
-              className="css-view-1dbjc4n r-alignItems-1awozwy"
-              style={
-                Object {
-                  "minWidth": "60px",
-                  "width": "15%",
-                }
-              }
+              className="css-view-1dbjc4n r-alignItems-1awozwy r-minWidth-1c8i11 r-width-1ih7r1r"
             >
               <div
-                className="css-text-901oao"
+                className="css-text-901oao r-color-181bzza r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-1it3c9n r-lineHeight-rjixqe r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                 dir="auto"
-                style={
-                  Object {
-                    "color": "rgba(85,85,85,1.00)",
-                    "fontFamily": "Roboto",
-                    "fontSize": "14px",
-                    "fontWeight": "normal",
-                    "lineHeight": "20px",
-                    "textAlign": "center",
-                    "textDecoration": "none",
-                    "textTransform": "none",
-                  }
-                }
               >
                 Private
               </div>
             </div>
             <div
-              className="css-view-1dbjc4n r-alignItems-1awozwy"
-              style={
-                Object {
-                  "minWidth": "60px",
-                  "width": "15%",
-                }
-              }
+              className="css-view-1dbjc4n r-alignItems-1awozwy r-minWidth-1c8i11 r-width-1ih7r1r"
             >
               <div
-                className="css-text-901oao"
+                className="css-text-901oao r-color-181bzza r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-1it3c9n r-lineHeight-rjixqe r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                 dir="auto"
-                style={
-                  Object {
-                    "color": "rgba(85,85,85,1.00)",
-                    "fontFamily": "Roboto",
-                    "fontSize": "14px",
-                    "fontWeight": "normal",
-                    "lineHeight": "20px",
-                    "textAlign": "center",
-                    "textDecoration": "none",
-                    "textTransform": "none",
-                  }
-                }
               >
                 Masked
               </div>
             </div>
             <div
-              className="css-view-1dbjc4n r-alignItems-1awozwy"
-              style={
-                Object {
-                  "minWidth": "60px",
-                  "width": "15%",
-                }
-              }
+              className="css-view-1dbjc4n r-alignItems-1awozwy r-minWidth-1c8i11 r-width-1ih7r1r"
             >
               <div
-                className="css-text-901oao"
+                className="css-text-901oao r-color-181bzza r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-1it3c9n r-lineHeight-rjixqe r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                 dir="auto"
-                style={
-                  Object {
-                    "color": "rgba(85,85,85,1.00)",
-                    "fontFamily": "Roboto",
-                    "fontSize": "14px",
-                    "fontWeight": "normal",
-                    "lineHeight": "20px",
-                    "textAlign": "center",
-                    "textDecoration": "none",
-                    "textTransform": "none",
-                  }
-                }
               >
                 Public
               </div>
             </div>
           </div>
           <div
-            className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz"
-            style={
-              Object {
-                "borderBottomColor": "rgba(238,238,238,1.00)",
-                "borderBottomStyle": "solid",
-                "borderBottomWidth": "1px",
-                "borderLeftStyle": "solid",
-                "borderRightStyle": "solid",
-                "borderTopStyle": "solid",
-                "display": "flex",
-                "paddingBottom": "8px",
-                "paddingLeft": "32px",
-                "paddingRight": "8px",
-                "paddingTop": "8px",
-              }
-            }
+            className="css-view-1dbjc4n r-alignItems-1awozwy r-borderBottomColor-1fn3lry r-borderBottomWidth-qklmqi r-borderStyle-1phboty r-display-6koalj r-flexDirection-18u37iz r-padding-edyy15 r-paddingLeft-gu0qjt"
           >
             <div
-              className="css-text-901oao"
+              className="css-text-901oao r-color-181bzza r-flexGrow-16xksha r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-lineHeight-hbpseb r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
               dir="auto"
-              style={
-                Object {
-                  "WebkitBoxFlex": 2,
-                  "WebkitFlexGrow": 2,
-                  "color": "rgba(85,85,85,1.00)",
-                  "flexGrow": 2,
-                  "fontFamily": "Roboto",
-                  "fontSize": "16px",
-                  "fontWeight": "500",
-                  "lineHeight": "22px",
-                  "msFlexPositive": 2,
-                  "textAlign": "left",
-                  "textDecoration": "none",
-                  "textTransform": "none",
-                }
-              }
             >
               Phone number
             </div>
             <div
-              className="css-view-1dbjc4n r-alignItems-1awozwy"
-              style={
-                Object {
-                  "minWidth": "60px",
-                  "width": "15%",
-                }
-              }
+              className="css-view-1dbjc4n r-alignItems-1awozwy r-minWidth-1c8i11 r-width-1ih7r1r"
             >
               <div
                 aria-live="polite"
@@ -378,13 +171,7 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
               </div>
             </div>
             <div
-              className="css-view-1dbjc4n r-alignItems-1awozwy"
-              style={
-                Object {
-                  "minWidth": "60px",
-                  "width": "15%",
-                }
-              }
+              className="css-view-1dbjc4n r-alignItems-1awozwy r-minWidth-1c8i11 r-width-1ih7r1r"
             >
               <div
                 aria-live="polite"
@@ -431,13 +218,7 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
               </div>
             </div>
             <div
-              className="css-view-1dbjc4n r-alignItems-1awozwy"
-              style={
-                Object {
-                  "minWidth": "60px",
-                  "width": "15%",
-                }
-              }
+              className="css-view-1dbjc4n r-alignItems-1awozwy r-minWidth-1c8i11 r-width-1ih7r1r"
             >
               <div
                 aria-live="polite"
@@ -485,53 +266,16 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
             </div>
           </div>
           <div
-            className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz"
-            style={
-              Object {
-                "borderBottomColor": "rgba(238,238,238,1.00)",
-                "borderBottomStyle": "solid",
-                "borderBottomWidth": "1px",
-                "borderLeftStyle": "solid",
-                "borderRightStyle": "solid",
-                "borderTopStyle": "solid",
-                "display": "flex",
-                "paddingBottom": "8px",
-                "paddingLeft": "32px",
-                "paddingRight": "8px",
-                "paddingTop": "8px",
-              }
-            }
+            className="css-view-1dbjc4n r-alignItems-1awozwy r-borderBottomColor-1fn3lry r-borderBottomWidth-qklmqi r-borderStyle-1phboty r-display-6koalj r-flexDirection-18u37iz r-padding-edyy15 r-paddingLeft-gu0qjt"
           >
             <div
-              className="css-text-901oao"
+              className="css-text-901oao r-color-181bzza r-flexGrow-16xksha r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-lineHeight-hbpseb r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
               dir="auto"
-              style={
-                Object {
-                  "WebkitBoxFlex": 2,
-                  "WebkitFlexGrow": 2,
-                  "color": "rgba(85,85,85,1.00)",
-                  "flexGrow": 2,
-                  "fontFamily": "Roboto",
-                  "fontSize": "16px",
-                  "fontWeight": "500",
-                  "lineHeight": "22px",
-                  "msFlexPositive": 2,
-                  "textAlign": "left",
-                  "textDecoration": "none",
-                  "textTransform": "none",
-                }
-              }
             >
               Email
             </div>
             <div
-              className="css-view-1dbjc4n r-alignItems-1awozwy"
-              style={
-                Object {
-                  "minWidth": "60px",
-                  "width": "15%",
-                }
-              }
+              className="css-view-1dbjc4n r-alignItems-1awozwy r-minWidth-1c8i11 r-width-1ih7r1r"
             >
               <div
                 aria-live="polite"
@@ -578,13 +322,7 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
               </div>
             </div>
             <div
-              className="css-view-1dbjc4n r-alignItems-1awozwy"
-              style={
-                Object {
-                  "minWidth": "60px",
-                  "width": "15%",
-                }
-              }
+              className="css-view-1dbjc4n r-alignItems-1awozwy r-minWidth-1c8i11 r-width-1ih7r1r"
             >
               <div
                 aria-live="polite"
@@ -631,13 +369,7 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
               </div>
             </div>
             <div
-              className="css-view-1dbjc4n r-alignItems-1awozwy"
-              style={
-                Object {
-                  "minWidth": "60px",
-                  "width": "15%",
-                }
-              }
+              className="css-view-1dbjc4n r-alignItems-1awozwy r-minWidth-1c8i11 r-width-1ih7r1r"
             >
               <div
                 aria-live="polite"
@@ -686,66 +418,16 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
           </div>
         </div>
         <div
-          className="css-view-1dbjc4n r-justifyContent-1777fci"
-          style={
-            Object {
-              "WebkitBoxFlex": 1,
-              "WebkitFlexGrow": 1,
-              "backgroundColor": "rgba(255,255,255,1.00)",
-              "borderBottomLeftRadius": "5px",
-              "borderBottomRightRadius": "5px",
-              "borderTopLeftRadius": "5px",
-              "borderTopRightRadius": "5px",
-              "flexGrow": 1,
-              "msFlexPositive": 1,
-              "paddingBottom": "16px",
-              "paddingLeft": "12px",
-              "paddingRight": "12px",
-              "paddingTop": "16px",
-            }
-          }
+          className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderRadius-1f0042m r-flexGrow-16y2uox r-justifyContent-1777fci r-paddingHorizontal-1e081e0 r-paddingVertical-1yzf0co"
         >
           <div
-            className="css-view-1dbjc4n r-alignItems-1awozwy r-justifyContent-1777fci r-position-bnwqim"
-            style={
-              Object {
-                "backgroundColor": "rgba(255,255,255,1.00)",
-                "borderBottomColor": "rgba(163,163,163,1.00)",
-                "borderBottomLeftRadius": "5px",
-                "borderBottomRightRadius": "5px",
-                "borderBottomWidth": "1px",
-                "borderLeftColor": "rgba(163,163,163,1.00)",
-                "borderLeftWidth": "1px",
-                "borderRightColor": "rgba(163,163,163,1.00)",
-                "borderRightWidth": "1px",
-                "borderTopColor": "rgba(163,163,163,1.00)",
-                "borderTopLeftRadius": "5px",
-                "borderTopRightRadius": "5px",
-                "borderTopWidth": "1px",
-                "borerStyle": "solid",
-                "display": "flex",
-                "height": "153.35064935064935px",
-                "paddingBottom": "16px",
-                "paddingLeft": "12px",
-                "paddingRight": "12px",
-                "paddingTop": "16px",
-              }
-            }
+            className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-14lw9ot r-borderColor-y68mpx r-borderRadius-1f0042m r-borderWidth-rs99b7 r-display-6koalj r-height-mht1xe r-justifyContent-1777fci r-paddingHorizontal-1e081e0 r-paddingVertical-1yzf0co r-position-bnwqim"
           >
             <div
-              className="css-view-1dbjc4n"
-              style={
-                Object {
-                  "backgroundColor": "rgba(255,255,255,1.00)",
-                  "height": "6.233766233766233px",
-                  "position": "absolute",
-                  "top": "-4px",
-                  "width": "116.11111111111111px",
-                }
-              }
+              className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-height-n0twmy r-position-u8s1d r-top-1ld3bg r-width-1dcdz4f"
             />
             <div
-              className="css-view-1dbjc4n r-alignItems-1awozwy"
+              className="css-view-1dbjc4n r-alignItems-1awozwy r-position-u8s1d r-zIndex-184en5c"
               style={
                 Object {
                   "borderBottomLeftRadius": "45px",
@@ -753,101 +435,50 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
                   "borderTopLeftRadius": "45px",
                   "borderTopRightRadius": "45px",
                   "height": "89.72222222222221px",
-                  "position": "absolute",
                   "top": "-45px",
                   "width": "89.72222222222221px",
-                  "zIndex": 1,
                 }
               }
             >
               <unknownProfile.svg />
             </div>
             <div
-              className="css-text-901oao"
+              className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-1i10wst r-fontWeight-b88u0q r-lineHeight-135wba7 r-marginBottom-h72ra1 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
               dir="auto"
-              style={
-                Object {
-                  "color": "rgba(66,69,74,1.00)",
-                  "fontFamily": "Roboto Slab",
-                  "fontSize": "18px",
-                  "fontWeight": "700",
-                  "lineHeight": "24px",
-                  "marginBottom": "12.467532467532466px",
-                  "textAlign": "center",
-                  "textDecoration": "none",
-                  "textTransform": "none",
-                }
-              }
             >
               My Face Record ID
             </div>
             <div
-              className="css-text-901oao"
+              className="css-text-901oao r-color-vaa0vc r-fontFamily-vnw8o6 r-fontSize-n6v787 r-fontWeight-1it3c9n r-letterSpacing-rdxj0b r-lineHeight-w20frr r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
               dir="auto"
               letterSpacing={0.07}
-              style={
-                Object {
-                  "color": "rgba(163,163,163,1.00)",
-                  "fontFamily": "Roboto",
-                  "fontSize": "13px",
-                  "fontWeight": "normal",
-                  "letterSpacing": "0.07px",
-                  "lineHeight": "15.6px",
-                  "textAlign": "center",
-                  "textDecoration": "none",
-                  "textTransform": "none",
-                }
-              }
             >
               fake-face-ide...ce-identifier
             </div>
             <div
-              className="css-view-1dbjc4n"
-              style={
-                Object {
-                  "backgroundColor": "rgba(255,255,255,1.00)",
-                  "bottom": "-4px",
-                  "height": "6.233766233766233px",
-                  "position": "absolute",
-                  "width": "68.6111111111111px",
-                }
-              }
+              className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-bottom-30qeir r-height-n0twmy r-position-u8s1d r-width-1v6so3z"
             />
             <div
-              className="css-view-1dbjc4n"
-              style={
-                Object {
-                  "bottom": "-33px",
-                  "height": "64.83116883116884px",
-                  "position": "absolute",
-                  "width": "116.11111111111111px",
-                  "zIndex": 1,
-                }
-              }
+              className="css-view-1dbjc4n r-bottom-1ia8z0t r-height-1qe8j6y r-position-u8s1d r-width-1dcdz4f r-zIndex-184en5c"
             >
               <div
-                className="css-view-1dbjc4n r-alignItems-1awozwy r-justifyContent-1777fci"
+                className="css-view-1dbjc4n r-alignItems-1awozwy r-borderStyle-1phboty r-display-6koalj r-justifyContent-1777fci r-padding-t60dpp r-paddingLeft-gy4na3 r-paddingRight-9aemit"
                 style={
                   Object {
                     "backgroundColor": "rgba(0,175,255,1.00)",
                     "borderBottomColor": "rgba(0,175,255,1.00)",
                     "borderBottomLeftRadius": "26px",
                     "borderBottomRightRadius": "26px",
-                    "borderBottomStyle": "solid",
                     "borderBottomWidth": "0px",
                     "borderLeftColor": "rgba(0,175,255,1.00)",
-                    "borderLeftStyle": "solid",
                     "borderLeftWidth": "0px",
                     "borderRightColor": "rgba(0,175,255,1.00)",
-                    "borderRightStyle": "solid",
                     "borderRightWidth": "0px",
                     "borderTopColor": "rgba(0,175,255,1.00)",
                     "borderTopLeftRadius": "26px",
                     "borderTopRightRadius": "26px",
-                    "borderTopStyle": "solid",
                     "borderTopWidth": "0px",
                     "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
-                    "display": "flex",
                     "height": "50.138888888888886px",
                     "marginBottom": "4.987012987012987px",
                     "marginLeft": "auto",
@@ -855,10 +486,6 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
                     "marginTop": "0px",
                     "minHeight": "44px",
                     "minWidth": "50.138888888888886px",
-                    "paddingBottom": "0px",
-                    "paddingLeft": "0px",
-                    "paddingRight": "0px",
-                    "paddingTop": "0px",
                     "width": "50.138888888888886px",
                   }
                 }
@@ -904,23 +531,16 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
                       className="css-view-1dbjc4n r-marginHorizontal-1ydw1k6 r-marginVertical-712mwr"
                     >
                       <div
-                        className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz"
-                        style={
-                          Object {
-                            "display": "flex",
-                          }
-                        }
+                        className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
                       >
                         <div
-                          className="css-text-901oao"
+                          className="css-text-901oao r-color-jwli3a r-fontWeight-1it3c9n"
                           dir="auto"
                           style={
                             Object {
-                              "color": "rgba(255,255,255,1.00)",
                               "fontFamily": "gooddollar",
                               "fontSize": "34px",
                               "fontStyle": "normal",
-                              "fontWeight": "normal",
                             }
                           }
                         >
@@ -932,20 +552,8 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
                 </div>
               </div>
               <div
-                className="css-text-901oao"
+                className="css-text-901oao r-color-1q5uqvh r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-majxgm r-lineHeight-1f529hi r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                 dir="auto"
-                style={
-                  Object {
-                    "color": "rgba(0,175,255,1.00)",
-                    "fontFamily": "Roboto",
-                    "fontSize": "10px",
-                    "fontWeight": "500",
-                    "lineHeight": "14px",
-                    "textAlign": "center",
-                    "textDecoration": "none",
-                    "textTransform": "none",
-                  }
-                }
               >
                 Copy ID
               </div>
@@ -954,62 +562,39 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
         </div>
       </div>
       <div
-        className="css-view-1dbjc4n r-flexDirection-18u37iz"
+        className="css-view-1dbjc4n r-flexDirection-18u37iz r-justifyContent-1wtj0ep r-paddingHorizontal-ymttw5"
         style={
           Object {
             "WebkitAlignItems": "flex-end",
             "WebkitBoxAlign": "end",
-            "WebkitBoxPack": "justify",
-            "WebkitJustifyContent": "space-between",
             "alignItems": "flex-end",
-            "justifyContent": "space-between",
             "msFlexAlign": "end",
-            "msFlexPack": "justify",
-            "paddingLeft": "16px",
-            "paddingRight": "16px",
           }
         }
       >
         <div
-          className="css-view-1dbjc4n r-justifyContent-1777fci"
+          className="css-view-1dbjc4n r-alignItems-1oszu61 r-borderStyle-1phboty r-display-6koalj r-flexGrow-16y2uox r-justifyContent-1777fci r-padding-t60dpp r-paddingLeft-gy4na3 r-paddingRight-9aemit"
           style={
             Object {
-              "WebkitAlignItems": "stretch",
-              "WebkitBoxAlign": "stretch",
-              "WebkitBoxFlex": 1,
-              "WebkitFlexGrow": 1,
-              "alignItems": "stretch",
               "backgroundColor": "rgba(0,0,0,0.00)",
               "borderBottomColor": "rgba(0,175,255,1.00)",
               "borderBottomLeftRadius": "50px",
               "borderBottomRightRadius": "50px",
-              "borderBottomStyle": "solid",
               "borderBottomWidth": "0px",
               "borderLeftColor": "rgba(0,175,255,1.00)",
-              "borderLeftStyle": "solid",
               "borderLeftWidth": "0px",
               "borderRightColor": "rgba(0,175,255,1.00)",
-              "borderRightStyle": "solid",
               "borderRightWidth": "0px",
               "borderTopColor": "rgba(0,175,255,1.00)",
               "borderTopLeftRadius": "50px",
               "borderTopRightRadius": "50px",
-              "borderTopStyle": "solid",
               "borderTopWidth": "0px",
-              "display": "flex",
-              "flexGrow": 1,
               "marginBottom": "0px",
               "marginLeft": "0px",
               "marginRight": "0px",
               "marginTop": "0px",
               "minHeight": "44px",
               "minWidth": "auto",
-              "msFlexAlign": "stretch",
-              "msFlexPositive": 1,
-              "paddingBottom": "0px",
-              "paddingLeft": "0px",
-              "paddingRight": "0px",
-              "paddingTop": "0px",
             }
           }
         >
@@ -1054,30 +639,11 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
                 className="css-view-1dbjc4n r-marginHorizontal-1ybube5 r-marginVertical-712mwr"
               >
                 <div
-                  className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz"
-                  style={
-                    Object {
-                      "display": "flex",
-                    }
-                  }
+                  className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
                 >
                   <div
-                    className="css-text-901oao r-alignItems-1awozwy r-justifyContent-1777fci"
+                    className="css-text-901oao r-alignItems-1awozwy r-color-vaa0vc r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-hbpseb r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                     dir="auto"
-                    style={
-                      Object {
-                        "color": "rgba(163,163,163,1.00)",
-                        "fontFamily": "Roboto",
-                        "fontSize": "14px",
-                        "fontWeight": "500",
-                        "letterSpacing": "0px",
-                        "lineHeight": "22px",
-                        "paddingTop": "1px",
-                        "textAlign": "center",
-                        "textDecoration": "none",
-                        "textTransform": "none",
-                      }
-                    }
                   >
                     Cancel
                   </div>
@@ -1087,32 +653,24 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
           </div>
         </div>
         <div
-          className="css-view-1dbjc4n r-justifyContent-1777fci"
+          className="css-view-1dbjc4n r-alignItems-1oszu61 r-borderStyle-1phboty r-display-6koalj r-justifyContent-1777fci r-padding-t60dpp r-paddingLeft-gy4na3 r-paddingRight-9aemit"
           style={
             Object {
-              "WebkitAlignItems": "stretch",
-              "WebkitBoxAlign": "stretch",
               "WebkitBoxFlex": 10,
               "WebkitFlexGrow": 10,
-              "alignItems": "stretch",
               "backgroundColor": "rgba(0,0,0,0.12)",
               "borderBottomColor": "rgba(0,175,255,1.00)",
               "borderBottomLeftRadius": "50px",
               "borderBottomRightRadius": "50px",
-              "borderBottomStyle": "solid",
               "borderBottomWidth": "0px",
               "borderLeftColor": "rgba(0,175,255,1.00)",
-              "borderLeftStyle": "solid",
               "borderLeftWidth": "0px",
               "borderRightColor": "rgba(0,175,255,1.00)",
-              "borderRightStyle": "solid",
               "borderRightWidth": "0px",
               "borderTopColor": "rgba(0,175,255,1.00)",
               "borderTopLeftRadius": "50px",
               "borderTopRightRadius": "50px",
-              "borderTopStyle": "solid",
               "borderTopWidth": "0px",
-              "display": "flex",
               "flexGrow": 10,
               "marginBottom": "0px",
               "marginLeft": "0px",
@@ -1120,12 +678,7 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
               "marginTop": "0px",
               "minHeight": "44px",
               "minWidth": "64px",
-              "msFlexAlign": "stretch",
               "msFlexPositive": 10,
-              "paddingBottom": "0px",
-              "paddingLeft": "0px",
-              "paddingRight": "0px",
-              "paddingTop": "0px",
             }
           }
         >
@@ -1167,30 +720,11 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
                 className="css-view-1dbjc4n r-marginHorizontal-1ydw1k6 r-marginVertical-712mwr"
               >
                 <div
-                  className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz"
-                  style={
-                    Object {
-                      "display": "flex",
-                    }
-                  }
+                  className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
                 >
                   <div
-                    className="css-text-901oao r-alignItems-1awozwy r-justifyContent-1777fci"
+                    className="css-text-901oao r-alignItems-1awozwy r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-hbpseb r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
                     dir="auto"
-                    style={
-                      Object {
-                        "color": "rgba(255,255,255,1.00)",
-                        "fontFamily": "Roboto",
-                        "fontSize": "16px",
-                        "fontWeight": "500",
-                        "letterSpacing": "0px",
-                        "lineHeight": "22px",
-                        "paddingTop": "1px",
-                        "textAlign": "center",
-                        "textDecoration": "none",
-                        "textTransform": "uppercase",
-                      }
-                    }
                   >
                     Save
                   </div>

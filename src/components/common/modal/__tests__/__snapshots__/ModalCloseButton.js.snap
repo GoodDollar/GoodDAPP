@@ -5,7 +5,7 @@ exports[`ModalCloseButton matches snapshot 1`] = `
   className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
-    className="css-view-1dbjc4n r-cursor-1loqt21 r-touchAction-1otgn73 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
+    className="css-view-1dbjc4n r-cursor-1loqt21 r-height-1uopjct r-marginLeft-1jj8364 r-marginRight-1bbvk3j r-position-u8s1d r-right-zchlnj r-top-1nd9uzx r-touchAction-1otgn73 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-width-1y566p8 r-zIndex-pezta"
     data-focusable={true}
     onKeyDown={[Function]}
     onKeyUp={[Function]}
@@ -15,27 +15,10 @@ exports[`ModalCloseButton matches snapshot 1`] = `
     onResponderTerminate={[Function]}
     onResponderTerminationRequest={[Function]}
     onStartShouldSetResponder={[Function]}
-    style={
-      Object {
-        "height": "37px",
-        "marginLeft": "auto",
-        "marginRight": "-18.5px",
-        "position": "absolute",
-        "right": "0px",
-        "top": "-20px",
-        "width": "37px",
-        "zIndex": 5,
-      }
-    }
     tabIndex="0"
   >
     <div
-      className="css-view-1dbjc4n"
-      style={
-        Object {
-          "position": "relative",
-        }
-      }
+      className="css-view-1dbjc4n r-position-bnwqim"
     >
       <close.svg />
     </div>
@@ -48,7 +31,7 @@ exports[`ModalCloseButton matches snapshot with properties 1`] = `
   className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
-    className="css-view-1dbjc4n r-cursor-1loqt21 r-touchAction-1otgn73 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
+    className="css-view-1dbjc4n r-cursor-1loqt21 r-height-1uopjct r-marginLeft-1jj8364 r-marginRight-1bbvk3j r-position-u8s1d r-right-zchlnj r-top-1nd9uzx r-touchAction-1otgn73 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-width-1y566p8 r-zIndex-pezta"
     data-focusable={true}
     onKeyDown={[Function]}
     onKeyUp={[Function]}
@@ -58,27 +41,10 @@ exports[`ModalCloseButton matches snapshot with properties 1`] = `
     onResponderTerminate={[Function]}
     onResponderTerminationRequest={[Function]}
     onStartShouldSetResponder={[Function]}
-    style={
-      Object {
-        "height": "37px",
-        "marginLeft": "auto",
-        "marginRight": "-18.5px",
-        "position": "absolute",
-        "right": "0px",
-        "top": "-20px",
-        "width": "37px",
-        "zIndex": 5,
-      }
-    }
     tabIndex="0"
   >
     <div
-      className="css-view-1dbjc4n"
-      style={
-        Object {
-          "position": "relative",
-        }
-      }
+      className="css-view-1dbjc4n r-position-bnwqim"
     >
       <close.svg />
     </div>

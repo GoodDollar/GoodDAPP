@@ -5,62 +5,22 @@ exports[`Splash matches snapshot 1`] = `
   className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
-    className="css-view-1dbjc4n r-padding-t60dpp r-position-bnwqim r-width-13qz1uu"
+    className="css-view-1dbjc4n r-display-6koalj r-flexDirection-eqz5dr r-flexGrow-16y2uox r-maxHeight-1qalap5 r-padding-t60dpp r-position-bnwqim r-width-13qz1uu"
     data-name="viewWrapper"
     style={
       Object {
-        "WebkitBoxDirection": "normal",
-        "WebkitBoxFlex": 1,
-        "WebkitBoxOrient": "vertical",
-        "WebkitFlexDirection": "column",
-        "WebkitFlexGrow": 1,
         "backgroundImage": "linear-gradient(3.141592653589793rad,#00AFFF,#2DC0F7,#28C0EF,#23C0E7,#1EC1DF,#19C1D7,#14C1CF,#0FC2C7,#0FC2C7,#0AC2BF,#05C2B7,#00C3AF)",
-        "display": "flex",
-        "flexDirection": "column",
-        "flexGrow": 1,
-        "maxHeight": "844px",
-        "msFlexDirection": "column",
-        "msFlexPositive": 1,
       }
     }
   >
     <div
-      className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1niwhzg r-flex-13awgt0 r-justifyContent-1777fci r-position-bnwqim r-transform-1defyd4"
-      style={
-        Object {
-          "borderBottomLeftRadius": "5px",
-          "borderBottomRightRadius": "5px",
-          "borderTopLeftRadius": "5px",
-          "borderTopRightRadius": "5px",
-          "paddingBottom": "16px",
-          "paddingLeft": "12px",
-          "paddingRight": "12px",
-          "paddingTop": "16px",
-        }
-      }
+      className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1niwhzg r-borderRadius-1f0042m r-flex-13awgt0 r-justifyContent-1777fci r-paddingHorizontal-1e081e0 r-paddingVertical-1yzf0co r-position-bnwqim r-transform-1defyd4"
     >
       <div
         className="css-view-1dbjc4n r-backgroundImage-o7i658 r-height-1pi2tsx r-opacity-1oec5bt r-position-u8s1d r-width-13qz1uu"
       />
       <div
-        className="css-view-1dbjc4n r-justifyContent-1777fci r-overflow-1udh08x r-transform-1defyd4"
-        style={
-          Object {
-            "WebkitAlignItems": "stretch",
-            "WebkitBoxAlign": "stretch",
-            "WebkitBoxDirection": "normal",
-            "WebkitBoxFlex": 1,
-            "WebkitBoxOrient": "vertical",
-            "WebkitFlexDirection": "column",
-            "WebkitFlexGrow": 1,
-            "alignItems": "stretch",
-            "flexDirection": "column",
-            "flexGrow": 1,
-            "msFlexAlign": "stretch",
-            "msFlexDirection": "column",
-            "msFlexPositive": 1,
-          }
-        }
+        className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-flexGrow-16y2uox r-justifyContent-1777fci r-overflow-1udh08x r-transform-1defyd4"
       >
         <div
           className="css-view-1dbjc4n"
@@ -71,20 +31,8 @@ exports[`Splash matches snapshot 1`] = `
           }
         />
         <div
-          className="css-text-901oao"
+          className="css-text-901oao r-color-waoq6i r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-lineHeight-hbpseb r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
           dir="auto"
-          style={
-            Object {
-              "color": "rgba(12,38,61,1.00)",
-              "fontFamily": "Roboto",
-              "fontSize": "16px",
-              "fontWeight": "500",
-              "lineHeight": "22px",
-              "textAlign": "center",
-              "textDecoration": "none",
-              "textTransform": "none",
-            }
-          }
         >
           V
           v0

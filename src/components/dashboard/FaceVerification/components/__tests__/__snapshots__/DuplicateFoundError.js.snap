@@ -5,127 +5,33 @@ exports[`FaceVerification DuplicateFoundError matches snapshot 1`] = `
   className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
-    className="css-view-1dbjc4n r-position-bnwqim"
+    className="css-view-1dbjc4n r-display-6koalj r-flexDirection-eqz5dr r-flexGrow-16y2uox r-maxHeight-1qalap5 r-padding-edyy15 r-position-bnwqim r-width-13qz1uu"
     data-name="viewWrapper"
     style={
       Object {
-        "WebkitBoxDirection": "normal",
-        "WebkitBoxFlex": 1,
-        "WebkitBoxOrient": "vertical",
-        "WebkitFlexDirection": "column",
-        "WebkitFlexGrow": 1,
         "backgroundImage": "linear-gradient(3.141592653589793rad,#00AFFF,#2DC0F7,#28C0EF,#23C0E7,#1EC1DF,#19C1D7,#14C1CF,#0FC2C7,#0FC2C7,#0AC2BF,#05C2B7,#00C3AF)",
-        "display": "flex",
-        "flexDirection": "column",
-        "flexGrow": 1,
-        "maxHeight": "844px",
-        "msFlexDirection": "column",
-        "msFlexPositive": 1,
-        "paddingBottom": "8px",
-        "paddingLeft": "8px",
-        "paddingRight": "8px",
-        "paddingTop": "8px",
-        "width": "100%",
       }
     }
   >
     <div
-      className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0"
-      style={
-        Object {
-          "WebkitBoxFlex": 1,
-          "WebkitBoxPack": "space-evenly",
-          "WebkitFlexGrow": 1,
-          "WebkitFlexShrink": 0,
-          "WebkitJustifyContent": "space-evenly",
-          "backgroundColor": "rgba(255,255,255,1.00)",
-          "borderBottomLeftRadius": "5px",
-          "borderBottomRightRadius": "5px",
-          "borderTopLeftRadius": "5px",
-          "borderTopRightRadius": "5px",
-          "display": "flex",
-          "flexGrow": 1,
-          "flexShrink": 0,
-          "height": "100%",
-          "justifyContent": "space-evenly",
-          "msFlexNegative": 0,
-          "msFlexPack": "space-evenly",
-          "msFlexPositive": 1,
-          "paddingBottom": "16px",
-          "paddingLeft": "8px",
-          "paddingRight": "8px",
-          "paddingTop": "16px",
-        }
-      }
+      className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-14lw9ot r-borderRadius-1f0042m r-display-6koalj r-flex-13awgt0 r-flexGrow-16y2uox r-flexShrink-1q142lx r-height-1pi2tsx r-justifyContent-1d7fvdj r-paddingBottom-1l7z4oj r-paddingLeft-1m04atk r-paddingRight-1pyaxff r-paddingTop-95jzfe"
     >
       <div
-        className="css-view-1dbjc4n r-flex-13awgt0"
-        style={
-          Object {
-            "WebkitBoxPack": "space-evenly",
-            "WebkitJustifyContent": "space-evenly",
-            "backgroundColor": "rgba(255,255,255,1.00)",
-            "borderBottomLeftRadius": "5px",
-            "borderBottomRightRadius": "5px",
-            "borderTopLeftRadius": "5px",
-            "borderTopRightRadius": "5px",
-            "justifyContent": "space-evenly",
-            "marginBottom": "0px",
-            "msFlexPack": "space-evenly",
-            "paddingBottom": "16px",
-            "paddingLeft": "8px",
-            "paddingRight": "8px",
-            "paddingTop": "8px",
-            "width": "100%",
-          }
-        }
+        className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderRadius-1f0042m r-flex-13awgt0 r-justifyContent-1d7fvdj r-marginBottom-p1pxzi r-paddingBottom-1l7z4oj r-paddingHorizontal-1e081e0 r-paddingLeft-1m04atk r-paddingRight-1pyaxff r-paddingTop-tskmnb r-paddingVertical-1yzf0co r-width-13qz1uu"
       >
         <div
-          className="css-text-901oao"
+          className="css-text-901oao r-color-11zaip3 r-fontFamily-vnw8o6 r-fontSize-1x35g6 r-fontWeight-majxgm r-lineHeight-17rnw9f r-marginVertical-c8eef1 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
           dir="auto"
-          style={
-            Object {
-              "color": "rgba(250,108,119,1.00)",
-              "fontFamily": "Roboto",
-              "fontSize": "24px",
-              "fontWeight": "500",
-              "lineHeight": "30px",
-              "marginBottom": "8px",
-              "marginTop": "8px",
-              "textAlign": "center",
-              "textDecoration": "none",
-              "textTransform": "none",
-            }
-          }
         >
           ,
 Unfortunately,
 We found your twin...
         </div>
         <div
-          className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz"
-          style={
-            Object {
-              "WebkitBoxPack": "space-evenly",
-              "WebkitJustifyContent": "space-evenly",
-              "justifyContent": "space-evenly",
-              "msFlexPack": "space-evenly",
-            }
-          }
+          className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1d7fvdj"
         >
           <div
-            className="css-view-1dbjc4n r-justifyContent-1777fci"
-            style={
-              Object {
-                "display": "flex",
-                "marginBottom": "0px",
-                "marginLeft": "0px",
-                "marginRight": "0px",
-                "marginTop": "0px",
-                "maxHeight": "auto",
-                "width": "171.52777777777777px",
-              }
-            }
+            className="css-view-1dbjc4n r-display-6koalj r-justifyContent-1777fci r-marginBottom-p1pxzi r-marginLeft-11wrixw r-marginRight-61z16t r-marginTop-1mnahxq r-maxHeight-wwnmln r-width-snplw3"
           >
             <div
               className="css-view-1dbjc4n"
@@ -137,18 +43,7 @@ We found your twin...
             />
           </div>
           <div
-            className="css-view-1dbjc4n r-justifyContent-1777fci"
-            style={
-              Object {
-                "display": "flex",
-                "marginBottom": "0px",
-                "marginLeft": "0px",
-                "marginRight": "0px",
-                "marginTop": "0px",
-                "maxHeight": "auto",
-                "width": "171.52777777777777px",
-              }
-            }
+            className="css-view-1dbjc4n r-display-6koalj r-justifyContent-1777fci r-marginBottom-p1pxzi r-marginLeft-11wrixw r-marginRight-61z16t r-marginTop-1mnahxq r-maxHeight-wwnmln r-width-snplw3"
           >
             <div
               className="css-view-1dbjc4n"
@@ -161,21 +56,7 @@ We found your twin...
           </div>
         </div>
         <div
-          className="css-view-1dbjc4n"
-          style={
-            Object {
-              "backgroundColor": "rgba(255,255,255,1.00)",
-              "borderBottomLeftRadius": "5px",
-              "borderBottomRightRadius": "5px",
-              "borderTopLeftRadius": "5px",
-              "borderTopRightRadius": "5px",
-              "marginBottom": "0px",
-              "paddingBottom": "0px",
-              "paddingLeft": "12px",
-              "paddingRight": "12px",
-              "paddingTop": "0px",
-            }
-          }
+          className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderRadius-1f0042m r-marginBottom-p1pxzi r-paddingBottom-1mdbw0j r-paddingHorizontal-1e081e0 r-paddingTop-wk8lta r-paddingVertical-1yzf0co"
         >
           <div
             className="css-view-1dbjc4n"
@@ -191,47 +72,17 @@ We found your twin...
             }
           />
           <div
-            className="css-view-1dbjc4n"
-            style={
-              Object {
-                "paddingBottom": "25px",
-                "paddingTop": "25px",
-              }
-            }
+            className="css-view-1dbjc4n r-paddingBottom-b6sd5j r-paddingTop-qiwf3y"
           >
             <div
-              className="css-text-901oao"
+              className="css-text-901oao r-color-1q5uqvh r-fontFamily-vnw8o6 r-fontSize-1i10wst r-fontWeight-b88u0q r-lineHeight-waer2z r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
               dir="auto"
-              style={
-                Object {
-                  "color": "rgba(0,175,255,1.00)",
-                  "fontFamily": "Roboto",
-                  "fontSize": "18px",
-                  "fontWeight": "700",
-                  "lineHeight": "25px",
-                  "textAlign": "center",
-                  "textDecoration": "none",
-                  "textTransform": "none",
-                }
-              }
             >
               You can open ONLY ONE account per person.
             </div>
             <div
-              className="css-text-901oao"
+              className="css-text-901oao r-color-1q5uqvh r-fontFamily-vnw8o6 r-fontSize-1i10wst r-fontWeight-1it3c9n r-lineHeight-waer2z r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
               dir="auto"
-              style={
-                Object {
-                  "color": "rgba(0,175,255,1.00)",
-                  "fontFamily": "Roboto",
-                  "fontSize": "18px",
-                  "fontWeight": "normal",
-                  "lineHeight": "25px",
-                  "textAlign": "center",
-                  "textDecoration": "none",
-                  "textTransform": "none",
-                }
-              }
             >
               If this is your only active account
 please contact our support
@@ -253,15 +104,10 @@ please contact our support
         </div>
       </div>
       <div
-        className="css-view-1dbjc4n"
-        style={
-          Object {
-            "width": "100%",
-          }
-        }
+        className="css-view-1dbjc4n r-width-13qz1uu"
       >
         <div
-          className="css-view-1dbjc4n r-justifyContent-1777fci"
+          className="css-view-1dbjc4n r-display-6koalj r-justifyContent-1777fci r-marginLeft-11wrixw r-marginRight-61z16t r-marginTop-1mnahxq"
           style={
             Object {
               "WebkitAlignItems": "stretch",
@@ -284,11 +130,7 @@ please contact our support
               "borderTopRightRadius": "50px",
               "borderTopStyle": "solid",
               "borderTopWidth": "1px",
-              "display": "flex",
               "marginBottom": "16px",
-              "marginLeft": "0px",
-              "marginRight": "0px",
-              "marginTop": "0px",
               "minHeight": "44px",
               "minWidth": "64px",
               "msFlexAlign": "stretch",
@@ -340,30 +182,11 @@ please contact our support
                 className="css-view-1dbjc4n r-marginHorizontal-1ydw1k6 r-marginVertical-712mwr"
               >
                 <div
-                  className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz"
-                  style={
-                    Object {
-                      "display": "flex",
-                    }
-                  }
+                  className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
                 >
                   <div
-                    className="css-text-901oao r-alignItems-1awozwy r-justifyContent-1777fci"
+                    className="css-text-901oao r-alignItems-1awozwy r-color-1q5uqvh r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-hbpseb r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
                     dir="auto"
-                    style={
-                      Object {
-                        "color": "rgba(0,175,255,1.00)",
-                        "fontFamily": "Roboto",
-                        "fontSize": "16px",
-                        "fontWeight": "500",
-                        "letterSpacing": "0px",
-                        "lineHeight": "22px",
-                        "paddingTop": "1px",
-                        "textAlign": "center",
-                        "textDecoration": "none",
-                        "textTransform": "uppercase",
-                      }
-                    }
                   >
                     CONTACT SUPPORT
                   </div>
@@ -373,7 +196,7 @@ please contact our support
           </div>
         </div>
         <div
-          className="css-view-1dbjc4n r-justifyContent-1777fci"
+          className="css-view-1dbjc4n r-display-6koalj r-justifyContent-1777fci r-marginBottom-p1pxzi r-marginLeft-11wrixw r-marginRight-61z16t r-marginTop-1mnahxq"
           style={
             Object {
               "WebkitAlignItems": "stretch",
@@ -397,11 +220,6 @@ please contact our support
               "borderTopStyle": "solid",
               "borderTopWidth": "0px",
               "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
-              "display": "flex",
-              "marginBottom": "0px",
-              "marginLeft": "0px",
-              "marginRight": "0px",
-              "marginTop": "0px",
               "minHeight": "44px",
               "minWidth": "64px",
               "msFlexAlign": "stretch",
@@ -453,30 +271,11 @@ please contact our support
                 className="css-view-1dbjc4n r-marginHorizontal-1ydw1k6 r-marginVertical-712mwr"
               >
                 <div
-                  className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz"
-                  style={
-                    Object {
-                      "display": "flex",
-                    }
-                  }
+                  className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
                 >
                   <div
-                    className="css-text-901oao r-alignItems-1awozwy r-justifyContent-1777fci"
+                    className="css-text-901oao r-alignItems-1awozwy r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-hbpseb r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
                     dir="auto"
-                    style={
-                      Object {
-                        "color": "rgba(255,255,255,1.00)",
-                        "fontFamily": "Roboto",
-                        "fontSize": "16px",
-                        "fontWeight": "500",
-                        "letterSpacing": "0px",
-                        "lineHeight": "22px",
-                        "paddingTop": "1px",
-                        "textAlign": "center",
-                        "textDecoration": "none",
-                        "textTransform": "uppercase",
-                      }
-                    }
                   >
                     TRY AGAIN
                   </div>

@@ -5,146 +5,40 @@ exports[`OptionsRow matches snapshot 1`] = `
   className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
-    className="css-view-1dbjc4n"
-    style={
-      Object {
-        "WebkitAlignItems": "center",
-        "WebkitBoxAlign": "center",
-        "WebkitBoxDirection": "normal",
-        "WebkitBoxOrient": "horizontal",
-        "WebkitFlexDirection": "row",
-        "alignItems": "center",
-        "borderBottomColor": "rgba(238,238,238,1.00)",
-        "borderBottomStyle": "solid",
-        "borderBottomWidth": "1px",
-        "borderLeftStyle": "solid",
-        "borderRightStyle": "solid",
-        "borderTopStyle": "solid",
-        "display": "flex",
-        "flexDirection": "row",
-        "msFlexAlign": "center",
-        "msFlexDirection": "row",
-        "paddingBottom": "8px",
-        "paddingLeft": "32px",
-        "paddingRight": "8px",
-        "paddingTop": "8px",
-      }
-    }
+    className="css-view-1dbjc4n r-alignItems-1awozwy r-borderBottomColor-1fn3lry r-borderBottomWidth-qklmqi r-borderStyle-1phboty r-display-6koalj r-flexDirection-18u37iz r-padding-edyy15 r-paddingLeft-gu0qjt"
   >
     <div
-      className="css-text-901oao"
+      className="css-text-901oao r-color-181bzza r-flexGrow-16xksha r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-lineHeight-hbpseb r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
       dir="auto"
-      style={
-        Object {
-          "WebkitBoxFlex": 2,
-          "WebkitFlexGrow": 2,
-          "color": "rgba(85,85,85,1.00)",
-          "flexGrow": 2,
-          "fontFamily": "Roboto",
-          "fontSize": "16px",
-          "fontWeight": "500",
-          "lineHeight": "22px",
-          "msFlexPositive": 2,
-          "textAlign": "left",
-          "textDecoration": "none",
-          "textTransform": "none",
-        }
-      }
     >
       
     </div>
     <div
-      className="css-view-1dbjc4n"
-      style={
-        Object {
-          "WebkitAlignItems": "center",
-          "WebkitBoxAlign": "center",
-          "alignItems": "center",
-          "minWidth": "60px",
-          "msFlexAlign": "center",
-          "width": "15%",
-        }
-      }
+      className="css-view-1dbjc4n r-alignItems-1awozwy r-minWidth-1c8i11 r-width-1ih7r1r"
     >
       <div
-        className="css-text-901oao"
+        className="css-text-901oao r-color-181bzza r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-1it3c9n r-lineHeight-rjixqe r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
         dir="auto"
-        style={
-          Object {
-            "color": "rgba(85,85,85,1.00)",
-            "fontFamily": "Roboto",
-            "fontSize": "14px",
-            "fontWeight": "normal",
-            "lineHeight": "20px",
-            "textAlign": "center",
-            "textDecoration": "none",
-            "textTransform": "none",
-          }
-        }
       >
         Private
       </div>
     </div>
     <div
-      className="css-view-1dbjc4n"
-      style={
-        Object {
-          "WebkitAlignItems": "center",
-          "WebkitBoxAlign": "center",
-          "alignItems": "center",
-          "minWidth": "60px",
-          "msFlexAlign": "center",
-          "width": "15%",
-        }
-      }
+      className="css-view-1dbjc4n r-alignItems-1awozwy r-minWidth-1c8i11 r-width-1ih7r1r"
     >
       <div
-        className="css-text-901oao"
+        className="css-text-901oao r-color-181bzza r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-1it3c9n r-lineHeight-rjixqe r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
         dir="auto"
-        style={
-          Object {
-            "color": "rgba(85,85,85,1.00)",
-            "fontFamily": "Roboto",
-            "fontSize": "14px",
-            "fontWeight": "normal",
-            "lineHeight": "20px",
-            "textAlign": "center",
-            "textDecoration": "none",
-            "textTransform": "none",
-          }
-        }
       >
         Masked
       </div>
     </div>
     <div
-      className="css-view-1dbjc4n"
-      style={
-        Object {
-          "WebkitAlignItems": "center",
-          "WebkitBoxAlign": "center",
-          "alignItems": "center",
-          "minWidth": "60px",
-          "msFlexAlign": "center",
-          "width": "15%",
-        }
-      }
+      className="css-view-1dbjc4n r-alignItems-1awozwy r-minWidth-1c8i11 r-width-1ih7r1r"
     >
       <div
-        className="css-text-901oao"
+        className="css-text-901oao r-color-181bzza r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-1it3c9n r-lineHeight-rjixqe r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
         dir="auto"
-        style={
-          Object {
-            "color": "rgba(85,85,85,1.00)",
-            "fontFamily": "Roboto",
-            "fontSize": "14px",
-            "fontWeight": "normal",
-            "lineHeight": "20px",
-            "textAlign": "center",
-            "textDecoration": "none",
-            "textTransform": "none",
-          }
-        }
       >
         Public
       </div>

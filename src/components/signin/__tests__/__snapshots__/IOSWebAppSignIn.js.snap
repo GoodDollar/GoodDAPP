@@ -5,18 +5,15 @@ exports[`SignIn - IOSWebAppSignIn matches snapshot 1`] = `
   className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
-    className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz"
+    className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-flexShrink-1q142lx"
     style={
       Object {
         "WebkitBoxFlex": 0,
         "WebkitFlexGrow": 0,
-        "WebkitFlexShrink": 0,
         "backgroundColor": "rgba(0,175,255,1.00)",
         "boxShadow": "none",
         "flexGrow": 0,
-        "flexShrink": 0,
         "height": "56px",
-        "msFlexNegative": 0,
         "msFlexPositive": 0,
         "paddingLeft": "4px",
         "paddingRight": "4px",
@@ -37,17 +34,12 @@ exports[`SignIn - IOSWebAppSignIn matches snapshot 1`] = `
       tabIndex="0"
     >
       <h1
-        className="css-reset-4rbku5 css-text-901oao css-textOneLine-bfa6kz"
+        className="css-reset-4rbku5 css-text-901oao css-textOneLine-bfa6kz r-color-jwli3a r-fontSize-ubezar r-fontWeight-majxgm r-textAlign-q4m81j r-textTransform-tsynxw"
         dir="auto"
         role="heading"
         style={
           Object {
-            "color": "rgba(255,255,255,1.00)",
             "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-            "fontSize": "16px",
-            "fontWeight": "500",
-            "textAlign": "center",
-            "textTransform": "uppercase",
           }
         }
       >
@@ -56,130 +48,43 @@ exports[`SignIn - IOSWebAppSignIn matches snapshot 1`] = `
     </div>
   </div>
   <div
-    className="css-view-1dbjc4n r-paddingHorizontal-1e081e0"
-    style={
-      Object {
-        "WebkitBoxFlex": 1,
-        "WebkitFlexGrow": 1,
-        "backgroundColor": "rgba(255,255,255,1.00)",
-        "borderBottomLeftRadius": "0px",
-        "borderBottomRightRadius": "0px",
-        "borderTopLeftRadius": "0px",
-        "borderTopRightRadius": "0px",
-        "flexGrow": 1,
-        "msFlexPositive": 1,
-        "paddingBottom": "0px",
-        "paddingTop": "0px",
-      }
-    }
+    className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderRadius-17gur6a r-flexGrow-16y2uox r-paddingHorizontal-1e081e0 r-paddingVertical-rjfia"
   >
     <div
-      className="css-view-1dbjc4n r-justifyContent-1777fci"
-      style={
-        Object {
-          "WebkitAlignItems": "stretch",
-          "WebkitBoxAlign": "stretch",
-          "WebkitBoxDirection": "normal",
-          "WebkitBoxFlex": 1,
-          "WebkitBoxOrient": "vertical",
-          "WebkitFlexDirection": "column",
-          "WebkitFlexGrow": 1,
-          "alignItems": "stretch",
-          "flexDirection": "column",
-          "flexGrow": 1,
-          "marginTop": "10px",
-          "msFlexAlign": "stretch",
-          "msFlexDirection": "column",
-          "msFlexPositive": 1,
-        }
-      }
+      className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-flexGrow-16y2uox r-justifyContent-1777fci r-marginTop-156q2ks"
     >
       <div
-        className="css-text-901oao"
+        className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-evnaw r-fontWeight-majxgm r-lineHeight-vrz42v r-marginBottom-d0pm55 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
         dir="auto"
-        style={
-          Object {
-            "color": "rgba(66,69,74,1.00)",
-            "fontFamily": "Roboto",
-            "fontSize": "22px",
-            "fontWeight": "500",
-            "lineHeight": "28px",
-            "marginBottom": "5px",
-            "textAlign": "center",
-            "textDecoration": "none",
-            "textTransform": "none",
-          }
-        }
       >
         Easy access with iPhone!
       </div>
       <div
-        className="css-text-901oao"
+        className="css-text-901oao r-color-vaa0vc r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-1it3c9n r-lineHeight-rjixqe r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
         dir="auto"
-        style={
-          Object {
-            "color": "rgba(163,163,163,1.00)",
-            "fontFamily": "Roboto",
-            "fontSize": "14px",
-            "fontWeight": "normal",
-            "lineHeight": "20px",
-            "textAlign": "center",
-            "textDecoration": "none",
-            "textTransform": "none",
-          }
-        }
       >
         Copy-paste the easy access code
 sent to you by text message:
       </div>
     </div>
     <div
-      className="css-view-1dbjc4n"
-      style={
-        Object {
-          "WebkitAlignItems": "stretch",
-          "WebkitBoxAlign": "stretch",
-          "WebkitBoxDirection": "normal",
-          "WebkitBoxOrient": "vertical",
-          "WebkitBoxPack": "justify",
-          "WebkitFlexDirection": "column",
-          "WebkitJustifyContent": "space-between",
-          "alignItems": "stretch",
-          "flexDirection": "column",
-          "justifyContent": "space-between",
-          "msFlexAlign": "stretch",
-          "msFlexDirection": "column",
-          "msFlexPack": "justify",
-        }
-      }
+      className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-justifyContent-1wtj0ep"
     >
       <div
         className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1777fci"
       >
         <div
-          className="css-view-1dbjc4n"
-          style={
-            Object {
-              "marginBottom": "8px",
-              "width": "100%",
-            }
-          }
+          className="css-view-1dbjc4n r-marginBottom-5oul0u r-width-13qz1uu"
         >
           <div
-            className="css-view-1dbjc4n"
-            style={
-              Object {
-                "marginBottom": "8px",
-                "width": "100%",
-              }
-            }
+            className="css-view-1dbjc4n r-marginBottom-5oul0u r-width-13qz1uu"
           >
             <input
               autoCapitalize="sentences"
               autoComplete="on"
               autoCorrect="on"
               autoFocus={true}
-              className="css-textinput-1cwyjr8 r-placeholderTextColor-1xktb6b"
+              className="css-textinput-1cwyjr8 r-backgroundColor-14lw9ot r-borderBottomColor-1ny7kx0 r-borderBottomStyle-rull8r r-borderBottomWidth-qklmqi r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-1i10wst r-paddingHorizontal-1dye5f7 r-paddingVertical-oyd9sg r-placeholderTextColor-1xktb6b r-textAlign-q4m81j"
               data-focusable={true}
               dir="auto"
               onBlur={[Function]}
@@ -191,26 +96,10 @@ sent to you by text message:
               onTouchStart={[Function]}
               readOnly={false}
               spellCheck={true}
-              style={
-                Object {
-                  "backgroundColor": "rgba(255,255,255,1.00)",
-                  "borderBottomColor": "rgba(66,69,74,1.00)",
-                  "borderBottomStyle": "solid",
-                  "borderBottomWidth": "1px",
-                  "color": "rgba(66,69,74,1.00)",
-                  "fontFamily": "Roboto Slab",
-                  "fontSize": "18px",
-                  "paddingBottom": "4px",
-                  "paddingLeft": "32px",
-                  "paddingRight": "32px",
-                  "paddingTop": "4px",
-                  "textAlign": "center",
-                }
-              }
               type="text"
             />
             <div
-              className="css-view-1dbjc4n r-cursor-1loqt21 r-touchAction-1otgn73 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
+              className="css-view-1dbjc4n r-bottom-1ebgqk7 r-cursor-1loqt21 r-paddingTop-tskmnb r-position-u8s1d r-right-3mc0re r-touchAction-1otgn73 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-zIndex-184en5c"
               data-focusable={true}
               disabled={false}
               onKeyDown={[Function]}
@@ -221,27 +110,15 @@ sent to you by text message:
               onResponderTerminate={[Function]}
               onResponderTerminationRequest={[Function]}
               onStartShouldSetResponder={[Function]}
-              style={
-                Object {
-                  "bottom": "10px",
-                  "paddingTop": "8px",
-                  "position": "absolute",
-                  "right": "8px",
-                  "zIndex": 1,
-                }
-              }
               tabIndex="0"
             >
               <div
-                className="css-text-901oao"
+                className="css-text-901oao r-color-cddv6f r-fontSize-ubezar r-fontWeight-1it3c9n"
                 dir="auto"
                 style={
                   Object {
-                    "color": "rgba(66,69,74,1.00)",
                     "fontFamily": "gooddollar",
-                    "fontSize": "16px",
                     "fontStyle": "normal",
-                    "fontWeight": "normal",
                   }
                 }
               >
@@ -250,7 +127,7 @@ sent to you by text message:
             </div>
           </div>
           <div
-            className="css-text-901oao r-paddingHorizontal-1e081e0"
+            className="css-text-901oao r-paddingHorizontal-1e081e0 r-paddingVertical-oyd9sg r-textAlign-q4m81j"
             dir="auto"
             style={
               Object {
@@ -265,7 +142,6 @@ sent to you by text message:
                 "paddingBottom": "0px",
                 "paddingLeft": "0px",
                 "paddingTop": "0px",
-                "textAlign": "center",
                 "transform": "translateY(0px)",
               }
             }
@@ -274,50 +150,17 @@ sent to you by text message:
       </div>
     </div>
     <div
-      className="css-view-1dbjc4n"
-      style={
-        Object {
-          "WebkitBoxFlex": 1,
-          "WebkitFlexGrow": 1,
-          "WebkitFlexShrink": 0,
-          "flexGrow": 1,
-          "flexShrink": 0,
-          "height": "200px",
-          "marginBottom": "20px",
-          "msFlexNegative": 0,
-          "msFlexPositive": 1,
-        }
-      }
+      className="css-view-1dbjc4n r-flexGrow-16y2uox r-flexShrink-1q142lx r-height-4d76ec r-marginBottom-117bsoe"
     >
       <IOSWebAppSignIn.svg />
     </div>
     <div
-      className="css-view-1dbjc4n r-paddingHorizontal-1e081e0"
-      style={
-        Object {
-          "WebkitBoxPack": "end",
-          "WebkitJustifyContent": "flex-end",
-          "backgroundColor": "rgba(255,255,255,1.00)",
-          "borderBottomLeftRadius": "5px",
-          "borderBottomRightRadius": "5px",
-          "borderTopLeftRadius": "5px",
-          "borderTopRightRadius": "5px",
-          "justifyContent": "flex-end",
-          "maxHeight": "100px",
-          "minHeight": "100px",
-          "msFlexPack": "end",
-          "paddingBottom": "16px",
-          "paddingTop": "16px",
-        }
-      }
+      className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderRadius-1f0042m r-justifyContent-17s6mgv r-maxHeight-qqzlmc r-minHeight-h3f8nf r-paddingHorizontal-1e081e0 r-paddingVertical-1yzf0co"
     >
       <div
-        className="css-view-1dbjc4n r-justifyContent-1777fci"
+        className="css-view-1dbjc4n r-alignItems-1oszu61 r-display-6koalj r-justifyContent-1777fci r-marginBottom-117bsoe"
         style={
           Object {
-            "WebkitAlignItems": "stretch",
-            "WebkitBoxAlign": "stretch",
-            "alignItems": "stretch",
             "backgroundColor": "rgba(0,0,0,0.12)",
             "borderBottomColor": "rgba(0,175,255,1.00)",
             "borderBottomLeftRadius": "50px",
@@ -335,14 +178,11 @@ sent to you by text message:
             "borderTopRightRadius": "50px",
             "borderTopStyle": "solid",
             "borderTopWidth": "0px",
-            "display": "flex",
-            "marginBottom": "20px",
             "marginLeft": "0px",
             "marginRight": "0px",
             "marginTop": "20px",
             "minHeight": "44px",
             "minWidth": "64px",
-            "msFlexAlign": "stretch",
             "paddingBottom": "0px",
             "paddingLeft": "0px",
             "paddingRight": "0px",
@@ -388,30 +228,11 @@ sent to you by text message:
               className="css-view-1dbjc4n r-marginHorizontal-1ydw1k6 r-marginVertical-712mwr"
             >
               <div
-                className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz"
-                style={
-                  Object {
-                    "display": "flex",
-                  }
-                }
+                className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
               >
                 <div
-                  className="css-text-901oao r-alignItems-1awozwy r-justifyContent-1777fci"
+                  className="css-text-901oao r-alignItems-1awozwy r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-hbpseb r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
                   dir="auto"
-                  style={
-                    Object {
-                      "color": "rgba(255,255,255,1.00)",
-                      "fontFamily": "Roboto",
-                      "fontSize": "16px",
-                      "fontWeight": "500",
-                      "letterSpacing": "0px",
-                      "lineHeight": "22px",
-                      "paddingTop": "1px",
-                      "textAlign": "center",
-                      "textDecoration": "none",
-                      "textTransform": "uppercase",
-                    }
-                  }
                 >
                   SIGN IN
                 </div>

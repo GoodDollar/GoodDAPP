@@ -5,43 +5,19 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
   className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
-    className="css-view-1dbjc4n r-position-bnwqim"
+    className="css-view-1dbjc4n r-display-6koalj r-flexDirection-eqz5dr r-flexGrow-16y2uox r-maxHeight-1qalap5 r-padding-edyy15 r-position-bnwqim r-width-13qz1uu"
     data-name="viewWrapper"
     style={
       Object {
-        "WebkitBoxDirection": "normal",
-        "WebkitBoxFlex": 1,
-        "WebkitBoxOrient": "vertical",
-        "WebkitFlexDirection": "column",
-        "WebkitFlexGrow": 1,
         "backgroundImage": "linear-gradient(3.141592653589793rad,#00AFFF,#2DC0F7,#28C0EF,#23C0E7,#1EC1DF,#19C1D7,#14C1CF,#0FC2C7,#0FC2C7,#0AC2BF,#05C2B7,#00C3AF)",
-        "display": "flex",
-        "flexDirection": "column",
-        "flexGrow": 1,
-        "maxHeight": "844px",
-        "msFlexDirection": "column",
-        "msFlexPositive": 1,
-        "paddingBottom": "8px",
-        "paddingLeft": "8px",
-        "paddingRight": "8px",
-        "paddingTop": "8px",
-        "width": "100%",
       }
     }
   >
     <div
-      className="css-view-1dbjc4n r-height-yivrw8 r-justifyContent-1777fci r-marginBottom-5oul0u r-paddingBottom-xd6kpl r-paddingRight-1pyaxff r-paddingTop-tskmnb"
+      className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderRadius-1f0042m r-height-yivrw8 r-justifyContent-1777fci r-marginBottom-5oul0u r-paddingBottom-xd6kpl r-paddingHorizontal-1e081e0 r-paddingRight-1pyaxff r-paddingTop-tskmnb r-paddingVertical-1yzf0co"
       style={
         Object {
-          "backgroundColor": "rgba(255,255,255,1.00)",
-          "borderBottomLeftRadius": "5px",
-          "borderBottomRightRadius": "5px",
-          "borderTopLeftRadius": "5px",
-          "borderTopRightRadius": "5px",
-          "paddingBottom": "16px",
           "paddingLeft": "8px",
-          "paddingRight": "12px",
-          "paddingTop": "16px",
         }
       }
     >
@@ -52,7 +28,7 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
           className="css-view-1dbjc4n"
         />
         <div
-          className="css-view-1dbjc4n r-alignItems-1awozwy r-cursor-1loqt21 r-justifyContent-1777fci r-touchAction-1otgn73 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
+          className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-qt01xk r-borderColor-y68mpx r-borderWidth-rs99b7 r-cursor-1loqt21 r-justifyContent-1777fci r-touchAction-1otgn73 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
           data-focusable={true}
           disabled={false}
           onKeyDown={[Function]}
@@ -65,19 +41,10 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
           onStartShouldSetResponder={[Function]}
           style={
             Object {
-              "backgroundColor": "rgba(203,203,203,1.00)",
-              "borderBottomColor": "rgba(163,163,163,1.00)",
               "borderBottomLeftRadius": "28px",
               "borderBottomRightRadius": "28px",
-              "borderBottomWidth": "1px",
-              "borderLeftColor": "rgba(163,163,163,1.00)",
-              "borderLeftWidth": "1px",
-              "borderRightColor": "rgba(163,163,163,1.00)",
-              "borderRightWidth": "1px",
-              "borderTopColor": "rgba(163,163,163,1.00)",
               "borderTopLeftRadius": "28px",
               "borderTopRightRadius": "28px",
-              "borderTopWidth": "1px",
               "height": "56px",
               "width": "56px",
             }
@@ -100,84 +67,25 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
       </div>
     </div>
     <div
-      className="css-view-1dbjc4n"
-      style={
-        Object {
-          "WebkitBoxFlex": 1,
-          "WebkitBoxPack": "justify",
-          "WebkitFlexGrow": 1,
-          "WebkitJustifyContent": "space-between",
-          "backgroundColor": "rgba(255,255,255,1.00)",
-          "borderBottomLeftRadius": "5px",
-          "borderBottomRightRadius": "5px",
-          "borderTopLeftRadius": "5px",
-          "borderTopRightRadius": "5px",
-          "flexGrow": 1,
-          "justifyContent": "space-between",
-          "msFlexPack": "justify",
-          "msFlexPositive": 1,
-          "paddingBottom": "16px",
-          "paddingLeft": "12px",
-          "paddingRight": "12px",
-          "paddingTop": "16px",
-        }
-      }
+      className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderRadius-1f0042m r-flexGrow-16y2uox r-justifyContent-1wtj0ep r-paddingHorizontal-1e081e0 r-paddingVertical-1yzf0co"
     >
       <div
-        className="css-text-901oao"
+        className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1x35g6 r-fontWeight-majxgm r-lineHeight-17rnw9f r-marginVertical-c8eef1 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
         dir="auto"
-        style={
-          Object {
-            "color": "rgba(66,69,74,1.00)",
-            "fontFamily": "Roboto",
-            "fontSize": "24px",
-            "fontWeight": "500",
-            "lineHeight": "30px",
-            "marginBottom": "8px",
-            "marginTop": "8px",
-            "textAlign": "center",
-            "textDecoration": "none",
-            "textTransform": "uppercase",
-          }
-        }
       >
         YOUR WALLET ADDRESS:
       </div>
       <div
-        className="css-view-1dbjc4n"
-        style={
-          Object {
-            "WebkitBoxFlex": 0,
-            "WebkitFlexBasis": "0%",
-            "WebkitFlexGrow": 0,
-            "WebkitFlexShrink": 0,
-            "flexBasis": "0%",
-            "flexGrow": 0,
-            "flexShrink": 0,
-            "marginBottom": "0px",
-            "marginLeft": "10px",
-            "marginRight": "10px",
-            "marginTop": "15px",
-            "msFlexNegative": 0,
-            "msFlexPositive": 0,
-            "msFlexPreferredSize": "0%",
-            "width": "100%",
-          }
-        }
+        className="css-view-1dbjc4n r-flex-1d9yedq r-marginBottom-p1pxzi r-marginHorizontal-vlx1xi r-marginTop-19h5ruw r-width-13qz1uu"
       >
         <div
-          className="css-view-1dbjc4n r-marginBottom-5oul0u"
-          style={
-            Object {
-              "width": "100%",
-            }
-          }
+          className="css-view-1dbjc4n r-marginBottom-5oul0u r-width-13qz1uu"
         >
           <input
             autoCapitalize="sentences"
             autoComplete="on"
             autoCorrect="on"
-            className="css-textinput-1cwyjr8 r-placeholderTextColor-1xktb6b"
+            className="css-textinput-1cwyjr8 r-backgroundColor-14lw9ot r-borderBottomColor-1ny7kx0 r-borderBottomStyle-rull8r r-borderBottomWidth-qklmqi r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-vbi3md r-paddingHorizontal-1dye5f7 r-paddingVertical-oyd9sg r-placeholderTextColor-1xktb6b r-textAlign-q4m81j"
             data-focusable={true}
             dir="auto"
             onBlur={[Function]}
@@ -189,130 +97,38 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
             onTouchStart={[Function]}
             readOnly={true}
             spellCheck={true}
-            style={
-              Object {
-                "backgroundColor": "rgba(255,255,255,1.00)",
-                "borderBottomColor": "rgba(66,69,74,1.00)",
-                "borderBottomStyle": "solid",
-                "borderBottomWidth": "1px",
-                "color": "rgba(66,69,74,1.00)",
-                "fontFamily": "Roboto Slab",
-                "fontSize": "13.5px",
-                "paddingBottom": "4px",
-                "paddingLeft": "32px",
-                "paddingRight": "32px",
-                "paddingTop": "4px",
-                "textAlign": "center",
-              }
-            }
             type="text"
             value="face-account-wallet-address"
           />
         </div>
       </div>
       <div
-        className="css-text-901oao"
+        className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1x35g6 r-fontWeight-majxgm r-lineHeight-17rnw9f r-marginBottom-117bsoe r-marginTop-l71dzp r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
         dir="auto"
-        style={
-          Object {
-            "color": "rgba(66,69,74,1.00)",
-            "fontFamily": "Roboto",
-            "fontSize": "24px",
-            "fontWeight": "500",
-            "lineHeight": "30px",
-            "marginBottom": "20px",
-            "marginTop": "14px",
-            "textAlign": "center",
-            "textDecoration": "none",
-            "textTransform": "none",
-          }
-        }
       >
         Copy & share it
 with others
       </div>
       <div
-        className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz"
-        style={
-          Object {
-            "WebkitBoxPack": "justify",
-            "WebkitJustifyContent": "space-around",
-            "borderBottomColor": "rgba(0,175,255,1.00)",
-            "borderBottomLeftRadius": "5px",
-            "borderBottomRightRadius": "5px",
-            "borderBottomStyle": "solid",
-            "borderBottomWidth": "2px",
-            "borderLeftColor": "rgba(0,175,255,1.00)",
-            "borderLeftStyle": "solid",
-            "borderLeftWidth": "2px",
-            "borderRightColor": "rgba(0,175,255,1.00)",
-            "borderRightStyle": "solid",
-            "borderRightWidth": "2px",
-            "borderTopColor": "rgba(0,175,255,1.00)",
-            "borderTopLeftRadius": "5px",
-            "borderTopRightRadius": "5px",
-            "borderTopStyle": "solid",
-            "borderTopWidth": "2px",
-            "display": "flex",
-            "justifyContent": "space-around",
-            "marginBottom": "20px",
-            "marginLeft": "auto",
-            "marginRight": "auto",
-            "msFlexPack": "distribute",
-            "paddingBottom": "14px",
-            "paddingLeft": "6px",
-            "paddingRight": "6px",
-            "paddingTop": "14px",
-            "width": "auto",
-          }
-        }
+        className="css-view-1dbjc4n r-alignItems-1awozwy r-borderColor-17xuhkx r-borderRadius-1f0042m r-borderStyle-1phboty r-borderWidth-d045u9 r-display-6koalj r-flexDirection-18u37iz r-justifyContent-a2tzq0 r-marginBottom-117bsoe r-marginHorizontal-1jgb5lz r-paddingHorizontal-uekwnc r-paddingVertical-23eiwj r-width-iyfy8q"
       >
         <div
-          className="css-view-1dbjc4n r-justifyContent-1777fci"
-          style={
-            Object {
-              "WebkitBoxDirection": "normal",
-              "WebkitBoxOrient": "vertical",
-              "WebkitFlexDirection": "column",
-              "WebkitTransform": "rotate(180deg)",
-              "display": "flex",
-              "flexDirection": "column",
-              "height": "57px",
-              "marginRight": "9px",
-              "msFlexDirection": "column",
-              "transform": "rotate(180deg)",
-              "width": "57px",
-            }
-          }
+          className="css-view-1dbjc4n r-display-6koalj r-flexDirection-eqz5dr r-height-chkelg r-justifyContent-1777fci r-marginRight-19einr3 r-transform-1aeo46e r-width-13nck5o"
         >
           <div
             className="css-view-1dbjc4n"
           />
         </div>
         <div
-          className="css-text-901oao r-flex-13awgt0"
+          className="css-text-901oao r-color-11zaip3 r-flex-13awgt0 r-fontFamily-6jnb14 r-fontSize-vbi3md r-fontWeight-b88u0q r-letterSpacing-i0j7gm r-lineHeight-10yl4k r-paddingRight-1qortcd r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
           dir="auto"
           letterSpacing={0.14}
-          style={
-            Object {
-              "color": "rgba(250,108,119,1.00)",
-              "fontFamily": "Roboto Slab",
-              "fontSize": "13.5px",
-              "fontWeight": "700",
-              "letterSpacing": "0.14px",
-              "lineHeight": "21px",
-              "paddingRight": "6px",
-              "textAlign": "left",
-              "textDecoration": "none",
-              "textTransform": "none",
-            }
-          }
         >
           Keep in mind - Do not send tokens from Ethereum network to this address. This is an internal Network address for G$ tokens only.
         </div>
       </div>
       <div
-        className="css-view-1dbjc4n r-justifyContent-1777fci"
+        className="css-view-1dbjc4n r-borderColor-17xuhkx r-borderStyle-1phboty r-display-6koalj r-justifyContent-1777fci r-marginBottom-p1pxzi"
         data-gdtype="copybutton"
         style={
           Object {
@@ -320,25 +136,15 @@ with others
             "WebkitBoxAlign": "stretch",
             "alignItems": "stretch",
             "backgroundColor": "rgba(0,175,255,1.00)",
-            "borderBottomColor": "rgba(0,175,255,1.00)",
             "borderBottomLeftRadius": "50px",
             "borderBottomRightRadius": "50px",
-            "borderBottomStyle": "solid",
             "borderBottomWidth": "0px",
-            "borderLeftColor": "rgba(0,175,255,1.00)",
-            "borderLeftStyle": "solid",
             "borderLeftWidth": "0px",
-            "borderRightColor": "rgba(0,175,255,1.00)",
-            "borderRightStyle": "solid",
             "borderRightWidth": "0px",
-            "borderTopColor": "rgba(0,175,255,1.00)",
             "borderTopLeftRadius": "50px",
             "borderTopRightRadius": "50px",
-            "borderTopStyle": "solid",
             "borderTopWidth": "0px",
             "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
-            "display": "flex",
-            "marginBottom": "0px",
             "marginLeft": "0px",
             "marginRight": "0px",
             "marginTop": "0px",
@@ -393,30 +199,11 @@ with others
               className="css-view-1dbjc4n r-marginHorizontal-1ydw1k6 r-marginVertical-712mwr"
             >
               <div
-                className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz"
-                style={
-                  Object {
-                    "display": "flex",
-                  }
-                }
+                className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
               >
                 <div
-                  className="css-text-901oao r-alignItems-1awozwy r-justifyContent-1777fci"
+                  className="css-text-901oao r-alignItems-1awozwy r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-hbpseb r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
                   dir="auto"
-                  style={
-                    Object {
-                      "color": "rgba(255,255,255,1.00)",
-                      "fontFamily": "Roboto",
-                      "fontSize": "16px",
-                      "fontWeight": "500",
-                      "letterSpacing": "0px",
-                      "lineHeight": "22px",
-                      "paddingTop": "1px",
-                      "textAlign": "center",
-                      "textDecoration": "none",
-                      "textTransform": "uppercase",
-                    }
-                  }
                 >
                   Copy to Clipboard
                 </div>

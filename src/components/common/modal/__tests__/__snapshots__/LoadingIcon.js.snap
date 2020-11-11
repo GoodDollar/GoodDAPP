@@ -5,22 +5,7 @@ exports[`LoadingIcon matches snapshot 1`] = `
   className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
-    className="css-view-1dbjc4n"
-    style={
-      Object {
-        "WebkitBoxDirection": "normal",
-        "WebkitBoxOrient": "horizontal",
-        "WebkitBoxPack": "center",
-        "WebkitFlexDirection": "row",
-        "WebkitJustifyContent": "center",
-        "display": "flex",
-        "flexDirection": "row",
-        "justifyContent": "center",
-        "marginBottom": "16px",
-        "msFlexDirection": "row",
-        "msFlexPack": "center",
-      }
-    }
+    className="css-view-1dbjc4n r-display-6koalj r-flexDirection-18u37iz r-justifyContent-1777fci r-marginBottom-1ifxtd0"
   >
     <div
       className="css-view-1dbjc4n"

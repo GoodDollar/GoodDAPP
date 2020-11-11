@@ -64,16 +64,14 @@ exports[`Dashboard matches snapshot 1`] = `
           tabIndex="0"
         >
           <div
-            className="css-text-901oao"
+            className="css-text-901oao r-color-jwli3a r-fontWeight-1it3c9n"
             data-testid="invite_tab"
             dir="auto"
             style={
               Object {
-                "color": "rgba(255,255,255,1.00)",
                 "fontFamily": "gooddollar",
                 "fontSize": "36px",
                 "fontStyle": "normal",
-                "fontWeight": "normal",
               }
             }
           >
@@ -94,15 +92,12 @@ exports[`Dashboard matches snapshot 1`] = `
           tabIndex="0"
         >
           <h1
-            className="css-reset-4rbku5 css-text-901oao css-textOneLine-bfa6kz r-fontSize-adyw6z"
+            className="css-reset-4rbku5 css-text-901oao css-textOneLine-bfa6kz r-color-jwli3a r-fontSize-adyw6z r-fontWeight-majxgm r-textAlign-fdjqy7"
             dir="auto"
             role="heading"
             style={
               Object {
-                "color": "rgba(255,255,255,1.00)",
                 "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                "fontWeight": "500",
-                "textAlign": "left",
               }
             }
           />
@@ -130,15 +125,13 @@ exports[`Dashboard matches snapshot 1`] = `
           tabIndex="0"
         >
           <div
-            className="css-text-901oao r-fontSize-adyw6z"
+            className="css-text-901oao r-color-jwli3a r-fontSize-adyw6z r-fontWeight-1it3c9n"
             data-testid="burger_button"
             dir="auto"
             style={
               Object {
-                "color": "rgba(255,255,255,1.00)",
                 "fontFamily": "gooddollar",
                 "fontStyle": "normal",
-                "fontWeight": "normal",
                 "marginRight": "10px",
               }
             }
@@ -149,49 +142,11 @@ exports[`Dashboard matches snapshot 1`] = `
       </div>
     </div>
     <div
-      className="css-view-1dbjc4n r-position-bnwqim"
+      className="css-view-1dbjc4n r-backgroundColor-l26x2w r-display-6koalj r-flexDirection-eqz5dr r-flexGrow-16y2uox r-maxHeight-1qalap5 r-padding-t60dpp r-position-bnwqim r-width-13qz1uu"
       data-name="viewWrapper"
-      style={
-        Object {
-          "WebkitBoxDirection": "normal",
-          "WebkitBoxFlex": 1,
-          "WebkitBoxOrient": "vertical",
-          "WebkitFlexDirection": "column",
-          "WebkitFlexGrow": 1,
-          "backgroundColor": "rgba(238,238,238,1.00)",
-          "display": "flex",
-          "flexDirection": "column",
-          "flexGrow": 1,
-          "maxHeight": "844px",
-          "msFlexDirection": "column",
-          "msFlexPositive": 1,
-          "paddingBottom": "0px",
-          "paddingLeft": "0px",
-          "paddingRight": "0px",
-          "paddingTop": "0px",
-          "width": "100%",
-        }
-      }
     >
       <div
-        className="css-view-1dbjc4n r-paddingHorizontal-1e081e0 r-position-bnwqim"
-        style={
-          Object {
-            "backgroundColor": "rgba(255,255,255,1.00)",
-            "borderBottomLeftRadius": "5px",
-            "borderBottomRightRadius": "5px",
-            "borderTopLeftRadius": "0px",
-            "borderTopRightRadius": "0px",
-            "marginBottom": "-3px",
-            "marginLeft": "8px",
-            "marginRight": "8px",
-            "paddingBottom": "8px",
-            "paddingLeft": "8px",
-            "paddingRight": "8px",
-            "paddingTop": "16px",
-            "zIndex": 10,
-          }
-        }
+        className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderRadius-1f0042m r-borderTopLeftRadius-ou6ah9 r-borderTopRightRadius-t12b5v r-marginBottom-efb0ki r-marginLeft-1jkjb r-marginRight-1kb76zh r-paddingBottom-xd6kpl r-paddingHorizontal-1e081e0 r-paddingLeft-1m04atk r-paddingRight-1pyaxff r-paddingTop-95jzfe r-paddingVertical-1yzf0co r-position-bnwqim r-zIndex-mhe3cw"
       >
         <div
           className="css-view-1dbjc4n r-position-bnwqim"
@@ -202,21 +157,7 @@ exports[`Dashboard matches snapshot 1`] = `
           }
         >
           <div
-            className="css-view-1dbjc4n r-alignItems-1awozwy"
-            style={
-              Object {
-                "WebkitBoxDirection": "normal",
-                "WebkitBoxOrient": "vertical",
-                "WebkitBoxPack": "justify",
-                "WebkitFlexDirection": "column",
-                "WebkitJustifyContent": "space-between",
-                "flexDirection": "column",
-                "height": "100%",
-                "justifyContent": "space-between",
-                "msFlexDirection": "column",
-                "msFlexPack": "justify",
-              }
-            }
+            className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-eqz5dr r-height-1pi2tsx r-justifyContent-1wtj0ep"
           >
             <div
               className="css-view-1dbjc4n"
@@ -231,7 +172,7 @@ exports[`Dashboard matches snapshot 1`] = `
               }
             >
               <div
-                className="css-view-1dbjc4n r-cursor-1loqt21 r-touchAction-1otgn73 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
+                className="css-view-1dbjc4n r-cursor-1loqt21 r-height-1pi2tsx r-touchAction-1otgn73 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-width-13qz1uu"
                 data-focusable={true}
                 onKeyDown={[Function]}
                 onKeyUp={[Function]}
@@ -241,26 +182,10 @@ exports[`Dashboard matches snapshot 1`] = `
                 onResponderTerminate={[Function]}
                 onResponderTerminationRequest={[Function]}
                 onStartShouldSetResponder={[Function]}
-                style={
-                  Object {
-                    "height": "100%",
-                    "width": "100%",
-                  }
-                }
                 tabIndex="0"
               >
                 <div
-                  className="css-view-1dbjc4n"
-                  style={
-                    Object {
-                      "borderBottomLeftRadius": "50%",
-                      "borderBottomRightRadius": "50%",
-                      "borderTopLeftRadius": "50%",
-                      "borderTopRightRadius": "50%",
-                      "height": "100%",
-                      "width": "100%",
-                    }
-                  }
+                  className="css-view-1dbjc4n r-borderRadius-ieixw r-height-1pi2tsx r-width-13qz1uu"
                 >
                   <unknownProfile.svg />
                 </div>
@@ -282,35 +207,19 @@ exports[`Dashboard matches snapshot 1`] = `
               }
             >
               <div
-                className="css-text-901oao"
+                className="css-text-901oao r-color-vaa0vc r-fontFamily-6jnb14 r-fontSize-1i10wst r-fontWeight-1it3c9n r-lineHeight-135wba7 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                 dir="auto"
-                style={
-                  Object {
-                    "color": "rgba(163,163,163,1.00)",
-                    "fontFamily": "Roboto Slab",
-                    "fontSize": "18px",
-                    "fontWeight": "normal",
-                    "lineHeight": "24px",
-                    "textAlign": "center",
-                    "textDecoration": "none",
-                    "textTransform": "none",
-                  }
-                }
               >
                  
               </div>
             </div>
             <div
-              className="css-view-1dbjc4n"
+              className="css-view-1dbjc4n r-alignItems-1d09ksm"
               style={
                 Object {
-                  "WebkitAlignItems": "baseline",
-                  "WebkitBoxAlign": "baseline",
-                  "alignItems": "baseline",
                   "bottom": "0px",
                   "marginBottom": "16px",
                   "marginTop": "16px",
-                  "msFlexAlign": "baseline",
                   "position": "absolute",
                   "right": "187.5px",
                   "visibility": "hidden",
@@ -321,82 +230,27 @@ exports[`Dashboard matches snapshot 1`] = `
                 className="css-view-1dbjc4n"
               >
                 <div
-                  className="css-view-1dbjc4n r-flexDirection-18u37iz"
+                  className="css-view-1dbjc4n r-alignItems-1d09ksm r-display-6koalj r-flexDirection-18u37iz"
                   data-testid="amount_value"
-                  style={
-                    Object {
-                      "WebkitAlignItems": "baseline",
-                      "WebkitBoxAlign": "baseline",
-                      "alignItems": "baseline",
-                      "display": "flex",
-                      "msFlexAlign": "baseline",
-                    }
-                  }
                 >
                   <div
-                    className="css-text-901oao"
+                    className="css-text-901oao r-color-181bzza r-fontFamily-6jnb14 r-fontSize-111xbm8 r-fontWeight-1kfrs79 r-lineHeight-1gvhk8w r-marginRight-a5pmau r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                     dir="auto"
-                    style={
-                      Object {
-                        "color": "rgba(85,85,85,1.00)",
-                        "fontFamily": "Roboto Slab",
-                        "fontSize": "42px",
-                        "fontWeight": "600",
-                        "lineHeight": "42px",
-                        "marginRight": "2px",
-                        "textAlign": "left",
-                        "textDecoration": "none",
-                        "textTransform": "none",
-                      }
-                    }
                   >
                     -.--
                   </div>
                   <div
-                    className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz"
-                    style={
-                      Object {
-                        "WebkitBoxPack": "justify",
-                        "WebkitJustifyContent": "space-between",
-                        "justifyContent": "space-between",
-                        "marginRight": "-20px",
-                        "msFlexPack": "justify",
-                      }
-                    }
+                    className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep r-marginRight-t5h68e"
                   >
                     <div
-                      className="css-text-901oao"
+                      className="css-text-901oao r-color-181bzza r-fontFamily-6jnb14 r-fontSize-1i10wst r-fontWeight-b88u0q r-lineHeight-hbpseb r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                       dir="auto"
-                      style={
-                        Object {
-                          "color": "rgba(85,85,85,1.00)",
-                          "fontFamily": "Roboto Slab",
-                          "fontSize": "18px",
-                          "fontWeight": "700",
-                          "lineHeight": "22px",
-                          "textAlign": "right",
-                          "textDecoration": "none",
-                          "textTransform": "none",
-                        }
-                      }
                     >
                       G
                     </div>
                     <div
-                      className="css-text-901oao"
+                      className="css-text-901oao r-color-181bzza r-fontFamily-6jnb14 r-fontSize-16if4en r-fontWeight-b88u0q r-lineHeight-hbpseb r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                       dir="auto"
-                      style={
-                        Object {
-                          "color": "rgba(85,85,85,1.00)",
-                          "fontFamily": "Roboto Slab",
-                          "fontSize": "17.5px",
-                          "fontWeight": "700",
-                          "lineHeight": "22px",
-                          "textAlign": "right",
-                          "textDecoration": "none",
-                          "textTransform": "none",
-                        }
-                      }
                     >
                       $
                     </div>
@@ -407,26 +261,12 @@ exports[`Dashboard matches snapshot 1`] = `
           </div>
         </div>
         <div
-          className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz"
-          style={
-            Object {
-              "WebkitBoxPack": "justify",
-              "WebkitJustifyContent": "space-between",
-              "height": "70px",
-              "justifyContent": "space-between",
-              "marginBottom": "0px",
-              "marginTop": "1px",
-              "msFlexPack": "justify",
-            }
-          }
+          className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-height-1k9zyfm r-justifyContent-1wtj0ep r-marginBottom-p1pxzi r-marginTop-1cvj4g8"
         >
           <div
-            className="css-view-1dbjc4n r-flex-13awgt0 r-justifyContent-1777fci"
+            className="css-view-1dbjc4n r-alignItems-1oszu61 r-display-6koalj r-flex-13awgt0 r-justifyContent-1777fci r-marginBottom-p1pxzi r-padding-t60dpp"
             style={
               Object {
-                "WebkitAlignItems": "stretch",
-                "WebkitBoxAlign": "stretch",
-                "alignItems": "stretch",
                 "backgroundColor": "rgba(0,175,255,1.00)",
                 "borderBottomColor": "rgba(0,175,255,1.00)",
                 "borderBottomLeftRadius": "50px",
@@ -444,19 +284,14 @@ exports[`Dashboard matches snapshot 1`] = `
                 "borderTopRightRadius": "50px",
                 "borderTopStyle": "solid",
                 "borderTopWidth": "0px",
-                "display": "flex",
                 "height": "44px",
-                "marginBottom": "0px",
                 "marginLeft": "0px",
                 "marginRight": "-12px",
                 "marginTop": "0px",
                 "minHeight": "44px",
                 "minWidth": "auto",
-                "msFlexAlign": "stretch",
-                "paddingBottom": "0px",
                 "paddingLeft": "0px",
                 "paddingRight": "0px",
-                "paddingTop": "0px",
               }
             }
           >
@@ -488,15 +323,11 @@ exports[`Dashboard matches snapshot 1`] = `
               tabIndex="0"
             >
               <div
-                className="css-view-1dbjc4n r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
+                className="css-view-1dbjc4n r-alignItems-1oszu61 r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
                 style={
                   Object {
-                    "WebkitAlignItems": "stretch",
                     "WebkitAlignSelf": "stretch",
-                    "WebkitBoxAlign": "stretch",
-                    "alignItems": "stretch",
                     "alignSelf": "stretch",
-                    "msFlexAlign": "stretch",
                     "msFlexItemAlign": "stretch",
                   }
                 }
@@ -505,46 +336,23 @@ exports[`Dashboard matches snapshot 1`] = `
                   className="css-view-1dbjc4n r-marginHorizontal-1ybube5 r-marginVertical-712mwr"
                 >
                   <div
-                    className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz"
-                    style={
-                      Object {
-                        "display": "flex",
-                      }
-                    }
+                    className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
                   >
                     <div
-                      className="css-text-901oao r-fontSize-adyw6z"
+                      className="css-text-901oao r-color-jwli3a r-fontSize-adyw6z r-fontWeight-1it3c9n r-marginRight-88pszg"
                       dir="auto"
                       style={
                         Object {
-                          "color": "rgba(255,255,255,1.00)",
                           "fontFamily": "gooddollar",
                           "fontStyle": "normal",
-                          "fontWeight": "normal",
-                          "marginRight": "16px",
                         }
                       }
                     >
                       
                     </div>
                     <div
-                      className="css-text-901oao r-alignItems-1awozwy r-justifyContent-1777fci"
+                      className="css-text-901oao r-alignItems-1awozwy r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-hbpseb r-marginRight-88pszg r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
                       dir="auto"
-                      style={
-                        Object {
-                          "color": "rgba(255,255,255,1.00)",
-                          "fontFamily": "Roboto",
-                          "fontSize": "16px",
-                          "fontWeight": "500",
-                          "letterSpacing": "0px",
-                          "lineHeight": "22px",
-                          "marginRight": "16px",
-                          "paddingTop": "1px",
-                          "textAlign": "center",
-                          "textDecoration": "none",
-                          "textTransform": "uppercase",
-                        }
-                      }
                     >
                       Send
                     </div>
@@ -554,12 +362,7 @@ exports[`Dashboard matches snapshot 1`] = `
             </div>
           </div>
           <div
-            className="css-view-1dbjc4n"
-            style={
-              Object {
-                "zIndex": 1,
-              }
-            }
+            className="css-view-1dbjc4n r-zIndex-184en5c"
           >
             <div
               className="css-view-1dbjc4n"
@@ -573,14 +376,12 @@ exports[`Dashboard matches snapshot 1`] = `
               }
             >
               <div
-                className="css-view-1dbjc4n r-alignItems-1awozwy r-justifyContent-1777fci"
+                className="css-view-1dbjc4n r-alignItems-1awozwy r-borderRadius-ieixw r-display-6koalj r-height-1pi2tsx r-justifyContent-1777fci r-marginBottom-p1pxzi r-width-13qz1uu"
                 data-testid="claim_button"
                 style={
                   Object {
                     "backgroundColor": "rgba(0,195,174,1.00)",
                     "borderBottomColor": "rgba(255,255,255,1.00)",
-                    "borderBottomLeftRadius": "50%",
-                    "borderBottomRightRadius": "50%",
                     "borderBottomStyle": "solid",
                     "borderBottomWidth": "3px",
                     "borderLeftColor": "rgba(255,255,255,1.00)",
@@ -590,13 +391,8 @@ exports[`Dashboard matches snapshot 1`] = `
                     "borderRightStyle": "solid",
                     "borderRightWidth": "3px",
                     "borderTopColor": "rgba(255,255,255,1.00)",
-                    "borderTopLeftRadius": "50%",
-                    "borderTopRightRadius": "50%",
                     "borderTopStyle": "solid",
                     "borderTopWidth": "3px",
-                    "display": "flex",
-                    "height": "100%",
-                    "marginBottom": "0px",
                     "marginLeft": "0px",
                     "marginRight": "0px",
                     "marginTop": "0px",
@@ -607,13 +403,12 @@ exports[`Dashboard matches snapshot 1`] = `
                     "paddingRight": "0px",
                     "paddingTop": "3px",
                     "position": "absolute",
-                    "width": "100%",
                     "zIndex": 99,
                   }
                 }
               >
                 <div
-                  className="css-cursor-18t94o4 css-view-1dbjc4n r-cursor-1loqt21 r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim r-touchAction-1otgn73"
+                  className="css-cursor-18t94o4 css-view-1dbjc4n r-borderRadius-ieixw r-cursor-1loqt21 r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim r-touchAction-1otgn73"
                   data-focusable={true}
                   disabled={false}
                   onKeyDown={[Function]}
@@ -630,23 +425,17 @@ exports[`Dashboard matches snapshot 1`] = `
                     Object {
                       "WebkitAlignSelf": "stretch",
                       "alignSelf": "stretch",
-                      "borderBottomLeftRadius": "50%",
-                      "borderBottomRightRadius": "50%",
-                      "borderTopLeftRadius": "50%",
-                      "borderTopRightRadius": "50%",
                       "msFlexItemAlign": "stretch",
                     }
                   }
                   tabIndex="0"
                 >
                   <div
-                    className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
+                    className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci r-marginHorizontal-6cv0rn"
                     style={
                       Object {
                         "WebkitAlignSelf": "stretch",
                         "alignSelf": "stretch",
-                        "marginLeft": "-16px",
-                        "marginRight": "-16px",
                         "msFlexItemAlign": "stretch",
                       }
                     }
@@ -655,30 +444,11 @@ exports[`Dashboard matches snapshot 1`] = `
                       className="css-view-1dbjc4n r-marginHorizontal-1ydw1k6 r-marginVertical-712mwr"
                     >
                       <div
-                        className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz"
-                        style={
-                          Object {
-                            "display": "flex",
-                          }
-                        }
+                        className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
                       >
                         <div
-                          className="css-text-901oao r-alignItems-1awozwy r-justifyContent-1777fci"
+                          className="css-text-901oao r-alignItems-1awozwy r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-hbpseb r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
                           dir="auto"
-                          style={
-                            Object {
-                              "color": "rgba(255,255,255,1.00)",
-                              "fontFamily": "Roboto",
-                              "fontSize": "16px",
-                              "fontWeight": "500",
-                              "letterSpacing": "0px",
-                              "lineHeight": "22px",
-                              "paddingTop": "1px",
-                              "textAlign": "center",
-                              "textDecoration": "none",
-                              "textTransform": "uppercase",
-                            }
-                          }
                         >
                           Claim
                         </div>
@@ -690,12 +460,9 @@ exports[`Dashboard matches snapshot 1`] = `
             </div>
           </div>
           <div
-            className="css-view-1dbjc4n r-flex-13awgt0 r-justifyContent-1777fci"
+            className="css-view-1dbjc4n r-alignItems-1oszu61 r-display-6koalj r-flex-13awgt0 r-justifyContent-1777fci r-marginBottom-p1pxzi r-padding-t60dpp"
             style={
               Object {
-                "WebkitAlignItems": "stretch",
-                "WebkitBoxAlign": "stretch",
-                "alignItems": "stretch",
                 "backgroundColor": "rgba(0,175,255,1.00)",
                 "borderBottomColor": "rgba(0,175,255,1.00)",
                 "borderBottomLeftRadius": "50px",
@@ -713,19 +480,14 @@ exports[`Dashboard matches snapshot 1`] = `
                 "borderTopRightRadius": "50px",
                 "borderTopStyle": "solid",
                 "borderTopWidth": "0px",
-                "display": "flex",
                 "height": "44px",
-                "marginBottom": "0px",
                 "marginLeft": "-12px",
                 "marginRight": "0px",
                 "marginTop": "0px",
                 "minHeight": "44px",
                 "minWidth": "auto",
-                "msFlexAlign": "stretch",
-                "paddingBottom": "0px",
                 "paddingLeft": "0px",
                 "paddingRight": "0px",
-                "paddingTop": "0px",
               }
             }
           >
@@ -757,15 +519,11 @@ exports[`Dashboard matches snapshot 1`] = `
               tabIndex="0"
             >
               <div
-                className="css-view-1dbjc4n r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
+                className="css-view-1dbjc4n r-alignItems-1oszu61 r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
                 style={
                   Object {
-                    "WebkitAlignItems": "stretch",
                     "WebkitAlignSelf": "stretch",
-                    "WebkitBoxAlign": "stretch",
-                    "alignItems": "stretch",
                     "alignSelf": "stretch",
-                    "msFlexAlign": "stretch",
                     "msFlexItemAlign": "stretch",
                   }
                 }
@@ -774,44 +532,21 @@ exports[`Dashboard matches snapshot 1`] = `
                   className="css-view-1dbjc4n r-marginHorizontal-1ybube5 r-marginVertical-712mwr"
                 >
                   <div
-                    className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz"
-                    style={
-                      Object {
-                        "display": "flex",
-                      }
-                    }
+                    className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
                   >
                     <div
-                      className="css-text-901oao r-alignItems-1awozwy r-justifyContent-1777fci"
+                      className="css-text-901oao r-alignItems-1awozwy r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-hbpseb r-marginLeft-1ow6zhx r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
                       dir="auto"
-                      style={
-                        Object {
-                          "color": "rgba(255,255,255,1.00)",
-                          "fontFamily": "Roboto",
-                          "fontSize": "16px",
-                          "fontWeight": "500",
-                          "letterSpacing": "0px",
-                          "lineHeight": "22px",
-                          "marginLeft": "16px",
-                          "paddingTop": "1px",
-                          "textAlign": "center",
-                          "textDecoration": "none",
-                          "textTransform": "uppercase",
-                        }
-                      }
                     >
                       Receive
                     </div>
                     <div
-                      className="css-text-901oao r-fontSize-adyw6z"
+                      className="css-text-901oao r-color-jwli3a r-fontSize-adyw6z r-fontWeight-1it3c9n r-marginLeft-1ow6zhx"
                       dir="auto"
                       style={
                         Object {
-                          "color": "rgba(255,255,255,1.00)",
                           "fontFamily": "gooddollar",
                           "fontStyle": "normal",
-                          "fontWeight": "normal",
-                          "marginLeft": "16px",
                         }
                       }
                     >

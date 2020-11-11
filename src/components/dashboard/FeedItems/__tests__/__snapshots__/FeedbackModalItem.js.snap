@@ -5,95 +5,34 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
   className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
-    className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz"
-    style={
-      Object {
-        "WebkitBoxPack": "justify",
-        "WebkitJustifyContent": "space-between",
-        "display": "flex",
-        "justifyContent": "space-between",
-        "marginBottom": "12px",
-        "msFlexPack": "justify",
-      }
-    }
+    className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flexDirection-18u37iz r-justifyContent-1wtj0ep r-marginBottom-6gpygo"
   >
     <div
-      className="css-text-901oao"
+      className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-evnaw r-fontWeight-majxgm r-lineHeight-17rnw9f r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
       dir="auto"
-      style={
-        Object {
-          "color": "rgba(66,69,74,1.00)",
-          "fontFamily": "Roboto",
-          "fontSize": "22px",
-          "fontWeight": "500",
-          "lineHeight": "30px",
-          "textAlign": "center",
-          "textDecoration": "none",
-          "textTransform": "none",
-        }
-      }
     >
       aaa
     </div>
   </div>
   <div
-    className="css-view-1dbjc4n r-alignItems-1awozwy"
+    className="css-view-1dbjc4n r-alignItems-1awozwy r-borderBottomWidth-wgabs5 r-borderTopWidth-1jxfwug r-display-6koalj r-flexDirection-eqz5dr r-justifyContent-1h0z5md r-marginBottom-le4sbl r-paddingBottom-11rk87y r-paddingTop-fd4yh7"
     style={
       Object {
-        "WebkitBoxDirection": "normal",
-        "WebkitBoxOrient": "vertical",
-        "WebkitBoxPack": "start",
-        "WebkitFlexDirection": "column",
-        "WebkitJustifyContent": "flex-start",
         "borderBottomColor": "rgba(0,175,255,1.00)",
-        "borderBottomWidth": "2px",
         "borderLeftColor": "rgba(0,175,255,1.00)",
         "borderRightColor": "rgba(0,175,255,1.00)",
         "borderTopColor": "rgba(0,175,255,1.00)",
-        "borderTopWidth": "2px",
-        "display": "flex",
-        "flexDirection": "column",
-        "justifyContent": "flex-start",
-        "marginBottom": "18px",
-        "msFlexDirection": "column",
-        "msFlexPack": "start",
-        "paddingBottom": "32px",
-        "paddingTop": "32px",
       }
     }
   >
     <div
-      className="css-view-1dbjc4n r-flexDirection-18u37iz"
-      style={
-        Object {
-          "WebkitBoxFlex": 1,
-          "WebkitBoxPack": "justify",
-          "WebkitFlexGrow": 1,
-          "WebkitJustifyContent": "space-around",
-          "display": "flex",
-          "flexGrow": 1,
-          "justifyContent": "space-around",
-          "msFlexPack": "distribute",
-          "msFlexPositive": 1,
-          "width": "100%",
-        }
-      }
+      className="css-view-1dbjc4n r-display-6koalj r-flexDirection-18u37iz r-flexGrow-16y2uox r-justifyContent-a2tzq0 r-width-13qz1uu"
     >
       <div
-        className="css-view-1dbjc4n"
-        style={
-          Object {
-            "WebkitBoxDirection": "normal",
-            "WebkitBoxOrient": "vertical",
-            "WebkitFlexDirection": "column",
-            "display": "flex",
-            "flexDirection": "column",
-            "msFlexDirection": "column",
-          }
-        }
+        className="css-view-1dbjc4n r-display-6koalj r-flexDirection-eqz5dr"
       >
         <div
-          className="css-view-1dbjc4n r-justifyContent-1777fci"
+          className="css-view-1dbjc4n r-display-6koalj r-justifyContent-1777fci"
           style={
             Object {
               "WebkitAlignItems": "stretch",
@@ -116,7 +55,6 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
               "borderTopRightRadius": "50%",
               "borderTopStyle": "solid",
               "borderTopWidth": "2px",
-              "display": "flex",
               "height": "32px",
               "marginBottom": "0px",
               "marginLeft": "0px",
@@ -174,12 +112,7 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
                 className="css-view-1dbjc4n r-marginHorizontal-1ydw1k6 r-marginVertical-712mwr"
               >
                 <div
-                  className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz"
-                  style={
-                    Object {
-                      "display": "flex",
-                    }
-                  }
+                  className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
                 >
                   0
                 </div>
@@ -189,20 +122,10 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
         </div>
       </div>
       <div
-        className="css-view-1dbjc4n"
-        style={
-          Object {
-            "WebkitBoxDirection": "normal",
-            "WebkitBoxOrient": "vertical",
-            "WebkitFlexDirection": "column",
-            "display": "flex",
-            "flexDirection": "column",
-            "msFlexDirection": "column",
-          }
-        }
+        className="css-view-1dbjc4n r-display-6koalj r-flexDirection-eqz5dr"
       >
         <div
-          className="css-view-1dbjc4n r-justifyContent-1777fci"
+          className="css-view-1dbjc4n r-display-6koalj r-justifyContent-1777fci"
           style={
             Object {
               "WebkitAlignItems": "stretch",
@@ -225,7 +148,6 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
               "borderTopRightRadius": "50%",
               "borderTopStyle": "solid",
               "borderTopWidth": "2px",
-              "display": "flex",
               "height": "32px",
               "marginBottom": "0px",
               "marginLeft": "0px",
@@ -283,12 +205,7 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
                 className="css-view-1dbjc4n r-marginHorizontal-1ydw1k6 r-marginVertical-712mwr"
               >
                 <div
-                  className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz"
-                  style={
-                    Object {
-                      "display": "flex",
-                    }
-                  }
+                  className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
                 >
                   1
                 </div>
@@ -298,20 +215,10 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
         </div>
       </div>
       <div
-        className="css-view-1dbjc4n"
-        style={
-          Object {
-            "WebkitBoxDirection": "normal",
-            "WebkitBoxOrient": "vertical",
-            "WebkitFlexDirection": "column",
-            "display": "flex",
-            "flexDirection": "column",
-            "msFlexDirection": "column",
-          }
-        }
+        className="css-view-1dbjc4n r-display-6koalj r-flexDirection-eqz5dr"
       >
         <div
-          className="css-view-1dbjc4n r-justifyContent-1777fci"
+          className="css-view-1dbjc4n r-display-6koalj r-justifyContent-1777fci"
           style={
             Object {
               "WebkitAlignItems": "stretch",
@@ -334,7 +241,6 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
               "borderTopRightRadius": "50%",
               "borderTopStyle": "solid",
               "borderTopWidth": "2px",
-              "display": "flex",
               "height": "32px",
               "marginBottom": "0px",
               "marginLeft": "0px",
@@ -392,12 +298,7 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
                 className="css-view-1dbjc4n r-marginHorizontal-1ydw1k6 r-marginVertical-712mwr"
               >
                 <div
-                  className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz"
-                  style={
-                    Object {
-                      "display": "flex",
-                    }
-                  }
+                  className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
                 >
                   2
                 </div>
@@ -407,20 +308,10 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
         </div>
       </div>
       <div
-        className="css-view-1dbjc4n"
-        style={
-          Object {
-            "WebkitBoxDirection": "normal",
-            "WebkitBoxOrient": "vertical",
-            "WebkitFlexDirection": "column",
-            "display": "flex",
-            "flexDirection": "column",
-            "msFlexDirection": "column",
-          }
-        }
+        className="css-view-1dbjc4n r-display-6koalj r-flexDirection-eqz5dr"
       >
         <div
-          className="css-view-1dbjc4n r-justifyContent-1777fci"
+          className="css-view-1dbjc4n r-display-6koalj r-justifyContent-1777fci"
           style={
             Object {
               "WebkitAlignItems": "stretch",
@@ -443,7 +334,6 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
               "borderTopRightRadius": "50%",
               "borderTopStyle": "solid",
               "borderTopWidth": "2px",
-              "display": "flex",
               "height": "32px",
               "marginBottom": "0px",
               "marginLeft": "0px",
@@ -501,12 +391,7 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
                 className="css-view-1dbjc4n r-marginHorizontal-1ydw1k6 r-marginVertical-712mwr"
               >
                 <div
-                  className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz"
-                  style={
-                    Object {
-                      "display": "flex",
-                    }
-                  }
+                  className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
                 >
                   3
                 </div>
@@ -516,20 +401,10 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
         </div>
       </div>
       <div
-        className="css-view-1dbjc4n"
-        style={
-          Object {
-            "WebkitBoxDirection": "normal",
-            "WebkitBoxOrient": "vertical",
-            "WebkitFlexDirection": "column",
-            "display": "flex",
-            "flexDirection": "column",
-            "msFlexDirection": "column",
-          }
-        }
+        className="css-view-1dbjc4n r-display-6koalj r-flexDirection-eqz5dr"
       >
         <div
-          className="css-view-1dbjc4n r-justifyContent-1777fci"
+          className="css-view-1dbjc4n r-display-6koalj r-justifyContent-1777fci"
           style={
             Object {
               "WebkitAlignItems": "stretch",
@@ -552,7 +427,6 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
               "borderTopRightRadius": "50%",
               "borderTopStyle": "solid",
               "borderTopWidth": "2px",
-              "display": "flex",
               "height": "32px",
               "marginBottom": "0px",
               "marginLeft": "0px",
@@ -610,12 +484,7 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
                 className="css-view-1dbjc4n r-marginHorizontal-1ydw1k6 r-marginVertical-712mwr"
               >
                 <div
-                  className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz"
-                  style={
-                    Object {
-                      "display": "flex",
-                    }
-                  }
+                  className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
                 >
                   4
                 </div>
@@ -625,20 +494,10 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
         </div>
       </div>
       <div
-        className="css-view-1dbjc4n"
-        style={
-          Object {
-            "WebkitBoxDirection": "normal",
-            "WebkitBoxOrient": "vertical",
-            "WebkitFlexDirection": "column",
-            "display": "flex",
-            "flexDirection": "column",
-            "msFlexDirection": "column",
-          }
-        }
+        className="css-view-1dbjc4n r-display-6koalj r-flexDirection-eqz5dr"
       >
         <div
-          className="css-view-1dbjc4n r-justifyContent-1777fci"
+          className="css-view-1dbjc4n r-display-6koalj r-justifyContent-1777fci"
           style={
             Object {
               "WebkitAlignItems": "stretch",
@@ -661,7 +520,6 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
               "borderTopRightRadius": "50%",
               "borderTopStyle": "solid",
               "borderTopWidth": "2px",
-              "display": "flex",
               "height": "32px",
               "marginBottom": "0px",
               "marginLeft": "0px",
@@ -719,12 +577,7 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
                 className="css-view-1dbjc4n r-marginHorizontal-1ydw1k6 r-marginVertical-712mwr"
               >
                 <div
-                  className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz"
-                  style={
-                    Object {
-                      "display": "flex",
-                    }
-                  }
+                  className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
                 >
                   5
                 </div>
@@ -735,41 +588,13 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
       </div>
     </div>
     <div
-      className="css-view-1dbjc4n r-flexDirection-18u37iz"
-      style={
-        Object {
-          "WebkitBoxFlex": 1,
-          "WebkitBoxPack": "justify",
-          "WebkitFlexGrow": 1,
-          "WebkitJustifyContent": "space-around",
-          "display": "flex",
-          "flexGrow": 1,
-          "justifyContent": "space-around",
-          "msFlexPack": "distribute",
-          "msFlexPositive": 1,
-          "paddingBottom": "16px",
-          "paddingLeft": "32px",
-          "paddingRight": "32px",
-          "paddingTop": "8px",
-          "width": "100%",
-        }
-      }
+      className="css-view-1dbjc4n r-display-6koalj r-flexDirection-18u37iz r-flexGrow-16y2uox r-justifyContent-a2tzq0 r-paddingBottom-1l7z4oj r-paddingLeft-gu0qjt r-paddingRight-85oauj r-paddingTop-tskmnb r-width-13qz1uu"
     >
       <div
-        className="css-view-1dbjc4n"
-        style={
-          Object {
-            "WebkitBoxDirection": "normal",
-            "WebkitBoxOrient": "vertical",
-            "WebkitFlexDirection": "column",
-            "display": "flex",
-            "flexDirection": "column",
-            "msFlexDirection": "column",
-          }
-        }
+        className="css-view-1dbjc4n r-display-6koalj r-flexDirection-eqz5dr"
       >
         <div
-          className="css-view-1dbjc4n r-justifyContent-1777fci"
+          className="css-view-1dbjc4n r-display-6koalj r-justifyContent-1777fci"
           style={
             Object {
               "WebkitAlignItems": "stretch",
@@ -792,7 +617,6 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
               "borderTopRightRadius": "50%",
               "borderTopStyle": "solid",
               "borderTopWidth": "2px",
-              "display": "flex",
               "height": "32px",
               "marginBottom": "0px",
               "marginLeft": "0px",
@@ -850,12 +674,7 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
                 className="css-view-1dbjc4n r-marginHorizontal-1ydw1k6 r-marginVertical-712mwr"
               >
                 <div
-                  className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz"
-                  style={
-                    Object {
-                      "display": "flex",
-                    }
-                  }
+                  className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
                 >
                   6
                 </div>
@@ -865,20 +684,10 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
         </div>
       </div>
       <div
-        className="css-view-1dbjc4n"
-        style={
-          Object {
-            "WebkitBoxDirection": "normal",
-            "WebkitBoxOrient": "vertical",
-            "WebkitFlexDirection": "column",
-            "display": "flex",
-            "flexDirection": "column",
-            "msFlexDirection": "column",
-          }
-        }
+        className="css-view-1dbjc4n r-display-6koalj r-flexDirection-eqz5dr"
       >
         <div
-          className="css-view-1dbjc4n r-justifyContent-1777fci"
+          className="css-view-1dbjc4n r-display-6koalj r-justifyContent-1777fci"
           style={
             Object {
               "WebkitAlignItems": "stretch",
@@ -901,7 +710,6 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
               "borderTopRightRadius": "50%",
               "borderTopStyle": "solid",
               "borderTopWidth": "2px",
-              "display": "flex",
               "height": "32px",
               "marginBottom": "0px",
               "marginLeft": "0px",
@@ -959,12 +767,7 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
                 className="css-view-1dbjc4n r-marginHorizontal-1ydw1k6 r-marginVertical-712mwr"
               >
                 <div
-                  className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz"
-                  style={
-                    Object {
-                      "display": "flex",
-                    }
-                  }
+                  className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
                 >
                   7
                 </div>
@@ -974,20 +777,10 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
         </div>
       </div>
       <div
-        className="css-view-1dbjc4n"
-        style={
-          Object {
-            "WebkitBoxDirection": "normal",
-            "WebkitBoxOrient": "vertical",
-            "WebkitFlexDirection": "column",
-            "display": "flex",
-            "flexDirection": "column",
-            "msFlexDirection": "column",
-          }
-        }
+        className="css-view-1dbjc4n r-display-6koalj r-flexDirection-eqz5dr"
       >
         <div
-          className="css-view-1dbjc4n r-justifyContent-1777fci"
+          className="css-view-1dbjc4n r-display-6koalj r-justifyContent-1777fci"
           style={
             Object {
               "WebkitAlignItems": "stretch",
@@ -1010,7 +803,6 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
               "borderTopRightRadius": "50%",
               "borderTopStyle": "solid",
               "borderTopWidth": "2px",
-              "display": "flex",
               "height": "32px",
               "marginBottom": "0px",
               "marginLeft": "0px",
@@ -1068,12 +860,7 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
                 className="css-view-1dbjc4n r-marginHorizontal-1ydw1k6 r-marginVertical-712mwr"
               >
                 <div
-                  className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz"
-                  style={
-                    Object {
-                      "display": "flex",
-                    }
-                  }
+                  className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
                 >
                   8
                 </div>
@@ -1083,20 +870,10 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
         </div>
       </div>
       <div
-        className="css-view-1dbjc4n"
-        style={
-          Object {
-            "WebkitBoxDirection": "normal",
-            "WebkitBoxOrient": "vertical",
-            "WebkitFlexDirection": "column",
-            "display": "flex",
-            "flexDirection": "column",
-            "msFlexDirection": "column",
-          }
-        }
+        className="css-view-1dbjc4n r-display-6koalj r-flexDirection-eqz5dr"
       >
         <div
-          className="css-view-1dbjc4n r-justifyContent-1777fci"
+          className="css-view-1dbjc4n r-display-6koalj r-justifyContent-1777fci"
           style={
             Object {
               "WebkitAlignItems": "stretch",
@@ -1119,7 +896,6 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
               "borderTopRightRadius": "50%",
               "borderTopStyle": "solid",
               "borderTopWidth": "2px",
-              "display": "flex",
               "height": "32px",
               "marginBottom": "0px",
               "marginLeft": "0px",
@@ -1177,12 +953,7 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
                 className="css-view-1dbjc4n r-marginHorizontal-1ydw1k6 r-marginVertical-712mwr"
               >
                 <div
-                  className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz"
-                  style={
-                    Object {
-                      "display": "flex",
-                    }
-                  }
+                  className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
                 >
                   9
                 </div>
@@ -1192,20 +963,10 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
         </div>
       </div>
       <div
-        className="css-view-1dbjc4n"
-        style={
-          Object {
-            "WebkitBoxDirection": "normal",
-            "WebkitBoxOrient": "vertical",
-            "WebkitFlexDirection": "column",
-            "display": "flex",
-            "flexDirection": "column",
-            "msFlexDirection": "column",
-          }
-        }
+        className="css-view-1dbjc4n r-display-6koalj r-flexDirection-eqz5dr"
       >
         <div
-          className="css-view-1dbjc4n r-justifyContent-1777fci"
+          className="css-view-1dbjc4n r-display-6koalj r-justifyContent-1777fci"
           style={
             Object {
               "WebkitAlignItems": "stretch",
@@ -1228,7 +989,6 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
               "borderTopRightRadius": "50%",
               "borderTopStyle": "solid",
               "borderTopWidth": "2px",
-              "display": "flex",
               "height": "32px",
               "marginBottom": "0px",
               "marginLeft": "0px",
@@ -1286,12 +1046,7 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
                 className="css-view-1dbjc4n r-marginHorizontal-1ydw1k6 r-marginVertical-712mwr"
               >
                 <div
-                  className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz"
-                  style={
-                    Object {
-                      "display": "flex",
-                    }
-                  }
+                  className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
                 >
                   10
                 </div>
@@ -1302,57 +1057,25 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
       </div>
     </div>
     <div
-      className="css-view-1dbjc4n r-flexDirection-18u37iz"
-      style={
-        Object {
-          "WebkitBoxFlex": 1,
-          "WebkitBoxPack": "justify",
-          "WebkitFlexGrow": 1,
-          "WebkitJustifyContent": "space-between",
-          "display": "flex",
-          "flexGrow": 1,
-          "justifyContent": "space-between",
-          "msFlexPack": "justify",
-          "msFlexPositive": 1,
-          "paddingLeft": "16px",
-          "paddingRight": "16px",
-          "width": "100%",
-        }
-      }
+      className="css-view-1dbjc4n r-display-6koalj r-flexDirection-18u37iz r-flexGrow-16y2uox r-justifyContent-1wtj0ep r-paddingLeft-1qhn6m8 r-paddingRight-i023vh r-width-13qz1uu"
     >
       <div
-        className="css-text-901oao"
+        className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-majxgm r-lineHeight-rjixqe r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
         dir="auto"
         style={
           Object {
-            "color": "rgba(66,69,74,1.00)",
-            "fontFamily": "Roboto",
-            "fontSize": "14px",
-            "fontWeight": "500",
-            "lineHeight": "20px",
             "marginRight": "auto",
-            "textAlign": "center",
-            "textDecoration": "none",
-            "textTransform": "none",
           }
         }
       >
         0 - NO WAY!
       </div>
       <div
-        className="css-text-901oao"
+        className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-majxgm r-lineHeight-rjixqe r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
         dir="auto"
         style={
           Object {
-            "color": "rgba(66,69,74,1.00)",
-            "fontFamily": "Roboto",
-            "fontSize": "14px",
-            "fontWeight": "500",
-            "lineHeight": "20px",
             "marginLeft": "auto",
-            "textAlign": "center",
-            "textDecoration": "none",
-            "textTransform": "none",
           }
         }
       >
@@ -1361,19 +1084,10 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
     </div>
   </div>
   <div
-    className="css-view-1dbjc4n r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
-    style={
-      Object {
-        "WebkitAlignItems": "flex-end",
-        "WebkitBoxAlign": "end",
-        "alignItems": "flex-end",
-        "marginTop": "16px",
-        "msFlexAlign": "end",
-      }
-    }
+    className="css-view-1dbjc4n r-alignItems-obd0qt r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci r-marginTop-1wzrnnt"
   >
     <div
-      className="css-view-1dbjc4n r-justifyContent-1777fci"
+      className="css-view-1dbjc4n r-display-6koalj r-justifyContent-1777fci"
       style={
         Object {
           "WebkitAlignItems": "stretch",
@@ -1396,7 +1110,6 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
           "borderTopRightRadius": "50px",
           "borderTopStyle": "solid",
           "borderTopWidth": "0px",
-          "display": "flex",
           "marginBottom": "0px",
           "marginLeft": "0px",
           "marginRight": "0px",
@@ -1452,30 +1165,11 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
             className="css-view-1dbjc4n r-marginHorizontal-1ydw1k6 r-marginVertical-712mwr"
           >
             <div
-              className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz"
-              style={
-                Object {
-                  "display": "flex",
-                }
-              }
+              className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
             >
               <div
-                className="css-text-901oao r-alignItems-1awozwy r-justifyContent-1777fci"
+                className="css-text-901oao r-alignItems-1awozwy r-color-vaa0vc r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-hbpseb r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                 dir="auto"
-                style={
-                  Object {
-                    "color": "rgba(163,163,163,1.00)",
-                    "fontFamily": "Roboto",
-                    "fontSize": "16px",
-                    "fontWeight": "500",
-                    "letterSpacing": "0px",
-                    "lineHeight": "22px",
-                    "paddingTop": "1px",
-                    "textAlign": "center",
-                    "textDecoration": "none",
-                    "textTransform": "none",
-                  }
-                }
               >
                 LATER
               </div>

@@ -8,32 +8,13 @@ exports[`ServiceWorkerUpdatedDialog NewReleaseDialog matches snapshot 1`] = `
     className="css-view-1dbjc4n"
   >
     <div
-      className="css-view-1dbjc4n"
-      style={
-        Object {
-          "WebkitAlignItems": " center",
-          "WebkitBoxAlign": " center",
-          "alignItems": " center",
-          "display": "flex",
-          "msFlexAlign": " center",
-          "paddingTop": "32px",
-        }
-      }
+      className="css-view-1dbjc4n r-alignItems-1nd77g7 r-display-6koalj r-paddingTop-fd4yh7"
     >
       <div
-        className="css-view-1dbjc4n"
-        style={
-          Object {
-            "height": "144px",
-            "marginBottom": "45px",
-            "position": "relative",
-            "top": "0px",
-            "width": "279px",
-          }
-        }
+        className="css-view-1dbjc4n r-height-4rl0ck r-marginBottom-7jeja3 r-position-bnwqim r-top-ipm5af r-width-15x33iy"
       >
         <div
-          className="css-view-1dbjc4n"
+          className="css-view-1dbjc4n r-width-13qz1uu"
           style={
             Object {
               "WebkitBoxPack": "end",
@@ -42,7 +23,6 @@ exports[`ServiceWorkerUpdatedDialog NewReleaseDialog matches snapshot 1`] = `
               "justifyContent": "flex-end",
               "marginTop": "50px",
               "msFlexPack": "end",
-              "width": "100%",
             }
           }
         >
@@ -58,113 +38,38 @@ exports[`ServiceWorkerUpdatedDialog NewReleaseDialog matches snapshot 1`] = `
         </div>
       </div>
       <div
-        className="css-text-901oao"
+        className="css-text-901oao r-borderBottomColor-lpwvss r-borderBottomStyle-rull8r r-borderBottomWidth-wgabs5 r-borderTopColor-dw99bl r-borderTopStyle-1efd50x r-borderTopWidth-1jxfwug r-color-qjtdzx r-fontFamily-vnw8o6 r-fontSize-yy2aun r-fontWeight-b88u0q r-lineHeight-xnfwke r-marginBottom-hxarbt r-paddingBottom-wgs6xk r-paddingTop-1b9bua6 r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-13qz1uu"
         dir="auto"
-        style={
-          Object {
-            "borderBottomColor": "rgba(0,175,255,1.00)",
-            "borderBottomStyle": "solid",
-            "borderBottomWidth": "2px",
-            "borderTopColor": "rgba(0,175,255,1.00)",
-            "borderTopStyle": "solid",
-            "borderTopWidth": "2px",
-            "color": "rgba(0,195,174,1.00)",
-            "fontFamily": "Roboto",
-            "fontSize": "26px",
-            "fontWeight": "700",
-            "lineHeight": "38px",
-            "marginBottom": "9px",
-            "paddingBottom": "9px",
-            "paddingTop": "9px",
-            "textAlign": "left",
-            "textDecoration": "none",
-            "textTransform": "none",
-            "width": "100%",
-          }
-        }
       >
         Good News: We’re Live!
       </div>
     </div>
     <div
-      className="css-view-1dbjc4n"
-      style={
-        Object {
-          "minHeight": "100px",
-        }
-      }
+      className="css-view-1dbjc4n r-minHeight-h3f8nf"
     >
       <div
-        className="css-text-901oao"
+        className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-1it3c9n r-lineHeight-17rnw9f r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
         dir="auto"
-        style={
-          Object {
-            "color": "rgba(66,69,74,1.00)",
-            "fontFamily": "Roboto",
-            "fontSize": "14px",
-            "fontWeight": "normal",
-            "lineHeight": "30px",
-            "textAlign": "left",
-            "textDecoration": "none",
-            "textTransform": "none",
-          }
-        }
       >
         <span
-          className="css-text-901oao css-textHasAncestor-16my406"
+          className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-b88u0q r-lineHeight-17rnw9f r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
           dir="auto"
-          style={
-            Object {
-              "color": "rgba(66,69,74,1.00)",
-              "fontFamily": "Roboto",
-              "fontSize": "14px",
-              "fontWeight": "700",
-              "lineHeight": "30px",
-              "textAlign": "center",
-              "textDecoration": "none",
-              "textTransform": "none",
-            }
-          }
         >
           1.
         </span>
          Click ‘update’
 
         <span
-          className="css-text-901oao css-textHasAncestor-16my406"
+          className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-b88u0q r-lineHeight-17rnw9f r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
           dir="auto"
-          style={
-            Object {
-              "color": "rgba(66,69,74,1.00)",
-              "fontFamily": "Roboto",
-              "fontSize": "14px",
-              "fontWeight": "700",
-              "lineHeight": "30px",
-              "textAlign": "center",
-              "textDecoration": "none",
-              "textTransform": "none",
-            }
-          }
         >
           2.
         </span>
          Sign up (one last time, we promise )
 
         <span
-          className="css-text-901oao css-textHasAncestor-16my406"
+          className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-b88u0q r-lineHeight-17rnw9f r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
           dir="auto"
-          style={
-            Object {
-              "color": "rgba(66,69,74,1.00)",
-              "fontFamily": "Roboto",
-              "fontSize": "14px",
-              "fontWeight": "700",
-              "lineHeight": "30px",
-              "textAlign": "center",
-              "textDecoration": "none",
-              "textTransform": "none",
-            }
-          }
         >
           3.
         </span>
@@ -183,84 +88,27 @@ exports[`ServiceWorkerUpdatedDialog RegularDialog matches snapshot 1`] = `
     className="css-view-1dbjc4n"
   >
     <div
-      className="css-view-1dbjc4n"
-      style={
-        Object {
-          "WebkitAlignItems": " center",
-          "WebkitBoxAlign": " center",
-          "alignItems": " center",
-          "display": "flex",
-          "msFlexAlign": " center",
-          "paddingTop": "32px",
-        }
-      }
+      className="css-view-1dbjc4n r-alignItems-1nd77g7 r-display-6koalj r-paddingTop-fd4yh7"
     >
       <div
-        className="css-view-1dbjc4n"
-        style={
-          Object {
-            "WebkitBoxPack": "center",
-            "WebkitJustifyContent": "center",
-            "height": "134px",
-            "justifyContent": "center",
-            "marginBottom": "25px",
-            "msFlexPack": "center",
-            "textAlign": "center",
-            "width": "191px",
-          }
-        }
+        className="css-view-1dbjc4n r-height-smjest r-justifyContent-1777fci r-marginBottom-eektet r-textAlign-q4m81j r-width-1jtfok8"
       >
         <updateversion.svg />
       </div>
       <div
-        className="css-text-901oao"
+        className="css-text-901oao r-borderBottomColor-lpwvss r-borderBottomStyle-rull8r r-borderBottomWidth-wgabs5 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-evnaw r-fontWeight-b88u0q r-lineHeight-eaezby r-marginBottom-hxarbt r-paddingBottom-wgs6xk r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-13qz1uu"
         dir="auto"
-        style={
-          Object {
-            "borderBottomColor": "rgba(0,175,255,1.00)",
-            "borderBottomStyle": "solid",
-            "borderBottomWidth": "2px",
-            "color": "rgba(66,69,74,1.00)",
-            "fontFamily": "Roboto",
-            "fontSize": "22px",
-            "fontWeight": "700",
-            "lineHeight": "26px",
-            "marginBottom": "9px",
-            "paddingBottom": "9px",
-            "textAlign": "left",
-            "textDecoration": "none",
-            "textTransform": "none",
-            "width": "100%",
-          }
-        }
       >
         Hip hip hooray!
 We have a new version :)
       </div>
     </div>
     <div
-      className="css-view-1dbjc4n"
-      style={
-        Object {
-          "minHeight": "100px",
-        }
-      }
+      className="css-view-1dbjc4n r-minHeight-h3f8nf"
     >
       <div
-        className="css-text-901oao"
+        className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-1it3c9n r-lineHeight-rjixqe r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
         dir="auto"
-        style={
-          Object {
-            "color": "rgba(66,69,74,1.00)",
-            "fontFamily": "Roboto",
-            "fontSize": "14px",
-            "fontWeight": "normal",
-            "lineHeight": "20px",
-            "textAlign": "left",
-            "textDecoration": "none",
-            "textTransform": "none",
-          }
-        }
       >
         Thanks to your awesome feedback we were able to improve our wallet. We hope now you’ll enjoy it even more.
       </div>

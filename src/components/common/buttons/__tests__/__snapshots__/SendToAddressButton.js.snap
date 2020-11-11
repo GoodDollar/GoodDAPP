@@ -18,41 +18,10 @@ exports[`SendToAddressButton should match snapshot 1`] = `
     tabIndex="0"
   >
     <div
-      className="css-view-1dbjc4n"
-      style={
-        Object {
-          "WebkitAlignItems": "center",
-          "WebkitBoxAlign": "center",
-          "alignItems": "center",
-          "display": "flex",
-          "marginLeft": "20px",
-          "msFlexAlign": "center",
-        }
-      }
+      className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-marginLeft-1joea0r"
     >
       <div
-        className="css-view-1dbjc4n"
-        style={
-          Object {
-            "WebkitAlignItems": "center",
-            "WebkitBoxAlign": "center",
-            "WebkitBoxPack": "center",
-            "WebkitJustifyContent": "center",
-            "alignItems": "center",
-            "backgroundColor": "rgba(12,38,61,1.00)",
-            "borderBottomLeftRadius": "21px",
-            "borderBottomRightRadius": "21px",
-            "borderTopLeftRadius": "21px",
-            "borderTopRightRadius": "21px",
-            "display": "flex",
-            "height": "30px",
-            "justifyContent": "center",
-            "marginBottom": "5px",
-            "msFlexAlign": "center",
-            "msFlexPack": "center",
-            "width": "30px",
-          }
-        }
+        className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1uqle4r r-borderRadius-10jnvle r-display-6koalj r-height-1g7fiml r-justifyContent-1777fci r-marginBottom-d0pm55 r-width-199wky7"
       >
         <div
           className="css-text-901oao"
@@ -71,20 +40,8 @@ exports[`SendToAddressButton should match snapshot 1`] = `
         </div>
       </div>
       <div
-        className="css-text-901oao"
+        className="css-text-901oao r-color-waoq6i r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-majxgm r-lineHeight-1p6fy00 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
         dir="auto"
-        style={
-          Object {
-            "color": "rgba(12,38,61,1.00)",
-            "fontFamily": "Roboto",
-            "fontSize": "10px",
-            "fontWeight": "500",
-            "lineHeight": "11px",
-            "textAlign": "center",
-            "textDecoration": "none",
-            "textTransform": "none",
-          }
-        }
       >
         Send to address
       </div>

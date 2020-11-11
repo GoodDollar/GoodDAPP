@@ -5,137 +5,39 @@ exports[`TopBar matches snapshot with balance 1`] = `
   className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
-    className="css-view-1dbjc4n r-height-yivrw8 r-justifyContent-1777fci r-marginBottom-5oul0u r-paddingBottom-xd6kpl r-paddingLeft-f727ji r-paddingRight-1pyaxff r-paddingTop-tskmnb"
-    style={
-      Object {
-        "backgroundColor": "rgba(255,255,255,1.00)",
-        "borderBottomLeftRadius": "5px",
-        "borderBottomRightRadius": "5px",
-        "borderTopLeftRadius": "5px",
-        "borderTopRightRadius": "5px",
-        "paddingBottom": "16px",
-        "paddingLeft": "12px",
-        "paddingRight": "12px",
-        "paddingTop": "16px",
-      }
-    }
+    className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderRadius-1f0042m r-height-yivrw8 r-justifyContent-1777fci r-marginBottom-5oul0u r-paddingBottom-xd6kpl r-paddingHorizontal-1e081e0 r-paddingLeft-f727ji r-paddingRight-1pyaxff r-paddingTop-tskmnb r-paddingVertical-1yzf0co"
   >
     <div
-      className="css-view-1dbjc4n"
-      style={
-        Object {
-          "WebkitAlignItems": "center",
-          "WebkitBoxAlign": "center",
-          "WebkitBoxDirection": "normal",
-          "WebkitBoxOrient": "horizontal",
-          "WebkitBoxPack": "justify",
-          "WebkitFlexDirection": "row",
-          "WebkitJustifyContent": "space-between",
-          "alignItems": "center",
-          "flexDirection": "row",
-          "justifyContent": "space-between",
-          "msFlexAlign": "center",
-          "msFlexDirection": "row",
-          "msFlexPack": "justify",
-        }
-      }
+      className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
     >
       <div
-        className="css-view-1dbjc4n"
-        style={
-          Object {
-            "WebkitAlignItems": "baseline",
-            "WebkitBoxAlign": "baseline",
-            "WebkitBoxDirection": "normal",
-            "WebkitBoxOrient": "horizontal",
-            "WebkitFlexDirection": "row",
-            "alignItems": "baseline",
-            "display": "flex",
-            "flexDirection": "row",
-            "msFlexAlign": "baseline",
-            "msFlexDirection": "row",
-          }
-        }
+        className="css-view-1dbjc4n r-alignItems-1d09ksm r-display-6koalj r-flexDirection-18u37iz"
       >
         <div
-          className="css-text-901oao"
+          className="css-text-901oao r-color-181bzza r-fontFamily-6jnb14 r-fontSize-3i2nvb r-fontWeight-b88u0q r-lineHeight-ueyrd6 r-marginRight-a5pmau r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
           dir="auto"
-          style={
-            Object {
-              "color": "rgba(85,85,85,1.00)",
-              "fontFamily": "Roboto Slab",
-              "fontSize": "36px",
-              "fontWeight": "700",
-              "lineHeight": "36px",
-              "marginRight": "2px",
-              "textAlign": "right",
-              "textDecoration": "none",
-              "textTransform": "none",
-            }
-          }
         >
           -.--
         </div>
         <div
-          className="css-view-1dbjc4n"
-          style={
-            Object {
-              "WebkitAlignItems": "center",
-              "WebkitBoxAlign": "center",
-              "WebkitBoxDirection": "normal",
-              "WebkitBoxOrient": "horizontal",
-              "WebkitBoxPack": "justify",
-              "WebkitFlexDirection": "row",
-              "WebkitJustifyContent": "space-between",
-              "alignItems": "center",
-              "flexDirection": "row",
-              "justifyContent": "space-between",
-              "msFlexAlign": "center",
-              "msFlexDirection": "row",
-              "msFlexPack": "justify",
-            }
-          }
+          className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
         >
           <div
-            className="css-text-901oao"
+            className="css-text-901oao r-color-181bzza r-fontFamily-6jnb14 r-fontSize-1i10wst r-fontWeight-b88u0q r-lineHeight-hbpseb r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
             dir="auto"
-            style={
-              Object {
-                "color": "rgba(85,85,85,1.00)",
-                "fontFamily": "Roboto Slab",
-                "fontSize": "18px",
-                "fontWeight": "700",
-                "lineHeight": "22px",
-                "textAlign": "right",
-                "textDecoration": "none",
-                "textTransform": "none",
-              }
-            }
           >
             G
           </div>
           <div
-            className="css-text-901oao"
+            className="css-text-901oao r-color-181bzza r-fontFamily-6jnb14 r-fontSize-16if4en r-fontWeight-b88u0q r-lineHeight-hbpseb r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
             dir="auto"
-            style={
-              Object {
-                "color": "rgba(85,85,85,1.00)",
-                "fontFamily": "Roboto Slab",
-                "fontSize": "17.5px",
-                "fontWeight": "700",
-                "lineHeight": "22px",
-                "textAlign": "right",
-                "textDecoration": "none",
-                "textTransform": "none",
-              }
-            }
           >
             $
           </div>
         </div>
       </div>
       <div
-        className="css-view-1dbjc4n r-cursor-1loqt21 r-justifyContent-1777fci r-touchAction-1otgn73 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
+        className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-qt01xk r-borderColor-y68mpx r-borderWidth-rs99b7 r-cursor-1loqt21 r-justifyContent-1777fci r-touchAction-1otgn73 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
         data-focusable={true}
         disabled={false}
         onKeyDown={[Function]}
@@ -148,24 +50,11 @@ exports[`TopBar matches snapshot with balance 1`] = `
         onStartShouldSetResponder={[Function]}
         style={
           Object {
-            "WebkitAlignItems": "center",
-            "WebkitBoxAlign": "center",
-            "alignItems": "center",
-            "backgroundColor": "rgba(203,203,203,1.00)",
-            "borderBottomColor": "rgba(163,163,163,1.00)",
             "borderBottomLeftRadius": "21px",
             "borderBottomRightRadius": "21px",
-            "borderBottomWidth": "1px",
-            "borderLeftColor": "rgba(163,163,163,1.00)",
-            "borderLeftWidth": "1px",
-            "borderRightColor": "rgba(163,163,163,1.00)",
-            "borderRightWidth": "1px",
-            "borderTopColor": "rgba(163,163,163,1.00)",
             "borderTopLeftRadius": "21px",
             "borderTopRightRadius": "21px",
-            "borderTopWidth": "1px",
             "height": "42px",
-            "msFlexAlign": "center",
             "width": "42px",
           }
         }
@@ -194,43 +83,13 @@ exports[`TopBar matches snapshot without balance 1`] = `
   className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
-    className="css-view-1dbjc4n r-height-yivrw8 r-justifyContent-1777fci r-marginBottom-5oul0u r-paddingBottom-xd6kpl r-paddingLeft-f727ji r-paddingRight-1pyaxff r-paddingTop-tskmnb"
-    style={
-      Object {
-        "backgroundColor": "rgba(255,255,255,1.00)",
-        "borderBottomLeftRadius": "5px",
-        "borderBottomRightRadius": "5px",
-        "borderTopLeftRadius": "5px",
-        "borderTopRightRadius": "5px",
-        "paddingBottom": "16px",
-        "paddingLeft": "12px",
-        "paddingRight": "12px",
-        "paddingTop": "16px",
-      }
-    }
+    className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderRadius-1f0042m r-height-yivrw8 r-justifyContent-1777fci r-marginBottom-5oul0u r-paddingBottom-xd6kpl r-paddingHorizontal-1e081e0 r-paddingLeft-f727ji r-paddingRight-1pyaxff r-paddingTop-tskmnb r-paddingVertical-1yzf0co"
   >
     <div
-      className="css-view-1dbjc4n"
-      style={
-        Object {
-          "WebkitAlignItems": "center",
-          "WebkitBoxAlign": "center",
-          "WebkitBoxDirection": "normal",
-          "WebkitBoxOrient": "horizontal",
-          "WebkitBoxPack": "justify",
-          "WebkitFlexDirection": "row",
-          "WebkitJustifyContent": "space-between",
-          "alignItems": "center",
-          "flexDirection": "row",
-          "justifyContent": "space-between",
-          "msFlexAlign": "center",
-          "msFlexDirection": "row",
-          "msFlexPack": "justify",
-        }
-      }
+      className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
     >
       <div
-        className="css-view-1dbjc4n r-cursor-1loqt21 r-justifyContent-1777fci r-touchAction-1otgn73 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
+        className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-qt01xk r-borderColor-y68mpx r-borderWidth-rs99b7 r-cursor-1loqt21 r-justifyContent-1777fci r-touchAction-1otgn73 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
         data-focusable={true}
         disabled={false}
         onKeyDown={[Function]}
@@ -243,24 +102,11 @@ exports[`TopBar matches snapshot without balance 1`] = `
         onStartShouldSetResponder={[Function]}
         style={
           Object {
-            "WebkitAlignItems": "center",
-            "WebkitBoxAlign": "center",
-            "alignItems": "center",
-            "backgroundColor": "rgba(203,203,203,1.00)",
-            "borderBottomColor": "rgba(163,163,163,1.00)",
             "borderBottomLeftRadius": "21px",
             "borderBottomRightRadius": "21px",
-            "borderBottomWidth": "1px",
-            "borderLeftColor": "rgba(163,163,163,1.00)",
-            "borderLeftWidth": "1px",
-            "borderRightColor": "rgba(163,163,163,1.00)",
-            "borderRightWidth": "1px",
-            "borderTopColor": "rgba(163,163,163,1.00)",
             "borderTopLeftRadius": "21px",
             "borderTopRightRadius": "21px",
-            "borderTopWidth": "1px",
             "height": "42px",
-            "msFlexAlign": "center",
             "width": "42px",
           }
         }
@@ -289,130 +135,32 @@ exports[`TopBar should render the children component 1`] = `
   className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
-    className="css-view-1dbjc4n r-height-yivrw8 r-justifyContent-1777fci r-marginBottom-5oul0u r-paddingBottom-xd6kpl r-paddingLeft-f727ji r-paddingRight-1pyaxff r-paddingTop-tskmnb"
-    style={
-      Object {
-        "backgroundColor": "rgba(255,255,255,1.00)",
-        "borderBottomLeftRadius": "5px",
-        "borderBottomRightRadius": "5px",
-        "borderTopLeftRadius": "5px",
-        "borderTopRightRadius": "5px",
-        "paddingBottom": "16px",
-        "paddingLeft": "12px",
-        "paddingRight": "12px",
-        "paddingTop": "16px",
-      }
-    }
+    className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderRadius-1f0042m r-height-yivrw8 r-justifyContent-1777fci r-marginBottom-5oul0u r-paddingBottom-xd6kpl r-paddingHorizontal-1e081e0 r-paddingLeft-f727ji r-paddingRight-1pyaxff r-paddingTop-tskmnb r-paddingVertical-1yzf0co"
   >
     <div
-      className="css-view-1dbjc4n"
-      style={
-        Object {
-          "WebkitAlignItems": "center",
-          "WebkitBoxAlign": "center",
-          "WebkitBoxDirection": "normal",
-          "WebkitBoxOrient": "horizontal",
-          "WebkitBoxPack": "justify",
-          "WebkitFlexDirection": "row",
-          "WebkitJustifyContent": "space-between",
-          "alignItems": "center",
-          "flexDirection": "row",
-          "justifyContent": "space-between",
-          "msFlexAlign": "center",
-          "msFlexDirection": "row",
-          "msFlexPack": "justify",
-        }
-      }
+      className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
     >
       <div
-        className="css-view-1dbjc4n"
-        style={
-          Object {
-            "WebkitAlignItems": "baseline",
-            "WebkitBoxAlign": "baseline",
-            "WebkitBoxDirection": "normal",
-            "WebkitBoxOrient": "horizontal",
-            "WebkitFlexDirection": "row",
-            "alignItems": "baseline",
-            "display": "flex",
-            "flexDirection": "row",
-            "msFlexAlign": "baseline",
-            "msFlexDirection": "row",
-          }
-        }
+        className="css-view-1dbjc4n r-alignItems-1d09ksm r-display-6koalj r-flexDirection-18u37iz"
       >
         <div
-          className="css-text-901oao"
+          className="css-text-901oao r-color-181bzza r-fontFamily-6jnb14 r-fontSize-3i2nvb r-fontWeight-b88u0q r-lineHeight-ueyrd6 r-marginRight-a5pmau r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
           dir="auto"
-          style={
-            Object {
-              "color": "rgba(85,85,85,1.00)",
-              "fontFamily": "Roboto Slab",
-              "fontSize": "36px",
-              "fontWeight": "700",
-              "lineHeight": "36px",
-              "marginRight": "2px",
-              "textAlign": "right",
-              "textDecoration": "none",
-              "textTransform": "none",
-            }
-          }
         >
           -.--
         </div>
         <div
-          className="css-view-1dbjc4n"
-          style={
-            Object {
-              "WebkitAlignItems": "center",
-              "WebkitBoxAlign": "center",
-              "WebkitBoxDirection": "normal",
-              "WebkitBoxOrient": "horizontal",
-              "WebkitBoxPack": "justify",
-              "WebkitFlexDirection": "row",
-              "WebkitJustifyContent": "space-between",
-              "alignItems": "center",
-              "flexDirection": "row",
-              "justifyContent": "space-between",
-              "msFlexAlign": "center",
-              "msFlexDirection": "row",
-              "msFlexPack": "justify",
-            }
-          }
+          className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
         >
           <div
-            className="css-text-901oao"
+            className="css-text-901oao r-color-181bzza r-fontFamily-6jnb14 r-fontSize-1i10wst r-fontWeight-b88u0q r-lineHeight-hbpseb r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
             dir="auto"
-            style={
-              Object {
-                "color": "rgba(85,85,85,1.00)",
-                "fontFamily": "Roboto Slab",
-                "fontSize": "18px",
-                "fontWeight": "700",
-                "lineHeight": "22px",
-                "textAlign": "right",
-                "textDecoration": "none",
-                "textTransform": "none",
-              }
-            }
           >
             G
           </div>
           <div
-            className="css-text-901oao"
+            className="css-text-901oao r-color-181bzza r-fontFamily-6jnb14 r-fontSize-16if4en r-fontWeight-b88u0q r-lineHeight-hbpseb r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
             dir="auto"
-            style={
-              Object {
-                "color": "rgba(85,85,85,1.00)",
-                "fontFamily": "Roboto Slab",
-                "fontSize": "17.5px",
-                "fontWeight": "700",
-                "lineHeight": "22px",
-                "textAlign": "right",
-                "textDecoration": "none",
-                "textTransform": "none",
-              }
-            }
           >
             $
           </div>
@@ -422,20 +170,8 @@ exports[`TopBar should render the children component 1`] = `
         className="css-view-1dbjc4n"
       >
         <div
-          className="css-text-901oao"
+          className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-lineHeight-hbpseb r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
           dir="auto"
-          style={
-            Object {
-              "color": "rgba(66,69,74,1.00)",
-              "fontFamily": "Roboto",
-              "fontSize": "16px",
-              "fontWeight": "normal",
-              "lineHeight": "22px",
-              "textAlign": "center",
-              "textDecoration": "none",
-              "textTransform": "none",
-            }
-          }
         >
           Children element
         </div>

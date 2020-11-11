@@ -3,7 +3,7 @@
 exports[`Avatar matches snapshot 1`] = `
 <div
   aria-disabled={true}
-  className="css-view-1dbjc4n r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
+  className="css-view-1dbjc4n r-alignItems-1awozwy r-borderWidth-rs99b7 r-justifyContent-1777fci r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
   disabled={true}
   onKeyDown={[Function]}
   onKeyUp={[Function]}
@@ -15,23 +15,11 @@ exports[`Avatar matches snapshot 1`] = `
   onStartShouldSetResponder={[Function]}
   style={
     Object {
-      "WebkitAlignItems": "center",
-      "WebkitBoxAlign": "center",
-      "WebkitBoxPack": "center",
-      "WebkitJustifyContent": "center",
-      "alignItems": "center",
       "borderBottomLeftRadius": "21px",
       "borderBottomRightRadius": "21px",
-      "borderBottomWidth": "1px",
-      "borderLeftWidth": "1px",
-      "borderRightWidth": "1px",
       "borderTopLeftRadius": "21px",
       "borderTopRightRadius": "21px",
-      "borderTopWidth": "1px",
       "height": "42px",
-      "justifyContent": "center",
-      "msFlexAlign": "center",
-      "msFlexPack": "center",
       "width": "42px",
     }
   }

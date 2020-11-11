@@ -38,57 +38,16 @@ exports[`Auth matches snapshot 1`] = `
         className="css-view-1dbjc4n r-display-6koalj r-flexGrow-16y2uox r-height-1pi2tsx"
       >
         <div
-          className="css-view-1dbjc4n r-flex-13awgt0 r-paddingBottom-97e31f r-paddingLeft-bv2aro r-paddingRight-hxflta r-paddingTop-10xqauy"
-          style={
-            Object {
-              "WebkitBoxPack": "justify",
-              "WebkitJustifyContent": "space-between",
-              "justifyContent": "space-between",
-              "msFlexPack": "justify",
-              "paddingBottom": "0px",
-              "paddingLeft": "0px",
-              "paddingRight": "0px",
-              "paddingTop": "0px",
-            }
-          }
+          className="css-view-1dbjc4n r-flex-13awgt0 r-justifyContent-1wtj0ep r-padding-t60dpp r-paddingBottom-97e31f r-paddingHorizontal-mk0yit r-paddingLeft-bv2aro r-paddingRight-hxflta r-paddingTop-10xqauy r-paddingVertical-rjfia"
         >
           <div
-            className="css-view-1dbjc4n r-display-6koalj r-flex-13awgt0 r-flexDirection-eqz5dr r-flexGrow-16y2uox r-position-bnwqim"
+            className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-display-6koalj r-flex-13awgt0 r-flexDirection-eqz5dr r-flexGrow-16y2uox r-justifyContent-1wtj0ep r-maxHeight-1qalap5 r-padding-t60dpp r-paddingHorizontal-mk0yit r-paddingVertical-rjfia r-position-bnwqim r-width-13qz1uu"
             data-name="viewWrapper"
-            style={
-              Object {
-                "WebkitBoxPack": "justify",
-                "WebkitJustifyContent": "space-between",
-                "backgroundColor": "rgba(255,255,255,1.00)",
-                "justifyContent": "space-between",
-                "maxHeight": "844px",
-                "msFlexPack": "justify",
-                "paddingBottom": "0px",
-                "paddingLeft": "0px",
-                "paddingRight": "0px",
-                "paddingTop": "0px",
-                "width": "100%",
-              }
-            }
           >
             <div
-              className="css-text-901oao"
+              className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-evnaw r-fontWeight-majxgm r-lineHeight-waer2z r-marginBottom-eektet r-marginTop-1lfx3nc r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
               data-testid="welcomeLabel"
               dir="auto"
-              style={
-                Object {
-                  "color": "rgba(66,69,74,1.00)",
-                  "fontFamily": "Roboto",
-                  "fontSize": "22px",
-                  "fontWeight": "500",
-                  "lineHeight": "25px",
-                  "marginBottom": "25px",
-                  "marginTop": "95px",
-                  "textAlign": "center",
-                  "textDecoration": "none",
-                  "textTransform": "none",
-                }
-              }
             >
               Welcome to
 GoodDollar Wallet
@@ -106,88 +65,39 @@ GoodDollar Wallet
               />
             </div>
             <div
-              className="css-view-1dbjc4n"
-              style={
-                Object {
-                  "backgroundColor": "rgba(255,255,255,1.00)",
-                  "borderBottomLeftRadius": "5px",
-                  "borderBottomRightRadius": "5px",
-                  "borderTopLeftRadius": "5px",
-                  "borderTopRightRadius": "5px",
-                  "paddingBottom": "16px",
-                  "paddingLeft": "16px",
-                  "paddingRight": "16px",
-                  "paddingTop": "16px",
-                }
-              }
+              className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderRadius-1f0042m r-paddingBottom-1l7z4oj r-paddingHorizontal-ymttw5 r-paddingVertical-1yzf0co"
             >
               <div
-                className="css-text-901oao"
+                className="css-text-901oao r-color-vaa0vc r-fontFamily-vnw8o6 r-fontSize-1enofrn r-fontWeight-1it3c9n r-lineHeight-1cwl3u0 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                 dir="auto"
-                style={
-                  Object {
-                    "color": "rgba(163,163,163,1.00)",
-                    "fontFamily": "Roboto",
-                    "fontSize": "12px",
-                    "fontWeight": "normal",
-                    "lineHeight": "16px",
-                    "textAlign": "center",
-                    "textDecoration": "none",
-                    "textTransform": "none",
-                  }
-                }
               >
                 By clicking the 'Create a wallet' button,
 you are accepting our
 
                 <span
-                  className="css-text-901oao css-textHasAncestor-16my406 r-cursor-1loqt21"
+                  className="css-text-901oao css-textHasAncestor-16my406 r-color-vaa0vc r-cursor-1loqt21 r-fontFamily-vnw8o6 r-fontSize-1enofrn r-fontWeight-b88u0q r-lineHeight-1cwl3u0 r-textAlign-q4m81j r-textDecorationLine-1ddef8g r-textTransform-3twk1y"
                   data-focusable={true}
                   dir="auto"
                   onClick={[Function]}
                   onKeyDown={[Function]}
-                  style={
-                    Object {
-                      "color": "rgba(163,163,163,1.00)",
-                      "fontFamily": "Roboto",
-                      "fontSize": "12px",
-                      "fontWeight": "700",
-                      "lineHeight": "16px",
-                      "textAlign": "center",
-                      "textDecoration": "underline",
-                      "textTransform": "none",
-                    }
-                  }
                   tabIndex="0"
                 >
                   Terms of Use
                 </span>
                  and 
                 <span
-                  className="css-text-901oao css-textHasAncestor-16my406 r-cursor-1loqt21"
+                  className="css-text-901oao css-textHasAncestor-16my406 r-color-vaa0vc r-cursor-1loqt21 r-fontFamily-vnw8o6 r-fontSize-1enofrn r-fontWeight-b88u0q r-lineHeight-1cwl3u0 r-textAlign-q4m81j r-textDecorationLine-1ddef8g r-textTransform-3twk1y"
                   data-focusable={true}
                   dir="auto"
                   onClick={[Function]}
                   onKeyDown={[Function]}
-                  style={
-                    Object {
-                      "color": "rgba(163,163,163,1.00)",
-                      "fontFamily": "Roboto",
-                      "fontSize": "12px",
-                      "fontWeight": "700",
-                      "lineHeight": "16px",
-                      "textAlign": "center",
-                      "textDecoration": "underline",
-                      "textTransform": "none",
-                    }
-                  }
                   tabIndex="0"
                 >
                   Privacy Policy
                 </span>
               </div>
               <div
-                className="css-view-1dbjc4n r-display-6koalj r-justifyContent-1777fci"
+                className="css-view-1dbjc4n r-display-6koalj r-justifyContent-1777fci r-padding-t60dpp"
                 data-testid="firstButton"
                 style={
                   Object {
@@ -219,10 +129,8 @@ you are accepting our
                     "minHeight": "44px",
                     "minWidth": "64px",
                     "msFlexAlign": "stretch",
-                    "paddingBottom": "0px",
                     "paddingLeft": "0px",
                     "paddingRight": "0px",
-                    "paddingTop": "0px",
                   }
                 }
               >
@@ -270,22 +178,8 @@ you are accepting our
                         className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
                       >
                         <div
-                          className="css-text-901oao r-alignItems-1awozwy r-justifyContent-1777fci"
+                          className="css-text-901oao r-alignItems-1awozwy r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-hbpseb r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
                           dir="auto"
-                          style={
-                            Object {
-                              "color": "rgba(255,255,255,1.00)",
-                              "fontFamily": "Roboto",
-                              "fontSize": "16px",
-                              "fontWeight": "500",
-                              "letterSpacing": "0px",
-                              "lineHeight": "22px",
-                              "paddingTop": "1px",
-                              "textAlign": "center",
-                              "textDecoration": "none",
-                              "textTransform": "uppercase",
-                            }
-                          }
                         >
                           Create a wallet
                         </div>
@@ -295,7 +189,7 @@ you are accepting our
                 </div>
               </div>
               <div
-                className="css-view-1dbjc4n r-display-6koalj r-justifyContent-1777fci"
+                className="css-view-1dbjc4n r-display-6koalj r-justifyContent-1777fci r-padding-t60dpp"
                 data-testid="signInButton"
                 style={
                   Object {
@@ -326,10 +220,8 @@ you are accepting our
                     "minHeight": "44px",
                     "minWidth": "64px",
                     "msFlexAlign": "stretch",
-                    "paddingBottom": "0px",
                     "paddingLeft": "0px",
                     "paddingRight": "0px",
-                    "paddingTop": "0px",
                   }
                 }
               >
@@ -377,41 +269,13 @@ you are accepting our
                         className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
                       >
                         <div
-                          className="css-text-901oao r-alignItems-1awozwy r-justifyContent-1777fci"
+                          className="css-text-901oao r-alignItems-1awozwy r-color-1q5uqvh r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-hbpseb r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                           dir="auto"
-                          style={
-                            Object {
-                              "color": "rgba(0,175,255,1.00)",
-                              "fontFamily": "Roboto",
-                              "fontSize": "16px",
-                              "fontWeight": "normal",
-                              "letterSpacing": "0px",
-                              "lineHeight": "22px",
-                              "paddingTop": "1px",
-                              "textAlign": "center",
-                              "textDecoration": "none",
-                              "textTransform": "none",
-                            }
-                          }
                         >
                           ALREADY REGISTERED?
                           <span
-                            className="css-text-901oao css-textHasAncestor-16my406 r-alignItems-1awozwy r-justifyContent-1777fci"
+                            className="css-text-901oao css-textHasAncestor-16my406 r-alignItems-1awozwy r-color-1q5uqvh r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1vr29t4 r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-hbpseb r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
                             dir="auto"
-                            style={
-                              Object {
-                                "color": "rgba(0,175,255,1.00)",
-                                "fontFamily": "Roboto",
-                                "fontSize": "16px",
-                                "fontWeight": "800",
-                                "letterSpacing": "0px",
-                                "lineHeight": "22px",
-                                "paddingTop": "1px",
-                                "textAlign": "center",
-                                "textDecoration": "none",
-                                "textTransform": "uppercase",
-                              }
-                            }
                           >
                              SIGN IN
                           </span>

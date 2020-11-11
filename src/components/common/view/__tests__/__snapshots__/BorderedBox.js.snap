@@ -5,105 +5,28 @@ exports[`BorderedBox matches snapshot 1`] = `
   className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
-    className="css-view-1dbjc4n r-alignItems-1awozwy r-justifyContent-1777fci r-position-bnwqim"
-    style={
-      Object {
-        "backgroundColor": "rgba(255,255,255,1.00)",
-        "borderBottomColor": "rgba(163,163,163,1.00)",
-        "borderBottomLeftRadius": "5px",
-        "borderBottomRightRadius": "5px",
-        "borderBottomWidth": "1px",
-        "borderLeftColor": "rgba(163,163,163,1.00)",
-        "borderLeftWidth": "1px",
-        "borderRightColor": "rgba(163,163,163,1.00)",
-        "borderRightWidth": "1px",
-        "borderTopColor": "rgba(163,163,163,1.00)",
-        "borderTopLeftRadius": "5px",
-        "borderTopRightRadius": "5px",
-        "borderTopWidth": "1px",
-        "borerStyle": "solid",
-        "display": "flex",
-        "height": "153.35064935064935px",
-        "paddingBottom": "16px",
-        "paddingLeft": "12px",
-        "paddingRight": "12px",
-        "paddingTop": "16px",
-      }
-    }
+    className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-14lw9ot r-borderColor-y68mpx r-borderRadius-1f0042m r-borderWidth-rs99b7 r-display-6koalj r-height-mht1xe r-justifyContent-1777fci r-paddingHorizontal-1e081e0 r-paddingVertical-1yzf0co r-position-bnwqim"
   >
     <div
-      className="css-view-1dbjc4n"
-      style={
-        Object {
-          "backgroundColor": "rgba(255,255,255,1.00)",
-          "height": "6.233766233766233px",
-          "position": "absolute",
-          "top": "-4px",
-          "width": "116.11111111111111px",
-        }
-      }
+      className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-height-n0twmy r-position-u8s1d r-top-1ld3bg r-width-1dcdz4f"
     />
     <div
-      className="css-text-901oao"
+      className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-1i10wst r-fontWeight-b88u0q r-lineHeight-135wba7 r-marginBottom-h72ra1 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
       dir="auto"
-      style={
-        Object {
-          "color": "rgba(66,69,74,1.00)",
-          "fontFamily": "Roboto Slab",
-          "fontSize": "18px",
-          "fontWeight": "700",
-          "lineHeight": "24px",
-          "marginBottom": "12.467532467532466px",
-          "textAlign": "center",
-          "textDecoration": "none",
-          "textTransform": "none",
-        }
-      }
     />
     <div
-      className="css-text-901oao"
+      className="css-text-901oao r-color-vaa0vc r-fontFamily-vnw8o6 r-fontSize-n6v787 r-fontWeight-1it3c9n r-letterSpacing-rdxj0b r-lineHeight-w20frr r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
       dir="auto"
       letterSpacing={0.07}
-      style={
-        Object {
-          "color": "rgba(163,163,163,1.00)",
-          "fontFamily": "Roboto",
-          "fontSize": "13px",
-          "fontWeight": "normal",
-          "letterSpacing": "0.07px",
-          "lineHeight": "15.6px",
-          "textAlign": "center",
-          "textDecoration": "none",
-          "textTransform": "none",
-        }
-      }
     />
     <div
-      className="css-view-1dbjc4n"
-      style={
-        Object {
-          "backgroundColor": "rgba(255,255,255,1.00)",
-          "bottom": "-4px",
-          "height": "6.233766233766233px",
-          "position": "absolute",
-          "width": "68.6111111111111px",
-        }
-      }
+      className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-bottom-30qeir r-height-n0twmy r-position-u8s1d r-width-1v6so3z"
     />
     <div
-      className="css-view-1dbjc4n"
-      style={
-        Object {
-          "bottom": "-33px",
-          "height": "64.83116883116884px",
-          "position": "absolute",
-          "width": "116.11111111111111px",
-          "zIndex": 1,
-        }
-      }
+      className="css-view-1dbjc4n r-bottom-1ia8z0t r-height-1qe8j6y r-position-u8s1d r-width-1dcdz4f r-zIndex-184en5c"
     >
       <div
-        className="css-view-1dbjc4n r-alignItems-1awozwy r-justifyContent-1777fci"
+        className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-justifyContent-1777fci"
         style={
           Object {
             "backgroundColor": "rgba(0,175,255,1.00)",
@@ -124,7 +47,6 @@ exports[`BorderedBox matches snapshot 1`] = `
             "borderTopStyle": "solid",
             "borderTopWidth": "0px",
             "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
-            "display": "flex",
             "height": "50.138888888888886px",
             "marginBottom": "4.987012987012987px",
             "marginLeft": "auto",
@@ -181,15 +103,10 @@ exports[`BorderedBox matches snapshot 1`] = `
               className="css-view-1dbjc4n r-marginHorizontal-1ydw1k6 r-marginVertical-712mwr"
             >
               <div
-                className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz"
-                style={
-                  Object {
-                    "display": "flex",
-                  }
-                }
+                className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
               >
                 <div
-                  className="css-text-901oao"
+                  className="css-text-901oao r-fontWeight-1it3c9n"
                   dir="auto"
                   style={
                     Object {
@@ -197,7 +114,6 @@ exports[`BorderedBox matches snapshot 1`] = `
                       "fontFamily": "gooddollar",
                       "fontSize": "34px",
                       "fontStyle": "normal",
-                      "fontWeight": "normal",
                     }
                   }
                 >
@@ -209,20 +125,8 @@ exports[`BorderedBox matches snapshot 1`] = `
         </div>
       </div>
       <div
-        className="css-text-901oao"
+        className="css-text-901oao r-color-1q5uqvh r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-majxgm r-lineHeight-1f529hi r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
         dir="auto"
-        style={
-          Object {
-            "color": "rgba(0,175,255,1.00)",
-            "fontFamily": "Roboto",
-            "fontSize": "10px",
-            "fontWeight": "500",
-            "lineHeight": "14px",
-            "textAlign": "center",
-            "textDecoration": "none",
-            "textTransform": "none",
-          }
-        }
       />
     </div>
   </div>

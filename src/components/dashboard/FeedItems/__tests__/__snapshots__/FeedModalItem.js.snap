@@ -23,59 +23,19 @@ exports[`FeedModalItem - Invite matches snapshot 1`] = `
       className="css-view-1dbjc4n"
     >
       <div
-        className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-width-13qz1uu"
-        style={
-          Object {
-            "WebkitAlignSelf": "flex-start",
-            "alignSelf": "flex-start",
-            "height": "768px",
-            "msFlexItemAlign": "start",
-          }
-        }
+        className="css-view-1dbjc4n r-alignSelf-k200y r-backgroundColor-1niwhzg r-height-i7wkem r-width-13qz1uu"
       >
         <div
-          className="css-view-1dbjc4n r-flexGrow-16y2uox r-width-13qz1uu"
-          style={
-            Object {
-              "WebkitAlignSelf": "center",
-              "WebkitFlexShrink": 0,
-              "alignSelf": "center",
-              "flexShrink": 0,
-              "marginBottom": "88.51948051948051px",
-              "marginTop": "62.33766233766234px",
-              "maxWidth": "475px",
-              "msFlexItemAlign": "center",
-              "msFlexNegative": 0,
-              "paddingLeft": "20px",
-              "paddingRight": "20px",
-            }
-          }
+          className="css-view-1dbjc4n r-alignSelf-1kihuf0 r-flexGrow-16y2uox r-flexShrink-1q142lx r-marginBottom-hte7mp r-marginTop-1511jto r-maxWidth-1xnn5q4 r-paddingLeft-b5h31w r-paddingRight-1ah4tor r-width-13qz1uu"
         >
           <div
-            className="css-view-1dbjc4n r-flexDirection-18u37iz r-flexGrow-16y2uox r-position-bnwqim r-width-13qz1uu"
-            style={
-              Object {
-                "display": "flex",
-                "maxHeight": "844px",
-                "minHeight": "350px",
-              }
-            }
+            className="css-view-1dbjc4n r-display-6koalj r-flexDirection-18u37iz r-flexGrow-16y2uox r-maxHeight-1qalap5 r-minHeight-1pexjug r-position-bnwqim r-width-13qz1uu"
           >
             <div
-              className="css-view-1dbjc4n r-flexGrow-16y2uox r-position-bnwqim"
+              className="css-view-1dbjc4n r-backgroundImage-o7i658 r-backgroundRepeat-1w25a1u r-borderBottomLeftRadius-re1h2s r-borderTopLeftRadius-1as3g83 r-flexGrow-16y2uox r-flexShrink-1q142lx r-maxWidth-1akpm2g r-minWidth-t66pp7 r-position-bnwqim r-zIndex-pezta"
               style={
                 Object {
-                  "WebkitFlexShrink": 0,
                   "backgroundColor": "rgba(0,175,255,1.00)",
-                  "backgroundImage": "url(undefined)",
-                  "backgroundRepeat": "repeat-y",
-                  "borderBottomLeftRadius": "5px",
-                  "borderTopLeftRadius": "5px",
-                  "flexShrink": 0,
-                  "maxWidth": "10px",
-                  "minWidth": "10px",
-                  "msFlexNegative": 0,
-                  "zIndex": 5,
                 }
               }
             />
@@ -83,7 +43,7 @@ exports[`FeedModalItem - Invite matches snapshot 1`] = `
               className="css-view-1dbjc4n r-flexGrow-16y2uox r-flexShrink-1wbh5a2"
             >
               <div
-                className="css-view-1dbjc4n r-cursor-1loqt21 r-position-u8s1d r-right-zchlnj r-touchAction-1otgn73 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
+                className="css-view-1dbjc4n r-cursor-1loqt21 r-height-1uopjct r-marginLeft-1jj8364 r-marginRight-1bbvk3j r-position-u8s1d r-right-zchlnj r-top-1nd9uzx r-touchAction-1otgn73 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-width-1y566p8 r-zIndex-pezta"
                 data-focusable={true}
                 onKeyDown={[Function]}
                 onKeyUp={[Function]}
@@ -93,16 +53,6 @@ exports[`FeedModalItem - Invite matches snapshot 1`] = `
                 onResponderTerminate={[Function]}
                 onResponderTerminationRequest={[Function]}
                 onStartShouldSetResponder={[Function]}
-                style={
-                  Object {
-                    "height": "37px",
-                    "marginLeft": "auto",
-                    "marginRight": "-18.5px",
-                    "top": "-20px",
-                    "width": "37px",
-                    "zIndex": 5,
-                  }
-                }
                 tabIndex="0"
               >
                 <div
@@ -112,39 +62,10 @@ exports[`FeedModalItem - Invite matches snapshot 1`] = `
                 </div>
               </div>
               <div
-                className="css-view-1dbjc4n r-flexGrow-16y2uox r-position-bnwqim"
-                style={
-                  Object {
-                    "backgroundColor": "rgba(255,255,255,1.00)",
-                    "borderBottomRightRadius": "5px",
-                    "borderTopRightRadius": "5px",
-                    "boxShadow": "0 20px 24px rgba(0, 0, 0, 0.5)",
-                    "paddingBottom": "16px",
-                    "paddingLeft": "16px",
-                    "paddingRight": "16px",
-                    "paddingTop": "16px",
-                    "zIndex": 1,
-                  }
-                }
+                className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderBottomRightRadius-qpmf2f r-borderTopRightRadius-dfv94e r-boxShadow-172poub r-flexGrow-16y2uox r-padding-nsbfu8 r-position-bnwqim r-zIndex-184en5c"
               >
                 <div
-                  className="css-view-1dbjc4n r-flexDirection-18u37iz r-justifyContent-1777fci"
-                  style={
-                    Object {
-                      "WebkitBoxFlex": 0,
-                      "WebkitFlexGrow": 0,
-                      "WebkitFlexShrink": 0,
-                      "display": "flex",
-                      "flexGrow": 0,
-                      "flexShrink": 0,
-                      "marginBottom": "30px",
-                      "marginLeft": "-16px",
-                      "marginRight": "-16px",
-                      "marginTop": "-16px",
-                      "msFlexNegative": 0,
-                      "msFlexPositive": 0,
-                    }
-                  }
+                  className="css-view-1dbjc4n r-display-6koalj r-flexDirection-18u37iz r-flexGrow-18kxxzh r-flexShrink-1q142lx r-justifyContent-1777fci r-marginBottom-1yflyrw r-marginHorizontal-6cv0rn r-marginTop-1x4s0f8"
                 >
                   <div
                     className="css-view-1dbjc4n r-flexBasis-1mlwlqe r-overflow-1udh08x r-width-13qz1uu r-zIndex-417010"
@@ -171,103 +92,39 @@ exports[`FeedModalItem - Invite matches snapshot 1`] = `
                   </div>
                 </div>
                 <div
-                  className="css-view-1dbjc4n r-flexDirection-18u37iz"
-                  style={
-                    Object {
-                      "WebkitAlignItems": "baseline",
-                      "WebkitBoxAlign": "baseline",
-                      "WebkitBoxPack": "justify",
-                      "WebkitJustifyContent": "space-between",
-                      "alignItems": "baseline",
-                      "display": "flex",
-                      "justifyContent": "space-between",
-                      "marginBottom": "12px",
-                      "msFlexAlign": "baseline",
-                      "msFlexPack": "justify",
-                    }
-                  }
+                  className="css-view-1dbjc4n r-alignItems-1d09ksm r-display-6koalj r-flexDirection-18u37iz r-justifyContent-1wtj0ep r-marginBottom-6gpygo"
                 >
                   <div
-                    className="css-text-901oao"
+                    className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1f529hi r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                     dir="auto"
-                    style={
-                      Object {
-                        "color": "rgba(66,69,74,1.00)",
-                        "fontFamily": "Roboto",
-                        "fontSize": "10px",
-                        "fontWeight": "normal",
-                        "lineHeight": "14px",
-                        "textAlign": "center",
-                        "textDecoration": "none",
-                        "textTransform": "none",
-                      }
-                    }
                   >
                     04/01/19 15:03
                   </div>
                 </div>
                 <div
-                  className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz"
+                  className="css-view-1dbjc4n r-alignItems-1awozwy r-borderBottomWidth-wgabs5 r-borderTopWidth-1jxfwug r-display-6koalj r-flexDirection-18u37iz r-justifyContent-1h0z5md r-marginBottom-le4sbl r-paddingBottom-i03k3n r-paddingTop-5t7p9m"
                   style={
                     Object {
-                      "WebkitBoxPack": "start",
-                      "WebkitJustifyContent": "flex-start",
                       "borderBottomColor": "rgba(0,175,255,1.00)",
-                      "borderBottomWidth": "2px",
                       "borderLeftColor": "rgba(0,175,255,1.00)",
                       "borderRightColor": "rgba(0,175,255,1.00)",
                       "borderTopColor": "rgba(0,175,255,1.00)",
-                      "borderTopWidth": "2px",
-                      "display": "flex",
-                      "justifyContent": "flex-start",
-                      "marginBottom": "18px",
-                      "msFlexPack": "start",
-                      "paddingBottom": "14px",
-                      "paddingTop": "14px",
                     }
                   }
                 >
                   <div
-                    className="css-text-901oao css-textMultiLine-cens5h r-flex-13awgt0"
+                    className="css-text-901oao css-textMultiLine-cens5h r-alignItems-1d09ksm r-color-cddv6f r-display-6koalj r-flex-13awgt0 r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-height-16l9doz r-lineHeight-hbpseb r-marginRight-lchren r-paddingRight-1hvjb8t r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
                     dir="auto"
                     style={
                       Object {
-                        "WebkitAlignItems": "baseline",
-                        "WebkitBoxAlign": "baseline",
                         "WebkitLineClamp": 2,
-                        "alignItems": "baseline",
-                        "color": "rgba(66,69,74,1.00)",
-                        "display": "flex",
-                        "fontFamily": "Roboto",
-                        "fontSize": "16px",
-                        "fontWeight": "normal",
-                        "height": "auto",
-                        "lineHeight": "22px",
-                        "marginRight": "auto",
-                        "msFlexAlign": "baseline",
-                        "paddingRight": "4px",
-                        "textAlign": "left",
-                        "textDecoration": "none",
-                        "textTransform": "capitalize",
                       }
                     }
                   >
                     
                     <span
-                      className="css-text-901oao css-textHasAncestor-16my406"
+                      className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-evnaw r-fontWeight-majxgm r-lineHeight-hbpseb r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                       dir="auto"
-                      style={
-                        Object {
-                          "color": "rgba(66,69,74,1.00)",
-                          "fontFamily": "Roboto",
-                          "fontSize": "22px",
-                          "fontWeight": "500",
-                          "lineHeight": "22px",
-                          "textAlign": "left",
-                          "textDecoration": "none",
-                          "textTransform": "none",
-                        }
-                      }
                     >
                       Misao Matimbo
                     </span>
@@ -277,49 +134,17 @@ exports[`FeedModalItem - Invite matches snapshot 1`] = `
                   className="css-view-1dbjc4n r-flex-13awgt0"
                 >
                   <div
-                    className="css-text-901oao"
+                    className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-1it3c9n r-lineHeight-rjixqe r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                     dir="auto"
-                    style={
-                      Object {
-                        "color": "rgba(66,69,74,1.00)",
-                        "fontFamily": "Roboto",
-                        "fontSize": "14px",
-                        "fontWeight": "normal",
-                        "lineHeight": "20px",
-                        "textAlign": "left",
-                        "textDecoration": "none",
-                        "textTransform": "none",
-                      }
-                    }
                   >
                     aaa
                   </div>
                 </div>
                 <div
-                  className="css-view-1dbjc4n r-flexDirection-18u37iz r-width-13qz1uu"
-                  style={
-                    Object {
-                      "WebkitAlignItems": "flex-end",
-                      "WebkitBoxAlign": "end",
-                      "WebkitBoxLines": "multiple",
-                      "WebkitBoxPack": "end",
-                      "WebkitFlexWrap": "wrap",
-                      "WebkitJustifyContent": "flex-end",
-                      "alignItems": "flex-end",
-                      "display": "flex",
-                      "flexWrap": "wrap",
-                      "justifyContent": "flex-end",
-                      "marginLeft": "-4px",
-                      "marginRight": "-4px",
-                      "marginTop": "4px",
-                      "msFlexAlign": "end",
-                      "msFlexPack": "end",
-                      "msFlexWrap": "wrap",
-                    }
-                  }
+                  className="css-view-1dbjc4n r-alignItems-obd0qt r-display-6koalj r-flexDirection-18u37iz r-flexWrap-1w6e6rj r-justifyContent-17s6mgv r-marginHorizontal-lz04qo r-marginTop-14gqq1x r-width-13qz1uu"
                 >
                   <div
-                    className="css-view-1dbjc4n r-justifyContent-1777fci"
+                    className="css-view-1dbjc4n r-display-6koalj r-justifyContent-1777fci"
                     style={
                       Object {
                         "WebkitAlignItems": "stretch",
@@ -343,7 +168,6 @@ exports[`FeedModalItem - Invite matches snapshot 1`] = `
                         "borderTopStyle": "solid",
                         "borderTopWidth": "0px",
                         "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
-                        "display": "flex",
                         "marginBottom": "0px",
                         "marginLeft": "0px",
                         "marginRight": "0px",
@@ -399,30 +223,11 @@ exports[`FeedModalItem - Invite matches snapshot 1`] = `
                           className="css-view-1dbjc4n r-marginHorizontal-1ydw1k6 r-marginVertical-712mwr"
                         >
                           <div
-                            className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz"
-                            style={
-                              Object {
-                                "display": "flex",
-                              }
-                            }
+                            className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
                           >
                             <div
-                              className="css-text-901oao r-alignItems-1awozwy r-justifyContent-1777fci"
+                              className="css-text-901oao r-alignItems-1awozwy r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-hbpseb r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
                               dir="auto"
-                              style={
-                                Object {
-                                  "color": "rgba(255,255,255,1.00)",
-                                  "fontFamily": "Roboto",
-                                  "fontSize": "16px",
-                                  "fontWeight": "500",
-                                  "letterSpacing": "0px",
-                                  "lineHeight": "22px",
-                                  "paddingTop": "1px",
-                                  "textAlign": "center",
-                                  "textDecoration": "none",
-                                  "textTransform": "uppercase",
-                                }
-                              }
                             >
                               Ok
                             </div>
@@ -465,59 +270,19 @@ exports[`FeedModalItem - Message matches snapshot 1`] = `
       className="css-view-1dbjc4n"
     >
       <div
-        className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-width-13qz1uu"
-        style={
-          Object {
-            "WebkitAlignSelf": "flex-start",
-            "alignSelf": "flex-start",
-            "height": "768px",
-            "msFlexItemAlign": "start",
-          }
-        }
+        className="css-view-1dbjc4n r-alignSelf-k200y r-backgroundColor-1niwhzg r-height-i7wkem r-width-13qz1uu"
       >
         <div
-          className="css-view-1dbjc4n r-flexGrow-16y2uox r-width-13qz1uu"
-          style={
-            Object {
-              "WebkitAlignSelf": "center",
-              "WebkitFlexShrink": 0,
-              "alignSelf": "center",
-              "flexShrink": 0,
-              "marginBottom": "88.51948051948051px",
-              "marginTop": "62.33766233766234px",
-              "maxWidth": "475px",
-              "msFlexItemAlign": "center",
-              "msFlexNegative": 0,
-              "paddingLeft": "20px",
-              "paddingRight": "20px",
-            }
-          }
+          className="css-view-1dbjc4n r-alignSelf-1kihuf0 r-flexGrow-16y2uox r-flexShrink-1q142lx r-marginBottom-hte7mp r-marginTop-1511jto r-maxWidth-1xnn5q4 r-paddingLeft-b5h31w r-paddingRight-1ah4tor r-width-13qz1uu"
         >
           <div
-            className="css-view-1dbjc4n r-flexDirection-18u37iz r-flexGrow-16y2uox r-position-bnwqim r-width-13qz1uu"
-            style={
-              Object {
-                "display": "flex",
-                "maxHeight": "844px",
-                "minHeight": "350px",
-              }
-            }
+            className="css-view-1dbjc4n r-display-6koalj r-flexDirection-18u37iz r-flexGrow-16y2uox r-maxHeight-1qalap5 r-minHeight-1pexjug r-position-bnwqim r-width-13qz1uu"
           >
             <div
-              className="css-view-1dbjc4n r-flexGrow-16y2uox r-position-bnwqim"
+              className="css-view-1dbjc4n r-backgroundImage-o7i658 r-backgroundRepeat-1w25a1u r-borderBottomLeftRadius-re1h2s r-borderTopLeftRadius-1as3g83 r-flexGrow-16y2uox r-flexShrink-1q142lx r-maxWidth-1akpm2g r-minWidth-t66pp7 r-position-bnwqim r-zIndex-pezta"
               style={
                 Object {
-                  "WebkitFlexShrink": 0,
                   "backgroundColor": "rgba(159,106,157,1.00)",
-                  "backgroundImage": "url(undefined)",
-                  "backgroundRepeat": "repeat-y",
-                  "borderBottomLeftRadius": "5px",
-                  "borderTopLeftRadius": "5px",
-                  "flexShrink": 0,
-                  "maxWidth": "10px",
-                  "minWidth": "10px",
-                  "msFlexNegative": 0,
-                  "zIndex": 5,
                 }
               }
             />
@@ -525,7 +290,7 @@ exports[`FeedModalItem - Message matches snapshot 1`] = `
               className="css-view-1dbjc4n r-flexGrow-16y2uox r-flexShrink-1wbh5a2"
             >
               <div
-                className="css-view-1dbjc4n r-cursor-1loqt21 r-position-u8s1d r-right-zchlnj r-touchAction-1otgn73 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
+                className="css-view-1dbjc4n r-cursor-1loqt21 r-height-1uopjct r-marginLeft-1jj8364 r-marginRight-1bbvk3j r-position-u8s1d r-right-zchlnj r-top-1nd9uzx r-touchAction-1otgn73 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-width-1y566p8 r-zIndex-pezta"
                 data-focusable={true}
                 onKeyDown={[Function]}
                 onKeyUp={[Function]}
@@ -535,16 +300,6 @@ exports[`FeedModalItem - Message matches snapshot 1`] = `
                 onResponderTerminate={[Function]}
                 onResponderTerminationRequest={[Function]}
                 onStartShouldSetResponder={[Function]}
-                style={
-                  Object {
-                    "height": "37px",
-                    "marginLeft": "auto",
-                    "marginRight": "-18.5px",
-                    "top": "-20px",
-                    "width": "37px",
-                    "zIndex": 5,
-                  }
-                }
                 tabIndex="0"
               >
                 <div
@@ -554,39 +309,10 @@ exports[`FeedModalItem - Message matches snapshot 1`] = `
                 </div>
               </div>
               <div
-                className="css-view-1dbjc4n r-flexGrow-16y2uox r-position-bnwqim"
-                style={
-                  Object {
-                    "backgroundColor": "rgba(255,255,255,1.00)",
-                    "borderBottomRightRadius": "5px",
-                    "borderTopRightRadius": "5px",
-                    "boxShadow": "0 20px 24px rgba(0, 0, 0, 0.5)",
-                    "paddingBottom": "16px",
-                    "paddingLeft": "16px",
-                    "paddingRight": "16px",
-                    "paddingTop": "16px",
-                    "zIndex": 1,
-                  }
-                }
+                className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderBottomRightRadius-qpmf2f r-borderTopRightRadius-dfv94e r-boxShadow-172poub r-flexGrow-16y2uox r-padding-nsbfu8 r-position-bnwqim r-zIndex-184en5c"
               >
                 <div
-                  className="css-view-1dbjc4n r-flexDirection-18u37iz r-justifyContent-1777fci"
-                  style={
-                    Object {
-                      "WebkitBoxFlex": 0,
-                      "WebkitFlexGrow": 0,
-                      "WebkitFlexShrink": 0,
-                      "display": "flex",
-                      "flexGrow": 0,
-                      "flexShrink": 0,
-                      "marginBottom": "30px",
-                      "marginLeft": "-16px",
-                      "marginRight": "-16px",
-                      "marginTop": "-16px",
-                      "msFlexNegative": 0,
-                      "msFlexPositive": 0,
-                    }
-                  }
+                  className="css-view-1dbjc4n r-display-6koalj r-flexDirection-18u37iz r-flexGrow-18kxxzh r-flexShrink-1q142lx r-justifyContent-1777fci r-marginBottom-1yflyrw r-marginHorizontal-6cv0rn r-marginTop-1x4s0f8"
                 >
                   <div
                     className="css-view-1dbjc4n r-flexBasis-1mlwlqe r-overflow-1udh08x r-width-13qz1uu r-zIndex-417010"
@@ -613,65 +339,29 @@ exports[`FeedModalItem - Message matches snapshot 1`] = `
                   </div>
                 </div>
                 <div
-                  className="css-view-1dbjc4n r-flexDirection-18u37iz"
-                  style={
-                    Object {
-                      "WebkitAlignItems": "baseline",
-                      "WebkitBoxAlign": "baseline",
-                      "WebkitBoxPack": "justify",
-                      "WebkitJustifyContent": "space-between",
-                      "alignItems": "baseline",
-                      "display": "flex",
-                      "justifyContent": "space-between",
-                      "marginBottom": "12px",
-                      "msFlexAlign": "baseline",
-                      "msFlexPack": "justify",
-                    }
-                  }
+                  className="css-view-1dbjc4n r-alignItems-1d09ksm r-display-6koalj r-flexDirection-18u37iz r-justifyContent-1wtj0ep r-marginBottom-6gpygo"
                 >
                   <div
-                    className="css-text-901oao"
+                    className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1f529hi r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                     dir="auto"
-                    style={
-                      Object {
-                        "color": "rgba(66,69,74,1.00)",
-                        "fontFamily": "Roboto",
-                        "fontSize": "10px",
-                        "fontWeight": "normal",
-                        "lineHeight": "14px",
-                        "textAlign": "center",
-                        "textDecoration": "none",
-                        "textTransform": "none",
-                      }
-                    }
                   >
                     04/01/19 15:03
                   </div>
                 </div>
                 <div
-                  className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz"
+                  className="css-view-1dbjc4n r-alignItems-1awozwy r-borderBottomWidth-wgabs5 r-borderTopWidth-1jxfwug r-display-6koalj r-flexDirection-18u37iz r-justifyContent-1h0z5md r-marginBottom-le4sbl r-paddingBottom-i03k3n r-paddingTop-5t7p9m"
                   style={
                     Object {
-                      "WebkitBoxPack": "start",
-                      "WebkitJustifyContent": "flex-start",
                       "borderBottomColor": "rgba(159,106,157,1.00)",
-                      "borderBottomWidth": "2px",
                       "borderLeftColor": "rgba(159,106,157,1.00)",
                       "borderRightColor": "rgba(159,106,157,1.00)",
                       "borderTopColor": "rgba(159,106,157,1.00)",
-                      "borderTopWidth": "2px",
-                      "display": "flex",
-                      "justifyContent": "flex-start",
-                      "marginBottom": "18px",
-                      "msFlexPack": "start",
-                      "paddingBottom": "14px",
-                      "paddingTop": "14px",
                     }
                   }
                 >
                   <div
                     aria-disabled={true}
-                    className="css-view-1dbjc4n r-alignItems-1awozwy r-justifyContent-1777fci r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
+                    className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-l26x2w r-borderColor-y68mpx r-borderRadius-ieixw r-borderWidth-rs99b7 r-height-zx9znk r-justifyContent-1777fci r-marginRight-12zb1j4 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-width-5orghg"
                     disabled={true}
                     onKeyDown={[Function]}
                     onKeyUp={[Function]}
@@ -681,26 +371,6 @@ exports[`FeedModalItem - Message matches snapshot 1`] = `
                     onResponderTerminate={[Function]}
                     onResponderTerminationRequest={[Function]}
                     onStartShouldSetResponder={[Function]}
-                    style={
-                      Object {
-                        "backgroundColor": "rgba(238,238,238,1.00)",
-                        "borderBottomColor": "rgba(163,163,163,1.00)",
-                        "borderBottomLeftRadius": "50%",
-                        "borderBottomRightRadius": "50%",
-                        "borderBottomWidth": "1px",
-                        "borderLeftColor": "rgba(163,163,163,1.00)",
-                        "borderLeftWidth": "1px",
-                        "borderRightColor": "rgba(163,163,163,1.00)",
-                        "borderRightWidth": "1px",
-                        "borderTopColor": "rgba(163,163,163,1.00)",
-                        "borderTopLeftRadius": "50%",
-                        "borderTopRightRadius": "50%",
-                        "borderTopWidth": "1px",
-                        "height": "34px",
-                        "marginRight": "7px",
-                        "width": "34px",
-                      }
-                    }
                   >
                     <div
                       className="css-view-1dbjc4n r-backgroundColor-1niwhzg"
@@ -746,62 +416,27 @@ exports[`FeedModalItem - Message matches snapshot 1`] = `
                     </div>
                   </div>
                   <div
-                    className="css-text-901oao css-textMultiLine-cens5h r-flex-13awgt0"
+                    className="css-text-901oao css-textMultiLine-cens5h r-alignItems-1d09ksm r-color-cddv6f r-display-6koalj r-flex-13awgt0 r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-height-16l9doz r-lineHeight-hbpseb r-marginRight-lchren r-paddingRight-1hvjb8t r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
                     dir="auto"
                     style={
                       Object {
-                        "WebkitAlignItems": "baseline",
-                        "WebkitBoxAlign": "baseline",
                         "WebkitLineClamp": 2,
-                        "alignItems": "baseline",
-                        "color": "rgba(66,69,74,1.00)",
-                        "display": "flex",
-                        "fontFamily": "Roboto",
-                        "fontSize": "16px",
-                        "fontWeight": "normal",
-                        "height": "auto",
-                        "lineHeight": "22px",
-                        "marginRight": "auto",
-                        "msFlexAlign": "baseline",
-                        "paddingRight": "4px",
-                        "textAlign": "left",
-                        "textDecoration": "none",
-                        "textTransform": "capitalize",
                       }
                     }
                   >
                     
                     <span
-                      className="css-text-901oao css-textHasAncestor-16my406"
+                      className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-evnaw r-fontWeight-majxgm r-lineHeight-hbpseb r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                       dir="auto"
-                      style={
-                        Object {
-                          "color": "rgba(66,69,74,1.00)",
-                          "fontFamily": "Roboto",
-                          "fontSize": "22px",
-                          "fontWeight": "500",
-                          "lineHeight": "22px",
-                          "textAlign": "left",
-                          "textDecoration": "none",
-                          "textTransform": "none",
-                        }
-                      }
                     >
                       Misao Matimbo
                     </span>
                   </div>
                   <div
-                    className="css-view-1dbjc4n"
-                    style={
-                      Object {
-                        "height": "36px",
-                        "marginLeft": "auto",
-                        "width": "36px",
-                      }
-                    }
+                    className="css-view-1dbjc4n r-height-1r8g8re r-marginLeft-1jj8364 r-width-1acpoxo"
                   >
                     <div
-                      className="css-text-901oao"
+                      className="css-text-901oao r-fontWeight-1it3c9n r-marginRight-1knfw1x"
                       dir="auto"
                       style={
                         Object {
@@ -809,8 +444,6 @@ exports[`FeedModalItem - Message matches snapshot 1`] = `
                           "fontFamily": "gooddollar",
                           "fontSize": "34px",
                           "fontStyle": "normal",
-                          "fontWeight": "normal",
-                          "marginRight": "1px",
                         }
                       }
                     >
@@ -822,49 +455,17 @@ exports[`FeedModalItem - Message matches snapshot 1`] = `
                   className="css-view-1dbjc4n r-flex-13awgt0"
                 >
                   <div
-                    className="css-text-901oao"
+                    className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-1it3c9n r-lineHeight-rjixqe r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                     dir="auto"
-                    style={
-                      Object {
-                        "color": "rgba(66,69,74,1.00)",
-                        "fontFamily": "Roboto",
-                        "fontSize": "14px",
-                        "fontWeight": "normal",
-                        "lineHeight": "20px",
-                        "textAlign": "left",
-                        "textDecoration": "none",
-                        "textTransform": "none",
-                      }
-                    }
                   >
                     aaa
                   </div>
                 </div>
                 <div
-                  className="css-view-1dbjc4n r-flexDirection-18u37iz r-width-13qz1uu"
-                  style={
-                    Object {
-                      "WebkitAlignItems": "flex-end",
-                      "WebkitBoxAlign": "end",
-                      "WebkitBoxLines": "multiple",
-                      "WebkitBoxPack": "end",
-                      "WebkitFlexWrap": "wrap",
-                      "WebkitJustifyContent": "flex-end",
-                      "alignItems": "flex-end",
-                      "display": "flex",
-                      "flexWrap": "wrap",
-                      "justifyContent": "flex-end",
-                      "marginLeft": "-4px",
-                      "marginRight": "-4px",
-                      "marginTop": "4px",
-                      "msFlexAlign": "end",
-                      "msFlexPack": "end",
-                      "msFlexWrap": "wrap",
-                    }
-                  }
+                  className="css-view-1dbjc4n r-alignItems-obd0qt r-display-6koalj r-flexDirection-18u37iz r-flexWrap-1w6e6rj r-justifyContent-17s6mgv r-marginHorizontal-lz04qo r-marginTop-14gqq1x r-width-13qz1uu"
                 >
                   <div
-                    className="css-view-1dbjc4n r-justifyContent-1777fci"
+                    className="css-view-1dbjc4n r-display-6koalj r-justifyContent-1777fci"
                     style={
                       Object {
                         "WebkitAlignItems": "stretch",
@@ -888,7 +489,6 @@ exports[`FeedModalItem - Message matches snapshot 1`] = `
                         "borderTopStyle": "solid",
                         "borderTopWidth": "0px",
                         "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
-                        "display": "flex",
                         "marginBottom": "0px",
                         "marginLeft": "0px",
                         "marginRight": "0px",
@@ -944,30 +544,11 @@ exports[`FeedModalItem - Message matches snapshot 1`] = `
                           className="css-view-1dbjc4n r-marginHorizontal-1ydw1k6 r-marginVertical-712mwr"
                         >
                           <div
-                            className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz"
-                            style={
-                              Object {
-                                "display": "flex",
-                              }
-                            }
+                            className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
                           >
                             <div
-                              className="css-text-901oao r-alignItems-1awozwy r-justifyContent-1777fci"
+                              className="css-text-901oao r-alignItems-1awozwy r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-hbpseb r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
                               dir="auto"
-                              style={
-                                Object {
-                                  "color": "rgba(255,255,255,1.00)",
-                                  "fontFamily": "Roboto",
-                                  "fontSize": "16px",
-                                  "fontWeight": "500",
-                                  "letterSpacing": "0px",
-                                  "lineHeight": "22px",
-                                  "paddingTop": "1px",
-                                  "textAlign": "center",
-                                  "textDecoration": "none",
-                                  "textTransform": "uppercase",
-                                }
-                              }
                             >
                               Ok
                             </div>
@@ -1010,59 +591,19 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
       className="css-view-1dbjc4n"
     >
       <div
-        className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-width-13qz1uu"
-        style={
-          Object {
-            "WebkitAlignSelf": "flex-start",
-            "alignSelf": "flex-start",
-            "height": "768px",
-            "msFlexItemAlign": "start",
-          }
-        }
+        className="css-view-1dbjc4n r-alignSelf-k200y r-backgroundColor-1niwhzg r-height-i7wkem r-width-13qz1uu"
       >
         <div
-          className="css-view-1dbjc4n r-flexGrow-16y2uox r-width-13qz1uu"
-          style={
-            Object {
-              "WebkitAlignSelf": "center",
-              "WebkitFlexShrink": 0,
-              "alignSelf": "center",
-              "flexShrink": 0,
-              "marginBottom": "88.51948051948051px",
-              "marginTop": "62.33766233766234px",
-              "maxWidth": "475px",
-              "msFlexItemAlign": "center",
-              "msFlexNegative": 0,
-              "paddingLeft": "20px",
-              "paddingRight": "20px",
-            }
-          }
+          className="css-view-1dbjc4n r-alignSelf-1kihuf0 r-flexGrow-16y2uox r-flexShrink-1q142lx r-marginBottom-hte7mp r-marginTop-1511jto r-maxWidth-1xnn5q4 r-paddingLeft-b5h31w r-paddingRight-1ah4tor r-width-13qz1uu"
         >
           <div
-            className="css-view-1dbjc4n r-flexDirection-18u37iz r-flexGrow-16y2uox r-position-bnwqim r-width-13qz1uu"
-            style={
-              Object {
-                "display": "flex",
-                "maxHeight": "844px",
-                "minHeight": "350px",
-              }
-            }
+            className="css-view-1dbjc4n r-display-6koalj r-flexDirection-18u37iz r-flexGrow-16y2uox r-maxHeight-1qalap5 r-minHeight-1pexjug r-position-bnwqim r-width-13qz1uu"
           >
             <div
-              className="css-view-1dbjc4n r-flexGrow-16y2uox r-position-bnwqim"
+              className="css-view-1dbjc4n r-backgroundImage-o7i658 r-backgroundRepeat-1w25a1u r-borderBottomLeftRadius-re1h2s r-borderTopLeftRadius-1as3g83 r-flexGrow-16y2uox r-flexShrink-1q142lx r-maxWidth-1akpm2g r-minWidth-t66pp7 r-position-bnwqim r-zIndex-pezta"
               style={
                 Object {
-                  "WebkitFlexShrink": 0,
                   "backgroundColor": "rgba(250,108,119,1.00)",
-                  "backgroundImage": "url(undefined)",
-                  "backgroundRepeat": "repeat-y",
-                  "borderBottomLeftRadius": "5px",
-                  "borderTopLeftRadius": "5px",
-                  "flexShrink": 0,
-                  "maxWidth": "10px",
-                  "minWidth": "10px",
-                  "msFlexNegative": 0,
-                  "zIndex": 5,
                 }
               }
             />
@@ -1070,7 +611,7 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
               className="css-view-1dbjc4n r-flexGrow-16y2uox r-flexShrink-1wbh5a2"
             >
               <div
-                className="css-view-1dbjc4n r-cursor-1loqt21 r-position-u8s1d r-right-zchlnj r-touchAction-1otgn73 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
+                className="css-view-1dbjc4n r-cursor-1loqt21 r-height-1uopjct r-marginLeft-1jj8364 r-marginRight-1bbvk3j r-position-u8s1d r-right-zchlnj r-top-1nd9uzx r-touchAction-1otgn73 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-width-1y566p8 r-zIndex-pezta"
                 data-focusable={true}
                 onKeyDown={[Function]}
                 onKeyUp={[Function]}
@@ -1080,16 +621,6 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                 onResponderTerminate={[Function]}
                 onResponderTerminationRequest={[Function]}
                 onStartShouldSetResponder={[Function]}
-                style={
-                  Object {
-                    "height": "37px",
-                    "marginLeft": "auto",
-                    "marginRight": "-18.5px",
-                    "top": "-20px",
-                    "width": "37px",
-                    "zIndex": 5,
-                  }
-                }
                 tabIndex="0"
               >
                 <div
@@ -1099,175 +630,51 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                 </div>
               </div>
               <div
-                className="css-view-1dbjc4n r-flexGrow-16y2uox r-position-bnwqim"
-                style={
-                  Object {
-                    "backgroundColor": "rgba(255,255,255,1.00)",
-                    "borderBottomRightRadius": "5px",
-                    "borderTopRightRadius": "5px",
-                    "boxShadow": "0 20px 24px rgba(0, 0, 0, 0.5)",
-                    "paddingBottom": "16px",
-                    "paddingLeft": "16px",
-                    "paddingRight": "16px",
-                    "paddingTop": "16px",
-                    "zIndex": 1,
-                  }
-                }
+                className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderBottomRightRadius-qpmf2f r-borderTopRightRadius-dfv94e r-boxShadow-172poub r-flexGrow-16y2uox r-padding-nsbfu8 r-position-bnwqim r-zIndex-184en5c"
               >
                 <div
-                  className="css-view-1dbjc4n r-flexDirection-18u37iz r-justifyContent-1777fci"
-                  style={
-                    Object {
-                      "WebkitBoxFlex": 0,
-                      "WebkitFlexGrow": 0,
-                      "WebkitFlexShrink": 0,
-                      "display": "flex",
-                      "flexGrow": 0,
-                      "flexShrink": 0,
-                      "marginBottom": "30px",
-                      "msFlexNegative": 0,
-                      "msFlexPositive": 0,
-                    }
-                  }
+                  className="css-view-1dbjc4n r-display-6koalj r-flexDirection-18u37iz r-flexGrow-18kxxzh r-flexShrink-1q142lx r-justifyContent-1777fci r-marginBottom-1yflyrw"
                 >
                   <send.svg
-                    style={
-                      Object {
-                        "height": 110,
-                        "width": 70,
-                      }
-                    }
+                    style={787}
                   />
                 </div>
                 <div
-                  className="css-view-1dbjc4n r-flexDirection-18u37iz"
-                  style={
-                    Object {
-                      "WebkitAlignItems": "baseline",
-                      "WebkitBoxAlign": "baseline",
-                      "WebkitBoxPack": "justify",
-                      "WebkitJustifyContent": "space-between",
-                      "alignItems": "baseline",
-                      "display": "flex",
-                      "justifyContent": "space-between",
-                      "marginBottom": "12px",
-                      "msFlexAlign": "baseline",
-                      "msFlexPack": "justify",
-                    }
-                  }
+                  className="css-view-1dbjc4n r-alignItems-1d09ksm r-display-6koalj r-flexDirection-18u37iz r-justifyContent-1wtj0ep r-marginBottom-6gpygo"
                 >
                   <div
-                    className="css-text-901oao"
+                    className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1f529hi r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                     dir="auto"
-                    style={
-                      Object {
-                        "color": "rgba(66,69,74,1.00)",
-                        "fontFamily": "Roboto",
-                        "fontSize": "10px",
-                        "fontWeight": "normal",
-                        "lineHeight": "14px",
-                        "textAlign": "center",
-                        "textDecoration": "none",
-                        "textTransform": "none",
-                      }
-                    }
                   >
                     04/01/19 15:03
                   </div>
                   <div
-                    className="css-text-901oao"
+                    className="css-text-901oao r-color-11zaip3 r-fontFamily-vnw8o6 r-fontSize-evnaw r-fontWeight-b88u0q r-lineHeight-17rnw9f r-marginLeft-1jj8364 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                     dir="auto"
-                    style={
-                      Object {
-                        "color": "rgba(250,108,119,1.00)",
-                        "fontFamily": "Roboto",
-                        "fontSize": "22px",
-                        "fontWeight": "700",
-                        "lineHeight": "30px",
-                        "marginLeft": "auto",
-                        "textAlign": "center",
-                        "textDecoration": "none",
-                        "textTransform": "none",
-                      }
-                    }
                   >
                     -
                   </div>
                   <div
-                    className="css-view-1dbjc4n r-flexDirection-18u37iz"
-                    style={
-                      Object {
-                        "WebkitAlignItems": "baseline",
-                        "WebkitBoxAlign": "baseline",
-                        "alignItems": "baseline",
-                        "display": "flex",
-                        "msFlexAlign": "baseline",
-                      }
-                    }
+                    className="css-view-1dbjc4n r-alignItems-1d09ksm r-display-6koalj r-flexDirection-18u37iz"
                   >
                     <div
-                      className="css-text-901oao"
+                      className="css-text-901oao r-color-11zaip3 r-fontFamily-6jnb14 r-fontSize-1x35g6 r-fontWeight-b88u0q r-lineHeight-ueyrd6 r-marginRight-1d4mawv r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                       dir="auto"
-                      style={
-                        Object {
-                          "color": "rgba(250,108,119,1.00)",
-                          "fontFamily": "Roboto Slab",
-                          "fontSize": "24px",
-                          "fontWeight": "700",
-                          "lineHeight": "36px",
-                          "marginRight": "4px",
-                          "textAlign": "right",
-                          "textDecoration": "none",
-                          "textTransform": "none",
-                        }
-                      }
                     >
                       0.04
                     </div>
                     <div
-                      className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz"
-                      style={
-                        Object {
-                          "WebkitBoxPack": "justify",
-                          "WebkitJustifyContent": "space-between",
-                          "justifyContent": "space-between",
-                          "msFlexPack": "justify",
-                        }
-                      }
+                      className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
                     >
                       <div
-                        className="css-text-901oao"
+                        className="css-text-901oao r-color-11zaip3 r-fontFamily-6jnb14 r-fontSize-1enofrn r-fontWeight-b88u0q r-lineHeight-hbpseb r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                         dir="auto"
-                        style={
-                          Object {
-                            "color": "rgba(250,108,119,1.00)",
-                            "fontFamily": "Roboto Slab",
-                            "fontSize": "12px",
-                            "fontWeight": "700",
-                            "lineHeight": "22px",
-                            "textAlign": "right",
-                            "textDecoration": "none",
-                            "textTransform": "none",
-                          }
-                        }
                       >
                         G
                       </div>
                       <div
-                        className="css-text-901oao"
+                        className="css-text-901oao r-color-11zaip3 r-fontFamily-6jnb14 r-fontSize-1ws2f5x r-fontWeight-b88u0q r-lineHeight-hbpseb r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                         dir="auto"
-                        style={
-                          Object {
-                            "color": "rgba(250,108,119,1.00)",
-                            "fontFamily": "Roboto Slab",
-                            "fontSize": "11.5px",
-                            "fontWeight": "700",
-                            "lineHeight": "22px",
-                            "textAlign": "right",
-                            "textDecoration": "none",
-                            "textTransform": "none",
-                          }
-                        }
                       >
                         $
                       </div>
@@ -1275,29 +682,19 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                   </div>
                 </div>
                 <div
-                  className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz"
+                  className="css-view-1dbjc4n r-alignItems-1awozwy r-borderBottomWidth-wgabs5 r-borderTopWidth-1jxfwug r-display-6koalj r-flexDirection-18u37iz r-justifyContent-1h0z5md r-marginBottom-le4sbl r-paddingBottom-i03k3n r-paddingTop-5t7p9m"
                   style={
                     Object {
-                      "WebkitBoxPack": "start",
-                      "WebkitJustifyContent": "flex-start",
                       "borderBottomColor": "rgba(250,108,119,1.00)",
-                      "borderBottomWidth": "2px",
                       "borderLeftColor": "rgba(250,108,119,1.00)",
                       "borderRightColor": "rgba(250,108,119,1.00)",
                       "borderTopColor": "rgba(250,108,119,1.00)",
-                      "borderTopWidth": "2px",
-                      "display": "flex",
-                      "justifyContent": "flex-start",
-                      "marginBottom": "18px",
-                      "msFlexPack": "start",
-                      "paddingBottom": "14px",
-                      "paddingTop": "14px",
                     }
                   }
                 >
                   <div
                     aria-disabled={true}
-                    className="css-view-1dbjc4n r-alignItems-1awozwy r-justifyContent-1777fci r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
+                    className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-l26x2w r-borderColor-y68mpx r-borderRadius-ieixw r-borderWidth-rs99b7 r-height-zx9znk r-justifyContent-1777fci r-marginRight-12zb1j4 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-width-5orghg"
                     disabled={true}
                     onKeyDown={[Function]}
                     onKeyUp={[Function]}
@@ -1307,26 +704,6 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                     onResponderTerminate={[Function]}
                     onResponderTerminationRequest={[Function]}
                     onStartShouldSetResponder={[Function]}
-                    style={
-                      Object {
-                        "backgroundColor": "rgba(238,238,238,1.00)",
-                        "borderBottomColor": "rgba(163,163,163,1.00)",
-                        "borderBottomLeftRadius": "50%",
-                        "borderBottomRightRadius": "50%",
-                        "borderBottomWidth": "1px",
-                        "borderLeftColor": "rgba(163,163,163,1.00)",
-                        "borderLeftWidth": "1px",
-                        "borderRightColor": "rgba(163,163,163,1.00)",
-                        "borderRightWidth": "1px",
-                        "borderTopColor": "rgba(163,163,163,1.00)",
-                        "borderTopLeftRadius": "50%",
-                        "borderTopRightRadius": "50%",
-                        "borderTopWidth": "1px",
-                        "height": "34px",
-                        "marginRight": "7px",
-                        "width": "34px",
-                      }
-                    }
                   >
                     <div
                       className="css-view-1dbjc4n r-backgroundColor-1niwhzg"
@@ -1372,77 +749,29 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                     </div>
                   </div>
                   <div
-                    className="css-text-901oao css-textMultiLine-cens5h r-flex-13awgt0"
+                    className="css-text-901oao css-textMultiLine-cens5h r-alignItems-1d09ksm r-color-cddv6f r-display-6koalj r-flex-13awgt0 r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-height-16l9doz r-lineHeight-hbpseb r-marginRight-lchren r-paddingRight-1hvjb8t r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
                     dir="auto"
                     style={
                       Object {
-                        "WebkitAlignItems": "baseline",
-                        "WebkitBoxAlign": "baseline",
                         "WebkitLineClamp": 2,
-                        "alignItems": "baseline",
-                        "color": "rgba(66,69,74,1.00)",
-                        "display": "flex",
-                        "fontFamily": "Roboto",
-                        "fontSize": "16px",
-                        "fontWeight": "normal",
-                        "height": "auto",
-                        "lineHeight": "22px",
-                        "marginRight": "auto",
-                        "msFlexAlign": "baseline",
-                        "paddingRight": "4px",
-                        "textAlign": "left",
-                        "textDecoration": "none",
-                        "textTransform": "capitalize",
                       }
                     }
                   >
                     <span
-                      className="css-text-901oao css-textHasAncestor-16my406"
+                      className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1cwl3u0 r-marginRight-1ifrmw8 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                       dir="auto"
-                      style={
-                        Object {
-                          "color": "rgba(66,69,74,1.00)",
-                          "fontFamily": "Roboto",
-                          "fontSize": "10px",
-                          "fontWeight": "normal",
-                          "lineHeight": "22px",
-                          "marginRight": "3px",
-                          "textAlign": "center",
-                          "textDecoration": "none",
-                          "textTransform": "none",
-                        }
-                      }
                     >
                       To: 
                     </span>
                     <span
-                      className="css-text-901oao css-textHasAncestor-16my406"
+                      className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-evnaw r-fontWeight-majxgm r-lineHeight-hbpseb r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                       dir="auto"
-                      style={
-                        Object {
-                          "color": "rgba(66,69,74,1.00)",
-                          "fontFamily": "Roboto",
-                          "fontSize": "22px",
-                          "fontWeight": "500",
-                          "lineHeight": "22px",
-                          "textAlign": "left",
-                          "textDecoration": "none",
-                          "textTransform": "none",
-                        }
-                      }
                     >
                       Misao Matimbo
                     </span>
                   </div>
                   <div
-                    className="css-view-1dbjc4n"
-                    style={
-                      Object {
-                        "height": "36px",
-                        "marginLeft": "auto",
-                        "width": "36px",
-                      }
-                    }
+                    className="css-view-1dbjc4n r-height-1r8g8re r-marginLeft-1jj8364 r-width-1acpoxo"
                   >
                     <div
                       className="css-view-1dbjc4n"
@@ -1453,49 +782,17 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                   className="css-view-1dbjc4n r-flex-13awgt0"
                 >
                   <div
-                    className="css-text-901oao"
+                    className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-1it3c9n r-lineHeight-rjixqe r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                     dir="auto"
-                    style={
-                      Object {
-                        "color": "rgba(66,69,74,1.00)",
-                        "fontFamily": "Roboto",
-                        "fontSize": "14px",
-                        "fontWeight": "normal",
-                        "lineHeight": "20px",
-                        "textAlign": "left",
-                        "textDecoration": "none",
-                        "textTransform": "none",
-                      }
-                    }
                   >
                     aaa
                   </div>
                 </div>
                 <div
-                  className="css-view-1dbjc4n r-flexDirection-18u37iz r-width-13qz1uu"
-                  style={
-                    Object {
-                      "WebkitAlignItems": "flex-end",
-                      "WebkitBoxAlign": "end",
-                      "WebkitBoxLines": "multiple",
-                      "WebkitBoxPack": "end",
-                      "WebkitFlexWrap": "wrap",
-                      "WebkitJustifyContent": "flex-end",
-                      "alignItems": "flex-end",
-                      "display": "flex",
-                      "flexWrap": "wrap",
-                      "justifyContent": "flex-end",
-                      "marginLeft": "-4px",
-                      "marginRight": "-4px",
-                      "marginTop": "4px",
-                      "msFlexAlign": "end",
-                      "msFlexPack": "end",
-                      "msFlexWrap": "wrap",
-                    }
-                  }
+                  className="css-view-1dbjc4n r-alignItems-obd0qt r-display-6koalj r-flexDirection-18u37iz r-flexWrap-1w6e6rj r-justifyContent-17s6mgv r-marginHorizontal-lz04qo r-marginTop-14gqq1x r-width-13qz1uu"
                 >
                   <div
-                    className="css-view-1dbjc4n r-justifyContent-1777fci"
+                    className="css-view-1dbjc4n r-display-6koalj r-justifyContent-1777fci"
                     style={
                       Object {
                         "WebkitAlignItems": "stretch",
@@ -1519,7 +816,6 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                         "borderTopStyle": "solid",
                         "borderTopWidth": "0px",
                         "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
-                        "display": "flex",
                         "marginBottom": "0px",
                         "marginLeft": "0px",
                         "marginRight": "0px",
@@ -1575,30 +871,11 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                           className="css-view-1dbjc4n r-marginHorizontal-1ydw1k6 r-marginVertical-712mwr"
                         >
                           <div
-                            className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz"
-                            style={
-                              Object {
-                                "display": "flex",
-                              }
-                            }
+                            className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
                           >
                             <div
-                              className="css-text-901oao r-alignItems-1awozwy r-justifyContent-1777fci"
+                              className="css-text-901oao r-alignItems-1awozwy r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-hbpseb r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
                               dir="auto"
-                              style={
-                                Object {
-                                  "color": "rgba(255,255,255,1.00)",
-                                  "fontFamily": "Roboto",
-                                  "fontSize": "16px",
-                                  "fontWeight": "500",
-                                  "letterSpacing": "0px",
-                                  "lineHeight": "22px",
-                                  "paddingTop": "1px",
-                                  "textAlign": "center",
-                                  "textDecoration": "none",
-                                  "textTransform": "uppercase",
-                                }
-                              }
                             >
                               Ok
                             </div>
@@ -1641,59 +918,19 @@ exports[`FeedModalItem - Send with Error status matches snapshot 1`] = `
       className="css-view-1dbjc4n"
     >
       <div
-        className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-width-13qz1uu"
-        style={
-          Object {
-            "WebkitAlignSelf": "flex-start",
-            "alignSelf": "flex-start",
-            "height": "768px",
-            "msFlexItemAlign": "start",
-          }
-        }
+        className="css-view-1dbjc4n r-alignSelf-k200y r-backgroundColor-1niwhzg r-height-i7wkem r-width-13qz1uu"
       >
         <div
-          className="css-view-1dbjc4n r-flexGrow-16y2uox r-width-13qz1uu"
-          style={
-            Object {
-              "WebkitAlignSelf": "center",
-              "WebkitFlexShrink": 0,
-              "alignSelf": "center",
-              "flexShrink": 0,
-              "marginBottom": "88.51948051948051px",
-              "marginTop": "62.33766233766234px",
-              "maxWidth": "475px",
-              "msFlexItemAlign": "center",
-              "msFlexNegative": 0,
-              "paddingLeft": "20px",
-              "paddingRight": "20px",
-            }
-          }
+          className="css-view-1dbjc4n r-alignSelf-1kihuf0 r-flexGrow-16y2uox r-flexShrink-1q142lx r-marginBottom-hte7mp r-marginTop-1511jto r-maxWidth-1xnn5q4 r-paddingLeft-b5h31w r-paddingRight-1ah4tor r-width-13qz1uu"
         >
           <div
-            className="css-view-1dbjc4n r-flexDirection-18u37iz r-flexGrow-16y2uox r-position-bnwqim r-width-13qz1uu"
-            style={
-              Object {
-                "display": "flex",
-                "maxHeight": "844px",
-                "minHeight": "350px",
-              }
-            }
+            className="css-view-1dbjc4n r-display-6koalj r-flexDirection-18u37iz r-flexGrow-16y2uox r-maxHeight-1qalap5 r-minHeight-1pexjug r-position-bnwqim r-width-13qz1uu"
           >
             <div
-              className="css-view-1dbjc4n r-flexGrow-16y2uox r-position-bnwqim"
+              className="css-view-1dbjc4n r-backgroundImage-o7i658 r-backgroundRepeat-1w25a1u r-borderBottomLeftRadius-re1h2s r-borderTopLeftRadius-1as3g83 r-flexGrow-16y2uox r-flexShrink-1q142lx r-maxWidth-1akpm2g r-minWidth-t66pp7 r-position-bnwqim r-zIndex-pezta"
               style={
                 Object {
-                  "WebkitFlexShrink": 0,
                   "backgroundColor": "rgba(250,108,119,1.00)",
-                  "backgroundImage": "url(undefined)",
-                  "backgroundRepeat": "repeat-y",
-                  "borderBottomLeftRadius": "5px",
-                  "borderTopLeftRadius": "5px",
-                  "flexShrink": 0,
-                  "maxWidth": "10px",
-                  "minWidth": "10px",
-                  "msFlexNegative": 0,
-                  "zIndex": 5,
                 }
               }
             />
@@ -1701,7 +938,7 @@ exports[`FeedModalItem - Send with Error status matches snapshot 1`] = `
               className="css-view-1dbjc4n r-flexGrow-16y2uox r-flexShrink-1wbh5a2"
             >
               <div
-                className="css-view-1dbjc4n r-cursor-1loqt21 r-position-u8s1d r-right-zchlnj r-touchAction-1otgn73 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
+                className="css-view-1dbjc4n r-cursor-1loqt21 r-height-1uopjct r-marginLeft-1jj8364 r-marginRight-1bbvk3j r-position-u8s1d r-right-zchlnj r-top-1nd9uzx r-touchAction-1otgn73 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-width-1y566p8 r-zIndex-pezta"
                 data-focusable={true}
                 onKeyDown={[Function]}
                 onKeyUp={[Function]}
@@ -1711,16 +948,6 @@ exports[`FeedModalItem - Send with Error status matches snapshot 1`] = `
                 onResponderTerminate={[Function]}
                 onResponderTerminationRequest={[Function]}
                 onStartShouldSetResponder={[Function]}
-                style={
-                  Object {
-                    "height": "37px",
-                    "marginLeft": "auto",
-                    "marginRight": "-18.5px",
-                    "top": "-20px",
-                    "width": "37px",
-                    "zIndex": 5,
-                  }
-                }
                 tabIndex="0"
               >
                 <div
@@ -1730,175 +957,51 @@ exports[`FeedModalItem - Send with Error status matches snapshot 1`] = `
                 </div>
               </div>
               <div
-                className="css-view-1dbjc4n r-flexGrow-16y2uox r-position-bnwqim"
-                style={
-                  Object {
-                    "backgroundColor": "rgba(255,255,255,1.00)",
-                    "borderBottomRightRadius": "5px",
-                    "borderTopRightRadius": "5px",
-                    "boxShadow": "0 20px 24px rgba(0, 0, 0, 0.5)",
-                    "paddingBottom": "16px",
-                    "paddingLeft": "16px",
-                    "paddingRight": "16px",
-                    "paddingTop": "16px",
-                    "zIndex": 1,
-                  }
-                }
+                className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderBottomRightRadius-qpmf2f r-borderTopRightRadius-dfv94e r-boxShadow-172poub r-flexGrow-16y2uox r-padding-nsbfu8 r-position-bnwqim r-zIndex-184en5c"
               >
                 <div
-                  className="css-view-1dbjc4n r-flexDirection-18u37iz r-justifyContent-1777fci"
-                  style={
-                    Object {
-                      "WebkitBoxFlex": 0,
-                      "WebkitFlexGrow": 0,
-                      "WebkitFlexShrink": 0,
-                      "display": "flex",
-                      "flexGrow": 0,
-                      "flexShrink": 0,
-                      "marginBottom": "30px",
-                      "msFlexNegative": 0,
-                      "msFlexPositive": 0,
-                    }
-                  }
+                  className="css-view-1dbjc4n r-display-6koalj r-flexDirection-18u37iz r-flexGrow-18kxxzh r-flexShrink-1q142lx r-justifyContent-1777fci r-marginBottom-1yflyrw"
                 >
                   <send.svg
-                    style={
-                      Object {
-                        "height": 110,
-                        "width": 70,
-                      }
-                    }
+                    style={1079}
                   />
                 </div>
                 <div
-                  className="css-view-1dbjc4n r-flexDirection-18u37iz"
-                  style={
-                    Object {
-                      "WebkitAlignItems": "baseline",
-                      "WebkitBoxAlign": "baseline",
-                      "WebkitBoxPack": "justify",
-                      "WebkitJustifyContent": "space-between",
-                      "alignItems": "baseline",
-                      "display": "flex",
-                      "justifyContent": "space-between",
-                      "marginBottom": "12px",
-                      "msFlexAlign": "baseline",
-                      "msFlexPack": "justify",
-                    }
-                  }
+                  className="css-view-1dbjc4n r-alignItems-1d09ksm r-display-6koalj r-flexDirection-18u37iz r-justifyContent-1wtj0ep r-marginBottom-6gpygo"
                 >
                   <div
-                    className="css-text-901oao"
+                    className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1f529hi r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                     dir="auto"
-                    style={
-                      Object {
-                        "color": "rgba(66,69,74,1.00)",
-                        "fontFamily": "Roboto",
-                        "fontSize": "10px",
-                        "fontWeight": "normal",
-                        "lineHeight": "14px",
-                        "textAlign": "center",
-                        "textDecoration": "none",
-                        "textTransform": "none",
-                      }
-                    }
                   >
                     04/01/19 15:03
                   </div>
                   <div
-                    className="css-text-901oao"
+                    className="css-text-901oao r-color-11zaip3 r-fontFamily-vnw8o6 r-fontSize-evnaw r-fontWeight-b88u0q r-lineHeight-17rnw9f r-marginLeft-1jj8364 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                     dir="auto"
-                    style={
-                      Object {
-                        "color": "rgba(250,108,119,1.00)",
-                        "fontFamily": "Roboto",
-                        "fontSize": "22px",
-                        "fontWeight": "700",
-                        "lineHeight": "30px",
-                        "marginLeft": "auto",
-                        "textAlign": "center",
-                        "textDecoration": "none",
-                        "textTransform": "none",
-                      }
-                    }
                   >
                     -
                   </div>
                   <div
-                    className="css-view-1dbjc4n r-flexDirection-18u37iz"
-                    style={
-                      Object {
-                        "WebkitAlignItems": "baseline",
-                        "WebkitBoxAlign": "baseline",
-                        "alignItems": "baseline",
-                        "display": "flex",
-                        "msFlexAlign": "baseline",
-                      }
-                    }
+                    className="css-view-1dbjc4n r-alignItems-1d09ksm r-display-6koalj r-flexDirection-18u37iz"
                   >
                     <div
-                      className="css-text-901oao"
+                      className="css-text-901oao r-color-11zaip3 r-fontFamily-6jnb14 r-fontSize-1x35g6 r-fontWeight-b88u0q r-lineHeight-ueyrd6 r-marginRight-1d4mawv r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                       dir="auto"
-                      style={
-                        Object {
-                          "color": "rgba(250,108,119,1.00)",
-                          "fontFamily": "Roboto Slab",
-                          "fontSize": "24px",
-                          "fontWeight": "700",
-                          "lineHeight": "36px",
-                          "marginRight": "4px",
-                          "textAlign": "right",
-                          "textDecoration": "none",
-                          "textTransform": "none",
-                        }
-                      }
                     >
                       0.04
                     </div>
                     <div
-                      className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz"
-                      style={
-                        Object {
-                          "WebkitBoxPack": "justify",
-                          "WebkitJustifyContent": "space-between",
-                          "justifyContent": "space-between",
-                          "msFlexPack": "justify",
-                        }
-                      }
+                      className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
                     >
                       <div
-                        className="css-text-901oao"
+                        className="css-text-901oao r-color-11zaip3 r-fontFamily-6jnb14 r-fontSize-1enofrn r-fontWeight-b88u0q r-lineHeight-hbpseb r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                         dir="auto"
-                        style={
-                          Object {
-                            "color": "rgba(250,108,119,1.00)",
-                            "fontFamily": "Roboto Slab",
-                            "fontSize": "12px",
-                            "fontWeight": "700",
-                            "lineHeight": "22px",
-                            "textAlign": "right",
-                            "textDecoration": "none",
-                            "textTransform": "none",
-                          }
-                        }
                       >
                         G
                       </div>
                       <div
-                        className="css-text-901oao"
+                        className="css-text-901oao r-color-11zaip3 r-fontFamily-6jnb14 r-fontSize-1ws2f5x r-fontWeight-b88u0q r-lineHeight-hbpseb r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                         dir="auto"
-                        style={
-                          Object {
-                            "color": "rgba(250,108,119,1.00)",
-                            "fontFamily": "Roboto Slab",
-                            "fontSize": "11.5px",
-                            "fontWeight": "700",
-                            "lineHeight": "22px",
-                            "textAlign": "right",
-                            "textDecoration": "none",
-                            "textTransform": "none",
-                          }
-                        }
                       >
                         $
                       </div>
@@ -1906,29 +1009,19 @@ exports[`FeedModalItem - Send with Error status matches snapshot 1`] = `
                   </div>
                 </div>
                 <div
-                  className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz"
+                  className="css-view-1dbjc4n r-alignItems-1awozwy r-borderBottomWidth-wgabs5 r-borderTopWidth-1jxfwug r-display-6koalj r-flexDirection-18u37iz r-justifyContent-1h0z5md r-marginBottom-le4sbl r-paddingBottom-i03k3n r-paddingTop-5t7p9m"
                   style={
                     Object {
-                      "WebkitBoxPack": "start",
-                      "WebkitJustifyContent": "flex-start",
                       "borderBottomColor": "rgba(250,108,119,1.00)",
-                      "borderBottomWidth": "2px",
                       "borderLeftColor": "rgba(250,108,119,1.00)",
                       "borderRightColor": "rgba(250,108,119,1.00)",
                       "borderTopColor": "rgba(250,108,119,1.00)",
-                      "borderTopWidth": "2px",
-                      "display": "flex",
-                      "justifyContent": "flex-start",
-                      "marginBottom": "18px",
-                      "msFlexPack": "start",
-                      "paddingBottom": "14px",
-                      "paddingTop": "14px",
                     }
                   }
                 >
                   <div
                     aria-disabled={true}
-                    className="css-view-1dbjc4n r-alignItems-1awozwy r-justifyContent-1777fci r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
+                    className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-l26x2w r-borderColor-y68mpx r-borderRadius-ieixw r-borderWidth-rs99b7 r-height-zx9znk r-justifyContent-1777fci r-marginRight-12zb1j4 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-width-5orghg"
                     disabled={true}
                     onKeyDown={[Function]}
                     onKeyUp={[Function]}
@@ -1938,26 +1031,6 @@ exports[`FeedModalItem - Send with Error status matches snapshot 1`] = `
                     onResponderTerminate={[Function]}
                     onResponderTerminationRequest={[Function]}
                     onStartShouldSetResponder={[Function]}
-                    style={
-                      Object {
-                        "backgroundColor": "rgba(238,238,238,1.00)",
-                        "borderBottomColor": "rgba(163,163,163,1.00)",
-                        "borderBottomLeftRadius": "50%",
-                        "borderBottomRightRadius": "50%",
-                        "borderBottomWidth": "1px",
-                        "borderLeftColor": "rgba(163,163,163,1.00)",
-                        "borderLeftWidth": "1px",
-                        "borderRightColor": "rgba(163,163,163,1.00)",
-                        "borderRightWidth": "1px",
-                        "borderTopColor": "rgba(163,163,163,1.00)",
-                        "borderTopLeftRadius": "50%",
-                        "borderTopRightRadius": "50%",
-                        "borderTopWidth": "1px",
-                        "height": "34px",
-                        "marginRight": "7px",
-                        "width": "34px",
-                      }
-                    }
                   >
                     <div
                       className="css-view-1dbjc4n r-backgroundColor-1niwhzg"
@@ -2003,77 +1076,29 @@ exports[`FeedModalItem - Send with Error status matches snapshot 1`] = `
                     </div>
                   </div>
                   <div
-                    className="css-text-901oao css-textMultiLine-cens5h r-flex-13awgt0"
+                    className="css-text-901oao css-textMultiLine-cens5h r-alignItems-1d09ksm r-color-cddv6f r-display-6koalj r-flex-13awgt0 r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-height-16l9doz r-lineHeight-hbpseb r-marginRight-lchren r-paddingRight-1hvjb8t r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
                     dir="auto"
                     style={
                       Object {
-                        "WebkitAlignItems": "baseline",
-                        "WebkitBoxAlign": "baseline",
                         "WebkitLineClamp": 2,
-                        "alignItems": "baseline",
-                        "color": "rgba(66,69,74,1.00)",
-                        "display": "flex",
-                        "fontFamily": "Roboto",
-                        "fontSize": "16px",
-                        "fontWeight": "normal",
-                        "height": "auto",
-                        "lineHeight": "22px",
-                        "marginRight": "auto",
-                        "msFlexAlign": "baseline",
-                        "paddingRight": "4px",
-                        "textAlign": "left",
-                        "textDecoration": "none",
-                        "textTransform": "capitalize",
                       }
                     }
                   >
                     <span
-                      className="css-text-901oao css-textHasAncestor-16my406"
+                      className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1cwl3u0 r-marginRight-1ifrmw8 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                       dir="auto"
-                      style={
-                        Object {
-                          "color": "rgba(66,69,74,1.00)",
-                          "fontFamily": "Roboto",
-                          "fontSize": "10px",
-                          "fontWeight": "normal",
-                          "lineHeight": "22px",
-                          "marginRight": "3px",
-                          "textAlign": "center",
-                          "textDecoration": "none",
-                          "textTransform": "none",
-                        }
-                      }
                     >
                       To: 
                     </span>
                     <span
-                      className="css-text-901oao css-textHasAncestor-16my406"
+                      className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-evnaw r-fontWeight-majxgm r-lineHeight-hbpseb r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                       dir="auto"
-                      style={
-                        Object {
-                          "color": "rgba(66,69,74,1.00)",
-                          "fontFamily": "Roboto",
-                          "fontSize": "22px",
-                          "fontWeight": "500",
-                          "lineHeight": "22px",
-                          "textAlign": "left",
-                          "textDecoration": "none",
-                          "textTransform": "none",
-                        }
-                      }
                     >
                       Misao Matimbo
                     </span>
                   </div>
                   <div
-                    className="css-view-1dbjc4n"
-                    style={
-                      Object {
-                        "height": "36px",
-                        "marginLeft": "auto",
-                        "width": "36px",
-                      }
-                    }
+                    className="css-view-1dbjc4n r-height-1r8g8re r-marginLeft-1jj8364 r-width-1acpoxo"
                   >
                     <div
                       className="css-view-1dbjc4n"
@@ -2084,49 +1109,17 @@ exports[`FeedModalItem - Send with Error status matches snapshot 1`] = `
                   className="css-view-1dbjc4n r-flex-13awgt0"
                 >
                   <div
-                    className="css-text-901oao"
+                    className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-1it3c9n r-lineHeight-rjixqe r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                     dir="auto"
-                    style={
-                      Object {
-                        "color": "rgba(66,69,74,1.00)",
-                        "fontFamily": "Roboto",
-                        "fontSize": "14px",
-                        "fontWeight": "normal",
-                        "lineHeight": "20px",
-                        "textAlign": "left",
-                        "textDecoration": "none",
-                        "textTransform": "none",
-                      }
-                    }
                   >
                     aaa
                   </div>
                 </div>
                 <div
-                  className="css-view-1dbjc4n r-flexDirection-18u37iz r-width-13qz1uu"
-                  style={
-                    Object {
-                      "WebkitAlignItems": "flex-end",
-                      "WebkitBoxAlign": "end",
-                      "WebkitBoxLines": "multiple",
-                      "WebkitBoxPack": "end",
-                      "WebkitFlexWrap": "wrap",
-                      "WebkitJustifyContent": "flex-end",
-                      "alignItems": "flex-end",
-                      "display": "flex",
-                      "flexWrap": "wrap",
-                      "justifyContent": "flex-end",
-                      "marginLeft": "-4px",
-                      "marginRight": "-4px",
-                      "marginTop": "4px",
-                      "msFlexAlign": "end",
-                      "msFlexPack": "end",
-                      "msFlexWrap": "wrap",
-                    }
-                  }
+                  className="css-view-1dbjc4n r-alignItems-obd0qt r-display-6koalj r-flexDirection-18u37iz r-flexWrap-1w6e6rj r-justifyContent-17s6mgv r-marginHorizontal-lz04qo r-marginTop-14gqq1x r-width-13qz1uu"
                 >
                   <div
-                    className="css-view-1dbjc4n r-justifyContent-1777fci"
+                    className="css-view-1dbjc4n r-display-6koalj r-justifyContent-1777fci"
                     style={
                       Object {
                         "WebkitAlignItems": "stretch",
@@ -2150,7 +1143,6 @@ exports[`FeedModalItem - Send with Error status matches snapshot 1`] = `
                         "borderTopStyle": "solid",
                         "borderTopWidth": "0px",
                         "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
-                        "display": "flex",
                         "marginBottom": "0px",
                         "marginLeft": "0px",
                         "marginRight": "0px",
@@ -2206,30 +1198,11 @@ exports[`FeedModalItem - Send with Error status matches snapshot 1`] = `
                           className="css-view-1dbjc4n r-marginHorizontal-1ydw1k6 r-marginVertical-712mwr"
                         >
                           <div
-                            className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz"
-                            style={
-                              Object {
-                                "display": "flex",
-                              }
-                            }
+                            className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
                           >
                             <div
-                              className="css-text-901oao r-alignItems-1awozwy r-justifyContent-1777fci"
+                              className="css-text-901oao r-alignItems-1awozwy r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-hbpseb r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
                               dir="auto"
-                              style={
-                                Object {
-                                  "color": "rgba(255,255,255,1.00)",
-                                  "fontFamily": "Roboto",
-                                  "fontSize": "16px",
-                                  "fontWeight": "500",
-                                  "letterSpacing": "0px",
-                                  "lineHeight": "22px",
-                                  "paddingTop": "1px",
-                                  "textAlign": "center",
-                                  "textDecoration": "none",
-                                  "textTransform": "uppercase",
-                                }
-                              }
                             >
                               Ok
                             </div>
@@ -2272,60 +1245,19 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
       className="css-view-1dbjc4n"
     >
       <div
-        className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-width-13qz1uu"
-        style={
-          Object {
-            "WebkitAlignSelf": "flex-start",
-            "alignSelf": "flex-start",
-            "height": "768px",
-            "msFlexItemAlign": "start",
-          }
-        }
+        className="css-view-1dbjc4n r-alignSelf-k200y r-backgroundColor-1niwhzg r-height-i7wkem r-width-13qz1uu"
       >
         <div
-          className="css-view-1dbjc4n r-flexGrow-16y2uox r-width-13qz1uu"
-          style={
-            Object {
-              "WebkitAlignSelf": "center",
-              "WebkitFlexShrink": 0,
-              "alignSelf": "center",
-              "flexShrink": 0,
-              "marginBottom": "88.51948051948051px",
-              "marginTop": "62.33766233766234px",
-              "maxWidth": "475px",
-              "msFlexItemAlign": "center",
-              "msFlexNegative": 0,
-              "paddingLeft": "20px",
-              "paddingRight": "20px",
-            }
-          }
+          className="css-view-1dbjc4n r-alignSelf-1kihuf0 r-flexGrow-16y2uox r-flexShrink-1q142lx r-marginBottom-hte7mp r-marginTop-1511jto r-maxWidth-1xnn5q4 r-paddingLeft-b5h31w r-paddingRight-1ah4tor r-width-13qz1uu"
         >
           <div
-            className="css-view-1dbjc4n r-flexDirection-18u37iz r-flexGrow-16y2uox r-position-bnwqim r-width-13qz1uu"
-            style={
-              Object {
-                "display": "flex",
-                "maxHeight": "844px",
-                "minHeight": "350px",
-              }
-            }
+            className="css-view-1dbjc4n r-display-6koalj r-flexDirection-18u37iz r-flexGrow-16y2uox r-maxHeight-1qalap5 r-minHeight-1pexjug r-position-bnwqim r-width-13qz1uu"
           >
             <div
-              className="css-view-1dbjc4n r-flexGrow-16y2uox r-position-bnwqim"
+              className="css-view-1dbjc4n r-backgroundImage-o7i658 r-backgroundRepeat-1w25a1u r-borderBottomLeftRadius-re1h2s r-borderTopLeftRadius-1as3g83 r-flexGrow-16y2uox r-flexShrink-1q142lx r-marginBottom-1ifxtd0 r-maxWidth-1akpm2g r-minWidth-t66pp7 r-position-bnwqim r-zIndex-pezta"
               style={
                 Object {
-                  "WebkitFlexShrink": 0,
                   "backgroundColor": "rgba(0,195,174,1.00)",
-                  "backgroundImage": "url(undefined)",
-                  "backgroundRepeat": "repeat-y",
-                  "borderBottomLeftRadius": "5px",
-                  "borderTopLeftRadius": "5px",
-                  "flexShrink": 0,
-                  "marginBottom": "16px",
-                  "maxWidth": "10px",
-                  "minWidth": "10px",
-                  "msFlexNegative": 0,
-                  "zIndex": 5,
                 }
               }
             />
@@ -2333,7 +1265,7 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
               className="css-view-1dbjc4n r-flexGrow-16y2uox r-flexShrink-1wbh5a2"
             >
               <div
-                className="css-view-1dbjc4n r-cursor-1loqt21 r-position-u8s1d r-right-zchlnj r-touchAction-1otgn73 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
+                className="css-view-1dbjc4n r-cursor-1loqt21 r-height-1uopjct r-marginLeft-1jj8364 r-marginRight-1bbvk3j r-position-u8s1d r-right-zchlnj r-top-1nd9uzx r-touchAction-1otgn73 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-width-1y566p8 r-zIndex-pezta"
                 data-focusable={true}
                 onKeyDown={[Function]}
                 onKeyUp={[Function]}
@@ -2343,16 +1275,6 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                 onResponderTerminate={[Function]}
                 onResponderTerminationRequest={[Function]}
                 onStartShouldSetResponder={[Function]}
-                style={
-                  Object {
-                    "height": "37px",
-                    "marginLeft": "auto",
-                    "marginRight": "-18.5px",
-                    "top": "-20px",
-                    "width": "37px",
-                    "zIndex": 5,
-                  }
-                }
                 tabIndex="0"
               >
                 <div
@@ -2362,36 +1284,10 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                 </div>
               </div>
               <div
-                className="css-view-1dbjc4n r-flexGrow-16y2uox r-position-bnwqim"
-                style={
-                  Object {
-                    "backgroundColor": "rgba(255,255,255,1.00)",
-                    "borderBottomRightRadius": "0px",
-                    "borderTopRightRadius": "5px",
-                    "boxShadow": "0 20px 24px rgba(0, 0, 0, 0.5)",
-                    "paddingBottom": "16px",
-                    "paddingLeft": "16px",
-                    "paddingRight": "16px",
-                    "paddingTop": "16px",
-                    "zIndex": 1,
-                  }
-                }
+                className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderBottomRightRadius-zmljjp r-borderTopRightRadius-dfv94e r-boxShadow-172poub r-flexGrow-16y2uox r-padding-nsbfu8 r-position-bnwqim r-zIndex-184en5c"
               >
                 <div
-                  className="css-view-1dbjc4n r-flexDirection-18u37iz r-justifyContent-1777fci"
-                  style={
-                    Object {
-                      "WebkitBoxFlex": 0,
-                      "WebkitFlexGrow": 0,
-                      "WebkitFlexShrink": 0,
-                      "display": "flex",
-                      "flexGrow": 0,
-                      "flexShrink": 0,
-                      "marginBottom": "30px",
-                      "msFlexNegative": 0,
-                      "msFlexPositive": 0,
-                    }
-                  }
+                  className="css-view-1dbjc4n r-display-6koalj r-flexDirection-18u37iz r-flexGrow-18kxxzh r-flexShrink-1q142lx r-justifyContent-1777fci r-marginBottom-1yflyrw"
                 >
                   <div
                     className="css-view-1dbjc4n"
@@ -2403,134 +1299,41 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                   />
                 </div>
                 <div
-                  className="css-view-1dbjc4n r-flexDirection-18u37iz"
-                  style={
-                    Object {
-                      "WebkitAlignItems": "baseline",
-                      "WebkitBoxAlign": "baseline",
-                      "WebkitBoxPack": "justify",
-                      "WebkitJustifyContent": "space-between",
-                      "alignItems": "baseline",
-                      "display": "flex",
-                      "justifyContent": "space-between",
-                      "marginBottom": "12px",
-                      "msFlexAlign": "baseline",
-                      "msFlexPack": "justify",
-                    }
-                  }
+                  className="css-view-1dbjc4n r-alignItems-1d09ksm r-display-6koalj r-flexDirection-18u37iz r-justifyContent-1wtj0ep r-marginBottom-6gpygo"
                 >
                   <div
-                    className="css-text-901oao"
+                    className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1f529hi r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                     dir="auto"
-                    style={
-                      Object {
-                        "color": "rgba(66,69,74,1.00)",
-                        "fontFamily": "Roboto",
-                        "fontSize": "10px",
-                        "fontWeight": "normal",
-                        "lineHeight": "14px",
-                        "textAlign": "center",
-                        "textDecoration": "none",
-                        "textTransform": "none",
-                      }
-                    }
                   >
                     04/01/19 15:03
                   </div>
                   <div
-                    className="css-text-901oao"
+                    className="css-text-901oao r-color-qjtdzx r-fontFamily-vnw8o6 r-fontSize-evnaw r-fontWeight-b88u0q r-lineHeight-17rnw9f r-marginLeft-1jj8364 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                     dir="auto"
-                    style={
-                      Object {
-                        "color": "rgba(0,195,174,1.00)",
-                        "fontFamily": "Roboto",
-                        "fontSize": "22px",
-                        "fontWeight": "700",
-                        "lineHeight": "30px",
-                        "marginLeft": "auto",
-                        "textAlign": "center",
-                        "textDecoration": "none",
-                        "textTransform": "none",
-                      }
-                    }
                   >
                     +
                   </div>
                   <div
-                    className="css-view-1dbjc4n r-flexDirection-18u37iz"
-                    style={
-                      Object {
-                        "WebkitAlignItems": "baseline",
-                        "WebkitBoxAlign": "baseline",
-                        "alignItems": "baseline",
-                        "display": "flex",
-                        "msFlexAlign": "baseline",
-                      }
-                    }
+                    className="css-view-1dbjc4n r-alignItems-1d09ksm r-display-6koalj r-flexDirection-18u37iz"
                   >
                     <div
-                      className="css-text-901oao"
+                      className="css-text-901oao r-color-qjtdzx r-fontFamily-6jnb14 r-fontSize-1x35g6 r-fontWeight-b88u0q r-lineHeight-ueyrd6 r-marginRight-1d4mawv r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                       dir="auto"
-                      style={
-                        Object {
-                          "color": "rgba(0,195,174,1.00)",
-                          "fontFamily": "Roboto Slab",
-                          "fontSize": "24px",
-                          "fontWeight": "700",
-                          "lineHeight": "36px",
-                          "marginRight": "4px",
-                          "textAlign": "right",
-                          "textDecoration": "none",
-                          "textTransform": "none",
-                        }
-                      }
                     >
                       0.04
                     </div>
                     <div
-                      className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz"
-                      style={
-                        Object {
-                          "WebkitBoxPack": "justify",
-                          "WebkitJustifyContent": "space-between",
-                          "justifyContent": "space-between",
-                          "msFlexPack": "justify",
-                        }
-                      }
+                      className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
                     >
                       <div
-                        className="css-text-901oao"
+                        className="css-text-901oao r-color-qjtdzx r-fontFamily-6jnb14 r-fontSize-1enofrn r-fontWeight-b88u0q r-lineHeight-hbpseb r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                         dir="auto"
-                        style={
-                          Object {
-                            "color": "rgba(0,195,174,1.00)",
-                            "fontFamily": "Roboto Slab",
-                            "fontSize": "12px",
-                            "fontWeight": "700",
-                            "lineHeight": "22px",
-                            "textAlign": "right",
-                            "textDecoration": "none",
-                            "textTransform": "none",
-                          }
-                        }
                       >
                         G
                       </div>
                       <div
-                        className="css-text-901oao"
+                        className="css-text-901oao r-color-qjtdzx r-fontFamily-6jnb14 r-fontSize-1ws2f5x r-fontWeight-b88u0q r-lineHeight-hbpseb r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                         dir="auto"
-                        style={
-                          Object {
-                            "color": "rgba(0,195,174,1.00)",
-                            "fontFamily": "Roboto Slab",
-                            "fontSize": "11.5px",
-                            "fontWeight": "700",
-                            "lineHeight": "22px",
-                            "textAlign": "right",
-                            "textDecoration": "none",
-                            "textTransform": "none",
-                          }
-                        }
                       >
                         $
                       </div>
@@ -2538,29 +1341,19 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                   </div>
                 </div>
                 <div
-                  className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz"
+                  className="css-view-1dbjc4n r-alignItems-1awozwy r-borderBottomWidth-wgabs5 r-borderTopWidth-1jxfwug r-display-6koalj r-flexDirection-18u37iz r-justifyContent-1h0z5md r-marginBottom-le4sbl r-paddingBottom-i03k3n r-paddingTop-5t7p9m"
                   style={
                     Object {
-                      "WebkitBoxPack": "start",
-                      "WebkitJustifyContent": "flex-start",
                       "borderBottomColor": "rgba(0,195,174,1.00)",
-                      "borderBottomWidth": "2px",
                       "borderLeftColor": "rgba(0,195,174,1.00)",
                       "borderRightColor": "rgba(0,195,174,1.00)",
                       "borderTopColor": "rgba(0,195,174,1.00)",
-                      "borderTopWidth": "2px",
-                      "display": "flex",
-                      "justifyContent": "flex-start",
-                      "marginBottom": "18px",
-                      "msFlexPack": "start",
-                      "paddingBottom": "14px",
-                      "paddingTop": "14px",
                     }
                   }
                 >
                   <div
                     aria-disabled={true}
-                    className="css-view-1dbjc4n r-alignItems-1awozwy r-justifyContent-1777fci r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
+                    className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-l26x2w r-borderColor-y68mpx r-borderRadius-ieixw r-borderWidth-rs99b7 r-height-zx9znk r-justifyContent-1777fci r-marginRight-12zb1j4 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-width-5orghg"
                     disabled={true}
                     onKeyDown={[Function]}
                     onKeyUp={[Function]}
@@ -2570,26 +1363,6 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                     onResponderTerminate={[Function]}
                     onResponderTerminationRequest={[Function]}
                     onStartShouldSetResponder={[Function]}
-                    style={
-                      Object {
-                        "backgroundColor": "rgba(238,238,238,1.00)",
-                        "borderBottomColor": "rgba(163,163,163,1.00)",
-                        "borderBottomLeftRadius": "50%",
-                        "borderBottomRightRadius": "50%",
-                        "borderBottomWidth": "1px",
-                        "borderLeftColor": "rgba(163,163,163,1.00)",
-                        "borderLeftWidth": "1px",
-                        "borderRightColor": "rgba(163,163,163,1.00)",
-                        "borderRightWidth": "1px",
-                        "borderTopColor": "rgba(163,163,163,1.00)",
-                        "borderTopLeftRadius": "50%",
-                        "borderTopRightRadius": "50%",
-                        "borderTopWidth": "1px",
-                        "height": "34px",
-                        "marginRight": "7px",
-                        "width": "34px",
-                      }
-                    }
                   >
                     <div
                       className="css-view-1dbjc4n r-backgroundColor-1niwhzg"
@@ -2635,77 +1408,29 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                     </div>
                   </div>
                   <div
-                    className="css-text-901oao css-textMultiLine-cens5h r-flex-13awgt0"
+                    className="css-text-901oao css-textMultiLine-cens5h r-alignItems-1d09ksm r-color-cddv6f r-display-6koalj r-flex-13awgt0 r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-height-16l9doz r-lineHeight-hbpseb r-marginRight-lchren r-paddingRight-1hvjb8t r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
                     dir="auto"
                     style={
                       Object {
-                        "WebkitAlignItems": "baseline",
-                        "WebkitBoxAlign": "baseline",
                         "WebkitLineClamp": 2,
-                        "alignItems": "baseline",
-                        "color": "rgba(66,69,74,1.00)",
-                        "display": "flex",
-                        "fontFamily": "Roboto",
-                        "fontSize": "16px",
-                        "fontWeight": "normal",
-                        "height": "auto",
-                        "lineHeight": "22px",
-                        "marginRight": "auto",
-                        "msFlexAlign": "baseline",
-                        "paddingRight": "4px",
-                        "textAlign": "left",
-                        "textDecoration": "none",
-                        "textTransform": "capitalize",
                       }
                     }
                   >
                     <span
-                      className="css-text-901oao css-textHasAncestor-16my406"
+                      className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1cwl3u0 r-marginRight-1ifrmw8 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                       dir="auto"
-                      style={
-                        Object {
-                          "color": "rgba(66,69,74,1.00)",
-                          "fontFamily": "Roboto",
-                          "fontSize": "10px",
-                          "fontWeight": "normal",
-                          "lineHeight": "22px",
-                          "marginRight": "3px",
-                          "textAlign": "center",
-                          "textDecoration": "none",
-                          "textTransform": "none",
-                        }
-                      }
                     >
                       From: 
                     </span>
                     <span
-                      className="css-text-901oao css-textHasAncestor-16my406"
+                      className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-evnaw r-fontWeight-majxgm r-lineHeight-hbpseb r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                       dir="auto"
-                      style={
-                        Object {
-                          "color": "rgba(66,69,74,1.00)",
-                          "fontFamily": "Roboto",
-                          "fontSize": "22px",
-                          "fontWeight": "500",
-                          "lineHeight": "22px",
-                          "textAlign": "left",
-                          "textDecoration": "none",
-                          "textTransform": "none",
-                        }
-                      }
                     >
                       Misao Matimbo
                     </span>
                   </div>
                   <div
-                    className="css-view-1dbjc4n"
-                    style={
-                      Object {
-                        "height": "36px",
-                        "marginLeft": "auto",
-                        "width": "36px",
-                      }
-                    }
+                    className="css-view-1dbjc4n r-height-1r8g8re r-marginLeft-1jj8364 r-width-1acpoxo"
                   >
                     <div
                       className="css-view-1dbjc4n"
@@ -2716,49 +1441,17 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                   className="css-view-1dbjc4n r-flex-13awgt0"
                 >
                   <div
-                    className="css-text-901oao"
+                    className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-1it3c9n r-lineHeight-rjixqe r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                     dir="auto"
-                    style={
-                      Object {
-                        "color": "rgba(66,69,74,1.00)",
-                        "fontFamily": "Roboto",
-                        "fontSize": "14px",
-                        "fontWeight": "normal",
-                        "lineHeight": "20px",
-                        "textAlign": "left",
-                        "textDecoration": "none",
-                        "textTransform": "none",
-                      }
-                    }
                   >
                     aaa
                   </div>
                 </div>
                 <div
-                  className="css-view-1dbjc4n r-flexDirection-18u37iz r-width-13qz1uu"
-                  style={
-                    Object {
-                      "WebkitAlignItems": "flex-end",
-                      "WebkitBoxAlign": "end",
-                      "WebkitBoxLines": "multiple",
-                      "WebkitBoxPack": "end",
-                      "WebkitFlexWrap": "wrap",
-                      "WebkitJustifyContent": "flex-end",
-                      "alignItems": "flex-end",
-                      "display": "flex",
-                      "flexWrap": "wrap",
-                      "justifyContent": "flex-end",
-                      "marginLeft": "-4px",
-                      "marginRight": "-4px",
-                      "marginTop": "4px",
-                      "msFlexAlign": "end",
-                      "msFlexPack": "end",
-                      "msFlexWrap": "wrap",
-                    }
-                  }
+                  className="css-view-1dbjc4n r-alignItems-obd0qt r-display-6koalj r-flexDirection-18u37iz r-flexWrap-1w6e6rj r-justifyContent-17s6mgv r-marginHorizontal-lz04qo r-marginTop-14gqq1x r-width-13qz1uu"
                 >
                   <div
-                    className="css-view-1dbjc4n r-justifyContent-1777fci"
+                    className="css-view-1dbjc4n r-display-6koalj r-justifyContent-1777fci"
                     style={
                       Object {
                         "WebkitAlignItems": "stretch",
@@ -2782,7 +1475,6 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                         "borderTopStyle": "solid",
                         "borderTopWidth": "0px",
                         "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
-                        "display": "flex",
                         "marginBottom": "0px",
                         "marginLeft": "0px",
                         "marginRight": "0px",
@@ -2838,30 +1530,11 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                           className="css-view-1dbjc4n r-marginHorizontal-1ydw1k6 r-marginVertical-712mwr"
                         >
                           <div
-                            className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz"
-                            style={
-                              Object {
-                                "display": "flex",
-                              }
-                            }
+                            className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
                           >
                             <div
-                              className="css-text-901oao r-alignItems-1awozwy r-justifyContent-1777fci"
+                              className="css-text-901oao r-alignItems-1awozwy r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-hbpseb r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
                               dir="auto"
-                              style={
-                                Object {
-                                  "color": "rgba(255,255,255,1.00)",
-                                  "fontFamily": "Roboto",
-                                  "fontSize": "16px",
-                                  "fontWeight": "500",
-                                  "letterSpacing": "0px",
-                                  "lineHeight": "22px",
-                                  "paddingTop": "1px",
-                                  "textAlign": "center",
-                                  "textDecoration": "none",
-                                  "textTransform": "uppercase",
-                                }
-                              }
                             >
                               Ok
                             </div>
@@ -2873,17 +1546,7 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                 </div>
               </div>
               <div
-                className="css-view-1dbjc4n r-position-bnwqim r-width-13qz1uu"
-                style={
-                  Object {
-                    "backgroundImage": "linear-gradient(40deg, transparent 75%, #fff 76%), linear-gradient(-40deg, transparent 75%, #fff 76%)",
-                    "backgroundPosition": "-8px 0",
-                    "backgroundRepeat": "repeat-x",
-                    "backgroundSize": "16px 16px",
-                    "height": "16px",
-                    "zIndex": 5,
-                  }
-                }
+                className="css-view-1dbjc4n r-backgroundImage-693lkh r-backgroundPosition-psfvt2 r-backgroundRepeat-f6vetv r-backgroundSize-jug86b r-height-10ptun7 r-position-bnwqim r-width-13qz1uu r-zIndex-pezta"
               />
             </div>
           </div>

@@ -5,59 +5,28 @@ exports[`ExportWarningPopup matches snapshot 1`] = `
   className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
-    className="css-view-1dbjc4n"
-    style={
-      Object {
-        "WebkitBoxPack": "justify",
-        "WebkitJustifyContent": "space-around",
-        "display": "flex",
-        "justifyContent": "space-around",
-        "marginBottom": "auto",
-        "marginTop": "auto",
-        "maxHeight": "473.76623376623377px",
-        "minHeight": "310px",
-        "msFlexPack": "distribute",
-        "width": "389.2361111111111px",
-      }
-    }
+    className="css-view-1dbjc4n r-display-6koalj r-justifyContent-a2tzq0 r-marginBottom-1qahzrx r-marginTop-1t01tom r-maxHeight-1vsgb79 r-minHeight-pc129r r-width-rthsv7"
   >
     <div
-      className="css-view-1dbjc4n r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
-      style={
-        Object {
-          "WebkitAlignSelf": "center",
-          "alignSelf": "center",
-          "msFlexItemAlign": "center",
-        }
-      }
+      className="css-view-1dbjc4n r-alignSelf-1kihuf0 r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
     >
       <div
-        className="css-view-1dbjc4n r-alignItems-1awozwy"
+        className="css-view-1dbjc4n r-alignItems-1awozwy r-alignSelf-1kihuf0 r-display-6koalj r-marginBottom-ngatle r-transform-1aeo46e r-width-13qz1uu"
         style={
           Object {
-            "WebkitAlignSelf": "center",
-            "WebkitTransform": "rotate(180deg)",
-            "alignSelf": "center",
-            "display": "flex",
             "height": "124.67532467532467px",
-            "marginBottom": "19.948051948051948px",
             "marginTop": "8px",
-            "msFlexItemAlign": "center",
-            "transform": "rotate(180deg)",
-            "width": "100%",
           }
         }
       >
         <div
-          className="css-text-901oao"
+          className="css-text-901oao r-color-1q5uqvh r-fontWeight-1it3c9n"
           dir="auto"
           style={
             Object {
-              "color": "rgba(0,175,255,1.00)",
               "fontFamily": "gooddollar",
               "fontSize": "100px",
               "fontStyle": "normal",
-              "fontWeight": "normal",
             }
           }
         >
@@ -66,62 +35,25 @@ exports[`ExportWarningPopup matches snapshot 1`] = `
       </div>
     </div>
     <div
-      className="css-text-901oao"
+      className="css-text-901oao r-color-11zaip3 r-fontFamily-6jnb14 r-fontSize-evnaw r-fontWeight-b88u0q r-lineHeight-1h1c4di r-marginBottom-5oul0u r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
       dir="auto"
-      style={
-        Object {
-          "color": "rgba(250,108,119,1.00)",
-          "fontFamily": "Roboto Slab",
-          "fontSize": "22px",
-          "fontWeight": "700",
-          "lineHeight": "29px",
-          "marginBottom": "8px",
-          "textAlign": "center",
-          "textDecoration": "none",
-          "textTransform": "none",
-        }
-      }
     >
       Do Not Send Tokens
 From Ethereum Network
 To This Address
     </div>
     <div
-      className="css-text-901oao"
+      className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-lineHeight-hbpseb r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
       dir="auto"
-      style={
-        Object {
-          "color": "rgba(66,69,74,1.00)",
-          "fontFamily": "Roboto",
-          "fontSize": "16px",
-          "fontWeight": "normal",
-          "lineHeight": "22px",
-          "textAlign": "center",
-          "textDecoration": "none",
-          "textTransform": "none",
-        }
-      }
     >
       Keep in mind - This is an internal
 Network address for G$ tokens only.
     </div>
     <div
-      className="css-view-1dbjc4n r-flexDirection-18u37iz"
-      style={
-        Object {
-          "WebkitBoxPack": "end",
-          "WebkitJustifyContent": "flex-end",
-          "display": "flex",
-          "justifyContent": "flex-end",
-          "msFlexPack": "end",
-          "paddingLeft": "0px",
-          "paddingRight": "0px",
-          "paddingTop": "19.948051948051948px",
-        }
-      }
+      className="css-view-1dbjc4n r-display-6koalj r-flexDirection-18u37iz r-justifyContent-17s6mgv r-paddingLeft-gy4na3 r-paddingRight-9aemit r-paddingTop-1ezex7q"
     >
       <div
-        className="css-view-1dbjc4n r-justifyContent-1777fci"
+        className="css-view-1dbjc4n r-display-6koalj r-justifyContent-1777fci r-paddingLeft-gy4na3 r-paddingRight-9aemit r-width-13qz1uu"
         style={
           Object {
             "WebkitAlignItems": "stretch",
@@ -145,7 +77,6 @@ Network address for G$ tokens only.
             "borderTopStyle": "solid",
             "borderTopWidth": "0px",
             "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
-            "display": "flex",
             "marginBottom": "0px",
             "marginLeft": "0px",
             "marginRight": "0px",
@@ -157,7 +88,6 @@ Network address for G$ tokens only.
             "paddingLeft": "0px",
             "paddingRight": "0px",
             "paddingTop": "0px",
-            "width": "100%",
           }
         }
       >
@@ -202,32 +132,11 @@ Network address for G$ tokens only.
               className="css-view-1dbjc4n r-marginHorizontal-1ydw1k6 r-marginVertical-712mwr"
             >
               <div
-                className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz"
-                style={
-                  Object {
-                    "display": "flex",
-                  }
-                }
+                className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
               >
                 <div
-                  className="css-text-901oao r-alignItems-1awozwy r-justifyContent-1777fci"
+                  className="css-text-901oao r-alignItems-1awozwy r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-hbpseb r-paddingLeft-qhyqy2 r-paddingRight-19gegkz r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
                   dir="auto"
-                  style={
-                    Object {
-                      "color": "rgba(255,255,255,1.00)",
-                      "fontFamily": "Roboto",
-                      "fontSize": "16px",
-                      "fontWeight": "500",
-                      "letterSpacing": "0px",
-                      "lineHeight": "22px",
-                      "paddingLeft": "5px",
-                      "paddingRight": "5px",
-                      "paddingTop": "1px",
-                      "textAlign": "center",
-                      "textDecoration": "none",
-                      "textTransform": "uppercase",
-                    }
-                  }
                 >
                   I UNDERSTAND
                 </div>

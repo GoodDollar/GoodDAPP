@@ -5,7 +5,7 @@ exports[`SideMenuItem matches snapshot 1`] = `
   className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
-    className="css-view-1dbjc4n r-cursor-1loqt21 r-touchAction-1otgn73 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
+    className="css-view-1dbjc4n r-alignItems-1awozwy r-borderBottomColor-1fn3lry r-borderBottomWidth-qklmqi r-borderStyle-1phboty r-cursor-1loqt21 r-flexDirection-18u37iz r-justifyContent-1h0z5md r-padding-nsbfu8 r-paddingLeft-gy4na3 r-touchAction-1otgn73 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
     data-focusable={true}
     onKeyDown={[Function]}
     onKeyUp={[Function]}
@@ -15,53 +15,10 @@ exports[`SideMenuItem matches snapshot 1`] = `
     onResponderTerminate={[Function]}
     onResponderTerminationRequest={[Function]}
     onStartShouldSetResponder={[Function]}
-    style={
-      Object {
-        "WebkitAlignItems": "center",
-        "WebkitBoxAlign": "center",
-        "WebkitBoxDirection": "normal",
-        "WebkitBoxOrient": "horizontal",
-        "WebkitBoxPack": "start",
-        "WebkitFlexDirection": "row",
-        "WebkitJustifyContent": "flex-start",
-        "alignItems": "center",
-        "borderBottomColor": "rgba(238,238,238,1.00)",
-        "borderBottomStyle": "solid",
-        "borderBottomWidth": "1px",
-        "borderLeftStyle": "solid",
-        "borderRightStyle": "solid",
-        "borderTopStyle": "solid",
-        "flexDirection": "row",
-        "justifyContent": "flex-start",
-        "msFlexAlign": "center",
-        "msFlexDirection": "row",
-        "msFlexPack": "start",
-        "paddingBottom": "16px",
-        "paddingLeft": "0px",
-        "paddingRight": "16px",
-        "paddingTop": "16px",
-      }
-    }
     tabIndex="0"
   >
     <div
-      className="css-view-1dbjc4n"
-      style={
-        Object {
-          "WebkitAlignItems": "flex-start",
-          "WebkitBoxAlign": "start",
-          "WebkitBoxPack": "center",
-          "WebkitJustifyContent": "center",
-          "alignItems": "flex-start",
-          "display": "flex",
-          "justifyContent": "center",
-          "marginLeft": "8px",
-          "marginRight": "30px",
-          "msFlexAlign": "start",
-          "msFlexPack": "center",
-          "width": "20px",
-        }
-      }
+      className="css-view-1dbjc4n r-alignItems-1habvwh r-display-6koalj r-justifyContent-1777fci r-marginLeft-1jkjb r-marginRight-bpynri r-width-19wmn03"
     >
       <div
         className="css-text-901oao"
@@ -80,20 +37,8 @@ exports[`SideMenuItem matches snapshot 1`] = `
       </div>
     </div>
     <div
-      className="css-text-901oao"
+      className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-majxgm r-lineHeight-rjixqe r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
       dir="auto"
-      style={
-        Object {
-          "color": "rgba(66,69,74,1.00)",
-          "fontFamily": "Roboto",
-          "fontSize": "14px",
-          "fontWeight": "500",
-          "lineHeight": "20px",
-          "textAlign": "left",
-          "textDecoration": "none",
-          "textTransform": "none",
-        }
-      }
     >
       Profile
     </div>

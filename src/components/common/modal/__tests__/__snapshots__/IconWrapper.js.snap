@@ -5,54 +5,10 @@ exports[`IconWrapper matches snapshot 1`] = `
   className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
-    className="css-view-1dbjc4n"
-    style={
-      Object {
-        "WebkitBoxDirection": "normal",
-        "WebkitBoxOrient": "horizontal",
-        "WebkitBoxPack": "center",
-        "WebkitFlexDirection": "row",
-        "WebkitJustifyContent": "center",
-        "display": "flex",
-        "flexDirection": "row",
-        "justifyContent": "center",
-        "marginBottom": "16px",
-        "marginTop": "16px",
-        "msFlexDirection": "row",
-        "msFlexPack": "center",
-      }
-    }
+    className="css-view-1dbjc4n r-display-6koalj r-flexDirection-18u37iz r-justifyContent-1777fci r-marginVertical-1r5su4o"
   >
     <div
-      className="css-view-1dbjc4n"
-      style={
-        Object {
-          "WebkitAlignItems": "center",
-          "WebkitBoxAlign": "center",
-          "WebkitBoxDirection": "normal",
-          "WebkitBoxOrient": "horizontal",
-          "WebkitBoxPack": "center",
-          "WebkitFlexDirection": "row",
-          "WebkitJustifyContent": "center",
-          "alignItems": "center",
-          "borderBottomLeftRadius": "50%",
-          "borderBottomRightRadius": "50%",
-          "borderBottomWidth": "3px",
-          "borderLeftWidth": "3px",
-          "borderRightWidth": "3px",
-          "borderTopLeftRadius": "50%",
-          "borderTopRightRadius": "50%",
-          "borderTopWidth": "3px",
-          "display": "flex",
-          "flexDirection": "row",
-          "height": "90px",
-          "justifyContent": "center",
-          "msFlexAlign": "center",
-          "msFlexDirection": "row",
-          "msFlexPack": "center",
-          "width": "90px",
-        }
-      }
+      className="css-view-1dbjc4n r-alignItems-1awozwy r-borderRadius-ieixw r-borderWidth-1d6rzhh r-display-6koalj r-flexDirection-18u37iz r-height-37igu r-justifyContent-1777fci r-width-19554kt"
     >
       <div
         className="css-text-901oao"

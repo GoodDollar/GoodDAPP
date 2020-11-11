@@ -5,7 +5,7 @@ exports[`IconButton disabled matches snapshot 1`] = `
   className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
-    className="css-view-1dbjc4n r-cursor-1loqt21 r-flex-13awgt0 r-touchAction-1otgn73 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
+    className="css-view-1dbjc4n r-alignItems-1awozwy r-cursor-1loqt21 r-flex-13awgt0 r-flexDirection-eqz5dr r-touchAction-1otgn73 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
     data-focusable={true}
     onKeyDown={[Function]}
     onKeyUp={[Function]}
@@ -15,39 +15,18 @@ exports[`IconButton disabled matches snapshot 1`] = `
     onResponderTerminate={[Function]}
     onResponderTerminationRequest={[Function]}
     onStartShouldSetResponder={[Function]}
-    style={
-      Object {
-        "WebkitAlignItems": "center",
-        "WebkitBoxAlign": "center",
-        "WebkitBoxDirection": "normal",
-        "WebkitBoxOrient": "vertical",
-        "WebkitFlexDirection": "column",
-        "alignItems": "center",
-        "flexDirection": "column",
-        "msFlexAlign": "center",
-        "msFlexDirection": "column",
-      }
-    }
     tabIndex="0"
   >
     <div
-      className="css-view-1dbjc4n"
+      className="css-view-1dbjc4n r-borderRadius-ieixw r-padding-nsbfu8"
       style={
         Object {
           "backgroundColor": "rgba(12,38,61,1.00)",
-          "borderBottomLeftRadius": "50%",
-          "borderBottomRightRadius": "50%",
-          "borderTopLeftRadius": "50%",
-          "borderTopRightRadius": "50%",
-          "paddingBottom": "16px",
-          "paddingLeft": "16px",
-          "paddingRight": "16px",
-          "paddingTop": "16px",
         }
       }
     >
       <div
-        className="css-text-901oao"
+        className="css-text-901oao r-fontWeight-1it3c9n"
         dir="auto"
         style={
           Object {
@@ -55,7 +34,6 @@ exports[`IconButton disabled matches snapshot 1`] = `
             "fontFamily": "gooddollar",
             "fontSize": "35px",
             "fontStyle": "normal",
-            "fontWeight": "normal",
           }
         }
       >
@@ -63,20 +41,8 @@ exports[`IconButton disabled matches snapshot 1`] = `
       </div>
     </div>
     <div
-      className="css-text-901oao"
+      className="css-text-901oao r-color-gvunn1 r-fontFamily-vnw8o6 r-fontSize-1gkfh8e r-fontWeight-1it3c9n r-lineHeight-1b6yf8j r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
       dir="auto"
-      style={
-        Object {
-          "color": "rgba(0,0,0,0.32)",
-          "fontFamily": "Roboto",
-          "fontSize": "11px",
-          "fontWeight": "normal",
-          "lineHeight": "13.2px",
-          "textAlign": "center",
-          "textDecoration": "none",
-          "textTransform": "none",
-        }
-      }
     >
       edit
     </div>
@@ -89,7 +55,7 @@ exports[`IconButton enabled matches snapshot 1`] = `
   className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
-    className="css-view-1dbjc4n r-cursor-1loqt21 r-flex-13awgt0 r-touchAction-1otgn73 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
+    className="css-view-1dbjc4n r-alignItems-1awozwy r-cursor-1loqt21 r-flex-13awgt0 r-flexDirection-eqz5dr r-touchAction-1otgn73 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
     data-focusable={true}
     onKeyDown={[Function]}
     onKeyUp={[Function]}
@@ -99,39 +65,18 @@ exports[`IconButton enabled matches snapshot 1`] = `
     onResponderTerminate={[Function]}
     onResponderTerminationRequest={[Function]}
     onStartShouldSetResponder={[Function]}
-    style={
-      Object {
-        "WebkitAlignItems": "center",
-        "WebkitBoxAlign": "center",
-        "WebkitBoxDirection": "normal",
-        "WebkitBoxOrient": "vertical",
-        "WebkitFlexDirection": "column",
-        "alignItems": "center",
-        "flexDirection": "column",
-        "msFlexAlign": "center",
-        "msFlexDirection": "column",
-      }
-    }
     tabIndex="0"
   >
     <div
-      className="css-view-1dbjc4n"
+      className="css-view-1dbjc4n r-borderRadius-ieixw r-padding-nsbfu8"
       style={
         Object {
           "backgroundColor": "rgba(12,38,61,1.00)",
-          "borderBottomLeftRadius": "50%",
-          "borderBottomRightRadius": "50%",
-          "borderTopLeftRadius": "50%",
-          "borderTopRightRadius": "50%",
-          "paddingBottom": "16px",
-          "paddingLeft": "16px",
-          "paddingRight": "16px",
-          "paddingTop": "16px",
         }
       }
     >
       <div
-        className="css-text-901oao"
+        className="css-text-901oao r-fontWeight-1it3c9n"
         dir="auto"
         style={
           Object {
@@ -139,7 +84,6 @@ exports[`IconButton enabled matches snapshot 1`] = `
             "fontFamily": "gooddollar",
             "fontSize": "35px",
             "fontStyle": "normal",
-            "fontWeight": "normal",
           }
         }
       >
@@ -147,20 +91,8 @@ exports[`IconButton enabled matches snapshot 1`] = `
       </div>
     </div>
     <div
-      className="css-text-901oao"
+      className="css-text-901oao r-color-homxoj r-fontFamily-vnw8o6 r-fontSize-1gkfh8e r-fontWeight-1it3c9n r-lineHeight-1b6yf8j r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
       dir="auto"
-      style={
-        Object {
-          "color": "inherit",
-          "fontFamily": "Roboto",
-          "fontSize": "11px",
-          "fontWeight": "normal",
-          "lineHeight": "13.2px",
-          "textAlign": "center",
-          "textDecoration": "none",
-          "textTransform": "none",
-        }
-      }
     >
       edit
     </div>

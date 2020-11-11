@@ -5,72 +5,19 @@ exports[`FaceVerification Instructions matches snapshot 1`] = `
   className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
-    className="css-view-1dbjc4n r-position-bnwqim r-width-13qz1uu"
+    className="css-view-1dbjc4n r-display-6koalj r-flexDirection-eqz5dr r-flexGrow-16y2uox r-maxHeight-1qalap5 r-padding-edyy15 r-position-bnwqim r-width-13qz1uu"
     data-name="viewWrapper"
     style={
       Object {
-        "WebkitBoxDirection": "normal",
-        "WebkitBoxFlex": 1,
-        "WebkitBoxOrient": "vertical",
-        "WebkitFlexDirection": "column",
-        "WebkitFlexGrow": 1,
         "backgroundImage": "linear-gradient(3.141592653589793rad,#00AFFF,#2DC0F7,#28C0EF,#23C0E7,#1EC1DF,#19C1D7,#14C1CF,#0FC2C7,#0FC2C7,#0AC2BF,#05C2B7,#00C3AF)",
-        "display": "flex",
-        "flexDirection": "column",
-        "flexGrow": 1,
-        "maxHeight": "844px",
-        "msFlexDirection": "column",
-        "msFlexPositive": 1,
-        "paddingBottom": "8px",
-        "paddingLeft": "8px",
-        "paddingRight": "8px",
-        "paddingTop": "8px",
       }
     }
   >
     <div
-      className="css-view-1dbjc4n r-alignItems-1awozwy r-justifyContent-1777fci"
-      style={
-        Object {
-          "WebkitBoxDirection": "normal",
-          "WebkitBoxFlex": 1,
-          "WebkitBoxOrient": "vertical",
-          "WebkitFlexDirection": "column",
-          "WebkitFlexGrow": 1,
-          "WebkitFlexShrink": 0,
-          "backgroundColor": "rgba(255,255,255,1.00)",
-          "borderBottomLeftRadius": "5px",
-          "borderBottomRightRadius": "5px",
-          "borderTopLeftRadius": "5px",
-          "borderTopRightRadius": "5px",
-          "display": "flex",
-          "flexDirection": "column",
-          "flexGrow": 1,
-          "flexShrink": 0,
-          "msFlexDirection": "column",
-          "msFlexNegative": 0,
-          "msFlexPositive": 1,
-          "paddingBottom": "16px",
-          "paddingLeft": "8px",
-          "paddingRight": "8px",
-          "paddingTop": "16px",
-        }
-      }
+      className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-14lw9ot r-borderRadius-1f0042m r-display-6koalj r-flexDirection-eqz5dr r-flexGrow-16y2uox r-flexShrink-1q142lx r-justifyContent-1777fci r-paddingBottom-1l7z4oj r-paddingHorizontal-1e081e0 r-paddingLeft-1m04atk r-paddingRight-1pyaxff r-paddingTop-95jzfe r-paddingVertical-1yzf0co"
     >
       <div
-        className="css-view-1dbjc4n r-width-13qz1uu"
-        style={
-          Object {
-            "WebkitBoxFlex": 1,
-            "WebkitBoxPack": "justify",
-            "WebkitFlexGrow": 1,
-            "WebkitJustifyContent": "space-between",
-            "flexGrow": 1,
-            "justifyContent": "space-between",
-            "msFlexPack": "justify",
-            "msFlexPositive": 1,
-          }
-        }
+        className="css-view-1dbjc4n r-flexGrow-16y2uox r-justifyContent-1wtj0ep r-width-13qz1uu"
       >
         <div
           className="css-view-1dbjc4n r-flexBasis-1mlwlqe r-overflow-1udh08x r-width-13qz1uu r-zIndex-417010"
@@ -97,63 +44,18 @@ exports[`FaceVerification Instructions matches snapshot 1`] = `
           />
         </div>
         <div
-          className="css-view-1dbjc4n r-alignItems-1awozwy"
-          style={
-            Object {
-              "paddingBottom": "16px",
-              "paddingLeft": "4px",
-              "paddingRight": "4px",
-              "paddingTop": "16px",
-            }
-          }
+          className="css-view-1dbjc4n r-alignItems-1awozwy r-paddingHorizontal-s1qlax r-paddingVertical-1yzf0co"
         >
           <div
-            className="css-view-1dbjc4n"
-            style={
-              Object {
-                "WebkitAlignItems": "flex-start",
-                "WebkitBoxAlign": "start",
-                "WebkitBoxDirection": "normal",
-                "WebkitBoxOrient": "vertical",
-                "WebkitFlexDirection": "column",
-                "alignItems": "flex-start",
-                "flexDirection": "column",
-                "msFlexAlign": "start",
-                "msFlexDirection": "column",
-              }
-            }
+            className="css-view-1dbjc4n r-alignItems-1habvwh r-flexDirection-eqz5dr"
           >
             <div
-              className="css-text-901oao"
+              className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-adyw6z r-fontWeight-1it3c9n r-lineHeight-2agvir r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
               dir="auto"
-              style={
-                Object {
-                  "color": "rgba(66,69,74,1.00)",
-                  "fontFamily": "Roboto",
-                  "fontSize": "20px",
-                  "fontWeight": "normal",
-                  "lineHeight": "34px",
-                  "textAlign": "left",
-                  "textDecoration": "none",
-                  "textTransform": "none",
-                }
-              }
             >
               <span
-                className="css-text-901oao css-textHasAncestor-16my406"
+                className="css-text-901oao css-textHasAncestor-16my406 r-color-1q5uqvh r-fontFamily-vnw8o6 r-fontSize-adyw6z r-fontWeight-b88u0q r-lineHeight-2agvir r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                 dir="auto"
-                style={
-                  Object {
-                    "color": "rgba(0,175,255,1.00)",
-                    "fontFamily": "Roboto",
-                    "fontSize": "20px",
-                    "fontWeight": "700",
-                    "lineHeight": "34px",
-                    "textAlign": "center",
-                    "textDecoration": "none",
-                    "textTransform": "none",
-                  }
-                }
               >
                 •
                  
@@ -161,36 +63,12 @@ exports[`FaceVerification Instructions matches snapshot 1`] = `
               Hold Your Camera at Eye Level
             </div>
             <div
-              className="css-text-901oao"
+              className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-adyw6z r-fontWeight-1it3c9n r-lineHeight-2agvir r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
               dir="auto"
-              style={
-                Object {
-                  "color": "rgba(66,69,74,1.00)",
-                  "fontFamily": "Roboto",
-                  "fontSize": "20px",
-                  "fontWeight": "normal",
-                  "lineHeight": "34px",
-                  "textAlign": "left",
-                  "textDecoration": "none",
-                  "textTransform": "none",
-                }
-              }
             >
               <span
-                className="css-text-901oao css-textHasAncestor-16my406"
+                className="css-text-901oao css-textHasAncestor-16my406 r-color-1q5uqvh r-fontFamily-vnw8o6 r-fontSize-adyw6z r-fontWeight-b88u0q r-lineHeight-2agvir r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                 dir="auto"
-                style={
-                  Object {
-                    "color": "rgba(0,175,255,1.00)",
-                    "fontFamily": "Roboto",
-                    "fontSize": "20px",
-                    "fontWeight": "700",
-                    "lineHeight": "34px",
-                    "textAlign": "center",
-                    "textDecoration": "none",
-                    "textTransform": "none",
-                  }
-                }
               >
                 •
                  
@@ -198,36 +76,12 @@ exports[`FaceVerification Instructions matches snapshot 1`] = `
               Light Your Face Evenly
             </div>
             <div
-              className="css-text-901oao"
+              className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-adyw6z r-fontWeight-1it3c9n r-lineHeight-2agvir r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
               dir="auto"
-              style={
-                Object {
-                  "color": "rgba(66,69,74,1.00)",
-                  "fontFamily": "Roboto",
-                  "fontSize": "20px",
-                  "fontWeight": "normal",
-                  "lineHeight": "34px",
-                  "textAlign": "left",
-                  "textDecoration": "none",
-                  "textTransform": "none",
-                }
-              }
             >
               <span
-                className="css-text-901oao css-textHasAncestor-16my406"
+                className="css-text-901oao css-textHasAncestor-16my406 r-color-1q5uqvh r-fontFamily-vnw8o6 r-fontSize-adyw6z r-fontWeight-b88u0q r-lineHeight-2agvir r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                 dir="auto"
-                style={
-                  Object {
-                    "color": "rgba(0,175,255,1.00)",
-                    "fontFamily": "Roboto",
-                    "fontSize": "20px",
-                    "fontWeight": "700",
-                    "lineHeight": "34px",
-                    "textAlign": "center",
-                    "textDecoration": "none",
-                    "textTransform": "none",
-                  }
-                }
               >
                 •
                  
@@ -237,7 +91,7 @@ exports[`FaceVerification Instructions matches snapshot 1`] = `
           </div>
         </div>
         <div
-          className="css-view-1dbjc4n r-justifyContent-1777fci r-width-13qz1uu"
+          className="css-view-1dbjc4n r-display-6koalj r-justifyContent-1777fci r-width-13qz1uu"
           data-testid="dismiss_button"
           style={
             Object {
@@ -262,7 +116,6 @@ exports[`FaceVerification Instructions matches snapshot 1`] = `
               "borderTopStyle": "solid",
               "borderTopWidth": "0px",
               "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
-              "display": "flex",
               "marginBottom": "0px",
               "marginLeft": "0px",
               "marginRight": "0px",
@@ -318,30 +171,11 @@ exports[`FaceVerification Instructions matches snapshot 1`] = `
                 className="css-view-1dbjc4n r-marginHorizontal-1ydw1k6 r-marginVertical-712mwr"
               >
                 <div
-                  className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz"
-                  style={
-                    Object {
-                      "display": "flex",
-                    }
-                  }
+                  className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
                 >
                   <div
-                    className="css-text-901oao r-alignItems-1awozwy r-justifyContent-1777fci"
+                    className="css-text-901oao r-alignItems-1awozwy r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-hbpseb r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
                     dir="auto"
-                    style={
-                      Object {
-                        "color": "rgba(255,255,255,1.00)",
-                        "fontFamily": "Roboto",
-                        "fontSize": "16px",
-                        "fontWeight": "500",
-                        "letterSpacing": "0px",
-                        "lineHeight": "22px",
-                        "paddingTop": "1px",
-                        "textAlign": "center",
-                        "textDecoration": "none",
-                        "textTransform": "uppercase",
-                      }
-                    }
                   >
                     GOT IT
                   </div>

@@ -5,169 +5,57 @@ exports[`EmailConfirmation matches snapshot 1`] = `
   className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
-    className="css-view-1dbjc4n"
-    style={
-      Object {
-        "width": "100%",
-      }
-    }
+    className="css-view-1dbjc4n r-width-13qz1uu"
   >
     <div
       className="css-view-1dbjc4n r-flex-13awgt0 r-paddingBottom-97e31f r-paddingLeft-bv2aro r-paddingRight-hxflta r-paddingTop-10xqauy"
     >
       <div
-        className="css-view-1dbjc4n"
+        className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-display-6koalj r-flexDirection-eqz5dr r-flexGrow-16y2uox r-maxHeight-1qalap5 r-padding-nsbfu8 r-position-bnwqim r-width-13qz1uu"
         data-name="viewWrapper"
-        style={
-          Object {
-            "WebkitBoxDirection": "normal",
-            "WebkitBoxFlex": 1,
-            "WebkitBoxOrient": "vertical",
-            "WebkitFlexDirection": "column",
-            "WebkitFlexGrow": 1,
-            "backgroundColor": "rgba(0,0,0,0.00)",
-            "display": "flex",
-            "flexDirection": "column",
-            "flexGrow": 1,
-            "maxHeight": "844px",
-            "msFlexDirection": "column",
-            "msFlexPositive": 1,
-            "paddingBottom": "16px",
-            "paddingLeft": "16px",
-            "paddingRight": "16px",
-            "paddingTop": "16px",
-            "position": "relative",
-            "width": "100%",
-          }
-        }
       >
         <div
-          className="css-view-1dbjc4n"
-          style={
-            Object {
-              "WebkitBoxFlex": 1,
-              "WebkitFlexGrow": 1,
-              "backgroundColor": "rgba(0,0,0,0.00)",
-              "borderBottomLeftRadius": "5px",
-              "borderBottomRightRadius": "5px",
-              "borderTopLeftRadius": "5px",
-              "borderTopRightRadius": "5px",
-              "flexGrow": 1,
-              "msFlexPositive": 1,
-              "paddingBottom": "16px",
-              "paddingLeft": "12px",
-              "paddingRight": "12px",
-              "paddingTop": "16px",
-            }
-          }
+          className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-borderRadius-1f0042m r-flexGrow-16y2uox r-padding-t60dpp r-paddingHorizontal-1e081e0 r-paddingVertical-1yzf0co"
         >
           <div
-            className="css-view-1dbjc4n"
-            style={
-              Object {
-                "WebkitAlignItems": "stretch",
-                "WebkitBoxAlign": "stretch",
-                "WebkitBoxDirection": "normal",
-                "WebkitBoxFlex": 1,
-                "WebkitBoxOrient": "vertical",
-                "WebkitBoxPack": "space-evenly",
-                "WebkitFlexDirection": "column",
-                "WebkitFlexGrow": 1,
-                "WebkitJustifyContent": "space-evenly",
-                "alignItems": "stretch",
-                "flexDirection": "column",
-                "flexGrow": 1,
-                "justifyContent": "space-evenly",
-                "msFlexAlign": "stretch",
-                "msFlexDirection": "column",
-                "msFlexPack": "space-evenly",
-                "msFlexPositive": 1,
-              }
-            }
+            className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-flexGrow-16y2uox r-justifyContent-1d7fvdj"
           >
             <div
-              className="css-view-1dbjc4n"
+              className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderRadius-1f0042m r-flexGrow-16y2uox r-paddingHorizontal-1e081e0 r-paddingVertical-1yzf0co"
               style={
                 Object {
-                  "WebkitBoxFlex": 1,
                   "WebkitBoxPack": "start",
-                  "WebkitFlexGrow": 1,
                   "WebkitJustifyContent": "flex-start",
-                  "backgroundColor": "rgba(255,255,255,1.00)",
-                  "borderBottomLeftRadius": "5px",
-                  "borderBottomRightRadius": "5px",
-                  "borderTopLeftRadius": "5px",
-                  "borderTopRightRadius": "5px",
-                  "flexGrow": 1,
                   "justifyContent": "flex-start",
                   "msFlexPack": "start",
-                  "msFlexPositive": 1,
-                  "paddingBottom": "16px",
-                  "paddingLeft": "12px",
-                  "paddingRight": "12px",
-                  "paddingTop": "16px",
                 }
               }
             >
               <div
-                className="css-view-1dbjc4n"
+                className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-height-4d76ec r-minHeight-ql8eny"
                 style={
                   Object {
-                    "WebkitAlignItems": "stretch",
-                    "WebkitBoxAlign": "stretch",
-                    "WebkitBoxDirection": "normal",
-                    "WebkitBoxOrient": "vertical",
                     "WebkitBoxPack": "start",
-                    "WebkitFlexDirection": "column",
                     "WebkitJustifyContent": "flex-start",
-                    "alignItems": "stretch",
-                    "flexDirection": "column",
-                    "height": "200px",
                     "justifyContent": "flex-start",
-                    "minHeight": "200px",
-                    "msFlexAlign": "stretch",
-                    "msFlexDirection": "column",
                     "msFlexPack": "start",
                   }
                 }
               >
                 <div
-                  className="css-view-1dbjc4n"
+                  className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz"
                   style={
                     Object {
-                      "WebkitAlignItems": "center",
-                      "WebkitBoxAlign": "center",
-                      "WebkitBoxDirection": "normal",
-                      "WebkitBoxOrient": "horizontal",
                       "WebkitBoxPack": "center",
-                      "WebkitFlexDirection": "row",
                       "WebkitJustifyContent": "center",
-                      "alignItems": "center",
-                      "flexDirection": "row",
                       "justifyContent": "center",
-                      "msFlexAlign": "center",
-                      "msFlexDirection": "row",
                       "msFlexPack": "center",
                     }
                   }
                 >
                   <div
-                    className="css-text-901oao"
+                    className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-evnaw r-fontWeight-majxgm r-lineHeight-17rnw9f r-marginVertical-c8eef1 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                     dir="auto"
-                    style={
-                      Object {
-                        "color": "rgba(66,69,74,1.00)",
-                        "fontFamily": "Roboto",
-                        "fontSize": "22px",
-                        "fontWeight": "500",
-                        "lineHeight": "30px",
-                        "marginBottom": "8px",
-                        "marginTop": "8px",
-                        "textAlign": "center",
-                        "textDecoration": "none",
-                        "textTransform": "none",
-                      }
-                    }
                   >
                     You’ve got mail!
 A verification code
@@ -175,64 +63,27 @@ was emailed to you
                   </div>
                 </div>
                 <div
-                  className="css-view-1dbjc4n"
+                  className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-marginBottom-1ifxtd0 r-marginTop-1t01tom"
                   style={
                     Object {
-                      "WebkitAlignItems": "stretch",
-                      "WebkitBoxAlign": "stretch",
-                      "WebkitBoxDirection": "normal",
-                      "WebkitBoxOrient": "vertical",
                       "WebkitBoxPack": "center",
-                      "WebkitFlexDirection": "column",
                       "WebkitJustifyContent": "center",
-                      "alignItems": "stretch",
-                      "flexDirection": "column",
                       "justifyContent": "center",
-                      "marginBottom": "16px",
-                      "marginTop": "auto",
-                      "msFlexAlign": "stretch",
-                      "msFlexDirection": "column",
                       "msFlexPack": "center",
                     }
                   }
                 >
                   <div
-                    className="css-view-1dbjc4n"
-                    style={
-                      Object {
-                        "WebkitBoxDirection": "normal",
-                        "WebkitBoxOrient": "horizontal",
-                        "WebkitBoxPack": "space-evenly",
-                        "WebkitFlexDirection": "row",
-                        "WebkitJustifyContent": "space-evenly",
-                        "display": "flex",
-                        "flexDirection": "row",
-                        "justifyContent": "space-evenly",
-                        "marginBottom": "8px",
-                        "msFlexDirection": "row",
-                        "msFlexPack": "space-evenly",
-                      }
-                    }
+                    className="css-view-1dbjc4n r-display-6koalj r-flexDirection-18u37iz r-justifyContent-1d7fvdj r-marginBottom-5oul0u"
                   >
                     <div
-                      className="css-view-1dbjc4n r-flex-13awgt0"
-                      style={
-                        Object {
-                          "WebkitAlignItems": "center",
-                          "WebkitBoxAlign": "center",
-                          "alignItems": "center",
-                          "display": "flex",
-                          "msFlexAlign": "center",
-                          "paddingLeft": "5.277777777777778px",
-                          "paddingRight": "5.277777777777778px",
-                        }
-                      }
+                      className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-paddingHorizontal-10el5fd"
                     >
                       <input
                         autoCapitalize="sentences"
                         autoComplete="on"
                         autoCorrect="on"
-                        className="css-textinput-1cwyjr8"
+                        className="css-textinput-1cwyjr8 r-borderBottomColor-1uy9gz5 r-borderBottomWidth-wgabs5 r-borderLeftWidth-gxnn5r r-borderRightWidth-fnigne r-borderTopWidth-13yce4e r-fontSize-1i10wst r-marginBottom-p1pxzi r-marginVertical-r0h9e2 r-paddingVertical-atwnbb r-textAlign-q4m81j r-width-13qz1uu"
                         data-focusable={true}
                         dir="auto"
                         disabled={false}
@@ -249,22 +100,6 @@ was emailed to you
                         placeholder="*"
                         readOnly={false}
                         spellCheck={true}
-                        style={
-                          Object {
-                            "borderBottomColor": "rgba(85,85,85,1.00)",
-                            "borderBottomWidth": "2px",
-                            "borderLeftWidth": "0px",
-                            "borderRightWidth": "0px",
-                            "borderTopWidth": "0px",
-                            "fontSize": "18px",
-                            "marginBottom": "0px",
-                            "marginTop": "0px",
-                            "paddingBottom": "5px",
-                            "paddingTop": "5px",
-                            "textAlign": "center",
-                            "width": "100%",
-                          }
-                        }
                         theme={
                           Object {
                             "animation": Object {
@@ -371,24 +206,13 @@ was emailed to you
                       />
                     </div>
                     <div
-                      className="css-view-1dbjc4n r-flex-13awgt0"
-                      style={
-                        Object {
-                          "WebkitAlignItems": "center",
-                          "WebkitBoxAlign": "center",
-                          "alignItems": "center",
-                          "display": "flex",
-                          "msFlexAlign": "center",
-                          "paddingLeft": "5.277777777777778px",
-                          "paddingRight": "5.277777777777778px",
-                        }
-                      }
+                      className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-paddingHorizontal-10el5fd"
                     >
                       <input
                         autoCapitalize="sentences"
                         autoComplete="on"
                         autoCorrect="on"
-                        className="css-textinput-1cwyjr8"
+                        className="css-textinput-1cwyjr8 r-borderBottomColor-1uy9gz5 r-borderBottomWidth-wgabs5 r-borderLeftWidth-gxnn5r r-borderRightWidth-fnigne r-borderTopWidth-13yce4e r-fontSize-1i10wst r-marginBottom-p1pxzi r-marginVertical-r0h9e2 r-paddingVertical-atwnbb r-textAlign-q4m81j r-width-13qz1uu"
                         data-focusable={true}
                         dir="auto"
                         disabled={false}
@@ -405,22 +229,6 @@ was emailed to you
                         placeholder="*"
                         readOnly={false}
                         spellCheck={true}
-                        style={
-                          Object {
-                            "borderBottomColor": "rgba(85,85,85,1.00)",
-                            "borderBottomWidth": "2px",
-                            "borderLeftWidth": "0px",
-                            "borderRightWidth": "0px",
-                            "borderTopWidth": "0px",
-                            "fontSize": "18px",
-                            "marginBottom": "0px",
-                            "marginTop": "0px",
-                            "paddingBottom": "5px",
-                            "paddingTop": "5px",
-                            "textAlign": "center",
-                            "width": "100%",
-                          }
-                        }
                         theme={
                           Object {
                             "animation": Object {
@@ -527,24 +335,13 @@ was emailed to you
                       />
                     </div>
                     <div
-                      className="css-view-1dbjc4n r-flex-13awgt0"
-                      style={
-                        Object {
-                          "WebkitAlignItems": "center",
-                          "WebkitBoxAlign": "center",
-                          "alignItems": "center",
-                          "display": "flex",
-                          "msFlexAlign": "center",
-                          "paddingLeft": "5.277777777777778px",
-                          "paddingRight": "5.277777777777778px",
-                        }
-                      }
+                      className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-paddingHorizontal-10el5fd"
                     >
                       <input
                         autoCapitalize="sentences"
                         autoComplete="on"
                         autoCorrect="on"
-                        className="css-textinput-1cwyjr8"
+                        className="css-textinput-1cwyjr8 r-borderBottomColor-1uy9gz5 r-borderBottomWidth-wgabs5 r-borderLeftWidth-gxnn5r r-borderRightWidth-fnigne r-borderTopWidth-13yce4e r-fontSize-1i10wst r-marginBottom-p1pxzi r-marginVertical-r0h9e2 r-paddingVertical-atwnbb r-textAlign-q4m81j r-width-13qz1uu"
                         data-focusable={true}
                         dir="auto"
                         disabled={false}
@@ -561,22 +358,6 @@ was emailed to you
                         placeholder="*"
                         readOnly={false}
                         spellCheck={true}
-                        style={
-                          Object {
-                            "borderBottomColor": "rgba(85,85,85,1.00)",
-                            "borderBottomWidth": "2px",
-                            "borderLeftWidth": "0px",
-                            "borderRightWidth": "0px",
-                            "borderTopWidth": "0px",
-                            "fontSize": "18px",
-                            "marginBottom": "0px",
-                            "marginTop": "0px",
-                            "paddingBottom": "5px",
-                            "paddingTop": "5px",
-                            "textAlign": "center",
-                            "width": "100%",
-                          }
-                        }
                         theme={
                           Object {
                             "animation": Object {
@@ -683,25 +464,13 @@ was emailed to you
                       />
                     </div>
                     <div
-                      className="css-view-1dbjc4n r-flex-13awgt0"
-                      style={
-                        Object {
-                          "WebkitAlignItems": "center",
-                          "WebkitBoxAlign": "center",
-                          "alignItems": "center",
-                          "display": "flex",
-                          "marginLeft": "15px",
-                          "msFlexAlign": "center",
-                          "paddingLeft": "5.277777777777778px",
-                          "paddingRight": "5.277777777777778px",
-                        }
-                      }
+                      className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-marginLeft-1ozfoo7 r-paddingHorizontal-10el5fd"
                     >
                       <input
                         autoCapitalize="sentences"
                         autoComplete="on"
                         autoCorrect="on"
-                        className="css-textinput-1cwyjr8"
+                        className="css-textinput-1cwyjr8 r-borderBottomColor-1uy9gz5 r-borderBottomWidth-wgabs5 r-borderLeftWidth-gxnn5r r-borderRightWidth-fnigne r-borderTopWidth-13yce4e r-fontSize-1i10wst r-marginBottom-p1pxzi r-marginVertical-r0h9e2 r-paddingVertical-atwnbb r-textAlign-q4m81j r-width-13qz1uu"
                         data-focusable={true}
                         dir="auto"
                         disabled={false}
@@ -718,22 +487,6 @@ was emailed to you
                         placeholder="*"
                         readOnly={false}
                         spellCheck={true}
-                        style={
-                          Object {
-                            "borderBottomColor": "rgba(85,85,85,1.00)",
-                            "borderBottomWidth": "2px",
-                            "borderLeftWidth": "0px",
-                            "borderRightWidth": "0px",
-                            "borderTopWidth": "0px",
-                            "fontSize": "18px",
-                            "marginBottom": "0px",
-                            "marginTop": "0px",
-                            "paddingBottom": "5px",
-                            "paddingTop": "5px",
-                            "textAlign": "center",
-                            "width": "100%",
-                          }
-                        }
                         theme={
                           Object {
                             "animation": Object {
@@ -840,24 +593,13 @@ was emailed to you
                       />
                     </div>
                     <div
-                      className="css-view-1dbjc4n r-flex-13awgt0"
-                      style={
-                        Object {
-                          "WebkitAlignItems": "center",
-                          "WebkitBoxAlign": "center",
-                          "alignItems": "center",
-                          "display": "flex",
-                          "msFlexAlign": "center",
-                          "paddingLeft": "5.277777777777778px",
-                          "paddingRight": "5.277777777777778px",
-                        }
-                      }
+                      className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-paddingHorizontal-10el5fd"
                     >
                       <input
                         autoCapitalize="sentences"
                         autoComplete="on"
                         autoCorrect="on"
-                        className="css-textinput-1cwyjr8"
+                        className="css-textinput-1cwyjr8 r-borderBottomColor-1uy9gz5 r-borderBottomWidth-wgabs5 r-borderLeftWidth-gxnn5r r-borderRightWidth-fnigne r-borderTopWidth-13yce4e r-fontSize-1i10wst r-marginBottom-p1pxzi r-marginVertical-r0h9e2 r-paddingVertical-atwnbb r-textAlign-q4m81j r-width-13qz1uu"
                         data-focusable={true}
                         dir="auto"
                         disabled={false}
@@ -874,22 +616,6 @@ was emailed to you
                         placeholder="*"
                         readOnly={false}
                         spellCheck={true}
-                        style={
-                          Object {
-                            "borderBottomColor": "rgba(85,85,85,1.00)",
-                            "borderBottomWidth": "2px",
-                            "borderLeftWidth": "0px",
-                            "borderRightWidth": "0px",
-                            "borderTopWidth": "0px",
-                            "fontSize": "18px",
-                            "marginBottom": "0px",
-                            "marginTop": "0px",
-                            "paddingBottom": "5px",
-                            "paddingTop": "5px",
-                            "textAlign": "center",
-                            "width": "100%",
-                          }
-                        }
                         theme={
                           Object {
                             "animation": Object {
@@ -996,24 +722,13 @@ was emailed to you
                       />
                     </div>
                     <div
-                      className="css-view-1dbjc4n r-flex-13awgt0"
-                      style={
-                        Object {
-                          "WebkitAlignItems": "center",
-                          "WebkitBoxAlign": "center",
-                          "alignItems": "center",
-                          "display": "flex",
-                          "msFlexAlign": "center",
-                          "paddingLeft": "5.277777777777778px",
-                          "paddingRight": "5.277777777777778px",
-                        }
-                      }
+                      className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-paddingHorizontal-10el5fd"
                     >
                       <input
                         autoCapitalize="sentences"
                         autoComplete="on"
                         autoCorrect="on"
-                        className="css-textinput-1cwyjr8"
+                        className="css-textinput-1cwyjr8 r-borderBottomColor-1uy9gz5 r-borderBottomWidth-wgabs5 r-borderLeftWidth-gxnn5r r-borderRightWidth-fnigne r-borderTopWidth-13yce4e r-fontSize-1i10wst r-marginBottom-p1pxzi r-marginVertical-r0h9e2 r-paddingVertical-atwnbb r-textAlign-q4m81j r-width-13qz1uu"
                         data-focusable={true}
                         dir="auto"
                         disabled={false}
@@ -1030,22 +745,6 @@ was emailed to you
                         placeholder="*"
                         readOnly={false}
                         spellCheck={true}
-                        style={
-                          Object {
-                            "borderBottomColor": "rgba(85,85,85,1.00)",
-                            "borderBottomWidth": "2px",
-                            "borderLeftWidth": "0px",
-                            "borderRightWidth": "0px",
-                            "borderTopWidth": "0px",
-                            "fontSize": "18px",
-                            "marginBottom": "0px",
-                            "marginTop": "0px",
-                            "paddingBottom": "5px",
-                            "paddingTop": "5px",
-                            "textAlign": "center",
-                            "width": "100%",
-                          }
-                        }
                         theme={
                           Object {
                             "animation": Object {
@@ -1153,7 +852,7 @@ was emailed to you
                     </div>
                   </div>
                   <div
-                    className="css-text-901oao"
+                    className="css-text-901oao r-paddingHorizontal-1e081e0 r-textAlign-q4m81j"
                     dir="auto"
                     style={
                       Object {
@@ -1167,9 +866,7 @@ was emailed to you
                         "opacity": 0,
                         "paddingBottom": "0px",
                         "paddingLeft": "0px",
-                        "paddingRight": "12px",
                         "paddingTop": "0px",
-                        "textAlign": "center",
                         "transform": "translateY(0px)",
                       }
                     }
@@ -1179,42 +876,19 @@ was emailed to you
                 </div>
               </div>
               <div
-                className="css-view-1dbjc4n"
+                className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-marginBottom-1ifxtd0 r-marginTop-1wzrnnt"
                 style={
                   Object {
-                    "WebkitAlignItems": "center",
-                    "WebkitBoxAlign": "center",
-                    "WebkitBoxDirection": "normal",
-                    "WebkitBoxOrient": "horizontal",
                     "WebkitBoxPack": "center",
-                    "WebkitFlexDirection": "row",
                     "WebkitJustifyContent": "center",
-                    "alignItems": "center",
-                    "flexDirection": "row",
                     "justifyContent": "center",
-                    "marginBottom": "16px",
-                    "marginTop": "16px",
-                    "msFlexAlign": "center",
-                    "msFlexDirection": "row",
                     "msFlexPack": "center",
                   }
                 }
               >
                 <div
-                  className="css-text-901oao"
+                  className="css-text-901oao r-color-vaa0vc r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-1it3c9n r-lineHeight-rjixqe r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                   dir="auto"
-                  style={
-                    Object {
-                      "color": "rgba(163,163,163,1.00)",
-                      "fontFamily": "Roboto",
-                      "fontSize": "14px",
-                      "fontWeight": "normal",
-                      "lineHeight": "20px",
-                      "textAlign": "center",
-                      "textDecoration": "none",
-                      "textTransform": "none",
-                    }
-                  }
                 >
                   Please wait a few seconds until the email arrives
                 </div>
@@ -1222,21 +896,12 @@ was emailed to you
             </div>
           </div>
           <div
-            className="css-view-1dbjc4n"
+            className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz"
             style={
               Object {
-                "WebkitAlignItems": "center",
-                "WebkitBoxAlign": "center",
-                "WebkitBoxDirection": "normal",
-                "WebkitBoxOrient": "horizontal",
                 "WebkitBoxPack": "end",
-                "WebkitFlexDirection": "row",
                 "WebkitJustifyContent": "flex-end",
-                "alignItems": "center",
-                "flexDirection": "row",
                 "justifyContent": "flex-end",
-                "msFlexAlign": "center",
-                "msFlexDirection": "row",
                 "msFlexPack": "end",
               }
             }

@@ -1,6 +1,5 @@
 // @flow
 import React, { useCallback, useState } from 'react'
-import { View } from 'react-native'
 import Wrapper from '../../common/layout/Wrapper'
 import Text from '../../common/view/Text'
 import NavBar from '../../appNavigation/NavBar'
@@ -11,8 +10,6 @@ import AnimationsPeopleFlying from '../../common/animations/PeopleFlying'
 import Section from '../../common/layout/Section'
 import SimpleStore from '../../../lib/undux/SimpleStore'
 import { getDesignRelativeHeight, getDesignRelativeWidth, getMaxDeviceHeight } from '../../../lib/utils/sizes'
-import { isSmallDevice } from '../../../lib/utils/mobileSizeDetect'
-import normalizeText from '../../../lib/utils/normalizeText'
 import googleBtnIcon from '../../../assets/Auth/btn_google.svg'
 import facebookBtnIcon from '../../../assets/Auth/btn_facebook.svg'
 import { PasswordLess } from '../torus/PasswordLess'
@@ -46,7 +43,7 @@ const SignupScreen = ({ screenProps, styles, store, handleLoginMethod, sdkInitia
 
   return (
     <Wrapper backgroundColor="#fff" style={styles.mainWrapper}>
-      <View>
+      <Section.Stack style={{ flex: 'auto' }}>
         <NavBar title="Signup" goBack={_goBack} />
         <Text
           style={styles.headerText}
@@ -58,11 +55,11 @@ const SignupScreen = ({ screenProps, styles, store, handleLoginMethod, sdkInitia
         >
           Welcome to GoodDollar!
         </Text>
-      </View>
-      <View style={styles.illustration}>
+      </Section.Stack>
+      <Section.Stack style={styles.illustration}>
         <AnimationsPeopleFlying />
-      </View>
-      <Section style={styles.bottomContainer}>
+      </Section.Stack>
+      <Section.Stack style={styles.bottomContainer}>
         <Text fontSize={12} color="gray80Percent" style={styles.marginBottom}>
           {`By Signing up you are accepting our \n`}
           <Text
@@ -108,13 +105,12 @@ const SignupScreen = ({ screenProps, styles, store, handleLoginMethod, sdkInitia
           </React.Fragment>
         )}
         <PasswordLess isOpen={isPasswordless} onSelect={handlePasswordless} handleLoginMethod={handleLoginMethod} />
-      </Section>
+      </Section.Stack>
     </Wrapper>
   )
 }
 
 const getStylesFromProps = ({ theme }) => {
-  const buttonFontSize = normalizeText(isSmallDevice ? 13 : 16)
   const shorterDevice = getMaxDeviceHeight() <= 622
   const illustrationSize = getDesignRelativeWidth(isBrowser ? 429 : shorterDevice ? 249 : 350)
 
@@ -122,12 +118,16 @@ const getStylesFromProps = ({ theme }) => {
     mainWrapper: {
       paddingHorizontal: 0,
       paddingVertical: 0,
-      justifyContent: 'space-between',
-      flexGrow: 1,
+      flex: 1,
     },
     bottomContainer: {
+      flex: 1,
+      justifyContent: 'flex-start',
       paddingHorizontal: theme.sizes.defaultDouble,
-      minHeight: getDesignRelativeHeight(256),
+      marginTop: getDesignRelativeHeight(theme.sizes.default * 5),
+
+      // maxHeight: getDesignRelativeHeight(225),
+      // minHeight: getDesignRelativeHeight(256),
     },
     buttonLayout: {
       marginTop: getDesignRelativeHeight(theme.sizes.default),
@@ -139,32 +139,14 @@ const getStylesFromProps = ({ theme }) => {
       borderRadius: 50,
       padding: 3,
     },
-    iconsStyle: {
-      width: getDesignRelativeHeight(20),
-      height: getDesignRelativeHeight(20),
-    },
-    iconBorder: {
-      backgroundColor: theme.colors.white,
-      borderRadius: 50,
-      alignItems: 'center',
-      padding: getDesignRelativeHeight(12),
-    },
-    buttonText: {
-      fontSize: buttonFontSize,
-      flex: 1,
-      lineHeight: getDesignRelativeHeight(19),
-    },
     illustration: {
-      flexGrow: 1,
-      flexShrink: 0,
       marginTop: getDesignRelativeHeight(theme.sizes.defaultDouble),
       width: illustrationSize,
       height: getDesignRelativeHeight(192),
-      marginRight: 'auto',
-      marginLeft: 'auto',
       paddingRight: getDesignRelativeWidth(15),
       flex: 1,
       justifyContent: 'center',
+      alignSelf: 'center',
     },
     headerText: {
       marginTop: getDesignRelativeHeight(!shorterDevice ? 45 : 30),
@@ -172,10 +154,6 @@ const getStylesFromProps = ({ theme }) => {
     },
     marginBottom: {
       marginBottom: getDesignRelativeHeight(isBrowser ? theme.sizes.defaultDouble : theme.sizes.default),
-    },
-    fixMargin: {
-      marginVertical: -6,
-      marginHorizontal: -13,
     },
   }
 }

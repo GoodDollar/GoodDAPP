@@ -76,7 +76,13 @@ const SigninScreen = ({ styles, store, handleLoginMethod, sdkInitialized, goBack
               Log in with Google
             </LoginButton>
             <LoginButton
-              style={[styles.buttonLayout, { backgroundColor: mainTheme.colors.facebookBlue }]}
+              style={[
+                styles.buttonLayout,
+                styles.buttonsMargin,
+                {
+                  backgroundColor: mainTheme.colors.facebookBlue,
+                },
+              ]}
               onPress={_facebook}
               disabled={!sdkInitialized}
               testID="login_with_facebook"
@@ -86,12 +92,14 @@ const SigninScreen = ({ styles, store, handleLoginMethod, sdkInitialized, goBack
             </LoginButton>
           </>
         )}
-        <PasswordLess
-          isSignup={false}
-          isOpen={isPasswordless}
-          onSelect={handlePasswordless}
-          handleLoginMethod={handleLoginMethod}
-        />
+        <Section.Stack style={styles.buttonsMargin}>
+          <PasswordLess
+            isSignup={false}
+            isOpen={isPasswordless}
+            onSelect={handlePasswordless}
+            handleLoginMethod={handleLoginMethod}
+          />
+        </Section.Stack>
       </Section.Stack>
     </Wrapper>
   )
@@ -113,8 +121,6 @@ const getStylesFromProps = ({ theme }) => {
       marginTop: getDesignRelativeHeight(theme.sizes.default * 5),
     },
     buttonLayout: {
-      marginTop: getDesignRelativeHeight(theme.sizes.default),
-      marginBottom: getDesignRelativeHeight(theme.sizes.default),
       flex: 1,
       justifyContent: 'space-between',
       flexDirection: 'row',
@@ -129,13 +135,16 @@ const getStylesFromProps = ({ theme }) => {
       height: getDesignRelativeHeight(172, false),
       alignSelf: 'center',
       justifyContent: 'center',
+      alignItems: 'center',
     },
     headerText: {
       marginTop: getDesignRelativeHeight(!shorterDevice ? 45 : 30),
-      marginBottom: getDesignRelativeHeight(20),
     },
     privacyAndTerms: {
-      marginBottom: getDesignRelativeHeight(16),
+      marginBottom: getDesignRelativeHeight(isBrowser ? theme.sizes.defaultDouble : theme.sizes.default),
+    },
+    buttonsMargin: {
+      marginTop: getDesignRelativeHeight(shorterDevice ? theme.sizes.default : theme.sizes.defaultDouble),
     },
   }
 }

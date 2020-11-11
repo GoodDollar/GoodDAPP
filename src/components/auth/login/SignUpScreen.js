@@ -94,7 +94,13 @@ const SignupScreen = ({ screenProps, styles, store, handleLoginMethod, sdkInitia
               {`Agree & Sign up with Google`}
             </LoginButton>
             <LoginButton
-              style={[styles.buttonLayout, { backgroundColor: mainTheme.colors.facebookBlue }]}
+              style={[
+                styles.buttonLayout,
+                styles.buttonsMargin,
+                {
+                  backgroundColor: mainTheme.colors.facebookBlue,
+                },
+              ]}
               onPress={_facebook}
               disabled={!sdkInitialized}
               testID="login_with_facebook"
@@ -104,7 +110,9 @@ const SignupScreen = ({ screenProps, styles, store, handleLoginMethod, sdkInitia
             </LoginButton>
           </React.Fragment>
         )}
-        <PasswordLess isOpen={isPasswordless} onSelect={handlePasswordless} handleLoginMethod={handleLoginMethod} />
+        <Section.Stack style={styles.buttonsMargin}>
+          <PasswordLess isOpen={isPasswordless} onSelect={handlePasswordless} handleLoginMethod={handleLoginMethod} />
+        </Section.Stack>
       </Section.Stack>
     </Wrapper>
   )
@@ -130,8 +138,6 @@ const getStylesFromProps = ({ theme }) => {
       // minHeight: getDesignRelativeHeight(256),
     },
     buttonLayout: {
-      marginTop: getDesignRelativeHeight(theme.sizes.default),
-      marginBottom: getDesignRelativeHeight(theme.sizes.default),
       flex: 1,
       justifyContent: 'space-between',
       flexDirection: 'row',
@@ -140,7 +146,7 @@ const getStylesFromProps = ({ theme }) => {
       padding: 3,
     },
     illustration: {
-      marginTop: getDesignRelativeHeight(theme.sizes.defaultDouble),
+      marginTop: getDesignRelativeHeight(theme.sizes.default * 5),
       width: illustrationSize,
       height: getDesignRelativeHeight(192),
       paddingRight: getDesignRelativeWidth(15),
@@ -150,10 +156,12 @@ const getStylesFromProps = ({ theme }) => {
     },
     headerText: {
       marginTop: getDesignRelativeHeight(!shorterDevice ? 45 : 30),
-      marginBottom: getDesignRelativeHeight(20),
     },
     marginBottom: {
       marginBottom: getDesignRelativeHeight(isBrowser ? theme.sizes.defaultDouble : theme.sizes.default),
+    },
+    buttonsMargin: {
+      marginTop: getDesignRelativeHeight(shorterDevice ? theme.sizes.default : theme.sizes.defaultDouble),
     },
   }
 }

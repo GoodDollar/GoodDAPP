@@ -83,7 +83,7 @@ const handleLinks = async () => {
 
 let SignupRouter = React.lazy(async () => {
   const [module] = await Promise.all([
-    retryImport(() => import(/* webpackChunkName: "signuprouter" */ './routers/SignupRouter')),
+    retryImport(() => import(/* webpackChunkName: "signuprouter" */ './SignupRouter')),
     handleLinks(),
     delay(animationDuration),
   ])
@@ -96,7 +96,7 @@ let AppRouter = React.lazy(async () => {
   log.debug('initializing storage and wallet...', { animateSplash })
 
   const [module] = await Promise.all([
-    retryImport(() => import(/* webpackChunkName: "router" */ './routers/Router')),
+    retryImport(() => import(/* webpackChunkName: "router" */ './Router')),
     retryImport(() => import(/* webpackChunkName: "init" */ './init'))
       .then(({ init }) => init())
       .then(() => log.debug('storage and wallet ready')),

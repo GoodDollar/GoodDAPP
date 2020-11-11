@@ -1,16 +1,17 @@
 import React from 'react'
 import { createSwitchNavigator } from '@react-navigation/core'
 import { View } from 'react-native'
-import createAppContainer from '../../lib/utils/createAppContainer'
-import { isAndroid } from '../../lib/utils/platform'
-import Config from '../../config/config'
-import Signup from '../../components/signup/SignupState'
-import SigninInfo from '../../components/signin/SigninInfo'
-import Blurred from '../../components/common/view/Blur/Blurred'
-import SimpleStore from '../../lib/undux/SimpleStore.js'
-import { getOriginalScreenHeight } from '../../lib/utils/orientation'
-import useNavigationStateHandler from '../../lib/hooks/useNavigationStateHandler'
-import Welcome from '../../components/auth/login/WelcomeScreen'
+import createAppContainer from './lib/utils/createAppContainer'
+import { isAndroid } from './lib/utils/platform'
+import Config from './config/config'
+import Signup from './components/signup/SignupState'
+import SigninInfo from './components/signin/SigninInfo'
+import Blurred from './components/common/view/Blur/Blurred'
+import SimpleStore from './lib/undux/SimpleStore.js'
+import { getOriginalScreenHeight } from './lib/utils/orientation'
+import useNavigationStateHandler from './lib/hooks/useNavigationStateHandler'
+import Welcome from './components/auth/login/WelcomeScreen'
+import hotReload from './lib/utils/hotReloadComponent'
 
 // import IOSWebAppSignIn from './components/signin/IOSWebAppSignIn'
 
@@ -64,4 +65,4 @@ const Router = () => {
     </>
   )
 }
-export default Router
+export default hotReload(Router)

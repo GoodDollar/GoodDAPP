@@ -3,7 +3,6 @@ import { ActionSheetProvider } from '@expo/react-native-action-sheet'
 import React, { Fragment, memo, useCallback, useEffect, useState } from 'react'
 import { Platform, SafeAreaView, StyleSheet } from 'react-native'
 import { Provider as PaperProvider } from 'react-native-paper'
-import { hot } from 'react-hot-loader/root'
 import { SimpleStoreDialog } from './components/common/dialogs/CustomDialog'
 import { useCountryCode } from './lib/hooks/useCountryFlagUrl'
 import LoadingIndicator from './components/common/view/LoadingIndicator'
@@ -19,6 +18,7 @@ import logger from './lib/logger/pino-logger'
 import SimpleStore, { initStore } from './lib/undux/SimpleStore'
 import AsyncStorage from './lib/utils/asyncStorage'
 import { isMobile } from './lib/utils/platform'
+import hotReload from './lib/utils/hotReloadComponent'
 
 import './lib/gundb/gundb'
 
@@ -110,4 +110,4 @@ const AppHolder = () => {
   )
 }
 
-export default hot(AppHolder)
+export default hotReload(AppHolder)

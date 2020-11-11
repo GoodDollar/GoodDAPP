@@ -19,7 +19,7 @@ import useNavigationStateHandler from './lib/hooks/useNavigationStateHandler'
 
 import GDStore from './lib/undux/GDStore'
 import { isInstalledApp } from './lib/utils/platform'
-import hotReload from './lib/utils/hotReloadComponent'
+import hot from './lib/hoc/hotLoader'
 
 const DisconnectedSplash = () => <Splash animation={false} />
 
@@ -59,4 +59,4 @@ const Router = () => {
     </GDStore.Container>
   )
 }
-export default hotReload(Router)
+export default hot(Router)

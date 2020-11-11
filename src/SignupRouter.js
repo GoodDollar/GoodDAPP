@@ -11,7 +11,7 @@ import SimpleStore from './lib/undux/SimpleStore.js'
 import { getOriginalScreenHeight } from './lib/utils/orientation'
 import useNavigationStateHandler from './lib/hooks/useNavigationStateHandler'
 import Welcome from './components/auth/login/WelcomeScreen'
-import hotReload from './lib/utils/hotReloadComponent'
+import hot from './lib/hoc/hotLoader'
 
 // import IOSWebAppSignIn from './components/signin/IOSWebAppSignIn'
 
@@ -65,4 +65,4 @@ const Router = () => {
     </>
   )
 }
-export default hotReload(Router)
+export default hot(Router)

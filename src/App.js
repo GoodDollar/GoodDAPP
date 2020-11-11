@@ -18,7 +18,7 @@ import logger from './lib/logger/pino-logger'
 import SimpleStore, { initStore } from './lib/undux/SimpleStore'
 import AsyncStorage from './lib/utils/asyncStorage'
 import { isMobile } from './lib/utils/platform'
-import hotReload from './lib/utils/hotReloadComponent'
+import hot from './lib/hoc/hotLoader'
 
 import './lib/gundb/gundb'
 
@@ -110,4 +110,4 @@ const AppHolder = () => {
   )
 }
 
-export default hotReload(AppHolder)
+export default hot(AppHolder)

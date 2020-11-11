@@ -22,8 +22,12 @@ const Blurred = ({ whenDialog = false, whenSideMenu = false, styles, children })
       <View ref={viewRef} style={[styles.container, fullView]}>
         {children}
       </View>
-      {isBlurred && <BlurView style={fullView} viewRef={viewRefNode} blurType="light" blurAmount={24} />}
-      {isBlurred && <View style={[fullView, styles.opacityView]} />}
+      {isBlurred && (
+        <>
+          <BlurView style={fullView} viewRef={viewRefNode} blurType="light" blurAmount={24} />
+          <View style={[fullView, styles.opacityView]} />
+        </>
+      )}
     </View>
   )
 }

@@ -7,7 +7,7 @@ import useNavigationStateHandler from './lib/hooks/useNavigationStateHandler'
 
 import Signup from './components/signup/SignupState'
 import SigninInfo from './components/signin/SigninInfo'
-import Blurred from './components/common/view/Blur/Blurred'
+import Blurred from './components/common/view/Blurred'
 
 // import Blurred from './components/common/view/Blurred'
 import Welcome from './components/auth/login/WelcomeScreen'

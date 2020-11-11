@@ -4,7 +4,7 @@ import { createNavigator, SwitchRouter } from '@react-navigation/core'
 import { Portal } from 'react-native-paper'
 
 import AddWebApp from './components/common/view/AddWebApp'
-import Blurred from './components/common/view/Blur/Blurred'
+import Blurred from './components/common/view/Blurred'
 import InternetConnection from './components/common/connectionDialog/internetConnection'
 
 import About from './components/about/AboutState'

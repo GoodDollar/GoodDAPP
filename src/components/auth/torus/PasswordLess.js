@@ -64,6 +64,7 @@ const ShowPasswordless = ({ isSignup = true, isOpen, styles, onSelect, handleLog
   }
   return (
     <CustomButton
+      compact
       mode={'text'}
       color={mainTheme.colors.darkGray}
       textStyle={{ textDecorationLine: 'underline', fontSize: 14, fontWeight: 'bold' }}

@@ -44,10 +44,11 @@ const App = () => {
   useEffect(() => log.debug({ Config }), [])
 
   const AppWrapper = isMobile ? Fragment : SafeAreaView
+  const wrapperProps = isMobile ? {} : { style: styles.safeAreaView }
 
   return (
     <PaperProvider theme={theme}>
-      <AppWrapper style={styles.safeAreaView}>
+      <AppWrapper {...wrapperProps}>
         <Fragment>
           <SimpleStoreDialog />
           <LoadingIndicator />

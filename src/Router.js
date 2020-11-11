@@ -4,6 +4,7 @@ import { createNavigator, SwitchRouter } from '@react-navigation/core'
 import { Portal } from 'react-native-paper'
 
 import AddWebApp from './components/common/view/AddWebApp'
+import Blurred from './components/common/view/Blurred'
 import InternetConnection from './components/common/connectionDialog/internetConnection'
 
 import About from './components/about/AboutState'
@@ -53,7 +54,9 @@ const Router = () => {
       <InternetConnection onDisconnect={DisconnectedSplash} isLoggedIn={true}>
         {!isInstalledApp && <AddWebApp />}
         <Portal.Host>
-          <RouterWrapper onNavigationStateChange={navigationStateHandler} />
+          <Blurred whenDialog>
+            <RouterWrapper onNavigationStateChange={navigationStateHandler} />
+          </Blurred>
         </Portal.Host>
       </InternetConnection>
     </GDStore.Container>

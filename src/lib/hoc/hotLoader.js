@@ -8,7 +8,12 @@ const shouldWrap = isWeb && 'development' === Config.env
 let hotWrapper = identity
 
 if (shouldWrap) {
-  const { hot, setConfig } = require('react-hot-loader')
+  /*
+    hot needs to imported from /root to use their new and more stable API, old API could cause problems
+    issue example: https://github.com/gaearon/react-hot-loader/issues/1228
+  */
+  const { hot } = require('react-hot-loader/root')
+  const { setConfig } = require('react-hot-loader')
 
   setConfig({ logLevel: 'debug' })
   hotWrapper = hot

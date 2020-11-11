@@ -22,17 +22,25 @@ exports[`ExportWarningPopup matches snapshot 1`] = `
     className="css-view-1dbjc4n"
     style={
       Object {
+        "WebkitBoxFlex": 0,
         "WebkitBoxPack": "justify",
+        "WebkitFlexBasis": "0%",
+        "WebkitFlexGrow": 0,
+        "WebkitFlexShrink": 0,
         "WebkitJustifyContent": "space-around",
         "display": "flex",
+        "flexBasis": "0%",
+        "flexGrow": 0,
+        "flexShrink": 0,
         "height": "100%",
         "justifyContent": "space-around",
         "marginBottom": "auto",
         "marginTop": "auto",
         "maxHeight": "473.76623376623377px",
-        "minHeight": "310px",
+        "msFlexNegative": 0,
         "msFlexPack": "distribute",
-        "width": "389.2361111111111px",
+        "msFlexPositive": 0,
+        "msFlexPreferredSize": "0%",
       }
     }
   >
@@ -47,8 +55,8 @@ exports[`ExportWarningPopup matches snapshot 1`] = `
             "WebkitBoxAlign": "center",
             "alignItems": "center",
             "display": "flex",
-            "height": "124.67532467532467px",
-            "marginBottom": "19.948051948051948px",
+            "height": "100px",
+            "marginBottom": "24px",
             "marginTop": "8px",
             "msFlexAlign": "center",
             "width": "100%",
@@ -85,7 +93,7 @@ exports[`ExportWarningPopup matches snapshot 1`] = `
           "fontSize": "22px",
           "fontWeight": "700",
           "lineHeight": "29px",
-          "marginBottom": "8px",
+          "marginBottom": "24px",
           "textAlign": "center",
           "textDecoration": "none",
           "textTransform": "none",
@@ -107,6 +115,7 @@ To This Address
           "fontSize": "16px",
           "fontWeight": "normal",
           "lineHeight": "22px",
+          "marginBottom": "24px",
           "textAlign": "center",
           "textDecoration": "none",
           "textTransform": "none",
@@ -132,7 +141,6 @@ network address for G$ tokens only.
           "msFlexPack": "end",
           "paddingLeft": "0px",
           "paddingRight": "0px",
-          "paddingTop": "19.948051948051948px",
         }
       }
     >

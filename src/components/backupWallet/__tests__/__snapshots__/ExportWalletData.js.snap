@@ -261,7 +261,6 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
             "display": "flex",
             "flexGrow": 1,
             "justifyContent": "space-around",
-            "marginBottom": "12.467532467532466px",
             "msFlexPack": "distribute",
             "msFlexPositive": 1,
           }
@@ -273,31 +272,38 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
             Object {
               "WebkitAlignItems": "center",
               "WebkitBoxAlign": "center",
+              "WebkitBoxDirection": "normal",
+              "WebkitBoxOrient": "vertical",
               "WebkitBoxPack": "center",
+              "WebkitFlexDirection": "column",
               "WebkitJustifyContent": "center",
               "alignItems": "center",
-              "backgroundColor": "rgba(255,255,255,1.00)",
-              "borderBottomColor": "rgba(163,163,163,1.00)",
+              "borderBottomColor": "rgba(203,203,203,1.00)",
               "borderBottomLeftRadius": "5px",
               "borderBottomRightRadius": "5px",
+              "borderBottomStyle": "solid",
               "borderBottomWidth": "1px",
-              "borderLeftColor": "rgba(163,163,163,1.00)",
+              "borderLeftColor": "rgba(203,203,203,1.00)",
+              "borderLeftStyle": "solid",
               "borderLeftWidth": "1px",
-              "borderRightColor": "rgba(163,163,163,1.00)",
+              "borderRightColor": "rgba(203,203,203,1.00)",
+              "borderRightStyle": "solid",
               "borderRightWidth": "1px",
-              "borderTopColor": "rgba(163,163,163,1.00)",
+              "borderTopColor": "rgba(203,203,203,1.00)",
               "borderTopLeftRadius": "5px",
               "borderTopRightRadius": "5px",
+              "borderTopStyle": "solid",
               "borderTopWidth": "1px",
               "display": "flex",
-              "height": "153.35064935064935px",
+              "flexDirection": "column",
               "justifyContent": "center",
               "msFlexAlign": "center",
+              "msFlexDirection": "column",
               "msFlexPack": "center",
-              "paddingBottom": "16px",
-              "paddingLeft": "12px",
-              "paddingRight": "12px",
-              "paddingTop": "16px",
+              "paddingBottom": "0px",
+              "paddingLeft": "0px",
+              "paddingRight": "0px",
+              "paddingTop": "0px",
               "position": "relative",
             }
           }
@@ -307,10 +313,10 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
             style={
               Object {
                 "backgroundColor": "rgba(255,255,255,1.00)",
-                "height": "6.233766233766233px",
+                "height": "5px",
                 "position": "absolute",
-                "top": "-4px",
-                "width": "92.36111111111111px",
+                "top": "-3px",
+                "width": "70px",
               }
             }
           />
@@ -319,18 +325,18 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
             style={
               Object {
                 "WebkitFlexBasis": "auto",
-                "borderBottomLeftRadius": "33px",
-                "borderBottomRightRadius": "33px",
-                "borderTopLeftRadius": "33px",
-                "borderTopRightRadius": "33px",
+                "borderBottomLeftRadius": "25px",
+                "borderBottomRightRadius": "25px",
+                "borderTopLeftRadius": "25px",
+                "borderTopRightRadius": "25px",
                 "flexBasis": "auto",
-                "height": "65.97222222222223px",
+                "height": "50px",
                 "msFlexPreferredSize": "auto",
                 "overflowX": "hidden",
                 "overflowY": "hidden",
                 "position": "absolute",
-                "top": "-33px",
-                "width": "65.97222222222223px",
+                "top": "-25px",
+                "width": "50px",
                 "zIndex": 1,
               }
             }
@@ -363,53 +369,80 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
             />
           </div>
           <div
-            className="css-text-901oao"
-            dir="auto"
+            className="css-view-1dbjc4n"
             style={
               Object {
-                "color": "rgba(66,69,74,1.00)",
-                "direction": "ltr",
-                "fontFamily": "Roboto Slab",
-                "fontSize": "18px",
-                "fontWeight": "700",
-                "lineHeight": "24px",
-                "marginBottom": "12.467532467532466px",
-                "textAlign": "center",
-                "textDecoration": "none",
-                "textTransform": "none",
+                "WebkitAlignItems": "stretch",
+                "WebkitBoxAlign": "stretch",
+                "WebkitBoxDirection": "normal",
+                "WebkitBoxOrient": "vertical",
+                "WebkitBoxPack": "justify",
+                "WebkitFlexDirection": "column",
+                "WebkitJustifyContent": "space-between",
+                "alignItems": "stretch",
+                "flexDirection": "column",
+                "justifyContent": "space-between",
+                "marginBottom": "43.63636363636363px",
+                "marginTop": "43.63636363636363px",
+                "msFlexAlign": "stretch",
+                "msFlexDirection": "column",
+                "msFlexPack": "justify",
+                "paddingBottom": "0px",
+                "paddingLeft": "0px",
+                "paddingRight": "0px",
+                "paddingTop": "0px",
               }
             }
           >
-            My Private Key
-          </div>
-          <div
-            className="css-text-901oao"
-            dir="auto"
-            letterSpacing={0.07}
-            style={
-              Object {
-                "color": "rgba(163,163,163,1.00)",
-                "direction": "ltr",
-                "fontFamily": "Roboto",
-                "fontSize": "13px",
-                "fontWeight": "normal",
-                "letterSpacing": "0.07px",
-                "lineHeight": "15.6px",
-                "textAlign": "center",
-                "textDecoration": "none",
-                "textTransform": "none",
+            <div
+              className="css-text-901oao"
+              dir="auto"
+              style={
+                Object {
+                  "color": "rgba(66,69,74,1.00)",
+                  "direction": "ltr",
+                  "fontFamily": "Roboto Slab",
+                  "fontSize": "18px",
+                  "fontWeight": "700",
+                  "lineHeight": "24px",
+                  "marginBottom": "8px",
+                  "textAlign": "center",
+                  "textDecoration": "none",
+                  "textTransform": "none",
+                }
               }
-            }
-          >
-            fake-wallet-p...t-private-key
+            >
+              My Private Key
+            </div>
+            <div
+              className="css-text-901oao"
+              dir="auto"
+              letterSpacing={0.07}
+              style={
+                Object {
+                  "color": "rgba(163,163,163,1.00)",
+                  "direction": "ltr",
+                  "fontFamily": "Roboto",
+                  "fontSize": "13px",
+                  "fontWeight": "normal",
+                  "letterSpacing": "0.07px",
+                  "lineHeight": "15.6px",
+                  "textAlign": "center",
+                  "textDecoration": "none",
+                  "textTransform": "none",
+                }
+              }
+            >
+              fake-wallet-p...t-private-key
+            </div>
           </div>
           <div
             className="css-view-1dbjc4n"
             style={
               Object {
                 "backgroundColor": "rgba(255,255,255,1.00)",
-                "bottom": "-4px",
-                "height": "6.233766233766233px",
+                "bottom": "-3px",
+                "height": "5px",
                 "position": "absolute",
                 "width": "229.58333333333334px",
               }
@@ -419,8 +452,8 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
             className="css-view-1dbjc4n"
             style={
               Object {
-                "bottom": "-39.896103896103895px",
-                "height": "67.32467532467533px",
+                "bottom": "-20px",
+                "height": "40px",
                 "position": "absolute",
                 "width": "229.58333333333334px",
                 "zIndex": 1,
@@ -438,8 +471,8 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
                   "alignItems": "center",
                   "backgroundColor": "rgba(0,175,255,1.00)",
                   "borderBottomColor": "rgba(0,175,255,1.00)",
-                  "borderBottomLeftRadius": "25px",
-                  "borderBottomRightRadius": "25px",
+                  "borderBottomLeftRadius": "50px",
+                  "borderBottomRightRadius": "50px",
                   "borderBottomStyle": "solid",
                   "borderBottomWidth": "0px",
                   "borderLeftColor": "rgba(0,175,255,1.00)",
@@ -449,20 +482,20 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
                   "borderRightStyle": "solid",
                   "borderRightWidth": "0px",
                   "borderTopColor": "rgba(0,175,255,1.00)",
-                  "borderTopLeftRadius": "25px",
-                  "borderTopRightRadius": "25px",
+                  "borderTopLeftRadius": "50px",
+                  "borderTopRightRadius": "50px",
                   "borderTopStyle": "solid",
                   "borderTopWidth": "0px",
                   "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
                   "display": "flex",
-                  "height": "49.870129870129865px",
+                  "height": "40px",
                   "justifyContent": "center",
-                  "marginBottom": "4.987012987012987px",
+                  "marginBottom": "0px",
                   "marginLeft": "auto",
                   "marginRight": "auto",
                   "marginTop": "0px",
-                  "minHeight": "44px",
-                  "minWidth": "50.138888888888886px",
+                  "minHeight": "40px",
+                  "minWidth": "64px",
                   "msFlexAlign": "center",
                   "msFlexPack": "center",
                   "paddingBottom": "0px",
@@ -609,31 +642,38 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
             Object {
               "WebkitAlignItems": "center",
               "WebkitBoxAlign": "center",
+              "WebkitBoxDirection": "normal",
+              "WebkitBoxOrient": "vertical",
               "WebkitBoxPack": "center",
+              "WebkitFlexDirection": "column",
               "WebkitJustifyContent": "center",
               "alignItems": "center",
-              "backgroundColor": "rgba(255,255,255,1.00)",
-              "borderBottomColor": "rgba(163,163,163,1.00)",
+              "borderBottomColor": "rgba(203,203,203,1.00)",
               "borderBottomLeftRadius": "5px",
               "borderBottomRightRadius": "5px",
+              "borderBottomStyle": "solid",
               "borderBottomWidth": "1px",
-              "borderLeftColor": "rgba(163,163,163,1.00)",
+              "borderLeftColor": "rgba(203,203,203,1.00)",
+              "borderLeftStyle": "solid",
               "borderLeftWidth": "1px",
-              "borderRightColor": "rgba(163,163,163,1.00)",
+              "borderRightColor": "rgba(203,203,203,1.00)",
+              "borderRightStyle": "solid",
               "borderRightWidth": "1px",
-              "borderTopColor": "rgba(163,163,163,1.00)",
+              "borderTopColor": "rgba(203,203,203,1.00)",
               "borderTopLeftRadius": "5px",
               "borderTopRightRadius": "5px",
+              "borderTopStyle": "solid",
               "borderTopWidth": "1px",
               "display": "flex",
-              "height": "153.35064935064935px",
+              "flexDirection": "column",
               "justifyContent": "center",
               "msFlexAlign": "center",
+              "msFlexDirection": "column",
               "msFlexPack": "center",
-              "paddingBottom": "16px",
-              "paddingLeft": "12px",
-              "paddingRight": "12px",
-              "paddingTop": "16px",
+              "paddingBottom": "0px",
+              "paddingLeft": "0px",
+              "paddingRight": "0px",
+              "paddingTop": "0px",
               "position": "relative",
             }
           }
@@ -643,10 +683,10 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
             style={
               Object {
                 "backgroundColor": "rgba(255,255,255,1.00)",
-                "height": "6.233766233766233px",
+                "height": "5px",
                 "position": "absolute",
-                "top": "-4px",
-                "width": "92.36111111111111px",
+                "top": "-3px",
+                "width": "70px",
               }
             }
           />
@@ -655,18 +695,18 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
             style={
               Object {
                 "WebkitFlexBasis": "auto",
-                "borderBottomLeftRadius": "33px",
-                "borderBottomRightRadius": "33px",
-                "borderTopLeftRadius": "33px",
-                "borderTopRightRadius": "33px",
+                "borderBottomLeftRadius": "25px",
+                "borderBottomRightRadius": "25px",
+                "borderTopLeftRadius": "25px",
+                "borderTopRightRadius": "25px",
                 "flexBasis": "auto",
-                "height": "65.97222222222223px",
+                "height": "50px",
                 "msFlexPreferredSize": "auto",
                 "overflowX": "hidden",
                 "overflowY": "hidden",
                 "position": "absolute",
-                "top": "-33px",
-                "width": "65.97222222222223px",
+                "top": "-25px",
+                "width": "50px",
                 "zIndex": 1,
               }
             }
@@ -699,53 +739,80 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
             />
           </div>
           <div
-            className="css-text-901oao"
-            dir="auto"
+            className="css-view-1dbjc4n"
             style={
               Object {
-                "color": "rgba(66,69,74,1.00)",
-                "direction": "ltr",
-                "fontFamily": "Roboto Slab",
-                "fontSize": "18px",
-                "fontWeight": "700",
-                "lineHeight": "24px",
-                "marginBottom": "12.467532467532466px",
-                "textAlign": "center",
-                "textDecoration": "none",
-                "textTransform": "none",
+                "WebkitAlignItems": "stretch",
+                "WebkitBoxAlign": "stretch",
+                "WebkitBoxDirection": "normal",
+                "WebkitBoxOrient": "vertical",
+                "WebkitBoxPack": "justify",
+                "WebkitFlexDirection": "column",
+                "WebkitJustifyContent": "space-between",
+                "alignItems": "stretch",
+                "flexDirection": "column",
+                "justifyContent": "space-between",
+                "marginBottom": "43.63636363636363px",
+                "marginTop": "43.63636363636363px",
+                "msFlexAlign": "stretch",
+                "msFlexDirection": "column",
+                "msFlexPack": "justify",
+                "paddingBottom": "0px",
+                "paddingLeft": "0px",
+                "paddingRight": "0px",
+                "paddingTop": "0px",
               }
             }
           >
-            My Wallet Address
-          </div>
-          <div
-            className="css-text-901oao"
-            dir="auto"
-            letterSpacing={0.07}
-            style={
-              Object {
-                "color": "rgba(163,163,163,1.00)",
-                "direction": "ltr",
-                "fontFamily": "Roboto",
-                "fontSize": "13px",
-                "fontWeight": "normal",
-                "letterSpacing": "0.07px",
-                "lineHeight": "15.6px",
-                "textAlign": "center",
-                "textDecoration": "none",
-                "textTransform": "none",
+            <div
+              className="css-text-901oao"
+              dir="auto"
+              style={
+                Object {
+                  "color": "rgba(66,69,74,1.00)",
+                  "direction": "ltr",
+                  "fontFamily": "Roboto Slab",
+                  "fontSize": "18px",
+                  "fontWeight": "700",
+                  "lineHeight": "24px",
+                  "marginBottom": "8px",
+                  "textAlign": "center",
+                  "textDecoration": "none",
+                  "textTransform": "none",
+                }
               }
-            }
-          >
-            fake-wallet-a...allet-address
+            >
+              My Wallet Address
+            </div>
+            <div
+              className="css-text-901oao"
+              dir="auto"
+              letterSpacing={0.07}
+              style={
+                Object {
+                  "color": "rgba(163,163,163,1.00)",
+                  "direction": "ltr",
+                  "fontFamily": "Roboto",
+                  "fontSize": "13px",
+                  "fontWeight": "normal",
+                  "letterSpacing": "0.07px",
+                  "lineHeight": "15.6px",
+                  "textAlign": "center",
+                  "textDecoration": "none",
+                  "textTransform": "none",
+                }
+              }
+            >
+              fake-wallet-a...allet-address
+            </div>
           </div>
           <div
             className="css-view-1dbjc4n"
             style={
               Object {
                 "backgroundColor": "rgba(255,255,255,1.00)",
-                "bottom": "-4px",
-                "height": "6.233766233766233px",
+                "bottom": "-3px",
+                "height": "5px",
                 "position": "absolute",
                 "width": "229.58333333333334px",
               }
@@ -755,8 +822,8 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
             className="css-view-1dbjc4n"
             style={
               Object {
-                "bottom": "-39.896103896103895px",
-                "height": "67.32467532467533px",
+                "bottom": "-20px",
+                "height": "40px",
                 "position": "absolute",
                 "width": "229.58333333333334px",
                 "zIndex": 1,
@@ -774,8 +841,8 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
                   "alignItems": "center",
                   "backgroundColor": "rgba(0,175,255,1.00)",
                   "borderBottomColor": "rgba(0,175,255,1.00)",
-                  "borderBottomLeftRadius": "25px",
-                  "borderBottomRightRadius": "25px",
+                  "borderBottomLeftRadius": "50px",
+                  "borderBottomRightRadius": "50px",
                   "borderBottomStyle": "solid",
                   "borderBottomWidth": "0px",
                   "borderLeftColor": "rgba(0,175,255,1.00)",
@@ -785,20 +852,20 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
                   "borderRightStyle": "solid",
                   "borderRightWidth": "0px",
                   "borderTopColor": "rgba(0,175,255,1.00)",
-                  "borderTopLeftRadius": "25px",
-                  "borderTopRightRadius": "25px",
+                  "borderTopLeftRadius": "50px",
+                  "borderTopRightRadius": "50px",
                   "borderTopStyle": "solid",
                   "borderTopWidth": "0px",
                   "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
                   "display": "flex",
-                  "height": "49.870129870129865px",
+                  "height": "40px",
                   "justifyContent": "center",
-                  "marginBottom": "4.987012987012987px",
+                  "marginBottom": "0px",
                   "marginLeft": "auto",
                   "marginRight": "auto",
                   "marginTop": "0px",
-                  "minHeight": "44px",
-                  "minWidth": "50.138888888888886px",
+                  "minHeight": "40px",
+                  "minWidth": "64px",
                   "msFlexAlign": "center",
                   "msFlexPack": "center",
                   "paddingBottom": "0px",
@@ -945,31 +1012,38 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
             Object {
               "WebkitAlignItems": "center",
               "WebkitBoxAlign": "center",
+              "WebkitBoxDirection": "normal",
+              "WebkitBoxOrient": "vertical",
               "WebkitBoxPack": "center",
+              "WebkitFlexDirection": "column",
               "WebkitJustifyContent": "center",
               "alignItems": "center",
-              "backgroundColor": "rgba(255,255,255,1.00)",
-              "borderBottomColor": "rgba(163,163,163,1.00)",
+              "borderBottomColor": "rgba(203,203,203,1.00)",
               "borderBottomLeftRadius": "5px",
               "borderBottomRightRadius": "5px",
+              "borderBottomStyle": "solid",
               "borderBottomWidth": "1px",
-              "borderLeftColor": "rgba(163,163,163,1.00)",
+              "borderLeftColor": "rgba(203,203,203,1.00)",
+              "borderLeftStyle": "solid",
               "borderLeftWidth": "1px",
-              "borderRightColor": "rgba(163,163,163,1.00)",
+              "borderRightColor": "rgba(203,203,203,1.00)",
+              "borderRightStyle": "solid",
               "borderRightWidth": "1px",
-              "borderTopColor": "rgba(163,163,163,1.00)",
+              "borderTopColor": "rgba(203,203,203,1.00)",
               "borderTopLeftRadius": "5px",
               "borderTopRightRadius": "5px",
+              "borderTopStyle": "solid",
               "borderTopWidth": "1px",
               "display": "flex",
-              "height": "153.35064935064935px",
+              "flexDirection": "column",
               "justifyContent": "center",
               "msFlexAlign": "center",
+              "msFlexDirection": "column",
               "msFlexPack": "center",
-              "paddingBottom": "16px",
-              "paddingLeft": "12px",
-              "paddingRight": "12px",
-              "paddingTop": "16px",
+              "paddingBottom": "0px",
+              "paddingLeft": "0px",
+              "paddingRight": "0px",
+              "paddingTop": "0px",
               "position": "relative",
             }
           }
@@ -979,10 +1053,10 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
             style={
               Object {
                 "backgroundColor": "rgba(255,255,255,1.00)",
-                "height": "6.233766233766233px",
+                "height": "5px",
                 "position": "absolute",
-                "top": "-4px",
-                "width": "92.36111111111111px",
+                "top": "-3px",
+                "width": "70px",
               }
             }
           />
@@ -991,18 +1065,18 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
             style={
               Object {
                 "WebkitFlexBasis": "auto",
-                "borderBottomLeftRadius": "33px",
-                "borderBottomRightRadius": "33px",
-                "borderTopLeftRadius": "33px",
-                "borderTopRightRadius": "33px",
+                "borderBottomLeftRadius": "25px",
+                "borderBottomRightRadius": "25px",
+                "borderTopLeftRadius": "25px",
+                "borderTopRightRadius": "25px",
                 "flexBasis": "auto",
-                "height": "65.97222222222223px",
+                "height": "50px",
                 "msFlexPreferredSize": "auto",
                 "overflowX": "hidden",
                 "overflowY": "hidden",
                 "position": "absolute",
-                "top": "-33px",
-                "width": "65.97222222222223px",
+                "top": "-25px",
+                "width": "50px",
                 "zIndex": 1,
               }
             }
@@ -1035,51 +1109,78 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
             />
           </div>
           <div
-            className="css-text-901oao"
-            dir="auto"
+            className="css-view-1dbjc4n"
             style={
               Object {
-                "color": "rgba(66,69,74,1.00)",
-                "direction": "ltr",
-                "fontFamily": "Roboto Slab",
-                "fontSize": "18px",
-                "fontWeight": "700",
-                "lineHeight": "24px",
-                "marginBottom": "12.467532467532466px",
-                "textAlign": "center",
-                "textDecoration": "none",
-                "textTransform": "none",
+                "WebkitAlignItems": "stretch",
+                "WebkitBoxAlign": "stretch",
+                "WebkitBoxDirection": "normal",
+                "WebkitBoxOrient": "vertical",
+                "WebkitBoxPack": "justify",
+                "WebkitFlexDirection": "column",
+                "WebkitJustifyContent": "space-between",
+                "alignItems": "stretch",
+                "flexDirection": "column",
+                "justifyContent": "space-between",
+                "marginBottom": "43.63636363636363px",
+                "marginTop": "43.63636363636363px",
+                "msFlexAlign": "stretch",
+                "msFlexDirection": "column",
+                "msFlexPack": "justify",
+                "paddingBottom": "0px",
+                "paddingLeft": "0px",
+                "paddingRight": "0px",
+                "paddingTop": "0px",
               }
             }
           >
-            Fuse Network RPC Address
-          </div>
-          <div
-            className="css-text-901oao"
-            dir="auto"
-            letterSpacing={0.07}
-            style={
-              Object {
-                "color": "rgba(163,163,163,1.00)",
-                "direction": "ltr",
-                "fontFamily": "Roboto",
-                "fontSize": "13px",
-                "fontWeight": "normal",
-                "letterSpacing": "0.07px",
-                "lineHeight": "15.6px",
-                "textAlign": "center",
-                "textDecoration": "none",
-                "textTransform": "none",
+            <div
+              className="css-text-901oao"
+              dir="auto"
+              style={
+                Object {
+                  "color": "rgba(66,69,74,1.00)",
+                  "direction": "ltr",
+                  "fontFamily": "Roboto Slab",
+                  "fontSize": "18px",
+                  "fontWeight": "700",
+                  "lineHeight": "24px",
+                  "marginBottom": "8px",
+                  "textAlign": "center",
+                  "textDecoration": "none",
+                  "textTransform": "none",
+                }
               }
-            }
-          />
+            >
+              Fuse Network RPC Address
+            </div>
+            <div
+              className="css-text-901oao"
+              dir="auto"
+              letterSpacing={0.07}
+              style={
+                Object {
+                  "color": "rgba(163,163,163,1.00)",
+                  "direction": "ltr",
+                  "fontFamily": "Roboto",
+                  "fontSize": "13px",
+                  "fontWeight": "normal",
+                  "letterSpacing": "0.07px",
+                  "lineHeight": "15.6px",
+                  "textAlign": "center",
+                  "textDecoration": "none",
+                  "textTransform": "none",
+                }
+              }
+            />
+          </div>
           <div
             className="css-view-1dbjc4n"
             style={
               Object {
                 "backgroundColor": "rgba(255,255,255,1.00)",
-                "bottom": "-4px",
-                "height": "6.233766233766233px",
+                "bottom": "-3px",
+                "height": "5px",
                 "position": "absolute",
                 "width": "229.58333333333334px",
               }
@@ -1089,8 +1190,8 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
             className="css-view-1dbjc4n"
             style={
               Object {
-                "bottom": "-39.896103896103895px",
-                "height": "67.32467532467533px",
+                "bottom": "-20px",
+                "height": "40px",
                 "position": "absolute",
                 "width": "229.58333333333334px",
                 "zIndex": 1,
@@ -1108,8 +1209,8 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
                   "alignItems": "center",
                   "backgroundColor": "rgba(0,175,255,1.00)",
                   "borderBottomColor": "rgba(0,175,255,1.00)",
-                  "borderBottomLeftRadius": "25px",
-                  "borderBottomRightRadius": "25px",
+                  "borderBottomLeftRadius": "50px",
+                  "borderBottomRightRadius": "50px",
                   "borderBottomStyle": "solid",
                   "borderBottomWidth": "0px",
                   "borderLeftColor": "rgba(0,175,255,1.00)",
@@ -1119,20 +1220,20 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
                   "borderRightStyle": "solid",
                   "borderRightWidth": "0px",
                   "borderTopColor": "rgba(0,175,255,1.00)",
-                  "borderTopLeftRadius": "25px",
-                  "borderTopRightRadius": "25px",
+                  "borderTopLeftRadius": "50px",
+                  "borderTopRightRadius": "50px",
                   "borderTopStyle": "solid",
                   "borderTopWidth": "0px",
                   "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
                   "display": "flex",
-                  "height": "49.870129870129865px",
+                  "height": "40px",
                   "justifyContent": "center",
-                  "marginBottom": "4.987012987012987px",
+                  "marginBottom": "0px",
                   "marginLeft": "auto",
                   "marginRight": "auto",
                   "marginTop": "0px",
-                  "minHeight": "44px",
-                  "minWidth": "50.138888888888886px",
+                  "minHeight": "40px",
+                  "minWidth": "64px",
                   "msFlexAlign": "center",
                   "msFlexPack": "center",
                   "paddingBottom": "0px",

@@ -1,4 +1,3 @@
-import DirectWebSDK from '@toruslabs/torus-direct-web-sdk'
 import { first, omit } from 'lodash'
 
 import Config from '../../../../config/config'
@@ -13,11 +12,11 @@ import {
   PaswordlessSMSStrategy,
 } from './strategies'
 
-class TorusSDK {
+export default class AbstractTorusSDK {
   strategies = {}
 
-  static factory() {
-    const sdk = new TorusSDK(Config, logger.child({ from: 'TorusSDK' }))
+  static factory(ConcreteSDK) {
+    const sdk = new ConcreteSDK(Config, logger.child({ from: 'TorusSDK' }))
 
     sdk.addStrategy('facebook', FacebookStrategy)
     sdk.addStrategy('google-old', GoogleLegacyStrategy)
@@ -30,26 +29,19 @@ class TorusSDK {
   }
 
   constructor(config, logger) {
-    const { env, publicUrl, googleClientId, facebookAppId, torusProxyContract, torusNetwork } = config
-
-    this.torus = new DirectWebSDK({
-      GOOGLE_CLIENT_ID: googleClientId,
-      FACEBOOK_CLIENT_ID: facebookAppId,
-      proxyContractAddress: torusProxyContract, // details for test net
-      network: torusNetwork, // details for test net
-      baseUrl: `${publicUrl}/torus/`,
-      enableLogging: env === 'development',
-    })
-
     this.config = config
     this.logger = logger
   }
 
   // eslint-disable-next-line require-await
   async initialize() {
-    const { torus } = this
+    throw new Error('Trying to call abstract method AbstractTorusSDK::initialize()')
+  }
 
-    return torus.init()
+  addStrategy(verifier, strategyClass) {
+    const { config, torus, strategies } = this
+
+    strategies[verifier] = new strategyClass(torus, config)
   }
 
   async triggerLogin(verifier, customLogger = null) {
@@ -66,12 +58,6 @@ class TorusSDK {
     const response = await strategies[withVerifier].triggerLogin()
 
     return this.fetchTorusUser(response, customLogger)
-  }
-
-  addStrategy(verifier, strategyClass) {
-    const { config, torus, strategies } = this
-
-    strategies[verifier] = new strategyClass(torus, config)
   }
 
   fetchTorusUser(response, customLogger = null) {
@@ -105,5 +91,3 @@ class TorusSDK {
     return torusUser
   }
 }
-
-export default TorusSDK.factory()

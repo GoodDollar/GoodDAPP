@@ -12,8 +12,6 @@ import { theme as mainTheme } from '../../theme/styles'
 import Section from '../../common/layout/Section'
 import SimpleStore from '../../../lib/undux/SimpleStore'
 import { getDesignRelativeHeight, getDesignRelativeWidth, getMaxDeviceHeight } from '../../../lib/utils/sizes'
-import { isSmallDevice } from '../../../lib/utils/mobileSizeDetect'
-import normalizeText from '../../../lib/utils/normalizeText'
 import { isBrowser } from '../../../lib/utils/platform'
 import { PasswordLess } from '../torus/PasswordLess'
 import { LoginButton } from './LoginButton'
@@ -39,17 +37,18 @@ const SigninScreen = ({ styles, store, handleLoginMethod, sdkInitialized, goBack
   return (
     <Wrapper backgroundColor="#fff" style={styles.mainWrapper}>
       <NavBar title="Login" goBack={_goBack} />
-      <Text
-        style={styles.headerText}
-        fontSize={26}
-        lineHeight={34}
-        letterSpacing={0.26}
-        fontFamily="Roboto"
-        fontWeight="bold"
-      >
-        Welcome Back!
-      </Text>
-
+      <Section.Stack style={{ flex: 'auto' }}>
+        <Text
+          style={styles.headerText}
+          fontSize={26}
+          lineHeight={34}
+          letterSpacing={0.26}
+          fontFamily="Roboto"
+          fontWeight="bold"
+        >
+          Welcome Back!
+        </Text>
+      </Section.Stack>
       <View style={styles.illustration}>
         <Illustration
           width={getDesignRelativeWidth(isBrowser ? 290 : 206)}
@@ -58,7 +57,7 @@ const SigninScreen = ({ styles, store, handleLoginMethod, sdkInitialized, goBack
         />
       </View>
 
-      <Section style={styles.bottomContainer}>
+      <Section.Stack style={styles.bottomContainer}>
         <Text fontSize={12} color="gray80Percent" style={styles.privacyAndTerms}>
           {`Remember to login with the `}
           <Text fontSize={12} color="gray80Percent" fontWeight="bold">
@@ -94,25 +93,25 @@ const SigninScreen = ({ styles, store, handleLoginMethod, sdkInitialized, goBack
           onSelect={handlePasswordless}
           handleLoginMethod={handleLoginMethod}
         />
-      </Section>
+      </Section.Stack>
     </Wrapper>
   )
 }
 
 const getStylesFromProps = ({ theme }) => {
-  const buttonFontSize = normalizeText(isSmallDevice ? 13 : 16)
   const shorterDevice = getMaxDeviceHeight() <= 622
 
   return {
     mainWrapper: {
       paddingHorizontal: 0,
       paddingVertical: 0,
-      justifyContent: 'space-between',
       flexGrow: 1,
     },
     bottomContainer: {
+      flex: 1,
+      justifyContent: 'flex-start',
       paddingHorizontal: theme.sizes.defaultDouble,
-      minHeight: getDesignRelativeHeight(256),
+      marginTop: getDesignRelativeHeight(theme.sizes.default * 5),
     },
     buttonLayout: {
       marginTop: getDesignRelativeHeight(theme.sizes.default),
@@ -124,20 +123,13 @@ const getStylesFromProps = ({ theme }) => {
       borderRadius: 50,
       padding: 3,
     },
-    buttonText: {
-      fontSize: buttonFontSize,
-      flex: 1,
-      lineHeight: getDesignRelativeHeight(19),
-    },
-
     illustration: {
-      flexGrow: 1,
-      flexShrink: 0,
-      marginBottom: getDesignRelativeHeight(theme.sizes.default),
-      marginRight: 'auto',
-      marginLeft: 'auto',
-      paddingTop: getDesignRelativeHeight(theme.sizes.default),
-      alignItems: 'center',
+      flex: 1,
+      marginTop: getDesignRelativeHeight(theme.sizes.default * 5),
+      width: getDesignRelativeWidth(isBrowser ? 290 : 206, false),
+      height: getDesignRelativeHeight(172, false),
+      alignSelf: 'center',
+      justifyContent: 'center',
     },
     headerText: {
       marginTop: getDesignRelativeHeight(!shorterDevice ? 45 : 30),
@@ -145,16 +137,6 @@ const getStylesFromProps = ({ theme }) => {
     },
     privacyAndTerms: {
       marginBottom: getDesignRelativeHeight(16),
-    },
-    iconsStyle: {
-      width: getDesignRelativeHeight(20),
-      height: getDesignRelativeHeight(20),
-    },
-    iconBorder: {
-      backgroundColor: theme.colors.white,
-      borderRadius: 50,
-      alignItems: 'center',
-      padding: getDesignRelativeHeight(12),
     },
   }
 }

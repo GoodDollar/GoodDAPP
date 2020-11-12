@@ -3,7 +3,9 @@ import React from 'react'
 import { View } from 'react-native'
 import { withStyles } from '../../../lib/styles'
 import { getDesignRelativeHeight, getMaxDeviceHeight } from '../../../lib/utils/sizes'
+import Config from '../../../config/config'
 
+const runningTests = Config.env === 'test'
 const height = getMaxDeviceHeight()
 
 const ModalOverlay = ({ styles, children, style, itemType }: any) => {
@@ -49,4 +51,5 @@ const getStylesFromProps = ({ theme }) => ({
   },
 })
 
-export default withStyles(getStylesFromProps)(ModalOverlay)
+// If running tests disable usage of Stylesheet to be able to get value of `height` instead of getting classnames
+export default withStyles(getStylesFromProps, !runningTests)(ModalOverlay)

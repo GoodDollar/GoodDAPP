@@ -23,10 +23,30 @@ exports[`FeedModalItem - Invite matches snapshot 1`] = `
       className="css-view-1dbjc4n"
     >
       <div
-        className="css-view-1dbjc4n r-alignSelf-k200y r-backgroundColor-1niwhzg r-height-i7wkem r-width-13qz1uu"
+        className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-width-13qz1uu"
+        style={
+          Object {
+            "WebkitAlignSelf": "flex-start",
+            "alignSelf": "flex-start",
+            "height": "768px",
+            "msFlexItemAlign": "start",
+          }
+        }
       >
         <div
-          className="css-view-1dbjc4n r-alignSelf-1kihuf0 r-flexGrow-16y2uox r-flexShrink-1q142lx r-marginBottom-hte7mp r-marginTop-1511jto r-maxWidth-1xnn5q4 r-paddingLeft-b5h31w r-paddingRight-1ah4tor r-width-13qz1uu"
+          className="css-view-1dbjc4n r-flexGrow-16y2uox r-flexShrink-1q142lx r-width-13qz1uu"
+          style={
+            Object {
+              "WebkitAlignSelf": "center",
+              "alignSelf": "center",
+              "marginBottom": "88.51948051948051px",
+              "marginTop": "62.33766233766234px",
+              "maxWidth": "475px",
+              "msFlexItemAlign": "center",
+              "paddingLeft": "20px",
+              "paddingRight": "20px",
+            }
+          }
         >
           <div
             className="css-view-1dbjc4n r-display-6koalj r-flexDirection-18u37iz r-flexGrow-16y2uox r-maxHeight-1qalap5 r-minHeight-1pexjug r-position-bnwqim r-width-13qz1uu"
@@ -270,10 +290,30 @@ exports[`FeedModalItem - Message matches snapshot 1`] = `
       className="css-view-1dbjc4n"
     >
       <div
-        className="css-view-1dbjc4n r-alignSelf-k200y r-backgroundColor-1niwhzg r-height-i7wkem r-width-13qz1uu"
+        className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-width-13qz1uu"
+        style={
+          Object {
+            "WebkitAlignSelf": "flex-start",
+            "alignSelf": "flex-start",
+            "height": "768px",
+            "msFlexItemAlign": "start",
+          }
+        }
       >
         <div
-          className="css-view-1dbjc4n r-alignSelf-1kihuf0 r-flexGrow-16y2uox r-flexShrink-1q142lx r-marginBottom-hte7mp r-marginTop-1511jto r-maxWidth-1xnn5q4 r-paddingLeft-b5h31w r-paddingRight-1ah4tor r-width-13qz1uu"
+          className="css-view-1dbjc4n r-flexGrow-16y2uox r-flexShrink-1q142lx r-width-13qz1uu"
+          style={
+            Object {
+              "WebkitAlignSelf": "center",
+              "alignSelf": "center",
+              "marginBottom": "88.51948051948051px",
+              "marginTop": "62.33766233766234px",
+              "maxWidth": "475px",
+              "msFlexItemAlign": "center",
+              "paddingLeft": "20px",
+              "paddingRight": "20px",
+            }
+          }
         >
           <div
             className="css-view-1dbjc4n r-display-6koalj r-flexDirection-18u37iz r-flexGrow-16y2uox r-maxHeight-1qalap5 r-minHeight-1pexjug r-position-bnwqim r-width-13qz1uu"
@@ -591,10 +631,30 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
       className="css-view-1dbjc4n"
     >
       <div
-        className="css-view-1dbjc4n r-alignSelf-k200y r-backgroundColor-1niwhzg r-height-i7wkem r-width-13qz1uu"
+        className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-width-13qz1uu"
+        style={
+          Object {
+            "WebkitAlignSelf": "flex-start",
+            "alignSelf": "flex-start",
+            "height": "768px",
+            "msFlexItemAlign": "start",
+          }
+        }
       >
         <div
-          className="css-view-1dbjc4n r-alignSelf-1kihuf0 r-flexGrow-16y2uox r-flexShrink-1q142lx r-marginBottom-hte7mp r-marginTop-1511jto r-maxWidth-1xnn5q4 r-paddingLeft-b5h31w r-paddingRight-1ah4tor r-width-13qz1uu"
+          className="css-view-1dbjc4n r-flexGrow-16y2uox r-flexShrink-1q142lx r-width-13qz1uu"
+          style={
+            Object {
+              "WebkitAlignSelf": "center",
+              "alignSelf": "center",
+              "marginBottom": "88.51948051948051px",
+              "marginTop": "62.33766233766234px",
+              "maxWidth": "475px",
+              "msFlexItemAlign": "center",
+              "paddingLeft": "20px",
+              "paddingRight": "20px",
+            }
+          }
         >
           <div
             className="css-view-1dbjc4n r-display-6koalj r-flexDirection-18u37iz r-flexGrow-16y2uox r-maxHeight-1qalap5 r-minHeight-1pexjug r-position-bnwqim r-width-13qz1uu"
@@ -636,7 +696,7 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                   className="css-view-1dbjc4n r-display-6koalj r-flexDirection-18u37iz r-flexGrow-18kxxzh r-flexShrink-1q142lx r-justifyContent-1777fci r-marginBottom-1yflyrw"
                 >
                   <send.svg
-                    style={787}
+                    style={763}
                   />
                 </div>
                 <div
@@ -918,10 +978,30 @@ exports[`FeedModalItem - Send with Error status matches snapshot 1`] = `
       className="css-view-1dbjc4n"
     >
       <div
-        className="css-view-1dbjc4n r-alignSelf-k200y r-backgroundColor-1niwhzg r-height-i7wkem r-width-13qz1uu"
+        className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-width-13qz1uu"
+        style={
+          Object {
+            "WebkitAlignSelf": "flex-start",
+            "alignSelf": "flex-start",
+            "height": "768px",
+            "msFlexItemAlign": "start",
+          }
+        }
       >
         <div
-          className="css-view-1dbjc4n r-alignSelf-1kihuf0 r-flexGrow-16y2uox r-flexShrink-1q142lx r-marginBottom-hte7mp r-marginTop-1511jto r-maxWidth-1xnn5q4 r-paddingLeft-b5h31w r-paddingRight-1ah4tor r-width-13qz1uu"
+          className="css-view-1dbjc4n r-flexGrow-16y2uox r-flexShrink-1q142lx r-width-13qz1uu"
+          style={
+            Object {
+              "WebkitAlignSelf": "center",
+              "alignSelf": "center",
+              "marginBottom": "88.51948051948051px",
+              "marginTop": "62.33766233766234px",
+              "maxWidth": "475px",
+              "msFlexItemAlign": "center",
+              "paddingLeft": "20px",
+              "paddingRight": "20px",
+            }
+          }
         >
           <div
             className="css-view-1dbjc4n r-display-6koalj r-flexDirection-18u37iz r-flexGrow-16y2uox r-maxHeight-1qalap5 r-minHeight-1pexjug r-position-bnwqim r-width-13qz1uu"
@@ -963,7 +1043,7 @@ exports[`FeedModalItem - Send with Error status matches snapshot 1`] = `
                   className="css-view-1dbjc4n r-display-6koalj r-flexDirection-18u37iz r-flexGrow-18kxxzh r-flexShrink-1q142lx r-justifyContent-1777fci r-marginBottom-1yflyrw"
                 >
                   <send.svg
-                    style={1079}
+                    style={1043}
                   />
                 </div>
                 <div
@@ -1245,10 +1325,30 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
       className="css-view-1dbjc4n"
     >
       <div
-        className="css-view-1dbjc4n r-alignSelf-k200y r-backgroundColor-1niwhzg r-height-i7wkem r-width-13qz1uu"
+        className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-width-13qz1uu"
+        style={
+          Object {
+            "WebkitAlignSelf": "flex-start",
+            "alignSelf": "flex-start",
+            "height": "768px",
+            "msFlexItemAlign": "start",
+          }
+        }
       >
         <div
-          className="css-view-1dbjc4n r-alignSelf-1kihuf0 r-flexGrow-16y2uox r-flexShrink-1q142lx r-marginBottom-hte7mp r-marginTop-1511jto r-maxWidth-1xnn5q4 r-paddingLeft-b5h31w r-paddingRight-1ah4tor r-width-13qz1uu"
+          className="css-view-1dbjc4n r-flexGrow-16y2uox r-flexShrink-1q142lx r-width-13qz1uu"
+          style={
+            Object {
+              "WebkitAlignSelf": "center",
+              "alignSelf": "center",
+              "marginBottom": "88.51948051948051px",
+              "marginTop": "62.33766233766234px",
+              "maxWidth": "475px",
+              "msFlexItemAlign": "center",
+              "paddingLeft": "20px",
+              "paddingRight": "20px",
+            }
+          }
         >
           <div
             className="css-view-1dbjc4n r-display-6koalj r-flexDirection-18u37iz r-flexGrow-16y2uox r-maxHeight-1qalap5 r-minHeight-1pexjug r-position-bnwqim r-width-13qz1uu"

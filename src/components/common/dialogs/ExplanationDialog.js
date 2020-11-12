@@ -1,6 +1,6 @@
 // libraries
 import React, { useCallback, useMemo } from 'react'
-import { Image, View } from 'react-native'
+import { Image, Platform, View } from 'react-native'
 import { isEmpty, noop } from 'lodash'
 
 // components
@@ -57,8 +57,10 @@ const ExplanationDialog = ({
   labelStyle = defaultCustomStyle,
   imageStyle = defaultCustomStyle,
 }) => {
+  const hasImage = imageSource || ImageComponent
+
   const imageProps = useMemo(() => {
-    if (!imageSource && !ImageComponent) {
+    if (!hasImage) {
       return
     }
 
@@ -74,7 +76,7 @@ const ExplanationDialog = ({
       ],
       resizeMode: 'contain',
     }
-  }, [styles.image, imageStyle, ImageComponent, imageSource])
+  }, [styles.image, imageStyle, hasImage])
 
   return (
     <View style={[styles.container, containerStyle]}>
@@ -83,9 +85,15 @@ const ExplanationDialog = ({
           {errorMessage}
         </Text>
       )}
-      {(imageSource || ImageComponent) && (
+      {hasImage && (
         <View style={[styles.centerImage, imageContainer]}>
-          {ImageComponent ? <ImageComponent {...imageProps} /> : <Image source={imageSource} {...imageProps} />}
+          {ImageComponent ? (
+            <View {...imageProps}>
+              <ImageComponent />
+            </View>
+          ) : (
+            <Image source={imageSource} {...imageProps} />
+          )}
         </View>
       )}
       {label && <Text style={[styles.label, labelStyle]}>{label}</Text>}
@@ -149,7 +157,11 @@ const mapStylesToProps = ({ theme }) => ({
     marginLeft: 'auto',
   },
   centerImage: {
-    flex: 1,
+    ...Platform.select({
+      native: {
+        flex: 1,
+      },
+    }),
     justifyContent: 'center',
     flexDirection: 'row',
     alignSelf: 'center',

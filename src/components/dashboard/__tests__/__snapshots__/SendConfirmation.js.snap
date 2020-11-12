@@ -2,94 +2,27 @@
 
 exports[`SendConfirmation matches snapshot 1`] = `
 <div
-  className="css-view-1dbjc4n"
-  style={
-    Object {
-      "WebkitBoxFlex": 1,
-      "WebkitFlexBasis": "0%",
-      "WebkitFlexGrow": 1,
-      "WebkitFlexShrink": 1,
-      "flexBasis": "0%",
-      "flexGrow": 1,
-      "flexShrink": 1,
-      "msFlexNegative": 1,
-      "msFlexPositive": 1,
-      "msFlexPreferredSize": "0%",
-    }
-  }
+  className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
-    className="css-view-1dbjc4n"
+    className="css-view-1dbjc4n r-display-6koalj r-flexDirection-eqz5dr r-flexGrow-16y2uox r-maxHeight-1qalap5 r-padding-edyy15 r-position-bnwqim r-width-13qz1uu"
     data-name="viewWrapper"
     style={
       Object {
-        "WebkitBoxDirection": "normal",
-        "WebkitBoxFlex": 1,
-        "WebkitBoxOrient": "vertical",
-        "WebkitFlexDirection": "column",
-        "WebkitFlexGrow": 1,
-        "backgroundImage": "linear-gradient(to bottom, #00AFFF, #2DC0F7, #28C0EF, #23C0E7, #1EC1DF, #19C1D7, #14C1CF, #0FC2C7, #0FC2C7, #0AC2BF, #05C2B7, #00C3AF)",
-        "display": "flex",
-        "flexDirection": "column",
-        "flexGrow": 1,
-        "maxHeight": "844px",
-        "msFlexDirection": "column",
-        "msFlexPositive": 1,
-        "paddingBottom": "8px",
-        "paddingLeft": "8px",
-        "paddingRight": "8px",
-        "paddingTop": "8px",
-        "position": "relative",
-        "width": "100%",
+        "backgroundImage": "linear-gradient(3.141592653589793rad,#00AFFF,#2DC0F7,#28C0EF,#23C0E7,#1EC1DF,#19C1D7,#14C1CF,#0FC2C7,#0FC2C7,#0AC2BF,#05C2B7,#00C3AF)",
       }
     }
   >
     <div
-      className="css-view-1dbjc4n"
-      style={
-        Object {
-          "WebkitBoxPack": "center",
-          "WebkitJustifyContent": "center",
-          "backgroundColor": "rgba(255,255,255,1.00)",
-          "borderBottomLeftRadius": "5px",
-          "borderBottomRightRadius": "5px",
-          "borderTopLeftRadius": "5px",
-          "borderTopRightRadius": "5px",
-          "height": "62px",
-          "justifyContent": "center",
-          "marginBottom": "8px",
-          "msFlexPack": "center",
-          "paddingBottom": "8px",
-          "paddingLeft": "12px",
-          "paddingRight": "8px",
-          "paddingTop": "8px",
-        }
-      }
+      className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderRadius-1f0042m r-height-yivrw8 r-justifyContent-1777fci r-marginBottom-5oul0u r-paddingBottom-xd6kpl r-paddingHorizontal-1e081e0 r-paddingLeft-f727ji r-paddingRight-1pyaxff r-paddingTop-tskmnb r-paddingVertical-1yzf0co"
     >
       <div
-        className="css-view-1dbjc4n"
-        style={
-          Object {
-            "WebkitAlignItems": "center",
-            "WebkitBoxAlign": "center",
-            "WebkitBoxDirection": "reverse",
-            "WebkitBoxOrient": "horizontal",
-            "WebkitBoxPack": "justify",
-            "WebkitFlexDirection": "row-reverse",
-            "WebkitJustifyContent": "space-between",
-            "alignItems": "center",
-            "flexDirection": "row-reverse",
-            "justifyContent": "space-between",
-            "msFlexAlign": "center",
-            "msFlexDirection": "row-reverse",
-            "msFlexPack": "justify",
-          }
-        }
+        className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
       >
         <div
-          aria-disabled={true}
-          className="css-view-1dbjc4n"
-          disabled={true}
+          className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-qt01xk r-borderColor-y68mpx r-borderWidth-rs99b7 r-cursor-1loqt21 r-justifyContent-1777fci r-touchAction-1otgn73 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
+          data-focusable={true}
+          disabled={false}
           onKeyDown={[Function]}
           onKeyUp={[Function]}
           onResponderGrant={[Function]}
@@ -100,248 +33,53 @@ exports[`SendConfirmation matches snapshot 1`] = `
           onStartShouldSetResponder={[Function]}
           style={
             Object {
-              "MozTransitionProperty": "opacity",
-              "MozUserSelect": "none",
-              "WebkitTransitionDuration": "0.15s",
-              "WebkitTransitionProperty": "opacity",
-              "WebkitUserSelect": "none",
-              "backgroundColor": "rgba(203,203,203,1.00)",
-              "borderBottomColor": "rgba(163,163,163,1.00)",
               "borderBottomLeftRadius": "21px",
               "borderBottomRightRadius": "21px",
-              "borderBottomWidth": "1px",
-              "borderLeftColor": "rgba(163,163,163,1.00)",
-              "borderLeftWidth": "1px",
-              "borderRightColor": "rgba(163,163,163,1.00)",
-              "borderRightWidth": "1px",
-              "borderTopColor": "rgba(163,163,163,1.00)",
               "borderTopLeftRadius": "21px",
               "borderTopRightRadius": "21px",
-              "borderTopWidth": "1px",
               "height": "42px",
-              "msUserSelect": "none",
-              "transitionDuration": "0.15s",
-              "transitionProperty": "opacity",
-              "userSelect": "none",
               "width": "42px",
             }
           }
+          tabIndex="0"
         >
           <div
             className="css-view-1dbjc4n"
             style={
               Object {
                 "backgroundColor": "rgba(0,0,0,0.00)",
-                "borderBottomLeftRadius": "20px",
-                "borderBottomRightRadius": "20px",
-                "borderTopLeftRadius": "20px",
-                "borderTopRightRadius": "20px",
-                "height": "40px",
-                "width": "40px",
+                "height": "42px",
+                "width": "42px",
               }
             }
           >
-            <div
-              className="css-view-1dbjc4n"
-              style={
-                Object {
-                  "WebkitFlexBasis": "auto",
-                  "borderBottomLeftRadius": "20px",
-                  "borderBottomRightRadius": "20px",
-                  "borderTopLeftRadius": "20px",
-                  "borderTopRightRadius": "20px",
-                  "flexBasis": "auto",
-                  "height": "40px",
-                  "msFlexPreferredSize": "auto",
-                  "overflowX": "hidden",
-                  "overflowY": "hidden",
-                  "width": "40px",
-                  "zIndex": 0,
-                }
-              }
-            >
-              <div
-                className="css-view-1dbjc4n"
-                style={
-                  Object {
-                    "backgroundColor": "rgba(0,0,0,0.00)",
-                    "backgroundImage": "url(\\"unknownProfile.svg\\")",
-                    "backgroundPosition": "center",
-                    "backgroundRepeat": "no-repeat",
-                    "backgroundSize": "cover",
-                    "bottom": "0px",
-                    "height": "100%",
-                    "left": "0px",
-                    "position": "absolute",
-                    "right": "0px",
-                    "top": "0px",
-                    "width": "100%",
-                    "zIndex": -1,
-                  }
-                }
-              />
-              <img
-                alt=""
-                className="css-accessibilityImage-9pa8cd"
-                draggable={false}
-                src="unknownProfile.svg"
-              />
-            </div>
+            <unknownProfile.svg />
           </div>
         </div>
       </div>
     </div>
     <div
-      className="css-view-1dbjc4n"
-      style={
-        Object {
-          "WebkitBoxDirection": "normal",
-          "WebkitBoxFlex": 1,
-          "WebkitBoxOrient": "vertical",
-          "WebkitBoxPack": "justify",
-          "WebkitFlexDirection": "column",
-          "WebkitFlexGrow": 1,
-          "WebkitJustifyContent": "space-between",
-          "backgroundColor": "rgba(255,255,255,1.00)",
-          "borderBottomLeftRadius": "5px",
-          "borderBottomRightRadius": "5px",
-          "borderTopLeftRadius": "5px",
-          "borderTopRightRadius": "5px",
-          "display": "flex",
-          "flexDirection": "column",
-          "flexGrow": 1,
-          "justifyContent": "space-between",
-          "msFlexDirection": "column",
-          "msFlexPack": "justify",
-          "msFlexPositive": 1,
-          "paddingBottom": "16px",
-          "paddingLeft": "12px",
-          "paddingRight": "12px",
-          "paddingTop": "16px",
-        }
-      }
+      className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderRadius-1f0042m r-display-6koalj r-flexDirection-eqz5dr r-flexGrow-16y2uox r-justifyContent-1wtj0ep r-paddingHorizontal-1e081e0 r-paddingVertical-1yzf0co"
     >
       <div
-        className="css-view-1dbjc4n"
-        style={
-          Object {
-            "WebkitAlignItems": "stretch",
-            "WebkitBoxAlign": "stretch",
-            "WebkitBoxDirection": "normal",
-            "WebkitBoxFlex": 1,
-            "WebkitBoxOrient": "vertical",
-            "WebkitBoxPack": "center",
-            "WebkitFlexDirection": "column",
-            "WebkitFlexGrow": 1,
-            "WebkitJustifyContent": "center",
-            "alignItems": "stretch",
-            "flexDirection": "column",
-            "flexGrow": 1,
-            "justifyContent": "center",
-            "msFlexAlign": "stretch",
-            "msFlexDirection": "column",
-            "msFlexPack": "center",
-            "msFlexPositive": 1,
-          }
-        }
+        className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-flexGrow-16y2uox r-justifyContent-1777fci"
       >
         <div
-          className="css-text-901oao"
+          className="css-text-901oao r-alignItems-1awozwy r-color-cddv6f r-display-6koalj r-fontFamily-vnw8o6 r-fontSize-evnaw r-fontWeight-majxgm r-justifyContent-1777fci r-lineHeight-17rnw9f r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
           dir="auto"
-          style={
-            Object {
-              "WebkitAlignItems": "center",
-              "WebkitBoxAlign": "center",
-              "WebkitBoxPack": "center",
-              "WebkitJustifyContent": "center",
-              "alignItems": "center",
-              "color": "rgba(66,69,74,1.00)",
-              "direction": "ltr",
-              "display": "flex",
-              "fontFamily": "Roboto",
-              "fontSize": "22px",
-              "fontWeight": "500",
-              "justifyContent": "center",
-              "lineHeight": "30px",
-              "msFlexAlign": "center",
-              "msFlexPack": "center",
-              "textAlign": "center",
-              "textDecoration": "none",
-              "textTransform": "none",
-            }
-          }
         >
           To complete the transaction
 copy the link and share it
 with your recipient.
         </div>
         <div
-          className="css-view-1dbjc4n"
-          style={
-            Object {
-              "WebkitAlignItems": "stretch",
-              "WebkitBoxAlign": "stretch",
-              "WebkitBoxDirection": "normal",
-              "WebkitBoxOrient": "vertical",
-              "WebkitBoxPack": "justify",
-              "WebkitFlexDirection": "column",
-              "WebkitJustifyContent": "space-between",
-              "alignItems": "stretch",
-              "flexDirection": "column",
-              "justifyContent": "space-between",
-              "marginBottom": "50px",
-              "marginTop": "50px",
-              "msFlexAlign": "stretch",
-              "msFlexDirection": "column",
-              "msFlexPack": "justify",
-            }
-          }
+          className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-justifyContent-1wtj0ep r-marginVertical-1et17fd"
         >
           <div
-            className="css-view-1dbjc4n"
-            style={
-              Object {
-                "WebkitAlignItems": "center",
-                "WebkitBoxAlign": "center",
-                "WebkitBoxDirection": "normal",
-                "WebkitBoxOrient": "horizontal",
-                "WebkitBoxPack": "center",
-                "WebkitFlexDirection": "row",
-                "WebkitJustifyContent": "center",
-                "alignItems": "center",
-                "flexDirection": "row",
-                "justifyContent": "center",
-                "msFlexAlign": "center",
-                "msFlexDirection": "row",
-                "msFlexPack": "center",
-              }
-            }
+            className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1777fci"
           >
             <div
-              className="css-view-1dbjc4n"
-              style={
-                Object {
-                  "WebkitAlignItems": "center",
-                  "WebkitBoxAlign": "center",
-                  "WebkitBoxPack": "center",
-                  "WebkitJustifyContent": "center",
-                  "alignItems": "center",
-                  "backgroundColor": "rgba(250,108,119,1.00)",
-                  "borderBottomLeftRadius": "50%",
-                  "borderBottomRightRadius": "50%",
-                  "borderTopLeftRadius": "50%",
-                  "borderTopRightRadius": "50%",
-                  "display": "flex",
-                  "height": "75px",
-                  "justifyContent": "center",
-                  "marginBottom": "24px",
-                  "marginTop": "15px",
-                  "msFlexAlign": "center",
-                  "msFlexPack": "center",
-                  "position": "relative",
-                  "width": "75px",
-                }
-              }
+              className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-tvqc6p r-borderRadius-ieixw r-display-6koalj r-height-1ewlvqg r-justifyContent-1777fci r-marginBottom-1peese0 r-marginTop-19h5ruw r-position-bnwqim r-width-u68iu3"
             >
               <div
                 className="css-text-901oao"
@@ -361,127 +99,40 @@ with your recipient.
             </div>
           </div>
           <div
-            className="css-text-901oao"
+            className="css-text-901oao r-color-cddv6f r-display-6koalj r-fontFamily-vnw8o6 r-fontSize-1x35g6 r-fontWeight-majxgm r-justifyContent-1777fci r-lineHeight-17rnw9f r-marginTop-156q2ks r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
             dir="auto"
-            style={
-              Object {
-                "WebkitBoxPack": "center",
-                "WebkitJustifyContent": "center",
-                "color": "rgba(66,69,74,1.00)",
-                "direction": "ltr",
-                "display": "flex",
-                "fontFamily": "Roboto",
-                "fontSize": "24px",
-                "fontWeight": "500",
-                "justifyContent": "center",
-                "lineHeight": "30px",
-                "marginTop": "10px",
-                "msFlexPack": "center",
-                "textAlign": "center",
-                "textDecoration": "none",
-                "textTransform": "uppercase",
-              }
-            }
           >
             <div
-              className="css-view-1dbjc4n"
-              style={
-                Object {
-                  "WebkitAlignItems": "baseline",
-                  "WebkitBoxAlign": "baseline",
-                  "WebkitBoxDirection": "normal",
-                  "WebkitBoxOrient": "horizontal",
-                  "WebkitFlexDirection": "row",
-                  "alignItems": "baseline",
-                  "display": "flex",
-                  "flexDirection": "row",
-                  "msFlexAlign": "baseline",
-                  "msFlexDirection": "row",
-                }
-              }
+              className="css-view-1dbjc4n r-alignItems-1d09ksm r-display-6koalj r-flexDirection-18u37iz"
             >
               <span
-                className="css-text-901oao css-textHasAncestor-16my406"
+                className="css-text-901oao css-textHasAncestor-16my406 r-color-11zaip3 r-fontFamily-6jnb14 r-fontSize-3i2nvb r-fontWeight-b88u0q r-lineHeight-ueyrd6 r-marginRight-a5pmau r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                 dir="auto"
-                style={
-                  Object {
-                    "color": "rgba(250,108,119,1.00)",
-                    "direction": "ltr",
-                    "fontFamily": "Roboto Slab",
-                    "fontSize": "36px",
-                    "fontWeight": "700",
-                    "lineHeight": "24px",
-                    "marginRight": "2px",
-                    "textAlign": "right",
-                    "textDecoration": "none",
-                    "textTransform": "none",
-                  }
-                }
               >
                 -.--
               </span>
-              <span
-                className="css-text-901oao css-textHasAncestor-16my406"
-                dir="auto"
-                style={
-                  Object {
-                    "color": "rgba(66,69,74,1.00)",
-                    "direction": "ltr",
-                    "fontFamily": "Roboto",
-                    "fontSize": "16px",
-                    "fontWeight": "normal",
-                    "lineHeight": "22px",
-                    "textAlign": "center",
-                    "textDecoration": "none",
-                    "textTransform": "none",
-                  }
-                }
+              <div
+                className="css-view-1dbjc4n r-alignItems-1awozwy r-display-xoduu5 r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
               >
                 <span
-                  className="css-text-901oao css-textHasAncestor-16my406"
+                  className="css-text-901oao css-textHasAncestor-16my406 r-color-11zaip3 r-fontFamily-6jnb14 r-fontSize-1b43r93 r-fontWeight-b88u0q r-lineHeight-hbpseb r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                   dir="auto"
-                  style={
-                    Object {
-                      "color": "rgba(250,108,119,1.00)",
-                      "direction": "ltr",
-                      "fontFamily": "Roboto Slab",
-                      "fontSize": "14px",
-                      "fontWeight": "700",
-                      "lineHeight": "20px",
-                      "textAlign": "right",
-                      "textDecoration": "none",
-                      "textTransform": "none",
-                    }
-                  }
                 >
                   G
                 </span>
                 <span
-                  className="css-text-901oao css-textHasAncestor-16my406"
+                  className="css-text-901oao css-textHasAncestor-16my406 r-color-11zaip3 r-fontFamily-6jnb14 r-fontSize-1b43r93 r-fontWeight-b88u0q r-lineHeight-hbpseb r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                   dir="auto"
-                  style={
-                    Object {
-                      "color": "rgba(250,108,119,1.00)",
-                      "direction": "ltr",
-                      "fontFamily": "Roboto Slab",
-                      "fontSize": "13.5px",
-                      "fontWeight": "700",
-                      "lineHeight": "16.2px",
-                      "textAlign": "right",
-                      "textDecoration": "none",
-                      "textTransform": "none",
-                    }
-                  }
                 >
                   $
                 </span>
-              </span>
+              </div>
             </div>
           </div>
         </div>
       </div>
       <div
-        className="css-view-1dbjc4n"
+        className="css-view-1dbjc4n r-cursor-1loqt21 r-touchAction-1otgn73 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-width-13qz1uu"
         data-focusable={true}
         disabled={false}
         onKeyDown={[Function]}
@@ -492,23 +143,6 @@ with your recipient.
         onResponderTerminate={[Function]}
         onResponderTerminationRequest={[Function]}
         onStartShouldSetResponder={[Function]}
-        style={
-          Object {
-            "MozTransitionProperty": "opacity",
-            "MozUserSelect": "none",
-            "WebkitTransitionDuration": "0.15s",
-            "WebkitTransitionProperty": "opacity",
-            "WebkitUserSelect": "none",
-            "cursor": "pointer",
-            "msTouchAction": "manipulation",
-            "msUserSelect": "none",
-            "touchAction": "manipulation",
-            "transitionDuration": "0.15s",
-            "transitionProperty": "opacity",
-            "userSelect": "none",
-            "width": "100%",
-          }
-        }
         tabIndex="0"
       >
         <div

@@ -7,12 +7,17 @@ import { getDesignRelativeHeight } from '../../../lib/utils/sizes'
 import { isSmallDevice } from '../../../lib/utils/mobileSizeDetect'
 import normalizeText from '../../../lib/utils/normalizeText'
 
-export const LoginButton = ({ style, onPress, testID, icon: Icon, disabled, children, iconProps = {}, iconStyle }) => {
+export const LoginButton = ({ style, onPress, testID, icon: Icon, disabled, children, iconProps = {} }) => {
   const onButtonPress = useOnPress(onPress)
 
   return (
-    <TouchableOpacity style={style} onPress={onButtonPress} disabled={disabled} testID={testID}>
-      <View style={[styles.iconBorder]}>
+    <TouchableOpacity
+      style={[{ maxHeight: getDesignRelativeHeight(44) }, style]}
+      onPress={onButtonPress}
+      disabled={disabled}
+      testID={testID}
+    >
+      <View style={styles.iconBorder}>
         <Icon height="100%" width="100%" {...iconProps} />
       </View>
       <Text textTransform="uppercase" style={styles.buttonText} fontWeight={'medium'} letterSpacing={0} color="white">
@@ -31,11 +36,11 @@ const styles = {
   },
   iconBorder: {
     backgroundColor: mainTheme.colors.white,
-    borderRadius: 50,
+    borderRadius: getDesignRelativeHeight(40),
     alignItems: 'center',
+    height: getDesignRelativeHeight(40),
+    width: getDesignRelativeHeight(40),
     justifyContent: 'center',
-    width: 40,
-    height: 40,
-    padding: 10,
+    padding: getDesignRelativeHeight(10),
   },
 }

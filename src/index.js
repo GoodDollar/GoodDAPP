@@ -10,13 +10,10 @@ import { default as SimpleStore } from './lib/undux/SimpleStore'
 
 let ErrorBoundary = React.Fragment
 
-const { hot } = require('react-hot-loader')
-const HotApp = hot(module)(App)
-
 ReactDOM.render(
   <ErrorBoundary>
     <SimpleStore.Container>
-      <HotApp />
+      <App />
       <style type="text/css">{`
             @font-face {
               src: url(${fontMaterialIcons});

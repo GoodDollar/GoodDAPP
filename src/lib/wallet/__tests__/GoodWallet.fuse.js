@@ -29,8 +29,9 @@ describe('GoodWalletShare/ReceiveTokens', () => {
 
     await adminWallet.topWallet(testWallet2.account, 0, true)
 
-    const lastBlock = await testWallet.getBlockNumber()
+    const lastBlock = await testWallet.getBlockNumber().then(_ => _.toNumber())
 
+    console.log('beforeAll', { lastBlock })
     testWallet.listenTxUpdates(lastBlock, () => {})
     testWallet2.listenTxUpdates(lastBlock, () => {})
   })
@@ -45,6 +46,7 @@ describe('GoodWalletShare/ReceiveTokens', () => {
   it('should estimate gas', async () => {
     const tx = testWallet.UBIContract.methods.claim()
     const gas = await tx.estimateGas().catch(e => {
+      console.log('should estimate gas failed', e)
       return false
     })
     expect(gas).toBeTruthy()

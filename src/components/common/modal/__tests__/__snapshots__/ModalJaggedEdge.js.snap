@@ -5,19 +5,7 @@ exports[`ModalJaggedEdge matches snapshot 1`] = `
   className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
-    className="css-view-1dbjc4n"
-    style={
-      Object {
-        "backgroundImage": "linear-gradient(40deg, transparent 75%, #fff 76%), linear-gradient(-40deg, transparent 75%, #fff 76%)",
-        "backgroundPosition": "-8px 0",
-        "backgroundRepeat": "repeat-x",
-        "backgroundSize": "16px 16px",
-        "height": "16px",
-        "position": "relative",
-        "width": "100%",
-        "zIndex": 5,
-      }
-    }
+    className="css-view-1dbjc4n r-backgroundImage-693lkh r-backgroundPosition-psfvt2 r-backgroundRepeat-f6vetv r-backgroundSize-jug86b r-height-10ptun7 r-position-bnwqim r-width-13qz1uu r-zIndex-pezta"
   />
 </div>
 `;

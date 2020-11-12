@@ -8,8 +8,9 @@ import Text from './Text'
 type Props = { number: any, props?: {} }
 
 const GOOD_SIGN_SIZE = 18
-const DIFF_FACTOR = 0.5
-const DOLLAR_SIGN_SIZE = GOOD_SIGN_SIZE - DIFF_FACTOR
+
+// const DIFF_FACTOR = 0.5
+// const DOLLAR_SIGN_SIZE = GOOD_SIGN_SIZE - DIFF_FACTOR
 
 /**
  * Receives wei and shows as G$ using BigNumber component
@@ -31,7 +32,7 @@ const BigGoodDollar = ({ number, formatter, testID, ...props }: Props) => {
 const GDUnits = props => {
   const { fontSize, ...bigNumberUnitProps } = props.bigNumberUnitProps || {}
   const goodSignFontSize = fontSize || GOOD_SIGN_SIZE
-  const dollarSignFontSize = fontSize ? fontSize - DIFF_FACTOR : DOLLAR_SIGN_SIZE
+  const dollarSignFontSize = fontSize || GOOD_SIGN_SIZE
 
   return (
     <Section.Row style={props.bigNumberUnitStyles}>

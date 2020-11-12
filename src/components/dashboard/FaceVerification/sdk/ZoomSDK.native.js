@@ -70,10 +70,11 @@ export const ZoomSDK = new class {
     }
   }
 
-  async faceVerification(enrollmentIdentifier, onUIReady = noop, onCaptureDone = noop, onRetry = noop) {
+  async faceVerification(enrollmentIdentifier, sessionOptions = null) {
     const { sdk, logger } = this
     // eslint-disable-next-line no-undef
     const { UI_READY, CAPTURE_DONE, FV_RETRY } = ZoomUxEvent
+    const { onUIReady = noop, onCaptureDone = noop, onRetry = noop } = sessionOptions || {}
 
     // addListener calls returns unsubscibe functions we're storing in this array
     const subscriptions = [

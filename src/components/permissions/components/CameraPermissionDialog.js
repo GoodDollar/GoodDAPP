@@ -6,7 +6,7 @@ import illustration from '../../../assets/CameraPermission.svg'
 export default ({ onDismiss }) => (
   <ExplanationDialog
     title={`Enable camera access\nto claim G$'s`}
-    imageSource={illustration}
+    image={illustration}
     imageHeight={128}
     buttons={[
       {

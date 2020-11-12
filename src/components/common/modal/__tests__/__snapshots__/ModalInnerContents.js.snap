@@ -5,25 +5,7 @@ exports[`ModalInnerContents matches snapshot 1`] = `
   className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
-    className="css-view-1dbjc4n"
-    style={
-      Object {
-        "WebkitBoxFlex": 1,
-        "WebkitFlexGrow": 1,
-        "backgroundColor": "rgba(255,255,255,1.00)",
-        "borderBottomRightRadius": "5px",
-        "borderTopRightRadius": "5px",
-        "boxShadow": "0 20px 24px rgba(0, 0, 0, 0.5)",
-        "flexGrow": 1,
-        "msFlexPositive": 1,
-        "paddingBottom": "16px",
-        "paddingLeft": "16px",
-        "paddingRight": "16px",
-        "paddingTop": "16px",
-        "position": "relative",
-        "zIndex": 1,
-      }
-    }
+    className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderBottomRightRadius-qpmf2f r-borderTopRightRadius-dfv94e r-boxShadow-172poub r-flexGrow-16y2uox r-padding-nsbfu8 r-position-bnwqim r-zIndex-184en5c"
   >
     Testing
   </div>
@@ -35,25 +17,7 @@ exports[`ModalInnerContents matches snapshot with properties 1`] = `
   className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
-    className="css-view-1dbjc4n"
-    style={
-      Object {
-        "WebkitBoxFlex": 1,
-        "WebkitFlexGrow": 1,
-        "backgroundColor": "rgba(255,255,255,1.00)",
-        "borderBottomRightRadius": "5px",
-        "borderTopRightRadius": "5px",
-        "boxShadow": "0 20px 24px rgba(0, 0, 0, 0.5)",
-        "flexGrow": 1,
-        "msFlexPositive": 1,
-        "paddingBottom": "16px",
-        "paddingLeft": "16px",
-        "paddingRight": "16px",
-        "paddingTop": "16px",
-        "position": "relative",
-        "zIndex": 1,
-      }
-    }
+    className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderBottomRightRadius-qpmf2f r-borderTopRightRadius-dfv94e r-boxShadow-172poub r-flexGrow-16y2uox r-padding-nsbfu8 r-position-bnwqim r-zIndex-184en5c"
   >
     Testing
   </div>

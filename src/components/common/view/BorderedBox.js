@@ -110,7 +110,7 @@ const styles = ({ theme }) => {
   return {
     borderedBox: {
       borderWidth: 1,
-      borerStyle: 'solid',
+      borderStyle: 'solid',
       borderColor: theme.colors.lighterGray,
       borderRadius: 5,
       height: getDesignRelativeHeight(isWeb ? 123 : 130, false),

@@ -1,8 +1,12 @@
+import { Dimensions } from 'react-native'
+
 const sizesWithMock = args => {
   const { screenHeight, screenWidth, isPortrait } = args || {}
 
   jest.doMock('../orientation', () => ({
     isPortrait: () => (isPortrait === undefined ? true : isPortrait),
+    getScreenHeight: () => Dimensions.get('window').height,
+    getScreenWidth: () => Dimensions.get('window').width,
   }))
 
   const Module = require('../sizes')

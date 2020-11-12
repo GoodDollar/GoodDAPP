@@ -56,7 +56,7 @@ const CameraNotAllowedError = ({ onRetry, exception }) => {
           errorMessage={errorMessage}
           title={title}
           text={text}
-          imageSource={illustration}
+          image={illustration}
           buttons={buttons}
         />
       ),

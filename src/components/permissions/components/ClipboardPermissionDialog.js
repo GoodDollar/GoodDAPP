@@ -10,7 +10,7 @@ export default ({ onDismiss }) => (
   <ExplanationDialog
     title="Please allow access to your clipboard"
     text={`In order to paste inside the wallet`}
-    imageSource={illustration}
+    image={illustration}
     buttons={[
       {
         action: onDismiss,

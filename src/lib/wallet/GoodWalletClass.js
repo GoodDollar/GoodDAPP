@@ -212,7 +212,7 @@ export class GoodWallet {
 
   getSignUpBonusAddress() {
     const addr = get(ContractsAddress, `${this.network}.SignupBonus`).toLowerCase()
-    return addr != NULL_ADDRESS ? addr : undefined
+    return addr !== NULL_ADDRESS ? addr : undefined
   }
 
   setIsPollEvents(active) {
@@ -415,7 +415,7 @@ export class GoodWallet {
   async listenTxUpdates(fromBlock: int = 0, blockIntervalCallback: Function) {
     const curBlock = await this.wallet.eth.getBlockNumber()
     const dayAgoBlock = Math.max(0, fromBlock - DAY_TOTAL_BLOCKS)
-    log.debug('listenTxUpdates listening from block:', { fromBlock, dayAgoBlock })
+    log.debug('listenTxUpdates listening from block:', { fromBlock, dayAgoBlock, curBlock })
     fromBlock = new BN(dayAgoBlock <= curBlock ? dayAgoBlock : curBlock)
 
     this.subscribeToOTPLEvents(fromBlock, blockIntervalCallback)

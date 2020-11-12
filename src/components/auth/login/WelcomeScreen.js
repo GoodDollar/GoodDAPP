@@ -88,12 +88,12 @@ const WelcomeScreen = ({ styles, screenProps, navigation }) => {
       </Text>
       <View style={styles.illustration}>
         <Illustration
-          width={getDesignRelativeWidth(isBrowser ? 331 : 276)}
-          height={getDesignRelativeHeight(217)}
+          width={getDesignRelativeWidth(isBrowser ? 331 : 276, false)}
+          height={getDesignRelativeHeight(217, false)}
           viewBox="0 0 248.327 194.594"
         />
       </View>
-      <Section style={styles.bottomContainer}>
+      <Section.Stack style={styles.bottomContainer}>
         {config.enableSelfCustody && (
           <>
             <Section.Row alignItems="center" justifyContent="center">
@@ -136,7 +136,7 @@ const WelcomeScreen = ({ styles, screenProps, navigation }) => {
             </CustomButton>
           </Section.Row>
         </>
-      </Section>
+      </Section.Stack>
     </Wrapper>
   )
 }
@@ -149,14 +149,13 @@ const getStylesFromProps = ({ theme }) => {
     mainWrapper: {
       paddingHorizontal: 0,
       paddingVertical: 0,
-      justifyContent: 'space-between',
       flexGrow: 1,
     },
     bottomContainer: {
+      marginTop: getDesignRelativeHeight(theme.sizes.default * 7, false),
       paddingHorizontal: theme.sizes.defaultDouble,
-      paddingBottom: getDesignRelativeHeight(theme.sizes.defaultDouble),
-      justifyContent: 'space-around',
-      marginBottom: getDesignRelativeHeight(10),
+      justifyContent: 'flex-start',
+      flex: 1,
     },
     buttonLayout: {
       marginTop: getDesignRelativeHeight(theme.sizes.default),
@@ -168,17 +167,12 @@ const getStylesFromProps = ({ theme }) => {
       fontSize: buttonFontSize,
     },
     illustration: {
-      flexGrow: 1,
-      flexShrink: 0,
-      marginBottom: getDesignRelativeHeight(theme.sizes.default),
-      marginRight: 'auto',
-      marginLeft: 'auto',
-      paddingTop: getDesignRelativeHeight(theme.sizes.default),
-      alignItems: 'center',
+      flex: 1,
+      marginTop: getDesignRelativeHeight(theme.sizes.default * 7, false),
+      alignSelf: 'center',
     },
     headerText: {
       marginTop: getDesignRelativeHeight(!shorterDevice ? 45 : 30),
-      marginBottom: getDesignRelativeHeight(20),
     },
     buttonSpace: {
       marginBottom: getDesignRelativeHeight(5),

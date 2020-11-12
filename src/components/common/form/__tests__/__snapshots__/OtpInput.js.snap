@@ -5,42 +5,16 @@ exports[`OtpInput empty matches snapshot 1`] = `
   className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
-    className="css-view-1dbjc4n"
-    style={
-      Object {
-        "WebkitBoxDirection": "normal",
-        "WebkitBoxOrient": "horizontal",
-        "WebkitBoxPack": "space-evenly",
-        "WebkitFlexDirection": "row",
-        "WebkitJustifyContent": "space-evenly",
-        "display": "flex",
-        "flexDirection": "row",
-        "justifyContent": "space-evenly",
-        "marginBottom": "8px",
-        "msFlexDirection": "row",
-        "msFlexPack": "space-evenly",
-      }
-    }
+    className="css-view-1dbjc4n r-display-6koalj r-flexDirection-18u37iz r-justifyContent-1d7fvdj r-marginBottom-5oul0u"
   >
     <div
-      className="css-view-1dbjc4n r-flex-13awgt0"
-      style={
-        Object {
-          "WebkitAlignItems": "center",
-          "WebkitBoxAlign": "center",
-          "alignItems": "center",
-          "display": "flex",
-          "msFlexAlign": "center",
-          "paddingLeft": "11.377777777777778px",
-          "paddingRight": "11.377777777777778px",
-        }
-      }
+      className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-paddingHorizontal-10el5fd"
     >
       <input
         autoCapitalize="sentences"
         autoComplete="on"
         autoCorrect="on"
-        className="css-textinput-1cwyjr8"
+        className="css-textinput-1cwyjr8 r-borderBottomColor-1uy9gz5 r-borderBottomWidth-wgabs5 r-borderLeftWidth-gxnn5r r-borderRightWidth-fnigne r-borderTopWidth-13yce4e r-fontSize-1i10wst r-marginBottom-p1pxzi r-marginVertical-r0h9e2 r-paddingVertical-atwnbb r-textAlign-q4m81j r-width-13qz1uu"
         data-focusable={true}
         dir="auto"
         disabled={false}
@@ -56,22 +30,6 @@ exports[`OtpInput empty matches snapshot 1`] = `
         onSelect={[Function]}
         readOnly={false}
         spellCheck={true}
-        style={
-          Object {
-            "borderBottomColor": "rgba(85,85,85,1.00)",
-            "borderBottomWidth": "2px",
-            "borderLeftWidth": "0px",
-            "borderRightWidth": "0px",
-            "borderTopWidth": "0px",
-            "fontSize": "18px",
-            "marginBottom": "0px",
-            "marginTop": "0px",
-            "paddingBottom": "5px",
-            "paddingTop": "5px",
-            "textAlign": "center",
-            "width": "100%",
-          }
-        }
         theme={
           Object {
             "animation": Object {
@@ -93,6 +51,7 @@ exports[`OtpInput empty matches snapshot 1`] = `
               "disabled": "#E3E3E2",
               "error": "#FA6C77",
               "facebookBlue": "#1877F3",
+              "googleBlue": "#3367D6",
               "googleRed": "#EA4335",
               "gray": "#555",
               "gray50Percent": "#CBCBCB",
@@ -177,24 +136,13 @@ exports[`OtpInput empty matches snapshot 1`] = `
       />
     </div>
     <div
-      className="css-view-1dbjc4n r-flex-13awgt0"
-      style={
-        Object {
-          "WebkitAlignItems": "center",
-          "WebkitBoxAlign": "center",
-          "alignItems": "center",
-          "display": "flex",
-          "msFlexAlign": "center",
-          "paddingLeft": "11.377777777777778px",
-          "paddingRight": "11.377777777777778px",
-        }
-      }
+      className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-paddingHorizontal-10el5fd"
     >
       <input
         autoCapitalize="sentences"
         autoComplete="on"
         autoCorrect="on"
-        className="css-textinput-1cwyjr8"
+        className="css-textinput-1cwyjr8 r-borderBottomColor-1uy9gz5 r-borderBottomWidth-wgabs5 r-borderLeftWidth-gxnn5r r-borderRightWidth-fnigne r-borderTopWidth-13yce4e r-fontSize-1i10wst r-marginBottom-p1pxzi r-marginVertical-r0h9e2 r-paddingVertical-atwnbb r-textAlign-q4m81j r-width-13qz1uu"
         data-focusable={true}
         dir="auto"
         disabled={false}
@@ -210,22 +158,6 @@ exports[`OtpInput empty matches snapshot 1`] = `
         onSelect={[Function]}
         readOnly={false}
         spellCheck={true}
-        style={
-          Object {
-            "borderBottomColor": "rgba(85,85,85,1.00)",
-            "borderBottomWidth": "2px",
-            "borderLeftWidth": "0px",
-            "borderRightWidth": "0px",
-            "borderTopWidth": "0px",
-            "fontSize": "18px",
-            "marginBottom": "0px",
-            "marginTop": "0px",
-            "paddingBottom": "5px",
-            "paddingTop": "5px",
-            "textAlign": "center",
-            "width": "100%",
-          }
-        }
         theme={
           Object {
             "animation": Object {
@@ -247,6 +179,7 @@ exports[`OtpInput empty matches snapshot 1`] = `
               "disabled": "#E3E3E2",
               "error": "#FA6C77",
               "facebookBlue": "#1877F3",
+              "googleBlue": "#3367D6",
               "googleRed": "#EA4335",
               "gray": "#555",
               "gray50Percent": "#CBCBCB",
@@ -331,24 +264,13 @@ exports[`OtpInput empty matches snapshot 1`] = `
       />
     </div>
     <div
-      className="css-view-1dbjc4n r-flex-13awgt0"
-      style={
-        Object {
-          "WebkitAlignItems": "center",
-          "WebkitBoxAlign": "center",
-          "alignItems": "center",
-          "display": "flex",
-          "msFlexAlign": "center",
-          "paddingLeft": "11.377777777777778px",
-          "paddingRight": "11.377777777777778px",
-        }
-      }
+      className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-paddingHorizontal-10el5fd"
     >
       <input
         autoCapitalize="sentences"
         autoComplete="on"
         autoCorrect="on"
-        className="css-textinput-1cwyjr8"
+        className="css-textinput-1cwyjr8 r-borderBottomColor-1uy9gz5 r-borderBottomWidth-wgabs5 r-borderLeftWidth-gxnn5r r-borderRightWidth-fnigne r-borderTopWidth-13yce4e r-fontSize-1i10wst r-marginBottom-p1pxzi r-marginVertical-r0h9e2 r-paddingVertical-atwnbb r-textAlign-q4m81j r-width-13qz1uu"
         data-focusable={true}
         dir="auto"
         disabled={false}
@@ -364,22 +286,6 @@ exports[`OtpInput empty matches snapshot 1`] = `
         onSelect={[Function]}
         readOnly={false}
         spellCheck={true}
-        style={
-          Object {
-            "borderBottomColor": "rgba(85,85,85,1.00)",
-            "borderBottomWidth": "2px",
-            "borderLeftWidth": "0px",
-            "borderRightWidth": "0px",
-            "borderTopWidth": "0px",
-            "fontSize": "18px",
-            "marginBottom": "0px",
-            "marginTop": "0px",
-            "paddingBottom": "5px",
-            "paddingTop": "5px",
-            "textAlign": "center",
-            "width": "100%",
-          }
-        }
         theme={
           Object {
             "animation": Object {
@@ -401,6 +307,7 @@ exports[`OtpInput empty matches snapshot 1`] = `
               "disabled": "#E3E3E2",
               "error": "#FA6C77",
               "facebookBlue": "#1877F3",
+              "googleBlue": "#3367D6",
               "googleRed": "#EA4335",
               "gray": "#555",
               "gray50Percent": "#CBCBCB",
@@ -485,24 +392,13 @@ exports[`OtpInput empty matches snapshot 1`] = `
       />
     </div>
     <div
-      className="css-view-1dbjc4n r-flex-13awgt0"
-      style={
-        Object {
-          "WebkitAlignItems": "center",
-          "WebkitBoxAlign": "center",
-          "alignItems": "center",
-          "display": "flex",
-          "msFlexAlign": "center",
-          "paddingLeft": "11.377777777777778px",
-          "paddingRight": "11.377777777777778px",
-        }
-      }
+      className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-paddingHorizontal-10el5fd"
     >
       <input
         autoCapitalize="sentences"
         autoComplete="on"
         autoCorrect="on"
-        className="css-textinput-1cwyjr8"
+        className="css-textinput-1cwyjr8 r-borderBottomColor-1uy9gz5 r-borderBottomWidth-wgabs5 r-borderLeftWidth-gxnn5r r-borderRightWidth-fnigne r-borderTopWidth-13yce4e r-fontSize-1i10wst r-marginBottom-p1pxzi r-marginVertical-r0h9e2 r-paddingVertical-atwnbb r-textAlign-q4m81j r-width-13qz1uu"
         data-focusable={true}
         dir="auto"
         disabled={false}
@@ -518,22 +414,6 @@ exports[`OtpInput empty matches snapshot 1`] = `
         onSelect={[Function]}
         readOnly={false}
         spellCheck={true}
-        style={
-          Object {
-            "borderBottomColor": "rgba(85,85,85,1.00)",
-            "borderBottomWidth": "2px",
-            "borderLeftWidth": "0px",
-            "borderRightWidth": "0px",
-            "borderTopWidth": "0px",
-            "fontSize": "18px",
-            "marginBottom": "0px",
-            "marginTop": "0px",
-            "paddingBottom": "5px",
-            "paddingTop": "5px",
-            "textAlign": "center",
-            "width": "100%",
-          }
-        }
         theme={
           Object {
             "animation": Object {
@@ -555,6 +435,7 @@ exports[`OtpInput empty matches snapshot 1`] = `
               "disabled": "#E3E3E2",
               "error": "#FA6C77",
               "facebookBlue": "#1877F3",
+              "googleBlue": "#3367D6",
               "googleRed": "#EA4335",
               "gray": "#555",
               "gray50Percent": "#CBCBCB",
@@ -639,24 +520,13 @@ exports[`OtpInput empty matches snapshot 1`] = `
       />
     </div>
     <div
-      className="css-view-1dbjc4n r-flex-13awgt0"
-      style={
-        Object {
-          "WebkitAlignItems": "center",
-          "WebkitBoxAlign": "center",
-          "alignItems": "center",
-          "display": "flex",
-          "msFlexAlign": "center",
-          "paddingLeft": "11.377777777777778px",
-          "paddingRight": "11.377777777777778px",
-        }
-      }
+      className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-paddingHorizontal-10el5fd"
     >
       <input
         autoCapitalize="sentences"
         autoComplete="on"
         autoCorrect="on"
-        className="css-textinput-1cwyjr8"
+        className="css-textinput-1cwyjr8 r-borderBottomColor-1uy9gz5 r-borderBottomWidth-wgabs5 r-borderLeftWidth-gxnn5r r-borderRightWidth-fnigne r-borderTopWidth-13yce4e r-fontSize-1i10wst r-marginBottom-p1pxzi r-marginVertical-r0h9e2 r-paddingVertical-atwnbb r-textAlign-q4m81j r-width-13qz1uu"
         data-focusable={true}
         dir="auto"
         disabled={false}
@@ -672,22 +542,6 @@ exports[`OtpInput empty matches snapshot 1`] = `
         onSelect={[Function]}
         readOnly={false}
         spellCheck={true}
-        style={
-          Object {
-            "borderBottomColor": "rgba(85,85,85,1.00)",
-            "borderBottomWidth": "2px",
-            "borderLeftWidth": "0px",
-            "borderRightWidth": "0px",
-            "borderTopWidth": "0px",
-            "fontSize": "18px",
-            "marginBottom": "0px",
-            "marginTop": "0px",
-            "paddingBottom": "5px",
-            "paddingTop": "5px",
-            "textAlign": "center",
-            "width": "100%",
-          }
-        }
         theme={
           Object {
             "animation": Object {
@@ -709,6 +563,7 @@ exports[`OtpInput empty matches snapshot 1`] = `
               "disabled": "#E3E3E2",
               "error": "#FA6C77",
               "facebookBlue": "#1877F3",
+              "googleBlue": "#3367D6",
               "googleRed": "#EA4335",
               "gray": "#555",
               "gray50Percent": "#CBCBCB",
@@ -793,24 +648,13 @@ exports[`OtpInput empty matches snapshot 1`] = `
       />
     </div>
     <div
-      className="css-view-1dbjc4n r-flex-13awgt0"
-      style={
-        Object {
-          "WebkitAlignItems": "center",
-          "WebkitBoxAlign": "center",
-          "alignItems": "center",
-          "display": "flex",
-          "msFlexAlign": "center",
-          "paddingLeft": "11.377777777777778px",
-          "paddingRight": "11.377777777777778px",
-        }
-      }
+      className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-paddingHorizontal-10el5fd"
     >
       <input
         autoCapitalize="sentences"
         autoComplete="on"
         autoCorrect="on"
-        className="css-textinput-1cwyjr8"
+        className="css-textinput-1cwyjr8 r-borderBottomColor-1uy9gz5 r-borderBottomWidth-wgabs5 r-borderLeftWidth-gxnn5r r-borderRightWidth-fnigne r-borderTopWidth-13yce4e r-fontSize-1i10wst r-marginBottom-p1pxzi r-marginVertical-r0h9e2 r-paddingVertical-atwnbb r-textAlign-q4m81j r-width-13qz1uu"
         data-focusable={true}
         dir="auto"
         disabled={false}
@@ -826,22 +670,6 @@ exports[`OtpInput empty matches snapshot 1`] = `
         onSelect={[Function]}
         readOnly={false}
         spellCheck={true}
-        style={
-          Object {
-            "borderBottomColor": "rgba(85,85,85,1.00)",
-            "borderBottomWidth": "2px",
-            "borderLeftWidth": "0px",
-            "borderRightWidth": "0px",
-            "borderTopWidth": "0px",
-            "fontSize": "18px",
-            "marginBottom": "0px",
-            "marginTop": "0px",
-            "paddingBottom": "5px",
-            "paddingTop": "5px",
-            "textAlign": "center",
-            "width": "100%",
-          }
-        }
         theme={
           Object {
             "animation": Object {
@@ -863,6 +691,7 @@ exports[`OtpInput empty matches snapshot 1`] = `
               "disabled": "#E3E3E2",
               "error": "#FA6C77",
               "facebookBlue": "#1877F3",
+              "googleBlue": "#3367D6",
               "googleRed": "#EA4335",
               "gray": "#555",
               "gray50Percent": "#CBCBCB",
@@ -955,42 +784,16 @@ exports[`OtpInput matches snapshot 1`] = `
   className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
-    className="css-view-1dbjc4n"
-    style={
-      Object {
-        "WebkitBoxDirection": "normal",
-        "WebkitBoxOrient": "horizontal",
-        "WebkitBoxPack": "space-evenly",
-        "WebkitFlexDirection": "row",
-        "WebkitJustifyContent": "space-evenly",
-        "display": "flex",
-        "flexDirection": "row",
-        "justifyContent": "space-evenly",
-        "marginBottom": "8px",
-        "msFlexDirection": "row",
-        "msFlexPack": "space-evenly",
-      }
-    }
+    className="css-view-1dbjc4n r-display-6koalj r-flexDirection-18u37iz r-justifyContent-1d7fvdj r-marginBottom-5oul0u"
   >
     <div
-      className="css-view-1dbjc4n r-flex-13awgt0"
-      style={
-        Object {
-          "WebkitAlignItems": "center",
-          "WebkitBoxAlign": "center",
-          "alignItems": "center",
-          "display": "flex",
-          "msFlexAlign": "center",
-          "paddingLeft": "11.377777777777778px",
-          "paddingRight": "11.377777777777778px",
-        }
-      }
+      className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-paddingHorizontal-10el5fd"
     >
       <input
         autoCapitalize="sentences"
         autoComplete="on"
         autoCorrect="on"
-        className="css-textinput-1cwyjr8"
+        className="css-textinput-1cwyjr8 r-borderBottomColor-1uy9gz5 r-borderBottomWidth-wgabs5 r-borderLeftWidth-gxnn5r r-borderRightWidth-fnigne r-borderTopWidth-13yce4e r-fontSize-1i10wst r-marginBottom-p1pxzi r-marginVertical-r0h9e2 r-paddingVertical-atwnbb r-textAlign-q4m81j r-width-13qz1uu"
         data-focusable={true}
         dir="auto"
         disabled={false}
@@ -1007,22 +810,6 @@ exports[`OtpInput matches snapshot 1`] = `
         placeholder=""
         readOnly={false}
         spellCheck={true}
-        style={
-          Object {
-            "borderBottomColor": "rgba(85,85,85,1.00)",
-            "borderBottomWidth": "2px",
-            "borderLeftWidth": "0px",
-            "borderRightWidth": "0px",
-            "borderTopWidth": "0px",
-            "fontSize": "18px",
-            "marginBottom": "0px",
-            "marginTop": "0px",
-            "paddingBottom": "5px",
-            "paddingTop": "5px",
-            "textAlign": "center",
-            "width": "100%",
-          }
-        }
         theme={
           Object {
             "animation": Object {
@@ -1044,6 +831,7 @@ exports[`OtpInput matches snapshot 1`] = `
               "disabled": "#E3E3E2",
               "error": "#FA6C77",
               "facebookBlue": "#1877F3",
+              "googleBlue": "#3367D6",
               "googleRed": "#EA4335",
               "gray": "#555",
               "gray50Percent": "#CBCBCB",
@@ -1128,24 +916,13 @@ exports[`OtpInput matches snapshot 1`] = `
       />
     </div>
     <div
-      className="css-view-1dbjc4n r-flex-13awgt0"
-      style={
-        Object {
-          "WebkitAlignItems": "center",
-          "WebkitBoxAlign": "center",
-          "alignItems": "center",
-          "display": "flex",
-          "msFlexAlign": "center",
-          "paddingLeft": "11.377777777777778px",
-          "paddingRight": "11.377777777777778px",
-        }
-      }
+      className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-paddingHorizontal-10el5fd"
     >
       <input
         autoCapitalize="sentences"
         autoComplete="on"
         autoCorrect="on"
-        className="css-textinput-1cwyjr8"
+        className="css-textinput-1cwyjr8 r-borderBottomColor-1uy9gz5 r-borderBottomWidth-wgabs5 r-borderLeftWidth-gxnn5r r-borderRightWidth-fnigne r-borderTopWidth-13yce4e r-fontSize-1i10wst r-marginBottom-p1pxzi r-marginVertical-r0h9e2 r-paddingVertical-atwnbb r-textAlign-q4m81j r-width-13qz1uu"
         data-focusable={true}
         dir="auto"
         disabled={false}
@@ -1162,22 +939,6 @@ exports[`OtpInput matches snapshot 1`] = `
         placeholder=""
         readOnly={false}
         spellCheck={true}
-        style={
-          Object {
-            "borderBottomColor": "rgba(85,85,85,1.00)",
-            "borderBottomWidth": "2px",
-            "borderLeftWidth": "0px",
-            "borderRightWidth": "0px",
-            "borderTopWidth": "0px",
-            "fontSize": "18px",
-            "marginBottom": "0px",
-            "marginTop": "0px",
-            "paddingBottom": "5px",
-            "paddingTop": "5px",
-            "textAlign": "center",
-            "width": "100%",
-          }
-        }
         theme={
           Object {
             "animation": Object {
@@ -1199,6 +960,7 @@ exports[`OtpInput matches snapshot 1`] = `
               "disabled": "#E3E3E2",
               "error": "#FA6C77",
               "facebookBlue": "#1877F3",
+              "googleBlue": "#3367D6",
               "googleRed": "#EA4335",
               "gray": "#555",
               "gray50Percent": "#CBCBCB",
@@ -1283,24 +1045,13 @@ exports[`OtpInput matches snapshot 1`] = `
       />
     </div>
     <div
-      className="css-view-1dbjc4n r-flex-13awgt0"
-      style={
-        Object {
-          "WebkitAlignItems": "center",
-          "WebkitBoxAlign": "center",
-          "alignItems": "center",
-          "display": "flex",
-          "msFlexAlign": "center",
-          "paddingLeft": "11.377777777777778px",
-          "paddingRight": "11.377777777777778px",
-        }
-      }
+      className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-paddingHorizontal-10el5fd"
     >
       <input
         autoCapitalize="sentences"
         autoComplete="on"
         autoCorrect="on"
-        className="css-textinput-1cwyjr8"
+        className="css-textinput-1cwyjr8 r-borderBottomColor-1uy9gz5 r-borderBottomWidth-wgabs5 r-borderLeftWidth-gxnn5r r-borderRightWidth-fnigne r-borderTopWidth-13yce4e r-fontSize-1i10wst r-marginBottom-p1pxzi r-marginVertical-r0h9e2 r-paddingVertical-atwnbb r-textAlign-q4m81j r-width-13qz1uu"
         data-focusable={true}
         dir="auto"
         disabled={false}
@@ -1317,22 +1068,6 @@ exports[`OtpInput matches snapshot 1`] = `
         placeholder=""
         readOnly={false}
         spellCheck={true}
-        style={
-          Object {
-            "borderBottomColor": "rgba(85,85,85,1.00)",
-            "borderBottomWidth": "2px",
-            "borderLeftWidth": "0px",
-            "borderRightWidth": "0px",
-            "borderTopWidth": "0px",
-            "fontSize": "18px",
-            "marginBottom": "0px",
-            "marginTop": "0px",
-            "paddingBottom": "5px",
-            "paddingTop": "5px",
-            "textAlign": "center",
-            "width": "100%",
-          }
-        }
         theme={
           Object {
             "animation": Object {
@@ -1354,6 +1089,7 @@ exports[`OtpInput matches snapshot 1`] = `
               "disabled": "#E3E3E2",
               "error": "#FA6C77",
               "facebookBlue": "#1877F3",
+              "googleBlue": "#3367D6",
               "googleRed": "#EA4335",
               "gray": "#555",
               "gray50Percent": "#CBCBCB",
@@ -1438,24 +1174,13 @@ exports[`OtpInput matches snapshot 1`] = `
       />
     </div>
     <div
-      className="css-view-1dbjc4n r-flex-13awgt0"
-      style={
-        Object {
-          "WebkitAlignItems": "center",
-          "WebkitBoxAlign": "center",
-          "alignItems": "center",
-          "display": "flex",
-          "msFlexAlign": "center",
-          "paddingLeft": "11.377777777777778px",
-          "paddingRight": "11.377777777777778px",
-        }
-      }
+      className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-paddingHorizontal-10el5fd"
     >
       <input
         autoCapitalize="sentences"
         autoComplete="on"
         autoCorrect="on"
-        className="css-textinput-1cwyjr8"
+        className="css-textinput-1cwyjr8 r-borderBottomColor-1uy9gz5 r-borderBottomWidth-wgabs5 r-borderLeftWidth-gxnn5r r-borderRightWidth-fnigne r-borderTopWidth-13yce4e r-fontSize-1i10wst r-marginBottom-p1pxzi r-marginVertical-r0h9e2 r-paddingVertical-atwnbb r-textAlign-q4m81j r-width-13qz1uu"
         data-focusable={true}
         dir="auto"
         disabled={false}
@@ -1472,22 +1197,6 @@ exports[`OtpInput matches snapshot 1`] = `
         placeholder=""
         readOnly={false}
         spellCheck={true}
-        style={
-          Object {
-            "borderBottomColor": "rgba(85,85,85,1.00)",
-            "borderBottomWidth": "2px",
-            "borderLeftWidth": "0px",
-            "borderRightWidth": "0px",
-            "borderTopWidth": "0px",
-            "fontSize": "18px",
-            "marginBottom": "0px",
-            "marginTop": "0px",
-            "paddingBottom": "5px",
-            "paddingTop": "5px",
-            "textAlign": "center",
-            "width": "100%",
-          }
-        }
         theme={
           Object {
             "animation": Object {
@@ -1509,6 +1218,7 @@ exports[`OtpInput matches snapshot 1`] = `
               "disabled": "#E3E3E2",
               "error": "#FA6C77",
               "facebookBlue": "#1877F3",
+              "googleBlue": "#3367D6",
               "googleRed": "#EA4335",
               "gray": "#555",
               "gray50Percent": "#CBCBCB",
@@ -1593,24 +1303,13 @@ exports[`OtpInput matches snapshot 1`] = `
       />
     </div>
     <div
-      className="css-view-1dbjc4n r-flex-13awgt0"
-      style={
-        Object {
-          "WebkitAlignItems": "center",
-          "WebkitBoxAlign": "center",
-          "alignItems": "center",
-          "display": "flex",
-          "msFlexAlign": "center",
-          "paddingLeft": "11.377777777777778px",
-          "paddingRight": "11.377777777777778px",
-        }
-      }
+      className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-paddingHorizontal-10el5fd"
     >
       <input
         autoCapitalize="sentences"
         autoComplete="on"
         autoCorrect="on"
-        className="css-textinput-1cwyjr8"
+        className="css-textinput-1cwyjr8 r-borderBottomColor-1uy9gz5 r-borderBottomWidth-wgabs5 r-borderLeftWidth-gxnn5r r-borderRightWidth-fnigne r-borderTopWidth-13yce4e r-fontSize-1i10wst r-marginBottom-p1pxzi r-marginVertical-r0h9e2 r-paddingVertical-atwnbb r-textAlign-q4m81j r-width-13qz1uu"
         data-focusable={true}
         dir="auto"
         disabled={false}
@@ -1627,22 +1326,6 @@ exports[`OtpInput matches snapshot 1`] = `
         placeholder=""
         readOnly={false}
         spellCheck={true}
-        style={
-          Object {
-            "borderBottomColor": "rgba(85,85,85,1.00)",
-            "borderBottomWidth": "2px",
-            "borderLeftWidth": "0px",
-            "borderRightWidth": "0px",
-            "borderTopWidth": "0px",
-            "fontSize": "18px",
-            "marginBottom": "0px",
-            "marginTop": "0px",
-            "paddingBottom": "5px",
-            "paddingTop": "5px",
-            "textAlign": "center",
-            "width": "100%",
-          }
-        }
         theme={
           Object {
             "animation": Object {
@@ -1664,6 +1347,7 @@ exports[`OtpInput matches snapshot 1`] = `
               "disabled": "#E3E3E2",
               "error": "#FA6C77",
               "facebookBlue": "#1877F3",
+              "googleBlue": "#3367D6",
               "googleRed": "#EA4335",
               "gray": "#555",
               "gray50Percent": "#CBCBCB",
@@ -1748,24 +1432,13 @@ exports[`OtpInput matches snapshot 1`] = `
       />
     </div>
     <div
-      className="css-view-1dbjc4n r-flex-13awgt0"
-      style={
-        Object {
-          "WebkitAlignItems": "center",
-          "WebkitBoxAlign": "center",
-          "alignItems": "center",
-          "display": "flex",
-          "msFlexAlign": "center",
-          "paddingLeft": "11.377777777777778px",
-          "paddingRight": "11.377777777777778px",
-        }
-      }
+      className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-paddingHorizontal-10el5fd"
     >
       <input
         autoCapitalize="sentences"
         autoComplete="on"
         autoCorrect="on"
-        className="css-textinput-1cwyjr8"
+        className="css-textinput-1cwyjr8 r-borderBottomColor-1uy9gz5 r-borderBottomWidth-wgabs5 r-borderLeftWidth-gxnn5r r-borderRightWidth-fnigne r-borderTopWidth-13yce4e r-fontSize-1i10wst r-marginBottom-p1pxzi r-marginVertical-r0h9e2 r-paddingVertical-atwnbb r-textAlign-q4m81j r-width-13qz1uu"
         data-focusable={true}
         dir="auto"
         disabled={false}
@@ -1782,22 +1455,6 @@ exports[`OtpInput matches snapshot 1`] = `
         placeholder=""
         readOnly={false}
         spellCheck={true}
-        style={
-          Object {
-            "borderBottomColor": "rgba(85,85,85,1.00)",
-            "borderBottomWidth": "2px",
-            "borderLeftWidth": "0px",
-            "borderRightWidth": "0px",
-            "borderTopWidth": "0px",
-            "fontSize": "18px",
-            "marginBottom": "0px",
-            "marginTop": "0px",
-            "paddingBottom": "5px",
-            "paddingTop": "5px",
-            "textAlign": "center",
-            "width": "100%",
-          }
-        }
         theme={
           Object {
             "animation": Object {
@@ -1819,6 +1476,7 @@ exports[`OtpInput matches snapshot 1`] = `
               "disabled": "#E3E3E2",
               "error": "#FA6C77",
               "facebookBlue": "#1877F3",
+              "googleBlue": "#3367D6",
               "googleRed": "#EA4335",
               "gray": "#555",
               "gray50Percent": "#CBCBCB",
@@ -1911,42 +1569,16 @@ exports[`OtpInput number matches snapshot 1`] = `
   className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
-    className="css-view-1dbjc4n"
-    style={
-      Object {
-        "WebkitBoxDirection": "normal",
-        "WebkitBoxOrient": "horizontal",
-        "WebkitBoxPack": "space-evenly",
-        "WebkitFlexDirection": "row",
-        "WebkitJustifyContent": "space-evenly",
-        "display": "flex",
-        "flexDirection": "row",
-        "justifyContent": "space-evenly",
-        "marginBottom": "8px",
-        "msFlexDirection": "row",
-        "msFlexPack": "space-evenly",
-      }
-    }
+    className="css-view-1dbjc4n r-display-6koalj r-flexDirection-18u37iz r-justifyContent-1d7fvdj r-marginBottom-5oul0u"
   >
     <div
-      className="css-view-1dbjc4n r-flex-13awgt0"
-      style={
-        Object {
-          "WebkitAlignItems": "center",
-          "WebkitBoxAlign": "center",
-          "alignItems": "center",
-          "display": "flex",
-          "msFlexAlign": "center",
-          "paddingLeft": "11.377777777777778px",
-          "paddingRight": "11.377777777777778px",
-        }
-      }
+      className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-paddingHorizontal-10el5fd"
     >
       <input
         autoCapitalize="sentences"
         autoComplete="on"
         autoCorrect="on"
-        className="css-textinput-1cwyjr8"
+        className="css-textinput-1cwyjr8 r-borderBottomColor-1uy9gz5 r-borderBottomWidth-wgabs5 r-borderLeftWidth-gxnn5r r-borderRightWidth-fnigne r-borderTopWidth-13yce4e r-fontSize-1i10wst r-marginBottom-p1pxzi r-marginVertical-r0h9e2 r-paddingVertical-atwnbb r-textAlign-q4m81j r-width-13qz1uu"
         data-focusable={true}
         dir="auto"
         disabled={false}
@@ -1963,22 +1595,6 @@ exports[`OtpInput number matches snapshot 1`] = `
         placeholder=""
         readOnly={false}
         spellCheck={true}
-        style={
-          Object {
-            "borderBottomColor": "rgba(85,85,85,1.00)",
-            "borderBottomWidth": "2px",
-            "borderLeftWidth": "0px",
-            "borderRightWidth": "0px",
-            "borderTopWidth": "0px",
-            "fontSize": "18px",
-            "marginBottom": "0px",
-            "marginTop": "0px",
-            "paddingBottom": "5px",
-            "paddingTop": "5px",
-            "textAlign": "center",
-            "width": "100%",
-          }
-        }
         theme={
           Object {
             "animation": Object {
@@ -2000,6 +1616,7 @@ exports[`OtpInput number matches snapshot 1`] = `
               "disabled": "#E3E3E2",
               "error": "#FA6C77",
               "facebookBlue": "#1877F3",
+              "googleBlue": "#3367D6",
               "googleRed": "#EA4335",
               "gray": "#555",
               "gray50Percent": "#CBCBCB",
@@ -2084,24 +1701,13 @@ exports[`OtpInput number matches snapshot 1`] = `
       />
     </div>
     <div
-      className="css-view-1dbjc4n r-flex-13awgt0"
-      style={
-        Object {
-          "WebkitAlignItems": "center",
-          "WebkitBoxAlign": "center",
-          "alignItems": "center",
-          "display": "flex",
-          "msFlexAlign": "center",
-          "paddingLeft": "11.377777777777778px",
-          "paddingRight": "11.377777777777778px",
-        }
-      }
+      className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-paddingHorizontal-10el5fd"
     >
       <input
         autoCapitalize="sentences"
         autoComplete="on"
         autoCorrect="on"
-        className="css-textinput-1cwyjr8"
+        className="css-textinput-1cwyjr8 r-borderBottomColor-1uy9gz5 r-borderBottomWidth-wgabs5 r-borderLeftWidth-gxnn5r r-borderRightWidth-fnigne r-borderTopWidth-13yce4e r-fontSize-1i10wst r-marginBottom-p1pxzi r-marginVertical-r0h9e2 r-paddingVertical-atwnbb r-textAlign-q4m81j r-width-13qz1uu"
         data-focusable={true}
         dir="auto"
         disabled={false}
@@ -2118,22 +1724,6 @@ exports[`OtpInput number matches snapshot 1`] = `
         placeholder=""
         readOnly={false}
         spellCheck={true}
-        style={
-          Object {
-            "borderBottomColor": "rgba(85,85,85,1.00)",
-            "borderBottomWidth": "2px",
-            "borderLeftWidth": "0px",
-            "borderRightWidth": "0px",
-            "borderTopWidth": "0px",
-            "fontSize": "18px",
-            "marginBottom": "0px",
-            "marginTop": "0px",
-            "paddingBottom": "5px",
-            "paddingTop": "5px",
-            "textAlign": "center",
-            "width": "100%",
-          }
-        }
         theme={
           Object {
             "animation": Object {
@@ -2155,6 +1745,7 @@ exports[`OtpInput number matches snapshot 1`] = `
               "disabled": "#E3E3E2",
               "error": "#FA6C77",
               "facebookBlue": "#1877F3",
+              "googleBlue": "#3367D6",
               "googleRed": "#EA4335",
               "gray": "#555",
               "gray50Percent": "#CBCBCB",
@@ -2239,24 +1830,13 @@ exports[`OtpInput number matches snapshot 1`] = `
       />
     </div>
     <div
-      className="css-view-1dbjc4n r-flex-13awgt0"
-      style={
-        Object {
-          "WebkitAlignItems": "center",
-          "WebkitBoxAlign": "center",
-          "alignItems": "center",
-          "display": "flex",
-          "msFlexAlign": "center",
-          "paddingLeft": "11.377777777777778px",
-          "paddingRight": "11.377777777777778px",
-        }
-      }
+      className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-paddingHorizontal-10el5fd"
     >
       <input
         autoCapitalize="sentences"
         autoComplete="on"
         autoCorrect="on"
-        className="css-textinput-1cwyjr8"
+        className="css-textinput-1cwyjr8 r-borderBottomColor-1uy9gz5 r-borderBottomWidth-wgabs5 r-borderLeftWidth-gxnn5r r-borderRightWidth-fnigne r-borderTopWidth-13yce4e r-fontSize-1i10wst r-marginBottom-p1pxzi r-marginVertical-r0h9e2 r-paddingVertical-atwnbb r-textAlign-q4m81j r-width-13qz1uu"
         data-focusable={true}
         dir="auto"
         disabled={false}
@@ -2273,22 +1853,6 @@ exports[`OtpInput number matches snapshot 1`] = `
         placeholder=""
         readOnly={false}
         spellCheck={true}
-        style={
-          Object {
-            "borderBottomColor": "rgba(85,85,85,1.00)",
-            "borderBottomWidth": "2px",
-            "borderLeftWidth": "0px",
-            "borderRightWidth": "0px",
-            "borderTopWidth": "0px",
-            "fontSize": "18px",
-            "marginBottom": "0px",
-            "marginTop": "0px",
-            "paddingBottom": "5px",
-            "paddingTop": "5px",
-            "textAlign": "center",
-            "width": "100%",
-          }
-        }
         theme={
           Object {
             "animation": Object {
@@ -2310,6 +1874,7 @@ exports[`OtpInput number matches snapshot 1`] = `
               "disabled": "#E3E3E2",
               "error": "#FA6C77",
               "facebookBlue": "#1877F3",
+              "googleBlue": "#3367D6",
               "googleRed": "#EA4335",
               "gray": "#555",
               "gray50Percent": "#CBCBCB",
@@ -2394,24 +1959,13 @@ exports[`OtpInput number matches snapshot 1`] = `
       />
     </div>
     <div
-      className="css-view-1dbjc4n r-flex-13awgt0"
-      style={
-        Object {
-          "WebkitAlignItems": "center",
-          "WebkitBoxAlign": "center",
-          "alignItems": "center",
-          "display": "flex",
-          "msFlexAlign": "center",
-          "paddingLeft": "11.377777777777778px",
-          "paddingRight": "11.377777777777778px",
-        }
-      }
+      className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-paddingHorizontal-10el5fd"
     >
       <input
         autoCapitalize="sentences"
         autoComplete="on"
         autoCorrect="on"
-        className="css-textinput-1cwyjr8"
+        className="css-textinput-1cwyjr8 r-borderBottomColor-1uy9gz5 r-borderBottomWidth-wgabs5 r-borderLeftWidth-gxnn5r r-borderRightWidth-fnigne r-borderTopWidth-13yce4e r-fontSize-1i10wst r-marginBottom-p1pxzi r-marginVertical-r0h9e2 r-paddingVertical-atwnbb r-textAlign-q4m81j r-width-13qz1uu"
         data-focusable={true}
         dir="auto"
         disabled={false}
@@ -2428,22 +1982,6 @@ exports[`OtpInput number matches snapshot 1`] = `
         placeholder=""
         readOnly={false}
         spellCheck={true}
-        style={
-          Object {
-            "borderBottomColor": "rgba(85,85,85,1.00)",
-            "borderBottomWidth": "2px",
-            "borderLeftWidth": "0px",
-            "borderRightWidth": "0px",
-            "borderTopWidth": "0px",
-            "fontSize": "18px",
-            "marginBottom": "0px",
-            "marginTop": "0px",
-            "paddingBottom": "5px",
-            "paddingTop": "5px",
-            "textAlign": "center",
-            "width": "100%",
-          }
-        }
         theme={
           Object {
             "animation": Object {
@@ -2465,6 +2003,7 @@ exports[`OtpInput number matches snapshot 1`] = `
               "disabled": "#E3E3E2",
               "error": "#FA6C77",
               "facebookBlue": "#1877F3",
+              "googleBlue": "#3367D6",
               "googleRed": "#EA4335",
               "gray": "#555",
               "gray50Percent": "#CBCBCB",
@@ -2549,24 +2088,13 @@ exports[`OtpInput number matches snapshot 1`] = `
       />
     </div>
     <div
-      className="css-view-1dbjc4n r-flex-13awgt0"
-      style={
-        Object {
-          "WebkitAlignItems": "center",
-          "WebkitBoxAlign": "center",
-          "alignItems": "center",
-          "display": "flex",
-          "msFlexAlign": "center",
-          "paddingLeft": "11.377777777777778px",
-          "paddingRight": "11.377777777777778px",
-        }
-      }
+      className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-paddingHorizontal-10el5fd"
     >
       <input
         autoCapitalize="sentences"
         autoComplete="on"
         autoCorrect="on"
-        className="css-textinput-1cwyjr8"
+        className="css-textinput-1cwyjr8 r-borderBottomColor-1uy9gz5 r-borderBottomWidth-wgabs5 r-borderLeftWidth-gxnn5r r-borderRightWidth-fnigne r-borderTopWidth-13yce4e r-fontSize-1i10wst r-marginBottom-p1pxzi r-marginVertical-r0h9e2 r-paddingVertical-atwnbb r-textAlign-q4m81j r-width-13qz1uu"
         data-focusable={true}
         dir="auto"
         disabled={false}
@@ -2583,22 +2111,6 @@ exports[`OtpInput number matches snapshot 1`] = `
         placeholder=""
         readOnly={false}
         spellCheck={true}
-        style={
-          Object {
-            "borderBottomColor": "rgba(85,85,85,1.00)",
-            "borderBottomWidth": "2px",
-            "borderLeftWidth": "0px",
-            "borderRightWidth": "0px",
-            "borderTopWidth": "0px",
-            "fontSize": "18px",
-            "marginBottom": "0px",
-            "marginTop": "0px",
-            "paddingBottom": "5px",
-            "paddingTop": "5px",
-            "textAlign": "center",
-            "width": "100%",
-          }
-        }
         theme={
           Object {
             "animation": Object {
@@ -2620,6 +2132,7 @@ exports[`OtpInput number matches snapshot 1`] = `
               "disabled": "#E3E3E2",
               "error": "#FA6C77",
               "facebookBlue": "#1877F3",
+              "googleBlue": "#3367D6",
               "googleRed": "#EA4335",
               "gray": "#555",
               "gray50Percent": "#CBCBCB",
@@ -2704,24 +2217,13 @@ exports[`OtpInput number matches snapshot 1`] = `
       />
     </div>
     <div
-      className="css-view-1dbjc4n r-flex-13awgt0"
-      style={
-        Object {
-          "WebkitAlignItems": "center",
-          "WebkitBoxAlign": "center",
-          "alignItems": "center",
-          "display": "flex",
-          "msFlexAlign": "center",
-          "paddingLeft": "11.377777777777778px",
-          "paddingRight": "11.377777777777778px",
-        }
-      }
+      className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-paddingHorizontal-10el5fd"
     >
       <input
         autoCapitalize="sentences"
         autoComplete="on"
         autoCorrect="on"
-        className="css-textinput-1cwyjr8"
+        className="css-textinput-1cwyjr8 r-borderBottomColor-1uy9gz5 r-borderBottomWidth-wgabs5 r-borderLeftWidth-gxnn5r r-borderRightWidth-fnigne r-borderTopWidth-13yce4e r-fontSize-1i10wst r-marginBottom-p1pxzi r-marginVertical-r0h9e2 r-paddingVertical-atwnbb r-textAlign-q4m81j r-width-13qz1uu"
         data-focusable={true}
         dir="auto"
         disabled={false}
@@ -2738,22 +2240,6 @@ exports[`OtpInput number matches snapshot 1`] = `
         placeholder=""
         readOnly={false}
         spellCheck={true}
-        style={
-          Object {
-            "borderBottomColor": "rgba(85,85,85,1.00)",
-            "borderBottomWidth": "2px",
-            "borderLeftWidth": "0px",
-            "borderRightWidth": "0px",
-            "borderTopWidth": "0px",
-            "fontSize": "18px",
-            "marginBottom": "0px",
-            "marginTop": "0px",
-            "paddingBottom": "5px",
-            "paddingTop": "5px",
-            "textAlign": "center",
-            "width": "100%",
-          }
-        }
         theme={
           Object {
             "animation": Object {
@@ -2775,6 +2261,7 @@ exports[`OtpInput number matches snapshot 1`] = `
               "disabled": "#E3E3E2",
               "error": "#FA6C77",
               "facebookBlue": "#1877F3",
+              "googleBlue": "#3367D6",
               "googleRed": "#EA4335",
               "gray": "#555",
               "gray50Percent": "#CBCBCB",

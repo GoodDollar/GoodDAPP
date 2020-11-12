@@ -12,7 +12,7 @@ import normalize from '../../lib/utils/normalizeText'
 import SideMenuPanel from '../sidemenu/SideMenuPanel'
 import logger from '../../lib/logger/pino-logger'
 import CustomButton, { type ButtonProps } from '../common/buttons/CustomButton'
-import Blurred from '../common/view/Blur/Blurred'
+import Blurred from '../common/view/Blurred'
 import BackButtonHandler from '../../lib/utils/handleBackButton'
 import NavBar from './NavBar'
 import { navigationOptions } from './navigationConfig'
@@ -242,6 +242,7 @@ class AppView extends Component<AppViewProps, AppViewState> {
     const { descriptors, navigation, navigationConfig, screenProps: incomingScreenProps, store } = this.props
     const activeKey = navigation.state.routes[navigation.state.index].key
     const descriptor = descriptors[activeKey]
+
     const {
       title,
       navigationBar: NavigationBar,
@@ -249,6 +250,7 @@ class AppView extends Component<AppViewProps, AppViewState> {
       backButtonHidden,
       disableScroll,
     } = descriptor.options
+
     const screenProps = {
       ...incomingScreenProps,
       navigationConfig,
@@ -260,17 +262,19 @@ class AppView extends Component<AppViewProps, AppViewState> {
       screenState: this.state.currentState,
       setScreenState: this.setScreenState,
     }
+
     log.info('stackNavigation Render: FIXME rerender', descriptor, activeKey)
+
     const Component = this.getComponent(descriptor.getComponent(), { screenProps })
     const pageTitle = title || activeKey
     const open = store.get('sidemenu').visible
-    const { visible: dialogVisible } = (store.get('currentScreen') || {}).dialogData || {}
-    const currentFeed = store.get('currentFeed')
+
     const menu = (
       <SafeAreaView style={styles.safeArea}>
         <SideMenuPanel navigation={navigation} />
       </SafeAreaView>
     )
+
     return (
       <React.Fragment>
         {open && (
@@ -284,7 +288,7 @@ class AppView extends Component<AppViewProps, AppViewState> {
             />
           </View>
         )}
-        <Blurred style={fullScreenContainer} blur={open || dialogVisible || currentFeed}>
+        <Blurred whenSideMenu>
           {!navigationBarHidden &&
             (NavigationBar ? (
               <NavigationBar />
@@ -304,20 +308,6 @@ class AppView extends Component<AppViewProps, AppViewState> {
   }
 }
 
-const fullScreen = {
-  top: 0,
-  left: 0,
-  bottom: 0,
-  right: 0,
-  position: 'absolute',
-}
-const fullScreenContainer = {
-  ...fullScreen,
-  display: 'flex',
-  flexGrow: 1,
-  flexDirection: 'column',
-}
-
 const styles = StyleSheet.create({
   scrollView: {
     display: 'flex',
@@ -329,7 +319,11 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   sideMenuContainer: {
-    ...fullScreen,
+    top: 0,
+    left: 0,
+    bottom: 0,
+    right: 0,
+    position: 'absolute',
     transform: [
       {
         translateX: Platform.select({

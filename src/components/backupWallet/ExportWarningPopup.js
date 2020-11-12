@@ -11,6 +11,8 @@ import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils
 
 const mapImageStylesToProps = ({ theme }) => ({
   imageWrapper: {
+    width: '100%',
+    height: '100%',
     display: 'flex',
     alignItems: 'center',
     transform: [{ rotate: '180deg' }],
@@ -20,8 +22,8 @@ const mapImageStylesToProps = ({ theme }) => ({
   },
 })
 
-const WarningImage = withStyles(mapImageStylesToProps)(({ styles, style, ...imageProps }) => (
-  <View style={[style, styles.imageWrapper]}>
+const WarningImage = withStyles(mapImageStylesToProps)(({ styles, ...imageProps }) => (
+  <View style={styles.imageWrapper}>
     <Icon name="system-filled" size={100} style={styles.image} />
   </View>
 ))
@@ -30,12 +32,11 @@ const ExportWarningPopup = ({ styles, onDismiss = noop, ...dialogProps }) => (
   <ExplanationDialog
     {...dialogProps}
     title={`Do Not Send Tokens\nFrom Ethereum Network\nTo This Address`}
-    text={`Keep in mind - This is an internal\nNetwork address for G$ tokens only.`}
+    text={`Keep in mind - This is an internal\nnetwork address for G$ tokens only.`}
     image={WarningImage}
     titleStyle={styles.title}
     textStyle={styles.text}
     containerStyle={styles.container}
-    imageStyle={styles.imageStyle}
     resizeMode={false}
     imageHeight={100}
     buttons={[

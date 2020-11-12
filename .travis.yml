@@ -1,6 +1,6 @@
 language: node_js
 node_js:
-  - '10.21.0'
+  - '10.15'
 
 addons:
   chrome: stable
@@ -19,6 +19,7 @@ cache:
 env:
   global:
     - REACT_ENV=development
+    - TEST_REACT_NATIVE=false
     - BUNDLESIZE_GITHUB_TOKEN=63f6d1717c6652d63234cf9629977b08f4bac3fd
     #    - REACT_APP_NETWORK_ID=4447
     - MNEMONIC="myth like bonus scare over problem client lizard pioneer submit female collect"
@@ -27,18 +28,6 @@ env:
 
 matrix:
   include:
-    - if: branch =~ /^(master|(autotests.*))$/ AND env(DEPLOY_VERSION) IS NOT present
-      script:
-        #- cp .env.cypress .env
-        - npm run build
-        - npx netlify deploy --prod --json --site $NETLIFY_SITE_ID --auth $NETLIFY_ACCESS_TOKEN -d build > test.json
-        - URL=`grep -i 'deploy_url' test.json | cut -c18-70`
-        - echo "$(cat test.json)"
-        - echo "Cypress test site deployed $URL. W3 $W3_LINK"
-        #- export CYPRESS_baseUrl=$URL // this is now fixed to goodtest.netlify.app
-        - export CYPRESS_w3Link=$W3_LINK
-        - cypress run --record false --browser chrome
-        #- npm run bundlesize:check
     - if: env(DEPLOY_VERSION) IS NOT present
       script:
         - npm run test:setup

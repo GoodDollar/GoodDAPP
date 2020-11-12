@@ -36,7 +36,8 @@ const SplashOrRouter = memo(({ store }) => {
   )
 })
 
-const App = () => {
+// export for unit testing
+export const App = () => {
   const store = SimpleStore.useStore()
   useCountryCode()
 

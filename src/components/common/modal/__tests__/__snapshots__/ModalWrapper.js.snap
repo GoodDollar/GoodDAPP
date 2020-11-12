@@ -23,7 +23,7 @@ exports[`ModalWrapper matches snapshot 1`] = `
       className="css-view-1dbjc4n"
     >
       <div
-        className="css-view-1dbjc4n"
+        className="css-view-1dbjc4n r-width-13qz1uu"
         style={
           Object {
             "WebkitAlignSelf": "flex-start",
@@ -31,63 +31,32 @@ exports[`ModalWrapper matches snapshot 1`] = `
             "backgroundColor": "rgba(0,0,0,0.00)",
             "height": "768px",
             "msFlexItemAlign": "start",
-            "width": "100%",
           }
         }
       >
         <div
-          className="css-view-1dbjc4n r-flexGrow-16y2uox"
+          className="css-view-1dbjc4n r-flexGrow-16y2uox r-flexShrink-1q142lx r-width-13qz1uu"
           style={
             Object {
               "WebkitAlignSelf": "center",
-              "WebkitFlexShrink": 0,
               "alignSelf": "center",
-              "flexShrink": 0,
               "marginBottom": "88.51948051948051px",
               "marginTop": "62.33766233766234px",
               "maxWidth": "475px",
               "msFlexItemAlign": "center",
-              "msFlexNegative": 0,
               "paddingLeft": "20px",
               "paddingRight": "20px",
-              "width": "100%",
             }
           }
         >
           <div
-            className="css-view-1dbjc4n"
-            style={
-              Object {
-                "WebkitBoxDirection": "normal",
-                "WebkitBoxOrient": "horizontal",
-                "WebkitFlexDirection": "row",
-                "display": "flex",
-                "flexDirection": "row",
-                "maxHeight": "844px",
-                "minHeight": "350px",
-                "msFlexDirection": "row",
-                "position": "relative",
-                "width": "100%",
-                "zIndex": 1,
-              }
-            }
+            className="css-view-1dbjc4n r-display-6koalj r-flexDirection-18u37iz r-maxHeight-1qalap5 r-minHeight-1pexjug r-position-bnwqim r-width-13qz1uu"
           >
             <div
-              className="css-view-1dbjc4n r-flexGrow-16y2uox"
+              className="css-view-1dbjc4n r-backgroundImage-o7i658 r-backgroundRepeat-1w25a1u r-borderBottomLeftRadius-re1h2s r-borderTopLeftRadius-1as3g83 r-flexGrow-16y2uox r-flexShrink-1q142lx r-maxWidth-1akpm2g r-minWidth-t66pp7 r-position-bnwqim r-zIndex-pezta"
               style={
                 Object {
-                  "WebkitFlexShrink": 0,
                   "backgroundColor": "rgba(238,238,238,1.00)",
-                  "backgroundImage": "url(wave.svg)",
-                  "backgroundRepeat": "repeat-y",
-                  "borderBottomLeftRadius": "5px",
-                  "borderTopLeftRadius": "5px",
-                  "flexShrink": 0,
-                  "maxWidth": "10px",
-                  "minWidth": "10px",
-                  "msFlexNegative": 0,
-                  "position": "relative",
-                  "zIndex": 5,
                 }
               }
             />
@@ -95,21 +64,7 @@ exports[`ModalWrapper matches snapshot 1`] = `
               className="css-view-1dbjc4n r-flexGrow-16y2uox r-flexShrink-1wbh5a2"
             >
               <div
-                className="css-view-1dbjc4n r-flexGrow-16y2uox"
-                style={
-                  Object {
-                    "backgroundColor": "rgba(255,255,255,1.00)",
-                    "borderBottomRightRadius": "5px",
-                    "borderTopRightRadius": "5px",
-                    "boxShadow": "0 20px 24px rgba(0, 0, 0, 0.5)",
-                    "paddingBottom": "16px",
-                    "paddingLeft": "16px",
-                    "paddingRight": "16px",
-                    "paddingTop": "16px",
-                    "position": "relative",
-                    "zIndex": 1,
-                  }
-                }
+                className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderBottomRightRadius-qpmf2f r-borderTopRightRadius-dfv94e r-boxShadow-172poub r-flexGrow-16y2uox r-padding-nsbfu8 r-position-bnwqim r-zIndex-184en5c"
               >
                 Testing
               </div>
@@ -145,7 +100,7 @@ exports[`ModalWrapper matches snapshot with properties 1`] = `
       className="css-view-1dbjc4n"
     >
       <div
-        className="css-view-1dbjc4n"
+        className="css-view-1dbjc4n r-width-13qz1uu"
         style={
           Object {
             "WebkitAlignSelf": "flex-start",
@@ -153,64 +108,32 @@ exports[`ModalWrapper matches snapshot with properties 1`] = `
             "backgroundColor": "rgba(0,0,0,0.00)",
             "height": "768px",
             "msFlexItemAlign": "start",
-            "width": "100%",
           }
         }
       >
         <div
-          className="css-view-1dbjc4n r-flexGrow-16y2uox"
+          className="css-view-1dbjc4n r-flexGrow-16y2uox r-flexShrink-1q142lx r-width-13qz1uu"
           style={
             Object {
               "WebkitAlignSelf": "center",
-              "WebkitFlexShrink": 0,
               "alignSelf": "center",
-              "flexShrink": 0,
               "marginBottom": "88.51948051948051px",
               "marginTop": "62.33766233766234px",
               "maxWidth": "475px",
               "msFlexItemAlign": "center",
-              "msFlexNegative": 0,
               "paddingLeft": "20px",
               "paddingRight": "20px",
-              "width": "100%",
             }
           }
         >
           <div
-            className="css-view-1dbjc4n"
-            style={
-              Object {
-                "WebkitBoxDirection": "normal",
-                "WebkitBoxOrient": "horizontal",
-                "WebkitFlexDirection": "row",
-                "display": "flex",
-                "flexDirection": "row",
-                "maxHeight": "844px",
-                "minHeight": "350px",
-                "msFlexDirection": "row",
-                "position": "relative",
-                "width": "100%",
-                "zIndex": 1,
-              }
-            }
+            className="css-view-1dbjc4n r-display-6koalj r-flexDirection-18u37iz r-maxHeight-1qalap5 r-minHeight-1pexjug r-position-bnwqim r-width-13qz1uu"
           >
             <div
-              className="css-view-1dbjc4n r-flexGrow-16y2uox"
+              className="css-view-1dbjc4n r-backgroundImage-o7i658 r-backgroundRepeat-1w25a1u r-borderBottomLeftRadius-re1h2s r-borderTopLeftRadius-1as3g83 r-flexGrow-16y2uox r-flexShrink-1q142lx r-marginBottom-1ifxtd0 r-maxWidth-1akpm2g r-minWidth-t66pp7 r-position-bnwqim r-zIndex-pezta"
               style={
                 Object {
-                  "WebkitFlexShrink": 0,
                   "backgroundColor": "rgba(238,238,238,1.00)",
-                  "backgroundImage": "url(wave.svg)",
-                  "backgroundRepeat": "repeat-y",
-                  "borderBottomLeftRadius": "5px",
-                  "borderTopLeftRadius": "5px",
-                  "flexShrink": 0,
-                  "marginBottom": "16px",
-                  "maxWidth": "10px",
-                  "minWidth": "10px",
-                  "msFlexNegative": 0,
-                  "position": "relative",
-                  "zIndex": 5,
                 }
               }
             />
@@ -218,38 +141,12 @@ exports[`ModalWrapper matches snapshot with properties 1`] = `
               className="css-view-1dbjc4n r-flexGrow-16y2uox r-flexShrink-1wbh5a2"
             >
               <div
-                className="css-view-1dbjc4n r-flexGrow-16y2uox"
-                style={
-                  Object {
-                    "backgroundColor": "rgba(255,255,255,1.00)",
-                    "borderBottomRightRadius": "0px",
-                    "borderTopRightRadius": "5px",
-                    "boxShadow": "0 20px 24px rgba(0, 0, 0, 0.5)",
-                    "paddingBottom": "16px",
-                    "paddingLeft": "16px",
-                    "paddingRight": "16px",
-                    "paddingTop": "16px",
-                    "position": "relative",
-                    "zIndex": 1,
-                  }
-                }
+                className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderBottomRightRadius-zmljjp r-borderTopRightRadius-dfv94e r-boxShadow-172poub r-flexGrow-16y2uox r-padding-nsbfu8 r-position-bnwqim r-zIndex-184en5c"
               >
                 Testing
               </div>
               <div
-                className="css-view-1dbjc4n"
-                style={
-                  Object {
-                    "backgroundImage": "linear-gradient(40deg, transparent 75%, #fff 76%), linear-gradient(-40deg, transparent 75%, #fff 76%)",
-                    "backgroundPosition": "-8px 0",
-                    "backgroundRepeat": "repeat-x",
-                    "backgroundSize": "16px 16px",
-                    "height": "16px",
-                    "position": "relative",
-                    "width": "100%",
-                    "zIndex": 5,
-                  }
-                }
+                className="css-view-1dbjc4n r-backgroundImage-693lkh r-backgroundPosition-psfvt2 r-backgroundRepeat-f6vetv r-backgroundSize-jug86b r-height-10ptun7 r-position-bnwqim r-width-13qz1uu r-zIndex-pezta"
               />
             </div>
           </div>

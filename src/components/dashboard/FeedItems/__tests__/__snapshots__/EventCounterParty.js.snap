@@ -5,57 +5,24 @@ exports[`EventCounterParty receive matches snapshot 1`] = `
   className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
-    className="css-text-901oao css-textMultiLine-cens5h"
+    className="css-text-901oao css-textMultiLine-cens5h r-color-cddv6f r-flex-13awgt0 r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-lineHeight-hbpseb r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
     dir="auto"
     style={
       Object {
         "WebkitLineClamp": 2,
-        "color": "rgba(66,69,74,1.00)",
-        "fontFamily": "Roboto",
-        "fontSize": "16px",
-        "fontWeight": "normal",
         "height": "100%",
-        "lineHeight": "22px",
-        "textAlign": "left",
-        "textDecoration": "none",
-        "textTransform": "capitalize",
       }
     }
   >
     <span
-      className="css-text-901oao css-textHasAncestor-16my406"
+      className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1cwl3u0 r-marginRight-1ifrmw8 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
       dir="auto"
-      style={
-        Object {
-          "color": "rgba(66,69,74,1.00)",
-          "fontFamily": "Roboto",
-          "fontSize": "10px",
-          "fontWeight": "normal",
-          "lineHeight": "14px",
-          "marginRight": "3px",
-          "textAlign": "left",
-          "textDecoration": "none",
-          "textTransform": "none",
-        }
-      }
     >
       From: 
     </span>
     <span
-      className="css-text-901oao css-textHasAncestor-16my406"
+      className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-lineHeight-hjklzo r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
       dir="auto"
-      style={
-        Object {
-          "color": "rgba(66,69,74,1.00)",
-          "fontFamily": "Roboto",
-          "fontSize": "16px",
-          "fontWeight": "500",
-          "lineHeight": "19px",
-          "textAlign": "left",
-          "textDecoration": "none",
-          "textTransform": "none",
-        }
-      }
     >
       Misao Matimbo
     </span>
@@ -68,57 +35,24 @@ exports[`EventCounterParty send matches snapshot 1`] = `
   className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
-    className="css-text-901oao css-textMultiLine-cens5h"
+    className="css-text-901oao css-textMultiLine-cens5h r-color-cddv6f r-flex-13awgt0 r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-lineHeight-hbpseb r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
     dir="auto"
     style={
       Object {
         "WebkitLineClamp": 2,
-        "color": "rgba(66,69,74,1.00)",
-        "fontFamily": "Roboto",
-        "fontSize": "16px",
-        "fontWeight": "normal",
         "height": "100%",
-        "lineHeight": "22px",
-        "textAlign": "left",
-        "textDecoration": "none",
-        "textTransform": "capitalize",
       }
     }
   >
     <span
-      className="css-text-901oao css-textHasAncestor-16my406"
+      className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1cwl3u0 r-marginRight-1ifrmw8 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
       dir="auto"
-      style={
-        Object {
-          "color": "rgba(66,69,74,1.00)",
-          "fontFamily": "Roboto",
-          "fontSize": "10px",
-          "fontWeight": "normal",
-          "lineHeight": "14px",
-          "marginRight": "3px",
-          "textAlign": "left",
-          "textDecoration": "none",
-          "textTransform": "none",
-        }
-      }
     >
       To: 
     </span>
     <span
-      className="css-text-901oao css-textHasAncestor-16my406"
+      className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-lineHeight-hjklzo r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
       dir="auto"
-      style={
-        Object {
-          "color": "rgba(66,69,74,1.00)",
-          "fontFamily": "Roboto",
-          "fontSize": "16px",
-          "fontWeight": "500",
-          "lineHeight": "19px",
-          "textAlign": "left",
-          "textDecoration": "none",
-          "textTransform": "none",
-        }
-      }
     >
       Misao Matimbo
     </span>
@@ -131,57 +65,24 @@ exports[`EventCounterParty withdraw matches snapshot 1`] = `
   className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
-    className="css-text-901oao css-textMultiLine-cens5h"
+    className="css-text-901oao css-textMultiLine-cens5h r-color-cddv6f r-flex-13awgt0 r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-lineHeight-hbpseb r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
     dir="auto"
     style={
       Object {
         "WebkitLineClamp": 2,
-        "color": "rgba(66,69,74,1.00)",
-        "fontFamily": "Roboto",
-        "fontSize": "16px",
-        "fontWeight": "normal",
         "height": "100%",
-        "lineHeight": "22px",
-        "textAlign": "left",
-        "textDecoration": "none",
-        "textTransform": "capitalize",
       }
     }
   >
     <span
-      className="css-text-901oao css-textHasAncestor-16my406"
+      className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1cwl3u0 r-marginRight-1ifrmw8 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
       dir="auto"
-      style={
-        Object {
-          "color": "rgba(66,69,74,1.00)",
-          "fontFamily": "Roboto",
-          "fontSize": "10px",
-          "fontWeight": "normal",
-          "lineHeight": "14px",
-          "marginRight": "3px",
-          "textAlign": "left",
-          "textDecoration": "none",
-          "textTransform": "none",
-        }
-      }
     >
       From: 
     </span>
     <span
-      className="css-text-901oao css-textHasAncestor-16my406"
+      className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-lineHeight-hjklzo r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
       dir="auto"
-      style={
-        Object {
-          "color": "rgba(66,69,74,1.00)",
-          "fontFamily": "Roboto",
-          "fontSize": "16px",
-          "fontWeight": "500",
-          "lineHeight": "19px",
-          "textAlign": "left",
-          "textDecoration": "none",
-          "textTransform": "none",
-        }
-      }
     >
       Misao Matimbo
     </span>

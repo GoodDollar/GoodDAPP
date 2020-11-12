@@ -2,18 +2,7 @@
 
 exports[`Address matches snapshot 1`] = `
 <div
-  className="css-text-901oao"
+  className="css-text-901oao r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-lineHeight-hbpseb r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
   dir="auto"
-  style={
-    Object {
-      "fontFamily": "Roboto",
-      "fontSize": "16px",
-      "fontWeight": "normal",
-      "lineHeight": "22px",
-      "textAlign": "center",
-      "textDecoration": "none",
-      "textTransform": "none",
-    }
-  }
 />
 `;

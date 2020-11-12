@@ -14,7 +14,7 @@ export default ({ onDismiss }) => (
   <ExplanationDialog
     title={"Oops! This browser isn't supported"}
     text={isIOSWeb ? 'On iOS please switch to Safari' : 'Please switch to Chrome or Safari'}
-    imageSource={illustration}
+    image={illustration}
     imageHeight={124}
     buttons={[
       {

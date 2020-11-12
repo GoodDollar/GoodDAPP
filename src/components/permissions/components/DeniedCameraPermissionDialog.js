@@ -9,7 +9,7 @@ export default props => (
   <DeniedPermissionDialog
     errorMessage={"We can't access your camera..."}
     title="Go to your device settings & enable camera permission"
-    imageSource={illustration}
+    image={illustration}
     {...props}
   />
 )

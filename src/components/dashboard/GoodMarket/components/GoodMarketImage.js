@@ -8,8 +8,8 @@ import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../../lib
 
 import ArrowRight from '../../../../assets/arrowRight.svg'
 
-const GoodMarketImage = ({ style, styles }) => (
-  <View style={[style, styles.wrapper]}>
+const GoodMarketImage = ({ styles }) => (
+  <View style={styles.wrapper}>
     <ArrowRight
       viewBox={`0 0 ${getDesignRelativeWidth(82)} ${getDesignRelativeHeight(74)}`}
       preserveAspectRatio="xMidYMid meet"
@@ -28,6 +28,8 @@ const mapStylesToProps = ({ theme }) => ({
     flexDirection: 'row',
     justifyContent: 'center',
     overflowY: 'hidden',
+    width: '100%',
+    height: '100%',
   },
 })
 

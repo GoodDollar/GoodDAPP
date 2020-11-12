@@ -22,7 +22,7 @@ export default () => (
       fontSize: normalizeText(16),
       marginVertical: getDesignRelativeHeight(25, false),
     }}
-    imageSource={illustration}
+    image={illustration}
     imageHeight={124}
   />
 )

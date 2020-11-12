@@ -717,7 +717,8 @@ export class GoodWallet {
           }
         })
       }
-      return this.web3Mainnet.utils.fromWei(interest)
+      interest = interest ? this.web3Mainnet.utils.fromWei(interest) : interest
+      return interest
     } catch (exception) {
       const { message } = exception
       log.warn('getTotalFundsStaked failed', message, exception)

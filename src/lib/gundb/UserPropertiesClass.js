@@ -34,7 +34,7 @@ export default class UserProperties {
     lastTxSyncDate: 0,
     hasOpenedGoodMarket: false,
     goodMarketClicked: false,
-    inviterCode: null,
+    inviterInviteCode: null,
     inviteCode: null,
   }
 

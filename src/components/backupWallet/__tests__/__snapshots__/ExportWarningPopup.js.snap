@@ -8,10 +8,10 @@ exports[`ExportWarningPopup matches snapshot 1`] = `
     className="css-view-1dbjc4n r-display-6koalj r-justifyContent-a2tzq0 r-marginBottom-1qahzrx r-marginTop-1t01tom r-maxHeight-1vsgb79 r-minHeight-pc129r r-width-rthsv7"
   >
     <div
-      className="css-view-1dbjc4n r-alignSelf-1kihuf0 r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
+      className="css-view-1dbjc4n r-alignSelf-1kihuf0 r-flexDirection-18u37iz r-justifyContent-1777fci"
     >
       <div
-        className="css-view-1dbjc4n r-alignItems-1awozwy r-alignSelf-1kihuf0 r-display-6koalj r-marginBottom-ngatle r-transform-1aeo46e r-width-13qz1uu"
+        className="css-view-1dbjc4n r-alignSelf-1kihuf0 r-marginBottom-ngatle r-width-13qz1uu"
         style={
           Object {
             "height": "124.67532467532467px",
@@ -20,17 +20,21 @@ exports[`ExportWarningPopup matches snapshot 1`] = `
         }
       >
         <div
-          className="css-text-901oao r-color-1q5uqvh r-fontWeight-1it3c9n"
-          dir="auto"
-          style={
-            Object {
-              "fontFamily": "gooddollar",
-              "fontSize": "100px",
-              "fontStyle": "normal",
-            }
-          }
+          className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-height-1pi2tsx r-transform-1aeo46e r-width-13qz1uu"
         >
-          
+          <div
+            className="css-text-901oao r-color-1q5uqvh r-fontWeight-1it3c9n"
+            dir="auto"
+            style={
+              Object {
+                "fontFamily": "gooddollar",
+                "fontSize": "100px",
+                "fontStyle": "normal",
+              }
+            }
+          >
+            
+          </div>
         </div>
       </div>
     </div>

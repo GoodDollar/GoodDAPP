@@ -30,16 +30,14 @@ class TorusSDK {
   }
 
   constructor(config, logger) {
-    const { env, publicUrl, googleClientId, facebookAppId, torusProxyContract, torusNetwork } = config
+    const { env, googleClientId, facebookAppId, torusProxyContract, torusNetwork } = config
 
-    this.torus = new Torus({
+    this.torus = new Torus(config, {
       GOOGLE_CLIENT_ID: googleClientId,
       FACEBOOK_CLIENT_ID: facebookAppId,
       proxyContractAddress: torusProxyContract, // details for test net
       network: torusNetwork, // details for test net
-      baseUrl: `${publicUrl}/torus/`,
       enableLogging: env === 'development',
-      redirectUri: 'gooddollar://org.gooddollar/redirect',
     })
 
     this.config = config

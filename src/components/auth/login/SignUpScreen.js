@@ -43,7 +43,7 @@ const SignupScreen = ({ screenProps, styles, store, handleLoginMethod, sdkInitia
 
   return (
     <Wrapper backgroundColor="#fff" style={styles.mainWrapper}>
-      <Section.Stack style={{ flex: 'auto' }}>
+      <Section.Stack style={{ flex: 1 }}>
         <NavBar title="Signup" goBack={_goBack} />
         <Text
           style={styles.headerText}

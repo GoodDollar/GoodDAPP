@@ -1057,7 +1057,6 @@ export class UserStorage {
         .get(k)
         .decrypt()
         .catch(noop)
-
       logger.debug('init feed cache got missing cache item', { id: k, data })
 
       if (!data) {
@@ -2407,9 +2406,7 @@ export class UserStorage {
    */
   async saveJoinedBlockNumber(): void {
     // default block to start sync from
-    const blockNumber = await this.wallet.wallet.eth
-      .getBlockNumber()
-      .catch(e => UserProperties.defaultProperties.joinedAtBlock)
+    const blockNumber = await this.wallet.getBlockNumber().catch(e => UserProperties.defaultProperties.joinedAtBlock)
 
     logger.debug('Saving lastBlock number right after registration:', blockNumber)
 

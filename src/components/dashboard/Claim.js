@@ -82,7 +82,9 @@ const Claim = props => {
   const [totalClaimed, setTotalClaimed] = useState('--')
 
   // const [activeClaimers, setActiveClaimers] = useState()
-  // const [availableDistribution, setAvailableDistribution] = useState()
+  const [availableDistribution, setAvailableDistribution] = useState()
+  const [claimCycleTime, setClaimCycleTime] = useState('00:00:00')
+
   // const [totalFundsStaked, setTotalFundsStaked] = useState()
   // const [interestCollected, setInterestCollected] = useState()
 
@@ -205,7 +207,9 @@ const Claim = props => {
       setDailyUbi(entitlement)
 
       // setActiveClaimers(activeClaimers)
-      // setAvailableDistribution(availableDistribution)
+      setAvailableDistribution(availableDistribution)
+      setClaimCycleTime(moment(nextClaimMilis).format('HH:mm:ss'))
+
       // setTotalFundsStaked(totalFundsStaked)
       // setInterestCollected(interestCollected)
 
@@ -352,9 +356,70 @@ const Claim = props => {
         </View>
         <Section.Stack style={styles.mainText}>
           <View style={styles.wavesBox}>
-            <WavesBox primaryColor={theme.colors.darkBlue} style={styles.linkBoxStyle} title={'So Far Today'}>
-              <Section.Text primaryColor={theme.colors.surface} fontFamily="Roboto">
-                So Far...
+            <WavesBox primaryColor={theme.colors.darkBlue} style={styles.upperWavesBoxStyle}>
+              <Section.Text primaryColor={theme.colors.surface} style={styles.fontSize16}>
+                Claim cycle restart every day
+              </Section.Text>
+              <Section.Text primaryColor={theme.colors.surface} fontWeight="bold" style={styles.fontSize16}>
+                at {claimCycleTime}
+              </Section.Text>
+            </WavesBox>
+            <WavesBox primaryColor={theme.colors.darkBlue} style={styles.lowerWavesBoxStyle}>
+              <Section.Text
+                style={{ textTransform: 'capitalize' }}
+                fontWeight={'bold'}
+                fontSize={18}
+                letterSpacing={0.09}
+                primaryColor={theme.colors.surface}
+                fontFamily="Roboto"
+              >
+                So Far Today:
+              </Section.Text>
+              <Section.Text style={{ textTransform: 'capitalize' }}>
+                <Section.Text fontWeight="bold" color={theme.colors.primary} style={styles.fontSize16}>
+                  {formattedNumberOfPeopleClaimedToday}{' '}
+                </Section.Text>{' '}
+                Claimers Received{' '}
+                <BigGoodDollar
+                  style={styles.extraInfoAmountDisplay}
+                  number={totalClaimed}
+                  spaceBetween={false}
+                  formatter={extraInfoAmountFormatter}
+                  fontFamily="Roboto"
+                  bigNumberProps={{
+                    fontFamily: 'Roboto',
+                    fontSize: regularFontSize,
+                    color: theme.colors.primary,
+                    lineHeight: 22,
+                  }}
+                  bigNumberUnitProps={{
+                    fontFamily: 'Roboto',
+                    fontSize: regularFontSize,
+                    color: theme.colors.primary,
+                  }}
+                />
+              </Section.Text>
+              <Section.Text>
+                Out of{' '}
+                <BigGoodDollar
+                  style={styles.extraInfoAmountDisplay}
+                  number={availableDistribution}
+                  spaceBetween={false}
+                  formatter={extraInfoAmountFormatter}
+                  fontFamily="Roboto"
+                  bigNumberProps={{
+                    fontFamily: 'Roboto',
+                    fontSize: regularFontSize,
+                    color: theme.colors.primary,
+                    lineHeight: 22,
+                  }}
+                  bigNumberUnitProps={{
+                    fontFamily: 'Roboto',
+                    fontSize: regularFontSize,
+                    color: theme.colors.primary,
+                  }}
+                />{' '}
+                available
               </Section.Text>
             </WavesBox>
           </View>
@@ -372,37 +437,13 @@ const Claim = props => {
         <View style={styles.fakeExtraInfoContainer} />
         <Section.Row style={styles.extraInfoContainer}>
           <Section.Text
-            style={[styles.fontSize16, styles.extraInfoSecondContainer]}
+            style={[styles.fontSize16, styles.extraInfoSecondContainer, { fontSize: 24 }]}
             fontWeight="bold"
             fontFamily="Roboto"
           >
-            <Section.Text style={styles.fontSize16}>{'Today '}</Section.Text>
-            <Section.Text fontWeight="bold" style={styles.fontSize16}>
-              <BigGoodDollar
-                style={styles.extraInfoAmountDisplay}
-                number={totalClaimed}
-                spaceBetween={false}
-                formatter={extraInfoAmountFormatter}
-                fontFamily="Roboto"
-                bigNumberProps={{
-                  fontFamily: 'Roboto',
-                  fontSize: regularFontSize,
-                  color: 'black',
-                  lineHeight: 22,
-                }}
-                bigNumberUnitProps={{
-                  fontFamily: 'Roboto',
-                  fontSize: regularFontSize,
-                  color: 'black',
-                }}
-              />
-            </Section.Text>
-            <Section.Text style={styles.fontSize16}>{` Claimed by `}</Section.Text>
-            <Section.Text fontWeight="bold" color="black" style={styles.fontSize16}>
-              {formattedNumberOfPeopleClaimedToday}{' '}
-            </Section.Text>
-            <Section.Text style={styles.fontSize16}>Good People</Section.Text>
+            GoodDollar Stats
           </Section.Text>
+          <Section.Separator />
         </Section.Row>
       </Section.Stack>
     </WrapperClaim>
@@ -496,11 +537,19 @@ const getStylesFromProps = ({ theme }) => {
       justifyContent: 'flex-end',
       marginBottom: getDesignRelativeHeight(isSmallDevice ? 16 : 20),
       width: '95%',
-      color: theme.colors.surface,
     },
-    linkBoxStyle: {
+    lowerWavesBoxStyle: {
       backgroundColor: theme.colors.surface,
-      minHeight: 100,
+      minHeight: 70,
+      textAlign: 'center',
+
+      // marginBottom: getDesignRelativeHeight(isSmallDevice ? 16 : 20),
+    },
+    upperWavesBoxStyle: {
+      backgroundColor: theme.colors.surface,
+      minHeight: 50,
+      textAlign: 'center',
+      marginBottom: getDesignRelativeHeight(isSmallDevice ? 8 : 10),
     },
     learnMoreLink,
     claimButtonContainer: {

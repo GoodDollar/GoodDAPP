@@ -5,20 +5,7 @@ exports[`ModalContainer matches snapshot 1`] = `
   className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
-    className="css-view-1dbjc4n"
-    style={
-      Object {
-        "WebkitBoxDirection": "normal",
-        "WebkitBoxOrient": "horizontal",
-        "WebkitFlexDirection": "row",
-        "display": "flex",
-        "flexDirection": "row",
-        "msFlexDirection": "row",
-        "position": "relative",
-        "width": "100%",
-        "zIndex": 1,
-      }
-    }
+    className="css-view-1dbjc4n r-display-6koalj r-flexDirection-18u37iz r-position-bnwqim r-width-13qz1uu"
   >
     Testing
   </div>
@@ -30,22 +17,13 @@ exports[`ModalContainer matches snapshot with properties 1`] = `
   className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
-    className="css-view-1dbjc4n"
+    className="css-view-1dbjc4n r-display-6koalj r-flexDirection-18u37iz r-position-bnwqim r-width-13qz1uu"
     style={
       Object {
-        "WebkitBoxDirection": "normal",
         "WebkitBoxFlex": 1,
-        "WebkitBoxOrient": "horizontal",
-        "WebkitFlexDirection": "row",
         "WebkitFlexGrow": 1,
-        "display": "flex",
-        "flexDirection": "row",
         "flexGrow": 1,
-        "msFlexDirection": "row",
         "msFlexPositive": 1,
-        "position": "relative",
-        "width": "100%",
-        "zIndex": 1,
       }
     }
   >

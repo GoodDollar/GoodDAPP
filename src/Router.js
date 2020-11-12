@@ -4,6 +4,7 @@ import { createNavigator, SwitchRouter } from '@react-navigation/core'
 import { Portal } from 'react-native-paper'
 
 import AddWebApp from './components/common/view/AddWebApp'
+import Blurred from './components/common/view/Blurred'
 import InternetConnection from './components/common/connectionDialog/internetConnection'
 
 import About from './components/about/AboutState'
@@ -19,6 +20,7 @@ import useNavigationStateHandler from './lib/hooks/useNavigationStateHandler'
 
 import GDStore from './lib/undux/GDStore'
 import { isInstalledApp } from './lib/utils/platform'
+import hot from './lib/hoc/hotLoader'
 
 const DisconnectedSplash = () => <Splash animation={false} />
 
@@ -52,10 +54,12 @@ const Router = () => {
       <InternetConnection onDisconnect={DisconnectedSplash} isLoggedIn={true}>
         {!isInstalledApp && <AddWebApp />}
         <Portal.Host>
-          <RouterWrapper onNavigationStateChange={navigationStateHandler} />
+          <Blurred whenDialog>
+            <RouterWrapper onNavigationStateChange={navigationStateHandler} />
+          </Blurred>
         </Portal.Host>
       </InternetConnection>
     </GDStore.Container>
   )
 }
-export default Router
+export default hot(Router)

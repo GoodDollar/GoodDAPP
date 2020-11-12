@@ -5,28 +5,16 @@ exports[`InputText empty matches snapshot 1`] = `
   className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
-    className="css-view-1dbjc4n"
-    style={
-      Object {
-        "marginBottom": "8px",
-        "width": "100%",
-      }
-    }
+    className="css-view-1dbjc4n r-marginBottom-5oul0u r-width-13qz1uu"
   >
     <div
-      className="css-view-1dbjc4n"
-      style={
-        Object {
-          "marginBottom": "8px",
-          "width": "100%",
-        }
-      }
+      className="css-view-1dbjc4n r-marginBottom-5oul0u r-width-13qz1uu"
     >
       <input
         autoCapitalize="sentences"
         autoComplete="on"
         autoCorrect="on"
-        className="css-textinput-1cwyjr8 r-placeholderTextColor-1xktb6b"
+        className="css-textinput-1cwyjr8 r-backgroundColor-14lw9ot r-borderBottomColor-1ny7kx0 r-borderBottomStyle-rull8r r-borderBottomWidth-qklmqi r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-1i10wst r-paddingHorizontal-1dye5f7 r-paddingVertical-oyd9sg r-placeholderTextColor-1xktb6b r-textAlign-q4m81j"
         data-focusable={true}
         dir="auto"
         onBlur={[Function]}
@@ -38,28 +26,11 @@ exports[`InputText empty matches snapshot 1`] = `
         onTouchStart={[Function]}
         readOnly={false}
         spellCheck={true}
-        style={
-          Object {
-            "backgroundColor": "rgba(255,255,255,1.00)",
-            "borderBottomColor": "rgba(66,69,74,1.00)",
-            "borderBottomStyle": "solid",
-            "borderBottomWidth": "1px",
-            "color": "rgba(66,69,74,1.00)",
-            "fontFamily": "Roboto Slab",
-            "fontSize": "18px",
-            "paddingBottom": "4px",
-            "paddingLeft": "32px",
-            "paddingRight": "32px",
-            "paddingTop": "4px",
-            "textAlign": "center",
-            "width": "100%",
-          }
-        }
         type="text"
       />
     </div>
     <div
-      className="css-text-901oao"
+      className="css-text-901oao r-paddingVertical-oyd9sg r-textAlign-q4m81j"
       dir="auto"
       style={
         Object {
@@ -75,7 +46,6 @@ exports[`InputText empty matches snapshot 1`] = `
           "paddingLeft": "0px",
           "paddingRight": "12px",
           "paddingTop": "0px",
-          "textAlign": "center",
           "transform": "translateY(0px)",
         }
       }
@@ -89,28 +59,16 @@ exports[`InputText matches snapshot 1`] = `
   className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
-    className="css-view-1dbjc4n"
-    style={
-      Object {
-        "marginBottom": "8px",
-        "width": "100%",
-      }
-    }
+    className="css-view-1dbjc4n r-marginBottom-5oul0u r-width-13qz1uu"
   >
     <div
-      className="css-view-1dbjc4n"
-      style={
-        Object {
-          "marginBottom": "8px",
-          "width": "100%",
-        }
-      }
+      className="css-view-1dbjc4n r-marginBottom-5oul0u r-width-13qz1uu"
     >
       <input
         autoCapitalize="sentences"
         autoComplete="on"
         autoCorrect="on"
-        className="css-textinput-1cwyjr8 r-placeholderTextColor-1xktb6b"
+        className="css-textinput-1cwyjr8 r-backgroundColor-14lw9ot r-borderBottomColor-1ny7kx0 r-borderBottomStyle-rull8r r-borderBottomWidth-qklmqi r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-1i10wst r-paddingHorizontal-1dye5f7 r-paddingVertical-oyd9sg r-placeholderTextColor-1xktb6b r-textAlign-q4m81j"
         data-focusable={true}
         dir="auto"
         onBlur={[Function]}
@@ -122,29 +80,12 @@ exports[`InputText matches snapshot 1`] = `
         onTouchStart={[Function]}
         readOnly={false}
         spellCheck={true}
-        style={
-          Object {
-            "backgroundColor": "rgba(255,255,255,1.00)",
-            "borderBottomColor": "rgba(66,69,74,1.00)",
-            "borderBottomStyle": "solid",
-            "borderBottomWidth": "1px",
-            "color": "rgba(66,69,74,1.00)",
-            "fontFamily": "Roboto Slab",
-            "fontSize": "18px",
-            "paddingBottom": "4px",
-            "paddingLeft": "32px",
-            "paddingRight": "32px",
-            "paddingTop": "4px",
-            "textAlign": "center",
-            "width": "100%",
-          }
-        }
         type="text"
         value="Text"
       />
     </div>
     <div
-      className="css-text-901oao"
+      className="css-text-901oao r-paddingVertical-oyd9sg r-textAlign-q4m81j"
       dir="auto"
       style={
         Object {
@@ -160,7 +101,6 @@ exports[`InputText matches snapshot 1`] = `
           "paddingLeft": "0px",
           "paddingRight": "12px",
           "paddingTop": "0px",
-          "textAlign": "center",
           "transform": "translateY(0px)",
         }
       }

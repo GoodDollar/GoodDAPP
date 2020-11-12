@@ -5,53 +5,16 @@ exports[`VerifyEdit matches snapshot 1`] = `
   className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
-    className="css-view-1dbjc4n r-position-bnwqim"
+    className="css-view-1dbjc4n r-display-6koalj r-flexDirection-eqz5dr r-flexGrow-16y2uox r-maxHeight-1qalap5 r-padding-edyy15 r-position-bnwqim r-width-13qz1uu"
     data-name="viewWrapper"
     style={
       Object {
-        "WebkitBoxDirection": "normal",
-        "WebkitBoxFlex": 1,
-        "WebkitBoxOrient": "vertical",
-        "WebkitFlexDirection": "column",
-        "WebkitFlexGrow": 1,
         "backgroundImage": "linear-gradient(3.141592653589793rad,#00AFFF,#2DC0F7,#28C0EF,#23C0E7,#1EC1DF,#19C1D7,#14C1CF,#0FC2C7,#0FC2C7,#0AC2BF,#05C2B7,#00C3AF)",
-        "display": "flex",
-        "flexDirection": "column",
-        "flexGrow": 1,
-        "maxHeight": "844px",
-        "msFlexDirection": "column",
-        "msFlexPositive": 1,
-        "paddingBottom": "8px",
-        "paddingLeft": "8px",
-        "paddingRight": "8px",
-        "paddingTop": "8px",
-        "width": "100%",
       }
     }
   >
     <div
-      className="css-view-1dbjc4n"
-      style={
-        Object {
-          "WebkitBoxFlex": 1,
-          "WebkitBoxPack": "justify",
-          "WebkitFlexGrow": 1,
-          "WebkitJustifyContent": "space-between",
-          "backgroundColor": "rgba(255,255,255,1.00)",
-          "borderBottomLeftRadius": "5px",
-          "borderBottomRightRadius": "5px",
-          "borderTopLeftRadius": "5px",
-          "borderTopRightRadius": "5px",
-          "flexGrow": 1,
-          "justifyContent": "space-between",
-          "msFlexPack": "justify",
-          "msFlexPositive": 1,
-          "paddingBottom": "16px",
-          "paddingLeft": "12px",
-          "paddingRight": "12px",
-          "paddingTop": "16px",
-        }
-      }
+      className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderRadius-1f0042m r-flexGrow-16y2uox r-justifyContent-1wtj0ep r-paddingHorizontal-1e081e0 r-paddingVertical-1yzf0co"
     >
       <div
         className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1777fci"
@@ -60,20 +23,8 @@ exports[`VerifyEdit matches snapshot 1`] = `
           className="css-view-1dbjc4n"
         >
           <div
-            className="css-text-901oao r-textAlign-q4m81j"
+            className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-evnaw r-fontWeight-majxgm r-lineHeight-waer2z r-marginTop-b0tnnm r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
             dir="auto"
-            style={
-              Object {
-                "color": "rgba(66,69,74,1.00)",
-                "fontFamily": "Roboto",
-                "fontSize": "22px",
-                "fontWeight": "500",
-                "lineHeight": "25px",
-                "marginTop": "38px",
-                "textDecoration": "none",
-                "textTransform": "none",
-              }
-            }
           >
             undefined,
 we need to verify your
@@ -82,79 +33,31 @@ email again…
         </div>
       </div>
       <div
-        className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1777fci"
-        style={
-          Object {
-            "marginBottom": "auto",
-            "marginTop": "auto",
-          }
-        }
+        className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1777fci r-marginVertical-t7s2l5"
       >
         <div
-          className="css-view-1dbjc4n"
-          style={
-            Object {
-              "width": "100%",
-            }
-          }
+          className="css-view-1dbjc4n r-width-13qz1uu"
         >
           <div
-            className="css-text-901oao r-textAlign-q4m81j"
+            className="css-text-901oao r-color-vaa0vc r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-1it3c9n r-lineHeight-1cwl3u0 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
             dir="auto"
-            style={
-              Object {
-                "color": "rgba(163,163,163,1.00)",
-                "fontFamily": "Roboto",
-                "fontSize": "14px",
-                "fontWeight": "normal",
-                "lineHeight": "16px",
-                "textDecoration": "none",
-                "textTransform": "none",
-              }
-            }
           >
             A verification code will be sent to this email:
           </div>
           <div
-            className="css-text-901oao r-textAlign-q4m81j"
+            className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1x35g6 r-fontWeight-1it3c9n r-lineHeight-37tt59 r-marginTop-1wzrnnt r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
             dir="auto"
-            style={
-              Object {
-                "color": "rgba(66,69,74,1.00)",
-                "fontFamily": "Roboto",
-                "fontSize": "24px",
-                "fontWeight": "normal",
-                "lineHeight": "32px",
-                "marginTop": "16px",
-                "textDecoration": "none",
-                "textTransform": "none",
-              }
-            }
           />
         </div>
       </div>
       <div
-        className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz"
-        style={
-          Object {
-            "WebkitBoxPack": "justify",
-            "WebkitJustifyContent": "space-between",
-            "justifyContent": "space-between",
-            "msFlexPack": "justify",
-          }
-        }
+        className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
       >
         <div
-          className="css-view-1dbjc4n r-flexDirection-18u37iz"
-          style={
-            Object {
-              "display": "flex",
-              "width": "100%",
-            }
-          }
+          className="css-view-1dbjc4n r-display-6koalj r-flexDirection-18u37iz r-width-13qz1uu"
         >
           <div
-            className="css-view-1dbjc4n r-justifyContent-1777fci"
+            className="css-view-1dbjc4n r-display-6koalj r-fontSize-1b43r93 r-justifyContent-1777fci"
             style={
               Object {
                 "WebkitAlignItems": "stretch",
@@ -177,8 +80,6 @@ email again…
                 "borderTopRightRadius": "50px",
                 "borderTopStyle": "solid",
                 "borderTopWidth": "0px",
-                "display": "flex",
-                "fontSize": "14px",
                 "marginBottom": "0px",
                 "marginLeft": "0px",
                 "marginRight": "0px",
@@ -195,7 +96,7 @@ email again…
             }
           >
             <div
-              className="css-cursor-18t94o4 css-view-1dbjc4n r-cursor-1loqt21 r-overflow-1udh08x r-position-bnwqim r-touchAction-1otgn73"
+              className="css-cursor-18t94o4 css-view-1dbjc4n r-cursor-1loqt21 r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim r-touchAction-1otgn73"
               data-focusable={true}
               disabled={false}
               onKeyDown={[Function]}
@@ -210,59 +111,46 @@ email again…
               role="button"
               style={
                 Object {
+                  "WebkitAlignSelf": "stretch",
+                  "alignSelf": "stretch",
                   "borderBottomLeftRadius": "50px",
                   "borderBottomRightRadius": "50px",
                   "borderTopLeftRadius": "50px",
                   "borderTopRightRadius": "50px",
+                  "msFlexItemAlign": "stretch",
                 }
               }
               tabIndex="0"
             >
               <div
-                className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1777fci"
+                className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
+                style={
+                  Object {
+                    "WebkitAlignSelf": "stretch",
+                    "alignSelf": "stretch",
+                    "msFlexItemAlign": "stretch",
+                  }
+                }
               >
                 <div
-                  className="css-text-901oao css-textOneLine-bfa6kz r-letterSpacing-ud0q2t r-marginHorizontal-1ydw1k6 r-marginVertical-712mwr r-textAlign-q4m81j"
-                  dir="auto"
-                  style={
-                    Object {
-                      "color": "rgba(163,163,163,1.00)",
-                      "direction": "ltr",
-                      "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                      "letterSpacing": "1px",
-                      "marginBottom": "9px",
-                      "marginLeft": "16px",
-                      "marginRight": "16px",
-                      "marginTop": "9px",
-                      "textAlign": "center",
-                    }
-                  }
+                  className="css-view-1dbjc4n r-marginHorizontal-1ydw1k6 r-marginVertical-712mwr"
                 >
-                  <span
-                    className="css-text-901oao css-textHasAncestor-16my406 r-alignItems-1awozwy r-justifyContent-1777fci r-textAlign-q4m81j"
-                    dir="auto"
-                    style={
-                      Object {
-                        "color": "rgba(163,163,163,1.00)",
-                        "fontFamily": "Roboto",
-                        "fontSize": "16px",
-                        "fontWeight": "500",
-                        "letterSpacing": "0px",
-                        "lineHeight": "22px",
-                        "paddingTop": "1px",
-                        "textDecoration": "none",
-                        "textTransform": "none",
-                      }
-                    }
+                  <div
+                    className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
                   >
-                    Cancel
-                  </span>
+                    <div
+                      className="css-text-901oao r-alignItems-1awozwy r-color-vaa0vc r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-hbpseb r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                      dir="auto"
+                    >
+                      Cancel
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
           <div
-            className="css-view-1dbjc4n r-justifyContent-1777fci"
+            className="css-view-1dbjc4n r-display-6koalj r-justifyContent-1777fci"
             style={
               Object {
                 "WebkitAlignItems": "stretch",
@@ -286,7 +174,6 @@ email again…
                 "borderTopStyle": "solid",
                 "borderTopWidth": "0px",
                 "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
-                "display": "flex",
                 "marginBottom": "0px",
                 "marginLeft": "0px",
                 "marginRight": "0px",
@@ -303,7 +190,7 @@ email again…
             }
           >
             <div
-              className="css-cursor-18t94o4 css-view-1dbjc4n r-cursor-1loqt21 r-overflow-1udh08x r-position-bnwqim r-touchAction-1otgn73"
+              className="css-cursor-18t94o4 css-view-1dbjc4n r-cursor-1loqt21 r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim r-touchAction-1otgn73"
               data-focusable={true}
               disabled={false}
               onKeyDown={[Function]}
@@ -318,46 +205,40 @@ email again…
               role="button"
               style={
                 Object {
+                  "WebkitAlignSelf": "stretch",
+                  "alignSelf": "stretch",
                   "borderBottomLeftRadius": "50px",
                   "borderBottomRightRadius": "50px",
                   "borderTopLeftRadius": "50px",
                   "borderTopRightRadius": "50px",
+                  "msFlexItemAlign": "stretch",
                 }
               }
               tabIndex="0"
             >
               <div
-                className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1777fci"
+                className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
+                style={
+                  Object {
+                    "WebkitAlignSelf": "stretch",
+                    "alignSelf": "stretch",
+                    "msFlexItemAlign": "stretch",
+                  }
+                }
               >
                 <div
-                  className="css-text-901oao css-textOneLine-bfa6kz r-letterSpacing-ud0q2t r-marginHorizontal-1ydw1k6 r-marginVertical-712mwr r-textAlign-q4m81j r-textTransform-tsynxw"
-                  dir="auto"
-                  style={
-                    Object {
-                      "color": "rgba(255,255,255,1.00)",
-                      "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                      "fontWeight": "500",
-                    }
-                  }
+                  className="css-view-1dbjc4n r-marginHorizontal-1ydw1k6 r-marginVertical-712mwr"
                 >
-                  <span
-                    className="css-text-901oao css-textHasAncestor-16my406 r-alignItems-1awozwy r-justifyContent-1777fci r-textAlign-q4m81j r-textTransform-tsynxw"
-                    dir="auto"
-                    style={
-                      Object {
-                        "color": "rgba(255,255,255,1.00)",
-                        "fontFamily": "Roboto",
-                        "fontSize": "16px",
-                        "fontWeight": "500",
-                        "letterSpacing": "0px",
-                        "lineHeight": "22px",
-                        "paddingTop": "1px",
-                        "textDecoration": "none",
-                      }
-                    }
+                  <div
+                    className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
                   >
-                    Verify my email
-                  </span>
+                    <div
+                      className="css-text-901oao r-alignItems-1awozwy r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-hbpseb r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
+                      dir="auto"
+                    >
+                      Verify my email
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>

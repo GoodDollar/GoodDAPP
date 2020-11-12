@@ -5,7 +5,7 @@ exports[`KeyboardKey matches snapshot 1`] = `
   className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
-    className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-cursor-1loqt21 r-flex-13awgt0 r-touchAction-1otgn73 r-userSelect-lrvibr"
+    className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1niwhzg r-cursor-1loqt21 r-display-6koalj r-flex-13awgt0 r-padding-edyy15 r-touchAction-1otgn73 r-userSelect-lrvibr"
     data-focusable={true}
     onKeyDown={[Function]}
     onKeyUp={[Function]}
@@ -15,36 +15,11 @@ exports[`KeyboardKey matches snapshot 1`] = `
     onResponderTerminate={[Function]}
     onResponderTerminationRequest={[Function]}
     onStartShouldSetResponder={[Function]}
-    style={
-      Object {
-        "WebkitAlignItems": "center",
-        "WebkitBoxAlign": "center",
-        "alignItems": "center",
-        "display": "flex",
-        "msFlexAlign": "center",
-        "paddingBottom": "8px",
-        "paddingLeft": "8px",
-        "paddingRight": "8px",
-        "paddingTop": "8px",
-      }
-    }
     tabIndex="0"
   >
     <div
-      className="css-text-901oao"
+      className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-adyw6z r-fontWeight-b88u0q r-lineHeight-135wba7 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
       dir="auto"
-      style={
-        Object {
-          "color": "rgba(66,69,74,1.00)",
-          "fontFamily": "Roboto Slab",
-          "fontSize": "20px",
-          "fontWeight": "700",
-          "lineHeight": "24px",
-          "textAlign": "center",
-          "textDecoration": "none",
-          "textTransform": "none",
-        }
-      }
     >
       1
     </div>

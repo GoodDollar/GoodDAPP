@@ -2,24 +2,10 @@
 
 exports[`SideMenuPanel matches snapshot 1`] = `
 <div
-  className="css-view-1dbjc4n"
-  style={
-    Object {
-      "WebkitBoxFlex": 1,
-      "WebkitFlexBasis": "0%",
-      "WebkitFlexGrow": 1,
-      "WebkitFlexShrink": 1,
-      "flexBasis": "0%",
-      "flexGrow": 1,
-      "flexShrink": 1,
-      "msFlexNegative": 1,
-      "msFlexPositive": 1,
-      "msFlexPreferredSize": "0%",
-    }
-  }
+  className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
-    className="css-view-1dbjc4n"
+    className="css-view-1dbjc4n r-WebkitOverflowScrolling-150rngu r-flexDirection-eqz5dr r-flexGrow-16y2uox r-flexShrink-1wbh5a2 r-overflowX-11yh6sk r-overflowY-1rnoaur r-transform-1sncvnh"
     onResponderGrant={[Function]}
     onResponderReject={[Function]}
     onResponderRelease={[Function]}
@@ -32,41 +18,12 @@ exports[`SideMenuPanel matches snapshot 1`] = `
     onTouchMove={[Function]}
     onTouchStart={[Function]}
     onWheel={[Function]}
-    style={
-      Object {
-        "WebkitBoxDirection": "normal",
-        "WebkitBoxFlex": 1,
-        "WebkitBoxOrient": "vertical",
-        "WebkitFlexDirection": "column",
-        "WebkitFlexGrow": 1,
-        "WebkitFlexShrink": 1,
-        "WebkitOverflowScrolling": "touch",
-        "WebkitTransform": "translateZ(0px)",
-        "flexDirection": "column",
-        "flexGrow": 1,
-        "flexShrink": 1,
-        "msFlexDirection": "column",
-        "msFlexNegative": 1,
-        "msFlexPositive": 1,
-        "overflowX": "hidden",
-        "overflowY": "auto",
-        "transform": "translateZ(0px)",
-      }
-    }
   >
     <div
-      className="css-view-1dbjc4n"
-      style={
-        Object {
-          "WebkitBoxFlex": 1,
-          "WebkitFlexGrow": 1,
-          "flexGrow": 1,
-          "msFlexPositive": 1,
-        }
-      }
+      className="css-view-1dbjc4n r-flexGrow-16y2uox"
     >
       <div
-        className="css-view-1dbjc4n"
+        className="css-view-1dbjc4n r-alignItems-1awozwy r-cursor-1loqt21 r-flex-9c3h7m r-flexDirection-18u37iz r-justifyContent-17s6mgv r-marginHorizontal-1ydw1k6 r-minHeight-bt1l66 r-paddingBottom-11rk87y r-paddingTop-95jzfe r-touchAction-1otgn73 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
         data-focusable={true}
         data-testid="close_burger_button"
         onKeyDown={[Function]}
@@ -77,50 +34,6 @@ exports[`SideMenuPanel matches snapshot 1`] = `
         onResponderTerminate={[Function]}
         onResponderTerminationRequest={[Function]}
         onStartShouldSetResponder={[Function]}
-        style={
-          Object {
-            "MozTransitionProperty": "opacity",
-            "MozUserSelect": "none",
-            "WebkitAlignItems": "center",
-            "WebkitBoxAlign": "center",
-            "WebkitBoxDirection": "normal",
-            "WebkitBoxFlex": 0,
-            "WebkitBoxOrient": "horizontal",
-            "WebkitBoxPack": "end",
-            "WebkitFlexBasis": "auto",
-            "WebkitFlexDirection": "row",
-            "WebkitFlexGrow": 0,
-            "WebkitFlexShrink": 1,
-            "WebkitJustifyContent": "flex-end",
-            "WebkitTransitionDuration": "0.15s",
-            "WebkitTransitionProperty": "opacity",
-            "WebkitUserSelect": "none",
-            "alignItems": "center",
-            "cursor": "pointer",
-            "flexBasis": "auto",
-            "flexDirection": "row",
-            "flexGrow": 0,
-            "flexShrink": 1,
-            "justifyContent": "flex-end",
-            "marginLeft": "16px",
-            "marginRight": "16px",
-            "minHeight": "20px",
-            "msFlexAlign": "center",
-            "msFlexDirection": "row",
-            "msFlexNegative": 1,
-            "msFlexPack": "end",
-            "msFlexPositive": 0,
-            "msFlexPreferredSize": "auto",
-            "msTouchAction": "manipulation",
-            "msUserSelect": "none",
-            "paddingBottom": "32px",
-            "paddingTop": "16px",
-            "touchAction": "manipulation",
-            "transitionDuration": "0.15s",
-            "transitionProperty": "opacity",
-            "userSelect": "none",
-          }
-        }
         tabIndex="0"
       >
         <div
@@ -140,23 +53,10 @@ exports[`SideMenuPanel matches snapshot 1`] = `
         </div>
       </div>
       <div
-        className="css-view-1dbjc4n"
-        style={
-          Object {
-            "WebkitBoxFlex": 1,
-            "WebkitFlexGrow": 1,
-            "borderTopColor": "rgba(238,238,238,1.00)",
-            "borderTopStyle": "solid",
-            "borderTopWidth": "1px",
-            "flexGrow": 1,
-            "marginLeft": "16px",
-            "marginRight": "16px",
-            "msFlexPositive": 1,
-          }
-        }
+        className="css-view-1dbjc4n r-borderTopColor-18grtmt r-borderTopStyle-1efd50x r-borderTopWidth-5kkj8d r-flexGrow-16y2uox r-marginHorizontal-1ydw1k6"
       >
         <div
-          className="css-view-1dbjc4n"
+          className="css-view-1dbjc4n r-alignItems-1awozwy r-borderBottomColor-1fn3lry r-borderBottomWidth-qklmqi r-borderStyle-1phboty r-cursor-1loqt21 r-flexDirection-18u37iz r-justifyContent-1h0z5md r-padding-nsbfu8 r-paddingLeft-gy4na3 r-touchAction-1otgn73 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
           data-focusable={true}
           onKeyDown={[Function]}
           onKeyUp={[Function]}
@@ -166,62 +66,10 @@ exports[`SideMenuPanel matches snapshot 1`] = `
           onResponderTerminate={[Function]}
           onResponderTerminationRequest={[Function]}
           onStartShouldSetResponder={[Function]}
-          style={
-            Object {
-              "MozTransitionProperty": "opacity",
-              "MozUserSelect": "none",
-              "WebkitAlignItems": "center",
-              "WebkitBoxAlign": "center",
-              "WebkitBoxDirection": "normal",
-              "WebkitBoxOrient": "horizontal",
-              "WebkitBoxPack": "start",
-              "WebkitFlexDirection": "row",
-              "WebkitJustifyContent": "flex-start",
-              "WebkitTransitionDuration": "0.15s",
-              "WebkitTransitionProperty": "opacity",
-              "WebkitUserSelect": "none",
-              "alignItems": "center",
-              "borderBottomColor": "rgba(238,238,238,1.00)",
-              "borderBottomStyle": "solid",
-              "borderBottomWidth": "1px",
-              "cursor": "pointer",
-              "flexDirection": "row",
-              "justifyContent": "flex-start",
-              "msFlexAlign": "center",
-              "msFlexDirection": "row",
-              "msFlexPack": "start",
-              "msTouchAction": "manipulation",
-              "msUserSelect": "none",
-              "paddingBottom": "16px",
-              "paddingLeft": "0px",
-              "paddingRight": "16px",
-              "paddingTop": "16px",
-              "touchAction": "manipulation",
-              "transitionDuration": "0.15s",
-              "transitionProperty": "opacity",
-              "userSelect": "none",
-            }
-          }
           tabIndex="0"
         >
           <div
-            className="css-view-1dbjc4n"
-            style={
-              Object {
-                "WebkitAlignItems": "flex-start",
-                "WebkitBoxAlign": "start",
-                "WebkitBoxPack": "center",
-                "WebkitJustifyContent": "center",
-                "alignItems": "flex-start",
-                "display": "flex",
-                "justifyContent": "center",
-                "marginLeft": "8px",
-                "marginRight": "30px",
-                "msFlexAlign": "start",
-                "msFlexPack": "center",
-                "width": "20px",
-              }
-            }
+            className="css-view-1dbjc4n r-alignItems-1habvwh r-display-6koalj r-justifyContent-1777fci r-marginLeft-1jkjb r-marginRight-bpynri r-width-19wmn03"
           >
             <div
               className="css-text-901oao"
@@ -240,27 +88,14 @@ exports[`SideMenuPanel matches snapshot 1`] = `
             </div>
           </div>
           <div
-            className="css-text-901oao"
+            className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-majxgm r-lineHeight-rjixqe r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
             dir="auto"
-            style={
-              Object {
-                "color": "rgba(66,69,74,1.00)",
-                "direction": "ltr",
-                "fontFamily": "Roboto",
-                "fontSize": "14px",
-                "fontWeight": "500",
-                "lineHeight": "20px",
-                "textAlign": "left",
-                "textDecoration": "none",
-                "textTransform": "none",
-              }
-            }
           >
             My profile
           </div>
         </div>
         <div
-          className="css-view-1dbjc4n"
+          className="css-view-1dbjc4n r-alignItems-1awozwy r-borderBottomColor-1fn3lry r-borderBottomWidth-qklmqi r-borderStyle-1phboty r-cursor-1loqt21 r-flexDirection-18u37iz r-justifyContent-1h0z5md r-padding-nsbfu8 r-paddingLeft-gy4na3 r-touchAction-1otgn73 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
           data-focusable={true}
           onKeyDown={[Function]}
           onKeyUp={[Function]}
@@ -270,62 +105,10 @@ exports[`SideMenuPanel matches snapshot 1`] = `
           onResponderTerminate={[Function]}
           onResponderTerminationRequest={[Function]}
           onStartShouldSetResponder={[Function]}
-          style={
-            Object {
-              "MozTransitionProperty": "opacity",
-              "MozUserSelect": "none",
-              "WebkitAlignItems": "center",
-              "WebkitBoxAlign": "center",
-              "WebkitBoxDirection": "normal",
-              "WebkitBoxOrient": "horizontal",
-              "WebkitBoxPack": "start",
-              "WebkitFlexDirection": "row",
-              "WebkitJustifyContent": "flex-start",
-              "WebkitTransitionDuration": "0.15s",
-              "WebkitTransitionProperty": "opacity",
-              "WebkitUserSelect": "none",
-              "alignItems": "center",
-              "borderBottomColor": "rgba(238,238,238,1.00)",
-              "borderBottomStyle": "solid",
-              "borderBottomWidth": "1px",
-              "cursor": "pointer",
-              "flexDirection": "row",
-              "justifyContent": "flex-start",
-              "msFlexAlign": "center",
-              "msFlexDirection": "row",
-              "msFlexPack": "start",
-              "msTouchAction": "manipulation",
-              "msUserSelect": "none",
-              "paddingBottom": "16px",
-              "paddingLeft": "0px",
-              "paddingRight": "16px",
-              "paddingTop": "16px",
-              "touchAction": "manipulation",
-              "transitionDuration": "0.15s",
-              "transitionProperty": "opacity",
-              "userSelect": "none",
-            }
-          }
           tabIndex="0"
         >
           <div
-            className="css-view-1dbjc4n"
-            style={
-              Object {
-                "WebkitAlignItems": "flex-start",
-                "WebkitBoxAlign": "start",
-                "WebkitBoxPack": "center",
-                "WebkitJustifyContent": "center",
-                "alignItems": "flex-start",
-                "display": "flex",
-                "justifyContent": "center",
-                "marginLeft": "8px",
-                "marginRight": "30px",
-                "msFlexAlign": "start",
-                "msFlexPack": "center",
-                "width": "20px",
-              }
-            }
+            className="css-view-1dbjc4n r-alignItems-1habvwh r-display-6koalj r-justifyContent-1777fci r-marginLeft-1jkjb r-marginRight-bpynri r-width-19wmn03"
           >
             <div
               className="css-text-901oao"
@@ -344,27 +127,14 @@ exports[`SideMenuPanel matches snapshot 1`] = `
             </div>
           </div>
           <div
-            className="css-text-901oao"
+            className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-majxgm r-lineHeight-rjixqe r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
             dir="auto"
-            style={
-              Object {
-                "color": "rgba(66,69,74,1.00)",
-                "direction": "ltr",
-                "fontFamily": "Roboto",
-                "fontSize": "14px",
-                "fontWeight": "500",
-                "lineHeight": "20px",
-                "textAlign": "left",
-                "textDecoration": "none",
-                "textTransform": "none",
-              }
-            }
           >
             Export Wallet
           </div>
         </div>
         <div
-          className="css-view-1dbjc4n"
+          className="css-view-1dbjc4n r-alignItems-1awozwy r-borderBottomColor-1fn3lry r-borderBottomWidth-qklmqi r-borderStyle-1phboty r-cursor-1loqt21 r-flexDirection-18u37iz r-justifyContent-1h0z5md r-padding-nsbfu8 r-paddingLeft-gy4na3 r-touchAction-1otgn73 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
           data-focusable={true}
           onKeyDown={[Function]}
           onKeyUp={[Function]}
@@ -374,62 +144,10 @@ exports[`SideMenuPanel matches snapshot 1`] = `
           onResponderTerminate={[Function]}
           onResponderTerminationRequest={[Function]}
           onStartShouldSetResponder={[Function]}
-          style={
-            Object {
-              "MozTransitionProperty": "opacity",
-              "MozUserSelect": "none",
-              "WebkitAlignItems": "center",
-              "WebkitBoxAlign": "center",
-              "WebkitBoxDirection": "normal",
-              "WebkitBoxOrient": "horizontal",
-              "WebkitBoxPack": "start",
-              "WebkitFlexDirection": "row",
-              "WebkitJustifyContent": "flex-start",
-              "WebkitTransitionDuration": "0.15s",
-              "WebkitTransitionProperty": "opacity",
-              "WebkitUserSelect": "none",
-              "alignItems": "center",
-              "borderBottomColor": "rgba(238,238,238,1.00)",
-              "borderBottomStyle": "solid",
-              "borderBottomWidth": "1px",
-              "cursor": "pointer",
-              "flexDirection": "row",
-              "justifyContent": "flex-start",
-              "msFlexAlign": "center",
-              "msFlexDirection": "row",
-              "msFlexPack": "start",
-              "msTouchAction": "manipulation",
-              "msUserSelect": "none",
-              "paddingBottom": "16px",
-              "paddingLeft": "0px",
-              "paddingRight": "16px",
-              "paddingTop": "16px",
-              "touchAction": "manipulation",
-              "transitionDuration": "0.15s",
-              "transitionProperty": "opacity",
-              "userSelect": "none",
-            }
-          }
           tabIndex="0"
         >
           <div
-            className="css-view-1dbjc4n"
-            style={
-              Object {
-                "WebkitAlignItems": "center",
-                "WebkitBoxAlign": "center",
-                "WebkitBoxPack": "center",
-                "WebkitJustifyContent": "center",
-                "alignItems": "center",
-                "display": "flex",
-                "justifyContent": "center",
-                "marginLeft": "8px",
-                "marginRight": "30px",
-                "msFlexAlign": "center",
-                "msFlexPack": "center",
-                "width": "20px",
-              }
-            }
+            className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-justifyContent-1777fci r-marginLeft-1jkjb r-marginRight-bpynri r-width-19wmn03"
           >
             <div
               className="css-text-901oao"
@@ -448,27 +166,14 @@ exports[`SideMenuPanel matches snapshot 1`] = `
             </div>
           </div>
           <div
-            className="css-text-901oao"
+            className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-majxgm r-lineHeight-rjixqe r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
             dir="auto"
-            style={
-              Object {
-                "color": "rgba(66,69,74,1.00)",
-                "direction": "ltr",
-                "fontFamily": "Roboto",
-                "fontSize": "14px",
-                "fontWeight": "500",
-                "lineHeight": "20px",
-                "textAlign": "left",
-                "textDecoration": "none",
-                "textTransform": "none",
-              }
-            }
           >
             Statistics
           </div>
         </div>
         <div
-          className="css-view-1dbjc4n"
+          className="css-view-1dbjc4n r-alignItems-1awozwy r-borderBottomColor-1fn3lry r-borderBottomWidth-qklmqi r-borderStyle-1phboty r-cursor-1loqt21 r-flexDirection-18u37iz r-justifyContent-1h0z5md r-padding-nsbfu8 r-paddingLeft-gy4na3 r-touchAction-1otgn73 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
           data-focusable={true}
           onKeyDown={[Function]}
           onKeyUp={[Function]}
@@ -478,62 +183,10 @@ exports[`SideMenuPanel matches snapshot 1`] = `
           onResponderTerminate={[Function]}
           onResponderTerminationRequest={[Function]}
           onStartShouldSetResponder={[Function]}
-          style={
-            Object {
-              "MozTransitionProperty": "opacity",
-              "MozUserSelect": "none",
-              "WebkitAlignItems": "center",
-              "WebkitBoxAlign": "center",
-              "WebkitBoxDirection": "normal",
-              "WebkitBoxOrient": "horizontal",
-              "WebkitBoxPack": "start",
-              "WebkitFlexDirection": "row",
-              "WebkitJustifyContent": "flex-start",
-              "WebkitTransitionDuration": "0.15s",
-              "WebkitTransitionProperty": "opacity",
-              "WebkitUserSelect": "none",
-              "alignItems": "center",
-              "borderBottomColor": "rgba(238,238,238,1.00)",
-              "borderBottomStyle": "solid",
-              "borderBottomWidth": "1px",
-              "cursor": "pointer",
-              "flexDirection": "row",
-              "justifyContent": "flex-start",
-              "msFlexAlign": "center",
-              "msFlexDirection": "row",
-              "msFlexPack": "start",
-              "msTouchAction": "manipulation",
-              "msUserSelect": "none",
-              "paddingBottom": "16px",
-              "paddingLeft": "0px",
-              "paddingRight": "16px",
-              "paddingTop": "16px",
-              "touchAction": "manipulation",
-              "transitionDuration": "0.15s",
-              "transitionProperty": "opacity",
-              "userSelect": "none",
-            }
-          }
           tabIndex="0"
         >
           <div
-            className="css-view-1dbjc4n"
-            style={
-              Object {
-                "WebkitAlignItems": "flex-start",
-                "WebkitBoxAlign": "start",
-                "WebkitBoxPack": "center",
-                "WebkitJustifyContent": "center",
-                "alignItems": "flex-start",
-                "display": "flex",
-                "justifyContent": "center",
-                "marginLeft": "8px",
-                "marginRight": "30px",
-                "msFlexAlign": "start",
-                "msFlexPack": "center",
-                "width": "20px",
-              }
-            }
+            className="css-view-1dbjc4n r-alignItems-1habvwh r-display-6koalj r-justifyContent-1777fci r-marginLeft-1jkjb r-marginRight-bpynri r-width-19wmn03"
           >
             <div
               className="css-text-901oao"
@@ -552,27 +205,14 @@ exports[`SideMenuPanel matches snapshot 1`] = `
             </div>
           </div>
           <div
-            className="css-text-901oao"
+            className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-majxgm r-lineHeight-rjixqe r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
             dir="auto"
-            style={
-              Object {
-                "color": "rgba(66,69,74,1.00)",
-                "direction": "ltr",
-                "fontFamily": "Roboto",
-                "fontSize": "14px",
-                "fontWeight": "500",
-                "lineHeight": "20px",
-                "textAlign": "left",
-                "textDecoration": "none",
-                "textTransform": "none",
-              }
-            }
           >
             Help & Feedback
           </div>
         </div>
         <div
-          className="css-view-1dbjc4n"
+          className="css-view-1dbjc4n r-alignItems-1awozwy r-borderBottomColor-1fn3lry r-borderBottomWidth-qklmqi r-borderStyle-1phboty r-cursor-1loqt21 r-flexDirection-18u37iz r-justifyContent-1h0z5md r-padding-nsbfu8 r-paddingLeft-gy4na3 r-touchAction-1otgn73 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
           data-focusable={true}
           onKeyDown={[Function]}
           onKeyUp={[Function]}
@@ -582,62 +222,10 @@ exports[`SideMenuPanel matches snapshot 1`] = `
           onResponderTerminate={[Function]}
           onResponderTerminationRequest={[Function]}
           onStartShouldSetResponder={[Function]}
-          style={
-            Object {
-              "MozTransitionProperty": "opacity",
-              "MozUserSelect": "none",
-              "WebkitAlignItems": "center",
-              "WebkitBoxAlign": "center",
-              "WebkitBoxDirection": "normal",
-              "WebkitBoxOrient": "horizontal",
-              "WebkitBoxPack": "start",
-              "WebkitFlexDirection": "row",
-              "WebkitJustifyContent": "flex-start",
-              "WebkitTransitionDuration": "0.15s",
-              "WebkitTransitionProperty": "opacity",
-              "WebkitUserSelect": "none",
-              "alignItems": "center",
-              "borderBottomColor": "rgba(238,238,238,1.00)",
-              "borderBottomStyle": "solid",
-              "borderBottomWidth": "1px",
-              "cursor": "pointer",
-              "flexDirection": "row",
-              "justifyContent": "flex-start",
-              "msFlexAlign": "center",
-              "msFlexDirection": "row",
-              "msFlexPack": "start",
-              "msTouchAction": "manipulation",
-              "msUserSelect": "none",
-              "paddingBottom": "16px",
-              "paddingLeft": "0px",
-              "paddingRight": "16px",
-              "paddingTop": "16px",
-              "touchAction": "manipulation",
-              "transitionDuration": "0.15s",
-              "transitionProperty": "opacity",
-              "userSelect": "none",
-            }
-          }
           tabIndex="0"
         >
           <div
-            className="css-view-1dbjc4n"
-            style={
-              Object {
-                "WebkitAlignItems": "flex-start",
-                "WebkitBoxAlign": "start",
-                "WebkitBoxPack": "center",
-                "WebkitJustifyContent": "center",
-                "alignItems": "flex-start",
-                "display": "flex",
-                "justifyContent": "center",
-                "marginLeft": "8px",
-                "marginRight": "30px",
-                "msFlexAlign": "start",
-                "msFlexPack": "center",
-                "width": "20px",
-              }
-            }
+            className="css-view-1dbjc4n r-alignItems-1habvwh r-display-6koalj r-justifyContent-1777fci r-marginLeft-1jkjb r-marginRight-bpynri r-width-19wmn03"
           >
             <div
               className="css-text-901oao"
@@ -656,27 +244,14 @@ exports[`SideMenuPanel matches snapshot 1`] = `
             </div>
           </div>
           <div
-            className="css-text-901oao"
+            className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-majxgm r-lineHeight-rjixqe r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
             dir="auto"
-            style={
-              Object {
-                "color": "rgba(66,69,74,1.00)",
-                "direction": "ltr",
-                "fontFamily": "Roboto",
-                "fontSize": "14px",
-                "fontWeight": "500",
-                "lineHeight": "20px",
-                "textAlign": "left",
-                "textDecoration": "none",
-                "textTransform": "none",
-              }
-            }
           >
             Privacy Policy & Terms
           </div>
         </div>
         <div
-          className="css-view-1dbjc4n"
+          className="css-view-1dbjc4n r-alignItems-1awozwy r-borderBottomColor-1fn3lry r-borderBottomWidth-qklmqi r-borderStyle-1phboty r-cursor-1loqt21 r-flexDirection-18u37iz r-justifyContent-1h0z5md r-padding-nsbfu8 r-paddingLeft-gy4na3 r-touchAction-1otgn73 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
           data-focusable={true}
           onKeyDown={[Function]}
           onKeyUp={[Function]}
@@ -686,62 +261,10 @@ exports[`SideMenuPanel matches snapshot 1`] = `
           onResponderTerminate={[Function]}
           onResponderTerminationRequest={[Function]}
           onStartShouldSetResponder={[Function]}
-          style={
-            Object {
-              "MozTransitionProperty": "opacity",
-              "MozUserSelect": "none",
-              "WebkitAlignItems": "center",
-              "WebkitBoxAlign": "center",
-              "WebkitBoxDirection": "normal",
-              "WebkitBoxOrient": "horizontal",
-              "WebkitBoxPack": "start",
-              "WebkitFlexDirection": "row",
-              "WebkitJustifyContent": "flex-start",
-              "WebkitTransitionDuration": "0.15s",
-              "WebkitTransitionProperty": "opacity",
-              "WebkitUserSelect": "none",
-              "alignItems": "center",
-              "borderBottomColor": "rgba(238,238,238,1.00)",
-              "borderBottomStyle": "solid",
-              "borderBottomWidth": "1px",
-              "cursor": "pointer",
-              "flexDirection": "row",
-              "justifyContent": "flex-start",
-              "msFlexAlign": "center",
-              "msFlexDirection": "row",
-              "msFlexPack": "start",
-              "msTouchAction": "manipulation",
-              "msUserSelect": "none",
-              "paddingBottom": "16px",
-              "paddingLeft": "0px",
-              "paddingRight": "16px",
-              "paddingTop": "16px",
-              "touchAction": "manipulation",
-              "transitionDuration": "0.15s",
-              "transitionProperty": "opacity",
-              "userSelect": "none",
-            }
-          }
           tabIndex="0"
         >
           <div
-            className="css-view-1dbjc4n"
-            style={
-              Object {
-                "WebkitAlignItems": "flex-start",
-                "WebkitBoxAlign": "start",
-                "WebkitBoxPack": "center",
-                "WebkitJustifyContent": "center",
-                "alignItems": "flex-start",
-                "display": "flex",
-                "justifyContent": "center",
-                "marginLeft": "8px",
-                "marginRight": "30px",
-                "msFlexAlign": "start",
-                "msFlexPack": "center",
-                "width": "20px",
-              }
-            }
+            className="css-view-1dbjc4n r-alignItems-1habvwh r-display-6koalj r-justifyContent-1777fci r-marginLeft-1jkjb r-marginRight-bpynri r-width-19wmn03"
           >
             <div
               className="css-text-901oao"
@@ -760,35 +283,17 @@ exports[`SideMenuPanel matches snapshot 1`] = `
             </div>
           </div>
           <div
-            className="css-text-901oao"
+            className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-majxgm r-lineHeight-rjixqe r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
             dir="auto"
-            style={
-              Object {
-                "color": "rgba(66,69,74,1.00)",
-                "direction": "ltr",
-                "fontFamily": "Roboto",
-                "fontSize": "14px",
-                "fontWeight": "500",
-                "lineHeight": "20px",
-                "textAlign": "left",
-                "textDecoration": "none",
-                "textTransform": "none",
-              }
-            }
           >
             Logout
           </div>
         </div>
         <div
-          className="css-view-1dbjc4n"
-          style={
-            Object {
-              "marginTop": "auto",
-            }
-          }
+          className="css-view-1dbjc4n r-marginTop-1t01tom"
         >
           <div
-            className="css-view-1dbjc4n"
+            className="css-view-1dbjc4n r-alignItems-1awozwy r-borderBottomColor-1fn3lry r-borderBottomWidth-qklmqi r-borderStyle-1phboty r-cursor-1loqt21 r-flexDirection-18u37iz r-justifyContent-1h0z5md r-padding-nsbfu8 r-paddingLeft-gy4na3 r-touchAction-1otgn73 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
             data-focusable={true}
             onKeyDown={[Function]}
             onKeyUp={[Function]}
@@ -798,69 +303,16 @@ exports[`SideMenuPanel matches snapshot 1`] = `
             onResponderTerminate={[Function]}
             onResponderTerminationRequest={[Function]}
             onStartShouldSetResponder={[Function]}
-            style={
-              Object {
-                "MozTransitionProperty": "opacity",
-                "MozUserSelect": "none",
-                "WebkitAlignItems": "center",
-                "WebkitBoxAlign": "center",
-                "WebkitBoxDirection": "normal",
-                "WebkitBoxOrient": "horizontal",
-                "WebkitBoxPack": "start",
-                "WebkitFlexDirection": "row",
-                "WebkitJustifyContent": "flex-start",
-                "WebkitTransitionDuration": "0.15s",
-                "WebkitTransitionProperty": "opacity",
-                "WebkitUserSelect": "none",
-                "alignItems": "center",
-                "borderBottomColor": "rgba(238,238,238,1.00)",
-                "borderBottomStyle": "solid",
-                "borderBottomWidth": "1px",
-                "cursor": "pointer",
-                "flexDirection": "row",
-                "justifyContent": "flex-start",
-                "msFlexAlign": "center",
-                "msFlexDirection": "row",
-                "msFlexPack": "start",
-                "msTouchAction": "manipulation",
-                "msUserSelect": "none",
-                "paddingBottom": "16px",
-                "paddingLeft": "0px",
-                "paddingRight": "16px",
-                "paddingTop": "16px",
-                "touchAction": "manipulation",
-                "transitionDuration": "0.15s",
-                "transitionProperty": "opacity",
-                "userSelect": "none",
-              }
-            }
             tabIndex="0"
           >
             <div
-              className="css-view-1dbjc4n"
-              style={
-                Object {
-                  "WebkitAlignItems": "flex-start",
-                  "WebkitBoxAlign": "start",
-                  "WebkitBoxPack": "center",
-                  "WebkitJustifyContent": "center",
-                  "alignItems": "flex-start",
-                  "display": "flex",
-                  "justifyContent": "center",
-                  "marginLeft": "8px",
-                  "marginRight": "30px",
-                  "msFlexAlign": "start",
-                  "msFlexPack": "center",
-                  "width": "20px",
-                }
-              }
+              className="css-view-1dbjc4n r-alignItems-1habvwh r-display-6koalj r-justifyContent-1777fci r-marginLeft-1jkjb r-marginRight-bpynri r-width-19wmn03"
             >
               <div
-                className="css-text-901oao"
+                className="css-text-901oao r-color-11zaip3"
                 dir="auto"
                 style={
                   Object {
-                    "color": "rgba(250,108,119,1.00)",
                     "fontFamily": "gooddollar",
                     "fontSize": "23px",
                     "fontStyle": "normal",
@@ -872,21 +324,8 @@ exports[`SideMenuPanel matches snapshot 1`] = `
               </div>
             </div>
             <div
-              className="css-text-901oao"
+              className="css-text-901oao r-color-11zaip3 r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-majxgm r-lineHeight-rjixqe r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
               dir="auto"
-              style={
-                Object {
-                  "color": "rgba(250,108,119,1.00)",
-                  "direction": "ltr",
-                  "fontFamily": "Roboto",
-                  "fontSize": "14px",
-                  "fontWeight": "500",
-                  "lineHeight": "20px",
-                  "textAlign": "left",
-                  "textDecoration": "none",
-                  "textTransform": "none",
-                }
-              }
             >
               Delete Account
             </div>

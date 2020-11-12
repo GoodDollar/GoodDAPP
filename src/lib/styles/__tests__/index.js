@@ -1,6 +1,7 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
 import { Provider as PaperProvider } from 'react-native-paper'
+import { StyleSheet } from 'react-native'
 import { withStyles } from '../index'
 
 // Creating a undux mock store. It behaves as a basic undux store
@@ -81,42 +82,16 @@ describe('withStyles', () => {
         <MockWithTheme />
       </PaperProvider>,
     )
+
+    // create mirror stylesheet to then compare native ids
+    const parsed = JSON.parse(tree.toJSON().children[0]).styles
+    const stylesheet = StyleSheet.create(parsed)
+    const flatten = StyleSheet.flatten(stylesheet.button)
+
     expect(tree.toJSON().children[0]).toMatch(
       JSON.stringify({
         styles: {
-          button: {
-            color: 'red',
-            backgroundColor: 'black',
-          },
-        },
-        theme,
-      }),
-    )
-  })
-
-  it('withStyles injects theme and empty styles should work and wrong properties being removed', () => {
-    const mapThemeToStyles = props => {
-      return {
-        button: {
-          color: theme.color,
-          misspeled: 'black',
-        },
-      }
-    }
-
-    const MockWithTheme = withStyles(mapThemeToStyles)(MockComponent)
-
-    const tree = renderer.create(
-      <PaperProvider theme={theme}>
-        <MockWithTheme />
-      </PaperProvider>,
-    )
-    expect(tree.toJSON().children[0]).toMatch(
-      JSON.stringify({
-        styles: {
-          button: {
-            color: 'red',
-          },
+          button: flatten,
         },
         theme,
       }),

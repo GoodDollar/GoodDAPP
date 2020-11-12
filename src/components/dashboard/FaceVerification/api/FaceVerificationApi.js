@@ -98,7 +98,7 @@ class FaceVerificationApi {
   }
 
   async disposeFaceSnapshot(enrollmentIdentifier: string, signature: string): Promise<void> {
-    const { rootApi } = this
+    const { rootApi, logger } = this
 
     logger.info('Disposing face snapshot', { enrollmentIdentifier })
 

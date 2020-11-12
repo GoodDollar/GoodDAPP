@@ -5,49 +5,13 @@ exports[`NumPadKeyboard matches snapshot 1`] = `
   className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
-    className="css-view-1dbjc4n"
-    style={
-      Object {
-        "WebkitBoxFlex": 1,
-        "WebkitBoxPack": "justify",
-        "WebkitFlexGrow": 1,
-        "WebkitJustifyContent": "space-between",
-        "display": "flex",
-        "flexGrow": 1,
-        "justifyContent": "space-between",
-        "marginBottom": "16px",
-        "marginTop": "16px",
-        "maxHeight": "250px",
-        "msFlexPack": "justify",
-        "msFlexPositive": 1,
-        "overflowX": "hidden",
-        "overflowY": "hidden",
-      }
-    }
+    className="css-view-1dbjc4n r-display-6koalj r-flexGrow-16y2uox r-justifyContent-1wtj0ep r-marginBottom-1ifxtd0 r-marginTop-1wzrnnt r-maxHeight-jtcya5 r-overflow-1udh08x"
   >
     <div
-      className="css-view-1dbjc4n"
-      style={
-        Object {
-          "WebkitAlignItems": "center",
-          "WebkitBoxAlign": "center",
-          "WebkitBoxDirection": "normal",
-          "WebkitBoxOrient": "horizontal",
-          "WebkitBoxPack": "justify",
-          "WebkitFlexDirection": "row",
-          "WebkitJustifyContent": "space-between",
-          "alignItems": "center",
-          "display": "flex",
-          "flexDirection": "row",
-          "justifyContent": "space-between",
-          "msFlexAlign": "center",
-          "msFlexDirection": "row",
-          "msFlexPack": "justify",
-        }
-      }
+      className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
     >
       <div
-        className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-cursor-1loqt21 r-flex-13awgt0 r-touchAction-1otgn73 r-userSelect-lrvibr"
+        className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1niwhzg r-cursor-1loqt21 r-display-6koalj r-flex-13awgt0 r-padding-edyy15 r-touchAction-1otgn73 r-userSelect-lrvibr"
         data-focusable={true}
         onKeyDown={[Function]}
         onKeyUp={[Function]}
@@ -57,42 +21,17 @@ exports[`NumPadKeyboard matches snapshot 1`] = `
         onResponderTerminate={[Function]}
         onResponderTerminationRequest={[Function]}
         onStartShouldSetResponder={[Function]}
-        style={
-          Object {
-            "WebkitAlignItems": "center",
-            "WebkitBoxAlign": "center",
-            "alignItems": "center",
-            "display": "flex",
-            "msFlexAlign": "center",
-            "paddingBottom": "8px",
-            "paddingLeft": "8px",
-            "paddingRight": "8px",
-            "paddingTop": "8px",
-          }
-        }
         tabIndex="0"
       >
         <div
-          className="css-text-901oao"
+          className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-adyw6z r-fontWeight-b88u0q r-lineHeight-135wba7 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
           dir="auto"
-          style={
-            Object {
-              "color": "rgba(66,69,74,1.00)",
-              "fontFamily": "Roboto Slab",
-              "fontSize": "20px",
-              "fontWeight": "700",
-              "lineHeight": "24px",
-              "textAlign": "center",
-              "textDecoration": "none",
-              "textTransform": "none",
-            }
-          }
         >
           1
         </div>
       </div>
       <div
-        className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-cursor-1loqt21 r-flex-13awgt0 r-touchAction-1otgn73 r-userSelect-lrvibr"
+        className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1niwhzg r-cursor-1loqt21 r-display-6koalj r-flex-13awgt0 r-padding-edyy15 r-touchAction-1otgn73 r-userSelect-lrvibr"
         data-focusable={true}
         onKeyDown={[Function]}
         onKeyUp={[Function]}
@@ -102,42 +41,17 @@ exports[`NumPadKeyboard matches snapshot 1`] = `
         onResponderTerminate={[Function]}
         onResponderTerminationRequest={[Function]}
         onStartShouldSetResponder={[Function]}
-        style={
-          Object {
-            "WebkitAlignItems": "center",
-            "WebkitBoxAlign": "center",
-            "alignItems": "center",
-            "display": "flex",
-            "msFlexAlign": "center",
-            "paddingBottom": "8px",
-            "paddingLeft": "8px",
-            "paddingRight": "8px",
-            "paddingTop": "8px",
-          }
-        }
         tabIndex="0"
       >
         <div
-          className="css-text-901oao"
+          className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-adyw6z r-fontWeight-b88u0q r-lineHeight-135wba7 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
           dir="auto"
-          style={
-            Object {
-              "color": "rgba(66,69,74,1.00)",
-              "fontFamily": "Roboto Slab",
-              "fontSize": "20px",
-              "fontWeight": "700",
-              "lineHeight": "24px",
-              "textAlign": "center",
-              "textDecoration": "none",
-              "textTransform": "none",
-            }
-          }
         >
           2
         </div>
       </div>
       <div
-        className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-cursor-1loqt21 r-flex-13awgt0 r-touchAction-1otgn73 r-userSelect-lrvibr"
+        className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1niwhzg r-cursor-1loqt21 r-display-6koalj r-flex-13awgt0 r-padding-edyy15 r-touchAction-1otgn73 r-userSelect-lrvibr"
         data-focusable={true}
         onKeyDown={[Function]}
         onKeyUp={[Function]}
@@ -147,64 +61,21 @@ exports[`NumPadKeyboard matches snapshot 1`] = `
         onResponderTerminate={[Function]}
         onResponderTerminationRequest={[Function]}
         onStartShouldSetResponder={[Function]}
-        style={
-          Object {
-            "WebkitAlignItems": "center",
-            "WebkitBoxAlign": "center",
-            "alignItems": "center",
-            "display": "flex",
-            "msFlexAlign": "center",
-            "paddingBottom": "8px",
-            "paddingLeft": "8px",
-            "paddingRight": "8px",
-            "paddingTop": "8px",
-          }
-        }
         tabIndex="0"
       >
         <div
-          className="css-text-901oao"
+          className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-adyw6z r-fontWeight-b88u0q r-lineHeight-135wba7 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
           dir="auto"
-          style={
-            Object {
-              "color": "rgba(66,69,74,1.00)",
-              "fontFamily": "Roboto Slab",
-              "fontSize": "20px",
-              "fontWeight": "700",
-              "lineHeight": "24px",
-              "textAlign": "center",
-              "textDecoration": "none",
-              "textTransform": "none",
-            }
-          }
         >
           3
         </div>
       </div>
     </div>
     <div
-      className="css-view-1dbjc4n"
-      style={
-        Object {
-          "WebkitAlignItems": "center",
-          "WebkitBoxAlign": "center",
-          "WebkitBoxDirection": "normal",
-          "WebkitBoxOrient": "horizontal",
-          "WebkitBoxPack": "justify",
-          "WebkitFlexDirection": "row",
-          "WebkitJustifyContent": "space-between",
-          "alignItems": "center",
-          "display": "flex",
-          "flexDirection": "row",
-          "justifyContent": "space-between",
-          "msFlexAlign": "center",
-          "msFlexDirection": "row",
-          "msFlexPack": "justify",
-        }
-      }
+      className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
     >
       <div
-        className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-cursor-1loqt21 r-flex-13awgt0 r-touchAction-1otgn73 r-userSelect-lrvibr"
+        className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1niwhzg r-cursor-1loqt21 r-display-6koalj r-flex-13awgt0 r-padding-edyy15 r-touchAction-1otgn73 r-userSelect-lrvibr"
         data-focusable={true}
         onKeyDown={[Function]}
         onKeyUp={[Function]}
@@ -214,42 +85,17 @@ exports[`NumPadKeyboard matches snapshot 1`] = `
         onResponderTerminate={[Function]}
         onResponderTerminationRequest={[Function]}
         onStartShouldSetResponder={[Function]}
-        style={
-          Object {
-            "WebkitAlignItems": "center",
-            "WebkitBoxAlign": "center",
-            "alignItems": "center",
-            "display": "flex",
-            "msFlexAlign": "center",
-            "paddingBottom": "8px",
-            "paddingLeft": "8px",
-            "paddingRight": "8px",
-            "paddingTop": "8px",
-          }
-        }
         tabIndex="0"
       >
         <div
-          className="css-text-901oao"
+          className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-adyw6z r-fontWeight-b88u0q r-lineHeight-135wba7 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
           dir="auto"
-          style={
-            Object {
-              "color": "rgba(66,69,74,1.00)",
-              "fontFamily": "Roboto Slab",
-              "fontSize": "20px",
-              "fontWeight": "700",
-              "lineHeight": "24px",
-              "textAlign": "center",
-              "textDecoration": "none",
-              "textTransform": "none",
-            }
-          }
         >
           4
         </div>
       </div>
       <div
-        className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-cursor-1loqt21 r-flex-13awgt0 r-touchAction-1otgn73 r-userSelect-lrvibr"
+        className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1niwhzg r-cursor-1loqt21 r-display-6koalj r-flex-13awgt0 r-padding-edyy15 r-touchAction-1otgn73 r-userSelect-lrvibr"
         data-focusable={true}
         onKeyDown={[Function]}
         onKeyUp={[Function]}
@@ -259,42 +105,17 @@ exports[`NumPadKeyboard matches snapshot 1`] = `
         onResponderTerminate={[Function]}
         onResponderTerminationRequest={[Function]}
         onStartShouldSetResponder={[Function]}
-        style={
-          Object {
-            "WebkitAlignItems": "center",
-            "WebkitBoxAlign": "center",
-            "alignItems": "center",
-            "display": "flex",
-            "msFlexAlign": "center",
-            "paddingBottom": "8px",
-            "paddingLeft": "8px",
-            "paddingRight": "8px",
-            "paddingTop": "8px",
-          }
-        }
         tabIndex="0"
       >
         <div
-          className="css-text-901oao"
+          className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-adyw6z r-fontWeight-b88u0q r-lineHeight-135wba7 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
           dir="auto"
-          style={
-            Object {
-              "color": "rgba(66,69,74,1.00)",
-              "fontFamily": "Roboto Slab",
-              "fontSize": "20px",
-              "fontWeight": "700",
-              "lineHeight": "24px",
-              "textAlign": "center",
-              "textDecoration": "none",
-              "textTransform": "none",
-            }
-          }
         >
           5
         </div>
       </div>
       <div
-        className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-cursor-1loqt21 r-flex-13awgt0 r-touchAction-1otgn73 r-userSelect-lrvibr"
+        className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1niwhzg r-cursor-1loqt21 r-display-6koalj r-flex-13awgt0 r-padding-edyy15 r-touchAction-1otgn73 r-userSelect-lrvibr"
         data-focusable={true}
         onKeyDown={[Function]}
         onKeyUp={[Function]}
@@ -304,64 +125,21 @@ exports[`NumPadKeyboard matches snapshot 1`] = `
         onResponderTerminate={[Function]}
         onResponderTerminationRequest={[Function]}
         onStartShouldSetResponder={[Function]}
-        style={
-          Object {
-            "WebkitAlignItems": "center",
-            "WebkitBoxAlign": "center",
-            "alignItems": "center",
-            "display": "flex",
-            "msFlexAlign": "center",
-            "paddingBottom": "8px",
-            "paddingLeft": "8px",
-            "paddingRight": "8px",
-            "paddingTop": "8px",
-          }
-        }
         tabIndex="0"
       >
         <div
-          className="css-text-901oao"
+          className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-adyw6z r-fontWeight-b88u0q r-lineHeight-135wba7 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
           dir="auto"
-          style={
-            Object {
-              "color": "rgba(66,69,74,1.00)",
-              "fontFamily": "Roboto Slab",
-              "fontSize": "20px",
-              "fontWeight": "700",
-              "lineHeight": "24px",
-              "textAlign": "center",
-              "textDecoration": "none",
-              "textTransform": "none",
-            }
-          }
         >
           6
         </div>
       </div>
     </div>
     <div
-      className="css-view-1dbjc4n"
-      style={
-        Object {
-          "WebkitAlignItems": "center",
-          "WebkitBoxAlign": "center",
-          "WebkitBoxDirection": "normal",
-          "WebkitBoxOrient": "horizontal",
-          "WebkitBoxPack": "justify",
-          "WebkitFlexDirection": "row",
-          "WebkitJustifyContent": "space-between",
-          "alignItems": "center",
-          "display": "flex",
-          "flexDirection": "row",
-          "justifyContent": "space-between",
-          "msFlexAlign": "center",
-          "msFlexDirection": "row",
-          "msFlexPack": "justify",
-        }
-      }
+      className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
     >
       <div
-        className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-cursor-1loqt21 r-flex-13awgt0 r-touchAction-1otgn73 r-userSelect-lrvibr"
+        className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1niwhzg r-cursor-1loqt21 r-display-6koalj r-flex-13awgt0 r-padding-edyy15 r-touchAction-1otgn73 r-userSelect-lrvibr"
         data-focusable={true}
         onKeyDown={[Function]}
         onKeyUp={[Function]}
@@ -371,42 +149,17 @@ exports[`NumPadKeyboard matches snapshot 1`] = `
         onResponderTerminate={[Function]}
         onResponderTerminationRequest={[Function]}
         onStartShouldSetResponder={[Function]}
-        style={
-          Object {
-            "WebkitAlignItems": "center",
-            "WebkitBoxAlign": "center",
-            "alignItems": "center",
-            "display": "flex",
-            "msFlexAlign": "center",
-            "paddingBottom": "8px",
-            "paddingLeft": "8px",
-            "paddingRight": "8px",
-            "paddingTop": "8px",
-          }
-        }
         tabIndex="0"
       >
         <div
-          className="css-text-901oao"
+          className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-adyw6z r-fontWeight-b88u0q r-lineHeight-135wba7 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
           dir="auto"
-          style={
-            Object {
-              "color": "rgba(66,69,74,1.00)",
-              "fontFamily": "Roboto Slab",
-              "fontSize": "20px",
-              "fontWeight": "700",
-              "lineHeight": "24px",
-              "textAlign": "center",
-              "textDecoration": "none",
-              "textTransform": "none",
-            }
-          }
         >
           7
         </div>
       </div>
       <div
-        className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-cursor-1loqt21 r-flex-13awgt0 r-touchAction-1otgn73 r-userSelect-lrvibr"
+        className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1niwhzg r-cursor-1loqt21 r-display-6koalj r-flex-13awgt0 r-padding-edyy15 r-touchAction-1otgn73 r-userSelect-lrvibr"
         data-focusable={true}
         onKeyDown={[Function]}
         onKeyUp={[Function]}
@@ -416,42 +169,17 @@ exports[`NumPadKeyboard matches snapshot 1`] = `
         onResponderTerminate={[Function]}
         onResponderTerminationRequest={[Function]}
         onStartShouldSetResponder={[Function]}
-        style={
-          Object {
-            "WebkitAlignItems": "center",
-            "WebkitBoxAlign": "center",
-            "alignItems": "center",
-            "display": "flex",
-            "msFlexAlign": "center",
-            "paddingBottom": "8px",
-            "paddingLeft": "8px",
-            "paddingRight": "8px",
-            "paddingTop": "8px",
-          }
-        }
         tabIndex="0"
       >
         <div
-          className="css-text-901oao"
+          className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-adyw6z r-fontWeight-b88u0q r-lineHeight-135wba7 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
           dir="auto"
-          style={
-            Object {
-              "color": "rgba(66,69,74,1.00)",
-              "fontFamily": "Roboto Slab",
-              "fontSize": "20px",
-              "fontWeight": "700",
-              "lineHeight": "24px",
-              "textAlign": "center",
-              "textDecoration": "none",
-              "textTransform": "none",
-            }
-          }
         >
           8
         </div>
       </div>
       <div
-        className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-cursor-1loqt21 r-flex-13awgt0 r-touchAction-1otgn73 r-userSelect-lrvibr"
+        className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1niwhzg r-cursor-1loqt21 r-display-6koalj r-flex-13awgt0 r-padding-edyy15 r-touchAction-1otgn73 r-userSelect-lrvibr"
         data-focusable={true}
         onKeyDown={[Function]}
         onKeyUp={[Function]}
@@ -461,64 +189,21 @@ exports[`NumPadKeyboard matches snapshot 1`] = `
         onResponderTerminate={[Function]}
         onResponderTerminationRequest={[Function]}
         onStartShouldSetResponder={[Function]}
-        style={
-          Object {
-            "WebkitAlignItems": "center",
-            "WebkitBoxAlign": "center",
-            "alignItems": "center",
-            "display": "flex",
-            "msFlexAlign": "center",
-            "paddingBottom": "8px",
-            "paddingLeft": "8px",
-            "paddingRight": "8px",
-            "paddingTop": "8px",
-          }
-        }
         tabIndex="0"
       >
         <div
-          className="css-text-901oao"
+          className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-adyw6z r-fontWeight-b88u0q r-lineHeight-135wba7 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
           dir="auto"
-          style={
-            Object {
-              "color": "rgba(66,69,74,1.00)",
-              "fontFamily": "Roboto Slab",
-              "fontSize": "20px",
-              "fontWeight": "700",
-              "lineHeight": "24px",
-              "textAlign": "center",
-              "textDecoration": "none",
-              "textTransform": "none",
-            }
-          }
         >
           9
         </div>
       </div>
     </div>
     <div
-      className="css-view-1dbjc4n"
-      style={
-        Object {
-          "WebkitAlignItems": "center",
-          "WebkitBoxAlign": "center",
-          "WebkitBoxDirection": "normal",
-          "WebkitBoxOrient": "horizontal",
-          "WebkitBoxPack": "justify",
-          "WebkitFlexDirection": "row",
-          "WebkitJustifyContent": "space-between",
-          "alignItems": "center",
-          "display": "flex",
-          "flexDirection": "row",
-          "justifyContent": "space-between",
-          "msFlexAlign": "center",
-          "msFlexDirection": "row",
-          "msFlexPack": "justify",
-        }
-      }
+      className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
     >
       <div
-        className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-cursor-1loqt21 r-flex-13awgt0 r-touchAction-1otgn73 r-userSelect-lrvibr"
+        className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1niwhzg r-cursor-1loqt21 r-display-6koalj r-flex-13awgt0 r-padding-edyy15 r-touchAction-1otgn73 r-userSelect-lrvibr"
         data-focusable={true}
         onKeyDown={[Function]}
         onKeyUp={[Function]}
@@ -528,42 +213,17 @@ exports[`NumPadKeyboard matches snapshot 1`] = `
         onResponderTerminate={[Function]}
         onResponderTerminationRequest={[Function]}
         onStartShouldSetResponder={[Function]}
-        style={
-          Object {
-            "WebkitAlignItems": "center",
-            "WebkitBoxAlign": "center",
-            "alignItems": "center",
-            "display": "flex",
-            "msFlexAlign": "center",
-            "paddingBottom": "8px",
-            "paddingLeft": "8px",
-            "paddingRight": "8px",
-            "paddingTop": "8px",
-          }
-        }
         tabIndex="0"
       >
         <div
-          className="css-text-901oao"
+          className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-adyw6z r-fontWeight-b88u0q r-lineHeight-135wba7 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
           dir="auto"
-          style={
-            Object {
-              "color": "rgba(66,69,74,1.00)",
-              "fontFamily": "Roboto Slab",
-              "fontSize": "20px",
-              "fontWeight": "700",
-              "lineHeight": "24px",
-              "textAlign": "center",
-              "textDecoration": "none",
-              "textTransform": "none",
-            }
-          }
         >
           .
         </div>
       </div>
       <div
-        className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-cursor-1loqt21 r-flex-13awgt0 r-touchAction-1otgn73 r-userSelect-lrvibr"
+        className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1niwhzg r-cursor-1loqt21 r-display-6koalj r-flex-13awgt0 r-padding-edyy15 r-touchAction-1otgn73 r-userSelect-lrvibr"
         data-focusable={true}
         onKeyDown={[Function]}
         onKeyUp={[Function]}
@@ -573,42 +233,17 @@ exports[`NumPadKeyboard matches snapshot 1`] = `
         onResponderTerminate={[Function]}
         onResponderTerminationRequest={[Function]}
         onStartShouldSetResponder={[Function]}
-        style={
-          Object {
-            "WebkitAlignItems": "center",
-            "WebkitBoxAlign": "center",
-            "alignItems": "center",
-            "display": "flex",
-            "msFlexAlign": "center",
-            "paddingBottom": "8px",
-            "paddingLeft": "8px",
-            "paddingRight": "8px",
-            "paddingTop": "8px",
-          }
-        }
         tabIndex="0"
       >
         <div
-          className="css-text-901oao"
+          className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-adyw6z r-fontWeight-b88u0q r-lineHeight-135wba7 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
           dir="auto"
-          style={
-            Object {
-              "color": "rgba(66,69,74,1.00)",
-              "fontFamily": "Roboto Slab",
-              "fontSize": "20px",
-              "fontWeight": "700",
-              "lineHeight": "24px",
-              "textAlign": "center",
-              "textDecoration": "none",
-              "textTransform": "none",
-            }
-          }
         >
           0
         </div>
       </div>
       <div
-        className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-cursor-1loqt21 r-flex-13awgt0 r-touchAction-1otgn73 r-userSelect-lrvibr"
+        className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1niwhzg r-cursor-1loqt21 r-display-6koalj r-flex-13awgt0 r-padding-edyy15 r-touchAction-1otgn73 r-userSelect-lrvibr"
         data-focusable={true}
         onKeyDown={[Function]}
         onKeyUp={[Function]}
@@ -618,47 +253,20 @@ exports[`NumPadKeyboard matches snapshot 1`] = `
         onResponderTerminate={[Function]}
         onResponderTerminationRequest={[Function]}
         onStartShouldSetResponder={[Function]}
-        style={
-          Object {
-            "WebkitAlignItems": "center",
-            "WebkitBoxAlign": "center",
-            "alignItems": "center",
-            "display": "flex",
-            "msFlexAlign": "center",
-            "paddingBottom": "8px",
-            "paddingLeft": "8px",
-            "paddingRight": "8px",
-            "paddingTop": "8px",
-          }
-        }
         tabIndex="0"
       >
         <div
-          className="css-view-1dbjc4n r-cursor-1loqt21"
-          style={
-            Object {
-              "WebkitBoxPack": "center",
-              "WebkitJustifyContent": "center",
-              "backgroundRepeat": "no-repeat",
-              "backgroundSize": "contain",
-              "height": "30px",
-              "justifyContent": "center",
-              "msFlexPack": "center",
-              "width": "40px",
-            }
-          }
+          className="css-view-1dbjc4n r-backgroundRepeat-u6sd8q r-backgroundSize-ehq7j7 r-cursor-1loqt21 r-height-1g7fiml r-justifyContent-1777fci r-width-1aockid"
         >
           <div
-            className="css-text-901oao"
+            className="css-text-901oao r-color-cddv6f r-textAlign-q4m81j"
             dir="auto"
             style={
               Object {
-                "color": "rgba(66,69,74,1.00)",
                 "fontFamily": "gooddollar",
                 "fontSize": "18px",
                 "fontStyle": "normal",
                 "fontWeight": "normal",
-                "textAlign": "center",
               }
             }
           >

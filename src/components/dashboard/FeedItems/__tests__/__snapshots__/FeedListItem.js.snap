@@ -74,7 +74,7 @@ exports[`FeedListItem - Send matches snapshot 1`] = `
                     G
                   </div>
                   <div
-                    className="css-text-901oao r-color-11zaip3 r-fontFamily-6jnb14 r-fontSize-1exf2r r-fontWeight-b88u0q r-lineHeight-1p6fy00 r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                    className="css-text-901oao r-color-11zaip3 r-fontFamily-6jnb14 r-fontSize-10x49cs r-fontWeight-b88u0q r-lineHeight-1p6fy00 r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                     dir="auto"
                   >
                     $
@@ -268,7 +268,7 @@ exports[`FeedListItem - Withdraw matches snapshot 1`] = `
                     G
                   </div>
                   <div
-                    className="css-text-901oao r-color-qjtdzx r-fontFamily-6jnb14 r-fontSize-1exf2r r-fontWeight-b88u0q r-lineHeight-1p6fy00 r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                    className="css-text-901oao r-color-qjtdzx r-fontFamily-6jnb14 r-fontSize-10x49cs r-fontWeight-b88u0q r-lineHeight-1p6fy00 r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                     dir="auto"
                   >
                     $

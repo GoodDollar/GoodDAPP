@@ -696,7 +696,7 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                   className="css-view-1dbjc4n r-display-6koalj r-flexDirection-18u37iz r-flexGrow-18kxxzh r-flexShrink-1q142lx r-justifyContent-1777fci r-marginBottom-1yflyrw"
                 >
                   <send.svg
-                    style={763}
+                    style={755}
                   />
                 </div>
                 <div
@@ -733,7 +733,7 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                         G
                       </div>
                       <div
-                        className="css-text-901oao r-color-11zaip3 r-fontFamily-6jnb14 r-fontSize-1ws2f5x r-fontWeight-b88u0q r-lineHeight-hbpseb r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                        className="css-text-901oao r-color-11zaip3 r-fontFamily-6jnb14 r-fontSize-1enofrn r-fontWeight-b88u0q r-lineHeight-hbpseb r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                         dir="auto"
                       >
                         $
@@ -1043,7 +1043,7 @@ exports[`FeedModalItem - Send with Error status matches snapshot 1`] = `
                   className="css-view-1dbjc4n r-display-6koalj r-flexDirection-18u37iz r-flexGrow-18kxxzh r-flexShrink-1q142lx r-justifyContent-1777fci r-marginBottom-1yflyrw"
                 >
                   <send.svg
-                    style={1043}
+                    style={1031}
                   />
                 </div>
                 <div
@@ -1080,7 +1080,7 @@ exports[`FeedModalItem - Send with Error status matches snapshot 1`] = `
                         G
                       </div>
                       <div
-                        className="css-text-901oao r-color-11zaip3 r-fontFamily-6jnb14 r-fontSize-1ws2f5x r-fontWeight-b88u0q r-lineHeight-hbpseb r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                        className="css-text-901oao r-color-11zaip3 r-fontFamily-6jnb14 r-fontSize-1enofrn r-fontWeight-b88u0q r-lineHeight-hbpseb r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                         dir="auto"
                       >
                         $
@@ -1432,7 +1432,7 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                         G
                       </div>
                       <div
-                        className="css-text-901oao r-color-qjtdzx r-fontFamily-6jnb14 r-fontSize-1ws2f5x r-fontWeight-b88u0q r-lineHeight-hbpseb r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                        className="css-text-901oao r-color-qjtdzx r-fontFamily-6jnb14 r-fontSize-1enofrn r-fontWeight-b88u0q r-lineHeight-hbpseb r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                         dir="auto"
                       >
                         $

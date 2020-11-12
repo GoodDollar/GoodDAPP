@@ -138,8 +138,6 @@ export class GoodWallet {
 
   subscribers: any = {}
 
-  blockNumber: typeof BN
-
   isPollEvents: boolean = true
 
   constructor(walletConfig: {} = {}) {
@@ -688,11 +686,11 @@ export class GoodWallet {
   }
 
   /**
-   * Retrieves current Block Number and returns it as converted to a BN instance
-   * @returns {Promise<BN>} - Current block number in BN instance
+   * Retrieves current Block Number and returns it
+   * @returns {Promise<BN>} - Current block number
    */
-  getBlockNumber(): Promise<BN> {
-    return this.wallet.eth.getBlockNumber().then(toBN)
+  getBlockNumber(): Promise<number> {
+    return this.wallet.eth.getBlockNumber()
   }
 
   async balanceOf(): Promise<number> {

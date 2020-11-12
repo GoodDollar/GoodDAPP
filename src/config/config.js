@@ -38,9 +38,9 @@ const Config = {
   dashboardUrl: env.REACT_APP_DASHBOARD_URL || 'https://dashboard.gooddollar.org',
   infuraKey: env.REACT_APP_INFURA_KEY,
   network: env.REACT_APP_NETWORK || 'fuse',
-  networkMainnet: env.REACT_APP_NETWORK_MIANNET || 'fuse-mainnet',
-  alchemyApiKey: env.REACT_APP_ALCHEMY_API,
-  interestCollectedInterval: env.REACT_APP_GET_INTEREST_COLLECTED_BLOCKS_INTERVAL || 5760, // default is 24H
+  networkMainnet: env.REACT_APP_NETWORK_MAINNET || 'fuse-mainnet',
+  alchemyApiKey: env.REACT_APP_ALCHEMY_KEY,
+  interestCollectedInterval: env.REACT_APP_INTEREST_BLOCKS_INTERVAL || 5760, // default is 24H
   marketUrl: env.REACT_APP_MARKET_URL || 'https://www.facebook.com/groups/gooddollarmarketplace',
   torusEnabled: env.REACT_APP_USE_TORUS === 'true',
   torusNetwork: env.REACT_APP_TORUS_NETWORK || 'ropsten',
@@ -92,26 +92,26 @@ const Config = {
       network_id: 1,
 
       // httpWeb3provider: `https://kovan.infura.io/v3/`,
-      httpWeb3provider: `https://eth-mainnet.alchemyapi.io/v2/${env.REACT_APP_ALCHEMY_API}`,
+      httpWeb3provider: `https://eth-mainnet.alchemyapi.io/v2/${env.REACT_APP_ALCHEMY_KEY}`,
 
       // websocketWeb3Provider: 'wss://kovan.infura.io/ws',
-      websocketWeb3Provider: `wss://eth-mainnet.alchemyapi.io/v2/${env.REACT_APP_ALCHEMY_API}`,
+      websocketWeb3Provider: `wss://eth-mainnet.alchemyapi.io/v2/${env.REACT_APP_ALCHEMY_KEY}`,
     },
     '42': {
       network_id: 42,
 
       // httpWeb3provider: `https://kovan.infura.io/v3/`,
-      httpWeb3provider: `https://eth-kovan.alchemyapi.io/v2/${env.REACT_APP_ALCHEMY_API}`,
+      httpWeb3provider: `https://eth-kovan.alchemyapi.io/v2/${env.REACT_APP_ALCHEMY_KEY}`,
 
       // websocketWeb3Provider: 'wss://kovan.infura.io/ws',
-      websocketWeb3Provider: `wss://eth-kovan.alchemyapi.io/v2/${env.REACT_APP_ALCHEMY_API}`,
+      websocketWeb3Provider: `wss://eth-kovan.alchemyapi.io/v2/${env.REACT_APP_ALCHEMY_KEY}`,
     },
     '3': {
       network_id: 3,
-      httpWeb3provider: `https://eth-ropsten.alchemyapi.io/v2/${env.REACT_APP_ALCHEMY_API}`,
+      httpWeb3provider: `https://eth-ropsten.alchemyapi.io/v2/${env.REACT_APP_ALCHEMY_KEY}`,
 
       // httpWeb3provider: 'https://ropsten.infura.io/v3/',
-      websocketWeb3Provider: `wss://eth-ropsten.alchemyapi.io/v2/${env.REACT_APP_ALCHEMY_API}`,
+      websocketWeb3Provider: `wss://eth-ropsten.alchemyapi.io/v2/${env.REACT_APP_ALCHEMY_KEY}`,
 
       // websocketWeb3Provider: 'wss://ropsten.infura.io/ws',
     },

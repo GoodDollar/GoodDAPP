@@ -437,13 +437,12 @@ const Claim = props => {
         <View style={styles.fakeExtraInfoContainer} />
         <Section.Row style={styles.extraInfoContainer}>
           <Section.Text
-            style={[styles.fontSize16, styles.extraInfoSecondContainer, { fontSize: 24 }]}
+            style={[styles.extraInfoSecondContainer, { fontSize: 24 }]}
             fontWeight="bold"
             fontFamily="Roboto"
           >
             GoodDollar Stats
           </Section.Text>
-          <Section.Separator />
         </Section.Row>
       </Section.Stack>
     </WrapperClaim>
@@ -528,15 +527,15 @@ const getStylesFromProps = ({ theme }) => {
       flexDirection: 'column',
       zIndex: 1,
       justifyContent: 'flex-end',
-      marginBottom: getDesignRelativeHeight(isSmallDevice ? 16 : 20),
+      marginBottom: theme.sizes.defaultDouble,
     },
     wavesBox: {
       alignItems: 'center',
       flexDirection: 'column',
       zIndex: 1,
       justifyContent: 'flex-end',
-      marginBottom: getDesignRelativeHeight(isSmallDevice ? 16 : 20),
-      width: '95%',
+      marginBottom: theme.sizes.defaultDouble,
+      width: '340px',
     },
     lowerWavesBoxStyle: {
       backgroundColor: theme.colors.surface,
@@ -549,7 +548,7 @@ const getStylesFromProps = ({ theme }) => {
       backgroundColor: theme.colors.surface,
       minHeight: 50,
       textAlign: 'center',
-      marginBottom: getDesignRelativeHeight(isSmallDevice ? 8 : 10),
+      marginBottom: theme.sizes.default,
     },
     learnMoreLink,
     claimButtonContainer: {

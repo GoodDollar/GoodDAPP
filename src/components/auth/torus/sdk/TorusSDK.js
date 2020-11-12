@@ -2,6 +2,7 @@ import { first, omit } from 'lodash'
 
 import Config from '../../../../config/config'
 import logger from '../../../../lib/logger/pino-logger'
+import Torus from './torus'
 
 import {
   Auth0Strategy,
@@ -12,11 +13,11 @@ import {
   PaswordlessSMSStrategy,
 } from './strategies'
 
-export default class AbstractTorusSDK {
+class TorusSDK {
   strategies = {}
 
-  static factory(ConcreteSDK) {
-    const sdk = new ConcreteSDK(Config, logger.child({ from: 'TorusSDK' }))
+  static factory() {
+    const sdk = new TorusSDK(Config, logger.child({ from: 'TorusSDK' }))
 
     sdk.addStrategy('facebook', FacebookStrategy)
     sdk.addStrategy('google-old', GoogleLegacyStrategy)
@@ -29,19 +30,25 @@ export default class AbstractTorusSDK {
   }
 
   constructor(config, logger) {
+    const { env, googleClientId, facebookAppId, torusProxyContract, torusNetwork } = config
+
+    this.torus = new Torus(config, {
+      GOOGLE_CLIENT_ID: googleClientId,
+      FACEBOOK_CLIENT_ID: facebookAppId,
+      proxyContractAddress: torusProxyContract, // details for test net
+      network: torusNetwork, // details for test net
+      enableLogging: env === 'development',
+    })
+
     this.config = config
     this.logger = logger
   }
 
   // eslint-disable-next-line require-await
   async initialize() {
-    throw new Error('Trying to call abstract method AbstractTorusSDK::initialize()')
-  }
+    const { torus } = this
 
-  addStrategy(verifier, strategyClass) {
-    const { config, torus, strategies } = this
-
-    strategies[verifier] = new strategyClass(torus, config)
+    return torus.init()
   }
 
   async triggerLogin(verifier, customLogger = null) {
@@ -58,6 +65,12 @@ export default class AbstractTorusSDK {
     const response = await strategies[withVerifier].triggerLogin()
 
     return this.fetchTorusUser(response, customLogger)
+  }
+
+  addStrategy(verifier, strategyClass) {
+    const { config, torus, strategies } = this
+
+    strategies[verifier] = new strategyClass(torus, config)
   }
 
   fetchTorusUser(response, customLogger = null) {
@@ -91,3 +104,5 @@ export default class AbstractTorusSDK {
     return torusUser
   }
 }
+
+export default TorusSDK.factory()

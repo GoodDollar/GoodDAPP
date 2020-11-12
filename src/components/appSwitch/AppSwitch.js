@@ -23,7 +23,7 @@ import config from '../../config/config'
 import { delay } from '../../lib/utils/async'
 import SimpleStore, { assertStore } from '../../lib/undux/SimpleStore'
 import { preloadZoomSDK } from '../dashboard/FaceVerification/hooks/useZoomSDK'
-import { getInviteCode } from '../invite/useInvites'
+import { useInviteCode } from '../invite/useInvites'
 
 type LoadingProps = {
   navigation: any,
@@ -77,6 +77,7 @@ const AppSwitch = (props: LoadingProps) => {
   const store = SimpleStore.useStore()
   const [showErrorDialog] = useErrorDialog()
   const { router, state } = props.navigation
+  useInviteCode()
   const [ready, setReady] = useState(false)
 
   const recheck = useCallback(() => {
@@ -135,8 +136,6 @@ const AppSwitch = (props: LoadingProps) => {
    * @returns {Promise<void>}
    */
   const initialize = async isLoggedInCitizen => {
-    getInviteCode().then(code => gdstore.set('inviteCode')(code))
-
     AsyncStorage.setItem('GD_version', 'phase' + config.phase)
 
     const regMethod = (await AsyncStorage.getItem(GD_USER_MASTERSEED).then(_ => !!_))
@@ -172,12 +171,7 @@ const AppSwitch = (props: LoadingProps) => {
       //after dynamic routes update, if user arrived here, then he is already loggedin
       //initialize the citizen status and wallet status
       //create jwt token and initialize the API service
-      const [{ isLoggedInCitizen, isLoggedIn }] = await Promise.all([
-        getLoginState(),
-        updateWalletStatus(gdstore),
-
-        // userStorage.getProfileFieldValue('inviteCode'),
-      ])
+      const [{ isLoggedInCitizen, isLoggedIn }] = await Promise.all([getLoginState(), updateWalletStatus(gdstore)])
       log.debug('initialize ready', { isLoggedIn, isLoggedInCitizen })
 
       gdstore.set('isLoggedIn')(isLoggedIn)

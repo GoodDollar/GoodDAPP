@@ -437,38 +437,13 @@ const Claim = props => {
         />
         <View style={styles.fakeExtraInfoContainer} />
         <Section.Row style={styles.extraInfoContainer}>
-          <Section.Row
-            style={[styles.fontSize16, styles.extraInfoSecondContainer]}
+          <Section.Text
+            style={[styles.extraInfoSecondContainer, { fontSize: 24 }]}
             fontWeight="bold"
             fontFamily="Roboto"
           >
-            <Section.Text style={styles.fontSize16}>{'Today '}</Section.Text>
-            <Section.Row fontWeight="bold" style={styles.fontSize16}>
-              <BigGoodDollar
-                style={styles.extraInfoAmountDisplay}
-                number={totalClaimed}
-                spaceBetween={false}
-                formatter={extraInfoAmountFormatter}
-                fontFamily="Roboto"
-                bigNumberProps={{
-                  fontFamily: 'Roboto',
-                  fontSize: regularFontSize,
-                  color: 'black',
-                  lineHeight: 22,
-                }}
-                bigNumberUnitProps={{
-                  fontFamily: 'Roboto',
-                  fontSize: regularFontSize,
-                  color: 'black',
-                }}
-              />
-            </Section.Row>
-            <Section.Text style={styles.fontSize16}>{` Claimed by `}</Section.Text>
-            <Section.Text fontWeight="bold" color="black" style={styles.fontSize16}>
-              {formattedNumberOfPeopleClaimedToday}{' '}
-            </Section.Text>
-            <Section.Text style={styles.fontSize16}>Good People</Section.Text>
-          </Section.Row>
+            GoodDollar Stats
+          </Section.Text>
         </Section.Row>
       </Section.Stack>
     </WrapperClaim>
@@ -554,15 +529,15 @@ const getStylesFromProps = ({ theme }) => {
       flexDirection: 'column',
       zIndex: 1,
       justifyContent: 'flex-end',
-      marginBottom: getDesignRelativeHeight(isLargeDevice ? 16 : 20),
+      marginBottom: theme.sizes.defaultDouble,
     },
     wavesBox: {
       alignItems: 'center',
       flexDirection: 'column',
       zIndex: 1,
       justifyContent: 'flex-end',
-      marginBottom: getDesignRelativeHeight(isSmallDevice ? 16 : 20),
-      width: '95%',
+      marginBottom: theme.sizes.defaultDouble,
+      width: '340px',
     },
     lowerWavesBoxStyle: {
       backgroundColor: theme.colors.surface,
@@ -575,7 +550,7 @@ const getStylesFromProps = ({ theme }) => {
       backgroundColor: theme.colors.surface,
       minHeight: 50,
       textAlign: 'center',
-      marginBottom: getDesignRelativeHeight(isSmallDevice ? 8 : 10),
+      marginBottom: theme.sizes.default,
     },
     learnMoreLink,
     claimButtonContainer: {

@@ -10,7 +10,7 @@ import SimpleDaiStaking from '@gooddollar/goodcontracts/stakingModel/build/contr
 import type Web3 from 'web3'
 import { BN, toBN } from 'web3-utils'
 import abiDecoder from 'abi-decoder'
-import { get, invokeMap, uniqBy, values } from 'lodash'
+import { get, invokeMap, last, uniqBy, values } from 'lodash'
 import moment from 'moment'
 import Config from '../../config/config'
 import logger from '../../lib/logger/pino-logger'
@@ -711,11 +711,7 @@ export class GoodWallet {
       })
       let interest = 0
       if (events.length > 0) {
-        events.forEach(event => {
-          if (event.returnValues.daiValue > interest) {
-            interest = event.returnValues.daiValue
-          }
-        })
+        get(last(events), 'returnValues.daiValue', 0)
       }
       interest = interest ? this.web3Mainnet.utils.fromWei(interest) : interest
       return interest

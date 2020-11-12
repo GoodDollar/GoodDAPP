@@ -10,21 +10,30 @@ import { fireEvent, INVITE_BOUNTY, INVITE_JOIN } from '../../lib/analytics/analy
 const log = logger.child({ from: 'useInvites' })
 
 const registerForInvites = async () => {
-  const inviterCode = userStorage.userProperties.get('inviterCode')
-  if (inviterCode) {
-    fireEvent(INVITE_JOIN, { inviterCode })
+  const inviterInviteCode = userStorage.userProperties.get('inviterInviteCode')
+
+  if (inviterInviteCode) {
+    fireEvent(INVITE_JOIN, { inviterInviteCode })
   }
-  const inviteCode = await goodWallet.joinInvites(inviterCode)
-  log.debug('joined invites contract:', { inviteCode, inviterCode })
-  userStorage.userProperties.set('inviteCode', inviteCode)
-  return inviteCode
+
+  try {
+    log.debug('joining invites contract:', { inviterInviteCode })
+    const inviteCode = await goodWallet.joinInvites(inviterInviteCode)
+    log.debug('joined invites contract:', { inviteCode, inviterInviteCode })
+    userStorage.userProperties.set('inviteCode', inviteCode)
+    return inviteCode
+  } catch (e) {
+    log.error('registerForInvites failed', e.message, e, { inviterInviteCode })
+  }
 }
 
-export const getInviteCode = async () => {
+const getInviteCode = async () => {
   let code = userStorage.userProperties.get('inviteCode')
+
   if (!code) {
     code = await registerForInvites()
   }
+
   return code
 }
 
@@ -34,8 +43,13 @@ const useInviteCode = () => {
   //return user invite code or register him with a new code
 
   useEffect(() => {
+    log.debug('useInviteCode didmount:', { inviteCode })
+
     if (!inviteCode) {
-      getInviteCode().then(code => setInviteCode(code))
+      getInviteCode().then(code => {
+        log.debug('useInviteCode registered user result:', { code })
+        setInviteCode(code)
+      })
     }
   }, [])
 
@@ -54,29 +68,38 @@ const useCollectBounty = () => {
         message: `Collecting invite bonus for ${canCollect} invited friends`,
         loading: true,
       })
+
+      log.debug('useCollectBounty calling collectInviteBounties', { canCollect })
       await goodWallet.collectInviteBounties()
+
       fireEvent(INVITE_BOUNTY, { numCollected: canCollect })
       setCollected(true)
+
       showDialog({
         title: 'Collecting Bonus',
         message: `Collecting invite bonus for ${canCollect} invited friends`,
         loading: false,
       })
     } catch (e) {
-      log.error('failed collecting invite bounties', e.message, e, { inviter: goodWallet.account })
+      log.error('failed collecting invite bounties', e.message, e, { inviter: goodWallet.account, canCollect })
       showErrorDialog('Failed collecting invite bonus. You need to first complete your Face Verification.')
     }
   }
 
   const checkBounties = async () => {
-    let pending = await goodWallet.invitesContract.methods.getPendingInvitees(goodWallet.account).call()
+    try {
+      let pending = await goodWallet.invitesContract.methods.getPendingInvitees(goodWallet.account).call()
+      log.debug('checkBounties got pending invites:', { pending })
 
-    let hasBounty = await Promise.all(
-      pending.map(a => goodWallet.invitesContract.methods.canCollectBountyFor(a).call()),
-    ).then(_ => _.filter(x => x))
+      let hasBounty = await Promise.all(
+        pending.map(a => goodWallet.invitesContract.methods.canCollectBountyFor(a).call()),
+      ).then(_ => _.filter(x => x))
+      log.debug('checkBounties:', { hasBounty, pending })
 
-    log.debug('checkBounties:', { hasBounty, pending })
-    setCanCollect(hasBounty.length)
+      setCanCollect(hasBounty.length)
+    } catch (e) {
+      log.error('checkBounties failed:', e.message, e)
+    }
   }
 
   useEffect(() => {
@@ -97,28 +120,37 @@ const useInvited = () => {
   const [invites, setInvites] = useState([])
 
   const updateInvited = async () => {
-    let cached = (await AsyncStorage.getItem('GD_cachedInvites')) || []
-    setInvites(cached)
-    const [invitees, pending] = await Promise.all([
-      goodWallet.invitesContract.methods.getInvitees(goodWallet.account).call(),
-      goodWallet.invitesContract.methods
-        .getPendingInvitees(goodWallet.account)
-        .call()
-        .then(_ => keyBy(_)),
-    ])
-    let invited = await Promise.all(
-      invitees.map(addr => userStorage.getUserProfile(addr).then(profile => ({ addr, ...profile }))),
-    )
+    try {
+      let cached = (await AsyncStorage.getItem('GD_cachedInvites')) || []
+      log.debug('updateInvited', { cached })
+      setInvites(cached)
 
-    log.debug({ invitees, pending, invited, cached })
+      const [invitees, pending] = await Promise.all([
+        goodWallet.invitesContract.methods.getInvitees(goodWallet.account).call(),
+        goodWallet.invitesContract.methods
+          .getPendingInvitees(goodWallet.account)
+          .call()
+          .then(_ => keyBy(_)),
+      ])
+      log.debug('updateInvited got invitees and pending invitees', { invitees, pending })
 
-    //keep if both name + avatar or not in cache
-    invited = invited.filter(_ => _.name || _.avatar || cached.find(c => c.addr === _.addr) === undefined)
+      let invited = await Promise.all(
+        invitees.map(addr => userStorage.getUserProfile(addr).then(profile => ({ addr, ...profile }))),
+      )
 
-    cached = uniqBy(invited.concat(cached), 'addr')
-    cached.forEach(i => (i.status = pending[i.addr] ? 'pending' : 'approved'))
-    setInvites(cached)
-    AsyncStorage.setItem('GD_cachedInvites', cached)
+      log.debug('updateInvited got invitees profiles', { invited })
+
+      //keep if both name + avatar or not in cache
+      invited = invited.filter(_ => _.name || _.avatar || cached.find(c => c.addr === _.addr) === undefined)
+
+      //adding/updating invitees profiles to cache
+      cached = uniqBy(invited.concat(cached), 'addr')
+      cached.forEach(i => (i.status = pending[i.addr] ? 'pending' : 'approved'))
+      setInvites(cached)
+      AsyncStorage.setItem('GD_cachedInvites', cached)
+    } catch (e) {
+      log.error('updateInvited failed:', e.message, e)
+    }
   }
 
   useEffect(() => {

@@ -15,8 +15,8 @@ import {
 export default class AbstractTorusSDK {
   strategies = {}
 
-  static factory(ConcreteSDK) {
-    const sdk = new ConcreteSDK(Config, logger.child({ from: 'TorusSDK' }))
+  static factory(TorusSDKClassImpl) {
+    const sdk = new TorusSDKClassImpl(Config, logger.child({ from: 'TorusSDK' }))
 
     sdk.addStrategy('facebook', FacebookStrategy)
     sdk.addStrategy('google-old', GoogleLegacyStrategy)

@@ -19,17 +19,25 @@ exports[`AppNavigation matches snapshot 1`] = `
   }
 >
   <div
-    className=""
+    className="css-view-1dbjc4n"
     style={
       Object {
-        "bottom": 0,
+        "WebkitBoxDirection": "normal",
+        "WebkitBoxFlex": 1,
+        "WebkitBoxOrient": "vertical",
+        "WebkitFlexDirection": "column",
+        "WebkitFlexGrow": 1,
+        "bottom": "0px",
         "display": "flex",
         "flexDirection": "column",
         "flexGrow": 1,
-        "left": 0,
+        "left": "0px",
+        "minHeight": "480px",
+        "msFlexDirection": "column",
+        "msFlexPositive": 1,
         "position": "absolute",
-        "right": 0,
-        "top": 0,
+        "right": "0px",
+        "top": "0px",
       }
     }
   >
@@ -520,7 +528,7 @@ exports[`AppNavigation matches snapshot 1`] = `
                           "color": "rgba(85,85,85,1.00)",
                           "direction": "ltr",
                           "fontFamily": "Roboto Slab",
-                          "fontSize": "17.5px",
+                          "fontSize": "18px",
                           "fontWeight": "700",
                           "lineHeight": "22px",
                           "textAlign": "right",

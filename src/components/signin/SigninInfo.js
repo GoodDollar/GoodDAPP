@@ -1,11 +1,11 @@
 // @flow
 import React from 'react'
-import { Image, TouchableOpacity, View } from 'react-native'
+import { Image, View } from 'react-native'
 import Section from '../common/layout/Section'
 import Circle from '../common/view/Circle'
 import Wrapper from '../common/layout/Wrapper'
 import Text from '../common/view/Text'
-
+import { CustomButton } from '../common'
 import { withStyles } from '../../lib/styles'
 import illustration from '../../assets/Signin/illustration.svg'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
@@ -68,30 +68,23 @@ const Signin = props => {
         </Section.Row>
       </Wrapper>
       <Section.Row alignItems="center" justifyContent="center" style={styles.row}>
-        <TouchableOpacity onPress={handleRecover}>
-          <Section.Text
-            fontWeight="medium"
-            style={styles.recoverText}
-            textDecorationLine="underline"
-            fontSize={14}
-            color="primary"
-          >
-            {'Or, recover from pass phrase'}
-          </Section.Text>
-        </TouchableOpacity>
+        <CustomButton
+          textStyle={{ textDecorationLine: 'underline', fontSize: 14, fontWeight: 500 }}
+          mode="text"
+          onPress={handleRecover}
+        >
+          {'Or, recover from pass phrase'}
+        </CustomButton>
       </Section.Row>
       <Section.Row alignItems="center" justifyContent="center" style={styles.row}>
-        <TouchableOpacity onPress={goToSupport}>
-          <Section.Text
-            fontWeight="medium"
-            style={styles.haveIssuesText}
-            textDecorationLine="underline"
-            fontSize={14}
-            color="primary"
-          >
-            {'Still having issues? contact support'}
-          </Section.Text>
-        </TouchableOpacity>
+        <CustomButton
+          textStyle={{ textDecorationLine: 'underline', fontSize: 14, fontWeight: 500 }}
+          mode="text"
+          onPress={goToSupport}
+          style={styles.haveIssuesText}
+        >
+          {'Still having issues? contact support'}
+        </CustomButton>
       </Section.Row>
     </Section.Stack>
   )

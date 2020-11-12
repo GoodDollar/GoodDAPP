@@ -3,7 +3,7 @@
 // libraries
 import React, { useCallback, useMemo } from 'react'
 import { Image, Platform, View } from 'react-native'
-import { get } from 'lodash'
+import { get, noop } from 'lodash'
 
 // components
 import Wrapper from '../common/layout/Wrapper'
@@ -13,11 +13,9 @@ import NavBar from '../appNavigation/NavBar'
 
 // hooks
 import { useDialog } from '../../lib/undux/utils/dialog'
-import useLoading from '../../lib/hooks/useLoadingIndicator'
 
 // utils
 import { withStyles } from '../../lib/styles'
-import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import GoodWallet from '../../lib/wallet/GoodWallet'
 import GDStore from '../../lib/undux/GDStore'
 import config from '../../config/config'
@@ -33,8 +31,6 @@ if (Platform.OS === 'web') {
 }
 
 const rpcImageSource = { uri: FuseLogo }
-const { account = '', networkId } = GoodWallet
-const web3ProviderUrl = networkId && config.ethereum[networkId].httpWeb3provider
 
 type ExportWalletProps = {
   styles: {},
@@ -47,22 +43,29 @@ const ExportWalletData = ({ navigation, styles, theme }: ExportWalletProps) => {
   const [showDialog] = useDialog()
   const gdstore = GDStore.useStore()
   const { avatar } = gdstore.get('profile')
-  const [showLoading, hideLoading] = useLoading()
+
   const handleGoHome = useCallback(() => navigate('Home'), [navigate])
   const avatarSource = useMemo(() => (avatar ? { uri: avatar } : unknownProfile), [avatar])
 
-  // getting the privateKey of GD wallet address - which index is 0
-  const fullPrivateKey = useMemo(() => get(GoodWallet, 'wallet.eth.accounts.wallet[0].privateKey', ''), [])
+  const [account, web3ProviderUrl, fullPrivateKey] = useMemo(() => {
+    const { account = '', networkId } = GoodWallet
+    const web3ProviderUrl = networkId && config.ethereum[networkId].httpWeb3provider
 
-  const onPublicKeyCopied = useCallback(() => {
-    showLoading()
+    // getting the privateKey of GD wallet address - which index is 0
+    const fullPrivateKey = get(GoodWallet, 'wallet.eth.accounts.wallet[0].privateKey', '')
 
-    showDialog({
-      showButtons: false,
-      onDismiss: hideLoading,
-      content: <ExportWarningPopup onDismiss={hideLoading} />,
-    })
-  }, [showDialog])
+    return [account, web3ProviderUrl, fullPrivateKey]
+  }, [])
+
+  const onPublicKeyCopied = useCallback(
+    () =>
+      showDialog({
+        showButtons: false,
+        onDismiss: noop,
+        content: <ExportWarningPopup onDismiss={noop} />,
+      }),
+    [showDialog],
+  )
 
   return (
     <Wrapper style={styles.wrapper}>
@@ -118,7 +121,6 @@ const styles = ({ theme }) => ({
     display: 'flex',
     justifyContent: 'space-around',
     flexGrow: 1,
-    marginBottom: getDesignRelativeHeight(10, false),
   },
 })
 

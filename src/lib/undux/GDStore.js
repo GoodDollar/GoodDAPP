@@ -16,6 +16,12 @@ type Account = {
   ready: false,
 }
 
+export type VerificationState = {
+  attemptsCount: number,
+  attemptsHistory: string[],
+  reachedMaxAttempts: boolean,
+}
+
 /**
  * Type definition for the global store
  * @type {
@@ -27,15 +33,19 @@ type Account = {
   }
  */
 export type State = {
-  attemptsCount: number,
-  attemptsHistory: string[],
-  reachedMaxAttempts: boolean,
   balanceUpdate: boolean,
   account: Account,
   destinationPath: string,
   feeds: StandardFeed[],
   feedLoading: boolean,
   currentFeed: any,
+  verification: VerificationState,
+}
+
+export const defaultVerificationState: VerificationState = {
+  attemptsCount: 0,
+  attemptsHistory: [],
+  reachedMaxAttempts: false,
 }
 
 /**
@@ -49,9 +59,9 @@ const initialState: State = {
     entitlement: undefined,
     ready: false,
   },
-  attemptsCount: 0,
-  attemptsHistory: [],
-  reachedMaxAttempts: false,
+  verification: {
+    ...defaultVerificationState,
+  },
   isLoggedInCitizen: false,
   isLoggedIn: false,
   profile: {},

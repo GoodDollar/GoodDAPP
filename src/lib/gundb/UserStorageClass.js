@@ -719,7 +719,7 @@ export class UserStorage {
     let magicLink = `${username}+${password}`
     magicLink = Buffer.from(magicLink)
       .toString('base64')
-      .replace(/==$/, '')
+      .replace(/=+$/, '')
 
     return magicLink
   }

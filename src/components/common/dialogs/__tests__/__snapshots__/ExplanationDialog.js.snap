@@ -5,15 +5,24 @@ exports[`ExplanationDialog matches snapshot 1`] = `
   className="css-view-1dbjc4n"
   style={
     Object {
+      "WebkitBoxFlex": 0,
       "WebkitBoxPack": "justify",
+      "WebkitFlexBasis": "0%",
+      "WebkitFlexGrow": 0,
+      "WebkitFlexShrink": 0,
       "WebkitJustifyContent": "space-around",
       "display": "flex",
+      "flexBasis": "0%",
+      "flexGrow": 0,
+      "flexShrink": 0,
       "height": "100%",
       "justifyContent": "space-around",
       "marginBottom": "auto",
       "marginTop": "auto",
-      "minHeight": "310px",
+      "msFlexNegative": 0,
       "msFlexPack": "distribute",
+      "msFlexPositive": 0,
+      "msFlexPreferredSize": "0%",
     }
   }
 >
@@ -27,7 +36,7 @@ exports[`ExplanationDialog matches snapshot 1`] = `
         "fontSize": "24px",
         "fontWeight": "700",
         "lineHeight": "30px",
-        "marginBottom": "8px",
+        "marginBottom": "24px",
         "textAlign": "center",
         "textDecoration": "none",
         "textTransform": "none",
@@ -46,6 +55,7 @@ exports[`ExplanationDialog matches snapshot 1`] = `
         "fontSize": "24px",
         "fontWeight": "normal",
         "lineHeight": "22px",
+        "marginBottom": "24px",
         "textAlign": "center",
         "textDecoration": "none",
         "textTransform": "none",

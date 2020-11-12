@@ -179,24 +179,15 @@ so we can verify its you
               </div>
             </div>
             <div
-              className="signup_phone_input signup_phone_input css-view-1dbjc4n"
+              className="signup_phone_input"
               style={
                 Object {
-                  "WebkitAlignItems": "stretch",
-                  "WebkitBoxAlign": "stretch",
-                  "WebkitBoxDirection": "normal",
-                  "WebkitBoxOrient": "vertical",
-                  "WebkitBoxPack": "center",
-                  "WebkitFlexDirection": "column",
-                  "WebkitJustifyContent": "center",
                   "alignItems": "stretch",
+                  "display": "flex",
                   "flexDirection": "column",
                   "justifyContent": "center",
-                  "marginBottom": "8px",
+                  "marginBottom": 8,
                   "marginTop": "auto",
-                  "msFlexAlign": "stretch",
-                  "msFlexDirection": "column",
-                  "msFlexPack": "center",
                 }
               }
             >

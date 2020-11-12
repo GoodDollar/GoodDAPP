@@ -1,6 +1,5 @@
 import { GoodWallet } from '../GoodWalletClass'
 import adminWallet from './__util__/AdminWalletV1'
-import '../PaymentLinks'
 
 describe('GoodWalletShare/ReceiveTokens', () => {
   jest.setTimeout(100000)

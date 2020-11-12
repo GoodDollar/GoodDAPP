@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 
 import Instructions from '../components/Instructions'
 
@@ -11,6 +11,8 @@ import useLoadingIndicator from '../../../../lib/hooks/useLoadingIndicator'
 import useZoomSDK from '../hooks/useZoomSDK'
 import useZoomVerification from '../hooks/useZoomVerification'
 import useVerificationAttempts from '../hooks/useVerificationAttempts'
+
+import { MAX_ATTEMPTS_ALLOWED } from '../sdk/ZoomSDK.constants'
 
 import {
   fireEvent,
@@ -28,7 +30,7 @@ const FaceVerification = ({ screenProps }) => {
   const [showLoading, hideLoading] = useLoadingIndicator()
   const [showInstructions, setShowInstructions] = useState(false)
   const [setIsCitizen] = useCurriedSetters(['isLoggedInCitizen'])
-  const { trackAttempt, resetAttempts } = useVerificationAttempts()
+  const { attemptsCount, trackAttempt, resetAttempts } = useVerificationAttempts()
 
   // Redirects to the error screen, passing exception
   // object and allowing to show/hide retry button (hides it by default)
@@ -55,9 +57,12 @@ const FaceVerification = ({ screenProps }) => {
   }, [])
 
   const retryHandler = useCallback(
-    eventData => {
+    ({ exception, ...eventData }) => {
+      const { reason } = eventData
+      let errorObject = exception || new Error(reason)
+
       fireEvent(FV_TRYAGAIN_ZOOM, eventData)
-      trackAttempt(eventData.reason)
+      trackAttempt(errorObject, reason)
     },
     [trackAttempt],
   )
@@ -107,6 +112,13 @@ const FaceVerification = ({ screenProps }) => {
     [screenProps, showErrorScreen, trackAttempt],
   )
 
+  // calculating retries allowed for FV session
+  const maxRetries = useMemo(() => {
+    const attemptsLeft = MAX_ATTEMPTS_ALLOWED - attemptsCount
+
+    return Math.max(0, attemptsLeft - 1)
+  }, [attemptsCount])
+
   // Using zoom verification hook, passing completion callback
   const startVerification = useZoomVerification({
     enrollmentIdentifier: UserStorage.getFaceIdentifier(),
@@ -115,6 +127,7 @@ const FaceVerification = ({ screenProps }) => {
     onRetry: retryHandler,
     onComplete: completionHandler,
     onError: exceptionHandler,
+    maxRetries,
   })
 
   // SDK initialized handler

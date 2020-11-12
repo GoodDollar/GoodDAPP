@@ -5,17 +5,10 @@ exports[`AppNavigation matches snapshot 1`] = `
   className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
-    className=""
+    className="css-view-1dbjc4n r-bottom-1p0dtai r-display-6koalj r-flexDirection-eqz5dr r-flexGrow-16y2uox r-left-1d2f490 r-position-u8s1d r-right-zchlnj r-top-ipm5af"
     style={
       Object {
-        "bottom": 0,
-        "display": "flex",
-        "flexDirection": "column",
-        "flexGrow": 1,
-        "left": 0,
-        "position": "absolute",
-        "right": 0,
-        "top": 0,
+        "minHeight": "480px",
       }
     }
   >
@@ -160,13 +153,11 @@ exports[`AppNavigation matches snapshot 1`] = `
             className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-eqz5dr r-height-1pi2tsx r-justifyContent-1wtj0ep"
           >
             <div
-              className="css-view-1dbjc4n"
+              className="css-view-1dbjc4n r-position-u8s1d r-top-ipm5af"
               style={
                 Object {
                   "height": "68px",
                   "left": "187.5px",
-                  "position": "absolute",
-                  "top": "0px",
                   "width": "68px",
                 }
               }
@@ -192,16 +183,13 @@ exports[`AppNavigation matches snapshot 1`] = `
               </div>
             </div>
             <div
-              className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-justifyContent-1777fci"
+              className="css-view-1dbjc4n r-alignItems-1awozwy r-bottom-1p0dtai r-flex-13awgt0 r-justifyContent-1777fci r-position-u8s1d r-top-ipm5af"
               style={
                 Object {
-                  "bottom": "0px",
                   "marginBottom": "auto",
                   "marginTop": "auto",
                   "opacity": 1,
                   "paddingTop": "10px",
-                  "position": "absolute",
-                  "top": "0px",
                   "zIndex": -1,
                 }
               }
@@ -214,13 +202,11 @@ exports[`AppNavigation matches snapshot 1`] = `
               </div>
             </div>
             <div
-              className="css-view-1dbjc4n r-alignItems-1d09ksm"
+              className="css-view-1dbjc4n r-alignItems-1d09ksm r-bottom-1p0dtai r-position-u8s1d"
               style={
                 Object {
-                  "bottom": "0px",
                   "marginBottom": "16px",
                   "marginTop": "16px",
-                  "position": "absolute",
                   "right": "187.5px",
                   "visibility": "hidden",
                 }
@@ -249,7 +235,7 @@ exports[`AppNavigation matches snapshot 1`] = `
                       G
                     </div>
                     <div
-                      className="css-text-901oao r-color-181bzza r-fontFamily-6jnb14 r-fontSize-16if4en r-fontWeight-b88u0q r-lineHeight-hbpseb r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                      className="css-text-901oao r-color-181bzza r-fontFamily-6jnb14 r-fontSize-1i10wst r-fontWeight-b88u0q r-lineHeight-hbpseb r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                       dir="auto"
                     >
                       $
@@ -376,7 +362,7 @@ exports[`AppNavigation matches snapshot 1`] = `
               }
             >
               <div
-                className="css-view-1dbjc4n r-alignItems-1awozwy r-borderRadius-ieixw r-display-6koalj r-height-1pi2tsx r-justifyContent-1777fci r-marginBottom-p1pxzi r-width-13qz1uu"
+                className="css-view-1dbjc4n r-alignItems-1awozwy r-borderRadius-ieixw r-display-6koalj r-height-1pi2tsx r-justifyContent-1777fci r-marginBottom-p1pxzi r-position-u8s1d r-width-13qz1uu"
                 data-testid="claim_button"
                 style={
                   Object {
@@ -402,7 +388,6 @@ exports[`AppNavigation matches snapshot 1`] = `
                     "paddingLeft": "0px",
                     "paddingRight": "0px",
                     "paddingTop": "3px",
-                    "position": "absolute",
                     "zIndex": 99,
                   }
                 }

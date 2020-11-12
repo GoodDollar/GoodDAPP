@@ -102,6 +102,7 @@ const SignupScreen = ({ screenProps, styles, store, handleLoginMethod, sdkInitia
               disabled={!sdkInitialized}
               testID="login_with_facebook"
               icon={facebookBtnIcon}
+              iconProps={{ viewBox: '0 0 11 22' }}
             >
               {`Agree & Sign up with Facebook`}
             </LoginButton>
@@ -134,7 +135,6 @@ const getStylesFromProps = ({ theme }) => {
     buttonLayout: {
       marginTop: getDesignRelativeHeight(theme.sizes.default),
       marginBottom: getDesignRelativeHeight(theme.sizes.default),
-      flex: 1,
       justifyContent: 'space-between',
       flexDirection: 'row',
       alignItems: 'center',

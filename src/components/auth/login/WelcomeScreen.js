@@ -11,7 +11,7 @@ import {
 } from '../../../lib/analytics/analytics'
 import { GD_USER_MASTERSEED } from '../../../lib/constants/localStorage'
 import AsyncStorage from '../../../lib/utils/asyncStorage'
-import { isBrowser, isMobileNative } from '../../../lib/utils/platform'
+import { isBrowser, isIOSNative } from '../../../lib/utils/platform'
 import { withStyles } from '../../../lib/styles'
 import { REGISTRATION_METHOD_SELF_CUSTODY } from '../../../lib/constants/login'
 import CustomButton from '../../common/buttons/CustomButton'
@@ -42,14 +42,14 @@ const WelcomeScreen = ({ styles, screenProps, navigation }) => {
     fireEvent(SIGNUP_SELECTED)
 
     const options = { screen: 'signup' }
-    if (isMobileNative) options.regMethod = REGISTRATION_METHOD_SELF_CUSTODY
+    if (isIOSNative) options.regMethod = REGISTRATION_METHOD_SELF_CUSTODY
 
-    return navigate(isMobileNative ? 'Signup' : 'Auth', options)
+    return navigate(isIOSNative ? 'Signup' : 'Auth', options)
   }, [navigate])
 
   const goToSignIn = useCallback(() => {
     fireEvent(SIGNIN_SELECTED)
-    return navigate(isMobileNative ? 'SigninInfo' : 'Auth', { screen: 'signin' })
+    return navigate(isIOSNative ? 'SigninInfo' : 'Auth', { screen: 'signin' })
   }, [navigate])
 
   const goToManualRegistration = useCallback(async () => {

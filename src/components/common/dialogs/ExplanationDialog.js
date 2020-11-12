@@ -57,8 +57,10 @@ const ExplanationDialog = ({
   labelStyle = defaultCustomStyle,
   imageStyle = defaultCustomStyle,
 }) => {
+  const hasImage = imageSource || ImageComponent
+
   const imageProps = useMemo(() => {
-    if (!imageSource && !ImageComponent) {
+    if (!hasImage) {
       return
     }
 
@@ -74,7 +76,7 @@ const ExplanationDialog = ({
       ],
       resizeMode: 'contain',
     }
-  }, [styles.image, imageStyle, ImageComponent, imageSource])
+  }, [styles.image, imageStyle, hasImage])
 
   return (
     <View style={[styles.container, containerStyle]}>
@@ -83,7 +85,7 @@ const ExplanationDialog = ({
           {errorMessage}
         </Text>
       )}
-      {(imageSource || ImageComponent) && (
+      {hasImage && (
         <View style={[styles.centerImage, imageContainer]}>
           {ImageComponent ? (
             <View {...imageProps}>

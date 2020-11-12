@@ -8,7 +8,7 @@ import DeniedPermissionDialog from './DeniedPermissionDialog'
 export default props => (
   <DeniedPermissionDialog
     title="Go to your device settings & enable clipboard permission"
-    imageSource={illustration}
+    image={illustration}
     imageHeight={119}
     {...props}
   />

@@ -1,12 +1,14 @@
 import { useCallback } from 'react'
 import { noop } from 'lodash'
-import { useCurriedSetters } from '../undux/SimpleStore.js'
+import SimpleStore, { useCurriedSetters } from '../undux/SimpleStore.js'
 import { useDialog } from '../undux/utils/dialog'
 import { fireEventFromNavigation } from '../analytics/analytics'
 import { getRoutePath } from '../../components/appNavigation/stackNavigation'
 
 export default (options = {}) => {
   const [, hideDialog] = useDialog()
+  const store = SimpleStore.useStore()
+
   const [setCurrentFeed, setSideMenu] = useCurriedSetters(['currentFeed', 'sidemenu'])
   const { resetFeed = true, resetMenu = true, resetPopups = true, fireEvent = true, onChange = noop } = options
 
@@ -22,7 +24,8 @@ export default (options = {}) => {
       }
 
       if (resetPopups) {
-        hideDialog()
+        const { visible } = store.get('currentScreen').dialogData
+        visible && hideDialog()
       }
 
       if (resetFeed) {
@@ -30,13 +33,14 @@ export default (options = {}) => {
       }
 
       if (resetMenu) {
-        setSideMenu({ visible: false })
+        const { visible } = store.get('sidemenu')
+        visible && setSideMenu({ visible: false })
       }
 
       if (fireEvent) {
         fireEventFromNavigation(action)
       }
     },
-    [hideDialog, setSideMenu, setCurrentFeed, resetFeed, resetMenu, resetPopups, fireEvent, onChange],
+    [hideDialog, setSideMenu, setCurrentFeed, resetFeed, resetMenu, resetPopups, fireEvent, onChange, store],
   )
 }

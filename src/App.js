@@ -18,6 +18,7 @@ import logger from './lib/logger/pino-logger'
 import SimpleStore, { initStore } from './lib/undux/SimpleStore'
 import AsyncStorage from './lib/utils/asyncStorage'
 import { isMobile } from './lib/utils/platform'
+import hot from './lib/hoc/hotLoader'
 
 import './lib/gundb/gundb'
 
@@ -35,7 +36,8 @@ const SplashOrRouter = memo(({ store }) => {
   )
 })
 
-const App = () => {
+// export for unit testing
+export const App = () => {
   const store = SimpleStore.useStore()
   useCountryCode()
 
@@ -43,10 +45,11 @@ const App = () => {
   useEffect(() => log.debug({ Config }), [])
 
   const AppWrapper = isMobile ? Fragment : SafeAreaView
+  const wrapperProps = isMobile ? {} : { style: styles.safeAreaView }
 
   return (
     <PaperProvider theme={theme}>
-      <AppWrapper style={styles.safeAreaView}>
+      <AppWrapper {...wrapperProps}>
         <Fragment>
           <SimpleStoreDialog />
           <LoadingIndicator />
@@ -109,4 +112,4 @@ const AppHolder = () => {
   )
 }
 
-export default AppHolder
+export default hot(AppHolder)

@@ -5,25 +5,10 @@ exports[`ModalLeftBorder matches snapshot 1`] = `
   className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
-    className="css-view-1dbjc4n"
+    className="css-view-1dbjc4n r-backgroundImage-o7i658 r-backgroundRepeat-1w25a1u r-borderBottomLeftRadius-re1h2s r-borderTopLeftRadius-1as3g83 r-flexGrow-16y2uox r-flexShrink-1q142lx r-maxWidth-1akpm2g r-minWidth-t66pp7 r-position-bnwqim r-zIndex-pezta"
     style={
       Object {
-        "WebkitBoxFlex": 1,
-        "WebkitFlexGrow": 1,
-        "WebkitFlexShrink": 0,
         "backgroundColor": "rgba(163,163,163,1.00)",
-        "backgroundImage": "url(wave.svg)",
-        "backgroundRepeat": "repeat-y",
-        "borderBottomLeftRadius": "5px",
-        "borderTopLeftRadius": "5px",
-        "flexGrow": 1,
-        "flexShrink": 0,
-        "maxWidth": "10px",
-        "minWidth": "10px",
-        "msFlexNegative": 0,
-        "msFlexPositive": 1,
-        "position": "relative",
-        "zIndex": 5,
       }
     }
   />
@@ -35,25 +20,10 @@ exports[`ModalLeftBorder matches snapshot with properties 1`] = `
   className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
-    className="css-view-1dbjc4n"
+    className="css-view-1dbjc4n r-backgroundImage-o7i658 r-backgroundRepeat-1w25a1u r-borderBottomLeftRadius-re1h2s r-borderTopLeftRadius-1as3g83 r-flexGrow-16y2uox r-flexShrink-1q142lx r-maxWidth-1akpm2g r-minWidth-t66pp7 r-position-bnwqim r-zIndex-pezta"
     style={
       Object {
-        "WebkitBoxFlex": 1,
-        "WebkitFlexGrow": 1,
-        "WebkitFlexShrink": 0,
         "backgroundColor": "rgba(163,163,163,1.00)",
-        "backgroundImage": "url(wave.svg)",
-        "backgroundRepeat": "repeat-y",
-        "borderBottomLeftRadius": "5px",
-        "borderTopLeftRadius": "5px",
-        "flexGrow": 1,
-        "flexShrink": 0,
-        "maxWidth": "10px",
-        "minWidth": "10px",
-        "msFlexNegative": 0,
-        "msFlexPositive": 1,
-        "position": "relative",
-        "zIndex": 5,
       }
     }
   />

@@ -2,19 +2,8 @@
 
 exports[`Text matches snapshot 1`] = `
 <div
-  className="css-text-901oao"
+  className="css-text-901oao r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-lineHeight-hbpseb r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
   dir="auto"
-  style={
-    Object {
-      "fontFamily": "Roboto",
-      "fontSize": "16px",
-      "fontWeight": "normal",
-      "lineHeight": "22px",
-      "textAlign": "center",
-      "textDecoration": "none",
-      "textTransform": "none",
-    }
-  }
 >
   Example Text
 </div>
@@ -22,19 +11,8 @@ exports[`Text matches snapshot 1`] = `
 
 exports[`Text matches snapshot with different fontSize 1`] = `
 <div
-  className="css-text-901oao"
+  className="css-text-901oao r-fontFamily-vnw8o6 r-fontSize-adyw6z r-fontWeight-1it3c9n r-lineHeight-135wba7 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
   dir="auto"
-  style={
-    Object {
-      "fontFamily": "Roboto",
-      "fontSize": "20px",
-      "fontWeight": "normal",
-      "lineHeight": "24px",
-      "textAlign": "center",
-      "textDecoration": "none",
-      "textTransform": "none",
-    }
-  }
 >
   Example Text
 </div>
@@ -42,20 +20,8 @@ exports[`Text matches snapshot with different fontSize 1`] = `
 
 exports[`Text matches snapshot with different textAlign 1`] = `
 <div
-  className="css-text-901oao"
+  className="css-text-901oao r-color-howw7u r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-lineHeight-hbpseb r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
   dir="auto"
-  style={
-    Object {
-      "color": "rgba(255,0,0,1.00)",
-      "fontFamily": "Roboto",
-      "fontSize": "16px",
-      "fontWeight": "normal",
-      "lineHeight": "22px",
-      "textAlign": "right",
-      "textDecoration": "none",
-      "textTransform": "none",
-    }
-  }
 >
   Example Text
 </div>
@@ -63,20 +29,8 @@ exports[`Text matches snapshot with different textAlign 1`] = `
 
 exports[`Text matches snapshot with string color 1`] = `
 <div
-  className="css-text-901oao"
+  className="css-text-901oao r-color-howw7u r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-lineHeight-hbpseb r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
   dir="auto"
-  style={
-    Object {
-      "color": "rgba(255,0,0,1.00)",
-      "fontFamily": "Roboto",
-      "fontSize": "16px",
-      "fontWeight": "normal",
-      "lineHeight": "22px",
-      "textAlign": "center",
-      "textDecoration": "none",
-      "textTransform": "none",
-    }
-  }
 >
   Example Text
 </div>
@@ -84,20 +38,8 @@ exports[`Text matches snapshot with string color 1`] = `
 
 exports[`Text matches snapshot with theme defined color 1`] = `
 <div
-  className="css-text-901oao"
+  className="css-text-901oao r-color-1r0wm8w r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-lineHeight-hbpseb r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
   dir="auto"
-  style={
-    Object {
-      "color": "rgba(98,0,238,1.00)",
-      "fontFamily": "Roboto",
-      "fontSize": "16px",
-      "fontWeight": "normal",
-      "lineHeight": "22px",
-      "textAlign": "center",
-      "textDecoration": "none",
-      "textTransform": "none",
-    }
-  }
 >
   Example Text
 </div>

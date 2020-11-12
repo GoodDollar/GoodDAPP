@@ -11,8 +11,13 @@ export const LoginButton = ({ style, onPress, testID, icon: Icon, disabled, chil
   const onButtonPress = useOnPress(onPress)
 
   return (
-    <TouchableOpacity style={style} onPress={onButtonPress} disabled={disabled} testID={testID}>
-      <View style={[styles.iconBorder]}>
+    <TouchableOpacity
+      style={[{ maxHeight: getDesignRelativeHeight(44) }, style]}
+      onPress={onButtonPress}
+      disabled={disabled}
+      testID={testID}
+    >
+      <View style={styles.iconBorder}>
         <Icon style={styles.iconsStyle} />
       </View>
       <Text textTransform="uppercase" style={styles.buttonText} fontWeight={'medium'} letterSpacing={0} color="white">
@@ -35,10 +40,10 @@ const styles = {
   },
   iconBorder: {
     backgroundColor: mainTheme.colors.white,
-    borderRadius: 50,
+    borderRadius: getDesignRelativeHeight(40),
     alignItems: 'center',
+    height: getDesignRelativeHeight(40),
+    width: getDesignRelativeHeight(40),
     justifyContent: 'center',
-    width: 40,
-    height: 40,
   },
 }

@@ -5,24 +5,10 @@ exports[`WrappedSaveButton matches snapshot 1`] = `
   className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
-    className="css-view-1dbjc4n"
-    style={
-      Object {
-        "WebkitBoxPack": "end",
-        "WebkitJustifyContent": "flex-end",
-        "display": "flex",
-        "justifyContent": "flex-end",
-        "marginBottom": "0px",
-        "marginTop": "0px",
-        "msFlexPack": "end",
-        "position": "absolute",
-        "right": "0px",
-        "top": "0px",
-      }
-    }
+    className="css-view-1dbjc4n r-display-6koalj r-justifyContent-17s6mgv r-marginVertical-r0h9e2 r-position-u8s1d r-right-zchlnj r-top-ipm5af"
   >
     <div
-      className="css-view-1dbjc4n"
+      className="css-view-1dbjc4n r-display-6koalj r-justifyContent-1777fci"
       data-testid="save_button"
       style={
         Object {
@@ -47,7 +33,6 @@ exports[`WrappedSaveButton matches snapshot 1`] = `
           "borderTopStyle": "solid",
           "borderTopWidth": "0px",
           "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
-          "display": "flex",
           "marginBottom": "0px",
           "marginLeft": "0px",
           "marginRight": "0px",
@@ -63,7 +48,7 @@ exports[`WrappedSaveButton matches snapshot 1`] = `
       }
     >
       <div
-        className="css-cursor-18t94o4 css-view-1dbjc4n r-cursor-1loqt21 r-overflow-1udh08x r-position-bnwqim r-touchAction-1otgn73"
+        className="css-cursor-18t94o4 css-view-1dbjc4n r-cursor-1loqt21 r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim r-touchAction-1otgn73"
         data-focusable={true}
         disabled={false}
         onKeyDown={[Function]}
@@ -78,45 +63,40 @@ exports[`WrappedSaveButton matches snapshot 1`] = `
         role="button"
         style={
           Object {
+            "WebkitAlignSelf": "stretch",
+            "alignSelf": "stretch",
             "borderBottomLeftRadius": "50px",
             "borderBottomRightRadius": "50px",
             "borderTopLeftRadius": "50px",
             "borderTopRightRadius": "50px",
+            "msFlexItemAlign": "stretch",
           }
         }
         tabIndex="0"
       >
         <div
-          className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1777fci"
+          className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
+          style={
+            Object {
+              "WebkitAlignSelf": "stretch",
+              "alignSelf": "stretch",
+              "msFlexItemAlign": "stretch",
+            }
+          }
         >
           <div
-            className="css-text-901oao css-textOneLine-bfa6kz r-letterSpacing-ud0q2t r-marginHorizontal-1ybube5 r-marginVertical-712mwr r-textAlign-q4m81j r-textTransform-tsynxw"
-            dir="auto"
-            style={
-              Object {
-                "color": "rgba(255,255,255,1.00)",
-                "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                "fontWeight": "500",
-              }
-            }
+            className="css-view-1dbjc4n r-marginHorizontal-1ybube5 r-marginVertical-712mwr"
           >
-            <span
-              className="css-text-901oao css-textHasAncestor-16my406 r-textAlign-q4m81j r-textTransform-tsynxw"
-              dir="auto"
-              style={
-                Object {
-                  "color": "rgba(255,255,255,1.00)",
-                  "fontFamily": "Roboto",
-                  "fontSize": "14px",
-                  "fontWeight": "500",
-                  "lineHeight": "20px",
-                  "paddingTop": "1px",
-                  "textDecoration": "none",
-                }
-              }
+            <div
+              className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
             >
-              Save
-            </span>
+              <div
+                className="css-text-901oao r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-majxgm r-lineHeight-rjixqe r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
+                dir="auto"
+              >
+                Save
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -130,24 +110,10 @@ exports[`WrappedSaveButton matches snapshot 2`] = `
   className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
-    className="css-view-1dbjc4n"
-    style={
-      Object {
-        "WebkitBoxPack": "end",
-        "WebkitJustifyContent": "flex-end",
-        "display": "flex",
-        "justifyContent": "flex-end",
-        "marginBottom": "0px",
-        "marginTop": "0px",
-        "msFlexPack": "end",
-        "position": "absolute",
-        "right": "0px",
-        "top": "0px",
-      }
-    }
+    className="css-view-1dbjc4n r-display-6koalj r-justifyContent-17s6mgv r-marginVertical-r0h9e2 r-position-u8s1d r-right-zchlnj r-top-ipm5af"
   >
     <div
-      className="css-view-1dbjc4n"
+      className="css-view-1dbjc4n r-display-6koalj r-justifyContent-1777fci"
       data-testid="save_button"
       style={
         Object {
@@ -171,7 +137,6 @@ exports[`WrappedSaveButton matches snapshot 2`] = `
           "borderTopRightRadius": "50px",
           "borderTopStyle": "solid",
           "borderTopWidth": "1px",
-          "display": "flex",
           "marginBottom": "0px",
           "marginLeft": "0px",
           "marginRight": "0px",
@@ -187,7 +152,7 @@ exports[`WrappedSaveButton matches snapshot 2`] = `
       }
     >
       <div
-        className="css-cursor-18t94o4 css-view-1dbjc4n r-cursor-1loqt21 r-overflow-1udh08x r-position-bnwqim r-touchAction-1otgn73"
+        className="css-cursor-18t94o4 css-view-1dbjc4n r-cursor-1loqt21 r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim r-touchAction-1otgn73"
         data-focusable={true}
         disabled={false}
         onKeyDown={[Function]}
@@ -202,45 +167,40 @@ exports[`WrappedSaveButton matches snapshot 2`] = `
         role="button"
         style={
           Object {
+            "WebkitAlignSelf": "stretch",
+            "alignSelf": "stretch",
             "borderBottomLeftRadius": "50px",
             "borderBottomRightRadius": "50px",
             "borderTopLeftRadius": "50px",
             "borderTopRightRadius": "50px",
+            "msFlexItemAlign": "stretch",
           }
         }
         tabIndex="0"
       >
         <div
-          className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1777fci"
+          className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
+          style={
+            Object {
+              "WebkitAlignSelf": "stretch",
+              "alignSelf": "stretch",
+              "msFlexItemAlign": "stretch",
+            }
+          }
         >
           <div
-            className="css-text-901oao css-textOneLine-bfa6kz r-letterSpacing-ud0q2t r-marginHorizontal-1ybube5 r-marginVertical-712mwr r-textAlign-q4m81j r-textTransform-tsynxw"
-            dir="auto"
-            style={
-              Object {
-                "color": "rgba(12,38,61,1.00)",
-                "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                "fontWeight": "500",
-              }
-            }
+            className="css-view-1dbjc4n r-marginHorizontal-1ybube5 r-marginVertical-712mwr"
           >
-            <span
-              className="css-text-901oao css-textHasAncestor-16my406 r-textAlign-q4m81j r-textTransform-tsynxw"
-              dir="auto"
-              style={
-                Object {
-                  "color": "rgba(255,255,255,1.00)",
-                  "fontFamily": "Roboto",
-                  "fontSize": "14px",
-                  "fontWeight": "500",
-                  "lineHeight": "20px",
-                  "paddingTop": "1px",
-                  "textDecoration": "none",
-                }
-              }
+            <div
+              className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
             >
-              Title in SaveButton
-            </span>
+              <div
+                className="css-text-901oao r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-majxgm r-lineHeight-rjixqe r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
+                dir="auto"
+              >
+                Title in SaveButton
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -254,24 +214,10 @@ exports[`WrappedSaveButton matches snapshot 3`] = `
   className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
-    className="css-view-1dbjc4n"
-    style={
-      Object {
-        "WebkitBoxPack": "end",
-        "WebkitJustifyContent": "flex-end",
-        "display": "flex",
-        "justifyContent": "flex-end",
-        "marginBottom": "0px",
-        "marginTop": "0px",
-        "msFlexPack": "end",
-        "position": "absolute",
-        "right": "0px",
-        "top": "0px",
-      }
-    }
+    className="css-view-1dbjc4n r-display-6koalj r-justifyContent-17s6mgv r-marginVertical-r0h9e2 r-position-u8s1d r-right-zchlnj r-top-ipm5af"
   >
     <div
-      className="css-view-1dbjc4n"
+      className="css-view-1dbjc4n r-display-6koalj r-justifyContent-1777fci"
       data-testid="save_button"
       style={
         Object {
@@ -296,7 +242,6 @@ exports[`WrappedSaveButton matches snapshot 3`] = `
           "borderTopStyle": "solid",
           "borderTopWidth": "0px",
           "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
-          "display": "flex",
           "marginBottom": "0px",
           "marginLeft": "0px",
           "marginRight": "0px",
@@ -312,7 +257,7 @@ exports[`WrappedSaveButton matches snapshot 3`] = `
       }
     >
       <div
-        className="css-cursor-18t94o4 css-view-1dbjc4n r-cursor-1loqt21 r-overflow-1udh08x r-position-bnwqim r-touchAction-1otgn73"
+        className="css-cursor-18t94o4 css-view-1dbjc4n r-cursor-1loqt21 r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim r-touchAction-1otgn73"
         data-focusable={true}
         disabled={false}
         onKeyDown={[Function]}
@@ -327,45 +272,40 @@ exports[`WrappedSaveButton matches snapshot 3`] = `
         role="button"
         style={
           Object {
+            "WebkitAlignSelf": "stretch",
+            "alignSelf": "stretch",
             "borderBottomLeftRadius": "50px",
             "borderBottomRightRadius": "50px",
             "borderTopLeftRadius": "50px",
             "borderTopRightRadius": "50px",
+            "msFlexItemAlign": "stretch",
           }
         }
         tabIndex="0"
       >
         <div
-          className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1777fci"
+          className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
+          style={
+            Object {
+              "WebkitAlignSelf": "stretch",
+              "alignSelf": "stretch",
+              "msFlexItemAlign": "stretch",
+            }
+          }
         >
           <div
-            className="css-text-901oao css-textOneLine-bfa6kz r-letterSpacing-ud0q2t r-marginHorizontal-1ybube5 r-marginVertical-712mwr r-textAlign-q4m81j r-textTransform-tsynxw"
-            dir="auto"
-            style={
-              Object {
-                "color": "rgba(255,255,255,1.00)",
-                "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                "fontWeight": "500",
-              }
-            }
+            className="css-view-1dbjc4n r-marginHorizontal-1ybube5 r-marginVertical-712mwr"
           >
-            <span
-              className="css-text-901oao css-textHasAncestor-16my406 r-textAlign-q4m81j r-textTransform-tsynxw"
-              dir="auto"
-              style={
-                Object {
-                  "color": "rgba(255,255,255,1.00)",
-                  "fontFamily": "Roboto",
-                  "fontSize": "14px",
-                  "fontWeight": "500",
-                  "lineHeight": "20px",
-                  "paddingTop": "1px",
-                  "textDecoration": "none",
-                }
-              }
+            <div
+              className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
             >
-              SaveButton with color
-            </span>
+              <div
+                className="css-text-901oao r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-majxgm r-lineHeight-rjixqe r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
+                dir="auto"
+              >
+                SaveButton with color
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -379,24 +319,10 @@ exports[`WrappedSaveButton matches snapshot 4`] = `
   className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
-    className="css-view-1dbjc4n"
-    style={
-      Object {
-        "WebkitBoxPack": "end",
-        "WebkitJustifyContent": "flex-end",
-        "display": "flex",
-        "justifyContent": "flex-end",
-        "marginBottom": "0px",
-        "marginTop": "0px",
-        "msFlexPack": "end",
-        "position": "absolute",
-        "right": "0px",
-        "top": "0px",
-      }
-    }
+    className="css-view-1dbjc4n r-display-6koalj r-justifyContent-17s6mgv r-marginVertical-r0h9e2 r-position-u8s1d r-right-zchlnj r-top-ipm5af"
   >
     <div
-      className="css-view-1dbjc4n"
+      className="css-view-1dbjc4n r-display-6koalj r-justifyContent-1777fci"
       data-testid="save_button"
       style={
         Object {
@@ -421,7 +347,6 @@ exports[`WrappedSaveButton matches snapshot 4`] = `
           "borderTopStyle": "solid",
           "borderTopWidth": "0px",
           "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
-          "display": "flex",
           "marginBottom": "0px",
           "marginLeft": "0px",
           "marginRight": "0px",
@@ -437,7 +362,7 @@ exports[`WrappedSaveButton matches snapshot 4`] = `
       }
     >
       <div
-        className="css-cursor-18t94o4 css-view-1dbjc4n r-cursor-1loqt21 r-overflow-1udh08x r-position-bnwqim r-touchAction-1otgn73"
+        className="css-cursor-18t94o4 css-view-1dbjc4n r-cursor-1loqt21 r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim r-touchAction-1otgn73"
         data-focusable={true}
         disabled={false}
         onKeyDown={[Function]}
@@ -452,45 +377,40 @@ exports[`WrappedSaveButton matches snapshot 4`] = `
         role="button"
         style={
           Object {
+            "WebkitAlignSelf": "stretch",
+            "alignSelf": "stretch",
             "borderBottomLeftRadius": "50px",
             "borderBottomRightRadius": "50px",
             "borderTopLeftRadius": "50px",
             "borderTopRightRadius": "50px",
+            "msFlexItemAlign": "stretch",
           }
         }
         tabIndex="0"
       >
         <div
-          className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1777fci"
+          className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
+          style={
+            Object {
+              "WebkitAlignSelf": "stretch",
+              "alignSelf": "stretch",
+              "msFlexItemAlign": "stretch",
+            }
+          }
         >
           <div
-            className="css-text-901oao css-textOneLine-bfa6kz r-letterSpacing-ud0q2t r-marginHorizontal-1ybube5 r-marginVertical-712mwr r-textAlign-q4m81j r-textTransform-tsynxw"
-            dir="auto"
-            style={
-              Object {
-                "color": "rgba(255,255,255,1.00)",
-                "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                "fontWeight": "500",
-              }
-            }
+            className="css-view-1dbjc4n r-marginHorizontal-1ybube5 r-marginVertical-712mwr"
           >
-            <span
-              className="css-text-901oao css-textHasAncestor-16my406 r-textAlign-q4m81j r-textTransform-tsynxw"
-              dir="auto"
-              style={
-                Object {
-                  "color": "rgba(255,255,255,1.00)",
-                  "fontFamily": "Roboto",
-                  "fontSize": "14px",
-                  "fontWeight": "500",
-                  "lineHeight": "20px",
-                  "paddingTop": "1px",
-                  "textDecoration": "none",
-                }
-              }
+            <div
+              className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
             >
-              SaveButton with custom delay
-            </span>
+              <div
+                className="css-text-901oao r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-majxgm r-lineHeight-rjixqe r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
+                dir="auto"
+              >
+                SaveButton with custom delay
+              </div>
+            </div>
           </div>
         </div>
       </div>

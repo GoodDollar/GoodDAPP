@@ -6,7 +6,7 @@ import { getWebRouterComponentWithMocks } from './__util__'
 describe('PhoneForm', () => {
   it('renders without errors', () => {
     const PhoneForm = withThemeProvider(
-      getWebRouterComponentWithMocks('../PhoneForm.web', {
+      getWebRouterComponentWithMocks('../PhoneForm', {
         mobile: '',
         fullName: 'Kevin Bardi',
       }),
@@ -17,7 +17,7 @@ describe('PhoneForm', () => {
 
   it('matches snapshot', () => {
     const PhoneForm = withThemeProvider(
-      getWebRouterComponentWithMocks('../PhoneForm.web', {
+      getWebRouterComponentWithMocks('../PhoneForm', {
         mobile: '',
         fullName: 'Kevin Bardi',
       }),

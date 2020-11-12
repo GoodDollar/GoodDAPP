@@ -90,9 +90,9 @@ module.exports = {
     // Note: instead of the default WebpackDevServer client, we use a custom one
     // to bring better experience for Create React App users. You can replace
     // the line below with these two lines if you prefer the stock client:
-    // require.resolve('webpack-dev-server/client') + '?/',
-    // require.resolve('webpack/hot/dev-server'),
-    require.resolve('react-dev-utils/webpackHotDevClient'),
+    require.resolve('webpack-dev-server/client') + '?/',
+    require.resolve('webpack/hot/dev-server'),
+    // require.resolve('react-dev-utils/webpackHotDevClient'),
     // Finally, this is your app's code:
     paths.appIndexJs,
     // We include the app code last so that if there is a runtime error during
@@ -240,7 +240,6 @@ module.exports = {
                     },
                   },
                 ],
-                'react-hot-loader/babel',
               ],
               // This is a feature of `babel-loader` for webpack (not Babel itself).
               // It enables caching results in ./node_modules/.cache/babel-loader/
@@ -262,7 +261,7 @@ module.exports = {
               compact: false,
               presets: [[require.resolve('babel-preset-react-app/dependencies'), { helpers: true }]],
               cacheDirectory: true,
-              plugins: ['react-hot-loader/babel'],
+              plugins: [],
               // Don't waste time on Gzipping the cache
               cacheCompression: false,
 

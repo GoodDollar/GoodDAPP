@@ -1,13 +1,17 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
 import GDStore from '../../../lib/undux/GDStore'
-
-// Note: test renderer must be required after react-native.
+import userStorage from '../../../lib/gundb/UserStorage'
 
 import { getWebRouterComponentWithMocks, getWebRouterComponentWithRoutes } from './__util__'
 const { Container } = GDStore
 
+jest.setTimeout(10000)
 describe('SendLinkSummary', () => {
+  beforeAll(async () => {
+    await userStorage.wallet.ready
+    await userStorage.ready
+  })
   it('renders without errors', () => {
     const SendLinkSummary = getWebRouterComponentWithRoutes('../SendLinkSummary')
     const tree = renderer.create(

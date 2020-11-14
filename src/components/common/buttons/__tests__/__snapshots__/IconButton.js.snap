@@ -53,14 +53,20 @@ exports[`IconButton disabled matches snapshot 1`] = `
     className="css-view-1dbjc4n"
     style={
       Object {
-        "borderBottomLeftRadius": "50%",
-        "borderBottomRightRadius": "50%",
-        "borderTopLeftRadius": "50%",
-        "borderTopRightRadius": "50%",
-        "paddingBottom": "16px",
-        "paddingLeft": "16px",
-        "paddingRight": "16px",
-        "paddingTop": "16px",
+        "WebkitAlignItems": "center",
+        "WebkitBoxAlign": "center",
+        "WebkitBoxPack": "center",
+        "WebkitJustifyContent": "center",
+        "alignItems": "center",
+        "borderBottomLeftRadius": "16px",
+        "borderBottomRightRadius": "16px",
+        "borderTopLeftRadius": "16px",
+        "borderTopRightRadius": "16px",
+        "height": "32px",
+        "justifyContent": "center",
+        "msFlexAlign": "center",
+        "msFlexPack": "center",
+        "width": "32px",
       }
     }
   >
@@ -71,7 +77,7 @@ exports[`IconButton disabled matches snapshot 1`] = `
         Object {
           "color": "rgba(255,255,255,1.00)",
           "fontFamily": "gooddollar",
-          "fontSize": "35px",
+          "fontSize": "16px",
           "fontStyle": "normal",
           "fontWeight": "normal",
         }
@@ -155,14 +161,20 @@ exports[`IconButton enabled matches snapshot 1`] = `
     className="css-view-1dbjc4n"
     style={
       Object {
-        "borderBottomLeftRadius": "50%",
-        "borderBottomRightRadius": "50%",
-        "borderTopLeftRadius": "50%",
-        "borderTopRightRadius": "50%",
-        "paddingBottom": "16px",
-        "paddingLeft": "16px",
-        "paddingRight": "16px",
-        "paddingTop": "16px",
+        "WebkitAlignItems": "center",
+        "WebkitBoxAlign": "center",
+        "WebkitBoxPack": "center",
+        "WebkitJustifyContent": "center",
+        "alignItems": "center",
+        "borderBottomLeftRadius": "16px",
+        "borderBottomRightRadius": "16px",
+        "borderTopLeftRadius": "16px",
+        "borderTopRightRadius": "16px",
+        "height": "32px",
+        "justifyContent": "center",
+        "msFlexAlign": "center",
+        "msFlexPack": "center",
+        "width": "32px",
       }
     }
   >
@@ -173,7 +185,7 @@ exports[`IconButton enabled matches snapshot 1`] = `
         Object {
           "color": "rgba(255,255,255,1.00)",
           "fontFamily": "gooddollar",
-          "fontSize": "35px",
+          "fontSize": "16px",
           "fontStyle": "normal",
           "fontWeight": "normal",
         }

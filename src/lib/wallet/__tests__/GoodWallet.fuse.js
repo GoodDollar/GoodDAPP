@@ -2,7 +2,7 @@ import { GoodWallet } from '../GoodWalletClass'
 import adminWallet from './__util__/AdminWalletV1'
 
 describe('GoodWalletShare/ReceiveTokens', () => {
-  jest.setTimeout(100000)
+  jest.setTimeout(120000)
   const amount = 1
   const reason = 'Test_Reason'
   let testWallet
@@ -110,17 +110,19 @@ describe('GoodWalletShare/ReceiveTokens', () => {
 
   it('should emit PaymentWithdraw and transfer event filtered by from block', async done => {
     expect(await testWallet2.claim()).toBeTruthy()
-
+    console.log('wip: claimed')
     const linkData = testWallet2.generatePaymentLink(amount, reason)
     expect(await linkData.txPromise.catch(_ => false)).toBeTruthy()
     let eventId = testWallet2.subscribeToEvent('otplUpdated', receipt => {
+      console.log('wip: got event')
       expect(receipt).toBeTruthy()
       expect(receipt.logs[1].name).toBe('PaymentWithdraw')
+      testWallet2.unsubscribeFromEvent(eventId)
       done()
     })
 
     expect(await testWallet.withdraw(linkData.code).catch(_ => false)).toBeTruthy()
-    testWallet2.unsubscribeFromEvent(eventId)
+    console.log('wip: withdrawn')
   })
 
   it('should emit PaymentCancel event', async done => {
@@ -132,10 +134,10 @@ describe('GoodWalletShare/ReceiveTokens', () => {
     let eventId = testWallet2.subscribeToEvent('otplUpdated', receipt => {
       expect(receipt).toBeTruthy()
       expect(receipt.logs[1].name).toBe('PaymentCancel')
+      testWallet2.unsubscribeFromEvent(eventId)
       done()
     })
 
     expect(await testWallet2.cancelOTL(hashedCode).catch(_ => false)).toBeTruthy()
-    testWallet2.unsubscribeFromEvent(eventId)
   })
 })

@@ -2,6 +2,7 @@
 import axios, { type Axios } from 'axios'
 import { get, isError, isObject } from 'lodash'
 
+import Config from '../../../../config/config'
 import API from '../../../../lib/API/api'
 import logger from '../../../../lib/logger/pino-logger'
 
@@ -49,10 +50,17 @@ class FaceVerificationApi {
   ): Promise<FaceVerificationResponse> {
     let axiosConfig = {}
     const { rootApi, logger } = this
-
-    const { sessionId, enrollmentIdentifier } = payload
+    const { sessionId, enrollmentIdentifier, faceMap, ...auditTrailImages } = payload
+    const faceMapPayloadField = 'face' + (Config.zoomApiVersion < 9 ? 'Map' : 'Scan')
 
     this.lastCancelToken = axios.CancelToken.source()
+
+    const requestPayload = {
+      sessionId,
+      enrollmentIdentifier,
+      ...auditTrailImages,
+      [faceMapPayloadField]: faceMap,
+    }
 
     axiosConfig = {
       cancelToken: this.lastCancelToken.token,
@@ -62,7 +70,7 @@ class FaceVerificationApi {
     logger.info('performFaceVerification', { sessionId, enrollmentIdentifier })
 
     try {
-      const response = await this.wrapApiCall(rootApi.performFaceVerification(payload, axiosConfig))
+      const response = await this.wrapApiCall(rootApi.performFaceVerification(requestPayload, axiosConfig))
 
       logger.info('Face Recognition finished successfull', { response })
 
@@ -90,7 +98,7 @@ class FaceVerificationApi {
   }
 
   async disposeFaceSnapshot(enrollmentIdentifier: string, signature: string): Promise<void> {
-    const { rootApi } = this
+    const { rootApi, logger } = this
 
     logger.info('Disposing face snapshot', { enrollmentIdentifier })
 

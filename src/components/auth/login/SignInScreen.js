@@ -13,8 +13,6 @@ import { theme as mainTheme } from '../../theme/styles'
 import Section from '../../common/layout/Section'
 import SimpleStore from '../../../lib/undux/SimpleStore'
 import { getDesignRelativeHeight, getDesignRelativeWidth, getMaxDeviceHeight } from '../../../lib/utils/sizes'
-import { isSmallDevice } from '../../../lib/utils/mobileSizeDetect'
-import normalizeText from '../../../lib/utils/normalizeText'
 import { PasswordLess } from '../torus/PasswordLess'
 import { LoginButton } from './LoginButton'
 
@@ -41,19 +39,24 @@ const SigninScreen = ({ styles, store, handleLoginMethod, sdkInitialized, goBack
 
   return (
     <Wrapper backgroundColor="#fff" style={styles.mainWrapper}>
-      <NavBar title="Login" goBack={_goBack} />
-      <Text
-        style={styles.headerText}
-        fontSize={26}
-        lineHeight={34}
-        letterSpacing={0.26}
-        fontFamily="Roboto"
-        fontWeight="bold"
-      >
-        Welcome Back!
-      </Text>
-      <Image source={illustration} style={styles.illustration} resizeMode="contain" />
-      <Section style={styles.bottomContainer}>
+      <Section.Stack style={{ flexGrow: 0 }}>
+        <NavBar title="Login" goBack={_goBack} />
+        <Text
+          style={styles.headerText}
+          fontSize={26}
+          lineHeight={34}
+          letterSpacing={0.26}
+          fontFamily="Roboto"
+          fontWeight="bold"
+        >
+          Welcome Back!
+        </Text>
+      </Section.Stack>
+      <Section.Stack styles={styles.illustration}>
+        <Image source={illustration} style={styles.illustration} resizeMode="contain" />
+      </Section.Stack>
+
+      <Section.Stack style={styles.bottomContainer}>
         <Text fontSize={12} color="gray80Percent" style={styles.privacyAndTerms}>
           {`Remember to login with the `}
           <Text fontSize={12} color="gray80Percent" fontWeight="bold">
@@ -73,7 +76,13 @@ const SigninScreen = ({ styles, store, handleLoginMethod, sdkInitialized, goBack
               Log in with Google
             </LoginButton>
             <LoginButton
-              style={[styles.buttonLayout, { backgroundColor: mainTheme.colors.facebookBlue }]}
+              style={[
+                styles.buttonLayout,
+                styles.buttonsMargin,
+                {
+                  backgroundColor: mainTheme.colors.facebookBlue,
+                },
+              ]}
               onPress={_facebook}
               disabled={!sdkInitialized}
               testID="login_with_facebook"
@@ -83,38 +92,35 @@ const SigninScreen = ({ styles, store, handleLoginMethod, sdkInitialized, goBack
             </LoginButton>
           </>
         )}
-        <PasswordLess
-          isSignup={false}
-          isOpen={isPasswordless}
-          onSelect={handlePasswordless}
-          handleLoginMethod={handleLoginMethod}
-        />
-      </Section>
+        <Section.Stack>
+          <PasswordLess
+            isSignup={false}
+            isOpen={isPasswordless}
+            onSelect={handlePasswordless}
+            handleLoginMethod={handleLoginMethod}
+          />
+        </Section.Stack>
+      </Section.Stack>
     </Wrapper>
   )
 }
 
 const getStylesFromProps = ({ theme }) => {
-  const buttonFontSize = normalizeText(isSmallDevice ? 13 : 16)
   const shorterDevice = getMaxDeviceHeight() <= 622
 
   return {
     mainWrapper: {
       paddingHorizontal: 0,
       paddingVertical: 0,
-      justifyContent: 'space-between',
-      flexGrow: 1,
+      flex: 1,
     },
     bottomContainer: {
+      flex: 1,
+      justifyContent: 'flex-start',
       paddingHorizontal: theme.sizes.defaultDouble,
-      paddingBottom: getDesignRelativeHeight(theme.sizes.defaultDouble),
-
-      // justifyContent: 'space-around',
-      minHeight: getDesignRelativeHeight(200),
+      marginTop: getDesignRelativeHeight(theme.sizes.default * 5),
     },
     buttonLayout: {
-      marginTop: getDesignRelativeHeight(theme.sizes.default),
-      marginBottom: getDesignRelativeHeight(theme.sizes.default),
       flex: 1,
       justifyContent: 'space-between',
       flexDirection: 'row',
@@ -122,37 +128,23 @@ const getStylesFromProps = ({ theme }) => {
       borderRadius: 50,
       padding: 3,
     },
-    buttonText: {
-      fontSize: buttonFontSize,
-      flex: 1,
-      lineHeight: getDesignRelativeHeight(19),
-    },
     illustration: {
-      flexGrow: 1,
-      flexShrink: 0,
-      marginBottom: getDesignRelativeHeight(theme.sizes.default),
-      width: getDesignRelativeWidth(isBrowser ? 290 : 206),
-      height: getDesignRelativeHeight(172),
-      marginRight: 'auto',
-      marginLeft: 'auto',
-      paddingTop: getDesignRelativeHeight(theme.sizes.default),
+      flex: 1,
+      marginTop: getDesignRelativeHeight(theme.sizes.default * 5),
+      width: getDesignRelativeWidth(isBrowser ? 290 : 206, false),
+      height: getDesignRelativeHeight(172, false),
+      alignSelf: 'center',
+      justifyContent: 'center',
+      alignItems: 'center',
     },
     headerText: {
       marginTop: getDesignRelativeHeight(!shorterDevice ? 45 : 30),
-      marginBottom: getDesignRelativeHeight(20),
     },
     privacyAndTerms: {
-      marginBottom: getDesignRelativeHeight(16),
+      marginBottom: getDesignRelativeHeight(shorterDevice ? theme.sizes.default : theme.sizes.defaultDouble),
     },
-    iconsStyle: {
-      width: getDesignRelativeHeight(20),
-      height: getDesignRelativeHeight(20),
-    },
-    iconBorder: {
-      backgroundColor: theme.colors.white,
-      borderRadius: 50,
-      alignItems: 'center',
-      padding: getDesignRelativeHeight(12),
+    buttonsMargin: {
+      marginTop: getDesignRelativeHeight(shorterDevice ? theme.sizes.default : theme.sizes.defaultDouble),
     },
   }
 }

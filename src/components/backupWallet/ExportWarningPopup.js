@@ -7,7 +7,7 @@ import ExplanationDialog from '../common/dialogs/ExplanationDialog'
 
 import { withStyles } from '../../lib/styles'
 
-import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
+import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 
 const mapImageStylesToProps = ({ theme }) => ({
   imageWrapper: {
@@ -30,7 +30,7 @@ const ExportWarningPopup = ({ styles, onDismiss = noop, ...dialogProps }) => (
   <ExplanationDialog
     {...dialogProps}
     title={`Do Not Send Tokens\nFrom Ethereum Network\nTo This Address`}
-    text={`Keep in mind - This is an internal\nNetwork address for G$ tokens only.`}
+    text={`Keep in mind - This is an internal\nnetwork address for G$ tokens only.`}
     image={WarningImage}
     titleStyle={styles.title}
     textStyle={styles.text}
@@ -50,7 +50,6 @@ const ExportWarningPopup = ({ styles, onDismiss = noop, ...dialogProps }) => (
 
 const mapStylesToProps = ({ theme }) => ({
   container: {
-    width: getDesignRelativeWidth(295, false),
     maxHeight: getDesignRelativeHeight(380, false),
   },
   title: {

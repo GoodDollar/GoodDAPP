@@ -2,7 +2,7 @@
 
 // libraries
 import amplitude from 'amplitude-js'
-import { assign, debounce, forIn, get, isError, isFunction, isString, remove, toLower } from 'lodash'
+import { assign, debounce, forIn, get, isEmpty, isError, isFunction, isString, remove, toLower } from 'lodash'
 import * as Sentry from '@sentry/browser'
 
 // utils
@@ -22,6 +22,8 @@ export const SIGNIN_METHOD_SELECTED = 'SIGNIN_METHOD_SELECTED'
 export const SIGNUP_STARTED = 'SIGNUP_STARTED'
 export const SIGNUP_EXISTS_LOGIN = 'SIGNUP_EXISTS_LOGIN'
 export const SIGNUP_EXISTS_CONTINUE = 'SIGNUP_EXISTS_CONTINUE'
+export const SIGNUP_RETRY_SMS = 'SIGNUP_RETRY_SMS'
+export const SIGNUP_RETRY_EMAIL = 'SIGNUP_RETRY_EMAIL'
 export const SIGNIN_NOTEXISTS_SIGNUP = 'SIGIN_NOEXISTS_SIGNUP'
 export const SIGNIN_NOTEXISTS_LOGIN = 'SIGNIN_NOTEXISTS_LOGIN'
 export const SIGNIN_TORUS_SUCCESS = 'TORUS_SIGNIN_SUCCESS'
@@ -384,11 +386,15 @@ const patchLogger = () => {
       sessionUrlAtTime = FS.getCurrentSessionURL(true)
     }
 
-    if (
-      categoryToPassIntoLog === Unexpected &&
-      ['connection', 'websocket', 'network'].some(str => toLower(eMsg).includes(str))
-    ) {
-      categoryToPassIntoLog = Network
+    if (isString(eMsg) && !isEmpty(eMsg)) {
+      const lowerCased = toLower(eMsg)
+
+      if (
+        categoryToPassIntoLog === Unexpected &&
+        ['connection', 'websocket', 'network'].some(str => lowerCased.includes(str))
+      ) {
+        categoryToPassIntoLog = Network
+      }
     }
 
     if (isString(logMessage) && !logMessage.includes('axios')) {

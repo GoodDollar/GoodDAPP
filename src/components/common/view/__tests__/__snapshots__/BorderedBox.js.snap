@@ -24,31 +24,38 @@ exports[`BorderedBox matches snapshot 1`] = `
       Object {
         "WebkitAlignItems": "center",
         "WebkitBoxAlign": "center",
+        "WebkitBoxDirection": "normal",
+        "WebkitBoxOrient": "vertical",
         "WebkitBoxPack": "center",
+        "WebkitFlexDirection": "column",
         "WebkitJustifyContent": "center",
         "alignItems": "center",
-        "backgroundColor": "rgba(255,255,255,1.00)",
-        "borderBottomColor": "rgba(163,163,163,1.00)",
+        "borderBottomColor": "rgba(203,203,203,1.00)",
         "borderBottomLeftRadius": "5px",
         "borderBottomRightRadius": "5px",
+        "borderBottomStyle": "solid",
         "borderBottomWidth": "1px",
-        "borderLeftColor": "rgba(163,163,163,1.00)",
+        "borderLeftColor": "rgba(203,203,203,1.00)",
+        "borderLeftStyle": "solid",
         "borderLeftWidth": "1px",
-        "borderRightColor": "rgba(163,163,163,1.00)",
+        "borderRightColor": "rgba(203,203,203,1.00)",
+        "borderRightStyle": "solid",
         "borderRightWidth": "1px",
-        "borderTopColor": "rgba(163,163,163,1.00)",
+        "borderTopColor": "rgba(203,203,203,1.00)",
         "borderTopLeftRadius": "5px",
         "borderTopRightRadius": "5px",
+        "borderTopStyle": "solid",
         "borderTopWidth": "1px",
         "display": "flex",
-        "height": "153.35064935064935px",
+        "flexDirection": "column",
         "justifyContent": "center",
         "msFlexAlign": "center",
+        "msFlexDirection": "column",
         "msFlexPack": "center",
-        "paddingBottom": "16px",
-        "paddingLeft": "12px",
-        "paddingRight": "12px",
-        "paddingTop": "16px",
+        "paddingBottom": "0px",
+        "paddingLeft": "0px",
+        "paddingRight": "0px",
+        "paddingTop": "0px",
         "position": "relative",
       }
     }
@@ -58,10 +65,10 @@ exports[`BorderedBox matches snapshot 1`] = `
       style={
         Object {
           "backgroundColor": "rgba(255,255,255,1.00)",
-          "height": "6.233766233766233px",
+          "height": "5px",
           "position": "absolute",
-          "top": "-4px",
-          "width": "116.11111111111111px",
+          "top": "-3px",
+          "width": "88px",
         }
       }
     />
@@ -70,18 +77,18 @@ exports[`BorderedBox matches snapshot 1`] = `
       style={
         Object {
           "WebkitFlexBasis": "auto",
-          "borderBottomLeftRadius": "45px",
-          "borderBottomRightRadius": "45px",
-          "borderTopLeftRadius": "45px",
-          "borderTopRightRadius": "45px",
+          "borderBottomLeftRadius": "34px",
+          "borderBottomRightRadius": "34px",
+          "borderTopLeftRadius": "34px",
+          "borderTopRightRadius": "34px",
           "flexBasis": "auto",
-          "height": "89.72222222222221px",
+          "height": "68px",
           "msFlexPreferredSize": "auto",
           "overflowX": "hidden",
           "overflowY": "hidden",
           "position": "absolute",
-          "top": "-45px",
-          "width": "89.72222222222221px",
+          "top": "-34px",
+          "width": "68px",
           "zIndex": 1,
         }
       }
@@ -107,51 +114,78 @@ exports[`BorderedBox matches snapshot 1`] = `
       />
     </div>
     <div
-      className="css-text-901oao"
-      dir="auto"
+      className="css-view-1dbjc4n"
       style={
         Object {
-          "color": "rgba(66,69,74,1.00)",
-          "direction": "ltr",
-          "fontFamily": "Roboto Slab",
-          "fontSize": "18px",
-          "fontWeight": "700",
-          "lineHeight": "24px",
-          "marginBottom": "12.467532467532466px",
-          "textAlign": "center",
-          "textDecoration": "none",
-          "textTransform": "none",
+          "WebkitAlignItems": "stretch",
+          "WebkitBoxAlign": "stretch",
+          "WebkitBoxDirection": "normal",
+          "WebkitBoxOrient": "vertical",
+          "WebkitBoxPack": "justify",
+          "WebkitFlexDirection": "column",
+          "WebkitJustifyContent": "space-between",
+          "alignItems": "stretch",
+          "flexDirection": "column",
+          "justifyContent": "space-between",
+          "marginBottom": "43.63636363636363px",
+          "marginTop": "43.63636363636363px",
+          "msFlexAlign": "stretch",
+          "msFlexDirection": "column",
+          "msFlexPack": "justify",
+          "paddingBottom": "0px",
+          "paddingLeft": "0px",
+          "paddingRight": "0px",
+          "paddingTop": "0px",
         }
       }
-    />
-    <div
-      className="css-text-901oao"
-      dir="auto"
-      letterSpacing={0.07}
-      style={
-        Object {
-          "color": "rgba(163,163,163,1.00)",
-          "direction": "ltr",
-          "fontFamily": "Roboto",
-          "fontSize": "13px",
-          "fontWeight": "normal",
-          "letterSpacing": "0.07px",
-          "lineHeight": "15.6px",
-          "textAlign": "center",
-          "textDecoration": "none",
-          "textTransform": "none",
+    >
+      <div
+        className="css-text-901oao"
+        dir="auto"
+        style={
+          Object {
+            "color": "rgba(66,69,74,1.00)",
+            "direction": "ltr",
+            "fontFamily": "Roboto Slab",
+            "fontSize": "18px",
+            "fontWeight": "700",
+            "lineHeight": "24px",
+            "marginBottom": "8px",
+            "textAlign": "center",
+            "textDecoration": "none",
+            "textTransform": "none",
+          }
         }
-      }
-    />
+      />
+      <div
+        className="css-text-901oao"
+        dir="auto"
+        letterSpacing={0.07}
+        style={
+          Object {
+            "color": "rgba(163,163,163,1.00)",
+            "direction": "ltr",
+            "fontFamily": "Roboto",
+            "fontSize": "13px",
+            "fontWeight": "normal",
+            "letterSpacing": "0.07px",
+            "lineHeight": "15.6px",
+            "textAlign": "center",
+            "textDecoration": "none",
+            "textTransform": "none",
+          }
+        }
+      />
+    </div>
     <div
       className="css-view-1dbjc4n"
       style={
         Object {
           "backgroundColor": "rgba(255,255,255,1.00)",
-          "bottom": "-4px",
-          "height": "6.233766233766233px",
+          "bottom": "-3px",
+          "height": "5px",
           "position": "absolute",
-          "width": "64.83116883116884px",
+          "width": "68.6111111111111px",
         }
       }
     />
@@ -159,8 +193,8 @@ exports[`BorderedBox matches snapshot 1`] = `
       className="css-view-1dbjc4n"
       style={
         Object {
-          "bottom": "-33px",
-          "height": "64.83116883116884px",
+          "bottom": "-20px",
+          "height": "40px",
           "position": "absolute",
           "width": "116.11111111111111px",
           "zIndex": 1,
@@ -178,8 +212,8 @@ exports[`BorderedBox matches snapshot 1`] = `
             "alignItems": "center",
             "backgroundColor": "rgba(0,175,255,1.00)",
             "borderBottomColor": "rgba(0,175,255,1.00)",
-            "borderBottomLeftRadius": "26px",
-            "borderBottomRightRadius": "26px",
+            "borderBottomLeftRadius": "20px",
+            "borderBottomRightRadius": "20px",
             "borderBottomStyle": "solid",
             "borderBottomWidth": "0px",
             "borderLeftColor": "rgba(0,175,255,1.00)",
@@ -189,27 +223,28 @@ exports[`BorderedBox matches snapshot 1`] = `
             "borderRightStyle": "solid",
             "borderRightWidth": "0px",
             "borderTopColor": "rgba(0,175,255,1.00)",
-            "borderTopLeftRadius": "26px",
-            "borderTopRightRadius": "26px",
+            "borderTopLeftRadius": "20px",
+            "borderTopRightRadius": "20px",
             "borderTopStyle": "solid",
             "borderTopWidth": "0px",
             "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
             "display": "flex",
-            "height": "50.138888888888886px",
+            "height": "40px",
             "justifyContent": "center",
             "marginBottom": "4.987012987012987px",
             "marginLeft": "auto",
             "marginRight": "auto",
             "marginTop": "0px",
+            "maxHeight": "40px",
             "minHeight": "44px",
-            "minWidth": "50.138888888888886px",
+            "minWidth": "40px",
             "msFlexAlign": "center",
             "msFlexPack": "center",
             "paddingBottom": "0px",
             "paddingLeft": "0px",
             "paddingRight": "0px",
             "paddingTop": "0px",
-            "width": "50.138888888888886px",
+            "width": "40px",
           }
         }
       >
@@ -314,7 +349,7 @@ exports[`BorderedBox matches snapshot 1`] = `
                     Object {
                       "color": "rgba(255,255,255,1.00)",
                       "fontFamily": "gooddollar",
-                      "fontSize": "34px",
+                      "fontSize": "24px",
                       "fontStyle": "normal",
                       "fontWeight": "normal",
                     }

@@ -5,7 +5,7 @@ exports[`BorderedBox matches snapshot 1`] = `
   className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
-    className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-14lw9ot r-borderColor-y68mpx r-borderRadius-1f0042m r-borderWidth-rs99b7 r-display-6koalj r-height-mht1xe r-justifyContent-1777fci r-paddingHorizontal-1e081e0 r-paddingVertical-1yzf0co r-position-bnwqim"
+    className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-14lw9ot r-borderColor-y68mpx r-borderRadius-1f0042m r-borderStyle-1phboty r-borderWidth-rs99b7 r-display-6koalj r-height-mht1xe r-justifyContent-1777fci r-paddingHorizontal-1e081e0 r-paddingVertical-1yzf0co r-position-bnwqim"
   >
     <div
       className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-height-n0twmy r-position-u8s1d r-top-1ld3bg r-width-1dcdz4f"
@@ -26,25 +26,21 @@ exports[`BorderedBox matches snapshot 1`] = `
       className="css-view-1dbjc4n r-bottom-1ia8z0t r-height-1qe8j6y r-position-u8s1d r-width-1dcdz4f r-zIndex-184en5c"
     >
       <div
-        className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-justifyContent-1777fci"
+        className="css-view-1dbjc4n r-alignItems-1awozwy r-borderStyle-1phboty r-display-6koalj r-justifyContent-1777fci"
         style={
           Object {
             "backgroundColor": "rgba(0,175,255,1.00)",
             "borderBottomColor": "rgba(0,175,255,1.00)",
             "borderBottomLeftRadius": "26px",
             "borderBottomRightRadius": "26px",
-            "borderBottomStyle": "solid",
             "borderBottomWidth": "0px",
             "borderLeftColor": "rgba(0,175,255,1.00)",
-            "borderLeftStyle": "solid",
             "borderLeftWidth": "0px",
             "borderRightColor": "rgba(0,175,255,1.00)",
-            "borderRightStyle": "solid",
             "borderRightWidth": "0px",
             "borderTopColor": "rgba(0,175,255,1.00)",
             "borderTopLeftRadius": "26px",
             "borderTopRightRadius": "26px",
-            "borderTopStyle": "solid",
             "borderTopWidth": "0px",
             "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
             "height": "50.138888888888886px",

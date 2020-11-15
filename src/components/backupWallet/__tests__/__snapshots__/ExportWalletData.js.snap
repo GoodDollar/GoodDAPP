@@ -151,7 +151,7 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
         className="css-view-1dbjc4n r-display-6koalj r-flexGrow-16y2uox r-justifyContent-a2tzq0 r-marginBottom-h72ra1"
       >
         <div
-          className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-14lw9ot r-borderColor-y68mpx r-borderRadius-1f0042m r-borderWidth-rs99b7 r-display-6koalj r-height-mht1xe r-justifyContent-1777fci r-paddingHorizontal-1e081e0 r-paddingVertical-1yzf0co r-position-bnwqim"
+          className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-14lw9ot r-borderColor-y68mpx r-borderRadius-1f0042m r-borderStyle-1phboty r-borderWidth-rs99b7 r-display-6koalj r-height-mht1xe r-justifyContent-1777fci r-paddingHorizontal-1e081e0 r-paddingVertical-1yzf0co r-position-bnwqim"
         >
           <div
             className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-height-n0twmy r-position-u8s1d r-top-1ld3bg"
@@ -197,25 +197,21 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
             className="css-view-1dbjc4n r-bottom-etnvyw r-height-1k37b0g r-position-u8s1d r-width-1rhso5v r-zIndex-184en5c"
           >
             <div
-              className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-justifyContent-1777fci r-padding-t60dpp"
+              className="css-view-1dbjc4n r-alignItems-1awozwy r-borderStyle-1phboty r-display-6koalj r-justifyContent-1777fci r-padding-t60dpp"
               style={
                 Object {
                   "backgroundColor": "rgba(0,175,255,1.00)",
                   "borderBottomColor": "rgba(0,175,255,1.00)",
                   "borderBottomLeftRadius": "25px",
                   "borderBottomRightRadius": "25px",
-                  "borderBottomStyle": "solid",
                   "borderBottomWidth": "0px",
                   "borderLeftColor": "rgba(0,175,255,1.00)",
-                  "borderLeftStyle": "solid",
                   "borderLeftWidth": "0px",
                   "borderRightColor": "rgba(0,175,255,1.00)",
-                  "borderRightStyle": "solid",
                   "borderRightWidth": "0px",
                   "borderTopColor": "rgba(0,175,255,1.00)",
                   "borderTopLeftRadius": "25px",
                   "borderTopRightRadius": "25px",
-                  "borderTopStyle": "solid",
                   "borderTopWidth": "0px",
                   "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
                   "height": "49.870129870129865px",
@@ -288,7 +284,7 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
           </div>
         </div>
         <div
-          className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-14lw9ot r-borderColor-y68mpx r-borderRadius-1f0042m r-borderWidth-rs99b7 r-display-6koalj r-height-mht1xe r-justifyContent-1777fci r-paddingHorizontal-1e081e0 r-paddingVertical-1yzf0co r-position-bnwqim"
+          className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-14lw9ot r-borderColor-y68mpx r-borderRadius-1f0042m r-borderStyle-1phboty r-borderWidth-rs99b7 r-display-6koalj r-height-mht1xe r-justifyContent-1777fci r-paddingHorizontal-1e081e0 r-paddingVertical-1yzf0co r-position-bnwqim"
         >
           <div
             className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-height-n0twmy r-position-u8s1d r-top-1ld3bg"
@@ -334,25 +330,21 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
             className="css-view-1dbjc4n r-bottom-etnvyw r-height-1k37b0g r-position-u8s1d r-width-1rhso5v r-zIndex-184en5c"
           >
             <div
-              className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-justifyContent-1777fci r-padding-t60dpp"
+              className="css-view-1dbjc4n r-alignItems-1awozwy r-borderStyle-1phboty r-display-6koalj r-justifyContent-1777fci r-padding-t60dpp"
               style={
                 Object {
                   "backgroundColor": "rgba(0,175,255,1.00)",
                   "borderBottomColor": "rgba(0,175,255,1.00)",
                   "borderBottomLeftRadius": "25px",
                   "borderBottomRightRadius": "25px",
-                  "borderBottomStyle": "solid",
                   "borderBottomWidth": "0px",
                   "borderLeftColor": "rgba(0,175,255,1.00)",
-                  "borderLeftStyle": "solid",
                   "borderLeftWidth": "0px",
                   "borderRightColor": "rgba(0,175,255,1.00)",
-                  "borderRightStyle": "solid",
                   "borderRightWidth": "0px",
                   "borderTopColor": "rgba(0,175,255,1.00)",
                   "borderTopLeftRadius": "25px",
                   "borderTopRightRadius": "25px",
-                  "borderTopStyle": "solid",
                   "borderTopWidth": "0px",
                   "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
                   "height": "49.870129870129865px",
@@ -425,7 +417,7 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
           </div>
         </div>
         <div
-          className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-14lw9ot r-borderColor-y68mpx r-borderRadius-1f0042m r-borderWidth-rs99b7 r-display-6koalj r-height-mht1xe r-justifyContent-1777fci r-paddingHorizontal-1e081e0 r-paddingVertical-1yzf0co r-position-bnwqim"
+          className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-14lw9ot r-borderColor-y68mpx r-borderRadius-1f0042m r-borderStyle-1phboty r-borderWidth-rs99b7 r-display-6koalj r-height-mht1xe r-justifyContent-1777fci r-paddingHorizontal-1e081e0 r-paddingVertical-1yzf0co r-position-bnwqim"
         >
           <div
             className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-height-n0twmy r-position-u8s1d r-top-1ld3bg"
@@ -469,25 +461,21 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
             className="css-view-1dbjc4n r-bottom-etnvyw r-height-1k37b0g r-position-u8s1d r-width-1rhso5v r-zIndex-184en5c"
           >
             <div
-              className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-justifyContent-1777fci r-padding-t60dpp"
+              className="css-view-1dbjc4n r-alignItems-1awozwy r-borderStyle-1phboty r-display-6koalj r-justifyContent-1777fci r-padding-t60dpp"
               style={
                 Object {
                   "backgroundColor": "rgba(0,175,255,1.00)",
                   "borderBottomColor": "rgba(0,175,255,1.00)",
                   "borderBottomLeftRadius": "25px",
                   "borderBottomRightRadius": "25px",
-                  "borderBottomStyle": "solid",
                   "borderBottomWidth": "0px",
                   "borderLeftColor": "rgba(0,175,255,1.00)",
-                  "borderLeftStyle": "solid",
                   "borderLeftWidth": "0px",
                   "borderRightColor": "rgba(0,175,255,1.00)",
-                  "borderRightStyle": "solid",
                   "borderRightWidth": "0px",
                   "borderTopColor": "rgba(0,175,255,1.00)",
                   "borderTopLeftRadius": "25px",
                   "borderTopRightRadius": "25px",
-                  "borderTopStyle": "solid",
                   "borderTopWidth": "0px",
                   "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
                   "height": "49.870129870129865px",

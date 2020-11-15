@@ -421,7 +421,7 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
           className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderRadius-1f0042m r-flexGrow-16y2uox r-justifyContent-1777fci r-paddingHorizontal-1e081e0 r-paddingVertical-1yzf0co"
         >
           <div
-            className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-14lw9ot r-borderColor-y68mpx r-borderRadius-1f0042m r-borderWidth-rs99b7 r-display-6koalj r-height-mht1xe r-justifyContent-1777fci r-paddingHorizontal-1e081e0 r-paddingVertical-1yzf0co r-position-bnwqim"
+            className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-14lw9ot r-borderColor-y68mpx r-borderRadius-1f0042m r-borderStyle-1phboty r-borderWidth-rs99b7 r-display-6koalj r-height-mht1xe r-justifyContent-1777fci r-paddingHorizontal-1e081e0 r-paddingVertical-1yzf0co r-position-bnwqim"
           >
             <div
               className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-height-n0twmy r-position-u8s1d r-top-1ld3bg r-width-1dcdz4f"

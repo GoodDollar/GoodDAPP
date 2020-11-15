@@ -84,7 +84,7 @@ const Claim = props => {
   const [totalClaimed, setTotalClaimed] = useState('--')
 
   // const [activeClaimers, setActiveClaimers] = useState()
-  const [availableDistribution, setAvailableDistribution] = useState()
+  const [availableDistribution, setAvailableDistribution] = useState(0)
   const [claimCycleTime, setClaimCycleTime] = useState('00:00:00')
 
   // const [totalFundsStaked, setTotalFundsStaked] = useState()
@@ -382,7 +382,7 @@ const Claim = props => {
               </Section.Text>
               <Section.Text style={{ textTransform: 'capitalize' }}>
                 <Section.Text fontWeight="bold" color={theme.colors.primary} style={styles.fontSize16}>
-                  {formattedNumberOfPeopleClaimedToday}{' '}
+                  {formattedNumberOfPeopleClaimedToday}
                 </Section.Text>{' '}
                 Claimers Received{' '}
                 <BigGoodDollar

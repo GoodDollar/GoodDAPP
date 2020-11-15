@@ -43,7 +43,7 @@ const SignupScreen = ({ screenProps, styles, store, handleLoginMethod, sdkInitia
 
   return (
     <Wrapper backgroundColor="#fff" style={styles.mainWrapper}>
-      <Section.Stack style={{ flex: 1 }}>
+      <Section.Stack style={{ flexGrow: 0 }}>
         <NavBar title="Signup" goBack={_goBack} />
         <Text
           style={styles.headerText}
@@ -110,7 +110,7 @@ const SignupScreen = ({ screenProps, styles, store, handleLoginMethod, sdkInitia
             </LoginButton>
           </React.Fragment>
         )}
-        <Section.Stack style={styles.buttonsMargin}>
+        <Section.Stack>
           <PasswordLess isOpen={isPasswordless} onSelect={handlePasswordless} handleLoginMethod={handleLoginMethod} />
         </Section.Stack>
       </Section.Stack>
@@ -133,9 +133,6 @@ const getStylesFromProps = ({ theme }) => {
       justifyContent: 'flex-start',
       paddingHorizontal: theme.sizes.defaultDouble,
       marginTop: getDesignRelativeHeight(theme.sizes.default * 5),
-
-      // maxHeight: getDesignRelativeHeight(225),
-      // minHeight: getDesignRelativeHeight(256),
     },
     buttonLayout: {
       flex: 1,
@@ -150,15 +147,15 @@ const getStylesFromProps = ({ theme }) => {
       width: illustrationSize,
       height: getDesignRelativeHeight(192),
       paddingRight: getDesignRelativeWidth(15),
-      flex: 1,
       justifyContent: 'center',
       alignSelf: 'center',
+      flex: 1,
     },
     headerText: {
       marginTop: getDesignRelativeHeight(!shorterDevice ? 45 : 30),
     },
     marginBottom: {
-      marginBottom: getDesignRelativeHeight(isBrowser ? theme.sizes.defaultDouble : theme.sizes.default),
+      marginBottom: getDesignRelativeHeight(shorterDevice ? theme.sizes.default : theme.sizes.defaultDouble),
     },
     buttonsMargin: {
       marginTop: getDesignRelativeHeight(shorterDevice ? theme.sizes.default : theme.sizes.defaultDouble),

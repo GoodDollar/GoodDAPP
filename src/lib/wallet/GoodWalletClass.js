@@ -7,7 +7,7 @@ import StakingModelAddress from '@gooddollar/goodcontracts/stakingModel/releases
 import ERC20ABI from '@gooddollar/goodcontracts/build/contracts/ERC20.min.json'
 import UBIABI from '@gooddollar/goodcontracts/stakingModel/build/contracts/UBIScheme.min.json'
 import SimpleDaiStaking from '@gooddollar/goodcontracts/stakingModel/build/contracts/SimpleDAIStaking.min.json'
-import type Web3 from 'web3'
+import Web3 from 'web3'
 import { BN, toBN } from 'web3-utils'
 import abiDecoder from 'abi-decoder'
 import { get, invokeMap, last, uniqBy, values } from 'lodash'
@@ -148,10 +148,9 @@ export class GoodWallet {
   }
 
   init(): Promise<any> {
-    const mainnetNetworkId = ContractsAddress[Config.networkMainnet].networkId
+    const mainnetNetworkId = ContractsAddress[Config.network + '-mainnet'].networkId
     const mainnethttpWeb3provider = Config.ethereum[mainnetNetworkId].httpWeb3provider
     this.web3Mainnet = new Web3(mainnethttpWeb3provider)
-
     const ready = WalletFactory.create(GoodWallet.WalletType, this.config)
     this.ready = ready
       .then(wallet => {
@@ -196,7 +195,6 @@ export class GoodWallet {
         )
         abiDecoder.addABI(UBIABI.abi)
 
-        // SimpleDaiStaking
         this.SimpleDaiStaking = new this.web3Mainnet.eth.Contract(
           SimpleDaiStaking.abi,
           get(StakingModelAddress, `${this.network}-mainnet.DAIStaking` /*UBIABI.networks[this.networkId].address*/),
@@ -671,7 +669,7 @@ export class GoodWallet {
   async getTotalFundsStaked(): Promise<number> {
     try {
       let totalFundsStaked = await this.SimpleDaiStaking.methods.totalStaked().call()
-      return this.web3Mainnet.utils.fromWei(totalFundsStaked)
+      return this.web3Mainnet.utils.fromWei(totalFundsStaked.toString())
     } catch (exception) {
       const { message } = exception
       log.warn('getTotalFundsStaked failed', message, exception)

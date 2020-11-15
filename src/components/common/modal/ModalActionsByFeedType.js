@@ -125,7 +125,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
       log.error('generatePaymentLinkForShare Failed', message, exception, { item, isSharingAvailable })
       return null
     }
-  }, [generateShareLink, item, isSharingAvailable, inviteCode])
+  }, [item, inviteCode])
 
   const readMore = useCallback(() => {
     fireEventAnalytics('readMore')

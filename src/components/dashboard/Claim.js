@@ -6,6 +6,8 @@ import moment from 'moment'
 import numeral from 'numeral'
 import AsyncStorage from '../../lib/utils/asyncStorage'
 
+// import claimSvg from '../../assets/Claim/claim-footer.svg'
+
 // import useOnPress from '../../lib/hooks/useOnPress'
 import { isBrowser } from '../../lib/utils/platform'
 import userStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
@@ -356,14 +358,16 @@ const Claim = props => {
         </View>
         <Section.Stack style={styles.mainText}>
           <View style={styles.wavesBox}>
-            <WavesBox primaryColor={theme.colors.darkBlue} style={styles.upperWavesBoxStyle}>
-              <Section.Text primaryColor={theme.colors.surface} style={styles.fontSize16}>
-                Claim cycle restart every day
-              </Section.Text>
-              <Section.Text primaryColor={theme.colors.surface} fontWeight="bold" style={styles.fontSize16}>
-                at {claimCycleTime}
-              </Section.Text>
-            </WavesBox>
+            {dailyUbi <= 0 ? (
+              <WavesBox primaryColor={theme.colors.darkBlue} style={styles.upperWavesBoxStyle}>
+                <Section.Text primaryColor={theme.colors.surface} style={styles.fontSize16}>
+                  Claim cycle restart every day
+                </Section.Text>
+                <Section.Text primaryColor={theme.colors.surface} fontWeight="bold" style={styles.fontSize16}>
+                  at {claimCycleTime}
+                </Section.Text>
+              </WavesBox>
+            ) : null}
             <WavesBox primaryColor={theme.colors.darkBlue} style={styles.lowerWavesBoxStyle}>
               <Section.Text
                 style={{ textTransform: 'capitalize' }}
@@ -435,16 +439,37 @@ const Claim = props => {
           showLabelOnly
         />
         <View style={styles.fakeExtraInfoContainer} />
-        <Section.Row style={styles.extraInfoContainer}>
-          <Section.Text
-            style={[styles.extraInfoSecondContainer, { fontSize: 24 }]}
-            fontWeight="bold"
-            fontFamily="Roboto"
-          >
-            GoodDollar Stats
-          </Section.Text>
-        </Section.Row>
+        {dailyUbi === 0 ? (
+          <Section.Row style={styles.extraInfoContainer}>
+            <Section.Text
+              style={[styles.extraInfoSecondContainer, { fontSize: 24 }]}
+              fontWeight="bold"
+              fontFamily="Roboto"
+            >
+              GoodDollar Stats
+            </Section.Text>
+          </Section.Row>
+        ) : null}
+        {dailyUbi === 0 ? (
+          <Section.Separator style={styles.separator} width={2} primaryColor={theme.colors.primary} />
+        ) : null}
       </Section.Stack>
+      {dailyUbi === 0 ? (
+        <Section.Stack>
+          <Section.Row>
+            <Section.Text>text here</Section.Text>
+            <Section.Text>text here</Section.Text>
+          </Section.Row>
+        </Section.Stack>
+      ) : null}
+      {dailyUbi === 0 ? (
+        <Section.Stack>
+          <Section.Row>
+            <Section.Text>text here</Section.Text>
+            <Section.Text>text here</Section.Text>
+          </Section.Row>
+        </Section.Stack>
+      ) : null}
     </WrapperClaim>
   )
 }
@@ -577,6 +602,10 @@ const getStylesFromProps = ({ theme }) => {
     },
     fakeExtraInfoContainer: {
       height: getDesignRelativeHeight(45),
+    },
+    separator: {
+      marginLeft: '10%',
+      marginRight: '10%',
     },
     fontSize16,
   }

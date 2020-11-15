@@ -1,5 +1,5 @@
 // libraries
-import React, { useCallback, useMemo } from 'react'
+import React, { useMemo } from 'react'
 import { Image, Platform, View } from 'react-native'
 
 // components
@@ -8,7 +8,7 @@ import { Icon, Section } from '../index'
 import CustomButton from '../buttons/CustomButton'
 
 // hooks
-import useClipboard from '../../../lib/hooks/useClipboard'
+import { useClipboardCopy } from '../../../lib/hooks/useClipboard'
 
 // utils
 import { isWeb } from '../../../lib/utils/platform'
@@ -32,13 +32,8 @@ const BorderedBox = ({
   showCopyIcon = true,
   onCopied = noop,
 }) => {
-  const [, setString] = useClipboard()
+  const copyToClipboard = useClipboardCopy(content, onCopied)
   const displayContent = truncateContent ? truncateMiddle(content, 29) : content // 29 = 13 chars left side + 3 chars of '...' + 13 chars right side
-
-  const copyToClipboard = useCallback(() => {
-    setString(content)
-    onCopied()
-  }, [onCopied, setString, content])
 
   const avatarStyles = useMemo(() => {
     const imageBoxSize = getDesignRelativeWidth(imageSize, false)

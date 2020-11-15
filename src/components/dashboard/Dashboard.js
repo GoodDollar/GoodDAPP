@@ -922,16 +922,9 @@ export default createStackNavigator({
   ReceiveSummary,
   ReceiveByQR,
 
-  /*ReceiveConfirmation: {
-    screen: ReceiveConfirmation,
-    path: ':action/ReceiveConfirmation',
-  },*/
-
   SendLinkSummary,
   SendByQR,
   SendToAddress,
-
-  // SendConfirmation,
 
   FaceVerification,
   FaceVerificationIntro,

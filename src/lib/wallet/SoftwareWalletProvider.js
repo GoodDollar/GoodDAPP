@@ -36,9 +36,14 @@ export async function getMnemonics(): Promise<string> {
   return pkey
 }
 
+export function mnemonicsToObject(pkey) {
+  return { ...pkey.split(' ') }
+}
+
 export async function getMnemonicsObject(): Promise<any> {
   const pkey = await getMnemonics()
-  return { ...pkey.split(' ') }
+
+  return mnemonicsToObject(pkey)
 }
 
 export function deleteMnemonics(): Promise<any> {

@@ -39,7 +39,7 @@ const BorderedBox = ({
   }, [onCopied, setString, content])
 
   const avatarStyles = useMemo(() => {
-    const imageBoxSize = getDesignRelativeWidth(imageSize, true)
+    const imageBoxSize = getDesignRelativeHeight(imageSize, true)
     const halfBoxSize = Math.ceil(imageBoxSize / 2)
 
     return [

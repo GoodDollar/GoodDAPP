@@ -4,6 +4,7 @@ import { Platform, View } from 'react-native'
 import LinearGradient from 'react-native-linear-gradient'
 import { isMobileNative, isMobileOnly } from '../../../lib/utils/platform'
 import { withStyles } from '../../../lib/styles'
+import { theme } from '../../../components/theme/styles'
 import SimpleStore from '../../../lib/undux/SimpleStore'
 import { getScreenWidth } from '../../../lib/utils/orientation'
 
@@ -31,19 +32,7 @@ const backgroundGradientStyles = {
   borderBottomLeftRadius: borderSize,
   borderBottomRightRadius: borderSize,
   right: '-50%',
-  backgroundImage: `linear-gradient(to bottom, ${gradientColors.join(', ')})`,
-}
-
-const backgroundLineStyles = {
-  position: 'absolute',
-  height: '100%',
-  width: '100%',
-  top: -5,
-  borderBottomWidth: 3,
-  borderBottomColor: 'white',
-  borderStyle: 'solid',
-  borderBottomLeftRadius: borderSize,
-  borderBottomRightRadius: borderSize,
+  background: theme.colors.primary,
 }
 
 const WrapperClaim = ({ backgroundColor, children, style, styles, ...props }) => {
@@ -68,11 +57,7 @@ const WrapperClaim = ({ backgroundColor, children, style, styles, ...props }) =>
 
   return (
     <View data-name="viewWrapper" style={wrapperStyles} {...props}>
-      {!backgroundColor && (
-        <BackgroundContainer {...backgroundContainerProps}>
-          <View style={backgroundLineStyles} />
-        </BackgroundContainer>
-      )}
+      {!backgroundColor && <View style={backgroundGradientStyles} />}
       {children}
     </View>
   )

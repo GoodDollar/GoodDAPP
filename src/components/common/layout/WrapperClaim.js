@@ -3,6 +3,7 @@ import React, { useMemo } from 'react'
 import { View } from 'react-native'
 import { isMobileOnly } from 'mobile-device-detect'
 import { withStyles } from '../../../lib/styles'
+import { theme } from '../../../components/theme/styles'
 import SimpleStore from '../../../lib/undux/SimpleStore'
 
 const backgroundGradientStyles = {
@@ -12,20 +13,7 @@ const backgroundGradientStyles = {
   borderBottomLeftRadius: '50%',
   borderBottomRightRadius: '50%',
   right: '-50%',
-  backgroundImage:
-    'linear-gradient(to bottom, #00AFFF, #2DC0F7, #28C0EF, #23C0E7, #1EC1DF, #19C1D7, #14C1CF, #0FC2C7, #0FC2C7, #0AC2BF, #05C2B7, #00C3AF)',
-}
-
-const backgroundLineStyles = {
-  position: 'absolute',
-  height: '100%',
-  width: '100%',
-  top: -5,
-  borderBottomWidth: 3,
-  borderBottomColor: 'white',
-  borderBottomStyle: 'solid',
-  borderBottomLeftRadius: '50%',
-  borderBottomRightRadius: '50%',
+  background: theme.colors.primary,
 }
 
 const WrapperClaim = ({ backgroundColor, children, style, styles, ...props }) => {
@@ -42,11 +30,7 @@ const WrapperClaim = ({ backgroundColor, children, style, styles, ...props }) =>
 
   return (
     <View data-name="viewWrapper" style={wrapperStyles} {...props}>
-      {!backgroundColor && (
-        <View style={backgroundGradientStyles}>
-          <View style={backgroundLineStyles} />
-        </View>
-      )}
+      {!backgroundColor && <View style={backgroundGradientStyles} />}
       {children}
     </View>
   )

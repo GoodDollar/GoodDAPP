@@ -18,9 +18,16 @@ const timerFontSize = isSmallDevice ? 30 : 36
 const ButtonAmountToClaim = ({ showLabelOnly = false, entitlement, isCitizen, styles, isInQueue }) => (
   <View style={styles.textBtn}>
     {showLabelOnly ? (
-      <Text color="white" fontFamily="Roboto Slab" fontWeight="bold" fontSize={buttonLabelFontSize}>
-        {isInQueue ? `In Queue` : `Claim`}
-      </Text>
+      isInQueue ? (
+        <Text color="white" fontFamily="Roboto Slab" fontWeight="bold" fontSize={buttonLabelFontSize}>
+          In Queue
+        </Text>
+      ) : (
+        <Text color="white" fontFamily="Roboto Slab" fontWeight="bold" fontSize={buttonLabelFontSize}>
+          CLAIM <br />
+          NOW
+        </Text>
+      )
     ) : (
       <>
         <Text color="#0C263D" fontWeight="medium">
@@ -201,13 +208,15 @@ const getStylesFromProps = ({ theme }) => ({
     height: getDesignRelativeHeight(196),
   },
   minButtonHeight: {
+    backgroundColor: theme.colors.green,
     borderRadius: isSmallDevice ? 70 : 98,
     borderColor: '#FFFFFF',
-    borderWidth: 3,
+    borderWidth: 8,
     borderStyle: 'solid',
     height: isSmallDevice ? 140 : getDesignRelativeHeight(196),
     width: isSmallDevice ? 140 : getDesignRelativeHeight(196),
-    boxShadow: '10px 12px 25px -14px',
+
+    // boxShadow: '10px 12px 25px -14px',
     alignItems: 'center',
   },
   buttonCountdown: {

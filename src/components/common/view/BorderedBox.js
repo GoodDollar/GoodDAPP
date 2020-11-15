@@ -39,7 +39,7 @@ const BorderedBox = ({
   }, [onCopied, setString, content])
 
   const avatarStyles = useMemo(() => {
-    const imageBoxSize = getDesignRelativeWidth(imageSize, true)
+    const imageBoxSize = getDesignRelativeHeight(imageSize, true)
     const halfBoxSize = Math.ceil(imageBoxSize / 2)
 
     return [
@@ -77,14 +77,13 @@ const BorderedBox = ({
         </View>
       ) : null}
       <Section.Stack style={styles.boxContent}>
-
-      <Section.Text fontSize={18} fontFamily="Roboto Slab" fontWeight="bold" style={styles.boxTitle}>
-        {title}
-      </Section.Text>
-      <Section.Text fontSize={13} letterSpacing={0.07} color={theme.colors.lighterGray}>
-        {displayContent}
-      </Section.Text>
-        </Section.Stack>
+        <Section.Text fontSize={18} fontFamily="Roboto Slab" fontWeight="bold" style={styles.boxTitle}>
+          {title}
+        </Section.Text>
+        <Section.Text fontSize={13} letterSpacing={0.07} color={theme.colors.lighterGray}>
+          {displayContent}
+        </Section.Text>
+      </Section.Stack>
       <View style={[styles.copyIconLineSeparator, showCopyIcon ? null : styles.copyButtonLineSeparator]} />
       <View style={[styles.boxCopyIconWrapper, showCopyIcon ? null : styles.boxCopyButtonWrapper]}>
         <CustomButton
@@ -116,11 +115,8 @@ const styles = ({ theme }) => {
     borderedBox: {
       borderWidth: 1,
       borderStyle: 'solid',
-      borderColor: theme.colors.lighterGray,
       borderRadius: 5,
-      height: getDesignRelativeHeight(isWeb ? 123 : 130, false),
       display: 'flex',
-      borderStyle: 'solid',
       alignItems: 'center',
       position: 'relative',
       justifyContent: 'center',

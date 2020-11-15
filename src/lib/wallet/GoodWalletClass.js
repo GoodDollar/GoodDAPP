@@ -687,7 +687,7 @@ export class GoodWallet {
 
   /**
    * Retrieves current Block Number and returns it
-   * @returns {Promise<BN>} - Current block number
+   * @returns {Promise<number>} - Current block number
    */
   getBlockNumber(): Promise<number> {
     return this.wallet.eth.getBlockNumber()

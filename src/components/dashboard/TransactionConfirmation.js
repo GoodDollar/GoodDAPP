@@ -36,7 +36,7 @@ const instructionsTextNumberProps = {
   fontWeight: 'bold',
 }
 
-const [fireCopied, fireShared] = ['copy', 'share'].map(type => () => fireEvent('SEND_CONFIRMATION_SHARE', { type }))
+const fireShared = () => fireEvent('SEND_CONFIRMATION_SHARE', { type: isSharingAvailable ? 'share' : 'copy' })
 const ConfirmButton = isSharingAvailable ? CustomButton : ButtonWithDoneState
 
 const TransactionConfirmation = ({ screenProps, styles }: ReceiveProps) => {
@@ -49,7 +49,7 @@ const TransactionConfirmation = ({ screenProps, styles }: ReceiveProps) => {
   const thirdTextPoint = isSending ? 'Recipient approves request' : 'Sender approves request'
 
   // not fire SEND_CONFIRMATION_SHARE if copy to Clipboard failed
-  const handleCopied = useCallback(copied => copied && fireCopied(), [])
+  const handleCopied = useCallback(copied => copied && fireShared(), [])
 
   const copy = useClipboardCopy(paymentLink, handleCopied)
   const share = useNativeSharing(paymentLink, {

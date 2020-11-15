@@ -8,8 +8,7 @@ import { Icon, Section } from '../index'
 import CustomButton from '../buttons/CustomButton'
 
 // hooks
-import useClipboard from '../../../lib/hooks/useClipboard'
-import useOnPress from '../../../lib/hooks/useOnPress'
+import { useClipboardCopy } from '../../../lib/hooks/useClipboard'
 
 // utils
 import { withStyles } from '../../../lib/styles'
@@ -30,13 +29,8 @@ const BorderedBox = ({
   showCopyIcon = true,
   onCopied = noop,
 }) => {
-  const [, setString] = useClipboard()
+  const copyToClipboard = useClipboardCopy(content, onCopied)
   const displayContent = truncateContent ? truncateMiddle(content, 29) : content // 29 = 13 chars left side + 3 chars of '...' + 13 chars right side
-
-  const copyToClipboard = useOnPress(() => {
-    setString(content)
-    onCopied()
-  }, [onCopied, setString, content])
 
   const avatarStyles = useMemo(() => {
     const imageBoxSize = getDesignRelativeWidth(imageSize, true)

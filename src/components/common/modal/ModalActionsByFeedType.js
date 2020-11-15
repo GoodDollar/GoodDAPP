@@ -7,7 +7,6 @@ import { pickBy } from 'lodash'
 import CustomButton from '../buttons/CustomButton'
 import ShareButton from '../buttons/ShareButton'
 
-import useNativeSharing from '../../../lib/hooks/useNativeSharing'
 import { useErrorDialog } from '../../../lib/undux/utils/dialog'
 
 import GDStore from '../../../lib/undux/GDStore'
@@ -23,6 +22,13 @@ import { CLICK_BTN_CARD_ACTION, fireEvent } from '../../../lib/analytics/analyti
 import config from '../../../config/config'
 import { isMobile } from '../../../lib/utils/platform'
 
+import {
+  generateSendShareObject,
+  generateSendShareText,
+  generateShareLink,
+  isSharingAvailable,
+} from '../../../lib/share'
+
 const log = logger.child({ from: 'ModalActionsByFeed' })
 
 const ModalButton = ({ children, ...props }) => (
@@ -33,7 +39,6 @@ const ModalButton = ({ children, ...props }) => (
 
 const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigation }) => {
   const [showErrorDialog] = useErrorDialog()
-  const { canShare, generateSendShareObject, generateSendShareText, generateShareLink } = useNativeSharing()
 
   const store = GDStore.useStore()
   const inviteCode = store.get('inviteCode')
@@ -101,7 +106,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
         }),
       )
 
-      const result = (canShare ? generateSendShareObject : generateSendShareText)(
+      const result = (isSharingAvailable ? generateSendShareObject : generateSendShareText)(
         url,
         amount,
         fullName,
@@ -112,10 +117,10 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
     } catch (exception) {
       const { message } = exception
 
-      log.error('generatePaymentLinkForShare Failed', message, exception, { item, canShare })
+      log.error('generatePaymentLinkForShare Failed', message, exception, { item, isSharingAvailable })
       return null
     }
-  }, [generateShareLink, item, canShare, generateSendShareText, generateSendShareObject, inviteCode])
+  }, [generateShareLink, item, isSharingAvailable, generateSendShareText, generateSendShareObject, inviteCode])
 
   const readMore = useCallback(() => {
     fireEventAnalytics('readMore')

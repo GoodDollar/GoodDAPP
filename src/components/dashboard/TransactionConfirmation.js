@@ -36,34 +36,8 @@ const instructionsTextNumberProps = {
   fontWeight: 'bold',
 }
 
-const buttonIconStyles = {
-  marginRight: getDesignRelativeWidth(10),
-}
-
 const [fireCopied, fireShared] = ['copy', 'share'].map(type => () => fireEvent('SEND_CONFIRMATION_SHARE', { type }))
-
-const ConfirmButton = ({ screenProps, ...props }) => {
-  const { goToRoot } = screenProps
-
-  const textWithIcon = (
-    <>
-      <Icon color="white" name="link" size={25} style={buttonIconStyles} />
-      <Section.Text size={14} color="white" fontWeight="bold">
-        {isSharingAvailable ? 'SHARE' : 'COPY LINK TO CLIPBOARD'}
-      </Section.Text>
-    </>
-  )
-
-  if (!isSharingAvailable) {
-    return (
-      <ButtonWithDoneState onPressDone={goToRoot} {...props}>
-        {textWithIcon}
-      </ButtonWithDoneState>
-    )
-  }
-
-  return <CustomButton {...props}>{textWithIcon}</CustomButton>
-}
+const ConfirmButton = isSharingAvailable ? CustomButton : ButtonWithDoneState
 
 const TransactionConfirmation = ({ screenProps, styles }: ReceiveProps) => {
   const [screenState] = useScreenState(screenProps)
@@ -113,7 +87,12 @@ const TransactionConfirmation = ({ screenProps, styles }: ReceiveProps) => {
           <ConfirmTransactionSVG />
         </View>
         <View style={styles.confirmButtonWrapper}>
-          <ConfirmButton testID={paymentLink} onPress={isSharingAvailable ? share : copy} />
+          <ConfirmButton testID={paymentLink} onPress={isSharingAvailable ? share : copy} onPressDone={goToRoot}>
+            <Icon color="white" name="link" size={25} style={styles.buttonIcon} />
+            <Section.Text size={14} color="white" fontWeight="bold">
+              {isSharingAvailable ? 'SHARE' : 'COPY LINK TO CLIPBOARD'}
+            </Section.Text>
+          </ConfirmButton>
         </View>
       </Section>
     </Wrapper>
@@ -149,6 +128,9 @@ const getStylesFromProps = ({ theme }) => ({
   },
   confirmButtonWrapper: {
     marginTop: 'auto',
+  },
+  buttonIcon: {
+    marginRight: getDesignRelativeWidth(10),
   },
 })
 

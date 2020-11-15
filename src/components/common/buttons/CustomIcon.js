@@ -4,16 +4,26 @@ import { View } from 'react-native'
 import Icon from '../view/Icon'
 import { withStyles } from '../../../lib/styles'
 
-const CustomIcon = ({ styles, theme, name, color, size, reverse, reverseColor }) => (
-  <View style={[styles.imageIcon, { backgroundColor: reverse ? color : reverseColor }]}>
+const CustomIcon = ({ styles, theme, name, color, size, circleSize = 16, reverse, reverseColor }) => (
+  <View
+    style={[
+      styles.imageIcon,
+      {
+        width: circleSize,
+        height: circleSize,
+        borderRadius: circleSize / 2,
+        backgroundColor: reverse ? color : reverseColor,
+      },
+    ]}
+  >
     <Icon name={name} size={size} color={theme.colors.surface} />
   </View>
 )
 
 const getStylesFromProps = ({ theme }) => ({
   imageIcon: {
-    borderRadius: '50%',
-    padding: 16,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 })
 

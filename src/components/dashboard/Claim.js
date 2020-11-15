@@ -19,7 +19,6 @@ import { openLink } from '../../lib/utils/linking'
 import { formatWithSIPrefix, formatWithThousandsSeparator } from '../../lib/utils/formatNumber'
 import { weiToGd } from '../../lib/wallet/utils'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
-import { WrapperClaim } from '../common'
 import SpinnerCheckMark from '../common/animations/SpinnerCheckMark/SpinnerCheckMark'
 import { withStyles } from '../../lib/styles'
 import {
@@ -32,8 +31,7 @@ import {
 } from '../../lib/analytics/analytics'
 import Config from '../../config/config'
 import { isSmallDevice } from '../../lib/utils/mobileSizeDetect'
-import Section from '../common/layout/Section'
-import BigGoodDollar from '../common/view/BigGoodDollar'
+import { BigGoodDollar, Section, WrapperClaim } from '../common/'
 import useAppState from '../../lib/hooks/useAppState'
 import type { DashboardProps } from './Dashboard'
 import useClaimCounter from './Claim/useClaimCounter'
@@ -96,7 +94,7 @@ const Claim = props => {
   const evaluateFRValidity = async () => {
     const isValid = screenProps.screenState && screenProps.screenState.isValid
 
-    log.debug('from FR:', { isValid })
+    log.debug('from FR:', { isValid, screenProps })
     try {
       if (isValid && (await goodWallet.isCitizen())) {
         handleClaim()

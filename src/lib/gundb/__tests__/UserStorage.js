@@ -1,8 +1,8 @@
 // @flow
 import { pick } from 'lodash'
 import moment from 'moment'
-import Contracts from '@gooddollar/goodcontracts/releases/deployment.json'
 import ModelContracts from '@gooddollar/goodcontracts/stakingModel/releases/deployment.json'
+import UpgradablesContracts from '@gooddollar/goodcontracts/upgradables/releases/deployment.json'
 
 import gun from '../gundb'
 import Config from '../../../config/config'
@@ -862,14 +862,11 @@ describe('getOperationType', () => {
   })
 
   it('from bonuscontract should be bonus', () => {
-    const tmp = Contracts[Config.network].SignupBonus
-    Contracts[Config.network].SignupBonus = '0xA48840D89a761502A4a7d995c74f3864D651A87F'
     const event = {
       name: 'Transfer',
-      from: Contracts[Config.network].SignupBonus.toLowerCase(),
+      from: UpgradablesContracts[Config.network].Invites.toLowerCase(),
     }
     expect(userStorage.getOperationType(event, 'account1')).toBe('bonus')
-    Contracts[Config.network].SignupBonus = tmp
   })
 
   it('from null address should be mint', () => {

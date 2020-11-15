@@ -7,6 +7,7 @@ import SimpleStore from '../../../lib/undux/SimpleStore'
 import CustomButton from '../buttons/CustomButton'
 import ErrorAnimation from '../../common/animations/Error'
 import SuccessIcon from '../modal/SuccessIcon'
+import LoadingIcon from '../modal/LoadingIcon'
 import ModalWrapper from '../modal/ModalWrapper'
 import { theme } from '../../theme/styles'
 import Text from '../view/Text'
@@ -62,7 +63,7 @@ const CustomDialog = ({
   fullHeight = false,
   isMinHeight = true,
 }: DialogProps) => {
-  const defaultImage = type === 'error' ? <ErrorAnimation /> : <SuccessIcon />
+  const defaultImage = type === 'error' ? <ErrorAnimation /> : loading ? <LoadingIcon /> : <SuccessIcon />
   const modalColor = getColorFromType(type)
   const textColor = type === 'error' ? 'red' : 'darkGray'
   const color = theme.colors[textColor]

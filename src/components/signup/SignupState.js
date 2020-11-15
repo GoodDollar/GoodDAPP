@@ -343,7 +343,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
 
         // Stores creationBlock number into 'lastBlock' feed's node
         userStorage.saveJoinedBlockNumber(),
-        userStorage.userProperties.updateAll({ regMethod }),
+        userStorage.userProperties.updateAll({ regMethod, inviterInviteCode: inviteCode }),
       ])
 
       // trying to update profile 2 times, if failed anyway - re-throwing exception

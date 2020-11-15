@@ -8,7 +8,7 @@ import { DESTINATION_PATH, GD_USER_MASTERSEED } from '../../lib/constants/localS
 import { REGISTRATION_METHOD_SELF_CUSTODY, REGISTRATION_METHOD_TORUS } from '../../lib/constants/login'
 
 import logger from '../../lib/logger/pino-logger'
-import API, { getErrorMessage } from '../../lib/API/api'
+import { getErrorMessage } from '../../lib/API/api'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import GDStore from '../../lib/undux/GDStore'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
@@ -21,8 +21,9 @@ import { identifyWith } from '../../lib/analytics/analytics'
 import Splash from '../splash/Splash'
 import config from '../../config/config'
 import { delay } from '../../lib/utils/async'
-import SimpleStore, { assertStore } from '../../lib/undux/SimpleStore'
+import SimpleStore from '../../lib/undux/SimpleStore'
 import { preloadZoomSDK } from '../dashboard/FaceVerification/hooks/useZoomSDK'
+import { useInviteCode } from '../invite/useInvites'
 
 type LoadingProps = {
   navigation: any,
@@ -76,11 +77,11 @@ const AppSwitch = (props: LoadingProps) => {
   const store = SimpleStore.useStore()
   const [showErrorDialog] = useErrorDialog()
   const { router, state } = props.navigation
+  useInviteCode()
   const [ready, setReady] = useState(false)
 
   const recheck = useCallback(() => {
     if (ready && gdstore) {
-      checkBonusInterval(true)
       showOutOfGasError(props)
     }
   }, [gdstore, ready])
@@ -136,7 +137,6 @@ const AppSwitch = (props: LoadingProps) => {
   const initialize = async isLoggedInCitizen => {
     AsyncStorage.setItem('GD_version', 'phase' + config.phase)
 
-    // gdstore.set('inviteCode')(inviteCode)
     const regMethod = (await AsyncStorage.getItem(GD_USER_MASTERSEED).then(_ => !!_))
       ? REGISTRATION_METHOD_TORUS
       : REGISTRATION_METHOD_SELF_CUSTODY
@@ -169,12 +169,8 @@ const AppSwitch = (props: LoadingProps) => {
     try {
       //after dynamic routes update, if user arrived here, then he is already loggedin
       //initialize the citizen status and wallet status
-      const [{ isLoggedInCitizen, isLoggedIn }] = await Promise.all([
-        getLoginState(),
-        updateWalletStatus(gdstore),
-
-        // userStorage.getProfileFieldValue('inviteCode'),
-      ])
+      //create jwt token and initialize the API service
+      const [{ isLoggedInCitizen, isLoggedIn }] = await Promise.all([getLoginState(), updateWalletStatus(gdstore)])
       log.debug('initialize ready', { isLoggedIn, isLoggedInCitizen })
 
       gdstore.set('isLoggedIn')(isLoggedIn)
@@ -202,47 +198,6 @@ const AppSwitch = (props: LoadingProps) => {
         init()
       }
     }
-  }
-
-  const checkBonusInterval = async force => {
-    if (config.enableInvites !== true || config.isPhaseOne) {
-      return
-    }
-
-    if (!assertStore(gdstore, log, 'checkBonusInterval failed')) {
-      return
-    }
-
-    const lastTimeBonusCheck = await userStorage.userProperties.get('lastBonusCheckDate')
-    const isUserWhitelisted = gdstore.get('isLoggedInCitizen') || (await goodWallet.isCitizen())
-
-    log.debug({ lastTimeBonusCheck, isUserWhitelisted, gdstore })
-    if (
-      isUserWhitelisted !== true ||
-      (force !== true &&
-        lastTimeBonusCheck &&
-        moment()
-          .subtract(Number(config.backgroundReqsInterval), 'minutes')
-          .isBefore(moment(lastTimeBonusCheck)))
-    ) {
-      return
-    }
-    await userStorage.userProperties.set('lastBonusCheckDate', new Date().toISOString())
-    await checkBonusesToRedeem()
-  }
-
-  const checkBonusesToRedeem = () => {
-    log.debug('Check bonuses process started')
-    return API.redeemBonuses()
-      .then(res => {
-        log.info('redeemBonuses', { resData: res && res.data })
-      })
-      .catch(err => {
-        const message = getErrorMessage(err)
-        log.error('Failed to redeem bonuses', message, err)
-
-        // showErrorDialog('Something Went Wrong. An error occurred while trying to redeem bonuses')
-      })
   }
 
   useEffect(() => {

@@ -19,6 +19,7 @@ type ShareButtonProps = {
 }
 
 const log = logger.child({ from: 'ShareButton' })
+const SharingButton = isSharingAvailable ? CustomButton : CopyButton
 
 const ShareButton = ({ share, onPressed = noop, actionText, ...buttonProps }: ShareButtonProps) => {
   const shareHandler = useNativeSharing(share, { onSharePress: onPressed })
@@ -27,14 +28,10 @@ const ShareButton = ({ share, onPressed = noop, actionText, ...buttonProps }: Sh
     log.info('getPaymentLink', { share })
   }, [])
 
-  return isSharingAvailable ? (
-    <CustomButton onPress={shareHandler} {...buttonProps}>
+  return (
+    <SharingButton {...buttonProps} toCopy={share} onPress={isSharingAvailable ? shareHandler : onPressed}>
       {actionText}
-    </CustomButton>
-  ) : (
-    <CopyButton toCopy={share.url} onPress={onPressed} {...buttonProps}>
-      {actionText}
-    </CopyButton>
+    </SharingButton>
   )
 }
 

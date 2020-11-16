@@ -48,7 +48,10 @@ const sharingMethod = isSharingAvailable ? 'share' : 'copy'
 const fireShareEvent = () => fireEvent(INVITE_SHARE, { method: sharingMethod })
 
 const ShareBox = ({ shareUrl }) => {
-  const share = useMemo(() => generateShareObject(shareTitle, shareMessage, shareUrl), [shareTitle])
+  const share = useMemo(
+    () => (isSharingAvailable ? generateShareObject(shareTitle, shareMessage, shareUrl) : shareUrl),
+    [shareUrl],
+  )
 
   return (
     <WavesBox primaryColor={theme.colors.darkBlue} style={styles.linkBoxStyle} title={'Share This Link'}>

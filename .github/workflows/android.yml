@@ -86,13 +86,8 @@ jobs:
         run: |
           npm ci
       - name: Prepare env
-        env: # Or as an environment variable
-          SENTRYRC: ${{ secrets.sentryrc_file }}
-        run: |
-          echo "$SENTRYRC" > android/sentry.properties
-          cp .env.dev .env
-      - name: Generate env file
         env:
+          SENTRYRC: ${{ secrets.sentryrc_file }}
           SECRETS: ${{ secrets.DEV_ENV }}
         run: ./.github/secrets/generate_envs.sh
       - name: Set release keystore

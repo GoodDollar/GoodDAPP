@@ -70,6 +70,7 @@ const ShowPasswordless = ({ isSignup = true, isOpen, styles, onSelect, handleLog
       color={mainTheme.colors.darkGray}
       textStyle={{ textDecorationLine: 'underline', fontSize: 14, fontWeight: 'bold' }}
       onPress={_onSelect}
+      style={styles.textButton}
     >
       {isSignup ? `Don't Have Social Accounts? Try This >` : `Signed Up Via Passwordless? Login Here >`}
     </CustomButton>
@@ -81,8 +82,6 @@ const getStylesFromProps = ({ theme }) => {
 
   return {
     buttonLayout: {
-      marginTop: getDesignRelativeHeight(theme.sizes.default),
-      marginBottom: getDesignRelativeHeight(theme.sizes.default),
       flex: 1,
       justifyContent: 'space-between',
       flexDirection: 'row',
@@ -109,6 +108,9 @@ const getStylesFromProps = ({ theme }) => {
     iconsStyle: {
       width: getDesignRelativeHeight(14),
       height: getDesignRelativeHeight(26),
+    },
+    textButton: {
+      marginTop: getDesignRelativeHeight(theme.sizes.default),
     },
   }
 }

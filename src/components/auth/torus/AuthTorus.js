@@ -146,7 +146,8 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
       } catch (e) {
         // store.set('loadingIndicator')({ loading: false })
         fireEvent(TORUS_FAILED, { provider, error: e.message })
-        if (e.message === 'user closed popup') {
+        const cancelled = e.message === 'user closed popup' || e.message.includes('User closed custom tabs')
+        if (cancelled) {
           log.info(e.message, e)
         } else {
           log.error('torus login failed', e.message, e, { dialogShown: true })

@@ -18,6 +18,11 @@ class Torus {
   async triggerLogin(loginOptions) {
     return DirectNativeSDK.triggerLogin(loginOptions)
   }
+
+  // eslint-disable-next-line require-await
+  async triggerAggregateLogin(loginOptions) {
+    return DirectNativeSDK.triggerAggregateLogin(loginOptions)
+  }
 }
 
 export default Torus

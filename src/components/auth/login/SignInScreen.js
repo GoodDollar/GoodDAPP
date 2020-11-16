@@ -37,7 +37,7 @@ const SigninScreen = ({ styles, store, handleLoginMethod, sdkInitialized, goBack
   return (
     <Wrapper backgroundColor="#fff" style={styles.mainWrapper}>
       <NavBar title="Login" goBack={_goBack} />
-      <Section.Stack style={{ flex: 'auto' }}>
+      <Section.Stack style={{ flexBasis: 'auto' }}>
         <Text
           style={styles.headerText}
           fontSize={26}

@@ -29,6 +29,7 @@ import { showSupportDialog } from '../../common/dialogs/showSupportDialog'
 import { decorate, ExceptionCode } from '../../../lib/logger/exceptions'
 import { getDesignRelativeHeight } from '../../../lib/utils/sizes'
 import { isSmallDevice } from '../../../lib/utils/mobileSizeDetect'
+import { getShadowStyles } from '../../../lib/utils/getStyles'
 import normalizeText from '../../../lib/utils/normalizeText'
 import { userExists } from '../../../lib/login/userExists'
 import { isIOSNative } from '../../../lib/utils/platform'
@@ -85,7 +86,7 @@ const _useAlreadySignedUp = () => {
             fireEvent(SIGNUP_EXISTS_LOGIN, { provider, existsResult, fromSignupFlow })
             resolve('signin')
           },
-          style: [alreadyStyles.marginBottom, { boxShadow: 'none' }],
+          style: [alreadyStyles.marginBottom, getShadowStyles('none')],
         },
         {
           text: 'Continue Signup',
@@ -326,7 +327,7 @@ const getStylesFromProps = ({ theme }) => {
       alignItems: 'center',
       borderRadius: 50,
       padding: 3,
-      boxShadow: 'none',
+      ...getShadowStyles('none'),
     },
     buttonText: {
       fontSize: buttonFontSize,
@@ -361,7 +362,7 @@ const getStylesFromProps = ({ theme }) => {
       backgroundColor: theme.colors.white,
       borderWidth: 1,
       borderColor: theme.colors.primary,
-      boxShadow: 'none',
+      ...getShadowStyles('none'),
     },
     primaryText: {
       color: mainTheme.colors.primary,
@@ -414,7 +415,7 @@ const alreadyStyles = {
     backgroundColor: mainTheme.colors.white,
     borderWidth: 1,
     borderColor: mainTheme.colors.primary,
-    boxShadow: 'none',
+    ...getShadowStyles('none'),
   },
   primaryText: {
     color: mainTheme.colors.primary,

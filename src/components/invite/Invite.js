@@ -11,12 +11,16 @@ import { fireEvent, INVITE_SHARE } from '../../lib/analytics/analytics'
 
 import { theme } from '../theme/styles'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
-import { isSharingAvailable } from '../../lib/share'
+import { generateShareObject, isSharingAvailable } from '../../lib/share'
 import HowToSVG from './howto.svg'
 import { useCollectBounty, useInviteCode, useInvited } from './useInvites'
 import ShareIcons from './ShareIcons'
 
 const log = logger.child({ from: 'Invite' })
+
+const shareTitle = 'I signed up to GoodDollar. Join me.'
+const shareMessage =
+  "Hey,\nCheck out GoodDollar it's a digital coin that gives anyone who joins a small daily income (UBI).\n\n"
 
 const InvitedUser = ({ name, avatar, status }) => (
   <Section.Row style={{ alignItems: 'center', marginTop: theme.paddings.defaultMargin }}>
@@ -41,35 +45,38 @@ const InvitedUser = ({ name, avatar, status }) => (
 const sharingMethod = isSharingAvailable ? 'share' : 'copy'
 const fireShareEvent = () => fireEvent(INVITE_SHARE, { method: sharingMethod })
 
-const ShareBox = ({ shareUrl }) => (
-  <WavesBox primaryColor={theme.colors.darkBlue} style={styles.linkBoxStyle} title={'Share This Link'}>
-    <Section.Stack style={{ alignItems: 'flex-start', marginTop: 11, marginBottom: 11 }}>
-      <Section.Text fontSize={14}>
-        Get{' '}
-        <Section.Text fontSize={14} fontWeight={'bold'}>
-          10 G$
-        </Section.Text>{' '}
-        for each friend you invite
-      </Section.Text>
-    </Section.Stack>
-    <Section.Row style={{ alignItems: 'center' }}>
-      <Text fontSize={11} style={{ flex: 1, borderWidth: 1, padding: 9, marginRight: 8, borderRadius: 50 }}>
-        {shareUrl}
-      </Text>
-      <ShareButton
-        style={{ width: 70, height: 32, minHeight: 32 }}
-        color={theme.colors.darkBlue}
-        textStyle={{ fontSize: 14, color: theme.colors.white }}
-        toCopy={shareUrl}
-        iconColor={'white'}
-        onPressed={fireShareEvent}
-      >
-        {sharingMethod}
-      </ShareButton>
-    </Section.Row>
-    <ShareIcons shareUrl={shareUrl} />
-  </WavesBox>
-)
+const ShareBox = ({ shareUrl }) => {
+  const share = useMemo(() => generateShareObject(shareTitle, shareMessage, shareUrl), [shareTitle])
+
+  return (
+    <WavesBox primaryColor={theme.colors.darkBlue} style={styles.linkBoxStyle} title={'Share This Link'}>
+      <Section.Stack style={{ alignItems: 'flex-start', marginTop: 11, marginBottom: 11 }}>
+        <Section.Text fontSize={14}>
+          Get{' '}
+          <Section.Text fontSize={14} fontWeight={'bold'}>
+            10 G$
+          </Section.Text>{' '}
+          for each friend you invite
+        </Section.Text>
+      </Section.Stack>
+      <Section.Row style={{ alignItems: 'center' }}>
+        <Text fontSize={11} style={{ flex: 1, borderWidth: 1, padding: 9, marginRight: 8, borderRadius: 50 }}>
+          {shareUrl}
+        </Text>
+        <ShareButton
+          style={{ width: 70, height: 32, minHeight: 32 }}
+          color={theme.colors.darkBlue}
+          textStyle={{ fontSize: 14, color: theme.colors.white }}
+          share={share}
+          iconColor={theme.colors.white}
+          onPressed={fireShareEvent}
+          actionText={sharingMethod}
+        />
+      </Section.Row>
+      <ShareIcons shareTitle={shareTitle} shareMessage={shareMessage} shareUrl={shareUrl} />
+    </WavesBox>
+  )
+}
 
 const InvitesBox = React.memo(() => {
   const [invitees, refresh] = useInvited()
@@ -190,7 +197,7 @@ const Invite = () => {
           iconColor={theme.colors.darkBlue}
           iconStyle={{ marginLeft: 10 }}
           iconAlignment="right"
-          icon="arrow-down"
+          icon={`arrow-${showHowTo ? 'up' : 'down'}`}
           mode="text"
           textStyle={{ fontWeight: 'bold', letterSpacing: 0, textDecorationLine: 'underline' }}
           onPress={toggleHowTo}

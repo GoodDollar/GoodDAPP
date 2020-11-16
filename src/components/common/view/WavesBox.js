@@ -5,32 +5,30 @@ import ModalContents from '../modal/ModalContents'
 import ModalContainer from '../modal/ModalContainer'
 import { Section } from '../index'
 
-export const WavesBox = ({ style, primaryColor, children, title, contentStyle }) => {
-  return (
-    <ModalContainer style={[styles.box, style]} fullHeight>
-      <ModalLeftBorder borderColor={primaryColor} />
-      <ModalContents style={[styles.content, contentStyle]}>
-        {title && (
-          <>
-            <Section.Row>
-              <Section.Text
-                style={{ textTransform: 'capitalize' }}
-                color={primaryColor}
-                fontWeight={'bold'}
-                fontSize={18}
-                letterSpacing={0.09}
-              >
-                {title}
-              </Section.Text>
-            </Section.Row>
-            <Section.Separator style={{ marginTop: 4 }} width={1} color={primaryColor} />
-          </>
-        )}
-        {children}
-      </ModalContents>
-    </ModalContainer>
-  )
-}
+export const WavesBox = ({ style, primaryColor, children, title, contentStyle }) => (
+  <ModalContainer style={[styles.box, style]} fullHeight>
+    <ModalLeftBorder borderColor={primaryColor} />
+    <ModalContents style={[styles.content, contentStyle]}>
+      {title && (
+        <>
+          <Section.Row>
+            <Section.Text
+              style={{ textTransform: 'capitalize' }}
+              color={primaryColor}
+              fontWeight={'bold'}
+              fontSize={18}
+              letterSpacing={0.09}
+            >
+              {title}
+            </Section.Text>
+          </Section.Row>
+          <Section.Separator style={{ marginTop: 4 }} width={1} color={primaryColor} />
+        </>
+      )}
+      {children}
+    </ModalContents>
+  </ModalContainer>
+)
 
 const styles = {
   content: {

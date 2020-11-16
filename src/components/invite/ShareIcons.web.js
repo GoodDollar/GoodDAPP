@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useMemo } from 'react'
 
 import {
   EmailShareButton,
@@ -16,14 +16,14 @@ import { fireEvent, INVITE_SHARE } from '../../lib/analytics/analytics'
 import { theme } from '../theme/styles'
 import { withStyles } from '../../lib/styles'
 
-const shareButtons = [
+const createShareButtons = (shareTitle, shareMessage) => [
   {
     name: 'whatsapp-1',
     service: 'whatsapp',
     Component: WhatsappShareButton,
     color: '#25D066',
     size: 20,
-    title: "Hey,\nCheck out GoodDollar it's a digital coin that gives anyone who joins a small daily income (UBI).\n\n",
+    title: shareMessage,
     separator: '',
   },
   {
@@ -32,7 +32,7 @@ const shareButtons = [
     Component: FacebookShareButton,
     color: theme.colors.facebookBlue,
     size: 20,
-    quote: "Hey,\nCheck out GoodDollar it's a digital coin that gives anyone who joins a small daily income (UBI).\n\n",
+    quote: shareMessage,
     hashtag: '#GoodDollar',
   },
   {
@@ -40,7 +40,7 @@ const shareButtons = [
     service: 'twitter',
     Component: TwitterShareButton,
     color: '#1DA1F3',
-    title: "Hey,\nCheck out GoodDollar it's a digital coin that gives anyone who joins a small daily income (UBI).\n\n",
+    title: shareMessage,
     hashtags: ['GoodDollar', 'UBI'],
   },
 
@@ -49,7 +49,7 @@ const shareButtons = [
     service: 'telegram',
     Component: TelegramShareButton,
     color: '#30A6DE',
-    title: "Hey,\nCheck out GoodDollar it's a digital coin that gives anyone who joins a small daily income (UBI).\n\n",
+    title: shareMessage,
   },
   {
     name: 'envelope',
@@ -57,8 +57,8 @@ const shareButtons = [
     Component: EmailShareButton,
     color: theme.colors.googleRed,
     size: 20,
-    subject: 'I signed up to GoodDollar. Join me.',
-    body: "Hey,\nCheck out GoodDollar it's a digital coin that gives anyone who joins a small daily income (UBI).\n\n",
+    subject: shareTitle,
+    body: shareMessage,
     separator: '',
   },
 ]
@@ -69,20 +69,24 @@ const ShareIcon = ({ name, service, ...props }) => {
   return <IconButton {...props} name={name} circleSize={36} onPress={onShare} />
 }
 
-const ShareIcons = ({ shareUrl, styles }) => (
-  <Section.Row style={styles.wrapper}>
-    <Section.Text fontSize={11} style={styles.title}>
-      Or share with:
-    </Section.Text>
-    {shareButtons.map(({ name, Component, ...props }) => (
-      <Section.Stack style={styles.buttonWrapper} key={name}>
-        <Component url={shareUrl} {...props}>
-          <ShareIcon name={name} {...props} />
-        </Component>
-      </Section.Stack>
-    ))}
-  </Section.Row>
-)
+const ShareIcons = ({ shareTitle, shareMessage, shareUrl, styles }) => {
+  const shareButtons = useMemo(() => createShareButtons(shareTitle, shareMessage), [shareTitle, shareMessage])
+
+  return (
+    <Section.Row style={styles.wrapper}>
+      <Section.Text fontSize={11} style={styles.title}>
+        Or share with:
+      </Section.Text>
+      {shareButtons.map(({ name, Component, ...props }) => (
+        <Section.Stack style={styles.buttonWrapper} key={name}>
+          <Component url={shareUrl} {...props}>
+            <ShareIcon name={name} {...props} />
+          </Component>
+        </Section.Stack>
+      ))}
+    </Section.Row>
+  )
+}
 
 const getStylesFromProps = ({ theme }) => {
   const { paddings, colors } = theme

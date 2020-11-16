@@ -4,17 +4,19 @@ import { groupBy } from 'lodash'
 
 import { Avatar, CustomButton, Icon, Section, ShareButton, Text, Wrapper } from '../common'
 import { WavesBox } from '../common/view/WavesBox'
+import ShareIcons from './ShareIcons'
 
+import { useCollectBounty, useInviteCode, useInvited } from './useInvites'
+import { generateShareObject, isSharingAvailable } from '../../lib/share'
+
+import { fireEvent, INVITE_SHARE } from '../../lib/analytics/analytics'
 import logger from '../../lib/logger/pino-logger'
 import { isMobileNative } from '../../lib/utils/platform'
-import { fireEvent, INVITE_SHARE } from '../../lib/analytics/analytics'
+import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
 
 import { theme } from '../theme/styles'
-import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
-import { generateShareObject, isSharingAvailable } from '../../lib/share'
+import Config from '../../config/config'
 import HowToSVG from './howto.svg'
-import { useCollectBounty, useInviteCode, useInvited } from './useInvites'
-import ShareIcons from './ShareIcons'
 
 const log = logger.child({ from: 'Invite' })
 
@@ -166,7 +168,7 @@ const InvitesData = ({ shareUrl }) => (
 const Invite = () => {
   const inviteCode = useInviteCode()
   const [showHowTo, setShowHowTo] = useState(false)
-  const shareUrl = `https://gooddollar.org/?inviteCode=${inviteCode}`
+  const shareUrl = `${Config.publicUrl}??inviteCode=${inviteCode}`
   const toggleHowTo = useCallback(() => setShowHowTo(!showHowTo), [showHowTo, setShowHowTo])
 
   return (

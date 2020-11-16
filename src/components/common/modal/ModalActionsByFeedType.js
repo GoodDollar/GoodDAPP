@@ -20,7 +20,6 @@ import { withStyles } from '../../../lib/styles'
 
 import { CLICK_BTN_CARD_ACTION, fireEvent } from '../../../lib/analytics/analytics'
 import config from '../../../config/config'
-import { isMobile } from '../../../lib/utils/platform'
 
 import {
   generateSendShareObject,
@@ -197,7 +196,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
               disabled={!paymentLinkForShare}
               share={paymentLinkForShare}
               onPressed={shareLinkClicked}
-              actionText={isMobile ? 'Share link' : 'Copy link'}
+              actionText={isSharingAvailable ? 'Share link' : 'Copy link'}
               mode="outlined"
               style={[styles.rightButton, styles.shareButton]}
               iconColor={theme.colors.primary}

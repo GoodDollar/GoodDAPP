@@ -1,7 +1,7 @@
 // @flow
 
 import React, { useEffect } from 'react'
-import { get, isString, noop } from 'lodash'
+import { noop } from 'lodash'
 
 import logger from '../../../lib/logger/pino-logger'
 
@@ -21,7 +21,6 @@ type ShareButtonProps = {
 const log = logger.child({ from: 'ShareButton' })
 
 const ShareButton = ({ share, onPressed = noop, actionText, ...buttonProps }: ShareButtonProps) => {
-  const shareUrl = isString(share) ? share : get(share, 'url', null)
   const shareHandler = useNativeSharing(share, { onSharePress: onPressed })
 
   useEffect(() => {
@@ -33,7 +32,7 @@ const ShareButton = ({ share, onPressed = noop, actionText, ...buttonProps }: Sh
       {actionText}
     </CustomButton>
   ) : (
-    <CopyButton toCopy={shareUrl} onPress={onPressed} {...buttonProps}>
+    <CopyButton toCopy={share.url} onPress={onPressed} {...buttonProps}>
       {actionText}
     </CopyButton>
   )

@@ -5,10 +5,10 @@ import { shareAction } from '../../lib/share/index'
 import { useErrorDialog } from '../undux/utils/dialog'
 import { preventPressed } from './useOnPress'
 
-export default (shareObject, messageOrOptions = null) => {
+export default (shareObject, options = null) => {
   const [showErrorDialog] = useErrorDialog()
-  const options = isString(messageOrOptions) ? { customErrorMessage: messageOrOptions } : messageOrOptions
-  const { customErrorMessage, onSharePress = noop, onSharingDone = noop } = options || {}
+  const shareOptions = isString(options) ? { customErrorMessage: options } : options
+  const { customErrorMessage, onSharePress = noop, onSharingDone = noop } = shareOptions || {}
 
   const sharingRef = useRef({
     shareObject,
@@ -42,7 +42,7 @@ export default (shareObject, messageOrOptions = null) => {
       onSharePress,
       onSharingDone,
     }
-  }, [shareObject, messageOrOptions, showErrorDialog])
+  }, [shareObject, options, showErrorDialog])
 
   return share
 }

@@ -13,6 +13,7 @@ import { GD_USER_MASTERSEED } from '../../../lib/constants/localStorage'
 import AsyncStorage from '../../../lib/utils/asyncStorage'
 import { isBrowser, isIOSNative } from '../../../lib/utils/platform'
 import { withStyles } from '../../../lib/styles'
+import { getShadowStyles } from '../../lib/utils/getStyles'
 import { REGISTRATION_METHOD_SELF_CUSTODY } from '../../../lib/constants/login'
 import CustomButton from '../../common/buttons/CustomButton'
 import Wrapper from '../../common/layout/Wrapper'
@@ -161,7 +162,7 @@ const getStylesFromProps = ({ theme }) => {
       marginTop: getDesignRelativeHeight(theme.sizes.default),
       marginBottom: getDesignRelativeHeight(theme.sizes.default),
       flex: 1,
-      boxShadow: 'none',
+      ...getShadowStyles('none', {}),
     },
     buttonText: {
       fontSize: buttonFontSize,

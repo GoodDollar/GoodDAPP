@@ -4,18 +4,18 @@ import { groupBy } from 'lodash'
 
 import { Avatar, CustomButton, Icon, Section, ShareButton, Text, Wrapper } from '../common'
 import { WavesBox } from '../common/view/WavesBox'
-import ShareIcons from './ShareIcons'
 
-import { useCollectBounty, useInviteCode, useInvited } from './useInvites'
 import { generateShareObject, isSharingAvailable } from '../../lib/share'
 
 import { fireEvent, INVITE_SHARE } from '../../lib/analytics/analytics'
-import logger from '../../lib/logger/pino-logger'
 import { isMobileNative } from '../../lib/utils/platform'
-import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
+import logger from '../../lib/logger/pino-logger'
 
+import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
 import { theme } from '../theme/styles'
 import Config from '../../config/config'
+import { useCollectBounty, useInviteCode, useInvited } from './useInvites'
+import ShareIcons from './ShareIcons'
 import HowToSVG from './howto.svg'
 
 const log = logger.child({ from: 'Invite' })
@@ -168,7 +168,7 @@ const InvitesData = ({ shareUrl }) => (
 const Invite = () => {
   const inviteCode = useInviteCode()
   const [showHowTo, setShowHowTo] = useState(false)
-  const shareUrl = `${Config.publicUrl}??inviteCode=${inviteCode}`
+  const shareUrl = `${Config.publicUrl}?inviteCode=${inviteCode}`
   const toggleHowTo = useCallback(() => setShowHowTo(!showHowTo), [showHowTo, setShowHowTo])
 
   return (

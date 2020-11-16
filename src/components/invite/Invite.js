@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Image, View } from 'react-native'
-import { groupBy } from 'lodash'
+import { groupBy, result } from 'lodash'
 import {
   EmailShareButton,
   FacebookShareButton,
@@ -21,6 +21,7 @@ import HowToSVG from './howto.svg'
 
 const log = logger.child({ from: 'Invite' })
 
+const SHARE_TEXT = SHARE_TEXT
 const InvitedUser = ({ name, avatar, status }) => {
   return (
     <Section.Row style={{ alignItems: 'center', marginTop: theme.paddings.defaultMargin }}>
@@ -51,8 +52,7 @@ const ShareIcons = ({ shareUrl }) => {
       Component: WhatsappShareButton,
       color: '#25D066',
       size: 20,
-      title:
-        "Hey,\nCheck out GoodDollar it's a digital coin that gives anyone who joins a small daily income (UBI).\n\n",
+      title: SHARE_TEXT,
       separator: '',
     },
     {
@@ -61,8 +61,7 @@ const ShareIcons = ({ shareUrl }) => {
       Component: FacebookShareButton,
       color: theme.colors.facebookBlue,
       size: 20,
-      quote:
-        "Hey,\nCheck out GoodDollar it's a digital coin that gives anyone who joins a small daily income (UBI).\n\n",
+      quote: SHARE_TEXT,
       hashtag: '#GoodDollar',
     },
     {
@@ -70,8 +69,7 @@ const ShareIcons = ({ shareUrl }) => {
       service: 'twitter',
       Component: TwitterShareButton,
       color: '#1DA1F3',
-      title:
-        "Hey,\nCheck out GoodDollar it's a digital coin that gives anyone who joins a small daily income (UBI).\n\n",
+      title: SHARE_TEXT,
       hashtags: ['GoodDollar', 'UBI'],
     },
 
@@ -80,8 +78,7 @@ const ShareIcons = ({ shareUrl }) => {
       service: 'telegram',
       Component: TelegramShareButton,
       color: '#30A6DE',
-      title:
-        "Hey,\nCheck out GoodDollar it's a digital coin that gives anyone who joins a small daily income (UBI).\n\n",
+      title: SHARE_TEXT,
     },
     {
       name: 'envelope',
@@ -90,8 +87,7 @@ const ShareIcons = ({ shareUrl }) => {
       color: theme.colors.googleRed,
       size: 20,
       subject: 'I signed up to GoodDollar. Join me.',
-      body:
-        "Hey,\nCheck out GoodDollar it's a digital coin that gives anyone who joins a small daily income (UBI).\n\n",
+      body: SHARE_TEXT,
       separator: '',
     },
   ]
@@ -116,14 +112,22 @@ const ShareIcons = ({ shareUrl }) => {
   )
 }
 
-const ShareBox = ({ shareUrl }) => {
+const ShareBox = ({ level }) => {
+  const inviteCode = useInviteCode()
+
+  const shareUrl = `${Config.publicUrl}?inviteCode=${inviteCode}`
+  const bounty = result(level, 'bounty.toNumber', 100) / 100
+  const share = {
+    url: shareUrl,
+    title: SHARE_TEXT,
+  }
   return (
     <WavesBox primaryColor={theme.colors.darkBlue} style={styles.linkBoxStyle} title={'Share This Link'}>
       <Section.Stack style={{ alignItems: 'flex-start', marginTop: 11, marginBottom: 11 }}>
         <Section.Text fontSize={14}>
           Get{' '}
           <Section.Text fontSize={14} fontWeight={'bold'}>
-            10 G$
+            {bounty} G$
           </Section.Text>{' '}
           for each friend you invite
         </Section.Text>
@@ -133,23 +137,21 @@ const ShareBox = ({ shareUrl }) => {
           {shareUrl}
         </Text>
         <ShareButton
-          style={{ width: 70, height: 32, minHeight: 32 }}
+          style={{ flexGrow: 0, minWidth: 70, height: 32, minHeight: 32 }}
           color={theme.colors.darkBlue}
           textStyle={{ fontSize: 14, color: theme.colors.white }}
-          toCopy={shareUrl}
+          share={share}
           iconColor={'white'}
+          actionText={isMobile ? 'share' : 'copy'}
           onPressed={() => fireEvent(INVITE_SHARE, { method: isMobile ? 'share' : 'copy' })}
-        >
-          {isMobile ? 'share' : 'copy'}
-        </ShareButton>
+        />
       </Section.Row>
       {!isMobile && <ShareIcons shareUrl={shareUrl} />}
     </WavesBox>
   )
 }
 
-const InvitesBox = React.memo(() => {
-  const [invitees, refresh] = useInvited()
+const InvitesBox = React.memo(({ invitees, refresh }) => {
   const [, bountiesCollected] = useCollectBounty()
 
   const { pending = [], approved = [] } = groupBy(invitees, 'status')
@@ -216,24 +218,22 @@ const InvitesHowTO = () => (
   </Section.Stack>
 )
 
-const InvitesData = ({ shareUrl }) => (
+const InvitesData = ({ invitees, refresh, level }) => (
   <>
     <Section.Stack
       style={{ alignSelf: 'stretch', marginTop: getDesignRelativeHeight(theme.paddings.defaultMargin * 3, false) }}
     >
-      <ShareBox shareUrl={shareUrl} />
+      <ShareBox level={level} />
     </Section.Stack>
     <Section.Stack style={{ alignSelf: 'stretch', marginTop: theme.paddings.defaultMargin * 1.5 }}>
-      <InvitesBox />
+      <InvitesBox invitees={invitees} refresh={refresh} />
     </Section.Stack>
   </>
 )
 
 const Invite = () => {
-  const inviteCode = useInviteCode()
   const [showHowTo, setShowHowTo] = useState(false)
-
-  const shareUrl = `${Config.publicUrl}?inviteCode=${inviteCode}`
+  const [invitees, refresh, level] = useInvited()
 
   const toggleHowTo = () => setShowHowTo(!showHowTo)
 
@@ -273,7 +273,7 @@ const Invite = () => {
           {`How Do I Invite People?`}
         </CustomButton>
       </View>
-      {showHowTo ? <InvitesHowTO /> : <InvitesData shareUrl={shareUrl} />}
+      {showHowTo ? <InvitesHowTO /> : <InvitesData {...{ invitees, refresh, level }} />}
     </Wrapper>
   )
 }

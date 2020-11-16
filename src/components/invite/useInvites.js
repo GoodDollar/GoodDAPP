@@ -133,9 +133,19 @@ const useCollectBounty = () => {
 
 const useInvited = () => {
   const [invites, setInvites] = useState([])
+  const [level, setLevel] = useState({})
+
+  const updateLevel = async () => {
+    const level = await goodWallet.invitesContract.methods
+      .users(goodWallet.account)
+      .call()
+      .then(u => goodWallet.invitesContract.methods.levels(u.level).call())
+    setLevel(level)
+  }
 
   const updateInvited = async () => {
     try {
+      updateLevel()
       let cached = (await AsyncStorage.getItem('GD_cachedInvites')) || []
       log.debug('updateInvited', { cached })
       setInvites(cached)
@@ -172,7 +182,7 @@ const useInvited = () => {
     updateInvited()
   }, [])
 
-  return [invites, updateInvited]
+  return [invites, updateInvited, level]
 }
 
 export { useInviteCode, useInvited, useCollectBounty }

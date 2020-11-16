@@ -15,6 +15,7 @@ import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils
 import logger from '../../lib/logger/pino-logger'
 import { isMobile, isMobileNative } from '../../lib/utils/platform'
 import { fireEvent, INVITE_SHARE } from '../../lib/analytics/analytics'
+import Config from '../../config/config'
 import { useCollectBounty, useInviteCode, useInvited } from './useInvites'
 import HowToSVG from './howto.svg'
 
@@ -232,7 +233,7 @@ const Invite = () => {
   const inviteCode = useInviteCode()
   const [showHowTo, setShowHowTo] = useState(false)
 
-  const shareUrl = `https://gooddollar.org/?inviteCode=${inviteCode}`
+  const shareUrl = `${Config.publicUrl}?inviteCode=${inviteCode}`
 
   const toggleHowTo = () => setShowHowTo(!showHowTo)
 

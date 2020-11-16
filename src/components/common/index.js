@@ -26,6 +26,8 @@ import UserAvatar from './view/UserAvatar'
 import Wrapper from './layout/Wrapper'
 import WrapperClaim from './layout/WrapperClaim'
 
+export const Null = () => null
+
 export {
   Address,
   AmountInput,

@@ -30,13 +30,14 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
   const gdstore = GDStore.useStore()
   const [screenState] = useScreenState(screenProps)
   const [showDialog, hideDialog, showErrorDialog] = useDialog()
+  const { userProperties } = userStorage
 
   const [survey] = useState('other')
   const [link, setLink] = useState('')
 
-  const inviteCode = gdstore.get('inviteCode')
   const { goToRoot, navigateTo } = screenProps
   const { fullName } = gdstore.get('profile')
+  const inviteCode = userProperties.get('inviteCode')
   const { amount, reason = null, counterPartyDisplayName, address, action } = screenState
 
   const handleConfirm = useCallback(async () => {

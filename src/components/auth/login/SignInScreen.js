@@ -39,7 +39,7 @@ const SigninScreen = ({ styles, store, handleLoginMethod, sdkInitialized, goBack
 
   return (
     <Wrapper backgroundColor="#fff" style={styles.mainWrapper}>
-      <Section.Stack style={{ flex: 'auto' }}>
+      <Section.Stack style={{ flexGrow: 0 }}>
         <NavBar title="Login" goBack={_goBack} />
         <Text
           style={styles.headerText}
@@ -52,7 +52,7 @@ const SigninScreen = ({ styles, store, handleLoginMethod, sdkInitialized, goBack
           Welcome Back!
         </Text>
       </Section.Stack>
-      <Section.Stack>
+      <Section.Stack styles={styles.illustration}>
         <Image source={illustration} style={styles.illustration} resizeMode="contain" />
       </Section.Stack>
 
@@ -92,7 +92,7 @@ const SigninScreen = ({ styles, store, handleLoginMethod, sdkInitialized, goBack
             </LoginButton>
           </>
         )}
-        <Section.Stack style={styles.buttonsMargin}>
+        <Section.Stack>
           <PasswordLess
             isSignup={false}
             isOpen={isPasswordless}
@@ -112,7 +112,7 @@ const getStylesFromProps = ({ theme }) => {
     mainWrapper: {
       paddingHorizontal: 0,
       paddingVertical: 0,
-      flexGrow: 1,
+      flex: 1,
     },
     bottomContainer: {
       flex: 1,
@@ -141,7 +141,7 @@ const getStylesFromProps = ({ theme }) => {
       marginTop: getDesignRelativeHeight(!shorterDevice ? 45 : 30),
     },
     privacyAndTerms: {
-      marginBottom: getDesignRelativeHeight(isBrowser ? theme.sizes.defaultDouble : theme.sizes.default),
+      marginBottom: getDesignRelativeHeight(shorterDevice ? theme.sizes.default : theme.sizes.defaultDouble),
     },
     buttonsMargin: {
       marginTop: getDesignRelativeHeight(shorterDevice ? theme.sizes.default : theme.sizes.defaultDouble),

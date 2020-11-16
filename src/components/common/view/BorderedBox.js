@@ -33,7 +33,7 @@ const BorderedBox = ({
   const displayContent = truncateContent ? truncateMiddle(content, 29) : content // 29 = 13 chars left side + 3 chars of '...' + 13 chars right side
 
   const avatarStyles = useMemo(() => {
-    const imageBoxSize = getDesignRelativeWidth(imageSize, true)
+    const imageBoxSize = getDesignRelativeHeight(imageSize, true)
     const halfBoxSize = Math.ceil(imageBoxSize / 2)
 
     return [

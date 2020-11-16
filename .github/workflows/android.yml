@@ -91,6 +91,10 @@ jobs:
         run: |
           echo "$SENTRYRC" > android/sentry.properties
           cp .env.dev .env
+      - name: Generate env file
+        env:
+          SECRETS: ${{ secrets.DEV_ENV }}
+        run: ./.github/secrets/generate_envs.sh
       - name: Set release keystore
         run: |
           echo "${{ secrets.RELEASE_ANDROID_KEYSTORE }}" > release.keystore.asc

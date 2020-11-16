@@ -6,6 +6,7 @@ import logger from '../../lib/logger/pino-logger'
 import AsyncStorage from '../../lib/utils/asyncStorage'
 import { useDialog } from '../../lib/undux/utils/dialog'
 import { fireEvent, INVITE_BOUNTY, INVITE_JOIN } from '../../lib/analytics/analytics'
+import { decorate, ExceptionCode } from '../../lib/logger/exceptions'
 
 const log = logger.child({ from: 'useInvites' })
 
@@ -81,8 +82,16 @@ const useCollectBounty = () => {
         loading: false,
       })
     } catch (e) {
-      log.error('failed collecting invite bounties', e.message, e, { inviter: goodWallet.account, canCollect })
-      showErrorDialog('Failed collecting invite bonus. You need to first complete your Face Verification.')
+      const { message } = e
+      const uiMessage = decorate(e, ExceptionCode.E15)
+
+      log.error('failed collecting invite bounty', message, e, {
+        inviter: goodWallet.account,
+        canCollect,
+        dialogShown: true,
+      })
+
+      showErrorDialog('Failed collecting invite bounty.', uiMessage)
     }
   }
 
@@ -90,6 +99,12 @@ const useCollectBounty = () => {
     try {
       let pending = await goodWallet.invitesContract.methods.getPendingInvitees(goodWallet.account).call()
       log.debug('checkBounties got pending invites:', { pending })
+
+      if (pending.length > 0 && (await goodWallet.isCitizen()) === false) {
+        log.debug('checkBounties inviter not whitelisted')
+        showErrorDialog(`Can't collect invite bonus. You need to first complete your Face Verification.`)
+        return
+      }
 
       let hasBounty = await Promise.all(
         pending.map(a => goodWallet.invitesContract.methods.canCollectBountyFor(a).call()),

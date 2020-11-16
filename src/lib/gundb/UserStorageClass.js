@@ -1087,14 +1087,13 @@ export class UserStorage {
     this.addBackupCard()
     this.addStartClaimingCard()
 
+    if (Config.enableInvites) {
+      setTimeout(() => this.enqueueTX(inviteFriendsMessage), 120000) // 2 minutes
+    }
+
     // first time user visit
     if (firstVisitAppDate == null) {
       this.enqueueTX(Config.isEToro ? welcomeMessageOnlyEtoro : welcomeMessage)
-
-      if (Config.enableInvites) {
-        setTimeout(() => this.enqueueTX(inviteFriendsMessage), 120000) // 2 minutes
-      }
-
       await this.userProperties.set('firstVisitApp', Date.now())
     }
 

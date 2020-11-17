@@ -1,21 +1,23 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { Image, View } from 'react-native'
-import { groupBy } from 'lodash'
-
-import { Avatar, CustomButton, Icon, Section, ShareButton, Text, Wrapper } from '../common'
+import { groupBy, result } from 'lodash'
+import {
+  EmailShareButton,
+  FacebookShareButton,
+  TelegramShareButton,
+  TwitterShareButton,
+  WhatsappShareButton,
+} from 'react-share'
+import { Avatar, CustomButton, Icon, IconButton, Section, ShareButton, Text, Wrapper } from '../common'
 import { WavesBox } from '../common/view/WavesBox'
-
-import { generateShareObject, isSharingAvailable } from '../../lib/share'
-
-import { fireEvent, INVITE_SHARE } from '../../lib/analytics/analytics'
-import { isMobileNative } from '../../lib/utils/platform'
-import logger from '../../lib/logger/pino-logger'
-
-import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
 import { theme } from '../theme/styles'
+import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
+import logger from '../../lib/logger/pino-logger'
+import { isMobile, isMobileNative } from '../../lib/utils/platform'
+import { fireEvent, INVITE_SHARE } from '../../lib/analytics/analytics'
 import Config from '../../config/config'
+import { generateShareObject, isSharingAvailable } from '../../lib/share'
 import { useCollectBounty, useInviteCode, useInvited } from './useInvites'
-import ShareIcons from './ShareIcons'
 import HowToSVG from './howto.svg'
 
 const log = logger.child({ from: 'Invite' })
@@ -24,30 +26,101 @@ const shareTitle = 'I signed up to GoodDollar. Join me.'
 const shareMessage =
   "Hey,\nCheck out GoodDollar it's a digital coin that gives anyone who joins a small daily income (UBI).\n\n"
 
-const InvitedUser = ({ name, avatar, status }) => (
-  <Section.Row style={{ alignItems: 'center', marginTop: theme.paddings.defaultMargin }}>
-    <Avatar source={avatar} size={28} />
-    <Section.Text
-      fontFamily={theme.fonts.slab}
-      fontSize={14}
-      color={theme.colors.darkBlue}
-      style={{
-        marginLeft: theme.paddings.defaultMargin,
-        textTransform: 'capitalize',
-        flex: 1,
-        textAlign: 'start',
-      }}
-    >
-      {name}
-    </Section.Text>
-    {status === 'approved' && <Icon name={'success'} color={'green'} />}
-  </Section.Row>
-)
+const InvitedUser = ({ name, avatar, status }) => {
+  return (
+    <Section.Row style={{ alignItems: 'center', marginTop: theme.paddings.defaultMargin }}>
+      <Avatar source={avatar} size={28} />
+      <Section.Text
+        fontFamily={theme.fonts.slab}
+        fontSize={14}
+        color={theme.colors.darkBlue}
+        style={{
+          marginLeft: theme.paddings.defaultMargin,
+          textTransform: 'capitalize',
+          flex: 1,
+          textAlign: 'start',
+        }}
+      >
+        {name}
+      </Section.Text>
+      {status === 'approved' && <Icon name={'success'} color={'green'} />}
+    </Section.Row>
+  )
+}
 
-const sharingMethod = isSharingAvailable ? 'share' : 'copy'
-const fireShareEvent = () => fireEvent(INVITE_SHARE, { method: sharingMethod })
+const ShareIcons = ({ shareUrl }) => {
+  const buttons = [
+    {
+      name: 'whatsapp-1',
+      service: 'whatsapp',
+      Component: WhatsappShareButton,
+      color: '#25D066',
+      size: 20,
+      title: shareMessage,
+      separator: '',
+    },
+    {
+      name: 'facebook-1',
+      service: 'facebook',
+      Component: FacebookShareButton,
+      color: theme.colors.facebookBlue,
+      size: 20,
+      quote: shareMessage,
+      hashtag: '#GoodDollar',
+    },
+    {
+      name: 'twitter-1',
+      service: 'twitter',
+      Component: TwitterShareButton,
+      color: '#1DA1F3',
+      title: shareMessage,
+      hashtags: ['GoodDollar', 'UBI'],
+    },
 
-const ShareBox = ({ shareUrl }) => {
+    {
+      name: 'telegram',
+      service: 'telegram',
+      Component: TelegramShareButton,
+      color: '#30A6DE',
+      title: shareMessage,
+    },
+    {
+      name: 'envelope',
+      service: 'email',
+      Component: EmailShareButton,
+      color: theme.colors.googleRed,
+      size: 20,
+      subject: shareTitle,
+      body: shareMessage,
+      separator: '',
+    },
+  ]
+
+  const onShare = service => {
+    fireEvent(INVITE_SHARE, { method: service })
+  }
+
+  return (
+    <Section.Row style={{ marginTop: theme.paddings.defaultMargin * 2 }}>
+      <Section.Text style={{ flex: 1 }} fontSize={11} color={theme.colors.secondary}>
+        Or share with:
+      </Section.Text>
+      {buttons.map(({ name, Component, ...props }) => (
+        <Section.Stack style={{ marginLeft: theme.paddings.defaultMargin * 1.5 }} key={name}>
+          <Component url={shareUrl} {...props}>
+            <IconButton {...props} name={name} circleSize={36} onPress={() => onShare(props.service)} />
+          </Component>
+        </Section.Stack>
+      ))}
+    </Section.Row>
+  )
+}
+
+const ShareBox = ({ level }) => {
+  const inviteCode = useInviteCode()
+  const shareUrl = `${Config.publicUrl}?inviteCode=${inviteCode}`
+  const bounty = result(level, 'bounty.toNumber', 100) / 100
+
   const share = useMemo(
     () => (isSharingAvailable ? generateShareObject(shareTitle, shareMessage, shareUrl) : shareUrl),
     [shareUrl],
@@ -59,7 +132,7 @@ const ShareBox = ({ shareUrl }) => {
         <Section.Text fontSize={14}>
           Get{' '}
           <Section.Text fontSize={14} fontWeight={'bold'}>
-            10 G$
+            {bounty} G$
           </Section.Text>{' '}
           for each friend you invite
         </Section.Text>
@@ -69,34 +142,29 @@ const ShareBox = ({ shareUrl }) => {
           {shareUrl}
         </Text>
         <ShareButton
-          style={{ width: 70, height: 32, minHeight: 32 }}
+          style={{ flexGrow: 0, minWidth: 70, height: 32, minHeight: 32 }}
           color={theme.colors.darkBlue}
           textStyle={{ fontSize: 14, color: theme.colors.white }}
           share={share}
-          iconColor={theme.colors.white}
-          onPressed={fireShareEvent}
-          actionText={sharingMethod}
+          iconColor={'white'}
+          actionText={isSharingAvailable ? 'share' : 'copy'}
+          onPressed={() => fireEvent(INVITE_SHARE, { method: isSharingAvailable ? 'share' : 'copy' })}
         />
       </Section.Row>
-      <ShareIcons shareTitle={shareTitle} shareMessage={shareMessage} shareUrl={shareUrl} />
+      {!isMobile && <ShareIcons shareUrl={shareUrl} />}
     </WavesBox>
   )
 }
 
-const InvitesBox = React.memo(() => {
-  const [invitees, refresh] = useInvited()
+const InvitesBox = React.memo(({ invitees, refresh }) => {
   const [, bountiesCollected] = useCollectBounty()
 
-  const { pending = [], approved = [] } = useMemo(() => groupBy(invitees, 'status'), [invitees])
-
+  const { pending = [], approved = [] } = groupBy(invitees, 'status')
   useEffect(() => {
     bountiesCollected && refresh()
   }, [bountiesCollected])
 
-  useEffect(() => {
-    log.debug({ invitees, pending, approved })
-  }, [invitees, pending, approved])
-
+  log.debug({ invitees, pending, approved })
   return (
     <>
       <WavesBox
@@ -155,24 +223,24 @@ const InvitesHowTO = () => (
   </Section.Stack>
 )
 
-const InvitesData = ({ shareUrl }) => (
+const InvitesData = ({ invitees, refresh, level }) => (
   <>
     <Section.Stack
       style={{ alignSelf: 'stretch', marginTop: getDesignRelativeHeight(theme.paddings.defaultMargin * 3, false) }}
     >
-      <ShareBox shareUrl={shareUrl} />
+      <ShareBox level={level} />
     </Section.Stack>
     <Section.Stack style={{ alignSelf: 'stretch', marginTop: theme.paddings.defaultMargin * 1.5 }}>
-      <InvitesBox />
+      <InvitesBox invitees={invitees} refresh={refresh} />
     </Section.Stack>
   </>
 )
 
 const Invite = () => {
-  const inviteCode = useInviteCode()
   const [showHowTo, setShowHowTo] = useState(false)
-  const shareUrl = `${Config.publicUrl}?inviteCode=${inviteCode}`
-  const toggleHowTo = useCallback(() => setShowHowTo(!showHowTo), [showHowTo, setShowHowTo])
+  const [invitees, refresh, level] = useInvited()
+
+  const toggleHowTo = () => setShowHowTo(!showHowTo)
 
   return (
     <Wrapper style={styles.pageBackground} backgroundColor={theme.colors.lightGray}>
@@ -202,7 +270,7 @@ const Invite = () => {
           iconColor={theme.colors.darkBlue}
           iconStyle={{ marginLeft: 10 }}
           iconAlignment="right"
-          icon={`arrow-${showHowTo ? 'up' : 'down'}`}
+          icon="arrow-down"
           mode="text"
           textStyle={{ fontWeight: 'bold', letterSpacing: 0, textDecorationLine: 'underline' }}
           onPress={toggleHowTo}
@@ -210,7 +278,7 @@ const Invite = () => {
           {`How Do I Invite People?`}
         </CustomButton>
       </View>
-      {showHowTo ? <InvitesHowTO /> : <InvitesData shareUrl={shareUrl} />}
+      {showHowTo ? <InvitesHowTO /> : <InvitesData {...{ invitees, refresh, level }} />}
     </Wrapper>
   )
 }
@@ -237,5 +305,4 @@ const styles = {
     marginTop: getDesignRelativeHeight(theme.paddings.defaultMargin * 3, false),
   },
 }
-
 export default Invite

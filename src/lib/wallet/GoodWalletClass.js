@@ -222,7 +222,7 @@ export class GoodWallet {
 
   getRewardsAddresses() {
     const addr = get(UpgradablesAddress, `${this.network}.Invites`).toLowerCase()
-    return [addr].filter(_ => _ != NULL_ADDRESS)
+    return [addr].filter(_ => _ !== NULL_ADDRESS)
   }
 
   setIsPollEvents(active) {

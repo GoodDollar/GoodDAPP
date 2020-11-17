@@ -1,5 +1,5 @@
-import React, { Fragment, useCallback } from 'react'
-import { Image, Platform } from 'react-native'
+import React, { Fragment, useCallback, useMemo } from 'react'
+import { Image, Platform, StyleSheet } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { noop } from 'lodash'
 import { parsePhoneNumberFromString } from 'libphonenumber-js'
@@ -63,6 +63,7 @@ const ProfileDataTable = ({
       verifyPhone()
     }
   }, [setLockSubmit, verifyPhone, errors])
+  const phoneInputStyles = useMemo(() => StyleSheet.flatten(styles.phoneInput), [styles.phoneInput])
 
   // email handlers
   const onEmailFocus = useCallback(() => setLockSubmit(true), [setLockSubmit])
@@ -94,7 +95,7 @@ const ProfileDataTable = ({
         <Section.Row>
           {editable ? (
             <Section.Stack grow>
-              <Section.Row className="edit_profile_phone_input">
+              <Section.Row>
                 <PhoneInput
                   error={errors.mobile && errors.mobile !== ''}
                   id="signup_phone"
@@ -103,7 +104,7 @@ const ProfileDataTable = ({
                   onBlur={onPhoneInputBlur}
                   placeholder="Enter phone number"
                   value={profile.mobile}
-                  style={styles.phoneInput}
+                  style={phoneInputStyles}
                   textStyle={{ color: errors.mobile && theme.colors.red }}
                 />
                 <Section.Row style={styles.suffixIcon}>

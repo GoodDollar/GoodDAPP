@@ -52,7 +52,7 @@ jobs:
       - name: Prepare env
         run: |
           branch_name=${GITHUB_REF##*/}
-          echo "${{ secrets.$branch_name_ENV }}" >> .env.$branch_name
+          echo "${{ secrets.${branch_name}_ENV }}" >> .env.$branch_name
       - name: Build app
         run: |
           cd ios && xcodebuild archive \

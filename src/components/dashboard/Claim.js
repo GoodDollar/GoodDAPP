@@ -9,7 +9,7 @@ import AsyncStorage from '../../lib/utils/asyncStorage'
 import ClaimSvg from '../../assets/Claim/claim-footer.svg'
 
 // import useOnPress from '../../lib/hooks/useOnPress'
-import { isBrowser } from '../../lib/utils/platform'
+// import { isBrowser } from '../../lib/utils/platform'
 import userStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import logger from '../../lib/logger/pino-logger'
@@ -26,6 +26,7 @@ import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils
 import { WrapperClaim } from '../common'
 import SpinnerCheckMark from '../common/animations/SpinnerCheckMark/SpinnerCheckMark'
 import { withStyles } from '../../lib/styles'
+import { theme as mainTheme } from '../theme/styles'
 import {
   CLAIM_FAILED,
   CLAIM_GEO,
@@ -60,6 +61,71 @@ const LoadingAnimation = ({ success, speed = 3 }) => (
 
 const EmulateButtonSpace = () => <View style={{ paddingTop: 16, minHeight: 44, visibility: 'hidden' }} />
 
+const GrayBox = ({ title, value, symbol, theme, style }) => {
+  return (
+    <Section.Stack style={[{ flex: 1 }, style]}>
+      <Section.Text
+        style={styles.grayBox}
+        fontSize={15}
+        fontFamily={'slab'}
+        lineHeight={19}
+        textTransform={'capitalize'}
+        fontWeight={'bold'}
+        textAlign={'start'}
+      >
+        {title}
+      </Section.Text>
+      <Section.Row style={{ justifyContent: 'flex-start', alignItems: 'baseline' }}>
+        <Section.Text
+          fontFamily={'slab'}
+          fontWeight={'bold'}
+          fontSize={32}
+          lineHeight={43}
+          textAlign={'start'}
+          textTransform={'uppercase'}
+          style={styles.statsNumbers}
+        >
+          {value}
+        </Section.Text>
+        <Section.Text
+          color={mainTheme.colors.primary}
+          fontWeight={'bold'}
+          fontFamily={'slab'}
+          lineHeight={20}
+          fontSize={15}
+          style={styles.dai}
+        >
+          {symbol}
+        </Section.Text>
+      </Section.Row>
+    </Section.Stack>
+  )
+}
+
+const styles = {
+  grayBox: {
+    backgroundColor: mainTheme.colors.grayBox,
+    borderRadius: 5,
+
+    // height: getDesignRelativeHeight(48),
+    // width: getDesignRelativeWidth(140),
+    // marginTop: getDesignRelativeHeight(24),
+    paddingLeft: mainTheme.sizes.default,
+    paddingTop: mainTheme.sizes.default,
+    paddingBottom: mainTheme.sizes.default / 2,
+    letterSpacing: 0.07,
+  },
+  statsNumbers: {
+    letterSpacing: 0,
+    color: mainTheme.colors.primary,
+    paddingLeft: mainTheme.sizes.default,
+    marginTop: 2,
+    marginRight: 4,
+  },
+  dai: {
+    letterSpacing: '0px',
+  },
+}
 const Claim = props => {
   const { screenProps, styles, theme }: ClaimProps = props
   const { appState } = useAppState()
@@ -323,8 +389,8 @@ const Claim = props => {
   const claimAmountFormatter = useCallback(value => formatWithThousandsSeparator(weiToGd(value)), [])
 
   return (
-    <WrapperClaim>
-      <Section.Stack style={styles.mainContainer} justifyContent="space-between">
+    <WrapperClaim style={{ height: dailyUbi ? 'auto' : '100%', maxHeight: dailyUbi ? 844 : 'none' }}>
+      <Section.Stack style={styles.mainContainer}>
         <View style={dailyUbi ? styles.headerContentContainer : styles.headerContentContainer2}>
           <Section.Text color="surface" fontFamily="slab" fontWeight="bold" fontSize={28} style={styles.headerText}>
             {dailyUbi ? `Claim Your Share` : `Just A Little Longer...\nMore G$'s Coming Soon`}
@@ -354,9 +420,13 @@ const Claim = props => {
             </Section.Row>
           ) : null}
         </View>
-        <Section.Stack style={styles.wavesBox}>
+        <Section.Stack style={styles.wavesBoxes}>
           {dailyUbi <= 0 && (
-            <WavesBox primaryColor={theme.colors.darkBlue} style={styles.upperWavesBoxStyle}>
+            <WavesBox
+              primaryColor={theme.colors.darkBlue}
+              contentStyle={{ paddingBottom: 10, paddingTop: 10 }}
+              style={styles.wavesBox}
+            >
               <Section.Text primaryColor={theme.colors.surface} style={styles.fontSize16}>
                 Claim cycle restart every day
               </Section.Text>
@@ -365,7 +435,11 @@ const Claim = props => {
               </Section.Text>
             </WavesBox>
           )}
-          <WavesBox primaryColor={theme.colors.darkBlue} style={styles.lowerWavesBoxStyle}>
+          <WavesBox
+            primaryColor={theme.colors.darkBlue}
+            contentStyle={{ paddingBottom: 10, paddingTop: 10 }}
+            style={[styles.wavesBox, styles.lowerWavesBoxStyle]}
+          >
             <Section.Text
               style={{ textTransform: 'capitalize' }}
               fontWeight={'bold'}
@@ -424,7 +498,6 @@ const Claim = props => {
             </Section.Text>
           </WavesBox>
         </Section.Stack>
-        <Section.Stack style={styles.fakeClaimButton} />
         <ButtonBlock
           styles={styles}
           entitlement={dailyUbi}
@@ -434,72 +507,45 @@ const Claim = props => {
           handleNonCitizen={handleClaim}
           showLabelOnly
         />
-        <View style={styles.fakeExtraInfoContainer} />
-        {dailyUbi === 0 ? (
-          <Section.Row style={styles.extraInfoContainer}>
+      </Section.Stack>
+      {dailyUbi === 0 && (
+        <Section.Stack style={styles.statsWrapper}>
+          <Section.Row style={{ justifyContent: 'center' }}>
             <Section.Text
-              style={[styles.extraInfoSecondContainer, { fontSize: 24 }]}
+              style={{ letterSpacing: 0.1, marginBottom: 4 }}
+              fontSize={20}
+              lineHeight={21}
               fontWeight="bold"
               fontFamily="Roboto"
             >
               GoodDollar Stats
             </Section.Text>
           </Section.Row>
-        ) : null}
-        {dailyUbi === 0 ? (
           <Section.Separator style={styles.separator} width={2} primaryColor={theme.colors.primary} />
-        ) : null}
-      </Section.Stack>
-      {dailyUbi === 0 ? (
-        <Section.Stack>
-          <Section.Row>
-            <Section.Stack style={{ paddingLeft: getDesignRelativeWidth(theme.sizes.defaultQuadruple) }}>
-              <Section.Text style={styles.grayBox}>
-                Active <br />
-                Claimers
-              </Section.Text>
-              <Section.Text style={styles.statsNumbers}>{formatWithabbreviations(activeClaimers)}</Section.Text>
-            </Section.Stack>
-            <Section.Stack style={{ paddingRight: getDesignRelativeWidth(theme.sizes.defaultQuadruple) }}>
-              <Section.Text style={styles.grayBox}>
-                Todays G$
-                <br />
-                Distribution
-              </Section.Text>
-              <Section.Row style={{ justifyContent: 'flex-start' }}>
-                <Section.Text style={styles.statsNumbers}>
-                  {formatWithabbreviations(availableDistribution)}
-                </Section.Text>
-                <Section.Text style={styles.dai}>G$</Section.Text>
-              </Section.Row>
-            </Section.Stack>
+          <Section.Row style={styles.statsRow}>
+            <GrayBox
+              title={'active\nclaimers'}
+              value={formatWithabbreviations(activeClaimers)}
+              style={{ marginRight: theme.sizes.default * 3 }}
+            />
+            <GrayBox
+              title={"Today's G$\nDistribution"}
+              value={formatWithabbreviations(availableDistribution)}
+              symbol={'G$'}
+            />
           </Section.Row>
-        </Section.Stack>
-      ) : null}
-      {dailyUbi === 0 ? (
-        <Section.Stack>
-          <Section.Row>
-            <Section.Stack style={{ paddingLeft: getDesignRelativeWidth(theme.sizes.defaultQuadruple) }}>
-              <Section.Text style={styles.grayBox}>
-                Total Funds <br />
-                Staked
-              </Section.Text>
-              <Section.Row style={{ justifyContent: 'flex-start' }}>
-                <Section.Text style={styles.statsNumbers}>{formatWithabbreviations(totalFundsStaked)}</Section.Text>
-                <Section.Text style={styles.dai}>DAI</Section.Text>
-              </Section.Row>
-            </Section.Stack>
-            <Section.Stack style={{ paddingRight: getDesignRelativeWidth(theme.sizes.defaultQuadruple) }}>
-              <Section.Text style={styles.grayBox}>
-                Interest
-                <br />
-                Generated Today
-              </Section.Text>
-              <Section.Row style={{ justifyContent: 'flex-start' }}>
-                <Section.Text style={styles.statsNumbers}>{formatWithabbreviations(interestCollected)}</Section.Text>
-                <Section.Text style={styles.dai}>DAI</Section.Text>
-              </Section.Row>
-            </Section.Stack>
+          <Section.Row style={styles.statsRow}>
+            <GrayBox
+              title={'Total funds\n staked'}
+              value={formatWithabbreviations(totalFundsStaked)}
+              symbol={'DAI'}
+              style={{ marginRight: theme.sizes.default * 3 }}
+            />
+            <GrayBox
+              title={'Interest\ngenerated today'}
+              value={formatWithabbreviations(interestCollected)}
+              symbol={'DAI'}
+            />
           </Section.Row>
         </Section.Stack>
       ) : null}
@@ -512,7 +558,6 @@ const Claim = props => {
 
 const getStylesFromProps = ({ theme }) => {
   const headerText = {
-    marginBottom: getDesignRelativeHeight(10),
     lineHeight: 38,
     letterSpacing: 0.42,
   }
@@ -542,17 +587,21 @@ const getStylesFromProps = ({ theme }) => {
     ...fontSize16,
   }
 
-  const claimButtonBottomPosition = isBrowser ? 16 : getDesignRelativeHeight(12)
-  const extraInfoTopPosition = 100 - Number(claimButtonBottomPosition)
-
   return {
+    statsWrapper: {
+      marginLeft: theme.sizes.defaultQuadruple,
+      marginRight: theme.sizes.defaultQuadruple,
+      marginTop: 30,
+    },
+    statsRow: {
+      marginTop: theme.sizes.default * 3,
+    },
     mainContainer: {
       backgroundColor: 'transparent',
-      flexGrow: 1,
+      flexGrow: 0,
       paddingVertical: 0,
       paddingHorizontal: 0,
-      justifyContent: 'space-between',
-      height: '100%',
+      justifyContent: 'normal',
     },
     headerContentContainer: {
       position: 'relative',
@@ -560,7 +609,6 @@ const getStylesFromProps = ({ theme }) => {
       flexDirection: 'column',
       alignItems: 'center',
       marginTop: getDesignRelativeHeight(theme.sizes.default * 4),
-      marginBottom: getDesignRelativeHeight(theme.sizes.defaultDouble),
     },
     headerContentContainer2: {
       position: 'relative',
@@ -568,7 +616,6 @@ const getStylesFromProps = ({ theme }) => {
       flexDirection: 'column',
       alignItems: 'center',
       marginTop: getDesignRelativeHeight(theme.sizes.default * 4),
-      marginBottom: getDesignRelativeHeight(theme.sizes.default * 4),
     },
     headerText,
     footerImg: {
@@ -580,14 +627,13 @@ const getStylesFromProps = ({ theme }) => {
       borderRadius: theme.sizes.borderRadius,
       paddingHorizontal: getDesignRelativeWidth(30),
       paddingVertical: getDesignRelativeWidth(10),
+      marginTop: getDesignRelativeHeight(14),
     },
     claimButtonContainer: {
       alignItems: 'center',
       flexDirection: 'column',
       zIndex: 1,
-      width: '100%',
-      position: 'absolute',
-      bottom: `${claimButtonBottomPosition}%`,
+      marginTop: theme.sizes.defaultQuadruple,
     },
     amountText,
     amountUnitText,
@@ -601,94 +647,28 @@ const getStylesFromProps = ({ theme }) => {
       justifyContent: 'flex-end',
       marginBottom: theme.sizes.defaultDouble,
     },
-    wavesBox: {
+    wavesBoxes: {
       alignItems: 'center',
       marginLeft: 10,
       marginRight: 10,
+      marginTop: getDesignRelativeHeight(32),
+    },
+    wavesBox: {
+      textAlign: 'center',
+      backgroundColor: theme.colors.surface,
     },
     lowerWavesBoxStyle: {
-      backgroundColor: theme.colors.surface,
-      minHeight: 70,
-      textAlign: 'center',
-    },
-    upperWavesBoxStyle: {
-      backgroundColor: theme.colors.surface,
-      minHeight: 50,
-      textAlign: 'center',
-      marginBottom: '10px',
+      marginTop: 10,
     },
     learnMoreLink,
 
-    fakeClaimButton: {
-      // width: getDesignRelativeHeight(166),
-      // height: getDesignRelativeHeight(166),
-      padding: 0,
-      margin: 0,
-      marginTop: getDesignRelativeHeight(32),
-    },
     extraInfoAmountDisplay: {
       display: Platform.select({ web: 'contents', default: 'flex' }),
-    },
-    extraInfoContainer: {
-      position: 'absolute',
-      top: `${extraInfoTopPosition}%`,
-      height: `${claimButtonBottomPosition}%`,
-      width: '100%',
-    },
-    extraInfoSecondContainer: {
-      flex: 1,
-      justifyContent: 'center',
     },
     fakeExtraInfoContainer: {
       height: getDesignRelativeHeight(45),
     },
-    separator: {
-      marginLeft: '10%',
-      marginRight: '10%',
-    },
-    grayBox: {
-      backgroundColor: '#E5E5E5',
-      borderRadius: '5px',
-      opacity: 1,
-      fontFamily: theme.fonts.slab,
-      fontWeight: 'bold',
-      height: getDesignRelativeHeight(48),
-      width: getDesignRelativeWidth(140),
-      textAlign: 'left',
-      marginTop: getDesignRelativeHeight(24),
-      paddingLeft: getDesignRelativeWidth(theme.sizes.default),
-      paddingTop: getDesignRelativeHeight(theme.sizes.default),
-      letterSpacing: '0.07px',
-      lineHeight: '19px',
-      textTransform: 'capitalize',
-      ...fontSize16,
-    },
-    statsNumbers: {
-      letterSpacing: '0px',
-      color: theme.colors.primary,
-      opacity: 1,
-      fontFamily: theme.fonts.slab,
-      fontWeight: 'bold',
-      textAlign: 'left',
-      paddingLeft: theme.sizes.default,
-      fontSize: theme.sizes.defaultQuadruple,
-      paddingTop: '2px',
-      paddingBottom: '5px',
-      lineHeight: '43px',
-    },
-    dai: {
-      textAlign: 'center',
-      lineHeight: '20px',
-      letterSpacing: '0px',
-      color: theme.colors.primary,
-      opacity: 1,
-      fontWeight: 'bold',
-      fontFamily: theme.fonts.slab,
-      paddingLeft: '4px',
-      paddingTop: getDesignRelativeHeight(12),
-      paddingBottom: '5px',
-      ...fontSize16,
-    },
+
     fontSize16,
   }
 }

@@ -1,34 +1,17 @@
 // @flow
 import React, { useMemo } from 'react'
 import { Platform, View } from 'react-native'
-import LinearGradient from 'react-native-linear-gradient'
-import { isMobileNative, isMobileOnly } from '../../../lib/utils/platform'
+import { isMobileOnly } from '../../../lib/utils/platform'
 import { withStyles } from '../../../lib/styles'
 import { theme } from '../../../components/theme/styles'
 import SimpleStore from '../../../lib/undux/SimpleStore'
-import { getScreenWidth } from '../../../lib/utils/orientation'
+import { getDesignRelativeHeight, getMaxDeviceWidth } from '../../../lib/utils/sizes'
 
-const gradientColors = [
-  '#00AFFF',
-  '#2DC0F7',
-  '#28C0EF',
-  '#23C0E7',
-  '#1EC1DF',
-  '#19C1D7',
-  '#14C1CF',
-  '#0FC2C7',
-  '#0FC2C7',
-  '#0AC2BF',
-  '#05C2B7',
-  '#00C3AF',
-]
-
-const borderSize = Platform.select({ web: '50%', default: getScreenWidth() * 2 })
-
+const borderSize = Platform.select({ web: '50%', default: getMaxDeviceWidth() / 2 })
 const backgroundGradientStyles = {
   position: 'absolute',
   width: '200%',
-  height: '74%',
+  height: getDesignRelativeHeight(440),
   borderBottomLeftRadius: borderSize,
   borderBottomRightRadius: borderSize,
   right: '-50%',
@@ -46,14 +29,6 @@ const WrapperClaim = ({ backgroundColor, children, style, styles, ...props }) =>
 
     return [container, backgroundStyle, growStyle, style]
   }, [shouldGrow, backgroundColor, container, style])
-
-  let BackgroundContainer = View
-  const backgroundContainerProps = { style: backgroundGradientStyles }
-
-  if (isMobileNative) {
-    BackgroundContainer = LinearGradient
-    backgroundContainerProps.colors = gradientColors
-  }
 
   return (
     <View data-name="viewWrapper" style={wrapperStyles} {...props}>

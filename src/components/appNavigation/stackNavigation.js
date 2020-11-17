@@ -312,6 +312,8 @@ const styles = StyleSheet.create({
   scrollView: {
     display: 'flex',
     flexGrow: 1,
+    flexShrink: 0,
+    height: '100%',
   },
   scrollableView: {
     flexGrow: 1,

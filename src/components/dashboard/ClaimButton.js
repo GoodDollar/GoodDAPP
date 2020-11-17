@@ -204,8 +204,8 @@ const getStylesFromProps = ({ theme }) => ({
   },
   cardContainer: {
     alignItems: 'center',
-    width: getDesignRelativeHeight(196),
-    height: getDesignRelativeHeight(196),
+    width: isSmallDevice ? 140 : getDesignRelativeHeight(166),
+    height: isSmallDevice ? 140 : getDesignRelativeHeight(166),
   },
   minButtonHeight: {
     backgroundColor: theme.colors.green,
@@ -213,8 +213,8 @@ const getStylesFromProps = ({ theme }) => ({
     borderColor: '#FFFFFF',
     borderWidth: 8,
     borderStyle: 'solid',
-    height: isSmallDevice ? 140 : getDesignRelativeHeight(196),
-    width: isSmallDevice ? 140 : getDesignRelativeHeight(196),
+    height: isSmallDevice ? 140 : getDesignRelativeHeight(166),
+    width: isSmallDevice ? 140 : getDesignRelativeHeight(166),
 
     // boxShadow: '10px 12px 25px -14px',
     alignItems: 'center',

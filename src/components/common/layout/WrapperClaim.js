@@ -5,11 +5,12 @@ import { isMobileOnly } from 'mobile-device-detect'
 import { withStyles } from '../../../lib/styles'
 import { theme } from '../../../components/theme/styles'
 import SimpleStore from '../../../lib/undux/SimpleStore'
+import { getDesignRelativeHeight } from '../../../lib/utils/sizes'
 
 const backgroundGradientStyles = {
   position: 'absolute',
   width: '200%',
-  height: '74%',
+  height: getDesignRelativeHeight(440),
   borderBottomLeftRadius: '50%',
   borderBottomRightRadius: '50%',
   right: '-50%',

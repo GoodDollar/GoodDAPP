@@ -2,7 +2,7 @@ import { GoodWallet } from '../GoodWalletClass'
 import adminWallet from './__util__/AdminWalletV1'
 
 describe('GoodWalletShare/ReceiveTokens', () => {
-  jest.setTimeout(120000)
+  jest.setTimeout(90000)
   const amount = 1
   const reason = 'Test_Reason'
   let testWallet
@@ -10,10 +10,10 @@ describe('GoodWalletShare/ReceiveTokens', () => {
 
   beforeAll(async () => {
     testWallet = new GoodWallet({
-      web3Transport: 'WebSocketProvider',
+      web3Transport: 'HttpProvider',
     })
     testWallet2 = new GoodWallet({
-      web3Transport: 'WebSocketProvider',
+      web3Transport: 'HttpProvider',
     })
 
     await adminWallet.ready
@@ -31,8 +31,8 @@ describe('GoodWalletShare/ReceiveTokens', () => {
 
     const lastBlock = await testWallet.getBlockNumber()
 
-    testWallet.listenTxUpdates(lastBlock, () => {})
-    testWallet2.listenTxUpdates(lastBlock, () => {})
+    testWallet.watchEvents(lastBlock, () => {})
+    testWallet2.watchEvents(lastBlock, () => {})
   })
 
   it('should be whitelisted and with gas', async () => {
@@ -51,14 +51,14 @@ describe('GoodWalletShare/ReceiveTokens', () => {
   })
 
   it('should claim and emit transfer event', async done => {
-    let eventId = testWallet.subscribeToEvent('balanceChanged', event => {
-      expect(event).toBeTruthy()
-      expect(event.event).toBe('Transfer')
+    let eventId = testWallet.subscribeToEvent('balanceChanged', events => {
+      expect(events).toBeTruthy()
+      expect(events[0].event).toBe('Transfer')
+      testWallet.unsubscribeFromEvent(eventId)
       done()
     })
     expect(await testWallet.claim()).toBeTruthy()
     expect(await testWallet.balanceOf()).toBeGreaterThan(0)
-    testWallet.unsubscribeFromEvent(eventId)
   })
 
   it('should allow token transfer', async () => {
@@ -112,6 +112,7 @@ describe('GoodWalletShare/ReceiveTokens', () => {
     expect(await testWallet2.claim()).toBeTruthy()
 
     const linkData = testWallet2.generatePaymentLink(amount, reason)
+    
     expect(await linkData.txPromise.catch(_ => false)).toBeTruthy()
 
     let eventId = testWallet2.subscribeToEvent('otplUpdated', receipt => {
@@ -137,7 +138,7 @@ describe('GoodWalletShare/ReceiveTokens', () => {
       testWallet2.unsubscribeFromEvent(eventId)
       done()
     })
-
-    expect(await testWallet2.cancelOTL(hashedCode).catch(_ => false)).toBeTruthy()
+    const cancelTX = await testWallet2.cancelOTL(hashedCode).catch(_ => false)
+    expect(cancelTX).toBeTruthy()
   })
 })

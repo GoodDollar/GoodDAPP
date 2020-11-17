@@ -236,7 +236,6 @@ const AppSwitch = (props: LoadingProps) => {
 
   useEffect(() => {
     if (ready && gdstore && appState === 'active') {
-      checkBonusInterval(true)
       showOutOfGasError(props)
     }
   }, [gdstore, ready, appState])

@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { Platform, View } from 'react-native'
+import { View } from 'react-native'
 import Icon from '../view/Icon'
 import { withStyles } from '../../../lib/styles'
 

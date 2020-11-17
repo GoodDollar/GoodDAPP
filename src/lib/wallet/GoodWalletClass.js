@@ -711,7 +711,7 @@ export class GoodWallet {
       if (events.length > 0) {
         get(last(events), 'returnValues.daiValue', 0)
       }
-      interest = interest ? this.web3Mainnet.utils.fromWei(interest) : interest
+      interest = interest ? this.web3Mainnet.utils.fromWei(interest) : 0
       return interest
     } catch (exception) {
       const { message } = exception

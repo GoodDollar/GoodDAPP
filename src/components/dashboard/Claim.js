@@ -30,7 +30,7 @@ import {
   fireMauticEvent,
 } from '../../lib/analytics/analytics'
 import Config from '../../config/config'
-import { isSmallDevice } from '../../lib/utils/mobileSizeDetect'
+import { isLargeDevice, isSmallDevice } from '../../lib/utils/mobileSizeDetect'
 import { BigGoodDollar, Section, WrapperClaim } from '../common/'
 import useAppState from '../../lib/hooks/useAppState'
 import type { DashboardProps } from './Dashboard'

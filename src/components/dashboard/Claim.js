@@ -1,12 +1,12 @@
 // @flow
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { View } from 'react-native'
+import { Image, View } from 'react-native'
 import moment from 'moment'
 import numeral from 'numeral'
 import AsyncStorage from '../../lib/utils/asyncStorage'
 
-// import claimSvg from '../../assets/Claim/claim-footer.svg'
+import claimSvg from '../../assets/Claim/claim-footer.svg'
 
 // import useOnPress from '../../lib/hooks/useOnPress'
 import { isBrowser } from '../../lib/utils/platform'
@@ -20,7 +20,7 @@ import { useDialog } from '../../lib/undux/utils/dialog'
 import wrapper from '../../lib/undux/utils/wrapper'
 
 // import { openLink } from '../../lib/utils/linking'
-import { formatWithSIPrefix, formatWithThousandsSeparator } from '../../lib/utils/formatNumber'
+import { formatWithabbreviations, formatWithSIPrefix, formatWithThousandsSeparator } from '../../lib/utils/formatNumber'
 import { weiToGd } from '../../lib/wallet/utils'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
 import { WrapperClaim } from '../common'
@@ -83,12 +83,12 @@ const Claim = props => {
   const [peopleClaimed, setPeopleClaimed] = useState('--')
   const [totalClaimed, setTotalClaimed] = useState('--')
 
-  // const [activeClaimers, setActiveClaimers] = useState()
+  const [activeClaimers, setActiveClaimers] = useState()
   const [availableDistribution, setAvailableDistribution] = useState(0)
   const [claimCycleTime, setClaimCycleTime] = useState('00:00:00')
 
-  // const [totalFundsStaked, setTotalFundsStaked] = useState()
-  // const [interestCollected, setInterestCollected] = useState()
+  const [totalFundsStaked, setTotalFundsStaked] = useState()
+  const [interestCollected, setInterestCollected] = useState()
 
   const wrappedGoodWallet = wrapper(goodWallet, store)
   const advanceClaimsCounter = useClaimCounter()
@@ -208,12 +208,12 @@ const Claim = props => {
       setTotalClaimed(amount)
       setDailyUbi(entitlement)
 
-      // setActiveClaimers(activeClaimers)
+      setActiveClaimers(activeClaimers)
       setAvailableDistribution(availableDistribution)
       setClaimCycleTime(moment(nextClaimMilis).format('HH:mm:ss'))
 
-      // setTotalFundsStaked(totalFundsStaked)
-      // setInterestCollected(interestCollected)
+      setTotalFundsStaked(totalFundsStaked)
+      setInterestCollected(interestCollected)
 
       if (nextClaimMilis) {
         setNextClaimDate(nextClaimMilis)
@@ -452,19 +452,59 @@ const Claim = props => {
       {dailyUbi === 0 ? (
         <Section.Stack>
           <Section.Row>
-            <Section.Text>text here</Section.Text>
-            <Section.Text>text here</Section.Text>
+            <Section.Stack style={{ paddingLeft: getDesignRelativeWidth(theme.sizes.defaultQuadruple) }}>
+              <Section.Text style={styles.grayBox}>
+                Active <br />
+                Claimers
+              </Section.Text>
+              <Section.Text style={styles.statsNumbers}>{formatWithabbreviations(activeClaimers)}</Section.Text>
+            </Section.Stack>
+            <Section.Stack style={{ paddingRight: getDesignRelativeWidth(theme.sizes.defaultQuadruple) }}>
+              <Section.Text style={styles.grayBox}>
+                Todays G$
+                <br />
+                Distribution
+              </Section.Text>
+              <Section.Row style={{ justifyContent: 'flex-start' }}>
+                <Section.Text style={styles.statsNumbers}>
+                  {formatWithabbreviations(availableDistribution)}
+                </Section.Text>
+                <Section.Text style={styles.dai}>G$</Section.Text>
+              </Section.Row>
+            </Section.Stack>
           </Section.Row>
         </Section.Stack>
       ) : null}
       {dailyUbi === 0 ? (
         <Section.Stack>
           <Section.Row>
-            <Section.Text>text here</Section.Text>
-            <Section.Text>text here</Section.Text>
+            <Section.Stack style={{ paddingLeft: getDesignRelativeWidth(theme.sizes.defaultQuadruple) }}>
+              <Section.Text style={styles.grayBox}>
+                Total Funds <br />
+                Staked
+              </Section.Text>
+              <Section.Row style={{ justifyContent: 'flex-start' }}>
+                <Section.Text style={styles.statsNumbers}>{formatWithabbreviations(totalFundsStaked)}</Section.Text>
+                <Section.Text style={styles.dai}>DAI</Section.Text>
+              </Section.Row>
+            </Section.Stack>
+            <Section.Stack style={{ paddingRight: getDesignRelativeWidth(theme.sizes.defaultQuadruple) }}>
+              <Section.Text style={styles.grayBox}>
+                Interest
+                <br />
+                Generated Today
+              </Section.Text>
+              <Section.Row style={{ justifyContent: 'flex-start' }}>
+                <Section.Text style={styles.statsNumbers}>{formatWithabbreviations(interestCollected)}</Section.Text>
+                <Section.Text style={styles.dai}>DAI</Section.Text>
+              </Section.Row>
+            </Section.Stack>
           </Section.Row>
         </Section.Stack>
       ) : null}
+      <Section.Stack>
+        <Image source={claimSvg} resizeMode="contain" />
+      </Section.Stack>
     </WrapperClaim>
   )
 }
@@ -529,6 +569,9 @@ const getStylesFromProps = ({ theme }) => {
       marginBottom: getDesignRelativeHeight(theme.sizes.default * 4),
     },
     headerText,
+    footerImg: {
+      position: 'relative',
+    },
     amountBlock: {
       borderWidth: 3,
       borderColor: theme.colors.darkBlue,
@@ -570,6 +613,7 @@ const getStylesFromProps = ({ theme }) => {
       backgroundColor: theme.colors.surface,
       minHeight: 50,
       textAlign: 'center',
+      marginBottom: '10px',
     },
     learnMoreLink,
 
@@ -598,6 +642,49 @@ const getStylesFromProps = ({ theme }) => {
     separator: {
       marginLeft: '10%',
       marginRight: '10%',
+    },
+    grayBox: {
+      backgroundColor: '#E5E5E5',
+      borderRadius: '5px',
+      opacity: 1,
+      fontFamily: theme.fonts.slab,
+      fontWeight: 'bold',
+      height: getDesignRelativeHeight(48),
+      width: getDesignRelativeWidth(140),
+      textAlign: 'left',
+      marginTop: getDesignRelativeHeight(24),
+      paddingLeft: getDesignRelativeWidth(theme.sizes.default),
+      paddingTop: getDesignRelativeHeight(theme.sizes.default),
+      letterSpacing: '0.07px',
+      lineHeight: '19px',
+      textTransform: 'capitalize',
+      ...fontSize16,
+    },
+    statsNumbers: {
+      letterSpacing: '0px',
+      color: theme.colors.primary,
+      opacity: 1,
+      fontFamily: theme.fonts.slab,
+      fontWeight: 'bold',
+      textAlign: 'left',
+      paddingLeft: theme.sizes.default,
+      fontSize: theme.sizes.defaultQuadruple,
+      paddingTop: '2px',
+      paddingBottom: '5px',
+      lineHeight: '43px',
+    },
+    dai: {
+      textAlign: 'center',
+      lineHeight: '20px',
+      letterSpacing: '0px',
+      color: theme.colors.primary,
+      opacity: 1,
+      fontWeight: 'bold',
+      fontFamily: theme.fonts.slab,
+      paddingLeft: '4px',
+      paddingTop: getDesignRelativeHeight(12),
+      paddingBottom: '5px',
+      ...fontSize16,
     },
     fontSize16,
   }

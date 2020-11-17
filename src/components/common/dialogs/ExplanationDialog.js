@@ -68,7 +68,7 @@ const ExplanationDialog = ({
       style: [
         styles.image,
         {
-          height: getDesignRelativeHeight(imageHeight, false),
+          height: getDesignRelativeHeight(imageHeight, true),
           marginTop: errorMessage ? undefined : getDesignRelativeHeight(8),
           width: '100%',
         },
@@ -115,15 +115,20 @@ const ExplanationDialog = ({
 const mapStylesToProps = ({ theme }) => ({
   container: {
     display: 'flex',
+    flex: 0,
     justifyContent: 'space-around',
     maxHeight: '100%',
     marginTop: 'auto',
     marginBottom: 'auto',
-    minHeight: getDesignRelativeHeight(310),
   },
   error: {
-    marginTop: getDesignRelativeHeight(16),
-    marginBottom: getDesignRelativeHeight(25),
+    marginTop: theme.paddings.defaultMargin * 3,
+    marginBottom: theme.paddings.defaultMargin * 3,
+  },
+  image: {
+    alignSelf: 'center',
+    width: '100%',
+    marginBottom: theme.paddings.defaultMargin * 3,
   },
   label: {
     color: theme.colors.darkGray,
@@ -132,10 +137,11 @@ const mapStylesToProps = ({ theme }) => ({
     textAlign: 'left',
   },
   title: {
-    marginBottom: getDesignRelativeHeight(8),
+    marginBottom: theme.paddings.defaultMargin * 3,
   },
   description: {
     fontSize: normalizeText(24),
+    marginBottom: theme.paddings.defaultMargin * 3,
   },
   buttonsContainer: {
     display: 'flex',
@@ -143,7 +149,6 @@ const mapStylesToProps = ({ theme }) => ({
     justifyContent: 'flex-end',
     paddingLeft: 0,
     paddingRight: 0,
-    paddingTop: getDesignRelativeHeight(theme.sizes.defaultDouble, false),
   },
   buttonText: {
     paddingLeft: 5,
@@ -165,11 +170,6 @@ const mapStylesToProps = ({ theme }) => ({
     justifyContent: 'center',
     flexDirection: 'row',
     alignSelf: 'center',
-  },
-  image: {
-    width: '100%',
-    alignSelf: 'center',
-    marginBottom: getDesignRelativeHeight(theme.sizes.defaultDouble, false),
   },
 })
 

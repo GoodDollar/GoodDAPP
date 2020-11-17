@@ -224,7 +224,7 @@ export class GoodWallet {
 
   getRewardsAddresses() {
     const addr = get(UpgradablesAddress, `${this.network}.Invites`).toLowerCase()
-    return [addr].filter(_ => _ != NULL_ADDRESS)
+    return [addr].filter(_ => _ !== NULL_ADDRESS)
   }
 
   setIsPollEvents(active) {
@@ -301,9 +301,10 @@ export class GoodWallet {
 
     const events = await contract.getPastEvents('Transfer', fromEventsFilter).catch(e => {
       //just warn about block not  found which is recoverable
-      const logFunc = e.code === -32000 ? log.warn : log.error
-      logFunc('pollSendEvents failed:', e.message, e, {
+      const logFunc = e.code === -32000 ? 'warn' : 'error'
+      log[logFunc]('pollSendEvents failed:', e.message, e, {
         category: ExceptionCategory.Blockhain,
+        fromEventsFilter,
       })
       return []
     })
@@ -342,9 +343,10 @@ export class GoodWallet {
 
     const events = await contract.getPastEvents('Transfer', toEventsFilter).catch(e => {
       //just warn about block not  found which is recoverable
-      const logFunc = e.code === -32000 ? log.warn : log.error
-      logFunc('pollReceiveEvents failed:', e.message, e, {
+      const logFunc = e.code === -32000 ? 'warn' : 'error'
+      log[logFunc]('pollReceiveEvents failed:', e.message, e, {
         category: ExceptionCategory.Blockhain,
+        toEventsFilter,
       })
       return []
     })
@@ -379,20 +381,25 @@ export class GoodWallet {
       filter: { from: this.wallet.utils.toChecksumAddress(this.account) },
     }
 
-    const eventsWithdraw = await contract.getPastEvents('PaymentWithdraw', fromEventsFilter).catch(e => {
+    log.debug('pollOTPLEvents call', { fromEventsFilter })
+
+    const eventsCancel = await contract.getPastEvents('PaymentCancel', Object.assign({}, fromEventsFilter)).catch(e => {
       //just warn about block not  found which is recoverable
-      const logFunc = e.code === -32000 ? log.warn : log.error
-      logFunc('pollOTPLEvents failed:', e.message, e, {
+      const logFunc = e.code === -32000 ? 'warn' : 'error'
+      log[logFunc]('pollOTPLEvents failed:', e.message, e, {
         category: ExceptionCategory.Blockhain,
+        fromEventsFilter,
       })
       return []
     })
 
-    const eventsCancel = await contract.getPastEvents('PaymentCancel', fromEventsFilter).catch(e => {
+    // const eventsWithdraw = []
+    const eventsWithdraw = await contract.getPastEvents('PaymentWithdraw', fromEventsFilter).catch(e => {
       //just warn about block not  found which is recoverable
-      const logFunc = e.code === -32000 ? log.warn : log.error
-      logFunc('pollOTPLEvents failed:', e.message, e, {
+      const logFunc = e.code === -32000 ? 'warn' : 'error'
+      log[logFunc]('pollOTPLEvents failed:', e.message, e, {
         category: ExceptionCategory.Blockhain,
+        fromEventsFilter,
       })
       return []
     })

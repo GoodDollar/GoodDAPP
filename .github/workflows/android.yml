@@ -88,11 +88,11 @@ jobs:
       - name: Prepare env
         env:
           SENTRYRC: ${{ secrets.sentryrc_file }}
+          ENV_NAME: "${GITHUB_REF##*/}_ENV"
         run: |
           branch_name=${GITHUB_REF##*/}
-          env_name="${branch_name}_ENV"
           echo "$SENTRYRC" > android/sentry.properties
-          echo "${{ secrets[$env_name] }}" >> .env.$branch_name
+          echo "${{ secrets[env.ENV_NAME] }}" >> .env.$branch_name
       - name: Set release keystore
         run: |
           echo "${{ secrets.RELEASE_ANDROID_KEYSTORE }}" > release.keystore.asc

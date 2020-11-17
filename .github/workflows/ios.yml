@@ -49,6 +49,10 @@ jobs:
           IOS_PROFILE_KEY: ${{ secrets.IOS_PROFILE_KEY }}
       - name: Generate assets
         run: node ./animationAssets.js
+      - name: Prepare env
+        run: |
+          branch_name=${GITHUB_REF##*/}
+          echo "${{ secrets.$branch_name_ENV }}" >> .env.$branch_name
       - name: Build app
         run: |
           cd ios && xcodebuild archive \

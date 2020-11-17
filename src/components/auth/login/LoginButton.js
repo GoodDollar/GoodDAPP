@@ -7,7 +7,7 @@ import { getDesignRelativeHeight } from '../../../lib/utils/sizes'
 import { isSmallDevice } from '../../../lib/utils/mobileSizeDetect'
 import normalizeText from '../../../lib/utils/normalizeText'
 
-export const LoginButton = ({ style, onPress, testID, icon: Icon, disabled, children, iconProps = {} }) => {
+export const LoginButton = ({ style, onPress, testID, icon: IconSVG, disabled, children, iconProps = {} }) => {
   const onButtonPress = useOnPress(onPress)
 
   return (
@@ -18,7 +18,7 @@ export const LoginButton = ({ style, onPress, testID, icon: Icon, disabled, chil
       testID={testID}
     >
       <View style={styles.iconBorder}>
-        <Icon height="100%" width="100%" {...iconProps} />
+        <IconSVG height="100%" width="100%" {...iconProps} />
       </View>
       <Text textTransform="uppercase" style={styles.buttonText} fontWeight={'medium'} letterSpacing={0} color="white">
         {children}

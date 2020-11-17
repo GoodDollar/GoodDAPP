@@ -50,12 +50,16 @@ jobs:
       - name: Generate assets
         run: node ./animationAssets.js
       - name: Prepare env
+        env:
+          ENV_NAME: "${GITHUB_REF##*/}_ENV"
         run: |
           branch_name=${GITHUB_REF##*/}
-          echo "${{ secrets.${branch_name}_ENV }}" >> .env.$branch_name
+          echo "${{ secrets[env.ENV_NAME] }}" >> .env.$branch_name
       - name: Build app
         run: |
-          cd ios && xcodebuild archive \
+          branch_name=${GITHUB_REF##*/}
+          echo "Creating release using env: .env.${branch_name}"
+          cd ios && ENVFILE=../.env.$branch_name xcodebuild archive \
             -workspace GoodDollar.xcworkspace \
             -scheme GoodDollar \
             -sdk iphoneos \

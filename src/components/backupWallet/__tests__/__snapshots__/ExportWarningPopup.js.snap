@@ -2,156 +2,66 @@
 
 exports[`ExportWarningPopup matches snapshot 1`] = `
 <div
-  className="css-view-1dbjc4n"
-  style={
-    Object {
-      "WebkitBoxFlex": 1,
-      "WebkitFlexBasis": "0%",
-      "WebkitFlexGrow": 1,
-      "WebkitFlexShrink": 1,
-      "flexBasis": "0%",
-      "flexGrow": 1,
-      "flexShrink": 1,
-      "msFlexNegative": 1,
-      "msFlexPositive": 1,
-      "msFlexPreferredSize": "0%",
-    }
-  }
+  className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
-    className="css-view-1dbjc4n"
-    style={
-      Object {
-        "WebkitBoxFlex": 0,
-        "WebkitBoxPack": "justify",
-        "WebkitFlexBasis": "0%",
-        "WebkitFlexGrow": 0,
-        "WebkitFlexShrink": 0,
-        "WebkitJustifyContent": "space-around",
-        "display": "flex",
-        "flexBasis": "0%",
-        "flexGrow": 0,
-        "flexShrink": 0,
-        "height": "100%",
-        "justifyContent": "space-around",
-        "marginBottom": "auto",
-        "marginTop": "auto",
-        "maxHeight": "473.76623376623377px",
-        "msFlexNegative": 0,
-        "msFlexPack": "distribute",
-        "msFlexPositive": 0,
-        "msFlexPreferredSize": "0%",
-      }
-    }
+    className="css-view-1dbjc4n r-display-6koalj r-flex-1d9yedq r-justifyContent-a2tzq0 r-marginBottom-1qahzrx r-marginTop-1t01tom r-maxHeight-1vsgb79"
   >
     <div
-      className="css-view-1dbjc4n"
+      className="css-view-1dbjc4n r-alignSelf-1kihuf0 r-flexDirection-18u37iz r-justifyContent-1777fci"
     >
       <div
-        className="css-view-1dbjc4n"
+        className="css-view-1dbjc4n r-alignSelf-1kihuf0 r-marginBottom-ngatle r-width-13qz1uu"
         style={
           Object {
-            "WebkitAlignItems": "center",
-            "WebkitBoxAlign": "center",
-            "alignItems": "center",
-            "display": "flex",
             "height": "100px",
-            "marginBottom": "24px",
             "marginTop": "8px",
-            "msFlexAlign": "center",
-            "width": "100%",
           }
         }
       >
         <div
-          className="css-text-901oao"
-          dir="auto"
-          style={
-            Object {
-              "WebkitTransform": "rotate(180deg)",
-              "color": "rgba(0,175,255,1.00)",
-              "fontFamily": "gooddollar",
-              "fontSize": "100px",
-              "fontStyle": "normal",
-              "fontWeight": "normal",
-              "transform": "rotate(180deg)",
-            }
-          }
+          className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-height-1pi2tsx r-transform-1aeo46e r-width-13qz1uu"
         >
-          
+          <div
+            className="css-text-901oao r-color-1q5uqvh r-fontWeight-1it3c9n"
+            dir="auto"
+            style={
+              Object {
+                "fontFamily": "gooddollar",
+                "fontSize": "100px",
+                "fontStyle": "normal",
+              }
+            }
+          >
+            
+          </div>
         </div>
       </div>
     </div>
     <div
-      className="css-text-901oao"
+      className="css-text-901oao r-color-11zaip3 r-fontFamily-6jnb14 r-fontSize-evnaw r-fontWeight-b88u0q r-lineHeight-1h1c4di r-marginBottom-1peese0 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
       dir="auto"
-      style={
-        Object {
-          "color": "rgba(250,108,119,1.00)",
-          "direction": "ltr",
-          "fontFamily": "Roboto Slab",
-          "fontSize": "22px",
-          "fontWeight": "700",
-          "lineHeight": "29px",
-          "marginBottom": "24px",
-          "textAlign": "center",
-          "textDecoration": "none",
-          "textTransform": "none",
-        }
-      }
     >
       Do Not Send Tokens
 From Ethereum Network
 To This Address
     </div>
     <div
-      className="css-text-901oao"
+      className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-lineHeight-hbpseb r-marginBottom-1peese0 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
       dir="auto"
-      style={
-        Object {
-          "color": "rgba(66,69,74,1.00)",
-          "direction": "ltr",
-          "fontFamily": "Roboto",
-          "fontSize": "16px",
-          "fontWeight": "normal",
-          "lineHeight": "22px",
-          "marginBottom": "24px",
-          "textAlign": "center",
-          "textDecoration": "none",
-          "textTransform": "none",
-        }
-      }
     >
       Keep in mind - This is an internal
-Network address for G$ tokens only.
+network address for G$ tokens only.
     </div>
     <div
-      className="css-view-1dbjc4n"
-      style={
-        Object {
-          "WebkitBoxDirection": "normal",
-          "WebkitBoxOrient": "horizontal",
-          "WebkitBoxPack": "end",
-          "WebkitFlexDirection": "row",
-          "WebkitJustifyContent": "flex-end",
-          "display": "flex",
-          "flexDirection": "row",
-          "justifyContent": "flex-end",
-          "msFlexDirection": "row",
-          "msFlexPack": "end",
-          "paddingLeft": "0px",
-          "paddingRight": "0px",
-        }
-      }
+      className="css-view-1dbjc4n r-display-6koalj r-flexDirection-18u37iz r-justifyContent-17s6mgv r-paddingLeft-gy4na3 r-paddingRight-9aemit"
     >
       <div
-        className="css-view-1dbjc4n"
+        className="css-view-1dbjc4n r-display-6koalj r-justifyContent-1777fci r-paddingLeft-gy4na3 r-paddingRight-9aemit r-width-13qz1uu"
         style={
           Object {
             "WebkitAlignItems": "stretch",
             "WebkitBoxAlign": "stretch",
-            "WebkitBoxPack": "center",
-            "WebkitJustifyContent": "center",
             "alignItems": "stretch",
             "backgroundColor": "rgba(0,175,255,1.00)",
             "borderBottomColor": "rgba(0,175,255,1.00)",
@@ -171,8 +81,6 @@ Network address for G$ tokens only.
             "borderTopStyle": "solid",
             "borderTopWidth": "0px",
             "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
-            "display": "flex",
-            "justifyContent": "center",
             "marginBottom": "0px",
             "marginLeft": "0px",
             "marginRight": "0px",
@@ -180,17 +88,15 @@ Network address for G$ tokens only.
             "minHeight": "44px",
             "minWidth": "64px",
             "msFlexAlign": "stretch",
-            "msFlexPack": "center",
             "paddingBottom": "0px",
             "paddingLeft": "0px",
             "paddingRight": "0px",
             "paddingTop": "0px",
-            "width": "100%",
           }
         }
       >
         <div
-          className="css-cursor-18t94o4 css-view-1dbjc4n"
+          className="css-cursor-18t94o4 css-view-1dbjc4n r-cursor-1loqt21 r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim r-touchAction-1otgn73"
           data-focusable={true}
           disabled={false}
           onKeyDown={[Function]}
@@ -205,115 +111,39 @@ Network address for G$ tokens only.
           role="button"
           style={
             Object {
+              "WebkitAlignSelf": "stretch",
+              "alignSelf": "stretch",
               "borderBottomLeftRadius": "50px",
               "borderBottomRightRadius": "50px",
               "borderTopLeftRadius": "50px",
               "borderTopRightRadius": "50px",
-              "cursor": "pointer",
-              "msTouchAction": "manipulation",
-              "overflowX": "hidden",
-              "overflowY": "hidden",
-              "position": "relative",
-              "touchAction": "manipulation",
+              "msFlexItemAlign": "stretch",
             }
           }
           tabIndex="0"
         >
           <div
-            className="css-view-1dbjc4n"
+            className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
             style={
               Object {
-                "WebkitAlignItems": "center",
-                "WebkitBoxAlign": "center",
-                "WebkitBoxDirection": "normal",
-                "WebkitBoxOrient": "horizontal",
-                "WebkitBoxPack": "center",
-                "WebkitFlexDirection": "row",
-                "WebkitJustifyContent": "center",
-                "alignItems": "center",
-                "flexDirection": "row",
-                "justifyContent": "center",
-                "msFlexAlign": "center",
-                "msFlexDirection": "row",
-                "msFlexPack": "center",
+                "WebkitAlignSelf": "stretch",
+                "alignSelf": "stretch",
+                "msFlexItemAlign": "stretch",
               }
             }
           >
             <div
-              className="css-text-901oao css-textOneLine-bfa6kz"
-              dir="auto"
-              style={
-                Object {
-                  "color": "rgba(255,255,255,1.00)",
-                  "direction": "ltr",
-                  "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                  "letterSpacing": "1px",
-                  "marginBottom": "9px",
-                  "marginLeft": "16px",
-                  "marginRight": "16px",
-                  "marginTop": "9px",
-                  "textAlign": "center",
-                }
-              }
+              className="css-view-1dbjc4n r-marginHorizontal-1ydw1k6 r-marginVertical-712mwr"
             >
               <div
-                className="css-view-1dbjc4n"
-                style={
-                  Object {
-                    "WebkitAlignItems": "center",
-                    "WebkitBoxAlign": "center",
-                    "WebkitBoxDirection": "normal",
-                    "WebkitBoxFlex": 1,
-                    "WebkitBoxOrient": "horizontal",
-                    "WebkitFlexBasis": "0%",
-                    "WebkitFlexDirection": "row",
-                    "WebkitFlexGrow": 1,
-                    "WebkitFlexShrink": 1,
-                    "alignItems": "center",
-                    "display": "flex",
-                    "flexBasis": "0%",
-                    "flexDirection": "row",
-                    "flexGrow": 1,
-                    "flexShrink": 1,
-                    "msFlexAlign": "center",
-                    "msFlexDirection": "row",
-                    "msFlexNegative": 1,
-                    "msFlexPositive": 1,
-                    "msFlexPreferredSize": "0%",
-                  }
-                }
+                className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
               >
-                <span
-                  className="css-text-901oao css-textHasAncestor-16my406"
+                <div
+                  className="css-text-901oao r-alignItems-1awozwy r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-hbpseb r-paddingLeft-qhyqy2 r-paddingRight-19gegkz r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
                   dir="auto"
-                  style={
-                    Object {
-                      "WebkitAlignItems": "center",
-                      "WebkitBoxAlign": "center",
-                      "WebkitBoxPack": "center",
-                      "WebkitJustifyContent": "center",
-                      "alignItems": "center",
-                      "color": "rgba(255,255,255,1.00)",
-                      "direction": "ltr",
-                      "fontFamily": "Roboto",
-                      "fontSize": "16px",
-                      "fontWeight": "500",
-                      "justifyContent": "center",
-                      "letterSpacing": "0px",
-                      "lineHeight": "22px",
-                      "msFlexAlign": "center",
-                      "msFlexPack": "center",
-                      "paddingLeft": "5px",
-                      "paddingRight": "5px",
-                      "paddingTop": "1px",
-                      "textAlign": "center",
-                      "textDecoration": "none",
-                      "textTransform": "uppercase",
-                    }
-                  }
                 >
                   I UNDERSTAND
-                </span>
+                </div>
               </div>
             </div>
           </div>

@@ -2,114 +2,29 @@
 
 exports[`BigGoodDollar matches snapshot 1`] = `
 <div
-  className="css-view-1dbjc4n"
-  style={
-    Object {
-      "WebkitBoxFlex": 1,
-      "WebkitFlexBasis": "0%",
-      "WebkitFlexGrow": 1,
-      "WebkitFlexShrink": 1,
-      "flexBasis": "0%",
-      "flexGrow": 1,
-      "flexShrink": 1,
-      "msFlexNegative": 1,
-      "msFlexPositive": 1,
-      "msFlexPreferredSize": "0%",
-    }
-  }
+  className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
-    className="css-view-1dbjc4n"
-    style={
-      Object {
-        "WebkitAlignItems": "baseline",
-        "WebkitBoxAlign": "baseline",
-        "WebkitBoxDirection": "normal",
-        "WebkitBoxOrient": "horizontal",
-        "WebkitFlexDirection": "row",
-        "alignItems": "baseline",
-        "display": "flex",
-        "flexDirection": "row",
-        "msFlexAlign": "baseline",
-        "msFlexDirection": "row",
-      }
-    }
+    className="css-view-1dbjc4n r-alignItems-1d09ksm r-display-6koalj r-flexDirection-18u37iz"
   >
     <div
-      className="css-text-901oao"
+      className="css-text-901oao r-color-181bzza r-fontFamily-6jnb14 r-fontSize-3i2nvb r-fontWeight-b88u0q r-lineHeight-ueyrd6 r-marginRight-a5pmau r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
       dir="auto"
-      style={
-        Object {
-          "color": "rgba(85,85,85,1.00)",
-          "direction": "ltr",
-          "fontFamily": "Roboto Slab",
-          "fontSize": "36px",
-          "fontWeight": "700",
-          "lineHeight": "30px",
-          "marginRight": "2px",
-          "textAlign": "right",
-          "textDecoration": "none",
-          "textTransform": "none",
-        }
-      }
     >
       10.05
     </div>
     <div
-      className="css-view-1dbjc4n"
-      style={
-        Object {
-          "WebkitAlignItems": "center",
-          "WebkitBoxAlign": "center",
-          "WebkitBoxDirection": "normal",
-          "WebkitBoxOrient": "horizontal",
-          "WebkitBoxPack": "justify",
-          "WebkitFlexDirection": "row",
-          "WebkitJustifyContent": "space-between",
-          "alignItems": "center",
-          "flexDirection": "row",
-          "justifyContent": "space-between",
-          "msFlexAlign": "center",
-          "msFlexDirection": "row",
-          "msFlexPack": "justify",
-        }
-      }
+      className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
     >
       <div
-        className="css-text-901oao"
+        className="css-text-901oao r-color-181bzza r-fontFamily-6jnb14 r-fontSize-1i10wst r-fontWeight-b88u0q r-lineHeight-hbpseb r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
         dir="auto"
-        style={
-          Object {
-            "color": "rgba(85,85,85,1.00)",
-            "direction": "ltr",
-            "fontFamily": "Roboto Slab",
-            "fontSize": "18px",
-            "fontWeight": "700",
-            "lineHeight": "22px",
-            "textAlign": "right",
-            "textDecoration": "none",
-            "textTransform": "none",
-          }
-        }
       >
         G
       </div>
       <div
-        className="css-text-901oao"
+        className="css-text-901oao r-color-181bzza r-fontFamily-6jnb14 r-fontSize-1i10wst r-fontWeight-b88u0q r-lineHeight-hbpseb r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
         dir="auto"
-        style={
-          Object {
-            "color": "rgba(85,85,85,1.00)",
-            "direction": "ltr",
-            "fontFamily": "Roboto Slab",
-            "fontSize": "18px",
-            "fontWeight": "700",
-            "lineHeight": "22px",
-            "textAlign": "right",
-            "textDecoration": "none",
-            "textTransform": "none",
-          }
-        }
       >
         $
       </div>

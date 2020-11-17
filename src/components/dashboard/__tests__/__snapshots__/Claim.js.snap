@@ -2,53 +2,27 @@
 
 exports[`Claim matches snapshot 1`] = `
 <div
-  className="css-view-1dbjc4n"
-  style={
-    Object {
-      "WebkitBoxFlex": 1,
-      "WebkitFlexBasis": "0%",
-      "WebkitFlexGrow": 1,
-      "WebkitFlexShrink": 1,
-      "flexBasis": "0%",
-      "flexGrow": 1,
-      "flexShrink": 1,
-      "msFlexNegative": 1,
-      "msFlexPositive": 1,
-      "msFlexPreferredSize": "0%",
-    }
-  }
+  className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
-    className="css-view-1dbjc4n"
+    className="css-view-1dbjc4n r-flexGrow-16y2uox r-maxHeight-1qalap5 r-position-bnwqim r-width-13qz1uu"
     data-name="viewWrapper"
-    style={
-      Object {
-        "WebkitBoxFlex": 1,
-        "WebkitFlexGrow": 1,
-        "flexGrow": 1,
-        "maxHeight": "844px",
-        "msFlexPositive": 1,
-        "position": "relative",
-        "width": "100%",
-      }
-    }
   >
     <div
-      className="css-view-1dbjc4n"
+      className="css-view-1dbjc4n r-position-u8s1d"
       style={
         Object {
           "backgroundImage": "linear-gradient(to bottom, #00AFFF, #2DC0F7, #28C0EF, #23C0E7, #1EC1DF, #19C1D7, #14C1CF, #0FC2C7, #0FC2C7, #0AC2BF, #05C2B7, #00C3AF)",
           "borderBottomLeftRadius": "50%",
           "borderBottomRightRadius": "50%",
           "height": "74%",
-          "position": "absolute",
           "right": "-50%",
           "width": "200%",
         }
       }
     >
       <div
-        className="css-view-1dbjc4n"
+        className="css-view-1dbjc4n r-height-1pi2tsx r-position-u8s1d r-width-13qz1uu"
         style={
           Object {
             "borderBottomColor": "rgba(255,255,255,1.00)",
@@ -56,148 +30,45 @@ exports[`Claim matches snapshot 1`] = `
             "borderBottomRightRadius": "50%",
             "borderBottomStyle": "solid",
             "borderBottomWidth": "3px",
-            "height": "100%",
-            "position": "absolute",
+            "borderLeftStyle": "solid",
+            "borderRightStyle": "solid",
+            "borderTopStyle": "solid",
             "top": "-5px",
-            "width": "100%",
           }
         }
       />
     </div>
     <div
-      className="css-view-1dbjc4n"
-      style={
-        Object {
-          "WebkitAlignItems": "stretch",
-          "WebkitBoxAlign": "stretch",
-          "WebkitBoxDirection": "normal",
-          "WebkitBoxFlex": 1,
-          "WebkitBoxOrient": "vertical",
-          "WebkitBoxPack": "justify",
-          "WebkitFlexDirection": "column",
-          "WebkitFlexGrow": 1,
-          "WebkitJustifyContent": "space-between",
-          "alignItems": "stretch",
-          "backgroundColor": "rgba(0,0,0,0.00)",
-          "flexDirection": "column",
-          "flexGrow": 1,
-          "justifyContent": "space-between",
-          "msFlexAlign": "stretch",
-          "msFlexDirection": "column",
-          "msFlexPack": "justify",
-          "msFlexPositive": 1,
-          "paddingBottom": "0px",
-          "paddingLeft": "0px",
-          "paddingRight": "0px",
-          "paddingTop": "0px",
-        }
-      }
+      className="css-view-1dbjc4n r-alignItems-1oszu61 r-backgroundColor-1niwhzg r-flexDirection-eqz5dr r-flexGrow-16y2uox r-height-1pi2tsx r-justifyContent-1wtj0ep r-paddingHorizontal-mk0yit r-paddingVertical-rjfia"
     >
       <div
-        className="css-view-1dbjc4n"
-        style={
-          Object {
-            "WebkitAlignItems": "center",
-            "WebkitBoxAlign": "center",
-            "WebkitBoxDirection": "normal",
-            "WebkitBoxOrient": "vertical",
-            "WebkitFlexDirection": "column",
-            "alignItems": "center",
-            "display": "flex",
-            "flexDirection": "column",
-            "marginBottom": "16px",
-            "marginTop": "70px",
-            "msFlexAlign": "center",
-            "msFlexDirection": "column",
-            "position": "relative",
-          }
-        }
+        className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flexDirection-eqz5dr r-marginBottom-1ifxtd0 r-marginTop-1444osr r-position-bnwqim"
       >
         <div
-          className="css-text-901oao"
+          className="css-text-901oao r-color-jwli3a r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-lineHeight-17rnw9f r-marginBottom-15d164r r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
           dir="auto"
-          style={
-            Object {
-              "color": "rgba(255,255,255,1.00)",
-              "direction": "ltr",
-              "fontFamily": "Roboto Slab",
-              "fontSize": "30px",
-              "fontWeight": "700",
-              "lineHeight": "30px",
-              "marginBottom": "10px",
-              "textAlign": "center",
-              "textDecoration": "none",
-              "textTransform": "none",
-            }
-          }
         >
           Just a Few More
 Hours To Go...
         </div>
       </div>
       <div
-        className="css-view-1dbjc4n"
-        style={
-          Object {
-            "WebkitAlignItems": "center",
-            "WebkitBoxAlign": "center",
-            "WebkitBoxDirection": "normal",
-            "WebkitBoxOrient": "vertical",
-            "WebkitBoxPack": "end",
-            "WebkitFlexDirection": "column",
-            "WebkitJustifyContent": "flex-end",
-            "alignItems": "center",
-            "flexDirection": "column",
-            "justifyContent": "flex-end",
-            "marginBottom": "16px",
-            "msFlexAlign": "center",
-            "msFlexDirection": "column",
-            "msFlexPack": "end",
-            "zIndex": 1,
-          }
-        }
+        className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-eqz5dr r-justifyContent-17s6mgv r-marginBottom-117bsoe r-zIndex-184en5c"
       >
         <div
-          className="css-text-901oao"
+          className="css-text-901oao r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-1it3c9n r-lineHeight-hbpseb r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
           dir="auto"
-          style={
-            Object {
-              "color": "rgba(255,255,255,1.00)",
-              "direction": "ltr",
-              "fontFamily": "Roboto",
-              "fontSize": "14px",
-              "fontWeight": "normal",
-              "lineHeight": "22px",
-              "textAlign": "center",
-              "textDecoration": "none",
-              "textTransform": "none",
-            }
-          }
         >
           GoodDollar is the world’s first experiment
 to create a framework to generate
 UBI on a global scale.
 
           <span
-            className="css-text-901oao css-textHasAncestor-16my406"
+            className="css-text-901oao css-textHasAncestor-16my406 r-color-jwli3a r-cursor-1loqt21 r-fontFamily-6jnb14 r-fontSize-1b43r93 r-fontWeight-b88u0q r-lineHeight-hbpseb r-textAlign-q4m81j r-textDecorationLine-1ddef8g r-textTransform-3twk1y"
             data-focusable={true}
             dir="auto"
             onClick={[Function]}
             onKeyDown={[Function]}
-            style={
-              Object {
-                "color": "rgba(255,255,255,1.00)",
-                "cursor": "pointer",
-                "direction": "ltr",
-                "fontFamily": "Roboto Slab",
-                "fontSize": "14px",
-                "fontWeight": "700",
-                "lineHeight": "22px",
-                "textAlign": "center",
-                "textDecoration": "underline",
-                "textTransform": "none",
-              }
-            }
             tabIndex="0"
           >
             Learn More
@@ -205,91 +76,36 @@ UBI on a global scale.
         </div>
       </div>
       <div
-        className="css-view-1dbjc4n"
-        style={
-          Object {
-            "height": "196px",
-            "width": "196px",
-          }
-        }
+        className="css-view-1dbjc4n r-height-x3dn3n r-width-14taxks"
       />
       <div
-        className="css-view-1dbjc4n"
-        style={
-          Object {
-            "WebkitAlignItems": "center",
-            "WebkitBoxAlign": "center",
-            "WebkitBoxDirection": "normal",
-            "WebkitBoxOrient": "vertical",
-            "WebkitBoxPack": "justify",
-            "WebkitFlexDirection": "column",
-            "WebkitJustifyContent": "space-between",
-            "alignItems": "center",
-            "bottom": "16%",
-            "flexDirection": "column",
-            "justifyContent": "space-between",
-            "msFlexAlign": "center",
-            "msFlexDirection": "column",
-            "msFlexPack": "justify",
-            "position": "absolute",
-            "width": "100%",
-            "zIndex": 1,
-          }
-        }
+        className="css-view-1dbjc4n r-alignItems-1awozwy r-bottom-myce60 r-flexDirection-eqz5dr r-justifyContent-1wtj0ep r-position-u8s1d r-width-13qz1uu r-zIndex-184en5c"
       >
         <div
-          className="css-view-1dbjc4n"
+          className="css-view-1dbjc4n r-alignItems-1awozwy r-height-x3dn3n r-width-14taxks"
           style={
             Object {
-              "WebkitAlignItems": "center",
-              "WebkitBoxAlign": "center",
               "WebkitTransform": "scale(1)",
-              "alignItems": "center",
-              "height": "196px",
-              "msFlexAlign": "center",
               "transform": "scale(1)",
-              "width": "196px",
             }
           }
         >
           <div
-            className="css-view-1dbjc4n"
+            className="css-view-1dbjc4n r-flex-13awgt0 r-left-1d2f490 r-position-u8s1d r-top-ipm5af r-zIndex-184en5c"
             style={
               Object {
-                "WebkitBoxFlex": 1,
-                "WebkitFlexBasis": "0%",
-                "WebkitFlexGrow": 1,
-                "WebkitFlexShrink": 1,
                 "WebkitTransform": "perspective(0px) rotateY(0deg)",
                 "bottom": "0px",
-                "flexBasis": "0%",
-                "flexGrow": 1,
-                "flexShrink": 1,
-                "left": "0px",
-                "msFlexNegative": 1,
-                "msFlexPositive": 1,
-                "msFlexPreferredSize": "0%",
                 "opacity": 100,
-                "position": "absolute",
                 "right": "0px",
-                "top": "0px",
                 "transform": "perspective(0px) rotateY(0deg)",
-                "zIndex": 1,
               }
             }
           >
             <div
-              className="css-view-1dbjc4n"
+              className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flexDirection-eqz5dr r-height-1wztat5 r-justifyContent-1777fci"
               style={
                 Object {
-                  "WebkitAlignItems": "center",
-                  "WebkitBoxAlign": "center",
-                  "WebkitBoxDirection": "normal",
-                  "WebkitBoxOrient": "vertical",
-                  "WebkitBoxPack": "center",
-                  "WebkitFlexDirection": "column",
-                  "WebkitJustifyContent": "center",
-                  "alignItems": "center",
                   "backgroundColor": "rgba(248,175,64,1.00)",
                   "borderBottomColor": "rgba(255,255,255,1.00)",
                   "borderBottomLeftRadius": "70px",
@@ -308,19 +124,12 @@ UBI on a global scale.
                   "borderTopStyle": "solid",
                   "borderTopWidth": "3px",
                   "boxShadow": "10px 12px 25px -14px, 0px 0.75px 1.5px rgba(0,0,0,0.24)",
-                  "display": "flex",
-                  "flexDirection": "column",
-                  "height": "140px",
-                  "justifyContent": "center",
                   "marginBottom": "0px",
                   "marginLeft": "0px",
                   "marginRight": "0px",
                   "marginTop": "0px",
                   "minHeight": "44px",
                   "minWidth": "auto",
-                  "msFlexAlign": "center",
-                  "msFlexDirection": "column",
-                  "msFlexPack": "center",
                   "paddingBottom": "0px",
                   "paddingLeft": "0px",
                   "paddingRight": "0px",
@@ -330,7 +139,7 @@ UBI on a global scale.
               }
             >
               <div
-                className="css-cursor-18t94o4 css-view-1dbjc4n"
+                className="css-cursor-18t94o4 css-view-1dbjc4n r-cursor-1loqt21 r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim r-touchAction-1otgn73"
                 data-focusable={true}
                 disabled={false}
                 onKeyDown={[Function]}
@@ -345,338 +154,103 @@ UBI on a global scale.
                 role="button"
                 style={
                   Object {
-                    "borderBottomLeftRadius": "50px",
-                    "borderBottomRightRadius": "50px",
-                    "borderTopLeftRadius": "50px",
-                    "borderTopRightRadius": "50px",
-                    "cursor": "pointer",
-                    "msTouchAction": "manipulation",
-                    "overflowX": "hidden",
-                    "overflowY": "hidden",
-                    "position": "relative",
-                    "touchAction": "manipulation",
+                    "WebkitAlignSelf": "stretch",
+                    "alignSelf": "stretch",
+                    "borderBottomLeftRadius": "70px",
+                    "borderBottomRightRadius": "70px",
+                    "borderTopLeftRadius": "70px",
+                    "borderTopRightRadius": "70px",
+                    "msFlexItemAlign": "stretch",
                   }
                 }
                 tabIndex="0"
               >
                 <div
-                  className="css-view-1dbjc4n"
+                  className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
                   style={
                     Object {
-                      "WebkitAlignItems": "center",
-                      "WebkitBoxAlign": "center",
-                      "WebkitBoxDirection": "normal",
-                      "WebkitBoxOrient": "horizontal",
-                      "WebkitBoxPack": "center",
-                      "WebkitFlexDirection": "row",
-                      "WebkitJustifyContent": "center",
-                      "alignItems": "center",
-                      "flexDirection": "row",
-                      "justifyContent": "center",
-                      "msFlexAlign": "center",
-                      "msFlexDirection": "row",
-                      "msFlexPack": "center",
+                      "WebkitAlignSelf": "stretch",
+                      "alignSelf": "stretch",
+                      "msFlexItemAlign": "stretch",
                     }
                   }
                 >
                   <div
-                    className="css-text-901oao css-textOneLine-bfa6kz"
-                    dir="auto"
-                    style={
-                      Object {
-                        "color": "rgba(255,255,255,1.00)",
-                        "direction": "ltr",
-                        "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                        "letterSpacing": "1px",
-                        "marginBottom": "9px",
-                        "marginLeft": "8px",
-                        "marginRight": "8px",
-                        "marginTop": "9px",
-                        "textAlign": "center",
-                      }
-                    }
+                    className="css-view-1dbjc4n r-marginHorizontal-1ybube5 r-marginVertical-712mwr"
                   >
                     <div
-                      className="css-view-1dbjc4n"
-                      style={
-                        Object {
-                          "WebkitAlignItems": "center",
-                          "WebkitBoxAlign": "center",
-                          "WebkitBoxDirection": "normal",
-                          "WebkitBoxFlex": 1,
-                          "WebkitBoxOrient": "horizontal",
-                          "WebkitFlexBasis": "0%",
-                          "WebkitFlexDirection": "row",
-                          "WebkitFlexGrow": 1,
-                          "WebkitFlexShrink": 1,
-                          "alignItems": "center",
-                          "display": "flex",
-                          "flexBasis": "0%",
-                          "flexDirection": "row",
-                          "flexGrow": 1,
-                          "flexShrink": 1,
-                          "msFlexAlign": "center",
-                          "msFlexDirection": "row",
-                          "msFlexNegative": 1,
-                          "msFlexPositive": 1,
-                          "msFlexPreferredSize": "0%",
-                        }
-                      }
+                      className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
                     >
                       <div
-                        className="css-view-1dbjc4n"
-                        style={
-                          Object {
-                            "WebkitBoxDirection": "normal",
-                            "WebkitBoxOrient": "vertical",
-                            "WebkitFlexDirection": "column",
-                            "display": "inline-flex",
-                            "flexDirection": "column",
-                            "height": "140px",
-                            "msFlexDirection": "column",
-                          }
-                        }
+                        className="css-view-1dbjc4n r-flexDirection-eqz5dr r-height-1wztat5"
                       >
                         <div
-                          className="css-view-1dbjc4n"
-                          style={
-                            Object {
-                              "display": "inline-flex",
-                              "left": "0px",
-                              "marginBottom": "10px",
-                              "marginTop": "20px",
-                              "position": "relative",
-                              "top": "0px",
-                            }
-                          }
+                          className="css-view-1dbjc4n r-left-1d2f490 r-marginBottom-15d164r r-marginTop-1x0uki6 r-position-bnwqim r-top-ipm5af"
                         >
-                          <span
-                            className="css-text-901oao css-textHasAncestor-16my406"
+                          <div
+                            className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-b88u0q r-letterSpacing-i0j7gm r-lineHeight-hbpseb r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                             dir="auto"
-                            style={
-                              Object {
-                                "color": "rgba(66,69,74,1.00)",
-                                "direction": "ltr",
-                                "fontFamily": "Roboto",
-                                "fontSize": "14px",
-                                "fontWeight": "700",
-                                "letterSpacing": "0.14px",
-                                "lineHeight": "22px",
-                                "textAlign": "center",
-                                "textDecoration": "none",
-                                "textTransform": "none",
-                              }
-                            }
                           >
                             Your next
-                          </span>
-                          <span
-                            className="css-text-901oao css-textHasAncestor-16my406"
+                          </div>
+                          <div
+                            className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-b88u0q r-letterSpacing-i0j7gm r-lineHeight-hbpseb r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                             dir="auto"
-                            style={
-                              Object {
-                                "color": "rgba(66,69,74,1.00)",
-                                "direction": "ltr",
-                                "fontFamily": "Roboto",
-                                "fontSize": "14px",
-                                "fontWeight": "700",
-                                "letterSpacing": "0.14px",
-                                "lineHeight": "22px",
-                                "textAlign": "center",
-                                "textDecoration": "none",
-                                "textTransform": "none",
-                              }
-                            }
                           >
                             daily claim:
-                          </span>
+                          </div>
                         </div>
                         <div
-                          className="css-view-1dbjc4n"
-                          style={
-                            Object {
-                              "WebkitAlignItems": "normal",
-                              "WebkitBoxAlign": "normal",
-                              "WebkitBoxDirection": "normal",
-                              "WebkitBoxFlex": 1,
-                              "WebkitBoxOrient": "horizontal",
-                              "WebkitBoxPack": "center",
-                              "WebkitFlexDirection": "row",
-                              "WebkitFlexGrow": 1,
-                              "WebkitJustifyContent": "center",
-                              "alignItems": "normal",
-                              "display": "inline-flex",
-                              "flexDirection": "row",
-                              "flexGrow": 1,
-                              "justifyContent": "center",
-                              "minHeight": "0px",
-                              "msFlexAlign": "normal",
-                              "msFlexDirection": "row",
-                              "msFlexPack": "center",
-                              "msFlexPositive": 1,
-                            }
-                          }
+                          className="css-view-1dbjc4n r-alignItems-mbwzsl r-flexDirection-18u37iz r-flexGrow-16y2uox r-justifyContent-1777fci r-minHeight-ifefl9"
                         >
-                          <span
-                            className="css-text-901oao css-textHasAncestor-16my406"
+                          <div
+                            className="css-text-901oao r-color-jwli3a r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-lineHeight-ueyrd6 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-12ym1je"
                             dir="auto"
-                            style={
-                              Object {
-                                "color": "rgba(255,255,255,1.00)",
-                                "direction": "ltr",
-                                "fontFamily": "Roboto Slab",
-                                "fontSize": "30px",
-                                "fontWeight": "700",
-                                "lineHeight": "36px",
-                                "textAlign": "center",
-                                "textDecoration": "none",
-                                "textTransform": "none",
-                                "width": "18px",
-                              }
-                            }
                           >
                             -
-                          </span>
-                          <span
-                            className="css-text-901oao css-textHasAncestor-16my406"
+                          </div>
+                          <div
+                            className="css-text-901oao r-color-jwli3a r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-lineHeight-ueyrd6 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-12ym1je"
                             dir="auto"
-                            style={
-                              Object {
-                                "color": "rgba(255,255,255,1.00)",
-                                "direction": "ltr",
-                                "fontFamily": "Roboto Slab",
-                                "fontSize": "30px",
-                                "fontWeight": "700",
-                                "lineHeight": "36px",
-                                "textAlign": "center",
-                                "textDecoration": "none",
-                                "textTransform": "none",
-                                "width": "18px",
-                              }
-                            }
                           >
                             -
-                          </span>
-                          <span
-                            className="css-text-901oao css-textHasAncestor-16my406"
+                          </div>
+                          <div
+                            className="css-text-901oao r-color-jwli3a r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-lineHeight-ueyrd6 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-1jg9483"
                             dir="auto"
-                            style={
-                              Object {
-                                "color": "rgba(255,255,255,1.00)",
-                                "direction": "ltr",
-                                "fontFamily": "Roboto Slab",
-                                "fontSize": "30px",
-                                "fontWeight": "700",
-                                "lineHeight": "36px",
-                                "textAlign": "center",
-                                "textDecoration": "none",
-                                "textTransform": "none",
-                                "width": "8px",
-                              }
-                            }
                           >
                             :
-                          </span>
-                          <span
-                            className="css-text-901oao css-textHasAncestor-16my406"
+                          </div>
+                          <div
+                            className="css-text-901oao r-color-jwli3a r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-lineHeight-ueyrd6 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-12ym1je"
                             dir="auto"
-                            style={
-                              Object {
-                                "color": "rgba(255,255,255,1.00)",
-                                "direction": "ltr",
-                                "fontFamily": "Roboto Slab",
-                                "fontSize": "30px",
-                                "fontWeight": "700",
-                                "lineHeight": "36px",
-                                "textAlign": "center",
-                                "textDecoration": "none",
-                                "textTransform": "none",
-                                "width": "18px",
-                              }
-                            }
                           >
                             -
-                          </span>
-                          <span
-                            className="css-text-901oao css-textHasAncestor-16my406"
+                          </div>
+                          <div
+                            className="css-text-901oao r-color-jwli3a r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-lineHeight-ueyrd6 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-12ym1je"
                             dir="auto"
-                            style={
-                              Object {
-                                "color": "rgba(255,255,255,1.00)",
-                                "direction": "ltr",
-                                "fontFamily": "Roboto Slab",
-                                "fontSize": "30px",
-                                "fontWeight": "700",
-                                "lineHeight": "36px",
-                                "textAlign": "center",
-                                "textDecoration": "none",
-                                "textTransform": "none",
-                                "width": "18px",
-                              }
-                            }
                           >
                             -
-                          </span>
-                          <span
-                            className="css-text-901oao css-textHasAncestor-16my406"
+                          </div>
+                          <div
+                            className="css-text-901oao r-color-jwli3a r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-lineHeight-ueyrd6 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-1jg9483"
                             dir="auto"
-                            style={
-                              Object {
-                                "color": "rgba(255,255,255,1.00)",
-                                "direction": "ltr",
-                                "fontFamily": "Roboto Slab",
-                                "fontSize": "30px",
-                                "fontWeight": "700",
-                                "lineHeight": "36px",
-                                "textAlign": "center",
-                                "textDecoration": "none",
-                                "textTransform": "none",
-                                "width": "8px",
-                              }
-                            }
                           >
                             :
-                          </span>
-                          <span
-                            className="css-text-901oao css-textHasAncestor-16my406"
+                          </div>
+                          <div
+                            className="css-text-901oao r-color-jwli3a r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-lineHeight-ueyrd6 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-12ym1je"
                             dir="auto"
-                            style={
-                              Object {
-                                "color": "rgba(255,255,255,1.00)",
-                                "direction": "ltr",
-                                "fontFamily": "Roboto Slab",
-                                "fontSize": "30px",
-                                "fontWeight": "700",
-                                "lineHeight": "36px",
-                                "textAlign": "center",
-                                "textDecoration": "none",
-                                "textTransform": "none",
-                                "width": "18px",
-                              }
-                            }
                           >
                             -
-                          </span>
-                          <span
-                            className="css-text-901oao css-textHasAncestor-16my406"
+                          </div>
+                          <div
+                            className="css-text-901oao r-color-jwli3a r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-lineHeight-ueyrd6 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-12ym1je"
                             dir="auto"
-                            style={
-                              Object {
-                                "color": "rgba(255,255,255,1.00)",
-                                "direction": "ltr",
-                                "fontFamily": "Roboto Slab",
-                                "fontSize": "30px",
-                                "fontWeight": "700",
-                                "lineHeight": "36px",
-                                "textAlign": "center",
-                                "textDecoration": "none",
-                                "textTransform": "none",
-                                "width": "18px",
-                              }
-                            }
                           >
                             -
-                          </span>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -686,40 +260,22 @@ UBI on a global scale.
             </div>
           </div>
           <div
-            className="css-view-1dbjc4n"
+            className="css-view-1dbjc4n r-flex-13awgt0 r-left-1d2f490 r-position-u8s1d r-top-ipm5af"
             style={
               Object {
-                "WebkitBoxFlex": 1,
-                "WebkitFlexBasis": "0%",
-                "WebkitFlexGrow": 1,
-                "WebkitFlexShrink": 1,
                 "WebkitTransform": "perspective(0px) rotateY(-180deg)",
                 "bottom": "0px",
-                "flexBasis": "0%",
-                "flexGrow": 1,
-                "flexShrink": 1,
-                "left": "0px",
-                "msFlexNegative": 1,
-                "msFlexPositive": 1,
-                "msFlexPreferredSize": "0%",
                 "opacity": 0,
-                "position": "absolute",
                 "right": "0px",
-                "top": "0px",
                 "transform": "perspective(0px) rotateY(-180deg)",
                 "zIndex": 0,
               }
             }
           >
             <div
-              className="css-view-1dbjc4n"
+              className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-height-1wztat5 r-justifyContent-1777fci"
               style={
                 Object {
-                  "WebkitAlignItems": "center",
-                  "WebkitBoxAlign": "center",
-                  "WebkitBoxPack": "center",
-                  "WebkitJustifyContent": "center",
-                  "alignItems": "center",
                   "backgroundColor": "rgba(0,175,255,1.00)",
                   "borderBottomColor": "rgba(255,255,255,1.00)",
                   "borderBottomLeftRadius": "70px",
@@ -738,17 +294,12 @@ UBI on a global scale.
                   "borderTopStyle": "solid",
                   "borderTopWidth": "3px",
                   "boxShadow": "10px 12px 25px -14px, 0px 0.75px 1.5px rgba(0,0,0,0.24)",
-                  "display": "flex",
-                  "height": "140px",
-                  "justifyContent": "center",
                   "marginBottom": "0px",
                   "marginLeft": "0px",
                   "marginRight": "0px",
                   "marginTop": "0px",
                   "minHeight": "44px",
                   "minWidth": "auto",
-                  "msFlexAlign": "center",
-                  "msFlexPack": "center",
                   "paddingBottom": "0px",
                   "paddingLeft": "0px",
                   "paddingRight": "0px",
@@ -758,7 +309,7 @@ UBI on a global scale.
               }
             >
               <div
-                className="css-cursor-18t94o4 css-view-1dbjc4n"
+                className="css-cursor-18t94o4 css-view-1dbjc4n r-cursor-1loqt21 r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim r-touchAction-1otgn73"
                 data-focusable={true}
                 disabled={false}
                 onKeyDown={[Function]}
@@ -773,338 +324,103 @@ UBI on a global scale.
                 role="button"
                 style={
                   Object {
-                    "borderBottomLeftRadius": "50px",
-                    "borderBottomRightRadius": "50px",
-                    "borderTopLeftRadius": "50px",
-                    "borderTopRightRadius": "50px",
-                    "cursor": "pointer",
-                    "msTouchAction": "manipulation",
-                    "overflowX": "hidden",
-                    "overflowY": "hidden",
-                    "position": "relative",
-                    "touchAction": "manipulation",
+                    "WebkitAlignSelf": "stretch",
+                    "alignSelf": "stretch",
+                    "borderBottomLeftRadius": "70px",
+                    "borderBottomRightRadius": "70px",
+                    "borderTopLeftRadius": "70px",
+                    "borderTopRightRadius": "70px",
+                    "msFlexItemAlign": "stretch",
                   }
                 }
                 tabIndex="0"
               >
                 <div
-                  className="css-view-1dbjc4n"
+                  className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
                   style={
                     Object {
-                      "WebkitAlignItems": "center",
-                      "WebkitBoxAlign": "center",
-                      "WebkitBoxDirection": "normal",
-                      "WebkitBoxOrient": "horizontal",
-                      "WebkitBoxPack": "center",
-                      "WebkitFlexDirection": "row",
-                      "WebkitJustifyContent": "center",
-                      "alignItems": "center",
-                      "flexDirection": "row",
-                      "justifyContent": "center",
-                      "msFlexAlign": "center",
-                      "msFlexDirection": "row",
-                      "msFlexPack": "center",
+                      "WebkitAlignSelf": "stretch",
+                      "alignSelf": "stretch",
+                      "msFlexItemAlign": "stretch",
                     }
                   }
                 >
                   <div
-                    className="css-text-901oao css-textOneLine-bfa6kz"
-                    dir="auto"
-                    style={
-                      Object {
-                        "color": "rgba(255,255,255,1.00)",
-                        "direction": "ltr",
-                        "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                        "letterSpacing": "1px",
-                        "marginBottom": "9px",
-                        "marginLeft": "8px",
-                        "marginRight": "8px",
-                        "marginTop": "9px",
-                        "textAlign": "center",
-                      }
-                    }
+                    className="css-view-1dbjc4n r-marginHorizontal-1ybube5 r-marginVertical-712mwr"
                   >
                     <div
-                      className="css-view-1dbjc4n"
-                      style={
-                        Object {
-                          "WebkitAlignItems": "center",
-                          "WebkitBoxAlign": "center",
-                          "WebkitBoxDirection": "normal",
-                          "WebkitBoxFlex": 1,
-                          "WebkitBoxOrient": "horizontal",
-                          "WebkitFlexBasis": "0%",
-                          "WebkitFlexDirection": "row",
-                          "WebkitFlexGrow": 1,
-                          "WebkitFlexShrink": 1,
-                          "alignItems": "center",
-                          "display": "flex",
-                          "flexBasis": "0%",
-                          "flexDirection": "row",
-                          "flexGrow": 1,
-                          "flexShrink": 1,
-                          "msFlexAlign": "center",
-                          "msFlexDirection": "row",
-                          "msFlexNegative": 1,
-                          "msFlexPositive": 1,
-                          "msFlexPreferredSize": "0%",
-                        }
-                      }
+                      className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
                     >
                       <div
-                        className="css-view-1dbjc4n"
-                        style={
-                          Object {
-                            "WebkitBoxDirection": "normal",
-                            "WebkitBoxOrient": "vertical",
-                            "WebkitFlexDirection": "column",
-                            "display": "inline-flex",
-                            "flexDirection": "column",
-                            "height": "140px",
-                            "msFlexDirection": "column",
-                          }
-                        }
+                        className="css-view-1dbjc4n r-flexDirection-eqz5dr r-height-1wztat5"
                       >
                         <div
-                          className="css-view-1dbjc4n"
-                          style={
-                            Object {
-                              "display": "inline-flex",
-                              "left": "0px",
-                              "marginBottom": "10px",
-                              "marginTop": "20px",
-                              "position": "relative",
-                              "top": "0px",
-                            }
-                          }
+                          className="css-view-1dbjc4n r-left-1d2f490 r-marginBottom-15d164r r-marginTop-1x0uki6 r-position-bnwqim r-top-ipm5af"
                         >
-                          <span
-                            className="css-text-901oao css-textHasAncestor-16my406"
+                          <div
+                            className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-b88u0q r-letterSpacing-i0j7gm r-lineHeight-hbpseb r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                             dir="auto"
-                            style={
-                              Object {
-                                "color": "rgba(66,69,74,1.00)",
-                                "direction": "ltr",
-                                "fontFamily": "Roboto",
-                                "fontSize": "14px",
-                                "fontWeight": "700",
-                                "letterSpacing": "0.14px",
-                                "lineHeight": "22px",
-                                "textAlign": "center",
-                                "textDecoration": "none",
-                                "textTransform": "none",
-                              }
-                            }
                           >
                             Your next
-                          </span>
-                          <span
-                            className="css-text-901oao css-textHasAncestor-16my406"
+                          </div>
+                          <div
+                            className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-b88u0q r-letterSpacing-i0j7gm r-lineHeight-hbpseb r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                             dir="auto"
-                            style={
-                              Object {
-                                "color": "rgba(66,69,74,1.00)",
-                                "direction": "ltr",
-                                "fontFamily": "Roboto",
-                                "fontSize": "14px",
-                                "fontWeight": "700",
-                                "letterSpacing": "0.14px",
-                                "lineHeight": "22px",
-                                "textAlign": "center",
-                                "textDecoration": "none",
-                                "textTransform": "none",
-                              }
-                            }
                           >
                             daily claim:
-                          </span>
+                          </div>
                         </div>
                         <div
-                          className="css-view-1dbjc4n"
-                          style={
-                            Object {
-                              "WebkitAlignItems": "normal",
-                              "WebkitBoxAlign": "normal",
-                              "WebkitBoxDirection": "normal",
-                              "WebkitBoxFlex": 1,
-                              "WebkitBoxOrient": "horizontal",
-                              "WebkitBoxPack": "center",
-                              "WebkitFlexDirection": "row",
-                              "WebkitFlexGrow": 1,
-                              "WebkitJustifyContent": "center",
-                              "alignItems": "normal",
-                              "display": "inline-flex",
-                              "flexDirection": "row",
-                              "flexGrow": 1,
-                              "justifyContent": "center",
-                              "minHeight": "0px",
-                              "msFlexAlign": "normal",
-                              "msFlexDirection": "row",
-                              "msFlexPack": "center",
-                              "msFlexPositive": 1,
-                            }
-                          }
+                          className="css-view-1dbjc4n r-alignItems-mbwzsl r-flexDirection-18u37iz r-flexGrow-16y2uox r-justifyContent-1777fci r-minHeight-ifefl9"
                         >
-                          <span
-                            className="css-text-901oao css-textHasAncestor-16my406"
+                          <div
+                            className="css-text-901oao r-color-jwli3a r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-lineHeight-ueyrd6 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-12ym1je"
                             dir="auto"
-                            style={
-                              Object {
-                                "color": "rgba(255,255,255,1.00)",
-                                "direction": "ltr",
-                                "fontFamily": "Roboto Slab",
-                                "fontSize": "30px",
-                                "fontWeight": "700",
-                                "lineHeight": "36px",
-                                "textAlign": "center",
-                                "textDecoration": "none",
-                                "textTransform": "none",
-                                "width": "18px",
-                              }
-                            }
                           >
                             -
-                          </span>
-                          <span
-                            className="css-text-901oao css-textHasAncestor-16my406"
+                          </div>
+                          <div
+                            className="css-text-901oao r-color-jwli3a r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-lineHeight-ueyrd6 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-12ym1je"
                             dir="auto"
-                            style={
-                              Object {
-                                "color": "rgba(255,255,255,1.00)",
-                                "direction": "ltr",
-                                "fontFamily": "Roboto Slab",
-                                "fontSize": "30px",
-                                "fontWeight": "700",
-                                "lineHeight": "36px",
-                                "textAlign": "center",
-                                "textDecoration": "none",
-                                "textTransform": "none",
-                                "width": "18px",
-                              }
-                            }
                           >
                             -
-                          </span>
-                          <span
-                            className="css-text-901oao css-textHasAncestor-16my406"
+                          </div>
+                          <div
+                            className="css-text-901oao r-color-jwli3a r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-lineHeight-ueyrd6 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-1jg9483"
                             dir="auto"
-                            style={
-                              Object {
-                                "color": "rgba(255,255,255,1.00)",
-                                "direction": "ltr",
-                                "fontFamily": "Roboto Slab",
-                                "fontSize": "30px",
-                                "fontWeight": "700",
-                                "lineHeight": "36px",
-                                "textAlign": "center",
-                                "textDecoration": "none",
-                                "textTransform": "none",
-                                "width": "8px",
-                              }
-                            }
                           >
                             :
-                          </span>
-                          <span
-                            className="css-text-901oao css-textHasAncestor-16my406"
+                          </div>
+                          <div
+                            className="css-text-901oao r-color-jwli3a r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-lineHeight-ueyrd6 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-12ym1je"
                             dir="auto"
-                            style={
-                              Object {
-                                "color": "rgba(255,255,255,1.00)",
-                                "direction": "ltr",
-                                "fontFamily": "Roboto Slab",
-                                "fontSize": "30px",
-                                "fontWeight": "700",
-                                "lineHeight": "36px",
-                                "textAlign": "center",
-                                "textDecoration": "none",
-                                "textTransform": "none",
-                                "width": "18px",
-                              }
-                            }
                           >
                             -
-                          </span>
-                          <span
-                            className="css-text-901oao css-textHasAncestor-16my406"
+                          </div>
+                          <div
+                            className="css-text-901oao r-color-jwli3a r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-lineHeight-ueyrd6 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-12ym1je"
                             dir="auto"
-                            style={
-                              Object {
-                                "color": "rgba(255,255,255,1.00)",
-                                "direction": "ltr",
-                                "fontFamily": "Roboto Slab",
-                                "fontSize": "30px",
-                                "fontWeight": "700",
-                                "lineHeight": "36px",
-                                "textAlign": "center",
-                                "textDecoration": "none",
-                                "textTransform": "none",
-                                "width": "18px",
-                              }
-                            }
                           >
                             -
-                          </span>
-                          <span
-                            className="css-text-901oao css-textHasAncestor-16my406"
+                          </div>
+                          <div
+                            className="css-text-901oao r-color-jwli3a r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-lineHeight-ueyrd6 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-1jg9483"
                             dir="auto"
-                            style={
-                              Object {
-                                "color": "rgba(255,255,255,1.00)",
-                                "direction": "ltr",
-                                "fontFamily": "Roboto Slab",
-                                "fontSize": "30px",
-                                "fontWeight": "700",
-                                "lineHeight": "36px",
-                                "textAlign": "center",
-                                "textDecoration": "none",
-                                "textTransform": "none",
-                                "width": "8px",
-                              }
-                            }
                           >
                             :
-                          </span>
-                          <span
-                            className="css-text-901oao css-textHasAncestor-16my406"
+                          </div>
+                          <div
+                            className="css-text-901oao r-color-jwli3a r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-lineHeight-ueyrd6 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-12ym1je"
                             dir="auto"
-                            style={
-                              Object {
-                                "color": "rgba(255,255,255,1.00)",
-                                "direction": "ltr",
-                                "fontFamily": "Roboto Slab",
-                                "fontSize": "30px",
-                                "fontWeight": "700",
-                                "lineHeight": "36px",
-                                "textAlign": "center",
-                                "textDecoration": "none",
-                                "textTransform": "none",
-                                "width": "18px",
-                              }
-                            }
                           >
                             -
-                          </span>
-                          <span
-                            className="css-text-901oao css-textHasAncestor-16my406"
+                          </div>
+                          <div
+                            className="css-text-901oao r-color-jwli3a r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-lineHeight-ueyrd6 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-12ym1je"
                             dir="auto"
-                            style={
-                              Object {
-                                "color": "rgba(255,255,255,1.00)",
-                                "direction": "ltr",
-                                "fontFamily": "Roboto Slab",
-                                "fontSize": "30px",
-                                "fontWeight": "700",
-                                "lineHeight": "36px",
-                                "textAlign": "center",
-                                "textDecoration": "none",
-                                "textTransform": "none",
-                                "width": "18px",
-                              }
-                            }
                           >
                             -
-                          </span>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -1116,248 +432,69 @@ UBI on a global scale.
         </div>
       </div>
       <div
-        className="css-view-1dbjc4n"
-        style={
-          Object {
-            "height": "45px",
-          }
-        }
+        className="css-view-1dbjc4n r-height-tmtnm0"
       />
       <div
-        className="css-view-1dbjc4n"
-        style={
-          Object {
-            "WebkitAlignItems": "center",
-            "WebkitBoxAlign": "center",
-            "WebkitBoxDirection": "normal",
-            "WebkitBoxOrient": "horizontal",
-            "WebkitBoxPack": "justify",
-            "WebkitFlexDirection": "row",
-            "WebkitJustifyContent": "space-between",
-            "alignItems": "center",
-            "flexDirection": "row",
-            "height": "16%",
-            "justifyContent": "space-between",
-            "msFlexAlign": "center",
-            "msFlexDirection": "row",
-            "msFlexPack": "justify",
-            "position": "absolute",
-            "top": "84%",
-            "width": "100%",
-          }
-        }
+        className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-height-1yqfiw1 r-justifyContent-1wtj0ep r-position-u8s1d r-top-f3q0d7 r-width-13qz1uu"
       >
         <div
-          className="css-text-901oao"
-          dir="auto"
-          style={
-            Object {
-              "color": "rgba(66,69,74,1.00)",
-              "direction": "ltr",
-              "fontFamily": "Roboto",
-              "fontSize": "14px",
-              "fontWeight": "700",
-              "lineHeight": "22px",
-              "textAlign": "center",
-              "textDecoration": "none",
-              "textTransform": "none",
-              "width": "100%",
-            }
-          }
+          className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-fontSize-1b43r93 r-justifyContent-1777fci"
         >
-          <span
-            className="css-text-901oao css-textHasAncestor-16my406"
+          <div
+            className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-1it3c9n r-lineHeight-hbpseb r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
             dir="auto"
-            style={
-              Object {
-                "color": "rgba(66,69,74,1.00)",
-                "direction": "ltr",
-                "fontFamily": "Roboto",
-                "fontSize": "14px",
-                "fontWeight": "normal",
-                "lineHeight": "22px",
-                "textAlign": "center",
-                "textDecoration": "none",
-                "textTransform": "none",
-              }
-            }
           >
             Today 
-          </span>
-          <span
-            className="css-text-901oao css-textHasAncestor-16my406"
-            dir="auto"
-            style={
-              Object {
-                "color": "rgba(66,69,74,1.00)",
-                "direction": "ltr",
-                "fontFamily": "Roboto",
-                "fontSize": "14px",
-                "fontWeight": "700",
-                "lineHeight": "22px",
-                "textAlign": "center",
-                "textDecoration": "none",
-                "textTransform": "none",
-              }
-            }
+          </div>
+          <div
+            className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-fontSize-1b43r93 r-justifyContent-1wtj0ep"
           >
             <div
-              className="css-view-1dbjc4n"
-              style={
-                Object {
-                  "WebkitAlignItems": "baseline",
-                  "WebkitBoxAlign": "baseline",
-                  "WebkitBoxDirection": "normal",
-                  "WebkitBoxOrient": "horizontal",
-                  "WebkitFlexDirection": "row",
-                  "alignItems": "baseline",
-                  "display": "contents",
-                  "flexDirection": "row",
-                  "msFlexAlign": "baseline",
-                  "msFlexDirection": "row",
-                }
-              }
+              className="css-view-1dbjc4n r-alignItems-1d09ksm r-display-s88bda r-flexDirection-18u37iz"
             >
-              <span
-                className="css-text-901oao css-textHasAncestor-16my406"
+              <div
+                className="css-text-901oao r-color-cqee49 r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-b88u0q r-lineHeight-hbpseb r-marginRight-a5pmau r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                 dir="auto"
-                style={
-                  Object {
-                    "color": "rgba(0,0,0,1.00)",
-                    "direction": "ltr",
-                    "fontFamily": "Roboto",
-                    "fontSize": "14px",
-                    "fontWeight": "700",
-                    "lineHeight": "22px",
-                    "marginRight": "2px",
-                    "textAlign": "right",
-                    "textDecoration": "none",
-                    "textTransform": "none",
-                  }
-                }
               >
                 0
-              </span>
+              </div>
               <div
-                className="css-view-1dbjc4n"
-                style={
-                  Object {
-                    "WebkitAlignItems": "center",
-                    "WebkitBoxAlign": "center",
-                    "WebkitBoxDirection": "normal",
-                    "WebkitBoxOrient": "horizontal",
-                    "WebkitBoxPack": "justify",
-                    "WebkitFlexDirection": "row",
-                    "WebkitJustifyContent": "space-between",
-                    "alignItems": "center",
-                    "display": "inline-flex",
-                    "flexDirection": "row",
-                    "justifyContent": "space-between",
-                    "msFlexAlign": "center",
-                    "msFlexDirection": "row",
-                    "msFlexPack": "justify",
-                  }
-                }
+                className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
               >
-                <span
-                  className="css-text-901oao css-textHasAncestor-16my406"
+                <div
+                  className="css-text-901oao r-color-cqee49 r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-b88u0q r-lineHeight-hbpseb r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                   dir="auto"
-                  style={
-                    Object {
-                      "color": "rgba(0,0,0,1.00)",
-                      "direction": "ltr",
-                      "fontFamily": "Roboto",
-                      "fontSize": "14px",
-                      "fontWeight": "700",
-                      "lineHeight": "22px",
-                      "textAlign": "right",
-                      "textDecoration": "none",
-                      "textTransform": "none",
-                    }
-                  }
                 >
                   G
-                </span>
-                <span
-                  className="css-text-901oao css-textHasAncestor-16my406"
+                </div>
+                <div
+                  className="css-text-901oao r-color-cqee49 r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-b88u0q r-lineHeight-hbpseb r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                   dir="auto"
-                  style={
-                    Object {
-                      "color": "rgba(0,0,0,1.00)",
-                      "direction": "ltr",
-                      "fontFamily": "Roboto",
-                      "fontSize": "14px",
-                      "fontWeight": "700",
-                      "lineHeight": "22px",
-                      "textAlign": "right",
-                      "textDecoration": "none",
-                      "textTransform": "none",
-                    }
-                  }
                 >
                   $
-                </span>
+                </div>
               </div>
             </div>
-          </span>
-          <span
-            className="css-text-901oao css-textHasAncestor-16my406"
+          </div>
+          <div
+            className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-1it3c9n r-lineHeight-hbpseb r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
             dir="auto"
-            style={
-              Object {
-                "color": "rgba(66,69,74,1.00)",
-                "direction": "ltr",
-                "fontFamily": "Roboto",
-                "fontSize": "14px",
-                "fontWeight": "normal",
-                "lineHeight": "22px",
-                "textAlign": "center",
-                "textDecoration": "none",
-                "textTransform": "none",
-              }
-            }
           >
              Claimed by 
-          </span>
-          <span
-            className="css-text-901oao css-textHasAncestor-16my406"
+          </div>
+          <div
+            className="css-text-901oao r-color-cqee49 r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-b88u0q r-lineHeight-hbpseb r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
             dir="auto"
-            style={
-              Object {
-                "color": "rgba(0,0,0,1.00)",
-                "direction": "ltr",
-                "fontFamily": "Roboto",
-                "fontSize": "14px",
-                "fontWeight": "700",
-                "lineHeight": "22px",
-                "textAlign": "center",
-                "textDecoration": "none",
-                "textTransform": "none",
-              }
-            }
           >
             0
              
-          </span>
-          <span
-            className="css-text-901oao css-textHasAncestor-16my406"
+          </div>
+          <div
+            className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-1it3c9n r-lineHeight-hbpseb r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
             dir="auto"
-            style={
-              Object {
-                "color": "rgba(66,69,74,1.00)",
-                "direction": "ltr",
-                "fontFamily": "Roboto",
-                "fontSize": "14px",
-                "fontWeight": "normal",
-                "lineHeight": "22px",
-                "textAlign": "center",
-                "textDecoration": "none",
-                "textTransform": "none",
-              }
-            }
           >
             Good People
-          </span>
+          </div>
         </div>
       </div>
     </div>

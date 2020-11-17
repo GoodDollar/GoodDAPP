@@ -89,14 +89,18 @@ jobs:
         env:
           SENTRYRC: ${{ secrets.sentryrc_file }}
           SECRETS: ${{ secrets.DEV_ENV }}
-        run: ./.github/secrets/generate_envs.sh
+        run: |
+          branch_name=${GITHUB_REF##*/}
+          echo "$SENTRYRC" > android/sentry.properties
+          echo "${{ secrets.$branch_name_ENV }}" >> .env.$branch_name
       - name: Set release keystore
         run: |
           echo "${{ secrets.RELEASE_ANDROID_KEYSTORE }}" > release.keystore.asc
           gpg -d --passphrase "${{ secrets.RELEASE_ANDROID_PASSPHRASE }}" --batch release.keystore.asc > android/app/release.keystore
       - name: Build Android Release
         run: |
-          cd android && ENVFILE=.env.development ./gradlew assembleRelease -PMYAPP_UPLOAD_STORE_PASSWORD='${{ secrets.RELEASE_ANDROID_PASSPHRASE }}' -PMYAPP_UPLOAD_KEY_PASSWORD='${{ secrets.RELEASE_ANDROID_PASSPHRASE }}'
+          echo "Creating release using env: .env.$branch_name"
+          cd android && ENVFILE=.env.$branch_name ./gradlew assembleRelease -PMYAPP_UPLOAD_STORE_PASSWORD='${{ secrets.RELEASE_ANDROID_PASSPHRASE }}' -PMYAPP_UPLOAD_KEY_PASSWORD='${{ secrets.RELEASE_ANDROID_PASSPHRASE }}'
       - name: Upload Artifact
         uses: actions/upload-artifact@v1
         with:

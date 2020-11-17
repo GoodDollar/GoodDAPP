@@ -268,11 +268,20 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
             className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-flexGrow-16y2uox r-justifyContent-1wtj0ep"
           >
             <div
-              className="edit_profile_phone_input edit_profile_phone_input css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
+              className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
             >
               <div
-                className="react-phone-number-input"
-                style={439}
+                className="react-phone-number-input edit_profile_phone_input"
+                style={
+                  Object {
+                    "borderColor": undefined,
+                    "borderRadius": 24,
+                    "borderWidth": 1,
+                    "color": undefined,
+                    "padding": 10,
+                    "position": "relative",
+                  }
+                }
               >
                 <div
                   className="react-phone-number-input__row"
@@ -2015,11 +2024,20 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
             className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-flexGrow-16y2uox r-justifyContent-1wtj0ep"
           >
             <div
-              className="edit_profile_phone_input edit_profile_phone_input css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
+              className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
             >
               <div
-                className="react-phone-number-input react-phone-number-input--invalid"
-                style={507}
+                className="react-phone-number-input react-phone-number-input--invalid edit_profile_phone_input"
+                style={
+                  Object {
+                    "borderColor": "#FA6C77",
+                    "borderRadius": 24,
+                    "borderWidth": 1,
+                    "color": "#FA6C77",
+                    "padding": 10,
+                    "position": "relative",
+                  }
+                }
               >
                 <div
                   className="react-phone-number-input__row"

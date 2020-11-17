@@ -5,60 +5,63 @@ exports[`BorderedBox matches snapshot 1`] = `
   className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
-    className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-14lw9ot r-borderColor-y68mpx r-borderRadius-1f0042m r-borderWidth-rs99b7 r-display-6koalj r-height-mht1xe r-justifyContent-1777fci r-paddingHorizontal-1e081e0 r-paddingVertical-1yzf0co r-position-bnwqim"
+    className="css-view-1dbjc4n r-alignItems-1awozwy r-borderColor-e397lv r-borderRadius-1f0042m r-borderStyle-1phboty r-borderWidth-rs99b7 r-display-6koalj r-flexDirection-eqz5dr r-justifyContent-1777fci r-padding-t60dpp r-position-bnwqim"
   >
     <div
-      className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-height-n0twmy r-position-u8s1d r-top-1ld3bg r-width-1dcdz4f"
+      className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-height-4v7adb r-position-u8s1d r-top-18nhz7w"
+      style={
+        Object {
+          "width": "88px",
+        }
+      }
     />
     <div
-      className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-1i10wst r-fontWeight-b88u0q r-lineHeight-135wba7 r-marginBottom-h72ra1 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
-      dir="auto"
-    />
-    <div
-      className="css-text-901oao r-color-vaa0vc r-fontFamily-vnw8o6 r-fontSize-n6v787 r-fontWeight-1it3c9n r-letterSpacing-rdxj0b r-lineHeight-w20frr r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
-      dir="auto"
-      letterSpacing={0.07}
-    />
-    <div
-      className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-bottom-30qeir r-height-n0twmy r-position-u8s1d r-width-1v6so3z"
-    />
-    <div
-      className="css-view-1dbjc4n r-bottom-1ia8z0t r-height-1qe8j6y r-position-u8s1d r-width-1dcdz4f r-zIndex-184en5c"
+      className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-justifyContent-1wtj0ep r-marginBottom-tjf2cy r-marginTop-fcs4qk r-padding-t60dpp"
     >
       <div
-        className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-justifyContent-1777fci"
+        className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-1i10wst r-fontWeight-b88u0q r-lineHeight-135wba7 r-marginBottom-5oul0u r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+        dir="auto"
+      />
+      <div
+        className="css-text-901oao r-color-vaa0vc r-fontFamily-vnw8o6 r-fontSize-n6v787 r-fontWeight-1it3c9n r-letterSpacing-rdxj0b r-lineHeight-w20frr r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+        dir="auto"
+        letterSpacing={0.07}
+      />
+    </div>
+    <div
+      className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-bottom-14bkmb3 r-height-4v7adb r-position-u8s1d r-width-1v6so3z"
+    />
+    <div
+      className="css-view-1dbjc4n r-bottom-wuw1bi r-height-eu3ka r-position-u8s1d r-width-1dcdz4f r-zIndex-184en5c"
+    >
+      <div
+        className="css-view-1dbjc4n r-alignItems-1awozwy r-borderStyle-1phboty r-display-6koalj r-height-eu3ka r-justifyContent-1777fci r-padding-t60dpp"
         style={
           Object {
             "backgroundColor": "rgba(0,175,255,1.00)",
             "borderBottomColor": "rgba(0,175,255,1.00)",
-            "borderBottomLeftRadius": "26px",
-            "borderBottomRightRadius": "26px",
-            "borderBottomStyle": "solid",
+            "borderBottomLeftRadius": "20px",
+            "borderBottomRightRadius": "20px",
             "borderBottomWidth": "0px",
             "borderLeftColor": "rgba(0,175,255,1.00)",
-            "borderLeftStyle": "solid",
             "borderLeftWidth": "0px",
             "borderRightColor": "rgba(0,175,255,1.00)",
-            "borderRightStyle": "solid",
             "borderRightWidth": "0px",
             "borderTopColor": "rgba(0,175,255,1.00)",
-            "borderTopLeftRadius": "26px",
-            "borderTopRightRadius": "26px",
-            "borderTopStyle": "solid",
+            "borderTopLeftRadius": "20px",
+            "borderTopRightRadius": "20px",
             "borderTopWidth": "0px",
             "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
-            "height": "50.138888888888886px",
             "marginBottom": "4.987012987012987px",
             "marginLeft": "auto",
             "marginRight": "auto",
             "marginTop": "0px",
+            "maxHeight": "40px",
             "minHeight": "44px",
-            "minWidth": "50.138888888888886px",
-            "paddingBottom": "0px",
+            "minWidth": "40px",
             "paddingLeft": "0px",
             "paddingRight": "0px",
-            "paddingTop": "0px",
-            "width": "50.138888888888886px",
+            "width": "40px",
           }
         }
       >
@@ -80,10 +83,10 @@ exports[`BorderedBox matches snapshot 1`] = `
             Object {
               "WebkitAlignSelf": "stretch",
               "alignSelf": "stretch",
-              "borderBottomLeftRadius": "26px",
-              "borderBottomRightRadius": "26px",
-              "borderTopLeftRadius": "26px",
-              "borderTopRightRadius": "26px",
+              "borderBottomLeftRadius": "20px",
+              "borderBottomRightRadius": "20px",
+              "borderTopLeftRadius": "20px",
+              "borderTopRightRadius": "20px",
               "msFlexItemAlign": "stretch",
             }
           }
@@ -112,7 +115,7 @@ exports[`BorderedBox matches snapshot 1`] = `
                     Object {
                       "color": "rgba(255,255,255,1.00)",
                       "fontFamily": "gooddollar",
-                      "fontSize": "34px",
+                      "fontSize": "24px",
                       "fontStyle": "normal",
                     }
                   }

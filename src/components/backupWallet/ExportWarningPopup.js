@@ -7,7 +7,7 @@ import ExplanationDialog from '../common/dialogs/ExplanationDialog'
 
 import { withStyles } from '../../lib/styles'
 
-import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
+import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 
 const mapImageStylesToProps = ({ theme }) => ({
   imageWrapper: {
@@ -51,7 +51,6 @@ const ExportWarningPopup = ({ styles, onDismiss = noop, ...dialogProps }) => (
 
 const mapStylesToProps = ({ theme }) => ({
   container: {
-    width: getDesignRelativeWidth(295, false),
     maxHeight: getDesignRelativeHeight(380, false),
   },
   title: {

@@ -66,7 +66,7 @@ const GrayBox = ({ title, value, symbol, theme, style }) => {
     <Section.Stack style={[{ flex: 1 }, style]}>
       <Section.Text
         style={styles.grayBox}
-        fontSize={15}
+        fontSize={isSmallDevice ? 14 : 15}
         fontFamily={'slab'}
         lineHeight={19}
         textTransform={'capitalize'}
@@ -106,11 +106,7 @@ const styles = {
   grayBox: {
     backgroundColor: mainTheme.colors.grayBox,
     borderRadius: 5,
-
-    // height: getDesignRelativeHeight(48),
-    // width: getDesignRelativeWidth(140),
-    // marginTop: getDesignRelativeHeight(24),
-    paddingLeft: mainTheme.sizes.default,
+    paddingLeft: getDesignRelativeWidth(mainTheme.sizes.default),
     paddingTop: mainTheme.sizes.default,
     paddingBottom: mainTheme.sizes.default / 2,
     letterSpacing: 0.07,
@@ -438,7 +434,7 @@ const Claim = props => {
           <WavesBox
             primaryColor={theme.colors.darkBlue}
             contentStyle={{ paddingBottom: 10, paddingTop: 10 }}
-            style={[styles.wavesBox, styles.lowerWavesBoxStyle]}
+            style={[styles.wavesBox, { marginTop: !dailyUbi && 10 }]}
           >
             <Section.Text
               style={{ textTransform: 'capitalize' }}
@@ -526,7 +522,7 @@ const Claim = props => {
             <GrayBox
               title={'active\nclaimers'}
               value={formatWithabbreviations(activeClaimers)}
-              style={{ marginRight: theme.sizes.default * 3 }}
+              style={{ marginRight: isSmallDevice ? 20 : getDesignRelativeWidth(theme.sizes.default * 3) }}
             />
             <GrayBox
               title={"Today's G$\nDistribution"}
@@ -539,7 +535,7 @@ const Claim = props => {
               title={'Total funds\n staked'}
               value={formatWithabbreviations(totalFundsStaked)}
               symbol={'DAI'}
-              style={{ marginRight: theme.sizes.default * 3 }}
+              style={{ marginRight: isSmallDevice ? 20 : getDesignRelativeWidth(theme.sizes.default * 3) }}
             />
             <GrayBox
               title={'Interest\ngenerated today'}
@@ -589,12 +585,12 @@ const getStylesFromProps = ({ theme }) => {
 
   return {
     statsWrapper: {
-      marginLeft: theme.sizes.defaultQuadruple,
-      marginRight: theme.sizes.defaultQuadruple,
-      marginTop: 30,
+      marginLeft: getDesignRelativeWidth(theme.sizes.defaultQuadruple),
+      marginRight: getDesignRelativeWidth(theme.sizes.defaultQuadruple),
+      marginTop: isSmallDevice ? 18 : getDesignRelativeHeight(30),
     },
     statsRow: {
-      marginTop: theme.sizes.default * 3,
+      marginTop: isSmallDevice ? theme.sizes.default * 2 : getDesignRelativeHeight(theme.sizes.default * 3),
     },
     mainContainer: {
       backgroundColor: 'transparent',
@@ -618,11 +614,8 @@ const getStylesFromProps = ({ theme }) => {
       marginTop: getDesignRelativeHeight(theme.sizes.default * 4),
     },
     headerText,
-    footerImg: {
-      position: 'relative',
-    },
     amountBlock: {
-      borderWidth: 3,
+      borderWidth: 2,
       borderColor: theme.colors.darkBlue,
       borderRadius: theme.sizes.borderRadius,
       paddingHorizontal: getDesignRelativeWidth(30),
@@ -633,7 +626,7 @@ const getStylesFromProps = ({ theme }) => {
       alignItems: 'center',
       flexDirection: 'column',
       zIndex: 1,
-      marginTop: theme.sizes.defaultQuadruple,
+      marginTop: getDesignRelativeHeight(theme.sizes.defaultQuadruple),
     },
     amountText,
     amountUnitText,
@@ -651,14 +644,11 @@ const getStylesFromProps = ({ theme }) => {
       alignItems: 'center',
       marginLeft: 10,
       marginRight: 10,
-      marginTop: getDesignRelativeHeight(32),
+      marginTop: getDesignRelativeHeight(39),
     },
     wavesBox: {
       textAlign: 'center',
       backgroundColor: theme.colors.surface,
-    },
-    lowerWavesBoxStyle: {
-      marginTop: 10,
     },
     learnMoreLink,
 

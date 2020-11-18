@@ -21,6 +21,27 @@ jobs:
       - name: Switch XCode Version
         run: sudo xcode-select -s /Applications/Xcode_11.2.app
 
+      - name: Pre-checks - Env is QA or PROD
+        if:
+          contains('
+            refs/heads/staging
+            refs/heads/production
+          ', github.ref)
+        run: |
+          echo "IS_VALID_ENV=true" >> $GITHUB_ENV
+          echo "SECRET_NAME=${GITHUB_REF##*/}_ENV" >> $GITHUB_ENV
+          echo "APPCENTER_NAME=GoodDollar/GoodDollar-iOS-[${GITHUB_REF##*/}]" >> $GITHUB_ENV
+      - name: Pre-checks - Env is DEV or unknown
+        if:
+          false == contains('
+            refs/heads/staging
+            refs/heads/production
+          ', github.ref)
+        run: |
+          echo "IS_VALID_ENV=false" >> $GITHUB_ENV
+          echo "SECRET_NAME=DEV_ENV" >> $GITHUB_ENV
+          echo "APPCENTER_NAME=GoodDollar/GoodDollar-iOS" >> $GITHUB_ENV
+
       - name: Cache node modules
         uses: actions/cache@v1
         with:
@@ -50,14 +71,21 @@ jobs:
       - name: Generate assets
         run: node ./animationAssets.js
       - name: Prepare env
-        env:
-          ENV_NAME: "${GITHUB_REF##*/}_ENV"
         run: |
-          branch_name=${GITHUB_REF##*/}
-          echo "${{ secrets[env.ENV_NAME] }}" >> .env.$branch_name
+          branch_name="development"
+          if [env.IS_VALID_ENV]
+          then
+            branch_name="${GITHUB_REF##*/}"
+          fi
+          echo "${{ env.SECRET_NAME }}"
+          echo "${{ secrets[env.SECRET_NAME] }}" >> .env.$branch_name
       - name: Build app
         run: |
-          branch_name=${GITHUB_REF##*/}
+          branch_name="development"
+          if [env.IS_VALID_ENV]
+          then
+            branch_name="${GITHUB_REF##*/}"
+          fi
           echo "Creating release using env: .env.${branch_name}"
           cd ios && ENVFILE=../.env.$branch_name xcodebuild archive \
             -workspace GoodDollar.xcworkspace \
@@ -77,4 +105,4 @@ jobs:
       - name: Deploy to App Center
         run: |
           npm install appcenter-cli@2.3.3
-          npx appcenter distribute release --token "${{secrets.APP_CENTER_TOKEN}}" --app "GoodDollar/GoodDollar-iOS" --group "Collaborators" --file "ios/build/GoodDollar.ipa" --release-notes "$(git log -1 --pretty=format:%s)" --debug
+          npx appcenter distribute release --token "${{secrets.APP_CENTER_TOKEN}}" --app "${{ env.APPCENTER_NAME }}" --group "Collaborators" --file "ios/build/GoodDollar.ipa" --release-notes "$(git log -1 --pretty=format:%s)" --debug

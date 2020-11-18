@@ -71,6 +71,10 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 10.15.3
+      - name: Pre-checks
+        run: |
+          valid=contains(github.ref, "staging") || contains(github.ref, "production")
+          echo "IS_VALID_ENV=$valid" >> $GITHUB_ENV
       - name: Cache node modules
         uses: actions/cache@v1
         env:
@@ -88,9 +92,9 @@ jobs:
       - name: Prepare env
         env:
           SENTRYRC: ${{ secrets.sentryrc_file }}
-          ENV_NAME: "${GITHUB_REF##*/}_ENV"
+          ENV_NAME: ${{ $IS_VALID_ENV && "${GITHUB_REF##*/}_ENV" || "DEV_ENV" }}
         run: |
-          branch_name=${GITHUB_REF##*/}
+          branch_name=${{ $IS_VALID_ENV && "${GITHUB_REF##*/}" || "development" }}
           echo "$SENTRYRC" > android/sentry.properties
           echo "${{ secrets[env.ENV_NAME] }}" >> .env.$branch_name
       - name: Set release keystore
@@ -99,7 +103,7 @@ jobs:
           gpg -d --passphrase "${{ secrets.RELEASE_ANDROID_PASSPHRASE }}" --batch release.keystore.asc > android/app/release.keystore
       - name: Build Android Release
         run: |
-          branch_name=${GITHUB_REF##*/}
+          branch_name=${{ $IS_VALID_ENV && "${GITHUB_REF##*/}" || "development" }}
           echo "Creating release using env: .env.${branch_name}"
           cd android && ENVFILE=.env.$branch_name ./gradlew assembleRelease -PMYAPP_UPLOAD_STORE_PASSWORD='${{ secrets.RELEASE_ANDROID_PASSPHRASE }}' -PMYAPP_UPLOAD_KEY_PASSWORD='${{ secrets.RELEASE_ANDROID_PASSPHRASE }}'
       - name: Upload Artifact

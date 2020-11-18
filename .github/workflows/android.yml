@@ -101,7 +101,11 @@ jobs:
           # ENV_NAME: ${{ env.IS_VALID_ENV && "${GITHUB_REF##*/}_ENV" || "DEV_ENV" }}
           # ${{ fromJSON('["no", "yes"]')[github.ref != 'refs/heads/master'] }}
         run: |
-          branch_name=${{ env.IS_VALID_ENV && "${GITHUB_REF##*/}" || "development" }}
+          branch_name="development"
+          if [env. IS_VALID_ENV]
+          then
+            branch_name="${GITHUB_REF##*/}"
+          fi
           echo "${{ env.SECRET_NAME }}"
           echo "$SENTRYRC" > android/sentry.properties
           echo "${{ secrets[env.SECRET_NAME] }}" >> .env.$branch_name
@@ -111,7 +115,11 @@ jobs:
           gpg -d --passphrase "${{ secrets.RELEASE_ANDROID_PASSPHRASE }}" --batch release.keystore.asc > android/app/release.keystore
       - name: Build Android Release
         run: |
-          branch_name=${{ env.IS_VALID_ENV && "${GITHUB_REF##*/}" || "development" }}
+          branch_name="development"
+          if [env. IS_VALID_ENV]
+          then
+            branch_name="${GITHUB_REF##*/}"
+          fi
           echo "Creating release using env: .env.${branch_name}"
           cd android && ENVFILE=.env.$branch_name ./gradlew assembleRelease -PMYAPP_UPLOAD_STORE_PASSWORD='${{ secrets.RELEASE_ANDROID_PASSPHRASE }}' -PMYAPP_UPLOAD_KEY_PASSWORD='${{ secrets.RELEASE_ANDROID_PASSPHRASE }}'
       - name: Upload Artifact

@@ -850,7 +850,7 @@ const getStylesFromProps = ({ theme }) => ({
 Dashboard.navigationOptions = ({ navigation, screenProps }) => {
   return {
     navigationBar: () => <TabsView goTo={navigation.navigate} routes={screenProps.routes} navigation={navigation} />,
-    title: 'Home',
+    title: 'Wallet',
     disableScroll: true,
   }
 }

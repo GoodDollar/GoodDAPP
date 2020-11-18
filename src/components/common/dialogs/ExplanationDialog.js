@@ -125,10 +125,6 @@ const mapStylesToProps = ({ theme }) => ({
     marginTop: theme.paddings.defaultMargin * 3,
     marginBottom: theme.paddings.defaultMargin * 3,
   },
-  image: {
-    width: '100%',
-    marginBottom: theme.paddings.defaultMargin * 3,
-  },
   label: {
     color: theme.colors.darkGray,
     fontSize: normalizeText(10),

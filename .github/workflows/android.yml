@@ -91,6 +91,7 @@ jobs:
           echo "IS_VALID_ENV=false" >> $GITHUB_ENV
           echo "SECRET_NAME=DEV_ENV" >> $GITHUB_ENV
           echo "APPCENTER_NAME=GoodDollar/GoodDollar-Android-development" >> $GITHUB_ENV
+          echo "APPCENTER_TOKEN=${{fromJSON(secrets.APPCENTER_ANDROID).development}}" >> $GITHUB_ENV
       - name: Cache node modules
         uses: actions/cache@v1
         env:
@@ -133,4 +134,4 @@ jobs:
       - name: Deploy to App Center
         run: |
           npm install appcenter-cli@2.3.3
-          npx appcenter distribute release --token "${{secrets.APPCENTER_USER_TOKEN}}" --app "${{ env.APPCENTER_NAME }}" --group "Collaborators" --file "android/app/build/outputs/apk/release/" --release-notes "$(git log -1 --pretty=format:%s)" --debug
+          npx appcenter distribute release --token "${{env.APPCENTER_TOKEN}}" --app "${{ env.APPCENTER_NAME }}" --group "Collaborators" --file "android/app/build/outputs/apk/release/" --release-notes "$(git log -1 --pretty=format:%s)" --debug

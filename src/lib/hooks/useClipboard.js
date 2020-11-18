@@ -18,7 +18,7 @@ const writeString = content =>
       return false
     })
 
-const useClipboard = (logger = log) => {
+const useClipboard = () => {
   // should be non-async to avoid possible 'non-user interaction' issues
   const setString = useCallback(content => writeString(content), [])
 
@@ -37,8 +37,8 @@ const useClipboard = (logger = log) => {
   return [getString, setString]
 }
 
-export const useClipboardPaste = (onPaste, logger = log) => {
-  const [getString] = useClipboard(logger)
+export const useClipboardPaste = onPaste => {
+  const [getString] = useClipboard()
 
   return useCallback(async () => {
     const clipboardContents = await getString()
@@ -47,7 +47,7 @@ export const useClipboardPaste = (onPaste, logger = log) => {
   }, [onPaste, getString])
 }
 
-export const useClipboardCopy = (content, onCopy = noop, logger = log) => {
+export const useClipboardCopy = (content, onCopy = noop) => {
   const contentRef = useRef(content)
   const onCopyRef = useRef(onCopy)
 

@@ -133,4 +133,4 @@ jobs:
       - name: Deploy to App Center
         run: |
           npm install appcenter-cli@2.3.3
-          npx appcenter distribute release --token "${{secrets.APP_CENTER_TOKEN}}" --app "${{ env.APPCENTER_NAME }}" --group "Collaborators" --file "android/app/build/outputs/apk/release/" --release-notes "$(git log -1 --pretty=format:%s)" --debug
+          npx appcenter distribute release --token "${{secrets.APPCENTER_USER_TOKEN}}" --app "${{ env.APPCENTER_NAME }}" --group "Collaborators" --file "android/app/build/outputs/apk/release/" --release-notes "$(git log -1 --pretty=format:%s)" --debug

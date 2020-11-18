@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import isEmail from 'validator/lib/isEmail'
+import isEmail from '../../lib/validators/isEmail'
 import { BackButton, useScreenState } from '../appNavigation/stackNavigation'
 import userStorage from '../../lib/gundb/UserStorage'
 import logger from '../../lib/logger/pino-logger'

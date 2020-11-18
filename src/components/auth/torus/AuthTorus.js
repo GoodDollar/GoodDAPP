@@ -11,6 +11,7 @@ import {
   SIGNIN_NOTEXISTS_LOGIN,
   SIGNIN_NOTEXISTS_SIGNUP,
   SIGNIN_TORUS_SUCCESS,
+  SIGNUP_EXISTS,
   SIGNUP_EXISTS_CONTINUE,
   SIGNUP_EXISTS_LOGIN,
   SIGNUP_METHOD_SELECTED,
@@ -66,6 +67,7 @@ const _useAlreadySignedUp = () => {
 
     const registeredBy = LoginStrategy.getTitle(existsResult.provider)
     const usedText = existsResult.identifier ? 'Account' : existsResult.email ? 'Email' : 'Mobile'
+    fireEvent(SIGNUP_EXISTS, { provider, existsResult, fromSignupFlow })
     showDialog({
       onDismiss: () => {
         hideDialog()

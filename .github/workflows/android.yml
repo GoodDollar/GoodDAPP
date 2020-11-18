@@ -73,7 +73,7 @@ jobs:
           node-version: 10.15.3
       - name: Pre-checks
         run: |
-          valid=contains(github.ref, "staging") || contains(github.ref, "production")
+          valid=${{ contains(github.ref, "staging") || contains(github.ref, "production") }}
           echo "IS_VALID_ENV=$valid" >> $GITHUB_ENV
           if [$valid]
           then

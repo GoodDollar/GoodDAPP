@@ -80,6 +80,7 @@ jobs:
         run: |
           echo "IS_VALID_ENV=true" >> $GITHUB_ENV
           echo "SECRET_NAME=${GITHUB_REF##*/}_ENV" >> $GITHUB_ENV
+          echo "APPCENTER_NAME=GoodDollar/GoodDollar-Android-${GITHUB_REF##*/}" >> $GITHUB_ENV
       - name: Pre-checks - Env is DEV or unknown
         if:
           false == contains('
@@ -89,6 +90,7 @@ jobs:
         run: |
           echo "IS_VALID_ENV=false" >> $GITHUB_ENV
           echo "SECRET_NAME=DEV_ENV" >> $GITHUB_ENV
+          echo "APPCENTER_NAME=GoodDollar/GoodDollar-Android" >> $GITHUB_ENV
       - name: Cache node modules
         uses: actions/cache@v1
         env:
@@ -128,8 +130,7 @@ jobs:
           fi
           echo "Creating release using env: .env.${branch_name}"
           cd android && ENVFILE=.env.$branch_name ./gradlew assembleRelease -PMYAPP_UPLOAD_STORE_PASSWORD='${{ secrets.RELEASE_ANDROID_PASSPHRASE }}' -PMYAPP_UPLOAD_KEY_PASSWORD='${{ secrets.RELEASE_ANDROID_PASSPHRASE }}'
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v1
-        with:
-          name: app-release.apk
-          path: android/app/build/outputs/apk/release/
+      - name: Deploy to App Center
+        run: |
+          npm install appcenter-cli@2.3.3
+          npx appcenter distribute release --token "${{secrets.APP_CENTER_TOKEN}}" --app "${{ env.APPCENTER_NAME }}" --group "Collaborators" --file "android/app/build/outputs/apk/release/" --release-notes "$(git log -1 --pretty=format:%s)" --debug

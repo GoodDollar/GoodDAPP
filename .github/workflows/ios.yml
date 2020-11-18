@@ -30,7 +30,7 @@ jobs:
         run: |
           echo "IS_VALID_ENV=true" >> $GITHUB_ENV
           echo "SECRET_NAME=${GITHUB_REF##*/}_ENV" >> $GITHUB_ENV
-          echo "APPCENTER_NAME=GoodDollar/GoodDollar-iOS-[${GITHUB_REF##*/}]" >> $GITHUB_ENV
+          echo "APPCENTER_NAME=GoodDollar/GoodDollar-iOS-${GITHUB_REF##*/}" >> $GITHUB_ENV
       - name: Pre-checks - Env is DEV or unknown
         if:
           false == contains('

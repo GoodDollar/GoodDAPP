@@ -75,6 +75,12 @@ jobs:
         run: |
           valid=contains(github.ref, "staging") || contains(github.ref, "production")
           echo "IS_VALID_ENV=$valid" >> $GITHUB_ENV
+          if [$valid]
+          then
+            echo "SECRET_NAME=${GITHUB_REF##*/}_ENV" >> $GITHUB_ENV
+          else
+            echo "SECRET_NAME=DEV_ENV" >> $GITHUB_ENV
+          fi
       - name: Cache node modules
         uses: actions/cache@v1
         env:
@@ -92,11 +98,13 @@ jobs:
       - name: Prepare env
         env:
           SENTRYRC: ${{ secrets.sentryrc_file }}
-          ENV_NAME: ${{ env.IS_VALID_ENV && "${GITHUB_REF##*/}_ENV" || "DEV_ENV" }}
+          # ENV_NAME: ${{ env.IS_VALID_ENV && "${GITHUB_REF##*/}_ENV" || "DEV_ENV" }}
+          # ${{ fromJSON('["no", "yes"]')[github.ref != 'refs/heads/master'] }}
         run: |
           branch_name=${{ env.IS_VALID_ENV && "${GITHUB_REF##*/}" || "development" }}
+          echo "${{ env.SECRET_NAME }}"
           echo "$SENTRYRC" > android/sentry.properties
-          echo "${{ secrets[env.ENV_NAME] }}" >> .env.$branch_name
+          echo "${{ secrets[env.SECRET_NAME] }}" >> .env.$branch_name
       - name: Set release keystore
         run: |
           echo "${{ secrets.RELEASE_ANDROID_KEYSTORE }}" > release.keystore.asc

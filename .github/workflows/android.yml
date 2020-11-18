@@ -71,16 +71,16 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 10.15.3
-      - name: Pre-checks
+      - name: Pre-checks - Env is QA or PROD
+        if: contains(github.ref, "staging") || contains(github.ref, "production")
         run: |
-          valid=contains(github.ref, "staging") || contains(github.ref, "production")
-          echo "IS_VALID_ENV=$valid" >> $GITHUB_ENV
-          if [$valid]
-          then
-            echo "SECRET_NAME=${GITHUB_REF##*/}_ENV" >> $GITHUB_ENV
-          else
-            echo "SECRET_NAME=DEV_ENV" >> $GITHUB_ENV
-          fi
+          echo "IS_VALID_ENV=true" >> $GITHUB_ENV
+          echo "SECRET_NAME=${GITHUB_REF##*/}_ENV" >> $GITHUB_ENV
+      - name: Pre-checks - Env is DEV or unknown
+        if: !contains(github.ref, "staging") || !contains(github.ref, "production")
+        run: |
+          echo "IS_VALID_ENV=false" >> $GITHUB_ENV
+          echo "SECRET_NAME=DEV_ENV" >> $GITHUB_ENV
       - name: Cache node modules
         uses: actions/cache@v1
         env:
@@ -98,11 +98,9 @@ jobs:
       - name: Prepare env
         env:
           SENTRYRC: ${{ secrets.sentryrc_file }}
-          # ENV_NAME: ${{ env.IS_VALID_ENV && "${GITHUB_REF##*/}_ENV" || "DEV_ENV" }}
-          # ${{ fromJSON('["no", "yes"]')[github.ref != 'refs/heads/master'] }}
         run: |
           branch_name="development"
-          if [env. IS_VALID_ENV]
+          if [env.IS_VALID_ENV]
           then
             branch_name="${GITHUB_REF##*/}"
           fi
@@ -116,7 +114,7 @@ jobs:
       - name: Build Android Release
         run: |
           branch_name="development"
-          if [env. IS_VALID_ENV]
+          if [env.IS_VALID_ENV]
           then
             branch_name="${GITHUB_REF##*/}"
           fi

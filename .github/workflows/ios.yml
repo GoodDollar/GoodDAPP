@@ -40,7 +40,7 @@ jobs:
         run: |
           echo "IS_VALID_ENV=false" >> $GITHUB_ENV
           echo "SECRET_NAME=DEV_ENV" >> $GITHUB_ENV
-          echo "APPCENTER_NAME=GoodDollar/GoodDollar-iOS" >> $GITHUB_ENV
+          echo "APPCENTER_NAME=GoodDollar/GoodDollar-iOS-development" >> $GITHUB_ENV
 
       - name: Cache node modules
         uses: actions/cache@v1

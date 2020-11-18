@@ -72,12 +72,20 @@ jobs:
         with:
           node-version: 10.15.3
       - name: Pre-checks - Env is QA or PROD
-        if: contains(github.ref, "staging") || contains(github.ref, "production")
+        if:
+          contains('
+            refs/heads/staging
+            refs/heads/production
+          ', github.ref)
         run: |
           echo "IS_VALID_ENV=true" >> $GITHUB_ENV
           echo "SECRET_NAME=${GITHUB_REF##*/}_ENV" >> $GITHUB_ENV
       - name: Pre-checks - Env is DEV or unknown
-        if: !contains(github.ref, "staging") || !contains(github.ref, "production")
+        if:
+          false == contains('
+            refs/heads/staging
+            refs/heads/production
+          ', github.ref)
         run: |
           echo "IS_VALID_ENV=false" >> $GITHUB_ENV
           echo "SECRET_NAME=DEV_ENV" >> $GITHUB_ENV

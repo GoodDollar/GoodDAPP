@@ -4,7 +4,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import fontMaterialIcons from 'react-native-vector-icons/Fonts/MaterialIcons.ttf'
 import './index.css'
-import App from './App'
+import AppHolder from './App'
 import './components/common/view/Icon/index.css'
 import { default as SimpleStore } from './lib/undux/SimpleStore'
 
@@ -13,7 +13,7 @@ let ErrorBoundary = React.Fragment
 ReactDOM.render(
   <ErrorBoundary>
     <SimpleStore.Container>
-      <App />
+      <AppHolder />
       <style type="text/css">{`
             @font-face {
               src: url(${fontMaterialIcons});

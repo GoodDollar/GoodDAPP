@@ -84,14 +84,13 @@ const ShareBox = ({ shareUrl }) => {
   )
 }
 
-const InviteesList = React.memo(({ invitees }) =>
+const InviteesList = ({ invitees }) =>
   invitees.map((invitee, index) => (
     <>
       {index && <Section.Separator style={{ marginTop: 8 }} width={1} color={theme.colors.lightGray} />}
       <InvitedUser {...invitee} />
     </>
-  )),
-)
+  ))
 
 const InvitesBox = React.memo(() => {
   const [invitees, refresh] = useInvited()

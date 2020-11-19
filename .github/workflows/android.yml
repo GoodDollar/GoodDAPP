@@ -109,18 +109,6 @@ jobs:
         env:
           SENTRYRC: ${{ secrets.sentryrc_file }}
         run: |
-          token=${{secrets.APPCENTER_ANDROID_DEV}}
-          if [ env.IS_VALID_ENV ]
-          then
-            is_prod=${{ contains('refs/heads/production', github.ref) }}
-            if [ $is_prod == true ]
-            then
-              token=${{secrets.APPCENTER_ANDROID_PROD}}
-            else
-              token=${{secrets.APPCENTER_ANDROID_STAGING}}
-            fi
-          fi
-          echo $token
           branch_name="development"
           if [ env.IS_VALID_ENV ]
           then

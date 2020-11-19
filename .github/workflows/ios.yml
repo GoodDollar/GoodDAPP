@@ -104,10 +104,16 @@ jobs:
             -exportPath $PWD/build
       - name: Deploy to App Center
         run: |
-          token=${{secrets.APPCENTER_IOS.development}}
+          token=${{secrets.APPCENTER_IOS_DEV}}
           if [ env.IS_VALID_ENV ]
           then
-            token=${{secrets.APPCENTER_IOS[github.ref]}}
+            is_prod=${{ contains('refs/heads/production', github.ref) }}
+            if [ $is_prod == true ]
+            then
+              token=${{secrets.APPCENTER_IOS_PROD}}
+            else
+              token=${{secrets.APPCENTER_IOS_STAGING}}
+            fi
           fi
           npm install appcenter-cli@2.3.3
           npx appcenter distribute release --token $token --app "${{ env.APPCENTER_NAME }}" --group "Collaborators" --file "ios/build/GoodDollar.ipa" --release-notes "$(git log -1 --pretty=format:%s)" --debug

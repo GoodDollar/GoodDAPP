@@ -110,7 +110,8 @@ jobs:
           SENTRYRC: ${{ secrets.sentryrc_file }}
         run: |
           branch_name="development"
-          if [env.IS_VALID_ENV === "true"]
+          is_valid=${{ env.IS_VALID_ENV }}
+          if ["$is_valid" == "true"]
           then
             branch_name="${GITHUB_REF##*/}"
           fi
@@ -124,7 +125,8 @@ jobs:
       - name: Build Android Release
         run: |
           branch_name="development"
-          if [env.IS_VALID_ENV]
+          is_valid=${{ env.IS_VALID_ENV }}
+          if ["$is_valid" == "true"]
           then
             branch_name="${GITHUB_REF##*/}"
           fi
@@ -133,7 +135,8 @@ jobs:
       - name: Deploy to App Center
         run: |
           token=${{secrets.APPCENTER_TOKENS.ANDROID.development}}
-          if [${{ env.IS_VALID_ENV }}]
+          is_valid=${{ env.IS_VALID_ENV }}
+          if ["$is_valid" == "true"]
           then
             token=${{secrets.APPCENTER_TOKENS.ANDROID[github.ref]}}
           fi

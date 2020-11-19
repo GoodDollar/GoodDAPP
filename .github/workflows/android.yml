@@ -65,12 +65,6 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      - name: fix max_user_watches
-        run: echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
-        with:
-          node-version: 10.15.3
       - name: set branch name
         run: |
           echo "ENV=development" >> $GITHUB_ENV
@@ -89,6 +83,24 @@ jobs:
           echo "ENV=production" >> $GITHUB_ENV
           echo "SECRET_NAME=PROD_ENV" >> $GITHUB_ENV
           echo "APPCENTER_NAME=GoodDollar/GoodDollar-Android-production" >> $GITHUB_ENV
+      - name: Prepare env
+        env:
+          SENTRYRC: ${{ secrets.sentryrc_file }}
+        run: |
+          env_name="${{ env.ENV }}"
+          echo "adding secrets to .env file: ${{ env.SECRET_NAME }}"
+          echo "$SENTRYRC" > android/sentry.properties
+          echo "${{ secrets[env.SECRET_NAME] }}" >> .env.$env_name
+      - name: Set release keystore
+        run: |
+          echo "${{ secrets.RELEASE_ANDROID_KEYSTORE }}" > release.keystore.asc
+          gpg -d --passphrase "${{ secrets.RELEASE_ANDROID_PASSPHRASE }}" --batch release.keystore.asc > android/app/release.keystore
+      - name: fix max_user_watches
+        run: echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 10.15.3
       - name: Cache node modules
         uses: actions/cache@v1
         env:
@@ -103,18 +115,7 @@ jobs:
       - name: Install npm dependencies
         run: |
           npm ci
-      - name: Prepare env
-        env:
-          SENTRYRC: ${{ secrets.sentryrc_file }}
-        run: |
-          env_name="${{ env.ENV }}"
-          echo "adding secrets to .env file: ${{ env.SECRET_NAME }}"
-          echo "$SENTRYRC" > android/sentry.properties
-          echo "${{ secrets[env.SECRET_NAME] }}" >> .env.$env_name
-      - name: Set release keystore
-        run: |
-          echo "${{ secrets.RELEASE_ANDROID_KEYSTORE }}" > release.keystore.asc
-          gpg -d --passphrase "${{ secrets.RELEASE_ANDROID_PASSPHRASE }}" --batch release.keystore.asc > android/app/release.keystore
+
       - name: Build Android Release
         run: |
           env_name="${{ env.ENV }}"          

@@ -71,26 +71,24 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 10.15.3
-      - name: Pre-checks - Env is QA or PROD
-        if:
-          contains('
-            refs/heads/staging
-            refs/heads/production
-          ', github.ref)
+      - name: set branch name
         run: |
-          echo "IS_VALID_ENV=true" >> $GITHUB_ENV
-          echo "SECRET_NAME=${GITHUB_REF##*/}_ENV" >> $GITHUB_ENV
-          echo "APPCENTER_NAME=GoodDollar/GoodDollar-Android-${GITHUB_REF##*/}" >> $GITHUB_ENV
-      - name: Pre-checks - Env is DEV or unknown
-        if:
-          false == contains('
-            refs/heads/staging
-            refs/heads/production
-          ', github.ref)
-        run: |
-          echo "IS_VALID_ENV=false" >> $GITHUB_ENV
+          echo "ENV=development" >> $GITHUB_ENV
           echo "SECRET_NAME=DEV_ENV" >> $GITHUB_ENV
           echo "APPCENTER_NAME=GoodDollar/GoodDollar-Android-development" >> $GITHUB_ENV
+          echo "BRANCH=${GITHUB_REF##*/}" >> $GITHUB_ENV
+      - name: Pre-checks - Env is QA
+        if: contains('staging',$BRANCH)
+        run: |
+          echo "ENV=staging" >> $GITHUB_ENV
+          echo "SECRET_NAME=STAGING_ENV" >> $GITHUB_ENV
+          echo "APPCENTER_NAME=GoodDollar/GoodDollar-Android-staging" >> $GITHUB_ENV
+      - name: Pre-checks - Env is PROD
+        if: contains('production next',$BRANCH)
+        rrun: |
+          echo "ENV=production" >> $GITHUB_ENV
+          echo "SECRET_NAME=PROD_ENV" >> $GITHUB_ENV
+          echo "APPCENTER_NAME=GoodDollar/GoodDollar-Android-production" >> $GITHUB_ENV
       - name: Cache node modules
         uses: actions/cache@v1
         env:
@@ -109,39 +107,33 @@ jobs:
         env:
           SENTRYRC: ${{ secrets.sentryrc_file }}
         run: |
-          branch_name="development"
-          if [ env.IS_VALID_ENV ]
-          then
-            branch_name="${GITHUB_REF##*/}"
-          fi
-          echo "${{ env.SECRET_NAME }}"
+          env_name="${{ env.ENV }}"
+          echo "adding secrets to .env file: ${{ env.SECRET_NAME }}"
           echo "$SENTRYRC" > android/sentry.properties
-          echo "${{ secrets[env.SECRET_NAME] }}" >> .env.$branch_name
+          echo "${{ secrets[env.SECRET_NAME] }}" >> .env.$env_name
       - name: Set release keystore
         run: |
           echo "${{ secrets.RELEASE_ANDROID_KEYSTORE }}" > release.keystore.asc
           gpg -d --passphrase "${{ secrets.RELEASE_ANDROID_PASSPHRASE }}" --batch release.keystore.asc > android/app/release.keystore
       - name: Build Android Release
         run: |
-          branch_name="development"
-          if [ env.IS_VALID_ENV ]
-          then
-            branch_name="${GITHUB_REF##*/}"
-          fi
-          echo "Creating release using env: .env.${branch_name}"
-          cd android && ENVFILE=.env.$branch_name ./gradlew assembleRelease -PMYAPP_UPLOAD_STORE_PASSWORD='${{ secrets.RELEASE_ANDROID_PASSPHRASE }}' -PMYAPP_UPLOAD_KEY_PASSWORD='${{ secrets.RELEASE_ANDROID_PASSPHRASE }}'
+          env_name="${{ env.ENV }}"          
+          echo "Creating release using env: .env.${env_name}"          
+          cd android && ENVFILE=.env.$env_name ./gradlew assembleRelease -PMYAPP_UPLOAD_STORE_PASSWORD='${{ secrets.RELEASE_ANDROID_PASSPHRASE }}' -PMYAPP_UPLOAD_KEY_PASSWORD='${{ secrets.RELEASE_ANDROID_PASSPHRASE }}'
       - name: Deploy to App Center
         run: |
-          token=${{secrets.APPCENTER_ANDROID_DEV}}
-          if [ env.IS_VALID_ENV ]
+          token=${{ secrets.APPCENTER_ANDROID_DEV }}
+
+          if [ ${{ env.ENV }} == 'production' ]
           then
-            is_prod=${{ contains('refs/heads/production', github.ref) }}
-            if [ $is_prod == true ]
-            then
-              token=${{secrets.APPCENTER_ANDROID_PROD}}
-            else
-              token=${{secrets.APPCENTER_ANDROID_STAGING}}
-            fi
+            echo "setting appcenter production"
+            token=${{secrets.APPCENTER_ANDROID_PROD}}
           fi
+          if [ ${{ env.ENV }} == 'staging' ]
+          then
+            echo "setting appcenter staging"
+            token=${{secrets.APPCENTER_ANDROID_STAGING}}
+          fi
+
           npm install appcenter-cli@2.3.3
           npx appcenter distribute release --token $token --app "${{ env.APPCENTER_NAME }}" --group "Collaborators" --file "android/app/build/outputs/apk/release/" --release-notes "$(git log -1 --pretty=format:%s)" --debug

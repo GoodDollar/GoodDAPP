@@ -3,7 +3,7 @@ import { Platform, Share } from 'react-native'
 import { fromPairs, isEmpty } from 'lodash'
 import { decode, encode, isMNID } from 'mnid'
 import isURL from 'validator/lib/isURL'
-import isEmail from 'validator/lib/isEmail'
+import isEmail from '../validators/isEmail'
 
 import { isMobileNative, isMobileWeb } from '../utils/platform'
 import isMobilePhone from '../validators/isMobilePhone'

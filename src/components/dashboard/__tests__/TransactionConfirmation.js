@@ -4,7 +4,7 @@ import React from 'react'
 import renderer from 'react-test-renderer'
 import { getWebRouterComponentWithMocks } from './__util__'
 
-describe('SendConfirmation', () => {
+describe('TransactionConfirmation', () => {
   it('renders without errors', () => {
     const TransactionConfirmation = getWebRouterComponentWithMocks('../TransactionConfirmation')
     const tree = renderer.create(<TransactionConfirmation />)

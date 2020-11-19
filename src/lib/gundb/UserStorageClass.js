@@ -25,13 +25,13 @@ import {
   uniqBy,
   values,
 } from 'lodash'
-import isEmail from 'validator/lib/isEmail'
 import moment from 'moment'
 import Gun from '@gooddollar/gun'
 import SEA from '@gooddollar/gun/sea'
 import { gunAuth as gunPKAuth } from '@gooddollar/gun-pk-auth'
 import { sha3 } from 'web3-utils'
 import EventEmitter from 'eventemitter3'
+import isEmail from '../../lib/validators/isEmail'
 
 import AsyncStorage from '../../lib/utils/asyncStorage'
 import { retry } from '../utils/async'

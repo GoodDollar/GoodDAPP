@@ -110,12 +110,16 @@ describe('GoodWalletShare/ReceiveTokens', () => {
 
   it('should emit PaymentWithdraw and transfer event filtered by from block', async done => {
     expect(await testWallet2.claim()).toBeTruthy()
+
     const linkData = testWallet2.generatePaymentLink(amount, reason)
+
     expect(await linkData.txPromise.catch(_ => false)).toBeTruthy()
+
     let eventId = testWallet2.subscribeToEvent('otplUpdated', receipt => {
       expect(receipt).toBeTruthy()
       expect(receipt.logs[1].name).toBe('PaymentWithdraw')
       testWallet2.unsubscribeFromEvent(eventId)
+
       done()
     })
 

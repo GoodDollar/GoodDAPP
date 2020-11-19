@@ -5,7 +5,9 @@ import { groupBy } from 'lodash'
 import { Avatar, CustomButton, Icon, Section, ShareButton, Text, Wrapper } from '../common'
 import { WavesBox } from '../common/view/WavesBox'
 
-import { generateShareObject } from '../../lib/share'
+import { generateShareObject, isSharingAvailable } from '../../lib/share'
+
+import Config from '../../config/config'
 
 import { fireEvent, INVITE_SHARE } from '../../lib/analytics/analytics'
 import { isMobileNative } from '../../lib/utils/platform'
@@ -13,16 +15,11 @@ import logger from '../../lib/logger/pino-logger'
 
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
 import { theme } from '../theme/styles'
-import Config from '../../config/config'
-import canShare from '../../lib/utils/canShare'
 import { useCollectBounty, useInviteCode, useInvited } from './useInvites'
 import ShareIcons from './ShareIcons'
 import HowToSVG from './howto.svg'
 
 const log = logger.child({ from: 'Invite' })
-
-// TODO replace with import once #2732 will be merged
-const isSharingAvailable = canShare()
 
 const shareTitle = 'I signed up to GoodDollar. Join me.'
 const shareMessage =

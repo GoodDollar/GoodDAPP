@@ -1,7 +1,6 @@
 // @flow
 
 import React, { useCallback, useState } from 'react'
-import useNativeSharing from '../../lib/hooks/useNativeSharing'
 import { fireEvent } from '../../lib/analytics/analytics'
 import GDStore from '../../lib/undux/GDStore'
 import Config from '../../config/config'
@@ -11,6 +10,7 @@ import { ExceptionCategory } from '../../lib/logger/exceptions'
 import { useDialog } from '../../lib/undux/utils/dialog'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import { useScreenState } from '../appNavigation/stackNavigation'
+import { generateSendShareObject, generateSendShareText, isSharingAvailable } from '../../lib/share'
 import { ACTION_SEND, ACTION_SEND_TO_ADDRESS, SEND_TITLE } from './utils/sendReceiveFlow'
 import SummaryGeneric from './SendReceive/SummaryGeneric'
 
@@ -28,20 +28,17 @@ export type AmountProps = {
  */
 const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
   const gdstore = GDStore.useStore()
-  const inviteCode = userStorage.userProperties.get('inviteCode')
   const [screenState] = useScreenState(screenProps)
   const [showDialog, hideDialog, showErrorDialog] = useDialog()
-  const { canShare, generateSendShareObject, generateSendShareText } = useNativeSharing()
-
-  const { goToRoot, navigateTo } = screenProps
-
-  const { fullName } = gdstore.get('profile')
-  const { amount, reason = null, counterPartyDisplayName, address, action } = screenState
+  const { userProperties } = userStorage
 
   const [survey] = useState('other')
   const [link, setLink] = useState('')
 
-  const shareStringStateDepSource = [amount, counterPartyDisplayName, fullName]
+  const { goToRoot, navigateTo } = screenProps
+  const { fullName } = gdstore.get('profile')
+  const inviteCode = userProperties.get('inviteCode')
+  const { amount, reason = null, counterPartyDisplayName, address, action } = screenState
 
   const handleConfirm = useCallback(async () => {
     if (action === ACTION_SEND_TO_ADDRESS) {
@@ -116,11 +113,8 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
   const sendViaLink = useCallback(() => {
     try {
       const paymentLink = getLink()
-
-      const desktopShareLink = (canShare ? generateSendShareObject : generateSendShareText)(
-        paymentLink,
-        ...shareStringStateDepSource,
-      )
+      const factory = isSharingAvailable ? generateSendShareObject : generateSendShareText
+      const desktopShareLink = factory(paymentLink, amount, counterPartyDisplayName, fullName)
 
       // Go to transaction confirmation screen
       navigateTo('TransactionConfirmation', { paymentLink: desktopShareLink, action: ACTION_SEND })
@@ -128,7 +122,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
       log.error('Something went wrong while trying to generate send link', e.message, e, { dialogShown: true })
       showErrorDialog('Could not complete transaction. Please try again.')
     }
-  }, [...shareStringStateDepSource, generateSendShareText, canShare, navigateTo])
+  }, [amount, counterPartyDisplayName, fullName, navigateTo])
 
   /**
    * Generates link to send and call send email/sms action

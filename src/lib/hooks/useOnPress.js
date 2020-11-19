@@ -1,13 +1,22 @@
 import { useCallback, useMemo, useRef } from 'react'
 import { isFunction, isNil } from 'lodash'
 
+export const preventPressed = event => {
+  let shouldPrevent = event && isFunction(event.preventDefault)
+
+  if (shouldPrevent && 'defaultPrevented' in event) {
+    shouldPrevent = !event.defaultPrevented
+  }
+
+  if (shouldPrevent) {
+    event.preventDefault()
+  }
+}
+
 const useOnPress = (callback, deps = []) => {
   const wrappedCallback = useCallback(
     event => {
-      if (event && isFunction(event.preventDefault)) {
-        event.preventDefault()
-      }
-
+      preventPressed(event)
       return callback(event)
     },
     [callback, ...deps],

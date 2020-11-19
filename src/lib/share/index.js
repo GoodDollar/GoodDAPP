@@ -1,15 +1,23 @@
 // @flow
-import { Share } from 'react-native'
+import { Platform, Share } from 'react-native'
 import { fromPairs, isEmpty } from 'lodash'
 import { decode, encode, isMNID } from 'mnid'
 import isURL from 'validator/lib/isURL'
-import isEmail from 'validator/lib/isEmail'
-import Config from '../../config/config'
-import logger from '../logger/pino-logger'
+import isEmail from '../validators/isEmail'
+
+import { isMobileNative, isMobileWeb } from '../utils/platform'
 import isMobilePhone from '../validators/isMobilePhone'
 import { weiToGd } from '../wallet/utils'
 
+import Config from '../../config/config'
+import logger from '../logger/pino-logger'
+
 const log = logger.child({ from: 'share.index' })
+
+export const isSharingAvailable = Platform.select({
+  web: isMobileWeb && !!navigator.share,
+  default: isMobileNative, // ios or android
+})
 
 /**
  * Generates a code contaning an MNID with an amount if specified
@@ -242,12 +250,13 @@ export function generateShareLink(action: ActionType = 'receive', params: {} = {
   return encodeURI(`${destination}${queryParams}`)
 }
 
-export const shareAction = async (shareObj, showErrorDialog, customErrorMessage) => {
-  try {
-    return await Share.share(shareObj)
-  } catch (e) {
-    if (e.name !== 'AbortError') {
-      log.error('Native share failed', e.message, e, {
+// should be non-async to avoid possible 'non-user interaction' issues
+export const shareAction = (shareObj, showErrorDialog, customErrorMessage) =>
+  Share.share(shareObj).catch(exception => {
+    const { name, message } = exception
+
+    if (name !== 'AbortError') {
+      log.error('Native share failed', message, exception, {
         shareObj,
         dialogShown: true,
       })
@@ -256,8 +265,7 @@ export const shareAction = async (shareObj, showErrorDialog, customErrorMessage)
         customErrorMessage || 'Sorry, the error occurred while sharing your link. Please try again later.',
       )
     }
-  }
-}
+  })
 
 export const parsePaymentLinkParams = params => {
   const { paymentCode, reason } = params

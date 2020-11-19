@@ -78,13 +78,13 @@ jobs:
           echo "APPCENTER_NAME=GoodDollar/GoodDollar-Android-development" >> $GITHUB_ENV
           echo "BRANCH=${GITHUB_REF##*/}" >> $GITHUB_ENV
       - name: Pre-checks - Env is QA
-        if: contains('staging',$BRANCH)
+        if: contains('staging',${{ env.BRANCH }})
         run: |
           echo "ENV=staging" >> $GITHUB_ENV
           echo "SECRET_NAME=STAGING_ENV" >> $GITHUB_ENV
           echo "APPCENTER_NAME=GoodDollar/GoodDollar-Android-staging" >> $GITHUB_ENV
       - name: Pre-checks - Env is PROD
-        if: contains('production next',$BRANCH)
+        if: contains('production next',${{ env.BRANCH }})
         run: |
           echo "ENV=production" >> $GITHUB_ENV
           echo "SECRET_NAME=PROD_ENV" >> $GITHUB_ENV

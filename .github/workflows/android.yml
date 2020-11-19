@@ -111,7 +111,7 @@ jobs:
         run: |
           branch_name="development"
           is_valid=${{ env.IS_VALID_ENV }}
-          if ["$is_valid" == "true"]
+          if [ env.IS_VALID_ENV ]
           then
             branch_name="${GITHUB_REF##*/}"
           fi

@@ -1,10 +1,12 @@
 // @flow
 
-import React, { useCallback, useEffect } from 'react'
-import { get, isString, noop } from 'lodash'
+import React, { useEffect } from 'react'
+import { noop } from 'lodash'
 
 import logger from '../../../lib/logger/pino-logger'
+
 import useNativeSharing from '../../../lib/hooks/useNativeSharing'
+import { isSharingAvailable } from '../../../lib/share'
 import CustomButton from './CustomButton'
 import CopyButton from './CopyButton'
 
@@ -17,28 +19,19 @@ type ShareButtonProps = {
 }
 
 const log = logger.child({ from: 'ShareButton' })
+const SharingButton = isSharingAvailable ? CustomButton : CopyButton
 
-const ShareButton = ({ share, onPressDone, onPressed = noop, actionText, ...buttonProps }: ShareButtonProps) => {
-  const { canShare, shareAction } = useNativeSharing()
-  const shareUrl = isString(share) ? share : get(share, 'url', null)
+const ShareButton = ({ share, onPressed = noop, actionText, ...buttonProps }: ShareButtonProps) => {
+  const shareHandler = useNativeSharing(share, { onSharePress: onPressed })
 
   useEffect(() => {
     log.info('getPaymentLink', { share })
   }, [])
 
-  const shareHandler = useCallback(() => {
-    shareAction(share)
-    onPressed()
-  }, [shareAction, share])
-
-  return canShare ? (
-    <CustomButton onPress={shareHandler} {...buttonProps}>
+  return (
+    <SharingButton {...buttonProps} toCopy={share} onPress={isSharingAvailable ? shareHandler : onPressed}>
       {actionText}
-    </CustomButton>
-  ) : (
-    <CopyButton toCopy={shareUrl} onPress={onPressed} onPressDone={onPressDone} {...buttonProps}>
-      {actionText}
-    </CopyButton>
+    </SharingButton>
   )
 }
 

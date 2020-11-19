@@ -11,6 +11,7 @@ import { CopyButton, CustomButton, QRCode, Section, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
 import { withStyles } from '../../lib/styles'
 import { getDesignRelativeHeight, getMaxDeviceHeight } from '../../lib/utils/sizes'
+import { generateCode, generateReceiveShareObject, isSharingAvailable } from '../../lib/share'
 
 export type ReceiveProps = {
   screenProps: any,
@@ -22,37 +23,33 @@ export type ReceiveProps = {
 const useTopSpaceForMobile = isMobileOnlyWeb && PixelRatio.get() >= 2 && getMaxDeviceHeight() >= 622
 
 const SHARE_TEXT = 'Receive via wallet link'
+const amount = 0
+const reason = ''
 
 const Receive = ({ screenProps, styles }: ReceiveProps) => {
-  const profile = GDStore.useStore().get('profile')
-  const { account, networkId } = goodWallet
-  const { canShare, generateCode, generateReceiveShareObject, shareAction } = useNativeSharing()
-  const amount = 0
-  const reason = ''
-  const codeObj = useMemo(() => generateCode(account, networkId, amount, reason), [account, networkId, amount, reason])
-  const share = useMemo(() => generateReceiveShareObject(codeObj, amount, '', profile.fullName), [
-    codeObj,
-    profile.fullName,
-    amount,
-  ])
+  const store = GDStore.useStore()
+  const { fullName } = store.get('profile') || {}
 
-  const shareLink = useMemo(() => share.message + ' ' + share.url, [share])
+  const share = useMemo(() => {
+    const { account, networkId } = goodWallet
+    const code = generateCode(account, networkId, amount, reason)
+
+    return generateReceiveShareObject(code, amount, '', fullName)
+  }, [fullName])
+
+  const shareLink = useMemo(() => {
+    const { url, message } = share || {}
+
+    return `${message} ${url}`
+  }, [share])
 
   const fireReceiveDoneEvent = useCallback(() => fireEvent('RECEIVE_DONE', { type: 'wallet' }), [])
-
-  const shareHandler = useCallback(() => {
-    // not mandatory to await for shareAction as there no visual changes after it
-    shareAction(share)
-    fireReceiveDoneEvent()
-  }, [shareAction, share, fireReceiveDoneEvent])
-
-  // const onPressReceiveToAddressButton = useOnPress(() => screenProps.push('ReceiveToAddress'), [screenProps])
+  const shareHandler = useNativeSharing(share, { onSharePress: fireReceiveDoneEvent })
 
   return (
     <Wrapper>
       <TopBar hideBalance={false} push={screenProps.push}>
         <View />
-        {/* <AddressButton onPress={onPressReceiveToAddressButton} /> */}
       </TopBar>
       <Section grow>
         {isBrowser && <View style={styles.emptySpace} />}
@@ -83,7 +80,7 @@ const Receive = ({ screenProps, styles }: ReceiveProps) => {
             Request specific amount
           </PushButton>
           <View style={styles.space} />
-          {canShare ? (
+          {isSharingAvailable ? (
             <CustomButton onPress={shareHandler}>{SHARE_TEXT}</CustomButton>
           ) : (
             <CopyButton

@@ -110,11 +110,17 @@ jobs:
           SENTRYRC: ${{ secrets.sentryrc_file }}
         run: |
           branch_name="development"
+          token=${{secrets.APPCENTER_ANDROID.development}}
+          if [ env.IS_VALID_ENV ]
+          then
+            token=${{secrets.APPCENTER_ANDROID[github.ref]}}
+          fi
           if [ env.IS_VALID_ENV ]
           then
             branch_name="${GITHUB_REF##*/}"
           fi
           echo "${{ env.SECRET_NAME }}"
+          echo "$token"
           echo "$SENTRYRC" > android/sentry.properties
           echo "${{ secrets[env.SECRET_NAME] }}" >> .env.$branch_name
       - name: Set release keystore

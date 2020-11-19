@@ -109,18 +109,24 @@ jobs:
         env:
           SENTRYRC: ${{ secrets.sentryrc_file }}
         run: |
-          branch_name="development"
-          token=${{ fromJSON(secrets.APPCENTER_ANDROID).development }}
+          token=${{secrets.APPCENTER_ANDROID_DEV}}
           if [ env.IS_VALID_ENV ]
           then
-            token=${{secrets.APPCENTER_ANDROID[github.ref]}}
+            is_prod=${{ contains('refs/heads/production', github.ref) }}
+            if [ $is_prod == true ]
+            then
+              token=${{secrets.APPCENTER_ANDROID_PROD}}
+            else
+              token=${{secrets.APPCENTER_ANDROID_STAGING}}
+            fi
           fi
+          echo $token
+          branch_name="development"
           if [ env.IS_VALID_ENV ]
           then
             branch_name="${GITHUB_REF##*/}"
           fi
           echo "${{ env.SECRET_NAME }}"
-          echo "$token"
           echo "$SENTRYRC" > android/sentry.properties
           echo "${{ secrets[env.SECRET_NAME] }}" >> .env.$branch_name
       - name: Set release keystore
@@ -138,10 +144,16 @@ jobs:
           cd android && ENVFILE=.env.$branch_name ./gradlew assembleRelease -PMYAPP_UPLOAD_STORE_PASSWORD='${{ secrets.RELEASE_ANDROID_PASSPHRASE }}' -PMYAPP_UPLOAD_KEY_PASSWORD='${{ secrets.RELEASE_ANDROID_PASSPHRASE }}'
       - name: Deploy to App Center
         run: |
-          token=${{secrets.APPCENTER_ANDROID.development}}
+          token=${{secrets.APPCENTER_ANDROID_DEV}}
           if [ env.IS_VALID_ENV ]
           then
-            token=${{secrets.APPCENTER_ANDROID[github.ref]}}
+            is_prod=${{ contains('refs/heads/production', github.ref) }}
+            if [ $is_prod == true ]
+            then
+              token=${{secrets.APPCENTER_ANDROID_PROD}}
+            else
+              token=${{secrets.APPCENTER_ANDROID_STAGING}}
+            fi
           fi
           npm install appcenter-cli@2.3.3
           npx appcenter distribute release --token $token --app "${{ env.APPCENTER_NAME }}" --group "Collaborators" --file "android/app/build/outputs/apk/release/" --release-notes "$(git log -1 --pretty=format:%s)" --debug

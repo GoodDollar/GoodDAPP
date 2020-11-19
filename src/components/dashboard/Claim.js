@@ -391,28 +391,35 @@ const Claim = props => {
             {dailyUbi ? `Claim Your Share` : `Just A Little Longer...\nMore G$'s Coming Soon`}
           </Section.Text>
           {dailyUbi > 0 ? (
-            <Section.Row alignItems="center" justifyContent="center">
-              <View style={styles.amountBlock}>
-                <Section.Text>
-                  <BigGoodDollar
-                    number={dailyUbi}
-                    formatter={claimAmountFormatter}
-                    bigNumberProps={{
-                      fontSize: 48,
-                      color: theme.colors.surface,
-                      fontWeight: 'bold',
-                      lineHeight: 63,
-                    }}
-                    bigNumberUnitProps={{
-                      fontSize: 15,
-                      color: theme.colors.surface,
-                      fontWeight: 'bold',
-                      lineHeight: 20,
-                    }}
-                  />
+            <>
+              <Section.Row alignItems="center" justifyContent="center">
+                <View style={styles.amountBlock}>
+                  <Section.Text>
+                    <BigGoodDollar
+                      number={dailyUbi}
+                      formatter={claimAmountFormatter}
+                      bigNumberProps={{
+                        fontSize: 48,
+                        color: theme.colors.surface,
+                        fontWeight: 'bold',
+                        lineHeight: 63,
+                      }}
+                      bigNumberUnitProps={{
+                        fontSize: 15,
+                        color: theme.colors.surface,
+                        fontWeight: 'bold',
+                        lineHeight: 20,
+                      }}
+                    />
+                  </Section.Text>
+                </View>
+              </Section.Row>
+              <Section.Row>
+                <Section.Text style={styles.amountBlockText} fontWeight="bold" fontSize={15} lineHeight={18}>
+                  Per Claimer
                 </Section.Text>
-              </View>
-            </Section.Row>
+              </Section.Row>
+            </>
           ) : null}
         </View>
         <Section.Stack style={styles.wavesBoxes}>
@@ -593,6 +600,11 @@ const getStylesFromProps = ({ theme }) => {
   }
 
   return {
+    amountBlockText: {
+      color: theme.colors.darkBlue,
+      letterSpacing: 0,
+      backgroundColor: theme.colors.primary,
+    },
     statsWrapper: {
       marginLeft: getDesignRelativeWidth(theme.sizes.defaultQuadruple),
       marginRight: getDesignRelativeWidth(theme.sizes.defaultQuadruple),

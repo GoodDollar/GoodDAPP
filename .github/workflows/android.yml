@@ -110,7 +110,7 @@ jobs:
           SENTRYRC: ${{ secrets.sentryrc_file }}
         run: |
           branch_name="development"
-          if [env.IS_VALID_ENV]
+          if [env.IS_VALID_ENV === "true"]
           then
             branch_name="${GITHUB_REF##*/}"
           fi

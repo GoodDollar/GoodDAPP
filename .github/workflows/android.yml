@@ -34,7 +34,7 @@ jobs:
           path: .android
           key: ${{ runner.os }}-android-29
       - name: Download Android Emulator Image
-        if: steps.cache-android.outputs.cache-hit != 'true'
+        if: ${{ steps.cache-android.outputs.cache-hit != 'true' }}
         run: |
           echo "y" | $ANDROID_HOME/tools/bin/sdkmanager --install "system-images;android-29;google_apis;x86"
           echo "no" | $ANDROID_HOME/tools/bin/avdmanager create avd --force --name Nexus_5X_API_29_x86 --device "Nexus 5X" -k 'system-images;android-29;google_apis;x86'
@@ -68,20 +68,20 @@ jobs:
       - name: set branch name
         run: |
           echo "ENV=development" >> $GITHUB_ENV
+          echo "BRANCH=${GITHUB_HEAD_REF##*/}" >> $GITHUB_ENV
           echo "SECRET_NAME=DEV_ENV" >> $GITHUB_ENV
           echo "APPCENTER_NAME=GoodDollar/GoodDollar-Android-development" >> $GITHUB_ENV
-          echo "BRANCH=${GITHUB_REF##*/}" >> $GITHUB_ENV
-          echo "$GITHUB_REF ${{ env.BRANCH }} ${{ env.SECRET_NAME }} ${{ env.APPCENTER_NAME }}"
+          echo "$GITHUB_HEAD_REF $GITHUB_REF ${{ env.BRANCH }} ${{ env.SECRET_NAME }} ${{ env.APPCENTER_NAME }}"
 
       - name: Pre-checks - Env is QA
-        if: contains('staging',${{ env.BRANCH }})
+        if: ${{ contains('staging',env.BRANCH) }}
         run: |
           echo "ENV=staging" >> $GITHUB_ENV
           echo "SECRET_NAME=STAGING_ENV" >> $GITHUB_ENV
           echo "APPCENTER_NAME=GoodDollar/GoodDollar-Android-staging" >> $GITHUB_ENV
           echo "${{ env.BRANCH }} ${{ env.SECRET_NAME }} ${{ env.APPCENTER_NAME }}"
       - name: Pre-checks - Env is PROD
-        if: contains('production next',${{ env.BRANCH }})
+        if: ${{ contains('production next',env.BRANCH) }}
         run: |
           echo "ENV=production" >> $GITHUB_ENV
           echo "SECRET_NAME=PROD_ENV" >> $GITHUB_ENV

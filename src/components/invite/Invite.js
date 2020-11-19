@@ -84,6 +84,15 @@ const ShareBox = ({ shareUrl }) => {
   )
 }
 
+const InviteesList = React.memo(({ invitees }) =>
+  invitees.map((invitee, index) => (
+    <>
+      {index && <Section.Separator style={{ marginTop: 8 }} width={1} color={theme.colors.lightGray} />}
+      <InvitedUser {...invitee} />
+    </>
+  )),
+)
+
 const InvitesBox = React.memo(() => {
   const [invitees, refresh] = useInvited()
   const [, bountiesCollected] = useCollectBounty()
@@ -113,28 +122,14 @@ const InvitesBox = React.memo(() => {
         >
           * Remind them to claim G$’s so you could earn your reward
         </Section.Text>
-        {pending.map((data, i) => (
-          <>
-            <InvitedUser {...data} />
-            {i < pending.length - 1 && (
-              <Section.Separator style={{ marginTop: 8 }} width={1} color={theme.colors.lightGray} />
-            )}
-          </>
-        ))}
+        <InviteesList invitees={pending} />
       </WavesBox>
       <WavesBox
         primaryColor={theme.colors.green}
         style={[styles.linkBoxStyle, { marginTop: theme.paddings.defaultMargin * 1.5 }]}
         title={'Friends Who Joined & Claimed'}
       >
-        {approved.map((data, i) => (
-          <>
-            <InvitedUser {...data} />
-            {i < approved.length - 1 && (
-              <Section.Separator style={{ marginTop: 8 }} width={1} color={theme.colors.lightGray} />
-            )}
-          </>
-        ))}
+        <InviteesList invitees={approved} />
       </WavesBox>
     </>
   )

@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { Image, View } from 'react-native'
-import { groupBy } from 'lodash'
+import { groupBy, result } from 'lodash'
 
 import { Avatar, CustomButton, Icon, Section, ShareButton, Text, Wrapper } from '../common'
 import { WavesBox } from '../common/view/WavesBox'
@@ -48,7 +48,10 @@ const InvitedUser = ({ name, avatar, status }) => (
 const sharingMethod = isSharingAvailable ? 'share' : 'copy'
 const fireShareEvent = () => fireEvent(INVITE_SHARE, { method: sharingMethod })
 
-const ShareBox = ({ shareUrl }) => {
+const ShareBox = ({ bounty }) => {
+  const inviteCode = useInviteCode()
+  const shareUrl = `${Config.publicUrl}?inviteCode=${inviteCode}`
+
   const share = useMemo(
     () => (isSharingAvailable ? generateShareObject(shareTitle, shareMessage, shareUrl) : shareUrl),
     [shareUrl],
@@ -60,7 +63,7 @@ const ShareBox = ({ shareUrl }) => {
         <Section.Text fontSize={14}>
           Get{' '}
           <Section.Text fontSize={14} fontWeight={'bold'}>
-            10 G$
+            {bounty} G$
           </Section.Text>{' '}
           for each friend you invite
         </Section.Text>
@@ -92,15 +95,8 @@ const InviteesList = ({ invitees }) =>
     </>
   ))
 
-const InvitesBox = React.memo(() => {
-  const [invitees, refresh] = useInvited()
-  const [, bountiesCollected] = useCollectBounty()
-
+const InvitesBox = React.memo(({ invitees }) => {
   const { pending = [], approved = [] } = useMemo(() => groupBy(invitees, 'status'), [invitees])
-
-  useEffect(() => {
-    bountiesCollected && refresh()
-  }, [bountiesCollected])
 
   useEffect(() => {
     log.debug({ invitees, pending, approved })
@@ -150,23 +146,32 @@ const InvitesHowTO = () => (
   </Section.Stack>
 )
 
-const InvitesData = ({ shareUrl }) => (
-  <>
-    <Section.Stack
-      style={{ alignSelf: 'stretch', marginTop: getDesignRelativeHeight(theme.paddings.defaultMargin * 3, false) }}
-    >
-      <ShareBox shareUrl={shareUrl} />
-    </Section.Stack>
-    <Section.Stack style={{ alignSelf: 'stretch', marginTop: theme.paddings.defaultMargin * 1.5 }}>
-      <InvitesBox />
-    </Section.Stack>
-  </>
-)
+const InvitesData = () => {
+  const [invitees, refresh, level] = useInvited()
+  const [, bountiesCollected] = useCollectBounty()
+
+  const bounty = useMemo(() => result(level, 'bounty.toNumber', 100) / 100, [level])
+
+  useEffect(() => {
+    bountiesCollected && refresh()
+  }, [bountiesCollected])
+
+  return (
+    <>
+      <Section.Stack
+        style={{ alignSelf: 'stretch', marginTop: getDesignRelativeHeight(theme.paddings.defaultMargin * 3, false) }}
+      >
+        <ShareBox bounty={bounty} />
+      </Section.Stack>
+      <Section.Stack style={{ alignSelf: 'stretch', marginTop: theme.paddings.defaultMargin * 1.5 }}>
+        <InvitesBox invitees={invitees} />
+      </Section.Stack>
+    </>
+  )
+}
 
 const Invite = () => {
-  const inviteCode = useInviteCode()
   const [showHowTo, setShowHowTo] = useState(false)
-  const shareUrl = `${Config.publicUrl}?inviteCode=${inviteCode}`
   const toggleHowTo = useCallback(() => setShowHowTo(!showHowTo), [showHowTo, setShowHowTo])
 
   return (
@@ -205,7 +210,7 @@ const Invite = () => {
           {`How Do I Invite People?`}
         </CustomButton>
       </View>
-      {showHowTo ? <InvitesHowTO /> : <InvitesData shareUrl={shareUrl} />}
+      {showHowTo ? <InvitesHowTO /> : <InvitesData />}
     </Wrapper>
   )
 }

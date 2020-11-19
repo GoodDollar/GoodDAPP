@@ -85,7 +85,7 @@ jobs:
           echo "APPCENTER_NAME=GoodDollar/GoodDollar-Android-staging" >> $GITHUB_ENV
       - name: Pre-checks - Env is PROD
         if: contains('production next',$BRANCH)
-        rrun: |
+        run: |
           echo "ENV=production" >> $GITHUB_ENV
           echo "SECRET_NAME=PROD_ENV" >> $GITHUB_ENV
           echo "APPCENTER_NAME=GoodDollar/GoodDollar-Android-production" >> $GITHUB_ENV

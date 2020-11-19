@@ -110,7 +110,7 @@ jobs:
           SENTRYRC: ${{ secrets.sentryrc_file }}
         run: |
           branch_name="development"
-          token=${{secrets.APPCENTER_ANDROID.development}}
+          token=${{ fromJSON(secrets.APPCENTER_ANDROID).development }}
           if [ env.IS_VALID_ENV ]
           then
             token=${{secrets.APPCENTER_ANDROID[github.ref]}}

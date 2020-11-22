@@ -1,4 +1,4 @@
-import { isString, noop } from 'lodash'
+import { assign, isString, noop } from 'lodash'
 import { useCallback, useEffect, useRef } from 'react'
 
 import { shareAction } from '../../lib/share/index'
@@ -16,32 +16,52 @@ export default (shareObject, options = null) => {
     showErrorDialog,
     onSharePress,
     onSharingDone,
+    isCurrentlySharing: false,
   })
 
   // should be non-async to avoid possible 'non-user interaction' issues
   const share = useCallback(event => {
-    const { shareObject, customErrorMessage, showErrorDialog, onSharePress, onSharingDone } = sharingRef.current
+    const { current: sharingState } = sharingRef
 
-    const sharingPromise = shareAction(shareObject, showErrorDialog, customErrorMessage).then(sharingResult => {
-      onSharingDone(sharingResult)
-
-      return sharingResult
-    })
-
-    onSharePress(event)
-    preventPressed(event)
-
-    return sharingPromise
-  }, [])
-
-  useEffect(() => {
-    sharingRef.current = {
+    const {
+      isCurrentlySharing,
       shareObject,
       customErrorMessage,
       showErrorDialog,
       onSharePress,
       onSharingDone,
+    } = sharingState
+
+    let sharingPromise
+
+    if (isCurrentlySharing) {
+      sharingPromise = Promise.resolve()
+    } else {
+      sharingState.isCurrentlySharing = true
+
+      sharingPromise = shareAction(shareObject, showErrorDialog, customErrorMessage)
+        .then(sharingResult => {
+          onSharingDone(sharingResult)
+
+          return sharingResult
+        })
+        .finally(() => (sharingState.isCurrentlySharing = false))
+
+      onSharePress(event)
     }
+
+    preventPressed(event)
+    return sharingPromise
+  }, [])
+
+  useEffect(() => {
+    assign(sharingRef.current, {
+      shareObject,
+      customErrorMessage,
+      showErrorDialog,
+      onSharePress,
+      onSharingDone,
+    })
   }, [shareObject, options, showErrorDialog])
 
   return share

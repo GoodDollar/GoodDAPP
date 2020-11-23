@@ -30,11 +30,9 @@ class TorusSDK {
   }
 
   constructor(config, logger) {
-    const { env, googleClientId, facebookAppId, torusProxyContract, torusNetwork } = config
+    const { env, torusProxyContract, torusNetwork } = config
 
     this.torus = new Torus(config, {
-      GOOGLE_CLIENT_ID: googleClientId,
-      FACEBOOK_CLIENT_ID: facebookAppId,
       proxyContractAddress: torusProxyContract, // details for test net
       network: torusNetwork, // details for test net
       enableLogging: env === 'development',

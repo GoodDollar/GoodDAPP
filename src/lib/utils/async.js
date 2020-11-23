@@ -3,6 +3,9 @@ import { mergeMap, retryWhen } from 'rxjs/operators'
 import { assign, isError, isObject, isString, once } from 'lodash'
 
 // eslint-disable-next-line require-await
+export const noopAsync = async () => {}
+
+// eslint-disable-next-line require-await
 export const delay = async (millis, resolveWithValue = null) =>
   new Promise(resolve => setTimeout(() => resolve(resolveWithValue), millis))
 

@@ -1,5 +1,5 @@
 // @flow
-import { Platform, Share } from 'react-native'
+import { Platform } from 'react-native'
 import { fromPairs, isEmpty } from 'lodash'
 import { decode, encode, isMNID } from 'mnid'
 import isURL from 'validator/lib/isURL'
@@ -11,11 +11,12 @@ import { weiToGd } from '../wallet/utils'
 
 import Config from '../../config/config'
 import logger from '../logger/pino-logger'
+import platformShare, { isSharingEmulated, isWebSharingAvailable } from './polyfill'
 
 const log = logger.child({ from: 'share.index' })
 
 export const isSharingAvailable = Platform.select({
-  web: isMobileWeb && !!navigator.share,
+  web: isSharingEmulated || (isMobileWeb && isWebSharingAvailable), // web
   default: isMobileNative, // ios or android
 })
 
@@ -264,16 +265,20 @@ export function generateShareLink(action: ActionType = 'receive', params: {} = {
 
 // should be non-async to avoid possible 'non-user interaction' issues
 export const shareAction = (shareObj, showErrorDialog, customErrorMessage) => {
-  //on native only message field is available on both android and ios
+  let shareObject = shareObj
+
   if (isMobileNative) {
-    shareObj = {
-      message: [shareObj.title, shareObj.message, shareObj.url]
+    const { title, message, url } = shareObj
+
+    shareObject = {
+      message: [title, message, url]
         .join('\n')
         .replace(/\n\n+/, '\n')
         .trim(),
     }
   }
-  return Share.share(shareObj).catch(exception => {
+
+  return platformShare(shareObject).catch(exception => {
     const { name, message } = exception
 
     if (name !== 'AbortError') {

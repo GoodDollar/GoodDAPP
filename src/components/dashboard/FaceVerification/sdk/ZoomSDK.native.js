@@ -6,13 +6,13 @@ import { constant, noop, over } from 'lodash'
 import api from '../../../../lib/API/api'
 import Config from '../../../../config/config'
 import logger from '../../../../lib/logger/pino-logger'
+import { noopAsync } from '../../../../lib/utils/async'
 
 // export { ZoomSDKStatus, ZoomSessionStatus } from 'react-native-zoom'
 // API stubs
 export const ZoomUxEvent = {}
 export const ZoomSDKStatus = {}
 export const ZoomSessionStatus = {}
-const noopAsync = async () => true // eslint-disable-line require-await
 
 const Zoom = {
   sdk: {

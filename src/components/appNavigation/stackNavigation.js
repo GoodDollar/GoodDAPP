@@ -316,8 +316,7 @@ const styles = StyleSheet.create({
     // height: '100%',
   },
   scrollableView: {
-    ...Platform.select({ web: { flexGrow: 1 }, default: {} }),
-
+    flexGrow: 1,
     display: 'flex',
 
     // height: '100%',

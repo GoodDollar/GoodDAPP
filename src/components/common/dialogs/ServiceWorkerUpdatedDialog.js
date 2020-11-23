@@ -1,6 +1,6 @@
 // libraries
 import React from 'react'
-import { View } from 'react-native'
+import { Platform, View } from 'react-native'
 
 // components
 import Text from '../../common/view/Text'
@@ -41,18 +41,22 @@ const dialogStyles = ({ theme }) => {
       alignItems: ' center',
     },
     phase1Title: {
-      borderTopStyle: 'solid',
+      ...Platform.select({
+        web: { borderTopStyle: 'solid' },
+      }),
       borderTopWidth: 2,
       borderTopColor: theme.colors.primary,
       paddingTop: getDesignRelativeWidth(9),
     },
     title: {
       width: '100%',
-      borderBottomStyle: 'solid',
-      borderBottomWidth: 2,
-      borderBottomColor: theme.colors.primary,
       paddingBottom: getDesignRelativeWidth(9),
       marginBottom: getDesignRelativeWidth(9),
+      borderBottomWidth: 2,
+      borderBottomColor: theme.colors.primary,
+      ...Platform.select({
+        web: { borderBottomStyle: 'solid' },
+      }),
     },
     description: {
       minHeight: getDesignRelativeWidth(100),

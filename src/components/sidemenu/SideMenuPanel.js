@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { ScrollView, TouchableOpacity, View } from 'react-native'
+import { Platform, ScrollView, TouchableOpacity, View } from 'react-native'
 
 import useSideMenu from '../../lib/hooks/useSideMenu'
 import { withStyles } from '../../lib/styles'
@@ -57,7 +57,11 @@ const sideMenuPanelStyles = ({ theme }) => ({
     flexGrow: 1,
     borderTopWidth: 1,
     borderTopColor: theme.colors.lightGray,
-    borderTopStyle: 'solid',
+    ...Platform.select({
+      web: {
+        borderTopStyle: 'solid',
+      },
+    }),
     marginHorizontal: theme.sizes.defaultDouble,
   },
   alignBottom: {

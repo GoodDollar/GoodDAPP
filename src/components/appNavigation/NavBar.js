@@ -3,6 +3,7 @@ import React from 'react'
 import { Appbar } from 'react-native-paper'
 import { withStyles } from '../../lib/styles'
 import normalize from '../../lib/utils/normalizeText'
+import { getShadowStyles } from '../../lib/utils/getStyles'
 import { Icon } from '../common'
 import { isMobile } from '../../lib/utils/platform'
 
@@ -49,8 +50,7 @@ const getStylesFromProps = ({ theme }) => ({
   topbarStyles: {
     flexGrow: 0,
     flexShrink: 0,
-    boxShadow: 'none',
-    elevation: 0,
+    ...getShadowStyles('none', { elevation: 0 }),
   },
   backButton: {
     marginLeft: 15,

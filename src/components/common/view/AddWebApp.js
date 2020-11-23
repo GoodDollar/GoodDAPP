@@ -1,6 +1,6 @@
 import moment from 'moment'
 import React, { useCallback, useEffect, useState } from 'react'
-import { View } from 'react-native'
+import { Platform, View } from 'react-native'
 
 import Text from '../../common/view/Text'
 import Icon from '../view/Icon'
@@ -40,13 +40,17 @@ const mapStylesToProps = ({ theme }) => {
     },
     titleContainer: {
       borderTopWidth: 2,
-      borderTopStyle: 'solid',
       borderTopColor: theme.colors.primary,
       borderBottomWidth: 2,
-      borderBottomStyle: 'solid',
       borderBottomColor: theme.colors.primary,
       paddingVertical: theme.sizes.default,
       marginVertical: theme.sizes.default,
+      ...Platform.select({
+        web: {
+          borderBottomStyle: 'solid',
+          borderTopStyle: 'solid',
+        },
+      }),
     },
     explanationDialogContainer: {
       display: 'flex',

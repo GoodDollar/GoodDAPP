@@ -2,7 +2,7 @@
 
 // libraries
 import React, { useEffect, useMemo, useState } from 'react'
-import { View } from 'react-native'
+import { Platform, View } from 'react-native'
 
 // components
 import Section from '../common/layout/Section'
@@ -113,7 +113,11 @@ const styles = ({ theme }) => ({
   },
   activeNavButton: {
     borderBottomWidth: 3,
-    borderBottomStyle: 'solid',
+    ...Platform.select({
+      web: {
+        borderBottomStyle: 'solid',
+      },
+    }),
     borderBottomColor: theme.colors.primary,
     borderBottomLeftRadius: 0,
     borderBottomRightRadius: 0,

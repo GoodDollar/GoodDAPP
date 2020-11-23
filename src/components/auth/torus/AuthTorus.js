@@ -30,8 +30,11 @@ import { showSupportDialog } from '../../common/dialogs/showSupportDialog'
 import { decorate, ExceptionCode } from '../../../lib/logger/exceptions'
 import { getDesignRelativeHeight } from '../../../lib/utils/sizes'
 import { isSmallDevice } from '../../../lib/utils/mobileSizeDetect'
+import { getShadowStyles } from '../../../lib/utils/getStyles'
 import normalizeText from '../../../lib/utils/normalizeText'
 import { userExists } from '../../../lib/login/userExists'
+import { isIOSNative } from '../../../lib/utils/platform'
+
 import ready from '../ready'
 import SignIn from '../login/SignInScreen'
 import SignUp from '../login/SignUpScreen'
@@ -46,7 +49,10 @@ import { LoginStrategy } from './sdk/strategies'
 
 const log = logger.child({ from: 'AuthTorus' })
 
-export const useAlreadySignedUp = () => {
+// eslint-disable-next-line require-await
+const useAlreadySignedUpPlaceholder = () => async () => 'signup'
+
+const _useAlreadySignedUp = () => {
   const [showDialog, hideDialog] = useDialog()
 
   const show = (
@@ -82,7 +88,7 @@ export const useAlreadySignedUp = () => {
             fireEvent(SIGNUP_EXISTS_LOGIN, { provider, existsResult, fromSignupFlow })
             resolve('signin')
           },
-          style: [alreadyStyles.marginBottom, { boxShadow: 'none' }],
+          style: [alreadyStyles.marginBottom, getShadowStyles('none')],
         },
         {
           text: 'Continue Signup',
@@ -102,6 +108,8 @@ export const useAlreadySignedUp = () => {
   }
   return show
 }
+
+export const useAlreadySignedUp = isIOSNative ? useAlreadySignedUpPlaceholder : _useAlreadySignedUp
 
 const AuthTorus = ({ screenProps, navigation, styles, store }) => {
   const [showDialog, hideDialog, showErrorDialog] = useDialog()
@@ -140,7 +148,8 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
       } catch (e) {
         // store.set('loadingIndicator')({ loading: false })
         fireEvent(TORUS_FAILED, { provider, error: e.message })
-        if (e.message === 'user closed popup') {
+        const cancelled = e.message === 'user closed popup' || e.message.includes('User closed custom tabs')
+        if (cancelled) {
           log.info(e.message, e)
         } else {
           log.error('torus login failed', e.message, e, { dialogShown: true })
@@ -319,7 +328,7 @@ const getStylesFromProps = ({ theme }) => {
       alignItems: 'center',
       borderRadius: 50,
       padding: 3,
-      boxShadow: 'none',
+      ...getShadowStyles('none'),
     },
     buttonText: {
       fontSize: buttonFontSize,
@@ -354,7 +363,7 @@ const getStylesFromProps = ({ theme }) => {
       backgroundColor: theme.colors.white,
       borderWidth: 1,
       borderColor: theme.colors.primary,
-      boxShadow: 'none',
+      ...getShadowStyles('none'),
     },
     primaryText: {
       color: mainTheme.colors.primary,
@@ -407,7 +416,7 @@ const alreadyStyles = {
     backgroundColor: mainTheme.colors.white,
     borderWidth: 1,
     borderColor: mainTheme.colors.primary,
-    boxShadow: 'none',
+    ...getShadowStyles('none'),
   },
   primaryText: {
     color: mainTheme.colors.primary,

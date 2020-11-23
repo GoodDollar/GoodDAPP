@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { View } from 'react-native'
+import { Platform, View } from 'react-native'
 import Section from '../common/layout/Section'
 import Text from '../common/view/Text'
 import { withStyles } from '../../lib/styles'
@@ -83,8 +83,12 @@ const getStylesFromProps = ({ theme }) => {
     },
     headerContainer: {
       borderBottomWidth: 2,
-      borderBottomStyle: 'solid',
       borderBottomColor: theme.colors.primary,
+      ...Platform.select({
+        web: {
+          borderBottomStyle: 'solid',
+        },
+      }),
     },
   }
 }

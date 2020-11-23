@@ -88,6 +88,7 @@ const SigninScreen = ({ styles, store, handleLoginMethod, sdkInitialized, goBack
               disabled={!sdkInitialized}
               testID="login_with_facebook"
               icon={FacebookBtnIcon}
+              iconProps={{ viewBox: '0 0 11 22' }}
             >
               Log in with Facebook
             </LoginButton>
@@ -122,7 +123,8 @@ const getStylesFromProps = ({ theme }) => {
       marginTop: getDesignRelativeHeight(theme.sizes.default * 5),
     },
     buttonLayout: {
-      flex: 1,
+      marginTop: getDesignRelativeHeight(theme.sizes.default),
+      marginBottom: getDesignRelativeHeight(theme.sizes.default),
       justifyContent: 'space-between',
       flexDirection: 'row',
       alignItems: 'center',

@@ -127,7 +127,7 @@ const getWelcomeStyles = () => ({
     // minHeight: normalize(16),
     // maxHeight: normalize(16),
     // marginHorizontal: -theme.sizes.default,
-    display: 'inline',
+    display: Platform.select({ web: 'inline', default: 'flex' }),
   },
 })
 

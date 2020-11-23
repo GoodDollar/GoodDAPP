@@ -630,7 +630,7 @@ const getStylesFromProps = ({ theme }) => {
     },
     leftGrayBox: { marginRight: theme.sizes.default * 3 },
     wrapperActive: { height: 'auto' },
-    wrapperInactive: { height: '100%', maxHeight: 'none' },
+    wrapperInactive: { height: '100%', maxHeight: '100%' },
     statsWrapper: {
       marginLeft: getDesignRelativeWidth(isSmallDevice ? theme.sizes.defaultDouble : theme.sizes.defaultQuadruple),
       marginRight: getDesignRelativeWidth(isSmallDevice ? theme.sizes.defaultDouble : theme.sizes.defaultQuadruple),

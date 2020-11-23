@@ -10,7 +10,7 @@ import Section from '../common/layout/Section'
 
 // utils
 import Config from '../../config/config'
-import { getDesignRelativeHeight } from '../../lib/utils/sizes'
+import { getDesignRelativeHeight, getMaxDeviceHeight } from '../../lib/utils/sizes'
 import AsyncStorage from '../../lib/utils/asyncStorage'
 
 // assets
@@ -95,6 +95,7 @@ Splash.navigationOptions = {
 const styles = StyleSheet.create({
   wrapper: {
     padding: 0,
+    maxHeight: getMaxDeviceHeight(),
   },
   container: {
     alignItems: 'center',

@@ -7,7 +7,7 @@ const DESIGN_WIDTH = 360
 const DESIGN_HEIGHT = 640 - 24
 
 const MAX_WIDTH = 475
-const MAX_HEIGHT = 844
+const MAX_HEIGHT = 788 //without topbar which is 56
 
 const isDesktopOrTablet = isBrowser || isTablet
 

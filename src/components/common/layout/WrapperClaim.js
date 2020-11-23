@@ -9,11 +9,11 @@ import { getDesignRelativeHeight } from '../../../lib/utils/sizes'
 
 const backgroundGradientStyles = {
   position: 'absolute',
-  width: '200%',
-  height: getDesignRelativeHeight(440),
+  width: '180%',
+  height: getDesignRelativeHeight(415),
   borderBottomLeftRadius: '50%',
   borderBottomRightRadius: '50%',
-  right: '-50%',
+  left: '-40%',
   background: theme.colors.primary,
 }
 
@@ -45,7 +45,7 @@ const getStylesFromProps = ({ theme }) => {
     },
   }
   if (!isMobileOnly) {
-    styles.container = { ...styles.container, maxHeight: theme.sizes.maxHeightForTabletAndDesktop }
+    styles.container = { ...styles.container }
   }
   return styles
 }

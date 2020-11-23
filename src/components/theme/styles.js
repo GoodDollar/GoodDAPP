@@ -48,6 +48,7 @@ export const theme = {
     defaultHalf: 4,
     borderRadius: 5,
     maxHeightForTabletAndDesktop: 844,
+    maxContentHeightForTabletAndDesktop: 788, //without topbar which is 56
     minHeightForDialogMessage: 350,
     maxWidthForTabletAndDesktop: 475,
   },

@@ -1,5 +1,4 @@
 // @flow
-
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Platform, View } from 'react-native'
 import moment from 'moment'
@@ -22,7 +21,7 @@ import wrapper from '../../lib/undux/utils/wrapper'
 // import { openLink } from '../../lib/utils/linking'
 import { formatWithabbreviations, formatWithSIPrefix, formatWithThousandsSeparator } from '../../lib/utils/formatNumber'
 import { weiToGd } from '../../lib/wallet/utils'
-import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
+import { getDesignRelativeHeight, getDesignRelativeWidth, getMaxDeviceWidth } from '../../lib/utils/sizes'
 import { WrapperClaim } from '../common'
 import SpinnerCheckMark from '../common/animations/SpinnerCheckMark/SpinnerCheckMark'
 import { withStyles } from '../../lib/styles'
@@ -38,6 +37,7 @@ import {
 
 import Config from '../../config/config'
 import { isShortDevice as isSmallDevice } from '../../lib/utils/mobileSizeDetect'
+import { isMobileNative } from '../../lib/utils/platform'
 import Section from '../common/layout/Section'
 import BigGoodDollar from '../common/view/BigGoodDollar'
 import useAppState from '../../lib/hooks/useAppState'
@@ -68,7 +68,7 @@ const GrayBox = ({ title, value, symbol, theme, style }) => {
         lineHeight={19}
         textTransform={'capitalize'}
         fontWeight={'bold'}
-        textAlign={'start'}
+        textAlign={'justify'}
       >
         {title}
       </Section.Text>
@@ -78,7 +78,7 @@ const GrayBox = ({ title, value, symbol, theme, style }) => {
           fontWeight={'bold'}
           fontSize={32}
           lineHeight={43}
-          textAlign={'start'}
+          textAlign={'justify'}
           textTransform={'uppercase'}
           style={gbStyles.statsNumbers}
         >
@@ -116,9 +116,86 @@ const gbStyles = {
     marginRight: 4,
   },
   symbol: {
-    letterSpacing: '0px',
+    letterSpacing: 0,
   },
   value: { justifyContent: 'flex-start', alignItems: 'baseline' },
+}
+const claimAmountFormatter = value => formatWithThousandsSeparator(weiToGd(value))
+
+const ClaimAmountBox = ({ dailyUbi }) => {
+  const [textPosition, setPosition] = useState({ left: 194 / 2 - 45, top: 76 - 14 })
+  if (dailyUbi === 0) {
+    return null
+  }
+
+  const updateSize = event => {
+    if (isMobileNative === false) {
+      return
+    }
+    const left = event.nativeEvent.layout.width / 2 - 45 //center text, relative to self width 90
+    const top = event.nativeEvent.layout.height - 14 //self height 18 minus parent border 4 will put text on top of border
+    setPosition({ left, top })
+  }
+  return (
+    <Section.Row alignItems="center" justifyContent="center">
+      <View style={cbStyles.amountBox} onLayout={updateSize}>
+        <BigGoodDollar
+          number={dailyUbi}
+          formatter={claimAmountFormatter}
+          bigNumberProps={{
+            fontSize: 48,
+            color: mainTheme.colors.surface,
+            fontWeight: 'bold',
+            lineHeight: 63,
+          }}
+          bigNumberUnitProps={{
+            fontSize: 15,
+            color: mainTheme.colors.surface,
+            fontWeight: 'bold',
+            lineHeight: 20,
+          }}
+        />
+        <Section.Stack style={[cbStyles.perClaimerWrapper, isMobileNative ? textPosition : {}]}>
+          <Section.Text style={cbStyles.perclaimerText} fontWeight="bold" fontSize={15} lineHeight={18}>
+            Per Claimer
+          </Section.Text>
+        </Section.Stack>
+      </View>
+    </Section.Row>
+  )
+}
+
+const cbStyles = {
+  amountBox: {
+    zIndex: 1,
+    borderWidth: 2,
+    borderColor: mainTheme.colors.darkBlue,
+    borderRadius: mainTheme.sizes.borderRadius,
+    paddingHorizontal: getDesignRelativeWidth(30),
+    paddingVertical: getDesignRelativeWidth(10),
+    marginTop: getDesignRelativeHeight(14),
+    minWidth: 194,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  perClaimerWrapper: {
+    position: 'absolute',
+    ...Platform.select({ web: { top: '90%', transform: [{ translateX: '-50%' }] }, default: { top: 0 } }),
+    left: '50%',
+    borderColor: 'black',
+    backgroundColor: mainTheme.colors.primary,
+    paddingRight: mainTheme.sizes.default / 2,
+    paddingLeft: mainTheme.sizes.default / 2,
+    width: 90,
+  },
+  perClaimerText: {
+    color: mainTheme.colors.darkBlue,
+    letterSpacing: 0,
+    backgroundColor: mainTheme.colors.primary,
+    position: 'relative',
+    width: '100%',
+    borderColor: 'blue',
+  },
 }
 
 const Claim = props => {
@@ -381,8 +458,6 @@ const Claim = props => {
 
   const handleFaceVerification = () => screenProps.push('FaceVerificationIntro', { from: 'Claim' })
 
-  const claimAmountFormatter = useCallback(value => formatWithThousandsSeparator(weiToGd(value)), [])
-
   return (
     <WrapperClaim style={dailyUbi ? styles.wrapperActive : styles.wrapperInactive}>
       <Section.Stack style={styles.mainContainer}>
@@ -390,37 +465,7 @@ const Claim = props => {
           <Section.Text color="surface" fontFamily="slab" fontWeight="bold" fontSize={28} style={styles.headerText}>
             {dailyUbi ? `Claim Your Share` : `Just A Little Longer...\nMore G$'s Coming Soon`}
           </Section.Text>
-          {dailyUbi > 0 ? (
-            <>
-              <Section.Row alignItems="center" justifyContent="center">
-                <View style={styles.amountBlock}>
-                  <Section.Text>
-                    <BigGoodDollar
-                      number={dailyUbi}
-                      formatter={claimAmountFormatter}
-                      bigNumberProps={{
-                        fontSize: 48,
-                        color: theme.colors.surface,
-                        fontWeight: 'bold',
-                        lineHeight: 63,
-                      }}
-                      bigNumberUnitProps={{
-                        fontSize: 15,
-                        color: theme.colors.surface,
-                        fontWeight: 'bold',
-                        lineHeight: 20,
-                      }}
-                    />
-                  </Section.Text>
-                  <Section.Stack style={styles.perClaimerWrapper}>
-                    <Section.Text style={styles.perclaimerText} fontWeight="bold" fontSize={15} lineHeight={18}>
-                      Per Claimer
-                    </Section.Text>
-                  </Section.Stack>
-                </View>
-              </Section.Row>
-            </>
-          ) : null}
+          <ClaimAmountBox dailyUbi={dailyUbi} />
         </View>
         <Section.Stack style={styles.wavesBoxes}>
           {dailyUbi <= 0 && (
@@ -440,7 +485,7 @@ const Claim = props => {
           <WavesBox
             primaryColor={theme.colors.darkBlue}
             contentStyle={styles.wavesBoxContent}
-            style={[styles.wavesBox, { marginTop: !dailyUbi && 10 }]}
+            style={[styles.wavesBox, { marginTop: dailyUbi ? 0 : 10 }]}
           >
             <Section.Text
               textTransform={'capitalize'}
@@ -562,7 +607,12 @@ const Claim = props => {
         </Section.Stack>
       )}
       <Section.Stack style={styles.footerWrapper}>
-        <ClaimSvg style={styles.footerImage} />
+        <ClaimSvg
+          height={getDesignRelativeHeight(85, false)}
+          width={getMaxDeviceWidth()}
+          style={styles.footerImage}
+          viewBox="0 0 360.002 85"
+        />
       </Section.Stack>
     </WrapperClaim>
   )
@@ -574,29 +624,13 @@ const getStylesFromProps = ({ theme }) => {
     footerWrapper: {
       flex: 1,
       flexGrow: 1,
-      justifyContent: isSmallDevice ? 'normal' : 'flex-end',
+      justifyContent: isSmallDevice ? 'flex-start' : 'flex-end',
       padding: 0,
       margin: 0,
     },
-    footerImage: { width: '100%', height: getDesignRelativeHeight(85, false) },
     leftGrayBox: { marginRight: theme.sizes.default * 3 },
     wrapperActive: { height: 'auto' },
     wrapperInactive: { height: '100%', maxHeight: 'none' },
-    perClaimerWrapper: {
-      position: 'absolute',
-      left: '50%',
-      top: '90%',
-      transform: [{ translateX: '-50%' }],
-      backgroundColor: theme.colors.primary,
-      paddingRight: theme.sizes.default / 2,
-      paddingLeft: theme.sizes.default / 2,
-    },
-    perClaimerText: {
-      color: theme.colors.darkBlue,
-      letterSpacing: 0,
-      backgroundColor: theme.colors.primary,
-      position: 'relative',
-    },
     statsWrapper: {
       marginLeft: getDesignRelativeWidth(isSmallDevice ? theme.sizes.defaultDouble : theme.sizes.defaultQuadruple),
       marginRight: getDesignRelativeWidth(isSmallDevice ? theme.sizes.defaultDouble : theme.sizes.defaultQuadruple),
@@ -610,7 +644,7 @@ const getStylesFromProps = ({ theme }) => {
       flexGrow: 0,
       paddingVertical: 0,
       paddingHorizontal: 0,
-      justifyContent: 'normal',
+      justifyContent: 'flex-start',
     },
     headerContentContainer: {
       display: 'flex',
@@ -627,18 +661,6 @@ const getStylesFromProps = ({ theme }) => {
     headerText: {
       lineHeight: 38,
       letterSpacing: 0.42,
-    },
-    amountBlock: {
-      zIndex: 1,
-      borderWidth: 2,
-      borderColor: theme.colors.darkBlue,
-      borderRadius: theme.sizes.borderRadius,
-      paddingHorizontal: getDesignRelativeWidth(30),
-      paddingVertical: getDesignRelativeWidth(10),
-      marginTop: getDesignRelativeHeight(14),
-      minWidth: 194,
-      justifyContent: 'center',
-      alignItems: 'center',
     },
     claimButtonContainer: {
       //style passed to button

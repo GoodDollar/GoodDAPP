@@ -1,13 +1,13 @@
 // @flow
 import React, { useMemo } from 'react'
 import { Platform, View } from 'react-native'
-import { isMobileOnly } from '../../../lib/utils/platform'
+import { isMobileOnlyNative } from '../../../lib/utils/platform'
 import { withStyles } from '../../../lib/styles'
 import { theme } from '../../../components/theme/styles'
 import SimpleStore from '../../../lib/undux/SimpleStore'
 import { getDesignRelativeHeight, getMaxDeviceWidth } from '../../../lib/utils/sizes'
 
-const borderSize = Platform.select({ web: '50%', default: getMaxDeviceWidth() / 2 })
+const borderSize = Platform.select({ web: '50%', default: (getMaxDeviceWidth() * 1.5) / 2 })
 const backgroundGradientStyles = {
   position: 'absolute',
   width: '180%',
@@ -15,24 +15,22 @@ const backgroundGradientStyles = {
   borderBottomLeftRadius: borderSize,
   borderBottomRightRadius: borderSize,
   left: '-40%',
-  background: theme.colors.primary,
+  backgroundColor: theme.colors.primary,
 }
 
-const WrapperClaim = ({ backgroundColor, children, style, styles, ...props }) => {
+const WrapperClaim = ({ children, style, styles, ...props }) => {
   const { container } = styles
   const simpleStore = SimpleStore.useStore()
   const shouldGrow = !simpleStore.get('isMobileSafariKeyboardShown')
 
   const wrapperStyles = useMemo(() => {
     const growStyle = { flexGrow: shouldGrow ? 1 : 0 }
-    const backgroundStyle = backgroundColor ? { backgroundColor } : {}
-
-    return [container, backgroundStyle, growStyle, style]
-  }, [shouldGrow, backgroundColor, container, style])
+    return [container, growStyle, style]
+  }, [shouldGrow, container, style])
 
   return (
     <View data-name="viewWrapper" style={wrapperStyles} {...props}>
-      {!backgroundColor && <View style={backgroundGradientStyles} />}
+      <View style={backgroundGradientStyles} />
       {children}
     </View>
   )
@@ -43,10 +41,11 @@ const getStylesFromProps = ({ theme }) => {
     container: {
       width: '100%',
       position: 'relative',
+      maxHeight: theme.sizes.maxContentHeightForTabletAndDesktop,
     },
   }
-  if (!isMobileOnly) {
-    styles.container = { ...styles.container }
+  if (isMobileOnlyNative) {
+    styles.container = {}
   }
   return styles
 }

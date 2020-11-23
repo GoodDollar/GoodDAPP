@@ -12,6 +12,7 @@ import { withStyles } from '../../lib/styles'
 import { weiToGd } from '../../lib/wallet/utils'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
 import { isSmallDevice } from '../../lib/utils/mobileSizeDetect'
+import { isMobileNative } from '../../lib/utils/platform'
 
 const ButtonAmountToClaim = ({ showLabelOnly = false, entitlement, isCitizen, styles, isInQueue }) => (
   <View>
@@ -231,9 +232,9 @@ const getStylesFromProps = ({ theme }) => ({
     borderStyle: 'solid',
     height: isSmallDevice ? 140 : getDesignRelativeHeight(166),
     width: isSmallDevice ? 140 : getDesignRelativeHeight(166),
-
-    boxShadow: 'none',
     alignItems: 'center',
+    elevation: 0,
+    shadowRadius: 0,
   },
   buttonCountdown: {
     backgroundColor: theme.colors.orange,

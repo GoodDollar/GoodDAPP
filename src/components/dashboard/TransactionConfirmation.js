@@ -1,7 +1,6 @@
 // @flow
 import React, { useCallback } from 'react'
 import { View } from 'react-native'
-import { useScreenState } from '../appNavigation/stackNavigation'
 import useNativeSharing from '../../lib/hooks/useNativeSharing'
 import Section from '../common/layout/Section'
 import Wrapper from '../common/layout/Wrapper'
@@ -13,6 +12,7 @@ import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils
 import { fireEvent } from '../../lib/analytics/analytics'
 import ConfirmTransactionSVG from '../../assets/confirmTransaction.svg'
 import { useClipboardCopy } from '../../lib/hooks/useClipboard'
+import useCachedScreenState from '../../lib/hooks/useCachedScreenState'
 import { isSharingAvailable } from '../../lib/share'
 import { ACTION_RECEIVE, ACTION_SEND, PARAM_ACTION, RECEIVE_TITLE, SEND_TITLE } from './utils/sendReceiveFlow'
 
@@ -40,10 +40,9 @@ const fireShared = () => fireEvent('SEND_CONFIRMATION_SHARE', { type: isSharingA
 const ConfirmButton = isSharingAvailable ? CustomButton : ButtonWithDoneState
 
 const TransactionConfirmation = ({ screenProps, styles }: ReceiveProps) => {
-  const [screenState] = useScreenState(screenProps)
-
   const { goToRoot } = screenProps
-  const { paymentLink, action } = screenState
+  const { paymentLink, action } = useCachedScreenState(screenProps, 'GD_sharingCache')
+
   const isSending = action === ACTION_SEND
   const secondTextPoint = isSending ? 'Share it with your recipient' : 'Share it with sender'
   const thirdTextPoint = isSending ? 'Recipient approves request' : 'Sender approves request'

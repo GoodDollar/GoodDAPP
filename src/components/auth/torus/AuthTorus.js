@@ -154,12 +154,10 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
         } else {
           log.error('torus login failed', e.message, e, { dialogShown: true })
         }
-
-        showErrorDialog('We were unable to complete the signup. Please try again.')
       }
       return { torusUser, replacing }
     },
-    [showErrorDialog, torusSDK],
+    [torusSDK],
   )
 
   const showLoadingDialog = () => {
@@ -228,7 +226,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
     showLoadingDialog()
     const { torusUser, replacing } = await getTorusUser(provider)
     if (torusUser == null) {
-      hideDialog()
+      showErrorDialog('We were unable to complete the signup. Please try again.')
       return
     }
 

@@ -23,7 +23,6 @@ import wrapper from '../../lib/undux/utils/wrapper'
 import { formatWithabbreviations, formatWithSIPrefix, formatWithThousandsSeparator } from '../../lib/utils/formatNumber'
 import { weiToGd } from '../../lib/wallet/utils'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
-import { WrapperClaim } from '../common'
 import SpinnerCheckMark from '../common/animations/SpinnerCheckMark/SpinnerCheckMark'
 import { withStyles } from '../../lib/styles'
 import { theme as mainTheme } from '../theme/styles'
@@ -38,8 +37,7 @@ import {
 
 // import Config from '../../config/config'
 import { isShortDevice as isSmallDevice } from '../../lib/utils/mobileSizeDetect'
-import Section from '../common/layout/Section'
-import BigGoodDollar from '../common/view/BigGoodDollar'
+import { BigGoodDollar, Section, WrapperClaim } from '../common/'
 import useAppState from '../../lib/hooks/useAppState'
 import { WavesBox } from '../common/view/WavesBox'
 import type { DashboardProps } from './Dashboard'
@@ -170,7 +168,7 @@ const Claim = props => {
   const evaluateFRValidity = async () => {
     const isValid = screenProps.screenState && screenProps.screenState.isValid
 
-    log.debug('from FR:', { isValid })
+    log.debug('from FR:', { isValid, screenProps })
     try {
       if (isValid && (await goodWallet.isCitizen())) {
         handleClaim()

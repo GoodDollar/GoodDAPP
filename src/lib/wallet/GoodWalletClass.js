@@ -4,14 +4,17 @@ import IdentityABI from '@gooddollar/goodcontracts/build/contracts/Identity.min.
 import OneTimePaymentsABI from '@gooddollar/goodcontracts/build/contracts/OneTimePayments.min.json'
 import ContractsAddress from '@gooddollar/goodcontracts/releases/deployment.json'
 import StakingModelAddress from '@gooddollar/goodcontracts/stakingModel/releases/deployment.json'
+import UpgradablesAddress from '@gooddollar/goodcontracts/upgradables/releases/deployment.json'
 import ERC20ABI from '@gooddollar/goodcontracts/build/contracts/ERC20.min.json'
 import UBIABI from '@gooddollar/goodcontracts/stakingModel/build/contracts/UBIScheme.min.json'
 import SimpleDaiStaking from '@gooddollar/goodcontracts/stakingModel/build/contracts/SimpleDAIStaking.min.json'
 import Web3 from 'web3'
+import InvitesABI from '@gooddollar/goodcontracts/upgradables/build/contracts/InvitesV1.min.json'
 import { BN, toBN } from 'web3-utils'
 import abiDecoder from 'abi-decoder'
 import { get, invokeMap, last, uniqBy, values } from 'lodash'
 import moment from 'moment'
+import bs58 from 'bs58'
 import Config from '../../config/config'
 import logger from '../../lib/logger/pino-logger'
 import { ExceptionCategory } from '../../lib/logger/exceptions'
@@ -124,6 +127,8 @@ export class GoodWallet {
 
   SimpleDaiStaking: Web3.eth.Contract
 
+  invitesContract: Web3.eth.Contract
+
   account: string
 
   accounts: Array<string>
@@ -135,8 +140,6 @@ export class GoodWallet {
   gasPrice: number
 
   subscribers: any = {}
-
-  blockNumber: typeof BN
 
   isPollEvents: boolean = true
 
@@ -214,6 +217,15 @@ export class GoodWallet {
           },
         )
         abiDecoder.addABI(OneTimePaymentsABI.abi)
+
+        // UBI Contract
+        this.invitesContract = new this.wallet.eth.Contract(
+          InvitesABI.abi,
+          get(UpgradablesAddress, `${this.network}.Invites` /*UBIABI.networks[this.networkId].address*/),
+          { from: this.account },
+        )
+        abiDecoder.addABI(InvitesABI.abi)
+
         log.info('GoodWallet Ready.', { account: this.account })
       })
       .catch(e => {
@@ -223,9 +235,9 @@ export class GoodWallet {
     return this.ready
   }
 
-  getSignUpBonusAddress() {
-    const addr = get(ContractsAddress, `${this.network}.SignupBonus`).toLowerCase()
-    return addr != NULL_ADDRESS ? addr : undefined
+  getRewardsAddresses() {
+    const addr = get(UpgradablesAddress, `${this.network}.Invites`).toLowerCase()
+    return [addr].filter(_ => _ !== NULL_ADDRESS)
   }
 
   setIsPollEvents(active) {
@@ -302,9 +314,10 @@ export class GoodWallet {
 
     const events = await contract.getPastEvents('Transfer', fromEventsFilter).catch(e => {
       //just warn about block not  found which is recoverable
-      const logFunc = e.code === -32000 ? log.warn : log.error
-      logFunc('pollSendEvents failed:', e.message, e, {
+      const logFunc = e.code === -32000 ? 'warn' : 'error'
+      log[logFunc]('pollSendEvents failed:', e.message, e, {
         category: ExceptionCategory.Blockhain,
+        fromEventsFilter,
       })
       return []
     })
@@ -343,9 +356,10 @@ export class GoodWallet {
 
     const events = await contract.getPastEvents('Transfer', toEventsFilter).catch(e => {
       //just warn about block not  found which is recoverable
-      const logFunc = e.code === -32000 ? log.warn : log.error
-      logFunc('pollReceiveEvents failed:', e.message, e, {
+      const logFunc = e.code === -32000 ? 'warn' : 'error'
+      log[logFunc]('pollReceiveEvents failed:', e.message, e, {
         category: ExceptionCategory.Blockhain,
+        toEventsFilter,
       })
       return []
     })
@@ -380,20 +394,25 @@ export class GoodWallet {
       filter: { from: this.wallet.utils.toChecksumAddress(this.account) },
     }
 
-    const eventsWithdraw = await contract.getPastEvents('PaymentWithdraw', fromEventsFilter).catch(e => {
+    log.debug('pollOTPLEvents call', { fromEventsFilter })
+
+    const eventsCancel = await contract.getPastEvents('PaymentCancel', Object.assign({}, fromEventsFilter)).catch(e => {
       //just warn about block not  found which is recoverable
-      const logFunc = e.code === -32000 ? log.warn : log.error
-      logFunc('pollOTPLEvents failed:', e.message, e, {
+      const logFunc = e.code === -32000 ? 'warn' : 'error'
+      log[logFunc]('pollOTPLEvents failed:', e.message, e, {
         category: ExceptionCategory.Blockhain,
+        fromEventsFilter,
       })
       return []
     })
 
-    const eventsCancel = await contract.getPastEvents('PaymentCancel', fromEventsFilter).catch(e => {
+    // const eventsWithdraw = []
+    const eventsWithdraw = await contract.getPastEvents('PaymentWithdraw', fromEventsFilter).catch(e => {
       //just warn about block not  found which is recoverable
-      const logFunc = e.code === -32000 ? log.warn : log.error
-      logFunc('pollOTPLEvents failed:', e.message, e, {
+      const logFunc = e.code === -32000 ? 'warn' : 'error'
+      log[logFunc]('pollOTPLEvents failed:', e.message, e, {
         category: ExceptionCategory.Blockhain,
+        fromEventsFilter,
       })
       return []
     })
@@ -756,11 +775,11 @@ export class GoodWallet {
   }
 
   /**
-   * Retrieves current Block Number and returns it as converted to a BN instance
-   * @returns {Promise<BN>} - Current block number in BN instance
+   * Retrieves current Block Number and returns it
+   * @returns {Promise<number>} - Current block number
    */
-  getBlockNumber(): Promise<BN> {
-    return this.wallet.eth.getBlockNumber().then(toBN)
+  getBlockNumber(): Promise<number> {
+    return this.wallet.eth.getBlockNumber()
   }
 
   async balanceOf(): Promise<number> {
@@ -1096,6 +1115,48 @@ export class GoodWallet {
     return this.sendTransaction(cancelOtlCall, txCallbacks)
   }
 
+  async collectInviteBounties() {
+    const tx = this.invitesContract.methods.collectBounties()
+    const res = await this.sendTransaction(tx)
+    return res
+  }
+
+  async collectInviteBounty(invitee) {
+    const tx = this.invitesContract.methods.bountyFor(invitee)
+    const res = await this.sendTransaction(tx, {})
+    return res
+  }
+
+  async joinInvites(inviter, codeLength = 10) {
+    let myCode = bs58.encode(Buffer.from(this.account.slice(2), 'hex')).slice(0, codeLength)
+    const registered = await this.invitesContract.methods.codeToUser(this.wallet.utils.fromAscii(myCode)).call()
+
+    log.debug('joinInvites:', { inviter, myCode, codeLength, registered })
+
+    //not registered
+    if (registered.search(/^0x0+$/) >= 0) {
+      const tx = this.invitesContract.methods.join(
+        this.wallet.utils.fromAscii(myCode),
+        (inviter && this.wallet.utils.fromAscii(inviter)) || '0x0'.padEnd(66, 0),
+      )
+      log.debug('joinInvites registering:', { inviter, myCode, codeLength, registered })
+      await this.sendTransaction(tx).catch(e => {
+        log.error('joinInvites failed:', e.message, e, { inviter, myCode, codeLength, registered })
+        throw e
+      })
+      return myCode
+    }
+
+    //already registered
+    if (registered === this.account) {
+      return myCode
+    }
+
+    //code collission
+    log.warn('joinInvites code collision:', { inviter, myCode, codeLength, registered })
+    return this.joinInvites(inviter, codeLength + 1)
+  }
+
   handleError(e: Error) {
     log.error('handleError', e.message, e, { category: ExceptionCategory.Blockhain })
 
@@ -1197,12 +1258,12 @@ export class GoodWallet {
     { gas: setgas, gasPrice }: GasValues = { gas: undefined, gasPrice: undefined },
   ) {
     const { onTransactionHash, onReceipt, onConfirmation, onError } = { ...defaultPromiEvents, ...txCallbacks }
-    let gas = setgas || (await tx.estimateGas())
+    let gas = setgas || (await tx.estimateGas().catch(e => log.debug('estimate gas failed'))) || 200000
     gasPrice = gasPrice || this.gasPrice
     if (Config.network === 'develop' && setgas === undefined) {
       gas *= 2
     }
-    log.debug({ gas, gasPrice })
+    log.debug('sendTransaction:', { gas, gasPrice })
     const { ok } = await this.verifyHasGas(gas * gasPrice)
     if (ok === false) {
       return Promise.reject('Reached daily transactions limit or not a citizen').catch(this.handleError)

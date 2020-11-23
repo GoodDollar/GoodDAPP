@@ -20,6 +20,7 @@ export const SIGNIN_SELECTED = 'SIGNIN_SELECTED'
 export const SIGNUP_METHOD_SELECTED = 'SIGNUP_METHOD_SELECTED'
 export const SIGNIN_METHOD_SELECTED = 'SIGNIN_METHOD_SELECTED'
 export const SIGNUP_STARTED = 'SIGNUP_STARTED'
+export const SIGNUP_EXISTS = 'SIGNUP_EXISTS'
 export const SIGNUP_EXISTS_LOGIN = 'SIGNUP_EXISTS_LOGIN'
 export const SIGNUP_EXISTS_CONTINUE = 'SIGNUP_EXISTS_CONTINUE'
 export const SIGNUP_RETRY_SMS = 'SIGNUP_RETRY_SMS'
@@ -67,6 +68,9 @@ export const FV_WRONGORIENTATION = 'FV_WRONGORIENTATION'
 export const FV_DUPLICATEERROR = 'FV_DUPLICATEERROR'
 export const FV_TRYAGAINLATER = 'FV_TRYAGAINLATER'
 export const FV_CANTACCESSCAMERA = 'FV_CANTACCESSCAMERA'
+export const INVITE_SHARE = 'INVITE_SHARE' //user pressed on any of the sharing options
+export const INVITE_JOIN = 'INVITE_JOIN' //user joined after he was invited
+export const INVITE_BOUNTY = 'INVITE_BOUNTY' //user collected his bounties
 
 const savedErrorMessages = new WeakMap()
 

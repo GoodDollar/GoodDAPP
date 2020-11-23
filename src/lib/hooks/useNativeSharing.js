@@ -1,34 +1,68 @@
-import { useCallback } from 'react'
-import canShare from '../../lib/utils/canShare'
-import {
-  generateCode,
-  generateReceiveShareObject,
-  generateReceiveShareText,
-  generateSendShareObject,
-  generateSendShareText,
-  generateShareLink,
-  shareAction as importedShareAction,
-} from '../../lib/share/index'
+import { assign, isString, noop } from 'lodash'
+import { useCallback, useEffect, useRef } from 'react'
+
+import { shareAction } from '../../lib/share/index'
 import { useErrorDialog } from '../undux/utils/dialog'
+import { preventPressed } from './useOnPress'
 
-export default () => {
+export default (shareObject, options = null) => {
   const [showErrorDialog] = useErrorDialog()
-  const _canShare = canShare()
+  const shareOptions = isString(options) ? { customErrorMessage: options } : options
+  const { customErrorMessage, onSharePress = noop, onSharingDone = noop } = shareOptions || {}
 
-  const _shareAction = useCallback(
-    // eslint-disable-next-line require-await
-    async (shareObj, customErrorMessage) => importedShareAction(shareObj, showErrorDialog, customErrorMessage),
-    [showErrorDialog],
-  )
+  const sharingRef = useRef({
+    shareObject,
+    customErrorMessage,
+    showErrorDialog,
+    onSharePress,
+    onSharingDone,
+    isCurrentlySharing: false,
+  })
 
-  return {
-    canShare: _canShare,
-    generateReceiveShareObject,
-    generateReceiveShareText,
-    generateCode,
-    generateSendShareObject,
-    generateSendShareText,
-    generateShareLink,
-    shareAction: _shareAction,
-  }
+  // should be non-async to avoid possible 'non-user interaction' issues
+  const share = useCallback(event => {
+    const { current: sharingState } = sharingRef
+
+    const {
+      isCurrentlySharing,
+      shareObject,
+      customErrorMessage,
+      showErrorDialog,
+      onSharePress,
+      onSharingDone,
+    } = sharingState
+
+    let sharingPromise
+
+    if (isCurrentlySharing) {
+      sharingPromise = Promise.resolve()
+    } else {
+      sharingState.isCurrentlySharing = true
+
+      sharingPromise = shareAction(shareObject, showErrorDialog, customErrorMessage)
+        .then(sharingResult => {
+          onSharingDone(sharingResult)
+
+          return sharingResult
+        })
+        .finally(() => (sharingState.isCurrentlySharing = false))
+
+      onSharePress(event)
+    }
+
+    preventPressed(event)
+    return sharingPromise
+  }, [])
+
+  useEffect(() => {
+    assign(sharingRef.current, {
+      shareObject,
+      customErrorMessage,
+      showErrorDialog,
+      onSharePress,
+      onSharingDone,
+    })
+  }, [shareObject, options, showErrorDialog])
+
+  return share
 }

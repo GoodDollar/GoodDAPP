@@ -2,7 +2,7 @@ import { noop } from 'lodash'
 import React, { useCallback, useEffect, useState } from 'react'
 import { StyleSheet, View } from 'react-native'
 import Icon from '../view/Icon'
-import useClipboard from '../../../lib/hooks/useClipboard'
+import { useClipboardCopy } from '../../../lib/hooks/useClipboard'
 import CustomButton from './CustomButton'
 
 const NOT_COPIED = 'NOT_COPIED'
@@ -13,22 +13,28 @@ const TRANSITION_TIME = 1000
 const CopyButton = ({ toCopy, children, onPress = noop, onPressDone = noop, iconColor, withoutDone, ...props }) => {
   const mode = props.mode || 'contained'
   const [copyState, setCopyState] = useState(NOT_COPIED)
-  const [, setString] = useClipboard()
+
+  const onCopiedHandler = useCallback(
+    copied => {
+      if (!copied) {
+        return
+      }
+
+      setCopyState(COPIED)
+      onPress()
+    },
+    [setCopyState, onPress],
+  )
+
+  const onPressHandler = useClipboardCopy(toCopy, onCopiedHandler)
 
   const transitionToState = useCallback(() => setCopyState(onPressDone ? DONE : NOT_COPIED), [
     setCopyState,
     onPressDone,
   ])
 
-  const onPressHandler = useCallback(async () => {
-    if (await setString(toCopy)) {
-      setCopyState(COPIED)
-      onPress()
-    }
-  }, [toCopy, setCopyState, onPress, setString])
-
   useEffect(() => {
-    if (copyState === 'COPIED' && !withoutDone) {
+    if (copyState === COPIED && !withoutDone) {
       setTimeout(transitionToState, TRANSITION_TIME)
     }
   }, [copyState, withoutDone, transitionToState])

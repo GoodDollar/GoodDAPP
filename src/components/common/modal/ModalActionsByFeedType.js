@@ -7,7 +7,6 @@ import { pickBy } from 'lodash'
 import CustomButton from '../buttons/CustomButton'
 import ShareButton from '../buttons/ShareButton'
 
-import useNativeSharing from '../../../lib/hooks/useNativeSharing'
 import { useErrorDialog } from '../../../lib/undux/utils/dialog'
 
 import GDStore from '../../../lib/undux/GDStore'
@@ -21,7 +20,13 @@ import { withStyles } from '../../../lib/styles'
 
 import { CLICK_BTN_CARD_ACTION, fireEvent } from '../../../lib/analytics/analytics'
 import config from '../../../config/config'
-import { isMobile } from '../../../lib/utils/platform'
+
+import {
+  generateSendShareObject,
+  generateSendShareText,
+  generateShareLink,
+  isSharingAvailable,
+} from '../../../lib/share'
 
 const log = logger.child({ from: 'ModalActionsByFeed' })
 
@@ -33,10 +38,9 @@ const ModalButton = ({ children, ...props }) => (
 
 const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigation }) => {
   const [showErrorDialog] = useErrorDialog()
-  const { canShare, generateSendShareObject, generateSendShareText, generateShareLink } = useNativeSharing()
 
   const store = GDStore.useStore()
-  const inviteCode = store.get('inviteCode')
+  const inviteCode = userStorage.userProperties.get('inviteCode')
   const { fullName: currentUserName } = store.get('profile')
 
   const [cancellingPayment, setCancellingPayment] = useState(false)
@@ -101,7 +105,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
         }),
       )
 
-      const result = (canShare ? generateSendShareObject : generateSendShareText)(
+      const result = (isSharingAvailable ? generateSendShareObject : generateSendShareText)(
         url,
         amount,
         fullName,
@@ -112,10 +116,10 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
     } catch (exception) {
       const { message } = exception
 
-      log.error('generatePaymentLinkForShare Failed', message, exception, { item, canShare })
+      log.error('generatePaymentLinkForShare Failed', message, exception, { item, isSharingAvailable })
       return null
     }
-  }, [generateShareLink, item, canShare, generateSendShareText, generateSendShareObject, inviteCode])
+  }, [item, inviteCode])
 
   const readMore = useCallback(() => {
     fireEventAnalytics('readMore')
@@ -187,7 +191,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
               disabled={!paymentLinkForShare}
               share={paymentLinkForShare}
               onPressed={shareLinkClicked}
-              actionText={isMobile ? 'Share link' : 'Copy link'}
+              actionText={isSharingAvailable ? 'Share link' : 'Copy link'}
               mode="outlined"
               style={[styles.rightButton, styles.shareButton]}
               iconColor={theme.colors.primary}

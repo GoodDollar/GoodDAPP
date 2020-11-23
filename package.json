@@ -1,6 +1,6 @@
 {
   "name": "@gooddollar/gooddapp",
-  "version": "1.10.0",
+  "version": "1.10.1-1",
   "engines": {
     "node": "10.21.0",
     "npm": "6.x"
@@ -62,7 +62,7 @@
   "homepage": "https://gooddollar.org",
   "dependencies": {
     "@babel/preset-flow": "^7.0.0",
-    "@gooddollar/goodcontracts": "^2.2.1",
+    "@gooddollar/goodcontracts": "^2.2.5",
     "@gooddollar/gun": "^0.2020.902",
     "@gooddollar/gun-pk-auth": "^1.1.0",
     "@react-native-community/async-storage": "^1.12.0",
@@ -70,7 +70,7 @@
     "@react-navigation/core": "^3.1.1",
     "@react-navigation/web": "^1.0.0-alpha.9",
     "@sentry/browser": "^5.10.2",
-    "@toruslabs/torus-direct-web-sdk": "^3.4.1",
+    "@toruslabs/torus-direct-web-sdk": "^3.5.1",
     "FormData": "^0.10.1",
     "abi-decoder": "^1.2.0",
     "amplitude-js": "^7.1.0",
@@ -122,6 +122,7 @@
     "react-native-web-webview": "^0.2.8",
     "react-phone-number-input": "^2.3.18",
     "react-qr-reader": "^2.2.1",
+    "react-share": "^4.3.1",
     "recaptcha-v3-react": "^3.0.3",
     "rxjs": "^6.4.0",
     "svg2png": "^4.1.1",

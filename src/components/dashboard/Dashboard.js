@@ -45,8 +45,8 @@ import SuccessIcon from '../common/modal/SuccessIcon'
 import { getDesignRelativeHeight, getMaxDeviceWidth, measure } from '../../lib/utils/sizes'
 import { theme as _theme } from '../theme/styles'
 import unknownProfile from '../../assets/unknownProfile.svg'
+import Invite from '../invite/Invite'
 import PrivacyPolicyAndTerms from './PrivacyPolicyAndTerms'
-import RewardsTab from './Rewards'
 import Amount from './Amount'
 import Claim from './Claim'
 import FeedList from './FeedList'
@@ -850,7 +850,7 @@ const getStylesFromProps = ({ theme }) => ({
 Dashboard.navigationOptions = ({ navigation, screenProps }) => {
   return {
     navigationBar: () => <TabsView goTo={navigation.navigate} routes={screenProps.routes} navigation={navigation} />,
-    title: 'Home',
+    title: 'Wallet',
     disableScroll: true,
   }
 }
@@ -881,16 +881,9 @@ export default createStackNavigator({
   ReceiveSummary,
   ReceiveByQR,
 
-  /*ReceiveConfirmation: {
-    screen: ReceiveConfirmation,
-    path: ':action/ReceiveConfirmation',
-  },*/
-
   SendLinkSummary,
   SendByQR,
   SendToAddress,
-
-  // SendConfirmation,
 
   FaceVerification,
   FaceVerificationIntro,
@@ -911,8 +904,5 @@ export default createStackNavigator({
   Statistics,
   Recover: Mnemonics,
   OutOfGasError,
-  Rewards: {
-    screen: RewardsTab,
-    path: 'Rewards/:rewardsPath*',
-  },
+  Rewards: Invite,
 })

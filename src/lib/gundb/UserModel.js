@@ -1,8 +1,8 @@
 // @flow
-import isEmail from 'validator/lib/isEmail'
 import type { UserRecord } from '../API/api'
 import isMobilePhone from '../validators/isMobilePhone'
 import isValidUsername from '../validators/isValidUsername'
+import isEmail from '../validators/isEmail'
 
 /**
  * validation object type
@@ -38,6 +38,7 @@ const getEmailErrorMessage = (email?: string) => {
   if (!email) {
     return 'Email is required'
   }
+
   if (!isEmail(email)) {
     return 'Enter a valid format: yourname@example.com'
   }

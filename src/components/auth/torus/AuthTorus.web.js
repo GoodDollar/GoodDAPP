@@ -11,6 +11,7 @@ import {
   SIGNIN_NOTEXISTS_LOGIN,
   SIGNIN_NOTEXISTS_SIGNUP,
   SIGNIN_TORUS_SUCCESS,
+  SIGNUP_EXISTS,
   SIGNUP_EXISTS_CONTINUE,
   SIGNUP_EXISTS_LOGIN,
   SIGNUP_METHOD_SELECTED,
@@ -63,6 +64,7 @@ export const useAlreadySignedUp = () => {
 
     const registeredBy = LoginStrategy.getTitle(existsResult.provider)
     const usedText = existsResult.identifier ? 'Account' : existsResult.email ? 'Email' : 'Mobile'
+    fireEvent(SIGNUP_EXISTS, { provider, existsResult, fromSignupFlow })
     showDialog({
       onDismiss: () => {
         hideDialog()
@@ -146,8 +148,6 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
         } else {
           log.error('torus login failed', e.message, e, { dialogShown: true })
         }
-
-        showErrorDialog('We were unable to complete the signup. Please try again.')
       }
       return { torusUser, replacing }
     },
@@ -220,7 +220,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
     showLoadingDialog()
     const { torusUser, replacing } = await getTorusUser(provider)
     if (torusUser == null) {
-      hideDialog()
+      showErrorDialog('We were unable to complete the signup. Please try again.')
       return
     }
 

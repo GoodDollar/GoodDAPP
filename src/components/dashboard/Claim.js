@@ -265,7 +265,7 @@ const Claim = props => {
 
       setPeopleClaimed(people)
       setTotalClaimed(amount)
-      setDailyUbi(1)
+      setDailyUbi(entitlement)
 
       setActiveClaimers(activeClaimers)
       setAvailableDistribution(availableDistribution)

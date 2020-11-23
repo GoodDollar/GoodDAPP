@@ -313,12 +313,14 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexGrow: 1,
     flexShrink: 0,
-    height: '100%',
+
+    // height: '100%',
   },
   scrollableView: {
     flexGrow: 1,
     display: 'flex',
-    height: '100%',
+
+    // height: '100%',
   },
   sideMenuContainer: {
     top: 0,

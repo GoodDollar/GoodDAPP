@@ -64,7 +64,7 @@ const getStylesFromProps = ({ theme }) => {
   }
 
   if (!isMobileOnly) {
-    styles.container = { ...styles.container, maxHeight: theme.sizes.maxHeightForTabletAndDesktop }
+    styles.container = { ...styles.container, maxHeight: theme.sizes.maxContentHeightForTabletAndDesktop }
   }
 
   return styles

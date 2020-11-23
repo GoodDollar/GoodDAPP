@@ -37,7 +37,7 @@ import {
 } from '../../lib/analytics/analytics'
 
 // import Config from '../../config/config'
-import { isSmallDevice } from '../../lib/utils/mobileSizeDetect'
+import { isShortDevice as isSmallDevice } from '../../lib/utils/mobileSizeDetect'
 import Section from '../common/layout/Section'
 import BigGoodDollar from '../common/view/BigGoodDollar'
 import useAppState from '../../lib/hooks/useAppState'
@@ -49,9 +49,6 @@ import ButtonBlock from './Claim/ButtonBlock'
 type ClaimProps = DashboardProps
 
 const log = logger.child({ from: 'Claim' })
-
-const bigFontSize = isSmallDevice ? 30 : 40
-const regularFontSize = isSmallDevice ? 14 : 16
 
 const LoadingAnimation = ({ success, speed = 3 }) => (
   <View style={{ alignItems: 'center' }}>
@@ -65,8 +62,8 @@ const GrayBox = ({ title, value, symbol, theme, style }) => {
   return (
     <Section.Stack style={[{ flex: 1 }, style]}>
       <Section.Text
-        style={styles.grayBox}
-        fontSize={isSmallDevice ? 14 : 15}
+        style={gbStyles.title}
+        fontSize={15}
         fontFamily={'slab'}
         lineHeight={19}
         textTransform={'capitalize'}
@@ -75,7 +72,7 @@ const GrayBox = ({ title, value, symbol, theme, style }) => {
       >
         {title}
       </Section.Text>
-      <Section.Row style={{ justifyContent: 'flex-start', alignItems: 'baseline' }}>
+      <Section.Row style={gbStyles.value}>
         <Section.Text
           fontFamily={'slab'}
           fontWeight={'bold'}
@@ -83,7 +80,7 @@ const GrayBox = ({ title, value, symbol, theme, style }) => {
           lineHeight={43}
           textAlign={'start'}
           textTransform={'uppercase'}
-          style={styles.statsNumbers}
+          style={gbStyles.statsNumbers}
         >
           {value}
         </Section.Text>
@@ -93,7 +90,7 @@ const GrayBox = ({ title, value, symbol, theme, style }) => {
           fontFamily={'slab'}
           lineHeight={20}
           fontSize={15}
-          style={styles.dai}
+          style={gbStyles.symbol}
         >
           {symbol}
         </Section.Text>
@@ -102,11 +99,11 @@ const GrayBox = ({ title, value, symbol, theme, style }) => {
   )
 }
 
-const styles = {
-  grayBox: {
+const gbStyles = {
+  title: {
     backgroundColor: mainTheme.colors.grayBox,
     borderRadius: 5,
-    paddingLeft: getDesignRelativeWidth(mainTheme.sizes.default),
+    paddingLeft: mainTheme.sizes.default,
     paddingTop: mainTheme.sizes.default,
     paddingBottom: mainTheme.sizes.default / 2,
     letterSpacing: 0.07,
@@ -118,10 +115,12 @@ const styles = {
     marginTop: 2,
     marginRight: 4,
   },
-  dai: {
+  symbol: {
     letterSpacing: '0px',
   },
+  value: { justifyContent: 'flex-start', alignItems: 'baseline' },
 }
+
 const Claim = props => {
   const { screenProps, styles, theme }: ClaimProps = props
   const { appState } = useAppState()
@@ -164,7 +163,7 @@ const Claim = props => {
   /*eslint-enable */
 
   // Format transformer function for claimed G$ amount
-  const extraInfoAmountFormatter = useCallback(number => formatWithSIPrefix(weiToGd(number)), [])
+  const extraInfoAmountFormatter = number => formatWithSIPrefix(weiToGd(number))
 
   // if we returned from facerecoginition then the isValid param would be set
   // this happens only on first claim
@@ -268,7 +267,7 @@ const Claim = props => {
 
       setPeopleClaimed(people)
       setTotalClaimed(amount)
-      setDailyUbi(entitlement)
+      setDailyUbi(1)
 
       setActiveClaimers(activeClaimers)
       setAvailableDistribution(availableDistribution)
@@ -357,7 +356,7 @@ const Claim = props => {
           buttons: [{ text: 'Yay!' }],
           message: `You've claimed your daily G$\nsee you tomorrow.`,
           title: 'CHA-CHING!',
-          onDismiss: () => screenProps.goToRoot(),
+          onDismiss: () => {},
         })
       } else {
         fireEvent(CLAIM_FAILED, { txhash: receipt.transactionHash, txNotCompleted: true })
@@ -384,7 +383,7 @@ const Claim = props => {
   const claimAmountFormatter = useCallback(value => formatWithThousandsSeparator(weiToGd(value)), [])
 
   return (
-    <WrapperClaim style={{ height: dailyUbi ? 'auto' : '100%', maxHeight: dailyUbi ? 844 : 'none' }}>
+    <WrapperClaim style={dailyUbi ? styles.wrapperActive : styles.wrapperInactive}>
       <Section.Stack style={styles.mainContainer}>
         <View style={dailyUbi ? styles.headerContentContainer : styles.headerContentContainer2}>
           <Section.Text color="surface" fontFamily="slab" fontWeight="bold" fontSize={28} style={styles.headerText}>
@@ -412,12 +411,12 @@ const Claim = props => {
                       }}
                     />
                   </Section.Text>
+                  <Section.Stack style={styles.perClaimerWrapper}>
+                    <Section.Text style={styles.perclaimerText} fontWeight="bold" fontSize={15} lineHeight={18}>
+                      Per Claimer
+                    </Section.Text>
+                  </Section.Stack>
                 </View>
-              </Section.Row>
-              <Section.Row>
-                <Section.Text style={styles.amountBlockText} fontWeight="bold" fontSize={15} lineHeight={18}>
-                  Per Claimer
-                </Section.Text>
               </Section.Row>
             </>
           ) : null}
@@ -426,37 +425,41 @@ const Claim = props => {
           {dailyUbi <= 0 && (
             <WavesBox
               primaryColor={theme.colors.darkBlue}
-              contentStyle={{ paddingBottom: 10, paddingTop: 10 }}
+              contentStyle={styles.wavesBoxContent}
               style={styles.wavesBox}
             >
-              <Section.Text primaryColor={theme.colors.surface} style={styles.fontSize16}>
+              <Section.Text primaryColor={theme.colors.surface} fontSize={15} lineHeight={20}>
                 Claim cycle restart every day
               </Section.Text>
-              <Section.Text primaryColor={theme.colors.surface} fontWeight="bold" style={styles.fontSize16}>
+              <Section.Text primaryColor={theme.colors.surface} fontWeight="bold" fontSize={15} lineHeight={20}>
                 at {claimCycleTime}
               </Section.Text>
             </WavesBox>
           )}
           <WavesBox
             primaryColor={theme.colors.darkBlue}
-            contentStyle={{ paddingBottom: 10, paddingTop: 10 }}
+            contentStyle={styles.wavesBoxContent}
             style={[styles.wavesBox, { marginTop: !dailyUbi && 10 }]}
           >
             <Section.Text
-              style={{ textTransform: 'capitalize' }}
+              textTransform={'capitalize'}
               fontWeight={'bold'}
-              fontSize={18}
-              letterSpacing={0.09}
+              fontSize={15}
+              letterSpacing={0}
+              lineHeight={20}
               primaryColor={theme.colors.surface}
               fontFamily="Roboto"
             >
               So Far Today:
             </Section.Text>
-            <Section.Text style={{ textTransform: 'capitalize' }}>
-              <Section.Text fontWeight="bold" color={theme.colors.primary} style={styles.fontSize16}>
+            <Section.Row style={styles.justifyCenter}>
+              <Section.Text fontWeight="bold" color={theme.colors.primary} fontSize={15} lineHeight={20}>
                 {formattedNumberOfPeopleClaimedToday}
-              </Section.Text>{' '}
-              Claimers Received{' '}
+              </Section.Text>
+              <Section.Text textTransform={'capitalize'} fontSize={15} lineHeight={20}>
+                {' '}
+                Claimers Received{' '}
+              </Section.Text>
               <BigGoodDollar
                 style={styles.extraInfoAmountDisplay}
                 number={totalClaimed}
@@ -465,19 +468,21 @@ const Claim = props => {
                 fontFamily="Roboto"
                 bigNumberProps={{
                   fontFamily: 'Roboto',
-                  fontSize: regularFontSize,
+                  fontSize: 15,
                   color: theme.colors.primary,
-                  lineHeight: 22,
+                  lineHeight: 20,
                 }}
                 bigNumberUnitProps={{
                   fontFamily: 'Roboto',
-                  fontSize: regularFontSize,
+                  fontSize: 15,
                   color: theme.colors.primary,
                 }}
               />
-            </Section.Text>
-            <Section.Text>
-              Out of{' '}
+            </Section.Row>
+            <Section.Row style={styles.justifyCenter}>
+              <Section.Text fontSize={15} lineHeight={20}>
+                out of{' '}
+              </Section.Text>
               <BigGoodDollar
                 style={styles.extraInfoAmountDisplay}
                 number={availableDistribution}
@@ -486,22 +491,25 @@ const Claim = props => {
                 fontFamily="Roboto"
                 bigNumberProps={{
                   fontFamily: 'Roboto',
-                  fontSize: regularFontSize,
+                  fontSize: 15,
                   color: theme.colors.primary,
-                  lineHeight: 22,
+                  lineHeight: 20,
                 }}
                 bigNumberUnitProps={{
                   fontFamily: 'Roboto',
-                  fontSize: regularFontSize,
+                  fontSize: 15,
                   color: theme.colors.primary,
                 }}
-              />{' '}
-              available
-            </Section.Text>
+              />
+              <Section.Text textTransform={'capitalize'} fontSize={15} lineHeight={20}>
+                {' '}
+                available
+              </Section.Text>
+            </Section.Row>
           </WavesBox>
         </Section.Stack>
         <ButtonBlock
-          styles={styles}
+          styles={{ claimButtonContainer: styles.claimButtonContainer }}
           entitlement={dailyUbi}
           isCitizen={isCitizen}
           nextClaim={nextClaim || '--:--:--'}
@@ -512,13 +520,14 @@ const Claim = props => {
       </Section.Stack>
       {dailyUbi === 0 && (
         <Section.Stack style={styles.statsWrapper}>
-          <Section.Row style={{ justifyContent: 'center' }}>
+          <Section.Row style={styles.justifyCenter}>
             <Section.Text
               style={{ letterSpacing: 0.1, marginBottom: 4 }}
               fontSize={20}
               lineHeight={21}
               fontWeight="bold"
               fontFamily="Roboto"
+              textTransform={'capitalize'}
             >
               GoodDollar Stats
             </Section.Text>
@@ -528,7 +537,7 @@ const Claim = props => {
             <GrayBox
               title={'active\nclaimers'}
               value={formatWithabbreviations(activeClaimers)}
-              style={{ marginRight: isSmallDevice ? 20 : getDesignRelativeWidth(theme.sizes.default * 3) }}
+              style={styles.leftGrayBox}
             />
             <GrayBox
               title={"Today's G$\nDistribution"}
@@ -538,10 +547,10 @@ const Claim = props => {
           </Section.Row>
           <Section.Row style={styles.statsRow}>
             <GrayBox
-              title={'Total funds\n staked'}
+              title={'Total funds\nstaked'}
               value={formatWithabbreviations(totalFundsStaked)}
               symbol={'DAI'}
-              style={{ marginRight: isSmallDevice ? 20 : getDesignRelativeWidth(theme.sizes.default * 3) }}
+              style={styles.leftGrayBox}
             />
             <GrayBox
               title={'Interest\ngenerated today'}
@@ -551,67 +560,49 @@ const Claim = props => {
           </Section.Row>
         </Section.Stack>
       )}
-      <Section.Stack
-        style={{
-          height: getDesignRelativeHeight(85, false),
-          flex: 1,
-          flexGrow: 1,
-        }}
-      >
-        <Image
-          style={{ width: '100%', height: getDesignRelativeHeight(85, false) }}
-          source={claimSvg}
-          resizeMode="contain"
-        />
+      <Section.Stack style={styles.footerWrapper}>
+        <Image style={styles.footerImage} source={claimSvg} resizeMode="contain" />
       </Section.Stack>
     </WrapperClaim>
   )
 }
 
 const getStylesFromProps = ({ theme }) => {
-  const headerText = {
-    lineHeight: 38,
-    letterSpacing: 0.42,
-  }
-
-  const amountText = {
-    fontFamily: 'Roboto',
-    fontSize: bigFontSize,
-    color: theme.colors.darkBlue,
-    fontWeight: 'bold',
-    lineHeight: bigFontSize,
-  }
-
-  const amountUnitText = {
-    fontFamily: 'Roboto',
-    fontSize: bigFontSize,
-    color: theme.colors.darkBlue,
-    fontWeight: 'medium',
-    lineHeight: bigFontSize,
-  }
-
-  const fontSize16 = {
-    fontSize: isSmallDevice ? 14 : 16,
-  }
-
-  const learnMoreLink = {
-    cursor: 'pointer',
-    ...fontSize16,
-  }
-
   return {
-    amountBlockText: {
+    justifyCenter: { justifyContent: 'center' },
+    footerWrapper: {
+      flex: 1,
+      flexGrow: 1,
+      justifyContent: isSmallDevice ? 'normal' : 'flex-end',
+      padding: 0,
+      margin: 0,
+    },
+    footerImage: { width: '100%', height: getDesignRelativeHeight(85, false) },
+    leftGrayBox: { marginRight: theme.sizes.default * 3 },
+    wrapperActive: { height: 'auto' },
+    wrapperInactive: { height: '100%', maxHeight: 'none' },
+    perClaimerWrapper: {
+      position: 'absolute',
+      left: '50%',
+      top: '90%',
+      transform: [{ translateX: '-50%' }],
+      backgroundColor: theme.colors.primary,
+      paddingRight: theme.sizes.default / 2,
+      paddingLeft: theme.sizes.default / 2,
+    },
+    perClaimerText: {
       color: theme.colors.darkBlue,
       letterSpacing: 0,
       backgroundColor: theme.colors.primary,
+      position: 'relative',
     },
     statsWrapper: {
-      marginLeft: getDesignRelativeWidth(theme.sizes.defaultQuadruple),
-      marginRight: getDesignRelativeWidth(theme.sizes.defaultQuadruple),
-      marginTop: isSmallDevice ? 18 : getDesignRelativeHeight(30),
+      marginLeft: getDesignRelativeWidth(isSmallDevice ? theme.sizes.defaultDouble : theme.sizes.defaultQuadruple),
+      marginRight: getDesignRelativeWidth(isSmallDevice ? theme.sizes.defaultDouble : theme.sizes.defaultQuadruple),
+      marginTop: getDesignRelativeHeight(30),
     },
     statsRow: {
-      marginTop: isSmallDevice ? theme.sizes.default * 2 : getDesignRelativeHeight(theme.sizes.default * 3),
+      marginTop: getDesignRelativeHeight(theme.sizes.default * 3),
     },
     mainContainer: {
       backgroundColor: 'transparent',
@@ -621,45 +612,39 @@ const getStylesFromProps = ({ theme }) => {
       justifyContent: 'normal',
     },
     headerContentContainer: {
-      position: 'relative',
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
-      marginTop: getDesignRelativeHeight(theme.sizes.default * 4),
+      marginTop: isSmallDevice ? theme.sizes.default * 2.5 : getDesignRelativeHeight(theme.sizes.default * 4),
     },
     headerContentContainer2: {
-      position: 'relative',
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
-      marginTop: getDesignRelativeHeight(theme.sizes.default * 4),
+      marginTop: isSmallDevice ? theme.sizes.default * 2.5 : getDesignRelativeHeight(theme.sizes.default * 4),
     },
-    headerText,
+    headerText: {
+      lineHeight: 38,
+      letterSpacing: 0.42,
+    },
     amountBlock: {
+      zIndex: 1,
       borderWidth: 2,
       borderColor: theme.colors.darkBlue,
       borderRadius: theme.sizes.borderRadius,
       paddingHorizontal: getDesignRelativeWidth(30),
       paddingVertical: getDesignRelativeWidth(10),
       marginTop: getDesignRelativeHeight(14),
+      minWidth: 194,
+      justifyContent: 'center',
+      alignItems: 'center',
     },
     claimButtonContainer: {
+      //style passed to button
       alignItems: 'center',
       flexDirection: 'column',
       zIndex: 1,
       marginTop: getDesignRelativeHeight(theme.sizes.defaultQuadruple),
-    },
-    amountText,
-    amountUnitText,
-    mainTextSecondContainer: {
-      ...fontSize16,
-    },
-    mainText: {
-      alignItems: 'center',
-      flexDirection: 'column',
-      zIndex: 1,
-      justifyContent: 'flex-end',
-      marginBottom: theme.sizes.defaultDouble,
     },
     wavesBoxes: {
       alignItems: 'center',
@@ -671,16 +656,11 @@ const getStylesFromProps = ({ theme }) => {
       textAlign: 'center',
       backgroundColor: theme.colors.surface,
     },
-    learnMoreLink,
+    wavesBoxContent: { paddingBottom: 10, paddingTop: 10 },
 
     extraInfoAmountDisplay: {
       display: 'contents',
     },
-    fakeExtraInfoContainer: {
-      height: getDesignRelativeHeight(45),
-    },
-
-    fontSize16,
   }
 }
 

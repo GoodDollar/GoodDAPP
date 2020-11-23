@@ -12,11 +12,8 @@ import { weiToGd } from '../../lib/wallet/utils'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
 import { isSmallDevice } from '../../lib/utils/mobileSizeDetect'
 
-const buttonLabelFontSize = isSmallDevice ? 28 : 34
-const timerFontSize = isSmallDevice ? 24 : 30
-
 const ButtonAmountToClaim = ({ showLabelOnly = false, entitlement, isCitizen, styles, isInQueue }) => (
-  <View style={styles.textBtn}>
+  <View>
     {showLabelOnly ? (
       isInQueue ? (
         <Text
@@ -24,23 +21,34 @@ const ButtonAmountToClaim = ({ showLabelOnly = false, entitlement, isCitizen, st
           color="white"
           fontFamily="Roboto Slab"
           fontWeight="bold"
-          fontSize={buttonLabelFontSize}
+          fontSize={28}
           textAlign="center"
         >
           In Queue
         </Text>
       ) : (
-        <Text
-          style={{ letterSpacing: 0.28 }}
-          color="white"
-          fontFamily="Roboto Slab"
-          fontWeight="bold"
-          fontSize={buttonLabelFontSize}
-          textAlign="center"
-        >
-          CLAIM <br />
-          NOW
-        </Text>
+        <>
+          <Text
+            style={{ letterSpacing: 0.28 }}
+            color="white"
+            fontFamily="Roboto Slab"
+            fontWeight="bold"
+            fontSize={28}
+            textAlign="center"
+          >
+            CLAIM
+          </Text>
+          <Text
+            style={{ letterSpacing: 0.28 }}
+            color="white"
+            fontFamily="Roboto Slab"
+            fontWeight="bold"
+            fontSize={28}
+            textAlign="center"
+          >
+            NOW
+          </Text>
+        </>
       )
     ) : (
       <>
@@ -77,20 +85,15 @@ const ButtonAmountToClaim = ({ showLabelOnly = false, entitlement, isCitizen, st
 
 export const ButtonCountdown = ({ styles, nextClaim }) => (
   <View style={styles.countdownContainer}>
-    {isSmallDevice ? (
-      <View style={styles.btnTitleSmallDev}>
-        <Text style={styles.extraInfoCountdownTitle} textTransform={'capitalize'} fontWeight="bold" fontSize={12}>
-          {`Your Next`}
-        </Text>
-        <Text style={styles.extraInfoCountdownTitle} textTransform={'capitalize'} fontWeight="bold" fontSize={12}>
-          {`Claim:`}
-        </Text>
-      </View>
-    ) : (
-      <Text style={styles.extraInfoCountdownTitle} textTransform={'capitalize'} fontWeight="bold" fontSize={14}>
-        Your Next Claim:
-      </Text>
-    )}
+    <Text
+      style={styles.extraInfoCountdownTitle}
+      textTransform={'capitalize'}
+      fontWeight="bold"
+      lineHeight={17}
+      fontSize={14}
+    >
+      Your Next Claim:
+    </Text>
     {/* for some reason passing styles.countDownTimer doesnt work */}
     <Section.Row grow style={styles.countDownTimer}>
       {nextClaim &&
@@ -98,7 +101,7 @@ export const ButtonCountdown = ({ styles, nextClaim }) => (
           return (
             <Text
               key={index}
-              fontSize={timerFontSize}
+              fontSize={30}
               fontFamily="Roboto Slab"
               fontWeight="bold"
               style={[styles.countdown, ~[2, 5].indexOf(index) && styles.tallCountDown]}
@@ -209,14 +212,6 @@ const ClaimAnimationButton = memo(({ styles, entitlement, nextClaim, onPress, is
   )
 })
 const getStylesFromProps = ({ theme }) => ({
-  justifyCenter: {
-    justifyContent: 'center',
-  },
-  textBtn: {
-    justifyContent: 'center',
-    display: 'flex',
-    alignItems: 'center',
-  },
   cardContainer: {
     alignItems: 'center',
     width: isSmallDevice ? 140 : getDesignRelativeHeight(166),
@@ -242,32 +237,21 @@ const getStylesFromProps = ({ theme }) => ({
     justifyContent: 'center',
 
     // minHeight: isSmallDevice ? 0 : 53,
-    alignItems: isSmallDevice ? 'normal' : 'center',
+    alignItems: 'center',
     color: theme.colors.darkBlue,
   },
-  countdownContainer: isSmallDevice
-    ? {
-        flexDirection: 'column',
-        height: 140,
-      }
-    : {
-        flexDirection: 'column',
-        justifyContent: 'center',
-        display: 'flex',
-        alignItems: 'center',
-      },
-  btnTitleSmallDev: {
-    position: 'relative',
-    top: 0,
-    left: 0,
-    marginTop: 20,
-    marginBottom: 10,
+  countdownContainer: {
+    flexDirection: 'column',
+    justifyContent: 'center',
+    display: 'flex',
+    alignItems: 'center',
   },
   tallCountDown: {
-    width: isSmallDevice ? getDesignRelativeWidth(8) : getDesignRelativeWidth(10),
+    width: 10,
   },
   countdown: {
-    letterSpacing: 0.9,
+    letterSpacing: 0,
+    width: getDesignRelativeWidth(17),
   },
   extraInfoCountdownTitle: {
     letterSpacing: 0,

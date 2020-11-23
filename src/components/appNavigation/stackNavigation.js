@@ -311,13 +311,13 @@ class AppView extends Component<AppViewProps, AppViewState> {
 const styles = StyleSheet.create({
   scrollView: {
     display: 'flex',
-    flexGrow: 1,
-    flexShrink: 0,
+    ...Platform.select({ web: { flexGrow: 1, flexShrink: 0 }, default: {} }),
 
     // height: '100%',
   },
   scrollableView: {
-    flexGrow: 1,
+    ...Platform.select({ web: { flexGrow: 1 }, default: {} }),
+
     display: 'flex',
 
     // height: '100%',

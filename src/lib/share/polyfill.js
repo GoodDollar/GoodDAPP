@@ -23,13 +23,15 @@ const emulatedShareWeb = async ({ url }) => {
 
 let timeoutId
 let lastListener
+const listenEvents = ['focus', 'touchstart']
 
 const removeListener = () => {
   if (timeoutId) {
     clearTimeout(timeoutId)
   }
 
-  window.removeEventListener('focus', lastListener)
+  listenEvents.forEach(event => window.removeEventListener(event, lastListener))
+
   lastListener = null
 }
 
@@ -50,13 +52,13 @@ const androidShareWeb = shareObject =>
     }
 
     removeListener()
-    window.addEventListener(
-      'focus',
-      (lastListener = () => {
-        removeListener()
-        timeoutId = setTimeout(resolve, 100)
-      }),
-    )
+
+    lastListener = () => {
+      removeListener()
+      timeoutId = setTimeout(resolve, 100)
+    }
+
+    listenEvents.forEach(event => window.addEventListener(event, lastListener))
 
     try {
       sharingPromise = nativeShare(shareObject)

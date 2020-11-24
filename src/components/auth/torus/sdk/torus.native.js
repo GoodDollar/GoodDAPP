@@ -2,10 +2,8 @@ import DirectNativeSDK from 'torus-direct-react-native-sdk' // eslint-disable-li
 
 class Torus {
   constructor(Config, options) {
-    const { publicUrl } = Config
-
     const redirectUri = 'gooddollar://org.gooddollar/redirect'
-    const browserRedirectUri = `${publicUrl}/scripts.html`
+    const browserRedirectUri = 'https://dev.gooddollar.org/scripts.html'
 
     this.options = { ...options, redirectUri, browserRedirectUri }
   }

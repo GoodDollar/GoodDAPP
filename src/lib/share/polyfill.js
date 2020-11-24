@@ -31,7 +31,6 @@ const removeListener = () => {
   }
 
   listenEvents.forEach(event => window.removeEventListener(event, lastListener))
-
   lastListener = null
 }
 

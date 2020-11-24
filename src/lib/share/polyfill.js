@@ -75,8 +75,8 @@ const androidShareWeb = shareObject =>
 export default Platform.select({
   default: noopAsync,
   native: nativeShare,
-  web: isWebSharingAvailable // if sharing available then
-    ? isAndroidWeb
+  web: isWebSharingAvailable
+    ? isAndroidWeb // if sharing available then
       ? androidShareWeb // select window focus event workaround for Android
       : nativeShare // navigator's share otherwise
     : isSharingEmulated // if no sharing available

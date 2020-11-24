@@ -1,5 +1,5 @@
 import React from 'react'
-import { View } from 'react-native'
+import { Platform, View } from 'react-native'
 
 import Icon from '../../../common/view/Icon'
 
@@ -27,9 +27,12 @@ const mapStylesToProps = ({ theme }) => ({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'center',
-    overflowY: 'hidden',
     width: '100%',
     height: '100%',
+    ...Platform.select({
+      web: { overflowY: 'hidden' },
+      default: { overflow: 'hidden' },
+    }),
   },
 })
 

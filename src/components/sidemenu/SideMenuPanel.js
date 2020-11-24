@@ -50,8 +50,10 @@ const sideMenuPanelStyles = ({ theme }) => ({
     paddingTop: theme.sizes.defaultDouble,
     paddingBottom: theme.sizes.defaultQuadruple,
     marginHorizontal: theme.sizes.defaultDouble,
-    cursor: 'pointer',
     minHeight: 20,
+    ...Platform.select({
+      web: { cursor: 'pointer' },
+    }),
   },
   listContainer: {
     flexGrow: 1,

@@ -407,7 +407,7 @@ const getStylesFromProps = ({ theme }) => {
     fontFamily: 'Roboto',
     fontSize: bigFontSize,
     color: theme.colors.darkBlue,
-    fontWeight: Platform.select({ web: 'medium', default: '500' }),
+    fontWeight: '500',
     lineHeight: bigFontSize,
   }
 

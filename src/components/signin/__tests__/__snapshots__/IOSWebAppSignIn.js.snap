@@ -11,7 +11,7 @@ exports[`SignIn - IOSWebAppSignIn matches snapshot 1`] = `
         "WebkitBoxFlex": 0,
         "WebkitFlexGrow": 0,
         "backgroundColor": "rgba(0,175,255,1.00)",
-        "boxShadow": "none",
+        "boxShadow": "none, 0px 3px 4px rgba(0,0,0,0.24)",
         "flexGrow": 0,
         "height": "56px",
         "msFlexPositive": 0,
@@ -84,7 +84,7 @@ sent to you by text message:
               autoComplete="on"
               autoCorrect="on"
               autoFocus={true}
-              className="css-textinput-1cwyjr8 r-backgroundColor-14lw9ot r-borderBottomColor-1ny7kx0 r-borderBottomStyle-rull8r r-borderBottomWidth-qklmqi r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-1i10wst r-paddingHorizontal-1dye5f7 r-paddingVertical-oyd9sg r-placeholderTextColor-1xktb6b r-textAlign-q4m81j"
+              className="css-textinput-1cwyjr8 r-backgroundColor-14lw9ot r-borderBottomColor-1ny7kx0 r-borderBottomWidth-qklmqi r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-1i10wst r-paddingHorizontal-1dye5f7 r-paddingVertical-oyd9sg r-placeholderTextColor-1xktb6b r-textAlign-q4m81j"
               data-focusable={true}
               dir="auto"
               onBlur={[Function]}

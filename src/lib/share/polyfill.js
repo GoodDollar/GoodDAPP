@@ -76,12 +76,10 @@ export default Platform.select({
   default: noopAsync,
   native: nativeShare,
   web: isWebSharingAvailable // if sharing available then
-    ? // select window focus event workaround for Android, navigator's share otherwise
-      isAndroidWeb
-      ? androidShareWeb
-      : nativeShare
-    : // if no sharing available, emulate it if REACT_APP_EMULATE_SHARING debug flag was set
-    isSharingEmulated
-    ? emulatedShareWeb
+    ? isAndroidWeb
+      ? androidShareWeb // select window focus event workaround for Android
+      : nativeShare // navigator's share otherwise
+    : isSharingEmulated // if no sharing available
+    ? emulatedShareWeb // emulate it if REACT_APP_EMULATE_SHARING debug flag was set
     : noopAsync,
 })

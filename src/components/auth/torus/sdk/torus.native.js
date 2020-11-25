@@ -5,7 +5,7 @@ class Torus {
     const { publicUrl } = Config
 
     const redirectUri = 'gooddollar://org.gooddollar/redirect'
-    const browserRedirectUri = `${publicUrl || 'https://dev.gooddollar.org'}/torus/scripts.html`
+    const browserRedirectUri = `${publicUrl}/torus/scripts.html`
 
     this.options = { ...options, redirectUri, browserRedirectUri }
   }

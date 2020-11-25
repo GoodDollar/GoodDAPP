@@ -2,7 +2,7 @@
 
 // libraries
 import React from 'react'
-import { TouchableOpacity, View } from 'react-native'
+import { Platform, TouchableOpacity, View } from 'react-native'
 
 // components
 import { Icon, Text } from '../common'
@@ -46,9 +46,11 @@ const sideMenuItemStyles = ({ theme }) => ({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'flex-start',
-    cursor: 'pointer',
     padding: theme.sizes.defaultDouble,
     paddingLeft: 0,
+    ...Platform.select({
+      web: { cursor: 'pointer' },
+    }),
   },
   menuIcon: {
     marginLeft: theme.sizes.default,

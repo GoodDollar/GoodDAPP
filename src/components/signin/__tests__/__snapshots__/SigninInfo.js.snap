@@ -18,7 +18,7 @@ exports[`SigninInfo matches snapshot 1`] = `
         Object {
           "WebkitBoxFlex": 0,
           "WebkitFlexGrow": 0,
-          "boxShadow": "none",
+          "boxShadow": "none, 0px 3px 4px rgba(0,0,0,0.24)",
           "flexGrow": 0,
           "height": "56px",
           "msFlexPositive": 0,

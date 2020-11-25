@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { TouchableHighlight, View } from 'react-native'
+import { Platform, TouchableHighlight, View } from 'react-native'
 import { withStyles } from '../../../lib/styles'
 import Icon from './Icon'
 import Text from './Text'
@@ -37,13 +37,19 @@ const getStylesFromProps = ({ theme }) => {
       display: 'flex',
       alignItems: 'center',
       flex: 1,
-      cursor: 'pointer',
       padding: theme.sizes.default,
+      ...Platform.select({
+        web: { cursor: 'pointer' },
+      }),
     },
     backspaceButton: {
-      backgroundRepeat: 'no-repeat',
-      backgroundSize: 'contain',
-      cursor: 'pointer',
+      ...Platform.select({
+        web: {
+          backgroundRepeat: 'no-repeat',
+          backgroundSize: 'contain',
+          cursor: 'pointer',
+        },
+      }),
       height: 30,
       justifyContent: 'center',
       width: 40,

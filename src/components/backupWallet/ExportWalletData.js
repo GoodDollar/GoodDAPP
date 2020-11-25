@@ -2,7 +2,7 @@
 
 // libraries
 import React, { useCallback, useMemo } from 'react'
-import { View } from 'react-native'
+import { Platform, View } from 'react-native'
 import { get, noop } from 'lodash'
 
 // components
@@ -107,8 +107,13 @@ const ExportWalletData = ({ navigation, styles, theme }: ExportWalletProps) => {
 
 const styles = ({ theme }) => ({
   wrapper: {
-    backgroundImage: 'none',
-    backgroundColor: 'none',
+    ...Platform.select({
+      web: {
+        backgroundImage: 'none',
+        backgroundColor: 'none',
+      },
+      default: { backgroundColor: 'transparent' },
+    }),
     padding: 0,
   },
   containerForBoxes: {

@@ -309,8 +309,8 @@ export const fireEvent = (event: string, data: any = {}) => {
   let gaEvent
   if (isGoogleAnalyticsEnabled) {
     gaEvent = convertToGA(data)
-
-    fireGoogleAnalyticsEvent(event, gaEvent)
+    gaEvent.eventAction = event
+    fireGoogleAnalyticsEvent('Analytics_event', gaEvent)
   }
 
   log.debug('fired event', { event, data, gaEvent })
@@ -323,7 +323,6 @@ const convertToGA = (data: any = {}) => {
   const gaEvent = {
     eventValue: eventValues.shift(),
     eventLabel: eventStrings.shift() || eventValues.shift() || JSON.stringify(values.shift()),
-    eventAction: eventStrings.shift() || eventValues.shift() || JSON.stringify(values.shift()),
   }
   return gaEvent
 }

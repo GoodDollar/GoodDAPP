@@ -2,6 +2,7 @@
 import React from 'react'
 import { ScrollView, View } from 'react-native'
 import { isMobileOnly } from '../../../lib/utils/platform'
+import { getShadowStyles } from '../../../lib/utils/getStyles'
 import { withStyles } from '../../../lib/styles'
 import ModalCloseButton from './ModalCloseButton'
 import ModalJaggedEdge from './ModalJaggedEdge'
@@ -78,12 +79,13 @@ const getStylesFromProps = ({ theme }) => ({
   minHeightBlock: {
     minHeight: theme.sizes.minHeightForDialogMessage,
   },
-  noneShadow: {
-    boxShadow: 'none',
-  },
-  shadow: {
-    boxShadow: '0px 2px 4px #00000029',
-  },
+  noneShadow: getShadowStyles('none'),
+  shadow: getShadowStyles('0px 2px 4px #00000029', {
+    shadowColor: '#00000029',
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 4,
+    elevation: 4,
+  }),
   triangle: {
     position: 'absolute',
     display: 'flex',
@@ -95,7 +97,13 @@ const getStylesFromProps = ({ theme }) => ({
 
     // transform: 'translateX(-50%) rotate(63deg) skewX(37deg)',
     transform: [{ translateX: '-50%' }, { rotate: '63deg' }, { skewX: '37deg' }],
-    boxShadow: 'rgba(0, 0, 0, 0.16) 2px 1px 4px',
+
+    ...getShadowStyles('2px 1px 4px rgba(0, 0, 0, 0.16) ', {
+      shadowColor: 'rgba(0, 0, 0, 0.16)',
+      shadowOffset: { width: 2, height: 1 },
+      shadowRadius: 4,
+      elevation: 4,
+    }),
   },
 })
 

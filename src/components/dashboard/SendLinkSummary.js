@@ -2,7 +2,6 @@
 
 import React, { useCallback, useEffect, useState } from 'react'
 import { text } from 'react-native-communications'
-import useNativeSharing from '../../lib/hooks/useNativeSharing'
 import { fireEvent } from '../../lib/analytics/analytics'
 import GDStore from '../../lib/undux/GDStore'
 import Config from '../../config/config'
@@ -13,6 +12,7 @@ import { ExceptionCategory } from '../../lib/logger/exceptions'
 import { useDialog } from '../../lib/undux/utils/dialog'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import { useScreenState } from '../appNavigation/stackNavigation'
+import { generateSendShareObject, generateSendShareText, isSharingAvailable } from '../../lib/share'
 import { ACTION_SEND, ACTION_SEND_TO_ADDRESS, SEND_TITLE } from './utils/sendReceiveFlow'
 import SummaryGeneric from './SendReceive/SummaryGeneric'
 
@@ -33,17 +33,14 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
   const inviteCode = userStorage.userProperties.get('inviteCode')
   const [screenState] = useScreenState(screenProps)
   const [showDialog, hideDialog, showErrorDialog] = useDialog()
-  const { canShare, generateSendShareObject, generateSendShareText } = useNativeSharing()
 
-  const { goToRoot, navigateTo } = screenProps
   const [shared, setShared] = useState(false)
   const [survey] = useState('other')
   const [link, setLink] = useState('')
-  const { amount, reason = null, counterPartyDisplayName, contact, address, action } = screenState
 
+  const { goToRoot, navigateTo } = screenProps
   const { fullName } = gdstore.get('profile')
-
-  const shareStringStateDepSource = [amount, counterPartyDisplayName, fullName]
+  const { amount, reason = null, counterPartyDisplayName, contact, address, action } = screenState
 
   const handleConfirm = useCallback(async () => {
     if (action === ACTION_SEND_TO_ADDRESS) {
@@ -51,16 +48,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
     } else {
       handlePayment()
     }
-  }, [
-    generateSendShareText,
-    generateSendShareObject,
-    amount,
-    reason,
-    counterPartyDisplayName,
-    setShared,
-    showDialog,
-    screenProps,
-  ])
+  }, [amount, reason, counterPartyDisplayName, setShared, showDialog, screenProps])
 
   const sendPayment = to => {
     try {
@@ -91,6 +79,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
           }
 
           fireEvent('SEND_DONE', { type: screenState.params.type })
+
           showDialog({
             visible: true,
             title: 'SUCCESS!',
@@ -98,6 +87,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
             buttons: [{ text: 'Yay!' }],
             onDismiss: setShared(true),
           })
+
           return hash
         },
         onError: e => {
@@ -107,6 +97,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
       })
     } catch (e) {
       log.error('Send TX failed:', e.message, e)
+
       showErrorDialog({
         visible: true,
         title: 'Transaction Failed!',
@@ -116,18 +107,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
     }
   }
 
-  const searchWalletAddress = async phoneNumber => {
-    const walletAddress = await gun
-      .get('users/bymobile')
-      .get(phoneNumber)
-      .get('profile')
-      .get('walletAddress')
-      .get('display')
-    return walletAddress
-  }
-
   // Going to root after shared
-
   useEffect(() => {
     if (shared) {
       screenProps.goToRoot()
@@ -138,9 +118,16 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
     let paymentLink = link
     let walletAddress
     const { phoneNumber } = contact || ''
+
     if (phoneNumber) {
       const cleanPhoneNumber = phoneNumber.replace(/\D/g, '')
-      walletAddress = await searchWalletAddress(cleanPhoneNumber)
+
+      walletAddress = await gun
+        .get('users/bymobile')
+        .get(cleanPhoneNumber)
+        .get('profile')
+        .get('walletAddress')
+        .get('display')
     }
 
     if (phoneNumber) {
@@ -148,14 +135,15 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
         sendPayment(walletAddress)
       } else {
         const link = paymentLink ? paymentLink : getLink()
-        const shareLink = generateSendShareText(link, ...shareStringStateDepSource)
+        const shareLink = generateSendShareText(link, amount, counterPartyDisplayName, fullName)
+
         text(contact.phoneNumber, shareLink)
         setShared(true)
       }
     } else {
       sendViaLink()
     }
-  }, [action])
+  }, [action, amount, counterPartyDisplayName, fullName])
 
   const sendViaAddress = useCallback(async () => {
     try {
@@ -222,11 +210,8 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
   const sendViaLink = useCallback(() => {
     try {
       const paymentLink = getLink()
-
-      const desktopShareLink = (canShare ? generateSendShareObject : generateSendShareText)(
-        paymentLink,
-        ...shareStringStateDepSource,
-      )
+      const factory = isSharingAvailable ? generateSendShareObject : generateSendShareText
+      const desktopShareLink = factory(paymentLink, amount, counterPartyDisplayName, fullName)
 
       // Go to transaction confirmation screen
       navigateTo('TransactionConfirmation', { paymentLink: desktopShareLink, action: ACTION_SEND })
@@ -234,7 +219,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
       log.error('Something went wrong while trying to generate send link', e.message, e, { dialogShown: true })
       showErrorDialog('Could not complete transaction. Please try again.')
     }
-  }, [...shareStringStateDepSource, generateSendShareText, canShare, navigateTo])
+  }, [amount, counterPartyDisplayName, fullName, navigateTo])
 
   /**
    * Generates link to send and call send email/sms action

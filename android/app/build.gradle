@@ -1,4 +1,10 @@
 apply plugin: "com.android.application"
+
+project.ext.envConfigFiles = [
+  debug: ".env.development",
+  staging: ".env.staging",
+  release: ".env.production",
+]
 apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"
 
 import com.android.build.OutputFile
@@ -125,7 +131,7 @@ def enableHermes = project.ext.react.get("enableHermes", false);
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
-    buildToolsVersion '28.0.3'
+    buildToolsVersion '29.0.2'
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -144,6 +150,11 @@ android {
         renderscriptSupportModeEnabled true
         testBuildType System.getProperty('testBuildType', 'debug')  // This will later be used to control the test apk build type
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
+        manifestPlaceholders = [
+                'torusRedirectScheme': 'gooddollar',
+                'torusRedirectHost': 'org.gooddollar',
+                'torusRedirectPathPrefix': '/redirect'
+        ]
     }
     splits {
         abi {
@@ -211,7 +222,13 @@ dependencies {
     implementation "com.facebook.react:react-native:+"  // From node_modules
     implementation project(':react-native-contacts')
 
-  // Add v8-android - prebuilt libv8android.so into APK
+    api "com.squareup.okhttp3:okhttp:4.9.0"
+    api "com.squareup.okhttp3:logging-interceptor:4.9.0"
+    api "com.squareup.okhttp3:okhttp-urlconnection:4.9.0"
+    implementation project(':torus-direct-react-native-sdk')
+
+
+    // Add v8-android - prebuilt libv8android.so into APK
     implementation 'org.chromium:v8-android:+'
     implementation "androidx.annotation:annotation:1.1.0"
     androidTestImplementation('com.wix:detox:+') { transitive = true }

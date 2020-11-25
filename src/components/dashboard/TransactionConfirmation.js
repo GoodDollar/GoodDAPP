@@ -1,7 +1,6 @@
 // @flow
-import React, { useCallback, useMemo } from 'react'
+import React, { useCallback } from 'react'
 import { View } from 'react-native'
-import { useScreenState } from '../appNavigation/stackNavigation'
 import useNativeSharing from '../../lib/hooks/useNativeSharing'
 import Section from '../common/layout/Section'
 import Wrapper from '../common/layout/Wrapper'
@@ -12,7 +11,9 @@ import { withStyles } from '../../lib/styles'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
 import { fireEvent } from '../../lib/analytics/analytics'
 import ConfirmTransactionSVG from '../../assets/confirmTransaction.svg'
-import useClipboard from '../../lib/hooks/useClipboard'
+import { useClipboardCopy } from '../../lib/hooks/useClipboard'
+import useCachedScreenState from '../../lib/hooks/useCachedScreenState'
+import { isSharingAvailable } from '../../lib/share'
 import { ACTION_RECEIVE, ACTION_SEND, PARAM_ACTION, RECEIVE_TITLE, SEND_TITLE } from './utils/sendReceiveFlow'
 
 export type ReceiveProps = {
@@ -35,36 +36,25 @@ const instructionsTextNumberProps = {
   fontWeight: 'bold',
 }
 
+const fireShared = () => fireEvent('SEND_CONFIRMATION_SHARE', { type: isSharingAvailable ? 'share' : 'copy' })
+const ConfirmButton = isSharingAvailable ? CustomButton : ButtonWithDoneState
+
 const TransactionConfirmation = ({ screenProps, styles }: ReceiveProps) => {
-  const { canShare, shareAction } = useNativeSharing()
   const { goToRoot } = screenProps
-  const [screenState] = useScreenState(screenProps)
-  const { paymentLink, action } = screenState
-  const [, setString] = useClipboard()
+  const { paymentLink, action } = useCachedScreenState(screenProps, 'GD_sharingCache')
 
-  const handlePressConfirm = useCallback(async () => {
-    let type = 'share'
+  const isSending = action === ACTION_SEND
+  const secondTextPoint = isSending ? 'Share it with your recipient' : 'Share it with sender'
+  const thirdTextPoint = isSending ? 'Recipient approves request' : 'Sender approves request'
 
-    if (canShare) {
-      //wait for native share before going to dashboard
-      await shareAction(paymentLink)
-      goToRoot()
-    } else {
-      if (!(await setString(paymentLink))) {
-        // needed to not fire SEND_CONFIRMATION_SHARE if setString to Clipboard is failed
-        return
-      }
+  // not fire SEND_CONFIRMATION_SHARE if copy to Clipboard failed
+  const handleCopied = useCallback(copied => copied && fireShared(), [])
 
-      type = 'copy'
-    }
-
-    fireEvent('SEND_CONFIRMATION_SHARE', { type })
-  }, [canShare, paymentLink, goToRoot, shareAction])
-
-  const secondTextPoint = action === ACTION_SEND ? 'Share it with your recipient' : 'Share it with sender'
-  const thirdTextPoint = action === ACTION_SEND ? 'Recipient approves request' : 'Sender approves request'
-
-  const ConfirmButton = useMemo(() => (canShare ? CustomButton : ButtonWithDoneState), [canShare])
+  const copy = useClipboardCopy(paymentLink, handleCopied)
+  const share = useNativeSharing(paymentLink, {
+    onSharePress: fireShared,
+    onSharingDone: goToRoot,
+  })
 
   return (
     <Wrapper>
@@ -96,13 +86,11 @@ const TransactionConfirmation = ({ screenProps, styles }: ReceiveProps) => {
           <ConfirmTransactionSVG />
         </View>
         <View style={styles.confirmButtonWrapper}>
-          <ConfirmButton testID={paymentLink} onPress={handlePressConfirm} onPressDone={goToRoot}>
-            <>
-              <Icon color="white" name="link" size={25} style={styles.buttonIcon} />
-              <Section.Text size={14} color="white" fontWeight="bold">
-                {canShare ? 'SHARE' : 'COPY LINK TO CLIPBOARD'}
-              </Section.Text>
-            </>
+          <ConfirmButton testID={paymentLink} onPress={isSharingAvailable ? share : copy} onPressDone={goToRoot}>
+            <Icon color="white" name="link" size={25} style={styles.buttonIcon} />
+            <Section.Text size={14} color="white" fontWeight="bold">
+              {isSharingAvailable ? 'SHARE' : 'COPY LINK TO CLIPBOARD'}
+            </Section.Text>
           </ConfirmButton>
         </View>
       </Section>

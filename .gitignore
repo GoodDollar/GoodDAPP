@@ -64,7 +64,6 @@ ios/sentry.properties
 
 # Others
 .env
-.env.staging
 secrets.json
 account.data.txt
 tree.txt

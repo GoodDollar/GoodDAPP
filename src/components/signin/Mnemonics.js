@@ -205,8 +205,15 @@ const mnemonicsStyles = ({ theme }) => ({
     minHeight: 80,
   },
   mainWrapper: {
-    backgroundImage: 'none',
-    backgroundColor: 'none',
+    ...Platform.select({
+      web: {
+        backgroundImage: 'none',
+        backgroundColor: 'none',
+      },
+      default: {
+        backgroundColor: 'transparent',
+      },
+    }),
   },
 })
 

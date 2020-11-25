@@ -1,6 +1,6 @@
 // @flow
 import React, { useCallback } from 'react'
-import { View } from 'react-native'
+import { Platform, View } from 'react-native'
 import { fireEvent } from '../../lib/analytics/analytics'
 import API, { getErrorMessage } from '../../lib/API/api'
 import userStorage from '../../lib/gundb/UserStorage'
@@ -85,7 +85,11 @@ const getStylesFromProps = ({ theme }) => {
   return {
     headerText: {
       borderBottomWidth: 2,
-      borderBottomStyle: 'solid',
+      ...Platform.select({
+        web: {
+          borderBottomStyle: 'solid',
+        },
+      }),
       borderBottomColor: theme.colors.primary,
       paddingBottom: getDesignRelativeHeight(5, false),
     },

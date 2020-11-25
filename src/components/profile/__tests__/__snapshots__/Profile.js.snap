@@ -20,7 +20,7 @@ exports[`Profile matches snapshot 1`] = `
           "WebkitFlexGrow": 0,
           "WebkitFlexShrink": 0,
           "backgroundColor": "rgba(0,175,255,1.00)",
-          "boxShadow": "none",
+          "boxShadow": "none, 0px 3px 4px rgba(0,0,0,0.24)",
           "flexGrow": 0,
           "flexShrink": 0,
           "height": "56px",

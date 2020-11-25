@@ -1,6 +1,7 @@
 import React from 'react'
 import { getDesignRelativeHeight } from '../../../lib/utils/sizes'
 import { isSmallDevice } from '../../../lib/utils/mobileSizeDetect'
+import { getShadowStyles } from '../../../lib/utils/getStyles'
 import Section from '../../common/layout/Section'
 import CustomButton from '../../common/buttons/CustomButton'
 import { theme as mainTheme } from '../../theme/styles'
@@ -87,7 +88,7 @@ const getStylesFromProps = ({ theme }) => {
       alignItems: 'center',
       borderRadius: 50,
       padding: 3,
-      boxShadow: 'none',
+      ...getShadowStyles('none'),
     },
     buttonText: {
       fontSize: buttonFontSize,

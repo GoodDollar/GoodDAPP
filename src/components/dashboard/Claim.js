@@ -405,7 +405,7 @@ const getStylesFromProps = ({ theme }) => {
     fontFamily: 'Roboto',
     fontSize: bigFontSize,
     color: theme.colors.darkBlue,
-    fontWeight: 'medium',
+    fontWeight: '500',
     lineHeight: bigFontSize,
   }
 
@@ -414,7 +414,9 @@ const getStylesFromProps = ({ theme }) => {
   }
 
   const learnMoreLink = {
-    cursor: 'pointer',
+    ...Platform.select({
+      web: { cursor: 'pointer' },
+    }),
     ...fontSize16,
   }
 

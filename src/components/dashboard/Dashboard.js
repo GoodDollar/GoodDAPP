@@ -891,7 +891,7 @@ const getStylesFromProps = ({ theme }) => ({
 Dashboard.navigationOptions = ({ navigation, screenProps }) => {
   return {
     navigationBar: () => <TabsView goTo={navigation.navigate} routes={screenProps.routes} navigation={navigation} />,
-    title: 'Home',
+    title: 'Wallet',
     disableScroll: true,
   }
 }
@@ -922,16 +922,9 @@ export default createStackNavigator({
   ReceiveSummary,
   ReceiveByQR,
 
-  /*ReceiveConfirmation: {
-    screen: ReceiveConfirmation,
-    path: ':action/ReceiveConfirmation',
-  },*/
-
   SendLinkSummary,
   SendByQR,
   SendToAddress,
-
-  // SendConfirmation,
 
   FaceVerification,
   FaceVerificationIntro,

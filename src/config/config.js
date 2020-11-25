@@ -3,7 +3,7 @@ import { version as contractsVersion } from '../../node_modules/@gooddollar/good
 import { env as devenv, fixNL } from '../lib/utils/env'
 import env from './env'
 
-const publicUrl = env.REACT_APP_PUBLIC_URL || get(window, 'location.origin')
+const publicUrl = env.REACT_APP_PUBLIC_URL || get(window, 'location.origin') || 'https://dev.gooddollar.org'
 const isEToro = env.REACT_APP_ETORO === 'true' || env.REACT_APP_NETWORK === 'etoro'
 
 // E2E checker utility import

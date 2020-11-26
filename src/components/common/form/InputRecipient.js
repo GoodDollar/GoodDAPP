@@ -1,6 +1,6 @@
 // libraries
 import React, { useCallback } from 'react'
-import { StyleSheet, View } from 'react-native'
+import { Platform, StyleSheet, View } from 'react-native'
 import { HelperText, TextInput } from 'react-native-paper'
 
 // components
@@ -70,10 +70,12 @@ const styles = StyleSheet.create({
   },
   pasteIcon: {
     position: 'absolute',
-    cursor: 'pointer',
     right: 0,
     paddingTop: 30,
     zIndex: 1,
+    ...Platform.select({
+      web: { cursor: 'pointer' },
+    }),
   },
 })
 

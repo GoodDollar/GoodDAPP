@@ -1,3 +1,6 @@
+import { Platform } from 'react-native'
+import { replace } from 'lodash'
+
 /* eslint-disable require-await */
 export const LoginStrategy = {
   Facebook: 'facebook',
@@ -88,6 +91,11 @@ export class Auth0Strategy extends AbstractLoginStrategy {
     const { torus, config } = this
     const { auth0Domain, auth0ClientId, torusGoogleAuth0 } = config
 
+    const _auth0Domain = Platform.select({
+      web: auth0Domain,
+      default: replace(auth0Domain, 'https://', ''),
+    })
+
     return torus.triggerAggregateLogin({
       aggregateVerifierType: 'single_id_verifier',
       verifierIdentifier: torusGoogleAuth0,
@@ -98,7 +106,7 @@ export class Auth0Strategy extends AbstractLoginStrategy {
           verifier: 'auth0',
           jwtParams: {
             connection: 'Username-Password-Authentication',
-            domain: auth0Domain,
+            domain: _auth0Domain,
           },
         },
       ],

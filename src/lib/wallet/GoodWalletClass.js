@@ -575,8 +575,16 @@ export class GoodWallet {
    * Deletes the current account
    * @returns {Promise<Promise|Q.Promise<TransactionReceipt>|Promise<*>|*>}
    */
-  deleteAccount(): Promise<TransactionReceipt> {
-    return this.sendTransaction(this.identityContract.methods.renounceWhitelisted())
+  async deleteAccount(): Promise<TransactionReceipt | void> {
+    const canDelete = await this.identityContract.methods
+      .lastAuthenticated(this.account)
+      .call()
+      .then(_ => _.toNumber() > 0)
+      .catch(_ => true)
+
+    if (canDelete === false) {
+      return
+    }
   }
 
   /**

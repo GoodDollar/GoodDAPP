@@ -13,6 +13,7 @@ import { weiToGd } from '../../lib/wallet/utils'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
 import { isMediumDevice, isSmallDevice } from '../../lib/utils/mobileSizeDetect'
 import { isMobileNative } from '../../lib/utils/platform'
+import { getShadowStyles } from '../../lib/utils/getStyles'
 
 const buttonLabelFontSize = isSmallDevice ? 30 : 40
 const timerFontSize = isSmallDevice ? 30 : 36
@@ -214,8 +215,8 @@ const getStylesFromProps = ({ theme }) => ({
     borderStyle: 'solid',
     height: isSmallDevice ? 140 : getDesignRelativeHeight(196),
     width: isSmallDevice ? 140 : getDesignRelativeHeight(196),
-    boxShadow: '10px 12px 25px -14px',
     alignItems: 'center',
+    ...getShadowStyles('10px 12px 25px -14px'),
   },
   buttonCountdown: {
     backgroundColor: theme.colors.orange,

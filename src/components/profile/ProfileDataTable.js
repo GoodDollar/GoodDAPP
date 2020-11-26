@@ -197,7 +197,10 @@ const getStylesFromProps = ({ theme, errors }) => {
       borderWidth: 1,
       borderStyle: 'solid',
       borderColor: theme.colors.lightGray,
-      borderRadius: '50%',
+      borderRadius: Platform.select({
+        web: '50%',
+        default: 24 / 2,
+      }),
     },
     disabledPhoneContainer: {
       paddingLeft: 10,

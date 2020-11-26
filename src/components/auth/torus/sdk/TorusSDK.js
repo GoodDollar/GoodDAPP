@@ -1,8 +1,8 @@
-import DirectWebSDK from '@toruslabs/torus-direct-web-sdk'
 import { first, omit } from 'lodash'
 
 import Config from '../../../../config/config'
 import logger from '../../../../lib/logger/pino-logger'
+import Torus from './torus'
 
 import {
   Auth0Strategy,
@@ -30,14 +30,11 @@ class TorusSDK {
   }
 
   constructor(config, logger) {
-    const { env, publicUrl, googleClientId, facebookAppId, torusProxyContract, torusNetwork } = config
+    const { env, torusProxyContract, torusNetwork } = config
 
-    this.torus = new DirectWebSDK({
-      GOOGLE_CLIENT_ID: googleClientId,
-      FACEBOOK_CLIENT_ID: facebookAppId,
+    this.torus = new Torus(config, {
       proxyContractAddress: torusProxyContract, // details for test net
       network: torusNetwork, // details for test net
-      baseUrl: `${publicUrl}/torus/`,
       enableLogging: env === 'development',
     })
 

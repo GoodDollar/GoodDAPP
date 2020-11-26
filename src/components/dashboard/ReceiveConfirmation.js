@@ -1,7 +1,7 @@
 // @flow
 import React, { useCallback, useMemo } from 'react'
 import { fireEvent } from '../../lib/analytics/analytics'
-import useClipboard from '../../lib/hooks/useClipboard'
+import { useClipboardCopy } from '../../lib/hooks/useClipboard'
 import GDStore from '../../lib/undux/GDStore'
 import BigGoodDollar from '../common/view/BigGoodDollar'
 import QRCode from '../common/view/QrCode/QRCode'
@@ -13,6 +13,12 @@ import useNativeSharing from '../../lib/hooks/useNativeSharing'
 
 import { useScreenState } from '../appNavigation/stackNavigation'
 import { withStyles } from '../../lib/styles'
+import {
+  generateReceiveShareObject,
+  generateReceiveShareText,
+  generateShareLink,
+  isSharingAvailable,
+} from '../../lib/share'
 import { navigationOptions } from './utils/sendReceiveFlow'
 
 export type ReceiveProps = {
@@ -22,37 +28,23 @@ export type ReceiveProps = {
 }
 
 const ReceiveConfirmation = ({ screenProps, styles }: ReceiveProps) => {
-  const profile = GDStore.useStore().get('profile')
-  const [, setString] = useClipboard()
+  const store = GDStore.useStore()
   const [screenState] = useScreenState(screenProps)
-  const { goToRoot, push } = screenProps
-  const {
-    canShare,
-    shareAction,
-    generateReceiveShareObject,
-    generateReceiveShareText,
-    generateShareLink,
-  } = useNativeSharing()
+
   const { amount, code, reason, counterPartyDisplayName } = screenState
+  const { fullName } = store.get('profile') || {}
+  const { goToRoot, push } = screenProps
 
-  const share = useMemo(() => {
-    if (canShare) {
-      return generateReceiveShareObject(code, amount, counterPartyDisplayName, profile.fullName, canShare)
-    }
-    return generateReceiveShareText(code, amount, counterPartyDisplayName, profile.fullName)
-  }, [code, canShare, generateReceiveShareObject, generateReceiveShareText])
+  const shareOrText = useMemo(() => {
+    const factory = isSharingAvailable ? generateReceiveShareObject : generateReceiveShareText
 
-  const urlForQR = useMemo(() => {
-    return generateShareLink('receive', code)
-  }, [code, generateShareLink])
+    return factory(code, amount, counterPartyDisplayName, fullName)
+  }, [code, amount, counterPartyDisplayName, fullName])
 
-  const sharePressHandler = useCallback(async () => {
-    if (canShare) {
-      await shareAction(share)
-    } else {
-      setString(share)
-    }
-  }, [canShare, share, shareAction, setString])
+  const urlForQR = useMemo(() => generateShareLink('receive', code), [code])
+
+  const shareHandler = useNativeSharing(shareOrText)
+  const copyHandler = useClipboardCopy(shareOrText)
 
   const shareDonePressHandler = useCallback(() => {
     fireEvent('RECEIVE_DONE', { type: 'link' })
@@ -81,7 +73,10 @@ const ReceiveConfirmation = ({ screenProps, styles }: ReceiveProps) => {
           </Section.Stack>
         </Section.Stack>
         <Section.Stack>
-          <ShareLinkReceiveAnimationButton onPress={sharePressHandler} onPressDone={shareDonePressHandler} />
+          <ShareLinkReceiveAnimationButton
+            onPress={isSharingAvailable ? shareHandler : copyHandler}
+            onPressDone={shareDonePressHandler}
+          />
         </Section.Stack>
       </Section>
     </Wrapper>
@@ -90,8 +85,9 @@ const ReceiveConfirmation = ({ screenProps, styles }: ReceiveProps) => {
 
 ReceiveConfirmation.navigationOptions = navigationOptions
 
-ReceiveConfirmation.shouldNavigateToComponent = props => {
-  const { screenState } = props.screenProps
+ReceiveConfirmation.shouldNavigateToComponent = ({ screenProps }) => {
+  const { screenState } = screenProps
+
   return screenState.amount
 }
 

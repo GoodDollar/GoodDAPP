@@ -11,7 +11,7 @@ jobs:
       - name: set branch name
         run: |
           echo "ENV=development" >> $GITHUB_ENV
-          echo "BRANCH=${GITHUB_HEAD_REF##*/}" >> $GITHUB_ENV
+          echo "BRANCH=${{ github.ref }}" >> $GITHUB_ENV
           echo "SECRET_NAME=DEV_ENV" >> $GITHUB_ENV
           echo "APPCENTER_NAME=GoodDollar/GoodDollar-iOS-development" >> $GITHUB_ENV
           echo "$GITHUB_HEAD_REF $GITHUB_REF ${{ env.BRANCH }} ${{ env.SECRET_NAME }} ${{ env.APPCENTER_NAME }}"

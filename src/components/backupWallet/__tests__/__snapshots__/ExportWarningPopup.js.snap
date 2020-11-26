@@ -11,7 +11,7 @@ exports[`ExportWarningPopup matches snapshot 1`] = `
       className="css-view-1dbjc4n r-alignSelf-1kihuf0 r-flexDirection-18u37iz r-justifyContent-1777fci"
     >
       <div
-        className="css-view-1dbjc4n r-alignSelf-1kihuf0 r-marginBottom-ngatle r-width-13qz1uu"
+        className="css-view-1dbjc4n r-alignSelf-1kihuf0 r-marginBottom-1peese0 r-width-13qz1uu"
         style={
           Object {
             "height": "100px",

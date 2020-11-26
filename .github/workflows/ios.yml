@@ -2,9 +2,7 @@ name: iOS CI/CD v1
 
 on:
   push:
-    branches: [react-native]
-  pull_request:
-    branches: [react-native]
+    branches: [master, staging, production, next, react-native]
 
 jobs:
   build:
@@ -29,7 +27,7 @@ jobs:
       - name: Pre-checks - Env is PROD
         if: ${{ contains('production next',env.BRANCH) }}
         run: |
-          echo "ENV=production" >> $GITHUB_ENV
+          echo "ENV=prod" >> $GITHUB_ENV
           echo "SECRET_NAME=PROD_ENV" >> $GITHUB_ENV
           echo "APPCENTER_NAME=GoodDollar/GoodDollar-iOS-production" >> $GITHUB_ENV
           echo "${{ env.BRANCH }} ${{ env.SECRET_NAME }} ${{ env.APPCENTER_NAME }}"
@@ -105,7 +103,7 @@ jobs:
         run: |
           token=${{ secrets.APPCENTER_IOS_DEV }}
 
-          if [ ${{ env.ENV }} == 'production' ]
+          if [ ${{ env.ENV }} == 'prod' ]
           then
             echo "setting appcenter production"
             token=${{secrets.APPCENTER_IOS_PROD}}

@@ -6,9 +6,7 @@ name: Android CI/CD v1
 # events but only for the master branch
 on:
   push:
-    branches: [react-native]
-  pull_request:
-    branches: [react-native]
+    branches: [master, staging, production, next, react-native]
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -85,7 +83,7 @@ jobs:
       - name: Pre-checks - Env is PROD
         if: ${{ contains('production next',env.BRANCH) }}
         run: |
-          echo "ENV=production" >> $GITHUB_ENV
+          echo "ENV=prod" >> $GITHUB_ENV
           echo "SECRET_NAME=PROD_ENV" >> $GITHUB_ENV
           echo "APPCENTER_NAME=GoodDollar/GoodDollar-Android-production" >> $GITHUB_ENV
           echo "${{ env.BRANCH }} ${{ env.SECRET_NAME }} ${{ env.APPCENTER_NAME }}"
@@ -136,7 +134,7 @@ jobs:
         run: |
           token=${{ secrets.APPCENTER_ANDROID_DEV }}
 
-          if [ ${{ env.ENV }} == 'production' ]
+          if [ ${{ env.ENV }} == 'prod' ]
           then
             echo "setting appcenter production"
             token=${{secrets.APPCENTER_ANDROID_PROD}}

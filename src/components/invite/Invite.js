@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { Image, View } from 'react-native'
 import { groupBy, result } from 'lodash'
 import {
@@ -16,12 +16,16 @@ import logger from '../../lib/logger/pino-logger'
 import { isMobile, isMobileNative } from '../../lib/utils/platform'
 import { fireEvent, INVITE_SHARE } from '../../lib/analytics/analytics'
 import Config from '../../config/config'
+import { generateShareObject, isSharingAvailable } from '../../lib/share'
 import { useCollectBounty, useInviteCode, useInvited } from './useInvites'
 import HowToSVG from './howto.svg'
 
 const log = logger.child({ from: 'Invite' })
 
-const SHARE_TEXT = SHARE_TEXT
+const shareTitle = 'I signed up to GoodDollar. Join me.'
+const shareMessage =
+  "Hey,\nCheck out GoodDollar it's a digital coin that gives anyone who joins a small daily income (UBI).\n\n"
+
 const InvitedUser = ({ name, avatar, status }) => {
   return (
     <Section.Row style={{ alignItems: 'center', marginTop: theme.paddings.defaultMargin }}>
@@ -34,7 +38,7 @@ const InvitedUser = ({ name, avatar, status }) => {
           marginLeft: theme.paddings.defaultMargin,
           textTransform: 'capitalize',
           flex: 1,
-          textAlign: 'start',
+          textAlign: 'justify',
         }}
       >
         {name}
@@ -52,7 +56,7 @@ const ShareIcons = ({ shareUrl }) => {
       Component: WhatsappShareButton,
       color: '#25D066',
       size: 20,
-      title: SHARE_TEXT,
+      title: shareMessage,
       separator: '',
     },
     {
@@ -61,7 +65,7 @@ const ShareIcons = ({ shareUrl }) => {
       Component: FacebookShareButton,
       color: theme.colors.facebookBlue,
       size: 20,
-      quote: SHARE_TEXT,
+      quote: shareMessage,
       hashtag: '#GoodDollar',
     },
     {
@@ -69,7 +73,7 @@ const ShareIcons = ({ shareUrl }) => {
       service: 'twitter',
       Component: TwitterShareButton,
       color: '#1DA1F3',
-      title: SHARE_TEXT,
+      title: shareMessage,
       hashtags: ['GoodDollar', 'UBI'],
     },
 
@@ -78,7 +82,7 @@ const ShareIcons = ({ shareUrl }) => {
       service: 'telegram',
       Component: TelegramShareButton,
       color: '#30A6DE',
-      title: SHARE_TEXT,
+      title: shareMessage,
     },
     {
       name: 'envelope',
@@ -86,8 +90,8 @@ const ShareIcons = ({ shareUrl }) => {
       Component: EmailShareButton,
       color: theme.colors.googleRed,
       size: 20,
-      subject: 'I signed up to GoodDollar. Join me.',
-      body: SHARE_TEXT,
+      subject: shareTitle,
+      body: shareMessage,
       separator: '',
     },
   ]
@@ -114,13 +118,14 @@ const ShareIcons = ({ shareUrl }) => {
 
 const ShareBox = ({ level }) => {
   const inviteCode = useInviteCode()
-
   const shareUrl = `${Config.publicUrl}?inviteCode=${inviteCode}`
   const bounty = result(level, 'bounty.toNumber', 100) / 100
-  const share = {
-    url: shareUrl,
-    title: SHARE_TEXT,
-  }
+
+  const share = useMemo(
+    () => (isSharingAvailable ? generateShareObject(shareTitle, shareMessage, shareUrl) : shareUrl),
+    [shareUrl],
+  )
+
   return (
     <WavesBox primaryColor={theme.colors.darkBlue} style={styles.linkBoxStyle} title={'Share This Link'}>
       <Section.Stack style={{ alignItems: 'flex-start', marginTop: 11, marginBottom: 11 }}>
@@ -133,7 +138,11 @@ const ShareBox = ({ level }) => {
         </Section.Text>
       </Section.Stack>
       <Section.Row style={{ alignItems: 'center' }}>
-        <Text fontSize={11} style={{ flex: 1, borderWidth: 1, padding: 9, marginRight: 8, borderRadius: 50 }}>
+        <Text
+          fontSize={11}
+          lineHeight={30}
+          style={{ flex: 1, borderWidth: 1, padding: 0, marginRight: 8, borderRadius: 50 }}
+        >
           {shareUrl}
         </Text>
         <ShareButton
@@ -142,8 +151,8 @@ const ShareBox = ({ level }) => {
           textStyle={{ fontSize: 14, color: theme.colors.white }}
           share={share}
           iconColor={'white'}
-          actionText={isMobile ? 'share' : 'copy'}
-          onPressed={() => fireEvent(INVITE_SHARE, { method: isMobile ? 'share' : 'copy' })}
+          actionText={isSharingAvailable ? 'share' : 'copy'}
+          onPressed={() => fireEvent(INVITE_SHARE, { method: isSharingAvailable ? 'share' : 'copy' })}
         />
       </Section.Row>
       {!isMobile && <ShareIcons shareUrl={shareUrl} />}
@@ -169,19 +178,19 @@ const InvitesBox = React.memo(({ invitees, refresh }) => {
       >
         <Section.Text
           fontSize={11}
-          textAlign={'start'}
+          textAlign={'justify'}
           color={'secondary'}
           style={{ marginTop: theme.paddings.defaultMargin }}
         >
           * Remind them to claim G$’s so you could earn your reward
         </Section.Text>
         {pending.map((data, i) => (
-          <>
+          <Section.Stack key={i}>
             <InvitedUser {...data} />
             {i < pending.length - 1 && (
               <Section.Separator style={{ marginTop: 8 }} width={1} color={theme.colors.lightGray} />
             )}
-          </>
+          </Section.Stack>
         ))}
       </WavesBox>
       <WavesBox
@@ -190,12 +199,12 @@ const InvitesBox = React.memo(({ invitees, refresh }) => {
         title={'Friends Who Joined & Claimed'}
       >
         {approved.map((data, i) => (
-          <>
+          <Section.Stack key={i}>
             <InvitedUser {...data} />
             {i < approved.length - 1 && (
               <Section.Separator style={{ marginTop: 8 }} width={1} color={theme.colors.lightGray} />
             )}
-          </>
+          </Section.Stack>
         ))}
       </WavesBox>
     </>
@@ -221,7 +230,10 @@ const InvitesHowTO = () => (
 const InvitesData = ({ invitees, refresh, level }) => (
   <>
     <Section.Stack
-      style={{ alignSelf: 'stretch', marginTop: getDesignRelativeHeight(theme.paddings.defaultMargin * 3, false) }}
+      style={{
+        alignSelf: 'stretch',
+        marginTop: getDesignRelativeHeight(theme.paddings.defaultMargin * 3, false),
+      }}
     >
       <ShareBox level={level} />
     </Section.Stack>

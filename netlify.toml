@@ -18,6 +18,7 @@ command = "CI= npm run build"
 
 [build.environment]
 GENERATE_SOURCEMAP = "true"
+NODE_ENV = "development"
 REACT_APP_SERVICE_WORKER = "true"
 REACT_APP_ENV = "development"
 REACT_APP_LOG_LEVEL = "debug"
@@ -45,14 +46,10 @@ REACT_APP_FACE_VERIFICATION_PRIVACY_URL = "https://medium.com/gooddollar/gooddol
 REACT_APP_WEB3_SITE_URL = "https://w3.gooddollar.org"
 # REACT_APP_WEB3_TRANSPORT_PROVIDER = "WebSocketProvider"
 REACT_APP_USE_TORUS = "true"
-# REACT_APP_TORUS_NETWORK = "mainnet"
-# REACT_APP_TORUS_PROXY_CONTRACT = "0x638646503746d5456209e33a2ff5e3226d698bea"
-# REACT_APP_TORUS_GOOGLE = "gooddollar-google"
-# REACT_APP_TORUS_FACEBOOK = "gooddollar-facebook"
-# REACT_APP_TORUS_GOOGLEAUTH0 = "gooddollar-google-auth0"
 REACT_APP_ENABLE_SELF_CUSTODY = "true"
 
 [context.staging.environment]
+NODE_ENV = "staging"
 REACT_APP_ENABLE_SELF_CUSTODY = "false"
 REACT_APP_SERVICE_WORKER = "true"
 REACT_APP_ENV = "staging"
@@ -72,18 +69,14 @@ REACT_APP_FACE_VERIFICATION_PRIVACY_URL = "https://medium.com/gooddollar/gooddol
 REACT_APP_WEB3_SITE_URL = "https://w3.gooddollar.org"
 # REACT_APP_WEB3_TRANSPORT_PROVIDER = "WebSocketProvider"
 REACT_APP_USE_TORUS = "true"
-# REACT_APP_TORUS_NETWORK = "mainnet"
-# REACT_APP_TORUS_PROXY_CONTRACT = "0x638646503746d5456209e33a2ff5e3226d698bea"
-# REACT_APP_TORUS_GOOGLE = "gooddollar-google"
-# REACT_APP_TORUS_FACEBOOK = "gooddollar-facebook"
-# REACT_APP_TORUS_GOOGLEAUTH0 = "gooddollar-google-auth0"
 
 [context.next.environment]
+NODE_ENV = "production"
 REACT_APP_SERVICE_WORKER = "true"
 REACT_APP_ENV = "production"
 REACT_APP_LOG_LEVEL = "silent"
 REACT_APP_SERVER_URL = "https://goodserver.gooddollar.org/"
-REACT_APP_GUN_PUBLIC_URL = "https://goodgun-prod.herokuapp.com/gun,https://goodgun-nvme.herokuapp.com/gun"
+REACT_APP_GUN_PUBLIC_URL = "https://goodgun-prod.herokuapp.com/gun,https://goodgun-nvme.gooddollar.org/gun"
 REACT_APP_NETWORK = "production"
 REACT_APP_SKIP_EMAIL_VERIFICATION = "false"
 REACT_APP_MARKET_URL = "https://www.facebook.com/groups/gooddollarmarketplace"
@@ -114,6 +107,7 @@ REACT_APP_TORUS_GOOGLEAUTH0 = "gooddollar-google-auth0"
 REACT_APP_ENABLE_SELF_CUSTODY = "false"
 
 [context."react-native".environment]
+NODE_ENV = "staging"
 REACT_APP_ENABLE_SELF_CUSTODY = "true"
 REACT_APP_SERVICE_WORKER = "true"
 REACT_APP_ENV = "staging"
@@ -133,11 +127,6 @@ REACT_APP_FACE_VERIFICATION_PRIVACY_URL = "https://medium.com/gooddollar/gooddol
 REACT_APP_WEB3_SITE_URL = "https://w3.gooddollar.org"
 # REACT_APP_WEB3_TRANSPORT_PROVIDER = "WebSocketProvider"
 REACT_APP_USE_TORUS = "true"
-# REACT_APP_TORUS_NETWORK = "mainnet"
-# REACT_APP_TORUS_PROXY_CONTRACT = "0x638646503746d5456209e33a2ff5e3226d698bea"
-# REACT_APP_TORUS_GOOGLE = "gooddollar-google"
-# REACT_APP_TORUS_FACEBOOK = "gooddollar-facebook"
-# REACT_APP_TORUS_GOOGLEAUTH0 = "gooddollar-google-auth0"
 
 [[headers]]
 for = "/torus/redirect"

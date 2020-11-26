@@ -1,4 +1,4 @@
-import { get, once } from 'lodash'
+import { once } from 'lodash'
 import { version as contractsVersion } from '../../node_modules/@gooddollar/goodcontracts/package.json'
 import { isWeb } from '../lib/utils/platform'
 import { env as devenv, fixNL } from '../lib/utils/env'
@@ -25,7 +25,7 @@ const isEToro = env.REACT_APP_ETORO === 'true' || env.REACT_APP_NETWORK === 'eto
 
 if (!publicUrl) {
   publicUrl = (() => {
-    switch(appEnv) {
+    switch (appEnv) {
       case 'development':
         return 'https://gooddev.netlify.app'
       case 'staging':
@@ -34,8 +34,8 @@ if (!publicUrl) {
         return 'https://wallet.gooddollar.org'
       default:
         return
-    }  
-  })()  
+    }
+  })()
 }
 
 const Config = {
@@ -135,7 +135,6 @@ const Config = {
   forcePeer: forcePeer && forcePeer[1],
   peersProb: (env.REACT_APP_GUN_PEERS_PROB || '1,0.5').split(',').map(Number),
   isPatch: (version.match(/\d+\.\d+\.(\d+)/) || [])[1] !== '0',
-
 }
 
 //get and override settings from server

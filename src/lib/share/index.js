@@ -263,8 +263,17 @@ export function generateShareLink(action: ActionType = 'receive', params: {} = {
 }
 
 // should be non-async to avoid possible 'non-user interaction' issues
-export const shareAction = (shareObj, showErrorDialog, customErrorMessage) =>
-  Share.share(shareObj).catch(exception => {
+export const shareAction = (shareObj, showErrorDialog, customErrorMessage) => {
+  //on native only message field is available on both android and ios
+  if (isMobileNative) {
+    shareObj = {
+      message: [shareObj.title, shareObj.message, shareObj.url]
+        .join('\n')
+        .replace(/\n\n+/, '\n')
+        .trim(),
+    }
+  }
+  return Share.share(shareObj).catch(exception => {
     const { name, message } = exception
 
     if (name !== 'AbortError') {
@@ -278,6 +287,7 @@ export const shareAction = (shareObj, showErrorDialog, customErrorMessage) =>
       )
     }
   })
+}
 
 export const parsePaymentLinkParams = params => {
   const { paymentCode, reason } = params

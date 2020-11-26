@@ -23,7 +23,7 @@ const version = env.VERSION || 'v0'
 let publicUrl = env.REACT_APP_PUBLIC_URL || origin
 const isEToro = env.REACT_APP_ETORO === 'true' || env.REACT_APP_NETWORK === 'etoro'
 
-if (!isWeb && !publicUrl) {
+if (!publicUrl) {
   publicUrl = (() => {
     switch(appEnv) {
       case 'development':

@@ -1,5 +1,6 @@
 // @flow
 import React, { useCallback, useEffect, useState } from 'react'
+import { Platform } from 'react-native'
 import { useClipboardCopy } from '../../lib/hooks/useClipboard'
 import { useWrappedApi } from '../../lib/API/useWrappedApi'
 import { withStyles } from '../../lib/styles'
@@ -121,7 +122,9 @@ const backupWalletStyles = ({ theme }) => ({
     flexDirection: 'row',
     flexWrap: 'wrap',
     margin: theme.paddings.defaultMargin,
-    overflowY: 'auto',
+    ...Platform.select({
+      web: { overflowY: 'auto' },
+    }),
   },
   bottomContainer: {
     backgroundColor: theme.colors.surface,
@@ -134,8 +137,13 @@ const backupWalletStyles = ({ theme }) => ({
     textDecorationLine: 'underline',
   },
   mainWrapper: {
-    backgroundImage: 'none',
-    backgroundColor: 'none',
+    ...Platform.select({
+      web: {
+        backgroundImage: 'none',
+        backgroundColor: 'none',
+      },
+      default: { backgroundColor: 'transparent' },
+    }),
   },
 })
 

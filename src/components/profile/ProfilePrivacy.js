@@ -3,7 +3,7 @@
 // libraries
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { RadioButton } from 'react-native-paper'
-import { TouchableOpacity } from 'react-native'
+import { Platform, TouchableOpacity } from 'react-native'
 import { startCase } from 'lodash'
 
 // custom components
@@ -244,8 +244,13 @@ const getStylesFromProps = ({ theme }) => {
       paddingVertical: 10,
     },
     mainWrapper: {
-      backgroundImage: 'none',
-      backgroundColor: 'none',
+      ...Platform.select({
+        web: {
+          backgroundImage: 'none',
+          backgroundColor: 'none',
+        },
+        default: { backgroundColor: 'transparent' },
+      }),
     },
   }
 }

@@ -1,6 +1,7 @@
 import BackgroundFetch from 'react-native-background-fetch'
 import PushNotification from 'react-native-push-notification'
 import moment from 'moment'
+import { once } from 'lodash'
 import AsyncStorage from '../utils/asyncStorage'
 import logger from '../logger/pino-logger'
 import { IS_LOGGED_IN } from '../constants/localStorage'
@@ -95,8 +96,8 @@ const waitUntil = async ms => new Promise((_, reject) => setTimeout(() => reject
 // eslint-disable-next-line require-await
 const hasConnection = async () => Promise.race([Promise.all([goodWallet.ready, userStorage.ready]), waitUntil(10000)])
 
-export const initBGFetch = () => {
+export const initBGFetch = once(() => {
   BackgroundFetch.configure(options, task, taskManagerErrorHandler)
   BackgroundFetch.registerHeadlessTask(androidHeadlessTask)
   BackgroundFetch.scheduleTask({ taskId: 'org.gooddollar.bgfetch' })
-}
+})

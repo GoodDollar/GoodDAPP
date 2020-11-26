@@ -152,8 +152,8 @@ export class AnalyticsClass {
     let gaEvent
     if (googleAnalytics) {
       gaEvent = this.convertToGA(data)
-
-      this.fireGoogleAnalyticsEvent(event, gaEvent)
+      gaEvent.eventAction = 'event'
+      this.fireGoogleAnalyticsEvent('Analytics_event', gaEvent)
     }
 
     logger.debug('fired event', { event, data, gaEvent })
@@ -166,7 +166,6 @@ export class AnalyticsClass {
     const gaEvent = {
       eventValue: eventValues.shift(),
       eventLabel: eventStrings.shift() || eventValues.shift() || JSON.stringify(values.shift()),
-      eventAction: eventStrings.shift() || eventValues.shift() || JSON.stringify(values.shift()),
     }
     return gaEvent
   }

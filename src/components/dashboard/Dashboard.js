@@ -83,7 +83,7 @@ const log = logger.child({ from: 'Dashboard' })
 let didRender = false
 const screenWidth = getMaxDeviceWidth()
 const initialHeaderContentWidth = screenWidth - _theme.sizes.default * 2 * 2
-const initialAvatarCenteredPosition = initialHeaderContentWidth / 2 - 34
+const initialAvatarLeftPosition = -initialHeaderContentWidth / 2 + 34
 
 export type DashboardProps = {
   navigation: any,
@@ -100,11 +100,11 @@ const Dashboard = props => {
   const [balanceBlockWidth, setBalanceBlockWidth] = useState(70)
   const [showBalance, setShowBalance] = useState(false)
   const [headerContentWidth, setHeaderContentWidth] = useState(initialHeaderContentWidth)
-  const [headerHeightAnimValue] = useState(new Animated.Value(165))
+  const [headerHeightAnimValue] = useState(new Animated.Value(210))
   const [headerAvatarAnimValue] = useState(new Animated.Value(68))
-  const [headerAvatarLeftAnimValue] = useState(new Animated.Value(initialAvatarCenteredPosition))
-  const [headerBalanceRightAnimValue] = useState(new Animated.Value(initialAvatarCenteredPosition))
-  const [avatarCenteredPosition, setAvatarCenteredPosition] = useState(initialAvatarCenteredPosition)
+  const [headerAvatarLeftAnimValue] = useState(new Animated.Value(0))
+  const [headerBalanceRightAnimValue] = useState(new Animated.Value(0))
+  const [avatarCenteredPosition, setAvatarCenteredPosition] = useState(0)
   const [headerBalanceVerticalMarginAnimValue] = useState(new Animated.Value(theme.sizes.defaultDouble))
   const [headerFullNameOpacityAnimValue] = useState(new Animated.Value(1))
   const store = SimpleStore.useStore()
@@ -134,18 +134,20 @@ const Dashboard = props => {
   }
 
   const avatarAnimStyles = {
-    position: 'absolute',
+    // position: 'absolute',
     height: headerAvatarAnimValue,
     width: headerAvatarAnimValue,
-    top: 0,
+
+    // top: 0,
     left: headerAvatarLeftAnimValue,
   }
 
   const balanceAnimStyles = {
     visibility: showBalance ? 'visible' : 'hidden',
-    position: 'absolute',
-    right: headerBalanceRightAnimValue,
-    marginVertical: headerBalanceVerticalMarginAnimValue,
+
+    // position: 'absolute',
+    // right: headerBalanceRightAnimValue,
+    // marginVertical: headerBalanceVerticalMarginAnimValue,
   }
 
   const calculateHeaderLayoutSizes = useCallback(() => {
@@ -422,12 +424,12 @@ const Dashboard = props => {
           easing: easingOut,
         }),
         Animated.timing(headerHeightAnimValue, {
-          toValue: 165,
+          toValue: 210,
           duration: timing,
           easing: easingOut,
         }),
         Animated.timing(headerAvatarLeftAnimValue, {
-          toValue: avatarCenteredPosition,
+          toValue: 0,
           duration: timing,
           easing: easingOut,
         }),
@@ -460,7 +462,7 @@ const Dashboard = props => {
           easing: easingIn,
         }),
         Animated.timing(headerAvatarLeftAnimValue, {
-          toValue: 0,
+          toValue: initialAvatarLeftPosition,
           duration: timing,
           easing: easingIn,
         }),
@@ -782,9 +784,9 @@ const getStylesFromProps = ({ theme }) => ({
     height: '100%',
   },
   headerFullName: {
-    position: 'absolute',
-    top: 0,
-    bottom: 0,
+    // position: 'absolute',
+    // top: 0,
+    // bottom: 0,
     marginVertical: 'auto',
     flex: 1,
     justifyContent: 'center',
@@ -874,8 +876,9 @@ const getStylesFromProps = ({ theme }) => ({
   },
   bigNumberWrapper: {
     alignItems: 'baseline',
-    position: 'absolute',
-    bottom: 0,
+
+    // position: 'absolute',
+    // bottom: 0,
   },
   disabledButton: {
     backgroundColor: theme.colors.gray50Percent,

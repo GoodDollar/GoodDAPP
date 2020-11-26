@@ -1,26 +1,45 @@
-import { get, once } from 'lodash'
+import { once } from 'lodash'
 import { version as contractsVersion } from '../../node_modules/@gooddollar/goodcontracts/package.json'
+import { isWeb } from '../lib/utils/platform'
 import { env as devenv, fixNL } from '../lib/utils/env'
-import env from './env'
 
-const publicUrl = env.REACT_APP_PUBLIC_URL || get(window, 'location.origin')
-const isEToro = env.REACT_APP_ETORO === 'true' || env.REACT_APP_NETWORK === 'etoro'
+import env from './env'
 
 // E2E checker utility import
 //import { isE2ERunning } from '../lib/utils/platform'
+const { search: qs = '', origin } = isWeb ? window.location : {}
 
-const forceLogLevel = get(window, 'location.search', '').match(/level=(.*?)($|&)/)
-const forcePeer = get(window, 'location.search', '').match(/gun=(.*?)($|&)/)
+const forceLogLevel = qs.match(/level=(.*?)($|&)/)
+const forcePeer = qs.match(/gun=(.*?)($|&)/)
 
-let phase = env.REACT_APP_RELEASE_PHASE || 1
+const appEnv = devenv(env.REACT_APP_ENV)
+const phase = env.REACT_APP_RELEASE_PHASE || 1
 
 const isPhaseZero = 0 === phase
 const isPhaseOne = 1 === phase
 const isPhaseTwo = 2 === phase
 const version = env.VERSION || 'v0'
 
+let publicUrl = env.REACT_APP_PUBLIC_URL || origin
+const isEToro = env.REACT_APP_ETORO === 'true' || env.REACT_APP_NETWORK === 'etoro'
+
+if (!publicUrl) {
+  publicUrl = (() => {
+    switch (appEnv) {
+      case 'development':
+        return 'https://gooddev.netlify.app'
+      case 'staging':
+        return 'https://goodqa.netlify.app'
+      case 'production':
+        return 'https://wallet.gooddollar.org'
+      default:
+        return
+    }
+  })()
+}
+
 const Config = {
-  env: devenv(env.REACT_APP_ENV),
+  env: appEnv,
   version,
   contractsVersion,
   isEToro,
@@ -116,7 +135,6 @@ const Config = {
   forcePeer: forcePeer && forcePeer[1],
   peersProb: (env.REACT_APP_GUN_PEERS_PROB || '1,0.5').split(',').map(Number),
   isPatch: (version.match(/\d+\.\d+\.(\d+)/) || [])[1] !== '0',
-
 }
 
 //get and override settings from server

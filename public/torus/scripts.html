@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+    <meta content="width=device-width,initial-scale=1.0" name="viewport"/>
+    <title>Redirect</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        background: #fcfcfc;
+        height: 100%;
+        padding: 0;
+        margin: 0;
+      }
+
+      .container {
+        width: 100%;
+        height: 100%;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+      }
+
+      div.title {
+        font-size: 14px;
+        color: #0f1222;
+        font-family: "Roboto", sans-serif !important;
+        margin: 0;
+        text-align: center;
+        font-weight: normal;
+      }
+
+      div.title a{
+        color: #0364ff;
+        cursor: pointer;
+      }
+
+      div.title > div{
+        margin-bottom: 4px;
+      }
+
+      .spinner .beat {
+        background-color: #0364ff;
+        height: 12px;
+        width: 12px;
+        margin: 24px 2px 10px;
+        border-radius: 100%;
+        -webkit-animation: beatStretchDelay 0.7s infinite linear;
+        animation: beatStretchDelay 0.7s infinite linear;
+        -webkit-animation-fill-mode: both;
+        animation-fill-mode: both;
+        display: inline-block;
+      }
+
+      .spinner .beat-odd {
+        animation-delay: 0s;
+      }
+
+      .spinner .beat-even {
+        animation-delay: 0.35s;
+      }
+
+      @-webkit-keyframes beatStretchDelay {
+        50% {
+          -webkit-transform: scale(0.75);
+          transform: scale(0.75);
+          -webkit-opacity: 0.2;
+          opacity: 0.2;
+        }
+
+        100% {
+          -webkit-transform: scale(1);
+          transform: scale(1);
+          -webkit-opacity: 1;
+          opacity: 1;
+        }
+      }
+
+      @keyframes beatStretchDelay {
+        50% {
+          -webkit-transform: scale(0.75);
+          transform: scale(0.75);
+          -webkit-opacity: 0.2;
+          opacity: 0.2;
+        }
+
+        100% {
+          -webkit-transform: scale(1);
+          transform: scale(1);
+          -webkit-opacity: 1;
+          opacity: 1;
+        }
+      }
+
+      @media (min-width: 768px) {
+        div.title {
+          font-size: 14px;
+        }
+        p.info {
+          font-size: 28px;
+        }
+
+        .spinner .beat {
+          height: 12px;
+          width: 12px;
+        }
+      }
+    </style>
+</head>
+
+<body>
+<div class="container" id="message">
+    <div class="spinner content" id="spinner">
+        <div class="beat beat-odd"></div>
+        <div class="beat beat-even"></div>
+        <div class="beat beat-odd"></div>
+    </div>
+    <div class="title content" id="redirectText" style="display: none;">
+        <div><a id="navigateLink">Click here</a> to continue with your login</div>
+    </div>
+</div>
+<script>
+        document.getElementById("message").style.visibility = "visible";
+        var navigateLink = document.getElementById("navigateLink");
+        var redirectText = document.getElementById("redirectText");
+        var linkToNavigate;
+        var instanceParams = {};
+        try {
+          var url = new URL(location.href);
+          var hash = url.hash.substr(1);
+          var hashParams = {};
+          if (hash) {
+            hashParams = hash.split("&").reduce(function (result, item) {
+              var parts = item.split("=");
+              result[parts[0]] = parts[1];
+              return result;
+            }, {});
+          }
+          var queryParams = {};
+          for (var key of url.searchParams.keys()) {
+            queryParams[key] = url.searchParams.get(key);
+          }
+          var error = "";
+          try {
+            if (Object.keys(hashParams).length > 0 && hashParams.state) {
+              instanceParams = JSON.parse(window.atob(decodeURIComponent(decodeURIComponent(hashParams.state)))) || {};
+              if (hashParams.error) error = hashParams.error;
+            } else if (Object.keys(queryParams).length > 0 && queryParams.state) {
+              instanceParams = JSON.parse(window.atob(decodeURIComponent(decodeURIComponent(queryParams.state)))) || {};
+              if (queryParams.error) error = queryParams.error;
+            }
+          } catch (e) {
+            console.error(e);
+          }
+          if (instanceParams.redirectToAndroid) {
+            // communicate to android package
+            linkToNavigate = instanceParams.redirectUri + location.search + location.hash;
+            window.location.href = linkToNavigate;
+            setTimeout(() => {
+              navigateLink.href = linkToNavigate;
+              redirectText.style.display = "block";
+            }, 1000)
+          }
+        } catch (err) {
+          console.error(err, "error in redirect");
+          window.close();
+        }
+
+
+</script>
+</body>
+</html>

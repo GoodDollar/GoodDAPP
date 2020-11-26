@@ -7,7 +7,7 @@ import env from './env'
 
 // E2E checker utility import
 //import { isE2ERunning } from '../lib/utils/platform'
-const { search: qs, origin } = isWeb ? window.location : { search: '' }
+const { search: qs = '', origin } = isWeb ? window.location : {}
 
 const forceLogLevel = qs.match(/level=(.*?)($|&)/)
 const forcePeer = qs.match(/gun=(.*?)($|&)/)

@@ -100,7 +100,7 @@ const Dashboard = props => {
   const [balanceBlockWidth, setBalanceBlockWidth] = useState(70)
   const [showBalance, setShowBalance] = useState(false)
   const [headerContentWidth, setHeaderContentWidth] = useState(initialHeaderContentWidth)
-  const [headerHeightAnimValue] = useState(new Animated.Value(210))
+  const [headerHeightAnimValue] = useState(new Animated.Value(165))
   const [headerAvatarAnimValue] = useState(new Animated.Value(68))
   const [headerAvatarLeftAnimValue] = useState(new Animated.Value(0))
   const [headerBalanceRightAnimValue] = useState(new Animated.Value(0))
@@ -134,18 +134,14 @@ const Dashboard = props => {
   }
 
   const avatarAnimStyles = {
-    // position: 'absolute',
     height: headerAvatarAnimValue,
     width: headerAvatarAnimValue,
-
-    // top: 0,
     left: headerAvatarLeftAnimValue,
   }
 
   const balanceAnimStyles = {
     visibility: showBalance ? 'visible' : 'hidden',
 
-    // position: 'absolute',
     // right: headerBalanceRightAnimValue,
     // marginVertical: headerBalanceVerticalMarginAnimValue,
   }
@@ -424,7 +420,7 @@ const Dashboard = props => {
           easing: easingOut,
         }),
         Animated.timing(headerHeightAnimValue, {
-          toValue: 210,
+          toValue: 165,
           duration: timing,
           easing: easingOut,
         }),
@@ -707,7 +703,6 @@ const Dashboard = props => {
                     lineHeight: 42,
                     textAlign: 'left',
                   }}
-                  style={Platform.OS !== 'web' && styles.marginNegative}
                   bigNumberUnitStyles={styles.bigNumberUnitStyles}
                 />
               </View>
@@ -782,16 +777,16 @@ const Dashboard = props => {
 const getStylesFromProps = ({ theme }) => ({
   headerWrapper: {
     height: '100%',
+    paddingBottom: getDesignRelativeHeight(
+      Platform.select({
+        web: theme.sizes.defaultDouble,
+        default: theme.sizes.default,
+      }),
+    ),
   },
   headerFullName: {
-    // position: 'absolute',
-    // top: 0,
-    // bottom: 0,
-    marginVertical: 'auto',
-    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingTop: getDesignRelativeHeight(10),
     zIndex: -1,
   },
   dashboardWrapper: {
@@ -876,18 +871,12 @@ const getStylesFromProps = ({ theme }) => ({
   },
   bigNumberWrapper: {
     alignItems: 'baseline',
-
-    // position: 'absolute',
-    // bottom: 0,
   },
   disabledButton: {
     backgroundColor: theme.colors.gray50Percent,
   },
   bigNumberUnitStyles: {
     marginRight: normalize(-20),
-  },
-  marginNegative: {
-    marginBottom: -7,
   },
 })
 

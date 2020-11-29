@@ -30,6 +30,7 @@ export type AmountProps = {
  */
 const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
   const gdstore = GDStore.useStore()
+  const inviteCode = userStorage.userProperties.get('inviteCode')
   const [screenState] = useScreenState(screenProps)
   const [showDialog, hideDialog, showErrorDialog] = useDialog()
 
@@ -37,7 +38,6 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
   const [survey] = useState('other')
   const [link, setLink] = useState('')
 
-  const inviteCode = gdstore.get('inviteCode')
   const { goToRoot, navigateTo } = screenProps
   const { fullName } = gdstore.get('profile')
   const { amount, reason = null, counterPartyDisplayName, contact, address, action } = screenState

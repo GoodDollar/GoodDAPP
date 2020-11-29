@@ -5,8 +5,15 @@ import renderer from 'react-test-renderer'
 import SendModalItemWithError from '../SendModalItemWithError'
 import { generateFeedItemProps } from '../../__tests__/__util__'
 import { withThemeProvider } from '../../../../__tests__/__util__'
+import userStorage from '../../../../lib/gundb/UserStorage'
+
+jest.setTimeout(10000)
 
 describe('SendModalItemWithError', () => {
+  beforeAll(async () => {
+    await userStorage.wallet.ready
+    await userStorage.ready
+  })
   const WrappedSendModalItemWithError = withThemeProvider(SendModalItemWithError)
   const props = generateFeedItemProps('send', 'error')
   it('renders without errors', () => {

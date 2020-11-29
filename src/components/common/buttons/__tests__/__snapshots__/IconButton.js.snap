@@ -18,10 +18,16 @@ exports[`IconButton disabled matches snapshot 1`] = `
     tabIndex="0"
   >
     <div
-      className="css-view-1dbjc4n r-borderRadius-ieixw r-padding-nsbfu8"
+      className="css-view-1dbjc4n r-alignItems-1awozwy r-justifyContent-1777fci"
       style={
         Object {
           "backgroundColor": "rgba(12,38,61,1.00)",
+          "borderBottomLeftRadius": "16px",
+          "borderBottomRightRadius": "16px",
+          "borderTopLeftRadius": "16px",
+          "borderTopRightRadius": "16px",
+          "height": "32px",
+          "width": "32px",
         }
       }
     >
@@ -32,7 +38,7 @@ exports[`IconButton disabled matches snapshot 1`] = `
           Object {
             "color": "rgba(255,255,255,1.00)",
             "fontFamily": "gooddollar",
-            "fontSize": "35px",
+            "fontSize": "16px",
             "fontStyle": "normal",
           }
         }
@@ -68,10 +74,16 @@ exports[`IconButton enabled matches snapshot 1`] = `
     tabIndex="0"
   >
     <div
-      className="css-view-1dbjc4n r-borderRadius-ieixw r-padding-nsbfu8"
+      className="css-view-1dbjc4n r-alignItems-1awozwy r-justifyContent-1777fci"
       style={
         Object {
           "backgroundColor": "rgba(12,38,61,1.00)",
+          "borderBottomLeftRadius": "16px",
+          "borderBottomRightRadius": "16px",
+          "borderTopLeftRadius": "16px",
+          "borderTopRightRadius": "16px",
+          "height": "32px",
+          "width": "32px",
         }
       }
     >
@@ -82,7 +94,7 @@ exports[`IconButton enabled matches snapshot 1`] = `
           Object {
             "color": "rgba(255,255,255,1.00)",
             "fontFamily": "gooddollar",
-            "fontSize": "35px",
+            "fontSize": "16px",
             "fontStyle": "normal",
           }
         }

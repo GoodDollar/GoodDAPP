@@ -23,16 +23,21 @@ type IconProps = {
  * @param {String} props.name icon name
  * @returns {React.Node}
  */
-const IconButton = ({ styles, theme, text, onPress, disabled, name, ...iconProps }: IconProps) => {
+const IconButton = ({ styles, theme, text, onPress, disabled, name, style, ...iconProps }: IconProps) => {
   const _onPress = useOnPress(onPress)
   return (
-    <TouchableOpacity cursor={disabled ? 'inherit' : 'pointer'} onPress={_onPress} style={styles.container}>
+    <TouchableOpacity
+      cursor={disabled ? 'inherit' : 'pointer'}
+      onPress={disabled ? undefined : _onPress}
+      style={[styles.container, style]}
+    >
       <CustomIcon
         color={theme.colors.darkBlue}
         name={name}
         reverse
         reverseColor={disabled ? 'rgba(0, 0, 0, 0.32)' : '#282c34'}
-        size={35}
+        size={16}
+        circleSize={32}
         {...iconProps}
       />
       <Text fontSize={11} color={disabled ? 'rgba(0, 0, 0, 0.32)' : 'inherit'}>

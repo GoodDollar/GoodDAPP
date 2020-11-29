@@ -29,7 +29,7 @@ describe('GoodWalletShare/ReceiveTokens', () => {
 
     await adminWallet.topWallet(testWallet2.account, 0, true)
 
-    const lastBlock = await testWallet.getBlockNumber().then(_ => _.toNumber())
+    const lastBlock = await testWallet.getBlockNumber()
 
     testWallet.watchEvents(lastBlock, () => {})
     testWallet2.watchEvents(lastBlock, () => {})

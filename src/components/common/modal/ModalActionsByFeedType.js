@@ -40,8 +40,8 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
   const [showErrorDialog] = useErrorDialog()
 
   const store = GDStore.useStore()
-  const inviteCode = store.get('inviteCode')
   const _handleModalClose = useCallback(handleModalClose)
+  const inviteCode = userStorage.userProperties.get('inviteCode')
   const { fullName: currentUserName } = store.get('profile')
 
   const [cancellingPayment, setCancellingPayment] = useState(false)

@@ -311,12 +311,14 @@ class AppView extends Component<AppViewProps, AppViewState> {
 const styles = StyleSheet.create({
   scrollView: {
     display: 'flex',
-    flexGrow: 1,
+
+    // flexGrow: 1,
   },
   scrollableView: {
     flexGrow: 1,
     display: 'flex',
-    height: '100%',
+
+    // height: '100%',
   },
   sideMenuContainer: {
     top: 0,

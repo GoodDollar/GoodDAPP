@@ -347,13 +347,6 @@ export class APIService {
   }
 
   /**
-   * `/verify/w3/bonuses` get api call
-   */
-  redeemBonuses() {
-    return this.client.get('/verify/w3/bonuses')
-  }
-
-  /**
    * `/trust` get api call
    */
   getTrust() {

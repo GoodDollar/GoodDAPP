@@ -23,6 +23,7 @@ export const theme = {
     lightGreen: '#00BBA5',
     lightGray: '#EEE',
     lighterGray: '#A3A3A3',
+    secondary: '#A3A3A3',
     orange: '#F8AF40',
     primary: '#00AFFF',
     purple: '#9F6A9D',

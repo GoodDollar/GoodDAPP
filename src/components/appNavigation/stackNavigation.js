@@ -311,9 +311,8 @@ class AppView extends Component<AppViewProps, AppViewState> {
 const styles = StyleSheet.create({
   scrollView: {
     display: 'flex',
-    ...Platform.select({ web: { flexGrow: 1, flexShrink: 0 }, default: {} }),
 
-    // height: '100%',
+    // flexGrow: 1,
   },
   scrollableView: {
     flexGrow: 1,

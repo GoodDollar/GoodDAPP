@@ -7,7 +7,7 @@ export const ExceptionCategory = {
   Unexpected: 'unexpected',
 }
 
-const MAX_EXCEPTION_CODE = 14
+const MAX_EXCEPTION_CODE = 15
 const codeToString = code => `E${code}`
 
 export const ExceptionCode = fromPairs(range(1, MAX_EXCEPTION_CODE + 1).map(code => [codeToString(code), code]))

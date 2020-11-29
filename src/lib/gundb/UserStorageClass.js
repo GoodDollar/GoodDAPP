@@ -738,7 +738,7 @@ export class UserStorage {
     if (data.from) {
       if (data.from === this.wallet.UBIContract.address.toLowerCase()) {
         operationType = EVENT_TYPE_CLAIM
-      } else if (data.from === this.wallet.getSignUpBonusAddress()) {
+      } else if (this.wallet.getRewardsAddresses().includes(data.from)) {
         operationType = EVENT_TYPE_BONUS
       } else if (data.from === NULL_ADDRESS) {
         operationType = EVENT_TYPE_MINT
@@ -1055,7 +1055,6 @@ export class UserStorage {
         .get(k)
         .decrypt()
         .catch(noop)
-
       logger.debug('init feed cache got missing cache item', { id: k, data })
 
       if (!data) {
@@ -1086,14 +1085,13 @@ export class UserStorage {
     this.addBackupCard()
     this.addStartClaimingCard()
 
+    if (Config.enableInvites) {
+      setTimeout(() => this.enqueueTX(inviteFriendsMessage), 120000) // 2 minutes
+    }
+
     // first time user visit
     if (firstVisitAppDate == null) {
       this.enqueueTX(Config.isEToro ? welcomeMessageOnlyEtoro : welcomeMessage)
-
-      if (Config.enableInvites) {
-        setTimeout(() => this.enqueueTX(inviteFriendsMessage), 120000) // 2 minutes
-      }
-
       await this.userProperties.set('firstVisitApp', Date.now())
     }
 
@@ -1798,7 +1796,7 @@ export class UserStorage {
    * @param {string} field - Profile field value (email, mobile or wallet address value)
    * @returns {object} profile - { name, avatar }
    */
-  async getUserProfile(field: string = '') {
+  async getUserProfile(field: string = ''): { name: String, avatar: String } {
     const attr = isMobilePhone(field) ? 'mobile' : isEmail(field) ? 'email' : 'walletAddress'
     const value = UserStorage.cleanHashedFieldForIndex(attr, field)
 
@@ -2406,9 +2404,7 @@ export class UserStorage {
    */
   async saveJoinedBlockNumber(): void {
     // default block to start sync from
-    const blockNumber = await this.wallet.wallet.eth
-      .getBlockNumber()
-      .catch(e => UserProperties.defaultProperties.joinedAtBlock)
+    const blockNumber = await this.wallet.getBlockNumber().catch(e => UserProperties.defaultProperties.joinedAtBlock)
 
     logger.debug('Saving lastBlock number right after registration:', blockNumber)
 

@@ -2,6 +2,7 @@
 import React from 'react'
 import { View } from 'react-native'
 import { ActivityIndicator } from 'react-native-paper'
+import { noop } from 'lodash'
 import useOnPress from '../../../lib/hooks/useOnPress'
 import { withStyles } from '../../../lib/styles'
 import { theme as DefaultTheme } from '../../theme/styles'
@@ -110,11 +111,18 @@ type IconButtonProps = {
   theme: DefaultTheme,
 }
 
-const IconButton = ({ theme, dark, icon, size, style }: IconButtonProps) => {
+const IconButton = ({ theme, dark, icon, size, style, color }: IconButtonProps) => {
   if (typeof icon === 'function') {
     return icon(dark ? theme.colors.surface : theme.colors.primary, size)
   }
-  return <Icon name={icon} color={dark ? theme.colors.surface : theme.colors.primary} size={size || 16} style={style} />
+  return (
+    <Icon
+      name={icon}
+      color={color || (dark ? theme.colors.surface : theme.colors.primary)}
+      size={size || 16}
+      style={style}
+    />
+  )
 }
 
 /**
@@ -153,7 +161,8 @@ const CustomButton = (props: ButtonProps) => {
     iconStyle,
     roundness = 50,
     contentStyle,
-    onPress,
+    onPress = noop,
+    iconColor,
     ...buttonProps
   } = props
   const dark = mode === 'contained'
@@ -183,6 +192,7 @@ const CustomButton = (props: ButtonProps) => {
             dark={dark}
             size={iconSize || 14}
             style={iconStyle || styles.leftIcon}
+            color={iconColor}
           />
         )}
         {loading && (
@@ -203,6 +213,7 @@ const CustomButton = (props: ButtonProps) => {
             dark={dark}
             size={iconSize || 14}
             style={iconStyle || styles.rightIcon}
+            color={iconColor}
           />
         )}
       </View>

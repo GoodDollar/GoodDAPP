@@ -22,7 +22,6 @@ import wrapper from '../../lib/undux/utils/wrapper'
 import { formatWithabbreviations, formatWithSIPrefix, formatWithThousandsSeparator } from '../../lib/utils/formatNumber'
 import { weiToGd } from '../../lib/wallet/utils'
 import { getDesignRelativeHeight, getDesignRelativeWidth, getMaxDeviceWidth } from '../../lib/utils/sizes'
-import { WrapperClaim } from '../common'
 import SpinnerCheckMark from '../common/animations/SpinnerCheckMark/SpinnerCheckMark'
 import { withStyles } from '../../lib/styles'
 import { theme as mainTheme } from '../theme/styles'
@@ -38,8 +37,7 @@ import {
 import Config from '../../config/config'
 import { isShortDevice as isSmallDevice } from '../../lib/utils/mobileSizeDetect'
 import { isMobileNative } from '../../lib/utils/platform'
-import Section from '../common/layout/Section'
-import BigGoodDollar from '../common/view/BigGoodDollar'
+import { BigGoodDollar, Section, WrapperClaim } from '../common/'
 import useAppState from '../../lib/hooks/useAppState'
 import { WavesBox } from '../common/view/WavesBox'
 import type { DashboardProps } from './Dashboard'
@@ -128,6 +126,7 @@ const ClaimAmountBox = ({ dailyUbi }) => {
     return null
   }
 
+  //for native we dont have translate 50%, so we get the width from the rendering event onLayout
   const updateSize = event => {
     if (isMobileNative === false) {
       return
@@ -136,6 +135,7 @@ const ClaimAmountBox = ({ dailyUbi }) => {
     const top = event.nativeEvent.layout.height - 14 //self height 18 minus parent border 4 will put text on top of border
     setPosition({ left, top })
   }
+
   return (
     <Section.Row alignItems="center" justifyContent="center">
       <View style={cbStyles.amountBox} onLayout={updateSize}>
@@ -247,7 +247,7 @@ const Claim = props => {
   const evaluateFRValidity = async () => {
     const isValid = screenProps.screenState && screenProps.screenState.isValid
 
-    log.debug('from FR:', { isValid })
+    log.debug('from FR:', { isValid, screenProps })
     try {
       if (isValid && (await goodWallet.isCitizen())) {
         handleClaim()

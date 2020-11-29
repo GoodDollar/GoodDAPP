@@ -20,6 +20,7 @@ export const WavesBox = ({ style, primaryColor, children, title, contentStyle })
                 fontWeight={'bold'}
                 fontSize={18}
                 letterSpacing={0.09}
+                textAlign={'justify'}
               >
                 {title}
               </Section.Text>

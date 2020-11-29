@@ -16,3 +16,7 @@ export const formatWithSIPrefix = (number, customFormat = null) => {
 export const formatWithThousandsSeparator = number => {
   return numeral(number).format('0[,]0.00')
 }
+
+export const formatWithabbreviations = number => {
+  return numeral(number).format('0.0a')
+}

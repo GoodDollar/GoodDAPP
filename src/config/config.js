@@ -20,6 +20,7 @@ const isPhaseOne = 1 === phase
 const isPhaseTwo = 2 === phase
 const version = env.VERSION || 'v0'
 
+const alchemyKey = env.REACT_APP_ALCHEMY_KEY
 let publicUrl = env.REACT_APP_PUBLIC_URL || origin
 const isEToro = env.REACT_APP_ETORO === 'true' || env.REACT_APP_NETWORK === 'etoro'
 
@@ -56,6 +57,8 @@ const Config = {
   dashboardUrl: env.REACT_APP_DASHBOARD_URL || 'https://dashboard.gooddollar.org',
   infuraKey: env.REACT_APP_INFURA_KEY,
   network: env.REACT_APP_NETWORK || 'fuse',
+  networkMainnet: env.REACT_APP_NETWORK_MAINNET || 'fuse-mainnet',
+  interestCollectedInterval: env.REACT_APP_INTEREST_BLOCKS_INTERVAL || 5760, // default is 24H
   marketUrl: env.REACT_APP_MARKET_URL || 'https://www.facebook.com/groups/gooddollarmarketplace',
   torusEnabled: env.REACT_APP_USE_TORUS === 'true',
   torusNetwork: env.REACT_APP_TORUS_NETWORK || 'ropsten',
@@ -104,16 +107,34 @@ const Config = {
   torusGoogleAuth0: env.REACT_APP_TORUS_GOOGLEAUTH0 || 'google-auth0-gooddollar',
   torusAuth0SMS: env.REACT_APP_TORUS_AUTH0SMS || 'gooddollar-auth0-sms-passwordless',
   torusEmailEnabled: env.REACT_APP_TORUS_AUTH0EMAIL_ENABLED === 'true',
+  alchemyKey,
   ethereum: {
+    '1': {
+      network_id: 1,
+
+      // httpWeb3provider: `https://kovan.infura.io/v3/`,
+      httpWeb3provider: `https://eth-mainnet.alchemyapi.io/v2/${alchemyKey}`,
+
+      // websocketWeb3Provider: 'wss://kovan.infura.io/ws',
+      websocketWeb3Provider: `wss://eth-mainnet.alchemyapi.io/v2/${alchemyKey}`,
+    },
     '42': {
       network_id: 42,
-      httpWeb3provider: 'https://kovan.infura.io/v3/',
-      websocketWeb3Provider: 'wss://kovan.infura.io/ws',
+
+      // httpWeb3provider: `https://kovan.infura.io/v3/`,
+      httpWeb3provider: `https://eth-kovan.alchemyapi.io/v2/${alchemyKey}`,
+
+      // websocketWeb3Provider: 'wss://kovan.infura.io/ws',
+      websocketWeb3Provider: `wss://eth-kovan.alchemyapi.io/v2/${alchemyKey}`,
     },
     '3': {
       network_id: 3,
-      httpWeb3provider: 'https://ropsten.infura.io/v3/',
-      websocketWeb3Provider: 'wss://ropsten.infura.io/ws',
+      httpWeb3provider: `https://eth-ropsten.alchemyapi.io/v2/${alchemyKey}`,
+
+      // httpWeb3provider: 'https://ropsten.infura.io/v3/',
+      websocketWeb3Provider: `wss://eth-ropsten.alchemyapi.io/v2/${alchemyKey}`,
+
+      // websocketWeb3Provider: 'wss://ropsten.infura.io/ws',
     },
     '121': {
       network_id: 121,

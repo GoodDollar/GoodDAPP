@@ -3,7 +3,7 @@ import { Platform, StyleSheet, View } from 'react-native'
 import GoodDollarImageSVG from '../../assets/Splash/goodDollar.svg'
 
 import wavePattern from '../../assets/splashWaves.svg'
-import { getDesignRelativeHeight } from '../../lib/utils/sizes'
+import { getDesignRelativeHeight, getMaxDeviceHeight } from '../../lib/utils/sizes'
 import CustomButton from '../common/buttons/CustomButton'
 import Wrapper from '../common/layout/Wrapper'
 import Section from '../common/layout/Section'
@@ -42,6 +42,7 @@ SplashDesktop.navigationOptions = {
 const styles = StyleSheet.create({
   wrapper: {
     padding: 0,
+    maxHeight: getMaxDeviceHeight(),
   },
   container: {
     alignItems: 'center',

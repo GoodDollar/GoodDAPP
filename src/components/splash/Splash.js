@@ -11,7 +11,7 @@ import WavesBackground from '../common/view/WavesBackground'
 
 // utils
 import Config from '../../config/config'
-import { getDesignRelativeHeight } from '../../lib/utils/sizes'
+import { getDesignRelativeHeight, getMaxDeviceHeight } from '../../lib/utils/sizes'
 import { isMobileNative } from '../../lib/utils/platform'
 import AsyncStorage from '../../lib/utils/asyncStorage'
 
@@ -101,6 +101,7 @@ Splash.navigationOptions = {
 const styles = StyleSheet.create({
   wrapper: {
     padding: 0,
+    maxHeight: getMaxDeviceHeight(),
   },
   container: {
     alignItems: 'center',

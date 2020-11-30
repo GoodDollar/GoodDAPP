@@ -408,7 +408,6 @@ const alreadyStyles = {
     justifyContent: 'center',
   },
   modalButtonsContainerStyle: {
-    flex: 1,
     flexDirection: 'column',
     justifyContent: 'flex-end',
   },

@@ -88,7 +88,7 @@ export default ({
     countryCode = `+${phoneInputRef.current.getCountryCode()}`
   }
 
-  if (!isUserTypingCountry) {
+  if (!isUserTypingCountry && value) {
     phoneNumber = value.replace(countryCode, '')
   }
 

@@ -1,11 +1,13 @@
 // @flow
 import React from 'react'
 import { Platform, View } from 'react-native'
-import { isMobile } from '../../../lib/utils/platform'
+import { isAndroidNative, isMobile } from '../../../lib/utils/platform'
 import normalize from '../../../lib/utils/normalizeText'
 import { getFormattedDateTime } from '../../../lib/utils/FormatDate'
 import { withStyles } from '../../../lib/styles'
 import { getScreenWidth } from '../../../lib/utils/orientation'
+import { formatWithSIPrefix } from '../../../lib/utils/formatNumber'
+import { weiToGd } from '../../../lib/wallet/utils'
 import Avatar from '../../common/view/Avatar'
 import BigGoodDollar from '../../common/view/BigGoodDollar'
 import Text from '../../common/view/Text'
@@ -33,6 +35,8 @@ const ListEvent = ({ item: feed, theme, styles }: FeedEventProps) => {
     userStorage.updateFeedAnimationStatus(feed.id)
   }
 
+  const amountFormatter = value => formatWithSIPrefix(weiToGd(value))
+
   if (itemType === 'empty') {
     return <EmptyEventFeed />
   }
@@ -55,6 +59,7 @@ const ListEvent = ({ item: feed, theme, styles }: FeedEventProps) => {
               <BigGoodDollar
                 number={feed.data.amount}
                 color={mainColor}
+                formatter={isAndroidNative && amountFormatter}
                 bigNumberProps={{ fontSize: 20, lineHeight: 20 }}
                 bigNumberStyles={styles.bigNumberStyles}
                 bigNumberUnitProps={{ fontSize: 10, lineHeight: 11 }}

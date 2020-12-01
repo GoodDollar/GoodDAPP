@@ -11,7 +11,7 @@ exports[`EmailConfirmation matches snapshot 1`] = `
       className="css-view-1dbjc4n r-flex-13awgt0 r-paddingBottom-97e31f r-paddingLeft-bv2aro r-paddingRight-hxflta r-paddingTop-10xqauy"
     >
       <div
-        className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-display-6koalj r-flexDirection-eqz5dr r-flexGrow-16y2uox r-maxHeight-1qalap5 r-padding-nsbfu8 r-position-bnwqim r-width-13qz1uu"
+        className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-display-6koalj r-flexDirection-eqz5dr r-flexGrow-16y2uox r-maxHeight-87ditf r-padding-nsbfu8 r-position-bnwqim r-width-13qz1uu"
         data-name="viewWrapper"
       >
         <div
@@ -126,6 +126,7 @@ was emailed to you
                               "gray": "#555",
                               "gray50Percent": "#CBCBCB",
                               "gray80Percent": "#A3A3A3",
+                              "grayBox": "#E5E5E5",
                               "green": "#00C3AE",
                               "lightGray": "#EEE",
                               "lightGreen": "#00BBA5",
@@ -196,6 +197,7 @@ was emailed to you
                               "defaultDouble": 16,
                               "defaultHalf": 4,
                               "defaultQuadruple": 32,
+                              "maxContentHeightForTabletAndDesktop": 788,
                               "maxHeightForTabletAndDesktop": 844,
                               "maxWidthForTabletAndDesktop": 475,
                               "minHeightForDialogMessage": 350,
@@ -256,6 +258,7 @@ was emailed to you
                               "gray": "#555",
                               "gray50Percent": "#CBCBCB",
                               "gray80Percent": "#A3A3A3",
+                              "grayBox": "#E5E5E5",
                               "green": "#00C3AE",
                               "lightGray": "#EEE",
                               "lightGreen": "#00BBA5",
@@ -326,6 +329,7 @@ was emailed to you
                               "defaultDouble": 16,
                               "defaultHalf": 4,
                               "defaultQuadruple": 32,
+                              "maxContentHeightForTabletAndDesktop": 788,
                               "maxHeightForTabletAndDesktop": 844,
                               "maxWidthForTabletAndDesktop": 475,
                               "minHeightForDialogMessage": 350,
@@ -386,6 +390,7 @@ was emailed to you
                               "gray": "#555",
                               "gray50Percent": "#CBCBCB",
                               "gray80Percent": "#A3A3A3",
+                              "grayBox": "#E5E5E5",
                               "green": "#00C3AE",
                               "lightGray": "#EEE",
                               "lightGreen": "#00BBA5",
@@ -456,6 +461,7 @@ was emailed to you
                               "defaultDouble": 16,
                               "defaultHalf": 4,
                               "defaultQuadruple": 32,
+                              "maxContentHeightForTabletAndDesktop": 788,
                               "maxHeightForTabletAndDesktop": 844,
                               "maxWidthForTabletAndDesktop": 475,
                               "minHeightForDialogMessage": 350,
@@ -516,6 +522,7 @@ was emailed to you
                               "gray": "#555",
                               "gray50Percent": "#CBCBCB",
                               "gray80Percent": "#A3A3A3",
+                              "grayBox": "#E5E5E5",
                               "green": "#00C3AE",
                               "lightGray": "#EEE",
                               "lightGreen": "#00BBA5",
@@ -586,6 +593,7 @@ was emailed to you
                               "defaultDouble": 16,
                               "defaultHalf": 4,
                               "defaultQuadruple": 32,
+                              "maxContentHeightForTabletAndDesktop": 788,
                               "maxHeightForTabletAndDesktop": 844,
                               "maxWidthForTabletAndDesktop": 475,
                               "minHeightForDialogMessage": 350,
@@ -646,6 +654,7 @@ was emailed to you
                               "gray": "#555",
                               "gray50Percent": "#CBCBCB",
                               "gray80Percent": "#A3A3A3",
+                              "grayBox": "#E5E5E5",
                               "green": "#00C3AE",
                               "lightGray": "#EEE",
                               "lightGreen": "#00BBA5",
@@ -716,6 +725,7 @@ was emailed to you
                               "defaultDouble": 16,
                               "defaultHalf": 4,
                               "defaultQuadruple": 32,
+                              "maxContentHeightForTabletAndDesktop": 788,
                               "maxHeightForTabletAndDesktop": 844,
                               "maxWidthForTabletAndDesktop": 475,
                               "minHeightForDialogMessage": 350,
@@ -776,6 +786,7 @@ was emailed to you
                               "gray": "#555",
                               "gray50Percent": "#CBCBCB",
                               "gray80Percent": "#A3A3A3",
+                              "grayBox": "#E5E5E5",
                               "green": "#00C3AE",
                               "lightGray": "#EEE",
                               "lightGreen": "#00BBA5",
@@ -846,6 +857,7 @@ was emailed to you
                               "defaultDouble": 16,
                               "defaultHalf": 4,
                               "defaultQuadruple": 32,
+                              "maxContentHeightForTabletAndDesktop": 788,
                               "maxHeightForTabletAndDesktop": 844,
                               "maxWidthForTabletAndDesktop": 475,
                               "minHeightForDialogMessage": 350,

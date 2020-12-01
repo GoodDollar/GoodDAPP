@@ -28,13 +28,13 @@ exports[`Auth matches snapshot 1`] = `
       onWheel={[Function]}
     >
       <div
-        className="css-view-1dbjc4n r-display-6koalj r-flexGrow-16y2uox r-height-1pi2tsx"
+        className="css-view-1dbjc4n r-display-6koalj r-flexGrow-16y2uox"
       >
         <div
           className="css-view-1dbjc4n r-flex-13awgt0 r-justifyContent-1wtj0ep r-padding-t60dpp r-paddingBottom-97e31f r-paddingHorizontal-mk0yit r-paddingLeft-bv2aro r-paddingRight-hxflta r-paddingTop-10xqauy r-paddingVertical-rjfia"
         >
           <div
-            className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-display-6koalj r-flex-13awgt0 r-flexDirection-eqz5dr r-flexGrow-16y2uox r-justifyContent-1wtj0ep r-maxHeight-1qalap5 r-padding-t60dpp r-paddingHorizontal-mk0yit r-paddingVertical-rjfia r-position-bnwqim r-width-13qz1uu"
+            className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-display-6koalj r-flex-13awgt0 r-flexDirection-eqz5dr r-flexGrow-16y2uox r-justifyContent-1wtj0ep r-maxHeight-87ditf r-padding-t60dpp r-paddingHorizontal-mk0yit r-paddingVertical-rjfia r-position-bnwqim r-width-13qz1uu"
             data-name="viewWrapper"
           >
             <div

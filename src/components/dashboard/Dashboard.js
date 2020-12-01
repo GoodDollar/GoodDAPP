@@ -44,7 +44,7 @@ import { parsePaymentLinkParams, readCode } from '../../lib/share'
 import useDeleteAccountDialog from '../../lib/hooks/useDeleteAccountDialog'
 import LoadingIcon from '../common/modal/LoadingIcon'
 import SuccessIcon from '../common/modal/SuccessIcon'
-import { getDesignRelativeHeight, getMaxDeviceWidth, measure } from '../../lib/utils/sizes'
+import { getMaxDeviceWidth, measure } from '../../lib/utils/sizes'
 import { theme as _theme } from '../theme/styles'
 import DeepLinking from '../../lib/utils/deepLinking'
 import UnknownProfileSVG from '../../assets/unknownProfile.svg'
@@ -98,14 +98,14 @@ const Dashboard = props => {
   const balanceRef = useRef()
   const { screenProps, styles, theme, navigation }: DashboardProps = props
   const [balanceBlockWidth, setBalanceBlockWidth] = useState(70)
-  const [showBalance, setShowBalance] = useState(false)
   const [headerContentWidth, setHeaderContentWidth] = useState(initialHeaderContentWidth)
-  const [headerHeightAnimValue] = useState(new Animated.Value(165))
+  const [headerHeightAnimValue] = useState(new Animated.Value(176))
   const [headerAvatarAnimValue] = useState(new Animated.Value(68))
   const [headerAvatarLeftAnimValue] = useState(new Animated.Value(0))
-  const [headerBalanceRightAnimValue] = useState(new Animated.Value(0))
+  const [headerBalanceBottomAnimValue] = useState(new Animated.Value(0))
   const [avatarCenteredPosition, setAvatarCenteredPosition] = useState(0)
-  const [headerBalanceVerticalMarginAnimValue] = useState(new Animated.Value(theme.sizes.defaultDouble))
+  const [headerBalanceRightMarginAnimValue] = useState(new Animated.Value(0))
+  const [headerBalanceLeftMarginAnimValue] = useState(new Animated.Value(0))
   const [headerFullNameOpacityAnimValue] = useState(new Animated.Value(1))
   const store = SimpleStore.useStore()
   const gdstore = GDStore.useStore()
@@ -140,10 +140,9 @@ const Dashboard = props => {
   }
 
   const balanceAnimStyles = {
-    visibility: showBalance ? 'visible' : 'hidden',
-
-    // right: headerBalanceRightAnimValue,
-    // marginVertical: headerBalanceVerticalMarginAnimValue,
+    bottom: headerBalanceBottomAnimValue,
+    marginLeft: headerBalanceLeftMarginAnimValue,
+    marginRight: headerBalanceRightMarginAnimValue,
   }
 
   const calculateHeaderLayoutSizes = useCallback(() => {
@@ -391,26 +390,18 @@ const Dashboard = props => {
     // Android never gets values from measure causing animation to crash because of NaN
     const width = measurements.width || 0
 
-    const balanceCenteredPosition = headerContentWidth / 2 - width / 2
-
     setBalanceBlockWidth(width)
-
-    Animated.timing(headerBalanceRightAnimValue, {
-      toValue: balanceCenteredPosition,
-      duration: 50,
-    }).start()
-
-    if (!showBalance) {
-      setShowBalance(true)
-    }
-  }, [setBalanceBlockWidth, showBalance, setShowBalance, headerContentWidth, headerBalanceRightAnimValue])
+  }, [setBalanceBlockWidth])
 
   useEffect(() => {
     const timing = 250
     const fullNameOpacityTiming = 150
     const easingIn = Easing.in(Easing.quad)
     const easingOut = Easing.out(Easing.quad)
-    const balanceCenteredPosition = headerContentWidth / 2 - balanceBlockWidth / 2
+    const balanceCalculatedLeftMargin = Platform.select({
+      android: 50,
+      default: headerContentWidth - balanceBlockWidth - 20,
+    })
 
     if (headerLarge) {
       Animated.parallel([
@@ -420,7 +411,7 @@ const Dashboard = props => {
           easing: easingOut,
         }),
         Animated.timing(headerHeightAnimValue, {
-          toValue: 165,
+          toValue: 176,
           duration: timing,
           easing: easingOut,
         }),
@@ -434,13 +425,18 @@ const Dashboard = props => {
           duration: fullNameOpacityTiming,
           easing: easingOut,
         }),
-        Animated.timing(headerBalanceRightAnimValue, {
-          toValue: balanceCenteredPosition,
+        Animated.timing(headerBalanceBottomAnimValue, {
+          toValue: 0,
           duration: timing,
           easing: easingOut,
         }),
-        Animated.timing(headerBalanceVerticalMarginAnimValue, {
-          toValue: theme.sizes.defaultDouble,
+        Animated.timing(headerBalanceRightMarginAnimValue, {
+          toValue: 0,
+          duration: timing,
+          easing: easingOut,
+        }),
+        Animated.timing(headerBalanceLeftMarginAnimValue, {
+          toValue: 0,
           duration: timing,
           easing: easingOut,
         }),
@@ -467,19 +463,24 @@ const Dashboard = props => {
           duration: fullNameOpacityTiming,
           easing: easingIn,
         }),
-        Animated.timing(headerBalanceRightAnimValue, {
-          toValue: 20,
+        Animated.timing(headerBalanceBottomAnimValue, {
+          toValue: Platform.select({ web: 68, default: 60 }),
           duration: timing,
           easing: easingIn,
         }),
-        Animated.timing(headerBalanceVerticalMarginAnimValue, {
-          toValue: 0,
+        Animated.timing(headerBalanceRightMarginAnimValue, {
+          toValue: 24,
+          duration: timing,
+          easing: easingIn,
+        }),
+        Animated.timing(headerBalanceLeftMarginAnimValue, {
+          toValue: balanceCalculatedLeftMargin,
           duration: timing,
           easing: easingIn,
         }),
       ]).start()
     }
-  }, [headerLarge, balance, update, headerContentWidth, avatarCenteredPosition])
+  }, [headerLarge, balance, update, avatarCenteredPosition, headerContentWidth, balanceBlockWidth])
 
   useEffect(() => {
     log.debug('Dashboard didmount', navigation)
@@ -777,12 +778,10 @@ const Dashboard = props => {
 const getStylesFromProps = ({ theme }) => ({
   headerWrapper: {
     height: '100%',
-    paddingBottom: getDesignRelativeHeight(
-      Platform.select({
-        web: theme.sizes.defaultDouble,
-        default: theme.sizes.default,
-      }),
-    ),
+    paddingBottom: Platform.select({
+      web: theme.sizes.defaultDouble,
+      default: theme.sizes.default,
+    }),
   },
   headerFullName: {
     justifyContent: 'center',
@@ -799,7 +798,7 @@ const getStylesFromProps = ({ theme }) => ({
     borderTopRightRadius: 0,
     marginLeft: theme.sizes.default,
     marginRight: theme.sizes.default,
-    paddingBottom: theme.sizes.default,
+    paddingBottom: 6,
     paddingLeft: theme.sizes.default,
     paddingRight: theme.sizes.default,
     paddingTop: theme.sizes.defaultDouble,

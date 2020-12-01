@@ -141,8 +141,11 @@ const Dashboard = props => {
 
   const balanceAnimStyles = {
     bottom: headerBalanceBottomAnimValue,
-    marginLeft: headerBalanceLeftMarginAnimValue,
     marginRight: headerBalanceRightMarginAnimValue,
+    marginLeft: Platform.select({
+      android: headerLarge ? 0 : 'auto',
+      default: headerBalanceLeftMarginAnimValue,
+    }),
   }
 
   const calculateHeaderLayoutSizes = useCallback(() => {
@@ -398,10 +401,7 @@ const Dashboard = props => {
     const fullNameOpacityTiming = 150
     const easingIn = Easing.in(Easing.quad)
     const easingOut = Easing.out(Easing.quad)
-    const balanceCalculatedLeftMargin = Platform.select({
-      android: 50,
-      default: headerContentWidth - balanceBlockWidth - 20,
-    })
+    const balanceCalculatedLeftMargin = headerContentWidth - balanceBlockWidth - 20
 
     if (headerLarge) {
       Animated.parallel([

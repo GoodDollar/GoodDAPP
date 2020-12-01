@@ -54,7 +54,6 @@ const LoadingAnimation = ({ success, speed = 3 }) => (
       successSpeed={speed}
       success={success}
       width={145}
-      height={Platform.select({ web: 'auto', default: 145 })}
       marginTop={Platform.select({ web: undefined, default: 5 })}
     />
   </View>

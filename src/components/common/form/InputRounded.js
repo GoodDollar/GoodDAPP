@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react'
-import { TextInput, View } from 'react-native'
+import { Platform, TextInput, View } from 'react-native'
 import normalize from '../../../lib/utils/normalizeText'
 import { withStyles } from '../../../lib/styles'
 import Icon from '../view/Icon'
@@ -65,7 +65,10 @@ const getStylesFromProps = ({ theme, disabled }) => {
     fontSize: normalize(14),
     justifyContent: 'center',
     fontWeight: '400',
-    paddingVertical: disabled ? 14 : 10,
+    paddingVertical: Platform.select({
+      android: disabled ? 7 : 5,
+      default: disabled ? 14 : 10,
+    }),
   }
 
   return {
@@ -80,10 +83,7 @@ const getStylesFromProps = ({ theme, disabled }) => {
     iconInputContainer: {
       ...defaultInputContainer,
       borderColor: theme.colors.lightGray,
-      marginTop: 2,
-      marginBottom: 2,
-      paddingTop: 2,
-      paddingBottom: 2,
+      marginVertical: 4,
     },
     inputText: {
       ...defaultInputContainer,

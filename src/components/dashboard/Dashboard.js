@@ -44,7 +44,7 @@ import { parsePaymentLinkParams, readCode } from '../../lib/share'
 import useDeleteAccountDialog from '../../lib/hooks/useDeleteAccountDialog'
 import LoadingIcon from '../common/modal/LoadingIcon'
 import SuccessIcon from '../common/modal/SuccessIcon'
-import { getDesignRelativeHeight, getMaxDeviceWidth, measure } from '../../lib/utils/sizes'
+import { getMaxDeviceWidth, measure } from '../../lib/utils/sizes'
 import { theme as _theme } from '../theme/styles'
 import DeepLinking from '../../lib/utils/deepLinking'
 import UnknownProfileSVG from '../../assets/unknownProfile.svg'
@@ -83,7 +83,7 @@ const log = logger.child({ from: 'Dashboard' })
 let didRender = false
 const screenWidth = getMaxDeviceWidth()
 const initialHeaderContentWidth = screenWidth - _theme.sizes.default * 2 * 2
-const initialAvatarCenteredPosition = initialHeaderContentWidth / 2 - 34
+const initialAvatarLeftPosition = -initialHeaderContentWidth / 2 + 34
 
 export type DashboardProps = {
   navigation: any,
@@ -98,14 +98,14 @@ const Dashboard = props => {
   const balanceRef = useRef()
   const { screenProps, styles, theme, navigation }: DashboardProps = props
   const [balanceBlockWidth, setBalanceBlockWidth] = useState(70)
-  const [showBalance, setShowBalance] = useState(false)
   const [headerContentWidth, setHeaderContentWidth] = useState(initialHeaderContentWidth)
-  const [headerHeightAnimValue] = useState(new Animated.Value(165))
+  const [headerHeightAnimValue] = useState(new Animated.Value(176))
   const [headerAvatarAnimValue] = useState(new Animated.Value(68))
-  const [headerAvatarLeftAnimValue] = useState(new Animated.Value(initialAvatarCenteredPosition))
-  const [headerBalanceRightAnimValue] = useState(new Animated.Value(initialAvatarCenteredPosition))
-  const [avatarCenteredPosition, setAvatarCenteredPosition] = useState(initialAvatarCenteredPosition)
-  const [headerBalanceVerticalMarginAnimValue] = useState(new Animated.Value(theme.sizes.defaultDouble))
+  const [headerAvatarLeftAnimValue] = useState(new Animated.Value(0))
+  const [headerBalanceBottomAnimValue] = useState(new Animated.Value(0))
+  const [avatarCenteredPosition, setAvatarCenteredPosition] = useState(0)
+  const [headerBalanceRightMarginAnimValue] = useState(new Animated.Value(0))
+  const [headerBalanceLeftMarginAnimValue] = useState(new Animated.Value(0))
   const [headerFullNameOpacityAnimValue] = useState(new Animated.Value(1))
   const store = SimpleStore.useStore()
   const gdstore = GDStore.useStore()
@@ -134,18 +134,18 @@ const Dashboard = props => {
   }
 
   const avatarAnimStyles = {
-    position: 'absolute',
     height: headerAvatarAnimValue,
     width: headerAvatarAnimValue,
-    top: 0,
     left: headerAvatarLeftAnimValue,
   }
 
   const balanceAnimStyles = {
-    visibility: showBalance ? 'visible' : 'hidden',
-    position: 'absolute',
-    right: headerBalanceRightAnimValue,
-    marginVertical: headerBalanceVerticalMarginAnimValue,
+    bottom: headerBalanceBottomAnimValue,
+    marginRight: headerBalanceRightMarginAnimValue,
+    marginLeft: Platform.select({
+      android: headerLarge ? 0 : 'auto',
+      default: headerBalanceLeftMarginAnimValue,
+    }),
   }
 
   const calculateHeaderLayoutSizes = useCallback(() => {
@@ -377,10 +377,9 @@ const Dashboard = props => {
     saveBalanceBlockWidth()
   }, [balance])
 
-  // The width of the balance block required to place the balance block at the center of the screen
+  // The width of the balance block required to calculate its left margin when collapsing the header
   // The balance always changes so the width is dynamical.
   // Animation functionality requires positioning props to be set with numbers.
-  // So we need to calculate the center of the screen within dynamically changed balance block width.
   const saveBalanceBlockWidth = useCallback(async () => {
     const { current: balanceView } = balanceRef
 
@@ -393,26 +392,18 @@ const Dashboard = props => {
     // Android never gets values from measure causing animation to crash because of NaN
     const width = measurements.width || 0
 
-    const balanceCenteredPosition = headerContentWidth / 2 - width / 2
-
     setBalanceBlockWidth(width)
-
-    Animated.timing(headerBalanceRightAnimValue, {
-      toValue: balanceCenteredPosition,
-      duration: 50,
-    }).start()
-
-    if (!showBalance) {
-      setShowBalance(true)
-    }
-  }, [setBalanceBlockWidth, showBalance, setShowBalance, headerContentWidth, headerBalanceRightAnimValue])
+  }, [setBalanceBlockWidth])
 
   useEffect(() => {
     const timing = 250
     const fullNameOpacityTiming = 150
     const easingIn = Easing.in(Easing.quad)
     const easingOut = Easing.out(Easing.quad)
-    const balanceCenteredPosition = headerContentWidth / 2 - balanceBlockWidth / 2
+
+    // calculate left margin for aligning the balance to the right
+    // - 20 is to give more space to the number, otherwise (in native) it gets cut on the right side
+    const balanceCalculatedLeftMargin = headerContentWidth - balanceBlockWidth - 20
 
     if (headerLarge) {
       Animated.parallel([
@@ -422,12 +413,12 @@ const Dashboard = props => {
           easing: easingOut,
         }),
         Animated.timing(headerHeightAnimValue, {
-          toValue: 165,
+          toValue: 176,
           duration: timing,
           easing: easingOut,
         }),
         Animated.timing(headerAvatarLeftAnimValue, {
-          toValue: avatarCenteredPosition,
+          toValue: 0,
           duration: timing,
           easing: easingOut,
         }),
@@ -436,13 +427,18 @@ const Dashboard = props => {
           duration: fullNameOpacityTiming,
           easing: easingOut,
         }),
-        Animated.timing(headerBalanceRightAnimValue, {
-          toValue: balanceCenteredPosition,
+        Animated.timing(headerBalanceBottomAnimValue, {
+          toValue: 0,
           duration: timing,
           easing: easingOut,
         }),
-        Animated.timing(headerBalanceVerticalMarginAnimValue, {
-          toValue: theme.sizes.defaultDouble,
+        Animated.timing(headerBalanceRightMarginAnimValue, {
+          toValue: 0,
+          duration: timing,
+          easing: easingOut,
+        }),
+        Animated.timing(headerBalanceLeftMarginAnimValue, {
+          toValue: 0,
           duration: timing,
           easing: easingOut,
         }),
@@ -460,7 +456,7 @@ const Dashboard = props => {
           easing: easingIn,
         }),
         Animated.timing(headerAvatarLeftAnimValue, {
-          toValue: 0,
+          toValue: initialAvatarLeftPosition,
           duration: timing,
           easing: easingIn,
         }),
@@ -469,19 +465,24 @@ const Dashboard = props => {
           duration: fullNameOpacityTiming,
           easing: easingIn,
         }),
-        Animated.timing(headerBalanceRightAnimValue, {
-          toValue: 20,
+        Animated.timing(headerBalanceBottomAnimValue, {
+          toValue: Platform.select({ web: 68, default: 60 }),
           duration: timing,
           easing: easingIn,
         }),
-        Animated.timing(headerBalanceVerticalMarginAnimValue, {
-          toValue: 0,
+        Animated.timing(headerBalanceRightMarginAnimValue, {
+          toValue: 24,
+          duration: timing,
+          easing: easingIn,
+        }),
+        Animated.timing(headerBalanceLeftMarginAnimValue, {
+          toValue: balanceCalculatedLeftMargin,
           duration: timing,
           easing: easingIn,
         }),
       ]).start()
     }
-  }, [headerLarge, balance, update, headerContentWidth, avatarCenteredPosition])
+  }, [headerLarge, balance, update, avatarCenteredPosition, headerContentWidth, balanceBlockWidth])
 
   useEffect(() => {
     log.debug('Dashboard didmount', navigation)
@@ -705,7 +706,6 @@ const Dashboard = props => {
                     lineHeight: 42,
                     textAlign: 'left',
                   }}
-                  style={Platform.OS !== 'web' && styles.marginNegative}
                   bigNumberUnitStyles={styles.bigNumberUnitStyles}
                 />
               </View>
@@ -780,16 +780,14 @@ const Dashboard = props => {
 const getStylesFromProps = ({ theme }) => ({
   headerWrapper: {
     height: '100%',
+    paddingBottom: Platform.select({
+      web: theme.sizes.defaultDouble,
+      default: theme.sizes.default,
+    }),
   },
   headerFullName: {
-    position: 'absolute',
-    top: 0,
-    bottom: 0,
-    marginVertical: 'auto',
-    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingTop: getDesignRelativeHeight(10),
     zIndex: -1,
   },
   dashboardWrapper: {
@@ -802,7 +800,7 @@ const getStylesFromProps = ({ theme }) => ({
     borderTopRightRadius: 0,
     marginLeft: theme.sizes.default,
     marginRight: theme.sizes.default,
-    paddingBottom: theme.sizes.default,
+    paddingBottom: 6,
     paddingLeft: theme.sizes.default,
     paddingRight: theme.sizes.default,
     paddingTop: theme.sizes.defaultDouble,
@@ -874,17 +872,12 @@ const getStylesFromProps = ({ theme }) => ({
   },
   bigNumberWrapper: {
     alignItems: 'baseline',
-    position: 'absolute',
-    bottom: 0,
   },
   disabledButton: {
     backgroundColor: theme.colors.gray50Percent,
   },
   bigNumberUnitStyles: {
     marginRight: normalize(-20),
-  },
-  marginNegative: {
-    marginBottom: -7,
   },
 })
 

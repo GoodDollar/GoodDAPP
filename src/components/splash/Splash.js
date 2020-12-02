@@ -1,6 +1,6 @@
 // libraries
 import React, { useEffect, useState } from 'react'
-import { StyleSheet } from 'react-native'
+import { Platform, StyleSheet } from 'react-native'
 import moment from 'moment'
 
 // components
@@ -132,7 +132,12 @@ const styles = StyleSheet.create({
   },
   mobileAnimation: {
     marginTop: -getDesignRelativeHeight(40),
-    marginBottom: -getDesignRelativeHeight(200),
+    marginBottom: -getDesignRelativeHeight(
+      Platform.select({
+        android: 160,
+        default: 200,
+      }),
+    ),
     height: getDesignRelativeHeight(550),
   },
 })

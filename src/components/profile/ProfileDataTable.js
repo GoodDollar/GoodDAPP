@@ -190,6 +190,7 @@ const getStylesFromProps = ({ theme, errors }) => {
       color: errors && (errors.mobile ? theme.colors.red : theme.colors.text),
       padding: 10,
       position: 'relative',
+      marginVertical: 4,
     },
     flag: {
       height: 24,

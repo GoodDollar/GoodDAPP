@@ -18,7 +18,7 @@ export const marketAnimationDuration = 1500
 
 const GoodMarketButton = ({ styles, hidden = false }) => {
   const [showDialog] = useDialog()
-  const slideAnim = useRef(new Animated.Value(-100)).current
+  const slideAnim = useRef(new Animated.Value(-52)).current
   const { wasClicked, trackClicked, goToMarket } = useGoodMarket()
 
   const onPopupButtonClicked = useCallback(() => {
@@ -59,11 +59,14 @@ const GoodMarketButton = ({ styles, hidden = false }) => {
   }
 
   return (
-    <View style={styles.btnContainer}>
-      <TouchableOpacity onPress={onButtonClicked} style={styles.marketButton}>
-        <Icon name="goodmarket" size={36} color="white" />
-      </TouchableOpacity>
-    </View>
+    <>
+      <View style={styles.mask} />
+      <Animated.View style={[styles.btnContainer, { bottom: slideAnim }]}>
+        <TouchableOpacity onPress={onButtonClicked} style={styles.marketButton}>
+          <Icon name="goodmarket" size={36} color="white" />
+        </TouchableOpacity>
+      </Animated.View>
+    </>
   )
 }
 
@@ -75,6 +78,17 @@ const getStylesFromProps = ({ theme }) => ({
     bottom: 0,
     flexDirection: 'row',
     justifyContent: 'center',
+    zIndex: 0,
+  },
+  mask: {
+    position: 'absolute',
+    width: '100%',
+    height: 50,
+    bottom: -50,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    zIndex: 1,
+    backgroundColor: 'white',
   },
   marketButton: {
     backgroundColor: theme.colors.primary,

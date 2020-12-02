@@ -249,7 +249,7 @@ class AppView extends Component<AppViewProps, AppViewState> {
       navigationBarHidden,
       backButtonHidden,
       disableScroll,
-      backToWallet,
+      backToWallet = false,
     } = descriptor.options
 
     const screenProps = {

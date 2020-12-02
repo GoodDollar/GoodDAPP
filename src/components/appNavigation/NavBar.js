@@ -26,14 +26,16 @@ const NavigationBar = isMobile ? Appbar.Header : Appbar
 
 class NavBar extends React.Component<NavBarProps> {
   render() {
-    const { styles, backToWallet = false } = this.props
+    const { styles, goBack, backToWallet = false } = this.props
+    const showBackButton = goBack && !backToWallet
+    const showBackToWallet = goBack && backToWallet 
 
     return (
       <NavigationBar dark style={styles.topbarStyles}>
-        {!backToWallet && this.props.goBack && (
+        {showBackButton && (
           <IconButton
             name="arrow-back"
-            onPress={this.props.goBack}
+            onPress={goBack}
             color="white"
             reverse={false}
             reverseColor={'transparent'}
@@ -42,13 +44,13 @@ class NavBar extends React.Component<NavBarProps> {
           />
         )}
         <Appbar.Content title={this.props.title} titleStyle={styles.titleStyle} />
-        {!backToWallet && this.props.goBack && <Appbar.Action color="white" />}
-        {backToWallet && this.props.goBack && (
+        {showBackButton && <Appbar.Action color="white" />}
+        {showBackToWallet && (
           <IconButton
             name="wallet"
             reverse={false}
             reverseColor={'transparent'}
-            onPress={this.props.goBack}
+            onPress={goBack}
             color="white"
             size={36}
             style={styles.walletButton}

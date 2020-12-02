@@ -377,10 +377,9 @@ const Dashboard = props => {
     saveBalanceBlockWidth()
   }, [balance])
 
-  // The width of the balance block required to place the balance block at the center of the screen
+  // The width of the balance block required to calculate its left margin when collapsing the header
   // The balance always changes so the width is dynamical.
   // Animation functionality requires positioning props to be set with numbers.
-  // So we need to calculate the center of the screen within dynamically changed balance block width.
   const saveBalanceBlockWidth = useCallback(async () => {
     const { current: balanceView } = balanceRef
 
@@ -401,6 +400,9 @@ const Dashboard = props => {
     const fullNameOpacityTiming = 150
     const easingIn = Easing.in(Easing.quad)
     const easingOut = Easing.out(Easing.quad)
+
+    // calculate left margin for aligning the balance to the right
+    // - 20 is to give more space to the number, otherwise (in native) it gets cut on the right side
     const balanceCalculatedLeftMargin = headerContentWidth - balanceBlockWidth - 20
 
     if (headerLarge) {

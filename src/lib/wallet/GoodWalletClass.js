@@ -626,7 +626,7 @@ export class GoodWallet {
         return [0, hasClaim]
       }
 
-      const startRef = await this.UBIContract.methods.periodStart.call().then(_ => moment(_.toNumber() * 1000))
+      const startRef = await this.UBIContract.methods.periodStart.call().then(_ => moment(_.toNumber() * 1000).utc())
       const curDay = await this.UBIContract.methods.currentDay.call().then(_ => _.toNumber())
       startRef.add(curDay + 1, 'days')
       return [startRef.valueOf(), 0]
@@ -1016,7 +1016,7 @@ export class GoodWallet {
    * @param {string} link
    * @returns {Promise<boolean>}
    */
-  isWithdrawLinkUsed(link: string): Promise<boolean> {
+  isPaymentLinkAvailable(link: string): Promise<boolean> {
     try {
       return this.oneTimePaymentsContract.methods.hasPayment(link).call()
     } catch (exception) {

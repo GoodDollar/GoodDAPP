@@ -59,7 +59,7 @@ const MarketTab = props => {
 
   const src = getMarketPath()
   const webIframesStyles = { flex: 1, overflow: 'scroll' }
-  const Iframe = createIframe(src, 'GoodMarket', false, 'Home', webIframesStyles)
+  const Iframe = createIframe(src, 'GoodMarket', false, webIframesStyles)
 
   const marketIframe = useMemo(() => <Iframe />, [src])
 

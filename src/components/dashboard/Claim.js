@@ -50,7 +50,12 @@ const log = logger.child({ from: 'Claim' })
 
 const LoadingAnimation = ({ success, speed = 3 }) => (
   <View style={{ alignItems: 'center' }}>
-    <SpinnerCheckMark successSpeed={speed} success={success} width={175} height={'auto'} />
+    <SpinnerCheckMark
+      successSpeed={speed}
+      success={success}
+      width={145}
+      marginTop={Platform.select({ web: undefined, default: 5 })}
+    />
   </View>
 )
 

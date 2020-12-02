@@ -1,4 +1,5 @@
 import React from 'react'
+import { Platform } from 'react-native'
 import Lottie from 'lottie-react-native'
 import { View } from 'react-native-animatable'
 import AnimationBase from '../Base'
@@ -78,7 +79,8 @@ class SpinnerCheckMark extends AnimationBase {
   }
 
   render() {
-    const { height = 196, width = 196, marginTop } = this.props
+    const { width = 196, height, marginTop } = this.props
+    const _height = height !== undefined ? height : Platform.select({ web: 'auto', default: width })
     return (
       <View>
         <Lottie
@@ -88,9 +90,9 @@ class SpinnerCheckMark extends AnimationBase {
           source={this.improveAnimationData(animationData)}
           speed={this.state.speed}
           style={{
-            marginTop: marginTop !== undefined ? marginTop : -height / (isMobileNative ? 6 : 2.4),
             width,
-            height,
+            height: _height,
+            marginTop: marginTop !== undefined ? marginTop : -_height / (isMobileNative ? 6 : 2.4),
           }}
         />
       </View>

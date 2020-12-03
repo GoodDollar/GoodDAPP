@@ -76,7 +76,7 @@ import FaceVerification from './FaceVerification/screens/VerificationScreen'
 import FaceVerificationIntro from './FaceVerification/screens/IntroScreen'
 import FaceVerificationError from './FaceVerification/screens/ErrorScreen'
 
-import GoodMarketButton, { marketAnimationDuration } from './GoodMarket/components/GoodMarketButton'
+import GoodMarketButton from './GoodMarket/components/GoodMarketButton'
 
 const log = logger.child({ from: 'Dashboard' })
 
@@ -123,6 +123,7 @@ const Dashboard = props => {
   const [feeds, setFeeds] = useState([])
   const [headerLarge, setHeaderLarge] = useState(true)
   const { appState } = useAppState()
+  const [animateMarket, setAnimateMarket] = useState(false)
 
   const headerAnimateStyles = {
     position: 'relative',
@@ -282,11 +283,11 @@ const Dashboard = props => {
 
   useEffect(() => {
     if (feedLoaded && appState === 'active') {
-      animateClaim()
+      animateItems()
     }
-  }, [appState])
+  }, [appState, feedLoaded])
 
-  const animateClaim = useCallback(async () => {
+  const animateItems = useCallback(async () => {
     const inQueue = await userStorage.userProperties.get('claimQueueAdded')
 
     if (inQueue && inQueue.status === 'pending') {
@@ -311,9 +312,9 @@ const Dashboard = props => {
           duration: 750,
           easing: Easing.ease,
         }),
-      ]).start()
+      ]).start(() => setAnimateMarket(true))
     }
-  }, [])
+  }, [setAnimateMarket])
 
   const showDelayed = useCallback(() => {
     if (!assertStore(store, log, 'Failed to show AddWebApp modal')) {
@@ -361,7 +362,8 @@ const Dashboard = props => {
     await subscribeToFeed().catch(e => log.error('initDashboard feed failed', e.message, e))
 
     setFeedLoaded(true)
-    setTimeout(animateClaim, marketAnimationDuration)
+
+    // setTimeout(animateItems, marketAnimationDuration)
 
     initTransferEvents(gdstore)
 
@@ -772,7 +774,7 @@ const Dashboard = props => {
           navigation={navigation}
         />
       )}
-      <GoodMarketButton hidden={!feedLoaded} />
+      {animateMarket && <GoodMarketButton />}
     </Wrapper>
   )
 }

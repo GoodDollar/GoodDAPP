@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef } from 'react'
-import { Animated, Easing, TouchableOpacity, View } from 'react-native'
+import { Animated, Easing, Platform, TouchableOpacity, View } from 'react-native'
 import { noop } from 'lodash'
 
 import Icon from '../../../common/view/Icon'
@@ -16,9 +16,9 @@ import GoodMarketDialog from './GoodMarketDialog'
 
 export const marketAnimationDuration = 1500
 
-const GoodMarketButton = ({ styles, hidden = false }) => {
+const GoodMarketButton = ({ styles }) => {
   const [showDialog] = useDialog()
-  const slideAnim = useRef(new Animated.Value(-100)).current
+  const slideAnim = useRef(new Animated.Value(-60)).current
   const { wasClicked, trackClicked, goToMarket } = useGoodMarket()
 
   const onPopupButtonClicked = useCallback(() => {
@@ -43,38 +43,49 @@ const GoodMarketButton = ({ styles, hidden = false }) => {
   }, [wasClicked, trackClicked, onPopupButtonClicked])
 
   useEffect(() => {
-    if (hidden) {
-      return
-    }
-
     Animated.timing(slideAnim, {
       toValue: 0,
       duration: marketAnimationDuration,
       easing: Easing.ease,
     }).start()
-  }, [hidden])
-
-  if (hidden) {
-    return null
-  }
+  }, [])
 
   return (
-    <View style={styles.btnContainer}>
-      <TouchableOpacity onPress={onButtonClicked} style={styles.marketButton}>
-        <Icon name="goodmarket" size={36} color="white" />
-      </TouchableOpacity>
-    </View>
+    <>
+      <View style={styles.mask} />
+      <Animated.View style={[styles.btnContainer, { bottom: slideAnim }]}>
+        <TouchableOpacity onPress={onButtonClicked} style={styles.marketButton}>
+          <Icon name="goodmarket" size={36} color="white" />
+        </TouchableOpacity>
+      </Animated.View>
+    </>
   )
 }
 
 const getStylesFromProps = ({ theme }) => ({
   btnContainer: {
+    alignItems: 'center',
+    ...Platform.select({
+      web: {
+        position: 'absolute',
+        right: '50%',
+        left: '50%',
+        bottom: 0,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        zIndex: 0,
+      },
+    }),
+  },
+  mask: {
     position: 'absolute',
-    right: '50%',
-    left: '50%',
-    bottom: 0,
+    width: '100%',
+    height: 100,
+    bottom: -100,
     flexDirection: 'row',
     justifyContent: 'center',
+    zIndex: 1,
+    backgroundColor: 'white',
   },
   marketButton: {
     backgroundColor: theme.colors.primary,

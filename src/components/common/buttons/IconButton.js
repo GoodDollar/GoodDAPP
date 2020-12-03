@@ -40,9 +40,11 @@ const IconButton = ({ styles, theme, text, onPress, disabled, name, style, ...ic
         circleSize={32}
         {...iconProps}
       />
-      <Text fontSize={11} color={disabled ? 'rgba(0, 0, 0, 0.32)' : 'inherit'}>
-        {text}
-      </Text>
+      {text && (
+        <Text fontSize={11} color={disabled ? 'rgba(0, 0, 0, 0.32)' : ''}>
+          {text}
+        </Text>
+      )}
     </TouchableOpacity>
   )
 }

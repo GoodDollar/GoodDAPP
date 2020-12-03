@@ -6,7 +6,7 @@ import { filter } from 'lodash'
  * @param {string} stringDate
  */
 export const getFormattedDateTime = (stringDate: string = null) =>
-  Reflect.construct(Date, filter([stringDate]))
+  new Date(...filter([stringDate]))
     .toLocaleString([], {
       day: '2-digit',
       month: '2-digit',

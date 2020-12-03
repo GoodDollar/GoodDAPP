@@ -12,28 +12,30 @@ exports[`ButtonBlock matches snapshot for citizen with entitlement 1`] = `
       style={
         Object {
           "WebkitTransform": "scale(1)",
-          "height": "196px",
+          "height": "140px",
           "transform": "scale(1)",
-          "width": "196px",
+          "width": "140px",
         }
       }
     >
       <div
-        className="css-view-1dbjc4n r-flex-13awgt0 r-left-1d2f490 r-top-ipm5af"
+        className="css-view-1dbjc4n r-flex-13awgt0"
         style={
           Object {
             "WebkitTransform": "perspective(0px) rotateX(0deg)",
             "bottom": "0px",
+            "left": "0px",
             "opacity": 100,
             "position": "absolute",
             "right": "0px",
+            "top": "0px",
             "transform": "perspective(0px) rotateX(0deg)",
             "zIndex": 0,
           }
         }
       >
         <div
-          className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flexDirection-eqz5dr r-height-1wztat5 r-justifyContent-1777fci"
+          className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flexDirection-eqz5dr r-justifyContent-1777fci"
           style={
             Object {
               "backgroundColor": "rgba(248,175,64,1.00)",
@@ -41,19 +43,20 @@ exports[`ButtonBlock matches snapshot for citizen with entitlement 1`] = `
               "borderBottomLeftRadius": "70px",
               "borderBottomRightRadius": "70px",
               "borderBottomStyle": "solid",
-              "borderBottomWidth": "3px",
+              "borderBottomWidth": "8px",
               "borderLeftColor": "rgba(255,255,255,1.00)",
               "borderLeftStyle": "solid",
-              "borderLeftWidth": "3px",
+              "borderLeftWidth": "8px",
               "borderRightColor": "rgba(255,255,255,1.00)",
               "borderRightStyle": "solid",
-              "borderRightWidth": "3px",
+              "borderRightWidth": "8px",
               "borderTopColor": "rgba(255,255,255,1.00)",
               "borderTopLeftRadius": "70px",
               "borderTopRightRadius": "70px",
               "borderTopStyle": "solid",
-              "borderTopWidth": "3px",
-              "boxShadow": "10px 12px 25px -14px, 0px 0.75px 1.5px rgba(0,0,0,0.24)",
+              "borderTopWidth": "8px",
+              "boxShadow": "0px 0px 0px rgba(0,0,0,1.00)",
+              "height": "140px",
               "marginBottom": "0px",
               "marginLeft": "0px",
               "marginRight": "0px",
@@ -112,26 +115,16 @@ exports[`ButtonBlock matches snapshot for citizen with entitlement 1`] = `
                   className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
                 >
                   <div
-                    className="css-view-1dbjc4n r-flexDirection-eqz5dr r-height-1wztat5"
+                    className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flexDirection-eqz5dr r-justifyContent-1777fci"
                   >
                     <div
-                      className="css-view-1dbjc4n r-left-1d2f490 r-marginBottom-15d164r r-marginTop-1x0uki6 r-position-bnwqim r-top-ipm5af"
+                      className="css-text-901oao r-color-waoq6i r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-5fcqz0 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
+                      dir="auto"
                     >
-                      <div
-                        className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-b88u0q r-letterSpacing-i0j7gm r-lineHeight-hbpseb r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
-                        dir="auto"
-                      >
-                        Your next
-                      </div>
-                      <div
-                        className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-b88u0q r-letterSpacing-i0j7gm r-lineHeight-hbpseb r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
-                        dir="auto"
-                      >
-                        daily claim:
-                      </div>
+                      Your Next Claim:
                     </div>
                     <div
-                      className="css-view-1dbjc4n r-alignItems-mbwzsl r-flexDirection-18u37iz r-justifyContent-1777fci r-minHeight-ifefl9"
+                      className="css-view-1dbjc4n r-alignItems-1awozwy r-color-waoq6i r-flexDirection-18u37iz r-justifyContent-1777fci"
                       style={
                         Object {
                           "WebkitBoxFlex": 1,
@@ -142,49 +135,49 @@ exports[`ButtonBlock matches snapshot for citizen with entitlement 1`] = `
                       }
                     >
                       <div
-                        className="css-text-901oao r-color-jwli3a r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-lineHeight-ueyrd6 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-12ym1je"
+                        className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-nwxazl r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-ig0lrl"
                         dir="auto"
                       >
                         0
                       </div>
                       <div
-                        className="css-text-901oao r-color-jwli3a r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-lineHeight-ueyrd6 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-12ym1je"
+                        className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-nwxazl r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-ig0lrl"
                         dir="auto"
                       >
                         0
                       </div>
                       <div
-                        className="css-text-901oao r-color-jwli3a r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-lineHeight-ueyrd6 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-1jg9483"
+                        className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-nwxazl r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-5soawk"
                         dir="auto"
                       >
                         :
                       </div>
                       <div
-                        className="css-text-901oao r-color-jwli3a r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-lineHeight-ueyrd6 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-12ym1je"
+                        className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-nwxazl r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-ig0lrl"
                         dir="auto"
                       >
                         1
                       </div>
                       <div
-                        className="css-text-901oao r-color-jwli3a r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-lineHeight-ueyrd6 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-12ym1je"
+                        className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-nwxazl r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-ig0lrl"
                         dir="auto"
                       >
                         0
                       </div>
                       <div
-                        className="css-text-901oao r-color-jwli3a r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-lineHeight-ueyrd6 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-1jg9483"
+                        className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-nwxazl r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-5soawk"
                         dir="auto"
                       >
                         :
                       </div>
                       <div
-                        className="css-text-901oao r-color-jwli3a r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-lineHeight-ueyrd6 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-12ym1je"
+                        className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-nwxazl r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-ig0lrl"
                         dir="auto"
                       >
                         0
                       </div>
                       <div
-                        className="css-text-901oao r-color-jwli3a r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-lineHeight-ueyrd6 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-12ym1je"
+                        className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-nwxazl r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-ig0lrl"
                         dir="auto"
                       >
                         0
@@ -198,41 +191,44 @@ exports[`ButtonBlock matches snapshot for citizen with entitlement 1`] = `
         </div>
       </div>
       <div
-        className="css-view-1dbjc4n r-flex-13awgt0 r-left-1d2f490 r-top-ipm5af"
+        className="css-view-1dbjc4n r-flex-13awgt0"
         style={
           Object {
             "WebkitTransform": "perspective(0px) rotateX(-180deg)",
             "bottom": "0px",
+            "left": "0px",
             "opacity": 0,
             "position": "absolute",
             "right": "0px",
+            "top": "0px",
             "transform": "perspective(0px) rotateX(-180deg)",
             "zIndex": 1,
           }
         }
       >
         <div
-          className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-height-1wztat5 r-justifyContent-1777fci"
+          className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-justifyContent-1777fci"
           style={
             Object {
-              "backgroundColor": "rgba(0,175,255,1.00)",
+              "backgroundColor": "rgba(0,195,174,1.00)",
               "borderBottomColor": "rgba(255,255,255,1.00)",
               "borderBottomLeftRadius": "70px",
               "borderBottomRightRadius": "70px",
               "borderBottomStyle": "solid",
-              "borderBottomWidth": "3px",
+              "borderBottomWidth": "8px",
               "borderLeftColor": "rgba(255,255,255,1.00)",
               "borderLeftStyle": "solid",
-              "borderLeftWidth": "3px",
+              "borderLeftWidth": "8px",
               "borderRightColor": "rgba(255,255,255,1.00)",
               "borderRightStyle": "solid",
-              "borderRightWidth": "3px",
+              "borderRightWidth": "8px",
               "borderTopColor": "rgba(255,255,255,1.00)",
               "borderTopLeftRadius": "70px",
               "borderTopRightRadius": "70px",
               "borderTopStyle": "solid",
-              "borderTopWidth": "3px",
-              "boxShadow": "10px 12px 25px -14px, 0px 0.75px 1.5px rgba(0,0,0,0.24)",
+              "borderTopWidth": "8px",
+              "boxShadow": "0px 0px 0px rgba(0,0,0,1.00)",
+              "height": "140px",
               "marginBottom": "0px",
               "marginLeft": "0px",
               "marginRight": "0px",
@@ -291,7 +287,7 @@ exports[`ButtonBlock matches snapshot for citizen with entitlement 1`] = `
                   className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
                 >
                   <div
-                    className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-justifyContent-1777fci"
+                    className="css-view-1dbjc4n"
                   >
                     <div
                       className="css-text-901oao r-color-waoq6i r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-lineHeight-hbpseb r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
@@ -355,28 +351,30 @@ exports[`ButtonBlock matches snapshot for citizen without entitlement 1`] = `
       style={
         Object {
           "WebkitTransform": "scale(1)",
-          "height": "196px",
+          "height": "140px",
           "transform": "scale(1)",
-          "width": "196px",
+          "width": "140px",
         }
       }
     >
       <div
-        className="css-view-1dbjc4n r-flex-13awgt0 r-left-1d2f490 r-top-ipm5af"
+        className="css-view-1dbjc4n r-flex-13awgt0"
         style={
           Object {
             "WebkitTransform": "perspective(0px) rotateY(0deg)",
             "bottom": "0px",
+            "left": "0px",
             "opacity": 100,
             "position": "absolute",
             "right": "0px",
+            "top": "0px",
             "transform": "perspective(0px) rotateY(0deg)",
             "zIndex": 1,
           }
         }
       >
         <div
-          className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flexDirection-eqz5dr r-height-1wztat5 r-justifyContent-1777fci"
+          className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flexDirection-eqz5dr r-justifyContent-1777fci"
           style={
             Object {
               "backgroundColor": "rgba(248,175,64,1.00)",
@@ -384,19 +382,20 @@ exports[`ButtonBlock matches snapshot for citizen without entitlement 1`] = `
               "borderBottomLeftRadius": "70px",
               "borderBottomRightRadius": "70px",
               "borderBottomStyle": "solid",
-              "borderBottomWidth": "3px",
+              "borderBottomWidth": "8px",
               "borderLeftColor": "rgba(255,255,255,1.00)",
               "borderLeftStyle": "solid",
-              "borderLeftWidth": "3px",
+              "borderLeftWidth": "8px",
               "borderRightColor": "rgba(255,255,255,1.00)",
               "borderRightStyle": "solid",
-              "borderRightWidth": "3px",
+              "borderRightWidth": "8px",
               "borderTopColor": "rgba(255,255,255,1.00)",
               "borderTopLeftRadius": "70px",
               "borderTopRightRadius": "70px",
               "borderTopStyle": "solid",
-              "borderTopWidth": "3px",
-              "boxShadow": "10px 12px 25px -14px, 0px 0.75px 1.5px rgba(0,0,0,0.24)",
+              "borderTopWidth": "8px",
+              "boxShadow": "0px 0px 0px rgba(0,0,0,1.00)",
+              "height": "140px",
               "marginBottom": "0px",
               "marginLeft": "0px",
               "marginRight": "0px",
@@ -455,26 +454,16 @@ exports[`ButtonBlock matches snapshot for citizen without entitlement 1`] = `
                   className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
                 >
                   <div
-                    className="css-view-1dbjc4n r-flexDirection-eqz5dr r-height-1wztat5"
+                    className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flexDirection-eqz5dr r-justifyContent-1777fci"
                   >
                     <div
-                      className="css-view-1dbjc4n r-left-1d2f490 r-marginBottom-15d164r r-marginTop-1x0uki6 r-position-bnwqim r-top-ipm5af"
+                      className="css-text-901oao r-color-waoq6i r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-5fcqz0 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
+                      dir="auto"
                     >
-                      <div
-                        className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-b88u0q r-letterSpacing-i0j7gm r-lineHeight-hbpseb r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
-                        dir="auto"
-                      >
-                        Your next
-                      </div>
-                      <div
-                        className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-b88u0q r-letterSpacing-i0j7gm r-lineHeight-hbpseb r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
-                        dir="auto"
-                      >
-                        daily claim:
-                      </div>
+                      Your Next Claim:
                     </div>
                     <div
-                      className="css-view-1dbjc4n r-alignItems-mbwzsl r-flexDirection-18u37iz r-justifyContent-1777fci r-minHeight-ifefl9"
+                      className="css-view-1dbjc4n r-alignItems-1awozwy r-color-waoq6i r-flexDirection-18u37iz r-justifyContent-1777fci"
                       style={
                         Object {
                           "WebkitBoxFlex": 1,
@@ -485,49 +474,49 @@ exports[`ButtonBlock matches snapshot for citizen without entitlement 1`] = `
                       }
                     >
                       <div
-                        className="css-text-901oao r-color-jwli3a r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-lineHeight-ueyrd6 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-12ym1je"
+                        className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-nwxazl r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-ig0lrl"
                         dir="auto"
                       >
                         0
                       </div>
                       <div
-                        className="css-text-901oao r-color-jwli3a r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-lineHeight-ueyrd6 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-12ym1je"
+                        className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-nwxazl r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-ig0lrl"
                         dir="auto"
                       >
                         0
                       </div>
                       <div
-                        className="css-text-901oao r-color-jwli3a r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-lineHeight-ueyrd6 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-1jg9483"
+                        className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-nwxazl r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-5soawk"
                         dir="auto"
                       >
                         :
                       </div>
                       <div
-                        className="css-text-901oao r-color-jwli3a r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-lineHeight-ueyrd6 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-12ym1je"
+                        className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-nwxazl r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-ig0lrl"
                         dir="auto"
                       >
                         1
                       </div>
                       <div
-                        className="css-text-901oao r-color-jwli3a r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-lineHeight-ueyrd6 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-12ym1je"
+                        className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-nwxazl r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-ig0lrl"
                         dir="auto"
                       >
                         0
                       </div>
                       <div
-                        className="css-text-901oao r-color-jwli3a r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-lineHeight-ueyrd6 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-1jg9483"
+                        className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-nwxazl r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-5soawk"
                         dir="auto"
                       >
                         :
                       </div>
                       <div
-                        className="css-text-901oao r-color-jwli3a r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-lineHeight-ueyrd6 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-12ym1je"
+                        className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-nwxazl r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-ig0lrl"
                         dir="auto"
                       >
                         0
                       </div>
                       <div
-                        className="css-text-901oao r-color-jwli3a r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-lineHeight-ueyrd6 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-12ym1je"
+                        className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-nwxazl r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-ig0lrl"
                         dir="auto"
                       >
                         0
@@ -541,21 +530,23 @@ exports[`ButtonBlock matches snapshot for citizen without entitlement 1`] = `
         </div>
       </div>
       <div
-        className="css-view-1dbjc4n r-flex-13awgt0 r-left-1d2f490 r-top-ipm5af"
+        className="css-view-1dbjc4n r-flex-13awgt0"
         style={
           Object {
             "WebkitTransform": "perspective(0px) rotateY(-180deg)",
             "bottom": "0px",
+            "left": "0px",
             "opacity": 0,
             "position": "absolute",
             "right": "0px",
+            "top": "0px",
             "transform": "perspective(0px) rotateY(-180deg)",
             "zIndex": 0,
           }
         }
       >
         <div
-          className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flexDirection-eqz5dr r-height-1wztat5 r-justifyContent-1777fci"
+          className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flexDirection-eqz5dr r-justifyContent-1777fci"
           style={
             Object {
               "backgroundColor": "rgba(248,175,64,1.00)",
@@ -563,19 +554,20 @@ exports[`ButtonBlock matches snapshot for citizen without entitlement 1`] = `
               "borderBottomLeftRadius": "70px",
               "borderBottomRightRadius": "70px",
               "borderBottomStyle": "solid",
-              "borderBottomWidth": "3px",
+              "borderBottomWidth": "8px",
               "borderLeftColor": "rgba(255,255,255,1.00)",
               "borderLeftStyle": "solid",
-              "borderLeftWidth": "3px",
+              "borderLeftWidth": "8px",
               "borderRightColor": "rgba(255,255,255,1.00)",
               "borderRightStyle": "solid",
-              "borderRightWidth": "3px",
+              "borderRightWidth": "8px",
               "borderTopColor": "rgba(255,255,255,1.00)",
               "borderTopLeftRadius": "70px",
               "borderTopRightRadius": "70px",
               "borderTopStyle": "solid",
-              "borderTopWidth": "3px",
-              "boxShadow": "10px 12px 25px -14px, 0px 0.75px 1.5px rgba(0,0,0,0.24)",
+              "borderTopWidth": "8px",
+              "boxShadow": "0px 0px 0px rgba(0,0,0,1.00)",
+              "height": "140px",
               "marginBottom": "0px",
               "marginLeft": "0px",
               "marginRight": "0px",
@@ -634,26 +626,16 @@ exports[`ButtonBlock matches snapshot for citizen without entitlement 1`] = `
                   className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
                 >
                   <div
-                    className="css-view-1dbjc4n r-flexDirection-eqz5dr r-height-1wztat5"
+                    className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flexDirection-eqz5dr r-justifyContent-1777fci"
                   >
                     <div
-                      className="css-view-1dbjc4n r-left-1d2f490 r-marginBottom-15d164r r-marginTop-1x0uki6 r-position-bnwqim r-top-ipm5af"
+                      className="css-text-901oao r-color-waoq6i r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-5fcqz0 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
+                      dir="auto"
                     >
-                      <div
-                        className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-b88u0q r-letterSpacing-i0j7gm r-lineHeight-hbpseb r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
-                        dir="auto"
-                      >
-                        Your next
-                      </div>
-                      <div
-                        className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-b88u0q r-letterSpacing-i0j7gm r-lineHeight-hbpseb r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
-                        dir="auto"
-                      >
-                        daily claim:
-                      </div>
+                      Your Next Claim:
                     </div>
                     <div
-                      className="css-view-1dbjc4n r-alignItems-mbwzsl r-flexDirection-18u37iz r-justifyContent-1777fci r-minHeight-ifefl9"
+                      className="css-view-1dbjc4n r-alignItems-1awozwy r-color-waoq6i r-flexDirection-18u37iz r-justifyContent-1777fci"
                       style={
                         Object {
                           "WebkitBoxFlex": 1,
@@ -664,49 +646,49 @@ exports[`ButtonBlock matches snapshot for citizen without entitlement 1`] = `
                       }
                     >
                       <div
-                        className="css-text-901oao r-color-jwli3a r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-lineHeight-ueyrd6 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-12ym1je"
+                        className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-nwxazl r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-ig0lrl"
                         dir="auto"
                       >
                         0
                       </div>
                       <div
-                        className="css-text-901oao r-color-jwli3a r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-lineHeight-ueyrd6 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-12ym1je"
+                        className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-nwxazl r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-ig0lrl"
                         dir="auto"
                       >
                         0
                       </div>
                       <div
-                        className="css-text-901oao r-color-jwli3a r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-lineHeight-ueyrd6 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-1jg9483"
+                        className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-nwxazl r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-5soawk"
                         dir="auto"
                       >
                         :
                       </div>
                       <div
-                        className="css-text-901oao r-color-jwli3a r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-lineHeight-ueyrd6 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-12ym1je"
+                        className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-nwxazl r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-ig0lrl"
                         dir="auto"
                       >
                         1
                       </div>
                       <div
-                        className="css-text-901oao r-color-jwli3a r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-lineHeight-ueyrd6 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-12ym1je"
+                        className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-nwxazl r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-ig0lrl"
                         dir="auto"
                       >
                         0
                       </div>
                       <div
-                        className="css-text-901oao r-color-jwli3a r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-lineHeight-ueyrd6 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-1jg9483"
+                        className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-nwxazl r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-5soawk"
                         dir="auto"
                       >
                         :
                       </div>
                       <div
-                        className="css-text-901oao r-color-jwli3a r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-lineHeight-ueyrd6 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-12ym1je"
+                        className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-nwxazl r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-ig0lrl"
                         dir="auto"
                       >
                         0
                       </div>
                       <div
-                        className="css-text-901oao r-color-jwli3a r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-lineHeight-ueyrd6 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-12ym1je"
+                        className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-nwxazl r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-ig0lrl"
                         dir="auto"
                       >
                         0
@@ -736,21 +718,23 @@ exports[`ButtonBlock renders without errors and matches snapshot for non-citizen
       style={
         Object {
           "WebkitTransform": "scale(1)",
-          "height": "196px",
+          "height": "140px",
           "transform": "scale(1)",
-          "width": "196px",
+          "width": "140px",
         }
       }
     >
       <div
-        className="css-view-1dbjc4n r-flex-13awgt0 r-left-1d2f490 r-top-ipm5af"
+        className="css-view-1dbjc4n r-flex-13awgt0"
         style={
           Object {
             "WebkitTransform": "perspective(0px) rotateY(0deg)",
             "bottom": "0px",
+            "left": "0px",
             "opacity": 100,
             "position": "absolute",
             "right": "0px",
+            "top": "0px",
             "transform": "perspective(0px) rotateY(0deg)",
             "zIndex": 1,
           }
@@ -770,19 +754,19 @@ exports[`ButtonBlock renders without errors and matches snapshot for non-citizen
               "borderBottomLeftRadius": "70px",
               "borderBottomRightRadius": "70px",
               "borderBottomStyle": "solid",
-              "borderBottomWidth": "3px",
+              "borderBottomWidth": "8px",
               "borderLeftColor": "rgba(255,255,255,1.00)",
               "borderLeftStyle": "solid",
-              "borderLeftWidth": "3px",
+              "borderLeftWidth": "8px",
               "borderRightColor": "rgba(255,255,255,1.00)",
               "borderRightStyle": "solid",
-              "borderRightWidth": "3px",
+              "borderRightWidth": "8px",
               "borderTopColor": "rgba(255,255,255,1.00)",
               "borderTopLeftRadius": "70px",
               "borderTopRightRadius": "70px",
               "borderTopStyle": "solid",
-              "borderTopWidth": "3px",
-              "boxShadow": "10px 12px 25px -14px, 0px 0.75px 1.5px rgba(0,0,0,0.24)",
+              "borderTopWidth": "8px",
+              "boxShadow": "0px 0px 0px rgba(0,0,0,1.00)",
               "display": "flex",
               "height": "140px",
               "justifyContent": "center",
@@ -846,26 +830,16 @@ exports[`ButtonBlock renders without errors and matches snapshot for non-citizen
                   className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
                 >
                   <div
-                    className="css-view-1dbjc4n r-flexDirection-eqz5dr r-height-1wztat5"
+                    className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flexDirection-eqz5dr r-justifyContent-1777fci"
                   >
                     <div
-                      className="css-view-1dbjc4n r-left-1d2f490 r-marginBottom-15d164r r-marginTop-1x0uki6 r-position-bnwqim r-top-ipm5af"
+                      className="css-text-901oao r-color-waoq6i r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-5fcqz0 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
+                      dir="auto"
                     >
-                      <div
-                        className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-b88u0q r-letterSpacing-i0j7gm r-lineHeight-hbpseb r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
-                        dir="auto"
-                      >
-                        Your next
-                      </div>
-                      <div
-                        className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-b88u0q r-letterSpacing-i0j7gm r-lineHeight-hbpseb r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
-                        dir="auto"
-                      >
-                        daily claim:
-                      </div>
+                      Your Next Claim:
                     </div>
                     <div
-                      className="css-view-1dbjc4n r-alignItems-mbwzsl r-flexDirection-18u37iz r-justifyContent-1777fci r-minHeight-ifefl9"
+                      className="css-view-1dbjc4n r-alignItems-1awozwy r-color-waoq6i r-flexDirection-18u37iz r-justifyContent-1777fci"
                       style={
                         Object {
                           "WebkitBoxFlex": 1,
@@ -876,49 +850,49 @@ exports[`ButtonBlock renders without errors and matches snapshot for non-citizen
                       }
                     >
                       <div
-                        className="css-text-901oao r-color-jwli3a r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-lineHeight-ueyrd6 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-12ym1je"
+                        className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-nwxazl r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-ig0lrl"
                         dir="auto"
                       >
                         0
                       </div>
                       <div
-                        className="css-text-901oao r-color-jwli3a r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-lineHeight-ueyrd6 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-12ym1je"
+                        className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-nwxazl r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-ig0lrl"
                         dir="auto"
                       >
                         0
                       </div>
                       <div
-                        className="css-text-901oao r-color-jwli3a r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-lineHeight-ueyrd6 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-1jg9483"
+                        className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-nwxazl r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-5soawk"
                         dir="auto"
                       >
                         :
                       </div>
                       <div
-                        className="css-text-901oao r-color-jwli3a r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-lineHeight-ueyrd6 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-12ym1je"
+                        className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-nwxazl r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-ig0lrl"
                         dir="auto"
                       >
                         1
                       </div>
                       <div
-                        className="css-text-901oao r-color-jwli3a r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-lineHeight-ueyrd6 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-12ym1je"
+                        className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-nwxazl r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-ig0lrl"
                         dir="auto"
                       >
                         0
                       </div>
                       <div
-                        className="css-text-901oao r-color-jwli3a r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-lineHeight-ueyrd6 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-1jg9483"
+                        className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-nwxazl r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-5soawk"
                         dir="auto"
                       >
                         :
                       </div>
                       <div
-                        className="css-text-901oao r-color-jwli3a r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-lineHeight-ueyrd6 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-12ym1je"
+                        className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-nwxazl r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-ig0lrl"
                         dir="auto"
                       >
                         0
                       </div>
                       <div
-                        className="css-text-901oao r-color-jwli3a r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-lineHeight-ueyrd6 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-12ym1je"
+                        className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-nwxazl r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-ig0lrl"
                         dir="auto"
                       >
                         0
@@ -932,41 +906,44 @@ exports[`ButtonBlock renders without errors and matches snapshot for non-citizen
         </div>
       </div>
       <div
-        className="css-view-1dbjc4n r-flex-13awgt0 r-left-1d2f490 r-top-ipm5af"
+        className="css-view-1dbjc4n r-flex-13awgt0"
         style={
           Object {
             "WebkitTransform": "perspective(0px) rotateY(-180deg)",
             "bottom": "0px",
+            "left": "0px",
             "opacity": 0,
             "position": "absolute",
             "right": "0px",
+            "top": "0px",
             "transform": "perspective(0px) rotateY(-180deg)",
             "zIndex": 0,
           }
         }
       >
         <div
-          className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-height-1wztat5 r-justifyContent-1777fci"
+          className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-justifyContent-1777fci"
           style={
             Object {
-              "backgroundColor": "rgba(0,175,255,1.00)",
+              "backgroundColor": "rgba(0,195,174,1.00)",
               "borderBottomColor": "rgba(255,255,255,1.00)",
               "borderBottomLeftRadius": "70px",
               "borderBottomRightRadius": "70px",
               "borderBottomStyle": "solid",
-              "borderBottomWidth": "3px",
+              "borderBottomWidth": "8px",
               "borderLeftColor": "rgba(255,255,255,1.00)",
               "borderLeftStyle": "solid",
-              "borderLeftWidth": "3px",
+              "borderLeftWidth": "8px",
               "borderRightColor": "rgba(255,255,255,1.00)",
               "borderRightStyle": "solid",
-              "borderRightWidth": "3px",
+              "borderRightWidth": "8px",
               "borderTopColor": "rgba(255,255,255,1.00)",
               "borderTopLeftRadius": "70px",
               "borderTopRightRadius": "70px",
               "borderTopStyle": "solid",
-              "borderTopWidth": "3px",
-              "boxShadow": "10px 12px 25px -14px, 0px 0.75px 1.5px rgba(0,0,0,0.24)",
+              "borderTopWidth": "8px",
+              "boxShadow": "0px 0px 0px rgba(0,0,0,1.00)",
+              "height": "140px",
               "marginBottom": "0px",
               "marginLeft": "0px",
               "marginRight": "0px",
@@ -1025,26 +1002,16 @@ exports[`ButtonBlock renders without errors and matches snapshot for non-citizen
                   className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
                 >
                   <div
-                    className="css-view-1dbjc4n r-flexDirection-eqz5dr r-height-1wztat5"
+                    className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flexDirection-eqz5dr r-justifyContent-1777fci"
                   >
                     <div
-                      className="css-view-1dbjc4n r-left-1d2f490 r-marginBottom-15d164r r-marginTop-1x0uki6 r-position-bnwqim r-top-ipm5af"
+                      className="css-text-901oao r-color-waoq6i r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-5fcqz0 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
+                      dir="auto"
                     >
-                      <div
-                        className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-b88u0q r-letterSpacing-i0j7gm r-lineHeight-hbpseb r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
-                        dir="auto"
-                      >
-                        Your next
-                      </div>
-                      <div
-                        className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-b88u0q r-letterSpacing-i0j7gm r-lineHeight-hbpseb r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
-                        dir="auto"
-                      >
-                        daily claim:
-                      </div>
+                      Your Next Claim:
                     </div>
                     <div
-                      className="css-view-1dbjc4n r-alignItems-mbwzsl r-flexDirection-18u37iz r-justifyContent-1777fci r-minHeight-ifefl9"
+                      className="css-view-1dbjc4n r-alignItems-1awozwy r-color-waoq6i r-flexDirection-18u37iz r-justifyContent-1777fci"
                       style={
                         Object {
                           "WebkitBoxFlex": 1,
@@ -1055,49 +1022,49 @@ exports[`ButtonBlock renders without errors and matches snapshot for non-citizen
                       }
                     >
                       <div
-                        className="css-text-901oao r-color-jwli3a r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-lineHeight-ueyrd6 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-12ym1je"
+                        className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-nwxazl r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-ig0lrl"
                         dir="auto"
                       >
                         0
                       </div>
                       <div
-                        className="css-text-901oao r-color-jwli3a r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-lineHeight-ueyrd6 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-12ym1je"
+                        className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-nwxazl r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-ig0lrl"
                         dir="auto"
                       >
                         0
                       </div>
                       <div
-                        className="css-text-901oao r-color-jwli3a r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-lineHeight-ueyrd6 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-1jg9483"
+                        className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-nwxazl r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-5soawk"
                         dir="auto"
                       >
                         :
                       </div>
                       <div
-                        className="css-text-901oao r-color-jwli3a r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-lineHeight-ueyrd6 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-12ym1je"
+                        className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-nwxazl r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-ig0lrl"
                         dir="auto"
                       >
                         1
                       </div>
                       <div
-                        className="css-text-901oao r-color-jwli3a r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-lineHeight-ueyrd6 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-12ym1je"
+                        className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-nwxazl r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-ig0lrl"
                         dir="auto"
                       >
                         0
                       </div>
                       <div
-                        className="css-text-901oao r-color-jwli3a r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-lineHeight-ueyrd6 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-1jg9483"
+                        className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-nwxazl r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-5soawk"
                         dir="auto"
                       >
                         :
                       </div>
                       <div
-                        className="css-text-901oao r-color-jwli3a r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-lineHeight-ueyrd6 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-12ym1je"
+                        className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-nwxazl r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-ig0lrl"
                         dir="auto"
                       >
                         0
                       </div>
                       <div
-                        className="css-text-901oao r-color-jwli3a r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-lineHeight-ueyrd6 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-12ym1je"
+                        className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-nwxazl r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-ig0lrl"
                         dir="auto"
                       >
                         0

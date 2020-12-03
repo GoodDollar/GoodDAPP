@@ -23,7 +23,6 @@ import Splash from '../splash/Splash'
 import config from '../../config/config'
 import { delay } from '../../lib/utils/async'
 import SimpleStore from '../../lib/undux/SimpleStore'
-import { preloadZoomSDK } from '../dashboard/FaceVerification/hooks/useZoomSDK'
 import DeepLinking from '../../lib/utils/deepLinking'
 import { isMobileNative } from '../../lib/utils/platform'
 import { useInviteCode } from '../invite/useInvites'
@@ -163,13 +162,6 @@ const AppSwitch = (props: LoadingProps) => {
 
         log.error('verifyTopWallet failed', message, exception)
       })
-    }
-
-    // preloading Zoom (supports web + native)
-    if (isLoggedInCitizen === false) {
-      // don't awaiting for sdk ready here
-      // initialize() will await if preload hasn't completed yet
-      preloadZoomSDK(log) // eslint-disable-line require-await
     }
   }
 

@@ -9,7 +9,7 @@ module.exports = function(api) {
       },
     },
     ignore: [
-      'src/lib/zoom/ZoomAuthentication.js'
+      'src/lib/facetec/FaceTecSDK.web.js'
     ]
   }
 }

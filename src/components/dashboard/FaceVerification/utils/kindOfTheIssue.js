@@ -1,5 +1,5 @@
 import { findKey, get, mapValues } from 'lodash'
-import { ZoomSDKStatus, ZoomSessionStatus } from '../sdk/ZoomSDK'
+import { FaceTecSDKStatus, FaceTecSessionStatus } from '../sdk/FaceTecSDK'
 
 const statusTransformer = statusesEnum => statusesKeys =>
   statusesKeys.reduce((statuses, key) => {
@@ -29,7 +29,7 @@ const kindOfSessionIssuesMap = mapValues(
       'CameraNotRunning',
 
       // camera is busy because another ZoOm Session in progress.
-      'ZoomSessionInProgress',
+      'FaceTecSessionInProgress',
 
       // video initialization issues
       'UnmanagedSessionVideoInitializationNotCompleted',
@@ -73,7 +73,7 @@ const kindOfSessionIssuesMap = mapValues(
       'UserCancelledViaClickableReadyScreenSubtext',
     ],
   },
-  statusTransformer(ZoomSessionStatus),
+  statusTransformer(FaceTecSessionStatus),
 )
 
 const kindOfSDKIssuesMap = mapValues(
@@ -120,7 +120,7 @@ const kindOfSDKIssuesMap = mapValues(
       'EncryptionKeyInvalid',
     ],
   },
-  statusTransformer(ZoomSDKStatus),
+  statusTransformer(FaceTecSDKStatus),
 )
 
 const criticalIssues = ['UnrecoverableError', 'NotSupportedError']

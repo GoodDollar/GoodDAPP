@@ -12,11 +12,11 @@ import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../../lib
 import { withStyles } from '../../../../lib/styles'
 import IllustrationSVG from '../../../../assets/FRUnrecoverableError.svg'
 
-import { ZoomSDKStatus } from '../sdk/ZoomSDK'
+import { FaceTecSDKStatus } from '../sdk/FaceTecSDK'
 import { ExceptionType } from '../utils/kindOfTheIssue'
 
 const { SDK } = ExceptionType
-const { InvalidDeviceLicenseKeyIdentifier, LicenseExpiredOrInvalid } = ZoomSDKStatus || {}
+const { InvalidDeviceLicenseKeyIdentifier, LicenseExpiredOrInvalid } = FaceTecSDKStatus || {}
 
 const log = logger.child({ from: 'FaceVerification' })
 

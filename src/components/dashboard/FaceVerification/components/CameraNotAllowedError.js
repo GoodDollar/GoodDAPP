@@ -8,13 +8,13 @@ import ExplanationDialog from '../../../common/dialogs/ExplanationDialog'
 import { useDialog } from '../../../../lib/undux/utils/dialog'
 
 // utils
-import { ZoomSessionStatus } from '../sdk/ZoomSDK'
+import { FaceTecSessionStatus } from '../sdk/FaceTecSDK'
 import { fireEvent, FV_CANTACCESSCAMERA } from '../../../../lib/analytics/analytics'
 
 // assets
 import illustration from '../../../../assets/CameraPermissionError.svg'
 
-const { CameraDoesNotExist } = ZoomSessionStatus
+const { CameraDoesNotExist } = FaceTecSessionStatus
 
 const CameraNotAllowedError = ({ onRetry, exception }) => {
   const [showDialog] = useDialog()

@@ -1,27 +1,27 @@
 import { assign, first, isFinite, isNumber } from 'lodash'
 
 import api from '../api/FaceVerificationApi'
-import ZoomAuthentication from '../../../../lib/zoom/ZoomAuthentication'
+import FaceTec from '../../../../lib/facetec/FaceTecSDK'
 import { UITextStrings } from './UICustomization'
-import { MAX_RETRIES_ALLOWED } from './ZoomSDK.constants'
+import { MAX_RETRIES_ALLOWED } from './FaceTecSDK.constants'
 
 const {
   // Zoom verification session incapsulation
-  ZoomSession,
+  FaceTecSession,
 
   // Zoom session status codes enum
-  ZoomSessionStatus,
+  FaceTecSessionStatus,
 
   // Helper function, returns full description
   // for session status specified
-  getFriendlyDescriptionForZoomSessionStatus,
+  getFriendlyDescriptionForFaceTecSessionStatus,
 
   // Helper class, allows to customize Zoom UI
-  ZoomCustomization,
-} = ZoomAuthentication.ZoomSDK
+  FaceTecCustomization,
+} = FaceTec.FaceTecSDK
 
 // enrollment processor class
-// former startVerification from the useZoomVerification hook simply translated to the class
+// former startVerification from the useFaceTecVerification hook simply translated to the class
 // all closures vars now are instance vars, all functions are methods
 export class EnrollmentProcessor {
   // session state variables
@@ -56,7 +56,7 @@ export class EnrollmentProcessor {
   /**
    * Helper method for handle session completion
    */
-  handleCompletion() {
+  onFaceTecSDKCompletelyDone() {
     const { subscriber, isSuccess, lastMessage, lastResult } = this
     let latestMessage = lastMessage
     const { status } = lastResult
@@ -65,8 +65,8 @@ export class EnrollmentProcessor {
     if (!latestMessage) {
       // setting last message from session status code it it's present
       latestMessage =
-        isNumber(status) && status !== ZoomSessionStatus.SessionCompletedSuccessfully
-          ? getFriendlyDescriptionForZoomSessionStatus(status)
+        isNumber(status) && status !== FaceTecSessionStatus.SessionCompletedSuccessfully
+          ? getFriendlyDescriptionForFaceTecSessionStatus(status)
           : 'Session could not be completed due to an unexpected issue during the network request.'
     }
 
@@ -118,13 +118,13 @@ export class EnrollmentProcessor {
         })
 
       // if enrolled sucessfully - setting last message from server response
-      const { zoomResultSuccessMessage } = UITextStrings
+      const { resultSuccessMessage } = UITextStrings
 
-      ZoomCustomization.setOverrideResultScreenSuccessMessage(zoomResultSuccessMessage)
+      FaceTecCustomization.setOverrideResultScreenSuccessMessage(resultSuccessMessage)
 
       // updating session state vars
       this.isSuccess = true
-      this.lastMessage = zoomResultSuccessMessage
+      this.lastMessage = resultSuccessMessage
 
       // marking session as successfull
       resultCallback.succeed()
@@ -176,7 +176,7 @@ export class EnrollmentProcessor {
             this.retryAttempt = retryAttempt + 1
 
             // showing reason
-            ZoomCustomization.setOverrideResultScreenSuccessMessage(error)
+            FaceTecCustomization.setOverrideResultScreenSuccessMessage(error)
 
             // notifying about retry
             resultCallback.retry()
@@ -196,8 +196,8 @@ export class EnrollmentProcessor {
       // the other cases (non-200 code or other issue that liveness / image quality)
       // we're processing like an error - cancelling session
       // this will trigger handleCompletion which in turn trigger ProcessingSubscriber.onSessionCompleted
-      // which then rejects its promise and causes ZoomSDK.faceVerification to throw which is caught by
-      // useZoomVerification
+      // which then rejects its promise and causes FaceTecSDK.faceVerification to throw which is caught by
+      // useFaceTecVerification
       resultCallback.cancel()
     }
   }
@@ -207,10 +207,10 @@ export class EnrollmentProcessor {
    * server call was completed etc). Allows to perform server call ot specify what
    * Zoom should do after server response returned (cancel / retry / succeed session)
    *
-   * @see ZoomSDK.ZoomFaceMapProcessor
+   * @see FaceTecSDK.ZoomFaceMapProcessor
    * @private
    */
-  processZoomSessionResultWhileZoomWaits(zoomSessionResult, zoomFaceMapResultCallback) {
+  processSessionResultWhileFaceTecSDKWaits(zoomSessionResult, zoomFaceMapResultCallback) {
     const { subscriber } = this
     const { status, faceMetrics } = zoomSessionResult
     const { faceMap } = faceMetrics
@@ -222,7 +222,7 @@ export class EnrollmentProcessor {
     // checking the following cases
     // 1. Processor is called but session is still in progress. That means we've reached timeout
     // 2. New data (probably with better quality) came while session calling server.
-    if (status !== ZoomSessionStatus.SessionCompletedSuccessfully || !faceMap || !faceMap.size) {
+    if (status !== FaceTecSessionStatus.SessionCompletedSuccessfully || !faceMap || !faceMap.size) {
       // on both cases described above we're cancelling current XMLHttpRequests
       // then cancelling current session
       api.cancelInFlightRequests()
@@ -251,7 +251,7 @@ export class EnrollmentProcessor {
       const sessionId = await api.issueSessionToken()
 
       // if we've got it - strting enrollment session
-      new ZoomSession(() => this.handleCompletion(), this, sessionId)
+      new FaceTecSession(this, sessionId)
 
       // notifying subscriber that UI is ready
       subscriber.onUIReady()

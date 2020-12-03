@@ -96,7 +96,6 @@
     "canvas-prebuilt": "^2.0.0-alpha.14",
     "case-sensitive-paths-webpack-plugin": "^2.3.0",
     "color": "^3.1.2",
-    "console-subscriber": "^1.0.2",
     "dns.js": "^1.0.1",
     "es6-promisify": "^6.1.0",
     "ethereumjs-util": "^6.1.0",
@@ -294,7 +293,7 @@
     }
   },
   "lint-staged": {
-    "src/**/*.js": [
+    "src": [
       "eslint --fix --max-warnings=0",
       "git add"
     ]

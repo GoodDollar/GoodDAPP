@@ -1,7 +1,7 @@
 // @flow
 import { filter } from 'lodash'
 import moment from 'moment'
-import 'moment/min/locales'
+import 'moment/min/locales.min'
 
 import { locale } from './i18n.js'
 

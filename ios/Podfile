@@ -52,7 +52,9 @@ target 'GoodDollar' do
   pod 'react-native-branch', path: '../node_modules/react-native-branch'
 
   pod 'RNSentry', :podspec => '../node_modules/@sentry/react-native/RNSentry.podspec'
-
+  
+  pod 'Firebase/Analytics'
+  
   target 'GoodDollarTests' do
     inherit! :search_paths
     # Pods for testing

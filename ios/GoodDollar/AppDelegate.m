@@ -13,12 +13,15 @@
 #import <TSBackgroundFetch/TSBackgroundFetch.h>
 #import <UserNotifications/UserNotifications.h>
 #import <RNBranch/RNBranch.h>
+#import <Firebase.h>
 
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-  
+  if ([FIRApp defaultApp] == nil) {
+    [FIRApp configure];
+  }
   [RNBranch initSessionWithLaunchOptions:launchOptions isReferrable:YES];
   
   RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];

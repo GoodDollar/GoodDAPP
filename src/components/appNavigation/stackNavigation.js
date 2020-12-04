@@ -249,6 +249,7 @@ class AppView extends Component<AppViewProps, AppViewState> {
       navigationBarHidden,
       backButtonHidden,
       disableScroll,
+      backToWallet = false,
     } = descriptor.options
 
     const screenProps = {
@@ -293,7 +294,7 @@ class AppView extends Component<AppViewProps, AppViewState> {
             (NavigationBar ? (
               <NavigationBar />
             ) : (
-              <NavBar goBack={backButtonHidden ? undefined : this.pop} title={pageTitle} />
+              <NavBar backToWallet={backToWallet} goBack={backButtonHidden ? undefined : this.pop} title={pageTitle} />
             ))}
           {disableScroll ? (
             <SceneView navigation={descriptor.navigation} component={Component} screenProps={screenProps} />

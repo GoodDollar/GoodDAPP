@@ -68,7 +68,6 @@ const ExplanationDialog = ({
       style: [
         styles.image,
         {
-          height: getDesignRelativeHeight(imageHeight, true),
           marginTop: errorMessage ? undefined : getDesignRelativeHeight(8),
           width: '100%',
         },
@@ -168,7 +167,6 @@ const mapStylesToProps = ({ theme }) => ({
       },
     }),
     justifyContent: 'center',
-    flexDirection: 'row',
     alignSelf: 'center',
   },
 })

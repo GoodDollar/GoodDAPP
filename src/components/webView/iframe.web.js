@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react'
 import { getMaxDeviceHeight } from '../../lib/utils/sizes'
 import useLoadingIndicator from '../../lib/hooks/useLoadingIndicator'
-import NavigationBar from './IFrameNavigationBar'
 import { useIframeLoaded } from './iframe.hooks.web'
 
 const wHeight = getMaxDeviceHeight()
@@ -31,13 +30,7 @@ export const Iframe = ({ src, title }) => {
 export const createIframe = (src, title, backToWallet = false, backToRoute) => {
   const IframeTab = () => <Iframe title={title} src={src} />
 
-  IframeTab.navigationOptions = { title }
-
-  if (backToWallet) {
-    IframeTab.navigationOptions = ({ navigation }) => ({
-      navigationBar: () => <NavigationBar navigate={navigation.navigate} title={title} backToRoute={backToRoute} />,
-    })
-  }
+  IframeTab.navigationOptions = { title, backToWallet }
 
   return IframeTab
 }

@@ -2,7 +2,7 @@
 
 // libraries
 import React from 'react'
-import { Image, Platform, View } from 'react-native'
+import { Image, Platform, StyleSheet, View } from 'react-native'
 
 // utils
 import { withStyles } from '../../../lib/styles'
@@ -106,14 +106,15 @@ const TopImage = ({ type, styles }) => {
 
   if (image) {
     const { Component, src, containerStyle, style } = image
+    const imgStyle = Component ? StyleSheet.flatten(style) : style
 
     return Component ? (
       <View style={containerStyle}>
-        <Component style={style} />
+        <Component style={imgStyle} />
       </View>
     ) : (
       <View style={containerStyle}>
-        <Image style={style} source={src} />
+        <Image style={imgStyle} source={src} />
       </View>
     )
   }

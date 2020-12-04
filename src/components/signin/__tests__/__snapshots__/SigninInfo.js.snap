@@ -151,7 +151,7 @@ exports[`SigninInfo matches snapshot 1`] = `
       onWheel={[Function]}
     >
       <div
-        className="css-view-1dbjc4n r-display-6koalj r-flexGrow-16y2uox r-height-1pi2tsx"
+        className="css-view-1dbjc4n r-display-6koalj r-flexGrow-16y2uox"
       >
         <div
           className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-flexGrow-16y2uox r-justifyContent-1h0z5md"

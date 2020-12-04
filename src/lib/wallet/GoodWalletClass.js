@@ -151,7 +151,7 @@ export class GoodWallet {
   }
 
   init(): Promise<any> {
-    const mainnetNetworkId = ContractsAddress[Config.network + '-mainnet'].networkId
+    const mainnetNetworkId = get(ContractsAddress, Config.network + '-mainnet.networkId', 122)
     const mainnethttpWeb3provider = Config.ethereum[mainnetNetworkId].httpWeb3provider
     this.web3Mainnet = new Web3(mainnethttpWeb3provider)
     const ready = WalletFactory.create(GoodWallet.WalletType, this.config)

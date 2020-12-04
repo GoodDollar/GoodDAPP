@@ -1,0 +1,42 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Web CI/CD v1
+
+# Controls when the action will run. Triggers the workflow on push or pull request
+# events but only for the master branch
+on:
+  push:
+    branches:
+      - master
+
+  pull_request:
+    branches:
+      - master
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  test:
+    name: Unit Tests
+    env:
+      REACT_ENV: 'development'
+      TEST_REACT_NATIVE: false
+      BUNDLESIZE_GITHUB_TOKEN: 63f6d1717c6652d63234cf9629977b08f4bac3fd
+      MNEMONIC: 'myth like bonus scare over problem client lizard pioneer submit female collect'
+      ADMIN_MNEMONIC: 'they bus duty candy uncover assault bullet kitchen kit acid spin physical'
+      CI: false
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 10.15.3
+      - name: Install npm dependencies
+        uses: bahmutov/npm-install@v1
+
+      - name: prepare blockchain for test
+        run: npm run test:setup
+
+      - name: run tests and code coverage
+        run: |
+          npm run coverage
+          npm run coveralls || true
+          pkill -f ganache

@@ -1,4 +1,5 @@
 // @flow
+import { hot } from 'react-hot-loader/root'
 import { ActionSheetProvider } from '@expo/react-native-action-sheet'
 import React, { Fragment, memo, useCallback, useEffect, useState } from 'react'
 import { Platform, SafeAreaView, StyleSheet } from 'react-native'
@@ -18,7 +19,6 @@ import logger from './lib/logger/pino-logger'
 import SimpleStore, { initStore } from './lib/undux/SimpleStore'
 import AsyncStorage from './lib/utils/asyncStorage'
 import { isMobile } from './lib/utils/platform'
-import hot from './lib/hoc/hotLoader'
 
 import './lib/gundb/gundb'
 
@@ -59,6 +59,8 @@ export const App = () => {
     </PaperProvider>
   )
 }
+
+const AppHot = Platform.select({ web: hot(App), default: App })
 
 const styles = StyleSheet.create({
   safeAreaView: {
@@ -106,10 +108,10 @@ const AppHolder = () => {
   return (
     <ActionSheetProvider>
       <SimpleStore.Container>
-        <App />
+        <AppHot />
       </SimpleStore.Container>
     </ActionSheetProvider>
   )
 }
 
-export default hot(AppHolder)
+export default AppHolder

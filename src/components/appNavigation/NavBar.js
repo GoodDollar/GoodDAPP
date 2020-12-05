@@ -28,7 +28,7 @@ class NavBar extends React.Component<NavBarProps> {
   render() {
     const { styles, goBack, backToWallet = false } = this.props
     const showBackButton = goBack && !backToWallet
-    const showBackToWallet = goBack && backToWallet 
+    const showBackToWallet = goBack && backToWallet
 
     return (
       <NavigationBar dark style={styles.topbarStyles}>

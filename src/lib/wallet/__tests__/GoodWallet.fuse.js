@@ -2,7 +2,7 @@ import { GoodWallet } from '../GoodWalletClass'
 import adminWallet from './__util__/AdminWalletV1'
 
 describe('GoodWalletShare/ReceiveTokens', () => {
-  jest.setTimeout(90000)
+  jest.setTimeout(120000)
   const amount = 1
   const reason = 'Test_Reason'
   let testWallet
@@ -95,7 +95,7 @@ describe('GoodWalletShare/ReceiveTokens', () => {
 
     expect(newBalance).toEqual(0)
 
-    const isused = await testWallet.isWithdrawLinkUsed(DEPOSIT_CODE_HASH)
+    const isused = await testWallet.isPaymentLinkAvailable(DEPOSIT_CODE_HASH)
     expect(isused).toBeTruthy()
     const res = await testWallet.getWithdrawDetails(DEPOSIT_CODE)
 
@@ -103,7 +103,7 @@ describe('GoodWalletShare/ReceiveTokens', () => {
     expect(res.sender).toEqual(testWallet.account)
     await testWallet2.withdraw(DEPOSIT_CODE)
 
-    const res2 = await testWallet2.isWithdrawLinkUsed(DEPOSIT_CODE_HASH)
+    const res2 = await testWallet2.isPaymentLinkAvailable(DEPOSIT_CODE_HASH)
 
     expect(res2).toBeFalsy()
   })
@@ -129,6 +129,9 @@ describe('GoodWalletShare/ReceiveTokens', () => {
     await txPromise
 
     let eventId = testWallet2.subscribeToEvent('otplUpdated', receipt => {
+      if (receipt.logs[1].name !== 'PaymentCancel') {
+        return
+      }
       expect(receipt).toBeTruthy()
       expect(receipt.logs[1].name).toBe('PaymentCancel')
       testWallet2.unsubscribeFromEvent(eventId)

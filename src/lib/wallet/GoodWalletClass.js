@@ -1022,7 +1022,7 @@ export class GoodWallet {
     } catch (exception) {
       const { message } = exception
 
-      log.warn('isWithdrawLinkUsed failed', message, exception)
+      log.warn('isPaymentLinkAvailable failed', message, exception)
       throw exception
     }
   }

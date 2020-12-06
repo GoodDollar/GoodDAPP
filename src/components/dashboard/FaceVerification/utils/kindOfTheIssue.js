@@ -30,6 +30,16 @@ const IFrameError = [
   'NotAllowedUseNonIframeConstructor',
 ]
 
+// All FaceTec sdk initialization result codes could be thrown
+// if the license was failed to be proven
+const LicenseError = [
+  // The Device License Key Identifier provided was invalid.
+  'InvalidDeviceKeyIdentifier',
+
+  // License was expired, contained invalid text, or you are attempting to initialize on a domain that is not specified in your license.
+  'KeyExpiredOrInvalid',
+]
+
 const kindOfSessionIssuesMap = mapValues(
   {
     // All FaceTec session result codes could be thrown if the
@@ -96,6 +106,8 @@ const kindOfSessionIssuesMap = mapValues(
   statusTransformer(FaceTecSessionStatus),
 )
 
+const sdkStatusTransformer = statusTransformer(FaceTecSDKStatus)
+
 const kindOfSDKIssuesMap = mapValues(
   {
     // All FaceTec sdk initialization result codes could be thrown
@@ -126,14 +138,10 @@ const kindOfSDKIssuesMap = mapValues(
     // there's no chance this could be changed.
     // Used for handle the case when we should prevent next initialization attempts
     UnrecoverableError: [
-      // The Device License Key Identifier provided was invalid.
-      'InvalidDeviceKeyIdentifier',
+      ...LicenseError,
 
       // This version of FaceTec SDK is deprecated.
       'VersionDeprecated',
-
-      // License was expired, contained invalid text, or you are attempting to initialize on a domain that is not specified in your license.
-      'KeyExpiredOrInvalid',
 
       // The provided public encryption key is missing or invalid.
       'EncryptionKeyInvalid',
@@ -141,16 +149,19 @@ const kindOfSDKIssuesMap = mapValues(
 
     ResourceLoadingError,
   },
-  statusTransformer(FaceTecSDKStatus),
+  sdkStatusTransformer,
 )
 
-const criticalIssues = ['UnrecoverableError', 'NotSupportedError', 'ResourceLoadingError']
+const licenceIssuesCodes = sdkStatusTransformer(LicenseError)
 const createPredicate = exception => codes => codes.includes(get(exception, 'code'))
+const criticalIssues = ['UnrecoverableError', 'NotSupportedError', 'ResourceLoadingError']
 
 export const ExceptionType = {
   SDK: 'sdk',
   Session: 'session',
 }
+
+export const isLicenseIssue = exception => createPredicate(exception)(licenceIssuesCodes)
 
 export const isCriticalIssue = exception => criticalIssues.includes(get(exception, 'name'))
 

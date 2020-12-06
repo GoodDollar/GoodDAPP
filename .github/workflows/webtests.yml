@@ -39,13 +39,13 @@ jobs:
           branch: 'production'
           tags: true
           force: true
-          github_token: ${{ github.token }}
+          github_token: ${{ secrets.GIT_AUTH }}
       - name: Merge staging -> master
         uses: devmasx/merge-branch@v1.3.1
         with:
           type: now
           target_branch: master
-          github_token: ${{ github.token }}
+          github_token: ${{ secrets.GIT_AUTH }}
 
   test:
     name: Unit Tests

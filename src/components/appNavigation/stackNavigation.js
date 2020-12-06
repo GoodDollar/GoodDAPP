@@ -3,7 +3,7 @@ import React, { Component, useEffect, useState } from 'react'
 import { Platform, SafeAreaView, ScrollView, StyleSheet, View } from 'react-native'
 import SideMenu from 'react-native-side-menu-gooddapp'
 import { createNavigator, Route, SceneView, SwitchRouter } from '@react-navigation/core'
-import { isNumber } from 'lodash'
+import { isEqualWith, isFunction, isNumber } from 'lodash'
 
 import { withStyles } from '../../lib/styles'
 import { getScreenWidth } from '../../lib/utils/orientation'
@@ -57,8 +57,13 @@ class AppView extends Component<AppViewProps, AppViewState> {
    */
   trans: boolean = false
 
-  shouldComponentUpdate() {
-    return this.trans === false
+  shouldComponentUpdate(nextProps, nextState) {
+    const navStateChanged =
+      isEqualWith(nextProps, this.props, (val1, val2) => (isFunction(val1) && isFunction(val2) ? true : undefined)) ===
+      false
+    const stateChanged = isEqualWith(nextState, this.state) === false
+
+    return navStateChanged || stateChanged
   }
 
   /**

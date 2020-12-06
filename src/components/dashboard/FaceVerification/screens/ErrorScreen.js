@@ -4,6 +4,7 @@ import { get } from 'lodash'
 import CameraNotAllowedError from '../components/CameraNotAllowedError'
 import DeviceOrientationError from '../components/DeviceOrientationError'
 import DuplicateFoundError from '../components/DuplicateFoundError'
+import NotMatchError from '../components/NotMatchError'
 import GeneralError from '../components/GeneralError'
 import UnrecoverableError from '../components/UnrecoverableError'
 import SwitchToAnotherDevice from '../components/SwitchToAnotherDevice'
@@ -62,6 +63,7 @@ ErrorScreen.navigationOptions = {
 }
 
 ErrorScreen.kindOfTheIssue = {
+  NotMatchError,
   UnrecoverableError,
   DuplicateFoundError,
   DeviceOrientationError,

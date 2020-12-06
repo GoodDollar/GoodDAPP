@@ -240,9 +240,7 @@ const Claim = props => {
   // const openLearnMoreLink = useOnPress(() => openLink(Config.learnMoreEconomyUrl), [])
 
   // format number of people who did claim today
-  /*eslint-disable */
   const formattedNumberOfPeopleClaimedToday = useMemo(() => formatWithSIPrefix(peopleClaimed), [peopleClaimed])
-  /*eslint-enable */
 
   // Format transformer function for claimed G$ amount
   const extraInfoAmountFormatter = number => formatWithSIPrefix(weiToGd(number))

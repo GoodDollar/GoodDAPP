@@ -13,17 +13,16 @@ on:
     branches:
       - master
 
-  on:
-    workflow_dispatch:
-      inputs:
-        release:
-          description: 'release type'
-          required: true
-          default: 'qa'
-        version:
-          description: 'version bump'
-          required: false
-          default: 'prerelease'
+  workflow_dispatch:
+    inputs:
+      release:
+        description: 'release type'
+        required: true
+        default: 'qa'
+      version:
+        description: 'version bump'
+        required: false
+        default: 'prerelease'
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   release:

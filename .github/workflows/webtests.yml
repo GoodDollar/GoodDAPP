@@ -37,27 +37,27 @@ jobs:
         with:
           persist-credentials: false
           fetch-depth: 0
-          ref: 'staging'
-      - name: update version and push
+          ref: ${{ github.event.inputs.name == 'qa' && 'master' || 'staging' }}
+      - name: setup git
         run: |
           git config --local user.email "techadmin@gooddollar.org"
           git config --local user.name "Techadmin"
           npm install -g auto-changelog
-          npm version minor -m "chore: release ${{ github.event.inputs.name }} version %s [skip ci]"
-          git push https://${{ secrets.GIT_AUTH }}@github.com/GoodDollar/GoodDAPP staging --follow-tags
-      # - name: Push changes
-      #   uses: ad-m/github-push-action@master
-      #   with:
-      #     branch: 'production'
-      #     tags: true
-      #     force: true
-      #     github_token: ${{ secrets.GIT_AUTH }}
-      - name: Merge staging -> master
-        uses: devmasx/merge-branch@v1.3.1
-        with:
-          type: now
-          target_branch: master
-          github_token: ${{ secrets.GIT_AUTH }}
+      - name: update version qa
+        if: "github.event.inputs.name == 'qa'"
+        run: |
+          npm version prerelease -m "chore: release qa version %s [skip ci]"
+          git push https://${{ secrets.GIT_AUTH }}@github.com/GoodDollar/GoodDAPP staging --force --follow-tags
+          git push https://${{ secrets.GIT_AUTH }}@github.com/GoodDollar/GoodDAPP master --follow-tags
+
+      - name: update version prod
+        if: "github.event.inputs.name != 'qa'"
+        run: |
+          npm version prerelease -m "chore: release prod version %s [skip ci]"
+          git push https://${{ secrets.GIT_AUTH }}@github.com/GoodDollar/GoodDAPP production --force --follow-tags
+          git checkout master
+          git merge staging
+          git push https://${{ secrets.GIT_AUTH }}@github.com/GoodDollar/GoodDAPP master --follow-tags
 
   test:
     name: Unit Tests

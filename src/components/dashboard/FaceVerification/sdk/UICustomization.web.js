@@ -1,10 +1,7 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
 import hexToRgba from 'hex-to-rgba'
 import { Colors } from 'react-native-paper'
 import { assignIn, isFinite, isString, mapKeys, memoize, pickBy, snakeCase } from 'lodash'
 
-import { Spinner } from '../../../common/view/LoadingIndicator'
 import FaceTec from '../../../../lib/facetec/FaceTecSDK'
 
 import { resultFacescanProcessingMessage, resultSuccessMessage } from '../sdk/FaceTecSDK.constants'
@@ -35,6 +32,7 @@ const FaceTecColor = memoize(hexToRgba, (color, alpha) => {
 const FaceTecHeaderTextSize = FaceTecSize(isLargeDevice ? 22 : 20)
 const FaceTecDefaultCornerRadius = FaceTecSize(5)
 
+const { black, lightBlue800 } = Colors
 const { primary, green, white, lightGray, darkGray, gray50Percent } = theme.colors
 const { default: defaultFont } = theme.fonts
 const nl = isLargeDevice ? ' ' : '<br/>'
@@ -68,8 +66,6 @@ const {
   resultScreenCustomization,
 } = UICustomization
 
-const { element } = initialLoadingAnimationCustomization
-
 assignIn(UICustomization, {
   // disabling camera permissions help screen
   // (as we have own ErrorScreen with corresponding message)
@@ -81,15 +77,11 @@ assignIn(UICustomization, {
   enableHotKeyProtection: false,
 })
 
-// customizing 'Camera initializing' indicator
-// rendering our animated loading spinner inside Zoom's spinner
-ReactDOM.render(<Spinner loading />, element)
-
 // Zoom's spinner is rendered via CSS border
 // Setting the same background & foreground color to hide it
 // Default Zoom's animation is disabled in UICustomization.css
 assignIn(initialLoadingAnimationCustomization, {
-  foregroundColor: FaceTecColor(white),
+  foregroundColor: FaceTecColor(lightBlue800),
   backgroundColor: FaceTecColor(white),
 })
 
@@ -129,7 +121,7 @@ assignIn(frameCustomization, {
   borderColor: FaceTecColor(white, 0),
   borderCornerRadius: FaceTecDefaultCornerRadius,
   borderWidth: FaceTecSize(0),
-  shadow: FaceTecShadow([0, 19, 38, 0], Colors.black, 0.42),
+  shadow: FaceTecShadow([0, 19, 38, 0], black, 0.42),
 
   // setting Zoom UI background color
   backgroundColor: FaceTecColor(white),

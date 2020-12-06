@@ -164,7 +164,6 @@ assignIn(guidanceCustomization, {
   enableRetryScreenBulletedInstructions: true,
 
   // configuring guidance images on retry screen
-  enableRetryScreenSlideshowShuffle: false,
   retryScreenOvalStrokeColor: FaceTecColor(primary),
   retryScreenImageBorderColor: FaceTecColor(primary),
   retryScreenImageBorderWidth: FaceTecSize(4),

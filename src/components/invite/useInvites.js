@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { keyBy, uniqBy } from 'lodash'
+import { groupBy, keyBy, uniqBy } from 'lodash'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import userStorage from '../../lib/gundb/UserStorage'
 import logger from '../../lib/logger/pino-logger'
@@ -134,18 +134,19 @@ const useCollectBounty = () => {
 const useInvited = () => {
   const [invites, setInvites] = useState([])
   const [level, setLevel] = useState({})
+  const [totalEarned, setTotalEarned] = useState({})
 
-  const updateLevel = async () => {
-    const level = await goodWallet.invitesContract.methods
-      .users(goodWallet.account)
-      .call()
-      .then(u => goodWallet.invitesContract.methods.levels(u.level).call())
+  const updateData = async () => {
+    const user = await goodWallet.invitesContract.methods.users(goodWallet.account).call()
+
+    const level = await goodWallet.invitesContract.methods.levels(user.level).call()
     setLevel(level)
+    setTotalEarned(user.totalEarned.toNumber())
   }
 
   const updateInvited = async () => {
     try {
-      updateLevel()
+      updateData()
       let cached = (await AsyncStorage.getItem('GD_cachedInvites')) || []
       log.debug('updateInvited', { cached })
       setInvites(cached)
@@ -182,7 +183,9 @@ const useInvited = () => {
     updateInvited()
   }, [])
 
-  return [invites, updateInvited, level]
+  const { pending = [], approved = [] } = groupBy(invites, 'status')
+
+  return [invites, updateInvited, level, { pending: pending.length, approved: approved.length, totalEarned }]
 }
 
 export { useInviteCode, useInvited, useCollectBounty }

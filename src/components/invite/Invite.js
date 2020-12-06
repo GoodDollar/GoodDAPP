@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { Image, View } from 'react-native'
-import { groupBy, result } from 'lodash'
+import { result } from 'lodash'
 import {
   EmailShareButton,
   FacebookShareButton,
@@ -8,7 +8,7 @@ import {
   TwitterShareButton,
   WhatsappShareButton,
 } from 'react-share'
-import { Avatar, CustomButton, Icon, IconButton, Section, ShareButton, Text, Wrapper } from '../common'
+import { Avatar, BigGoodDollar, CustomButton, Icon, IconButton, Section, ShareButton, Text, Wrapper } from '../common'
 import { WavesBox } from '../common/view/WavesBox'
 import { theme } from '../theme/styles'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
@@ -17,6 +17,8 @@ import { isMobile, isMobileNative } from '../../lib/utils/platform'
 import { fireEvent, INVITE_SHARE } from '../../lib/analytics/analytics'
 import Config from '../../config/config'
 import { generateShareObject, isSharingAvailable } from '../../lib/share'
+import AsyncStorage from '../../lib/utils/asyncStorage'
+import ModalLeftBorder from '../common/modal/ModalLeftBorder'
 import { useCollectBounty, useInviteCode, useInvited } from './useInvites'
 import HowToSVG from './howto.svg'
 
@@ -27,6 +29,7 @@ const shareMessage =
   "Hey,\nCheck out GoodDollar it's a digital coin that gives anyone who joins a small daily income (UBI).\n\n"
 
 const InvitedUser = ({ name, avatar, status }) => {
+  const isApproved = status === 'approved'
   return (
     <Section.Row style={{ alignItems: 'center', marginTop: theme.paddings.defaultMargin }}>
       <Avatar source={avatar} size={28} />
@@ -34,6 +37,7 @@ const InvitedUser = ({ name, avatar, status }) => {
         fontFamily={theme.fonts.slab}
         fontSize={14}
         color={theme.colors.darkBlue}
+        lineHeight={18}
         style={{
           marginLeft: theme.paddings.defaultMargin,
           textTransform: 'capitalize',
@@ -43,7 +47,24 @@ const InvitedUser = ({ name, avatar, status }) => {
       >
         {name}
       </Section.Text>
-      {status === 'approved' && <Icon name={'success'} color={'green'} />}
+      <Section.Row>
+        {isApproved ? (
+          <Icon name={'success'} color={'green'} />
+        ) : (
+          <Icon name={'clock'} color={'orange'} style={{ marginRight: 5, fontWeight: 'bold' }} />
+        )}
+
+        <Section.Text
+          fontWeight={'medium'}
+          fontSize={12}
+          color={isApproved ? 'green' : 'orange'}
+          textAlign={'center'}
+          lineHeight={18}
+          style={{ marginLeft: 5 }}
+        >
+          {isApproved ? 'Claimed' : 'Pending'}
+        </Section.Text>
+      </Section.Row>
     </Section.Row>
   )
 }
@@ -54,7 +75,7 @@ const ShareIcons = ({ shareUrl }) => {
       name: 'whatsapp-1',
       service: 'whatsapp',
       Component: WhatsappShareButton,
-      color: '#25D066',
+      color: theme.colors.darkBlue,
       size: 20,
       title: shareMessage,
       separator: '',
@@ -63,7 +84,7 @@ const ShareIcons = ({ shareUrl }) => {
       name: 'facebook-1',
       service: 'facebook',
       Component: FacebookShareButton,
-      color: theme.colors.facebookBlue,
+      color: theme.colors.darkBlue,
       size: 20,
       quote: shareMessage,
       hashtag: '#GoodDollar',
@@ -72,7 +93,7 @@ const ShareIcons = ({ shareUrl }) => {
       name: 'twitter-1',
       service: 'twitter',
       Component: TwitterShareButton,
-      color: '#1DA1F3',
+      color: theme.colors.darkBlue,
       title: shareMessage,
       hashtags: ['GoodDollar', 'UBI'],
     },
@@ -81,14 +102,14 @@ const ShareIcons = ({ shareUrl }) => {
       name: 'telegram',
       service: 'telegram',
       Component: TelegramShareButton,
-      color: '#30A6DE',
+      color: theme.colors.darkBlue,
       title: shareMessage,
     },
     {
       name: 'envelope',
       service: 'email',
       Component: EmailShareButton,
-      color: theme.colors.googleRed,
+      color: theme.colors.darkBlue,
       size: 20,
       subject: shareTitle,
       body: shareMessage,
@@ -101,12 +122,9 @@ const ShareIcons = ({ shareUrl }) => {
   }
 
   return (
-    <Section.Row style={{ marginTop: theme.paddings.defaultMargin * 2 }}>
-      <Section.Text style={{ flex: 1 }} fontSize={11} color={theme.colors.secondary}>
-        Or share with:
-      </Section.Text>
+    <Section.Row style={{ marginTop: theme.paddings.defaultMargin * 2, justifyContent: 'flex-start' }}>
       {buttons.map(({ name, Component, ...props }) => (
-        <Section.Stack style={{ marginLeft: theme.paddings.defaultMargin * 1.5 }} key={name}>
+        <Section.Stack style={{ marginRight: theme.paddings.defaultMargin * 1.5 }} key={name}>
           <Component url={shareUrl} {...props}>
             <IconButton {...props} name={name} circleSize={36} onPress={() => onShare(props.service)} />
           </Component>
@@ -127,27 +145,34 @@ const ShareBox = ({ level }) => {
   )
 
   return (
-    <WavesBox primaryColor={theme.colors.darkBlue} style={styles.linkBoxStyle} title={'Share This Link'}>
+    <WavesBox primaryColor={theme.colors.primary} style={styles.linkBoxStyle} title={'Share Your Invite Link'}>
       <Section.Stack style={{ alignItems: 'flex-start', marginTop: 11, marginBottom: 11 }}>
-        <Section.Text fontSize={14}>
-          Get{' '}
-          <Section.Text fontSize={14} fontWeight={'bold'}>
-            {bounty} G$
+        <Section.Text fontSize={14} textAlign={'justify'} lineHeight={19}>
+          Copy and send the link below and receive{' '}
+          <Section.Text fontWeight={'bold'} fontSize={14} textAlign={'justify'} lineHeight={19}>
+            {`${bounty}G$`}
           </Section.Text>{' '}
-          for each friend you invite
+          for each registered invitee
         </Section.Text>
       </Section.Stack>
       <Section.Row style={{ alignItems: 'center' }}>
         <Text
           fontSize={11}
           lineHeight={30}
-          style={{ flex: 1, borderWidth: 1, padding: 0, marginRight: 8, borderRadius: 50 }}
+          style={{
+            flex: 1,
+            borderWidth: 1,
+            padding: 0,
+            marginRight: 8,
+            borderRadius: 50,
+            borderColor: theme.colors.darkBlue,
+          }}
         >
           {shareUrl}
         </Text>
         <ShareButton
           style={{ flexGrow: 0, minWidth: 70, height: 32, minHeight: 32 }}
-          color={theme.colors.darkBlue}
+          color={theme.colors.primary}
           textStyle={{ fontSize: 14, color: theme.colors.white }}
           share={share}
           iconColor={'white'}
@@ -163,19 +188,15 @@ const ShareBox = ({ level }) => {
 const InvitesBox = React.memo(({ invitees, refresh }) => {
   const [, bountiesCollected] = useCollectBounty()
 
-  const { pending = [], approved = [] } = groupBy(invitees, 'status')
+  // const { pending = [], approved = [] } = groupBy(invitees, 'status')
   useEffect(() => {
     bountiesCollected && refresh()
   }, [bountiesCollected])
 
-  log.debug({ invitees, pending, approved })
+  log.debug({ invitees })
   return (
     <>
-      <WavesBox
-        primaryColor={theme.colors.orange}
-        style={styles.linkBoxStyle}
-        title={'Friends Who Joined & Need To Claim'}
-      >
+      <WavesBox primaryColor={theme.colors.primary} style={styles.linkBoxStyle} title={'Friends Who Joined'}>
         <Section.Text
           fontSize={11}
           textAlign={'justify'}
@@ -184,16 +205,16 @@ const InvitesBox = React.memo(({ invitees, refresh }) => {
         >
           * Remind them to claim G$’s so you could earn your reward
         </Section.Text>
-        {pending.map((data, i) => (
+        {invitees.map((data, i) => (
           <Section.Stack key={i}>
             <InvitedUser {...data} />
-            {i < pending.length - 1 && (
+            {i < invitees.length - 1 && (
               <Section.Separator style={{ marginTop: 8 }} width={1} color={theme.colors.lightGray} />
             )}
           </Section.Stack>
         ))}
       </WavesBox>
-      <WavesBox
+      {/* <WavesBox
         primaryColor={theme.colors.green}
         style={[styles.linkBoxStyle, { marginTop: theme.paddings.defaultMargin * 1.5 }]}
         title={'Friends Who Joined & Claimed'}
@@ -206,10 +227,70 @@ const InvitesBox = React.memo(({ invitees, refresh }) => {
             )}
           </Section.Stack>
         ))}
-      </WavesBox>
+      </WavesBox> */}
     </>
   )
 })
+
+const TotalEarnedBox = ({ totalEarned = 0 }) => (
+  <WavesBox
+    primaryColor={theme.colors.green}
+    style={{ margin: 0, padding: 0 }}
+    contentStyle={{
+      backgroundColor: theme.colors.white,
+      padding: 0,
+      paddingTop: 0,
+      paddingBottom: 0,
+      paddingRight: 0,
+      paddingLeft: 0,
+
+      // paddingTop: theme.paddings.defaultMargin,
+      // paddingBottom: theme.paddings.defaultMargin,
+    }}
+  >
+    <Section.Row style={{ justifyContent: 'space-between' }}>
+      <Section.Text
+        style={{ textTransform: 'capitalize', marginLeft: theme.paddings.defaultMargin * 1.5 }}
+        color={'darkBlue'}
+        fontWeight={'bold'}
+        fontSize={18}
+        letterSpacing={0.09}
+        textAlign={'justify'}
+        lineHeight={32}
+      >
+        Total Rewards Earned
+      </Section.Text>
+      <ModalLeftBorder
+        borderColor={theme.colors.green}
+        style={{
+          maxWidth: '100%',
+          flexGrow: 0,
+          padding: theme.paddings.defaultMargin * 1.5,
+          paddingVertical: theme.paddings.defaultMargin,
+          borderRadius: 0,
+          borderBottomRightRadius: 10,
+          borderTopRightRadius: 10,
+        }}
+      >
+        <BigGoodDollar
+          number={totalEarned}
+          bigNumberProps={{
+            fontSize: 24,
+            color: theme.colors.white,
+            fontWeight: 'bold',
+            lineHeight: 32,
+          }}
+          bigNumberUnitProps={{
+            fontSize: 14,
+            color: theme.colors.white,
+            fontWeight: 'bold',
+            lineHeight: 19,
+          }}
+        />
+      </ModalLeftBorder>
+    </Section.Row>
+  </WavesBox>
+)
 
 const InvitesHowTO = () => (
   <Section.Stack
@@ -227,7 +308,7 @@ const InvitesHowTO = () => (
   </Section.Stack>
 )
 
-const InvitesData = ({ invitees, refresh, level }) => (
+const InvitesData = ({ invitees, refresh, level, totalEarned = 0 }) => (
   <>
     <Section.Stack
       style={{
@@ -238,6 +319,9 @@ const InvitesData = ({ invitees, refresh, level }) => (
       <ShareBox level={level} />
     </Section.Stack>
     <Section.Stack style={{ alignSelf: 'stretch', marginTop: theme.paddings.defaultMargin * 1.5 }}>
+      <TotalEarnedBox totalEarned={totalEarned} />
+    </Section.Stack>
+    <Section.Stack style={{ alignSelf: 'stretch', marginTop: theme.paddings.defaultMargin * 1.5 }}>
       <InvitesBox invitees={invitees} refresh={refresh} />
     </Section.Stack>
   </>
@@ -245,9 +329,14 @@ const InvitesData = ({ invitees, refresh, level }) => (
 
 const Invite = () => {
   const [showHowTo, setShowHowTo] = useState(false)
-  const [invitees, refresh, level] = useInvited()
+  const [invitees, refresh, level, inviteState] = useInvited()
 
   const toggleHowTo = () => setShowHowTo(!showHowTo)
+
+  useEffect(() => {
+    //reset state for rewards icon in navbar
+    inviteState && AsyncStorage.setItem('GD_lastInviteState', inviteState)
+  }, [inviteState])
 
   return (
     <Wrapper style={styles.pageBackground} backgroundColor={theme.colors.lightGray}>

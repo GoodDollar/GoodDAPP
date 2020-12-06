@@ -12,6 +12,18 @@ on:
   pull_request:
     branches:
       - master
+
+  on:
+    workflow_dispatch:
+      inputs:
+        release:
+          description: 'release type'
+          required: true
+          default: 'qa'
+        version:
+          description: 'version bump'
+          required: false
+          default: 'prerelease'
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   release:
@@ -32,14 +44,15 @@ jobs:
           git config --local user.email "techadmin@gooddollar.org"
           git config --local user.name "Techadmin"
           npm install -g auto-changelog
-          npm version minor -m "chore: release prod version %s [skip ci]"
-      - name: Push changes
-        uses: ad-m/github-push-action@master
-        with:
-          branch: 'production'
-          tags: true
-          force: true
-          github_token: ${{ secrets.GIT_AUTH }}
+          npm version minor -m "chore: release ${{ github.event.inputs.name }} version %s [skip ci]"
+          git push https://${{ secrets.GIT_AUTH }}@github.com/GoodDollar/GoodDAPP staging --follow-tags',
+      # - name: Push changes
+      #   uses: ad-m/github-push-action@master
+      #   with:
+      #     branch: 'production'
+      #     tags: true
+      #     force: true
+      #     github_token: ${{ secrets.GIT_AUTH }}
       - name: Merge staging -> master
         uses: devmasx/merge-branch@v1.3.1
         with:

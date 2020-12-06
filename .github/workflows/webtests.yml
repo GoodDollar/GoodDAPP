@@ -47,14 +47,14 @@ jobs:
         if: "github.event.inputs.name == 'qa'"
         run: |
           npm version prerelease -m "chore: release qa version %s [skip ci]"
-          git push https://${{ secrets.GIT_AUTH }}@github.com/GoodDollar/GoodDAPP staging --force --follow-tags
+          git push https://${{ secrets.GIT_AUTH }}@github.com/GoodDollar/GoodDAPP master:staging --force --follow-tags
           git push https://${{ secrets.GIT_AUTH }}@github.com/GoodDollar/GoodDAPP master --follow-tags
 
       - name: update version prod
         if: "github.event.inputs.name != 'qa'"
         run: |
           npm version prerelease -m "chore: release prod version %s [skip ci]"
-          git push https://${{ secrets.GIT_AUTH }}@github.com/GoodDollar/GoodDAPP production --force --follow-tags
+          git push https://${{ secrets.GIT_AUTH }}@github.com/GoodDollar/GoodDAPP staging:production --force --follow-tags
           git checkout master
           git merge staging
           git push https://${{ secrets.GIT_AUTH }}@github.com/GoodDollar/GoodDAPP master --follow-tags

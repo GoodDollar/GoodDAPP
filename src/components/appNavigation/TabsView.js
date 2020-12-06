@@ -1,16 +1,18 @@
 //@flow
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { TouchableOpacity, View } from 'react-native'
 import { Appbar } from 'react-native-paper'
 
 import config from '../../config/config'
 
-import Icon from '../../components/common/view/Icon'
+import { Icon, Text } from '../../components/common'
 
 import useOnPress from '../../lib/hooks/useOnPress'
 import useSideMenu from '../../lib/hooks/useSideMenu'
 import { isMobileNative } from '../../lib/utils/platform'
-
+import AsyncStorage from '../../lib/utils/asyncStorage'
+import { useInvited } from '../invite/useInvites'
+import { theme } from '../theme/styles'
 const { isEToro, enableInvites, showRewards } = config
 
 // const showSupportFirst = !isEToro && !showInvite && !showRewards
@@ -105,23 +107,57 @@ const inviteButtonStyles = showRewardsFlag ? defaultLeftButtonStyles.slice(1) : 
 //   </View>
 // )
 
-const RewardButton = ({ onPress, style }) => (
-  <>
-    <TouchableOpacity testID="rewards_tab" onPress={onPress} style={style}>
-      <Icon name="rewards" size={36} color="white" />
-    </TouchableOpacity>
-    <Appbar.Content />
-  </>
-)
+const RewardButton = React.memo(({ onPress, style }) => {
+  const [, , , inviteState] = useInvited()
+  const [updatesCount, setUpdatesCount] = useState(0)
 
-const InviteButton = ({ onPress, style }) => (
-  <>
-    <TouchableOpacity onPress={onPress} style={style}>
-      <Icon name="invite2" size={36} color="white" testID="invite_tab" />
-    </TouchableOpacity>
-    <Appbar.Content />
-  </>
-)
+  const updateIcon = async () => {
+    const lastState = (await AsyncStorage.getItem('GD_lastInviteState')) || { pending: 0, approved: 0 }
+    const newPending = Math.max(inviteState.pending - lastState.pending, 0)
+    const newApproved = Math.max(inviteState.approved - lastState.approved, 0)
+    setUpdatesCount(newPending + newApproved)
+  }
+  useEffect(() => {
+    updateIcon()
+  }, [inviteState])
+
+  return (
+    <>
+      <TouchableOpacity testID="rewards_tab" onPress={onPress} style={style}>
+        <Icon name="rewards" size={36} color="white" />
+        {updatesCount > 0 && (
+          <View style={rewardStyles.notifications}>
+            <Text color={theme.colors.white} fontSize={10} fontWeight={'bold'}>
+              {updatesCount}
+            </Text>
+          </View>
+        )}
+      </TouchableOpacity>
+      <Appbar.Content />
+    </>
+  )
+})
+
+const rewardStyles = {
+  notifications: {
+    width: 13.3,
+    height: 13.3,
+    backgroundColor: theme.colors.orange,
+    borderRadius: 7,
+    position: 'absolute',
+    top: 0,
+    left: '100%',
+  },
+}
+
+// const InviteButton = ({ onPress, style }) => (
+//   <>
+//     <TouchableOpacity onPress={onPress} style={style}>
+//       <Icon name="invite2" size={36} color="white" testID="invite_tab" />
+//     </TouchableOpacity>
+//     <Appbar.Content />
+//   </>
+// )
 
 /*const SupportButton = ({ onPress, style }) => (
   <>
@@ -139,11 +175,12 @@ const EmptySpaceComponent = ({ style }) => (
   </>
 )
 
-const TabsView = ({ navigation }) => {
-  const { slideToggle } = useSideMenu()
+const TabsView = React.memo(
+  ({ navigation }) => {
+    const { slideToggle } = useSideMenu()
 
-  // eslint-disable-next-line no-unused-vars
-  /*const [token, setToken] = useState(isIOSWeb ? undefined : true)
+    // eslint-disable-next-line no-unused-vars
+    /*const [token, setToken] = useState(isIOSWeb ? undefined : true)
 
   // const fetchTokens = useCallback(async () => {
   //   let _token = await userStorage.getProfileFieldValue('loginToken')
@@ -159,17 +196,17 @@ const TabsView = ({ navigation }) => {
     fetchTokens()
   }, [])*/
 
-  const goToRewards = useOnPress(() => navigation.navigate('Rewards'), [navigation])
+    const goToRewards = useOnPress(() => navigation.navigate('Rewards'), [navigation])
 
-  /*const goToSupport = useCallback(() => {
+    /*const goToSupport = useCallback(() => {
     navigation.navigate('Support')
   }, [navigation])*/
 
-  const _slideToggle = useOnPress(slideToggle)
+    const _slideToggle = useOnPress(slideToggle)
 
-  return (
-    <Appbar.Header dark style={styles.appBar}>
-      {/*{showSupportFirst ? (
+    return (
+      <Appbar.Header dark style={styles.appBar}>
+        {/*{showSupportFirst ? (
         <SupportButton onPress={goToSupport} style={defaultLeftButtonStyles} />
       ) : (
         <>
@@ -177,15 +214,17 @@ const TabsView = ({ navigation }) => {
           {showInviteFlag && <InviteButton onPress={goToRewards} style={inviteButtonStyles} />}
         </>
       )}*/}
-      {showRewardsFlag && <RewardButton onPress={goToRewards} style={defaultLeftButtonStyles} />}
-      {showInviteFlag && <InviteButton onPress={goToRewards} style={inviteButtonStyles} />}
-      {/*{!showSupportFirst && <SupportButton onPress={goToSupport} style={supportButtonStyles} />}*/}
-      {/*!market && */ !showInviteFlag && !showRewardsFlag && <EmptySpaceComponent style={styles.iconWidth} />}
-      <TouchableOpacity onPress={_slideToggle} style={defaultRightButtonStyles}>
-        <Icon name="settings" size={20} color="white" style={styles.marginRight10} testID="burger_button" />
-      </TouchableOpacity>
-    </Appbar.Header>
-  )
-}
+        {showRewardsFlag && <RewardButton onPress={goToRewards} style={defaultLeftButtonStyles} />}
+        {showInviteFlag && <RewardButton onPress={goToRewards} style={inviteButtonStyles} />}
+        {/*{!showSupportFirst && <SupportButton onPress={goToSupport} style={supportButtonStyles} />}*/}
+        {/*!market && */ !showInviteFlag && !showRewardsFlag && <EmptySpaceComponent style={styles.iconWidth} />}
+        <TouchableOpacity onPress={_slideToggle} style={defaultRightButtonStyles}>
+          <Icon name="settings" size={20} color="white" style={styles.marginRight10} testID="burger_button" />
+        </TouchableOpacity>
+      </Appbar.Header>
+    )
+  },
+  () => true,
+)
 
 export default TabsView

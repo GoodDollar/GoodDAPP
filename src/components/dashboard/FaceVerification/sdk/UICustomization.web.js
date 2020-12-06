@@ -13,12 +13,12 @@ import { theme } from '../../../theme/styles'
 import './UICustomization.css'
 
 export const FACETEC_PUBLIC_PATH = '/facetec'
-const FaceTecNamespace = 'FaceTec'
+export const FACETEC_NS = 'FaceTec'
 
 const { FaceTecCustomization, FaceTecCancelButtonLocation } = FaceTec.FaceTecSDK
 
 const FaceTecShadow = (box, color, alpha) => `${box.map(FaceTecSize).join(' ')} ${FaceTecColor(color, alpha)}`
-const FaceTecImage = filename => `${FACETEC_PUBLIC_PATH}/images/${FaceTecNamespace}_${filename}`
+const FaceTecImage = filename => `${FACETEC_PUBLIC_PATH}/images/${FACETEC_NS}_${filename}`
 const FaceTecFont = family => `'${family}', sans-serif`
 const FaceTecSize = size => (size ? `${size}px` : '0')
 
@@ -51,7 +51,7 @@ export const UITextStrings = {
   resultIdscanUploadMessage: `Verifying you're\none of a kind`,
 
   toJSON() {
-    return mapKeys(pickBy(this, isString), (_, i18nString) => `${FaceTecNamespace}_${snakeCase(i18nString)}`)
+    return mapKeys(pickBy(this, isString), (_, i18nString) => `${FACETEC_NS}_${snakeCase(i18nString)}`)
   },
 }
 

@@ -1,8 +1,7 @@
 // @flow
-import axios, { type Axios } from 'axios'
-import { get, isError, isObject } from 'lodash'
+import axios from 'axios'
+import { assign, get, isError, isObject } from 'lodash'
 
-import Config from '../../../../config/config'
 import API from '../../../../lib/API/api'
 import logger from '../../../../lib/logger/pino-logger'
 
@@ -10,8 +9,6 @@ import { type FaceVerificationPayload, type FaceVerificationResponse } from './t
 
 class FaceVerificationApi {
   rootApi: typeof API
-
-  zoomApi: Axios
 
   logger: any
 
@@ -50,23 +47,21 @@ class FaceVerificationApi {
   ): Promise<FaceVerificationResponse> {
     let axiosConfig = {}
     const { rootApi, logger } = this
-    const { sessionId, enrollmentIdentifier, faceMap, ...auditTrailImages } = payload
-    const faceMapPayloadField = 'face' + (Config.zoomApiVersion < 9 ? 'Map' : 'Scan')
-
-    this.lastCancelToken = axios.CancelToken.source()
+    const { sessionId, enrollmentIdentifier, ...faceScan } = payload
+    const lastCancelToken = axios.CancelToken.source()
 
     const requestPayload = {
       sessionId,
       enrollmentIdentifier,
-      ...auditTrailImages,
-      [faceMapPayloadField]: faceMap,
+      ...faceScan,
     }
 
     axiosConfig = {
-      cancelToken: this.lastCancelToken.token,
+      cancelToken: lastCancelToken.token,
       onUploadProgress: progressSubscription,
     }
 
+    assign(this, { lastCancelToken })
     logger.info('performFaceVerification', { sessionId, enrollmentIdentifier })
 
     try {
@@ -178,4 +173,4 @@ class FaceVerificationApi {
   }
 }
 
-export default new FaceVerificationApi(API, logger.child({ from: 'FaceRecognitionAPI' }))
+export default new FaceVerificationApi(API, logger.child({ from: 'FaceVerificationApi' }))

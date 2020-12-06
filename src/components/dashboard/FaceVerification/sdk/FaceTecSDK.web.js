@@ -1,7 +1,4 @@
-import { fromPairs, isEmpty, noop, omitBy, pickBy, trimEnd, trimStart } from 'lodash'
-
-import { store } from '../../../../lib/undux/SimpleStore'
-import { showDialogWithData } from '../../../../lib/undux/utils/dialog'
+import { fromPairs, isEmpty, memoize, omitBy, pickBy, trimEnd, trimStart } from 'lodash'
 
 import logger from '../../../../lib/logger/pino-logger'
 
@@ -23,7 +20,7 @@ export const {
 
 // sdk class
 export const FaceTecSDK = new class {
-  constructor(sdk, store, logger) {
+  constructor(sdk, logger) {
     // setting a the directory path for other ZoOm Resources.
     sdk.setResourceDirectory(`${FACETEC_PUBLIC_PATH}/resources`)
 
@@ -34,12 +31,11 @@ export const FaceTecSDK = new class {
     sdk.setCustomization(UICustomization)
 
     this.sdk = sdk
-    this.store = store
     this.logger = logger
   }
 
   // eslint-disable-next-line require-await
-  async initialize(licenseKey, licenseText = null, encryptionKey = null) {
+  async initialize(licenseKey, encryptionKey = null, licenseText = null) {
     const { sdk, logger } = this
     const { Initialized, NeverInitialized, NetworkIssues, DeviceInLandscapeMode } = FaceTecSDKStatus
 
@@ -57,7 +53,7 @@ export const FaceTecSDK = new class {
       case NeverInitialized:
       case NetworkIssues:
         // we need to invoke initialize again if network issues happened during last call
-        return this.initializationAttempt(licenseKey, licenseText, encryptionKey)
+        return this.initializationAttempt(licenseKey, encryptionKey, licenseText)
 
       default:
         // for other error status just re-throwing the corresponding exceptions
@@ -65,63 +61,24 @@ export const FaceTecSDK = new class {
     }
   }
 
-  async initializationAttempt(licenseKey, licenseText, encryptionKey) {
-    let license = null
-    const { sdk } = this
-
-    if (licenseText) {
-      // JavaScript SDK accepts object literal, converting license text to it
-      license = fromPairs(
-        licenseText
-          .split('\n') // exclude native-only 'appId' option from license text
-          .filter(line => !isEmpty(line) && line.includes('=') && !line.includes('appId'))
-          .map(line => {
-            const [option, value = ''] = line.split('=')
-
-            return [trimEnd(option), trimStart(value)]
-          }),
-      )
-    }
+  async initializationAttempt(licenseKey, encryptionKey, licenseText) {
+    const { sdk, parseLicense } = this
+    const license = parseLicense(licenseKey)
 
     const isInitialized = await new Promise((resolve, reject) => {
-      // using one of four existing initiualize() overloads depending of which env variebles
-      // (e.g. REACT_APP_ZOOM_ENCRYPTION_KEY and REACT_APP_ZOOM_LICENSE_TEXT) are set or not
-      const initializeArgs = [licenseKey, encryptionKey || resolve]
+      // using one of two existing initialize() overloads depending of which mode is used
+      // (dev or prod) determined by the REACT_APP_ZOOM_LICENSE_TEXT envvar is set or not
+      const initializeArgs = [licenseKey, encryptionKey, resolve]
+      const faceTecEnv = license ? 'Production' : 'Development'
 
-      if (encryptionKey) {
-        initializeArgs.push(resolve)
+      if (license) {
+        // pre-pending args with production key which is need to be passed
+        // as the first one arg to the initializeInProductionMode()
+        initializeArgs.unshift(license)
       }
 
       try {
-        if (license) {
-          /**
-           * Production mode (REACT_APP_ZOOM_LICENSE_TEXT is set):
-           * Initialize FaceTecSDK using a Device SDK License - SFTP Log mode
-           *
-           * initializeWithLicense: {
-           *  // REACT_APP_ZOOM_ENCRYPTION_KEY is set
-           *  (licenseText: string, licenseKeyIdentifier: string, faceMapEncryptionKey: string, onInitializationComplete: (result: boolean) => void): void;
-           *  // REACT_APP_ZOOM_ENCRYPTION_KEY isn't set
-           *  (licenseText: string, licenseKeyIdentifier: string, onInitializationComplete: (result: boolean) => void): void;
-           * }
-           */
-          initializeArgs.unshift(license)
-          sdk.initializeWithLicense(...initializeArgs)
-          return
-        }
-
-        /**
-         * Non-production mode (REACT_APP_ZOOM_LICENSE_TEXT isn't set):
-         * Initialize FaceTecSDK using a Device SDK License - HTTPS Log mode
-         *
-         * initialize: {
-         *  // REACT_APP_ZOOM_ENCRYPTION_KEY is set
-         *  (licenseKeyIdentifier: string, faceMapEncryptionKey: string, onInitializationComplete: (result: boolean) => void): void;
-         *  // REACT_APP_ZOOM_ENCRYPTION_KEY isn't set
-         *  (licenseKeyIdentifier: string, onInitializationComplete: (result: boolean) => void, preloadFaceTecSDK?: boolean | undefined): void;
-         * }
-         */
-        sdk.initialize(...initializeArgs)
+        sdk[`initializeIn${faceTecEnv}Mode`](...initializeArgs)
       } catch (exception) {
         reject(exception)
       }
@@ -153,6 +110,30 @@ export const FaceTecSDK = new class {
     this.throwExceptionFromStatus(sdkStatus)
   }
 
+  /**
+   * @private
+   */
+  parseLicense = memoize(licenseText => {
+    if (!licenseText) {
+      return null
+    }
+
+    // JavaScript SDK accepts object literal, converting license text to it
+    return fromPairs(
+      licenseText
+        .split('\n') // exclude native-only 'appId' option from license text
+        .filter(line => !isEmpty(line) && line.includes('=') && !line.includes('appId'))
+        .map(line => {
+          const [option, value = ''] = line.split('=')
+
+          return [trimEnd(option), trimStart(value)]
+        }),
+    )
+  })
+
+  /**
+   * @private
+   */
   configureLocalization() {
     // customizing UI texts. This method should be invoked after successfull initializatoin, according the docs:
     //
@@ -162,6 +143,9 @@ export const FaceTecSDK = new class {
     this.sdk.configureLocalization(UITextStrings.toJSON())
   }
 
+  /**
+   * @private
+   */
   throwExceptionFromStatus(sdkStatus) {
     const { sdk, logger } = this
 
@@ -183,46 +167,8 @@ export const FaceTecSDK = new class {
     const subscriber = new ProcessingSubscriber(eventCallbacks, this.logger)
     const processor = new EnrollmentProcessor(subscriber, options)
 
-    try {
-      processor.enroll(enrollmentIdentifier)
+    processor.enroll(enrollmentIdentifier)
 
-      return await subscriber.asPromise()
-    } catch (exception) {
-      if (FaceTecSessionStatus.PreloadNotCompleted === exception.code) {
-        return this.showReloadPopup(exception)
-      }
-
-      throw exception
-    }
+    return subscriber.asPromise()
   }
-
-  /**
-   * Shows reload popup
-   *
-   * @private
-   */
-  // eslint-disable-next-line require-await
-  async showReloadPopup(exception) {
-    const { logger, store } = this
-    const storeSnapshot = store.getCurrentSnapshot()
-    const { message } = exception
-
-    logger.error('Failed to preload ZoOm SDK', message, exception, { dialogShown: true })
-
-    showDialogWithData(storeSnapshot, {
-      type: 'error',
-      isMinHeight: false,
-      message: "We couldn't start face verification,\nplease reload the app.",
-      onDismiss: () => window.location.reload(true),
-      buttons: [
-        {
-          text: 'REFRESH',
-        },
-      ],
-    })
-
-    // return never ending Promise so app will stuck in the 'loading state'
-    // on the backgroumnd of the reload dialog
-    return new Promise(noop)
-  }
-}(FaceTec.FaceTecSDK, store, logger.child({ from: 'FaceTecSDK.web' }))
+}(FaceTec.FaceTecSDK, logger.child({ from: 'FaceTecSDK.web' }))

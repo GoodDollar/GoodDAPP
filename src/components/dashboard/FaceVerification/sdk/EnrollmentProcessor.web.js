@@ -210,14 +210,14 @@ export class EnrollmentProcessor {
    * @see FaceTecSDK.ZoomFaceMapProcessor
    * @private
    */
-  processSessionResultWhileFaceTecSDKWaits(zoomSessionResult, zoomFaceMapResultCallback) {
+  processSessionResultWhileFaceTecSDKWaits(faceTecSessionResult, faceTecFaceMapResultCallback) {
     const { subscriber } = this
-    const { status, faceMetrics } = zoomSessionResult
+    const { status, faceMetrics } = faceTecSessionResult
     const { faceMap } = faceMetrics
 
     // updating session state variables
-    this.lastResult = zoomSessionResult
-    this.resultCallback = zoomFaceMapResultCallback
+    this.lastResult = faceTecSessionResult
+    this.resultCallback = faceTecFaceMapResultCallback
 
     // checking the following cases
     // 1. Processor is called but session is still in progress. That means we've reached timeout
@@ -226,7 +226,7 @@ export class EnrollmentProcessor {
       // on both cases described above we're cancelling current XMLHttpRequests
       // then cancelling current session
       api.cancelInFlightRequests()
-      zoomFaceMapResultCallback.cancel()
+      faceTecFaceMapResultCallback.cancel()
       return
     }
 
@@ -256,7 +256,7 @@ export class EnrollmentProcessor {
       // notifying subscriber that UI is ready
       subscriber.onUIReady()
     } catch ({ message }) {
-      // otherwise calling completion handler with empty zoomSessionResult
+      // otherwise calling completion handler with empty faceTecSessionResult
       subscriber.onSessionCompleted(false, null, message)
     }
   }

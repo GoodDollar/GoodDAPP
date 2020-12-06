@@ -98,7 +98,7 @@ export default (options = null) => {
       let { message, name } = exception
 
       // checking for duplicate case firstly because on any server error
-      // we're calling zoomResultCallback.cancel() which returns us
+      // we're calling faceTecResultCallback.cancel() which returns us
       // an 'ProgrammaticallyCancelled' status which fills kindOfTheIssue
       // so check for duplicates case never performs
       name = message.startsWith('Duplicate')

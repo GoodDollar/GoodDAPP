@@ -71,10 +71,9 @@ const Config = {
   auth0Domain: env.REACT_APP_AUTH0_DOMAIN || 'https://gooddollar.eu.auth0.com',
   enableInvites: env.REACT_APP_ENABLE_INVITES !== 'false' || isEToro, // true by default
   showRewards: env.REACT_APP_DASHBOARD_SHOW_REWARDS === 'true',
-  zoomEncryptionKey: fixNL(env.REACT_APP_ZOOM_ENCRYPTION_KEY),
-  zoomLicenseKey: env.REACT_APP_ZOOM_LICENSE_KEY,
-  zoomLicenseText: fixNL(env.REACT_APP_ZOOM_LICENSE_TEXT),
-  zoomApiVersion: Number(env.REACT_APP_ZOOM_API_VERSION || 8),
+  faceTecEncryptionKey: fixNL(env.REACT_APP_ZOOM_ENCRYPTION_KEY),
+  faceTecLicenseKey: env.REACT_APP_ZOOM_LICENSE_KEY,
+  faceTecLicenseText: fixNL(env.REACT_APP_ZOOM_LICENSE_TEXT),
   faceVerificationMaxAttemptsAllowed: Number(env.REACT_APP_FACE_VERIFICATION_ATTEMPTS || 3),
   faceVerificationPrivacyUrl:
     env.REACT_APP_FACE_VERIFICATION_PRIVACY_URL ||

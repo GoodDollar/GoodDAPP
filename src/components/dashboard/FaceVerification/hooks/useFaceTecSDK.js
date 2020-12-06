@@ -1,16 +1,15 @@
 import { useEffect, useRef } from 'react'
 import { assign, noop } from 'lodash'
 
+import { FaceTecSDK } from '../sdk/FaceTecSDK'
+import { ExceptionType, kindOfSDKIssue } from '../utils/kindOfTheIssue'
+
 import Config from '../../../../config/config'
 import logger from '../../../../lib/logger/pino-logger'
 import { isE2ERunning } from '../../../../lib/utils/platform'
-
-import { FaceTecSDK } from '../sdk/FaceTecSDK'
-import { ExceptionType, isCriticalIssue, kindOfSDKIssue } from '../utils/kindOfTheIssue'
+import useCriticalErrorHandler from './useCriticalErrorHandler'
 
 const log = logger.child({ from: 'useFaceTecSDK' })
-
-let zoomCriticalError = null
 
 /**
  * ZoomSDK initialization hook
@@ -25,6 +24,7 @@ export default ({ onInitialized = noop, onError = noop }) => {
   // Configuration callbacks refs
   const onInitializedRef = useRef(null)
   const onErrorRef = useRef(null)
+  const [faceTecCriticalError, handleCriticalError] = useCriticalErrorHandler(log)
 
   // updating callbacks references on config changes
   useEffect(() => {
@@ -36,11 +36,14 @@ export default ({ onInitialized = noop, onError = noop }) => {
   // this callback should be ran once, so we're using refs
   // to access actual initialization / error callbacks
   useEffect(() => {
-    const { zoomLicenseKey, zoomLicenseText, zoomEncryptionKey } = Config
+    const { faceTecLicenseKey, faceTecLicenseText, faceTecEncryptionKey } = Config
 
     // Helper for handle exceptions
     const handleException = exception => {
       const { message } = exception
+
+      // check & handle critical / resource errors
+      handleCriticalError(exception)
 
       // executing current onError callback
       onErrorRef.current(exception)
@@ -52,7 +55,7 @@ export default ({ onInitialized = noop, onError = noop }) => {
         log.debug('Initializing ZoomSDK')
 
         // Initializing ZoOm
-        await FaceTecSDK.initialize(zoomLicenseKey, zoomLicenseText, zoomEncryptionKey)
+        await FaceTecSDK.initialize(faceTecLicenseKey, faceTecEncryptionKey, faceTecLicenseText)
 
         // Executing onInitialized callback
         onInitializedRef.current()
@@ -65,13 +68,6 @@ export default ({ onInitialized = noop, onError = noop }) => {
 
         name = kindOfSDKIssue(exception) || name
         assign(exception, { type: ExceptionType.SDK, name })
-
-        // if some unrecoverable error happens
-        // checking exception as unrecoverable could be thrown from ZoomSDK
-        if (isCriticalIssue(name)) {
-          // setting exception in the global state
-          zoomCriticalError = exception
-        }
 
         // handling initialization exceptions
         handleException(exception)
@@ -87,8 +83,8 @@ export default ({ onInitialized = noop, onError = noop }) => {
     // skipping initialization attempt is some
     // unrecoverable error happened last try
     // TODO: probably store this flag it in the SDK and show preload dialog ?
-    if (zoomCriticalError) {
-      handleException(zoomCriticalError)
+    if (faceTecCriticalError) {
+      handleException(faceTecCriticalError)
       return
     }
 

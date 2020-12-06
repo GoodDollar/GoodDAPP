@@ -26,6 +26,7 @@ jobs:
           branch: 'staging'
       - name: update version and push
         run: |
+          npm install -g auto-changelog
           npm version minor -m "chore: release prod version %s [skip ci]"
       - name: Push changes
         uses: ad-m/github-push-action@master

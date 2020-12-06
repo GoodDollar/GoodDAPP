@@ -3,7 +3,7 @@ import { assign, first, isFinite, isNumber } from 'lodash'
 import api from '../api/FaceVerificationApi'
 import FaceTec from '../../../../lib/facetec/FaceTecSDK'
 import { UITextStrings } from './UICustomization'
-import { MAX_RETRIES_ALLOWED } from './FaceTecSDK.constants'
+import { MAX_RETRIES_ALLOWED, resultFacescanProcessingMessage } from './FaceTecSDK.constants'
 
 const {
   // Zoom verification session incapsulation
@@ -85,21 +85,16 @@ export class EnrollmentProcessor {
     resultCallback.uploadProgress(0)
 
     // getting images captured
-    const { faceMetrics, sessionId } = lastResult
-    const captured = faceMetrics.lowQualityAuditTrailCompressedBase64()
-    const capturedHD = faceMetrics.getAuditTrailBase64JPG()
+    const { faceScan, auditTrail, lowQualityAuditTrail, sessionId } = lastResult
 
     try {
-      // preparing face map
-      const faceMap = await this._getFaceMapBase64()
-
       // preparing request payload
       const payload = {
+        faceScan,
         sessionId,
-        faceMap,
         enrollmentIdentifier,
-        lowQualityAuditTrailImage: first(captured),
-        auditTrailImage: first(capturedHD),
+        lowQualityAuditTrailImage: first(lowQualityAuditTrail),
+        auditTrailImage: first(auditTrail),
       }
 
       // after some preparation notifying Zoom that progress is 10%
@@ -108,8 +103,15 @@ export class EnrollmentProcessor {
       // calling API, if response contains success:false it will throw an exception
       await api
         .performFaceVerification(payload, ({ loaded, total }) => {
+          const uploaded = loaded / total
+
+          if (uploaded >= 1) {
+            // switch status message to processing once upload completed
+            resultCallback.uploadMessageOverride(resultFacescanProcessingMessage)
+          }
+
           // handling XMLHttpRequest upload progress from 10 to 80%
-          resultCallback.uploadProgress(0.1 + (0.7 * loaded) / total)
+          resultCallback.uploadProgress(0.1 + 0.7 * uploaded)
         })
         .finally(() => {
           // last 20% progress bar will stuck in 'almost completed' state
@@ -138,35 +140,20 @@ export class EnrollmentProcessor {
       if (response) {
         // if error response was sent
         const { enrollmentResult, error } = response
-        const { isEnrolled, isLive, isDuplicate, code, subCode } = enrollmentResult || {}
+        const { isEnrolled, isLive, isDuplicate, isNotMatch } = enrollmentResult || {}
 
         // if isDuplicate is strictly true, that means we have dup face
         // despite the http status code this case should be processed like error
         const isDuplicateIssue = true === isDuplicate
-
-        /* eslint-disable lines-around-comment */
-
-        // checking if exception could be related to the liveness failure
-        // there's two possible cases:
-        //  a) if code is 200 then facetec server operations went ok but
-        //     there could be issues with liveness check or image quality
-        //  b) if server returns subCode = livenessCheckFailed (v8 only) it's
-        //     exactly a liveness check issue
-        const isLivenessIssue =
-          (200 === code || 'livenessCheckFailed' === subCode) &&
-          // checking liveness / enrollment statuses flags
-          // if liveness check failed or face wasn't enrolled by the other reasons
-          // (e.g. wearing glasses or bad image quality)
-          (false === isLive || false === isEnrolled)
-
-        /* eslint-enable lines-around-comment */
+        const is3DMatchIssue = true === isNotMatch
+        const isLivenessIssue = false === isLive
 
         // setting lastMessage from server's response
         this.lastMessage = error
 
-        // if there's no duplicate issues but we have liveness issue strictly
-        // we'll check for possible session retry
-        if (!isDuplicateIssue && isLivenessIssue) {
+        // if there's no duplicate / 3d match issues but we have
+        // liveness issue strictly - we'll check for possible session retry
+        if (!isDuplicateIssue && !is3DMatchIssue && isLivenessIssue) {
           const alwaysRetry = !isFinite(maxRetries) || maxRetries < 0
 
           // if haven't reached retries threshold or max retries is disabled
@@ -176,7 +163,7 @@ export class EnrollmentProcessor {
             this.retryAttempt = retryAttempt + 1
 
             // showing reason
-            FaceTecCustomization.setOverrideResultScreenSuccessMessage(error)
+            resultCallback.uploadMessageOverride(error)
 
             // notifying about retry
             resultCallback.retry()
@@ -184,8 +171,10 @@ export class EnrollmentProcessor {
             subscriber.onRetry({
               exception,
               reason: error,
-              liveness: isLive,
-              enrolled: isEnrolled,
+              match3d: !is3DMatchIssue,
+              liveness: !isLivenessIssue,
+              duplicate: isDuplicateIssue,
+              enrolled: true === isEnrolled,
             })
 
             return
@@ -210,23 +199,21 @@ export class EnrollmentProcessor {
    * @see FaceTecSDK.ZoomFaceMapProcessor
    * @private
    */
-  processSessionResultWhileFaceTecSDKWaits(faceTecSessionResult, faceTecFaceMapResultCallback) {
+  processSessionResultWhileFaceTecSDKWaits(sessionResult, faceScanResultCallback) {
     const { subscriber } = this
-    const { status, faceMetrics } = faceTecSessionResult
-    const { faceMap } = faceMetrics
 
     // updating session state variables
-    this.lastResult = faceTecSessionResult
-    this.resultCallback = faceTecFaceMapResultCallback
+    this.lastResult = sessionResult
+    this.resultCallback = faceScanResultCallback
 
     // checking the following cases
     // 1. Processor is called but session is still in progress. That means we've reached timeout
     // 2. New data (probably with better quality) came while session calling server.
-    if (status !== FaceTecSessionStatus.SessionCompletedSuccessfully || !faceMap || !faceMap.size) {
+    if (sessionResult.status !== FaceTecSessionStatus.SessionCompletedSuccessfully) {
       // on both cases described above we're cancelling current XMLHttpRequests
       // then cancelling current session
       api.cancelInFlightRequests()
-      faceTecFaceMapResultCallback.cancel()
+      faceScanResultCallback.cancel()
       return
     }
 
@@ -259,21 +246,5 @@ export class EnrollmentProcessor {
       // otherwise calling completion handler with empty faceTecSessionResult
       subscriber.onSessionCompleted(false, null, message)
     }
-  }
-
-  /**
-   * Promisified getFaceMapBase64.getFaceMapBase64()
-   *
-   * @private
-   */
-  // eslint-disable-next-line require-await
-  async _getFaceMapBase64() {
-    const { faceMetrics } = this.lastResult
-
-    return new Promise((resolve, reject) =>
-      faceMetrics.getFaceMapBase64(faceMap =>
-        faceMap ? resolve(faceMap) : reject(new Error('Error generating FaceMap !')),
-      ),
-    )
   }
 }

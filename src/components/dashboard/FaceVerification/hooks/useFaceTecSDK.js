@@ -1,5 +1,7 @@
-import { useEffect, useRef } from 'react'
+import { useEffect } from 'react'
 import { assign, noop } from 'lodash'
+
+import useRealtimeProps from '../../../../lib/hooks/useRealtimeProps'
 
 import { FaceTecSDK } from '../sdk/FaceTecSDK'
 import { ExceptionType, kindOfSDKIssue } from '../utils/kindOfTheIssue'
@@ -22,20 +24,14 @@ const log = logger.child({ from: 'useFaceTecSDK' })
  */
 export default ({ onInitialized = noop, onError = noop }) => {
   // Configuration callbacks refs
-  const onInitializedRef = useRef(null)
-  const onErrorRef = useRef(null)
+  const accessors = useRealtimeProps([onInitialized, onError])
   const [faceTecCriticalError, handleCriticalError] = useCriticalErrorHandler(log)
-
-  // updating callbacks references on config changes
-  useEffect(() => {
-    onInitializedRef.current = onInitialized
-    onErrorRef.current = onError
-  }, [onInitialized, onError])
 
   // performing initialization attempt on component mounted
   // this callback should be ran once, so we're using refs
   // to access actual initialization / error callbacks
   useEffect(() => {
+    const [onInitialized, onError] = accessors
     const { faceTecLicenseKey, faceTecLicenseText, faceTecEncryptionKey } = Config
 
     // Helper for handle exceptions
@@ -46,7 +42,7 @@ export default ({ onInitialized = noop, onError = noop }) => {
       handleCriticalError(exception)
 
       // executing current onError callback
-      onErrorRef.current(exception)
+      onError(exception)
       log.error('Zoom initialization failed', message, exception)
     }
 
@@ -58,7 +54,7 @@ export default ({ onInitialized = noop, onError = noop }) => {
         await FaceTecSDK.initialize(faceTecLicenseKey, faceTecEncryptionKey, faceTecLicenseText)
 
         // Executing onInitialized callback
-        onInitializedRef.current()
+        onInitialized()
         log.debug('ZoomSDK is ready')
       } catch (exception) {
         // the following code is needed to categorize exceptions
@@ -76,7 +72,7 @@ export default ({ onInitialized = noop, onError = noop }) => {
 
     // if cypress is running - do nothing and immediately call success callback
     if (isE2ERunning) {
-      onInitializedRef.current()
+      onInitialized()
       return
     }
 

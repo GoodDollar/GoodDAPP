@@ -8,10 +8,10 @@ export type FaceVerificationResponse = {
 }
 
 export type FaceVerificationPayload = {
-  sessionId: string,
-  enrollmentIdentifier: string,
-  lowQualityAuditTrailImage: string,
-  auditTrailImage: string,
-  faceScan?: string,
-  faceMap?: string,
+  faceScan: string | null,
+  auditTrail: string[],
+  lowQualityAuditTrail: string[],
+  sessionId: string | null,
+  status: FaceTecSessionStatus,
+  [key: string]: string | FaceTecSessionStatus | null | {},
 }

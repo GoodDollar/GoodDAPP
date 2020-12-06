@@ -60,11 +60,11 @@ export default (options = null) => {
         // don't start session, just call enroll with fake data
         // to whitelist user on server
         await api.performFaceVerification({
-          enrollmentIdentifier,
           sessionId: uuid(),
-          faceMap: emptyBase64,
-          lowQualityAuditTrailImage: emptyBase64,
+          enrollmentIdentifier,
+          faceScan: emptyBase64,
           auditTrailImage: emptyBase64,
+          lowQualityAuditTrailImage: emptyBase64,
         })
       } finally {
         // call onComplete callback with success state
@@ -97,16 +97,24 @@ export default (options = null) => {
     } catch (exception) {
       let { message, name } = exception
 
-      // checking for duplicate case firstly because on any server error
-      // we're calling faceTecResultCallback.cancel() which returns us
-      // an 'ProgrammaticallyCancelled' status which fills kindOfTheIssue
-      // so check for duplicates case never performs
-      name = message.startsWith('Duplicate')
-        ? 'DuplicateFoundError'
-        : // the following code is needed to categorize exceptions
-          // then we could display specific error messages
-          // corresponding to the kind of issue (camera, orientation, duplicate etc)
-          kindOfSessionIssue(exception) || name
+      // checking for duplicate / failed match-3d case firstly because
+      // on any server error we're calling faceTecResultCallback.cancel()
+      // which returns us an 'ProgrammaticallyCancelled' status which
+      // fills kindOfTheIssue so check for duplicates case never performs
+      if (message.startsWith('Duplicate')) {
+        name = 'DuplicateFoundError'
+      } else if (/face.+n.t\s+match/.test(message)) {
+        name = 'NotMatchError'
+      } else {
+        // the following code is needed to categorize exceptions
+        // then we could display specific error messages
+        // corresponding to the kind of issue (camera, orientation, duplicate etc)
+        const kindOfTheIssue = kindOfSessionIssue(exception)
+
+        if (kindOfTheIssue) {
+          name = kindOfTheIssue
+        }
+      }
 
       const dialogShown = name === 'NotAllowedError'
 

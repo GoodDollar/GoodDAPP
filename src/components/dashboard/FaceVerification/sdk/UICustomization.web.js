@@ -7,7 +7,7 @@ import { assignIn, isFinite, isString, mapKeys, memoize, pickBy, snakeCase } fro
 import { Spinner } from '../../../common/view/LoadingIndicator'
 import FaceTec from '../../../../lib/facetec/FaceTecSDK'
 
-import { resultSuccessMessage } from '../sdk/FaceTecSDK.constants'
+import { resultFacescanProcessingMessage, resultSuccessMessage } from '../sdk/FaceTecSDK.constants'
 import { isLargeDevice } from '../../../../lib/utils/mobileSizeDetect'
 import { theme } from '../../../theme/styles'
 import './UICustomization.css'
@@ -41,14 +41,14 @@ const nl = isLargeDevice ? ' ' : '<br/>'
 
 export const UITextStrings = {
   resultSuccessMessage,
+  resultFacescanProcessingMessage,
+
   retryInstructionMessage1: '<span>Hold Your Camera at Eye Level.</span>',
   retryInstructionMessage2: '<span>Light Your Face Evenly.<br/>Avoid Smiling & Back Light</span>',
 
   instructionsMessageReady: `Please Frame Your Face In The Small${nl}Oval, Then The Big Oval`,
 
   initializingCamera: null, // setting empty "Starting camera..." text
-  resultFacemapUploadMessage: `Verifying you're\none of a kind`,
-  resultIdscanUploadMessage: `Verifying you're\none of a kind`,
 
   toJSON() {
     return mapKeys(pickBy(this, isString), (_, i18nString) => `${FACETEC_NS}_${snakeCase(i18nString)}`)

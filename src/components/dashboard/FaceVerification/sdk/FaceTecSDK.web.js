@@ -61,6 +61,33 @@ export const FaceTecSDK = new class {
     }
   }
 
+  // eslint-disable-next-line require-await
+  async faceVerification(enrollmentIdentifier, sessionOptions = null) {
+    const { logger, parseVerificationOptions } = this
+    const { eventCallbacks, options } = parseVerificationOptions(sessionOptions)
+
+    const subscriber = new ProcessingSubscriber(eventCallbacks, logger)
+    const processor = new EnrollmentProcessor(subscriber, options)
+
+    processor.enroll(enrollmentIdentifier)
+    return subscriber.asPromise()
+  }
+
+  /**
+   * @private
+   */
+  parseVerificationOptions(sessionOptions) {
+    const eventMatcher = (_, option) => option.startsWith('on')
+
+    return {
+      eventCallbacks: pickBy(sessionOptions || {}, eventMatcher),
+      options: omitBy(sessionOptions, eventMatcher),
+    }
+  }
+
+  /**
+   * @private
+   */
   async initializationAttempt(licenseKey, encryptionKey, licenseText) {
     const { sdk, parseLicense } = this
     const license = parseLicense(licenseKey)
@@ -157,18 +184,5 @@ export const FaceTecSDK = new class {
     logger.warn('initialize failed', { exception })
 
     throw exception
-  }
-
-  // eslint-disable-next-line require-await
-  async faceVerification(enrollmentIdentifier, sessionOptions = null) {
-    const eventMatcher = (_, option) => option.startsWith('on')
-    const eventCallbacks = pickBy(sessionOptions || {}, eventMatcher)
-    const options = omitBy(sessionOptions, eventMatcher)
-    const subscriber = new ProcessingSubscriber(eventCallbacks, this.logger)
-    const processor = new EnrollmentProcessor(subscriber, options)
-
-    processor.enroll(enrollmentIdentifier)
-
-    return subscriber.asPromise()
   }
 }(FaceTec.FaceTecSDK, logger.child({ from: 'FaceTecSDK.web' }))

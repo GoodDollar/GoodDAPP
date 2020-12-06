@@ -40,6 +40,8 @@ const styles = {
     paddingLeft: theme.paddings.defaultMargin * 1.5,
     paddingRight: theme.paddings.defaultMargin * 1.5,
     paddingBottom: theme.paddings.defaultMargin * 2,
+    borderTopRightRadius: 10,
+    borderBottomRightRadius: 10,
   },
   shadow: getShadowStyles('0px 2px 4px #00000029', {
     shadowColor: '#00000029',

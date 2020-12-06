@@ -17,6 +17,7 @@ const ModalLeftBorderWeb = (props: any) => {
         <SVG />
         <SVG />
       </View>
+      {props.children}
     </View>
   )
 }

@@ -8,7 +8,7 @@ import {
   TwitterShareButton,
   WhatsappShareButton,
 } from 'react-share'
-import { Avatar, BigGoodDollar, CustomButton, Icon, IconButton, Section, ShareButton, Text, Wrapper } from '../common'
+import { Avatar, CustomButton, Icon, IconButton, Section, ShareButton, Text, Wrapper } from '../common'
 import { WavesBox } from '../common/view/WavesBox'
 import { theme } from '../theme/styles'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
@@ -48,11 +48,7 @@ const InvitedUser = ({ name, avatar, status }) => {
         {name}
       </Section.Text>
       <Section.Row>
-        {isApproved ? (
-          <Icon name={'success'} color={'green'} />
-        ) : (
-          <Icon name={'clock'} color={'orange'} style={{ marginRight: 5, fontWeight: 'bold' }} />
-        )}
+        {isApproved ? <Icon name={'success'} color={'green'} /> : <Icon name={'clock'} color={'orange'} />}
 
         <Section.Text
           fontWeight={'medium'}
@@ -201,7 +197,7 @@ const InvitesBox = React.memo(({ invitees, refresh }) => {
           fontSize={11}
           textAlign={'justify'}
           color={'secondary'}
-          style={{ marginTop: theme.paddings.defaultMargin }}
+          style={{ marginTop: theme.paddings.defaultMargin, marginBottom: theme.paddings.defaultMargin * 2 }}
         >
           * Remind them to claim G$’s so you could earn your reward
         </Section.Text>
@@ -270,23 +266,18 @@ const TotalEarnedBox = ({ totalEarned = 0 }) => (
           borderRadius: 0,
           borderBottomRightRadius: 10,
           borderTopRightRadius: 10,
+          borderTopLeftRadius: 0,
+          borderBottomLeftRadius: 0,
         }}
       >
-        <BigGoodDollar
-          number={totalEarned}
-          bigNumberProps={{
-            fontSize: 24,
-            color: theme.colors.white,
-            fontWeight: 'bold',
-            lineHeight: 32,
-          }}
-          bigNumberUnitProps={{
-            fontSize: 14,
-            color: theme.colors.white,
-            fontWeight: 'bold',
-            lineHeight: 19,
-          }}
-        />
+        <Section.Row style={{ alignItems: 'baseline' }}>
+          <Section.Text fontWeight={'bold'} lineHeight={26} color={theme.colors.white} fontSize={24}>
+            7
+          </Section.Text>
+          <Section.Text fontWeight={'bold'} color={theme.colors.white} lineHeight={26} fontSize={14}>
+            G$
+          </Section.Text>
+        </Section.Row>
       </ModalLeftBorder>
     </Section.Row>
   </WavesBox>

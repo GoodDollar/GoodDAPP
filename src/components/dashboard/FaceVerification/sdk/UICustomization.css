@@ -8,12 +8,6 @@
   font-weight: 500 !important;
 }
 
-#zoom-internal-loading-spinner,
-#custom-activity-indicator-image {
-  /* Disabling default Zoom's spinner animation to use own */
-  animation: none !important;
-}
-
 #zoom-upload-progress-wrapper .loading {
   /* Changing custom upload progress image size */
   width: 134px;

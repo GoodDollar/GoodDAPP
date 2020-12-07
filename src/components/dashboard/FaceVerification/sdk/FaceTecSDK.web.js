@@ -1,4 +1,4 @@
-import { fromPairs, isEmpty, memoize, omitBy, pickBy, trimEnd, trimStart } from 'lodash'
+import { fromPairs, isEmpty, isString, memoize, omitBy, pickBy, trimEnd, trimStart } from 'lodash'
 
 import logger from '../../../../lib/logger/pino-logger'
 
@@ -89,12 +89,14 @@ export const FaceTecSDK = new class {
    * @private
    */
   async initializationAttempt(licenseKey, encryptionKey, licenseText) {
-    const { sdk, parseLicense } = this
+    const { sdk, parseLicense, logger } = this
     const license = parseLicense(licenseKey)
+
+    logger.debug('FaceTec SDK initialization attempt', { licenseKey, encryptionKey, license })
 
     const isInitialized = await new Promise((resolve, reject) => {
       // using one of two existing initialize() overloads depending of which mode is used
-      // (dev or prod) determined by the REACT_APP_ZOOM_LICENSE_TEXT envvar is set or not
+      // (dev or prod) determined by the REACT_APP_FACETEC_LICENSE_TEXT envvar is set or not
       const initializeArgs = [licenseKey, encryptionKey, resolve]
       const faceTecEnv = license ? 'Production' : 'Development'
 
@@ -103,6 +105,8 @@ export const FaceTecSDK = new class {
         // as the first one arg to the initializeInProductionMode()
         initializeArgs.unshift(license)
       }
+
+      logger.debug(`initializeIn${faceTecEnv}Mode`, initializeArgs)
 
       try {
         sdk[`initializeIn${faceTecEnv}Mode`](...initializeArgs)
@@ -141,12 +145,12 @@ export const FaceTecSDK = new class {
    * @private
    */
   parseLicense = memoize(licenseText => {
-    if (!licenseText) {
+    if (!isString(licenseText) || isEmpty(licenseText)) {
       return null
     }
 
     // JavaScript SDK accepts object literal, converting license text to it
-    return fromPairs(
+    const license = fromPairs(
       licenseText
         .split('\n') // exclude native-only 'appId' option from license text
         .filter(line => !isEmpty(line) && line.includes('=') && !line.includes('appId'))
@@ -156,6 +160,12 @@ export const FaceTecSDK = new class {
           return [trimEnd(option), trimStart(value)]
         }),
     )
+
+    if (isEmpty(license)) {
+      return null
+    }
+
+    return license
   })
 
   /**

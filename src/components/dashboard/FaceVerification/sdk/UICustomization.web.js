@@ -46,7 +46,9 @@ export const UITextStrings = {
 
   instructionsMessageReady: `Please Frame Your Face In The Small${nl}Oval, Then The Big Oval`,
 
-  initializingCamera: null, // setting empty "Starting camera..." text
+  // setting empty "Starting camera..." text
+  initializingCamera: ' ',
+  initializingCameraStillLoading: ' ',
 
   toJSON() {
     return mapKeys(pickBy(this, isString), (_, i18nString) => `${FACETEC_NS}_${snakeCase(i18nString)}`)

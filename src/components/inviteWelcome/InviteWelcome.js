@@ -3,15 +3,18 @@ import { View } from 'react-native'
 
 // import logger from '../../lib/logger/pino-logger'
 import { fireEvent } from '../../lib/analytics/analytics'
-import { isBrowser } from '../../lib/utils/platform'
 import { withStyles } from '../../lib/styles'
 import { getShadowStyles } from '../../lib/utils/getStyles'
 import CustomButton from '../common/buttons/CustomButton'
 import Wrapper from '../common/layout/Wrapper'
 import Text from '../common/view/Text'
-import Illustration from '../../assets/Auth/torusIllustration.svg'
+import WalletSVG from '../../assets/Invite/wallet.svg'
+import SelfieSVG from '../../assets/Invite/selfie.svg'
+import MobileSVG from '../../assets/Invite/mobile.svg'
+
 import Section from '../common/layout/Section'
-import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
+import { getDesignRelativeHeight } from '../../lib/utils/sizes'
+import { isShortDevice } from '../../lib/utils/mobileSizeDetect'
 import NavBar from '../appNavigation/NavBar'
 import { theme } from '../theme/styles'
 
@@ -21,7 +24,7 @@ const steps = {
   1: {
     title: 'GoodDollar Wallet',
     subtitle: 'You are a few steps away from\nreceiving FREE basic income',
-    illustration: Illustration,
+    illustration: WalletSVG,
   },
   2: {
     title: 'How To Use',
@@ -34,12 +37,12 @@ const steps = {
         {' button in\nyour GoodDollar wallet'}
       </>
     ),
-    illustration: Illustration,
+    illustration: MobileSVG,
   },
   3: {
     title: "What's next",
     subtitle: 'Sign up and do a video selfie\nto ensure you are a real live person\nand not a bot : )',
-    illustration: Illustration,
+    illustration: SelfieSVG,
   },
 }
 
@@ -63,93 +66,91 @@ const InviteWelcome = ({ styles, screenProps, navigation }) => {
 
   const SVG = steps[step].illustration
   return (
-    <Wrapper backgroundColor="#fff" style={styles.mainWrapper}>
+    <>
       <NavBar title="Welcome" />
-      <Section.Stack style={styles.topTextContainer}>
-        {step === 1 && (
+      <Wrapper backgroundColor="#fff" style={styles.mainWrapper}>
+        <Section.Stack style={styles.topTextContainer}>
+          {step === 1 && (
+            <Text
+              color={'darkBlue'}
+              fontSize={16}
+              lineHeight={30}
+              letterSpacing={0.16}
+              fontFamily="Roboto"
+              fontWeight="medium"
+            >
+              Welcome to the
+            </Text>
+          )}
           <Text
             color={'darkBlue'}
-            fontSize={16}
+            fontSize={26}
             lineHeight={30}
-            letterSpacing={0.16}
+            letterSpacing={0.26}
+            fontFamily="Roboto"
+            fontWeight="bold"
+          >
+            {steps[step].title}
+          </Text>
+          <Text
+            color={'darkGray'}
+            fontSize={15}
+            lineHeight={22}
+            letterSpacing={0.15}
             fontFamily="Roboto"
             fontWeight="medium"
+            style={styles.subtitle}
           >
-            Welcome to the
+            {steps[step].subtitle}
           </Text>
-        )}
-        <Text
-          color={'darkBlue'}
-          fontSize={26}
-          lineHeight={30}
-          letterSpacing={0.26}
-          fontFamily="Roboto"
-          fontWeight="bold"
-        >
-          {steps[step].title}
-        </Text>
-        <Text
-          color={'darkGray'}
-          fontSize={15}
-          lineHeight={22}
-          letterSpacing={0.15}
-          fontFamily="Roboto"
-          fontWeight="medium"
-          style={styles.subtitle}
-        >
-          {steps[step].subtitle}
-        </Text>
-      </Section.Stack>
+        </Section.Stack>
 
-      <View style={styles.illustration}>
-        <SVG
-          width={getDesignRelativeWidth(isBrowser ? 331 : 276, false)}
-          height={getDesignRelativeHeight(217, false)}
-          viewBox="0 0 248.327 194.594"
-        />
-      </View>
-      <Section.Row style={styles.dots}>
-        <Text style={step === 1 ? styles.activeDot : styles.dot} />
-        <Text style={step === 2 ? styles.activeDot : styles.dot} />
-        <Text style={step === 3 ? styles.activeDot : styles.dot} />
-      </Section.Row>
-      <Section.Stack style={styles.bottomContainer}>
-        <>
-          <Section.Stack alignItems="center" justifyContent="center">
-            <CustomButton
-              color={'darkBlue'}
-              style={styles.buttonLayout}
-              textStyle={styles.buttonText}
-              onPress={nextScreen}
-            >
-              {step === 3 ? 'Create Wallet' : 'Next'}
-            </CustomButton>
-          </Section.Stack>
-          <Section.Stack>
-            {step === 3 ? (
-              <Text letterSpacing={0.14} fontSize={14} fontWeight={'bold'} lineHeight={19} color={'darkGray'}>
-                {"Let's go"}
-              </Text>
-            ) : (
+        <View style={styles.illustration}>
+          <SVG />
+        </View>
+        <Section.Row style={styles.dots}>
+          <Text style={step === 1 ? styles.activeDot : styles.dot} />
+          <Text style={step === 2 ? styles.activeDot : styles.dot} />
+          <Text style={step === 3 ? styles.activeDot : styles.dot} />
+        </Section.Row>
+        <Section.Stack style={styles.bottomContainer}>
+          <>
+            <Section.Stack alignItems="center" justifyContent="center">
               <CustomButton
-                textStyle={{
-                  letterSpacing: 0.14,
-                  textDecorationLine: 'underline',
-                  lineHeight: 19,
-                  fontSize: 14,
-                  fontWeight: 'bold',
-                }}
-                mode="text"
-                onPress={goToSignUp}
-                color="darkGray"
+                color={'darkBlue'}
+                style={styles.buttonLayout}
+                textStyle={styles.buttonText}
+                onPress={nextScreen}
               >
-                {'Skip and create wallet'}
+                {step === 3 ? 'Create Wallet' : 'Next'}
               </CustomButton>
-            )}
-          </Section.Stack>
-        </>
-      </Section.Stack>
-    </Wrapper>
+            </Section.Stack>
+            <Section.Stack>
+              {step === 3 ? (
+                <Text letterSpacing={0.14} fontSize={14} fontWeight={'bold'} lineHeight={19} color={'darkGray'}>
+                  {"Let's go"}
+                </Text>
+              ) : (
+                <CustomButton
+                  textStyle={{
+                    letterSpacing: 0.14,
+                    textDecorationLine: 'underline',
+                    lineHeight: 19,
+                    fontSize: 14,
+                    fontWeight: 'bold',
+                  }}
+                  mode="text"
+                  onPress={goToSignUp}
+                  color="darkGray"
+                >
+                  {'Skip and create wallet'}
+                </CustomButton>
+              )}
+            </Section.Stack>
+          </>
+        </Section.Stack>
+      </Wrapper>
+    </>
   )
 }
 
@@ -164,34 +165,33 @@ const getStylesFromProps = ({ theme }) => {
       marginTop: theme.sizes.default,
     },
     topTextContainer: {
-      marginTop: 45,
+      marginTop: getDesignRelativeHeight(isShortDevice ? 30 : 45),
       minHeight: 112,
     },
     dots: {
       width: 48,
       justifyContent: 'space-between',
       alignSelf: 'center',
-      marginVertical: 24,
+      marginVertical: getDesignRelativeHeight(24),
     },
     activeDot: { width: 8, height: 8, borderRadius: 4, backgroundColor: theme.colors.darkBlue },
     dot: { width: 8, height: 8, borderRadius: 4, borderWidth: 1, borderColor: theme.colors.darkBlue },
     bottomContainer: {
-      justifyContent: 'flex-start',
-      alignSelf: 'center',
-      width: 220,
+      paddingHorizontal: theme.sizes.defaultDouble,
     },
     buttonLayout: {
-      marginBottom: getDesignRelativeHeight(theme.sizes.default * 5),
+      marginBottom: theme.sizes.default * (isShortDevice ? 3 : 5),
       ...getShadowStyles('none', { elevation: 0 }),
-      width: 220,
+      width: '100%',
     },
     buttonText: {
       fontSize: 16,
     },
     illustration: {
-      width: getDesignRelativeHeight(190, false),
-      height: getDesignRelativeHeight(190, false),
+      width: 216,
+      height: 216,
       alignSelf: 'center',
+      justifyContent: 'center',
     },
   }
 }

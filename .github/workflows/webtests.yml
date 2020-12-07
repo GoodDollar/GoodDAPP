@@ -19,15 +19,15 @@ on:
         description: 'release type'
         required: true
         default: 'qa'
-      version:
-        description: 'version bump'
+      targetbranch:
+        description: 'target deployment branch'
         required: false
-        default: 'prerelease'
+        default: 'staging'
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   release:
     name: Release
-    if: "contains(github.event.head_commit.message,'release: prod')"
+    if: "github.event_name == 'workflow_dispatch'"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/setup-node@v1
@@ -37,31 +37,31 @@ jobs:
         with:
           persist-credentials: false
           fetch-depth: 0
-          ref: ${{ github.event.inputs.name == 'qa' && 'master' || 'staging' }}
+          ref: ${{ github.event.inputs.release == 'qa' && 'master' || 'staging' }}
       - name: setup git
         run: |
           git config --local user.email "techadmin@gooddollar.org"
           git config --local user.name "Techadmin"
           npm install -g auto-changelog
       - name: update version qa
-        if: "github.event.inputs.name == 'qa'"
+        if: "github.event.inputs.release == 'qa'"
         run: |
           npm version prerelease -m "chore: release qa version %s [skip ci]"
-          git push https://${{ secrets.GIT_AUTH }}@github.com/GoodDollar/GoodDAPP master:staging --force --follow-tags
+          git push https://${{ secrets.GIT_AUTH }}@github.com/GoodDollar/GoodDAPP master:${{ github.event.inputs.targetbranch }} --force --follow-tags
           git push https://${{ secrets.GIT_AUTH }}@github.com/GoodDollar/GoodDAPP master --follow-tags
 
       - name: update version prod
-        if: "github.event.inputs.name != 'qa'"
+        if: "github.event.inputs.release != 'qa'"
         run: |
-          npm version prerelease -m "chore: release prod version %s [skip ci]"
-          git push https://${{ secrets.GIT_AUTH }}@github.com/GoodDollar/GoodDAPP staging:production --force --follow-tags
+          npm version minor -m "chore: release prod version %s [skip ci]"
+          git push https://${{ secrets.GIT_AUTH }}@github.com/GoodDollar/GoodDAPP staging:${{ github.event.inputs.targetbranch }} --force --follow-tags
           git checkout master
           git merge staging
           git push https://${{ secrets.GIT_AUTH }}@github.com/GoodDollar/GoodDAPP master --follow-tags
 
   test:
     name: Unit Tests
-    if: "!contains(github.event.head_commit.message,'release:') && !contains(github.event.head_commit.message,'skip ci')"
+    if: "github.event_name != 'workflow_dispatch' && !contains(github.event.head_commit.message,'skip ci')"
     env:
       REACT_ENV: 'development'
       TEST_REACT_NATIVE: false

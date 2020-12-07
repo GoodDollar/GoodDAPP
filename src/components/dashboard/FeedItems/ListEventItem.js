@@ -133,7 +133,7 @@ const getWelcomeStyles = () => ({
 const ReadMoreText = withStyles(getWelcomeStyles)(({ styles, theme, text, buttonText, style, color }) => (
   <View style={styles.welcomeText}>
     <Text
-      textAlign={'start'}
+      textAlign={'justify'}
       fontWeight="medium"
       lineHeight={20}
       numberOfLines={1}
@@ -144,7 +144,7 @@ const ReadMoreText = withStyles(getWelcomeStyles)(({ styles, theme, text, button
       {text}
     </Text>
     <Text
-      textAlign={'start'}
+      textAlign={'justify'}
       color={color || theme.colors.lighterGray}
       lineHeight={20}
       numberOfLines={1}

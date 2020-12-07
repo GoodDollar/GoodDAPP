@@ -130,6 +130,7 @@ export default (props = {}) => {
         icon: 'statistics',
         centered: true,
         name: 'Statistics',
+        size: 18,
         action: () => {
           slideOut()
 

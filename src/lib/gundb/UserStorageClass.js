@@ -1854,7 +1854,13 @@ export class UserStorage {
         } = data
 
         const { address, initiator, initiatorType, value, displayName, message } = this._extractData(event)
-        const withdrawStatus = this._extractWithdrawStatus(withdrawCode, otplStatus, status, type)
+        const isDeposit = address.toLowerCase() === this.wallet.oneTimePaymentsContract.address
+        const withdrawStatus = this._extractWithdrawStatus(
+          withdrawCode || isDeposit,
+          isDeposit ? 'pending' : otplStatus,
+          status,
+          type,
+        )
         const displayType = this._extractDisplayType(type, withdrawStatus, status)
         logger.debug('formatEvent: initiator data', event.id, {
           initiatorType,
@@ -1985,7 +1991,7 @@ export class UserStorage {
     }
 
     if (type === EVENT_TYPE_SEND) {
-      sufix = withdrawStatus
+      sufix = status
     }
 
     if (type === EVENT_TYPE_BONUS) {

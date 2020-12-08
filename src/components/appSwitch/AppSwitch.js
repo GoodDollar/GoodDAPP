@@ -155,15 +155,13 @@ const AppSwitch = (props: LoadingProps) => {
     const email = await userStorage.getProfileFieldValue('email')
     identifyWith(email, undefined)
 
-    if (isLoggedInCitizen) {
-      //if user has < 250000 gwei then he can request topwallet
-      goodWallet.verifyHasGas(1e9 * 250000).catch(e => {
-        const message = getErrorMessage(e)
-        const exception = new Error(message)
+    //if user has < 250000 gwei then he can request topwallet
+    goodWallet.verifyHasGas(1e9 * 250000).catch(e => {
+      const message = getErrorMessage(e)
+      const exception = new Error(message)
 
-        log.error('verifyTopWallet failed', message, exception)
-      })
-    }
+      log.error('verifyTopWallet failed', message, exception)
+    })
 
     // preloading Zoom (supports web + native)
     if (isLoggedInCitizen === false) {

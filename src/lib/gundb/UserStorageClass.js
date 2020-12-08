@@ -1853,7 +1853,7 @@ export class UserStorage {
         } = data
 
         const { address, initiator, initiatorType, value, displayName, message } = this._extractData(event)
-        const isDeposit = address.toLowerCase() === this.wallet.oneTimePaymentsContract.address
+        const isDeposit = initiator.toLowerCase() === this.wallet.oneTimePaymentsContract.address
         const withdrawStatus = this._extractWithdrawStatus(
           withdrawCode || isDeposit,
           isDeposit ? 'pending' : otplStatus,

@@ -1991,7 +1991,7 @@ export class UserStorage {
     }
 
     if (type === EVENT_TYPE_SEND) {
-      sufix = status
+      sufix = withdrawStatus
     }
 
     if (type === EVENT_TYPE_BONUS) {

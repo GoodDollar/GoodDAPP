@@ -7,6 +7,7 @@ import AsyncStorage from '../../lib/utils/asyncStorage'
 import { useDialog } from '../../lib/undux/utils/dialog'
 import { fireEvent, INVITE_BOUNTY, INVITE_JOIN } from '../../lib/analytics/analytics'
 import { decorate, ExceptionCode } from '../../lib/logger/exceptions'
+import Config from '../../config/config'
 
 const log = logger.child({ from: 'useInvites' })
 
@@ -46,7 +47,7 @@ const useInviteCode = () => {
   useEffect(() => {
     log.debug('useInviteCode didmount:', { inviteCode })
 
-    if (!inviteCode) {
+    if (Config.enableInvites && !inviteCode) {
       getInviteCode().then(code => {
         log.debug('useInviteCode registered user result:', { code })
         setInviteCode(code)

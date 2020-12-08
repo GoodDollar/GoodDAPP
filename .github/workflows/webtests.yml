@@ -46,7 +46,7 @@ jobs:
       - name: update version qa
         if: "github.event.inputs.release == 'qa'"
         run: |
-          npm version prerelease -m "chore: release qa version %s [skip ci]"
+          npm version preminor -m "chore: release qa version %s [skip ci]"
           git push https://${{ secrets.GIT_AUTH }}@github.com/GoodDollar/GoodDAPP master:${{ github.event.inputs.targetbranch }} --force --follow-tags
           git push https://${{ secrets.GIT_AUTH }}@github.com/GoodDollar/GoodDAPP master --follow-tags
 

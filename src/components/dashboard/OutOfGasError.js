@@ -45,7 +45,7 @@ Don’t worry, we’ll take care off you.\n`
     setLoading(true)
     let isOk = false
     try {
-      const { ok, error } = await goodWallet.verifyHasGas(web3Utils.toWei(MIN_BALANCE_VALUE, 'gwei'))
+      const { ok, error } = await goodWallet.verifyHasGas(parseInt(web3Utils.toWei(MIN_BALANCE_VALUE, 'gwei')))
       if (error) {
         setCheatError(true)
       }

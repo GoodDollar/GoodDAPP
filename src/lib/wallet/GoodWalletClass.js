@@ -1159,6 +1159,7 @@ export class GoodWallet {
       return {
         ok: false,
         error: false,
+        message: e.message,
       }
     }
   }

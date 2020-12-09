@@ -8,6 +8,8 @@ on:
   push:
     branches: [master, staging, production, next, react-native]
 
+  workflow_dispatch:
+
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   test:
@@ -135,7 +137,7 @@ jobs:
           cd android && ./gradlew bundleRelease
 
       - name: Build Universal APK
-        uses: skywall/universal-apk-builder@v1
+        uses: skywall/universal-apk-builder@v1.0.1
         with:
           aab_path: './android/app/build/outputs/bundle/release/app-release.aab'
           keystore_path: './android/app/release.keystore'

@@ -132,7 +132,7 @@ module.exports = {
     // https://github.com/facebook/create-react-app/issues/253
     modules: ['node_modules'].concat(
       // It is guaranteed to exist because we tweak it in `env.js`
-      process.env.NODE_PATH.split(path.delimiter).filter(Boolean)
+      process.env.NODE_PATH.split(path.delimiter).filter(Boolean),
     ),
     // These are the reasonable defaults supported by the Node ecosystem.
     // We also include JSX as a common component filename extension to support
@@ -240,6 +240,7 @@ module.exports = {
                     },
                   },
                 ],
+                'react-hot-loader/babel',
               ],
               // This is a feature of `babel-loader` for webpack (not Babel itself).
               // It enables caching results in ./node_modules/.cache/babel-loader/
@@ -261,7 +262,7 @@ module.exports = {
               compact: false,
               presets: [[require.resolve('babel-preset-react-app/dependencies'), { helpers: true }]],
               cacheDirectory: true,
-              plugins: [],
+              plugins: ['react-hot-loader/babel'],
               // Don't waste time on Gzipping the cache
               cacheCompression: false,
 
@@ -315,31 +316,36 @@ module.exports = {
                 modules: true,
                 getLocalIdent: getCSSModuleLocalIdent,
               },
-              'sass-loader'
+              'sass-loader',
             ),
           },
           // SVGR is a tool that converts SVG files into React components that you can use directly in JXS.
           {
             test: /\.svg$/,
             exclude: /src\/assets\/fonts/,
-            use: [{
-              loader: '@svgr/webpack',
-              options: {
-                template: function defaultTemplate({ template }, opts, { imports, interfaces, componentName, props, jsx, exports }) {
-                  const plugins = ['jsx']
-                  let exportLoadedFileAsUrl = ''
+            use: [
+              {
+                loader: '@svgr/webpack',
+                options: {
+                  template: function defaultTemplate(
+                    { template },
+                    opts,
+                    { imports, interfaces, componentName, props, jsx, exports },
+                  ) {
+                    const plugins = ['jsx']
+                    let exportLoadedFileAsUrl = ''
 
-                  if (opts.state.caller.previousExport) {
-                    exportLoadedFileAsUrl = opts.state.caller.previousExport.replace('default', 'const url =')
-                  }
+                    if (opts.state.caller.previousExport) {
+                      exportLoadedFileAsUrl = opts.state.caller.previousExport.replace('default', 'const url =')
+                    }
 
-                  if (opts.typescript) {
-                    plugins.push('typescript')
-                  }
+                    if (opts.typescript) {
+                      plugins.push('typescript')
+                    }
 
-                  const typeScriptTpl = template.smart({ plugins })
+                    const typeScriptTpl = template.smart({ plugins })
 
-                  return typeScriptTpl.ast`
+                    return typeScriptTpl.ast`
                     ${imports}
                     ${interfaces}
                     function ${componentName}(${props}) {
@@ -348,11 +354,13 @@ module.exports = {
                     ${exportLoadedFileAsUrl}
                     export default ${componentName}
                   `
-                }
-              }
-            }, {
-              loader: 'file-loader'
-            }],
+                  },
+                },
+              },
+              {
+                loader: 'file-loader',
+              },
+            ],
           },
           // "file" loader makes sure those assets get served by WebpackDevServer.
           // When you `import` an asset, you get its (virtual) filename.

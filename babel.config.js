@@ -1,15 +1,21 @@
 module.exports = function(api) {
-  api.cache(true);
+  api.cache(true)
 
   return {
-    presets: [['module:metro-react-native-babel-preset']],
+    presets: [
+      ['module:metro-react-native-babel-preset'],
+      [
+        '@babel/preset-env',
+        {
+          modules: false,
+        },
+      ],
+    ],
     env: {
       production: {
-        plugins: ['react-native-paper/babel', 'lodash' , 'transform-class-properties'],
+        plugins: ['react-native-paper/babel', 'lodash', 'transform-class-properties'],
       },
     },
-    ignore: [
-      'src/lib/zoom/ZoomAuthentication.js'
-    ]
+    ignore: ['src/lib/zoom/ZoomAuthentication.js'],
   }
 }

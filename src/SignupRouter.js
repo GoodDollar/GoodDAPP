@@ -9,7 +9,6 @@ import Signup from './components/signup/SignupState'
 import SigninInfo from './components/signin/SigninInfo'
 import Blurred from './components/common/view/Blurred'
 import Welcome from './components/auth/login/WelcomeScreen'
-import hot from './lib/hoc/hotLoader'
 
 const initialRouteName = 'Welcome'
 
@@ -37,4 +36,4 @@ const Router = () => {
     </>
   )
 }
-export default hot(Router)
+export default Router

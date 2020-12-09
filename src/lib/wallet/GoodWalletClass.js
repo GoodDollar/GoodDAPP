@@ -239,8 +239,8 @@ export class GoodWallet {
   }
 
   getRewardsAddresses() {
-    const addr = get(UpgradablesAddress, `${this.network}.Invites`).toLowerCase()
-    return [addr].filter(_ => _ !== NULL_ADDRESS)
+    const addr = get(UpgradablesAddress, `${this.network}.Invites`)
+    return [addr].filter(_ => _ && _ !== NULL_ADDRESS).map(_ => _.toLowerCase())
   }
 
   setIsPollEvents(active) {
@@ -1022,7 +1022,7 @@ export class GoodWallet {
     } catch (exception) {
       const { message } = exception
 
-      log.warn('isWithdrawLinkUsed failed', message, exception)
+      log.warn('isPaymentLinkAvailable failed', message, exception)
       throw exception
     }
   }
@@ -1246,6 +1246,7 @@ export class GoodWallet {
       return {
         ok: false,
         error: false,
+        message: e.message,
       }
     }
   }

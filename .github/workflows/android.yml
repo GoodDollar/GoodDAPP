@@ -132,9 +132,20 @@ jobs:
         run: |
           env_name="${{ env.ENV }}"          
           echo "Creating release using env: ${ENVFILE}"          
-          cd android && ./gradlew assembleRelease
+          cd android && ./gradlew bundleRelease
+
+      - name: Build Universal APK
+        uses: skywall/universal-apk-builder@v1
+        with:
+          aab_path: './android/app/build/outputs/bundle/release/app-release.aab'
+          keystore_path: './android/app/release.keystore'
+          keystore_password: ${{secrets.RELEASE_ANDROID_PASSPHRASE}}
+          keystore_alias: 'release-alias'
+          keystore_alias_password: ${{secrets.RELEASE_ANDROID_PASSPHRASE}}
 
       - name: Deploy to App Center
+        with:
+          apk_path: ${{env.UNIVERSAL_APK_PATH}}
         run: |
           token=${{ secrets.APPCENTER_ANDROID_DEV }}
 
@@ -148,6 +159,6 @@ jobs:
             echo "setting appcenter staging"
             token=${{secrets.APPCENTER_ANDROID_STAGING}}
           fi
-          echo "deploying to ${{ env.APPCENTER_NAME }}"
+          echo "deploying to ${{ env.APPCENTER_NAME }} ${{ env.INPUT_APK_PATH }}"
           npm install appcenter-cli@2.3.3
-          npx appcenter distribute release --token $token --app "${{ env.APPCENTER_NAME }}" --group "Collaborators" --file "android/app/build/outputs/apk/release/app-release.apk" --release-notes "$(git log -1 --pretty=format:%s)" --debug
+          npx appcenter distribute release --token $token --app "${{ env.APPCENTER_NAME }}" --group "Collaborators" --file "${{ env.INPUT_APK_PATH}}" --release-notes "$(git log -1 --pretty=format:%s)" --debug

@@ -7,10 +7,18 @@
 #import <UserNotifications/UNUserNotificationCenter.h>
 #import <React/RCTBridgeDelegate.h>
 #import <UIKit/UIKit.h>
+#import <React/RCTRootView.h>
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate, RCTBridgeDelegate, UNUserNotificationCenterDelegate>
 
 
 @property (nonatomic, strong) UIWindow *window;
+
+- (UIViewController *) initializeRootViewController:(RCTBridge *)bridge;
+- (UIWindow *) initializeWindow:(UIViewController *)rootViewController;
+- (void) initializeAnalytics;
+- (void) initializeBranch:(NSDictionary *)launchOptions;
+- (void) initializeBackgroundFetch;
+- (void) initializeNotifications;
 
 @end

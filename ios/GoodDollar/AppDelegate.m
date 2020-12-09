@@ -5,11 +5,15 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+// Delegate definition
 #import "AppDelegate.h"
 
+// React imports
 #import <React/RCTBridge.h>
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
+
+// React native plugins / services
 #import <TSBackgroundFetch/TSBackgroundFetch.h>
 #import <UserNotifications/UserNotifications.h>
 #import <RNBranch/RNBranch.h>
@@ -19,28 +23,16 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-  if ([FIRApp defaultApp] == nil) {
-    [FIRApp configure];
-  }
-  [RNBranch initSessionWithLaunchOptions:launchOptions isReferrable:YES];
+  [self initializeAnalytics];
+  [self initializeBranch:launchOptions];
   
   RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
-  RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge
-                                                   moduleName:@"GoodDollar"
-                                            initialProperties:nil];
+  UIViewController *rootViewController = [self initializeRootViewController:bridge];
 
-  rootView.backgroundColor = [[UIColor alloc] initWithRed:1.0f green:1.0f blue:1.0f alpha:1];
+  self.window = [self initializeWindow:rootViewController];
 
-  self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-  UIViewController *rootViewController = [UIViewController new];
-  rootViewController.view = rootView;
-  self.window.rootViewController = rootViewController;
-  [self.window makeKeyAndVisible];
-  
-  [[TSBackgroundFetch sharedInstance] didFinishLaunching];
-  
-  UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
-  center.delegate = self;
+  [self initializeBackgroundFetch];
+  [self initializeNotifications];
   
   return YES;
 }
@@ -52,6 +44,54 @@
 #else
   return [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
 #endif
+}
+
+- (UIViewController *) initializeRootViewController:(RCTBridge *)bridge
+{
+  RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge moduleName:@"GoodDollar" initialProperties:nil];
+  UIViewController *rootViewController = [UIViewController new];
+
+  rootView.backgroundColor = [[UIColor alloc] initWithRed:1.0f green:1.0f blue:1.0f alpha:1];
+  rootViewController.view = rootView;
+  
+  return rootViewController;
+}
+
+- (UIWindow *) initializeWindow:(UIViewController *)rootViewController
+{
+  UIWindow *window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+  
+  window.rootViewController = rootViewController;
+  [window makeKeyAndVisible];
+
+  return window;
+}
+
+
+- (void) initializeAnalytics
+{
+  if ([FIRApp defaultApp] != nil) {
+    return;
+  }
+
+  [FIRApp configure];
+}
+
+- (void) initializeBranch:(NSDictionary *)launchOptions
+{
+  [RNBranch initSessionWithLaunchOptions:launchOptions isReferrable:YES];
+}
+
+- (void) initializeBackgroundFetch
+{
+  [[TSBackgroundFetch sharedInstance] didFinishLaunching];
+}
+
+- (void) initializeNotifications
+{
+  UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
+  
+  center.delegate = self;
 }
 
 @end

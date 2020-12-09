@@ -142,8 +142,11 @@ def getGitVersion() {
     return process.text.toInteger()
 }
 
-def userVer = getNpmVersion()
-def googleVer = getGitVersion()
+def semVersion = System.getenv('BUILD_VERSION') ?: getNpmVersion()
+def buildNumber = System.getenv('BUILD_NUMBER').toInteger() ?: getGitVersion()
+
+println semVersion
+println buildNumber
 
 def releasePassword = System.getenv('RELEASE_ANDROID_PASSPHRASE')
 
@@ -160,8 +163,8 @@ android {
         applicationId "org.gooddollar"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode googleVer
-        versionName userVer
+        versionCode buildNumber
+        versionName semVersion
         missingDimensionStrategy 'react-native-camera', 'general'
         vectorDrawables.useSupportLibrary = true
         renderscriptTargetApi 23

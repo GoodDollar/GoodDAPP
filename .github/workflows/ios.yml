@@ -123,5 +123,5 @@ jobs:
             token=${{secrets.APPCENTER_IOS_STAGING}}
           fi
           echo "deploying to ${{ env.APPCENTER_NAME }}"
-          npm install appcenter-cli@2.3.3
+          npm install appcenter-cli@^2
           npx appcenter distribute release --token $token --app "${{ env.APPCENTER_NAME }}" --group "Collaborators" --file "ios/build/GoodDollar.ipa" --release-notes "$(git log -1 --pretty=format:%s)" --debug

@@ -81,11 +81,19 @@ jobs:
       - name: Generate assets
         run: node ./animationAssets.js
 
+      - name: set version
+          run: |
+            BUILD_NUMBER=`git rev-list master --first-parent --count`
+            PACKAGE_VERSION=`node -pe "require('./package.json')['version']"`
+            plutil -replace CFBundleVersion -string ${PACKAGE_VERSION}.${BUILD_NUMBER} ./ios/GoodDollar/Info.plist
+            plutil -replace CFBundleVersionShort -string ${PACKAGE_VERSION} ./ios/GoodDollar/Info.plist
+
       - name: Build app
+        env:
+          ENVFILE: '../.env.${{ env.ENV }}' 
         run: |
-          env_name="${{ env.ENV }}"
-          echo "Creating release using env: .env.${env_name}"
-          cd ios && ENVFILE=../.env.$env_name xcodebuild archive \
+          echo "Creating release using env: ${ENVFILE}"
+          cd ios && xcodebuild archive \
             -workspace GoodDollar.xcworkspace \
             -scheme GoodDollar \
             -sdk iphoneos \

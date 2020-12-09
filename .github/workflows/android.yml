@@ -144,8 +144,6 @@ jobs:
           keystore_alias_password: ${{secrets.RELEASE_ANDROID_PASSPHRASE}}
 
       - name: Deploy to App Center
-        with:
-          apk_path: ${{env.UNIVERSAL_APK_PATH}}
         run: |
           token=${{ secrets.APPCENTER_ANDROID_DEV }}
 
@@ -161,4 +159,4 @@ jobs:
           fi
           echo "deploying to ${{ env.APPCENTER_NAME }} ${{ env.INPUT_APK_PATH }}"
           npm install appcenter-cli@2.3.3
-          npx appcenter distribute release --token $token --app "${{ env.APPCENTER_NAME }}" --group "Collaborators" --file "${{ env.INPUT_APK_PATH}}" --release-notes "$(git log -1 --pretty=format:%s)" --debug
+          npx appcenter distribute release --token $token --app "${{ env.APPCENTER_NAME }}" --group "Collaborators" --file "${{ env.UNIVERSAL_APK_PATH }}" --release-notes "$(git log -1 --pretty=format:%s)" --debug

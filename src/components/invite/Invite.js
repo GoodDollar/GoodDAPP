@@ -47,8 +47,8 @@ const InvitedUser = ({ name, avatar, status }) => {
       >
         {name}
       </Section.Text>
-      <Section.Row>
-        {isApproved ? <Icon name={'success'} color={'green'} /> : <Icon name={'clock'} color={'orange'} />}
+      <Section.Row alignItems={'flex-start'}>
+        {isApproved ? <Icon name={'check'} color={'green'} /> : <Icon name={'time'} color={'orange'} />}
 
         <Section.Text
           fontWeight={'medium'}
@@ -136,7 +136,8 @@ const ShareBox = ({ level }) => {
   const bounty = result(level, 'bounty.toNumber', 100) / 100
 
   const share = useMemo(
-    () => (isSharingAvailable ? generateShareObject(shareTitle, shareMessage, shareUrl) : shareUrl),
+    () =>
+      isSharingAvailable ? generateShareObject(shareTitle, shareMessage, shareUrl) : `${shareMessage}\n${shareUrl}`,
     [shareUrl],
   )
 

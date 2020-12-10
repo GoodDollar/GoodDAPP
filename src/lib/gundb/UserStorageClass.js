@@ -175,8 +175,8 @@ export const inviteFriendsMessage = {
   status: 'completed',
   data: {
     customName: `Invite friends and earn G$'s`,
-    subtitle: Config.isPhaseZero ? 'Want to earn more G$`s ?' : 'Invite your friends now',
-    readMore: Config.isPhaseZero ? 'Invite more friends!' : 'and let them also claim free G$`s.',
+    subtitle: 'Invite your friends now',
+    readMore: 'Get 100G$ for each friend who signs up and they get 50G$!',
     receiptData: {
       from: NULL_ADDRESS,
     },
@@ -1086,7 +1086,18 @@ export class UserStorage {
     this.addStartClaimingCard()
 
     if (Config.enableInvites) {
-      setTimeout(() => this.enqueueTX(inviteFriendsMessage), 120000) // 2 minutes
+      inviteFriendsMessage.id = '0.1'
+      setTimeout(() => this.enqueueTX(inviteFriendsMessage), 60000) // 2 minutes
+      const firstInviteCard = this.feedIds['0.1']
+      if (
+        firstInviteCard &&
+        moment(firstInviteCard.date)
+          .add(2, 'weeks')
+          .isBefore(moment())
+      ) {
+        inviteFriendsMessage.id = '0.2'
+        this.enqueueTX(inviteFriendsMessage)
+      }
     }
 
     // first time user visit

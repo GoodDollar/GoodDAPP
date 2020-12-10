@@ -11,7 +11,6 @@ import SimpleStore from '../../../lib/undux/SimpleStore'
 import Config from '../../../config/config'
 import ListEventItem from './ListEventItem'
 import getEventSettingsByType from './EventSettingsByType'
-import FeedListItemLeftBorder from './FeedListItemLeftBorder'
 
 type FeedListItemProps = {
   item: FeedEvent,
@@ -121,10 +120,7 @@ const FeedListItem = (props: FeedListItemProps) => {
         tvParallaxProperties={{ pressMagnification: 1.1 }}
         underlayColor={theme.colors.lightGray}
       >
-        <View style={styles.rowContent}>
-          <FeedListItemLeftBorder style={styles.rowContentBorder} color={itemStyle.color} />
-          <ListEventItem {...props} />
-        </View>
+        <ListEventItem {...props} />
       </TouchableHighlight>
     </Animatable.View>
   )
@@ -141,7 +137,8 @@ const getStylesFromProps = ({ theme }) => ({
       height: 2,
     },
     elevation: 1,
-    height: theme.feedItems.height,
+
+    // height: theme.feedItems.height,
     marginHorizontal: theme.sizes.default,
     maxHeight: theme.feedItems.height,
     shadowOpacity: 0.16,

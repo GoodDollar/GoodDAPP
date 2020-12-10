@@ -31,8 +31,9 @@ console.log({ dotenvFiles })
 dotenvFiles.forEach(dotenvFile => {
   if (fs.existsSync(dotenvFile)) {
     require('dotenv-expand')(
-      require('dotenv').config({
+      require('dotenv-override').config({
         path: dotenvFile,
+        override: true,
       })
     )
   }
@@ -86,7 +87,9 @@ function getClientEnvironment(publicUrl) {
     }, {}),
   }
 
-  console.log({raw, processEnv: process.env})
+  setTimeout(function() {
+    console.log({raw, processEnv: process.env})
+  }, 500)
   return { raw, stringified }
 }
 

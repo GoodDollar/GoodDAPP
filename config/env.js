@@ -87,9 +87,7 @@ function getClientEnvironment(publicUrl) {
     }, {}),
   }
 
-  setTimeout(function() {
-    console.log({raw, processEnv: process.env})
-  }, 500)
+  console.log({raw, processEnv: process.env})
   return { raw, stringified }
 }
 

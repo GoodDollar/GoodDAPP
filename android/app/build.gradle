@@ -143,7 +143,7 @@ def getGitVersion() {
 }
 
 def semVersion = System.getenv('BUILD_VERSION') ?: getNpmVersion()
-def buildNumber = System.getenv('BUILD_NUMBER').toInteger() ?: getGitVersion()
+def buildNumber = System.getenv('BUILD_NUMBER') && System.getenv('BUILD_NUMBER').toInteger() ?: getGitVersion()
 
 println semVersion
 println buildNumber

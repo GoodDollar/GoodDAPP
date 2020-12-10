@@ -42,7 +42,7 @@ const InvitedUser = ({ name, avatar, status }) => {
           marginLeft: theme.paddings.defaultMargin,
           textTransform: 'capitalize',
           flex: 1,
-          textAlign: 'justify',
+          textAlign: 'left',
         }}
       >
         {name}
@@ -144,12 +144,16 @@ const ShareBox = ({ level }) => {
   return (
     <WavesBox primaryColor={theme.colors.primary} style={styles.linkBoxStyle} title={'Share Your Invite Link'}>
       <Section.Stack style={{ alignItems: 'flex-start', marginTop: 11, marginBottom: 11 }}>
-        <Section.Text fontSize={14} textAlign={'justify'} lineHeight={19}>
-          Copy and send the link below and receive{' '}
-          <Section.Text fontWeight={'bold'} fontSize={14} textAlign={'justify'} lineHeight={19}>
+        <Section.Text fontSize={14} textAlign={'left'} lineHeight={19}>
+          {`You’ll get `}
+          <Section.Text fontWeight={'bold'} fontSize={14} textAlign={'left'} lineHeight={19}>
             {`${bounty}G$`}
-          </Section.Text>{' '}
-          for each registered invitee
+          </Section.Text>
+          {` and your friend `}
+          <Section.Text fontWeight={'bold'} fontSize={14} textAlign={'left'} lineHeight={19}>
+            {`${bounty / 2}G$`}
+          </Section.Text>
+          {` in bonus rewards`}
         </Section.Text>
       </Section.Stack>
       <Section.Row style={{ alignItems: 'center' }}>
@@ -196,7 +200,7 @@ const InvitesBox = React.memo(({ invitees, refresh }) => {
       <WavesBox primaryColor={theme.colors.primary} style={styles.linkBoxStyle} title={'Friends Who Joined'}>
         <Section.Text
           fontSize={11}
-          textAlign={'justify'}
+          textAlign={'left'}
           color={'secondary'}
           style={{ marginTop: theme.paddings.defaultMargin, marginBottom: theme.paddings.defaultMargin * 2 }}
         >
@@ -252,7 +256,7 @@ const TotalEarnedBox = ({ totalEarned = 0 }) => (
         fontWeight={'bold'}
         fontSize={18}
         letterSpacing={0.09}
-        textAlign={'justify'}
+        textAlign={'left'}
         lineHeight={32}
       >
         Total Rewards Earned

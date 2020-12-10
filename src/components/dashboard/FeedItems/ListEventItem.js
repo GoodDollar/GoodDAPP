@@ -27,7 +27,7 @@ const InviteItem = ({ item, theme }) => {
       <Section.Stack style={{ marginLeft: getDesignRelativeWidth(theme.sizes.default) }}>
         <Text
           color={theme.colors.white}
-          textAlign={'justify'}
+          textAlign={'left'}
           fontSize={18}
           lineHeight={18}
           fontWeight="bold"
@@ -37,7 +37,7 @@ const InviteItem = ({ item, theme }) => {
         </Text>
         <Text
           color={theme.colors.white}
-          textAlign={'justify'}
+          textAlign={'left'}
           fontSize={13}
           lineHeight={18}
           fontWeight="regular"
@@ -183,7 +183,7 @@ const getWelcomeStyles = () => ({
 const ReadMoreText = withStyles(getWelcomeStyles)(({ styles, theme, text, buttonText, style, color }) => (
   <View style={styles.welcomeText}>
     <Text
-      textAlign={'justify'}
+      textAlign={'left'}
       fontWeight="medium"
       lineHeight={20}
       numberOfLines={1}
@@ -194,7 +194,7 @@ const ReadMoreText = withStyles(getWelcomeStyles)(({ styles, theme, text, button
       {text}
     </Text>
     <Text
-      textAlign={'justify'}
+      textAlign={'left'}
       color={color || theme.colors.lighterGray}
       lineHeight={20}
       numberOfLines={1}

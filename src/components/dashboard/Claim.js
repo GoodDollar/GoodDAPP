@@ -71,7 +71,7 @@ const GrayBox = ({ title, value, symbol, theme, style }) => {
         lineHeight={19}
         textTransform={'capitalize'}
         fontWeight={'bold'}
-        textAlign={'justify'}
+        textAlign={'left'}
       >
         {title}
       </Section.Text>
@@ -81,7 +81,7 @@ const GrayBox = ({ title, value, symbol, theme, style }) => {
           fontWeight={'bold'}
           fontSize={32}
           lineHeight={43}
-          textAlign={'justify'}
+          textAlign={'left'}
           textTransform={'uppercase'}
           style={gbStyles.statsNumbers}
         >

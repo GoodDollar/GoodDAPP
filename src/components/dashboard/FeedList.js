@@ -174,7 +174,7 @@ const FeedList = ({
       }
 
       return (
-        <Animatable.View animation="fadeIn" delay={750}>
+        <Animatable.View animation="fadeIn" delay={750} style={styles.expandAction}>
           <FeedActions
             onPress={hasAction && (() => handleFeedActionPress(item, actions))}
             actionIcon={actionIcon(actions)}
@@ -254,6 +254,7 @@ const getStylesFromProps = ({ theme }) => ({
     flexGrow: 1,
     display: 'flex',
   },
+  expandAction: { flex: 1 },
 })
 
 const actionLabel = ({ canDelete, canCancel }) => {

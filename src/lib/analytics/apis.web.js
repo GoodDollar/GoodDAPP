@@ -1,6 +1,8 @@
+// @flow
 import * as SentryWeb from '@sentry/browser'
 import amplitude from 'amplitude-js'
 import { assign, isFunction, pickBy } from 'lodash'
+import { convertToGoogleAnalytics } from './utils'
 
 const { mt, FS, dataLayer } = window
 
@@ -49,10 +51,18 @@ class FullStoryWrapper {
   }
 }
 
+const googleWrapper = {
+  logEvent: (event, data: any = {}) => {
+    const eventData = convertToGoogleAnalytics(data)
+
+    dataLayer.push({ event, ...eventData })
+  },
+}
+
 export default pickBy({
   mautic: mt,
   sentry: SentryWeb,
-  googleAnalytics: dataLayer,
+  googleAnalytics: dataLayer ? googleWrapper : null,
   amplitude: amplitude.getInstance(),
   fullStory: FS ? new FullStoryWrapper() : null,
 })

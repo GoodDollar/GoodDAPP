@@ -199,7 +199,7 @@
     "svg2png": "^4.1.1",
     "text-encoding": "^0.7.0",
     "timers-browserify": "^1.4.2",
-    "torus-direct-react-native-sdk": "0.0.5",
+    "torus-direct-react-native-sdk": "^0.1.0",
     "undux": "^5.0.1",
     "url": "^0.10.3",
     "util": "^0.10.4",

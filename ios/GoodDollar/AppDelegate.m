@@ -13,6 +13,7 @@
 #import <TSBackgroundFetch/TSBackgroundFetch.h>
 #import <UserNotifications/UserNotifications.h>
 #import <RNBranch/RNBranch.h>
+#import <RNTorusDirectSdk/RNTorus.h>
 
 @implementation AppDelegate
 
@@ -49,6 +50,24 @@
 #else
   return [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
 #endif
+}
+
+// Added for torus redirect to work (remove logs when done)
+- (BOOL)application:(UIApplication *)app
+           openURL:(NSURL *)url
+           options:(NSDictionary<NSString *, id> *)options {
+
+ NSString *myString = url.absoluteString;
+
+ NSLog(@"String to handle : %@ ", myString);
+ if (@available(iOS 11.0, *)) {
+   [RNTorusDirectSdk handle:myString];
+ } else {
+   // Fallback on earlier versions
+ }
+
+ // Your additional URL handling (if any) goes here.
+ return NO;
 }
 
 @end

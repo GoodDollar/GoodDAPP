@@ -130,7 +130,7 @@ jobs:
       - name: Build Android Release
         env:
           RELEASE_ANDROID_PASSPHRASE: ${{ secrets.RELEASE_ANDROID_PASSPHRASE }}
-          ENVFILE: '.env.${{ env.ENV }}'
+          ENVFILE: '../.env.${{ env.ENV }}'
           BUILD_NUMBER: ${{ github.run_number }}
         run: |
           BUILD_VERSION=`node -pe "require('./package.json')['version']"`

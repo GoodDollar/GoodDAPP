@@ -123,7 +123,7 @@ jobs:
           echo "${{ secrets[env.SECRET_NAME] }}" >> .env.$env_name
 
       - name: Setup google services file
-        run: echo "${{ secrets.ANDROID_GOOGLE_SERVICES}}" | base64 --decode >> ./android/app/google-services.json
+        run: echo "${{ secrets.ANDROID_GOOGLE_SERVICES}}" | base64 --decode > ./android/app/google-services.json
 
       - name: Set release keystore
         run: |

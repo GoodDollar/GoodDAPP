@@ -79,7 +79,7 @@ jobs:
           IOS_PROFILE_KEY: ${{ secrets.IOS_PROFILE_KEY }}
 
       - name: Setup google services file
-        run: echo "${{ secrets.IOS_GOOGLE_SERVICES}}" | base64 --decode >> ./ios/GoogleService-Info.plist
+        run: echo "${{ secrets.IOS_GOOGLE_SERVICES}}" | base64 --decode > ./ios/GoogleService-Info.plist
 
       - name: Generate assets
         run: node ./animationAssets.js

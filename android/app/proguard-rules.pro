@@ -10,4 +10,4 @@
 # Add any project specific keep options here:
 
 -dontwarn io.branch.**
--keep class com.mypackage.BuildConfig { *; }
+-keep class org.gooddollar.BuildConfig { *; }

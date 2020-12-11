@@ -201,7 +201,7 @@ export class AnalyticsClass {
       return
     }
 
-    googleAnalytics.logEvent(event, ...data)
+    googleAnalytics.logEvent(event, data)
   }
 
   // @private

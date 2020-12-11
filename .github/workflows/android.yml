@@ -135,7 +135,7 @@ jobs:
         run: |
           BUILD_VERSION=`node -pe "require('./package.json')['version']"`
           echo "Creating release using env: ${ENVFILE}"          
-          cd android && ./gradlew bundleRelease
+          cd android && ENVFILE=${{ env.ENVFILE }} ./gradlew bundleRelease
 
       - name: Build Universal APK
         uses: skywall/universal-apk-builder@v1.0.1

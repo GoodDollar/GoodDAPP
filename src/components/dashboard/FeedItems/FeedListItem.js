@@ -8,6 +8,8 @@ import { withStyles } from '../../../lib/styles'
 import useNavigationMacro from '../../../lib/hooks/useNavigationMacro'
 import wavePattern from '../../../assets/feedListItemPattern.svg'
 import SimpleStore from '../../../lib/undux/SimpleStore'
+import { CARD_OPEN, fireEvent } from '../../../lib/analytics/analytics'
+import useOnPress from '../../../lib/hooks/useOnPress'
 import Config from '../../../config/config'
 import ListEventItem from './ListEventItem'
 import getEventSettingsByType from './EventSettingsByType'
@@ -30,7 +32,7 @@ type FeedListItemProps = {
  */
 const FeedListItem = (props: FeedListItemProps) => {
   const simpleStore = SimpleStore.useStore()
-  const { theme, item, onPress, styles } = props
+  const { theme, item, handleFeedSelection, styles } = props
   const { id, type, displayType, action } = item
 
   const itemType = displayType || type
@@ -44,7 +46,17 @@ const FeedListItem = (props: FeedListItemProps) => {
     backgroundImage: `url(${wavePattern})`,
   }
 
-  const onItemPress = useNavigationMacro(action, useCallback(() => onPress(id), [id, onPress]))
+  const onItemPress = useNavigationMacro(
+    action,
+    useCallback(() => handleFeedSelection(item, true), [handleFeedSelection]),
+  )
+
+  const onPress = useOnPress(() => {
+    if (type !== 'empty') {
+      fireEvent(CARD_OPEN, { cardId: id })
+      onItemPress()
+    }
+  }, [fireEvent, type, onItemPress, id])
 
   if (isItemEmpty) {
     const feedLoadAnimShown = simpleStore.get('feedLoadAnimShown')
@@ -115,7 +127,7 @@ const FeedListItem = (props: FeedListItemProps) => {
     <Animatable.View animation={disableAnimForTests ? '' : 'fadeIn'} easing={easing} useNativeDriver>
       <TouchableHighlight
         activeOpacity={0.5}
-        onPress={onItemPress}
+        onPress={onPress}
         style={styles.row}
         tvParallaxProperties={{ pressMagnification: 1.1 }}
         underlayColor={theme.colors.lightGray}

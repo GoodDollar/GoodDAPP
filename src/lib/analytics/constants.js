@@ -58,3 +58,6 @@ export const FV_CANTACCESSCAMERA = 'FV_CANTACCESSCAMERA'
 export const INVITE_SHARE = 'INVITE_SHARE' //user pressed on any of the sharing options
 export const INVITE_JOIN = 'INVITE_JOIN' //user joined after he was invited
 export const INVITE_BOUNTY = 'INVITE_BOUNTY' //user collected his bounties
+export const INVITE_HOWTO = 'INVITE_HOWTO' //user pressed howto invite
+export const INVITEWELCOME_SKIPPED = 'INVITEWELCOME_SKIPPED'
+export const INVITEWELCOME_NEXT = 'INVITEWELCOME_NEXT'

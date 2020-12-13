@@ -2,7 +2,7 @@ import React, { useCallback, useState } from 'react'
 import { View } from 'react-native'
 
 // import logger from '../../lib/logger/pino-logger'
-import { fireEvent } from '../../lib/analytics/analytics'
+import { fireEvent, INVITEWELCOME_NEXT, INVITEWELCOME_SKIPPED } from '../../lib/analytics/analytics'
 import { withStyles } from '../../lib/styles'
 import { getShadowStyles } from '../../lib/utils/getStyles'
 import CustomButton from '../common/buttons/CustomButton'
@@ -51,13 +51,13 @@ const InviteWelcome = ({ styles, screenProps, navigation }) => {
   const { navigate } = navigation
 
   const goToSignUp = useCallback(() => {
-    fireEvent('INVITEWELCOME_SKIPPED', { step })
+    fireEvent(INVITEWELCOME_SKIPPED, { step })
 
     return navigate('welcome')
   }, [navigate, step])
 
   const nextScreen = useCallback(() => {
-    fireEvent('INVITEWELCOME_NEXT', { step })
+    fireEvent(INVITEWELCOME_NEXT, { step })
     if (step === 3) {
       return navigate('Auth', { screen: 'signup' })
     }

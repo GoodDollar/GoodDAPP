@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import { Image, View } from 'react-native'
+import { View } from 'react-native'
 import { result } from 'lodash'
 import {
   EmailShareButton,
@@ -13,8 +13,8 @@ import { WavesBox } from '../common/view/WavesBox'
 import { theme } from '../theme/styles'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
 import logger from '../../lib/logger/pino-logger'
-import { isMobile, isMobileNative } from '../../lib/utils/platform'
-import { fireEvent, INVITE_SHARE } from '../../lib/analytics/analytics'
+import { isMobile } from '../../lib/utils/platform'
+import { fireEvent, INVITE_HOWTO, INVITE_SHARE } from '../../lib/analytics/analytics'
 import Config from '../../config/config'
 import { generateShareObject, isSharingAvailable } from '../../lib/share'
 import AsyncStorage from '../../lib/utils/asyncStorage'
@@ -178,7 +178,7 @@ const ShareBox = ({ level }) => {
           share={share}
           iconColor={'white'}
           actionText={isSharingAvailable ? 'share' : 'copy'}
-          onPressed={() => fireEvent(INVITE_SHARE, { method: isSharingAvailable ? 'share' : 'copy' })}
+          onPressed={() => fireEvent(INVITE_SHARE, { method: isSharingAvailable ? 'native' : 'copy' })}
         />
       </Section.Row>
       {!isMobile && <ShareIcons shareUrl={shareUrl} />}
@@ -292,15 +292,7 @@ const InvitesHowTO = () => (
   <Section.Stack
     style={{ width: getDesignRelativeWidth(328, false), height: getDesignRelativeHeight(448, false), flex: 1 }}
   >
-    {isMobileNative === false ? (
-      <Image
-        style={{ width: getDesignRelativeWidth(328, false), height: getDesignRelativeHeight(448, false) }}
-        source={HowToSVG}
-        resizeMode={'contain'}
-      />
-    ) : (
-      <HowToSVG />
-    )}
+    <HowToSVG width={getDesignRelativeWidth(328, false)} height={getDesignRelativeHeight(448, false)} />
   </Section.Stack>
 )
 
@@ -327,7 +319,10 @@ const Invite = () => {
   const [showHowTo, setShowHowTo] = useState(false)
   const [invitees, refresh, level, inviteState] = useInvited()
 
-  const toggleHowTo = () => setShowHowTo(!showHowTo)
+  const toggleHowTo = () => {
+    !showHowTo && fireEvent(INVITE_HOWTO)
+    setShowHowTo(!showHowTo)
+  }
 
   useEffect(() => {
     //reset state for rewards icon in navbar

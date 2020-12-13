@@ -148,6 +148,7 @@
     "react-native-contacts": "^5.0.7",
     "react-native-crypto": "^2.2.0",
     "react-native-device-info": "^5.5.3",
+    "react-native-facetec": "git+https://github.com/GoodDollar/ReactNativeFaceTec.git#master",
     "react-native-fs": "^2.16.6",
     "react-native-gesture-handler": "^1.6.0",
     "react-native-image-crop-picker": "^0.32.0",

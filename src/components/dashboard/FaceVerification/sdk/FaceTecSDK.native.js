@@ -1,26 +1,16 @@
 // @flow
-import { constant, noop, over } from 'lodash'
+import { noop, over } from 'lodash'
 
-// import FaceTec, { FaceTecUxEvent } from 'react-native-zoom'
+import FaceTec, { FaceTecUxEvent } from 'react-native-facetec'
 
 import api from '../../../../lib/API/api'
 import Config from '../../../../config/config'
 import logger from '../../../../lib/logger/pino-logger'
 
-// export { FaceTecSDKStatus, FaceTecSessionStatus } from 'react-native-zoom'
-// API stubs
-export const FaceTecUxEvent = {}
-export const FaceTecSDKStatus = {}
-export const FaceTecSessionStatus = {}
-const noopAsync = async () => true // eslint-disable-line require-await
+import { parseLicense } from '../utils/options'
+import { MAX_RETRIES_ALLOWED } from './FaceTecSDK.constants'
 
-const FaceTec = {
-  sdk: {
-    addListener: constant(noop),
-    initialize: noopAsync,
-    enroll: noopAsync,
-  },
-}
+export { FaceTecSDKStatus, FaceTecSessionStatus } from 'react-native-facetec'
 
 // sdk class
 export const FaceTecSDK = new class {
@@ -29,23 +19,13 @@ export const FaceTecSDK = new class {
     this.logger = logger
   }
 
-  async initialize(licenseKey, licenseText = null, encryptionKey = null, preload = true) {
+  async initialize(licenseKey, encryptionKey = null, licenseText = null) {
     const { sdk, logger } = this
-    let license = null
-
-    if (licenseText) {
-      // exclude web-only 'domains' option from license text
-      license = licenseText
-        .split('\n')
-        .filter(line => !line.includes('domains'))
-        .join('\n')
-    }
+    const { serverUrl } = Config
+    const license = parseLicense(licenseText)
 
     try {
-      // TODO: update native implementation to use GoodServer for issue session token
-      const isInitialized = await sdk.initialize(licenseKey, license, encryptionKey, preload, Config.serverUrl)
-
-      return isInitialized
+      return await sdk.initialize(serverUrl, api.jwt, licenseKey, encryptionKey, license)
     } catch (exception) {
       const { message } = exception
 
@@ -57,8 +37,9 @@ export const FaceTecSDK = new class {
   async faceVerification(enrollmentIdentifier, sessionOptions = null) {
     const { sdk, logger } = this
     // eslint-disable-next-line no-undef
-    const { UI_READY, CAPTURE_DONE, FV_RETRY } = ZoomUxEvent
-    const { onUIReady = noop, onCaptureDone = noop, onRetry = noop } = sessionOptions || {}
+    const { UI_READY, CAPTURE_DONE, FV_RETRY } = FaceTecUxEvent
+    const { onUIReady = noop, onCaptureDone = noop, onRetry = noop, maxRetries = MAX_RETRIES_ALLOWED } =
+      sessionOptions || {}
 
     // addListener calls returns unsubscibe functions we're storing in this array
     const subscriptions = [
@@ -69,12 +50,7 @@ export const FaceTecSDK = new class {
     ]
 
     try {
-      // we're passing current JWT to the native code allowing it to call GoodServer for verification
-      // unfortunately we couldn't pass callback which could return some data back to the native code
-      // so it's only way to integrate Zoom on native - to reimplement all logic about calling server
-      const verificationStatus = await sdk.enroll(enrollmentIdentifier, api.jwt)
-
-      return verificationStatus
+      return await sdk.enroll(enrollmentIdentifier, maxRetries)
     } catch (exception) {
       const { message } = exception
 

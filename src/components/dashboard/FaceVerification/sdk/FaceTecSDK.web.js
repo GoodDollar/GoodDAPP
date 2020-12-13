@@ -1,8 +1,7 @@
-import { fromPairs, isEmpty, isString, memoize, omitBy, pickBy, trimEnd, trimStart } from 'lodash'
-
 import logger from '../../../../lib/logger/pino-logger'
 
 import FaceTec from '../../../../lib/facetec/FaceTecSDK'
+import { parseLicense, parseVerificationOptions } from '../utils/options'
 import { FACETEC_PUBLIC_PATH, UICustomization, UITextStrings } from './UICustomization'
 import { ProcessingSubscriber } from './ProcessingSubscriber'
 import { EnrollmentProcessor } from './EnrollmentProcessor'
@@ -63,7 +62,7 @@ export const FaceTecSDK = new class {
 
   // eslint-disable-next-line require-await
   async faceVerification(enrollmentIdentifier, sessionOptions = null) {
-    const { logger, parseVerificationOptions } = this
+    const { logger } = this
     const { eventCallbacks, options } = parseVerificationOptions(sessionOptions)
 
     const subscriber = new ProcessingSubscriber(eventCallbacks, logger)
@@ -76,20 +75,8 @@ export const FaceTecSDK = new class {
   /**
    * @private
    */
-  parseVerificationOptions(sessionOptions) {
-    const eventMatcher = (_, option) => option.startsWith('on')
-
-    return {
-      eventCallbacks: pickBy(sessionOptions || {}, eventMatcher),
-      options: omitBy(sessionOptions, eventMatcher),
-    }
-  }
-
-  /**
-   * @private
-   */
   async initializationAttempt(licenseKey, encryptionKey, licenseText) {
-    const { sdk, parseLicense, logger } = this
+    const { sdk, logger } = this
     const license = parseLicense(licenseKey)
 
     logger.debug('FaceTec SDK initialization attempt', { licenseKey, encryptionKey, license })
@@ -140,33 +127,6 @@ export const FaceTecSDK = new class {
     // otherwise throwing exception based on the new status we've got after initialize() call
     this.throwExceptionFromStatus(sdkStatus)
   }
-
-  /**
-   * @private
-   */
-  parseLicense = memoize(licenseText => {
-    if (!isString(licenseText) || isEmpty(licenseText)) {
-      return null
-    }
-
-    // JavaScript SDK accepts object literal, converting license text to it
-    const license = fromPairs(
-      licenseText
-        .split('\n') // exclude native-only 'appId' option from license text
-        .filter(line => !isEmpty(line) && line.includes('=') && !line.includes('appId'))
-        .map(line => {
-          const [option, value = ''] = line.split('=')
-
-          return [trimEnd(option), trimStart(value)]
-        }),
-    )
-
-    if (isEmpty(license)) {
-      return null
-    }
-
-    return license
-  })
 
   /**
    * @private

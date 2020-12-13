@@ -363,7 +363,16 @@ export class UserStorage {
 
   _lastProfileUpdate: any
 
-  profileSettings: any
+  profileSettings: {} = {
+    fullName: { defaultPrivacy: 'public' },
+    email: { defaultPrivacy: 'private' },
+    mobile: { defaultPrivacy: 'private' },
+    mnemonic: { defaultPrivacy: 'private' },
+    avatar: { defaultPrivacy: 'public' },
+    smallAvatar: { defaultPrivacy: 'public' },
+    walletAddress: { defaultPrivacy: 'public' },
+    username: { defaultPrivacy: 'public' },
+  }
 
   /**
    * Magic line for recovery user
@@ -512,18 +521,6 @@ export class UserStorage {
    */
   async initGun() {
     logger.debug('Initializing GunDB UserStorage')
-
-    this.profileSettings = {
-      fullName: { defaultPrivacy: 'public' },
-      email: { defaultPrivacy: Config.isEToro ? 'public' : 'private' },
-      mobile: { defaultPrivacy: Config.isEToro ? 'public' : 'private' },
-      mnemonic: { defaultPrivacy: 'private' },
-      avatar: { defaultPrivacy: 'public' },
-      smallAvatar: { defaultPrivacy: 'public' },
-      walletAddress: { defaultPrivacy: 'public' },
-      username: { defaultPrivacy: 'public' },
-      loginToken: { defaultPrivacy: 'private' },
-    }
 
     if (this.gunuser.is) {
       logger.debug('init:', 'logging out first')

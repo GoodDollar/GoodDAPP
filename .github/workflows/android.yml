@@ -72,7 +72,6 @@ jobs:
           BUILD_NUMBER: ${{ github.run_number }}
         run: |
           echo "Creating release number ${BUILD_NUMBER}"
-          b:929 929 x:  y:${GITHUB_RUN_NUMBER} 929 929 gh: 929 929
           echo "ENV=development" >> $GITHUB_ENV
           echo "BRANCH=${{ github.ref }}" >> $GITHUB_ENV
           echo "SECRET_NAME=DEV_ENV" >> $GITHUB_ENV

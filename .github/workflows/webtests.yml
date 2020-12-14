@@ -99,7 +99,7 @@ jobs:
 
       - name: prepare blockchain for test
         run: |
-          pushd node_modules/@gooddollar/goodcontracts
+          pushd node_modules/@gooddollar/goodcontracts/stakingModel
           npm run ganache:test &
           npm run wait
           npm run start:withmain

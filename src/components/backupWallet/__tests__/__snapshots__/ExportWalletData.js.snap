@@ -33,21 +33,46 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
       }
     >
       <div
-        className="css-text-901oao r-color-jwli3a r-cursor-1loqt21 r-fontWeight-1it3c9n r-marginLeft-1ozfoo7 r-width-m0fvr6"
+        className="css-view-1dbjc4n r-alignItems-1awozwy r-cursor-1loqt21 r-flexDirection-eqz5dr r-justifyContent-1777fci r-marginLeft-1ozfoo7 r-touchAction-1otgn73 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-width-m0fvr6"
         data-focusable={true}
-        dir="auto"
-        onClick={[Function]}
         onKeyDown={[Function]}
-        style={
-          Object {
-            "fontFamily": "gooddollar",
-            "fontSize": "22px",
-            "fontStyle": "normal",
-          }
-        }
+        onKeyUp={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
         tabIndex="0"
       >
-        
+        <div
+          className="css-view-1dbjc4n r-alignItems-1awozwy r-justifyContent-1777fci"
+          style={
+            Object {
+              "backgroundColor": "rgba(0,0,0,0.00)",
+              "borderBottomLeftRadius": "16px",
+              "borderBottomRightRadius": "16px",
+              "borderTopLeftRadius": "16px",
+              "borderTopRightRadius": "16px",
+              "height": "32px",
+              "width": "32px",
+            }
+          }
+        >
+          <div
+            className="css-text-901oao r-color-jwli3a r-fontWeight-1it3c9n"
+            dir="auto"
+            style={
+              Object {
+                "fontFamily": "gooddollar",
+                "fontSize": "22px",
+                "fontStyle": "normal",
+              }
+            }
+          >
+            
+          </div>
+        </div>
       </div>
       <div
         className="css-view-1dbjc4n r-cursor-1loqt21 r-flex-13awgt0 r-paddingHorizontal-1e081e0 r-touchAction-1otgn73"

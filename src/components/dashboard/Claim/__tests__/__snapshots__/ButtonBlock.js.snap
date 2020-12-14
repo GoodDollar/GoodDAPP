@@ -124,7 +124,7 @@ exports[`ButtonBlock matches snapshot for citizen with entitlement 1`] = `
                       Your Next Claim:
                     </div>
                     <div
-                      className="css-view-1dbjc4n r-alignItems-1awozwy r-color-waoq6i r-flexDirection-18u37iz r-justifyContent-1777fci"
+                      className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1777fci"
                       style={
                         Object {
                           "WebkitBoxFlex": 1,
@@ -463,7 +463,7 @@ exports[`ButtonBlock matches snapshot for citizen without entitlement 1`] = `
                       Your Next Claim:
                     </div>
                     <div
-                      className="css-view-1dbjc4n r-alignItems-1awozwy r-color-waoq6i r-flexDirection-18u37iz r-justifyContent-1777fci"
+                      className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1777fci"
                       style={
                         Object {
                           "WebkitBoxFlex": 1,
@@ -635,7 +635,7 @@ exports[`ButtonBlock matches snapshot for citizen without entitlement 1`] = `
                       Your Next Claim:
                     </div>
                     <div
-                      className="css-view-1dbjc4n r-alignItems-1awozwy r-color-waoq6i r-flexDirection-18u37iz r-justifyContent-1777fci"
+                      className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1777fci"
                       style={
                         Object {
                           "WebkitBoxFlex": 1,
@@ -839,7 +839,7 @@ exports[`ButtonBlock renders without errors and matches snapshot for non-citizen
                       Your Next Claim:
                     </div>
                     <div
-                      className="css-view-1dbjc4n r-alignItems-1awozwy r-color-waoq6i r-flexDirection-18u37iz r-justifyContent-1777fci"
+                      className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1777fci"
                       style={
                         Object {
                           "WebkitBoxFlex": 1,
@@ -1011,7 +1011,7 @@ exports[`ButtonBlock renders without errors and matches snapshot for non-citizen
                       Your Next Claim:
                     </div>
                     <div
-                      className="css-view-1dbjc4n r-alignItems-1awozwy r-color-waoq6i r-flexDirection-18u37iz r-justifyContent-1777fci"
+                      className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1777fci"
                       style={
                         Object {
                           "WebkitBoxFlex": 1,

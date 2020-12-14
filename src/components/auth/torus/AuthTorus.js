@@ -33,7 +33,6 @@ import { isSmallDevice } from '../../../lib/utils/mobileSizeDetect'
 import { getShadowStyles } from '../../../lib/utils/getStyles'
 import normalizeText from '../../../lib/utils/normalizeText'
 import { userExists } from '../../../lib/login/userExists'
-import { isIOSNative } from '../../../lib/utils/platform'
 
 import ready from '../ready'
 import SignIn from '../login/SignInScreen'
@@ -49,10 +48,7 @@ import { LoginStrategy } from './sdk/strategies'
 
 const log = logger.child({ from: 'AuthTorus' })
 
-// eslint-disable-next-line require-await
-const useAlreadySignedUpPlaceholder = () => async () => 'signup'
-
-const _useAlreadySignedUp = () => {
+export const useAlreadySignedUp = () => {
   const [showDialog, hideDialog] = useDialog()
 
   const show = (
@@ -108,8 +104,6 @@ const _useAlreadySignedUp = () => {
   }
   return show
 }
-
-export const useAlreadySignedUp = isIOSNative ? useAlreadySignedUpPlaceholder : _useAlreadySignedUp
 
 const AuthTorus = ({ screenProps, navigation, styles, store }) => {
   const [showDialog, hideDialog, showErrorDialog] = useDialog()

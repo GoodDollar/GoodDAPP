@@ -7,6 +7,7 @@ import {
   find,
   flatten,
   get,
+  isEmpty,
   isEqual,
   isError,
   isString,
@@ -1436,7 +1437,7 @@ export class UserStorage {
     }
 
     //for all privacy cases we go through the index, in case field was changed from public to private so we remove it
-    if (UserStorage.indexableFields[field]) {
+    if (UserStorage.indexableFields[field] && isEmpty(value) === false) {
       const indexPromiseResult = await this.indexProfileField(field, value, privacy)
       logger.info('indexPromiseResult', indexPromiseResult)
 

@@ -33,10 +33,12 @@ const update = async () => {
         })
         .then(_ => true)
     }
+    log.info('updated skipped:', { updateKey })
     return false
   })
+  log.debug('waiting update promises:', promises.length)
   const results = await Promise.all(promises)
-  log.debug('done updates:', results.filter(_ => _).length)
+  log.debug('done updates:', { results }, results.filter(_ => _).length)
   updatesData.lastUpdate = new Date().toISOString()
   updatesData.lastVersionUpdate = Config.version
   updatesData.status = doneUpdates

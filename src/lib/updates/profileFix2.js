@@ -11,15 +11,21 @@ const fromDate = new Date('2020/12/13')
  */
 const checkProfile = async (lastUpdate, prevVersion, log) => {
   //reset all bad profile fields
-  const ps = keys(userStorage.profileSettings).map(field =>
-    userStorage
-      .getProfileField(field)
-      .catch(e => e.message === 'Decrypting key missing' && userStorage.setProfileField('')),
-  )
+  const ps = keys(userStorage.profileSettings).map(field => {
+    return userStorage.profile
+      .get(field)
+      .get('value')
+      .decrypt()
+      .catch(e => {
+        if (e.message === 'Decrypting key missing') {
+          return userStorage.setProfileField('mobile', '', userStorage.profileSettings[field].defaultPrivacy)
+        }
+      })
+  })
 
   await Promise.race([Promise.all(ps), timeout(10000, 'fixProfile2 timeout')])
 
-  const fullName = await userStorage.getProfileField('fullName').catch(e => false)
+  const fullName = await userStorage.getProfileFieldValue('fullName').catch(e => false)
   userStorage.setProfileField('walletAddress', userStorage.wallet.account, 'public')
   if (!fullName || !fullName.display || !fullName.privacy || !fullName.value) {
     const { data } = await API.userExistsCheck({ identifier: userStorage.wallet.getAccountForType('login') })

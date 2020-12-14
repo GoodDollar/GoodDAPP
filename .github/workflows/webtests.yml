@@ -77,12 +77,13 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 10.15.3
+
       - name: Install npm dependencies
         uses: bahmutov/npm-install@v1
 
       - uses: actions/cache@v2
         id: contractsCache
-      - name: cache goodcontracts
+        name: cache goodcontracts
         with:
           path: node_modules/@gooddollar/goodcontracts
           key: ${{ hashFiles('node_modules/@gooddollar/goodcontracts/package-lock.json') }}

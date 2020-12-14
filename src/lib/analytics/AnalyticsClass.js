@@ -154,7 +154,7 @@ export class AnalyticsClass {
       this.fireGoogleAnalyticsEvent('Analytics_event', data)
     }
 
-    logger.debug('fired event', { event, data, ...convertToGoogleAnalytics(data) })
+    logger.debug('fired event', { event, data })
   }
 
   fireMauticEvent = (data: any = {}) => {

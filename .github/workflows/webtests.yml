@@ -32,7 +32,7 @@ jobs:
     steps:
       - uses: actions/setup-node@v1
         with:
-          node-version: 10.15.3
+          node-version: 10.21.0
       - uses: actions/checkout@v2
         with:
           persist-credentials: false
@@ -69,14 +69,14 @@ jobs:
       MNEMONIC: 'myth like bonus scare over problem client lizard pioneer submit female collect'
       ADMIN_MNEMONIC: 'they bus duty candy uncover assault bullet kitchen kit acid spin physical'
       REACT_APP_ADMIN_MNEMONIC: 'they bus duty candy uncover assault bullet kitchen kit acid spin physical'
-
+      REACT_APP_LOG_LEVEL: 'debug'
       CI: false
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
         with:
-          node-version: 10.15.3
+          node-version: 10.21.0
 
       - name: Install npm dependencies
         uses: bahmutov/npm-install@v1

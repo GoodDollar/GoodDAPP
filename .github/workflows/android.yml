@@ -70,10 +70,9 @@ jobs:
       - name: set branch name
         env:
           BUILD_NUMBER: ${{ github.run_number }}
-          BUILD_NUMBERX: ${{ env.GITHUB_RUN_NUMBER }}
-          BUILD_NUMBERY: ${GITHUB_RUN_NUMBER}
         run: |
-          echo "Creating release using env b:${BUILD_NUMBER} ${{ env.BUILD_NUMBER }} x:${BUILD_NUMBERX} ${{ env.BUILD_NUMBERX }} y:${BUILD_NUMBERY} ${{ env.BUILD_NUMBERY }} $BUILD_NUMBER gh: $GITHUB_RUN_NUMBER ${{ github.run_number }}"
+          echo "Creating release number ${BUILD_NUMBER}""
+          b:929 929 x:  y:${GITHUB_RUN_NUMBER} 929 929 gh: 929 929
           echo "ENV=development" >> $GITHUB_ENV
           echo "BRANCH=${{ github.ref }}" >> $GITHUB_ENV
           echo "SECRET_NAME=DEV_ENV" >> $GITHUB_ENV

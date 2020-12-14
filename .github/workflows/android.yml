@@ -131,10 +131,10 @@ jobs:
         env:
           RELEASE_ANDROID_PASSPHRASE: ${{ secrets.RELEASE_ANDROID_PASSPHRASE }}
           ENVFILE: '.env.${{ env.ENV }}'
-          BUILD_NUMBER: ${{ github.run_number }}
+          BUILD_NUMBER: ${{ env.GITHUB_RUN_NUMBER }}
         run: |
           BUILD_VERSION=`node -pe "require('./package.json')['version']"`
-          echo "Creating release using env: ${ENVFILE}"          
+          echo "Creating release using env: ${ENVFILE} build:${BUILD_NUMBER} version:${BUILD_VERSION}"          
           cd android && ./gradlew bundleRelease
 
       - name: Build Universal APK

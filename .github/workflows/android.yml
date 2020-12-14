@@ -8,6 +8,8 @@ on:
   push:
     branches: [master, staging, production, next, react-native]
 
+  workflow_dispatch:
+
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   test:
@@ -126,10 +128,23 @@ jobs:
           gpg -d --passphrase "${{ secrets.RELEASE_ANDROID_PASSPHRASE }}" --batch release.keystore.asc > android/app/release.keystore
 
       - name: Build Android Release
+        env:
+          RELEASE_ANDROID_PASSPHRASE: ${{ secrets.RELEASE_ANDROID_PASSPHRASE }}
+          ENVFILE: '.env.${{ env.ENV }}'
+          BUILD_NUMBER: ${{ github.run_number }}
         run: |
-          env_name="${{ env.ENV }}"          
-          echo "Creating release using env: .env.${env_name}"          
-          cd android && ENVFILE=.env.$env_name ./gradlew assembleRelease -PMYAPP_UPLOAD_STORE_PASSWORD='${{ secrets.RELEASE_ANDROID_PASSPHRASE }}' -PMYAPP_UPLOAD_KEY_PASSWORD='${{ secrets.RELEASE_ANDROID_PASSPHRASE }}'
+          BUILD_VERSION=`node -pe "require('./package.json')['version']"`
+          echo "Creating release using env: ${ENVFILE}"          
+          cd android && ./gradlew bundleRelease
+
+      - name: Build Universal APK
+        uses: skywall/universal-apk-builder@v1.0.1
+        with:
+          aab_path: './android/app/build/outputs/bundle/release/app-release.aab'
+          keystore_path: './android/app/release.keystore'
+          keystore_password: ${{secrets.RELEASE_ANDROID_PASSPHRASE}}
+          keystore_alias: 'release-alias'
+          keystore_alias_password: ${{secrets.RELEASE_ANDROID_PASSPHRASE}}
 
       - name: Deploy to App Center
         run: |
@@ -145,6 +160,6 @@ jobs:
             echo "setting appcenter staging"
             token=${{secrets.APPCENTER_ANDROID_STAGING}}
           fi
-          echo "deploying to ${{ env.APPCENTER_NAME }}"
-          npm install appcenter-cli@2.3.3
-          npx appcenter distribute release --token $token --app "${{ env.APPCENTER_NAME }}" --group "Collaborators" --file "android/app/build/outputs/apk/release/app-release.apk" --release-notes "$(git log -1 --pretty=format:%s)" --debug
+          echo "deploying to ${{ env.APPCENTER_NAME }} ${{ env.INPUT_APK_PATH }}"
+          npm install appcenter-cli@^2.*
+          npx appcenter distribute release --token $token --app "${{ env.APPCENTER_NAME }}" --group "Collaborators" --file "${{ env.UNIVERSAL_APK_PATH }}" --release-notes "$(git log -1 --pretty=format:'%h %s')" --debug

@@ -142,7 +142,7 @@ const ShareBox = ({ level }) => {
   )
 
   return (
-    <WavesBox primaryColor={theme.colors.primary} style={styles.linkBoxStyle} title={'Share Your Invite Link'}>
+    <WavesBox primarycolor={theme.colors.primary} style={styles.linkBoxStyle} title={'Share Your Invite Link'}>
       <Section.Stack style={{ alignItems: 'flex-start', marginTop: 11, marginBottom: 11 }}>
         <Section.Text fontSize={14} textAlign={'left'} lineHeight={19}>
           {`You’ll get `}
@@ -197,7 +197,7 @@ const InvitesBox = React.memo(({ invitees, refresh }) => {
   log.debug({ invitees })
   return (
     <>
-      <WavesBox primaryColor={theme.colors.primary} style={styles.linkBoxStyle} title={'Friends Who Joined'}>
+      <WavesBox primarycolor={theme.colors.primary} style={styles.linkBoxStyle} title={'Friends Who Joined'}>
         <Section.Text
           fontSize={11}
           textAlign={'left'}
@@ -215,20 +215,6 @@ const InvitesBox = React.memo(({ invitees, refresh }) => {
           </Section.Stack>
         ))}
       </WavesBox>
-      {/* <WavesBox
-        primaryColor={theme.colors.green}
-        style={[styles.linkBoxStyle, { marginTop: theme.paddings.defaultMargin * 1.5 }]}
-        title={'Friends Who Joined & Claimed'}
-      >
-        {approved.map((data, i) => (
-          <Section.Stack key={i}>
-            <InvitedUser {...data} />
-            {i < approved.length - 1 && (
-              <Section.Separator style={{ marginTop: 8 }} width={1} color={theme.colors.lightGray} />
-            )}
-          </Section.Stack>
-        ))}
-      </WavesBox> */}
     </>
   )
 })

@@ -183,7 +183,7 @@ const getWelcomeStyles = () => ({
 const ReadMoreText = withStyles(getWelcomeStyles)(({ styles, theme, text, buttonText, style, color }) => (
   <View style={styles.welcomeText}>
     <Text
-      textAlign={'left'}
+      textAlign="left"
       fontWeight="medium"
       lineHeight={20}
       numberOfLines={1}

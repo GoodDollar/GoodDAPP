@@ -432,6 +432,9 @@ const Claim = props => {
           eventLabel: goodWallet.UBIContract.address,
         })
 
+        //reset dailyUBI so statistics are shown after successfull claim
+        setDailyUbi(0)
+
         showDialog({
           image: <LoadingAnimation success speed={2} />,
           buttons: [{ text: 'Yay!' }],
@@ -473,20 +476,20 @@ const Claim = props => {
         <Section.Stack style={styles.wavesBoxes}>
           {dailyUbi <= 0 && (
             <WavesBox
-              primaryColor={theme.colors.darkBlue}
+              primarycolor={theme.colors.darkBlue}
               contentStyle={styles.wavesBoxContent}
               style={styles.wavesBox}
             >
-              <Section.Text primaryColor={theme.colors.surface} fontSize={15} lineHeight={20}>
+              <Section.Text fontSize={15} lineHeight={20}>
                 Claim cycle restart every day
               </Section.Text>
-              <Section.Text primaryColor={theme.colors.surface} fontWeight="bold" fontSize={15} lineHeight={20}>
+              <Section.Text fontWeight="bold" fontSize={15} lineHeight={20}>
                 at {claimCycleTime}
               </Section.Text>
             </WavesBox>
           )}
           <WavesBox
-            primaryColor={theme.colors.darkBlue}
+            primarycolor={theme.colors.darkBlue}
             contentStyle={styles.wavesBoxContent}
             style={[styles.wavesBox, { marginTop: dailyUbi ? 0 : 10 }]}
           >
@@ -679,7 +682,6 @@ const getStylesFromProps = ({ theme }) => {
       marginTop: getDesignRelativeHeight(39),
     },
     wavesBox: {
-      textAlign: 'center',
       backgroundColor: theme.colors.surface,
     },
     wavesBoxContent: { paddingBottom: 10, paddingTop: 10 },

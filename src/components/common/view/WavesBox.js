@@ -6,17 +6,17 @@ import ModalContainer from '../modal/ModalContainer'
 import { Section } from '../index'
 import { getShadowStyles } from '../../../lib/utils/getStyles'
 
-export const WavesBox = ({ style, primaryColor, children, title, contentStyle }) => {
+export const WavesBox = ({ style, primarycolor, children, title, contentStyle }) => {
   return (
     <ModalContainer style={[styles.box, styles.shadow, style]} fullHeight>
-      <ModalLeftBorder borderColor={primaryColor} />
+      <ModalLeftBorder borderColor={primarycolor} />
       <ModalContents style={[styles.content, contentStyle]}>
         {title && (
           <>
             <Section.Row>
               <Section.Text
                 style={{ textTransform: 'capitalize' }}
-                color={primaryColor}
+                color={primarycolor}
                 fontWeight={'bold'}
                 fontSize={18}
                 letterSpacing={0.09}
@@ -25,7 +25,7 @@ export const WavesBox = ({ style, primaryColor, children, title, contentStyle })
                 {title}
               </Section.Text>
             </Section.Row>
-            <Section.Separator style={{ marginTop: 4 }} width={1} color={primaryColor} />
+            <Section.Separator style={{ marginTop: 4 }} width={1} color={primarycolor} />
           </>
         )}
         {children}

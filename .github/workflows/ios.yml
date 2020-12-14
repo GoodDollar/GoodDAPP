@@ -81,11 +81,18 @@ jobs:
       - name: Generate assets
         run: node ./animationAssets.js
 
-      - name: Build app
+      - name: set version
         run: |
-          env_name="${{ env.ENV }}"
-          echo "Creating release using env: .env.${env_name}"
-          cd ios && ENVFILE=../.env.$env_name xcodebuild archive \
+          BUILD_VERSION=`node -pe "require('./package.json')['version']"`
+          plutil -replace CFBundleVersion -string ${BUILD_VERSION}.${GITHUB_RUN_NUMBER} ./ios/GoodDollar/Info.plist
+          plutil -replace CFBundleVersionShort -string ${BUILD_VERSION} ./ios/GoodDollar/Info.plist
+
+      - name: Build app
+        env:
+          ENVFILE: '../.env.${{ env.ENV }}' 
+        run: |
+          echo "Creating release using env: ${ENVFILE}"
+          cd ios && xcodebuild archive \
             -workspace GoodDollar.xcworkspace \
             -scheme GoodDollar \
             -sdk iphoneos \
@@ -115,5 +122,5 @@ jobs:
             token=${{secrets.APPCENTER_IOS_STAGING}}
           fi
           echo "deploying to ${{ env.APPCENTER_NAME }}"
-          npm install appcenter-cli@2.3.3
-          npx appcenter distribute release --token $token --app "${{ env.APPCENTER_NAME }}" --group "Collaborators" --file "ios/build/GoodDollar.ipa" --release-notes "$(git log -1 --pretty=format:%s)" --debug
+          npm install appcenter-cli@^2
+          npx appcenter distribute release --token $token --app "${{ env.APPCENTER_NAME }}" --group "Collaborators" --file "ios/build/GoodDollar.ipa" --release-notes "$(git log -1 --pretty=format:'%h %s')" --debug

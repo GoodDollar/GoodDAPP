@@ -1,5 +1,5 @@
 // @flow
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { Platform, TextInput, View } from 'react-native'
 import { withStyles } from '../../../lib/styles'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../lib/utils/sizes'
@@ -74,16 +74,29 @@ const getSingleOtpInputStylesFromProps = ({ theme }) => ({
   },
 })
 
+const useTextInputSelection = (value, setSelection) => {
+  const hasValue = useMemo(() => value && value.length, [value])
+
+  const updateSelection = useCallback(() => {
+    setSelection(hasValue ? { start: 0, end: 1 } : undefined)
+  }, [hasValue, setSelection])
+
+  return [hasValue, updateSelection]
+}
+
 const Input = ({ min, max, pattern, focus, shouldAutoFocus, onChange, value, focusNextInput, ...props }) => {
   let input: ?HTMLInputElement = null
-  const [selection, setSelection] = useState({ start: 0, end: value && value.length ? 1 : 0 })
+  const [selection, setSelection] = useState(undefined)
+
+  // Don't pass selection prop if value is empty (known TextInput bug)
+  const [hasValue, updateSelection] = useTextInputSelection(value, setSelection)
 
   // Focus on first render
   // Only when shouldAutoFocus is true
   useEffect(() => {
     if (input && focus && shouldAutoFocus) {
       input.focus()
-      setSelection({ start: 0, end: value && value.length ? 1 : 0 })
+      updateSelection()
     }
   }, [])
 
@@ -92,12 +105,12 @@ const Input = ({ min, max, pattern, focus, shouldAutoFocus, onChange, value, foc
   useEffect(() => {
     if (input && focus) {
       input.focus()
-      setSelection({ start: 0, end: value && value.length ? 1 : 0 })
+      updateSelection()
     }
   }, [focus])
 
   const handleSelection = ({ nativeEvent: { selection: nativeSelection } }) => {
-    setSelection({ start: 0, end: value && value.length ? 1 : 0 })
+    updateSelection()
   }
 
   const handleValidation = (inputValue: number | string): boolean =>
@@ -118,7 +131,7 @@ const Input = ({ min, max, pattern, focus, shouldAutoFocus, onChange, value, foc
       onChangeText={handleOnChange}
       ref={inputRef => (input = inputRef)}
       onSelectionChange={handleSelection}
-      selection={selection}
+      selection={hasValue ? selection : undefined}
       selectTextOnFocus={true}
     />
   )

@@ -245,7 +245,6 @@ const getStylesFromProps = ({ theme }) => ({
 
     // minHeight: isSmallDevice ? 0 : 53,
     alignItems: 'center',
-    color: theme.colors.darkBlue,
   },
   countdownContainer: {
     flexDirection: 'column',

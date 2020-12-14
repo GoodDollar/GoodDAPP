@@ -118,7 +118,6 @@ const getWelcomeStyles = () => ({
     }),
   },
   welcomeText: {
-    textAlign: 'left',
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -133,7 +132,15 @@ const getWelcomeStyles = () => ({
 
 const ReadMoreText = withStyles(getWelcomeStyles)(({ styles, theme, text, buttonText, style, color }) => (
   <View style={styles.welcomeText}>
-    <Text fontWeight="medium" lineHeight={20} numberOfLines={1} fontSize={10} style={style} color={color || 'darkGray'}>
+    <Text
+      textAlign="left"
+      fontWeight="medium"
+      lineHeight={20}
+      numberOfLines={1}
+      fontSize={10}
+      style={style}
+      color={color || 'darkGray'}
+    >
       {text}
     </Text>
     <Text

@@ -74,7 +74,7 @@ const Config = {
   zoomEncryptionKey: fixNL(env.REACT_APP_ZOOM_ENCRYPTION_KEY),
   zoomLicenseKey: env.REACT_APP_ZOOM_LICENSE_KEY,
   zoomLicenseText: fixNL(env.REACT_APP_ZOOM_LICENSE_TEXT),
-  zoomApiVersion: Number(env.REACT_APP_ZOOM_API_VERSION || 8),
+  zoomApiVersion: Number(env.REACT_APP_ZOOM_API_VERSION || 9),
   faceVerificationMaxAttemptsAllowed: Number(env.REACT_APP_FACE_VERIFICATION_ATTEMPTS || 3),
   faceVerificationPrivacyUrl:
     env.REACT_APP_FACE_VERIFICATION_PRIVACY_URL ||

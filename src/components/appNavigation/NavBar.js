@@ -77,7 +77,7 @@ const getStylesFromProps = ({ theme }) => ({
   backButton: {
     marginLeft: 15,
     width: 33,
-    flex: Platform.select({ web: 'inherit', default: 0 }),
+    flex: Platform.select({ native: 0 }),
     justifyContent: 'center',
   },
   walletButton: {

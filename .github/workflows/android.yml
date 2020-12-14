@@ -69,6 +69,7 @@ jobs:
     steps:
       - name: set branch name
         run: |
+          echo "Creating release using env ${GITHUB_RUN_NUMBER} ${{ github.run_number }}"
           echo "ENV=development" >> $GITHUB_ENV
           echo "BRANCH=${{ github.ref }}" >> $GITHUB_ENV
           echo "SECRET_NAME=DEV_ENV" >> $GITHUB_ENV

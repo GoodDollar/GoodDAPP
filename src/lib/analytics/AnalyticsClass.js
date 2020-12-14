@@ -4,7 +4,6 @@ import { isMobileReactNative } from '../utils/platform'
 import { LogEvent } from '../logger/pino-logger'
 import { ExceptionCategory } from '../logger/exceptions'
 import { ERROR_LOG } from './constants'
-import { convertToGoogleAnalytics } from './utils'
 
 const savedErrorMessages = new WeakMap()
 
@@ -151,7 +150,7 @@ export class AnalyticsClass {
 
     //fire all events on  GA also
     if (googleAnalytics) {
-      this.fireGoogleAnalyticsEvent('Analytics_event', data)
+      this.fireGoogleAnalyticsEvent(event, data)
     }
 
     logger.debug('fired event', { event, data })

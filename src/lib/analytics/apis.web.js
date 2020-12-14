@@ -51,18 +51,18 @@ class FullStoryWrapper {
   }
 }
 
-const googleWrapper = {
-  logEvent: (event, data: any = {}) => {
-    const eventData = convertToGoogleAnalytics(data)
+class GoogleWrapper {
+  logEvent(event: string, data: any = {}) {
+    const [eventName, eventData] = convertToGoogleAnalytics(event, data)
 
-    dataLayer.push({ event, ...eventData })
-  },
+    dataLayer.push({ event: eventName, ...eventData })
+  }
 }
 
 export default pickBy({
   mautic: mt,
   sentry: SentryWeb,
-  googleAnalytics: dataLayer ? googleWrapper : null,
+  googleAnalytics: dataLayer ? new GoogleWrapper() : null,
   amplitude: amplitude.getInstance(),
   fullStory: FS ? new FullStoryWrapper() : null,
 })

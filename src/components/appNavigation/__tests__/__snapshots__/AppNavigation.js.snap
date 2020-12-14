@@ -139,25 +139,24 @@ exports[`AppNavigation matches snapshot 1`] = `
       data-name="viewWrapper"
     >
       <div
-        className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderRadius-1f0042m r-borderTopLeftRadius-ou6ah9 r-borderTopRightRadius-t12b5v r-marginBottom-efb0ki r-marginLeft-1jkjb r-marginRight-1kb76zh r-paddingBottom-xd6kpl r-paddingHorizontal-1e081e0 r-paddingLeft-1m04atk r-paddingRight-1pyaxff r-paddingTop-95jzfe r-paddingVertical-1yzf0co r-position-bnwqim r-zIndex-mhe3cw"
+        className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderRadius-1f0042m r-borderTopLeftRadius-ou6ah9 r-borderTopRightRadius-t12b5v r-marginBottom-efb0ki r-marginLeft-1jkjb r-marginRight-1kb76zh r-paddingBottom-12rqra3 r-paddingHorizontal-1e081e0 r-paddingLeft-1m04atk r-paddingRight-1pyaxff r-paddingTop-95jzfe r-paddingVertical-1yzf0co r-position-bnwqim r-zIndex-mhe3cw"
       >
         <div
           className="css-view-1dbjc4n r-position-bnwqim"
           style={
             Object {
-              "height": "165px",
+              "height": "176px",
             }
           }
         >
           <div
-            className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-eqz5dr r-height-1pi2tsx r-justifyContent-1wtj0ep"
+            className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-eqz5dr r-height-1pi2tsx r-justifyContent-1wtj0ep r-paddingBottom-1l7z4oj"
           >
             <div
-              className="css-view-1dbjc4n r-position-u8s1d r-top-ipm5af"
+              className="css-view-1dbjc4n r-left-1d2f490"
               style={
                 Object {
                   "height": "68px",
-                  "left": "187.5px",
                   "width": "68px",
                 }
               }
@@ -183,13 +182,10 @@ exports[`AppNavigation matches snapshot 1`] = `
               </div>
             </div>
             <div
-              className="css-view-1dbjc4n r-alignItems-1awozwy r-bottom-1p0dtai r-flex-13awgt0 r-justifyContent-1777fci r-position-u8s1d r-top-ipm5af"
+              className="css-view-1dbjc4n r-alignItems-1awozwy r-justifyContent-1777fci"
               style={
                 Object {
-                  "marginBottom": "auto",
-                  "marginTop": "auto",
                   "opacity": 1,
-                  "paddingTop": "10px",
                   "zIndex": -1,
                 }
               }
@@ -202,13 +198,11 @@ exports[`AppNavigation matches snapshot 1`] = `
               </div>
             </div>
             <div
-              className="css-view-1dbjc4n r-alignItems-1d09ksm r-bottom-1p0dtai r-position-u8s1d"
+              className="css-view-1dbjc4n r-alignItems-1d09ksm r-bottom-1p0dtai"
               style={
                 Object {
-                  "marginBottom": "16px",
-                  "marginTop": "16px",
-                  "right": "187.5px",
-                  "visibility": "hidden",
+                  "marginLeft": "0px",
+                  "marginRight": "0px",
                 }
               }
             >

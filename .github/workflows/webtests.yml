@@ -107,6 +107,7 @@ jobs:
 
       - name: run tests and code coverage
         run: |
+          cat node_modules/@gooddollar/goodcontracts/releases/deployment.json
           npm run coverage
           npm run coveralls || true
           pkill -f ganache

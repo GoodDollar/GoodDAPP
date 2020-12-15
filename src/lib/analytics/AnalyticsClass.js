@@ -228,8 +228,8 @@ export class AnalyticsClass {
     }
 
     return new Promise(resolve => {
-      const onError = () => {
-        this.logger.debug('Amplitude init failed')
+      const onError = err => {
+        this.logger.warn('Amplitude init error', err)
         resolve(false)
       }
       const onSuccess = () => {
@@ -237,7 +237,10 @@ export class AnalyticsClass {
         resolve(true)
       }
 
-      amplitude.init(key, null, { includeReferrer: true, includeUtm: true, onError }, onSuccess)
+      //bug in amplitude causing true to fail in react native https://github.com/amplitude/Amplitude-JavaScript/issues/181
+      const includeReferrer = isMobileReactNative ? false : true
+
+      amplitude.init(key, null, { includeReferrer, includeUtm: true, onError }, onSuccess)
     })
   }
 

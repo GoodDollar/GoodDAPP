@@ -18,7 +18,7 @@ const checkProfile = async (lastUpdate, prevVersion, log) => {
       .decrypt()
       .catch(e => {
         if (e.message === 'Decrypting key missing') {
-          return userStorage.setProfileField('mobile', '', userStorage.profileSettings[field].defaultPrivacy)
+          return userStorage.setProfileField(field, '', userStorage.profileSettings[field].defaultPrivacy)
         }
       })
   })

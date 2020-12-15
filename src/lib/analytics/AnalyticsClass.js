@@ -19,9 +19,9 @@ export class AnalyticsClass {
     assign(this.apis, apis)
     assign(this, options, { logger, rootApi, loggerApi })
 
-    this.isSentryEnabled = !(!sentry || !sentryDSN)
-    this.isAmplitudeEnabled = !(!amplitude || !amplitudeKey)
-    this.isFullStoryEnabled = !(!fullStory || env !== 'production')
+    this.isSentryEnabled = sentry && sentryDSN
+    this.isAmplitudeEnabled = amplitude && amplitudeKey
+    this.isFullStoryEnabled = fullStory && env === 'production'
   }
 
   initAnalytics = async () => {
@@ -228,8 +228,14 @@ export class AnalyticsClass {
     }
 
     return new Promise(resolve => {
-      const onError = () => resolve(false)
-      const onSuccess = () => resolve(true)
+      const onError = () => {
+        this.logger.debug('Amplitude init failed')
+        resolve(false)
+      }
+      const onSuccess = () => {
+        this.logger.debug('Amplitude init success')
+        resolve(true)
+      }
 
       amplitude.init(key, null, { includeReferrer: true, includeUtm: true, onError }, onSuccess)
     })

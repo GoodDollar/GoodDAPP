@@ -6,6 +6,7 @@
 	<array>
 		<string>applinks:gooddollar.app.link</string>
 		<string>applinks:gooddollar-alternate.app.link</string>
+		<string>applinks:wallet.gooddollar.org</string>
 	</array>
 </dict>
 </plist>

@@ -4,7 +4,7 @@ import { assignIn, isFinite, isString, mapKeys, memoize, pickBy, snakeCase } fro
 
 import FaceTec from '../../../../lib/facetec/FaceTecSDK'
 
-import { resultFacescanProcessingMessage, resultSuccessMessage } from '../sdk/FaceTecSDK.constants'
+import { resultFacescanUploadMessage, resultSuccessMessage } from '../sdk/FaceTecSDK.constants'
 import { isLargeDevice } from '../../../../lib/utils/mobileSizeDetect'
 import { theme } from '../../../theme/styles'
 import './UICustomization.css'
@@ -39,7 +39,7 @@ const nl = isLargeDevice ? ' ' : '<br/>'
 
 export const UITextStrings = {
   resultSuccessMessage,
-  resultFacescanProcessingMessage,
+  resultFacescanUploadMessage,
 
   retryInstructionMessage1: '<span>Hold Your Camera at Eye Level.</span>',
   retryInstructionMessage2: '<span>Light Your Face Evenly.<br/>Avoid Smiling & Back Light</span>',

@@ -3,13 +3,13 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>123456789012-12345678901234567890123456789012.apps.googleusercontent.com</string>
+	<string>Your client id here</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.123456789012-12345678901234567890123456789012</string>
+	<string>Your reversed client id here</string>
 	<key>API_KEY</key>
-	<string>AasdfDEzghasdfghaEsdfEFghRasdsfghasdfgh</string>
+	<string>your API key here</string>
 	<key>GCM_SENDER_ID</key>
-	<string>123456789012</string>
+	<string>your sender id here</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>

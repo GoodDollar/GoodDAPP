@@ -53,7 +53,7 @@ class FullStoryWrapper {
 
 class GoogleWrapper {
   logEvent(event: string, data: any = {}) {
-    const [eventName, eventData] = convertToGoogleAnalytics(event, data)
+    const { eventName, eventData } = convertToGoogleAnalytics(event, data)
 
     dataLayer.push({ event: eventName, ...eventData })
   }

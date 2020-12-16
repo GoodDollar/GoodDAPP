@@ -11,9 +11,10 @@ class GoogleWrapper {
   }
 
   logEvent(event: string, data: any = {}) {
-    const [eventName, eventData] = convertToGoogleAnalytics(event, data)
+    const { analytics } = this
+    const { eventName, eventData } = convertToGoogleAnalytics(event, data)
 
-    this.analytics.logEvent(eventName, eventData)
+    analytics.logEvent(eventName, eventData)
   }
 }
 

@@ -109,7 +109,7 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
           visible: true,
           image: <SuccessAnimation height={modalHeight} />,
           buttons: [{ text: 'Yay!' }],
-          title: 'Welcome back!',
+          title: Platform.select({ android: 'Welcome back!' }),
           message: `Hi ${firstName},\nyour wallet was recovered successfully`,
           onDismiss: () => restart(incomingRedirectUrl),
         })

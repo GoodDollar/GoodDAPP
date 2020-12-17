@@ -270,7 +270,7 @@ exports[`Send matches snapshot 1`] = `
             </div>
           </div>
           <div
-            className="css-text-901oao r-color-homxoj r-fontFamily-vnw8o6 r-fontSize-1gkfh8e r-fontWeight-1it3c9n r-lineHeight-1b6yf8j r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+            className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1gkfh8e r-fontWeight-1it3c9n r-lineHeight-1b6yf8j r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
             dir="auto"
           >
             Scan QR Code
@@ -317,7 +317,7 @@ exports[`Send matches snapshot 1`] = `
             </div>
           </div>
           <div
-            className="css-text-901oao r-color-homxoj r-fontFamily-vnw8o6 r-fontSize-1gkfh8e r-fontWeight-1it3c9n r-lineHeight-1b6yf8j r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+            className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1gkfh8e r-fontWeight-1it3c9n r-lineHeight-1b6yf8j r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
             dir="auto"
           >
             Generate Link

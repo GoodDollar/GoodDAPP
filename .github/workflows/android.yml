@@ -68,7 +68,10 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - name: set branch name
+        env:
+          BUILD_NUMBER: ${{ github.run_number }}
         run: |
+          echo "Creating release number ${BUILD_NUMBER}"
           echo "ENV=development" >> $GITHUB_ENV
           echo "BRANCH=${{ github.ref }}" >> $GITHUB_ENV
           echo "SECRET_NAME=DEV_ENV" >> $GITHUB_ENV
@@ -133,8 +136,8 @@ jobs:
           ENVFILE: '.env.${{ env.ENV }}'
           BUILD_NUMBER: ${{ github.run_number }}
         run: |
-          BUILD_VERSION=`node -pe "require('./package.json')['version']"`
-          echo "Creating release using env: ${ENVFILE}"          
+          BUILD_VERSION=`node -pe "require('./package.json')['version']"`          
+          echo "Creating release using env: ${ENVFILE} build:${BUILD_NUMBER} version:${BUILD_VERSION} ${GITHUB_RUN_NUMBER} ${{ github.run_number }}"
           cd android && ./gradlew bundleRelease
 
       - name: Build Universal APK

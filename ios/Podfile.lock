@@ -309,10 +309,10 @@ PODS:
     - Sentry (~> 5.2.0)
   - RNSVG (9.13.6):
     - React
-  - RNTorusDirectSdk (0.1.0):
+  - RNTorusDirectSdk (0.1.3):
     - React
     - secp256k1.c (= 0.1.2)
-    - Torus-directSDK (= 0.0.15)
+    - Torus-directSDK (~> 0.0.1)
   - RNVectorIcons (6.6.0):
     - React
   - secp256k1.c (0.1.2)
@@ -322,8 +322,8 @@ PODS:
   - Starscream (3.1.1)
   - TcpSockets (3.3.2):
     - React
-  - TOCropViewController (2.5.4)
-  - Torus-directSDK (0.0.15):
+  - TOCropViewController (2.5.5)
+  - Torus-directSDK (0.0.17):
     - BestLogger (~> 0.0.1)
     - Torus-utils (~> 0.0.1)
   - Torus-fetchNodeDetails (0.0.19):
@@ -595,7 +595,7 @@ SPEC CHECKSUMS:
   RNCAsyncStorage: d059c3ee71738c39834a627476322a5a8cd5bf36
   RNCClipboard: 8148e21ac347c51fd6cd4b683389094c216bb543
   RNCPushNotificationIOS: 4d9ffd08f00ef6c1029ebbf4d72fc711eca3ff01
-  RNDeviceInfo: 310c1f43d418d950a193c7650de2f9559c906048
+  RNDeviceInfo: 67607dfe9cfbed105838144c40187a8392aa404d
   RNFS: 2bd9eb49dc82fa9676382f0585b992c424cd59df
   RNGestureHandler: dde546180bf24af0b5f737c8ad04b6f3fa51609a
   RNImageCropPicker: fc4b4d2a4d7176eeb6442fa191ba56493c14b6d6
@@ -605,14 +605,14 @@ SPEC CHECKSUMS:
   RNScreens: 2a9cd603bcebc34319c92e595283d760dd1f55f5
   RNSentry: 2bae4ffee2e66376ef42cb845a494c3bde17bc56
   RNSVG: 8ba35cbeb385a52fd960fd28db9d7d18b4c2974f
-  RNTorusDirectSdk: b72a9e3c5ee5b5a78f9c7dafe3d92fe1567ce063
+  RNTorusDirectSdk: 0bd5a119811f711d0a9d5341280427a533243fac
   RNVectorIcons: 0bb4def82230be1333ddaeee9fcba45f0b288ed4
   secp256k1.c: db47b726585d80f027423682eb369729e61b3b20
   Sentry: 8fa58a051237554f22507fb483b9a1de0171a2dc
   Starscream: 4bb2f9942274833f7b4d296a55504dcfc7edb7b0
   TcpSockets: 14306fb79f9750ea7d2ddd02d8bed182abb01797
-  TOCropViewController: 2a1ae1242600b1f2d996fd91a5268b2309a33b5c
-  Torus-directSDK: 8c35faf6eeff02af95c3b8699a24610d5f443238
+  TOCropViewController: da59f531f8ac8a94ef6d6c0fc34009350f9e8bfe
+  Torus-directSDK: d61d74de4efc771223cb1a7c9191993f1fa0f2e2
   Torus-fetchNodeDetails: 3a2ce2095db598949b923cbaff827632918510ff
   Torus-utils: d6473b443c91130cd34b65468c4cc6e4c56dd72c
   web3swift: 0f097eafe1d08f478694b882581b85a01afb6633

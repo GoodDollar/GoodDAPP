@@ -161,7 +161,7 @@ export class AnalyticsClass {
 
   convertToGA = (data: any = {}) => {
     const values = Object.values(data)
-    const eventValues = remove(values, x => typeof x === 'number')
+    const eventValues = remove(values, x => typeof x === 'number') //remove returns the removed items, so eventValues will be numbers
     const eventStrings = remove(values, x => typeof x === 'string')
     const gaEvent = {
       eventValue: eventValues.shift(),

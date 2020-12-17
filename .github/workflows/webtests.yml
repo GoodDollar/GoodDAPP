@@ -69,7 +69,6 @@ jobs:
       MNEMONIC: 'myth like bonus scare over problem client lizard pioneer submit female collect'
       ADMIN_MNEMONIC: 'they bus duty candy uncover assault bullet kitchen kit acid spin physical'
       REACT_APP_ADMIN_MNEMONIC: 'they bus duty candy uncover assault bullet kitchen kit acid spin physical'
-      REACT_APP_LOG_LEVEL: 'debug'
       CI: false
     runs-on: ubuntu-latest
     steps:

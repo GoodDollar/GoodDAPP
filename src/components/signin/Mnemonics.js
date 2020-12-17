@@ -12,6 +12,7 @@ import { ExceptionCategory } from '../../lib/logger/exceptions'
 import { withStyles } from '../../lib/styles'
 import { useDialog, useErrorDialog } from '../../lib/undux/utils/dialog'
 import { getFirstWord } from '../../lib/utils/getFirstWord'
+import restart from '../../lib/utils/restart'
 import { userExists } from '../../lib/login/userExists'
 import Text from '../common/view/Text'
 import Section from '../common/layout/Section'
@@ -108,8 +109,9 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
           visible: true,
           image: <SuccessAnimation height={modalHeight} />,
           buttons: [{ text: 'Yay!' }],
+          title: 'Welcome back!',
           message: `Hi ${firstName},\nyour wallet was recovered successfully`,
-          onDismiss: () => (window.location = incomingRedirectUrl),
+          onDismiss: () => restart(incomingRedirectUrl),
         })
         fireEvent(RECOVER_SUCCESS)
 

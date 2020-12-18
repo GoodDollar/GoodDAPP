@@ -28,6 +28,7 @@ import SimpleStore from '../../../lib/undux/SimpleStore'
 import { useDialog } from '../../../lib/undux/utils/dialog'
 import { showSupportDialog } from '../../common/dialogs/showSupportDialog'
 import { decorate, ExceptionCode } from '../../../lib/logger/exceptions'
+import { isWeb } from '../../../lib/utils/platform'
 import { getDesignRelativeHeight } from '../../../lib/utils/sizes'
 import { isSmallDevice } from '../../../lib/utils/mobileSizeDetect'
 import { getShadowStyles } from '../../../lib/utils/getStyles'
@@ -250,13 +251,15 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
       if (isSignup) {
         fireEvent(SIGNUP_STARTED, { provider })
 
-        //Hack to get keyboard up on mobile need focus from user event such as click
-        setTimeout(() => {
-          const el = document.getElementById('Name_input')
-          if (el) {
-            el.focus()
-          }
-        }, 500)
+        if (isWeb) {
+          //Hack to get keyboard up on mobile need focus from user event such as click
+          setTimeout(() => {
+            const el = document.getElementById('Name_input')
+            if (el) {
+              el.focus()
+            }
+          }, 500)
+        }
         return navigate('Signup', {
           regMethod: REGISTRATION_METHOD_TORUS,
           torusUser,

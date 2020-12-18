@@ -2,7 +2,6 @@
 import * as SentryWeb from '@sentry/browser'
 import amplitude from 'amplitude-js'
 import { assign, isFunction, pickBy } from 'lodash'
-import { convertToGoogleAnalytics } from './utils'
 
 const { mt, FS, dataLayer } = window
 
@@ -53,9 +52,7 @@ class FullStoryWrapper {
 
 class GoogleWrapper {
   logEvent(event: string, data: any = {}) {
-    const { eventName, eventData } = convertToGoogleAnalytics(event, data)
-
-    dataLayer.push({ event: eventName, ...eventData })
+    dataLayer.push({ event, ...data })
   }
 }
 

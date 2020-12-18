@@ -1,9 +1,9 @@
 // @flow
-import { assign, debounce, forIn, get, isEmpty, isString, pick, toLower } from 'lodash'
+import { assign, debounce, find, first, forIn, get, isEmpty, isNumber, isString, pick, toLower, values } from 'lodash'
 import { isMobileReactNative } from '../utils/platform'
 import { LogEvent } from '../logger/pino-logger'
 import { ExceptionCategory } from '../logger/exceptions'
-import { ERROR_LOG } from './constants'
+import { ANALYTICS_EVENT, ERROR_LOG } from './constants'
 
 const savedErrorMessages = new WeakMap()
 
@@ -150,22 +150,24 @@ export class AnalyticsClass {
 
     //fire all events on  GA also
     if (googleAnalytics) {
-      this.fireGoogleAnalyticsEvent(event, data)
+      const gaEvent = this.convertToGA(event, data)
+      this.fireGoogleAnalyticsEvent(ANALYTICS_EVENT, gaEvent)
     }
 
     logger.debug('fired event', { event, data })
   }
 
-  // convertToGA = (data: any = {}) => {
-  //   const values = Object.values(data)
-  //   const eventValues = remove(values, x => typeof x === 'number') //remove returns the removed items, so eventValues will be numbers
-  //   const eventStrings = remove(values, x => typeof x === 'string')
-  //   const gaEvent = {
-  //     eventValue: eventValues.shift(),
-  //     eventLabel: eventStrings.shift() || eventValues.shift() || JSON.stringify(values.shift()),
-  //   }
-  //   return gaEvent
-  // }
+  convertToGA = (event: string, data: any = {}) => {
+    const eventValue = find(data, isNumber) // get first numberic value
+    const eventString = find(data, isString) // get first string value
+    const firstValue = first(values(data)) // get first value as a fallback
+
+    return {
+      eventAction: event,
+      eventValue,
+      eventLabel: eventString || eventValue || JSON.stringify(firstValue),
+    }
+  }
 
   fireMauticEvent = (data: any = {}) => {
     const { mautic } = this.apis

@@ -32,7 +32,7 @@ jobs:
     steps:
       - uses: actions/setup-node@v1
         with:
-          node-version: 10.15.3
+          node-version: 10.21.0
       - uses: actions/checkout@v2
         with:
           persist-credentials: false
@@ -68,21 +68,50 @@ jobs:
       BUNDLESIZE_GITHUB_TOKEN: 63f6d1717c6652d63234cf9629977b08f4bac3fd
       MNEMONIC: 'myth like bonus scare over problem client lizard pioneer submit female collect'
       ADMIN_MNEMONIC: 'they bus duty candy uncover assault bullet kitchen kit acid spin physical'
+      REACT_APP_ADMIN_MNEMONIC: 'they bus duty candy uncover assault bullet kitchen kit acid spin physical'
       CI: false
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
         with:
-          node-version: 10.15.3
+          node-version: 10.21.0
+
       - name: Install npm dependencies
         uses: bahmutov/npm-install@v1
 
+      - uses: actions/cache@v2
+        id: contractsCache
+        name: cache goodcontracts
+        with:
+          path: node_modules/@gooddollar/goodcontracts
+          key: ${{ hashFiles('node_modules/@gooddollar/goodcontracts/package-lock.json') }}
+
+      - name: install goodcontracts
+        if: steps.contractsCache.outputs.cache-hit != 'true'
+        run: |
+          pushd node_modules/@gooddollar/goodcontracts
+          npm ci
+          cd stakingModel
+          npm ci
+          popd
+
       - name: prepare blockchain for test
-        run: npm run test:setup
+        run: |
+          pushd node_modules/@gooddollar/goodcontracts/stakingModel
+          npm run ganache:test &
+          npm run wait
+          npm run start:withmain
+          popd
 
       - name: run tests and code coverage
         run: |
+          cat node_modules/@gooddollar/goodcontracts/releases/deployment.json
           npm run coverage
-          npm run coveralls || true
+          # npm run coveralls || true
           pkill -f ganache
+
+      - name: Coveralls
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}

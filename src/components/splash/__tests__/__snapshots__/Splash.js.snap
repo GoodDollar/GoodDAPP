@@ -35,7 +35,7 @@ exports[`Splash matches snapshot 1`] = `
           dir="auto"
         >
           V
-          v0
+          1.11.6
         </div>
       </div>
     </div>

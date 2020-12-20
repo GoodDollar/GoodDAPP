@@ -290,8 +290,8 @@ const Claim = props => {
       return
     }
     init()
-    gatherStats()
-    claimInterval.current = setInterval(gatherStats, 10000)
+    gatherStats(true) //refresh all stats
+    claimInterval.current = setInterval(gatherStats, 10000) //constantly update stats but only for some data
     return () => claimInterval.current && clearInterval(claimInterval.current)
   }, [appState])
 
@@ -317,7 +317,7 @@ const Claim = props => {
     setNextClaim(countDown)
   }, [nextClaimDate])
 
-  const gatherStats = async () => {
+  const gatherStats = async (all = false) => {
     try {
       const [
         { people, amount },
@@ -330,9 +330,9 @@ const Claim = props => {
         wrappedGoodWallet.getAmountAndQuantityClaimedToday(),
         wrappedGoodWallet.getNextClaimTime(),
         wrappedGoodWallet.getActiveClaimers(),
-        wrappedGoodWallet.getAvailableDistribution(),
-        wrappedGoodWallet.getTotalFundsStaked(),
-        wrappedGoodWallet.getInterestCollected(),
+        all && wrappedGoodWallet.getAvailableDistribution(),
+        all && wrappedGoodWallet.getTotalFundsStaked(),
+        all && wrappedGoodWallet.getInterestCollected(),
       ])
       log.info('gatherStats:', {
         people,
@@ -350,11 +350,11 @@ const Claim = props => {
       setDailyUbi(entitlement)
 
       setActiveClaimers(activeClaimers)
-      setAvailableDistribution(availableDistribution)
+      all && setAvailableDistribution(availableDistribution)
       setClaimCycleTime(moment(nextClaimMilis).format('HH:mm:ss'))
 
-      setTotalFundsStaked(totalFundsStaked)
-      setInterestCollected(interestCollected)
+      all && setTotalFundsStaked(totalFundsStaked)
+      all && setInterestCollected(interestCollected)
 
       if (nextClaimMilis) {
         setNextClaimDate(nextClaimMilis)

@@ -3,7 +3,7 @@ import React from 'react'
 //need to import this here before webviewcrypto to prevent circular require because of
 //global.crypto = {} dont know why
 import 'react-native-crypto'
-import WebviewCrypto from '@gooddollar/react-native-webview-crypto'
+import WebviewCrypto from 'react-native-webview-crypto'
 import Config from 'react-native-config'
 import App from './src/mainApp/AppHolder'
 import { name as appName } from './app.json'

@@ -6,4 +6,4 @@ include ':app'
 include ':react-native-contacts'
 project(':react-native-contacts').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-contacts/android')
 include ':torus-direct-react-native-sdk'
-project(':torus-direct-react-native-sdk').projectDir = new File(rootProject.projectDir, 	'../node_modules/torus-direct-react-native-sdk/android')
+project(':torus-direct-react-native-sdk').projectDir = new File(rootProject.projectDir, 	'../node_modules/@toruslabs/torus-direct-react-native-sdk/android')

@@ -1,5 +1,5 @@
-import { Platform } from 'react-native'
 import { replace } from 'lodash'
+import { isMobileNative } from '../../../../lib/utils/platform'
 
 /* eslint-disable require-await */
 export const LoginStrategy = {
@@ -31,7 +31,15 @@ export const LoginStrategy = {
 class AbstractLoginStrategy {
   constructor(torus, config) {
     this.torus = torus
-    this.config = config
+
+    if (isMobileNative) {
+      // remove 'https://' from auth0Domain for native
+      const auth0Domain = replace(config.auth0Domain, 'https://', '')
+
+      this.config = { ...config, auth0Domain }
+    } else {
+      this.config = config
+    }
   }
 
   async triggerLogin() {
@@ -91,11 +99,6 @@ export class Auth0Strategy extends AbstractLoginStrategy {
     const { torus, config } = this
     const { auth0Domain, auth0ClientId, torusGoogleAuth0 } = config
 
-    const _auth0Domain = Platform.select({
-      web: auth0Domain,
-      default: replace(auth0Domain, 'https://', ''),
-    })
-
     return torus.triggerAggregateLogin({
       aggregateVerifierType: 'single_id_verifier',
       verifierIdentifier: torusGoogleAuth0,
@@ -106,7 +109,7 @@ export class Auth0Strategy extends AbstractLoginStrategy {
           verifier: 'auth0',
           jwtParams: {
             connection: 'Username-Password-Authentication',
-            domain: _auth0Domain,
+            domain: auth0Domain,
           },
         },
       ],

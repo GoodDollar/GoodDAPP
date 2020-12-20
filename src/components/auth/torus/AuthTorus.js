@@ -28,12 +28,12 @@ import SimpleStore from '../../../lib/undux/SimpleStore'
 import { useDialog } from '../../../lib/undux/utils/dialog'
 import { showSupportDialog } from '../../common/dialogs/showSupportDialog'
 import { decorate, ExceptionCode } from '../../../lib/logger/exceptions'
+import { isWeb } from '../../../lib/utils/platform'
 import { getDesignRelativeHeight } from '../../../lib/utils/sizes'
 import { isSmallDevice } from '../../../lib/utils/mobileSizeDetect'
 import { getShadowStyles } from '../../../lib/utils/getStyles'
 import normalizeText from '../../../lib/utils/normalizeText'
 import { userExists } from '../../../lib/login/userExists'
-import { isIOSNative } from '../../../lib/utils/platform'
 
 import ready from '../ready'
 import SignIn from '../login/SignInScreen'
@@ -49,10 +49,7 @@ import { LoginStrategy } from './sdk/strategies'
 
 const log = logger.child({ from: 'AuthTorus' })
 
-// eslint-disable-next-line require-await
-const useAlreadySignedUpPlaceholder = () => async () => 'signup'
-
-const _useAlreadySignedUp = () => {
+export const useAlreadySignedUp = () => {
   const [showDialog, hideDialog] = useDialog()
 
   const show = (
@@ -108,8 +105,6 @@ const _useAlreadySignedUp = () => {
   }
   return show
 }
-
-export const useAlreadySignedUp = isIOSNative ? useAlreadySignedUpPlaceholder : _useAlreadySignedUp
 
 const AuthTorus = ({ screenProps, navigation, styles, store }) => {
   const [showDialog, hideDialog, showErrorDialog] = useDialog()
@@ -256,13 +251,15 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
       if (isSignup) {
         fireEvent(SIGNUP_STARTED, { provider })
 
-        //Hack to get keyboard up on mobile need focus from user event such as click
-        setTimeout(() => {
-          const el = document.getElementById('Name_input')
-          if (el) {
-            el.focus()
-          }
-        }, 500)
+        if (isWeb) {
+          //Hack to get keyboard up on mobile need focus from user event such as click
+          setTimeout(() => {
+            const el = document.getElementById('Name_input')
+            if (el) {
+              el.focus()
+            }
+          }, 500)
+        }
         return navigate('Signup', {
           regMethod: REGISTRATION_METHOD_TORUS,
           torusUser,

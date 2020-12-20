@@ -68,44 +68,7 @@ const iconStyle = isMobileNative ? styles.iconView : styles.iconWidth
 const defaultLeftButtonStyles = [styles.marginLeft10, iconStyle, styles.iconViewLeft]
 const defaultRightButtonStyles = [iconStyle, styles.iconViewRight]
 
-// const supportButtonStyles = market ? defaultRightButtonStyles.slice(1) : defaultRightButtonStyles
 const inviteButtonStyles = showRewardsFlag ? defaultLeftButtonStyles.slice(1) : defaultLeftButtonStyles
-
-// const log = logger.child({ from: 'TabsView' })
-
-// TODO: Decide if makes sense keep this to add tab behavior again
-// type TabButtonProps = {
-//   text?: string,
-//   routeName: string,
-//   icon: string,
-//   goTo: (routeKey: string) => void
-// }
-
-// const TabButton = (props: TabButtonProps) => {
-//   return (
-//     <TouchableOpacity style={styles.tabButton} onPress={() => props.goTo(props.routeName)}>
-//       <Image source={props.icon} style={styles.tabIcon} />
-//       <Text style={styles.tabButtonText}>{props.text || ''}</Text>
-//     </TouchableOpacity>
-//   )
-// }
-//
-// const TabsView = (props: TabViewProps) => (
-//   <View style={styles.tabView}>
-//     {Object.keys(props.routes)
-//       .filter(routeKey => props.routes[routeKey].display !== false)
-//       .map(routeKey => (
-//         <TabButton
-//           key={routeKey}
-//           routeName={routeKey}
-//           text={routeKey}
-//           goTo={props.goTo}
-//           icon={props.routes[routeKey].icon}
-//         />
-//       ))}
-//     <TabSideMenu />
-//   </View>
-// )
 
 const RewardButton = React.memo(({ onPress, style }) => {
   const [, , , inviteState] = useInvited()
@@ -152,24 +115,6 @@ const rewardStyles = {
   },
 }
 
-// const InviteButton = ({ onPress, style }) => (
-//   <>
-//     <TouchableOpacity onPress={onPress} style={style}>
-//       <Icon name="invite2" size={36} color="white" testID="invite_tab" />
-//     </TouchableOpacity>
-//     <Appbar.Content />
-//   </>
-// )
-
-/*const SupportButton = ({ onPress, style }) => (
-  <>
-    <TouchableOpacity onPress={onPress} style={style}>
-      <Icon name="support2" size={36} color="white" testID="support_tab" />
-    </TouchableOpacity>
-    <Appbar.Content />
-  </>
-)*/
-
 const EmptySpaceComponent = ({ style }) => (
   <>
     <View style={style} />
@@ -181,45 +126,15 @@ const TabsView = React.memo(
   ({ navigation }) => {
     const { slideToggle } = useSideMenu()
 
-    // eslint-disable-next-line no-unused-vars
-    /*const [token, setToken] = useState(isIOSWeb ? undefined : true)
-
-  // const fetchTokens = useCallback(async () => {
-  //   let _token = await userStorage.getProfileFieldValue('loginToken')
-
-  //   log.debug('tokens:', { _token })
-
-  //   if (isIOS) {
-  //     setToken(_token)
-  //   }
-  // }, [setToken])
-
-  useEffect(() => {
-    fetchTokens()
-  }, [])*/
-
     const goToRewards = useOnPress(() => navigation.navigate('Rewards'), [navigation])
-
-    /*const goToSupport = useCallback(() => {
-    navigation.navigate('Support')
-  }, [navigation])*/
 
     const _slideToggle = useOnPress(slideToggle)
 
     return (
       <Appbar.Header dark style={styles.appBar}>
-        {/*{showSupportFirst ? (
-        <SupportButton onPress={goToSupport} style={defaultLeftButtonStyles} />
-      ) : (
-        <>
-          {showRewardsFlag && <RewardButton onPress={goToRewards} style={defaultLeftButtonStyles} />}
-          {showInviteFlag && <InviteButton onPress={goToRewards} style={inviteButtonStyles} />}
-        </>
-      )}*/}
         {showRewardsFlag && <RewardButton onPress={goToRewards} style={defaultLeftButtonStyles} />}
         {showInviteFlag && <RewardButton onPress={goToRewards} style={inviteButtonStyles} />}
-        {/*{!showSupportFirst && <SupportButton onPress={goToSupport} style={supportButtonStyles} />}*/}
-        {/*!market && */ !showInviteFlag && !showRewardsFlag && <EmptySpaceComponent style={styles.iconWidth} />}
+        {!showInviteFlag && !showRewardsFlag && <EmptySpaceComponent style={styles.iconWidth} />}
         <TouchableOpacity onPress={_slideToggle} style={defaultRightButtonStyles}>
           <Icon name="settings" size={20} color="white" style={styles.marginRight10} testID="burger_button" />
         </TouchableOpacity>

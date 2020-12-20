@@ -111,13 +111,14 @@ const RewardButton = React.memo(({ onPress, style }) => {
   const [, , , inviteState] = useInvited()
   const [updatesCount, setUpdatesCount] = useState(0)
 
-  const updateIcon = async () => {
-    const lastState = (await AsyncStorage.getItem('GD_lastInviteState')) || { pending: 0, approved: 0 }
-    const newPending = Math.max(inviteState.pending - lastState.pending, 0)
-    const newApproved = Math.max(inviteState.approved - lastState.approved, 0)
-    setUpdatesCount(newPending + newApproved)
-  }
   useEffect(() => {
+    const updateIcon = async () => {
+      const lastState = (await AsyncStorage.getItem('GD_lastInviteState')) || { pending: 0, approved: 0 }
+      const newPending = Math.max(inviteState.pending - lastState.pending, 0)
+      const newApproved = Math.max(inviteState.approved - lastState.approved, 0)
+      setUpdatesCount(newPending + newApproved)
+    }
+
     updateIcon()
   }, [inviteState])
 

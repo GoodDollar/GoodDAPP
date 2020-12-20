@@ -43,4 +43,4 @@ const generateRouter = () => {
   }
   return Router
 }
-export default once(generateRouter())
+export default once(generateRouter)

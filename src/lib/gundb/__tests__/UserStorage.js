@@ -517,9 +517,9 @@ describe('UserStorage', () => {
     })
   })
 
-  it('set indexable field as empty should throw an error', async () => {
+  it('set indexable field as empty should not throw an error', async () => {
     const response = await userStorage.setProfileField('mobile', '', 'public')
-    expect(response).toMatchObject({ err: 'Indexable field cannot be null or empty' })
+    expect(response).toMatchObject({ err: undefined })
   })
 
   it('gets display profile', async done => {

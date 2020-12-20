@@ -11,3 +11,4 @@
 
 -dontwarn io.branch.**
 -keep class org.gooddollar.BuildConfig { *; }
+-keep public class com.horcrux.svg.** { *; }

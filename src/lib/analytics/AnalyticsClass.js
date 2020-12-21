@@ -139,8 +139,8 @@ export class AnalyticsClass {
   }
 
   fireEvent = (event: string, data: any = {}) => {
-    const { isAmplitudeEnabled, apis, logger, googleAnalytics } = this
-    const { amplitude } = apis
+    const { isAmplitudeEnabled, apis, logger } = this
+    const { amplitude, googleAnalytics } = apis
 
     if (isAmplitudeEnabled) {
       if (!amplitude.logEvent(event, data)) {

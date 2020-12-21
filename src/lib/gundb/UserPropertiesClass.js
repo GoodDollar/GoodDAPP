@@ -77,12 +77,17 @@ export default class UserProperties {
       try {
         //sync from storage
         props = await defer(() => fromPromise(propsNode.then(() => propsNode.decrypt()))) // init user storage
-          .pipe(retry(1)) // if exception thrown, retry init one more times
+          .pipe(retry(3)) // if exception thrown, retry init one more times
           .toPromise()
       } catch (exception) {
         const { message } = exception
 
         log.error('failed decrypting props', message, exception)
+
+        //reset props in case of data corruption - hack for gun issues
+        if (message === 'Decrypting key missing') {
+          this.reset()
+        }
         props = {}
       }
 

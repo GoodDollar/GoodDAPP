@@ -1,4 +1,4 @@
-import DirectNativeSDK from 'torus-direct-react-native-sdk' // eslint-disable-line import/no-unresolved
+import DirectNativeSDK from '@toruslabs/torus-direct-react-native-sdk' // eslint-disable-line import/no-unresolved
 
 class Torus {
   constructor(Config, options) {

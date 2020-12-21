@@ -7,6 +7,7 @@ import {
   find,
   flatten,
   get,
+  isEmpty,
   isEqual,
   isError,
   isString,
@@ -363,7 +364,16 @@ export class UserStorage {
 
   _lastProfileUpdate: any
 
-  profileSettings: any
+  profileSettings: {} = {
+    fullName: { defaultPrivacy: 'public' },
+    email: { defaultPrivacy: 'private' },
+    mobile: { defaultPrivacy: 'private' },
+    mnemonic: { defaultPrivacy: 'private' },
+    avatar: { defaultPrivacy: 'public' },
+    smallAvatar: { defaultPrivacy: 'public' },
+    walletAddress: { defaultPrivacy: 'public' },
+    username: { defaultPrivacy: 'public' },
+  }
 
   /**
    * Magic line for recovery user
@@ -512,18 +522,6 @@ export class UserStorage {
    */
   async initGun() {
     logger.debug('Initializing GunDB UserStorage')
-
-    this.profileSettings = {
-      fullName: { defaultPrivacy: 'public' },
-      email: { defaultPrivacy: Config.isEToro ? 'public' : 'private' },
-      mobile: { defaultPrivacy: Config.isEToro ? 'public' : 'private' },
-      mnemonic: { defaultPrivacy: 'private' },
-      avatar: { defaultPrivacy: 'public' },
-      smallAvatar: { defaultPrivacy: 'public' },
-      walletAddress: { defaultPrivacy: 'public' },
-      username: { defaultPrivacy: 'public' },
-      loginToken: { defaultPrivacy: 'private' },
-    }
 
     if (this.gunuser.is) {
       logger.debug('init:', 'logging out first')
@@ -1439,7 +1437,7 @@ export class UserStorage {
     }
 
     //for all privacy cases we go through the index, in case field was changed from public to private so we remove it
-    if (UserStorage.indexableFields[field]) {
+    if (UserStorage.indexableFields[field] && isEmpty(value) === false) {
       const indexPromiseResult = await this.indexProfileField(field, value, privacy)
       logger.info('indexPromiseResult', indexPromiseResult)
 

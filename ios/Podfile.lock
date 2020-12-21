@@ -1,8 +1,11 @@
 PODS:
+  - BestLogger (0.0.3)
+  - BigInt (4.0.0)
   - boost-for-react-native (1.63.0)
   - Branch (0.35.0)
   - BVLinearGradient (2.5.6):
     - React
+  - CryptoSwift (1.0.0)
   - DoubleConversion (1.1.6)
   - FBLazyVector (0.61.5)
   - FBReactNativeSpec (0.61.5):
@@ -32,12 +35,12 @@ PODS:
     - FirebaseCoreDiagnostics (~> 7.0)
     - GoogleUtilities/Environment (~> 7.0)
     - GoogleUtilities/Logger (~> 7.0)
-  - FirebaseCoreDiagnostics (7.2.0):
+  - FirebaseCoreDiagnostics (7.3.0):
     - GoogleDataTransport (~> 8.0)
     - GoogleUtilities/Environment (~> 7.0)
     - GoogleUtilities/Logger (~> 7.0)
     - nanopb (~> 2.30906.0)
-  - FirebaseInstallations (7.2.0):
+  - FirebaseInstallations (7.3.0):
     - FirebaseCore (~> 7.0)
     - GoogleUtilities/Environment (~> 7.0)
     - GoogleUtilities/UserDefaults (~> 7.0)
@@ -58,7 +61,7 @@ PODS:
     - GoogleUtilities/Network (~> 7.0)
     - "GoogleUtilities/NSData+zlib (~> 7.0)"
     - nanopb (~> 2.30906.0)
-  - GoogleDataTransport (8.0.1):
+  - GoogleDataTransport (8.1.0):
     - nanopb (~> 2.30906.0)
   - GoogleUtilities/AppDelegateSwizzler (7.1.1):
     - GoogleUtilities/Environment
@@ -92,6 +95,15 @@ PODS:
     - RNPermissions
   - Permission-PhotoLibrary (2.1.5):
     - RNPermissions
+  - PromiseKit (6.8.5):
+    - PromiseKit/CorePromise (= 6.8.5)
+    - PromiseKit/Foundation (= 6.8.5)
+    - PromiseKit/UIKit (= 6.8.5)
+  - PromiseKit/CorePromise (6.8.5)
+  - PromiseKit/Foundation (6.8.5):
+    - PromiseKit/CorePromise
+  - PromiseKit/UIKit (6.8.5):
+    - PromiseKit/CorePromise
   - PromisesObjC (1.2.11)
   - RCTRequired (0.61.5)
   - RCTRestart (0.0.13):
@@ -287,8 +299,8 @@ PODS:
     - React
   - react-native-udp (3.0.0):
     - React
-  - react-native-webview (8.1.0):
-    - React
+  - react-native-webview (11.0.2):
+    - React-Core
   - React-RCTActionSheet (0.61.5):
     - React-Core/RCTActionSheetHeaders (= 0.61.5)
   - React-RCTAnimation (0.61.5):
@@ -326,14 +338,14 @@ PODS:
     - ReactCommon/jscallinvoker (= 0.61.5)
   - RNBackgroundFetch (3.0.3):
     - React
-  - RNCAsyncStorage (1.11.0):
+  - RNCAsyncStorage (1.13.2):
     - React
   - RNCClipboard (1.2.2):
     - React
   - RNCPushNotificationIOS (1.2.0):
     - React
-  - RNDeviceInfo (5.5.3):
-    - React
+  - RNDeviceInfo (7.3.1):
+    - React-Core
   - RNFBAnalytics (10.1.0):
     - Firebase/Analytics (~> 7.1.0)
     - React-Core
@@ -362,19 +374,41 @@ PODS:
     - React
   - RNScreens (2.1.0):
     - React
-  - RNSentry (1.7.1):
-    - React
-    - Sentry (~> 5.2.0)
+  - RNSentry (2.1.0):
+    - React-Core
+    - Sentry (= 6.0.9)
   - RNSVG (9.13.6):
     - React
+  - RNTorusDirectSdk (0.1.4):
+    - React
+    - secp256k1.c (= 0.1.2)
+    - Torus-directSDK (~> 0.1.0)
   - RNVectorIcons (6.6.0):
     - React
-  - Sentry (5.2.2):
-    - Sentry/Core (= 5.2.2)
-  - Sentry/Core (5.2.2)
+  - secp256k1.c (0.1.2)
+  - Sentry (6.0.9):
+    - Sentry/Core (= 6.0.9)
+  - Sentry/Core (6.0.9)
+  - Starscream (3.1.1)
   - TcpSockets (3.3.2):
     - React
   - TOCropViewController (2.5.5)
+  - Torus-directSDK (0.1.0):
+    - BestLogger (~> 0.0.1)
+    - Torus-utils (~> 0.1.0)
+  - Torus-fetchNodeDetails (0.0.19):
+    - BestLogger (~> 0.0.1)
+    - web3swift (~> 2.3.0)
+  - Torus-utils (0.1.0):
+    - BestLogger (~> 0.0.1)
+    - PromiseKit/Foundation (~> 6.0)
+    - Torus-fetchNodeDetails (~> 0.0.1)
+  - web3swift (2.3.0):
+    - BigInt (~> 4.0)
+    - CryptoSwift (~> 1.0.0)
+    - PromiseKit (~> 6.8.4)
+    - secp256k1.c (~> 0.1)
+    - Starscream (~> 3.1.0)
   - Yoga (1.14.0)
 
 DEPENDENCIES:
@@ -424,7 +458,7 @@ DEPENDENCIES:
   - ReactCommon/jscallinvoker (from `../node_modules/react-native/ReactCommon`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - RNBackgroundFetch (from `../node_modules/react-native-background-fetch`)
-  - "RNCAsyncStorage (from `../node_modules/@react-native-community/async-storage`)"
+  - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
   - "RNCClipboard (from `../node_modules/@react-native-community/clipboard`)"
   - "RNCPushNotificationIOS (from `../node_modules/@react-native-community/push-notification-ios`)"
   - RNDeviceInfo (from `../node_modules/react-native-device-info`)
@@ -439,14 +473,19 @@ DEPENDENCIES:
   - RNScreens (from `../node_modules/react-native-screens`)
   - "RNSentry (from `../node_modules/@sentry/react-native/RNSentry.podspec`)"
   - RNSVG (from `../node_modules/react-native-svg`)
+  - "RNTorusDirectSdk (from `../node_modules/@toruslabs/torus-direct-react-native-sdk`)"
   - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
+  - secp256k1.c (= 0.1.2)
   - TcpSockets (from `../node_modules/react-native-tcp`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
   trunk:
+    - BestLogger
+    - BigInt
     - boost-for-react-native
     - Branch
+    - CryptoSwift
     - Firebase
     - FirebaseAnalytics
     - FirebaseCore
@@ -456,9 +495,16 @@ SPEC REPOS:
     - GoogleDataTransport
     - GoogleUtilities
     - nanopb
+    - PromiseKit
     - PromisesObjC
+    - secp256k1.c
     - Sentry
+    - Starscream
     - TOCropViewController
+    - Torus-directSDK
+    - Torus-fetchNodeDetails
+    - Torus-utils
+    - web3swift
 
 EXTERNAL SOURCES:
   BVLinearGradient:
@@ -546,7 +592,7 @@ EXTERNAL SOURCES:
   RNBackgroundFetch:
     :path: "../node_modules/react-native-background-fetch"
   RNCAsyncStorage:
-    :path: "../node_modules/@react-native-community/async-storage"
+    :path: "../node_modules/@react-native-async-storage/async-storage"
   RNCClipboard:
     :path: "../node_modules/@react-native-community/clipboard"
   RNCPushNotificationIOS:
@@ -575,6 +621,8 @@ EXTERNAL SOURCES:
     :podspec: "../node_modules/@sentry/react-native/RNSentry.podspec"
   RNSVG:
     :path: "../node_modules/react-native-svg"
+  RNTorusDirectSdk:
+    :path: "../node_modules/@toruslabs/torus-direct-react-native-sdk"
   RNVectorIcons:
     :path: "../node_modules/react-native-vector-icons"
   TcpSockets:
@@ -583,27 +631,31 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
 SPEC CHECKSUMS:
+  BestLogger: 70475db073dfab3ec1ba9b58b0bb78126b068eee
+  BigInt: 2aad1a9942dc932ec8b84290d2c564a3d76f97ab
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
   Branch: 9a37f707974a128c37829033c49018b79c7e7a2d
   BVLinearGradient: e3aad03778a456d77928f594a649e96995f1c872
+  CryptoSwift: d81eeaa59dc5a8d03720fe919a6fd07b51f7439f
   DoubleConversion: 5805e889d232975c086db112ece9ed034df7a0b2
   FBLazyVector: aaeaf388755e4f29cd74acbc9e3b8da6d807c37f
   FBReactNativeSpec: 118d0d177724c2d67f08a59136eb29ef5943ec75
   Firebase: 78e8dd2e39d653de6270432ad84fe8b59f7bf4e8
   FirebaseAnalytics: 7f165a56dea86ddd5b8ce02af3bee982c683405c
   FirebaseCore: 20046127eef0fcb8fa25df7fc12f7b97d4e48611
-  FirebaseCoreDiagnostics: 2d508e12e77e9691ca67d1669b91ee80f0985b29
-  FirebaseInstallations: 9ab3a9a6522e687f59ff9bcfd92949ac85073f3c
+  FirebaseCoreDiagnostics: d50e11039e5984d92c8a512be2395f13df747350
+  FirebaseInstallations: 971df89b48ae5ee4cc2bf6935f3857a525d28550
   Folly: 30e7936e1c45c08d884aa59369ed951a8e68cf51
   glog: 1f3da668190260b06b429bb211bfbee5cd790c28
   GoogleAppMeasurement: 89e1a64593f968713b0506ba1b53b38a154bf9a5
-  GoogleDataTransport: e4085e6762f36a6141738f46b0153473ce57fb18
+  GoogleDataTransport: 116c84c4bdeb76be2a7a46de51244368f9794eab
   GoogleUtilities: 3dc4ff0d5e4840e2fa8eef0889620e8c33d4218c
   lottie-ios: 85ce835dd8c53e02509f20729fc7d6a4e6645a0a
   lottie-react-native: 2a1a82bb326ae51331a5520de0cf706733c6db69
   nanopb: 1bf24dd71191072e120b83dd02d08f3da0d65e53
   Permission-Camera: afad27bf90337684d4a86f3825112d648c8c4d3b
   Permission-PhotoLibrary: 4d2eff62c8f4b8a27bcf045c0e36f5047efbbf20
+  PromiseKit: 9616b0afef31eae56ab9ce044c8ec2b8612a15cd
   PromisesObjC: 8c196f5a328c2cba3e74624585467a557dcb482f
   RCTRequired: b153add4da6e7dbc44aebf93f3cf4fcae392ddf1
   RCTRestart: dd19aab87fc1118e05b6b5b91b959105647f56b4
@@ -625,7 +677,7 @@ SPEC CHECKSUMS:
   react-native-randombytes: 3638d24759d67c68f6ccba60c52a7a8a8faa6a23
   react-native-safe-area-context: e200d4433aba6b7e60b52da5f37af11f7a0b0392
   react-native-udp: 33df202da784dcdbd0915e4bdb2ef7b3c9aeffe3
-  react-native-webview: 88d83b4df2e792cfc36c952b1c496e2ac01cf0b8
+  react-native-webview: dfd7202ff115c44d3ea401c2f36122fb3ac79f07
   React-RCTActionSheet: 600b4d10e3aea0913b5a92256d2719c0cdd26d76
   React-RCTAnimation: 791a87558389c80908ed06cc5dfc5e7920dfa360
   React-RCTBlob: d89293cc0236d9cb0933d85e430b0bbe81ad1d72
@@ -637,10 +689,10 @@ SPEC CHECKSUMS:
   React-RCTVibration: a49a1f42bf8f5acf1c3e297097517c6b3af377ad
   ReactCommon: 198c7c8d3591f975e5431bec1b0b3b581aa1c5dd
   RNBackgroundFetch: 5180d1ec9c646ebcd3e13dd1a7ddcca093caa728
-  RNCAsyncStorage: d059c3ee71738c39834a627476322a5a8cd5bf36
+  RNCAsyncStorage: 05bae7ecfab1cbd5441993f1ca098f7c3b3f8d0e
   RNCClipboard: 8148e21ac347c51fd6cd4b683389094c216bb543
   RNCPushNotificationIOS: 4d9ffd08f00ef6c1029ebbf4d72fc711eca3ff01
-  RNDeviceInfo: 310c1f43d418d950a193c7650de2f9559c906048
+  RNDeviceInfo: 6ecb1d1c87d20e4c62354be0348de23362824dcd
   RNFBAnalytics: 0a98aff1ad9abee16de201012f03179246c2e5bb
   RNFBApp: 2b4e07dfca4cf780b9e2d61bcc21e34d890cd654
   RNFS: 2bd9eb49dc82fa9676382f0585b992c424cd59df
@@ -650,14 +702,21 @@ SPEC CHECKSUMS:
   RNPermissions: ad71dd4f767ec254f2cd57592fbee02afee75467
   RNReanimated: 031fe8d9ea93c2bd689a40f05320ef9d96f74d7f
   RNScreens: 2a9cd603bcebc34319c92e595283d760dd1f55f5
-  RNSentry: 2bae4ffee2e66376ef42cb845a494c3bde17bc56
+  RNSentry: 51972e3fe50e2fb38ae459af8c87d61f63f364db
   RNSVG: 8ba35cbeb385a52fd960fd28db9d7d18b4c2974f
+  RNTorusDirectSdk: 8a01819eb50956fada07e3f17a216b3dc6bf46a0
   RNVectorIcons: 0bb4def82230be1333ddaeee9fcba45f0b288ed4
-  Sentry: 8fa58a051237554f22507fb483b9a1de0171a2dc
+  secp256k1.c: db47b726585d80f027423682eb369729e61b3b20
+  Sentry: 388c9dc093b2fd3a264466a5c5b21e25959610a9
+  Starscream: 4bb2f9942274833f7b4d296a55504dcfc7edb7b0
   TcpSockets: 14306fb79f9750ea7d2ddd02d8bed182abb01797
   TOCropViewController: da59f531f8ac8a94ef6d6c0fc34009350f9e8bfe
+  Torus-directSDK: 3829e93a0746aa1d1cb46007d60ee828f6f80c1b
+  Torus-fetchNodeDetails: 3a2ce2095db598949b923cbaff827632918510ff
+  Torus-utils: 61d4851eef84fb41597bb00c4a185c1f48ec3910
+  web3swift: 0f097eafe1d08f478694b882581b85a01afb6633
   Yoga: f2a7cd4280bfe2cca5a7aed98ba0eb3d1310f18b
 
-PODFILE CHECKSUM: f685c006ead89a1572d489d8d377d4035f793d01
+PODFILE CHECKSUM: 48bb0cf8a17d662e7e185a349f8108f3dbb80491
 
 COCOAPODS: 1.9.3

@@ -48,8 +48,10 @@ const FeedModalList = ({
   const [loading, setLoading] = useState(true)
   const [offset, setOffset] = useState()
 
-  const selectedFeedIndex = useMemo(() => (selectedFeed ? data.findIndex(item => item.id === selectedFeed.id) : -1), [
-    data,
+  const feeds = useFeeds(data)
+
+  const selectedFeedIndex = useMemo(() => (selectedFeed ? feeds.findIndex(item => item.id === selectedFeed.id) : -1), [
+    feeds,
     selectedFeed,
   ])
 
@@ -116,8 +118,6 @@ const FeedModalList = ({
     [offset, setLoading],
   )
 
-  const feeds = useFeeds(data)
-
   return (
     <Portal>
       <View style={[styles.horizontalContainer, { opacity: loading ? 0 : 1 }]}>
@@ -161,14 +161,14 @@ const getStylesFromProps = ({ theme }) => ({
     }),
     width: '100%',
   },
-  horizontalList: {
-    width: '100%',
-    maxWidth: Platform.select({
-      web: '100vw',
-      default: getScreenWidth(),
-    }),
-    flex: 1,
-  },
+  horizontalList: Platform.select({
+    web: {
+      width: '100%',
+      maxWidth: '100vw',
+      flex: 1,
+    },
+    default: {},
+  }),
   horizontalListItem: {
     width: maxScreenWidth,
   },

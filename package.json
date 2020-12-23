@@ -210,7 +210,9 @@
     "web3-providers": "^2.0.0-alpha.1",
     "web3-utils": "^2.0.0-alpha.1",
     "webpack-manifest-plugin": "^2.2.0",
-    "websocket": "^1.0.31"
+    "websocket": "^1.0.31",
+    "react-app-rewire-aliases": "^0.2.0",
+    "react-app-rewired": "^2.1.5"
   },
   "devDependencies": {
     "@hot-loader/react-dom": "^16.14.0",
@@ -265,8 +267,6 @@
     "node-webcrypto-ossl": "^1.0.48",
     "node-xml-lite": "0.0.7",
     "pn": "^1.1.0",
-    "react-app-rewire-aliases": "^0.2.0",
-    "react-app-rewired": "^2.1.5",
     "react-hot-loader": "^4.13.0",
     "react-native-svg-transformer": "^0.14.3",
     "react-test-renderer": "^16.9.0",

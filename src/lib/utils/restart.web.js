@@ -1,4 +1,4 @@
-export default redirectUrl => {
+export default (redirectUrl = null) => {
   const { location } = window
   
   if (!redirectUrl) {

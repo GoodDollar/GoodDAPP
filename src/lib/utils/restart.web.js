@@ -1,10 +1,10 @@
-export default (redirectUrl = null) => {
+export default (fromUrl = null) => {
   const { location } = window
   
-  if (!redirectUrl) {
+  if (!fromUrl) {
     location.reload(true)
     return
   }
   
-  location.replace(redirectUrl)
+  location.replace(fromUrl)
 }

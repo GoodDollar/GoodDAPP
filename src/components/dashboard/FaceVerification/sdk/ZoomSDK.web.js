@@ -5,6 +5,7 @@ import { store } from '../../../../lib/undux/SimpleStore'
 import { showDialogWithData } from '../../../../lib/undux/utils/dialog'
 
 import logger from '../../../../lib/logger/pino-logger'
+import restart from '../../../../lib/utils/restart'
 
 import ZoomAuthentication from '../../../../lib/zoom/ZoomAuthentication'
 import { UICustomization, UITextStrings, ZOOM_PUBLIC_PATH } from './UICustomization'
@@ -283,7 +284,7 @@ export const ZoomSDK = new class {
       type: 'error',
       isMinHeight: false,
       message: "We couldn't start face verification,\nplease reload the app.",
-      onDismiss: () => window.location.reload(true),
+      onDismiss: restart,
       buttons: [
         {
           text: 'REFRESH',

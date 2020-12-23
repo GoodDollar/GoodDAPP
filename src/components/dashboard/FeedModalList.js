@@ -48,7 +48,7 @@ const FeedModalList = ({
   const [loading, setLoading] = useState(true)
   const [offset, setOffset] = useState()
 
-  const feeds = useFeeds(data)
+  const feeds = useFeeds(data, false) // get feeds without invites
 
   const selectedFeedIndex = useMemo(() => (selectedFeed ? feeds.findIndex(item => item.id === selectedFeed.id) : -1), [
     feeds,
@@ -84,23 +84,18 @@ const FeedModalList = ({
   }, [offset, flatListRef, setLoading])
 
   const renderItemComponent = useCallback(
-    ({ item, separators }: ItemComponentProps) => {
-      if (item.type === 'invite') {
-        return
-      }
-      return (
-        <View style={styles.horizontalListItem}>
-          <FeedModalItem
-            navigation={navigation}
-            item={item}
-            separators={separators}
-            fixedHeight
-            onPress={() => handleFeedSelection(item, false)}
-          />
-        </View>
-      )
-    },
-    [handleFeedSelection, navigation],
+    ({ item, separators }: ItemComponentProps) => (
+      <View style={styles.horizontalListItem}>
+        <FeedModalItem
+          navigation={navigation}
+          item={item}
+          separators={separators}
+          fixedHeight
+          onPress={() => handleFeedSelection(item, false)}
+        />
+      </View>
+    ),
+    [(handleFeedSelection, navigation)],
   )
 
   const initialNumToRender = useMemo(() => Math.abs(selectedFeedIndex), [selectedFeedIndex])

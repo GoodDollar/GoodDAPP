@@ -95,7 +95,7 @@ const FeedModalList = ({
         />
       </View>
     ),
-    [(handleFeedSelection, navigation)],
+    [handleFeedSelection, navigation],
   )
 
   const initialNumToRender = useMemo(() => Math.abs(selectedFeedIndex), [selectedFeedIndex])

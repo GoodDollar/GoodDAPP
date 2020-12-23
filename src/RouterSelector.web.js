@@ -24,6 +24,7 @@ import InternetConnection from './components/common/connectionDialog/internetCon
 import isWebApp from './lib/utils/isWebApp'
 import logger from './lib/logger/pino-logger'
 import { APP_OPEN, fireEvent, initAnalytics, SIGNIN_FAILED, SIGNIN_SUCCESS } from './lib/analytics/analytics'
+import restart from './lib/utils/restart'
 
 const log = logger.child({ from: 'RouterSelector' })
 
@@ -58,7 +59,7 @@ const handleLinks = async () => {
           await saveMnemonics(mnemonic)
           await AsyncStorage.setItem('GD_isLoggedIn', true)
           fireEvent(SIGNIN_SUCCESS)
-          window.location = '/'
+          restart('/')
         }
       }
     } else {

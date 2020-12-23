@@ -27,6 +27,7 @@ import { preloadZoomSDK } from '../dashboard/FaceVerification/hooks/useZoomSDK'
 import DeepLinking from '../../lib/utils/deepLinking'
 import { isMobileNative } from '../../lib/utils/platform'
 import { useInviteCode } from '../invite/useInvites'
+import restart from '../../lib/utils/restart'
 
 type LoadingProps = {
   navigation: any,
@@ -204,7 +205,7 @@ const AppSwitch = (props: LoadingProps) => {
       if (dialogShown) {
         //TODO: FIX window.location for RN
         log.error('failed initializing app', e.message, e, { dialogShown })
-        showErrorDialog('Wallet could not be loaded. Please refresh.', '', { onDismiss: () => (window.location = '/') })
+        showErrorDialog('Wallet could not be loaded. Please refresh.', '', { onDismiss: () => restart('/') })
       } else {
         await delay(1500)
         init()

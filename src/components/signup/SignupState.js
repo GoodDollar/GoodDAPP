@@ -8,6 +8,7 @@ import { retry } from 'rxjs/operators'
 import moment from 'moment'
 import AsyncStorage from '../../lib/utils/asyncStorage'
 import { isMobileSafari } from '../../lib/utils/platform'
+import restart from '../../lib/utils/restart'
 
 import {
   DESTINATION_PATH,
@@ -258,7 +259,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
     }
 
     // eslint-disable-next-line no-restricted-globals
-    showErrorDialog('Wallet could not be loaded. Please refresh.', '', { onDismiss: () => location.reload(true) })
+    showErrorDialog('Wallet could not be loaded. Please refresh.', '', { onDismiss: () => restart() })
   }, [unrecoverableError])
 
   // listening to the email changes in the state

@@ -1,3 +1,1 @@
-export default redirectUrl => {
-  window.location = redirectUrl || '/'
-}
+export default redirectUrl => (redirectUrl ? window.location.replace(redirectUrl) : window.location.reload(true))

@@ -218,7 +218,7 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
             className="css-view-1dbjc4n r-display-6koalj r-flex-13awgt0"
           >
             <div
-              className="css-view-1dbjc4n r-borderColor-1lz4bg0 r-borderRadius-1fuqb1j r-borderWidth-rs99b7 r-marginBottom-zl2h9q r-marginTop-1bymd8e r-paddingBottom-l4nmg1 r-paddingHorizontal-1dye5f7 r-paddingTop-vmopo1 r-paddingVertical-rjfia r-position-bnwqim"
+              className="css-view-1dbjc4n r-borderColor-1lz4bg0 r-borderRadius-1fuqb1j r-borderWidth-rs99b7 r-marginVertical-1p6iasa r-paddingHorizontal-1dye5f7 r-paddingVertical-rjfia r-position-bnwqim"
             >
               <input
                 autoCapitalize="sentences"
@@ -278,6 +278,7 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
                     "borderRadius": 24,
                     "borderWidth": 1,
                     "color": undefined,
+                    "marginVertical": 4,
                     "padding": 10,
                     "position": "relative",
                   }
@@ -1892,7 +1893,7 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
             className="css-view-1dbjc4n r-display-6koalj r-flex-13awgt0"
           >
             <div
-              className="css-view-1dbjc4n r-borderColor-1lz4bg0 r-borderRadius-1fuqb1j r-borderWidth-rs99b7 r-marginBottom-zl2h9q r-marginTop-1bymd8e r-paddingBottom-l4nmg1 r-paddingHorizontal-1dye5f7 r-paddingTop-vmopo1 r-paddingVertical-rjfia r-position-bnwqim"
+              className="css-view-1dbjc4n r-borderColor-1lz4bg0 r-borderRadius-1fuqb1j r-borderWidth-rs99b7 r-marginVertical-1p6iasa r-paddingHorizontal-1dye5f7 r-paddingVertical-rjfia r-position-bnwqim"
             >
               <input
                 autoCapitalize="sentences"
@@ -1974,7 +1975,7 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
             className="css-view-1dbjc4n r-display-6koalj r-flex-13awgt0"
           >
             <div
-              className="css-view-1dbjc4n r-borderColor-1lz4bg0 r-borderRadius-1fuqb1j r-borderWidth-rs99b7 r-marginBottom-zl2h9q r-marginTop-1bymd8e r-paddingBottom-l4nmg1 r-paddingHorizontal-1dye5f7 r-paddingTop-vmopo1 r-paddingVertical-rjfia r-position-bnwqim"
+              className="css-view-1dbjc4n r-borderColor-1lz4bg0 r-borderRadius-1fuqb1j r-borderWidth-rs99b7 r-marginVertical-1p6iasa r-paddingHorizontal-1dye5f7 r-paddingVertical-rjfia r-position-bnwqim"
             >
               <input
                 autoCapitalize="sentences"
@@ -2034,6 +2035,7 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
                     "borderRadius": 24,
                     "borderWidth": 1,
                     "color": "#FA6C77",
+                    "marginVertical": 4,
                     "padding": 10,
                     "position": "relative",
                   }

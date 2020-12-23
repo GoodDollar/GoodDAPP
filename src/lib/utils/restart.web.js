@@ -1,3 +1,3 @@
-export default () => {
-  window.location = '/'
+export default redirectUrl => {
+  window.location = redirectUrl || '/'
 }

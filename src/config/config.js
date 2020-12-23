@@ -1,5 +1,6 @@
 import { once } from 'lodash'
 import { version as contractsVersion } from '../../node_modules/@gooddollar/goodcontracts/package.json'
+import { version } from '../../package.json'
 import { isWeb } from '../lib/utils/platform'
 import { env as devenv, fixNL } from '../lib/utils/env'
 
@@ -18,7 +19,6 @@ const phase = env.REACT_APP_RELEASE_PHASE || 1
 const isPhaseZero = 0 === phase
 const isPhaseOne = 1 === phase
 const isPhaseTwo = 2 === phase
-const version = env.VERSION || 'v0'
 
 const alchemyKey = env.REACT_APP_ALCHEMY_KEY
 let publicUrl = env.REACT_APP_PUBLIC_URL || origin
@@ -74,7 +74,7 @@ const Config = {
   zoomEncryptionKey: fixNL(env.REACT_APP_ZOOM_ENCRYPTION_KEY),
   zoomLicenseKey: env.REACT_APP_ZOOM_LICENSE_KEY,
   zoomLicenseText: fixNL(env.REACT_APP_ZOOM_LICENSE_TEXT),
-  zoomApiVersion: Number(env.REACT_APP_ZOOM_API_VERSION || 8),
+  zoomApiVersion: Number(env.REACT_APP_ZOOM_API_VERSION || 9),
   faceVerificationMaxAttemptsAllowed: Number(env.REACT_APP_FACE_VERIFICATION_ATTEMPTS || 3),
   faceVerificationPrivacyUrl:
     env.REACT_APP_FACE_VERIFICATION_PRIVACY_URL ||

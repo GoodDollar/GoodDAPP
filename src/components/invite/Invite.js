@@ -127,7 +127,7 @@ const ShareBox = ({ level }) => {
   )
 
   return (
-    <WavesBox primaryColor={theme.colors.darkBlue} style={styles.linkBoxStyle} title={'Share This Link'}>
+    <WavesBox primarycolor={theme.colors.darkBlue} style={styles.linkBoxStyle} title={'Share This Link'}>
       <Section.Stack style={{ alignItems: 'flex-start', marginTop: 11, marginBottom: 11 }}>
         <Section.Text fontSize={14}>
           Get{' '}
@@ -172,7 +172,7 @@ const InvitesBox = React.memo(({ invitees, refresh }) => {
   return (
     <>
       <WavesBox
-        primaryColor={theme.colors.orange}
+        primarycolor={theme.colors.orange}
         style={styles.linkBoxStyle}
         title={'Friends Who Joined & Need To Claim'}
       >
@@ -194,7 +194,7 @@ const InvitesBox = React.memo(({ invitees, refresh }) => {
         ))}
       </WavesBox>
       <WavesBox
-        primaryColor={theme.colors.green}
+        primarycolor={theme.colors.green}
         style={[styles.linkBoxStyle, { marginTop: theme.paddings.defaultMargin * 1.5 }]}
         title={'Friends Who Joined & Claimed'}
       >

@@ -1,8 +1,9 @@
 import userStorage from '../gundb/UserStorage'
 import logger from '../logger/pino-logger'
+import { fireEvent } from '../analytics/analytics'
 import Config from '../../config/config'
-import profileFix from './profileFix'
-const updates = [profileFix]
+import profileFix2 from './profileFix2'
+const updates = [profileFix2]
 const log = logger.child({ from: 'updates' })
 
 const update = async () => {
@@ -23,17 +24,21 @@ const update = async () => {
         .then(_ => {
           doneUpdates[updateKey] = true
           log.info('update done:', updateKey)
+          fireEvent('UPDATE_SUCCESS', { key: upd.key })
         })
         .catch(e => {
           doneUpdates[updateKey] = false
+          fireEvent('UPDATE_FAILED', { key: upd.key, error: e.message })
           log.error('update failed:', e.message, e, { updKey: upd.key })
         })
         .then(_ => true)
     }
+    log.info('updated skipped:', { updateKey })
     return false
   })
+  log.debug('waiting update promises:', promises.length)
   const results = await Promise.all(promises)
-  log.debug('done updates:', results.filter(_ => _).length)
+  log.debug('done updates:', { results }, results.filter(_ => _).length)
   updatesData.lastUpdate = new Date().toISOString()
   updatesData.lastVersionUpdate = Config.version
   updatesData.status = doneUpdates

@@ -105,7 +105,7 @@ def enableSeparateBuildPerCPUArchitecture = false
 /**
  * Run Proguard to shrink the Java bytecode in release builds.
  */
-def enableProguardInReleaseBuilds = false
+def enableProguardInReleaseBuilds = true
 
 /**
  * The preferred build flavor of JavaScriptCore.
@@ -129,6 +129,27 @@ def jscFlavor = 'org.webkit:android-jsc:+'
  */
 def enableHermes = project.ext.react.get("enableHermes", false);
 
+import groovy.json.JsonSlurper
+
+def getNpmVersion() {
+    def inputFile = new File("../package.json")
+    def packageJson = new JsonSlurper().parseText(inputFile.text)
+    return packageJson["version"]
+}
+/* calculated from git commits to give sequential integers */
+def getGitVersion() {
+    def process = "git rev-list master --first-parent --count".execute()
+    return process.text.toInteger()
+}
+
+def semVersion = System.getenv('BUILD_VERSION') ?: getNpmVersion()
+def buildNumber = System.getenv('BUILD_NUMBER') ? System.getenv('BUILD_NUMBER').toInteger() : getGitVersion()
+
+println semVersion
+println buildNumber
+
+def releasePassword = System.getenv('RELEASE_ANDROID_PASSPHRASE')
+
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion '29.0.2'
@@ -142,8 +163,8 @@ android {
         applicationId "org.gooddollar"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
+        versionCode buildNumber
+        versionName semVersion
         missingDimensionStrategy 'react-native-camera', 'general'
         vectorDrawables.useSupportLibrary = true
         renderscriptTargetApi 23
@@ -171,13 +192,11 @@ android {
             keyAlias 'androiddebugkey'
             keyPassword 'android'
         }
-         release {
-          if (project.hasProperty('MYAPP_UPLOAD_STORE_FILE')) {
-            storeFile file(MYAPP_UPLOAD_STORE_FILE)
-            storePassword MYAPP_UPLOAD_STORE_PASSWORD
-            keyAlias MYAPP_UPLOAD_KEY_ALIAS
-            keyPassword MYAPP_UPLOAD_KEY_PASSWORD
-          }
+        release {
+            storeFile file('release.keystore')
+            storePassword releasePassword
+            keyAlias 'release-alias'
+            keyPassword releasePassword
         }
     }
     buildTypes {

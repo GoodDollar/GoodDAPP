@@ -19,9 +19,9 @@ export class AnalyticsClass {
     assign(this.apis, apis)
     assign(this, options, { logger, rootApi, loggerApi })
 
-    this.isSentryEnabled = !(!sentry || !sentryDSN)
-    this.isAmplitudeEnabled = !(!amplitude || !amplitudeKey)
-    this.isFullStoryEnabled = !(!fullStory || env !== 'production')
+    this.isSentryEnabled = sentry && sentryDSN
+    this.isAmplitudeEnabled = amplitude && amplitudeKey
+    this.isFullStoryEnabled = fullStory && env === 'production'
   }
 
   initAnalytics = async () => {
@@ -161,7 +161,7 @@ export class AnalyticsClass {
 
   convertToGA = (data: any = {}) => {
     const values = Object.values(data)
-    const eventValues = remove(values, x => typeof x === 'number')
+    const eventValues = remove(values, x => typeof x === 'number') //remove returns the removed items, so eventValues will be numbers
     const eventStrings = remove(values, x => typeof x === 'string')
     const gaEvent = {
       eventValue: eventValues.shift(),
@@ -228,10 +228,19 @@ export class AnalyticsClass {
     }
 
     return new Promise(resolve => {
-      const onError = () => resolve(false)
-      const onSuccess = () => resolve(true)
+      const onError = err => {
+        this.logger.warn('Amplitude init error', err)
+        resolve(false)
+      }
+      const onSuccess = () => {
+        this.logger.debug('Amplitude init success')
+        resolve(true)
+      }
 
-      amplitude.init(key, null, { includeReferrer: true, includeUtm: true, onError }, onSuccess)
+      //bug in amplitude causing true to fail in react native https://github.com/amplitude/Amplitude-JavaScript/issues/181
+      const includeReferrer = isMobileReactNative ? false : true
+
+      amplitude.init(key, null, { includeReferrer, includeUtm: true, onError }, onSuccess)
     })
   }
 

@@ -259,7 +259,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
     }
 
     // eslint-disable-next-line no-restricted-globals
-    showErrorDialog('Wallet could not be loaded. Please refresh.', '', { onDismiss: () => restart() })
+    showErrorDialog('Wallet could not be loaded. Please refresh.', '', { onDismiss: restart })
   }, [unrecoverableError])
 
   // listening to the email changes in the state

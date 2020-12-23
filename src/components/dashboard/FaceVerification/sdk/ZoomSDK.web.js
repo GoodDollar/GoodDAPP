@@ -284,7 +284,7 @@ export const ZoomSDK = new class {
       type: 'error',
       isMinHeight: false,
       message: "We couldn't start face verification,\nplease reload the app.",
-      onDismiss: () => restart(),
+      onDismiss: restart,
       buttons: [
         {
           text: 'REFRESH',

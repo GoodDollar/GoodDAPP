@@ -729,13 +729,13 @@ export class GoodWallet {
       })
       let interest = 0
       if (events.length > 0) {
-        get(last(events), 'returnValues.daiValue', 0)
+        interest = get(last(events), 'returnValues.daiValue', 0)
       }
-      interest = interest ? this.web3Mainnet.utils.fromWei(interest) : 0
+      interest = interest ? this.web3Mainnet.utils.fromWei(interest.toString()) : 0
       return interest
     } catch (exception) {
       const { message } = exception
-      log.warn('getTotalFundsStaked failed', message, exception)
+      log.warn('getInterestCollected failed', message, exception)
       throw exception
     }
   }

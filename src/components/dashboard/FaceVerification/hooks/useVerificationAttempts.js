@@ -18,13 +18,9 @@ export default () => {
   const { attemptsCount, attemptsHistory } = attemptsState
 
   const trackAttempt = useCallback(
-    (exception, reason = null) => {
-      let { message } = exception
+    exception => {
+      const { message } = exception
       const { attemptsCount, attemptsHistory } = getAttemptsState()
-
-      if (reason) {
-        message = reason
-      }
 
       // prepare updated count & history
       const updatedCount = attemptsCount + 1

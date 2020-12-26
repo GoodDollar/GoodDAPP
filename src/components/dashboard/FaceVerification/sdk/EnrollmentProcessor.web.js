@@ -77,9 +77,9 @@ export class EnrollmentProcessor {
   /**
    * Helper method that calls verification http API on server
    */
-  async performVerification() {
+  async sendEnrollmentRequest() {
     // reading current session state vars
-    const { lastResult, resultCallback, enrollmentIdentifier, subscriber, retryAttempt, maxRetries } = this
+    const { lastResult, resultCallback, enrollmentIdentifier } = this
 
     // setting initial progress to 0 for freeze progress bar
     resultCallback.uploadProgress(0)
@@ -131,64 +131,70 @@ export class EnrollmentProcessor {
       // marking session as successfull
       resultCallback.succeed()
     } catch (exception) {
-      // if call failed - reading http response from exception object
-      const { message, response } = exception
+      this.handleEnrollmentError(exception)
+    }
+  }
 
-      // by default we'll use exception's message as lastMessage
-      this.lastMessage = message
+  /**
+   * @private
+   */
+  handleEnrollmentError(exception) {
+    const { resultCallback, subscriber, retryAttempt, maxRetries } = this
 
-      if (response) {
-        // if error response was sent
-        const { enrollmentResult, error } = response
-        const { isEnrolled, isLive, isDuplicate, isNotMatch } = enrollmentResult || {}
+    // if call failed - reading http response from exception object
+    const { message, response } = exception
 
-        // if isDuplicate is strictly true, that means we have dup face
-        // despite the http status code this case should be processed like error
-        const isDuplicateIssue = true === isDuplicate
-        const is3DMatchIssue = true === isNotMatch
-        const isLivenessIssue = false === isLive
+    // setting lastMessage from exception's message
+    // if response was sent - it will contain message from server
+    this.lastMessage = message
 
-        // setting lastMessage from server's response
-        this.lastMessage = error
+    if (response) {
+      // if error response was sent
+      const { enrollmentResult, error } = response
+      const { isEnrolled, isLive, isDuplicate, isNotMatch } = enrollmentResult || {}
 
-        // if there's no duplicate / 3d match issues but we have
-        // liveness issue strictly - we'll check for possible session retry
-        if (!isDuplicateIssue && !is3DMatchIssue && isLivenessIssue) {
-          const alwaysRetry = !isFinite(maxRetries) || maxRetries < 0
+      // if isDuplicate is strictly true, that means we have dup face
+      // despite the http status code this case should be processed like error
+      const isDuplicateIssue = true === isDuplicate
+      const is3DMatchIssue = true === isNotMatch
+      const isLivenessIssue = false === isLive
 
-          // if haven't reached retries threshold or max retries is disabled
-          // (is null or < 0) we'll ask to retry capturing
-          if (alwaysRetry || retryAttempt < maxRetries) {
-            // increasing retry attempts counter
-            this.retryAttempt = retryAttempt + 1
+      // if there's no duplicate / 3d match issues but we have
+      // liveness issue strictly - we'll check for possible session retry
+      if (!isDuplicateIssue && !is3DMatchIssue && isLivenessIssue) {
+        const alwaysRetry = !isFinite(maxRetries) || maxRetries < 0
 
-            // showing reason
-            resultCallback.uploadMessageOverride(error)
+        // if haven't reached retries threshold or max retries is disabled
+        // (is null or < 0) we'll ask to retry capturing
+        if (alwaysRetry || retryAttempt < maxRetries) {
+          // increasing retry attempts counter
+          this.retryAttempt = retryAttempt + 1
 
-            // notifying about retry
-            resultCallback.retry()
+          // showing reason
+          resultCallback.uploadMessageOverride(error)
 
-            subscriber.onRetry({
-              exception,
-              reason: error,
-              match3d: !is3DMatchIssue,
-              liveness: !isLivenessIssue,
-              duplicate: isDuplicateIssue,
-              enrolled: true === isEnrolled,
-            })
+          // notifying about retry
+          resultCallback.retry()
 
-            return
-          }
+          subscriber.onRetry({
+            reason: exception,
+            match3d: !is3DMatchIssue,
+            liveness: !isLivenessIssue,
+            duplicate: isDuplicateIssue,
+            enrolled: true === isEnrolled,
+          })
+
+          return
         }
       }
-
-      // the other cases (non-200 code or other issue that liveness / image quality)
-      // we're processing like an error - cancelling session
-      // this will trigger handleCompletion which in turn trigger ProcessingSubscriber.onSessionCompleted
-      // which then rejects its promise and causes FaceTecSDK.faceVerification to throw which is caught by
-      // useFaceTecVerification
-      resultCallback.cancel()
     }
+
+    // the other cases (non-200 code or other issue that liveness / image quality)
+    // we're processing like an error - cancelling session
+    // this will trigger handleCompletion which in turn trigger ProcessingSubscriber.onSessionCompleted
+    // which then rejects its promise and causes FaceTecSDK.faceVerification to throw which is caught by
+    // useFaceTecVerification
+    resultCallback.cancel()
   }
 
   /**
@@ -221,7 +227,7 @@ export class EnrollmentProcessor {
     subscriber.onCaptureDone()
 
     // and performing http server call
-    this.performVerification()
+    this.sendEnrollmentRequest()
   }
 
   /**

@@ -1,5 +1,7 @@
 import Config from '../../../../config/config'
 
+export const unexpectedErrorMessage = 'An unexpected issue during the face verification API call'
+
 export const resultSuccessMessage = `You’re a beautiful\n& unique unicorn!`
 export const resultFacescanUploadMessage = `Uploading Your face snapshot to verify`
 export const resultFacescanProcessingMessage = `Verifying you're\none of a kind`

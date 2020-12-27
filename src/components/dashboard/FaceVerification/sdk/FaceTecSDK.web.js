@@ -83,7 +83,7 @@ export const FaceTecSDK = new class {
 
     const isInitialized = await new Promise((resolve, reject) => {
       // using one of two existing initialize() overloads depending of which mode is used
-      // (dev or prod) determined by the REACT_APP_FACETEC_LICENSE_TEXT envvar is set or not
+      // (dev or prod) determined by the REACT_APP_ZOOM_LICENSE_TEXT envvar is set or not
       const initializeArgs = [licenseKey, encryptionKey, resolve]
       const faceTecEnv = license ? 'Production' : 'Development'
 

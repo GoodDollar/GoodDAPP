@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useRef } from 'react'
+import { useCallback, useMemo, useRef, useState } from 'react'
 import { isFunction, isNil } from 'lodash'
 
 export const preventPressed = event => {
@@ -13,9 +13,14 @@ export const preventPressed = event => {
   }
 }
 
-const useOnPress = (callback, deps = []) => {
+const useOnPress = (callback, deps = [], preventDoubleClick = true) => {
+  const [lastClick, setLastClick] = useState(0)
   const wrappedCallback = useCallback(
     event => {
+      if (preventDoubleClick && lastClick && Date.now() - lastClick < 500) {
+        return
+      }
+      setLastClick(Date.now())
       preventPressed(event)
       return callback(event)
     },

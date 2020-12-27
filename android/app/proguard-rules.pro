@@ -10,3 +10,5 @@
 # Add any project specific keep options here:
 
 -dontwarn io.branch.**
+-keep class org.gooddollar.BuildConfig { *; }
+-keep public class com.horcrux.svg.** { *; }

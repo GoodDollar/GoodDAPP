@@ -26,6 +26,7 @@ import SimpleStore from '../../lib/undux/SimpleStore'
 import DeepLinking from '../../lib/utils/deepLinking'
 import { isMobileNative } from '../../lib/utils/platform'
 import { useInviteCode } from '../invite/useInvites'
+import restart from '../../lib/utils/restart'
 
 type LoadingProps = {
   navigation: any,
@@ -38,9 +39,12 @@ const MIN_BALANCE_VALUE = '100000'
 const GAS_CHECK_DEBOUNCE_TIME = 1000
 const showOutOfGasError = debounce(
   async props => {
-    const gasResult = await goodWallet.verifyHasGas(goodWallet.wallet.utils.toWei(MIN_BALANCE_VALUE, 'gwei'), {
-      topWallet: false,
-    })
+    const gasResult = await goodWallet.verifyHasGas(
+      parseInt(goodWallet.wallet.utils.toWei(MIN_BALANCE_VALUE, 'gwei')),
+      {
+        topWallet: false,
+      },
+    )
 
     log.debug('outofgaserror:', { gasResult })
 
@@ -195,7 +199,7 @@ const AppSwitch = (props: LoadingProps) => {
       if (dialogShown) {
         //TODO: FIX window.location for RN
         log.error('failed initializing app', e.message, e, { dialogShown })
-        showErrorDialog('Wallet could not be loaded. Please refresh.', '', { onDismiss: () => (window.location = '/') })
+        showErrorDialog('Wallet could not be loaded. Please refresh.', '', { onDismiss: () => restart('/') })
       } else {
         await delay(1500)
         init()

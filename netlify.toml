@@ -5,6 +5,8 @@ command = "CI= npm run build"
   for = "*"
   [headers.values]
     Cache-Control = "public, s-max-age=604800"
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
 
 [[headers]]
   for = "/service-worker.js"
@@ -29,7 +31,7 @@ REACT_APP_SKIP_EMAIL_VERIFICATION = "true"
 REACT_APP_MARKET_URL = "https://www.facebook.com/groups/gooddollarmarketplace"
 REACT_APP_ETORO = "false"
 REACT_APP_DASHBOARD_SHOW_INVITE = "true"
-# REACT_APP_FACETEC_LICENSE_KEY=""
+# REACT_APP_ZOOM_LICENSE_KEY=""
 # REACT_APP_AMPLITUDE_API_KEY = ""
 # REACT_APP_GOOGLE_CLIENT_ID = ""
 # REACT_APP_FACEBOOK_APP_ID = ""
@@ -38,7 +40,7 @@ REACT_APP_DASHBOARD_SHOW_INVITE = "true"
 # REACT_APP_SENTRY_DSN = ""
 REACT_APP_AUTH0_DOMAIN = "https://gooddollar.eu.auth0.com"
 REACT_APP_ENABLE_INVITES = "true"
-REACT_APP_CLAIM_QUEUE_ENABLED = "true"
+REACT_APP_CLAIM_QUEUE_ENABLED = "false"
 REACT_APP_DASHBOARD_URL = "https://gooddashboard-dev.herokuapp.com/"
 REACT_APP_ENV_PHASE_ZERO = "false"
 REACT_APP_ENV_PHASE_ONE = "true"
@@ -61,7 +63,6 @@ REACT_APP_SKIP_EMAIL_VERIFICATION = "false"
 REACT_APP_MARKET = "false"
 REACT_APP_ETORO = "false"
 REACT_APP_DASHBOARD_SHOW_INVITE = "true"
-REACT_APP_CLAIM_QUEUE_ENABLED = "true"
 REACT_APP_DASHBOARD_URL = "https://gooddashboard-qa.herokuapp.com/"
 REACT_APP_ENV_PHASE_ZERO = "false"
 REACT_APP_ENV_PHASE_ONE = "true"
@@ -82,7 +83,7 @@ REACT_APP_SKIP_EMAIL_VERIFICATION = "false"
 REACT_APP_MARKET_URL = "https://www.facebook.com/groups/gooddollarmarketplace"
 REACT_APP_ETORO = "false"
 REACT_APP_DASHBOARD_SHOW_INVITE = "true"
-# REACT_APP_FACETEC_LICENSE_KEY=""
+# REACT_APP_ZOOM_LICENSE_KEY=""
 # REACT_APP_AMPLITUDE_API_KEY = ""
 # REACT_APP_GOOGLE_CLIENT_ID = ""
 # REACT_APP_FACEBOOK_APP_ID = ""
@@ -91,7 +92,6 @@ REACT_APP_DASHBOARD_SHOW_INVITE = "true"
 # REACT_APP_SENTRY_DSN = ""
 REACT_APP_AUTH0_DOMAIN = "https://auth0.gooddollar.org"
 REACT_APP_ENABLE_INVITES = "false"
-REACT_APP_CLAIM_QUEUE_ENABLED = "true"
 REACT_APP_DASHBOARD_URL = "https://dashboard.gooddollar.org/"
 REACT_APP_ENV_PHASE_ZERO = "false"
 REACT_APP_ENV_PHASE_ONE = "true"
@@ -119,7 +119,6 @@ REACT_APP_SKIP_EMAIL_VERIFICATION = "false"
 REACT_APP_MARKET_URL = "https://www.facebook.com/groups/gooddollarmarketplace"
 REACT_APP_ETORO = "false"
 REACT_APP_DASHBOARD_SHOW_INVITE = "true"
-REACT_APP_CLAIM_QUEUE_ENABLED = "true"
 REACT_APP_DASHBOARD_URL = "https://gooddashboard-qa.herokuapp.com/"
 REACT_APP_ENV_PHASE_ZERO = "false"
 REACT_APP_ENV_PHASE_ONE = "true"
@@ -139,6 +138,18 @@ for = "/torus/scripts.html"
 
     [headers.values]
     Content-Type = "text/html"
+
+[[headers]]
+for = "/.well-known/apple-app-site-association"
+
+    [headers.values]
+    Content-Type = "application/json"
+
+[[headers]]
+for = "/.well-known/assetlinks.json"
+
+    [headers.values]
+    Content-Type = "application/json"
 
 [[headers]]
   for = "/zoom/resources/*_cache.wasm"

@@ -31,8 +31,9 @@ console.log({ dotenvFiles })
 dotenvFiles.forEach(dotenvFile => {
   if (fs.existsSync(dotenvFile)) {
     require('dotenv-expand')(
-      require('dotenv').config({
+      require('dotenv-override').config({
         path: dotenvFile,
+        override: true,
       })
     )
   }

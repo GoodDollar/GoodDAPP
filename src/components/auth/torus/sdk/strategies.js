@@ -39,6 +39,17 @@ class AbstractLoginStrategy {
   }
 }
 
+class AbstractAuth0Strategy extends AbstractLoginStrategy {
+  get auth0ServerUri() {
+    const { auth0Domain } = this.config
+
+    return Platform.select({
+      web: auth0Domain,
+      default: replace(auth0Domain, 'https://', ''),
+    })
+  }
+}
+
 export class FacebookStrategy extends AbstractLoginStrategy {
   async triggerLogin() {
     const { torus, config } = this
@@ -86,15 +97,10 @@ export class GoogleStrategy extends AbstractLoginStrategy {
   }
 }
 
-export class Auth0Strategy extends AbstractLoginStrategy {
+export class Auth0Strategy extends AbstractAuth0Strategy {
   async triggerLogin() {
-    const { torus, config } = this
-    const { auth0Domain, auth0ClientId, torusGoogleAuth0 } = config
-
-    const _auth0Domain = Platform.select({
-      web: auth0Domain,
-      default: replace(auth0Domain, 'https://', ''),
-    })
+    const { torus, config, auth0ServerUri } = this
+    const { auth0ClientId, torusGoogleAuth0 } = config
 
     return torus.triggerAggregateLogin({
       aggregateVerifierType: 'single_id_verifier',
@@ -106,7 +112,7 @@ export class Auth0Strategy extends AbstractLoginStrategy {
           verifier: 'auth0',
           jwtParams: {
             connection: 'Username-Password-Authentication',
-            domain: _auth0Domain,
+            domain: auth0ServerUri,
           },
         },
       ],
@@ -114,10 +120,10 @@ export class Auth0Strategy extends AbstractLoginStrategy {
   }
 }
 
-export class PaswordlessEmailStrategy extends AbstractLoginStrategy {
+export class PaswordlessEmailStrategy extends AbstractAuth0Strategy {
   async triggerLogin() {
-    const { torus, config } = this
-    const { auth0Domain, auth0ClientId, torusGoogleAuth0 } = config
+    const { torus, config, auth0ServerUri } = this
+    const { auth0ClientId, torusGoogleAuth0 } = config
 
     return torus.triggerAggregateLogin({
       aggregateVerifierType: 'single_id_verifier',
@@ -129,7 +135,7 @@ export class PaswordlessEmailStrategy extends AbstractLoginStrategy {
           verifier: 'auth0',
           jwtParams: {
             connection: '',
-            domain: auth0Domain,
+            domain: auth0ServerUri,
             verifierIdField: 'name',
           },
         },
@@ -138,10 +144,10 @@ export class PaswordlessEmailStrategy extends AbstractLoginStrategy {
   }
 }
 
-export class PaswordlessSMSStrategy extends AbstractLoginStrategy {
+export class PaswordlessSMSStrategy extends AbstractAuth0Strategy {
   async triggerLogin() {
-    const { torus, config } = this
-    const { auth0Domain, auth0SMSClientId, torusAuth0SMS } = config
+    const { torus, config, auth0ServerUri } = this
+    const { auth0SMSClientId, torusAuth0SMS } = config
 
     return torus.triggerLogin({
       verifier: torusAuth0SMS,
@@ -149,7 +155,7 @@ export class PaswordlessSMSStrategy extends AbstractLoginStrategy {
       typeOfLogin: 'jwt',
       jwtParams: {
         connection: '',
-        domain: auth0Domain,
+        domain: auth0ServerUri,
         verifierIdField: 'name',
       },
     })

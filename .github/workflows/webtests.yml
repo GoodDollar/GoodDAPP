@@ -66,10 +66,9 @@ jobs:
       test-chunk-ids: ${{ steps['set-test-chunk-ids'].outputs['test-chunk-ids'] }}
     steps:
       - uses: actions/checkout@v2
-      - run: npm install
       - id: set-test-chunks
         name: Set Chunks
-        run: echo "::set-output name=test-chunks::$(npx jest --listTests --json | jq -cM '[_nwise(length / 10 | floor)]')"
+        run: echo "::set-output name=test-chunks::$(find ./src -path \*/__tests__/*.js |jq -R -s -c 'split("\n")[:-1]'| jq -cM '[_nwise(length / 10 | floor)]')"
       - id: set-test-chunk-ids
         name: Set Chunk IDs
         run: echo "::set-output name=test-chunk-ids::$(echo $CHUNKS | jq -cM 'to_entries | map(.key)')"

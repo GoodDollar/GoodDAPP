@@ -12,7 +12,7 @@ import InvitesABI from '@gooddollar/goodcontracts/upgradables/build/contracts/In
 import Web3 from 'web3'
 import { BN, toBN } from 'web3-utils'
 import abiDecoder from 'abi-decoder'
-import { get, invokeMap, last, uniqBy, values } from 'lodash'
+import { get, invokeMap, last, result, uniqBy, values } from 'lodash'
 import moment from 'moment'
 import bs58 from 'bs58'
 import Config from '../../config/config'
@@ -727,15 +727,12 @@ export class GoodWallet {
         })
         return []
       })
-      let interest = 0
-      if (events.length > 0) {
-        get(last(events), 'returnValues.daiValue', 0)
-      }
-      interest = interest ? this.web3Mainnet.utils.fromWei(interest) : 0
+      let interest = result(last(events), 'returnValues.daiValue.toString', '0')
+      interest = this.web3Mainnet.utils.fromWei(interest)
       return interest
     } catch (exception) {
       const { message } = exception
-      log.warn('getTotalFundsStaked failed', message, exception)
+      log.warn('getInterestCollected failed', message, exception)
       throw exception
     }
   }

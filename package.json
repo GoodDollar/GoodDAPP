@@ -74,6 +74,8 @@
     "@react-native-community/clipboard": "^1.2.2",
     "@react-native-community/netinfo": "^5.5.1",
     "@react-native-community/push-notification-ios": "^1.2.0",
+    "@react-native-firebase/analytics": "^10.1.0",
+    "@react-native-firebase/app": "^10.1.0",
     "@react-navigation/core": "^3.5.1",
     "@react-navigation/web": "^1.0.0-alpha.9",
     "@sentry/browser": "^5.10.2",

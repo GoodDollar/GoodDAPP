@@ -1,9 +1,9 @@
 // @flow
-import { assign, debounce, forIn, get, isEmpty, isString, pick, remove, toLower } from 'lodash'
+import { assign, debounce, forIn, get, isEmpty, isNumber, isString, pick, remove, toLower, values } from 'lodash'
 import { isMobileReactNative } from '../utils/platform'
 import { LogEvent } from '../logger/pino-logger'
 import { ExceptionCategory } from '../logger/exceptions'
-import { ERROR_LOG } from './constants'
+import { ANALYTICS_EVENT, ERROR_LOG } from './constants'
 
 const savedErrorMessages = new WeakMap()
 
@@ -139,8 +139,8 @@ export class AnalyticsClass {
   }
 
   fireEvent = (event: string, data: any = {}) => {
-    const { isAmplitudeEnabled, apis, logger, googleAnalytics } = this
-    const { amplitude } = apis
+    const { isAmplitudeEnabled, apis, logger } = this
+    const { amplitude, googleAnalytics } = apis
 
     if (isAmplitudeEnabled) {
       if (!amplitude.logEvent(event, data)) {
@@ -149,25 +149,21 @@ export class AnalyticsClass {
     }
 
     //fire all events on  GA also
-    let gaEvent
     if (googleAnalytics) {
-      gaEvent = this.convertToGA(data)
-      gaEvent.eventAction = 'event'
-      this.fireGoogleAnalyticsEvent('Analytics_event', gaEvent)
+      const _values = values(data)
+
+      // remove returns the removed items, so eventValues will be numbers
+      const eventValues = remove(_values, isNumber)
+      const eventStrings = remove(_values, isString)
+
+      this.fireGoogleAnalyticsEvent(ANALYTICS_EVENT, {
+        eventAction: event,
+        eventValue: eventValues.shift(),
+        eventLabel: eventStrings.shift() || eventValues.shift() || JSON.stringify(_values.shift()),
+      })
     }
 
-    logger.debug('fired event', { event, data, gaEvent })
-  }
-
-  convertToGA = (data: any = {}) => {
-    const values = Object.values(data)
-    const eventValues = remove(values, x => typeof x === 'number') //remove returns the removed items, so eventValues will be numbers
-    const eventStrings = remove(values, x => typeof x === 'string')
-    const gaEvent = {
-      eventValue: eventValues.shift(),
-      eventLabel: eventStrings.shift() || eventValues.shift() || JSON.stringify(values.shift()),
-    }
-    return gaEvent
+    logger.debug('fired event', { event, data })
   }
 
   fireMauticEvent = (data: any = {}) => {
@@ -214,7 +210,7 @@ export class AnalyticsClass {
       return
     }
 
-    googleAnalytics.push({ event, ...data })
+    googleAnalytics.logEvent(event, data)
   }
 
   // @private

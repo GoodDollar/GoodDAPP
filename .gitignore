@@ -62,6 +62,10 @@ buck-out/
 android/sentry.properties
 ios/sentry.properties
 
+# Firebase Google Services
+ios/GoogleService-Info.plist
+android/app/google-services.json
+
 # Others
 .env
 secrets.json

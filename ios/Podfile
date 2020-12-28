@@ -48,10 +48,12 @@ target 'GoodDollar' do
 
   pod 'lottie-ios', :path => '../node_modules/lottie-ios'
   pod 'lottie-react-native', :path => '../node_modules/lottie-react-native'
-  
+
   pod 'react-native-branch', path: '../node_modules/react-native-branch'
 
   pod 'RNSentry', :podspec => '../node_modules/@sentry/react-native/RNSentry.podspec'
+
+  pod 'Firebase/Analytics'
 
   pod 'secp256k1.c', '0.1.2', :modular_headers => true
   pod 'RNTorusDirectSdk', :path => '../node_modules/@toruslabs/torus-direct-react-native-sdk'

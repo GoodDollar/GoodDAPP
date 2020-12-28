@@ -90,7 +90,7 @@ jobs:
       MNEMONIC: 'myth like bonus scare over problem client lizard pioneer submit female collect'
       ADMIN_MNEMONIC: 'they bus duty candy uncover assault bullet kitchen kit acid spin physical'
       REACT_APP_ADMIN_MNEMONIC: 'they bus duty candy uncover assault bullet kitchen kit acid spin physical'
-      CI: false
+      CI: true
       CHUNKS: ${{ needs.setup.outputs['test-chunks'] }}
       WALLET_CHUNK: 9
 
@@ -136,7 +136,7 @@ jobs:
           echo $CHUNKS | jq '.[${{ matrix.chunk }}] | .[] | @text' | xargs npm run coverage
           # npm run coverage
           # npm run coveralls || true
-          pkill -f ganache
+          pkill -f ganache || true
 
       - name: Coveralls
         uses: coverallsapp/github-action@master

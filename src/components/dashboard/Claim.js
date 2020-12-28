@@ -603,7 +603,7 @@ const Claim = props => {
             />
             <GrayBox
               title={"Today's G$\nDistribution"}
-              value={formatWithabbreviations(availableDistribution)}
+              value={extraInfoAmountFormatter(availableDistribution)}
               symbol={'G$'}
             />
           </Section.Row>

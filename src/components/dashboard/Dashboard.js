@@ -287,7 +287,7 @@ const Dashboard = props => {
     }
   }, [appState, feedLoaded])
 
-  const animateItems = useCallback(async () => {
+  const animateClaim = useCallback(async () => {
     const inQueue = await userStorage.userProperties.get('claimQueueAdded')
 
     if (inQueue && inQueue.status === 'pending') {
@@ -299,7 +299,11 @@ const Dashboard = props => {
       .then(_ => _.toNumber())
       .catch(e => 0)
 
-    if (entitlement) {
+    if (!entitlement) {
+      return
+    }
+
+    return new Promise(resolve =>
       Animated.sequence([
         Animated.timing(claimAnimValue, {
           toValue: 1.4,
@@ -312,9 +316,14 @@ const Dashboard = props => {
           duration: 750,
           easing: Easing.ease,
         }),
-      ]).start(() => setAnimateMarket(true))
-    }
-  }, [setAnimateMarket])
+      ]).start(resolve),
+    )
+  }, [])
+
+  const animateItems = useCallback(async () => {
+    await animateClaim()
+    setAnimateMarket(true)
+  }, [animateClaim, setAnimateMarket])
 
   const showDelayed = useCallback(() => {
     if (!assertStore(store, log, 'Failed to show AddWebApp modal')) {

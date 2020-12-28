@@ -5,7 +5,9 @@ command = "CI= npm run build"
   for = "*"
   [headers.values]
     Cache-Control = "public, s-max-age=604800"
-
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
+    
 [[headers]]
   for = "/service-worker.js"
   [headers.values]
@@ -136,6 +138,18 @@ for = "/torus/scripts.html"
 
     [headers.values]
     Content-Type = "text/html"
+
+[[headers]]
+for = "/.well-known/apple-app-site-association"
+
+    [headers.values]
+    Content-Type = "application/json"
+
+[[headers]]
+for = "/.well-known/assetlinks.json"
+
+    [headers.values]
+    Content-Type = "application/json"
 
 [[headers]]
   for = "/zoom/resources/*_cache.wasm"

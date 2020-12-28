@@ -434,6 +434,14 @@ const Claim = props => {
           eventLabel: goodWallet.UBIContract.address,
         })
 
+        //legacy support for claim-geo event for UA. remove once we move to new dashboard and GA4
+        if (isMobileNative === false) {
+          fireGoogleAnalyticsEvent('claim-geo', {
+            claimValue: weiToGd(curEntitlement),
+            eventLabel: goodWallet.UBIContract.address,
+          })
+        }
+
         //reset dailyUBI so statistics are shown after successfull claim
         setDailyUbi(0)
 

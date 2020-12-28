@@ -168,9 +168,8 @@ export default (props = {}) => {
         action: () => {
           fireEvent(LOGOUT)
           AsyncStorage.clear()
-          window.location = '/'
           slideOut()
-          restart()
+          restart('/')
         },
       },
     ]

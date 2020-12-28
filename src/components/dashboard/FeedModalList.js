@@ -48,8 +48,10 @@ const FeedModalList = ({
   const [loading, setLoading] = useState(true)
   const [offset, setOffset] = useState()
 
-  const selectedFeedIndex = useMemo(() => (selectedFeed ? data.findIndex(item => item.id === selectedFeed.id) : -1), [
-    data,
+  const feeds = useFeeds(data, false) // get feeds without invites
+
+  const selectedFeedIndex = useMemo(() => (selectedFeed ? feeds.findIndex(item => item.id === selectedFeed.id) : -1), [
+    feeds,
     selectedFeed,
   ])
 
@@ -82,22 +84,17 @@ const FeedModalList = ({
   }, [offset, flatListRef, setLoading])
 
   const renderItemComponent = useCallback(
-    ({ item, separators }: ItemComponentProps) => {
-      if (item.type === 'invite') {
-        return
-      }
-      return (
-        <View style={styles.horizontalListItem}>
-          <FeedModalItem
-            navigation={navigation}
-            item={item}
-            separators={separators}
-            fixedHeight
-            onPress={() => handleFeedSelection(item, false)}
-          />
-        </View>
-      )
-    },
+    ({ item, separators }: ItemComponentProps) => (
+      <View style={styles.horizontalListItem}>
+        <FeedModalItem
+          navigation={navigation}
+          item={item}
+          separators={separators}
+          fixedHeight
+          onPress={() => handleFeedSelection(item, false)}
+        />
+      </View>
+    ),
     [handleFeedSelection, navigation],
   )
 
@@ -115,8 +112,6 @@ const FeedModalList = ({
     },
     [offset, setLoading],
   )
-
-  const feeds = useFeeds(data)
 
   return (
     <Portal>
@@ -161,14 +156,14 @@ const getStylesFromProps = ({ theme }) => ({
     }),
     width: '100%',
   },
-  horizontalList: {
-    width: '100%',
-    maxWidth: Platform.select({
-      web: '100vw',
-      default: getScreenWidth(),
-    }),
-    flex: 1,
-  },
+  horizontalList: Platform.select({
+    web: {
+      width: '100%',
+      maxWidth: '100vw',
+      flex: 1,
+    },
+    default: {},
+  }),
   horizontalListItem: {
     width: maxScreenWidth,
   },

@@ -1,5 +1,5 @@
+import { Platform } from 'react-native'
 import { replace } from 'lodash'
-import { isMobileNative } from '../../../../lib/utils/platform'
 
 /* eslint-disable require-await */
 export const LoginStrategy = {
@@ -31,19 +31,22 @@ export const LoginStrategy = {
 class AbstractLoginStrategy {
   constructor(torus, config) {
     this.torus = torus
-
-    if (isMobileNative) {
-      // remove 'https://' from auth0Domain for native
-      const auth0Domain = replace(config.auth0Domain, 'https://', '')
-
-      this.config = { ...config, auth0Domain }
-    } else {
-      this.config = config
-    }
+    this.config = config
   }
 
   async triggerLogin() {
     throw new Error('Trying to call abstract method AbstractLoginStrategy::triggerLogin()')
+  }
+}
+
+class AbstractAuth0Strategy extends AbstractLoginStrategy {
+  get auth0ServerUri() {
+    const { auth0Domain } = this.config
+
+    return Platform.select({
+      web: auth0Domain,
+      default: replace(auth0Domain, 'https://', ''),
+    })
   }
 }
 
@@ -94,10 +97,10 @@ export class GoogleStrategy extends AbstractLoginStrategy {
   }
 }
 
-export class Auth0Strategy extends AbstractLoginStrategy {
+export class Auth0Strategy extends AbstractAuth0Strategy {
   async triggerLogin() {
-    const { torus, config } = this
-    const { auth0Domain, auth0ClientId, torusGoogleAuth0 } = config
+    const { torus, config, auth0ServerUri } = this
+    const { auth0ClientId, torusGoogleAuth0 } = config
 
     return torus.triggerAggregateLogin({
       aggregateVerifierType: 'single_id_verifier',
@@ -109,7 +112,7 @@ export class Auth0Strategy extends AbstractLoginStrategy {
           verifier: 'auth0',
           jwtParams: {
             connection: 'Username-Password-Authentication',
-            domain: auth0Domain,
+            domain: auth0ServerUri,
           },
         },
       ],
@@ -117,10 +120,10 @@ export class Auth0Strategy extends AbstractLoginStrategy {
   }
 }
 
-export class PaswordlessEmailStrategy extends AbstractLoginStrategy {
+export class PaswordlessEmailStrategy extends AbstractAuth0Strategy {
   async triggerLogin() {
-    const { torus, config } = this
-    const { auth0Domain, auth0ClientId, torusGoogleAuth0 } = config
+    const { torus, config, auth0ServerUri } = this
+    const { auth0ClientId, torusGoogleAuth0 } = config
 
     return torus.triggerAggregateLogin({
       aggregateVerifierType: 'single_id_verifier',
@@ -132,7 +135,7 @@ export class PaswordlessEmailStrategy extends AbstractLoginStrategy {
           verifier: 'auth0',
           jwtParams: {
             connection: '',
-            domain: auth0Domain,
+            domain: auth0ServerUri,
             verifierIdField: 'name',
           },
         },
@@ -141,10 +144,10 @@ export class PaswordlessEmailStrategy extends AbstractLoginStrategy {
   }
 }
 
-export class PaswordlessSMSStrategy extends AbstractLoginStrategy {
+export class PaswordlessSMSStrategy extends AbstractAuth0Strategy {
   async triggerLogin() {
-    const { torus, config } = this
-    const { auth0Domain, auth0SMSClientId, torusAuth0SMS } = config
+    const { torus, config, auth0ServerUri } = this
+    const { auth0SMSClientId, torusAuth0SMS } = config
 
     return torus.triggerLogin({
       verifier: torusAuth0SMS,
@@ -152,7 +155,7 @@ export class PaswordlessSMSStrategy extends AbstractLoginStrategy {
       typeOfLogin: 'jwt',
       jwtParams: {
         connection: '',
-        domain: auth0Domain,
+        domain: auth0ServerUri,
         verifierIdField: 'name',
       },
     })

@@ -25,7 +25,7 @@ export const deleteGunDB = () => {
       const objectStoreRequest = objectStore.clear()
 
       objectStoreRequest.onsuccess = res
-      objectStoreRequest.onerror = rej
+      objectStoreRequest.onerror = e => rej(new Error('Error clearing objectStore'))
     }
   })
 }

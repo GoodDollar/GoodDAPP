@@ -727,10 +727,7 @@ export class GoodWallet {
         })
         return []
       })
-      let interest = 0
-      if (events.length > 0) {
-        interest = result(last(events), 'returnValues.daiValue.toString', 0)
-      }
+      let interest = result(last(events), 'returnValues.daiValue.toString', '0')
       interest = this.web3Mainnet.utils.fromWei(interest)
       return interest
     } catch (exception) {

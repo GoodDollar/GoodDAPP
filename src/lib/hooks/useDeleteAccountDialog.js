@@ -19,11 +19,12 @@ const idbWrap = async req =>
 
 export const deleteGunDB = async () => {
   let objectStore
+  let transaction
   const idbName = 'radata'
 
   try {
     const { result: db } = await idbWrap(indexedDB.open(idbName))
-    const transaction = db.transaction([idbName], 'readwrite')
+    transaction = db.transaction([idbName], 'readwrite')
 
     // create an object store on the transaction
     objectStore = transaction.objectStore(idbName)

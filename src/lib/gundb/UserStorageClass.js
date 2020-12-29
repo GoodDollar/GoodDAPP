@@ -177,7 +177,7 @@ export const inviteFriendsMessage = {
   data: {
     customName: `Invite friends and earn G$'s`,
     subtitle: 'Invite your friends now',
-    readMore: 'Get 100G$ for each friend who signs up and they get 50G$!',
+    readMore: 'Get 100G$ for each friend who signs up\nand they get 50G$!',
     receiptData: {
       from: NULL_ADDRESS,
     },

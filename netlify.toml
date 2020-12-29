@@ -1,6 +1,12 @@
 [build]
 command = "CI= npm run build"
 
+[[redirects]]
+  from = "https://next.gooddollar.org"
+  to = "https://wallet.gooddollar.org"
+  status = 301
+  force = true
+
 [[headers]]
   for = "*"
   [headers.values]
@@ -17,6 +23,35 @@ command = "CI= npm run build"
   for = "/torus/sw.js"
   [headers.values]
     cache-control = "max-age=0,no-cache,no-store,must-revalidate"
+
+[[headers]]
+  for = "/torus/redirect"
+  [headers.values]
+    Content-Type = "text/html"
+
+[[headers]]
+  for = "/torus/scripts.html"
+    [headers.values]
+      Content-Type = "text/html"
+
+[[headers]]
+  for = "/.well-known/apple-app-site-association"
+    [headers.values]
+      Content-Type = "application/json"
+
+[[headers]]
+  for = "/.well-known/assetlinks.json"
+    [headers.values]
+      Content-Type = "application/json"
+
+[[headers]]
+  for = "/zoom/resources/*_cache.wasm"
+    [headers.values]
+      cache-control = '''
+        max-age=0,
+        no-cache,
+        no-store,
+        must-revalidate'''
 
 [build.environment]
 GENERATE_SOURCEMAP = "true"
@@ -123,23 +158,3 @@ REACT_APP_WEB3_SITE_URL = "https://w3.gooddollar.org"
 # REACT_APP_WEB3_TRANSPORT_PROVIDER = "WebSocketProvider"
 REACT_APP_USE_TORUS = "true"
 
-[[headers]]
-for = "/torus/redirect"
-
-    [headers.values]
-    Content-Type = "text/html"
-
-[[headers]]
-for = "/torus/scripts.html"
-
-    [headers.values]
-    Content-Type = "text/html"
-
-[[headers]]
-  for = "/zoom/resources/*_cache.wasm"
-  [headers.values]
-    cache-control = '''
-        max-age=0,
-        no-cache,
-        no-store,
-        must-revalidate'''

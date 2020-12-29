@@ -7,27 +7,28 @@ import LoadingIcon from '../../components/common/modal/LoadingIcon'
 import retryImport from '../utils/retryImport'
 import restart from '../utils/restart'
 import { isMobileNative } from '../utils/platform'
+
 const log = logger.child({ from: 'useDeleteAccountDialog' })
 
-export const deleteGunDB = () => {
-  return new Promise((res, rej) => {
-    const openreq = indexedDB.open('radata')
-    openreq.onerror = () => rej(openreq.error)
-    openreq.onsuccess = e => {
-      const db = openreq.result
-      var transaction = db.transaction(['radata'], 'readwrite')
-      transaction.onerror = () => rej(transaction.error)
+// eslint-disable-next-line require-await
+const idbReq = async cb =>
+  new Promise((res, rej) => {
+    const req = cb()
 
-      // create an object store on the transaction
-      const objectStore = transaction.objectStore('radata')
-
-      // Make a request to clear all the data out of the object store
-      const objectStoreRequest = objectStore.clear()
-
-      objectStoreRequest.onsuccess = res
-      objectStoreRequest.onerror = () => rej(objectStoreRequest.error)
-    }
+    req.onsuccess = () => res(req)
+    req.onerror = () => rej(req.error)
   })
+
+export const deleteGunDB = async () => {
+  const idbName = 'radata'
+  const { db } = await idbReq(() => indexedDB.open(idbName))
+  const transaction = await idbReq(() => db.transaction([idbName], 'readwrite'))
+
+  // create an object store on the transaction
+  const objectStore = transaction.objectStore(idbName)
+
+  // Make a request to clear all the data out of the object store
+  await idbReq(() => objectStore.clear())
 }
 
 export default ({ API, showErrorDialog, theme }) => {

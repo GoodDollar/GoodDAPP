@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { View } from 'react-native'
+import { Platform, View } from 'react-native'
 import LinearGradient from 'react-native-linear-gradient'
 import { isMobileOnly } from '../../../lib/utils/platform'
 import { withStyles } from '../../../lib/styles'
@@ -67,8 +67,9 @@ const getStylesFromProps = ({ theme }) => {
     styles.container = {
       ...styles.container,
       maxHeight: theme.sizes.maxContentHeightForTabletAndDesktop,
-      overflowX: 'auto',
-      overflowY: 'auto',
+      ...Platform.select({
+        web: { overflowY: 'auto', overflowX: 'auto' },
+      }),
     }
   }
 

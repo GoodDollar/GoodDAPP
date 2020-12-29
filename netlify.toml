@@ -7,6 +7,12 @@ command = "CI= npm run build"
   status = 301
   force = true
 
+[[redirects]]
+  from = "https://goodnext.netlify.app"
+  to = "https://wallet.gooddollar.org"
+  status = 301
+  force = true
+
 [[headers]]
   for = "*"
   [headers.values]

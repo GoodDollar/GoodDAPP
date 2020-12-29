@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { View } from 'react-native'
-import { result } from 'lodash'
+import { get, result } from 'lodash'
 import {
   EmailShareButton,
   FacebookShareButton,
@@ -212,7 +212,7 @@ const InvitesBox = React.memo(({ invitees, refresh }) => {
 
 const TotalEarnedBox = ({ totalEarned = 0 }) => (
   <WavesBox
-    primaryColor={theme.colors.green}
+    primarycolor={theme.colors.green}
     style={{ margin: 0, padding: 0 }}
     contentStyle={{
       backgroundColor: theme.colors.white,
@@ -254,7 +254,7 @@ const TotalEarnedBox = ({ totalEarned = 0 }) => (
       >
         <Section.Row style={{ alignItems: 'baseline' }}>
           <Section.Text fontWeight={'bold'} lineHeight={26} color={theme.colors.white} fontSize={24}>
-            7
+            {totalEarned}
           </Section.Text>
           <Section.Text fontWeight={'bold'} color={theme.colors.white} lineHeight={26} fontSize={14}>
             G$
@@ -366,7 +366,7 @@ const Invite = () => {
         </CustomButton>
       </View>
       {showHowTo && <InvitesHowTO />}
-      <InvitesData {...{ invitees, refresh, level }} />
+      <InvitesData {...{ invitees, refresh, level, totalEarned: get(inviteState, 'totalEarned', 0) }} />
     </Wrapper>
   )
 }

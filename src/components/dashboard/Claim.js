@@ -253,6 +253,8 @@ const Claim = props => {
     log.debug('from FR:', { isValid, screenProps })
     try {
       if (isValid && (await goodWallet.isCitizen())) {
+        //collect invite bonus
+        goodWallet.collectInviteBounty()
         handleClaim()
       } else if (isValid === false) {
         screenProps.goToRoot()

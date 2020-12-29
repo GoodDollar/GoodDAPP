@@ -20,13 +20,12 @@ import { generateShareObject, isSharingAvailable } from '../../lib/share'
 import AsyncStorage from '../../lib/utils/asyncStorage'
 import ModalLeftBorder from '../common/modal/ModalLeftBorder'
 import { useCollectBounty, useInviteCode, useInvited } from './useInvites'
-import HowToSVG from './howto.svg'
 
 const log = logger.child({ from: 'Invite' })
 
 const shareTitle = 'I signed up to GoodDollar. Join me.'
 const shareMessage =
-  "Hey,\nCheck out GoodDollar it's a digital coin that gives anyone who joins a small daily income (UBI).\n\n"
+  'Hi!\nThis is my referral link to be among the first people to get real, free digital basic income called GoodDollar!\nYou’ll receive a 50 G$ bonus, and join the thousands of people across the globe, building a better, more prosperous future, using GoodDollar.\n\n'
 
 const InvitedUser = ({ name, avatar, status }) => {
   const isApproved = status === 'approved'
@@ -118,7 +117,7 @@ const ShareIcons = ({ shareUrl }) => {
   }
 
   return (
-    <Section.Row style={{ marginTop: theme.paddings.defaultMargin * 2, justifyContent: 'flex-start' }}>
+    <Section.Row style={{ marginTop: theme.paddings.defaultMargin * 2, justifyContent: 'center' }}>
       {buttons.map(({ name, Component, ...props }) => (
         <Section.Stack style={{ marginRight: theme.paddings.defaultMargin * 1.5 }} key={name}>
           <Component url={shareUrl} {...props}>
@@ -135,11 +134,7 @@ const ShareBox = ({ level }) => {
   const shareUrl = `${Config.publicUrl}?inviteCode=${inviteCode}`
   const bounty = result(level, 'bounty.toNumber', 100) / 100
 
-  const share = useMemo(
-    () =>
-      isSharingAvailable ? generateShareObject(shareTitle, shareMessage, shareUrl) : `${shareMessage}\n${shareUrl}`,
-    [shareUrl],
-  )
+  const share = useMemo(() => generateShareObject(shareTitle, shareMessage, shareUrl), [shareUrl])
 
   return (
     <WavesBox primarycolor={theme.colors.primary} style={styles.linkBoxStyle} title={'Share Your Invite Link'}>
@@ -149,24 +144,20 @@ const ShareBox = ({ level }) => {
           <Section.Text fontWeight={'bold'} fontSize={14} textAlign={'left'} lineHeight={19}>
             {`${bounty}G$`}
           </Section.Text>
-          {` and your friend `}
+          {` and they will get `}
           <Section.Text fontWeight={'bold'} fontSize={14} textAlign={'left'} lineHeight={19}>
             {`${bounty / 2}G$`}
           </Section.Text>
-          {` in bonus rewards`}
         </Section.Text>
       </Section.Stack>
-      <Section.Row style={{ alignItems: 'center' }}>
+      <Section.Row style={{ alignItems: 'flex-start' }}>
         <Text
           fontSize={11}
           lineHeight={30}
           style={{
             flex: 1,
-            borderWidth: 1,
             padding: 0,
             marginRight: 8,
-            borderRadius: 50,
-            borderColor: theme.colors.darkBlue,
           }}
         >
           {shareUrl}
@@ -274,13 +265,36 @@ const TotalEarnedBox = ({ totalEarned = 0 }) => (
   </WavesBox>
 )
 
-const InvitesHowTO = () => (
-  <Section.Stack
-    style={{ width: getDesignRelativeWidth(328, false), height: getDesignRelativeHeight(448, false), flex: 1 }}
-  >
-    <HowToSVG width={getDesignRelativeWidth(328, false)} height={getDesignRelativeHeight(448, false)} />
-  </Section.Stack>
-)
+const InvitesHowTO = () => {
+  const Step = ({ label, text }) => (
+    <Section.Row style={{ justifyContent: 'flex-start', marginTop: theme.sizes.defaultDouble }}>
+      <Section.Stack style={{ borderRadius: 29, width: 58, height: 58, backgroundColor: theme.colors.primary }}>
+        <Section.Text fontFamily={'slab'} color={theme.colors.white} lineHeight={58} fontSize={22} fontWeight={'bold'}>
+          {label}
+        </Section.Text>
+      </Section.Stack>
+      <Section.Stack
+        style={{ marginLeft: theme.sizes.defaultDouble, height: 58, flexShrink: 1, justifyContent: 'center' }}
+      >
+        <Section.Text color={theme.colors.darkBlue} lineHeight={16} fontSize={12} textAlign={'left'}>
+          {text}
+        </Section.Text>
+      </Section.Stack>
+    </Section.Row>
+  )
+  return (
+    <Section.Stack style={{ marginHorizontal: getDesignRelativeWidth(theme.sizes.default * 5, false) }}>
+      <Step label="01" text="Copy your personal invite link and send it to your friends" />
+      <Step label="02" text="Make sure they sign up and claim at least once" />
+      <Step label="03" text="Get rewarded right after they claim" />
+      <Section.Stack style={{ marginTop: theme.sizes.default * 3 }}>
+        <Section.Text color={theme.colors.darkBlue} linelineHeight={16} fontSize={12} textAlign={'center'}>
+          Rewards pool is sponsored by
+        </Section.Text>
+      </Section.Stack>
+    </Section.Stack>
+  )
+}
 
 const InvitesData = ({ invitees, refresh, level, totalEarned = 0 }) => (
   <>
@@ -351,7 +365,8 @@ const Invite = () => {
           {`How Do I Invite People?`}
         </CustomButton>
       </View>
-      {showHowTo ? <InvitesHowTO /> : <InvitesData {...{ invitees, refresh, level }} />}
+      {showHowTo && <InvitesHowTO />}
+      <InvitesData {...{ invitees, refresh, level }} />
     </Wrapper>
   )
 }

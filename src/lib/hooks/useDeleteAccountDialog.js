@@ -11,10 +11,8 @@ import { isMobileNative } from '../utils/platform'
 const log = logger.child({ from: 'useDeleteAccountDialog' })
 
 // eslint-disable-next-line require-await
-const idbReq = async cb =>
+const idbWrap = async req =>
   new Promise((res, rej) => {
-    const req = cb()
-
     req.onsuccess = () => res(req)
     req.onerror = () => rej(req.error)
   })
@@ -24,8 +22,8 @@ export const deleteGunDB = async () => {
   const idbName = 'radata'
 
   try {
-    const { db } = await idbReq(() => indexedDB.open(idbName))
-    const transaction = await idbReq(() => db.transaction([idbName], 'readwrite'))
+    const { result: db } = await idbWrap(indexedDB.open(idbName))
+    const transaction = db.transaction([idbName], 'readwrite')
 
     // create an object store on the transaction
     objectStore = transaction.objectStore(idbName)
@@ -35,7 +33,10 @@ export const deleteGunDB = async () => {
   }
 
   // Make a request to clear all the data out of the object store
-  await idbReq(() => objectStore.clear())
+  await Promise.race(    
+    idbWrap(objectStore.clear()),
+    new Promise(resolve => transaction.onerror = resolve)
+  )
 }
 
 export default ({ API, showErrorDialog, theme }) => {

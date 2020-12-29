@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef } from 'react'
-import { Animated, Easing, Platform, TouchableOpacity, View } from 'react-native'
+import { Animated, Easing, Platform, TouchableOpacity } from 'react-native'
 import { noop } from 'lodash'
 
 import Icon from '../../../common/view/Icon'
@@ -52,7 +52,6 @@ const GoodMarketButton = ({ styles }) => {
 
   return (
     <>
-      <View style={styles.mask} />
       <Animated.View style={[styles.btnContainer, { bottom: slideAnim }]}>
         <TouchableOpacity onPress={onButtonClicked} style={styles.marketButton}>
           <Icon name="goodmarket" size={36} color="white" />
@@ -76,16 +75,6 @@ const getStylesFromProps = ({ theme }) => ({
         zIndex: 0,
       },
     }),
-  },
-  mask: {
-    position: 'absolute',
-    width: '100%',
-    height: 100,
-    bottom: -100,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    zIndex: 1,
-    backgroundColor: 'white',
   },
   marketButton: {
     backgroundColor: theme.colors.primary,

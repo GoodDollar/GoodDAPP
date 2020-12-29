@@ -40,9 +40,6 @@ jobs:
         with:
           node-version: 10.15.3
 
-      - name: Install gpg
-        run: brew install gnupg
-
       - name: Switch XCode Version
         run: sudo xcode-select -s /Applications/Xcode_11.2.app
 
@@ -78,7 +75,9 @@ jobs:
       - name: Setup provisioning profile
         run: ./.github/secrets/decrypt_secrets.sh
         env:
-          IOS_PROFILE_KEY: ${{ secrets.IOS_PROFILE_KEY }}
+          IOS_CERTIFICATE: ${{ secrets.IOS_CERTIFICATE }}
+          IOS_STORE_PROFILE: ${{ secrets.IOS_STORE_PROFILE }}
+          IOS_ADHOC_PROFILE: ${{ secrets.IOS_ADHOC_PROFILE }}
           IS_PROD: ${{ contains('production next', env.BRANCH) }}
 
       - name: Generate assets

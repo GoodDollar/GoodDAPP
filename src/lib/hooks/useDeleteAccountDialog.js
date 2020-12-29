@@ -12,11 +12,11 @@ const log = logger.child({ from: 'useDeleteAccountDialog' })
 export const deleteGunDB = () => {
   return new Promise((res, rej) => {
     const openreq = indexedDB.open('radata')
-    openreq.onerror = e => res()
+    openreq.onerror = e => rej(openreq.error)
     openreq.onsuccess = e => {
       const db = openreq.result
       var transaction = db.transaction(['radata'], 'readwrite')
-      transaction.onerror = e => res()
+      transaction.onerror = () => rej(transaction.error)
 
       // create an object store on the transaction
       const objectStore = transaction.objectStore('radata')
@@ -25,7 +25,7 @@ export const deleteGunDB = () => {
       const objectStoreRequest = objectStore.clear()
 
       objectStoreRequest.onsuccess = res
-      objectStoreRequest.onerror = e => rej(new Error('Error clearing objectStore'))
+      objectStoreRequest.onerror = () => rej(objectStoreRequest.error)
     }
   })
 }

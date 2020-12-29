@@ -12,7 +12,7 @@ const log = logger.child({ from: 'useDeleteAccountDialog' })
 export const deleteGunDB = () => {
   return new Promise((res, rej) => {
     const openreq = indexedDB.open('radata')
-    openreq.onerror = e => rej(openreq.error)
+    openreq.onerror = () => rej(openreq.error)
     openreq.onsuccess = e => {
       const db = openreq.result
       var transaction = db.transaction(['radata'], 'readwrite')

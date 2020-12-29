@@ -25,7 +25,8 @@ const log = logger.child({ from: 'Invite' })
 
 const shareTitle = 'I signed up to GoodDollar. Join me.'
 const shareMessage =
-  'Hi!\nThis is my referral link to be among the first people to get real, free digital basic income called GoodDollar!\nYou’ll receive a 50 G$ bonus, and join the thousands of people across the globe, building a better, more prosperous future, using GoodDollar.\n\n'
+  'Hi!\nThis is my referral link to be among the first people to get real, free digital basic income called GoodDollar!\n' +
+  'You’ll receive a 50 G$ bonus, and join the thousands of people across the globe, building a better, more prosperous future, using GoodDollar.\n\n'
 
 const InvitedUser = ({ name, avatar, status }) => {
   const isApproved = status === 'approved'
@@ -170,6 +171,7 @@ const ShareBox = ({ level }) => {
           iconColor={'white'}
           actionText={isSharingAvailable ? 'share' : 'copy'}
           onPressed={() => fireEvent(INVITE_SHARE, { method: isSharingAvailable ? 'native' : 'copy' })}
+          withoutDone
         />
       </Section.Row>
       {!isMobile && <ShareIcons shareUrl={shareUrl} />}
@@ -319,6 +321,8 @@ const Invite = () => {
   const [showHowTo, setShowHowTo] = useState(false)
   const [invitees, refresh, level, inviteState] = useInvited()
 
+  const totalEarned = get(inviteState, 'totalEarned', 0)
+
   const toggleHowTo = () => {
     !showHowTo && fireEvent(INVITE_HOWTO)
     setShowHowTo(!showHowTo)
@@ -366,7 +370,7 @@ const Invite = () => {
         </CustomButton>
       </View>
       {showHowTo && <InvitesHowTO />}
-      <InvitesData {...{ invitees, refresh, level, totalEarned: get(inviteState, 'totalEarned', 0) }} />
+      <InvitesData {...{ invitees, refresh, level, totalEarned }} />
     </Wrapper>
   )
 }

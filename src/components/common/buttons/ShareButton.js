@@ -23,7 +23,7 @@ const SharingButton = isSharingAvailable ? CustomButton : CopyButton
 
 const ShareButton = ({ share, onPressed = noop, actionText, ...buttonProps }: ShareButtonProps) => {
   const shareHandler = useNativeSharing(share, { onSharePress: onPressed })
-  const shareOrCopy = isSharingAvailable || isString(share) ? share : [share.title, share.message, share.url].join('\n')
+  const shareOrCopy = isSharingAvailable || isString(share) ? share : [share.message, share.url].join('\n')
 
   useEffect(() => {
     log.info('Copy/ShareButton', { share, shareOrCopy, isSharingAvailable })

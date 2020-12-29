@@ -20,12 +20,19 @@ const idbReq = async cb =>
   })
 
 export const deleteGunDB = async () => {
+  let objectStore
   const idbName = 'radata'
-  const { db } = await idbReq(() => indexedDB.open(idbName))
-  const transaction = await idbReq(() => db.transaction([idbName], 'readwrite'))
 
-  // create an object store on the transaction
-  const objectStore = transaction.objectStore(idbName)
+  try {
+    const { db } = await idbReq(() => indexedDB.open(idbName))
+    const transaction = await idbReq(() => db.transaction([idbName], 'readwrite'))
+
+    // create an object store on the transaction
+    objectStore = transaction.objectStore(idbName)
+  } catch {
+    // suppress rejections on open / transaction calls
+    return
+  }
 
   // Make a request to clear all the data out of the object store
   await idbReq(() => objectStore.clear())

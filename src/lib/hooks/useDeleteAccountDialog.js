@@ -10,34 +10,25 @@ import { isMobileNative } from '../utils/platform'
 
 const log = logger.child({ from: 'useDeleteAccountDialog' })
 
-// eslint-disable-next-line require-await
-const idbWrap = async req =>
-  new Promise((res, rej) => {
-    req.onsuccess = () => res(req)
-    req.onerror = () => rej(req.error)
+export const deleteGunDB = () => {
+  return new Promise((res, rej) => {
+    const openreq = indexedDB.open('radata')
+    openreq.onerror = e => res()
+    openreq.onsuccess = e => {
+      const db = openreq.result
+      var transaction = db.transaction(['radata'], 'readwrite')
+      transaction.onerror = e => res()
+
+      // create an object store on the transaction
+      const objectStore = transaction.objectStore('radata')
+
+      // Make a request to clear all the data out of the object store
+      const objectStoreRequest = objectStore.clear()
+
+      objectStoreRequest.onsuccess = res
+      objectStoreRequest.onerror = e => rej(new Error('Error clearing objectStore'))
+    }
   })
-
-export const deleteGunDB = async () => {
-  let objectStore
-  let transaction
-  const idbName = 'radata'
-
-  try {
-    const { result: db } = await idbWrap(indexedDB.open(idbName))
-    transaction = db.transaction([idbName], 'readwrite')
-
-    // create an object store on the transaction
-    objectStore = transaction.objectStore(idbName)
-  } catch {
-    // suppress rejections on open / transaction
-    return
-  }
-
-  // Make a request to clear all the data out of the object store
-  await Promise.race(    
-    idbWrap(objectStore.clear()),
-    new Promise(resolve => transaction.onerror = resolve)
-  )
 }
 
 export default ({ API, showErrorDialog, theme }) => {

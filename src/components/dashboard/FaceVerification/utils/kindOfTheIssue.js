@@ -55,6 +55,9 @@ const kindOfSessionIssuesMap = mapValues(
       // camera was not enabled.
       'CameraNotEnabled',
 
+      // camera permissions denied.
+      'CameraPermissionDenied',
+
       // selected camera is not active
       'CameraNotRunning',
 
@@ -95,6 +98,9 @@ const kindOfSessionIssuesMap = mapValues(
 
       // The FaceTec Session cancelled because user pressed the Get Ready screen subtext message.
       'UserCancelledViaClickableReadyScreenSubtext',
+
+      // The user pressed the cancel button (hardware) and did not complete the Session.
+      'UserCancelledViaHardwareButton',
     ],
 
     // All FaceTec sdk initialization result codes could be thrown

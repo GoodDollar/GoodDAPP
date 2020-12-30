@@ -736,7 +736,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = org.gooddollar;
 				PRODUCT_NAME = GoodDollar;
-				PROVISIONING_PROFILE_SPECIFIER = "GoodDollar App Store";
+				PROVISIONING_PROFILE_SPECIFIER = "GoodDollar Ad Hoc";
 				SWIFT_OBJC_BRIDGING_HEADER = "GoodDollar-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";

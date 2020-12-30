@@ -53,7 +53,8 @@ class EmailConfirmation extends React.Component<Props, State> {
   }
 
   componentDidUpdate() {
-    if (!this.state.renderButton) {
+    const { renderButton, resentCode } = this.state
+    if (!renderButton && !resentCode) {
       this.displayDelayedRenderButton()
     }
   }
@@ -111,14 +112,12 @@ class EmailConfirmation extends React.Component<Props, State> {
       fireEvent(SIGNUP_RETRY_EMAIL)
       await API[retryFunctionName]({ ...this.props.screenProps.data })
       this.setState({ sendingCode: false, resentCode: true })
-
-      //turn checkmark back into regular resend text
-      setTimeout(() => this.setState({ ...this.state, resentCode: false }, this.displayDelayedRenderButton), 2000)
     } catch (e) {
       log.error('resend email code failed', e.message, e)
       this.setState({
         errorMessage: e.message || e,
         sendingCode: false,
+        resentCode: false,
         renderButton: true,
       })
     }
@@ -159,7 +158,7 @@ class EmailConfirmation extends React.Component<Props, State> {
                 resentCode={resentCode}
                 renderButton={renderButton}
                 handleRetry={this.handleRetry}
-                onFinish={() => this.setState({ renderButton: false })}
+                onFinish={() => this.setState({ renderButton: false, resentCode: false })}
               />
             </Section.Row>
           </Section>

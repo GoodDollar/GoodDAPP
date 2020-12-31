@@ -169,3 +169,9 @@ jobs:
           echo "deploying to ${{ env.APPCENTER_NAME }} ${{ env.INPUT_APK_PATH }}"
           npm install appcenter-cli@^2.*
           npx appcenter distribute release --token $token --app "${{ env.APPCENTER_NAME }}" --group "Collaborators" --file "${{ env.UNIVERSAL_APK_PATH }}" --release-notes "$(git log -1 --pretty=format:'%h %s')" --debug
+
+      - name: Distribute to stores - PROD ONLY
+        if: ${{ contains('production next', env.BRANCH) }}
+        run: |
+          token=${{secrets.APPCENTER_ANDROID_PROD}}
+          npx appcenter distribute stores publish --token $token --app "${{ env.APPCENTER_NAME }}" --store Beta --file "${{ env.UNIVERSAL_APK_PATH }}" --release-notes "$(git log -1 --pretty=format:'%h %s')"

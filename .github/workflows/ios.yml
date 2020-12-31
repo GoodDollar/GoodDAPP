@@ -4,6 +4,8 @@ on:
   push:
     branches: [master, staging, production, next, react-native]
 
+  workflow_dispatch:
+
 jobs:
   build:
     runs-on: macOS-latest
@@ -37,9 +39,6 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 10.15.3
-
-      - name: Install gpg
-        run: brew install gnupg
 
       - name: Switch XCode Version
         run: sudo xcode-select -s /Applications/Xcode_11.2.app
@@ -76,7 +75,13 @@ jobs:
       - name: Setup provisioning profile
         run: ./.github/secrets/decrypt_secrets.sh
         env:
-          IOS_PROFILE_KEY: ${{ secrets.IOS_PROFILE_KEY }}
+          IOS_CERTIFICATE: ${{ secrets.IOS_CERTIFICATE }}
+          IOS_STORE_PROFILE: ${{ secrets.IOS_STORE_PROFILE }}
+          IOS_ADHOC_PROFILE: ${{ secrets.IOS_ADHOC_PROFILE }}
+          IS_PROD: ${{ contains('production next', env.BRANCH) }}
+
+      - name: Setup google services file
+        run: echo "${{ secrets.IOS_GOOGLE_SERVICES}}" | base64 --decode > ./ios/GoogleService-Info.plist
 
       - name: Generate assets
         run: node ./animationAssets.js
@@ -91,15 +96,21 @@ jobs:
       - name: Build app
         env:
           ENVFILE: '../.env.${{ env.ENV }}'
+          IS_PROD: ${{ contains('production next', env.BRANCH) }}
         run: |
-          echo "Creating release using env: ${ENVFILE}"
+          echo "Creating release using env: ${ENVFILE}, is_prod: ${IS_PROD}"
+          PROFILE_UID="b29b41c9-e82a-4aab-96a8-e5d00e55756e"
+          if ${{ env.IS_PROD }}; then
+            PROFILE_UID="21f28d4b-7641-4420-875f-989a0bcc3d52"
+          fi
+          
           cd ios && xcodebuild archive \
             -workspace GoodDollar.xcworkspace \
             -scheme GoodDollar \
             -sdk iphoneos \
             -configuration Release \
             -archivePath $PWD/build/GoodDollar.xcarchive \
-            PROVISIONING_PROFILE="b29b41c9-e82a-4aab-96a8-e5d00e55756e" \
+            PROVISIONING_PROFILE=$PROFILE_UID \
             CODE_SIGN_IDENTITY="Apple Distribution: GoodDollar Limited (97K3Q6WTLM)"
       - name: Export app
         run: |
@@ -123,5 +134,11 @@ jobs:
             token=${{secrets.APPCENTER_IOS_STAGING}}
           fi
           echo "deploying to ${{ env.APPCENTER_NAME }}"
-          npm install appcenter-cli@^2
+          npm install appcenter-cli@^2.*
           npx appcenter distribute release --token $token --app "${{ env.APPCENTER_NAME }}" --group "Collaborators" --file "ios/build/GoodDollar.ipa" --release-notes "$(git log -1 --pretty=format:'%h %s')" --debug
+
+      - name: Distribute to stores - PROD ONLY
+        if: ${{ contains('production next', env.BRANCH) }}
+        run: |
+          token=${{secrets.APPCENTER_IOS_PROD}}
+          npx appcenter distribute stores publish --token $token --app "${{ env.APPCENTER_NAME }}" --store Production --file "ios/build/GoodDollar.ipa" --release-notes "$(git log -1 --pretty=format:'%h %s')"

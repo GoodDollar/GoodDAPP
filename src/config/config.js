@@ -41,7 +41,7 @@ if (!publicUrl) {
 
 const Config = {
   env: appEnv,
-  version,
+  version: appEnv === 'test' ? '1.0' : version, //hard code for tests snapshots
   contractsVersion,
   isEToro,
   phase,

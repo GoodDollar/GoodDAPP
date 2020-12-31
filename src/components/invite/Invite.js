@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import { View } from 'react-native'
+import { Image, View } from 'react-native'
 import { get, result } from 'lodash'
 import {
   EmailShareButton,
@@ -20,6 +20,8 @@ import { generateShareObject, isSharingAvailable } from '../../lib/share'
 import AsyncStorage from '../../lib/utils/asyncStorage'
 import ModalLeftBorder from '../common/modal/ModalLeftBorder'
 import { useCollectBounty, useInviteCode, useInvited } from './useInvites'
+import FriendsSVG from './friends.svg'
+import EtoroPNG from './etoro.png'
 
 const log = logger.child({ from: 'Invite' })
 
@@ -118,9 +120,9 @@ const ShareIcons = ({ shareUrl }) => {
   }
 
   return (
-    <Section.Row style={{ marginTop: theme.paddings.defaultMargin * 2, justifyContent: 'center' }}>
+    <Section.Row style={{ marginTop: theme.paddings.defaultMargin * 2, justifyContent: 'flex-start' }}>
       {buttons.map(({ name, Component, ...props }) => (
-        <Section.Stack style={{ marginRight: theme.paddings.defaultMargin * 1.5 }} key={name}>
+        <Section.Stack style={{ marginRight: theme.sizes.defaultDouble }} key={name}>
           <Component url={shareUrl} {...props}>
             <IconButton {...props} name={name} circleSize={36} onPress={() => onShare(props.service)} />
           </Component>
@@ -153,7 +155,9 @@ const ShareBox = ({ level }) => {
       </Section.Stack>
       <Section.Row style={{ alignItems: 'flex-start' }}>
         <Text
-          fontSize={11}
+          textAlign={'left'}
+          fontSize={getDesignRelativeWidth(11, false)}
+          fontWeight={'medium'}
           lineHeight={30}
           style={{
             flex: 1,
@@ -284,16 +288,41 @@ const InvitesHowTO = () => {
       </Section.Stack>
     </Section.Row>
   )
+  const SVGWrapper = ({ svg: SVG, width, height, style, svgStyle }) => {
+    return (
+      <Section.Stack
+        style={[{ justifyContent: 'center', alignItems: 'center', alignSelf: 'center', justifySelf: 'center' }, style]}
+      >
+        <SVG svgStyle={svgStyle} />
+      </Section.Stack>
+    )
+  }
   return (
     <Section.Stack style={{ marginHorizontal: getDesignRelativeWidth(theme.sizes.default * 5, false) }}>
+      <SVGWrapper
+        svg={FriendsSVG}
+        style={{ marginTop: theme.sizes.default * 5, marginBottom: theme.sizes.defaultDouble }}
+      />
       <Step label="01" text="Copy your personal invite link and send it to your friends" />
       <Step label="02" text="Make sure they sign up and claim at least once" />
       <Step label="03" text="Get rewarded right after they claim" />
-      <Section.Stack style={{ marginTop: theme.sizes.default * 3 }}>
-        <Section.Text color={theme.colors.darkBlue} linelineHeight={16} fontSize={12} textAlign={'center'}>
+      <Section.Row style={{ justifyContent: 'center', marginTop: theme.sizes.default * 3 }}>
+        <Section.Text
+          style={{ alignSelf: 'flex-end' }}
+          color={theme.colors.darkBlue}
+          linelineHeight={16}
+          fontSize={12}
+          textAlign={'center'}
+        >
           Rewards pool is sponsored by
         </Section.Text>
-      </Section.Stack>
+        <Image
+          source={EtoroPNG}
+          resizeMode={'contain'}
+          resizeMethod={'scale'}
+          style={{ marginLeft: 2.5, width: 45, height: 18, marginBottom: 1 }}
+        />
+      </Section.Row>
     </Section.Stack>
   )
 }
@@ -322,6 +351,7 @@ const Invite = () => {
   const [invitees, refresh, level, inviteState] = useInvited()
 
   const totalEarned = get(inviteState, 'totalEarned', 0)
+  const bounty = result(level, 'bounty.toNumber', 100) / 100
 
   const toggleHowTo = () => {
     !showHowTo && fireEvent(INVITE_HOWTO)
@@ -342,13 +372,24 @@ const Invite = () => {
           fontFamily={theme.fonts.slab}
           fontSize={28}
           color={theme.colors.darkBlue}
+          lineHeight={34}
         >
-          {`Be a Good Friend\nand Invite Everyone\nTo GoodDollar`}
+          {`Get ${bounty}G$`}
+        </Section.Text>
+        <Section.Text
+          letterSpacing={0.1}
+          fontWeight={'bold'}
+          fontFamily={theme.fonts.slab}
+          fontSize={20}
+          color={theme.colors.primary}
+          lineHeight={34}
+        >
+          For Each Friend You Invite!
         </Section.Text>
       </Section.Stack>
-      <Section.Stack style={{ marginTop: 10 }}>
-        <Section.Text fontSize={14} color={theme.colors.darkBlue}>
-          {`The more people who join GoodDollar,\nthe faster our economy will grow…`}
+      <Section.Stack style={{ marginTop: theme.sizes.defaultDouble }}>
+        <Section.Text letterSpacing={-0.07} lineHeight={20} fontSize={14} color={theme.colors.darkBlue}>
+          {`Invite Someone to Get Free Digital Basic Income`}
         </Section.Text>
       </Section.Stack>
       <View

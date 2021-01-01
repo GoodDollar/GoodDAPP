@@ -7,7 +7,7 @@
   },
   "scripts": {
     "web": "react-app-rewired start",
-    "android": "npm run animation:assets && react-native run-android",
+    "android": "npm run copy:gdfont && npm run animation:assets && react-native run-android",
     "ios": "npm run animation:assets && react-native run-ios",
     "start:native": "react-native start",
     "start": "serve -s -l $PORT build",
@@ -19,6 +19,7 @@
     "web:local": "npm run link && npm run web",
     "build": "react-app-rewired build --analyze",
     "animation:assets": "node ./animationAssets.js",
+    "copy:gdfont": "cp src/assets/fonts/*.ttf android/app/src/main/assets/fonts/",
     "test": "npm run test:web && npm run test:native",
     "test:setup": "./scripts/blockchainTestSetup.sh",
     "test:web-watch": "npm run link && node scripts/test.js --watch --config \"./config/web.jest.config.js\"",
@@ -63,7 +64,7 @@
   "dependencies": {
     "@babel/preset-flow": "^7.0.0",
     "@expo/react-native-action-sheet": "^3.4.1",
-    "@gooddollar/goodcontracts": "^2.2.5",
+    "@gooddollar/goodcontracts": "^2.4.1",
     "@gooddollar/gun": "^0.2020.902",
     "@gooddollar/gun-asyncstorage": "^1.0.3",
     "@gooddollar/gun-pk-auth": "^1.1.0",
@@ -263,7 +264,6 @@
     "lodash-webpack-plugin": "^0.11.5",
     "metro-config": "^0.59.0",
     "metro-react-native-babel-preset": "^0.51.0",
-    "netlify-cli": "^2.13.1",
     "node-pre-gyp": "^0.14.0",
     "node-webcrypto-ossl": "^1.0.48",
     "node-xml-lite": "0.0.7",

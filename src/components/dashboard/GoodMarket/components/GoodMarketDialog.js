@@ -48,8 +48,11 @@ const mapStylesToProps = ({ theme }) => ({
     color: theme.colors.darkGray,
     lineHeight: 25,
     marginBottom: 20,
-    fontWeight: '700',
-    fontFamily: theme.fonts.slab,
+    fontWeight: '500',
+    fontFamily: theme.fonts.default,
+    alignSelf: 'baseline',
+    textAlignVertical: 'bottom',
+    width: '100%',
   },
   text: {
     fontSize: 14,
@@ -67,12 +70,8 @@ const mapStylesToProps = ({ theme }) => ({
     height: getDesignRelativeHeight(76),
     marginBottom: getDesignRelativeHeight(36),
   },
-  imageContainer: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'center',
-  },
   container: {
+    justifyContent: 'flex-start',
     minHeight: getDesignRelativeHeight(495),
   },
 })

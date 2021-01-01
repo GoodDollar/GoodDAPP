@@ -71,7 +71,7 @@ const GrayBox = ({ title, value, symbol, theme, style }) => {
         lineHeight={19}
         textTransform={'capitalize'}
         fontWeight={'bold'}
-        textAlign={'justify'}
+        textAlign={'left'}
       >
         {title}
       </Section.Text>
@@ -81,7 +81,7 @@ const GrayBox = ({ title, value, symbol, theme, style }) => {
           fontWeight={'bold'}
           fontSize={32}
           lineHeight={43}
-          textAlign={'justify'}
+          textAlign={'left'}
           textTransform={'uppercase'}
           style={gbStyles.statsNumbers}
         >
@@ -240,9 +240,7 @@ const Claim = props => {
   // const openLearnMoreLink = useOnPress(() => openLink(Config.learnMoreEconomyUrl), [])
 
   // format number of people who did claim today
-  /*eslint-disable */
   const formattedNumberOfPeopleClaimedToday = useMemo(() => formatWithSIPrefix(peopleClaimed), [peopleClaimed])
-  /*eslint-enable */
 
   // Format transformer function for claimed G$ amount
   const extraInfoAmountFormatter = number => formatWithSIPrefix(weiToGd(number))
@@ -255,6 +253,8 @@ const Claim = props => {
     log.debug('from FR:', { isValid, screenProps })
     try {
       if (isValid && (await goodWallet.isCitizen())) {
+        //collect invite bonus
+        goodWallet.collectInviteBounty()
         handleClaim()
       } else if (isValid === false) {
         screenProps.goToRoot()

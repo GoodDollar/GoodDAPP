@@ -32,6 +32,7 @@ exports[`TabsView matches snapshot 1`] = `
     <div
       className="css-view-1dbjc4n r-cursor-1loqt21 r-touchAction-1otgn73 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
       data-focusable={true}
+      data-testid="rewards_tab"
       onKeyDown={[Function]}
       onKeyUp={[Function]}
       onResponderGrant={[Function]}
@@ -54,7 +55,6 @@ exports[`TabsView matches snapshot 1`] = `
     >
       <div
         className="css-text-901oao"
-        data-testid="invite_tab"
         dir="auto"
         style={
           Object {
@@ -66,7 +66,7 @@ exports[`TabsView matches snapshot 1`] = `
           }
         }
       >
-        
+        
       </div>
     </div>
     <div

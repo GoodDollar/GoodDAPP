@@ -6,15 +6,54 @@ import normalize from '../../../lib/utils/normalizeText'
 import { getFormattedDateTime } from '../../../lib/utils/FormatDate'
 import { withStyles } from '../../../lib/styles'
 import { getScreenWidth } from '../../../lib/utils/orientation'
+import { getDesignRelativeWidth } from '../../../lib/utils/sizes'
 import Avatar from '../../common/view/Avatar'
 import BigGoodDollar from '../../common/view/BigGoodDollar'
-import Text from '../../common/view/Text'
+import { Icon, Section, Text } from '../../common'
 import userStorage from '../../../lib/gundb/UserStorage'
 import type { FeedEventProps } from './EventProps'
 import EventIcon from './EventIcon'
 import EventCounterParty from './EventCounterParty'
 import getEventSettingsByType from './EventSettingsByType'
 import EmptyEventFeed from './EmptyEventFeed'
+import FeedListItemLeftBorder from './FeedListItemLeftBorder'
+
+const InviteItem = ({ item, theme }) => {
+  return (
+    <Section.Row style={{ flex: 1, paddingVertical: theme.sizes.default * 1.5 }}>
+      <Section.Stack>
+        <Icon color={theme.colors.white} name="invite" size={30} />
+      </Section.Stack>
+      <Section.Stack style={{ marginLeft: getDesignRelativeWidth(theme.sizes.default) }}>
+        <Text
+          color={theme.colors.white}
+          textAlign={'left'}
+          fontSize={18}
+          lineHeight={18}
+          fontWeight="bold"
+          letterSpacing={0.09}
+        >
+          {item.data.subtitle}
+        </Text>
+        <Text
+          color={theme.colors.white}
+          textAlign={'left'}
+          fontSize={13}
+          lineHeight={18}
+          fontWeight="regular"
+          letterSpacing={-0.07}
+        >
+          {item.data.readMore}
+        </Text>
+      </Section.Stack>
+      <Section.Stack
+        style={{ flex: 1, alignItems: 'flex-end', marginRight: getDesignRelativeWidth(theme.sizes.defaultDouble) }}
+      >
+        <Icon color={theme.colors.white} name="arrow-back" size={20} style={{ transform: [{ rotateY: '180deg' }] }} />
+      </Section.Stack>
+    </Section.Row>
+  )
+}
 
 /**
  * Render list withdraw item for feed list
@@ -36,72 +75,83 @@ const ListEvent = ({ item: feed, theme, styles }: FeedEventProps) => {
   if (itemType === 'empty') {
     return <EmptyEventFeed />
   }
-
-  return (
-    <View style={styles.innerRow}>
-      <View style={styles.emptySpace} />
-      <View grow style={styles.mainContents}>
-        <View style={[styles.dateAndValue, { borderBottomColor: mainColor }]}>
-          <Text fontSize={10} color="gray80Percent" lineHeight={17}>
-            {getFormattedDateTime(feed.date)}
-          </Text>
-          {!eventSettings.withoutAmount && (
-            <React.Fragment>
-              {eventSettings && eventSettings.actionSymbol && (
-                <Text fontSize={15} lineHeight={18} fontWeight="bold" color={mainColor} style={styles.actionSymbol}>
-                  {eventSettings.actionSymbol}
-                </Text>
-              )}
-              <BigGoodDollar
-                number={feed.data.amount}
-                color={mainColor}
-                bigNumberProps={{ fontSize: 20, lineHeight: 20 }}
-                bigNumberStyles={styles.bigNumberStyles}
-                bigNumberUnitProps={{ fontSize: 10, lineHeight: 11 }}
-              />
-            </React.Fragment>
-          )}
+  if (itemType === 'invite') {
+    return (
+      <View style={[styles.rowContent, { backgroundColor: theme.colors.green }]}>
+        <View style={styles.innerRow}>
+          <InviteItem item={feed} theme={theme} />
         </View>
-        <View style={styles.transferInfo} alignItems="flex-start">
-          <Avatar
-            size={normalize(34)}
-            style={styles.avatarBottom}
-            source={feed.data && feed.data.endpoint && feed.data.endpoint.avatar}
-          />
-          <View style={[styles.mainInfo, isFeedTypeClaiming && styles.claimingCardFeedText]}>
-            {isErrorCard ? (
-              <>
-                <Text fontWeight="medium" lineHeight={19} style={styles.mainText} color="primary">
-                  {`We're sorry.`}
-                </Text>
-                <ReadMoreText
-                  text="This transaction failed"
-                  buttonText="Read why..."
-                  style={styles.failTransaction}
-                  color="primary"
+      </View>
+    )
+  }
+  return (
+    <View style={styles.rowContent}>
+      <FeedListItemLeftBorder style={styles.rowContentBorder} color={eventSettings.color} />
+      <View style={styles.innerRow}>
+        <View style={styles.emptySpace} />
+        <View grow style={styles.mainContents}>
+          <View style={[styles.dateAndValue, { borderBottomColor: mainColor }]}>
+            <Text fontSize={10} color="gray80Percent" lineHeight={17}>
+              {getFormattedDateTime(feed.date)}
+            </Text>
+            {!eventSettings.withoutAmount && (
+              <React.Fragment>
+                {eventSettings && eventSettings.actionSymbol && (
+                  <Text fontSize={15} lineHeight={18} fontWeight="bold" color={mainColor} style={styles.actionSymbol}>
+                    {eventSettings.actionSymbol}
+                  </Text>
+                )}
+                <BigGoodDollar
+                  number={feed.data.amount}
+                  color={mainColor}
+                  bigNumberProps={{ fontSize: 20, lineHeight: 20 }}
+                  bigNumberStyles={styles.bigNumberStyles}
+                  bigNumberUnitProps={{ fontSize: 10, lineHeight: 11 }}
                 />
-              </>
-            ) : (
-              <>
-                <EventCounterParty
-                  style={styles.feedItem}
-                  feedItem={feed}
-                  subtitle={true}
-                  isSmallDevice={isSmallDevice}
-                />
-                <FeedText feed={feed} isSmallDevice={isSmallDevice} />
-              </>
+              </React.Fragment>
             )}
           </View>
-          <EventIcon
-            style={styles.typeIcon}
-            animStyle={styles.typeAnimatedIcon}
-            type={itemType}
-            size={normalize(34)}
-            onAnimationFinish={updateFeedEventAnimation}
-            showAnim={!feed.animationExecuted}
-            delay={1000}
-          />
+          <View style={styles.transferInfo} alignItems="flex-start">
+            <Avatar
+              size={normalize(34)}
+              style={styles.avatarBottom}
+              source={feed.data && feed.data.endpoint && feed.data.endpoint.avatar}
+            />
+            <View style={[styles.mainInfo, isFeedTypeClaiming && styles.claimingCardFeedText]}>
+              {isErrorCard ? (
+                <>
+                  <Text fontWeight="medium" lineHeight={19} style={styles.mainText} color="primary">
+                    {`We're sorry.`}
+                  </Text>
+                  <ReadMoreText
+                    text="This transaction failed"
+                    buttonText="Read why..."
+                    style={styles.failTransaction}
+                    color="primary"
+                  />
+                </>
+              ) : (
+                <>
+                  <EventCounterParty
+                    style={styles.feedItem}
+                    feedItem={feed}
+                    subtitle={true}
+                    isSmallDevice={isSmallDevice}
+                  />
+                  <FeedText feed={feed} isSmallDevice={isSmallDevice} />
+                </>
+              )}
+            </View>
+            <EventIcon
+              style={styles.typeIcon}
+              animStyle={styles.typeAnimatedIcon}
+              type={itemType}
+              size={normalize(34)}
+              onAnimationFinish={updateFeedEventAnimation}
+              showAnim={!feed.animationExecuted}
+              delay={1000}
+            />
+          </View>
         </View>
       </View>
     </View>
@@ -144,6 +194,7 @@ const ReadMoreText = withStyles(getWelcomeStyles)(({ styles, theme, text, button
       {text}
     </Text>
     <Text
+      textAlign={'left'}
       color={color || theme.colors.lighterGray}
       lineHeight={20}
       numberOfLines={1}
@@ -190,6 +241,23 @@ const FeedText = withStyles(getFeedTextStyles)(({ styles, feed, isSmallDevice })
 })
 
 const getStylesFromProps = ({ theme }) => ({
+  rowContent: {
+    borderRadius: theme.feedItems.borderRadius,
+    overflow: 'hidden',
+    alignItems: 'center',
+    backgroundColor: theme.feedItems.itemBackgroundColor,
+    flex: 1,
+    justifyContent: 'center',
+    paddingLeft: theme.paddings.mainContainerPadding,
+  },
+  rowContentBorder: {
+    height: '100%',
+    left: 0,
+    position: 'absolute',
+    right: 0,
+    top: 0,
+    width: 10,
+  },
   innerRow: {
     alignItems: 'center',
     flexDirection: 'row',

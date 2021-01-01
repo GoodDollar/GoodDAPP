@@ -1,13 +1,13 @@
-/*eslint-disable*/
 import React, { useCallback } from 'react'
-import { Image, TouchableOpacity, View } from 'react-native'
-import logger from '../../../lib/logger/pino-logger'
+import { View } from 'react-native'
+
+// import logger from '../../../lib/logger/pino-logger'
 import {
   fireEvent,
-  SIGNIN_SELECTED,
   SIGNIN_METHOD_SELECTED,
-  SIGNUP_SELECTED,
+  SIGNIN_SELECTED,
   SIGNUP_METHOD_SELECTED,
+  SIGNUP_SELECTED,
 } from '../../../lib/analytics/analytics'
 import { GD_USER_MASTERSEED } from '../../../lib/constants/localStorage'
 import AsyncStorage from '../../../lib/utils/asyncStorage'
@@ -33,7 +33,7 @@ import ready from '../ready'
 import Auth from '../../auth/Auth'
 import AuthTorus from '../../auth/torus/AuthTorus'
 
-const log = logger.child({ from: 'Welcome' })
+// const log = logger.child({ from: 'Welcome' })
 const AuthType = config.torusEnabled ? AuthTorus : Auth
 
 const WelcomeScreen = ({ styles, screenProps, navigation }) => {
@@ -161,7 +161,7 @@ const getStylesFromProps = ({ theme }) => {
       marginTop: getDesignRelativeHeight(theme.sizes.default),
       marginBottom: getDesignRelativeHeight(theme.sizes.default),
       flex: 1,
-      ...getShadowStyles('none', {elevation: 0}),
+      ...getShadowStyles('none', { elevation: 0 }),
     },
     buttonText: {
       fontSize: buttonFontSize,

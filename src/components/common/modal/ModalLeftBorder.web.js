@@ -16,7 +16,9 @@ const ModalLeftBorderWeb = (props: any) => {
         { backgroundColor: borderColor },
         style,
       ]}
-    />
+    >
+      {props.children}
+    </View>
   )
 }
 

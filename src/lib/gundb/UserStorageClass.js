@@ -176,8 +176,8 @@ export const inviteFriendsMessage = {
   status: 'completed',
   data: {
     customName: `Invite friends and earn G$'s`,
-    subtitle: Config.isPhaseZero ? 'Want to earn more G$`s ?' : 'Invite your friends now',
-    readMore: Config.isPhaseZero ? 'Invite more friends!' : 'and let them also claim free G$`s.',
+    subtitle: 'Invite your friends now',
+    readMore: 'Get 100G$ for each friend who signs up\nand they get 50G$!',
     receiptData: {
       from: NULL_ADDRESS,
     },
@@ -186,6 +186,9 @@ export const inviteFriendsMessage = {
   },
   action: `navigate("Rewards")`,
 }
+export const INVITE_NEW_ID = '0.1'
+export const INVITE_REMINDER_ID = '0.2'
+
 export const backupMessage = {
   id: '2',
   type: 'backup',
@@ -1084,7 +1087,18 @@ export class UserStorage {
     this.addStartClaimingCard()
 
     if (Config.enableInvites) {
-      setTimeout(() => this.enqueueTX(inviteFriendsMessage), 120000) // 2 minutes
+      inviteFriendsMessage.id = INVITE_NEW_ID
+      setTimeout(() => this.enqueueTX(inviteFriendsMessage), 60000) // 2 minutes
+      const firstInviteCard = this.feedIds['0.1']
+      if (
+        firstInviteCard &&
+        moment(firstInviteCard.date)
+          .add(2, 'weeks')
+          .isBefore(moment())
+      ) {
+        inviteFriendsMessage.id = INVITE_REMINDER_ID
+        this.enqueueTX(inviteFriendsMessage)
+      }
     }
 
     // first time user visit

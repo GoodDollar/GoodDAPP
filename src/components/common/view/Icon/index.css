@@ -15,7 +15,7 @@
 @media screen and (-webkit-min-device-pixel-ratio:0) {
   @font-face {
     font-family: 'gooddollar';
-    src: url('../font/gooddollar.svg?95171243#gooddollar') format('svg');
+    src: url('../font/gooddollar.svg?59398881#gooddollar') format('svg');
   }
 }
 */
@@ -227,9 +227,6 @@
 .icon-info:before {
   content: '\e839';
 } /* '' */
-.icon-rewards:before {
-  content: '\e83b';
-} /* '' */
 .icon-wallet:before {
   content: '\e83c';
 } /* '' */
@@ -272,6 +269,15 @@
 .icon-facebook-1:before {
   content: '\e84a';
 } /* '' */
+.icon-check:before {
+  content: '\e84b';
+} /* '' */
+.icon-rewards:before {
+  content: '\e84d';
+} /* '' */
+.icon-time:before {
+  content: '\e852';
+} /* '' */
 .icon-privacy-policy:before {
   content: '\e883';
 } /* '' */

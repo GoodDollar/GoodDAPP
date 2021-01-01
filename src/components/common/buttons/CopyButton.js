@@ -36,6 +36,10 @@ const CopyButton = ({ toCopy, children, onPress = noop, onPressDone = noop, icon
     if (copyState === COPIED && !withoutDone) {
       setTimeout(transitionToState, TRANSITION_TIME)
     }
+
+    if (copyState === COPIED && withoutDone) {
+      setTimeout(() => setCopyState(NOT_COPIED), TRANSITION_TIME)
+    }
   }, [copyState, withoutDone, transitionToState])
 
   const done = useCallback(onPressDone)

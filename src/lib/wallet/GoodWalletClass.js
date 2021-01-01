@@ -1130,9 +1130,13 @@ export class GoodWallet {
   }
 
   async collectInviteBounty(invitee) {
-    const tx = this.invitesContract.methods.bountyFor(invitee)
-    const res = await this.sendTransaction(tx, {})
-    return res
+    const bountyFor = invitee || this.account
+    const canCollect = await this.invitesContract.methods.canCollectBountyFor(bountyFor)
+    if (canCollect) {
+      const tx = this.invitesContract.methods.bountyFor(bountyFor)
+      const res = await this.sendTransaction(tx, {})
+      return res
+    }
   }
 
   async joinInvites(inviter, codeLength = 10) {

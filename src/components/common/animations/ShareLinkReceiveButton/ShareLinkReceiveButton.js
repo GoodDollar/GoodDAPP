@@ -1,13 +1,9 @@
 import React from 'react'
 import Lottie from 'lottie-react-native'
 import { TouchableOpacity } from 'react-native'
-import { isString } from 'lodash'
 import AnimationBase from '../Base'
 import { isMobileReactNative } from '../../../../lib/utils/platform'
 import { withStyles } from '../../../../lib/styles'
-import useNativeSharing from '../../../../lib/hooks/useNativeSharing'
-import { isSharingAvailable } from '../../../../lib/share'
-import { useClipboardCopy } from '../../../../lib/hooks/useClipboard'
 
 import animationData from './data.json'
 
@@ -74,14 +70,5 @@ const styles = ({ theme }) => {
 }
 
 const ShareLinkReceiveButtonStyled = withStyles(styles)(ShareLinkReceiveButton)
-
-export const ShareButtonAnimated = ({ shareObject, ...props }) => {
-  const shareOrCopy =
-    isSharingAvailable || isString(shareObject) ? shareObject : [shareObject.message, shareObject.url].join('\n')
-  const shareHandler = useNativeSharing(shareOrCopy)
-  const copyHandler = useClipboardCopy(shareOrCopy)
-
-  return <ShareLinkReceiveButtonStyled onPress={isSharingAvailable ? shareHandler : copyHandler} {...props} />
-}
 
 export default ShareLinkReceiveButtonStyled

@@ -3,7 +3,7 @@ import React, { useCallback, useMemo } from 'react'
 import { useScreenState } from '../appNavigation/stackNavigation'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import GDStore from '../../lib/undux/GDStore'
-import { generateCode, generateReceiveShareObject, generateReceiveShareText, isSharingAvailable } from '../../lib/share'
+import { generateCode, generateReceiveShareObject } from '../../lib/share'
 import { ACTION_RECEIVE, navigationOptions } from './utils/sendReceiveFlow'
 import SummaryGeneric from './SendReceive/SummaryGeneric'
 
@@ -24,9 +24,8 @@ const ReceiveAmount = ({ screenProps, styles }: ReceiveProps) => {
   const shareOrString = useMemo(() => {
     const { account, networkId } = goodWallet
     const code = generateCode(account, networkId, amount, reason, counterPartyDisplayName)
-    const factory = isSharingAvailable ? generateReceiveShareObject : generateReceiveShareText
 
-    return factory(code, amount, counterPartyDisplayName, fullName)
+    return generateReceiveShareObject(code, amount, counterPartyDisplayName, fullName)
   }, [amount, reason, counterPartyDisplayName])
 
   const handleConfirm = useCallback(() => {

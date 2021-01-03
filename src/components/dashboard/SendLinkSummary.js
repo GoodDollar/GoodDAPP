@@ -12,7 +12,7 @@ import { ExceptionCategory } from '../../lib/logger/exceptions'
 import { useDialog } from '../../lib/undux/utils/dialog'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import { useScreenState } from '../appNavigation/stackNavigation'
-import { generateSendShareObject, generateSendShareText, isSharingAvailable } from '../../lib/share'
+import { generateSendShareObject, generateSendShareText } from '../../lib/share'
 import { ACTION_SEND, ACTION_SEND_TO_ADDRESS, SEND_TITLE } from './utils/sendReceiveFlow'
 import SummaryGeneric from './SendReceive/SummaryGeneric'
 
@@ -210,8 +210,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
   const sendViaLink = useCallback(() => {
     try {
       const paymentLink = getLink()
-      const factory = isSharingAvailable ? generateSendShareObject : generateSendShareText
-      const desktopShareLink = factory(paymentLink, amount, counterPartyDisplayName, fullName)
+      const desktopShareLink = generateSendShareObject(paymentLink, amount, counterPartyDisplayName, fullName)
 
       // Go to transaction confirmation screen
       navigateTo('TransactionConfirmation', { paymentLink: desktopShareLink, action: ACTION_SEND })

@@ -1,17 +1,15 @@
 // @flow
 import React, { useCallback } from 'react'
 import { View } from 'react-native'
-import useNativeSharing from '../../lib/hooks/useNativeSharing'
 import Section from '../common/layout/Section'
 import Wrapper from '../common/layout/Wrapper'
-import ButtonWithDoneState from '../common/buttons/ButtonWithDoneState'
-import CustomButton from '../common/buttons/CustomButton'
-import Icon from '../common/view/Icon'
+// import ButtonWithDoneState from '../common/buttons/ButtonWithDoneState'
+// import CustomButton from '../common/buttons/CustomButton'
+import ShareOrCopyButton from '../common/animations/ShareOrCopyButtonAnimated'
 import { withStyles } from '../../lib/styles'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
 import { fireEvent } from '../../lib/analytics/analytics'
 import ConfirmTransactionSVG from '../../assets/confirmTransaction.svg'
-import { useClipboardCopy } from '../../lib/hooks/useClipboard'
 import useCachedScreenState from '../../lib/hooks/useCachedScreenState'
 import { isSharingAvailable } from '../../lib/share'
 import { ACTION_RECEIVE, ACTION_SEND, PARAM_ACTION, RECEIVE_TITLE, SEND_TITLE } from './utils/sendReceiveFlow'
@@ -36,25 +34,17 @@ const instructionsTextNumberProps = {
   fontWeight: 'bold',
 }
 
-const fireShared = () => fireEvent('SEND_CONFIRMATION_SHARE', { type: isSharingAvailable ? 'share' : 'copy' })
-const ConfirmButton = isSharingAvailable ? CustomButton : ButtonWithDoneState
-
 const TransactionConfirmation = ({ screenProps, styles }: ReceiveProps) => {
   const { goToRoot } = screenProps
-  const { paymentLink, action } = useCachedScreenState(screenProps, 'GD_sharingCache')
+  const { paymentLink = { url: 'test' }, action } = useCachedScreenState(screenProps, 'GD_sharingCache')
 
   const isSending = action === ACTION_SEND
   const secondTextPoint = isSending ? 'Share it with your recipient' : 'Share it with sender'
   const thirdTextPoint = isSending ? 'Recipient approves request' : 'Sender approves request'
 
-  // not fire SEND_CONFIRMATION_SHARE if copy to Clipboard failed
-  const handleCopied = useCallback(copied => copied && fireShared(), [])
-
-  const copy = useClipboardCopy(paymentLink, handleCopied)
-  const share = useNativeSharing(paymentLink, {
-    onSharePress: fireShared,
-    onSharingDone: goToRoot,
-  })
+  const fireShared = useCallback(() => {
+    fireEvent('SEND_CONFIRMATION_SHARE', { action, type: isSharingAvailable ? 'share' : 'copy' })
+  }, [action])
 
   return (
     <Wrapper>
@@ -86,12 +76,12 @@ const TransactionConfirmation = ({ screenProps, styles }: ReceiveProps) => {
           <ConfirmTransactionSVG />
         </View>
         <View style={styles.confirmButtonWrapper}>
-          <ConfirmButton testID={paymentLink} onPress={isSharingAvailable ? share : copy} onPressDone={goToRoot}>
-            <Icon color="white" name="link" size={25} style={styles.buttonIcon} />
-            <Section.Text size={14} color="white" fontWeight="bold">
-              {isSharingAvailable ? 'SHARE' : 'COPY LINK TO CLIPBOARD'}
-            </Section.Text>
-          </ConfirmButton>
+          <ShareOrCopyButton
+            testID={paymentLink.url}
+            onShareOrCopy={fireShared}
+            shareObject={paymentLink}
+            onPressDone={goToRoot}
+          />
         </View>
       </Section>
     </Wrapper>

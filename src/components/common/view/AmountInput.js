@@ -39,7 +39,7 @@ const AmountInput = ({ amount, handleAmountChange, styles, error, title, maxLeng
           <InputGoodDollar
             style={error ? styles.errorInput : styles.section}
             editable={!isMobile}
-            autoFocus
+            autoFocus={!isMobile}
             amount={amount}
             onChangeAmount={handleAmountChange}
             onSelectionChange={setCaretPosition}

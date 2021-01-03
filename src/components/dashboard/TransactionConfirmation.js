@@ -3,9 +3,7 @@ import React, { useCallback } from 'react'
 import { View } from 'react-native'
 import Section from '../common/layout/Section'
 import Wrapper from '../common/layout/Wrapper'
-// import ButtonWithDoneState from '../common/buttons/ButtonWithDoneState'
-// import CustomButton from '../common/buttons/CustomButton'
-import ShareOrCopyButton from '../common/animations/ShareOrCopyButtonAnimated'
+import ShareOrCopyButton from '../common/animations/ShareOrCopyButton/ShareOrCopyButtonAnimated'
 import { withStyles } from '../../lib/styles'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
 import { fireEvent } from '../../lib/analytics/analytics'
@@ -48,7 +46,7 @@ const TransactionConfirmation = ({ screenProps, styles }: ReceiveProps) => {
 
   return (
     <Wrapper>
-      <Section grow style={styles.section} justifyContent="space-between">
+      <Section grow style={styles.section} justifyContent="space-between" alignItems="center">
         <Section.Stack style={styles.textContainer}>
           <Section.Text style={styles.confirmationTitle} fontSize={22} fontWeight="bold">
             Complete Your Transaction:
@@ -96,6 +94,7 @@ const getStylesFromProps = ({ theme }) => ({
   },
   textContainer: {
     marginTop: 'auto',
+    alignItems: 'center',
   },
   confirmationTitle: {
     display: 'flex',

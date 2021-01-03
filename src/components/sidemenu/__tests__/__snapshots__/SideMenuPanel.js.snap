@@ -69,7 +69,7 @@ exports[`SideMenuPanel matches snapshot 1`] = `
           tabIndex="0"
         >
           <div
-            className="css-view-1dbjc4n r-alignItems-1habvwh r-display-6koalj r-justifyContent-1777fci r-marginLeft-1jkjb r-marginRight-bpynri r-width-19wmn03"
+            className="css-view-1dbjc4n r-alignItems-1habvwh r-display-6koalj r-justifyContent-1777fci r-marginLeft-1jkjb r-marginRight-acz6fz r-width-q1j0wu"
           >
             <div
               className="css-text-901oao"
@@ -108,7 +108,7 @@ exports[`SideMenuPanel matches snapshot 1`] = `
           tabIndex="0"
         >
           <div
-            className="css-view-1dbjc4n r-alignItems-1habvwh r-display-6koalj r-justifyContent-1777fci r-marginLeft-1jkjb r-marginRight-bpynri r-width-19wmn03"
+            className="css-view-1dbjc4n r-alignItems-1habvwh r-display-6koalj r-justifyContent-1777fci r-marginLeft-1jkjb r-marginRight-acz6fz r-width-q1j0wu"
           >
             <div
               className="css-text-901oao"
@@ -147,7 +147,7 @@ exports[`SideMenuPanel matches snapshot 1`] = `
           tabIndex="0"
         >
           <div
-            className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-justifyContent-1777fci r-marginLeft-1jkjb r-marginRight-bpynri r-width-19wmn03"
+            className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-justifyContent-1777fci r-marginLeft-1jkjb r-marginRight-acz6fz r-width-q1j0wu"
           >
             <div
               className="css-text-901oao"
@@ -156,7 +156,7 @@ exports[`SideMenuPanel matches snapshot 1`] = `
                 Object {
                   "color": "rgba(0,175,255,1.00)",
                   "fontFamily": "gooddollar",
-                  "fontSize": "23px",
+                  "fontSize": "18px",
                   "fontStyle": "normal",
                   "fontWeight": "normal",
                 }
@@ -186,7 +186,7 @@ exports[`SideMenuPanel matches snapshot 1`] = `
           tabIndex="0"
         >
           <div
-            className="css-view-1dbjc4n r-alignItems-1habvwh r-display-6koalj r-justifyContent-1777fci r-marginLeft-1jkjb r-marginRight-bpynri r-width-19wmn03"
+            className="css-view-1dbjc4n r-alignItems-1habvwh r-display-6koalj r-justifyContent-1777fci r-marginLeft-1jkjb r-marginRight-acz6fz r-width-q1j0wu"
           >
             <div
               className="css-text-901oao"
@@ -225,7 +225,7 @@ exports[`SideMenuPanel matches snapshot 1`] = `
           tabIndex="0"
         >
           <div
-            className="css-view-1dbjc4n r-alignItems-1habvwh r-display-6koalj r-justifyContent-1777fci r-marginLeft-1jkjb r-marginRight-bpynri r-width-19wmn03"
+            className="css-view-1dbjc4n r-alignItems-1habvwh r-display-6koalj r-justifyContent-1777fci r-marginLeft-1jkjb r-marginRight-acz6fz r-width-q1j0wu"
           >
             <div
               className="css-text-901oao"
@@ -264,7 +264,7 @@ exports[`SideMenuPanel matches snapshot 1`] = `
           tabIndex="0"
         >
           <div
-            className="css-view-1dbjc4n r-alignItems-1habvwh r-display-6koalj r-justifyContent-1777fci r-marginLeft-1jkjb r-marginRight-bpynri r-width-19wmn03"
+            className="css-view-1dbjc4n r-alignItems-1habvwh r-display-6koalj r-justifyContent-1777fci r-marginLeft-1jkjb r-marginRight-acz6fz r-width-q1j0wu"
           >
             <div
               className="css-text-901oao"
@@ -306,7 +306,7 @@ exports[`SideMenuPanel matches snapshot 1`] = `
             tabIndex="0"
           >
             <div
-              className="css-view-1dbjc4n r-alignItems-1habvwh r-display-6koalj r-justifyContent-1777fci r-marginLeft-1jkjb r-marginRight-bpynri r-width-19wmn03"
+              className="css-view-1dbjc4n r-alignItems-1habvwh r-display-6koalj r-justifyContent-1777fci r-marginLeft-1jkjb r-marginRight-acz6fz r-width-q1j0wu"
             >
               <div
                 className="css-text-901oao r-color-11zaip3"

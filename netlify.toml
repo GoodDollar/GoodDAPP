@@ -1,12 +1,6 @@
 [build]
 command = "CI= npm run build"
 
-[[redirects]]
-  from = "https://next.gooddollar.org/*"
-  to = "https://wallet.gooddollar.org/:splat"
-  status = 301
-  force = true
-
 [[headers]]
   for = "*"
   [headers.values]

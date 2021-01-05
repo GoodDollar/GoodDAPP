@@ -52,16 +52,13 @@ class EmailConfirmation extends React.Component<Props, State> {
     code: Array(NumInputs).fill(null),
   }
 
-  componentDidUpdate() {
-    const { renderButton, resentCode } = this.state
-    if (!renderButton && !resentCode) {
-      this.displayDelayedRenderButton()
-    }
+  componentDidMount() {
+    this.displayDelayedRenderButton()
   }
 
   displayDelayedRenderButton = () => {
     setTimeout(() => {
-      this.setState({ renderButton: true })
+      this.setState({ ...this.state, renderButton: true })
     }, 10000)
   }
 
@@ -69,6 +66,7 @@ class EmailConfirmation extends React.Component<Props, State> {
     const codeValue = code.filter(val => val).join('')
     if (codeValue.replace(/ /g, '').length === NumInputs) {
       this.setState({
+        ...this.state,
         loading: true,
         code,
       })
@@ -79,12 +77,14 @@ class EmailConfirmation extends React.Component<Props, State> {
         log.error('Submit email verification code failed', e.message, e)
 
         this.setState({
+          ...this.state,
           errorMessage: e.message || e,
           loading: false,
         })
       }
     } else {
       this.setState({
+        ...this.state,
         errorMessage: '',
         code,
       })
@@ -94,7 +94,7 @@ class EmailConfirmation extends React.Component<Props, State> {
   handleSubmit = async () => {
     await this.props.screenProps.doneCallback({ isEmailConfirmed: true })
 
-    this.setState({ loading: false })
+    this.setState({ ...this.state, loading: false })
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -103,7 +103,7 @@ class EmailConfirmation extends React.Component<Props, State> {
   }
 
   handleRetry = async () => {
-    this.setState({ sendingCode: true, code: Array(NumInputs).fill(null), errorMessage: '' })
+    this.setState({ ...this.state, sendingCode: true, code: Array(NumInputs).fill(null), errorMessage: '' })
     let { retryFunctionName } = this.props.screenProps
 
     retryFunctionName = retryFunctionName || 'sendVerificationEmail'
@@ -111,10 +111,12 @@ class EmailConfirmation extends React.Component<Props, State> {
     try {
       fireEvent(SIGNUP_RETRY_EMAIL)
       await API[retryFunctionName]({ ...this.props.screenProps.data })
-      this.setState({ sendingCode: false, resentCode: true })
+      this.setState({ ...this.state, sendingCode: false, resentCode: true })
+      this.displayDelayedRenderButton()
     } catch (e) {
       log.error('resend email code failed', e.message, e)
       this.setState({
+        ...this.state,
         errorMessage: e.message || e,
         sendingCode: false,
         resentCode: false,
@@ -158,7 +160,7 @@ class EmailConfirmation extends React.Component<Props, State> {
                 resentCode={resentCode}
                 renderButton={renderButton}
                 handleRetry={this.handleRetry}
-                onFinish={() => this.setState({ renderButton: false, resentCode: false })}
+                onFinish={() => this.setState({ ...this.state, renderButton: false, resentCode: false })}
               />
             </Section.Row>
           </Section>

@@ -1088,6 +1088,10 @@ export class UserStorage {
 
     if (Config.enableInvites) {
       inviteFriendsMessage.id = INVITE_NEW_ID
+      const bounty = await this.wallet.getUserInviteBounty()
+      inviteFriendsMessage.data.readMore = inviteFriendsMessage.data.readMore
+        .replace('100', bounty)
+        .replace('50', bounty / 2)
       setTimeout(() => this.enqueueTX(inviteFriendsMessage), 60000) // 2 minutes
       const firstInviteCard = this.feedIds['0.1']
       if (
@@ -1210,7 +1214,7 @@ export class UserStorage {
           exception = new Error(reason)
         }
 
-        logger.error('getProfileFieldValue decrypt failed:', message, exception, { field })
+        logger.error('getProfileFieldValue decrypt failed:', message, exception, { field, profile: this.user.pub })
       })
   }
 

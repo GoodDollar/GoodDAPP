@@ -1169,6 +1169,18 @@ export class GoodWallet {
     return this.joinInvites(inviter, codeLength + 1)
   }
 
+  async getUserInviteBounty() {
+    const user = await this.invitesContract.methods
+      .users(this.account)
+      .call()
+      .catch(_ => {})
+    const level = await this.invitesContract.methods
+      .levels(user.level)
+      .call()
+      .catch(_ => {})
+    return result(level, 'bounty.toNumber', 10000) / 100
+  }
+
   handleError(e: Error) {
     log.error('handleError', e.message, e, { category: ExceptionCategory.Blockhain })
 

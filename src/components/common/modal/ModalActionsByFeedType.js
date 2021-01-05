@@ -21,12 +21,7 @@ import { withStyles } from '../../../lib/styles'
 import { CLICK_BTN_CARD_ACTION, fireEvent } from '../../../lib/analytics/analytics'
 import config from '../../../config/config'
 
-import {
-  generateSendShareObject,
-  generateSendShareText,
-  generateShareLink,
-  isSharingAvailable,
-} from '../../../lib/share'
+import { generateSendShareObject, generateShareLink, isSharingAvailable } from '../../../lib/share'
 
 const log = logger.child({ from: 'ModalActionsByFeed' })
 
@@ -45,7 +40,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
   const { fullName: currentUserName } = store.get('profile')
 
   const [cancellingPayment, setCancellingPayment] = useState(false)
-  const [paymentLinkForShare, setPaymentLinkForShare] = useState(null)
+  const [paymentLinkForShare, setPaymentLinkForShare] = useState({})
 
   const fireEventAnalytics = actionType => {
     fireEvent(CLICK_BTN_CARD_ACTION, { cardId: item.id, actionType })
@@ -106,16 +101,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
         }),
       )
 
-      let result = (isSharingAvailable ? generateSendShareObject : generateSendShareText)(
-        url,
-        amount,
-        fullName,
-        currentUserName,
-      )
-
-      if (!isSharingAvailable) {
-        result = { url: result }
-      }
+      let result = generateSendShareObject(url, amount, fullName, currentUserName)
 
       return result
     } catch (exception) {
@@ -201,6 +187,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
               style={[styles.rightButton, styles.shareButton]}
               iconColor={theme.colors.primary}
               textStyle={styles.smallButtonTextStyle}
+              withoutDone={true}
             />
           </View>
           <View style={styles.buttonsView}>

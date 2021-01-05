@@ -11,6 +11,7 @@ import useOnPress from '../../lib/hooks/useOnPress'
 import useSideMenu from '../../lib/hooks/useSideMenu'
 import { isMobileNative } from '../../lib/utils/platform'
 import AsyncStorage from '../../lib/utils/asyncStorage'
+import userStorage from '../../lib/gundb/UserStorage'
 import { useInvited } from '../invite/useInvites'
 import { theme } from '../theme/styles'
 const { isEToro, enableInvites, showRewards } = config
@@ -76,7 +77,9 @@ const RewardButton = React.memo(({ onPress, style }) => {
 
   useEffect(() => {
     const updateIcon = async () => {
-      const lastState = (await AsyncStorage.getItem('GD_lastInviteState')) || { pending: 0, approved: 0 }
+      const lastState = (await AsyncStorage.getItem('GD_lastInviteState')) ||
+        userStorage.userProperties.get('lastInviteState') || { pending: 0, approved: 0, total: 0 }
+
       const newPending = Math.max(inviteState.pending - lastState.pending, 0)
       const newApproved = Math.max(inviteState.approved - lastState.approved, 0)
       setUpdatesCount(newPending + newApproved)

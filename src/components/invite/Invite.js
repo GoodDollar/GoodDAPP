@@ -18,6 +18,7 @@ import { fireEvent, INVITE_HOWTO, INVITE_SHARE } from '../../lib/analytics/analy
 import Config from '../../config/config'
 import { generateShareObject, isSharingAvailable } from '../../lib/share'
 import AsyncStorage from '../../lib/utils/asyncStorage'
+import userStorage from '../../lib/gundb/UserStorage'
 import ModalLeftBorder from '../common/modal/ModalLeftBorder'
 import { useCollectBounty, useInviteCode, useInvited } from './useInvites'
 import FriendsSVG from './friends.svg'
@@ -360,7 +361,10 @@ const Invite = () => {
 
   useEffect(() => {
     //reset state for rewards icon in navbar
-    inviteState && AsyncStorage.setItem('GD_lastInviteState', inviteState)
+    if (inviteState.pending || inviteState.approved) {
+      userStorage.userProperties.set('lastInviteState', inviteState)
+      AsyncStorage.setItem('GD_lastInviteState', inviteState)
+    }
   }, [inviteState])
 
   return (

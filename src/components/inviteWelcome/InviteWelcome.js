@@ -53,7 +53,7 @@ const InviteWelcome = ({ styles, screenProps, navigation }) => {
   const goToSignUp = useCallback(() => {
     fireEvent(INVITEWELCOME_SKIPPED, { step })
 
-    return navigate('welcome')
+    return navigate('Welcome')
   }, [navigate, step])
 
   const nextScreen = useCallback(() => {

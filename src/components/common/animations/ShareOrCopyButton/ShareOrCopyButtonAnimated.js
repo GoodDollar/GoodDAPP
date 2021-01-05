@@ -1,24 +1,37 @@
 import React from 'react'
-import Lottie from 'lottie-react-native'
-import { TouchableOpacity } from 'react-native'
 import { isString } from 'lodash'
-import AnimationBase from '../Base'
-import { isMobileReactNative } from '../../../../lib/utils/platform'
-import { withStyles } from '../../../../lib/styles'
+import Lottie from 'lottie-react-native'
+import { Platform, TouchableOpacity } from 'react-native'
 import useNativeSharing from '../../../../lib/hooks/useNativeSharing'
 import { isSharingAvailable } from '../../../../lib/share'
 import { useClipboardCopy } from '../../../../lib/hooks/useClipboard'
 
-import animationData from './data.json'
+import AnimationBase from '../Base'
+import { isMobileReactNative } from '../../../../lib/utils/platform'
+import { withStyles } from '../../../../lib/styles'
 
-class ShareLinkReceiveButton extends AnimationBase {
+import animationDataCopy from './data_copy.json'
+import animationDataShare from './data_share.json'
+
+class ShareButton extends AnimationBase {
   state = {
     disabled: false,
     performed: false,
   }
 
+  playUntil = 90 //shorten dead animation
+
   onMount() {
+    let isDone = false
     this.anim.onComplete = this.onAnimationFinish
+    if (Platform.OS === 'web') {
+      this.anim.onEnterFrame = e => {
+        if (isDone === false && e.currentTime >= this.playUntil && this.anim) {
+          isDone = true
+          this.anim.goToAndPlay(150, true)
+        }
+      }
+    }
   }
 
   onAnimationFinish = () => {
@@ -40,8 +53,8 @@ class ShareLinkReceiveButton extends AnimationBase {
       this.setState({
         disabled: true,
       })
-      this.anim.play()
-      onPress()
+      this.anim.play(0, this.playUntil)
+      setTimeout(onPress, 1000) //give animation chance to play
     }
   }
 
@@ -54,7 +67,7 @@ class ShareLinkReceiveButton extends AnimationBase {
         <Lottie
           ref={this.setAnim}
           loop={false}
-          source={this.improveAnimationData(animationData)}
+          source={this.improveAnimationData(this.props.type === 'share' ? animationDataShare : animationDataCopy)}
           onAnimationFinish={isMobileReactNative && this.onAnimationFinish}
           style={{
             width: '100%',
@@ -73,15 +86,16 @@ const styles = ({ theme }) => {
   }
 }
 
-const ShareLinkReceiveButtonStyled = withStyles(styles)(ShareLinkReceiveButton)
+export const ShareButtonStyled = withStyles(styles)(ShareButton)
 
-export const ShareButtonAnimated = ({ shareObject, ...props }) => {
+export const ShareButtonAnimated = ({ type, shareObject, onShareOrCopy, ...props }) => {
+  type = type || !isSharingAvailable ? 'share' : 'copy'
   const shareOrCopy =
     isSharingAvailable || isString(shareObject) ? shareObject : [shareObject.message, shareObject.url].join('\n')
-  const shareHandler = useNativeSharing(shareOrCopy)
-  const copyHandler = useClipboardCopy(shareOrCopy)
+  const shareHandler = useNativeSharing(shareOrCopy, { onSharePress: onShareOrCopy })
+  const copyHandler = useClipboardCopy(shareOrCopy, onShareOrCopy)
 
-  return <ShareLinkReceiveButtonStyled onPress={isSharingAvailable ? shareHandler : copyHandler} {...props} />
+  return <ShareButtonStyled type={type} onPress={isSharingAvailable ? shareHandler : copyHandler} {...props} />
 }
 
-export default ShareLinkReceiveButtonStyled
+export default ShareButtonAnimated

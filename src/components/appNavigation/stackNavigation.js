@@ -58,6 +58,9 @@ class AppView extends Component<AppViewProps, AppViewState> {
   trans: boolean = false
 
   shouldComponentUpdate(nextProps, nextState) {
+    if (this.trans) {
+      return false
+    }
     const navStateChanged =
       isEqualWith(nextProps, this.props, (val1, val2) => (isFunction(val1) && isFunction(val2) ? true : undefined)) ===
       false

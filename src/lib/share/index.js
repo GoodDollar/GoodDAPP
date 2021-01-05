@@ -201,6 +201,10 @@ export function generateReceiveShareText(...args): ShareObject {
   return `${temp.message} ${temp.url}`
 }
 
+export function generateShareText(shareObject: ShareObject) {
+  return `${shareObject.message}\n${shareObject.url}`
+}
+
 type HrefLinkProps = {
   link: string,
   description: string,

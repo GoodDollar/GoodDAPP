@@ -287,15 +287,19 @@ const Claim = props => {
   }
 
   useEffect(() => {
+    init()
+  }, [])
+
+  useEffect(() => {
     //stop polling blockchain when in background
     if (appState !== 'active') {
       return
     }
-    init()
-    gatherStats(true) //refresh all stats
+
+    gatherStats(true) //refresh all stats when returning back to app or dailyUbi changed meaning a new cycle started
     claimInterval.current = setInterval(gatherStats, 10000) //constantly update stats but only for some data
     return () => claimInterval.current && clearInterval(claimInterval.current)
-  }, [appState])
+  }, [appState, dailyUbi])
 
   useEffect(() => {
     updateTimer()
@@ -322,16 +326,16 @@ const Claim = props => {
   const gatherStats = async (all = false) => {
     try {
       const [
-        { people, amount },
         [nextClaimMilis, entitlement],
+        { people, amount },
         activeClaimers,
         availableDistribution,
         totalFundsStaked,
         interestCollected,
       ] = await Promise.all([
-        wrappedGoodWallet.getAmountAndQuantityClaimedToday(),
         wrappedGoodWallet.getNextClaimTime(),
-        wrappedGoodWallet.getActiveClaimers(),
+        all && wrappedGoodWallet.getAmountAndQuantityClaimedToday(),
+        all && wrappedGoodWallet.getActiveClaimers(),
         all && wrappedGoodWallet.getAvailableDistribution(),
         all && wrappedGoodWallet.getTotalFundsStaked(),
         all && wrappedGoodWallet.getInterestCollected(),
@@ -347,20 +351,19 @@ const Claim = props => {
         interestCollected,
       })
 
-      setPeopleClaimed(people)
-      setTotalClaimed(amount)
       setDailyUbi(entitlement)
-
-      setActiveClaimers(activeClaimers)
-      all && setAvailableDistribution(availableDistribution)
       setClaimCycleTime(moment(nextClaimMilis).format('HH:mm:ss'))
-
-      all && setTotalFundsStaked(totalFundsStaked)
-      all && setInterestCollected(interestCollected)
 
       if (nextClaimMilis) {
         setNextClaimDate(nextClaimMilis)
       }
+
+      all && setPeopleClaimed(people)
+      all && setTotalClaimed(amount)
+      all && setActiveClaimers(activeClaimers)
+      all && setAvailableDistribution(availableDistribution)
+      all && setTotalFundsStaked(totalFundsStaked)
+      all && setInterestCollected(interestCollected)
     } catch (exception) {
       const { message } = exception
       const uiMessage = decorate(exception, ExceptionCode.E3)

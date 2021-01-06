@@ -1,17 +1,17 @@
 // @flow
 import * as SentryWeb from '@sentry/browser'
 import amplitude from 'amplitude-js'
-import { assign, isFunction, pickBy } from 'lodash'
+import { isFunction, pickBy } from 'lodash'
 
 class FullStoryWrapper {
   ready = false
 
-  constructor(fsApi, fsWrapper) {
-    const { _fs_ready } = fsWrapper // eslint-disable-line camelcase
+  constructor() {
+    const { _fs_ready, FS } = window // eslint-disable-line camelcase
 
     this.promise = new Promise(
       resolve =>
-        (fsWrapper._fs_ready = () => {
+        (window._fs_ready = () => {
           if (isFunction(_fs_ready)) {
             _fs_ready()
           }
@@ -22,7 +22,7 @@ class FullStoryWrapper {
     )
 
     const get = (target, property) => {
-      const readFrom = [target, fsApi].find(object => property in object)
+      const readFrom = [target, FS].find(object => property in object)
 
       if (!readFrom) {
         return
@@ -48,14 +48,10 @@ class FullStoryWrapper {
 }
 
 class GoogleWrapper {
-  dataLayer = null
-
-  constructor(dataLayer) {
-    assign(this, { dataLayer })
-  }
-
   logEvent(event: string, data: any = {}) {
-    this.dataLayer.push({ event, ...data })
+    const { dataLayer } = window
+
+    dataLayer.push({ event, ...data })
   }
 }
 
@@ -65,8 +61,8 @@ export default () => {
   return pickBy({
     mautic: mt,
     sentry: SentryWeb,
-    googleAnalytics: dataLayer ? new GoogleWrapper(dataLayer) : null,
+    googleAnalytics: dataLayer ? new GoogleWrapper() : null,
     amplitude: amplitude.getInstance(),
-    fullStory: FS ? new FullStoryWrapper(FS, window) : null,
+    fullStory: FS ? new FullStoryWrapper() : null,
   })
 }

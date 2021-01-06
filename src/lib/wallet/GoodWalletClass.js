@@ -1170,14 +1170,16 @@ export class GoodWallet {
   }
 
   async getUserInviteBounty() {
-    const user = await this.invitesContract.methods
-      .users(this.account)
-      .call()
-      .catch(_ => {})
-    const level = await this.invitesContract.methods
-      .levels(user.level)
-      .call()
-      .catch(_ => {})
+    const user =
+      (await this.invitesContract.methods
+        .users(this.account)
+        .call()
+        .catch(_ => {})) || {}
+    const level =
+      (await this.invitesContract.methods
+        .levels(user.level)
+        .call()
+        .catch(_ => {})) || {}
     return result(level, 'bounty.toNumber', 10000) / 100
   }
 

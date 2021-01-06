@@ -704,12 +704,30 @@ describe('UserStorage', () => {
           },
         ],
       }
-      const result = getReceiveDataFromReceipt(receipt)
+      const result = getReceiveDataFromReceipt(receipt, '0x7aa689d96362de59b78c2f184f840dbdab9270e0')
       expect(result).toMatchObject({
         from: '0x7aa689d96362de59b78c2f184f840dbdab9270e0',
         to: '0x90e5c2433a1fbab3c9d350bcffe2e73ac479941d',
         value: '15',
       })
+    })
+
+    it('doesnt get Transfer data from logs if not to/from wallet', () => {
+      const receipt = {
+        logs: [
+          {
+            name: 'Transfer',
+            events: [
+              { name: 'from', type: 'address', value: '0x7aa689d96362de59b78c2f184f840dbdab9270e0' },
+              { name: 'to', type: 'address', value: '0x90e5c2433a1fbab3c9d350bcffe2e73ac479941d' },
+              { name: 'value', type: 'uint256', value: '15' },
+            ],
+            address: '0x88ceB1769E0F8304b9981F0CB23C3192361d6873',
+          },
+        ],
+      }
+      const result = getReceiveDataFromReceipt(receipt, '0xbbb689d96362de59b78c2f184f840dbdab9270e0')
+      expect(result).toBeFalsy()
     })
 
     it('get PaymentWithdraw data from logs', () => {
@@ -727,18 +745,18 @@ describe('UserStorage', () => {
           {
             name: 'PaymentWithdraw',
             events: [
-              { name: 'from', type: 'address', value: '0x7aa689d96362de59b78c2f184f840dbdab9270e0' },
-              { name: 'to', type: 'address', value: '0x90e5c2433a1fbab3c9d350bcffe2e73ac479941d' },
+              { name: 'from', type: 'address', value: '0x6aa689d96362de59b78c2f184f840dbdab9270e0' },
+              { name: 'to', type: 'address', value: '0x80e5c2433a1fbab3c9d350bcffe2e73ac479941d' },
               { name: 'value', type: 'uint256', value: '15' },
             ],
             address: '0x88ceB1769E0F8304b9981F0CB23C3192361d6873',
           },
         ],
       }
-      const result = getReceiveDataFromReceipt(receipt)
+      const result = getReceiveDataFromReceipt(receipt, '0x7aa689d96362de59b78c2f184f840dbdab9270e0')
       expect(result).toMatchObject({
-        from: '0x7aa689d96362de59b78c2f184f840dbdab9270e0',
-        to: '0x90e5c2433a1fbab3c9d350bcffe2e73ac479941d',
+        from: '0x6aa689d96362de59b78c2f184f840dbdab9270e0',
+        to: '0x80e5c2433a1fbab3c9d350bcffe2e73ac479941d',
         value: '15',
       })
     })
@@ -766,7 +784,7 @@ describe('UserStorage', () => {
           },
         ],
       }
-      const result = getReceiveDataFromReceipt(receipt)
+      const result = getReceiveDataFromReceipt(receipt, '0x7aa689d96362de59b78c2f184f840dbdab9270e0')
       expect(result).toMatchObject({
         from: '0x7aa689d96362de59b78c2f184f840dbdab9270e0',
         to: '0x90e5c2433a1fbab3c9d350bcffe2e73ac479941d',
@@ -797,7 +815,7 @@ describe('UserStorage', () => {
           },
         ],
       }
-      const result = getReceiveDataFromReceipt(receipt)
+      const result = getReceiveDataFromReceipt(receipt, '0x7aa689d96362de59b78c2f184f840dbdab9270e0')
       expect(result).toMatchObject({
         from: '0x7aa689d96362de59b78c2f184f840dbdab9270e0',
         to: '0x90e5c2433a1fbab3c9d350bcffe2e73ac479941d',
@@ -809,13 +827,13 @@ describe('UserStorage', () => {
       const receipt = {
         logs: [],
       }
-      const result = getReceiveDataFromReceipt(receipt)
+      const result = getReceiveDataFromReceipt(receipt, '0x7aa689d96362de59b78c2f184f840dbdab9270e0')
       expect(result).toMatchObject({})
     })
 
     it('empty receipt should return empty object', () => {
       const receipt = {}
-      const result = getReceiveDataFromReceipt(receipt)
+      const result = getReceiveDataFromReceipt(receipt, '0x7aa689d96362de59b78c2f184f840dbdab9270e0')
       expect(result).toMatchObject({})
     })
   })

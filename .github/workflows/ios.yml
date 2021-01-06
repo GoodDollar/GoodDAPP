@@ -35,7 +35,6 @@ jobs:
           echo "APPCENTER_NAME=GoodDollar/GoodDollar-iOS-production" >> $GITHUB_ENV
           echo "${{ env.BRANCH }} ${{ env.SECRET_NAME }} ${{ env.APPCENTER_NAME }}"
 
-      
       - uses: actions/checkout@v1
       - uses: actions/setup-node@v1
         with:
@@ -46,9 +45,9 @@ jobs:
 
       - name: add .env secrets
         run: |
-        env_name="${{ env.ENV }}"
-        echo "adding secrets to .env file: ${{ env.SECRET_NAME }}"
-        echo "${{ secrets[env.SECRET_NAME] }}" >> .env.$env_name
+          env_name="${{ env.ENV }}"
+          echo "adding secrets to .env file: ${{ env.SECRET_NAME }}"
+          echo "${{ secrets[env.SECRET_NAME] }}" >> .env.$env_name
 
       - name: Setup provisioning profile
         run: ./.github/secrets/decrypt_secrets.sh
@@ -104,7 +103,7 @@ jobs:
           if ${{ env.IS_PROD }}; then
             PROFILE_UID="21f28d4b-7641-4420-875f-989a0bcc3d52"
           fi
-          
+
           cd ios && xcodebuild archive \
             -workspace GoodDollar.xcworkspace \
             -scheme GoodDollar \

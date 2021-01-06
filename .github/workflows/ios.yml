@@ -35,6 +35,7 @@ jobs:
           echo "APPCENTER_NAME=GoodDollar/GoodDollar-iOS-production" >> $GITHUB_ENV
           echo "${{ env.BRANCH }} ${{ env.SECRET_NAME }} ${{ env.APPCENTER_NAME }}"
 
+      
       - uses: actions/checkout@v1
       - uses: actions/setup-node@v1
         with:
@@ -42,6 +43,20 @@ jobs:
 
       - name: Switch XCode Version
         run: sudo xcode-select -s /Applications/Xcode_11.2.app
+
+      - name: add .env secrets
+        run: |
+        env_name="${{ env.ENV }}"
+        echo "adding secrets to .env file: ${{ env.SECRET_NAME }}"
+        echo "${{ secrets[env.SECRET_NAME] }}" >> .env.$env_name
+
+      - name: Setup provisioning profile
+        run: ./.github/secrets/decrypt_secrets.sh
+        env:
+          IOS_CERTIFICATE: ${{ secrets.IOS_CERTIFICATE }}
+          IOS_STORE_PROFILE: ${{ secrets.IOS_STORE_PROFILE }}
+          IOS_ADHOC_PROFILE: ${{ secrets.IOS_ADHOC_PROFILE }}
+          IS_PROD: ${{ contains('production next', env.BRANCH) }}
 
       - name: Cache node modules
         uses: actions/cache@v1
@@ -65,20 +80,6 @@ jobs:
           cd ios
           pod install
         shell: bash
-
-      - name: add .env secrets
-        run: |
-          env_name="${{ env.ENV }}"
-          echo "adding secrets to .env file: ${{ env.SECRET_NAME }}"
-          echo "${{ secrets[env.SECRET_NAME] }}" >> .env.$env_name
-
-      - name: Setup provisioning profile
-        run: ./.github/secrets/decrypt_secrets.sh
-        env:
-          IOS_CERTIFICATE: ${{ secrets.IOS_CERTIFICATE }}
-          IOS_STORE_PROFILE: ${{ secrets.IOS_STORE_PROFILE }}
-          IOS_ADHOC_PROFILE: ${{ secrets.IOS_ADHOC_PROFILE }}
-          IS_PROD: ${{ contains('production next', env.BRANCH) }}
 
       - name: Setup google services file
         run: echo "${{ secrets.IOS_GOOGLE_SERVICES}}" | base64 --decode > ./ios/GoogleService-Info.plist

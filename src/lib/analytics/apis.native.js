@@ -16,8 +16,8 @@ class GoogleWrapper {
   }
 }
 
-export default {
+export default () => ({
   sentry: SentryNative,
   amplitude: amplitude.getInstance(),
   googleAnalytics: new GoogleWrapper(analytics()),
-}
+})

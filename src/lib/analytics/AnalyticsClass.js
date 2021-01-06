@@ -1,33 +1,52 @@
 // @flow
-import { assign, debounce, forIn, get, isEmpty, isNumber, isString, pick, remove, toLower, values } from 'lodash'
+import {
+  assign,
+  debounce,
+  forIn,
+  get,
+  isEmpty,
+  isNumber,
+  isString,
+  isUndefined,
+  negate,
+  pick,
+  pickBy,
+  remove,
+  toLower,
+  values,
+} from 'lodash'
+
 import { isMobileReactNative } from '../utils/platform'
 import { LogEvent } from '../logger/pino-logger'
 import { ExceptionCategory } from '../logger/exceptions'
 import { ANALYTICS_EVENT, ERROR_LOG } from './constants'
 
-const savedErrorMessages = new WeakMap()
-
 export class AnalyticsClass {
   apis = {}
 
-  constructor(apis, rootApi, Config, loggerApi) {
-    const { sentryDSN, amplitudeKey, env } = Config
-    const { amplitude, sentry, fullStory } = apis
+  apisFactory = null
+
+  savedErrorMessages = new WeakMap()
+
+  constructor(apisFactory, rootApi, Config, loggerApi) {
     const logger = loggerApi.child({ from: 'analytics' })
     const options = pick(Config, 'sentryDSN', 'amplitudeKey', 'version', 'env', 'phase')
 
-    assign(this.apis, apis)
-    assign(this, options, { logger, rootApi, loggerApi })
-
-    this.isSentryEnabled = sentry && sentryDSN
-    this.isAmplitudeEnabled = amplitude && amplitudeKey
-    this.isFullStoryEnabled = fullStory && env === 'production'
+    assign(this, options, { logger, apisFactory, rootApi, loggerApi })
   }
 
   initAnalytics = async () => {
-    const { apis, version, network, logger, sentryDSN, env, phase } = this
-    const { isSentryEnabled, isAmplitudeEnabled, isFullStoryEnabled, amplitudeKey } = this
-    const { fullStory, amplitude, sentry, mautic, googleAnalytics } = apis
+    const { apis, apisFactory, sentryDSN, amplitudeKey, version, network, logger, env, phase } = this
+
+    const apisDetected = apisFactory()
+    const { fullStory, amplitude, sentry, mautic, googleAnalytics } = apisDetected
+
+    const isSentryEnabled = sentry && sentryDSN
+    const isAmplitudeEnabled = amplitude && amplitudeKey
+    const isFullStoryEnabled = fullStory && env === 'production'
+
+    assign(apis, apisDetected)
+    assign(this, { isSentryEnabled, isAmplitudeEnabled, isFullStoryEnabled })
 
     if (fullStory && !isFullStoryEnabled) {
       fullStory.onReady(() => fullStory.shutdown())
@@ -155,12 +174,13 @@ export class AnalyticsClass {
       // remove returns the removed items, so eventValues will be numbers
       const eventValues = remove(_values, isNumber)
       const eventStrings = remove(_values, isString)
-
-      this.fireGoogleAnalyticsEvent(ANALYTICS_EVENT, {
+      const eventData = {
         eventAction: event,
         eventValue: eventValues.shift(),
         eventLabel: eventStrings.shift() || eventValues.shift() || JSON.stringify(_values.shift()),
-      })
+      }
+
+      this.fireGoogleAnalyticsEvent(ANALYTICS_EVENT, pickBy(eventData, negate(isUndefined)))
     }
 
     logger.debug('fired event', { event, data })
@@ -204,13 +224,16 @@ export class AnalyticsClass {
    * @return {void}
    */
   fireGoogleAnalyticsEvent = (event, data = {}) => {
-    const { googleAnalytics } = this.apis
+    const { apis, logger } = this
+    const { googleAnalytics } = apis
 
     if (!googleAnalytics) {
+      logger.warn('GoogleAnalytics event was not sent', { event, data })
       return
     }
 
     googleAnalytics.logEvent(event, data)
+    logger.debug('Fired GoogleAnalytics event', { event, data })
   }
 
   // @private
@@ -307,7 +330,7 @@ export class AnalyticsClass {
 
   // @private
   onErrorLogged(fireEvent, args) {
-    const { apis, isSentryEnabled, isFullStoryEnabled, env } = this
+    const { apis, isSentryEnabled, isFullStoryEnabled, env, savedErrorMessages } = this
     const { sentry, fullStory } = apis
     const isRunningTests = env === 'test'
     const { Unexpected, Network, Human } = ExceptionCategory
@@ -386,6 +409,7 @@ export class AnalyticsClass {
       // so we have to restore it now
       if (savedErrorMessages.has(errorObj)) {
         errorObj.message = savedErrorMessages.get(errorObj)
+        savedErrorMessages.delete(errorObj)
       }
     })
   }

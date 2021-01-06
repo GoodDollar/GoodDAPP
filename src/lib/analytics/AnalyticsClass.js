@@ -22,19 +22,18 @@ import { LogEvent } from '../logger/pino-logger'
 import { ExceptionCategory } from '../logger/exceptions'
 import { ANALYTICS_EVENT, ERROR_LOG } from './constants'
 
-const savedErrorMessages = new WeakMap()
-
 export class AnalyticsClass {
   apis = {}
 
+  savedErrorMessages = new WeakMap()
+
   constructor(apisFactory, rootApi, Config, loggerApi) {
-    const { initAnalytics } = this
     const { sentryDSN, amplitudeKey, env } = Config
     const logger = loggerApi.child({ from: 'analytics' })
     const options = pick(Config, 'sentryDSN', 'amplitudeKey', 'version', 'env', 'phase')
 
-    const initApis = once(() => {
-      const apis = apisFactory
+    const initApis = () => {
+      const apis = apisFactory()
       const { amplitude, sentry, fullStory } = apis
 
       assign(this.apis, apis)
@@ -42,20 +41,19 @@ export class AnalyticsClass {
       this.isSentryEnabled = sentry && sentryDSN
       this.isAmplitudeEnabled = amplitude && amplitudeKey
       this.isFullStoryEnabled = fullStory && env === 'production'
+    }
+
+    this.initAnalytics = once(async () => {
+      const { initAnalytics } = this.constructor.prototype
+
+      initApis()
+      await initAnalytics.call(this)
     })
 
-    assign(this, options, {
-      logger,
-      rootApi,
-      loggerApi,
-      initAnalytics: async () => {
-        initApis()
-        await initAnalytics()
-      },
-    })
+    assign(this, options, { logger, rootApi, loggerApi })
   }
 
-  initAnalytics = once(async () => {
+  async initAnalytics() {
     const { apis, version, network, logger, sentryDSN, env, phase } = this
     const { isSentryEnabled, isAmplitudeEnabled, isFullStoryEnabled, amplitudeKey } = this
     const { fullStory, amplitude, sentry, mautic, googleAnalytics } = apis
@@ -104,7 +102,7 @@ export class AnalyticsClass {
     const debouncedFireEvent = debounce(fireEvent, 500, { leading: true })
 
     loggerApi.on(LogEvent.Error, (...args) => this.onErrorLogged(debouncedFireEvent, args))
-  })
+  }
 
   identifyWith = (email, identifier = null) => {
     const { apis, version, phase, logger } = this
@@ -236,7 +234,8 @@ export class AnalyticsClass {
    * @return {void}
    */
   fireGoogleAnalyticsEvent = (event, data = {}) => {
-    const { googleAnalytics, logger } = this.apis
+    const { apis, logger } = this
+    const { googleAnalytics } = apis
 
     if (!googleAnalytics) {
       logger.warn('GoogleAnalytics event was not sent', { event, data })
@@ -341,7 +340,7 @@ export class AnalyticsClass {
 
   // @private
   onErrorLogged(fireEvent, args) {
-    const { apis, isSentryEnabled, isFullStoryEnabled, env } = this
+    const { apis, isSentryEnabled, isFullStoryEnabled, env, savedErrorMessages } = this
     const { sentry, fullStory } = apis
     const isRunningTests = env === 'test'
     const { Unexpected, Network, Human } = ExceptionCategory

@@ -1,5 +1,22 @@
 // @flow
-import { assign, debounce, forIn, get, isEmpty, isNumber, isString, pick, remove, toLower, values } from 'lodash'
+import {
+  assign,
+  debounce,
+  forIn,
+  get,
+  isEmpty,
+  isNumber,
+  isString,
+  isUndefined,
+  negate,
+  once,
+  pick,
+  pickBy,
+  remove,
+  toLower,
+  values,
+} from 'lodash'
+
 import { isMobileReactNative } from '../utils/platform'
 import { LogEvent } from '../logger/pino-logger'
 import { ExceptionCategory } from '../logger/exceptions'
@@ -10,21 +27,35 @@ const savedErrorMessages = new WeakMap()
 export class AnalyticsClass {
   apis = {}
 
-  constructor(apis, rootApi, Config, loggerApi) {
+  constructor(apisFactory, rootApi, Config, loggerApi) {
+    const { initAnalytics } = this
     const { sentryDSN, amplitudeKey, env } = Config
-    const { amplitude, sentry, fullStory } = apis
     const logger = loggerApi.child({ from: 'analytics' })
     const options = pick(Config, 'sentryDSN', 'amplitudeKey', 'version', 'env', 'phase')
 
-    assign(this.apis, apis)
-    assign(this, options, { logger, rootApi, loggerApi })
+    const initApis = once(() => {
+      const apis = apisFactory
+      const { amplitude, sentry, fullStory } = apis
 
-    this.isSentryEnabled = sentry && sentryDSN
-    this.isAmplitudeEnabled = amplitude && amplitudeKey
-    this.isFullStoryEnabled = fullStory && env === 'production'
+      assign(this.apis, apis)
+
+      this.isSentryEnabled = sentry && sentryDSN
+      this.isAmplitudeEnabled = amplitude && amplitudeKey
+      this.isFullStoryEnabled = fullStory && env === 'production'
+    })
+
+    assign(this, options, {
+      logger,
+      rootApi,
+      loggerApi,
+      initAnalytics: async () => {
+        initApis()
+        await initAnalytics()
+      },
+    })
   }
 
-  initAnalytics = async () => {
+  initAnalytics = once(async () => {
     const { apis, version, network, logger, sentryDSN, env, phase } = this
     const { isSentryEnabled, isAmplitudeEnabled, isFullStoryEnabled, amplitudeKey } = this
     const { fullStory, amplitude, sentry, mautic, googleAnalytics } = apis
@@ -73,7 +104,7 @@ export class AnalyticsClass {
     const debouncedFireEvent = debounce(fireEvent, 500, { leading: true })
 
     loggerApi.on(LogEvent.Error, (...args) => this.onErrorLogged(debouncedFireEvent, args))
-  }
+  })
 
   identifyWith = (email, identifier = null) => {
     const { apis, version, phase, logger } = this
@@ -155,12 +186,13 @@ export class AnalyticsClass {
       // remove returns the removed items, so eventValues will be numbers
       const eventValues = remove(_values, isNumber)
       const eventStrings = remove(_values, isString)
-
-      this.fireGoogleAnalyticsEvent(ANALYTICS_EVENT, {
+      const eventData = {
         eventAction: event,
         eventValue: eventValues.shift(),
         eventLabel: eventStrings.shift() || eventValues.shift() || JSON.stringify(_values.shift()),
-      })
+      }
+
+      this.fireGoogleAnalyticsEvent(ANALYTICS_EVENT, pickBy(eventData, negate(isUndefined)))
     }
 
     logger.debug('fired event', { event, data })
@@ -204,13 +236,15 @@ export class AnalyticsClass {
    * @return {void}
    */
   fireGoogleAnalyticsEvent = (event, data = {}) => {
-    const { googleAnalytics } = this.apis
+    const { googleAnalytics, logger } = this.apis
 
     if (!googleAnalytics) {
+      logger.warn('GoogleAnalytics event was not sent', { event, data })
       return
     }
 
     googleAnalytics.logEvent(event, data)
+    logger.debug('Fired GoogleAnalytics event', { event, data })
   }
 
   // @private

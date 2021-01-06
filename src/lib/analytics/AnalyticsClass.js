@@ -35,7 +35,7 @@ export class AnalyticsClass {
     assign(this, options, { logger, apisFactory, rootApi, loggerApi })
   }
 
-  async initAnalytics() {
+  initAnalytics = async () => {
     const { apis, apisFactory, sentryDSN, amplitudeKey, version, network, logger, env, phase } = this
 
     const apisDetected = apisFactory()

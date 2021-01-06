@@ -78,7 +78,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
             })
           }
 
-          fireEvent('SEND_DONE', { type: screenState.params.type })
+          fireEvent('SEND_DONE', { type: 'contact' }) //this is called if address was from phonenumber
 
           showDialog({
             visible: true,
@@ -174,7 +174,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
             })
           }
 
-          fireEvent('SEND_DONE', { type: 'Address' })
+          fireEvent('SEND_DONE', { type: screenState.params.type || 'Address' })
 
           showDialog({
             visible: true,

@@ -247,7 +247,7 @@ export const longUseOfClaims = {
  * @param {object} receipt - Receipt event
  * @returns {object} {transferLog: event: [{evtName: evtValue}]}
  */
-export const getReceiveDataFromReceipt = (receipt: any) => {
+export const getReceiveDataFromReceipt = (receipt: any, account: string) => {
   if (!receipt || !receipt.logs || receipt.logs.length <= 0) {
     return {}
   }
@@ -271,7 +271,11 @@ export const getReceiveDataFromReceipt = (receipt: any) => {
   //it filters them out
   const transferLog = maxBy(
     logs.filter(log => {
-      return log && log.name === CONTRACT_EVENT_TYPE_TRANSFER
+      return (
+        log &&
+        log.name === CONTRACT_EVENT_TYPE_TRANSFER &&
+        (log.from.toLowerCase() === account.toLowerCase() || log.to.toLowerCase() === account.toLowerCase())
+      )
     }),
     log => log.value,
   )
@@ -759,7 +763,7 @@ export class UserStorage {
 
     //receipt received via websockets/polling need mutex to prevent race
     //with enqueing the initial TX data
-    const data = getReceiveDataFromReceipt(receipt)
+    const data = getReceiveDataFromReceipt(receipt, this.wallet.account)
     if (
       data &&
       (data.name === CONTRACT_EVENT_TYPE_PAYMENT_CANCEL ||
@@ -855,7 +859,7 @@ export class UserStorage {
     //with enqueing the initial TX data
     const release = await this.feedMutex.lock()
     try {
-      const data = getReceiveDataFromReceipt(receipt)
+      const data = getReceiveDataFromReceipt(receipt, this.wallet.account)
       logger.debug('handleOTPLUpdated', { data, receipt })
 
       //get our tx that created the payment link

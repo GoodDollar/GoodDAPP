@@ -55,6 +55,7 @@ jobs:
           IOS_CERTIFICATE: ${{ secrets.IOS_CERTIFICATE }}
           IOS_STORE_PROFILE: ${{ secrets.IOS_STORE_PROFILE }}
           IOS_ADHOC_PROFILE: ${{ secrets.IOS_ADHOC_PROFILE }}
+          IOS_PROFILE_KEY: ${{ secrets.IOS_PROFILE_KEY }}
           IS_PROD: ${{ contains('production next', env.BRANCH) }}
 
       - name: Cache node modules

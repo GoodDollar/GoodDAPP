@@ -9,7 +9,6 @@ import {
   isString,
   isUndefined,
   negate,
-  once,
   pick,
   pickBy,
   remove,
@@ -25,38 +24,29 @@ import { ANALYTICS_EVENT, ERROR_LOG } from './constants'
 export class AnalyticsClass {
   apis = {}
 
+  apisFactory = null
+
   savedErrorMessages = new WeakMap()
 
   constructor(apisFactory, rootApi, Config, loggerApi) {
-    const { sentryDSN, amplitudeKey, env } = Config
     const logger = loggerApi.child({ from: 'analytics' })
     const options = pick(Config, 'sentryDSN', 'amplitudeKey', 'version', 'env', 'phase')
 
-    const initApis = () => {
-      const apis = apisFactory()
-      const { amplitude, sentry, fullStory } = apis
-
-      assign(this.apis, apis)
-
-      this.isSentryEnabled = sentry && sentryDSN
-      this.isAmplitudeEnabled = amplitude && amplitudeKey
-      this.isFullStoryEnabled = fullStory && env === 'production'
-    }
-
-    this.initAnalytics = once(async () => {
-      const { initAnalytics } = this.constructor.prototype
-
-      initApis()
-      await initAnalytics.call(this)
-    })
-
-    assign(this, options, { logger, rootApi, loggerApi })
+    assign(this, options, { logger, apisFactory, rootApi, loggerApi })
   }
 
   async initAnalytics() {
-    const { apis, version, network, logger, sentryDSN, env, phase } = this
-    const { isSentryEnabled, isAmplitudeEnabled, isFullStoryEnabled, amplitudeKey } = this
-    const { fullStory, amplitude, sentry, mautic, googleAnalytics } = apis
+    const { apis, apisFactory, sentryDSN, amplitudeKey, version, network, logger, env, phase } = this
+
+    const apisDetected = apisFactory()
+    const { fullStory, amplitude, sentry, mautic, googleAnalytics } = apisDetected
+
+    const isSentryEnabled = sentry && sentryDSN
+    const isAmplitudeEnabled = amplitude && amplitudeKey
+    const isFullStoryEnabled = fullStory && env === 'production'
+
+    assign(apis, apisDetected)
+    assign(this, { isSentryEnabled, isAmplitudeEnabled, isFullStoryEnabled })
 
     if (fullStory && !isFullStoryEnabled) {
       fullStory.onReady(() => fullStory.shutdown())
@@ -419,6 +409,7 @@ export class AnalyticsClass {
       // so we have to restore it now
       if (savedErrorMessages.has(errorObj)) {
         errorObj.message = savedErrorMessages.get(errorObj)
+        savedErrorMessages.delete(errorObj)
       }
     })
   }

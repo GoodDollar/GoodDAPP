@@ -20,15 +20,14 @@ const GoodMarketImage = ({ styles }) => (
 
 const mapStylesToProps = ({ theme }) => ({
   marketIcon: {
-    marginLeft: -getDesignRelativeWidth(40, false),
+    marginLeft: -getDesignRelativeWidth(50, false),
     color: theme.colors.primary,
   },
   wrapper: {
     display: 'flex',
+    height: getDesignRelativeHeight(80),
     flexDirection: 'row',
     justifyContent: 'center',
-    width: '100%',
-    height: '100%',
     ...Platform.select({
       web: { overflowY: 'hidden' },
       default: { overflow: 'hidden' },

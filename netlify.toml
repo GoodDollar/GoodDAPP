@@ -18,6 +18,35 @@ command = "CI= npm run build"
   [headers.values]
     cache-control = "max-age=0,no-cache,no-store,must-revalidate"
 
+[[headers]]
+  for = "/torus/redirect"
+  [headers.values]
+    Content-Type = "text/html"
+
+[[headers]]
+  for = "/torus/scripts.html"
+    [headers.values]
+      Content-Type = "text/html"
+
+[[headers]]
+  for = "/.well-known/apple-app-site-association"
+    [headers.values]
+      Content-Type = "application/json"
+
+[[headers]]
+  for = "/.well-known/assetlinks.json"
+    [headers.values]
+      Content-Type = "application/json"
+
+[[headers]]
+  for = "/zoom/resources/*_cache.wasm"
+    [headers.values]
+      cache-control = '''
+        max-age=0,
+        no-cache,
+        no-store,
+        must-revalidate'''
+
 [build.environment]
 GENERATE_SOURCEMAP = "true"
 NODE_ENV = "development"
@@ -77,7 +106,7 @@ REACT_APP_SERVICE_WORKER = "true"
 REACT_APP_ENV = "production"
 REACT_APP_LOG_LEVEL = "silent"
 REACT_APP_SERVER_URL = "https://goodserver.gooddollar.org/"
-REACT_APP_GUN_PUBLIC_URL = "https://goodgun-prod.herokuapp.com/gun,https://goodgun-nvme.gooddollar.org/gun"
+REACT_APP_GUN_PUBLIC_URL = "https://goodgun-nvme.gooddollar.org/gun"
 REACT_APP_NETWORK = "production"
 REACT_APP_SKIP_EMAIL_VERIFICATION = "false"
 REACT_APP_MARKET_URL = "https://www.facebook.com/groups/gooddollarmarketplace"
@@ -127,35 +156,3 @@ REACT_APP_WEB3_SITE_URL = "https://w3.gooddollar.org"
 # REACT_APP_WEB3_TRANSPORT_PROVIDER = "WebSocketProvider"
 REACT_APP_USE_TORUS = "true"
 
-[[headers]]
-for = "/torus/redirect"
-
-    [headers.values]
-    Content-Type = "text/html"
-
-[[headers]]
-for = "/torus/scripts.html"
-
-    [headers.values]
-    Content-Type = "text/html"
-
-[[headers]]
-for = "/.well-known/apple-app-site-association"
-
-    [headers.values]
-    Content-Type = "application/json"
-
-[[headers]]
-for = "/.well-known/assetlinks.json"
-
-    [headers.values]
-    Content-Type = "application/json"
-
-[[headers]]
-  for = "/zoom/resources/*_cache.wasm"
-  [headers.values]
-    cache-control = '''
-        max-age=0,
-        no-cache,
-        no-store,
-        must-revalidate'''

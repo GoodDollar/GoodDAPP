@@ -176,8 +176,8 @@ export const inviteFriendsMessage = {
   status: 'completed',
   data: {
     customName: `Invite friends and earn G$'s`,
-    subtitle: Config.isPhaseZero ? 'Want to earn more G$`s ?' : 'Invite your friends now',
-    readMore: Config.isPhaseZero ? 'Invite more friends!' : 'and let them also claim free G$`s.',
+    subtitle: 'Invite your friends now',
+    readMore: 'Get 100G$ for each friend who signs up\nand they get 50G$!',
     receiptData: {
       from: NULL_ADDRESS,
     },
@@ -186,6 +186,9 @@ export const inviteFriendsMessage = {
   },
   action: `navigate("Rewards")`,
 }
+export const INVITE_NEW_ID = '0.1'
+export const INVITE_REMINDER_ID = '0.2'
+
 export const backupMessage = {
   id: '2',
   type: 'backup',
@@ -244,7 +247,7 @@ export const longUseOfClaims = {
  * @param {object} receipt - Receipt event
  * @returns {object} {transferLog: event: [{evtName: evtValue}]}
  */
-export const getReceiveDataFromReceipt = (receipt: any) => {
+export const getReceiveDataFromReceipt = (receipt: any, account: string) => {
   if (!receipt || !receipt.logs || receipt.logs.length <= 0) {
     return {}
   }
@@ -268,7 +271,11 @@ export const getReceiveDataFromReceipt = (receipt: any) => {
   //it filters them out
   const transferLog = maxBy(
     logs.filter(log => {
-      return log && log.name === CONTRACT_EVENT_TYPE_TRANSFER
+      return (
+        log &&
+        log.name === CONTRACT_EVENT_TYPE_TRANSFER &&
+        (log.from.toLowerCase() === account.toLowerCase() || log.to.toLowerCase() === account.toLowerCase())
+      )
     }),
     log => log.value,
   )
@@ -756,7 +763,7 @@ export class UserStorage {
 
     //receipt received via websockets/polling need mutex to prevent race
     //with enqueing the initial TX data
-    const data = getReceiveDataFromReceipt(receipt)
+    const data = getReceiveDataFromReceipt(receipt, this.wallet.account)
     if (
       data &&
       (data.name === CONTRACT_EVENT_TYPE_PAYMENT_CANCEL ||
@@ -852,7 +859,7 @@ export class UserStorage {
     //with enqueing the initial TX data
     const release = await this.feedMutex.lock()
     try {
-      const data = getReceiveDataFromReceipt(receipt)
+      const data = getReceiveDataFromReceipt(receipt, this.wallet.account)
       logger.debug('handleOTPLUpdated', { data, receipt })
 
       //get our tx that created the payment link
@@ -1084,7 +1091,22 @@ export class UserStorage {
     this.addStartClaimingCard()
 
     if (Config.enableInvites) {
-      setTimeout(() => this.enqueueTX(inviteFriendsMessage), 120000) // 2 minutes
+      inviteFriendsMessage.id = INVITE_NEW_ID
+      const bounty = await this.wallet.getUserInviteBounty()
+      inviteFriendsMessage.data.readMore = inviteFriendsMessage.data.readMore
+        .replace('100', bounty)
+        .replace('50', bounty / 2)
+      setTimeout(() => this.enqueueTX(inviteFriendsMessage), 60000) // 2 minutes
+      const firstInviteCard = this.feedIds['0.1']
+      if (
+        firstInviteCard &&
+        moment(firstInviteCard.date)
+          .add(2, 'weeks')
+          .isBefore(moment())
+      ) {
+        inviteFriendsMessage.id = INVITE_REMINDER_ID
+        this.enqueueTX(inviteFriendsMessage)
+      }
     }
 
     // first time user visit
@@ -1196,7 +1218,7 @@ export class UserStorage {
           exception = new Error(reason)
         }
 
-        logger.error('getProfileFieldValue decrypt failed:', message, exception, { field })
+        logger.error('getProfileFieldValue decrypt failed:', message, exception, { field, profile: this.user.pub })
       })
   }
 

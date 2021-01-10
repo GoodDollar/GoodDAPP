@@ -4,8 +4,7 @@ import { Image, Platform, View } from 'react-native'
 import { isEmpty, noop } from 'lodash'
 
 // components
-import Text from '../view/Text'
-import CustomButton from '../buttons/CustomButton'
+import { CustomButton, Text } from '../../common'
 
 // utils
 import SimpleStore from '../../../lib/undux/SimpleStore'

@@ -805,6 +805,9 @@ const getStylesFromProps = ({ theme }) => ({
     backgroundColor: theme.colors.lightGray,
     flexGrow: 1,
     padding: 0,
+    ...Platform.select({
+      web: { overflowY: 'hidden' },
+    }),
   },
   topInfo: {
     borderTopLeftRadius: 0,

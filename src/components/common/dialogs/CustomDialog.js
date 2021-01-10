@@ -1,6 +1,6 @@
 // @flow
 import React, { useCallback } from 'react'
-import { Platform, StyleSheet, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import { Paragraph, Portal } from 'react-native-paper'
 import { isString } from 'lodash'
 import normalize from '../../../lib/utils/normalizeText'
@@ -209,10 +209,11 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     flexGrow: 1,
     padding: 0,
-    maxHeight: Platform.select({
-      web: 'none',
-      default: 350,
-    }),
+
+    // maxHeight: Platform.select({
+    //   web: 'none',
+    //   default: 350,
+    // }),
   },
   buttonsContainer: {
     display: 'flex',

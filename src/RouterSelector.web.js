@@ -88,7 +88,7 @@ let SignupRouter = React.lazy(async () => {
     handleLinks(),
     delay(animationDuration),
   ])
-
+  module.default = module.default()
   return module
 })
 

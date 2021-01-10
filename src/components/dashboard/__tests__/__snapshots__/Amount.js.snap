@@ -8,7 +8,7 @@ exports[`Amount matches snapshot 1`] = `
     className="css-view-1dbjc4n r-display-6koalj r-flexGrow-16y2uox r-height-1pi2tsx r-width-13qz1uu"
   >
     <div
-      className="css-view-1dbjc4n r-display-6koalj r-flexDirection-eqz5dr r-flexGrow-16y2uox r-maxHeight-87ditf r-padding-edyy15 r-position-bnwqim r-width-13qz1uu"
+      className="css-view-1dbjc4n r-display-6koalj r-flexDirection-eqz5dr r-flexGrow-16y2uox r-maxHeight-87ditf r-overflowX-lltvgl r-overflowY-1rnoaur r-padding-edyy15 r-position-bnwqim r-width-13qz1uu"
       data-name="viewWrapper"
       style={
         Object {

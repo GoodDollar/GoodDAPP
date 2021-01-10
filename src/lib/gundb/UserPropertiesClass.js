@@ -1,8 +1,7 @@
 // @flow
 import { assign, isNil, isUndefined } from 'lodash'
-import { defer, from as fromPromise } from 'rxjs'
-import { retry } from 'rxjs/operators'
 import AsyncStorage from '../../lib/utils/asyncStorage'
+import { retry } from '../../lib/utils/async'
 import { REGISTRATION_METHOD_SELF_CUSTODY } from '../constants/login'
 import pino from '../logger/pino-logger'
 
@@ -36,6 +35,7 @@ export default class UserProperties {
     goodMarketClicked: false,
     inviterInviteCode: null,
     inviteCode: null,
+    lastInviteState: { pending: 0, approved: 0 },
   }
 
   fields = [
@@ -52,6 +52,7 @@ export default class UserProperties {
     'lastTxSyncDate',
     'hasOpenedGoodMarket',
     'goodMarketClicked',
+    'lastInviteState',
   ]
 
   /**
@@ -76,13 +77,11 @@ export default class UserProperties {
 
       try {
         //sync from storage
-        props = await defer(() => fromPromise(propsNode.then(() => propsNode.decrypt()))) // init user storage
-          .pipe(retry(3)) // if exception thrown, retry init one more times
-          .toPromise()
+        props = await retry(() => propsNode.then(() => propsNode.decrypt()), 3, 500) // init user storage
       } catch (exception) {
         const { message } = exception
 
-        log.error('failed decrypting props', message, exception)
+        log.error('failed decrypting props', message, exception, { profile: gun.user().is.pub })
 
         //reset props in case of data corruption - hack for gun issues
         if (message === 'Decrypting key missing') {
@@ -179,8 +178,8 @@ export default class UserProperties {
     const logError = e => log.error(`${logLabel} user props failed:`, e.message, e, logPayload)
 
     try {
-      propsNode.secretAck(data).catch(logError)
-      await AsyncStorage.setItem('props', data)
+      AsyncStorage.setItem('props', data)
+      await retry(() => propsNode.secretAck(data), 2, 500).catch(logError)
     } catch (e) {
       logError(e)
       throw e

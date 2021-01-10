@@ -54,8 +54,8 @@ const sideMenuItemStyles = ({ theme }) => ({
   },
   menuIcon: {
     marginLeft: theme.sizes.default,
-    marginRight: 30,
-    width: 20,
+    marginRight: 25,
+    width: 25,
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'flex-start',

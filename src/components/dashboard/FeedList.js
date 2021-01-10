@@ -15,7 +15,6 @@ import goodWallet from '../../lib/wallet/GoodWallet'
 import ScrollToTopButton from '../common/buttons/ScrollToTopButton'
 import logger from '../../lib/logger/pino-logger'
 import { decorate, ExceptionCategory, ExceptionCode } from '../../lib/logger/exceptions'
-import { CARD_OPEN, fireEvent } from '../../lib/analytics/analytics'
 import FeedListItem from './FeedItems/FeedListItem'
 import FeedActions from './FeedActions'
 import { keyExtractor, useFeeds, VIEWABILITY_CONFIG } from './utils/feed'
@@ -82,20 +81,13 @@ const FeedList = ({
     }
   }, [])
 
-  const pressItem = item => () => {
-    if (item.type !== 'empty') {
-      fireEvent(CARD_OPEN, { cardId: item.id })
-      handleFeedSelection(item, true)
-    }
-  }
-
   const renderItemComponent = ({ item, separators, index }: ItemComponentProps) => (
     <FeedListItem
       key={keyExtractor(item)}
       item={item}
       separators={separators}
       fixedHeight
-      onPress={pressItem(item, index + 1)}
+      handleFeedSelection={handleFeedSelection}
     />
   )
 
@@ -174,7 +166,7 @@ const FeedList = ({
       }
 
       return (
-        <Animatable.View animation="fadeIn" delay={750}>
+        <Animatable.View animation="fadeIn" delay={750} style={styles.expandAction}>
           <FeedActions
             onPress={hasAction && (() => handleFeedActionPress(item, actions))}
             actionIcon={actionIcon(actions)}
@@ -254,6 +246,7 @@ const getStylesFromProps = ({ theme }) => ({
     flexGrow: 1,
     display: 'flex',
   },
+  expandAction: { flex: 1 },
 })
 
 const actionLabel = ({ canDelete, canCancel }) => {

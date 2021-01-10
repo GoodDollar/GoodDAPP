@@ -8,7 +8,7 @@ exports[`PhoneForm matches snapshot 1`] = `
     className="css-view-1dbjc4n r-flex-13awgt0 r-paddingBottom-97e31f r-paddingLeft-bv2aro r-paddingRight-hxflta r-paddingTop-10xqauy"
   >
     <div
-      className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-display-6koalj r-flexDirection-eqz5dr r-flexGrow-16y2uox r-maxHeight-87ditf r-padding-nsbfu8 r-position-bnwqim r-width-13qz1uu"
+      className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-display-6koalj r-flexDirection-eqz5dr r-flexGrow-16y2uox r-maxHeight-87ditf r-overflowX-lltvgl r-overflowY-1rnoaur r-padding-nsbfu8 r-position-bnwqim r-width-13qz1uu"
       data-name="viewWrapper"
     >
       <div

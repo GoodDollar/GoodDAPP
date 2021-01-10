@@ -5,7 +5,7 @@ exports[`About matches snapshot 1`] = `
   className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
-    className="css-view-1dbjc4n r-display-6koalj r-flexDirection-eqz5dr r-flexGrow-16y2uox r-maxHeight-87ditf r-padding-t60dpp r-position-bnwqim r-width-13qz1uu"
+    className="css-view-1dbjc4n r-display-6koalj r-flexDirection-eqz5dr r-flexGrow-16y2uox r-maxHeight-87ditf r-overflowX-lltvgl r-overflowY-1rnoaur r-padding-t60dpp r-position-bnwqim r-width-13qz1uu"
     data-name="viewWrapper"
     style={
       Object {
@@ -51,7 +51,7 @@ exports[`About matches snapshot 1`] = `
             className="css-text-901oao r-color-waoq6i r-fontFamily-vnw8o6 r-fontSize-evnaw r-fontWeight-1it3c9n r-lineHeight-17rnw9f r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
             dir="auto"
           >
-            V1.11.6
+            V1.0
           </div>
         </div>
         <div

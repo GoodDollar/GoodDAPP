@@ -7,6 +7,7 @@ import LoadingIcon from '../../components/common/modal/LoadingIcon'
 import retryImport from '../utils/retryImport'
 import restart from '../utils/restart'
 import { isMobileNative } from '../utils/platform'
+
 const log = logger.child({ from: 'useDeleteAccountDialog' })
 
 export const deleteGunDB = () => {
@@ -25,7 +26,7 @@ export const deleteGunDB = () => {
       const objectStoreRequest = objectStore.clear()
 
       objectStoreRequest.onsuccess = res
-      objectStoreRequest.onerror = rej
+      objectStoreRequest.onerror = () => rej(objectStoreRequest.error)
     }
   })
 }

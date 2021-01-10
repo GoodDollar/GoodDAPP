@@ -2,11 +2,11 @@ import Config from '../../config/config'
 
 import API from '../../lib/API/api'
 import logger from '../../lib/logger/pino-logger'
-import apis from './apis'
+import apisFactory from './apis'
 
 import { AnalyticsClass } from './AnalyticsClass'
 
-const analytics = new AnalyticsClass(apis, API, Config, logger)
+const analytics = new AnalyticsClass(apisFactory, API, Config, logger)
 
 // backward compatibility exports
 export * from './constants'

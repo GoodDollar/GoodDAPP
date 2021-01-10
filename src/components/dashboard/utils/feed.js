@@ -33,15 +33,15 @@ export const keyExtractor = item => {
   return itemKeyMap.get(item)
 }
 
-export const useFeeds = data =>
+export const useFeeds = (data, includeInvites = true) =>
   useMemo(() => {
     if (!isArray(data) || isEmpty(data)) {
       return [emptyFeed]
     }
 
-    if (Config.enableInvites) {
+    if (includeInvites && Config.enableInvites) {
       return data
     }
 
     return data.filter(item => get(item, 'type') !== 'invite')
-  }, [data])
+  }, [data, includeInvites])

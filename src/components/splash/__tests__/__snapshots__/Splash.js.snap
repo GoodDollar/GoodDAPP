@@ -5,7 +5,7 @@ exports[`Splash matches snapshot 1`] = `
   className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
-    className="css-view-1dbjc4n r-display-6koalj r-flexDirection-eqz5dr r-flexGrow-16y2uox r-maxHeight-1vsf3e2 r-padding-t60dpp r-position-bnwqim r-width-13qz1uu"
+    className="css-view-1dbjc4n r-display-6koalj r-flexDirection-eqz5dr r-flexGrow-16y2uox r-maxHeight-1vsf3e2 r-overflowX-lltvgl r-overflowY-1rnoaur r-padding-t60dpp r-position-bnwqim r-width-13qz1uu"
     data-name="viewWrapper"
     style={
       Object {
@@ -35,7 +35,7 @@ exports[`Splash matches snapshot 1`] = `
           dir="auto"
         >
           V
-          1.11.6
+          1.0
         </div>
       </div>
     </div>

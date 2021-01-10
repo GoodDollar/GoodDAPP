@@ -71,7 +71,7 @@ const GrayBox = ({ title, value, symbol, theme, style }) => {
         lineHeight={19}
         textTransform={'capitalize'}
         fontWeight={'bold'}
-        textAlign={'justify'}
+        textAlign={'left'}
       >
         {title}
       </Section.Text>
@@ -81,7 +81,7 @@ const GrayBox = ({ title, value, symbol, theme, style }) => {
           fontWeight={'bold'}
           fontSize={32}
           lineHeight={43}
-          textAlign={'justify'}
+          textAlign={'left'}
           textTransform={'uppercase'}
           style={gbStyles.statsNumbers}
         >
@@ -240,9 +240,7 @@ const Claim = props => {
   // const openLearnMoreLink = useOnPress(() => openLink(Config.learnMoreEconomyUrl), [])
 
   // format number of people who did claim today
-  /*eslint-disable */
   const formattedNumberOfPeopleClaimedToday = useMemo(() => formatWithSIPrefix(peopleClaimed), [peopleClaimed])
-  /*eslint-enable */
 
   // Format transformer function for claimed G$ amount
   const extraInfoAmountFormatter = number => formatWithSIPrefix(weiToGd(number))
@@ -255,7 +253,9 @@ const Claim = props => {
     log.debug('from FR:', { isValid, screenProps })
     try {
       if (isValid && (await goodWallet.isCitizen())) {
-        handleClaim()
+        //collect invite bonus
+        await handleClaim()
+        goodWallet.collectInviteBounty()
       } else if (isValid === false) {
         screenProps.goToRoot()
       } else {
@@ -287,15 +287,19 @@ const Claim = props => {
   }
 
   useEffect(() => {
+    init()
+  }, [])
+
+  useEffect(() => {
     //stop polling blockchain when in background
     if (appState !== 'active') {
       return
     }
-    init()
-    gatherStats(true) //refresh all stats
+
+    gatherStats(true) //refresh all stats when returning back to app or dailyUbi changed meaning a new cycle started
     claimInterval.current = setInterval(gatherStats, 10000) //constantly update stats but only for some data
     return () => claimInterval.current && clearInterval(claimInterval.current)
-  }, [appState])
+  }, [appState, dailyUbi])
 
   useEffect(() => {
     updateTimer()
@@ -322,16 +326,16 @@ const Claim = props => {
   const gatherStats = async (all = false) => {
     try {
       const [
-        { people, amount },
         [nextClaimMilis, entitlement],
+        { people, amount },
         activeClaimers,
         availableDistribution,
         totalFundsStaked,
         interestCollected,
       ] = await Promise.all([
-        wrappedGoodWallet.getAmountAndQuantityClaimedToday(),
         wrappedGoodWallet.getNextClaimTime(),
-        wrappedGoodWallet.getActiveClaimers(),
+        all && wrappedGoodWallet.getAmountAndQuantityClaimedToday(),
+        all && wrappedGoodWallet.getActiveClaimers(),
         all && wrappedGoodWallet.getAvailableDistribution(),
         all && wrappedGoodWallet.getTotalFundsStaked(),
         all && wrappedGoodWallet.getInterestCollected(),
@@ -347,20 +351,19 @@ const Claim = props => {
         interestCollected,
       })
 
-      setPeopleClaimed(people)
-      setTotalClaimed(amount)
       setDailyUbi(entitlement)
-
-      setActiveClaimers(activeClaimers)
-      all && setAvailableDistribution(availableDistribution)
       setClaimCycleTime(moment(nextClaimMilis).format('HH:mm:ss'))
-
-      all && setTotalFundsStaked(totalFundsStaked)
-      all && setInterestCollected(interestCollected)
 
       if (nextClaimMilis) {
         setNextClaimDate(nextClaimMilis)
       }
+
+      all && setPeopleClaimed(people)
+      all && setTotalClaimed(amount)
+      all && setActiveClaimers(activeClaimers)
+      all && setAvailableDistribution(availableDistribution)
+      all && setTotalFundsStaked(totalFundsStaked)
+      all && setInterestCollected(interestCollected)
     } catch (exception) {
       const { message } = exception
       const uiMessage = decorate(exception, ExceptionCode.E3)
@@ -433,6 +436,14 @@ const Claim = props => {
           claimValue: weiToGd(curEntitlement),
           eventLabel: goodWallet.UBIContract.address,
         })
+
+        //legacy support for claim-geo event for UA. remove once we move to new dashboard and GA4
+        if (isMobileNative === false) {
+          fireGoogleAnalyticsEvent('claim-geo', {
+            claimValue: weiToGd(curEntitlement),
+            eventLabel: goodWallet.UBIContract.address,
+          })
+        }
 
         //reset dailyUBI so statistics are shown after successfull claim
         setDailyUbi(0)
@@ -595,7 +606,7 @@ const Claim = props => {
             />
             <GrayBox
               title={"Today's G$\nDistribution"}
-              value={formatWithabbreviations(availableDistribution)}
+              value={extraInfoAmountFormatter(availableDistribution)}
               symbol={'G$'}
             />
           </Section.Row>

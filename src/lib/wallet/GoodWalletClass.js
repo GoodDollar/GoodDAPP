@@ -12,7 +12,7 @@ import InvitesABI from '@gooddollar/goodcontracts/upgradables/build/contracts/In
 import Web3 from 'web3'
 import { BN, toBN } from 'web3-utils'
 import abiDecoder from 'abi-decoder'
-import { get, invokeMap, last, uniqBy, values } from 'lodash'
+import { get, invokeMap, last, result, uniqBy, values } from 'lodash'
 import moment from 'moment'
 import bs58 from 'bs58'
 import Config from '../../config/config'
@@ -727,15 +727,12 @@ export class GoodWallet {
         })
         return []
       })
-      let interest = 0
-      if (events.length > 0) {
-        get(last(events), 'returnValues.daiValue', 0)
-      }
-      interest = interest ? this.web3Mainnet.utils.fromWei(interest) : 0
+      let interest = result(last(events), 'returnValues.daiValue.toString', '0')
+      interest = this.web3Mainnet.utils.fromWei(interest)
       return interest
     } catch (exception) {
       const { message } = exception
-      log.warn('getTotalFundsStaked failed', message, exception)
+      log.warn('getInterestCollected failed', message, exception)
       throw exception
     }
   }
@@ -1133,9 +1130,13 @@ export class GoodWallet {
   }
 
   async collectInviteBounty(invitee) {
-    const tx = this.invitesContract.methods.bountyFor(invitee)
-    const res = await this.sendTransaction(tx, {})
-    return res
+    const bountyFor = invitee || this.account
+    const canCollect = await this.invitesContract.methods.canCollectBountyFor(bountyFor)
+    if (canCollect) {
+      const tx = this.invitesContract.methods.bountyFor(bountyFor)
+      const res = await this.sendTransaction(tx, {})
+      return res
+    }
   }
 
   async joinInvites(inviter, codeLength = 10) {
@@ -1166,6 +1167,20 @@ export class GoodWallet {
     //code collission
     log.warn('joinInvites code collision:', { inviter, myCode, codeLength, registered })
     return this.joinInvites(inviter, codeLength + 1)
+  }
+
+  async getUserInviteBounty() {
+    const user =
+      (await this.invitesContract.methods
+        .users(this.account)
+        .call()
+        .catch(_ => {})) || {}
+    const level =
+      (await this.invitesContract.methods
+        .levels(user.level)
+        .call()
+        .catch(_ => {})) || {}
+    return result(level, 'bounty.toNumber', 10000) / 100
   }
 
   handleError(e: Error) {

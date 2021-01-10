@@ -22,7 +22,7 @@ export class ProcessingSubscriber {
     const logRecord = { isSuccess, lastMessage }
 
     if (lastResult) {
-      logRecord.lastResult = omit(lastResult, 'faceMetrics')
+      logRecord.lastResult = omit(lastResult, 'faceScan', 'auditTrail', 'lowQualityAuditTrail')
     }
 
     logger[isSuccess ? 'info' : 'warn']('processor result:', logRecord)

@@ -1,7 +1,7 @@
 import { useCallback } from 'react'
 
 import { map } from 'lodash'
-import { MAX_ATTEMPTS_ALLOWED } from '../sdk/ZoomSDK.constants'
+import { MAX_ATTEMPTS_ALLOWED } from '../sdk/FaceTecSDK.constants'
 
 import useRealtimeStoreState from '../../../../lib/hooks/useRealtimeStoreState'
 
@@ -18,13 +18,9 @@ export default () => {
   const { attemptsCount, attemptsHistory } = attemptsState
 
   const trackAttempt = useCallback(
-    (exception, reason = null) => {
-      let { message } = exception
+    exception => {
+      const { message } = exception
       const { attemptsCount, attemptsHistory } = getAttemptsState()
-
-      if (reason) {
-        message = reason
-      }
 
       // prepare updated count & history
       const updatedCount = attemptsCount + 1

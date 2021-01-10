@@ -12,15 +12,19 @@ exports[`TabsView matches snapshot 1`] = `
   }
 >
   <div
-    className="css-view-1dbjc4n r-alignItems-1awozwy"
+    className="css-view-1dbjc4n"
     style={
       Object {
+        "WebkitAlignItems": "center",
+        "WebkitBoxAlign": "center",
         "WebkitBoxDirection": "normal",
         "WebkitBoxOrient": "horizontal",
         "WebkitFlexDirection": "row",
+        "alignItems": "center",
         "backgroundColor": "rgba(98,0,238,1.00)",
         "flexDirection": "row",
         "height": "56px",
+        "msFlexAlign": "center",
         "msFlexDirection": "row",
         "overflowX": "hidden",
         "overflowY": "hidden",

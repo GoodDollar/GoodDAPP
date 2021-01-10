@@ -71,6 +71,8 @@ export default class UserProperties {
       get: () => gun.user().get('properties'),
     })
 
+    const syncProps = props => (this.data = assign({}, defaultProperties, props || {}))
+
     const fetchProps = async () => {
       let props
       const { propsNode } = this
@@ -96,8 +98,6 @@ export default class UserProperties {
 
       syncProps(props)
     }
-
-    const syncProps = props => (this.data = assign({}, defaultProperties, props))
 
     this.ready = (async () => {
       const props = await AsyncStorage.getItem('props')

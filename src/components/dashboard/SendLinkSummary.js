@@ -145,6 +145,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
     }
   }, [action, amount, counterPartyDisplayName, fullName])
 
+  // TODO: case of receive payment request - REMOVE this comment after dev finish
   const sendViaAddress = useCallback(async () => {
     try {
       let txhash
@@ -232,6 +233,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
     let txHash
 
     // Generate link deposit
+    // TODO: case of payment link - REMOVE this comment after dev finish
     const generatePaymentLinkResponse = goodWallet.generatePaymentLink(amount, reason, inviteCode, {
       onTransactionHash: hash => {
         txHash = hash

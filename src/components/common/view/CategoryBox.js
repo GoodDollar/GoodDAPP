@@ -1,4 +1,5 @@
 import React from 'react'
+import { View } from 'react-native'
 import { theme } from '../../theme/styles'
 
 // import ModalLeftBorder from '../modal/ModalLeftBorder'
@@ -14,24 +15,26 @@ export const CategoryBox = ({ style, primarycolor, children, title, contentStyle
       <ModalContents style={[styles.content, contentStyle]}>
         {title && (
           <>
-            <Section.Row style={styles.categoryImage}>{children}</Section.Row>
-            <Section.Row>
-              <Section.Text
-                style={{
-                  textTransform: 'capitalize',
-                  width: '100%',
-                  minWidth: 'max-content',
-                  paddingTop: theme.paddings.defaultMargin,
-                }}
-                color={primarycolor}
-                fontSize={12}
-                textAlign={'center'}
-                lineHeight={14}
-                fontFamily="Roboto"
-              >
-                {title}
-              </Section.Text>
-            </Section.Row>
+            <View style={styles.contentWrapper}>
+              <Section.Row style={styles.categoryImage}>{children}</Section.Row>
+              <Section.Row>
+                <Section.Text
+                  style={{
+                    textTransform: 'capitalize',
+                    width: '100%',
+                    minWidth: 'max-content',
+                    paddingTop: theme.paddings.defaultMargin,
+                  }}
+                  color={primarycolor}
+                  fontSize={12}
+                  textAlign={'center'}
+                  lineHeight={14}
+                  fontFamily="Roboto"
+                >
+                  {title}
+                </Section.Text>
+              </Section.Row>
+            </View>
             {/* <Section.Separator style={{ marginTop: 4 }} width={1} color={primarycolor} /> */}
           </>
         )}
@@ -42,13 +45,18 @@ export const CategoryBox = ({ style, primarycolor, children, title, contentStyle
 
 const styles = {
   content: {
-    paddingTop: theme.paddings.defaultMargin * 2,
-
+    // paddingTop: theme.paddings.defaultMargin * 2,
     // paddingLeft: theme.paddings.defaultMargin * 2,
     // paddingRight: theme.paddings.defaultMargin * 2,
     // paddingBottom: theme.paddings.defaultMargin * 2,
     // borderTopRightRadius: 10,
     // borderBottomRightRadius: 10,
+  },
+  contentWrapper: {
+    position: 'absolute',
+    left: '50%',
+    top: '50%',
+    transform: 'translate(-50%, -50%)',
   },
   shadow: getShadowStyles('0px 2px 4px #00000029', {
     shadowColor: '#00000029',

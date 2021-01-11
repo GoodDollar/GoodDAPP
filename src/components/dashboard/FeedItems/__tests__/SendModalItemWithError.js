@@ -7,7 +7,7 @@ import { generateFeedItemProps } from '../../__tests__/__util__'
 import { withThemeProvider } from '../../../../__tests__/__util__'
 import userStorage from '../../../../lib/gundb/UserStorage'
 
-jest.setTimeout(10000)
+jest.setTimeout(20000)
 
 describe('SendModalItemWithError', () => {
   beforeAll(async () => {

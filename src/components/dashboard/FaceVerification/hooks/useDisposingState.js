@@ -5,7 +5,7 @@ import api from '../api/FaceVerificationApi'
 import logger from '../../../../lib/logger/pino-logger'
 import useMountedState from '../../../../lib/hooks/useMountedState'
 
-const log = logger.child({ from: 'useZoomVerification' })
+const log = logger.child({ from: 'useFaceTecVerification' })
 
 export default ({ enrollmentIdentifier, onComplete = noop, onError = noop }) => {
   const mountedStateRef = useMountedState()

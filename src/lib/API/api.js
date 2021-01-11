@@ -317,11 +317,11 @@ export class APIService {
    * @param {string} enrollmentIdentifier
    * @param {any} axiosConfig
    */
-  performFaceVerification(payload: any, axiosConfig: any = {}): Promise<$AxiosXHR<any>> {
-    const { enrollmentIdentifier, ...enrollmentPayload } = payload
+  performFaceVerification(enrollmentIdentifier: string, payload: any, axiosConfig: any = {}): Promise<$AxiosXHR<any>> {
+    const { client } = this
     const endpoint = this.enrollmentUrl(enrollmentIdentifier)
 
-    return this.put(endpoint, enrollmentPayload, axiosConfig)
+    return client.put(endpoint, payload, axiosConfig)
   }
 
   /**

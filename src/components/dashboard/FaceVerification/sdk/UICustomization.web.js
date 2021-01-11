@@ -1,27 +1,25 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
 import hexToRgba from 'hex-to-rgba'
 import { Colors } from 'react-native-paper'
 import { assignIn, isFinite, isString, mapKeys, memoize, pickBy, snakeCase } from 'lodash'
 
-import { Spinner } from '../../../common/view/LoadingIndicator'
-import ZoomAuthentication from '../../../../lib/zoom/ZoomAuthentication'
+import FaceTec from '../../../../lib/facetec/FaceTecSDK'
 
-import { zoomResultSuccessMessage } from '../sdk/ZoomSDK.constants'
+import { resultFacescanUploadMessage, resultSuccessMessage } from '../sdk/FaceTecSDK.constants'
 import { isLargeDevice } from '../../../../lib/utils/mobileSizeDetect'
 import { theme } from '../../../theme/styles'
 import './UICustomization.css'
 
-export const ZOOM_PUBLIC_PATH = '/zoom'
+export const FACETEC_PUBLIC_PATH = '/facetec'
+export const FACETEC_NS = 'FaceTec'
 
-const { ZoomCustomization, ZoomCancelButtonLocation } = ZoomAuthentication.ZoomSDK
+const { FaceTecCustomization, FaceTecCancelButtonLocation } = FaceTec.FaceTecSDK
 
-const ZoomShadow = (box, color, alpha) => `${box.map(ZoomSize).join(' ')} ${ZoomColor(color, alpha)}`
-const ZoomImage = filename => `${ZOOM_PUBLIC_PATH}/images/${filename}`
-const ZoomFont = family => `'${family}', sans-serif`
-const ZoomSize = size => (size ? `${size}px` : '0')
+const FaceTecShadow = (box, color, alpha) => `${box.map(FaceTecSize).join(' ')} ${FaceTecColor(color, alpha)}`
+const FaceTecImage = filename => `${FACETEC_PUBLIC_PATH}/images/${FACETEC_NS}_${filename}`
+const FaceTecFont = family => `'${family}', sans-serif`
+const FaceTecSize = size => (size ? `${size}px` : '0')
 
-const ZoomColor = memoize(hexToRgba, (color, alpha) => {
+const FaceTecColor = memoize(hexToRgba, (color, alpha) => {
   let cacheKey = color
 
   if ((isFinite(alpha) || isString(alpha)) && isString(color)) {
@@ -31,30 +29,33 @@ const ZoomColor = memoize(hexToRgba, (color, alpha) => {
   return cacheKey
 })
 
-const ZoomHeaderTextSize = ZoomSize(isLargeDevice ? 22 : 20)
-const ZoomDefaultCornerRadius = ZoomSize(5)
+const FaceTecHeaderTextSize = FaceTecSize(isLargeDevice ? 22 : 20)
+const FaceTecDefaultCornerRadius = FaceTecSize(5)
 
+const { black, lightBlue800 } = Colors
 const { primary, green, white, lightGray, darkGray, gray50Percent } = theme.colors
 const { default: defaultFont } = theme.fonts
 const nl = isLargeDevice ? ' ' : '<br/>'
 
 export const UITextStrings = {
-  zoomResultSuccessMessage,
-  zoomRetryInstructionMessage1: '<span>Hold Your Camera at Eye Level.</span>',
-  zoomRetryInstructionMessage2: '<span>Light Your Face Evenly.<br/>Avoid Smiling & Back Light</span>',
+  resultSuccessMessage,
+  resultFacescanUploadMessage,
 
-  zoomInstructionsMessageReady: `Please Frame Your Face In The Small${nl}Oval, Then The Big Oval`,
+  retryInstructionMessage1: '<span>Hold Your Camera at Eye Level.</span>',
+  retryInstructionMessage2: '<span>Light Your Face Evenly.<br/>Avoid Smiling & Back Light</span>',
 
-  zoomInitializingCamera: null, // setting empty "Starting camera..." text
-  zoomResultFacemapUploadMessage: `Verifying you're\none of a kind`,
-  zoomResultIdscanUploadMessage: `Verifying you're\none of a kind`,
+  instructionsMessageReady: `Please Frame Your Face In The Small${nl}Oval, Then The Big Oval`,
+
+  // setting empty "Starting camera..." text
+  initializingCamera: ' ',
+  initializingCameraStillLoading: ' ',
 
   toJSON() {
-    return mapKeys(pickBy(this, isString), (_, i18nString) => snakeCase(i18nString))
+    return mapKeys(pickBy(this, isString), (_, i18nString) => `${FACETEC_NS}_${snakeCase(i18nString)}`)
   },
 }
 
-export const UICustomization = new ZoomCustomization()
+export const UICustomization = new FaceTecCustomization()
 
 const {
   cancelButtonCustomization,
@@ -67,8 +68,6 @@ const {
   resultScreenCustomization,
 } = UICustomization
 
-const { element } = initialLoadingAnimationCustomization
-
 assignIn(UICustomization, {
   // disabling camera permissions help screen
   // (as we have own ErrorScreen with corresponding message)
@@ -80,108 +79,103 @@ assignIn(UICustomization, {
   enableHotKeyProtection: false,
 })
 
-// customizing 'Camera initializing' indicator
-// rendering our animated loading spinner inside Zoom's spinner
-ReactDOM.render(<Spinner loading />, element)
-
 // Zoom's spinner is rendered via CSS border
 // Setting the same background & foreground color to hide it
 // Default Zoom's animation is disabled in UICustomization.css
 assignIn(initialLoadingAnimationCustomization, {
-  foregroundColor: ZoomColor(white),
-  backgroundColor: ZoomColor(white),
+  foregroundColor: FaceTecColor(lightBlue800),
+  backgroundColor: FaceTecColor(white),
 })
 
 // removing branding image from overlay
 assignIn(overlayCustomization, {
   showBrandingImage: false,
-  backgroundColor: ZoomColor(white, 0.5),
+  backgroundColor: FaceTecColor(white, 0.5),
 })
 
 // setting custom location & image of cancel button
 assignIn(cancelButtonCustomization, {
-  location: ZoomCancelButtonLocation.TopRight,
-  customImage: ZoomImage('zoom_cancel.svg'),
+  location: FaceTecCancelButtonLocation.TopRight,
+  customImage: FaceTecImage('cancel.svg'),
 })
 
 // configuring feedback bar typography & border radius
 // bold font style is set in UICustomization.css
 assignIn(feedbackCustomization, {
-  backgroundColor: ZoomColor(primary),
-  cornerRadius: ZoomDefaultCornerRadius,
-  textColor: ZoomColor(white),
-  textFont: ZoomFont(defaultFont),
-  textSize: ZoomSize(24),
+  backgroundColor: FaceTecColor(primary),
+  cornerRadius: FaceTecDefaultCornerRadius,
+  textColor: FaceTecColor(white),
+  textFont: FaceTecFont(defaultFont),
+  textSize: FaceTecSize(24),
 })
 
 // setting oval border color & width
 assignIn(ovalCustomization, {
-  strokeColor: ZoomColor(primary),
+  strokeColor: FaceTecColor(primary),
   strokeWidth: 6,
-  progressColor1: ZoomColor(green),
-  progressColor2: ZoomColor(green),
+  progressColor1: FaceTecColor(green),
+  progressColor2: FaceTecColor(green),
 })
 
 // frame (zoom's popup) customizations
 assignIn(frameCustomization, {
   // setting frame border, radius & shadow
-  borderColor: ZoomColor(white, 0),
-  borderCornerRadius: ZoomDefaultCornerRadius,
-  borderWidth: ZoomSize(0),
-  shadow: ZoomShadow([0, 19, 38, 0], Colors.black, 0.42),
+  borderColor: FaceTecColor(white, 0),
+  borderCornerRadius: FaceTecDefaultCornerRadius,
+  borderWidth: FaceTecSize(0),
+  shadow: FaceTecShadow([0, 19, 38, 0], black, 0.42),
 
   // setting Zoom UI background color
-  backgroundColor: ZoomColor(white),
+  backgroundColor: FaceTecColor(white),
 })
 
 // guidance screens ("frame your face", "retry" etc) customizations
 assignIn(guidanceCustomization, {
   // setting setting Zoom UI default text color
-  foregroundColor: ZoomColor(darkGray),
+  foregroundColor: FaceTecColor(darkGray),
 
   // customizing buttons
-  buttonFont: ZoomFont(defaultFont),
-  buttonBorderWidth: ZoomSize(0),
-  buttonCornerRadius: ZoomDefaultCornerRadius,
-  buttonTextNormalColor: ZoomColor(white),
-  buttonTextHighlightColor: ZoomColor(white),
-  buttonTextDisabledColor: ZoomColor(white),
-  buttonBackgroundNormalColor: ZoomColor(primary),
-  buttonBackgroundHighlightColor: ZoomColor(green),
-  buttonBackgroundDisabledColor: ZoomColor(gray50Percent),
+  buttonFont: FaceTecFont(defaultFont),
+  buttonBorderWidth: FaceTecSize(0),
+  buttonCornerRadius: FaceTecDefaultCornerRadius,
+  buttonTextNormalColor: FaceTecColor(white),
+  buttonTextHighlightColor: FaceTecColor(white),
+  buttonTextDisabledColor: FaceTecColor(white),
+  buttonBackgroundNormalColor: FaceTecColor(primary),
+  buttonBackgroundHighlightColor: FaceTecColor(green),
+  buttonBackgroundDisabledColor: FaceTecColor(gray50Percent),
 
   // customizing header / subtext
   // medium font style is set in UICustomization.css
-  headerFont: ZoomFont(defaultFont),
-  headerTextSize: ZoomHeaderTextSize,
+  headerFont: FaceTecFont(defaultFont),
+  headerTextSize: FaceTecHeaderTextSize,
 
   // subtext
-  subtextFont: ZoomFont(defaultFont),
-  subtextTextSize: ZoomSize(12),
+  subtextFont: FaceTecFont(defaultFont),
+  subtextTextSize: FaceTecSize(12),
 
   // enabling additional instructions on retry screen
   enableRetryScreenBulletedInstructions: true,
 
   // configuring guidance images on retry screen
-  enableRetryScreenSlideshowShuffle: false,
-  retryScreenOvalStrokeColor: ZoomColor(primary),
-  retryScreenImageBorderColor: ZoomColor(primary),
-  retryScreenImageBorderWidth: ZoomSize(4),
-  retryScreenImageCornerRadius: ZoomDefaultCornerRadius,
+  retryScreenOvalStrokeColor: FaceTecColor(primary),
+  retryScreenImageBorderColor: FaceTecColor(primary),
+  retryScreenImageBorderWidth: FaceTecSize(4),
+  retryScreenImageCornerRadius: FaceTecDefaultCornerRadius,
 })
 
 // customizing result screen - progress bar & success animation
 assignIn(resultScreenCustomization, {
-  foregroundColor: ZoomColor(darkGray),
-  messageFont: ZoomFont(defaultFont),
-  messageTextSpacing: ZoomSize(0.08),
-  messageTextSize: ZoomSize(16),
+  foregroundColor: FaceTecColor(darkGray),
+  messageFont: FaceTecFont(defaultFont),
+  messageTextSpacing: FaceTecSize(0.08),
+  messageTextSize: FaceTecSize(16),
   showUploadProgressBar: true,
-  uploadProgressFillColor: ZoomColor(primary),
-  uploadProgressTrackColor: ZoomColor(lightGray),
-  resultAnimationBackgroundColor: ZoomColor(white),
-  resultAnimationForegroundColor: ZoomColor(primary),
-  customActivityIndicatorImage: ZoomImage('zoom_activity_indicator.gif'),
+  uploadProgressFillColor: FaceTecColor(primary),
+  uploadProgressTrackColor: FaceTecColor(lightGray),
+  resultAnimationBackgroundColor: FaceTecColor(white),
+  resultAnimationForegroundColor: FaceTecColor(primary),
+  customActivityIndicatorImage: FaceTecImage('activity_indicator.gif'),
 })
 
 export default UICustomization

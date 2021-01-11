@@ -125,11 +125,27 @@ export class APIService {
     })())
   }
 
+  get = throttle((...params) => {
+    return this.client.get(...params)
+  }, 1000)
+
+  post = throttle((...params) => {
+    return this.client.post(...params)
+  }, 1000)
+
+  put = throttle((...params) => {
+    return this.client.put(...params)
+  }, 1000)
+
+  delete = throttle((...params) => {
+    return this.client.delete(...params)
+  }, 1000)
+
   /**
    * `/auth/ping` get api call
    */
   ping(): AxiosPromise<any> {
-    return this.client.get('/auth/ping')
+    return this.get('/auth/ping')
   }
 
   /**
@@ -137,46 +153,44 @@ export class APIService {
    * @param {Credentials} creds
    */
   auth(creds: Credentials): AxiosPromise<any> {
-    return this.client.post('/auth/eth', creds)
+    return this.post('/auth/eth', creds)
   }
 
   /**
    * `/user/add` post api call
    * @param {UserRecord} user
    */
-  addUser = throttle(
-    (user: UserRecord): AxiosPromise<any> => this.client.post('/user/add', { user }, { withCredentials: true }),
-    1000,
-  )
+  addUser(user: UserRecord): AxiosPromise<any> {
+    return this.post('/user/add', { user }, { withCredentials: true })
+  }
 
   /**
    * `/user/start` post api call
    * @param {UserRecord} user
    */
-  addSignupContact = throttle(
-    (user: UserRecord): AxiosPromise<any> => this.client.post('/user/start', { user }, { withCredentials: true }),
-    1000,
-  )
+  addSignupContact(user: UserRecord): AxiosPromise<any> {
+    return this.post('/user/start', { user }, { withCredentials: true })
+  }
 
   /**
    * `/user/delete` post api call
    */
   deleteAccount(): AxiosPromise<any> {
-    return this.client.post('/user/delete')
+    return this.post('/user/delete')
   }
 
   /**
    * `/user/exists` get api call
    */
   userExists(): AxiosPromise<any> {
-    return this.client.get('/user/exists')
+    return this.get('/user/exists')
   }
 
   /**
    * `/user/exists` get api call
    */
   userExistsCheck(searchBy: { email: string, mobile: string, identifier: string }): AxiosPromise<any> {
-    return this.client.post('/userExists', searchBy)
+    return this.post('/userExists', searchBy)
   }
 
   /**
@@ -184,7 +198,7 @@ export class APIService {
    * @param {UserRecord} user
    */
   sendOTP(user: UserRecord): AxiosPromise<any> {
-    return this.client.post('/verify/sendotp', { user })
+    return this.post('/verify/sendotp', { user })
   }
 
   /**
@@ -192,7 +206,7 @@ export class APIService {
    * @param {any} verificationData
    */
   verifyUser(verificationData: any): AxiosPromise<any> {
-    return this.client.post('/verify/user', { verificationData })
+    return this.post('/verify/user', { verificationData })
   }
 
   /**
@@ -207,22 +221,23 @@ export class APIService {
    * @param {any} verificationData
    */
   verifyMobile(verificationData: any): Promise<$AxiosXHR<any>> {
-    return this.client.post('/verify/mobile', { verificationData })
+    return this.post('/verify/mobile', { verificationData })
   }
 
   /**
    * `/verify/topwallet` post api call. Tops users wallet
    */
   verifyTopWallet(): Promise<$AxiosXHR<any>> {
-    return this.client.post('/verify/topwallet')
+    return this.post('/verify/topwallet')
   }
 
   /**
    * `/verify/sendemail` post api call
+   * throttle because quick calls can cause mautic issues
    * @param {UserRecord} user
    */
   sendVerificationEmail(user: UserRecord): Promise<$AxiosXHR<any>> {
-    return this.client.post('/verify/sendemail', { user })
+    return this.post('/verify/sendemail', { user })
   }
 
   /**
@@ -231,7 +246,7 @@ export class APIService {
    * @param {string} verificationData.code
    */
   verifyEmail(verificationData: { code: string }): Promise<$AxiosXHR<any>> {
-    return this.client.post('/verify/email', { verificationData })
+    return this.post('/verify/email', { verificationData })
   }
 
   /**
@@ -240,7 +255,7 @@ export class APIService {
    * @param {string} sendLink
    */
   sendLinkByEmail(to: string, sendLink: string): Promise<$AxiosXHR<any>> {
-    return this.client.post('/send/linkemail', { to, sendLink })
+    return this.post('/send/linkemail', { to, sendLink })
   }
 
   /**
@@ -248,7 +263,7 @@ export class APIService {
    * @param {string} mnemonic
    */
   sendRecoveryInstructionByEmail(mnemonic: string): Promise<$AxiosXHR<any>> {
-    return this.client.post('/send/recoveryinstructions', { mnemonic })
+    return this.post('/send/recoveryinstructions', { mnemonic })
   }
 
   /**
@@ -256,7 +271,7 @@ export class APIService {
    * @param {string} magiclink
    */
   sendMagicLinkByEmail(magiclink: string): Promise<$AxiosXHR<any>> {
-    return this.client.post('/send/magiclink', { magiclink })
+    return this.post('/send/magiclink', { magiclink })
   }
 
   /**
@@ -274,7 +289,7 @@ export class APIService {
    * @param {string} sendLink
    */
   sendLinkBySMS(to: string, sendLink: string): Promise<$AxiosXHR<any>> {
-    return this.client.post('/send/linksms', { to, sendLink })
+    return this.post('/send/linksms', { to, sendLink })
   }
 
   /** @private */
@@ -291,9 +306,9 @@ export class APIService {
    * `/verify/face/session` post api call
    */
   issueSessionToken(): Promise<$AxiosXHR<any>> {
-    const { client, faceVerificationUrl } = this
+    const { faceVerificationUrl } = this
 
-    return client.post(`${faceVerificationUrl}/session`, {})
+    return this.post(`${faceVerificationUrl}/session`, {})
   }
 
   /**
@@ -315,10 +330,9 @@ export class APIService {
    * @param {string} signature
    */
   disposeFaceSnapshot(enrollmentIdentifier: string, signature: string): Promise<void> {
-    const { client } = this
     const endpoint = this.enrollmentUrl(enrollmentIdentifier)
 
-    return client.delete(endpoint, { params: { signature } })
+    return this.delete(endpoint, { params: { signature } })
   }
 
   /**
@@ -327,10 +341,9 @@ export class APIService {
    * @param {string} signature
    */
   checkFaceSnapshotDisposalState(enrollmentIdentifier: string): Promise<$AxiosXHR<any>> {
-    const { client } = this
     const endpoint = this.enrollmentUrl(enrollmentIdentifier)
 
-    return client.get(endpoint)
+    return this.get(endpoint)
   }
 
   /**
@@ -349,7 +362,7 @@ export class APIService {
    * `/trust` get api call
    */
   getTrust() {
-    return this.client.get('/trust')
+    return this.get('/trust')
   }
 
   /**
@@ -357,7 +370,7 @@ export class APIService {
    * adds user to queue or return queue status
    */
   checkQueueStatus() {
-    return this.client.post('/user/enqueue')
+    return this.post('/user/enqueue')
   }
 
   /**
@@ -396,7 +409,7 @@ export class APIService {
   }
 
   async getActualPhase() {
-    const { data } = await this.client.get('/verify/phase')
+    const { data } = await this.get('/verify/phase')
 
     return data.phase
   }

@@ -406,7 +406,7 @@ const Invite = () => {
           iconColor={theme.colors.darkBlue}
           iconStyle={{ marginLeft: 10 }}
           iconAlignment="right"
-          icon="arrow-down"
+          icon={showHowTo ? 'arrow-up' : 'arrow-down'}
           mode="text"
           textStyle={{ fontWeight: 'bold', letterSpacing: 0, textDecorationLine: 'underline' }}
           onPress={toggleHowTo}

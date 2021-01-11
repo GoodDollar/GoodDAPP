@@ -8,11 +8,11 @@ import goodWallet from '../../../../lib/wallet/GoodWallet'
 import logger from '../../../../lib/logger/pino-logger'
 
 import useLoadingIndicator from '../../../../lib/hooks/useLoadingIndicator'
-import useZoomSDK from '../hooks/useZoomSDK'
-import useZoomVerification from '../hooks/useZoomVerification'
+import useFaceTecSDK from '../hooks/useFaceTecSDK'
+import useFaceTecVerification from '../hooks/useFaceTecVerification'
 import useVerificationAttempts from '../hooks/useVerificationAttempts'
 
-import { MAX_ATTEMPTS_ALLOWED } from '../sdk/ZoomSDK.constants'
+import { MAX_ATTEMPTS_ALLOWED } from '../sdk/FaceTecSDK.constants'
 
 import {
   fireEvent,
@@ -57,17 +57,20 @@ const FaceVerification = ({ screenProps }) => {
   }, [])
 
   const retryHandler = useCallback(
-    ({ exception, ...eventData }) => {
-      const { reason } = eventData
-      let errorObject = exception || new Error(reason)
+    ({ reason, ...failureFlags }) => {
+      const { message } = reason
+      const eventData = {
+        ...failureFlags,
+        reason: message,
+      }
 
+      trackAttempt(reason)
       fireEvent(FV_TRYAGAIN_ZOOM, eventData)
-      trackAttempt(errorObject, reason)
     },
     [trackAttempt],
   )
 
-  // ZoomSDK session completition handler
+  // FaceTecSDK session completition handler
   const completionHandler = useCallback(
     async status => {
       log.debug('FaceVerification completed', { status })
@@ -88,7 +91,7 @@ const FaceVerification = ({ screenProps }) => {
     [screenProps, setIsCitizen, resetAttempts],
   )
 
-  // ZoomSDK session exception handler
+  // FaceTecSDK session exception handler
   const exceptionHandler = useCallback(
     exception => {
       const { name } = exception
@@ -120,7 +123,7 @@ const FaceVerification = ({ screenProps }) => {
   }, [attemptsCount])
 
   // Using zoom verification hook, passing completion callback
-  const startVerification = useZoomVerification({
+  const startVerification = useFaceTecVerification({
     enrollmentIdentifier: UserStorage.getFaceIdentifier(),
     onUIReady: uiReadyHandler,
     onCaptureDone: captureDoneHandler,
@@ -156,7 +159,7 @@ const FaceVerification = ({ screenProps }) => {
   // using zoom sdk initialization hook
   // starting verification once sdk sucessfully initializes
   // on error redirecting to the error screen
-  useZoomSDK({
+  useFaceTecSDK({
     onInitialized: sdkInitializedHandler,
     onError: sdkExceptionHandler,
   })

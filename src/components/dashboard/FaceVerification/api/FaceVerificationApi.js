@@ -1,17 +1,15 @@
 // @flow
-import axios, { type Axios } from 'axios'
-import { get, isError, isObject } from 'lodash'
+import axios from 'axios'
+import { assign, get, isError, isObject } from 'lodash'
 
-import Config from '../../../../config/config'
 import API from '../../../../lib/API/api'
 import logger from '../../../../lib/logger/pino-logger'
+import { unexpectedErrorMessage } from '../sdk/FaceTecSDK.constants'
 
 import { type FaceVerificationPayload, type FaceVerificationResponse } from './typings'
 
 class FaceVerificationApi {
   rootApi: typeof API
-
-  zoomApi: Axios
 
   logger: any
 
@@ -45,41 +43,39 @@ class FaceVerificationApi {
   }
 
   async performFaceVerification(
+    enrollmentIdentifier: string,
     payload: FaceVerificationPayload,
     progressSubscription?: ({ loaded: number, total: number }) => void,
   ): Promise<FaceVerificationResponse> {
-    let axiosConfig = {}
     const { rootApi, logger } = this
-    const { sessionId, enrollmentIdentifier, faceMap, ...auditTrailImages } = payload
-    const faceMapPayloadField = 'face' + (Config.zoomApiVersion < 9 ? 'Map' : 'Scan')
-
-    this.lastCancelToken = axios.CancelToken.source()
+    const { sessionId, ...faceScan } = payload
+    const lastCancelToken = axios.CancelToken.source()
 
     const requestPayload = {
       sessionId,
-      enrollmentIdentifier,
-      ...auditTrailImages,
-      [faceMapPayloadField]: faceMap,
+      ...faceScan,
     }
 
-    axiosConfig = {
-      cancelToken: this.lastCancelToken.token,
+    const axiosConfig = {
+      cancelToken: lastCancelToken.token,
       onUploadProgress: progressSubscription,
     }
 
+    assign(this, { lastCancelToken })
     logger.info('performFaceVerification', { sessionId, enrollmentIdentifier })
 
     try {
-      const response = await this.wrapApiCall(rootApi.performFaceVerification(requestPayload, axiosConfig))
+      const response = await this.wrapApiCall(
+        rootApi.performFaceVerification(enrollmentIdentifier, requestPayload, axiosConfig),
+      )
 
       logger.info('Face Recognition finished successfull', { response })
 
       return response
     } catch (exception) {
-      const { message, response } = exception
-      const { error } = response || {}
+      const { message } = exception
 
-      logger.error('Face recognition failed', error || message, exception)
+      logger.error('Face recognition failed', message, exception)
       throw exception
     } finally {
       this.lastCancelToken = null
@@ -107,10 +103,9 @@ class FaceVerificationApi {
 
       logger.info('Face snapshot enqued to disposal queue successfully')
     } catch (exception) {
-      const { message, response } = exception
-      const { error } = response || {}
+      const { message } = exception
 
-      logger.error('Face snapshot disposal check failed', error || message, exception)
+      logger.error('Face snapshot disposal check failed', message, exception)
       throw exception
     }
   }
@@ -126,10 +121,9 @@ class FaceVerificationApi {
       logger.info('Got face snapshot disposal state', { enrollmentIdentifier, isDisposing })
       return isDisposing
     } catch (exception) {
-      const { message, response } = exception
-      const { error } = response || {}
+      const { message } = exception
 
-      logger.error('Face snapshot disposal check failed', error || message, exception)
+      logger.error('Face snapshot disposal check failed', message, exception)
       throw exception
     }
   }
@@ -167,7 +161,7 @@ class FaceVerificationApi {
 
     if (false === success) {
       // non - success - throwing an exception with failed response
-      const exception = new Error(error || 'An unexpected issue during the face verification API call')
+      const exception = new Error(error || unexpectedErrorMessage)
 
       exception.response = response
       throw exception
@@ -178,4 +172,4 @@ class FaceVerificationApi {
   }
 }
 
-export default new FaceVerificationApi(API, logger.child({ from: 'FaceRecognitionAPI' }))
+export default new FaceVerificationApi(API, logger.child({ from: 'FaceVerificationApi' }))

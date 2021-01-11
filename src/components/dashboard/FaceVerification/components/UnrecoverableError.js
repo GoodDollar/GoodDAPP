@@ -12,11 +12,7 @@ import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../../lib
 import { withStyles } from '../../../../lib/styles'
 import IllustrationSVG from '../../../../assets/FRUnrecoverableError.svg'
 
-import { ZoomSDKStatus } from '../sdk/ZoomSDK'
-import { ExceptionType } from '../utils/kindOfTheIssue'
-
-const { SDK } = ExceptionType
-const { InvalidDeviceLicenseKeyIdentifier, LicenseExpiredOrInvalid } = ZoomSDKStatus || {}
+import { ExceptionType, isLicenseIssue } from '../utils/kindOfTheIssue'
 
 const log = logger.child({ from: 'FaceVerification' })
 
@@ -24,14 +20,14 @@ const UnrecoverableError = ({ styles, exception, nav }) => {
   const [, hideDialog, showErrorDialog] = useDialog()
   const { navigateTo, goToRoot, push } = nav
 
-  const { type, code, message } = exception || {}
-  const isLicenseIssue = SDK === type && [InvalidDeviceLicenseKeyIdentifier, LicenseExpiredOrInvalid].includes(code)
+  const { type, message } = exception || {}
+  const isSDKLicenseIssue = ExceptionType.SDK === type && isLicenseIssue(exception)
 
   const onContactSupport = useCallback(() => navigateTo('Support'), [navigateTo])
 
   useEffect(() => {
     // if it's not an license issue - we don't have to show dialog
-    if (!isLicenseIssue) {
+    if (!isSDKLicenseIssue) {
       return
     }
 

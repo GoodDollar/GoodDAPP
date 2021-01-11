@@ -1,5 +1,5 @@
 import { findKey, get, mapValues } from 'lodash'
-import { ZoomSDKStatus, ZoomSessionStatus } from '../sdk/ZoomSDK'
+import { FaceTecSDKStatus, FaceTecSessionStatus } from '../sdk/FaceTecSDK'
 
 const statusTransformer = statusesEnum => statusesKeys =>
   statusesKeys.reduce((statuses, key) => {
@@ -10,9 +10,39 @@ const statusTransformer = statusesEnum => statusesKeys =>
     return statuses
   }, [])
 
+// All FaceTec sdk initialization result codes could be thrown
+// if resources were failed to load. In this case we coundn't
+// continue and have to ask user for reload the app (web only)
+const ResourceLoadingError = [
+  // FaceTec SDK is still loading resources.
+  'StillLoadingResources',
+
+  // FaceTec SDK could not load resources.
+  'ResourcesCouldNotBeLoadedOnLastInit',
+]
+
+// All FaceTec sdk initialization result codes
+// could be thrown if runnin inside iframe
+const IFrameError = [
+  // FaceTec doesn't supports to run from iframe.
+  'IFrameNotAllowedWithoutPermission',
+  'NotAllowedUseIframeConstructor',
+  'NotAllowedUseNonIframeConstructor',
+]
+
+// All FaceTec sdk initialization result codes could be thrown
+// if the license was failed to be proven
+const LicenseError = [
+  // The Device License Key Identifier provided was invalid.
+  'InvalidDeviceKeyIdentifier',
+
+  // License was expired, contained invalid text, or you are attempting to initialize on a domain that is not specified in your license.
+  'KeyExpiredOrInvalid',
+]
+
 const kindOfSessionIssuesMap = mapValues(
   {
-    // All Zoom session result codes could be thrown if the
+    // All FaceTec session result codes could be thrown if the
     // camera isn't available or no camera access was confirmed
     // in this case we're marking error as 'NotAllowedError'.
     NotAllowedError: [
@@ -25,30 +55,27 @@ const kindOfSessionIssuesMap = mapValues(
       // camera was not enabled.
       'CameraNotEnabled',
 
+      // camera permissions denied.
+      'CameraPermissionDenied',
+
       // selected camera is not active
       'CameraNotRunning',
 
-      // camera is busy because another ZoOm Session in progress.
-      'ZoomSessionInProgress',
-
-      // video initialization issues
-      'UnmanagedSessionVideoInitializationNotCompleted',
-      'ZoomVideoOrInterfaceDOMElementDoesNotExist',
-      'VideoHeightOrWidthZeroOrUninitialized',
-      'VideoCaptureStreamNotActive',
+      // camera is busy because another FaceTec Session in progress.
+      'SessionInProgress',
     ],
 
     ForegroundLoosedError: [
-      // The ZoOm Session was cancelled due to the app being terminated, put to sleep, an OS notification,
+      // The FaceTec Session was cancelled due to the app being terminated, put to sleep, an OS notification,
       // or the app was placed in the background (for web - tab was switched).
       'ContextSwitch',
     ],
 
-    // All Zoom sdk and session result codes could be thrown if device
+    // All FaceTec sdk and session result codes could be thrown if device
     // orientation isn't portrait or was changed during the session
     // in this case we're marking error as 'DeviceOrientationError'.
     DeviceOrientationError: [
-      // device orientation was changed during the ZoOm Session
+      // device orientation was changed during the FaceTec Session
       'OrientationChangeDuringSession',
 
       // device is in landscape mode
@@ -60,7 +87,7 @@ const kindOfSessionIssuesMap = mapValues(
 
     // User has cancelled session by own decision
     UserCancelled: [
-      // The user pressed the cancel button and did not complete the ZoOm Session.
+      // The user pressed the cancel button and did not complete the FaceTec Session.
       'UserCancelled',
 
       // The user pressed the cancel button during New User Guidance.
@@ -69,16 +96,27 @@ const kindOfSessionIssuesMap = mapValues(
       // The user pressed the cancel button during Retry Guidance.
       'UserCancelledFromRetryGuidance',
 
-      // The ZoOm Session cancelled because user pressed the Get Ready screen subtext message.
+      // The FaceTec Session cancelled because user pressed the Get Ready screen subtext message.
       'UserCancelledViaClickableReadyScreenSubtext',
+
+      // The user pressed the cancel button (hardware) and did not complete the Session.
+      'UserCancelledViaHardwareButton',
     ],
+
+    // All FaceTec sdk initialization result codes could be thrown
+    // if runnin on non-supported device / environment
+    NotSupportedError: IFrameError,
+
+    ResourceLoadingError,
   },
-  statusTransformer(ZoomSessionStatus),
+  statusTransformer(FaceTecSessionStatus),
 )
+
+const sdkStatusTransformer = statusTransformer(FaceTecSDKStatus)
 
 const kindOfSDKIssuesMap = mapValues(
   {
-    // All Zoom sdk initialization result codes could be thrown
+    // All FaceTec sdk initialization result codes could be thrown
     // if device orientation isn't portrait
     // in this case we're marking error as 'DeviceOrientationError'.
     DeviceOrientationError: [
@@ -89,17 +127,16 @@ const kindOfSDKIssuesMap = mapValues(
       'DeviceInLandscapeMode',
     ],
 
-    // All Zoom sdk initialization result codes could be thrown
+    // All FaceTec sdk initialization result codes could be thrown
     // if runnin on non-supported device / environment
     NotSupportedError: [
-      // This device/platform/browser/version combination is not supported by ZoOm.
+      // This device/platform/browser/version combination is not supported by FaceTec.
       'DeviceNotSupported',
 
-      // ZoOm doesn't supports to run from iframe.
-      'IFrameNotAllowedWithoutPermission',
+      ...IFrameError,
     ],
 
-    // All Zoom sdk initialization result codes could be thrown
+    // All FaceTec sdk initialization result codes could be thrown
     // related to the errors couldn't dissapear in the future calls
     // For example, orientation errors could disapper if user will
     // position his device correctly during the next attempt but
@@ -107,29 +144,30 @@ const kindOfSDKIssuesMap = mapValues(
     // there's no chance this could be changed.
     // Used for handle the case when we should prevent next initialization attempts
     UnrecoverableError: [
-      // The Device License Key Identifier provided was invalid.
-      'InvalidDeviceLicenseKeyIdentifier',
+      ...LicenseError,
 
-      // This version of ZoOm SDK is deprecated.
+      // This version of FaceTec SDK is deprecated.
       'VersionDeprecated',
-
-      // License was expired, contained invalid text, or you are attempting to initialize on a domain that is not specified in your license.
-      'LicenseExpiredOrInvalid',
 
       // The provided public encryption key is missing or invalid.
       'EncryptionKeyInvalid',
     ],
+
+    ResourceLoadingError,
   },
-  statusTransformer(ZoomSDKStatus),
+  sdkStatusTransformer,
 )
 
-const criticalIssues = ['UnrecoverableError', 'NotSupportedError']
+const licenceIssuesCodes = sdkStatusTransformer(LicenseError)
 const createPredicate = exception => codes => codes.includes(get(exception, 'code'))
+const criticalIssues = ['UnrecoverableError', 'NotSupportedError', 'ResourceLoadingError']
 
 export const ExceptionType = {
   SDK: 'sdk',
   Session: 'session',
 }
+
+export const isLicenseIssue = exception => createPredicate(exception)(licenceIssuesCodes)
 
 export const isCriticalIssue = exception => criticalIssues.includes(get(exception, 'name'))
 

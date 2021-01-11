@@ -1,27 +1,27 @@
 import { assign, first, isFinite, isNumber } from 'lodash'
 
 import api from '../api/FaceVerificationApi'
-import ZoomAuthentication from '../../../../lib/zoom/ZoomAuthentication'
+import FaceTec from '../../../../lib/facetec/FaceTecSDK'
 import { UITextStrings } from './UICustomization'
-import { MAX_RETRIES_ALLOWED } from './ZoomSDK.constants'
+import { MAX_RETRIES_ALLOWED, resultFacescanProcessingMessage } from './FaceTecSDK.constants'
 
 const {
   // Zoom verification session incapsulation
-  ZoomSession,
+  FaceTecSession,
 
   // Zoom session status codes enum
-  ZoomSessionStatus,
+  FaceTecSessionStatus,
 
   // Helper function, returns full description
   // for session status specified
-  getFriendlyDescriptionForZoomSessionStatus,
+  getFriendlyDescriptionForFaceTecSessionStatus,
 
   // Helper class, allows to customize Zoom UI
-  ZoomCustomization,
-} = ZoomAuthentication.ZoomSDK
+  FaceTecCustomization,
+} = FaceTec.FaceTecSDK
 
 // enrollment processor class
-// former startVerification from the useZoomVerification hook simply translated to the class
+// former startVerification from the useFaceTecVerification hook simply translated to the class
 // all closures vars now are instance vars, all functions are methods
 export class EnrollmentProcessor {
   // session state variables
@@ -56,7 +56,7 @@ export class EnrollmentProcessor {
   /**
    * Helper method for handle session completion
    */
-  handleCompletion() {
+  onFaceTecSDKCompletelyDone() {
     const { subscriber, isSuccess, lastMessage, lastResult } = this
     let latestMessage = lastMessage
     const { status } = lastResult
@@ -65,8 +65,8 @@ export class EnrollmentProcessor {
     if (!latestMessage) {
       // setting last message from session status code it it's present
       latestMessage =
-        isNumber(status) && status !== ZoomSessionStatus.SessionCompletedSuccessfully
-          ? getFriendlyDescriptionForZoomSessionStatus(status)
+        isNumber(status) && status !== FaceTecSessionStatus.SessionCompletedSuccessfully
+          ? getFriendlyDescriptionForFaceTecSessionStatus(status)
           : 'Session could not be completed due to an unexpected issue during the network request.'
     }
 
@@ -77,29 +77,24 @@ export class EnrollmentProcessor {
   /**
    * Helper method that calls verification http API on server
    */
-  async performVerification() {
+  async sendEnrollmentRequest() {
     // reading current session state vars
-    const { lastResult, resultCallback, enrollmentIdentifier, subscriber, retryAttempt, maxRetries } = this
+    const { lastResult, resultCallback, enrollmentIdentifier } = this
 
     // setting initial progress to 0 for freeze progress bar
     resultCallback.uploadProgress(0)
 
     // getting images captured
-    const { faceMetrics, sessionId } = lastResult
-    const captured = faceMetrics.lowQualityAuditTrailCompressedBase64()
-    const capturedHD = faceMetrics.getAuditTrailBase64JPG()
+    const { faceScan, auditTrail, lowQualityAuditTrail, sessionId } = lastResult
 
     try {
-      // preparing face map
-      const faceMap = await this._getFaceMapBase64()
-
       // preparing request payload
       const payload = {
+        faceScan,
         sessionId,
-        faceMap,
         enrollmentIdentifier,
-        lowQualityAuditTrailImage: first(captured),
-        auditTrailImage: first(capturedHD),
+        lowQualityAuditTrailImage: first(lowQualityAuditTrail),
+        auditTrailImage: first(auditTrail),
       }
 
       // after some preparation notifying Zoom that progress is 10%
@@ -108,8 +103,15 @@ export class EnrollmentProcessor {
       // calling API, if response contains success:false it will throw an exception
       await api
         .performFaceVerification(payload, ({ loaded, total }) => {
+          const uploaded = loaded / total
+
+          if (uploaded >= 1) {
+            // switch status message to processing once upload completed
+            resultCallback.uploadMessageOverride(resultFacescanProcessingMessage)
+          }
+
           // handling XMLHttpRequest upload progress from 10 to 80%
-          resultCallback.uploadProgress(0.1 + (0.7 * loaded) / total)
+          resultCallback.uploadProgress(0.1 + 0.7 * uploaded)
         })
         .finally(() => {
           // last 20% progress bar will stuck in 'almost completed' state
@@ -118,88 +120,81 @@ export class EnrollmentProcessor {
         })
 
       // if enrolled sucessfully - setting last message from server response
-      const { zoomResultSuccessMessage } = UITextStrings
+      const { resultSuccessMessage } = UITextStrings
 
-      ZoomCustomization.setOverrideResultScreenSuccessMessage(zoomResultSuccessMessage)
+      FaceTecCustomization.setOverrideResultScreenSuccessMessage(resultSuccessMessage)
 
       // updating session state vars
       this.isSuccess = true
-      this.lastMessage = zoomResultSuccessMessage
+      this.lastMessage = resultSuccessMessage
 
       // marking session as successfull
       resultCallback.succeed()
     } catch (exception) {
-      // if call failed - reading http response from exception object
-      const { message, response } = exception
+      this.handleEnrollmentError(exception)
+    }
+  }
 
-      // by default we'll use exception's message as lastMessage
-      this.lastMessage = message
+  /**
+   * @private
+   */
+  handleEnrollmentError(exception) {
+    const { resultCallback, subscriber, retryAttempt, maxRetries } = this
 
-      if (response) {
-        // if error response was sent
-        const { enrollmentResult, error } = response
-        const { isEnrolled, isLive, isDuplicate, code, subCode } = enrollmentResult || {}
+    // if call failed - reading http response from exception object
+    const { message, response } = exception
 
-        // if isDuplicate is strictly true, that means we have dup face
-        // despite the http status code this case should be processed like error
-        const isDuplicateIssue = true === isDuplicate
+    // setting lastMessage from exception's message
+    // if response was sent - it will contain message from server
+    this.lastMessage = message
 
-        /* eslint-disable lines-around-comment */
+    if (response) {
+      // if error response was sent
+      const { enrollmentResult, error } = response
+      const { isEnrolled, isLive, isDuplicate, isNotMatch } = enrollmentResult || {}
 
-        // checking if exception could be related to the liveness failure
-        // there's two possible cases:
-        //  a) if code is 200 then facetec server operations went ok but
-        //     there could be issues with liveness check or image quality
-        //  b) if server returns subCode = livenessCheckFailed (v8 only) it's
-        //     exactly a liveness check issue
-        const isLivenessIssue =
-          (200 === code || 'livenessCheckFailed' === subCode) &&
-          // checking liveness / enrollment statuses flags
-          // if liveness check failed or face wasn't enrolled by the other reasons
-          // (e.g. wearing glasses or bad image quality)
-          (false === isLive || false === isEnrolled)
+      // if isDuplicate is strictly true, that means we have dup face
+      // despite the http status code this case should be processed like error
+      const isDuplicateIssue = true === isDuplicate
+      const is3DMatchIssue = true === isNotMatch
+      const isLivenessIssue = false === isLive
 
-        /* eslint-enable lines-around-comment */
+      // if there's no duplicate / 3d match issues but we have
+      // liveness issue strictly - we'll check for possible session retry
+      if (!isDuplicateIssue && !is3DMatchIssue && isLivenessIssue) {
+        const alwaysRetry = !isFinite(maxRetries) || maxRetries < 0
 
-        // setting lastMessage from server's response
-        this.lastMessage = error
+        // if haven't reached retries threshold or max retries is disabled
+        // (is null or < 0) we'll ask to retry capturing
+        if (alwaysRetry || retryAttempt < maxRetries) {
+          // increasing retry attempts counter
+          this.retryAttempt = retryAttempt + 1
 
-        // if there's no duplicate issues but we have liveness issue strictly
-        // we'll check for possible session retry
-        if (!isDuplicateIssue && isLivenessIssue) {
-          const alwaysRetry = !isFinite(maxRetries) || maxRetries < 0
+          // showing reason
+          resultCallback.uploadMessageOverride(error)
 
-          // if haven't reached retries threshold or max retries is disabled
-          // (is null or < 0) we'll ask to retry capturing
-          if (alwaysRetry || retryAttempt < maxRetries) {
-            // increasing retry attempts counter
-            this.retryAttempt = retryAttempt + 1
+          // notifying about retry
+          resultCallback.retry()
 
-            // showing reason
-            ZoomCustomization.setOverrideResultScreenSuccessMessage(error)
+          subscriber.onRetry({
+            reason: exception,
+            match3d: !is3DMatchIssue,
+            liveness: !isLivenessIssue,
+            duplicate: isDuplicateIssue,
+            enrolled: true === isEnrolled,
+          })
 
-            // notifying about retry
-            resultCallback.retry()
-
-            subscriber.onRetry({
-              exception,
-              reason: error,
-              liveness: isLive,
-              enrolled: isEnrolled,
-            })
-
-            return
-          }
+          return
         }
       }
-
-      // the other cases (non-200 code or other issue that liveness / image quality)
-      // we're processing like an error - cancelling session
-      // this will trigger handleCompletion which in turn trigger ProcessingSubscriber.onSessionCompleted
-      // which then rejects its promise and causes ZoomSDK.faceVerification to throw which is caught by
-      // useZoomVerification
-      resultCallback.cancel()
     }
+
+    // the other cases (non-200 code or other issue that liveness / image quality)
+    // we're processing like an error - cancelling session
+    // this will trigger handleCompletion which in turn trigger ProcessingSubscriber.onSessionCompleted
+    // which then rejects its promise and causes FaceTecSDK.faceVerification to throw which is caught by
+    // useFaceTecVerification
+    resultCallback.cancel()
   }
 
   /**
@@ -207,26 +202,24 @@ export class EnrollmentProcessor {
    * server call was completed etc). Allows to perform server call ot specify what
    * Zoom should do after server response returned (cancel / retry / succeed session)
    *
-   * @see ZoomSDK.ZoomFaceMapProcessor
+   * @see FaceTecSDK.ZoomFaceMapProcessor
    * @private
    */
-  processZoomSessionResultWhileZoomWaits(zoomSessionResult, zoomFaceMapResultCallback) {
+  processSessionResultWhileFaceTecSDKWaits(sessionResult, faceScanResultCallback) {
     const { subscriber } = this
-    const { status, faceMetrics } = zoomSessionResult
-    const { faceMap } = faceMetrics
 
     // updating session state variables
-    this.lastResult = zoomSessionResult
-    this.resultCallback = zoomFaceMapResultCallback
+    this.lastResult = sessionResult
+    this.resultCallback = faceScanResultCallback
 
     // checking the following cases
     // 1. Processor is called but session is still in progress. That means we've reached timeout
     // 2. New data (probably with better quality) came while session calling server.
-    if (status !== ZoomSessionStatus.SessionCompletedSuccessfully || !faceMap || !faceMap.size) {
+    if (sessionResult.status !== FaceTecSessionStatus.SessionCompletedSuccessfully) {
       // on both cases described above we're cancelling current XMLHttpRequests
       // then cancelling current session
       api.cancelInFlightRequests()
-      zoomFaceMapResultCallback.cancel()
+      faceScanResultCallback.cancel()
       return
     }
 
@@ -234,7 +227,7 @@ export class EnrollmentProcessor {
     subscriber.onCaptureDone()
 
     // and performing http server call
-    this.performVerification()
+    this.sendEnrollmentRequest()
   }
 
   /**
@@ -251,29 +244,13 @@ export class EnrollmentProcessor {
       const sessionId = await api.issueSessionToken()
 
       // if we've got it - strting enrollment session
-      new ZoomSession(() => this.handleCompletion(), this, sessionId)
+      new FaceTecSession(this, sessionId)
 
       // notifying subscriber that UI is ready
       subscriber.onUIReady()
     } catch ({ message }) {
-      // otherwise calling completion handler with empty zoomSessionResult
+      // otherwise calling completion handler with empty faceTecSessionResult
       subscriber.onSessionCompleted(false, null, message)
     }
-  }
-
-  /**
-   * Promisified getFaceMapBase64.getFaceMapBase64()
-   *
-   * @private
-   */
-  // eslint-disable-next-line require-await
-  async _getFaceMapBase64() {
-    const { faceMetrics } = this.lastResult
-
-    return new Promise((resolve, reject) =>
-      faceMetrics.getFaceMapBase64(faceMap =>
-        faceMap ? resolve(faceMap) : reject(new Error('Error generating FaceMap !')),
-      ),
-    )
   }
 }

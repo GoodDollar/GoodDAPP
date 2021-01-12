@@ -142,7 +142,7 @@ export const FaceTecSDK = new class {
         ? null
         : // handling the case when we're trying to run SDK on emulated device
           "Initialize wasn't attempted as emulated device has been detected. " +
-            'FaceTec FaceTecSDK could be ran on the real devices only',
+            'FaceTecSDK could be ran on the real devices only',
     )
   }
 

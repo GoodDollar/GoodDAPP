@@ -1,3 +1,5 @@
+import { assign, get, isString } from 'lodash'
+
 import logger from '../../../../lib/logger/pino-logger'
 
 import FaceTec from '../../../../lib/facetec/FaceTecSDK'
@@ -77,55 +79,71 @@ export const FaceTecSDK = new class {
    */
   async initializationAttempt(licenseKey, encryptionKey, licenseText) {
     const { sdk, logger } = this
+    const { NeverInitialized, KeyExpiredOrInvalid } = FaceTecSDKStatus
     const license = parseLicense(licenseKey)
 
     logger.debug('FaceTec SDK initialization attempt', { licenseKey, encryptionKey, license })
 
-    const isInitialized = await new Promise((resolve, reject) => {
-      // using one of two existing initialize() overloads depending of which mode is used
-      // (dev or prod) determined by the REACT_APP_ZOOM_LICENSE_TEXT envvar is set or not
-      const initializeArgs = [licenseKey, encryptionKey, resolve]
-      const faceTecEnv = license ? 'Production' : 'Development'
+    try {
+      const isInitialized = await new Promise((resolve, reject) => {
+        // i was wrong thinking ResourcesCouldNotBeLoadedOnLastInit solve all issues
+        // with unexpected Zoom errors. Actually there're still some cases
+        // (e.g. invalid / absent encryption key) when Zoom doesn't throws an exception
+        // just logs it onto the console. So we still need to listen console.error calls
+        // as we did it in v8
+        const unsubscribe = this.listenBrowserSDKErrors(exception => {
+          unsubscribe()
+          reject(exception)
+        })
 
-      if (license) {
-        // pre-pending args with production key which is need to be passed
-        // as the first one arg to the initializeInProductionMode()
-        initializeArgs.unshift(license)
+        const initializationCallback = initialized => {
+          unsubscribe()
+          resolve(initialized)
+        }
+
+        try {
+          // using one of two existing initialize() overloads depending of which mode is used
+          // (dev or prod) determined by the REACT_APP_ZOOM_LICENSE_TEXT envvar is set or not
+          if (license) {
+            sdk.initializeInProductionMode(license, licenseKey, encryptionKey, initializationCallback)
+            return
+          }
+
+          sdk.initializeInDevelopmentMode(licenseKey, encryptionKey, initializationCallback)
+        } catch (exception) {
+          unsubscribe()
+          reject(exception)
+        }
+      })
+
+      // if Zoom was initialized successfully
+      if (isInitialized) {
+        // customizing texts after initializaiton, according the docs
+        this.configureLocalization()
+
+        // resolving
+        return isInitialized
+      }
+    } catch (exception) {
+      // handle FaceTec Browser SDK Error Code 980897: Invalid publicEncryptionKey parameter passed to initialize
+      if (/invalid.+parameter.+passed/i.test(exception.message)) {
+        this.throwExceptionFromStatus(KeyExpiredOrInvalid)
       }
 
-      logger.debug(`initializeIn${faceTecEnv}Mode`, initializeArgs)
-
-      try {
-        sdk[`initializeIn${faceTecEnv}Mode`](...initializeArgs)
-      } catch (exception) {
-        reject(exception)
-      }
-    })
-
-    // if Zoom was initialized successfully
-    if (isInitialized) {
-      // customizing texts after initializaiton, according the docs
-      this.configureLocalization()
-
-      // resolving
-      return isInitialized
+      this.throwException(exception)
     }
 
     const sdkStatus = sdk.getStatus()
 
-    if (FaceTecSDKStatus.NeverInitialized === sdkStatus) {
-      // handling the case when we're trying to run SDK on emulated device
-      const exception = new Error(
-        "Initialize wasn't attempted as emulated device has been detected. " +
-          'FaceTec FaceTecSDK could be ran on the real devices only',
-      )
-
-      exception.code = sdkStatus
-      throw exception
-    }
-
-    // otherwise throwing exception based on the new status we've got after initialize() call
-    this.throwExceptionFromStatus(sdkStatus)
+    // trowing exception based on the new status we've got after initialize() call
+    this.throwExceptionFromStatus(
+      sdkStatus,
+      NeverInitialized !== sdkStatus
+        ? null
+        : // handling the case when we're trying to run SDK on emulated device
+          "Initialize wasn't attempted as emulated device has been detected. " +
+            'FaceTec FaceTecSDK could be ran on the real devices only',
+    )
   }
 
   /**
@@ -143,16 +161,48 @@ export const FaceTecSDK = new class {
   /**
    * @private
    */
-  throwExceptionFromStatus(sdkStatus) {
-    const { sdk, logger } = this
+  listenBrowserSDKErrors(callback) {
+    const logStream = window.console
+    const { error: originalLogError } = logStream
+    const faceTecErrorRegexp = /facetec.+browser.+sdk.+error.+code.+?(\d+).*?:\s*?(.+)$/i
 
-    // retrieving full description from status code
-    const exception = new Error(sdk.getFriendlyDescriptionForFaceTecSDKStatus(sdkStatus))
+    logStream.error = (...loggedArgs) => {
+      let matches
+      const logged = get(loggedArgs, '[0][0]')
+
+      if (isString(logged) && (matches = faceTecErrorRegexp.exec(logged))) {
+        const [, code, message] = matches
+        const exception = new Error(message)
+
+        assign(exception, { code })
+        callback(exception)
+      }
+
+      return originalLogError.apply(logStream, loggedArgs)
+    }
+
+    return () => void (logStream.error = originalLogError)
+  }
+
+  /**
+   * @private
+   */
+  throwException(exception) {
+    const { logger } = this
+
+    logger.warn('initialize failed', { exception })
+    throw exception
+  }
+
+  /**
+   * @private
+   */
+  throwExceptionFromStatus(sdkStatus, customMessage = null) {
+    // if no custom message set - retrieving full description from status code
+    const exception = new Error(customMessage || this.sdk.getFriendlyDescriptionForFaceTecSDKStatus(sdkStatus))
 
     // adding status code as error's object property
     exception.code = sdkStatus
-    logger.warn('initialize failed', { exception })
-
-    throw exception
+    this.throwException(exception)
   }
 }(FaceTec.FaceTecSDK, logger.child({ from: 'FaceTecSDK.web' }))

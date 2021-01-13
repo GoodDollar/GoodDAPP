@@ -1,5 +1,5 @@
 apply plugin: "com.android.application"
-apply plugin: 'com.google.gms.google-services' 
+apply plugin: 'com.google.gms.google-services'
 
 project.ext.envConfigFiles = [
   debug: ".env.development",
@@ -166,7 +166,7 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode buildNumber
         versionName semVersion
-        missingDimensionStrategy 'react-native-camera', 'general'
+        missingDimensionStrategy 'general'
         vectorDrawables.useSupportLibrary = true
         renderscriptTargetApi 23
         renderscriptSupportModeEnabled true

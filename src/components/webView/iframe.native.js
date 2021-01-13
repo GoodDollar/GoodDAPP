@@ -64,7 +64,7 @@ export const Iframe = ({ src, title }) => {
   )
 }
 
-export const createIframe = (src, title, backToWallet = false, styles) => {
+export const createIframe = (src, title, backToWallet = false) => {
   const IframeTab = () => <Iframe title={title} src={src} />
 
   IframeTab.navigationOptions = { title, backToWallet }

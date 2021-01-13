@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useRef } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { get } from 'lodash'
 
 import CameraNotAllowedError from '../components/CameraNotAllowedError'
@@ -16,11 +16,10 @@ import { getFirstWord } from '../../../../lib/utils/getFirstWord'
 
 const ErrorScreen = ({ styles, screenProps }) => {
   const store = GDStore.useStore()
+  const { isReachedMaxAttempts } = useVerificationAttempts()
+
   const exception = get(screenProps, 'screenState.error')
   const kindOfTheIssue = get(exception, 'name')
-
-  const errorViewComponentRef = useRef(null)
-  const { isReachedMaxAttempts } = useVerificationAttempts()
 
   const title = useMemo(() => {
     const { fullName } = store.get('profile')
@@ -30,7 +29,7 @@ const ErrorScreen = ({ styles, screenProps }) => {
 
   const onRetry = useCallback(() => screenProps.navigateTo('FaceVerificationIntro'), [screenProps])
 
-  useEffect(() => {
+  const ErrorViewComponent = useMemo(() => {
     // determining error component to display
     // be default display general error
     let component = GeneralError
@@ -45,10 +44,8 @@ const ErrorScreen = ({ styles, screenProps }) => {
       component = map[kindOfTheIssue]
     }
 
-    errorViewComponentRef.current = component
-  }, [])
-
-  const { current: ErrorViewComponent } = errorViewComponentRef
+    return component
+  }, [isReachedMaxAttempts, kindOfTheIssue])
 
   if (!ErrorViewComponent) {
     return null

@@ -166,7 +166,7 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode buildNumber
         versionName semVersion
-        missingDimensionStrategy 'general'
+        missingDimensionStrategy 'react-native-camera', 'general'
         vectorDrawables.useSupportLibrary = true
         renderscriptTargetApi 23
         renderscriptSupportModeEnabled true
@@ -237,6 +237,7 @@ android {
 }
 
 dependencies {
+    implementation project(':react-native-camera')
     implementation project(':lottie-react-native')
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "com.facebook.react:react-native:+"  // From node_modules

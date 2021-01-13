@@ -58,6 +58,8 @@ target 'GoodDollar' do
   pod 'secp256k1.c', '0.1.2', :modular_headers => true
   pod 'RNTorusDirectSdk', :path => '../node_modules/@toruslabs/torus-direct-react-native-sdk'
 
+  pod 'react-native-camera', :path => '../node_modules/react-native-camera'
+
   target 'GoodDollarTests' do
     inherit! :search_paths
     # Pods for testing

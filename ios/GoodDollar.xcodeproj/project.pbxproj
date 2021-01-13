@@ -358,6 +358,7 @@
 				03A877F1CBAE2DB0B5737778 /* [CP] Copy Pods Resources */,
 				9534F3609DA24F6396C06AEE /* Upload Debug Symbols to Sentry */,
 				B546A89611140F9CAB7F9ABC /* [CP-User] [RNFB] Core Configuration */,
+				22F33A17DA77E985501FA912 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -494,6 +495,7 @@
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Zocial.ttf",
 				"${PODS_CONFIGURATION_BUILD_DIR}/TOCropViewController/TOCropViewControllerBundle.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/react-native-facetec/FaceTec.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/web3swift/Browser.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
@@ -516,11 +518,30 @@
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/SimpleLineIcons.ttf",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Zocial.ttf",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/TOCropViewControllerBundle.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FaceTec.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Browser.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-GoodDollar/Pods-GoodDollar-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		22F33A17DA77E985501FA912 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-GoodDollar/Pods-GoodDollar-frameworks.sh",
+				"${PODS_ROOT}/../../node_modules/react-native-facetec/ios/Frameworks/FaceTecSDK.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FaceTecSDK.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-GoodDollar/Pods-GoodDollar-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		59E80D476C7476B4A756C4FB /* [CP] Check Pods Manifest.lock */ = {

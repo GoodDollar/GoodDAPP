@@ -1,6 +1,7 @@
 // @flow
 
 import React, { useCallback, useEffect, useState } from 'react'
+import { get } from 'lodash'
 import { text } from 'react-native-communications'
 import { fireEvent } from '../../lib/analytics/analytics'
 import GDStore from '../../lib/undux/GDStore'
@@ -174,7 +175,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
             })
           }
 
-          fireEvent('SEND_DONE', { type: 'Address' })
+          fireEvent('SEND_DONE', { type: get(screenState, 'params.type') || 'Address' })
 
           showDialog({
             visible: true,

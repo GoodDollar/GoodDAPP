@@ -16,6 +16,9 @@ import {
   values,
 } from 'lodash'
 
+import isError from '@stdlib/assert/is-error'
+import clone from '@stdlib/utils/copy'
+
 import { isMobileReactNative } from '../utils/platform'
 import { LogEvent } from '../logger/pino-logger'
 import { ExceptionCategory } from '../logger/exceptions'
@@ -25,8 +28,6 @@ export class AnalyticsClass {
   apis = {}
 
   apisFactory = null
-
-  savedErrorMessages = new WeakMap()
 
   constructor(apisFactory, rootApi, Config, loggerApi) {
     const logger = loggerApi.child({ from: 'analytics' })
@@ -330,18 +331,19 @@ export class AnalyticsClass {
 
   // @private
   onErrorLogged(fireEvent, args) {
-    const { apis, isSentryEnabled, isFullStoryEnabled, env, savedErrorMessages } = this
-    const { sentry, fullStory } = apis
+    const { apis, isSentryEnabled, isFullStoryEnabled, env } = this
     const isRunningTests = env === 'test'
     const { Unexpected, Network, Human } = ExceptionCategory
     const [logContext, logMessage, eMsg = '', errorObj, extra = {}] = args
     const debouncedFireEvent = debounce(fireEvent, 500, { leading: true })
+
     let { dialogShown, category = Unexpected, ...context } = extra
     let categoryToPassIntoLog = category
+    let errorToPassIntoLog
     let sessionUrlAtTime
 
-    if (isFullStoryEnabled && fullStory.ready) {
-      sessionUrlAtTime = fullStory.getCurrentSessionURL(true)
+    if (isFullStoryEnabled && apis.fullStory.ready) {
+      sessionUrlAtTime = apis.fullStory.getCurrentSessionURL(true)
     }
 
     if (isString(eMsg) && !isEmpty(eMsg)) {
@@ -372,10 +374,8 @@ export class AnalyticsClass {
       return
     }
 
-    let errorToPassIntoLog = errorObj
-
-    if (errorObj instanceof Error) {
-      savedErrorMessages.set(errorObj, errorObj.message)
+    if (isError(errorObj)) {
+      errorToPassIntoLog = clone(errorObj)
       errorToPassIntoLog.message = `${logMessage}: ${errorObj.message}`
     } else {
       errorToPassIntoLog = new Error(logMessage)
@@ -397,20 +397,5 @@ export class AnalyticsClass {
         level: categoryToPassIntoLog === Human ? 'info' : undefined,
       },
     )
-
-    // there's no Sentry.flush() on react-native
-    if (isMobileReactNative) {
-      return
-    }
-
-    sentry.flush().finally(() => {
-      // if savedErrorMessage not empty that means errorObj
-      // was an Error instrance and we mutated its message
-      // so we have to restore it now
-      if (savedErrorMessages.has(errorObj)) {
-        errorObj.message = savedErrorMessages.get(errorObj)
-        savedErrorMessages.delete(errorObj)
-      }
-    })
   }
 }

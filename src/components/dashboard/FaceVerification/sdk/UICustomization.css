@@ -8,10 +8,18 @@
   font-weight: 500 !important;
 }
 
+#zoom-dev-mode-tag {
+  display: none !important;
+}
+
 #zoom-upload-progress-wrapper .loading {
   /* Changing custom upload progress image size */
-  width: 134px;
-  height: 134px;
+  width: 134px !important;
+  height: 134px !important;
+}
+
+#custom-activity-indicator-image {
+  animation: none !important;
 }
 
 #zoom-upload-progress-message, #zoom-session-result-animation-success-message {

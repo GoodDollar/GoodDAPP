@@ -27,7 +27,7 @@ import { isSmallDevice } from '../../../lib/utils/mobileSizeDetect'
 import Recover from '../../signin/Mnemonics'
 import normalizeText from '../../../lib/utils/normalizeText'
 import NavBar from '../../appNavigation/NavBar'
-import { PrivacyPolicy, PrivacyPolicyAndTerms, SupportForUnsigned } from '../../webView/webViewInstances'
+import { PrivacyPolicy, PrivacyPolicyAndTerms, Support } from '../../webView/webViewInstances'
 import { createStackNavigator } from '../../appNavigation/stackNavigation'
 import ready from '../ready'
 import Auth from '../../auth/Auth'
@@ -198,7 +198,7 @@ const routes = {
   Auth: AuthType,
   PrivacyPolicyAndTerms,
   PrivacyPolicy,
-  Support: SupportForUnsigned,
+  Support,
 }
 
 if (config.enableSelfCustody) {

@@ -41,6 +41,7 @@ class NameForm extends React.Component<Props, State> {
   input = undefined
 
   handleChange = (fullName: string) => {
+    fullName = fullName.trimLeft()
     this.checkErrorsSlow()
     this.setState({ fullName })
   }

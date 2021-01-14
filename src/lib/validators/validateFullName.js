@@ -4,7 +4,7 @@ export const validateFullName = (fullName: string) => {
     return ERROR_MESSAGE.EMPTY
   } else if (/\d+/.test(fullName)) {
     return ERROR_MESSAGE.ONLY_LETTERS
-  } else if (fullName.match(/\w{2,} \w{2,}/) == null) {
+  } else if (fullName.match(/^\w{2,} \w{2,}/) == null) {
     return ERROR_MESSAGE.FULL_NAME
   }
 

@@ -86,20 +86,22 @@ export const FaceTecSDK = new class {
 
     try {
       const isInitialized = await new Promise((resolve, reject) => {
+        const initializationCallback = initialized => {
+          unsubscribe()
+          resolve(initialized)
+        }
+
+        const exceptionCallback = exception => {
+          unsubscribe()
+          reject(exception)
+        }
+
         // i was wrong thinking ResourcesCouldNotBeLoadedOnLastInit solve all issues
         // with unexpected Zoom errors. Actually there're still some cases
         // (e.g. invalid / absent encryption key) when Zoom doesn't throws an exception
         // just logs it onto the console. So we still need to listen console.error calls
         // as we did it in v8
-        const unsubscribe = this.listenBrowserSDKErrors(exception => {
-          unsubscribe()
-          reject(exception)
-        })
-
-        const initializationCallback = initialized => {
-          unsubscribe()
-          resolve(initialized)
-        }
+        const unsubscribe = this.listenBrowserSDKErrors(exceptionCallback)
 
         try {
           // using one of two existing initialize() overloads depending of which mode is used
@@ -111,8 +113,7 @@ export const FaceTecSDK = new class {
 
           sdk.initializeInDevelopmentMode(licenseKey, encryptionKey, initializationCallback)
         } catch (exception) {
-          unsubscribe()
-          reject(exception)
+          exceptionCallback(exception)
         }
       })
 

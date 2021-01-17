@@ -122,6 +122,8 @@ export class APIService {
       })
 
       instance.interceptors.response.use(identity, exceptionHandler)
+
+      this.client = instance
       log.info('API ready', jwt)
     })())
   }

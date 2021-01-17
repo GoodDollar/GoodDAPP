@@ -22,6 +22,31 @@ const checkProfile = async (lastUpdate, prevVersion, log) => {
       throw e
     })
 
+  const fullName = await userStorage.getProfileFieldValue('fullName').catch(_ => false)
+
+  if (!fullName || !fullName.display || !fullName.privacy || !fullName.value) {
+    log.debug('fullName check failed', { fullName })
+
+    const { data } = await API.userExistsCheck({ identifier: userStorage.wallet.getAccountForType('login') }).catch(
+      e => {
+        log.error('failed getting fullName from API call', e.message, e)
+        throw e
+      },
+    )
+
+    if (data && data.fullName) {
+      await userStorage
+        .setProfileField('fullName', data.fullName, 'public')
+        .then(() => log.debug('fullName updated', { fullName: data.fullName }))
+        .catch(e => {
+          log.error('fullName update failed', e.message, e)
+          throw e
+        })
+    } else {
+      log.debug('received empty fullName from API call', { data })
+    }
+  }
+
   // reset all bad profile fields
   const ps = fields.map(field =>
     userStorage.profile
@@ -41,32 +66,6 @@ const checkProfile = async (lastUpdate, prevVersion, log) => {
     .then(() => log.debug('profile fields checked'))
     .catch(e => {
       log.error('profile fields check failed', e.message, e)
-      throw e
-    })
-
-  const fullName = await userStorage.getProfileFieldValue('fullName').catch(_ => false)
-
-  if (fullName && fullName.display && fullName.privacy && fullName.value) {
-    return
-  }
-
-  log.debug('fullName check failed', { fullName })
-
-  const { data } = await API.userExistsCheck({ identifier: userStorage.wallet.getAccountForType('login') }).catch(e => {
-    log.error('failed getting fullName from API call', e.message, e)
-    throw e
-  })
-
-  if (!data || !data.fullName) {
-    log.debug('received empty fullName from API call', { data })
-    return
-  }
-
-  await userStorage
-    .setProfileField('fullName', data.fullName, 'public')
-    .then(() => log.debug('fullName updated', { fullName: data.fullName }))
-    .catch(e => {
-      log.error('fullName update failed', e.message, e)
       throw e
     })
 }

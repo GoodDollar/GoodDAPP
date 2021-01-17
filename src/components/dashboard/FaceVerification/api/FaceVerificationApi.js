@@ -69,13 +69,13 @@ class FaceVerificationApi {
         rootApi.performFaceVerification(enrollmentIdentifier, requestPayload, axiosConfig),
       )
 
-      logger.info('Face Recognition finished successfull', { response })
+      logger.info('Face verification finished successfull', { response })
 
       return response
     } catch (exception) {
       const { message } = exception
 
-      logger.error('Face recognition failed', message, exception)
+      logger.error('Face verification failed', message, exception)
       throw exception
     } finally {
       this.lastCancelToken = null

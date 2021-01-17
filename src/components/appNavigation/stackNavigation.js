@@ -7,6 +7,7 @@ import { isEqualWith, isFunction, isNumber } from 'lodash'
 
 import { withStyles } from '../../lib/styles'
 import { getScreenWidth } from '../../lib/utils/orientation'
+import { isWeb } from '../../lib/utils/platform'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import normalize from '../../lib/utils/normalizeText'
 import SideMenuPanel from '../sidemenu/SideMenuPanel'
@@ -75,11 +76,33 @@ class AppView extends Component<AppViewProps, AppViewState> {
   backButtonHandler = null
 
   componentDidMount() {
+    const { toggleClickListener } = this
+
     this.backButtonHandler = new BackButtonHandler({ defaultAction: this.pop })
+    toggleClickListener('add')
   }
 
   componentWillUnmount() {
+    const { toggleClickListener } = this
+
+    toggleClickListener('remove')
     this.backButtonHandler.unregister()
+  }
+
+  toggleClickListener = eventAction => {
+    if (!isWeb) {
+      return
+    }
+
+    document[eventAction + 'EventListener']('mousedown', this.handleClickOutside)
+  }
+
+  handleClickOutside = event => {
+    const { sideMenuSwap, isMenuOpened } = this
+
+    if (isWeb && isMenuOpened() && event.target === document.documentElement) {
+      sideMenuSwap(false)
+    }
   }
 
   /**
@@ -239,15 +262,25 @@ class AppView extends Component<AppViewProps, AppViewState> {
    */
   sideMenuSwap = visible => {
     const { store } = this.props
-    const sidemenu = store.get('sidemenu')
 
-    sidemenu.visible = visible
+    store.set('sidemenu')({
+      ...(store.get('sidemenu') || {}),
+      visible,
+    })
+  }
 
-    store.set('sidemenu')(sidemenu)
+  isMenuOpened = () => {
+    const { store } = this.props
+
+    if (!store) {
+      return false
+    }
+
+    return store.get('sidemenu').visible
   }
 
   render() {
-    const { descriptors, navigation, navigationConfig, screenProps: incomingScreenProps, store } = this.props
+    const { descriptors, navigation, navigationConfig, screenProps: incomingScreenProps } = this.props
     const activeKey = navigation.state.routes[navigation.state.index].key
     const descriptor = descriptors[activeKey]
 
@@ -276,28 +309,25 @@ class AppView extends Component<AppViewProps, AppViewState> {
 
     const Component = this.getComponent(descriptor.getComponent(), { screenProps })
     const pageTitle = title || activeKey
-    const open = store.get('sidemenu').visible
-
-    const menu = (
-      <SafeAreaView style={styles.safeArea}>
-        <SideMenuPanel navigation={navigation} />
-      </SafeAreaView>
-    )
 
     return (
       <React.Fragment>
-        {open && (
-          <View style={[styles.sideMenuContainer, open ? styles.menuOpenStyle : {}]}>
+        {this.isMenuOpened() && (
+          <View style={[styles.sideMenuContainer, styles.menuOpenStyle]} ref={this.wrapperRef}>
             <SideMenu
-              menu={menu}
               menuPosition="right"
-              isOpen={open}
+              isOpen={true}
               disableGestures={true}
               onChange={this.sideMenuSwap}
+              menu={
+                <SafeAreaView style={styles.safeArea}>
+                  <SideMenuPanel navigation={navigation} />
+                </SafeAreaView>
+              }
             />
           </View>
         )}
-        <Blurred whenSideMenu>
+        <Blurred ref={this.blurRef} whenSideMenu>
           {!navigationBarHidden &&
             (NavigationBar ? (
               <NavigationBar />

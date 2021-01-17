@@ -2,12 +2,14 @@
 
 import axios from 'axios'
 import type { $AxiosXHR, AxiosInstance, AxiosPromise } from 'axios'
-import { identity, isObject, isString, throttle } from 'lodash'
+import { identity, isObject, isString } from 'lodash'
 
+import { throttleAdapter } from '../utils/axios'
 import AsyncStorage from '../utils/asyncStorage'
 import Config from '../../config/config'
 import { JWT } from '../constants/localStorage'
 import logger from '../logger/pino-logger'
+
 import type { NameRecord } from '../../components/signup/NameForm'
 import type { EmailRecord } from '../../components/signup/EmailForm'
 import type { MobileRecord } from '../../components/signup/PhoneForm'
@@ -107,6 +109,7 @@ export class APIService {
         baseURL: serverUrl,
         timeout: apiTimeout,
         headers: { Authorization: `Bearer ${jwt || ''}` },
+        adapter: throttleAdapter(1000),
       })
 
       // eslint-disable-next-line require-await
@@ -119,8 +122,6 @@ export class APIService {
       })
 
       instance.interceptors.response.use(identity, exceptionHandler)
-
-      this.client = await instance
       log.info('API ready', jwt)
     })())
   }
@@ -144,19 +145,17 @@ export class APIService {
    * `/user/add` post api call
    * @param {UserRecord} user
    */
-  addUser = throttle(
-    (user: UserRecord): AxiosPromise<any> => this.client.post('/user/add', { user }, { withCredentials: true }),
-    1000,
-  )
+  addUser(user: UserRecord): AxiosPromise<any> {
+    return this.client.post('/user/add', { user }, { withCredentials: true })
+  }
 
   /**
    * `/user/start` post api call
    * @param {UserRecord} user
    */
-  addSignupContact = throttle(
-    (user: UserRecord): AxiosPromise<any> => this.client.post('/user/start', { user }, { withCredentials: true }),
-    1000,
-  )
+  addSignupContact(user: UserRecord): AxiosPromise<any> {
+    return this.client.post('/user/start', { user }, { withCredentials: true })
+  }
 
   /**
    * `/user/delete` post api call

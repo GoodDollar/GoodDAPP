@@ -175,7 +175,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
             })
           }
 
-          fireEvent('SEND_DONE', { type: get(screenState, 'params.type','Address') })
+          fireEvent('SEND_DONE', { type: get(screenState, 'params.type', 'Address') })
 
           showDialog({
             visible: true,

@@ -1,10 +1,14 @@
+import { filter } from 'lodash'
+
 import userStorage from '../gundb/UserStorage'
-import logger from '../logger/pino-logger'
-import { fireEvent } from '../analytics/analytics'
 import Config from '../../config/config'
-import profileFix2 from './profileFix2'
-const updates = [profileFix2]
+import { fireEvent } from '../analytics/analytics'
+import logger from '../logger/pino-logger'
+
+import profileFix from './profileFix'
+
 const log = logger.child({ from: 'updates' })
+const updates = [profileFix]
 
 const update = async () => {
   const updatesData = (await userStorage.userProperties.get('updates')) || {
@@ -12,12 +16,16 @@ const update = async () => {
     status: {},
     lastVersionUpdate: '',
   }
+
   const lastUpdate = new Date(updatesData.lastUpdate)
   const doneUpdates = updatesData.status || {}
   const prevVersion = updatesData.lastVersionUpdate
+
   log.debug('starting updates:', { prevVersion, lastUpdate, doneUpdates })
+
   const promises = updates.map(upd => {
     const updateKey = `${upd.key}_${new Date(upd.fromDate).toISOString()}`
+
     if (upd.fromDate > lastUpdate || !doneUpdates[updateKey]) {
       return upd
         .update(lastUpdate, prevVersion, log)
@@ -33,15 +41,21 @@ const update = async () => {
         })
         .then(_ => true)
     }
+
     log.info('updated skipped:', { updateKey })
     return false
   })
+
   log.debug('waiting update promises:', promises.length)
-  const results = await Promise.all(promises)
-  log.debug('done updates:', { results }, results.filter(_ => _).length)
+
+  const results = await Promise.all(promises).then(filter)
+
+  log.debug('done updates:', { results }, results.length)
+
   updatesData.lastUpdate = new Date().toISOString()
   updatesData.lastVersionUpdate = Config.version
   updatesData.status = doneUpdates
+
   await userStorage.userProperties.set('updates', updatesData)
 }
 

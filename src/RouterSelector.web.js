@@ -146,7 +146,8 @@ const RouterSelector = () => {
   const [ignoreUnsupported, setIgnoreUnsupported] = useState(false)
   const [checkedForBrowserSupport, setCheckedForBrowserSupport] = useState(false)
 
-  const [supported] = useBrowserSupport({
+  let [supported, checkBrowser] = useBrowserSupport({
+    checkOnMounted: false,
     unsupportedPopup: UnsupportedBrowser,
 
     // if user dismisses the dialog, that means he/she ignored the warning
@@ -160,6 +161,17 @@ const RouterSelector = () => {
   useEffect(() => {
     initAnalytics()
   }, [])
+
+  useEffect(() => {
+    //once user is logged in check if their browser is supported and show warning if not
+    if (isLoggedIn) {
+      setCheckedForBrowserSupport(true)
+      checkBrowser()
+    } else {
+      setIgnoreUnsupported(true)
+      setCheckedForBrowserSupport(true)
+    }
+  }, [isLoggedIn])
 
   // statring anumation once we're checked for browser support and awaited
   // the user dismissed warning dialog (if browser wasn't supported)

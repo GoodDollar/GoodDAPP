@@ -83,7 +83,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
   const [torusUser] = useState(torusUserFromProps)
   const isRegMethodSelfCustody = regMethod === REGISTRATION_METHOD_SELF_CUSTODY
   const skipEmail = !!torusUserFromProps.email
-  const skipMobile = !!torusUserFromProps.mobile
+  const skipMobile = !!torusUserFromProps.mobile || Config.skipMobileVerification
 
   const initialState: SignupState = {
     ...getUserModel({

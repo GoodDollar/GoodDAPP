@@ -177,7 +177,7 @@ export class APIService {
    * `/user/exists` get api call
    */
   userExistsCheck(searchBy: { email: string, mobile: string, identifier: string }): AxiosPromise<any> {
-    return this.client.post('/userExists', searchBy)
+    return this.client.post('/userExists', searchBy, { throttle: false })
   }
 
   /**

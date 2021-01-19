@@ -1,14 +1,15 @@
 import branch from 'react-native-branch'
-import { assign, camelCase, keys, mapKeys, over, pick } from 'lodash'
+import { assign, camelCase, mapKeys, over } from 'lodash'
 import logger from '../logger/pino-logger'
 import { extractQueryParams } from '../share'
 import restart from './restart'
 import extractPathname from './extractPathname'
 
-const log = logger.child({ from: 'linking.native' })
+const log = logger.child({ from: 'deeplinking.native' })
 
 class DeepLinkingNative {
   constructor() {
+    log.info('initial subscribe')
     this.subscribe()
   }
 
@@ -30,16 +31,20 @@ class DeepLinkingNative {
   pathname = ''
 
   subscribe = navigationCallback => {
+    // starting subscription only when first valid callback is passed
+    // and we haven't active subscription yet
+    // if pass this check - we'll have more that one callback invoke per each emit
+    // and will be unable to unsubscribe if will subscribe more that once
+    if (!this._unsubscribe) {
+      // storing unsubscribe fn inside instance var
+      this._unsubscribe = branch.subscribe(this._listener)
+    }
     if (navigationCallback) {
       this.navigationCallbacks.push(navigationCallback)
-
-      // starting subscription only when first valid callback is passed
-      // and we haven't active subscription yet
-      // if pass this check - we'll have more that one callback invoke per each emit
-      // and will be unable to unsubscribe if will subscribe more that once
-      if (!this._unsubscribe) {
-        // storing unsubscribe fn inside instance var
-        this._unsubscribe = branch.subscribe(this._listener)
+      log.info('subscribing activating callback', this._isFirstRun)
+      if (this._isFirstRun === false) {
+        //if we had a link previously then call callback
+        navigationCallback()
       }
     }
   }
@@ -60,40 +65,44 @@ class DeepLinkingNative {
     }
   }
 
-  _listener = ({ error, params }) => {
+  _listener = ({ error, params, uri }) => {
     if (error) {
       log.error('Error from Branch: ' + error)
       return
     }
     const ccParams = mapKeys(params, (_, name) => camelCase(name))
-    log.debug({ error, params, ccParams })
 
-    const { clickedBranchLink, clickTimestamp, nonBranchLink, referingLink } = ccParams
+    const { clickedBranchLink, clickTimestamp, nonBranchLink, referringLink, url } = ccParams
 
+    log.debug({ error, params, uri, ccParams, referringLink, nonBranchLink, clickedBranchLink })
     if (!this._isFirstRun && clickedBranchLink && this._lastClick !== clickTimestamp) {
       return restart()
     }
 
+    const link = uri || referringLink || url || nonBranchLink
+
     //no link do nothing
-    if (!referingLink && !nonBranchLink) {
+    if (!link) {
       return
     }
 
+    this.params = {}
     this._isFirstRun = false
     this._lastClick = clickTimestamp
-    const branchLink = referingLink
     let queryParams = params
 
-    if (nonBranchLink) {
-      const decodedLink = decodeURI(nonBranchLink)
-      queryParams = extractQueryParams(decodedLink)
-    }
+    const decodedLink = decodeURI(link)
+    assign(queryParams, extractQueryParams(decodedLink))
+    this.pathname = extractPathname(link)
 
-    this.pathname = extractPathname(nonBranchLink || branchLink)
-
-    assign(this.params, pick(queryParams, keys(this.params)))
-
-    over(this.navigationCallbacks)()
+    assign(this.params, queryParams)
+    log.debug('calling deeplink callbacks with:', {
+      originalLink: link,
+      path: this.pathname,
+      queryParams,
+      branch: ccParams,
+    })
+    over(this.navigationCallbacks, { originalLink: link, path: this.pathname, queryParams, branch: ccParams })()
   }
 }
 

@@ -18,6 +18,7 @@ log.debug({ Config })
 // import Router from './SignupRouter'
 let SignupRouter = React.lazy(async () => {
   await initAnalytics()
+
   fireEvent(APP_OPEN, { platform: 'native', isLoggedIn: false })
   const [module] = await Promise.all([
     retryImport(() => import(/* webpackChunkName: "signuprouter" */ './SignupRouter')),
@@ -38,6 +39,7 @@ let SignupRouter = React.lazy(async () => {
 const handleLinks = async () => {
   const { params } = DeepLinking
 
+  log.debug('handleLinks:', { params })
   try {
     const { magiclink } = params
     if (magiclink) {

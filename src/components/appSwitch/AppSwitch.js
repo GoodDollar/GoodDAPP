@@ -207,7 +207,7 @@ const AppSwitch = (props: LoadingProps) => {
     }
   }
 
-  const deepLinkingNavigation = () => props.navigation.navigate(DeepLinking.pathname.slice(1))
+  const deepLinkingNavigation = data => props.navigation.navigate(data.pathname.slice(1))
 
   useEffect(() => {
     init()
@@ -226,9 +226,9 @@ const AppSwitch = (props: LoadingProps) => {
       return
     }
 
-    // DeepLinking.subscribe(deepLinkingNavigation)
+    DeepLinking.subscribe(deepLinkingNavigation)
     return () => DeepLinking.unsubscribe()
-  }, [DeepLinking.pathname, appState])
+  }, [appState])
 
   useEffect(() => {
     if (ready && gdstore && appState === 'active') {

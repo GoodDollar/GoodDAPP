@@ -25,14 +25,26 @@ const checkProfile = async (lastUpdate, prevVersion, log) => {
         }
       })
 
+  const flushWithRetry = field =>
+    retry(
+      () =>
+        Promise.race([
+          // set retry & timeout for each field separately
+          flushField(field),
+          timeout(1000, `fixProfile: '${field}' field flush timeout`),
+        ]),
+      2,
+    )
+
   log.debug('check profile', { lastUpdate, prevVersion, fields })
 
   // reset all bad profile fields
-  const ps = fields.map(field =>
-    retry(() => Promise.race([flushField(field), timeout(1000, `fixProfile: '${field}' field flush timeout`)]), 2),
+  const aggregatedPromise = fields.reduce(
+    (promise, field) => promise.then(() => flushWithRetry(field)),
+    Promise.resolve(),
   )
 
-  await Promise.all(ps)
+  await aggregatedPromise
     .then(() => log.debug('profile fields checked'))
     .catch(e => {
       log.error('profile fields check failed', e.message, e)

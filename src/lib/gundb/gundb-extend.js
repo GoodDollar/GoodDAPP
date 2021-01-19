@@ -4,8 +4,9 @@ import Gun from '@gooddollar/gun'
 import SEA from '@gooddollar/gun/sea'
 import '@gooddollar/gun/lib/load'
 
-import { isMobileNative } from '../utils/platform'
 import { delay, promisifyGun, retry } from '../utils/async'
+import { isMobileNative } from '../utils/platform'
+import { flushSecureKey, getSecureKey } from './gundb-utils'
 
 /**
  * extend gundb SEA with decrypt to match ".secret"
@@ -81,40 +82,27 @@ assign(User.prototype, {
   async secretAck(data, callback = null) {
     const encryptPromise = retry(() => promisifyGun(onAck => this.secret(data, onAck)), 1)
 
+    flushSecureKey(this)
     return encryptPromise.then(callback || identity)
   },
+
+  /**
+   * To save encrypted data to your user graph only trusted users can read.
+   */
 
   /**
    * Returns the decrypted value
    * @returns {Promise<any>}
    */
   async decrypt(callback = null) {
-    const user = this.back(-1).user()
-    const pair = user.pair()
-    let path = ''
-
-    this.back(({ is, get }) => {
-      if (is || !get) {
-        return
-      }
-
-      path += get
-    })
-
-    const encryptedKey = await user
-      .get('trust')
-      .get(pair.pub)
-      .get(path)
-      .then()
-
-    const secureKey = await SEA.decrypt(encryptedKey, pair)
-    const encryptedData = await this.then()
     let decryptedData = null
 
+    // firstly we'll got the node data
+    const encryptedData = await this.then()
+
+    // if it's empty - no need to get secure key. just resolve with null
     if (encryptedData != null) {
-      if (!secureKey) {
-        throw new Error(`Decrypting key missing`)
-      }
+      const secureKey = await getSecureKey(this)
 
       decryptedData = await SEA.decrypt(encryptedData, secureKey)
     }

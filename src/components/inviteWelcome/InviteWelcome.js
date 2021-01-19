@@ -66,8 +66,7 @@ const InviteWelcome = ({ styles, screenProps, navigation }) => {
   const done = () => {
     AsyncStorage.setItem('isFirstTime', false)
 
-    // return navigate('Auth', { screen: 'signup' })
-    return navigate('Welcome')
+    return navigate('Auth', { screen: 'signup' })
   }
 
   const nextScreen = useCallback(() => {

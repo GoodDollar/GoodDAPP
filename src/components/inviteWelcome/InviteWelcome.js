@@ -13,8 +13,7 @@ import SelfieSVG from '../../assets/Invite/selfie.svg'
 import MobileSVG from '../../assets/Invite/mobile.svg'
 
 import Section from '../common/layout/Section'
-import { getDesignRelativeHeight } from '../../lib/utils/sizes'
-import { isShortDevice } from '../../lib/utils/mobileSizeDetect'
+import { getDesignRelativeHeight, isShortDevice } from '../../lib/utils/sizes'
 import NavBar from '../appNavigation/NavBar'
 import { theme } from '../theme/styles'
 

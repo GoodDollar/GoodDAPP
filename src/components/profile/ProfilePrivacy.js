@@ -22,8 +22,7 @@ import logger from '../../lib/logger/pino-logger'
 import { withStyles } from '../../lib/styles'
 import { fireEvent, PROFILE_PRIVACY } from '../../lib/analytics/analytics'
 import GDStore from '../../lib/undux/GDStore'
-import { getDesignRelativeHeight } from '../../lib/utils/sizes'
-import { isSmallDevice } from '../../lib/utils/mobileSizeDetect'
+import { getDesignRelativeHeight, isSmallDevice } from '../../lib/utils/sizes'
 
 // assets
 import unknownProfile from '../../assets/unknownProfile.svg'

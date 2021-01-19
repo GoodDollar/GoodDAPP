@@ -8,11 +8,10 @@ import Text from '../../../common/view/Text'
 import { CustomButton, Section, Wrapper } from '../../../common'
 
 // utils
-import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../../lib/utils/sizes'
+import { getDesignRelativeHeight, getDesignRelativeWidth, isLargeDevice } from '../../../../lib/utils/sizes'
 import normalize from '../../../../lib/utils/normalizeText'
 import { withStyles } from '../../../../lib/styles'
 import { isBrowser } from '../../../../lib/utils/platform'
-import { isLargeDevice } from '../../../../lib/utils/mobileSizeDetect'
 
 // assets
 import illustration from '../../../../assets/FRInstructions.png'

@@ -3,8 +3,7 @@ import { TouchableOpacity, View } from 'react-native'
 import Text from '../../common/view/Text'
 import useOnPress from '../../../lib/hooks/useOnPress'
 import { theme as mainTheme } from '../../theme/styles'
-import { getDesignRelativeHeight } from '../../../lib/utils/sizes'
-import { isSmallDevice } from '../../../lib/utils/mobileSizeDetect'
+import { getDesignRelativeHeight, isSmallDevice } from '../../../lib/utils/sizes'
 import normalizeText from '../../../lib/utils/normalizeText'
 
 export const LoginButton = ({ style, onPress, testID, icon: IconSVG, disabled, children, iconProps = {} }) => {
@@ -20,7 +19,7 @@ export const LoginButton = ({ style, onPress, testID, icon: IconSVG, disabled, c
       <View style={styles.iconBorder}>
         <IconSVG height="100%" width="100%" {...iconProps} />
       </View>
-      <Text textTransform="uppercase" style={styles.buttonText} fontWeight={'medium'} letterSpacing={0} color="white">
+      <Text textTransform="uppercase" style={styles.buttonText} fontWeight={'bold'} letterSpacing={0} color="white">
         {children}
       </Text>
     </TouchableOpacity>

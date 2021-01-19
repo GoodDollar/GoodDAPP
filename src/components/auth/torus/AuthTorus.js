@@ -17,6 +17,7 @@ import {
   SIGNUP_METHOD_SELECTED,
   SIGNUP_STARTED,
   TORUS_FAILED,
+  TORUS_POPUP_CLOSED,
   TORUS_SUCCESS,
 } from '../../../lib/analytics/analytics'
 import { GD_USER_MASTERSEED, GD_USER_MNEMONIC, IS_LOGGED_IN } from '../../../lib/constants/localStorage'
@@ -141,9 +142,11 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
       } catch (e) {
         // store.set('loadingIndicator')({ loading: false })
         fireEvent(TORUS_FAILED, { provider, error: e.message })
-        const cancelled = e.message === 'user closed popup' || e.message.includes('User closed custom tabs')
+        const cancelled = e.message.toLowerCase().includes('user closed')
         if (cancelled) {
           log.info(e.message, e)
+          fireEvent(TORUS_POPUP_CLOSED, { provider, reason: e.message })
+          throw e
         } else {
           log.error('torus login failed', e.message, e, { dialogShown: true })
         }
@@ -217,13 +220,13 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
     fireEvent(isSignup ? SIGNUP_METHOD_SELECTED : SIGNIN_METHOD_SELECTED, { method: provider })
 
     showLoadingDialog()
-    const { torusUser, replacing } = await getTorusUser(provider)
-    if (torusUser == null) {
-      showErrorDialog('We were unable to complete the signup. Please try again.')
-      return
-    }
-
     try {
+      const { torusUser, replacing } = await getTorusUser(provider)
+      if (torusUser == null) {
+        showErrorDialog('We were unable to complete the signup. Please try again.')
+        return
+      }
+
       const existsResult = await userExists(torusUser)
       log.debug('checking userAlreadyExist', { isSignup, existsResult })
       let selection = authScreen
@@ -272,6 +275,11 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
       await AsyncStorage.setItem(IS_LOGGED_IN, true)
       store.set('isLoggedIn')(true)
     } catch (e) {
+      const cancelled = e.message.toLowerCase().includes('user closed')
+      if (cancelled) {
+        hideDialog()
+        return
+      }
       const { message } = e
       const uiMessage = decorate(e, ExceptionCode.E14)
       showSupportDialog(showErrorDialog, hideDialog, navigation.navigate, uiMessage)

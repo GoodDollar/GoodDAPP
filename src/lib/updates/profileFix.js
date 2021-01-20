@@ -2,7 +2,7 @@ import userStorage from '../gundb/UserStorage'
 import API from '../API/api'
 import { retry, timeout } from '../utils/async'
 
-const fromDate = new Date('2021/01/18')
+const fromDate = new Date('2021/01/21')
 
 /**
  * fix missing decryption keys

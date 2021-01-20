@@ -1,29 +1,28 @@
+import { memoize } from 'lodash'
 import SEA from '@gooddollar/gun/sea'
-
-const secureKeys = new WeakMap()
 
 // eslint-disable-next-line require-await
 export const getSecureKey = async node => {
-  // caching secure key per each node
-  // to avoid extra async and decrypt calls
-  if (!secureKeys.has(node)) {
-    secureKeys.set(node, fetchKey(node))
-  }
+  const path = getNodePath(node)
 
-  return secureKeys.get(node)
+  // caching secure key per each node path
+  // to avoid extra async and decrypt calls
+  return fetchKey(path, node)
 }
 
 // used to flush secure keys cache for specific node
 // is called from .secretAck
-export const flushSecureKey = node => secureKeys.delete(node)
+export const flushSecureKey = node => {
+  const path = getNodePath(node)
+
+  fetchKey.cache.delete(path)
+}
 
 /**
  * @private
  */
-const fetchKey = async node => {
+const getNodePath = node => {
   let path = ''
-  const user = node.back(-1).user()
-  const pair = user.pair()
 
   node.back(({ is, get }) => {
     if (is || !get) {
@@ -32,6 +31,17 @@ const fetchKey = async node => {
 
     path += get
   })
+
+  return path
+}
+
+/**
+ * @private
+ */
+const fetchKey = memoize(async (path, node) => {
+  // memoize uses only first argument as cache key by default
+  const user = node.back(-1).user()
+  const pair = user.pair()
 
   const encryptedKey = await user
     .get('trust')
@@ -46,4 +56,4 @@ const fetchKey = async node => {
   }
 
   return secureKey
-}
+})

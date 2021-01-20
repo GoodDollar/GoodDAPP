@@ -5,6 +5,7 @@ import {
   forIn,
   get,
   isEmpty,
+  isError,
   isNumber,
   isString,
   isUndefined,
@@ -14,22 +15,12 @@ import {
   remove,
   toLower,
   values,
-
-  // UNCOMMENT the following 2 lines to TEMPORARILY avoid @stdlib issue
-  // isError,
-  // clone
-
-  // loash's clone returns null if you trying to clone an error so it's not a soliution,
-  // just a way to quickly bypass error during Android build
 } from 'lodash'
 
-// COMMENT the following 2 lines to TEMPORARILY avoid @stdlib issue
-import isError from '@stdlib/assert/is-error'
-import clone from '@stdlib/utils/copy'
-
 import { isMobileReactNative } from '../utils/platform'
+
+import { cloneErrorObject, ExceptionCategory } from '../logger/exceptions'
 import { LogEvent } from '../logger/pino-logger'
-import { ExceptionCategory } from '../logger/exceptions'
 import { ANALYTICS_EVENT, ERROR_LOG } from './constants'
 
 export class AnalyticsClass {
@@ -383,7 +374,7 @@ export class AnalyticsClass {
     }
 
     if (isError(errorObj)) {
-      errorToPassIntoLog = clone(errorObj)
+      errorToPassIntoLog = cloneErrorObject(errorObj)
       errorToPassIntoLog.message = `${logMessage}: ${errorObj.message}`
     } else {
       errorToPassIntoLog = new Error(logMessage)

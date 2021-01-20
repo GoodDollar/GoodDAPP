@@ -14,8 +14,16 @@ import {
   remove,
   toLower,
   values,
+
+  // UNCOMMENT the following 2 lines to TEMPORARILY avoid @stdlib issue
+  // isError,
+  // clone
+
+  // loash's clone returns null if you trying to clone an error so it's not a soliution,
+  // just a way to quickly bypass error during Android build
 } from 'lodash'
 
+// COMMENT the following 2 lines to TEMPORARILY avoid @stdlib issue
 import isError from '@stdlib/assert/is-error'
 import clone from '@stdlib/utils/copy'
 

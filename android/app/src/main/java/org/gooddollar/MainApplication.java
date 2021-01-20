@@ -1,16 +1,14 @@
 package org.gooddollar;
+
 import android.app.Application;
 import android.content.Context;
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
-import org.reactnative.camera.RNCameraPackage;
 import com.cmcewen.blurview.BlurViewPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
-import com.rt2zz.reactnativecontacts.ReactNativeContacts;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.soloader.SoLoader;
-import com.airbnb.android.react.lottie.LottiePackage;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import io.branch.rnbranch.RNBranchModule;
@@ -26,11 +24,7 @@ public class MainApplication extends Application implements ReactApplication {
 
         @Override
         protected List<ReactPackage> getPackages() {
-          @SuppressWarnings("UnnecessaryLocalVariable")
-          List<ReactPackage> packages = new PackageList(this).getPackages();
-          // Packages that cannot be autolinked yet can be added manually here, for example:
-          packages.add(new LottiePackage());
-          return packages;
+          return new PackageList(this).getPackages();
         }
 
         @Override

@@ -31,7 +31,7 @@ const checkProfile = async (lastUpdate, prevVersion, log) => {
         Promise.race([
           // set retry & timeout for each field separately
           flushField(field),
-          timeout(1000, `fixProfile: '${field}' field flush timeout`),
+          timeout(5000, `fixProfile: '${field}' field flush timeout`),
         ]),
       2,
     )

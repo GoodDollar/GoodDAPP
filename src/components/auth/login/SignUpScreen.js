@@ -11,7 +11,12 @@ import SigninIllu from '../../../assets/Auth/Illustrations_woman_love.svg'
 
 import Section from '../../common/layout/Section'
 import CustomButton from '../../common/buttons/CustomButton'
-import { getDesignRelativeHeight, getMaxDeviceHeight, isLongDevice } from '../../../lib/utils/sizes'
+import {
+  getDesignRelativeHeight,
+  getDesignRelativeWidth,
+  getMaxDeviceHeight,
+  isLongDevice,
+} from '../../../lib/utils/sizes'
 import googleBtnIcon from '../../../assets/Auth/btn_google.svg'
 import facebookBtnIcon from '../../../assets/Auth/btn_facebook.svg'
 import MobileBtnIcon from '../../../assets/Auth/btn_mobile.svg'
@@ -77,90 +82,89 @@ const SignupScreen = ({ isSignup, screenProps, styles, handleLoginMethod, sdkIni
   )
   return (
     <Wrapper backgroundColor="#fff" style={styles.mainWrapper}>
-      <Section.Stack style={{ flexGrow: 0 }}>
-        <NavBar title={isSignup ? 'Signup' : 'Login'} />
-        <Text
-          style={styles.headerText}
-          fontSize={26}
-          lineHeight={34}
-          letterSpacing={0.26}
-          fontFamily="Roboto"
-          fontWeight="bold"
-        >
-          {isSignup ? `Welcome To GoodDollar!\nCreate a Wallet` : 'Welcome Back!'}
-        </Text>
-      </Section.Stack>
-      <Section.Stack style={styles.illustration}>
-        <Illustration
+      <NavBar title={isSignup ? 'Signup' : 'Login'} />
+      <Section.Stack style={{ flex: 1, justifyContent: 'center' }}>
+        <Section.Stack style={{ flex: 1, maxHeight: 640 }}>
+          <Section.Stack style={{ flexGrow: 0 }}>
+            <Text
+              style={styles.headerText}
+              fontSize={26}
+              lineHeight={34}
+              letterSpacing={0.26}
+              fontFamily="Roboto"
+              fontWeight="bold"
+            >
+              {isSignup ? `Welcome To GoodDollar!\nCreate a Wallet` : 'Welcome Back!'}
+            </Text>
+          </Section.Stack>
+          <Section.Stack style={styles.illustration}>
+            <Illustration width={'100%'} height={'100%'} viewBox={isSignup ? `0 0 255 170` : `0 0 206.391 173.887`} />
+          </Section.Stack>
+          <Section.Stack style={styles.bottomContainer}>
+            {isSignup ? <SignupText /> : <SigninText />}
+            <React.Fragment>
+              <LoginButton
+                style={[styles.buttonLayout, { backgroundColor: mainTheme.colors.googleBlue }]}
+                onPress={_google}
+                disabled={!sdkInitialized}
+                testID="login_with_google"
+                icon={googleBtnIcon}
+              >
+                {`${buttonPrefix} with Google`}
+              </LoginButton>
+              <LoginButton
+                style={[
+                  styles.buttonLayout,
+                  styles.buttonsMargin,
+                  {
+                    backgroundColor: mainTheme.colors.facebookBlue,
+                  },
+                ]}
+                onPress={_facebook}
+                disabled={!sdkInitialized}
+                testID="login_with_facebook"
+                icon={facebookBtnIcon}
+                iconProps={{ viewBox: '0 0 11 22' }}
+              >
+                {`${buttonPrefix} with Facebook`}
+              </LoginButton>
 
-        // width={getDesignRelativeWidth(isBrowser ? 290 : 206)}
-        // height={getDesignRelativeHeight(172)}
-        // viewBox="0 0 206.391 173.887"
-        />
-      </Section.Stack>
-      <Section.Stack style={styles.bottomContainer}>
-        {isSignup ? <SignupText /> : <SigninText />}
-        <React.Fragment>
-          <LoginButton
-            style={[styles.buttonLayout, { backgroundColor: mainTheme.colors.googleBlue }]}
-            onPress={_google}
-            disabled={!sdkInitialized}
-            testID="login_with_google"
-            icon={googleBtnIcon}
-          >
-            {`${buttonPrefix} with Google`}
-          </LoginButton>
-          <LoginButton
-            style={[
-              styles.buttonLayout,
-              styles.buttonsMargin,
-              {
-                backgroundColor: mainTheme.colors.facebookBlue,
-              },
-            ]}
-            onPress={_facebook}
-            disabled={!sdkInitialized}
-            testID="login_with_facebook"
-            icon={facebookBtnIcon}
-            iconProps={{ viewBox: '0 0 11 22' }}
-          >
-            {`${buttonPrefix} with Facebook`}
-          </LoginButton>
-
-          <LoginButton
-            style={[
-              styles.buttonLayout,
-              styles.buttonsMargin,
-              {
-                backgroundColor: mainTheme.colors.facebookBlue,
-              },
-            ]}
-            onPress={_mobile}
-            disabled={!sdkInitialized}
-            testID="login_with_auth0"
-            icon={MobileBtnIcon}
-            iconProps={{ viewBox: '0 0 14.001 26' }}
-          >
-            {`${buttonPrefix}${isSignup ? '' : 'with'} Passwordless`}
-          </LoginButton>
-        </React.Fragment>
-        <Section.Stack style={styles.textButtonContainer}>
-          <CustomButton
-            compact
-            mode={'text'}
-            color={mainTheme.colors.darkGray}
-            textStyle={{
-              textDecorationLine: 'underline',
-              fontSize: 14,
-              fontWeight: 'bold',
-              lineHeight: 16,
-              letterSpacing: 0.14,
-            }}
-            onPress={goBack}
-            style={styles.textButton}
-          >
-            {isSignup ? `Already Have a Wallet? Log In >` : `Dont Have a Wallet? Create One >`}
-          </CustomButton>
+              <LoginButton
+                style={[
+                  styles.buttonLayout,
+                  styles.buttonsMargin,
+                  {
+                    backgroundColor: mainTheme.colors.facebookBlue,
+                  },
+                ]}
+                onPress={_mobile}
+                disabled={!sdkInitialized}
+                testID="login_with_auth0"
+                icon={MobileBtnIcon}
+                iconProps={{ viewBox: '0 0 14.001 26' }}
+              >
+                {`${buttonPrefix}${isSignup ? '' : 'with'} Passwordless`}
+              </LoginButton>
+            </React.Fragment>
+            <Section.Stack style={styles.textButtonContainer}>
+              <CustomButton
+                compact
+                mode={'text'}
+                color={mainTheme.colors.darkGray}
+                textStyle={{
+                  textDecorationLine: 'underline',
+                  fontSize: 14,
+                  fontWeight: 'bold',
+                  lineHeight: 16,
+                  letterSpacing: 0.14,
+                }}
+                onPress={goBack}
+                style={styles.textButton}
+              >
+                {isSignup ? `Already Have a Wallet? Log In >` : `Dont Have a Wallet? Create One >`}
+              </CustomButton>
+            </Section.Stack>
+          </Section.Stack>
         </Section.Stack>
       </Section.Stack>
     </Wrapper>
@@ -177,10 +181,13 @@ const getStylesFromProps = ({ theme }) => {
       flex: 1,
     },
     bottomContainer: {
-      flex: 'inherit',
+      flex: 1,
       justifyContent: 'flex-start',
       paddingHorizontal: theme.sizes.defaultDouble,
       marginTop: getDesignRelativeHeight(theme.sizes.default * 3),
+      maxWidth: 384,
+      width: '100%',
+      alignSelf: 'center',
     },
     buttonLayout: {
       justifyContent: 'space-between',
@@ -191,9 +198,8 @@ const getStylesFromProps = ({ theme }) => {
     },
     illustration: {
       marginTop: getDesignRelativeHeight(theme.sizes.default * 3),
-
-      // height: getDesignRelativeHeight(192),
-      // paddingRight: getDesignRelativeWidth(15),
+      height: getDesignRelativeHeight(170, false),
+      width: getDesignRelativeWidth(255, false),
       justifyContent: 'center',
       alignSelf: 'center',
       flex: Platform.select({ web: isLongDevice ? 1 : 'inherit', native: isLongDevice ? 1 : 0 }),

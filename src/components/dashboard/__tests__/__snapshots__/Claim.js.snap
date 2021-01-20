@@ -26,7 +26,7 @@ exports[`Claim matches snapshot 1`] = `
       className="css-view-1dbjc4n r-alignItems-1oszu61 r-backgroundColor-1niwhzg r-flexDirection-eqz5dr r-flexGrow-18kxxzh r-justifyContent-1h0z5md r-paddingHorizontal-mk0yit r-paddingVertical-rjfia"
     >
       <div
-        className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flexDirection-eqz5dr r-marginTop-1x0uki6"
+        className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flexDirection-eqz5dr r-marginTop-1v1z2uz"
       >
         <div
           className="css-text-901oao r-color-jwli3a r-fontFamily-6jnb14 r-fontSize-zz5t5d r-fontWeight-b88u0q r-letterSpacing-78pegb r-lineHeight-xnfwke r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
@@ -224,9 +224,9 @@ More G$'s Coming Soon
           style={
             Object {
               "WebkitTransform": "scale(1)",
-              "height": "140px",
+              "height": "166px",
               "transform": "scale(1)",
-              "width": "140px",
+              "width": "166px",
             }
           }
         >
@@ -251,8 +251,8 @@ More G$'s Coming Soon
                 Object {
                   "backgroundColor": "rgba(248,175,64,1.00)",
                   "borderBottomColor": "rgba(255,255,255,1.00)",
-                  "borderBottomLeftRadius": "70px",
-                  "borderBottomRightRadius": "70px",
+                  "borderBottomLeftRadius": "98px",
+                  "borderBottomRightRadius": "98px",
                   "borderBottomStyle": "solid",
                   "borderBottomWidth": "8px",
                   "borderLeftColor": "rgba(255,255,255,1.00)",
@@ -262,12 +262,12 @@ More G$'s Coming Soon
                   "borderRightStyle": "solid",
                   "borderRightWidth": "8px",
                   "borderTopColor": "rgba(255,255,255,1.00)",
-                  "borderTopLeftRadius": "70px",
-                  "borderTopRightRadius": "70px",
+                  "borderTopLeftRadius": "98px",
+                  "borderTopRightRadius": "98px",
                   "borderTopStyle": "solid",
                   "borderTopWidth": "8px",
                   "boxShadow": "0px 0px 0px rgba(0,0,0,1.00)",
-                  "height": "140px",
+                  "height": "166px",
                   "marginBottom": "0px",
                   "marginLeft": "0px",
                   "marginRight": "0px",
@@ -276,7 +276,7 @@ More G$'s Coming Soon
                   "minWidth": "auto",
                   "paddingLeft": "0px",
                   "paddingRight": "0px",
-                  "width": "140px",
+                  "width": "166px",
                 }
               }
             >
@@ -298,10 +298,10 @@ More G$'s Coming Soon
                   Object {
                     "WebkitAlignSelf": "stretch",
                     "alignSelf": "stretch",
-                    "borderBottomLeftRadius": "70px",
-                    "borderBottomRightRadius": "70px",
-                    "borderTopLeftRadius": "70px",
-                    "borderTopRightRadius": "70px",
+                    "borderBottomLeftRadius": "98px",
+                    "borderBottomRightRadius": "98px",
+                    "borderTopLeftRadius": "98px",
+                    "borderTopRightRadius": "98px",
                     "msFlexItemAlign": "stretch",
                   }
                 }
@@ -413,8 +413,8 @@ More G$'s Coming Soon
                 Object {
                   "backgroundColor": "rgba(0,195,174,1.00)",
                   "borderBottomColor": "rgba(255,255,255,1.00)",
-                  "borderBottomLeftRadius": "70px",
-                  "borderBottomRightRadius": "70px",
+                  "borderBottomLeftRadius": "98px",
+                  "borderBottomRightRadius": "98px",
                   "borderBottomStyle": "solid",
                   "borderBottomWidth": "8px",
                   "borderLeftColor": "rgba(255,255,255,1.00)",
@@ -424,12 +424,12 @@ More G$'s Coming Soon
                   "borderRightStyle": "solid",
                   "borderRightWidth": "8px",
                   "borderTopColor": "rgba(255,255,255,1.00)",
-                  "borderTopLeftRadius": "70px",
-                  "borderTopRightRadius": "70px",
+                  "borderTopLeftRadius": "98px",
+                  "borderTopRightRadius": "98px",
                   "borderTopStyle": "solid",
                   "borderTopWidth": "8px",
                   "boxShadow": "0px 0px 0px rgba(0,0,0,1.00)",
-                  "height": "140px",
+                  "height": "166px",
                   "marginBottom": "0px",
                   "marginLeft": "0px",
                   "marginRight": "0px",
@@ -438,7 +438,7 @@ More G$'s Coming Soon
                   "minWidth": "auto",
                   "paddingLeft": "0px",
                   "paddingRight": "0px",
-                  "width": "140px",
+                  "width": "166px",
                 }
               }
             >
@@ -460,10 +460,10 @@ More G$'s Coming Soon
                   Object {
                     "WebkitAlignSelf": "stretch",
                     "alignSelf": "stretch",
-                    "borderBottomLeftRadius": "70px",
-                    "borderBottomRightRadius": "70px",
-                    "borderTopLeftRadius": "70px",
-                    "borderTopRightRadius": "70px",
+                    "borderBottomLeftRadius": "98px",
+                    "borderBottomRightRadius": "98px",
+                    "borderTopLeftRadius": "98px",
+                    "borderTopRightRadius": "98px",
                     "msFlexItemAlign": "stretch",
                   }
                 }
@@ -557,7 +557,7 @@ More G$'s Coming Soon
       </div>
     </div>
     <div
-      className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-justifyContent-1wtj0ep r-marginLeft-1ow6zhx r-marginRight-88pszg r-marginTop-6ity3w"
+      className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-justifyContent-1wtj0ep r-marginLeft-1ul06mb r-marginRight-3691iy r-marginTop-6ity3w"
     >
       <div
         className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1777fci"
@@ -784,7 +784,7 @@ generated today
       </div>
     </div>
     <div
-      className="css-view-1dbjc4n r-alignItems-1oszu61 r-flex-13awgt0 r-flexDirection-eqz5dr r-flexGrow-16y2uox r-justifyContent-1h0z5md r-margin-crgep1 r-padding-t60dpp"
+      className="css-view-1dbjc4n r-alignItems-1oszu61 r-flex-13awgt0 r-flexDirection-eqz5dr r-flexGrow-16y2uox r-justifyContent-17s6mgv r-margin-crgep1 r-padding-t60dpp"
     >
       <claim-footer.svg
         height={105.97402597402598}

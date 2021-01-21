@@ -93,7 +93,7 @@ const IntroScreen = ({ styles, screenProps }) => {
 
   const handleVerifyClick = useCallback(() => {
     // if cypress is running - just redirect to FR as we're skipping
-    // zoom componet (which requires camera access) in this case
+    // zoom component (which requires camera access) in this case
     if (isE2ERunning) {
       openFaceVerification()
       return

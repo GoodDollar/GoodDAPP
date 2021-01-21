@@ -275,7 +275,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
       await AsyncStorage.setItem(IS_LOGGED_IN, true)
       store.set('isLoggedIn')(true)
     } catch (e) {
-      const cancelled = e.message.toLowerCase().includes('user closed')
+      const cancelled = e.message.match(/user\s+closed/i)
       if (cancelled) {
         hideDialog()
         return

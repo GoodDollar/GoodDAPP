@@ -1,8 +1,8 @@
 import userStorage from '../gundb/UserStorage'
 import API from '../API/api'
-import { timeout } from '../utils/async'
+import { retry, timeout } from '../utils/async'
 
-const fromDate = new Date('2021/01/18')
+const fromDate = new Date('2021/01/20')
 
 /**
  * fix missing decryption keys
@@ -12,10 +12,7 @@ const checkProfile = async (lastUpdate, prevVersion, log) => {
   const fields = Object.keys(userStorage.profileSettings)
   const { account: walletAddress } = userStorage.wallet
 
-  log.debug('check profile', { lastUpdate, prevVersion, fields })
-
-  // reset all bad profile fields
-  const ps = fields.map(field =>
+  const flushField = field =>
     userStorage.profile
       .get(field)
       .get('value')
@@ -26,10 +23,28 @@ const checkProfile = async (lastUpdate, prevVersion, log) => {
 
           return userStorage.setProfileField(field, '', userStorage.profileSettings[field].defaultPrivacy)
         }
-      }),
+      })
+
+  const flushWithRetry = field =>
+    retry(
+      () =>
+        Promise.race([
+          // set retry & timeout for each field separately
+          flushField(field),
+          timeout(5000, `fixProfile: '${field}' field flush timeout`),
+        ]),
+      2,
+    )
+
+  log.debug('check profile', { lastUpdate, prevVersion, fields })
+
+  // reset all bad profile fields
+  const aggregatedPromise = fields.reduce(
+    (promise, field) => promise.then(() => flushWithRetry(field)),
+    Promise.resolve(),
   )
 
-  await Promise.race([Promise.all(ps), timeout(15000, 'fixProfile timeout')])
+  await aggregatedPromise
     .then(() => log.debug('profile fields checked'))
     .catch(e => {
       log.error('profile fields check failed', e.message, e)

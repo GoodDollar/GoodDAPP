@@ -38,7 +38,6 @@ target 'GoodDollar' do
 
   pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
 
-  pod 'react-native-contacts', :path => '../node_modules/react-native-contacts'
 
   permissions_path = '../node_modules/react-native-permissions/ios'
   pod 'Permission-Camera', :path => "#{permissions_path}/Camera.podspec"
@@ -47,7 +46,6 @@ target 'GoodDollar' do
   pod 'react-native-blur', :path => '../node_modules/@react-native-community/blur'
 
   pod 'lottie-ios', :path => '../node_modules/lottie-ios'
-  pod 'lottie-react-native', :path => '../node_modules/lottie-react-native'
 
   pod 'react-native-branch', path: '../node_modules/react-native-branch'
 
@@ -58,7 +56,7 @@ target 'GoodDollar' do
   pod 'secp256k1.c', '0.1.2', :modular_headers => true
   pod 'RNTorusDirectSdk', :path => '../node_modules/@toruslabs/torus-direct-react-native-sdk'
 
-  pod 'react-native-camera', :path => '../node_modules/react-native-camera'
+
 
   target 'GoodDollarTests' do
     inherit! :search_paths

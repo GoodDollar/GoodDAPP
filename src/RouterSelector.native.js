@@ -25,7 +25,6 @@ let SignupRouter = React.lazy(async () => {
     delay(animationDuration),
   ])
 
-  module.default = module.default()
   return module
 })
 

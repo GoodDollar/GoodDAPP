@@ -106,7 +106,6 @@ const Config = {
   torusGoogleAuth0: env.REACT_APP_TORUS_GOOGLEAUTH0 || 'google-auth0-gooddollar',
   torusAuth0SMS: env.REACT_APP_TORUS_AUTH0SMS || 'gooddollar-auth0-sms-passwordless',
   torusEmailEnabled: env.REACT_APP_TORUS_AUTH0EMAIL_ENABLED === 'true',
-  jwtMaxAge: env.REACT_APP_JWT_MAX_AGE || 1000 * 60 * 60 * 24, // 24hours
   alchemyKey,
   ethereum: {
     '1': {

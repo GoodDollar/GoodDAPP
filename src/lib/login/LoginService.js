@@ -5,7 +5,6 @@ import type { Credentials } from '../API/api'
 import API, { getErrorMessage } from '../API/api'
 import { CREDS, JWT } from '../constants/localStorage'
 import logger from '../logger/pino-logger'
-import Config from '../../config/config'
 
 const log = logger.child({ from: 'LoginService' })
 
@@ -115,11 +114,9 @@ class LoginService {
   async validateJWTExistenceAndExpiration(): Promise<string | null> {
     const jwt = await this.getJWT()
     if (jwt) {
-      const jwtMaxAge = Config.jwtMaxAge
-
       const decoded = jsonwebtoken.decode(jwt, { json: true })
-      const tokenExpirationTime = decoded.iat * 1000 + jwtMaxAge
-      if (tokenExpirationTime > Date.now()) {
+
+      if (decoded.exp && Date.now() >= decoded.exp * 1000) {
         return jwt
       }
     }

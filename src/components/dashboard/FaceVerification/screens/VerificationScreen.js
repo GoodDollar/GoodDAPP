@@ -70,18 +70,18 @@ const FaceVerification = ({ screenProps }) => {
     [trackAttempt],
   )
 
-  // FaceTecSDK session completition handler
+  // FaceTecSDK session completions handler
   const completionHandler = useCallback(
     async status => {
       log.debug('FaceVerification completed', { status })
 
       const isCitizen = await goodWallet.isCitizen()
 
-      // if session was successfull
+      // if session was successful
       // 1. resetting attempts
       resetAttempts()
 
-      // 2. whitelistening user
+      // 2. whitelisting user
       setIsCitizen(isCitizen)
 
       // 3. returning success to the caller
@@ -157,7 +157,7 @@ const FaceVerification = ({ screenProps }) => {
   }, [showLoading, setShowInstructions, startVerification])
 
   // using zoom sdk initialization hook
-  // starting verification once sdk sucessfully initializes
+  // starting verification once sdk successfully initializes
   // on error redirecting to the error screen
   useFaceTecSDK({
     onInitialized: sdkInitializedHandler,
@@ -167,7 +167,7 @@ const FaceVerification = ({ screenProps }) => {
   // showing loading indicator once component rendered
   // and initialization started, returning cancel hook
   // to make sure we'll hide the indicator once we'll
-  // start nativating to another screen
+  // start navigating to another screen
   useEffect(() => {
     showLoading()
     return hideLoading

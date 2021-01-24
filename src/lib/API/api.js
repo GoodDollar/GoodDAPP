@@ -132,7 +132,7 @@ export class APIService {
    * `/auth/ping` get api call
    */
   ping(): AxiosPromise<any> {
-    return this.client.get('/auth/ping')
+    return this.client.get('/auth/ping', { throttle: false })
   }
 
   /**
@@ -177,7 +177,7 @@ export class APIService {
    * `/user/exists` get api call
    */
   userExistsCheck(searchBy: { email: string, mobile: string, identifier: string }): AxiosPromise<any> {
-    return this.client.post('/userExists', searchBy)
+    return this.client.post('/userExists', searchBy, { throttle: false })
   }
 
   /**
@@ -200,7 +200,7 @@ export class APIService {
    * `ip-api.com/json` get location api call
    */
   getLocation(): AxiosPromise<any> {
-    return axios.get('https://get.geojs.io/v1/ip/country.json')
+    return axios.get('https://get.geojs.io/v1/ip/country.json', { throttle: false })
   }
 
   /**
@@ -350,7 +350,7 @@ export class APIService {
    * `/trust` get api call
    */
   getTrust() {
-    return this.client.get('/trust')
+    return this.client.get('/trust', { throttle: false })
   }
 
   /**

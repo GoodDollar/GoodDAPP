@@ -1,5 +1,7 @@
 import axios from 'axios'
-import { throttle } from 'lodash'
+import { throttle as throttleCallTo } from 'lodash'
+
+const { adapter } = axios.defaults
 
 export const throttleAdapter = throttleInverval => {
   const throttled = {
@@ -11,11 +13,15 @@ export const throttleAdapter = throttleInverval => {
 
   // eslint-disable-next-line require-await
   return async config => {
-    const { url, method } = config
+    const { url, method, throttle } = config
     const throttledCalls = throttled[method]
 
+    if (false === throttle) {
+      return adapter(config)
+    }
+
     if (!(url in throttledCalls)) {
-      throttledCalls[url] = throttle(axios.defaults.adapter, throttleInverval)
+      throttledCalls[url] = throttleCallTo(adapter, throttleInverval)
     }
 
     return throttledCalls[url](config)

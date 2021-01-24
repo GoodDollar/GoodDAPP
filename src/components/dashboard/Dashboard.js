@@ -506,7 +506,7 @@ const Dashboard = props => {
   }, [])
 
   /**
-   * dont show delayed items such as add to home popup if some other dialog is showing
+   * don't show delayed items such as add to home popup if some other dialog is showing
    */
   useEffect(() => {
     const showingSomething = get(currentScreen, 'dialogData.visible') || get(loadingIndicator, 'loading') || currentFeed

@@ -2,10 +2,11 @@ apply plugin: "com.android.application"
 apply plugin: 'com.google.gms.google-services'
 
 project.ext.envConfigFiles = [
-  debug: ".env.development",
+  debug: ".env.development.native",
   staging: ".env.staging",
   release: ".env.production",
 ]
+
 apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"
 
 import com.android.build.OutputFile
@@ -237,11 +238,8 @@ android {
 }
 
 dependencies {
-    implementation project(':react-native-camera')
-    implementation project(':lottie-react-native')
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "com.facebook.react:react-native:+"  // From node_modules
-    implementation project(':react-native-contacts')
 
     api "com.squareup.okhttp3:okhttp:4.9.0"
     api "com.squareup.okhttp3:logging-interceptor:4.9.0"

@@ -116,7 +116,7 @@ class LoginService {
     if (jwt) {
       const decoded = jsonwebtoken.decode(jwt, { json: true })
 
-      if (decoded.exp && Date.now() >= decoded.exp * 1000) {
+      if (decoded.exp && Date.now() < decoded.exp * 1000) {
         return jwt
       }
     }

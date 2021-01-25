@@ -57,6 +57,7 @@ class FaceVerificationApi {
     }
 
     const axiosConfig = {
+      timeout: 60000, // set 1 min timeout
       cancelToken: lastCancelToken.token,
       onUploadProgress: progressSubscription,
     }

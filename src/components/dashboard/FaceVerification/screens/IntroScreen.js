@@ -29,9 +29,11 @@ import { Permissions } from '../../../permissions/types'
 import { showQueueDialog } from '../../../common/dialogs/showQueueDialog'
 import { fireEvent, FV_CAMERAPERMISSION, FV_CANTACCESSCAMERA, FV_INTRO } from '../../../../lib/analytics/analytics'
 import { isLargeDevice } from '../../../../lib/utils/mobileSizeDetect'
+import { AB } from '../utils/random'
 
 // assets
 import wait24hourIllustration from '../../../../assets/Claim/wait24Hour.svg'
+import FashionShootSVG from '../../../../assets/FaceVerification/FashionPhotoshoot.svg'
 
 const log = logger.child({ from: 'FaceVerificationIntro' })
 
@@ -119,7 +121,7 @@ const IntroScreen = ({ styles, screenProps }) => {
     }
   }, [isValid])
 
-  return (
+  const introScreenA = (
     <Wrapper>
       <Section style={styles.topContainer} grow>
         <View style={styles.mainContent}>
@@ -156,6 +158,50 @@ const IntroScreen = ({ styles, screenProps }) => {
       </Section>
     </Wrapper>
   )
+
+  const introScreenB = (
+    <Wrapper>
+      <Section style={styles.topContainer} grow>
+        <View style={styles.mainContentB}>
+          <Section.Title fontWeight="bold" textTransform="none" style={styles.mainTitleB}>
+            {`${getFirstWord(fullName)},`}
+            <Section.Text fontWeight="normal" textTransform="none" fontSize={24} lineHeight={30}>
+              {'\nVerify you are a real\nlive person'}
+            </Section.Text>
+          </Section.Title>
+          <Section.Text fontSize={18} lineHeight={25} letterSpacing={0.18} style={{ marginTop: '17px' }}>
+            Your image is only used to prevent the creation of duplicate accounts and will never be transferred to any
+            third party
+          </Section.Text>
+          {/* TODO: where should learn more point to? */}
+          <Section.Text
+            fontWeight="bold"
+            fontSize={18}
+            lineHeight={26}
+            textDecorationLine="underline"
+            style={styles.learnMore}
+            onPress={openPrivacy}
+          >
+            Learn More
+          </Section.Text>
+          <View style={styles.illustrationB}>
+            <FashionShootSVG />
+          </View>
+          <CustomButton
+            style={[styles.button]}
+            onPress={handleVerifyClick}
+            disabled={false !== disposing}
+            contentStyle={{ minHeight: '53px' }}
+            textStyle={{ fontSize: '16px', lineHeight: '19px', letterSpacing: '0.49px', fontWeight: 'bold' }}
+          >
+            OK, VERIFY ME
+          </CustomButton>
+        </View>
+      </Section>
+    </Wrapper>
+  )
+
+  return AB === 'A' ? introScreenA : introScreenB
 }
 
 IntroScreen.navigationOptions = {
@@ -184,12 +230,27 @@ const getStylesFromProps = ({ theme }) => ({
     paddingRight: getDesignRelativeWidth(theme.sizes.default * 3),
     width: '100%',
   },
+  mainContentB: {
+    flexGrow: 1,
+    justifyContent: 'space-between',
+    width: '100%',
+  },
   mainTitle: {
     marginTop: getDesignRelativeHeight(isBrowser ? 30 : 15),
+  },
+  mainTitleB: {
+    marginTop: getDesignRelativeHeight(isBrowser ? 16 : 8),
   },
   illustration: {
     marginTop: getDesignRelativeHeight(18),
     marginBottom: getDesignRelativeHeight(18),
+    height: getDesignRelativeWidth(isBrowser ? 220 : 180),
+    width: '100%',
+    alignItems: 'center',
+  },
+  illustrationB: {
+    marginTop: getDesignRelativeHeight(20),
+    marginBottom: getDesignRelativeHeight(31),
     height: getDesignRelativeWidth(isBrowser ? 220 : 180),
     width: '100%',
     alignItems: 'center',
@@ -207,6 +268,10 @@ const getStylesFromProps = ({ theme }) => ({
   },
   bottomSeparator: {
     marginBottom: getDesignRelativeHeight(25),
+  },
+  learnMore: {
+    color: theme.colors.primary,
+    marginTop: getDesignRelativeHeight(20),
   },
 })
 

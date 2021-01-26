@@ -4,7 +4,6 @@ import Config from './config/config'
 
 import createAppContainer from './lib/utils/createAppContainer'
 import useNavigationStateHandler from './lib/hooks/useNavigationStateHandler'
-import DeepLinking from './lib/utils/deepLinking'
 import logger from './lib/logger/pino-logger'
 
 import Signup from './components/signup/SignupState'
@@ -16,9 +15,8 @@ import InviteWelcome from './components/inviteWelcome/InviteWelcome'
 const log = logger.child({ from: 'SignupRouter' })
 
 const generateRouter = () => {
-  const { params } = DeepLinking
+  const initialRouteName = 'InviteWelcome'
   const { enableSelfCustody } = Config
-  const initialRouteName = params.inviteCode ? 'InviteWelcome' : 'Welcome'
 
   const routes = {
     Welcome,

@@ -146,20 +146,23 @@ const RouterSelector = () => {
   const [ignoreUnsupported, setIgnoreUnsupported] = useState(false)
   const [checkedForBrowserSupport, setCheckedForBrowserSupport] = useState(false)
 
-  const [supported] = useBrowserSupport({
+  let [supported, checkBrowser] = useBrowserSupport({
+    checkOnMounted: false,
     unsupportedPopup: UnsupportedBrowser,
-
-    // if user dismisses the dialog, that means he/she ignored the warning
-    // in this case we're setting the corresponding flag and continue loading
-    onUnsupported: () => setIgnoreUnsupported(true),
-
-    // setting checked flag to start splash animation
-    onChecked: () => setCheckedForBrowserSupport(true),
   })
 
   useEffect(() => {
     initAnalytics()
   }, [])
+
+  useEffect(() => {
+    //once user is logged in check if their browser is supported and show warning if not
+    if (isLoggedIn) {
+      checkBrowser()
+    }
+    setIgnoreUnsupported(true)
+    setCheckedForBrowserSupport(true)
+  }, [isLoggedIn])
 
   // statring anumation once we're checked for browser support and awaited
   // the user dismissed warning dialog (if browser wasn't supported)

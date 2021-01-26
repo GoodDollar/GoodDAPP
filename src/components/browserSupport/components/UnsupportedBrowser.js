@@ -13,7 +13,7 @@ import illustration from '../../../assets/UnsuportedBrowser.svg'
 export default ({ onDismiss }) => (
   <ExplanationDialog
     title={"Oops! This browser isn't supported"}
-    text={isIOSWeb ? 'On iOS please switch to Safari' : 'Please switch to Chrome or Safari'}
+    text={`For best experience\n` + (isIOSWeb ? 'on iOS please switch to Safari' : 'please switch to Chrome or Safari')}
     image={illustration}
     imageHeight={124}
     buttons={[

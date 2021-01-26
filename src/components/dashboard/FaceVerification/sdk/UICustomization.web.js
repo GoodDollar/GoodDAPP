@@ -5,7 +5,7 @@ import { assignIn, isFinite, isString, mapKeys, memoize, pickBy, snakeCase } fro
 import FaceTec from '../../../../lib/facetec/FaceTecSDK'
 
 import { resultFacescanUploadMessage, resultSuccessMessage } from '../sdk/FaceTecSDK.constants'
-import { isLargeDevice } from '../../../../lib/utils/mobileSizeDetect'
+import { isLargeDevice } from '../../../../lib/utils/sizes'
 import { theme } from '../../../theme/styles'
 import './UICustomization.css'
 

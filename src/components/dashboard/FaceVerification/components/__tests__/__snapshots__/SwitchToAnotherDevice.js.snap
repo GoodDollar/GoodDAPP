@@ -17,7 +17,7 @@ exports[`FaceVerification SwitchToAnotherDevice matches snapshot 1`] = `
       className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-14lw9ot r-borderRadius-1f0042m r-display-6koalj r-flex-13awgt0 r-flexGrow-16y2uox r-flexShrink-1q142lx r-height-1pi2tsx r-paddingBottom-1l7z4oj r-paddingTop-95jzfe"
     >
       <div
-        className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-14lw9ot r-borderRadius-1f0042m r-flex-13awgt0 r-marginBottom-p1pxzi r-paddingBottom-1sxx49u r-paddingHorizontal-1dye5f7 r-paddingTop-wk8lta r-paddingVertical-1yzf0co r-width-13qz1uu"
+        className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-14lw9ot r-borderRadius-1f0042m r-flex-13awgt0 r-marginBottom-p1pxzi r-paddingBottom-1hslgdd r-paddingHorizontal-1dye5f7 r-paddingTop-4x0g5h r-paddingVertical-1yzf0co r-width-13qz1uu"
         style={
           Object {
             "WebkitBoxPack": "justify",
@@ -36,7 +36,7 @@ Please try to switch
 to another device
         </div>
         <div
-          className="css-view-1dbjc4n r-height-ma5732 r-width-13qz1uu"
+          className="css-view-1dbjc4n r-flexGrow-16y2uox r-height-ma5732 r-justifyContent-1777fci r-width-13qz1uu"
         >
           <FRSwitchToAnotherDevice.svg
             height="100%"
@@ -45,7 +45,7 @@ to another device
           />
         </div>
         <div
-          className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderRadius-1f0042m r-marginBottom-p1pxzi r-paddingHorizontal-mk0yit r-paddingVertical-rjfia r-width-13qz1uu"
+          className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderRadius-1f0042m r-flexGrow-16y2uox r-justifyContent-1777fci r-marginBottom-p1pxzi r-paddingHorizontal-mk0yit r-paddingVertical-rjfia r-width-13qz1uu"
         >
           <div
             className="css-view-1dbjc4n"
@@ -61,17 +61,17 @@ to another device
             }
           />
           <div
-            className="css-view-1dbjc4n r-paddingVertical-5njf8e"
+            className="css-view-1dbjc4n r-paddingVertical-1yzf0co"
           >
             <div
-              className="css-text-901oao r-color-1q5uqvh r-fontFamily-vnw8o6 r-fontSize-1i10wst r-fontWeight-1it3c9n r-lineHeight-waer2z r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+              className="css-text-901oao r-color-1q5uqvh r-fontFamily-vnw8o6 r-fontSize-adyw6z r-fontWeight-1it3c9n r-lineHeight-17rnw9f r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
               dir="auto"
             >
               Sometimes, switching to a
 different device is a good solution.
             </div>
             <div
-              className="css-text-901oao r-color-1q5uqvh r-fontFamily-vnw8o6 r-fontSize-1i10wst r-fontWeight-b88u0q r-lineHeight-waer2z r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+              className="css-text-901oao r-color-1q5uqvh r-fontFamily-vnw8o6 r-fontSize-adyw6z r-fontWeight-b88u0q r-lineHeight-17rnw9f r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
               dir="auto"
             >
               Sorry about that… :)

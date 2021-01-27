@@ -1,4 +1,5 @@
 // @flow
+import * as jsonwebtoken from 'jsonwebtoken'
 import AsyncStorage from '../utils/asyncStorage'
 import type { Credentials } from '../API/api'
 import API, { getErrorMessage } from '../API/api'
@@ -85,17 +86,21 @@ class LoginService {
     log.info('Calling server for authentication')
 
     try {
-      const response = await API.auth(creds)
-      const { status, data, statusText } = response
+      let jwt = await this.validateJWTExistenceAndExpiration()
+      if (!jwt) {
+        const response = await API.auth(creds)
+        const { status, data, statusText } = response
 
-      log.info('Got auth response', response)
+        log.info('Got auth response', response)
 
-      if (200 !== status) {
-        throw new Error(statusText)
+        if (200 !== status) {
+          throw new Error(statusText)
+        }
+
+        log.debug('Login success:', data)
+        jwt = data.token
       }
-
-      log.debug('Login success:', data)
-      return { ...creds, jwt: data.token }
+      return { ...creds, jwt }
     } catch (e) {
       const message = getErrorMessage(e)
       const exception = new Error(message)
@@ -104,6 +109,18 @@ class LoginService {
 
       throw exception
     }
+  }
+
+  async validateJWTExistenceAndExpiration(): Promise<string | null> {
+    const jwt = await this.getJWT()
+    if (jwt) {
+      const decoded = jsonwebtoken.decode(jwt, { json: true })
+
+      if (decoded.exp && Date.now() < decoded.exp * 1000) {
+        return jwt
+      }
+    }
+    return null
   }
 }
 

@@ -5,9 +5,7 @@ import Text from '../../../common/view/Text'
 import Separator from '../../../common/layout/Separator'
 import { CustomButton, Section, Wrapper } from '../../../common'
 
-import { isLargeDevice } from '../../../../lib/utils/mobileSizeDetect'
-
-import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../../lib/utils/sizes'
+import { getDesignRelativeHeight, getDesignRelativeWidth, isLargeDevice } from '../../../../lib/utils/sizes'
 import { withStyles } from '../../../../lib/styles'
 import SwitchToAnotherDeviceSVG from '../../../../assets/FRSwitchToAnotherDevice.svg'
 

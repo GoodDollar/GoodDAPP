@@ -1,6 +1,5 @@
 import React from 'react'
-import { getDesignRelativeHeight } from '../../../lib/utils/sizes'
-import { isSmallDevice } from '../../../lib/utils/mobileSizeDetect'
+import { getDesignRelativeHeight, isSmallDevice } from '../../../lib/utils/sizes'
 import { getShadowStyles } from '../../../lib/utils/getStyles'
 import Section from '../../common/layout/Section'
 import CustomButton from '../../common/buttons/CustomButton'

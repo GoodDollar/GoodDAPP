@@ -17,6 +17,7 @@ import {
   SIGNUP_METHOD_SELECTED,
   SIGNUP_STARTED,
   TORUS_FAILED,
+  TORUS_POPUP_CLOSED,
   TORUS_SUCCESS,
 } from '../../../lib/analytics/analytics'
 import { GD_USER_MASTERSEED, GD_USER_MNEMONIC, IS_LOGGED_IN } from '../../../lib/constants/localStorage'
@@ -29,15 +30,13 @@ import { useDialog } from '../../../lib/undux/utils/dialog'
 import { showSupportDialog } from '../../common/dialogs/showSupportDialog'
 import { decorate, ExceptionCode } from '../../../lib/logger/exceptions'
 import { isWeb } from '../../../lib/utils/platform'
-import { getDesignRelativeHeight } from '../../../lib/utils/sizes'
-import { isSmallDevice } from '../../../lib/utils/mobileSizeDetect'
+import { getDesignRelativeHeight, isSmallDevice } from '../../../lib/utils/sizes'
 import { getShadowStyles } from '../../../lib/utils/getStyles'
 import normalizeText from '../../../lib/utils/normalizeText'
 import { userExists } from '../../../lib/login/userExists'
 
 import ready from '../ready'
-import SignIn from '../login/SignInScreen'
-import SignUp from '../login/SignUpScreen'
+import SignUpIn from '../login/SignUpScreen'
 
 import LoadingIcon from '../../common/modal/LoadingIcon'
 
@@ -143,9 +142,11 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
       } catch (e) {
         // store.set('loadingIndicator')({ loading: false })
         fireEvent(TORUS_FAILED, { provider, error: e.message })
-        const cancelled = e.message === 'user closed popup' || e.message.includes('User closed custom tabs')
+        const cancelled = e.message.toLowerCase().includes('user closed')
         if (cancelled) {
           log.info(e.message, e)
+          fireEvent(TORUS_POPUP_CLOSED, { provider, reason: e.message })
+          throw e
         } else {
           log.error('torus login failed', e.message, e, { dialogShown: true })
         }
@@ -219,13 +220,13 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
     fireEvent(isSignup ? SIGNUP_METHOD_SELECTED : SIGNIN_METHOD_SELECTED, { method: provider })
 
     showLoadingDialog()
-    const { torusUser, replacing } = await getTorusUser(provider)
-    if (torusUser == null) {
-      showErrorDialog('We were unable to complete the signup. Please try again.')
-      return
-    }
-
     try {
+      const { torusUser, replacing } = await getTorusUser(provider)
+      if (torusUser == null) {
+        showErrorDialog('We were unable to complete the signup. Please try again.')
+        return
+      }
+
       const existsResult = await userExists(torusUser)
       log.debug('checking userAlreadyExist', { isSignup, existsResult })
       let selection = authScreen
@@ -242,6 +243,8 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
         selection = await showNotSignedUp(provider)
         return setAuthScreen(selection)
       }
+
+      showLoadingDialog() //continue show loading if we showed already signed up dialog
 
       //user chose to continue signup even though used on another provider
       //or user signed in and account exists
@@ -272,6 +275,11 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
       await AsyncStorage.setItem(IS_LOGGED_IN, true)
       store.set('isLoggedIn')(true)
     } catch (e) {
+      const cancelled = e.message.match(/user\s+closed/i)
+      if (cancelled) {
+        hideDialog()
+        return
+      }
       const { message } = e
       const uiMessage = decorate(e, ExceptionCode.E14)
       showSupportDialog(showErrorDialog, hideDialog, navigation.navigate, uiMessage)
@@ -281,7 +289,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
     }
   }
 
-  const goBack = () => navigate('Welcome')
+  const goBack = () => (isSignup ? setAuthScreen('signin') : setAuthScreen('signup'))
 
   // const auth0ButtonHandler = () => {
   //   if (config.torusEmailEnabled) {
@@ -295,11 +303,9 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
   // const signupAuth0Email = () => signupAuth0('email')
   // const signupAuth0Mobile = () => signupAuth0('mobile')
 
-  if (authScreen === 'signin') {
-    return <SignIn handleLoginMethod={handleLoginMethod} sdkInitialized={sdkInitialized} goBack={goBack} />
-  }
   return (
-    <SignUp
+    <SignUpIn
+      isSignup={isSignup}
       screenProps={screenProps}
       navigation={navigation}
       handleLoginMethod={handleLoginMethod}

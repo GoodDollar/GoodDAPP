@@ -21,7 +21,12 @@ import wrapper from '../../lib/undux/utils/wrapper'
 // import { openLink } from '../../lib/utils/linking'
 import { formatWithabbreviations, formatWithSIPrefix, formatWithThousandsSeparator } from '../../lib/utils/formatNumber'
 import { weiToGd } from '../../lib/wallet/utils'
-import { getDesignRelativeHeight, getDesignRelativeWidth, getMaxDeviceWidth } from '../../lib/utils/sizes'
+import {
+  getDesignRelativeHeight,
+  getDesignRelativeWidth,
+  getMaxDeviceWidth,
+  isShortDevice as isSmallDevice,
+} from '../../lib/utils/sizes'
 import SpinnerCheckMark from '../common/animations/SpinnerCheckMark/SpinnerCheckMark'
 import { withStyles } from '../../lib/styles'
 import { theme as mainTheme } from '../theme/styles'
@@ -35,7 +40,6 @@ import {
 } from '../../lib/analytics/analytics'
 
 import Config from '../../config/config'
-import { isShortDevice as isSmallDevice } from '../../lib/utils/mobileSizeDetect'
 import { isMobileNative } from '../../lib/utils/platform'
 import { BigGoodDollar, Section, WrapperClaim } from '../common/'
 import useAppState from '../../lib/hooks/useAppState'

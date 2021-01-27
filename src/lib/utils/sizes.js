@@ -72,4 +72,13 @@ const sizes = new class {
 // backward compatibility expors
 export const { getMaxDeviceWidth, getMaxDeviceHeight, getDesignRelativeWidth, getDesignRelativeHeight, measure } = sizes
 
+const width = getScreenWidth()
+const height = getScreenHeight()
+
+export const isSmallDevice = width < 350
+export const isMediumDevice = width >= 350 && width < 395
+export const isLargeDevice = width >= 395
+export const isShortDevice = height < 610
+export const isLongDevice = height > 640
+
 export default sizes

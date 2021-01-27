@@ -47,7 +47,6 @@ export default class UserProperties {
   // eslint-disable-next-line
   static keepFields = [
     'goodMarketClicked',
-    'cachedInvites',
     'lastInviteState',
   ]
 

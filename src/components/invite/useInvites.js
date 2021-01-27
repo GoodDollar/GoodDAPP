@@ -2,7 +2,6 @@ import { useCallback, useEffect, useState } from 'react'
 import { defaults, find, groupBy, keyBy, uniqBy } from 'lodash'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import userStorage from '../../lib/gundb/UserStorage'
-import UserPropertiesClass from '../../lib/gundb/UserPropertiesClass'
 import logger from '../../lib/logger/pino-logger'
 import { useDialog } from '../../lib/undux/utils/dialog'
 import { fireEvent, INVITE_BOUNTY, INVITE_JOIN } from '../../lib/analytics/analytics'
@@ -10,8 +9,7 @@ import { decorate, ExceptionCode } from '../../lib/logger/exceptions'
 import Config from '../../config/config'
 
 const log = logger.child({ from: 'useInvites' })
-
-const { lastInviteState: defaultLastInviteState } = UserPropertiesClass.defaultProperties
+const defaultLastInviteState = { pending: 0, approved: 0 }
 
 const registerForInvites = async () => {
   const inviterInviteCode = userStorage.userProperties.get('inviterInviteCode')

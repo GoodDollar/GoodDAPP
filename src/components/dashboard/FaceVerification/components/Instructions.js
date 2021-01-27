@@ -1,6 +1,6 @@
 // libraries
 import React from 'react'
-import { Image, Platform, View } from 'react-native'
+import { Image, ImageBackground, Platform, View } from 'react-native'
 import { noop } from 'lodash'
 
 // components
@@ -19,7 +19,7 @@ import { AB } from '../utils/random'
 import illustration from '../../../../assets/FRInstructions.png'
 import portrait from '../../../../assets/FaceVerification/FVPortrait.png'
 
-// import QuestionMark from '../../../../assets/FaceVerification/FVQuestionMark.svg'
+import QuestionMark from '../../../../assets/FaceVerification/FVQuestionMark.svg'
 
 if (Platform.OS === 'web') {
   Image.prefetch(illustration)
@@ -71,27 +71,21 @@ const InstructionsA = ({ styles, onDismiss = noop }) => (
 
 const InstructionsB = ({ styles, onDismiss = noop }) => (
   <Wrapper>
-    <Section style={[styles.topContainerB, styles.illustrationB]} grow>
+    <Section style={styles.topContainerB} grow>
       <View style={styles.mainContentB}>
-        {/* <Image source={portrait} resizeMode="cover" style={styles.illustration} /> */}
+        <ImageBackground
+          source={require('../../../../assets/FaceVerification/FVPortrait.png')}
+          style={{ flex: 1, position: 'static' }}
+          imageStyle={{ borderRadius: 5 }}
+        />
         <View style={styles.descriptionContainerB}>
           <View style={styles.descriptionWrapperB}>
-            {/* <QuestionMark /> */}
+            <QuestionMark style={{ position: 'absolute', right: '0', marginTop: '9px', marginRight: '10px' }} />
             <Text fontWeight="bold" style={[styles.textB, { paddingTop: '12px' }]}>
               Make sure you...
             </Text>
-            <Text style={styles.textB}>
-              <Dot />
-              Hold Your Camera at Eye Level
-            </Text>
-            <Text style={styles.textB}>
-              <Dot />
-              Light Your Face Evenly
-            </Text>
-            {/* <Text style={styles.text}>
-              <Dot />
-              Avoid Smiling & Back Light
-            </Text> */}
+            <Text style={styles.textB}>Hold Your Camera at Eye Level</Text>
+            <Text style={styles.textB}>Light Your Face Evenly</Text>
           </View>
         </View>
         <CustomButton
@@ -109,8 +103,6 @@ const InstructionsB = ({ styles, onDismiss = noop }) => (
 )
 
 const Instructions = AB === 'A' ? InstructionsA : InstructionsB
-
-// const Instructions = InstructionsB
 
 const getStylesFromProps = ({ theme }) => ({
   topContainer: {
@@ -131,7 +123,7 @@ const getStylesFromProps = ({ theme }) => ({
     justifyContent: 'center',
     backgroundColor: theme.colors.surface,
     borderRadius: theme.sizes.borderRadius,
-    display: 'flex',
+    display: 'contents',
     flexDirection: 'column',
     flexShrink: 0,
     paddingBottom: getDesignRelativeHeight(theme.sizes.default * 1.5),
@@ -148,17 +140,13 @@ const getStylesFromProps = ({ theme }) => ({
     flexGrow: 1,
     justifyContent: 'flex-end',
     width: '100%',
+    paddingHorizontal: getDesignRelativeHeight(10),
+    paddingBottom: getDesignRelativeHeight(10),
   },
   illustration: {
     marginTop: getDesignRelativeHeight(18),
     height: getDesignRelativeHeight(254, false),
     width: '100%',
-  },
-  illustrationB: {
-    width: '100%',
-    height: '100%',
-    backgroundImage: `url(${portrait})`,
-    objectFit: 'contain',
   },
   descriptionContainer: {
     paddingHorizontal: getDesignRelativeHeight(theme.sizes.defaultHalf),
@@ -166,10 +154,7 @@ const getStylesFromProps = ({ theme }) => ({
     alignItems: 'center',
   },
   descriptionContainerB: {
-    paddingHorizontal: getDesignRelativeHeight(2),
     paddingVertical: getDesignRelativeHeight(isBrowser ? 12 : 10),
-
-    // alignItems: 'center',
   },
   descriptionWrapper: {
     flexDirection: 'column',
@@ -180,8 +165,6 @@ const getStylesFromProps = ({ theme }) => ({
     alignItems: 'flex-start',
     backgroundColor: theme.colors.darkGray,
     borderRadius: '8px',
-
-    // position: 'absolute',
   },
   button: {
     width: '100%',
@@ -194,8 +177,6 @@ const getStylesFromProps = ({ theme }) => ({
   textB: {
     textAlign: 'left',
     paddingLeft: '18px',
-
-    // fontSize: normalize(16),
     fontSize: 16,
     lineHeight: '30px',
     letterSpacing: '0.16px',

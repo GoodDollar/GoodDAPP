@@ -1256,7 +1256,7 @@ export class GoodWallet {
 
       //self serve using faucet
       if (await this.faucetContract.canTop(this.account)) {
-        log.info('verifyHasGas user can use faucet...')
+        log.info('verifyHasGas using faucet...')
         const ok = await this.faucetContract
           .topWallet()
           .then(_ => true)
@@ -1270,7 +1270,11 @@ export class GoodWallet {
       }
 
       //if we cant use faucet or it failed then fallback to adminwallet api
-      log.info('no gas, asking for top wallet', { nativeBalance, required: wei, address: this.account })
+      log.info('verifyHasGas no gas, asking for top wallet from server', {
+        nativeBalance,
+        required: wei,
+        address: this.account,
+      })
       const toppingRes = await API.verifyTopWallet()
       const { data } = toppingRes
       if (!data || data.ok !== 1) {

@@ -18,7 +18,7 @@ import { fireEvent, INVITE_HOWTO, INVITE_SHARE } from '../../lib/analytics/analy
 import Config from '../../config/config'
 import { generateShareObject, isSharingAvailable } from '../../lib/share'
 import ModalLeftBorder from '../common/modal/ModalLeftBorder'
-import { useCollectBounty, useInviteCode, useInvited } from './useInvites'
+import { useCollectBounty, useInviteCode, useInvited, useLastInviteState } from './useInvites'
 import FriendsSVG from './friends.svg'
 import EtoroPNG from './etoro.png'
 
@@ -347,7 +347,8 @@ const InvitesData = ({ invitees, refresh, level, totalEarned = 0 }) => (
 
 const Invite = () => {
   const [showHowTo, setShowHowTo] = useState(false)
-  const { invitees, refresh, level, inviteState, clearLastState, initialized } = useInvited()
+  const [invitees, refresh, level, inviteState, initialized] = useInvited()
+  const [, clearLastState] = useLastInviteState(inviteState)
   const totalEarned = get(inviteState, 'totalEarned', 0)
   const bounty = result(level, 'bounty.toNumber', 100) / 100
 

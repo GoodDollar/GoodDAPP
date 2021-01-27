@@ -39,7 +39,7 @@ const getInviteCode = async () => {
   return code
 }
 
-const useInviteCode = () => {
+export const useInviteCode = () => {
   const [inviteCode, setInviteCode] = useState(userStorage.userProperties.get('inviteCode'))
 
   //return user invite code or register him with a new code
@@ -58,7 +58,7 @@ const useInviteCode = () => {
   return inviteCode
 }
 
-const useCollectBounty = () => {
+export const useCollectBounty = () => {
   const [showDialog, , showErrorDialog] = useDialog()
   const [canCollect, setCanCollect] = useState(undefined)
   const [collected, setCollected] = useState(undefined)
@@ -132,24 +132,29 @@ const useCollectBounty = () => {
   return [canCollect, collected]
 }
 
-const useInvited = () => {
+export const useLastInviteState = inviteState => {
+  const [lastState, setLastState] = useState(defaultLastInviteState)
+
+  const clearLastState = useCallback(() => {
+    setLastState(inviteState)
+    userStorage.userProperties.set('lastInviteState', inviteState)
+  }, [inviteState, setLastState])
+
+  useEffect(() => {
+    setLastState(defaults(userStorage.userProperties.get('lastInviteState') || {}, defaultLastInviteState))
+  }, [])
+
+  return [lastState, clearLastState]
+}
+
+export const useInvited = () => {
   const [initialized, setInitialized] = useState(false)
   const [invitees, setInvitees] = useState([])
   const [level, setLevel] = useState({})
   const [totalEarned, setTotalEarned] = useState(0)
-  const [lastState, setLastState] = useState(defaultLastInviteState)
 
   const { pending = [], approved = [] } = groupBy(invitees, 'status')
   const inviteState = { pending: pending.length, approved: approved.length, totalEarned }
-
-  const clearLastState = useCallback(() => {
-    if (!initialized) {
-      return
-    }
-
-    setLastState(inviteState)
-    userStorage.userProperties.set('lastInviteState', inviteState)
-  }, [initialized, inviteState, setLastState])
 
   const refresh = useCallback(async () => {
     try {
@@ -217,12 +222,8 @@ const useInvited = () => {
       }
     }
 
-    setLastState(defaults(userStorage.userProperties.get('lastInviteState') || {}, defaultLastInviteState))
-
     Promise.all([updateData(), refresh()]).finally(() => setInitialized(true))
   }, [])
 
-  return { invitees, refresh, level, inviteState, lastState, clearLastState, initialized }
+  return [invitees, refresh, level, inviteState, initialized]
 }
-
-export { useInviteCode, useInvited, useCollectBounty }

@@ -14,6 +14,8 @@ import useVerificationAttempts from '../hooks/useVerificationAttempts'
 
 import { MAX_ATTEMPTS_ALLOWED } from '../sdk/FaceTecSDK.constants'
 
+import { AB } from '../utils/random'
+
 import {
   fireEvent,
   FV_GETREADY_ZOOM,
@@ -49,11 +51,11 @@ const FaceVerification = ({ screenProps }) => {
     hideLoading()
 
     // firing event
-    fireEvent(FV_GETREADY_ZOOM)
+    fireEvent(`${FV_GETREADY_ZOOM}_AB_${AB}`)
   }, [hideLoading])
 
   const captureDoneHandler = useCallback(() => {
-    fireEvent(FV_PROGRESS_ZOOM)
+    fireEvent(`${FV_PROGRESS_ZOOM}_AB_${AB}`)
   }, [])
 
   const retryHandler = useCallback(
@@ -65,7 +67,7 @@ const FaceVerification = ({ screenProps }) => {
       }
 
       trackAttempt(reason)
-      fireEvent(FV_TRYAGAIN_ZOOM, eventData)
+      fireEvent(`${FV_TRYAGAIN_ZOOM}_AB_${AB}`, eventData)
     },
     [trackAttempt],
   )
@@ -86,7 +88,7 @@ const FaceVerification = ({ screenProps }) => {
 
       // 3. returning success to the caller
       screenProps.pop({ isValid: true })
-      fireEvent(FV_SUCCESS_ZOOM)
+      fireEvent(`${FV_SUCCESS_ZOOM}_AB_${AB}`)
     },
     [screenProps, setIsCitizen, resetAttempts],
   )
@@ -137,13 +139,13 @@ const FaceVerification = ({ screenProps }) => {
   const sdkInitializedHandler = useCallback(() => {
     hideLoading()
     setShowInstructions(true)
-    fireEvent(FV_INSTRUCTIONS)
+    fireEvent(`${FV_INSTRUCTIONS}_AB_${AB}`)
   }, [hideLoading, setShowInstructions])
 
   // SDK exception handler
   const sdkExceptionHandler = useCallback(
     exception => {
-      fireEvent(FV_ZOOMFAILED)
+      fireEvent(`${FV_ZOOMFAILED}_AB_${AB}`)
       showErrorScreen(exception)
     },
     [showErrorScreen],

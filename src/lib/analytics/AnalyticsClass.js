@@ -21,6 +21,7 @@ import { isMobileReactNative } from '../utils/platform'
 
 import { cloneErrorObject, ExceptionCategory } from '../logger/exceptions'
 import { LogEvent } from '../logger/pino-logger'
+import { AB } from '../../components/dashboard/FaceVerification/utils/random'
 import { ANALYTICS_EVENT, ERROR_LOG } from './constants'
 
 export class AnalyticsClass {
@@ -209,10 +210,17 @@ export class AnalyticsClass {
    * @param {object} route
    */
   fireEventFromNavigation = route => {
-    const { routeName: key, params } = route
+    let { routeName: key, params } = route
     const action = get(params, 'action', 'GOTO')
-    const code = `${action}_${key}`.toUpperCase()
 
+    // TODO: this is for AB test purposes only, remove when ab test is finished
+    if (key.includes('FaceVerification')) {
+      key = `${key}_AB_${AB}`
+    }
+
+    // TODO: end of code block to remove
+
+    const code = `${action}_${key}`.toUpperCase()
     this.fireEvent(code)
   }
 

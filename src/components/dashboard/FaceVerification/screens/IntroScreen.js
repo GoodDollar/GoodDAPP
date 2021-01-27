@@ -81,8 +81,8 @@ const IntroScreen = ({ styles, screenProps }) => {
   const [, requestCameraPermissions] = usePermissions(Permissions.Camera, {
     requestOnMounted: false,
     onAllowed: openFaceVerification,
-    onPrompt: () => fireEvent(FV_CAMERAPERMISSION),
-    onDenied: () => fireEvent(FV_CANTACCESSCAMERA),
+    onPrompt: () => fireEvent(`${FV_CAMERAPERMISSION}_AB_${AB}`),
+    onDenied: () => fireEvent(`${FV_CANTACCESSCAMERA}_AB_${AB}`),
     navigate: navigateTo,
   })
 
@@ -116,7 +116,7 @@ const IntroScreen = ({ styles, screenProps }) => {
     if (isValid) {
       pop({ isValid: true })
     } else {
-      fireEvent(FV_INTRO)
+      fireEvent(`${FV_INTRO}_AB_${AB}`)
     }
   }, [isValid])
 

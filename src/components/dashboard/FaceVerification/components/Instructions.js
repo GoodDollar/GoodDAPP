@@ -40,6 +40,12 @@ const Dot = () => (
   </Text>
 )
 
+const CheckMark = () => (
+  <Text color="white" fontSize={normalize(isLargeDevice ? 22 : 20)} lineHeight={30}>
+    &#10003;{' '}
+  </Text>
+)
+
 const InstructionsA = ({ styles, onDismiss = noop }) => (
   <Wrapper>
     <Section style={styles.topContainer} grow>
@@ -81,11 +87,17 @@ const InstructionsB = ({ styles, onDismiss = noop }) => (
         <View style={styles.descriptionContainerB}>
           <View style={styles.descriptionWrapperB}>
             <QuestionMark style={{ position: 'absolute', right: '0', marginTop: '9px', marginRight: '10px' }} />
-            <Text fontWeight="bold" style={[styles.textB, { paddingTop: '12px' }]}>
+            <Text fontWeight="bold" style={[styles.textB, { paddingTop: '8px', marginBottom: '-4px' }]}>
               Make sure you...
             </Text>
-            <Text style={styles.textB}>Hold Your Camera at Eye Level</Text>
-            <Text style={styles.textB}>Light Your Face Evenly</Text>
+            <Text style={[styles.textB, { marginBottom: '-12px' }]}>
+              <CheckMark />
+              Hold Your Camera at Eye Level
+            </Text>
+            <Text style={[styles.textB, { paddingBottom: '8px' }]}>
+              <CheckMark />
+              Light Your Face Evenly
+            </Text>
           </View>
         </View>
         <CustomButton
@@ -178,7 +190,7 @@ const getStylesFromProps = ({ theme }) => ({
     textAlign: 'left',
     paddingLeft: '18px',
     fontSize: 16,
-    lineHeight: '30px',
+    lineHeight: '1.88',
     letterSpacing: '0.16px',
     color: theme.colors.white,
   },

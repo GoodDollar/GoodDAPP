@@ -1,5 +1,5 @@
 // @flow
-import { assign, isNil, isUndefined } from 'lodash'
+import { assign, isNil, isUndefined, pick } from 'lodash'
 import AsyncStorage from '../../lib/utils/asyncStorage'
 import { retry } from '../../lib/utils/async'
 import { REGISTRATION_METHOD_SELF_CUSTODY } from '../constants/login'
@@ -31,12 +31,25 @@ export default class UserProperties {
     lastBlock: 0,
     joinedAtBlock: 6400000, // default block to start sync from
     lastTxSyncDate: 0,
-    hasOpenedGoodMarket: false,
     goodMarketClicked: false,
     inviterInviteCode: null,
     inviteCode: null,
     lastInviteState: { pending: 0, approved: 0 },
+    cachedInvites: [],
   }
+
+  // list of field we will keep forever
+  // even if user removed account will be removed
+  // those are some once-touched flags
+  // like GoodMarket button first clicked etc
+  // and cache for some data stored in the wallet
+  // e.g. invites cache / stats
+  // eslint-disable-next-line
+  static keepFields = [
+    'goodMarketClicked',
+    'cachedInvites',
+    'lastInviteState',
+  ]
 
   fields = [
     'isMadeBackup',
@@ -50,9 +63,9 @@ export default class UserProperties {
     'startClaimingAdded',
     'joinedAtBlock',
     'lastTxSyncDate',
-    'hasOpenedGoodMarket',
     'goodMarketClicked',
     'lastInviteState',
+    'cachedInvites',
   ]
 
   /**
@@ -85,7 +98,7 @@ export default class UserProperties {
 
         log.error('failed decrypting props', message, exception, { profile: gun.user().is.pub })
 
-        //reset props in case of data corruption - hack for gun issues
+        // reset props in case of data corruption - hack for gun issues
         if (message === 'Decrypting key missing') {
           this.reset()
         }
@@ -161,10 +174,12 @@ export default class UserProperties {
    * Reset properties to the default state
    */
   async reset() {
-    const { defaultProperties } = UserProperties
+    const { data } = this
+    const { defaultProperties, keepFields } = UserProperties
+    const dataBeenReset = assign({}, defaultProperties, pick(data || {}, keepFields))
 
-    this.data = assign({}, defaultProperties)
-    await this._storeProps(defaultProperties, 'reset()')
+    this.data = dataBeenReset
+    await this._storeProps(dataBeenReset, 'reset()')
 
     return true
   }

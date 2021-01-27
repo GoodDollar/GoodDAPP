@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { Image, View } from 'react-native'
 import { get, result } from 'lodash'
 import {
@@ -17,8 +17,6 @@ import { isMobile } from '../../lib/utils/platform'
 import { fireEvent, INVITE_HOWTO, INVITE_SHARE } from '../../lib/analytics/analytics'
 import Config from '../../config/config'
 import { generateShareObject, isSharingAvailable } from '../../lib/share'
-import AsyncStorage from '../../lib/utils/asyncStorage'
-import userStorage from '../../lib/gundb/UserStorage'
 import ModalLeftBorder from '../common/modal/ModalLeftBorder'
 import { useCollectBounty, useInviteCode, useInvited } from './useInvites'
 import FriendsSVG from './friends.svg'
@@ -349,23 +347,23 @@ const InvitesData = ({ invitees, refresh, level, totalEarned = 0 }) => (
 
 const Invite = () => {
   const [showHowTo, setShowHowTo] = useState(false)
-  const [invitees, refresh, level, inviteState] = useInvited()
-
+  const { invitees, refresh, level, inviteState, clearLastState, initialized } = useInvited()
   const totalEarned = get(inviteState, 'totalEarned', 0)
   const bounty = result(level, 'bounty.toNumber', 100) / 100
 
-  const toggleHowTo = () => {
+  const toggleHowTo = useCallback(() => {
     !showHowTo && fireEvent(INVITE_HOWTO)
     setShowHowTo(!showHowTo)
-  }
+  }, [showHowTo, setShowHowTo])
 
   useEffect(() => {
-    //reset state for rewards icon in navbar
-    if (inviteState.pending || inviteState.approved) {
-      userStorage.userProperties.set('lastInviteState', inviteState)
-      AsyncStorage.setItem('GD_lastInviteState', inviteState)
+    if (!initialized) {
+      return
     }
-  }, [inviteState])
+
+    // reset state for rewards icon in navbar
+    clearLastState()
+  }, [initialized])
 
   return (
     <Wrapper style={styles.pageBackground} backgroundColor={theme.colors.lightGray}>

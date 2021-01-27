@@ -1255,10 +1255,10 @@ export class GoodWallet {
       }
 
       //self serve using faucet
-      if (await this.faucetContract.canTop(this.account)) {
+      if (await this.faucetContract.methods.canTop(this.account).call()) {
         log.info('verifyHasGas using faucet...')
-        const ok = await this.faucetContract
-          .topWallet()
+        const toptx = this.faucetContract.methods.topWallet(this.account)
+        const ok = await this.sendTransaction(toptx)
           .then(_ => true)
           .catch(e => {
             log.warn('verifyHasGas faucet failed', e.message, e)

@@ -9,19 +9,19 @@ describe('FaceVerification Instructions', () => {
   it('renders without errors', () => {
     let tree
 
-    expect(() => (tree = renderer.create(<Instructions />))).not.toThrow()
+    expect(() => (tree = renderer.create(<Instructions ready={true} />))).not.toThrow()
     expect(tree.toJSON()).toBeTruthy()
   })
 
   it('matches snapshot', () => {
-    const tree = renderer.create(<Instructions />)
+    const tree = renderer.create(<Instructions ready={true} />)
 
     expect(tree.toJSON()).toMatchSnapshot()
   })
 
   it('should execute onDismiss on "GOT IT" press', () => {
     const onDismiss = jest.fn(() => {})
-    const tree = renderer.create(<Instructions onDismiss={onDismiss} />)
+    const tree = renderer.create(<Instructions onDismiss={onDismiss} ready={true} />)
     const button = tree.root.findByProps({ testID: 'dismiss_button' })
 
     button.props.onPress()

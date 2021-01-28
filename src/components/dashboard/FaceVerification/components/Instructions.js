@@ -98,13 +98,7 @@ const InstructionsB = ({ styles, onDismiss = noop }) => (
             </Text>
           </View>
         </View>
-        <CustomButton
-          style={[styles.button]}
-          onPress={onDismiss}
-          testID="dismiss_button"
-          contentStyle={{ minHeight: 53 }}
-          textStyle={{ fontSize: 16, lineHeight: 19, letterSpacing: 0.49, fontWeight: 'bold' }}
-        >
+        <CustomButton style={[styles.button]} onPress={onDismiss} testID="dismiss_button">
           GOT IT
         </CustomButton>
       </View>

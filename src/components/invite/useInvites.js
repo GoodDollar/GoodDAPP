@@ -40,6 +40,9 @@ const getInviteCode = async () => {
   return code
 }
 
+const getInitialLastInviteState = () =>
+  defaults(userStorage.userProperties.get('lastInviteState') || {}, defaultLastInviteState)
+
 export const useInviteCode = () => {
   const [inviteCode, setInviteCode] = useState(userStorage.userProperties.get('inviteCode'))
 
@@ -134,16 +137,12 @@ export const useCollectBounty = () => {
 }
 
 export const useLastInviteState = inviteState => {
-  const [lastState, setLastState] = useState(defaultLastInviteState)
+  const [lastState, setLastState] = useState(getInitialLastInviteState())
 
   const clearLastState = useCallback(() => {
     setLastState(inviteState)
     userStorage.userProperties.set('lastInviteState', inviteState)
   }, [inviteState, setLastState])
-
-  useEffect(() => {
-    setLastState(defaults(userStorage.userProperties.get('lastInviteState') || {}, defaultLastInviteState))
-  }, [])
 
   return [lastState, clearLastState]
 }

@@ -361,7 +361,7 @@ const Invite = () => {
   useEffect(() => {
     // reset state for rewards icon in navbar
     if (initialized) {
-      userStorage.userProperties.set('lastInviteState', inviteState || { pending: 0, approved: 0 })
+      userStorage.userProperties.set('lastInviteState', inviteState || { pending: 0, approved: 0, totalEarned: 0 })
     }
   }, [initialized])
 

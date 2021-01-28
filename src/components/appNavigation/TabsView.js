@@ -75,7 +75,7 @@ const RewardButton = React.memo(({ onPress, style }) => {
   const [updatesCount, setUpdatesCount] = useState(0)
 
   useEffect(() => {
-    const lastState = userStorage.userProperties.get('lastInviteState') || { pending: 0, approved: 0 }
+    const lastState = userStorage.userProperties.get('lastInviteState') || { pending: 0, approved: 0, totalEarned: 0 }
 
     const newPending = Math.max(inviteState.pending - lastState.pending, 0)
     const newApproved = Math.max(inviteState.approved - lastState.approved, 0)

@@ -6,7 +6,7 @@ import useRealtimeProps from '../../../../lib/hooks/useRealtimeProps'
 import { isCriticalIssue } from '../utils/kindOfTheIssue'
 import { isWeb } from '../../../../lib/utils/platform'
 
-let faceTecCriticalError = null
+import FaceTecGlobalState from '../sdk/FaceTecGlobalState'
 
 export default (logger = null) => {
   const [showDialog] = useDialog()
@@ -14,6 +14,7 @@ export default (logger = null) => {
 
   const handleCriticalError = useCallback(
     exception => {
+      const { faceTecCriticalError } = FaceTecGlobalState
       const { name, message } = exception
       const [getLogger, showDialog] = accessors
       const log = getLogger()
@@ -25,7 +26,7 @@ export default (logger = null) => {
 
       // if exception isn't set yet - set it
       if (!faceTecCriticalError) {
-        faceTecCriticalError = exception
+        FaceTecGlobalState.faceTecCriticalError = exception
       }
 
       // if running native, skipping resource error check
@@ -56,5 +57,5 @@ export default (logger = null) => {
     [accessors],
   )
 
-  return [faceTecCriticalError, handleCriticalError]
+  return handleCriticalError
 }

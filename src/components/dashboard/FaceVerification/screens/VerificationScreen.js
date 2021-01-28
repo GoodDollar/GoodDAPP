@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 
 import Instructions from '../components/Instructions'
 
@@ -27,6 +27,7 @@ import {
 const log = logger.child({ from: 'FaceVerification' })
 
 const FaceVerification = ({ screenProps }) => {
+  const [initialized, setInitialized] = useState(false)
   const [setIsCitizen] = useCurriedSetters(['isLoggedInCitizen'])
   const { attemptsCount, trackAttempt, resetAttempts } = useVerificationAttempts()
 
@@ -126,6 +127,11 @@ const FaceVerification = ({ screenProps }) => {
     maxRetries,
   })
 
+  // SDK initialized handler
+  const sdkInitializedHandler = useCallback(() => {
+    setInitialized(true)
+  }, [setInitialized])
+
   // SDK exception handler
   const sdkExceptionHandler = useCallback(
     exception => {
@@ -135,24 +141,17 @@ const FaceVerification = ({ screenProps }) => {
     [showErrorScreen],
   )
 
-  let initialized = useFaceTecSDK({
-    onError: sdkExceptionHandler,
-  })
-
   // "GOT IT" button handler
   const verifyFace = useCallback(() => {
     fireEvent(FV_START)
     startVerification()
   }, [startVerification])
 
-  // using zoom sdk initialization hook
-  // starting verification once sdk sucessfully initializes
-  // on error redirecting to the error screen
+  useFaceTecSDK({
+    onInitialized: sdkInitializedHandler,
+    onError: sdkExceptionHandler,
+  })
 
-  // showing loading indicator once component rendered
-  // and initialization started, returning cancel hook
-  // to make sure we'll hide the indicator once we'll
-  // start nativating to another screen
   useEffect(() => {
     fireEvent(FV_INSTRUCTIONS)
   }, [])

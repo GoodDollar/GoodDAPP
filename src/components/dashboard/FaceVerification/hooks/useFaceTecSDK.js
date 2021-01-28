@@ -1,14 +1,14 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { assign, noop } from 'lodash'
 
 import useRealtimeProps from '../../../../lib/hooks/useRealtimeProps'
 
-import { FaceTecSDK } from '../sdk/FaceTecSDK'
 import { ExceptionType, kindOfSDKIssue } from '../utils/kindOfTheIssue'
 
-import Config from '../../../../config/config'
 import logger from '../../../../lib/logger/pino-logger'
 import { isE2ERunning } from '../../../../lib/utils/platform'
+
+import FaceTecGlobalState from '../sdk/FaceTecGlobalState'
 import useCriticalErrorHandler from './useCriticalErrorHandler'
 
 const log = logger.child({ from: 'useFaceTecSDK' })
@@ -22,21 +22,19 @@ const log = logger.child({ from: 'useFaceTecSDK' })
  *
  * @return {void}
  */
-
-let initializing = Promise.resolve(false)
-export default ({ onInitialized = noop, onError = noop }) => {
-  const [isInit, setIsInit] = useState(false)
-
+export default eventHandlers => {
   // Configuration callbacks refs
+  const { onInitialized = noop, onError = noop } = eventHandlers || {}
   const accessors = useRealtimeProps([onInitialized, onError])
-  const [faceTecCriticalError, handleCriticalError] = useCriticalErrorHandler(log)
+
+  // adding error handler
+  const handleCriticalError = useCriticalErrorHandler(log)
 
   // performing initialization attempt on component mounted
   // this callback should be ran once, so we're using refs
   // to access actual initialization / error callbacks
   useEffect(() => {
     const [onInitialized, onError] = accessors
-    const { faceTecLicenseKey, faceTecLicenseText, faceTecEncryptionKey } = Config
 
     // Helper for handle exceptions
     const handleException = exception => {
@@ -51,25 +49,27 @@ export default ({ onInitialized = noop, onError = noop }) => {
     }
 
     const initializeSdk = async () => {
+      let { faceTecSDKInitializing, initialize } = FaceTecGlobalState
+
       try {
-        const initialized = await initializing
-
-        // if cypress is running - do nothing and immediately call success callback
-        if (isE2ERunning || initialized) {
-          log.debug('Initializing ZoomSDK skipped: already initialized')
-          setIsInit(true)
-          onInitialized()
-          return
-        }
-
+        // Initializing ZoOm
         log.debug('Initializing ZoomSDK')
 
-        // Initializing ZoOm
-        initializing = FaceTecSDK.initialize(faceTecLicenseKey, faceTecEncryptionKey, faceTecLicenseText).then(
-          _ => true,
-        )
-        await initializing
-        setIsInit(true)
+        if (!faceTecSDKInitializing) {
+          // if not initializing - calling initialize sdk
+          faceTecSDKInitializing = initialize()
+
+          // storing onto global state
+          assign(FaceTecGlobalState, { faceTecSDKInitializing })
+
+          // clearing initializing promise reference when finished
+          faceTecSDKInitializing = faceTecSDKInitializing.finally(
+            () => (FaceTecGlobalState.faceTecSDKInitializing = null),
+          )
+        }
+
+        // awaiting previous or current initialize call
+        await faceTecSDKInitializing
 
         // Executing onInitialized callback
         onInitialized()
@@ -88,6 +88,14 @@ export default ({ onInitialized = noop, onError = noop }) => {
       }
     }
 
+    // if cypress is running - do nothing and immediately call success callback
+    if (isE2ERunning) {
+      onInitialized()
+      return
+    }
+
+    const { faceTecCriticalError } = FaceTecGlobalState
+
     // skipping initialization attempt is some
     // unrecoverable error happened last try
     // TODO: probably store this flag it in the SDK and show preload dialog ?
@@ -99,6 +107,4 @@ export default ({ onInitialized = noop, onError = noop }) => {
     // starting initialization
     initializeSdk()
   }, [])
-
-  return isInit
 }

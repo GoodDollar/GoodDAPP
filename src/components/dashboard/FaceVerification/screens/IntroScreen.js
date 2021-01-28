@@ -57,7 +57,6 @@ const IntroScreen = ({ styles, screenProps }) => {
   const { fullName } = store.get('profile')
   const { screenState, goToRoot, navigateTo, pop } = screenProps
   const isValid = get(screenState, 'isValid', false)
-  useFaceTecSDK({}) //early initialize
 
   const navigateToHome = useCallback(() => navigateTo('Home'), [navigateTo])
 
@@ -109,6 +108,8 @@ const IntroScreen = ({ styles, screenProps }) => {
     fontSize: isLargeDevice ? 18 : 16,
     lineHeight: 25,
   }
+
+  useFaceTecSDK() // early initialize
 
   useEffect(() => log.debug({ isIOS: isIOSWeb, isMobileSafari }), [])
 

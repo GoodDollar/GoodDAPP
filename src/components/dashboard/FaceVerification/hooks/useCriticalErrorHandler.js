@@ -3,16 +3,15 @@ import { useCallback } from 'react'
 import { useDialog } from '../../../../lib/undux/utils/dialog'
 import useRealtimeProps from '../../../../lib/hooks/useRealtimeProps'
 
+import FaceTecGlobalState from '../sdk/FaceTecGlobalState'
 import { isCriticalIssue } from '../utils/kindOfTheIssue'
 import { isWeb } from '../../../../lib/utils/platform'
-
-let faceTecCriticalError = null
 
 export default (logger = null) => {
   const [showDialog] = useDialog()
   const accessors = useRealtimeProps([logger, showDialog])
 
-  const handleCriticalError = useCallback(
+  return useCallback(
     exception => {
       const { name, message } = exception
       const [getLogger, showDialog] = accessors
@@ -23,10 +22,8 @@ export default (logger = null) => {
         return
       }
 
-      // if exception isn't set yet - set it
-      if (!faceTecCriticalError) {
-        faceTecCriticalError = exception
-      }
+      // set exception in the global state
+      FaceTecGlobalState.faceTecCriticalError = exception
 
       // if running native, skipping resource error check
       if (!isWeb) {
@@ -55,6 +52,4 @@ export default (logger = null) => {
     },
     [accessors],
   )
-
-  return [faceTecCriticalError, handleCriticalError]
 }

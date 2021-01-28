@@ -3,15 +3,51 @@ import { assign, noop } from 'lodash'
 
 import useRealtimeProps from '../../../../lib/hooks/useRealtimeProps'
 
-import { FaceTecSDK } from '../sdk/FaceTecSDK'
-import { ExceptionType, kindOfSDKIssue } from '../utils/kindOfTheIssue'
+import FaceTecGlobalState from '../sdk/FaceTecGlobalState'
+import { ExceptionType, isCriticalIssue, kindOfSDKIssue } from '../utils/kindOfTheIssue'
 
-import Config from '../../../../config/config'
 import logger from '../../../../lib/logger/pino-logger'
 import { isE2ERunning } from '../../../../lib/utils/platform'
 import useCriticalErrorHandler from './useCriticalErrorHandler'
 
 const log = logger.child({ from: 'useFaceTecSDK' })
+
+/**
+ * FaceTecSDK preloading helper
+ * Preloads SDK and longs success/failiure state
+ *
+ * @param {Object} logger Custom Pino logger child instance to use for logging
+ * @returns {Promise}
+ */
+export const preloadFaceTecSDK = async (logger = log) => {
+  const { faceTecSDKPreloaded, faceTecSDKPreloading, faceTecCriticalError, initialize } = FaceTecGlobalState
+
+  // if cypress is running, already preloaded or loading in progress - do nothing
+  if (isE2ERunning || faceTecSDKPreloaded || faceTecSDKPreloading || faceTecCriticalError) {
+    return
+  }
+
+  logger.debug('Pre-loading FaceTec SDK')
+
+  try {
+    await (FaceTecGlobalState.faceTecSDKPreloading = initialize().finally(
+      () => (FaceTecGlobalState.faceTecSDKPreloading = null),
+    ))
+
+    FaceTecGlobalState.zoomSDKPreloaded = true
+    logger.debug('FaceTec SDK is preloaded')
+  } catch (exception) {
+    const { message } = exception
+
+    // if it's an critical issue
+    if (isCriticalIssue(exception)) {
+      // set exception in the global state
+      FaceTecGlobalState.faceTecCriticalError = exception
+    }
+
+    logger.error('Preloading FaceTec failed', message, exception)
+  }
+}
 
 /**
  * ZoomSDK initialization hook
@@ -25,14 +61,13 @@ const log = logger.child({ from: 'useFaceTecSDK' })
 export default ({ onInitialized = noop, onError = noop }) => {
   // Configuration callbacks refs
   const accessors = useRealtimeProps([onInitialized, onError])
-  const [faceTecCriticalError, handleCriticalError] = useCriticalErrorHandler(log)
+  const handleCriticalError = useCriticalErrorHandler(log)
 
   // performing initialization attempt on component mounted
   // this callback should be ran once, so we're using refs
   // to access actual initialization / error callbacks
   useEffect(() => {
     const [onInitialized, onError] = accessors
-    const { faceTecLicenseKey, faceTecLicenseText, faceTecEncryptionKey } = Config
 
     // Helper for handle exceptions
     const handleException = exception => {
@@ -47,11 +82,15 @@ export default ({ onInitialized = noop, onError = noop }) => {
     }
 
     const initializeSdk = async () => {
+      const { faceTecSDKPreloaded, faceTecSDKPreloading, initialize } = FaceTecGlobalState
+
       try {
         log.debug('Initializing ZoomSDK')
 
         // Initializing ZoOm
-        await FaceTecSDK.initialize(faceTecLicenseKey, faceTecEncryptionKey, faceTecLicenseText)
+        if (!faceTecSDKPreloaded) {
+          await (faceTecSDKPreloading || initialize())
+        }
 
         // Executing onInitialized callback
         onInitialized()
@@ -70,8 +109,10 @@ export default ({ onInitialized = noop, onError = noop }) => {
       }
     }
 
-    // if cypress is running - do nothing and immediately call success callback
-    if (isE2ERunning) {
+    const { faceTecSDKPreloaded, faceTecCriticalError } = FaceTecGlobalState
+
+    // if cypress is running  or already preloaded - do nothing and immediately call success callback
+    if (isE2ERunning || faceTecSDKPreloaded) {
       onInitialized()
       return
     }

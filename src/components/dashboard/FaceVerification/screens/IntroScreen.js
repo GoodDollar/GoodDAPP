@@ -28,6 +28,7 @@ import Config from '../../../../config/config'
 import { Permissions } from '../../../permissions/types'
 import { showQueueDialog } from '../../../common/dialogs/showQueueDialog'
 import { fireEvent, FV_CAMERAPERMISSION, FV_CANTACCESSCAMERA, FV_INTRO } from '../../../../lib/analytics/analytics'
+import { preloadFaceTecSDK } from '../hooks/useFaceTecSDK'
 
 // assets
 import wait24hourIllustration from '../../../../assets/Claim/wait24Hour.svg'
@@ -108,7 +109,11 @@ const IntroScreen = ({ styles, screenProps }) => {
     lineHeight: 25,
   }
 
-  useEffect(() => log.debug({ isIOS: isIOSWeb, isMobileSafari }), [])
+  useEffect(() => {
+    log.debug({ isIOS: isIOSWeb, isMobileSafari })
+
+    preloadFaceTecSDK(log)
+  }, [])
 
   useEffect(() => {
     if (isValid) {

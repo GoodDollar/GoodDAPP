@@ -5,7 +5,6 @@ import { FaceTecSDK } from './FaceTecSDK'
 // Like in the Zoom's demo app it contains also
 // initialization function with options preconfigured
 const FaceTecGlobalState = {
-  faceTecSDKPreloaded: false,
   faceTecSDKPreloading: null,
   faceTecCriticalError: null,
 

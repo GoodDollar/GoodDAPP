@@ -139,16 +139,19 @@ const useInvited = () => {
   const [totalEarned, setTotalEarned] = useState(0)
 
   const updateData = async () => {
-    const user = await goodWallet.invitesContract.methods.users(goodWallet.account).call()
+    try {
+      const user = await goodWallet.invitesContract.methods.users(goodWallet.account).call()
 
-    const level = await goodWallet.invitesContract.methods.levels(user.level).call()
-    setLevel(level)
-    setTotalEarned(user.totalEarned.toNumber() / 100) //convert from wei to decimals
+      const level = await goodWallet.invitesContract.methods.levels(user.level).call()
+      setLevel(level)
+      setTotalEarned(user.totalEarned.toNumber() / 100) //convert from wei to decimals
+    } catch (e) {
+      log.error('updateData failed:', e.message, e)
+    }
   }
 
   const updateInvited = async () => {
     try {
-      updateData()
       let cached = (await AsyncStorage.getItem('GD_cachedInvites')) || []
       log.debug('updateInvited', { cached })
       setInvites(cached)
@@ -181,19 +184,15 @@ const useInvited = () => {
     }
   }
 
+  const refresh = () => Promise.all([updateData(), updateInvited()])
+
   useEffect(() => {
-    updateInvited().then(() => setInitialized(true))
+    refresh().then(() => setInitialized(true))
   }, [])
 
   const { pending = [], approved = [] } = groupBy(invites, 'status')
 
-  return [
-    invites,
-    updateInvited,
-    level,
-    { pending: pending.length, approved: approved.length, totalEarned },
-    initialized,
-  ]
+  return [invites, refresh, level, { pending: pending.length, approved: approved.length, totalEarned }, initialized]
 }
 
 export { useInviteCode, useInvited, useCollectBounty }

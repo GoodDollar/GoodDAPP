@@ -14,7 +14,7 @@ import useVerificationAttempts from '../hooks/useVerificationAttempts'
 
 import { MAX_ATTEMPTS_ALLOWED } from '../sdk/FaceTecSDK.constants'
 
-import { AB } from '../utils/random'
+import random from '../utils/random'
 
 import {
   fireEvent,
@@ -25,6 +25,8 @@ import {
   FV_TRYAGAIN_ZOOM,
   FV_ZOOMFAILED,
 } from '../../../../lib/analytics/analytics'
+
+const AB = random(0.5)
 
 const log = logger.child({ from: 'FaceVerification' })
 
@@ -175,7 +177,7 @@ const FaceVerification = ({ screenProps }) => {
     return hideLoading
   }, [])
 
-  return showInstructions ? <Instructions onDismiss={verifyFace} /> : null
+  return showInstructions ? <Instructions onDismiss={verifyFace} ab={AB} /> : null
 }
 
 FaceVerification.navigationOptions = {

@@ -13,8 +13,6 @@ import normalize from '../../../../lib/utils/normalizeText'
 import { withStyles } from '../../../../lib/styles'
 import { isBrowser } from '../../../../lib/utils/platform'
 
-import { AB } from '../utils/random'
-
 // assets
 import illustration from '../../../../assets/FRInstructions.png'
 import portrait from '../../../../assets/FaceVerification/FVPortrait.png'
@@ -114,7 +112,13 @@ const InstructionsB = ({ styles, onDismiss = noop }) => (
   </Wrapper>
 )
 
-const Instructions = AB === 'A' ? InstructionsA : InstructionsB
+const Instructions = ({ styles, onDismiss = noop, ab }) => {
+  return ab === 'A' ? (
+    <InstructionsA styles={styles} onDismiss={onDismiss} />
+  ) : (
+    <InstructionsB styles={styles} onDismiss={onDismiss} />
+  )
+}
 
 const getStylesFromProps = ({ theme }) => ({
   topContainer: {

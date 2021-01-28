@@ -3,4 +3,4 @@ const random = percent => {
 }
 
 // TODO change percent to config for easy change
-export const AB = random(0.5)
+export default random

@@ -28,13 +28,15 @@ import Config from '../../../../config/config'
 import { Permissions } from '../../../permissions/types'
 import { showQueueDialog } from '../../../common/dialogs/showQueueDialog'
 import { fireEvent, FV_CAMERAPERMISSION, FV_CANTACCESSCAMERA, FV_INTRO } from '../../../../lib/analytics/analytics'
-import { AB } from '../utils/random'
+import random from '../utils/random'
 
 // assets
 import wait24hourIllustration from '../../../../assets/Claim/wait24Hour.svg'
 import FashionShootSVG from '../../../../assets/FaceVerification/FashionPhotoshoot.svg'
 
 const log = logger.child({ from: 'FaceVerificationIntro' })
+
+const AB = random(0.5)
 
 const WalletDeletedPopupText = ({ styles }) => (
   <View style={styles.wrapper}>

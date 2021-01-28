@@ -157,59 +157,6 @@ export const useInvited = () => {
   const inviteState = { pending: pending.length, approved: approved.length, totalEarned }
 
   const refresh = useCallback(async () => {
-    try {
-      let cached = userStorage.userProperties.get('cachedInvites') || []
-
-      log.debug('updateInvited', { cached })
-      setInvitees(cached)
-
-      const [invitees, pending] = await Promise.all([
-        goodWallet.invitesContract.methods.getInvitees(goodWallet.account).call(),
-        goodWallet.invitesContract.methods
-          .getPendingInvitees(goodWallet.account)
-          .call()
-          .then(keyBy),
-      ])
-
-      log.debug('updateInvited got invitees and pending invitees', { invitees, pending })
-
-      let invited = await Promise.all(
-        invitees.map(addr => userStorage.getUserProfile(addr).then(profile => ({ addr, ...profile }))),
-      )
-
-      log.debug('updateInvited got invitees profiles', { invited })
-
-      // keep if both name + avatar or not in cache
-      invited.filter(({ name, avatar, addr }) => {
-        if (name || avatar) {
-          return true
-        }
-
-        return !find(cached, { addr })
-      })
-
-      // adding/updating invitees profiles to cache
-      cached = uniqBy(invited.concat(cached), 'addr')
-
-      // calculcate statuses
-      cached = cached.map(item => {
-        const { addr } = item
-        const status = pending[addr] ? 'pending' : 'approved'
-
-        return {
-          ...item,
-          status,
-        }
-      })
-
-      setInvitees(cached)
-      userStorage.userProperties.set('cachedInvites', cached)
-    } catch (e) {
-      log.error('updateInvited failed:', e.message, e)
-    }
-  }, [setInvitees])
-
-  useEffect(() => {
     const updateData = async () => {
       try {
         const user = await goodWallet.invitesContract.methods.users(goodWallet.account).call()
@@ -222,7 +169,64 @@ export const useInvited = () => {
       }
     }
 
-    Promise.all([updateData(), refresh()]).finally(() => setInitialized(true))
+    const updateInvitees = async () => {
+      try {
+        let cached = userStorage.userProperties.get('cachedInvites') || []
+
+        log.debug('updateInvited', { cached })
+        setInvitees(cached)
+
+        const [invitees, pending] = await Promise.all([
+          goodWallet.invitesContract.methods.getInvitees(goodWallet.account).call(),
+          goodWallet.invitesContract.methods
+            .getPendingInvitees(goodWallet.account)
+            .call()
+            .then(keyBy),
+        ])
+
+        log.debug('updateInvited got invitees and pending invitees', { invitees, pending })
+
+        let invited = await Promise.all(
+          invitees.map(addr => userStorage.getUserProfile(addr).then(profile => ({ addr, ...profile }))),
+        )
+
+        log.debug('updateInvited got invitees profiles', { invited })
+
+        // keep if both name + avatar or not in cache
+        invited.filter(({ name, avatar, addr }) => {
+          if (name || avatar) {
+            return true
+          }
+
+          return !find(cached, { addr })
+        })
+
+        // adding/updating invitees profiles to cache
+        cached = uniqBy(invited.concat(cached), 'addr')
+
+        // calculcate statuses
+        cached = cached.map(item => {
+          const { addr } = item
+          const status = pending[addr] ? 'pending' : 'approved'
+
+          return {
+            ...item,
+            status,
+          }
+        })
+
+        setInvitees(cached)
+        userStorage.userProperties.set('cachedInvites', cached)
+      } catch (e) {
+        log.error('updateInvited failed:', e.message, e)
+      }
+    }
+
+    await Promise.all([updateData(), updateInvitees()])
+  }, [setInvitees, setLevel, setTotalEarned])
+
+  useEffect(() => {
+    refresh().then(() => setInitialized(true))
   }, [])
 
   return [invitees, refresh, level, inviteState, initialized]

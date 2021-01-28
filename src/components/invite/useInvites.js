@@ -147,7 +147,7 @@ const useInvited = () => {
 
   const updateInvited = async () => {
     try {
-      updateData()
+      await updateData()
       let cached = (await AsyncStorage.getItem('GD_cachedInvites')) || []
       log.debug('updateInvited', { cached })
       setInvites(cached)

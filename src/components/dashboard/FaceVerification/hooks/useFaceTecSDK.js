@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { assign, noop } from 'lodash'
 
 import useRealtimeProps from '../../../../lib/hooks/useRealtimeProps'
@@ -22,7 +22,11 @@ const log = logger.child({ from: 'useFaceTecSDK' })
  *
  * @return {void}
  */
+
+let initializing = Promise.resolve(false)
 export default ({ onInitialized = noop, onError = noop }) => {
+  const [isInit, setIsInit] = useState(false)
+
   // Configuration callbacks refs
   const accessors = useRealtimeProps([onInitialized, onError])
   const [faceTecCriticalError, handleCriticalError] = useCriticalErrorHandler(log)
@@ -48,10 +52,24 @@ export default ({ onInitialized = noop, onError = noop }) => {
 
     const initializeSdk = async () => {
       try {
+        const initialized = await initializing
+
+        // if cypress is running - do nothing and immediately call success callback
+        if (isE2ERunning || initialized) {
+          log.debug('Initializing ZoomSDK skipped: already initialized')
+          setIsInit(true)
+          onInitialized()
+          return
+        }
+
         log.debug('Initializing ZoomSDK')
 
         // Initializing ZoOm
-        await FaceTecSDK.initialize(faceTecLicenseKey, faceTecEncryptionKey, faceTecLicenseText)
+        initializing = FaceTecSDK.initialize(faceTecLicenseKey, faceTecEncryptionKey, faceTecLicenseText).then(
+          _ => true,
+        )
+        await initializing
+        setIsInit(true)
 
         // Executing onInitialized callback
         onInitialized()
@@ -70,12 +88,6 @@ export default ({ onInitialized = noop, onError = noop }) => {
       }
     }
 
-    // if cypress is running - do nothing and immediately call success callback
-    if (isE2ERunning) {
-      onInitialized()
-      return
-    }
-
     // skipping initialization attempt is some
     // unrecoverable error happened last try
     // TODO: probably store this flag it in the SDK and show preload dialog ?
@@ -87,4 +99,6 @@ export default ({ onInitialized = noop, onError = noop }) => {
     // starting initialization
     initializeSdk()
   }, [])
+
+  return isInit
 }

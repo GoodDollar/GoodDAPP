@@ -31,7 +31,7 @@ const Dot = () => (
   </Text>
 )
 
-const Instructions = ({ styles, onDismiss = noop }) => (
+const Instructions = ({ styles, onDismiss = noop, ready = false }) => (
   <Wrapper>
     <Section style={styles.topContainer} grow>
       <View style={styles.mainContent}>
@@ -52,7 +52,13 @@ const Instructions = ({ styles, onDismiss = noop }) => (
             </Text>
           </View>
         </View>
-        <CustomButton style={[styles.button]} onPress={onDismiss} testID="dismiss_button">
+        <CustomButton
+          loading={!ready}
+          enabled={ready}
+          style={[styles.button]}
+          onPress={onDismiss}
+          testID="dismiss_button"
+        >
           GOT IT
         </CustomButton>
       </View>

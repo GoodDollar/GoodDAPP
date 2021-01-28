@@ -4,8 +4,10 @@ import TabsView from '../TabsView'
 import Dashboard from '../../dashboard/Dashboard'
 import Profile from '../../profile/Profile'
 import SimpleStore from '../../../lib/undux/SimpleStore'
+import userStorage from '../../../lib/gundb/UserStorage'
 
 // Note: test renderer must be required after react-native.
+jest.setTimeout(20000)
 
 describe('TabsView', () => {
   const routes = {
@@ -16,6 +18,11 @@ describe('TabsView', () => {
       screen: Profile,
     },
   }
+
+  beforeAll(async () => {
+    await userStorage.wallet.ready
+    await userStorage.ready
+  })
 
   it('renders without errors', () => {
     const tree = renderer.create(

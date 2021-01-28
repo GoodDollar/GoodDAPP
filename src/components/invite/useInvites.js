@@ -133,6 +133,7 @@ const useCollectBounty = () => {
 }
 
 const useInvited = () => {
+  const [initialized, setInitialized] = useState(false)
   const [invites, setInvites] = useState([])
   const [level, setLevel] = useState({})
   const [totalEarned, setTotalEarned] = useState(0)
@@ -181,12 +182,18 @@ const useInvited = () => {
   }
 
   useEffect(() => {
-    updateInvited()
+    updateInvited().then(() => setInitialized(true))
   }, [])
 
   const { pending = [], approved = [] } = groupBy(invites, 'status')
 
-  return [invites, updateInvited, level, { pending: pending.length, approved: approved.length, totalEarned }]
+  return [
+    invites,
+    updateInvited,
+    level,
+    { pending: pending.length, approved: approved.length, totalEarned },
+    initialized,
+  ]
 }
 
 export { useInviteCode, useInvited, useCollectBounty }

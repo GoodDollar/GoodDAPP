@@ -1,5 +1,5 @@
 // @flow
-import { assign, isNil, isUndefined } from 'lodash'
+import { assign, isNil, isUndefined, pick } from 'lodash'
 import AsyncStorage from '../../lib/utils/asyncStorage'
 import { retry } from '../../lib/utils/async'
 import { REGISTRATION_METHOD_SELF_CUSTODY } from '../constants/login'
@@ -37,6 +37,8 @@ export default class UserProperties {
     inviteCode: null,
     lastInviteState: { pending: 0, approved: 0 },
   }
+
+  static keepFields = ['goodMarketClicked', 'lastInviteState']
 
   fields = [
     'isMadeBackup',
@@ -161,10 +163,12 @@ export default class UserProperties {
    * Reset properties to the default state
    */
   async reset() {
-    const { defaultProperties } = UserProperties
+    const { data } = this
+    const { defaultProperties, keepFields } = UserProperties
+    const dataBeenReset = assign({}, defaultProperties, pick(data || {}, keepFields))
 
-    this.data = assign({}, defaultProperties)
-    await this._storeProps(defaultProperties, 'reset()')
+    this.data = dataBeenReset
+    await this._storeProps(dataBeenReset, 'reset()')
 
     return true
   }

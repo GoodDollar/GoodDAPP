@@ -1265,7 +1265,7 @@ export class GoodWallet {
             return false
           })
         if (ok) {
-          return { ok: true }
+          return { ok }
         }
       }
 

@@ -39,7 +39,7 @@ const Dot = () => (
 )
 
 const CheckMark = () => (
-  <Text color="white" fontSize={normalize(isLargeDevice ? 22 : 20)} lineHeight={30}>
+  <Text color="white" fontSize={normalize(20)}>
     &#10003;{' '}
   </Text>
 )
@@ -84,15 +84,15 @@ const InstructionsB = ({ styles, onDismiss = noop }) => (
         />
         <View style={styles.descriptionContainerB}>
           <View style={styles.descriptionWrapperB}>
-            <QuestionMark style={{ position: 'absolute', right: '0', marginTop: '9px', marginRight: '10px' }} />
-            <Text fontWeight="bold" style={[styles.textB, { paddingTop: '8px', marginBottom: '-4px' }]}>
+            <QuestionMark style={{ position: 'absolute', right: 0, marginTop: 9, marginRight: 10 }} />
+            <Text fontWeight="bold" style={[styles.textB, { paddingTop: 12 }]}>
               Make sure you...
             </Text>
-            <Text style={[styles.textB, { marginBottom: '-12px' }]}>
+            <Text style={[styles.textB, { marginTop: 7 }]}>
               <CheckMark />
               Hold Your Camera at Eye Level
             </Text>
-            <Text style={[styles.textB, { paddingBottom: '8px' }]}>
+            <Text style={[styles.textB, { marginTop: 3, marginBottom: 14 }]}>
               <CheckMark />
               Light Your Face Evenly
             </Text>
@@ -102,8 +102,8 @@ const InstructionsB = ({ styles, onDismiss = noop }) => (
           style={[styles.button]}
           onPress={onDismiss}
           testID="dismiss_button"
-          contentStyle={{ minHeight: '53px' }}
-          textStyle={{ fontSize: '16px', lineHeight: '19px', letterSpacing: '0.49px', fontWeight: 'bold' }}
+          contentStyle={{ minHeight: 53 }}
+          textStyle={{ fontSize: 16, lineHeight: 19, letterSpacing: 0.49, fontWeight: 'bold' }}
         >
           GOT IT
         </CustomButton>
@@ -135,17 +135,7 @@ const getStylesFromProps = ({ theme }) => ({
     paddingTop: getDesignRelativeHeight(theme.sizes.defaultDouble),
   },
   topContainerB: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: theme.colors.surface,
-    borderRadius: theme.sizes.borderRadius,
     display: 'contents',
-    flexDirection: 'column',
-    flexShrink: 0,
-    paddingBottom: getDesignRelativeHeight(theme.sizes.default * 1.5),
-    paddingLeft: getDesignRelativeWidth(10),
-    paddingRight: getDesignRelativeWidth(10),
-    paddingTop: getDesignRelativeHeight(theme.sizes.defaultDouble),
   },
   mainContent: {
     flexGrow: 1,
@@ -154,8 +144,6 @@ const getStylesFromProps = ({ theme }) => ({
   },
   mainContentB: {
     flexGrow: 1,
-    justifyContent: 'flex-end',
-    width: '100%',
     paddingHorizontal: getDesignRelativeHeight(10),
     paddingBottom: getDesignRelativeHeight(10),
   },
@@ -177,10 +165,8 @@ const getStylesFromProps = ({ theme }) => ({
     alignItems: 'flex-start',
   },
   descriptionWrapperB: {
-    flexDirection: 'column',
-    alignItems: 'flex-start',
     backgroundColor: theme.colors.darkGray,
-    borderRadius: '8px',
+    borderRadius: 8,
   },
   button: {
     width: '100%',
@@ -192,10 +178,9 @@ const getStylesFromProps = ({ theme }) => ({
   },
   textB: {
     textAlign: 'left',
-    paddingLeft: '18px',
+    paddingLeft: 18,
     fontSize: 16,
-    lineHeight: '1.88',
-    letterSpacing: '0.16px',
+    letterSpacing: 0.16,
     color: theme.colors.white,
   },
 })

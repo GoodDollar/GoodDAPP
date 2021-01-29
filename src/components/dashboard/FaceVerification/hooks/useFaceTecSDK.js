@@ -28,7 +28,7 @@ export default eventHandlers => {
 
   // state vars
   const [initialized, setInitialized] = useState(false)
-  const [lastError, setLastError] = useState(false)
+  const [lastError, setLastError] = useState(null)
 
   // Configuration callbacks refs
   const accessors = useRealtimeProps([onInitialized, onError, setInitialized, setLastError])

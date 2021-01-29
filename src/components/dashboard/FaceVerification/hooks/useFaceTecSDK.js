@@ -22,9 +22,9 @@ const log = logger.child({ from: 'useFaceTecSDK' })
  *
  * @return {void}
  */
-export default eventHandlers => {
+export default (eventHandlers = {}) => {
   // parse options
-  const { onInitialized = noop, onError = noop } = eventHandlers || {}
+  const { onInitialized = noop, onError = noop } = eventHandlers
 
   // state vars
   const [initialized, setInitialized] = useState(false)

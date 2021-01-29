@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { assign, noop } from 'lodash'
 
 import useRealtimeProps from '../../../../lib/hooks/useRealtimeProps'
@@ -23,9 +23,15 @@ const log = logger.child({ from: 'useFaceTecSDK' })
  * @return {void}
  */
 export default eventHandlers => {
-  // Configuration callbacks refs
+  // parse options
   const { onInitialized = noop, onError = noop } = eventHandlers || {}
-  const accessors = useRealtimeProps([onInitialized, onError])
+
+  // state vars
+  const [initialized, setInitialized] = useState(false)
+  const [lastError, setLastError] = useState(false)
+
+  // Configuration callbacks refs
+  const accessors = useRealtimeProps([onInitialized, onError, setInitialized, setLastError])
 
   // adding error handler
   const handleCriticalError = useCriticalErrorHandler(log)
@@ -34,7 +40,7 @@ export default eventHandlers => {
   // this callback should be ran once, so we're using refs
   // to access actual initialization / error callbacks
   useEffect(() => {
-    const [onInitialized, onError] = accessors
+    const [onInitialized, onError, setInitialized, setLastError] = accessors
 
     // Helper for handle exceptions
     const handleException = exception => {
@@ -45,7 +51,14 @@ export default eventHandlers => {
 
       // executing current onError callback
       onError(exception)
+      setLastError(exception)
       log.error('Zoom initialization failed', message, exception)
+    }
+
+    // Helper for handle initialzied state
+    const handleInitialized = () => {
+      onInitialized()
+      setInitialized(true)
     }
 
     const initializeSdk = async () => {
@@ -72,7 +85,7 @@ export default eventHandlers => {
         await faceTecSDKInitializing
 
         // Executing onInitialized callback
-        onInitialized()
+        handleInitialized()
         log.debug('ZoomSDK is ready')
       } catch (exception) {
         // the following code is needed to categorize exceptions
@@ -90,7 +103,7 @@ export default eventHandlers => {
 
     // if cypress is running - do nothing and immediately call success callback
     if (isE2ERunning) {
-      onInitialized()
+      handleInitialized()
       return
     }
 
@@ -107,4 +120,6 @@ export default eventHandlers => {
     // starting initialization
     initializeSdk()
   }, [])
+
+  return [initialized, lastError]
 }

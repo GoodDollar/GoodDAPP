@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo } from 'react'
 
 import Instructions from '../components/Instructions'
 
@@ -27,7 +27,6 @@ import {
 const log = logger.child({ from: 'FaceVerification' })
 
 const FaceVerification = ({ screenProps }) => {
-  const [initialized, setInitialized] = useState(false)
   const [setIsCitizen] = useCurriedSetters(['isLoggedInCitizen'])
   const { attemptsCount, trackAttempt, resetAttempts } = useVerificationAttempts()
 
@@ -127,11 +126,6 @@ const FaceVerification = ({ screenProps }) => {
     maxRetries,
   })
 
-  // SDK initialized handler
-  const sdkInitializedHandler = useCallback(() => {
-    setInitialized(true)
-  }, [setInitialized])
-
   // SDK exception handler
   const sdkExceptionHandler = useCallback(
     exception => {
@@ -147,8 +141,7 @@ const FaceVerification = ({ screenProps }) => {
     startVerification()
   }, [startVerification])
 
-  useFaceTecSDK({
-    onInitialized: sdkInitializedHandler,
+  const [initialized] = useFaceTecSDK({
     onError: sdkExceptionHandler,
   })
 

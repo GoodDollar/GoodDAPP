@@ -10,8 +10,7 @@ import InputFile from '../../common/form/InputFile'
 import logger from '../../../lib/logger/pino-logger'
 import { fireEvent, PROFILE_IMAGE } from '../../../lib/analytics/analytics'
 import { getDesignRelativeWidth } from '../../../lib/utils/sizes'
-import CircleButtonWrapper from '../CircleButtonWrapper'
-import CameraButton from '../CameraButton'
+import RoundButton from '../CameraButton'
 import { useDebouncedOnPress } from '../../../lib/hooks/useOnPress'
 import openCropper from './openCropper'
 
@@ -80,27 +79,36 @@ const ViewOrUploadAvatar = props => {
   return (
     <Wrapper>
       <Section style={styles.section}>
-        <Section.Stack>
+        <Section.Stack style={{ alignSelf: 'center' }}>
           {profile.avatar ? (
             <>
-              <CircleButtonWrapper
-                containerStyle={styles.closeButtonContainer}
-                style={styles.closeButton}
-                iconName={'trash'}
-                iconSize={22}
-                onPress={handleClosePress}
-              />
-              <CameraButton style={styles.cameraButton} handleCameraPress={handleCameraPress} />
+              <Section.Row style={{ width: '100%', zIndex: 10 }}>
+                <RoundButton icon={'trash'} style={styles.closeButton} handleCameraPress={handleClosePress} />
+                <RoundButton icon={'camera'} style={styles.cameraButton} handleCameraPress={handleCameraPress} />
+              </Section.Row>
               <UserAvatar profile={profile} size={272} onPress={handleCameraPress} style={styles.avatarView} />
             </>
           ) : (
             <>
-              <InputFile pickerOptions={pickerOptions} onChange={handleAddAvatar}>
-                <CameraButton containerStyle={styles.cameraButtonNewImgContainer} style={styles.cameraButtonNewImg} />
-              </InputFile>
-              <InputFile pickerOptions={pickerOptions} onChange={handleAddAvatar}>
-                <UserAvatar profile={profile} size={272} />
-              </InputFile>
+              <Section.Row style={{ width: '100%', zIndex: 10 }}>
+                <InputFile
+                  Component={({ onPress }) => {
+                    return <RoundButton icon={'camera'} style={styles.cameraButtonNewImg} handleCameraPress={onPress} />
+                  }}
+                  onChange={handleAddAvatar}
+                  pickerOptions={pickerOptions}
+                />
+              </Section.Row>
+              <InputFile
+                Component={({ onPress }) => {
+                  return <UserAvatar profile={profile} size={272} style={styles.avatarView} onPress={onPress} />
+                }}
+                onChange={handleAddAvatar}
+                pickerOptions={pickerOptions}
+              />
+              {/* <InputFile onChange={handleAddAvatar} pickerOptions={pickerOptions}>
+                <UserAvatar profile={profile} size={272} style={styles.avatarView} />
+              </InputFile> */}
             </>
           )}
         </Section.Stack>
@@ -119,24 +127,22 @@ ViewOrUploadAvatar.navigationOptions = {
 }
 
 const getStylesFromProps = ({ theme }) => {
-  const { defaultDouble, defaultQuadruple } = theme.sizes
+  const { defaultDouble } = theme.sizes
   const buttonGap = getDesignRelativeWidth(-30) / 2
 
   return {
     section: {
       flex: 1,
       position: 'relative',
-      alignItems: 'center',
-      justifyContent: 'center',
+
+      // alignItems: 'center',
+      // justifyContent: 'center',
     },
     cameraButtonContainer: {
       zIndex: 1,
     },
     cameraButton: {
-      left: 'auto',
-      position: 'absolute',
-      top: 1,
-      right: 1,
+      position: Platform.select({ web: 'static', default: 'relative' }),
       marginTop: defaultDouble,
       marginRight: buttonGap,
     },
@@ -144,28 +150,26 @@ const getStylesFromProps = ({ theme }) => {
       zIndex: 1,
     },
     cameraButtonNewImg: {
-      left: 'auto',
-      position: 'absolute',
-      top: 1,
-      right: 1,
+      position: Platform.select({ web: 'static', default: 'relative' }),
+      marginTop: defaultDouble,
       marginRight: buttonGap,
     },
-    closeButtonContainer: {
-      zIndex: 1,
-    },
     closeButton: {
-      left: 1,
-      right: 'auto',
-      position: 'absolute',
-      top: 1,
+      zIndex: 1000000,
+
+      // right: 0,
+      position: Platform.select({ web: 'static', default: 'relative' }),
+
+      // top: 0,
       marginTop: defaultDouble,
+
+      // alignSelf: 'flex-start',
       marginLeft: buttonGap,
     },
-    avatar: {
-      marginTop: defaultQuadruple,
-    },
     avatarView: {
-      marginTop: 32,
+      zIndex: 0,
+
+      marginTop: -32,
     },
     buttonsRow: {
       justifyContent: 'flex-end',

@@ -6,14 +6,10 @@ import { FaceTecSDK } from './FaceTecSDK'
 // initialization function with options preconfigured
 const FaceTecGlobalState = {
   /**
-   * @var {Promise|null}
-   */
-  faceTecSDKPreloading: null,
-
-  /**
    * @var {Error|null}
    */
   faceTecCriticalError: null,
+  faceTecSDKInitializing: null,
 
   /**
    * Convenience method to initialize the FaceTec SDK.
@@ -21,7 +17,17 @@ const FaceTecGlobalState = {
   async initialize() {
     const { faceTecLicenseKey, faceTecLicenseText, faceTecEncryptionKey } = Config
 
-    await FaceTecSDK.initialize(faceTecLicenseKey, faceTecEncryptionKey, faceTecLicenseText)
+    if (!this.faceTecSDKInitializing) {
+      // if not initializing - calling initialize sdk
+      this.faceTecSDKInitializing = await FaceTecSDK.initialize(
+        faceTecLicenseKey,
+        faceTecEncryptionKey,
+        faceTecLicenseText,
+      ).finally(() => (this.faceTecSDKInitializing = null))
+    }
+
+    // awaiting previous or current initialize call
+    await this.faceTecSDKInitializing
   },
 }
 

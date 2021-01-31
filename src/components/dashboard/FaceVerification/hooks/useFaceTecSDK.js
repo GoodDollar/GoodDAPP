@@ -62,27 +62,12 @@ export default (eventHandlers = {}) => {
     }
 
     const initializeSdk = async () => {
-      let { faceTecSDKInitializing, initialize } = FaceTecGlobalState
+      const { initialize } = FaceTecGlobalState
 
       try {
         // Initializing ZoOm
         log.debug('Initializing ZoomSDK')
-
-        if (!faceTecSDKInitializing) {
-          // if not initializing - calling initialize sdk
-          faceTecSDKInitializing = initialize()
-
-          // storing onto global state
-          assign(FaceTecGlobalState, { faceTecSDKInitializing })
-
-          // clearing initializing promise reference when finished
-          faceTecSDKInitializing = faceTecSDKInitializing.finally(
-            () => (FaceTecGlobalState.faceTecSDKInitializing = null),
-          )
-        }
-
-        // awaiting previous or current initialize call
-        await faceTecSDKInitializing
+        await initialize()
 
         // Executing onInitialized callback
         handleInitialized()

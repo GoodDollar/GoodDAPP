@@ -83,8 +83,8 @@ const IntroScreen = ({ styles, screenProps }) => {
   const [, requestCameraPermissions] = usePermissions(Permissions.Camera, {
     requestOnMounted: false,
     onAllowed: openFaceVerification,
-    onPrompt: () => fireEvent(`${FV_CAMERAPERMISSION}_AB_${AB}`),
-    onDenied: () => fireEvent(`${FV_CANTACCESSCAMERA}_AB_${AB}`),
+    onPrompt: () => fireEvent(FV_CAMERAPERMISSION),
+    onDenied: () => fireEvent(FV_CANTACCESSCAMERA),
     navigate: navigateTo,
   })
 
@@ -174,7 +174,6 @@ const IntroScreen = ({ styles, screenProps }) => {
             Your image is only used to prevent the creation of duplicate accounts and will never be transferred to any
             third party
           </Section.Text>
-          {/* TODO: where should learn more point to? */}
           <Section.Text
             fontWeight="bold"
             fontSize={18}

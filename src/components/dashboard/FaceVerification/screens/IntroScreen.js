@@ -155,9 +155,9 @@ const IntroScreen = ({ styles, screenProps }) => {
                 {`Learn more`}
               </Text>
             </Text>
-            <Separator style={[styles.bottomSeparator]} width={2} />
+            <Separator style={styles.bottomSeparator} width={2} />
           </View>
-          <CustomButton style={[styles.button]} onPress={handleVerifyClick} disabled={false !== disposing}>
+          <CustomButton style={styles.button} onPress={handleVerifyClick} disabled={false !== disposing}>
             OK, VERIFY ME
           </CustomButton>
         </View>
@@ -241,7 +241,7 @@ const getStylesFromProps = ({ theme }) => ({
     marginTop: getDesignRelativeHeight(isBrowser ? 16 : 8),
   },
   mainTextB: {
-    marginTop: getDesignRelativeHeight(theme.sizes.defaultDouble),
+    marginTop: getDesignRelativeHeight(isSmallDevice ? 12 : theme.sizes.defaultDouble),
   },
   illustration: {
     marginTop: getDesignRelativeHeight(isSmallDevice ? 12 : theme.sizes.defaultDouble),
@@ -272,7 +272,7 @@ const getStylesFromProps = ({ theme }) => ({
   },
   learnMore: {
     color: theme.colors.primary,
-    marginTop: getDesignRelativeHeight(20),
+    marginTop: getDesignRelativeHeight(isSmallDevice ? theme.sizes.defaultDouble : 20),
   },
 })
 

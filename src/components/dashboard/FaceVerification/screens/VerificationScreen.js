@@ -141,7 +141,7 @@ const FaceVerification = ({ screenProps }) => {
   const sdkInitializedHandler = useCallback(() => {
     hideLoading()
     setShowInstructions(true)
-    fireEvent(FV_INSTRUCTIONS)
+    fireEvent(FV_INSTRUCTIONS, { ab: AB })
   }, [hideLoading, setShowInstructions])
 
   // SDK exception handler

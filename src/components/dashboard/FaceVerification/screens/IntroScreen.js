@@ -123,7 +123,7 @@ const IntroScreen = ({ styles, screenProps }) => {
     if (isValid) {
       pop({ isValid: true })
     } else {
-      fireEvent(`${FV_INTRO}_AB_${AB}`)
+      fireEvent(FV_INTRO, { ab: AB })
     }
   }, [isValid])
 

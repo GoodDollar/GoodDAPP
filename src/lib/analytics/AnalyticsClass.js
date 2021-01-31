@@ -209,7 +209,7 @@ export class AnalyticsClass {
    * @param {object} route
    */
   fireEventFromNavigation = route => {
-    let { routeName: key, params } = route
+    const { routeName: key, params } = route
     const action = get(params, 'action', 'GOTO')
     const code = `${action}_${key}`.toUpperCase()
     this.fireEvent(code)

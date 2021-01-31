@@ -62,12 +62,10 @@ export default (eventHandlers = {}) => {
     }
 
     const initializeSdk = async () => {
-      const { initialize } = FaceTecGlobalState
-
       try {
         // Initializing ZoOm
         log.debug('Initializing ZoomSDK')
-        await initialize()
+        await FaceTecGlobalState.initialize()
 
         // Executing onInitialized callback
         handleInitialized()

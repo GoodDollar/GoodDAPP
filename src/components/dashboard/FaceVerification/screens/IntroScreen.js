@@ -175,7 +175,7 @@ const IntroScreen = ({ styles, screenProps }) => {
               {'\nVerify you are a real\nlive person'}
             </Section.Text>
           </Section.Title>
-          <Section.Text fontSize={18} lineHeight={25} letterSpacing={0.18} style={{ marginTop: 17 }}>
+          <Section.Text fontSize={18} lineHeight={25} letterSpacing={0.18} style={styles.mainTextB}>
             Your image is only used to prevent the creation of duplicate accounts and will never be transferred to any
             third party
           </Section.Text>
@@ -192,13 +192,7 @@ const IntroScreen = ({ styles, screenProps }) => {
           <View style={styles.illustrationB}>
             <FashionShootSVG />
           </View>
-          <CustomButton
-            style={[styles.button]}
-            onPress={handleVerifyClick}
-            disabled={false !== disposing}
-            contentStyle={{ minHeight: 53 }}
-            textStyle={{ fontSize: 16, lineHeight: 19, letterSpacing: 0.49, fontWeight: 'bold' }}
-          >
+          <CustomButton style={[styles.button]} onPress={handleVerifyClick} disabled={false !== disposing}>
             OK, VERIFY ME
           </CustomButton>
         </View>
@@ -246,6 +240,9 @@ const getStylesFromProps = ({ theme }) => ({
   mainTitleB: {
     marginTop: getDesignRelativeHeight(isBrowser ? 16 : 8),
   },
+  mainTextB: {
+    marginTop: getDesignRelativeHeight(theme.sizes.defaultDouble),
+  },
   illustration: {
     marginTop: getDesignRelativeHeight(isSmallDevice ? 12 : theme.sizes.defaultDouble),
     marginBottom: getDesignRelativeHeight(isSmallDevice ? 12 : theme.sizes.defaultDouble),
@@ -256,7 +253,6 @@ const getStylesFromProps = ({ theme }) => ({
   illustrationB: {
     marginTop: getDesignRelativeHeight(20),
     marginBottom: getDesignRelativeHeight(31),
-    height: getDesignRelativeWidth(isBrowser ? 220 : 180),
     width: '100%',
     alignItems: 'center',
   },

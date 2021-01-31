@@ -61,7 +61,7 @@ const Config = {
   interestCollectedInterval: env.REACT_APP_INTEREST_BLOCKS_INTERVAL || 5760, // default is 24H
   marketUrl: env.REACT_APP_MARKET_URL || 'https://www.facebook.com/groups/gooddollarmarketplace',
   torusEnabled: env.REACT_APP_USE_TORUS === 'true',
-  torusNetwork: env.REACT_APP_TORUS_NETWORK || 'ropsten',
+  torusNetwork: env.REACT_APP_TORUS_NETWORK || 'testnet',
   torusProxyContract: env.REACT_APP_TORUS_PROXY_CONTRACT || '0x4023d2a0D330bF11426B12C6144Cfb96B7fa6183',
   enableSelfCustody: env.REACT_APP_ENABLE_SELF_CUSTODY === 'true',
   googleClientId: env.REACT_APP_GOOGLE_CLIENT_ID,

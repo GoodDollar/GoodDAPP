@@ -7,8 +7,8 @@
   },
   "scripts": {
     "web": "react-app-rewired start",
-    "android": "npm run copy:gdfont && npm run animation:assets && react-native run-android",
-    "ios": "npm run animation:assets && react-native run-ios",
+    "android": "ENVFILE=.env;npm run copy:gdfont && npm run animation:assets && react-native run-android",
+    "ios": "ENVFILE=.env;npm run animation:assets && react-native run-ios",
     "start:native": "react-native start",
     "start": "serve -s -l $PORT build",
     "analyze:sme": "source-map-explorer 'build/static/js/*.js'",
@@ -64,7 +64,7 @@
   "dependencies": {
     "@babel/preset-flow": "^7.0.0",
     "@expo/react-native-action-sheet": "^3.4.1",
-    "@gooddollar/goodcontracts": "^2.5.1",
+    "@gooddollar/goodcontracts": "^2.5.2",
     "@gooddollar/gun": "^0.2020.902",
     "@gooddollar/gun-asyncstorage": "^1.0.3",
     "@gooddollar/gun-pk-auth": "^1.1.0",
@@ -81,7 +81,7 @@
     "@react-navigation/web": "^1.0.0-alpha.9",
     "@sentry/browser": "^5.10.2",
     "@sentry/react-native": "^2.1.0",
-    "@toruslabs/torus-direct-react-native-sdk": "^0.1.4",
+    "@toruslabs/torus-direct-react-native-sdk": "^0.1.5",
     "@toruslabs/torus-direct-web-sdk": "^3.5.6",
     "@tradle/react-native-http": "^2.0.1",
     "Base64": "^1.1.0",

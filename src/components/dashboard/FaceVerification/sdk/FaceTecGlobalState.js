@@ -1,3 +1,4 @@
+import { assign } from 'lodash'
 import Config from '../../../../config/config'
 import { FaceTecSDK } from './FaceTecSDK'
 
@@ -20,11 +21,13 @@ const FaceTecGlobalState = {
 
     if (!faceTecSDKInitializing) {
       // if not initializing - calling initialize sdk
-      this.faceTecSDKInitializing = FaceTecSDK.initialize(
+      faceTecSDKInitializing = FaceTecSDK.initialize(
         faceTecLicenseKey,
         faceTecEncryptionKey,
         faceTecLicenseText,
       ).finally(() => (this.faceTecSDKInitializing = null))
+
+      assign(this, { faceTecSDKInitializing })
     }
 
     // awaiting previous or current initialize call

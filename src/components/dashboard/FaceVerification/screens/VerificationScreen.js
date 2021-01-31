@@ -151,7 +151,7 @@ const FaceVerification = ({ screenProps }) => {
   })
 
   useEffect(() => {
-    fireEvent(FV_INSTRUCTIONS)
+    fireEvent(FV_INSTRUCTIONS, { ab: AB })
   }, [])
 
   return <Instructions onDismiss={verifyFace} ready={initialized} ab={AB} />

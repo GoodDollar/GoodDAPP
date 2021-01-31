@@ -15,9 +15,15 @@ import { isBrowser } from '../../../../lib/utils/platform'
 
 // assets
 import illustration from '../../../../assets/FRInstructions.png'
-import portrait from '../../../../assets/FaceVerification/FVPortrait.png'
 
 import QuestionMark from '../../../../assets/FaceVerification/FVQuestionMark.svg'
+
+const portrait = Platform.select({
+  native: () => require('../../../../assets/FaceVerification/FVPortrait.png'),
+  default: () => require('../../../../assets/FaceVerification/FVPortrait@2x.png'),
+})()
+
+// import portrait from '../../../../assets/FaceVerification/FVPortrait.png'
 
 if (Platform.OS === 'web') {
   Image.prefetch(illustration)

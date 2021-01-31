@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo } from 'react'
 
 import Instructions from '../components/Instructions'
 
@@ -7,7 +7,6 @@ import { useCurriedSetters } from '../../../../lib/undux/GDStore'
 import goodWallet from '../../../../lib/wallet/GoodWallet'
 import logger from '../../../../lib/logger/pino-logger'
 
-import useLoadingIndicator from '../../../../lib/hooks/useLoadingIndicator'
 import useFaceTecSDK from '../hooks/useFaceTecSDK'
 import useFaceTecVerification from '../hooks/useFaceTecVerification'
 import useVerificationAttempts from '../hooks/useVerificationAttempts'
@@ -19,6 +18,7 @@ import {
   FV_GETREADY_ZOOM,
   FV_INSTRUCTIONS,
   FV_PROGRESS_ZOOM,
+  FV_START,
   FV_SUCCESS_ZOOM,
   FV_TRYAGAIN_ZOOM,
   FV_ZOOMFAILED,
@@ -27,8 +27,6 @@ import {
 const log = logger.child({ from: 'FaceVerification' })
 
 const FaceVerification = ({ screenProps }) => {
-  const [showLoading, hideLoading] = useLoadingIndicator()
-  const [showInstructions, setShowInstructions] = useState(false)
   const [setIsCitizen] = useCurriedSetters(['isLoggedInCitizen'])
   const { attemptsCount, trackAttempt, resetAttempts } = useVerificationAttempts()
 
@@ -43,14 +41,9 @@ const FaceVerification = ({ screenProps }) => {
   )
 
   const uiReadyHandler = useCallback(() => {
-    // hiding loading indicator once Zoom UI is ready
-    // this is needed for prevent Zoom's backdrop
-    // to be overlapped with spinner's backdrop
-    hideLoading()
-
     // firing event
     fireEvent(FV_GETREADY_ZOOM)
-  }, [hideLoading])
+  }, [])
 
   const captureDoneHandler = useCallback(() => {
     fireEvent(FV_PROGRESS_ZOOM)
@@ -133,13 +126,6 @@ const FaceVerification = ({ screenProps }) => {
     maxRetries,
   })
 
-  // SDK initialized handler
-  const sdkInitializedHandler = useCallback(() => {
-    hideLoading()
-    setShowInstructions(true)
-    fireEvent(FV_INSTRUCTIONS)
-  }, [hideLoading, setShowInstructions])
-
   // SDK exception handler
   const sdkExceptionHandler = useCallback(
     exception => {
@@ -151,29 +137,19 @@ const FaceVerification = ({ screenProps }) => {
 
   // "GOT IT" button handler
   const verifyFace = useCallback(() => {
-    showLoading()
-    setShowInstructions(false)
+    fireEvent(FV_START)
     startVerification()
-  }, [showLoading, setShowInstructions, startVerification])
+  }, [startVerification])
 
-  // using zoom sdk initialization hook
-  // starting verification once sdk sucessfully initializes
-  // on error redirecting to the error screen
-  useFaceTecSDK({
-    onInitialized: sdkInitializedHandler,
+  const [initialized] = useFaceTecSDK({
     onError: sdkExceptionHandler,
   })
 
-  // showing loading indicator once component rendered
-  // and initialization started, returning cancel hook
-  // to make sure we'll hide the indicator once we'll
-  // start nativating to another screen
   useEffect(() => {
-    showLoading()
-    return hideLoading
+    fireEvent(FV_INSTRUCTIONS)
   }, [])
 
-  return showInstructions ? <Instructions onDismiss={verifyFace} /> : null
+  return <Instructions onDismiss={verifyFace} ready={initialized} />
 }
 
 FaceVerification.navigationOptions = {

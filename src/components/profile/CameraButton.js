@@ -9,10 +9,10 @@ type CameraButtonProps = {
   style?: any,
 }
 
-const CameraButton = ({ handleCameraPress, styles, style, noStyles, containerStyle }: CameraButtonProps) => (
+const CameraButton = ({ icon, handleCameraPress, styles, style, noStyles, containerStyle }: CameraButtonProps) => (
   <CircleButtonWrapper
     iconSize={22}
-    iconName={'camera'}
+    iconName={icon}
     style={!noStyles && [styles.container, style]}
     onPress={handleCameraPress}
     containerStyle={containerStyle}

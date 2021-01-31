@@ -38,19 +38,7 @@ const ProfileWrapper = props => {
           onPress={handlePrivacyPress}
           containerStyle={styles.iconLeft}
         />
-        <View style={styles.userDataWrapper}>
-          <UserAvatar
-            style={styles.userAvatar}
-            profile={profile}
-            onPress={handleAvatarPress}
-            size={avatarSize}
-            imageSize={avatarSize - 6}
-            unknownStyle={styles.userAvatar}
-          />
-          <Text fontSize={22} fontFamily="Roboto Slab" lineHeight={29} style={styles.userName}>
-            {!!profile && profile.fullName}
-          </Text>
-        </View>
+
         <CircleButtonWrapper
           label={'Edit'}
           iconName={'edit'}
@@ -64,6 +52,19 @@ const ProfileWrapper = props => {
         <View style={styles.emptySpace} />
         <ProfileDataTable profile={profile} showCustomFlag />
       </Section>
+      <View style={styles.userDataWrapper}>
+        <UserAvatar
+          style={styles.userAvatar}
+          profile={profile}
+          onPress={handleAvatarPress}
+          size={avatarSize}
+          imageSize={avatarSize - 6}
+          unknownStyle={styles.userAvatar}
+        />
+        <Text fontSize={22} fontFamily="Roboto Slab" lineHeight={29} style={styles.userName}>
+          {!!profile && profile.fullName}
+        </Text>
+      </View>
     </Wrapper>
   )
 }
@@ -98,6 +99,8 @@ const getStylesFromProps = ({ theme }) => {
       position: 'absolute',
       justifyContent: 'center',
       alignItems: 'center',
+      alignSelf: 'center',
+      zIndex: 1,
     },
     userAvatar: {
       borderWidth: 3,

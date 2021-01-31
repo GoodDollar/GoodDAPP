@@ -154,7 +154,7 @@ const EditProfile = ({ screenProps, styles, navigation }) => {
           containerStyle={styles.userAvatarWrapper}
           unknownStyle={styles.unknownStyles}
         >
-          <CameraButton handleCameraPress={handleEditAvatar} />
+          <CameraButton icon="camera" handleCameraPress={handleEditAvatar} />
         </UserAvatar>
         {lockSubmit || isPristine || !isValid ? (
           <SaveButtonDisabled style={styles.animatedSaveButton} />

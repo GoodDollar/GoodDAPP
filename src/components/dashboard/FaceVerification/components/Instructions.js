@@ -41,7 +41,7 @@ const CheckMark = () => (
   </Text>
 )
 
-const InstructionsA = ({ styles, onDismiss = noop }) => (
+const InstructionsA = ({ styles, onDismiss = noop, ready }) => (
   <Wrapper>
     <Section style={styles.topContainer} grow>
       <View style={styles.mainContent}>
@@ -62,7 +62,13 @@ const InstructionsA = ({ styles, onDismiss = noop }) => (
             </Text>
           </View>
         </View>
-        <CustomButton style={[styles.button]} onPress={onDismiss} testID="dismiss_button">
+        <CustomButton
+          loading={!ready}
+          enabled={ready}
+          style={[styles.button]}
+          onPress={onDismiss}
+          testID="dismiss_button"
+        >
           GOT IT
         </CustomButton>
       </View>
@@ -70,7 +76,7 @@ const InstructionsA = ({ styles, onDismiss = noop }) => (
   </Wrapper>
 )
 
-const InstructionsB = ({ styles, onDismiss = noop }) => (
+const InstructionsB = ({ styles, onDismiss = noop, ready }) => (
   <Wrapper>
     <Section style={styles.topContainerB} grow>
       <View style={styles.mainContentB}>
@@ -91,7 +97,13 @@ const InstructionsB = ({ styles, onDismiss = noop }) => (
             </Text>
           </View>
         </View>
-        <CustomButton style={[styles.button]} onPress={onDismiss} testID="dismiss_button">
+        <CustomButton
+          style={[styles.button]}
+          onPress={onDismiss}
+          testID="dismiss_button"
+          loading={!ready}
+          enabled={ready}
+        >
           GOT IT
         </CustomButton>
       </View>
@@ -99,10 +111,10 @@ const InstructionsB = ({ styles, onDismiss = noop }) => (
   </Wrapper>
 )
 
-const Instructions = ({ styles, onDismiss = noop, ab }) => {
+const Instructions = ({ styles, onDismiss = noop, ready = false, ab }) => {
   const InstructionsComponent = ab === 'A' ? InstructionsA : InstructionsB
 
-  return <InstructionsComponent styles={styles} onDismiss={onDismiss} />
+  return <InstructionsComponent styles={styles} onDismiss={onDismiss} ready={ready} />
 }
 
 const getStylesFromProps = ({ theme }) => ({

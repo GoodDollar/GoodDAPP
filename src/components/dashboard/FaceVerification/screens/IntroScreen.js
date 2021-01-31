@@ -34,6 +34,7 @@ import { Permissions } from '../../../permissions/types'
 import { showQueueDialog } from '../../../common/dialogs/showQueueDialog'
 import { fireEvent, FV_CAMERAPERMISSION, FV_CANTACCESSCAMERA, FV_INTRO } from '../../../../lib/analytics/analytics'
 import random from '../utils/random'
+import useFaceTecSDK from '../hooks/useFaceTecSDK'
 
 // assets
 import wait24hourIllustration from '../../../../assets/Claim/wait24Hour.svg'
@@ -116,6 +117,8 @@ const IntroScreen = ({ styles, screenProps }) => {
     fontSize: isLargeDevice ? 18 : 16,
     lineHeight: 25,
   }
+
+  useFaceTecSDK() // early initialize
 
   useEffect(() => log.debug({ isIOS: isIOSWeb, isMobileSafari }), [])
 

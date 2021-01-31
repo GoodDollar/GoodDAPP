@@ -516,7 +516,6 @@ const Claim = props => {
               fontSize={15}
               letterSpacing={0}
               lineHeight={20}
-              primaryColor={theme.colors.surface}
               fontFamily="Roboto"
             >
               So Far Today:

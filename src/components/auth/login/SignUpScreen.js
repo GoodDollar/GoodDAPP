@@ -134,7 +134,7 @@ const SignupScreen = ({ isSignup, screenProps, styles, handleLoginMethod, sdkIni
                   styles.buttonLayout,
                   styles.buttonsMargin,
                   {
-                    backgroundColor: mainTheme.colors.facebookBlue,
+                    backgroundColor: mainTheme.colors.darkBlue,
                   },
                 ]}
                 onPress={_mobile}
@@ -143,7 +143,7 @@ const SignupScreen = ({ isSignup, screenProps, styles, handleLoginMethod, sdkIni
                 icon={MobileBtnIcon}
                 iconProps={{ viewBox: '0 0 14.001 26' }}
               >
-                {`${buttonPrefix}${isSignup ? '' : 'with'} Passwordless`}
+                {`${buttonPrefix}${isSignup ? '' : ' with'} Passwordless`}
               </LoginButton>
             </React.Fragment>
             <Section.Stack style={styles.textButtonContainer}>

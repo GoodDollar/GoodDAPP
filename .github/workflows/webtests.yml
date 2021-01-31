@@ -125,6 +125,8 @@ jobs:
         if: matrix.chunk == env.WALLET_CHUNK
         run: |
           pushd node_modules/@gooddollar/goodcontracts/stakingModel
+          #temporary test
+          npm i ganache-cli@latest
           npm run ganache:test &
           npm run wait
           npm run start:withmain

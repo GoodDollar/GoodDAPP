@@ -77,11 +77,7 @@ const InstructionsB = ({ styles, onDismiss = noop }) => (
   <Wrapper>
     <Section style={styles.topContainerB} grow>
       <View style={styles.mainContentB}>
-        <ImageBackground
-          source={require('../../../../assets/FaceVerification/FVPortrait.png')}
-          style={{ flex: 1, position: 'static' }}
-          imageStyle={{ borderRadius: 5 }}
-        />
+        <ImageBackground source={portrait} style={{ flex: 1, position: 'static' }} imageStyle={{ borderRadius: 5 }} />
         <View style={styles.descriptionContainerB}>
           <View style={styles.descriptionWrapperB}>
             <QuestionMark style={{ position: 'absolute', right: 0, marginTop: 9, marginRight: 10 }} />

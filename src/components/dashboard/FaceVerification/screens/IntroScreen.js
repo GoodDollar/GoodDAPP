@@ -170,7 +170,7 @@ const IntroScreen = ({ styles, screenProps }) => {
               {'\nVerify you are a real\nlive person'}
             </Section.Text>
           </Section.Title>
-          <Section.Text fontSize={18} lineHeight={25} letterSpacing={0.18} style={{ marginTop: '17px' }}>
+          <Section.Text fontSize={18} lineHeight={25} letterSpacing={0.18} style={{ marginTop: 17 }}>
             Your image is only used to prevent the creation of duplicate accounts and will never be transferred to any
             third party
           </Section.Text>
@@ -192,8 +192,8 @@ const IntroScreen = ({ styles, screenProps }) => {
             style={[styles.button]}
             onPress={handleVerifyClick}
             disabled={false !== disposing}
-            contentStyle={{ minHeight: '53px' }}
-            textStyle={{ fontSize: '16px', lineHeight: '19px', letterSpacing: '0.49px', fontWeight: 'bold' }}
+            contentStyle={{ minHeight: 53 }}
+            textStyle={{ fontSize: 16, lineHeight: 19, letterSpacing: 0.49, fontWeight: 'bold' }}
           >
             OK, VERIFY ME
           </CustomButton>

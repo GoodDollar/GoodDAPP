@@ -17,6 +17,8 @@ import { isBrowser } from '../../../../lib/utils/platform'
 import illustration from '../../../../assets/FRInstructions.png'
 
 import QuestionMark from '../../../../assets/FaceVerification/FVQuestionMark.svg'
+import CheckMark from '../../../../assets/FaceVerification/CheckMark.svg'
+import { theme } from '../../../theme/styles'
 
 const portrait = Platform.select({
   native: () => require('../../../../assets/FaceVerification/FVPortrait.png'),
@@ -38,12 +40,6 @@ const Dot = () => (
     fontWeight="bold"
   >
     •{' '}
-  </Text>
-)
-
-const CheckMark = () => (
-  <Text color="white" fontSize={normalize(20)}>
-    &#10003;{' '}
   </Text>
 )
 
@@ -94,17 +90,17 @@ const InstructionsB = ({ styles, onDismiss = noop, ready }) => (
               Make sure you...
             </Text>
             <Text style={[styles.textB, { marginTop: 7 }]}>
-              <CheckMark />
+              <CheckMark style={{ marginRight: theme.sizes.default }} />
               Hold Your Camera at Eye Level
             </Text>
             <Text style={[styles.textB, { marginTop: 3, marginBottom: 14 }]}>
-              <CheckMark />
+              <CheckMark style={{ marginRight: theme.sizes.default }} />
               Light Your Face Evenly
             </Text>
           </View>
         </View>
         <CustomButton
-          style={[styles.button]}
+          style={[styles.button, { height: 53 }]}
           onPress={onDismiss}
           testID="dismiss_button"
           loading={!ready}

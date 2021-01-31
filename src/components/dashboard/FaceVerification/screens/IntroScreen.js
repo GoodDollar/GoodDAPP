@@ -20,7 +20,12 @@ import UserStorage from '../../../../lib/gundb/UserStorage'
 import GDStore from '../../../../lib/undux/GDStore'
 import logger from '../../../../lib/logger/pino-logger'
 import { getFirstWord } from '../../../../lib/utils/getFirstWord'
-import { getDesignRelativeHeight, getDesignRelativeWidth, isLargeDevice } from '../../../../lib/utils/sizes'
+import {
+  getDesignRelativeHeight,
+  getDesignRelativeWidth,
+  isLargeDevice,
+  isSmallDevice,
+} from '../../../../lib/utils/sizes'
 import { withStyles } from '../../../../lib/styles'
 import { isBrowser, isE2ERunning, isIOSWeb, isMobileSafari } from '../../../../lib/utils/platform'
 import { openLink } from '../../../../lib/utils/linking'
@@ -218,10 +223,10 @@ const getStylesFromProps = ({ theme }) => ({
     display: 'flex',
     flexDirection: 'column',
     flexShrink: 0,
-    paddingBottom: getDesignRelativeHeight(theme.sizes.defaultDouble),
+    paddingBottom: getDesignRelativeHeight(isSmallDevice ? 10 : theme.sizes.defaultDouble),
     paddingLeft: getDesignRelativeWidth(theme.sizes.default),
     paddingRight: getDesignRelativeWidth(theme.sizes.default),
-    paddingTop: getDesignRelativeHeight(theme.sizes.defaultDouble),
+    paddingTop: getDesignRelativeHeight(isSmallDevice ? 10 : theme.sizes.defaultDouble),
   },
   mainContent: {
     flexGrow: 1,
@@ -236,14 +241,14 @@ const getStylesFromProps = ({ theme }) => ({
     width: '100%',
   },
   mainTitle: {
-    marginTop: getDesignRelativeHeight(isBrowser ? 30 : 15),
+    marginTop: getDesignRelativeHeight(isBrowser ? 30 : isSmallDevice ? 10 : theme.sizes.defaultDouble),
   },
   mainTitleB: {
     marginTop: getDesignRelativeHeight(isBrowser ? 16 : 8),
   },
   illustration: {
-    marginTop: getDesignRelativeHeight(18),
-    marginBottom: getDesignRelativeHeight(18),
+    marginTop: getDesignRelativeHeight(isSmallDevice ? 12 : theme.sizes.defaultDouble),
+    marginBottom: getDesignRelativeHeight(isSmallDevice ? 12 : theme.sizes.defaultDouble),
     height: getDesignRelativeWidth(isBrowser ? 220 : 180),
     width: '100%',
     alignItems: 'center',
@@ -257,7 +262,7 @@ const getStylesFromProps = ({ theme }) => ({
   },
   descriptionContainer: {
     paddingHorizontal: getDesignRelativeHeight(theme.sizes.defaultHalf),
-    paddingVertical: getDesignRelativeHeight(isBrowser ? theme.sizes.defaultDouble : 14),
+    paddingVertical: getDesignRelativeHeight(isSmallDevice ? 8 : 14),
   },
   descriptionUnderline: {
     display: Platform.select({ web: 'block', default: 'flex' }),
@@ -267,7 +272,7 @@ const getStylesFromProps = ({ theme }) => ({
     width: '100%',
   },
   bottomSeparator: {
-    marginBottom: getDesignRelativeHeight(25),
+    marginBottom: getDesignRelativeHeight(isSmallDevice ? theme.sizes.defaultDouble : 25),
   },
   learnMore: {
     color: theme.colors.primary,

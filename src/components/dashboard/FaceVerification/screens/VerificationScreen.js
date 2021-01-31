@@ -6,6 +6,7 @@ import UserStorage from '../../../../lib/gundb/UserStorage'
 import { useCurriedSetters } from '../../../../lib/undux/GDStore'
 import goodWallet from '../../../../lib/wallet/GoodWallet'
 import logger from '../../../../lib/logger/pino-logger'
+import Config from '../../../../config/config'
 
 import useLoadingIndicator from '../../../../lib/hooks/useLoadingIndicator'
 import useFaceTecSDK from '../hooks/useFaceTecSDK'
@@ -26,7 +27,7 @@ import {
   FV_ZOOMFAILED,
 } from '../../../../lib/analytics/analytics'
 
-const AB = random(0.5)
+const AB = random(Config.abTestPercentage)
 
 const log = logger.child({ from: 'FaceVerification' })
 

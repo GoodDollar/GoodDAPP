@@ -41,7 +41,7 @@ import FashionShootSVG from '../../../../assets/FaceVerification/FashionPhotosho
 
 const log = logger.child({ from: 'FaceVerificationIntro' })
 
-const AB = random(0.5)
+const AB = random(Config.abTestPercentage)
 
 const WalletDeletedPopupText = ({ styles }) => (
   <View style={styles.wrapper}>

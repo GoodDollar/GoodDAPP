@@ -7,11 +7,15 @@ import { noop } from 'lodash'
 import Text from '../../../common/view/Text'
 import { CustomButton, Section, Wrapper } from '../../../common'
 
+// hooks
+import createABTesting from '../../../../lib/hooks/useABTesting'
+
 // utils
 import { getDesignRelativeHeight, getDesignRelativeWidth, isLargeDevice } from '../../../../lib/utils/sizes'
 import normalize from '../../../../lib/utils/normalizeText'
 import { withStyles } from '../../../../lib/styles'
 import { isBrowser } from '../../../../lib/utils/platform'
+import { FV_INSTRUCTIONS } from '../../../../lib/analytics/analytics'
 
 // assets
 import illustration from '../../../../assets/FRInstructions.png'
@@ -19,6 +23,8 @@ import illustration from '../../../../assets/FRInstructions.png'
 import QuestionMark from '../../../../assets/FaceVerification/FVQuestionMark.svg'
 import CheckMark from '../../../../assets/FaceVerification/CheckMark.svg'
 import { theme } from '../../../theme/styles'
+
+const { useABTesting } = createABTesting()
 
 const portrait = Platform.select({
   native: () => require('../../../../assets/FaceVerification/FVPortrait.png'),
@@ -113,8 +119,8 @@ const InstructionsB = ({ styles, onDismiss = noop, ready }) => (
   </Wrapper>
 )
 
-const Instructions = ({ styles, onDismiss = noop, ready = false, ab }) => {
-  const InstructionsComponent = ab === 'A' ? InstructionsA : InstructionsB
+const Instructions = ({ styles, onDismiss = noop, ready = false }) => {
+  const [InstructionsComponent] = useABTesting(InstructionsA, InstructionsB, FV_INSTRUCTIONS)
 
   return <InstructionsComponent styles={styles} onDismiss={onDismiss} ready={ready} />
 }

@@ -33,7 +33,8 @@ import Config from '../../../../config/config'
 import { Permissions } from '../../../permissions/types'
 import { showQueueDialog } from '../../../common/dialogs/showQueueDialog'
 import { fireEvent, FV_CAMERAPERMISSION, FV_CANTACCESSCAMERA, FV_INTRO } from '../../../../lib/analytics/analytics'
-import random from '../utils/random'
+
+import createABTesting from '../../../../lib/hooks/useABTesting'
 import useFaceTecSDK from '../hooks/useFaceTecSDK'
 
 // assets
@@ -41,8 +42,14 @@ import wait24hourIllustration from '../../../../assets/Claim/wait24Hour.svg'
 import FashionShootSVG from '../../../../assets/FaceVerification/FashionPhotoshoot.svg'
 
 const log = logger.child({ from: 'FaceVerificationIntro' })
+const { useABTesting } = createABTesting()
 
-const AB = random(Config.abTestPercentage)
+const commonTextStyles = {
+  textAlign: 'center',
+  color: 'primary',
+  fontSize: isLargeDevice ? 18 : 16,
+  lineHeight: 25,
+}
 
 const WalletDeletedPopupText = ({ styles }) => (
   <View style={styles.wrapper}>
@@ -61,6 +68,79 @@ const WalletDeletedPopupText = ({ styles }) => (
   </View>
 )
 
+const IntroScreenA = ({ styles, firstName, ready, onVerify, onLearnMore }) => (
+  <Wrapper>
+    <Section style={styles.topContainer} grow>
+      <View style={styles.mainContent}>
+        <Section.Title fontWeight="medium" textTransform="none" style={styles.mainTitle}>
+          {`${firstName},\nOnly a real live person\ncan claim G$’s`}
+        </Section.Title>
+        <View style={styles.illustration}>
+          <FaceVerificationSmiley />
+        </View>
+        <View>
+          <Separator width={2} />
+          <Text textAlign="center" style={styles.descriptionContainer}>
+            <Text {...commonTextStyles} fontWeight="bold">
+              {`Once in a while\n`}
+            </Text>
+            <Text {...commonTextStyles}>{`we'll need to take a short video of you\n`}</Text>
+            <Text {...commonTextStyles}>{`to prevent duplicate accounts.\n`}</Text>
+            <Text
+              {...commonTextStyles}
+              fontWeight="bold"
+              textDecorationLine="underline"
+              style={styles.descriptionUnderline}
+              onPress={onLearnMore}
+            >
+              {`Learn more`}
+            </Text>
+          </Text>
+          <Separator style={styles.bottomSeparator} width={2} />
+        </View>
+        <CustomButton style={styles.button} onPress={onVerify} disabled={!ready}>
+          OK, VERIFY ME
+        </CustomButton>
+      </View>
+    </Section>
+  </Wrapper>
+)
+
+const IntroScreenB = ({ styles, firstName, ready, onVerify, onLearnMore }) => (
+  <Wrapper>
+    <Section style={styles.topContainer} grow>
+      <View style={styles.mainContentB}>
+        <Section.Title fontWeight="bold" textTransform="none" style={styles.mainTitleB}>
+          {`${firstName},`}
+          <Section.Text fontWeight="normal" textTransform="none" fontSize={24} lineHeight={30}>
+            {'\nVerify you are a real\nlive person'}
+          </Section.Text>
+        </Section.Title>
+        <Section.Text fontSize={18} lineHeight={25} letterSpacing={0.18} style={styles.mainTextB}>
+          Your image is only used to prevent the creation of duplicate accounts and will never be transferred to any
+          third party
+        </Section.Text>
+        <Section.Text
+          fontWeight="bold"
+          fontSize={18}
+          lineHeight={26}
+          textDecorationLine="underline"
+          style={styles.learnMore}
+          onPress={onLearnMore}
+        >
+          Learn More
+        </Section.Text>
+        <View style={styles.illustrationB}>
+          <FashionShootSVG />
+        </View>
+        <CustomButton style={[styles.button]} onPress={onVerify} disabled={!ready}>
+          OK, VERIFY ME
+        </CustomButton>
+      </View>
+    </Section>
+  </Wrapper>
+)
+
 const IntroScreen = ({ styles, screenProps }) => {
   const store = GDStore.useStore()
   const { fullName } = store.get('profile')
@@ -68,6 +148,7 @@ const IntroScreen = ({ styles, screenProps }) => {
   const isValid = get(screenState, 'isValid', false)
 
   const navigateToHome = useCallback(() => navigateTo('Home'), [navigateTo])
+  const [Intro, ab] = useABTesting(IntroScreenA, IntroScreenB)
 
   const disposing = useDisposingState({
     enrollmentIdentifier: UserStorage.getFaceIdentifier(),
@@ -111,13 +192,6 @@ const IntroScreen = ({ styles, screenProps }) => {
     checkForCameraSupport()
   }, [checkForCameraSupport])
 
-  const commonTextStyles = {
-    textAlign: 'center',
-    color: 'primary',
-    fontSize: isLargeDevice ? 18 : 16,
-    lineHeight: 25,
-  }
-
   useFaceTecSDK() // early initialize
 
   useEffect(() => log.debug({ isIOS: isIOSWeb, isMobileSafari }), [])
@@ -126,84 +200,19 @@ const IntroScreen = ({ styles, screenProps }) => {
     if (isValid) {
       pop({ isValid: true })
     } else {
-      fireEvent(FV_INTRO, { ab: AB })
+      fireEvent(FV_INTRO, { ab })
     }
   }, [isValid])
 
-  const introScreenA = (
-    <Wrapper>
-      <Section style={styles.topContainer} grow>
-        <View style={styles.mainContent}>
-          <Section.Title fontWeight="medium" textTransform="none" style={styles.mainTitle}>
-            {`${getFirstWord(fullName)},\nOnly a real live person\ncan claim G$’s`}
-          </Section.Title>
-          <View style={styles.illustration}>
-            <FaceVerificationSmiley />
-          </View>
-          <View>
-            <Separator width={2} />
-            <Text textAlign="center" style={styles.descriptionContainer}>
-              <Text {...commonTextStyles} fontWeight="bold">
-                {`Once in a while\n`}
-              </Text>
-              <Text {...commonTextStyles}>{`we'll need to take a short video of you\n`}</Text>
-              <Text {...commonTextStyles}>{`to prevent duplicate accounts.\n`}</Text>
-              <Text
-                {...commonTextStyles}
-                fontWeight="bold"
-                textDecorationLine="underline"
-                style={styles.descriptionUnderline}
-                onPress={openPrivacy}
-              >
-                {`Learn more`}
-              </Text>
-            </Text>
-            <Separator style={styles.bottomSeparator} width={2} />
-          </View>
-          <CustomButton style={styles.button} onPress={handleVerifyClick} disabled={false !== disposing}>
-            OK, VERIFY ME
-          </CustomButton>
-        </View>
-      </Section>
-    </Wrapper>
+  return (
+    <Intro
+      styles={styles}
+      firstName={getFirstWord(fullName)}
+      onLearnMore={openPrivacy}
+      onVerify={handleVerifyClick}
+      ready={false === disposing}
+    />
   )
-
-  const introScreenB = (
-    <Wrapper>
-      <Section style={styles.topContainer} grow>
-        <View style={styles.mainContentB}>
-          <Section.Title fontWeight="bold" textTransform="none" style={styles.mainTitleB}>
-            {`${getFirstWord(fullName)},`}
-            <Section.Text fontWeight="normal" textTransform="none" fontSize={24} lineHeight={30}>
-              {'\nVerify you are a real\nlive person'}
-            </Section.Text>
-          </Section.Title>
-          <Section.Text fontSize={18} lineHeight={25} letterSpacing={0.18} style={styles.mainTextB}>
-            Your image is only used to prevent the creation of duplicate accounts and will never be transferred to any
-            third party
-          </Section.Text>
-          <Section.Text
-            fontWeight="bold"
-            fontSize={18}
-            lineHeight={26}
-            textDecorationLine="underline"
-            style={styles.learnMore}
-            onPress={openPrivacy}
-          >
-            Learn More
-          </Section.Text>
-          <View style={styles.illustrationB}>
-            <FashionShootSVG />
-          </View>
-          <CustomButton style={[styles.button]} onPress={handleVerifyClick} disabled={false !== disposing}>
-            OK, VERIFY ME
-          </CustomButton>
-        </View>
-      </Section>
-    </Wrapper>
-  )
-
-  return AB === 'A' ? introScreenA : introScreenB
 }
 
 IntroScreen.navigationOptions = {

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo } from 'react'
+import React, { useCallback, useMemo } from 'react'
 
 import Instructions from '../components/Instructions'
 
@@ -6,7 +6,6 @@ import UserStorage from '../../../../lib/gundb/UserStorage'
 import { useCurriedSetters } from '../../../../lib/undux/GDStore'
 import goodWallet from '../../../../lib/wallet/GoodWallet'
 import logger from '../../../../lib/logger/pino-logger'
-import Config from '../../../../config/config'
 
 import useFaceTecSDK from '../hooks/useFaceTecSDK'
 import useFaceTecVerification from '../hooks/useFaceTecVerification'
@@ -14,20 +13,15 @@ import useVerificationAttempts from '../hooks/useVerificationAttempts'
 
 import { MAX_ATTEMPTS_ALLOWED } from '../sdk/FaceTecSDK.constants'
 
-import random from '../utils/random'
-
 import {
   fireEvent,
   FV_GETREADY_ZOOM,
-  FV_INSTRUCTIONS,
   FV_PROGRESS_ZOOM,
   FV_START,
   FV_SUCCESS_ZOOM,
   FV_TRYAGAIN_ZOOM,
   FV_ZOOMFAILED,
 } from '../../../../lib/analytics/analytics'
-
-const AB = random(Config.abTestPercentage)
 
 const log = logger.child({ from: 'FaceVerification' })
 
@@ -150,11 +144,7 @@ const FaceVerification = ({ screenProps }) => {
     onError: sdkExceptionHandler,
   })
 
-  useEffect(() => {
-    fireEvent(FV_INSTRUCTIONS, { ab: AB })
-  }, [])
-
-  return <Instructions onDismiss={verifyFace} ready={initialized} ab={AB} />
+  return <Instructions onDismiss={verifyFace} ready={initialized} />
 }
 
 FaceVerification.navigationOptions = {

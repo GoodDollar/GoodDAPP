@@ -10,13 +10,7 @@ const createABTesting = (percentage = Config.abTestPercentage) => {
   const useABTesting = (componentA, componentB, event = null) => {
     const component = isCaseA ? componentA : componentB
 
-    useEffect(() => {
-      if (!event) {
-        return
-      }
-
-      fireEvent(event, { ab })
-    }, [])
+    useEffect(() => void (event && fireEvent(event, { ab })), [])
 
     return [component, ab]
   }

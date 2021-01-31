@@ -21,9 +21,6 @@ import QuestionMark from '../../../../assets/FaceVerification/FVQuestionMark.svg
 
 if (Platform.OS === 'web') {
   Image.prefetch(illustration)
-}
-
-if (Platform.OS === 'web') {
   Image.prefetch(portrait)
 }
 
@@ -103,11 +100,9 @@ const InstructionsB = ({ styles, onDismiss = noop }) => (
 )
 
 const Instructions = ({ styles, onDismiss = noop, ab }) => {
-  return ab === 'A' ? (
-    <InstructionsA styles={styles} onDismiss={onDismiss} />
-  ) : (
-    <InstructionsB styles={styles} onDismiss={onDismiss} />
-  )
+  const InstructionsComponent = ab === 'A' ? InstructionsA : InstructionsB
+
+  return <InstructionsComponent styles={styles} onDismiss={onDismiss} />
 }
 
 const getStylesFromProps = ({ theme }) => ({

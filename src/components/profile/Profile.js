@@ -6,12 +6,12 @@ import { createStackNavigator } from '../appNavigation/stackNavigation'
 import { Section, Text, UserAvatar, Wrapper } from '../common'
 import { withStyles } from '../../lib/styles'
 import { getDesignRelativeWidth } from '../../lib/utils/sizes'
+import RoundIconButton from '../common/buttons/RoundIconButton'
 import EditAvatar from './EditAvatar'
 import EditProfile from './EditProfile'
 import ProfileDataTable from './ProfileDataTable'
 import ProfilePrivacy from './ProfilePrivacy'
 import ViewAvatar from './ViewOrUploadAvatar'
-import CircleButtonWrapper from './CircleButtonWrapper'
 import VerifyEdit from './VerifyEdit'
 import VerifyEditCode from './VerifyEditCode'
 
@@ -31,7 +31,7 @@ const ProfileWrapper = props => {
   return (
     <Wrapper>
       <Section.Row justifyContent="space-between" alignItems="flex-start" style={styles.userDataAndButtonsRow}>
-        <CircleButtonWrapper
+        <RoundIconButton
           label={'Privacy'}
           iconName={'privacy'}
           iconSize={23}
@@ -39,7 +39,7 @@ const ProfileWrapper = props => {
           containerStyle={styles.iconLeft}
         />
 
-        <CircleButtonWrapper
+        <RoundIconButton
           label={'Edit'}
           iconName={'edit'}
           iconSize={25}

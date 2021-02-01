@@ -13,7 +13,7 @@ import SaveButtonDisabled from '../common/animations/SaveButton/SaveButtonDisabl
 import { fireEvent, PROFILE_UPDATE } from '../../lib/analytics/analytics'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
 import { useDebounce } from '../../lib/hooks/useDebouce'
-import CameraButton from './CameraButton'
+import RoundIconButton from '../common/buttons/RoundIconButton'
 import ProfileDataTable from './ProfileDataTable'
 
 const TITLE = 'Edit Profile'
@@ -176,8 +176,9 @@ const EditProfile = ({ screenProps, styles, navigation }) => {
           imageSize={avatarSize - 6}
           unknownStyle={styles.userAvatar}
         >
-          <CameraButton
-            icon="camera"
+          <RoundIconButton
+            iconSize={22}
+            iconName="camera"
             handleCameraPress={handleEditAvatar}
             containerStyle={{ zIndex: 10 }}
             style={{ zIndex: 10, top: -30, right: 15, position: 'absolute' }}

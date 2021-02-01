@@ -9,7 +9,7 @@ import { useErrorDialog } from '../../../lib/undux/utils/dialog'
 import InputFile from '../../common/form/InputFile'
 import logger from '../../../lib/logger/pino-logger'
 import { fireEvent, PROFILE_IMAGE } from '../../../lib/analytics/analytics'
-import RoundButton from '../CameraButton'
+import RoundIconButton from '../../common/buttons/RoundIconButton'
 import { useDebouncedOnPress } from '../../../lib/hooks/useOnPress'
 import openCropper from './openCropper'
 
@@ -78,8 +78,8 @@ const ViewOrUploadAvatar = props => {
   const HasAvatar = () => (
     <>
       <Section.Row style={styles.topButtons}>
-        <RoundButton icon={'trash'} handleCameraPress={handleClosePress} />
-        <RoundButton icon={'camera'} handleCameraPress={handleCameraPress} />
+        <RoundIconButton iconSize={22} iconName={'trash'} onPress={handleClosePress} />
+        <RoundIconButton iconSize={22} iconName={'camera'} onPress={handleCameraPress} />
       </Section.Row>
       <Section.Row style={styles.avatarRow}>
         <UserAvatar profile={profile} size={272} onPress={handleCameraPress} style={styles.avatarView} />
@@ -91,7 +91,7 @@ const ViewOrUploadAvatar = props => {
       <Section.Row style={[styles.topButtons, styles.singleTopButton]}>
         <InputFile
           Component={({ onPress }) => {
-            return <RoundButton icon={'camera'} handleCameraPress={onPress} />
+            return <RoundIconButton iconSize={22} iconName={'camera'} onPress={onPress} />
           }}
           onChange={handleAddAvatar}
           pickerOptions={pickerOptions}

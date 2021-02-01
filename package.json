@@ -7,8 +7,8 @@
   },
   "scripts": {
     "web": "react-app-rewired start",
-    "android": "ENVFILE=.env;npm run copy:gdfont && npm run animation:assets && react-native run-android",
-    "ios": "ENVFILE=.env;npm run animation:assets && react-native run-ios",
+    "android": "export ENVFILE=.env;npm run copy:gdfont && npm run animation:assets && react-native run-android",
+    "ios": "export ENVFILE=.env;npm run animation:assets && react-native run-ios",
     "start:native": "react-native start",
     "start": "serve -s -l $PORT build",
     "analyze:sme": "source-map-explorer 'build/static/js/*.js'",

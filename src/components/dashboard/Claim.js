@@ -121,11 +121,14 @@ const gbStyles = {
     paddingLeft: mainTheme.sizes.default,
     marginTop: 2,
     marginRight: 4,
+    flex: 0,
   },
   symbol: {
     letterSpacing: 0,
+    flex: 0,
+    paddingBottom: Platform.select({ web: 0, default: 5 }),
   },
-  value: { justifyContent: 'flex-start', alignItems: 'baseline' },
+  value: { justifyContent: 'flex-start', alignItems: Platform.select({ default: 'flex-end', web: 'baseline' }) },
 }
 const claimAmountFormatter = value => formatWithThousandsSeparator(weiToGd(value))
 

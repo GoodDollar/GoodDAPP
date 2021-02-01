@@ -179,6 +179,7 @@ const EditProfile = ({ screenProps, styles, navigation }) => {
           <CameraButton
             icon="camera"
             handleCameraPress={handleEditAvatar}
+            containerStyle={{ zIndex: 10 }}
             style={{ zIndex: 10, top: -30, right: 15, position: 'absolute' }}
           />
         </UserAvatar>

@@ -49,6 +49,8 @@ const InputFile = ({ Component, onChange }) => {
 const styles = {
   input: {
     opacity: 0,
+    width: 0,
+    height: 0,
   },
   label: {
     display: 'inline-block',

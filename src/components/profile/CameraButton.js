@@ -1,6 +1,5 @@
 // @flow
 import React from 'react'
-import { withStyles } from '../../lib/styles'
 import CircleButtonWrapper from './CircleButtonWrapper'
 
 type CameraButtonProps = {
@@ -13,18 +12,10 @@ const CameraButton = ({ icon, handleCameraPress, styles, style, noStyles, contai
   <CircleButtonWrapper
     iconSize={22}
     iconName={icon}
-    style={!noStyles && [styles.container, style]}
+    style={!noStyles && style}
     onPress={handleCameraPress}
     containerStyle={containerStyle}
   />
 )
 
-const getStylesFromProps = ({ theme }) => ({
-  container: {
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
-  },
-})
-
-export default withStyles(getStylesFromProps)(CameraButton)
+export default CameraButton

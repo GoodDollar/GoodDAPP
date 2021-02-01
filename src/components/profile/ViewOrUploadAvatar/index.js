@@ -9,7 +9,6 @@ import { useErrorDialog } from '../../../lib/undux/utils/dialog'
 import InputFile from '../../common/form/InputFile'
 import logger from '../../../lib/logger/pino-logger'
 import { fireEvent, PROFILE_IMAGE } from '../../../lib/analytics/analytics'
-import { getDesignRelativeWidth } from '../../../lib/utils/sizes'
 import RoundButton from '../CameraButton'
 import { useDebouncedOnPress } from '../../../lib/hooks/useOnPress'
 import openCropper from './openCropper'
@@ -76,42 +75,44 @@ const ViewOrUploadAvatar = props => {
 
   const goToProfile = useCallback(() => navigation.navigate('EditProfile'), [navigation])
 
+  const HasAvatar = () => (
+    <>
+      <Section.Row style={styles.topButtons}>
+        <RoundButton icon={'trash'} handleCameraPress={handleClosePress} />
+        <RoundButton icon={'camera'} handleCameraPress={handleCameraPress} />
+      </Section.Row>
+      <Section.Row style={styles.avatarRow}>
+        <UserAvatar profile={profile} size={272} onPress={handleCameraPress} style={styles.avatarView} />
+      </Section.Row>
+    </>
+  )
+  const NoAvatar = () => (
+    <>
+      <Section.Row style={[styles.topButtons, styles.singleTopButton]}>
+        <InputFile
+          Component={({ onPress }) => {
+            return <RoundButton icon={'camera'} handleCameraPress={onPress} />
+          }}
+          onChange={handleAddAvatar}
+          pickerOptions={pickerOptions}
+        />
+      </Section.Row>
+      <Section.Row style={styles.avatarRow}>
+        <InputFile
+          Component={({ onPress }) => {
+            return <UserAvatar profile={profile} size={272} style={styles.avatarView} onPress={onPress} />
+          }}
+          onChange={handleAddAvatar}
+          pickerOptions={pickerOptions}
+        />
+      </Section.Row>
+    </>
+  )
+
   return (
     <Wrapper>
       <Section style={styles.section}>
-        <Section.Stack style={{ alignSelf: 'center' }}>
-          {profile.avatar ? (
-            <>
-              <Section.Row style={{ width: '100%', zIndex: 10 }}>
-                <RoundButton icon={'trash'} style={styles.closeButton} handleCameraPress={handleClosePress} />
-                <RoundButton icon={'camera'} style={styles.cameraButton} handleCameraPress={handleCameraPress} />
-              </Section.Row>
-              <UserAvatar profile={profile} size={272} onPress={handleCameraPress} style={styles.avatarView} />
-            </>
-          ) : (
-            <>
-              <Section.Row style={{ width: '100%', zIndex: 10 }}>
-                <InputFile
-                  Component={({ onPress }) => {
-                    return <RoundButton icon={'camera'} style={styles.cameraButtonNewImg} handleCameraPress={onPress} />
-                  }}
-                  onChange={handleAddAvatar}
-                  pickerOptions={pickerOptions}
-                />
-              </Section.Row>
-              <InputFile
-                Component={({ onPress }) => {
-                  return <UserAvatar profile={profile} size={272} style={styles.avatarView} onPress={onPress} />
-                }}
-                onChange={handleAddAvatar}
-                pickerOptions={pickerOptions}
-              />
-              {/* <InputFile onChange={handleAddAvatar} pickerOptions={pickerOptions}>
-                <UserAvatar profile={profile} size={272} style={styles.avatarView} />
-              </InputFile> */}
-            </>
-          )}
-        </Section.Stack>
+        <Section.Stack style={{ alignSelf: 'center' }}>{profile.avatar ? <HasAvatar /> : <NoAvatar />}</Section.Stack>
         <Section.Stack grow style={styles.buttonsRow}>
           <CustomButton style={styles.doneButton} onPress={goToProfile}>
             Done
@@ -127,55 +128,29 @@ ViewOrUploadAvatar.navigationOptions = {
 }
 
 const getStylesFromProps = ({ theme }) => {
-  const { defaultDouble } = theme.sizes
-  const buttonGap = getDesignRelativeWidth(-30) / 2
-
   return {
     section: {
       flex: 1,
       position: 'relative',
-
-      // alignItems: 'center',
-      // justifyContent: 'center',
     },
-    cameraButtonContainer: {
-      zIndex: 1,
-    },
-    cameraButton: {
-      position: Platform.select({ web: 'static', default: 'relative' }),
-      marginTop: defaultDouble,
-      marginRight: buttonGap,
-    },
-    cameraButtonNewImgContainer: {
-      zIndex: 1,
-    },
-    cameraButtonNewImg: {
-      position: Platform.select({ web: 'static', default: 'relative' }),
-      marginTop: defaultDouble,
-      marginRight: buttonGap,
-    },
-    closeButton: {
-      zIndex: 1000000,
-
-      // right: 0,
-      position: Platform.select({ web: 'static', default: 'relative' }),
-
-      // top: 0,
-      marginTop: defaultDouble,
-
-      // alignSelf: 'flex-start',
-      marginLeft: buttonGap,
+    avatarRow: {
+      justifyContent: 'center',
     },
     avatarView: {
       zIndex: 0,
 
       marginTop: -32,
     },
+    topButtons: {
+      zIndex: 10,
+    },
+    singleTopButton: {
+      justifyContent: 'flex-end',
+    },
     buttonsRow: {
       justifyContent: 'flex-end',
       minHeight: 60,
       width: '100%',
-      zIndex: -1,
     },
     doneButton: {
       marginTop: 'auto',

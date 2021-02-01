@@ -12,6 +12,8 @@ import {
   isSafari as isSafariWeb,
   isTablet,
 } from 'mobile-device-detect'
+import DeviceInfo from 'react-native-device-info'
+
 import { env } from './env'
 import isWebApp from './isWebApp'
 
@@ -42,6 +44,8 @@ export const isAndroid = isAndroidWeb || isAndroidNative
 // if Platform.OS is 'web' (e.g. running on web), will return isBrowser flag from the device detect library.
 // otherwise (e.g. running on native) will return false (because library wrongly returns true in that case)
 export const isBrowser = isWeb ? isBrowserWeb : false
+
+export const isEmulator = isMobileNative && DeviceInfo.isEmulator()
 
 export const isCypress =
   !isMobileReactNative && 'undefined' !== typeof window && get(window, 'navigator.userAgent', '').includes('Cypress')

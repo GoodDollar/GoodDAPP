@@ -6,7 +6,7 @@ import useRealtimeProps from '../../../../lib/hooks/useRealtimeProps'
 import { ExceptionType, kindOfSDKIssue } from '../utils/kindOfTheIssue'
 
 import logger from '../../../../lib/logger/pino-logger'
-import { isE2ERunning } from '../../../../lib/utils/platform'
+import { isE2ERunning, isEmulator } from '../../../../lib/utils/platform'
 
 import FaceTecGlobalState from '../sdk/FaceTecGlobalState'
 import useCriticalErrorHandler from './useCriticalErrorHandler'
@@ -65,6 +65,12 @@ export default (eventHandlers = {}) => {
       try {
         // Initializing ZoOm
         log.debug('Initializing ZoomSDK')
+
+        // if cypress is running - do nothing and immediately call success callback
+        if (isE2ERunning || (await isEmulator)) {
+          handleInitialized()
+          return
+        }
         await FaceTecGlobalState.initialize()
 
         // Executing onInitialized callback
@@ -82,12 +88,6 @@ export default (eventHandlers = {}) => {
         // handling initialization exceptions
         handleException(exception)
       }
-    }
-
-    // if cypress is running - do nothing and immediately call success callback
-    if (isE2ERunning) {
-      handleInitialized()
-      return
     }
 
     const { faceTecCriticalError } = FaceTecGlobalState

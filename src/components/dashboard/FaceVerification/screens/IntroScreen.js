@@ -22,7 +22,7 @@ import logger from '../../../../lib/logger/pino-logger'
 import { getFirstWord } from '../../../../lib/utils/getFirstWord'
 import { getDesignRelativeHeight, getDesignRelativeWidth, isLargeDevice } from '../../../../lib/utils/sizes'
 import { withStyles } from '../../../../lib/styles'
-import { isBrowser, isE2ERunning, isIOSWeb, isMobileSafari } from '../../../../lib/utils/platform'
+import { isBrowser, isE2ERunning, isEmulator, isIOSWeb, isMobileSafari } from '../../../../lib/utils/platform'
 import { openLink } from '../../../../lib/utils/linking'
 import Config from '../../../../config/config'
 import { Permissions } from '../../../permissions/types'
@@ -91,10 +91,10 @@ const IntroScreen = ({ styles, screenProps }) => {
     onUnsupported: navigateToHome,
   })
 
-  const handleVerifyClick = useCallback(() => {
+  const handleVerifyClick = useCallback(async () => {
     // if cypress is running - just redirect to FR as we're skipping
     // zoom componet (which requires camera access) in this case
-    if (isE2ERunning) {
+    if (isE2ERunning || (await isEmulator)) {
       openFaceVerification()
       return
     }

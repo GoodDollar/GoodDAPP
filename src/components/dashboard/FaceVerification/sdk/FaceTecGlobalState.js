@@ -15,10 +15,9 @@ const FaceTecGlobalState = {
    * Convenience method to initialize the FaceTec SDK.
    */
   async initialize() {
-    let { faceTecSDKInitializing } = this
     const { faceTecLicenseKey, faceTecLicenseText, faceTecEncryptionKey } = Config
 
-    if (!faceTecSDKInitializing) {
+    if (!this.faceTecSDKInitializing) {
       // if not initializing - calling initialize sdk
       this.faceTecSDKInitializing = FaceTecSDK.initialize(
         faceTecLicenseKey,
@@ -28,7 +27,7 @@ const FaceTecGlobalState = {
     }
 
     // awaiting previous or current initialize call
-    await faceTecSDKInitializing
+    await this.faceTecSDKInitializing
   },
 }
 

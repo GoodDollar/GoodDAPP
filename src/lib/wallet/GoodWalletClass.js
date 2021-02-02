@@ -9,8 +9,6 @@ import ERC20ABI from '@gooddollar/goodcontracts/build/contracts/ERC20.min.json'
 import UBIABI from '@gooddollar/goodcontracts/stakingModel/build/contracts/UBIScheme.min.json'
 import SimpleDaiStaking from '@gooddollar/goodcontracts/stakingModel/build/contracts/SimpleDAIStaking.min.json'
 import InvitesABI from '@gooddollar/goodcontracts/upgradables/build/contracts/InvitesV1.min.json'
-import FaucetABI from '@gooddollar/goodcontracts/upgradables/build/contracts/FuseFaucet.min.json'
-
 import Web3 from 'web3'
 import { BN, toBN } from 'web3-utils'
 import abiDecoder from 'abi-decoder'
@@ -131,8 +129,6 @@ export class GoodWallet {
 
   invitesContract: Web3.eth.Contract
 
-  faucetContract: Web3.eth.Contract
-
   account: string
 
   accounts: Array<string>
@@ -232,14 +228,6 @@ export class GoodWallet {
           { from: this.account },
         )
         abiDecoder.addABI(InvitesABI.abi)
-
-        // faucet Contract
-        this.faucetContract = new this.wallet.eth.Contract(
-          FaucetABI.abi,
-          get(UpgradablesAddress, `${this.network}.FuseFaucet`),
-          { from: this.account },
-        )
-        abiDecoder.addABI(FaucetABI.abi)
 
         log.info('GoodWallet Ready.', { account: this.account })
       })
@@ -683,7 +671,7 @@ export class GoodWallet {
       const { message } = exception
 
       log.warn('checkEntitlement failed', message, exception)
-      throw exception
+      return 0
     }
   }
 
@@ -1252,45 +1240,25 @@ export class GoodWallet {
         }
       }
 
-      if (!topWallet) {
+      if (topWallet) {
+        log.info('no gas, asking for top wallet', { nativeBalance, required: wei, address: this.account })
+        const toppingRes = await API.verifyTopWallet()
+        const { data } = toppingRes
+        if (!data || data.ok !== 1) {
+          return {
+            ok: false,
+            error:
+              !data || (data.error && !~data.error.indexOf(`User doesn't need topping`)) || data.sendEtherOutOfSystem,
+          }
+        }
+        nativeBalance = await this.balanceOfNative()
         return {
-          ok: false,
+          ok: data.ok && nativeBalance > wei,
         }
       }
 
-      //self serve using faucet
-      if (await this.faucetContract.methods.canTop(this.account).call()) {
-        log.info('verifyHasGas using faucet...')
-        const toptx = this.faucetContract.methods.topWallet(this.account)
-        const ok = await this.sendTransaction(toptx)
-          .then(_ => true)
-          .catch(e => {
-            log.warn('verifyHasGas faucet failed', e.message, e)
-            return false
-          })
-        if (ok) {
-          return { ok }
-        }
-      }
-
-      //if we cant use faucet or it failed then fallback to adminwallet api
-      log.info('verifyHasGas no gas, asking for top wallet from server', {
-        nativeBalance,
-        required: wei,
-        address: this.account,
-      })
-      const toppingRes = await API.verifyTopWallet()
-      const { data } = toppingRes
-      if (!data || data.ok !== 1) {
-        return {
-          ok: false,
-          error:
-            !data || (data.error && !~data.error.indexOf(`User doesn't need topping`)) || data.sendEtherOutOfSystem,
-        }
-      }
-      nativeBalance = await this.balanceOfNative()
       return {
-        ok: data.ok && nativeBalance > wei,
+        ok: false,
       }
     } catch (e) {
       log.warn('verifyHasGas:', e.message, e, { wei })

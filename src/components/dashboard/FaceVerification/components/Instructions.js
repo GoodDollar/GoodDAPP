@@ -28,10 +28,8 @@ const { useABTesting } = createABTesting()
 
 const portrait = Platform.select({
   native: () => require('../../../../assets/FaceVerification/FVPortrait.png'),
-  default: () => require('../../../../assets/FaceVerification/FVPortrait@2x.png'),
+  default: () => require('../../../../assets/FaceVerification/FVPortrait2x.png'),
 })()
-
-// import portrait from '../../../../assets/FaceVerification/FVPortrait.png'
 
 if (Platform.OS === 'web') {
   Image.prefetch(illustration)

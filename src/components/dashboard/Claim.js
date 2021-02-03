@@ -621,7 +621,7 @@ const Claim = props => {
               style={styles.leftGrayBox}
             />
             <GrayBox
-              title={'Interest\ngenerated today'}
+              title={'Interest generated\nthis week'}
               value={formatWithabbreviations(interestCollected)}
               symbol={'DAI'}
             />

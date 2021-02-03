@@ -687,12 +687,13 @@ export class GoodWallet {
     }
   }
 
+  // eslint-disable-next-line require-await
   async getAvailableDistribution(): Promise<number> {
     try {
-      let currentDay = await this.UBIContract.methods.currentDay().call()
-      currentDay = currentDay.toNumber()
-      const dailyUBIHistory = await this.UBIContract.methods.dailyUBIHistory(currentDay).call()
-      return dailyUBIHistory.openAmount.toNumber()
+      return this.UBIContract.methods
+        .dailyCyclePool()
+        .call()
+        .then(_ => _.toNumber())
     } catch (exception) {
       const { message } = exception
       log.warn('getTodayDistribution failed', message, exception)

@@ -6,7 +6,7 @@ function Torus(Config, options) {
   const baseUrl = `${publicUrl}/torus/`
 
   // as i remember baseUrl is web only - please re-check this
-  return new DirectWebSDK({ ...options, baseUrl })
+  return new DirectWebSDK({ ...options, baseUrl, uxMode: 'popup' })
 }
 
 export default Torus

@@ -262,10 +262,12 @@ const Dashboard = props => {
     const { paymentCode, event } = params
 
     if (paymentCode) {
+      //payment link (from send)
       handleWithdraw(params)
     } else if (event) {
       showNewFeedEvent(params)
     } else {
+      //payment request (from receive)
       checkCode(params)
     }
   }

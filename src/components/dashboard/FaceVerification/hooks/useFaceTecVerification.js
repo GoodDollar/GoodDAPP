@@ -4,7 +4,7 @@ import { assign, noop } from 'lodash'
 
 // logger & utils
 import logger from '../../../../lib/logger/pino-logger'
-import { isE2ERunning, isMobileNative } from '../../../../lib/utils/platform'
+import { isAndroidNative, isE2ERunning } from '../../../../lib/utils/platform'
 
 // Zoom SDK reference & helpers
 import api from '../api/FaceVerificationApi'
@@ -55,7 +55,7 @@ export default (options = null) => {
     const [onUIReady, onCaptureDone, onRetry, onComplete, onError, getMaxRetries] = accessors
 
     // if cypress is running
-    if (isE2ERunning || isMobileNative) {
+    if (isE2ERunning || isAndroidNative) {
       try {
         // don't start session, just call enroll with fake data
         // to whitelist user on server

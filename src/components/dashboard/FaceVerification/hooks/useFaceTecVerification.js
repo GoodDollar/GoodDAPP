@@ -55,7 +55,8 @@ export default (options = null) => {
     const isDeviceEmulated = await isEmulator()
 
     // if cypress is running
-    if (isE2ERunning || isEmu || isMobileNative) {
+    // isMobileNative is temporary check, will be removed once we'll deal with Zoom on native
+    if (isE2ERunning || isDeviceEmulated || isMobileNative) {
       log.debug('skipping fv ui for non real devices', { isMobileNative, isE2ERunning, isEmu })
       try {
         // don't start session, just call enroll with fake data

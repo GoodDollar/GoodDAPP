@@ -57,7 +57,7 @@ export default (options = null) => {
     // if cypress is running
     // isMobileNative is temporary check, will be removed once we'll deal with Zoom on native
     if (isE2ERunning || isDeviceEmulated || isMobileNative) {
-      log.debug('skipping fv ui for non real devices', { isMobileNative, isE2ERunning, isEmu })
+      log.debug('skipping fv ui for non real devices', { isMobileNative, isE2ERunning, isDeviceEmulated })
       try {
         // don't start session, just call enroll with fake data
         // to whitelist user on server

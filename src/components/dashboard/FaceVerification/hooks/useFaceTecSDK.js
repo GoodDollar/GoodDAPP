@@ -55,26 +55,21 @@ export default (eventHandlers = {}) => {
       log.error('Zoom initialization failed', message, exception)
     }
 
-    // Helper for handle initialzied state
-    const handleInitialized = () => {
-      onInitialized()
-      setInitialized(true)
-    }
-
     const initializeSdk = async () => {
       try {
         // Initializing ZoOm
         log.debug('Initializing ZoomSDK')
 
+        const isDeviceEmulated = await isEmulator
+
         // if cypress is running - do nothing and immediately call success callback
-        if (isE2ERunning || (await isEmulator)) {
-          handleInitialized()
-          return
+        if (!isE2ERunning && !isDeviceEmulated) {
+          await FaceTecGlobalState.initialize()
         }
-        await FaceTecGlobalState.initialize()
 
         // Executing onInitialized callback
-        handleInitialized()
+        onInitialized()
+        setInitialized(true)
         log.debug('ZoomSDK is ready')
       } catch (exception) {
         // the following code is needed to categorize exceptions

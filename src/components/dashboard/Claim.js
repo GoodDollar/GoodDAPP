@@ -138,7 +138,7 @@ const ClaimAmountBox = ({ dailyUbi }) => {
     return null
   }
 
-  //for native we dont have translate 50%, so we get the width from the rendering event onLayout
+  //for native we don't have translate 50%, so we get the width from the rendering event onLayout
   const updateSize = event => {
     if (isMobileNative === false) {
       return
@@ -252,7 +252,7 @@ const Claim = props => {
   // Format transformer function for claimed G$ amount
   const extraInfoAmountFormatter = number => formatWithSIPrefix(weiToGd(number))
 
-  // if we returned from facerecoginition then the isValid param would be set
+  // if we returned from face recognition then the isValid param would be set
   // this happens only on first claim
   const evaluateFRValidity = async () => {
     const isValid = screenProps.screenState && screenProps.screenState.isValid
@@ -285,7 +285,7 @@ const Claim = props => {
   }
 
   const init = async () => {
-    // hack to make unit test pass, activityindicator in claim button cuasing
+    // hack to make unit test pass, activity indicator in claim button causing
     if (Config.nodeEnv !== 'test') {
       setLoading(true)
     }
@@ -452,7 +452,7 @@ const Claim = props => {
           })
         }
 
-        //reset dailyUBI so statistics are shown after successfull claim
+        //reset dailyUBI so statistics are shown after successful claim
         setDailyUbi(0)
 
         showDialog({
@@ -624,7 +624,7 @@ const Claim = props => {
               style={styles.leftGrayBox}
             />
             <GrayBox
-              title={'Interest\ngenerated today'}
+              title={'Interest generated\nthis week'}
               value={formatWithabbreviations(interestCollected)}
               symbol={'DAI'}
             />

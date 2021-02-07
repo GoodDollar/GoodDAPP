@@ -80,7 +80,7 @@ export const FaceTecSDK = new class {
   async initializationAttempt(licenseKey, encryptionKey, licenseText) {
     const { sdk, logger } = this
     const { NeverInitialized, KeyExpiredOrInvalid } = FaceTecSDKStatus
-    const license = parseLicense(licenseKey)
+    const license = parseLicense(licenseText)
 
     logger.debug('FaceTec SDK initialization attempt', { licenseKey, encryptionKey, license })
 

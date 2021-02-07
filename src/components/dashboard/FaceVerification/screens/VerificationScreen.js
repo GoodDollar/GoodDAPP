@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo } from 'react'
+import React, { useCallback, useMemo } from 'react'
 
 import Instructions from '../components/Instructions'
 
@@ -16,7 +16,6 @@ import { MAX_ATTEMPTS_ALLOWED } from '../sdk/FaceTecSDK.constants'
 import {
   fireEvent,
   FV_GETREADY_ZOOM,
-  FV_INSTRUCTIONS,
   FV_PROGRESS_ZOOM,
   FV_START,
   FV_SUCCESS_ZOOM,
@@ -63,18 +62,18 @@ const FaceVerification = ({ screenProps }) => {
     [trackAttempt],
   )
 
-  // FaceTecSDK session completition handler
+  // FaceTecSDK session completions handler
   const completionHandler = useCallback(
     async status => {
       log.debug('FaceVerification completed', { status })
 
       const isCitizen = await goodWallet.isCitizen()
 
-      // if session was successfull
+      // if session was successful
       // 1. resetting attempts
       resetAttempts()
 
-      // 2. whitelistening user
+      // 2. whitelisting user
       setIsCitizen(isCitizen)
 
       // 3. returning success to the caller
@@ -144,10 +143,6 @@ const FaceVerification = ({ screenProps }) => {
   const [initialized] = useFaceTecSDK({
     onError: sdkExceptionHandler,
   })
-
-  useEffect(() => {
-    fireEvent(FV_INSTRUCTIONS)
-  }, [])
 
   return <Instructions onDismiss={verifyFace} ready={initialized} />
 }

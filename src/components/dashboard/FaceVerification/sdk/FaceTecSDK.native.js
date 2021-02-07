@@ -1,5 +1,5 @@
 // @flow
-import { noop, over } from 'lodash'
+import { assign, noop, over } from 'lodash'
 
 import FaceTec, { FaceTecUxEvent } from 'react-native-facetec'
 
@@ -14,14 +14,15 @@ export { FaceTecSDKStatus, FaceTecSessionStatus } from 'react-native-facetec'
 
 // sdk class
 export const FaceTecSDK = new class {
-  constructor(sdk, logger) {
-    this.sdk = sdk
-    this.logger = logger
+  constructor(Config, sdk, logger) {
+    const { serverUrl, faceVerificationRequestTimeout } = Config
+
+    assign(this, { sdk, logger, serverUrl })
+    this.requestTimeout = faceVerificationRequestTimeout
   }
 
   async initialize(licenseKey, encryptionKey = null, licenseText = null) {
-    const { sdk, logger } = this
-    const { serverUrl } = Config
+    const { sdk, logger, serverUrl } = this
     const license = parseLicense(licenseText)
 
     try {
@@ -35,7 +36,7 @@ export const FaceTecSDK = new class {
   }
 
   async faceVerification(enrollmentIdentifier, sessionOptions = null) {
-    const { sdk, logger } = this
+    const { sdk, logger, requestTimeout } = this
     // eslint-disable-next-line no-undef
     const { UI_READY, CAPTURE_DONE, FV_RETRY } = FaceTecUxEvent
     const { onUIReady = noop, onCaptureDone = noop, onRetry = noop, maxRetries = MAX_RETRIES_ALLOWED } =
@@ -50,7 +51,7 @@ export const FaceTecSDK = new class {
     ]
 
     try {
-      return await sdk.enroll(enrollmentIdentifier, maxRetries)
+      return await sdk.enroll(enrollmentIdentifier, maxRetries, requestTimeout)
     } catch (exception) {
       const { message } = exception
 
@@ -62,4 +63,4 @@ export const FaceTecSDK = new class {
       over(subscriptions)()
     }
   }
-}(FaceTec.sdk, logger.child({ from: 'FaceTecSDK.native' })) // eslint-disable-line
+}(Config, FaceTec.sdk, logger.child({ from: 'FaceTecSDK.native' })) // eslint-disable-line

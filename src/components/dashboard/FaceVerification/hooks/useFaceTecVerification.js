@@ -52,8 +52,7 @@ export default (options = null) => {
     // destructuring accessors keeping theirs names the
     // same like in the props for avoid code modifications
     const [onUIReady, onCaptureDone, onRetry, onComplete, onError, getMaxRetries] = accessors
-
-    const isEmu = await isEmulator
+    const isDeviceEmulated = await isEmulator()
 
     // if cypress is running
     if (isE2ERunning || isEmu || isMobileNative) {

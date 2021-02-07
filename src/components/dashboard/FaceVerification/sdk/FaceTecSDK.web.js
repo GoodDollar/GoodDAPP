@@ -80,7 +80,7 @@ export const FaceTecSDK = new class {
   async initializationAttempt(licenseKey, encryptionKey, licenseText) {
     const { sdk, logger } = this
     const { NeverInitialized, KeyExpiredOrInvalid } = FaceTecSDKStatus
-    const license = parseLicense(licenseKey)
+    const license = parseLicense(licenseText)
 
     logger.debug('FaceTec SDK initialization attempt', { licenseKey, encryptionKey, license })
 
@@ -142,8 +142,7 @@ export const FaceTecSDK = new class {
       NeverInitialized !== sdkStatus
         ? null
         : // handling the case when we're trying to run SDK on emulated device
-          "Emulated device has been detected, SDK not initialized.  " +
-            'FaceTecSDK could be run on real devices only',
+          'Emulated device has been detected, SDK not initialized. FaceTecSDK could be run on real devices only',
     )
   }
 

@@ -89,7 +89,7 @@ const styles = ({ theme }) => {
 export const ShareButtonStyled = withStyles(styles)(ShareButton)
 
 export const ShareButtonAnimated = ({ type, shareObject, onShareOrCopy, ...props }) => {
-  type = type || !isSharingAvailable ? 'share' : 'copy'
+  type = type || isSharingAvailable ? 'share' : 'copy'
   const shareOrCopy =
     isSharingAvailable || isString(shareObject) ? shareObject : [shareObject.message, shareObject.url].join('\n')
   const shareHandler = useNativeSharing(shareOrCopy, { onSharePress: onShareOrCopy })

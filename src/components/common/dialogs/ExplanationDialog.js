@@ -139,6 +139,7 @@ const mapStylesToProps = ({ theme }) => ({
   },
   description: {
     fontSize: normalizeText(24),
+    lineHeight: normalizeText(26),
     marginBottom: theme.paddings.defaultMargin * 3,
   },
   buttonsContainer: {

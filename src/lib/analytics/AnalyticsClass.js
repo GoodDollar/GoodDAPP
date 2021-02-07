@@ -5,6 +5,7 @@ import {
   forIn,
   get,
   isEmpty,
+  isError,
   isNumber,
   isString,
   isUndefined,
@@ -16,12 +17,10 @@ import {
   values,
 } from 'lodash'
 
-import isError from '@stdlib/assert/is-error'
-import clone from '@stdlib/utils/copy'
-
 import { isMobileReactNative } from '../utils/platform'
+
+import { cloneErrorObject, ExceptionCategory } from '../logger/exceptions'
 import { LogEvent } from '../logger/pino-logger'
-import { ExceptionCategory } from '../logger/exceptions'
 import { ANALYTICS_EVENT, ERROR_LOG } from './constants'
 
 export class AnalyticsClass {
@@ -375,7 +374,7 @@ export class AnalyticsClass {
     }
 
     if (isError(errorObj)) {
-      errorToPassIntoLog = clone(errorObj)
+      errorToPassIntoLog = cloneErrorObject(errorObj)
       errorToPassIntoLog.message = `${logMessage}: ${errorObj.message}`
     } else {
       errorToPassIntoLog = new Error(logMessage)

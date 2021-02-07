@@ -22,8 +22,12 @@ import Illustration from '../../../assets/Auth/torusIllustration.svg'
 import config from '../../../config/config'
 import Section from '../../common/layout/Section'
 import SimpleStore from '../../../lib/undux/SimpleStore'
-import { getDesignRelativeHeight, getDesignRelativeWidth, getMaxDeviceHeight } from '../../../lib/utils/sizes'
-import { isSmallDevice } from '../../../lib/utils/mobileSizeDetect'
+import {
+  getDesignRelativeHeight,
+  getDesignRelativeWidth,
+  getMaxDeviceHeight,
+  isSmallDevice,
+} from '../../../lib/utils/sizes'
 import Recover from '../../signin/Mnemonics'
 import normalizeText from '../../../lib/utils/normalizeText'
 import NavBar from '../../appNavigation/NavBar'
@@ -194,7 +198,6 @@ welcome.navigationOptions = {
 }
 
 const routes = {
-  Welcome: welcome,
   Auth: AuthType,
   PrivacyPolicyAndTerms,
   PrivacyPolicy,
@@ -206,5 +209,5 @@ if (config.enableSelfCustody) {
 }
 
 export default createStackNavigator(routes, {
-  backRouteName: 'Welcome',
+  backRouteName: 'Auth',
 })

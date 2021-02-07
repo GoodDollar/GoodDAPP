@@ -168,6 +168,7 @@ export default (props = {}) => {
         action: () => {
           fireEvent(LOGOUT)
           AsyncStorage.clear()
+          AsyncStorage.setItem('isFirstTime', false) //dont show welcome intro next time
           slideOut()
           restart('/')
         },

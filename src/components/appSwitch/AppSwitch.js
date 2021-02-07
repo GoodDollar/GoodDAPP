@@ -147,7 +147,7 @@ const AppSwitch = (props: LoadingProps) => {
    * Check's users' current auth status
    * @returns {Promise<void>}
    */
-  const initialize = async isLoggedInCitizen => {
+  const initialize = async () => {
     AsyncStorage.setItem('GD_version', 'phase' + config.phase)
 
     const regMethod = (await AsyncStorage.getItem(GD_USER_MASTERSEED).then(_ => !!_))
@@ -158,15 +158,13 @@ const AppSwitch = (props: LoadingProps) => {
     const email = await userStorage.getProfileFieldValue('email')
     identifyWith(email, undefined)
 
-    if (isLoggedInCitizen) {
-      //if user has < 250000 gwei then he can request topwallet
-      goodWallet.verifyHasGas(1e9 * 250000).catch(e => {
-        const message = getErrorMessage(e)
-        const exception = new Error(message)
+    //if user both whitelisted and not has < 250000 gwei then he can request topwallet
+    goodWallet.verifyHasGas(1e9 * 250000).catch(e => {
+      const message = getErrorMessage(e)
+      const exception = new Error(message)
 
-        log.error('verifyTopWallet failed', message, exception)
-      })
-    }
+      log.error('verifyTopWallet failed', message, exception)
+    })
   }
 
   const init = async () => {
@@ -186,7 +184,7 @@ const AppSwitch = (props: LoadingProps) => {
       const identifier = goodWallet.getAccountForType('login')
       identifyWith(undefined, identifier)
 
-      initialize(isLoggedInCitizen)
+      initialize()
       runUpdates()
       showOutOfGasError(props)
 

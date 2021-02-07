@@ -1,4 +1,6 @@
-import { fromPairs, range } from 'lodash'
+import { cloneDeep, fromPairs, has, keys, range } from 'lodash'
+
+import { propertyDescriptor } from '../utils/object'
 
 export const ExceptionCategory = {
   Human: 'human',
@@ -33,4 +35,42 @@ export const decorate = (exception, withCode) => {
   }
 
   return `Sorry, something unexpected happened, please try again. \nError: ${codeString}`
+}
+
+export const cloneErrorObject = exception => {
+  // Create a new error...
+  const err = new exception.constructor(exception.message)
+
+  // If a `stack` property is present, copy it over...
+  if (exception.stack) {
+    err.stack = exception.stack
+  }
+
+  // Node.js specific (system errors)...
+  if (exception.code) {
+    err.code = exception.code
+  }
+
+  if (exception.errno) {
+    err.errno = exception.errno
+  }
+
+  if (exception.syscall) {
+    err.syscall = exception.syscall
+  }
+
+  // Any enumerable properties...
+  const errKeys = keys(exception)
+
+  for (let key of errKeys) {
+    const desc = propertyDescriptor(exception, key)
+
+    if (has(desc, 'value')) {
+      desc.value = cloneDeep(exception[key])
+    }
+
+    Object.defineProperty(exception, key, desc)
+  }
+
+  return err
 }

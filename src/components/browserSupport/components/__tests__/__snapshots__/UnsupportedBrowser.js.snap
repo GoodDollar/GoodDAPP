@@ -28,10 +28,11 @@ exports[`UnsupportedBrowser matches snapshot 1`] = `
       Oops! This browser isn't supported
     </div>
     <div
-      className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1x35g6 r-fontWeight-1it3c9n r-lineHeight-hbpseb r-marginBottom-1peese0 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+      className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1x35g6 r-fontWeight-1it3c9n r-lineHeight-eaezby r-marginBottom-1peese0 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
       dir="auto"
     >
-      Please switch to Chrome or Safari
+      For best experience
+please switch to Chrome or Safari
     </div>
     <div
       className="css-view-1dbjc4n r-display-6koalj r-flexDirection-18u37iz r-justifyContent-17s6mgv r-paddingLeft-gy4na3 r-paddingRight-9aemit"

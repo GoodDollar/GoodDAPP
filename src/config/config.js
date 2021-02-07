@@ -58,10 +58,10 @@ const Config = {
   infuraKey: env.REACT_APP_INFURA_KEY,
   network: env.REACT_APP_NETWORK || 'fuse',
   networkMainnet: env.REACT_APP_NETWORK_MAINNET || 'fuse-mainnet',
-  interestCollectedInterval: env.REACT_APP_INTEREST_BLOCKS_INTERVAL || 5760, // default is 24H
+  interestCollectedInterval: env.REACT_APP_INTEREST_BLOCKS_INTERVAL || 5760 * 7, // default is 1Week
   marketUrl: env.REACT_APP_MARKET_URL || 'https://www.facebook.com/groups/gooddollarmarketplace',
   torusEnabled: env.REACT_APP_USE_TORUS === 'true',
-  torusNetwork: env.REACT_APP_TORUS_NETWORK || 'ropsten',
+  torusNetwork: env.REACT_APP_TORUS_NETWORK || 'testnet',
   torusProxyContract: env.REACT_APP_TORUS_PROXY_CONTRACT || '0x4023d2a0D330bF11426B12C6144Cfb96B7fa6183',
   enableSelfCustody: env.REACT_APP_ENABLE_SELF_CUSTODY === 'true',
   googleClientId: env.REACT_APP_GOOGLE_CLIENT_ID,
@@ -74,6 +74,7 @@ const Config = {
   faceTecEncryptionKey: fixNL(env.REACT_APP_ZOOM_ENCRYPTION_KEY),
   faceTecLicenseKey: env.REACT_APP_ZOOM_LICENSE_KEY,
   faceTecLicenseText: fixNL(env.REACT_APP_ZOOM_LICENSE_TEXT),
+  faceVerificationRequestTimeout: env.REACT_APP_ZOOM_REQUEST_TIMEOUT || 60000,
   faceVerificationMaxAttemptsAllowed: Number(env.REACT_APP_FACE_VERIFICATION_ATTEMPTS || 3),
   faceVerificationPrivacyUrl:
     env.REACT_APP_FACE_VERIFICATION_PRIVACY_URL ||
@@ -106,6 +107,7 @@ const Config = {
   torusGoogleAuth0: env.REACT_APP_TORUS_GOOGLEAUTH0 || 'google-auth0-gooddollar',
   torusAuth0SMS: env.REACT_APP_TORUS_AUTH0SMS || 'gooddollar-auth0-sms-passwordless',
   torusEmailEnabled: env.REACT_APP_TORUS_AUTH0EMAIL_ENABLED === 'true',
+  abTestPercentage: env.REACT_APP_AB_TEST_PERCENTAGE || 0.5,
   alchemyKey,
   ethereum: {
     '1': {

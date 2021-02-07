@@ -3,6 +3,7 @@ import axios from 'axios'
 import { assign, get, isError, isObject } from 'lodash'
 
 import API from '../../../../lib/API/api'
+import Config from '../../../../config/config'
 import logger from '../../../../lib/logger/pino-logger'
 import { unexpectedErrorMessage } from '../sdk/FaceTecSDK.constants'
 
@@ -15,9 +16,14 @@ class FaceVerificationApi {
 
   lastCancelToken: any = null
 
-  constructor(rootApi: typeof API, logger: any) {
-    this.rootApi = rootApi
+  requestTimeout: any = null
+
+  constructor(config: typeof Config, rootApi: typeof API, logger: any) {
+    const { faceVerificationRequestTimeout } = config
+
     this.logger = logger
+    this.rootApi = rootApi
+    this.requestTimeout = faceVerificationRequestTimeout
   }
 
   async issueSessionToken(): Promise<string> {
@@ -47,7 +53,7 @@ class FaceVerificationApi {
     payload: FaceVerificationPayload,
     progressSubscription?: ({ loaded: number, total: number }) => void,
   ): Promise<FaceVerificationResponse> {
-    const { rootApi, logger } = this
+    const { rootApi, logger, requestTimeout } = this
     const { sessionId, ...faceScan } = payload
     const lastCancelToken = axios.CancelToken.source()
 
@@ -57,6 +63,7 @@ class FaceVerificationApi {
     }
 
     const axiosConfig = {
+      timeout: requestTimeout,
       cancelToken: lastCancelToken.token,
       onUploadProgress: progressSubscription,
     }
@@ -172,4 +179,4 @@ class FaceVerificationApi {
   }
 }
 
-export default new FaceVerificationApi(API, logger.child({ from: 'FaceVerificationApi' }))
+export default new FaceVerificationApi(Config, API, logger.child({ from: 'FaceVerificationApi' }))

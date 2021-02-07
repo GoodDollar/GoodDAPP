@@ -17,7 +17,6 @@ import { isMobile } from '../../lib/utils/platform'
 import { fireEvent, INVITE_HOWTO, INVITE_SHARE } from '../../lib/analytics/analytics'
 import Config from '../../config/config'
 import { generateShareObject, isSharingAvailable } from '../../lib/share'
-import AsyncStorage from '../../lib/utils/asyncStorage'
 import userStorage from '../../lib/gundb/UserStorage'
 import ModalLeftBorder from '../common/modal/ModalLeftBorder'
 import { useCollectBounty, useInviteCode, useInvited } from './useInvites'
@@ -363,7 +362,6 @@ const Invite = () => {
     //reset state for rewards icon in navbar
     if (inviteState.pending || inviteState.approved) {
       userStorage.userProperties.set('lastInviteState', inviteState)
-      AsyncStorage.setItem('GD_lastInviteState', inviteState)
     }
   }, [inviteState])
 

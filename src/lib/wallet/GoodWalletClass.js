@@ -619,7 +619,9 @@ export class GoodWallet {
 
   async getNextClaimTime(): Promise<any> {
     try {
-      const hasClaim = await this.checkEntitlement().then(_ => _.toNumber())
+      const hasClaim = await this.checkEntitlement()
+        .then(_ => _.toNumber())
+        .catch(e => 0)
 
       //if has current available amount to claim then he can claim  immediatly
       if (hasClaim > 0) {
@@ -628,7 +630,9 @@ export class GoodWallet {
 
       const startRef = await this.UBIContract.methods.periodStart.call().then(_ => moment(_.toNumber() * 1000).utc())
       const curDay = await this.UBIContract.methods.currentDay.call().then(_ => _.toNumber())
-      startRef.add(curDay + 1, 'days')
+      if (startRef.isBefore(moment().utc())) {
+        startRef.add(curDay + 1, 'days')
+      }
       return [startRef.valueOf(), 0]
     } catch (e) {
       log.error('getNextClaimTime failed', e.message, e, { category: ExceptionCategory.Blockhain })
@@ -667,7 +671,7 @@ export class GoodWallet {
       const { message } = exception
 
       log.warn('checkEntitlement failed', message, exception)
-      throw exception
+      return 0
     }
   }
 
@@ -683,12 +687,13 @@ export class GoodWallet {
     }
   }
 
+  // eslint-disable-next-line require-await
   async getAvailableDistribution(): Promise<number> {
     try {
-      let currentDay = await this.UBIContract.methods.currentDay().call()
-      currentDay = currentDay.toNumber()
-      const dailyUBIHistory = await this.UBIContract.methods.dailyUBIHistory(currentDay).call()
-      return dailyUBIHistory.openAmount.toNumber()
+      return this.UBIContract.methods
+        .dailyCyclePool()
+        .call()
+        .then(_ => _.toNumber())
     } catch (exception) {
       const { message } = exception
       log.warn('getTodayDistribution failed', message, exception)

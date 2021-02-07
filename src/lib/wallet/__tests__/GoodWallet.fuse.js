@@ -2,16 +2,9 @@ import { GoodWallet } from '../GoodWalletClass'
 import adminWallet from './__util__/AdminWalletV1'
 
 // eslint-disable-next-line require-await
-const nextDay = async () =>
-  adminWallet.web3.currentProvider.send(
-    {
-      jsonrpc: '2.0',
-      method: 'evm_increaseTime',
-      params: [60 * 60 * 24],
-      id: new Date().getTime(),
-    },
-    () => {},
-  )
+const nextDay = async () => {
+  return adminWallet.web3.currentProvider.send('evm_increaseTime', [60 * 60 * 24])
+}
 
 describe('GoodWalletShare/ReceiveTokens', () => {
   jest.setTimeout(120000)

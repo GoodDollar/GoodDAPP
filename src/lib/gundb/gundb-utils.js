@@ -43,12 +43,20 @@ const fetchKey = memoize(async (path, node) => {
   const user = node.back(-1).user()
   const pair = user.pair()
 
-  const encryptedKey = await user
+  let encryptedKey = await user
     .get('trust')
     .get(pair.pub)
     .get(path)
     .then()
 
+  if (encryptedKey == null) {
+    //retry fetch and increase wait
+    encryptedKey = await user
+      .get('trust')
+      .get(pair.pub)
+      .get(path)
+      .then(null, 500)
+  }
   const secureKey = await SEA.decrypt(encryptedKey, pair)
 
   if (!secureKey) {

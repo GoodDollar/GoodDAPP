@@ -54,8 +54,9 @@ const getEmailErrorMessage = (email?: string) => {
  */
 const getMobileErrorMessage = (mobile?: string) => {
   if (!mobile) {
-    return 'Mobile is required'
+    return ''
   }
+
   if (!isMobilePhone(mobile)) {
     return 'Please enter a valid phone format'
   }

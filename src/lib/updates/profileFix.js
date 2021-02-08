@@ -31,21 +31,26 @@ const checkProfile = async (lastUpdate, prevVersion, log) => {
         Promise.race([
           // set retry & timeout for each field separately
           flushField(field),
-          timeout(5000, `fixProfile: '${field}' field flush timeout`),
-        ]),
+          timeout(1000, `fixProfile: '${field}' field flush timeout`),
+        ])
+          .then(_ => true)
+          .catch(e => e.message),
       2,
     )
 
   log.debug('check profile', { lastUpdate, prevVersion, fields })
 
   // reset all bad profile fields
-  const aggregatedPromise = fields.reduce(
-    (promise, field) => promise.then(() => flushWithRetry(field)),
-    Promise.resolve(),
-  )
+  const aggregatedPromise = Promise.all(fields.map(flushWithRetry))
 
   await aggregatedPromise
-    .then(() => log.debug('profile fields checked'))
+    .then(res => {
+      log.debug('profile fields checked')
+      const errors = res.filter(_ => _ !== true)
+      if (errors.length) {
+        throw new Error(errors.join(', '))
+      }
+    })
     .catch(e => {
       log.error('profile fields check failed', e.message, e)
       throw e
@@ -59,7 +64,7 @@ const checkProfile = async (lastUpdate, prevVersion, log) => {
       throw e
     })
 
-  const fullName = await userStorage.getProfileFieldValue('fullName').catch(_ => false)
+  const fullName = await userStorage.getProfileField('fullName').catch(_ => false)
 
   if (fullName && fullName.display && fullName.privacy && fullName.value) {
     return

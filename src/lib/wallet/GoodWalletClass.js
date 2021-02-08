@@ -1144,6 +1144,11 @@ export class GoodWallet {
     }
   }
 
+  async hasJoinedInvites() {
+    const user = await this.invitesContract.methods.users(this.account)
+    return user.joinedAt.toNumber() > 0
+  }
+
   async joinInvites(inviter, codeLength = 10) {
     let myCode = bs58.encode(Buffer.from(this.account.slice(2), 'hex')).slice(0, codeLength)
     const registered = await this.invitesContract.methods.codeToUser(this.wallet.utils.fromAscii(myCode)).call()

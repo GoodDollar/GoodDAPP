@@ -19,6 +19,7 @@ const ReceiveByQR = ({ screenProps }) => {
   const handleScan = data => {
     if (data) {
       try {
+        log.debug('scan result:', data)
         const url = readReceiveLink(data)
 
         log.debug({ url })

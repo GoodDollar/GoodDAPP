@@ -66,7 +66,6 @@ import ReceiveToAddress from './ReceiveToAddress'
 import TransactionConfirmation from './TransactionConfirmation'
 import SendToAddress from './SendToAddress'
 import SendByQR from './SendByQR'
-import ReceiveByQR from './ReceiveByQR'
 import SendLinkSummary from './SendLinkSummary'
 import SendQRSummary from './SendQRSummary'
 import { ACTION_SEND } from './utils/sendReceiveFlow'
@@ -263,10 +262,12 @@ const Dashboard = props => {
     const { paymentCode, event } = params
 
     if (paymentCode) {
+      //payment link (from send)
       handleWithdraw(params)
     } else if (event) {
       showNewFeedEvent(params)
     } else {
+      //payment request (from receive)
       checkCode(params)
     }
   }
@@ -927,7 +928,6 @@ export default createStackNavigator({
   },
   ReceiveToAddress,
   ReceiveSummary,
-  ReceiveByQR,
 
   SendLinkSummary,
   SendByQR,

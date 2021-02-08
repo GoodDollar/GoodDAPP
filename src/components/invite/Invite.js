@@ -156,7 +156,7 @@ const ShareBox = ({ level }) => {
       <Section.Row style={{ alignItems: 'flex-start' }}>
         <Text
           textAlign={'left'}
-          fontSize={getDesignRelativeWidth(11, false)}
+          fontSize={getDesignRelativeWidth(10, false)}
           fontWeight={'medium'}
           lineHeight={30}
           style={{
@@ -282,7 +282,7 @@ const InvitesHowTO = () => {
       <Section.Stack
         style={{ marginLeft: theme.sizes.defaultDouble, height: 58, flexShrink: 1, justifyContent: 'center' }}
       >
-        <Section.Text color={theme.colors.darkBlue} lineHeight={16} fontSize={12} textAlign={'left'}>
+        <Section.Text color={theme.colors.darkBlue} lineHeight={20} fontSize={15} textAlign={'left'}>
           {text}
         </Section.Text>
       </Section.Stack>
@@ -390,7 +390,7 @@ const Invite = () => {
         </Section.Text>
       </Section.Stack>
       <Section.Stack style={{ marginTop: theme.sizes.defaultDouble }}>
-        <Section.Text letterSpacing={-0.07} lineHeight={20} fontSize={14} color={theme.colors.darkBlue}>
+        <Section.Text letterSpacing={-0.07} lineHeight={20} fontSize={15} color={theme.colors.darkBlue}>
           {`Invite Someone to Get Free Digital Basic Income`}
         </Section.Text>
       </Section.Stack>
@@ -429,6 +429,8 @@ const styles = {
     paddingRight: 10,
     justifyContent: 'flex-start',
     alignItems: 'center',
+    flex: 1,
+    height: '100%',
   },
   linkBoxStyle: {
     backgroundColor: theme.colors.white,

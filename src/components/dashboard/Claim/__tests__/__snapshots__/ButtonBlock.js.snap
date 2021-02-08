@@ -125,14 +125,6 @@ exports[`ButtonBlock matches snapshot for citizen with entitlement 1`] = `
                     </div>
                     <div
                       className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1777fci"
-                      style={
-                        Object {
-                          "WebkitBoxFlex": 1,
-                          "WebkitFlexGrow": 1,
-                          "flexGrow": 1,
-                          "msFlexPositive": 1,
-                        }
-                      }
                     >
                       <div
                         className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-nwxazl r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-ig0lrl"
@@ -464,14 +456,6 @@ exports[`ButtonBlock matches snapshot for citizen without entitlement 1`] = `
                     </div>
                     <div
                       className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1777fci"
-                      style={
-                        Object {
-                          "WebkitBoxFlex": 1,
-                          "WebkitFlexGrow": 1,
-                          "flexGrow": 1,
-                          "msFlexPositive": 1,
-                        }
-                      }
                     >
                       <div
                         className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-nwxazl r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-ig0lrl"
@@ -636,14 +620,6 @@ exports[`ButtonBlock matches snapshot for citizen without entitlement 1`] = `
                     </div>
                     <div
                       className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1777fci"
-                      style={
-                        Object {
-                          "WebkitBoxFlex": 1,
-                          "WebkitFlexGrow": 1,
-                          "flexGrow": 1,
-                          "msFlexPositive": 1,
-                        }
-                      }
                     >
                       <div
                         className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-nwxazl r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-ig0lrl"
@@ -840,14 +816,6 @@ exports[`ButtonBlock renders without errors and matches snapshot for non-citizen
                     </div>
                     <div
                       className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1777fci"
-                      style={
-                        Object {
-                          "WebkitBoxFlex": 1,
-                          "WebkitFlexGrow": 1,
-                          "flexGrow": 1,
-                          "msFlexPositive": 1,
-                        }
-                      }
                     >
                       <div
                         className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-nwxazl r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-ig0lrl"
@@ -1012,14 +980,6 @@ exports[`ButtonBlock renders without errors and matches snapshot for non-citizen
                     </div>
                     <div
                       className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1777fci"
-                      style={
-                        Object {
-                          "WebkitBoxFlex": 1,
-                          "WebkitFlexGrow": 1,
-                          "flexGrow": 1,
-                          "msFlexPositive": 1,
-                        }
-                      }
                     >
                       <div
                         className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-nwxazl r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-ig0lrl"

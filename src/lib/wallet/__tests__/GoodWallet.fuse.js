@@ -1,6 +1,11 @@
 import { GoodWallet } from '../GoodWalletClass'
 import adminWallet from './__util__/AdminWalletV1'
 
+// eslint-disable-next-line require-await
+const nextDay = async () => {
+  return adminWallet.web3.currentProvider.send('evm_increaseTime', [60 * 60 * 24])
+}
+
 describe('GoodWalletShare/ReceiveTokens', () => {
   jest.setTimeout(120000)
   const amount = 1
@@ -17,7 +22,7 @@ describe('GoodWalletShare/ReceiveTokens', () => {
     })
 
     await adminWallet.ready
-
+    await nextDay() //make sure ubi contract is started
     await testWallet.ready
 
     await testWallet2.ready

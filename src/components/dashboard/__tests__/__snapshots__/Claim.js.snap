@@ -332,7 +332,7 @@ More G$'s Coming Soon
                           Your Next Claim:
                         </div>
                         <div
-                          className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-flexGrow-16y2uox r-justifyContent-1777fci"
+                          className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1777fci"
                         >
                           <div
                             className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-nwxazl r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-ig0lrl"
@@ -494,7 +494,7 @@ More G$'s Coming Soon
                           Your Next Claim:
                         </div>
                         <div
-                          className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-flexGrow-16y2uox r-justifyContent-1777fci"
+                          className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1777fci"
                         >
                           <div
                             className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-nwxazl r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-ig0lrl"
@@ -621,8 +621,18 @@ claimers
               dir="auto"
               style={
                 Object {
+                  "WebkitBoxFlex": 0,
+                  "WebkitFlexBasis": "0%",
+                  "WebkitFlexGrow": 0,
+                  "WebkitFlexShrink": 0,
+                  "flexBasis": "0%",
+                  "flexGrow": 0,
+                  "flexShrink": 0,
                   "marginRight": "4px",
                   "marginTop": "2px",
+                  "msFlexNegative": 0,
+                  "msFlexPositive": 0,
+                  "msFlexPreferredSize": "0%",
                   "paddingLeft": "8px",
                 }
               }
@@ -632,6 +642,21 @@ claimers
             <div
               className="css-text-901oao r-color-1q5uqvh r-fontFamily-6jnb14 r-fontSize-a023e6 r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-rjixqe r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
               dir="auto"
+              style={
+                Object {
+                  "WebkitBoxFlex": 0,
+                  "WebkitFlexBasis": "0%",
+                  "WebkitFlexGrow": 0,
+                  "WebkitFlexShrink": 0,
+                  "flexBasis": "0%",
+                  "flexGrow": 0,
+                  "flexShrink": 0,
+                  "msFlexNegative": 0,
+                  "msFlexPositive": 0,
+                  "msFlexPreferredSize": "0%",
+                  "paddingBottom": "0px",
+                }
+              }
             />
           </div>
         </div>
@@ -666,8 +691,18 @@ Distribution
               dir="auto"
               style={
                 Object {
+                  "WebkitBoxFlex": 0,
+                  "WebkitFlexBasis": "0%",
+                  "WebkitFlexGrow": 0,
+                  "WebkitFlexShrink": 0,
+                  "flexBasis": "0%",
+                  "flexGrow": 0,
+                  "flexShrink": 0,
                   "marginRight": "4px",
                   "marginTop": "2px",
+                  "msFlexNegative": 0,
+                  "msFlexPositive": 0,
+                  "msFlexPreferredSize": "0%",
                   "paddingLeft": "8px",
                 }
               }
@@ -677,6 +712,21 @@ Distribution
             <div
               className="css-text-901oao r-color-1q5uqvh r-fontFamily-6jnb14 r-fontSize-a023e6 r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-rjixqe r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
               dir="auto"
+              style={
+                Object {
+                  "WebkitBoxFlex": 0,
+                  "WebkitFlexBasis": "0%",
+                  "WebkitFlexGrow": 0,
+                  "WebkitFlexShrink": 0,
+                  "flexBasis": "0%",
+                  "flexGrow": 0,
+                  "flexShrink": 0,
+                  "msFlexNegative": 0,
+                  "msFlexPositive": 0,
+                  "msFlexPreferredSize": "0%",
+                  "paddingBottom": "0px",
+                }
+              }
             >
               G$
             </div>
@@ -717,8 +767,18 @@ staked
               dir="auto"
               style={
                 Object {
+                  "WebkitBoxFlex": 0,
+                  "WebkitFlexBasis": "0%",
+                  "WebkitFlexGrow": 0,
+                  "WebkitFlexShrink": 0,
+                  "flexBasis": "0%",
+                  "flexGrow": 0,
+                  "flexShrink": 0,
                   "marginRight": "4px",
                   "marginTop": "2px",
+                  "msFlexNegative": 0,
+                  "msFlexPositive": 0,
+                  "msFlexPreferredSize": "0%",
                   "paddingLeft": "8px",
                 }
               }
@@ -728,6 +788,21 @@ staked
             <div
               className="css-text-901oao r-color-1q5uqvh r-fontFamily-6jnb14 r-fontSize-a023e6 r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-rjixqe r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
               dir="auto"
+              style={
+                Object {
+                  "WebkitBoxFlex": 0,
+                  "WebkitFlexBasis": "0%",
+                  "WebkitFlexGrow": 0,
+                  "WebkitFlexShrink": 0,
+                  "flexBasis": "0%",
+                  "flexGrow": 0,
+                  "flexShrink": 0,
+                  "msFlexNegative": 0,
+                  "msFlexPositive": 0,
+                  "msFlexPreferredSize": "0%",
+                  "paddingBottom": "0px",
+                }
+              }
             >
               DAI
             </div>
@@ -764,8 +839,18 @@ this week
               dir="auto"
               style={
                 Object {
+                  "WebkitBoxFlex": 0,
+                  "WebkitFlexBasis": "0%",
+                  "WebkitFlexGrow": 0,
+                  "WebkitFlexShrink": 0,
+                  "flexBasis": "0%",
+                  "flexGrow": 0,
+                  "flexShrink": 0,
                   "marginRight": "4px",
                   "marginTop": "2px",
+                  "msFlexNegative": 0,
+                  "msFlexPositive": 0,
+                  "msFlexPreferredSize": "0%",
                   "paddingLeft": "8px",
                 }
               }
@@ -775,6 +860,21 @@ this week
             <div
               className="css-text-901oao r-color-1q5uqvh r-fontFamily-6jnb14 r-fontSize-a023e6 r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-rjixqe r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
               dir="auto"
+              style={
+                Object {
+                  "WebkitBoxFlex": 0,
+                  "WebkitFlexBasis": "0%",
+                  "WebkitFlexGrow": 0,
+                  "WebkitFlexShrink": 0,
+                  "flexBasis": "0%",
+                  "flexGrow": 0,
+                  "flexShrink": 0,
+                  "msFlexNegative": 0,
+                  "msFlexPositive": 0,
+                  "msFlexPreferredSize": "0%",
+                  "paddingBottom": "0px",
+                }
+              }
             >
               DAI
             </div>

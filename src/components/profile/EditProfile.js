@@ -13,13 +13,12 @@ import SaveButtonDisabled from '../common/animations/SaveButton/SaveButtonDisabl
 import { fireEvent, PROFILE_UPDATE } from '../../lib/analytics/analytics'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
 import { useDebounce } from '../../lib/hooks/useDebouce'
-import CameraButton from './CameraButton'
+import RoundIconButton from '../common/buttons/RoundIconButton'
 import ProfileDataTable from './ProfileDataTable'
 
 const TITLE = 'Edit Profile'
 const log = logger.child({ from: TITLE })
 const avatarSize = getDesignRelativeWidth(136)
-const AVATAR_MARGIN = 6
 
 const EditProfile = ({ screenProps, styles, navigation }) => {
   const store = GDStore.useStore()
@@ -144,18 +143,7 @@ const EditProfile = ({ screenProps, styles, navigation }) => {
 
   return (
     <Wrapper>
-      <Section.Row justifyContent="center" alignItems="flex-start" style={styles.userDataAndButtonsRow}>
-        <UserAvatar
-          profile={profile}
-          onPress={handleEditAvatar}
-          size={avatarSize}
-          imageSize={avatarSize - AVATAR_MARGIN}
-          style={styles.userAvatar}
-          containerStyle={styles.userAvatarWrapper}
-          unknownStyle={styles.unknownStyles}
-        >
-          <CameraButton handleCameraPress={handleEditAvatar} />
-        </UserAvatar>
+      <Section.Row justifyContent="space-between" alignItems="flex-start" style={styles.userDataAndButtonsRow}>
         {lockSubmit || isPristine || !isValid ? (
           <SaveButtonDisabled style={styles.animatedSaveButton} />
         ) : (
@@ -167,7 +155,7 @@ const EditProfile = ({ screenProps, styles, navigation }) => {
           />
         )}
       </Section.Row>
-      <Section grow>
+      <Section style={styles.section}>
         <View style={styles.emptySpace} />
         <ProfileDataTable
           onChange={handleProfileChange}
@@ -179,6 +167,24 @@ const EditProfile = ({ screenProps, styles, navigation }) => {
           screenProps={screenProps}
         />
       </Section>
+      <View style={styles.userDataWrapper}>
+        <UserAvatar
+          style={styles.userAvatar}
+          profile={profile}
+          onPress={handleEditAvatar}
+          size={avatarSize}
+          imageSize={avatarSize - 6}
+          unknownStyle={styles.userAvatar}
+        >
+          <RoundIconButton
+            iconSize={22}
+            iconName="camera"
+            handleCameraPress={handleEditAvatar}
+            containerStyle={{ zIndex: 10 }}
+            style={{ zIndex: 10, top: -30, right: 15, position: 'absolute' }}
+          />
+        </UserAvatar>
+      </View>
     </Wrapper>
   )
 }
@@ -189,9 +195,23 @@ EditProfile.navigationOptions = {
 
 const getStylesFromProps = ({ theme }) => {
   const halfAvatarSize = avatarSize / 2
-  const { white } = theme.colors
 
   return {
+    userAvatar: {
+      borderWidth: 3,
+      borderColor: theme.colors.white,
+      justifyContent: 'center',
+      alignItems: 'center',
+      borderRadius: halfAvatarSize,
+      zIndex: 1,
+    },
+    userDataAndButtonsRow: {
+      display: 'flex',
+      justifyContent: 'center',
+      position: 'relative',
+      zIndex: 1,
+      height: avatarSize / 2,
+    },
     animatedSaveButton: {
       position: 'absolute',
       width: getDesignRelativeWidth(110),
@@ -202,36 +222,20 @@ const getStylesFromProps = ({ theme }) => {
       display: 'flex',
       justifyContent: 'flex-end',
     },
-    userDataAndButtonsRow: {
-      display: 'flex',
-      justifyContent: 'center',
-      position: 'relative',
-      zIndex: 1,
-      height: halfAvatarSize,
-    },
-    userAvatarWrapper: {
+    userDataWrapper: {
       position: 'absolute',
-      borderColor: white,
       justifyContent: 'center',
       alignItems: 'center',
-      borderRadius: halfAvatarSize,
-    },
-    userAvatar: {
-      borderWidth: 3,
-      borderColor: theme.colors.white,
-      justifyContent: 'center',
-      flexDirection: 'row-reverse',
-      alignItems: 'flex-end',
-      borderRadius: halfAvatarSize,
-    },
-    unknownStyles: {
-      borderWidth: 3,
-      borderColor: theme.colors.white,
-      borderRadius: halfAvatarSize,
+      alignSelf: 'center',
+      zIndex: 1,
     },
     emptySpace: {
       height: 74,
       width: '100%',
+    },
+    section: {
+      flexGrow: 1,
+      padding: theme.sizes.defaultDouble,
     },
   }
 }

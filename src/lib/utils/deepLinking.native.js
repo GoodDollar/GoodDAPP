@@ -70,6 +70,7 @@ class DeepLinkingNative {
 
     const { clickedBranchLink, clickTimestamp, nonBranchLink, referingLink } = ccParams
 
+    //TODO: is this still required? if so add a comment describing why
     if (!this._isFirstRun && clickedBranchLink && this._lastClick !== clickTimestamp) {
       return restart()
     }

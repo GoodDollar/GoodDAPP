@@ -20,6 +20,7 @@ import {
 import googleBtnIcon from '../../../assets/Auth/btn_google.svg'
 import facebookBtnIcon from '../../../assets/Auth/btn_facebook.svg'
 import MobileBtnIcon from '../../../assets/Auth/btn_mobile.svg'
+import Config from '../../../config/config'
 import { LoginButton } from './LoginButton'
 
 // import { delay } from '../../../lib/utils/async'
@@ -37,6 +38,8 @@ const SignupScreen = ({ isSignup, screenProps, styles, handleLoginMethod, sdkIni
   const _facebook = () => handleLoginMethod('facebook')
 
   const _mobile = () => handleLoginMethod('auth0-pwdless-sms')
+
+  const _selfCustody = () => handleLoginMethod('selfCustody')
 
   const Illustration = isSignup ? SignupIllu : SigninIllu
 
@@ -163,6 +166,24 @@ const SignupScreen = ({ isSignup, screenProps, styles, handleLoginMethod, sdkIni
               >
                 {isSignup ? `Already Have a Wallet? Log In >` : `Dont Have a Wallet? Create One >`}
               </CustomButton>
+              {Config.enableSelfCustody && (
+                <CustomButton
+                  compact
+                  mode={'text'}
+                  color={mainTheme.colors.darkGray}
+                  textStyle={{
+                    textDecorationLine: 'underline',
+                    fontSize: 14,
+                    fontWeight: 'bold',
+                    lineHeight: 16,
+                    letterSpacing: 0.14,
+                  }}
+                  onPress={_selfCustody}
+                  style={styles.textButton}
+                >
+                  {isSignup ? `Self Custody >` : `Recover from seed phrase >`}
+                </CustomButton>
+              )}
             </Section.Stack>
           </Section.Stack>
         </Section.Stack>

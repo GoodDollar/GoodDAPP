@@ -1,9 +1,9 @@
 // @flow
 import React from 'react'
 import { TouchableOpacity, View } from 'react-native'
-import { withStyles } from '../../lib/styles'
-import { Icon, Text } from '../common'
-import useOnPress from '../../lib/hooks/useOnPress'
+import { withStyles } from '../../../lib/styles'
+import { Icon, Text } from '..'
+import useOnPress from '../../../lib/hooks/useOnPress'
 
 const CircleButtonWrapper = ({
   label,
@@ -61,4 +61,6 @@ const getStylesFromProps = ({ theme }) => ({
   },
 })
 
-export default withStyles(getStylesFromProps)(CircleButtonWrapper)
+const RoundIconButton = withStyles(getStylesFromProps)(CircleButtonWrapper)
+
+export default RoundIconButton

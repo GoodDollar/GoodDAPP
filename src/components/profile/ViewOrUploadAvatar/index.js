@@ -9,9 +9,7 @@ import { useErrorDialog } from '../../../lib/undux/utils/dialog'
 import InputFile from '../../common/form/InputFile'
 import logger from '../../../lib/logger/pino-logger'
 import { fireEvent, PROFILE_IMAGE } from '../../../lib/analytics/analytics'
-import { getDesignRelativeWidth } from '../../../lib/utils/sizes'
-import CircleButtonWrapper from '../CircleButtonWrapper'
-import CameraButton from '../CameraButton'
+import RoundIconButton from '../../common/buttons/RoundIconButton'
 import { useDebouncedOnPress } from '../../../lib/hooks/useOnPress'
 import openCropper from './openCropper'
 
@@ -77,33 +75,44 @@ const ViewOrUploadAvatar = props => {
 
   const goToProfile = useCallback(() => navigation.navigate('EditProfile'), [navigation])
 
+  const HasAvatar = () => (
+    <>
+      <Section.Row style={styles.topButtons}>
+        <RoundIconButton iconSize={22} iconName={'trash'} onPress={handleClosePress} />
+        <RoundIconButton iconSize={22} iconName={'camera'} onPress={handleCameraPress} />
+      </Section.Row>
+      <Section.Row style={styles.avatarRow}>
+        <UserAvatar profile={profile} size={272} onPress={handleCameraPress} style={styles.avatarView} />
+      </Section.Row>
+    </>
+  )
+  const NoAvatar = () => (
+    <>
+      <Section.Row style={[styles.topButtons, styles.singleTopButton]}>
+        <InputFile
+          Component={({ onPress }) => {
+            return <RoundIconButton iconSize={22} iconName={'camera'} onPress={onPress} />
+          }}
+          onChange={handleAddAvatar}
+          pickerOptions={pickerOptions}
+        />
+      </Section.Row>
+      <Section.Row style={styles.avatarRow}>
+        <InputFile
+          Component={({ onPress }) => {
+            return <UserAvatar profile={profile} size={272} style={styles.avatarView} onPress={onPress} />
+          }}
+          onChange={handleAddAvatar}
+          pickerOptions={pickerOptions}
+        />
+      </Section.Row>
+    </>
+  )
+
   return (
     <Wrapper>
       <Section style={styles.section}>
-        <Section.Stack>
-          {profile.avatar ? (
-            <>
-              <CircleButtonWrapper
-                containerStyle={styles.closeButtonContainer}
-                style={styles.closeButton}
-                iconName={'trash'}
-                iconSize={22}
-                onPress={handleClosePress}
-              />
-              <CameraButton style={styles.cameraButton} handleCameraPress={handleCameraPress} />
-              <UserAvatar profile={profile} size={272} onPress={handleCameraPress} style={styles.avatarView} />
-            </>
-          ) : (
-            <>
-              <InputFile pickerOptions={pickerOptions} onChange={handleAddAvatar}>
-                <CameraButton containerStyle={styles.cameraButtonNewImgContainer} style={styles.cameraButtonNewImg} />
-              </InputFile>
-              <InputFile pickerOptions={pickerOptions} onChange={handleAddAvatar}>
-                <UserAvatar profile={profile} size={272} />
-              </InputFile>
-            </>
-          )}
-        </Section.Stack>
+        <Section.Stack style={{ alignSelf: 'center' }}>{profile.avatar ? <HasAvatar /> : <NoAvatar />}</Section.Stack>
         <Section.Stack grow style={styles.buttonsRow}>
           <CustomButton style={styles.doneButton} onPress={goToProfile}>
             Done
@@ -119,59 +128,29 @@ ViewOrUploadAvatar.navigationOptions = {
 }
 
 const getStylesFromProps = ({ theme }) => {
-  const { defaultDouble, defaultQuadruple } = theme.sizes
-  const buttonGap = getDesignRelativeWidth(-30) / 2
-
   return {
     section: {
       flex: 1,
       position: 'relative',
-      alignItems: 'center',
+    },
+    avatarRow: {
       justifyContent: 'center',
     },
-    cameraButtonContainer: {
-      zIndex: 1,
-    },
-    cameraButton: {
-      left: 'auto',
-      position: 'absolute',
-      top: 1,
-      right: 1,
-      marginTop: defaultDouble,
-      marginRight: buttonGap,
-    },
-    cameraButtonNewImgContainer: {
-      zIndex: 1,
-    },
-    cameraButtonNewImg: {
-      left: 'auto',
-      position: 'absolute',
-      top: 1,
-      right: 1,
-      marginRight: buttonGap,
-    },
-    closeButtonContainer: {
-      zIndex: 1,
-    },
-    closeButton: {
-      left: 1,
-      right: 'auto',
-      position: 'absolute',
-      top: 1,
-      marginTop: defaultDouble,
-      marginLeft: buttonGap,
-    },
-    avatar: {
-      marginTop: defaultQuadruple,
-    },
     avatarView: {
-      marginTop: 32,
+      zIndex: 0,
+
+      marginTop: -32,
+    },
+    topButtons: {
+      zIndex: 10,
+    },
+    singleTopButton: {
+      justifyContent: 'flex-end',
     },
     buttonsRow: {
       justifyContent: 'flex-end',
       minHeight: 60,
       width: '100%',
-      zIndex: -1,
     },
     doneButton: {
       marginTop: 'auto',

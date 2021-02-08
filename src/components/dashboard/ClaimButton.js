@@ -96,7 +96,7 @@ export const ButtonCountdown = ({ styles, nextClaim }) => (
       Your Next Claim:
     </Text>
     {/* for some reason passing styles.countDownTimer doesnt work */}
-    <Section.Row grow style={styles.countDownTimer}>
+    <Section.Row style={styles.countDownTimer}>
       {nextClaim &&
         nextClaim.split('').map((value, index) => {
           return (

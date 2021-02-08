@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { TouchableWithoutFeedback, View } from 'react-native'
+import { TouchableOpacity, View } from 'react-native'
 import ScrollToTopSVG from '../../../assets/scrollToTop.svg'
 import Fade from '../animations/Fade'
 import { withStyles } from '../../../lib/styles'
@@ -9,13 +9,13 @@ import useOnPress from '../../../lib/hooks/useOnPress'
 const ScrollToTopButton = ({ onPress, styles, style, show }) => {
   const _onPress = useOnPress(onPress)
   return (
-    <Fade show={show}>
-      <TouchableWithoutFeedback onPress={_onPress}>
-        <View style={[styles.scrollToTopImage, style]}>
+    <View style={[styles.scrollToTopImage, style]}>
+      <Fade show={show}>
+        <TouchableOpacity onPress={_onPress}>
           <ScrollToTopSVG />
-        </View>
-      </TouchableWithoutFeedback>
-    </Fade>
+        </TouchableOpacity>
+      </Fade>
+    </View>
   )
 }
 

@@ -74,6 +74,7 @@ const getStylesFromProps = ({ theme }) => ({
         justifyContent: 'center',
         zIndex: 0,
       },
+      default: { position: 'absolute', width: '100%' },
     }),
   },
   marketButton: {

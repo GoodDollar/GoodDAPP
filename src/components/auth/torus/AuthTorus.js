@@ -21,7 +21,7 @@ import {
   TORUS_SUCCESS,
 } from '../../../lib/analytics/analytics'
 import { GD_USER_MASTERSEED, GD_USER_MNEMONIC, IS_LOGGED_IN } from '../../../lib/constants/localStorage'
-import { REGISTRATION_METHOD_TORUS } from '../../../lib/constants/login'
+import { REGISTRATION_METHOD_SELF_CUSTODY, REGISTRATION_METHOD_TORUS } from '../../../lib/constants/login'
 import { withStyles } from '../../../lib/styles'
 import config from '../../../config/config'
 import { theme as mainTheme } from '../../theme/styles'
@@ -214,6 +214,23 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
     return promise
   }
 
+  const selfCustody = useCallback(async () => {
+    const curSeed = await AsyncStorage.getItem(GD_USER_MASTERSEED)
+    if (isSignup === false) {
+      fireEvent(SIGNIN_METHOD_SELECTED, { method: REGISTRATION_METHOD_SELF_CUSTODY })
+      navigate('SigninInfo')
+    }
+
+    //in case user started torus signup but came back here we need to re-initialize wallet/storage with
+    //new credentials
+    if (curSeed) {
+      await AsyncStorage.clear()
+      await ready(true)
+    }
+    fireEvent(SIGNUP_METHOD_SELECTED, { method: REGISTRATION_METHOD_SELF_CUSTODY })
+    navigate('Signup', { regMethod: REGISTRATION_METHOD_SELF_CUSTODY })
+  }, [navigate])
+
   const handleLoginMethod = async (
     provider: 'facebook' | 'google' | 'auth0' | 'auth0-pwdless-email' | 'auth0-pwdless-sms',
   ) => {
@@ -221,6 +238,10 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
 
     showLoadingDialog()
     try {
+      if (provider === 'selfCustody') {
+        return selfCustody()
+      }
+
       const { torusUser, replacing } = await getTorusUser(provider)
       if (torusUser == null) {
         showErrorDialog('We were unable to complete the signup. Please try again.')

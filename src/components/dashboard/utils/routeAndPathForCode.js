@@ -21,7 +21,7 @@ export const routeAndPathForCode = async (
   screen: string,
   code: CodeType | null,
 ): Promise<{ route: any, params: any }> => {
-  if (code === null || !code.networkId || !code.address) {
+  if (code == null || !code.networkId || !code.address) {
     throw new Error('Invalid QR Code.')
   }
 

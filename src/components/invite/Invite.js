@@ -26,7 +26,10 @@ const log = logger.child({ from: 'Invite' })
 
 const shareTitle = 'I signed up to GoodDollar. Join me.'
 const shareMessage =
-  'Hi! Sign up for a GoodDollar wallet using my invite link, and get 50 G$ after your first claim. Together, we grow\n\n'
+  'Hi,\nIf you believe, like me, in economic inclusion and the distribution of prosperity for all, then I invite you to sign up for GoodDollar, create your own basic income wallet and start collecting your daily digital income.\nUse my invite link and receive an extra 50G$ bonus\n\n'
+
+const shortShareMessage =
+  'Hi,\nIf you believe in economic inclusion and distribution of prosperity for all, sign up for a GoodDollar wallet and start collecting daily digital income. Use my invite link and receive an extra 50G$\n\n'
 
 const InvitedUser = ({ name, avatar, status }) => {
   const isApproved = status === 'approved'
@@ -90,8 +93,7 @@ const ShareIcons = ({ shareUrl }) => {
       service: 'twitter',
       Component: TwitterShareButton,
       color: theme.colors.darkBlue,
-      title: shareMessage,
-      hashtags: ['GoodDollar', 'UBI'],
+      title: shortShareMessage,
     },
 
     {
@@ -113,16 +115,16 @@ const ShareIcons = ({ shareUrl }) => {
     },
   ]
 
-  const onShare = service => {
-    fireEvent(INVITE_SHARE, { method: service })
-  }
+  // const onShare = service => {
+  //   fireEvent(INVITE_SHARE, { method: service })
+  // }
 
   return (
     <Section.Row style={{ marginTop: theme.paddings.defaultMargin * 2, justifyContent: 'flex-start' }}>
       {buttons.map(({ name, Component, ...props }) => (
         <Section.Stack style={{ marginRight: theme.sizes.defaultDouble }} key={name}>
           <Component url={shareUrl} {...props}>
-            <IconButton {...props} name={name} circleSize={36} onPress={() => onShare(props.service)} />
+            <IconButton {...props} name={name} circleSize={36} />
           </Component>
         </Section.Stack>
       ))}

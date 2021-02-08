@@ -13,7 +13,6 @@ import { WavesBox } from '../common/view/WavesBox'
 import { theme } from '../theme/styles'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
 import logger from '../../lib/logger/pino-logger'
-import { isMobile } from '../../lib/utils/platform'
 import { fireEvent, INVITE_HOWTO, INVITE_SHARE } from '../../lib/analytics/analytics'
 import Config from '../../config/config'
 import { generateShareObject, isSharingAvailable } from '../../lib/share'
@@ -27,8 +26,7 @@ const log = logger.child({ from: 'Invite' })
 
 const shareTitle = 'I signed up to GoodDollar. Join me.'
 const shareMessage =
-  'Hi!\nThis is my referral link to be among the first people to get real, free digital basic income called GoodDollar!\n' +
-  'You’ll receive a 50 G$ bonus, and join the thousands of people across the globe, building a better, more prosperous future, using GoodDollar.\n\n'
+  'Hi! Sign up for a GoodDollar wallet using my invite link, and get 50 G$ after your first claim. Together, we grow\n\n'
 
 const InvitedUser = ({ name, avatar, status }) => {
   const isApproved = status === 'approved'
@@ -178,7 +176,7 @@ const ShareBox = ({ level }) => {
           withoutDone
         />
       </Section.Row>
-      {!isMobile && <ShareIcons shareUrl={shareUrl} />}
+      <ShareIcons shareUrl={shareUrl} />
     </WavesBox>
   )
 }
@@ -347,7 +345,7 @@ const InvitesData = ({ invitees, refresh, level, totalEarned = 0 }) => (
 )
 
 const Invite = () => {
-  const [showHowTo, setShowHowTo] = useState(false)
+  const [showHowTo, setShowHowTo] = useState(true)
   const [invitees, refresh, level, inviteState] = useInvited()
 
   const totalEarned = get(inviteState, 'totalEarned', 0)
@@ -391,7 +389,7 @@ const Invite = () => {
       </Section.Stack>
       <Section.Stack style={{ marginTop: theme.sizes.defaultDouble }}>
         <Section.Text letterSpacing={-0.07} lineHeight={20} fontSize={15} color={theme.colors.darkBlue}>
-          {`Invite Someone to Get Free Digital Basic Income`}
+          {`Make sure they claim to get your reward`}
         </Section.Text>
       </Section.Stack>
       <View

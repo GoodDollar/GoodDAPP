@@ -52,7 +52,7 @@ export default (options = null) => {
     // destructuring accessors keeping theirs names the
     // same like in the props for avoid code modifications
     const [onUIReady, onCaptureDone, onRetry, onComplete, onError, getMaxRetries] = accessors
-    const isDeviceEmulated = await isEmulator()
+    const isDeviceEmulated = await isEmulator
 
     // if cypress is running
     // isMobileNative is temporary check, will be removed once we'll deal with Zoom on native
@@ -62,6 +62,7 @@ export default (options = null) => {
         // don't start session, just call enroll with fake data
         // to whitelist user on server
         const sessionId = await api.issueSessionToken()
+
         await api.performFaceVerification(enrollmentIdentifier, {
           sessionId,
           faceScan: emptyBase64,

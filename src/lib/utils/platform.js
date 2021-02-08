@@ -45,7 +45,7 @@ export const isAndroid = isAndroidWeb || isAndroidNative
 // otherwise (e.g. running on native) will return false (because library wrongly returns true in that case)
 export const isBrowser = isWeb ? isBrowserWeb : false
 
-export const isEmulator = isMobileNative && DeviceInfo.isEmulator()
+export const isEmulator = isMobileNative ? DeviceInfo.isEmulator() : Promise.resolve(false)
 
 export const isCypress =
   !isMobileReactNative && 'undefined' !== typeof window && get(window, 'navigator.userAgent', '').includes('Cypress')

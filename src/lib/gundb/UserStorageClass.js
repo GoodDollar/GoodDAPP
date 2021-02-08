@@ -881,7 +881,7 @@ export class UserStorage {
       }
 
       if (get(feedEvent, 'data.otplData')) {
-        logger.debug('handleOTPLUpdated skipping event with existed receipt data', feedEvent, receipt)
+        logger.debug('handleOTPLUpdated skipping event with existing receipt data', feedEvent, receipt)
         return feedEvent
       }
 

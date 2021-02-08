@@ -15,7 +15,8 @@ const registerForInvites = async () => {
   const inviterInviteCode = userStorage.userProperties.get('inviterInviteCode')
 
   if (inviterInviteCode) {
-    fireEvent(INVITE_JOIN, { inviterInviteCode })
+    const hasJoined = await goodWallet.hasJoinedInvites()
+    !hasJoined && fireEvent(INVITE_JOIN, { inviterInviteCode })
   }
 
   try {

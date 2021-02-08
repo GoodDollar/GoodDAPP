@@ -134,7 +134,7 @@ const ShareIcons = ({ shareUrl }) => {
 
 const ShareBox = ({ level }) => {
   const inviteCode = useInviteCode()
-  const shareUrl = `${Config.publicUrl}?inviteCode=${inviteCode}`
+  const shareUrl = `${Config.invitesUrl}?inviteCode=${inviteCode}`
   const bounty = result(level, 'bounty.toNumber', 100) / 100
 
   const share = useMemo(() => generateShareObject(shareTitle, shareMessage, shareUrl), [shareUrl])

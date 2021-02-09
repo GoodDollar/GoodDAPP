@@ -1248,6 +1248,7 @@ export class GoodWallet {
    * @param {object} options
    */
   async verifyHasGas(wei: number, options = {}) {
+    const TOP_GWEI = 103000 * 1e9 //the gas fee for topWallet faucet call
     const minWei = wei ? wei : 250000 * 1e9
     try {
       const { topWallet = true } = options
@@ -1265,8 +1266,8 @@ export class GoodWallet {
         }
       }
 
-      //self serve using faucet
-      if (await this.faucetContract.methods.canTop(this.account).call()) {
+      //self serve using faucet. we verify nativeBalance to prevent loop with sendTransaction which calls this function also
+      if (nativeBalance >= TOP_GWEI && (await this.faucetContract.methods.canTop(this.account).call())) {
         log.info('verifyHasGas using faucet...')
         const toptx = this.faucetContract.methods.topWallet(this.account)
         const ok = await this.sendTransaction(toptx)

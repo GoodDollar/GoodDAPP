@@ -1148,7 +1148,7 @@ export class GoodWallet {
 
   async collectInviteBounty(invitee) {
     const bountyFor = invitee || this.account
-    const canCollect = await this.invitesContract.methods.canCollectBountyFor(bountyFor)
+    const canCollect = await this.invitesContract.methods.canCollectBountyFor(bountyFor).call()
     if (canCollect) {
       const tx = this.invitesContract.methods.bountyFor(bountyFor)
       const res = await this.sendTransaction(tx, {})
@@ -1157,7 +1157,7 @@ export class GoodWallet {
   }
 
   async hasJoinedInvites() {
-    const user = await this.invitesContract.methods.users(this.account)
+    const user = await this.invitesContract.methods.users(this.account).call()
     return user.joinedAt.toNumber() > 0
   }
 

@@ -35,17 +35,15 @@ type LoadingProps = {
 
 const log = logger.child({ from: 'AppSwitch' })
 
-const MIN_BALANCE_VALUE = '100000'
 const GAS_CHECK_DEBOUNCE_TIME = 1000
 const showOutOfGasError = debounce(
   async props => {
-    const gasResult = await goodWallet.verifyHasGas(
-      parseInt(goodWallet.wallet.utils.toWei(MIN_BALANCE_VALUE, 'gwei')),
-      {
-        topWallet: false,
-      },
-    )
+    const gasResult = await goodWallet.verifyHasGas().catch(e => {
+      const message = getErrorMessage(e)
+      const exception = new Error(message)
 
+      log.error('verifyTopWallet failed', message, exception)
+    })
     log.debug('outofgaserror:', { gasResult })
 
     if (gasResult.ok === false && gasResult.error !== false) {
@@ -157,14 +155,6 @@ const AppSwitch = (props: LoadingProps) => {
 
     const email = await userStorage.getProfileFieldValue('email')
     identifyWith(email, undefined)
-
-    //if user both whitelisted and not has < 250000 gwei then he can request topwallet
-    goodWallet.verifyHasGas(1e9 * 250000).catch(e => {
-      const message = getErrorMessage(e)
-      const exception = new Error(message)
-
-      log.error('verifyTopWallet failed', message, exception)
-    })
   }
 
   const init = async () => {
@@ -227,12 +217,6 @@ const AppSwitch = (props: LoadingProps) => {
     // DeepLinking.subscribe(deepLinkingNavigation)
     return () => DeepLinking.unsubscribe()
   }, [DeepLinking.pathname, appState])
-
-  useEffect(() => {
-    if (ready && gdstore && appState === 'active') {
-      showOutOfGasError(props)
-    }
-  }, [gdstore, ready, appState])
 
   const { descriptors, navigation } = props
   const activeKey = navigation.state.routes[navigation.state.index].key

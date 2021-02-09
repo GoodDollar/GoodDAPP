@@ -85,15 +85,14 @@ const RewardButton = React.memo(({ onPress, style }) => {
   return (
     <>
       <TouchableOpacity testID="rewards_tab" onPress={onPress} style={style}>
-        <Icon name="rewards" size={36} color="white">
-          {updatesCount > 0 && (
-            <View style={rewardStyles.notifications}>
-              <Text color={theme.colors.white} fontSize={10} fontWeight={'bold'}>
-                {updatesCount}
-              </Text>
-            </View>
-          )}
-        </Icon>
+        <Icon name="rewards" size={36} color="white" />
+        {updatesCount > 0 && (
+          <View style={rewardStyles.notifications}>
+            <Text color={theme.colors.white} fontSize={10} fontWeight={'bold'}>
+              {updatesCount}
+            </Text>
+          </View>
+        )}
       </TouchableOpacity>
       <Appbar.Content />
     </>
@@ -107,7 +106,7 @@ const rewardStyles = {
     backgroundColor: theme.colors.orange,
     borderRadius: 7,
     position: 'absolute',
-    top: '-10%',
+    bottom: '20%',
     left: '70%',
   },
 }

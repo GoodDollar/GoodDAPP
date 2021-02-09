@@ -1248,11 +1248,12 @@ export class GoodWallet {
    * @param {object} options
    */
   async verifyHasGas(wei: number, options = {}) {
+    const minWei = wei ? wei : 250000 * 1e9
     try {
       const { topWallet = true } = options
 
       let nativeBalance = await this.balanceOfNative()
-      if (nativeBalance > wei) {
+      if (nativeBalance > minWei) {
         return {
           ok: true,
         }
@@ -1282,7 +1283,7 @@ export class GoodWallet {
       //if we cant use faucet or it failed then fallback to adminwallet api
       log.info('verifyHasGas no gas, asking for top wallet from server', {
         nativeBalance,
-        required: wei,
+        required: minWei,
         address: this.account,
       })
       const toppingRes = await API.verifyTopWallet()
@@ -1296,10 +1297,10 @@ export class GoodWallet {
       }
       nativeBalance = await this.balanceOfNative()
       return {
-        ok: data.ok && nativeBalance > wei,
+        ok: data.ok && nativeBalance > minWei,
       }
     } catch (e) {
-      log.warn('verifyHasGas:', e.message, e, { wei })
+      log.warn('verifyHasGas:', e.message, e, { minWei })
       return {
         ok: false,
         error: false,

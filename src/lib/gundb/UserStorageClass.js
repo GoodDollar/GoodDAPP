@@ -602,11 +602,7 @@ export class UserStorage {
     // for some reason doing init stuff before  causes gun to get stuck
     // this issue doesnt exists for gun 2020 branch, but we cant upgrade there yet
     // doing await one by one - Gun hack so it doesnt get stuck
-    await Promise.all([
-      trustPromise,
-      AsyncStorage.getItem('GD_trust').then(_ => (this.trust = _ || {})),
-      this.initFeed(),
-    ]).catch(e => {
+    await Promise.all([trustPromise, this.initFeed()]).catch(e => {
       logger.error('failed init step in userstorage', e.message, e)
       throw e
     })
@@ -662,14 +658,25 @@ export class UserStorage {
    */
   async fetchTrustIndexes() {
     try {
-      // make sure server is up
-      await API.ping()
+      const { data, lastFetch } = (await AsyncStorage.getItem('GD_trust')) || {}
+      this.trust = data || {}
+      let refetch = true
 
-      // fetch trust data
-      const { data } = await API.getTrust()
+      if (lastFetch) {
+        const stale = moment().diff(moment(lastFetch), 'days')
+        refetch = stale >= 7
+        logger.debug('fetchTrustIndexes', { stale, lastFetch, data })
+      }
+      if (refetch) {
+        // make sure server is up
+        await API.ping()
 
-      AsyncStorage.setItem('GD_trust', data)
-      this.trust = data
+        // fetch trust data
+        const { data } = await API.getTrust()
+
+        AsyncStorage.setItem('GD_trust', { data, lastFetch: Date.now() })
+        this.trust = data
+      }
     } catch (exception) {
       const { message } = exception
 

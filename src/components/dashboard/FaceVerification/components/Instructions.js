@@ -86,10 +86,10 @@ const InstructionsB = ({ styles, onDismiss = noop, ready }) => (
   <Wrapper>
     <Section style={styles.topContainerB} grow>
       <View style={styles.mainContentB}>
-        <ImageBackground source={portrait} style={{ flex: 1, position: 'static' }} imageStyle={{ borderRadius: 5 }} />
+        <ImageBackground source={portrait} style={styles.imageBackgroundB} imageStyle={{ borderRadius: 5 }} />
         <View style={styles.descriptionContainerB}>
           <View style={styles.descriptionWrapperB}>
-            <QuestionMark style={{ position: 'absolute', right: 0, marginTop: 9, marginRight: 10 }} />
+            <QuestionMark style={styles.questionMarkB} />
             <Text fontWeight="bold" style={[styles.textB, { paddingTop: 12 }]}>
               Make sure you...
             </Text>
@@ -138,7 +138,7 @@ const getStylesFromProps = ({ theme }) => ({
     paddingTop: getDesignRelativeHeight(theme.sizes.defaultDouble),
   },
   topContainerB: {
-    display: 'contents',
+    display: Platform.select({ web: 'contents', default: 'flex' }),
   },
   mainContent: {
     flexGrow: 1,
@@ -154,6 +154,19 @@ const getStylesFromProps = ({ theme }) => ({
     marginTop: getDesignRelativeHeight(18),
     height: getDesignRelativeHeight(254, false),
     width: '100%',
+  },
+  imageBackgroundB: {
+    flex: 1,
+    ...Platform.select({
+      web: { position: 'static' },
+      default: {},
+    }),
+  },
+  questionMarkB: {
+    position: 'absolute',
+    right: 0,
+    marginTop: 9,
+    marginRight: 10,
   },
   descriptionContainer: {
     paddingHorizontal: getDesignRelativeHeight(theme.sizes.defaultHalf),

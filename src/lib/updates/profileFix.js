@@ -2,7 +2,7 @@ import userStorage from '../gundb/UserStorage'
 import API from '../API/api'
 import { retry, timeout } from '../utils/async'
 
-const fromDate = new Date('2021/01/20')
+const fromDate = new Date('2021/02/10')
 
 /**
  * fix missing decryption keys
@@ -31,7 +31,7 @@ const checkProfile = async (lastUpdate, prevVersion, log) => {
         Promise.race([
           // set retry & timeout for each field separately
           flushField(field),
-          timeout(1000, `fixProfile: '${field}' field flush timeout`),
+          timeout(2500, `fixProfile: '${field}' field flush timeout`),
         ])
           .then(_ => true)
           .catch(e => e.message),

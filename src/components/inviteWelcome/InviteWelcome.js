@@ -6,6 +6,7 @@ import { fireEvent, INVITEWELCOME_NEXT, INVITEWELCOME_SKIPPED } from '../../lib/
 import { withStyles } from '../../lib/styles'
 import { getShadowStyles } from '../../lib/utils/getStyles'
 import AsyncStorage from '../../lib/utils/asyncStorage'
+import { IS_FIRST_VISIT } from '../../lib/constants/localStorage'
 import CustomButton from '../common/buttons/CustomButton'
 import Wrapper from '../common/layout/Wrapper'
 import Text from '../common/view/Text'
@@ -63,7 +64,7 @@ const InviteWelcome = ({ styles, screenProps, navigation }) => {
   }, [navigate, step])
 
   const done = () => {
-    AsyncStorage.setItem('isFirstTime', false)
+    AsyncStorage.setItem(IS_FIRST_VISIT, false)
 
     return navigate('Auth', { screen: 'signup' })
   }
@@ -77,7 +78,7 @@ const InviteWelcome = ({ styles, screenProps, navigation }) => {
   }, [navigate, step])
 
   useEffect(() => {
-    AsyncStorage.getItem('isFirstTime').then(isNew => {
+    AsyncStorage.getItem(IS_FIRST_VISIT).then(isNew => {
       if (isNew == null) {
         setShow(true)
       } else {

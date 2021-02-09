@@ -27,7 +27,7 @@ import { routeAndPathForCode } from './utils/routeAndPathForCode'
 
 const QR_DEFAULT_DELAY = 300
 
-const log = logger.child({ from: 'SendByQR.web' })
+const log = logger.child({ from: 'SendByQR' })
 
 type Props = {
   screenProps: any,
@@ -104,17 +104,14 @@ const SendByQR = ({ screenProps }: Props) => {
       <TopBar hideBalance={true} hideProfile={false} profileAsLink={false} push={push}>
         <View />
       </TopBar>
-      <Section style={styles.bottomSection}>
-        <Section.Row>
-          {hasCameraAccess && (
-            <QrReader
-              delay={qrDelay}
-              onError={handleError}
-              onScan={wrapFunction(handleScan, store, { onDismiss: onDismissDialog })}
-              styles={styles}
-            />
-          )}
-        </Section.Row>
+      <Section grow style={styles.bottomSection}>
+        {hasCameraAccess && (
+          <QrReader
+            delay={qrDelay}
+            onError={handleError}
+            onScan={wrapFunction(handleScan, store, { onDismiss: onDismissDialog })}
+          />
+        )}
       </Section>
     </Wrapper>
   )
@@ -123,9 +120,6 @@ const SendByQR = ({ screenProps }: Props) => {
 const styles = StyleSheet.create({
   bottomSection: {
     flex: 1,
-  },
-  centeredCamera: {
-    maxWidth: '100%',
   },
 })
 

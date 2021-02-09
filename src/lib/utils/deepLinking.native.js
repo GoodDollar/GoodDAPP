@@ -75,6 +75,8 @@ class DeepLinkingNative {
     const { clickedBranchLink, clickTimestamp, nonBranchLink, referringLink, url } = ccParams
 
     log.debug({ error, params, uri, ccParams, referringLink, nonBranchLink, clickedBranchLink })
+
+    //TODO: is this still required? if so add a comment describing why
     if (!this._isFirstRun && clickedBranchLink && this._lastClick !== clickTimestamp) {
       return restart()
     }

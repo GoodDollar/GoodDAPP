@@ -14,96 +14,50 @@ exports[`ViewAvatar matches snapshot 1`] = `
     }
   >
     <div
-      className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-14lw9ot r-borderRadius-1f0042m r-flex-13awgt0 r-justifyContent-1777fci r-paddingHorizontal-1e081e0 r-paddingVertical-1yzf0co r-position-bnwqim"
+      className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderRadius-1f0042m r-flex-13awgt0 r-paddingHorizontal-1e081e0 r-paddingVertical-1yzf0co r-position-bnwqim"
     >
       <div
         className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-justifyContent-1wtj0ep"
+        style={
+          Object {
+            "WebkitAlignSelf": "center",
+            "alignSelf": "center",
+            "msFlexItemAlign": "center",
+          }
+        }
       >
-        <input
-          accept="image/*"
-          id="file"
-          name="file"
-          onChange={[Function]}
-          style={
-            Object {
-              "opacity": 0,
-            }
-          }
-          type="file"
-        />
-        <label
-          htmlFor="file"
-          style={
-            Object {
-              "cursor": "pointer",
-              "display": "inline-block",
-            }
-          }
+        <div
+          className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-17s6mgv r-zIndex-mhe3cw"
         >
-          <div
-            className="css-view-1dbjc4n r-zIndex-184en5c"
+          <input
+            accept="image/*"
+            id="file"
+            name="file"
+            onChange={[Function]}
+            style={
+              Object {
+                "height": 0,
+                "opacity": 0,
+                "width": 0,
+              }
+            }
+            type="file"
+          />
+          <label
+            htmlFor="file"
+            style={
+              Object {
+                "cursor": "pointer",
+                "display": "inline-block",
+              }
+            }
           >
             <div
-              className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1uqle4r r-borderRadius-10jnvle r-bottom-1p0dtai r-cursor-1loqt21 r-display-6koalj r-height-ur6pnr r-justifyContent-1777fci r-left-14a9v6n r-marginRight-1x3qstn r-position-u8s1d r-right-1gg5ah6 r-top-1jy2w8o r-touchAction-1otgn73 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-width-1mhb1uw"
-              data-focusable={true}
-              onKeyDown={[Function]}
-              onKeyUp={[Function]}
-              onResponderGrant={[Function]}
-              onResponderMove={[Function]}
-              onResponderRelease={[Function]}
-              onResponderTerminate={[Function]}
-              onResponderTerminationRequest={[Function]}
-              onStartShouldSetResponder={[Function]}
-              tabIndex="0"
+              className="css-view-1dbjc4n"
             >
               <div
-                className="css-text-901oao r-color-jwli3a"
-                dir="auto"
-                style={
-                  Object {
-                    "fontFamily": "gooddollar",
-                    "fontSize": "22px",
-                    "fontStyle": "normal",
-                    "fontWeight": "normal",
-                  }
-                }
-              >
-                
-              </div>
-            </div>
-          </div>
-        </label>
-        <input
-          accept="image/*"
-          id="file"
-          name="file"
-          onChange={[Function]}
-          style={
-            Object {
-              "opacity": 0,
-            }
-          }
-          type="file"
-        />
-        <label
-          htmlFor="file"
-          style={
-            Object {
-              "cursor": "pointer",
-              "display": "inline-block",
-            }
-          }
-        >
-          <div
-            className="css-view-1dbjc4n r-flexDirection-18u37iz r-justifyContent-1777fci r-width-1tecaoj"
-          >
-            <div
-              className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-eqz5dr"
-            >
-              <div
-                aria-disabled={true}
-                className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-qt01xk r-borderColor-y68mpx r-borderWidth-rs99b7 r-justifyContent-1777fci r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-width-1tecaoj"
-                disabled={true}
+                className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1uqle4r r-borderRadius-10jnvle r-cursor-1loqt21 r-display-6koalj r-height-ur6pnr r-justifyContent-1777fci r-touchAction-1otgn73 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-width-1mhb1uw"
+                data-focusable={true}
                 onKeyDown={[Function]}
                 onKeyUp={[Function]}
                 onResponderGrant={[Function]}
@@ -112,34 +66,99 @@ exports[`ViewAvatar matches snapshot 1`] = `
                 onResponderTerminate={[Function]}
                 onResponderTerminationRequest={[Function]}
                 onStartShouldSetResponder={[Function]}
-                style={
-                  Object {
-                    "borderBottomLeftRadius": "136px",
-                    "borderBottomRightRadius": "136px",
-                    "borderTopLeftRadius": "136px",
-                    "borderTopRightRadius": "136px",
-                    "height": "272px",
-                  }
-                }
+                tabIndex="0"
               >
                 <div
-                  className="css-view-1dbjc4n r-width-1tecaoj"
+                  className="css-text-901oao r-color-jwli3a"
+                  dir="auto"
                   style={
                     Object {
-                      "backgroundColor": "rgba(0,0,0,0.00)",
+                      "fontFamily": "gooddollar",
+                      "fontSize": "22px",
+                      "fontStyle": "normal",
+                      "fontWeight": "normal",
+                    }
+                  }
+                >
+                  
+                </div>
+              </div>
+            </div>
+          </label>
+        </div>
+        <div
+          className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1777fci"
+        >
+          <input
+            accept="image/*"
+            id="file"
+            name="file"
+            onChange={[Function]}
+            style={
+              Object {
+                "height": 0,
+                "opacity": 0,
+                "width": 0,
+              }
+            }
+            type="file"
+          />
+          <label
+            htmlFor="file"
+            style={
+              Object {
+                "cursor": "pointer",
+                "display": "inline-block",
+              }
+            }
+          >
+            <div
+              className="css-view-1dbjc4n r-flexDirection-18u37iz r-justifyContent-1777fci r-width-1tecaoj"
+            >
+              <div
+                className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-eqz5dr"
+              >
+                <div
+                  aria-disabled={true}
+                  className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-qt01xk r-borderColor-y68mpx r-borderWidth-rs99b7 r-justifyContent-1777fci r-marginTop-1mmau9f r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-width-1tecaoj r-zIndex-417010"
+                  disabled={true}
+                  onKeyDown={[Function]}
+                  onKeyUp={[Function]}
+                  onResponderGrant={[Function]}
+                  onResponderMove={[Function]}
+                  onResponderRelease={[Function]}
+                  onResponderTerminate={[Function]}
+                  onResponderTerminationRequest={[Function]}
+                  onStartShouldSetResponder={[Function]}
+                  style={
+                    Object {
+                      "borderBottomLeftRadius": "136px",
+                      "borderBottomRightRadius": "136px",
+                      "borderTopLeftRadius": "136px",
+                      "borderTopRightRadius": "136px",
                       "height": "272px",
                     }
                   }
                 >
-                  <unknownProfile.svg />
+                  <div
+                    className="css-view-1dbjc4n r-width-1tecaoj"
+                    style={
+                      Object {
+                        "backgroundColor": "rgba(0,0,0,0.00)",
+                        "height": "272px",
+                      }
+                    }
+                  >
+                    <unknownProfile.svg />
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </label>
+          </label>
+        </div>
       </div>
       <div
-        className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-flexGrow-16y2uox r-justifyContent-17s6mgv r-minHeight-h10h58 r-width-13qz1uu r-zIndex-1wyyakw"
+        className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-flexGrow-16y2uox r-justifyContent-17s6mgv r-minHeight-h10h58 r-width-13qz1uu"
       >
         <div
           className="css-view-1dbjc4n r-alignItems-1oszu61 r-display-6koalj r-justifyContent-1777fci"

@@ -1,14 +1,14 @@
 {
   "name": "@gooddollar/gooddapp",
-  "version": "1.22.0",
+  "version": "1.22.12",
   "engines": {
     "node": "10.21.0",
     "npm": "6.x"
   },
   "scripts": {
     "web": "react-app-rewired start",
-    "android": "npm run copy:gdfont && npm run animation:assets && react-native run-android",
-    "ios": "npm run animation:assets && react-native run-ios",
+    "android": "export ENVFILE=.env;npm run copy:gdfont && npm run animation:assets && react-native run-android",
+    "ios": "export ENVFILE=.env;npm run animation:assets && react-native run-ios",
     "start:native": "react-native start",
     "start": "serve -s -l $PORT build",
     "analyze:sme": "source-map-explorer 'build/static/js/*.js'",
@@ -168,7 +168,7 @@
     "react-native-permissions": "^2.1.5",
     "react-native-phone-input": "^0.2.4",
     "react-native-push-notification": "^3.1.9",
-    "react-native-qrcode-scanner": "^1.5.1",
+    "react-native-qrcode-scanner": "^1.5.3",
     "react-native-qrcode-svg": "^6.0.1",
     "react-native-randombytes": "^3.5.3",
     "react-native-reanimated": "^1.7.0",

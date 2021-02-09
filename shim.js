@@ -6,6 +6,7 @@ global.location = {
 }
 
 global.process = require('process')
+// global.process.version = 'v0.10';
 global.process.browser = false
 
 const isDev = typeof __DEV__ === 'boolean' && __DEV__

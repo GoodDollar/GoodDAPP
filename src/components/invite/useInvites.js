@@ -14,14 +14,22 @@ const log = logger.child({ from: 'useInvites' })
 const registerForInvites = async () => {
   const inviterInviteCode = userStorage.userProperties.get('inviterInviteCode')
 
-  if (inviterInviteCode) {
-    fireEvent(INVITE_JOIN, { inviterInviteCode })
-  }
-
+  let hasJoined = false
   try {
+    if (inviterInviteCode) {
+      hasJoined = await goodWallet.hasJoinedInvites()
+      !hasJoined && fireEvent(INVITE_JOIN, { inviterInviteCode })
+    }
     log.debug('joining invites contract:', { inviterInviteCode })
     const inviteCode = await goodWallet.joinInvites(inviterInviteCode)
     log.debug('joined invites contract:', { inviteCode, inviterInviteCode })
+
+    //this is a fix for a bug that users didnt register correctly. so didnt collect bounty on first claim.
+    if (!hasJoined && (await goodWallet.isCitizen())) {
+      log.debug('joined invites. user already whitelisted. collecting bounty...')
+      await goodWallet.collectInviteBounty()
+    }
+
     userStorage.userProperties.set('inviteCode', inviteCode)
     return inviteCode
   } catch (e) {

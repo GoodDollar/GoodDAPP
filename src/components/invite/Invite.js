@@ -13,7 +13,6 @@ import { WavesBox } from '../common/view/WavesBox'
 import { theme } from '../theme/styles'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
 import logger from '../../lib/logger/pino-logger'
-import { isMobile } from '../../lib/utils/platform'
 import { fireEvent, INVITE_HOWTO, INVITE_SHARE } from '../../lib/analytics/analytics'
 import Config from '../../config/config'
 import { generateShareObject, isSharingAvailable } from '../../lib/share'
@@ -27,8 +26,10 @@ const log = logger.child({ from: 'Invite' })
 
 const shareTitle = 'I signed up to GoodDollar. Join me.'
 const shareMessage =
-  'Hi!\nThis is my referral link to be among the first people to get real, free digital basic income called GoodDollar!\n' +
-  'You’ll receive a 50 G$ bonus, and join the thousands of people across the globe, building a better, more prosperous future, using GoodDollar.\n\n'
+  'Hi,\nIf you believe, like me, in economic inclusion and the distribution of prosperity for all, then I invite you to sign up for GoodDollar, create your own basic income wallet and start collecting your daily digital income.\nUse my invite link and receive an extra 50G$ bonus\n\n'
+
+const shortShareMessage =
+  'Hi,\nIf you believe in economic inclusion and distribution of prosperity for all, sign up for a GoodDollar wallet and start collecting daily digital income. Use my invite link and receive an extra 50G$\n\n'
 
 const InvitedUser = ({ name, avatar, status }) => {
   const isApproved = status === 'approved'
@@ -92,8 +93,7 @@ const ShareIcons = ({ shareUrl }) => {
       service: 'twitter',
       Component: TwitterShareButton,
       color: theme.colors.darkBlue,
-      title: shareMessage,
-      hashtags: ['GoodDollar', 'UBI'],
+      title: shortShareMessage,
     },
 
     {
@@ -123,8 +123,14 @@ const ShareIcons = ({ shareUrl }) => {
     <Section.Row style={{ marginTop: theme.paddings.defaultMargin * 2, justifyContent: 'flex-start' }}>
       {buttons.map(({ name, Component, ...props }) => (
         <Section.Stack style={{ marginRight: theme.sizes.defaultDouble }} key={name}>
-          <Component url={shareUrl} {...props}>
-            <IconButton {...props} name={name} circleSize={36} onPress={() => onShare(props.service)} />
+          <Component
+            url={shareUrl}
+            {...props}
+            beforeOnClick={() => {
+              onShare(props.service)
+            }}
+          >
+            <IconButton {...props} name={name} circleSize={36} />
           </Component>
         </Section.Stack>
       ))}
@@ -156,7 +162,7 @@ const ShareBox = ({ level }) => {
       <Section.Row style={{ alignItems: 'flex-start' }}>
         <Text
           textAlign={'left'}
-          fontSize={getDesignRelativeWidth(11, false)}
+          fontSize={getDesignRelativeWidth(10, false)}
           fontWeight={'medium'}
           lineHeight={30}
           style={{
@@ -178,7 +184,7 @@ const ShareBox = ({ level }) => {
           withoutDone
         />
       </Section.Row>
-      {!isMobile && <ShareIcons shareUrl={shareUrl} />}
+      <ShareIcons shareUrl={shareUrl} />
     </WavesBox>
   )
 }
@@ -282,7 +288,7 @@ const InvitesHowTO = () => {
       <Section.Stack
         style={{ marginLeft: theme.sizes.defaultDouble, height: 58, flexShrink: 1, justifyContent: 'center' }}
       >
-        <Section.Text color={theme.colors.darkBlue} lineHeight={16} fontSize={12} textAlign={'left'}>
+        <Section.Text color={theme.colors.darkBlue} lineHeight={20} fontSize={15} textAlign={'left'}>
           {text}
         </Section.Text>
       </Section.Stack>
@@ -347,7 +353,7 @@ const InvitesData = ({ invitees, refresh, level, totalEarned = 0 }) => (
 )
 
 const Invite = () => {
-  const [showHowTo, setShowHowTo] = useState(false)
+  const [showHowTo, setShowHowTo] = useState(true)
   const [invitees, refresh, level, inviteState] = useInvited()
 
   const totalEarned = get(inviteState, 'totalEarned', 0)
@@ -390,8 +396,8 @@ const Invite = () => {
         </Section.Text>
       </Section.Stack>
       <Section.Stack style={{ marginTop: theme.sizes.defaultDouble }}>
-        <Section.Text letterSpacing={-0.07} lineHeight={20} fontSize={14} color={theme.colors.darkBlue}>
-          {`Invite Someone to Get Free Digital Basic Income`}
+        <Section.Text letterSpacing={-0.07} lineHeight={20} fontSize={15} color={theme.colors.darkBlue}>
+          {`Make sure they claim to get your reward`}
         </Section.Text>
       </Section.Stack>
       <View
@@ -429,6 +435,8 @@ const styles = {
     paddingRight: 10,
     justifyContent: 'flex-start',
     alignItems: 'center',
+    flex: 1,
+    height: '100%',
   },
   linkBoxStyle: {
     backgroundColor: theme.colors.white,

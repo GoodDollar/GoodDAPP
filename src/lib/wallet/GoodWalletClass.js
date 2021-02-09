@@ -9,6 +9,8 @@ import ERC20ABI from '@gooddollar/goodcontracts/build/contracts/ERC20.min.json'
 import UBIABI from '@gooddollar/goodcontracts/stakingModel/build/contracts/UBIScheme.min.json'
 import SimpleDaiStaking from '@gooddollar/goodcontracts/stakingModel/build/contracts/SimpleDAIStaking.min.json'
 import InvitesABI from '@gooddollar/goodcontracts/upgradables/build/contracts/InvitesV1.min.json'
+import FaucetABI from '@gooddollar/goodcontracts/upgradables/build/contracts/FuseFaucet.min.json'
+
 import Web3 from 'web3'
 import { BN, toBN } from 'web3-utils'
 import abiDecoder from 'abi-decoder'
@@ -129,6 +131,8 @@ export class GoodWallet {
 
   invitesContract: Web3.eth.Contract
 
+  faucetContract: Web3.eth.Contract
+
   account: string
 
   accounts: Array<string>
@@ -228,6 +232,14 @@ export class GoodWallet {
           { from: this.account },
         )
         abiDecoder.addABI(InvitesABI.abi)
+
+        // faucet Contract
+        this.faucetContract = new this.wallet.eth.Contract(
+          FaucetABI.abi,
+          get(UpgradablesAddress, `${this.network}.FuseFaucet`),
+          { from: this.account },
+        )
+        abiDecoder.addABI(FaucetABI.abi)
 
         log.info('GoodWallet Ready.', { account: this.account })
       })
@@ -671,7 +683,7 @@ export class GoodWallet {
       const { message } = exception
 
       log.warn('checkEntitlement failed', message, exception)
-      return 0
+      throw exception
     }
   }
 
@@ -1136,12 +1148,17 @@ export class GoodWallet {
 
   async collectInviteBounty(invitee) {
     const bountyFor = invitee || this.account
-    const canCollect = await this.invitesContract.methods.canCollectBountyFor(bountyFor)
+    const canCollect = await this.invitesContract.methods.canCollectBountyFor(bountyFor).call()
     if (canCollect) {
       const tx = this.invitesContract.methods.bountyFor(bountyFor)
       const res = await this.sendTransaction(tx, {})
       return res
     }
+  }
+
+  async hasJoinedInvites() {
+    const user = await this.invitesContract.methods.users(this.account).call()
+    return user.joinedAt.toNumber() > 0
   }
 
   async joinInvites(inviter, codeLength = 10) {
@@ -1231,38 +1248,60 @@ export class GoodWallet {
    * @param {object} options
    */
   async verifyHasGas(wei: number, options = {}) {
+    const TOP_GWEI = 103000 * 1e9 //the gas fee for topWallet faucet call
+    const minWei = wei ? wei : 250000 * 1e9
     try {
       const { topWallet = true } = options
 
       let nativeBalance = await this.balanceOfNative()
-      if (nativeBalance > wei) {
+      if (nativeBalance > minWei) {
         return {
           ok: true,
         }
       }
 
-      if (topWallet) {
-        log.info('no gas, asking for top wallet', { nativeBalance, required: wei, address: this.account })
-        const toppingRes = await API.verifyTopWallet()
-        const { data } = toppingRes
-        if (!data || data.ok !== 1) {
-          return {
-            ok: false,
-            error:
-              !data || (data.error && !~data.error.indexOf(`User doesn't need topping`)) || data.sendEtherOutOfSystem,
-          }
-        }
-        nativeBalance = await this.balanceOfNative()
+      if (!topWallet) {
         return {
-          ok: data.ok && nativeBalance > wei,
+          ok: false,
         }
       }
 
+      //self serve using faucet. we verify nativeBalance to prevent loop with sendTransaction which calls this function also
+      if (nativeBalance >= TOP_GWEI && (await this.faucetContract.methods.canTop(this.account).call())) {
+        log.info('verifyHasGas using faucet...')
+        const toptx = this.faucetContract.methods.topWallet(this.account)
+        const ok = await this.sendTransaction(toptx)
+          .then(_ => true)
+          .catch(e => {
+            log.warn('verifyHasGas faucet failed', e.message, e)
+            return false
+          })
+        if (ok) {
+          return { ok }
+        }
+      }
+
+      //if we cant use faucet or it failed then fallback to adminwallet api
+      log.info('verifyHasGas no gas, asking for top wallet from server', {
+        nativeBalance,
+        required: minWei,
+        address: this.account,
+      })
+      const toppingRes = await API.verifyTopWallet()
+      const { data } = toppingRes
+      if (!data || data.ok !== 1) {
+        return {
+          ok: false,
+          error:
+            !data || (data.error && !~data.error.indexOf(`User doesn't need topping`)) || data.sendEtherOutOfSystem,
+        }
+      }
+      nativeBalance = await this.balanceOfNative()
       return {
-        ok: false,
+        ok: data.ok && nativeBalance > minWei,
       }
     } catch (e) {
-      log.warn('verifyHasGas:', e.message, e, { wei })
+      log.warn('verifyHasGas:', e.message, e, { minWei })
       return {
         ok: false,
         error: false,

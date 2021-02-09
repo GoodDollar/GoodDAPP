@@ -1286,7 +1286,10 @@ export class UserStorage {
   }
 
   async getFieldPrivacy(field) {
-    const currentPrivacy = await this.profile.get(field).get('privacy')
+    const currentPrivacy = await this.profile
+      .get(field)
+      .get('privacy')
+      .then()
 
     return currentPrivacy || this.profileSettings[field].defaultPrivacy || 'public'
   }
@@ -1322,23 +1325,22 @@ export class UserStorage {
       profile.smallAvatar = await resizeImage(profile.avatar, 50)
     }
 
+    const fieldsToSave = keys(this.profileSettings).filter(key => profile[key])
     const results = await Promise.all(
-      keys(this.profileSettings)
-        .filter(key => profile[key])
-        .map(async field => {
+      fieldsToSave.map(async field => {
+        try {
           let isPrivate = get(this.profileSettings, `[${field}].defaultPrivacy`, 'private')
 
           if (update) {
             isPrivate = await this.getFieldPrivacy(field)
           }
 
-          try {
-            return await this.setProfileField(field, profile[field], isPrivate)
-          } catch (e) {
-            //logger.error('setProfile field failed:', e.message, e, { field })
-            return { err: `failed saving field ${field}` }
-          }
-        }),
+          return await this.setProfileField(field, profile[field], isPrivate)
+        } catch (e) {
+          //logger.error('setProfile field failed:', e.message, e, { field })
+          return { err: `failed saving field ${field}` }
+        }
+      }),
     )
 
     const gunErrors = results.filter(ack => ack && ack.err).map(ack => ack.err)
@@ -1738,7 +1740,10 @@ export class UserStorage {
    */
   async isUsername(username: string) {
     const cleanValue = UserStorage.cleanHashedFieldForIndex('username', username)
-    const profile = await this.gun.get('users/byusername').get(cleanValue)
+    const profile = await this.gun
+      .get('users/byusername')
+      .get(cleanValue)
+      .then()
     return profile !== undefined
   }
 
@@ -1752,7 +1757,10 @@ export class UserStorage {
     try {
       const date = moment(new Date()).format('DDMMYY')
 
-      await this.gun.get('survey').get(date)
+      await this.gun
+        .get('survey')
+        .get(date)
+        .then()
       await this.gun
         .get('survey')
         .get(date)
@@ -1776,6 +1784,7 @@ export class UserStorage {
       .get('survey')
       .get(date)
       .get(hash)
+      .then()
     return result
   }
 
@@ -2301,7 +2310,7 @@ export class UserStorage {
           codeToTxHashRef.put({ [eventHashedCode]: eventId })
           break
         case EVENT_TYPE_WITHDRAW:
-          ownLink = await codeToTxHashRef.get(eventHashedCode)
+          ownLink = await codeToTxHashRef.get(eventHashedCode).then()
 
           if (!ownLink) {
             break

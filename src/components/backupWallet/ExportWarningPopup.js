@@ -11,8 +11,6 @@ import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 
 const mapImageStylesToProps = ({ theme }) => ({
   imageWrapper: {
-    width: '100%',
-    height: '100%',
     display: 'flex',
     alignItems: 'center',
     transform: [{ rotate: '180deg' }],

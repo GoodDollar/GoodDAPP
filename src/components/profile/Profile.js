@@ -6,12 +6,12 @@ import { createStackNavigator } from '../appNavigation/stackNavigation'
 import { Section, Text, UserAvatar, Wrapper } from '../common'
 import { withStyles } from '../../lib/styles'
 import { getDesignRelativeWidth } from '../../lib/utils/sizes'
+import RoundIconButton from '../common/buttons/RoundIconButton'
 import EditAvatar from './EditAvatar'
 import EditProfile from './EditProfile'
 import ProfileDataTable from './ProfileDataTable'
 import ProfilePrivacy from './ProfilePrivacy'
 import ViewAvatar from './ViewOrUploadAvatar'
-import CircleButtonWrapper from './CircleButtonWrapper'
 import VerifyEdit from './VerifyEdit'
 import VerifyEditCode from './VerifyEditCode'
 
@@ -31,27 +31,15 @@ const ProfileWrapper = props => {
   return (
     <Wrapper>
       <Section.Row justifyContent="space-between" alignItems="flex-start" style={styles.userDataAndButtonsRow}>
-        <CircleButtonWrapper
+        <RoundIconButton
           label={'Privacy'}
           iconName={'privacy'}
           iconSize={23}
           onPress={handlePrivacyPress}
           containerStyle={styles.iconLeft}
         />
-        <View style={styles.userDataWrapper}>
-          <UserAvatar
-            style={styles.userAvatar}
-            profile={profile}
-            onPress={handleAvatarPress}
-            size={avatarSize}
-            imageSize={avatarSize - 6}
-            unknownStyle={styles.userAvatar}
-          />
-          <Text fontSize={22} fontFamily="Roboto Slab" lineHeight={29} style={styles.userName}>
-            {!!profile && profile.fullName}
-          </Text>
-        </View>
-        <CircleButtonWrapper
+
+        <RoundIconButton
           label={'Edit'}
           iconName={'edit'}
           iconSize={25}
@@ -64,6 +52,19 @@ const ProfileWrapper = props => {
         <View style={styles.emptySpace} />
         <ProfileDataTable profile={profile} showCustomFlag />
       </Section>
+      <View style={styles.userDataWrapper}>
+        <UserAvatar
+          style={styles.userAvatar}
+          profile={profile}
+          onPress={handleAvatarPress}
+          size={avatarSize}
+          imageSize={avatarSize - 6}
+          unknownStyle={styles.userAvatar}
+        />
+        <Text fontSize={22} fontFamily="Roboto Slab" lineHeight={29} style={styles.userName}>
+          {!!profile && profile.fullName}
+        </Text>
+      </View>
     </Wrapper>
   )
 }
@@ -98,6 +99,8 @@ const getStylesFromProps = ({ theme }) => {
       position: 'absolute',
       justifyContent: 'center',
       alignItems: 'center',
+      alignSelf: 'center',
+      zIndex: 1,
     },
     userAvatar: {
       borderWidth: 3,

@@ -115,15 +115,21 @@ const ShareIcons = ({ shareUrl }) => {
     },
   ]
 
-  // const onShare = service => {
-  //   fireEvent(INVITE_SHARE, { method: service })
-  // }
+  const onShare = service => {
+    fireEvent(INVITE_SHARE, { method: service })
+  }
 
   return (
     <Section.Row style={{ marginTop: theme.paddings.defaultMargin * 2, justifyContent: 'flex-start' }}>
       {buttons.map(({ name, Component, ...props }) => (
         <Section.Stack style={{ marginRight: theme.sizes.defaultDouble }} key={name}>
-          <Component url={shareUrl} {...props}>
+          <Component
+            url={shareUrl}
+            {...props}
+            beforeOnClick={() => {
+              onShare(props.service)
+            }}
+          >
             <IconButton {...props} name={name} circleSize={36} />
           </Component>
         </Section.Stack>

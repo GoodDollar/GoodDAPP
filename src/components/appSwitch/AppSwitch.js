@@ -195,7 +195,9 @@ const AppSwitch = (props: LoadingProps) => {
     }
   }
 
-  const deepLinkingNavigation = data => props.navigation.navigate(data.pathname.slice(1))
+  const deepLinkingNavigation = () => {
+    props.navigation.navigate(DeepLinking.pathname.slice(1))
+  }
 
   useEffect(() => {
     init()

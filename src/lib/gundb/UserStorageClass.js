@@ -1332,7 +1332,10 @@ export class UserStorage {
       profile.smallAvatar = await resizeImage(profile.avatar, 50)
     }
 
-    const fieldsToSave = keys(this.profileSettings).filter(key => profile[key])
+    const fieldsToSave = keys(this.profileSettings)
+      .filter(key => profile[key])
+      .concat(profile.mobile === '' ? ['mobile'] : [])
+
     const results = await Promise.all(
       fieldsToSave.map(async field => {
         try {

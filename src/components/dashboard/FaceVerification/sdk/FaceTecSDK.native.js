@@ -1,7 +1,7 @@
 // @flow
 import { assign, noop, over } from 'lodash'
 
-import FaceTec, { FaceTecUxEvent } from 'react-native-facetec'
+import FaceTec, { FaceTecUxEvent } from '@gooddollar/react-native-facetec'
 
 import api from '../../../../lib/API/api'
 import Config from '../../../../config/config'
@@ -10,7 +10,7 @@ import logger from '../../../../lib/logger/pino-logger'
 import { parseLicense } from '../utils/options'
 import { MAX_RETRIES_ALLOWED } from './FaceTecSDK.constants'
 
-export { FaceTecSDKStatus, FaceTecSessionStatus } from 'react-native-facetec'
+export { FaceTecSDKStatus, FaceTecSessionStatus } from '@gooddollar/react-native-facetec'
 
 // sdk class
 export const FaceTecSDK = new class {

@@ -55,7 +55,7 @@ const fetchKey = memoize(async (path, node) => {
       .get('trust')
       .get(pair.pub)
       .get(path)
-      .then(null, 500)
+      .then(null, 1000)
   }
   const secureKey = await SEA.decrypt(encryptedKey, pair)
 

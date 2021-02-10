@@ -183,7 +183,7 @@ const IntroScreen = ({ styles, screenProps }) => {
 
   const handleVerifyClick = useCallback(async () => {
     const isDeviceEmulated = await isEmulator
-    
+
     // if cypress is running - just redirect to FR as we're skipping
     // zoom componet (which requires camera access) in this case
     if (isE2ERunning || isDeviceEmulated) {

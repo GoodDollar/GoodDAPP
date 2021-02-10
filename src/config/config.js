@@ -70,6 +70,7 @@ const Config = {
   auth0SMSClientId: env.REACT_APP_AUTH0_SMS_CLIENT_ID,
   auth0Domain: env.REACT_APP_AUTH0_DOMAIN || 'https://gooddollar.eu.auth0.com',
   enableInvites: env.REACT_APP_ENABLE_INVITES !== 'false' || isEToro, // true by default
+  invitesUrl: env.REACT_APP_INVITES_URL || publicUrl,
   showRewards: env.REACT_APP_DASHBOARD_SHOW_REWARDS === 'true',
   faceTecEncryptionKey: fixNL(env.REACT_APP_ZOOM_ENCRYPTION_KEY),
   faceTecLicenseKey: env.REACT_APP_ZOOM_LICENSE_KEY,

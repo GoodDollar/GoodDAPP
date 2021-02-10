@@ -82,7 +82,7 @@ const BorderedBox = ({
       <View style={[styles.boxCopyIconWrapper, showCopyIcon ? null : styles.boxCopyButtonWrapper]}>
         {showCopyIcon ? (
           <>
-            <RoundIconButton iconSize={22} icon="copy" style={styles.copyIconContainer} />
+            <RoundIconButton onPress={copyToClipboard} iconSize={22} iconName="copy" style={styles.copyIconContainer} />
             <Section.Text fontSize={10} fontWeight="medium" color={theme.colors.primary}>
               {copyButtonText}
             </Section.Text>

@@ -23,34 +23,38 @@ const update = async () => {
 
   log.debug('starting updates:', { prevVersion, lastUpdate, doneUpdates })
 
-  const promises = updates.map(upd => {
-    const updateKey = `${upd.key}_${new Date(upd.fromDate).toISOString()}`
+  if (prevVersion) {
+    const promises = updates.map(upd => {
+      const updateKey = `${upd.key}_${new Date(upd.fromDate).toISOString()}`
 
-    if (upd.fromDate > lastUpdate || !doneUpdates[updateKey]) {
-      return upd
-        .update(lastUpdate, prevVersion, log)
-        .then(_ => {
-          doneUpdates[updateKey] = true
-          log.info('update done:', updateKey)
-          fireEvent('UPDATE_SUCCESS', { key: upd.key })
-        })
-        .catch(e => {
-          doneUpdates[updateKey] = false
-          fireEvent('UPDATE_FAILED', { key: upd.key, error: e.message })
-          log.error('update failed:', e.message, e, { updKey: upd.key })
-        })
-        .then(_ => true)
-    }
+      if (upd.fromDate > lastUpdate || !doneUpdates[updateKey]) {
+        return upd
+          .update(lastUpdate, prevVersion, log)
+          .then(_ => {
+            doneUpdates[updateKey] = true
+            log.info('update done:', updateKey)
+            fireEvent('UPDATE_SUCCESS', { key: upd.key })
+          })
+          .catch(e => {
+            doneUpdates[updateKey] = false
+            fireEvent('UPDATE_FAILED', { key: upd.key, error: e.message })
+            log.error('update failed:', e.message, e, { updKey: upd.key })
+          })
+          .then(_ => true)
+      }
 
-    log.info('updated skipped:', { updateKey })
-    return false
-  })
+      log.info('updated skipped:', { updateKey })
+      return false
+    })
 
-  log.debug('waiting update promises:', promises.length)
+    log.debug('waiting update promises:', promises.length)
 
-  const results = await Promise.all(promises).then(filter)
+    const results = await Promise.all(promises).then(filter)
 
-  log.debug('done updates:', { results }, results.length)
+    log.debug('done updates:', { results }, results.length)
+  } else {
+    log.debug('skipping updates for no prevversion (new user?)')
+  }
 
   updatesData.lastUpdate = new Date().toISOString()
   updatesData.lastVersionUpdate = Config.version

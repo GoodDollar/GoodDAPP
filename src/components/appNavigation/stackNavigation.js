@@ -213,7 +213,7 @@ class AppView extends Component<AppViewProps, AppViewState> {
   }
 
   /**
-   * Navigates to specific screen with custom parameters as query string. and reseting the stack
+   * Navigates to specific screen with custom parameters as query string. and resetting the stack
    */
   navigateTo = (nextRoute: string, params: any) => {
     const { navigation } = this.props

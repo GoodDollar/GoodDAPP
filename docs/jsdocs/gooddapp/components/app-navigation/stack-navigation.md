@@ -99,7 +99,7 @@ This way it can be kept between screens
 
 ## 
 
-marks route transistion
+marks route transition
 
 ## createStackNavigator
 

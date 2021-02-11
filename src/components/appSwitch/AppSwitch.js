@@ -134,7 +134,7 @@ const AppSwitch = (props: LoadingProps) => {
   const navigateToUrlAction = async () => {
     let destDetails = await getParams()
 
-    //once user logs in we can redirect him to saved destinationpath
+    //once user logs in we can redirect him to saved destinationPath
     if (destDetails) {
       log.debug('destinationPath found:', destDetails)
       return props.navigation.navigate(destDetails)

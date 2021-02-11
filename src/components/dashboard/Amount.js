@@ -109,7 +109,11 @@ const Amount = (props: AmountProps) => {
             </Section.Row>
             <Section.Stack grow={3}>
               <NextButton
-                nextRoutes={screenState.nextRoutes}
+                nextRoutes={
+                  isReceive
+                    ? ['Reason', 'ReceiveSummary', 'TransactionConfirmation']
+                    : ['Reason', 'SendLinkSummary', 'TransactionConfirmation']
+                }
                 canContinue={handleContinue}
                 values={{ ...params, ...restState, amount: gdToWei(GDAmount) }}
                 disabled={loading}
@@ -124,10 +128,5 @@ const Amount = (props: AmountProps) => {
 }
 
 Amount.navigationOptions = navigationOptions
-
-Amount.shouldNavigateToComponent = props => {
-  const { screenState } = props.screenProps
-  return !!screenState.nextRoutes
-}
 
 export default Amount

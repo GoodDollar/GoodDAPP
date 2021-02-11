@@ -1,6 +1,5 @@
 // @flow
 import React, { useCallback, useEffect, useState } from 'react'
-import { Platform } from 'react-native'
 import { SceneView } from '@react-navigation/core'
 import { debounce } from 'lodash'
 import moment from 'moment'
@@ -102,24 +101,17 @@ const AppSwitch = (props: LoadingProps) => {
   /*
   Check if user is incoming with a URL with action details, such as payment link or email confirmation
   */
-  const getParams = async () => {
-    // const navInfo = router.getPathAndParamsForState(state)
-    const destinationPath = await AsyncStorage.getItem(DESTINATION_PATH)
-    AsyncStorage.removeItem(DESTINATION_PATH)
-
-    // FIXME: RN INAPPLINKS
-    if (Platform.OS !== 'web') {
-      return undefined
-    }
-
-    if (destinationPath) {
-      const app = router.getActionForPathAndParams(destinationPath.path) || {}
-      log.debug('destinationPath getParams', { destinationPath, router, state, app })
+  const getRoute = (destinationPath = {}) => {
+    let { path, params } = destinationPath
+    if (path || params) {
+      path = path || 'AppNavigation/Dashboard/Home'
+      const app = router.getActionForPathAndParams(path) || {}
+      log.debug('destinationPath getRoute', { path, params, router, state, app })
 
       //get nested routes
       const destRoute = actions => (actions && actions.action ? destRoute(actions.action) : actions)
       const destData = destRoute(app)
-      destData.params = { ...destData.params, ...destinationPath.params }
+      destData.params = { ...destData.params, ...params }
       return destData
     }
 
@@ -131,8 +123,21 @@ const AppSwitch = (props: LoadingProps) => {
   He won't be redirected in checkAuthStatus since it is called on didmount effect and won't happen after
   user completes signup and becomes loggedin which just updates this component
 */
-  const navigateToUrlAction = async () => {
-    let destDetails = await getParams()
+  const navigateToUrlAction = async (destinationPath: { path: string, params: {} }) => {
+    destinationPath = destinationPath || (await AsyncStorage.getItem(DESTINATION_PATH))
+    AsyncStorage.removeItem(DESTINATION_PATH)
+
+    log.debug('navigateToUrlAction:', { destinationPath })
+
+    //if no special destinationPath check if we have incoming params from web url
+    if (!isMobileNative && !destinationPath) {
+      const params = DeepLinking.params
+      log.debug('navigateToUrlAction destinationPath empty getting web params from url', { params })
+      if (params) {
+        destinationPath = { params }
+      }
+    }
+    let destDetails = destinationPath && getRoute(destinationPath)
 
     //once user logs in we can redirect him to saved destinationPath
     if (destDetails) {
@@ -195,8 +200,9 @@ const AppSwitch = (props: LoadingProps) => {
     }
   }
 
-  const deepLinkingNavigation = () => {
-    props.navigation.navigate(DeepLinking.pathname.slice(1))
+  const deepLinkingNavigation = data => {
+    log.debug('deepLinkingNavigation: got url', { data })
+    navigateToUrlAction({ path: data.pathname, params: data.queryParams })
   }
 
   useEffect(() => {
@@ -204,12 +210,12 @@ const AppSwitch = (props: LoadingProps) => {
     navigateToUrlAction()
   }, [])
 
-  //Pushing users to the path when signing in.
-  useEffect(() => {
-    if (isMobileNative && DeepLinking.pathname) {
-      deepLinkingNavigation()
-    }
-  }, [])
+  // //Pushing users to the path when signing in.
+  // useEffect(() => {
+  //   if (isMobileNative && DeepLinking.pathname) {
+  //     deepLinkingNavigation()
+  //   }
+  // }, [])
 
   useEffect(() => {
     if (!isMobileNative || !appState === 'active') {

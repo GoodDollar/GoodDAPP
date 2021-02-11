@@ -1,5 +1,6 @@
 import { memoize } from 'lodash'
 import SEA from '@gooddollar/gun/sea'
+import { isMobileNative } from '../utils/platform'
 
 // eslint-disable-next-line require-await
 export const getSecureKey = async node => {
@@ -55,7 +56,7 @@ const fetchKey = memoize(async (path, node) => {
       .get('trust')
       .get(pair.pub)
       .get(path)
-      .then(null, 1000)
+      .then(null, isMobileNative ? 2500 : 1000)
   }
   const secureKey = await SEA.decrypt(encryptedKey, pair)
 

@@ -261,6 +261,10 @@ const Dashboard = props => {
 
     const { paymentCode, event } = params
 
+    if (Platform.os !== 'web') {
+      DeepLinking.params = {}
+    }
+
     if (paymentCode) {
       //payment link (from send)
       handleWithdraw(params)

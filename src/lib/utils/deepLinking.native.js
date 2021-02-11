@@ -2,7 +2,6 @@ import branch from 'react-native-branch'
 import { assign, camelCase, mapKeys, over } from 'lodash'
 import logger from '../logger/pino-logger'
 import { extractQueryParams } from '../share'
-import restart from './restart'
 import extractPathname from './extractPathname'
 
 const log = logger.child({ from: 'deeplinking.native' })
@@ -26,6 +25,8 @@ class DeepLinkingNative {
     event: '',
   }
 
+  callbackParams = {}
+
   navigationCallbacks = []
 
   pathname = ''
@@ -35,17 +36,19 @@ class DeepLinkingNative {
     // and we haven't active subscription yet
     // if pass this check - we'll have more that one callback invoke per each emit
     // and will be unable to unsubscribe if will subscribe more that once
-    if (!this._unsubscribe) {
-      // storing unsubscribe fn inside instance var
-      this._unsubscribe = branch.subscribe(this._listener)
-    }
     if (navigationCallback) {
       this.navigationCallbacks.push(navigationCallback)
+
       log.info('subscribing activating callback', this._isFirstRun)
       if (this._isFirstRun === false) {
         //if we had a link previously then call callback
-        navigationCallback()
+        navigationCallback(this.callbackParams)
       }
+    }
+
+    if (!this._unsubscribe) {
+      // storing unsubscribe fn inside instance var
+      this._unsubscribe = branch.subscribe(this._listener)
     }
   }
 
@@ -76,11 +79,6 @@ class DeepLinkingNative {
 
     log.debug({ error, params, uri, ccParams, referringLink, nonBranchLink, clickedBranchLink })
 
-    //TODO: is this still required? if so add a comment describing why
-    if (!this._isFirstRun && clickedBranchLink && this._lastClick !== clickTimestamp) {
-      return restart()
-    }
-
     const link = uri || referringLink || url || nonBranchLink
 
     //no link do nothing
@@ -98,13 +96,14 @@ class DeepLinkingNative {
     this.pathname = extractPathname(link)
 
     assign(this.params, queryParams)
+    assign(this.callbackParams, { originalLink: link, path: this.pathname, queryParams, branch: ccParams })
     log.debug('calling deeplink callbacks with:', {
       originalLink: link,
       path: this.pathname,
       queryParams,
       branch: ccParams,
     })
-    over(this.navigationCallbacks, { originalLink: link, path: this.pathname, queryParams, branch: ccParams })()
+    over(this.navigationCallbacks, this.callbackParams)()
   }
 }
 

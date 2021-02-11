@@ -86,7 +86,7 @@ const RewardButton = React.memo(({ onPress, style }) => {
     <>
       <TouchableOpacity testID="rewards_tab" onPress={onPress} style={style}>
         <Icon name="rewards" size={36} color="white" />
-        {updatesCount > -1 && (
+        {updatesCount > 0 && (
           <View style={rewardStyles.notifications}>
             <Text color={theme.colors.white} fontSize={10} fontWeight={'bold'}>
               {updatesCount}

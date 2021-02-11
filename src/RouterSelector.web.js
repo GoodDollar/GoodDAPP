@@ -109,8 +109,6 @@ let AppRouter = React.lazy(async () => {
 })
 
 const NestedRouter = memo(({ isLoggedIn }) => {
-  useUpgradeDialog()
-
   useEffect(() => {
     let source, platform
     if (Platform.OS === 'web') {
@@ -146,7 +144,9 @@ const RouterSelector = () => {
   const [ignoreUnsupported, setIgnoreUnsupported] = useState(false)
   const [checkedForBrowserSupport, setCheckedForBrowserSupport] = useState(false)
 
-  let [supported, checkBrowser] = useBrowserSupport({
+  const checkUpgrade = useUpgradeDialog({ checkOnMounted: false })
+
+  const [supported, checkBrowser] = useBrowserSupport({
     checkOnMounted: false,
     unsupportedPopup: UnsupportedBrowser,
   })
@@ -156,13 +156,22 @@ const RouterSelector = () => {
   }, [])
 
   useEffect(() => {
-    //once user is logged in check if their browser is supported and show warning if not
+    // once user is logged in check if their browser is supported and show warning if not
     if (isLoggedIn) {
       checkBrowser()
     }
+
     setIgnoreUnsupported(true)
     setCheckedForBrowserSupport(true)
   }, [isLoggedIn])
+
+  useEffect(() => {
+    if (!supported && !ignoreUnsupported) {
+      return
+    }
+
+    checkUpgrade()
+  }, [supported, ignoreUnsupported])
 
   // statring anumation once we're checked for browser support and awaited
   // the user dismissed warning dialog (if browser wasn't supported)

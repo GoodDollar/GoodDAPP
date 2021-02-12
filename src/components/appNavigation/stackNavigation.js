@@ -1,7 +1,7 @@
 // @flow
 import React, { Component, useEffect, useState } from 'react'
 import { Platform, SafeAreaView, ScrollView, StyleSheet, View } from 'react-native'
-import SideMenu from 'react-native-side-menu-gooddapp'
+import SideMenu from '@gooddollar/react-native-side-menu'
 import { createNavigator, Route, SceneView, SwitchRouter } from '@react-navigation/core'
 import { isEqualWith, isFunction, isNumber } from 'lodash'
 

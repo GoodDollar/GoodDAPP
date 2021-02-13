@@ -1,7 +1,6 @@
 import React, { useMemo } from 'react'
 import bip39 from 'bip39-light'
 import AsyncStorage from './lib/utils/asyncStorage'
-import { DESTINATION_PATH } from './lib/constants/localStorage'
 import SimpleStore from './lib/undux/SimpleStore'
 import Splash, { animationDuration } from './components/splash/Splash'
 import { delay } from './lib/utils/async'
@@ -11,6 +10,7 @@ import { APP_OPEN, fireEvent, initAnalytics, SIGNIN_FAILED, SIGNIN_SUCCESS } fro
 import Config from './config/config'
 import restart from './lib/utils/restart'
 import DeepLinking from './lib/utils/deepLinking'
+import { savePathToStorage } from './RouterSelectorHelper'
 
 const log = logger.child({ from: 'RouterSelector' })
 log.debug({ Config })
@@ -62,13 +62,7 @@ const handleLinks = async () => {
         }
       }
     } else {
-      let path = DeepLinking.pathname.slice(1)
-      path = path.length === 0 ? 'AppNavigation/Dashboard/Home' : path
-      if ((params && Object.keys(params).length > 0) || path.indexOf('Marketplace') >= 0) {
-        const dest = { path, params }
-        log.debug('Saving destination url', dest)
-        await AsyncStorage.setItem(DESTINATION_PATH, dest)
-      }
+      await savePathToStorage(params, log)
     }
   } catch (e) {
     if (params.magiclink) {

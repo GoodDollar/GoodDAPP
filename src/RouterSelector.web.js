@@ -16,7 +16,6 @@ import UnsupportedBrowser from './components/browserSupport/components/Unsupport
 
 // utils
 import SimpleStore from './lib/undux/SimpleStore'
-import { DESTINATION_PATH } from './lib/constants/localStorage'
 import { delay } from './lib/utils/async'
 import retryImport from './lib/utils/retryImport'
 import DeepLinking from './lib/utils/deepLinking'
@@ -25,6 +24,7 @@ import isWebApp from './lib/utils/isWebApp'
 import logger from './lib/logger/pino-logger'
 import { APP_OPEN, fireEvent, initAnalytics, SIGNIN_FAILED, SIGNIN_SUCCESS } from './lib/analytics/analytics'
 import restart from './lib/utils/restart'
+import { savePathToStorage } from './RouterSelectorHelper'
 
 const log = logger.child({ from: 'RouterSelector' })
 
@@ -63,14 +63,7 @@ const handleLinks = async () => {
         }
       }
     } else {
-      let path = window.location.pathname.slice(1)
-      path = path.length === 0 ? 'AppNavigation/Dashboard/Home' : path
-
-      if (params && Object.keys(params).length > 0) {
-        const dest = { path, params }
-        log.debug('Saving destination url', dest)
-        await AsyncStorage.setItem(DESTINATION_PATH, dest)
-      }
+      await savePathToStorage(params, log)
     }
   } catch (e) {
     if (params.magiclink) {

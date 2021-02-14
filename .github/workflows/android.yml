@@ -99,19 +99,19 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
         with:
-          node-version: 10.15.3
+          node-version: 10.21.0
 
-      - name: Cache node modules
-        uses: actions/cache@v1
-        env:
-          cache-name: cache-node-modules
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
+      # - name: Cache node modules
+      #   uses: actions/cache@v1
+      #   env:
+      #     cache-name: cache-node-modules
+      #   with:
+      #     path: node_modules
+      #     key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+      #     restore-keys: |
+      #       ${{ runner.os }}-build-${{ env.cache-name }}-
+      #       ${{ runner.os }}-build-
+      #       ${{ runner.os }}-
       - name: Install npm dependencies
         run: |
           npm ci
@@ -139,7 +139,7 @@ jobs:
           ENVFILE: '.env.${{ env.ENV }}'
           BUILD_NUMBER: ${{ github.run_number }}
         run: |
-          BUILD_VERSION=`node -pe "require('./package.json')['version']"`          
+          BUILD_VERSION=`node -pe "require('./package.json')['version']"`
           echo "Creating release using env: ${ENVFILE} build:${BUILD_NUMBER} version:${BUILD_VERSION} ${GITHUB_RUN_NUMBER} ${{ github.run_number }}"
           cd android && ./gradlew bundleRelease
 

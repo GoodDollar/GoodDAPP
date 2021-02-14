@@ -10,19 +10,24 @@ import { APP_OPEN, fireEvent, initAnalytics, SIGNIN_FAILED, SIGNIN_SUCCESS } fro
 import Config from './config/config'
 import restart from './lib/utils/restart'
 import DeepLinking from './lib/utils/deepLinking'
-import { savePathToStorage } from './RouterSelectorHelper'
+
+// hooks
+import { savePathToStorage } from './lib/hooks/useSavePathToStorage'
+
+const { useSavePathToStorage } = savePathToStorage()
 
 const log = logger.child({ from: 'RouterSelector' })
 log.debug({ Config })
 
 // import Router from './SignupRouter'
 let SignupRouter = React.lazy(async () => {
+  const { params } = DeepLinking
   await initAnalytics()
-
   fireEvent(APP_OPEN, { platform: 'native', isLoggedIn: false })
   const [module] = await Promise.all([
     retryImport(() => import(/* webpackChunkName: "signuprouter" */ './SignupRouter')),
     handleLinks(),
+    useSavePathToStorage(params, log),
     delay(animationDuration),
   ])
 
@@ -41,28 +46,24 @@ const handleLinks = async () => {
   log.debug('handleLinks:', { params })
   try {
     const { magiclink } = params
-    if (magiclink) {
-      let userNameAndPWD = Buffer.from(decodeURIComponent(magiclink), 'base64').toString()
-      let userNameAndPWDArray = userNameAndPWD.split('+')
-      log.debug('recoverByMagicLink', { magiclink, userNameAndPWDArray })
-      if (userNameAndPWDArray.length === 2) {
-        const userName = userNameAndPWDArray[0]
-        const userPwd = userNameAndPWDArray[1]
-        const UserStorage = await retryImport(() => import('./lib/gundb/UserStorageClass')).then(_ => _.UserStorage)
+    let userNameAndPWD = Buffer.from(decodeURIComponent(magiclink), 'base64').toString()
+    let userNameAndPWDArray = userNameAndPWD.split('+')
+    log.debug('recoverByMagicLink', { magiclink, userNameAndPWDArray })
+    if (userNameAndPWDArray.length === 2) {
+      const userName = userNameAndPWDArray[0]
+      const userPwd = userNameAndPWDArray[1]
+      const UserStorage = await retryImport(() => import('./lib/gundb/UserStorageClass')).then(_ => _.UserStorage)
 
-        const mnemonic = await UserStorage.getMnemonic(userName, userPwd)
+      const mnemonic = await UserStorage.getMnemonic(userName, userPwd)
 
-        if (mnemonic && bip39.validateMnemonic(mnemonic)) {
-          const mnemonicsHelpers = retryImport(() => import('./lib/wallet/SoftwareWalletProvider'))
-          const { saveMnemonics } = await mnemonicsHelpers
-          await saveMnemonics(mnemonic)
-          await AsyncStorage.setItem('GD_isLoggedIn', 'true')
-          fireEvent(SIGNIN_SUCCESS)
-          restart()
-        }
+      if (mnemonic && bip39.validateMnemonic(mnemonic)) {
+        const mnemonicsHelpers = retryImport(() => import('./lib/wallet/SoftwareWalletProvider'))
+        const { saveMnemonics } = await mnemonicsHelpers
+        await saveMnemonics(mnemonic)
+        await AsyncStorage.setItem('GD_isLoggedIn', 'true')
+        fireEvent(SIGNIN_SUCCESS)
+        restart()
       }
-    } else {
-      await savePathToStorage(params, log)
     }
   } catch (e) {
     if (params.magiclink) {

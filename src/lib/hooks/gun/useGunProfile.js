@@ -17,7 +17,7 @@ const useGunProfile = (identifier, fields = ['fullName', 'smallAvatar']) => {
     log.debug('got field:', { data, field })
     gunSubscriptions.current[field] = { event, value: data }
     const updated = {}
-    fields.forEach(f => (updated[f] = get(gunSubscriptions, `current.${f}.value`)))
+    fields.forEach(field => (updated[field] = get(gunSubscriptions, `current.${field}.value`)))
     setProfile(updated)
   }
 

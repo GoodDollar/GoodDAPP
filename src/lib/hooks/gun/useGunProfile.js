@@ -1,6 +1,8 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { get, result } from 'lodash'
 import userStorage from '../../gundb/UserStorage'
+import { UserStorage } from '../../gundb/UserStorageClass'
+
 import isEmail from '../../validators/isEmail'
 import isMobilePhone from '../../validators/isMobilePhone'
 import logger from '../../logger/pino-logger'
@@ -9,17 +11,20 @@ const log = logger.child({ from: 'useGunProfile' })
 
 const useGunProfile = (identifier, fields = ['fullName', 'smallAvatar']) => {
   const attr = isMobilePhone(identifier) ? 'mobile' : isEmail(identifier) ? 'email' : 'walletAddress'
-  const value = userStorage.constructor.cleanHashedFieldForIndex(attr, identifier)
+  const value = UserStorage.cleanHashedFieldForIndex(attr, identifier)
   const gunSubscriptions = useRef({})
   const [profile, setProfile] = useState({})
 
-  const onProfileField = field => (data, nodeID, message, event) => {
-    log.debug('got field:', { data, field })
-    gunSubscriptions.current[field] = { event, value: data }
-    const updated = {}
-    fields.forEach(field => (updated[field] = get(gunSubscriptions, `current.${field}.value`)))
-    setProfile(updated)
-  }
+  const getFieldListener = useMemo(
+    field => (data, nodeID, message, event) => {
+      log.debug('got field:', { data, field })
+      gunSubscriptions.current[field] = { event, value: data }
+      const updated = {}
+      fields.forEach(field => (updated[field] = get(gunSubscriptions, `current.${field}.value`)))
+      setProfile(updated)
+    },
+    [setProfile],
+  )
 
   const unsubscribe = () => {
     fields.forEach(field => {
@@ -44,10 +49,10 @@ const useGunProfile = (identifier, fields = ['fullName', 'smallAvatar']) => {
         .get('profile')
         .get(field)
         .get('display')
-        .on(onProfileField(field))
+        .on(getFieldListener(field))
     })
     return unsubscribe
-  }, [identifier, ...fields])
+  }, [identifier, getFieldListener, ...fields])
 
   return profile
 }

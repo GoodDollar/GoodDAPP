@@ -3,10 +3,11 @@ import React, { useCallback } from 'react'
 import { StyleSheet, View } from 'react-native'
 import InputText from '../common/form/InputText'
 import { Section, Wrapper } from '../common'
-import TopBar from '../common/view/TopBar'
+
+// import TopBar from '../common/view/TopBar'
 import { BackButton, NextButton, useScreenState } from '../appNavigation/stackNavigation'
 import { withStyles } from '../../lib/styles'
-import { getDesignRelativeHeight } from '../../lib/utils/sizes'
+import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
 import { CategoryBox } from '../common/view/CategoryBox'
 
 // import { theme } from '../theme/styles'
@@ -17,6 +18,7 @@ import ProductSVG from '../../assets/TxCategory/product.svg'
 import CourseSVG from '../../assets/TxCategory/course.svg'
 import DonationSVG from '../../assets/TxCategory/donation.svg'
 import OtherSVG from '../../assets/TxCategory/other.svg'
+import { theme } from '../theme/styles'
 import { navigationOptions } from './utils/sendReceiveFlow'
 
 export type AmountProps = {
@@ -45,8 +47,8 @@ const SendReason = (props: AmountProps) => {
 
   return (
     <Wrapper>
-      <TopBar push={screenProps.push} />
-      <Section grow>
+      {/* <TopBar push={screenProps.push} /> */}
+      <Section style={styles.wrapper} grow>
         <Section.Stack style={styles.container}>
           <Section.Title fontWeight="medium" fontSize={24} lineHeight={24}>
             What For?
@@ -54,7 +56,7 @@ const SendReason = (props: AmountProps) => {
           <Section.Text style={{ paddingTop: '3px' }} fontSize={18} lineHeight={24}>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit
           </Section.Text>
-          <Section.Row style={styles.categoryRow}>
+          <Section.Row style={[styles.categoryRow, { paddingTop: 26 }]}>
             <Section.Stack>
               <CategoryBox style={styles.categoryBox} title="Digital Services">
                 <View>
@@ -86,7 +88,7 @@ const SendReason = (props: AmountProps) => {
               </CategoryBox>
             </Section.Stack>
           </Section.Row>
-          <Section.Row style={styles.categoryRow}>
+          <Section.Row style={[styles.categoryRow, { paddingTop: theme.sizes.default }]}>
             <Section.Stack>
               <CategoryBox style={styles.categoryBox} title={'Course / Private\nConsultation'}>
                 <View>
@@ -122,10 +124,11 @@ const SendReason = (props: AmountProps) => {
           <InputText
             maxLength={256}
             autoFocus
-            style={[props.styles.input, styles.bottomContent, styles.margin]}
+            style={styles.margin}
             value={reason}
             onChangeText={reason => setScreenState({ reason })}
             placeholder="Add a message"
+            placeholderTextColor={theme.colors.darkGray}
             enablesReturnKeyAutomatically
             onSubmitEditing={next}
           />
@@ -136,12 +139,12 @@ const SendReason = (props: AmountProps) => {
               Cancel
             </BackButton>
           </Section.Row>
-          <Section.Stack grow={3}>
+          <Section.Stack style={{ minWidth: getDesignRelativeWidth(244) }}>
             <NextButton
               nextRoutes={screenState.nextRoutes}
               values={{ ...params, ...restState, reason }}
               {...props}
-              label={reason ? 'Next' : 'Skip'}
+              label="Next"
             />
           </Section.Stack>
         </Section.Row>
@@ -151,34 +154,30 @@ const SendReason = (props: AmountProps) => {
 }
 
 const styles = StyleSheet.create({
+  wrapper: {
+    paddingTop: theme.sizes.default * 3.5,
+    paddingBottom: theme.sizes.default * 3,
+  },
   container: {
-    minHeight: getDesignRelativeHeight(180),
-    height: getDesignRelativeHeight(180),
     justifyContent: 'flex-start',
   },
   bottomContent: {
     marginTop: 'auto',
-    position: 'relative',
   },
   margin: {
-    marginTop: 40,
+    marginTop: 43,
   },
   categoryRow: {
-    justifyContent: 'space-evenly',
-
-    // paddingLeft: '17px',
-    // paddingRight: '17px',
-    paddingTop: '8px',
+    justifyContent: 'center',
   },
   categoryBox: {
-    width: '99px',
-    height: '99px',
-    margin: '26px 8px 8px 10px',
-    padding: '16.4px 10px 22px 11px',
+    width: getDesignRelativeWidth(99),
+    height: getDesignRelativeHeight(99),
+    marginLeft: 4,
+    marginRight: 4,
     borderRadius: '5px',
     boxShadow: '1px 1px 4px 0 rgba(0, 0, 0, 0.15)',
     backgroundColor: '#ffffff',
-    paddingRight: '8px',
   },
 })
 

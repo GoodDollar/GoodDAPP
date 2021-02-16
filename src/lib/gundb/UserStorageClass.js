@@ -3,6 +3,7 @@ import Mutex from 'await-mutex'
 import { Platform } from 'react-native'
 import {
   debounce,
+  defaults,
   filter,
   find,
   flatten,
@@ -1331,10 +1332,13 @@ export class UserStorage {
     if (profile.avatar) {
       profile.smallAvatar = await resizeImage(profile.avatar, 50)
     }
+    const profileFields = defaults({ mobile: '' }, profile)
+    const fieldsToSave = keys(this.profileSettings).filter(key =>
+      profileFields[key] === '' ? true : !!profileFields[key],
+    )
 
-    const fieldsToSave = keys(this.profileSettings)
-      .filter(key => profile[key])
-      .concat(profile.mobile === '' ? ['mobile'] : [])
+    // console.log('------------- fieldsToSave', { fieldsToSave })
+    // return true
 
     const results = await Promise.all(
       fieldsToSave.map(async field => {

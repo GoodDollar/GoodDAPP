@@ -54,14 +54,16 @@ const ProfileDataTable = ({
 
   // phone handlers
   const onPhoneInputFocus = useCallback(() => setLockSubmit(true), [setLockSubmit])
-  const onPhoneInputChange = useCallback(value => onChange({ ...profile, mobile: value || '' }), [onChange, profile])
+  const onPhoneInputChange = useCallback(value => onChange({ ...profile, mobile: value }), [onChange, profile])
   const onPhoneInputBlur = useCallback(() => {
     const { errors: _errors } = profile.validate()
+    const isValid = !_errors.mobile
 
-    if (!_errors.mobile && profile.mobile) {
+    setLockSubmit(!isValid)
+
+    if (isValid && profile.mobile) {
       verifyPhone()
     }
-    setLockSubmit(false)
   }, [setLockSubmit, verifyPhone, errors, onChange, profile])
   const phoneInputStyles = useMemo(() => StyleSheet.flatten(styles.phoneInput), [styles.phoneInput])
 

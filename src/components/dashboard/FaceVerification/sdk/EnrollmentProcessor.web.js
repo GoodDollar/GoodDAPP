@@ -92,7 +92,6 @@ export class EnrollmentProcessor {
       const payload = {
         faceScan,
         sessionId,
-        enrollmentIdentifier,
         lowQualityAuditTrailImage: first(lowQualityAuditTrail),
         auditTrailImage: first(auditTrail),
       }
@@ -102,7 +101,7 @@ export class EnrollmentProcessor {
 
       // calling API, if response contains success:false it will throw an exception
       await api
-        .performFaceVerification(payload, ({ loaded, total }) => {
+        .performFaceVerification(enrollmentIdentifier, payload, ({ loaded, total }) => {
           const uploaded = loaded / total
 
           if (uploaded >= 1) {

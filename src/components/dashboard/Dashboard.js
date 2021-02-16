@@ -46,7 +46,6 @@ import LoadingIcon from '../common/modal/LoadingIcon'
 import SuccessIcon from '../common/modal/SuccessIcon'
 import { getMaxDeviceWidth, measure } from '../../lib/utils/sizes'
 import { theme as _theme } from '../theme/styles'
-import DeepLinking from '../../lib/utils/deepLinking'
 import UnknownProfileSVG from '../../assets/unknownProfile.svg'
 import useOnPress from '../../lib/hooks/useOnPress'
 import Invite from '../invite/Invite'
@@ -66,7 +65,6 @@ import ReceiveToAddress from './ReceiveToAddress'
 import TransactionConfirmation from './TransactionConfirmation'
 import SendToAddress from './SendToAddress'
 import SendByQR from './SendByQR'
-import ReceiveByQR from './ReceiveByQR'
 import SendLinkSummary from './SendLinkSummary'
 import SendQRSummary from './SendQRSummary'
 import { ACTION_SEND } from './utils/sendReceiveFlow'
@@ -256,17 +254,21 @@ const Dashboard = props => {
   }
 
   const handleAppLinks = () => {
-    const { params } = DeepLinking
+    const { params } = navigation.state || {}
 
     log.debug('handle links effect dashboard', { params })
-
+    if (!params) {
+      return
+    }
     const { paymentCode, event } = params
 
     if (paymentCode) {
+      //payment link (from send)
       handleWithdraw(params)
     } else if (event) {
       showNewFeedEvent(params)
     } else {
+      //payment request (from receive)
       checkCode(params)
     }
   }
@@ -506,7 +508,7 @@ const Dashboard = props => {
   }, [])
 
   /**
-   * dont show delayed items such as add to home popup if some other dialog is showing
+   * don't show delayed items such as add to home popup if some other dialog is showing
    */
   useEffect(() => {
     const showingSomething = get(currentScreen, 'dialogData.visible') || get(loadingIndicator, 'loading') || currentFeed
@@ -734,7 +736,6 @@ const Dashboard = props => {
             contentStyle={styles.leftButtonContent}
             textStyle={styles.leftButtonText}
             params={{
-              nextRoutes: ['Reason', 'SendLinkSummary', 'TransactionConfirmation'],
               action: 'Send',
             }}
             compact
@@ -927,7 +928,6 @@ export default createStackNavigator({
   },
   ReceiveToAddress,
   ReceiveSummary,
-  ReceiveByQR,
 
   SendLinkSummary,
   SendByQR,

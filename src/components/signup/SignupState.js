@@ -83,7 +83,12 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
   const [torusUser] = useState(torusUserFromProps)
   const isRegMethodSelfCustody = regMethod === REGISTRATION_METHOD_SELF_CUSTODY
   const skipEmail = !!torusUserFromProps.email
-  const skipMobile = !!torusUserFromProps.mobile
+  const skipMobile = !!torusUserFromProps.mobile || Config.skipMobileVerification
+
+  const requiredFields = ['fullName', 'email']
+  if (Config.skipMobileVerification === false) {
+    requiredFields.push('mobile')
+  }
 
   const initialState: SignupState = {
     ...getUserModel({
@@ -163,6 +168,11 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
 
     // if we have name from torus we skip to phone
     if (state.fullName) {
+      //if skipping phone is enabled
+      if (skipMobile) {
+        return navigation.navigate('SignupCompleted')
+      }
+
       return navigation.navigate('Phone')
     }
   }
@@ -175,6 +185,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
     const params = get(destinationPath, 'params')
     const paymentParams = params && parsePaymentLinkParams(params)
 
+    //get inviteCode from url or from payment link
     return get(destinationPath, 'params.inviteCode') || get(paymentParams, 'inviteCode')
   }
 
@@ -182,14 +193,6 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
     const onMount = async () => {
       //if email from torus then identify user
       state.email && identifyOnUserSignup(state.email)
-
-      verifyStartRoute()
-
-      checkTorusLogin()
-
-      //get user country code for phone
-      //read torus seed
-      await getCountryCode()
 
       //lazy login in background while user starts registration
       const ready = (async () => {
@@ -247,6 +250,16 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
       })()
 
       setReady(ready)
+
+      //get user country code for phone
+      //read torus seed
+      if (state.skipPhone === false) {
+        await getCountryCode()
+      }
+
+      checkTorusLogin()
+
+      verifyStartRoute()
     }
 
     onMount()
@@ -296,7 +309,8 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
       const inviteCode = await checkInviteCode()
 
       log.debug('invite code:', { inviteCode })
-      ;['email', 'fullName', 'mobile'].forEach(field => {
+
+      requiredFields.forEach(field => {
         if (!requestPayload[field]) {
           const fieldNames = { email: 'Email', fullName: 'Name', mobile: 'Mobile' }
 

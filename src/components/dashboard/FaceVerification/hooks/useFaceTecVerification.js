@@ -1,10 +1,9 @@
 import { useCallback, useRef } from 'react'
-import { v4 as uuid } from 'uuid'
 import { assign, noop } from 'lodash'
 
 // logger & utils
 import logger from '../../../../lib/logger/pino-logger'
-import { isE2ERunning, isMobileNative } from '../../../../lib/utils/platform'
+import { isE2ERunning, isEmulator, isIOSNative } from '../../../../lib/utils/platform'
 
 // Zoom SDK reference & helpers
 import api from '../api/FaceVerificationApi'
@@ -53,15 +52,20 @@ export default (options = null) => {
     // destructuring accessors keeping theirs names the
     // same like in the props for avoid code modifications
     const [onUIReady, onCaptureDone, onRetry, onComplete, onError, getMaxRetries] = accessors
+    const isDeviceEmulated = await isEmulator
 
     // if cypress is running
-    if (isE2ERunning || isMobileNative) {
+    // isMobileNative is temporary check, will be removed once we'll deal with Zoom on native
+    if (isE2ERunning || isDeviceEmulated || isIOSNative) {
+      log.debug('skipping fv ui for non real devices or IOS', { isIOSNative, isE2ERunning, isDeviceEmulated })
+
       try {
-        // don't start session, just call enroll with fake data
-        // to whitelist user on server
-        await api.performFaceVerification({
-          sessionId: uuid(),
-          enrollmentIdentifier,
+        // don't start session, just call enroll with fake data to whitelist user on server
+        // btw we need a real session id, so we're calling Zoom API for it (bugfix by @sirpy)
+        const sessionId = await api.issueSessionToken()
+
+        await api.performFaceVerification(enrollmentIdentifier, {
+          sessionId,
           faceScan: emptyBase64,
           auditTrailImage: emptyBase64,
           lowQualityAuditTrailImage: emptyBase64,

@@ -4,8 +4,9 @@ import { Image, View } from 'react-native'
 
 // components
 import { noop } from 'lodash'
-import { Icon, Section } from '../index'
+import { Section } from '../index'
 import CustomButton from '../buttons/CustomButton'
+import RoundIconButton from '../buttons/RoundIconButton'
 
 // hooks
 import { useClipboardCopy } from '../../../lib/hooks/useClipboard'
@@ -14,8 +15,6 @@ import { useClipboardCopy } from '../../../lib/hooks/useClipboard'
 import { withStyles } from '../../../lib/styles'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../lib/utils/sizes'
 import { truncateMiddle } from '../../../lib/utils/string'
-
-const copyIconSize = 24
 
 const BorderedBox = ({
   styles,
@@ -81,16 +80,17 @@ const BorderedBox = ({
       </Section.Stack>
       <View style={[styles.copyIconLineSeparator, showCopyIcon ? null : styles.copyButtonLineSeparator]} />
       <View style={[styles.boxCopyIconWrapper, showCopyIcon ? null : styles.boxCopyButtonWrapper]}>
-        <CustomButton
-          onPress={copyToClipboard}
-          style={[showCopyIcon ? styles.copyIconContainer : styles.copyButtonContainer]}
-        >
-          {showCopyIcon ? <Icon name="copy" size={copyIconSize} color={theme.colors.surface} /> : copyButtonText}
-        </CustomButton>
-        {showCopyIcon && (
-          <Section.Text fontSize={10} fontWeight="medium" color={theme.colors.primary}>
+        {showCopyIcon ? (
+          <>
+            <RoundIconButton onPress={copyToClipboard} iconSize={22} iconName="copy" style={styles.copyIconContainer} />
+            <Section.Text fontSize={10} fontWeight="medium" color={theme.colors.primary}>
+              {copyButtonText}
+            </Section.Text>
+          </>
+        ) : (
+          <CustomButton onPress={copyToClipboard} style={styles.copyButtonContainer}>
             {copyButtonText}
-          </Section.Text>
+          </CustomButton>
         )}
       </View>
     </Section.Stack>

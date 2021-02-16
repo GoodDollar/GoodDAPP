@@ -9,9 +9,9 @@ exports[`ClaimButton matches snapshot for citizen with entitlement 1`] = `
     style={
       Object {
         "WebkitTransform": "scale(1)",
-        "height": "140px",
+        "height": "166px",
         "transform": "scale(1)",
-        "width": "140px",
+        "width": "166px",
       }
     }
   >
@@ -37,8 +37,8 @@ exports[`ClaimButton matches snapshot for citizen with entitlement 1`] = `
           Object {
             "backgroundColor": "rgba(248,175,64,1.00)",
             "borderBottomColor": "rgba(255,255,255,1.00)",
-            "borderBottomLeftRadius": "70px",
-            "borderBottomRightRadius": "70px",
+            "borderBottomLeftRadius": "98px",
+            "borderBottomRightRadius": "98px",
             "borderBottomStyle": "solid",
             "borderBottomWidth": "8px",
             "borderLeftColor": "rgba(255,255,255,1.00)",
@@ -48,12 +48,12 @@ exports[`ClaimButton matches snapshot for citizen with entitlement 1`] = `
             "borderRightStyle": "solid",
             "borderRightWidth": "8px",
             "borderTopColor": "rgba(255,255,255,1.00)",
-            "borderTopLeftRadius": "70px",
-            "borderTopRightRadius": "70px",
+            "borderTopLeftRadius": "98px",
+            "borderTopRightRadius": "98px",
             "borderTopStyle": "solid",
             "borderTopWidth": "8px",
             "boxShadow": "0px 0px 0px rgba(0,0,0,1.00)",
-            "height": "140px",
+            "height": "166px",
             "marginBottom": "0px",
             "marginLeft": "0px",
             "marginRight": "0px",
@@ -64,7 +64,7 @@ exports[`ClaimButton matches snapshot for citizen with entitlement 1`] = `
             "paddingLeft": "0px",
             "paddingRight": "0px",
             "paddingTop": "0px",
-            "width": "140px",
+            "width": "166px",
           }
         }
       >
@@ -86,10 +86,10 @@ exports[`ClaimButton matches snapshot for citizen with entitlement 1`] = `
             Object {
               "WebkitAlignSelf": "stretch",
               "alignSelf": "stretch",
-              "borderBottomLeftRadius": "70px",
-              "borderBottomRightRadius": "70px",
-              "borderTopLeftRadius": "70px",
-              "borderTopRightRadius": "70px",
+              "borderBottomLeftRadius": "98px",
+              "borderBottomRightRadius": "98px",
+              "borderTopLeftRadius": "98px",
+              "borderTopRightRadius": "98px",
               "msFlexItemAlign": "stretch",
             }
           }
@@ -122,14 +122,6 @@ exports[`ClaimButton matches snapshot for citizen with entitlement 1`] = `
                   </div>
                   <div
                     className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1777fci"
-                    style={
-                      Object {
-                        "WebkitBoxFlex": 1,
-                        "WebkitFlexGrow": 1,
-                        "flexGrow": 1,
-                        "msFlexPositive": 1,
-                      }
-                    }
                   >
                     <div
                       className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-nwxazl r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-ig0lrl"
@@ -209,8 +201,8 @@ exports[`ClaimButton matches snapshot for citizen with entitlement 1`] = `
           Object {
             "backgroundColor": "rgba(0,195,174,1.00)",
             "borderBottomColor": "rgba(255,255,255,1.00)",
-            "borderBottomLeftRadius": "70px",
-            "borderBottomRightRadius": "70px",
+            "borderBottomLeftRadius": "98px",
+            "borderBottomRightRadius": "98px",
             "borderBottomStyle": "solid",
             "borderBottomWidth": "8px",
             "borderLeftColor": "rgba(255,255,255,1.00)",
@@ -220,12 +212,12 @@ exports[`ClaimButton matches snapshot for citizen with entitlement 1`] = `
             "borderRightStyle": "solid",
             "borderRightWidth": "8px",
             "borderTopColor": "rgba(255,255,255,1.00)",
-            "borderTopLeftRadius": "70px",
-            "borderTopRightRadius": "70px",
+            "borderTopLeftRadius": "98px",
+            "borderTopRightRadius": "98px",
             "borderTopStyle": "solid",
             "borderTopWidth": "8px",
             "boxShadow": "0px 0px 0px rgba(0,0,0,1.00)",
-            "height": "140px",
+            "height": "166px",
             "marginBottom": "0px",
             "marginLeft": "0px",
             "marginRight": "0px",
@@ -236,7 +228,7 @@ exports[`ClaimButton matches snapshot for citizen with entitlement 1`] = `
             "paddingLeft": "0px",
             "paddingRight": "0px",
             "paddingTop": "0px",
-            "width": "140px",
+            "width": "166px",
           }
         }
       >
@@ -258,10 +250,10 @@ exports[`ClaimButton matches snapshot for citizen with entitlement 1`] = `
             Object {
               "WebkitAlignSelf": "stretch",
               "alignSelf": "stretch",
-              "borderBottomLeftRadius": "70px",
-              "borderBottomRightRadius": "70px",
-              "borderTopLeftRadius": "70px",
-              "borderTopRightRadius": "70px",
+              "borderBottomLeftRadius": "98px",
+              "borderBottomRightRadius": "98px",
+              "borderTopLeftRadius": "98px",
+              "borderTopRightRadius": "98px",
               "msFlexItemAlign": "stretch",
             }
           }
@@ -344,9 +336,9 @@ exports[`ClaimButton matches snapshot for citizen without entitlement 1`] = `
     style={
       Object {
         "WebkitTransform": "scale(1)",
-        "height": "140px",
+        "height": "166px",
         "transform": "scale(1)",
-        "width": "140px",
+        "width": "166px",
       }
     }
   >
@@ -372,8 +364,8 @@ exports[`ClaimButton matches snapshot for citizen without entitlement 1`] = `
           Object {
             "backgroundColor": "rgba(248,175,64,1.00)",
             "borderBottomColor": "rgba(255,255,255,1.00)",
-            "borderBottomLeftRadius": "70px",
-            "borderBottomRightRadius": "70px",
+            "borderBottomLeftRadius": "98px",
+            "borderBottomRightRadius": "98px",
             "borderBottomStyle": "solid",
             "borderBottomWidth": "8px",
             "borderLeftColor": "rgba(255,255,255,1.00)",
@@ -383,12 +375,12 @@ exports[`ClaimButton matches snapshot for citizen without entitlement 1`] = `
             "borderRightStyle": "solid",
             "borderRightWidth": "8px",
             "borderTopColor": "rgba(255,255,255,1.00)",
-            "borderTopLeftRadius": "70px",
-            "borderTopRightRadius": "70px",
+            "borderTopLeftRadius": "98px",
+            "borderTopRightRadius": "98px",
             "borderTopStyle": "solid",
             "borderTopWidth": "8px",
             "boxShadow": "0px 0px 0px rgba(0,0,0,1.00)",
-            "height": "140px",
+            "height": "166px",
             "marginBottom": "0px",
             "marginLeft": "0px",
             "marginRight": "0px",
@@ -399,7 +391,7 @@ exports[`ClaimButton matches snapshot for citizen without entitlement 1`] = `
             "paddingLeft": "0px",
             "paddingRight": "0px",
             "paddingTop": "0px",
-            "width": "140px",
+            "width": "166px",
           }
         }
       >
@@ -421,10 +413,10 @@ exports[`ClaimButton matches snapshot for citizen without entitlement 1`] = `
             Object {
               "WebkitAlignSelf": "stretch",
               "alignSelf": "stretch",
-              "borderBottomLeftRadius": "70px",
-              "borderBottomRightRadius": "70px",
-              "borderTopLeftRadius": "70px",
-              "borderTopRightRadius": "70px",
+              "borderBottomLeftRadius": "98px",
+              "borderBottomRightRadius": "98px",
+              "borderTopLeftRadius": "98px",
+              "borderTopRightRadius": "98px",
               "msFlexItemAlign": "stretch",
             }
           }
@@ -457,14 +449,6 @@ exports[`ClaimButton matches snapshot for citizen without entitlement 1`] = `
                   </div>
                   <div
                     className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1777fci"
-                    style={
-                      Object {
-                        "WebkitBoxFlex": 1,
-                        "WebkitFlexGrow": 1,
-                        "flexGrow": 1,
-                        "msFlexPositive": 1,
-                      }
-                    }
                   >
                     <div
                       className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-nwxazl r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-ig0lrl"
@@ -544,8 +528,8 @@ exports[`ClaimButton matches snapshot for citizen without entitlement 1`] = `
           Object {
             "backgroundColor": "rgba(248,175,64,1.00)",
             "borderBottomColor": "rgba(255,255,255,1.00)",
-            "borderBottomLeftRadius": "70px",
-            "borderBottomRightRadius": "70px",
+            "borderBottomLeftRadius": "98px",
+            "borderBottomRightRadius": "98px",
             "borderBottomStyle": "solid",
             "borderBottomWidth": "8px",
             "borderLeftColor": "rgba(255,255,255,1.00)",
@@ -555,12 +539,12 @@ exports[`ClaimButton matches snapshot for citizen without entitlement 1`] = `
             "borderRightStyle": "solid",
             "borderRightWidth": "8px",
             "borderTopColor": "rgba(255,255,255,1.00)",
-            "borderTopLeftRadius": "70px",
-            "borderTopRightRadius": "70px",
+            "borderTopLeftRadius": "98px",
+            "borderTopRightRadius": "98px",
             "borderTopStyle": "solid",
             "borderTopWidth": "8px",
             "boxShadow": "0px 0px 0px rgba(0,0,0,1.00)",
-            "height": "140px",
+            "height": "166px",
             "marginBottom": "0px",
             "marginLeft": "0px",
             "marginRight": "0px",
@@ -571,7 +555,7 @@ exports[`ClaimButton matches snapshot for citizen without entitlement 1`] = `
             "paddingLeft": "0px",
             "paddingRight": "0px",
             "paddingTop": "0px",
-            "width": "140px",
+            "width": "166px",
           }
         }
       >
@@ -593,10 +577,10 @@ exports[`ClaimButton matches snapshot for citizen without entitlement 1`] = `
             Object {
               "WebkitAlignSelf": "stretch",
               "alignSelf": "stretch",
-              "borderBottomLeftRadius": "70px",
-              "borderBottomRightRadius": "70px",
-              "borderTopLeftRadius": "70px",
-              "borderTopRightRadius": "70px",
+              "borderBottomLeftRadius": "98px",
+              "borderBottomRightRadius": "98px",
+              "borderTopLeftRadius": "98px",
+              "borderTopRightRadius": "98px",
               "msFlexItemAlign": "stretch",
             }
           }
@@ -629,14 +613,6 @@ exports[`ClaimButton matches snapshot for citizen without entitlement 1`] = `
                   </div>
                   <div
                     className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1777fci"
-                    style={
-                      Object {
-                        "WebkitBoxFlex": 1,
-                        "WebkitFlexGrow": 1,
-                        "flexGrow": 1,
-                        "msFlexPositive": 1,
-                      }
-                    }
                   >
                     <div
                       className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-nwxazl r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-ig0lrl"
@@ -707,9 +683,9 @@ exports[`ClaimButton matches snapshot for non-citizen 1`] = `
     style={
       Object {
         "WebkitTransform": "scale(1)",
-        "height": "140px",
+        "height": "166px",
         "transform": "scale(1)",
-        "width": "140px",
+        "width": "166px",
       }
     }
   >
@@ -735,8 +711,8 @@ exports[`ClaimButton matches snapshot for non-citizen 1`] = `
           Object {
             "backgroundColor": "rgba(248,175,64,1.00)",
             "borderBottomColor": "rgba(255,255,255,1.00)",
-            "borderBottomLeftRadius": "70px",
-            "borderBottomRightRadius": "70px",
+            "borderBottomLeftRadius": "98px",
+            "borderBottomRightRadius": "98px",
             "borderBottomStyle": "solid",
             "borderBottomWidth": "8px",
             "borderLeftColor": "rgba(255,255,255,1.00)",
@@ -746,12 +722,12 @@ exports[`ClaimButton matches snapshot for non-citizen 1`] = `
             "borderRightStyle": "solid",
             "borderRightWidth": "8px",
             "borderTopColor": "rgba(255,255,255,1.00)",
-            "borderTopLeftRadius": "70px",
-            "borderTopRightRadius": "70px",
+            "borderTopLeftRadius": "98px",
+            "borderTopRightRadius": "98px",
             "borderTopStyle": "solid",
             "borderTopWidth": "8px",
             "boxShadow": "0px 0px 0px rgba(0,0,0,1.00)",
-            "height": "140px",
+            "height": "166px",
             "marginBottom": "0px",
             "marginLeft": "0px",
             "marginRight": "0px",
@@ -762,7 +738,7 @@ exports[`ClaimButton matches snapshot for non-citizen 1`] = `
             "paddingLeft": "0px",
             "paddingRight": "0px",
             "paddingTop": "0px",
-            "width": "140px",
+            "width": "166px",
           }
         }
       >
@@ -784,10 +760,10 @@ exports[`ClaimButton matches snapshot for non-citizen 1`] = `
             Object {
               "WebkitAlignSelf": "stretch",
               "alignSelf": "stretch",
-              "borderBottomLeftRadius": "70px",
-              "borderBottomRightRadius": "70px",
-              "borderTopLeftRadius": "70px",
-              "borderTopRightRadius": "70px",
+              "borderBottomLeftRadius": "98px",
+              "borderBottomRightRadius": "98px",
+              "borderTopLeftRadius": "98px",
+              "borderTopRightRadius": "98px",
               "msFlexItemAlign": "stretch",
             }
           }
@@ -820,14 +796,6 @@ exports[`ClaimButton matches snapshot for non-citizen 1`] = `
                   </div>
                   <div
                     className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1777fci"
-                    style={
-                      Object {
-                        "WebkitBoxFlex": 1,
-                        "WebkitFlexGrow": 1,
-                        "flexGrow": 1,
-                        "msFlexPositive": 1,
-                      }
-                    }
                   >
                     <div
                       className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-nwxazl r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-ig0lrl"
@@ -907,8 +875,8 @@ exports[`ClaimButton matches snapshot for non-citizen 1`] = `
           Object {
             "backgroundColor": "rgba(0,195,174,1.00)",
             "borderBottomColor": "rgba(255,255,255,1.00)",
-            "borderBottomLeftRadius": "70px",
-            "borderBottomRightRadius": "70px",
+            "borderBottomLeftRadius": "98px",
+            "borderBottomRightRadius": "98px",
             "borderBottomStyle": "solid",
             "borderBottomWidth": "8px",
             "borderLeftColor": "rgba(255,255,255,1.00)",
@@ -918,12 +886,12 @@ exports[`ClaimButton matches snapshot for non-citizen 1`] = `
             "borderRightStyle": "solid",
             "borderRightWidth": "8px",
             "borderTopColor": "rgba(255,255,255,1.00)",
-            "borderTopLeftRadius": "70px",
-            "borderTopRightRadius": "70px",
+            "borderTopLeftRadius": "98px",
+            "borderTopRightRadius": "98px",
             "borderTopStyle": "solid",
             "borderTopWidth": "8px",
             "boxShadow": "0px 0px 0px rgba(0,0,0,1.00)",
-            "height": "140px",
+            "height": "166px",
             "marginBottom": "0px",
             "marginLeft": "0px",
             "marginRight": "0px",
@@ -934,7 +902,7 @@ exports[`ClaimButton matches snapshot for non-citizen 1`] = `
             "paddingLeft": "0px",
             "paddingRight": "0px",
             "paddingTop": "0px",
-            "width": "140px",
+            "width": "166px",
           }
         }
       >
@@ -956,10 +924,10 @@ exports[`ClaimButton matches snapshot for non-citizen 1`] = `
             Object {
               "WebkitAlignSelf": "stretch",
               "alignSelf": "stretch",
-              "borderBottomLeftRadius": "70px",
-              "borderBottomRightRadius": "70px",
-              "borderTopLeftRadius": "70px",
-              "borderTopRightRadius": "70px",
+              "borderBottomLeftRadius": "98px",
+              "borderBottomRightRadius": "98px",
+              "borderTopLeftRadius": "98px",
+              "borderTopRightRadius": "98px",
               "msFlexItemAlign": "stretch",
             }
           }
@@ -992,14 +960,6 @@ exports[`ClaimButton matches snapshot for non-citizen 1`] = `
                   </div>
                   <div
                     className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1777fci"
-                    style={
-                      Object {
-                        "WebkitBoxFlex": 1,
-                        "WebkitFlexGrow": 1,
-                        "flexGrow": 1,
-                        "msFlexPositive": 1,
-                      }
-                    }
                   >
                     <div
                       className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-nwxazl r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-ig0lrl"

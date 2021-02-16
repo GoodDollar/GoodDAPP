@@ -41,6 +41,7 @@ class NameForm extends React.Component<Props, State> {
   input = undefined
 
   handleChange = (fullName: string) => {
+    fullName = fullName.trimLeft()
     this.checkErrorsSlow()
     this.setState({ fullName })
   }
@@ -49,7 +50,7 @@ class NameForm extends React.Component<Props, State> {
     const { fullName } = this.state
     const isValid = this.checkErrors()
     if (isValid) {
-      this.props.screenProps.doneCallback({ fullName })
+      this.props.screenProps.doneCallback({ fullName: fullName.trim() })
     }
   }
 

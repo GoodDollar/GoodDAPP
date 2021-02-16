@@ -1,14 +1,14 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { assign, noop } from 'lodash'
 
 import useRealtimeProps from '../../../../lib/hooks/useRealtimeProps'
 
-import { FaceTecSDK } from '../sdk/FaceTecSDK'
 import { ExceptionType, kindOfSDKIssue } from '../utils/kindOfTheIssue'
 
-import Config from '../../../../config/config'
 import logger from '../../../../lib/logger/pino-logger'
-import { isE2ERunning } from '../../../../lib/utils/platform'
+import { isE2ERunning, isEmulator } from '../../../../lib/utils/platform'
+
+import FaceTecGlobalState from '../sdk/FaceTecGlobalState'
 import useCriticalErrorHandler from './useCriticalErrorHandler'
 
 const log = logger.child({ from: 'useFaceTecSDK' })
@@ -22,17 +22,25 @@ const log = logger.child({ from: 'useFaceTecSDK' })
  *
  * @return {void}
  */
-export default ({ onInitialized = noop, onError = noop }) => {
+export default (eventHandlers = {}) => {
+  // parse options
+  const { onInitialized = noop, onError = noop } = eventHandlers
+
+  // state vars
+  const [initialized, setInitialized] = useState(false)
+  const [lastError, setLastError] = useState(null)
+
   // Configuration callbacks refs
-  const accessors = useRealtimeProps([onInitialized, onError])
-  const [faceTecCriticalError, handleCriticalError] = useCriticalErrorHandler(log)
+  const accessors = useRealtimeProps([onInitialized, onError, setInitialized, setLastError])
+
+  // adding error handler
+  const handleCriticalError = useCriticalErrorHandler(log)
 
   // performing initialization attempt on component mounted
   // this callback should be ran once, so we're using refs
   // to access actual initialization / error callbacks
   useEffect(() => {
-    const [onInitialized, onError] = accessors
-    const { faceTecLicenseKey, faceTecLicenseText, faceTecEncryptionKey } = Config
+    const [onInitialized, onError, setInitialized, setLastError] = accessors
 
     // Helper for handle exceptions
     const handleException = exception => {
@@ -43,18 +51,25 @@ export default ({ onInitialized = noop, onError = noop }) => {
 
       // executing current onError callback
       onError(exception)
+      setLastError(exception)
       log.error('Zoom initialization failed', message, exception)
     }
 
     const initializeSdk = async () => {
       try {
+        // Initializing ZoOm
         log.debug('Initializing ZoomSDK')
 
-        // Initializing ZoOm
-        await FaceTecSDK.initialize(faceTecLicenseKey, faceTecEncryptionKey, faceTecLicenseText)
+        const isDeviceEmulated = await isEmulator
+
+        // if cypress is running - do nothing and immediately call success callback
+        if (!isE2ERunning && !isDeviceEmulated) {
+          await FaceTecGlobalState.initialize()
+        }
 
         // Executing onInitialized callback
         onInitialized()
+        setInitialized(true)
         log.debug('ZoomSDK is ready')
       } catch (exception) {
         // the following code is needed to categorize exceptions
@@ -70,11 +85,7 @@ export default ({ onInitialized = noop, onError = noop }) => {
       }
     }
 
-    // if cypress is running - do nothing and immediately call success callback
-    if (isE2ERunning) {
-      onInitialized()
-      return
-    }
+    const { faceTecCriticalError } = FaceTecGlobalState
 
     // skipping initialization attempt is some
     // unrecoverable error happened last try
@@ -87,4 +98,6 @@ export default ({ onInitialized = noop, onError = noop }) => {
     // starting initialization
     initializeSdk()
   }, [])
+
+  return [initialized, lastError]
 }

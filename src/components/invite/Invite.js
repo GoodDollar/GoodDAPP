@@ -13,12 +13,11 @@ import { WavesBox } from '../common/view/WavesBox'
 import { theme } from '../theme/styles'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
 import logger from '../../lib/logger/pino-logger'
-import { isMobile } from '../../lib/utils/platform'
 import { fireEvent, INVITE_HOWTO, INVITE_SHARE } from '../../lib/analytics/analytics'
 import Config from '../../config/config'
 import { generateShareObject, isSharingAvailable } from '../../lib/share'
-import AsyncStorage from '../../lib/utils/asyncStorage'
 import userStorage from '../../lib/gundb/UserStorage'
+import useGunProfile from '../../lib/hooks/gun/useGunProfile'
 import ModalLeftBorder from '../common/modal/ModalLeftBorder'
 import { useCollectBounty, useInviteCode, useInvited } from './useInvites'
 import FriendsSVG from './friends.svg'
@@ -28,14 +27,17 @@ const log = logger.child({ from: 'Invite' })
 
 const shareTitle = 'I signed up to GoodDollar. Join me.'
 const shareMessage =
-  'Hi!\nThis is my referral link to be among the first people to get real, free digital basic income called GoodDollar!\n' +
-  'You’ll receive a 50 G$ bonus, and join the thousands of people across the globe, building a better, more prosperous future, using GoodDollar.\n\n'
+  'Hi,\nIf you believe, like me, in economic inclusion and the distribution of prosperity for all, then I invite you to sign up for GoodDollar, create your own basic income wallet and start collecting your daily digital income.\nUse my invite link and receive an extra 50G$ bonus\n\n'
 
-const InvitedUser = ({ name, avatar, status }) => {
+const shortShareMessage =
+  'Hi,\nIf you believe in economic inclusion and distribution of prosperity for all, sign up for a GoodDollar wallet and start collecting daily digital income. Use my invite link and receive an extra 50G$\n\n'
+
+const InvitedUser = ({ address, status }) => {
+  const profile = useGunProfile(address)
   const isApproved = status === 'approved'
   return (
     <Section.Row style={{ alignItems: 'center', marginTop: theme.paddings.defaultMargin }}>
-      <Avatar source={avatar} size={28} />
+      <Avatar source={profile.smallAvatar} size={28} />
       <Section.Text
         fontFamily={theme.fonts.slab}
         fontSize={14}
@@ -48,7 +50,7 @@ const InvitedUser = ({ name, avatar, status }) => {
           textAlign: 'left',
         }}
       >
-        {name}
+        {profile.fullName}
       </Section.Text>
       <Section.Row alignItems={'flex-start'}>
         {isApproved ? <Icon name={'check'} color={'green'} /> : <Icon name={'time'} color={'orange'} />}
@@ -93,8 +95,7 @@ const ShareIcons = ({ shareUrl }) => {
       service: 'twitter',
       Component: TwitterShareButton,
       color: theme.colors.darkBlue,
-      title: shareMessage,
-      hashtags: ['GoodDollar', 'UBI'],
+      title: shortShareMessage,
     },
 
     {
@@ -124,8 +125,14 @@ const ShareIcons = ({ shareUrl }) => {
     <Section.Row style={{ marginTop: theme.paddings.defaultMargin * 2, justifyContent: 'flex-start' }}>
       {buttons.map(({ name, Component, ...props }) => (
         <Section.Stack style={{ marginRight: theme.sizes.defaultDouble }} key={name}>
-          <Component url={shareUrl} {...props}>
-            <IconButton {...props} name={name} circleSize={36} onPress={() => onShare(props.service)} />
+          <Component
+            url={shareUrl}
+            {...props}
+            beforeOnClick={() => {
+              onShare(props.service)
+            }}
+          >
+            <IconButton {...props} name={name} circleSize={36} />
           </Component>
         </Section.Stack>
       ))}
@@ -135,7 +142,7 @@ const ShareIcons = ({ shareUrl }) => {
 
 const ShareBox = ({ level }) => {
   const inviteCode = useInviteCode()
-  const shareUrl = `${Config.publicUrl}?inviteCode=${inviteCode}`
+  const shareUrl = `${Config.invitesUrl}?inviteCode=${inviteCode}`
   const bounty = result(level, 'bounty.toNumber', 100) / 100
 
   const share = useMemo(() => generateShareObject(shareTitle, shareMessage, shareUrl), [shareUrl])
@@ -157,7 +164,7 @@ const ShareBox = ({ level }) => {
       <Section.Row style={{ alignItems: 'flex-start' }}>
         <Text
           textAlign={'left'}
-          fontSize={getDesignRelativeWidth(11, false)}
+          fontSize={getDesignRelativeWidth(10, false)}
           fontWeight={'medium'}
           lineHeight={30}
           style={{
@@ -179,7 +186,7 @@ const ShareBox = ({ level }) => {
           withoutDone
         />
       </Section.Row>
-      {!isMobile && <ShareIcons shareUrl={shareUrl} />}
+      <ShareIcons shareUrl={shareUrl} />
     </WavesBox>
   )
 }
@@ -283,7 +290,7 @@ const InvitesHowTO = () => {
       <Section.Stack
         style={{ marginLeft: theme.sizes.defaultDouble, height: 58, flexShrink: 1, justifyContent: 'center' }}
       >
-        <Section.Text color={theme.colors.darkBlue} lineHeight={16} fontSize={12} textAlign={'left'}>
+        <Section.Text color={theme.colors.darkBlue} lineHeight={20} fontSize={15} textAlign={'left'}>
           {text}
         </Section.Text>
       </Section.Stack>
@@ -291,10 +298,8 @@ const InvitesHowTO = () => {
   )
   const SVGWrapper = ({ svg: SVG, width, height, style, svgStyle }) => {
     return (
-      <Section.Stack
-        style={[{ justifyContent: 'center', alignItems: 'center', alignSelf: 'center', justifySelf: 'center' }, style]}
-      >
-        <SVG svgStyle={svgStyle} />
+      <Section.Stack style={[{ justifyContent: 'center', alignItems: 'center', alignSelf: 'center' }, style]}>
+        <SVG style={svgStyle} />
       </Section.Stack>
     )
   }
@@ -311,7 +316,7 @@ const InvitesHowTO = () => {
         <Section.Text
           style={{ alignSelf: 'flex-end' }}
           color={theme.colors.darkBlue}
-          linelineHeight={16}
+          lineHeight={16}
           fontSize={12}
           textAlign={'center'}
         >
@@ -348,7 +353,7 @@ const InvitesData = ({ invitees, refresh, level, totalEarned = 0 }) => (
 )
 
 const Invite = () => {
-  const [showHowTo, setShowHowTo] = useState(false)
+  const [showHowTo, setShowHowTo] = useState(true)
   const [invitees, refresh, level, inviteState] = useInvited()
 
   const totalEarned = get(inviteState, 'totalEarned', 0)
@@ -363,7 +368,6 @@ const Invite = () => {
     //reset state for rewards icon in navbar
     if (inviteState.pending || inviteState.approved) {
       userStorage.userProperties.set('lastInviteState', inviteState)
-      AsyncStorage.setItem('GD_lastInviteState', inviteState)
     }
   }, [inviteState])
 
@@ -392,8 +396,8 @@ const Invite = () => {
         </Section.Text>
       </Section.Stack>
       <Section.Stack style={{ marginTop: theme.sizes.defaultDouble }}>
-        <Section.Text letterSpacing={-0.07} lineHeight={20} fontSize={14} color={theme.colors.darkBlue}>
-          {`Invite Someone to Get Free Digital Basic Income`}
+        <Section.Text letterSpacing={-0.07} lineHeight={20} fontSize={15} color={theme.colors.darkBlue}>
+          {`Make sure they claim to get your reward`}
         </Section.Text>
       </Section.Stack>
       <View
@@ -431,6 +435,8 @@ const styles = {
     paddingRight: 10,
     justifyContent: 'flex-start',
     alignItems: 'center',
+    flex: 1,
+    height: '100%',
   },
   linkBoxStyle: {
     backgroundColor: theme.colors.white,

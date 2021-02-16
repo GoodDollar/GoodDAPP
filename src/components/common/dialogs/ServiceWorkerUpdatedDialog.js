@@ -8,9 +8,8 @@ import JumpingPeopleAnimation from '../animations/JumpingPeople'
 
 // utils
 import { withStyles } from '../../../lib/styles'
-import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../lib/utils/sizes'
+import { getDesignRelativeHeight, getDesignRelativeWidth, isSmallDevice } from '../../../lib/utils/sizes'
 import { isBrowser } from '../../../lib/utils/platform'
-import { isSmallDevice } from '../../../lib/utils/mobileSizeDetect'
 
 // assets
 import UpdateVersionSVG from '../../../assets/updateversion.svg'

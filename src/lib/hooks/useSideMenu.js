@@ -16,6 +16,7 @@ import Config from '../../config/config'
 
 // constants
 import { CLICK_DELETE_WALLET, fireEvent, LOGOUT } from '../../lib/analytics/analytics'
+
 import { REGISTRATION_METHOD_SELF_CUSTODY } from '../constants/login'
 import useDeleteAccountDialog from './useDeleteAccountDialog'
 

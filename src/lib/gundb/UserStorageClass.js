@@ -602,11 +602,7 @@ export class UserStorage {
     // for some reason doing init stuff before  causes gun to get stuck
     // this issue doesnt exists for gun 2020 branch, but we cant upgrade there yet
     // doing await one by one - Gun hack so it doesnt get stuck
-    await Promise.all([
-      trustPromise,
-      AsyncStorage.getItem('GD_trust').then(_ => (this.trust = _ || {})),
-      this.initFeed(),
-    ]).catch(e => {
+    await Promise.all([trustPromise, this.initFeed()]).catch(e => {
       logger.error('failed init step in userstorage', e.message, e)
       throw e
     })
@@ -662,14 +658,25 @@ export class UserStorage {
    */
   async fetchTrustIndexes() {
     try {
-      // make sure server is up
-      await API.ping()
+      const { data, lastFetch } = (await AsyncStorage.getItem('GD_trust')) || {}
+      this.trust = data || {}
+      let refetch = true
 
-      // fetch trust data
-      const { data } = await API.getTrust()
+      if (lastFetch) {
+        const stale = moment().diff(moment(lastFetch), 'days')
+        refetch = stale >= 7
+        logger.debug('fetchTrustIndexes', { stale, lastFetch, data })
+      }
+      if (refetch) {
+        // make sure server is up
+        await API.ping()
 
-      AsyncStorage.setItem('GD_trust', data)
-      this.trust = data
+        // fetch trust data
+        const { data } = await API.getTrust()
+
+        AsyncStorage.setItem('GD_trust', { data, lastFetch: Date.now() })
+        this.trust = data
+      }
     } catch (exception) {
       const { message } = exception
 
@@ -881,7 +888,7 @@ export class UserStorage {
       }
 
       if (get(feedEvent, 'data.otplData')) {
-        logger.debug('handleOTPLUpdated skipping event with existed receipt data', feedEvent, receipt)
+        logger.debug('handleOTPLUpdated skipping event with existing receipt data', feedEvent, receipt)
         return feedEvent
       }
 
@@ -1286,7 +1293,10 @@ export class UserStorage {
   }
 
   async getFieldPrivacy(field) {
-    const currentPrivacy = await this.profile.get(field).get('privacy')
+    const currentPrivacy = await this.profile
+      .get(field)
+      .get('privacy')
+      .then()
 
     return currentPrivacy || this.profileSettings[field].defaultPrivacy || 'public'
   }
@@ -1322,23 +1332,22 @@ export class UserStorage {
       profile.smallAvatar = await resizeImage(profile.avatar, 50)
     }
 
+    const fieldsToSave = keys(this.profileSettings).filter(key => profile[key])
     const results = await Promise.all(
-      keys(this.profileSettings)
-        .filter(key => profile[key])
-        .map(async field => {
+      fieldsToSave.map(async field => {
+        try {
           let isPrivate = get(this.profileSettings, `[${field}].defaultPrivacy`, 'private')
 
           if (update) {
             isPrivate = await this.getFieldPrivacy(field)
           }
 
-          try {
-            return await this.setProfileField(field, profile[field], isPrivate)
-          } catch (e) {
-            //logger.error('setProfile field failed:', e.message, e, { field })
-            return { err: `failed saving field ${field}` }
-          }
-        }),
+          return await this.setProfileField(field, profile[field], isPrivate)
+        } catch (e) {
+          //logger.error('setProfile field failed:', e.message, e, { field })
+          return { err: `failed saving field ${field}` }
+        }
+      }),
     )
 
     const gunErrors = results.filter(ack => ack && ack.err).map(ack => ack.err)
@@ -1738,7 +1747,10 @@ export class UserStorage {
    */
   async isUsername(username: string) {
     const cleanValue = UserStorage.cleanHashedFieldForIndex('username', username)
-    const profile = await this.gun.get('users/byusername').get(cleanValue)
+    const profile = await this.gun
+      .get('users/byusername')
+      .get(cleanValue)
+      .then()
     return profile !== undefined
   }
 
@@ -1752,7 +1764,10 @@ export class UserStorage {
     try {
       const date = moment(new Date()).format('DDMMYY')
 
-      await this.gun.get('survey').get(date)
+      await this.gun
+        .get('survey')
+        .get(date)
+        .then()
       await this.gun
         .get('survey')
         .get(date)
@@ -1776,6 +1791,7 @@ export class UserStorage {
       .get('survey')
       .get(date)
       .get(hash)
+      .then()
     return result
   }
 
@@ -1832,7 +1848,7 @@ export class UserStorage {
         .get(index)
         .get(value)
         .get('profile')
-        .get('avatar')
+        .get('smallAvatar')
         .get('display')
         .then(null, 500),
       this.gun
@@ -2301,7 +2317,7 @@ export class UserStorage {
           codeToTxHashRef.put({ [eventHashedCode]: eventId })
           break
         case EVENT_TYPE_WITHDRAW:
-          ownLink = await codeToTxHashRef.get(eventHashedCode)
+          ownLink = await codeToTxHashRef.get(eventHashedCode).then()
 
           if (!ownLink) {
             break

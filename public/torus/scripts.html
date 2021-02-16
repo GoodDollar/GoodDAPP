@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="utf-8"/>
-    <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
-    <meta content="width=device-width,initial-scale=1.0" name="viewport"/>
+  <head>
+    <meta charset="utf-8" />
+    <meta content="IE=edge" http-equiv="X-UA-Compatible" />
+    <meta content="width=device-width,initial-scale=1.0" name="viewport" />
     <title>Redirect</title>
     <style>
       * {
@@ -31,18 +31,18 @@
       div.title {
         font-size: 14px;
         color: #0f1222;
-        font-family: "Roboto", sans-serif !important;
+        font-family: 'Roboto', sans-serif !important;
         margin: 0;
         text-align: center;
         font-weight: normal;
       }
 
-      div.title a{
+      div.title a {
         color: #0364ff;
         cursor: pointer;
       }
 
-      div.title > div{
+      div.title > div {
         margin-bottom: 4px;
       }
 
@@ -113,67 +113,63 @@
         }
       }
     </style>
-</head>
+  </head>
 
-<body>
-<div class="container" id="message">
-    <div class="spinner content" id="spinner">
+  <body>
+    <div class="container" id="message">
+      <div class="spinner content" id="spinner">
         <div class="beat beat-odd"></div>
         <div class="beat beat-even"></div>
         <div class="beat beat-odd"></div>
-    </div>
-    <div class="title content" id="redirectText" style="display: none;">
+      </div>
+      <div class="title content" id="redirectText" style="display: none;">
         <div><a id="navigateLink">Click here</a> to continue with your login</div>
+      </div>
     </div>
-</div>
-<script>
-        document.getElementById("message").style.visibility = "visible";
-        var navigateLink = document.getElementById("navigateLink");
-        var redirectText = document.getElementById("redirectText");
-        var linkToNavigate;
-        var instanceParams = {};
-        try {
-          var url = new URL(location.href);
-          var hash = url.hash.substr(1);
-          var hashParams = {};
-          if (hash) {
-            hashParams = hash.split("&").reduce(function (result, item) {
-              var parts = item.split("=");
-              result[parts[0]] = parts[1];
-              return result;
-            }, {});
-          }
-          var queryParams = {};
-          for (var key of url.searchParams.keys()) {
-            queryParams[key] = url.searchParams.get(key);
-          }
-          var error = "";
-          try {
-            if (Object.keys(hashParams).length > 0 && hashParams.state) {
-              instanceParams = JSON.parse(window.atob(decodeURIComponent(decodeURIComponent(hashParams.state)))) || {};
-              if (hashParams.error) error = hashParams.error;
-            } else if (Object.keys(queryParams).length > 0 && queryParams.state) {
-              instanceParams = JSON.parse(window.atob(decodeURIComponent(decodeURIComponent(queryParams.state)))) || {};
-              if (queryParams.error) error = queryParams.error;
-            }
-          } catch (e) {
-            console.error(e);
-          }
-          if (instanceParams.redirectToAndroid) {
-            // communicate to android package
-            linkToNavigate = instanceParams.redirectUri + location.search + location.hash;
-            window.location.href = linkToNavigate;
-            setTimeout(() => {
-              navigateLink.href = linkToNavigate;
-              redirectText.style.display = "block";
-            }, 1000)
-          }
-        } catch (err) {
-          console.error(err, "error in redirect");
-          window.close();
+    <script>
+      document.getElementById('message').style.visibility = 'visible'
+      var navigateLink = document.getElementById('navigateLink')
+      var redirectText = document.getElementById('redirectText')
+      var linkToNavigate
+      var instanceParams = {}
+      try {
+        var url = new URL(location.href)
+        var hash = url.hash.substr(1)
+        var hashParams = {}
+        if (hash) {
+          hashParams = hash.split('&').reduce(function(result, item) {
+            var parts = item.split('=')
+            result[parts[0]] = parts[1]
+            return result
+          }, {})
         }
-
-
-</script>
-</body>
+        var queryParams = {}
+        for (var key of url.searchParams.keys()) {
+          queryParams[key] = url.searchParams.get(key)
+        }
+        var error = ''
+        try {
+          if (Object.keys(hashParams).length > 0 && hashParams.state) {
+            instanceParams = JSON.parse(window.atob(decodeURIComponent(decodeURIComponent(hashParams.state)))) || {}
+            if (hashParams.error) error = hashParams.error
+          } else if (Object.keys(queryParams).length > 0 && queryParams.state) {
+            instanceParams = JSON.parse(window.atob(decodeURIComponent(decodeURIComponent(queryParams.state)))) || {}
+            if (queryParams.error) error = queryParams.error
+          }
+        } catch (e) {
+          console.error(e)
+        }
+        // communicate to android package
+        linkToNavigate = 'gooddollar://org.gooddollar/redirect' + location.search + location.hash
+        window.location.href = linkToNavigate
+        setTimeout(() => {
+          navigateLink.href = linkToNavigate
+          redirectText.style.display = 'block'
+        }, 1000)
+      } catch (err) {
+        console.error(err, 'error in redirect')
+        window.close()
+      }
+    </script>
+  </body>
 </html>

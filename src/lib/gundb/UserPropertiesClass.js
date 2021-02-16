@@ -79,7 +79,7 @@ export default class UserProperties {
 
       try {
         //sync from storage
-        props = await retry(() => propsNode.then(() => propsNode.decrypt()), 3, 500) // init user storage
+        props = await retry(() => propsNode.then(() => propsNode.decrypt(), 1000), 3, 1000) // init user storage
       } catch (exception) {
         const { message } = exception
 

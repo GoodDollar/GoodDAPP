@@ -72,24 +72,6 @@ exports[`WebViewScreen Instances Support matches snapshot 1`] = `
 />
 `;
 
-exports[`WebViewScreen Instances SupportForUnsigned matches snapshot 1`] = `
-<iframe
-  allowFullScreen={true}
-  frameBorder="0"
-  height="100%"
-  onLoad={[Function]}
-  seamless={true}
-  src="https://help.gooddollar.org?transitioned=1"
-  style={
-    Object {
-      "height": 768,
-    }
-  }
-  title=" Help & Feedback"
-  width="100%"
-/>
-`;
-
 exports[`WebViewScreen Instances TermsOFUse matches snapshot 1`] = `
 <iframe
   allowFullScreen={true}

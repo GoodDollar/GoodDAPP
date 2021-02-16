@@ -1,6 +1,5 @@
 // @flow
 import React, { useCallback, useEffect, useState } from 'react'
-import { Platform } from 'react-native'
 import { SceneView } from '@react-navigation/core'
 import { debounce } from 'lodash'
 import moment from 'moment'
@@ -35,17 +34,15 @@ type LoadingProps = {
 
 const log = logger.child({ from: 'AppSwitch' })
 
-const MIN_BALANCE_VALUE = '100000'
 const GAS_CHECK_DEBOUNCE_TIME = 1000
 const showOutOfGasError = debounce(
   async props => {
-    const gasResult = await goodWallet.verifyHasGas(
-      parseInt(goodWallet.wallet.utils.toWei(MIN_BALANCE_VALUE, 'gwei')),
-      {
-        topWallet: false,
-      },
-    )
+    const gasResult = await goodWallet.verifyHasGas().catch(e => {
+      const message = getErrorMessage(e)
+      const exception = new Error(message)
 
+      log.error('verifyTopWallet failed', message, exception)
+    })
     log.debug('outofgaserror:', { gasResult })
 
     if (gasResult.ok === false && gasResult.error !== false) {
@@ -104,24 +101,17 @@ const AppSwitch = (props: LoadingProps) => {
   /*
   Check if user is incoming with a URL with action details, such as payment link or email confirmation
   */
-  const getParams = async () => {
-    // const navInfo = router.getPathAndParamsForState(state)
-    const destinationPath = await AsyncStorage.getItem(DESTINATION_PATH)
-    AsyncStorage.removeItem(DESTINATION_PATH)
-
-    // FIXME: RN INAPPLINKS
-    if (Platform.OS !== 'web') {
-      return undefined
-    }
-
-    if (destinationPath) {
-      const app = router.getActionForPathAndParams(destinationPath.path) || {}
-      log.debug('destinationPath getParams', { destinationPath, router, state, app })
+  const getRoute = (destinationPath = {}) => {
+    let { path, params } = destinationPath
+    if (path || params) {
+      path = path || 'AppNavigation/Dashboard/Home'
+      const app = router.getActionForPathAndParams(path) || {}
+      log.debug('destinationPath getRoute', { path, params, router, state, app })
 
       //get nested routes
       const destRoute = actions => (actions && actions.action ? destRoute(actions.action) : actions)
       const destData = destRoute(app)
-      destData.params = { ...destData.params, ...destinationPath.params }
+      destData.params = { ...destData.params, ...params }
       return destData
     }
 
@@ -133,10 +123,23 @@ const AppSwitch = (props: LoadingProps) => {
   He won't be redirected in checkAuthStatus since it is called on didmount effect and won't happen after
   user completes signup and becomes loggedin which just updates this component
 */
-  const navigateToUrlAction = async () => {
-    let destDetails = await getParams()
+  const navigateToUrlAction = async (destinationPath: { path: string, params: {} }) => {
+    destinationPath = destinationPath || (await AsyncStorage.getItem(DESTINATION_PATH))
+    AsyncStorage.removeItem(DESTINATION_PATH)
 
-    //once user logs in we can redirect him to saved destinationpath
+    log.debug('navigateToUrlAction:', { destinationPath })
+
+    //if no special destinationPath check if we have incoming params from web url
+    if (!isMobileNative && !destinationPath) {
+      const params = DeepLinking.params
+      log.debug('navigateToUrlAction destinationPath empty getting web params from url', { params })
+      if (params) {
+        destinationPath = { params }
+      }
+    }
+    let destDetails = destinationPath && getRoute(destinationPath)
+
+    //once user logs in we can redirect him to saved destinationPath
     if (destDetails) {
       log.debug('destinationPath found:', destDetails)
       return props.navigation.navigate(destDetails)
@@ -147,7 +150,7 @@ const AppSwitch = (props: LoadingProps) => {
    * Check's users' current auth status
    * @returns {Promise<void>}
    */
-  const initialize = async isLoggedInCitizen => {
+  const initialize = async () => {
     AsyncStorage.setItem('GD_version', 'phase' + config.phase)
 
     const regMethod = (await AsyncStorage.getItem(GD_USER_MASTERSEED).then(_ => !!_))
@@ -157,16 +160,6 @@ const AppSwitch = (props: LoadingProps) => {
 
     const email = await userStorage.getProfileFieldValue('email')
     identifyWith(email, undefined)
-
-    if (isLoggedInCitizen) {
-      //if user has < 250000 gwei then he can request topwallet
-      goodWallet.verifyHasGas(1e9 * 250000).catch(e => {
-        const message = getErrorMessage(e)
-        const exception = new Error(message)
-
-        log.error('verifyTopWallet failed', message, exception)
-      })
-    }
   }
 
   const init = async () => {
@@ -186,7 +179,7 @@ const AppSwitch = (props: LoadingProps) => {
       const identifier = goodWallet.getAccountForType('login')
       identifyWith(undefined, identifier)
 
-      initialize(isLoggedInCitizen)
+      initialize()
       runUpdates()
       showOutOfGasError(props)
 
@@ -207,18 +200,14 @@ const AppSwitch = (props: LoadingProps) => {
     }
   }
 
-  const deepLinkingNavigation = () => props.navigation.navigate(DeepLinking.pathname.slice(1))
+  const deepLinkingNavigation = data => {
+    log.debug('deepLinkingNavigation: got url', { data })
+    navigateToUrlAction({ path: data.pathname, params: data.queryParams })
+  }
 
   useEffect(() => {
     init()
     navigateToUrlAction()
-  }, [])
-
-  //Pushing users to the path when signing in.
-  useEffect(() => {
-    if (isMobileNative && DeepLinking.pathname) {
-      deepLinkingNavigation()
-    }
   }, [])
 
   useEffect(() => {
@@ -226,15 +215,9 @@ const AppSwitch = (props: LoadingProps) => {
       return
     }
 
-    // DeepLinking.subscribe(deepLinkingNavigation)
+    DeepLinking.subscribe(deepLinkingNavigation)
     return () => DeepLinking.unsubscribe()
-  }, [DeepLinking.pathname, appState])
-
-  useEffect(() => {
-    if (ready && gdstore && appState === 'active') {
-      showOutOfGasError(props)
-    }
-  }, [gdstore, ready, appState])
+  }, [appState])
 
   const { descriptors, navigation } = props
   const activeKey = navigation.state.routes[navigation.state.index].key

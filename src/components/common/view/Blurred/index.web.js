@@ -18,7 +18,16 @@ const Blurred = ({ styles, children, whenDialog = false, whenSideMenu = false })
     return computedStyle
   }, [isBlurred, blurStyle, styles])
 
-  return <View style={viewStyles}>{children}</View>
+  return (
+    <View
+      style={{
+        flex: 1,
+        overflow: 'hidden',
+      }}
+    >
+      <View style={viewStyles}>{children}</View>
+    </View>
+  )
 }
 
 const getStylesFromProps = () => ({
@@ -31,6 +40,7 @@ const getStylesFromProps = () => ({
     display: 'flex',
     flexGrow: 1,
     flexDirection: 'column',
+    overflow: 'hidden',
   },
   blurFx: {
     filter: 'blur(24px) brightness(0.8) opacity(0.5)',

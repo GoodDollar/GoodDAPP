@@ -1,6 +1,6 @@
 //@flow
 import React, { useEffect, useState } from 'react'
-import { TouchableOpacity, View } from 'react-native'
+import { Platform, TouchableOpacity, View } from 'react-native'
 import { Appbar } from 'react-native-paper'
 
 import config from '../../config/config'
@@ -10,7 +10,6 @@ import { Icon, Text } from '../../components/common'
 import useOnPress from '../../lib/hooks/useOnPress'
 import useSideMenu from '../../lib/hooks/useSideMenu'
 import { isMobileNative } from '../../lib/utils/platform'
-import AsyncStorage from '../../lib/utils/asyncStorage'
 import userStorage from '../../lib/gundb/UserStorage'
 import { useInvited } from '../invite/useInvites'
 import { theme } from '../theme/styles'
@@ -76,30 +75,24 @@ const RewardButton = React.memo(({ onPress, style }) => {
   const [updatesCount, setUpdatesCount] = useState(0)
 
   useEffect(() => {
-    const updateIcon = async () => {
-      const lastState = (await AsyncStorage.getItem('GD_lastInviteState')) ||
-        userStorage.userProperties.get('lastInviteState') || { pending: 0, approved: 0, total: 0 }
+    const lastState = userStorage.userProperties.get('lastInviteState') || { pending: 0, approved: 0, total: 0 }
 
-      const newPending = Math.max(inviteState.pending - lastState.pending, 0)
-      const newApproved = Math.max(inviteState.approved - lastState.approved, 0)
-      setUpdatesCount(newPending + newApproved)
-    }
-
-    updateIcon()
+    const newPending = Math.max(inviteState.pending - lastState.pending, 0)
+    const newApproved = Math.max(inviteState.approved - lastState.approved, 0)
+    setUpdatesCount(newPending + newApproved)
   }, [inviteState])
 
   return (
     <>
       <TouchableOpacity testID="rewards_tab" onPress={onPress} style={style}>
-        <Icon name="rewards" size={36} color="white">
-          {updatesCount > 0 && (
-            <View style={rewardStyles.notifications}>
-              <Text color={theme.colors.white} fontSize={10} fontWeight={'bold'}>
-                {updatesCount}
-              </Text>
-            </View>
-          )}
-        </Icon>
+        <Icon name="rewards" size={36} color="white" />
+        {updatesCount > 0 && (
+          <View style={rewardStyles.notifications}>
+            <Text color={theme.colors.white} fontSize={10} fontWeight={'bold'}>
+              {updatesCount}
+            </Text>
+          </View>
+        )}
       </TouchableOpacity>
       <Appbar.Content />
     </>
@@ -113,8 +106,14 @@ const rewardStyles = {
     backgroundColor: theme.colors.orange,
     borderRadius: 7,
     position: 'absolute',
-    top: '-10%',
-    left: '70%',
+    top: Platform.select({
+      web: '-10%',
+      default: '5%',
+    }),
+    left: Platform.select({
+      web: '70%',
+      default: '55%',
+    }),
   },
 }
 

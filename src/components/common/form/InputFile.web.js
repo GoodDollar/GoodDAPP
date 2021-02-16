@@ -11,8 +11,7 @@ import { constrainImage, createImage, MAX_AVATAR_HEIGHT, MAX_AVATAR_WIDTH } from
 
 const log = logger.child({ from: 'InputFile' })
 
-const InputFile = props => {
-  const { children, onChange } = props
+const InputFile = ({ Component, onChange }) => {
   const inputRef = useRef(null)
 
   // need to prevent default event - useOnPress does it
@@ -41,7 +40,7 @@ const InputFile = props => {
         onChange={handleInputChange}
       />
       <label htmlFor="file" style={styles.label}>
-        {children}
+        <Component />
       </label>
     </>
   )
@@ -50,6 +49,8 @@ const InputFile = props => {
 const styles = {
   input: {
     opacity: 0,
+    width: 0,
+    height: 0,
   },
   label: {
     display: 'inline-block',

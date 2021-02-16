@@ -1,118 +1,191 @@
 // @flow
-import React, { useCallback, useState } from 'react'
+import React, { useCallback } from 'react'
+import { Platform } from 'react-native'
 import Wrapper from '../../common/layout/Wrapper'
 import Text from '../../common/view/Text'
 import NavBar from '../../appNavigation/NavBar'
 import { withStyles } from '../../../lib/styles'
 import { theme as mainTheme } from '../../theme/styles'
-import { isBrowser } from '../../../lib/utils/platform'
-import AnimationsPeopleFlying from '../../common/animations/PeopleFlying'
+import SignupIllu from '../../../assets/Signup/signup.svg'
+import SigninIllu from '../../../assets/Auth/Illustrations_woman_love.svg'
+
 import Section from '../../common/layout/Section'
-import SimpleStore from '../../../lib/undux/SimpleStore'
-import { getDesignRelativeHeight, getDesignRelativeWidth, getMaxDeviceHeight } from '../../../lib/utils/sizes'
+import CustomButton from '../../common/buttons/CustomButton'
+import {
+  getDesignRelativeHeight,
+  getDesignRelativeWidth,
+  getMaxDeviceHeight,
+  isLongDevice,
+} from '../../../lib/utils/sizes'
 import googleBtnIcon from '../../../assets/Auth/btn_google.svg'
 import facebookBtnIcon from '../../../assets/Auth/btn_facebook.svg'
-import { PasswordLess } from '../torus/PasswordLess'
+import MobileBtnIcon from '../../../assets/Auth/btn_mobile.svg'
+import Config from '../../../config/config'
 import { LoginButton } from './LoginButton'
 
 // import { delay } from '../../../lib/utils/async'
 
 // import SpinnerCheckMark from '../../common/animations/SpinnerCheckMark'
 
-const SignupScreen = ({ screenProps, styles, store, handleLoginMethod, sdkInitialized, goBack }) => {
+const SignupScreen = ({ isSignup, screenProps, styles, handleLoginMethod, sdkInitialized, goBack }) => {
   const { push } = screenProps
-  const [isPasswordless, setPasswordless] = useState(false)
   const handleNavigateTermsOfUse = useCallback(() => push('PrivacyPolicyAndTerms'), [push])
 
   const handleNavigatePrivacyPolicy = useCallback(() => push('PrivacyPolicy'), [push])
-
-  const handlePasswordless = useCallback(() => {
-    setPasswordless(true)
-  }, [setPasswordless])
-
-  const _goBack = useCallback(() => {
-    if (isPasswordless) {
-      return setPasswordless(false)
-    }
-    goBack()
-  }, [goBack, setPasswordless, isPasswordless])
 
   const _google = () => handleLoginMethod('google')
 
   const _facebook = () => handleLoginMethod('facebook')
 
+  const _mobile = () => handleLoginMethod('auth0-pwdless-sms')
+
+  const _selfCustody = () => handleLoginMethod('selfCustody')
+
+  const Illustration = isSignup ? SignupIllu : SigninIllu
+
+  const buttonPrefix = isSignup ? 'Agree & Sign up' : 'Log in'
+
+  const SigninText = () => (
+    <>
+      <Text fontSize={12} color="gray80Percent" style={styles.marginBottom}>
+        {`Remember to login with the `}
+        <Text fontSize={12} color="gray80Percent" fontWeight="bold">
+          {`same login method\n`}
+        </Text>
+        that you’ve signed up with
+      </Text>
+    </>
+  )
+
+  const SignupText = () => (
+    <>
+      <Text fontSize={10} color="gray80Percent" style={styles.marginBottom}>
+        {`By Signing up you are accepting our `}
+        <Text
+          fontSize={10}
+          color="gray80Percent"
+          fontWeight="bold"
+          textDecorationLine="underline"
+          onPress={handleNavigateTermsOfUse}
+        >
+          {`Terms of Use`}
+        </Text>
+        {' and '}
+        <Text
+          fontSize={10}
+          color="gray80Percent"
+          fontWeight="bold"
+          textDecorationLine="underline"
+          onPress={handleNavigatePrivacyPolicy}
+        >
+          Privacy Policy
+        </Text>
+      </Text>
+    </>
+  )
   return (
     <Wrapper backgroundColor="#fff" style={styles.mainWrapper}>
-      <Section.Stack style={{ flexGrow: 0 }}>
-        <NavBar title="Signup" goBack={_goBack} />
-        <Text
-          style={styles.headerText}
-          fontSize={26}
-          lineHeight={34}
-          letterSpacing={0.26}
-          fontFamily="Roboto"
-          fontWeight="bold"
-        >
-          Welcome to GoodDollar!
-        </Text>
-      </Section.Stack>
-      <Section.Stack style={styles.illustration}>
-        <AnimationsPeopleFlying />
-      </Section.Stack>
-      <Section.Stack style={styles.bottomContainer}>
-        <Text fontSize={12} color="gray80Percent" style={styles.marginBottom}>
-          {`By Signing up you are accepting our \n`}
-          <Text
-            fontSize={12}
-            color="gray80Percent"
-            fontWeight="bold"
-            textDecorationLine="underline"
-            onPress={handleNavigateTermsOfUse}
-          >
-            Terms of Use
-          </Text>
-          {' and '}
-          <Text
-            fontSize={12}
-            color="gray80Percent"
-            fontWeight="bold"
-            textDecorationLine="underline"
-            onPress={handleNavigatePrivacyPolicy}
-          >
-            Privacy Policy
-          </Text>
-        </Text>
-        {isPasswordless === false && (
-          <React.Fragment>
-            <LoginButton
-              style={[styles.buttonLayout, { backgroundColor: mainTheme.colors.googleBlue }]}
-              onPress={_google}
-              disabled={!sdkInitialized}
-              testID="login_with_google"
-              icon={googleBtnIcon}
+      <NavBar title={isSignup ? 'Signup' : 'Login'} />
+      <Section.Stack style={{ flex: 1, justifyContent: 'center' }}>
+        <Section.Stack style={{ flex: 1, maxHeight: 640 }}>
+          <Section.Stack style={{ flexGrow: 0 }}>
+            <Text
+              style={styles.headerText}
+              fontSize={26}
+              lineHeight={34}
+              letterSpacing={0.26}
+              fontFamily="Roboto"
+              fontWeight="bold"
             >
-              {`Agree & Sign up with Google`}
-            </LoginButton>
-            <LoginButton
-              style={[
-                styles.buttonLayout,
-                styles.buttonsMargin,
-                {
-                  backgroundColor: mainTheme.colors.facebookBlue,
-                },
-              ]}
-              onPress={_facebook}
-              disabled={!sdkInitialized}
-              testID="login_with_facebook"
-              icon={facebookBtnIcon}
-              iconProps={{ viewBox: '0 0 11 22' }}
-            >
-              {`Agree & Sign up with Facebook`}
-            </LoginButton>
-          </React.Fragment>
-        )}
-        <Section.Stack>
-          <PasswordLess isOpen={isPasswordless} onSelect={handlePasswordless} handleLoginMethod={handleLoginMethod} />
+              {isSignup ? `Welcome To GoodDollar!\nCreate a Wallet` : 'Welcome Back!'}
+            </Text>
+          </Section.Stack>
+          <Section.Stack style={styles.illustration}>
+            <Illustration width={'100%'} height={'100%'} viewBox={isSignup ? `0 0 255 170` : `0 0 206.391 173.887`} />
+          </Section.Stack>
+          <Section.Stack style={styles.bottomContainer}>
+            {isSignup ? <SignupText /> : <SigninText />}
+            <React.Fragment>
+              <LoginButton
+                style={[styles.buttonLayout, { backgroundColor: mainTheme.colors.googleBlue }]}
+                onPress={_google}
+                disabled={!sdkInitialized}
+                testID="login_with_google"
+                icon={googleBtnIcon}
+              >
+                {`${buttonPrefix} with Google`}
+              </LoginButton>
+              <LoginButton
+                style={[
+                  styles.buttonLayout,
+                  styles.buttonsMargin,
+                  {
+                    backgroundColor: mainTheme.colors.facebookBlue,
+                  },
+                ]}
+                onPress={_facebook}
+                disabled={!sdkInitialized}
+                testID="login_with_facebook"
+                icon={facebookBtnIcon}
+                iconProps={{ viewBox: '0 0 11 22' }}
+              >
+                {`${buttonPrefix} with Facebook`}
+              </LoginButton>
+
+              <LoginButton
+                style={[
+                  styles.buttonLayout,
+                  styles.buttonsMargin,
+                  {
+                    backgroundColor: mainTheme.colors.darkBlue,
+                  },
+                ]}
+                onPress={_mobile}
+                disabled={!sdkInitialized}
+                testID="login_with_auth0"
+                icon={MobileBtnIcon}
+                iconProps={{ viewBox: '0 0 14.001 26' }}
+              >
+                {`${buttonPrefix}${isSignup ? '' : ' with'} Passwordless`}
+              </LoginButton>
+            </React.Fragment>
+            <Section.Stack style={styles.textButtonContainer}>
+              <CustomButton
+                compact
+                mode={'text'}
+                color={mainTheme.colors.darkGray}
+                textStyle={{
+                  textDecorationLine: 'underline',
+                  fontSize: 14,
+                  fontWeight: 'bold',
+                  lineHeight: 16,
+                  letterSpacing: 0.14,
+                }}
+                onPress={goBack}
+                style={styles.textButton}
+              >
+                {isSignup ? `Already Have a Wallet? Log In >` : `Dont Have a Wallet? Create One >`}
+              </CustomButton>
+              {Config.enableSelfCustody && (
+                <CustomButton
+                  compact
+                  mode={'text'}
+                  color={mainTheme.colors.darkGray}
+                  textStyle={{
+                    textDecorationLine: 'underline',
+                    fontSize: 14,
+                    fontWeight: 'bold',
+                    lineHeight: 16,
+                    letterSpacing: 0.14,
+                  }}
+                  onPress={_selfCustody}
+                  style={styles.textButton}
+                >
+                  {isSignup ? `Self Custody >` : `Recover from seed phrase >`}
+                </CustomButton>
+              )}
+            </Section.Stack>
+          </Section.Stack>
         </Section.Stack>
       </Section.Stack>
     </Wrapper>
@@ -121,7 +194,6 @@ const SignupScreen = ({ screenProps, styles, store, handleLoginMethod, sdkInitia
 
 const getStylesFromProps = ({ theme }) => {
   const shorterDevice = getMaxDeviceHeight() <= 622
-  const illustrationSize = getDesignRelativeWidth(isBrowser ? 429 : shorterDevice ? 249 : 350)
 
   return {
     mainWrapper: {
@@ -133,11 +205,12 @@ const getStylesFromProps = ({ theme }) => {
       flex: 1,
       justifyContent: 'flex-start',
       paddingHorizontal: theme.sizes.defaultDouble,
-      marginTop: getDesignRelativeHeight(theme.sizes.default * 5),
+      marginTop: getDesignRelativeHeight(theme.sizes.default * 3),
+      maxWidth: 384,
+      width: '100%',
+      alignSelf: 'center',
     },
     buttonLayout: {
-      marginTop: getDesignRelativeHeight(theme.sizes.default),
-      marginBottom: getDesignRelativeHeight(theme.sizes.default),
       justifyContent: 'space-between',
       flexDirection: 'row',
       alignItems: 'center',
@@ -145,16 +218,15 @@ const getStylesFromProps = ({ theme }) => {
       padding: 3,
     },
     illustration: {
-      marginTop: getDesignRelativeHeight(theme.sizes.default * 5),
-      width: illustrationSize,
-      height: getDesignRelativeHeight(192),
-      paddingRight: getDesignRelativeWidth(15),
+      marginTop: getDesignRelativeHeight(theme.sizes.default * 3),
+      height: getDesignRelativeHeight(170, false),
+      width: getDesignRelativeWidth(255, false),
       justifyContent: 'center',
       alignSelf: 'center',
-      flex: 1,
+      flex: Platform.select({ web: isLongDevice ? 1 : 'inherit', native: isLongDevice ? 1 : 0 }),
     },
     headerText: {
-      marginTop: getDesignRelativeHeight(!shorterDevice ? 45 : 30),
+      marginTop: getDesignRelativeHeight(!shorterDevice ? 25 : 20),
     },
     marginBottom: {
       marginBottom: getDesignRelativeHeight(shorterDevice ? theme.sizes.default : theme.sizes.defaultDouble),
@@ -162,14 +234,17 @@ const getStylesFromProps = ({ theme }) => {
     buttonsMargin: {
       marginTop: getDesignRelativeHeight(shorterDevice ? theme.sizes.default : theme.sizes.defaultDouble),
     },
+    textButton: {
+      height: 23,
+      minHeight: 23,
+      flexDirection: 'column',
+    },
+    textButtonContainer: {
+      marginVertical: getDesignRelativeHeight(shorterDevice ? theme.sizes.default : theme.sizes.default * 3),
+    },
   }
 }
 
-const signupScreen = withStyles(getStylesFromProps)(SimpleStore.withStore(SignupScreen))
-
-signupScreen.navigationOptions = {
-  title: 'Signup',
-  navigationBarHidden: false,
-}
+const signupScreen = withStyles(getStylesFromProps)(SignupScreen)
 
 export default signupScreen

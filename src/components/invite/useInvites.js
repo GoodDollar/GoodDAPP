@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react'
-import { groupBy, keyBy, uniqBy } from 'lodash'
+import { groupBy, keyBy } from 'lodash'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import userStorage from '../../lib/gundb/UserStorage'
 import logger from '../../lib/logger/pino-logger'
-import AsyncStorage from '../../lib/utils/asyncStorage'
 import { useDialog } from '../../lib/undux/utils/dialog'
 import { fireEvent, INVITE_BOUNTY, INVITE_JOIN } from '../../lib/analytics/analytics'
 import { decorate, ExceptionCode } from '../../lib/logger/exceptions'
@@ -14,14 +13,22 @@ const log = logger.child({ from: 'useInvites' })
 const registerForInvites = async () => {
   const inviterInviteCode = userStorage.userProperties.get('inviterInviteCode')
 
-  if (inviterInviteCode) {
-    fireEvent(INVITE_JOIN, { inviterInviteCode })
-  }
-
+  let hasJoined = false
   try {
+    if (inviterInviteCode) {
+      hasJoined = await goodWallet.hasJoinedInvites()
+      !hasJoined && fireEvent(INVITE_JOIN, { inviterInviteCode })
+    }
     log.debug('joining invites contract:', { inviterInviteCode })
     const inviteCode = await goodWallet.joinInvites(inviterInviteCode)
     log.debug('joined invites contract:', { inviteCode, inviterInviteCode })
+
+    //this is a fix for a bug that users didnt register correctly. so didnt collect bounty on first claim.
+    if (!hasJoined && (await goodWallet.isCitizen())) {
+      log.debug('joined invites. user already whitelisted. collecting bounty...')
+      await goodWallet.collectInviteBounty()
+    }
+
     userStorage.userProperties.set('inviteCode', inviteCode)
     return inviteCode
   } catch (e) {
@@ -147,10 +154,7 @@ const useInvited = () => {
 
   const updateInvited = async () => {
     try {
-      updateData()
-      let cached = (await AsyncStorage.getItem('GD_cachedInvites')) || []
-      log.debug('updateInvited', { cached })
-      setInvites(cached)
+      await updateData()
 
       const [invitees, pending] = await Promise.all([
         goodWallet.invitesContract.methods.getInvitees(goodWallet.account).call(),
@@ -161,20 +165,13 @@ const useInvited = () => {
       ])
       log.debug('updateInvited got invitees and pending invitees', { invitees, pending })
 
-      let invited = await Promise.all(
-        invitees.map(addr => userStorage.getUserProfile(addr).then(profile => ({ addr, ...profile }))),
-      )
+      let invited = invitees.map(addr => ({
+        address: addr,
+      }))
 
-      log.debug('updateInvited got invitees profiles', { invited })
-
-      //keep if both name + avatar or not in cache
-      invited = invited.filter(_ => _.name || _.avatar || cached.find(c => c.addr === _.addr) === undefined)
-
-      //adding/updating invitees profiles to cache
-      cached = uniqBy(invited.concat(cached), 'addr')
-      cached.forEach(i => (i.status = pending[i.addr] ? 'pending' : 'approved'))
-      setInvites(cached)
-      AsyncStorage.setItem('GD_cachedInvites', cached)
+      invited.forEach(i => (i.status = pending[i.address] ? 'pending' : 'approved'))
+      setInvites(invited)
+      log.debug('set invitees to', { invitees })
     } catch (e) {
       log.error('updateInvited failed:', e.message, e)
     }

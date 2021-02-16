@@ -10,8 +10,7 @@ import BigGoodDollar from '../common/view/BigGoodDollar'
 
 import { withStyles } from '../../lib/styles'
 import { weiToGd } from '../../lib/wallet/utils'
-import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
-import { isSmallDevice } from '../../lib/utils/mobileSizeDetect'
+import { getDesignRelativeHeight, getDesignRelativeWidth, isSmallDevice } from '../../lib/utils/sizes'
 import { isMobileNative } from '../../lib/utils/platform'
 
 const ButtonAmountToClaim = ({ showLabelOnly = false, entitlement, isCitizen, styles, isInQueue }) => (
@@ -97,7 +96,7 @@ export const ButtonCountdown = ({ styles, nextClaim }) => (
       Your Next Claim:
     </Text>
     {/* for some reason passing styles.countDownTimer doesnt work */}
-    <Section.Row grow style={styles.countDownTimer}>
+    <Section.Row style={styles.countDownTimer}>
       {nextClaim &&
         nextClaim.split('').map((value, index) => {
           return (

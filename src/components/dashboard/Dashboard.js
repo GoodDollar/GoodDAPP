@@ -367,7 +367,7 @@ const Dashboard = props => {
   )
 
   const initDashboard = async () => {
-    await userStorage.initRegistered()
+    await userStorage.initFeed()
     await handleAppLinks()
     handleDeleteRedirect()
     await subscribeToFeed().catch(e => log.error('initDashboard feed failed', e.message, e))

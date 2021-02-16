@@ -46,7 +46,6 @@ import LoadingIcon from '../common/modal/LoadingIcon'
 import SuccessIcon from '../common/modal/SuccessIcon'
 import { getMaxDeviceWidth, measure } from '../../lib/utils/sizes'
 import { theme as _theme } from '../theme/styles'
-import DeepLinking from '../../lib/utils/deepLinking'
 import UnknownProfileSVG from '../../assets/unknownProfile.svg'
 import useOnPress from '../../lib/hooks/useOnPress'
 import Invite from '../invite/Invite'
@@ -255,10 +254,12 @@ const Dashboard = props => {
   }
 
   const handleAppLinks = () => {
-    const { params } = DeepLinking
+    const { params } = navigation.state || {}
 
     log.debug('handle links effect dashboard', { params })
-
+    if (!params) {
+      return
+    }
     const { paymentCode, event } = params
 
     if (paymentCode) {
@@ -735,7 +736,6 @@ const Dashboard = props => {
             contentStyle={styles.leftButtonContent}
             textStyle={styles.leftButtonText}
             params={{
-              nextRoutes: ['Reason', 'SendLinkSummary', 'TransactionConfirmation'],
               action: 'Send',
             }}
             compact

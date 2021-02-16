@@ -1,6 +1,6 @@
 //@flow
 import React, { useEffect, useState } from 'react'
-import { TouchableOpacity, View } from 'react-native'
+import { Platform, TouchableOpacity, View } from 'react-native'
 import { Appbar } from 'react-native-paper'
 
 import config from '../../config/config'
@@ -106,8 +106,14 @@ const rewardStyles = {
     backgroundColor: theme.colors.orange,
     borderRadius: 7,
     position: 'absolute',
-    bottom: '20%',
-    left: '70%',
+    top: Platform.select({
+      web: '-10%',
+      default: '5%',
+    }),
+    left: Platform.select({
+      web: '70%',
+      default: '55%',
+    }),
   },
 }
 

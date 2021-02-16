@@ -1848,7 +1848,7 @@ export class UserStorage {
         .get(index)
         .get(value)
         .get('profile')
-        .get('avatar')
+        .get('smallAvatar')
         .get('display')
         .then(null, 500),
       this.gun

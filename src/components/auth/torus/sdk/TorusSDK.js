@@ -31,14 +31,14 @@ class TorusSDK {
 
   constructor(config, logger) {
     const { env, publicUrl, torusProxyContract, torusNetwork, torusUxMode = 'popup' } = config
-    const baseUrl = publicUrl
+    const baseUrl = torusUxMode === 'popup' ? `${publicUrl}/torus` : publicUrl
 
     this.torus = new Torus(config, {
       proxyContractAddress: torusProxyContract, // details for test net
       network: torusNetwork, // details for test net
       enableLogging: env === 'development',
       uxMode: torusUxMode,
-      redirectPathName: torusUxMode === 'popup' ? 'torus/redirect' : 'Welcome/Auth',
+      redirectPathName: torusUxMode === 'popup' ? 'redirect' : 'Welcome/Auth',
       baseUrl,
     })
     this.uxMode = torusUxMode

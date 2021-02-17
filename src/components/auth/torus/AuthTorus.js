@@ -286,16 +286,19 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
         return
       }
 
-      const { torusUser, replacing } = await handleTorusResponse(torusUserRedirectPromise || getTorusUser(provider))
+      //in case of redirect flow we need to recover the provider/login type
+      if (provider == null) {
+        provider = await AsyncStorage.getItem('recallTorusRedirectProvider')
+      }
+
+      const { torusUser, replacing } = await handleTorusResponse(
+        torusUserRedirectPromise || getTorusUser(provider),
+        provider,
+      )
 
       if (torusUser == null) {
         showErrorDialog('We were unable to complete the signup. Please try again.')
         return
-      }
-
-      //in case of redirect flow we need to recover the provider/login type
-      if (provider == null) {
-        provider = await AsyncStorage.getItem('recallTorusRedirectProvider')
       }
 
       const existsResult = await userExists(torusUser)

@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import { Image, View } from 'react-native'
+import { Image, Platform, View } from 'react-native'
 import { get, result } from 'lodash'
 import {
   EmailShareButton,
@@ -147,6 +147,15 @@ const ShareBox = ({ level }) => {
 
   const share = useMemo(() => generateShareObject(shareTitle, shareMessage, shareUrl), [shareUrl])
 
+  const showShareIcons = useMemo(
+    () =>
+      Platform.select({
+        web: true,
+        default: false,
+      }),
+    [],
+  )
+
   return (
     <WavesBox primarycolor={theme.colors.primary} style={styles.linkBoxStyle} title={'Share Your Invite Link'}>
       <Section.Stack style={{ alignItems: 'flex-start', marginTop: 11, marginBottom: 11 }}>
@@ -186,7 +195,7 @@ const ShareBox = ({ level }) => {
           withoutDone
         />
       </Section.Row>
-      <ShareIcons shareUrl={shareUrl} />
+      {showShareIcons && <ShareIcons shareUrl={shareUrl} />}
     </WavesBox>
   )
 }

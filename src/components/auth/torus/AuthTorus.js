@@ -1,5 +1,5 @@
 // @flow
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { Paragraph } from 'react-native-paper'
 import { View } from 'react-native'
 import { get } from 'lodash'
@@ -43,6 +43,8 @@ import LoadingIcon from '../../common/modal/LoadingIcon'
 // import SpinnerCheckMark from '../../common/animations/SpinnerCheckMark'
 
 import { timeout } from '../../../lib/utils/async'
+import DeepLinking from '../../../lib/utils/deepLinking'
+
 import useTorus from './hooks/useTorus'
 import { LoginStrategy } from './sdk/strategies'
 
@@ -110,51 +112,79 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
   const showAlreadySignedUp = useAlreadySignedUp()
   const [torusSDK, sdkInitialized] = useTorus()
   const { navigate } = navigation
-  const [authScreen, setAuthScreen] = useState(get(navigation, 'state.params.screen', 'signup'))
-  const isSignup = authScreen === 'signup'
+  const [authScreen, setAuthScreen] = useState(get(navigation, 'state.params.screen'))
+  const isSignup = authScreen !== 'signin' //default to signup
+
+  useEffect(() => {
+    if (authScreen == null) {
+      AsyncStorage.getItem('recallTorusRedirectScreen').then(screen => {
+        log.debug('recall authscreen for torus redirect flow', screen)
+        screen && setAuthScreen(screen)
+      })
+    }
+  }, [])
+
+  useEffect(() => {
+    if (sdkInitialized) {
+      getTorusUserRedirect()
+    }
+  }, [sdkInitialized])
+
+  const getTorusUserRedirect = () => {
+    if (sdkInitialized && DeepLinking.hash && DeepLinking.hash.startsWith('#state')) {
+      log.debug('triggering torus redirect callback flow')
+      handleLoginMethod(null, torusSDK.getRedirectResult())
+    }
+  }
 
   const getTorusUser = useCallback(
+    // eslint-disable-next-line require-await
     async provider => {
-      let torusUser, replacing
-
-      try {
-        if (['development', 'test'].includes(config.env)) {
-          torusUser = await AsyncStorage.getItem('TorusTestUser')
-        }
-
-        if (torusUser == null) {
-          torusUser = await torusSDK.triggerLogin(provider)
-        }
-
-        fireEvent(TORUS_SUCCESS, { provider })
-
-        const curSeed = await AsyncStorage.getItem(GD_USER_MASTERSEED)
-        const curMnemonic = await AsyncStorage.getItem(GD_USER_MNEMONIC)
-
-        if (curMnemonic || (curSeed && curSeed !== torusUser.privateKey)) {
-          await AsyncStorage.clear()
-          replacing = true
-        }
-
-        //set masterseed so wallet can use it in 'ready' where we check if user exists
-        await AsyncStorage.setItem(GD_USER_MASTERSEED, torusUser.privateKey)
-        log.debug('torus login success', { torusUser, provider })
-      } catch (e) {
-        // store.set('loadingIndicator')({ loading: false })
-        fireEvent(TORUS_FAILED, { provider, error: e.message })
-        const cancelled = e.message.toLowerCase().includes('user closed')
-        if (cancelled) {
-          log.info(e.message, e)
-          fireEvent(TORUS_POPUP_CLOSED, { provider, reason: e.message })
-          throw e
-        } else {
-          log.error('torus login failed', e.message, e, { dialogShown: true })
+      if (['development', 'test'].includes(config.env)) {
+        const torusUser = await AsyncStorage.getItem('TorusTestUser')
+        if (torusUser != null) {
+          return Promise.resolve(torusUser)
         }
       }
-      return { torusUser, replacing }
+
+      return torusSDK.triggerLogin(provider)
     },
     [torusSDK],
   )
+
+  const handleTorusResponse = async (torusUserPromise, provider) => {
+    let torusUser, replacing
+
+    try {
+      torusUser = await torusUserPromise
+
+      fireEvent(TORUS_SUCCESS, { provider })
+
+      const curSeed = await AsyncStorage.getItem(GD_USER_MASTERSEED)
+      const curMnemonic = await AsyncStorage.getItem(GD_USER_MNEMONIC)
+
+      if (curMnemonic || (curSeed && curSeed !== torusUser.privateKey)) {
+        await AsyncStorage.clear()
+        replacing = true
+      }
+
+      //set masterseed so wallet can use it in 'ready' where we check if user exists
+      await AsyncStorage.setItem(GD_USER_MASTERSEED, torusUser.privateKey)
+      log.debug('torus login success', { torusUser, provider })
+    } catch (e) {
+      // store.set('loadingIndicator')({ loading: false })
+      fireEvent(TORUS_FAILED, { provider, error: e.message })
+      const cancelled = e.message.toLowerCase().includes('user closed')
+      if (cancelled) {
+        log.info(e.message, e)
+        fireEvent(TORUS_POPUP_CLOSED, { provider, reason: e.message })
+        throw e
+      } else {
+        log.error('torus login failed', e.message, e, { dialogShown: true })
+      }
+    }
+    return { torusUser, replacing }
+  }
 
   const showLoadingDialog = () => {
     showDialog({
@@ -233,6 +263,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
 
   const handleLoginMethod = async (
     provider: 'facebook' | 'google' | 'auth0' | 'auth0-pwdless-email' | 'auth0-pwdless-sms',
+    torusUserRedirectPromise,
   ) => {
     fireEvent(isSignup ? SIGNUP_METHOD_SELECTED : SIGNIN_METHOD_SELECTED, { method: provider })
 
@@ -242,10 +273,29 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
         return selfCustody()
       }
 
-      const { torusUser, replacing } = await getTorusUser(provider)
+      //dont expect response if in redirect mode, this will be called again with response from effect
+      if (config.env !== 'test' && torusSDK.uxMode === 'redirect' && torusUserRedirectPromise == null) {
+        //just trigger the oauth and return
+        log.debug('trigger redirect flow')
+
+        //keep the provider and if user is signin/signup for recall
+        AsyncStorage.setItem('recallTorusRedirectProvider', provider)
+        authScreen && AsyncStorage.setItem('recallTorusRedirectScreen', authScreen)
+
+        await getTorusUser(provider)
+        return
+      }
+
+      const { torusUser, replacing } = await handleTorusResponse(torusUserRedirectPromise || getTorusUser(provider))
+
       if (torusUser == null) {
         showErrorDialog('We were unable to complete the signup. Please try again.')
         return
+      }
+
+      //in case of redirect flow we need to recover the provider/login type
+      if (provider == null) {
+        provider = await AsyncStorage.getItem('recallTorusRedirectProvider')
       }
 
       const existsResult = await userExists(torusUser)

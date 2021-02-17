@@ -30,14 +30,16 @@ class TorusSDK {
   }
 
   constructor(config, logger) {
-    const { env, torusProxyContract, torusNetwork } = config
+    const { env, torusProxyContract, torusNetwork, torusUxMode = 'popup' } = config
 
     this.torus = new Torus(config, {
       proxyContractAddress: torusProxyContract, // details for test net
       network: torusNetwork, // details for test net
       enableLogging: env === 'development',
+      uxMode: torusUxMode,
+      redirectPathName: torusUxMode === 'popup' ? 'redirect' : 'Welcome/Auth',
     })
-
+    this.uxMode = torusUxMode
     this.config = config
     this.logger = logger
   }
@@ -46,7 +48,13 @@ class TorusSDK {
   async initialize() {
     const { torus } = this
 
-    return torus.init()
+    return torus.init({ skipSw: this.uxMode === 'redirect' })
+  }
+
+  // eslint-disable-next-line require-await
+  async getRedirectResult() {
+    const { result } = await this.torus.getRedirectResult()
+    return this.fetchTorusUser(result)
   }
 
   async triggerLogin(verifier, customLogger = null) {
@@ -61,6 +69,11 @@ class TorusSDK {
     }
 
     const response = await strategies[withVerifier].triggerLogin()
+
+    //no response in case of redirect flow
+    if (this.uxMode === 'redirect') {
+      return response
+    }
 
     return this.fetchTorusUser(response, customLogger)
   }

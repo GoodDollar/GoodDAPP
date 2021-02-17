@@ -46,7 +46,7 @@ const Splash = ({ animation, isLoggedIn, dontAnimate = false }) => {
       if (animateSplash) {
         AsyncStorage.setItem(lastSplashProp, Date.now())
       }
-      setShouldAnimate(animateSplash)
+      setShouldAnimate(!dontAnimate && animateSplash)
       setChecked(true)
     })
   }, [])

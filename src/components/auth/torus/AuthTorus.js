@@ -218,7 +218,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
     const curSeed = await AsyncStorage.getItem(GD_USER_MASTERSEED)
     if (isSignup === false) {
       fireEvent(SIGNIN_METHOD_SELECTED, { method: REGISTRATION_METHOD_SELF_CUSTODY })
-      navigate('SigninInfo')
+      return navigate('SigninInfo')
     }
 
     //in case user started torus signup but came back here we need to re-initialize wallet/storage with
@@ -229,7 +229,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
     }
     fireEvent(SIGNUP_METHOD_SELECTED, { method: REGISTRATION_METHOD_SELF_CUSTODY })
     navigate('Signup', { regMethod: REGISTRATION_METHOD_SELF_CUSTODY })
-  }, [navigate])
+  }, [navigate, isSignup])
 
   const handleLoginMethod = async (
     provider: 'facebook' | 'google' | 'auth0' | 'auth0-pwdless-email' | 'auth0-pwdless-sms',

@@ -17,6 +17,7 @@ import { fireEvent, INVITE_HOWTO, INVITE_SHARE } from '../../lib/analytics/analy
 import Config from '../../config/config'
 import { generateShareObject, isSharingAvailable } from '../../lib/share'
 import userStorage from '../../lib/gundb/UserStorage'
+import useGunProfile from '../../lib/hooks/gun/useGunProfile'
 import ModalLeftBorder from '../common/modal/ModalLeftBorder'
 import { useCollectBounty, useInviteCode, useInvited } from './useInvites'
 import FriendsSVG from './friends.svg'
@@ -31,11 +32,12 @@ const shareMessage =
 const shortShareMessage =
   'Hi,\nIf you believe in economic inclusion and distribution of prosperity for all, sign up for a GoodDollar wallet and start collecting daily digital income. Use my invite link and receive an extra 50G$\n\n'
 
-const InvitedUser = ({ name, avatar, status }) => {
+const InvitedUser = ({ address, status }) => {
+  const profile = useGunProfile(address)
   const isApproved = status === 'approved'
   return (
     <Section.Row style={{ alignItems: 'center', marginTop: theme.paddings.defaultMargin }}>
-      <Avatar source={avatar} size={28} />
+      <Avatar source={profile.smallAvatar} size={28} />
       <Section.Text
         fontFamily={theme.fonts.slab}
         fontSize={14}
@@ -48,7 +50,7 @@ const InvitedUser = ({ name, avatar, status }) => {
           textAlign: 'left',
         }}
       >
-        {name}
+        {profile.fullName}
       </Section.Text>
       <Section.Row alignItems={'flex-start'}>
         {isApproved ? <Icon name={'check'} color={'green'} /> : <Icon name={'time'} color={'orange'} />}
@@ -296,10 +298,8 @@ const InvitesHowTO = () => {
   )
   const SVGWrapper = ({ svg: SVG, width, height, style, svgStyle }) => {
     return (
-      <Section.Stack
-        style={[{ justifyContent: 'center', alignItems: 'center', alignSelf: 'center', justifySelf: 'center' }, style]}
-      >
-        <SVG svgStyle={svgStyle} />
+      <Section.Stack style={[{ justifyContent: 'center', alignItems: 'center', alignSelf: 'center' }, style]}>
+        <SVG style={svgStyle} />
       </Section.Stack>
     )
   }
@@ -316,7 +316,7 @@ const InvitesHowTO = () => {
         <Section.Text
           style={{ alignSelf: 'flex-end' }}
           color={theme.colors.darkBlue}
-          linelineHeight={16}
+          lineHeight={16}
           fontSize={12}
           textAlign={'center'}
         >

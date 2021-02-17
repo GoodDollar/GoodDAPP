@@ -185,6 +185,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
     const params = get(destinationPath, 'params')
     const paymentParams = params && parsePaymentLinkParams(params)
 
+    //get inviteCode from url or from payment link
     return get(destinationPath, 'params.inviteCode') || get(paymentParams, 'inviteCode')
   }
 

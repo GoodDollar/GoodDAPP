@@ -1,7 +1,7 @@
 // @flow
 import React, { Component, useEffect, useState } from 'react'
 import { Platform, SafeAreaView, ScrollView, StyleSheet, View } from 'react-native'
-import SideMenu from 'react-native-side-menu-gooddapp'
+import SideMenu from '@gooddollar/react-native-side-menu'
 import { createNavigator, Route, SceneView, SwitchRouter } from '@react-navigation/core'
 import { isEqualWith, isFunction, isNumber } from 'lodash'
 
@@ -213,7 +213,7 @@ class AppView extends Component<AppViewProps, AppViewState> {
   }
 
   /**
-   * Navigates to specific screen with custom parameters as query string. and reseting the stack
+   * Navigates to specific screen with custom parameters as query string. and resetting the stack
    */
   navigateTo = (nextRoute: string, params: any) => {
     const { navigation } = this.props

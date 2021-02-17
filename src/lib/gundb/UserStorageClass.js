@@ -576,7 +576,7 @@ export class UserStorage {
    * Initialize wallet, gundb user, feed and subscribe to events
    */
   async initRegistered() {
-    logger.debug('Initializing GunDB UserStorage for resgistered user', this.initializedRegistered)
+    logger.debug('Initializing GunDB UserStorage for registered user', this.initializedRegistered)
 
     if (this.initializedRegistered) {
       return
@@ -599,15 +599,7 @@ export class UserStorage {
     this.wallet.subscribeToEvent('receiptUpdated', receipt => this.handleReceiptUpdated(receipt))
     this.wallet.subscribeToEvent('receiptReceived', receipt => this.handleReceiptUpdated(receipt))
 
-    // for some reason doing init stuff before  causes gun to get stuck
-    // this issue doesnt exists for gun 2020 branch, but we cant upgrade there yet
-    // doing await one by one - Gun hack so it doesnt get stuck
-    await Promise.all([trustPromise, this.initFeed()]).catch(e => {
-      logger.error('failed init step in userstorage', e.message, e)
-      throw e
-    })
-    logger.debug('starting systemfeed and tokens')
-    this.startSystemFeed().catch(e => logger.error('failed initializing startSystemFeed', e.message, e))
+    await trustPromise
 
     logger.debug('done initializing registered userstorage')
     this.initializedRegistered = true
@@ -659,7 +651,7 @@ export class UserStorage {
   async fetchTrustIndexes() {
     try {
       const { data, lastFetch } = (await AsyncStorage.getItem('GD_trust')) || {}
-      this.trust = data || {}
+
       let refetch = true
 
       if (lastFetch) {
@@ -667,7 +659,7 @@ export class UserStorage {
         refetch = stale >= 7
         logger.debug('fetchTrustIndexes', { stale, lastFetch, data })
       }
-      if (refetch) {
+      if (data == null || refetch) {
         // make sure server is up
         await API.ping()
 
@@ -675,6 +667,8 @@ export class UserStorage {
         const { data } = await API.getTrust()
 
         AsyncStorage.setItem('GD_trust', { data, lastFetch: Date.now() })
+        this.trust = data
+      } else {
         this.trust = data
       }
     } catch (exception) {
@@ -1005,6 +999,11 @@ export class UserStorage {
    * the "false" (see gundb docs) passed is so we get the complete 'index' on every change and not just the day that changed
    */
   async initFeed() {
+    if (this.feedInitialized) {
+      return
+    }
+
+    this.feedInitialized = true
     const { feed } = await this.gunuser
 
     logger.debug('init feed', { feed })
@@ -1032,6 +1031,7 @@ export class UserStorage {
 
     //no need to block on this
     this._syncFeedCache()
+    this.startSystemFeed().catch(e => logger.error('failed initializing startSystemFeed', e.message, e))
   }
 
   async _syncFeedCache() {
@@ -1848,7 +1848,7 @@ export class UserStorage {
         .get(index)
         .get(value)
         .get('profile')
-        .get('avatar')
+        .get('smallAvatar')
         .get('display')
         .then(null, 500),
       this.gun

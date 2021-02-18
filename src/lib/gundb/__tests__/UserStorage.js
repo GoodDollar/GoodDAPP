@@ -45,6 +45,7 @@ describe('UserStorage', () => {
     await userStorage.wallet.ready
     await userStorage.ready
     await userStorage.initRegistered()
+    await userStorage.initFeed()
   })
 
   afterEach(() => {

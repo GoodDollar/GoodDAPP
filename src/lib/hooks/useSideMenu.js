@@ -166,9 +166,9 @@ export default (props = {}) => {
       {
         icon: 'logout',
         name: 'Logout',
-        action: () => {
+        action: async () => {
           fireEvent(LOGOUT)
-          AsyncStorage.clear()
+          await AsyncStorage.clear()
           slideOut()
           restart('/')
         },

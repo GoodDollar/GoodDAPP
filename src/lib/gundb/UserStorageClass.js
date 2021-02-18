@@ -2530,20 +2530,30 @@ export class UserStorage {
     const { profile, _getProfileFields } = this
     let profileFields = await profile.then(_getProfileFields)
 
-    logger.debug('Deleting profile fields', profileFields)
+    const deleteField = field => {
+      if (!field.includes('avatar')) {
+        return this.setProfileFieldPrivacy(field, 'private')
+      }
+
+      if (field === 'avatar') {
+        return this.removeAvatar()
+      }
+    }
 
     await Promise.all(
       profileFields.map(field =>
-        retry(() => this.setProfileFieldPrivacy(field, 'private'), 1).catch(exception => {
+        retry(() => deleteField(field), 1).catch(exception => {
           let error = exception
           let { message } = error || {}
 
           if (!error) {
-            error = new Error('Deleting profile field failed')
-            message = 'Some error occurred during setting the privacy to the field'
+            error = new Error(`Deleting profile field ${field} failed`)
+            message =
+              'Some error occurred during' +
+              (field === 'avatar' ? 'deleting avatar' : 'setting the privacy to the field')
           }
 
-          logger.error('Deleting profile field failed', message, error, { index: field })
+          logger.error(`Deleting profile field ${field} failed`, message, error, { index: field })
         }),
       ),
     )

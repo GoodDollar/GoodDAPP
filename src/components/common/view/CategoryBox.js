@@ -44,14 +44,6 @@ export const CategoryBox = ({ style, primarycolor, children, title, contentStyle
 }
 
 const styles = {
-  content: {
-    // paddingTop: theme.paddings.defaultMargin * 2,
-    // paddingLeft: theme.paddings.defaultMargin * 2,
-    // paddingRight: theme.paddings.defaultMargin * 2,
-    // paddingBottom: theme.paddings.defaultMargin * 2,
-    // borderTopRightRadius: 10,
-    // borderBottomRightRadius: 10,
-  },
   contentWrapper: {
     left: '50%',
     top: '50%',
@@ -66,10 +58,6 @@ const styles = {
   box: {
     flex: 1,
     borderRadius: 10,
-  },
-  border: {
-    borderWidth: '2px',
-    borderColor: theme.colors.primary,
   },
   categoryImage: {
     // flexGrow: 1,

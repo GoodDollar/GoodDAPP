@@ -1,6 +1,6 @@
 // @flow
-import React, { useCallback } from 'react'
-import { StyleSheet, View } from 'react-native'
+import React, { useCallback, useState } from 'react'
+import { StyleSheet, TouchableOpacity, View } from 'react-native'
 import InputText from '../common/form/InputText'
 import { Section, Wrapper } from '../common'
 
@@ -19,6 +19,8 @@ import CourseSVG from '../../assets/TxCategory/course.svg'
 import DonationSVG from '../../assets/TxCategory/donation.svg'
 import OtherSVG from '../../assets/TxCategory/other.svg'
 import { theme } from '../theme/styles'
+
+// import { fireEvent, PAYMENT_CATEGORY_SELECTED } from '../../lib/analytics/analytics'
 import { navigationOptions } from './utils/sendReceiveFlow'
 
 export type AmountProps = {
@@ -27,12 +29,22 @@ export type AmountProps = {
   styles: any,
 }
 
+const PAYMENT_CATEGORY_1 = 'Digital Services'
+const PAYMENT_CATEGORY_2 = 'Social Media Management'
+const PAYMENT_CATEGORY_3 = 'Product'
+const PAYMENT_CATEGORY_4 = 'Course / Private Consultation'
+const PAYMENT_CATEGORY_5 = 'Donation'
+const PAYMENT_CATEGORY_6 = 'Other'
+
 const SendReason = (props: AmountProps) => {
   const { screenProps } = props
   const { params } = props.navigation.state
 
   const [screenState, setScreenState] = useScreenState(screenProps)
+  const [isDisabledNextButton, setDisabledNextButton] = useState(true)
   const { reason, ...restState } = screenState
+
+  // const [boxBorder, setBoxBorder] = useState(styles.border)
 
   const next = useCallback(() => {
     const [nextRoute, ...nextRoutes] = screenState.nextRoutes || []
@@ -44,6 +56,17 @@ const SendReason = (props: AmountProps) => {
       params,
     })
   }, [restState, reason, screenState.nextRoutes, params])
+
+  const handleCategoryBoxOnPress = category => {
+    // set category
+    setScreenState({ category })
+
+    // enable next button
+    setDisabledNextButton(false)
+
+    // fire event
+    // fireEvent(PAYMENT_CATEGORY_SELECTED, screenState)
+  }
 
   return (
     <Wrapper>
@@ -63,66 +86,144 @@ const SendReason = (props: AmountProps) => {
           </Section.Title>
           <Section.Row style={[styles.categoryRow, { paddingTop: 19 }]}>
             <Section.Stack>
-              <CategoryBox style={styles.categoryBox} title="Digital Services">
-                <View>
-                  <DigitalServiceSVG />
-                </View>
-                {/* <Section.Text fontSize={12} lineHeight={14}>
+              <TouchableOpacity
+                onPress={() => {
+                  handleCategoryBoxOnPress(PAYMENT_CATEGORY_1)
+                }}
+              >
+                <CategoryBox
+                  style={[
+                    styles.categoryBox,
+                    styles.border,
+                    screenState.category === PAYMENT_CATEGORY_1 ? { borderWidth: 2 } : { borderWidth: 0 },
+                  ]}
+                  title={PAYMENT_CATEGORY_1}
+                >
+                  <View>
+                    <DigitalServiceSVG />
+                  </View>
+                  {/* <Section.Text fontSize={12} lineHeight={14}>
                   Digital Services
               </Section.Text> */}
-                {/* <Section.Text fontWeight="bold" fontSize={15} lineHeight={20}>
+                  {/* <Section.Text fontWeight="bold" fontSize={15} lineHeight={20}>
               at {claimCycleTime}
             </Section.Text> */}
-              </CategoryBox>
+                </CategoryBox>
+              </TouchableOpacity>
             </Section.Stack>
             <Section.Stack>
-              <CategoryBox style={styles.categoryBox} title={'Social Media\nEngagement'}>
-                <View>
-                  <SocialMediaSVG />
-                </View>
-                {/* <Section.Text fontWeight="bold" fontSize={15} lineHeight={20}>
+              <TouchableOpacity
+                onPress={() => {
+                  handleCategoryBoxOnPress(PAYMENT_CATEGORY_2)
+                }}
+              >
+                <CategoryBox
+                  style={[
+                    styles.categoryBox,
+                    styles.border,
+                    screenState.category === PAYMENT_CATEGORY_2 ? { borderWidth: 2 } : { borderWidth: 0 },
+                  ]}
+                  title={'Social Media\nEngagement'}
+                >
+                  <View>
+                    <SocialMediaSVG />
+                  </View>
+                  {/* <Section.Text fontWeight="bold" fontSize={15} lineHeight={20}>
               at {claimCycleTime}
             </Section.Text> */}
-              </CategoryBox>
+                </CategoryBox>
+              </TouchableOpacity>
             </Section.Stack>
             <Section.Stack>
-              <CategoryBox style={styles.categoryBox} title="Product">
-                <View>
-                  <ProductSVG />
-                </View>
-              </CategoryBox>
+              <TouchableOpacity
+                onPress={() => {
+                  handleCategoryBoxOnPress(PAYMENT_CATEGORY_3)
+                }}
+              >
+                <CategoryBox
+                  style={[
+                    styles.categoryBox,
+                    styles.border,
+                    screenState.category === PAYMENT_CATEGORY_3 ? { borderWidth: 2 } : { borderWidth: 0 },
+                  ]}
+                  title={PAYMENT_CATEGORY_3}
+                >
+                  <View>
+                    <ProductSVG />
+                  </View>
+                </CategoryBox>
+              </TouchableOpacity>
             </Section.Stack>
           </Section.Row>
           <Section.Row style={[styles.categoryRow, { paddingTop: theme.sizes.default }]}>
             <Section.Stack>
-              <CategoryBox style={styles.categoryBox} title={'Course / Private\nConsultation'}>
-                <View>
-                  <CourseSVG />
-                </View>
-                {/* <Section.Text fontWeight="bold" fontSize={15} lineHeight={20}>
+              <TouchableOpacity
+                onPress={() => {
+                  handleCategoryBoxOnPress(PAYMENT_CATEGORY_4)
+                }}
+              >
+                <CategoryBox
+                  style={[
+                    styles.categoryBox,
+                    styles.border,
+                    screenState.category === PAYMENT_CATEGORY_4 ? { borderWidth: 2 } : { borderWidth: 0 },
+                  ]}
+                  title={'Course / Private\nConsultation'}
+                >
+                  <View>
+                    <CourseSVG />
+                  </View>
+                  {/* <Section.Text fontWeight="bold" fontSize={15} lineHeight={20}>
               at {claimCycleTime}
             </Section.Text> */}
-              </CategoryBox>
+                </CategoryBox>
+              </TouchableOpacity>
             </Section.Stack>
             <Section.Stack>
-              <CategoryBox style={styles.categoryBox} title="Donation">
-                <View>
-                  <DonationSVG />
-                </View>
-                {/* <Section.Text fontWeight="bold" fontSize={15} lineHeight={20}>
+              <TouchableOpacity
+                onPress={() => {
+                  handleCategoryBoxOnPress(PAYMENT_CATEGORY_5)
+                }}
+              >
+                <CategoryBox
+                  style={[
+                    styles.categoryBox,
+                    styles.border,
+                    screenState.category === PAYMENT_CATEGORY_5 ? { borderWidth: 2 } : { borderWidth: 0 },
+                  ]}
+                  title={PAYMENT_CATEGORY_5}
+                >
+                  <View>
+                    <DonationSVG />
+                  </View>
+                  {/* <Section.Text fontWeight="bold" fontSize={15} lineHeight={20}>
               at {claimCycleTime}
             </Section.Text> */}
-              </CategoryBox>
+                </CategoryBox>
+              </TouchableOpacity>
             </Section.Stack>
             <Section.Stack>
-              <CategoryBox style={styles.categoryBox} title="Other">
-                <View>
-                  <OtherSVG />
-                </View>
-                {/* <Section.Text fontWeight="bold" fontSize={15} lineHeight={20}>
+              <TouchableOpacity
+                onPress={() => {
+                  handleCategoryBoxOnPress(PAYMENT_CATEGORY_6)
+                }}
+              >
+                <CategoryBox
+                  style={[
+                    styles.categoryBox,
+                    styles.border,
+                    screenState.category === PAYMENT_CATEGORY_6 ? { borderWidth: 2 } : { borderWidth: 0 },
+                  ]}
+                  title={PAYMENT_CATEGORY_6}
+                >
+                  <View>
+                    <OtherSVG />
+                  </View>
+                  {/* <Section.Text fontWeight="bold" fontSize={15} lineHeight={20}>
               at {claimCycleTime}
             </Section.Text> */}
-              </CategoryBox>
+                </CategoryBox>
+              </TouchableOpacity>
             </Section.Stack>
           </Section.Row>
 
@@ -146,6 +247,7 @@ const SendReason = (props: AmountProps) => {
           </Section.Row>
           <Section.Stack style={{ minWidth: getDesignRelativeWidth(244) }}>
             <NextButton
+              disabled={isDisabledNextButton}
               nextRoutes={screenState.nextRoutes}
               values={{ ...params, ...restState, reason }}
               {...props}
@@ -183,6 +285,11 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     boxShadow: '1px 1px 4px 0 rgba(0, 0, 0, 0.15)',
     backgroundColor: '#ffffff',
+  },
+  border: {
+    borderWidth: 2,
+    borderColor: theme.colors.primary,
+    borderStyle: 'solid',
   },
 })
 

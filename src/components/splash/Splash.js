@@ -35,9 +35,9 @@ export const resetLastSplash = async () => {
   await AsyncStorage.setItem(lastSplashProp, 0)
 }
 
-const Splash = ({ animation, isLoggedIn, dontAnimate = false }) => {
+const Splash = ({ animation, isLoggedIn }) => {
   const [checked, setChecked] = useState(false)
-  const [shouldAnimate, setShouldAnimate] = useState(dontAnimate !== true && (isLoggedIn !== true || isMobileNative))
+  const [shouldAnimate, setShouldAnimate] = useState(isLoggedIn !== true || isMobileNative)
   useEffect(() => {
     if (shouldAnimate) {
       return
@@ -46,7 +46,7 @@ const Splash = ({ animation, isLoggedIn, dontAnimate = false }) => {
       if (animateSplash) {
         AsyncStorage.setItem(lastSplashProp, Date.now())
       }
-      setShouldAnimate(!dontAnimate && animateSplash)
+      setShouldAnimate(animateSplash)
       setChecked(true)
     })
   }, [])

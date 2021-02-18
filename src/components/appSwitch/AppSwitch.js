@@ -171,7 +171,7 @@ const AppSwitch = (props: LoadingProps) => {
       //create jwt token and initialize the API service
       const [{ isLoggedInCitizen, isLoggedIn }] = await Promise.all([getLoginState(), updateWalletStatus(gdstore)])
       log.debug('initialize ready', { isLoggedIn, isLoggedInCitizen })
-
+      const initReg = userStorage.initRegistered()
       gdstore.set('isLoggedIn')(isLoggedIn)
       gdstore.set('isLoggedInCitizen')(isLoggedInCitizen)
 
@@ -182,7 +182,7 @@ const AppSwitch = (props: LoadingProps) => {
       initialize()
       runUpdates()
       showOutOfGasError(props)
-
+      await initReg
       setReady(true)
     } catch (e) {
       const dialogShown = unsuccessfulLaunchAttempts > 3

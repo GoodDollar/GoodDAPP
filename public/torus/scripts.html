@@ -132,6 +132,8 @@
       var redirectText = document.getElementById('redirectText')
       var linkToNavigate
       var instanceParams = {}
+      // Replace these urls with your app package urls
+      const whiteListedURLs = ['gooddollar://org.gooddollar/redirect']
       try {
         var url = new URL(location.href)
         var hash = url.hash.substr(1)
@@ -147,6 +149,7 @@
         for (var key of url.searchParams.keys()) {
           queryParams[key] = url.searchParams.get(key)
         }
+        console.log({ hashParams, queryParams })
         var error = ''
         try {
           if (Object.keys(hashParams).length > 0 && hashParams.state) {
@@ -159,13 +162,19 @@
         } catch (e) {
           console.error(e)
         }
-        // communicate to android package
-        linkToNavigate = 'gooddollar://org.gooddollar/redirect' + location.search + location.hash
-        window.location.href = linkToNavigate
-        setTimeout(() => {
-          navigateLink.href = linkToNavigate
-          redirectText.style.display = 'block'
-        }, 1000)
+        console.log({ instanceParams })
+        // communicate to android/ios package
+        if (whiteListedURLs.includes(instanceParams.redirectUri)) {
+          linkToNavigate = instanceParams.redirectUri + location.search + location.hash
+          window.location.href = linkToNavigate
+          setTimeout(() => {
+            navigateLink.href = linkToNavigate
+            redirectText.style.display = 'block'
+          }, 1000)
+        } else {
+          console.error('Please whitelist, ', instanceParams.redirectUri, 'or use whitelisted URLs')
+          // alert("Please whitelist, ", instanceParams.redirectUri, "or use whitelisted URLs")
+        }
       } catch (err) {
         console.error(err, 'error in redirect')
         window.close()

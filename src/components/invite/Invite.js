@@ -1,14 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import { Image, Platform, View } from 'react-native'
+import { Image, View } from 'react-native'
 import { get, result } from 'lodash'
-import {
-  EmailShareButton,
-  FacebookShareButton,
-  TelegramShareButton,
-  TwitterShareButton,
-  WhatsappShareButton,
-} from 'react-share'
-import { Avatar, CustomButton, Icon, IconButton, Section, ShareButton, Text, Wrapper } from '../common'
+import { Avatar, CustomButton, Icon, Section, ShareButton, Text, Wrapper } from '../common'
 import { WavesBox } from '../common/view/WavesBox'
 import { theme } from '../theme/styles'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
@@ -22,15 +15,10 @@ import ModalLeftBorder from '../common/modal/ModalLeftBorder'
 import { useCollectBounty, useInviteCode, useInvited } from './useInvites'
 import FriendsSVG from './friends.svg'
 import EtoroPNG from './etoro.png'
+import ShareIcons from './ShareIcons/ShareIcons'
+import { shareMessage, shareTitle } from './constants'
 
 const log = logger.child({ from: 'Invite' })
-
-const shareTitle = 'I signed up to GoodDollar. Join me.'
-const shareMessage =
-  'Hi,\nIf you believe, like me, in economic inclusion and the distribution of prosperity for all, then I invite you to sign up for GoodDollar, create your own basic income wallet and start collecting your daily digital income.\nUse my invite link and receive an extra 50G$ bonus\n\n'
-
-const shortShareMessage =
-  'Hi,\nIf you believe in economic inclusion and distribution of prosperity for all, sign up for a GoodDollar wallet and start collecting daily digital income. Use my invite link and receive an extra 50G$\n\n'
 
 const InvitedUser = ({ address, status }) => {
   const profile = useGunProfile(address)
@@ -70,91 +58,12 @@ const InvitedUser = ({ address, status }) => {
   )
 }
 
-const ShareIcons = ({ shareUrl }) => {
-  const buttons = [
-    {
-      name: 'whatsapp-1',
-      service: 'whatsapp',
-      Component: WhatsappShareButton,
-      color: theme.colors.darkBlue,
-      size: 20,
-      title: shareMessage,
-      separator: '',
-    },
-    {
-      name: 'facebook-1',
-      service: 'facebook',
-      Component: FacebookShareButton,
-      color: theme.colors.darkBlue,
-      size: 20,
-      quote: shareMessage,
-      hashtag: '#GoodDollar',
-    },
-    {
-      name: 'twitter-1',
-      service: 'twitter',
-      Component: TwitterShareButton,
-      color: theme.colors.darkBlue,
-      title: shortShareMessage,
-    },
-
-    {
-      name: 'telegram',
-      service: 'telegram',
-      Component: TelegramShareButton,
-      color: theme.colors.darkBlue,
-      title: shareMessage,
-    },
-    {
-      name: 'envelope',
-      service: 'email',
-      Component: EmailShareButton,
-      color: theme.colors.darkBlue,
-      size: 20,
-      subject: shareTitle,
-      body: shareMessage,
-      separator: '',
-    },
-  ]
-
-  const onShare = service => {
-    fireEvent(INVITE_SHARE, { method: service })
-  }
-
-  return (
-    <Section.Row style={{ marginTop: theme.paddings.defaultMargin * 2, justifyContent: 'flex-start' }}>
-      {buttons.map(({ name, Component, ...props }) => (
-        <Section.Stack style={{ marginRight: theme.sizes.defaultDouble }} key={name}>
-          <Component
-            url={shareUrl}
-            {...props}
-            beforeOnClick={() => {
-              onShare(props.service)
-            }}
-          >
-            <IconButton {...props} name={name} circleSize={36} />
-          </Component>
-        </Section.Stack>
-      ))}
-    </Section.Row>
-  )
-}
-
 const ShareBox = ({ level }) => {
   const inviteCode = useInviteCode()
   const shareUrl = `${Config.invitesUrl}?inviteCode=${inviteCode}`
   const bounty = result(level, 'bounty.toNumber', 100) / 100
 
   const share = useMemo(() => generateShareObject(shareTitle, shareMessage, shareUrl), [shareUrl])
-
-  const showShareIcons = useMemo(
-    () =>
-      Platform.select({
-        web: true,
-        default: false,
-      }),
-    [],
-  )
 
   return (
     <WavesBox primarycolor={theme.colors.primary} style={styles.linkBoxStyle} title={'Share Your Invite Link'}>
@@ -195,7 +104,7 @@ const ShareBox = ({ level }) => {
           withoutDone
         />
       </Section.Row>
-      {showShareIcons && <ShareIcons shareUrl={shareUrl} />}
+      <ShareIcons shareUrl={shareUrl} />
     </WavesBox>
   )
 }

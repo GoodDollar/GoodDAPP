@@ -50,13 +50,18 @@ const SendReason = (props: AmountProps) => {
       {/* <TopBar push={screenProps.push} /> */}
       <Section style={styles.wrapper} grow>
         <Section.Stack style={styles.container}>
-          <Section.Title fontWeight="medium" fontSize={24} lineHeight={24}>
-            What For?
+          <Section.Title
+            fontWeight="bold"
+            fontSize={28}
+            lineHeight={32}
+            letterSpacing={0.14}
+            color={theme.colors.darkBlue}
+            fontFamily="Roboto Slab"
+            textTransform="capitalize"
+          >
+            {'What Are You\nPaying For?'}
           </Section.Title>
-          <Section.Text style={{ paddingTop: '3px' }} fontSize={18} lineHeight={24}>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit
-          </Section.Text>
-          <Section.Row style={[styles.categoryRow, { paddingTop: 26 }]}>
+          <Section.Row style={[styles.categoryRow, { paddingTop: 19 }]}>
             <Section.Stack>
               <CategoryBox style={styles.categoryBox} title="Digital Services">
                 <View>
@@ -175,7 +180,7 @@ const styles = StyleSheet.create({
     height: getDesignRelativeHeight(99),
     marginLeft: 4,
     marginRight: 4,
-    borderRadius: '5px',
+    borderRadius: 5,
     boxShadow: '1px 1px 4px 0 rgba(0, 0, 0, 0.15)',
     backgroundColor: '#ffffff',
   },

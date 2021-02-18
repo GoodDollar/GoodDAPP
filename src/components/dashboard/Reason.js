@@ -262,7 +262,7 @@ const SendReason = (props: AmountProps) => {
 
 const styles = StyleSheet.create({
   wrapper: {
-    paddingTop: theme.sizes.default * 3.5,
+    paddingTop: 37, //theme.sizes.default * 3.5,
     paddingBottom: theme.sizes.default * 3,
   },
   container: {

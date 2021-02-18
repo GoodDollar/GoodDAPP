@@ -15,7 +15,7 @@ import ModalLeftBorder from '../common/modal/ModalLeftBorder'
 import { useCollectBounty, useInviteCode, useInvited } from './useInvites'
 import FriendsSVG from './friends.svg'
 import EtoroPNG from './etoro.png'
-import ShareIcons from './ShareIcons/ShareIcons'
+import ShareIcons from './ShareIcons'
 import { shareMessage, shareTitle } from './constants'
 
 const log = logger.child({ from: 'Invite' })

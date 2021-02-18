@@ -6,11 +6,11 @@ import {
   TwitterShareButton,
   WhatsappShareButton,
 } from 'react-share'
-import { theme } from '../../theme/styles'
-import { fireEvent, INVITE_SHARE } from '../../../lib/analytics/analytics'
+import { theme } from '../theme/styles'
+import { fireEvent, INVITE_SHARE } from '../../lib/analytics/analytics'
 
-import { IconButton, Section } from '../../common'
-import { shareMessage, shareTitle, shortShareMessage } from '../constants'
+import { IconButton, Section } from '../common'
+import { shareMessage, shareTitle, shortShareMessage } from './constants'
 
 export default ({ shareUrl }) => {
   const buttons = [

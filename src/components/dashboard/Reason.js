@@ -20,7 +20,7 @@ import DonationSVG from '../../assets/TxCategory/donation.svg'
 import OtherSVG from '../../assets/TxCategory/other.svg'
 import { theme } from '../theme/styles'
 
-// import { fireEvent, PAYMENT_CATEGORY_SELECTED } from '../../lib/analytics/analytics'
+import { fireEvent, PAYMENT_CATEGORY_SELECTED } from '../../lib/analytics/analytics'
 import { navigationOptions } from './utils/sendReceiveFlow'
 
 export type AmountProps = {
@@ -60,12 +60,12 @@ const SendReason = (props: AmountProps) => {
     setScreenState({ category, isDisabledNextButton: false })
 
     // fire event
-    // fireEvent(PAYMENT_CATEGORY_SELECTED, {
-    //   action: screenState.action,
-    //   amount: screenState.amount,
-    //   category: screenState.category,
-    //   reason: screenState.reason,
-    // })
+    fireEvent(PAYMENT_CATEGORY_SELECTED, {
+      action: screenState.action,
+      amount: screenState.amount,
+      category: screenState.category,
+      reason: screenState.reason,
+    })
   }
 
   return (

@@ -274,7 +274,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
       }
 
       //dont expect response if in redirect mode, this will be called again with response from effect
-      if (config.env !== 'test' && torusSDK.uxMode === 'redirect' && torusUserRedirectPromise == null) {
+      if (config.env !== 'test' && !torusSDK.popupMode && torusUserRedirectPromise == null) {
         //just trigger the oauth and return
         log.debug('trigger redirect flow')
 

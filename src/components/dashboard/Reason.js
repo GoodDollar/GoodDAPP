@@ -1,5 +1,5 @@
 // @flow
-import React, { useCallback, useState } from 'react'
+import React, { useCallback } from 'react'
 import { StyleSheet, TouchableOpacity, View } from 'react-native'
 import InputText from '../common/form/InputText'
 import { Section, Wrapper } from '../common'
@@ -41,10 +41,8 @@ const SendReason = (props: AmountProps) => {
   const { params } = props.navigation.state
 
   const [screenState, setScreenState] = useScreenState(screenProps)
-  const [isDisabledNextButton, setDisabledNextButton] = useState(true)
-  const { reason, ...restState } = screenState
 
-  // const [boxBorder, setBoxBorder] = useState(styles.border)
+  const { reason, isDisabledNextButton, ...restState } = screenState
 
   const next = useCallback(() => {
     const [nextRoute, ...nextRoutes] = screenState.nextRoutes || []
@@ -58,14 +56,16 @@ const SendReason = (props: AmountProps) => {
   }, [restState, reason, screenState.nextRoutes, params])
 
   const handleCategoryBoxOnPress = category => {
-    // set category
-    setScreenState({ category })
-
-    // enable next button
-    setDisabledNextButton(false)
+    // set category and enable next button
+    setScreenState({ category, isDisabledNextButton: false })
 
     // fire event
-    // fireEvent(PAYMENT_CATEGORY_SELECTED, screenState)
+    // fireEvent(PAYMENT_CATEGORY_SELECTED, {
+    //   action: screenState.action,
+    //   amount: screenState.amount,
+    //   category: screenState.category,
+    //   reason: screenState.reason,
+    // })
   }
 
   return (
@@ -247,9 +247,9 @@ const SendReason = (props: AmountProps) => {
           </Section.Row>
           <Section.Stack style={{ minWidth: getDesignRelativeWidth(244) }}>
             <NextButton
-              disabled={isDisabledNextButton}
+              disabled={isDisabledNextButton !== false}
               nextRoutes={screenState.nextRoutes}
-              values={{ ...params, ...restState, reason }}
+              values={{ ...params, ...restState }}
               {...props}
               label="Next"
             />

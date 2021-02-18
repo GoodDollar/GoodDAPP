@@ -234,7 +234,6 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
     let txHash
 
     // Generate link deposit
-    // TODO: case of payment link - REMOVE this comment after dev finish
     const generatePaymentLinkResponse = goodWallet.generatePaymentLink(amount, reason, inviteCode, {
       onTransactionHash: hash => {
         txHash = hash

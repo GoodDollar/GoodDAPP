@@ -4,20 +4,19 @@ import { StyleSheet, TouchableOpacity, View } from 'react-native'
 import InputText from '../common/form/InputText'
 import { Section, Wrapper } from '../common'
 
-// import TopBar from '../common/view/TopBar'
 import { BackButton, NextButton, useScreenState } from '../appNavigation/stackNavigation'
 import { withStyles } from '../../lib/styles'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
 import { CategoryBox } from '../common/view/CategoryBox'
 
-// import { theme } from '../theme/styles'
-
+// assets
 import DigitalServiceSVG from '../../assets/TxCategory/digital_service.svg'
 import SocialMediaSVG from '../../assets/TxCategory/social_media.svg'
 import ProductSVG from '../../assets/TxCategory/product.svg'
 import CourseSVG from '../../assets/TxCategory/course.svg'
 import DonationSVG from '../../assets/TxCategory/donation.svg'
 import OtherSVG from '../../assets/TxCategory/other.svg'
+
 import { theme } from '../theme/styles'
 
 import { fireEvent, PAYMENT_CATEGORY_SELECTED } from '../../lib/analytics/analytics'
@@ -70,7 +69,6 @@ const SendReason = (props: AmountProps) => {
 
   return (
     <Wrapper>
-      {/* <TopBar push={screenProps.push} /> */}
       <Section style={styles.wrapper} grow>
         <Section.Stack style={styles.container}>
           <Section.Title
@@ -102,12 +100,6 @@ const SendReason = (props: AmountProps) => {
                   <View>
                     <DigitalServiceSVG />
                   </View>
-                  {/* <Section.Text fontSize={12} lineHeight={14}>
-                  Digital Services
-              </Section.Text> */}
-                  {/* <Section.Text fontWeight="bold" fontSize={15} lineHeight={20}>
-              at {claimCycleTime}
-            </Section.Text> */}
                 </CategoryBox>
               </TouchableOpacity>
             </Section.Stack>
@@ -128,9 +120,6 @@ const SendReason = (props: AmountProps) => {
                   <View>
                     <SocialMediaSVG />
                   </View>
-                  {/* <Section.Text fontWeight="bold" fontSize={15} lineHeight={20}>
-              at {claimCycleTime}
-            </Section.Text> */}
                 </CategoryBox>
               </TouchableOpacity>
             </Section.Stack>
@@ -173,9 +162,6 @@ const SendReason = (props: AmountProps) => {
                   <View>
                     <CourseSVG />
                   </View>
-                  {/* <Section.Text fontWeight="bold" fontSize={15} lineHeight={20}>
-              at {claimCycleTime}
-            </Section.Text> */}
                 </CategoryBox>
               </TouchableOpacity>
             </Section.Stack>
@@ -196,9 +182,6 @@ const SendReason = (props: AmountProps) => {
                   <View>
                     <DonationSVG />
                   </View>
-                  {/* <Section.Text fontWeight="bold" fontSize={15} lineHeight={20}>
-              at {claimCycleTime}
-            </Section.Text> */}
                 </CategoryBox>
               </TouchableOpacity>
             </Section.Stack>
@@ -219,9 +202,6 @@ const SendReason = (props: AmountProps) => {
                   <View>
                     <OtherSVG />
                   </View>
-                  {/* <Section.Text fontWeight="bold" fontSize={15} lineHeight={20}>
-              at {claimCycleTime}
-            </Section.Text> */}
                 </CategoryBox>
               </TouchableOpacity>
             </Section.Stack>
@@ -262,7 +242,7 @@ const SendReason = (props: AmountProps) => {
 
 const styles = StyleSheet.create({
   wrapper: {
-    paddingTop: 37, //theme.sizes.default * 3.5,
+    paddingTop: 37,
     paddingBottom: theme.sizes.default * 3,
   },
   container: {

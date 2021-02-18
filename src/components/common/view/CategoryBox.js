@@ -2,7 +2,6 @@ import React from 'react'
 import { View } from 'react-native'
 import { theme } from '../../theme/styles'
 
-// import ModalLeftBorder from '../modal/ModalLeftBorder'
 import ModalContents from '../modal/ModalContents'
 import ModalContainer from '../modal/ModalContainer'
 import { Section } from '../index'
@@ -11,7 +10,6 @@ import { getShadowStyles } from '../../../lib/utils/getStyles'
 export const CategoryBox = ({ style, primarycolor, children, title, contentStyle }) => {
   return (
     <ModalContainer style={[styles.box, styles.shadow, style]} fullHeight>
-      {/* <ModalLeftBorder borderColor={primarycolor} /> */}
       <ModalContents style={[styles.content, contentStyle]}>
         {title && (
           <>
@@ -35,7 +33,6 @@ export const CategoryBox = ({ style, primarycolor, children, title, contentStyle
                 </Section.Text>
               </Section.Row>
             </View>
-            {/* <Section.Separator style={{ marginTop: 4 }} width={1} color={primarycolor} /> */}
           </>
         )}
       </ModalContents>
@@ -60,13 +57,6 @@ const styles = {
     borderRadius: 10,
   },
   categoryImage: {
-    // flexGrow: 1,
-    // flexShrink: 0,
-    // width: '100%',
-    // padding: '100px',
     alignSelf: 'center',
-
-    // maxHeight: '37.2px',
-    // maxWidth: '45.2px',
   },
 }

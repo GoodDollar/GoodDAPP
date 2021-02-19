@@ -21,6 +21,7 @@ import {
   omit,
   orderBy,
   over,
+  pick,
   some,
   takeWhile,
   toPairs,
@@ -381,6 +382,13 @@ export class UserStorage {
     smallAvatar: { defaultPrivacy: 'public' },
     walletAddress: { defaultPrivacy: 'public' },
     username: { defaultPrivacy: 'public' },
+  }
+
+  /**
+   * Object with default value for profile fields
+   */
+  profileDefaults: {} = {
+    mobile: '',
   }
 
   /**
@@ -1332,14 +1340,13 @@ export class UserStorage {
     if (profile.avatar) {
       profile.smallAvatar = await resizeImage(profile.avatar, 50)
     }
-    const profileFields = defaults({ mobile: '' }, profile)
-    const fieldsToSave = keys(this.profileSettings).filter(key =>
-      profileFields[key] === '' ? true : !!profileFields[key],
+
+    const fieldsToSave = keys(this.profileSettings).filter(key => key in profile)
+
+    const profileWithDefaults = defaults(
+      Object.assign({}, ...fieldsToSave.map(field => ({ [field]: profile[field] }))),
+      pick(this.profileDefaults, fieldsToSave),
     )
-
-    // console.log('------------- fieldsToSave', { fieldsToSave })
-    // return true
-
     const results = await Promise.all(
       fieldsToSave.map(async field => {
         try {
@@ -1349,7 +1356,7 @@ export class UserStorage {
             isPrivate = await this.getFieldPrivacy(field)
           }
 
-          return await this.setProfileField(field, profile[field], isPrivate)
+          return await this.setProfileField(field, profileWithDefaults[field], isPrivate)
         } catch (e) {
           //logger.error('setProfile field failed:', e.message, e, { field })
           return { err: `failed saving field ${field}` }

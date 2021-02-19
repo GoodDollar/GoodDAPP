@@ -1341,10 +1341,20 @@ export class UserStorage {
       profile.smallAvatar = await resizeImage(profile.avatar, 50)
     }
 
+    /**
+     * Checking fields to save which changed, even if have undefined value (for example empty mobile input field return undefined).
+     */
     const fieldsToSave = keys(this.profileSettings).filter(key => key in profile)
 
+    /**
+     * Forming a new object of profile fields those have changed with default value if fields have undefined.
+     */
     const profileWithDefaults = defaults(
       Object.assign({}, ...fieldsToSave.map(field => ({ [field]: profile[field] }))),
+
+      /**
+       * Picked only those fields that have changed for setting default value if new field value equal undefined.
+       */
       pick(this.profileDefaults, fieldsToSave),
     )
     const results = await Promise.all(

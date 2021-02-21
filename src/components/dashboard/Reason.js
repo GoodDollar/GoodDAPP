@@ -62,7 +62,7 @@ const SendReason = (props: AmountProps) => {
     fireEvent(PAYMENT_CATEGORY_SELECTED, {
       action: screenState.action,
       amount: screenState.amount,
-      category: screenState.category,
+      category: category,
       reason: screenState.reason,
     })
   }
@@ -263,7 +263,6 @@ const styles = StyleSheet.create({
     marginLeft: 4,
     marginRight: 4,
     borderRadius: 5,
-    boxShadow: '1px 1px 4px 0 rgba(0, 0, 0, 0.15)',
     backgroundColor: '#ffffff',
   },
   border: {

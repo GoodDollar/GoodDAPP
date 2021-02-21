@@ -28,12 +28,40 @@ export type AmountProps = {
   styles: any,
 }
 
-const PAYMENT_CATEGORY_1 = 'Digital Services'
-const PAYMENT_CATEGORY_2 = 'Social Media Management'
-const PAYMENT_CATEGORY_3 = 'Product'
-const PAYMENT_CATEGORY_4 = 'Course / Private Consultation'
-const PAYMENT_CATEGORY_5 = 'Donation'
-const PAYMENT_CATEGORY_6 = 'Other'
+class PaymentCategory {
+  static DigitalServices = 1
+
+  static SocialMedia = 2
+
+  static Product = 3
+
+  static Course = 4
+
+  static Donation = 5
+
+  static Other = 6
+
+  static labelOf(category) {
+    const { DigitalServices, SocialMedia, Product, Course, Donation, Other } = this
+
+    switch (category) {
+      case DigitalServices:
+        return 'Digital Services'
+      case SocialMedia:
+        return 'Social Media Management'
+      case Product:
+        return 'Product'
+      case Course:
+        return 'Course / Private Consultation'
+      case Donation:
+        return 'Donation'
+      case Other:
+        return 'Other'
+      default:
+        return ''
+    }
+  }
+}
 
 const SendReason = (props: AmountProps) => {
   const { screenProps } = props
@@ -62,7 +90,7 @@ const SendReason = (props: AmountProps) => {
     fireEvent(PAYMENT_CATEGORY_SELECTED, {
       action: screenState.action,
       amount: screenState.amount,
-      category: category,
+      category: PaymentCategory.labelOf(category),
       reason: screenState.reason,
     })
   }
@@ -86,16 +114,16 @@ const SendReason = (props: AmountProps) => {
             <Section.Stack>
               <TouchableOpacity
                 onPress={() => {
-                  handleCategoryBoxOnPress(PAYMENT_CATEGORY_1)
+                  handleCategoryBoxOnPress(PaymentCategory.DigitalServices)
                 }}
               >
                 <CategoryBox
                   style={[
                     styles.categoryBox,
                     styles.border,
-                    screenState.category === PAYMENT_CATEGORY_1 ? { borderWidth: 2 } : { borderWidth: 0 },
+                    screenState.category === PaymentCategory.DigitalServices ? { borderWidth: 2 } : { borderWidth: 0 },
                   ]}
-                  title={PAYMENT_CATEGORY_1}
+                  title={PaymentCategory.labelOf(PaymentCategory.DigitalServices)}
                 >
                   <View>
                     <DigitalServiceSVG />
@@ -106,14 +134,14 @@ const SendReason = (props: AmountProps) => {
             <Section.Stack>
               <TouchableOpacity
                 onPress={() => {
-                  handleCategoryBoxOnPress(PAYMENT_CATEGORY_2)
+                  handleCategoryBoxOnPress(PaymentCategory.SocialMedia)
                 }}
               >
                 <CategoryBox
                   style={[
                     styles.categoryBox,
                     styles.border,
-                    screenState.category === PAYMENT_CATEGORY_2 ? { borderWidth: 2 } : { borderWidth: 0 },
+                    screenState.category === PaymentCategory.SocialMedia ? { borderWidth: 2 } : { borderWidth: 0 },
                   ]}
                   title={'Social Media\nEngagement'}
                 >
@@ -126,16 +154,16 @@ const SendReason = (props: AmountProps) => {
             <Section.Stack>
               <TouchableOpacity
                 onPress={() => {
-                  handleCategoryBoxOnPress(PAYMENT_CATEGORY_3)
+                  handleCategoryBoxOnPress(PaymentCategory.Product)
                 }}
               >
                 <CategoryBox
                   style={[
                     styles.categoryBox,
                     styles.border,
-                    screenState.category === PAYMENT_CATEGORY_3 ? { borderWidth: 2 } : { borderWidth: 0 },
+                    screenState.category === PaymentCategory.Product ? { borderWidth: 2 } : { borderWidth: 0 },
                   ]}
-                  title={PAYMENT_CATEGORY_3}
+                  title={PaymentCategory.labelOf(PaymentCategory.Product)}
                 >
                   <View>
                     <ProductSVG />
@@ -148,14 +176,14 @@ const SendReason = (props: AmountProps) => {
             <Section.Stack>
               <TouchableOpacity
                 onPress={() => {
-                  handleCategoryBoxOnPress(PAYMENT_CATEGORY_4)
+                  handleCategoryBoxOnPress(PaymentCategory.Course)
                 }}
               >
                 <CategoryBox
                   style={[
                     styles.categoryBox,
                     styles.border,
-                    screenState.category === PAYMENT_CATEGORY_4 ? { borderWidth: 2 } : { borderWidth: 0 },
+                    screenState.category === PaymentCategory.Course ? { borderWidth: 2 } : { borderWidth: 0 },
                   ]}
                   title={'Course / Private\nConsultation'}
                 >
@@ -168,16 +196,16 @@ const SendReason = (props: AmountProps) => {
             <Section.Stack>
               <TouchableOpacity
                 onPress={() => {
-                  handleCategoryBoxOnPress(PAYMENT_CATEGORY_5)
+                  handleCategoryBoxOnPress(PaymentCategory.Donation)
                 }}
               >
                 <CategoryBox
                   style={[
                     styles.categoryBox,
                     styles.border,
-                    screenState.category === PAYMENT_CATEGORY_5 ? { borderWidth: 2 } : { borderWidth: 0 },
+                    screenState.category === PaymentCategory.Donation ? { borderWidth: 2 } : { borderWidth: 0 },
                   ]}
-                  title={PAYMENT_CATEGORY_5}
+                  title={PaymentCategory.labelOf(PaymentCategory.Donation)}
                 >
                   <View>
                     <DonationSVG />
@@ -188,16 +216,16 @@ const SendReason = (props: AmountProps) => {
             <Section.Stack>
               <TouchableOpacity
                 onPress={() => {
-                  handleCategoryBoxOnPress(PAYMENT_CATEGORY_6)
+                  handleCategoryBoxOnPress(PaymentCategory.Other)
                 }}
               >
                 <CategoryBox
                   style={[
                     styles.categoryBox,
                     styles.border,
-                    screenState.category === PAYMENT_CATEGORY_6 ? { borderWidth: 2 } : { borderWidth: 0 },
+                    screenState.category === PaymentCategory.Other ? { borderWidth: 2 } : { borderWidth: 0 },
                   ]}
-                  title={PAYMENT_CATEGORY_6}
+                  title={PaymentCategory.labelOf(PaymentCategory.Other)}
                 >
                   <View>
                     <OtherSVG />

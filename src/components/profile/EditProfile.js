@@ -179,7 +179,7 @@ const EditProfile = ({ screenProps, styles, navigation }) => {
           <RoundIconButton
             iconSize={22}
             iconName="camera"
-            handleCameraPress={handleEditAvatar}
+            onPress={handleEditAvatar}
             containerStyle={{ zIndex: 10 }}
             style={{ zIndex: 10, top: -30, right: 15, position: 'absolute' }}
           />

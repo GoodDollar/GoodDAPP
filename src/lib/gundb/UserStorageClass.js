@@ -399,6 +399,8 @@ export class UserStorage {
   // trusted GoodDollar user indexes
   trust = {}
 
+  walletAddressIndex = {}
+
   ready: Promise<boolean> = null
 
   /**
@@ -650,6 +652,7 @@ export class UserStorage {
    */
   async fetchTrustIndexes() {
     try {
+      AsyncStorage.getItem('GD_walletIndex').then(idx => (this.walletAddressIndex = idx || {}))
       const { data, lastFetch } = (await AsyncStorage.getItem('GD_trust')) || {}
 
       let refetch = true
@@ -1797,29 +1800,51 @@ export class UserStorage {
 
   /**
    *
+   * @param {string} value email/mobile/walletAddress to fetch by
+   */
+  async getUserProfilePublickey(value: string) {
+    const attr = isMobilePhone(value) ? 'mobile' : isEmail(value) ? 'email' : 'walletAddress'
+    const hashValue = UserStorage.cleanHashedFieldForIndex(attr, value)
+    let profilePublickey
+    if (attr === 'walletAddress') {
+      profilePublickey = this.walletAddressIndex[hashValue]
+    }
+    if (profilePublickey) {
+      return profilePublickey
+    }
+
+    const { data } = await API.getProfileBy(hashValue)
+    profilePublickey = get(data, 'profilePublickey')
+
+    if (profilePublickey == null) {
+      return
+    }
+
+    profilePublickey = '~' + data.profilePublickey
+
+    //wallet address has 1-1 connecttion with profile public key,
+    //so we can cache it
+    if (attr === 'walletAddress') {
+      this.walletAddressIndex[hashValue] = profilePublickey
+      AsyncStorage.setItem('GD_walletIndex', this.walletAddressIndex)
+    }
+
+    return profilePublickey
+  }
+
+  /**
+   *
    * @param {string} field - Profile field value (email, mobile or wallet address value)
    * @returns { string } address
    */
   async getUserAddress(field: string) {
-    let attr
-
-    if (isMobilePhone(field)) {
-      attr = 'mobile'
-    } else if (isEmail(field)) {
-      attr = 'email'
-    } else if (await this.isUsername(field)) {
-      attr = 'username'
+    const profile = await this.getUserProfilePublickey(field)
+    if (profile == null) {
+      return
     }
-
-    if (!attr) {
-      return this.wallet.wallet.utils.isAddress(field) ? field : undefined
-    }
-
-    const value = UserStorage.cleanHashedFieldForIndex(attr, field)
 
     return this.gun
-      .get(this.trust[`by${attr}`] || `users/by${attr}`)
-      .get(value)
+      .get(profile)
       .get('profile')
       .get('walletAddress')
       .get('display')
@@ -1833,27 +1858,20 @@ export class UserStorage {
    * @returns {object} profile - { name, avatar }
    */
   async getUserProfile(field: string = ''): { name: String, avatar: String } {
-    const attr = isMobilePhone(field) ? 'mobile' : isEmail(field) ? 'email' : 'walletAddress'
-    const value = UserStorage.cleanHashedFieldForIndex(attr, field)
+    const profile = await this.getUserProfilePublickey(field)
+    if (profile == null) {
+      return
+    }
 
-    const index = this.trust[`by${attr}`] || `users/by${attr}`
-    const profileToShow = this.gun
-      .get(index)
-      .get(value)
-      .get('profile')
-
-    await profileToShow.then()
     const [avatar = undefined, name = undefined] = await Promise.all([
       this.gun
-        .get(index)
-        .get(value)
+        .get(profile)
         .get('profile')
         .get('smallAvatar')
         .get('display')
         .then(null, 500),
       this.gun
-        .get(index)
-        .get(value)
+        .get(profile)
         .get('profile')
         .get('fullName')
         .get('display')

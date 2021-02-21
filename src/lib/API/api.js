@@ -354,6 +354,13 @@ export class APIService {
   }
 
   /**
+   * `/profileBy` get api call
+   */
+  getProfileBy(valueHash: string) {
+    return this.client.get('/profileBy', { params: { valueHash }, throttle: false })
+  }
+
+  /**
    * `/user/enqueue` post api call
    * adds user to queue or return queue status
    */

@@ -50,16 +50,13 @@ class TorusSDK {
 
   // eslint-disable-next-line require-await
   async initialize() {
-    const { torus } = this
-
     return this.torus.init({ skipSw: !this.popupMode })
   }
 
-  // eslint-disable-next-line require-await
   async getRedirectResult() {
     const { result } = await this.torus.getRedirectResult()
-    // solves require-await issue
-    return await this.fetchTorusUser(result)
+
+    return this.fetchTorusUser(result)
   }
 
   async triggerLogin(verifier, customLogger = null) {

@@ -30,14 +30,20 @@ class TorusSDK {
   }
 
   constructor(config, logger) {
-    const { env, torusProxyContract, torusNetwork } = config
+    const { env, publicUrl, torusProxyContract, torusNetwork, torusUxMode = 'popup' } = config
+    const popupMode = torusUxMode === 'popup'
+    const baseUrl = publicUrl + (popupMode ? '/torus' : '')
+    const redirectPath = popupMode ? 'redirect' : 'Welcome/Auth'
 
     this.torus = new Torus(config, {
       proxyContractAddress: torusProxyContract, // details for test net
       network: torusNetwork, // details for test net
       enableLogging: env === 'development',
+      uxMode: torusUxMode,
+      redirectPathName: redirectPath,
+      baseUrl,
     })
-
+    this.popupMode = popupMode
     this.config = config
     this.logger = logger
   }
@@ -46,7 +52,14 @@ class TorusSDK {
   async initialize() {
     const { torus } = this
 
-    return torus.init()
+    return this.torus.init({ skipSw: !this.popupMode })
+  }
+
+  // eslint-disable-next-line require-await
+  async getRedirectResult() {
+    const { result } = await this.torus.getRedirectResult()
+    // solves require-await issue
+    return await this.fetchTorusUser(result)
   }
 
   async triggerLogin(verifier, customLogger = null) {
@@ -61,6 +74,11 @@ class TorusSDK {
     }
 
     const response = await strategies[withVerifier].triggerLogin()
+
+    //no response in case of redirect flow
+    if (!this.popupMode) {
+      return response
+    }
 
     return this.fetchTorusUser(response, customLogger)
   }

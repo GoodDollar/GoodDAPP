@@ -56,9 +56,9 @@ class PhoneForm extends React.Component<Props, State> {
     }
   }
 
-  async componentDidMount() {
+  componentDidMount() {
     this.setState({
-      isValid: !(await this.validateField()),
+      isValid: this.checkErrors(),
     })
   }
 
@@ -78,8 +78,8 @@ class PhoneForm extends React.Component<Props, State> {
     })
   }
 
-  handleSubmit = async () => {
-    const isValid = await this.checkErrors()
+  handleSubmit = () => {
+    const isValid = this.checkErrors()
     if (isValid) {
       this.props.screenProps.doneCallback({ mobile: this.state.mobile })
     }
@@ -99,8 +99,9 @@ class PhoneForm extends React.Component<Props, State> {
     const modelErrorMessage = this.validateField()
     const errorMessage = modelErrorMessage
     log.debug({ modelErrorMessage, errorMessage, Config })
-    this.setState({ errorMessage, isValid: errorMessage === '' })
-    return errorMessage === ''
+    const isValid = this.state.mobile && errorMessage === ''
+    this.setState({ errorMessage, isValid })
+    return isValid
   }
 
   checkErrorsSlow = debounce(this.checkErrors, 500)

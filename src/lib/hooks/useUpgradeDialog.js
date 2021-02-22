@@ -3,6 +3,7 @@ import { StyleSheet, TouchableOpacity } from 'react-native'
 import { once } from 'lodash'
 
 import API from '../../lib/API/api'
+import { canReloadApp } from '../../lib/utils/canReloadApp'
 import Config from '../../config/config'
 
 import Text from '../../components/common/layout/SectionText'
@@ -77,6 +78,7 @@ export default (options = {}) => {
       return
     }
 
+    canReloadApp.current = false
     isPhaseActual().then(isActual =>
       showDialog({
         showCloseButtons: false,

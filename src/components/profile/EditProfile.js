@@ -34,7 +34,7 @@ const EditProfile = ({ screenProps, styles, navigation }) => {
   const { push } = screenProps
 
   const deboucedProfile = useDebounce(profile, 500)
-  const onProfileSaved = useCallback(() => push(`Dashboard`), [push])
+  const onProfileSaved = useCallback(() => push(`Profile`), [push])
   const handleEditAvatar = useCallback(() => push(`ViewAvatar`), [push])
 
   const validate = useCallback(async () => {

@@ -3,6 +3,7 @@ import Mutex from 'await-mutex'
 import { Platform } from 'react-native'
 import {
   debounce,
+  defaults,
   filter,
   find,
   flatten,
@@ -20,6 +21,7 @@ import {
   omit,
   orderBy,
   over,
+  pick,
   some,
   takeWhile,
   toPairs,
@@ -380,6 +382,13 @@ export class UserStorage {
     smallAvatar: { defaultPrivacy: 'public' },
     walletAddress: { defaultPrivacy: 'public' },
     username: { defaultPrivacy: 'public' },
+  }
+
+  /**
+   * Object with default value for profile fields
+   */
+  profileDefaults: {} = {
+    mobile: '',
   }
 
   /**
@@ -1335,7 +1344,22 @@ export class UserStorage {
       profile.smallAvatar = await resizeImage(profile.avatar, 50)
     }
 
-    const fieldsToSave = keys(this.profileSettings).filter(key => profile[key])
+    /**
+     * Checking fields to save which changed, even if have undefined value (for example empty mobile input field return undefined).
+     */
+    const fieldsToSave = keys(this.profileSettings).filter(key => key in profile)
+
+    /**
+     * Forming a new object of profile fields those have changed with default value if fields have undefined.
+     */
+    const profileWithDefaults = defaults(
+      Object.assign({}, ...fieldsToSave.map(field => ({ [field]: profile[field] }))),
+
+      /**
+       * Picked only those fields that have changed for setting default value if new field value equal undefined.
+       */
+      pick(this.profileDefaults, fieldsToSave),
+    )
     const results = await Promise.all(
       fieldsToSave.map(async field => {
         try {
@@ -1345,7 +1369,7 @@ export class UserStorage {
             isPrivate = await this.getFieldPrivacy(field)
           }
 
-          return await this.setProfileField(field, profile[field], isPrivate)
+          return await this.setProfileField(field, profileWithDefaults[field], isPrivate)
         } catch (e) {
           //logger.error('setProfile field failed:', e.message, e, { field })
           return { err: `failed saving field ${field}` }

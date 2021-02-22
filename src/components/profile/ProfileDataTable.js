@@ -57,12 +57,14 @@ const ProfileDataTable = ({
   const onPhoneInputChange = useCallback(value => onChange({ ...profile, mobile: value }), [onChange, profile])
   const onPhoneInputBlur = useCallback(() => {
     const { errors: _errors } = profile.validate()
+    const isValid = !_errors.mobile
 
-    if (!_errors.mobile) {
-      setLockSubmit(false)
+    setLockSubmit(!isValid)
+
+    if (isValid && profile.mobile) {
       verifyPhone()
     }
-  }, [setLockSubmit, verifyPhone, errors])
+  }, [setLockSubmit, verifyPhone, errors, onChange, profile])
   const phoneInputStyles = useMemo(() => StyleSheet.flatten(styles.phoneInput), [styles.phoneInput])
 
   // email handlers

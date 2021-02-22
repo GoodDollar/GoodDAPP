@@ -31,10 +31,10 @@ const EditProfile = ({ screenProps, styles, navigation }) => {
   const [errors, setErrors] = useState({})
   const [lockSubmit, setLockSubmit] = useState(false)
   const [showErrorDialog] = useErrorDialog()
-  const { push } = screenProps
+  const { push, pop } = screenProps
 
   const deboucedProfile = useDebounce(profile, 500)
-  const onProfileSaved = useCallback(() => push(`Profile`), [push])
+  const onProfileSaved = useCallback(() => pop(), [pop])
   const handleEditAvatar = useCallback(() => push(`ViewAvatar`), [push])
 
   const validate = useCallback(async () => {

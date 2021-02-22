@@ -257,7 +257,7 @@ const SendReason = (props: AmountProps) => {
             <NextButton
               disabled={isDisabledNextButton !== false}
               nextRoutes={screenState.nextRoutes}
-              values={{ ...params, ...restState, reason }}
+              values={{ ...params, ...restState, reason, category: PaymentCategory.labelOf(screenState.category) }}
               {...props}
               label="Next"
             />

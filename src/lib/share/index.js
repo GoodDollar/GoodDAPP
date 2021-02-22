@@ -20,7 +20,7 @@ export const isSharingAvailable = Platform.select({
 })
 
 /**
- * Generates a code contaning an MNID with an amount if specified
+ * Generates a code containing an MNID with an amount if specified
  * @param address - address required to generate MNID
  * @param networkId - network identifier required to generate MNID
  * @param amount - amount to be attached to the generated MNID code
@@ -300,10 +300,11 @@ export const parsePaymentLinkParams = params => {
   if (paymentCode) {
     try {
       paymentParams = Buffer.from(decodeURIComponent(paymentCode), 'base64').toString()
-      const { p, r, reason: oldr, paymentCode: oldp, i } = JSON.parse(paymentParams)
+      const { p, r, reason: oldr, paymentCode: oldp, i, cat } = JSON.parse(paymentParams)
       paymentParams = {
         paymentCode: p || oldp,
         reason: r || oldr,
+        category: cat,
         inviteCode: i,
       }
     } catch (e) {

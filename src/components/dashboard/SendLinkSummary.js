@@ -41,7 +41,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
 
   const { goToRoot, navigateTo } = screenProps
   const { fullName } = gdstore.get('profile')
-  const { amount, reason = null, counterPartyDisplayName, contact, address, action } = screenState
+  const { amount, reason = null, category = null, counterPartyDisplayName, contact, address, action } = screenState
 
   const handleConfirm = useCallback(async () => {
     if (action === ACTION_SEND_TO_ADDRESS) {
@@ -66,9 +66,13 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
             data: {
               to,
               reason,
+              category,
               amount,
             },
           }
+
+          log.debug('sendPayment: enqueueTX', { transactionEvent })
+
           userStorage.enqueueTX(transactionEvent)
 
           if (Config.isEToro) {
@@ -163,9 +167,12 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
             data: {
               to: address,
               reason,
+              category,
               amount,
             },
           }
+
+          log.debug('sendViaAddress: enqueueTX', { transactionEvent })
 
           userStorage.enqueueTX(transactionEvent)
 
@@ -234,7 +241,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
     let txHash
 
     // Generate link deposit
-    const generatePaymentLinkResponse = goodWallet.generatePaymentLink(amount, reason, inviteCode, {
+    const generatePaymentLinkResponse = goodWallet.generatePaymentLink(amount, reason, category, inviteCode, {
       onTransactionHash: hash => {
         txHash = hash
 
@@ -248,6 +255,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
           data: {
             counterPartyDisplayName,
             reason,
+            category,
             amount,
             paymentLink: generatePaymentLinkResponse.paymentLink,
             hashedCode: generatePaymentLinkResponse.hashedCode,

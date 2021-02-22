@@ -591,6 +591,7 @@ const Dashboard = props => {
           store,
           paymentParams.paymentCode,
           paymentParams.reason,
+          paymentParams.category,
         )
 
         if (transactionHash) {

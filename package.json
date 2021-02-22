@@ -1,6 +1,6 @@
 {
   "name": "@gooddollar/gooddapp",
-  "version": "1.22.13-0",
+  "version": "1.22.13-3",
   "engines": {
     "node": "10.21.0",
     "npm": "6.x"
@@ -68,6 +68,8 @@
     "@gooddollar/gun": "^0.2020.902",
     "@gooddollar/gun-asyncstorage": "^1.0.3",
     "@gooddollar/gun-pk-auth": "^1.1.0",
+    "@gooddollar/react-native-facetec": "^1.0.6",
+    "@gooddollar/react-native-side-menu": "^2.0.2",
     "@gooddollar/v8-android-jit-nointl": "^7.8.2",
     "@peculiar/webcrypto": "^1.0.22",
     "@react-native-async-storage/async-storage": "^1.13.2",
@@ -81,7 +83,7 @@
     "@react-navigation/web": "^1.0.0-alpha.9",
     "@sentry/browser": "^5.10.2",
     "@sentry/react-native": "^2.1.0",
-    "@toruslabs/torus-direct-react-native-sdk": "^0.1.5",
+    "@toruslabs/torus-direct-react-native-sdk": "^0.2.1",
     "@toruslabs/torus-direct-web-sdk": "^4.1.0",
     "@tradle/react-native-http": "^2.0.1",
     "Base64": "^1.1.0",
@@ -153,7 +155,6 @@
     "react-native-contacts": "^5.0.7",
     "react-native-crypto": "^2.2.0",
     "react-native-device-info": "^7.3.1",
-    "react-native-facetec": "git+https://github.com/GoodDollar/ReactNativeFaceTec.git#ebe9f392dfad2b5003a6e5257913d2a711d001b0",
     "react-native-fs": "^2.16.6",
     "react-native-gesture-handler": "^1.6.0",
     "react-native-image-crop-picker": "^0.32.0",
@@ -178,7 +179,6 @@
     "react-native-safe-area-view": "^1.0.0",
     "react-native-safe-modules": "^1.0.0",
     "react-native-screens": "^2.1.0",
-    "react-native-side-menu-gooddapp": "git+https://github.com/GoodDollar/react-native-side-menu.git",
     "react-native-svg": "^9.13.6",
     "react-native-swipeable-lists": "0.0.1",
     "react-native-tcp": "^3.3.2",

@@ -45,6 +45,7 @@ describe('UserStorage', () => {
     await userStorage.wallet.ready
     await userStorage.ready
     await userStorage.initRegistered()
+    await userStorage.initFeed()
   })
 
   afterEach(() => {
@@ -542,7 +543,6 @@ describe('UserStorage', () => {
         phone: '+22222222222',
         mobile: '+22222222222',
         x: '',
-        walletAddress: expect.any(String),
       })
       done()
     })
@@ -568,7 +568,6 @@ describe('UserStorage', () => {
           email: 'johndoe@blah.com',
           phone: '+22222222222',
           mobile: '+22222222222',
-          walletAddress: expect.any(String),
           x: '',
         })
         done()

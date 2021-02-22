@@ -1,14 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { Image, View } from 'react-native'
 import { get, result } from 'lodash'
-import {
-  EmailShareButton,
-  FacebookShareButton,
-  TelegramShareButton,
-  TwitterShareButton,
-  WhatsappShareButton,
-} from 'react-share'
-import { Avatar, CustomButton, Icon, IconButton, Section, ShareButton, Text, Wrapper } from '../common'
+import { Avatar, CustomButton, Icon, Section, ShareButton, Text, Wrapper } from '../common'
 import { WavesBox } from '../common/view/WavesBox'
 import { theme } from '../theme/styles'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
@@ -17,25 +10,22 @@ import { fireEvent, INVITE_HOWTO, INVITE_SHARE } from '../../lib/analytics/analy
 import Config from '../../config/config'
 import { generateShareObject, isSharingAvailable } from '../../lib/share'
 import userStorage from '../../lib/gundb/UserStorage'
+import useGunProfile from '../../lib/hooks/gun/useGunProfile'
 import ModalLeftBorder from '../common/modal/ModalLeftBorder'
 import { useCollectBounty, useInviteCode, useInvited } from './useInvites'
 import FriendsSVG from './friends.svg'
 import EtoroPNG from './etoro.png'
+import ShareIcons from './ShareIcons'
+import { shareMessage, shareTitle } from './constants'
 
 const log = logger.child({ from: 'Invite' })
 
-const shareTitle = 'I signed up to GoodDollar. Join me.'
-const shareMessage =
-  'Hi,\nIf you believe, like me, in economic inclusion and the distribution of prosperity for all, then I invite you to sign up for GoodDollar, create your own basic income wallet and start collecting your daily digital income.\nUse my invite link and receive an extra 50G$ bonus\n\n'
-
-const shortShareMessage =
-  'Hi,\nIf you believe in economic inclusion and distribution of prosperity for all, sign up for a GoodDollar wallet and start collecting daily digital income. Use my invite link and receive an extra 50G$\n\n'
-
-const InvitedUser = ({ name, avatar, status }) => {
+const InvitedUser = ({ address, status }) => {
+  const profile = useGunProfile(address)
   const isApproved = status === 'approved'
   return (
     <Section.Row style={{ alignItems: 'center', marginTop: theme.paddings.defaultMargin }}>
-      <Avatar source={avatar} size={28} />
+      <Avatar source={profile.smallAvatar} size={28} />
       <Section.Text
         fontFamily={theme.fonts.slab}
         fontSize={14}
@@ -48,7 +38,7 @@ const InvitedUser = ({ name, avatar, status }) => {
           textAlign: 'left',
         }}
       >
-        {name}
+        {profile.fullName}
       </Section.Text>
       <Section.Row alignItems={'flex-start'}>
         {isApproved ? <Icon name={'check'} color={'green'} /> : <Icon name={'time'} color={'orange'} />}
@@ -64,76 +54,6 @@ const InvitedUser = ({ name, avatar, status }) => {
           {isApproved ? 'Claimed' : 'Pending'}
         </Section.Text>
       </Section.Row>
-    </Section.Row>
-  )
-}
-
-const ShareIcons = ({ shareUrl }) => {
-  const buttons = [
-    {
-      name: 'whatsapp-1',
-      service: 'whatsapp',
-      Component: WhatsappShareButton,
-      color: theme.colors.darkBlue,
-      size: 20,
-      title: shareMessage,
-      separator: '',
-    },
-    {
-      name: 'facebook-1',
-      service: 'facebook',
-      Component: FacebookShareButton,
-      color: theme.colors.darkBlue,
-      size: 20,
-      quote: shareMessage,
-      hashtag: '#GoodDollar',
-    },
-    {
-      name: 'twitter-1',
-      service: 'twitter',
-      Component: TwitterShareButton,
-      color: theme.colors.darkBlue,
-      title: shortShareMessage,
-    },
-
-    {
-      name: 'telegram',
-      service: 'telegram',
-      Component: TelegramShareButton,
-      color: theme.colors.darkBlue,
-      title: shareMessage,
-    },
-    {
-      name: 'envelope',
-      service: 'email',
-      Component: EmailShareButton,
-      color: theme.colors.darkBlue,
-      size: 20,
-      subject: shareTitle,
-      body: shareMessage,
-      separator: '',
-    },
-  ]
-
-  const onShare = service => {
-    fireEvent(INVITE_SHARE, { method: service })
-  }
-
-  return (
-    <Section.Row style={{ marginTop: theme.paddings.defaultMargin * 2, justifyContent: 'flex-start' }}>
-      {buttons.map(({ name, Component, ...props }) => (
-        <Section.Stack style={{ marginRight: theme.sizes.defaultDouble }} key={name}>
-          <Component
-            url={shareUrl}
-            {...props}
-            beforeOnClick={() => {
-              onShare(props.service)
-            }}
-          >
-            <IconButton {...props} name={name} circleSize={36} />
-          </Component>
-        </Section.Stack>
-      ))}
     </Section.Row>
   )
 }
@@ -296,10 +216,8 @@ const InvitesHowTO = () => {
   )
   const SVGWrapper = ({ svg: SVG, width, height, style, svgStyle }) => {
     return (
-      <Section.Stack
-        style={[{ justifyContent: 'center', alignItems: 'center', alignSelf: 'center', justifySelf: 'center' }, style]}
-      >
-        <SVG svgStyle={svgStyle} />
+      <Section.Stack style={[{ justifyContent: 'center', alignItems: 'center', alignSelf: 'center' }, style]}>
+        <SVG style={svgStyle} />
       </Section.Stack>
     )
   }
@@ -316,7 +234,7 @@ const InvitesHowTO = () => {
         <Section.Text
           style={{ alignSelf: 'flex-end' }}
           color={theme.colors.darkBlue}
-          linelineHeight={16}
+          lineHeight={16}
           fontSize={12}
           textAlign={'center'}
         >

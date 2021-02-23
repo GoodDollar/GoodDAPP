@@ -25,13 +25,16 @@ import handleLinks from './lib/utils/handleLinks'
 
 const log = logger.child({ from: 'RouterSelector' })
 
+//identify the case user signup/in using torus redirect flow, so we want to load page asap
+const isAuthReload = DeepLinking.pathname.startsWith('/Welcome/Auth')
+
 const DisconnectedSplash = () => <Splash animation={false} />
 
 let SignupRouter = React.lazy(async () => {
   const [module] = await Promise.all([
     retryImport(() => import(/* webpackChunkName: "signuprouter" */ './SignupRouter')),
     handleLinks(log),
-    delay(animationDuration),
+    delay(isAuthReload ? 0 : animationDuration),
   ])
 
   return module
@@ -112,7 +115,7 @@ const RouterSelector = () => {
   // starting animation once we're checked for browser support and awaited
   // the user dismissed warning dialog (if browser wasn't supported)
   return (
-    <React.Suspense fallback={<Splash animation={checkedForBrowserSupport} isLoggedIn={isLoggedIn} />}>
+    <React.Suspense fallback={<Splash animation={!isAuthReload && checkedForBrowserSupport} isLoggedIn={isLoggedIn} />}>
       {(supported || ignoreUnsupported) && <NestedRouter isLoggedIn={isLoggedIn} />}
     </React.Suspense>
   )

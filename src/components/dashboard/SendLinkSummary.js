@@ -150,7 +150,6 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
     }
   }, [action, amount, counterPartyDisplayName, fullName])
 
-  // TODO: case of receive payment request - REMOVE this comment after dev finish
   const sendViaAddress = useCallback(async () => {
     try {
       let txhash

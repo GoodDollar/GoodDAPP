@@ -3,29 +3,35 @@ import { noop } from 'lodash'
 import config from '../../config/config'
 import { retry } from './async'
 import restart from './restart'
-import { canReloadApp } from './canReloadApp'
+
+let hasAppUpdates = false
+
+export const onAppUpdated = () => (hasAppUpdates = true)
 
 const unregisterWorkerAndRestart = async () => {
-  if (canReloadApp.current) {
-    const registrations = await navigator.serviceWorker.getRegistrations()
-
-    /* eslint-disable no-await-in-loop */
-    for (let registration of registrations) {
-      registration.scope.includes(config.publicUrl) && (await registration.unregister())
-    }
-
-    restart()
+  if (hasAppUpdates) {
+    return
   }
+
+  const registrations = await navigator.serviceWorker.getRegistrations()
+  const gdWorker = registrations.find(({ scope }) => scope.includes(config.publicUrl))
+
+  if (gdWorker) {
+    await gdWorker.unregister()
+  }
+
+  restart()
 }
 
 const retryImport = fn =>
   retry(fn, 5, 1000).catch(e => {
     const { name, message } = e
-    setTimeout(unregisterWorkerAndRestart, 30000)
+
     if ('SyntaxError' !== name || !message.startsWith('Unexpected token <')) {
       throw e
     }
 
+    setTimeout(unregisterWorkerAndRestart, 10000)
     return new Promise(noop)
   })
 

@@ -121,7 +121,7 @@ const RouterSelector = () => {
     checkUpgrade()
   }, [supported, ignoreUnsupported])
 
-  // statring anumation once we're checked for browser support and awaited
+  // starting animation once we're checked for browser support and awaited
   // the user dismissed warning dialog (if browser wasn't supported)
   return (
     <React.Suspense fallback={<Splash animation={!isAuthReload && checkedForBrowserSupport} isLoggedIn={isLoggedIn} />}>

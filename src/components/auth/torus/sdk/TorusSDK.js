@@ -117,6 +117,7 @@ class TorusSDK {
         throw new Error('Invalid private key received:', { privateKey })
       }
 
+      log.warn('Received private key with extra "0" padding:', privateKey)
       torusUser = { ...torusUser, privateKey: privateKey.substring(leading) }
     }
 

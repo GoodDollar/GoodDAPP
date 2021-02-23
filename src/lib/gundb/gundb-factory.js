@@ -5,7 +5,8 @@ import '@gooddollar/gun/lib/radix'
 import '@gooddollar/gun/lib/radisk'
 import '@gooddollar/gun/lib/store'
 import '@gooddollar/gun/lib/rindexed'
-import '@gooddollar/gun/nts'
+
+// import '@gooddollar/gun/nts'
 
 import { assign, findLastIndex } from 'lodash'
 

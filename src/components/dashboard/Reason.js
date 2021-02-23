@@ -107,7 +107,7 @@ const SendReason = (props: AmountProps) => {
             fontFamily="Roboto Slab"
             textTransform="capitalize"
           >
-            {'What Are You\nPaying For?'}
+            {'What Is The\nTransaction For?'}
           </Section.Title>
           <Section.Row style={[styles.categoryRow, { paddingTop: 19 }]}>
             <Section.Stack>

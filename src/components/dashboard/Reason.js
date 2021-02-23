@@ -91,7 +91,6 @@ const SendReason = (props: AmountProps) => {
       action: screenState.action,
       amount: screenState.amount,
       category: PaymentCategory.labelOf(category),
-      reason: screenState.reason,
     })
   }
 

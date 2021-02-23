@@ -74,14 +74,14 @@ jobs:
           echo "APPCENTER_NAME=GoodDollar/GoodDollar-Android-development" >> $GITHUB_ENV
 
       - name: Pre-checks - Env is QA
-        if: ${{ contains('staging', github.ref) }}
+        if: ${{ endsWith(github.ref, '/staging') }}
         run: |
           echo "ENV=staging" >> $GITHUB_ENV
           echo "SECRET_NAME=STAGING_ENV" >> $GITHUB_ENV
           echo "APPCENTER_NAME=GoodDollar/GoodDollar-Android-staging" >> $GITHUB_ENV
 
       - name: Pre-checks - Env is PROD
-        if: ${{ contains('production next', github.ref) }}
+        if: ${{ endsWith(github.ref, '/next') }}
         run: |
           echo "ENV=prod" >> $GITHUB_ENV
           echo "SECRET_NAME=PROD_ENV" >> $GITHUB_ENV
@@ -160,7 +160,7 @@ jobs:
           npx appcenter distribute release --token $token --app "${{ env.APPCENTER_NAME }}" --group "Collaborators" --file "${{ env.UNIVERSAL_APK_PATH }}" --release-notes "$(git log -1 --pretty=format:'%h %s')" --debug
 
       - name: Distribute to stores - PROD ONLY
-        if: ${{ contains('production next', github.ref) }}
+        if: ${{ endsWith(github.ref, '/next') }}
         run: |
           token=${{secrets.APPCENTER_ANDROID_PROD}}
           npx appcenter distribute stores publish --token $token --app "${{ env.APPCENTER_NAME }}" --store Beta --file "${{ env.UNIVERSAL_APK_PATH }}" --release-notes "$(git log -1 --pretty=format:'%h %s')"

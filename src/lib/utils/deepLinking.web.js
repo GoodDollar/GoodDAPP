@@ -5,6 +5,8 @@ class DeepLinkingWeb {
 
   hash = window.location.hash
 
+  query = window.location.search
+
   get params() {
     const decodedHref = decodeURI(window.location.href)
     return extractQueryParams(decodedHref)

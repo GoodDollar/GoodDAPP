@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
-import { noop } from 'lodash'
+import { get, noop } from 'lodash'
 
 import useMountedState from '../../../../lib/hooks/useMountedState'
 import createABTesting from '../../../../lib/hooks/useABTesting'
+import { DetectWebview } from '../../../../lib/utils/platform'
 
 import TorusSDK from '../sdk/TorusSDK'
 import logger from '../../../../lib/logger/pino-logger'
@@ -19,8 +20,14 @@ export default (onInitialized = noop) => {
 
   useEffect(() => {
     testPromise.then(test => {
-      log.debug('abTesting:', { test })
-      setSDK(TorusSDK.factory({ torusUxMode: test && test.isCaseA ? 'popup' : 'redirect' }))
+      const webview = new DetectWebview(get(global, 'navigator.userAgent'))
+      const isFacebookWebview = ['facebook', 'messenger'].includes(webview.browser)
+
+      log.debug('abTesting:', { test, isFacebookWebview })
+
+      //dont allow popup mode on facebook webview at all, since it doesnt work
+      const torusUxMode = isFacebookWebview === false && test && test.isCaseA ? 'popup' : 'redirect'
+      setSDK(TorusSDK.factory({ torusUxMode }))
     })
   }, [])
 

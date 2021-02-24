@@ -267,7 +267,10 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
     provider: 'facebook' | 'google' | 'auth0' | 'auth0-pwdless-email' | 'auth0-pwdless-sms',
     torusUserRedirectPromise,
   ) => {
-    fireEvent(isSignup ? SIGNUP_METHOD_SELECTED : SIGNIN_METHOD_SELECTED, { method: provider })
+    fireEvent(isSignup ? SIGNUP_METHOD_SELECTED : SIGNIN_METHOD_SELECTED, {
+      method: provider,
+      torusPopupMode: torusSDK.popupMode, //for a/b testing
+    })
 
     showLoadingDialog()
     try {

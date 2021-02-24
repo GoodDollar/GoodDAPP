@@ -1884,7 +1884,7 @@ export class UserStorage {
   async getUserProfile(field: string = ''): { name: String, avatar: String } {
     const profile = await this.getUserProfilePublickey(field)
     if (profile == null) {
-      return
+      return { name: undefined, avatar: undefined }
     }
 
     const [avatar = undefined, name = undefined] = await Promise.all([

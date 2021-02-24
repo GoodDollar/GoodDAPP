@@ -24,7 +24,7 @@ import QuestionMark from '../../../../assets/FaceVerification/FVQuestionMark.svg
 import CheckMark from '../../../../assets/FaceVerification/CheckMark.svg'
 import { theme } from '../../../theme/styles'
 
-const { useABTesting } = createABTesting()
+const { useABTesting } = createABTesting('FV_Instructions_Screen')
 
 const portrait = Platform.select({
   native: () => require('../../../../assets/FaceVerification/FVPortrait.png'),

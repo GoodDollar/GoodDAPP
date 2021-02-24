@@ -2,16 +2,27 @@ import { useEffect, useRef, useState } from 'react'
 import { noop } from 'lodash'
 
 import useMountedState from '../../../../lib/hooks/useMountedState'
+import createABTesting from '../../../../lib/hooks/useABTesting'
 
-import sdk from '../sdk/TorusSDK'
+import TorusSDK from '../sdk/TorusSDK'
 import logger from '../../../../lib/logger/pino-logger'
 
 const log = logger.child({ from: 'AuthTorus' })
 
+const { testPromise } = createABTesting('torusUxMode')
+
 export default (onInitialized = noop) => {
+  const [sdk, setSDK] = useState()
   const [initialized, setInitialized] = useState(false)
   const onInitializedRef = useRef(onInitialized)
   const mountedState = useMountedState()
+
+  useEffect(() => {
+    testPromise.then(test => {
+      log.debug('abTesting:', { test })
+      setSDK(TorusSDK.factory({ torusUxMode: test && test.isCaseA ? 'popup' : 'redirect' }))
+    })
+  }, [])
 
   useEffect(() => {
     onInitializedRef.current = onInitialized
@@ -35,9 +46,10 @@ export default (onInitialized = noop) => {
         log.error('failed initializing torus', message, exception)
       }
     }
-
-    registerTorusWorker()
-  }, [])
+    if (sdk) {
+      registerTorusWorker()
+    }
+  }, [sdk])
 
   return [sdk, initialized]
 }

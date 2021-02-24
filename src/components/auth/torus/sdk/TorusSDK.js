@@ -16,8 +16,8 @@ import {
 class TorusSDK {
   strategies = {}
 
-  static factory() {
-    const sdk = new TorusSDK(Config, logger.child({ from: 'TorusSDK' }))
+  static factory(configOverride = {}) {
+    const sdk = new TorusSDK({ ...Config, ...configOverride }, logger.child({ from: 'TorusSDK' }))
 
     sdk.addStrategy('facebook', FacebookStrategy)
     sdk.addStrategy('google-old', GoogleLegacyStrategy)
@@ -128,4 +128,4 @@ class TorusSDK {
   }
 }
 
-export default TorusSDK.factory()
+export default TorusSDK

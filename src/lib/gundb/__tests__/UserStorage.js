@@ -203,6 +203,15 @@ describe('UserStorage', () => {
         mobile: '22255667788',
         email: 'dario.minones@altoros.com',
       })
+
+      userStorage.getUserProfilePublickey = identifier => {
+        switch (identifier) {
+          case 'walletabcdef':
+            return 'abcdef'
+          default:
+            return undefined
+        }
+      }
     })
 
     it('returns object with user fullName for existing user identifier', async () => {
@@ -918,7 +927,8 @@ describe('users index', () => {
     })
   })
 
-  it('should return user address by public email', async () => {
+  //no longer using gun for indexes, plus global all writable gun index (users/byX) is insecure
+  xit('should return user address by public email', async () => {
     let wallet = userStorage.wallet.account
     await userStorage.setProfileField('walletAddress', wallet)
     await userStorage.setProfileField('email', 'test@test.com', 'public')

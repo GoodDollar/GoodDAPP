@@ -1,7 +1,7 @@
 // @flow
 import React, { useCallback, useEffect, useState } from 'react'
 import { SceneView } from '@react-navigation/core'
-import { debounce } from 'lodash'
+import { debounce, isEmpty } from 'lodash'
 import moment from 'moment'
 import AsyncStorage from '../../lib/utils/asyncStorage'
 import { DESTINATION_PATH, GD_USER_MASTERSEED } from '../../lib/constants/localStorage'
@@ -132,14 +132,17 @@ const AppSwitch = (props: LoadingProps) => {
 
     log.debug('navigateToUrlAction:', { destinationPath })
 
-    //if no special destinationPath check if we have incoming params from web url
+    //if no special destinationPath check if we have incoming params from web url, such as payment link/request
+    //when path is empty
     if (!isMobileNative && !destinationPath) {
-      const params = DeepLinking.params
+      const { params, pathname } = DeepLinking.params
       log.debug('navigateToUrlAction destinationPath empty getting web params from url', { params })
-      if (params) {
+      if (pathname.length <= 1 && isEmpty(params) === false) {
+        //this makes sure query params are passed as part of navigation
         destinationPath = { params }
       }
     }
+
     let destDetails = destinationPath && getRoute(destinationPath)
 
     //once user logs in we can redirect him to saved destinationPath

@@ -67,32 +67,32 @@ jobs:
     if: "!contains(github.event.head_commit.message,'release:') && !contains(github.event.head_commit.message,'skip ci')"
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
+      - name: Pre-checks - Env is Dev
+        run: |
+          echo "ENV=development" >> $GITHUB_ENV
+          echo "SECRET_NAME=DEV_ENV" >> $GITHUB_ENV
+          echo "APPCENTER_NAME=GoodDollar/GoodDollar-Android-development" >> $GITHUB_ENV
+
+      - name: Pre-checks - Env is QA
+        if: ${{ endsWith(github.ref, '/staging') }}
+        run: |
+          echo "ENV=staging" >> $GITHUB_ENV
+          echo "SECRET_NAME=STAGING_ENV" >> $GITHUB_ENV
+          echo "APPCENTER_NAME=GoodDollar/GoodDollar-Android-staging" >> $GITHUB_ENV
+
+      - name: Pre-checks - Env is PROD
+        if: ${{ endsWith(github.ref, '/next') }}
+        run: |
+          echo "ENV=prod" >> $GITHUB_ENV
+          echo "SECRET_NAME=PROD_ENV" >> $GITHUB_ENV
+          echo "APPCENTER_NAME=GoodDollar/GoodDollar-Android-production" >> $GITHUB_ENV
+
       - name: set branch name
         env:
           BUILD_NUMBER: ${{ github.run_number }}
         run: |
           echo "Creating release number ${BUILD_NUMBER}"
-          echo "ENV=development" >> $GITHUB_ENV
-          echo "BRANCH=${{ github.ref }}" >> $GITHUB_ENV
-          echo "SECRET_NAME=DEV_ENV" >> $GITHUB_ENV
-          echo "APPCENTER_NAME=GoodDollar/GoodDollar-Android-development" >> $GITHUB_ENV
-          echo "$GITHUB_HEAD_REF $GITHUB_REF ${{ env.BRANCH }} ${{ env.SECRET_NAME }} ${{ env.APPCENTER_NAME }}"
-
-      - name: Pre-checks - Env is QA
-        if: ${{ contains('staging',env.BRANCH) }}
-        run: |
-          echo "ENV=staging" >> $GITHUB_ENV
-          echo "SECRET_NAME=STAGING_ENV" >> $GITHUB_ENV
-          echo "APPCENTER_NAME=GoodDollar/GoodDollar-Android-staging" >> $GITHUB_ENV
-          echo "${{ env.BRANCH }} ${{ env.SECRET_NAME }} ${{ env.APPCENTER_NAME }}"
-
-      - name: Pre-checks - Env is PROD
-        if: ${{ contains('production next',env.BRANCH) }}
-        run: |
-          echo "ENV=prod" >> $GITHUB_ENV
-          echo "SECRET_NAME=PROD_ENV" >> $GITHUB_ENV
-          echo "APPCENTER_NAME=GoodDollar/GoodDollar-Android-production" >> $GITHUB_ENV
-          echo "${{ env.BRANCH }} ${{ env.SECRET_NAME }} ${{ env.APPCENTER_NAME }}"
+          echo "${ENV} ${GITHUB_REF} ${SECRET_NAME} ${APPCENTER_NAME}"
 
       - name: fix max_user_watches
         run: echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
@@ -160,7 +160,7 @@ jobs:
           npx appcenter distribute release --token $token --app "${{ env.APPCENTER_NAME }}" --group "Collaborators" --file "${{ env.UNIVERSAL_APK_PATH }}" --release-notes "$(git log -1 --pretty=format:'%h %s')" --debug
 
       - name: Distribute to stores - PROD ONLY
-        if: ${{ contains('production next', env.BRANCH) }}
+        if: ${{ endsWith(github.ref, '/next') }}
         run: |
           token=${{secrets.APPCENTER_ANDROID_PROD}}
           npx appcenter distribute stores publish --token $token --app "${{ env.APPCENTER_NAME }}" --store Beta --file "${{ env.UNIVERSAL_APK_PATH }}" --release-notes "$(git log -1 --pretty=format:'%h %s')"

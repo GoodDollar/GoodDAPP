@@ -21,7 +21,9 @@ export const addUser = (user: UserRecord): Promise<boolean> => {
 export const updateUser = async (user: UserRecord): Promise<boolean> => {
   const { identifier, email, mobile, walletAddress } = user
 
-  const usersCol = gun.get('users')
+  //remove get('users') this will work well with the mock we do for getUserProfilePublickey
+  //the get('users') index is no longer use and is insecure
+  const usersCol = gun //.get('users')
   await usersCol.get(identifier).putAck(generateDisplayPrivacyUserProfile(user))
 
   const userId = usersCol.get(identifier)

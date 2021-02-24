@@ -1,4 +1,4 @@
-import { first, omit } from 'lodash'
+import { first, omit, pad } from 'lodash'
 
 import Config from '../../../../config/config'
 import logger from '../../../../lib/logger/pino-logger'
@@ -99,8 +99,9 @@ class TorusSDK {
       torusUser = { ...otherResponse, ...userInfo }
     }
 
-    const { name, email } = torusUser
+    const { name, email, privateKey } = torusUser
     const isLoginPhoneNumber = /\+[0-9]+$/.test(name)
+    const leading = privateKey.length - 64
 
     if (isLoginPhoneNumber) {
       torusUser = { ...torusUser, mobile: name }
@@ -108,6 +109,16 @@ class TorusSDK {
 
     if (isLoginPhoneNumber || name === email) {
       torusUser = omit(torusUser, 'name')
+    }
+
+    if (leading > 0) {
+      // leading characters should be zeros, otherwise somerthing went wrong
+      if (privateKey.substring(0, leading) !== pad('', leading, '0')) {
+        throw new Error('Invalid private key received:', { privateKey })
+      }
+
+      log.warn('Received private key with extra "0" padding:', privateKey)
+      torusUser = { ...torusUser, privateKey: privateKey.substring(leading) }
     }
 
     if ('production' !== config.env) {

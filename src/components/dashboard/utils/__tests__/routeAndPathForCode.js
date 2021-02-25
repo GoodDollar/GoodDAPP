@@ -46,6 +46,7 @@ describe('routeAndPathForCode', () => {
         counterPartyDisplayName: undefined,
         amount: undefined,
         reason: undefined,
+        category: undefined,
       })
     })
   })

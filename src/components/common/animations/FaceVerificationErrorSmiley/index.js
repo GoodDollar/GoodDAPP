@@ -5,8 +5,12 @@ import AnimationBase from '../Base'
 import animationData from './data.json'
 
 const styles = {
-  android: {},
-  ios: {},
+  android: {
+    height: '100%',
+  },
+  ios: {
+    height: '100%',
+  },
   web: {
     height: '100%',
   },

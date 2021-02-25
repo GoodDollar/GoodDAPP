@@ -50,7 +50,7 @@ class TorusSDK {
 
   // eslint-disable-next-line require-await
   async initialize() {
-    return this.torus.init({ skipSw: !this.popupMode })
+    return this.torus.init({ skipInit: !this.popupMode })
   }
 
   async getRedirectResult() {
@@ -117,6 +117,7 @@ class TorusSDK {
         throw new Error('Invalid private key received:', { privateKey })
       }
 
+      log.warn('Received private key with extra "0" padding:', privateKey)
       torusUser = { ...torusUser, privateKey: privateKey.substring(leading) }
     }
 

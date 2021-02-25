@@ -7,7 +7,7 @@ import ModalContainer from '../modal/ModalContainer'
 import { Section } from '../index'
 import { getShadowStyles } from '../../../lib/utils/getStyles'
 
-export const CategoryBox = ({ style, primarycolor, children, title, contentStyle }) => (
+export const CategoryBox = ({ style, primaryColor, children, title, contentStyle }) => (
   <ModalContainer style={[styles.box, styles.shadow, style]} fullHeight>
     <ModalContents style={[styles.content, contentStyle]}>
       {title && (
@@ -23,7 +23,7 @@ export const CategoryBox = ({ style, primarycolor, children, title, contentStyle
                   // minWidth: 'max-content',
                   paddingTop: theme.paddings.defaultMargin,
                 }}
-                color={primarycolor}
+                color={primaryColor}
                 fontSize={12}
                 textAlign={'center'}
                 lineHeight={14}

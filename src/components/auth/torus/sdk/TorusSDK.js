@@ -50,7 +50,7 @@ class TorusSDK {
 
   // eslint-disable-next-line require-await
   async initialize() {
-    return this.torus.init({ skipSw: !this.popupMode })
+    return this.torus.init({ skipInit: !this.popupMode })
   }
 
   async getRedirectResult() {

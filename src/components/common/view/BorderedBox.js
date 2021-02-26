@@ -61,39 +61,48 @@ const BorderedBox = ({
   const imgSource = useMemo(() => imageSource && { uri: imageSource }, [imageSource])
 
   return (
-    <Section.Stack style={styles.borderedBox}>
-      <View style={lineSeparatorStyles} />
-      {imageSource ? (
-        <Image source={imgSource} style={avatarStyles} />
-      ) : image ? (
-        <View style={avatarStyles}>
-          <ImgComponent />
-        </View>
-      ) : null}
-      <Section.Stack style={styles.boxContent}>
-        <Section.Text fontSize={18} fontFamily="Roboto Slab" fontWeight="bold" style={styles.boxTitle}>
-          {title}
-        </Section.Text>
-        <Section.Text fontSize={13} letterSpacing={0.07} color={theme.colors.lighterGray}>
-          {displayContent}
-        </Section.Text>
+    <View>
+      <Section.Stack style={styles.borderedBox}>
+        <View style={lineSeparatorStyles} />
+        {imageSource ? (
+          <Image source={imgSource} style={avatarStyles} />
+        ) : image ? (
+          <View style={avatarStyles}>
+            <ImgComponent />
+          </View>
+        ) : null}
+        <Section.Stack style={styles.boxContent}>
+          <Section.Text fontSize={18} fontFamily="Roboto Slab" fontWeight="bold" style={styles.boxTitle}>
+            {title}
+          </Section.Text>
+          <Section.Text fontSize={13} letterSpacing={0.07} color={theme.colors.lighterGray}>
+            {displayContent}
+          </Section.Text>
+        </Section.Stack>
+        <View style={[styles.copyIconLineSeparator, showCopyIcon ? null : styles.copyButtonLineSeparator]} />
       </Section.Stack>
-      <View style={[styles.copyIconLineSeparator, showCopyIcon ? null : styles.copyButtonLineSeparator]} />
-      <View style={[styles.boxCopyIconWrapper, showCopyIcon ? null : styles.boxCopyButtonWrapper]}>
-        {showCopyIcon ? (
-          <>
-            <RoundIconButton onPress={copyToClipboard} iconSize={22} iconName="copy" style={styles.copyIconContainer} />
-            <Section.Text fontSize={10} fontWeight="medium" color={theme.colors.primary}>
+      <View style={styles.boxCopyIconOuter}>
+        <View style={[styles.boxCopyIconWrapper, showCopyIcon ? null : styles.boxCopyButtonWrapper]}>
+          {showCopyIcon ? (
+            <>
+              <RoundIconButton
+                onPress={copyToClipboard}
+                iconSize={22}
+                iconName="copy"
+                style={styles.copyIconContainer}
+              />
+              <Section.Text fontSize={10} fontWeight="medium" color={theme.colors.primary}>
+                {copyButtonText}
+              </Section.Text>
+            </>
+          ) : (
+            <CustomButton onPress={copyToClipboard} style={styles.copyButtonContainer}>
               {copyButtonText}
-            </Section.Text>
-          </>
-        ) : (
-          <CustomButton onPress={copyToClipboard} style={styles.copyButtonContainer}>
-            {copyButtonText}
-          </CustomButton>
-        )}
+            </CustomButton>
+          )}
+        </View>
       </View>
-    </Section.Stack>
+    </View>
   )
 }
 
@@ -132,12 +141,19 @@ const styles = ({ theme }) => {
       zIndex: 1,
       alignItems: 'center',
     },
+    boxCopyIconOuter: {
+      width: '100%',
+      height: height40,
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      position: 'absolute',
+      bottom: -Math.ceil(height40 / 2), // half of height
+      maxHeight: height40,
+    },
     boxCopyIconWrapper: {
       width: getDesignRelativeWidth(88, false),
       height: height40,
-      bottom: -Math.ceil(height40 / 2), // half of height
-      position: 'absolute',
-      zIndex: 1,
     },
     copyIconLineSeparator: {
       width: getDesignRelativeWidth(52, false),
@@ -163,7 +179,6 @@ const styles = ({ theme }) => {
     boxCopyButtonWrapper: {
       width: getDesignRelativeWidth(174, false),
       height: height40,
-      bottom: -getDesignRelativeHeight(20, true), // half of height
     },
     copyButtonLineSeparator: {
       width: getDesignRelativeWidth(174, false),

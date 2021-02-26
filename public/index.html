@@ -18,6 +18,17 @@
       })(window, document, 'script', 'dataLayer', 'GTM-PZJ7X57')
     </script>
     <script>
+      var oldErrorHandler = window.onerror;
+      window.onerror = function newErrorHandler(m, u, l, c, error) {
+        if(error && error.name === 'SyntaxError' && error.message.startsWith("Unexpected token '<'")) {
+          window.location.reload(true)
+        }
+
+        if (oldErrorHandler) return oldErrorHandler(m, u, l, c, error);
+        return false;
+      }
+    </script>
+    <script>
       window['_fs_debug'] = false
       window['_fs_host'] = 'fullstory.com'
       window['_fs_script'] = 'edge.fullstory.com/s/fs.js'

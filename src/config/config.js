@@ -59,7 +59,7 @@ const Config = {
   network: env.REACT_APP_NETWORK || 'fuse',
   networkMainnet: env.REACT_APP_NETWORK_MAINNET || 'fuse-mainnet',
   interestCollectedInterval: env.REACT_APP_INTEREST_BLOCKS_INTERVAL || 5760 * 7, // default is 1Week
-  marketUrl: env.REACT_APP_MARKET_URL || 'https://www.facebook.com/groups/gooddollarmarketplace',
+  marketUrl: env.REACT_APP_MARKET_URL || 'https://gooddollarmarketplace.sharetribe.com/en',
   torusEnabled: env.REACT_APP_USE_TORUS === 'true',
   torusNetwork: env.REACT_APP_TORUS_NETWORK || 'testnet',
   torusProxyContract: env.REACT_APP_TORUS_PROXY_CONTRACT || '0x4023d2a0D330bF11426B12C6144Cfb96B7fa6183',

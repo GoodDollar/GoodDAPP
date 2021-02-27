@@ -132,9 +132,10 @@ const AppSwitch = (props: LoadingProps) => {
     //if no special destinationPath check if we have incoming params from web url, such as payment link/request
     //when path is empty
     if (!isMobileNative && !destinationPath) {
-      const { params, pathname } = DeepLinking.params
+      const { params, pathname } = DeepLinking
       log.debug('navigateToUrlAction destinationPath empty getting web params from url', { params })
-      if (pathname.length <= 1 && isEmpty(params) === false) {
+
+      if (pathname && pathname.length < 2 && !isEmpty(params)) {
         //this makes sure query params are passed as part of navigation
         destinationPath = { params }
       }

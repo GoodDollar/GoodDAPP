@@ -2090,7 +2090,7 @@ export class UserStorage {
 
     const byAddress = address && (await this.getUserProfilePublickey(address))
 
-    let gunProfile = this.gun.get(byIndex || byAddress).get('profile')
+    let gunProfile = (byIndex || byAddress) && this.gun.get(byIndex || byAddress).get('profile')
 
     //need to return object so promise.all doesnt resolve node
     return {

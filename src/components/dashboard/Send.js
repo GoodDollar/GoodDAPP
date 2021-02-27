@@ -34,6 +34,7 @@ const validate = async to => {
     return null
   }
 
+  //TODO: fix usage of isUsername
   if (isMobilePhone(to) || isEmail(to) || (await userStorage.isUsername(to))) {
     return null
   }

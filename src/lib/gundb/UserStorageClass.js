@@ -2036,10 +2036,7 @@ export class UserStorage {
     }
 
     data.initiatorType = isMobilePhone(data.initiator) ? 'mobile' : isEmail(data.initiator) ? 'email' : undefined
-    data.address =
-      data.address && data.address !== NULL_ADDRESS
-        ? UserStorage.cleanHashedFieldForIndex('walletAddress', data.address)
-        : data.address
+
     data.value = (receiptData && (receiptData.value || receiptData.amount)) || amount
     data.displayName = counterPartyDisplayName || 'Unknown'
 

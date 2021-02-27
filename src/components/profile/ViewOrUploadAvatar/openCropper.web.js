@@ -1,1 +1,1 @@
-export default ({ navigation }) => navigation.navigate('EditAvatar')
+export default ({ screenProps }) => screenProps.push('EditAvatar')

@@ -31,7 +31,7 @@ const log = logger.child({ from: 'ViewAvatar' })
 const TITLE = 'My Profile'
 
 const ViewOrUploadAvatar = props => {
-  const { styles, navigation } = props
+  const { styles, screenProps } = props
   const store = GDStore.useStore()
   const profile = store.get('profile')
   const wrappedUserStorage = useWrappedUserStorage()
@@ -41,13 +41,13 @@ const ViewOrUploadAvatar = props => {
   const handleCameraPress = useDebouncedOnPress(() => {
     openCropper({
       pickerOptions,
-      navigation,
+      screenProps,
       wrappedUserStorage,
       showErrorDialog,
       log,
       avatar,
     })
-  }, [navigation, wrappedUserStorage, showErrorDialog, profile, avatar])
+  }, [screenProps, wrappedUserStorage, showErrorDialog, profile, avatar])
 
   const handleClosePress = useCallback(async () => {
     try {
@@ -67,13 +67,13 @@ const ViewOrUploadAvatar = props => {
       })
 
       if (Platform.OS === 'web') {
-        props.navigation.navigate('EditAvatar')
+        screenProps.push('EditAvatar')
       }
     },
-    [navigation, wrappedUserStorage],
+    [screenProps, wrappedUserStorage],
   )
 
-  const goToProfile = useCallback(() => navigation.navigate('EditProfile'), [navigation])
+  const goToProfile = useCallback(() => screenProps.pop(), [screenProps])
 
   const HasAvatar = () => (
     <>

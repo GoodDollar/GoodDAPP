@@ -8,7 +8,6 @@ import {
   find,
   flatten,
   get,
-  isEmpty,
   isEqual,
   isError,
   isString,
@@ -698,17 +697,14 @@ export class UserStorage {
    */
   async checkSmallAvatar() {
     const avatar = await this.getProfileFieldValue('avatar')
-    const smallAvatar = await this.getProfileFieldValue('smallAvatar')
-
-    if (avatar && !smallAvatar) {
-      logger.debug('Updating small avatar')
-
-      await this.setSmallAvatar(avatar)
+    if (avatar) {
+      this.setAvatar(avatar)
     }
   }
 
-  setAvatar(avatar) {
-    return Promise.all([this.setProfileField('avatar', avatar, 'public'), this.setSmallAvatar(avatar)])
+  async setAvatar(avatar) {
+    const smallAvatar = await resizeImage(avatar, 320) //save space and load on gun
+    return Promise.all([this.setProfileField('avatar', smallAvatar, 'public'), this.setSmallAvatar(smallAvatar)])
   }
 
   async setSmallAvatar(avatar) {
@@ -1404,7 +1400,7 @@ export class UserStorage {
    * @param {string} privacy
    * @returns {boolean}
    */
-  static async isValidValue(field: string, value: string, trusted: boolean = false) {
+  static isValidValue(field: string, value: string, trusted: boolean = false) {
     const cleanValue = UserStorage.cleanHashedFieldForIndex(field, value)
 
     if (!cleanValue) {
@@ -1417,21 +1413,24 @@ export class UserStorage {
       return false
     }
 
-    //we no longer enforce uniqueness on email/mobile only on username
-    try {
-      if (field === 'username') {
-        const indexValue = await global.gun
-          .get(`users/by${field}`)
-          .get(cleanValue)
-          .then()
-        return !(indexValue && indexValue.pub !== global.gun.user().is.pub)
-      }
+    return true
 
-      return true
-    } catch (e) {
-      logger.error('Validate IndexProfileField failed', e.message, e)
-      return true
-    }
+    //we no longer enforce uniqueness on email/mobile only on username
+    //TODO: no longer  using world writable index
+    // try {
+    // if (field === 'username') {
+    //   const indexValue = await global.gun
+    //     .get(`users/by${field}`)
+    //     .get(cleanValue)
+    //     .then()
+    //   return !(indexValue && indexValue.pub !== global.gun.user().is.pub)
+    // }
+
+    //   return true
+    // } catch (e) {
+    //   logger.error('Validate IndexProfileField failed', e.message, e)
+    //   return true
+    // }
   }
 
   async validateProfile(profile: any) {
@@ -1467,6 +1466,7 @@ export class UserStorage {
    * @param {string} privacy - (private | public | masked)
    * @returns {Promise} Promise with updated field value, secret, display and privacy.
    */
+  // eslint-disable-next-line require-await
   async setProfileField(
     field: string,
     value: string,
@@ -1494,15 +1494,17 @@ export class UserStorage {
         throw new Error('Invalid privacy setting', { privacy })
     }
 
-    //for all privacy cases we go through the index, in case field was changed from public to private so we remove it
-    if (UserStorage.indexableFields[field] && isEmpty(value) === false) {
-      const indexPromiseResult = await this.indexProfileField(field, value, privacy)
-      logger.info('indexPromiseResult', indexPromiseResult)
+    //no longer indexing in world writable index
 
-      if (indexPromiseResult.err) {
-        return indexPromiseResult
-      }
-    }
+    //for all privacy cases we go through the index, in case field was changed from public to private so we remove it
+    // if (UserStorage.indexableFields[field] && isEmpty(value) === false) {
+    //   const indexPromiseResult = await this.indexProfileField(field, value, privacy)
+    //   logger.info('indexPromiseResult', indexPromiseResult)
+
+    //   if (indexPromiseResult.err) {
+    //     return indexPromiseResult
+    //   }
+    // }
 
     const storePrivacy = () =>
       this.profile
@@ -1533,7 +1535,7 @@ export class UserStorage {
 
   /**
    * Generates index by field if privacy is public, or empty index if it's not public
-   *
+   * @depracated no longer indexing in world writable index
    * @param {string} field - Profile attribute
    * @param {string} value - Profile attribute value
    * @param {string} privacy - (private | public | masked)
@@ -1770,6 +1772,7 @@ export class UserStorage {
 
   /**
    * Checks if username connected to a profile
+   * @depracated no longer using world writable index
    * @param {string} username
    */
   async isUsername(username: string) {
@@ -1945,7 +1948,7 @@ export class UserStorage {
           address,
         })
         const profileNode =
-          withdrawStatus !== 'pending' && (await this._getProfileNode(initiatorType, initiator, address)) //dont try to fetch profile node of this is a tx we sent and is pending
+          withdrawStatus !== 'pending' && (await this._getProfileNodeTrusted(initiatorType, initiator, address)) //dont try to fetch profile node of this is a tx we sent and is pending
         const [avatar, fullName] = await Promise.all([
           this._extractAvatar(type, withdrawStatus, get(profileNode, 'gunProfile'), address).catch(e => {
             logger.warn('formatEvent: failed extractAvatar', e.message, e, {
@@ -2076,6 +2079,23 @@ export class UserStorage {
     }
 
     return `${type}${sufix}`
+  }
+
+  async _getProfileNodeTrusted(initiatorType, initiator, address): Gun {
+    if (!initiator && (!address || address === NULL_ADDRESS)) {
+      return
+    }
+
+    const byIndex = initiatorType && (await this.getUserProfilePublickey(initiator))
+
+    const byAddress = address && (await this.getUserProfilePublickey(address))
+
+    let gunProfile = (byIndex || byAddress) && this.gun.get(byIndex || byAddress).get('profile')
+
+    //need to return object so promise.all doesnt resolve node
+    return {
+      gunProfile,
+    }
   }
 
   async _getProfileNode(initiatorType, initiator, address): Gun {

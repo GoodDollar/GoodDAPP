@@ -1,5 +1,5 @@
 import userStorage from '../gundb/UserStorage'
-const fromDate = new Date('2019/12/26')
+const fromDate = new Date('2020/02/26')
 
 /**
  * set status to broken send feed

@@ -100,6 +100,7 @@ const RouterSelector = () => {
   })
 
   useEffect(() => {
+    window.unregisterErrorListener()
     initAnalytics()
   }, [])
 

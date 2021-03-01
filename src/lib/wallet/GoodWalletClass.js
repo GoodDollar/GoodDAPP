@@ -255,6 +255,14 @@ export class GoodWallet {
     return [addr].filter(_ => _ && _ !== NULL_ADDRESS).map(_ => _.toLowerCase())
   }
 
+  getUBIAddresses() {
+    const addrs = [
+      get(StakingModelAddress, `${this.network}.UBIScheme`),
+      get(StakingModelAddress, `${this.network}.UBISchemeOld`),
+    ]
+    return addrs.filter(_ => _ && _ !== NULL_ADDRESS).map(_ => _.toLowerCase())
+  }
+
   setIsPollEvents(active) {
     this.isPollEvents = active
   }

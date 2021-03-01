@@ -750,7 +750,7 @@ export class UserStorage {
 
     let operationType
     if (data.from) {
-      if (data.from === this.wallet.UBIContract.address.toLowerCase()) {
+      if (this.wallet.getUBIAddresses().includes(data.from)) {
         operationType = EVENT_TYPE_CLAIM
       } else if (this.wallet.getRewardsAddresses().includes(data.from)) {
         operationType = EVENT_TYPE_BONUS

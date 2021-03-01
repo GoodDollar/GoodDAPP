@@ -78,7 +78,7 @@ class EmailConfirmation extends React.Component<Props, State> {
 
         this.setState({
           ...this.state,
-          errorMessage: e.message || e,
+          errorMessage: e.error || e.message || e,
           loading: false,
         })
       }

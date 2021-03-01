@@ -68,7 +68,7 @@ class SmsForm extends React.Component<Props, State> {
           log.error('Verify otp failed', e.message, e)
         }
 
-        this.setState({ ...this.state, errorMessage: e.message || e, loading: false })
+        this.setState({ ...this.state, errorMessage: e.error || e.message || e, loading: false })
       }
     } else {
       this.setState({ ...this.state, errorMessage: '', otp })

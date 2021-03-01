@@ -91,10 +91,10 @@ class EmailConfirmation extends React.Component<Props, State> {
     }
   }
 
-  handleSubmit = async () => {
-    await this.props.screenProps.doneCallback({ isEmailConfirmed: true })
-
-    this.setState({ ...this.state, loading: false })
+  handleSubmit = () => {
+    this.setState({ ...this.state, loading: false }, () =>
+      this.props.screenProps.doneCallback({ isEmailConfirmed: true }),
+    )
   }
 
   // eslint-disable-next-line class-methods-use-this

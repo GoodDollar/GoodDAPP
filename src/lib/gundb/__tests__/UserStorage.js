@@ -660,17 +660,17 @@ describe('UserStorage', () => {
     })
   })
 
-  it(`update username success`, async () => {
-    await Promise.all([userStorage.wallet.ready, userStorage.ready])
-    const result = await userStorage.setProfileField('username', 'user1', 'public')
-    await userStorage.setProfileField('email', 'user1', 'public')
-    expect(result).toMatchObject({ ok: 0 })
-
-    const updatedUsername = await userStorage.getProfileFieldValue('username')
-    expect(updatedUsername).toBe('user1')
-  })
-
   // no longer indexing in world writable index
+
+  // it(`update username success`, async () => {
+  //   await Promise.all([userStorage.wallet.ready, userStorage.ready])
+  //   const result = await userStorage.setProfileField('username', 'user1', 'public')
+  //   await userStorage.setProfileField('email', 'user1', 'public')
+  //   expect(result).toMatchObject({ ok: 0 })
+  //   const updatedUsername = await userStorage.getProfileFieldValue('username')
+  //   expect(updatedUsername).toBe('user1')
+  // })
+
   // it(`update username with setProfile should not update profile if username is taken`, async () => {
   //   const profileModel = getUserModel({
   //     fullName: 'New Name',

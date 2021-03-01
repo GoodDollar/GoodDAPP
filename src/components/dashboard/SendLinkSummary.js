@@ -123,9 +123,9 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
     if (phoneNumber) {
       const cleanPhoneNumber = phoneNumber.replace(/\D/g, '')
 
+      const profileKey = await userStorage.getUserProfilePublickey(cleanPhoneNumber)
       walletAddress = await gun
-        .get('users/bymobile')
-        .get(cleanPhoneNumber)
+        .get(profileKey)
         .get('profile')
         .get('walletAddress')
         .get('display')

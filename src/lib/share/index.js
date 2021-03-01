@@ -20,11 +20,12 @@ export const isSharingAvailable = Platform.select({
 })
 
 /**
- * Generates a code contaning an MNID with an amount if specified
+ * Generates a code containing an MNID with an amount if specified
  * @param address - address required to generate MNID
  * @param networkId - network identifier required to generate MNID
  * @param amount - amount to be attached to the generated MNID code
  * @param reason - reason to be attached to the generated MNID code
+ * @param category - category to be attached to the generated MNID code
  * @param counterPartyDisplayName
  * @returns {string} - 'MNID|amount'|'MNID'
  */
@@ -33,6 +34,7 @@ export function generateCode(
   networkId: number,
   amount: number,
   reason: string,
+  category: string,
   counterPartyDisplayName: string,
 ) {
   const mnid = encode({ address, network: `0x${networkId.toString(16)}` })
@@ -41,6 +43,7 @@ export function generateCode(
     m: mnid,
     a: amount,
     r: reason,
+    cat: category,
   }
   if (counterPartyDisplayName) {
     codeObj.c = counterPartyDisplayName
@@ -56,7 +59,7 @@ export function generateCode(
  */
 export function readCode(code: string) {
   try {
-    let mnid, amount, reason, counterPartyDisplayName
+    let mnid, amount, reason, category, counterPartyDisplayName
     const decoded = decodeURIComponent(code)
 
     try {
@@ -65,9 +68,10 @@ export function readCode(code: string) {
       mnid = codeObject.mnid || codeObject.m
       amount = codeObject.amount || codeObject.a
       reason = codeObject.reason || codeObject.r
+      category = codeObject.category || codeObject.cat
       counterPartyDisplayName = codeObject.counterPartyDisplayName || codeObject.c
     } catch (e) {
-      ;[mnid, amount, reason, counterPartyDisplayName] = decoded.split('|')
+      ;[mnid, amount, reason, category, counterPartyDisplayName] = decoded.split('|')
     }
 
     if (!isMNID(mnid)) {
@@ -77,12 +81,14 @@ export function readCode(code: string) {
     const { network, address } = decode(mnid)
     amount = amount && parseInt(amount)
     reason = reason === 'undefined' ? undefined : reason
+    category = category === 'undefined' ? undefined : category
     counterPartyDisplayName = counterPartyDisplayName === 'undefined' ? undefined : counterPartyDisplayName
     return {
       networkId: parseInt(network),
       address,
       amount: amount ? amount : undefined,
       reason,
+      category,
       counterPartyDisplayName,
     }
   } catch (e) {
@@ -300,10 +306,11 @@ export const parsePaymentLinkParams = params => {
   if (paymentCode) {
     try {
       paymentParams = Buffer.from(decodeURIComponent(paymentCode), 'base64').toString()
-      const { p, r, reason: oldr, paymentCode: oldp, i } = JSON.parse(paymentParams)
+      const { p, r, reason: oldr, paymentCode: oldp, i, cat } = JSON.parse(paymentParams)
       paymentParams = {
         paymentCode: p || oldp,
         reason: r || oldr,
+        category: cat,
         inviteCode: i,
       }
     } catch (e) {

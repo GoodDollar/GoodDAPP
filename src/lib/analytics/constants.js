@@ -65,3 +65,4 @@ export const INVITE_HOWTO = 'INVITE_HOWTO' //user pressed howto invite
 export const INVITEWELCOME_SKIPPED = 'INVITEWELCOME_SKIPPED'
 export const INVITEWELCOME_NEXT = 'INVITEWELCOME_NEXT'
 export const ANALYTICS_EVENT = 'Analytics_event' // event name for google analytics
+export const PAYMENT_CATEGORY_SELECTED = 'PAYMENT_CATEGORY_SELECTED' // event name for google analytics

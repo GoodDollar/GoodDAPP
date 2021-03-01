@@ -19,11 +19,11 @@ const ReceiveAmount = ({ screenProps, styles }: ReceiveProps) => {
 
   const { navigateTo } = screenProps
   const { fullName } = gdStore.get('profile')
-  const { amount, reason, counterPartyDisplayName } = screenState
+  const { amount, reason, category, counterPartyDisplayName } = screenState
 
   const shareOrString = useMemo(() => {
     const { account, networkId } = goodWallet
-    const code = generateCode(account, networkId, amount, reason, counterPartyDisplayName)
+    const code = generateCode(account, networkId, amount, reason, category, counterPartyDisplayName)
 
     return generateReceiveShareObject(code, amount, counterPartyDisplayName, fullName)
   }, [amount, reason, counterPartyDisplayName])

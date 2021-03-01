@@ -208,10 +208,10 @@ const Dashboard = props => {
     getFeedPage(true)
   }
 
-  const handleAppLinks = () => {
+  const handleFeedEvent = () => {
     const { params } = navigation.state || {}
 
-    log.debug('handle links effect dashboard', { params })
+    log.debug('handle event effect dashboard', { params })
     if (!params) {
       return
     }
@@ -317,7 +317,7 @@ const Dashboard = props => {
 
   const initDashboard = async () => {
     await userStorage.initFeed()
-    await handleAppLinks()
+    await handleFeedEvent()
     handleDeleteRedirect()
     await subscribeToFeed().catch(e => log.error('initDashboard feed failed', e.message, e))
 
@@ -329,7 +329,7 @@ const Dashboard = props => {
 
     log.debug('initDashboard subscribed to feed')
 
-    // InteractionManager.runAfterInteractions(handleAppLinks)
+    // InteractionManager.runAfterInteractions(handleFeedEvent)
     Dimensions.addEventListener('change', handleResize)
 
     initBGFetch()
@@ -741,9 +741,6 @@ const getStylesFromProps = ({ theme }) => ({
   },
   bigNumberWrapper: {
     alignItems: 'baseline',
-  },
-  disabledButton: {
-    backgroundColor: theme.colors.gray50Percent,
   },
   bigNumberUnitStyles: {
     marginRight: normalize(-20),

@@ -9,6 +9,7 @@ import SuccessIcon from '../common/modal/SuccessIcon'
 import { executeWithdraw } from '../../lib/undux/utils/withdraw'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import { fireEvent } from '../../lib/analytics/analytics'
+import { withStyles } from '../../lib/styles'
 import {
   WITHDRAW_STATUS_COMPLETE,
   WITHDRAW_STATUS_PENDING,
@@ -29,7 +30,7 @@ export type HandlePaymentLinkProps = {
 }
 
 const HandlePaymentLink = (props: HandlePaymentLinkProps) => {
-  const { screenProps, navigation } = props
+  const { screenProps, navigation, styles } = props
   const { params } = navigation.state || {}
   const [showDialog, hideDialog] = useDialog()
   const [showErrorDialog] = useErrorDialog()
@@ -100,6 +101,7 @@ const HandlePaymentLink = (props: HandlePaymentLinkProps) => {
           buttons: [
             {
               text: 'YAY!',
+              style: styles.disabledButton,
               disabled: true,
             },
           ],
@@ -109,6 +111,7 @@ const HandlePaymentLink = (props: HandlePaymentLinkProps) => {
           store,
           paymentParams.paymentCode,
           paymentParams.reason,
+          paymentParams.category,
         )
 
         if (transactionHash) {
@@ -193,4 +196,12 @@ HandlePaymentLink.navigationOptions = {
   title: ' ',
 }
 
-export default HandlePaymentLink
+const getStylesFromProps = ({ theme }) => ({
+  disabledButton: {
+    backgroundColor: theme.colors.gray50Percent,
+  },
+})
+
+HandlePaymentLink.navigationOptions = {}
+
+export default withStyles(getStylesFromProps)(HandlePaymentLink)

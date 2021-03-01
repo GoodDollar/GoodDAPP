@@ -294,7 +294,7 @@ export const getReceiveDataFromReceipt = (receipt: any, account: string) => {
 
 /**
  * Users gundb to handle user storage.
- * User storage is used to keep the user Self Soverign Profile and his blockchain transcation history
+ * User storage is used to keep the user Self Sovereign Profile and his blockchain transaction history
  * @class
  *  */
 export class UserStorage {
@@ -562,7 +562,7 @@ export class UserStorage {
       logger.warn(e)
       throw e
     })
-    logger.debug('init finished gun loggin', user)
+    logger.debug('init finished gun login', user)
 
     if (user === undefined) {
       throw new Error('gun login failed')
@@ -771,7 +771,7 @@ export class UserStorage {
     }
 
     //receipt received via websockets/polling need mutex to prevent race
-    //with enqueing the initial TX data
+    //with enqueuing the initial TX data
     const data = getReceiveDataFromReceipt(receipt, this.wallet.account)
     if (
       data &&
@@ -967,7 +967,7 @@ export class UserStorage {
   }
 
   /**
-   * Used as subscripition callback for gundb
+   * Used as subscription callback for gundb
    * When the index of <day> to <number of events> changes
    * We get the object and turn it into a sorted array by <day> which we keep in memory for feed display purposes
    * @param {object} changed the index data from gundb an object with days as keys and number of event in that day as value
@@ -1540,7 +1540,7 @@ export class UserStorage {
    * @param {string} value - Profile attribute value
    * @param {string} privacy - (private | public | masked)
    * @returns Gun result promise after index is generated
-   * @todo This is world writable so theoritically a malicious user could delete the indexes
+   * @todo This is world writable so theoretically a malicious user could delete the indexes
    * need to develop for gundb immutable keys to non first user
    */
   async indexProfileField(field: string, value: string, privacy: FieldPrivacy): Promise<ACK> {
@@ -1679,7 +1679,7 @@ export class UserStorage {
           }
         }
 
-        // returning item, it may be undefied
+        // returning item, it may be undefined
         return item
       }),
     )
@@ -1690,7 +1690,7 @@ export class UserStorage {
 
   /**
    * Return all feed events*
-   * @returns {Promise} Promise with array of standarised feed events
+   * @returns {Promise} Promise with array of standardized feed events
    * @todo Add pagination
    */
   async getFormattedEvents(numResults: number, reset?: boolean): Promise<Array<StandardFeed>> {
@@ -2188,7 +2188,7 @@ export class UserStorage {
   async enqueueTX(_event: FeedEvent): Promise<> {
     const event = delUndefValNested(_event)
 
-    //a race exists between enqueing and receipt from websockets/polling
+    //a race exists between enqueuing and receipt from websockets/polling
     const release = await this.feedMutex.lock()
     try {
       const existingEvent = this.feedIds[event.id]

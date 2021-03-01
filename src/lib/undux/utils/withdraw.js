@@ -25,17 +25,19 @@ type ReceiptType = {
  * @param {Store} store - Undux store
  * @param {string} code - code that unlocks the escrowed payment
  * @param {string} reason - the reason of payment
+ * @param {string} category - the category of payment
  * @returns {Promise} Returns the receipt of the transaction
  */
 export const executeWithdraw = async (
   store: Store,
   code: string,
   reason: string,
+  category: string,
 ): Promise<ReceiptType | { status: boolean }> => {
   try {
     const { amount, sender, status, hashedCode } = await goodWallet.getWithdrawDetails(code)
 
-    log.info('executeWithdraw', { code, reason, amount, sender, status, hashedCode })
+    log.info('executeWithdraw', { code, reason, category, amount, sender, status, hashedCode })
 
     if (sender.toLowerCase() === goodWallet.account.toLowerCase()) {
       throw new Error("You can't withdraw your own payment link.")
@@ -59,6 +61,7 @@ export const executeWithdraw = async (
                 code,
                 hashedCode,
                 reason,
+                category,
                 otplStatus: 'completed',
               },
             }

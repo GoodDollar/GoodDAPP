@@ -47,8 +47,21 @@ const favicon = Platform.select({
 })()
 
 export class StandardFeed {
+  static _hasTxData(feedItem) {
+    return get(feedItem, 'receiptReceived', false) || !isNil(get(feedItem, 'data.receiptData'))
+  }
+
+  static _getEventCackeKey(event) {
+    return get(event, 'id', event)
+  }
+
   constructor(storage, logger) {
-    assign(this, { storage, logger })
+    const { _getEventCackeKey } = StandardFeed
+    const { _formatEvent } = this
+    const memoizedFormatter = memoize(_formatEvent.bind(this), _getEventCackeKey)
+    const { cache } = memoizedFormatter
+
+    assign(this, { storage, logger, eventsCache: cache, _formatEvent: memoizedFormatter })
   }
 
   /**
@@ -59,6 +72,7 @@ export class StandardFeed {
   }
 
   async _fetchEvents(numResults, reset = false) {
+    const { _hasTxData } = StandardFeed
     const { storage, logger, _formatEvent } = this
     const feed = await storage.getFeedPage(numResults, reset)
 
@@ -79,7 +93,7 @@ export class StandardFeed {
     const withTxData = await Promise.all(
       // eslint-disable-next-line require-await
       filtered.map(async feedItem => {
-        if (this._hasTxData(feedItem)) {
+        if (_hasTxData(feedItem)) {
           return feedItem
         }
 
@@ -90,17 +104,14 @@ export class StandardFeed {
 
     logger.debug('getFormattedEvents done fetching tx data', { withTxData })
 
-    const preformatted = filter(withTxData.map(_formatEvent))
+    const preformatted = withTxData.map(_formatEvent)
 
     logger.debug('getFormattedEvents done preformatting events', { preformatted })
     return preformatted
   }
 
-  _hasTxData(feedItem) {
-    return get(feedItem, 'receiptReceived', false) || !isNil(get(feedItem, 'data.receiptData'))
-  }
-
   async _fetchTxData(feedItem) {
+    const { _hasTxData } = StandardFeed
     const { storage, logger } = this
     const { wallet } = storage
     const { id } = feedItem
@@ -111,7 +122,7 @@ export class StandardFeed {
 
     const prevFeedEvent = await storage.getFeedItemByTransactionHash(id)
 
-    if (prevFeedEvent && !this._hasTxData(prevFeedEvent)) {
+    if (prevFeedEvent && !_hasTxData(prevFeedEvent)) {
       logger.warn('getFormatedEventById: receipt data missing for:', {
         id,
         prevFeedEvent,
@@ -146,96 +157,86 @@ export class StandardFeed {
    * @returns {StandardFeedItem} StandardFeedItem object,
    *  with props { id, date, type, data: { amount, message, endpoint: { address, fullName, avatar, withdrawStatus }}}
    */
-  _formatEvent = memoize(
-    event => {
-      const { logger, storage } = this
-      const { wallet } = storage
+  _formatEvent(event) {
+    const { logger, storage } = this
+    const { wallet } = storage
+    const { data, type, date, id, status, createdDate, animationExecuted, action } = event
 
-      logger.debug('formatEvent: incoming event', event.id, { event })
+    logger.debug('formatEvent: incoming event', id, { event })
 
-      try {
-        const { data, type, date, id, status, createdDate, animationExecuted, action } = event
+    const {
+      sender,
+      preReasonText,
+      reason,
+      code: withdrawCode,
+      otplStatus,
+      customName,
+      subtitle,
+      readMore,
+      smallReadMore,
+    } = data
 
-        const {
-          sender,
-          preReasonText,
-          reason,
-          code: withdrawCode,
-          otplStatus,
-          customName,
-          subtitle,
-          readMore,
-          smallReadMore,
-        } = data
+    const { address, initiator, initiatorType, value, displayName, message } = this._extractData(event)
+    const isDeposit = initiator.toLowerCase() === wallet.oneTimePaymentsContract.address
 
-        const { address, initiator, initiatorType, value, displayName, message } = this._extractData(event)
-        const isDeposit = initiator.toLowerCase() === wallet.oneTimePaymentsContract.address
+    const withdrawStatus = this._extractWithdrawStatus(
+      withdrawCode || isDeposit,
+      isDeposit ? 'pending' : otplStatus,
+      status,
+      type,
+    )
 
-        const withdrawStatus = this._extractWithdrawStatus(
-          withdrawCode || isDeposit,
-          isDeposit ? 'pending' : otplStatus,
-          status,
-          type,
-        )
+    const displayType = this._extractDisplayType(type, withdrawStatus, status)
 
-        const displayType = this._extractDisplayType(type, withdrawStatus, status)
+    logger.debug('formatEvent: initiator data', event.id, {
+      initiatorType,
+      initiator,
+      address,
+    })
 
-        logger.debug('formatEvent: initiator data', event.id, {
-          initiatorType,
-          initiator,
-          address,
-        })
+    // if customName exist, use it
+    const fullName =
+      customName ||
+      (initiatorType && initiator) ||
+      (type === EVENT_TYPE_CLAIM || address === NULL_ADDRESS ? 'GoodDollar' : displayName)
 
-        // if customName exist, use it
-        const fullName =
-          customName ||
-          (initiatorType && initiator) ||
-          (type === EVENT_TYPE_CLAIM || address === NULL_ADDRESS ? 'GoodDollar' : displayName)
+    let avatar = null
 
-        let avatar = null
+    if (
+      withdrawStatus === 'error' ||
+      type === EVENT_TYPE_BONUS ||
+      type === EVENT_TYPE_CLAIM ||
+      address === NULL_ADDRESS
+    ) {
+      avatar = favicon
+    }
 
-        if (
-          withdrawStatus === 'error' ||
-          type === EVENT_TYPE_BONUS ||
-          type === EVENT_TYPE_CLAIM ||
-          address === NULL_ADDRESS
-        ) {
-          avatar = favicon
-        }
-
-        return {
-          id,
-          date: new Date(date).getTime(),
-          type,
-          displayType,
-          status,
-          createdDate,
-          animationExecuted,
-          action,
-          data: {
-            endpoint: {
-              address: sender,
-              fullName,
-              avatar,
-              withdrawStatus,
-            },
-            amount: value,
-            preMessageText: preReasonText,
-            message: reason || message,
-            subtitle,
-            readMore,
-            smallReadMore,
-            withdrawCode,
-          },
-        }
-      } catch (e) {
-        logger.error('formatEvent: failed formatting event:', e.message, e, {
-          event,
-        })
-      }
-    },
-    event => get(event, 'id', event),
-  )
+    return {
+      id,
+      date: new Date(date).getTime(),
+      type,
+      displayType,
+      status,
+      createdDate,
+      animationExecuted,
+      action,
+      data: {
+        endpoint: {
+          address: sender,
+          fullName,
+          avatar,
+          withdrawStatus,
+        },
+        amount: value,
+        preMessageText: preReasonText,
+        message: reason || message,
+        subtitle,
+        readMore,
+        smallReadMore,
+        withdrawCode,
+      },
+    }
+  }
 
   _extractData({ type, id, data: { receiptData, from = '', to = '', counterPartyDisplayName = '', amount } }) {
     const { logger, storage } = this

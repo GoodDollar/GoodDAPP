@@ -51,14 +51,14 @@ export class StandardFeed {
     return get(feedItem, 'receiptReceived', false) || !isNil(get(feedItem, 'data.receiptData'))
   }
 
-  static _getEventCackeKey(event) {
+  static _getEventCacheKey(event) {
     return get(event, 'id', event)
   }
 
   constructor(storage, logger) {
-    const { _getEventCackeKey } = StandardFeed
+    const { _getEventCacheKey } = StandardFeed
     const { _formatEvent } = this
-    const memoizedFormatter = memoize(_formatEvent.bind(this), _getEventCackeKey)
+    const memoizedFormatter = memoize(_formatEvent.bind(this), _getEventCacheKey)
     const { cache } = memoizedFormatter
 
     assign(this, { storage, logger, eventsCache: cache, _formatEvent: memoizedFormatter })

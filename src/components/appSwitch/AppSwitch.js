@@ -105,6 +105,9 @@ const AppSwitch = (props: LoadingProps) => {
     let { path, params } = destinationPath
     if (path || params) {
       path = path || 'AppNavigation/Dashboard/Home'
+      if (params && (params.paymentCode || params.code)) {
+        path = 'AppNavigation/Dashboard/HandlePaymentLink'
+      }
       const app = router.getActionForPathAndParams(path) || {}
       log.debug('destinationPath getRoute', { path, params, router, state, app })
 

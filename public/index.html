@@ -18,6 +18,50 @@
       })(window, document, 'script', 'dataLayer', 'GTM-PZJ7X57')
     </script>
     <script>
+      (function() {
+        var publicUrl = window.location.hostname;
+        var isLocalhost = publicUrl === 'localhost'
+        
+        function reload() {
+          window.location.reload(true)
+        }
+        
+        function unregisterServiceWorker() {
+          if (isLocalhost) {
+            return Promise.resolve()
+          }
+          
+          navigator.serviceWorker.getRegistrations()
+            .then(registrations => registrations.find(item => -1 !== item.scope.indexOf(publicUrl)))
+            .then(gdWorker => {
+              if(!gdWorker) {
+                return;                
+              }
+              
+               return gdWorker.unregister() 
+            })
+        }
+        
+        function errorListener (event) {
+          const error = event.error;
+
+          if (!error || error.name != 'SyntaxError' || 
+            0 !== error.message.indexOf("Unexpected token '<'")
+          ) {
+            return;
+          }
+
+          unregisterServiceWorker().then(reload)                                      
+        }
+        
+        window.stopCheckingLazyModules = function () {
+          window.removeEventListener('error', errorListener)
+        }
+        
+        window.addEventListener('error', errorListener)
+      })()
+    </script>
+    <script>
       window['_fs_debug'] = false
       window['_fs_host'] = 'fullstory.com'
       window['_fs_script'] = 'edge.fullstory.com/s/fs.js'

@@ -1,6 +1,5 @@
 //@flow
 import Mutex from 'await-mutex'
-import { Platform } from 'react-native'
 import {
   debounce,
   defaults,
@@ -14,7 +13,6 @@ import {
   isUndefined,
   keys,
   maxBy,
-  memoize,
   merge,
   noop,
   omit,
@@ -51,22 +49,24 @@ import AsyncStorage from '../utils/asyncStorage'
 import defaultGun from './gundb'
 import UserProperties from './UserPropertiesClass'
 import { getUserModel, type UserModel } from './UserModel'
-import { type StandardFeed } from './StandardFeed'
+
+import {
+  COMPLETED_BONUS_REASON_TEXT,
+  CONTRACT_EVENT_TYPE_PAYMENT_CANCEL,
+  CONTRACT_EVENT_TYPE_PAYMENT_WITHDRAW,
+  CONTRACT_EVENT_TYPE_TRANSFER,
+  EVENT_TYPE_BONUS,
+  EVENT_TYPE_CLAIM,
+  EVENT_TYPE_MINT,
+  EVENT_TYPE_RECEIVE,
+  EVENT_TYPE_SEND,
+  EVENT_TYPE_WITHDRAW,
+  NULL_ADDRESS,
+  StandardFeed,
+} from './StandardFeed'
+
 const logger = pino.child({ from: 'UserStorage' })
 
-const EVENT_TYPE_WITHDRAW = 'withdraw'
-const EVENT_TYPE_BONUS = 'bonus'
-const EVENT_TYPE_CLAIM = 'claim'
-const EVENT_TYPE_SEND = 'send'
-const EVENT_TYPE_RECEIVE = 'receive'
-const EVENT_TYPE_MINT = 'mint' //probably bridge transfer
-
-const CONTRACT_EVENT_TYPE_PAYMENT_WITHDRAW = 'PaymentWithdraw'
-const CONTRACT_EVENT_TYPE_PAYMENT_CANCEL = 'PaymentCancel'
-const CONTRACT_EVENT_TYPE_TRANSFER = 'Transfer'
-
-const COMPLETED_BONUS_REASON_TEXT = 'Your recent earned rewards'
-const NULL_ADDRESS = '0x0000000000000000000000000000000000000000'
 function isValidDate(d) {
   return d instanceof Date && !isNaN(d)
 }
@@ -327,6 +327,11 @@ export class UserStorage {
    * @instance {UserProperties}
    */
   userProperties: UserProperties
+
+  /**
+   * Formatted user's feed with reactiveX interface
+   */
+  userFeed: StandardFeed
 
   /**
    * a gun node refering to gun.user().get('profile')
@@ -1037,6 +1042,8 @@ export class UserStorage {
       })
       .then(ids => ids || {})
 
+    this.userFeed = new StandardFeed(this, logger)
+
     //no need to block on this
     this._syncFeedCache()
     this.startSystemFeed().catch(e => logger.error('failed initializing startSystemFeed', e.message, e))
@@ -1689,88 +1696,6 @@ export class UserStorage {
   }
 
   /**
-   * Return all feed events*
-   * @returns {Promise} Promise with array of standardized feed events
-   * @todo Add pagination
-   */
-  async getFormattedEvents(numResults: number, reset?: boolean): Promise<Array<StandardFeed>> {
-    const feed = await this.getFeedPage(numResults, reset)
-    logger.debug('getFormattedEvents page result:', {
-      numResults,
-      reset,
-      feedPage: feed,
-    })
-    const res = await Promise.all(
-      feed
-        .filter(
-          feedItem =>
-            feedItem &&
-            feedItem.data &&
-            ['deleted', 'cancelled'].includes(feedItem.status) === false &&
-            feedItem.otplStatus !== 'cancelled',
-        )
-        .map(feedItem => {
-          if (null == get(feedItem, 'data.receiptData', feedItem && feedItem.receiptReceived)) {
-            logger.debug('getFormattedEvents missing feed receipt', { feedItem })
-            return this.getFormatedEventById(feedItem.id)
-          }
-
-          return this.formatEvent(feedItem).catch(e => {
-            logger.error('getFormattedEvents Failed formatting event:', e.message, e, { feedItem })
-            return {}
-          })
-        }),
-    )
-    logger.debug('getFormattedEvents done formatting events')
-    return res
-  }
-
-  async getFormatedEventById(id: string): Promise<StandardFeed> {
-    const prevFeedEvent = await this.getFeedItemByTransactionHash(id)
-    const standardPrevFeedEvent = await this.formatEvent(prevFeedEvent).catch(e => {
-      logger.error('getFormatedEventById Failed formatting event:', e.message, e, { id })
-
-      return undefined
-    })
-    if (!prevFeedEvent) {
-      return standardPrevFeedEvent
-    }
-    if (get(prevFeedEvent, 'data.receiptData', prevFeedEvent && prevFeedEvent.receiptReceived)) {
-      return standardPrevFeedEvent
-    }
-
-    logger.warn('getFormatedEventById: receipt data missing for:', {
-      id,
-      standardPrevFeedEvent,
-    })
-
-    //if for some reason we dont have the receipt(from blockchain) yet then fetch it
-    const receipt = await this.wallet.getReceiptWithLogs(id).catch(e => {
-      logger.warn('no receipt found for id:', e.message, e, id)
-      return undefined
-    })
-    if (!receipt) {
-      return standardPrevFeedEvent
-    }
-
-    //update the event
-    let updatedEvent = await this.handleReceiptUpdated(receipt)
-    if (updatedEvent === undefined) {
-      return standardPrevFeedEvent
-    }
-
-    logger.debug('getFormatedEventById updated event with receipt', {
-      prevFeedEvent,
-      updatedEvent,
-    })
-    return this.formatEvent(updatedEvent).catch(e => {
-      logger.error('getFormatedEventById Failed formatting event:', e.message, e, { id })
-
-      return {}
-    })
-  }
-
-  /**
    * Checks if username connected to a profile
    * @depracated no longer using world writable index
    * @param {string} username
@@ -1911,277 +1836,6 @@ export class UserStorage {
     ])
 
     return { name, avatar }
-  }
-
-  /**
-   * Returns the feed in a standard format to be loaded in feed list and modal
-   *
-   * @param {FeedEvent} event - Feed event with data, type, date and id props
-   * @returns {Promise} Promise with StandardFeed object,
-   *  with props { id, date, type, data: { amount, message, endpoint: { address, fullName, avatar, withdrawStatus }}}
-   */
-  formatEvent = memoize(
-    async (event: FeedEvent): Promise<StandardFeed> => {
-      logger.debug('formatEvent: incoming event', event.id, { event })
-
-      try {
-        const { data, type, date, id, status, createdDate, animationExecuted, action } = event
-        const {
-          sender,
-          preReasonText,
-          reason,
-          code: withdrawCode,
-          otplStatus,
-          customName,
-          subtitle,
-          readMore,
-          smallReadMore,
-        } = data
-
-        const { address, initiator, initiatorType, value, displayName, message } = this._extractData(event)
-        const isDeposit = initiator.toLowerCase() === this.wallet.oneTimePaymentsContract.address
-        const withdrawStatus = this._extractWithdrawStatus(
-          withdrawCode || isDeposit,
-          isDeposit ? 'pending' : otplStatus,
-          status,
-          type,
-        )
-        const displayType = this._extractDisplayType(type, withdrawStatus, status)
-        logger.debug('formatEvent: initiator data', event.id, {
-          initiatorType,
-          initiator,
-          address,
-        })
-        const profileNode =
-          withdrawStatus !== 'pending' && (await this._getProfileNodeTrusted(initiatorType, initiator, address)) //dont try to fetch profile node of this is a tx we sent and is pending
-        const [avatar, fullName] = await Promise.all([
-          this._extractAvatar(type, withdrawStatus, get(profileNode, 'gunProfile'), address).catch(e => {
-            logger.warn('formatEvent: failed extractAvatar', e.message, e, {
-              type,
-              withdrawStatus,
-              profileNode,
-              address,
-            })
-            return undefined
-          }),
-          this._extractFullName(
-            customName,
-            get(profileNode, 'gunProfile'),
-            initiatorType,
-            initiator,
-            type,
-            address,
-            displayName,
-          ).catch(e => {
-            logger.warn('formatEvent: failed extractFullName', e.message, e, {
-              customName,
-              profileNode,
-              initiatorType,
-              initiator,
-              type,
-              address,
-              displayName,
-            })
-          }),
-        ])
-
-        return {
-          id,
-          date: new Date(date).getTime(),
-          type,
-          displayType,
-          status,
-          createdDate,
-          animationExecuted,
-          action,
-          data: {
-            endpoint: {
-              address: sender,
-              fullName,
-              avatar,
-              withdrawStatus,
-            },
-            amount: value,
-            preMessageText: preReasonText,
-            message: reason || message,
-            subtitle,
-            readMore,
-            smallReadMore,
-            withdrawCode,
-          },
-        }
-      } catch (e) {
-        logger.error('formatEvent: failed formatting event:', e.message, e, {
-          event,
-        })
-        return {}
-      }
-    },
-  )
-
-  _extractData({ type, id, data: { receiptData, from = '', to = '', counterPartyDisplayName = '', amount } }) {
-    const { isAddress } = this.wallet.wallet.utils
-    const data = {
-      address: '',
-      initiator: '',
-      initiatorType: '',
-      value: '',
-      displayName: '',
-      message: '',
-    }
-
-    if (type === EVENT_TYPE_SEND) {
-      data.address = isAddress(to) ? to : receiptData && receiptData.to
-      data.initiator = to
-    } else if (type === EVENT_TYPE_CLAIM) {
-      data.message = 'Your daily basic income'
-    } else {
-      data.address = isAddress(from) ? from : receiptData && receiptData.from
-      data.initiator = from
-    }
-
-    data.initiatorType = isMobilePhone(data.initiator) ? 'mobile' : isEmail(data.initiator) ? 'email' : undefined
-
-    data.value = (receiptData && (receiptData.value || receiptData.amount)) || amount
-    data.displayName = counterPartyDisplayName || 'Unknown'
-
-    logger.debug('formatEvent: parsed data', {
-      id,
-      type,
-      to,
-      counterPartyDisplayName,
-      from,
-      receiptData,
-      ...data,
-    })
-
-    return data
-  }
-
-  _extractWithdrawStatus(withdrawCode, otplStatus = 'pending', status, type) {
-    if (type === 'withdraw') {
-      return ''
-    }
-    return status === 'error' ? status : withdrawCode ? otplStatus : ''
-  }
-
-  _extractDisplayType(type, withdrawStatus, status) {
-    let sufix = ''
-
-    if (type === EVENT_TYPE_WITHDRAW) {
-      sufix = withdrawStatus
-    }
-
-    if (type === EVENT_TYPE_SEND) {
-      sufix = withdrawStatus
-    }
-
-    if (type === EVENT_TYPE_BONUS) {
-      sufix = status
-    }
-
-    return `${type}${sufix}`
-  }
-
-  async _getProfileNodeTrusted(initiatorType, initiator, address): Gun {
-    if (!initiator && (!address || address === NULL_ADDRESS)) {
-      return
-    }
-
-    const byIndex = initiatorType && initiator && (await this.getUserProfilePublickey(initiator))
-
-    const byAddress = address && (await this.getUserProfilePublickey(address))
-
-    let gunProfile = (byIndex || byAddress) && this.gun.get(byIndex || byAddress).get('profile')
-
-    //need to return object so promise.all doesnt resolve node
-    return {
-      gunProfile,
-    }
-  }
-
-  async _getProfileNode(initiatorType, initiator, address): Gun {
-    const getProfile = async (indexName, idxKey) => {
-      const trustIdx = this.trust[indexName]
-      const trustExists =
-        trustIdx &&
-        (await this.gun
-          .get(trustIdx)
-          .get(idxKey)
-          .then())
-      let idxSoul = `users/${indexName}`
-      if (trustExists) {
-        idxSoul = trustIdx
-      }
-      logger.debug('extractProfile:', { idxSoul, idxKey, trustExists })
-
-      // Need to verify if user deleted, otherwise gun might stuck here and feed wont be displayed (gun <0.2020)
-      let gunProfile = this.gun
-        .get(idxSoul)
-        .get(idxKey)
-        .get('profile')
-
-      //need to return object so promise.all doesnt resolve node
-      return {
-        gunProfile,
-      }
-
-      // logger.warn('_extractProfileToShow invalid profile', { idxSoul, idxKey })
-      // return undefined
-    }
-
-    if (!initiator && (!address || address === NULL_ADDRESS)) {
-      return
-    }
-
-    const searchField = initiatorType && `by${initiatorType}`
-    const byIndex = searchField && (await getProfile(searchField, initiator))
-
-    const byAddress = address && (await getProfile('bywalletAddress', address))
-
-    return byIndex || byAddress
-  }
-
-  //eslint-disable-next-line
-  async _extractAvatar(type, withdrawStatus, profileToShow, address) {
-    const favicon = Platform.select({
-      web: `${process.env.PUBLIC_URL}/favicon-96x96.png`,
-      default: require('../../assets/Feed/favicon-96x96.png'),
-    })
-    const getAvatarFromGun = async () => {
-      const avatar = profileToShow && (await profileToShow.get('smallAvatar').then(null, 500))
-
-      // verify account is not deleted and return value
-      // if account deleted - the display of 'avatar' field will be private
-      return get(avatar, 'privacy') === 'public' ? avatar.display : undefined
-    }
-    if (
-      withdrawStatus === 'error' ||
-      type === EVENT_TYPE_BONUS ||
-      type === EVENT_TYPE_CLAIM ||
-      address === NULL_ADDRESS
-    ) {
-      return favicon
-    }
-    return getAvatarFromGun()
-  }
-
-  async _extractFullName(customName, profileToShow, initiatorType, initiator, type, address, displayName) {
-    const getFullNameFromGun = async () => {
-      const fullName = profileToShow && (await profileToShow.get('fullName').then(null, 500))
-      logger.debug('profileFromGun:', { fullName })
-
-      // verify account is not deleted and return value
-      // if account deleted - the display of 'fullName' field will be private
-      return get(fullName, 'privacy') === 'public' ? fullName.display : undefined
-    }
-
-    return (
-      customName || // if customName exist, use it
-      (await getFullNameFromGun()) || // if there's a profile, extract it's fullName
-      (initiatorType && initiator) ||
-      (type === EVENT_TYPE_CLAIM || address === NULL_ADDRESS ? 'GoodDollar' : displayName)
-    )
   }
 
   /**

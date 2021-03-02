@@ -4,6 +4,8 @@ import { get, isArray, isEmpty } from 'lodash'
 
 import Config from '../../../config/config'
 
+export const PAGE_SIZE = 10
+
 export const VIEWABILITY_CONFIG = {
   minimumViewTime: 3000,
   viewAreaCoveragePercentThreshold: 100,

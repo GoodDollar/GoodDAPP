@@ -1,7 +1,7 @@
 // @flow
 import { createConnectedStore, type StoreDefinition } from 'undux'
 import { compose } from 'lodash/fp'
-import type { StandardFeed } from '../gundb/StandardFeed'
+import type { StandardFeedItem } from '../gundb/StandardFeed'
 import effects from './effects'
 import withPinoLogger from './plugins/logger'
 import { createUseCurriedSettersHook } from './utils/setter'
@@ -36,7 +36,7 @@ export type State = {
   balanceUpdate: boolean,
   account: Account,
   destinationPath: string,
-  feeds: StandardFeed[],
+  feeds: StandardFeedItem[],
   feedLoading: boolean,
   currentFeed: any,
   verification: VerificationState,

@@ -18,25 +18,47 @@
       })(window, document, 'script', 'dataLayer', 'GTM-PZJ7X57')
     </script>
     <script>
-      var publicUrl = window.location.hostname !== 'localhost' && window.location.hostname
-      
-      function errorListener (event) {
-        if(event.error && event.error.name === 'SyntaxError' && event.error.message.startsWith("Unexpected token '<'")) {
+      (function() {
+        var publicUrl = window.location.hostname;
+        var isLocalhost = publicUrl === 'localhost'
+        
+        function reload() {
+          window.location.reload(true)
+        }
+        
+        function unregisterServiceWorker() {
+          if (isLocalhost) {
+            return Promise.resolve()
+          }
+          
           navigator.serviceWorker.getRegistrations()
-            .then(registrations => registrations.find(({ scope }) => scope.includes(publicUrl)))
+            .then(registrations => registrations.find(item => -1 !== item.scope.indexOf(publicUrl)))
             .then(gdWorker => {
-              if(gdWorker) {
-                gdWorker.unregister().then(() => window.location.reload(true))
-              } 
+              if(!gdWorker) {
+                return;                
+              }
+              
+               return gdWorker.unregister() 
             })
         }
-      }
+        
+        function errorListener (event) {
+          const error = event.error;
 
-      window.unregisterErrorListener = function () {
-        window.removeEventListener('error', errorListener)
-      }
-
-      window.addEventListener('error', errorListener)
+          if (!error || error.name != 'SyntaxError' || 
+            0 !== error.message.indexOf("Unexpected token '<'")
+          ) {
+            return;
+          }
+          unregisterServiceWorker().then(reload)                                      
+        }
+        
+        window.stopCheckingLazyModules = function () {
+          window.removeEventListener('error', errorListener)
+        }
+        
+        window.addEventListener('error', errorListener)
+      })()
     </script>
     <script>
       window['_fs_debug'] = false

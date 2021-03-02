@@ -100,7 +100,7 @@ const RouterSelector = () => {
   })
 
   useEffect(() => {
-    window.unregisterErrorListener()
+    window.stopCheckingLazyModules()
     initAnalytics()
   }, [])
 

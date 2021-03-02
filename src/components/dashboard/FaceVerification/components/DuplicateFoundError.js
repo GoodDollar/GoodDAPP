@@ -87,6 +87,7 @@ const getStylesFromProps = ({ theme }) => {
       maxHeight: isMobileOnly ? getDesignRelativeHeight(97) : 'auto',
       display: 'flex',
       justifyContent: 'center',
+      alignItems: 'center',
       marginRight: 0,
       marginLeft: 0,
     },

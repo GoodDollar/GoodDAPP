@@ -41,12 +41,12 @@ export type StandardFeedItem = {
   },
 }
 
-const favicon = Platform.select({
-  web: () => `${Config.publicUrl}/favicon-96x96.png`,
-  default: () => require('../../assets/Feed/favicon-96x96.png'),
-})()
-
 export class StandardFeed {
+  static favicon = Platform.select({
+    web: () => `${Config.publicUrl}/favicon-96x96.png`,
+    default: () => require('../../assets/Feed/favicon-96x96.png'),
+  })()
+
   static _hasTxData(feedItem) {
     return get(feedItem, 'receiptReceived', false) || !isNil(get(feedItem, 'data.receiptData'))
   }
@@ -208,7 +208,7 @@ export class StandardFeed {
       type === EVENT_TYPE_CLAIM ||
       address === NULL_ADDRESS
     ) {
-      avatar = favicon
+      avatar = StandardFeed.favicon
     }
 
     return {
@@ -235,6 +235,7 @@ export class StandardFeed {
         smallReadMore,
         withdrawCode,
       },
+      preloading: true,
     }
   }
 

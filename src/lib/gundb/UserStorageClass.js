@@ -1830,8 +1830,13 @@ export class UserStorage {
    * @param {string} value email/mobile/walletAddress to fetch by
    */
   async getUserProfilePublickey(value: string) {
+    if (!value) {
+      return
+    }
+
     const attr = isMobilePhone(value) ? 'mobile' : isEmail(value) ? 'email' : 'walletAddress'
     const hashValue = UserStorage.cleanHashedFieldForIndex(attr, value)
+
     let profilePublickey
     if (attr === 'walletAddress') {
       profilePublickey = this.walletAddressIndex[hashValue]
@@ -2083,7 +2088,7 @@ export class UserStorage {
       return
     }
 
-    const byIndex = initiatorType && (await this.getUserProfilePublickey(initiator))
+    const byIndex = initiatorType && initiator && (await this.getUserProfilePublickey(initiator))
 
     const byAddress = address && (await this.getUserProfilePublickey(address))
 

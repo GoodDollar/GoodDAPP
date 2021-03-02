@@ -1,7 +1,9 @@
 // @flow
-import { assign, get, identity, isNil, memoize } from 'lodash'
+import { assign, filter, get, isNil, memoize } from 'lodash'
 import { defer, from } from 'rxjs'
 import { Platform } from 'react-native'
+
+import Config from '../../config/config'
 
 import isMobilePhone from '../validators/isMobilePhone'
 import isEmail from '../../lib/validators/isEmail'
@@ -39,6 +41,11 @@ export type StandardFeedItem = {
   },
 }
 
+const favicon = Platform.select({
+  web: () => `${Config.publicUrl}/favicon-96x96.png`,
+  default: () => require('../../assets/Feed/favicon-96x96.png'),
+})()
+
 export class StandardFeed {
   constructor(storage, logger) {
     assign(this, { storage, logger })
@@ -52,7 +59,7 @@ export class StandardFeed {
   }
 
   async _fetchEvents(numResults, reset = false) {
-    const { storage, logger } = this
+    const { storage, logger, _formatEvent } = this
     const feed = await storage.getFeedPage(numResults, reset)
 
     logger.debug('getFormattedEvents page result:', {
@@ -79,10 +86,14 @@ export class StandardFeed {
         logger.debug('getFormattedEvents missing feed receipt', { feedItem })
         return this._fetchTxData(feedItem)
       }),
-    )
+    ).then(filter)
 
     logger.debug('getFormattedEvents done fetching tx data', { withTxData })
-    return withTxData.filter(identity)
+
+    const preformatted = filter(withTxData.map(_formatEvent))
+
+    logger.debug('getFormattedEvents done preformatting events', { preformatted })
+    return preformatted
   }
 
   _hasTxData(feedItem) {
@@ -92,9 +103,9 @@ export class StandardFeed {
   async _fetchTxData(feedItem) {
     const { storage, logger } = this
     const { wallet } = storage
-    const { id } = feedItem || {}
+    const { id } = feedItem
 
-    if (!id) {
+    if (!(id || '').startsWith('0x')) {
       return
     }
 
@@ -132,17 +143,19 @@ export class StandardFeed {
    * Returns the feed in a standard format to be loaded in feed list and modal
    *
    * @param {FeedEvent} event - Feed event with data, type, date and id props
-   * @returns {Promise} Promise with StandardFeed object,
+   * @returns {StandardFeedItem} StandardFeedItem object,
    *  with props { id, date, type, data: { amount, message, endpoint: { address, fullName, avatar, withdrawStatus }}}
    */
-  formatEvent = memoize(
-    async (event: FeedEvent): Promise<StandardFeedItem> => {
-      const { logger } = this
+  _formatEvent = memoize(
+    event => {
+      const { logger, storage } = this
+      const { wallet } = storage
 
       logger.debug('formatEvent: incoming event', event.id, { event })
 
       try {
         const { data, type, date, id, status, createdDate, animationExecuted, action } = event
+
         const {
           sender,
           preReasonText,
@@ -156,20 +169,144 @@ export class StandardFeed {
         } = data
 
         const { address, initiator, initiatorType, value, displayName, message } = this._extractData(event)
-        const isDeposit = initiator.toLowerCase() === this.wallet.oneTimePaymentsContract.address
+        const isDeposit = initiator.toLowerCase() === wallet.oneTimePaymentsContract.address
+
         const withdrawStatus = this._extractWithdrawStatus(
           withdrawCode || isDeposit,
           isDeposit ? 'pending' : otplStatus,
           status,
           type,
         )
+
         const displayType = this._extractDisplayType(type, withdrawStatus, status)
+
         logger.debug('formatEvent: initiator data', event.id, {
           initiatorType,
           initiator,
           address,
         })
-        const profileNode =
+
+        // if customName exist, use it
+        const fullName =
+          customName ||
+          (initiatorType && initiator) ||
+          (type === EVENT_TYPE_CLAIM || address === NULL_ADDRESS ? 'GoodDollar' : displayName)
+
+        let avatar = null
+
+        if (
+          withdrawStatus === 'error' ||
+          type === EVENT_TYPE_BONUS ||
+          type === EVENT_TYPE_CLAIM ||
+          address === NULL_ADDRESS
+        ) {
+          avatar = favicon
+        }
+
+        return {
+          id,
+          date: new Date(date).getTime(),
+          type,
+          displayType,
+          status,
+          createdDate,
+          animationExecuted,
+          action,
+          data: {
+            endpoint: {
+              address: sender,
+              fullName,
+              avatar,
+              withdrawStatus,
+            },
+            amount: value,
+            preMessageText: preReasonText,
+            message: reason || message,
+            subtitle,
+            readMore,
+            smallReadMore,
+            withdrawCode,
+          },
+        }
+      } catch (e) {
+        logger.error('formatEvent: failed formatting event:', e.message, e, {
+          event,
+        })
+      }
+    },
+    event => get(event, 'id', event),
+  )
+
+  _extractData({ type, id, data: { receiptData, from = '', to = '', counterPartyDisplayName = '', amount } }) {
+    const { logger, storage } = this
+    const { wallet } = storage.wallet
+    const { isAddress } = wallet.utils
+
+    const data = {
+      address: '',
+      initiator: '',
+      initiatorType: '',
+      value: '',
+      displayName: '',
+      message: '',
+    }
+
+    if (type === EVENT_TYPE_SEND) {
+      data.address = isAddress(to) ? to : receiptData && receiptData.to
+      data.initiator = to
+    } else if (type === EVENT_TYPE_CLAIM) {
+      data.message = 'Your daily basic income'
+    } else {
+      data.address = isAddress(from) ? from : receiptData && receiptData.from
+      data.initiator = from
+    }
+
+    data.initiatorType = isMobilePhone(data.initiator) ? 'mobile' : isEmail(data.initiator) ? 'email' : undefined
+    data.value = (receiptData && (receiptData.value || receiptData.amount)) || amount
+    data.displayName = counterPartyDisplayName || 'Unknown'
+
+    logger.debug('formatEvent: parsed data', {
+      id,
+      type,
+      to,
+      counterPartyDisplayName,
+      from,
+      receiptData,
+      ...data,
+    })
+
+    return data
+  }
+
+  _extractWithdrawStatus(withdrawCode, otplStatus = 'pending', status, type) {
+    if (type === 'withdraw') {
+      return ''
+    }
+
+    return status === 'error' ? status : withdrawCode ? otplStatus : ''
+  }
+
+  _extractDisplayType(type, withdrawStatus, status) {
+    let suffix = ''
+
+    if (type === EVENT_TYPE_WITHDRAW) {
+      suffix = withdrawStatus
+    }
+
+    if (type === EVENT_TYPE_SEND) {
+      suffix = withdrawStatus
+    }
+
+    if (type === EVENT_TYPE_BONUS) {
+      suffix = status
+    }
+
+    return `${type}${suffix}`
+  }
+
+  /*
+
+  const profileNode =
           withdrawStatus !== 'pending' && (await this._getProfileNodeTrusted(initiatorType, initiator, address)) //dont try to fetch profile node of this is a tx we sent and is pending
         const [avatar, fullName] = await Promise.all([
           this._extractAvatar(type, withdrawStatus, get(profileNode, 'gunProfile'), address).catch(e => {
@@ -202,104 +339,6 @@ export class StandardFeed {
           }),
         ])
 
-        return {
-          id,
-          date: new Date(date).getTime(),
-          type,
-          displayType,
-          status,
-          createdDate,
-          animationExecuted,
-          action,
-          data: {
-            endpoint: {
-              address: sender,
-              fullName,
-              avatar,
-              withdrawStatus,
-            },
-            amount: value,
-            preMessageText: preReasonText,
-            message: reason || message,
-            subtitle,
-            readMore,
-            smallReadMore,
-            withdrawCode,
-          },
-        }
-      } catch (e) {
-        logger.error('formatEvent: failed formatting event:', e.message, e, {
-          event,
-        })
-        return {}
-      }
-    },
-  )
-
-  _extractData({ type, id, data: { receiptData, from = '', to = '', counterPartyDisplayName = '', amount } }) {
-    const { logger } = this
-    const { isAddress } = this.wallet.wallet.utils
-    const data = {
-      address: '',
-      initiator: '',
-      initiatorType: '',
-      value: '',
-      displayName: '',
-      message: '',
-    }
-
-    if (type === EVENT_TYPE_SEND) {
-      data.address = isAddress(to) ? to : receiptData && receiptData.to
-      data.initiator = to
-    } else if (type === EVENT_TYPE_CLAIM) {
-      data.message = 'Your daily basic income'
-    } else {
-      data.address = isAddress(from) ? from : receiptData && receiptData.from
-      data.initiator = from
-    }
-
-    data.initiatorType = isMobilePhone(data.initiator) ? 'mobile' : isEmail(data.initiator) ? 'email' : undefined
-
-    data.value = (receiptData && (receiptData.value || receiptData.amount)) || amount
-    data.displayName = counterPartyDisplayName || 'Unknown'
-
-    logger.debug('formatEvent: parsed data', {
-      id,
-      type,
-      to,
-      counterPartyDisplayName,
-      from,
-      receiptData,
-      ...data,
-    })
-
-    return data
-  }
-
-  _extractWithdrawStatus(withdrawCode, otplStatus = 'pending', status, type) {
-    if (type === 'withdraw') {
-      return ''
-    }
-    return status === 'error' ? status : withdrawCode ? otplStatus : ''
-  }
-
-  _extractDisplayType(type, withdrawStatus, status) {
-    let sufix = ''
-
-    if (type === EVENT_TYPE_WITHDRAW) {
-      sufix = withdrawStatus
-    }
-
-    if (type === EVENT_TYPE_SEND) {
-      sufix = withdrawStatus
-    }
-
-    if (type === EVENT_TYPE_BONUS) {
-      sufix = status
-    }
-
-    return `${type}${sufix}`
-  }
 
   async _getProfileNodeTrusted(initiatorType, initiator, address): Gun {
     if (!initiator && (!address || address === NULL_ADDRESS)) {
@@ -364,10 +403,6 @@ export class StandardFeed {
 
   //eslint-disable-next-line
   async _extractAvatar(type, withdrawStatus, profileToShow, address) {
-    const favicon = Platform.select({
-      web: `${process.env.PUBLIC_URL}/favicon-96x96.png`,
-      default: require('../../assets/Feed/favicon-96x96.png'),
-    })
     const getAvatarFromGun = async () => {
       const avatar = profileToShow && (await profileToShow.get('smallAvatar').then(null, 500))
 
@@ -375,6 +410,7 @@ export class StandardFeed {
       // if account deleted - the display of 'avatar' field will be private
       return get(avatar, 'privacy') === 'public' ? avatar.display : undefined
     }
+
     if (
       withdrawStatus === 'error' ||
       type === EVENT_TYPE_BONUS ||
@@ -383,11 +419,14 @@ export class StandardFeed {
     ) {
       return favicon
     }
+
     return getAvatarFromGun()
   }
 
   async _extractFullName(customName, profileToShow, initiatorType, initiator, type, address, displayName) {
     const { logger } = this
+
+
 
     const getFullNameFromGun = async () => {
       const fullName = profileToShow && (await profileToShow.get('fullName').then(null, 500))
@@ -404,5 +443,5 @@ export class StandardFeed {
       (initiatorType && initiator) ||
       (type === EVENT_TYPE_CLAIM || address === NULL_ADDRESS ? 'GoodDollar' : displayName)
     )
-  }
+  }*/
 }

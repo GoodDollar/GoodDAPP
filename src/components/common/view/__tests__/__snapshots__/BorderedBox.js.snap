@@ -5,71 +5,79 @@ exports[`BorderedBox matches snapshot 1`] = `
   className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
-    className="css-view-1dbjc4n r-alignItems-1awozwy r-borderColor-e397lv r-borderRadius-1f0042m r-borderStyle-1phboty r-borderWidth-rs99b7 r-display-6koalj r-flexDirection-eqz5dr r-justifyContent-1777fci r-padding-t60dpp r-position-bnwqim"
+    className="css-view-1dbjc4n"
   >
     <div
-      className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-height-4v7adb r-position-u8s1d r-top-18nhz7w"
-      style={
-        Object {
-          "width": "88px",
-        }
-      }
-    />
-    <div
-      className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-justifyContent-1wtj0ep r-marginBottom-tjf2cy r-marginTop-fcs4qk r-padding-t60dpp"
+      className="css-view-1dbjc4n r-alignItems-1awozwy r-borderColor-e397lv r-borderRadius-1f0042m r-borderStyle-1phboty r-borderWidth-rs99b7 r-display-6koalj r-flexDirection-eqz5dr r-justifyContent-1777fci r-padding-t60dpp r-position-bnwqim"
     >
       <div
-        className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-1i10wst r-fontWeight-b88u0q r-lineHeight-135wba7 r-marginBottom-5oul0u r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
-        dir="auto"
+        className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-height-4v7adb r-position-u8s1d r-top-18nhz7w"
+        style={
+          Object {
+            "width": "88px",
+          }
+        }
       />
       <div
-        className="css-text-901oao r-color-vaa0vc r-fontFamily-vnw8o6 r-fontSize-n6v787 r-fontWeight-1it3c9n r-letterSpacing-rdxj0b r-lineHeight-w20frr r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
-        dir="auto"
-        letterSpacing={0.07}
+        className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-justifyContent-1wtj0ep r-marginBottom-tjf2cy r-marginTop-fcs4qk r-padding-t60dpp"
+      >
+        <div
+          className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-1i10wst r-fontWeight-b88u0q r-lineHeight-135wba7 r-marginBottom-5oul0u r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+          dir="auto"
+        />
+        <div
+          className="css-text-901oao r-color-vaa0vc r-fontFamily-vnw8o6 r-fontSize-n6v787 r-fontWeight-1it3c9n r-letterSpacing-rdxj0b r-lineHeight-w20frr r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+          dir="auto"
+          letterSpacing={0.07}
+        />
+      </div>
+      <div
+        className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-bottom-14bkmb3 r-height-4v7adb r-position-u8s1d r-width-1v6so3z"
       />
     </div>
     <div
-      className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-bottom-14bkmb3 r-height-4v7adb r-position-u8s1d r-width-1v6so3z"
-    />
-    <div
-      className="css-view-1dbjc4n r-bottom-wuw1bi r-height-eu3ka r-position-u8s1d r-width-1dcdz4f r-zIndex-184en5c"
+      className="css-view-1dbjc4n r-alignItems-1awozwy r-bottom-wuw1bi r-display-6koalj r-height-eu3ka r-justifyContent-1777fci r-maxHeight-yca7ao r-position-u8s1d r-width-13qz1uu"
     >
       <div
-        className="css-view-1dbjc4n"
+        className="css-view-1dbjc4n r-height-eu3ka r-width-1dcdz4f"
       >
         <div
-          className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1jb27wt r-borderRadius-y47klf r-cursor-1loqt21 r-display-6koalj r-height-eu3ka r-justifyContent-1777fci r-marginBottom-qdjnpu r-marginLeft-1jj8364 r-marginRight-lchren r-maxHeight-yca7ao r-minWidth-vkv6oe r-touchAction-1otgn73 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-width-1aockid"
-          data-focusable={true}
-          onKeyDown={[Function]}
-          onKeyUp={[Function]}
-          onResponderGrant={[Function]}
-          onResponderMove={[Function]}
-          onResponderRelease={[Function]}
-          onResponderTerminate={[Function]}
-          onResponderTerminationRequest={[Function]}
-          onStartShouldSetResponder={[Function]}
-          tabIndex="0"
+          className="css-view-1dbjc4n"
         >
           <div
-            className="css-text-901oao r-fontWeight-1it3c9n"
-            dir="auto"
-            style={
-              Object {
-                "color": "rgba(255,255,255,1.00)",
-                "fontFamily": "gooddollar",
-                "fontSize": "22px",
-                "fontStyle": "normal",
-              }
-            }
+            className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1jb27wt r-borderRadius-y47klf r-cursor-1loqt21 r-display-6koalj r-height-eu3ka r-justifyContent-1777fci r-marginBottom-qdjnpu r-marginLeft-1jj8364 r-marginRight-lchren r-maxHeight-yca7ao r-minWidth-vkv6oe r-touchAction-1otgn73 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-width-1aockid"
+            data-focusable={true}
+            onKeyDown={[Function]}
+            onKeyUp={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+            tabIndex="0"
           >
-            
+            <div
+              className="css-text-901oao r-fontWeight-1it3c9n"
+              dir="auto"
+              style={
+                Object {
+                  "color": "rgba(255,255,255,1.00)",
+                  "fontFamily": "gooddollar",
+                  "fontSize": "22px",
+                  "fontStyle": "normal",
+                }
+              }
+            >
+              
+            </div>
           </div>
         </div>
+        <div
+          className="css-text-901oao r-color-1q5uqvh r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-majxgm r-lineHeight-1f529hi r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+          dir="auto"
+        />
       </div>
-      <div
-        className="css-text-901oao r-color-1q5uqvh r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-majxgm r-lineHeight-1f529hi r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
-        dir="auto"
-      />
     </div>
   </div>
 </div>

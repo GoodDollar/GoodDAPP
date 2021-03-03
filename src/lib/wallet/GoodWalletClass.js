@@ -255,6 +255,14 @@ export class GoodWallet {
     return [addr].filter(_ => _ && _ !== NULL_ADDRESS).map(_ => _.toLowerCase())
   }
 
+  getUBIAddresses() {
+    const addrs = [
+      get(StakingModelAddress, `${this.network}.UBIScheme`),
+      get(StakingModelAddress, `${this.network}.UBISchemeOld`),
+    ]
+    return addrs.filter(_ => _ && _ !== NULL_ADDRESS).map(_ => _.toLowerCase())
+  }
+
   setIsPollEvents(active) {
     this.isPollEvents = active
   }
@@ -975,7 +983,7 @@ export class GoodWallet {
     // https://github.com/trufflesuite/ganache-core/issues/417
     const gas: number = 200000 //Math.floor((await transferAndCall.estimateGas().catch(this.handleError)) * 2)
 
-    //dont wait for transaction return immediatly with hash code and link (not using await here)
+    //don't wait for transaction return immediately with hash code and link (not using await here)
     return this.sendTransaction(transferAndCall, callbacks, { gas })
   }
 
@@ -983,6 +991,7 @@ export class GoodWallet {
    * deposits the specified amount to _oneTimeLink_ contract and generates a link that will send the user to a URL to withdraw it
    * @param {number} amount - amount of money to send using OTP
    * @param {string} reason - optional reason for sending the payment (comment)
+   * @param {string} category - optional category for sending the payment (comment)
    * @param {({ link: string, code: string }) => () => any} getOnTxHash - a callback that returns onTransactionHashHandler based on generated code
    * @param {PromiEvents} events - used to subscribe to onTransactionHash event
    * @returns {{code, hashedCode, paymentLink}}
@@ -990,16 +999,18 @@ export class GoodWallet {
   generatePaymentLink(
     amount: number,
     reason: string = '',
+    category: string = '',
     inviteCode: string,
     events: PromiEvents = defaultPromiEvents,
   ): { code: string, hashedCode: string, paymentLink: string } {
     const { privateKey: code, address: hashedCode } = this.wallet.eth.accounts.create()
 
-    log.debug('generatePaymentLink:', { amount, code, hashedCode })
+    log.debug('generatePaymentLink:', { amount, code, hashedCode, reason, category })
 
     const params = {
       p: code,
       r: reason,
+      cat: category,
     }
     inviteCode && (params.i = inviteCode)
 

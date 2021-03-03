@@ -6,21 +6,13 @@ import Mutex from 'await-mutex'
 import type { Store } from 'undux'
 import AsyncStorage from '../../lib/utils/asyncStorage'
 import { isBrowser } from '../../lib/utils/platform'
-import { fireEvent } from '../../lib/analytics/analytics'
-import { delay } from '../../lib/utils/async'
 import normalize from '../../lib/utils/normalizeText'
 import GDStore from '../../lib/undux/GDStore'
 import API from '../../lib/API/api'
 import SimpleStore, { assertStore } from '../../lib/undux/SimpleStore'
 import { useDialog, useErrorDialog } from '../../lib/undux/utils/dialog'
 import { PAGE_SIZE } from '../../lib/undux/utils/feed'
-import { executeWithdraw } from '../../lib/undux/utils/withdraw'
 import { weiToMask } from '../../lib/wallet/utils'
-import {
-  WITHDRAW_STATUS_COMPLETE,
-  WITHDRAW_STATUS_PENDING,
-  WITHDRAW_STATUS_UNKNOWN,
-} from '../../lib/wallet/GoodWalletClass'
 import { initBGFetch } from '../../lib/notifications/backgroundFetch'
 
 import { createStackNavigator } from '../appNavigation/stackNavigation'
@@ -36,14 +28,10 @@ import ClaimButton from '../common/buttons/ClaimButton'
 import Section from '../common/layout/Section'
 import Wrapper from '../common/layout/Wrapper'
 import logger from '../../lib/logger/pino-logger'
-import { decorate, ExceptionCategory, ExceptionCode } from '../../lib/logger/exceptions'
 import { Statistics, Support } from '../webView/webViewInstances'
 import { withStyles } from '../../lib/styles'
 import Mnemonics from '../signin/Mnemonics'
-import { parsePaymentLinkParams, readCode } from '../../lib/share'
 import useDeleteAccountDialog from '../../lib/hooks/useDeleteAccountDialog'
-import LoadingIcon from '../common/modal/LoadingIcon'
-import SuccessIcon from '../common/modal/SuccessIcon'
 import { getMaxDeviceWidth, measure } from '../../lib/utils/sizes'
 import { theme as _theme } from '../theme/styles'
 import UnknownProfileSVG from '../../assets/unknownProfile.svg'
@@ -57,6 +45,7 @@ import FeedModalList from './FeedModalList'
 import OutOfGasError from './OutOfGasError'
 import Reason from './Reason'
 import Receive from './Receive'
+import HandlePaymentLink from './HandlePaymentLink'
 
 // import MagicLinkInfo from './MagicLinkInfo'
 import Who from './Who'
@@ -68,7 +57,6 @@ import SendByQR from './SendByQR'
 import SendLinkSummary from './SendLinkSummary'
 import SendQRSummary from './SendQRSummary'
 import { ACTION_SEND } from './utils/sendReceiveFlow'
-import { routeAndPathForCode } from './utils/routeAndPathForCode'
 
 import FaceVerification from './FaceVerification/screens/VerificationScreen'
 import FaceVerificationIntro from './FaceVerification/screens/IntroScreen'
@@ -107,7 +95,7 @@ const Dashboard = props => {
   const [headerFullNameOpacityAnimValue] = useState(new Animated.Value(1))
   const store = SimpleStore.useStore()
   const gdstore = GDStore.useStore()
-  const [showDialog, hideDialog] = useDialog()
+  const [showDialog] = useDialog()
   const [showErrorDialog] = useErrorDialog()
   const showDeleteAccountDialog = useDeleteAccountDialog({ API, showErrorDialog, store, theme })
   const [update, setUpdate] = useState(0)
@@ -155,39 +143,6 @@ const Dashboard = props => {
     setHeaderContentWidth(newHeaderContentWidth)
     setAvatarCenteredPosition(newAvatarCenteredPosition)
   }, [setHeaderContentWidth, setAvatarCenteredPosition])
-
-  const isTheSameUser = code => {
-    return String(code.address).toLowerCase() === goodWallet.account.toLowerCase()
-  }
-
-  const checkCode = useCallback(
-    async anyParams => {
-      try {
-        if (anyParams && anyParams.code) {
-          const code = readCode(decodeURIComponent(anyParams.code))
-
-          if (isTheSameUser(code) === false) {
-            try {
-              const { route, params } = await routeAndPathForCode('send', code)
-              screenProps.push(route, params)
-            } catch (e) {
-              log.error('Payment link is incorrect', e.message, e, {
-                code,
-                category: ExceptionCategory.Human,
-                dialogShown: true,
-              })
-              showErrorDialog('Payment link is incorrect. Please double check your link.', undefined, {
-                onDismiss: screenProps.goToRoot,
-              })
-            }
-          }
-        }
-      } catch (e) {
-        log.error('checkCode unexpected error:', e.message, e)
-      }
-    },
-    [screenProps, showErrorDialog],
-  )
 
   const handleDeleteRedirect = useCallback(() => {
     if (navigation.state.key === 'Delete') {
@@ -253,23 +208,17 @@ const Dashboard = props => {
     getFeedPage(true)
   }
 
-  const handleAppLinks = () => {
+  const handleFeedEvent = () => {
     const { params } = navigation.state || {}
 
-    log.debug('handle links effect dashboard', { params })
+    log.debug('handle event effect dashboard', { params })
     if (!params) {
       return
     }
-    const { paymentCode, event } = params
 
-    if (paymentCode) {
-      //payment link (from send)
-      handleWithdraw(params)
-    } else if (event) {
+    const { event } = params
+    if (event) {
       showNewFeedEvent(params)
-    } else {
-      //payment request (from receive)
-      checkCode(params)
     }
   }
 
@@ -368,7 +317,7 @@ const Dashboard = props => {
 
   const initDashboard = async () => {
     await userStorage.initFeed()
-    await handleAppLinks()
+    await handleFeedEvent()
     handleDeleteRedirect()
     await subscribeToFeed().catch(e => log.error('initDashboard feed failed', e.message, e))
 
@@ -380,7 +329,7 @@ const Dashboard = props => {
 
     log.debug('initDashboard subscribed to feed')
 
-    // InteractionManager.runAfterInteractions(handleAppLinks)
+    // InteractionManager.runAfterInteractions(handleFeedEvent)
     Dimensions.addEventListener('change', handleResize)
 
     initBGFetch()
@@ -568,101 +517,6 @@ const Dashboard = props => {
     },
     [showDialog, showEventModal],
   )
-
-  const handleWithdraw = useCallback(
-    async params => {
-      const paymentParams = parsePaymentLinkParams(params)
-
-      try {
-        showDialog({
-          title: 'Processing Payment Link...',
-          image: <LoadingIcon />,
-          message: 'please wait while processing...',
-          buttons: [
-            {
-              text: 'YAY!',
-              style: styles.disabledButton,
-              disabled: true,
-            },
-          ],
-        })
-
-        const { status, transactionHash } = await executeWithdraw(
-          store,
-          paymentParams.paymentCode,
-          paymentParams.reason,
-        )
-
-        if (transactionHash) {
-          fireEvent('WITHDRAW')
-
-          showDialog({
-            title: 'Payment Link Processed Successfully',
-            image: <SuccessIcon />,
-            message: "You received G$'s!",
-            buttons: [
-              {
-                text: 'YAY!',
-              },
-            ],
-          })
-          return
-        }
-
-        const withdrawnOrSendError = 'Payment already withdrawn or canceled by sender'
-        const wrongPaymentDetailsError = 'Wrong payment link or payment details'
-        switch (status) {
-          case WITHDRAW_STATUS_COMPLETE:
-            log.error('Failed to complete withdraw', withdrawnOrSendError, new Error(withdrawnOrSendError), {
-              status,
-              transactionHash,
-              paymentParams,
-              category: ExceptionCategory.Human,
-              dialogShown: true,
-            })
-            showErrorDialog(withdrawnOrSendError)
-            break
-          case WITHDRAW_STATUS_UNKNOWN:
-            for (let activeAttempts = 0; activeAttempts < 3; activeAttempts++) {
-              // eslint-disable-next-line no-await-in-loop
-              await delay(2000)
-              // eslint-disable-next-line no-await-in-loop
-              const { status } = await goodWallet.getWithdrawDetails(paymentParams.paymentCode)
-              if (status === WITHDRAW_STATUS_PENDING) {
-                // eslint-disable-next-line no-await-in-loop
-                return await handleWithdraw(params)
-              }
-            }
-            log.error('Could not find payment details', wrongPaymentDetailsError, new Error(wrongPaymentDetailsError), {
-              status,
-              transactionHash,
-              paymentParams,
-              category: ExceptionCategory.Human,
-              dialogShown: true,
-            })
-            showErrorDialog(`Could not find payment details.\nCheck your link or try again later.`)
-            break
-          default:
-            break
-        }
-      } catch (exception) {
-        const { message } = exception
-        let uiMessage = decorate(exception, ExceptionCode.E4)
-
-        if (message.includes('own payment')) {
-          uiMessage = message
-        }
-
-        log.error('withdraw failed:', message, exception, { dialogShown: true })
-        showErrorDialog(uiMessage)
-      } finally {
-        navigation.setParams({ paymentCode: undefined })
-      }
-    },
-    [showDialog, hideDialog, showErrorDialog, store, navigation],
-  )
-
-  // const avatarSource = useMemo(() => (avatar ? { uri: avatar } : UnknownProfile), [avatar])
 
   const onScroll = useCallback(
     ({ nativeEvent }) => {
@@ -888,9 +742,6 @@ const getStylesFromProps = ({ theme }) => ({
   bigNumberWrapper: {
     alignItems: 'baseline',
   },
-  disabledButton: {
-    backgroundColor: theme.colors.gray50Percent,
-  },
   bigNumberUnitStyles: {
     marginRight: normalize(-20),
   },
@@ -953,4 +804,5 @@ export default createStackNavigator({
   Recover: Mnemonics,
   OutOfGasError,
   Rewards: Invite,
+  HandlePaymentLink,
 })

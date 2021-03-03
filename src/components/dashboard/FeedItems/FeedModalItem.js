@@ -1,6 +1,6 @@
 // @flow
 import React, { useCallback } from 'react'
-import { Platform, View } from 'react-native'
+import { View } from 'react-native'
 import Avatar from '../../common/view/Avatar'
 import BigGoodDollar from '../../common/view/BigGoodDollar'
 import Text from '../../common/view/Text'
@@ -73,6 +73,7 @@ const FeedModalItem = (props: FeedEventProps) => {
               <Avatar
                 source={item.data && item.data.endpoint && item.data.endpoint.avatar}
                 size={34}
+                imageSize={36}
                 style={styles.avatar}
               />
             )}
@@ -146,13 +147,7 @@ const getStylesFromProps = ({ theme }) => {
     },
     avatar: {
       backgroundColor: theme.colors.lightGray,
-      borderRadius: Platform.select({
-        web: '50%',
-        default: 34 / 2,
-      }),
-      height: 34,
       marginRight: 7,
-      width: 34,
     },
     iconContainer: {
       height: 36,

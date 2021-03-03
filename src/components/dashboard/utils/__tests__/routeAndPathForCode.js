@@ -1,5 +1,9 @@
-import { routeAndPathForCode } from '../routeAndPathForCode'
+import { assign } from 'lodash'
+
+import API from '../../../../lib/API/api'
 import goodWallet from '../../../../lib/wallet/GoodWallet'
+
+import { routeAndPathForCode } from '../routeAndPathForCode'
 import { ACTION_SEND_TO_ADDRESS } from '../sendReceiveFlow'
 
 let networkId
@@ -11,11 +15,19 @@ let WEB3PROVIDERS = require('web3-providers')
 WEB3PROVIDERS.HttpProvider = httpProviderMock
 
 describe('routeAndPathForCode', () => {
+  const { getProfileBy } = API
+
   beforeAll(async () => {
     jest.resetAllMocks()
+
     await goodWallet.ready
     networkId = goodWallet.networkId
+
+    // eslint-disable-next-line require-await
+    API.getProfileBy = jest.fn().mockImplementation(async () => ({ data: { profilePublickey: null } }))
   })
+
+  afterAll(() => assign(API, { getProfileBy }))
 
   it(`should fail if code is null`, () => {
     expect.assertions(1)
@@ -46,6 +58,7 @@ describe('routeAndPathForCode', () => {
         counterPartyDisplayName: undefined,
         amount: undefined,
         reason: undefined,
+        category: undefined,
       })
     })
   })

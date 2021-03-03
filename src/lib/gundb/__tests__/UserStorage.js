@@ -1,12 +1,14 @@
 // @flow
-import { pick } from 'lodash'
+import { assign, pick } from 'lodash'
 import moment from 'moment'
 import ModelContracts from '@gooddollar/goodcontracts/stakingModel/releases/deployment.json'
 import UpgradablesContracts from '@gooddollar/goodcontracts/upgradables/releases/deployment.json'
 
 import gun from '../gundb'
 import Config from '../../../config/config'
+import API from '../../API/api'
 import userStorage from '../UserStorage'
+
 import {
   backupMessage,
   getReceiveDataFromReceipt,
@@ -17,6 +19,7 @@ import {
   welcomeMessage,
   welcomeMessageOnlyEtoro,
 } from '../UserStorageClass'
+
 import UserPropertiesClass from '../UserPropertiesClass'
 import { getUserModel } from '../UserModel'
 import update from '../../updates'
@@ -40,8 +43,16 @@ let event4 = {
 }
 
 jest.setTimeout(30000)
+
 describe('UserStorage', () => {
+  const { ping, getTrust } = API
+
   beforeAll(async () => {
+    // eslint-disable-next-line require-await
+    API.ping = jest.fn().mockImplementation(async () => ({ data: {} }))
+    // eslint-disable-next-line require-await
+    API.getTrust = jest.fn().mockImplementation(async () => ({ data: {} }))
+
     await userStorage.wallet.ready
     await userStorage.ready
     await userStorage.initRegistered()
@@ -51,6 +62,8 @@ describe('UserStorage', () => {
   afterEach(() => {
     userStorage.unSubscribeProfileUpdates()
   })
+
+  afterAll(() => assign(API, { ping, getTrust }))
 
   it('check updates', async () => {
     const updatesDataBefore = (await userStorage.userProperties.get('updates')) || {}
@@ -527,10 +540,11 @@ describe('UserStorage', () => {
     })
   })
 
-  it('set indexable field as empty should not throw an error', async () => {
-    const response = await userStorage.setProfileField('mobile', '', 'public')
-    expect(response).toMatchObject({ err: undefined })
-  })
+  // no longer indexing in world writable index
+  // it('set indexable field as empty should not throw an error', async () => {
+  //   const response = await userStorage.setProfileField('mobile', '', 'public')
+  //   expect(response).toMatchObject({ err: undefined })
+  // })
 
   it('gets display profile', async done => {
     let updates = [
@@ -646,56 +660,57 @@ describe('UserStorage', () => {
     })
   })
 
-  it(`update username success`, async () => {
-    await Promise.all([userStorage.wallet.ready, userStorage.ready])
-    const result = await userStorage.setProfileField('username', 'user1', 'public')
-    await userStorage.setProfileField('email', 'user1', 'public')
-    expect(result).toMatchObject({ ok: 0 })
+  // no longer indexing in world writable index
 
-    const updatedUsername = await userStorage.getProfileFieldValue('username')
-    expect(updatedUsername).toBe('user1')
-  })
+  // it(`update username success`, async () => {
+  //   await Promise.all([userStorage.wallet.ready, userStorage.ready])
+  //   const result = await userStorage.setProfileField('username', 'user1', 'public')
+  //   await userStorage.setProfileField('email', 'user1', 'public')
+  //   expect(result).toMatchObject({ ok: 0 })
+  //   const updatedUsername = await userStorage.getProfileFieldValue('username')
+  //   expect(updatedUsername).toBe('user1')
+  // })
 
-  it(`update username with setProfile should not update profile if username is taken`, async () => {
-    const profileModel = getUserModel({
-      fullName: 'New Name',
-      email: 'new@email.com',
-      mobile: '+22222222222',
-      username: 'notTaken',
-    })
-    await setProfileFieldIndex(null, 'taken', 'username', 'taken')
-    const result = await userStorage.setProfile(profileModel)
-    expect(result).toBe(true)
+  // it(`update username with setProfile should not update profile if username is taken`, async () => {
+  //   const profileModel = getUserModel({
+  //     fullName: 'New Name',
+  //     email: 'new@email.com',
+  //     mobile: '+22222222222',
+  //     username: 'notTaken',
+  //   })
+  //   await setProfileFieldIndex(null, 'taken', 'username', 'taken')
+  //   const result = await userStorage.setProfile(profileModel)
+  //   expect(result).toBe(true)
 
-    const e = await userStorage
-      .setProfile({
-        ...profileModel,
-        username: 'taken',
-        email: 'diferent@email.com',
-        mobile: '+22222222221',
-      })
-      .catch(e => e)
-    expect(e).toEqual(['Existing index on field username'])
-    await delay(350)
-    const updated = await userStorage.getProfile()
-    expect(updated.username).toBe('notTaken')
-    expect(updated.email).toBe('diferent@email.com')
-  })
+  //   const e = await userStorage
+  //     .setProfile({
+  //       ...profileModel,
+  //       username: 'taken',
+  //       email: 'diferent@email.com',
+  //       mobile: '+22222222221',
+  //     })
+  //     .catch(e => e)
+  //   expect(e).toEqual(['Existing index on field username'])
+  //   await delay(350)
+  //   const updated = await userStorage.getProfile()
+  //   expect(updated.username).toBe('notTaken')
+  //   expect(updated.email).toBe('diferent@email.com')
+  // })
 
-  it(`update username with used username should fail`, async () => {
-    //take a username
-    await setProfileFieldIndex(null, 'taken', 'username', 'taken')
+  // it(`update username with used username should fail`, async () => {
+  //   //take a username
+  //   await setProfileFieldIndex(null, 'taken', 'username', 'taken')
 
-    const newResult = await userStorage.setProfileField('username', 'taken', 'public')
-    expect(newResult).toMatchObject({ err: 'Existing index on field username', ok: 0 })
-    const updatedUsername = await userStorage.getProfileFieldValue('username')
-    expect(updatedUsername).not.toBe('taken')
-    const newResultOk = await userStorage.setProfileField('username', 'user3', 'public')
-    expect(newResultOk).toMatchObject({ err: undefined })
-    await delay(350)
-    const updatedUsernameOk = await userStorage.getProfileFieldValue('username')
-    expect(updatedUsernameOk).toBe('user3')
-  })
+  //   const newResult = await userStorage.setProfileField('username', 'taken', 'public')
+  //   expect(newResult).toMatchObject({ err: 'Existing index on field username', ok: 0 })
+  //   const updatedUsername = await userStorage.getProfileFieldValue('username')
+  //   expect(updatedUsername).not.toBe('taken')
+  //   const newResultOk = await userStorage.setProfileField('username', 'user3', 'public')
+  //   expect(newResultOk).toMatchObject({ err: undefined })
+  //   await delay(350)
+  //   const updatedUsernameOk = await userStorage.getProfileFieldValue('username')
+  //   expect(updatedUsernameOk).toBe('user3')
+  // })
 
   describe('getReceiveDataFromReceipt', () => {
     it('get Transfer data from logs', () => {
@@ -927,16 +942,16 @@ describe('users index', () => {
     })
   })
 
-  //no longer using gun for indexes, plus global all writable gun index (users/byX) is insecure
-  xit('should return user address by public email', async () => {
-    let wallet = userStorage.wallet.account
-    await userStorage.setProfileField('walletAddress', wallet)
-    await userStorage.setProfileField('email', 'test@test.com', 'public')
-    await delay(500)
-    let addr = await userStorage.getUserAddress('test@test.com')
-    await delay(500)
-    expect(addr).toBe(wallet)
-  })
+  // no longer using gun for indexes, plus global all writable gun index (users/byX) is insecure
+  // it('should return user address by public email', async () => {
+  //   let wallet = userStorage.wallet.account
+  //   await userStorage.setProfileField('walletAddress', wallet)
+  //   await userStorage.setProfileField('email', 'test@test.com', 'public')
+  //   await delay(500)
+  //   let addr = await userStorage.getUserAddress('test@test.com')
+  //   await delay(500)
+  //   expect(addr).toBe(wallet)
+  // })
 
   it('isValidValue should return true', async () => {
     const isValidValue = await userStorage.constructor.isValidValue('email', 'test@test.com')
@@ -955,20 +970,21 @@ describe('users index', () => {
     expect(errors).toEqual({})
   })
 
-  it('validateProfile should return isValid=false only on username when field is being used', async () => {
-    expect(await userStorage.constructor.isValidValue('email', unavailableProfile.email)).toBeTruthy()
-    expect(await userStorage.constructor.isValidValue('mobile', unavailableProfile.mobile)).toBeTruthy()
-    expect(await userStorage.constructor.isValidValue('username', unavailableProfile.username)).toBeFalsy()
-  })
+  // no longer indexing in world writable index
+  // it('validateProfile should return isValid=false only on username when field is being used', async () => {
+  //   expect(await userStorage.constructor.isValidValue('email', unavailableProfile.email)).toBeTruthy()
+  //   expect(await userStorage.constructor.isValidValue('mobile', unavailableProfile.mobile)).toBeTruthy()
+  //   expect(await userStorage.constructor.isValidValue('username', unavailableProfile.username)).toBeFalsy()
+  // })
 
-  it('validateProfile should return isValid=false when field is being used and error only in that field', async () => {
-    const { isValid, errors } = await userStorage.validateProfile({
-      email: unavailableProfile.email,
-      username: unavailableProfile.username,
-    })
-    expect(isValid).toBeFalsy()
-    expect(errors).toEqual({ username: 'Unavailable username' })
-  })
+  // it('validateProfile should return isValid=false when field is being used and error only in that field', async () => {
+  //   const { isValid, errors } = await userStorage.validateProfile({
+  //     email: unavailableProfile.email,
+  //     username: unavailableProfile.username,
+  //   })
+  //   expect(isValid).toBeFalsy()
+  //   expect(errors).toEqual({ username: 'Unavailable username' })
+  // })
 
   it('events/doesnt enqueue existing event', async () => {
     const prevmsg = Object.assign({}, welcomeMessage)

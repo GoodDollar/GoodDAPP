@@ -9,7 +9,7 @@ const fromDate = new Date('2021/01/20')
  * @returns {Promise<void>}
  */
 const checkProfile = async (lastUpdate, prevVersion, log) => {
-  const fields = Object.keys(userStorage.profileSettings)
+  const fields = ['walletAddress', 'email', 'mobile']
   const { account: walletAddress } = userStorage.wallet
 
   const flushField = field =>

@@ -13,7 +13,7 @@ const log = logger.child({ from: 'EditAvatar' })
 
 const TITLE = 'Edit Avatar'
 
-const EditAvatar = ({ theme, navigation }) => {
+const EditAvatar = ({ theme, screenProps }) => {
   const store = GDStore.useStore()
   const [showErrorDialog] = useErrorDialog()
 
@@ -40,8 +40,8 @@ const EditAvatar = ({ theme, navigation }) => {
       setProcessing(false)
     }
 
-    navigation.navigate('ViewAvatar')
-  }, [navigation, markAsDirty, setProcessing, showErrorDialog, user])
+    screenProps.pop()
+  }, [screenProps, markAsDirty, setProcessing, showErrorDialog, user])
 
   const onCropped = useCallback(
     cropped => {

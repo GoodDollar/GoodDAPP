@@ -8,7 +8,6 @@ import {
   find,
   flatten,
   get,
-  isEmpty,
   isEqual,
   isError,
   isString,
@@ -295,7 +294,7 @@ export const getReceiveDataFromReceipt = (receipt: any, account: string) => {
 
 /**
  * Users gundb to handle user storage.
- * User storage is used to keep the user Self Soverign Profile and his blockchain transcation history
+ * User storage is used to keep the user Self Sovereign Profile and his blockchain transaction history
  * @class
  *  */
 export class UserStorage {
@@ -563,7 +562,7 @@ export class UserStorage {
       logger.warn(e)
       throw e
     })
-    logger.debug('init finished gun loggin', user)
+    logger.debug('init finished gun login', user)
 
     if (user === undefined) {
       throw new Error('gun login failed')
@@ -698,17 +697,14 @@ export class UserStorage {
    */
   async checkSmallAvatar() {
     const avatar = await this.getProfileFieldValue('avatar')
-    const smallAvatar = await this.getProfileFieldValue('smallAvatar')
-
-    if (avatar && !smallAvatar) {
-      logger.debug('Updating small avatar')
-
-      await this.setSmallAvatar(avatar)
+    if (avatar) {
+      this.setAvatar(avatar)
     }
   }
 
-  setAvatar(avatar) {
-    return Promise.all([this.setProfileField('avatar', avatar, 'public'), this.setSmallAvatar(avatar)])
+  async setAvatar(avatar) {
+    const smallAvatar = await resizeImage(avatar, 320) //save space and load on gun
+    return Promise.all([this.setProfileField('avatar', smallAvatar, 'public'), this.setSmallAvatar(smallAvatar)])
   }
 
   async setSmallAvatar(avatar) {
@@ -754,7 +750,7 @@ export class UserStorage {
 
     let operationType
     if (data.from) {
-      if (data.from === this.wallet.UBIContract.address.toLowerCase()) {
+      if (this.wallet.getUBIAddresses().includes(data.from)) {
         operationType = EVENT_TYPE_CLAIM
       } else if (this.wallet.getRewardsAddresses().includes(data.from)) {
         operationType = EVENT_TYPE_BONUS
@@ -775,7 +771,7 @@ export class UserStorage {
     }
 
     //receipt received via websockets/polling need mutex to prevent race
-    //with enqueing the initial TX data
+    //with enqueuing the initial TX data
     const data = getReceiveDataFromReceipt(receipt, this.wallet.account)
     if (
       data &&
@@ -971,7 +967,7 @@ export class UserStorage {
   }
 
   /**
-   * Used as subscripition callback for gundb
+   * Used as subscription callback for gundb
    * When the index of <day> to <number of events> changes
    * We get the object and turn it into a sorted array by <day> which we keep in memory for feed display purposes
    * @param {object} changed the index data from gundb an object with days as keys and number of event in that day as value
@@ -1404,7 +1400,7 @@ export class UserStorage {
    * @param {string} privacy
    * @returns {boolean}
    */
-  static async isValidValue(field: string, value: string, trusted: boolean = false) {
+  static isValidValue(field: string, value: string, trusted: boolean = false) {
     const cleanValue = UserStorage.cleanHashedFieldForIndex(field, value)
 
     if (!cleanValue) {
@@ -1417,21 +1413,24 @@ export class UserStorage {
       return false
     }
 
-    //we no longer enforce uniqueness on email/mobile only on username
-    try {
-      if (field === 'username') {
-        const indexValue = await global.gun
-          .get(`users/by${field}`)
-          .get(cleanValue)
-          .then()
-        return !(indexValue && indexValue.pub !== global.gun.user().is.pub)
-      }
+    return true
 
-      return true
-    } catch (e) {
-      logger.error('Validate IndexProfileField failed', e.message, e)
-      return true
-    }
+    //we no longer enforce uniqueness on email/mobile only on username
+    //TODO: no longer  using world writable index
+    // try {
+    // if (field === 'username') {
+    //   const indexValue = await global.gun
+    //     .get(`users/by${field}`)
+    //     .get(cleanValue)
+    //     .then()
+    //   return !(indexValue && indexValue.pub !== global.gun.user().is.pub)
+    // }
+
+    //   return true
+    // } catch (e) {
+    //   logger.error('Validate IndexProfileField failed', e.message, e)
+    //   return true
+    // }
   }
 
   async validateProfile(profile: any) {
@@ -1467,6 +1466,7 @@ export class UserStorage {
    * @param {string} privacy - (private | public | masked)
    * @returns {Promise} Promise with updated field value, secret, display and privacy.
    */
+  // eslint-disable-next-line require-await
   async setProfileField(
     field: string,
     value: string,
@@ -1494,15 +1494,17 @@ export class UserStorage {
         throw new Error('Invalid privacy setting', { privacy })
     }
 
-    //for all privacy cases we go through the index, in case field was changed from public to private so we remove it
-    if (UserStorage.indexableFields[field] && isEmpty(value) === false) {
-      const indexPromiseResult = await this.indexProfileField(field, value, privacy)
-      logger.info('indexPromiseResult', indexPromiseResult)
+    //no longer indexing in world writable index
 
-      if (indexPromiseResult.err) {
-        return indexPromiseResult
-      }
-    }
+    //for all privacy cases we go through the index, in case field was changed from public to private so we remove it
+    // if (UserStorage.indexableFields[field] && isEmpty(value) === false) {
+    //   const indexPromiseResult = await this.indexProfileField(field, value, privacy)
+    //   logger.info('indexPromiseResult', indexPromiseResult)
+
+    //   if (indexPromiseResult.err) {
+    //     return indexPromiseResult
+    //   }
+    // }
 
     const storePrivacy = () =>
       this.profile
@@ -1533,12 +1535,12 @@ export class UserStorage {
 
   /**
    * Generates index by field if privacy is public, or empty index if it's not public
-   *
+   * @depracated no longer indexing in world writable index
    * @param {string} field - Profile attribute
    * @param {string} value - Profile attribute value
    * @param {string} privacy - (private | public | masked)
    * @returns Gun result promise after index is generated
-   * @todo This is world writable so theoritically a malicious user could delete the indexes
+   * @todo This is world writable so theoretically a malicious user could delete the indexes
    * need to develop for gundb immutable keys to non first user
    */
   async indexProfileField(field: string, value: string, privacy: FieldPrivacy): Promise<ACK> {
@@ -1677,7 +1679,7 @@ export class UserStorage {
           }
         }
 
-        // returning item, it may be undefied
+        // returning item, it may be undefined
         return item
       }),
     )
@@ -1688,7 +1690,7 @@ export class UserStorage {
 
   /**
    * Return all feed events*
-   * @returns {Promise} Promise with array of standarised feed events
+   * @returns {Promise} Promise with array of standardized feed events
    * @todo Add pagination
    */
   async getFormattedEvents(numResults: number, reset?: boolean): Promise<Array<StandardFeed>> {
@@ -1770,6 +1772,7 @@ export class UserStorage {
 
   /**
    * Checks if username connected to a profile
+   * @depracated no longer using world writable index
    * @param {string} username
    */
   async isUsername(username: string) {
@@ -1827,8 +1830,13 @@ export class UserStorage {
    * @param {string} value email/mobile/walletAddress to fetch by
    */
   async getUserProfilePublickey(value: string) {
+    if (!value) {
+      return
+    }
+
     const attr = isMobilePhone(value) ? 'mobile' : isEmail(value) ? 'email' : 'walletAddress'
     const hashValue = UserStorage.cleanHashedFieldForIndex(attr, value)
+
     let profilePublickey
     if (attr === 'walletAddress') {
       profilePublickey = this.walletAddressIndex[hashValue]
@@ -1945,7 +1953,7 @@ export class UserStorage {
           address,
         })
         const profileNode =
-          withdrawStatus !== 'pending' && (await this._getProfileNode(initiatorType, initiator, address)) //dont try to fetch profile node of this is a tx we sent and is pending
+          withdrawStatus !== 'pending' && (await this._getProfileNodeTrusted(initiatorType, initiator, address)) //dont try to fetch profile node of this is a tx we sent and is pending
         const [avatar, fullName] = await Promise.all([
           this._extractAvatar(type, withdrawStatus, get(profileNode, 'gunProfile'), address).catch(e => {
             logger.warn('formatEvent: failed extractAvatar', e.message, e, {
@@ -2033,10 +2041,7 @@ export class UserStorage {
     }
 
     data.initiatorType = isMobilePhone(data.initiator) ? 'mobile' : isEmail(data.initiator) ? 'email' : undefined
-    data.address =
-      data.address && data.address !== NULL_ADDRESS
-        ? UserStorage.cleanHashedFieldForIndex('walletAddress', data.address)
-        : data.address
+
     data.value = (receiptData && (receiptData.value || receiptData.amount)) || amount
     data.displayName = counterPartyDisplayName || 'Unknown'
 
@@ -2076,6 +2081,23 @@ export class UserStorage {
     }
 
     return `${type}${sufix}`
+  }
+
+  async _getProfileNodeTrusted(initiatorType, initiator, address): Gun {
+    if (!initiator && (!address || address === NULL_ADDRESS)) {
+      return
+    }
+
+    const byIndex = initiatorType && initiator && (await this.getUserProfilePublickey(initiator))
+
+    const byAddress = address && (await this.getUserProfilePublickey(address))
+
+    let gunProfile = (byIndex || byAddress) && this.gun.get(byIndex || byAddress).get('profile')
+
+    //need to return object so promise.all doesnt resolve node
+    return {
+      gunProfile,
+    }
   }
 
   async _getProfileNode(initiatorType, initiator, address): Gun {
@@ -2171,7 +2193,7 @@ export class UserStorage {
   async enqueueTX(_event: FeedEvent): Promise<> {
     const event = delUndefValNested(_event)
 
-    //a race exists between enqueing and receipt from websockets/polling
+    //a race exists between enqueuing and receipt from websockets/polling
     const release = await this.feedMutex.lock()
     try {
       const existingEvent = this.feedIds[event.id]

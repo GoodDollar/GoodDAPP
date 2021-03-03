@@ -1,4 +1,5 @@
 // @flow
+import { isNil } from 'lodash'
 import { getNetworkName } from '../../../lib/constants/network'
 import goodWallet from '../../../lib/wallet/GoodWallet'
 import userStorage from '../../../lib/gundb/UserStorage'
@@ -68,7 +69,7 @@ export const routeAndPathForCode = async (
         }
       }
 
-      if (!reason) {
+      if (isNil(reason)) {
         return {
           route: 'Reason',
           params: {

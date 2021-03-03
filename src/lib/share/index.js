@@ -42,7 +42,7 @@ export function generateCode(
   const codeObj = {
     m: mnid,
     a: amount,
-    r: reason,
+    r: reason || '',
     cat: category,
   }
   if (counterPartyDisplayName) {

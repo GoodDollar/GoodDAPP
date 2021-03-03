@@ -70,6 +70,32 @@ describe('routeAndPathForCode', () => {
     return routeAndPathForCode('invalidScreen', code).catch(e => expect(e.message).toMatch('Invalid screen specified.'))
   })
 
+  it(`should pass if reason is null or undefined`, () => {
+    expect.assertions(1)
+    const code = {
+      networkId: networkId,
+      address: '0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1',
+      amount: 40,
+    }
+
+    return routeAndPathForCode('send', code).then(({ route, params }) => {
+      expect(route).toMatch('Reason')
+    })
+  })
+
+  it(`should pass if reason is empty`, () => {
+    expect.assertions(1)
+    const code = {
+      networkId: networkId,
+      address: '0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1',
+      amount: 40,
+      reason: '',
+    }
+    return routeAndPathForCode('send', code).then(({ route, params }) => {
+      expect(route).toMatch('SendLinkSummary')
+    })
+  })
+
   it(`should fail if networkId isn't current network ID is invalid`, () => {
     expect.assertions(1)
     const code = { networkId: 100, address: '0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1' }

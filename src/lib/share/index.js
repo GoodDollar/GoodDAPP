@@ -33,7 +33,7 @@ export function generateCode(
   address: string,
   networkId: number,
   amount: number,
-  reason: string = '',
+  reason: string,
   category: string,
   counterPartyDisplayName: string,
 ) {
@@ -42,7 +42,7 @@ export function generateCode(
   const codeObj = {
     m: mnid,
     a: amount,
-    r: reason,
+    r: reason || '',
     cat: category,
   }
   if (counterPartyDisplayName) {

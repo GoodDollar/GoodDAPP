@@ -118,7 +118,7 @@ exports[`FeedModalItem - Invite matches snapshot 1`] = `
                     className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1f529hi r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                     dir="auto"
                   >
-                    04/01/19 15:03
+                    19-04-01 15:03
                   </div>
                 </div>
                 <div
@@ -385,7 +385,7 @@ exports[`FeedModalItem - Message matches snapshot 1`] = `
                     className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1f529hi r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                     dir="auto"
                   >
-                    04/01/19 15:03
+                    19-04-01 15:03
                   </div>
                 </div>
                 <div
@@ -401,7 +401,7 @@ exports[`FeedModalItem - Message matches snapshot 1`] = `
                 >
                   <div
                     aria-disabled={true}
-                    className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-l26x2w r-borderColor-y68mpx r-borderRadius-ieixw r-borderWidth-rs99b7 r-height-zx9znk r-justifyContent-1777fci r-marginRight-12zb1j4 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-width-5orghg"
+                    className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-l26x2w r-borderColor-y68mpx r-borderWidth-rs99b7 r-justifyContent-1777fci r-marginRight-12zb1j4 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
                     disabled={true}
                     onKeyDown={[Function]}
                     onKeyUp={[Function]}
@@ -411,30 +411,36 @@ exports[`FeedModalItem - Message matches snapshot 1`] = `
                     onResponderTerminate={[Function]}
                     onResponderTerminationRequest={[Function]}
                     onStartShouldSetResponder={[Function]}
+                    style={
+                      Object {
+                        "borderBottomLeftRadius": "17px",
+                        "borderBottomRightRadius": "17px",
+                        "borderTopLeftRadius": "17px",
+                        "borderTopRightRadius": "17px",
+                        "height": "34px",
+                        "width": "34px",
+                      }
+                    }
                   >
                     <div
-                      className="css-view-1dbjc4n r-backgroundColor-1niwhzg"
+                      className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-height-1r8g8re r-width-1acpoxo"
                       style={
                         Object {
-                          "borderBottomLeftRadius": "16px",
-                          "borderBottomRightRadius": "16px",
-                          "borderTopLeftRadius": "16px",
-                          "borderTopRightRadius": "16px",
-                          "height": "32px",
-                          "width": "32px",
+                          "borderBottomLeftRadius": "18px",
+                          "borderBottomRightRadius": "18px",
+                          "borderTopLeftRadius": "18px",
+                          "borderTopRightRadius": "18px",
                         }
                       }
                     >
                       <div
-                        className="css-view-1dbjc4n r-flexBasis-1mlwlqe r-overflow-1udh08x r-zIndex-417010"
+                        className="css-view-1dbjc4n r-flexBasis-1mlwlqe r-height-1r8g8re r-overflow-1udh08x r-width-1acpoxo r-zIndex-417010"
                         style={
                           Object {
-                            "borderBottomLeftRadius": "16px",
-                            "borderBottomRightRadius": "16px",
-                            "borderTopLeftRadius": "16px",
-                            "borderTopRightRadius": "16px",
-                            "height": "32px",
-                            "width": "32px",
+                            "borderBottomLeftRadius": "18px",
+                            "borderBottomRightRadius": "18px",
+                            "borderTopLeftRadius": "18px",
+                            "borderTopRightRadius": "18px",
                           }
                         }
                       >
@@ -711,7 +717,7 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                     className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1f529hi r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                     dir="auto"
                   >
-                    04/01/19 15:03
+                    19-04-01 15:03
                   </div>
                   <div
                     className="css-text-901oao r-color-11zaip3 r-fontFamily-vnw8o6 r-fontSize-evnaw r-fontWeight-b88u0q r-lineHeight-17rnw9f r-marginLeft-1jj8364 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
@@ -759,7 +765,7 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                 >
                   <div
                     aria-disabled={true}
-                    className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-l26x2w r-borderColor-y68mpx r-borderRadius-ieixw r-borderWidth-rs99b7 r-height-zx9znk r-justifyContent-1777fci r-marginRight-12zb1j4 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-width-5orghg"
+                    className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-l26x2w r-borderColor-y68mpx r-borderWidth-rs99b7 r-justifyContent-1777fci r-marginRight-12zb1j4 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
                     disabled={true}
                     onKeyDown={[Function]}
                     onKeyUp={[Function]}
@@ -769,30 +775,36 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                     onResponderTerminate={[Function]}
                     onResponderTerminationRequest={[Function]}
                     onStartShouldSetResponder={[Function]}
+                    style={
+                      Object {
+                        "borderBottomLeftRadius": "17px",
+                        "borderBottomRightRadius": "17px",
+                        "borderTopLeftRadius": "17px",
+                        "borderTopRightRadius": "17px",
+                        "height": "34px",
+                        "width": "34px",
+                      }
+                    }
                   >
                     <div
-                      className="css-view-1dbjc4n r-backgroundColor-1niwhzg"
+                      className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-height-1r8g8re r-width-1acpoxo"
                       style={
                         Object {
-                          "borderBottomLeftRadius": "16px",
-                          "borderBottomRightRadius": "16px",
-                          "borderTopLeftRadius": "16px",
-                          "borderTopRightRadius": "16px",
-                          "height": "32px",
-                          "width": "32px",
+                          "borderBottomLeftRadius": "18px",
+                          "borderBottomRightRadius": "18px",
+                          "borderTopLeftRadius": "18px",
+                          "borderTopRightRadius": "18px",
                         }
                       }
                     >
                       <div
-                        className="css-view-1dbjc4n r-flexBasis-1mlwlqe r-overflow-1udh08x r-zIndex-417010"
+                        className="css-view-1dbjc4n r-flexBasis-1mlwlqe r-height-1r8g8re r-overflow-1udh08x r-width-1acpoxo r-zIndex-417010"
                         style={
                           Object {
-                            "borderBottomLeftRadius": "16px",
-                            "borderBottomRightRadius": "16px",
-                            "borderTopLeftRadius": "16px",
-                            "borderTopRightRadius": "16px",
-                            "height": "32px",
-                            "width": "32px",
+                            "borderBottomLeftRadius": "18px",
+                            "borderBottomRightRadius": "18px",
+                            "borderTopLeftRadius": "18px",
+                            "borderTopRightRadius": "18px",
                           }
                         }
                       >
@@ -1063,7 +1075,7 @@ exports[`FeedModalItem - Send with Error status matches snapshot 1`] = `
                     className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1f529hi r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                     dir="auto"
                   >
-                    04/01/19 15:03
+                    19-04-01 15:03
                   </div>
                   <div
                     className="css-text-901oao r-color-11zaip3 r-fontFamily-vnw8o6 r-fontSize-evnaw r-fontWeight-b88u0q r-lineHeight-17rnw9f r-marginLeft-1jj8364 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
@@ -1111,7 +1123,7 @@ exports[`FeedModalItem - Send with Error status matches snapshot 1`] = `
                 >
                   <div
                     aria-disabled={true}
-                    className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-l26x2w r-borderColor-y68mpx r-borderRadius-ieixw r-borderWidth-rs99b7 r-height-zx9znk r-justifyContent-1777fci r-marginRight-12zb1j4 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-width-5orghg"
+                    className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-l26x2w r-borderColor-y68mpx r-borderWidth-rs99b7 r-justifyContent-1777fci r-marginRight-12zb1j4 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
                     disabled={true}
                     onKeyDown={[Function]}
                     onKeyUp={[Function]}
@@ -1121,30 +1133,36 @@ exports[`FeedModalItem - Send with Error status matches snapshot 1`] = `
                     onResponderTerminate={[Function]}
                     onResponderTerminationRequest={[Function]}
                     onStartShouldSetResponder={[Function]}
+                    style={
+                      Object {
+                        "borderBottomLeftRadius": "17px",
+                        "borderBottomRightRadius": "17px",
+                        "borderTopLeftRadius": "17px",
+                        "borderTopRightRadius": "17px",
+                        "height": "34px",
+                        "width": "34px",
+                      }
+                    }
                   >
                     <div
-                      className="css-view-1dbjc4n r-backgroundColor-1niwhzg"
+                      className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-height-1r8g8re r-width-1acpoxo"
                       style={
                         Object {
-                          "borderBottomLeftRadius": "16px",
-                          "borderBottomRightRadius": "16px",
-                          "borderTopLeftRadius": "16px",
-                          "borderTopRightRadius": "16px",
-                          "height": "32px",
-                          "width": "32px",
+                          "borderBottomLeftRadius": "18px",
+                          "borderBottomRightRadius": "18px",
+                          "borderTopLeftRadius": "18px",
+                          "borderTopRightRadius": "18px",
                         }
                       }
                     >
                       <div
-                        className="css-view-1dbjc4n r-flexBasis-1mlwlqe r-overflow-1udh08x r-zIndex-417010"
+                        className="css-view-1dbjc4n r-flexBasis-1mlwlqe r-height-1r8g8re r-overflow-1udh08x r-width-1acpoxo r-zIndex-417010"
                         style={
                           Object {
-                            "borderBottomLeftRadius": "16px",
-                            "borderBottomRightRadius": "16px",
-                            "borderTopLeftRadius": "16px",
-                            "borderTopRightRadius": "16px",
-                            "height": "32px",
-                            "width": "32px",
+                            "borderBottomLeftRadius": "18px",
+                            "borderBottomRightRadius": "18px",
+                            "borderTopLeftRadius": "18px",
+                            "borderTopRightRadius": "18px",
                           }
                         }
                       >
@@ -1415,7 +1433,7 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                     className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1f529hi r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                     dir="auto"
                   >
-                    04/01/19 15:03
+                    19-04-01 15:03
                   </div>
                   <div
                     className="css-text-901oao r-color-qjtdzx r-fontFamily-vnw8o6 r-fontSize-evnaw r-fontWeight-b88u0q r-lineHeight-17rnw9f r-marginLeft-1jj8364 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
@@ -1463,7 +1481,7 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                 >
                   <div
                     aria-disabled={true}
-                    className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-l26x2w r-borderColor-y68mpx r-borderRadius-ieixw r-borderWidth-rs99b7 r-height-zx9znk r-justifyContent-1777fci r-marginRight-12zb1j4 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-width-5orghg"
+                    className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-l26x2w r-borderColor-y68mpx r-borderWidth-rs99b7 r-justifyContent-1777fci r-marginRight-12zb1j4 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
                     disabled={true}
                     onKeyDown={[Function]}
                     onKeyUp={[Function]}
@@ -1473,30 +1491,36 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                     onResponderTerminate={[Function]}
                     onResponderTerminationRequest={[Function]}
                     onStartShouldSetResponder={[Function]}
+                    style={
+                      Object {
+                        "borderBottomLeftRadius": "17px",
+                        "borderBottomRightRadius": "17px",
+                        "borderTopLeftRadius": "17px",
+                        "borderTopRightRadius": "17px",
+                        "height": "34px",
+                        "width": "34px",
+                      }
+                    }
                   >
                     <div
-                      className="css-view-1dbjc4n r-backgroundColor-1niwhzg"
+                      className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-height-1r8g8re r-width-1acpoxo"
                       style={
                         Object {
-                          "borderBottomLeftRadius": "16px",
-                          "borderBottomRightRadius": "16px",
-                          "borderTopLeftRadius": "16px",
-                          "borderTopRightRadius": "16px",
-                          "height": "32px",
-                          "width": "32px",
+                          "borderBottomLeftRadius": "18px",
+                          "borderBottomRightRadius": "18px",
+                          "borderTopLeftRadius": "18px",
+                          "borderTopRightRadius": "18px",
                         }
                       }
                     >
                       <div
-                        className="css-view-1dbjc4n r-flexBasis-1mlwlqe r-overflow-1udh08x r-zIndex-417010"
+                        className="css-view-1dbjc4n r-flexBasis-1mlwlqe r-height-1r8g8re r-overflow-1udh08x r-width-1acpoxo r-zIndex-417010"
                         style={
                           Object {
-                            "borderBottomLeftRadius": "16px",
-                            "borderBottomRightRadius": "16px",
-                            "borderTopLeftRadius": "16px",
-                            "borderTopRightRadius": "16px",
-                            "height": "32px",
-                            "width": "32px",
+                            "borderBottomLeftRadius": "18px",
+                            "borderBottomRightRadius": "18px",
+                            "borderTopLeftRadius": "18px",
+                            "borderTopRightRadius": "18px",
                           }
                         }
                       >

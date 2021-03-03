@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-
+import { once } from 'lodash'
 import Config from '../../config/config'
 import { fireEvent } from '../analytics/analytics'
 import AsyncStorage from '../utils/asyncStorage'
@@ -8,9 +8,13 @@ import logger from '../logger/pino-logger'
 
 const log = logger.child({ from: 'useABTesting' })
 
+const loadPersistedVariants = once(async () => {
+  return (await AsyncStorage.getItem(AB_TESTING)) || {}
+})
+
 const createABTesting = (testName, percentage = Config.abTestPercentage, persistVariant = true) => {
-  const ready = (async () => {
-    const tests = (persistVariant && (await AsyncStorage.getItem(AB_TESTING))) || {}
+  const getTestVariant = once(async () => {
+    const tests = await loadPersistedVariants()
     let test = tests[testName]
     if (test == null) {
       test = { name: testName }
@@ -22,27 +26,26 @@ const createABTesting = (testName, percentage = Config.abTestPercentage, persist
     }
     log.debug('got test variant', { tests, test, persistVariant })
     return test
-  })()
+  })
 
   const useABTesting = (componentA, componentB, event = null) => {
-    const [test, setTest] = useState({})
-    const component = test.isCaseA ? componentA : componentB
+    const [test, setTest] = useState()
+    const initialized = test != null
+    const component = initialized && test.isCaseA ? componentA : componentB
 
     useEffect(() => {
-      const init = async () => {
-        const test = await ready
+      getTestVariant.then(test => {
         const { ab } = test
         void (event && fireEvent(event, { ab }))
         setTest(test)
         log.debug('hook ready', { test })
-      }
-      init()
+      })
     }, [])
 
-    return [component, test.ab]
+    return [component, test.ab, initialized]
   }
 
-  return { useABTesting, testPromise: ready }
+  return { useABTesting }
 }
 
 export default createABTesting

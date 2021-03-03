@@ -81,14 +81,6 @@ export class DetectWebview {
     return findKey(this.BROWSER, regex => regex.test(this.ua)) || 'other'
   }
 
-  get isMobile() {
-    return /(iPad|iPhone|Android|Mobile)/i.test(this.ua) || false
-  }
-
-  get isDesktop() {
-    return !this.isMobile
-  }
-
   get isInWebview() {
     const rules = ['WebView', '(iPhone|iPod|iPad)(?!.*Safari/)', 'Android.*(wv|.0.0.0)']
     const regex = new RegExp(`(${rules.join('|')})`, 'ig')

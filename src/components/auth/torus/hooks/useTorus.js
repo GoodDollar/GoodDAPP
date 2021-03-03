@@ -10,26 +10,27 @@ import logger from '../../../../lib/logger/pino-logger'
 
 const log = logger.child({ from: 'AuthTorus' })
 
-const { testPromise } = createABTesting('torusUxMode')
+const { useABTesting } = createABTesting('torusUxMode')
 
 export default (onInitialized = noop) => {
   const [sdk, setSDK] = useState()
   const [initialized, setInitialized] = useState(false)
   const onInitializedRef = useRef(onInitialized)
   const mountedState = useMountedState()
+  const [, abVariant, abTestInitialized] = useABTesting()
 
   useEffect(() => {
-    testPromise.then(test => {
+    if (abTestInitialized) {
       const webview = new DetectWebview(get(global, 'navigator.userAgent'))
       const isFacebookWebview = ['facebook', 'messenger'].includes(webview.browser)
 
       log.debug('abTesting:', { test, isFacebookWebview })
 
       //dont allow popup mode on facebook webview at all, since it doesnt work
-      const torusUxMode = isFacebookWebview === false && test && test.isCaseA ? 'popup' : 'redirect'
+      const torusUxMode = isFacebookWebview === false && abVariant === 'A' ? 'popup' : 'redirect'
       setSDK(TorusSDK.factory({ torusUxMode }))
-    })
-  }, [])
+    }
+  }, [abTestInitialized])
 
   useEffect(() => {
     onInitializedRef.current = onInitialized

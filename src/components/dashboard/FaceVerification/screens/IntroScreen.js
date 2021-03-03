@@ -148,7 +148,7 @@ const IntroScreen = ({ styles, screenProps }) => {
   const isValid = get(screenState, 'isValid', false)
 
   const navigateToHome = useCallback(() => navigateTo('Home'), [navigateTo])
-  const [Intro, ab] = useABTesting(IntroScreenA, IntroScreenB)
+  const [Intro, ab, abInit] = useABTesting(IntroScreenA, IntroScreenB)
 
   const disposing = useDisposingState({
     enrollmentIdentifier: UserStorage.getFaceIdentifier(),
@@ -207,13 +207,15 @@ const IntroScreen = ({ styles, screenProps }) => {
   }, [isValid])
 
   return (
-    <Intro
-      styles={styles}
-      firstName={getFirstWord(fullName)}
-      onLearnMore={openPrivacy}
-      onVerify={handleVerifyClick}
-      ready={false === disposing}
-    />
+    abInit && (
+      <Intro
+        styles={styles}
+        firstName={getFirstWord(fullName)}
+        onLearnMore={openPrivacy}
+        onVerify={handleVerifyClick}
+        ready={false === disposing}
+      />
+    )
   )
 }
 

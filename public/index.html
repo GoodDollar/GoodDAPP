@@ -22,26 +22,6 @@
         var publicUrl = window.location.hostname;
         var isLocalhost = publicUrl === 'localhost'
         
-        function reload() {
-          window.location.reload(true)
-        }
-        
-        function unregisterServiceWorker() {
-          if (isLocalhost) {
-            return Promise.resolve()
-          }
-          
-          navigator.serviceWorker.getRegistrations()
-            .then(registrations => registrations.find(item => -1 !== item.scope.indexOf(publicUrl)))
-            .then(gdWorker => {
-              if(!gdWorker) {
-                return;                
-              }
-              
-               return gdWorker.unregister() 
-            })
-        }
-        
         function errorListener (event) {
           const error = event.error;
 
@@ -51,7 +31,7 @@
             return;
           }
 
-          unregisterServiceWorker().then(reload)                                      
+          window.location.reload(true)                                      
         }
         
         window.stopCheckingLazyModules = function () {

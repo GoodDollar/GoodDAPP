@@ -2,6 +2,29 @@
 <html lang="en">
   <head>
     <script>
+      (function() {
+        function errorListener(event) {
+          const error = event.error;
+          const filename = event.filename;
+          const location = window.location;
+
+          if (
+            0 === filename.indexOf(location.origin) &&
+            0 === error.message.indexOf("Unexpected token") &&
+            error.name == 'SyntaxError'
+          ) {
+            location.reload(true);
+          }
+        }
+
+        window.onJSBundleLoaded = function () {
+          window.removeEventListener('error', errorListener);
+        };
+
+        window.addEventListener('error', errorListener);
+      })()
+    </script>
+    <script>
       var exports = {}
     </script>
     <!-- Google Tag Manager -->
@@ -16,50 +39,6 @@
         j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl
         f.parentNode.insertBefore(j, f)
       })(window, document, 'script', 'dataLayer', 'GTM-PZJ7X57')
-    </script>
-    <script>
-      (function() {
-        var publicUrl = window.location.hostname;
-        var isLocalhost = publicUrl === 'localhost'
-        
-        function reload() {
-          window.location.reload(true)
-        }
-        
-        function unregisterServiceWorker() {
-          if (isLocalhost) {
-            return Promise.resolve()
-          }
-          
-          navigator.serviceWorker.getRegistrations()
-            .then(registrations => registrations.find(item => -1 !== item.scope.indexOf(publicUrl)))
-            .then(gdWorker => {
-              if(!gdWorker) {
-                return;                
-              }
-              
-               return gdWorker.unregister() 
-            })
-        }
-        
-        function errorListener (event) {
-          const error = event.error;
-
-          if (!error || error.name != 'SyntaxError' || 
-            0 !== error.message.indexOf("Unexpected token '<'")
-          ) {
-            return;
-          }
-
-          unregisterServiceWorker().then(reload)                                      
-        }
-        
-        window.stopCheckingLazyModules = function () {
-          window.removeEventListener('error', errorListener)
-        }
-        
-        window.addEventListener('error', errorListener)
-      })()
     </script>
     <script>
       window['_fs_debug'] = false
@@ -220,6 +199,7 @@
   </body>
   <script>
     var iOS = !!navigator.platform && /iPhone/.test(navigator.platform)
+
     if (iOS) {
       document.querySelector('link[rel="manifest"]').setAttribute('href', '/manifest-ios.json')
     }

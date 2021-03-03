@@ -23,9 +23,11 @@ import logger from './lib/logger/pino-logger'
 import { APP_OPEN, fireEvent, initAnalytics } from './lib/analytics/analytics'
 import handleLinks from './lib/utils/handleLinks'
 
+window.onJSBundleLoaded()
+
 const log = logger.child({ from: 'RouterSelector' })
 
-//identify the case user signup/in using torus redirect flow, so we want to load page asap
+// identify the case user signup/in using torus redirect flow, so we want to load page asap
 const isAuthReload = DeepLinking.pathname.startsWith('/Welcome/Auth')
 
 const DisconnectedSplash = () => <Splash animation={false} />
@@ -57,6 +59,8 @@ let AppRouter = React.lazy(async () => {
 })
 
 const NestedRouter = memo(({ isLoggedIn }) => {
+  useUpgradeDialog()
+
   useEffect(() => {
     let source, platform
     if (Platform.OS === 'web') {
@@ -92,9 +96,7 @@ const RouterSelector = () => {
   const [ignoreUnsupported, setIgnoreUnsupported] = useState(false)
   const [checkedForBrowserSupport, setCheckedForBrowserSupport] = useState(false)
 
-  const checkUpgrade = useUpgradeDialog({ checkOnMounted: false })
-
-  const [supported, checkBrowser] = useBrowserSupport({
+  let [supported, checkBrowser] = useBrowserSupport({
     checkOnMounted: false,
     unsupportedPopup: UnsupportedBrowser,
   })
@@ -105,22 +107,13 @@ const RouterSelector = () => {
   }, [])
 
   useEffect(() => {
-    // once user is logged in check if their browser is supported and show warning if not
+    //once user is logged in check if their browser is supported and show warning if not
     if (isLoggedIn) {
       checkBrowser()
     }
-
     setIgnoreUnsupported(true)
     setCheckedForBrowserSupport(true)
   }, [isLoggedIn])
-
-  useEffect(() => {
-    if (!supported && !ignoreUnsupported) {
-      return
-    }
-
-    checkUpgrade()
-  }, [supported, ignoreUnsupported])
 
   // starting animation once we're checked for browser support and awaited
   // the user dismissed warning dialog (if browser wasn't supported)

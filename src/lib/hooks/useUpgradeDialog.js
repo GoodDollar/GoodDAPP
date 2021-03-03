@@ -1,9 +1,8 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { StyleSheet, TouchableOpacity } from 'react-native'
 import { once } from 'lodash'
 
 import API from '../../lib/API/api'
-import { onAppUpdated } from '../utils/retryImport'
 import Config from '../../config/config'
 
 import Text from '../../components/common/layout/SectionText'
@@ -55,21 +54,12 @@ const WhatsNewButtonComponent = () => {
   )
 }
 
-export default (options = {}) => {
+export default () => {
   const [showDialog] = useDialog()
   const store = SimpleStore.useStore()
   const serviceWorkerUpdated = store.get('serviceWorkerUpdated')
 
-  const { checkOnMounted = true } = options
-  const [checking, setChecking] = useState(checkOnMounted)
-
-  const checkUpgrade = useCallback(() => setChecking(true), [setChecking])
-
   useEffect(() => {
-    if (!checking) {
-      return
-    }
-
     log.info('service worker updated', {
       serviceWorkerUpdated,
     })
@@ -78,7 +68,6 @@ export default (options = {}) => {
       return
     }
 
-    onAppUpdated()
     isPhaseActual().then(isActual =>
       showDialog({
         showCloseButtons: false,
@@ -107,7 +96,5 @@ export default (options = {}) => {
         ],
       }),
     )
-  }, [serviceWorkerUpdated, checking])
-
-  return checkUpgrade
+  }, [serviceWorkerUpdated])
 }

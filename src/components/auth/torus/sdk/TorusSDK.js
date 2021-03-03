@@ -39,7 +39,7 @@ class TorusSDK {
       uxMode: torusUxMode,
     })
 
-    const popupMode = torusUxMode === 'popup'
+    const popupMode = torusOptions.uxMode === 'popup'
     const baseUrl = publicUrl + (popupMode ? '/torus' : '')
     const redirectPath = popupMode ? 'redirect' : 'Welcome/Auth'
 

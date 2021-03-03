@@ -1,4 +1,4 @@
-import { first, omit, pad } from 'lodash'
+import { defaults, first, omit, pad } from 'lodash'
 
 import Config from '../../../../config/config'
 import logger from '../../../../lib/logger/pino-logger'
@@ -16,8 +16,8 @@ import {
 class TorusSDK {
   strategies = {}
 
-  static factory(configOverride = {}) {
-    const sdk = new TorusSDK({ ...Config, ...configOverride }, logger.child({ from: 'TorusSDK' }))
+  static factory(options) {
+    const sdk = new TorusSDK(Config, options, logger.child({ from: 'TorusSDK' }))
 
     sdk.addStrategy('facebook', FacebookStrategy)
     sdk.addStrategy('google-old', GoogleLegacyStrategy)
@@ -29,20 +29,26 @@ class TorusSDK {
     return sdk
   }
 
-  constructor(config, logger) {
+  constructor(config, options, logger) {
     const { env, publicUrl, torusProxyContract, torusNetwork, torusUxMode = 'popup' } = config
-    const popupMode = torusUxMode === 'popup'
-    const baseUrl = publicUrl + (popupMode ? '/torus' : '')
-    const redirectPath = popupMode ? 'redirect' : 'Welcome/Auth'
 
-    this.torus = new Torus(config, {
+    const torusOptions = defaults({}, options, {
       proxyContractAddress: torusProxyContract, // details for test net
       network: torusNetwork, // details for test net
       enableLogging: env === 'development',
       uxMode: torusUxMode,
-      redirectPathName: redirectPath,
-      baseUrl,
     })
+
+    const popupMode = torusUxMode === 'popup'
+    const baseUrl = publicUrl + (popupMode ? '/torus' : '')
+    const redirectPath = popupMode ? 'redirect' : 'Welcome/Auth'
+
+    // setting values for url & redirect if  aren't overridden
+    // doing this separately as we need to determine uxMode firstly
+    defaults(torusOptions, { baseUrl, redirectPathName: redirectPath })
+
+    this.torus = new Torus(config, torusOptions)
+
     this.popupMode = popupMode
     this.config = config
     this.logger = logger

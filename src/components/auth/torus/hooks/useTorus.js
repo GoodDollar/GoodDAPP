@@ -28,7 +28,7 @@ export default (onInitialized = noop) => {
 
       //dont allow popup mode on facebook webview at all, since it doesnt work
       const torusUxMode = isFacebookWebview === false && abVariant === 'A' ? 'popup' : 'redirect'
-      setSDK(TorusSDK.factory({ torusUxMode }))
+      setSDK(TorusSDK.factory({ uxMode: torusUxMode }))
     }
   }, [abTestInitialized])
 

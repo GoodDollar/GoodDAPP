@@ -23,8 +23,6 @@ import logger from './lib/logger/pino-logger'
 import { APP_OPEN, fireEvent, initAnalytics } from './lib/analytics/analytics'
 import handleLinks from './lib/utils/handleLinks'
 
-window.onJSBundleLoaded()
-
 const log = logger.child({ from: 'RouterSelector' })
 
 // identify the case user signup/in using torus redirect flow, so we want to load page asap

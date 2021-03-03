@@ -33,7 +33,7 @@ export function generateCode(
   address: string,
   networkId: number,
   amount: number,
-  reason: string,
+  reason: string = '',
   category: string,
   counterPartyDisplayName: string,
 ) {

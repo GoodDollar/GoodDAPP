@@ -359,50 +359,6 @@ export class StandardFeed {
     }
   }
 
-  async _getProfileNode(initiatorType, initiator, address): Gun {
-    const { logger } = this
-
-    const getProfile = async (indexName, idxKey) => {
-      const trustIdx = this.trust[indexName]
-      const trustExists =
-        trustIdx &&
-        (await this.gun
-          .get(trustIdx)
-          .get(idxKey)
-          .then())
-      let idxSoul = `users/${indexName}`
-      if (trustExists) {
-        idxSoul = trustIdx
-      }
-      logger.debug('extractProfile:', { idxSoul, idxKey, trustExists })
-
-      // Need to verify if user deleted, otherwise gun might stuck here and feed wont be displayed (gun <0.2020)
-      let gunProfile = this.gun
-        .get(idxSoul)
-        .get(idxKey)
-        .get('profile')
-
-      //need to return object so promise.all doesnt resolve node
-      return {
-        gunProfile,
-      }
-
-      // logger.warn('_extractProfileToShow invalid profile', { idxSoul, idxKey })
-      // return undefined
-    }
-
-    if (!initiator && (!address || address === NULL_ADDRESS)) {
-      return
-    }
-
-    const searchField = initiatorType && `by${initiatorType}`
-    const byIndex = searchField && (await getProfile(searchField, initiator))
-
-    const byAddress = address && (await getProfile('bywalletAddress', address))
-
-    return byIndex || byAddress
-  }
-
   //eslint-disable-next-line
   async _extractAvatar(type, withdrawStatus, profileToShow, address) {
     const getAvatarFromGun = async () => {

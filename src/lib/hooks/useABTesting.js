@@ -34,7 +34,7 @@ const createABTesting = (testName, percentage = Config.abTestPercentage, persist
     const component = initialized && test.isCaseA ? componentA : componentB
 
     useEffect(() => {
-      getTestVariant.then(test => {
+      getTestVariant().then(test => {
         const { ab } = test
         void (event && fireEvent(event, { ab }))
         setTest(test)

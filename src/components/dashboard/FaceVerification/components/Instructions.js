@@ -142,9 +142,9 @@ const InstructionsB = ({ styles, onDismiss = noop, ready }) => (
 )
 
 const Instructions = ({ styles, onDismiss = noop, ready = false }) => {
-  const [InstructionsComponent, , abInit] = useABTesting(InstructionsA, InstructionsB, FV_INSTRUCTIONS)
+  const [InstructionsComponent] = useABTesting(InstructionsA, InstructionsB, FV_INSTRUCTIONS)
 
-  return abInit && <InstructionsComponent styles={styles} onDismiss={onDismiss} ready={ready} />
+  return <InstructionsComponent styles={styles} onDismiss={onDismiss} ready={ready} />
 }
 
 const getStylesFromProps = ({ theme }) => ({

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { once } from 'lodash'
+import { get, once } from 'lodash'
 import Config from '../../config/config'
 import { fireEvent } from '../analytics/analytics'
 import AsyncStorage from '../utils/asyncStorage'
@@ -42,7 +42,7 @@ const createABTesting = (testName, percentage = Config.abTestPercentage, persist
       })
     }, [])
 
-    return [component, test.ab, initialized]
+    return [component, get(test, 'ab'), initialized]
   }
 
   return { useABTesting }

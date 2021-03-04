@@ -42,7 +42,7 @@ import wait24hourIllustration from '../../../../assets/Claim/wait24Hour.svg'
 import FashionShootSVG from '../../../../assets/FaceVerification/FashionPhotoshoot.svg'
 
 const log = logger.child({ from: 'FaceVerificationIntro' })
-const { useABTesting } = createABTesting()
+const { useABTesting } = createABTesting('FV_Intro_Screen')
 
 const commonTextStyles = {
   textAlign: 'center',

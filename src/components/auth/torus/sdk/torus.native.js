@@ -7,7 +7,7 @@ class Torus {
     const redirectUri = 'gooddollar://org.gooddollar/redirect'
     const browserRedirectUri = `${publicUrl}/torus/scripts.html`
 
-    this.options = { ...options, redirectUri, browserRedirectUri }
+    this.options = { redirectUri, browserRedirectUri, ...options }
   }
 
   // eslint-disable-next-line require-await

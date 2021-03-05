@@ -24,7 +24,7 @@ export default (onInitialized = noop) => {
       const webview = new DetectWebview(get(global, 'navigator.userAgent'))
       const isFacebookWebview = ['facebook', 'messenger'].includes(webview.browser)
 
-      log.debug('abTesting:', { test, isFacebookWebview })
+      log.debug('abTesting:', { abVariant, isFacebookWebview })
 
       //dont allow popup mode on facebook webview at all, since it doesnt work
       const torusUxMode = isFacebookWebview === false && abVariant === 'A' ? 'popup' : 'redirect'

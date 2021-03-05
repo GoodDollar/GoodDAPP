@@ -12,6 +12,10 @@ import '../lib/gundb/gundb'
 
 const AppHot = App
 
+if (undefined !== typeof window) {
+  window.onJSBundleLoaded()
+}
+
 const AppHolder = () => {
   const [ready, setReady] = useState(false)
 

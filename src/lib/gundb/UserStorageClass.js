@@ -834,7 +834,7 @@ export class UserStorage {
 
       //mint event is probably bridge
       if (feedEvent.type === EVENT_TYPE_MINT && receipt.status) {
-        updatedFeedEvent.data.reason = 'Your Transfereed G$s'
+        updatedFeedEvent.data.reason = 'Your Transferred G$s'
         updatedFeedEvent.data.customName = 'Bridge'
       }
 
@@ -865,7 +865,7 @@ export class UserStorage {
    */
   async handleOTPLUpdated(receipt: any): Promise<FeedEvent> {
     //receipt received via websockets/polling need mutex to prevent race
-    //with enqueing the initial TX data
+    //with enqueuing the initial TX data
     const release = await this.feedMutex.lock()
     try {
       const data = getReceiveDataFromReceipt(receipt, this.wallet.account)

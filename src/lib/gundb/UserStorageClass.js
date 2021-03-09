@@ -387,7 +387,8 @@ export class UserStorage {
    * Object with default value for profile fields
    */
   profileDefaults: {} = {
-    mobile: '',
+    mobile: null,
+    mnemonic: null,
   }
 
   /**
@@ -1519,11 +1520,13 @@ export class UserStorage {
       return storePrivacy()
     }
 
+    logger.debug('setProfileField', { field, value, privacy, onlyPrivacy, display })
+
     return Promise.race([
       this.profile
         .get(field)
         .get('value')
-        .secretAck(value)
+        .secretAck(value === '' ? null : value)
         .catch(e => {
           logger.warn('encrypting profile field failed', e.message, e, { field })
           throw e

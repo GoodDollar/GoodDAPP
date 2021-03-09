@@ -1365,8 +1365,10 @@ export class UserStorage {
     )
     const results = await Promise.all(
       fieldsToSave.map(async field => {
+        let isPrivate
+
         try {
-          let isPrivate = get(this.profileSettings, `[${field}].defaultPrivacy`, 'private')
+          isPrivate = get(this.profileSettings, `[${field}].defaultPrivacy`, 'private')
 
           if (update) {
             isPrivate = await this.getFieldPrivacy(field)
@@ -1374,7 +1376,12 @@ export class UserStorage {
 
           return await this.setProfileField(field, profileWithDefaults[field], isPrivate)
         } catch (e) {
-          //logger.error('setProfile field failed:', e.message, e, { field })
+          logger.warn('setProfile field failed:', e.message, e, {
+            field,
+            value: profileWithDefaults[field],
+            isPrivate,
+          })
+
           return { err: `failed saving field ${field}` }
         }
       }),

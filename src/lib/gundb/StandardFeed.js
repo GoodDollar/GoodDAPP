@@ -1,6 +1,7 @@
 // @flow
-import { assign, filter, get, isNil, memoize } from 'lodash'
-import { defer, from } from 'rxjs'
+import { assign, clone, filter, get, isNil, memoize, pickBy, startsWith, zipObject } from 'lodash'
+import { combineLatest, defer, from, Observable, of } from 'rxjs'
+import { map, mergeMap } from 'rxjs/operators'
 import { Platform } from 'react-native'
 
 import Config from '../../config/config'
@@ -68,7 +69,21 @@ export class StandardFeed {
    * Return all feed events*
    */
   getFormattedEvents(numResults, reset = false) {
-    return defer(() => from(this._fetchEvents(numResults, reset)))
+    return defer(() => from(this._fetchEvents(numResults, reset))).pipe(
+      mergeMap(events =>
+        combineLatest(events.map(event => this._fetchProfile(event))).pipe(
+          map(profiles =>
+            events.map((event, index) => {
+              const fullProfile = pickBy(profiles[index] || {})
+
+              // non-deep copy will be enough
+              assign(event.data.endpoint, fullProfile)
+              return clone(event)
+            }),
+          ),
+        ),
+      ),
+    )
   }
 
   async _fetchEvents(numResults, reset = false) {
@@ -107,6 +122,7 @@ export class StandardFeed {
     const preformatted = withTxData.map(_formatEvent)
 
     logger.debug('getFormattedEvents done preformatting events', { preformatted })
+
     return preformatted
   }
 
@@ -221,6 +237,11 @@ export class StandardFeed {
       animationExecuted,
       action,
       data: {
+        initiator: {
+          initiatorType,
+          initiator,
+          address,
+        },
         endpoint: {
           address: sender,
           fullName,
@@ -235,8 +256,16 @@ export class StandardFeed {
         smallReadMore,
         withdrawCode,
       },
-      preloading: true,
     }
+  }
+
+  _fetchProfile(event) {
+    const { initiatorType, initiator, address } = event.data.initiator
+
+    return from(this._getProfileNodePath(initiatorType, initiator, address)).pipe(
+      mergeMap(path => (path ? this._getProfileFromGun(path) : of(null))),
+      startsWith(null), // on first emit return empty profile immediately
+    )
   }
 
   _extractData({ type, id, data: { receiptData, from = '', to = '', counterPartyDisplayName = '', amount } }) {
@@ -306,100 +335,50 @@ export class StandardFeed {
     return `${type}${suffix}`
   }
 
-  /*
+  async _getProfileNodePath(initiatorType, initiator, address): string {
+    const { storage } = this
+    let path
 
-  const profileNode =
-          withdrawStatus !== 'pending' && (await this._getProfileNodeTrusted(initiatorType, initiator, address)) //dont try to fetch profile node of this is a tx we sent and is pending
-        const [avatar, fullName] = await Promise.all([
-          this._extractAvatar(type, withdrawStatus, get(profileNode, 'gunProfile'), address).catch(e => {
-            logger.warn('formatEvent: failed extractAvatar', e.message, e, {
-              type,
-              withdrawStatus,
-              profileNode,
-              address,
-            })
-            return undefined
-          }),
-          this._extractFullName(
-            customName,
-            get(profileNode, 'gunProfile'),
-            initiatorType,
-            initiator,
-            type,
-            address,
-            displayName,
-          ).catch(e => {
-            logger.warn('formatEvent: failed extractFullName', e.message, e, {
-              customName,
-              profileNode,
-              initiatorType,
-              initiator,
-              type,
-              address,
-              displayName,
-            })
-          }),
-        ])
-
-
-  async _getProfileNodeTrusted(initiatorType, initiator, address): Gun {
     if (!initiator && (!address || address === NULL_ADDRESS)) {
       return
     }
 
-    const byIndex = initiatorType && initiator && (await this.getUserProfilePublickey(initiator))
-
-    const byAddress = address && (await this.getUserProfilePublickey(address))
-
-    let gunProfile = (byIndex || byAddress) && this.gun.get(byIndex || byAddress).get('profile')
-
-    //need to return object so promise.all doesnt resolve node
-    return {
-      gunProfile,
+    if (initiatorType && initiator) {
+      path = await storage.getUserProfilePublickey(initiator)
     }
+
+    if (!path && address) {
+      path = await storage.getUserProfilePublickey(address)
+    }
+
+    return path
   }
 
-  //eslint-disable-next-line
-  async _extractAvatar(type, withdrawStatus, profileToShow, address) {
-    const getAvatarFromGun = async () => {
-      const avatar = profileToShow && (await profileToShow.get('smallAvatar').then(null, 500))
+  _getProfileFromGun(nodePath) {
+    const { storage, logger } = this
+    const { gun } = storage
+    const profileNode = gun.get(nodePath).get('profile')
+    const fields = ['avatar', 'fullName']
+    const gunFields = ['smallAvatar', 'fullName']
 
-      // verify account is not deleted and return value
-      // if account deleted - the display of 'avatar' field will be private
-      return get(avatar, 'privacy') === 'public' ? avatar.display : undefined
-    }
+    return combineLatest(
+      gunFields.map(field =>
+        Observable.create(observer => {
+          let eventListener
+          const fieldNode = profileNode.get(field)
 
-    if (
-      withdrawStatus === 'error' ||
-      type === EVENT_TYPE_BONUS ||
-      type === EVENT_TYPE_CLAIM ||
-      address === NULL_ADDRESS
-    ) {
-      return favicon
-    }
+          fieldNode.on((value, _, __, listener) => {
+            eventListener || (eventListener = listener)
+            logger.debug('profileFromGun:', { [field]: value })
 
-    return getAvatarFromGun()
+            const { privacy, display } = value || {}
+
+            observer.next('public' === privacy ? display : undefined)
+          })
+
+          return () => eventListener && eventListener.off()
+        }),
+      ),
+    ).pipe(map(fieldsValues => zipObject(fields, fieldsValues)))
   }
-
-  async _extractFullName(customName, profileToShow, initiatorType, initiator, type, address, displayName) {
-    const { logger } = this
-
-
-
-    const getFullNameFromGun = async () => {
-      const fullName = profileToShow && (await profileToShow.get('fullName').then(null, 500))
-      logger.debug('profileFromGun:', { fullName })
-
-      // verify account is not deleted and return value
-      // if account deleted - the display of 'fullName' field will be private
-      return get(fullName, 'privacy') === 'public' ? fullName.display : undefined
-    }
-
-    return (
-      customName || // if customName exist, use it
-      (await getFullNameFromGun()) || // if there's a profile, extract it's fullName
-      (initiatorType && initiator) ||
-      (type === EVENT_TYPE_CLAIM || address === NULL_ADDRESS ? 'GoodDollar' : displayName)
-    )
-  }*/
 }

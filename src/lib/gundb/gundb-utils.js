@@ -58,6 +58,7 @@ const fetchKey = memoize(async (path, node) => {
       .get(path)
       .then(null, isMobileNative ? 2500 : 1000)
   }
+
   const secureKey = await SEA.decrypt(encryptedKey, pair)
 
   if (!secureKey) {

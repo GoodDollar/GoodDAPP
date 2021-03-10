@@ -1,6 +1,6 @@
 // @flow
 import { assign, clone, filter, get, isNil, memoize, pickBy, startsWith, zipObject } from 'lodash'
-import { combineLatest, defer, empty, from, Observable, of } from 'rxjs'
+import { combineLatest, defer, empty, from, of } from 'rxjs'
 import { map, mergeMap } from 'rxjs/operators'
 import { Platform } from 'react-native'
 
@@ -8,6 +8,7 @@ import Config from '../../config/config'
 
 import isMobilePhone from '../validators/isMobilePhone'
 import isEmail from '../../lib/validators/isEmail'
+import { ofGunNode } from '../utils/rxjs'
 
 export const EVENT_TYPE_WITHDRAW = 'withdraw'
 export const EVENT_TYPE_BONUS = 'bonus'
@@ -271,21 +272,17 @@ export class StandardFeed {
           ? of(null)
           : combineLatest(
               gunFields.map(field =>
-                Observable.create(observer => {
-                  let eventListener
-                  const fieldNode = profileNode.get(field)
-
-                  fieldNode.on((value, _, __, listener) => {
-                    eventListener || (eventListener = listener)
-                    logger.debug('profileFromGun:', { [field]: value })
-
+                ofGunNode(profileNode.get(field)).pipe(
+                  map(value => {
                     const { privacy, display } = value || {}
 
-                    observer.next('public' === privacy ? display : undefined)
-                  })
+                    logger.debug('profileFromGun:', { [field]: value })
 
-                  return () => eventListener && eventListener.off()
-                }),
+                    if ('public' === privacy) {
+                      return display
+                    }
+                  }),
+                ),
               ),
             ).pipe(map(fieldsValues => zipObject(fields, fieldsValues))),
       ),

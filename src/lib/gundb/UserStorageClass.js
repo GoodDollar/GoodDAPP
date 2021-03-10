@@ -387,8 +387,8 @@ export class UserStorage {
    * Object with default value for profile fields
    */
   profileDefaults: {} = {
-    mobile: null,
-    mnemonic: null,
+    mobile: '',
+    mnemonic: '',
   }
 
   /**
@@ -1225,6 +1225,7 @@ export class UserStorage {
       .get(field)
       .get('value')
       .decrypt()
+      .then(v => (v === null && field in this.profileDefaults ? this.profileDefaults[field] : v))
       .catch(reason => {
         let exception = reason
         let { message } = exception

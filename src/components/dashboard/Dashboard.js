@@ -511,7 +511,8 @@ const Dashboard = props => {
               title: 'Error',
               message: 'Event does not exist',
             }),
-        )[(showDialog, showEventModal)],
+        ),
+    [showDialog, showEventModal],
   )
 
   const onScroll = useCallback(

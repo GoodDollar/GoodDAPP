@@ -73,19 +73,22 @@ export class StandardFeed {
     return defer(() => from(this._fetchEvents(numResults, reset))).pipe(
       mergeMap(events =>
         combineLatest(
-          events.map(event =>
-            this._fetchProfile(event).pipe(
-              map(profile => {
-                const fullProfile = pickBy(profile || {})
-
-                // non-deep copy will be enough
-                assign(event.data.endpoint, fullProfile)
-                return clone(event)
-              }),
-            ),
-          ),
+          events.map(event => this._fetchProfile(event).pipe(map(profile => this._mergeProfile(event, profile)))),
         ),
       ),
+    )
+  }
+
+  getFormattedEventById(id) {
+    return defer(() => from(this._fetchTxData(id))).pipe(
+      map(withTxData => {
+        if (!withTxData) {
+          throw new Error('Event does not exist')
+        }
+
+        return this._formatEvent(withTxData)
+      }),
+      mergeMap(event => this._fetchProfile(event).pipe(map(profile => this._mergeProfile(event, profile)))),
     )
   }
 
@@ -116,7 +119,7 @@ export class StandardFeed {
         }
 
         logger.debug('getFormattedEvents missing feed receipt', { feedItem })
-        return this._fetchTxData(feedItem)
+        return this._fetchTxData(get(feedItem, 'id'))
       }),
     ).then(filter)
 
@@ -129,10 +132,10 @@ export class StandardFeed {
     return preformatted
   }
 
-  async _fetchTxData(feedItem) {
+  async _fetchTxData(txHash) {
+    const id = txHash
     const { _hasTxData } = StandardFeed
     const { storage, wallet, logger } = this
-    const { id } = feedItem
 
     if (!(id || '').startsWith('0x')) {
       return
@@ -288,6 +291,14 @@ export class StandardFeed {
       ),
       startsWith(null), // on first emit return empty profile immediately
     )
+  }
+
+  _mergeProfile(event, profile) {
+    const fullProfile = pickBy(profile || {})
+
+    // non-deep copy will be enough
+    assign(event.data.endpoint, fullProfile)
+    return clone(event)
   }
 
   _extractData({ type, id, data: { receiptData, from = '', to = '', counterPartyDisplayName = '', amount } }) {

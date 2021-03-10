@@ -450,7 +450,7 @@ const Dashboard = props => {
     log.debug('Dashboard didmount', navigation)
     initDashboard()
 
-    return function() {
+    return () => {
       Dimensions.removeEventListener('change', handleResize)
       userStorage.feedEvents.off('updated', onFeedUpdated)
     }

@@ -10,6 +10,7 @@ import {
   get,
   isEqual,
   isError,
+  isNil,
   isString,
   isUndefined,
   keys,
@@ -21,6 +22,7 @@ import {
   orderBy,
   over,
   pick,
+  set,
   some,
   takeWhile,
   toPairs,
@@ -814,7 +816,7 @@ export class UserStorage {
       }
 
       //merge incoming receipt data into existing event
-      const updatedFeedEvent: FeedEvent = {
+      let updatedFeedEvent: FeedEvent = {
         ...feedEvent,
         ...initialEvent,
         status: feedEvent.otplStatus === 'cancelled' ? feedEvent.status : receipt.status ? 'completed' : 'error',
@@ -838,6 +840,8 @@ export class UserStorage {
         updatedFeedEvent.data.customName = 'Bridge'
       }
 
+      updatedFeedEvent = await this.setFeedEventProfileFields(updatedFeedEvent)
+
       logger.debug('handleReceiptUpdated receiptReceived', {
         initialEvent,
         feedEvent,
@@ -857,6 +861,24 @@ export class UserStorage {
       release()
     }
     return
+  }
+
+  async setFeedEventProfileFields(feedEvent: FeedEvent) {
+    const fullName = get(feedEvent, 'data.endpoint.fullName')
+    const avatar = get(feedEvent, 'data.endpoint.avatar')
+    if (!fullName || !avatar) {
+      const walletAddress =
+        feedEvent.type === 'send' ? get(feedEvent, 'data.receiptData.to') : get(feedEvent, 'data.receiptData.from')
+
+      const userProfile = await this.getUserProfile(walletAddress)
+      if (userProfile.name) {
+        set(feedEvent, 'data.endpoint.fullName', userProfile.name)
+      }
+      if (userProfile.avatar) {
+        set(feedEvent, 'data.endpoint.avatar', userProfile.avatar)
+      }
+    }
+    return feedEvent
   }
 
   /**
@@ -908,14 +930,17 @@ export class UserStorage {
       feedEvent.data.otplData = data
       feedEvent.status = feedEvent.data.otplStatus = otplStatus
       feedEvent.date = receiptDate.toString()
+
+      const updatedFeedEvent = await this.setFeedEventProfileFields(feedEvent)
+
       logger.debug('handleOTPLUpdated receiptReceived', {
-        feedEvent,
+        updatedFeedEvent,
         otplStatus,
         receipt,
         data,
       })
-      await this.updateFeedEvent(feedEvent, prevDate)
-      return feedEvent
+      await this.updateFeedEvent(updatedFeedEvent, prevDate)
+      return updatedFeedEvent
     } catch (e) {
       logger.error('handleOTPLUpdated', e.message, e)
     } finally {
@@ -1953,8 +1978,11 @@ export class UserStorage {
           address,
         })
         const profileNode =
-          withdrawStatus !== 'pending' && (await this._getProfileNodeTrusted(initiatorType, initiator, address)) //dont try to fetch profile node of this is a tx we sent and is pending
-        const [avatar, fullName] = await Promise.all([
+          withdrawStatus !== 'pending' && (await this._getProfileNodeTrusted(initiatorType, initiator, address)) //don't try to fetch profile node of this is a tx we sent and is pending
+        let fullNameFromEvent = get(event, 'data.endpoint.fullName')
+        let avatarFromEvent = get(event, 'data.endpoint.avatar')
+
+        const [avatarFromProfile, fullNameFromProfile] = await Promise.all([
           this._extractAvatar(type, withdrawStatus, get(profileNode, 'gunProfile'), address).catch(e => {
             logger.warn('formatEvent: failed extractAvatar', e.message, e, {
               type,
@@ -1985,7 +2013,7 @@ export class UserStorage {
           }),
         ])
 
-        return {
+        let updatedEvent = {
           id,
           date: new Date(date).getTime(),
           type,
@@ -1997,8 +2025,9 @@ export class UserStorage {
           data: {
             endpoint: {
               address: sender,
-              fullName,
-              avatar,
+              fullName:
+                !fullNameFromProfile || fullNameFromProfile === 'Unknown' ? fullNameFromEvent : fullNameFromProfile,
+              avatar: avatarFromProfile || avatarFromEvent,
               withdrawStatus,
             },
             amount: value,
@@ -2010,6 +2039,18 @@ export class UserStorage {
             withdrawCode,
           },
         }
+        const isFullName = fullName => {
+          return fullName !== 'Unknown' && !isNil(fullName)
+        }
+
+        if (
+          (fullNameFromEvent !== fullNameFromProfile && isFullName(fullNameFromProfile)) ||
+          (avatarFromProfile && avatarFromEvent !== avatarFromProfile)
+        ) {
+          this.updateFeedEvent(updatedEvent)
+        }
+
+        return updatedEvent
       } catch (e) {
         logger.error('formatEvent: failed formatting event:', e.message, e, {
           event,
@@ -2094,7 +2135,7 @@ export class UserStorage {
 
     let gunProfile = (byIndex || byAddress) && this.gun.get(byIndex || byAddress).get('profile')
 
-    //need to return object so promise.all doesnt resolve node
+    //need to return object so promise.all doesn't resolve node
     return {
       gunProfile,
     }

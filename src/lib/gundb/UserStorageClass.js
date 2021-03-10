@@ -8,8 +8,10 @@ import {
   find,
   flatten,
   get,
+  isEmpty,
   isEqual,
   isError,
+  isNil,
   isString,
   isUndefined,
   keys,
@@ -505,6 +507,39 @@ export class UserStorage {
 
   get feed() {
     return this.gun.user().get('feed')
+  }
+
+  /**
+   * Convert to null, if value is equal to empty string
+   * @param {string} field - Profile attribute
+   * @param {string} value - Profile attribute value
+   * @returns serialized value
+   */
+  serialize(field: string, value: any): any {
+    const { profileDefaults } = this
+    const defaultValue = profileDefaults[field]
+    const hasDefaultValue = field in profileDefaults
+    const isFieldEmpty = isString(value) && isEmpty(value)
+
+    if (isFieldEmpty || (hasDefaultValue && value === defaultValue)) {
+      return null
+    }
+
+    return value
+  }
+
+  /**
+   * Parse null value with replace according to defaults profile values, otherwise return value
+   * @param {string} field - Profile attribute
+   * @param {string} value - Profile attribute value
+   * @returns unserialized value
+   */
+  unserialize(field: string, value: any): any {
+    const { profileDefaults } = this
+    const defaultValue = profileDefaults[field]
+    const hasDefaultValue = field in profileDefaults
+
+    return isNil(value) && hasDefaultValue ? defaultValue : value
   }
 
   gunAuth(username: string, password: string): Promise<any> {
@@ -1223,7 +1258,7 @@ export class UserStorage {
     return this.profile
       .get(field)
       .get('value')
-      .decrypt()
+      .decrypt(value => this.unserialize(field, value))
       .catch(reason => {
         let exception = reason
         let { message } = exception
@@ -1526,11 +1561,13 @@ export class UserStorage {
       return storePrivacy()
     }
 
+    logger.debug('setProfileField', { field, value, privacy, onlyPrivacy, display })
+
     return Promise.race([
       this.profile
         .get(field)
         .get('value')
-        .secretAck(value)
+        .secretAck(this.serialize(field, value))
         .catch(e => {
           logger.warn('encrypting profile field failed', e.message, e, { field })
           throw e

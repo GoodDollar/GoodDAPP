@@ -1042,7 +1042,7 @@ export class UserStorage {
       })
       .then(ids => ids || {})
 
-    this.userFeed = new StandardFeed(this, logger)
+    this.userFeed = new StandardFeed(this, this.gun, this.wallet, logger)
 
     //no need to block on this
     this._syncFeedCache()

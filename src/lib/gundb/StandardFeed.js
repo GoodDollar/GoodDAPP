@@ -1,6 +1,6 @@
 // @flow
 import { assign, clone, filter, get, isNil, memoize, pickBy, startsWith, zipObject } from 'lodash'
-import { combineLatest, defer, from, Observable, of } from 'rxjs'
+import { combineLatest, defer, empty, from, Observable, of } from 'rxjs'
 import { map, mergeMap } from 'rxjs/operators'
 import { Platform } from 'react-native'
 
@@ -56,13 +56,13 @@ export class StandardFeed {
     return get(event, 'id', event)
   }
 
-  constructor(storage, logger) {
+  constructor(storage, gun, wallet, logger) {
     const { _getEventCacheKey } = StandardFeed
     const { _formatEvent } = this
     const memoizedFormatter = memoize(_formatEvent.bind(this), _getEventCacheKey)
     const { cache } = memoizedFormatter
 
-    assign(this, { storage, logger, eventsCache: cache, _formatEvent: memoizedFormatter })
+    assign(this, { storage, gun, wallet, logger, eventsCache: cache, _formatEvent: memoizedFormatter })
   }
 
   /**
@@ -71,15 +71,17 @@ export class StandardFeed {
   getFormattedEvents(numResults, reset = false) {
     return defer(() => from(this._fetchEvents(numResults, reset))).pipe(
       mergeMap(events =>
-        combineLatest(events.map(event => this._fetchProfile(event))).pipe(
-          map(profiles =>
-            events.map((event, index) => {
-              const fullProfile = pickBy(profiles[index] || {})
+        combineLatest(
+          events.map(event =>
+            this._fetchProfile(event).pipe(
+              map(profile => {
+                const fullProfile = pickBy(profile || {})
 
-              // non-deep copy will be enough
-              assign(event.data.endpoint, fullProfile)
-              return clone(event)
-            }),
+                // non-deep copy will be enough
+                assign(event.data.endpoint, fullProfile)
+                return clone(event)
+              }),
+            ),
           ),
         ),
       ),
@@ -128,8 +130,7 @@ export class StandardFeed {
 
   async _fetchTxData(feedItem) {
     const { _hasTxData } = StandardFeed
-    const { storage, logger } = this
-    const { wallet } = storage
+    const { storage, wallet, logger } = this
     const { id } = feedItem
 
     if (!(id || '').startsWith('0x')) {
@@ -174,8 +175,7 @@ export class StandardFeed {
    *  with props { id, date, type, data: { amount, message, endpoint: { address, fullName, avatar, withdrawStatus }}}
    */
   _formatEvent(event) {
-    const { logger, storage } = this
-    const { wallet } = storage
+    const { logger, wallet } = this
     const { data, type, date, id, status, createdDate, animationExecuted, action } = event
 
     logger.debug('formatEvent: incoming event', id, { event })
@@ -260,18 +260,43 @@ export class StandardFeed {
   }
 
   _fetchProfile(event) {
+    const { logger } = this
+    const fields = ['avatar', 'fullName']
+    const gunFields = ['smallAvatar', 'fullName']
     const { initiatorType, initiator, address } = event.data.initiator
 
-    return from(this._getProfileNodePath(initiatorType, initiator, address)).pipe(
-      mergeMap(path => (path ? this._getProfileFromGun(path) : of(null))),
+    return this._getProfileNodeTrust(initiatorType, initiator, address).pipe(
+      mergeMap(profileNode =>
+        !profileNode
+          ? of(null)
+          : combineLatest(
+              gunFields.map(field =>
+                Observable.create(observer => {
+                  let eventListener
+                  const fieldNode = profileNode.get(field)
+
+                  fieldNode.on((value, _, __, listener) => {
+                    eventListener || (eventListener = listener)
+                    logger.debug('profileFromGun:', { [field]: value })
+
+                    const { privacy, display } = value || {}
+
+                    observer.next('public' === privacy ? display : undefined)
+                  })
+
+                  return () => eventListener && eventListener.off()
+                }),
+              ),
+            ).pipe(map(fieldsValues => zipObject(fields, fieldsValues))),
+      ),
       startsWith(null), // on first emit return empty profile immediately
     )
   }
 
   _extractData({ type, id, data: { receiptData, from = '', to = '', counterPartyDisplayName = '', amount } }) {
-    const { logger, storage } = this
-    const { wallet } = storage.wallet
-    const { isAddress } = wallet.utils
+    const { logger, wallet } = this
+    const { wallet: w3Wallet } = wallet
+    const { isAddress } = w3Wallet.utils
 
     const data = {
       address: '',
@@ -335,50 +360,29 @@ export class StandardFeed {
     return `${type}${suffix}`
   }
 
-  async _getProfileNodePath(initiatorType, initiator, address): string {
-    const { storage } = this
-    let path
+  _getProfileNodeTrust(initiatorType, initiator, address) {
+    const { storage, gun } = this
 
     if (!initiator && (!address || address === NULL_ADDRESS)) {
-      return
+      return empty()
     }
 
-    if (initiatorType && initiator) {
-      path = await storage.getUserProfilePublickey(initiator)
-    }
+    return defer(() =>
+      from(
+        (async () => {
+          let path
 
-    if (!path && address) {
-      path = await storage.getUserProfilePublickey(address)
-    }
+          if (initiatorType && initiator) {
+            path = await storage.getUserProfilePublickey(initiator)
+          }
 
-    return path
-  }
+          if (!path && address) {
+            path = await storage.getUserProfilePublickey(address)
+          }
 
-  _getProfileFromGun(nodePath) {
-    const { storage, logger } = this
-    const { gun } = storage
-    const profileNode = gun.get(nodePath).get('profile')
-    const fields = ['avatar', 'fullName']
-    const gunFields = ['smallAvatar', 'fullName']
-
-    return combineLatest(
-      gunFields.map(field =>
-        Observable.create(observer => {
-          let eventListener
-          const fieldNode = profileNode.get(field)
-
-          fieldNode.on((value, _, __, listener) => {
-            eventListener || (eventListener = listener)
-            logger.debug('profileFromGun:', { [field]: value })
-
-            const { privacy, display } = value || {}
-
-            observer.next('public' === privacy ? display : undefined)
-          })
-
-          return () => eventListener && eventListener.off()
-        }),
+          return path
+        })(),
       ),
-    ).pipe(map(fieldsValues => zipObject(fields, fieldsValues)))
+    ).pipe(map(nodePath => (nodePath ? gun.get(nodePath).get('profile') : null)))
   }
 }

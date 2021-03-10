@@ -508,6 +508,26 @@ export class UserStorage {
     return this.gun.user().get('feed')
   }
 
+  /**
+   * Convert to null, if value is equal to empty string
+   * @param {string} field - Profile attribute
+   * @param {string} value - Profile attribute value
+   * @returns serialized value
+   */
+  serializeProfileField(value: any): any {
+    return value === '' ? null : value
+  }
+
+  /**
+   * Parse null value with replace according to defaults profile values, otherwise return value
+   * @param {string} field - Profile attribute
+   * @param {string} value - Profile attribute value
+   * @returns unserialized value
+   */
+  unserializeProfileField(field: string, value: any): any {
+    return value === null && field in this.profileDefaults ? this.profileDefaults[field] : value
+  }
+
   gunAuth(username: string, password: string): Promise<any> {
     return new Promise((res, rej) => {
       this.gunuser.auth(username, password, user => {
@@ -1225,7 +1245,7 @@ export class UserStorage {
       .get(field)
       .get('value')
       .decrypt()
-      .then(v => (v === null && field in this.profileDefaults ? this.profileDefaults[field] : v))
+      .then(value => this.unserializeProfileField(field, value))
       .catch(reason => {
         let exception = reason
         let { message } = exception
@@ -1527,7 +1547,7 @@ export class UserStorage {
       this.profile
         .get(field)
         .get('value')
-        .secretAck(value === '' ? null : value)
+        .secretAck(this.serializeProfileField(value))
         .catch(e => {
           logger.warn('encrypting profile field failed', e.message, e, { field })
           throw e

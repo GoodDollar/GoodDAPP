@@ -71,11 +71,7 @@ export class StandardFeed {
    */
   getFormattedEvents(numResults, reset = false) {
     return defer(() => from(this._fetchEvents(numResults, reset))).pipe(
-      mergeMap(events =>
-        combineLatest(
-          events.map(event => this._fetchProfile(event).pipe(map(profile => this._mergeProfile(event, profile)))),
-        ),
-      ),
+      mergeMap(events => combineLatest(events.map(event => this._subscribeOnProfile(event)))),
     )
   }
 
@@ -88,7 +84,7 @@ export class StandardFeed {
 
         return this._formatEvent(withTxData)
       }),
-      mergeMap(event => this._fetchProfile(event).pipe(map(profile => this._mergeProfile(event, profile)))),
+      mergeMap(event => this._subscribeOnProfile(event)),
     )
   }
 
@@ -293,12 +289,16 @@ export class StandardFeed {
     )
   }
 
-  _mergeProfile(event, profile) {
-    const fullProfile = pickBy(profile || {})
+  _subscribeOnProfile(event) {
+    return this._fetchProfile(event).pipe(
+      map(profile => {
+        const fullProfile = pickBy(profile || {})
 
-    // non-deep copy will be enough
-    assign(event.data.endpoint, fullProfile)
-    return clone(event)
+        // non-deep copy will be enough
+        assign(event.data.endpoint, fullProfile)
+        return clone(event)
+      }),
+    )
   }
 
   _extractData({ type, id, data: { receiptData, from = '', to = '', counterPartyDisplayName = '', amount } }) {

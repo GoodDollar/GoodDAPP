@@ -4,6 +4,7 @@ import { Animated, Dimensions, Easing, Image, Platform, TouchableOpacity, View }
 import { concat, debounce, get, uniqBy } from 'lodash'
 import Mutex from 'await-mutex'
 import type { Store } from 'undux'
+import { last } from 'rxjs/operators'
 import AsyncStorage from '../../lib/utils/asyncStorage'
 import { isBrowser } from '../../lib/utils/platform'
 import normalize from '../../lib/utils/normalizeText'
@@ -496,26 +497,21 @@ const Dashboard = props => {
   }
 
   const showNewFeedEvent = useCallback(
-    async eventId => {
-      try {
-        const item = await userStorage.getFormatedEventById(eventId)
-        log.info('showNewFeedEvent', { eventId, item })
-        if (item) {
-          showEventModal(item)
-        } else {
-          showDialog({
-            title: 'Error',
-            message: 'Event does not exist',
-          })
-        }
-      } catch (e) {
-        showDialog({
-          title: 'Error',
-          message: 'Event does not exist',
-        })
-      }
-    },
-    [showDialog, showEventModal],
+    eventId =>
+      userStorage.userFeed
+        .getFormatedEventById(eventId)
+        .pipe(last())
+        .subscribe(
+          item => {
+            log.info('showNewFeedEvent', { eventId, item })
+            showEventModal(item)
+          },
+          error =>
+            showDialog({
+              title: 'Error',
+              message: 'Event does not exist',
+            }),
+        )[(showDialog, showEventModal)],
   )
 
   const onScroll = useCallback(

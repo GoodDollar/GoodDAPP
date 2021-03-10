@@ -1258,8 +1258,7 @@ export class UserStorage {
     return this.profile
       .get(field)
       .get('value')
-      .decrypt()
-      .then(value => this.unserialize(field, value))
+      .decrypt(value => this.unserialize(field, value))
       .catch(reason => {
         let exception = reason
         let { message } = exception

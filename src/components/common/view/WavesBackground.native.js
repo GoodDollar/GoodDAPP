@@ -17,9 +17,8 @@ const styles = StyleSheet.create({
   wavesBackground: {
     position: 'absolute',
     bottom: 0,
-    left: -15,
     width: '310%',
-    height: '100%',
+    height: '110%',
     opacity: 0.2,
   },
 })

@@ -1,5 +1,5 @@
 // @flow
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { TouchableHighlight, View } from 'react-native'
 import * as Animatable from 'react-native-animatable'
 
@@ -42,7 +42,6 @@ const FeedListItem = (props: FeedListItemProps) => {
   const itemStyle = getEventSettingsByType(theme, itemType)
   const disableAnimForTests = Config.env === 'test'
   const easing = 'ease-in'
-  const duration = 1000 // default duration for Animatable
 
   const imageStyle = {
     backgroundColor: itemStyle.color,
@@ -61,12 +60,14 @@ const FeedListItem = (props: FeedListItemProps) => {
     }
   }, [fireEvent, type, onItemPress, id])
 
-  // show shadow for native android only after opacity animation was finished
-  useEffect(() => {
-    if (isAndroidNative) {
-      setTimeout(() => setShowAndroidShadow(true), duration)
-    }
-  }, [])
+  const onAnimationFinished = useCallback(
+    ({ finished }) => {
+      if (finished && isAndroidNative) {
+        setShowAndroidShadow(true)
+      }
+    },
+    [setShowAndroidShadow],
+  )
 
   if (isItemEmpty) {
     const feedLoadAnimShown = simpleStore.get('feedLoadAnimShown')
@@ -135,7 +136,7 @@ const FeedListItem = (props: FeedListItemProps) => {
 
   return (
     <Animatable.View
-      duration={duration}
+      onAnimationEnd={onAnimationFinished}
       animation={disableAnimForTests ? '' : 'fadeIn'}
       easing={easing}
       useNativeDriver

@@ -591,7 +591,7 @@ describe('UserStorage', () => {
           email: 'johndoe@blah.com',
           phone: '+22222222222',
           mobile: '+22222222222',
-          x: '',
+          x: null,
         })
         done()
       })

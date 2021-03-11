@@ -9,11 +9,13 @@ const EventCounterParty = ({ feedItem, styles, style, textStyle, subtitle, isSma
 
   let hasSubtitle = feedItem.data.readMore !== false
   switch (feedItem.type) {
+    case 'senddirect':
     case 'send':
       direction = 'To: '
       break
 
     case 'claim':
+    case 'receivedirect':
     case 'receive':
     case 'withdraw':
     case 'bonus':

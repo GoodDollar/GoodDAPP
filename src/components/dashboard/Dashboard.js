@@ -200,7 +200,7 @@ const Dashboard = props => {
   const subscribeToFeed = async () => {
     await getFeedPage(true)
 
-    userStorage.feedEvents.on('updated', onFeedUpdated)
+    userStorage.feedStorage.feedEvents.on('updated', onFeedUpdated)
   }
 
   const onFeedUpdated = event => {
@@ -452,7 +452,7 @@ const Dashboard = props => {
 
     return function() {
       Dimensions.removeEventListener('change', handleResize)
-      userStorage.feedEvents.off('updated', onFeedUpdated)
+      userStorage.feedStorage.feedEvents.off('updated', onFeedUpdated)
     }
   }, [])
 

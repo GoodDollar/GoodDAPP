@@ -816,7 +816,7 @@ export class UserStorage {
       }
 
       //merge incoming receipt data into existing event
-      let updatedFeedEvent: FeedEvent = {
+      const updatedFeedEvent: FeedEvent = {
         ...feedEvent,
         ...initialEvent,
         status: feedEvent.otplStatus === 'cancelled' ? feedEvent.status : receipt.status ? 'completed' : 'error',
@@ -839,8 +839,6 @@ export class UserStorage {
         updatedFeedEvent.data.reason = 'Your Transferred G$s'
         updatedFeedEvent.data.customName = 'Bridge'
       }
-
-      updatedFeedEvent = await this.setFeedEventProfileFields(updatedFeedEvent)
 
       logger.debug('handleReceiptUpdated receiptReceived', {
         initialEvent,
@@ -931,16 +929,14 @@ export class UserStorage {
       feedEvent.status = feedEvent.data.otplStatus = otplStatus
       feedEvent.date = receiptDate.toString()
 
-      const updatedFeedEvent = await this.setFeedEventProfileFields(feedEvent)
-
       logger.debug('handleOTPLUpdated receiptReceived', {
-        updatedFeedEvent,
+        feedEvent,
         otplStatus,
         receipt,
         data,
       })
-      await this.updateFeedEvent(updatedFeedEvent, prevDate)
-      return updatedFeedEvent
+      await this.updateFeedEvent(feedEvent, prevDate)
+      return feedEvent
     } catch (e) {
       logger.error('handleOTPLUpdated', e.message, e)
     } finally {
@@ -2489,6 +2485,9 @@ export class UserStorage {
     }
 
     logger.debug('updateFeedEvent starting encrypt', { dayEventsArr, toUpd, day })
+
+    //  set fullName and avatar to feed event
+    event = await this.setFeedEventProfileFields(event)
 
     // Saving eventFeed by id
     const eventAck = this.writeFeedEvent(event).catch(e => {

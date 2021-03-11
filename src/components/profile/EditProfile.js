@@ -12,7 +12,7 @@ import SaveButton from '../common/animations/SaveButton/SaveButton'
 import SaveButtonDisabled from '../common/animations/SaveButton/SaveButtonDisabled'
 import { fireEvent, PROFILE_UPDATE } from '../../lib/analytics/analytics'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
-import { useDebounce } from '../../lib/hooks/useDebouce'
+import { useDebouncedValue } from '../../lib/hooks/useDebouce'
 import RoundIconButton from '../common/buttons/RoundIconButton'
 import ProfileDataTable from './ProfileDataTable'
 
@@ -33,7 +33,7 @@ const EditProfile = ({ screenProps, styles, navigation }) => {
   const [showErrorDialog] = useErrorDialog()
   const { push, pop } = screenProps
 
-  const deboucedProfile = useDebounce(profile, 500)
+  const deboucedProfile = useDebouncedValue(profile, 500)
   const onProfileSaved = useCallback(() => pop(), [pop])
   const handleEditAvatar = useCallback(() => push(`ViewAvatar`), [push])
 

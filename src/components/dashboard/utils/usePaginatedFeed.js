@@ -4,6 +4,7 @@ import { concat, noop, uniqBy } from 'lodash'
 import { combineLatest } from 'rxjs'
 import { onFirst, replayable } from '../../../lib/utils/rxjs'
 
+import useDebounce from '../../../lib/hooks/useDebouce'
 import userStorage from '../../../lib/gundb/UserStorage'
 import { PAGE_SIZE } from './feed'
 
@@ -47,20 +48,28 @@ const usePaginatedFeed = (onFeedLoaded = noop) => {
     [setFeed, unsubscribeFromAggregated],
   )
 
-  const loadFirstPage = useCallback((onLoaded = noop) => loadPage(true, onLoaded), [loadPage])
-
   const onFeedUpdated = useCallback(() => {
-    loadFirstPage()
-  }, [loadFirstPage])
+    loadPage(true)
+  }, [loadPage])
 
   const subscribeToFeed = useCallback(() => {
-    loadFirstPage(items => {
+    loadPage(true, items => {
       onFeedLoaded(items)
       setLoaded(true)
 
       subscribedRef.current = true
     })
-  }, [onFeedLoaded, loadFirstPage, setLoaded])
+  }, [onFeedLoaded, loadPage, setLoaded])
+
+  const loadNextPage = useCallback(() => {
+    if (!loaded) {
+      return
+    }
+
+    loadPage()
+  }, [loaded, loadPage])
+
+  const nextPage = useDebounce(loadNextPage, { leading: true })
 
   useEffect(() => {
     const listener = () => {
@@ -75,7 +84,7 @@ const usePaginatedFeed = (onFeedLoaded = noop) => {
 
   useEffect(() => unsubscribeFromAggregated, [unsubscribeFromAggregated])
 
-  return [feed, loaded, subscribeToFeed]
+  return [feed, loaded, subscribeToFeed, nextPage]
 }
 
 export default usePaginatedFeed

@@ -1,8 +1,7 @@
 // @flow
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Animated, Dimensions, Easing, Image, Platform, TouchableOpacity, View } from 'react-native'
-import { concat, debounce, get, uniqBy } from 'lodash'
-import Mutex from 'await-mutex'
+import { get } from 'lodash'
 import type { Store } from 'undux'
 import { last } from 'rxjs/operators'
 import AsyncStorage from '../../lib/utils/asyncStorage'
@@ -37,6 +36,7 @@ import { theme as _theme } from '../theme/styles'
 import UnknownProfileSVG from '../../assets/unknownProfile.svg'
 import useOnPress from '../../lib/hooks/useOnPress'
 import Invite from '../invite/Invite'
+import useDebouce from '../../lib/hooks/useDebounce'
 import { PAGE_SIZE } from './utils/feed'
 import PrivacyPolicyAndTerms from './PrivacyPolicyAndTerms'
 import Amount from './Amount'
@@ -64,6 +64,7 @@ import FaceVerificationIntro from './FaceVerification/screens/IntroScreen'
 import FaceVerificationError from './FaceVerification/screens/ErrorScreen'
 
 import GoodMarketButton from './GoodMarket/components/GoodMarketButton'
+import usePaginatedFeed from './utils/usePaginatedFeed'
 
 const log = logger.child({ from: 'Dashboard' })
 
@@ -78,8 +79,6 @@ export type DashboardProps = {
   store: Store,
   styles?: any,
 }
-
-const feedMutex = new Mutex()
 
 const Dashboard = props => {
   const balanceRef = useRef()
@@ -107,7 +106,6 @@ const Dashboard = props => {
   const loadAnimShown = store.get('feedLoadAnimShown')
   const { balance, entitlement } = gdstore.get('account')
   const { avatar, fullName } = gdstore.get('profile')
-  const [feeds, setFeeds] = useState([])
   const [headerLarge, setHeaderLarge] = useState(true)
   const { appState } = useAppState()
   const [animateMarket, setAnimateMarket] = useState(false)
@@ -151,63 +149,25 @@ const Dashboard = props => {
     }
   }, [navigation, showDeleteAccountDialog])
 
-  const getFeedPage = useCallback(
-    async (reset = false) => {
-      const release = await feedMutex.lock()
-      try {
-        log.debug('getFeedPage:', { reset, feeds, loadAnimShown, didRender })
-        const feedPromise = userStorage
-          .getFormattedEvents(PAGE_SIZE, reset)
-          .catch(e => log.error('getInitialFeed failed:', e.message, e))
+  // usePaginatedFeed hook calls it when reset=true only
+  const onFeedLoaded = useCallback(
+    pageItems => {
+      log.debug('onFeedLoaded:', { loadAnimShown, didRender })
 
-        let res = []
-        if (reset) {
-          // a flag used to show feed load animation only at the first app loading
-          //subscribeToFeed calls this method on mount effect without dependencies because currently we dont want it re-subscribe
-          //so we use a global variable
-          if (!didRender) {
-            log.debug('waiting for feed animation')
-            didRender = true
-          }
-          res = (await feedPromise) || []
-          res.length > 0 && !didRender && store.set('feedLoadAnimShown')(true)
-          res.length > 0 && setFeeds(res)
-        } else {
-          res = (await feedPromise) || []
-          const newFeed = uniqBy(concat(feeds, res), 'id')
-          res.length > 0 && setFeeds(newFeed)
-        }
-        log.debug('getFeedPage getFormattedEvents result:', {
-          reset,
-          res,
-          resultSize: res.length,
-          feedItems: feeds.length,
-        })
-      } catch (e) {
-        log.warn('getFeedPage failed', e.message, e)
-      } finally {
-        release()
+      if (didRender) {
+        return
       }
+
+      if (pageItems && pageItems.length > 0) {
+        store.set('feedLoadAnimShown')(true)
+      }
+
+      didRender = true
     },
-    [loadAnimShown, store, setFeeds, feeds],
+    [store],
   )
 
-  const [feedLoaded, setFeedLoaded] = useState(false)
-
-  //subscribeToFeed probably should be an effect that updates the feed items
-  //as they come in, currently on each new item it simply reset the feed
-  //currently it seems too complicated to make it its own effect as it both depends on "feeds" and changes them
-  //which would lead to many unwanted subscribe/unsubscribe to gun
-  const subscribeToFeed = async () => {
-    await getFeedPage(true)
-
-    userStorage.feedEvents.on('updated', onFeedUpdated)
-  }
-
-  const onFeedUpdated = event => {
-    log.debug('feed cache updated', { event })
-    getFeedPage(true)
-  }
+  const [feeds, feedLoaded, subscribeToFeed, nextFeed] = usePaginatedFeed(log, onFeedLoaded)
 
   const handleFeedEvent = () => {
     const { params } = navigation.state || {}
@@ -294,35 +254,19 @@ const Dashboard = props => {
   /**
    * rerender on screen size change
    */
-  const handleResize = useCallback(
-    debounce(() => {
-      setUpdate(Date.now())
-      calculateHeaderLayoutSizes()
-    }, 100),
-    [setUpdate],
-  )
 
-  const nextFeed = useCallback(
-    debounce(
-      () => {
-        if (feeds && feeds.length > 0) {
-          log.debug('getNextFeed called')
-          return getFeedPage()
-        }
-      },
-      500,
-      { leading: true },
-    ),
-    [feeds, getFeedPage],
-  )
+  const onResize = useCallback(() => {
+    setUpdate(Date.now())
+    calculateHeaderLayoutSizes()
+  }, [setUpdate])
+
+  const handleResize = useDebouce(onResize, { delay: 100 })
 
   const initDashboard = async () => {
     await userStorage.initFeed()
     await handleFeedEvent()
     handleDeleteRedirect()
-    await subscribeToFeed().catch(e => log.error('initDashboard feed failed', e.message, e))
-
-    setFeedLoaded(true)
+    subscribeToFeed()
 
     // setTimeout(animateItems, marketAnimationDuration)
 
@@ -453,7 +397,6 @@ const Dashboard = props => {
 
     return () => {
       Dimensions.removeEventListener('change', handleResize)
-      userStorage.feedEvents.off('updated', onFeedUpdated)
     }
   }, [])
 

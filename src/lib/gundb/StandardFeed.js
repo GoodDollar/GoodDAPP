@@ -1,14 +1,15 @@
 // @flow
-import { assign, clone, filter, get, isNil, memoize, pickBy, startsWith, zipObject } from 'lodash'
+import { Platform } from 'react-native'
+import { assign, clone, filter, get, isNil, memoize, omit, pickBy, startsWith, zipObject } from 'lodash'
+
 import { combineLatest, defer, empty, from, of } from 'rxjs'
 import { map, mergeMap } from 'rxjs/operators'
-import { Platform } from 'react-native'
+import { ofGunNode, onLast } from '../utils/rxjs'
 
 import Config from '../../config/config'
 
 import isMobilePhone from '../validators/isMobilePhone'
 import isEmail from '../../lib/validators/isEmail'
-import { ofGunNode } from '../utils/rxjs'
 
 export const EVENT_TYPE_WITHDRAW = 'withdraw'
 export const EVENT_TYPE_BONUS = 'bonus'
@@ -256,7 +257,35 @@ export class StandardFeed {
         smallReadMore,
         withdrawCode,
       },
+      preloading: true,
     }
+  }
+
+  _subscribeOnProfile(event) {
+    const { _getEventCacheKey } = StandardFeed
+    const { eventsCache } = this
+
+    if (true !== event.preloading) {
+      return of(event)
+    }
+
+    return this._fetchProfile(event).pipe(
+      map(profile => {
+        const fullProfile = pickBy(profile || {})
+
+        // non-deep copy will be enough
+        assign(event.data.endpoint, fullProfile)
+        return clone(event)
+      }),
+      onLast((lastValue, error) => {
+        if (!error) {
+          const preloadedEvent = omit(lastValue, 'preloading')
+          const key = _getEventCacheKey(preloadedEvent)
+
+          eventsCache.set(key, preloadedEvent)
+        }
+      }),
+    )
   }
 
   _fetchProfile(event) {
@@ -286,18 +315,6 @@ export class StandardFeed {
             ).pipe(map(fieldsValues => zipObject(fields, fieldsValues))),
       ),
       startsWith(null), // on first emit return empty profile immediately
-    )
-  }
-
-  _subscribeOnProfile(event) {
-    return this._fetchProfile(event).pipe(
-      map(profile => {
-        const fullProfile = pickBy(profile || {})
-
-        // non-deep copy will be enough
-        assign(event.data.endpoint, fullProfile)
-        return clone(event)
-      }),
     )
   }
 

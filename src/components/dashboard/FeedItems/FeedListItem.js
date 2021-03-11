@@ -1,5 +1,5 @@
 // @flow
-import React, { useCallback } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { TouchableHighlight, View } from 'react-native'
 import * as Animatable from 'react-native-animatable'
 
@@ -11,6 +11,7 @@ import SimpleStore from '../../../lib/undux/SimpleStore'
 import { CARD_OPEN, fireEvent } from '../../../lib/analytics/analytics'
 import useOnPress from '../../../lib/hooks/useOnPress'
 import Config from '../../../config/config'
+import { isAndroidNative } from '../../../lib/utils/platform'
 import ListEventItem from './ListEventItem'
 import getEventSettingsByType from './EventSettingsByType'
 
@@ -31,6 +32,7 @@ type FeedListItemProps = {
  * @returns {React.Node}
  */
 const FeedListItem = (props: FeedListItemProps) => {
+  const [showAndroidShadow, setShowAndroidShadow] = useState<boolean>(false)
   const simpleStore = SimpleStore.useStore()
   const { theme, item, handleFeedSelection, styles } = props
   const { id, type, displayType, action } = item
@@ -40,6 +42,7 @@ const FeedListItem = (props: FeedListItemProps) => {
   const itemStyle = getEventSettingsByType(theme, itemType)
   const disableAnimForTests = Config.env === 'test'
   const easing = 'ease-in'
+  const duration = 1000 // default duration for Animatable
 
   const imageStyle = {
     backgroundColor: itemStyle.color,
@@ -57,6 +60,13 @@ const FeedListItem = (props: FeedListItemProps) => {
       onItemPress()
     }
   }, [fireEvent, type, onItemPress, id])
+
+  // show shadow for native android only after opacity animation was finished
+  useEffect(() => {
+    if (isAndroidNative) {
+      setTimeout(() => setShowAndroidShadow(true), duration)
+    }
+  }, [])
 
   if (isItemEmpty) {
     const feedLoadAnimShown = simpleStore.get('feedLoadAnimShown')
@@ -124,11 +134,16 @@ const FeedListItem = (props: FeedListItemProps) => {
   }
 
   return (
-    <Animatable.View animation={disableAnimForTests ? '' : 'fadeIn'} easing={easing} useNativeDriver>
+    <Animatable.View
+      duration={duration}
+      animation={disableAnimForTests ? '' : 'fadeIn'}
+      easing={easing}
+      useNativeDriver
+    >
       <TouchableHighlight
         activeOpacity={0.5}
         onPress={onPress}
-        style={styles.row}
+        style={[styles.row, showAndroidShadow ? styles.rowShadowAndroid : {}]}
         tvParallaxProperties={{ pressMagnification: 1.1 }}
         underlayColor={theme.colors.lightGray}
       >
@@ -148,13 +163,15 @@ const getStylesFromProps = ({ theme }) => ({
       width: 0,
       height: 2,
     },
-    elevation: 1,
 
     // height: theme.feedItems.height,
     marginHorizontal: theme.sizes.default,
     maxHeight: theme.feedItems.height,
     shadowOpacity: 0.16,
     shadowRadius: 4,
+  },
+  rowShadowAndroid: {
+    elevation: 1,
   },
   rowContent: {
     borderRadius: theme.feedItems.borderRadius,

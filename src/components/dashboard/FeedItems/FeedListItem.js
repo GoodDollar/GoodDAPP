@@ -31,7 +31,7 @@ type FeedListItemProps = {
  * @returns {React.Node}
  */
 const FeedListItem = (props: FeedListItemProps) => {
-  const [endAnimation, setEndAnimation] = useState<boolean>(false)
+  const [animationFinished, setAnimationFinished] = useState<boolean>(false)
   const simpleStore = SimpleStore.useStore()
   const { theme, item, handleFeedSelection, styles } = props
   const { id, type, displayType, action } = item
@@ -59,7 +59,7 @@ const FeedListItem = (props: FeedListItemProps) => {
     }
   }, [fireEvent, type, onItemPress, id])
 
-  const onAnimationFinished = useCallback(({ finished }) => finished && setEndAnimation(true), [setEndAnimation])
+  const onAnimationFinished = useCallback(({ finished }) => finished && setAnimationFinished(true), [setAnimationFinished])
 
   if (isItemEmpty) {
     const feedLoadAnimShown = simpleStore.get('feedLoadAnimShown')
@@ -136,7 +136,7 @@ const FeedListItem = (props: FeedListItemProps) => {
       <TouchableHighlight
         activeOpacity={0.5}
         onPress={onPress}
-        style={[styles.row, endAnimation && styles.endAnimationRow]}
+        style={[styles.row, animationFinished && styles.rowHasBeenAnimated]}
         tvParallaxProperties={{ pressMagnification: 1.1 }}
         underlayColor={theme.colors.lightGray}
       >
@@ -163,7 +163,7 @@ const getStylesFromProps = ({ theme }) => ({
     shadowOpacity: 0.16,
     shadowRadius: 4,
   },
-  endAnimationRow: Platform.select({
+  rowHasBeenAnimated: Platform.select({
     android: { elevation: 1 },
     default: {},
   }),

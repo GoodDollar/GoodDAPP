@@ -1,6 +1,6 @@
 // @flow
 import React, { useCallback, useState } from 'react'
-import { TouchableHighlight, View } from 'react-native'
+import { Platform, TouchableHighlight, View } from 'react-native'
 import * as Animatable from 'react-native-animatable'
 
 import type { FeedEvent } from '../../../lib/gundb/UserStorageClass'
@@ -11,7 +11,6 @@ import SimpleStore from '../../../lib/undux/SimpleStore'
 import { CARD_OPEN, fireEvent } from '../../../lib/analytics/analytics'
 import useOnPress from '../../../lib/hooks/useOnPress'
 import Config from '../../../config/config'
-import { isAndroidNative } from '../../../lib/utils/platform'
 import ListEventItem from './ListEventItem'
 import getEventSettingsByType from './EventSettingsByType'
 
@@ -32,7 +31,7 @@ type FeedListItemProps = {
  * @returns {React.Node}
  */
 const FeedListItem = (props: FeedListItemProps) => {
-  const [showAndroidShadow, setShowAndroidShadow] = useState<boolean>(false)
+  const [endAnimation, setEndAnimation] = useState<boolean>(false)
   const simpleStore = SimpleStore.useStore()
   const { theme, item, handleFeedSelection, styles } = props
   const { id, type, displayType, action } = item
@@ -60,14 +59,7 @@ const FeedListItem = (props: FeedListItemProps) => {
     }
   }, [fireEvent, type, onItemPress, id])
 
-  const onAnimationFinished = useCallback(
-    ({ finished }) => {
-      if (finished && isAndroidNative) {
-        setShowAndroidShadow(true)
-      }
-    },
-    [setShowAndroidShadow],
-  )
+  const onAnimationFinished = useCallback(({ finished }) => finished && setEndAnimation(true), [setEndAnimation])
 
   if (isItemEmpty) {
     const feedLoadAnimShown = simpleStore.get('feedLoadAnimShown')
@@ -144,7 +136,7 @@ const FeedListItem = (props: FeedListItemProps) => {
       <TouchableHighlight
         activeOpacity={0.5}
         onPress={onPress}
-        style={[styles.row, showAndroidShadow ? styles.rowShadowAndroid : {}]}
+        style={[styles.row, endAnimation && styles.endAnimationRow]}
         tvParallaxProperties={{ pressMagnification: 1.1 }}
         underlayColor={theme.colors.lightGray}
       >
@@ -171,9 +163,10 @@ const getStylesFromProps = ({ theme }) => ({
     shadowOpacity: 0.16,
     shadowRadius: 4,
   },
-  rowShadowAndroid: {
-    elevation: 1,
-  },
+  endAnimationRow: Platform.select({
+    android: { elevation: 1 },
+    default: {},
+  }),
   rowContent: {
     borderRadius: theme.feedItems.borderRadius,
     overflow: 'hidden',

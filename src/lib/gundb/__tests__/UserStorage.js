@@ -9,6 +9,8 @@ import Config from '../../../config/config'
 import API from '../../API/api'
 import userStorage from '../UserStorage'
 
+import { PAGE_SIZE } from '../../../components/dashboard/utils/feed'
+
 import {
   backupMessage,
   getReceiveDataFromReceipt,
@@ -494,7 +496,7 @@ describe('UserStorage', () => {
       .then()
     expect(index).toHaveProperty(date)
 
-    const formattedEvents = await userStorage.getFormattedEvents()
+    const formattedEvents = await userStorage.userFeed.getFormattedEvents(PAGE_SIZE).toPromise()
     expect(formattedEvents).not.toContainEqual(deletedEvent)
 
     const events = await userStorage.getAllFeed()
@@ -517,7 +519,7 @@ describe('UserStorage', () => {
       },
     }
 
-    const result = await userStorage.formatEvent(event)
+    const result = await userStorage.userFeed._formatEvent(event)
 
     expect(result.data).toBeTruthy()
     expect(result.data.withdrawCode).toBeTruthy()

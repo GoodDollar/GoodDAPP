@@ -12,7 +12,7 @@ import SaveButton from '../common/animations/SaveButton/SaveButton'
 import SaveButtonDisabled from '../common/animations/SaveButton/SaveButtonDisabled'
 import { fireEvent, PROFILE_UPDATE } from '../../lib/analytics/analytics'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
-import { useDebouncedValue } from '../../lib/hooks/useDebouce'
+import { useDebouncedValue } from '../../lib/hooks/useDebounce'
 import RoundIconButton from '../common/buttons/RoundIconButton'
 import ProfileDataTable from './ProfileDataTable'
 

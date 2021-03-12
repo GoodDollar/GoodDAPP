@@ -36,7 +36,7 @@ import { theme as _theme } from '../theme/styles'
 import UnknownProfileSVG from '../../assets/unknownProfile.svg'
 import useOnPress from '../../lib/hooks/useOnPress'
 import Invite from '../invite/Invite'
-import useDebouce from '../../lib/hooks/useDebounce'
+import useDebounce from '../../lib/hooks/useDebounce'
 import { PAGE_SIZE } from './utils/feed'
 import PrivacyPolicyAndTerms from './PrivacyPolicyAndTerms'
 import Amount from './Amount'
@@ -260,7 +260,7 @@ const Dashboard = props => {
     calculateHeaderLayoutSizes()
   }, [setUpdate])
 
-  const handleResize = useDebouce(onResize, { delay: 100 })
+  const handleResize = useDebounce(onResize, { delay: 100 })
 
   const initDashboard = async () => {
     await userStorage.initFeed()

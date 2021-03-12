@@ -1,27 +1,18 @@
-import React, { Fragment, useMemo } from 'react'
+import React, { Fragment } from 'react'
 import { StyleSheet, View } from 'react-native'
 import WavesSVG from '../../../assets/wave50.svg'
+import { getSVGAspectRatio } from '../../../lib/utils/svg'
 
-export default ({ children }) => {
-  const aspectRatio = useMemo(() => {
-    // getting width and height of svg
-    const [, , width, height] = WavesSVG().props.viewBox.split(' ')
-
-    // calculate aspect ratio for svg wrapper
-    return Number(width) / Number(height)
-  }, [])
-
-  return (
-    <Fragment>
-      <View style={styles.wavesBackground}>
-        <View style={[styles.wavesWrapper, { aspectRatio }]}>
-          <WavesSVG />
-        </View>
+export default ({ children }) => (
+  <Fragment>
+    <View style={styles.wavesBackground}>
+      <View style={styles.wavesWrapper}>
+        <WavesSVG />
       </View>
-      {children}
-    </Fragment>
-  )
-}
+    </View>
+    {children}
+  </Fragment>
+)
 
 const styles = StyleSheet.create({
   wavesBackground: {
@@ -31,5 +22,6 @@ const styles = StyleSheet.create({
   wavesWrapper: {
     width: '100%',
     height: '100%',
+    aspectRatio: getSVGAspectRatio(WavesSVG),
   },
 })

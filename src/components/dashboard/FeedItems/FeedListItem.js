@@ -31,6 +31,7 @@ type FeedListItemProps = {
  * @returns {React.Node}
  */
 const FeedListItem = (props: FeedListItemProps) => {
+  const disableAnimForTests = Config.env === 'test'
   const [animationFinished, setAnimationFinished] = useState<boolean>(disableAnimForTests)
   const simpleStore = SimpleStore.useStore()
   const { theme, item, handleFeedSelection, styles } = props
@@ -39,7 +40,6 @@ const FeedListItem = (props: FeedListItemProps) => {
   const itemType = displayType || type
   const isItemEmpty = itemType === 'empty'
   const itemStyle = getEventSettingsByType(theme, itemType)
-  const disableAnimForTests = Config.env === 'test'
   const easing = 'ease-in'
 
   const imageStyle = {

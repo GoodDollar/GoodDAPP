@@ -11,7 +11,7 @@ import { PAGE_SIZE } from './feed'
 
 const defaultLogger = logger.child({ from: 'usePaginatedFeed' })
 
-const usePaginatedFeed = (log = defaultLogger, onFeedLoaded = noop) => {
+const usePaginatedFeed = (log = defaultLogger) => {
   const [feed, setFeed] = useState([])
   const [loaded, setLoaded] = useState(false)
   const subscribedRef = useRef(false)
@@ -74,14 +74,12 @@ const usePaginatedFeed = (log = defaultLogger, onFeedLoaded = noop) => {
     loadPage(true, (feedItems, error, reset) => {
       if (error) {
         log.error('initDashboard feed failed', error.message, error)
-      } else {
-        onFeedLoaded(feedItems)
       }
 
       setLoaded(true)
       subscribedRef.current = true
     })
-  }, [onFeedLoaded, loadPage, setLoaded, log])
+  }, [loadPage, setLoaded, log])
 
   const loadNextPage = useCallback(() => {
     if (!loaded) {

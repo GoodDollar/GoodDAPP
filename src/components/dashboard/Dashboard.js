@@ -150,24 +150,7 @@ const Dashboard = props => {
   }, [navigation, showDeleteAccountDialog])
 
   // usePaginatedFeed hook calls it when reset=true only
-  const onFeedLoaded = useCallback(
-    pageItems => {
-      log.debug('onFeedLoaded:', { loadAnimShown, didRender })
-
-      if (didRender) {
-        return
-      }
-
-      if (pageItems && pageItems.length > 0) {
-        store.set('feedLoadAnimShown')(true)
-      }
-
-      didRender = true
-    },
-    [store],
-  )
-
-  const [feeds, feedLoaded, subscribeToFeed, nextFeed] = usePaginatedFeed(log, onFeedLoaded)
+  const [feeds, feedLoaded, subscribeToFeed, nextFeed] = usePaginatedFeed(log)
 
   const handleFeedEvent = () => {
     const { params } = navigation.state || {}
@@ -198,6 +181,25 @@ const Dashboard = props => {
       animateItems()
     }
   }, [appState, feedLoaded])
+
+  useEffect(() => {
+    if (feedLoaded) {
+      log.debug('initDashboard subscribed to feed')
+    }
+  }, [feedLoaded])
+
+  useEffect(() => {
+    if (feedLoaded) {
+      log.debug('onFeedLoaded:', { loadAnimShown, didRender })
+    }
+
+    if (!feedLoaded || didRender || !feeds || feeds.length <= 0) {
+      return
+    }
+
+    store.set('feedLoadAnimShown')(true)
+    didRender = true
+  }, [feedLoaded, feeds, store])
 
   const animateClaim = useCallback(async () => {
     const inQueue = await userStorage.userProperties.get('claimQueueAdded')
@@ -269,10 +271,7 @@ const Dashboard = props => {
     subscribeToFeed()
 
     // setTimeout(animateItems, marketAnimationDuration)
-
     initTransferEvents(gdstore)
-
-    log.debug('initDashboard subscribed to feed')
 
     // InteractionManager.runAfterInteractions(handleFeedEvent)
     Dimensions.addEventListener('change', handleResize)

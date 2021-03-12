@@ -1,9 +1,9 @@
 // @flow
 import { Platform } from 'react-native'
-import { assign, clone, filter, get, isNil, memoize, omit, pickBy, startsWith, zipObject } from 'lodash'
+import { assign, clone, filter, get, isNil, memoize, omit, pickBy, zipObject } from 'lodash'
 
 import { combineLatest, defer, empty, from, of } from 'rxjs'
-import { map, mergeMap } from 'rxjs/operators'
+import { map, mergeMap, startWith } from 'rxjs/operators'
 import { ofGunNode, onLast } from '../utils/rxjs'
 
 import Config from '../../config/config'
@@ -72,7 +72,13 @@ export class StandardFeed {
    */
   getFormattedEvents(numResults, reset = false) {
     return defer(() => from(this._fetchEvents(numResults, reset))).pipe(
-      mergeMap(events => combineLatest(events.map(event => this._subscribeOnProfile(event)))),
+      mergeMap(events => {
+        if (!events || events.length <= 0) {
+          return of([])
+        }
+
+        return combineLatest(events.map(event => this._subscribeOnProfile(event)))
+      }),
     )
   }
 
@@ -314,7 +320,7 @@ export class StandardFeed {
               ),
             ).pipe(map(fieldsValues => zipObject(fields, fieldsValues))),
       ),
-      startsWith(null), // on first emit return empty profile immediately
+      startWith(null), // on first emit return empty profile immediately
     )
   }
 

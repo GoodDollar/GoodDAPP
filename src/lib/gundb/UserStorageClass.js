@@ -534,18 +534,6 @@ export class UserStorage {
 
     logger.debug('subscribing to wallet events')
 
-    this.wallet.subscribeToEvent(EVENT_TYPE_RECEIVE, event => {
-      logger.debug({ event }, EVENT_TYPE_RECEIVE)
-    })
-
-    this.wallet.subscribeToEvent(EVENT_TYPE_SEND, event => {
-      logger.debug({ event }, EVENT_TYPE_SEND)
-    })
-
-    this.wallet.subscribeToEvent('otplUpdated', receipt => this.handleOTPLUpdated(receipt))
-    this.wallet.subscribeToEvent('receiptUpdated', receipt => this.handleReceiptUpdated(receipt))
-    this.wallet.subscribeToEvent('receiptReceived', receipt => this.handleReceiptUpdated(receipt))
-
     await trustPromise
 
     logger.debug('done initializing registered userstorage')
@@ -1278,7 +1266,10 @@ export class UserStorage {
             feedItem.otplStatus !== 'cancelled',
         )
         .map(feedItem => {
-          if (null == get(feedItem, 'data.receiptData', feedItem && feedItem.receiptReceived)) {
+          if (
+            null ==
+            get(feedItem, 'data.receiptData', get(feedItem, 'data.receiptEvent', feedItem && feedItem.receiptReceived))
+          ) {
             logger.debug('getFormattedEvents missing feed receipt', { feedItem })
             return this.getFormatedEventById(feedItem.id)
           }
@@ -1294,7 +1285,7 @@ export class UserStorage {
   }
 
   async getFormatedEventById(id: string): Promise<StandardFeed> {
-    const prevFeedEvent = await this.getFeedItemByTransactionHash(id)
+    const prevFeedEvent = await this.feedStorage.getFeedItemByTransactionHash(id)
     const standardPrevFeedEvent = await this.formatEvent(prevFeedEvent).catch(e => {
       logger.error('getFormatedEventById Failed formatting event:', e.message, e, { id })
 
@@ -1303,7 +1294,13 @@ export class UserStorage {
     if (!prevFeedEvent) {
       return standardPrevFeedEvent
     }
-    if (get(prevFeedEvent, 'data.receiptData', prevFeedEvent && prevFeedEvent.receiptReceived)) {
+    if (
+      get(
+        prevFeedEvent,
+        'data.receiptData',
+        get(prevFeedEvent, 'data.receiptEvent', prevFeedEvent && prevFeedEvent.receiptReceived),
+      )
+    ) {
       return standardPrevFeedEvent
     }
 
@@ -1563,6 +1560,7 @@ export class UserStorage {
           animationExecuted,
           action,
           data: {
+            receiptHash: get(event, 'data.receiptEvent.txHash'),
             endpoint: {
               address: sender,
               fullName,
@@ -2001,6 +1999,12 @@ export class UserStorage {
 
     logger.debug('deleteAccount', deleteResults)
     return true
+  }
+
+  async syncTxWithBlockchain(joinedAtBlockNumber) {
+    this.feedStorage.isEmitEvents = false
+    await this.wallet.syncTxWithBlockchain(joinedAtBlockNumber)
+    this.feedStorage.isEmitEvents = true
   }
 
   _gunException(gunError) {

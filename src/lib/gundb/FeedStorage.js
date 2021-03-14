@@ -115,6 +115,8 @@ export class FeedStorage {
 
   feedQ: {} = {}
 
+  isEmitEvents = true
+
   constructor(gun, wallet, userStorage) {
     this.gun = gun
     this.wallet = wallet
@@ -210,7 +212,7 @@ export class FeedStorage {
 
         log.debug('initfeed updating cache', this.feedIds, shouldUpdateStatuses)
         AsyncStorage.setItem('GD_feed', this.feedIds)
-        this.feedEvents.emit('updated', {})
+        this.emitUpdate({})
       })
       .catch(e => log.error('initfeed error caching feed items', e.message, e))
   }
@@ -432,7 +434,12 @@ export class FeedStorage {
         data: {
           ...feedEvent.data,
           ...initialEvent.data,
-          receiptEvent: { name: txEvent.name, eventSource: txEvent.address, ...txEvent.data },
+          receiptEvent: {
+            txHash: receipt.transactionHash,
+            name: txEvent.name,
+            eventSource: txEvent.address,
+            ...txEvent.data,
+          },
         },
       }
 
@@ -678,7 +685,7 @@ export class FeedStorage {
   writeFeedEvent(event): Promise<FeedEvent> {
     this.feedIds[event.id] = event
     AsyncStorage.setItem('GD_feed', this.feedIds)
-    this.feedEvents.emit('updated', { event })
+    this.emitUpdate({ event })
     return this.feed
       .get('byid')
       .get(event.id)
@@ -703,7 +710,7 @@ export class FeedStorage {
     delete changed._
     let dayToNumEvents: Array<[string, number]> = toPairs(changed)
     this.feedIndex = orderBy(dayToNumEvents, day => day[0], 'desc')
-    this.feedEvents.emit('updated')
+    this.emitUpdate()
     log.debug('updateFeedIndex', {
       changed,
       field,
@@ -930,6 +937,10 @@ export class FeedStorage {
       return filteredEvents.concat(more)
     }
     return filteredEvents
+  }
+
+  emitUpdate(event) {
+    this.isEmitEvents && this.feedEvents.emit('updated', event)
   }
 
   _gunException(gunError) {

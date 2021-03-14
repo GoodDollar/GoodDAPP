@@ -14,7 +14,7 @@ import FaucetABI from '@gooddollar/goodcontracts/upgradables/build/contracts/Fus
 import Web3 from 'web3'
 import { BN, toBN } from 'web3-utils'
 import abiDecoder from 'abi-decoder'
-import { get, invokeMap, last, range, result, uniqBy, values } from 'lodash'
+import { chunk, get, invokeMap, last, range, result, uniqBy, values } from 'lodash'
 import moment from 'moment'
 import bs58 from 'bs58'
 import Config from '../../config/config'
@@ -313,21 +313,24 @@ export class GoodWallet {
     })
 
     try {
-      // for(let fromBlock in steps)
-      // {
-      const ps = steps.map(fromBlock => {
-        let toBlock = fromBlock + 100000
-        if (toBlock > lastBlock) {
-          toBlock = lastBlock
-        }
-        log.debug('sync tx step:', { fromBlock, toBlock })
-        return Promise.all([
-          this.pollSendEvents(toBlock, fromBlock),
-          this.pollReceiveEvents(toBlock, fromBlock),
-          this.pollOTPLEvents(toBlock, fromBlock),
-        ])
-      })
-      await Promise.all(ps)
+      const chunks = chunk(steps, 1000)
+      for (let chunk of chunks) {
+        const ps = chunk.map(fromBlock => {
+          let toBlock = fromBlock + 100000
+          if (toBlock > lastBlock) {
+            toBlock = lastBlock
+          }
+          log.debug('sync tx step:', { fromBlock, toBlock })
+          return Promise.all([
+            this.pollSendEvents(toBlock, fromBlock),
+            this.pollReceiveEvents(toBlock, fromBlock),
+            this.pollOTPLEvents(toBlock, fromBlock),
+          ])
+        })
+
+        // eslint-disable-next-line no-await-in-loop
+        await Promise.all(ps)
+      }
       log.debug('sync tx from blockchain finished successfully')
     } catch (e) {
       log.error('Failed to sync tx from blockchain', e.message, e)

@@ -82,6 +82,7 @@ const feedMutex = new Mutex()
 
 const Dashboard = props => {
   const balanceRef = useRef()
+  const feedRef = useRef([])
   const { screenProps, styles, theme, navigation }: DashboardProps = props
   const [balanceBlockWidth, setBalanceBlockWidth] = useState(70)
   const [headerContentWidth, setHeaderContentWidth] = useState(initialHeaderContentWidth)
@@ -171,9 +172,11 @@ const Dashboard = props => {
           res = (await feedPromise) || []
           res.length > 0 && !didRender && store.set('feedLoadAnimShown')(true)
           res.length > 0 && setFeeds(res)
+          feedRef.current = res
         } else {
           res = (await feedPromise) || []
-          const newFeed = uniqBy(concat(feeds, res), 'id')
+          const newFeed = uniqBy(concat(feedRef.current, res), 'id')
+          feedRef.current = newFeed
           res.length > 0 && setFeeds(newFeed)
         }
         log.debug('getFeedPage getFormattedEvents result:', {
@@ -188,7 +191,7 @@ const Dashboard = props => {
         release()
       }
     },
-    [loadAnimShown, store, setFeeds, feeds],
+    [loadAnimShown, store, setFeeds, feedRef],
   )
 
   const [feedLoaded, setFeedLoaded] = useState(false)
@@ -203,10 +206,13 @@ const Dashboard = props => {
     userStorage.feedStorage.feedEvents.on('updated', onFeedUpdated)
   }
 
-  const onFeedUpdated = event => {
-    log.debug('feed cache updated', { event })
-    getFeedPage(true)
-  }
+  const onFeedUpdated = useCallback(
+    debounce(event => {
+      log.debug('feed cache updated', { event })
+      getFeedPage(true)
+    }, 500),
+    [getFeedPage],
+  )
 
   const handleFeedEvent = () => {
     const { params } = navigation.state || {}

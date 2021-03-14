@@ -12,6 +12,7 @@ import {
   noop,
   omit,
   orderBy,
+  pick,
   some,
   takeWhile,
   toPairs,
@@ -59,7 +60,7 @@ export const TxTypeToEventType = {
   TX_OTPL_WITHDRAW: 'send',
   TX_OTPL_DEPOSIT: 'send',
   TX_SEND_GD: 'senddirect',
-  TX_RECEIVE_GD: 'receivedirect',
+  TX_RECEIVE_GD: 'receive',
   TX_CLAIM: 'claim',
   TX_REWARD: 'bonus',
   TX_MINT: 'receive',
@@ -121,9 +122,6 @@ export class FeedStorage {
     this.gun = gun
     this.wallet = wallet
     this.userStorage = userStorage
-    ;['receiptReceived', 'receiptUpdated', 'otplUpdated'].forEach(e =>
-      wallet.subscribeToEvent(e, r => this.handleReceipt(r)),
-    )
     this.walletAddress = wallet.account.toLowerCase()
     log.debug('initialized', { wallet: this.walletAddress })
   }
@@ -131,6 +129,10 @@ export class FeedStorage {
   async init() {
     this.feedInitialized = true
     const { feed } = await this.gunuser
+
+    ;['receiptReceived', 'receiptUpdated', 'otplUpdated'].forEach(e =>
+      this.wallet.subscribeToEvent(e, r => this.handleReceipt(r)),
+    )
 
     log.debug('initfeed', { feed })
 
@@ -337,7 +339,7 @@ export class FeedStorage {
         throw new Error('Unknown receipt type')
       }
 
-      await this.handleReceiptUpdate(txType, receipt)
+      return await this.handleReceiptUpdate(txType, receipt)
     } catch (e) {
       log.warn('handleReceipt failed:', { receipt }, e.message, e)
     }
@@ -396,6 +398,7 @@ export class FeedStorage {
       //   }
 
       let status = TxStatus.COMPLETED
+      let outboxData = {}
       switch (txType) {
         case TxType.TX_OTPL_DEPOSIT:
           //update index for payment links by paymentId, so we can update when we receive withdraw event
@@ -405,6 +408,10 @@ export class FeedStorage {
         case TxType.TX_OTPL_CANCEL:
           //update index for payment links by paymentId, so we can update when we receive withdraw event
           status = TxStatus.CANCELED
+          break
+        case TxType.TX_RECEIVE_GD:
+          //check if sender left  encrypted tx details for us
+          outboxData = await this.getFromOutbox(feedEvent)
           break
         default:
           break
@@ -440,6 +447,7 @@ export class FeedStorage {
             eventSource: txEvent.address,
             ...txEvent.data,
           },
+          ...outboxData,
         },
       }
 
@@ -577,6 +585,10 @@ export class FeedStorage {
           .put(event.id)
       }
 
+      //encrypt tx details in outbox so receiver can read details
+      if (event.type === FeedItemType.EVENT_TYPE_SENDDIRECT) {
+        this.addToOutbox(event)
+      }
       await this.updateFeedEvent(event)
       log.debug('enqueueTX ok:', { event, paymentId })
 
@@ -913,7 +925,7 @@ export class FeedStorage {
           })
 
           if (receipt) {
-            item = await this.handleReceiptUpdated(receipt)
+            item = await this.handleReceipt(receipt)
           } else {
             log.warn('getFeedPage no receipt found for undefined item id:', id)
           }
@@ -937,6 +949,53 @@ export class FeedStorage {
       return filteredEvents.concat(more)
     }
     return filteredEvents
+  }
+
+  /**
+   * in case of sending G$ directly, we keep tx details in an outbox so recipient can fetch it async
+   * this is also used with the payment api that can add fields such as senderEmail,senderName,invoiceId
+   * @param {*} event
+   */
+  async addToOutbox(event: FeedEvent) {
+    let recipientPubkey = await this.userStorage.getUserProfilePublickey(event.data.to).then(_ => _.slice(1)) //remove ~prefix
+
+    if (recipientPubkey) {
+      const data = pick(event.data, ['reason', 'category', 'amount', 'senderEmail', 'senderName', 'invoiceId'])
+      log.debug('addToOutbox:', { recipientPubkey, data })
+      await this.gunuser
+        .get('outbox')
+        .get(recipientPubkey)
+        .get(event.id)
+        .secretAck(data)
+      this.gunuser
+        .get('outbox')
+        .get(recipientPubkey)
+        .get(event.id)
+        .trust(recipientPubkey)
+    } else {
+      log.warn('addToOutbox recipient not found:', event.id)
+    }
+  }
+
+  /**
+   * in case of sending G$ directly, we keep tx details in an outbox so recipient can fetch it async
+   * this is also used with the payment api that can add fields such as senderEmail,senderName,invoiceId
+   * @param {*} event
+   */
+  async getFromOutbox(event: FeedEvent) {
+    let senderPubkey = await this.userStorage.getUserProfilePublickey(get(event, 'data.receiptEvent.from'))
+    let recipientPubkey = this.gunuser.is.pub
+    if (senderPubkey) {
+      const data = await this.gun
+        .get(senderPubkey)
+        .get('outbox')
+        .get(recipientPubkey)
+        .get(event.id)
+        .decrypt()
+      log.debug('getFromOutbox:', { id: event.id, recipientPubkey, senderPubkey, data })
+      return data
+    }
+    log.warn('getFromOutbox sender not found:', { event })
   }
 
   emitUpdate(event) {

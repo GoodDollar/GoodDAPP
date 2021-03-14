@@ -529,6 +529,8 @@ export class UserStorage {
       return
     }
 
+    this.feedStorage = new FeedStorage(this.gun, this.wallet, this)
+
     // get trusted GoodDollar indexes and pub key
     let trustPromise = this.fetchTrustIndexes()
 
@@ -714,7 +716,6 @@ export class UserStorage {
    * the "false" (see gundb docs) passed is so we get the complete 'index' on every change and not just the day that changed
    */
   async initFeed() {
-    this.feedStorage = new FeedStorage(this.gun, this.wallet, this)
     await this.feedStorage.init()
     this.startSystemFeed().catch(e => logger.error('initfeed failed initializing startSystemFeed', e.message, e))
   }
@@ -1319,7 +1320,7 @@ export class UserStorage {
     }
 
     //update the event
-    let updatedEvent = await this.handleReceiptUpdated(receipt)
+    let updatedEvent = await this.feedStorage.handleReceipt(receipt)
     if (updatedEvent === undefined) {
       return standardPrevFeedEvent
     }

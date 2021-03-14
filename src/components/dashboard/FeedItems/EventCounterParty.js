@@ -15,7 +15,6 @@ const EventCounterParty = ({ feedItem, styles, style, textStyle, subtitle, isSma
       break
 
     case 'claim':
-    case 'receivedirect':
     case 'receive':
     case 'withdraw':
     case 'bonus':

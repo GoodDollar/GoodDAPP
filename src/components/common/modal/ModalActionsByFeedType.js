@@ -280,13 +280,23 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
       return (
         <Section.Row style={[styles.buttonsView, isTx && styles.linkButtonView]}>
           {isTx && (
-            <Section.Stack style={{ alignSelf: 'center' }}>
+            <Section.Stack style={styles.txHashWrapper}>
               <Section.Text
                 fontSize={11}
                 textDecorationLine="underline"
                 onPress={() => openLink('https://explorer.fuse.io/tx/' + txHash)}
+                textAlign="left"
               >
-                {`Advanced Transaction Details`}
+                {`Transaction Details`}
+              </Section.Text>
+              <Section.Text
+                fontSize={11}
+                numberOfLines={1}
+                ellipsizeMode="middle"
+                style={styles.txHash}
+                textAlign="left"
+              >
+                {txHash}
               </Section.Text>
             </Section.Stack>
           )}
@@ -313,6 +323,8 @@ const getStylesFromProps = ({ theme }) => ({
     justifyContent: 'space-between',
     alignItems: 'baseline',
   },
+  txHashWrapper: { alignSelf: 'center', flex: 1, justifyContent: 'center' },
+  txHash: { maxWidth: 200 },
   spaceBetween: {
     justifyContent: 'space-between',
   },

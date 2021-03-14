@@ -1699,7 +1699,18 @@ export class UserStorage {
     )
 
     // filtering events fetched to exclude empty/null/undefined ones
-    return filter(events)
+    const filteredEvents = filter(
+      events,
+      e => e && !['deleted', 'cancelled', 'canceled'].includes(get(e, 'status', '').toLowerCase()),
+    )
+    logger.debug('getFeedPage filteredEvents', { filteredEvents })
+
+    if (eventsIndex.length > 0 && filteredEvents.length < numResults) {
+      logger.debug('getFeedPage fetching more results')
+      const more = await this.getFeedPage(numResults - filteredEvents.length)
+      return filteredEvents.concat(more)
+    }
+    return filteredEvents
   }
 
   /**

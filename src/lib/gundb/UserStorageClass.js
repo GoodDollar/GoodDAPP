@@ -2052,6 +2052,12 @@ export class UserStorage {
           }),
         ])
 
+        // take value from fullNameFromProfile, if fullNameFromProfile is falsy or "Unknown" take value from FullNameFromEvent, if fullNameFromEvent is falsy set as "Unknown"
+        const fullName =
+          !fullNameFromProfile || fullNameFromProfile === 'Unknown'
+            ? fullNameFromEvent || 'Unknown'
+            : fullNameFromProfile
+
         let updatedEvent = {
           id,
           date: new Date(date).getTime(),
@@ -2064,8 +2070,7 @@ export class UserStorage {
           data: {
             endpoint: {
               address: sender,
-              fullName:
-                !fullNameFromProfile || fullNameFromProfile === 'Unknown' ? fullNameFromEvent : fullNameFromProfile,
+              fullName,
               avatar: avatarFromProfile || avatarFromEvent,
               withdrawStatus,
             },

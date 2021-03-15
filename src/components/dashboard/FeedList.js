@@ -81,14 +81,17 @@ const FeedList = ({
     }
   }, [])
 
-  const renderItemComponent = ({ item, separators, index }: ItemComponentProps) => (
-    <FeedListItem
-      key={keyExtractor(item)}
-      item={item}
-      separators={separators}
-      fixedHeight
-      handleFeedSelection={handleFeedSelection}
-    />
+  const renderItemComponent = useCallback(
+    ({ item, separators, index }: ItemComponentProps) => (
+      <FeedListItem
+        key={keyExtractor(item)}
+        item={item}
+        separators={separators}
+        fixedHeight
+        handleFeedSelection={handleFeedSelection}
+      />
+    ),
+    [handleFeedSelection],
   )
 
   /**

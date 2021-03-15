@@ -183,7 +183,7 @@ const Dashboard = props => {
           reset,
           res,
           resultSize: res.length,
-          feedItems: feeds.length,
+          feedItems: feedRef.current.length,
         })
       } catch (e) {
         log.warn('getFeedPage failed', e.message, e)
@@ -267,11 +267,13 @@ const Dashboard = props => {
           duration: 750,
           easing: Easing.ease,
           delay: 1000,
+          useNativeDriver: true,
         }),
         Animated.timing(claimAnimValue, {
           toValue: 1,
           duration: 750,
           easing: Easing.ease,
+          useNativeDriver: true,
         }),
       ]).start(resolve),
     )
@@ -310,7 +312,7 @@ const Dashboard = props => {
   const nextFeed = useCallback(
     debounce(
       () => {
-        if (feeds && feeds.length > 0) {
+        if (feedRef.current.length > 0) {
           log.debug('getNextFeed called')
           return getFeedPage()
         }
@@ -318,7 +320,7 @@ const Dashboard = props => {
       500,
       { leading: true },
     ),
-    [feeds, getFeedPage],
+    [getFeedPage],
   )
 
   const initDashboard = async () => {
@@ -379,36 +381,43 @@ const Dashboard = props => {
           toValue: 68,
           duration: timing,
           easing: easingOut,
+          useNativeDriver: true,
         }),
         Animated.timing(headerHeightAnimValue, {
           toValue: 176,
           duration: timing,
           easing: easingOut,
+          useNativeDriver: true,
         }),
         Animated.timing(headerAvatarLeftAnimValue, {
           toValue: 0,
           duration: timing,
           easing: easingOut,
+          useNativeDriver: true,
         }),
         Animated.timing(headerFullNameOpacityAnimValue, {
           toValue: 1,
           duration: fullNameOpacityTiming,
           easing: easingOut,
+          useNativeDriver: true,
         }),
         Animated.timing(headerBalanceBottomAnimValue, {
           toValue: 0,
           duration: timing,
           easing: easingOut,
+          useNativeDriver: true,
         }),
         Animated.timing(headerBalanceRightMarginAnimValue, {
           toValue: 0,
           duration: timing,
           easing: easingOut,
+          useNativeDriver: true,
         }),
         Animated.timing(headerBalanceLeftMarginAnimValue, {
           toValue: 0,
           duration: timing,
           easing: easingOut,
+          useNativeDriver: true,
         }),
       ]).start()
     } else {
@@ -417,36 +426,43 @@ const Dashboard = props => {
           toValue: 42,
           duration: timing,
           easing: easingIn,
+          useNativeDriver: true,
         }),
         Animated.timing(headerHeightAnimValue, {
           toValue: 40,
           duration: timing,
           easing: easingIn,
+          useNativeDriver: true,
         }),
         Animated.timing(headerAvatarLeftAnimValue, {
           toValue: initialAvatarLeftPosition,
           duration: timing,
           easing: easingIn,
+          useNativeDriver: true,
         }),
         Animated.timing(headerFullNameOpacityAnimValue, {
           toValue: 0,
           duration: fullNameOpacityTiming,
           easing: easingIn,
+          useNativeDriver: true,
         }),
         Animated.timing(headerBalanceBottomAnimValue, {
           toValue: Platform.select({ web: 68, default: 60 }),
           duration: timing,
           easing: easingIn,
+          useNativeDriver: true,
         }),
         Animated.timing(headerBalanceRightMarginAnimValue, {
           toValue: 24,
           duration: timing,
           easing: easingIn,
+          useNativeDriver: true,
         }),
         Animated.timing(headerBalanceLeftMarginAnimValue, {
           toValue: balanceCalculatedLeftMargin,
           duration: timing,
           easing: easingIn,
+          useNativeDriver: true,
         }),
       ]).start()
     }
@@ -492,10 +508,10 @@ const Dashboard = props => {
   }
 
   useEffect(() => {
-    if (feeds.length) {
+    if (feedRef.current.length) {
       getNotificationItem()
     }
-  }, [feeds, appState])
+  }, [appState])
 
   const handleFeedSelection = (receipt, horizontal) => {
     showEventModal(horizontal ? receipt : null)
@@ -530,7 +546,7 @@ const Dashboard = props => {
       const scrollPosition = nativeEvent.contentOffset.y
       const minScrollRequiredISH = headerLarge ? minScrollRequired : minScrollRequired * 2
       const scrollPositionISH = headerLarge ? scrollPosition : scrollPosition + minScrollRequired
-      if (feeds && feeds.length && feeds.length > 10 && scrollPositionISH > minScrollRequiredISH) {
+      if (feedRef.current.length > 10 && scrollPositionISH > minScrollRequiredISH) {
         if (headerLarge) {
           setHeaderLarge(false)
         }
@@ -540,10 +556,10 @@ const Dashboard = props => {
         }
       }
     },
-    [headerLarge, feeds, setHeaderLarge],
+    [headerLarge, setHeaderLarge],
   )
 
-  const modalListData = useMemo(() => (isBrowser ? [currentFeed] : feeds), [currentFeed, feeds])
+  const modalListData = useMemo(() => (isBrowser ? [currentFeed] : feedRef.current), [currentFeed])
 
   const goToProfile = useOnPress(() => screenProps.push('Profile'), [screenProps])
 
@@ -624,16 +640,16 @@ const Dashboard = props => {
         </Section.Row>
       </Section>
       <FeedList
-        data={feeds}
+        data={feedRef.current}
         handleFeedSelection={handleFeedSelection}
         initialNumToRender={PAGE_SIZE}
         onEndReached={nextFeed} // How far from the end the bottom edge of the list must be from the end of the content to trigger the onEndReached callback.
         // we can use decimal (from 0 to 1) or integer numbers. Integer - it is a pixels from the end. Decimal it is the percentage from the end
         onEndReachedThreshold={0.7} // Determines the maximum number of items rendered outside of the visible area
-        windowSize={7}
+        windowSize={20}
         onScroll={onScroll}
         headerLarge={headerLarge}
-        scrollEventThrottle={100}
+        scrollEventThrottle={500}
       />
       {currentFeed && (
         <FeedModalList

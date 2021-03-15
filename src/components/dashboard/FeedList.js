@@ -70,8 +70,22 @@ const FeedList = ({
   const canceledFeeds = useRef([])
   const [showBounce, setShowBounce] = useState(true)
   const [displayContent, setDisplayContent] = useState(false)
+  const [ableItemSelection, setAbleItemSelection] = useState(true)
 
   const feeds = useFeeds(data)
+
+  const handleItemSelection = useCallback(
+    (...args) => {
+      if (ableItemSelection) {
+        handleFeedSelection(...args)
+      }
+    },
+    [ableItemSelection, handleFeedSelection],
+  )
+
+  const onScrollStart = useCallback(() => setAbleItemSelection(false), [setAbleItemSelection])
+
+  const onScrollEnd = useCallback(() => setAbleItemSelection(true), [setAbleItemSelection])
 
   const scrollToTop = useCallback(() => {
     const list = get(flRef, 'current._component._flatListRef', {})
@@ -87,7 +101,7 @@ const FeedList = ({
       item={item}
       separators={separators}
       fixedHeight
-      handleFeedSelection={handleFeedSelection}
+      handleFeedSelection={handleItemSelection}
     />
   )
 
@@ -223,6 +237,8 @@ const FeedList = ({
         numColumns={1}
         onEndReached={onEndReached}
         onEndReachedThreshold={onEndReachedThreshold}
+        onScrollBeginDrag={onScrollStart}
+        onScrollEndDrag={onScrollEnd}
         refreshing={false}
         renderItem={renderItemComponent}
         renderQuickActions={renderQuickActions}

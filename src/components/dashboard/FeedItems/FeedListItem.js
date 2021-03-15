@@ -1,6 +1,6 @@
 // @flow
-import React, { useCallback } from 'react'
-import { TouchableHighlight, View } from 'react-native'
+import React, { useCallback, useState } from 'react'
+import { Platform, TouchableHighlight, View } from 'react-native'
 import * as Animatable from 'react-native-animatable'
 
 import type { FeedEvent } from '../../../lib/gundb/UserStorageClass'
@@ -31,6 +31,8 @@ type FeedListItemProps = {
  * @returns {React.Node}
  */
 const FeedListItem = (props: FeedListItemProps) => {
+  const disableAnimForTests = Config.env === 'test'
+  const [animationFinished, setAnimationFinished] = useState<boolean>(disableAnimForTests)
   const simpleStore = SimpleStore.useStore()
   const { theme, item, handleFeedSelection, styles } = props
   const { id, type, displayType, action } = item
@@ -38,7 +40,6 @@ const FeedListItem = (props: FeedListItemProps) => {
   const itemType = displayType || type
   const isItemEmpty = itemType === 'empty'
   const itemStyle = getEventSettingsByType(theme, itemType)
-  const disableAnimForTests = Config.env === 'test'
   const easing = 'ease-in'
 
   const imageStyle = {
@@ -57,6 +58,8 @@ const FeedListItem = (props: FeedListItemProps) => {
       onItemPress()
     }
   }, [fireEvent, type, onItemPress, id])
+
+  const onAnimationFinished = useCallback(({ finished }) => finished && setAnimationFinished(true), [setAnimationFinished])
 
   if (isItemEmpty) {
     const feedLoadAnimShown = simpleStore.get('feedLoadAnimShown')
@@ -124,11 +127,16 @@ const FeedListItem = (props: FeedListItemProps) => {
   }
 
   return (
-    <Animatable.View animation={disableAnimForTests ? '' : 'fadeIn'} easing={easing} useNativeDriver>
+    <Animatable.View
+      onAnimationEnd={onAnimationFinished}
+      animation={disableAnimForTests ? '' : 'fadeIn'}
+      easing={easing}
+      useNativeDriver
+    >
       <TouchableHighlight
         activeOpacity={0.5}
         onPress={onPress}
-        style={styles.row}
+        style={[styles.row, animationFinished && styles.rowHasBeenAnimated]}
         tvParallaxProperties={{ pressMagnification: 1.1 }}
         underlayColor={theme.colors.lightGray}
       >
@@ -148,7 +156,6 @@ const getStylesFromProps = ({ theme }) => ({
       width: 0,
       height: 2,
     },
-    elevation: 1,
 
     // height: theme.feedItems.height,
     marginHorizontal: theme.sizes.default,
@@ -156,6 +163,10 @@ const getStylesFromProps = ({ theme }) => ({
     shadowOpacity: 0.16,
     shadowRadius: 4,
   },
+  rowHasBeenAnimated: Platform.select({
+    android: { elevation: 1 },
+    default: {},
+  }),
   rowContent: {
     borderRadius: theme.feedItems.borderRadius,
     overflow: 'hidden',

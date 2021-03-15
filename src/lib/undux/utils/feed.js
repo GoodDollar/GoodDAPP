@@ -23,7 +23,7 @@ const getMockFeeds = () => {
             message:
               '"I can buy food for my children!"\nNairobi, Kenya - 24,600 people are using GD today to buy essential commodities... ',
             endpoint: {
-              fullName: 'Maisao Matimbo (Kenya)',
+              displayName: 'Maisao Matimbo (Kenya)',
               avatar: null,
               address: null,
             },
@@ -39,7 +39,7 @@ const getMockFeeds = () => {
             message:
               'Send Invites to get more people connected on GoodDollar. You will earn GD and also Help other people to earn.',
             endpoint: {
-              fullName: 'Invite friends to GoodDollar',
+              displayName: 'Invite friends to GoodDollar',
             },
           },
         },

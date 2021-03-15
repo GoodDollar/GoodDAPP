@@ -28,13 +28,7 @@ import logger from '../../lib/logger/pino-logger'
 const log = logger.child({ from: 'FeedStorage' })
 
 /**TODO:
- * handle bonuses
  * handle bridge(mint)
- * refactor feeditem types
- * refactor feeditem status
- * refactor receiptData to receiptEvent
- * refactor senddirect + receivedirect
- * clean UserStorage
  */
 
 function isValidDate(d) {
@@ -46,7 +40,7 @@ const NULL_ADDRESS = '0x0000000000000000000000000000000000000000'
 
 export const TxType = {
   TX_OTPL_CANCEL: 'TX_OTPL_CANCEL',
-  TX_OTPL_WITHDRAW: 'TX_OTPL_WITHDRAW',
+  TX_OTPL_WITHDRAW: 'TX_OTPL_WITHDRAW', //someone withdraw our own paymentlink
   TX_OTPL_DEPOSIT: 'TX_OTPL_DEPOSIT',
   TX_SEND_GD: 'TX_SEND_GD',
   TX_RECEIVE_GD: 'TX_RECEIVE_GD',
@@ -76,10 +70,9 @@ export const FeedItemType = {
 }
 
 export const TxStatus = {
-  SEND_COMPLETED: 'SEND_COMPLETED',
-  PENDING: 'PENDING',
-  CANCELED: 'CANCELLED',
-  WITHDRAWN: 'WITHDRAWN',
+  COMPLETED: 'completed',
+  PENDING: 'pending',
+  CANCELED: 'cancelled',
 }
 
 export type FeedEvent = {
@@ -454,11 +447,11 @@ export class FeedStorage {
       switch (txType) {
         case TxType.TX_REWARD:
           feedEvent.data.reason = COMPLETED_BONUS_REASON_TEXT
-          feedEvent.data.customName = 'GoodDollar'
+          feedEvent.data.counterPartyFullName = 'GoodDollar'
           break
         case TxType.TX_MINT:
           feedEvent.data.reason = 'Your Transfered G$s'
-          feedEvent.data.customName = 'Fuse Bridge'
+          feedEvent.data.counterPartyfullName = 'Fuse Bridge'
           break
         default:
           break
@@ -511,6 +504,8 @@ export class FeedStorage {
               value,
               data: feedEvent.data,
             })
+
+            //this will create counterPartyFullName, counterPartySmallAvatar
             feedEvent.data[camelCase(`counterParty ${field}`)] = value
 
             this.updateFeedEvent(feedEvent)

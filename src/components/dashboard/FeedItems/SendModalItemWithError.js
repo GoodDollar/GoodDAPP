@@ -32,7 +32,7 @@ const FeedModalItem = ({ item, onPress, styles, theme }: FeedEventProps) => {
         </View>
       </View>
       <SummaryTable
-        counterPartyDisplayName={item.data.endpoint.fullName}
+        counterPartyDisplayName={item.data.endpoint.displayName}
         amount={item.data.amount}
         reason={item.data.message}
         compact={true}

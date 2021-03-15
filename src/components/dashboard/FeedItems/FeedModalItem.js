@@ -1,6 +1,7 @@
 // @flow
 import React, { useCallback } from 'react'
 import { View } from 'react-native'
+import { get } from 'lodash'
 import Avatar from '../../common/view/Avatar'
 import BigGoodDollar from '../../common/view/BigGoodDollar'
 import Text from '../../common/view/Text'
@@ -30,6 +31,7 @@ const FeedModalItem = (props: FeedEventProps) => {
   const mainColor = eventSettings.color
   const showJaggedEdge = ['claim', 'sendcompleted', 'withdraw', 'receive'].includes(itemType)
   const topImageExists = !!getImageByType(itemType)
+  const avatar = get(item, 'data.endpoint.avatar')
 
   return (
     <ModalWrapper
@@ -69,14 +71,7 @@ const FeedModalItem = (props: FeedEventProps) => {
             </React.Fragment>
           </View>
           <View style={[styles.transactionDetails, { borderColor: mainColor }]}>
-            {!eventSettings.withoutAvatar && (
-              <Avatar
-                source={item.data && item.data.endpoint && item.data.endpoint.avatar}
-                size={34}
-                imageSize={36}
-                style={styles.avatar}
-              />
-            )}
+            {!eventSettings.withoutAvatar && <Avatar source={avatar} size={34} imageSize={36} style={styles.avatar} />}
             {item.data && item.data.endpoint && (
               <EventCounterParty style={styles.feedItem} textStyle={styles.feedItemText} feedItem={item} />
             )}

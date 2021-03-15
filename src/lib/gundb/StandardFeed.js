@@ -10,7 +10,7 @@ export type StandardFeed = {
   data: {
     endpoint: {
       address: string,
-      fullName: string,
+      displayName: string,
       avatar?: string,
     },
     amount: string,

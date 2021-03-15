@@ -1,6 +1,7 @@
 // @flow
 import React from 'react'
 import { Platform, View } from 'react-native'
+import { get } from 'lodash'
 import { isMobile } from '../../../lib/utils/platform'
 import normalize from '../../../lib/utils/normalizeText'
 import { getFormattedDateTime } from '../../../lib/utils/FormatDate'
@@ -67,6 +68,7 @@ const ListEvent = ({ item: feed, theme, styles }: FeedEventProps) => {
   const isSmallDevice = isMobile && getScreenWidth() < 353
   const isFeedTypeClaiming = feed.type === 'claiming'
   const isErrorCard = ['senderror', 'withdrawerror'].includes(itemType)
+  const avatar = get(feed, 'data.endpoint.avatar')
 
   const updateFeedEventAnimation = () => {
     userStorage.updateFeedAnimationStatus(feed.id)
@@ -112,12 +114,7 @@ const ListEvent = ({ item: feed, theme, styles }: FeedEventProps) => {
             )}
           </View>
           <View style={styles.transferInfo} alignItems="flex-start">
-            <Avatar
-              size={normalize(34)}
-              imageSize={normalize(36)}
-              style={styles.avatarBottom}
-              source={feed.data && feed.data.endpoint && feed.data.endpoint.avatar}
-            />
+            <Avatar size={normalize(34)} imageSize={normalize(36)} style={styles.avatarBottom} source={avatar} />
             <View style={[styles.mainInfo, isFeedTypeClaiming && styles.claimingCardFeedText]}>
               {isErrorCard ? (
                 <>

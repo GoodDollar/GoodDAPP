@@ -91,7 +91,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
 
   const generatePaymentLinkForShare = useCallback(() => {
     const { withdrawCode, message, amount, endpoint = {} } = item.data || {}
-    const { fullName } = endpoint
+    const { displayName } = endpoint
 
     try {
       const url = generateShareLink(
@@ -103,7 +103,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
         }),
       )
 
-      let result = generateSendShareObject(url, amount, fullName, currentUserName)
+      let result = generateSendShareObject(url, amount, displayName, currentUserName)
 
       return result
     } catch (exception) {

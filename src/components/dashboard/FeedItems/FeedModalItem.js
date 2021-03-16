@@ -92,7 +92,7 @@ const FeedModalItem = (props: FeedEventProps) => {
               {item.data.message || ''}
             </Text>
           </View>
-          {item.status === 'pending' && (
+          {item.data.receiptHash == null && item.status === 'pending' && (
             <View style={styles.messageContainer}>
               <Text fontSize={14} color="gray50Percent">
                 Your balance will be updated in a minute

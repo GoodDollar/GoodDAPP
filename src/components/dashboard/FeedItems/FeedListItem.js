@@ -30,7 +30,7 @@ type FeedListItemProps = {
  * @param {object} props.styles
  * @returns {React.Node}
  */
-const FeedListItem = (props: FeedListItemProps) => {
+const FeedListItem = React.memo((props: FeedListItemProps) => {
   const simpleStore = SimpleStore.useStore()
   const { theme, item, handleFeedSelection, styles } = props
   const { id, type, displayType, action } = item
@@ -136,7 +136,7 @@ const FeedListItem = (props: FeedListItemProps) => {
       </TouchableHighlight>
     </Animatable.View>
   )
-}
+})
 
 const getStylesFromProps = ({ theme }) => ({
   row: {

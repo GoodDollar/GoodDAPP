@@ -513,9 +513,12 @@ const Dashboard = props => {
     }
   }, [appState])
 
-  const handleFeedSelection = (receipt, horizontal) => {
-    showEventModal(horizontal ? receipt : null)
-  }
+  const handleFeedSelection = useCallback(
+    (receipt, horizontal) => {
+      showEventModal(horizontal ? receipt : null)
+    },
+    [showEventModal],
+  )
 
   const showNewFeedEvent = useCallback(
     async eventId => {

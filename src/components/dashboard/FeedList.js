@@ -35,15 +35,6 @@ export type FeedListProps = {
   onScroll: Function,
 }
 
-type ItemComponentProps = {
-  item: any,
-  separators: {
-    highlight: any,
-    unhighlight: any,
-  },
-  index: number,
-}
-
 const getItemLayout = (_: any, index: number) => {
   const [length, separator, header] = [72, 1, 30]
 
@@ -53,6 +44,10 @@ const getItemLayout = (_: any, index: number) => {
     offset: (length + separator) * index + header,
   }
 }
+
+const Item = React.memo(({ item, handleFeedSelection }) => {
+  return <FeedListItem key={keyExtractor(item)} item={item} handleFeedSelection={handleFeedSelection} />
+})
 
 const FeedList = ({
   data,
@@ -80,17 +75,8 @@ const FeedList = ({
       list.scrollToOffset({ offset: 0 })
     }
   }, [])
-
   const renderItemComponent = useCallback(
-    ({ item, separators, index }: ItemComponentProps) => (
-      <FeedListItem
-        key={keyExtractor(item)}
-        item={item}
-        separators={separators}
-        fixedHeight
-        handleFeedSelection={handleFeedSelection}
-      />
-    ),
+    ({ item }) => <Item item={item} handleFeedSelection={handleFeedSelection} />,
     [handleFeedSelection],
   )
 

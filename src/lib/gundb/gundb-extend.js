@@ -133,26 +133,6 @@ assign(User.prototype, {
    */
 
   /**
-   * Returns the decrypted value
-   * @returns {Promise<any>}
-   */
-  async decrypt(callback = null) {
-    let decryptedData = null
-
-    // firstly we'll got the node data
-    const encryptedData = await this.then()
-
-    // if it's empty - no need to get secure key. just resolve with null
-    if (encryptedData != null) {
-      const secureKey = await getSecureKey(this)
-
-      decryptedData = await SEA.decrypt(encryptedData, secureKey)
-    }
-
-    return (callback || identity)(decryptedData)
-  },
-
-  /**
    * restore a user from saved credentials
    * this bypasses the user/password which is slow because of pbkdf2 iterations
    * this is based on Gun.User.prototype.auth act.g in original sea.js

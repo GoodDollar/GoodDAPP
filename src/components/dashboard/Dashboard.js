@@ -1,11 +1,10 @@
 // @flow
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { Animated, Dimensions, Easing, Image, Platform, TouchableOpacity, View } from 'react-native'
 import { concat, debounce, get, uniqBy } from 'lodash'
 import Mutex from 'await-mutex'
 import type { Store } from 'undux'
 import AsyncStorage from '../../lib/utils/asyncStorage'
-import { isBrowser } from '../../lib/utils/platform'
 import normalize from '../../lib/utils/normalizeText'
 import GDStore from '../../lib/undux/GDStore'
 import API from '../../lib/API/api'
@@ -562,8 +561,6 @@ const Dashboard = props => {
     [headerLarge, setHeaderLarge],
   )
 
-  const modalListData = useMemo(() => (isBrowser ? [currentFeed] : feedRef.current), [currentFeed])
-
   const goToProfile = useOnPress(() => screenProps.push('Profile'), [screenProps])
 
   return (
@@ -656,7 +653,7 @@ const Dashboard = props => {
       />
       {currentFeed && (
         <FeedModalList
-          data={modalListData}
+          data={feedRef.current}
           handleFeedSelection={handleFeedSelection}
           onEndReached={nextFeed}
           selectedFeed={currentFeed}

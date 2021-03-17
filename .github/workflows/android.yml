@@ -72,6 +72,7 @@ jobs:
           echo "ENV=development" >> $GITHUB_ENV
           echo "SECRET_NAME=DEV_ENV" >> $GITHUB_ENV
           echo "APPCENTER_NAME=GoodDollar/GoodDollar-Android-development" >> $GITHUB_ENV
+          echo "APPCENTER_TOKEN=${{ secrets.APPCENTER_ANDROID_DEV }}" >> $GITHUB_ENV
 
       - name: Pre-checks - Env is QA
         if: ${{ endsWith(github.ref, '/staging') }}
@@ -79,6 +80,8 @@ jobs:
           echo "ENV=staging" >> $GITHUB_ENV
           echo "SECRET_NAME=STAGING_ENV" >> $GITHUB_ENV
           echo "APPCENTER_NAME=GoodDollar/GoodDollar-Android-staging" >> $GITHUB_ENV
+          echo "APPCENTER_STORE=Alpha" >> $GITHUB_ENV
+          echo "APPCENTER_TOKEN=${{ secrets.APPCENTER_ANDROID_STAGING }}" >> $GITHUB_ENV
 
       - name: Pre-checks - Env is PROD
         if: ${{ endsWith(github.ref, '/next') }}
@@ -86,6 +89,8 @@ jobs:
           echo "ENV=prod" >> $GITHUB_ENV
           echo "SECRET_NAME=PROD_ENV" >> $GITHUB_ENV
           echo "APPCENTER_NAME=GoodDollar/GoodDollar-Android-production" >> $GITHUB_ENV
+          echo "APPCENTER_STORE=Beta" >> $GITHUB_ENV
+          echo "APPCENTER_TOKEN=${{ secrets.APPCENTER_ANDROID_PROD }}" >> $GITHUB_ENV
 
       - name: set branch name
         env:
@@ -143,24 +148,11 @@ jobs:
 
       - name: Deploy to App Center
         run: |
-          token=${{ secrets.APPCENTER_ANDROID_DEV }}
-
-          if [ ${{ env.ENV }} == 'prod' ]
-          then
-            echo "setting appcenter production"
-            token=${{secrets.APPCENTER_ANDROID_PROD}}
-          fi
-          if [ ${{ env.ENV }} == 'staging' ]
-          then
-            echo "setting appcenter staging"
-            token=${{secrets.APPCENTER_ANDROID_STAGING}}
-          fi
           echo "deploying to ${{ env.APPCENTER_NAME }} ${{ env.INPUT_APK_PATH }}"
           npm install appcenter-cli@^2.*
-          npx appcenter distribute release --token $token --app "${{ env.APPCENTER_NAME }}" --group "Collaborators" --file "${{ env.UNIVERSAL_APK_PATH }}" --release-notes "$(git log -1 --pretty=format:'%h %s')" --debug
+          npx appcenter distribute release --token "${{ env.APPCENTER_TOKEN }}" --app "${{ env.APPCENTER_NAME }}" --group "Collaborators" --file "${{ env.UNIVERSAL_APK_PATH }}" --release-notes "$(git log -1 --pretty=format:'%h %s')" --debug
 
-      - name: Distribute to stores - PROD ONLY
-        if: ${{ endsWith(github.ref, '/next') }}
+      - name: Distribute to stores - QA & PROD ONLY
+        if: ${{ endsWith(github.ref, '/next') || endsWith(github.ref, '/staging') }}
         run: |
-          token=${{secrets.APPCENTER_ANDROID_PROD}}
-          npx appcenter distribute stores publish --token $token --app "${{ env.APPCENTER_NAME }}" --store Beta --file "${{ env.UNIVERSAL_APK_PATH }}" --release-notes "$(git log -1 --pretty=format:'%h %s')"
+          npx appcenter distribute stores publish --token "${{ env.APPCENTER_TOKEN }}" --app "${{ env.APPCENTER_NAME }}" --store "${{ env.APPCENTER_STORE }}" --file "${{ env.UNIVERSAL_APK_PATH }}" --release-notes "$(git log -1 --pretty=format:'%h %s')"

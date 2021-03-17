@@ -72,9 +72,9 @@ const getStylesFromProps = ({ theme }) => {
       borderRadius: 5,
     },
     errorImage: {
-      height: getDesignRelativeHeight(146, false),
-      marginTop: isMobileOnly ? getDesignRelativeHeight(32) : 0,
-      marginBottom: isMobileOnly ? getDesignRelativeHeight(40) : 0,
+      height: getDesignRelativeHeight(176, false),
+      marginTop: isMobileOnly ? getDesignRelativeHeight(15) : 0,
+      marginBottom: isMobileOnly ? getDesignRelativeHeight(20) : 0,
       justifyContent: 'center',
       alignItems: 'center',
     },

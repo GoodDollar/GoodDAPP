@@ -79,8 +79,8 @@ const getStylesFromProps = ({ theme }) => {
       borderRadius: 5,
     },
     errorImage: {
-      marginTop: isMobileOnly ? getDesignRelativeHeight(25) : 0,
-      marginBottom: isMobileOnly ? getDesignRelativeHeight(30) : 0,
+      marginTop: isMobileOnly ? getDesignRelativeHeight(15) : 0,
+      marginBottom: isMobileOnly ? getDesignRelativeHeight(20) : 0,
       height: getDesignRelativeHeight(146, false),
       display: 'flex',
       justifyContent: 'center',

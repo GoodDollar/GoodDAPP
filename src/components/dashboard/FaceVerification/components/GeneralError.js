@@ -73,10 +73,10 @@ const getStylesFromProps = ({ theme }) => {
       borderRadius: 5,
     },
     errorImage: {
-      height: getDesignRelativeWidth(isBrowser ? 220 : 130),
+      height: getDesignRelativeWidth(isBrowser ? 220 : 166),
       width: '100%',
-      marginTop: isMobileOnly ? getDesignRelativeHeight(27) : 0,
-      marginBottom: isMobileOnly ? getDesignRelativeHeight(35) : 0,
+      marginTop: isMobileOnly ? getDesignRelativeHeight(15) : 0,
+      marginBottom: isMobileOnly ? getDesignRelativeHeight(20) : 0,
       marginRight: 'auto',
       marginLeft: 'auto',
       alignItems: 'center',

@@ -41,7 +41,7 @@
 #zoom-upload-progress-wrapper .loading::before {
   /* Add custom text above the progress loader */
   content: "You need to stay on this screen\auntil the process completes.";
-  top: -140%;
+  top: -120%;
   color: #F8AF40;
   font-weight: bold;
   font-size: 18px;

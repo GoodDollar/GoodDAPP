@@ -106,7 +106,7 @@ const FeedList = ({
   )
 
   /**
-   * Calls proper action depening on the feed status
+   * Calls proper action depending on the feed status
    * @param {FeedEvent} item - feed item
    * @param {object} actions - wether to cancel/delete or any further action required
    */

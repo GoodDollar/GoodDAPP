@@ -23,6 +23,7 @@ import {
   orderBy,
   over,
   pick,
+  set,
   some,
   takeWhile,
   toPairs,
@@ -869,7 +870,7 @@ export class UserStorage {
 
       //mint event is probably bridge
       if (feedEvent.type === EVENT_TYPE_MINT && receipt.status) {
-        updatedFeedEvent.data.reason = 'Your Transfereed G$s'
+        updatedFeedEvent.data.reason = 'Your Transferred G$s'
         updatedFeedEvent.data.customName = 'Bridge'
       }
 
@@ -894,13 +895,31 @@ export class UserStorage {
     return
   }
 
+  async setFeedEventProfileFields(feedEvent: FeedEvent) {
+    const fullName = get(feedEvent, 'data.endpoint.fullName')
+    const avatar = get(feedEvent, 'data.endpoint.avatar')
+    if (!fullName || !avatar) {
+      const walletAddress =
+        feedEvent.type === 'send' ? get(feedEvent, 'data.receiptData.to') : get(feedEvent, 'data.receiptData.from')
+
+      const userProfile = await this.getUserProfile(walletAddress)
+      if (userProfile.name) {
+        set(feedEvent, 'data.endpoint.fullName', userProfile.name)
+      }
+      if (userProfile.avatar) {
+        set(feedEvent, 'data.endpoint.avatar', userProfile.avatar)
+      }
+    }
+    return feedEvent
+  }
+
   /**
    * callback to use when we get a transaction that withdrawn our payment link
    * @param {*} receipt
    */
   async handleOTPLUpdated(receipt: any): Promise<FeedEvent> {
     //receipt received via websockets/polling need mutex to prevent race
-    //with enqueing the initial TX data
+    //with enqueuing the initial TX data
     const release = await this.feedMutex.lock()
     try {
       const data = getReceiveDataFromReceipt(receipt, this.wallet.account)
@@ -943,6 +962,7 @@ export class UserStorage {
       feedEvent.data.otplData = data
       feedEvent.status = feedEvent.data.otplStatus = otplStatus
       feedEvent.date = receiptDate.toString()
+
       logger.debug('handleOTPLUpdated receiptReceived', {
         feedEvent,
         otplStatus,
@@ -1997,8 +2017,11 @@ export class UserStorage {
           address,
         })
         const profileNode =
-          withdrawStatus !== 'pending' && (await this._getProfileNodeTrusted(initiatorType, initiator, address)) //dont try to fetch profile node of this is a tx we sent and is pending
-        const [avatar, fullName] = await Promise.all([
+          withdrawStatus !== 'pending' && (await this._getProfileNodeTrusted(initiatorType, initiator, address)) //don't try to fetch profile node of this is a tx we sent and is pending
+        let fullNameFromEvent = get(event, 'data.endpoint.fullName')
+        let avatarFromEvent = get(event, 'data.endpoint.avatar')
+
+        const [avatarFromProfile, fullNameFromProfile] = await Promise.all([
           this._extractAvatar(type, withdrawStatus, get(profileNode, 'gunProfile'), address).catch(e => {
             logger.warn('formatEvent: failed extractAvatar', e.message, e, {
               type,
@@ -2029,7 +2052,13 @@ export class UserStorage {
           }),
         ])
 
-        return {
+        // take value from fullNameFromProfile, if fullNameFromProfile is falsy or "Unknown" take value from FullNameFromEvent, if fullNameFromEvent is falsy set as "Unknown"
+        const fullName =
+          !fullNameFromProfile || fullNameFromProfile === 'Unknown'
+            ? fullNameFromEvent || 'Unknown'
+            : fullNameFromProfile
+
+        let updatedEvent = {
           id,
           date: new Date(date).getTime(),
           type,
@@ -2042,7 +2071,7 @@ export class UserStorage {
             endpoint: {
               address: sender,
               fullName,
-              avatar,
+              avatar: avatarFromProfile || avatarFromEvent,
               withdrawStatus,
             },
             amount: value,
@@ -2054,6 +2083,18 @@ export class UserStorage {
             withdrawCode,
           },
         }
+        const isFullName = fullName => {
+          return fullName !== 'Unknown' && !isNil(fullName)
+        }
+
+        if (
+          (fullNameFromEvent !== fullNameFromProfile && isFullName(fullNameFromProfile)) ||
+          (avatarFromProfile && avatarFromEvent !== avatarFromProfile)
+        ) {
+          this.updateFeedEvent(updatedEvent)
+        }
+
+        return updatedEvent
       } catch (e) {
         logger.error('formatEvent: failed formatting event:', e.message, e, {
           event,
@@ -2138,7 +2179,7 @@ export class UserStorage {
 
     let gunProfile = (byIndex || byAddress) && this.gun.get(byIndex || byAddress).get('profile')
 
-    //need to return object so promise.all doesnt resolve node
+    //need to return object so promise.all doesn't resolve node
     return {
       gunProfile,
     }
@@ -2485,6 +2526,9 @@ export class UserStorage {
     }
 
     logger.debug('updateFeedEvent starting encrypt', { dayEventsArr, toUpd, day })
+
+    //  set fullName and avatar to feed event
+    event = await this.setFeedEventProfileFields(event)
 
     // Saving eventFeed by id
     const eventAck = this.writeFeedEvent(event).catch(e => {

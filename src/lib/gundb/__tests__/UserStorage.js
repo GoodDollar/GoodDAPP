@@ -48,6 +48,9 @@ describe('UserStorage', () => {
   const { ping, getTrust } = API
 
   beforeAll(async () => {
+    userStorage.getUserProfilePublickey = identifier => {
+      return null
+    }
     // eslint-disable-next-line require-await
     API.ping = jest.fn().mockImplementation(async () => ({ data: {} }))
     // eslint-disable-next-line require-await
@@ -63,7 +66,9 @@ describe('UserStorage', () => {
     userStorage.unSubscribeProfileUpdates()
   })
 
-  afterAll(() => assign(API, { ping, getTrust }))
+  afterAll(() => {
+    assign(API, { ping, getTrust })
+  })
 
   it('check updates', async () => {
     const updatesDataBefore = (await userStorage.userProperties.get('updates')) || {}
@@ -112,7 +117,7 @@ describe('UserStorage', () => {
   it('has default user properties', async () => {
     const res = await userStorage.userProperties.getAll()
 
-    //firstvisitapp is initialied in userstorage init
+    //firstvisitapp is initialized in userStorage init
     const expected = { ...UserPropertiesClass.defaultProperties, firstVisitApp: expect.any(Number) }
     expect(res).toEqual(expect.objectContaining(expected))
   })
@@ -121,16 +126,6 @@ describe('UserStorage', () => {
     await userStorage.startSystemFeed()
     const res = await userStorage.userProperties.getAll()
     expect(res.firstVisitApp).toBeTruthy()
-  })
-
-  it('events/has the welcome event already set', async () => {
-    await delay(500)
-    const events = await userStorage.getAllFeed()
-    if (Config.isEToro) {
-      expect(events).toContainEqual(welcomeMessageOnlyEtoro)
-    } else {
-      expect(events).toContainEqual(welcomeMessage)
-    }
   })
 
   it('set user property', async () => {

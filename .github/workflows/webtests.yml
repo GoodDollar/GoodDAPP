@@ -35,7 +35,6 @@ jobs:
           node-version: 10.21.0
       - uses: actions/checkout@v2
         with:
-          persist-credentials: false
           fetch-depth: 0
           ref: ${{ github.event.inputs.release == 'qa' && 'master' || 'staging' }}
       - name: setup git
@@ -47,17 +46,17 @@ jobs:
         if: "github.event.inputs.release == 'qa'"
         run: |
           npm version prerelease -m "chore: release qa version %s [skip build]"
-          git push https://${{ secrets.GIT_AUTH }}@github.com/GoodDollar/GoodDAPP master:${{ github.event.inputs.targetbranch }} --force --follow-tags
-          git push https://${{ secrets.GIT_AUTH }}@github.com/GoodDollar/GoodDAPP master --follow-tags
+          git push origin master:${{ github.event.inputs.targetbranch }} --force --follow-tags
+          git push --follow-tags
 
       - name: update version prod
         if: "github.event.inputs.release != 'qa'"
         run: |
           npm version minor -m "chore: release prod version %s [skip build]"
-          git push https://${{ secrets.GIT_AUTH }}@github.com/GoodDollar/GoodDAPP staging:${{ github.event.inputs.targetbranch }} --force --follow-tags
+          git push origin staging:${{ github.event.inputs.targetbranch }} --force --follow-tags
           git checkout master
           git merge staging
-          git push https://${{ secrets.GIT_AUTH }}@github.com/GoodDollar/GoodDAPP master --follow-tags
+          git push --follow-tags
 
   setup:
     runs-on: ubuntu-latest

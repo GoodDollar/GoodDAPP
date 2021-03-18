@@ -955,7 +955,16 @@ export class FeedStorage {
     let recipientPubkey = await this.userStorage.getUserProfilePublickey(event.data.to).then(_ => _.slice(1)) //remove ~prefix
 
     if (recipientPubkey) {
-      const data = pick(event.data, ['reason', 'category', 'amount', 'senderEmail', 'senderName', 'invoiceId'])
+      const data = pick(event.data, [
+        'reason',
+        'category',
+        'amount',
+        'senderEmail',
+        'senderName',
+        'invoiceId',
+        'sellerWebsite',
+        'sellerName',
+      ])
       log.debug('addToOutbox:', { recipientPubkey, data })
       await this.gunuser
         .get('outbox')

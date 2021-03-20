@@ -6,6 +6,7 @@ import API from '../../../../lib/API/api'
 import Config from '../../../../config/config'
 import logger from '../../../../lib/logger/pino-logger'
 import { unexpectedErrorMessage } from '../sdk/FaceTecSDK.constants'
+import { logIssue } from '../utils/kindOfTheIssue'
 
 import { type FaceVerificationPayload, type FaceVerificationResponse } from './typings'
 
@@ -43,7 +44,7 @@ class FaceVerificationApi {
     } catch (exception) {
       const { message } = exception
 
-      logger.error('Session session token issue failed:', message, exception)
+      logIssue(logger, 'Session token issue failed:', message, exception)
       throw new Error('Session could not be started due to an unexpected issue during the network request.')
     }
   }
@@ -82,7 +83,7 @@ class FaceVerificationApi {
     } catch (exception) {
       const { message } = exception
 
-      logger.error('Face verification failed', message, exception)
+      logIssue(logger, 'Face verification failed', message, exception)
       throw exception
     } finally {
       this.lastCancelToken = null
@@ -112,7 +113,7 @@ class FaceVerificationApi {
     } catch (exception) {
       const { message } = exception
 
-      logger.error('Face snapshot disposal check failed', message, exception)
+      logIssue(logger, 'Face snapshot disposal check failed', message, exception)
       throw exception
     }
   }
@@ -130,7 +131,7 @@ class FaceVerificationApi {
     } catch (exception) {
       const { message } = exception
 
-      logger.error('Face snapshot disposal check failed', message, exception)
+      logIssue(logger, 'Face snapshot disposal check failed', message, exception)
       throw exception
     }
   }

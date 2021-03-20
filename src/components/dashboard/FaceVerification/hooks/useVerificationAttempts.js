@@ -45,7 +45,7 @@ export default () => {
       resetAttempts()
 
       // 3. log for debug purposes
-      log.error(
+      log.warn(
         `FaceVerification still failing after ${MAX_ATTEMPTS_ALLOWED} attempts - FV_TRY_AGAIN_LATER fired:`,
         message,
         exception,

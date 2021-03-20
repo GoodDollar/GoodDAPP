@@ -158,6 +158,7 @@ const kindOfSDKIssuesMap = mapValues(
   sdkStatusTransformer,
 )
 
+const unexpectedRe = /unexpected\s+issue/i
 const licenceIssuesCodes = sdkStatusTransformer(LicenseError)
 const createPredicate = exception => codes => codes.includes(get(exception, 'code'))
 const criticalIssues = ['UnrecoverableError', 'NotSupportedError', 'ResourceLoadingError']
@@ -169,8 +170,16 @@ export const ExceptionType = {
 
 export const isLicenseIssue = exception => createPredicate(exception)(licenceIssuesCodes)
 
+export const isUnexpectedIssue = exception => unexpectedRe.test(exception.message || '')
+
 export const isCriticalIssue = exception => criticalIssues.includes(get(exception, 'name'))
 
 export const kindOfSessionIssue = exception => findKey(kindOfSessionIssuesMap, createPredicate(exception))
 
 export const kindOfSDKIssue = exception => findKey(kindOfSDKIssuesMap, createPredicate(exception))
+
+export const logIssue = (logger, label, message, exception, data) => {
+  const logMethod = isCriticalIssue(exception) || isUnexpectedIssue(exception) ? 'error' : 'warn'
+
+  logger[logMethod](label, message, exception, data)
+}

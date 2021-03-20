@@ -4,6 +4,7 @@ import { noop } from 'lodash'
 import api from '../api/FaceVerificationApi'
 import logger from '../../../../lib/logger/pino-logger'
 import useMountedState from '../../../../lib/hooks/useMountedState'
+import { logIssue } from '../utils/kindOfTheIssue'
 
 const log = logger.child({ from: 'useFaceTecVerification' })
 
@@ -36,7 +37,7 @@ export default ({ enrollmentIdentifier, onComplete = noop, onError = noop }) => 
       } catch (exception) {
         const { message } = exception
 
-        log.error('Error checking disposal state', message, exception)
+        logIssue(log, 'Error checking disposal state', message, exception)
         onErrorRef.current(exception)
       }
     }

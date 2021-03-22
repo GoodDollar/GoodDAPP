@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react'
-import { View } from 'react-native'
+import React, { useEffect, useState } from 'react'
+import { Dimensions, View } from 'react-native'
 
 import Text from '../../../common/view/Text'
 import { CustomButton, Section, Wrapper } from '../../../common'
@@ -10,8 +10,16 @@ import { withStyles } from '../../../../lib/styles'
 import FVErrorLandscapeSVG from '../../../../assets/FaceVerification/FVErrorLandscape.svg'
 
 import { fireEvent, FV_WRONGORIENTATION } from '../../../../lib/analytics/analytics'
+import { isPortrait } from '../../../../lib/utils/orientation'
+
+const SVGHeight = {
+  portrait: getDesignRelativeHeight(176, false),
+  landscape: getDesignRelativeHeight(175, false),
+}
 
 const DeviceOrientationError = ({ styles, displayTitle, onRetry, exception }) => {
+  const [svgHeight, setSvgHeight] = useState(SVGHeight.landscape)
+
   useEffect(() => {
     if (!exception) {
       return
@@ -19,6 +27,14 @@ const DeviceOrientationError = ({ styles, displayTitle, onRetry, exception }) =>
 
     fireEvent(FV_WRONGORIENTATION)
   }, [])
+
+  useEffect(() => {
+    const listener = () => {
+      setSvgHeight(isPortrait() ? SVGHeight.portrait : SVGHeight.landscape)
+    }
+    Dimensions.addEventListener('change', listener)
+    return () => Dimensions.removeEventListener('change', listener)
+  }, [setSvgHeight])
 
   return (
     <Wrapper>
@@ -42,7 +58,7 @@ const DeviceOrientationError = ({ styles, displayTitle, onRetry, exception }) =>
               </Text>
             </View>
           </Section>
-          <View style={styles.errorImage}>
+          <View style={[styles.errorImage, { height: svgHeight }]}>
             <FVErrorLandscapeSVG />
           </View>
         </Section>
@@ -72,7 +88,6 @@ const getStylesFromProps = ({ theme }) => {
       borderRadius: 5,
     },
     errorImage: {
-      height: getDesignRelativeHeight(176, false),
       marginTop: isMobileOnly ? getDesignRelativeHeight(15) : 0,
       marginBottom: isMobileOnly ? getDesignRelativeHeight(20) : 0,
       justifyContent: 'center',

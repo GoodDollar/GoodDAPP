@@ -21,7 +21,7 @@ import config from '../../config/config'
 
 // assets
 import Checkmark from '../../assets/checkmark.svg'
-import { isMobileNative } from '../../lib/utils/platform'
+import { isMobileWeb } from '../../lib/utils/platform'
 import ExportWarningPopup from './ExportWarningPopup'
 
 type ExportWalletProps = {
@@ -70,7 +70,7 @@ const ExportWalletData = ({ navigation, styles, theme }: ExportWalletProps) => {
           My account desilts
         </Section.Text>
         <Divider size={10} />
-        <Section.Text fontSize={15} fontWeight="medium" fontFamily="Roboto Slab" color="black">
+        <Section.Text fontSize={15} fontWeight="medium" fontFamily="Roboto" color="black">
           All your information at a glance to easily import gooddollar to metamask
         </Section.Text>
         <Divider size={30} />
@@ -128,7 +128,7 @@ const ExportWalletData = ({ navigation, styles, theme }: ExportWalletProps) => {
           enableIndicateAction
           enableSideMode
         />
-        <Divider size={isMobileNative ? 100 : undefined} />
+        <Divider size={100} />
       </ScrollView>
     </Wrapper>
   )
@@ -146,6 +146,11 @@ const styles = ({ theme }) => ({
     padding: 0,
   },
   containerForBoxes: {
+    ...(isMobileWeb
+      ? {
+          height: '98vh',
+        }
+      : {}),
     backgroundColor: theme.colors.surface,
   },
   contentContainerForBoxes: {

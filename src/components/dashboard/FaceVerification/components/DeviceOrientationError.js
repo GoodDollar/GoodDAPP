@@ -34,7 +34,7 @@ const DeviceOrientationError = ({ styles, displayTitle, onRetry, exception }) =>
     }
     Dimensions.addEventListener('change', listener)
     return () => Dimensions.removeEventListener('change', listener)
-  }, [])
+  }, [setSvgHeight])
 
   return (
     <Wrapper>

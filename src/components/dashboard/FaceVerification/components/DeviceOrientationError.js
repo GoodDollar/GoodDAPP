@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import { Dimensions, View } from 'react-native'
+import React, { useEffect } from 'react'
+import { View } from 'react-native'
 
 import Text from '../../../common/view/Text'
 import { CustomButton, Section, Wrapper } from '../../../common'
@@ -10,7 +10,7 @@ import { withStyles } from '../../../../lib/styles'
 import FVErrorLandscapeSVG from '../../../../assets/FaceVerification/FVErrorLandscape.svg'
 
 import { fireEvent, FV_WRONGORIENTATION } from '../../../../lib/analytics/analytics'
-import { isPortrait } from '../../../../lib/utils/orientation'
+import useDeviceOrientation from '../../../../lib/hooks/useDeviceOrientation'
 
 const SVGHeight = {
   portrait: getDesignRelativeHeight(176, false),
@@ -18,7 +18,8 @@ const SVGHeight = {
 }
 
 const DeviceOrientationError = ({ styles, displayTitle, onRetry, exception }) => {
-  const [svgHeight, setSvgHeight] = useState(SVGHeight.landscape)
+  const orientation = useDeviceOrientation()
+  const svgHeight = SVGHeight[orientation]
 
   useEffect(() => {
     if (!exception) {
@@ -27,14 +28,6 @@ const DeviceOrientationError = ({ styles, displayTitle, onRetry, exception }) =>
 
     fireEvent(FV_WRONGORIENTATION)
   }, [])
-
-  useEffect(() => {
-    const listener = () => {
-      setSvgHeight(isPortrait() ? SVGHeight.portrait : SVGHeight.landscape)
-    }
-    Dimensions.addEventListener('change', listener)
-    return () => Dimensions.removeEventListener('change', listener)
-  }, [setSvgHeight])
 
   return (
     <Wrapper>

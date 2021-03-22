@@ -55,7 +55,7 @@
 
 @media (max-width: 800px) {
   #zoom-upload-progress-wrapper .loading::before { 
-    top: -160%;
+    top: -120%;
   }
 }
 

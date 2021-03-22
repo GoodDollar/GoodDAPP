@@ -148,7 +148,7 @@ const styles = ({ theme }) => ({
   containerForBoxes: {
     ...(isMobileWeb
       ? {
-          height: '95vh',
+          height: '90vh',
         }
       : {}),
     backgroundColor: theme.colors.surface,

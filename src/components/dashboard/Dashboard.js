@@ -77,6 +77,13 @@ export type DashboardProps = {
   styles?: any,
 }
 
+const useNativeDriverForAnimation = Platform.select({
+  web: true,
+
+  // animating height/width or top/bottom/left/right attrs is not supported by native driver on native
+  default: false,
+})
+
 const feedMutex = new Mutex()
 
 const Dashboard = props => {
@@ -380,19 +387,19 @@ const Dashboard = props => {
           toValue: 68,
           duration: timing,
           easing: easingOut,
-          useNativeDriver: true,
+          useNativeDriver: useNativeDriverForAnimation,
         }),
         Animated.timing(headerHeightAnimValue, {
           toValue: 176,
           duration: timing,
           easing: easingOut,
-          useNativeDriver: true,
+          useNativeDriver: useNativeDriverForAnimation,
         }),
         Animated.timing(headerAvatarLeftAnimValue, {
           toValue: 0,
           duration: timing,
           easing: easingOut,
-          useNativeDriver: true,
+          useNativeDriver: useNativeDriverForAnimation,
         }),
         Animated.timing(headerFullNameOpacityAnimValue, {
           toValue: 1,
@@ -404,19 +411,19 @@ const Dashboard = props => {
           toValue: 0,
           duration: timing,
           easing: easingOut,
-          useNativeDriver: true,
+          useNativeDriver: useNativeDriverForAnimation,
         }),
         Animated.timing(headerBalanceRightMarginAnimValue, {
           toValue: 0,
           duration: timing,
           easing: easingOut,
-          useNativeDriver: true,
+          useNativeDriver: useNativeDriverForAnimation,
         }),
         Animated.timing(headerBalanceLeftMarginAnimValue, {
           toValue: 0,
           duration: timing,
           easing: easingOut,
-          useNativeDriver: true,
+          useNativeDriver: useNativeDriverForAnimation,
         }),
       ]).start()
     } else {
@@ -425,19 +432,19 @@ const Dashboard = props => {
           toValue: 42,
           duration: timing,
           easing: easingIn,
-          useNativeDriver: true,
+          useNativeDriver: useNativeDriverForAnimation,
         }),
         Animated.timing(headerHeightAnimValue, {
           toValue: 40,
           duration: timing,
           easing: easingIn,
-          useNativeDriver: true,
+          useNativeDriver: useNativeDriverForAnimation,
         }),
         Animated.timing(headerAvatarLeftAnimValue, {
           toValue: initialAvatarLeftPosition,
           duration: timing,
           easing: easingIn,
-          useNativeDriver: true,
+          useNativeDriver: useNativeDriverForAnimation,
         }),
         Animated.timing(headerFullNameOpacityAnimValue, {
           toValue: 0,
@@ -449,19 +456,19 @@ const Dashboard = props => {
           toValue: Platform.select({ web: 68, default: 60 }),
           duration: timing,
           easing: easingIn,
-          useNativeDriver: true,
+          useNativeDriver: useNativeDriverForAnimation,
         }),
         Animated.timing(headerBalanceRightMarginAnimValue, {
           toValue: 24,
           duration: timing,
           easing: easingIn,
-          useNativeDriver: true,
+          useNativeDriver: useNativeDriverForAnimation,
         }),
         Animated.timing(headerBalanceLeftMarginAnimValue, {
           toValue: balanceCalculatedLeftMargin,
           duration: timing,
           easing: easingIn,
-          useNativeDriver: true,
+          useNativeDriver: useNativeDriverForAnimation,
         }),
       ]).start()
     }

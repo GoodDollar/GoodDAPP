@@ -1,9 +1,9 @@
 // @flow
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, { memo, useCallback, useEffect, useRef, useState } from 'react'
 import { Animated } from 'react-native'
 import { SwipeableFlatList } from 'react-native-swipeable-lists'
 import * as Animatable from 'react-native-animatable'
-import { get, isFunction } from 'lodash'
+import { get, isFunction, noop } from 'lodash'
 import moment from 'moment'
 
 import GDStore from '../../lib/undux/GDStore'
@@ -45,7 +45,7 @@ const getItemLayout = (_: any, index: number) => {
   }
 }
 
-const Item = React.memo(({ item, handleFeedSelection }) => {
+const Item = memo(({ item, handleFeedSelection }) => {
   return <FeedListItem key={keyExtractor(item)} item={item} handleFeedSelection={handleFeedSelection} />
 })
 
@@ -55,8 +55,9 @@ const FeedList = ({
   initialNumToRender,
   onEndReached,
   onEndReachedThreshold,
+  onScrollEnd: _onScrollEnd = noop,
   styles,
-  onScroll,
+  onScroll = noop,
   headerLarge,
   windowSize,
 }: FeedListProps) => {
@@ -65,8 +66,27 @@ const FeedList = ({
   const canceledFeeds = useRef([])
   const [showBounce, setShowBounce] = useState(true)
   const [displayContent, setDisplayContent] = useState(false)
+  const [ableItemSelection, setAbleItemSelection] = useState(true)
 
   const feeds = useFeeds(data)
+
+  const handleItemSelection = useCallback(
+    (...args) => {
+      if (ableItemSelection) {
+        handleFeedSelection(...args)
+      }
+    },
+    [ableItemSelection, handleFeedSelection],
+  )
+
+  const onScrollStart = useCallback(() => setAbleItemSelection(false), [setAbleItemSelection])
+
+  const onScrollEnd = useCallback(
+    event => {
+      setAbleItemSelection(true)
+    },
+    [setAbleItemSelection],
+  )
 
   const scrollToTop = useCallback(() => {
     const list = get(flRef, 'current._component._flatListRef', {})
@@ -75,9 +95,10 @@ const FeedList = ({
       list.scrollToOffset({ offset: 0 })
     }
   }, [])
+
   const renderItemComponent = useCallback(
-    ({ item }) => <Item item={item} handleFeedSelection={handleFeedSelection} />,
-    [handleFeedSelection],
+    ({ item }) => <Item item={item} handleFeedSelection={handleItemSelection} />,
+    [handleItemSelection],
   )
 
   /**
@@ -212,6 +233,9 @@ const FeedList = ({
         numColumns={1}
         onEndReached={onEndReached}
         onEndReachedThreshold={onEndReachedThreshold}
+        onScrollBeginDrag={onScrollStart}
+        onScrollEndDrag={onScrollEnd}
+        onMomentumScrollEnd={_onScrollEnd}
         refreshing={false}
         renderItem={renderItemComponent}
         renderQuickActions={renderQuickActions}

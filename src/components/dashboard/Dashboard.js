@@ -549,7 +549,7 @@ const Dashboard = props => {
     [showDialog, showEventModal],
   )
 
-  const onScroll = useCallback(
+  const onScrollEnd = useCallback(
     ({ nativeEvent }) => {
       const minScrollRequired = 150
       const scrollPosition = nativeEvent.contentOffset.y
@@ -654,7 +654,7 @@ const Dashboard = props => {
         // we can use decimal (from 0 to 1) or integer numbers. Integer - it is a pixels from the end. Decimal it is the percentage from the end
         onEndReachedThreshold={0.7} // Determines the maximum number of items rendered outside of the visible area
         windowSize={20}
-        onScroll={onScroll}
+        onScrollEnd={onScrollEnd}
         headerLarge={headerLarge}
         scrollEventThrottle={500}
       />

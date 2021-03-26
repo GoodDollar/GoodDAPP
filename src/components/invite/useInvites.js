@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { groupBy, keyBy } from 'lodash'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import userStorage from '../../lib/gundb/UserStorage'
@@ -7,6 +7,8 @@ import { useDialog } from '../../lib/undux/utils/dialog'
 import { fireEvent, INVITE_BOUNTY, INVITE_JOIN } from '../../lib/analytics/analytics'
 import { decorate, ExceptionCode } from '../../lib/logger/exceptions'
 import Config from '../../config/config'
+
+const wasOpenedProp = 'hasOpenedInviteScreen'
 
 const log = logger.child({ from: 'useInvites' })
 
@@ -186,4 +188,21 @@ const useInvited = () => {
   return [invites, updateInvited, level, { pending: pending.length, approved: approved.length, totalEarned }]
 }
 
-export { useInviteCode, useInvited, useCollectBounty }
+const useInviteScreenOpened = () => {
+  const { userProperties } = userStorage
+
+  const [wasOpened, setWasOpened] = useState(userProperties.get(wasOpenedProp))
+
+  const trackOpened = useCallback(() => {
+    if (wasOpened) {
+      return
+    }
+
+    userProperties.set(wasOpenedProp, true)
+    setWasOpened(true)
+  }, [setWasOpened])
+
+  return { wasOpened, trackOpened }
+}
+
+export { useInviteCode, useInvited, useCollectBounty, useInviteScreenOpened }

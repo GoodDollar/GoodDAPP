@@ -32,6 +32,7 @@ export default class UserProperties {
     joinedAtBlock: 6400000, // default block to start sync from
     lastTxSyncDate: 0,
     hasOpenedGoodMarket: false,
+    hasOpenedInviteScreen: false,
     goodMarketClicked: false,
     inviterInviteCode: null,
     inviteCode: null,

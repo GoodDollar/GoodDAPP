@@ -12,7 +12,7 @@ import { generateShareObject, isSharingAvailable } from '../../lib/share'
 import userStorage from '../../lib/gundb/UserStorage'
 import useGunProfile from '../../lib/hooks/gun/useGunProfile'
 import ModalLeftBorder from '../common/modal/ModalLeftBorder'
-import { useCollectBounty, useInviteCode, useInvited } from './useInvites'
+import { useCollectBounty, useInviteCode, useInvited, useInviteScreenOpened } from './useInvites'
 import FriendsSVG from './friends.svg'
 import EtoroPNG from './etoro.png'
 import ShareIcons from './ShareIcons'
@@ -271,7 +271,8 @@ const InvitesData = ({ invitees, refresh, level, totalEarned = 0 }) => (
 )
 
 const Invite = () => {
-  const [showHowTo, setShowHowTo] = useState(true)
+  const { wasOpened, trackOpened } = useInviteScreenOpened()
+  const [showHowTo, setShowHowTo] = useState(!wasOpened)
   const [invitees, refresh, level, inviteState] = useInvited()
 
   const totalEarned = get(inviteState, 'totalEarned', 0)
@@ -281,6 +282,10 @@ const Invite = () => {
     !showHowTo && fireEvent(INVITE_HOWTO)
     setShowHowTo(!showHowTo)
   }
+
+  useEffect(() => {
+    trackOpened()
+  }, [])
 
   useEffect(() => {
     //reset state for rewards icon in navbar

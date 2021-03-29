@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
-import { useWindowDimensions } from 'react-native'
 import { isPortrait } from '../utils/orientation'
+import useWindowDimensions from './useWindowDimensions'
 
 const getOrientation = () => (isPortrait() ? 'portrait' : 'landscape')
 

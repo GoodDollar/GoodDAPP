@@ -205,7 +205,7 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
           className="css-text-901oao r-color-cqee49 r-fontFamily-6jnb14 r-fontSize-zz5t5d r-fontWeight-b88u0q r-lineHeight-160dpxk r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
           dir="auto"
         >
-          My account desilts
+          My account details
         </div>
         <div
           className="css-view-1dbjc4n r-borderRadius-1f0042m"
@@ -218,7 +218,7 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
           }
         />
         <div
-          className="css-text-901oao r-color-cqee49 r-fontFamily-6jnb14 r-fontSize-a023e6 r-fontWeight-majxgm r-lineHeight-14yzgew r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+          className="css-text-901oao r-color-cqee49 r-fontFamily-vnw8o6 r-fontSize-a023e6 r-fontWeight-majxgm r-lineHeight-14yzgew r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
           dir="auto"
         >
           All your information at a glance to easily import gooddollar to metamask
@@ -918,11 +918,11 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
           style={
             Object {
               "backgroundColor": "rgba(0,0,0,0.00)",
-              "borderBottomLeftRadius": "25px",
-              "borderBottomRightRadius": "25px",
-              "borderTopLeftRadius": "25px",
-              "borderTopRightRadius": "25px",
-              "height": "50px",
+              "borderBottomLeftRadius": "50px",
+              "borderBottomRightRadius": "50px",
+              "borderTopLeftRadius": "50px",
+              "borderTopRightRadius": "50px",
+              "height": "100px",
               "zIndex": -10,
             }
           }

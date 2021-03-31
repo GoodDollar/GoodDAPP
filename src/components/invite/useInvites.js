@@ -202,6 +202,10 @@ const useInviteScreenOpened = () => {
     setWasOpened(true)
   }, [setWasOpened])
 
+  useEffect(() => {
+    trackOpened()
+  }, [])
+
   return { wasOpened, trackOpened }
 }
 

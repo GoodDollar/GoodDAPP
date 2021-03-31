@@ -271,7 +271,7 @@ const InvitesData = ({ invitees, refresh, level, totalEarned = 0 }) => (
 )
 
 const Invite = () => {
-  const { wasOpened, trackOpened } = useInviteScreenOpened()
+  const { wasOpened } = useInviteScreenOpened()
   const [showHowTo, setShowHowTo] = useState(!wasOpened)
   const [invitees, refresh, level, inviteState] = useInvited()
 
@@ -282,10 +282,6 @@ const Invite = () => {
     !showHowTo && fireEvent(INVITE_HOWTO)
     setShowHowTo(!showHowTo)
   }
-
-  useEffect(() => {
-    trackOpened()
-  }, [])
 
   useEffect(() => {
     //reset state for rewards icon in navbar

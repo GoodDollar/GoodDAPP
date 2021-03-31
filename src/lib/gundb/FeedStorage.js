@@ -465,7 +465,7 @@ export class FeedStorage {
         await this.updateFeedEvent(updatedFeedEvent, feedEvent.date)
       }
       log.debug('handleReceiptUpdate saving... done', receipt.transactionHash)
-      this.updateFeedEventCounterParty(updatedFeedEvent, receipt)
+      this.updateFeedEventCounterParty(updatedFeedEvent)
 
       return updatedFeedEvent
     } catch (e) {
@@ -476,7 +476,7 @@ export class FeedStorage {
     return
   }
 
-  updateFeedEventCounterParty(feedEvent, receipt) {
+  updateFeedEventCounterParty(feedEvent) {
     const getCounterParty = async address => {
       const publicKey = await this.userStorage.getUserProfilePublickey(address)
       log.debug('updateFeedEventCounterParty got counter party:', feedEvent.id, { publicKey, address })
@@ -506,9 +506,10 @@ export class FeedStorage {
             })
 
             //this will create counterPartyFullName, counterPartySmallAvatar
-            feedEvent.data[camelCase(`counterParty ${field}`)] = value
-
-            this.updateFeedEvent(feedEvent)
+            if (feedEvent.data[camelCase(`counterParty ${field}`)] !== value) {
+              feedEvent.data[camelCase(`counterParty ${field}`)] = value
+              this.updateFeedEvent(feedEvent)
+            }
           })
       })
     }
@@ -519,10 +520,10 @@ export class FeedStorage {
     switch (feedEvent.txType) {
       case TxType.TX_OTPL_WITHDRAW:
       case TxType.TX_SEND_GD:
-        getCounterParty(feedEvent.data.receiptEvent.to, feedEvent)
+        getCounterParty(get(feedEvent, 'data.receiptEvent.to'), feedEvent)
         break
       case TxType.TX_RECEIVE_GD:
-        getCounterParty(feedEvent.data.receiptEvent.from, feedEvent)
+        getCounterParty(get(feedEvent, 'data.receiptEvent.from'), feedEvent)
         break
       default:
         break

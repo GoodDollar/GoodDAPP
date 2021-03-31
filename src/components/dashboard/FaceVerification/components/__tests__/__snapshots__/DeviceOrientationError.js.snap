@@ -59,7 +59,12 @@ mode.
           </div>
         </div>
         <div
-          className="css-view-1dbjc4n r-alignItems-1awozwy r-height-ma5732 r-justifyContent-1777fci r-marginBottom-p1pxzi r-marginTop-1mnahxq"
+          className="css-view-1dbjc4n r-alignItems-1awozwy r-justifyContent-1777fci r-marginBottom-p1pxzi r-marginTop-1mnahxq"
+          style={
+            Object {
+              "height": "219.42857142857142px",
+            }
+          }
         >
           <FVErrorLandscape.svg />
         </div>

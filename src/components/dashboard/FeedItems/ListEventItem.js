@@ -219,7 +219,7 @@ const FeedText = withStyles(getFeedTextStyles)(({ styles, feed, isSmallDevice })
       <ReadMoreText color="gray80Percent" text={readMore} buttonText={feed.data.readMore ? 'Learn more...' : ''} />
     )
   } else if (feed.data.readMore === false) {
-    //if readMore is exactly false we dont show anything
+    //if readMore is exactly false we don't show anything
     result = null
   } else {
     result = (

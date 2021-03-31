@@ -170,22 +170,98 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
       </div>
     </div>
     <div
-      className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderRadius-1f0042m r-flexGrow-16y2uox r-paddingHorizontal-1e081e0 r-paddingVertical-1yzf0co"
+      className="css-view-1dbjc4n r-WebkitOverflowScrolling-150rngu r-backgroundColor-14lw9ot r-flexDirection-eqz5dr r-flexGrow-16y2uox r-flexShrink-1wbh5a2 r-overflowX-11yh6sk r-overflowY-1rnoaur r-transform-1sncvnh"
+      onResponderGrant={[Function]}
+      onResponderReject={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onScroll={[Function]}
+      onScrollShouldSetResponder={[Function]}
+      onStartShouldSetResponder={[Function]}
+      onStartShouldSetResponderCapture={[Function]}
+      onTouchEnd={[Function]}
+      onTouchMove={[Function]}
+      onTouchStart={[Function]}
+      onWheel={[Function]}
     >
       <div
-        className="css-view-1dbjc4n r-display-6koalj r-flexGrow-16y2uox r-justifyContent-a2tzq0"
+        className="css-view-1dbjc4n r-marginHorizontal-19l4lzq r-width-e7q0ms"
       >
         <div
           className="css-view-1dbjc4n"
+          style={
+            Object {
+              "backgroundColor": "rgba(0,0,0,0.00)",
+              "borderBottomLeftRadius": "15px",
+              "borderBottomRightRadius": "15px",
+              "borderTopLeftRadius": "15px",
+              "borderTopRightRadius": "15px",
+              "height": "30px",
+              "zIndex": -10,
+            }
+          }
+        />
+        <div
+          className="css-text-901oao r-color-cqee49 r-fontFamily-6jnb14 r-fontSize-zz5t5d r-fontWeight-b88u0q r-lineHeight-160dpxk r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+          dir="auto"
+        >
+          My account details
+        </div>
+        <div
+          className="css-view-1dbjc4n r-borderRadius-1f0042m"
+          style={
+            Object {
+              "backgroundColor": "rgba(0,0,0,0.00)",
+              "height": "10px",
+              "zIndex": -10,
+            }
+          }
+        />
+        <div
+          className="css-text-901oao r-color-cqee49 r-fontFamily-vnw8o6 r-fontSize-a023e6 r-fontWeight-majxgm r-lineHeight-14yzgew r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+          dir="auto"
+        >
+          All your information at a glance to easily import gooddollar to metamask
+        </div>
+        <div
+          className="css-view-1dbjc4n"
+          style={
+            Object {
+              "backgroundColor": "rgba(0,0,0,0.00)",
+              "borderBottomLeftRadius": "15px",
+              "borderBottomRightRadius": "15px",
+              "borderTopLeftRadius": "15px",
+              "borderTopRightRadius": "15px",
+              "height": "30px",
+              "zIndex": -10,
+            }
+          }
+        />
+        <div
+          className="css-view-1dbjc4n"
+          style={
+            Object {
+              "marginLeft": "14px",
+              "marginRight": "14px",
+            }
+          }
         >
           <div
-            className="css-view-1dbjc4n r-alignItems-1awozwy r-borderColor-e397lv r-borderRadius-1f0042m r-borderStyle-1phboty r-borderWidth-rs99b7 r-display-6koalj r-flexDirection-eqz5dr r-justifyContent-1777fci r-padding-t60dpp r-position-bnwqim"
+            className="css-view-1dbjc4n r-alignItems-1awozwy r-borderColor-e397lv r-borderStyle-1phboty r-borderWidth-rs99b7 r-display-6koalj r-flexDirection-eqz5dr r-justifyContent-1777fci r-padding-t60dpp r-position-bnwqim"
+            style={
+              Object {
+                "borderBottomLeftRadius": "10px",
+                "borderBottomRightRadius": "10px",
+                "borderTopLeftRadius": "10px",
+                "borderTopRightRadius": "10px",
+              }
+            }
           >
             <div
-              className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-height-4v7adb r-position-u8s1d r-top-18nhz7w"
+              className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-left-54mlpa r-position-u8s1d r-top-1ej1qmr r-width-z2qzgk"
               style={
                 Object {
-                  "width": "70px",
+                  "height": "38px",
                 }
               }
             />
@@ -193,29 +269,30 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
               className="css-view-1dbjc4n r-alignItems-1awozwy r-position-u8s1d r-zIndex-184en5c"
               style={
                 Object {
-                  "borderBottomLeftRadius": "25px",
-                  "borderBottomRightRadius": "25px",
-                  "borderTopLeftRadius": "25px",
-                  "borderTopRightRadius": "25px",
-                  "height": "50px",
-                  "top": "-25px",
-                  "width": "50px",
+                  "borderBottomLeftRadius": "14px",
+                  "borderBottomRightRadius": "14px",
+                  "borderTopLeftRadius": "14px",
+                  "borderTopRightRadius": "14px",
+                  "height": "28px",
+                  "left": "-14px",
+                  "top": "25px",
+                  "width": "28px",
                 }
               }
             >
-              <unknownProfile.svg />
+              <checkmark.svg />
             </div>
             <div
-              className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-justifyContent-1wtj0ep r-marginBottom-tjf2cy r-marginTop-fcs4qk r-padding-t60dpp"
+              className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-justifyContent-1wtj0ep r-marginBottom-1o4vxx4 r-marginTop-bw7i6d r-padding-t60dpp r-width-1akxima"
             >
               <div
-                className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-1i10wst r-fontWeight-b88u0q r-lineHeight-135wba7 r-marginBottom-5oul0u r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-1i10wst r-fontWeight-b88u0q r-lineHeight-135wba7 r-marginBottom-15zivkp r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                 dir="auto"
               >
                 My Private Key
               </div>
               <div
-                className="css-text-901oao r-color-vaa0vc r-fontFamily-vnw8o6 r-fontSize-n6v787 r-fontWeight-1it3c9n r-letterSpacing-rdxj0b r-lineHeight-w20frr r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                className="css-text-901oao r-color-vaa0vc r-fontFamily-vnw8o6 r-fontSize-n6v787 r-fontWeight-1it3c9n r-letterSpacing-rdxj0b r-lineHeight-w20frr r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                 dir="auto"
                 letterSpacing={0.07}
               >
@@ -321,15 +398,43 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
         </div>
         <div
           className="css-view-1dbjc4n"
+          style={
+            Object {
+              "backgroundColor": "rgba(0,0,0,0.00)",
+              "borderBottomLeftRadius": "25px",
+              "borderBottomRightRadius": "25px",
+              "borderTopLeftRadius": "25px",
+              "borderTopRightRadius": "25px",
+              "height": "50px",
+              "zIndex": -10,
+            }
+          }
+        />
+        <div
+          className="css-view-1dbjc4n"
+          style={
+            Object {
+              "marginLeft": "14px",
+              "marginRight": "14px",
+            }
+          }
         >
           <div
-            className="css-view-1dbjc4n r-alignItems-1awozwy r-borderColor-e397lv r-borderRadius-1f0042m r-borderStyle-1phboty r-borderWidth-rs99b7 r-display-6koalj r-flexDirection-eqz5dr r-justifyContent-1777fci r-padding-t60dpp r-position-bnwqim"
+            className="css-view-1dbjc4n r-alignItems-1awozwy r-borderColor-e397lv r-borderStyle-1phboty r-borderWidth-rs99b7 r-display-6koalj r-flexDirection-eqz5dr r-justifyContent-1777fci r-padding-t60dpp r-position-bnwqim"
+            style={
+              Object {
+                "borderBottomLeftRadius": "10px",
+                "borderBottomRightRadius": "10px",
+                "borderTopLeftRadius": "10px",
+                "borderTopRightRadius": "10px",
+              }
+            }
           >
             <div
-              className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-height-4v7adb r-position-u8s1d r-top-18nhz7w"
+              className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-left-54mlpa r-position-u8s1d r-top-1ej1qmr r-width-z2qzgk"
               style={
                 Object {
-                  "width": "70px",
+                  "height": "38px",
                 }
               }
             />
@@ -337,29 +442,30 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
               className="css-view-1dbjc4n r-alignItems-1awozwy r-position-u8s1d r-zIndex-184en5c"
               style={
                 Object {
-                  "borderBottomLeftRadius": "25px",
-                  "borderBottomRightRadius": "25px",
-                  "borderTopLeftRadius": "25px",
-                  "borderTopRightRadius": "25px",
-                  "height": "50px",
-                  "top": "-25px",
-                  "width": "50px",
+                  "borderBottomLeftRadius": "14px",
+                  "borderBottomRightRadius": "14px",
+                  "borderTopLeftRadius": "14px",
+                  "borderTopRightRadius": "14px",
+                  "height": "28px",
+                  "left": "-14px",
+                  "top": "25px",
+                  "width": "28px",
                 }
               }
             >
-              <unknownProfile.svg />
+              <checkmark.svg />
             </div>
             <div
-              className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-justifyContent-1wtj0ep r-marginBottom-tjf2cy r-marginTop-fcs4qk r-padding-t60dpp"
+              className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-justifyContent-1wtj0ep r-marginBottom-1o4vxx4 r-marginTop-bw7i6d r-padding-t60dpp r-width-1akxima"
             >
               <div
-                className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-1i10wst r-fontWeight-b88u0q r-lineHeight-135wba7 r-marginBottom-5oul0u r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-1i10wst r-fontWeight-b88u0q r-lineHeight-135wba7 r-marginBottom-15zivkp r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                 dir="auto"
               >
                 My Wallet Address
               </div>
               <div
-                className="css-text-901oao r-color-vaa0vc r-fontFamily-vnw8o6 r-fontSize-n6v787 r-fontWeight-1it3c9n r-letterSpacing-rdxj0b r-lineHeight-w20frr r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                className="css-text-901oao r-color-vaa0vc r-fontFamily-vnw8o6 r-fontSize-n6v787 r-fontWeight-1it3c9n r-letterSpacing-rdxj0b r-lineHeight-w20frr r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                 dir="auto"
                 letterSpacing={0.07}
               >
@@ -465,15 +571,43 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
         </div>
         <div
           className="css-view-1dbjc4n"
+          style={
+            Object {
+              "backgroundColor": "rgba(0,0,0,0.00)",
+              "borderBottomLeftRadius": "25px",
+              "borderBottomRightRadius": "25px",
+              "borderTopLeftRadius": "25px",
+              "borderTopRightRadius": "25px",
+              "height": "50px",
+              "zIndex": -10,
+            }
+          }
+        />
+        <div
+          className="css-view-1dbjc4n"
+          style={
+            Object {
+              "marginLeft": "14px",
+              "marginRight": "14px",
+            }
+          }
         >
           <div
-            className="css-view-1dbjc4n r-alignItems-1awozwy r-borderColor-e397lv r-borderRadius-1f0042m r-borderStyle-1phboty r-borderWidth-rs99b7 r-display-6koalj r-flexDirection-eqz5dr r-justifyContent-1777fci r-padding-t60dpp r-position-bnwqim"
+            className="css-view-1dbjc4n r-alignItems-1awozwy r-borderColor-e397lv r-borderStyle-1phboty r-borderWidth-rs99b7 r-display-6koalj r-flexDirection-eqz5dr r-justifyContent-1777fci r-padding-t60dpp r-position-bnwqim"
+            style={
+              Object {
+                "borderBottomLeftRadius": "10px",
+                "borderBottomRightRadius": "10px",
+                "borderTopLeftRadius": "10px",
+                "borderTopRightRadius": "10px",
+              }
+            }
           >
             <div
-              className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-height-4v7adb r-position-u8s1d r-top-18nhz7w"
+              className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-left-54mlpa r-position-u8s1d r-top-1ej1qmr r-width-z2qzgk"
               style={
                 Object {
-                  "width": "70px",
+                  "height": "38px",
                 }
               }
             />
@@ -481,29 +615,30 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
               className="css-view-1dbjc4n r-alignItems-1awozwy r-position-u8s1d r-zIndex-184en5c"
               style={
                 Object {
-                  "borderBottomLeftRadius": "25px",
-                  "borderBottomRightRadius": "25px",
-                  "borderTopLeftRadius": "25px",
-                  "borderTopRightRadius": "25px",
-                  "height": "50px",
-                  "top": "-25px",
-                  "width": "50px",
+                  "borderBottomLeftRadius": "14px",
+                  "borderBottomRightRadius": "14px",
+                  "borderTopLeftRadius": "14px",
+                  "borderTopRightRadius": "14px",
+                  "height": "28px",
+                  "left": "-14px",
+                  "top": "25px",
+                  "width": "28px",
                 }
               }
             >
-              <FuseLogo.svg />
+              <checkmark.svg />
             </div>
             <div
-              className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-justifyContent-1wtj0ep r-marginBottom-tjf2cy r-marginTop-fcs4qk r-padding-t60dpp"
+              className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-justifyContent-1wtj0ep r-marginBottom-1o4vxx4 r-marginTop-bw7i6d r-padding-t60dpp r-width-1akxima"
             >
               <div
-                className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-1i10wst r-fontWeight-b88u0q r-lineHeight-135wba7 r-marginBottom-5oul0u r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-1i10wst r-fontWeight-b88u0q r-lineHeight-135wba7 r-marginBottom-15zivkp r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                 dir="auto"
               >
                 Fuse Network RPC Address
               </div>
               <div
-                className="css-text-901oao r-color-vaa0vc r-fontFamily-vnw8o6 r-fontSize-n6v787 r-fontWeight-1it3c9n r-letterSpacing-rdxj0b r-lineHeight-w20frr r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                className="css-text-901oao r-color-vaa0vc r-fontFamily-vnw8o6 r-fontSize-n6v787 r-fontWeight-1it3c9n r-letterSpacing-rdxj0b r-lineHeight-w20frr r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                 dir="auto"
                 letterSpacing={0.07}
               />
@@ -605,6 +740,193 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
             </div>
           </div>
         </div>
+        <div
+          className="css-view-1dbjc4n"
+          style={
+            Object {
+              "backgroundColor": "rgba(0,0,0,0.00)",
+              "borderBottomLeftRadius": "25px",
+              "borderBottomRightRadius": "25px",
+              "borderTopLeftRadius": "25px",
+              "borderTopRightRadius": "25px",
+              "height": "50px",
+              "zIndex": -10,
+            }
+          }
+        />
+        <div
+          className="css-view-1dbjc4n"
+          style={
+            Object {
+              "marginLeft": "14px",
+              "marginRight": "14px",
+            }
+          }
+        >
+          <div
+            className="css-view-1dbjc4n r-alignItems-1awozwy r-borderColor-e397lv r-borderStyle-1phboty r-borderWidth-rs99b7 r-display-6koalj r-flexDirection-eqz5dr r-justifyContent-1777fci r-padding-t60dpp r-position-bnwqim"
+            style={
+              Object {
+                "borderBottomLeftRadius": "10px",
+                "borderBottomRightRadius": "10px",
+                "borderTopLeftRadius": "10px",
+                "borderTopRightRadius": "10px",
+              }
+            }
+          >
+            <div
+              className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-left-54mlpa r-position-u8s1d r-top-1ej1qmr r-width-z2qzgk"
+              style={
+                Object {
+                  "height": "38px",
+                }
+              }
+            />
+            <div
+              className="css-view-1dbjc4n r-alignItems-1awozwy r-position-u8s1d r-zIndex-184en5c"
+              style={
+                Object {
+                  "borderBottomLeftRadius": "14px",
+                  "borderBottomRightRadius": "14px",
+                  "borderTopLeftRadius": "14px",
+                  "borderTopRightRadius": "14px",
+                  "height": "28px",
+                  "left": "-14px",
+                  "top": "25px",
+                  "width": "28px",
+                }
+              }
+            >
+              <checkmark.svg />
+            </div>
+            <div
+              className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-justifyContent-1wtj0ep r-marginBottom-1o4vxx4 r-marginTop-bw7i6d r-padding-t60dpp r-width-1akxima"
+            >
+              <div
+                className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-1i10wst r-fontWeight-b88u0q r-lineHeight-135wba7 r-marginBottom-15zivkp r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                dir="auto"
+              >
+                Fuse ID Chain
+              </div>
+              <div
+                className="css-text-901oao r-color-vaa0vc r-fontFamily-vnw8o6 r-fontSize-n6v787 r-fontWeight-1it3c9n r-letterSpacing-rdxj0b r-lineHeight-w20frr r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                dir="auto"
+                letterSpacing={0.07}
+              >
+                undefined
+              </div>
+            </div>
+            <div
+              className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-bottom-14bkmb3 r-height-4v7adb r-position-u8s1d r-width-1rhso5v"
+            />
+          </div>
+          <div
+            className="css-view-1dbjc4n r-alignItems-1awozwy r-bottom-wuw1bi r-display-6koalj r-height-eu3ka r-justifyContent-1777fci r-maxHeight-yca7ao r-position-u8s1d r-width-13qz1uu"
+          >
+            <div
+              className="css-view-1dbjc4n r-height-eu3ka r-width-1rhso5v"
+            >
+              <div
+                className="css-view-1dbjc4n r-alignItems-1awozwy r-borderStyle-1phboty r-display-6koalj r-height-eu3ka r-justifyContent-1777fci r-padding-t60dpp"
+                style={
+                  Object {
+                    "backgroundColor": "rgba(0,175,255,1.00)",
+                    "borderBottomColor": "rgba(0,175,255,1.00)",
+                    "borderBottomLeftRadius": "50px",
+                    "borderBottomRightRadius": "50px",
+                    "borderBottomWidth": "0px",
+                    "borderLeftColor": "rgba(0,175,255,1.00)",
+                    "borderLeftWidth": "0px",
+                    "borderRightColor": "rgba(0,175,255,1.00)",
+                    "borderRightWidth": "0px",
+                    "borderTopColor": "rgba(0,175,255,1.00)",
+                    "borderTopLeftRadius": "50px",
+                    "borderTopRightRadius": "50px",
+                    "borderTopWidth": "0px",
+                    "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
+                    "marginBottom": "0px",
+                    "marginLeft": "auto",
+                    "marginRight": "auto",
+                    "marginTop": "0px",
+                    "minHeight": "40px",
+                    "minWidth": "64px",
+                    "paddingLeft": "0px",
+                    "paddingRight": "0px",
+                    "width": "211.1111111111111px",
+                  }
+                }
+              >
+                <div
+                  className="css-cursor-18t94o4 css-view-1dbjc4n r-cursor-1loqt21 r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim r-touchAction-1otgn73"
+                  data-focusable={true}
+                  disabled={false}
+                  onKeyDown={[Function]}
+                  onKeyPress={[Function]}
+                  onKeyUp={[Function]}
+                  onResponderGrant={[Function]}
+                  onResponderMove={[Function]}
+                  onResponderRelease={[Function]}
+                  onResponderTerminate={[Function]}
+                  onResponderTerminationRequest={[Function]}
+                  onStartShouldSetResponder={[Function]}
+                  role="button"
+                  style={
+                    Object {
+                      "WebkitAlignSelf": "stretch",
+                      "alignSelf": "stretch",
+                      "borderBottomLeftRadius": "50px",
+                      "borderBottomRightRadius": "50px",
+                      "borderTopLeftRadius": "50px",
+                      "borderTopRightRadius": "50px",
+                      "msFlexItemAlign": "stretch",
+                    }
+                  }
+                  tabIndex="0"
+                >
+                  <div
+                    className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
+                    style={
+                      Object {
+                        "WebkitAlignSelf": "stretch",
+                        "alignSelf": "stretch",
+                        "msFlexItemAlign": "stretch",
+                      }
+                    }
+                  >
+                    <div
+                      className="css-view-1dbjc4n r-marginHorizontal-1ydw1k6 r-marginVertical-712mwr"
+                    >
+                      <div
+                        className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
+                      >
+                        <div
+                          className="css-text-901oao r-alignItems-1awozwy r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-hbpseb r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
+                          dir="auto"
+                        >
+                          Copy ID Chain
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          className="css-view-1dbjc4n"
+          style={
+            Object {
+              "backgroundColor": "rgba(0,0,0,0.00)",
+              "borderBottomLeftRadius": "50px",
+              "borderBottomRightRadius": "50px",
+              "borderTopLeftRadius": "50px",
+              "borderTopRightRadius": "50px",
+              "height": "100px",
+              "zIndex": -10,
+            }
+          }
+        />
       </div>
     </div>
   </div>

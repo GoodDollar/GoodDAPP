@@ -1581,7 +1581,7 @@ export class UserStorage {
 
     let gunProfile = (byIndex || byAddress) && this.gun.get(byIndex || byAddress).get('profile')
 
-    //need to return object so promise.all doesnt resolve node
+    //need to return object so promise.all doesn't resolve node
     return {
       gunProfile,
     }

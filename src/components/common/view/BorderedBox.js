@@ -1,5 +1,5 @@
 // libraries
-import React, { useMemo } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import { Image, View } from 'react-native'
 
 // components
@@ -16,6 +16,8 @@ import { withStyles } from '../../../lib/styles'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../lib/utils/sizes'
 import { truncateMiddle } from '../../../lib/utils/string'
 
+const copiedActionTimeout = 3000 // time during which the copy success message is displayed
+
 const BorderedBox = ({
   styles,
   theme,
@@ -26,43 +28,76 @@ const BorderedBox = ({
   copyButtonText,
   truncateContent = false,
   imageSize = 68,
+  enableSideMode = false,
+  enableIndicateAction = false,
   showCopyIcon = true,
   onCopied = noop,
 }) => {
-  const copyToClipboard = useClipboardCopy(content, onCopied)
+  // show the copy success message or no
+  const [performed, setPerformed] = useState(false)
+
+  const _onCopied = useCallback(() => {
+    enableIndicateAction && setPerformed(true)
+    onCopied()
+    enableIndicateAction && setTimeout(() => setPerformed(false), copiedActionTimeout)
+  }, [enableIndicateAction, onCopied, setPerformed])
+
+  const copyToClipboard = useClipboardCopy(content, _onCopied)
   const displayContent = truncateContent ? truncateMiddle(content, 29) : content // 29 = 13 chars left side + 3 chars of '...' + 13 chars right side
 
   const avatarStyles = useMemo(() => {
-    const imageBoxSize = getDesignRelativeHeight(imageSize, true)
+    const [imageBoxSize, height25] = [imageSize, 25].map(size => getDesignRelativeHeight(size, true))
     const halfBoxSize = Math.ceil(imageBoxSize / 2)
-
+    const positionStyle = enableSideMode
+      ? {
+          left: -halfBoxSize,
+          top: height25,
+        }
+      : {
+          top: -halfBoxSize,
+        }
     return [
       styles.avatar,
       {
         width: imageBoxSize,
         height: imageBoxSize,
         borderRadius: halfBoxSize, // half of height/width
-        top: -halfBoxSize, // half of height
       },
+      positionStyle,
     ]
-  }, [imageSize, styles.avatar])
+  }, [imageSize, enableSideMode, styles.avatar])
 
   const lineSeparatorStyles = useMemo(
-    () => [
-      styles.avatarLineSeparator,
-      {
-        width: getDesignRelativeWidth(imageSize + 20, true),
+    () =>
+      enableSideMode
+        ? [
+            styles.avatarLeftLineSeparator,
+            {
+              height: getDesignRelativeWidth(imageSize + 10, true),
+            },
+          ]
+        : [
+            styles.avatarTopLineSeparator,
+            {
+              width: getDesignRelativeWidth(imageSize + 20, true),
+            },
+          ],
+    [imageSize, enableSideMode, styles.avatarTopLineSeparator, styles.avatarLeftLineSeparator],
+  )
+
+  const wrapperContainerStyles = useMemo(
+    () =>
+      enableSideMode && {
+        marginHorizontal: getDesignRelativeWidth(imageSize / 2, true),
       },
-    ],
-    [imageSize, styles.avatarLineSeparator],
   )
 
   const ImgComponent = image
   const imgSource = useMemo(() => imageSource && { uri: imageSource }, [imageSource])
 
   return (
-    <View>
-      <Section.Stack style={styles.borderedBox}>
+    <View style={wrapperContainerStyles}>
+      <Section.Stack style={[styles.borderedBox, enableSideMode && { borderRadius: 10 }]}>
         <View style={lineSeparatorStyles} />
         {imageSource ? (
           <Image source={imgSource} style={avatarStyles} />
@@ -71,11 +106,21 @@ const BorderedBox = ({
             <ImgComponent />
           </View>
         ) : null}
-        <Section.Stack style={styles.boxContent}>
-          <Section.Text fontSize={18} fontFamily="Roboto Slab" fontWeight="bold" style={styles.boxTitle}>
+        <Section.Stack style={enableSideMode ? styles.boxShortContent : styles.boxContent}>
+          <Section.Text
+            fontSize={18}
+            fontFamily="Roboto Slab"
+            fontWeight="bold"
+            style={[enableSideMode ? styles.boxShortTitle : styles.boxTitle, enableSideMode && styles.textAlignLeft]}
+          >
             {title}
           </Section.Text>
-          <Section.Text fontSize={13} letterSpacing={0.07} color={theme.colors.lighterGray}>
+          <Section.Text
+            fontSize={13}
+            letterSpacing={0.07}
+            color={theme.colors.lighterGray}
+            style={enableSideMode && styles.textAlignLeft}
+          >
             {displayContent}
           </Section.Text>
         </Section.Stack>
@@ -95,6 +140,14 @@ const BorderedBox = ({
                 {copyButtonText}
               </Section.Text>
             </>
+          ) : enableIndicateAction && performed ? (
+            <CustomButton
+              style={[styles.copyButtonContainer, styles.performedButtonStyle]}
+              textStyle={styles.performedButtonText}
+              disabled
+            >
+              Copied
+            </CustomButton>
           ) : (
             <CustomButton onPress={copyToClipboard} style={styles.copyButtonContainer}>
               {copyButtonText}
@@ -107,13 +160,19 @@ const BorderedBox = ({
 }
 
 const styles = ({ theme }) => {
-  const [height5, height40] = [5, 40].map(size => getDesignRelativeHeight(size, true))
+  const [height5, height20, height40] = [5, 20, 40].map(size => getDesignRelativeHeight(size, true))
   const height25 = Math.ceil(height5 / 2)
 
   return {
     boxContent: {
       marginTop: getDesignRelativeHeight(35, false),
       marginBottom: getDesignRelativeHeight(35, false),
+      padding: 0,
+    },
+    boxShortContent: {
+      marginTop: getDesignRelativeHeight(20, false),
+      marginBottom: getDesignRelativeHeight(30, false),
+      width: '85%',
       padding: 0,
     },
     borderedBox: {
@@ -130,16 +189,37 @@ const styles = ({ theme }) => {
     boxTitle: {
       marginBottom: getDesignRelativeHeight(8, true),
     },
-    avatarLineSeparator: {
+    boxShortTitle: {
+      marginBottom: getDesignRelativeHeight(4, true),
+    },
+    textAlignLeft: {
+      textAlign: 'left',
+    },
+    avatarTopLineSeparator: {
       height: height5,
       top: -height25, // half of height
       backgroundColor: theme.colors.surface,
+      position: 'absolute',
+    },
+    avatarLeftLineSeparator: {
+      width: height5,
+      backgroundColor: theme.colors.surface,
+      left: -(height5 / 2), // half of line width
+      top: height20,
       position: 'absolute',
     },
     avatar: {
       position: 'absolute',
       zIndex: 1,
       alignItems: 'center',
+    },
+    performedButtonText: {
+      color: theme.colors.primary,
+    },
+    performedButtonStyle: {
+      backgroundColor: theme.colors.surface,
+      shadowOpacity: 0,
+      elevation: 0,
     },
     boxCopyIconOuter: {
       width: '100%',

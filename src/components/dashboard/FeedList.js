@@ -81,12 +81,7 @@ const FeedList = ({
 
   const onScrollStart = useCallback(() => setAbleItemSelection(false), [setAbleItemSelection])
 
-  const onScrollEnd = useCallback(
-    event => {
-      setAbleItemSelection(true)
-    },
-    [setAbleItemSelection],
-  )
+  const onScrollEnd = useCallback(() => setAbleItemSelection(true), [setAbleItemSelection])
 
   const scrollToTop = useCallback(() => {
     const list = get(flRef, 'current._component._flatListRef', {})
@@ -102,7 +97,7 @@ const FeedList = ({
   )
 
   /**
-   * Calls proper action depening on the feed status
+   * Calls proper action depending on the feed status
    * @param {FeedEvent} item - feed item
    * @param {object} actions - wether to cancel/delete or any further action required
    */

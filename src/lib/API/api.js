@@ -236,15 +236,6 @@ export class APIService {
   }
 
   /**
-   * `/send/linkemail` post api call
-   * @param {string} creds
-   * @param {string} sendLink
-   */
-  sendLinkByEmail(to: string, sendLink: string): Promise<$AxiosXHR<any>> {
-    return this.client.post('/send/linkemail', { to, sendLink })
-  }
-
-  /**
    * `/send/recoveryinstructions` post api call
    * @param {string} mnemonic
    */
@@ -268,15 +259,6 @@ export class APIService {
   // sendMagicCodeBySms(mobile: string, magicCode: string): Promise<$AxiosXHR<any>> {
   //   return this.client.post('/send/magiccode', { to: mobile, magicCode })
   // }
-
-  /**
-   * `/send/linksms` post api call
-   * @param {string} to
-   * @param {string} sendLink
-   */
-  sendLinkBySMS(to: string, sendLink: string): Promise<$AxiosXHR<any>> {
-    return this.client.post('/send/linksms', { to, sendLink })
-  }
 
   /** @private */
   faceVerificationUrl = '/verify/face'

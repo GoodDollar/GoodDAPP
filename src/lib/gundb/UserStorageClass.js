@@ -1445,7 +1445,8 @@ export class UserStorage {
    *  with props { id, date, type, data: { amount, message, endpoint: { address, displayName, avatar, withdrawStatus }}}
    */
   formatEvent = memoize(
-    (event: FeedEvent): Promise<StandardFeed> => {
+    // eslint-disable-next-line require-await
+    async (event: FeedEvent): Promise<StandardFeed> => {
       logger.debug('formatEvent: incoming event', event.id, { event })
 
       try {

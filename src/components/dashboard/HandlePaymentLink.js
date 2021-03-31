@@ -1,5 +1,6 @@
 // @flow
 import React, { useCallback, useEffect } from 'react'
+import { noop } from 'lodash'
 import { Wrapper } from '../common'
 import logger from '../../lib/logger/pino-logger'
 import { parsePaymentLinkParams, readCode } from '../../lib/share'
@@ -44,13 +45,22 @@ const HandlePaymentLink = (props: HandlePaymentLinkProps) => {
     async anyParams => {
       try {
         if (anyParams && anyParams.code) {
+          showDialog({
+            onDismiss: noop,
+            title: 'Processing Payment Link...',
+            image: <LoadingIcon />,
+            message: 'please wait while processing...',
+            showCloseButtons: false,
+          })
           const code = readCode(decodeURIComponent(anyParams.code))
 
           if (isTheSameUser(code) === false) {
             try {
               const { route, params } = await routeAndPathForCode('send', code)
+              hideDialog()
               screenProps.push(route, params)
             } catch (e) {
+              hideDialog()
               log.error('Payment link is incorrect', e.message, e, {
                 code,
                 category: ExceptionCategory.Human,
@@ -194,6 +204,7 @@ const HandlePaymentLink = (props: HandlePaymentLinkProps) => {
 
 HandlePaymentLink.navigationOptions = {
   title: ' ',
+  navigationBar: () => null,
 }
 
 const getStylesFromProps = ({ theme }) => ({
@@ -201,7 +212,5 @@ const getStylesFromProps = ({ theme }) => ({
     backgroundColor: theme.colors.gray50Percent,
   },
 })
-
-HandlePaymentLink.navigationOptions = {}
 
 export default withStyles(getStylesFromProps)(HandlePaymentLink)

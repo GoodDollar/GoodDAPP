@@ -67,7 +67,7 @@ const ExportWalletData = ({ navigation, styles, theme }: ExportWalletProps) => {
       <ScrollView contentContainerStyle={styles.contentContainerForBoxes} style={styles.containerForBoxes}>
         <Divider size={30} />
         <Section.Text fontSize={28} fontWeight="bold" fontFamily="Roboto Slab" color="black">
-          My account desilts
+          My account details
         </Section.Text>
         <Divider size={10} />
         <Section.Text fontSize={15} fontWeight="medium" fontFamily="Roboto" color="black">

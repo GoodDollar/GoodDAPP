@@ -82,6 +82,7 @@ const getStylesFromProps = ({ theme }) => {
       marginTop: isMobileOnly ? getDesignRelativeHeight(15) : 0,
       marginBottom: isMobileOnly ? getDesignRelativeHeight(20) : 0,
       height: getDesignRelativeHeight(146, false),
+      width: '100%',
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',

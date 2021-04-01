@@ -1462,7 +1462,7 @@ export class UserStorage {
           address,
         })
 
-        return {
+        let updatedEvent = {
           id,
           date: new Date(date).getTime(),
           type,
@@ -1487,6 +1487,8 @@ export class UserStorage {
             withdrawCode,
           },
         }
+
+        return updatedEvent
       } catch (e) {
         logger.error('formatEvent: failed formatting event:', e.message, e, {
           event,

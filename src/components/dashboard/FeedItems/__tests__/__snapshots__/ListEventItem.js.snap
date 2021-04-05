@@ -88,6 +88,7 @@ exports[`ListEventItem receive matches snapshot 1`] = `
                 "borderTopLeftRadius": "17px",
                 "borderTopRightRadius": "17px",
                 "height": "34px",
+                "opacity": 1,
               }
             }
           >
@@ -156,7 +157,7 @@ exports[`ListEventItem receive matches snapshot 1`] = `
                 className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-lineHeight-hjklzo r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                 dir="auto"
               >
-                Misao Matimbo
+                undefined
               </span>
             </div>
             <div
@@ -264,6 +265,7 @@ exports[`ListEventItem send matches snapshot 1`] = `
                 "borderTopLeftRadius": "17px",
                 "borderTopRightRadius": "17px",
                 "height": "34px",
+                "opacity": 1,
               }
             }
           >
@@ -332,7 +334,7 @@ exports[`ListEventItem send matches snapshot 1`] = `
                 className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-lineHeight-hjklzo r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                 dir="auto"
               >
-                Misao Matimbo
+                undefined
               </span>
             </div>
             <div
@@ -440,6 +442,7 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
                 "borderTopLeftRadius": "17px",
                 "borderTopRightRadius": "17px",
                 "height": "34px",
+                "opacity": 1,
               }
             }
           >
@@ -508,7 +511,7 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
                 className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-lineHeight-hjklzo r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                 dir="auto"
               >
-                Misao Matimbo
+                undefined
               </span>
             </div>
             <div

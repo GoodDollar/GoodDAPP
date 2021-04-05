@@ -221,7 +221,7 @@ export class FeedStorage {
   }
 
   /***
-   * retun the event relevant for the tx type
+   * return the event relevant for the tx type
    */
   getTXEvent(txType, receipt) {
     switch (txType) {

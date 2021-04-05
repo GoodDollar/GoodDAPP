@@ -28,7 +28,6 @@ exports[`BorderedBox matches snapshot 1`] = `
         <div
           className="css-text-901oao r-color-vaa0vc r-fontFamily-vnw8o6 r-fontSize-n6v787 r-fontWeight-1it3c9n r-letterSpacing-rdxj0b r-lineHeight-w20frr r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
           dir="auto"
-          letterSpacing={0.07}
         />
       </div>
       <div
@@ -55,6 +54,11 @@ exports[`BorderedBox matches snapshot 1`] = `
             onResponderTerminate={[Function]}
             onResponderTerminationRequest={[Function]}
             onStartShouldSetResponder={[Function]}
+            style={
+              Object {
+                "opacity": 1,
+              }
+            }
             tabIndex="0"
           >
             <div

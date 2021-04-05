@@ -30,7 +30,7 @@ exports[`NavBar matches snapshot 1`] = `
   }
 >
   <div
-    className="css-view-1dbjc4n r-cursor-1loqt21 r-flex-13awgt0 r-paddingHorizontal-1e081e0 r-touchAction-1otgn73"
+    className="css-view-1dbjc4n r-flex-13awgt0 r-paddingHorizontal-1e081e0"
     data-focusable={true}
     onKeyDown={[Function]}
     onKeyUp={[Function]}

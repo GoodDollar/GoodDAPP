@@ -144,9 +144,8 @@ please contact our support
           }
         >
           <div
-            className="css-cursor-18t94o4 css-view-1dbjc4n r-cursor-1loqt21 r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim r-touchAction-1otgn73"
+            className="css-cursor-18t94o4 css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
             data-focusable={true}
-            disabled={false}
             onKeyDown={[Function]}
             onKeyPress={[Function]}
             onKeyUp={[Function]}
@@ -166,6 +165,7 @@ please contact our support
                 "borderTopLeftRadius": "50px",
                 "borderTopRightRadius": "50px",
                 "msFlexItemAlign": "stretch",
+                "msGridRowAlign": "stretch",
               }
             }
             tabIndex="0"
@@ -177,6 +177,7 @@ please contact our support
                   "WebkitAlignSelf": "stretch",
                   "alignSelf": "stretch",
                   "msFlexItemAlign": "stretch",
+                  "msGridRowAlign": "stretch",
                 }
               }
             >
@@ -233,9 +234,8 @@ please contact our support
           }
         >
           <div
-            className="css-cursor-18t94o4 css-view-1dbjc4n r-cursor-1loqt21 r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim r-touchAction-1otgn73"
+            className="css-cursor-18t94o4 css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
             data-focusable={true}
-            disabled={false}
             onKeyDown={[Function]}
             onKeyPress={[Function]}
             onKeyUp={[Function]}
@@ -255,6 +255,7 @@ please contact our support
                 "borderTopLeftRadius": "50px",
                 "borderTopRightRadius": "50px",
                 "msFlexItemAlign": "stretch",
+                "msGridRowAlign": "stretch",
               }
             }
             tabIndex="0"
@@ -266,6 +267,7 @@ please contact our support
                   "WebkitAlignSelf": "stretch",
                   "alignSelf": "stretch",
                   "msFlexItemAlign": "stretch",
+                  "msGridRowAlign": "stretch",
                 }
               }
             >

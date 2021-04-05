@@ -59,6 +59,11 @@ exports[`Amount matches snapshot 1`] = `
             onResponderTerminate={[Function]}
             onResponderTerminationRequest={[Function]}
             onStartShouldSetResponder={[Function]}
+            style={
+              Object {
+                "opacity": 1,
+              }
+            }
             tabIndex="0"
           >
             <div
@@ -129,7 +134,7 @@ exports[`Amount matches snapshot 1`] = `
                     autoComplete="on"
                     autoCorrect="on"
                     autoFocus={true}
-                    className="css-textinput-1cwyjr8 r-backgroundColor-14lw9ot r-borderBottomColor-1ny7kx0 r-borderBottomWidth-qklmqi r-color-cddv6f r-cursor-1loqt21 r-fontFamily-6jnb14 r-fontSize-1ui5ee8 r-fontWeight-vw2c0b r-letterSpacing-19r33im r-marginTop-o5ey6k r-paddingHorizontal-1dye5f7 r-paddingVertical-oyd9sg r-placeholderTextColor-1xktb6b r-textAlign-q4m81j r-touchAction-1otgn73"
+                    className="css-textinput-11aywtz r-backgroundColor-14lw9ot r-borderBottomColor-1ny7kx0 r-borderBottomWidth-qklmqi r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-1ui5ee8 r-fontWeight-vw2c0b r-letterSpacing-19r33im r-marginTop-o5ey6k r-paddingHorizontal-1dye5f7 r-paddingVertical-oyd9sg r-placeholderTextColor-1xktb6b r-textAlign-q4m81j"
                     dir="auto"
                     maxLength={20}
                     onBlur={[Function]}
@@ -183,7 +188,7 @@ exports[`Amount matches snapshot 1`] = `
                 className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
               >
                 <div
-                  className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1niwhzg r-cursor-1loqt21 r-display-6koalj r-flex-13awgt0 r-padding-edyy15 r-touchAction-1otgn73 r-userSelect-lrvibr"
+                  className="css-view-1dbjc4n r-alignItems-1awozwy r-cursor-1loqt21 r-display-6koalj r-flex-13awgt0 r-padding-edyy15 r-touchAction-1otgn73 r-userSelect-lrvibr"
                   data-focusable={true}
                   onKeyDown={[Function]}
                   onKeyUp={[Function]}
@@ -203,7 +208,7 @@ exports[`Amount matches snapshot 1`] = `
                   </div>
                 </div>
                 <div
-                  className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1niwhzg r-cursor-1loqt21 r-display-6koalj r-flex-13awgt0 r-padding-edyy15 r-touchAction-1otgn73 r-userSelect-lrvibr"
+                  className="css-view-1dbjc4n r-alignItems-1awozwy r-cursor-1loqt21 r-display-6koalj r-flex-13awgt0 r-padding-edyy15 r-touchAction-1otgn73 r-userSelect-lrvibr"
                   data-focusable={true}
                   onKeyDown={[Function]}
                   onKeyUp={[Function]}
@@ -223,7 +228,7 @@ exports[`Amount matches snapshot 1`] = `
                   </div>
                 </div>
                 <div
-                  className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1niwhzg r-cursor-1loqt21 r-display-6koalj r-flex-13awgt0 r-padding-edyy15 r-touchAction-1otgn73 r-userSelect-lrvibr"
+                  className="css-view-1dbjc4n r-alignItems-1awozwy r-cursor-1loqt21 r-display-6koalj r-flex-13awgt0 r-padding-edyy15 r-touchAction-1otgn73 r-userSelect-lrvibr"
                   data-focusable={true}
                   onKeyDown={[Function]}
                   onKeyUp={[Function]}
@@ -247,7 +252,7 @@ exports[`Amount matches snapshot 1`] = `
                 className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
               >
                 <div
-                  className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1niwhzg r-cursor-1loqt21 r-display-6koalj r-flex-13awgt0 r-padding-edyy15 r-touchAction-1otgn73 r-userSelect-lrvibr"
+                  className="css-view-1dbjc4n r-alignItems-1awozwy r-cursor-1loqt21 r-display-6koalj r-flex-13awgt0 r-padding-edyy15 r-touchAction-1otgn73 r-userSelect-lrvibr"
                   data-focusable={true}
                   onKeyDown={[Function]}
                   onKeyUp={[Function]}
@@ -267,7 +272,7 @@ exports[`Amount matches snapshot 1`] = `
                   </div>
                 </div>
                 <div
-                  className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1niwhzg r-cursor-1loqt21 r-display-6koalj r-flex-13awgt0 r-padding-edyy15 r-touchAction-1otgn73 r-userSelect-lrvibr"
+                  className="css-view-1dbjc4n r-alignItems-1awozwy r-cursor-1loqt21 r-display-6koalj r-flex-13awgt0 r-padding-edyy15 r-touchAction-1otgn73 r-userSelect-lrvibr"
                   data-focusable={true}
                   onKeyDown={[Function]}
                   onKeyUp={[Function]}
@@ -287,7 +292,7 @@ exports[`Amount matches snapshot 1`] = `
                   </div>
                 </div>
                 <div
-                  className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1niwhzg r-cursor-1loqt21 r-display-6koalj r-flex-13awgt0 r-padding-edyy15 r-touchAction-1otgn73 r-userSelect-lrvibr"
+                  className="css-view-1dbjc4n r-alignItems-1awozwy r-cursor-1loqt21 r-display-6koalj r-flex-13awgt0 r-padding-edyy15 r-touchAction-1otgn73 r-userSelect-lrvibr"
                   data-focusable={true}
                   onKeyDown={[Function]}
                   onKeyUp={[Function]}
@@ -311,7 +316,7 @@ exports[`Amount matches snapshot 1`] = `
                 className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
               >
                 <div
-                  className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1niwhzg r-cursor-1loqt21 r-display-6koalj r-flex-13awgt0 r-padding-edyy15 r-touchAction-1otgn73 r-userSelect-lrvibr"
+                  className="css-view-1dbjc4n r-alignItems-1awozwy r-cursor-1loqt21 r-display-6koalj r-flex-13awgt0 r-padding-edyy15 r-touchAction-1otgn73 r-userSelect-lrvibr"
                   data-focusable={true}
                   onKeyDown={[Function]}
                   onKeyUp={[Function]}
@@ -331,7 +336,7 @@ exports[`Amount matches snapshot 1`] = `
                   </div>
                 </div>
                 <div
-                  className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1niwhzg r-cursor-1loqt21 r-display-6koalj r-flex-13awgt0 r-padding-edyy15 r-touchAction-1otgn73 r-userSelect-lrvibr"
+                  className="css-view-1dbjc4n r-alignItems-1awozwy r-cursor-1loqt21 r-display-6koalj r-flex-13awgt0 r-padding-edyy15 r-touchAction-1otgn73 r-userSelect-lrvibr"
                   data-focusable={true}
                   onKeyDown={[Function]}
                   onKeyUp={[Function]}
@@ -351,7 +356,7 @@ exports[`Amount matches snapshot 1`] = `
                   </div>
                 </div>
                 <div
-                  className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1niwhzg r-cursor-1loqt21 r-display-6koalj r-flex-13awgt0 r-padding-edyy15 r-touchAction-1otgn73 r-userSelect-lrvibr"
+                  className="css-view-1dbjc4n r-alignItems-1awozwy r-cursor-1loqt21 r-display-6koalj r-flex-13awgt0 r-padding-edyy15 r-touchAction-1otgn73 r-userSelect-lrvibr"
                   data-focusable={true}
                   onKeyDown={[Function]}
                   onKeyUp={[Function]}
@@ -375,7 +380,7 @@ exports[`Amount matches snapshot 1`] = `
                 className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
               >
                 <div
-                  className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1niwhzg r-cursor-1loqt21 r-display-6koalj r-flex-13awgt0 r-padding-edyy15 r-touchAction-1otgn73 r-userSelect-lrvibr"
+                  className="css-view-1dbjc4n r-alignItems-1awozwy r-cursor-1loqt21 r-display-6koalj r-flex-13awgt0 r-padding-edyy15 r-touchAction-1otgn73 r-userSelect-lrvibr"
                   data-focusable={true}
                   onKeyDown={[Function]}
                   onKeyUp={[Function]}
@@ -395,7 +400,7 @@ exports[`Amount matches snapshot 1`] = `
                   </div>
                 </div>
                 <div
-                  className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1niwhzg r-cursor-1loqt21 r-display-6koalj r-flex-13awgt0 r-padding-edyy15 r-touchAction-1otgn73 r-userSelect-lrvibr"
+                  className="css-view-1dbjc4n r-alignItems-1awozwy r-cursor-1loqt21 r-display-6koalj r-flex-13awgt0 r-padding-edyy15 r-touchAction-1otgn73 r-userSelect-lrvibr"
                   data-focusable={true}
                   onKeyDown={[Function]}
                   onKeyUp={[Function]}
@@ -415,7 +420,7 @@ exports[`Amount matches snapshot 1`] = `
                   </div>
                 </div>
                 <div
-                  className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1niwhzg r-cursor-1loqt21 r-display-6koalj r-flex-13awgt0 r-padding-edyy15 r-touchAction-1otgn73 r-userSelect-lrvibr"
+                  className="css-view-1dbjc4n r-alignItems-1awozwy r-cursor-1loqt21 r-display-6koalj r-flex-13awgt0 r-padding-edyy15 r-touchAction-1otgn73 r-userSelect-lrvibr"
                   data-focusable={true}
                   onKeyDown={[Function]}
                   onKeyUp={[Function]}
@@ -464,9 +469,10 @@ exports[`Amount matches snapshot 1`] = `
             }
           >
             <div
-              className="css-view-1dbjc4n r-alignItems-1oszu61 r-backgroundColor-1niwhzg r-display-6koalj r-justifyContent-1777fci"
+              className="css-view-1dbjc4n r-alignItems-1oszu61 r-display-6koalj r-justifyContent-1777fci"
               style={
                 Object {
+                  "backgroundColor": "rgba(0,0,0,0.00)",
                   "borderBottomColor": "rgba(0,175,255,1.00)",
                   "borderBottomLeftRadius": "50px",
                   "borderBottomRightRadius": "50px",
@@ -497,9 +503,8 @@ exports[`Amount matches snapshot 1`] = `
               }
             >
               <div
-                className="css-cursor-18t94o4 css-view-1dbjc4n r-cursor-1loqt21 r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim r-touchAction-1otgn73"
+                className="css-cursor-18t94o4 css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
                 data-focusable={true}
-                disabled={false}
                 onKeyDown={[Function]}
                 onKeyPress={[Function]}
                 onKeyUp={[Function]}
@@ -519,6 +524,7 @@ exports[`Amount matches snapshot 1`] = `
                     "borderTopLeftRadius": "50px",
                     "borderTopRightRadius": "50px",
                     "msFlexItemAlign": "stretch",
+                    "msGridRowAlign": "stretch",
                   }
                 }
                 tabIndex="0"
@@ -530,6 +536,7 @@ exports[`Amount matches snapshot 1`] = `
                       "WebkitAlignSelf": "stretch",
                       "alignSelf": "stretch",
                       "msFlexItemAlign": "stretch",
+                      "msGridRowAlign": "stretch",
                     }
                   }
                 >
@@ -607,13 +614,14 @@ exports[`Amount matches snapshot 1`] = `
               }
             >
               <div
-                aria-disabled={true}
-                className="css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
-                disabled={true}
+                className="css-cursor-18t94o4 css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
+                data-focusable={true}
                 onKeyDown={[Function]}
+                onKeyPress={[Function]}
                 onKeyUp={[Function]}
                 onResponderGrant={[Function]}
                 onResponderMove={[Function]}
+                onResponderRelease={[Function]}
                 onResponderTerminate={[Function]}
                 onResponderTerminationRequest={[Function]}
                 onStartShouldSetResponder={[Function]}
@@ -627,8 +635,10 @@ exports[`Amount matches snapshot 1`] = `
                     "borderTopLeftRadius": "50px",
                     "borderTopRightRadius": "50px",
                     "msFlexItemAlign": "stretch",
+                    "msGridRowAlign": "stretch",
                   }
                 }
+                tabIndex="0"
               >
                 <div
                   className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
@@ -637,6 +647,7 @@ exports[`Amount matches snapshot 1`] = `
                       "WebkitAlignSelf": "stretch",
                       "alignSelf": "stretch",
                       "msFlexItemAlign": "stretch",
+                      "msGridRowAlign": "stretch",
                     }
                   }
                 >

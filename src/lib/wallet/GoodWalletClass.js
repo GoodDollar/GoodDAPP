@@ -307,7 +307,6 @@ export class GoodWallet {
   async syncTxWithBlockchain(startBlock) {
     const lastBlock = await this.wallet.eth.getBlockNumber()
     const steps = range(startBlock, lastBlock, 100000)
-
     log.debug('Start sync tx from blockchain', {
       steps,
     })

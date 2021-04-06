@@ -1,7 +1,7 @@
 // @flow
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { Animated, Dimensions, Easing, Image, Platform, TouchableOpacity, View } from 'react-native'
-import { concat, debounce, get, uniqBy } from 'lodash'
+import { concat, debounce, get, noop, uniqBy } from 'lodash'
 import Mutex from 'await-mutex'
 import type { Store } from 'undux'
 import AsyncStorage from '../../lib/utils/asyncStorage'
@@ -36,6 +36,7 @@ import { theme as _theme } from '../theme/styles'
 import UnknownProfileSVG from '../../assets/unknownProfile.svg'
 import useOnPress from '../../lib/hooks/useOnPress'
 import Invite from '../invite/Invite'
+import _debounce from '../../lib/utils/debounce'
 import PrivacyPolicyAndTerms from './PrivacyPolicyAndTerms'
 import Amount from './Amount'
 import Claim from './Claim'
@@ -549,7 +550,9 @@ const Dashboard = props => {
     [showDialog, showEventModal],
   )
 
-  const onScrollEnd = useCallback(
+  const goToProfile = useOnPress(() => screenProps.push('Profile'), [screenProps])
+
+  const handleScrollEnd = useCallback(
     ({ nativeEvent }) => {
       const minScrollRequired = 150
       const scrollPosition = nativeEvent.contentOffset.y
@@ -568,7 +571,12 @@ const Dashboard = props => {
     [headerLarge, setHeaderLarge],
   )
 
-  const goToProfile = useOnPress(() => screenProps.push('Profile'), [screenProps])
+  // for native we able handle onMomentumScrollEnd, but for web we able to handle only onScroll event,
+  // so we need to imitate onMomentumScrollEnd for web
+  const onScroll = Platform.select({
+    web: useCallback(_debounce(handleScrollEnd, 300), [handleScrollEnd]),
+    default: noop,
+  })
 
   return (
     <Wrapper style={styles.dashboardWrapper} withGradient={false}>
@@ -654,7 +662,8 @@ const Dashboard = props => {
         // we can use decimal (from 0 to 1) or integer numbers. Integer - it is a pixels from the end. Decimal it is the percentage from the end
         onEndReachedThreshold={0.7} // Determines the maximum number of items rendered outside of the visible area
         windowSize={20}
-        onScrollEnd={onScrollEnd}
+        onScrollEnd={handleScrollEnd}
+        onScroll={onScroll}
         headerLarge={headerLarge}
         scrollEventThrottle={500}
       />

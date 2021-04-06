@@ -1,5 +1,5 @@
 // @flow
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Animated, Dimensions, Easing, Image, Platform, TouchableOpacity, View } from 'react-native'
 import { concat, debounce, get, noop, uniqBy } from 'lodash'
 import Mutex from 'await-mutex'
@@ -571,10 +571,12 @@ const Dashboard = props => {
     [headerLarge, setHeaderLarge],
   )
 
+  const handleScrollEndDebounced = useMemo(() => _debounce(handleScrollEnd, 300), [handleScrollEnd])
+
   // for native we able handle onMomentumScrollEnd, but for web we able to handle only onScroll event,
   // so we need to imitate onMomentumScrollEnd for web
   const onScroll = Platform.select({
-    web: useCallback(_debounce(handleScrollEnd, 300), [handleScrollEnd]),
+    web: handleScrollEndDebounced,
     default: noop,
   })
 

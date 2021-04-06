@@ -62,7 +62,7 @@ const syncTXFromBlockchain = async () => {
   if (moment(lastUpdateDate).isSame(now, 'day') === false) {
     try {
       const joinedAtBlockNumber = userStorage.userProperties.get('joinedAtBlock')
-      await goodWallet.syncTxWithBlockchain(joinedAtBlockNumber)
+      await userStorage.syncTxWithBlockchain(joinedAtBlockNumber)
       await userStorage.userProperties.set('lastTxSyncDate', now.valueOf())
     } catch (e) {
       log.error('syncTXFromBlockchain failed', e.message, e)

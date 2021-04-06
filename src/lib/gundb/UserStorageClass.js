@@ -1,41 +1,11 @@
 //@flow
-import Mutex from 'await-mutex'
 import { Platform } from 'react-native'
-import {
-  debounce,
-  defaults,
-  filter,
-  find,
-  flatten,
-  get,
-  isEmpty,
-  isEqual,
-  isError,
-  isNil,
-  isString,
-  isUndefined,
-  keys,
-  maxBy,
-  memoize,
-  merge,
-  noop,
-  omit,
-  orderBy,
-  over,
-  pick,
-  set,
-  some,
-  takeWhile,
-  toPairs,
-  uniqBy,
-  values,
-} from 'lodash'
+import { debounce, defaults, get, isEmpty, isError, isNil, isString, keys, memoize, over, pick, values } from 'lodash'
 import moment from 'moment'
 import Gun from '@gooddollar/gun'
 import SEA from '@gooddollar/gun/sea'
 import { gunAuth as gunPKAuth } from '@gooddollar/gun-pk-auth'
 import { sha3 } from 'web3-utils'
-import EventEmitter from 'eventemitter3'
 import isEmail from '../../lib/validators/isEmail'
 
 import { retry } from '../utils/async'
@@ -49,30 +19,21 @@ import isMobilePhone from '../validators/isMobilePhone'
 import { resizeImage } from '../utils/image'
 
 import { GD_GUN_CREDENTIALS } from '../constants/localStorage'
-import delUndefValNested from '../utils/delUndefValNested'
 import AsyncStorage from '../utils/asyncStorage'
 import defaultGun from './gundb'
 import UserProperties from './UserPropertiesClass'
 import { getUserModel, type UserModel } from './UserModel'
 import { type StandardFeed } from './StandardFeed'
+import { FeedEvent, FeedItemType, FeedStorage, TxStatus } from './FeedStorage'
+
 const logger = pino.child({ from: 'UserStorage' })
 
-const EVENT_TYPE_WITHDRAW = 'withdraw'
-const EVENT_TYPE_BONUS = 'bonus'
-const EVENT_TYPE_CLAIM = 'claim'
-const EVENT_TYPE_SEND = 'send'
-const EVENT_TYPE_RECEIVE = 'receive'
-const EVENT_TYPE_MINT = 'mint' //probably bridge transfer
-
-const CONTRACT_EVENT_TYPE_PAYMENT_WITHDRAW = 'PaymentWithdraw'
-const CONTRACT_EVENT_TYPE_PAYMENT_CANCEL = 'PaymentCancel'
-const CONTRACT_EVENT_TYPE_TRANSFER = 'Transfer'
-
-const COMPLETED_BONUS_REASON_TEXT = 'Your recent earned rewards'
 const NULL_ADDRESS = '0x0000000000000000000000000000000000000000'
-function isValidDate(d) {
-  return d instanceof Date && !isNaN(d)
-}
+
+const favicon = Platform.select({
+  web: `${process.env.PUBLIC_URL}/favicon-96x96.png`,
+  default: require('../../assets/Feed/favicon-96x96.png'),
+})
 
 /**
  * User details returned from Gun SEA
@@ -105,20 +66,6 @@ export type ProfileField = {
 }
 
 /**
- * User's feed event data
- */
-export type FeedEvent = {
-  id: string,
-  type: string,
-  date: string,
-  createdDate?: string,
-  status?: 'pending' | 'completed' | 'error' | 'cancelled' | 'deleted',
-  data: any,
-  displayType?: string,
-  action?: string,
-}
-
-/**
  * Survey details
  */
 export type SurveyDetails = {
@@ -146,10 +93,10 @@ export const welcomeMessage = {
   type: 'welcome',
   status: 'completed',
   data: {
-    customName: 'Welcome to GoodDollar!',
+    counterPartyFullName: 'Welcome to GoodDollar!',
     subtitle: 'Welcome to GoodDollar!',
     readMore: 'Claim free G$ coins daily.',
-    receiptData: {
+    receiptEvent: {
       from: NULL_ADDRESS,
     },
     reason: Config.isPhaseZero
@@ -163,10 +110,10 @@ export const welcomeMessageOnlyEtoro = {
   type: 'welcome',
   status: 'completed',
   data: {
-    customName: 'Welcome to GoodDollar!',
+    counterPartyFullName: 'Welcome to GoodDollar!',
     subtitle: 'Welcome to GoodDollar!',
     readMore: false,
-    receiptData: {
+    receiptEvent: {
       from: NULL_ADDRESS,
     },
     reason:
@@ -179,10 +126,10 @@ export const inviteFriendsMessage = {
   type: 'invite',
   status: 'completed',
   data: {
-    customName: `Invite friends and earn G$'s`,
+    counterPartyFullName: `Invite friends and earn G$'s`,
     subtitle: 'Invite your friends now',
     readMore: 'Get 100G$ for each friend who signs up\nand they get 50G$!',
-    receiptData: {
+    receiptEvent: {
       from: NULL_ADDRESS,
     },
     reason:
@@ -198,10 +145,10 @@ export const backupMessage = {
   type: 'backup',
   status: 'completed',
   data: {
-    customName: 'Backup your wallet. Now.',
+    counterPartyFullName: 'Backup your wallet. Now.',
     subtitle: 'You need to backup your',
     readMore: 'wallet pass phrase.',
-    receiptData: {
+    receiptEvent: {
       from: NULL_ADDRESS,
     },
     reason:
@@ -214,10 +161,10 @@ export const startClaiming = {
   type: 'claiming',
   status: 'completed',
   data: {
-    customName: `Claim your G$'s today!`, //title in modal
+    counterPartyFullName: `Claim your G$'s today!`, //title in modal
     subtitle: `Claim your G$'s today!`, //title in feed list
     readMore: false,
-    receiptData: {
+    receiptEvent: {
       from: NULL_ADDRESS,
     },
 
@@ -233,66 +180,17 @@ export const longUseOfClaims = {
   type: 'claimsThreshold',
   status: 'completed',
   data: {
-    customName: 'Woohoo! You’ve made it!', //title in modal
+    counterPartyFullName: 'Woohoo! You’ve made it!', //title in modal
     subtitle: 'Woohoo! You’ve made it!',
     smallReadMore: 'Congrats! You claimed G$ for 14 days.',
-    receiptData: {
+    receiptEvent: {
       from: NULL_ADDRESS,
     },
     reason: `Nice work. You’ve claimed demo G$’s for\n14 days and your spot is now secured for\nGoodDollar’s live launch.\nLive G$ coins are coming your way soon!`,
     endpoint: {
-      fullName: 'Congrats! You’ve made it!',
+      displayName: 'Congrats! You’ve made it!',
     },
   },
-}
-
-/**
- * Extracts transfer events sent to the current account
- * @param {object} receipt - Receipt event
- * @returns {object} {transferLog: event: [{evtName: evtValue}]}
- */
-export const getReceiveDataFromReceipt = (receipt: any, account: string) => {
-  if (!receipt || !receipt.logs || receipt.logs.length <= 0) {
-    return {}
-  }
-
-  // Obtain logged data from receipt event
-  const logs = receipt.logs
-    .filter(_ => _)
-    .map(log =>
-      log.events.reduce(
-        (acc, curr) => {
-          if (!acc[curr.name] || (acc[curr.name] && acc[curr.name].value && acc[curr.name].value < curr.value)) {
-            return { ...acc, [curr.name]: curr.value }
-          }
-          return acc
-        },
-        { name: log.name },
-      ),
-    )
-
-  //maxBy is used in case transaction also paid a TX fee/burn, so since they are small
-  //it filters them out
-  const transferLog = maxBy(
-    logs.filter(log => {
-      return (
-        log &&
-        log.name === CONTRACT_EVENT_TYPE_TRANSFER &&
-        (log.from.toLowerCase() === account.toLowerCase() || log.to.toLowerCase() === account.toLowerCase())
-      )
-    }),
-    log => log.value,
-  )
-  const withdrawLog = logs.find(log => {
-    return log && (log.name === CONTRACT_EVENT_TYPE_PAYMENT_WITHDRAW || log.name === CONTRACT_EVENT_TYPE_PAYMENT_CANCEL)
-  })
-  logger.debug('getReceiveDataFromReceipt', {
-    logs: receipt.logs,
-    transferLog,
-    withdrawLog,
-  })
-  const log = withdrawLog || transferLog
-  return log
 }
 
 /**
@@ -347,18 +245,6 @@ export class UserStorage {
    * current feed item
    */
   cursor: number = 0
-
-  /**
-   * In memory array. keep number of events per day
-   * @instance {Gun}
-   */
-  feedIndex: Array<[Date, number]>
-
-  feedIds: {} = {}
-
-  feedQ: {} = {}
-
-  feedMutex = new Mutex()
 
   /**
    * object with Gun SEA user details
@@ -494,7 +380,6 @@ export class UserStorage {
   constructor(wallet: GoodWallet, gun: Gun) {
     this.gun = gun || defaultGun
     this.wallet = wallet
-    this.feedEvents = new EventEmitter()
     this.init()
   }
 
@@ -628,22 +513,12 @@ export class UserStorage {
       return
     }
 
+    this.feedStorage = new FeedStorage(this.gun, this.wallet, this)
+
     // get trusted GoodDollar indexes and pub key
     let trustPromise = this.fetchTrustIndexes()
 
     logger.debug('subscribing to wallet events')
-
-    this.wallet.subscribeToEvent(EVENT_TYPE_RECEIVE, event => {
-      logger.debug({ event }, EVENT_TYPE_RECEIVE)
-    })
-
-    this.wallet.subscribeToEvent(EVENT_TYPE_SEND, event => {
-      logger.debug({ event }, EVENT_TYPE_SEND)
-    })
-
-    this.wallet.subscribeToEvent('otplUpdated', receipt => this.handleOTPLUpdated(receipt))
-    this.wallet.subscribeToEvent('receiptUpdated', receipt => this.handleReceiptUpdated(receipt))
-    this.wallet.subscribeToEvent('receiptReceived', receipt => this.handleReceiptUpdated(receipt))
 
     await trustPromise
 
@@ -779,232 +654,8 @@ export class UserStorage {
     return this.magiclink
   }
 
-  getOperationType(data: any, account: string) {
-    const EVENT_TYPES = {
-      PaymentWithdraw: 'withdraw',
-    }
-
-    let operationType
-    if (data.from) {
-      if (this.wallet.getUBIAddresses().includes(data.from)) {
-        operationType = EVENT_TYPE_CLAIM
-      } else if (this.wallet.getRewardsAddresses().includes(data.from)) {
-        operationType = EVENT_TYPE_BONUS
-      } else if (data.from === NULL_ADDRESS) {
-        operationType = EVENT_TYPE_MINT
-      } else {
-        operationType = data.from === account.toLowerCase() ? EVENT_TYPE_SEND : EVENT_TYPE_RECEIVE
-      }
-    }
-    return EVENT_TYPES[data.name] || operationType
-  }
-
-  async handleReceiptUpdated(receipt: any): Promise<FeedEvent | void> {
-    //first check to save time if already exists
-    let feedEvent = await this.getFeedItemByTransactionHash(receipt.transactionHash)
-    if (get(feedEvent, 'data.receiptData', feedEvent && feedEvent.receiptReceived)) {
-      return feedEvent
-    }
-
-    //receipt received via websockets/polling need mutex to prevent race
-    //with enqueuing the initial TX data
-    const data = getReceiveDataFromReceipt(receipt, this.wallet.account)
-    if (
-      data &&
-      (data.name === CONTRACT_EVENT_TYPE_PAYMENT_CANCEL ||
-        (data.name === CONTRACT_EVENT_TYPE_PAYMENT_WITHDRAW && data.from === data.to))
-    ) {
-      logger.debug('handleReceiptUpdated: skipping self withdrawn payment link (cancelled)', { data, receipt })
-      return
-    }
-    const release = await this.feedMutex.lock()
-    try {
-      logger.debug('handleReceiptUpdated', { data, receipt })
-
-      //get initial TX data from queue, if not in queue then it must be a receive TX ie
-      //not initiated by user
-      //other option is that TX was processed on another wallet instance
-      const initialEvent = this.dequeueTX(receipt.transactionHash) || {
-        data: {},
-      }
-      logger.debug('handleReceiptUpdated got enqueued event:', {
-        id: receipt.transactionHash,
-        initialEvent,
-      })
-
-      const receiptDate = await this.wallet.wallet.eth
-        .getBlock(receipt.blockNumber)
-        .then(_ => new Date(_.timestamp * 1000))
-        .catch(_ => new Date())
-
-      //get existing or make a new event (calling getFeedItem again because this is after mutex, maybe something changed)
-      feedEvent = (await this.getFeedItemByTransactionHash(receipt.transactionHash)) || {
-        id: receipt.transactionHash,
-        createdDate: receiptDate.toString(),
-        type: this.getOperationType(data, this.wallet.account),
-      }
-
-      if (get(feedEvent, 'data.receiptData', feedEvent && feedEvent.receiptReceived)) {
-        logger.debug('handleReceiptUpdated skipping event with existed receipt data', feedEvent, receipt)
-        return feedEvent
-      }
-
-      //merge incoming receipt data into existing event
-      const updatedFeedEvent: FeedEvent = {
-        ...feedEvent,
-        ...initialEvent,
-        status: feedEvent.otplStatus === 'cancelled' ? feedEvent.status : receipt.status ? 'completed' : 'error',
-        receiptReceived: true,
-        date: receiptDate.toString(),
-        data: {
-          ...feedEvent.data,
-          ...initialEvent.data,
-          receiptData: data,
-        },
-      }
-
-      if (feedEvent.type === EVENT_TYPE_BONUS && receipt.status) {
-        updatedFeedEvent.data.reason = COMPLETED_BONUS_REASON_TEXT
-        updatedFeedEvent.data.customName = 'GoodDollar'
-      }
-
-      //mint event is probably bridge
-      if (feedEvent.type === EVENT_TYPE_MINT && receipt.status) {
-        updatedFeedEvent.data.reason = 'Your Transferred G$s'
-        updatedFeedEvent.data.customName = 'Bridge'
-      }
-
-      logger.debug('handleReceiptUpdated receiptReceived', {
-        initialEvent,
-        feedEvent,
-        receipt,
-        data,
-        updatedFeedEvent,
-      })
-
-      if (isEqual(feedEvent, updatedFeedEvent) === false) {
-        await this.updateFeedEvent(updatedFeedEvent, feedEvent.date)
-      }
-
-      return updatedFeedEvent
-    } catch (e) {
-      logger.error('handleReceiptUpdated failed', e.message, e)
-    } finally {
-      release()
-    }
-    return
-  }
-
-  async setFeedEventProfileFields(feedEvent: FeedEvent) {
-    const fullName = get(feedEvent, 'data.endpoint.fullName')
-    const avatar = get(feedEvent, 'data.endpoint.avatar')
-    if (!fullName || !avatar) {
-      const walletAddress =
-        feedEvent.type === 'send' ? get(feedEvent, 'data.receiptData.to') : get(feedEvent, 'data.receiptData.from')
-
-      const userProfile = await this.getUserProfile(walletAddress)
-      if (userProfile.name) {
-        set(feedEvent, 'data.endpoint.fullName', userProfile.name)
-      }
-      if (userProfile.avatar) {
-        set(feedEvent, 'data.endpoint.avatar', userProfile.avatar)
-      }
-    }
-    return feedEvent
-  }
-
-  /**
-   * callback to use when we get a transaction that withdrawn our payment link
-   * @param {*} receipt
-   */
-  async handleOTPLUpdated(receipt: any): Promise<FeedEvent> {
-    //receipt received via websockets/polling need mutex to prevent race
-    //with enqueuing the initial TX data
-    const release = await this.feedMutex.lock()
-    try {
-      const data = getReceiveDataFromReceipt(receipt, this.wallet.account)
-      logger.debug('handleOTPLUpdated', { data, receipt })
-
-      //get our tx that created the payment link
-      //paymentId is new format, hash is in old beta format
-      const originalTXHash = await this.getTransactionHashByCode(data.hash || data.paymentId)
-      if (originalTXHash === undefined) {
-        logger.error(
-          'handleOTPLUpdated failed',
-          'Original payment link TX not found',
-          new Error('handleOTPLUpdated Failed: Original payment link TX not found'),
-          { data, receipt },
-        )
-        return
-      }
-
-      const feedEvent = {
-        data: {},
-        ...((await this.getFeedItemByTransactionHash(originalTXHash)) || {}),
-      }
-
-      if (get(feedEvent, 'data.otplData')) {
-        logger.debug('handleOTPLUpdated skipping event with existing receipt data', feedEvent, receipt)
-        return feedEvent
-      }
-
-      const receiptDate = await this.wallet.wallet.eth
-        .getBlock(receipt.blockNumber)
-        .then(_ => new Date(_.timestamp * 1000))
-        .catch(_ => new Date())
-
-      //if we withdrawn the payment link then its canceled
-      const otplStatus =
-        data.name === CONTRACT_EVENT_TYPE_PAYMENT_CANCEL || data.to === data.from ? 'cancelled' : 'completed'
-      const prevDate = feedEvent.date
-      feedEvent.data.from = data.from
-      feedEvent.data.to = data.to
-      feedEvent.data.otplData = data
-      feedEvent.status = feedEvent.data.otplStatus = otplStatus
-      feedEvent.date = receiptDate.toString()
-
-      logger.debug('handleOTPLUpdated receiptReceived', {
-        feedEvent,
-        otplStatus,
-        receipt,
-        data,
-      })
-      await this.updateFeedEvent(feedEvent, prevDate)
-      return feedEvent
-    } catch (e) {
-      logger.error('handleOTPLUpdated', e.message, e)
-    } finally {
-      release()
-    }
-    return {}
-  }
-
   sign(msg: any) {
     return SEA.sign(msg, this.gunuser.pair())
-  }
-
-  /**
-   * Find feed by transaction hash in array, and returns feed object
-   *
-   * @param {string} transactionHash - transaction identifier
-   * @returns {object} feed item or null if it doesn't exist
-   */
-  getFeedItemByTransactionHash(transactionHash: string): Promise<FeedEvent> {
-    const feedItem = this.feedIds[transactionHash]
-    if (feedItem) {
-      return feedItem
-    }
-
-    return this.feed
-      .get('byid')
-      .get(transactionHash)
-      .decrypt()
-      .then(feedItem => {
-        // update feed cache here
-        this.feedIds[transactionHash] = feedItem
-        return feedItem
-      })
-      .catch(noop)
   }
 
   /**
@@ -1012,7 +663,10 @@ export class UserStorage {
    * @returns {Promise<Array<FeedEvent>>}
    */
   async getAllFeed() {
-    const total = values((await this.feed.get('index').then(null, 1000)) || {}).reduce((acc, curr) => acc + curr, 0)
+    const total = values((await this.feedStorage.feed.get('index').then(null, 1000)) || {}).reduce(
+      (acc, curr) => acc + curr,
+      0,
+    )
     const prevCursor = this.cursor
     logger.debug('getAllFeed', { total, prevCursor })
     const feed = await this.getFeedPage(total, true)
@@ -1022,135 +676,12 @@ export class UserStorage {
   }
 
   /**
-   * Used as subscription callback for gundb
-   * When the index of <day> to <number of events> changes
-   * We get the object and turn it into a sorted array by <day> which we keep in memory for feed display purposes
-   * @param {object} changed the index data from gundb an object with days as keys and number of event in that day as value
-   * @param {string} field the name of the gundb key changed
-   */
-  updateFeedIndex = (changed: any, field: string) => {
-    if (field !== 'index' || changed === undefined) {
-      return
-    }
-    delete changed._
-    let dayToNumEvents: Array<[string, number]> = toPairs(changed)
-    this.feedIndex = orderBy(dayToNumEvents, day => day[0], 'desc')
-    this.feedEvents.emit('updated')
-    logger.debug('updateFeedIndex', {
-      changed,
-      field,
-      newIndex: this.feedIndex,
-    })
-  }
-
-  writeFeedEvent(event): Promise<FeedEvent> {
-    this.feedIds[event.id] = event
-    AsyncStorage.setItem('GD_feed', this.feedIds)
-    this.feedEvents.emit('updated', { event })
-    return this.feed
-      .get('byid')
-      .get(event.id)
-      .secretAck(event)
-      .catch(e => {
-        logger.error('writeFeedEvent failed:', e.message, e, { event })
-        throw e
-      })
-  }
-
-  /**
    * Subscribes to changes on the event index of day to number of events
    * the "false" (see gundb docs) passed is so we get the complete 'index' on every change and not just the day that changed
    */
   async initFeed() {
-    if (this.feedInitialized) {
-      return
-    }
-
-    this.feedInitialized = true
-    const { feed } = await this.gunuser
-
-    logger.debug('init feed', { feed })
-
-    if (feed == null) {
-      // for some reason this breaks on gun 2020 https://github.com/amark/gun/issues/987
-      await this.feed
-        .putAck({ initialized: true }) // restore old feed data - after nullified
-        .catch(e => {
-          logger.error('restore old feed data failed:', e.message, e)
-          throw e
-        })
-
-      logger.debug('init empty feed', { feed })
-    }
-
-    this.feed.get('index').on(this.updateFeedIndex, false)
-
-    // load unencrypted feed from cache
-    this.feedIds = await AsyncStorage.getItem('GD_feed')
-      .catch(() => {
-        logger.warn('failed parsing feed from cache')
-      })
-      .then(ids => ids || {})
-
-    //no need to block on this
-    this._syncFeedCache()
-    this.startSystemFeed().catch(e => logger.error('failed initializing startSystemFeed', e.message, e))
-  }
-
-  async _syncFeedCache() {
-    const items = await this.feed
-      .get('byid')
-      .then(null, 2000)
-      .catch(e => {
-        logger.warn('fetch byid onthen failed', { e })
-      })
-
-    logger.debug('init feed cache byid', { items })
-
-    if (!items) {
-      await this.feed.putAck({ byid: {} }).catch(e => {
-        logger.error('init feed cache byid failed:', e.message, e)
-        throw e
-      })
-
-      return
-    }
-
-    const ids = Object.entries(omit(items, '_'))
-
-    logger.debug('init feed cache got items', { ids })
-
-    const promises = ids.map(async ([k, v]) => {
-      if (this.feedIds[k]) {
-        return false
-      }
-
-      const data = await this.feed
-        .get('byid')
-        .get(k)
-        .decrypt()
-        .catch(noop)
-      logger.debug('init feed cache got missing cache item', { id: k, data })
-
-      if (!data) {
-        return false
-      }
-
-      this.feedIds[k] = data
-      return true
-    })
-
-    Promise.all(promises)
-      .then(shouldUpdateStatuses => {
-        if (!some(shouldUpdateStatuses)) {
-          return
-        }
-
-        logger.debug('init feed updating cache', this.feedIds, shouldUpdateStatuses)
-        AsyncStorage.setItem('GD_feed', this.feedIds)
-        this.feedEvents.emit('updated', {})
-      })
-      .catch(e => logger.error('error caching feed items', e.message, e))
+    await this.feedStorage.init()
+    this.startSystemFeed().catch(e => logger.error('initfeed failed initializing startSystemFeed', e.message, e))
   }
 
   async startSystemFeed() {
@@ -1167,7 +698,7 @@ export class UserStorage {
         .replace('100', bounty)
         .replace('50', bounty / 2)
       setTimeout(() => this.enqueueTX(inviteFriendsMessage), 60000) // 2 minutes
-      const firstInviteCard = this.feedIds['0.1']
+      const firstInviteCard = this.feedStorage.feedIds['0.1']
       if (
         firstInviteCard &&
         moment(firstInviteCard.date)
@@ -1231,7 +762,7 @@ export class UserStorage {
   addAllCardsTest() {
     ;[welcomeMessage, inviteFriendsMessage, startClaiming, longUseOfClaims].forEach(m => {
       const copy = Object.assign({}, m, { id: String(Math.random()) })
-      this.enqueueTX(copy)
+      this.feedStorage.enqueueTX(copy)
     })
   }
 
@@ -1673,83 +1204,9 @@ export class UserStorage {
    * @param {boolean} reset - should restart cursor
    * @returns {Promise} Promise with an array of feed events
    */
+  // eslint-disable-next-line require-await
   async getFeedPage(numResults: number, reset?: boolean = false): Promise<Array<FeedEvent>> {
-    let { feedIndex, feedIds } = this
-
-    if (!feedIndex) {
-      logger.debug('feedIndex not set returning empty')
-      return []
-    }
-
-    if (reset || isUndefined(this.cursor)) {
-      this.cursor = 0
-    }
-
-    // running through the days history until we got the request numResults
-    // storing days selected to the daysToTake
-    let total = 0
-    let daysToTake = takeWhile(feedIndex.slice(this.cursor), ([, eventsAmount]) => {
-      const takeDay = total < numResults
-
-      if (takeDay) {
-        total += eventsAmount
-      }
-
-      return takeDay
-    })
-
-    this.cursor += daysToTake.length
-
-    // going through the days we've selected, fetching feed indexes for that days
-    let promises: Array<Promise<Array<FeedEvent>>> = daysToTake.map(([date]) =>
-      this.feed
-        .get(date)
-        .then(data => (typeof data === 'string' ? JSON.parse(data) : data))
-        .catch(e => {
-          logger.error('getFeed', e.message, e)
-          return []
-        }),
-    )
-
-    // filtering indexed items, taking the items a) having non-empty id b) having unique id
-    const eventsIndex = await Promise.all(promises).then(indexes => {
-      const filtered = filter(flatten(indexes), 'id')
-
-      return uniqBy(filtered, 'id')
-    })
-
-    logger.debug('getFeedPage', {
-      feedIndex,
-      daysToTake,
-      eventsIndex,
-    })
-
-    const events = await Promise.all(
-      eventsIndex.map(async ({ id }) => {
-        // taking feed item from the cache
-        let item = feedIds[id]
-
-        // if no item in the cache and it's some transaction
-        // then getting tx item details from the wallet
-        if (!item && id.startsWith('0x')) {
-          const receipt = await this.wallet.getReceiptWithLogs(id).catch(e => {
-            logger.warn('no receipt found for id:', id, e.message, e)
-          })
-
-          if (receipt) {
-            item = await this.handleReceiptUpdated(receipt)
-          } else {
-            logger.warn('no receipt found for undefined item id:', id)
-          }
-        }
-
-        // returning item, it may be undefined
-        return item
-      }),
-    )
-
-    // filtering events fetched to exclude empty/null/undefined ones
-    return filter(events)
+    return this.feedStorage.getFeedPage(numResults, reset)
   }
 
   /**
@@ -1770,19 +1227,19 @@ export class UserStorage {
           feedItem =>
             feedItem &&
             feedItem.data &&
-            ['deleted', 'cancelled'].includes(feedItem.status) === false &&
+            ['deleted', 'cancelled', 'canceled'].includes((feedItem.status || '').toLowerCase()) === false &&
             feedItem.otplStatus !== 'cancelled',
         )
         .map(feedItem => {
-          if (null == get(feedItem, 'data.receiptData', feedItem && feedItem.receiptReceived)) {
+          if (
+            null ==
+            get(feedItem, 'data.receiptData', get(feedItem, 'data.receiptEvent', feedItem && feedItem.receiptReceived))
+          ) {
             logger.debug('getFormattedEvents missing feed receipt', { feedItem })
             return this.getFormatedEventById(feedItem.id)
           }
 
-          return this.formatEvent(feedItem).catch(e => {
-            logger.error('getFormattedEvents Failed formatting event:', e.message, e, { feedItem })
-            return {}
-          })
+          return this.formatEvent(feedItem)
         }),
     )
     logger.debug('getFormattedEvents done formatting events')
@@ -1790,16 +1247,19 @@ export class UserStorage {
   }
 
   async getFormatedEventById(id: string): Promise<StandardFeed> {
-    const prevFeedEvent = await this.getFeedItemByTransactionHash(id)
-    const standardPrevFeedEvent = await this.formatEvent(prevFeedEvent).catch(e => {
-      logger.error('getFormatedEventById Failed formatting event:', e.message, e, { id })
-
-      return undefined
-    })
+    const prevFeedEvent = await this.feedStorage.getFeedItemByTransactionHash(id)
+    const standardPrevFeedEvent = this.formatEvent(prevFeedEvent)
     if (!prevFeedEvent) {
-      return standardPrevFeedEvent
+      return undefined
     }
-    if (get(prevFeedEvent, 'data.receiptData', prevFeedEvent && prevFeedEvent.receiptReceived)) {
+
+    if (
+      get(
+        prevFeedEvent,
+        'data.receiptData',
+        get(prevFeedEvent, 'data.receiptEvent', prevFeedEvent && prevFeedEvent.receiptReceived),
+      )
+    ) {
       return standardPrevFeedEvent
     }
 
@@ -1818,7 +1278,7 @@ export class UserStorage {
     }
 
     //update the event
-    let updatedEvent = await this.handleReceiptUpdated(receipt)
+    let updatedEvent = await this.feedStorage.handleReceipt(receipt)
     if (updatedEvent === undefined) {
       return standardPrevFeedEvent
     }
@@ -1982,81 +1442,25 @@ export class UserStorage {
    *
    * @param {FeedEvent} event - Feed event with data, type, date and id props
    * @returns {Promise} Promise with StandardFeed object,
-   *  with props { id, date, type, data: { amount, message, endpoint: { address, fullName, avatar, withdrawStatus }}}
+   *  with props { id, date, type, data: { amount, message, endpoint: { address, displayName, avatar, withdrawStatus }}}
    */
   formatEvent = memoize(
+    // eslint-disable-next-line require-await
     async (event: FeedEvent): Promise<StandardFeed> => {
       logger.debug('formatEvent: incoming event', event.id, { event })
 
       try {
         const { data, type, date, id, status, createdDate, animationExecuted, action } = event
-        const {
-          sender,
-          preReasonText,
-          reason,
-          code: withdrawCode,
-          otplStatus,
-          customName,
-          subtitle,
-          readMore,
-          smallReadMore,
-        } = data
+        const { sender, preReasonText, reason, code: withdrawCode, subtitle, readMore, smallReadMore } = data
 
-        const { address, initiator, initiatorType, value, displayName, message } = this._extractData(event)
-        const isDeposit = initiator.toLowerCase() === this.wallet.oneTimePaymentsContract.address
-        const withdrawStatus = this._extractWithdrawStatus(
-          withdrawCode || isDeposit,
-          isDeposit ? 'pending' : otplStatus,
-          status,
-          type,
-        )
-        const displayType = this._extractDisplayType(type, withdrawStatus, status)
+        const { address, initiator, initiatorType, value, displayName, message, avatar } = this._extractData(event)
+
+        const displayType = this._extractDisplayType(event)
         logger.debug('formatEvent: initiator data', event.id, {
           initiatorType,
           initiator,
           address,
         })
-        const profileNode =
-          withdrawStatus !== 'pending' && (await this._getProfileNodeTrusted(initiatorType, initiator, address)) //don't try to fetch profile node of this is a tx we sent and is pending
-        let fullNameFromEvent = get(event, 'data.endpoint.fullName')
-        let avatarFromEvent = get(event, 'data.endpoint.avatar')
-
-        const [avatarFromProfile, fullNameFromProfile] = await Promise.all([
-          this._extractAvatar(type, withdrawStatus, get(profileNode, 'gunProfile'), address).catch(e => {
-            logger.warn('formatEvent: failed extractAvatar', e.message, e, {
-              type,
-              withdrawStatus,
-              profileNode,
-              address,
-            })
-            return undefined
-          }),
-          this._extractFullName(
-            customName,
-            get(profileNode, 'gunProfile'),
-            initiatorType,
-            initiator,
-            type,
-            address,
-            displayName,
-          ).catch(e => {
-            logger.warn('formatEvent: failed extractFullName', e.message, e, {
-              customName,
-              profileNode,
-              initiatorType,
-              initiator,
-              type,
-              address,
-              displayName,
-            })
-          }),
-        ])
-
-        // take value from fullNameFromProfile, if fullNameFromProfile is falsy or "Unknown" take value from FullNameFromEvent, if fullNameFromEvent is falsy set as "Unknown"
-        const fullName =
-          !fullNameFromProfile || fullNameFromProfile === 'Unknown'
-            ? fullNameFromEvent || 'Unknown'
-            : fullNameFromProfile
 
         let updatedEvent = {
           id,
@@ -2068,11 +1472,11 @@ export class UserStorage {
           animationExecuted,
           action,
           data: {
+            receiptHash: get(event, 'data.receiptEvent.txHash'),
             endpoint: {
               address: sender,
-              fullName,
-              avatar: avatarFromProfile || avatarFromEvent,
-              withdrawStatus,
+              displayName,
+              avatar,
             },
             amount: value,
             preMessageText: preReasonText,
@@ -2082,16 +1486,6 @@ export class UserStorage {
             smallReadMore,
             withdrawCode,
           },
-        }
-        const isFullName = fullName => {
-          return fullName !== 'Unknown' && !isNil(fullName)
-        }
-
-        if (
-          (fullNameFromEvent !== fullNameFromProfile && isFullName(fullNameFromProfile)) ||
-          (avatarFromProfile && avatarFromEvent !== avatarFromProfile)
-        ) {
-          this.updateFeedEvent(updatedEvent)
         }
 
         return updatedEvent
@@ -2104,7 +1498,12 @@ export class UserStorage {
     },
   )
 
-  _extractData({ type, id, data: { receiptData, from = '', to = '', counterPartyDisplayName = '', amount } }) {
+  _extractData({
+    type,
+    id,
+    status,
+    data: { receiptEvent, from = '', to = '', customName = '', counterPartyFullName, counterPartySmallAvatar, amount },
+  }) {
     const { isAddress } = this.wallet.wallet.utils
     const data = {
       address: '',
@@ -2115,29 +1514,40 @@ export class UserStorage {
       message: '',
     }
 
-    if (type === EVENT_TYPE_SEND) {
-      data.address = isAddress(to) ? to : receiptData && receiptData.to
+    if (type === FeedItemType.EVENT_TYPE_SEND || type === FeedItemType.EVENT_TYPE_SENDDIRECT) {
+      data.address = isAddress(to) ? to : receiptEvent && receiptEvent.to
       data.initiator = to
-    } else if (type === EVENT_TYPE_CLAIM) {
+    } else if (type === FeedItemType.EVENT_TYPE_CLAIM) {
       data.message = 'Your daily basic income'
     } else {
-      data.address = isAddress(from) ? from : receiptData && receiptData.from
+      data.address = isAddress(from) ? from : receiptEvent && receiptEvent.from
       data.initiator = from
     }
 
     data.initiatorType = isMobilePhone(data.initiator) ? 'mobile' : isEmail(data.initiator) ? 'email' : undefined
 
-    data.value = (receiptData && (receiptData.value || receiptData.amount)) || amount
-    data.displayName = counterPartyDisplayName || 'Unknown'
+    data.value = get(receiptEvent, 'value') || get(receiptEvent, 'amount') || amount
+
+    const fromGD =
+      (type === FeedItemType.EVENT_TYPE_BONUS ||
+        type === FeedItemType.EVENT_TYPE_CLAIM ||
+        data.address === NULL_ADDRESS ||
+        id.startsWith('0x') === false) &&
+      'GoodDollar'
+    const fromEmailMobile = data.initiatorType && data.initiator
+    data.displayName = customName || counterPartyFullName || fromEmailMobile || fromGD || 'Unknown'
+
+    data.avatar = status === 'error' || fromGD ? favicon : counterPartySmallAvatar
 
     logger.debug('formatEvent: parsed data', {
       id,
       type,
       to,
-      counterPartyDisplayName,
+      customName,
+      counterPartyFullName,
       from,
-      receiptData,
-      ...data,
+      receiptEvent,
+      data,
     })
 
     return data
@@ -2150,22 +1560,17 @@ export class UserStorage {
     return status === 'error' ? status : withdrawCode ? otplStatus : ''
   }
 
-  _extractDisplayType(type, withdrawStatus, status) {
-    let sufix = ''
-
-    if (type === EVENT_TYPE_WITHDRAW) {
-      sufix = withdrawStatus
+  _extractDisplayType(event) {
+    switch (event.type) {
+      case FeedItemType.EVENT_TYPE_BONUS:
+      case FeedItemType.EVENT_TYPE_SEND:
+      case FeedItemType.EVENT_TYPE_SENDDIRECT: {
+        const type = FeedItemType.EVENT_TYPE_SENDDIRECT === event.type ? FeedItemType.EVENT_TYPE_SEND : event.type
+        return type + (event.status || TxStatus.COMPLETED).toLowerCase()
+      }
+      default:
+        return event.type
     }
-
-    if (type === EVENT_TYPE_SEND) {
-      sufix = withdrawStatus
-    }
-
-    if (type === EVENT_TYPE_BONUS) {
-      sufix = status
-    }
-
-    return `${type}${sufix}`
   }
 
   async _getProfileNodeTrusted(initiatorType, initiator, address): Gun {
@@ -2227,103 +1632,15 @@ export class UserStorage {
     return byIndex || byAddress
   }
 
-  //eslint-disable-next-line
-  async _extractAvatar(type, withdrawStatus, profileToShow, address) {
-    const favicon = Platform.select({
-      web: `${process.env.PUBLIC_URL}/favicon-96x96.png`,
-      default: require('../../assets/Feed/favicon-96x96.png'),
-    })
-    const getAvatarFromGun = async () => {
-      const avatar = profileToShow && (await profileToShow.get('smallAvatar').then(null, 500))
-
-      // verify account is not deleted and return value
-      // if account deleted - the display of 'avatar' field will be private
-      return get(avatar, 'privacy') === 'public' ? avatar.display : undefined
-    }
-    if (
-      withdrawStatus === 'error' ||
-      type === EVENT_TYPE_BONUS ||
-      type === EVENT_TYPE_CLAIM ||
-      address === NULL_ADDRESS
-    ) {
-      return favicon
-    }
-    return getAvatarFromGun()
-  }
-
-  async _extractFullName(customName, profileToShow, initiatorType, initiator, type, address, displayName) {
-    const getFullNameFromGun = async () => {
-      const fullName = profileToShow && (await profileToShow.get('fullName').then(null, 500))
-      logger.debug('profileFromGun:', { fullName })
-
-      // verify account is not deleted and return value
-      // if account deleted - the display of 'fullName' field will be private
-      return get(fullName, 'privacy') === 'public' ? fullName.display : undefined
-    }
-
-    return (
-      customName || // if customName exist, use it
-      (await getFullNameFromGun()) || // if there's a profile, extract it's fullName
-      (initiatorType && initiator) ||
-      (type === EVENT_TYPE_CLAIM || address === NULL_ADDRESS ? 'GoodDollar' : displayName)
-    )
-  }
-
   /**
    * enqueue a new pending TX done on DAPP, to be later merged with the blockchain tx
    * the DAPP event can contain more details than the blockchain tx event
    * @param {FeedEvent} event
    * @returns {Promise<>}
    */
+  // eslint-disable-next-line require-await
   async enqueueTX(_event: FeedEvent): Promise<> {
-    const event = delUndefValNested(_event)
-
-    //a race exists between enqueuing and receipt from websockets/polling
-    const release = await this.feedMutex.lock()
-    try {
-      const existingEvent = this.feedIds[event.id]
-
-      if (existingEvent) {
-        logger.warn('enqueueTx skipping existing event id', event, existingEvent)
-        return false
-      }
-
-      event.status = event.status || 'pending'
-      event.createdDate = event.createdDate || new Date().toString()
-      event.date = event.date || event.createdDate
-
-      this.feedQ[event.id] = event
-
-      await this.updateFeedEvent(event)
-      logger.debug('enqueueTX ok:', { event })
-
-      return true
-    } catch (gunError) {
-      const e = this._gunException(gunError)
-
-      logger.error('enqueueTX failed: ', e.message, e, { event })
-      return false
-    } finally {
-      release()
-    }
-  }
-
-  /**
-   * remove and return pending TX
-   * @param eventId
-   * @returns {Promise<FeedEvent>}
-   */
-  dequeueTX(eventId: string): FeedEvent {
-    try {
-      const feedItem = this.feedQ[eventId]
-      logger.debug('dequeueTX got item', eventId, feedItem)
-      if (feedItem) {
-        delete this.feedQ[eventId]
-        return feedItem
-      }
-    } catch (e) {
-      logger.error('dequeueTX failed:', e.message, e)
-    }
+    return this.feedStorage.enqueueTX(_event)
   }
 
   /**
@@ -2332,20 +1649,9 @@ export class UserStorage {
    * @param {string} status
    * @returns {Promise<FeedEvent>}
    */
+  // eslint-disable-next-line require-await
   async updateEventStatus(eventId: string, status: string): Promise<FeedEvent> {
-    const feedEvent = await this.getFeedItemByTransactionHash(eventId)
-
-    feedEvent.status = status
-
-    return this.writeFeedEvent(feedEvent)
-      .then(_ => feedEvent)
-      .catch(e => {
-        logger.error('updateEventStatus failedEncrypt byId:', e.message, e, {
-          feedEvent,
-        })
-
-        return {}
-      })
+    return this.feedStorage.updateEventStatus(eventId, status)
   }
 
   /**
@@ -2354,20 +1660,9 @@ export class UserStorage {
    * @param {boolean} status
    * @returns {Promise<FeedEvent>}
    */
+  // eslint-disable-next-line require-await
   async updateFeedAnimationStatus(eventId: string, status = true): Promise<FeedEvent> {
-    const feedEvent = await this.getFeedItemByTransactionHash(eventId)
-
-    feedEvent.animationExecuted = status
-
-    return this.writeFeedEvent(feedEvent)
-      .then(_ => feedEvent)
-      .catch(e => {
-        logger.error('updateFeedAnimationStatus by ID failed:', e.message, e, {
-          feedEvent,
-        })
-
-        return {}
-      })
+    return this.feedStorage.updateFeedAnimationStatus(eventId, status)
   }
 
   /**
@@ -2376,18 +1671,9 @@ export class UserStorage {
    * @param {string} status
    * @returns {Promise<FeedEvent>}
    */
+  // eslint-disable-next-line require-await
   async updateOTPLEventStatus(eventId: string, status: string): Promise<FeedEvent> {
-    const feedEvent = await this.getFeedItemByTransactionHash(eventId)
-
-    feedEvent.otplStatus = status
-
-    return this.writeFeedEvent(feedEvent)
-      .then(_ => feedEvent)
-      .catch(e => {
-        logger.error('updateOTPLEventStatus failedEncrypt byId:', e.message, e, { feedEvent })
-
-        return {}
-      })
+    return this.feedStorage.updateOTPLEventStatus(eventId, status)
   }
 
   /**
@@ -2395,20 +1681,9 @@ export class UserStorage {
    * @param {string} txHash
    * @returns {Promise<void>}
    */
+  // eslint-disable-next-line require-await
   async markWithErrorEvent(txHash: string): Promise<void> {
-    if (txHash === undefined) {
-      return
-    }
-
-    const release = await this.feedMutex.lock()
-
-    try {
-      await this.updateEventStatus(txHash, 'error')
-    } catch (e) {
-      logger.error('Failed to set error status for feed event', e.message, e)
-    } finally {
-      release()
-    }
+    return this.feedStorage.markWithErrorEvent(txHash)
   }
 
   /**
@@ -2436,149 +1711,6 @@ export class UserStorage {
    */
   async cancelOTPLEvent(eventId: string): Promise<FeedEvent> {
     await this.updateOTPLEventStatus(eventId, 'cancelled')
-  }
-
-  /**
-   * Add or Update feed event
-   *
-   * @param {FeedEvent} event - Event to be updated
-   * @param {string|*} previouseventDate
-   * @returns {Promise} Promise with updated feed
-   */
-  async updateFeedEvent(event: FeedEvent, previouseventDate: string | void): Promise<FeedEvent> {
-    logger.debug('updateFeedEvent:', { event })
-
-    //saving index by onetime code so we can retrieve and update it once withdrawn
-    //or skip own withdraw
-    const { wallet, feed } = this
-    const { utils } = wallet.wallet
-    const { id: eventId, type, data } = event
-    let { date } = event
-    const { code, hashedCode } = data
-
-    if (code) {
-      let ownLink
-      const eventHashedCode = hashedCode || utils.sha3(code)
-      const codeToTxHashRef = feed.get('codeToTxHash')
-
-      switch (type) {
-        case EVENT_TYPE_SEND:
-          codeToTxHashRef.put({ [eventHashedCode]: eventId })
-          break
-        case EVENT_TYPE_WITHDRAW:
-          ownLink = await codeToTxHashRef.get(eventHashedCode).then()
-
-          if (!ownLink) {
-            break
-          }
-
-          logger.debug('updateFeedEvent: skipping own link withdraw', {
-            event,
-          })
-
-          delete this.feedQ[eventId]
-
-          return event
-        default:
-          break
-      }
-    }
-
-    date = new Date(date)
-
-    // force valid dates
-    date = isValidDate(date) ? date : new Date()
-    let day = `${date.toISOString().slice(0, 10)}`
-
-    //check if we need to update the day index location
-    if (previouseventDate) {
-      let prevdate = new Date(previouseventDate)
-      prevdate = isValidDate(prevdate) ? prevdate : date
-      let prevday = `${prevdate.toISOString().slice(0, 10)}`
-      if (day !== prevday) {
-        let dayEventsArr =
-          (await feed.get(prevday).then(data => (typeof data === 'string' ? JSON.parse(data) : data))) || []
-        let removePos = dayEventsArr.findIndex(e => e.id === event.id)
-        if (removePos >= 0) {
-          dayEventsArr.splice(removePos, 1)
-          feed.get(prevday).put(JSON.stringify(dayEventsArr))
-          feed
-            .get('index')
-            .get(prevday)
-            .put(dayEventsArr.length)
-        }
-      }
-    }
-
-    // Update dates index
-    let dayEventsArr = (await feed.get(day).then(data => (typeof data === 'string' ? JSON.parse(data) : data))) || []
-    let toUpd = find(dayEventsArr, e => e.id === event.id)
-    const eventIndexItem = { id: event.id, updateDate: event.date }
-    if (toUpd) {
-      merge(toUpd, eventIndexItem)
-    } else {
-      let insertPos = dayEventsArr.findIndex(e => date > new Date(e.updateDate))
-      if (insertPos >= 0) {
-        dayEventsArr.splice(insertPos, 0, eventIndexItem)
-      } else {
-        dayEventsArr.unshift(eventIndexItem)
-      }
-    }
-
-    logger.debug('updateFeedEvent starting encrypt', { dayEventsArr, toUpd, day })
-
-    //  set fullName and avatar to feed event
-    event = await this.setFeedEventProfileFields(event)
-
-    // Saving eventFeed by id
-    const eventAck = this.writeFeedEvent(event).catch(e => {
-      logger.error('updateFeedEvent failedEncrypt byId:', e.message, e, {
-        event,
-      })
-
-      return { err: e.message }
-    })
-
-    const saveDayIndexPtr = feed.get(day).putAck(JSON.stringify(dayEventsArr))
-
-    const saveDaySizePtr = feed
-      .get('index')
-      .get(day)
-      .putAck(dayEventsArr.length)
-
-    const saveAck =
-      saveDayIndexPtr && saveDayIndexPtr.then().catch(e => logger.error('updateFeedEvent dayIndex', e.message, e))
-
-    const ack =
-      saveDaySizePtr && saveDaySizePtr.then().catch(e => logger.error('updateFeedEvent daySize', e.message, e))
-
-    if (saveDayIndexPtr || saveDaySizePtr) {
-      logger.info('updateFeedEvent: Gun drain in process', {
-        saveDayIndexPtr,
-        saveDaySizePtr,
-      })
-    }
-
-    return Promise.all([saveAck, ack, eventAck])
-      .then(() => event)
-      .catch(gunError => {
-        const e = this._gunException(gunError)
-
-        logger.error('Save Indexes failed', e.message, e)
-      })
-  }
-
-  /**
-   * get transaction id from one time payment link code
-   * when a transaction to otpl is made and has the "code" field we index by it.
-   * @param {string} hashedCode sha3 of the code
-   * @returns transaction id that generated the code
-   */
-  getTransactionHashByCode(hashedCode: string): Promise<string> {
-    return this.feed
-      .get('codeToTxHash')
-      .get(hashedCode)
-      .then()
   }
 
   /**
@@ -2745,6 +1877,12 @@ export class UserStorage {
 
     logger.debug('deleteAccount', deleteResults)
     return true
+  }
+
+  async syncTxWithBlockchain(joinedAtBlockNumber) {
+    this.feedStorage.isEmitEvents = false
+    await this.wallet.syncTxWithBlockchain(joinedAtBlockNumber)
+    this.feedStorage.isEmitEvents = true
   }
 
   _gunException(gunError) {

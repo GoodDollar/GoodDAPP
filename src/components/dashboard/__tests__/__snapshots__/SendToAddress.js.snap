@@ -48,7 +48,6 @@ exports[`SendToAddress matches snapshot 1`] = `
         <div
           className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-qt01xk r-borderColor-y68mpx r-borderWidth-rs99b7 r-cursor-1loqt21 r-justifyContent-1777fci r-touchAction-1otgn73 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
           data-focusable={true}
-          disabled={false}
           onKeyDown={[Function]}
           onKeyUp={[Function]}
           onResponderGrant={[Function]}
@@ -64,6 +63,7 @@ exports[`SendToAddress matches snapshot 1`] = `
               "borderTopLeftRadius": "21px",
               "borderTopRightRadius": "21px",
               "height": "42px",
+              "opacity": 1,
               "width": "42px",
             }
           }
@@ -115,7 +115,7 @@ exports[`SendToAddress matches snapshot 1`] = `
               autoComplete="on"
               autoCorrect="on"
               autoFocus={true}
-              className="css-textinput-1cwyjr8 r-backgroundColor-14lw9ot r-borderBottomColor-1ny7kx0 r-borderBottomWidth-qklmqi r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-1i10wst r-marginTop-1t01tom r-paddingHorizontal-1dye5f7 r-paddingVertical-oyd9sg r-placeholderTextColor-1xktb6b r-textAlign-q4m81j"
+              className="css-textinput-11aywtz r-backgroundColor-14lw9ot r-borderBottomColor-1ny7kx0 r-borderBottomWidth-qklmqi r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-1i10wst r-marginTop-1t01tom r-paddingHorizontal-1dye5f7 r-paddingVertical-oyd9sg r-placeholderTextColor-1xktb6b r-textAlign-q4m81j"
               data-focusable={true}
               dir="auto"
               maxLength={128}
@@ -134,7 +134,6 @@ exports[`SendToAddress matches snapshot 1`] = `
             <div
               className="css-view-1dbjc4n r-bottom-ky29hr r-cursor-1loqt21 r-paddingTop-tskmnb r-position-u8s1d r-right-3mc0re r-touchAction-1otgn73 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-zIndex-184en5c"
               data-focusable={true}
-              disabled={false}
               onKeyDown={[Function]}
               onKeyUp={[Function]}
               onResponderGrant={[Function]}
@@ -143,6 +142,11 @@ exports[`SendToAddress matches snapshot 1`] = `
               onResponderTerminate={[Function]}
               onResponderTerminationRequest={[Function]}
               onStartShouldSetResponder={[Function]}
+              style={
+                Object {
+                  "opacity": 1,
+                }
+              }
               tabIndex="0"
             >
               <div
@@ -198,7 +202,6 @@ exports[`SendToAddress matches snapshot 1`] = `
           <div
             className="css-text-901oao r-color-11zaip3 r-flex-13awgt0 r-fontFamily-6jnb14 r-fontSize-vbi3md r-fontWeight-b88u0q r-letterSpacing-i0j7gm r-lineHeight-10yl4k r-paddingRight-1qortcd r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
             dir="auto"
-            letterSpacing={0.14}
           >
             Keep in mind - your G$ tokens are on an internal network and should be sent on the G$ network and not to Ethereum external wallets
           </div>
@@ -253,9 +256,8 @@ exports[`SendToAddress matches snapshot 1`] = `
             }
           >
             <div
-              className="css-cursor-18t94o4 css-view-1dbjc4n r-cursor-1loqt21 r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim r-touchAction-1otgn73"
+              className="css-cursor-18t94o4 css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
               data-focusable={true}
-              disabled={false}
               onKeyDown={[Function]}
               onKeyPress={[Function]}
               onKeyUp={[Function]}
@@ -275,6 +277,7 @@ exports[`SendToAddress matches snapshot 1`] = `
                   "borderTopLeftRadius": "50px",
                   "borderTopRightRadius": "50px",
                   "msFlexItemAlign": "stretch",
+                  "msGridRowAlign": "stretch",
                 }
               }
               tabIndex="0"
@@ -286,6 +289,7 @@ exports[`SendToAddress matches snapshot 1`] = `
                     "WebkitAlignSelf": "stretch",
                     "alignSelf": "stretch",
                     "msFlexItemAlign": "stretch",
+                    "msGridRowAlign": "stretch",
                   }
                 }
               >
@@ -355,13 +359,14 @@ exports[`SendToAddress matches snapshot 1`] = `
             }
           >
             <div
-              aria-disabled={true}
-              className="css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
-              disabled={true}
+              className="css-cursor-18t94o4 css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
+              data-focusable={true}
               onKeyDown={[Function]}
+              onKeyPress={[Function]}
               onKeyUp={[Function]}
               onResponderGrant={[Function]}
               onResponderMove={[Function]}
+              onResponderRelease={[Function]}
               onResponderTerminate={[Function]}
               onResponderTerminationRequest={[Function]}
               onStartShouldSetResponder={[Function]}
@@ -375,8 +380,10 @@ exports[`SendToAddress matches snapshot 1`] = `
                   "borderTopLeftRadius": "50px",
                   "borderTopRightRadius": "50px",
                   "msFlexItemAlign": "stretch",
+                  "msGridRowAlign": "stretch",
                 }
               }
+              tabIndex="0"
             >
               <div
                 className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
@@ -385,6 +392,7 @@ exports[`SendToAddress matches snapshot 1`] = `
                     "WebkitAlignSelf": "stretch",
                     "alignSelf": "stretch",
                     "msFlexItemAlign": "stretch",
+                    "msGridRowAlign": "stretch",
                   }
                 }
               >

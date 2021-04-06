@@ -6,17 +6,8 @@ exports[`FeedModalItem - Invite matches snapshot 1`] = `
 >
   <div
     className="css-view-1dbjc4n r-WebkitOverflowScrolling-150rngu r-flexDirection-eqz5dr r-flexGrow-16y2uox r-flexShrink-1wbh5a2 r-overflowX-11yh6sk r-overflowY-1rnoaur r-transform-1sncvnh"
-    onResponderGrant={[Function]}
-    onResponderReject={[Function]}
-    onResponderRelease={[Function]}
-    onResponderTerminationRequest={[Function]}
     onScroll={[Function]}
-    onScrollShouldSetResponder={[Function]}
-    onStartShouldSetResponder={[Function]}
-    onStartShouldSetResponderCapture={[Function]}
-    onTouchEnd={[Function]}
     onTouchMove={[Function]}
-    onTouchStart={[Function]}
     onWheel={[Function]}
   >
     <div
@@ -34,15 +25,12 @@ exports[`FeedModalItem - Invite matches snapshot 1`] = `
         }
       >
         <div
-          className="css-view-1dbjc4n r-flexGrow-16y2uox r-flexShrink-1q142lx r-width-13qz1uu"
+          className="css-view-1dbjc4n r-alignSelf-1kihuf0 r-flexGrow-16y2uox r-flexShrink-1q142lx r-width-13qz1uu"
           style={
             Object {
-              "WebkitAlignSelf": "center",
-              "alignSelf": "center",
               "marginBottom": "88.51948051948051px",
               "marginTop": "62.33766233766234px",
               "maxWidth": "475px",
-              "msFlexItemAlign": "center",
               "paddingLeft": "20px",
               "paddingRight": "20px",
             }
@@ -73,6 +61,11 @@ exports[`FeedModalItem - Invite matches snapshot 1`] = `
                 onResponderTerminate={[Function]}
                 onResponderTerminationRequest={[Function]}
                 onStartShouldSetResponder={[Function]}
+                style={
+                  Object {
+                    "opacity": 1,
+                  }
+                }
                 tabIndex="0"
               >
                 <div
@@ -161,15 +154,32 @@ exports[`FeedModalItem - Invite matches snapshot 1`] = `
                   </div>
                 </div>
                 <div
-                  className="css-view-1dbjc4n r-alignItems-obd0qt r-display-6koalj r-flexDirection-18u37iz r-flexWrap-1w6e6rj r-justifyContent-17s6mgv r-marginHorizontal-lz04qo r-marginTop-14gqq1x r-width-13qz1uu"
+                  className="css-view-1dbjc4n r-alignItems-1d09ksm r-display-6koalj r-flexDirection-18u37iz r-flexWrap-1w6e6rj r-justifyContent-1wtj0ep r-marginTop-14gqq1x r-width-13qz1uu"
                 >
                   <div
-                    className="css-view-1dbjc4n r-display-6koalj r-justifyContent-1777fci"
+                    className="css-view-1dbjc4n r-alignItems-1oszu61 r-alignSelf-1kihuf0 r-flex-13awgt0 r-flexDirection-eqz5dr r-justifyContent-1777fci"
+                  >
+                    <div
+                      className="css-text-901oao r-color-cddv6f r-cursor-1loqt21 r-fontFamily-vnw8o6 r-fontSize-1gkfh8e r-fontWeight-1it3c9n r-lineHeight-1b6yf8j r-textAlign-fdjqy7 r-textDecorationLine-1ddef8g r-textTransform-3twk1y"
+                      data-focusable={true}
+                      dir="auto"
+                      onClick={[Function]}
+                      onKeyDown={[Function]}
+                      tabIndex="0"
+                    >
+                      Transaction Details
+                    </div>
+                    <div
+                      className="css-text-901oao css-textOneLine-bfa6kz r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1gkfh8e r-fontWeight-1it3c9n r-lineHeight-1b6yf8j r-maxWidth-x1dlf0 r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                      dir="auto"
+                    >
+                      0x9812619905da200c4effe8cd2ca4b2b31eeddf133f8fd283069d2e5aec3b9f77
+                    </div>
+                  </div>
+                  <div
+                    className="css-view-1dbjc4n r-alignItems-1oszu61 r-display-6koalj r-justifyContent-1777fci"
                     style={
                       Object {
-                        "WebkitAlignItems": "stretch",
-                        "WebkitBoxAlign": "stretch",
-                        "alignItems": "stretch",
                         "backgroundColor": "rgba(0,175,255,1.00)",
                         "borderBottomColor": "rgba(0,175,255,1.00)",
                         "borderBottomLeftRadius": "50px",
@@ -194,7 +204,6 @@ exports[`FeedModalItem - Invite matches snapshot 1`] = `
                         "marginTop": "0px",
                         "minHeight": "44px",
                         "minWidth": "96px",
-                        "msFlexAlign": "stretch",
                         "paddingBottom": "0px",
                         "paddingLeft": "0px",
                         "paddingRight": "0px",
@@ -203,9 +212,8 @@ exports[`FeedModalItem - Invite matches snapshot 1`] = `
                     }
                   >
                     <div
-                      className="css-cursor-18t94o4 css-view-1dbjc4n r-cursor-1loqt21 r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim r-touchAction-1otgn73"
+                      className="css-cursor-18t94o4 css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
                       data-focusable={true}
-                      disabled={false}
                       onKeyDown={[Function]}
                       onKeyPress={[Function]}
                       onKeyUp={[Function]}
@@ -225,6 +233,7 @@ exports[`FeedModalItem - Invite matches snapshot 1`] = `
                           "borderTopLeftRadius": "50px",
                           "borderTopRightRadius": "50px",
                           "msFlexItemAlign": "stretch",
+                          "msGridRowAlign": "stretch",
                         }
                       }
                       tabIndex="0"
@@ -236,6 +245,7 @@ exports[`FeedModalItem - Invite matches snapshot 1`] = `
                             "WebkitAlignSelf": "stretch",
                             "alignSelf": "stretch",
                             "msFlexItemAlign": "stretch",
+                            "msGridRowAlign": "stretch",
                           }
                         }
                       >
@@ -273,17 +283,8 @@ exports[`FeedModalItem - Message matches snapshot 1`] = `
 >
   <div
     className="css-view-1dbjc4n r-WebkitOverflowScrolling-150rngu r-flexDirection-eqz5dr r-flexGrow-16y2uox r-flexShrink-1wbh5a2 r-overflowX-11yh6sk r-overflowY-1rnoaur r-transform-1sncvnh"
-    onResponderGrant={[Function]}
-    onResponderReject={[Function]}
-    onResponderRelease={[Function]}
-    onResponderTerminationRequest={[Function]}
     onScroll={[Function]}
-    onScrollShouldSetResponder={[Function]}
-    onStartShouldSetResponder={[Function]}
-    onStartShouldSetResponderCapture={[Function]}
-    onTouchEnd={[Function]}
     onTouchMove={[Function]}
-    onTouchStart={[Function]}
     onWheel={[Function]}
   >
     <div
@@ -301,15 +302,12 @@ exports[`FeedModalItem - Message matches snapshot 1`] = `
         }
       >
         <div
-          className="css-view-1dbjc4n r-flexGrow-16y2uox r-flexShrink-1q142lx r-width-13qz1uu"
+          className="css-view-1dbjc4n r-alignSelf-1kihuf0 r-flexGrow-16y2uox r-flexShrink-1q142lx r-width-13qz1uu"
           style={
             Object {
-              "WebkitAlignSelf": "center",
-              "alignSelf": "center",
               "marginBottom": "88.51948051948051px",
               "marginTop": "62.33766233766234px",
               "maxWidth": "475px",
-              "msFlexItemAlign": "center",
               "paddingLeft": "20px",
               "paddingRight": "20px",
             }
@@ -340,6 +338,11 @@ exports[`FeedModalItem - Message matches snapshot 1`] = `
                 onResponderTerminate={[Function]}
                 onResponderTerminationRequest={[Function]}
                 onStartShouldSetResponder={[Function]}
+                style={
+                  Object {
+                    "opacity": 1,
+                  }
+                }
                 tabIndex="0"
               >
                 <div
@@ -418,6 +421,7 @@ exports[`FeedModalItem - Message matches snapshot 1`] = `
                         "borderTopLeftRadius": "17px",
                         "borderTopRightRadius": "17px",
                         "height": "34px",
+                        "opacity": 1,
                         "width": "34px",
                       }
                     }
@@ -508,15 +512,32 @@ exports[`FeedModalItem - Message matches snapshot 1`] = `
                   </div>
                 </div>
                 <div
-                  className="css-view-1dbjc4n r-alignItems-obd0qt r-display-6koalj r-flexDirection-18u37iz r-flexWrap-1w6e6rj r-justifyContent-17s6mgv r-marginHorizontal-lz04qo r-marginTop-14gqq1x r-width-13qz1uu"
+                  className="css-view-1dbjc4n r-alignItems-1d09ksm r-display-6koalj r-flexDirection-18u37iz r-flexWrap-1w6e6rj r-justifyContent-1wtj0ep r-marginTop-14gqq1x r-width-13qz1uu"
                 >
                   <div
-                    className="css-view-1dbjc4n r-display-6koalj r-justifyContent-1777fci"
+                    className="css-view-1dbjc4n r-alignItems-1oszu61 r-alignSelf-1kihuf0 r-flex-13awgt0 r-flexDirection-eqz5dr r-justifyContent-1777fci"
+                  >
+                    <div
+                      className="css-text-901oao r-color-cddv6f r-cursor-1loqt21 r-fontFamily-vnw8o6 r-fontSize-1gkfh8e r-fontWeight-1it3c9n r-lineHeight-1b6yf8j r-textAlign-fdjqy7 r-textDecorationLine-1ddef8g r-textTransform-3twk1y"
+                      data-focusable={true}
+                      dir="auto"
+                      onClick={[Function]}
+                      onKeyDown={[Function]}
+                      tabIndex="0"
+                    >
+                      Transaction Details
+                    </div>
+                    <div
+                      className="css-text-901oao css-textOneLine-bfa6kz r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1gkfh8e r-fontWeight-1it3c9n r-lineHeight-1b6yf8j r-maxWidth-x1dlf0 r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                      dir="auto"
+                    >
+                      0x9812619905da200c4effe8cd2ca4b2b31eeddf133f8fd283069d2e5aec3b9f77
+                    </div>
+                  </div>
+                  <div
+                    className="css-view-1dbjc4n r-alignItems-1oszu61 r-display-6koalj r-justifyContent-1777fci"
                     style={
                       Object {
-                        "WebkitAlignItems": "stretch",
-                        "WebkitBoxAlign": "stretch",
-                        "alignItems": "stretch",
                         "backgroundColor": "rgba(0,175,255,1.00)",
                         "borderBottomColor": "rgba(0,175,255,1.00)",
                         "borderBottomLeftRadius": "50px",
@@ -541,7 +562,6 @@ exports[`FeedModalItem - Message matches snapshot 1`] = `
                         "marginTop": "0px",
                         "minHeight": "44px",
                         "minWidth": "96px",
-                        "msFlexAlign": "stretch",
                         "paddingBottom": "0px",
                         "paddingLeft": "0px",
                         "paddingRight": "0px",
@@ -550,9 +570,8 @@ exports[`FeedModalItem - Message matches snapshot 1`] = `
                     }
                   >
                     <div
-                      className="css-cursor-18t94o4 css-view-1dbjc4n r-cursor-1loqt21 r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim r-touchAction-1otgn73"
+                      className="css-cursor-18t94o4 css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
                       data-focusable={true}
-                      disabled={false}
                       onKeyDown={[Function]}
                       onKeyPress={[Function]}
                       onKeyUp={[Function]}
@@ -572,6 +591,7 @@ exports[`FeedModalItem - Message matches snapshot 1`] = `
                           "borderTopLeftRadius": "50px",
                           "borderTopRightRadius": "50px",
                           "msFlexItemAlign": "stretch",
+                          "msGridRowAlign": "stretch",
                         }
                       }
                       tabIndex="0"
@@ -583,6 +603,7 @@ exports[`FeedModalItem - Message matches snapshot 1`] = `
                             "WebkitAlignSelf": "stretch",
                             "alignSelf": "stretch",
                             "msFlexItemAlign": "stretch",
+                            "msGridRowAlign": "stretch",
                           }
                         }
                       >
@@ -620,17 +641,8 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
 >
   <div
     className="css-view-1dbjc4n r-WebkitOverflowScrolling-150rngu r-flexDirection-eqz5dr r-flexGrow-16y2uox r-flexShrink-1wbh5a2 r-overflowX-11yh6sk r-overflowY-1rnoaur r-transform-1sncvnh"
-    onResponderGrant={[Function]}
-    onResponderReject={[Function]}
-    onResponderRelease={[Function]}
-    onResponderTerminationRequest={[Function]}
     onScroll={[Function]}
-    onScrollShouldSetResponder={[Function]}
-    onStartShouldSetResponder={[Function]}
-    onStartShouldSetResponderCapture={[Function]}
-    onTouchEnd={[Function]}
     onTouchMove={[Function]}
-    onTouchStart={[Function]}
     onWheel={[Function]}
   >
     <div
@@ -648,15 +660,12 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
         }
       >
         <div
-          className="css-view-1dbjc4n r-flexGrow-16y2uox r-flexShrink-1q142lx r-width-13qz1uu"
+          className="css-view-1dbjc4n r-alignSelf-1kihuf0 r-flexGrow-16y2uox r-flexShrink-1q142lx r-width-13qz1uu"
           style={
             Object {
-              "WebkitAlignSelf": "center",
-              "alignSelf": "center",
               "marginBottom": "88.51948051948051px",
               "marginTop": "62.33766233766234px",
               "maxWidth": "475px",
-              "msFlexItemAlign": "center",
               "paddingLeft": "20px",
               "paddingRight": "20px",
             }
@@ -687,6 +696,11 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                 onResponderTerminate={[Function]}
                 onResponderTerminationRequest={[Function]}
                 onStartShouldSetResponder={[Function]}
+                style={
+                  Object {
+                    "opacity": 1,
+                  }
+                }
                 tabIndex="0"
               >
                 <div
@@ -782,6 +796,7 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                         "borderTopLeftRadius": "17px",
                         "borderTopRightRadius": "17px",
                         "height": "34px",
+                        "opacity": 1,
                         "width": "34px",
                       }
                     }
@@ -866,15 +881,32 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                   </div>
                 </div>
                 <div
-                  className="css-view-1dbjc4n r-alignItems-obd0qt r-display-6koalj r-flexDirection-18u37iz r-flexWrap-1w6e6rj r-justifyContent-17s6mgv r-marginHorizontal-lz04qo r-marginTop-14gqq1x r-width-13qz1uu"
+                  className="css-view-1dbjc4n r-alignItems-1d09ksm r-display-6koalj r-flexDirection-18u37iz r-flexWrap-1w6e6rj r-justifyContent-1wtj0ep r-marginTop-14gqq1x r-width-13qz1uu"
                 >
                   <div
-                    className="css-view-1dbjc4n r-display-6koalj r-justifyContent-1777fci"
+                    className="css-view-1dbjc4n r-alignItems-1oszu61 r-alignSelf-1kihuf0 r-flex-13awgt0 r-flexDirection-eqz5dr r-justifyContent-1777fci"
+                  >
+                    <div
+                      className="css-text-901oao r-color-cddv6f r-cursor-1loqt21 r-fontFamily-vnw8o6 r-fontSize-1gkfh8e r-fontWeight-1it3c9n r-lineHeight-1b6yf8j r-textAlign-fdjqy7 r-textDecorationLine-1ddef8g r-textTransform-3twk1y"
+                      data-focusable={true}
+                      dir="auto"
+                      onClick={[Function]}
+                      onKeyDown={[Function]}
+                      tabIndex="0"
+                    >
+                      Transaction Details
+                    </div>
+                    <div
+                      className="css-text-901oao css-textOneLine-bfa6kz r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1gkfh8e r-fontWeight-1it3c9n r-lineHeight-1b6yf8j r-maxWidth-x1dlf0 r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                      dir="auto"
+                    >
+                      0x9812619905da200c4effe8cd2ca4b2b31eeddf133f8fd283069d2e5aec3b9f77
+                    </div>
+                  </div>
+                  <div
+                    className="css-view-1dbjc4n r-alignItems-1oszu61 r-display-6koalj r-justifyContent-1777fci"
                     style={
                       Object {
-                        "WebkitAlignItems": "stretch",
-                        "WebkitBoxAlign": "stretch",
-                        "alignItems": "stretch",
                         "backgroundColor": "rgba(0,175,255,1.00)",
                         "borderBottomColor": "rgba(0,175,255,1.00)",
                         "borderBottomLeftRadius": "50px",
@@ -899,7 +931,6 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                         "marginTop": "0px",
                         "minHeight": "44px",
                         "minWidth": "96px",
-                        "msFlexAlign": "stretch",
                         "paddingBottom": "0px",
                         "paddingLeft": "0px",
                         "paddingRight": "0px",
@@ -908,9 +939,8 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                     }
                   >
                     <div
-                      className="css-cursor-18t94o4 css-view-1dbjc4n r-cursor-1loqt21 r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim r-touchAction-1otgn73"
+                      className="css-cursor-18t94o4 css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
                       data-focusable={true}
-                      disabled={false}
                       onKeyDown={[Function]}
                       onKeyPress={[Function]}
                       onKeyUp={[Function]}
@@ -930,6 +960,7 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                           "borderTopLeftRadius": "50px",
                           "borderTopRightRadius": "50px",
                           "msFlexItemAlign": "stretch",
+                          "msGridRowAlign": "stretch",
                         }
                       }
                       tabIndex="0"
@@ -941,6 +972,7 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                             "WebkitAlignSelf": "stretch",
                             "alignSelf": "stretch",
                             "msFlexItemAlign": "stretch",
+                            "msGridRowAlign": "stretch",
                           }
                         }
                       >
@@ -978,17 +1010,8 @@ exports[`FeedModalItem - Send with Error status matches snapshot 1`] = `
 >
   <div
     className="css-view-1dbjc4n r-WebkitOverflowScrolling-150rngu r-flexDirection-eqz5dr r-flexGrow-16y2uox r-flexShrink-1wbh5a2 r-overflowX-11yh6sk r-overflowY-1rnoaur r-transform-1sncvnh"
-    onResponderGrant={[Function]}
-    onResponderReject={[Function]}
-    onResponderRelease={[Function]}
-    onResponderTerminationRequest={[Function]}
     onScroll={[Function]}
-    onScrollShouldSetResponder={[Function]}
-    onStartShouldSetResponder={[Function]}
-    onStartShouldSetResponderCapture={[Function]}
-    onTouchEnd={[Function]}
     onTouchMove={[Function]}
-    onTouchStart={[Function]}
     onWheel={[Function]}
   >
     <div
@@ -1006,15 +1029,12 @@ exports[`FeedModalItem - Send with Error status matches snapshot 1`] = `
         }
       >
         <div
-          className="css-view-1dbjc4n r-flexGrow-16y2uox r-flexShrink-1q142lx r-width-13qz1uu"
+          className="css-view-1dbjc4n r-alignSelf-1kihuf0 r-flexGrow-16y2uox r-flexShrink-1q142lx r-width-13qz1uu"
           style={
             Object {
-              "WebkitAlignSelf": "center",
-              "alignSelf": "center",
               "marginBottom": "88.51948051948051px",
               "marginTop": "62.33766233766234px",
               "maxWidth": "475px",
-              "msFlexItemAlign": "center",
               "paddingLeft": "20px",
               "paddingRight": "20px",
             }
@@ -1045,6 +1065,11 @@ exports[`FeedModalItem - Send with Error status matches snapshot 1`] = `
                 onResponderTerminate={[Function]}
                 onResponderTerminationRequest={[Function]}
                 onStartShouldSetResponder={[Function]}
+                style={
+                  Object {
+                    "opacity": 1,
+                  }
+                }
                 tabIndex="0"
               >
                 <div
@@ -1140,6 +1165,7 @@ exports[`FeedModalItem - Send with Error status matches snapshot 1`] = `
                         "borderTopLeftRadius": "17px",
                         "borderTopRightRadius": "17px",
                         "height": "34px",
+                        "opacity": 1,
                         "width": "34px",
                       }
                     }
@@ -1224,15 +1250,32 @@ exports[`FeedModalItem - Send with Error status matches snapshot 1`] = `
                   </div>
                 </div>
                 <div
-                  className="css-view-1dbjc4n r-alignItems-obd0qt r-display-6koalj r-flexDirection-18u37iz r-flexWrap-1w6e6rj r-justifyContent-17s6mgv r-marginHorizontal-lz04qo r-marginTop-14gqq1x r-width-13qz1uu"
+                  className="css-view-1dbjc4n r-alignItems-1d09ksm r-display-6koalj r-flexDirection-18u37iz r-flexWrap-1w6e6rj r-justifyContent-1wtj0ep r-marginTop-14gqq1x r-width-13qz1uu"
                 >
                   <div
-                    className="css-view-1dbjc4n r-display-6koalj r-justifyContent-1777fci"
+                    className="css-view-1dbjc4n r-alignItems-1oszu61 r-alignSelf-1kihuf0 r-flex-13awgt0 r-flexDirection-eqz5dr r-justifyContent-1777fci"
+                  >
+                    <div
+                      className="css-text-901oao r-color-cddv6f r-cursor-1loqt21 r-fontFamily-vnw8o6 r-fontSize-1gkfh8e r-fontWeight-1it3c9n r-lineHeight-1b6yf8j r-textAlign-fdjqy7 r-textDecorationLine-1ddef8g r-textTransform-3twk1y"
+                      data-focusable={true}
+                      dir="auto"
+                      onClick={[Function]}
+                      onKeyDown={[Function]}
+                      tabIndex="0"
+                    >
+                      Transaction Details
+                    </div>
+                    <div
+                      className="css-text-901oao css-textOneLine-bfa6kz r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1gkfh8e r-fontWeight-1it3c9n r-lineHeight-1b6yf8j r-maxWidth-x1dlf0 r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                      dir="auto"
+                    >
+                      0x9812619905da200c4effe8cd2ca4b2b31eeddf133f8fd283069d2e5aec3b9f77
+                    </div>
+                  </div>
+                  <div
+                    className="css-view-1dbjc4n r-alignItems-1oszu61 r-display-6koalj r-justifyContent-1777fci"
                     style={
                       Object {
-                        "WebkitAlignItems": "stretch",
-                        "WebkitBoxAlign": "stretch",
-                        "alignItems": "stretch",
                         "backgroundColor": "rgba(0,175,255,1.00)",
                         "borderBottomColor": "rgba(0,175,255,1.00)",
                         "borderBottomLeftRadius": "50px",
@@ -1257,7 +1300,6 @@ exports[`FeedModalItem - Send with Error status matches snapshot 1`] = `
                         "marginTop": "0px",
                         "minHeight": "44px",
                         "minWidth": "96px",
-                        "msFlexAlign": "stretch",
                         "paddingBottom": "0px",
                         "paddingLeft": "0px",
                         "paddingRight": "0px",
@@ -1266,9 +1308,8 @@ exports[`FeedModalItem - Send with Error status matches snapshot 1`] = `
                     }
                   >
                     <div
-                      className="css-cursor-18t94o4 css-view-1dbjc4n r-cursor-1loqt21 r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim r-touchAction-1otgn73"
+                      className="css-cursor-18t94o4 css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
                       data-focusable={true}
-                      disabled={false}
                       onKeyDown={[Function]}
                       onKeyPress={[Function]}
                       onKeyUp={[Function]}
@@ -1288,6 +1329,7 @@ exports[`FeedModalItem - Send with Error status matches snapshot 1`] = `
                           "borderTopLeftRadius": "50px",
                           "borderTopRightRadius": "50px",
                           "msFlexItemAlign": "stretch",
+                          "msGridRowAlign": "stretch",
                         }
                       }
                       tabIndex="0"
@@ -1299,6 +1341,7 @@ exports[`FeedModalItem - Send with Error status matches snapshot 1`] = `
                             "WebkitAlignSelf": "stretch",
                             "alignSelf": "stretch",
                             "msFlexItemAlign": "stretch",
+                            "msGridRowAlign": "stretch",
                           }
                         }
                       >
@@ -1336,17 +1379,8 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
 >
   <div
     className="css-view-1dbjc4n r-WebkitOverflowScrolling-150rngu r-flexDirection-eqz5dr r-flexGrow-16y2uox r-flexShrink-1wbh5a2 r-overflowX-11yh6sk r-overflowY-1rnoaur r-transform-1sncvnh"
-    onResponderGrant={[Function]}
-    onResponderReject={[Function]}
-    onResponderRelease={[Function]}
-    onResponderTerminationRequest={[Function]}
     onScroll={[Function]}
-    onScrollShouldSetResponder={[Function]}
-    onStartShouldSetResponder={[Function]}
-    onStartShouldSetResponderCapture={[Function]}
-    onTouchEnd={[Function]}
     onTouchMove={[Function]}
-    onTouchStart={[Function]}
     onWheel={[Function]}
   >
     <div
@@ -1364,15 +1398,12 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
         }
       >
         <div
-          className="css-view-1dbjc4n r-flexGrow-16y2uox r-flexShrink-1q142lx r-width-13qz1uu"
+          className="css-view-1dbjc4n r-alignSelf-1kihuf0 r-flexGrow-16y2uox r-flexShrink-1q142lx r-width-13qz1uu"
           style={
             Object {
-              "WebkitAlignSelf": "center",
-              "alignSelf": "center",
               "marginBottom": "88.51948051948051px",
               "marginTop": "62.33766233766234px",
               "maxWidth": "475px",
-              "msFlexItemAlign": "center",
               "paddingLeft": "20px",
               "paddingRight": "20px",
             }
@@ -1403,6 +1434,11 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                 onResponderTerminate={[Function]}
                 onResponderTerminationRequest={[Function]}
                 onStartShouldSetResponder={[Function]}
+                style={
+                  Object {
+                    "opacity": 1,
+                  }
+                }
                 tabIndex="0"
               >
                 <div
@@ -1498,6 +1534,7 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                         "borderTopLeftRadius": "17px",
                         "borderTopRightRadius": "17px",
                         "height": "34px",
+                        "opacity": 1,
                         "width": "34px",
                       }
                     }
@@ -1582,15 +1619,32 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                   </div>
                 </div>
                 <div
-                  className="css-view-1dbjc4n r-alignItems-obd0qt r-display-6koalj r-flexDirection-18u37iz r-flexWrap-1w6e6rj r-justifyContent-17s6mgv r-marginHorizontal-lz04qo r-marginTop-14gqq1x r-width-13qz1uu"
+                  className="css-view-1dbjc4n r-alignItems-1d09ksm r-display-6koalj r-flexDirection-18u37iz r-flexWrap-1w6e6rj r-justifyContent-1wtj0ep r-marginTop-14gqq1x r-width-13qz1uu"
                 >
                   <div
-                    className="css-view-1dbjc4n r-display-6koalj r-justifyContent-1777fci"
+                    className="css-view-1dbjc4n r-alignItems-1oszu61 r-alignSelf-1kihuf0 r-flex-13awgt0 r-flexDirection-eqz5dr r-justifyContent-1777fci"
+                  >
+                    <div
+                      className="css-text-901oao r-color-cddv6f r-cursor-1loqt21 r-fontFamily-vnw8o6 r-fontSize-1gkfh8e r-fontWeight-1it3c9n r-lineHeight-1b6yf8j r-textAlign-fdjqy7 r-textDecorationLine-1ddef8g r-textTransform-3twk1y"
+                      data-focusable={true}
+                      dir="auto"
+                      onClick={[Function]}
+                      onKeyDown={[Function]}
+                      tabIndex="0"
+                    >
+                      Transaction Details
+                    </div>
+                    <div
+                      className="css-text-901oao css-textOneLine-bfa6kz r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1gkfh8e r-fontWeight-1it3c9n r-lineHeight-1b6yf8j r-maxWidth-x1dlf0 r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                      dir="auto"
+                    >
+                      0x9812619905da200c4effe8cd2ca4b2b31eeddf133f8fd283069d2e5aec3b9f77
+                    </div>
+                  </div>
+                  <div
+                    className="css-view-1dbjc4n r-alignItems-1oszu61 r-display-6koalj r-justifyContent-1777fci"
                     style={
                       Object {
-                        "WebkitAlignItems": "stretch",
-                        "WebkitBoxAlign": "stretch",
-                        "alignItems": "stretch",
                         "backgroundColor": "rgba(0,175,255,1.00)",
                         "borderBottomColor": "rgba(0,175,255,1.00)",
                         "borderBottomLeftRadius": "50px",
@@ -1615,7 +1669,6 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                         "marginTop": "0px",
                         "minHeight": "44px",
                         "minWidth": "96px",
-                        "msFlexAlign": "stretch",
                         "paddingBottom": "0px",
                         "paddingLeft": "0px",
                         "paddingRight": "0px",
@@ -1624,9 +1677,8 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                     }
                   >
                     <div
-                      className="css-cursor-18t94o4 css-view-1dbjc4n r-cursor-1loqt21 r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim r-touchAction-1otgn73"
+                      className="css-cursor-18t94o4 css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
                       data-focusable={true}
-                      disabled={false}
                       onKeyDown={[Function]}
                       onKeyPress={[Function]}
                       onKeyUp={[Function]}
@@ -1646,6 +1698,7 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                           "borderTopLeftRadius": "50px",
                           "borderTopRightRadius": "50px",
                           "msFlexItemAlign": "stretch",
+                          "msGridRowAlign": "stretch",
                         }
                       }
                       tabIndex="0"
@@ -1657,6 +1710,7 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                             "WebkitAlignSelf": "stretch",
                             "alignSelf": "stretch",
                             "msFlexItemAlign": "stretch",
+                            "msGridRowAlign": "stretch",
                           }
                         }
                       >

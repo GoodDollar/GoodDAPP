@@ -31,12 +31,10 @@ exports[`TransactionConfirmation matches snapshot 1`] = `
           <div
             className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-letterSpacing-uz4sb0 r-lineHeight-vrz42v r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
             dir="auto"
-            letterSpacing={0.16}
           >
             <span
               className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-b88u0q r-letterSpacing-uz4sb0 r-lineHeight-vrz42v r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
               dir="auto"
-              letterSpacing={0.16}
             >
               1. 
             </span>
@@ -45,12 +43,10 @@ exports[`TransactionConfirmation matches snapshot 1`] = `
           <div
             className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-letterSpacing-uz4sb0 r-lineHeight-vrz42v r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
             dir="auto"
-            letterSpacing={0.16}
           >
             <span
               className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-b88u0q r-letterSpacing-uz4sb0 r-lineHeight-vrz42v r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
               dir="auto"
-              letterSpacing={0.16}
             >
               2. 
             </span>
@@ -59,12 +55,10 @@ exports[`TransactionConfirmation matches snapshot 1`] = `
           <div
             className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-letterSpacing-uz4sb0 r-lineHeight-vrz42v r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
             dir="auto"
-            letterSpacing={0.16}
           >
             <span
               className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-b88u0q r-letterSpacing-uz4sb0 r-lineHeight-vrz42v r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
               dir="auto"
-              letterSpacing={0.16}
             >
               3. 
             </span>
@@ -73,12 +67,10 @@ exports[`TransactionConfirmation matches snapshot 1`] = `
           <div
             className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-letterSpacing-uz4sb0 r-lineHeight-vrz42v r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
             dir="auto"
-            letterSpacing={0.16}
           >
             <span
               className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-b88u0q r-letterSpacing-uz4sb0 r-lineHeight-vrz42v r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
               dir="auto"
-              letterSpacing={0.16}
             >
               4. 
             </span>
@@ -97,7 +89,6 @@ exports[`TransactionConfirmation matches snapshot 1`] = `
         <div
           className="css-view-1dbjc4n r-cursor-1loqt21 r-touchAction-1otgn73 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-width-13qz1uu"
           data-focusable={true}
-          disabled={false}
           onKeyDown={[Function]}
           onKeyUp={[Function]}
           onResponderGrant={[Function]}
@@ -106,6 +97,11 @@ exports[`TransactionConfirmation matches snapshot 1`] = `
           onResponderTerminate={[Function]}
           onResponderTerminationRequest={[Function]}
           onStartShouldSetResponder={[Function]}
+          style={
+            Object {
+              "opacity": 1,
+            }
+          }
           tabIndex="0"
         >
           <div

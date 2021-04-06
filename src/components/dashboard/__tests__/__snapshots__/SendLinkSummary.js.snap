@@ -48,7 +48,6 @@ exports[`SendLinkSummary matches snapshot 1`] = `
         <div
           className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-qt01xk r-borderColor-y68mpx r-borderWidth-rs99b7 r-cursor-1loqt21 r-justifyContent-1777fci r-touchAction-1otgn73 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
           data-focusable={true}
-          disabled={false}
           onKeyDown={[Function]}
           onKeyUp={[Function]}
           onResponderGrant={[Function]}
@@ -64,6 +63,7 @@ exports[`SendLinkSummary matches snapshot 1`] = `
               "borderTopLeftRadius": "21px",
               "borderTopRightRadius": "21px",
               "height": "42px",
+              "opacity": 1,
               "width": "42px",
             }
           }
@@ -213,9 +213,8 @@ a few seconds to complete
             }
           >
             <div
-              className="css-cursor-18t94o4 css-view-1dbjc4n r-cursor-1loqt21 r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim r-touchAction-1otgn73"
+              className="css-cursor-18t94o4 css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
               data-focusable={true}
-              disabled={false}
               onKeyDown={[Function]}
               onKeyPress={[Function]}
               onKeyUp={[Function]}
@@ -235,6 +234,7 @@ a few seconds to complete
                   "borderTopLeftRadius": "50px",
                   "borderTopRightRadius": "50px",
                   "msFlexItemAlign": "stretch",
+                  "msGridRowAlign": "stretch",
                 }
               }
               tabIndex="0"
@@ -246,6 +246,7 @@ a few seconds to complete
                     "WebkitAlignSelf": "stretch",
                     "alignSelf": "stretch",
                     "msFlexItemAlign": "stretch",
+                    "msGridRowAlign": "stretch",
                   }
                 }
               >
@@ -314,9 +315,8 @@ a few seconds to complete
             }
           >
             <div
-              className="css-cursor-18t94o4 css-view-1dbjc4n r-cursor-1loqt21 r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim r-touchAction-1otgn73"
+              className="css-cursor-18t94o4 css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
               data-focusable={true}
-              disabled={false}
               onKeyDown={[Function]}
               onKeyPress={[Function]}
               onKeyUp={[Function]}
@@ -336,6 +336,7 @@ a few seconds to complete
                   "borderTopLeftRadius": "50px",
                   "borderTopRightRadius": "50px",
                   "msFlexItemAlign": "stretch",
+                  "msGridRowAlign": "stretch",
                 }
               }
               tabIndex="0"
@@ -347,6 +348,7 @@ a few seconds to complete
                     "WebkitAlignSelf": "stretch",
                     "alignSelf": "stretch",
                     "msFlexItemAlign": "stretch",
+                    "msGridRowAlign": "stretch",
                   }
                 }
               >

@@ -2,7 +2,7 @@
 
 import React, { useCallback, useEffect, useState } from 'react'
 import { View } from 'react-native'
-import { pickBy } from 'lodash'
+import { get, pickBy } from 'lodash'
 
 import CustomButton from '../buttons/CustomButton'
 import ShareButton from '../buttons/ShareButton'
@@ -16,7 +16,9 @@ import { decorate, ExceptionCategory, ExceptionCode } from '../../../lib/logger/
 import normalize from '../../../lib/utils/normalizeText'
 import userStorage from '../../../lib/gundb/UserStorage'
 import goodWallet from '../../../lib/wallet/GoodWallet'
+import { openLink } from '../../../lib/utils/linking'
 import { withStyles } from '../../../lib/styles'
+import Section from '../../common/layout/Section'
 
 import { CLICK_BTN_CARD_ACTION, fireEvent } from '../../../lib/analytics/analytics'
 import config from '../../../config/config'
@@ -89,7 +91,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
 
   const generatePaymentLinkForShare = useCallback(() => {
     const { withdrawCode, message, amount, endpoint = {} } = item.data || {}
-    const { fullName } = endpoint
+    const { displayName } = endpoint
 
     try {
       const url = generateShareLink(
@@ -101,7 +103,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
         }),
       )
 
-      let result = generateSendShareObject(url, amount, fullName, currentUserName)
+      let result = generateSendShareObject(url, amount, displayName, currentUserName)
 
       return result
     } catch (exception) {
@@ -270,15 +272,40 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
       )
     case 'empty':
       return null
-    default:
+    default: {
+      const txHash = get(item, 'data.receiptHash', item.id)
+      const isTx = txHash.startsWith('0x')
+
       // claim / receive / withdraw / notification / sendcancelled / sendcompleted
       return (
-        <View style={styles.buttonsView}>
+        <Section.Row style={[styles.buttonsView, isTx && styles.linkButtonView]}>
+          {isTx && (
+            <Section.Stack style={styles.txHashWrapper}>
+              <Section.Text
+                fontSize={11}
+                textDecorationLine="underline"
+                onPress={() => openLink('https://explorer.fuse.io/tx/' + txHash)}
+                textAlign="left"
+              >
+                {`Transaction Details`}
+              </Section.Text>
+              <Section.Text
+                fontSize={11}
+                numberOfLines={1}
+                ellipsizeMode="middle"
+                style={styles.txHash}
+                textAlign="left"
+              >
+                {txHash}
+              </Section.Text>
+            </Section.Stack>
+          )}
           <ModalButton fontWeight="medium" mode="contained" onPress={_handleModalClose}>
             Ok
           </ModalButton>
-        </View>
+        </Section.Row>
       )
+    }
   }
 }
 
@@ -290,9 +317,14 @@ const getStylesFromProps = ({ theme }) => ({
     justifyContent: 'flex-end',
     marginTop: theme.sizes.defaultHalf,
     flexWrap: 'wrap',
-    marginHorizontal: -theme.sizes.defaultHalf,
     width: '100%',
   },
+  linkButtonView: {
+    justifyContent: 'space-between',
+    alignItems: 'baseline',
+  },
+  txHashWrapper: { alignSelf: 'center', flex: 1, justifyContent: 'center' },
+  txHash: { maxWidth: 200 },
   spaceBetween: {
     justifyContent: 'space-between',
   },

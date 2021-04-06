@@ -152,7 +152,7 @@ const HandlePaymentLink = (props: HandlePaymentLinkProps) => {
               category: ExceptionCategory.Human,
               dialogShown: true,
             })
-            showErrorDialog(withdrawnOrSendError)
+            showErrorDialog(withdrawnOrSendError, undefined, { onDismiss: screenProps.goToRoot })
             break
           case WITHDRAW_STATUS_UNKNOWN:
             for (let activeAttempts = 0; activeAttempts < 3; activeAttempts++) {
@@ -172,7 +172,9 @@ const HandlePaymentLink = (props: HandlePaymentLinkProps) => {
               category: ExceptionCategory.Human,
               dialogShown: true,
             })
-            showErrorDialog(`Could not find payment details.\nCheck your link or try again later.`)
+            showErrorDialog(`Could not find payment details.\nCheck your link or try again later.`, undefined, {
+              onDismiss: screenProps.goToRoot,
+            })
             break
           default:
             break
@@ -186,7 +188,7 @@ const HandlePaymentLink = (props: HandlePaymentLinkProps) => {
         }
 
         log.error('withdraw failed:', message, exception, { dialogShown: true })
-        showErrorDialog(uiMessage)
+        showErrorDialog(uiMessage, undefined, { onDismiss: screenProps.goToRoot })
       } finally {
         navigation.setParams({ paymentCode: undefined })
       }

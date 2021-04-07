@@ -28,21 +28,23 @@ const createABTesting = (testName, percentage = Config.abTestPercentage, persist
     return test
   })
 
-  const useABTesting = (componentA, componentB, event = null) => {
+  const useABTesting = (componentA, componentB, event = null, skipInitialize = false) => {
     const [test, setTest] = useState()
     const initialized = test != null
     const component = initialized && test.isCaseA ? componentA : componentB
 
     useEffect(() => {
-      getTestVariant().then(test => {
-        const { ab } = test
-        void (event && fireEvent(event, { ab }))
-        setTest(test)
-        log.debug('hook ready', { test })
-      })
+      if (!skipInitialize) {
+        getTestVariant().then(test => {
+          const { ab } = test
+          void (event && fireEvent(event, { ab }))
+          setTest(test)
+          log.debug('hook ready', { test })
+        })
+      }
     }, [])
 
-    return [component, get(test, 'ab'), initialized]
+    return [component, get(test, 'ab'), skipInitialize || initialized]
   }
 
   return { useABTesting }

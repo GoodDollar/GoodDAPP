@@ -1,5 +1,6 @@
 // @flow
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
+import { AppState } from 'react-native'
 import { SceneView } from '@react-navigation/core'
 import { debounce, isEmpty } from 'lodash'
 import moment from 'moment'
@@ -76,13 +77,12 @@ let unsuccessfulLaunchAttempts = 0
  * The main app route rendering component. Here we decide where to go depending on the user's credentials status
  */
 const AppSwitch = (props: LoadingProps) => {
+  const { router, state } = props.navigation
   const gdstore = GDStore.useStore()
   const store = SimpleStore.useStore()
   const [showErrorDialog] = useErrorDialog()
-  const { router, state } = props.navigation
-  useInviteCode()
   const [ready, setReady] = useState(false)
-  const { appState } = useAppState()
+  const deepLinkingRef = useRef(null)
 
   const recheck = useCallback(() => {
     if (ready && gdstore) {
@@ -95,8 +95,6 @@ const AppSwitch = (props: LoadingProps) => {
       syncTXFromBlockchain()
     }
   }, [ready])
-
-  useAppState({ onForeground: recheck, onBackground: backgroundUpdates })
 
   /*
   Check if user is incoming with a URL with action details, such as payment link or email confirmation
@@ -212,28 +210,50 @@ const AppSwitch = (props: LoadingProps) => {
     navigateToUrlAction({ path: data.pathname, params: data.queryParams })
   }
 
+  const wentForeground = useCallback(() => {
+    recheck()
+
+    const { current: data } = deepLinkingRef
+
+    if (data) {
+      deepLinkingNavigation(data)
+      deepLinkingRef.current = null
+    }
+  }, [recheck])
+
+  useInviteCode()
+
+  useAppState({ onForeground: wentForeground, onBackground: backgroundUpdates })
+
   useEffect(() => {
     init()
     navigateToUrlAction()
-  }, [])
 
-  useEffect(() => {
-    if (!isMobileNative || !appState === 'active') {
+    if (!isMobileNative) {
       return
     }
 
-    DeepLinking.subscribe(deepLinkingNavigation)
+    DeepLinking.subscribe(data => {
+      if (AppState.currentState === 'active') {
+        deepLinkingNavigation(data)
+        return
+      }
+
+      deepLinkingRef.current = data
+    })
     return () => DeepLinking.unsubscribe()
-  }, [appState])
+  }, [])
 
   const { descriptors, navigation } = props
   const activeKey = navigation.state.routes[navigation.state.index].key
   const descriptor = descriptors[activeKey]
+
   const display = ready ? (
     <SceneView navigation={descriptor.navigation} component={descriptor.getComponent()} />
   ) : (
     <Splash animation={false} />
   )
+
   return <React.Fragment>{display}</React.Fragment>
 }
 

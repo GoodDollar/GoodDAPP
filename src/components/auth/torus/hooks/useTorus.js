@@ -1,36 +1,23 @@
-import { useEffect, useRef, useState } from 'react'
-import { get, noop } from 'lodash'
+import { useCallback, useEffect, useRef, useState } from 'react'
+import { noop } from 'lodash'
 
 import useMountedState from '../../../../lib/hooks/useMountedState'
-import createABTesting from '../../../../lib/hooks/useABTesting'
-import { DetectWebview } from '../../../../lib/utils/platform'
 
 import TorusSDK from '../sdk/TorusSDK'
 import logger from '../../../../lib/logger/pino-logger'
+import useSDKOptions from './useSDKOptions'
 
 const log = logger.child({ from: 'AuthTorus' })
-
-const { useABTesting } = createABTesting('torusUxMode')
 
 export default (onInitialized = noop) => {
   const [sdk, setSDK] = useState()
   const [initialized, setInitialized] = useState(false)
   const onInitializedRef = useRef(onInitialized)
   const mountedState = useMountedState()
-  const [, abVariant, abTestInitialized] = useABTesting()
 
-  useEffect(() => {
-    if (abTestInitialized) {
-      const webview = new DetectWebview(get(global, 'navigator.userAgent'))
-      const isFacebookWebview = ['facebook', 'messenger'].includes(webview.browser)
+  const applySDKOptions = useCallback(options => setSDK(TorusSDK.factory(options)), [setSDK])
 
-      log.debug('abTesting:', { abVariant, isFacebookWebview })
-
-      //dont allow popup mode on facebook webview at all, since it doesnt work
-      const torusUxMode = isFacebookWebview === false && abVariant === 'A' ? 'popup' : 'redirect'
-      setSDK(TorusSDK.factory({ uxMode: torusUxMode }))
-    }
-  }, [abTestInitialized])
+  useSDKOptions(applySDKOptions)
 
   useEffect(() => {
     onInitializedRef.current = onInitialized
@@ -54,6 +41,7 @@ export default (onInitialized = noop) => {
         log.error('failed initializing torus', message, exception)
       }
     }
+
     if (sdk) {
       registerTorusWorker()
     }

@@ -124,28 +124,8 @@ please try again.
     </div>
   </div>
   <div
-    className="css-view-1dbjc4n r-alignItems-1d09ksm r-display-6koalj r-flexDirection-18u37iz r-flexWrap-1w6e6rj r-justifyContent-1wtj0ep r-marginTop-14gqq1x r-width-13qz1uu"
+    className="css-view-1dbjc4n r-alignItems-obd0qt r-display-6koalj r-flexDirection-18u37iz r-flexWrap-1w6e6rj r-justifyContent-17s6mgv r-marginHorizontal-lz04qo r-marginTop-14gqq1x r-width-13qz1uu"
   >
-    <div
-      className="css-view-1dbjc4n r-alignItems-1oszu61 r-alignSelf-1kihuf0 r-flex-13awgt0 r-flexDirection-eqz5dr r-justifyContent-1777fci"
-    >
-      <div
-        className="css-text-901oao r-color-cddv6f r-cursor-1loqt21 r-fontFamily-vnw8o6 r-fontSize-1gkfh8e r-fontWeight-1it3c9n r-lineHeight-1b6yf8j r-textAlign-fdjqy7 r-textDecorationLine-1ddef8g r-textTransform-3twk1y"
-        data-focusable={true}
-        dir="auto"
-        onClick={[Function]}
-        onKeyDown={[Function]}
-        tabIndex="0"
-      >
-        Transaction Details
-      </div>
-      <div
-        className="css-text-901oao css-textOneLine-bfa6kz r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1gkfh8e r-fontWeight-1it3c9n r-lineHeight-1b6yf8j r-maxWidth-x1dlf0 r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
-        dir="auto"
-      >
-        0x9812619905da200c4effe8cd2ca4b2b31eeddf133f8fd283069d2e5aec3b9f77
-      </div>
-    </div>
     <div
       className="css-view-1dbjc4n r-alignItems-1oszu61 r-borderStyle-1phboty r-display-6koalj r-justifyContent-1777fci"
       style={
@@ -178,8 +158,9 @@ please try again.
       }
     >
       <div
-        className="css-cursor-18t94o4 css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
+        className="css-cursor-18t94o4 css-view-1dbjc4n r-cursor-1loqt21 r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim r-touchAction-1otgn73"
         data-focusable={true}
+        disabled={false}
         onKeyDown={[Function]}
         onKeyPress={[Function]}
         onKeyUp={[Function]}
@@ -199,7 +180,6 @@ please try again.
             "borderTopLeftRadius": "50px",
             "borderTopRightRadius": "50px",
             "msFlexItemAlign": "stretch",
-            "msGridRowAlign": "stretch",
           }
         }
         tabIndex="0"
@@ -211,7 +191,6 @@ please try again.
               "WebkitAlignSelf": "stretch",
               "alignSelf": "stretch",
               "msFlexItemAlign": "stretch",
-              "msGridRowAlign": "stretch",
             }
           }
         >

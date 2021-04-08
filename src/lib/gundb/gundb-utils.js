@@ -22,7 +22,7 @@ export const flushSecureKey = node => {
 /**
  * @private
  */
-export const getNodePath = node => {
+const getNodePath = node => {
   let path = ''
 
   node.back(({ is, get }) => {
@@ -41,14 +41,10 @@ export const getNodePath = node => {
  */
 const fetchKey = memoize(async (path, node) => {
   // memoize uses only first argument as cache key by default
-  const gun = node.back(-1)
-  const user = gun.user()
+  const user = node.back(-1).user()
   const pair = user.pair()
 
-  const ownerPub = path.split('~').pop()
-
-  let encryptedKey = await gun
-    .get('~' + ownerPub)
+  let encryptedKey = await user
     .get('trust')
     .get(pair.pub)
     .get(path)
@@ -56,23 +52,13 @@ const fetchKey = memoize(async (path, node) => {
 
   if (encryptedKey == null) {
     //retry fetch and increase wait
-    encryptedKey = await gun
-      .get('~' + ownerPub)
+    encryptedKey = await user
       .get('trust')
       .get(pair.pub)
       .get(path)
       .then(null, isMobileNative ? 2500 : 1000)
   }
-  let secureKey
-
-  //check if we are trused by owner
-  if (ownerPub !== user.pair().pub) {
-    //generate shared secret
-    const shared = await SEA.secret(ownerPub, user.pair())
-    secureKey = await SEA.decrypt(encryptedKey, shared)
-  } else {
-    secureKey = await SEA.decrypt(encryptedKey, pair)
-  }
+  const secureKey = await SEA.decrypt(encryptedKey, pair)
 
   if (!secureKey) {
     throw new Error(`Decrypting key missing`)

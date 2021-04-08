@@ -49,6 +49,12 @@ const getEventSettingsByType = (theme, type) => {
       component: FeedSendComplete,
       name: 'send-filled',
     },
+    sendcancelled: {
+      actionSymbol: '-',
+      color: theme.colors.orange,
+      component: FeedSendPending,
+      name: 'clock-filled',
+    },
     senderror: {
       color: theme.colors.primary,
       name: 'system-filled',

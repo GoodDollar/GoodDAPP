@@ -45,11 +45,6 @@ exports[`Profile matches snapshot 1`] = `
           onResponderTerminate={[Function]}
           onResponderTerminationRequest={[Function]}
           onStartShouldSetResponder={[Function]}
-          style={
-            Object {
-              "opacity": 1,
-            }
-          }
           tabIndex="0"
         >
           <div
@@ -79,7 +74,7 @@ exports[`Profile matches snapshot 1`] = `
           </div>
         </div>
         <div
-          className="css-view-1dbjc4n r-flex-13awgt0 r-paddingHorizontal-1e081e0"
+          className="css-view-1dbjc4n r-cursor-1loqt21 r-flex-13awgt0 r-paddingHorizontal-1e081e0 r-touchAction-1otgn73"
           data-focusable={true}
           onKeyDown={[Function]}
           onKeyUp={[Function]}
@@ -110,14 +105,13 @@ exports[`Profile matches snapshot 1`] = `
           </h1>
         </div>
         <div
-          className="css-cursor-18t94o4 css-view-1dbjc4n r-alignItems-1awozwy r-justifyContent-1777fci r-margin-5scogr r-overflow-1udh08x r-position-bnwqim"
-          data-focusable={true}
+          aria-disabled={true}
+          className="css-view-1dbjc4n r-alignItems-1awozwy r-justifyContent-1777fci r-margin-5scogr r-overflow-1udh08x r-position-bnwqim"
+          disabled={true}
           onKeyDown={[Function]}
-          onKeyPress={[Function]}
           onKeyUp={[Function]}
           onResponderGrant={[Function]}
           onResponderMove={[Function]}
-          onResponderRelease={[Function]}
           onResponderTerminate={[Function]}
           onResponderTerminationRequest={[Function]}
           onStartShouldSetResponder={[Function]}
@@ -132,7 +126,6 @@ exports[`Profile matches snapshot 1`] = `
               "width": "36px",
             }
           }
-          tabIndex="0"
         >
           <span
             className="css-hitSlop-mjp8i1"
@@ -173,8 +166,17 @@ exports[`Profile matches snapshot 1`] = `
       </div>
       <div
         className="css-view-1dbjc4n r-WebkitOverflowScrolling-150rngu r-display-6koalj r-flexDirection-eqz5dr r-flexGrow-16y2uox r-flexShrink-1wbh5a2 r-overflowX-11yh6sk r-overflowY-1rnoaur r-transform-1sncvnh"
+        onResponderGrant={[Function]}
+        onResponderReject={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminationRequest={[Function]}
         onScroll={[Function]}
+        onScrollShouldSetResponder={[Function]}
+        onStartShouldSetResponder={[Function]}
+        onStartShouldSetResponderCapture={[Function]}
+        onTouchEnd={[Function]}
         onTouchMove={[Function]}
+        onTouchStart={[Function]}
         onWheel={[Function]}
       >
         <div
@@ -214,11 +216,6 @@ exports[`Profile matches snapshot 1`] = `
                   onResponderTerminate={[Function]}
                   onResponderTerminationRequest={[Function]}
                   onStartShouldSetResponder={[Function]}
-                  style={
-                    Object {
-                      "opacity": 1,
-                    }
-                  }
                   tabIndex="0"
                 >
                   <div
@@ -256,11 +253,6 @@ exports[`Profile matches snapshot 1`] = `
                   onResponderTerminate={[Function]}
                   onResponderTerminationRequest={[Function]}
                   onStartShouldSetResponder={[Function]}
-                  style={
-                    Object {
-                      "opacity": 1,
-                    }
-                  }
                   tabIndex="0"
                 >
                   <div
@@ -295,9 +287,18 @@ exports[`Profile matches snapshot 1`] = `
                 className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-flexGrow-16y2uox r-justifyContent-1wtj0ep"
               >
                 <div
-                  className="css-view-1dbjc4n r-WebkitOverflowScrolling-150rngu r-flexDirection-eqz5dr r-flexGrow-16y2uox r-flexShrink-1wbh5a2 r-overflowX-11yh6sk r-overflowY-buy8e9 r-touchAction-19z077z r-transform-1sncvnh"
+                  className="css-view-1dbjc4n r-WebkitOverflowScrolling-150rngu r-flexDirection-eqz5dr r-flexGrow-16y2uox r-flexShrink-1wbh5a2 r-overflowX-11yh6sk r-overflowY-1rnoaur r-touchAction-19z077z r-transform-1sncvnh"
+                  onResponderGrant={[Function]}
+                  onResponderReject={[Function]}
+                  onResponderRelease={[Function]}
+                  onResponderTerminationRequest={[Function]}
                   onScroll={[Function]}
+                  onScrollShouldSetResponder={[Function]}
+                  onStartShouldSetResponder={[Function]}
+                  onStartShouldSetResponderCapture={[Function]}
+                  onTouchEnd={[Function]}
                   onTouchMove={[Function]}
+                  onTouchStart={[Function]}
                   onWheel={[Function]}
                 >
                   <div
@@ -317,7 +318,7 @@ exports[`Profile matches snapshot 1`] = `
                             autoCapitalize="sentences"
                             autoComplete="on"
                             autoCorrect="on"
-                            className="css-textinput-11aywtz r-backgroundColor-1niwhzg r-color-cddv6f r-flex-13awgt0 r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-16dba41 r-justifyContent-1777fci r-paddingVertical-23eiwj r-placeholderTextColor-1xktb6b"
+                            className="css-textinput-1cwyjr8 r-backgroundColor-1niwhzg r-color-cddv6f r-flex-13awgt0 r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-16dba41 r-justifyContent-1777fci r-paddingVertical-23eiwj r-placeholderTextColor-1xktb6b"
                             dir="auto"
                             disabled={true}
                             onBlur={[Function]}
@@ -366,7 +367,7 @@ exports[`Profile matches snapshot 1`] = `
                             autoCapitalize="sentences"
                             autoComplete="on"
                             autoCorrect="on"
-                            className="css-textinput-11aywtz r-backgroundColor-1niwhzg r-color-cddv6f r-flex-13awgt0 r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-16dba41 r-justifyContent-1777fci r-paddingVertical-23eiwj r-placeholderTextColor-1xktb6b"
+                            className="css-textinput-1cwyjr8 r-backgroundColor-1niwhzg r-color-cddv6f r-flex-13awgt0 r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-16dba41 r-justifyContent-1777fci r-paddingVertical-23eiwj r-placeholderTextColor-1xktb6b"
                             dir="auto"
                             disabled={true}
                             onBlur={[Function]}
@@ -416,7 +417,7 @@ exports[`Profile matches snapshot 1`] = `
                             autoCapitalize="sentences"
                             autoComplete="on"
                             autoCorrect="on"
-                            className="css-textinput-11aywtz r-backgroundColor-1niwhzg r-color-cddv6f r-flex-13awgt0 r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-16dba41 r-justifyContent-1777fci r-paddingVertical-23eiwj r-placeholderTextColor-1xktb6b"
+                            className="css-textinput-1cwyjr8 r-backgroundColor-1niwhzg r-color-cddv6f r-flex-13awgt0 r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-16dba41 r-justifyContent-1777fci r-paddingVertical-23eiwj r-placeholderTextColor-1xktb6b"
                             dir="auto"
                             disabled={true}
                             onBlur={[Function]}
@@ -467,6 +468,7 @@ exports[`Profile matches snapshot 1`] = `
                   <div
                     className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-qt01xk r-borderColor-11mg6pl r-borderRadius-1hf3jpi r-borderWidth-1d6rzhh r-cursor-1loqt21 r-justifyContent-1777fci r-touchAction-1otgn73 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-width-hir158"
                     data-focusable={true}
+                    disabled={false}
                     onKeyDown={[Function]}
                     onKeyUp={[Function]}
                     onResponderGrant={[Function]}
@@ -478,7 +480,6 @@ exports[`Profile matches snapshot 1`] = `
                     style={
                       Object {
                         "height": "136px",
-                        "opacity": 1,
                       }
                     }
                     tabIndex="0"

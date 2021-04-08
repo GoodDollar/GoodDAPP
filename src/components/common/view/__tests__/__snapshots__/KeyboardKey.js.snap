@@ -5,7 +5,7 @@ exports[`KeyboardKey matches snapshot 1`] = `
   className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
-    className="css-view-1dbjc4n r-alignItems-1awozwy r-cursor-1loqt21 r-display-6koalj r-flex-13awgt0 r-padding-edyy15 r-touchAction-1otgn73 r-userSelect-lrvibr"
+    className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1niwhzg r-cursor-1loqt21 r-display-6koalj r-flex-13awgt0 r-padding-edyy15 r-touchAction-1otgn73 r-userSelect-lrvibr"
     data-focusable={true}
     onKeyDown={[Function]}
     onKeyUp={[Function]}

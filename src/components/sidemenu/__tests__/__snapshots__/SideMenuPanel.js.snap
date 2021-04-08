@@ -6,8 +6,17 @@ exports[`SideMenuPanel matches snapshot 1`] = `
 >
   <div
     className="css-view-1dbjc4n r-WebkitOverflowScrolling-150rngu r-flexDirection-eqz5dr r-flexGrow-16y2uox r-flexShrink-1wbh5a2 r-overflowX-11yh6sk r-overflowY-1rnoaur r-transform-1sncvnh"
+    onResponderGrant={[Function]}
+    onResponderReject={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminationRequest={[Function]}
     onScroll={[Function]}
+    onScrollShouldSetResponder={[Function]}
+    onStartShouldSetResponder={[Function]}
+    onStartShouldSetResponderCapture={[Function]}
+    onTouchEnd={[Function]}
     onTouchMove={[Function]}
+    onTouchStart={[Function]}
     onWheel={[Function]}
   >
     <div
@@ -25,11 +34,6 @@ exports[`SideMenuPanel matches snapshot 1`] = `
         onResponderTerminate={[Function]}
         onResponderTerminationRequest={[Function]}
         onStartShouldSetResponder={[Function]}
-        style={
-          Object {
-            "opacity": 1,
-          }
-        }
         tabIndex="0"
       >
         <div
@@ -62,11 +66,6 @@ exports[`SideMenuPanel matches snapshot 1`] = `
           onResponderTerminate={[Function]}
           onResponderTerminationRequest={[Function]}
           onStartShouldSetResponder={[Function]}
-          style={
-            Object {
-              "opacity": 1,
-            }
-          }
           tabIndex="0"
         >
           <div
@@ -106,11 +105,6 @@ exports[`SideMenuPanel matches snapshot 1`] = `
           onResponderTerminate={[Function]}
           onResponderTerminationRequest={[Function]}
           onStartShouldSetResponder={[Function]}
-          style={
-            Object {
-              "opacity": 1,
-            }
-          }
           tabIndex="0"
         >
           <div
@@ -150,11 +144,6 @@ exports[`SideMenuPanel matches snapshot 1`] = `
           onResponderTerminate={[Function]}
           onResponderTerminationRequest={[Function]}
           onStartShouldSetResponder={[Function]}
-          style={
-            Object {
-              "opacity": 1,
-            }
-          }
           tabIndex="0"
         >
           <div
@@ -194,11 +183,6 @@ exports[`SideMenuPanel matches snapshot 1`] = `
           onResponderTerminate={[Function]}
           onResponderTerminationRequest={[Function]}
           onStartShouldSetResponder={[Function]}
-          style={
-            Object {
-              "opacity": 1,
-            }
-          }
           tabIndex="0"
         >
           <div
@@ -238,11 +222,6 @@ exports[`SideMenuPanel matches snapshot 1`] = `
           onResponderTerminate={[Function]}
           onResponderTerminationRequest={[Function]}
           onStartShouldSetResponder={[Function]}
-          style={
-            Object {
-              "opacity": 1,
-            }
-          }
           tabIndex="0"
         >
           <div
@@ -282,11 +261,6 @@ exports[`SideMenuPanel matches snapshot 1`] = `
           onResponderTerminate={[Function]}
           onResponderTerminationRequest={[Function]}
           onStartShouldSetResponder={[Function]}
-          style={
-            Object {
-              "opacity": 1,
-            }
-          }
           tabIndex="0"
         >
           <div
@@ -329,11 +303,6 @@ exports[`SideMenuPanel matches snapshot 1`] = `
             onResponderTerminate={[Function]}
             onResponderTerminationRequest={[Function]}
             onStartShouldSetResponder={[Function]}
-            style={
-              Object {
-                "opacity": 1,
-              }
-            }
             tabIndex="0"
           >
             <div

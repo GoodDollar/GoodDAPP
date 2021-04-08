@@ -1723,14 +1723,13 @@ so we could verify you
             }
           >
             <div
-              className="css-cursor-18t94o4 css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
-              data-focusable={true}
+              aria-disabled={true}
+              className="css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
+              disabled={true}
               onKeyDown={[Function]}
-              onKeyPress={[Function]}
               onKeyUp={[Function]}
               onResponderGrant={[Function]}
               onResponderMove={[Function]}
-              onResponderRelease={[Function]}
               onResponderTerminate={[Function]}
               onResponderTerminationRequest={[Function]}
               onStartShouldSetResponder={[Function]}
@@ -1744,10 +1743,8 @@ so we could verify you
                   "borderTopLeftRadius": "50px",
                   "borderTopRightRadius": "50px",
                   "msFlexItemAlign": "stretch",
-                  "msGridRowAlign": "stretch",
                 }
               }
-              tabIndex="0"
             >
               <div
                 className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
@@ -1756,7 +1753,6 @@ so we could verify you
                     "WebkitAlignSelf": "stretch",
                     "alignSelf": "stretch",
                     "msFlexItemAlign": "stretch",
-                    "msGridRowAlign": "stretch",
                   }
                 }
               >

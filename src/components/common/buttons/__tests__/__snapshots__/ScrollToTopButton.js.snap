@@ -26,11 +26,6 @@ exports[`ScrollToTopButton should match snapshot 1`] = `
         onResponderTerminate={[Function]}
         onResponderTerminationRequest={[Function]}
         onStartShouldSetResponder={[Function]}
-        style={
-          Object {
-            "opacity": 1,
-          }
-        }
         tabIndex="0"
       >
         <scrollToTop.svg />

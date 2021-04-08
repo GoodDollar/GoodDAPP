@@ -91,8 +91,9 @@ You're all set
             }
           >
             <div
-              className="css-cursor-18t94o4 css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
+              className="css-cursor-18t94o4 css-view-1dbjc4n r-cursor-1loqt21 r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim r-touchAction-1otgn73"
               data-focusable={true}
+              disabled={false}
               onKeyDown={[Function]}
               onKeyPress={[Function]}
               onKeyUp={[Function]}
@@ -112,7 +113,6 @@ You're all set
                   "borderTopLeftRadius": "50px",
                   "borderTopRightRadius": "50px",
                   "msFlexItemAlign": "stretch",
-                  "msGridRowAlign": "stretch",
                 }
               }
               tabIndex="0"
@@ -124,7 +124,6 @@ You're all set
                     "WebkitAlignSelf": "stretch",
                     "alignSelf": "stretch",
                     "msFlexItemAlign": "stretch",
-                    "msGridRowAlign": "stretch",
                   }
                 }
               >

@@ -27,6 +27,7 @@ exports[`BackupWallet matches snapshot 1`] = `
       <div
         className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-b88u0q r-lineHeight-hbpseb r-marginVertical-c8eef1 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
         dir="auto"
+        grow={true}
       >
         please save your 12-word pass phrase
 
@@ -58,9 +59,10 @@ so you can recover your wallet anytime
             autoCapitalize="sentences"
             autoComplete="on"
             autoCorrect="on"
-            className="css-textinput-11aywtz r-backgroundColor-14lw9ot r-borderBottomRightRadius-1inxgn4 r-borderColor-17xuhkx r-borderTopRightRadius-3y0fky r-borderWidth-rs99b7 r-flex-13awgt0 r-height-1ugchlj r-justifyContent-1777fci r-paddingLeft-1qhn6m8 r-width-v53qcl"
+            className="css-textinput-1cwyjr8 r-backgroundColor-14lw9ot r-borderBottomRightRadius-1inxgn4 r-borderColor-17xuhkx r-borderTopRightRadius-3y0fky r-borderWidth-rs99b7 r-flex-13awgt0 r-height-1ugchlj r-justifyContent-1777fci r-paddingLeft-1qhn6m8 r-width-v53qcl"
             data-focusable={true}
             dir="auto"
+            label={1}
             onBlur={[Function]}
             onChange={[Function]}
             onFocus={[Function]}
@@ -90,9 +92,10 @@ so you can recover your wallet anytime
             autoCapitalize="sentences"
             autoComplete="on"
             autoCorrect="on"
-            className="css-textinput-11aywtz r-backgroundColor-14lw9ot r-borderBottomRightRadius-1inxgn4 r-borderColor-17xuhkx r-borderTopRightRadius-3y0fky r-borderWidth-rs99b7 r-flex-13awgt0 r-height-1ugchlj r-justifyContent-1777fci r-paddingLeft-1qhn6m8 r-width-v53qcl"
+            className="css-textinput-1cwyjr8 r-backgroundColor-14lw9ot r-borderBottomRightRadius-1inxgn4 r-borderColor-17xuhkx r-borderTopRightRadius-3y0fky r-borderWidth-rs99b7 r-flex-13awgt0 r-height-1ugchlj r-justifyContent-1777fci r-paddingLeft-1qhn6m8 r-width-v53qcl"
             data-focusable={true}
             dir="auto"
+            label={2}
             onBlur={[Function]}
             onChange={[Function]}
             onFocus={[Function]}
@@ -122,9 +125,10 @@ so you can recover your wallet anytime
             autoCapitalize="sentences"
             autoComplete="on"
             autoCorrect="on"
-            className="css-textinput-11aywtz r-backgroundColor-14lw9ot r-borderBottomRightRadius-1inxgn4 r-borderColor-17xuhkx r-borderTopRightRadius-3y0fky r-borderWidth-rs99b7 r-flex-13awgt0 r-height-1ugchlj r-justifyContent-1777fci r-paddingLeft-1qhn6m8 r-width-v53qcl"
+            className="css-textinput-1cwyjr8 r-backgroundColor-14lw9ot r-borderBottomRightRadius-1inxgn4 r-borderColor-17xuhkx r-borderTopRightRadius-3y0fky r-borderWidth-rs99b7 r-flex-13awgt0 r-height-1ugchlj r-justifyContent-1777fci r-paddingLeft-1qhn6m8 r-width-v53qcl"
             data-focusable={true}
             dir="auto"
+            label={3}
             onBlur={[Function]}
             onChange={[Function]}
             onFocus={[Function]}
@@ -154,9 +158,10 @@ so you can recover your wallet anytime
             autoCapitalize="sentences"
             autoComplete="on"
             autoCorrect="on"
-            className="css-textinput-11aywtz r-backgroundColor-14lw9ot r-borderBottomRightRadius-1inxgn4 r-borderColor-17xuhkx r-borderTopRightRadius-3y0fky r-borderWidth-rs99b7 r-flex-13awgt0 r-height-1ugchlj r-justifyContent-1777fci r-paddingLeft-1qhn6m8 r-width-v53qcl"
+            className="css-textinput-1cwyjr8 r-backgroundColor-14lw9ot r-borderBottomRightRadius-1inxgn4 r-borderColor-17xuhkx r-borderTopRightRadius-3y0fky r-borderWidth-rs99b7 r-flex-13awgt0 r-height-1ugchlj r-justifyContent-1777fci r-paddingLeft-1qhn6m8 r-width-v53qcl"
             data-focusable={true}
             dir="auto"
+            label={4}
             onBlur={[Function]}
             onChange={[Function]}
             onFocus={[Function]}
@@ -186,9 +191,10 @@ so you can recover your wallet anytime
             autoCapitalize="sentences"
             autoComplete="on"
             autoCorrect="on"
-            className="css-textinput-11aywtz r-backgroundColor-14lw9ot r-borderBottomRightRadius-1inxgn4 r-borderColor-17xuhkx r-borderTopRightRadius-3y0fky r-borderWidth-rs99b7 r-flex-13awgt0 r-height-1ugchlj r-justifyContent-1777fci r-paddingLeft-1qhn6m8 r-width-v53qcl"
+            className="css-textinput-1cwyjr8 r-backgroundColor-14lw9ot r-borderBottomRightRadius-1inxgn4 r-borderColor-17xuhkx r-borderTopRightRadius-3y0fky r-borderWidth-rs99b7 r-flex-13awgt0 r-height-1ugchlj r-justifyContent-1777fci r-paddingLeft-1qhn6m8 r-width-v53qcl"
             data-focusable={true}
             dir="auto"
+            label={5}
             onBlur={[Function]}
             onChange={[Function]}
             onFocus={[Function]}
@@ -218,9 +224,10 @@ so you can recover your wallet anytime
             autoCapitalize="sentences"
             autoComplete="on"
             autoCorrect="on"
-            className="css-textinput-11aywtz r-backgroundColor-14lw9ot r-borderBottomRightRadius-1inxgn4 r-borderColor-17xuhkx r-borderTopRightRadius-3y0fky r-borderWidth-rs99b7 r-flex-13awgt0 r-height-1ugchlj r-justifyContent-1777fci r-paddingLeft-1qhn6m8 r-width-v53qcl"
+            className="css-textinput-1cwyjr8 r-backgroundColor-14lw9ot r-borderBottomRightRadius-1inxgn4 r-borderColor-17xuhkx r-borderTopRightRadius-3y0fky r-borderWidth-rs99b7 r-flex-13awgt0 r-height-1ugchlj r-justifyContent-1777fci r-paddingLeft-1qhn6m8 r-width-v53qcl"
             data-focusable={true}
             dir="auto"
+            label={6}
             onBlur={[Function]}
             onChange={[Function]}
             onFocus={[Function]}
@@ -250,9 +257,10 @@ so you can recover your wallet anytime
             autoCapitalize="sentences"
             autoComplete="on"
             autoCorrect="on"
-            className="css-textinput-11aywtz r-backgroundColor-14lw9ot r-borderBottomRightRadius-1inxgn4 r-borderColor-17xuhkx r-borderTopRightRadius-3y0fky r-borderWidth-rs99b7 r-flex-13awgt0 r-height-1ugchlj r-justifyContent-1777fci r-paddingLeft-1qhn6m8 r-width-v53qcl"
+            className="css-textinput-1cwyjr8 r-backgroundColor-14lw9ot r-borderBottomRightRadius-1inxgn4 r-borderColor-17xuhkx r-borderTopRightRadius-3y0fky r-borderWidth-rs99b7 r-flex-13awgt0 r-height-1ugchlj r-justifyContent-1777fci r-paddingLeft-1qhn6m8 r-width-v53qcl"
             data-focusable={true}
             dir="auto"
+            label={7}
             onBlur={[Function]}
             onChange={[Function]}
             onFocus={[Function]}
@@ -282,9 +290,10 @@ so you can recover your wallet anytime
             autoCapitalize="sentences"
             autoComplete="on"
             autoCorrect="on"
-            className="css-textinput-11aywtz r-backgroundColor-14lw9ot r-borderBottomRightRadius-1inxgn4 r-borderColor-17xuhkx r-borderTopRightRadius-3y0fky r-borderWidth-rs99b7 r-flex-13awgt0 r-height-1ugchlj r-justifyContent-1777fci r-paddingLeft-1qhn6m8 r-width-v53qcl"
+            className="css-textinput-1cwyjr8 r-backgroundColor-14lw9ot r-borderBottomRightRadius-1inxgn4 r-borderColor-17xuhkx r-borderTopRightRadius-3y0fky r-borderWidth-rs99b7 r-flex-13awgt0 r-height-1ugchlj r-justifyContent-1777fci r-paddingLeft-1qhn6m8 r-width-v53qcl"
             data-focusable={true}
             dir="auto"
+            label={8}
             onBlur={[Function]}
             onChange={[Function]}
             onFocus={[Function]}
@@ -314,9 +323,10 @@ so you can recover your wallet anytime
             autoCapitalize="sentences"
             autoComplete="on"
             autoCorrect="on"
-            className="css-textinput-11aywtz r-backgroundColor-14lw9ot r-borderBottomRightRadius-1inxgn4 r-borderColor-17xuhkx r-borderTopRightRadius-3y0fky r-borderWidth-rs99b7 r-flex-13awgt0 r-height-1ugchlj r-justifyContent-1777fci r-paddingLeft-1qhn6m8 r-width-v53qcl"
+            className="css-textinput-1cwyjr8 r-backgroundColor-14lw9ot r-borderBottomRightRadius-1inxgn4 r-borderColor-17xuhkx r-borderTopRightRadius-3y0fky r-borderWidth-rs99b7 r-flex-13awgt0 r-height-1ugchlj r-justifyContent-1777fci r-paddingLeft-1qhn6m8 r-width-v53qcl"
             data-focusable={true}
             dir="auto"
+            label={9}
             onBlur={[Function]}
             onChange={[Function]}
             onFocus={[Function]}
@@ -346,9 +356,10 @@ so you can recover your wallet anytime
             autoCapitalize="sentences"
             autoComplete="on"
             autoCorrect="on"
-            className="css-textinput-11aywtz r-backgroundColor-14lw9ot r-borderBottomRightRadius-1inxgn4 r-borderColor-17xuhkx r-borderTopRightRadius-3y0fky r-borderWidth-rs99b7 r-flex-13awgt0 r-height-1ugchlj r-justifyContent-1777fci r-paddingLeft-1qhn6m8 r-width-v53qcl"
+            className="css-textinput-1cwyjr8 r-backgroundColor-14lw9ot r-borderBottomRightRadius-1inxgn4 r-borderColor-17xuhkx r-borderTopRightRadius-3y0fky r-borderWidth-rs99b7 r-flex-13awgt0 r-height-1ugchlj r-justifyContent-1777fci r-paddingLeft-1qhn6m8 r-width-v53qcl"
             data-focusable={true}
             dir="auto"
+            label={10}
             onBlur={[Function]}
             onChange={[Function]}
             onFocus={[Function]}
@@ -378,9 +389,10 @@ so you can recover your wallet anytime
             autoCapitalize="sentences"
             autoComplete="on"
             autoCorrect="on"
-            className="css-textinput-11aywtz r-backgroundColor-14lw9ot r-borderBottomRightRadius-1inxgn4 r-borderColor-17xuhkx r-borderTopRightRadius-3y0fky r-borderWidth-rs99b7 r-flex-13awgt0 r-height-1ugchlj r-justifyContent-1777fci r-paddingLeft-1qhn6m8 r-width-v53qcl"
+            className="css-textinput-1cwyjr8 r-backgroundColor-14lw9ot r-borderBottomRightRadius-1inxgn4 r-borderColor-17xuhkx r-borderTopRightRadius-3y0fky r-borderWidth-rs99b7 r-flex-13awgt0 r-height-1ugchlj r-justifyContent-1777fci r-paddingLeft-1qhn6m8 r-width-v53qcl"
             data-focusable={true}
             dir="auto"
+            label={11}
             onBlur={[Function]}
             onChange={[Function]}
             onFocus={[Function]}
@@ -410,9 +422,10 @@ so you can recover your wallet anytime
             autoCapitalize="sentences"
             autoComplete="on"
             autoCorrect="on"
-            className="css-textinput-11aywtz r-backgroundColor-14lw9ot r-borderBottomRightRadius-1inxgn4 r-borderColor-17xuhkx r-borderTopRightRadius-3y0fky r-borderWidth-rs99b7 r-flex-13awgt0 r-height-1ugchlj r-justifyContent-1777fci r-paddingLeft-1qhn6m8 r-width-v53qcl"
+            className="css-textinput-1cwyjr8 r-backgroundColor-14lw9ot r-borderBottomRightRadius-1inxgn4 r-borderColor-17xuhkx r-borderTopRightRadius-3y0fky r-borderWidth-rs99b7 r-flex-13awgt0 r-height-1ugchlj r-justifyContent-1777fci r-paddingLeft-1qhn6m8 r-width-v53qcl"
             data-focusable={true}
             dir="auto"
+            label={12}
             onBlur={[Function]}
             onChange={[Function]}
             onFocus={[Function]}
@@ -460,8 +473,9 @@ so you can recover your wallet anytime
           }
         >
           <div
-            className="css-cursor-18t94o4 css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
+            className="css-cursor-18t94o4 css-view-1dbjc4n r-cursor-1loqt21 r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim r-touchAction-1otgn73"
             data-focusable={true}
+            disabled={false}
             onKeyDown={[Function]}
             onKeyPress={[Function]}
             onKeyUp={[Function]}
@@ -481,7 +495,6 @@ so you can recover your wallet anytime
                 "borderTopLeftRadius": "50px",
                 "borderTopRightRadius": "50px",
                 "msFlexItemAlign": "stretch",
-                "msGridRowAlign": "stretch",
               }
             }
             tabIndex="0"
@@ -493,7 +506,6 @@ so you can recover your wallet anytime
                   "WebkitAlignSelf": "stretch",
                   "alignSelf": "stretch",
                   "msFlexItemAlign": "stretch",
-                  "msGridRowAlign": "stretch",
                 }
               }
             >
@@ -545,8 +557,9 @@ so you can recover your wallet anytime
           }
         >
           <div
-            className="css-cursor-18t94o4 css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
+            className="css-cursor-18t94o4 css-view-1dbjc4n r-cursor-1loqt21 r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim r-touchAction-1otgn73"
             data-focusable={true}
+            disabled={false}
             onKeyDown={[Function]}
             onKeyPress={[Function]}
             onKeyUp={[Function]}
@@ -566,7 +579,6 @@ so you can recover your wallet anytime
                 "borderTopLeftRadius": "50px",
                 "borderTopRightRadius": "50px",
                 "msFlexItemAlign": "stretch",
-                "msGridRowAlign": "stretch",
               }
             }
             tabIndex="0"
@@ -578,7 +590,6 @@ so you can recover your wallet anytime
                   "WebkitAlignSelf": "stretch",
                   "alignSelf": "stretch",
                   "msFlexItemAlign": "stretch",
-                  "msGridRowAlign": "stretch",
                 }
               }
             >
@@ -631,8 +642,9 @@ so you can recover your wallet anytime
         }
       >
         <div
-          className="css-cursor-18t94o4 css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
+          className="css-cursor-18t94o4 css-view-1dbjc4n r-cursor-1loqt21 r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim r-touchAction-1otgn73"
           data-focusable={true}
+          disabled={false}
           onKeyDown={[Function]}
           onKeyPress={[Function]}
           onKeyUp={[Function]}
@@ -652,7 +664,6 @@ so you can recover your wallet anytime
               "borderTopLeftRadius": "50px",
               "borderTopRightRadius": "50px",
               "msFlexItemAlign": "stretch",
-              "msGridRowAlign": "stretch",
             }
           }
           tabIndex="0"
@@ -664,7 +675,6 @@ so you can recover your wallet anytime
                 "WebkitAlignSelf": "stretch",
                 "alignSelf": "stretch",
                 "msFlexItemAlign": "stretch",
-                "msGridRowAlign": "stretch",
               }
             }
           >

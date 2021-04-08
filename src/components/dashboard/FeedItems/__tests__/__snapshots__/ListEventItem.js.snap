@@ -88,7 +88,6 @@ exports[`ListEventItem receive matches snapshot 1`] = `
                 "borderTopLeftRadius": "17px",
                 "borderTopRightRadius": "17px",
                 "height": "34px",
-                "opacity": 1,
               }
             }
           >
@@ -265,7 +264,6 @@ exports[`ListEventItem send matches snapshot 1`] = `
                 "borderTopLeftRadius": "17px",
                 "borderTopRightRadius": "17px",
                 "height": "34px",
-                "opacity": 1,
               }
             }
           >
@@ -442,7 +440,6 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
                 "borderTopLeftRadius": "17px",
                 "borderTopRightRadius": "17px",
                 "height": "34px",
-                "opacity": 1,
               }
             }
           >

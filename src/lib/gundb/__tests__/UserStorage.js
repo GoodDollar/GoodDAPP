@@ -1,6 +1,8 @@
 // @flow
 import { assign, pick } from 'lodash'
 import moment from 'moment'
+import ModelContracts from '@gooddollar/goodcontracts/stakingModel/releases/deployment.json'
+import UpgradablesContracts from '@gooddollar/goodcontracts/upgradables/releases/deployment.json'
 
 import gun from '../gundb'
 import Config from '../../../config/config'
@@ -9,6 +11,7 @@ import userStorage from '../UserStorage'
 
 import {
   backupMessage,
+  getReceiveDataFromReceipt,
   inviteFriendsMessage,
   longUseOfClaims,
   startClaiming,
@@ -254,7 +257,7 @@ describe('UserStorage', () => {
   //       email: 'dario.minones@altoros.com'
   //     })
 
-  //     const gunRes = await userStorage.feedStorage.updateFeedEvent(event)
+  //     const gunRes = await userStorage.updateFeedEvent(event)
   //     const index = await userStorage.feed
   //       .get('index')
   //       .once()
@@ -311,7 +314,7 @@ describe('UserStorage', () => {
   })
 
   it('events/add event', async () => {
-    await userStorage.feedStorage.updateFeedEvent(event)
+    await userStorage.updateFeedEvent(event)
     const index = await userStorage.feed
       .get('index')
       .once()
@@ -322,8 +325,8 @@ describe('UserStorage', () => {
   })
 
   it('events/add second event', async () => {
-    await userStorage.feedStorage.updateFeedEvent(event)
-    await userStorage.feedStorage.updateFeedEvent(event2)
+    await userStorage.updateFeedEvent(event)
+    await userStorage.updateFeedEvent(event2)
     const index = await userStorage.feed
       .get('index')
       .once()
@@ -335,14 +338,14 @@ describe('UserStorage', () => {
   })
 
   it('events/updates first event', async () => {
-    await userStorage.feedStorage.updateFeedEvent(event)
+    await userStorage.updateFeedEvent(event)
     await delay(0)
     let updatedEvent = {
       ...event,
       date: new Date('2019-01-01').toString(),
       data: { foo: 'updates first event', extra: 'bar' },
     }
-    await userStorage.feedStorage.updateFeedEvent(updatedEvent)
+    await userStorage.updateFeedEvent(updatedEvent)
     await delay(100)
     const index = await userStorage.feed
       .get('index')
@@ -354,9 +357,9 @@ describe('UserStorage', () => {
   })
 
   it('events/add middle event', async () => {
-    await userStorage.feedStorage.updateFeedEvent(mergedEvent)
-    await userStorage.feedStorage.updateFeedEvent(event2)
-    await userStorage.feedStorage.updateFeedEvent(event3)
+    await userStorage.updateFeedEvent(mergedEvent)
+    await userStorage.updateFeedEvent(event2)
+    await userStorage.updateFeedEvent(event3)
     const index = await userStorage.feed
       .get('index')
       .once()
@@ -367,7 +370,7 @@ describe('UserStorage', () => {
   })
 
   it('events/keeps event index sorted', async () => {
-    await userStorage.feedStorage.updateFeedEvent(event4)
+    await userStorage.updateFeedEvent(event4)
     const index = await userStorage.feed.get('index').then()
     const events = await userStorage.feed.get('2019-01-02').then(JSON.parse)
     expect(index['2019-01-02']).toEqual(1)
@@ -375,9 +378,9 @@ describe('UserStorage', () => {
   })
 
   it('events/gets events first page', async () => {
-    //welcome message+01-02 event =4
+    //welcome message+01-02 event =5
     const gunRes = await userStorage.getFeedPage(5)
-    expect(gunRes.length).toEqual(4)
+    expect(gunRes.length).toEqual(5)
   })
 
   it('events/has the welcome event already set', async () => {
@@ -414,7 +417,7 @@ describe('UserStorage', () => {
         receipt: { foo: 'foo', blockNumber: 123 },
       },
     }
-    await userStorage.feedStorage.updateFeedEvent(transactionEvent)
+    await userStorage.updateFeedEvent(transactionEvent)
     const index = await userStorage.feed
       .get('index')
       .once()
@@ -425,19 +428,19 @@ describe('UserStorage', () => {
   })
 
   it('events/add invite event', async () => {
-    await userStorage.feedStorage.updateFeedEvent(inviteFriendsMessage)
+    await userStorage.updateFeedEvent(inviteFriendsMessage)
     const events = await userStorage.getAllFeed()
     expect(events).toContainEqual(inviteFriendsMessage)
   })
 
   it('events/add start claiming event', async () => {
-    await userStorage.feedStorage.updateFeedEvent(startClaiming)
+    await userStorage.updateFeedEvent(startClaiming)
     const events = await userStorage.getAllFeed()
     expect(events).toContainEqual(startClaiming)
   })
 
   it('events/claimed  for 14 days ', async () => {
-    await userStorage.feedStorage.updateFeedEvent(longUseOfClaims)
+    await userStorage.updateFeedEvent(longUseOfClaims)
     const events = await userStorage.getAllFeed()
     expect(events).toContainEqual(longUseOfClaims)
   })
@@ -452,13 +455,13 @@ describe('UserStorage', () => {
   })
 
   it('events/add welcome etoro', async () => {
-    await userStorage.feedStorage.updateFeedEvent(welcomeMessageOnlyEtoro)
+    await userStorage.updateFeedEvent(welcomeMessageOnlyEtoro)
     const events = await userStorage.getAllFeed()
     expect(events).toContainEqual(welcomeMessageOnlyEtoro)
   })
 
   it('events/has the backupMessage event already set', async () => {
-    await userStorage.feedStorage.updateFeedEvent(backupMessage)
+    await userStorage.updateFeedEvent(backupMessage)
     const events = await userStorage.getAllFeed()
     expect(events).toContainEqual(backupMessage)
   })
@@ -490,7 +493,7 @@ describe('UserStorage', () => {
     expect(formattedEvents).not.toContainEqual(deletedEvent)
 
     const events = await userStorage.getAllFeed()
-    expect(events).not.toContainEqual(deletedEvent)
+    expect(events).toContainEqual(deletedEvent)
   })
 
   it('should return withdrawCode from formatEvent function', async () => {
@@ -703,6 +706,212 @@ describe('UserStorage', () => {
   //   const updatedUsernameOk = await userStorage.getProfileFieldValue('username')
   //   expect(updatedUsernameOk).toBe('user3')
   // })
+
+  describe('getReceiveDataFromReceipt', () => {
+    it('get Transfer data from logs', () => {
+      const receipt = {
+        logs: [
+          {
+            name: 'Transfer',
+            events: [
+              { name: 'from', type: 'address', value: '0x7aa689d96362de59b78c2f184f840dbdab9270e0' },
+              { name: 'to', type: 'address', value: '0x90e5c2433a1fbab3c9d350bcffe2e73ac479941d' },
+              { name: 'value', type: 'uint256', value: '15' },
+            ],
+            address: '0x88ceB1769E0F8304b9981F0CB23C3192361d6873',
+          },
+        ],
+      }
+      const result = getReceiveDataFromReceipt(receipt, '0x7aa689d96362de59b78c2f184f840dbdab9270e0')
+      expect(result).toMatchObject({
+        from: '0x7aa689d96362de59b78c2f184f840dbdab9270e0',
+        to: '0x90e5c2433a1fbab3c9d350bcffe2e73ac479941d',
+        value: '15',
+      })
+    })
+
+    it('doesnt get Transfer data from logs if not to/from wallet', () => {
+      const receipt = {
+        logs: [
+          {
+            name: 'Transfer',
+            events: [
+              { name: 'from', type: 'address', value: '0x7aa689d96362de59b78c2f184f840dbdab9270e0' },
+              { name: 'to', type: 'address', value: '0x90e5c2433a1fbab3c9d350bcffe2e73ac479941d' },
+              { name: 'value', type: 'uint256', value: '15' },
+            ],
+            address: '0x88ceB1769E0F8304b9981F0CB23C3192361d6873',
+          },
+        ],
+      }
+      const result = getReceiveDataFromReceipt(receipt, '0xbbb689d96362de59b78c2f184f840dbdab9270e0')
+      expect(result).toBeFalsy()
+    })
+
+    it('get PaymentWithdraw data from logs', () => {
+      const receipt = {
+        logs: [
+          {
+            name: 'Transfer',
+            events: [
+              { name: 'from', type: 'address', value: '0x7aa689d96362de59b78c2f184f840dbdab9270e0' },
+              { name: 'to', type: 'address', value: '0x90e5c2433a1fbab3c9d350bcffe2e73ac479941d' },
+              { name: 'value', type: 'uint256', value: '15' },
+            ],
+            address: '0x88ceB1769E0F8304b9981F0CB23C3192361d6873',
+          },
+          {
+            name: 'PaymentWithdraw',
+            events: [
+              { name: 'from', type: 'address', value: '0x6aa689d96362de59b78c2f184f840dbdab9270e0' },
+              { name: 'to', type: 'address', value: '0x80e5c2433a1fbab3c9d350bcffe2e73ac479941d' },
+              { name: 'value', type: 'uint256', value: '15' },
+            ],
+            address: '0x88ceB1769E0F8304b9981F0CB23C3192361d6873',
+          },
+        ],
+      }
+      const result = getReceiveDataFromReceipt(receipt, '0x7aa689d96362de59b78c2f184f840dbdab9270e0')
+      expect(result).toMatchObject({
+        from: '0x6aa689d96362de59b78c2f184f840dbdab9270e0',
+        to: '0x80e5c2433a1fbab3c9d350bcffe2e73ac479941d',
+        value: '15',
+      })
+    })
+
+    it('get Transfer when multiple Transfer should get the bigger (the lastone)', () => {
+      const receipt = {
+        logs: [
+          {
+            name: 'Transfer',
+            events: [
+              { name: 'from', type: 'address', value: '0x7aa689d96362de59b78c2f184f840dbdab9270e0' },
+              { name: 'to', type: 'address', value: '0x90e5c2433a1fbab3c9d350bcffe2e73ac479941d' },
+              { name: 'value', type: 'uint256', value: '15' },
+            ],
+            address: '0x88ceB1769E0F8304b9981F0CB23C3192361d6873',
+          },
+          {
+            name: 'Transfer',
+            events: [
+              { name: 'from', type: 'address', value: '0x7aa689d96362de59b78c2f184f840dbdab9270e0' },
+              { name: 'to', type: 'address', value: '0x90e5c2433a1fbab3c9d350bcffe2e73ac479941d' },
+              { name: 'value', type: 'uint256', value: '1500' },
+            ],
+            address: '0x88ceB1769E0F8304b9981F0CB23C3192361d6873',
+          },
+        ],
+      }
+      const result = getReceiveDataFromReceipt(receipt, '0x7aa689d96362de59b78c2f184f840dbdab9270e0')
+      expect(result).toMatchObject({
+        from: '0x7aa689d96362de59b78c2f184f840dbdab9270e0',
+        to: '0x90e5c2433a1fbab3c9d350bcffe2e73ac479941d',
+        value: '1500',
+      })
+    })
+
+    it('get Transfer when multiple Transfer should get the bigger (the firstone)', () => {
+      const receipt = {
+        logs: [
+          {
+            name: 'Transfer',
+            events: [
+              { name: 'from', type: 'address', value: '0x7aa689d96362de59b78c2f184f840dbdab9270e0' },
+              { name: 'to', type: 'address', value: '0x90e5c2433a1fbab3c9d350bcffe2e73ac479941d' },
+              { name: 'value', type: 'uint256', value: '20' },
+            ],
+            address: '0x88ceB1769E0F8304b9981F0CB23C3192361d6873',
+          },
+          {
+            name: 'Transfer',
+            events: [
+              { name: 'from', type: 'address', value: '0x7aa689d96362de59b78c2f184f840dbdab9270e0' },
+              { name: 'to', type: 'address', value: '0x90e5c2433a1fbab3c9d350bcffe2e73ac479941d' },
+              { name: 'value', type: 'uint256', value: '1' },
+            ],
+            address: '0x88ceB1769E0F8304b9981F0CB23C3192361d6873',
+          },
+        ],
+      }
+      const result = getReceiveDataFromReceipt(receipt, '0x7aa689d96362de59b78c2f184f840dbdab9270e0')
+      expect(result).toMatchObject({
+        from: '0x7aa689d96362de59b78c2f184f840dbdab9270e0',
+        to: '0x90e5c2433a1fbab3c9d350bcffe2e73ac479941d',
+        value: '20',
+      })
+    })
+
+    it('empty logs should return empty object', () => {
+      const receipt = {
+        logs: [],
+      }
+      const result = getReceiveDataFromReceipt(receipt, '0x7aa689d96362de59b78c2f184f840dbdab9270e0')
+      expect(result).toMatchObject({})
+    })
+
+    it('empty receipt should return empty object', () => {
+      const receipt = {}
+      const result = getReceiveDataFromReceipt(receipt, '0x7aa689d96362de59b78c2f184f840dbdab9270e0')
+      expect(result).toMatchObject({})
+    })
+  })
+})
+
+describe('getOperationType', () => {
+  it('PaymentWithdraw should be withdraw', () => {
+    const event = {
+      name: 'PaymentWithdraw',
+    }
+    expect(userStorage.getOperationType(event, 'account1')).toBe('withdraw')
+  })
+
+  it('PaymentWithdraw with any from should be withdraw', () => {
+    const event = {
+      name: 'PaymentWithdraw',
+      from: 'account1',
+    }
+    expect(userStorage.getOperationType(event, 'account1')).toBe('withdraw')
+  })
+
+  it('from equal to account should be send', () => {
+    const event = {
+      name: 'Transfer',
+      from: 'account1',
+    }
+    expect(userStorage.getOperationType(event, 'account1')).toBe('send')
+  })
+
+  it('from different to account should be receive', () => {
+    const event = {
+      name: 'Transfer',
+      from: 'account2',
+    }
+    expect(userStorage.getOperationType(event, 'account1')).toBe('receive')
+  })
+
+  it('from ubicontract should be claim', () => {
+    const event = {
+      name: 'Transfer',
+      from: ModelContracts[Config.network].UBIScheme.toLowerCase(),
+    }
+    expect(userStorage.getOperationType(event, 'account1')).toBe('claim')
+  })
+
+  it('from bonuscontract should be bonus', () => {
+    const event = {
+      name: 'Transfer',
+      from: UpgradablesContracts[Config.network].Invites.toLowerCase(),
+    }
+    expect(userStorage.getOperationType(event, 'account1')).toBe('bonus')
+  })
+
+  it('from null address should be mint', () => {
+    const event = {
+      name: 'Transfer',
+      from: '0x0000000000000000000000000000000000000000',
+    }
+    expect(userStorage.getOperationType(event, 'account1')).toBe('mint')
+  })
 })
 
 describe('users index', () => {
@@ -780,7 +989,7 @@ describe('users index', () => {
     const newmsg = Object.assign({ date: 'fake date' }, prevmsg)
     const res = await userStorage.enqueueTX(newmsg)
     expect(res).toBeFalsy()
-    const fromfeed = await userStorage.feedStorage.getFeedItemByTransactionHash(prevmsg.id)
+    const fromfeed = await userStorage.getFeedItemByTransactionHash(prevmsg.id)
     expect(fromfeed).toEqual(prevmsg)
   })
 })

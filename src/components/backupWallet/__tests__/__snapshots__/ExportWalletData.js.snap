@@ -43,11 +43,6 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
         onResponderTerminate={[Function]}
         onResponderTerminationRequest={[Function]}
         onStartShouldSetResponder={[Function]}
-        style={
-          Object {
-            "opacity": 1,
-          }
-        }
         tabIndex="0"
       >
         <div
@@ -80,7 +75,7 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
         </div>
       </div>
       <div
-        className="css-view-1dbjc4n r-flex-13awgt0 r-paddingHorizontal-1e081e0"
+        className="css-view-1dbjc4n r-cursor-1loqt21 r-flex-13awgt0 r-paddingHorizontal-1e081e0 r-touchAction-1otgn73"
         data-focusable={true}
         onKeyDown={[Function]}
         onKeyUp={[Function]}
@@ -111,14 +106,13 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
         </h1>
       </div>
       <div
-        className="css-cursor-18t94o4 css-view-1dbjc4n r-alignItems-1awozwy r-justifyContent-1777fci r-margin-5scogr r-overflow-1udh08x r-position-bnwqim"
-        data-focusable={true}
+        aria-disabled={true}
+        className="css-view-1dbjc4n r-alignItems-1awozwy r-justifyContent-1777fci r-margin-5scogr r-overflow-1udh08x r-position-bnwqim"
+        disabled={true}
         onKeyDown={[Function]}
-        onKeyPress={[Function]}
         onKeyUp={[Function]}
         onResponderGrant={[Function]}
         onResponderMove={[Function]}
-        onResponderRelease={[Function]}
         onResponderTerminate={[Function]}
         onResponderTerminationRequest={[Function]}
         onStartShouldSetResponder={[Function]}
@@ -133,7 +127,6 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
             "width": "36px",
           }
         }
-        tabIndex="0"
       >
         <span
           className="css-hitSlop-mjp8i1"
@@ -178,8 +171,17 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
     </div>
     <div
       className="css-view-1dbjc4n r-WebkitOverflowScrolling-150rngu r-backgroundColor-14lw9ot r-flexDirection-eqz5dr r-flexGrow-16y2uox r-flexShrink-1wbh5a2 r-overflowX-11yh6sk r-overflowY-1rnoaur r-transform-1sncvnh"
+      onResponderGrant={[Function]}
+      onResponderReject={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminationRequest={[Function]}
       onScroll={[Function]}
+      onScrollShouldSetResponder={[Function]}
+      onStartShouldSetResponder={[Function]}
+      onStartShouldSetResponderCapture={[Function]}
+      onTouchEnd={[Function]}
       onTouchMove={[Function]}
+      onTouchStart={[Function]}
       onWheel={[Function]}
     >
       <div
@@ -292,6 +294,7 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
               <div
                 className="css-text-901oao r-color-vaa0vc r-fontFamily-vnw8o6 r-fontSize-n6v787 r-fontWeight-1it3c9n r-letterSpacing-rdxj0b r-lineHeight-w20frr r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                 dir="auto"
+                letterSpacing={0.07}
               >
                 fake-wallet-p...t-private-key
               </div>
@@ -337,8 +340,9 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
                 }
               >
                 <div
-                  className="css-cursor-18t94o4 css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
+                  className="css-cursor-18t94o4 css-view-1dbjc4n r-cursor-1loqt21 r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim r-touchAction-1otgn73"
                   data-focusable={true}
+                  disabled={false}
                   onKeyDown={[Function]}
                   onKeyPress={[Function]}
                   onKeyUp={[Function]}
@@ -358,7 +362,6 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
                       "borderTopLeftRadius": "50px",
                       "borderTopRightRadius": "50px",
                       "msFlexItemAlign": "stretch",
-                      "msGridRowAlign": "stretch",
                     }
                   }
                   tabIndex="0"
@@ -370,7 +373,6 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
                         "WebkitAlignSelf": "stretch",
                         "alignSelf": "stretch",
                         "msFlexItemAlign": "stretch",
-                        "msGridRowAlign": "stretch",
                       }
                     }
                   >
@@ -465,6 +467,7 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
               <div
                 className="css-text-901oao r-color-vaa0vc r-fontFamily-vnw8o6 r-fontSize-n6v787 r-fontWeight-1it3c9n r-letterSpacing-rdxj0b r-lineHeight-w20frr r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                 dir="auto"
+                letterSpacing={0.07}
               >
                 fake-wallet-a...allet-address
               </div>
@@ -510,8 +513,9 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
                 }
               >
                 <div
-                  className="css-cursor-18t94o4 css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
+                  className="css-cursor-18t94o4 css-view-1dbjc4n r-cursor-1loqt21 r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim r-touchAction-1otgn73"
                   data-focusable={true}
+                  disabled={false}
                   onKeyDown={[Function]}
                   onKeyPress={[Function]}
                   onKeyUp={[Function]}
@@ -531,7 +535,6 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
                       "borderTopLeftRadius": "50px",
                       "borderTopRightRadius": "50px",
                       "msFlexItemAlign": "stretch",
-                      "msGridRowAlign": "stretch",
                     }
                   }
                   tabIndex="0"
@@ -543,7 +546,6 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
                         "WebkitAlignSelf": "stretch",
                         "alignSelf": "stretch",
                         "msFlexItemAlign": "stretch",
-                        "msGridRowAlign": "stretch",
                       }
                     }
                   >
@@ -638,6 +640,7 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
               <div
                 className="css-text-901oao r-color-vaa0vc r-fontFamily-vnw8o6 r-fontSize-n6v787 r-fontWeight-1it3c9n r-letterSpacing-rdxj0b r-lineHeight-w20frr r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                 dir="auto"
+                letterSpacing={0.07}
               />
             </div>
             <div
@@ -681,8 +684,9 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
                 }
               >
                 <div
-                  className="css-cursor-18t94o4 css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
+                  className="css-cursor-18t94o4 css-view-1dbjc4n r-cursor-1loqt21 r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim r-touchAction-1otgn73"
                   data-focusable={true}
+                  disabled={false}
                   onKeyDown={[Function]}
                   onKeyPress={[Function]}
                   onKeyUp={[Function]}
@@ -702,7 +706,6 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
                       "borderTopLeftRadius": "50px",
                       "borderTopRightRadius": "50px",
                       "msFlexItemAlign": "stretch",
-                      "msGridRowAlign": "stretch",
                     }
                   }
                   tabIndex="0"
@@ -714,7 +717,6 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
                         "WebkitAlignSelf": "stretch",
                         "alignSelf": "stretch",
                         "msFlexItemAlign": "stretch",
-                        "msGridRowAlign": "stretch",
                       }
                     }
                   >
@@ -809,6 +811,7 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
               <div
                 className="css-text-901oao r-color-vaa0vc r-fontFamily-vnw8o6 r-fontSize-n6v787 r-fontWeight-1it3c9n r-letterSpacing-rdxj0b r-lineHeight-w20frr r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                 dir="auto"
+                letterSpacing={0.07}
               >
                 undefined
               </div>
@@ -854,8 +857,9 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
                 }
               >
                 <div
-                  className="css-cursor-18t94o4 css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
+                  className="css-cursor-18t94o4 css-view-1dbjc4n r-cursor-1loqt21 r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim r-touchAction-1otgn73"
                   data-focusable={true}
+                  disabled={false}
                   onKeyDown={[Function]}
                   onKeyPress={[Function]}
                   onKeyUp={[Function]}
@@ -875,7 +879,6 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
                       "borderTopLeftRadius": "50px",
                       "borderTopRightRadius": "50px",
                       "msFlexItemAlign": "stretch",
-                      "msGridRowAlign": "stretch",
                     }
                   }
                   tabIndex="0"
@@ -887,7 +890,6 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
                         "WebkitAlignSelf": "stretch",
                         "alignSelf": "stretch",
                         "msFlexItemAlign": "stretch",
-                        "msGridRowAlign": "stretch",
                       }
                     }
                   >

@@ -48,6 +48,7 @@ exports[`Send matches snapshot 1`] = `
         <div
           className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-qt01xk r-borderColor-y68mpx r-borderWidth-rs99b7 r-cursor-1loqt21 r-justifyContent-1777fci r-touchAction-1otgn73 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
           data-focusable={true}
+          disabled={false}
           onKeyDown={[Function]}
           onKeyUp={[Function]}
           onResponderGrant={[Function]}
@@ -63,7 +64,6 @@ exports[`Send matches snapshot 1`] = `
               "borderTopLeftRadius": "21px",
               "borderTopRightRadius": "21px",
               "height": "42px",
-              "opacity": 1,
               "width": "42px",
             }
           }
@@ -167,7 +167,7 @@ exports[`Send matches snapshot 1`] = `
                 autoComplete="on"
                 autoCorrect="on"
                 autoFocus={true}
-                className="css-textinput-11aywtz r-flexGrow-16y2uox r-fontSize-ubezar r-margin-crgep1 r-paddingHorizontal-1e081e0 r-placeholderTextColor-1xktb6b r-textAlign-fdjqy7 r-zIndex-184en5c"
+                className="css-textinput-1cwyjr8 r-flexGrow-16y2uox r-fontSize-ubezar r-margin-crgep1 r-paddingHorizontal-1e081e0 r-placeholderTextColor-1xktb6b r-textAlign-fdjqy7 r-zIndex-184en5c"
                 data-focusable={true}
                 dir="auto"
                 onBlur={[Function]}
@@ -240,11 +240,6 @@ exports[`Send matches snapshot 1`] = `
           onResponderTerminate={[Function]}
           onResponderTerminationRequest={[Function]}
           onStartShouldSetResponder={[Function]}
-          style={
-            Object {
-              "opacity": 1,
-            }
-          }
           tabIndex="0"
         >
           <div
@@ -292,11 +287,6 @@ exports[`Send matches snapshot 1`] = `
           onResponderTerminate={[Function]}
           onResponderTerminationRequest={[Function]}
           onStartShouldSetResponder={[Function]}
-          style={
-            Object {
-              "opacity": 1,
-            }
-          }
           tabIndex="0"
         >
           <div
@@ -375,8 +365,9 @@ exports[`Send matches snapshot 1`] = `
             }
           >
             <div
-              className="css-cursor-18t94o4 css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
+              className="css-cursor-18t94o4 css-view-1dbjc4n r-cursor-1loqt21 r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim r-touchAction-1otgn73"
               data-focusable={true}
+              disabled={false}
               onKeyDown={[Function]}
               onKeyPress={[Function]}
               onKeyUp={[Function]}
@@ -396,7 +387,6 @@ exports[`Send matches snapshot 1`] = `
                   "borderTopLeftRadius": "50px",
                   "borderTopRightRadius": "50px",
                   "msFlexItemAlign": "stretch",
-                  "msGridRowAlign": "stretch",
                 }
               }
               tabIndex="0"
@@ -408,7 +398,6 @@ exports[`Send matches snapshot 1`] = `
                     "WebkitAlignSelf": "stretch",
                     "alignSelf": "stretch",
                     "msFlexItemAlign": "stretch",
-                    "msGridRowAlign": "stretch",
                   }
                 }
               >
@@ -486,14 +475,13 @@ exports[`Send matches snapshot 1`] = `
             }
           >
             <div
-              className="css-cursor-18t94o4 css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
-              data-focusable={true}
+              aria-disabled={true}
+              className="css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
+              disabled={true}
               onKeyDown={[Function]}
-              onKeyPress={[Function]}
               onKeyUp={[Function]}
               onResponderGrant={[Function]}
               onResponderMove={[Function]}
-              onResponderRelease={[Function]}
               onResponderTerminate={[Function]}
               onResponderTerminationRequest={[Function]}
               onStartShouldSetResponder={[Function]}
@@ -507,10 +495,8 @@ exports[`Send matches snapshot 1`] = `
                   "borderTopLeftRadius": "50px",
                   "borderTopRightRadius": "50px",
                   "msFlexItemAlign": "stretch",
-                  "msGridRowAlign": "stretch",
                 }
               }
-              tabIndex="0"
             >
               <div
                 className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
@@ -519,7 +505,6 @@ exports[`Send matches snapshot 1`] = `
                     "WebkitAlignSelf": "stretch",
                     "alignSelf": "stretch",
                     "msFlexItemAlign": "stretch",
-                    "msGridRowAlign": "stretch",
                   }
                 }
               >

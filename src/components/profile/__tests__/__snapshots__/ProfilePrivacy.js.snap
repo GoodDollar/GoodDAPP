@@ -47,11 +47,6 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
             onResponderTerminate={[Function]}
             onResponderTerminationRequest={[Function]}
             onStartShouldSetResponder={[Function]}
-            style={
-              Object {
-                "opacity": 1,
-              }
-            }
             tabIndex="0"
           >
             <div
@@ -132,8 +127,10 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
               className="css-view-1dbjc4n r-alignItems-1awozwy r-minWidth-1c8i11 r-width-1ih7r1r"
             >
               <div
-                className="css-cursor-18t94o4 css-view-1dbjc4n r-borderRadius-6ncur5 r-overflow-1udh08x r-position-bnwqim"
+                aria-live="polite"
+                className="css-cursor-18t94o4 css-view-1dbjc4n r-borderRadius-6ncur5 r-cursor-1loqt21 r-overflow-1udh08x r-position-bnwqim r-touchAction-1otgn73"
                 data-focusable={true}
+                disabled={false}
                 onKeyDown={[Function]}
                 onKeyPress={[Function]}
                 onKeyUp={[Function]}
@@ -177,8 +174,10 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
               className="css-view-1dbjc4n r-alignItems-1awozwy r-minWidth-1c8i11 r-width-1ih7r1r"
             >
               <div
-                className="css-cursor-18t94o4 css-view-1dbjc4n r-borderRadius-6ncur5 r-overflow-1udh08x r-position-bnwqim"
+                aria-live="polite"
+                className="css-cursor-18t94o4 css-view-1dbjc4n r-borderRadius-6ncur5 r-cursor-1loqt21 r-overflow-1udh08x r-position-bnwqim r-touchAction-1otgn73"
                 data-focusable={true}
+                disabled={false}
                 onKeyDown={[Function]}
                 onKeyPress={[Function]}
                 onKeyUp={[Function]}
@@ -222,8 +221,10 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
               className="css-view-1dbjc4n r-alignItems-1awozwy r-minWidth-1c8i11 r-width-1ih7r1r"
             >
               <div
-                className="css-cursor-18t94o4 css-view-1dbjc4n r-borderRadius-6ncur5 r-overflow-1udh08x r-position-bnwqim"
+                aria-live="polite"
+                className="css-cursor-18t94o4 css-view-1dbjc4n r-borderRadius-6ncur5 r-cursor-1loqt21 r-overflow-1udh08x r-position-bnwqim r-touchAction-1otgn73"
                 data-focusable={true}
+                disabled={false}
                 onKeyDown={[Function]}
                 onKeyPress={[Function]}
                 onKeyUp={[Function]}
@@ -277,8 +278,10 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
               className="css-view-1dbjc4n r-alignItems-1awozwy r-minWidth-1c8i11 r-width-1ih7r1r"
             >
               <div
-                className="css-cursor-18t94o4 css-view-1dbjc4n r-borderRadius-6ncur5 r-overflow-1udh08x r-position-bnwqim"
+                aria-live="polite"
+                className="css-cursor-18t94o4 css-view-1dbjc4n r-borderRadius-6ncur5 r-cursor-1loqt21 r-overflow-1udh08x r-position-bnwqim r-touchAction-1otgn73"
                 data-focusable={true}
+                disabled={false}
                 onKeyDown={[Function]}
                 onKeyPress={[Function]}
                 onKeyUp={[Function]}
@@ -322,8 +325,10 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
               className="css-view-1dbjc4n r-alignItems-1awozwy r-minWidth-1c8i11 r-width-1ih7r1r"
             >
               <div
-                className="css-cursor-18t94o4 css-view-1dbjc4n r-borderRadius-6ncur5 r-overflow-1udh08x r-position-bnwqim"
+                aria-live="polite"
+                className="css-cursor-18t94o4 css-view-1dbjc4n r-borderRadius-6ncur5 r-cursor-1loqt21 r-overflow-1udh08x r-position-bnwqim r-touchAction-1otgn73"
                 data-focusable={true}
+                disabled={false}
                 onKeyDown={[Function]}
                 onKeyPress={[Function]}
                 onKeyUp={[Function]}
@@ -367,8 +372,10 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
               className="css-view-1dbjc4n r-alignItems-1awozwy r-minWidth-1c8i11 r-width-1ih7r1r"
             >
               <div
-                className="css-cursor-18t94o4 css-view-1dbjc4n r-borderRadius-6ncur5 r-overflow-1udh08x r-position-bnwqim"
+                aria-live="polite"
+                className="css-cursor-18t94o4 css-view-1dbjc4n r-borderRadius-6ncur5 r-cursor-1loqt21 r-overflow-1udh08x r-position-bnwqim r-touchAction-1otgn73"
                 data-focusable={true}
+                disabled={false}
                 onKeyDown={[Function]}
                 onKeyPress={[Function]}
                 onKeyUp={[Function]}
@@ -455,6 +462,7 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
                 <div
                   className="css-text-901oao r-color-vaa0vc r-fontFamily-vnw8o6 r-fontSize-n6v787 r-fontWeight-1it3c9n r-letterSpacing-rdxj0b r-lineHeight-w20frr r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                   dir="auto"
+                  letterSpacing={0.07}
                 >
                   fake-face-ide...ce-identifier
                 </div>
@@ -483,11 +491,6 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
                     onResponderTerminate={[Function]}
                     onResponderTerminationRequest={[Function]}
                     onStartShouldSetResponder={[Function]}
-                    style={
-                      Object {
-                        "opacity": 1,
-                      }
-                    }
                     tabIndex="0"
                   >
                     <div
@@ -554,8 +557,9 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
           }
         >
           <div
-            className="css-cursor-18t94o4 css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
+            className="css-cursor-18t94o4 css-view-1dbjc4n r-cursor-1loqt21 r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim r-touchAction-1otgn73"
             data-focusable={true}
+            disabled={false}
             onKeyDown={[Function]}
             onKeyPress={[Function]}
             onKeyUp={[Function]}
@@ -575,7 +579,6 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
                 "borderTopLeftRadius": "50px",
                 "borderTopRightRadius": "50px",
                 "msFlexItemAlign": "stretch",
-                "msGridRowAlign": "stretch",
               }
             }
             tabIndex="0"
@@ -587,7 +590,6 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
                   "WebkitAlignSelf": "stretch",
                   "alignSelf": "stretch",
                   "msFlexItemAlign": "stretch",
-                  "msGridRowAlign": "stretch",
                 }
               }
             >
@@ -639,14 +641,13 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
           }
         >
           <div
-            className="css-cursor-18t94o4 css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
-            data-focusable={true}
+            aria-disabled={true}
+            className="css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
+            disabled={true}
             onKeyDown={[Function]}
-            onKeyPress={[Function]}
             onKeyUp={[Function]}
             onResponderGrant={[Function]}
             onResponderMove={[Function]}
-            onResponderRelease={[Function]}
             onResponderTerminate={[Function]}
             onResponderTerminationRequest={[Function]}
             onStartShouldSetResponder={[Function]}
@@ -660,10 +661,8 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
                 "borderTopLeftRadius": "50px",
                 "borderTopRightRadius": "50px",
                 "msFlexItemAlign": "stretch",
-                "msGridRowAlign": "stretch",
               }
             }
-            tabIndex="0"
           >
             <div
               className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
@@ -672,7 +671,6 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
                   "WebkitAlignSelf": "stretch",
                   "alignSelf": "stretch",
                   "msFlexItemAlign": "stretch",
-                  "msGridRowAlign": "stretch",
                 }
               }
             >

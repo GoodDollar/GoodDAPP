@@ -8,7 +8,7 @@ exports[`FeedListItem - Send matches snapshot 1`] = `
     className="css-view-1dbjc4n"
   >
     <div
-      className="css-view-1dbjc4n r-borderRadius-1xfd6ze r-boxShadow-1d1oby0 r-cursor-1loqt21 r-flexDirection-18u37iz r-marginHorizontal-1ybube5 r-marginTop-knv0ih r-maxHeight-1wlz0di r-touchAction-1otgn73 r-userSelect-lrvibr"
+      className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-borderRadius-1xfd6ze r-boxShadow-1d1oby0 r-cursor-1loqt21 r-flexDirection-18u37iz r-marginHorizontal-1ybube5 r-marginTop-knv0ih r-maxHeight-1wlz0di r-touchAction-1otgn73 r-userSelect-lrvibr"
       data-focusable={true}
       onKeyDown={[Function]}
       onKeyUp={[Function]}
@@ -104,7 +104,6 @@ exports[`FeedListItem - Send matches snapshot 1`] = `
                     "borderTopLeftRadius": "17px",
                     "borderTopRightRadius": "17px",
                     "height": "34px",
-                    "opacity": 1,
                   }
                 }
               >
@@ -203,7 +202,7 @@ exports[`FeedListItem - Withdraw matches snapshot 1`] = `
     className="css-view-1dbjc4n"
   >
     <div
-      className="css-view-1dbjc4n r-borderRadius-1xfd6ze r-boxShadow-1d1oby0 r-cursor-1loqt21 r-flexDirection-18u37iz r-marginHorizontal-1ybube5 r-marginTop-knv0ih r-maxHeight-1wlz0di r-touchAction-1otgn73 r-userSelect-lrvibr"
+      className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-borderRadius-1xfd6ze r-boxShadow-1d1oby0 r-cursor-1loqt21 r-flexDirection-18u37iz r-marginHorizontal-1ybube5 r-marginTop-knv0ih r-maxHeight-1wlz0di r-touchAction-1otgn73 r-userSelect-lrvibr"
       data-focusable={true}
       onKeyDown={[Function]}
       onKeyUp={[Function]}
@@ -299,7 +298,6 @@ exports[`FeedListItem - Withdraw matches snapshot 1`] = `
                     "borderTopLeftRadius": "17px",
                     "borderTopRightRadius": "17px",
                     "height": "34px",
-                    "opacity": 1,
                   }
                 }
               >

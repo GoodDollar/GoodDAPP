@@ -39,6 +39,7 @@ exports[`TopBar matches snapshot with balance 1`] = `
       <div
         className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-qt01xk r-borderColor-y68mpx r-borderWidth-rs99b7 r-cursor-1loqt21 r-justifyContent-1777fci r-touchAction-1otgn73 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
         data-focusable={true}
+        disabled={false}
         onKeyDown={[Function]}
         onKeyUp={[Function]}
         onResponderGrant={[Function]}
@@ -54,7 +55,6 @@ exports[`TopBar matches snapshot with balance 1`] = `
             "borderTopLeftRadius": "21px",
             "borderTopRightRadius": "21px",
             "height": "42px",
-            "opacity": 1,
             "width": "42px",
           }
         }
@@ -91,6 +91,7 @@ exports[`TopBar matches snapshot without balance 1`] = `
       <div
         className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-qt01xk r-borderColor-y68mpx r-borderWidth-rs99b7 r-cursor-1loqt21 r-justifyContent-1777fci r-touchAction-1otgn73 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
         data-focusable={true}
+        disabled={false}
         onKeyDown={[Function]}
         onKeyUp={[Function]}
         onResponderGrant={[Function]}
@@ -106,7 +107,6 @@ exports[`TopBar matches snapshot without balance 1`] = `
             "borderTopLeftRadius": "21px",
             "borderTopRightRadius": "21px",
             "height": "42px",
-            "opacity": 1,
             "width": "42px",
           }
         }

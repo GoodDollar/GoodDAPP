@@ -6,7 +6,7 @@ import '@gooddollar/gun/lib/load'
 
 import { delay, promisifyGun, retry } from '../utils/async'
 import { isMobileNative } from '../utils/platform'
-import { flushSecureKey, getNodePath, getSecureKey } from './gundb-utils'
+import { flushSecureKey, getSecureKey } from './gundb-utils'
 
 /**
  * extend gundb SEA with decrypt to match ".secret"
@@ -71,6 +71,24 @@ assign(chain, {
       .then(callback || identity)
       .catch(noop)
   },
+})
+
+assign(User.prototype, {
+  /**
+   * saves encrypted and returns a promise with the first result from a peer
+   * @returns {Promise<ack>}
+   */
+  // eslint-disable-next-line require-await
+  async secretAck(data, callback = null) {
+    const encryptPromise = retry(() => promisifyGun(onAck => this.secret(data, onAck)), 1)
+
+    flushSecureKey(this)
+    return encryptPromise.then(callback || identity)
+  },
+
+  /**
+   * To save encrypted data to your user graph only trusted users can read.
+   */
 
   /**
    * Returns the decrypted value
@@ -91,46 +109,6 @@ assign(chain, {
 
     return (callback || identity)(decryptedData)
   },
-})
-
-assign(User.prototype, {
-  async trust(publicKey, cb) {
-    let gun = this
-    let user = gun.back(-1).user()
-    let pair = user._.sea
-    let path = getNodePath(gun)
-
-    let enc
-    let sec = await getSecureKey(this)
-    if (!sec) {
-      throw new Error('cant trust non existing secureKey')
-    }
-    var dh = await SEA.secret(publicKey, pair)
-    enc = await SEA.encrypt(sec, dh)
-    const res = await user
-      .get('trust')
-      .get(publicKey)
-      .get(path)
-      .putAck(enc)
-
-    return (cb || identity)(res)
-  },
-
-  /**
-   * saves encrypted and returns a promise with the first result from a peer
-   * @returns {Promise<ack>}
-   */
-  // eslint-disable-next-line require-await
-  async secretAck(data, callback = null) {
-    const encryptPromise = retry(() => promisifyGun(onAck => this.secret(data, onAck)), 1)
-
-    flushSecureKey(this)
-    return encryptPromise.then(callback || identity)
-  },
-
-  /**
-   * To save encrypted data to your user graph only trusted users can read.
-   */
 
   /**
    * restore a user from saved credentials

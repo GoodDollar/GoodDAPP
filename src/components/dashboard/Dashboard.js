@@ -1,10 +1,11 @@
 // @flow
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Animated, Dimensions, Easing, Image, Platform, TouchableOpacity, View } from 'react-native'
-import { concat, debounce, get, noop, uniqBy } from 'lodash'
+import { concat, debounce, get, uniqBy } from 'lodash'
 import Mutex from 'await-mutex'
 import type { Store } from 'undux'
 import AsyncStorage from '../../lib/utils/asyncStorage'
+import { isBrowser } from '../../lib/utils/platform'
 import normalize from '../../lib/utils/normalizeText'
 import GDStore from '../../lib/undux/GDStore'
 import API from '../../lib/API/api'
@@ -36,7 +37,6 @@ import { theme as _theme } from '../theme/styles'
 import UnknownProfileSVG from '../../assets/unknownProfile.svg'
 import useOnPress from '../../lib/hooks/useOnPress'
 import Invite from '../invite/Invite'
-import _debounce from '../../lib/utils/debounce'
 import PrivacyPolicyAndTerms from './PrivacyPolicyAndTerms'
 import Amount from './Amount'
 import Claim from './Claim'
@@ -78,18 +78,10 @@ export type DashboardProps = {
   styles?: any,
 }
 
-const useNativeDriverForAnimation = Platform.select({
-  web: true,
-
-  // animating height/width or top/bottom/left/right attrs is not supported by native driver on native
-  default: false,
-})
-
 const feedMutex = new Mutex()
 
 const Dashboard = props => {
   const balanceRef = useRef()
-  const feedRef = useRef([])
   const { screenProps, styles, theme, navigation }: DashboardProps = props
   const [balanceBlockWidth, setBalanceBlockWidth] = useState(70)
   const [headerContentWidth, setHeaderContentWidth] = useState(initialHeaderContentWidth)
@@ -179,18 +171,16 @@ const Dashboard = props => {
           res = (await feedPromise) || []
           res.length > 0 && !didRender && store.set('feedLoadAnimShown')(true)
           res.length > 0 && setFeeds(res)
-          feedRef.current = res
         } else {
           res = (await feedPromise) || []
-          const newFeed = uniqBy(concat(feedRef.current, res), 'id')
-          feedRef.current = newFeed
+          const newFeed = uniqBy(concat(feeds, res), 'id')
           res.length > 0 && setFeeds(newFeed)
         }
         log.debug('getFeedPage getFormattedEvents result:', {
           reset,
           res,
           resultSize: res.length,
-          feedItems: feedRef.current.length,
+          feedItems: feeds.length,
         })
       } catch (e) {
         log.warn('getFeedPage failed', e.message, e)
@@ -198,7 +188,7 @@ const Dashboard = props => {
         release()
       }
     },
-    [loadAnimShown, store, setFeeds, feedRef],
+    [loadAnimShown, store, setFeeds, feeds],
   )
 
   const [feedLoaded, setFeedLoaded] = useState(false)
@@ -210,16 +200,13 @@ const Dashboard = props => {
   const subscribeToFeed = async () => {
     await getFeedPage(true)
 
-    userStorage.feedStorage.feedEvents.on('updated', onFeedUpdated)
+    userStorage.feedEvents.on('updated', onFeedUpdated)
   }
 
-  const onFeedUpdated = useCallback(
-    debounce(event => {
-      log.debug('feed cache updated', { event })
-      getFeedPage(true)
-    }, 500),
-    [getFeedPage],
-  )
+  const onFeedUpdated = event => {
+    log.debug('feed cache updated', { event })
+    getFeedPage(true)
+  }
 
   const handleFeedEvent = () => {
     const { params } = navigation.state || {}
@@ -274,13 +261,11 @@ const Dashboard = props => {
           duration: 750,
           easing: Easing.ease,
           delay: 1000,
-          useNativeDriver: true,
         }),
         Animated.timing(claimAnimValue, {
           toValue: 1,
           duration: 750,
           easing: Easing.ease,
-          useNativeDriver: true,
         }),
       ]).start(resolve),
     )
@@ -319,7 +304,7 @@ const Dashboard = props => {
   const nextFeed = useCallback(
     debounce(
       () => {
-        if (feedRef.current.length > 0) {
+        if (feeds && feeds.length > 0) {
           log.debug('getNextFeed called')
           return getFeedPage()
         }
@@ -327,7 +312,7 @@ const Dashboard = props => {
       500,
       { leading: true },
     ),
-    [getFeedPage],
+    [feeds, getFeedPage],
   )
 
   const initDashboard = async () => {
@@ -388,43 +373,36 @@ const Dashboard = props => {
           toValue: 68,
           duration: timing,
           easing: easingOut,
-          useNativeDriver: useNativeDriverForAnimation,
         }),
         Animated.timing(headerHeightAnimValue, {
           toValue: 176,
           duration: timing,
           easing: easingOut,
-          useNativeDriver: useNativeDriverForAnimation,
         }),
         Animated.timing(headerAvatarLeftAnimValue, {
           toValue: 0,
           duration: timing,
           easing: easingOut,
-          useNativeDriver: useNativeDriverForAnimation,
         }),
         Animated.timing(headerFullNameOpacityAnimValue, {
           toValue: 1,
           duration: fullNameOpacityTiming,
           easing: easingOut,
-          useNativeDriver: true,
         }),
         Animated.timing(headerBalanceBottomAnimValue, {
           toValue: 0,
           duration: timing,
           easing: easingOut,
-          useNativeDriver: useNativeDriverForAnimation,
         }),
         Animated.timing(headerBalanceRightMarginAnimValue, {
           toValue: 0,
           duration: timing,
           easing: easingOut,
-          useNativeDriver: useNativeDriverForAnimation,
         }),
         Animated.timing(headerBalanceLeftMarginAnimValue, {
           toValue: 0,
           duration: timing,
           easing: easingOut,
-          useNativeDriver: useNativeDriverForAnimation,
         }),
       ]).start()
     } else {
@@ -433,43 +411,36 @@ const Dashboard = props => {
           toValue: 42,
           duration: timing,
           easing: easingIn,
-          useNativeDriver: useNativeDriverForAnimation,
         }),
         Animated.timing(headerHeightAnimValue, {
           toValue: 40,
           duration: timing,
           easing: easingIn,
-          useNativeDriver: useNativeDriverForAnimation,
         }),
         Animated.timing(headerAvatarLeftAnimValue, {
           toValue: initialAvatarLeftPosition,
           duration: timing,
           easing: easingIn,
-          useNativeDriver: useNativeDriverForAnimation,
         }),
         Animated.timing(headerFullNameOpacityAnimValue, {
           toValue: 0,
           duration: fullNameOpacityTiming,
           easing: easingIn,
-          useNativeDriver: true,
         }),
         Animated.timing(headerBalanceBottomAnimValue, {
           toValue: Platform.select({ web: 68, default: 60 }),
           duration: timing,
           easing: easingIn,
-          useNativeDriver: useNativeDriverForAnimation,
         }),
         Animated.timing(headerBalanceRightMarginAnimValue, {
           toValue: 24,
           duration: timing,
           easing: easingIn,
-          useNativeDriver: useNativeDriverForAnimation,
         }),
         Animated.timing(headerBalanceLeftMarginAnimValue, {
           toValue: balanceCalculatedLeftMargin,
           duration: timing,
           easing: easingIn,
-          useNativeDriver: useNativeDriverForAnimation,
         }),
       ]).start()
     }
@@ -481,7 +452,7 @@ const Dashboard = props => {
 
     return function() {
       Dimensions.removeEventListener('change', handleResize)
-      userStorage.feedStorage.feedEvents.off('updated', onFeedUpdated)
+      userStorage.feedEvents.off('updated', onFeedUpdated)
     }
   }, [])
 
@@ -515,17 +486,14 @@ const Dashboard = props => {
   }
 
   useEffect(() => {
-    if (feedRef.current.length) {
+    if (feeds.length) {
       getNotificationItem()
     }
-  }, [appState])
+  }, [feeds, appState])
 
-  const handleFeedSelection = useCallback(
-    (receipt, horizontal) => {
-      showEventModal(horizontal ? receipt : null)
-    },
-    [showEventModal],
-  )
+  const handleFeedSelection = (receipt, horizontal) => {
+    showEventModal(horizontal ? receipt : null)
+  }
 
   const showNewFeedEvent = useCallback(
     async eventId => {
@@ -550,15 +518,13 @@ const Dashboard = props => {
     [showDialog, showEventModal],
   )
 
-  const goToProfile = useOnPress(() => screenProps.push('Profile'), [screenProps])
-
-  const handleScrollEnd = useCallback(
+  const onScroll = useCallback(
     ({ nativeEvent }) => {
       const minScrollRequired = 150
       const scrollPosition = nativeEvent.contentOffset.y
       const minScrollRequiredISH = headerLarge ? minScrollRequired : minScrollRequired * 2
       const scrollPositionISH = headerLarge ? scrollPosition : scrollPosition + minScrollRequired
-      if (feedRef.current.length > 10 && scrollPositionISH > minScrollRequiredISH) {
+      if (feeds && feeds.length && feeds.length > 10 && scrollPositionISH > minScrollRequiredISH) {
         if (headerLarge) {
           setHeaderLarge(false)
         }
@@ -568,17 +534,12 @@ const Dashboard = props => {
         }
       }
     },
-    [headerLarge, setHeaderLarge],
+    [headerLarge, feeds, setHeaderLarge],
   )
 
-  const handleScrollEndDebounced = useMemo(() => _debounce(handleScrollEnd, 300), [handleScrollEnd])
+  const modalListData = useMemo(() => (isBrowser ? [currentFeed] : feeds), [currentFeed, feeds])
 
-  // for native we able handle onMomentumScrollEnd, but for web we able to handle only onScroll event,
-  // so we need to imitate onMomentumScrollEnd for web
-  const onScroll = Platform.select({
-    web: handleScrollEndDebounced,
-    default: noop,
-  })
+  const goToProfile = useOnPress(() => screenProps.push('Profile'), [screenProps])
 
   return (
     <Wrapper style={styles.dashboardWrapper} withGradient={false}>
@@ -657,21 +618,20 @@ const Dashboard = props => {
         </Section.Row>
       </Section>
       <FeedList
-        data={feedRef.current}
+        data={feeds}
         handleFeedSelection={handleFeedSelection}
         initialNumToRender={PAGE_SIZE}
         onEndReached={nextFeed} // How far from the end the bottom edge of the list must be from the end of the content to trigger the onEndReached callback.
         // we can use decimal (from 0 to 1) or integer numbers. Integer - it is a pixels from the end. Decimal it is the percentage from the end
         onEndReachedThreshold={0.7} // Determines the maximum number of items rendered outside of the visible area
-        windowSize={20}
-        onScrollEnd={handleScrollEnd}
+        windowSize={7}
         onScroll={onScroll}
         headerLarge={headerLarge}
-        scrollEventThrottle={500}
+        scrollEventThrottle={100}
       />
       {currentFeed && (
         <FeedModalList
-          data={feedRef.current}
+          data={modalListData}
           handleFeedSelection={handleFeedSelection}
           onEndReached={nextFeed}
           selectedFeed={currentFeed}

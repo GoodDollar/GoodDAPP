@@ -1,9 +1,9 @@
 // @flow
-import React, { memo, useCallback, useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { Animated } from 'react-native'
 import { SwipeableFlatList } from 'react-native-swipeable-lists'
 import * as Animatable from 'react-native-animatable'
-import { get, isFunction, noop } from 'lodash'
+import { get, isFunction } from 'lodash'
 import moment from 'moment'
 
 import GDStore from '../../lib/undux/GDStore'
@@ -35,6 +35,15 @@ export type FeedListProps = {
   onScroll: Function,
 }
 
+type ItemComponentProps = {
+  item: any,
+  separators: {
+    highlight: any,
+    unhighlight: any,
+  },
+  index: number,
+}
+
 const getItemLayout = (_: any, index: number) => {
   const [length, separator, header] = [72, 1, 30]
 
@@ -45,19 +54,14 @@ const getItemLayout = (_: any, index: number) => {
   }
 }
 
-const Item = memo(({ item, handleFeedSelection }) => {
-  return <FeedListItem key={keyExtractor(item)} item={item} handleFeedSelection={handleFeedSelection} />
-})
-
 const FeedList = ({
   data,
   handleFeedSelection,
   initialNumToRender,
   onEndReached,
   onEndReachedThreshold,
-  onScrollEnd: _onScrollEnd = noop,
   styles,
-  onScroll = noop,
+  onScroll,
   headerLarge,
   windowSize,
 }: FeedListProps) => {
@@ -91,9 +95,14 @@ const FeedList = ({
     }
   }, [])
 
-  const renderItemComponent = useCallback(
-    ({ item }) => <Item item={item} handleFeedSelection={handleItemSelection} />,
-    [handleItemSelection],
+  const renderItemComponent = ({ item, separators, index }: ItemComponentProps) => (
+    <FeedListItem
+      key={keyExtractor(item)}
+      item={item}
+      separators={separators}
+      fixedHeight
+      handleFeedSelection={handleItemSelection}
+    />
   )
 
   /**
@@ -230,7 +239,6 @@ const FeedList = ({
         onEndReachedThreshold={onEndReachedThreshold}
         onScrollBeginDrag={onScrollStart}
         onScrollEndDrag={onScrollEnd}
-        onMomentumScrollEnd={_onScrollEnd}
         refreshing={false}
         renderItem={renderItemComponent}
         renderQuickActions={renderQuickActions}

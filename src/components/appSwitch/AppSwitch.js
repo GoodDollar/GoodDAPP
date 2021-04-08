@@ -77,90 +77,71 @@ let unsuccessfulLaunchAttempts = 0
  * The main app route rendering component. Here we decide where to go depending on the user's credentials status
  */
 const AppSwitch = (props: LoadingProps) => {
-  const { router, state, navigate } = props.navigation
+  const { router, state } = props.navigation
   const gdstore = GDStore.useStore()
   const store = SimpleStore.useStore()
   const [showErrorDialog] = useErrorDialog()
   const [ready, setReady] = useState(false)
-  const deepLinkingRef = useRef(null)
-
-  const recheck = useCallback(() => {
-    if (ready && gdstore) {
-      showOutOfGasError(props)
-    }
-  }, [gdstore, ready])
-
-  const backgroundUpdates = useCallback(() => {
-    if (ready) {
-      syncTXFromBlockchain()
-    }
-  }, [ready])
 
   /*
   Check if user is incoming with a URL with action details, such as payment link or email confirmation
   */
-  const getRoute = useCallback(
-    (destinationPath = {}) => {
-      let { path, params } = destinationPath
+  const getRoute = (destinationPath = {}) => {
+    let { path, params } = destinationPath
 
-      if (path || params) {
-        path = path || 'AppNavigation/Dashboard/Home'
+    if (path || params) {
+      path = path || 'AppNavigation/Dashboard/Home'
 
-        if (params && (params.paymentCode || params.code)) {
-          path = 'AppNavigation/Dashboard/HandlePaymentLink'
-        }
-
-        const app = router.getActionForPathAndParams(path) || {}
-        log.debug('destinationPath getRoute', { path, params, router, state, app })
-
-        //get nested routes
-        const destRoute = actions => (actions && actions.action ? destRoute(actions.action) : actions)
-        const destData = destRoute(app)
-
-        destData.params = { ...destData.params, ...params }
-        return destData
+      if (params && (params.paymentCode || params.code)) {
+        path = 'AppNavigation/Dashboard/HandlePaymentLink'
       }
 
-      return undefined
-    },
-    [router],
-  )
+      const app = router.getActionForPathAndParams(path) || {}
+      log.debug('destinationPath getRoute', { path, params, router, state, app })
+
+      //get nested routes
+      const destRoute = actions => (actions && actions.action ? destRoute(actions.action) : actions)
+      const destData = destRoute(app)
+
+      destData.params = { ...destData.params, ...params }
+      return destData
+    }
+
+    return undefined
+  }
 
   /*
   If a user has a saved destination path from before logging in or from inside-app (receipt view?)
   He won't be redirected in checkAuthStatus since it is called on didmount effect and won't happen after
   user completes signup and becomes loggedin which just updates this component
 */
-  const navigateToUrlAction = useCallback(
-    async (destinationPath: { path: string, params: {} }) => {
-      destinationPath = destinationPath || (await AsyncStorage.getItem(DESTINATION_PATH))
-      AsyncStorage.removeItem(DESTINATION_PATH)
+  const navigateToUrlAction = async (destinationPath: { path: string, params: {} }) => {
+    destinationPath = destinationPath || (await AsyncStorage.getItem(DESTINATION_PATH))
+    AsyncStorage.removeItem(DESTINATION_PATH)
 
-      log.debug('navigateToUrlAction:', { destinationPath })
+    log.debug('navigateToUrlAction:', { destinationPath })
 
-      //if no special destinationPath check if we have incoming params from web url, such as payment link/request
-      //when path is empty
-      if (!isMobileNative && !destinationPath) {
-        const { params, pathname } = DeepLinking
+    //if no special destinationPath check if we have incoming params from web url, such as payment link/request
+    //when path is empty
+    if (!isMobileNative && !destinationPath) {
+      const { params, pathname } = DeepLinking
 
-        log.debug('navigateToUrlAction destinationPath empty getting web params from url', { params })
+      log.debug('navigateToUrlAction destinationPath empty getting web params from url', { params })
 
-        if (pathname && pathname.length < 2 && !isEmpty(params)) {
-          //this makes sure query params are passed as part of navigation
-          destinationPath = { params }
-        }
+      if (pathname && pathname.length < 2 && !isEmpty(params)) {
+        //this makes sure query params are passed as part of navigation
+        destinationPath = { params }
       }
+    }
 
-      let destDetails = destinationPath && getRoute(destinationPath)
+    let destDetails = destinationPath && getRoute(destinationPath)
 
-      //once user logs in we can redirect him to saved destinationPath
-      if (destDetails) {
-        log.debug('destinationPath found:', destDetails)
-        return navigate(destDetails)
-      }
-    },
-    [getRoute, navigate],
-  )
+    //once user logs in we can redirect him to saved destinationPath
+    if (destDetails) {
+      log.debug('destinationPath found:', destDetails)
+      return props.navigation.navigate(destDetails)
+    }
+  }
 
   /**
    * Check's users' current auth status
@@ -216,25 +197,39 @@ const AppSwitch = (props: LoadingProps) => {
     }
   }
 
-  const wentForeground = useCallback(() => {
-    recheck()
+  const deepLinkingRef = useRef(null)
+  const navigateToUrlRef = useRef(navigateToUrlAction)
 
+  const recheck = useCallback(() => {
     const { current: data } = deepLinkingRef
 
     if (data) {
       log.debug('deepLinkingNavigation: got url', { data })
-      navigateToUrlAction({ path: data.pathname, params: data.queryParams })
+
+      navigateToUrlRef.current({ path: data.path, params: data.queryParams })
       deepLinkingRef.current = null
     }
-  }, [recheck, navigateToUrlAction])
+
+    if (ready && gdstore) {
+      showOutOfGasError(props)
+    }
+  }, [gdstore, ready])
+
+  const backgroundUpdates = useCallback(() => {
+    if (ready) {
+      syncTXFromBlockchain()
+    }
+  }, [ready])
 
   useInviteCode()
 
-  useAppState({ onForeground: wentForeground, onBackground: backgroundUpdates })
+  useEffect(() => void (navigateToUrlRef.current = navigateToUrlAction), [navigateToUrlAction])
+
+  useAppState({ onForeground: recheck, onBackground: backgroundUpdates })
 
   useEffect(() => {
     init()
-    navigateToUrlAction()
+    navigateToUrlRef.current()
 
     if (!isMobileNative) {
       return
@@ -243,7 +238,7 @@ const AppSwitch = (props: LoadingProps) => {
     DeepLinking.subscribe(data => {
       if (AppState.currentState === 'active') {
         log.debug('deepLinkingNavigation: got url', { data })
-        navigateToUrlAction({ path: data.pathname, params: data.queryParams })
+        navigateToUrlRef.current({ path: data.path, params: data.queryParams })
         return
       }
 
@@ -251,7 +246,7 @@ const AppSwitch = (props: LoadingProps) => {
     })
 
     return () => DeepLinking.unsubscribe()
-  }, [navigateToUrlAction])
+  }, [])
 
   const { descriptors, navigation } = props
   const activeKey = navigation.state.routes[navigation.state.index].key

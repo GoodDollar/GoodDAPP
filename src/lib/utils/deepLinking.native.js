@@ -97,13 +97,15 @@ class DeepLinkingNative {
 
     assign(this.params, queryParams)
     assign(this.callbackParams, { originalLink: link, path: this.pathname, queryParams, branch: ccParams })
+
     log.debug('calling deeplink callbacks with:', {
       originalLink: link,
       path: this.pathname,
       queryParams,
       branch: ccParams,
     })
-    over(this.navigationCallbacks, this.callbackParams)()
+
+    over(this.navigationCallbacks)(this.callbackParams)
   }
 }
 

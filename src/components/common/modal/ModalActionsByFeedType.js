@@ -323,7 +323,7 @@ const getStylesFromProps = ({ theme }) => ({
     justifyContent: 'space-between',
     alignItems: 'baseline',
   },
-  txHashWrapper: { alignSelf: 'center', flex: 1, justifyContent: 'center' },
+  txHashWrapper: { justifyContent: 'center', alignItems: 'flex-start', flexDirection: 'column' },
   txHash: { maxWidth: 200 },
   spaceBetween: {
     justifyContent: 'space-between',

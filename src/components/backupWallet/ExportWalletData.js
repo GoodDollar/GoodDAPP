@@ -71,7 +71,7 @@ const ExportWalletData = ({ navigation, styles, theme }: ExportWalletProps) => {
         </Section.Text>
         <Divider size={10} />
         <Section.Text fontSize={15} fontWeight="medium" fontFamily="Roboto" color="black">
-          All your information at a glance to easily import gooddollar to metamask
+          All your information at a glance to easily import GoodDollar to MetaMask
         </Section.Text>
         <Divider size={30} />
         <BorderedBox

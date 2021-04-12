@@ -252,7 +252,7 @@ const InvitesHowTO = () => {
 }
 
 const InvitesData = ({ invitees, refresh, level, totalEarned = 0 }) => (
-  <View>
+  <View style={{ width: '100%' }}>
     <Section.Stack
       style={{
         alignSelf: 'stretch',

@@ -252,7 +252,7 @@ const InvitesHowTO = () => {
 }
 
 const InvitesData = ({ invitees, refresh, level, totalEarned = 0 }) => (
-  <>
+  <View>
     <Section.Stack
       style={{
         alignSelf: 'stretch',
@@ -267,7 +267,7 @@ const InvitesData = ({ invitees, refresh, level, totalEarned = 0 }) => (
     <Section.Stack style={{ alignSelf: 'stretch', marginTop: theme.paddings.defaultMargin * 1.5 }}>
       <InvitesBox invitees={invitees} refresh={refresh} />
     </Section.Stack>
-  </>
+  </View>
 )
 
 const Invite = () => {

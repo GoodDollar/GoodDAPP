@@ -1,10 +1,12 @@
 // @flow
-import React from 'react'
+import React, { useMemo } from 'react'
 import { TouchableOpacity, View } from 'react-native'
 import { Avatar } from 'react-native-paper'
+
 import UnknownProfileSVG from '../../../assets/unknownProfile.svg'
 import { withStyles } from '../../../lib/styles'
 import useOnPress from '../../../lib/hooks/useOnPress'
+import { isValidImage } from '../../../lib/utils/image'
 
 /**
  * Touchable Avatar
@@ -17,6 +19,9 @@ import useOnPress from '../../../lib/hooks/useOnPress'
  */
 const CustomAvatar = ({ styles, style, source, onPress, size, imageSize, children, unknownStyle, ...avatarProps }) => {
   const _onPress = useOnPress(onPress)
+
+  const _source = useMemo(() => isValidImage(source), [source])
+
   return (
     <TouchableOpacity
       activeOpacity={1}
@@ -25,10 +30,10 @@ const CustomAvatar = ({ styles, style, source, onPress, size, imageSize, childre
       style={[styles.avatarContainer, { width: size, height: size, borderRadius: size / 2 }, style]}
       underlayColor="#fff"
     >
-      {source ? (
+      {_source ? (
         <Avatar.Image
           size={imageSize || size - 2}
-          source={typeof source === 'number' ? source : { uri: source }}
+          source={_source}
           style={{ backgroundColor: 'rgba(0, 0, 0, 0)' }}
           {...avatarProps}
         />

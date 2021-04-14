@@ -10,5 +10,13 @@ export const isValidBase64Image = source =>
 
 export const isValidLocalImage = source => isNumber(source) && source > 0
 
+export const isValidRootImage = source => isString(source) && source.startsWith('/') && source.split('.').length > 1
+
 export const isValidImage = source =>
-  isValidLocalImage(source) ? source : isValidBase64Image(source) ? { uri: source } : null
+  isValidLocalImage(source)
+    ? source
+    : isValidRootImage(source)
+    ? source
+    : isValidBase64Image(source)
+    ? { uri: source }
+    : null

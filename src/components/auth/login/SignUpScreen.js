@@ -1,6 +1,6 @@
 // @flow
 import React, { useCallback } from 'react'
-import { Platform } from 'react-native'
+import { Platform, View } from 'react-native'
 import Wrapper from '../../common/layout/Wrapper'
 import Text from '../../common/view/Text'
 import NavBar from '../../appNavigation/NavBar'
@@ -105,7 +105,7 @@ const SignupScreen = ({ isSignup, screenProps, styles, handleLoginMethod, sdkIni
           </Section.Stack>
           <Section.Stack style={styles.bottomContainer}>
             {isSignup ? <SignupText /> : <SigninText />}
-            <React.Fragment>
+            <View style={{ width: '100%' }}>
               <LoginButton
                 style={[styles.buttonLayout, { backgroundColor: mainTheme.colors.googleBlue }]}
                 onPress={_google}
@@ -148,7 +148,7 @@ const SignupScreen = ({ isSignup, screenProps, styles, handleLoginMethod, sdkIni
               >
                 {`${buttonPrefix}${isSignup ? '' : ' with'} Passwordless`}
               </LoginButton>
-            </React.Fragment>
+            </View>
             <Section.Stack style={styles.textButtonContainer}>
               <CustomButton
                 compact

@@ -112,6 +112,7 @@ const SendReason = (props: AmountProps) => {
           <Section.Row style={[styles.categoryRow, { paddingTop: 19 }]}>
             <Section.Stack>
               <TouchableOpacity
+                style={styles.outerBoxMargin}
                 onPress={() => {
                   handleCategoryBoxOnPress(PaymentCategory.DigitalServices)
                 }}
@@ -132,6 +133,7 @@ const SendReason = (props: AmountProps) => {
             </Section.Stack>
             <Section.Stack>
               <TouchableOpacity
+                style={styles.outerBoxMargin}
                 onPress={() => {
                   handleCategoryBoxOnPress(PaymentCategory.SocialMedia)
                 }}
@@ -152,6 +154,7 @@ const SendReason = (props: AmountProps) => {
             </Section.Stack>
             <Section.Stack>
               <TouchableOpacity
+                style={styles.outerBoxMargin}
                 onPress={() => {
                   handleCategoryBoxOnPress(PaymentCategory.Product)
                 }}
@@ -174,6 +177,7 @@ const SendReason = (props: AmountProps) => {
           <Section.Row style={[styles.categoryRow, { paddingTop: theme.sizes.default }]}>
             <Section.Stack>
               <TouchableOpacity
+                style={styles.outerBoxMargin}
                 onPress={() => {
                   handleCategoryBoxOnPress(PaymentCategory.Course)
                 }}
@@ -194,6 +198,7 @@ const SendReason = (props: AmountProps) => {
             </Section.Stack>
             <Section.Stack>
               <TouchableOpacity
+                style={styles.outerBoxMargin}
                 onPress={() => {
                   handleCategoryBoxOnPress(PaymentCategory.Donation)
                 }}
@@ -214,6 +219,7 @@ const SendReason = (props: AmountProps) => {
             </Section.Stack>
             <Section.Stack>
               <TouchableOpacity
+                style={styles.outerBoxMargin}
                 onPress={() => {
                   handleCategoryBoxOnPress(PaymentCategory.Other)
                 }}
@@ -285,10 +291,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   categoryBox: {
-    width: getDesignRelativeWidth(99),
-    height: getDesignRelativeHeight(99),
-    marginLeft: 4,
-    marginRight: 4,
+    minWidth: getDesignRelativeWidth(99),
+    minHeight: getDesignRelativeHeight(99),
     borderRadius: 5,
     backgroundColor: '#ffffff',
   },
@@ -296,6 +300,9 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: theme.colors.primary,
     borderStyle: 'solid',
+  },
+  outerBoxMargin: {
+    marginHorizontal: 4,
   },
 })
 

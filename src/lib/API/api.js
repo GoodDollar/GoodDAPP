@@ -271,6 +271,15 @@ export class APIService {
   }
 
   /**
+   * `/verify/face/license/:licenseType` post api call
+   */
+  getLicenseKey(licenseType: string): Promise<$AxiosXHR<any>> {
+    const { client, faceVerificationUrl } = this
+
+    return client.post(`${faceVerificationUrl}/license/${encodeURIComponent(licenseType)}`, {})
+  }
+
+  /**
    * `/verify/face/session` post api call
    */
   issueSessionToken(): Promise<$AxiosXHR<any>> {

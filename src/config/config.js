@@ -74,7 +74,6 @@ const Config = {
   showRewards: env.REACT_APP_DASHBOARD_SHOW_REWARDS === 'true',
   faceTecEncryptionKey: fixNL(env.REACT_APP_ZOOM_ENCRYPTION_KEY),
   faceTecLicenseKey: env.REACT_APP_ZOOM_LICENSE_KEY,
-  faceTecLicenseText: fixNL(env.REACT_APP_ZOOM_LICENSE_TEXT),
   faceVerificationRequestTimeout: env.REACT_APP_ZOOM_REQUEST_TIMEOUT || 60000,
   faceVerificationMaxAttemptsAllowed: Number(env.REACT_APP_FACE_VERIFICATION_ATTEMPTS || 3),
   faceVerificationPrivacyUrl:

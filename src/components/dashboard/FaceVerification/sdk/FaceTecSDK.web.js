@@ -3,7 +3,7 @@ import { assign, get, isString } from 'lodash'
 import logger from '../../../../lib/logger/pino-logger'
 
 import FaceTec from '../../../../lib/facetec/FaceTecSDK'
-import { parseLicense, parseVerificationOptions } from '../utils/options'
+import { parseVerificationOptions } from '../utils/options'
 import { FACETEC_PUBLIC_PATH, UICustomization, UITextStrings } from './UICustomization'
 import { ProcessingSubscriber } from './ProcessingSubscriber'
 import { EnrollmentProcessor } from './EnrollmentProcessor'
@@ -77,10 +77,9 @@ export const FaceTecSDK = new class {
   /**
    * @private
    */
-  async initializationAttempt(licenseKey, encryptionKey, licenseText) {
+  async initializationAttempt(licenseKey, encryptionKey, license) {
     const { sdk, logger } = this
     const { NeverInitialized, KeyExpiredOrInvalid } = FaceTecSDKStatus
-    const license = parseLicense(licenseText)
 
     logger.debug('FaceTec SDK initialization attempt', { licenseKey, encryptionKey, license })
 

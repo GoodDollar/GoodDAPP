@@ -292,6 +292,8 @@ const styles = StyleSheet.create({
   },
   categoryBox: {
     minWidth: getDesignRelativeWidth(99),
+    maxWidth: getDesignRelativeWidth(99),
+    maxHeight: getDesignRelativeHeight(99),
     minHeight: getDesignRelativeHeight(99),
     borderRadius: 5,
     backgroundColor: '#ffffff',

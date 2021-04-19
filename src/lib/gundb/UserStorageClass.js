@@ -1901,9 +1901,12 @@ export class UserStorage {
     const attr = isMobilePhone(value) ? 'mobile' : isEmail(value) ? 'email' : 'walletAddress'
     const hashValue = UserStorage.cleanHashedFieldForIndex(attr, value)
 
+    logger.info(`getUserProfilePublicKey by value <${value}>`, { attr, hashValue })
+
     let profilePublickey
     if (attr === 'walletAddress') {
       profilePublickey = this.walletAddressIndex[hashValue]
+      logger.info(`getUserProfilePublicKey from indexes`, { profilePublickey })
     }
     if (profilePublickey) {
       return profilePublickey
@@ -1911,6 +1914,8 @@ export class UserStorage {
 
     const { data } = await API.getProfileBy(hashValue)
     profilePublickey = get(data, 'profilePublickey')
+
+    logger.info(`getUserProfilePublicKey from API`, { profilePublickey })
 
     if (profilePublickey == null) {
       return
@@ -1956,6 +1961,7 @@ export class UserStorage {
   async getUserProfile(field: string = ''): { name: String, avatar: String } {
     const profile = await this.getUserProfilePublickey(field)
     if (profile == null) {
+      logger.info(`getUserProfile by field <${field}> with nullable profile public key`, { profilePublicKey: profile })
       return { name: undefined, avatar: undefined }
     }
 
@@ -1973,7 +1979,10 @@ export class UserStorage {
         .get('display')
         .then(null, 500),
     ])
-
+    logger.info(`getUserProfile by field <${field}>`, { avatar, name, profilePublicKey: profile })
+    if (!name) {
+      logger.info(`cannot get fullName from gun by field <${field}>`, { name })
+    }
     return { name, avatar }
   }
 

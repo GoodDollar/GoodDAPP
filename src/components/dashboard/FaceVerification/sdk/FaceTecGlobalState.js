@@ -1,6 +1,8 @@
 import { Platform } from 'react-native'
 
 import Config from '../../../../config/config'
+import { retry } from '../../../../lib/utils/async'
+
 import faceVerificationApi from '../api/FaceVerificationApi'
 import { FaceTecSDK } from './FaceTecSDK'
 
@@ -19,13 +21,13 @@ const FaceTecGlobalState = {
    * Convenience method to initialize the FaceTec SDK.
    */
   async initialize() {
-    const { faceTecLicenseKey, faceTecEncryptionKey, env } = Config
+    const { faceTecLicenseKey, faceTecEncryptionKey, faceTecProductionMode } = Config
     const platform = Platform.select({ web: Platform.OS, default: 'native' })
 
     const obtainLicense = async () => {
       // if env is prod and no license set - obtain it from the server
-      if (env === 'production' && !this.faceTecLicense) {
-        this.faceTecLicense = await faceVerificationApi.getLicense(platform)
+      if (faceTecProductionMode && !this.faceTecLicense) {
+        this.faceTecLicense = await retry(() => faceVerificationApi.getLicense(platform), 2, 500)
       }
 
       // for dev / qa it will return the default value (null)

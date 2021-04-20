@@ -3,8 +3,9 @@ import { defaults } from 'lodash'
 
 class Torus {
   constructor(Config, options) {
+    const { publicUrl } = Config
     const redirectUri = 'gooddollar://org.gooddollar/redirect'
-    const browserRedirectUri = redirectUri
+    const browserRedirectUri = `${publicUrl}/torus/scripts.html`
 
     this.options = defaults({}, options, { redirectUri, browserRedirectUri })
   }

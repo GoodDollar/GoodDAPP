@@ -99,6 +99,7 @@ const PrivacyPolicyAndTerms = ({ navigation, styles }: Props) => {
 const styles = ({ theme }) => ({
   wrapper: {
     flex: 1,
+    flexBasis: 1,
     backgroundColor: 'white',
     padding: theme.sizes.defaultDouble,
     paddingVertical: theme.sizes.default,

@@ -2,7 +2,7 @@
 
 // libraries
 import React, { useCallback, useMemo } from 'react'
-import { Platform, ScrollView } from 'react-native'
+import { ScrollView } from 'react-native'
 import { get, noop } from 'lodash'
 
 // components
@@ -21,7 +21,6 @@ import config from '../../config/config'
 
 // assets
 import Checkmark from '../../assets/checkmark.svg'
-import { isMobileWeb } from '../../lib/utils/platform'
 import ExportWarningPopup from './ExportWarningPopup'
 
 type ExportWalletProps = {
@@ -64,7 +63,7 @@ const ExportWalletData = ({ navigation, styles, theme }: ExportWalletProps) => {
   return (
     <Wrapper style={styles.wrapper}>
       <NavBar title="EXPORT MY WALLET" goBack={handleGoHome} />
-      <ScrollView contentContainerStyle={styles.contentContainerForBoxes} style={styles.containerForBoxes}>
+      <ScrollView style={styles.container}>
         <Divider size={30} />
         <Section.Text fontSize={28} fontWeight="bold" fontFamily="Roboto Slab" color="black">
           My account details
@@ -128,7 +127,7 @@ const ExportWalletData = ({ navigation, styles, theme }: ExportWalletProps) => {
           enableIndicateAction
           enableSideMode
         />
-        <Divider size={100} />
+        <Divider />
       </ScrollView>
     </Wrapper>
   )
@@ -136,26 +135,12 @@ const ExportWalletData = ({ navigation, styles, theme }: ExportWalletProps) => {
 
 const styles = ({ theme }) => ({
   wrapper: {
-    ...Platform.select({
-      web: {
-        backgroundImage: 'none',
-        backgroundColor: 'none',
-      },
-      default: { backgroundColor: 'transparent' },
-    }),
+    flex: 1,
     padding: 0,
   },
-  containerForBoxes: {
-    ...(isMobileWeb
-      ? {
-          height: '90vh',
-        }
-      : {}),
+  container: {
     backgroundColor: theme.colors.surface,
-  },
-  contentContainerForBoxes: {
-    width: '90%',
-    marginHorizontal: '5%',
+    paddingHorizontal: '5%',
   },
 })
 

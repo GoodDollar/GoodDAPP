@@ -1,13 +1,12 @@
-import DirectNativeSDK from '@toruslabs/torus-direct-react-native-sdk' // eslint-disable-line import/no-unresolved
+import DirectNativeSDK from '@toruslabs/torus-direct-react-native-sdk'
+import { defaults } from 'lodash'
 
 class Torus {
   constructor(Config, options) {
-    const { publicUrl } = Config
-
     const redirectUri = 'gooddollar://org.gooddollar/redirect'
-    const browserRedirectUri = `${publicUrl}/torus/scripts.html`
+    const browserRedirectUri = redirectUri
 
-    this.options = { redirectUri, browserRedirectUri, ...options }
+    this.options = defaults({}, options, { redirectUri, browserRedirectUri })
   }
 
   // eslint-disable-next-line require-await

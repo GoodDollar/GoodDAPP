@@ -174,9 +174,9 @@ android {
         testBuildType System.getProperty('testBuildType', 'debug')  // This will later be used to control the test apk build type
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
         manifestPlaceholders = [
-                'torusRedirectScheme': 'gooddollar',
-                'torusRedirectHost': 'org.gooddollar',
-                'torusRedirectPathPrefix': '/redirect'
+            'torusRedirectScheme': 'gooddollar',
+            'torusRedirectHost': 'org.gooddollar',
+            'torusRedirectPathPrefix': '/redirect'
         ]
     }
     splits {

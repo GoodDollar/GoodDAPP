@@ -135,8 +135,8 @@ self.addEventListener("fetch", function (event) {
       <h1 class="title content" id="closeText" style="display: none;">You can close this window now</h1>
     </div>
     <script
-      src="https://scripts.toruswallet.io/broadcastChannel_3_1_0.js"
-      integrity="sha384-xZA9e8T2sQ3eBH6+D8PNECKbFOogWEHbtcYOFp1lB1bifyxBKzWRIHnk9ecVUse4"
+      src="https://scripts.toruswallet.io/broadcastChannel_3_5_3.js"
+      integrity="sha384-skU9kn0NAhJbaUxr/WTkc56HLM8U6akUpv4H4WmR+ZYh9+ChxbuN7GnALGNFSPzq"
       crossorigin="anonymous"
     ></script>
     <script>
@@ -239,11 +239,24 @@ self.addEventListener("fetch", function (event) {
                 },
                 error: error,
               },
-              "*"
+              "http://localhost:3000"
             );
           } else {
             // communicate via broadcast channel
             bc = new broadcastChannelLib.BroadcastChannel("redirect_channel_" + instanceParams.instanceId, broadcastChannelOptions);
+            bc.addEventListener("message", function (ev) {
+              if (ev.success) {
+                bc.close();
+                console.log("posted", {
+                  queryParams,
+                  instanceParams,
+                  hashParams,
+                });
+              } else {
+                window.close();
+                showCloseText();
+              }
+            });
             bc.postMessage({
               data: {
                 instanceParams: instanceParams,
@@ -252,15 +265,8 @@ self.addEventListener("fetch", function (event) {
               },
               error: error,
             }).then(function () {
-              bc.close();
-              console.log("posted", {
-                queryParams,
-                instanceParams,
-                hashParams,
-              });
               setTimeout(function () {
-                window.close();
-                showCloseText();
+                window.location.href = url.origin + location.search + location.hash;
               }, 5000);
             });
           }
@@ -301,7 +307,7 @@ self.addEventListener("fetch", function (event) {
     </script>
   </body>
 </html>
-                        
+
 ${""}
   `,
             ],

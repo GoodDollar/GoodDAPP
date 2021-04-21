@@ -5,7 +5,7 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
   className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
-    className="css-view-1dbjc4n r-backgroundColor-1b3fm86 r-display-6koalj r-flexDirection-eqz5dr r-flexGrow-16y2uox r-maxHeight-87ditf r-overflowX-lltvgl r-overflowY-1rnoaur r-padding-t60dpp r-position-bnwqim r-width-13qz1uu"
+    className="css-view-1dbjc4n r-display-6koalj r-flex-13awgt0 r-flexDirection-eqz5dr r-flexGrow-16y2uox r-maxHeight-87ditf r-overflowX-lltvgl r-overflowY-1rnoaur r-padding-t60dpp r-position-bnwqim r-width-13qz1uu"
     data-name="viewWrapper"
     style={
       Object {
@@ -177,13 +177,13 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
       </div>
     </div>
     <div
-      className="css-view-1dbjc4n r-WebkitOverflowScrolling-150rngu r-backgroundColor-14lw9ot r-flexDirection-eqz5dr r-flexGrow-16y2uox r-flexShrink-1wbh5a2 r-overflowX-11yh6sk r-overflowY-1rnoaur r-transform-1sncvnh"
+      className="css-view-1dbjc4n r-WebkitOverflowScrolling-150rngu r-backgroundColor-14lw9ot r-flexDirection-eqz5dr r-flexGrow-16y2uox r-flexShrink-1wbh5a2 r-overflowX-11yh6sk r-overflowY-1rnoaur r-paddingHorizontal-8wx0ln r-transform-1sncvnh"
       onScroll={[Function]}
       onTouchMove={[Function]}
       onWheel={[Function]}
     >
       <div
-        className="css-view-1dbjc4n r-marginHorizontal-19l4lzq r-width-e7q0ms"
+        className="css-view-1dbjc4n"
       >
         <div
           className="css-view-1dbjc4n"
@@ -916,11 +916,11 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
           style={
             Object {
               "backgroundColor": "rgba(0,0,0,0.00)",
-              "borderBottomLeftRadius": "50px",
-              "borderBottomRightRadius": "50px",
-              "borderTopLeftRadius": "50px",
-              "borderTopRightRadius": "50px",
-              "height": "100px",
+              "borderBottomLeftRadius": "25px",
+              "borderBottomRightRadius": "25px",
+              "borderTopLeftRadius": "25px",
+              "borderTopRightRadius": "25px",
+              "height": "50px",
               "zIndex": -10,
             }
           }

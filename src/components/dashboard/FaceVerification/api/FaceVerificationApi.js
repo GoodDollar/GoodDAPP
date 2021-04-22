@@ -6,7 +6,7 @@ import API from '../../../../lib/API/api'
 import Config from '../../../../config/config'
 import logger from '../../../../lib/logger/pino-logger'
 import { unexpectedErrorMessage } from '../sdk/FaceTecSDK.constants'
-import { logIssue } from '../utils/kindOfTheIssue'
+import { shouldLogVerificaitonError } from '../utils/kindOfTheIssue'
 
 import { type FaceVerificationPayload, type FaceVerificationResponse } from './typings'
 
@@ -43,8 +43,14 @@ class FaceVerificationApi {
       return sessionId
     } catch (exception) {
       const { message } = exception
+      const logArgs = ['Session token issue failed:', message, exception]
 
-      logIssue(logger, 'Session token issue failed:', message, exception)
+      if (shouldLogVerificaitonError(exception)) {
+        logger.error(...logArgs)
+      } else {
+        logger.warn(...logArgs)
+      }
+
       throw new Error('Session could not be started due to an unexpected issue during the network request.')
     }
   }
@@ -82,8 +88,14 @@ class FaceVerificationApi {
       return response
     } catch (exception) {
       const { message } = exception
+      const logArgs = ['Face verification failed', message, exception]
 
-      logIssue(logger, 'Face verification failed', message, exception)
+      if (shouldLogVerificaitonError(exception)) {
+        logger.error(...logArgs)
+      } else {
+        logger.warn(...logArgs)
+      }
+
       throw exception
     } finally {
       this.lastCancelToken = null
@@ -112,8 +124,14 @@ class FaceVerificationApi {
       logger.info('Face snapshot enqued to disposal queue successfully')
     } catch (exception) {
       const { message } = exception
+      const logArgs = ['Face snapshot disposal check failed', message, exception]
 
-      logIssue(logger, 'Face snapshot disposal check failed', message, exception)
+      if (shouldLogVerificaitonError(exception)) {
+        logger.error(...logArgs)
+      } else {
+        logger.warn(...logArgs)
+      }
+
       throw exception
     }
   }
@@ -130,8 +148,14 @@ class FaceVerificationApi {
       return isDisposing
     } catch (exception) {
       const { message } = exception
+      const logArgs = ['Face snapshot disposal check failed', message, exception]
 
-      logIssue(logger, 'Face snapshot disposal check failed', message, exception)
+      if (shouldLogVerificaitonError(exception)) {
+        logger.error(...logArgs)
+      } else {
+        logger.warn(...logArgs)
+      }
+
       throw exception
     }
   }

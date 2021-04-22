@@ -3,7 +3,7 @@ import { assign, noop } from 'lodash'
 
 import useRealtimeProps from '../../../../lib/hooks/useRealtimeProps'
 
-import { ExceptionType, kindOfSDKIssue, logIssue } from '../utils/kindOfTheIssue'
+import { ExceptionType, kindOfSDKIssue, shouldLogVerificaitonError } from '../utils/kindOfTheIssue'
 
 import logger from '../../../../lib/logger/pino-logger'
 import { isE2ERunning, isEmulator } from '../../../../lib/utils/platform'
@@ -45,6 +45,7 @@ export default (eventHandlers = {}) => {
     // Helper for handle exceptions
     const handleException = exception => {
       const { message } = exception
+      const logArgs = ['Zoom initialization failed', message, exception]
 
       // check & handle critical / resource errors
       handleCriticalError(exception)
@@ -52,7 +53,12 @@ export default (eventHandlers = {}) => {
       // executing current onError callback
       onError(exception)
       setLastError(exception)
-      logIssue(log, 'Zoom initialization failed', message, exception)
+
+      if (shouldLogVerificaitonError(exception)) {
+        log.error(...logArgs)
+      } else {
+        log.warn(...logArgs)
+      }
     }
 
     const initializeSdk = async () => {

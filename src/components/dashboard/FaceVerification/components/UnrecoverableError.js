@@ -12,7 +12,7 @@ import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../../lib
 import { withStyles } from '../../../../lib/styles'
 import IllustrationSVG from '../../../../assets/FRUnrecoverableError.svg'
 
-import { ExceptionType, isLicenseIssue, logIssue } from '../utils/kindOfTheIssue'
+import { ExceptionType, isLicenseIssue } from '../utils/kindOfTheIssue'
 
 const log = logger.child({ from: 'FaceVerification' })
 
@@ -32,7 +32,7 @@ const UnrecoverableError = ({ styles, exception, nav }) => {
     }
 
     // if user is not in whitelist and we do not do faceverification then this is an error
-    logIssue(log, 'FaceVerification failed due to the license issue', message, exception, { dialogShown: true })
+    log.error('FaceVerification failed due to the license issue', message, exception, { dialogShown: true })
     showSupportDialog(showErrorDialog, hideDialog, push, 'Face Verification disabled. Please try again', goToRoot)
   }, [])
 

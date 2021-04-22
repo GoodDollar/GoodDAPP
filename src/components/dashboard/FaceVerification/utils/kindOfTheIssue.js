@@ -178,8 +178,4 @@ export const kindOfSessionIssue = exception => findKey(kindOfSessionIssuesMap, c
 
 export const kindOfSDKIssue = exception => findKey(kindOfSDKIssuesMap, createPredicate(exception))
 
-export const logIssue = (logger, label, message, exception, data) => {
-  const logMethod = isCriticalIssue(exception) || isUnexpectedIssue(exception) ? 'error' : 'warn'
-
-  logger[logMethod](label, message, exception, data)
-}
+export const shouldLogVerificaitonError = exception => isCriticalIssue(exception) || isUnexpectedIssue(exception)

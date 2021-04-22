@@ -30,7 +30,7 @@ class TorusSDK {
   }
 
   constructor(config, options, logger) {
-    const { env, publicUrl, torusProxyContract, torusNetwork, torusUxMode = 'popup' } = config
+    const { env, torusProxyContract, torusNetwork, torusUxMode = 'popup' } = config
 
     const torusOptions = defaults({}, options, {
       proxyContractAddress: torusProxyContract, // details for test net
@@ -39,17 +39,8 @@ class TorusSDK {
       uxMode: torusUxMode,
     })
 
-    const popupMode = torusOptions.uxMode === 'popup'
-    const baseUrl = publicUrl + (popupMode ? '/torus' : '')
-    const redirectPath = popupMode ? 'redirect' : 'Welcome/Auth'
-
-    // setting values for url & redirect if  aren't overridden
-    // doing this separately as we need to determine uxMode firstly
-    defaults(torusOptions, { baseUrl, redirectPathName: redirectPath })
-
     this.torus = new Torus(config, torusOptions)
-
-    this.popupMode = popupMode
+    this.popupMode = torusOptions.uxMode === 'popup'
     this.config = config
     this.logger = logger
   }

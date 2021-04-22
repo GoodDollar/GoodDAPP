@@ -30,7 +30,6 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
         <div
           className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-qt01xk r-borderColor-y68mpx r-borderWidth-rs99b7 r-cursor-1loqt21 r-justifyContent-1777fci r-touchAction-1otgn73 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
           data-focusable={true}
-          disabled={false}
           onKeyDown={[Function]}
           onKeyUp={[Function]}
           onResponderGrant={[Function]}
@@ -46,6 +45,7 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
               "borderTopLeftRadius": "28px",
               "borderTopRightRadius": "28px",
               "height": "56px",
+              "opacity": 1,
               "width": "56px",
             }
           }
@@ -85,7 +85,7 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
             autoCapitalize="sentences"
             autoComplete="on"
             autoCorrect="on"
-            className="css-textinput-1cwyjr8 r-backgroundColor-14lw9ot r-borderBottomColor-1ny7kx0 r-borderBottomWidth-qklmqi r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-vbi3md r-paddingHorizontal-1dye5f7 r-paddingVertical-oyd9sg r-placeholderTextColor-1xktb6b r-textAlign-q4m81j"
+            className="css-textinput-11aywtz r-backgroundColor-14lw9ot r-borderBottomColor-1ny7kx0 r-borderBottomWidth-qklmqi r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-vbi3md r-paddingHorizontal-1dye5f7 r-paddingVertical-oyd9sg r-placeholderTextColor-1xktb6b r-textAlign-q4m81j"
             data-focusable={true}
             dir="auto"
             onBlur={[Function]}
@@ -122,7 +122,6 @@ with others
         <div
           className="css-text-901oao r-color-11zaip3 r-flex-13awgt0 r-fontFamily-6jnb14 r-fontSize-vbi3md r-fontWeight-b88u0q r-letterSpacing-i0j7gm r-lineHeight-10yl4k r-paddingRight-1qortcd r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
           dir="auto"
-          letterSpacing={0.14}
         >
           Keep in mind - Do not send tokens from Ethereum network to this address. This is an internal Network address for G$ tokens only.
         </div>
@@ -159,9 +158,8 @@ with others
         }
       >
         <div
-          className="css-cursor-18t94o4 css-view-1dbjc4n r-cursor-1loqt21 r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim r-touchAction-1otgn73"
+          className="css-cursor-18t94o4 css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
           data-focusable={true}
-          disabled={false}
           onKeyDown={[Function]}
           onKeyPress={[Function]}
           onKeyUp={[Function]}
@@ -181,6 +179,7 @@ with others
               "borderTopLeftRadius": "50px",
               "borderTopRightRadius": "50px",
               "msFlexItemAlign": "stretch",
+              "msGridRowAlign": "stretch",
             }
           }
           tabIndex="0"
@@ -192,6 +191,7 @@ with others
                 "WebkitAlignSelf": "stretch",
                 "alignSelf": "stretch",
                 "msFlexItemAlign": "stretch",
+                "msGridRowAlign": "stretch",
               }
             }
           >

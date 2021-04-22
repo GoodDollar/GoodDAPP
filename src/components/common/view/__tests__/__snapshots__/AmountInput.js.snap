@@ -21,7 +21,7 @@ exports[`AmountInput matches snapshot 1`] = `
             autoComplete="on"
             autoCorrect="on"
             autoFocus={true}
-            className="css-textinput-1cwyjr8 r-backgroundColor-14lw9ot r-borderBottomColor-1ny7kx0 r-borderBottomWidth-qklmqi r-color-cddv6f r-cursor-1loqt21 r-fontFamily-6jnb14 r-fontSize-1ui5ee8 r-fontWeight-vw2c0b r-letterSpacing-19r33im r-marginTop-o5ey6k r-paddingHorizontal-1dye5f7 r-paddingVertical-oyd9sg r-placeholderTextColor-1xktb6b r-textAlign-q4m81j r-touchAction-1otgn73"
+            className="css-textinput-11aywtz r-backgroundColor-14lw9ot r-borderBottomColor-1ny7kx0 r-borderBottomWidth-qklmqi r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-1ui5ee8 r-fontWeight-vw2c0b r-letterSpacing-19r33im r-marginTop-o5ey6k r-paddingHorizontal-1dye5f7 r-paddingVertical-oyd9sg r-placeholderTextColor-1xktb6b r-textAlign-q4m81j"
             dir="auto"
             onBlur={[Function]}
             onChange={[Function]}
@@ -75,7 +75,7 @@ exports[`AmountInput matches snapshot 1`] = `
         className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
       >
         <div
-          className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1niwhzg r-cursor-1loqt21 r-display-6koalj r-flex-13awgt0 r-padding-edyy15 r-touchAction-1otgn73 r-userSelect-lrvibr"
+          className="css-view-1dbjc4n r-alignItems-1awozwy r-cursor-1loqt21 r-display-6koalj r-flex-13awgt0 r-padding-edyy15 r-touchAction-1otgn73 r-userSelect-lrvibr"
           data-focusable={true}
           onKeyDown={[Function]}
           onKeyUp={[Function]}
@@ -95,7 +95,7 @@ exports[`AmountInput matches snapshot 1`] = `
           </div>
         </div>
         <div
-          className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1niwhzg r-cursor-1loqt21 r-display-6koalj r-flex-13awgt0 r-padding-edyy15 r-touchAction-1otgn73 r-userSelect-lrvibr"
+          className="css-view-1dbjc4n r-alignItems-1awozwy r-cursor-1loqt21 r-display-6koalj r-flex-13awgt0 r-padding-edyy15 r-touchAction-1otgn73 r-userSelect-lrvibr"
           data-focusable={true}
           onKeyDown={[Function]}
           onKeyUp={[Function]}
@@ -115,7 +115,7 @@ exports[`AmountInput matches snapshot 1`] = `
           </div>
         </div>
         <div
-          className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1niwhzg r-cursor-1loqt21 r-display-6koalj r-flex-13awgt0 r-padding-edyy15 r-touchAction-1otgn73 r-userSelect-lrvibr"
+          className="css-view-1dbjc4n r-alignItems-1awozwy r-cursor-1loqt21 r-display-6koalj r-flex-13awgt0 r-padding-edyy15 r-touchAction-1otgn73 r-userSelect-lrvibr"
           data-focusable={true}
           onKeyDown={[Function]}
           onKeyUp={[Function]}
@@ -139,7 +139,7 @@ exports[`AmountInput matches snapshot 1`] = `
         className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
       >
         <div
-          className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1niwhzg r-cursor-1loqt21 r-display-6koalj r-flex-13awgt0 r-padding-edyy15 r-touchAction-1otgn73 r-userSelect-lrvibr"
+          className="css-view-1dbjc4n r-alignItems-1awozwy r-cursor-1loqt21 r-display-6koalj r-flex-13awgt0 r-padding-edyy15 r-touchAction-1otgn73 r-userSelect-lrvibr"
           data-focusable={true}
           onKeyDown={[Function]}
           onKeyUp={[Function]}
@@ -159,7 +159,7 @@ exports[`AmountInput matches snapshot 1`] = `
           </div>
         </div>
         <div
-          className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1niwhzg r-cursor-1loqt21 r-display-6koalj r-flex-13awgt0 r-padding-edyy15 r-touchAction-1otgn73 r-userSelect-lrvibr"
+          className="css-view-1dbjc4n r-alignItems-1awozwy r-cursor-1loqt21 r-display-6koalj r-flex-13awgt0 r-padding-edyy15 r-touchAction-1otgn73 r-userSelect-lrvibr"
           data-focusable={true}
           onKeyDown={[Function]}
           onKeyUp={[Function]}
@@ -179,7 +179,7 @@ exports[`AmountInput matches snapshot 1`] = `
           </div>
         </div>
         <div
-          className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1niwhzg r-cursor-1loqt21 r-display-6koalj r-flex-13awgt0 r-padding-edyy15 r-touchAction-1otgn73 r-userSelect-lrvibr"
+          className="css-view-1dbjc4n r-alignItems-1awozwy r-cursor-1loqt21 r-display-6koalj r-flex-13awgt0 r-padding-edyy15 r-touchAction-1otgn73 r-userSelect-lrvibr"
           data-focusable={true}
           onKeyDown={[Function]}
           onKeyUp={[Function]}
@@ -203,7 +203,7 @@ exports[`AmountInput matches snapshot 1`] = `
         className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
       >
         <div
-          className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1niwhzg r-cursor-1loqt21 r-display-6koalj r-flex-13awgt0 r-padding-edyy15 r-touchAction-1otgn73 r-userSelect-lrvibr"
+          className="css-view-1dbjc4n r-alignItems-1awozwy r-cursor-1loqt21 r-display-6koalj r-flex-13awgt0 r-padding-edyy15 r-touchAction-1otgn73 r-userSelect-lrvibr"
           data-focusable={true}
           onKeyDown={[Function]}
           onKeyUp={[Function]}
@@ -223,7 +223,7 @@ exports[`AmountInput matches snapshot 1`] = `
           </div>
         </div>
         <div
-          className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1niwhzg r-cursor-1loqt21 r-display-6koalj r-flex-13awgt0 r-padding-edyy15 r-touchAction-1otgn73 r-userSelect-lrvibr"
+          className="css-view-1dbjc4n r-alignItems-1awozwy r-cursor-1loqt21 r-display-6koalj r-flex-13awgt0 r-padding-edyy15 r-touchAction-1otgn73 r-userSelect-lrvibr"
           data-focusable={true}
           onKeyDown={[Function]}
           onKeyUp={[Function]}
@@ -243,7 +243,7 @@ exports[`AmountInput matches snapshot 1`] = `
           </div>
         </div>
         <div
-          className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1niwhzg r-cursor-1loqt21 r-display-6koalj r-flex-13awgt0 r-padding-edyy15 r-touchAction-1otgn73 r-userSelect-lrvibr"
+          className="css-view-1dbjc4n r-alignItems-1awozwy r-cursor-1loqt21 r-display-6koalj r-flex-13awgt0 r-padding-edyy15 r-touchAction-1otgn73 r-userSelect-lrvibr"
           data-focusable={true}
           onKeyDown={[Function]}
           onKeyUp={[Function]}
@@ -267,7 +267,7 @@ exports[`AmountInput matches snapshot 1`] = `
         className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
       >
         <div
-          className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1niwhzg r-cursor-1loqt21 r-display-6koalj r-flex-13awgt0 r-padding-edyy15 r-touchAction-1otgn73 r-userSelect-lrvibr"
+          className="css-view-1dbjc4n r-alignItems-1awozwy r-cursor-1loqt21 r-display-6koalj r-flex-13awgt0 r-padding-edyy15 r-touchAction-1otgn73 r-userSelect-lrvibr"
           data-focusable={true}
           onKeyDown={[Function]}
           onKeyUp={[Function]}
@@ -287,7 +287,7 @@ exports[`AmountInput matches snapshot 1`] = `
           </div>
         </div>
         <div
-          className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1niwhzg r-cursor-1loqt21 r-display-6koalj r-flex-13awgt0 r-padding-edyy15 r-touchAction-1otgn73 r-userSelect-lrvibr"
+          className="css-view-1dbjc4n r-alignItems-1awozwy r-cursor-1loqt21 r-display-6koalj r-flex-13awgt0 r-padding-edyy15 r-touchAction-1otgn73 r-userSelect-lrvibr"
           data-focusable={true}
           onKeyDown={[Function]}
           onKeyUp={[Function]}
@@ -307,7 +307,7 @@ exports[`AmountInput matches snapshot 1`] = `
           </div>
         </div>
         <div
-          className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1niwhzg r-cursor-1loqt21 r-display-6koalj r-flex-13awgt0 r-padding-edyy15 r-touchAction-1otgn73 r-userSelect-lrvibr"
+          className="css-view-1dbjc4n r-alignItems-1awozwy r-cursor-1loqt21 r-display-6koalj r-flex-13awgt0 r-padding-edyy15 r-touchAction-1otgn73 r-userSelect-lrvibr"
           data-focusable={true}
           onKeyDown={[Function]}
           onKeyUp={[Function]}

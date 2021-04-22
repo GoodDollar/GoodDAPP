@@ -30,7 +30,7 @@ type FeedListItemProps = {
  * @param {object} props.styles
  * @returns {React.Node}
  */
-const FeedListItem = (props: FeedListItemProps) => {
+const FeedListItem = React.memo((props: FeedListItemProps) => {
   const disableAnimForTests = Config.env === 'test'
   const [animationFinished, setAnimationFinished] = useState<boolean>(disableAnimForTests)
   const simpleStore = SimpleStore.useStore()
@@ -59,7 +59,12 @@ const FeedListItem = (props: FeedListItemProps) => {
     }
   }, [fireEvent, type, onItemPress, id])
 
-  const onAnimationFinished = useCallback(({ finished }) => finished && setAnimationFinished(true), [setAnimationFinished])
+  const onAnimationFinished = useCallback(
+    ({ finished }) => {
+      return finished && setAnimationFinished(true)
+    },
+    [setAnimationFinished],
+  )
 
   if (isItemEmpty) {
     const feedLoadAnimShown = simpleStore.get('feedLoadAnimShown')
@@ -144,7 +149,7 @@ const FeedListItem = (props: FeedListItemProps) => {
       </TouchableHighlight>
     </Animatable.View>
   )
-}
+})
 
 const getStylesFromProps = ({ theme }) => ({
   row: {

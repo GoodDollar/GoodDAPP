@@ -10,8 +10,17 @@ import { withStyles } from '../../../../lib/styles'
 import FVErrorLandscapeSVG from '../../../../assets/FaceVerification/FVErrorLandscape.svg'
 
 import { fireEvent, FV_WRONGORIENTATION } from '../../../../lib/analytics/analytics'
+import useDeviceOrientation from '../../../../lib/hooks/useDeviceOrientation'
+
+const SVGHeight = {
+  portrait: getDesignRelativeHeight(176, false),
+  landscape: getDesignRelativeHeight(175, false),
+}
 
 const DeviceOrientationError = ({ styles, displayTitle, onRetry, exception }) => {
+  const orientation = useDeviceOrientation()
+  const svgHeight = SVGHeight[orientation]
+
   useEffect(() => {
     if (!exception) {
       return
@@ -42,7 +51,7 @@ const DeviceOrientationError = ({ styles, displayTitle, onRetry, exception }) =>
               </Text>
             </View>
           </Section>
-          <View style={styles.errorImage}>
+          <View style={[styles.errorImage, { height: svgHeight }]}>
             <FVErrorLandscapeSVG />
           </View>
         </Section>
@@ -72,7 +81,6 @@ const getStylesFromProps = ({ theme }) => {
       borderRadius: 5,
     },
     errorImage: {
-      height: getDesignRelativeHeight(176, false),
       marginTop: isMobileOnly ? getDesignRelativeHeight(15) : 0,
       marginBottom: isMobileOnly ? getDesignRelativeHeight(20) : 0,
       justifyContent: 'center',

@@ -322,32 +322,6 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
         requestPayload.inviteCode = inviteCode
       }
 
-      if (regMethod === REGISTRATION_METHOD_TORUS) {
-        const { mobile, email, privateKey, accessToken, idToken } = torusUser
-
-        // create proof that email/mobile is the same one verified by torus
-        assign(requestPayload, {
-          torusProvider,
-          torusAccessToken: accessToken,
-          torusIdToken: idToken,
-        })
-
-        if (torusProvider !== 'facebook') {
-          // if logged in via other provider that facebook - generating & signing proof
-          const torusProofNonce = await API.ping()
-            .then(_ => moment(get(_, 'data.ping', Date.now())))
-            .catch(e => moment())
-            .then(_ => Math.max(Date.now(), _.valueOf()))
-          const msg = (mobile || email) + String(torusProofNonce)
-          const proof = goodWallet.wallet.eth.accounts.sign(msg, '0x' + privateKey)
-
-          assign(requestPayload, {
-            torusProof: proof.signature,
-            torusProofNonce,
-          })
-        }
-      }
-
       requestPayload.regMethod = regMethod
 
       const [mnemonic] = await Promise.all([
@@ -378,6 +352,32 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
         .toPromise()
 
       let newUserData
+
+      if (regMethod === REGISTRATION_METHOD_TORUS) {
+        const { mobile, email, privateKey, accessToken, idToken } = torusUser
+
+        // create proof that email/mobile is the same one verified by torus
+        assign(requestPayload, {
+          torusProvider,
+          torusAccessToken: accessToken,
+          torusIdToken: idToken,
+        })
+
+        if (torusProvider !== 'facebook') {
+          // if logged in via other provider that facebook - generating & signing proof
+          const torusProofNonce = await API.ping()
+            .then(_ => moment(get(_, 'data.ping', Date.now())))
+            .catch(e => moment())
+            .then(_ => Math.max(Date.now(), _.valueOf()))
+          const msg = (mobile || email) + String(torusProofNonce)
+          const proof = goodWallet.wallet.eth.accounts.sign(msg, '0x' + privateKey)
+
+          assign(requestPayload, {
+            torusProof: proof.signature,
+            torusProofNonce,
+          })
+        }
+      }
 
       await API.addUser(requestPayload)
         .then(({ data }) => (newUserData = data))

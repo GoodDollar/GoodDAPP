@@ -12,13 +12,15 @@ import { generateShareObject, isSharingAvailable } from '../../lib/share'
 import userStorage from '../../lib/gundb/UserStorage'
 import useGunProfile from '../../lib/hooks/gun/useGunProfile'
 import ModalLeftBorder from '../common/modal/ModalLeftBorder'
-import { useCollectBounty, useInviteCode, useInvited } from './useInvites'
+import { useCollectBounty, useInviteCode, useInvited, useInviteScreenOpened } from './useInvites'
 import FriendsSVG from './friends.svg'
 import EtoroPNG from './etoro.png'
 import ShareIcons from './ShareIcons'
 import { shareMessage, shareTitle } from './constants'
 
 const log = logger.child({ from: 'Invite' })
+
+const Divider = ({ size = 10 }) => <Section.Separator color="transparent" width={size} style={{ zIndex: -10 }} />
 
 const InvitedUser = ({ address, status }) => {
   const profile = useGunProfile(address)
@@ -252,26 +254,19 @@ const InvitesHowTO = () => {
 }
 
 const InvitesData = ({ invitees, refresh, level, totalEarned = 0 }) => (
-  <>
-    <Section.Stack
-      style={{
-        alignSelf: 'stretch',
-        marginTop: getDesignRelativeHeight(theme.paddings.defaultMargin * 3, false),
-      }}
-    >
-      <ShareBox level={level} />
-    </Section.Stack>
-    <Section.Stack style={{ alignSelf: 'stretch', marginTop: theme.paddings.defaultMargin * 1.5 }}>
-      <TotalEarnedBox totalEarned={totalEarned} />
-    </Section.Stack>
-    <Section.Stack style={{ alignSelf: 'stretch', marginTop: theme.paddings.defaultMargin * 1.5 }}>
-      <InvitesBox invitees={invitees} refresh={refresh} />
-    </Section.Stack>
-  </>
+  <View style={{ width: '100%' }}>
+    <Divider size={getDesignRelativeHeight(theme.paddings.defaultMargin * 3, false)} />
+    <ShareBox level={level} />
+    <Divider size={theme.paddings.defaultMargin * 1.5} />
+    <TotalEarnedBox totalEarned={totalEarned} />
+    <Divider size={theme.paddings.defaultMargin * 1.5} />
+    <InvitesBox invitees={invitees} refresh={refresh} />
+  </View>
 )
 
 const Invite = () => {
-  const [showHowTo, setShowHowTo] = useState(true)
+  const { wasOpened } = useInviteScreenOpened()
+  const [showHowTo, setShowHowTo] = useState(!wasOpened)
   const [invitees, refresh, level, inviteState] = useInvited()
 
   const totalEarned = get(inviteState, 'totalEarned', 0)
@@ -313,29 +308,23 @@ const Invite = () => {
           For Each Friend You Invite!
         </Section.Text>
       </Section.Stack>
-      <Section.Stack style={{ marginTop: theme.sizes.defaultDouble }}>
-        <Section.Text letterSpacing={-0.07} lineHeight={20} fontSize={15} color={theme.colors.darkBlue}>
-          {`Make sure they claim to get your reward`}
-        </Section.Text>
-      </Section.Stack>
-      <View
-        style={{
-          marginTop: getDesignRelativeHeight(theme.paddings.defaultMargin * 3, false),
-        }}
+      <Divider size={theme.sizes.defaultDouble} />
+      <Section.Text letterSpacing={-0.07} lineHeight={20} fontSize={15} color={theme.colors.darkBlue}>
+        {`Make sure they claim to get your reward`}
+      </Section.Text>
+      <Divider size={getDesignRelativeHeight(theme.paddings.defaultMargin * 3, false)} />
+      <CustomButton
+        color={theme.colors.darkBlue}
+        iconColor={theme.colors.darkBlue}
+        iconStyle={{ marginLeft: 10 }}
+        iconAlignment="right"
+        icon={showHowTo ? 'arrow-up' : 'arrow-down'}
+        mode="text"
+        textStyle={{ fontWeight: 'bold', letterSpacing: 0, textDecorationLine: 'underline' }}
+        onPress={toggleHowTo}
       >
-        <CustomButton
-          color={theme.colors.darkBlue}
-          iconColor={theme.colors.darkBlue}
-          iconStyle={{ marginLeft: 10 }}
-          iconAlignment="right"
-          icon={showHowTo ? 'arrow-up' : 'arrow-down'}
-          mode="text"
-          textStyle={{ fontWeight: 'bold', letterSpacing: 0, textDecorationLine: 'underline' }}
-          onPress={toggleHowTo}
-        >
-          {`How Do I Invite People?`}
-        </CustomButton>
-      </View>
+        {`How Do I Invite People?`}
+      </CustomButton>
       {showHowTo && <InvitesHowTO />}
       <InvitesData {...{ invitees, refresh, level, totalEarned }} />
     </Wrapper>
@@ -354,6 +343,7 @@ const styles = {
     justifyContent: 'flex-start',
     alignItems: 'center',
     flex: 1,
+    flexBasis: 1,
     height: '100%',
   },
   linkBoxStyle: {

@@ -1,6 +1,6 @@
 {
   "name": "@gooddollar/gooddapp",
-  "version": "1.24.1-5",
+  "version": "1.25.1-8",
   "engines": {
     "node": "10.21.0",
     "npm": "6.x"
@@ -84,7 +84,7 @@
     "@sentry/browser": "^5.10.2",
     "@sentry/react-native": "^2.1.0",
     "@toruslabs/torus-direct-react-native-sdk": "^0.4.0",
-    "@toruslabs/torus-direct-web-sdk": "^4.1.0",
+    "@toruslabs/torus-direct-web-sdk": "^4.11.1",
     "@tradle/react-native-http": "^2.0.1",
     "Base64": "^1.1.0",
     "FormData": "^0.10.1",
@@ -185,7 +185,7 @@
     "react-native-udp": "^3.0.0",
     "react-native-v8": "^0.61.5-patch.0",
     "react-native-vector-icons": "^6.6.0",
-    "react-native-web": "^0.11.7",
+    "react-native-web": "^0.12.3",
     "react-native-web-linear-gradient": "^1.0.5",
     "react-native-web-lottie": "^1.2.0",
     "react-native-webview": "^11.0.2",

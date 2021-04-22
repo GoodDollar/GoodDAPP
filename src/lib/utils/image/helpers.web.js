@@ -1,8 +1,5 @@
 import { Image as NativeImage } from 'react-native'
 
-export const MAX_AVATAR_WIDTH = 600
-export const MAX_AVATAR_HEIGHT = 600
-
 /**
  * Creates Image() instance and preloads image from then source or data URL
  * @param {Image | string} imageSource

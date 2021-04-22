@@ -41,7 +41,7 @@ const task = async taskId => {
     return BackgroundFetch.finish(taskId)
   }
 
-  const lastFeedCheck = await userStorage.feed.get('lastSeenDate').then()
+  const lastFeedCheck = await userStorage.feedStorage.feed.get('lastSeenDate').then()
   const feed = await userStorage.getFeedPage(20, true)
 
   log.info('lastFeedCheck', lastFeedCheck)
@@ -62,7 +62,7 @@ const task = async taskId => {
     return newFeedItem && feedItem
   })
 
-  userStorage.feed.get('lastSeenDate').put(Date.now())
+  userStorage.feedStorage.feed.get('lastSeenDate').put(Date.now())
 
   log.info('new feed items', { newFeeds })
 

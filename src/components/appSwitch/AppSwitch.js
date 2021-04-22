@@ -1,5 +1,6 @@
 // @flow
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
+import { AppState } from 'react-native'
 import { SceneView } from '@react-navigation/core'
 import { debounce, isEmpty } from 'lodash'
 import moment from 'moment'
@@ -62,7 +63,7 @@ const syncTXFromBlockchain = async () => {
   if (moment(lastUpdateDate).isSame(now, 'day') === false) {
     try {
       const joinedAtBlockNumber = userStorage.userProperties.get('joinedAtBlock')
-      await goodWallet.syncTxWithBlockchain(joinedAtBlockNumber)
+      await userStorage.syncTxWithBlockchain(joinedAtBlockNumber)
       await userStorage.userProperties.set('lastTxSyncDate', now.valueOf())
     } catch (e) {
       log.error('syncTXFromBlockchain failed', e.message, e)
@@ -76,44 +77,32 @@ let unsuccessfulLaunchAttempts = 0
  * The main app route rendering component. Here we decide where to go depending on the user's credentials status
  */
 const AppSwitch = (props: LoadingProps) => {
+  const { router, state } = props.navigation
   const gdstore = GDStore.useStore()
   const store = SimpleStore.useStore()
   const [showErrorDialog] = useErrorDialog()
-  const { router, state } = props.navigation
-  useInviteCode()
   const [ready, setReady] = useState(false)
-  const { appState } = useAppState()
-
-  const recheck = useCallback(() => {
-    if (ready && gdstore) {
-      showOutOfGasError(props)
-    }
-  }, [gdstore, ready])
-
-  const backgroundUpdates = useCallback(() => {
-    if (ready) {
-      syncTXFromBlockchain()
-    }
-  }, [ready])
-
-  useAppState({ onForeground: recheck, onBackground: backgroundUpdates })
 
   /*
   Check if user is incoming with a URL with action details, such as payment link or email confirmation
   */
   const getRoute = (destinationPath = {}) => {
     let { path, params } = destinationPath
+
     if (path || params) {
       path = path || 'AppNavigation/Dashboard/Home'
+
       if (params && (params.paymentCode || params.code)) {
         path = 'AppNavigation/Dashboard/HandlePaymentLink'
       }
+
       const app = router.getActionForPathAndParams(path) || {}
       log.debug('destinationPath getRoute', { path, params, router, state, app })
 
       //get nested routes
       const destRoute = actions => (actions && actions.action ? destRoute(actions.action) : actions)
       const destData = destRoute(app)
+
       destData.params = { ...destData.params, ...params }
       return destData
     }
@@ -136,6 +125,7 @@ const AppSwitch = (props: LoadingProps) => {
     //when path is empty
     if (!isMobileNative && !destinationPath) {
       const { params, pathname } = DeepLinking
+
       log.debug('navigateToUrlAction destinationPath empty getting web params from url', { params })
 
       if (pathname && pathname.length < 2 && !isEmpty(params)) {
@@ -207,33 +197,67 @@ const AppSwitch = (props: LoadingProps) => {
     }
   }
 
-  const deepLinkingNavigation = data => {
-    log.debug('deepLinkingNavigation: got url', { data })
-    navigateToUrlAction({ path: data.pathname, params: data.queryParams })
-  }
+  const deepLinkingRef = useRef(null)
+  const navigateToUrlRef = useRef(navigateToUrlAction)
+
+  const recheck = useCallback(() => {
+    const { current: data } = deepLinkingRef
+
+    if (data) {
+      log.debug('deepLinkingNavigation: got url', { data })
+
+      navigateToUrlRef.current({ path: data.path, params: data.queryParams })
+      deepLinkingRef.current = null
+    }
+
+    if (ready && gdstore) {
+      showOutOfGasError(props)
+    }
+  }, [gdstore, ready])
+
+  const backgroundUpdates = useCallback(() => {
+    if (ready) {
+      syncTXFromBlockchain()
+    }
+  }, [ready])
+
+  useInviteCode()
+
+  useEffect(() => void (navigateToUrlRef.current = navigateToUrlAction), [navigateToUrlAction])
+
+  useAppState({ onForeground: recheck, onBackground: backgroundUpdates })
 
   useEffect(() => {
     init()
-    navigateToUrlAction()
-  }, [])
+    navigateToUrlRef.current()
 
-  useEffect(() => {
-    if (!isMobileNative || !appState === 'active') {
+    if (!isMobileNative) {
       return
     }
 
-    DeepLinking.subscribe(deepLinkingNavigation)
+    DeepLinking.subscribe(data => {
+      if (AppState.currentState === 'active') {
+        log.debug('deepLinkingNavigation: got url', { data })
+        navigateToUrlRef.current({ path: data.path, params: data.queryParams })
+        return
+      }
+
+      deepLinkingRef.current = data
+    })
+
     return () => DeepLinking.unsubscribe()
-  }, [appState])
+  }, [])
 
   const { descriptors, navigation } = props
   const activeKey = navigation.state.routes[navigation.state.index].key
   const descriptor = descriptors[activeKey]
+
   const display = ready ? (
     <SceneView navigation={descriptor.navigation} component={descriptor.getComponent()} />
   ) : (
     <Splash animation={false} />
   )
+
   return <React.Fragment>{display}</React.Fragment>
 }
 

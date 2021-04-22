@@ -15,6 +15,11 @@ exports[`ModalCloseButton matches snapshot 1`] = `
     onResponderTerminate={[Function]}
     onResponderTerminationRequest={[Function]}
     onStartShouldSetResponder={[Function]}
+    style={
+      Object {
+        "opacity": 1,
+      }
+    }
     tabIndex="0"
   >
     <div
@@ -41,6 +46,11 @@ exports[`ModalCloseButton matches snapshot with properties 1`] = `
     onResponderTerminate={[Function]}
     onResponderTerminationRequest={[Function]}
     onStartShouldSetResponder={[Function]}
+    style={
+      Object {
+        "opacity": 1,
+      }
+    }
     tabIndex="0"
   >
     <div

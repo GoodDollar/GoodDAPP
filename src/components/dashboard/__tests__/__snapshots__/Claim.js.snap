@@ -120,7 +120,6 @@ More G$'s Coming Soon
             <div
               className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-a023e6 r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-rjixqe r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
               dir="auto"
-              letterSpacing={0}
             >
               So Far Today:
             </div>
@@ -280,9 +279,8 @@ More G$'s Coming Soon
               }
             >
               <div
-                className="css-cursor-18t94o4 css-view-1dbjc4n r-cursor-1loqt21 r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim r-touchAction-1otgn73"
+                className="css-cursor-18t94o4 css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
                 data-focusable={true}
-                disabled={false}
                 onKeyDown={[Function]}
                 onKeyPress={[Function]}
                 onKeyUp={[Function]}
@@ -302,6 +300,7 @@ More G$'s Coming Soon
                     "borderTopLeftRadius": "98px",
                     "borderTopRightRadius": "98px",
                     "msFlexItemAlign": "stretch",
+                    "msGridRowAlign": "stretch",
                   }
                 }
                 tabIndex="0"
@@ -313,6 +312,7 @@ More G$'s Coming Soon
                       "WebkitAlignSelf": "stretch",
                       "alignSelf": "stretch",
                       "msFlexItemAlign": "stretch",
+                      "msGridRowAlign": "stretch",
                     }
                   }
                 >
@@ -442,9 +442,8 @@ More G$'s Coming Soon
               }
             >
               <div
-                className="css-cursor-18t94o4 css-view-1dbjc4n r-cursor-1loqt21 r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim r-touchAction-1otgn73"
+                className="css-cursor-18t94o4 css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
                 data-focusable={true}
-                disabled={false}
                 onKeyDown={[Function]}
                 onKeyPress={[Function]}
                 onKeyUp={[Function]}
@@ -464,6 +463,7 @@ More G$'s Coming Soon
                     "borderTopLeftRadius": "98px",
                     "borderTopRightRadius": "98px",
                     "msFlexItemAlign": "stretch",
+                    "msGridRowAlign": "stretch",
                   }
                 }
                 tabIndex="0"
@@ -475,6 +475,7 @@ More G$'s Coming Soon
                       "WebkitAlignSelf": "stretch",
                       "alignSelf": "stretch",
                       "msFlexItemAlign": "stretch",
+                      "msGridRowAlign": "stretch",
                     }
                   }
                 >

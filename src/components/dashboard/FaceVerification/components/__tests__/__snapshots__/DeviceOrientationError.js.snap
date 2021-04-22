@@ -59,7 +59,12 @@ mode.
           </div>
         </div>
         <div
-          className="css-view-1dbjc4n r-alignItems-1awozwy r-height-b5j898 r-justifyContent-1777fci r-marginBottom-p1pxzi r-marginTop-1mnahxq"
+          className="css-view-1dbjc4n r-alignItems-1awozwy r-justifyContent-1777fci r-marginBottom-p1pxzi r-marginTop-1mnahxq"
+          style={
+            Object {
+              "height": "219.42857142857142px",
+            }
+          }
         >
           <FVErrorLandscape.svg />
         </div>
@@ -105,9 +110,8 @@ mode.
           }
         >
           <div
-            className="css-cursor-18t94o4 css-view-1dbjc4n r-cursor-1loqt21 r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim r-touchAction-1otgn73"
+            className="css-cursor-18t94o4 css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
             data-focusable={true}
-            disabled={false}
             onKeyDown={[Function]}
             onKeyPress={[Function]}
             onKeyUp={[Function]}
@@ -127,6 +131,7 @@ mode.
                 "borderTopLeftRadius": "50px",
                 "borderTopRightRadius": "50px",
                 "msFlexItemAlign": "stretch",
+                "msGridRowAlign": "stretch",
               }
             }
             tabIndex="0"
@@ -138,6 +143,7 @@ mode.
                   "WebkitAlignSelf": "stretch",
                   "alignSelf": "stretch",
                   "msFlexItemAlign": "stretch",
+                  "msGridRowAlign": "stretch",
                 }
               }
             >

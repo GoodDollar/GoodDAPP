@@ -52,6 +52,7 @@ exports[`TabsView matches snapshot 1`] = `
           "alignItems": "flex-start",
           "marginLeft": "10px",
           "msFlexAlign": "start",
+          "opacity": 1,
           "width": "37px",
         }
       }
@@ -74,7 +75,7 @@ exports[`TabsView matches snapshot 1`] = `
       </div>
     </div>
     <div
-      className="css-view-1dbjc4n r-cursor-1loqt21 r-flex-13awgt0 r-paddingHorizontal-1e081e0 r-touchAction-1otgn73"
+      className="css-view-1dbjc4n r-flex-13awgt0 r-paddingHorizontal-1e081e0"
       data-focusable={true}
       onKeyDown={[Function]}
       onKeyUp={[Function]}
@@ -117,6 +118,7 @@ exports[`TabsView matches snapshot 1`] = `
           "WebkitBoxAlign": "end",
           "alignItems": "flex-end",
           "msFlexAlign": "end",
+          "opacity": 1,
           "width": "37px",
         }
       }

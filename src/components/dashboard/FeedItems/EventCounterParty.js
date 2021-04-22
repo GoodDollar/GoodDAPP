@@ -5,10 +5,11 @@ import { withStyles } from '../../../lib/styles'
 const EventCounterParty = ({ feedItem, styles, style, textStyle, subtitle, isSmallDevice }) => {
   let direction = ''
   let displayText =
-    feedItem.data.subtitle && subtitle ? `${feedItem.data.subtitle}` : `${feedItem.data.endpoint.fullName}`
+    feedItem.data.subtitle && subtitle ? `${feedItem.data.subtitle}` : `${feedItem.data.endpoint.displayName}`
 
   let hasSubtitle = feedItem.data.readMore !== false
   switch (feedItem.type) {
+    case 'senddirect':
     case 'send':
       direction = 'To: '
       break

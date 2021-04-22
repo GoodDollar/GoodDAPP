@@ -148,7 +148,7 @@ export class APIService {
    * @param {UserRecord} user
    */
   addUser(user: UserRecord): AxiosPromise<any> {
-    return this.client.post('/user/add', { user }, { withCredentials: true })
+    return this.client.post('/user/add', { user })
   }
 
   /**
@@ -156,7 +156,7 @@ export class APIService {
    * @param {UserRecord} user
    */
   addSignupContact(user: UserRecord): AxiosPromise<any> {
-    return this.client.post('/user/start', { user }, { withCredentials: true })
+    return this.client.post('/user/start', { user })
   }
 
   /**

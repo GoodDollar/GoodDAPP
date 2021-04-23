@@ -912,7 +912,7 @@ export class UserStorage {
     const { errors, isValid } = profile.validate(update)
 
     if (!isValid) {
-      logger.error(
+      logger.warn(
         'setProfile failed',
         'Fields validation failed',
         new Error('setProfile failed: Fields validation failed'),
@@ -997,7 +997,7 @@ export class UserStorage {
     const cleanValue = UserStorage.cleanHashedFieldForIndex(field, value)
 
     if (!cleanValue) {
-      logger.error(
+      logger.warn(
         `indexProfileField - field ${field} value is empty (value: ${value})`,
         cleanValue,
         new Error('isValidValue failed'),

@@ -65,7 +65,7 @@ const EditProfile = ({ screenProps, styles, navigation }) => {
 
       return valid
     } catch (e) {
-      log.error('validate profile failed', e.message, e)
+      log.warn('validate profile failed', e.message, e)
       return false
     }
   }, [profile, storedProfile, setIsPristine, setErrors, setIsValid])

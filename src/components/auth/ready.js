@@ -36,7 +36,7 @@ const ready = async replacing => {
   } catch (exception) {
     const { message } = exception
 
-    log.error('failed auth:', message, exception)
+    log.warn('failed auth:', message, exception)
   } finally {
     log.debug('ready: login ready')
   }

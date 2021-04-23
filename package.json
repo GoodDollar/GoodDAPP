@@ -68,7 +68,7 @@
     "@gooddollar/gun": "^0.2020.902",
     "@gooddollar/gun-asyncstorage": "^1.0.3",
     "@gooddollar/gun-pk-auth": "^1.1.0",
-    "@gooddollar/react-native-facetec": "^1.0.7",
+    "@gooddollar/react-native-facetec": "^1.0.8",
     "@gooddollar/react-native-side-menu": "^2.0.2",
     "@gooddollar/v8-android-jit-nointl": "^7.8.2",
     "@peculiar/webcrypto": "^1.0.22",

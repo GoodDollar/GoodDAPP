@@ -35,7 +35,10 @@ const FaceTecDefaultCornerRadius = FaceTecSize(5)
 const { black, lightBlue800 } = Colors
 const { primary, green, white, lightGray, darkGray, gray50Percent } = theme.colors
 const { default: defaultFont } = theme.fonts
-const nl = isLargeDevice ? ' ' : '<br/>'
+
+const readyMessage1 = `Please Frame Your Face In The Small`
+const readyMessage2 = `Oval, Then The Big Oval`
+const instructionsMessageReadyDesktop = `${readyMessage1}<br/>${readyMessage2}`
 
 export const UITextStrings = {
   resultSuccessMessage,
@@ -44,7 +47,9 @@ export const UITextStrings = {
   retryInstructionMessage1: '<span>Hold Your Camera at Eye Level.</span>',
   retryInstructionMessage2: '<span>Light Your Face Evenly.<br/>Avoid Smiling & Back Light</span>',
 
-  instructionsMessageReady: `Please Frame Your Face In The Small${nl}Oval, Then The Big Oval`,
+  instructionsMessageReadyDesktop,
+  instructionsMessageReady1Mobile: isLargeDevice ? instructionsMessageReadyDesktop : readyMessage1,
+  instructionsMessageReady2Mobile: isLargeDevice ? '' : readyMessage2,
 
   // setting empty "Starting camera..." text
   initializingCamera: ' ',

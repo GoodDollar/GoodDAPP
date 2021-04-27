@@ -68,6 +68,9 @@ export const UITextStrings = {
   instructionsMessageReady1Mobile: isLargeDevice ? instructionsMessageReadyDesktop : readyMessage1,
   instructionsMessageReady2Mobile: isLargeDevice ? '' : readyMessage2,
 
+  cameraPermissionHeader: 'We can’t access your camera...',
+  cameraPermissionMessage: 'Please enable camera permission<br/>Change it via your device settings',
+
   // setting empty "Starting camera..." text
   initializingCamera: ' ',
   initializingCameraStillLoading: ' ',

@@ -1,6 +1,6 @@
 import hexToRgba from 'hex-to-rgba'
 import { Colors } from 'react-native-paper'
-import { assignIn, isFinite, isString, mapKeys, memoize, pickBy, snakeCase } from 'lodash'
+import { assignIn, get, isFinite, isString, mapKeys, memoize, pickBy, snakeCase } from 'lodash'
 
 import FaceTec from '../../../../lib/facetec/FaceTecSDK'
 
@@ -12,7 +12,16 @@ import './UICustomization.css'
 export const FACETEC_PUBLIC_PATH = '/facetec'
 export const FACETEC_NS = 'FaceTec'
 
-const { FaceTecCustomization, FaceTecCancelButtonLocation } = FaceTec.FaceTecSDK
+const { FaceTecSDK } = FaceTec
+const { FaceTecCustomization, FaceTecCancelButtonLocation } = FaceTecSDK
+
+// there's bug in SDK - FaceTecVocalGuidanceMode isn't exported
+// added fallback to polyfill it
+const FaceTecVocalGuidanceMode = get(FaceTecSDK, 'FaceTecVocalGuidanceMode', {
+  MINIMAL_VOCAL_GUIDANCE: 0,
+  FULL_VOCAL_GUIDANCE: 1,
+  NO_VOCAL_GUIDANCE: 2,
+})
 
 const FaceTecShadow = (box, color, alpha) => `${box.map(FaceTecSize).join(' ')} ${FaceTecColor(color, alpha)}`
 const FaceTecImage = filename => `${FACETEC_PUBLIC_PATH}/images/${FACETEC_NS}_${filename}`
@@ -38,14 +47,22 @@ const { default: defaultFont } = theme.fonts
 
 const readyMessage1 = `Please Frame Your Face In The Small`
 const readyMessage2 = `Oval, Then The Big Oval`
-const instructionsMessageReadyDesktop = `${readyMessage1}<br/>${readyMessage2}`
+const instructionsMessageReadyDesktop = `${readyMessage1} ${readyMessage2}`
 
 export const UITextStrings = {
   resultSuccessMessage,
   resultFacescanUploadMessage,
 
-  retryInstructionMessage1: '<span>Hold Your Camera at Eye Level.</span>',
-  retryInstructionMessage2: '<span>Light Your Face Evenly.<br/>Avoid Smiling & Back Light</span>',
+  retryInstructionMessage1: `
+    <span>
+      Hold Your Camera at Eye Level.<br/>
+      Light Your Face Evenly.<br/>
+      Avoid Smiling & Back Light<br />
+    </span>
+`,
+
+  retryInstructionMessage2: '',
+  retryInstructionMessage3: '',
 
   instructionsMessageReadyDesktop,
   instructionsMessageReady1Mobile: isLargeDevice ? instructionsMessageReadyDesktop : readyMessage1,
@@ -71,6 +88,7 @@ const {
   initialLoadingAnimationCustomization,
   guidanceCustomization,
   resultScreenCustomization,
+  vocalGuidanceCustomization,
 } = UICustomization
 
 assignIn(UICustomization, {
@@ -82,6 +100,9 @@ assignIn(UICustomization, {
   // now any keyboard / focus event won't cancel session due to the context switch
   // the session should cancels only when app/browser tab switched
   enableHotKeyProtection: false,
+
+  // For non-production instances, display the clickable Development Mode Tag link during the Result Screen.
+  enableDevelopmentModeTag: false,
 })
 
 // Zoom's spinner is rendered via CSS border
@@ -158,6 +179,8 @@ assignIn(guidanceCustomization, {
   // subtext
   subtextFont: FaceTecFont(defaultFont),
   subtextTextSize: FaceTecSize(12),
+  readyScreenSubtextTextSize: FaceTecSize(12),
+  retryScreenSubtextTextSize: FaceTecSize(12),
 
   // enabling additional instructions on retry screen
   enableRetryScreenBulletedInstructions: true,
@@ -167,6 +190,9 @@ assignIn(guidanceCustomization, {
   retryScreenImageBorderColor: FaceTecColor(primary),
   retryScreenImageBorderWidth: FaceTecSize(4),
   retryScreenImageCornerRadius: FaceTecDefaultCornerRadius,
+
+  // image displayed on the Camera Permissions Screen
+  cameraPermissionsScreenImage: FaceTecImage('camera.svg'),
 })
 
 // customizing result screen - progress bar & success animation
@@ -181,6 +207,13 @@ assignIn(resultScreenCustomization, {
   resultAnimationBackgroundColor: FaceTecColor(white),
   resultAnimationForegroundColor: FaceTecColor(primary),
   customActivityIndicatorImage: FaceTecImage('activity_indicator.gif'),
+  customActivityIndicatorRotationInterval: 0,
+})
+
+// voice help customization
+assignIn(vocalGuidanceCustomization, {
+  // disable audio guidance
+  mode: FaceTecVocalGuidanceMode.NO_VOCAL_GUIDANCE,
 })
 
 export default UICustomization

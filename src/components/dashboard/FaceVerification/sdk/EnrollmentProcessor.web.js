@@ -262,7 +262,14 @@ export class EnrollmentProcessor {
       // Only app reloading solves the issue and allows to retry FV attempt.
       // So, in that case we're redirecting app to the corresponding FV error scrren with full page reload
       _waitForSDKUIElementVisible('DOM_FT_cameraPermissionsScreen', () => {
-        restart('/AppNavigation/Dashboard/FaceVerificationError?kindOfTheIssue=DeviceOrientationError')
+        const uiContainer = document.getElementById('DOM_FT_mainInterfaceNonOverlayContainer')
+
+        if (uiContainer) {
+          // remove container only to keep blurred background while reloading
+          uiContainer.remove()
+        }
+
+        restart('/AppNavigation/Dashboard/FaceVerificationError/DeviceOrientationError')
       })
 
       // if we've got session ID - starting enrollment session

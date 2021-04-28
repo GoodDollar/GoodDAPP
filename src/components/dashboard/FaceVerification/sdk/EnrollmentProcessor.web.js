@@ -1,4 +1,4 @@
-import { assign, first, isFinite, isNumber } from 'lodash'
+import { assign, filter, find, first, flatten, isFinite, isNumber, map, once, toArray, uniq } from 'lodash'
 
 import api from '../api/FaceVerificationApi'
 import FaceTec from '../../../../lib/facetec/FaceTecSDK'
@@ -37,6 +37,12 @@ export class EnrollmentProcessor {
 
   retryAttempt = 0
 
+  uiObserver = null
+
+  uiRootNode = null
+
+  uiObserverTargets = {}
+
   constructor(subscriber, options = null) {
     const { maxRetries = MAX_RETRIES_ALLOWED } = options || {}
 
@@ -56,10 +62,13 @@ export class EnrollmentProcessor {
   /**
    * Helper method for handle session completion
    */
-  onFaceTecSDKCompletelyDone() {
+  onFaceTecSDKCompletelyDone = once(() => {
     const { subscriber, isSuccess, lastMessage, lastResult } = this
+    const { status } = lastResult || {}
     let latestMessage = lastMessage
-    const { status } = lastResult
+
+    // unlisten UI changes
+    this._unlistenSDKUIElements()
 
     // if no errors were thrown and server haven't returned specific status messages
     if (!latestMessage) {
@@ -72,7 +81,7 @@ export class EnrollmentProcessor {
 
     // calling completion callback
     subscriber.onSessionCompleted(isSuccess, lastResult, latestMessage)
-  }
+  })
 
   /**
    * Helper method that calls verification http API on server
@@ -231,25 +240,146 @@ export class EnrollmentProcessor {
 
   /**
    * generates session ID and starts session
-   * enroll call proxioes here - just for keep non-async
+   * enroll call proxies here - just for keep non-async
    * interface with onComplete callback designed by Zoom
    * @private
    */
   async _startEnrollmentSession() {
-    const { subscriber } = this
+    const { OrientationChangeDuringSession } = FaceTecSessionStatus
+    const { subscriber, _waitForSDKUIElementVisible, _failEnrollmentSession } = this
 
     try {
       // trying to retrieve session ID from Zoom server
       const sessionId = await api.issueSessionToken()
 
+      // notifying subscriber that UI is ready
+      _waitForSDKUIElementVisible('DOM_FT_getReadyActionButton', () => subscriber.onUIReady())
+
+      // sometimes SDK doesn't recognizes orientation changhe during initializetion
+      // and shows camera permissions popup. need to handle it manually and finish
+      // the session with corresponding error code
+      _waitForSDKUIElementVisible('DOM_FT_cameraPermissionsScreen', () => {
+        alert('got dialog')
+
+        // also session is stuck in such case, so we need to perform UI cleanup
+        this._cleanSDKUIElements()
+        _failEnrollmentSession(OrientationChangeDuringSession)
+      })
+
       // if we've got it - strting enrollment session
       new FaceTecSession(this, sessionId)
-
-      // notifying subscriber that UI is ready
-      subscriber.onUIReady()
     } catch ({ message }) {
       // otherwise calling completion handler with empty faceTecSessionResult
-      subscriber.onSessionCompleted(false, null, message)
+      this._failEnrollmentSession(message)
+    }
+  }
+
+  /**
+   * Fails enrollment session with message/optional code specifid
+   * @param {String|Number} messageOrCode Error message or FaceTec SDK session status code
+   * @private
+   */
+  _failEnrollmentSession = messageOrCode => {
+    const isCodeBeenPassed = isNumber(messageOrCode)
+
+    this.isSuccess = false
+    this.latestMessage = isCodeBeenPassed ? null : messageOrCode
+    this.lastResult = isCodeBeenPassed ? { status: messageOrCode } : null
+
+    this.onFaceTecSDKCompletelyDone()
+  }
+
+  /**
+   * Awaits the specific UI element becomes visible
+   * @param {String} id ID attribute of the UI element
+   * @param {Function} callback Callback function to call
+   * @private
+   */
+  _waitForSDKUIElementVisible = (id, callback) => {
+    let { uiObserver, uiObserverTargets, uiRootNode } = this
+
+    if (!uiObserver) {
+      const ObserverClass = window.WebKitMutationObserver || MutationObserver
+
+      uiObserver = new ObserverClass(mutations => {
+        const nodesAdded = uniq(flatten(map(filter(mutations, { type: 'childList' }), 'addedNodes').map(toArray)))
+
+        if (!uiRootNode) {
+          uiRootNode = find(nodesAdded, { id: 'DOM_FT_PRIMARY_TOPLEVEL_mainContainer' })
+
+          if (uiRootNode) {
+            assign(this, { uiRootNode })
+
+            uiObserver.disconnect()
+            uiObserver.observe(uiRootNode, {
+              subtree: true,
+              attributes: true,
+              attributeFilter: ['id', 'style', 'className'],
+            })
+          }
+
+          return
+        }
+
+        const nodesAffected = uniq(map(filter(mutations, { type: 'attributes' }), 'target'))
+
+        for (const node of nodesAffected) {
+          const { id, offsetParent } = node
+
+          if (id && id in uiObserverTargets && offsetParent !== null) {
+            const callback = uiObserverTargets[id]
+
+            delete uiObserverTargets[id]
+            callback()
+          }
+        }
+      })
+
+      uiObserver.observe(document.body, { childList: true })
+      assign(this, { uiObserver })
+    }
+
+    uiObserverTargets[id] = callback
+  }
+
+  /**
+   * Stops listening FaceTec SDK UI
+   * @private
+   */
+  _unlistenSDKUIElements() {
+    const { uiObserver, uiRootNode } = this
+
+    this.uiObserverTargets = {}
+
+    if (uiRootNode) {
+      this.uiRootNode = null
+    }
+
+    if (uiObserver) {
+      uiObserver.disconnect()
+      this.uiObserver = null
+    }
+  }
+
+  /**
+   * CleansFaceTec SDK UI elements from DOM in the case of unexpected error
+   * @private
+   */
+  _cleanSDKUIElements() {
+    const { uiRootNode } = this
+
+    if (uiRootNode) {
+      alert('clean UI')
+
+      /*const { previousSibling, nextSibling } = uiRootNode
+
+      ;[previousSibling, nextSibling].forEach(node => {
+        if (node.tagName === 'IFRAME') {
+          node.remove()
+        }
+      })*/
+
+      uiRootNode.remove()
     }
   }
 }

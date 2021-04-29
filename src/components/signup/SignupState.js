@@ -236,7 +236,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
         if (torusUserFromProps.privateKey) {
           log.debug('skipping ready initialization (already done in AuthTorus)')
 
-          // now that we are loggedin, reload api with JWT
+          // now that we are logged in, reload api with JWT
           return apiReady()
         }
 
@@ -369,7 +369,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
         })
 
         if (torusProvider !== 'facebook') {
-          // if logged in via other provider that facebook - generating & signing proof
+          // if logged in via other provider than facebook - generating & signing proof
           const torusProofNonce = await API.ping()
             .then(_ => moment(get(_, 'data.ping', Date.now())))
             .catch(e => moment())

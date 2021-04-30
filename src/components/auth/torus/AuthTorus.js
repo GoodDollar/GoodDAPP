@@ -278,7 +278,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
         return selfCustody()
       }
 
-      //dont expect response if in redirect mode, this will be called again with response from effect
+      //don't expect response if in redirect mode, this will be called again with response from effect
       if (config.env !== 'test' && !torusSDK.popupMode && torusUserRedirectPromise == null) {
         //just trigger the oauth and return
         log.debug('trigger redirect flow')
@@ -319,7 +319,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
           }
         }
       } else if (isSignup === false && existsResult.identifier !== true) {
-        //no account with identifier found = user didnt signup
+        //no account with identifier found = user didn't signup
         selection = await showNotSignedUp(provider)
         return setAuthScreen(selection)
       }
@@ -328,7 +328,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
 
       //user chose to continue signup even though used on another provider
       //or user signed in and account exists
-      await Promise.race([ready(replacing), timeout(60000, 'initialiazing wallet timed out')])
+      await Promise.race([ready(replacing), timeout(60000, 'initializing wallet timed out')])
       hideDialog()
 
       if (isSignup) {

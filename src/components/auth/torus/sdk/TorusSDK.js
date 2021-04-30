@@ -109,7 +109,7 @@ class TorusSDK {
     }
 
     if (leading > 0) {
-      // leading characters should be zeros, otherwise somerthing went wrong
+      // leading characters should be zeros, otherwise something went wrong
       if (privateKey.substring(0, leading) !== pad('', leading, '0')) {
         throw new Error('Invalid private key received:', { privateKey })
       }

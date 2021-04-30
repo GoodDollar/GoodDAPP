@@ -20,6 +20,16 @@ export const isSharingAvailable = Platform.select({
 })
 
 /**
+ * Represents all of the metadata needed by a vendor to complete a linked transactions
+ */
+export interface VendorMetadata {
+  callbackUrl: URL;
+  invoiceData: string;
+  website: URL;
+  vendorName: string;
+}
+
+/**
  * Generates a code containing an MNID with an amount if specified
  * @param address - address required to generate MNID
  * @param networkId - network identifier required to generate MNID
@@ -27,6 +37,7 @@ export const isSharingAvailable = Platform.select({
  * @param reason - reason to be attached to the generated MNID code
  * @param category - category to be attached to the generated MNID code
  * @param counterPartyDisplayName
+ * @param vendorInfo - Optional vendor information when linking against a selling platform
  * @returns {string} - 'MNID|amount'|'MNID'
  */
 export function generateCode(
@@ -36,6 +47,7 @@ export function generateCode(
   reason: string,
   category: string,
   counterPartyDisplayName: string,
+  vendorInfo?: VendorMetadata,
 ) {
   const mnid = encode({ address, network: `0x${networkId.toString(16)}` })
 
@@ -44,6 +56,7 @@ export function generateCode(
     a: amount,
     r: reason || '',
     cat: category,
+    ven: vendorInfo || {},
   }
   if (counterPartyDisplayName) {
     codeObj.c = counterPartyDisplayName
@@ -59,7 +72,7 @@ export function generateCode(
  */
 export function readCode(code: string) {
   try {
-    let mnid, amount, reason, category, counterPartyDisplayName
+    let mnid, amount, reason, category, counterPartyDisplayName, vendorInfo
     const decoded = decodeURIComponent(code)
 
     try {
@@ -70,8 +83,9 @@ export function readCode(code: string) {
       reason = codeObject.reason || codeObject.r
       category = codeObject.category || codeObject.cat
       counterPartyDisplayName = codeObject.counterPartyDisplayName || codeObject.c
+      vendorInfo = codeObject.vendorInfo || codeObject.ven
     } catch (e) {
-      ;[mnid, amount, reason, category, counterPartyDisplayName] = decoded.split('|')
+      ;[mnid, amount, reason, category, counterPartyDisplayName, vendorInfo] = decoded.split('|')
     }
 
     if (!isMNID(mnid)) {
@@ -83,6 +97,7 @@ export function readCode(code: string) {
     reason = reason === 'undefined' ? undefined : reason
     category = category === 'undefined' ? undefined : category
     counterPartyDisplayName = counterPartyDisplayName === 'undefined' ? undefined : counterPartyDisplayName
+    vendorInfo = vendorInfo === 'undefined' ? undefined : vendorInfo
     return {
       networkId: parseInt(network),
       address,
@@ -90,6 +105,7 @@ export function readCode(code: string) {
       reason,
       category,
       counterPartyDisplayName,
+      vendorInfo,
     }
   } catch (e) {
     log.error('readCode failed', e.message, e, { code })

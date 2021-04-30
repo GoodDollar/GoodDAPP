@@ -26,11 +26,17 @@ describe('generateCode', () => {
     const category = 'test category encode'
     const counterPartyDisplayName = 'Counterparty Name'
     const mnid = encode({ address, network: `0x${networkId.toString(16)}` })
+    const vendorInfo = {
+      callbackUrl: 'http://shop.example.com/api/callback',
+      invoiceData: 'INV#33333',
+      website: 'http://shop.example.com',
+      vendorName: 'Example Shop',
+    }
 
     // When
-    const code = generateCode(address, networkId, amount, reason, category, counterPartyDisplayName)
+    const code = generateCode(address, networkId, amount, reason, category, counterPartyDisplayName, vendorInfo)
 
     // Then
-    expect(code).toEqual({ m: mnid, a: amount, r: reason, cat: category, c: counterPartyDisplayName })
+    expect(code).toEqual({ m: mnid, a: amount, r: reason, cat: category, c: counterPartyDisplayName, ven: vendorInfo })
   })
 })

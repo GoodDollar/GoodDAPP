@@ -22,11 +22,59 @@ export const isSharingAvailable = Platform.select({
 /**
  * Represents all of the metadata needed by a vendor to complete a linked transactions
  */
-export interface VendorMetadata {
-  callbackUrl: URL;
-  invoiceData: string;
-  website: URL;
-  vendorName: string;
+export class VendorMetadata {
+  callbackUrl: URL
+
+  invoiceData: string
+
+  website: URL
+
+  vendorName: string
+
+  static CALLBACK_URL_SHORT = 'cbu'
+
+  static INVOICE_DATA_SHORT = 'ind'
+
+  static WEBSITE_SHORT = 'web'
+
+  static VENDOR_SHORT = 'ven'
+
+  constructor(callbackUrl: URL, invoiceData: string, website: URL, vendorName: string) {
+    this.callbackUrl = callbackUrl
+    this.invoiceData = invoiceData
+    this.website = website
+    this.vendorName = vendorName
+  }
+
+  /**
+   * Converts a [VendorMetadata] object to a concise form for shorter base64 compression
+   *
+   * @returns A concise form of the vendor metadata.
+   */
+  toConcise(): Object {
+    let response = {}
+    response[VendorMetadata.CALLBACK_URL_SHORT] = this.callbackUrl
+    response[VendorMetadata.INVOICE_DATA_SHORT] = this.invoiceData
+    response[VendorMetadata.WEBSITE_SHORT] = this.website
+    response[VendorMetadata.VENDOR_SHORT] = this.vendorName
+
+    return response
+  }
+
+  /**
+   * Creates a [VendorMetadata] object from its concise form.
+   *
+   * @param {*} concise
+   * @returns
+   */
+  static fromConcise(concise: Object): VendorMetadata {
+    return {
+      callbackUrl: concise[VendorMetadata.CALLBACK_URL_SHORT],
+      invoiceData: concise[VendorMetadata.INVOICE_DATA_SHORT],
+      website: concise[VendorMetadata.WEBSITE_SHORT],
+      vendorName: concise[VendorMetadata.VENDOR_SHORT],
+    }
+  }
 }
 
 /**
@@ -56,7 +104,7 @@ export function generateCode(
     a: amount,
     r: reason || '',
     cat: category,
-    ven: vendorInfo || {},
+    ven: vendorInfo ? vendorInfo.toConcise() : {},
   }
   if (counterPartyDisplayName) {
     codeObj.c = counterPartyDisplayName
@@ -97,7 +145,7 @@ export function readCode(code: string) {
     reason = reason === 'undefined' ? undefined : reason
     category = category === 'undefined' ? undefined : category
     counterPartyDisplayName = counterPartyDisplayName === 'undefined' ? undefined : counterPartyDisplayName
-    vendorInfo = vendorInfo === 'undefined' ? undefined : vendorInfo
+    vendorInfo = vendorInfo === 'undefined' ? undefined : VendorMetadata.fromConcise(vendorInfo)
     return {
       networkId: parseInt(network),
       address,

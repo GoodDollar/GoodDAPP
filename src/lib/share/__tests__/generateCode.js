@@ -1,6 +1,6 @@
 import { encode, isMNID } from 'mnid'
 
-import { generateCode } from '../'
+import { generateCode, VendorMetadata } from '../'
 
 describe('generateCode', () => {
   it(`should generate a string with an MNID valid code`, () => {
@@ -26,11 +26,25 @@ describe('generateCode', () => {
     const category = 'test category encode'
     const counterPartyDisplayName = 'Counterparty Name'
     const mnid = encode({ address, network: `0x${networkId.toString(16)}` })
+    const vendorInfo = new VendorMetadata(
+      'http://shop.example.com/api/callback',
+      'INV#33333',
+      'http://shop.example.com',
+      'Example Shop',
+    )
+    const vendorInfoConcise = vendorInfo.toConcise()
 
     // When
-    const code = generateCode(address, networkId, amount, reason, category, counterPartyDisplayName)
+    const code = generateCode(address, networkId, amount, reason, category, counterPartyDisplayName, vendorInfo)
 
     // Then
-    expect(code).toEqual({ m: mnid, a: amount, r: reason, cat: category, c: counterPartyDisplayName })
+    expect(code).toEqual({
+      m: mnid,
+      a: amount,
+      r: reason,
+      cat: category,
+      c: counterPartyDisplayName,
+      ven: vendorInfoConcise,
+    })
   })
 })

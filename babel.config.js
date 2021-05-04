@@ -3,19 +3,16 @@ module.exports = function(api) {
 
   return {
     presets: [
-      ['module:metro-react-native-babel-preset'],
+      'module:metro-react-native-babel-preset',
       [
         '@babel/preset-env',
         {
           modules: false,
+          exclude: ['@babel/plugin-transform-typeof-symbol']
         },
       ],
     ],
-    env: {
-      production: {
-        plugins: ['react-native-paper/babel', 'lodash', 'transform-class-properties'],
-      },
-    },
-    ignore: ['src/lib/facetec/FaceTecSDK.web.js']
+    plugins: ['react-native-paper/babel', 'lodash', 'transform-class-properties'],
+    ignore: [/src\/lib\/facetec\/facetecsdk\.web\.js/i]
   }
 }

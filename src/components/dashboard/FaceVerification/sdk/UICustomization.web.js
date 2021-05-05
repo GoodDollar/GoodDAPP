@@ -38,7 +38,6 @@ const FaceTecColor = memoize(hexToRgba, (color, alpha) => {
   return cacheKey
 })
 
-const FaceTecHeaderTextSize = FaceTecSize(isLargeDevice ? 22 : 20)
 const FaceTecDefaultCornerRadius = FaceTecSize(5)
 
 const { black, lightBlue800 } = Colors
@@ -67,9 +66,6 @@ export const UITextStrings = {
   instructionsMessageReadyDesktop,
   instructionsMessageReady1Mobile: isLargeDevice ? instructionsMessageReadyDesktop : readyMessage1,
   instructionsMessageReady2Mobile: isLargeDevice ? '' : readyMessage2,
-
-  cameraPermissionHeader: 'We can’t access your camera...',
-  cameraPermissionMessage: 'Please enable camera permission<br/>Change it via your device settings',
 
   // setting empty "Starting camera..." text
   initializingCamera: ' ',
@@ -135,7 +131,6 @@ assignIn(feedbackCustomization, {
   cornerRadius: FaceTecDefaultCornerRadius,
   textColor: FaceTecColor(white),
   textFont: FaceTecFont(defaultFont),
-  textSize: FaceTecSize(24),
 })
 
 // setting oval border color & width
@@ -177,13 +172,9 @@ assignIn(guidanceCustomization, {
   // customizing header / subtext
   // medium font style is set in UICustomization.css
   headerFont: FaceTecFont(defaultFont),
-  headerTextSize: FaceTecHeaderTextSize,
 
   // subtext
   subtextFont: FaceTecFont(defaultFont),
-  subtextTextSize: FaceTecSize(12),
-  readyScreenSubtextTextSize: FaceTecSize(12),
-  retryScreenSubtextTextSize: FaceTecSize(12),
 
   // enabling additional instructions on retry screen
   enableRetryScreenBulletedInstructions: true,
@@ -193,17 +184,12 @@ assignIn(guidanceCustomization, {
   retryScreenImageBorderColor: FaceTecColor(primary),
   retryScreenImageBorderWidth: FaceTecSize(4),
   retryScreenImageCornerRadius: FaceTecDefaultCornerRadius,
-
-  // image displayed on the Camera Permissions Screen
-  cameraPermissionsScreenImage: FaceTecImage('camera.svg'),
 })
 
 // customizing result screen - progress bar & success animation
 assignIn(resultScreenCustomization, {
   foregroundColor: FaceTecColor(darkGray),
   messageFont: FaceTecFont(defaultFont),
-  messageTextSpacing: FaceTecSize(0.08),
-  messageTextSize: FaceTecSize(16),
   showUploadProgressBar: true,
   uploadProgressFillColor: FaceTecColor(primary),
   uploadProgressTrackColor: FaceTecColor(lightGray),

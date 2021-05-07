@@ -828,6 +828,12 @@ export default createStackNavigator({
   FaceVerificationIntro,
   FaceVerificationError,
 
+  FaceVerificationIssue: {
+    screen: FaceVerificationError,
+    path: 'FaceVerificationError/:kindOfTheIssue',
+    params: { kindOfTheIssue: undefined },
+  },
+
   SendQRSummary,
 
   TransactionConfirmation: {

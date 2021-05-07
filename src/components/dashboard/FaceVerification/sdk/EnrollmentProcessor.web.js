@@ -260,7 +260,7 @@ export class EnrollmentProcessor {
       // If press OK in this dialog, FV session then crashes with white screen
       // Removing Zoom's UI from DOM removes blurred background but it's impossible to start session again
       // Only app reloading solves the issue and allows to retry FV attempt.
-      // So, in that case we're redirecting app to the corresponding FV error scrren with full page reload
+      // So, in that case we're redirecting app to the corresponding FV error screen with full page reload
       _waitForSDKUIElementVisible('DOM_FT_cameraPermissionsScreen', () => {
         const uiContainer = document.getElementById('DOM_FT_mainInterfaceNonOverlayContainer')
 

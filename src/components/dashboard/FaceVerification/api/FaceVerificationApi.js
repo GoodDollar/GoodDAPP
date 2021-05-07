@@ -7,6 +7,7 @@ import Config from '../../../../config/config'
 import logger from '../../../../lib/logger/pino-logger'
 import { unexpectedErrorMessage } from '../sdk/FaceTecSDK.constants'
 
+import { hideRedBoxIfNonCritical } from '../utils/kindOfTheIssue'
 import { type FaceVerificationPayload, type FaceVerificationResponse } from './typings'
 
 class FaceVerificationApi {
@@ -82,7 +83,7 @@ class FaceVerificationApi {
     } catch (exception) {
       const { message } = exception
 
-      logger.error('Face verification failed', message, exception)
+      hideRedBoxIfNonCritical(exception, () => logger.error('Face verification failed', message, exception))
       throw exception
     } finally {
       this.lastCancelToken = null

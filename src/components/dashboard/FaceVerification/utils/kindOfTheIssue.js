@@ -181,7 +181,7 @@ export const kindOfSessionIssue = exception => findKey(kindOfSessionIssuesMap, c
 export const kindOfSDKIssue = exception => findKey(kindOfSDKIssuesMap, createPredicate(exception))
 
 export const hideRedBoxIfNonCritical = (exception, logCallback) => {
-  if (unexpectedRe.test(exception.message || '') && isCriticalIssue(exception)) {
+  if (unexpectedRe.test(exception.message || '') || isCriticalIssue(exception)) {
     logCallback()
     return
   }

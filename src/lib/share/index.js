@@ -145,7 +145,7 @@ export function readCode(code: string) {
     reason = reason === 'undefined' ? undefined : reason
     category = category === 'undefined' ? undefined : category
     counterPartyDisplayName = counterPartyDisplayName === 'undefined' ? undefined : counterPartyDisplayName
-    vendorInfo = vendorInfo === 'undefined' ? undefined : VendorMetadata.fromConcise(vendorInfo)
+    vendorInfo = vendorInfo == null ? undefined : VendorMetadata.fromConcise(vendorInfo)
     return {
       networkId: parseInt(network),
       address,

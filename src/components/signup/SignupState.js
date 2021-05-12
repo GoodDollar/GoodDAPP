@@ -168,17 +168,17 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
 
     // if we have name from torus we skip to phone
     if (state.fullName) {
+      // if skipping phone is disabled
+      if (!skipMobile) {
+        return navigation.navigate('Phone')
+      }
+
       // if no email address and skipEmail is false (for example: when signup with facebook account that has no verified email)
       if (!skipEmail) {
         return navigateWithFocus('Email')
       }
 
-      // if skipping phone is enabled
-      if (skipMobile) {
-        return navigation.navigate('SignupCompleted')
-      }
-
-      return navigation.navigate('Phone')
+      return navigation.navigate('SignupCompleted')
     }
   }
 

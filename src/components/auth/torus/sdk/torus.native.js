@@ -1,5 +1,7 @@
 import DirectNativeSDK from '@toruslabs/torus-direct-react-native-sdk'
-import { defaults } from 'lodash'
+import { defaults, get } from 'lodash'
+
+import { isAndroidNative } from '../../../../lib/utils/platform'
 
 class Torus {
   constructor(Config, options) {
@@ -19,12 +21,26 @@ class Torus {
 
   // eslint-disable-next-line require-await
   async triggerLogin(loginOptions) {
-    return DirectNativeSDK.triggerLogin(loginOptions)
+    const options = this._configureLogin(loginOptions)
+
+    return DirectNativeSDK.triggerLogin(options)
   }
 
   // eslint-disable-next-line require-await
   async triggerAggregateLogin(loginOptions) {
-    return DirectNativeSDK.triggerAggregateLogin(loginOptions)
+    const subOptions = get(loginOptions, 'subVerifierDetailsArray', [])
+    const subVerifierDetailsArray = subOptions.map(this._configureLogin)
+    const options = { ...loginOptions, subVerifierDetailsArray }
+
+    return DirectNativeSDK.triggerAggregateLogin(options)
+  }
+
+  _configureLogin(loginOptions) {
+    if (!isAndroidNative) {
+      return loginOptions
+    }
+
+    return { ...loginOptions, preferCustomTabs: true }
   }
 }
 

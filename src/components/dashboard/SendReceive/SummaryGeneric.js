@@ -1,13 +1,18 @@
-import React, { useMemo, useState } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import { Platform, View } from 'react-native'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import { noop } from 'lodash'
 import { BackButton } from '../../appNavigation/stackNavigation'
-import { BigGoodDollar, CustomButton, Icon, Section, Wrapper } from '../../common'
+import { BigGoodDollar, CustomButton, Icon, InputRounded, Section, Wrapper } from '../../common'
+import BorderedBox from '../../common/view/BorderedBox'
 import TopBar from '../../common/view/TopBar'
 import { withStyles } from '../../../lib/styles'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../lib/utils/sizes'
 import { isMobile } from '../../../lib/utils/platform'
 import normalize from '../../../lib/utils/normalizeText'
 import SurveySend from '../SurveySend'
+import { useDialog } from '../../../lib/undux/utils/dialog'
+import ExplanationDialog from '../../common/dialogs/ExplanationDialog'
 
 const SummaryGeneric = ({
   screenProps,
@@ -20,6 +25,7 @@ const SummaryGeneric = ({
   iconName,
   title,
   action,
+  vendorInfo,
 }) => {
   const { push } = screenProps
   const [, setSurvey] = useState(undefined)
@@ -36,6 +42,40 @@ const SummaryGeneric = ({
       setLoading(false)
     }
   }
+
+  const [showDialog] = useDialog()
+  const [username, setUsername] = useState('')
+  const [email, setEmail] = useState('')
+  const textStyle = Object.assign(styles.text || {}, {
+    'text-align': 'start',
+    'font-size': 20,
+  })
+  const Divider = ({ size }) => <Section.Separator width={size} color="transparent" style={{ zIndex: -10 }} />
+  const onViewVendorInfo = useCallback(
+    () =>
+      showDialog({
+        showButtons: false,
+        onDismiss: noop,
+        content: (
+          <ExplanationDialog
+            textStyle={textStyle}
+            image={props => <Icon size={64} name="home" />}
+            title="Vendored Transaction"
+            text={
+              'This transaction belongs to a vendor with the following information:\n' +
+              '\n' +
+              `- Website => ${vendorInfo.website || 'NO WEBSITE PROVIDED'}\n` +
+              `- Callback URL => ${vendorInfo.callbackUrl || 'NO CALLBACK PROVIDED'}\n` +
+              `- Invoice Number => ${vendorInfo.invoiceData || 'NO INVOICE PROVIDED'}\n` +
+              '\n' +
+              'The vendor of this transaction will receive the transaction details along with your name ' +
+              'and email, if supplied.'
+            }
+          />
+        ),
+      }),
+    [showDialog],
+  )
 
   return (
     <Wrapper>
@@ -92,6 +132,40 @@ const SummaryGeneric = ({
             </Section.Row>
           )}
         </Section.Stack>
+        {vendorInfo && (
+          <Section.Stack>
+            <Divider size={20} />
+            <BorderedBox
+              styles={styles}
+              title="Vendored Transaction"
+              content="This transaction's details will be sent to the vendor."
+              imageSize={28}
+              image={props => <Icon size={28} {...props} name="info" />}
+              copyButtonText="More Info"
+              showCopyIcon={false}
+              onCopied={onViewVendorInfo}
+              enableIndicateAction={false}
+              enableSideMode={true}
+            >
+              <Divider size={10} />
+              <KeyboardAwareScrollView resetScrollToCoords={{ x: 0, y: 0 }} scrollEnabled={false}>
+                <Section.Row>
+                  <InputRounded
+                    onChange={setUsername}
+                    icon="username"
+                    iconSize={22}
+                    placeholder="Name"
+                    value={username}
+                  />
+                </Section.Row>
+                <Section.Row>
+                  <InputRounded onChange={setEmail} icon="envelope" iconSize={22} placeholder="E-Mail" value={email} />
+                </Section.Row>
+              </KeyboardAwareScrollView>
+            </BorderedBox>
+            <Divider size={30} />
+          </Section.Stack>
+        )}
         {isSend && (
           <Section.Row justifyContent="center" style={styles.warnText}>
             <Section.Text color="gray80Percent">{'* the transaction may take\na few seconds to complete'}</Section.Text>

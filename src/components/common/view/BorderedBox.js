@@ -26,6 +26,7 @@ const BorderedBox = ({
   title,
   content,
   copyButtonText,
+  children,
   truncateContent = false,
   imageSize = 68,
   enableSideMode = false,
@@ -123,6 +124,7 @@ const BorderedBox = ({
           >
             {displayContent}
           </Section.Text>
+          {children}
         </Section.Stack>
         <View style={[styles.copyIconLineSeparator, showCopyIcon ? null : styles.copyButtonLineSeparator]} />
       </Section.Stack>

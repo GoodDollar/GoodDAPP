@@ -597,8 +597,8 @@ export class FeedStorage {
 
       switch (txType) {
         case TxType.TX_REWARD:
-          feedEvent.data.reason = COMPLETED_BONUS_REASON_TEXT
-          feedEvent.data.counterPartyFullName = 'GoodDollar'
+          updatedFeedEvent.data.reason = COMPLETED_BONUS_REASON_TEXT
+          updatedFeedEvent.data.counterPartyFullName = 'GoodDollar'
           break
         case TxType.TX_MINT:
           feedEvent.data.reason = 'Your Transferred G$s'
@@ -615,6 +615,7 @@ export class FeedStorage {
       if (isEqual(feedEvent, updatedFeedEvent) === false) {
         await this.updateFeedEvent(updatedFeedEvent, feedEvent.date)
       }
+
       log.debug('handleReceiptUpdate saving... done', receipt.transactionHash)
       this.updateFeedEventCounterParty(updatedFeedEvent)
 

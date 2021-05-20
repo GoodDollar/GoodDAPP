@@ -8,6 +8,7 @@ import {
   isEqual,
   isError,
   isUndefined,
+  maxBy,
   merge,
   noop,
   omit,
@@ -38,6 +39,10 @@ function isValidDate(d) {
 const COMPLETED_BONUS_REASON_TEXT = 'Your recent earned rewards'
 const NULL_ADDRESS = '0x0000000000000000000000000000000000000000'
 
+const CONTRACT_EVENT_TYPE_PAYMENT_WITHDRAW = 'PaymentWithdraw'
+const CONTRACT_EVENT_TYPE_PAYMENT_CANCEL = 'PaymentCancel'
+const CONTRACT_EVENT_TYPE_TRANSFER = 'Transfer'
+
 export const TxType = {
   TX_OTPL_CANCEL: 'TX_OTPL_CANCEL',
   TX_OTPL_WITHDRAW: 'TX_OTPL_WITHDRAW', //someone withdraw our own paymentlink
@@ -62,6 +67,7 @@ export const TxTypeToEventType = {
 
 export const FeedItemType = {
   EVENT_TYPE_SEND: 'send', //send via link
+  EVENT_TYPE_WITHDRAW: 'withdraw', //send via link
   EVENT_TYPE_BONUS: 'bonus',
   EVENT_TYPE_CLAIM: 'claim',
   EVENT_TYPE_SENDDIRECT: 'senddirect', //send to address
@@ -123,10 +129,9 @@ export class FeedStorage {
     this.feedInitialized = true
     const { feed } = await this.gunuser
 
-    ;['receiptReceived', 'receiptUpdated', 'otplUpdated'].forEach(e =>
-      this.wallet.subscribeToEvent(e, r => this.handleReceipt(r)),
-    )
+    ;['receiptReceived', 'receiptUpdated'].forEach(e => this.wallet.subscribeToEvent(e, r => this.handleReceipt(r)))
 
+    this.wallet.subscribeToEvent('otplUpdated', receipt => this.handleOTPLUpdated(receipt))
     log.debug('initfeed', { feed })
 
     if (feed == null) {
@@ -154,6 +159,123 @@ export class FeedStorage {
 
     //no need to block on this
     this._syncFeedCache()
+  }
+
+  /**
+   * callback to use when we get a transaction that withdrawn our payment link
+   * @param {*} receipt
+   */
+  async handleOTPLUpdated(receipt: any): Promise<FeedEvent> {
+    //receipt received via websockets/polling need mutex to prevent race
+    //with enqueuing the initial TX data
+    const release = await this.feedMutex.lock()
+    try {
+      const data = this.getReceiveDataFromReceipt(receipt, this.wallet.account)
+      logger.debug('handleOTPLUpdated', { data, receipt })
+
+      //get our tx that created the payment link
+      //paymentId is new format, hash is in old beta format
+      const originalTXHash = await this.getTransactionHashByCode(data.hash || data.paymentId)
+      if (originalTXHash === undefined) {
+        logger.error(
+          'handleOTPLUpdated failed',
+          'Original payment link TX not found',
+          new Error('handleOTPLUpdated Failed: Original payment link TX not found'),
+          { data, receipt },
+        )
+        return
+      }
+
+      const feedEvent = {
+        data: {},
+        ...((await this.getFeedItemByTransactionHash(originalTXHash)) || {}),
+      }
+
+      if (get(feedEvent, 'data.otplData')) {
+        logger.debug('handleOTPLUpdated skipping event with existing receipt data', feedEvent, receipt)
+        return feedEvent
+      }
+
+      const receiptDate = await this.wallet.wallet.eth
+        .getBlock(receipt.blockNumber)
+        .then(_ => new Date(_.timestamp * 1000))
+        .catch(_ => new Date())
+
+      //if we withdrawn the payment link then its canceled
+      const otplStatus =
+        data.name === CONTRACT_EVENT_TYPE_PAYMENT_CANCEL || data.to === data.from ? 'cancelled' : 'completed'
+      const prevDate = feedEvent.date
+      feedEvent.data.from = data.from
+      feedEvent.data.to = data.to
+      feedEvent.data.otplData = data
+      feedEvent.status = feedEvent.data.otplStatus = otplStatus
+      feedEvent.date = receiptDate.toString()
+
+      logger.debug('handleOTPLUpdated receiptReceived', {
+        feedEvent,
+        otplStatus,
+        receipt,
+        data,
+      })
+      await this.updateFeedEvent(feedEvent, prevDate)
+      return feedEvent
+    } catch (e) {
+      logger.error('handleOTPLUpdated', e.message, e)
+    } finally {
+      release()
+    }
+    return {}
+  }
+
+  /**
+   * Extracts transfer events sent to the current account
+   * @param {object} receipt - Receipt event
+   * @returns {object} {transferLog: event: [{evtName: evtValue}]}
+   */
+  getReceiveDataFromReceipt = (receipt: any, account: string) => {
+    if (!receipt || !receipt.logs || receipt.logs.length <= 0) {
+      return {}
+    }
+
+    // Obtain logged data from receipt event
+    const logs = receipt.logs
+      .filter(_ => _)
+      .map(log =>
+        log.events.reduce(
+          (acc, curr) => {
+            if (!acc[curr.name] || (acc[curr.name] && acc[curr.name].value && acc[curr.name].value < curr.value)) {
+              return { ...acc, [curr.name]: curr.value }
+            }
+            return acc
+          },
+          { name: log.name },
+        ),
+      )
+
+    //maxBy is used in case transaction also paid a TX fee/burn, so since they are small
+    //it filters them out
+    const transferLog = maxBy(
+      logs.filter(log => {
+        return (
+          log &&
+          log.name === CONTRACT_EVENT_TYPE_TRANSFER &&
+          (log.from.toLowerCase() === account.toLowerCase() || log.to.toLowerCase() === account.toLowerCase())
+        )
+      }),
+      log => log.value,
+    )
+    const withdrawLog = logs.find(log => {
+      return (
+        log && (log.name === CONTRACT_EVENT_TYPE_PAYMENT_WITHDRAW || log.name === CONTRACT_EVENT_TYPE_PAYMENT_CANCEL)
+      )
+    })
+    logger.debug('getReceiveDataFromReceipt', {
+      logs: receipt.logs,
+      transferLog,
+      withdrawLog,
+    })
+    const log = withdrawLog || transferLog
+    return log
   }
 
   async _syncFeedCache() {
@@ -275,12 +397,36 @@ export class FeedStorage {
       return TxType.TX_OTPL_CANCEL
     }
 
-    //not actually listerning to this event
+    //not actually listening to this event
     if (eventsName.includes('PaymentWithdraw')) {
-      return TxType.TX_OTPL_WITHDRAW
+      const event = events.find(e => {
+        const from = get(e, 'data.from', '')
+        const to = get(e, 'data.to', '')
+        return (
+          e.name === 'PaymentWithdraw' &&
+          from.toLowerCase() === this.wallet.oneTimePaymentsContract.address.toLowerCase() &&
+          to.toLowerCase() === this.walletAddress
+        )
+      })
+      log.debug('getReceiptType PaymentWithdraw event', { event })
+      if (event) {
+        return TxType.TX_OTPL_WITHDRAW
+      }
     }
     if (eventsName.includes('PaymentDeposit')) {
-      return TxType.TX_OTPL_DEPOSIT
+      const event = events.find(e => {
+        const from = get(e, 'data.from', '')
+        const to = get(e, 'data.to', '')
+        return (
+          e.name === 'PaymentDeposit' &&
+          to.toLowerCase() === this.wallet.oneTimePaymentsContract.address.toLowerCase() &&
+          from.toLowerCase() === this.walletAddress
+        )
+      })
+      log.debug('getReceiptType PaymentDeposit event', { event })
+      if (event) {
+        return TxType.TX_OTPL_DEPOSIT
+      }
     }
     if (eventsName.includes('UBIClaimed')) {
       return TxType.TX_CLAIM
@@ -379,7 +525,7 @@ export class FeedStorage {
         createdDate: receiptDate.toString(),
       }
 
-      //cancel/withdraw are updating existing TX so we dont want to return here
+      //cancel/withdraw are updating existing TX so we don't want to return here
       //   if (txType !== TxType.TX_OTPL_WITHDRAW && txType !== TxType.TX_OTPL_CANCEL) {
       //     if (get(feedEvent, 'data.receiptData', feedEvent && feedEvent.receiptReceived)) {
       //       log.debug('handleReceiptUpdate skipping event with existing receipt data', receipt.transactionHash, {
@@ -422,6 +568,11 @@ export class FeedStorage {
         feedEvent,
       })
 
+      // FIXME: temp fix to avoid updating feed event if old receipt
+      if (receiptDate.getTime() < new Date(feedEvent.date).getTime()) {
+        return feedEvent
+      }
+
       //merge incoming receipt data into existing event
       const updatedFeedEvent: FeedEvent = {
         ...feedEvent,
@@ -450,7 +601,7 @@ export class FeedStorage {
           feedEvent.data.counterPartyFullName = 'GoodDollar'
           break
         case TxType.TX_MINT:
-          feedEvent.data.reason = 'Your Transfered G$s'
+          feedEvent.data.reason = 'Your Transferred G$s'
           feedEvent.data.counterPartyfullName = 'Fuse Bridge'
           break
         default:
@@ -917,7 +1068,7 @@ export class FeedStorage {
         // then getting tx item details from the wallet
         if (!item && id.startsWith('0x')) {
           const receipt = await this.wallet.getReceiptWithLogs(id).catch(e => {
-            log.warn('getFeedPagee no receipt found for id:', id, e.message, e)
+            log.warn('getFeedPage no receipt found for id:', id, e.message, e)
           })
 
           if (receipt) {

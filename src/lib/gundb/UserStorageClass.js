@@ -1,5 +1,4 @@
 //@flow
-import { Platform } from 'react-native'
 import { debounce, defaults, get, isEmpty, isError, isNil, isString, keys, memoize, over, pick, values } from 'lodash'
 import moment from 'moment'
 import Gun from '@gooddollar/gun'
@@ -29,11 +28,6 @@ import { FeedEvent, FeedItemType, FeedStorage, TxStatus } from './FeedStorage'
 const logger = pino.child({ from: 'UserStorage' })
 
 const NULL_ADDRESS = '0x0000000000000000000000000000000000000000'
-
-const favicon = Platform.select({
-  web: `${process.env.PUBLIC_URL}/favicon-96x96.png`,
-  default: require('../../assets/Feed/favicon-96x96.png'),
-})
 
 /**
  * User details returned from Gun SEA
@@ -1546,7 +1540,7 @@ export class UserStorage {
     const fromEmailMobile = data.initiatorType && data.initiator
     data.displayName = customName || counterPartyFullName || fromEmailMobile || fromGD || 'Unknown'
 
-    data.avatar = status === 'error' || fromGD ? favicon : counterPartySmallAvatar
+    data.avatar = status === 'error' || fromGD ? -1 : counterPartySmallAvatar
 
     logger.debug('formatEvent: parsed data', {
       id,

@@ -8,7 +8,6 @@ import {
   isEqual,
   isError,
   isUndefined,
-  maxBy,
   merge,
   noop,
   omit,
@@ -38,10 +37,6 @@ function isValidDate(d) {
 
 const COMPLETED_BONUS_REASON_TEXT = 'Your recent earned rewards'
 const NULL_ADDRESS = '0x0000000000000000000000000000000000000000'
-
-const CONTRACT_EVENT_TYPE_PAYMENT_WITHDRAW = 'PaymentWithdraw'
-const CONTRACT_EVENT_TYPE_PAYMENT_CANCEL = 'PaymentCancel'
-const CONTRACT_EVENT_TYPE_TRANSFER = 'Transfer'
 
 export const TxType = {
   TX_OTPL_CANCEL: 'TX_OTPL_CANCEL',
@@ -128,11 +123,10 @@ export class FeedStorage {
   async init() {
     this.feedInitialized = true
     const { feed } = await this.gunuser
-    const receiptEvents = ['receiptReceived', 'receiptUpdated']
+    const receiptEvents = ['receiptReceived', 'receiptUpdated', 'otplUpdated']
 
     receiptEvents.forEach(e => this.wallet.subscribeToEvent(e, r => this.handleReceipt(r)))
 
-    this.wallet.subscribeToEvent('otplUpdated', receipt => this.handleOTPLUpdated(receipt))
     log.debug('initfeed', { feed })
 
     if (feed == null) {
@@ -160,127 +154,6 @@ export class FeedStorage {
 
     //no need to block on this
     this._syncFeedCache()
-  }
-
-  /**
-   * callback to use when we get a transaction that withdrawn our payment link
-   * @param {*} receipt
-   */
-  async handleOTPLUpdated(receipt: any): Promise<FeedEvent> {
-    // receipt received via websockets/polling need mutex to prevent race
-    // with enqueuing the initial TX data
-    const release = await this.feedMutex.lock()
-
-    try {
-      const data = this.getReceiveDataFromReceipt(receipt, this.wallet.account)
-
-      logger.debug('handleOTPLUpdated', { data, receipt })
-
-      // get our tx that created the payment link
-      // paymentId is new format, hash is in old beta format
-      const originalTXHash = await this.getTransactionHashByCode(data.hash || data.paymentId)
-
-      if (originalTXHash === undefined) {
-        logger.error(
-          'handleOTPLUpdated failed',
-          'Original payment link TX not found',
-          new Error('handleOTPLUpdated Failed: Original payment link TX not found'),
-          { data, receipt },
-        )
-        return
-      }
-
-      const feedEvent = {
-        data: {},
-        ...((await this.getFeedItemByTransactionHash(originalTXHash)) || {}),
-      }
-
-      if (get(feedEvent, 'data.otplData')) {
-        logger.debug('handleOTPLUpdated skipping event with existing receipt data', feedEvent, receipt)
-        return feedEvent
-      }
-
-      const receiptDate = await this.wallet.wallet.eth
-        .getBlock(receipt.blockNumber)
-        .then(_ => new Date(_.timestamp * 1000))
-        .catch(_ => new Date())
-
-      // if we withdrawn the payment link then its canceled
-      const otplStatus =
-        data.name === CONTRACT_EVENT_TYPE_PAYMENT_CANCEL || data.to === data.from ? 'cancelled' : 'completed'
-      const prevDate = feedEvent.date
-
-      feedEvent.data.from = data.from
-      feedEvent.data.to = data.to
-      feedEvent.data.otplData = data
-      feedEvent.status = feedEvent.data.otplStatus = otplStatus
-      feedEvent.date = receiptDate.toString()
-
-      logger.debug('handleOTPLUpdated receiptReceived', {
-        feedEvent,
-        otplStatus,
-        receipt,
-        data,
-      })
-      await this.updateFeedEvent(feedEvent, prevDate)
-      return feedEvent
-    } catch (e) {
-      logger.error('handleOTPLUpdated', e.message, e)
-    } finally {
-      release()
-    }
-    return {}
-  }
-
-  /**
-   * Extracts transfer events sent to the current account
-   * @param {object} receipt - Receipt event
-   * @returns {object} {transferLog: event: [{evtName: evtValue}]}
-   */
-  getReceiveDataFromReceipt = (receipt: any, account: string) => {
-    if (!receipt || !receipt.logs || receipt.logs.length <= 0) {
-      return {}
-    }
-
-    // Obtain logged data from receipt event
-    const logs = receipt.logs
-      .filter(_ => _)
-      .map(log =>
-        log.events.reduce(
-          (acc, curr) => {
-            if (!acc[curr.name] || (acc[curr.name] && acc[curr.name].value && acc[curr.name].value < curr.value)) {
-              return { ...acc, [curr.name]: curr.value }
-            }
-            return acc
-          },
-          { name: log.name },
-        ),
-      )
-
-    // maxBy is used in case transaction also paid a TX fee/burn, so since they are small
-    // it filters them out
-    const transferLog = maxBy(
-      logs.filter(log => {
-        return (
-          log &&
-          log.name === CONTRACT_EVENT_TYPE_TRANSFER &&
-          (log.from.toLowerCase() === account.toLowerCase() || log.to.toLowerCase() === account.toLowerCase())
-        )
-      }),
-      log => log.value,
-    )
-    const withdrawLog = logs.find(log => {
-      return (
-        log && (log.name === CONTRACT_EVENT_TYPE_PAYMENT_WITHDRAW || log.name === CONTRACT_EVENT_TYPE_PAYMENT_CANCEL)
-      )
-    })
-    logger.debug('getReceiveDataFromReceipt', {
-      logs: receipt.logs,
-      transferLog,
-      withdrawLog,
-    })
-
-    return withdrawLog || transferLog
   }
 
   async _syncFeedCache() {
@@ -405,14 +278,7 @@ export class FeedStorage {
     // not actually listening to this event
     if (eventsName.includes('PaymentWithdraw')) {
       const event = events.find(e => {
-        const from = get(e, 'data.from', '')
-        const to = get(e, 'data.to', '')
-
-        return (
-          e.name === 'PaymentWithdraw' &&
-          from.toLowerCase() === this.wallet.oneTimePaymentsContract.address.toLowerCase() &&
-          to.toLowerCase() === this.walletAddress
-        )
+        return e.name === 'PaymentWithdraw'
       })
 
       log.debug('getReceiptType PaymentWithdraw event', { event })
@@ -551,6 +417,10 @@ export class FeedStorage {
       let status = TxStatus.COMPLETED
       let outboxData = {}
       switch (txType) {
+        case TxType.TX_OTPL_WITHDRAW:
+          status =
+            txEvent && txEvent.data && txEvent.data.to === txEvent.data.from ? TxStatus.CANCELED : TxStatus.COMPLETED
+          break
         case TxType.TX_OTPL_DEPOSIT:
           //update index for payment links by paymentId, so we can update when we receive withdraw event
           this.feed.get('codeToTxHash').put({ [txEvent.data.paymentId]: feedEvent.id })
@@ -585,11 +455,21 @@ export class FeedStorage {
         return feedEvent
       }
 
+      const to = get(feedEvent, 'data.receiptEvent.to', null)
+      const from = get(feedEvent, 'data.receiptEvent.from', null) || get(feedEvent, 'data.from', null)
+      const type =
+        (to && to.toLocaleLowerCase() === this.walletAddress.toLowerCase()) ||
+        (from && from.toLocaleLowerCase() !== this.walletAddress.toLowerCase())
+          ? 'withdraw'
+          : TxTypeToEventType[txType]
+
+      log.debug('handleReceiptUpdate type', { feedEvent, type })
+
       //merge incoming receipt data into existing event
       const updatedFeedEvent: FeedEvent = {
         ...feedEvent,
         ...initialEvent,
-        type: TxTypeToEventType[txType],
+        type,
         txType,
         status,
         receiptReceived: true,

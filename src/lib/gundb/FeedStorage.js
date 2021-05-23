@@ -170,16 +170,16 @@ export class FeedStorage {
     // receipt received via websockets/polling need mutex to prevent race
     // with enqueuing the initial TX data
     const release = await this.feedMutex.lock()
-    
+
     try {
       const data = this.getReceiveDataFromReceipt(receipt, this.wallet.account)
-      
+
       logger.debug('handleOTPLUpdated', { data, receipt })
 
       // get our tx that created the payment link
       // paymentId is new format, hash is in old beta format
       const originalTXHash = await this.getTransactionHashByCode(data.hash || data.paymentId)
-      
+
       if (originalTXHash === undefined) {
         logger.error(
           'handleOTPLUpdated failed',
@@ -209,7 +209,7 @@ export class FeedStorage {
       const otplStatus =
         data.name === CONTRACT_EVENT_TYPE_PAYMENT_CANCEL || data.to === data.from ? 'cancelled' : 'completed'
       const prevDate = feedEvent.date
-      
+
       feedEvent.data.from = data.from
       feedEvent.data.to = data.to
       feedEvent.data.otplData = data
@@ -407,16 +407,16 @@ export class FeedStorage {
       const event = events.find(e => {
         const from = get(e, 'data.from', '')
         const to = get(e, 'data.to', '')
-        
+
         return (
           e.name === 'PaymentWithdraw' &&
           from.toLowerCase() === this.wallet.oneTimePaymentsContract.address.toLowerCase() &&
           to.toLowerCase() === this.walletAddress
         )
       })
-      
+
       log.debug('getReceiptType PaymentWithdraw event', { event })
-      
+
       if (event) {
         return TxType.TX_OTPL_WITHDRAW
       }
@@ -425,16 +425,16 @@ export class FeedStorage {
       const event = events.find(e => {
         const from = get(e, 'data.from', '')
         const to = get(e, 'data.to', '')
-        
+
         return (
           e.name === 'PaymentDeposit' &&
           to.toLowerCase() === this.wallet.oneTimePaymentsContract.address.toLowerCase() &&
           from.toLowerCase() === this.walletAddress
         )
       })
-      
+
       log.debug('getReceiptType PaymentDeposit event', { event })
-      
+
       if (event) {
         return TxType.TX_OTPL_DEPOSIT
       }

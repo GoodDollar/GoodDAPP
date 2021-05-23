@@ -6,7 +6,9 @@ import { Avatar } from 'react-native-paper'
 import UnknownProfileSVG from '../../../assets/unknownProfile.svg'
 import { withStyles } from '../../../lib/styles'
 import useOnPress from '../../../lib/hooks/useOnPress'
-import { isValidImage } from '../../../lib/utils/image'
+import { isGoodDollarImage, isValidImage } from '../../../lib/utils/image'
+
+import GoodDollarLogo from '../../../assets/Feed/favicon-96x96.svg'
 
 /**
  * Touchable Avatar
@@ -20,7 +22,19 @@ import { isValidImage } from '../../../lib/utils/image'
 const CustomAvatar = ({ styles, style, source, onPress, size, imageSize, children, unknownStyle, ...avatarProps }) => {
   const _onPress = useOnPress(onPress)
 
-  const _source = useMemo(() => isValidImage(source), [source])
+  const [_isGDLogo, _source] = useMemo(() => {
+    if (isGoodDollarImage(source)) {
+      return [true, null]
+    }
+
+    return [false, isValidImage(source)]
+  }, [source])
+
+  const [bgStyle, imageStyle] = useMemo(() => {
+    const background = { backgroundColor: 'rgba(0, 0, 0, 0)' }
+
+    return [background, { ...background, width: size, height: size }]
+  }, [size])
 
   return (
     <TouchableOpacity
@@ -30,18 +44,14 @@ const CustomAvatar = ({ styles, style, source, onPress, size, imageSize, childre
       style={[styles.avatarContainer, { width: size, height: size, borderRadius: size / 2 }, style]}
       underlayColor="#fff"
     >
-      {_source ? (
-        <Avatar.Image
-          size={imageSize || size - 2}
-          source={_source}
-          style={{ backgroundColor: 'rgba(0, 0, 0, 0)' }}
-          {...avatarProps}
-        />
+      {_isGDLogo ? (
+        <View style={imageStyle} {...avatarProps}>
+          <GoodDollarLogo />
+        </View>
+      ) : _source ? (
+        <Avatar.Image size={imageSize || size - 2} source={_source} style={bgStyle} {...avatarProps} />
       ) : (
-        <View
-          style={[{ width: size, height: size, backgroundColor: 'rgba(0, 0, 0, 0)' }, unknownStyle]}
-          {...avatarProps}
-        >
+        <View style={[imageStyle, unknownStyle]} {...avatarProps}>
           <UnknownProfileSVG />
         </View>
       )}

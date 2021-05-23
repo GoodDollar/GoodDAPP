@@ -206,7 +206,7 @@ export class UserStorage {
   wallet: GoodWallet
 
   /**
-   * a gun node refering to gun.user()
+   * a gun node referring to gun.user()
    * @instance {Gun}
    */
   // gunuser: Gun
@@ -230,13 +230,13 @@ export class UserStorage {
   userProperties: UserProperties
 
   /**
-   * a gun node refering to gun.user().get('profile')
+   * a gun node referring to gun.user().get('profile')
    * @instance {Gun}
    */
   // profile: Gun
 
   /**
-   * a gun node refering to gun.user().get('feed')
+   * a gun node referring to gun.user().get('feed')
    * @instance {Gun}
    */
   // feed: Gun
@@ -1130,7 +1130,7 @@ export class UserStorage {
 
   /**
    * Generates index by field if privacy is public, or empty index if it's not public
-   * @depracated no longer indexing in world writable index
+   * @deprecated no longer indexing in world writable index
    * @param {string} field - Profile attribute
    * @param {string} value - Profile attribute value
    * @param {string} privacy - (private | public | masked)
@@ -1268,7 +1268,7 @@ export class UserStorage {
       standardPrevFeedEvent,
     })
 
-    //if for some reason we dont have the receipt(from blockchain) yet then fetch it
+    //if for some reason we don't have the receipt(from blockchain) yet then fetch it
     const receipt = await this.wallet.getReceiptWithLogs(id).catch(e => {
       logger.warn('no receipt found for id:', e.message, e, id)
       return undefined
@@ -1296,7 +1296,7 @@ export class UserStorage {
 
   /**
    * Checks if username connected to a profile
-   * @depracated no longer using world writable index
+   * @deprecated no longer using world writable index
    * @param {string} username
    */
   async isUsername(username: string) {
@@ -1383,7 +1383,7 @@ export class UserStorage {
 
     profilePublickey = '~' + data.profilePublickey
 
-    //wallet address has 1-1 connecttion with profile public key,
+    //wallet address has 1-1 connection with profile public key,
     //so we can cache it
     if (attr === 'walletAddress') {
       this.walletAddressIndex[hashValue] = profilePublickey
@@ -1620,7 +1620,7 @@ export class UserStorage {
         .get(idxKey)
         .get('profile')
 
-      //need to return object so promise.all doesnt resolve node
+      //need to return object so promise.all doesn't resolve node
       return {
         gunProfile,
       }
@@ -1814,7 +1814,7 @@ export class UserStorage {
 
   /**
    * remove user from indexes
-   * deleting profile actually doenst delete but encrypts everything
+   * deleting profile actually doesn't delete but encrypts everything
    */
   async deleteProfile(): Promise<boolean> {
     this.unSubscribeProfileUpdates()

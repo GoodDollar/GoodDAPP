@@ -1377,7 +1377,7 @@ export class UserStorage {
 
     profilePublickey = '~' + data.profilePublickey
 
-    //wallet address has 1-1 connection with profile public key,
+    // wallet address has 1-1 connection with profile public key,
     //so we can cache it
     if (attr === 'walletAddress') {
       this.walletAddressIndex[hashValue] = profilePublickey
@@ -1458,7 +1458,7 @@ export class UserStorage {
 
         const { address, initiator, initiatorType, value, displayName, message, avatar } = this._extractData(event)
 
-        //displayType is used by FeedItem and ModalItem to decide on colors/icons etc of tx feed card
+        // displayType is used by FeedItem and ModalItem to decide on colors/icons etc of tx feed card
         const displayType = this._extractDisplayType(event)
         logger.debug('formatEvent: initiator data', event.id, {
           initiatorType,
@@ -1616,7 +1616,7 @@ export class UserStorage {
         .get(idxKey)
         .get('profile')
 
-      //need to return object so promise.all doesn't resolve node
+      // need to return object so promise.all doesn't resolve node
       return {
         gunProfile,
       }

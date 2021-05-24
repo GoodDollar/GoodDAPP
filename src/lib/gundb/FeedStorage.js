@@ -268,15 +268,16 @@ export class FeedStorage {
    */
   getTxType(receipt) {
     const events = get(receipt, 'logs', [])
-    const eventsName = get(receipt, 'logs', []).map(_ => _.name)
+    const eventsName = {}
+    get(receipt, 'logs', []).forEach(_ => (eventsName[_.name] = true))
     log.debug('getReceiptType events:', receipt.transactionHash, { events })
 
-    if (eventsName.includes('PaymentCancel')) {
+    if (eventsName.PaymentCancel) {
       return TxType.TX_OTPL_CANCEL
     }
 
     // not actually listening to this event
-    if (eventsName.includes('PaymentWithdraw')) {
+    if (eventsName.PaymentWithdraw) {
       const event = events.find(e => {
         return e.name === 'PaymentWithdraw'
       })
@@ -287,7 +288,8 @@ export class FeedStorage {
         return TxType.TX_OTPL_WITHDRAW
       }
     }
-    if (eventsName.includes('PaymentDeposit')) {
+
+    if (eventsName.PaymentDeposit) {
       const event = events.find(e => {
         const from = get(e, 'data.from', '')
         const to = get(e, 'data.to', '')
@@ -306,10 +308,11 @@ export class FeedStorage {
       }
     }
 
-    if (eventsName.includes('UBIClaimed')) {
+    if (eventsName.UBIClaimed) {
       return TxType.TX_CLAIM
     }
-    if (eventsName.includes('Transfer')) {
+
+    if (eventsName.Transfer) {
       const gdTransferEvents = events.filter(
         e => this.wallet.erc20Contract.address.toLowerCase() === e.address.toLowerCase() && e.name === 'Transfer',
       )

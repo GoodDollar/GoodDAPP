@@ -13,11 +13,13 @@ import {
   omit,
   orderBy,
   pick,
+  set,
   some,
   takeWhile,
   toPairs,
   uniqBy,
 } from 'lodash'
+
 import Mutex from 'await-mutex'
 import EventEmitter from 'eventemitter3'
 
@@ -494,8 +496,8 @@ export class FeedStorage {
           updatedFeedEvent.data.counterPartyFullName = 'GoodDollar'
           break
         case TxType.TX_MINT:
-          feedEvent.data.reason = 'Your Transferred G$s'
-          feedEvent.data.counterPartyfullName = 'Fuse Bridge'
+          set(feedEvent, 'data.reason', 'Your Transferred G$s')
+          set(feedEvent, 'data.counterPartyfullName', 'Fuse Bridge')
           break
         default:
           break

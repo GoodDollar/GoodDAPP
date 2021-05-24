@@ -278,9 +278,7 @@ export class FeedStorage {
 
     // not actually listening to this event
     if (eventsName.PaymentWithdraw) {
-      const event = events.find(e => {
-        return e.name === 'PaymentWithdraw'
-      })
+      const event = find(events, { name: 'PaymentWithdraw' })
 
       log.debug('getReceiptType PaymentWithdraw event', { event })
 

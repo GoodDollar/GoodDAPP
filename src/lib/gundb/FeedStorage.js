@@ -49,17 +49,6 @@ export const TxType = {
   TX_MINT: 'TX_MINT',
 }
 
-export const TxTypeToEventType = {
-  TX_OTPL_CANCEL: 'send',
-  TX_OTPL_WITHDRAW: 'send',
-  TX_OTPL_DEPOSIT: 'send',
-  TX_SEND_GD: 'senddirect',
-  TX_RECEIVE_GD: 'receive',
-  TX_CLAIM: 'claim',
-  TX_REWARD: 'bonus',
-  TX_MINT: 'receive',
-}
-
 export const FeedItemType = {
   EVENT_TYPE_SEND: 'send', //send via link
   EVENT_TYPE_WITHDRAW: 'withdraw', //send via link
@@ -68,6 +57,17 @@ export const FeedItemType = {
   EVENT_TYPE_SENDDIRECT: 'senddirect', //send to address
   EVENT_TYPE_MINT: 'mint',
   EVENT_TYPE_RECEIVE: 'receive',
+}
+
+export const TxTypeToEventType = {
+  TX_OTPL_CANCEL: FeedItemType.EVENT_TYPE_SEND,
+  TX_OTPL_WITHDRAW: FeedItemType.EVENT_TYPE_WITHDRAW,
+  TX_OTPL_DEPOSIT: FeedItemType.EVENT_TYPE_SEND,
+  TX_SEND_GD: FeedItemType.EVENT_TYPE_SENDDIRECT,
+  TX_RECEIVE_GD: FeedItemType.EVENT_TYPE_RECEIVE,
+  TX_CLAIM: FeedItemType.EVENT_TYPE_CLAIM,
+  TX_REWARD: FeedItemType.EVENT_TYPE_BONUS,
+  TX_MINT: FeedItemType.EVENT_TYPE_RECEIVE,
 }
 
 export const TxStatus = {
@@ -416,10 +416,18 @@ export class FeedStorage {
 
       let status = TxStatus.COMPLETED
       let outboxData = {}
+      let type = TxTypeToEventType[txType]
+
       switch (txType) {
         case TxType.TX_OTPL_WITHDRAW:
           status =
-            txEvent && txEvent.data && txEvent.data.to === txEvent.data.from ? TxStatus.CANCELED : TxStatus.COMPLETED
+            get(txEvent, 'data.to', 'to') === get(txEvent, 'data.from', 'from') ? TxStatus.CANCELED : TxStatus.COMPLETED
+
+          //if withdraw event is of our sent payment, then we change type to "send"
+          if (get(txEvent, 'data.from').toLowerCase() === this.walletAddress.toLowerCase()) {
+            type = FeedItemType.EVENT_TYPE_SEND
+          }
+
           break
         case TxType.TX_OTPL_DEPOSIT:
           //update index for payment links by paymentId, so we can update when we receive withdraw event
@@ -454,14 +462,6 @@ export class FeedStorage {
       if (receiptDate.getTime() < new Date(feedEvent.date).getTime()) {
         return feedEvent
       }
-
-      const to = get(feedEvent, 'data.receiptEvent.to', null)
-      const from = get(feedEvent, 'data.receiptEvent.from', null) || get(feedEvent, 'data.from', null)
-      const type =
-        (to && to.toLocaleLowerCase() === this.walletAddress.toLowerCase()) ||
-        (from && from.toLocaleLowerCase() !== this.walletAddress.toLowerCase())
-          ? 'withdraw'
-          : TxTypeToEventType[txType]
 
       log.debug('handleReceiptUpdate type', { feedEvent, type })
 

@@ -1464,6 +1464,7 @@ export class UserStorage {
 
         const { address, initiator, initiatorType, value, displayName, message, avatar } = this._extractData(event)
 
+        //displayType is used by FeedItem and ModalItem to decide on colors/icons etc of tx feed card
         const displayType = this._extractDisplayType(event)
         logger.debug('formatEvent: initiator data', event.id, {
           initiatorType,
@@ -1569,6 +1570,7 @@ export class UserStorage {
     return status === 'error' ? status : withdrawCode ? otplStatus : ''
   }
 
+  //displayType is used by FeedItem and ModalItem to decide on colors/icons etc of tx feed card
   _extractDisplayType(event) {
     switch (event.type) {
       case FeedItemType.EVENT_TYPE_BONUS:

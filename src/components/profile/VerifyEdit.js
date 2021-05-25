@@ -56,9 +56,8 @@ const EditProfile = ({ screenProps, theme, styles, navigation }) => {
       if (data.alreadyVerified) {
         await userStorage.setProfileField(field, content)
         screenProps.pop()
-      } else {
-        screenProps.push('VerifyEditCode', { field, content })
       }
+      screenProps.push('VerifyEditCode', { field, content })
     } catch (e) {
       log.error('Failed to send code', e.message, e, { dialogShown: true })
 

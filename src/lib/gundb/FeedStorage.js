@@ -565,10 +565,10 @@ export class FeedStorage {
     log.debug('updateFeedEventCounterParty:', feedEvent.data.receiptEvent, feedEvent.id, feedEvent.txType)
 
     switch (feedEvent.txType) {
+      case TxType.TX_OTPL_WITHDRAW:
       case TxType.TX_SEND_GD:
         getCounterParty(get(feedEvent, 'data.receiptEvent.to'), feedEvent)
         break
-      case TxType.TX_OTPL_WITHDRAW:
       case TxType.TX_RECEIVE_GD:
         getCounterParty(get(feedEvent, 'data.receiptEvent.from'), feedEvent)
         break

@@ -26,4 +26,25 @@ public class MainActivity extends ReactActivity {
     super.onNewIntent(intent);
     RNBranchModule.onNewIntent(intent);
   }
+
+  @Override
+  protected void onResume() {
+    super.onResume();
+
+    setForceNewBranchSession();
+  }
+
+  @Override
+  protected void onRestart() {
+    super.onRestart();
+
+    setForceNewBranchSession();
+  }
+
+  private void setForceNewBranchSession() {
+    Intent intent = getIntent();
+    intent.putExtra("branch_force_new_session", true);
+
+    setIntent(intent);
+  }
 }

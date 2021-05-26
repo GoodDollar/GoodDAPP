@@ -361,11 +361,7 @@ export class GoodWallet {
     }
 
     log.info('pollSendEvents result:', events)
-
-    //we already got events up to lastBlock in case we are being called from regular polling and not from syncTxWithBlockchain
-    const uniqEvents = uniqBy(events, 'transactionHash').filter(
-      _ => this.lastEventsBlock === fromBlock && _.blockNumber > fromBlock,
-    )
+    const uniqEvents = uniqBy(events, 'transactionHash')
 
     uniqEvents.forEach(event => {
       this.getReceiptWithLogs(event.transactionHash)
@@ -404,12 +400,8 @@ export class GoodWallet {
     if (events.length === 0) {
       return
     }
-    log.info('pollReceiveEvents result:', { fromBlock, toBlock }, events)
-
-    //we already got events up to lastBlock in case we are being called from regular polling and not from syncTxWithBlockchain
-    const uniqEvents = uniqBy(events, 'transactionHash').filter(
-      _ => this.lastEventsBlock === fromBlock && _.blockNumber > fromBlock,
-    )
+    log.info('pollReceiveEvents result:', events)
+    const uniqEvents = uniqBy(events, 'transactionHash')
 
     uniqEvents.forEach(event => {
       this.getReceiptWithLogs(event.transactionHash)
@@ -466,11 +458,8 @@ export class GoodWallet {
     }
 
     log.info('pollOTPLEvents result', events)
+    const uniqEvents = uniqBy(events, 'transactionHash')
 
-    //we already got events up to lastBlock in case we are being called from regular polling and not from syncTxWithBlockchain
-    const uniqEvents = uniqBy(events, 'transactionHash').filter(
-      _ => this.lastEventsBlock === fromBlock && _.blockNumber > fromBlock,
-    )
     uniqEvents.forEach(event => {
       this.getReceiptWithLogs(event.transactionHash)
         .then(receipt => this.sendReceiptWithLogsToSubscribers(receipt, ['otplUpdated']))
@@ -624,10 +613,7 @@ export class GoodWallet {
 
   sendReceiptWithLogsToSubscribers(receipt: any, subscriptions: Array<string>) {
     subscriptions.forEach(subscription => {
-      this.getSubscribers(subscription).forEach(cb => {
-        log.debug('receiptCallback:', { subscription, hash: receipt.transactionHash, cb })
-        cb(receipt)
-      })
+      this.getSubscribers(subscription).forEach(cb => cb(receipt))
     })
     return receipt
   }

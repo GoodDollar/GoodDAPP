@@ -14,6 +14,7 @@ import {
   DESTINATION_PATH,
   GD_INITIAL_REG_METHOD,
   GD_USER_MNEMONIC,
+  INVITE_CODE,
   IS_LOGGED_IN,
 } from '../../lib/constants/localStorage'
 
@@ -191,7 +192,11 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
     const paymentParams = params && parsePaymentLinkParams(params)
 
     //get inviteCode from url or from payment link
-    return get(destinationPath, 'params.inviteCode') || get(paymentParams, 'inviteCode')
+    return (
+      (await AsyncStorage.getItem(INVITE_CODE)) ||
+      get(destinationPath, 'params.inviteCode') ||
+      get(paymentParams, 'inviteCode')
+    )
   }
 
   useEffect(() => {

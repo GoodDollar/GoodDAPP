@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { isFunction } from 'lodash'
-import { AB_TESTING, DESTINATION_PATH, IS_FIRST_VISIT } from '../constants/localStorage'
+import { AB_TESTING, DESTINATION_PATH, INVITE_CODE, IS_FIRST_VISIT } from '../constants/localStorage'
 
 export default new class {
   constructor(storageApi) {
@@ -28,7 +28,7 @@ export default new class {
   }
 
   async clear() {
-    const toKeep = await this.storageApi.multiGet([IS_FIRST_VISIT, DESTINATION_PATH, AB_TESTING])
+    const toKeep = await this.storageApi.multiGet([IS_FIRST_VISIT, DESTINATION_PATH, AB_TESTING, INVITE_CODE])
     await this.storageApi.clear()
     this.storageApi.multiSet(toKeep.filter(_ => _[1] != null))
   }

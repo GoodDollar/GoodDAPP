@@ -66,7 +66,9 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
     log.info({ item, action: 'cancelPayment' })
     fireEventAnalytics('cancelPayment')
 
-    if (item.status === 'pending') {
+    const canCancel = item && item.displayType === 'sendpending'
+
+    if (!canCancel) {
       // if status is 'pending' trying to cancel a tx that doesn't exist will fail and may confuse the user
       showErrorDialog("The transaction is still pending, it can't be cancelled right now")
       return

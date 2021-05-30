@@ -1492,6 +1492,7 @@ export class UserStorage {
           },
         }
 
+        logger.debug('formatEvent: updateEvent', { updatedEvent })
         return updatedEvent
       } catch (e) {
         logger.error('formatEvent: failed formatting event:', e.message, e, {

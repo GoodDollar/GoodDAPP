@@ -7,8 +7,7 @@ const fromDate = new Date('2021/05/25')
 
 const flushTimeout = Platform.select({
   web: 2500,
-  ios: 5000, // set 2x timeout on IOS native
-  default: 10000, // set 4x timeout on Androind native
+  native: 30000, // set 30sec timeout on mobile
 })
 
 /**

@@ -1,10 +1,14 @@
 // @flow
+import { debounce } from 'lodash'
 import type { Effects, Store } from 'undux'
+import { skipWhile, take } from 'rxjs/operators'
+
 import userStorage from '../../gundb/UserStorage'
 import type { State } from '../GDStore'
 import { assertStore, assertStoreSnapshot } from '../SimpleStore'
+
 import logger from '../../logger/pino-logger'
-import { delay } from '../../utils/async'
+
 const log = logger.child({ from: 'undux/effects/profile' })
 
 /**
@@ -16,25 +20,42 @@ const withProfile: Effects<State> = (store: Store) => {
     return
   }
 
-  store.on('isLoggedIn').subscribe(isLoggedIn => {
-    if (!isLoggedIn) {
-      return
-    }
+  store
+    .on('isLoggedIn')
+    .pipe(
+      skipWhile(isLoggedIn => !isLoggedIn),
+      take(1),
+    )
+    .subscribe(() => {
+      const [setProfile, setPrivateProfile] = ['profile', 'privateProfile'].map(key => store.set(key))
 
-    userStorage.subscribeProfileUpdates(async profile => {
-      if (profile) {
-        if (!assertStoreSnapshot(store, log, 'withProfile failed')) {
-          return
-        }
+      log.debug('Subcribed to the profile updates')
 
-        store.set('profile')(userStorage.getDisplayProfile(profile))
+      userStorage.subscribeProfileUpdates(
+        debounce(
+          async profile => {
+            log.debug('Received profile update', { profile })
 
-        //the SEA encrypted data might not have been saved yet, give it some time
-        await delay(1000)
-        store.set('privateProfile')(await userStorage.getPrivateProfile(profile))
-      }
+            if (!profile || !assertStoreSnapshot(store, log, 'withProfile failed')) {
+              return
+            }
+
+            log.debug('Updating GDStore with the new profile', { profile })
+
+            const displayProfile = userStorage.getDisplayProfile(profile)
+            const privateProfile = await userStorage.getPrivateProfile(profile)
+
+            setProfile(displayProfile)
+            setPrivateProfile(privateProfile)
+
+            log.debug('GDStore has been updated with the new profile', { profile })
+          },
+          1000,
+          { trailing: true },
+        ),
+      )
     })
-  })
+
   return store
 }
 

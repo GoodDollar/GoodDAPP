@@ -602,22 +602,26 @@ export class UserStorage {
    */
   async checkSmallAvatar() {
     const avatar = await this.getProfileFieldValue('avatar')
+
     if (avatar) {
       this.setAvatar(avatar)
     }
   }
 
   async setAvatar(avatar) {
-    const smallAvatar = await resizeImage(avatar, 320) //save space and load on gun
+    const smallAvatar = await resizeImage(avatar, 320) // save space and load on gun
+
     return Promise.all([this.setProfileField('avatar', smallAvatar, 'public'), this.setSmallAvatar(smallAvatar)])
   }
 
   async setSmallAvatar(avatar) {
     const smallAvatar = await resizeImage(avatar, 50)
+
     return this.setProfileField('smallAvatar', smallAvatar, 'public')
   }
 
-  removeAvatar() {
+  // eslint-disable-next-line require-await
+  async removeAvatar() {
     return Promise.all([
       this.setProfileField('avatar', null, 'public'),
       this.setProfileField('smallAvatar', null, 'public'),
@@ -1081,18 +1085,6 @@ export class UserStorage {
         throw new Error('Invalid privacy setting', { privacy })
     }
 
-    //no longer indexing in world writable index
-
-    //for all privacy cases we go through the index, in case field was changed from public to private so we remove it
-    // if (UserStorage.indexableFields[field] && isEmpty(value) === false) {
-    //   const indexPromiseResult = await this.indexProfileField(field, value, privacy)
-    //   logger.info('indexPromiseResult', indexPromiseResult)
-
-    //   if (indexPromiseResult.err) {
-    //     return indexPromiseResult
-    //   }
-    // }
-
     const storePrivacy = () =>
       this.profile
         .get(field)
@@ -1108,7 +1100,8 @@ export class UserStorage {
 
     logger.debug('setProfileField', { field, value, privacy, onlyPrivacy, display })
 
-    return Promise.race([
+    // changed to .all as .race looses possible rejection of promise haven't 'won' the race
+    return Promise.all([
       this.profile
         .get(field)
         .get('value')
@@ -1136,7 +1129,9 @@ export class UserStorage {
     if (!UserStorage.indexableFields[field]) {
       return Promise.resolve({ err: 'Not indexable field', ok: 0 })
     }
+
     const cleanValue = UserStorage.cleanHashedFieldForIndex(field, value)
+
     if (!cleanValue) {
       return Promise.resolve({
         err: 'Indexable field cannot be null or empty',

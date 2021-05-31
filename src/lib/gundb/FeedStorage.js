@@ -564,12 +564,13 @@ export class FeedStorage {
     //TODO: get user+avatar or contract name
     log.debug('updateFeedEventCounterParty:', feedEvent.data.receiptEvent, feedEvent.id, feedEvent.txType)
 
-    switch (feedEvent.txType) {
-      case TxType.TX_OTPL_WITHDRAW:
-      case TxType.TX_SEND_GD:
+    switch (feedEvent.type) {
+      case FeedItemType.EVENT_TYPE_SENDDIRECT:
+      case FeedItemType.EVENT_TYPE_SEND:
         getCounterParty(get(feedEvent, 'data.receiptEvent.to'), feedEvent)
         break
-      case TxType.TX_RECEIVE_GD:
+      case FeedItemType.EVENT_TYPE_WITHDRAW:
+      case FeedItemType.EVENT_TYPE_RECEIVE:
         getCounterParty(get(feedEvent, 'data.receiptEvent.from'), feedEvent)
         break
       default:

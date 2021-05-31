@@ -1,5 +1,4 @@
 //@flow
-import { Platform } from 'react-native'
 import { debounce, defaults, get, isEmpty, isError, isNil, isString, keys, memoize, over, pick, values } from 'lodash'
 import moment from 'moment'
 import Gun from '@gooddollar/gun'
@@ -29,11 +28,6 @@ import { FeedEvent, FeedItemType, FeedStorage, TxStatus } from './FeedStorage'
 const logger = pino.child({ from: 'UserStorage' })
 
 const NULL_ADDRESS = '0x0000000000000000000000000000000000000000'
-
-const favicon = Platform.select({
-  web: `${process.env.PUBLIC_URL}/favicon-96x96.png`,
-  default: require('../../assets/Feed/favicon-96x96.png'),
-})
 
 /**
  * User details returned from Gun SEA
@@ -206,7 +200,7 @@ export class UserStorage {
   wallet: GoodWallet
 
   /**
-   * a gun node refering to gun.user()
+   * a gun node referring to gun.user()
    * @instance {Gun}
    */
   // gunuser: Gun
@@ -230,13 +224,13 @@ export class UserStorage {
   userProperties: UserProperties
 
   /**
-   * a gun node refering to gun.user().get('profile')
+   * a gun node referring to gun.user().get('profile')
    * @instance {Gun}
    */
   // profile: Gun
 
   /**
-   * a gun node refering to gun.user().get('feed')
+   * a gun node referring to gun.user().get('feed')
    * @instance {Gun}
    */
   // feed: Gun
@@ -608,22 +602,26 @@ export class UserStorage {
    */
   async checkSmallAvatar() {
     const avatar = await this.getProfileFieldValue('avatar')
+
     if (avatar) {
       this.setAvatar(avatar)
     }
   }
 
   async setAvatar(avatar) {
-    const smallAvatar = await resizeImage(avatar, 320) //save space and load on gun
+    const smallAvatar = await resizeImage(avatar, 320) // save space and load on gun
+
     return Promise.all([this.setProfileField('avatar', smallAvatar, 'public'), this.setSmallAvatar(smallAvatar)])
   }
 
   async setSmallAvatar(avatar) {
     const smallAvatar = await resizeImage(avatar, 50)
+
     return this.setProfileField('smallAvatar', smallAvatar, 'public')
   }
 
-  removeAvatar() {
+  // eslint-disable-next-line require-await
+  async removeAvatar() {
     return Promise.all([
       this.setProfileField('avatar', null, 'public'),
       this.setProfileField('smallAvatar', null, 'public'),
@@ -912,7 +910,7 @@ export class UserStorage {
     const { errors, isValid } = profile.validate(update)
 
     if (!isValid) {
-      logger.error(
+      logger.warn(
         'setProfile failed',
         'Fields validation failed',
         new Error('setProfile failed: Fields validation failed'),
@@ -997,7 +995,7 @@ export class UserStorage {
     const cleanValue = UserStorage.cleanHashedFieldForIndex(field, value)
 
     if (!cleanValue) {
-      logger.error(
+      logger.warn(
         `indexProfileField - field ${field} value is empty (value: ${value})`,
         cleanValue,
         new Error('isValidValue failed'),
@@ -1087,18 +1085,6 @@ export class UserStorage {
         throw new Error('Invalid privacy setting', { privacy })
     }
 
-    //no longer indexing in world writable index
-
-    //for all privacy cases we go through the index, in case field was changed from public to private so we remove it
-    // if (UserStorage.indexableFields[field] && isEmpty(value) === false) {
-    //   const indexPromiseResult = await this.indexProfileField(field, value, privacy)
-    //   logger.info('indexPromiseResult', indexPromiseResult)
-
-    //   if (indexPromiseResult.err) {
-    //     return indexPromiseResult
-    //   }
-    // }
-
     const storePrivacy = () =>
       this.profile
         .get(field)
@@ -1114,7 +1100,8 @@ export class UserStorage {
 
     logger.debug('setProfileField', { field, value, privacy, onlyPrivacy, display })
 
-    return Promise.race([
+    // changed to .all as .race looses possible rejection of promise haven't 'won' the race
+    return Promise.all([
       this.profile
         .get(field)
         .get('value')
@@ -1130,7 +1117,7 @@ export class UserStorage {
 
   /**
    * Generates index by field if privacy is public, or empty index if it's not public
-   * @depracated no longer indexing in world writable index
+   * @deprecated no longer indexing in world writable index
    * @param {string} field - Profile attribute
    * @param {string} value - Profile attribute value
    * @param {string} privacy - (private | public | masked)
@@ -1142,7 +1129,9 @@ export class UserStorage {
     if (!UserStorage.indexableFields[field]) {
       return Promise.resolve({ err: 'Not indexable field', ok: 0 })
     }
+
     const cleanValue = UserStorage.cleanHashedFieldForIndex(field, value)
+
     if (!cleanValue) {
       return Promise.resolve({
         err: 'Indexable field cannot be null or empty',
@@ -1268,7 +1257,7 @@ export class UserStorage {
       standardPrevFeedEvent,
     })
 
-    //if for some reason we dont have the receipt(from blockchain) yet then fetch it
+    //if for some reason we don't have the receipt(from blockchain) yet then fetch it
     const receipt = await this.wallet.getReceiptWithLogs(id).catch(e => {
       logger.warn('no receipt found for id:', e.message, e, id)
       return undefined
@@ -1296,7 +1285,7 @@ export class UserStorage {
 
   /**
    * Checks if username connected to a profile
-   * @depracated no longer using world writable index
+   * @deprecated no longer using world writable index
    * @param {string} username
    */
   async isUsername(username: string) {
@@ -1361,9 +1350,12 @@ export class UserStorage {
     const attr = isMobilePhone(value) ? 'mobile' : isEmail(value) ? 'email' : 'walletAddress'
     const hashValue = UserStorage.cleanHashedFieldForIndex(attr, value)
 
+    logger.info(`getUserProfilePublicKey by value <${value}>`, { attr, hashValue })
+
     let profilePublickey
     if (attr === 'walletAddress') {
       profilePublickey = this.walletAddressIndex[hashValue]
+      logger.info(`getUserProfilePublicKey from indexes`, { profilePublickey })
     }
     if (profilePublickey) {
       return profilePublickey
@@ -1372,13 +1364,15 @@ export class UserStorage {
     const { data } = await API.getProfileBy(hashValue)
     profilePublickey = get(data, 'profilePublickey')
 
+    logger.info(`getUserProfilePublicKey from API`, { profilePublickey })
+
     if (profilePublickey == null) {
       return
     }
 
     profilePublickey = '~' + data.profilePublickey
 
-    //wallet address has 1-1 connecttion with profile public key,
+    // wallet address has 1-1 connection with profile public key,
     //so we can cache it
     if (attr === 'walletAddress') {
       this.walletAddressIndex[hashValue] = profilePublickey
@@ -1416,6 +1410,7 @@ export class UserStorage {
   async getUserProfile(field: string = ''): { name: String, avatar: String } {
     const profile = await this.getUserProfilePublickey(field)
     if (profile == null) {
+      logger.info(`getUserProfile by field <${field}> with nullable profile public key`, { profilePublicKey: profile })
       return { name: undefined, avatar: undefined }
     }
 
@@ -1433,7 +1428,10 @@ export class UserStorage {
         .get('display')
         .then(null, 500),
     ])
-
+    logger.info(`getUserProfile by field <${field}>`, { avatar, name, profilePublicKey: profile })
+    if (!name) {
+      logger.info(`cannot get fullName from gun by field <${field}>`, { name })
+    }
     return { name, avatar }
   }
 
@@ -1455,6 +1453,7 @@ export class UserStorage {
 
         const { address, initiator, initiatorType, value, displayName, message, avatar } = this._extractData(event)
 
+        // displayType is used by FeedItem and ModalItem to decide on colors/icons etc of tx feed card
         const displayType = this._extractDisplayType(event)
         logger.debug('formatEvent: initiator data', event.id, {
           initiatorType,
@@ -1537,7 +1536,7 @@ export class UserStorage {
     const fromEmailMobile = data.initiatorType && data.initiator
     data.displayName = customName || counterPartyFullName || fromEmailMobile || fromGD || 'Unknown'
 
-    data.avatar = status === 'error' || fromGD ? favicon : counterPartySmallAvatar
+    data.avatar = status === 'error' || fromGD ? -1 : counterPartySmallAvatar
 
     logger.debug('formatEvent: parsed data', {
       id,
@@ -1560,6 +1559,7 @@ export class UserStorage {
     return status === 'error' ? status : withdrawCode ? otplStatus : ''
   }
 
+  //displayType is used by FeedItem and ModalItem to decide on colors/icons etc of tx feed card
   _extractDisplayType(event) {
     switch (event.type) {
       case FeedItemType.EVENT_TYPE_BONUS:
@@ -1611,7 +1611,7 @@ export class UserStorage {
         .get(idxKey)
         .get('profile')
 
-      //need to return object so promise.all doesnt resolve node
+      // need to return object so promise.all doesn't resolve node
       return {
         gunProfile,
       }
@@ -1805,7 +1805,7 @@ export class UserStorage {
 
   /**
    * remove user from indexes
-   * deleting profile actually doenst delete but encrypts everything
+   * deleting profile actually doesn't delete but encrypts everything
    */
   async deleteProfile(): Promise<boolean> {
     this.unSubscribeProfileUpdates()

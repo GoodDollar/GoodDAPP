@@ -1,7 +1,8 @@
-import { assign, first, isFinite, isNumber } from 'lodash'
+import { assign, filter, find, first, flatten, isFinite, isNumber, map, toArray, uniq } from 'lodash'
 
 import api from '../api/FaceVerificationApi'
 import FaceTec from '../../../../lib/facetec/FaceTecSDK'
+import restart from '../../../../lib/utils/restart'
 import { UITextStrings } from './UICustomization'
 import { MAX_RETRIES_ALLOWED, resultFacescanProcessingMessage } from './FaceTecSDK.constants'
 
@@ -37,6 +38,12 @@ export class EnrollmentProcessor {
 
   retryAttempt = 0
 
+  uiObserver = null
+
+  uiRootLoaded = false
+
+  uiObserverTargets = {}
+
   constructor(subscriber, options = null) {
     const { maxRetries = MAX_RETRIES_ALLOWED } = options || {}
 
@@ -58,8 +65,11 @@ export class EnrollmentProcessor {
    */
   onFaceTecSDKCompletelyDone() {
     const { subscriber, isSuccess, lastMessage, lastResult } = this
+    const { status } = lastResult || {}
     let latestMessage = lastMessage
-    const { status } = lastResult
+
+    // unlisten UI changes
+    this._unlistenSDKUIElements()
 
     // if no errors were thrown and server haven't returned specific status messages
     if (!latestMessage) {
@@ -231,25 +241,119 @@ export class EnrollmentProcessor {
 
   /**
    * generates session ID and starts session
-   * enroll call proxioes here - just for keep non-async
+   * enroll call proxies here - just for keep non-async
    * interface with onComplete callback designed by Zoom
    * @private
    */
   async _startEnrollmentSession() {
-    const { subscriber } = this
+    const { subscriber, _waitForSDKUIElementVisible } = this
 
     try {
       // trying to retrieve session ID from Zoom server
       const sessionId = await api.issueSessionToken()
 
-      // if we've got it - strting enrollment session
-      new FaceTecSession(this, sessionId)
-
       // notifying subscriber that UI is ready
-      subscriber.onUIReady()
+      _waitForSDKUIElementVisible('DOM_FT_getReadyActionButton', () => subscriber.onUIReady())
+
+      // If device orientation changed before FV session initialized and ready screen shown,
+      // SDK shows camera permissions popup (even the built-in camera screen is disabled in UICustomiuzation).
+      // If press OK in this dialog, FV session then crashes with white screen
+      // Removing Zoom's UI from DOM removes blurred background but it's impossible to start session again
+      // Only app reloading solves the issue and allows to retry FV attempt.
+      // So, in that case we're redirecting app to the corresponding FV error screen with full page reload
+      _waitForSDKUIElementVisible('DOM_FT_cameraPermissionsScreen', () => {
+        const uiContainer = document.getElementById('DOM_FT_mainInterfaceNonOverlayContainer')
+
+        if (uiContainer) {
+          // remove container only to keep blurred background while reloading
+          uiContainer.remove()
+        }
+
+        restart('/AppNavigation/Dashboard/FaceVerificationError/DeviceOrientationError')
+      })
+
+      // if we've got session ID - starting enrollment session
+      new FaceTecSession(this, sessionId)
     } catch ({ message }) {
+      // unlisten UI changes
+      this._unlistenSDKUIElements()
+
       // otherwise calling completion handler with empty faceTecSessionResult
       subscriber.onSessionCompleted(false, null, message)
+    }
+  }
+
+  /**
+   * Awaits the specific UI element becomes visible
+   * @param {String} id ID attribute of the UI element
+   * @param {Function} callback Callback function to call
+   * @private
+   */
+  _waitForSDKUIElementVisible = (id, callback) => {
+    let { uiObserver, uiObserverTargets, uiRootLoaded } = this
+
+    if (!uiObserver) {
+      const ObserverClass = window.WebKitMutationObserver || MutationObserver
+
+      uiObserver = new ObserverClass(mutations => {
+        if (!uiRootLoaded) {
+          const nodesAdded = uniq(flatten(map(filter(mutations, { type: 'childList' }), 'addedNodes').map(toArray)))
+          const uiRootNode = find(nodesAdded, { id: 'DOM_FT_PRIMARY_TOPLEVEL_mainContainer' })
+
+          uiRootLoaded = !!uiRootNode
+
+          // once Zoom UI root node appears, stop listening body, starting listening attributes changes inside UI root
+          // (e.g. added/removed class names, style changes like display/visibility modification)
+          if (uiRootLoaded) {
+            assign(this, { uiRootLoaded })
+
+            uiObserver.disconnect()
+            uiObserver.observe(uiRootNode, {
+              subtree: true,
+              attributes: true,
+              attributeFilter: ['id', 'style', 'className'],
+            })
+          }
+
+          return
+        }
+
+        const nodesAffected = uniq(map(filter(mutations, { type: 'attributes' }), 'target'))
+
+        for (const node of nodesAffected) {
+          const { id, offsetParent } = node
+
+          // offsetParent !== null is a quick & simple check for the element visibility
+          if (id && id in uiObserverTargets && offsetParent !== null) {
+            const callback = uiObserverTargets[id]
+
+            delete uiObserverTargets[id]
+            callback()
+          }
+        }
+      })
+
+      // start listening for the nodes inserted to body until Zoom UI root node will appear
+      uiObserver.observe(document.body, { childList: true })
+      assign(this, { uiObserver })
+    }
+
+    uiObserverTargets[id] = callback
+  }
+
+  /**
+   * Stops listening FaceTec SDK UI
+   * @private
+   */
+  _unlistenSDKUIElements() {
+    const { uiObserver } = this
+
+    this.uiObserverTargets = {}
+    this.uiRootLoaded = false
+
+    if (uiObserver) {
+      uiObserver.disconnect()
+      this.uiObserver = null
     }
   }
 }

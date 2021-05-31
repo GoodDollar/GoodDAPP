@@ -43,7 +43,7 @@ const Auth = (props: Props) => {
 
       log.info('indexedDb successfully cleared')
     } catch (e) {
-      log.error('Failed to clear indexedDb', e.message, e)
+      log.warn('Failed to clear indexedDb', e.message, e)
     } finally {
       store.set('loadingIndicator')({ loading: false })
     }

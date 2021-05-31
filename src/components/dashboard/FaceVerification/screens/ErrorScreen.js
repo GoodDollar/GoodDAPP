@@ -14,12 +14,13 @@ import useVerificationAttempts from '../hooks/useVerificationAttempts'
 
 import { getFirstWord } from '../../../../lib/utils/getFirstWord'
 
-const ErrorScreen = ({ styles, screenProps }) => {
+const ErrorScreen = ({ styles, screenProps, navigation }) => {
   const store = GDStore.useStore()
   const { isReachedMaxAttempts } = useVerificationAttempts()
 
   const exception = get(screenProps, 'screenState.error')
-  const kindOfTheIssue = get(exception, 'name')
+  const { kindOfTheIssue: fromParams } = get(navigation, 'state.params', {})
+  const kindOfTheIssue = get(exception, 'name', fromParams)
 
   const title = useMemo(() => {
     const { fullName } = store.get('profile')

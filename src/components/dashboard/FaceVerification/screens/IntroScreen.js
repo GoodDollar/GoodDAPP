@@ -144,13 +144,14 @@ const IntroScreenB = ({ styles, firstName, ready, onVerify, onLearnMore }) => (
 const IntroScreen = ({ styles, screenProps }) => {
   const store = GDStore.useStore()
   const { fullName } = store.get('profile')
-  const { screenState, goToRoot, navigateTo, pop } = screenProps
+  const { screenState, goToRoot, navigateTo, pop, push } = screenProps
   const isValid = get(screenState, 'isValid', false)
 
   const navigateToHome = useCallback(() => navigateTo('Home'), [navigateTo])
   const [Intro, ab] = useABTesting(IntroScreenA, IntroScreenB)
 
-  const disposing = useDisposingState({
+  const [disposing, checkDisposalState] = useDisposingState({
+    requestOnMounted: false,
     enrollmentIdentifier: UserStorage.getFaceIdentifier(),
     onComplete: isDisposing => {
       if (!isDisposing) {
@@ -165,7 +166,7 @@ const IntroScreen = ({ styles, screenProps }) => {
   })
 
   const openPrivacy = useOnPress(() => openLink(Config.faceVerificationPrivacyUrl), [])
-  const openFaceVerification = () => screenProps.push('FaceVerification')
+  const openFaceVerification = useCallback(() => push('FaceVerification'), [push])
 
   const [, requestCameraPermissions] = usePermissions(Permissions.Camera, {
     requestOnMounted: false,
@@ -200,11 +201,12 @@ const IntroScreen = ({ styles, screenProps }) => {
 
   useEffect(() => {
     if (isValid) {
-      pop({ isValid: true })
+      pop({ isValid })
     } else {
       fireEvent(FV_INTRO, { ab })
+      checkDisposalState()
     }
-  }, [isValid])
+  }, [])
 
   return (
     <Intro

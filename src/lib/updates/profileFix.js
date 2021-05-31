@@ -1,8 +1,14 @@
+import { Platform } from 'react-native'
 import userStorage from '../gundb/UserStorage'
 import API from '../API/api'
 import { retry, timeout } from '../utils/async'
 
-const fromDate = new Date('2021/01/20')
+const fromDate = new Date('2021/05/25')
+
+const flushTimeout = Platform.select({
+  web: 2500,
+  native: 30000, // set 30sec timeout on mobile
+})
 
 /**
  * fix missing decryption keys
@@ -17,7 +23,9 @@ const checkProfile = async (lastUpdate, prevVersion, log) => {
       .get(field)
       .get('value')
       .decrypt()
+      .then(() => log.debug('decrypted'))
       .catch(e => {
+        log.debug('decrypt error', e)
         if (e.message === 'Decrypting key missing') {
           log.debug('broken field found, resetting', { field })
 
@@ -31,7 +39,7 @@ const checkProfile = async (lastUpdate, prevVersion, log) => {
         Promise.race([
           // set retry & timeout for each field separately
           flushField(field),
-          timeout(2500, `fixProfile: '${field}' field flush timeout`),
+          timeout(flushTimeout, `fixProfile: '${field}' field flush timeout`),
         ])
           .then(_ => true)
           .catch(e => e.message),

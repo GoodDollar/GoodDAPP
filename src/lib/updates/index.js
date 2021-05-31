@@ -7,10 +7,9 @@ import logger from '../logger/pino-logger'
 
 import profileFix from './profileFix'
 import smallAvatarFix from './avatar'
-import feedEventsFix from './feedEvents'
 
 const log = logger.child({ from: 'updates' })
-const updates = [smallAvatarFix, profileFix, feedEventsFix]
+const updates = [smallAvatarFix, profileFix]
 
 const update = async () => {
   const updatesData = (await userStorage.userProperties.get('updates')) || {

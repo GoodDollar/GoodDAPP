@@ -13,11 +13,13 @@ import {
   omit,
   orderBy,
   pick,
+  set,
   some,
   takeWhile,
   toPairs,
   uniqBy,
 } from 'lodash'
+
 import Mutex from 'await-mutex'
 import EventEmitter from 'eventemitter3'
 
@@ -49,24 +51,25 @@ export const TxType = {
   TX_MINT: 'TX_MINT',
 }
 
-export const TxTypeToEventType = {
-  TX_OTPL_CANCEL: 'send',
-  TX_OTPL_WITHDRAW: 'send',
-  TX_OTPL_DEPOSIT: 'send',
-  TX_SEND_GD: 'senddirect',
-  TX_RECEIVE_GD: 'receive',
-  TX_CLAIM: 'claim',
-  TX_REWARD: 'bonus',
-  TX_MINT: 'receive',
-}
-
 export const FeedItemType = {
   EVENT_TYPE_SEND: 'send', //send via link
+  EVENT_TYPE_WITHDRAW: 'withdraw', //send via link
   EVENT_TYPE_BONUS: 'bonus',
   EVENT_TYPE_CLAIM: 'claim',
   EVENT_TYPE_SENDDIRECT: 'senddirect', //send to address
   EVENT_TYPE_MINT: 'mint',
   EVENT_TYPE_RECEIVE: 'receive',
+}
+
+export const TxTypeToEventType = {
+  TX_OTPL_CANCEL: FeedItemType.EVENT_TYPE_SEND,
+  TX_OTPL_WITHDRAW: FeedItemType.EVENT_TYPE_WITHDRAW,
+  TX_OTPL_DEPOSIT: FeedItemType.EVENT_TYPE_SEND,
+  TX_SEND_GD: FeedItemType.EVENT_TYPE_SENDDIRECT,
+  TX_RECEIVE_GD: FeedItemType.EVENT_TYPE_RECEIVE,
+  TX_CLAIM: FeedItemType.EVENT_TYPE_CLAIM,
+  TX_REWARD: FeedItemType.EVENT_TYPE_BONUS,
+  TX_MINT: FeedItemType.EVENT_TYPE_RECEIVE,
 }
 
 export const TxStatus = {
@@ -117,15 +120,16 @@ export class FeedStorage {
     this.userStorage = userStorage
     this.walletAddress = wallet.account.toLowerCase()
     log.debug('initialized', { wallet: this.walletAddress })
+    this.ready = new Promise((resolve, reject) => {
+      this.setReady = resolve
+    })
   }
 
   async init() {
-    this.feedInitialized = true
     const { feed } = await this.gunuser
+    const receiptEvents = ['receiptReceived', 'receiptUpdated', 'otplUpdated']
 
-    ;['receiptReceived', 'receiptUpdated', 'otplUpdated'].forEach(e =>
-      this.wallet.subscribeToEvent(e, r => this.handleReceipt(r)),
-    )
+    receiptEvents.forEach(e => this.wallet.subscribeToEvent(e, r => this.handleReceipt(r)))
 
     log.debug('initfeed', { feed })
 
@@ -151,6 +155,10 @@ export class FeedStorage {
         log.warn('initfeed failed parsing feed from cache')
       })
       .then(ids => ids || {})
+
+    //mark as initialized, ie resolve ready promise
+    this.feedInitialized = true
+    this.setReady()
 
     //no need to block on this
     this._syncFeedCache()
@@ -268,24 +276,49 @@ export class FeedStorage {
    */
   getTxType(receipt) {
     const events = get(receipt, 'logs', [])
-    const eventsName = get(receipt, 'logs', []).map(_ => _.name)
+    const eventsName = {}
+    get(receipt, 'logs', []).forEach(_ => (eventsName[_.name] = true))
     log.debug('getReceiptType events:', receipt.transactionHash, { events })
 
-    if (eventsName.includes('PaymentCancel')) {
+    if (eventsName.PaymentCancel) {
       return TxType.TX_OTPL_CANCEL
     }
 
-    //not actually listerning to this event
-    if (eventsName.includes('PaymentWithdraw')) {
-      return TxType.TX_OTPL_WITHDRAW
+    // not actually listening to this event
+    if (eventsName.PaymentWithdraw) {
+      const event = find(events, { name: 'PaymentWithdraw' })
+
+      log.debug('getReceiptType PaymentWithdraw event', { event })
+
+      if (event) {
+        return TxType.TX_OTPL_WITHDRAW
+      }
     }
-    if (eventsName.includes('PaymentDeposit')) {
-      return TxType.TX_OTPL_DEPOSIT
+
+    if (eventsName.PaymentDeposit) {
+      const event = events.find(e => {
+        const from = get(e, 'data.from', '')
+        const to = get(e, 'data.to', '')
+
+        return (
+          e.name === 'PaymentDeposit' &&
+          to.toLowerCase() === this.wallet.oneTimePaymentsContract.address.toLowerCase() &&
+          from.toLowerCase() === this.walletAddress
+        )
+      })
+
+      log.debug('getReceiptType PaymentDeposit event', { event })
+
+      if (event) {
+        return TxType.TX_OTPL_DEPOSIT
+      }
     }
-    if (eventsName.includes('UBIClaimed')) {
+
+    if (eventsName.UBIClaimed) {
       return TxType.TX_CLAIM
     }
-    if (eventsName.includes('Transfer')) {
+
+    if (eventsName.Transfer) {
       const gdTransferEvents = events.filter(
         e => this.wallet.erc20Contract.address.toLowerCase() === e.address.toLowerCase() && e.name === 'Transfer',
       )
@@ -379,7 +412,7 @@ export class FeedStorage {
         createdDate: receiptDate.toString(),
       }
 
-      //cancel/withdraw are updating existing TX so we dont want to return here
+      // cancel/withdraw are updating existing TX so we don't want to return here
       //   if (txType !== TxType.TX_OTPL_WITHDRAW && txType !== TxType.TX_OTPL_CANCEL) {
       //     if (get(feedEvent, 'data.receiptData', feedEvent && feedEvent.receiptReceived)) {
       //       log.debug('handleReceiptUpdate skipping event with existing receipt data', receipt.transactionHash, {
@@ -392,7 +425,19 @@ export class FeedStorage {
 
       let status = TxStatus.COMPLETED
       let outboxData = {}
+      let type = TxTypeToEventType[txType]
+
       switch (txType) {
+        case TxType.TX_OTPL_WITHDRAW:
+          status =
+            get(txEvent, 'data.to', 'to') === get(txEvent, 'data.from', 'from') ? TxStatus.CANCELED : TxStatus.COMPLETED
+
+          //if withdraw event is of our sent payment, then we change type to "send"
+          if (get(txEvent, 'data.from').toLowerCase() === this.walletAddress.toLowerCase()) {
+            type = FeedItemType.EVENT_TYPE_SEND
+          }
+
+          break
         case TxType.TX_OTPL_DEPOSIT:
           //update index for payment links by paymentId, so we can update when we receive withdraw event
           this.feed.get('codeToTxHash').put({ [txEvent.data.paymentId]: feedEvent.id })
@@ -422,11 +467,18 @@ export class FeedStorage {
         feedEvent,
       })
 
+      // FIXME: temp fix to avoid updating feed event if old receipt
+      if (receiptDate.getTime() < new Date(feedEvent.date).getTime()) {
+        return feedEvent
+      }
+
+      log.debug('handleReceiptUpdate type', { feedEvent, type })
+
       //merge incoming receipt data into existing event
       const updatedFeedEvent: FeedEvent = {
         ...feedEvent,
         ...initialEvent,
-        type: TxTypeToEventType[txType],
+        type,
         txType,
         status,
         receiptReceived: true,
@@ -446,12 +498,12 @@ export class FeedStorage {
 
       switch (txType) {
         case TxType.TX_REWARD:
-          feedEvent.data.reason = COMPLETED_BONUS_REASON_TEXT
-          feedEvent.data.counterPartyFullName = 'GoodDollar'
+          updatedFeedEvent.data.reason = COMPLETED_BONUS_REASON_TEXT
+          updatedFeedEvent.data.counterPartyFullName = 'GoodDollar'
           break
         case TxType.TX_MINT:
-          feedEvent.data.reason = 'Your Transfered G$s'
-          feedEvent.data.counterPartyfullName = 'Fuse Bridge'
+          set(feedEvent, 'data.reason', 'Your Transferred G$s')
+          set(feedEvent, 'data.counterPartyfullName', 'Fuse Bridge')
           break
         default:
           break
@@ -464,6 +516,7 @@ export class FeedStorage {
       if (isEqual(feedEvent, updatedFeedEvent) === false) {
         await this.updateFeedEvent(updatedFeedEvent, feedEvent.date)
       }
+
       log.debug('handleReceiptUpdate saving... done', receipt.transactionHash)
       this.updateFeedEventCounterParty(updatedFeedEvent)
 
@@ -556,6 +609,8 @@ export class FeedStorage {
    */
   async enqueueTX(_event: FeedEvent): Promise<> {
     const event = delUndefValNested(_event)
+
+    await this.ready //wait before accessing feedIds cache
 
     //a race exists between enqueuing and receipt from websockets/polling
     const release = await this.feedMutex.lock()
@@ -690,7 +745,9 @@ export class FeedStorage {
       })
   }
 
-  writeFeedEvent(event): Promise<FeedEvent> {
+  async writeFeedEvent(event): Promise<FeedEvent> {
+    await this.ready //wait before accessing feedIds cache
+
     this.feedIds[event.id] = event
     AsyncStorage.setItem('GD_feed', this.feedIds)
     this.emitUpdate({ event })
@@ -732,7 +789,9 @@ export class FeedStorage {
    * @param {string} transactionHash - transaction identifier
    * @returns {object} feed item or null if it doesn't exist
    */
-  getFeedItemByTransactionHash(transactionHash: string): Promise<FeedEvent> {
+  async getFeedItemByTransactionHash(transactionHash: string): Promise<FeedEvent> {
+    await this.ready //wait before accessing feedIds cache
+
     const feedItem = this.feedIds[transactionHash]
     if (feedItem) {
       return feedItem
@@ -857,6 +916,8 @@ export class FeedStorage {
    * @returns {Promise} Promise with an array of feed events
    */
   async getFeedPage(numResults: number, reset?: boolean = false): Promise<Array<FeedEvent>> {
+    await this.ready //wait before accessing feedIds cache
+
     let { feedIndex, feedIds } = this
 
     if (!feedIndex) {
@@ -917,10 +978,11 @@ export class FeedStorage {
         // then getting tx item details from the wallet
         if (!item && id.startsWith('0x')) {
           const receipt = await this.wallet.getReceiptWithLogs(id).catch(e => {
-            log.warn('getFeedPagee no receipt found for id:', id, e.message, e)
+            log.warn('getFeedPage no receipt found for id:', id, e.message, e)
           })
 
           if (receipt) {
+            log.warn('getFeedPage: missing item in cache, processing receipt again', { id, receipt })
             item = await this.handleReceipt(receipt)
           } else {
             log.warn('getFeedPage no receipt found for undefined item id:', id)

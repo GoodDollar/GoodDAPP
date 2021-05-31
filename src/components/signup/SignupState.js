@@ -14,6 +14,7 @@ import {
   DESTINATION_PATH,
   GD_INITIAL_REG_METHOD,
   GD_USER_MNEMONIC,
+  INVITE_CODE,
   IS_LOGGED_IN,
 } from '../../lib/constants/localStorage'
 
@@ -147,7 +148,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
   }
 
   //keep privatekey from torus as master seed before initializing wallet
-  //so wallet can use it, if torus is enabled and we dont have pkey then require re-login
+  //so wallet can use it, if torus is enabled and we don't have pkey then require re-login
   //this is true in case of refresh
   const checkTorusLogin = () => {
     const masterSeed = torusUserFromProps.privateKey
@@ -159,8 +160,8 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
   }
 
   const verifyStartRoute = () => {
-    //we dont support refresh if regMethod param is missing then go back to Auth
-    //if regmethod is missing it means user did refresh on later steps then first 1
+    //we don't support refresh if regMethod param is missing then go back to Auth
+    //if regMethod is missing it means user did refresh on later steps then first 1
     if (!regMethod || (navigation.state.index > 0 && state.lastStep !== navigation.state.index)) {
       log.debug('redirecting to start, got index:', navigation.state.index, { regMethod, torusUserFromProps })
       return navigation.navigate('Auth')
@@ -168,12 +169,17 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
 
     // if we have name from torus we skip to phone
     if (state.fullName) {
-      //if skipping phone is enabled
-      if (skipMobile) {
-        return navigation.navigate('SignupCompleted')
+      // if skipping phone is disabled
+      if (!skipMobile) {
+        return navigation.navigate('Phone')
       }
 
-      return navigation.navigate('Phone')
+      // if no email address and skipEmail is false (for example: when signup with facebook account that has no verified email)
+      if (!skipEmail) {
+        return navigateWithFocus('Email')
+      }
+
+      return navigation.navigate('SignupCompleted')
     }
   }
 
@@ -186,7 +192,11 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
     const paymentParams = params && parsePaymentLinkParams(params)
 
     //get inviteCode from url or from payment link
-    return get(destinationPath, 'params.inviteCode') || get(paymentParams, 'inviteCode')
+    return (
+      (await AsyncStorage.getItem(INVITE_CODE)) ||
+      get(destinationPath, 'params.inviteCode') ||
+      get(paymentParams, 'inviteCode')
+    )
   }
 
   useEffect(() => {
@@ -231,7 +241,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
         if (torusUserFromProps.privateKey) {
           log.debug('skipping ready initialization (already done in AuthTorus)')
 
-          // now that we are loggedin, reload api with JWT
+          // now that we are logged in, reload api with JWT
           return apiReady()
         }
 
@@ -279,7 +289,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
   useEffect(() => {
     const { email } = state
 
-    // perform this again for torus and on email change. torus has also mobile verification that doesnt set email
+    // perform this again for torus and on email change. torus has also mobile verification that doesn't set email
     if (!email) {
       return
     }
@@ -364,7 +374,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
         })
 
         if (torusProvider !== 'facebook') {
-          // if logged in via other provider that facebook - generating & signing proof
+          // if logged in via other provider than facebook - generating & signing proof
           const torusProofNonce = await API.ping()
             .then(_ => moment(get(_, 'data.ping', Date.now())))
             .catch(e => moment())
@@ -395,12 +405,12 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
               exception.response = e
             }
 
-            // re-throwing exception to be catched in the parent try {}
+            // re-throwing exception to be caught in the parent try {}
             throw exception
           }
         })
 
-      //set tokens for other services returned from backedn
+      //set tokens for other services returned from backend
       await Promise.all(
         toPairs(pickBy(newUserData, (_, field) => field.endsWith('Token'))).map(([fieldName, fieldValue]) =>
           userStorage.setProfileField(fieldName, fieldValue, 'private'),
@@ -510,7 +520,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
     setLoading(true)
     fireSignupEvent()
 
-    //We can wait for ready later, when we need stuff, we dont need it until usage of API first in sendOTP(that needs to be logged in)
+    //We can wait for ready later, when we need stuff, we don't need it until usage of API first in sendOTP(that needs to be logged in)
     //and finally in finishRegistration
     // await ready
 

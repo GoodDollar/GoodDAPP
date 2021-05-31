@@ -8,7 +8,7 @@ import { isE2ERunning, isEmulator, isIOSNative } from '../../../../lib/utils/pla
 // Zoom SDK reference & helpers
 import api from '../api/FaceVerificationApi'
 import { FaceTecSDK } from '../sdk/FaceTecSDK'
-import { ExceptionType, kindOfSessionIssue } from '../utils/kindOfTheIssue'
+import { ExceptionType, hideRedBoxIfNonCritical, kindOfSessionIssue } from '../utils/kindOfTheIssue'
 import { MAX_RETRIES_ALLOWED, resultSuccessMessage } from '../sdk/FaceTecSDK.constants'
 import useRealtimeProps from '../../../../lib/hooks/useRealtimeProps'
 
@@ -123,7 +123,9 @@ export default (options = null) => {
       const dialogShown = name === 'NotAllowedError'
 
       assign(exception, { type: ExceptionType.Session, name })
-      log.error('Zoom verification failed', message, exception, { dialogShown })
+      hideRedBoxIfNonCritical(exception, () =>
+        log.error('Zoom verification failed', message, exception, { dialogShown }),
+      )
 
       onError(exception)
     } finally {

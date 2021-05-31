@@ -469,7 +469,7 @@ export class GoodWallet {
 
     //we already got events up to lastBlock in case we are being called from regular polling and not from syncTxWithBlockchain
     const uniqEvents = uniqBy(events, 'transactionHash').filter(
-      _ => this.lastEventsBlock === fromBlock && _.blockNumber > fromBlock,
+      _ => this.lastEventsBlock !== fromBlock || _.blockNumber > this.lastEventsBlock,
     )
     uniqEvents.forEach(event => {
       this.getReceiptWithLogs(event.transactionHash)

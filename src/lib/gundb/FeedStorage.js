@@ -424,12 +424,13 @@ export class FeedStorage {
       //   }
 
       let status = TxStatus.COMPLETED
+      let otplStatus
       let outboxData = {}
       let type = TxTypeToEventType[txType]
 
       switch (txType) {
         case TxType.TX_OTPL_WITHDRAW:
-          status =
+          otplStatus =
             get(txEvent, 'data.to', 'to') === get(txEvent, 'data.from', 'from') ? TxStatus.CANCELED : TxStatus.COMPLETED
 
           //if withdraw event is of our sent payment, then we change type to "send"
@@ -441,7 +442,7 @@ export class FeedStorage {
         case TxType.TX_OTPL_DEPOSIT:
           //update index for payment links by paymentId, so we can update when we receive withdraw event
           this.feed.get('codeToTxHash').put({ [txEvent.data.paymentId]: feedEvent.id })
-          status = TxStatus.PENDING
+          otplStatus = TxStatus.PENDING
           break
         case TxType.TX_OTPL_CANCEL:
           //update index for payment links by paymentId, so we can update when we receive withdraw event
@@ -481,6 +482,7 @@ export class FeedStorage {
         type,
         txType,
         status,
+        otplStatus,
         receiptReceived: true,
         date: receiptDate.toString(),
         data: {

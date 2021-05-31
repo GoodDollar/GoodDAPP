@@ -998,7 +998,12 @@ export class FeedStorage {
     // filtering events fetched to exclude empty/null/undefined ones
     const filteredEvents = filter(
       events,
-      e => e && !['deleted', 'cancelled', 'canceled'].includes(get(e, 'status', '').toLowerCase()),
+      e =>
+        e &&
+        !(
+          ['deleted', 'cancelled', 'canceled'].includes(get(e, 'status', '').toLowerCase()) ||
+          ['deleted', 'cancelled', 'canceled'].includes(get(e, 'otplStatus', '').toLowerCase())
+        ),
     )
     log.debug('getFeedPage filteredEvents', { filteredEvents })
 
@@ -1067,7 +1072,10 @@ export class FeedStorage {
   }
 
   emitUpdate(event) {
-    this.isEmitEvents && this.feedEvents.emit('updated', event)
+    if (this.isEmitEvents) {
+      this.feedEvents.emit('updated', event)
+      log.debug('emitted updated event', { event })
+    }
   }
 
   _gunException(gunError) {

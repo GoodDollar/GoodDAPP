@@ -120,10 +120,12 @@ export class FeedStorage {
     this.userStorage = userStorage
     this.walletAddress = wallet.account.toLowerCase()
     log.debug('initialized', { wallet: this.walletAddress })
+    this.ready = new Promise((resolve, reject) => {
+      this.setReady = resolve
+    })
   }
 
   async init() {
-    this.feedInitialized = true
     const { feed } = await this.gunuser
     const receiptEvents = ['receiptReceived', 'receiptUpdated', 'otplUpdated']
 
@@ -153,6 +155,10 @@ export class FeedStorage {
         log.warn('initfeed failed parsing feed from cache')
       })
       .then(ids => ids || {})
+
+    //mark as initialized, ie resolve ready promise
+    this.feedInitialized = true
+    this.setReady()
 
     //no need to block on this
     this._syncFeedCache()
@@ -605,6 +611,8 @@ export class FeedStorage {
   async enqueueTX(_event: FeedEvent): Promise<> {
     const event = delUndefValNested(_event)
 
+    await this.ready //wait before accessing feedIds cache
+
     //a race exists between enqueuing and receipt from websockets/polling
     const release = await this.feedMutex.lock()
     try {
@@ -738,7 +746,9 @@ export class FeedStorage {
       })
   }
 
-  writeFeedEvent(event): Promise<FeedEvent> {
+  async writeFeedEvent(event): Promise<FeedEvent> {
+    await this.ready //wait before accessing feedIds cache
+
     this.feedIds[event.id] = event
     AsyncStorage.setItem('GD_feed', this.feedIds)
     this.emitUpdate({ event })
@@ -780,7 +790,9 @@ export class FeedStorage {
    * @param {string} transactionHash - transaction identifier
    * @returns {object} feed item or null if it doesn't exist
    */
-  getFeedItemByTransactionHash(transactionHash: string): Promise<FeedEvent> {
+  async getFeedItemByTransactionHash(transactionHash: string): Promise<FeedEvent> {
+    await this.ready //wait before accessing feedIds cache
+
     const feedItem = this.feedIds[transactionHash]
     if (feedItem) {
       return feedItem
@@ -905,6 +917,8 @@ export class FeedStorage {
    * @returns {Promise} Promise with an array of feed events
    */
   async getFeedPage(numResults: number, reset?: boolean = false): Promise<Array<FeedEvent>> {
+    await this.ready //wait before accessing feedIds cache
+
     let { feedIndex, feedIds } = this
 
     if (!feedIndex) {
@@ -969,6 +983,7 @@ export class FeedStorage {
           })
 
           if (receipt) {
+            log.warn('getFeedPage: missing item in cache, processing receipt again', { id, receipt })
             item = await this.handleReceipt(receipt)
           } else {
             log.warn('getFeedPage no receipt found for undefined item id:', id)

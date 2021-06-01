@@ -26,7 +26,7 @@ import EventEmitter from 'eventemitter3'
 import delUndefValNested from '../utils/delUndefValNested'
 import AsyncStorage from '../utils/asyncStorage'
 import logger from '../../lib/logger/pino-logger'
-
+import { delay } from '../utils/async'
 const log = logger.child({ from: 'FeedStorage' })
 
 /**TODO:
@@ -549,7 +549,7 @@ export class FeedStorage {
           .get('profile')
           .get(field)
           .get('display')
-          .on((value, nodeID, message, event) => {
+          .on(async (value, nodeID, message, event) => {
             event.off()
             if (!value) {
               return
@@ -563,6 +563,7 @@ export class FeedStorage {
             //this will create counterPartyFullName, counterPartySmallAvatar
             if (feedEvent.data[camelCase(`counterParty ${field}`)] !== value) {
               feedEvent.data[camelCase(`counterParty ${field}`)] = value
+              await delay(500) //delay so we dont hit the dashboard feed debounce timeout
               this.updateFeedEvent(feedEvent)
             }
           })

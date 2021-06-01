@@ -178,8 +178,8 @@ const Dashboard = props => {
           }
           res = (await feedPromise) || []
           res.length > 0 && !didRender && store.set('feedLoadAnimShown')(true)
-          res.length > 0 && setFeeds(res)
           feedRef.current = res
+          res.length > 0 && setFeeds(res)
         } else {
           res = (await feedPromise) || []
           const newFeed = uniqBy(concat(feedRef.current, res), 'id')
@@ -214,14 +214,10 @@ const Dashboard = props => {
   }
 
   const onFeedUpdated = useCallback(
-    debounce(
-      event => {
-        log.debug('feed cache updated', { event })
-        getFeedPage(true)
-      },
-      250,
-      { trailing: true, leading: true },
-    ),
+    debounce(event => {
+      log.debug('feed cache updated', { event })
+      getFeedPage(true)
+    }, 500),
     [getFeedPage],
   )
 

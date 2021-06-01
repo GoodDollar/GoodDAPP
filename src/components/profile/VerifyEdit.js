@@ -12,6 +12,7 @@ import normalize from '../../lib/utils/normalizeText'
 import CustomButton from '../common/buttons/CustomButton'
 import API from '../../lib/API/api'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
+import userStorage from '../../lib/gundb/UserStorage'
 
 const log = logger.child({ from: 'Verify edit profile field' })
 
@@ -24,6 +25,7 @@ const EditProfile = ({ screenProps, theme, styles, navigation }) => {
   const field = get(navigation, 'state.params.field')
   const content = get(navigation, 'state.params.content')
   let fieldToSend
+  let fieldToSave
   let fieldToShow
   let sendToText
   let sendCodeRequestFn
@@ -31,6 +33,7 @@ const EditProfile = ({ screenProps, theme, styles, navigation }) => {
   switch (field) {
     case 'phone':
       fieldToSend = 'mobile'
+      fieldToSave = 'mobile'
       fieldToShow = 'phone number'
       sendToText = 'number'
       sendCodeRequestFn = 'sendOTP'
@@ -51,8 +54,14 @@ const EditProfile = ({ screenProps, theme, styles, navigation }) => {
     try {
       setLoading(true)
 
-      await API[sendCodeRequestFn]({ [fieldToSend]: content })
-      screenProps.push('VerifyEditCode', { field, content })
+      const { data } = await API[sendCodeRequestFn]({ [fieldToSend]: content })
+      if (data.alreadyVerified) {
+        logger.debug('sendOTP', { data, fieldToSave, content })
+        await userStorage.setProfileField(fieldToSave, content)
+        screenProps.pop()
+      } else {
+        screenProps.push('VerifyEditCode', { field, content })
+      }
     } catch (e) {
       log.error('Failed to send code', e.message, e, { dialogShown: true })
 

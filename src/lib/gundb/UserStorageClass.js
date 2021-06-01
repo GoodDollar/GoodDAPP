@@ -609,7 +609,8 @@ export class UserStorage {
   }
 
   async setAvatar(avatar) {
-    const smallAvatar = await resizeImage(avatar, 320) // save space and load on gun
+    // save space and load on gun
+    const smallAvatar = await resizeImage(avatar, 320)
 
     return Promise.all([this.setProfileField('avatar', smallAvatar, 'public'), this.setSmallAvatar(smallAvatar)])
   }

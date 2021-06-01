@@ -124,6 +124,7 @@
     "mnid": "^0.1.3",
     "mobile-device-detect": "^0.2.3",
     "moment": "^2.24.0",
+    "nft.storage": "^1.4.0",
     "node-libs-react-native": "^1.0.3",
     "numeral": "^2.0.6",
     "patch-package": "^6.2.0",

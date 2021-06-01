@@ -1487,6 +1487,7 @@ export class UserStorage {
           },
         }
 
+        logger.debug('formatEvent: updateEvent', { updatedEvent })
         return updatedEvent
       } catch (e) {
         logger.error('formatEvent: failed formatting event:', e.message, e, {
@@ -1566,6 +1567,9 @@ export class UserStorage {
       case FeedItemType.EVENT_TYPE_SEND:
       case FeedItemType.EVENT_TYPE_SENDDIRECT: {
         const type = FeedItemType.EVENT_TYPE_SENDDIRECT === event.type ? FeedItemType.EVENT_TYPE_SEND : event.type
+        if (event.otplStatus) {
+          return type + event.otplStatus
+        }
         return type + (event.status || TxStatus.COMPLETED).toLowerCase()
       }
       default:

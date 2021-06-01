@@ -15,10 +15,11 @@ import API from '../API/api'
 import pino from '../logger/pino-logger'
 import { ExceptionCategory } from '../logger/exceptions'
 import isMobilePhone from '../validators/isMobilePhone'
-import { resizeImage } from '../utils/image'
+import { isValidBase64Image, resizeImage } from '../utils/image'
 
 import { GD_GUN_CREDENTIALS } from '../constants/localStorage'
 import AsyncStorage from '../utils/asyncStorage'
+import defaultStorage from '../nft/Base64Storage'
 import defaultGun from './gundb'
 import UserProperties from './UserPropertiesClass'
 import { getUserModel, type UserModel } from './UserModel'
@@ -200,16 +201,15 @@ export class UserStorage {
   wallet: GoodWallet
 
   /**
-   * a gun node referring to gun.user()
-   * @instance {Gun}
-   */
-  // gunuser: Gun
-
-  /**
    * a gun node referring to gun
    * @instance {Gun}
    */
   gun: Gun
+
+  /**
+   * an P2P storage to keep avatars as base64 stirngs
+   */
+  storage = null
 
   /**
    * a gun node referring tto gun.user().get('properties')
@@ -222,18 +222,6 @@ export class UserStorage {
    * @instance {UserProperties}
    */
   userProperties: UserProperties
-
-  /**
-   * a gun node referring to gun.user().get('profile')
-   * @instance {Gun}
-   */
-  // profile: Gun
-
-  /**
-   * a gun node referring to gun.user().get('feed')
-   * @instance {Gun}
-   */
-  // feed: Gun
 
   /**
    * current feed item
@@ -371,20 +359,33 @@ export class UserStorage {
     return mnemonic
   }
 
-  constructor(wallet: GoodWallet, gun: Gun) {
+  constructor(wallet: GoodWallet, gun: Gun, storage) {
     this.gun = gun || defaultGun
+    this.storage = storage || defaultStorage
     this.wallet = wallet
     this.init()
   }
 
+  /**
+   * a gun node referring to gun.user().get('profile')
+   * @instance {Gun}
+   */
   get profile() {
     return this.gun.user().get('profile')
   }
 
+  /**
+   * a gun node referring to gun.user()
+   * @instance {Gun}
+   */
   get gunuser() {
     return this.gun.user()
   }
 
+  /**
+   * a gun node referring to gun.user().get('feed')
+   * @instance {Gun}
+   */
   get feed() {
     return this.gun.user().get('feed')
   }
@@ -601,10 +602,10 @@ export class UserStorage {
    * @returns {Promise}
    */
   async checkSmallAvatar() {
-    const avatar = await this.getProfileFieldValue('avatar')
+    const avatar = await this.getProfileFieldValue('avatar').then(cidOrBase64 => this.getAvatar(cidOrBase64))
 
     if (avatar) {
-      this.setAvatar(avatar)
+      this.setSmallAvatar(avatar)
     }
   }
 
@@ -612,7 +613,7 @@ export class UserStorage {
     // save space and load on gun
     const smallAvatar = await resizeImage(avatar, 320)
 
-    return Promise.all([this.setProfileField('avatar', smallAvatar, 'public'), this.setSmallAvatar(smallAvatar)])
+    return Promise.all([this._storeAvatar('avatar', avatar), this.setSmallAvatar(smallAvatar)])
   }
 
   async setSmallAvatar(avatar) {
@@ -621,12 +622,43 @@ export class UserStorage {
     return this.setProfileField('smallAvatar', smallAvatar, 'public')
   }
 
+  /**
+   * @private
+   * @param {String} avatar Base64 data url string
+   * @returns {Promise<string>} CID
+   */
+  async _storeAvatar(field, avatar) {
+    const cid = await this.storage.store()
+
+    return this.setProfileField(field, cid, 'public')
+  }
+
+  // eslint-disable-next-line require-await
+  async getAvatar(cidOrBase64) {
+    if (!cidOrBase64 || !isString(cidOrBase64)) {
+      return null
+    }
+
+    if (isValidBase64Image(cidOrBase64)) {
+      return cidOrBase64
+    }
+
+    return this.storage.load(cidOrBase64)
+  }
+
   // eslint-disable-next-line require-await
   async removeAvatar() {
-    return Promise.all([
-      this.setProfileField('avatar', null, 'public'),
-      this.setProfileField('smallAvatar', null, 'public'),
-    ])
+    return Promise.all(
+      ['avatar', 'smallAvatar'].map(async field => {
+        const avatar = await this.getProfileFieldValue(field)
+        await this.setProfileField(field, null, 'public')
+
+        // if avatar was a CID - delete if after GUN updated
+        if (isString(avatar) && !isValidBase64Image()) {
+          await this.storage.delete(avatar)
+        }
+      }),
+    )
   }
 
   /**

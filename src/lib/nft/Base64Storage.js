@@ -3,7 +3,7 @@ import { memoize } from 'lodash'
 import Config from '../../config/config'
 import { Blob, NFTStorage } from './client'
 
-class Base64Storage {
+export class Base64Storage {
   constructor(apiKey) {
     this.client = new NFTStorage({ token: apiKey })
   }

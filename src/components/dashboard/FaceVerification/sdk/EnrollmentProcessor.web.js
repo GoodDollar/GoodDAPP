@@ -3,6 +3,8 @@ import { assign, filter, find, first, flatten, isFinite, isNumber, map, toArray,
 import api from '../api/FaceVerificationApi'
 import FaceTec from '../../../../lib/facetec/FaceTecSDK'
 import restart from '../../../../lib/utils/restart'
+import { isMobileWeb } from '../../../../lib/utils/platform'
+import listenOrientationChange, { unlistenOrientationChange } from '../../../../lib/utils/orientation'
 import { UITextStrings } from './UICustomization'
 import { MAX_RETRIES_ALLOWED, resultFacescanProcessingMessage } from './FaceTecSDK.constants'
 
@@ -44,6 +46,8 @@ export class EnrollmentProcessor {
 
   uiObserverTargets = {}
 
+  deviceOrientationTimeoutID = null
+
   constructor(subscriber, options = null) {
     const { maxRetries = MAX_RETRIES_ALLOWED } = options || {}
 
@@ -68,8 +72,9 @@ export class EnrollmentProcessor {
     const { status } = lastResult || {}
     let latestMessage = lastMessage
 
-    // unlisten UI changes
+    // unlisten UI & orientation changes
     this._unlistenSDKUIElements()
+    this._unlistenDeviceOrientationChanges()
 
     // if no errors were thrown and server haven't returned specific status messages
     if (!latestMessage) {
@@ -246,41 +251,56 @@ export class EnrollmentProcessor {
    * @private
    */
   async _startEnrollmentSession() {
-    const { subscriber, _waitForSDKUIElementVisible } = this
+    const { subscriber, _waitForSDKUIElementVisible, _deviceOrientationHanlder, _onDeviceOrientationChanged } = this
 
     try {
-      // trying to retrieve session ID from Zoom server
-      const sessionId = await api.issueSessionToken()
-
       // notifying subscriber that UI is ready
       _waitForSDKUIElementVisible('DOM_FT_getReadyActionButton', () => subscriber.onUIReady())
 
-      // If device orientation changed before FV session initialized and ready screen shown,
-      // SDK shows camera permissions popup (even the built-in camera screen is disabled in UICustomiuzation).
-      // If press OK in this dialog, FV session then crashes with white screen
-      // Removing Zoom's UI from DOM removes blurred background but it's impossible to start session again
-      // Only app reloading solves the issue and allows to retry FV attempt.
-      // So, in that case we're redirecting app to the corresponding FV error screen with full page reload
-      _waitForSDKUIElementVisible('DOM_FT_cameraPermissionsScreen', () => {
-        const uiContainer = document.getElementById('DOM_FT_mainInterfaceNonOverlayContainer')
+      if (isMobileWeb) {
+        // If device orientation changed before FV session initialized and ready screen shown,
+        // SDK shows camera permissions popup (even the built-in camera screen is disabled in UICustomiuzation).
+        // If press OK in this dialog, FV session then crashes with white screen
+        _waitForSDKUIElementVisible('DOM_FT_cameraPermissionsScreen', _onDeviceOrientationChanged)
 
-        if (uiContainer) {
-          // remove container only to keep blurred background while reloading
-          uiContainer.remove()
-        }
+        // somethimes SDK doesn't detect orientation cnaged on web
+        // we adding also own custom listener with 1000ms debounce
+        // if SDK won't handle event during this timegap, we'll do it
+        listenOrientationChange(_deviceOrientationHanlder)
+      }
 
-        restart('/AppNavigation/Dashboard/FaceVerificationError/DeviceOrientationError')
-      })
+      // trying to retrieve session ID from Zoom server
+      const sessionId = await api.issueSessionToken()
 
       // if we've got session ID - starting enrollment session
       new FaceTecSession(this, sessionId)
     } catch ({ message }) {
-      // unlisten UI changes
+      // unlisten UI & orientation changes
       this._unlistenSDKUIElements()
+      this._unlistenDeviceOrientationChanges()
 
       // otherwise calling completion handler with empty faceTecSessionResult
       subscriber.onSessionCompleted(false, null, message)
     }
+  }
+
+  /**
+   * Custom device orientation change handler.
+   * Removing Zoom's UI from DOM removes blurred background but it's impossible to start session again
+   * Only app reloading solves the issue and allows to retry FV attempt.
+   * So, in that case we're redirecting app to the corresponding FV error screen with full page reload
+   *
+   * @private
+   */
+  _onDeviceOrientationChanged() {
+    const uiContainer = document.getElementById('DOM_FT_mainInterfaceNonOverlayContainer')
+
+    if (uiContainer) {
+      // remove container only to keep blurred background while reloading
+      uiContainer.remove()
+    }
+
+    restart('/AppNavigation/Dashboard/FaceVerificationError/DeviceOrientationError')
   }
 
   /**
@@ -355,5 +375,51 @@ export class EnrollmentProcessor {
       uiObserver.disconnect()
       this.uiObserver = null
     }
+  }
+
+  /**
+   * DOM orientationchange event handler
+   * @private
+   */
+  _deviceOrientationHanlder = ({ portrait }) => {
+    const { _onDeviceOrientationChanged } = this
+
+    this._cancelOrientationChanged()
+
+    if (portrait) {
+      return
+    }
+
+    this.deviceOrientationTimeoutID = setTimeout(_onDeviceOrientationChanged, 1000)
+  }
+
+  /**
+   * Cancels last debounced _onDeviceOrientationChanged call
+   * @private
+   */
+  _cancelOrientationChanged() {
+    const { deviceOrientationTimeoutID } = this
+
+    if (!deviceOrientationTimeoutID) {
+      return
+    }
+
+    clearTimeout(deviceOrientationTimeoutID)
+    this.deviceOrientationTimeoutID = null
+  }
+
+  /**
+   * Stops listening device orientation changes
+   * @private
+   */
+  _unlistenDeviceOrientationChanges() {
+    const { _deviceOrientationHanlder } = this
+
+    if (!isMobileWeb) {
+      return
+    }
+
+    this._cancelOrientationChanged()
+    unlistenOrientationChange(_deviceOrientationHanlder)
   }
 }

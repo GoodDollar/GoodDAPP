@@ -1,22 +1,10 @@
-import {
-  assign,
-  debounce,
-  filter,
-  find,
-  first,
-  flatten,
-  isFinite,
-  isFunction,
-  isNumber,
-  map,
-  toArray,
-  uniq,
-} from 'lodash'
+import { assign, filter, find, first, flatten, isFinite, isNumber, map, toArray, uniq } from 'lodash'
 
 import api from '../api/FaceVerificationApi'
 import FaceTec from '../../../../lib/facetec/FaceTecSDK'
 import restart from '../../../../lib/utils/restart'
 import { isMobileWeb } from '../../../../lib/utils/platform'
+import listenOrientationChange, { unlistenOrientationChange } from '../../../../lib/utils/orientation'
 import { UITextStrings } from './UICustomization'
 import { MAX_RETRIES_ALLOWED, resultFacescanProcessingMessage } from './FaceTecSDK.constants'
 
@@ -57,8 +45,6 @@ export class EnrollmentProcessor {
   uiRootLoaded = false
 
   uiObserverTargets = {}
-
-  listeningForOrientationChanges = false
 
   deviceOrientationTimeoutID = null
 
@@ -265,7 +251,7 @@ export class EnrollmentProcessor {
    * @private
    */
   async _startEnrollmentSession() {
-    const { subscriber, _waitForSDKUIElementVisible, _onDeviceOrientationChanged } = this
+    const { subscriber, _waitForSDKUIElementVisible, _deviceOrientationHanlder, _onDeviceOrientationChanged } = this
 
     try {
       // notifying subscriber that UI is ready
@@ -280,7 +266,7 @@ export class EnrollmentProcessor {
         // somethimes SDK doesn't detect orientation cnaged on web
         // we adding also own custom listener with 1000ms debounce
         // if SDK won't handle event during this timegap, we'll do it
-        await this._listenForOrientationChanges()
+        listenOrientationChange(_deviceOrientationHanlder)
       }
 
       // trying to retrieve session ID from Zoom server
@@ -392,45 +378,20 @@ export class EnrollmentProcessor {
   }
 
   /**
-   * Adds custom device orientation changes listener
-   * @private
-   */
-  async _listenForOrientationChanges() {
-    const { _deviceOrientationHanlder } = this
-
-    if (isFunction(DeviceOrientationEvent.requestPermission)) {
-      let permissionState
-
-      try {
-        permissionState = await DeviceOrientationEvent.requestPermission()
-      } catch {
-        permissionState = null
-      }
-
-      if (permissionState !== 'granted') {
-        return
-      }
-    }
-
-    window.addEventListener('deviceorientation', _deviceOrientationHanlder)
-    this.listeningForOrientationChanges = true
-  }
-
-  /**
    * DOM orientationchange event handler
    * @private
    */
-  _deviceOrientationHanlder = debounce(() => {
+  _deviceOrientationHanlder = ({ portrait }) => {
     const { _onDeviceOrientationChanged } = this
 
     this._cancelOrientationChanged()
 
-    if (Math.abs(window.orientation || 0) !== 90) {
+    if (portrait) {
       return
     }
 
     this.deviceOrientationTimeoutID = setTimeout(_onDeviceOrientationChanged, 1000)
-  }, 250)
+  }
 
   /**
    * Cancels last debounced _onDeviceOrientationChanged call
@@ -452,14 +413,13 @@ export class EnrollmentProcessor {
    * @private
    */
   _unlistenDeviceOrientationChanges() {
-    const { _deviceOrientationHanlder, listeningForOrientationChanges } = this
+    const { _deviceOrientationHanlder } = this
 
-    if (!listeningForOrientationChanges) {
+    if (!isMobileWeb) {
       return
     }
 
     this._cancelOrientationChanged()
-    window.removeEventListener('deviceorientation', _deviceOrientationHanlder)
-    this.listeningForOrientationChanges = false
+    unlistenOrientationChange(_deviceOrientationHanlder)
   }
 }

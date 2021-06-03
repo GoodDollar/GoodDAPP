@@ -262,7 +262,10 @@ export class FeedStorage {
         )
       case TxType.TX_REWARD:
         return orderBy(receipt.logs, 'e.data.value', 'desc').find(
-          e => e.name === 'Transfer' && this.wallet.getRewardsAddresses().includes(e.data.from.toLowerCase()),
+          e =>
+            e.name === 'Transfer' &&
+            this.wallet.getRewardsAddresses().includes(e.data.from.toLowerCase()) &&
+            this.walletAddress.toLowerCase() === e.data.to.toLowerCase(),
         )
       default:
         return

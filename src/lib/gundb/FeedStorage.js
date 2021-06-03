@@ -980,7 +980,7 @@ export class FeedStorage {
 
         // if no item in the cache and it's some transaction
         // then getting tx item details from the wallet
-        if ((!item && id.startsWith('0x')) || (item && !get(item.data.reason))) {
+        if ((!item && id.startsWith('0x')) || (item && !get(item, 'data.reason'))) {
           const receipt = await this.wallet.getReceiptWithLogs(id).catch(e => {
             log.warn('getFeedPage no receipt found for id:', id, e.message, e)
           })

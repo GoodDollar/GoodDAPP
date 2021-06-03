@@ -563,7 +563,7 @@ export class FeedStorage {
             //this will create counterPartyFullName, counterPartySmallAvatar
             if (feedEvent.data[camelCase(`counterParty ${field}`)] !== value) {
               feedEvent.data[camelCase(`counterParty ${field}`)] = value
-              await delay(500) //delay so we dont hit the dashboard feed debounce timeout
+              await delay(500) //delay so we don't hit the dashboard feed debounce timeout
               this.updateFeedEvent(feedEvent)
             }
           })

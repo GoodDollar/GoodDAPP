@@ -1,8 +1,7 @@
-import { useEffect, useMemo, useState } from 'react'
-import { isNil } from 'lodash'
+import { useMemo } from 'react'
 
-import userStorage from '../gundb/UserStorage'
-import { isGoodDollarImage, isValidBase64Image, isValidLocalImage, isValidRootImage } from '../utils/image'
+import { isGoodDollarImage, isValidLocalImage, isValidRootImage } from '../utils/image'
+import useProfileAvatar from './useProfileAvatar'
 
 export default (source, skipCache = false) => {
   // firstly, trying for image sources could be checked syncronously
@@ -17,42 +16,26 @@ export default (source, skipCache = false) => {
       return [false, source]
     }
 
-    // base64 data url (checked by regex)
-    if (isValidBase64Image(source)) {
-      return [false, { uri: source }]
-    }
-
     // if no match - return null
-    return [false, null]
+    return null
   }, [source])
 
-  // using cachedState as initial state value to display avatar immediately
-  // if it's an GD logo, local, root or base64 image
-  const [sourceState, setSourceState] = useState(cachedState)
+  // if GD, local or root image was detected - pass null to skip loading
+  const base64 = useProfileAvatar(cachedState ? null : source, skipCache)
 
-  // listening for cachedState changes
-  useEffect(() => {
-    const [, cachedSource] = cachedState
-
-    // if source was determined in a sync way - set it to state immediately
-    if (!isNil(cachedSource)) {
-      setSourceState(cachedState)
-      return
+  // aggregating memo
+  return useMemo(() => {
+    // if GD, local or root image - return cached value
+    if (cachedState) {
+      return cachedState
     }
 
-    // otherwise we're checking is it a valid CID and trying to load it from thes ipfs
-    userStorage
-      .getAvatar(source, skipCache)
-      .catch(() => null)
-      .then(base64 => {
-        if (!base64) {
-          return
-        }
+    // if was base64 or was loaded form ipfs - return data url
+    if (base64) {
+      return [false, { uri: base64 }]
+    }
 
-        // if no failures and we've got non-empty response - setting base64 received in the state
-        setSourceState([false, { uri: base64 }])
-      })
-  }, [cachedState, source, skipCache, setSourceState])
-
-  return sourceState
+    // otherwise return unknown profile image
+    return [false, null]
+  }, [cachedState, base64])
 }

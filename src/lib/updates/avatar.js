@@ -24,7 +24,7 @@ const uploadAvatars = async (lastUpdate, prevVersion, log) => {
   } else {
     // if already cid - check is cid valid and exists, set null (delete avatar) if fails
     try {
-      const base64 = await userStorage.getAvatar(avatar, true)
+      const base64 = await userStorage.loadAvatar(avatar, true)
 
       if (!base64) {
         throw new Error('Not a valid CID')

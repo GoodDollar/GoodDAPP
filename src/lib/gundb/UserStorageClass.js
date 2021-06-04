@@ -623,16 +623,12 @@ export class UserStorage {
   }
 
   // eslint-disable-next-line require-await
-  async getAvatar(cidOrBase64, skipCache = false) {
-    if (isValidBase64Image(cidOrBase64)) {
-      return cidOrBase64
+  async loadAvatar(cid, skipCache = false) {
+    if (!isValidCIDImage(cid)) {
+      return null
     }
 
-    if (isValidCIDImage(cidOrBase64)) {
-      return this.storage.load(cidOrBase64, skipCache)
-    }
-
-    return null
+    return this.storage.load(cid, skipCache)
   }
 
   // eslint-disable-next-line require-await
@@ -643,7 +639,7 @@ export class UserStorage {
         await this.setProfileField(field, null, 'public')
 
         // if avatar was a CID - delete if after GUN updated
-        if (isString(avatar) && !isValidBase64Image(avatar)) {
+        if (isString(avatar) && !isValidBase64Image(avatar) && isValidCIDImage(avatar)) {
           await this.storage.delete(avatar)
         }
       }),

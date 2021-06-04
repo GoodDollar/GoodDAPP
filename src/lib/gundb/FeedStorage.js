@@ -262,7 +262,10 @@ export class FeedStorage {
         )
       case TxType.TX_REWARD:
         return orderBy(receipt.logs, 'e.data.value', 'desc').find(
-          e => e.name === 'Transfer' && this.wallet.getRewardsAddresses().includes(e.data.from.toLowerCase()),
+          e =>
+            e.name === 'Transfer' &&
+            this.wallet.getRewardsAddresses().includes(e.data.from.toLowerCase()) &&
+            this.walletAddress.toLowerCase() === e.data.to.toLowerCase(),
         )
       default:
         return
@@ -563,7 +566,7 @@ export class FeedStorage {
             //this will create counterPartyFullName, counterPartySmallAvatar
             if (feedEvent.data[camelCase(`counterParty ${field}`)] !== value) {
               feedEvent.data[camelCase(`counterParty ${field}`)] = value
-              await delay(500) //delay so we dont hit the dashboard feed debounce timeout
+              await delay(500) //delay so we don't hit the dashboard feed debounce timeout
               this.updateFeedEvent(feedEvent)
             }
           })
@@ -642,7 +645,7 @@ export class FeedStorage {
 
       //encrypt tx details in outbox so receiver can read details
       if (event.type === FeedItemType.EVENT_TYPE_SENDDIRECT) {
-        this.addToOutbox(event)
+        await this.addToOutbox(event)
       }
       await this.updateFeedEvent(event)
       log.debug('enqueueTX ok:', { event, paymentId })
@@ -980,7 +983,7 @@ export class FeedStorage {
 
         // if no item in the cache and it's some transaction
         // then getting tx item details from the wallet
-        if (!item && id.startsWith('0x')) {
+        if ((!item && id.startsWith('0x')) || (item && !get(item, 'data.reason'))) {
           const receipt = await this.wallet.getReceiptWithLogs(id).catch(e => {
             log.warn('getFeedPage no receipt found for id:', id, e.message, e)
           })

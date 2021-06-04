@@ -16,13 +16,17 @@ export class Base64Storage {
     return client.storeBlob(blob)
   }
 
-  async load(cid) {
-    const { _load } = this
+  async load(cid, skipCache = false) {
+    const clear = () => this._clearCache(cid)
+
+    if (true === skipCache) {
+      clear()
+    }
 
     try {
-      return await _load(cid)
+      return await this._load(cid)
     } catch (exception) {
-      _load.cache.delete(cid)
+      clear()
       throw exception
     }
   }
@@ -40,6 +44,16 @@ export class Base64Storage {
 
     return response.text()
   })
+
+  _clearCache(cid) {
+    const { cache } = this._load
+
+    if (!cache.has(cid)) {
+      return
+    }
+
+    cache.delete(cid)
+  }
 }
 
 export default new Base64Storage(Config.nftStorageKey)

@@ -6,9 +6,9 @@ import { Avatar } from 'react-native-paper'
 import UnknownProfileSVG from '../../../assets/unknownProfile.svg'
 import { withStyles } from '../../../lib/styles'
 import useOnPress from '../../../lib/hooks/useOnPress'
-import { isGoodDollarImage, isValidImage } from '../../../lib/utils/image'
 
 import GoodDollarLogo from '../../../assets/Feed/favicon-96x96.svg'
+import useImageSource from '../../../lib/hooks/useImageSource'
 
 /**
  * Touchable Avatar
@@ -21,14 +21,7 @@ import GoodDollarLogo from '../../../assets/Feed/favicon-96x96.svg'
  */
 const CustomAvatar = ({ styles, style, source, onPress, size, imageSize, children, unknownStyle, ...avatarProps }) => {
   const _onPress = useOnPress(onPress)
-
-  const [_isGDLogo, _source] = useMemo(() => {
-    if (isGoodDollarImage(source)) {
-      return [true, null]
-    }
-
-    return [false, isValidImage(source)]
-  }, [source])
+  const [isGDLogo, imgSource] = useImageSource(source)
 
   const [bgStyle, imageStyle] = useMemo(() => {
     const background = { backgroundColor: 'rgba(0, 0, 0, 0)' }
@@ -44,12 +37,12 @@ const CustomAvatar = ({ styles, style, source, onPress, size, imageSize, childre
       style={[styles.avatarContainer, { width: size, height: size, borderRadius: size / 2 }, style]}
       underlayColor="#fff"
     >
-      {_isGDLogo ? (
+      {isGDLogo ? (
         <View style={imageStyle} {...avatarProps}>
           <GoodDollarLogo />
         </View>
-      ) : _source ? (
-        <Avatar.Image size={imageSize || size - 2} source={_source} style={bgStyle} {...avatarProps} />
+      ) : imgSource ? (
+        <Avatar.Image size={imageSize || size - 2} source={imgSource} style={bgStyle} {...avatarProps} />
       ) : (
         <View style={[imageStyle, unknownStyle]} {...avatarProps}>
           <UnknownProfileSVG />

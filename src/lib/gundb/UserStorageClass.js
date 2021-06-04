@@ -15,7 +15,7 @@ import API from '../API/api'
 import pino from '../logger/pino-logger'
 import { ExceptionCategory } from '../logger/exceptions'
 import isMobilePhone from '../validators/isMobilePhone'
-import { isValidBase64Image, resizeImage } from '../utils/image'
+import { isValidBase64Image, isValidCIDImage, resizeImage } from '../utils/image'
 
 import { GD_GUN_CREDENTIALS } from '../constants/localStorage'
 import AsyncStorage from '../utils/asyncStorage'
@@ -596,18 +596,7 @@ export class UserStorage {
     }
   }
 
-  /**
-   * Set small avatar for user in case he doesn't have it
-   *
-   * @returns {Promise}
-   */
-  async checkSmallAvatar() {
-    const avatar = await this.getProfileFieldValue('avatar').then(cidOrBase64 => this.getAvatar(cidOrBase64))
-
-    if (avatar) {
-      this.setSmallAvatar(avatar)
-    }
-  }
+  // checkAvatar was removed as we don't need to keep updates/migrations only funcitons in the common API
 
   async setAvatar(avatar) {
     // save space and load on gun
@@ -619,7 +608,7 @@ export class UserStorage {
   async setSmallAvatar(avatar) {
     const smallAvatar = await resizeImage(avatar, 50)
 
-    return this.setProfileField('smallAvatar', smallAvatar, 'public')
+    return this._storeAvatar('smallAvatar', smallAvatar)
   }
 
   /**
@@ -634,16 +623,16 @@ export class UserStorage {
   }
 
   // eslint-disable-next-line require-await
-  async getAvatar(cidOrBase64) {
-    if (!cidOrBase64 || !isString(cidOrBase64)) {
-      return null
-    }
-
+  async getAvatar(cidOrBase64, skipCache = false) {
     if (isValidBase64Image(cidOrBase64)) {
       return cidOrBase64
     }
 
-    return this.storage.load(cidOrBase64)
+    if (isValidCIDImage(cidOrBase64)) {
+      return this.storage.load(cidOrBase64, skipCache)
+    }
+
+    return null
   }
 
   // eslint-disable-next-line require-await
@@ -654,7 +643,7 @@ export class UserStorage {
         await this.setProfileField(field, null, 'public')
 
         // if avatar was a CID - delete if after GUN updated
-        if (isString(avatar) && !isValidBase64Image()) {
+        if (isString(avatar) && !isValidBase64Image(avatar)) {
           await this.storage.delete(avatar)
         }
       }),

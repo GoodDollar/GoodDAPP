@@ -1,6 +1,8 @@
 import { isNumber, isString } from 'lodash'
 import { isValidAsset } from './assets'
 
+const cidRe = /^[\w\d]+$/i
+
 export const MAX_AVATAR_WIDTH = 600
 export const MAX_AVATAR_HEIGHT = 600
 
@@ -15,5 +17,4 @@ export const isValidLocalImage = source => isNumber(source) && source > 0 && isV
 
 export const isValidRootImage = source => isString(source) && source.startsWith('/') && source.split('.').length > 1
 
-export const isValidImage = source =>
-  isValidLocalImage(source) || isValidRootImage(source) ? source : isValidBase64Image(source) ? { uri: source } : null
+export const isValidCIDImage = source => isString(source) && source.length >= 40 && cidRe.test(source)

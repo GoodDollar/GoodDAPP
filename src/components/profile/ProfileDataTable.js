@@ -44,7 +44,7 @@ const ProfileDataTable = ({
   }, [verifyEdit, profile.email, storedProfile.email])
 
   const verifyPhone = useCallback(() => {
-    if (profile.mobile !== storedProfile.mobile) {
+    if (storedProfile.mobile && profile.mobile !== storedProfile.mobile) {
       verifyEdit('phone', profile.mobile)
     }
   }, [verifyEdit, profile.mobile, storedProfile.mobile])

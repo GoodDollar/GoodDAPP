@@ -642,7 +642,7 @@ export class FeedStorage {
 
       //encrypt tx details in outbox so receiver can read details
       if (event.type === FeedItemType.EVENT_TYPE_SENDDIRECT) {
-        await this.addToOutbox(event)
+        this.addToOutbox(event)
       }
       await this.updateFeedEvent(event)
       log.debug('enqueueTX ok:', { event, paymentId })

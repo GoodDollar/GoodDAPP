@@ -275,7 +275,7 @@ export class GoodWallet {
         }
         const nextLastBlock = await this.wallet.eth.getBlockNumber()
 
-        fn()
+        await fn() //await callback to finish processing events before updating lastEventblock
         this.lastEventsBlock = nextLastBlock
         lastBlockCallback(nextLastBlock)
 
@@ -469,7 +469,7 @@ export class GoodWallet {
 
     //we already got events up to lastBlock in case we are being called from regular polling and not from syncTxWithBlockchain
     const uniqEvents = uniqBy(events, 'transactionHash').filter(
-      _ => this.lastEventsBlock === fromBlock && _.blockNumber > fromBlock,
+      _ => this.lastEventsBlock !== fromBlock || _.blockNumber > this.lastEventsBlock,
     )
     uniqEvents.forEach(event => {
       this.getReceiptWithLogs(event.transactionHash)
@@ -624,8 +624,14 @@ export class GoodWallet {
 
   sendReceiptWithLogsToSubscribers(receipt: any, subscriptions: Array<string>) {
     subscriptions.forEach(subscription => {
+      const subscribers = this.getSubscribers(subscription)
+      log.debug('sendReceiptWithLogsToSubscribers', { subscription, subscribers })
       this.getSubscribers(subscription).forEach(cb => {
-        log.debug('receiptCallback:', { subscription, hash: receipt.transactionHash, cb })
+        log.debug('sendReceiptWithLogsToSubscribers receiptCallback:', {
+          subscription,
+          hash: receipt.transactionHash,
+          cb,
+        })
         cb(receipt)
       })
     })
@@ -802,7 +808,6 @@ export class GoodWallet {
     const subscribers = this.subscribers[eventName]
     const id = Math.max(...Object.keys(subscribers).map(parseInt), 0) + 1 // Give next id in a raw to current subscriber
     this.subscribers[eventName][id] = cb
-
     return { id, eventName }
   }
 

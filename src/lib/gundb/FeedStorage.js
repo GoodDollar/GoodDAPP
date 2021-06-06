@@ -26,7 +26,7 @@ import EventEmitter from 'eventemitter3'
 import delUndefValNested from '../utils/delUndefValNested'
 import AsyncStorage from '../utils/asyncStorage'
 import logger from '../../lib/logger/pino-logger'
-
+import { delay } from '../utils/async'
 const log = logger.child({ from: 'FeedStorage' })
 
 /**TODO:
@@ -262,7 +262,10 @@ export class FeedStorage {
         )
       case TxType.TX_REWARD:
         return orderBy(receipt.logs, 'e.data.value', 'desc').find(
-          e => e.name === 'Transfer' && this.wallet.getRewardsAddresses().includes(e.data.from.toLowerCase()),
+          e =>
+            e.name === 'Transfer' &&
+            this.wallet.getRewardsAddresses().includes(e.data.from.toLowerCase()) &&
+            this.walletAddress.toLowerCase() === e.data.to.toLowerCase(),
         )
       default:
         return
@@ -424,12 +427,13 @@ export class FeedStorage {
       //   }
 
       let status = TxStatus.COMPLETED
+      let otplStatus
       let outboxData = {}
       let type = TxTypeToEventType[txType]
 
       switch (txType) {
         case TxType.TX_OTPL_WITHDRAW:
-          status =
+          otplStatus =
             get(txEvent, 'data.to', 'to') === get(txEvent, 'data.from', 'from') ? TxStatus.CANCELED : TxStatus.COMPLETED
 
           //if withdraw event is of our sent payment, then we change type to "send"
@@ -441,7 +445,7 @@ export class FeedStorage {
         case TxType.TX_OTPL_DEPOSIT:
           //update index for payment links by paymentId, so we can update when we receive withdraw event
           this.feed.get('codeToTxHash').put({ [txEvent.data.paymentId]: feedEvent.id })
-          status = TxStatus.PENDING
+          otplStatus = TxStatus.PENDING
           break
         case TxType.TX_OTPL_CANCEL:
           //update index for payment links by paymentId, so we can update when we receive withdraw event
@@ -481,6 +485,7 @@ export class FeedStorage {
         type,
         txType,
         status,
+        otplStatus,
         receiptReceived: true,
         date: receiptDate.toString(),
         data: {
@@ -547,7 +552,7 @@ export class FeedStorage {
           .get('profile')
           .get(field)
           .get('display')
-          .on((value, nodeID, message, event) => {
+          .on(async (value, nodeID, message, event) => {
             event.off()
             if (!value) {
               return
@@ -561,6 +566,7 @@ export class FeedStorage {
             //this will create counterPartyFullName, counterPartySmallAvatar
             if (feedEvent.data[camelCase(`counterParty ${field}`)] !== value) {
               feedEvent.data[camelCase(`counterParty ${field}`)] = value
+              await delay(500) //delay so we don't hit the dashboard feed debounce timeout
               this.updateFeedEvent(feedEvent)
             }
           })
@@ -570,12 +576,13 @@ export class FeedStorage {
     //TODO: get user+avatar or contract name
     log.debug('updateFeedEventCounterParty:', feedEvent.data.receiptEvent, feedEvent.id, feedEvent.txType)
 
-    switch (feedEvent.txType) {
-      case TxType.TX_OTPL_WITHDRAW:
-      case TxType.TX_SEND_GD:
+    switch (feedEvent.type) {
+      case FeedItemType.EVENT_TYPE_SENDDIRECT:
+      case FeedItemType.EVENT_TYPE_SEND:
         getCounterParty(get(feedEvent, 'data.receiptEvent.to'), feedEvent)
         break
-      case TxType.TX_RECEIVE_GD:
+      case FeedItemType.EVENT_TYPE_WITHDRAW:
+      case FeedItemType.EVENT_TYPE_RECEIVE:
         getCounterParty(get(feedEvent, 'data.receiptEvent.from'), feedEvent)
         break
       default:
@@ -976,7 +983,7 @@ export class FeedStorage {
 
         // if no item in the cache and it's some transaction
         // then getting tx item details from the wallet
-        if (!item && id.startsWith('0x')) {
+        if ((!item && id.startsWith('0x')) || (item && !get(item, 'data.reason'))) {
           const receipt = await this.wallet.getReceiptWithLogs(id).catch(e => {
             log.warn('getFeedPage no receipt found for id:', id, e.message, e)
           })
@@ -997,7 +1004,12 @@ export class FeedStorage {
     // filtering events fetched to exclude empty/null/undefined ones
     const filteredEvents = filter(
       events,
-      e => e && !['deleted', 'cancelled', 'canceled'].includes(get(e, 'status', '').toLowerCase()),
+      e =>
+        e &&
+        !(
+          ['deleted', 'cancelled', 'canceled'].includes(get(e, 'status', '').toLowerCase()) ||
+          ['deleted', 'cancelled', 'canceled'].includes(get(e, 'otplStatus', '').toLowerCase())
+        ),
     )
     log.debug('getFeedPage filteredEvents', { filteredEvents })
 
@@ -1066,7 +1078,10 @@ export class FeedStorage {
   }
 
   emitUpdate(event) {
-    this.isEmitEvents && this.feedEvents.emit('updated', event)
+    if (this.isEmitEvents) {
+      this.feedEvents.emit('updated', event)
+      log.debug('emitted updated event', { event })
+    }
   }
 
   _gunException(gunError) {

@@ -37,7 +37,7 @@ const ViewOrUploadAvatar = props => {
   const profile = store.get('profile')
   const wrappedUserStorage = useWrappedUserStorage()
   const [showErrorDialog] = useErrorDialog()
-  const avatar = useProfileAvatar(profile.avatar)
+  const avatar = useProfileAvatar(profile.avatar, true)
 
   const handleCameraPress = useDebouncedOnPress(() => {
     openCropper({

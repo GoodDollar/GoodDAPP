@@ -1,5 +1,19 @@
 //@flow
-import { debounce, defaults, get, isEmpty, isError, isNil, isString, keys, memoize, over, pick, values } from 'lodash'
+import {
+  debounce,
+  defaults,
+  get,
+  isEmpty,
+  isError,
+  isFunction,
+  isNil,
+  isString,
+  keys,
+  memoize,
+  over,
+  pick,
+  values,
+} from 'lodash'
 import moment from 'moment'
 import Gun from '@gooddollar/gun'
 import SEA from '@gooddollar/gun/sea'
@@ -598,28 +612,21 @@ export class UserStorage {
 
   // checkAvatar was removed as we don't need to keep updates/migrations only funcitons in the common API
 
-  async setAvatar(avatar) {
+  async setAvatar(avatar, withCleanup = false) {
     // save space and load on gun
     const smallAvatar = await resizeImage(avatar, 320)
 
-    return Promise.all([this._storeAvatar('avatar', avatar), this.setSmallAvatar(smallAvatar)])
+    // eslint-disable-next-line
+    return Promise.all([
+      this._storeAvatar('avatar', avatar, withCleanup),
+      this.setSmallAvatar(smallAvatar, withCleanup),
+    ])
   }
 
-  async setSmallAvatar(avatar) {
+  async setSmallAvatar(avatar, withCleanup = false) {
     const smallAvatar = await resizeImage(avatar, 50)
 
-    return this._storeAvatar('smallAvatar', smallAvatar)
-  }
-
-  /**
-   * @private
-   * @param {String} avatar Base64 data url string
-   * @returns {Promise<string>} CID
-   */
-  async _storeAvatar(field, avatar) {
-    const cid = await this.storage.store()
-
-    return this.setProfileField(field, cid, 'public')
+    return this._storeAvatar('smallAvatar', smallAvatar, withCleanup)
   }
 
   // eslint-disable-next-line require-await
@@ -632,18 +639,56 @@ export class UserStorage {
   }
 
   // eslint-disable-next-line require-await
-  async removeAvatar() {
+  async removeAvatar(withCleanup = false) {
     return Promise.all(
+      // eslint-disable-next-line require-await
       ['avatar', 'smallAvatar'].map(async field => {
-        const avatar = await this.getProfileFieldValue(field)
-        await this.setProfileField(field, null, 'public')
+        // eslint-disable-next-line require-await
+        const updateGunDB = async () => this.setProfileField(field, null, 'public')
 
-        // if avatar was a CID - delete if after GUN updated
-        if (isString(avatar) && !isValidBase64Image(avatar) && isValidCIDImage(avatar)) {
-          await this.storage.delete(avatar)
+        if (true !== withCleanup) {
+          return updateGunDB()
         }
+
+        return this._removeBase64(field, updateGunDB)
       }),
     )
+  }
+
+  /**
+   * @private
+   * @param {String} avatar Base64 data url string
+   *
+   * @returns {Promise<string>} CID
+   */
+  async _storeAvatar(field, avatar, withCleanup = false) {
+    const cid = await this.storage.store(avatar)
+    // eslint-disable-next-line require-await
+    const updateGunDB = async () => this.setProfileField(field, cid, 'public')
+
+    if (true !== withCleanup) {
+      return updateGunDB()
+    }
+
+    return this._removeBase64(field, updateGunDB)
+  }
+
+  /**
+   * @private
+   * @param {async () => any} updateGUNCallback
+   */
+  async _removeBase64(field, updateGUNCallback = null) {
+    const cid = await this.getProfileFieldValue(field)
+
+    // executing GUN update actions first
+    if (isFunction(updateGUNCallback)) {
+      await updateGUNCallback()
+    }
+
+    // if avatar was a CID - delete if after GUN updated
+    if (isString(cid) && !isValidBase64Image(cid) && isValidCIDImage(cid)) {
+      await this.storage.delete(cid)
+    }
   }
 
   /**

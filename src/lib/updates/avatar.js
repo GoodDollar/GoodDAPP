@@ -20,7 +20,7 @@ const uploadAvatars = async (lastUpdate, prevVersion, log) => {
   // if still base64 - re-set avatar, userStorage will resize & upload
   // both avatar and smallAvatar it and store theirs CIDs in the GunDB
   if (isValidBase64Image(avatar)) {
-    await userStorage.setAvatar(avatar)
+    await userStorage.setAvatar(avatar, true)
   } else {
     // if already cid - check is cid valid and exists, set null (delete avatar) if fails
     try {
@@ -30,7 +30,7 @@ const uploadAvatars = async (lastUpdate, prevVersion, log) => {
         throw new Error('Not a valid CID')
       }
     } catch {
-      await userStorage.removeAvatar()
+      await userStorage.removeAvatar(true)
     }
   }
 }

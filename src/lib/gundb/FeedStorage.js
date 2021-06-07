@@ -27,6 +27,9 @@ import delUndefValNested from '../utils/delUndefValNested'
 import AsyncStorage from '../utils/asyncStorage'
 import logger from '../../lib/logger/pino-logger'
 import { delay } from '../utils/async'
+import { isValidBase64Image, isValidCIDImage } from '../utils/image'
+import Base64Storage from '../nft/Base64Storage'
+
 const log = logger.child({ from: 'FeedStorage' })
 
 /**TODO:
@@ -542,6 +545,7 @@ export class FeedStorage {
       if (!publicKey) {
         return
       }
+
       feedEvent.data.counterPartyAddress = address
       feedEvent.data.counterPartyProfile = publicKey
 
@@ -552,11 +556,27 @@ export class FeedStorage {
           .get('profile')
           .get(field)
           .get('display')
-          .on(async (value, nodeID, message, event) => {
+          .on(async (_value, nodeID, message, event) => {
+            let value = _value
+
             event.off()
+
             if (!value) {
               return
             }
+
+            // if got avatar - check is it an base64
+            // if yes - upload it and store CID instead
+            if ('smallAvatar' === field) {
+              if (isValidBase64Image(value)) {
+                // keep old base64 value if upload failed
+                value = await Base64Storage.store(value).catch(() => _value)
+              } else if (!isValidCIDImage(value)) {
+                // if it's a non-base64, non-CID string - set it to null
+                value = null
+              }
+            }
+
             log.debug('updateFeedEventCounterParty updating field:', feedEvent.id, {
               field,
               value,

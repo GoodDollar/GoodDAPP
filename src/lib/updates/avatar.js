@@ -2,6 +2,7 @@ import { isString } from 'lodash'
 
 import userStorage from '../gundb/UserStorage'
 import Base64Storage from '../nft/Base64Storage'
+import AsyncStorage from '../utils/asyncStorage'
 
 import { isValidBase64Image, isValidCIDImage } from '../utils/image'
 
@@ -35,5 +36,10 @@ const uploadAvatars = async (lastUpdate, prevVersion, log) => {
       await userStorage.removeAvatar(true)
     }
   }
+
+  // cleanup feed to re-upload other user avatars during feed pages loading
+  // reuploading all the avatars cached in the feed here could take a lot of time
+  // so let users would do it by themselves time by time while scrolling
+  await AsyncStorage.removeItem('GD_feed')
 }
 export default { fromDate, update: uploadAvatars, key: 'uploadAvatars' }

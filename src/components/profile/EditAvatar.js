@@ -24,7 +24,7 @@ const EditAvatar = ({ theme, screenProps }) => {
   const [isDirty, markAsDirty] = useState(false)
   const [processing, setProcessing] = useState(false)
 
-  const avatar = useProfileAvatar(profile.avatar)
+  const avatar = useProfileAvatar(profile.avatar, true)
   const croppedRef = useRef(avatar)
 
   const updateAvatar = useCallback(async () => {

@@ -43,7 +43,7 @@ exports[`WebViewScreen Instances PrivacyPolicyAndTerms matches snapshot 1`] = `
   height="100%"
   onLoad={[Function]}
   seamless={true}
-  src="https://community.gooddollar.org/tou/"
+  src="https://community.gooddollar.org/tou1/"
   style={
     Object {
       "height": 768,

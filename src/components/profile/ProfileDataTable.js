@@ -9,6 +9,7 @@ import InputRounded from '../common/form/InputRounded'
 import ErrorText from '../common/form/ErrorText'
 import Section from '../common/layout/Section'
 import { withStyles } from '../../lib/styles'
+import API from '../../lib/API/api'
 import PhoneInput from './PhoneNumberInput/PhoneNumberInput'
 
 const defaultErrors = {}
@@ -43,8 +44,14 @@ const ProfileDataTable = ({
     }
   }, [verifyEdit, profile.email, storedProfile.email])
 
-  const verifyPhone = useCallback(() => {
-    if (storedProfile.mobile && profile.mobile !== storedProfile.mobile) {
+  const verifyPhone = useCallback(async () => {
+    if (!storedProfile.mobile) {
+      const onlyCheckAlreadyVerified = true
+      const res = await API.sendOTP({ user: profile }, onlyCheckAlreadyVerified)
+      if (!res.alreadyVerified) {
+        verifyEdit('phone', profile.mobile)
+      }
+    } else if (profile.mobile !== storedProfile.mobile) {
       verifyEdit('phone', profile.mobile)
     }
   }, [verifyEdit, profile.mobile, storedProfile.mobile])

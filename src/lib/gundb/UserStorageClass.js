@@ -10,6 +10,7 @@ import {
   isNil,
   isString,
   keys,
+  last,
   memoize,
   over,
   pick,
@@ -1162,7 +1163,7 @@ export class UserStorage {
         }),
 
       storePrivacy(),
-    ])
+    ]).then(last)
   }
 
   /**

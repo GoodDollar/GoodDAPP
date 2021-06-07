@@ -19,7 +19,7 @@ import { isValidBase64Image, isValidCIDImage, resizeImage } from '../utils/image
 
 import { GD_GUN_CREDENTIALS } from '../constants/localStorage'
 import AsyncStorage from '../utils/asyncStorage'
-import defaultStorage from '../nft/Base64Storage'
+import Base64Storage from '../nft/Base64Storage'
 import defaultGun from './gundb'
 import UserProperties from './UserPropertiesClass'
 import { getUserModel, type UserModel } from './UserModel'
@@ -207,11 +207,6 @@ export class UserStorage {
   gun: Gun
 
   /**
-   * an P2P storage to keep avatars as base64 stirngs
-   */
-  storage = null
-
-  /**
    * a gun node referring tto gun.user().get('properties')
    * @instance {Gun}
    */
@@ -359,9 +354,8 @@ export class UserStorage {
     return mnemonic
   }
 
-  constructor(wallet: GoodWallet, gun: Gun, storage) {
+  constructor(wallet: GoodWallet, gun: Gun) {
     this.gun = gun || defaultGun
-    this.storage = storage || defaultStorage
     this.wallet = wallet
     this.init()
   }
@@ -617,18 +611,9 @@ export class UserStorage {
    * @returns {Promise<string>} CID
    */
   async _storeAvatar(field, avatar) {
-    const cid = await this.storage.store()
+    const cid = await Base64Storage.store(avatar)
 
     return this.setProfileField(field, cid, 'public')
-  }
-
-  // eslint-disable-next-line require-await
-  async loadAvatar(cid, skipCache = false) {
-    if (!isValidCIDImage(cid)) {
-      return null
-    }
-
-    return this.storage.load(cid, skipCache)
   }
 
   // eslint-disable-next-line require-await
@@ -640,7 +625,7 @@ export class UserStorage {
 
         // if avatar was a CID - delete if after GUN updated
         if (isString(avatar) && !isValidBase64Image(avatar) && isValidCIDImage(avatar)) {
-          await this.storage.delete(avatar)
+          await Base64Storage.delete(avatar)
         }
       }),
     )

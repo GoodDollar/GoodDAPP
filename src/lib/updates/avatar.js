@@ -1,7 +1,7 @@
 import { isString } from 'lodash'
 
 import userStorage from '../gundb/UserStorage'
-import { isValidBase64Image } from '../utils/image'
+import { isValidBase64Image, isValidCIDImage } from '../utils/image'
 
 const fromDate = new Date('2021/06/04')
 
@@ -24,11 +24,11 @@ const uploadAvatars = async (lastUpdate, prevVersion, log) => {
   } else {
     // if already cid - check is cid valid and exists, set null (delete avatar) if fails
     try {
-      const base64 = await userStorage.loadAvatar(avatar, true)
-
-      if (!base64) {
+      if (!isValidCIDImage(avatar)) {
         throw new Error('Not a valid CID')
       }
+
+      await userStorage.loadAvatar(avatar, true)
     } catch {
       await userStorage.removeAvatar()
     }

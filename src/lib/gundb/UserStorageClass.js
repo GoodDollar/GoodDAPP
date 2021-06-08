@@ -611,12 +611,12 @@ export class UserStorage {
 
   async setAvatar(avatar, withCleanup = false) {
     // save space and load on gun
-    const smallAvatar = await resizeImage(avatar, 320)
+    const avatarResized = await resizeImage(avatar, 320)
 
     // eslint-disable-next-line
     return Promise.all([
-      this._storeAvatar('avatar', avatar, withCleanup),
-      this.setSmallAvatar(smallAvatar, withCleanup),
+      this._storeAvatar('avatar', avatarResized, withCleanup),
+      this.setSmallAvatar(avatarResized, withCleanup),
     ])
   }
 

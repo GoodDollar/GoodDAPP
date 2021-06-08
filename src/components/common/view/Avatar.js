@@ -23,7 +23,7 @@ const CustomAvatar = ({ styles, style, source, onPress, size, imageSize, childre
   const _onPress = useOnPress(onPress)
   const [isGDLogo, imgSource] = useImageSource(source)
 
-  const [bgStyle, imageStyle] = useMemo(() => {
+  const [bgStyle, wrapperStyle] = useMemo(() => {
     const background = { backgroundColor: 'rgba(0, 0, 0, 0)' }
 
     return [background, { ...background, width: size, height: size }]
@@ -34,17 +34,22 @@ const CustomAvatar = ({ styles, style, source, onPress, size, imageSize, childre
       activeOpacity={1}
       disabled={!onPress}
       onPress={_onPress}
-      style={[styles.avatarContainer, { width: size, height: size, borderRadius: size / 2 }, style]}
+      style={[styles.avatarContainer, { width: size, height: size, borderRadius: '50%' }, style]}
       underlayColor="#fff"
     >
       {isGDLogo ? (
-        <View style={imageStyle} {...avatarProps}>
+        <View style={wrapperStyle} {...avatarProps}>
           <GoodDollarLogo />
         </View>
       ) : imgSource ? (
-        <Avatar.Image size={imageSize || size - 2} source={imgSource} style={bgStyle} {...avatarProps} />
+        <Avatar.Image
+          size={imageSize || size - 2}
+          source={imgSource}
+          style={[bgStyle, { borderRadius: '50%' }]}
+          {...avatarProps}
+        />
       ) : (
-        <View style={[imageStyle, unknownStyle]} {...avatarProps}>
+        <View style={[wrapperStyle, unknownStyle]} {...avatarProps}>
           <UnknownProfileSVG />
         </View>
       )}

@@ -650,7 +650,7 @@ export class UserStorage {
    * @returns {Promise<string>} CID
    */
   async _storeAvatar(field, avatar, withCleanup = false) {
-    const cid = await this.storage.store(avatar)
+    const cid = await Base64Storage.store(avatar)
     // eslint-disable-next-line require-await
     const updateGunDB = async () => this.setProfileField(field, cid, 'public')
 

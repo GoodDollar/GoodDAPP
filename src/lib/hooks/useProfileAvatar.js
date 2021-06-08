@@ -25,7 +25,7 @@ export default (avatar, skipCache = false) => {
     }
 
     if (!isValidCIDImage(avatar)) {
-      return null
+      return
     }
 
     // otherwise we're checking is it a valid CID and trying to load it from thes ipfs

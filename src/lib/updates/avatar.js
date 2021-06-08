@@ -26,7 +26,7 @@ const uploadProfileAvatar = async () => {
         throw new Error('Not a valid CID')
       }
 
-      await Base64Storage.loadAvatar(avatar, true)
+      await Base64Storage.load(avatar, true)
     } catch {
       // set null (delete avatar) if fails
       await userStorage.removeAvatar(true)

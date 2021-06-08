@@ -23,11 +23,12 @@ import {
 import Mutex from 'await-mutex'
 import EventEmitter from 'eventemitter3'
 
+import Config from '../../config/config'
 import delUndefValNested from '../utils/delUndefValNested'
 import AsyncStorage from '../utils/asyncStorage'
 import logger from '../../lib/logger/pino-logger'
 import { delay } from '../utils/async'
-import { isValidBase64Image, isValidCIDImage } from '../utils/image'
+import { isValidBase64Image } from '../utils/image'
 import Base64Storage from '../nft/Base64Storage'
 
 const log = logger.child({ from: 'FeedStorage' })
@@ -557,24 +558,22 @@ export class FeedStorage {
           .get(field)
           .get('display')
           .on(async (_value, nodeID, message, event) => {
+            // *** REMOVE THIS CODE BLOCK AT AUG - SEP 21
+            // if got avatar - check is it an base64
+            // if yes - upload it and store CID instead
             let value = _value
+
+            if (Config.nftLazyUpload && 'smallAvatar' === field && isValidBase64Image(value)) {
+              // keep old base64 value if upload failed
+              value = await Base64Storage.store(value).catch(() => _value)
+            }
+
+            // ********************************************
 
             event.off()
 
             if (!value) {
               return
-            }
-
-            // if got avatar - check is it an base64
-            // if yes - upload it and store CID instead
-            if ('smallAvatar' === field) {
-              if (isValidBase64Image(value)) {
-                // keep old base64 value if upload failed
-                value = await Base64Storage.store(value).catch(() => _value)
-              } else if (!isValidCIDImage(value)) {
-                // if it's a non-base64, non-CID string - set it to null
-                value = null
-              }
             }
 
             log.debug('updateFeedEventCounterParty updating field:', feedEvent.id, {

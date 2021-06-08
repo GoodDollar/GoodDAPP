@@ -26,7 +26,7 @@ import EventEmitter from 'eventemitter3'
 import delUndefValNested from '../utils/delUndefValNested'
 import AsyncStorage from '../utils/asyncStorage'
 import logger from '../../lib/logger/pino-logger'
-import { delay } from '../utils/async'
+import { delay, retry } from '../utils/async'
 const log = logger.child({ from: 'FeedStorage' })
 
 /**TODO:
@@ -452,8 +452,8 @@ export class FeedStorage {
           status = TxStatus.CANCELED
           break
         case TxType.TX_RECEIVE_GD:
-          //check if sender left  encrypted tx details for us
-          outboxData = await this.getFromOutbox(feedEvent)
+          // check if sender left encrypted tx details for us
+          outboxData = await retry(() => this.getFromOutbox(feedEvent), 3, 3000).catch(noop)
           break
         default:
           break
@@ -983,9 +983,8 @@ export class FeedStorage {
 
         // if no item in the cache and it's some transaction
         // then getting tx item details from the wallet
-        const shouldUpdate = get(item, 'data.reason', null) || get(item, 'data.category', null)
 
-        if ((!item && id.startsWith('0x')) || (item && shouldUpdate === null)) {
+        if (!item && id.startsWith('0x')) {
           const receipt = await this.wallet.getReceiptWithLogs(id).catch(e => {
             log.warn('getFeedPage no receipt found for id:', id, e.message, e)
           })
@@ -1074,6 +1073,9 @@ export class FeedStorage {
         .get(event.id)
         .decrypt()
       log.debug('getFromOutbox:', { id: event.id, recipientPubkey, senderPubkey, data })
+      if (!data) {
+        throw new Error('No outbox data found for event', event.id)
+      }
       return data
     }
     log.warn('getFromOutbox sender not found:', { event })

@@ -1,11 +1,15 @@
 import { memoize } from 'lodash'
 
 import Config from '../../config/config'
+import { fallback } from '../utils/async'
 import { Blob, NFTStorage } from './client'
 
+const { nftStorageKey, nftPeers } = Config
+
 class Base64Storage {
-  constructor(apiKey) {
+  constructor(apiKey, peers) {
     this.client = new NFTStorage({ token: apiKey })
+    this.peers = peers
   }
 
   // eslint-disable-next-line require-await
@@ -38,11 +42,18 @@ class Base64Storage {
     return client.delete(cid)
   }
 
+  // eslint-disable-next-line require-await
   _load = memoize(async cid => {
-    const url = `https://${cid}.ipfs.dweb.link`
-    const response = await fetch(url)
+    const { peers } = this
 
-    return response.text()
+    return fallback(
+      peers.map(async peer => {
+        const url = peer.replace('{cid}', cid)
+        const response = await fetch(url)
+
+        return response.text()
+      }),
+    )
   })
 
   _clearCache(cid) {
@@ -56,4 +67,4 @@ class Base64Storage {
   }
 }
 
-export default new Base64Storage(Config.nftStorageKey)
+export default new Base64Storage(nftStorageKey, nftPeers)

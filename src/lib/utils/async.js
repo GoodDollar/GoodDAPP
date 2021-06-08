@@ -1,6 +1,6 @@
 import { defer, from as fromPromise, throwError, timer } from 'rxjs'
 import { mergeMap, retryWhen } from 'rxjs/operators'
-import { assign, isError, isObject, isString, once } from 'lodash'
+import { assign, isError, isFunction, isObject, isString, once } from 'lodash'
 
 // eslint-disable-next-line require-await
 export const noopAsync = async () => true
@@ -15,7 +15,8 @@ export const timeout = async (millis, message = null) =>
     throw new Error(message)
   })
 
-export const retry = (asyncFn, retries = 5, interval = 0) =>
+// eslint-disable-next-line require-await
+export const retry = async (asyncFn, retries = 5, interval = 0) =>
   defer(() => fromPromise(asyncFn()))
     .pipe(
       retryWhen(attempts =>
@@ -33,6 +34,19 @@ export const retry = (asyncFn, retries = 5, interval = 0) =>
       ),
     )
     .toPromise()
+
+// eslint-disable-next-line require-await
+export const fallback = async asyncFns =>
+  // eslint-disable-next-line require-await
+  asyncFns.reduce(async (current, next) => {
+    let promise = current
+
+    if (isFunction(current)) {
+      promise = current()
+    }
+
+    return promise.catch(next)
+  })
 
 // eslint-disable-next-line require-await
 export const promisifyGun = async callback =>

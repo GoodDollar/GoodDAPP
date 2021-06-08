@@ -53,6 +53,7 @@ const Config = {
   serverUrl: env.REACT_APP_SERVER_URL || 'http://localhost:3003',
   gunPublicUrl: env.REACT_APP_GUN_PUBLIC_URL || 'http://localhost:3003/gun',
   nftStorageKey: env.REACT_APP_NFT_STORAGE_KEY,
+  nftPeers: (env.REACT_APP_NFT_PEERS || "https://ipfs.io/ipfs/{cid},https://{cid}.ipfs.dweb.link").split(","),
   learnMoreEconomyUrl: env.REACT_APP_ECONOMY_URL || 'https://www.gooddollar.org/economic-model/',
   publicUrl,
   dashboardUrl: env.REACT_APP_DASHBOARD_URL || 'https://dashboard.gooddollar.org',

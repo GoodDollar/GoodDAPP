@@ -424,10 +424,10 @@ exports[`FeedModalItem - Message matches snapshot 1`] = `
                     onStartShouldSetResponder={[Function]}
                     style={
                       Object {
-                        "borderBottomLeftRadius": "17px",
-                        "borderBottomRightRadius": "17px",
-                        "borderTopLeftRadius": "17px",
-                        "borderTopRightRadius": "17px",
+                        "borderBottomLeftRadius": "50%",
+                        "borderBottomRightRadius": "50%",
+                        "borderTopLeftRadius": "50%",
+                        "borderTopRightRadius": "50%",
                         "height": "34px",
                         "opacity": 1,
                         "width": "34px",
@@ -438,10 +438,10 @@ exports[`FeedModalItem - Message matches snapshot 1`] = `
                       className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-height-1r8g8re r-width-1acpoxo"
                       style={
                         Object {
-                          "borderBottomLeftRadius": "18px",
-                          "borderBottomRightRadius": "18px",
-                          "borderTopLeftRadius": "18px",
-                          "borderTopRightRadius": "18px",
+                          "borderBottomLeftRadius": "50%",
+                          "borderBottomRightRadius": "50%",
+                          "borderTopLeftRadius": "50%",
+                          "borderTopRightRadius": "50%",
                         }
                       }
                     >
@@ -803,10 +803,10 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                     onStartShouldSetResponder={[Function]}
                     style={
                       Object {
-                        "borderBottomLeftRadius": "17px",
-                        "borderBottomRightRadius": "17px",
-                        "borderTopLeftRadius": "17px",
-                        "borderTopRightRadius": "17px",
+                        "borderBottomLeftRadius": "50%",
+                        "borderBottomRightRadius": "50%",
+                        "borderTopLeftRadius": "50%",
+                        "borderTopRightRadius": "50%",
                         "height": "34px",
                         "opacity": 1,
                         "width": "34px",
@@ -817,10 +817,10 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                       className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-height-1r8g8re r-width-1acpoxo"
                       style={
                         Object {
-                          "borderBottomLeftRadius": "18px",
-                          "borderBottomRightRadius": "18px",
-                          "borderTopLeftRadius": "18px",
-                          "borderTopRightRadius": "18px",
+                          "borderBottomLeftRadius": "50%",
+                          "borderBottomRightRadius": "50%",
+                          "borderTopLeftRadius": "50%",
+                          "borderTopRightRadius": "50%",
                         }
                       }
                     >
@@ -1176,10 +1176,10 @@ exports[`FeedModalItem - Send with Error status matches snapshot 1`] = `
                     onStartShouldSetResponder={[Function]}
                     style={
                       Object {
-                        "borderBottomLeftRadius": "17px",
-                        "borderBottomRightRadius": "17px",
-                        "borderTopLeftRadius": "17px",
-                        "borderTopRightRadius": "17px",
+                        "borderBottomLeftRadius": "50%",
+                        "borderBottomRightRadius": "50%",
+                        "borderTopLeftRadius": "50%",
+                        "borderTopRightRadius": "50%",
                         "height": "34px",
                         "opacity": 1,
                         "width": "34px",
@@ -1190,10 +1190,10 @@ exports[`FeedModalItem - Send with Error status matches snapshot 1`] = `
                       className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-height-1r8g8re r-width-1acpoxo"
                       style={
                         Object {
-                          "borderBottomLeftRadius": "18px",
-                          "borderBottomRightRadius": "18px",
-                          "borderTopLeftRadius": "18px",
-                          "borderTopRightRadius": "18px",
+                          "borderBottomLeftRadius": "50%",
+                          "borderBottomRightRadius": "50%",
+                          "borderTopLeftRadius": "50%",
+                          "borderTopRightRadius": "50%",
                         }
                       }
                     >
@@ -1549,10 +1549,10 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                     onStartShouldSetResponder={[Function]}
                     style={
                       Object {
-                        "borderBottomLeftRadius": "17px",
-                        "borderBottomRightRadius": "17px",
-                        "borderTopLeftRadius": "17px",
-                        "borderTopRightRadius": "17px",
+                        "borderBottomLeftRadius": "50%",
+                        "borderBottomRightRadius": "50%",
+                        "borderTopLeftRadius": "50%",
+                        "borderTopRightRadius": "50%",
                         "height": "34px",
                         "opacity": 1,
                         "width": "34px",
@@ -1563,10 +1563,10 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                       className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-height-1r8g8re r-width-1acpoxo"
                       style={
                         Object {
-                          "borderBottomLeftRadius": "18px",
-                          "borderBottomRightRadius": "18px",
-                          "borderTopLeftRadius": "18px",
-                          "borderTopRightRadius": "18px",
+                          "borderBottomLeftRadius": "50%",
+                          "borderBottomRightRadius": "50%",
+                          "borderTopLeftRadius": "50%",
+                          "borderTopRightRadius": "50%",
                         }
                       }
                     >

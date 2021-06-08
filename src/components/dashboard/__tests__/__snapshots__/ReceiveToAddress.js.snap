@@ -40,10 +40,10 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
           onStartShouldSetResponder={[Function]}
           style={
             Object {
-              "borderBottomLeftRadius": "28px",
-              "borderBottomRightRadius": "28px",
-              "borderTopLeftRadius": "28px",
-              "borderTopRightRadius": "28px",
+              "borderBottomLeftRadius": "50%",
+              "borderBottomRightRadius": "50%",
+              "borderTopLeftRadius": "50%",
+              "borderTopRightRadius": "50%",
               "height": "56px",
               "opacity": 1,
               "width": "56px",

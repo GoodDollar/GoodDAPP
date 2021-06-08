@@ -99,10 +99,10 @@ exports[`FeedListItem - Send matches snapshot 1`] = `
                 onStartShouldSetResponder={[Function]}
                 style={
                   Object {
-                    "borderBottomLeftRadius": "17px",
-                    "borderBottomRightRadius": "17px",
-                    "borderTopLeftRadius": "17px",
-                    "borderTopRightRadius": "17px",
+                    "borderBottomLeftRadius": "50%",
+                    "borderBottomRightRadius": "50%",
+                    "borderTopLeftRadius": "50%",
+                    "borderTopRightRadius": "50%",
                     "height": "34px",
                     "opacity": 1,
                   }
@@ -112,10 +112,10 @@ exports[`FeedListItem - Send matches snapshot 1`] = `
                   className="css-view-1dbjc4n r-backgroundColor-1niwhzg"
                   style={
                     Object {
-                      "borderBottomLeftRadius": "18px",
-                      "borderBottomRightRadius": "18px",
-                      "borderTopLeftRadius": "18px",
-                      "borderTopRightRadius": "18px",
+                      "borderBottomLeftRadius": "50%",
+                      "borderBottomRightRadius": "50%",
+                      "borderTopLeftRadius": "50%",
+                      "borderTopRightRadius": "50%",
                       "height": "36px",
                       "width": "36px",
                     }
@@ -294,10 +294,10 @@ exports[`FeedListItem - Withdraw matches snapshot 1`] = `
                 onStartShouldSetResponder={[Function]}
                 style={
                   Object {
-                    "borderBottomLeftRadius": "17px",
-                    "borderBottomRightRadius": "17px",
-                    "borderTopLeftRadius": "17px",
-                    "borderTopRightRadius": "17px",
+                    "borderBottomLeftRadius": "50%",
+                    "borderBottomRightRadius": "50%",
+                    "borderTopLeftRadius": "50%",
+                    "borderTopRightRadius": "50%",
                     "height": "34px",
                     "opacity": 1,
                   }
@@ -307,10 +307,10 @@ exports[`FeedListItem - Withdraw matches snapshot 1`] = `
                   className="css-view-1dbjc4n r-backgroundColor-1niwhzg"
                   style={
                     Object {
-                      "borderBottomLeftRadius": "18px",
-                      "borderBottomRightRadius": "18px",
-                      "borderTopLeftRadius": "18px",
-                      "borderTopRightRadius": "18px",
+                      "borderBottomLeftRadius": "50%",
+                      "borderBottomRightRadius": "50%",
+                      "borderTopLeftRadius": "50%",
+                      "borderTopRightRadius": "50%",
                       "height": "36px",
                       "width": "36px",
                     }

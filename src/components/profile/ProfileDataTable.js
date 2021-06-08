@@ -1,7 +1,7 @@
 import React, { Fragment, useCallback, useMemo } from 'react'
 import { Image, Platform, StyleSheet } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import { noop } from 'lodash'
+import { get, noop } from 'lodash'
 import { parsePhoneNumberFromString } from 'libphonenumber-js'
 import useCountryFlagUrl from '../../lib/hooks/useCountryFlagUrl'
 import Icon from '../common/view/Icon'
@@ -9,6 +9,7 @@ import InputRounded from '../common/form/InputRounded'
 import ErrorText from '../common/form/ErrorText'
 import Section from '../common/layout/Section'
 import { withStyles } from '../../lib/styles'
+import API from '../../lib/API/api'
 import PhoneInput from './PhoneNumberInput/PhoneNumberInput'
 
 const defaultErrors = {}
@@ -43,8 +44,14 @@ const ProfileDataTable = ({
     }
   }, [verifyEdit, profile.email, storedProfile.email])
 
-  const verifyPhone = useCallback(() => {
-    if (profile.mobile !== storedProfile.mobile) {
+  const verifyPhone = useCallback(async () => {
+    if (!storedProfile.mobile) {
+      const onlyCheckAlreadyVerified = true
+      const res = await API.sendOTP({ mobile: profile.mobile }, onlyCheckAlreadyVerified)
+      if (!get(res, 'data.alreadyVerified', false)) {
+        verifyEdit('phone', profile.mobile)
+      }
+    } else if (profile.mobile !== storedProfile.mobile) {
       verifyEdit('phone', profile.mobile)
     }
   }, [verifyEdit, profile.mobile, storedProfile.mobile])

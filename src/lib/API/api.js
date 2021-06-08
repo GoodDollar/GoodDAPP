@@ -184,8 +184,8 @@ export class APIService {
    * `/verify/sendotp` post api call
    * @param {UserRecord} user
    */
-  sendOTP(user: UserRecord): AxiosPromise<any> {
-    return this.client.post('/verify/sendotp', { user })
+  sendOTP(user: UserRecord, onlyCheckAlreadyVerified: boolean = false): AxiosPromise<any> {
+    return this.client.post('/verify/sendotp', { user, onlyCheckAlreadyVerified })
   }
 
   /**

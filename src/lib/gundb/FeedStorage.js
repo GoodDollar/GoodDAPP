@@ -1,10 +1,12 @@
 // @flow
 import {
+  assign,
   camelCase,
   filter,
   find,
   flatten,
   get,
+  has,
   isEqual,
   isError,
   isUndefined,
@@ -26,7 +28,7 @@ import EventEmitter from 'eventemitter3'
 import delUndefValNested from '../utils/delUndefValNested'
 import AsyncStorage from '../utils/asyncStorage'
 import logger from '../../lib/logger/pino-logger'
-import { delay, retry } from '../utils/async'
+import { delay } from '../utils/async'
 const log = logger.child({ from: 'FeedStorage' })
 
 /**TODO:
@@ -428,7 +430,6 @@ export class FeedStorage {
 
       let status = TxStatus.COMPLETED
       let otplStatus
-      let outboxData = {}
       let type = TxTypeToEventType[txType]
 
       switch (txType) {
@@ -450,10 +451,6 @@ export class FeedStorage {
         case TxType.TX_OTPL_CANCEL:
           //update index for payment links by paymentId, so we can update when we receive withdraw event
           status = TxStatus.CANCELED
-          break
-        case TxType.TX_RECEIVE_GD:
-          // check if sender left encrypted tx details for us
-          outboxData = await retry(() => this.getFromOutbox(feedEvent), 3, 3000).catch(noop)
           break
         default:
           break
@@ -497,7 +494,6 @@ export class FeedStorage {
             eventSource: txEvent.address,
             ...txEvent.data,
           },
-          ...outboxData,
         },
       }
 
@@ -524,6 +520,18 @@ export class FeedStorage {
 
       log.debug('handleReceiptUpdate saving... done', receipt.transactionHash)
       this.updateFeedEventCounterParty(updatedFeedEvent)
+
+      if (TxType.TX_RECEIVE_GD) {
+        // if outbox data missing from event
+        if (
+          !has(updatedFeedEvent, 'data.reason') ||
+          !has(updatedFeedEvent, 'data.category') ||
+          !has(updatedFeedEvent, 'data.amount')
+        ) {
+          // check if sender left encrypted tx details for us
+          this.getFromOutbox(updatedFeedEvent)
+        }
+      }
 
       return updatedFeedEvent
     } catch (e) {
@@ -1066,19 +1074,22 @@ export class FeedStorage {
     let senderPubkey = await this.userStorage.getUserProfilePublickey(get(event, 'data.receiptEvent.from'))
     let recipientPubkey = this.gunuser.is.pub
     if (senderPubkey) {
-      const data = await this.gun
+      log.debug('getFromOutbox sender found:', { event, senderPubkey, recipientPubkey })
+
+      this.gun
         .get(senderPubkey)
         .get('outbox')
         .get(recipientPubkey)
         .get(event.id)
-        .decrypt()
-      log.debug('getFromOutbox:', { id: event.id, recipientPubkey, senderPubkey, data })
-      if (!data) {
-        throw new Error('No outbox data found for event', event.id)
-      }
-      return data
+        .onDecrypt(data => {
+          log.debug('getFromOutbox decrypted data:', { data })
+          assign(event.data, data)
+          log.debug('getFromOutbox updated event:', { event })
+          this.updateFeedEvent(event)
+        })
+    } else {
+      log.warn('getFromOutbox sender not found:', { event })
     }
-    log.warn('getFromOutbox sender not found:', { event })
   }
 
   emitUpdate(event) {

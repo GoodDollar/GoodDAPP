@@ -96,8 +96,12 @@ assign(chain, {
    * Returns the decrypted value
    * @returns {Promise<any>}
    */
-  onDecrypt(callback = null) {
-    let decryptedData = null
+   // eslint-disable-next-line require-await
+  async onDecrypt(callback = null) {
+    let _resolve
+    let decryptedData = null    
+    const resolve = value => over([callback, _resolve].filter(isFunction))(value)                
+    const promise = new Promise(resolve => _resolve = resolve)
 
     // firstly we'll got the node data
     this.on(async (encryptedData, nodeID, message, event) => {
@@ -109,8 +113,11 @@ assign(chain, {
 
         decryptedData = await SEA.decrypt(encryptedData, secureKey)
       }
-      callback(decryptedData)
+      
+      resolve(decryptedData)
     })
+    
+    return promise
   },
 })
 

@@ -91,6 +91,27 @@ assign(chain, {
 
     return (callback || identity)(decryptedData)
   },
+
+  /**
+   * Returns the decrypted value
+   * @returns {Promise<any>}
+   */
+  onDecrypt(callback = null) {
+    let decryptedData = null
+
+    // firstly we'll got the node data
+    this.on(async (encryptedData, nodeID, message, event) => {
+      event.off()
+
+      // if it's empty - no need to get secure key. just resolve with null
+      if (encryptedData != null) {
+        const secureKey = await getSecureKey(this)
+
+        decryptedData = await SEA.decrypt(encryptedData, secureKey)
+      }
+      callback(decryptedData)
+    })
+  },
 })
 
 assign(User.prototype, {

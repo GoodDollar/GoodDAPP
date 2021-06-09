@@ -443,7 +443,7 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
               >
                 <div
                   aria-disabled={true}
-                  className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-qt01xk r-borderColor-y68mpx r-borderWidth-rs99b7 r-height-ur6pnr r-justifyContent-1777fci r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-width-1mhb1uw"
+                  className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-qt01xk r-borderColor-y68mpx r-borderRadius-10jnvle r-borderWidth-rs99b7 r-height-ur6pnr r-justifyContent-1777fci r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-width-1mhb1uw"
                   disabled={true}
                   onKeyDown={[Function]}
                   onKeyUp={[Function]}
@@ -455,10 +455,6 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
                   onStartShouldSetResponder={[Function]}
                   style={
                     Object {
-                      "borderBottomLeftRadius": "50%",
-                      "borderBottomRightRadius": "50%",
-                      "borderTopLeftRadius": "50%",
-                      "borderTopRightRadius": "50%",
                       "opacity": 1,
                     }
                   }

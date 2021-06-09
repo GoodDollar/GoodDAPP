@@ -58,10 +58,10 @@ exports[`SendLinkSummary matches snapshot 1`] = `
           onStartShouldSetResponder={[Function]}
           style={
             Object {
-              "borderBottomLeftRadius": "50%",
-              "borderBottomRightRadius": "50%",
-              "borderTopLeftRadius": "50%",
-              "borderTopRightRadius": "50%",
+              "borderBottomLeftRadius": "21px",
+              "borderBottomRightRadius": "21px",
+              "borderTopLeftRadius": "21px",
+              "borderTopRightRadius": "21px",
               "height": "42px",
               "opacity": 1,
               "width": "42px",

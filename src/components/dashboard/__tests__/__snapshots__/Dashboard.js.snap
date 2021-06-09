@@ -207,8 +207,8 @@ exports[`Dashboard matches snapshot 1`] = `
                       style={
                         Object {
                           "backgroundColor": "rgba(0,0,0,0.00)",
-                          "height": "70",
-                          "width": "70",
+                          "height": "42px",
+                          "width": "42px",
                         }
                       }
                     >

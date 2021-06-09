@@ -34,7 +34,7 @@ const CustomAvatar = ({ styles, style, source, onPress, size, imageSize, childre
       activeOpacity={1}
       disabled={!onPress}
       onPress={_onPress}
-      style={[styles.avatarContainer, { width: size, height: size, borderRadius: '50%' }, style]}
+      style={[styles.avatarContainer, { width: size, height: size, borderRadius: size / 2 }, style]}
       underlayColor="#fff"
     >
       {isGDLogo ? (
@@ -42,12 +42,7 @@ const CustomAvatar = ({ styles, style, source, onPress, size, imageSize, childre
           <GoodDollarLogo />
         </View>
       ) : imgSource ? (
-        <Avatar.Image
-          size={imageSize || size - 2}
-          source={imgSource}
-          style={[bgStyle, { borderRadius: '50%' }]}
-          {...avatarProps}
-        />
+        <Avatar.Image size={imageSize || size - 2} source={imgSource} style={bgStyle} {...avatarProps} />
       ) : (
         <View style={[wrapperStyle, unknownStyle]} {...avatarProps}>
           <UnknownProfileSVG />

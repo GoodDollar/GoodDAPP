@@ -138,10 +138,10 @@ exports[`ViewAvatar matches snapshot 1`] = `
                   onStartShouldSetResponder={[Function]}
                   style={
                     Object {
-                      "borderBottomLeftRadius": "50%",
-                      "borderBottomRightRadius": "50%",
-                      "borderTopLeftRadius": "50%",
-                      "borderTopRightRadius": "50%",
+                      "borderBottomLeftRadius": "136px",
+                      "borderBottomRightRadius": "136px",
+                      "borderTopLeftRadius": "136px",
+                      "borderTopRightRadius": "136px",
                       "height": "272px",
                       "opacity": 1,
                     }

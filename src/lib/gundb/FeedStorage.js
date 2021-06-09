@@ -1,6 +1,5 @@
 // @flow
 import {
-  assign,
   camelCase,
   filter,
   find,
@@ -528,7 +527,8 @@ export class FeedStorage {
           !has(updatedFeedEvent, 'data.category') ||
           !has(updatedFeedEvent, 'data.amount')
         ) {
-          // check if sender left encrypted tx details for us
+          // check if sender left encrypted tx details for us, this will
+          // update source event once data received/decrypted via onDecrypt
           this.getFromOutbox(updatedFeedEvent)
         }
       }
@@ -1073,23 +1073,35 @@ export class FeedStorage {
   async getFromOutbox(event: FeedEvent) {
     let senderPubkey = await this.userStorage.getUserProfilePublickey(get(event, 'data.receiptEvent.from'))
     let recipientPubkey = this.gunuser.is.pub
-    if (senderPubkey) {
-      log.debug('getFromOutbox sender found:', { event, senderPubkey, recipientPubkey })
 
-      this.gun
-        .get(senderPubkey)
-        .get('outbox')
-        .get(recipientPubkey)
-        .get(event.id)
-        .onDecrypt(data => {
-          log.debug('getFromOutbox decrypted data:', { data })
-          assign(event.data, data)
-          log.debug('getFromOutbox updated event:', { event })
-          this.updateFeedEvent(event)
-        })
-    } else {
+    if (!senderPubkey) {
       log.warn('getFromOutbox sender not found:', { event })
+      return
     }
+
+    log.debug('getFromOutbox sender found:', { event, senderPubkey, recipientPubkey })
+
+    const { data } = event
+    const decryptedData = await this.gun
+      .get(senderPubkey)
+      .get('outbox')
+      .get(recipientPubkey)
+      .get(event.id)
+      .onDecrypt()
+
+    const updatedEvent = {
+      ...event,
+      data: {
+        ...data,
+        ...(decryptedData || {}),
+      },
+    }
+
+    log.debug('getFromOutbox decrypted data:', { data })
+    await this.updateFeedEvent(updatedEvent)
+
+    log.debug('getFromOutbox updated event:', { updatedEvent })
+    return decryptedData
   }
 
   emitUpdate(event) {

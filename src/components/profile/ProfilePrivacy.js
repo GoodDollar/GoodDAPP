@@ -43,14 +43,17 @@ const profileFields = ['mobile', 'email']
 const initialState = profileFields.reduce((acc, field) => ({ ...acc, [`${field}`]: '' }), {})
 const titles = { mobile: 'Phone number', email: 'Email' }
 
-const ProfileAvatar = () => {
+const ProfileAvatar = withStyles(() => ({
+  avatar: {
+    borderWidth: 0,
+    backgroundColor: 'transparent',
+  },
+}))(({ styles, style }) => {
   const gdstore = GDStore.useStore()
-
-  // bordered box required data
   const { avatar } = gdstore.get('profile')
 
-  return <Avatar source={avatar} />
-}
+  return <Avatar source={avatar} style={[styles.avatar, style]} imageStyle={style} unknownStyle={style} plain />
+})
 
 const ProfilePrivacy = props => {
   const [initialPrivacy, setInitialPrivacy] = useState(initialState)

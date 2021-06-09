@@ -278,7 +278,15 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
                 }
               }
             >
-              <checkmark.svg />
+              <checkmark.svg
+                style={
+                  Object {
+                    "borderRadius": 14,
+                    "height": 28,
+                    "width": 28,
+                  }
+                }
+              />
             </div>
             <div
               className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-justifyContent-1wtj0ep r-marginBottom-1o4vxx4 r-marginTop-bw7i6d r-padding-t60dpp r-width-1akxima"
@@ -451,7 +459,15 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
                 }
               }
             >
-              <checkmark.svg />
+              <checkmark.svg
+                style={
+                  Object {
+                    "borderRadius": 14,
+                    "height": 28,
+                    "width": 28,
+                  }
+                }
+              />
             </div>
             <div
               className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-justifyContent-1wtj0ep r-marginBottom-1o4vxx4 r-marginTop-bw7i6d r-padding-t60dpp r-width-1akxima"
@@ -624,7 +640,15 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
                 }
               }
             >
-              <checkmark.svg />
+              <checkmark.svg
+                style={
+                  Object {
+                    "borderRadius": 14,
+                    "height": 28,
+                    "width": 28,
+                  }
+                }
+              />
             </div>
             <div
               className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-justifyContent-1wtj0ep r-marginBottom-1o4vxx4 r-marginTop-bw7i6d r-padding-t60dpp r-width-1akxima"
@@ -795,7 +819,15 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
                 }
               }
             >
-              <checkmark.svg />
+              <checkmark.svg
+                style={
+                  Object {
+                    "borderRadius": 14,
+                    "height": 28,
+                    "width": 28,
+                  }
+                }
+              />
             </div>
             <div
               className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-justifyContent-1wtj0ep r-marginBottom-1o4vxx4 r-marginTop-bw7i6d r-padding-t60dpp r-width-1akxima"

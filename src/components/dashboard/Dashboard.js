@@ -587,7 +587,13 @@ const Dashboard = props => {
           <Section.Stack alignItems="center" style={styles.headerWrapper}>
             <Animated.View style={avatarAnimStyles}>
               <TouchableOpacity onPress={goToProfile} style={styles.avatarWrapper}>
-                <Avatar source={avatar} style={styles.avatar} />
+                <Avatar
+                  source={avatar}
+                  style={styles.avatar}
+                  imageStyle={styles.avatar}
+                  unknownStyle={styles.avatar}
+                  plain
+                />
               </TouchableOpacity>
             </Animated.View>
             <Animated.View style={[styles.headerFullName, fullNameAnimateStyles]}>
@@ -729,12 +735,14 @@ const getStylesFromProps = ({ theme }) => ({
     width: '100%',
   },
   avatar: {
+    width: '100%',
+    height: '100%',
+    borderWidth: 0,
+    backgroundColor: 'transparent',
     borderRadius: Platform.select({
       web: '50%',
       default: 150 / 2,
     }),
-    height: '100%',
-    width: '100%',
   },
   buttonsRow: {
     alignItems: 'center',

@@ -56,6 +56,7 @@ const BorderedBox = ({
       : {
           top: -halfBoxSize,
         }
+
     return [
       styles.avatar,
       {
@@ -93,6 +94,7 @@ const BorderedBox = ({
   )
 
   const ImageComponent = image
+  const [, imageStyle] = avatarStyles
 
   return (
     <View style={wrapperContainerStyles}>
@@ -100,7 +102,7 @@ const BorderedBox = ({
         <View style={lineSeparatorStyles} />
         {image && (
           <View style={avatarStyles}>
-            <ImageComponent />
+            <ImageComponent style={imageStyle} />
           </View>
         )}
         <Section.Stack style={enableSideMode ? styles.boxShortContent : styles.boxContent}>

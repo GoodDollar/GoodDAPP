@@ -1098,7 +1098,7 @@ export class FeedStorage {
     }
 
     log.debug('getFromOutbox decrypted data:', { data })
-    await this.updateFeedEvent(updatedEvent)
+    this.updateFeedEvent(updatedEvent)
 
     log.debug('getFromOutbox updated event:', { updatedEvent })
     return decryptedData

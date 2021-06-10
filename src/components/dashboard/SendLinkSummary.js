@@ -157,8 +157,9 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
             log.debug('Send G$ to address', { hash })
             txhash = hash
 
-            //integrate with vendors callback, notifying payment has been made
+            // integrate with vendors callback, notifying payment has been made
             const vendorCallback = get(vendorInfo, 'callbackUrl')
+            
             if (vendorCallback) {
               retry(() => API.post(vendorCallback, { transactionId: txhash, invoiceId: vendorInfo.invoiceId })).catch(
                 e => log.error('failed notifying vendor callback', { vendorInfo }),

@@ -8,7 +8,7 @@ import { startCase } from 'lodash'
 
 // custom components
 import Wrapper from '../common/layout/Wrapper'
-import { CustomButton, Icon, Section, Text } from '../common'
+import { Avatar, CustomButton, Icon, Section, Text } from '../common'
 import { BackButton } from '../appNavigation/stackNavigation'
 import BorderedBox from '../common/view/BorderedBox'
 
@@ -25,7 +25,6 @@ import GDStore from '../../lib/undux/GDStore'
 import { getDesignRelativeHeight, isSmallDevice } from '../../lib/utils/sizes'
 
 // assets
-import unknownProfile from '../../assets/unknownProfile.svg'
 import OptionsRow from './OptionsRow'
 
 // initialize child logger
@@ -44,6 +43,18 @@ const profileFields = ['mobile', 'email']
 const initialState = profileFields.reduce((acc, field) => ({ ...acc, [`${field}`]: '' }), {})
 const titles = { mobile: 'Phone number', email: 'Email' }
 
+const ProfileAvatar = withStyles(() => ({
+  avatar: {
+    borderWidth: 0,
+    backgroundColor: 'transparent',
+  },
+}))(({ styles, style }) => {
+  const gdstore = GDStore.useStore()
+  const { avatar } = gdstore.get('profile')
+
+  return <Avatar source={avatar} style={[styles.avatar, style]} imageStyle={style} unknownStyle={style} plain />
+})
+
 const ProfilePrivacy = props => {
   const [initialPrivacy, setInitialPrivacy] = useState(initialState)
   const [privacy, setPrivacy] = useState(initialState)
@@ -51,10 +62,8 @@ const ProfilePrivacy = props => {
   const [field, setField] = useState(false)
   const { screenProps, styles, theme } = props
   const [showDialog] = useDialog()
-  const gdstore = GDStore.useStore()
 
   // bordered box required data
-  const { avatar } = gdstore.get('profile')
   const faceRecordId = useMemo(() => userStorage.getFaceIdentifier(), [])
 
   useEffect(() => {
@@ -160,8 +169,7 @@ const ProfilePrivacy = props => {
           </Section.Stack>
           <Section grow justifyContent="center">
             <BorderedBox
-              imageSource={avatar}
-              image={!avatar && unknownProfile}
+              image={ProfileAvatar}
               title="My Face Record ID"
               content={faceRecordId}
               truncateContent

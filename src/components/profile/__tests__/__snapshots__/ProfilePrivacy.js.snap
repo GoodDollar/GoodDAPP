@@ -441,7 +441,46 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
                   }
                 }
               >
-                <unknownProfile.svg />
+                <div
+                  aria-disabled={true}
+                  className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1niwhzg r-borderColor-y68mpx r-borderWidth-1yadl64 r-justifyContent-1777fci r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
+                  disabled={true}
+                  onKeyDown={[Function]}
+                  onKeyUp={[Function]}
+                  onResponderGrant={[Function]}
+                  onResponderMove={[Function]}
+                  onResponderRelease={[Function]}
+                  onResponderTerminate={[Function]}
+                  onResponderTerminationRequest={[Function]}
+                  onStartShouldSetResponder={[Function]}
+                  style={
+                    Object {
+                      "borderBottomLeftRadius": "34px",
+                      "borderBottomRightRadius": "34px",
+                      "borderTopLeftRadius": "34px",
+                      "borderTopRightRadius": "34px",
+                      "height": "68px",
+                      "opacity": 1,
+                      "width": "68px",
+                    }
+                  }
+                >
+                  <div
+                    className="css-view-1dbjc4n r-backgroundColor-1niwhzg"
+                    style={
+                      Object {
+                        "borderBottomLeftRadius": "34px",
+                        "borderBottomRightRadius": "34px",
+                        "borderTopLeftRadius": "34px",
+                        "borderTopRightRadius": "34px",
+                        "height": "68px",
+                        "width": "68px",
+                      }
+                    }
+                  >
+                    <unknownProfile.svg />
+                  </div>
+                </div>
               </div>
               <div
                 className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-justifyContent-1wtj0ep r-marginBottom-tjf2cy r-marginTop-fcs4qk r-padding-t60dpp"
@@ -528,22 +567,17 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
         }
       >
         <div
-          className="css-view-1dbjc4n r-alignItems-1oszu61 r-borderStyle-1phboty r-display-6koalj r-flexGrow-16y2uox r-justifyContent-1777fci r-padding-t60dpp r-paddingLeft-gy4na3 r-paddingRight-9aemit"
+          className="css-view-1dbjc4n r-alignItems-1oszu61 r-backgroundColor-1niwhzg r-borderStyle-1phboty r-borderWidth-1yadl64 r-display-6koalj r-flexGrow-16y2uox r-justifyContent-1777fci r-padding-t60dpp r-paddingLeft-gy4na3 r-paddingRight-9aemit"
           style={
             Object {
-              "backgroundColor": "rgba(0,0,0,0.00)",
               "borderBottomColor": "rgba(0,175,255,1.00)",
               "borderBottomLeftRadius": "50px",
               "borderBottomRightRadius": "50px",
-              "borderBottomWidth": "0px",
               "borderLeftColor": "rgba(0,175,255,1.00)",
-              "borderLeftWidth": "0px",
               "borderRightColor": "rgba(0,175,255,1.00)",
-              "borderRightWidth": "0px",
               "borderTopColor": "rgba(0,175,255,1.00)",
               "borderTopLeftRadius": "50px",
               "borderTopRightRadius": "50px",
-              "borderTopWidth": "0px",
               "marginBottom": "0px",
               "marginLeft": "0px",
               "marginRight": "0px",
@@ -609,7 +643,7 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
           </div>
         </div>
         <div
-          className="css-view-1dbjc4n r-alignItems-1oszu61 r-borderStyle-1phboty r-display-6koalj r-justifyContent-1777fci r-padding-t60dpp r-paddingLeft-gy4na3 r-paddingRight-9aemit"
+          className="css-view-1dbjc4n r-alignItems-1oszu61 r-borderStyle-1phboty r-borderWidth-1yadl64 r-display-6koalj r-justifyContent-1777fci r-padding-t60dpp r-paddingLeft-gy4na3 r-paddingRight-9aemit"
           style={
             Object {
               "WebkitBoxFlex": 10,
@@ -618,15 +652,11 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
               "borderBottomColor": "rgba(0,175,255,1.00)",
               "borderBottomLeftRadius": "50px",
               "borderBottomRightRadius": "50px",
-              "borderBottomWidth": "0px",
               "borderLeftColor": "rgba(0,175,255,1.00)",
-              "borderLeftWidth": "0px",
               "borderRightColor": "rgba(0,175,255,1.00)",
-              "borderRightWidth": "0px",
               "borderTopColor": "rgba(0,175,255,1.00)",
               "borderTopLeftRadius": "50px",
               "borderTopRightRadius": "50px",
-              "borderTopWidth": "0px",
               "flexGrow": 10,
               "marginBottom": "0px",
               "marginLeft": "0px",

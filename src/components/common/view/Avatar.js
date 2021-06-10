@@ -1,14 +1,14 @@
 // @flow
 import React, { useMemo } from 'react'
-import { TouchableOpacity, View } from 'react-native'
+import { Image, TouchableOpacity, View } from 'react-native'
 import { Avatar } from 'react-native-paper'
 
 import UnknownProfileSVG from '../../../assets/unknownProfile.svg'
 import { withStyles } from '../../../lib/styles'
 import useOnPress from '../../../lib/hooks/useOnPress'
-import { isGoodDollarImage, isValidImage } from '../../../lib/utils/image'
 
 import GoodDollarLogo from '../../../assets/Feed/favicon-96x96.svg'
+import useImageSource from '../../../lib/hooks/useImageSource'
 
 /**
  * Touchable Avatar
@@ -19,21 +19,29 @@ import GoodDollarLogo from '../../../assets/Feed/favicon-96x96.svg'
  * @param {Number} [props.size=34]
  * @returns {React.Node}
  */
-const CustomAvatar = ({ styles, style, source, onPress, size, imageSize, children, unknownStyle, ...avatarProps }) => {
+const CustomAvatar = ({
+  styles,
+  style,
+  imageStyle,
+  unknownStyle,
+  size,
+  imageSize,
+  plain,
+  source,
+  onPress,
+  children,
+  ...avatarProps
+}) => {
   const _onPress = useOnPress(onPress)
+  const [isGDLogo, imgSource] = useImageSource(source)
+  const ImageComponent = plain ? Image : Avatar.Image
 
-  const [_isGDLogo, _source] = useMemo(() => {
-    if (isGoodDollarImage(source)) {
-      return [true, null]
-    }
-
-    return [false, isValidImage(source)]
-  }, [source])
-
-  const [bgStyle, imageStyle] = useMemo(() => {
+  const calculatedStyles = useMemo(() => {
+    const container = { width: size, height: size, borderRadius: size / 2 }
     const background = { backgroundColor: 'rgba(0, 0, 0, 0)' }
+    const wrapper = { ...background, width: size, height: size }
 
-    return [background, { ...background, width: size, height: size }]
+    return { container, wrapper, background }
   }, [size])
 
   return (
@@ -41,17 +49,22 @@ const CustomAvatar = ({ styles, style, source, onPress, size, imageSize, childre
       activeOpacity={1}
       disabled={!onPress}
       onPress={_onPress}
-      style={[styles.avatarContainer, { width: size, height: size, borderRadius: size / 2 }, style]}
+      style={[styles.avatarContainer, calculatedStyles.container, style]}
       underlayColor="#fff"
     >
-      {_isGDLogo ? (
-        <View style={imageStyle} {...avatarProps}>
+      {isGDLogo ? (
+        <View style={calculatedStyles.wrapper} {...avatarProps}>
           <GoodDollarLogo />
         </View>
-      ) : _source ? (
-        <Avatar.Image size={imageSize || size - 2} source={_source} style={bgStyle} {...avatarProps} />
+      ) : imgSource ? (
+        <ImageComponent
+          size={imageSize || size - 2}
+          source={imgSource}
+          style={[calculatedStyles.background, imageStyle]}
+          {...avatarProps}
+        />
       ) : (
-        <View style={[imageStyle, unknownStyle]} {...avatarProps}>
+        <View style={[calculatedStyles.wrapper, unknownStyle]} {...avatarProps}>
           <UnknownProfileSVG />
         </View>
       )}
@@ -62,6 +75,7 @@ const CustomAvatar = ({ styles, style, source, onPress, size, imageSize, childre
 
 CustomAvatar.defaultProps = {
   size: 42,
+  plain: false,
 }
 
 const getStylesFromProps = ({ theme }) => ({

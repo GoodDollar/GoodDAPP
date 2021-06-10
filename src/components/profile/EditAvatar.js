@@ -8,6 +8,7 @@ import { useErrorDialog } from '../../lib/undux/utils/dialog'
 import logger from '../../lib/logger/pino-logger'
 import { CustomButton, Section, Wrapper } from '../common'
 import ImageCropper from '../common/form/ImageCropper'
+import useProfileAvatar from '../../lib/hooks/useProfileAvatar'
 
 const log = logger.child({ from: 'EditAvatar' })
 
@@ -23,7 +24,7 @@ const EditAvatar = ({ theme, screenProps }) => {
   const [isDirty, markAsDirty] = useState(false)
   const [processing, setProcessing] = useState(false)
 
-  const [avatar, setAvatar] = useState(profile.avatar)
+  const avatar = useProfileAvatar(profile.avatar, true)
   const croppedRef = useRef(avatar)
 
   const updateAvatar = useCallback(async () => {
@@ -52,15 +53,13 @@ const EditAvatar = ({ theme, screenProps }) => {
   )
 
   useEffect(() => {
-    if (!processing) {
-      const { avatar } = profile
-
-      setAvatar(avatar)
-      markAsDirty(false)
-
-      croppedRef.current = avatar
+    if (processing) {
+      return
     }
-  }, [profile])
+
+    markAsDirty(false)
+    croppedRef.current = avatar
+  }, [avatar])
 
   return (
     <Wrapper>

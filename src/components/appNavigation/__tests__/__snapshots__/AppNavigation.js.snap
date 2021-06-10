@@ -185,9 +185,28 @@ exports[`AppNavigation matches snapshot 1`] = `
                   tabIndex="0"
                 >
                   <div
-                    className="css-view-1dbjc4n r-borderRadius-ieixw r-height-1pi2tsx r-width-13qz1uu"
+                    aria-disabled={true}
+                    className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1niwhzg r-borderColor-y68mpx r-borderRadius-ieixw r-borderWidth-1yadl64 r-height-1pi2tsx r-justifyContent-1777fci r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-width-13qz1uu"
+                    disabled={true}
+                    onKeyDown={[Function]}
+                    onKeyUp={[Function]}
+                    onResponderGrant={[Function]}
+                    onResponderMove={[Function]}
+                    onResponderRelease={[Function]}
+                    onResponderTerminate={[Function]}
+                    onResponderTerminationRequest={[Function]}
+                    onStartShouldSetResponder={[Function]}
+                    style={
+                      Object {
+                        "opacity": 1,
+                      }
+                    }
                   >
-                    <unknownProfile.svg />
+                    <div
+                      className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-borderRadius-ieixw r-borderWidth-1yadl64 r-height-1pi2tsx r-width-13qz1uu"
+                    >
+                      <unknownProfile.svg />
+                    </div>
                   </div>
                 </div>
               </div>
@@ -254,7 +273,7 @@ exports[`AppNavigation matches snapshot 1`] = `
             className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-height-1k9zyfm r-justifyContent-1wtj0ep r-marginBottom-p1pxzi r-marginTop-1cvj4g8"
           >
             <div
-              className="css-view-1dbjc4n r-alignItems-1oszu61 r-display-6koalj r-flex-13awgt0 r-justifyContent-1777fci r-marginBottom-p1pxzi r-padding-t60dpp"
+              className="css-view-1dbjc4n r-alignItems-1oszu61 r-borderWidth-1yadl64 r-display-6koalj r-flex-13awgt0 r-justifyContent-1777fci r-marginBottom-p1pxzi r-padding-t60dpp"
               style={
                 Object {
                   "backgroundColor": "rgba(0,175,255,1.00)",
@@ -262,18 +281,14 @@ exports[`AppNavigation matches snapshot 1`] = `
                   "borderBottomLeftRadius": "50px",
                   "borderBottomRightRadius": "50px",
                   "borderBottomStyle": "solid",
-                  "borderBottomWidth": "0px",
                   "borderLeftColor": "rgba(0,175,255,1.00)",
                   "borderLeftStyle": "solid",
-                  "borderLeftWidth": "0px",
                   "borderRightColor": "rgba(0,175,255,1.00)",
                   "borderRightStyle": "solid",
-                  "borderRightWidth": "0px",
                   "borderTopColor": "rgba(0,175,255,1.00)",
                   "borderTopLeftRadius": "50px",
                   "borderTopRightRadius": "50px",
                   "borderTopStyle": "solid",
-                  "borderTopWidth": "0px",
                   "height": "44px",
                   "marginLeft": "0px",
                   "marginRight": "-12px",
@@ -451,7 +466,7 @@ exports[`AppNavigation matches snapshot 1`] = `
               </div>
             </div>
             <div
-              className="css-view-1dbjc4n r-alignItems-1oszu61 r-display-6koalj r-flex-13awgt0 r-justifyContent-1777fci r-marginBottom-p1pxzi r-padding-t60dpp"
+              className="css-view-1dbjc4n r-alignItems-1oszu61 r-borderWidth-1yadl64 r-display-6koalj r-flex-13awgt0 r-justifyContent-1777fci r-marginBottom-p1pxzi r-padding-t60dpp"
               style={
                 Object {
                   "backgroundColor": "rgba(0,175,255,1.00)",
@@ -459,18 +474,14 @@ exports[`AppNavigation matches snapshot 1`] = `
                   "borderBottomLeftRadius": "50px",
                   "borderBottomRightRadius": "50px",
                   "borderBottomStyle": "solid",
-                  "borderBottomWidth": "0px",
                   "borderLeftColor": "rgba(0,175,255,1.00)",
                   "borderLeftStyle": "solid",
-                  "borderLeftWidth": "0px",
                   "borderRightColor": "rgba(0,175,255,1.00)",
                   "borderRightStyle": "solid",
-                  "borderRightWidth": "0px",
                   "borderTopColor": "rgba(0,175,255,1.00)",
                   "borderTopLeftRadius": "50px",
                   "borderTopRightRadius": "50px",
                   "borderTopStyle": "solid",
-                  "borderTopWidth": "0px",
                   "height": "44px",
                   "marginLeft": "-12px",
                   "marginRight": "0px",

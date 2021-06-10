@@ -63,7 +63,7 @@ describe('generateCode', () => {
       counterPartyDisplayName,
       vendorInfo: {
         callbackUrl: 'http://shop.example.com/api/callback',
-        invoiceData: 'INV#33333',
+        invoiceId: 'INV#33333',
         website: 'http://shop.example.com',
         vendorName: 'Example Shop',
       },

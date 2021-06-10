@@ -55,7 +55,6 @@ import TransactionConfirmation from './TransactionConfirmation'
 import SendToAddress from './SendToAddress'
 import SendByQR from './SendByQR'
 import SendLinkSummary from './SendLinkSummary'
-import SendQRSummary from './SendQRSummary'
 import { ACTION_SEND } from './utils/sendReceiveFlow'
 
 import FaceVerification from './FaceVerification/screens/VerificationScreen'
@@ -833,8 +832,6 @@ export default createStackNavigator({
     path: 'FaceVerificationError/:kindOfTheIssue',
     params: { kindOfTheIssue: undefined },
   },
-
-  SendQRSummary,
 
   TransactionConfirmation: {
     screen: TransactionConfirmation,

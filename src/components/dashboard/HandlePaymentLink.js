@@ -53,7 +53,7 @@ const HandlePaymentLink = (props: HandlePaymentLinkProps) => {
             showCloseButtons: false,
           })
           const code = readCode(decodeURIComponent(anyParams.code))
-
+          log.debug('decoded payment request', { code })
           if (isTheSameUser(code) === false) {
             try {
               const { route, params } = await routeAndPathForCode('send', code)

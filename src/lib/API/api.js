@@ -399,6 +399,11 @@ export class APIService {
 
     return data.phase
   }
+
+  // eslint-disable-next-line require-await
+  async post(url, params) {
+    return this.client.post(url, params)
+  }
 }
 
 const api = new APIService()

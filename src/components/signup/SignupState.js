@@ -432,7 +432,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
         AsyncStorage.removeItem(GD_INITIAL_REG_METHOD),
       ])
 
-      fireSignupEvent('SUCCESS')
+      fireSignupEvent('SUCCESS', { torusProvider, inviteCode })
 
       log.debug('New user created')
       setLoading(false)

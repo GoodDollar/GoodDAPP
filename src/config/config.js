@@ -53,7 +53,7 @@ const Config = {
   serverUrl: env.REACT_APP_SERVER_URL || 'http://localhost:3003',
   gunPublicUrl: env.REACT_APP_GUN_PUBLIC_URL || 'http://localhost:3003/gun',
   nftStorageKey: env.REACT_APP_NFT_STORAGE_KEY,
-  nftPeers: (env.REACT_APP_NFT_PEERS || "https://ipfs.io/ipfs/{cid},https://cloudflare-ipfs.com/ipfs/{cid},https://{cid}.ipfs.dweb.link").split(","),
+  nftPeers: (env.REACT_APP_NFT_PEERS || "https://cloudflare-ipfs.com/ipfs/{cid},https://ipfs.io/ipfs/{cid},https://{cid}.ipfs.dweb.link").split(","),
   nftLazyUpload: env.REACT_APP_NFT_LAZY_UPLOAD === 'true',
   learnMoreEconomyUrl: env.REACT_APP_ECONOMY_URL || 'https://www.gooddollar.org/economic-model/',
   publicUrl,

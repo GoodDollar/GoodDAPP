@@ -158,13 +158,9 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
             txhash = hash
 
             // integrate with vendors callback, notifying payment has been made
-            const vendorCallback = get(vendorInfo, 'callbackUrl')
-            
-            if (vendorCallback) {
-              retry(() => API.post(vendorCallback, { transactionId: txhash, invoiceId: vendorInfo.invoiceId })).catch(
-                e => log.error('failed notifying vendor callback', { vendorInfo }),
-              )
-            }
+            retry(() => API.notifyVendor(txhash, vendorInfo).catch(
+              e => log.error('failed notifying vendor callback', { vendorInfo }),
+            )
 
             // Save transaction
             const transactionEvent: TransactionEvent = {

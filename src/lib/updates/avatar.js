@@ -54,7 +54,7 @@ const uploadCounterPartyAvatar = async feedEvent => {
     return
   }
 
-  return userStorage.feedStorage.updateFeedEvent({
+  userStorage.feedStorage.updateFeedEvent({
     ...feedEvent,
     data: {
       ...data,

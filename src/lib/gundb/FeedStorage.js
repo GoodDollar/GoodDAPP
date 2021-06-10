@@ -5,6 +5,7 @@ import {
   find,
   flatten,
   get,
+  has,
   isEqual,
   isError,
   isUndefined,
@@ -428,7 +429,6 @@ export class FeedStorage {
 
       let status = TxStatus.COMPLETED
       let otplStatus
-      let outboxData = {}
       let type = TxTypeToEventType[txType]
 
       switch (txType) {
@@ -450,10 +450,6 @@ export class FeedStorage {
         case TxType.TX_OTPL_CANCEL:
           //update index for payment links by paymentId, so we can update when we receive withdraw event
           status = TxStatus.CANCELED
-          break
-        case TxType.TX_RECEIVE_GD:
-          //check if sender left  encrypted tx details for us
-          outboxData = await this.getFromOutbox(feedEvent)
           break
         default:
           break
@@ -497,7 +493,6 @@ export class FeedStorage {
             eventSource: txEvent.address,
             ...txEvent.data,
           },
-          ...outboxData,
         },
       }
 
@@ -524,6 +519,19 @@ export class FeedStorage {
 
       log.debug('handleReceiptUpdate saving... done', receipt.transactionHash)
       this.updateFeedEventCounterParty(updatedFeedEvent)
+
+      if (TxType.TX_RECEIVE_GD) {
+        // if outbox data missing from event
+        if (
+          !has(updatedFeedEvent, 'data.reason') ||
+          !has(updatedFeedEvent, 'data.category') ||
+          !has(updatedFeedEvent, 'data.amount')
+        ) {
+          // check if sender left encrypted tx details for us, this will
+          // update source event once data received/decrypted via onDecrypt
+          this.getFromOutbox(updatedFeedEvent)
+        }
+      }
 
       return updatedFeedEvent
     } catch (e) {
@@ -983,7 +991,8 @@ export class FeedStorage {
 
         // if no item in the cache and it's some transaction
         // then getting tx item details from the wallet
-        if ((!item && id.startsWith('0x')) || (item && !get(item, 'data.reason'))) {
+
+        if (!item && id.startsWith('0x')) {
           const receipt = await this.wallet.getReceiptWithLogs(id).catch(e => {
             log.warn('getFeedPage no receipt found for id:', id, e.message, e)
           })
@@ -1064,17 +1073,35 @@ export class FeedStorage {
   async getFromOutbox(event: FeedEvent) {
     let senderPubkey = await this.userStorage.getUserProfilePublickey(get(event, 'data.receiptEvent.from'))
     let recipientPubkey = this.gunuser.is.pub
-    if (senderPubkey) {
-      const data = await this.gun
-        .get(senderPubkey)
-        .get('outbox')
-        .get(recipientPubkey)
-        .get(event.id)
-        .decrypt()
-      log.debug('getFromOutbox:', { id: event.id, recipientPubkey, senderPubkey, data })
-      return data
+
+    if (!senderPubkey) {
+      log.warn('getFromOutbox sender not found:', { event })
+      return
     }
-    log.warn('getFromOutbox sender not found:', { event })
+
+    log.debug('getFromOutbox sender found:', { event, senderPubkey, recipientPubkey })
+
+    const { data } = event
+    const decryptedData = await this.gun
+      .get(senderPubkey)
+      .get('outbox')
+      .get(recipientPubkey)
+      .get(event.id)
+      .onDecrypt()
+
+    const updatedEvent = {
+      ...event,
+      data: {
+        ...data,
+        ...(decryptedData || {}),
+      },
+    }
+
+    log.debug('getFromOutbox decrypted data:', { data })
+    this.updateFeedEvent(updatedEvent)
+
+    log.debug('getFromOutbox updated event:', { updatedEvent })
+    return decryptedData
   }
 
   emitUpdate(event) {

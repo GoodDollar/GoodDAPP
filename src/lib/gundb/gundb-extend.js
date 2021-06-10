@@ -1,4 +1,4 @@
-import { assign, identity, noop } from 'lodash'
+import { assign, identity, isFunction, noop, over } from 'lodash'
 
 import Gun from '@gooddollar/gun'
 import SEA from '@gooddollar/gun/sea'
@@ -90,6 +90,34 @@ assign(chain, {
     }
 
     return (callback || identity)(decryptedData)
+  },
+
+  /**
+   * Returns the decrypted value
+   * @returns {Promise<any>}
+   */
+  // eslint-disable-next-line require-await
+  async onDecrypt(callback = null) {
+    let _resolve
+    let decryptedData = null
+    const resolve = value => over([callback, _resolve].filter(isFunction))(value)
+    const promise = new Promise(resolve => (_resolve = resolve))
+
+    // firstly we'll got the node data
+    this.on(async (encryptedData, nodeID, message, event) => {
+      event.off()
+
+      // if it's empty - no need to get secure key. just resolve with null
+      if (encryptedData != null) {
+        const secureKey = await getSecureKey(this)
+
+        decryptedData = await SEA.decrypt(encryptedData, secureKey)
+      }
+
+      resolve(decryptedData)
+    })
+
+    return promise
   },
 })
 

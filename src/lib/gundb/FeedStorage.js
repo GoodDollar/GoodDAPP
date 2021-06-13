@@ -533,7 +533,7 @@ export class FeedStorage {
         ) {
           // check if sender left encrypted tx details for us, this will
           // update source event once data received/decrypted via onDecrypt
-          this.getFromOutbox(updatedFeedEvent)
+          await this.getFromOutbox(updatedFeedEvent)
         }
       }
 

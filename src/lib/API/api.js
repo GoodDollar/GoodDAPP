@@ -399,6 +399,16 @@ export class APIService {
 
     return data.phase
   }
+  // eslint-disable-next-line require-await
+  async notifyVendor(transactionId, vendorInfo) {
+    const { callbackUrl, invoiceId } = vendorInfo || {}
+    
+    if (!callbackUrl) {
+      return  // or throw error
+    }
+    
+    return this.client.post(callbackUrl, { invoiceId, transactionId })
+  }
 }
 
 const api = new APIService()

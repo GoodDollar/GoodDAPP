@@ -13,10 +13,12 @@ import OtpInput from '../common/form/OtpInput'
 import useOnPress from '../../lib/hooks/useOnPress'
 import LoadingIndicator from '../common/view/LoadingIndicator'
 import { fireEvent, SIGNUP_RETRY_SMS } from '../../lib/analytics/analytics'
+import Config from '../../config/config'
 import CustomWrapper from './signUpWrapper'
 import type { SignupState } from './SignupState'
 
 const log = logger.child({ from: 'SmsForm' })
+const { smsRateLimit } = Config
 
 type Props = {
   phone: string,
@@ -192,7 +194,7 @@ const SMSAction = ({
     if (showWait) {
       setTimeout(() => {
         setWait(false)
-      }, 10000)
+      }, smsRateLimit)
     }
   }, [showWait])
 

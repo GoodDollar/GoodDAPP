@@ -42,6 +42,7 @@ const EditProfile = ({ screenProps, theme, styles, navigation }) => {
     case 'email':
     default:
       fieldToSend = 'email'
+      fieldToSave = 'email'
       fieldToShow = 'email'
       sendToText = 'email'
       sendCodeRequestFn = 'sendVerificationEmail'
@@ -56,7 +57,7 @@ const EditProfile = ({ screenProps, theme, styles, navigation }) => {
 
       const { data } = await API[sendCodeRequestFn]({ [fieldToSend]: content })
       if (data.alreadyVerified) {
-        logger.debug('sendOTP', { data, fieldToSave, content })
+        logger.debug('send code', { data, fieldToSave, content })
         await userStorage.setProfileField(fieldToSave, content)
         screenProps.pop()
       } else {

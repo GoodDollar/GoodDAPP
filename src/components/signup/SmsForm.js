@@ -206,8 +206,9 @@ const SMSAction = ({
       }, 1000)
 
       setTimeout(() => {
-        if (x) {
-          clearInterval(x)
+        if (xRef.current) {
+          clearInterval(xRef.current)
+          xRef.current = null
         }
         setWait(false)
       }, smsRateLimit)

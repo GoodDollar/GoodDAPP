@@ -47,7 +47,7 @@ class Base64Storage {
     const { peers } = this
 
     return fallback(
-      peers.map(async peer => {
+      peers.map(peer => async () => {
         const url = peer.replace('{cid}', cid)
         const response = await fetch(url)
 

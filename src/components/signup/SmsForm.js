@@ -184,17 +184,35 @@ const SMSAction = ({
   tries,
   styles,
 }) => {
+  const smsRateLimitNormalized = smsRateLimit / 1000
   const [showWait, setWait] = useState(true)
+  const [waitTime, setWaitTime] = useState(smsRateLimitNormalized)
   const [isCall, setIsCall] = useState(false)
   const _handleRetry = useOnPress(handleRetry)
   const _handleRetryWithCall = useOnPress(handleRetryWithCall)
   const _handleSkip = useOnPress(handleSkip)
 
+  let x
   useEffect(() => {
-    if (showWait) {
+    // if sent call (after several sms retries) don't wait until countdown completes to show "skip" message
+    if (showWait && !isCall) {
+      let value = smsRateLimitNormalized
+      x = setInterval(() => {
+        value--
+        if (!value) {
+          value = smsRateLimitNormalized
+        }
+        setWaitTime(value)
+      }, 1000)
+
       setTimeout(() => {
+        if (x) {
+          clearInterval(x)
+        }
         setWait(false)
       }, smsRateLimit)
+    } else {
+      setWait(false)
     }
   }, [showWait])
 
@@ -254,7 +272,7 @@ const SMSAction = ({
 
   return (
     <Section.Text fontSize={14} color="gray80Percent">
-      Please wait a few seconds until the {isCall ? 'call' : 'SMS'} arrives
+      Please wait {waitTime} seconds until the {isCall ? 'call' : 'SMS'} arrives
     </Section.Text>
   )
 }

@@ -192,7 +192,7 @@ const SMSAction = ({
   const _handleRetryWithCall = useOnPress(handleRetryWithCall)
   const _handleSkip = useOnPress(handleSkip)
 
-  let x
+  const xRef = useRef()
   useEffect(() => {
     // if sent call (after several sms retries) don't wait until countdown completes to show "skip" message
     if (showWait && !isCall) {

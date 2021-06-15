@@ -197,7 +197,7 @@ const SMSAction = ({
     // if sent call (after several sms retries) don't wait until countdown completes to show "skip" message
     if (showWait && !isCall) {
       let value = smsRateLimitNormalized
-      x = setInterval(() => {
+      xRef.current = setInterval(() => {
         value--
         if (!value) {
           value = smsRateLimitNormalized

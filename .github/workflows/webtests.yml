@@ -56,7 +56,7 @@ jobs:
           npm version minor -m "chore: release prod version %s [skip build]"
           git push https://${{ secrets.GIT_AUTH }}@github.com/GoodDollar/GoodDAPP staging:${{ github.event.inputs.targetbranch }} --force --follow-tags
           git checkout master
-          git merge staging -Xtheirs
+          git merge staging
           git push https://${{ secrets.GIT_AUTH }}@github.com/GoodDollar/GoodDAPP master --follow-tags
 
   setup:

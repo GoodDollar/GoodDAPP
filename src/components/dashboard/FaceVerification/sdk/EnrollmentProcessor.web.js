@@ -254,23 +254,27 @@ export class EnrollmentProcessor {
     const { subscriber, _waitForSDKUIElementVisible, _deviceOrientationHanlder, _onDeviceOrientationChanged } = this
 
     try {
-      // notifying subscriber that UI is ready
-      _waitForSDKUIElementVisible('DOM_FT_getReadyActionButton', () => subscriber.onUIReady())
+      // trying to retrieve session ID from Zoom server
+      const sessionId = await api.issueSessionToken()
+
+      _waitForSDKUIElementVisible('DOM_FT_getReadyActionButton', () => {
+        // notifying subscriber that UI is ready
+        subscriber.onUIReady()
+
+        if (isMobileWeb) {
+          // somethimes SDK doesn't detect orientation cnaged on web
+          // we adding also own custom listener with 1000ms debounce
+          // if SDK won't handle event during this timegap, we'll do it
+          listenOrientationChange(_deviceOrientationHanlder)
+        }
+      })
 
       if (isMobileWeb) {
         // If device orientation changed before FV session initialized and ready screen shown,
         // SDK shows camera permissions popup (even the built-in camera screen is disabled in UICustomiuzation).
         // If press OK in this dialog, FV session then crashes with white screen
         _waitForSDKUIElementVisible('DOM_FT_cameraPermissionsScreen', _onDeviceOrientationChanged)
-
-        // somethimes SDK doesn't detect orientation cnaged on web
-        // we adding also own custom listener with 1000ms debounce
-        // if SDK won't handle event during this timegap, we'll do it
-        listenOrientationChange(_deviceOrientationHanlder)
       }
-
-      // trying to retrieve session ID from Zoom server
-      const sessionId = await api.issueSessionToken()
 
       // if we've got session ID - starting enrollment session
       new FaceTecSession(this, sessionId)

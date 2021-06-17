@@ -472,7 +472,8 @@ export class FeedStorage {
       })
 
       // reprocess same receipt in case we updated data format, only skip strictly older
-      if (receiptDate.getTime() < new Date(feedEvent.date).getTime()) {
+      // we can get receipt without having a previous feed item, so veerify .date field exists
+      if (feedEvent.date && receiptDate.getTime() < new Date(feedEvent.date).getTime()) {
         return feedEvent
       }
 

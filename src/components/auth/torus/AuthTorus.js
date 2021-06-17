@@ -1,7 +1,7 @@
 // @flow
 import React, { useCallback, useEffect, useState } from 'react'
 import { Paragraph } from 'react-native-paper'
-import { View } from 'react-native'
+import { Platform, View } from 'react-native'
 import { get } from 'lodash'
 import AsyncStorage from '../../../lib/utils/asyncStorage'
 import logger from '../../../lib/logger/pino-logger'
@@ -39,8 +39,6 @@ import ready from '../ready'
 import SignUpIn from '../login/SignUpScreen'
 
 import LoadingIcon from '../../common/modal/LoadingIcon'
-
-// import SpinnerCheckMark from '../../common/animations/SpinnerCheckMark'
 
 import { timeout } from '../../../lib/utils/async'
 import DeepLinking from '../../../lib/utils/deepLinking'
@@ -144,8 +142,9 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
     async provider => {
       if (['development', 'test'].includes(config.env)) {
         const torusUser = await AsyncStorage.getItem('TorusTestUser')
+
         if (torusUser != null) {
-          return Promise.resolve(torusUser)
+          return torusUser
         }
       }
 
@@ -198,6 +197,25 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
       showCloseButtons: false,
     })
   }
+
+  const showSignupError = useCallback(
+    (exception = null) => {
+      let suggestion = 'Please try again.'
+      const { message = '' } = exception || {}
+
+      if (message.includes('NoAllowedBrowserFoundException')) {
+        const suggestedBrowser = Platform.select({
+          ios: 'Safari',
+          android: 'Chrome',
+        })
+
+        suggestion = `Your default browser isn't supported. Please, set ${suggestedBrowser} as default and try again.`
+      }
+
+      showErrorDialog(`We were unable to complete the signup. ${suggestion}`)
+    },
+    [showErrorDialog],
+  )
 
   const showNotSignedUp = provider => {
     let resolve
@@ -288,7 +306,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
         AsyncStorage.setItem('recallTorusRedirectProvider', provider)
         authScreen && AsyncStorage.setItem('recallTorusRedirectScreen', authScreen)
 
-        await getTorusUser(provider)
+        await getTorusUser(provider).catch(showSignupError)
         return
       }
 
@@ -297,23 +315,30 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
         provider = await AsyncStorage.getItem('recallTorusRedirectProvider')
       }
 
-      const { torusUser, replacing } = await handleTorusResponse(
-        torusUserRedirectPromise || getTorusUser(provider),
-        provider,
-      )
+      let torusResponse
 
-      if (torusUser == null) {
-        showErrorDialog('We were unable to complete the signup. Please try again.')
+      try {
+        torusResponse = await handleTorusResponse(torusUserRedirectPromise || getTorusUser(provider), provider)
+
+        if (get(torusResponse, 'torusUser') == null) {
+          throw new Error('Invalid Torus response.')
+        }
+      } catch (exception) {
+        showSignupError(exception)
         return
       }
 
+      const { torusUser, replacing } = torusResponse
       const existsResult = await userExists(torusUser)
-      log.debug('checking userAlreadyExist', { isSignup, existsResult })
       let selection = authScreen
+
+      log.debug('checking userAlreadyExist', { isSignup, existsResult })
+
       if (isSignup) {
-        //if user identifier exists or email/mobile found in another account
+        // if user identifier exists or email/mobile found in another account
         if (existsResult.exists) {
           selection = await showAlreadySignedUp(provider, existsResult)
+
           if (selection === 'signin') {
             return setAuthScreen('signin')
           }
@@ -321,6 +346,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
       } else if (isSignup === false && existsResult.identifier !== true) {
         //no account with identifier found = user didn't signup
         selection = await showNotSignedUp(provider)
+
         return setAuthScreen(selection)
       }
 

@@ -40,7 +40,11 @@ class Torus {
       return loginOptions
     }
 
-    return { ...loginOptions, preferCustomTabs: true }
+    return {
+      ...loginOptions,
+      preferCustomTabs: true,
+      allowedBrowsers: ['com.android.chrome', 'com.google.android.apps.chrome', 'com.android.chrome.beta'],
+    }
   }
 }
 

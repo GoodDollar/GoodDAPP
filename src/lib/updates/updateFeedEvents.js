@@ -1,7 +1,7 @@
 import { get } from 'lodash'
 import userStorage from '../gundb/UserStorage'
 
-const fromDate = new Date('2020/06/17')
+const fromDate = new Date('2021/06/17')
 
 /**
  * fix broken feed items

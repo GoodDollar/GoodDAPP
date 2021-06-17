@@ -524,7 +524,7 @@ export class FeedStorage {
       log.debug('handleReceiptUpdate saving... done', receipt.transactionHash)
       this.updateFeedEventCounterParty(updatedFeedEvent)
 
-      if (TxType.TX_RECEIVE_GD) {
+      if (txType === TxType.TX_RECEIVE_GD) {
         // if outbox data missing from event
         if (
           !has(updatedFeedEvent, 'data.reason') ||
@@ -537,6 +537,7 @@ export class FeedStorage {
         }
       }
 
+      log.debug('handleReceiptUpdate done, returning updatedFeedEvent', receipt.transactionHash, { updatedFeedEvent })
       return updatedFeedEvent
     } catch (e) {
       log.error('handleReceiptUpdate failed', e.message, e)
@@ -1094,11 +1095,11 @@ export class FeedStorage {
     let recipientPubkey = this.gunuser.is.pub
 
     if (!senderPubkey) {
-      log.warn('getFromOutbox sender not found:', { event })
+      log.warn('getFromOutbox sender not found:', event.id, { event })
       return
     }
 
-    log.debug('getFromOutbox sender found:', { event, senderPubkey, recipientPubkey })
+    log.debug('getFromOutbox sender found:', event.id, { event, senderPubkey, recipientPubkey })
 
     const { data } = event
     const decryptedData = await this.gun
@@ -1116,10 +1117,10 @@ export class FeedStorage {
       },
     }
 
-    log.debug('getFromOutbox decrypted data:', { data })
+    log.debug('getFromOutbox decrypted data:', event.id, { data })
     this.updateFeedEvent(updatedEvent)
 
-    log.debug('getFromOutbox updated event:', { updatedEvent })
+    log.debug('getFromOutbox updated event:', event.id, { updatedEvent })
     return decryptedData
   }
 

@@ -471,8 +471,8 @@ export class FeedStorage {
         feedEvent,
       })
 
-      // reprocess same receipt in case we updated data format, always process newer
-      if (receiptDate.getTime() <= new Date(feedEvent.date).getTime()) {
+      // reprocess same receipt in case we updated data format, only skip strictly older
+      if (receiptDate.getTime() < new Date(feedEvent.date).getTime()) {
         return feedEvent
       }
 

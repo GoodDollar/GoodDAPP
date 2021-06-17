@@ -19,8 +19,7 @@ const ErrorScreen = ({ styles, screenProps, navigation }) => {
   const { isReachedMaxAttempts } = useVerificationAttempts()
 
   const exception = get(screenProps, 'screenState.error')
-  const { kindOfTheIssue: fromParams } = get(navigation, 'state.params', {})
-  const kindOfTheIssue = get(exception, 'name', fromParams)
+  const kindOfTheIssue = get(exception, 'name')
 
   const title = useMemo(() => {
     const { fullName } = store.get('profile')

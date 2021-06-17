@@ -829,12 +829,6 @@ export default createStackNavigator({
   FaceVerificationIntro,
   FaceVerificationError,
 
-  FaceVerificationIssue: {
-    screen: FaceVerificationError,
-    path: 'FaceVerificationError/:kindOfTheIssue',
-    params: { kindOfTheIssue: undefined },
-  },
-
   TransactionConfirmation: {
     screen: TransactionConfirmation,
     path: ':action/TransactionConfirmation',

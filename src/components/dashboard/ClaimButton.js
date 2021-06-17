@@ -99,13 +99,14 @@ export const ButtonCountdown = ({ styles, nextClaim }) => (
     <Section.Row style={styles.countDownTimer}>
       {nextClaim &&
         nextClaim.split('').map((value, index) => {
+          const additionalStyle = value === ':' ? styles.tallCountDown : null
           return (
             <Text
               key={index}
               fontSize={30}
               fontFamily="Roboto Slab"
               fontWeight="bold"
-              style={[styles.countdown, ~[2, 5].indexOf(index) && styles.tallCountDown]}
+              style={[styles.countdown, additionalStyle]}
               lineHeight={40}
               textAlign={'center'}
             >

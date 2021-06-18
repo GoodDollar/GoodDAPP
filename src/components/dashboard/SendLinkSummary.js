@@ -40,7 +40,16 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
 
   const { goToRoot, navigateTo } = screenProps
   const { fullName } = gdstore.get('profile')
-  const { amount, reason = null, category = null, counterPartyDisplayName, contact, address, action } = screenState
+  const {
+    amount,
+    reason = null,
+    category = null,
+    counterPartyDisplayName,
+    contact,
+    address,
+    action,
+    vendorInfo = null,
+  } = screenState
 
   // Going to root after shared
   useEffect(() => {
@@ -271,6 +280,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
       iconName="send"
       title="YOU ARE SENDING"
       action="send"
+      vendorInfo={vendorInfo}
     />
   )
 }

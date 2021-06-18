@@ -33,6 +33,7 @@ const BorderedBox = ({
   enableIndicateAction = false,
   showCopyIcon = true,
   onCopied = noop,
+  disableCopy = false,
 }) => {
   // show the copy success message or no
   const [performed, setPerformed] = useState(false)
@@ -126,37 +127,45 @@ const BorderedBox = ({
           </Section.Text>
           {children}
         </Section.Stack>
-        <View style={[styles.copyIconLineSeparator, showCopyIcon ? null : styles.copyButtonLineSeparator]} />
+        {disableCopy ? (
+          <div />
+        ) : (
+          <View style={[styles.copyIconLineSeparator, showCopyIcon ? null : styles.copyButtonLineSeparator]} />
+        )}
       </Section.Stack>
-      <View style={styles.boxCopyIconOuter}>
-        <View style={[styles.boxCopyIconWrapper, showCopyIcon ? null : styles.boxCopyButtonWrapper]}>
-          {showCopyIcon ? (
-            <>
-              <RoundIconButton
-                onPress={copyToClipboard}
-                iconSize={22}
-                iconName="copy"
-                style={styles.copyIconContainer}
-              />
-              <Section.Text fontSize={10} fontWeight="medium" color={theme.colors.primary}>
+      {disableCopy ? (
+        <div />
+      ) : (
+        <View style={styles.boxCopyIconOuter}>
+          <View style={[styles.boxCopyIconWrapper, showCopyIcon ? null : styles.boxCopyButtonWrapper]}>
+            {showCopyIcon ? (
+              <>
+                <RoundIconButton
+                  onPress={copyToClipboard}
+                  iconSize={22}
+                  iconName="copy"
+                  style={styles.copyIconContainer}
+                />
+                <Section.Text fontSize={10} fontWeight="medium" color={theme.colors.primary}>
+                  {copyButtonText}
+                </Section.Text>
+              </>
+            ) : enableIndicateAction && performed ? (
+              <CustomButton
+                style={[styles.copyButtonContainer, styles.performedButtonStyle]}
+                textStyle={styles.performedButtonText}
+                disabled
+              >
+                Copied
+              </CustomButton>
+            ) : (
+              <CustomButton onPress={copyToClipboard} style={styles.copyButtonContainer}>
                 {copyButtonText}
-              </Section.Text>
-            </>
-          ) : enableIndicateAction && performed ? (
-            <CustomButton
-              style={[styles.copyButtonContainer, styles.performedButtonStyle]}
-              textStyle={styles.performedButtonText}
-              disabled
-            >
-              Copied
-            </CustomButton>
-          ) : (
-            <CustomButton onPress={copyToClipboard} style={styles.copyButtonContainer}>
-              {copyButtonText}
-            </CustomButton>
-          )}
+              </CustomButton>
+            )}
+          </View>
         </View>
-      </View>
+      )}
     </View>
   )
 }

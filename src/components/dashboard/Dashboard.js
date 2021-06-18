@@ -1,6 +1,6 @@
 // @flow
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { Animated, Dimensions, Easing, Image, Platform, TouchableOpacity, View } from 'react-native'
+import { Animated, Dimensions, Easing, Platform, TouchableOpacity, View } from 'react-native'
 import { concat, debounce, get, noop, uniqBy } from 'lodash'
 import Mutex from 'await-mutex'
 import type { Store } from 'undux'
@@ -33,9 +33,9 @@ import Mnemonics from '../signin/Mnemonics'
 import useDeleteAccountDialog from '../../lib/hooks/useDeleteAccountDialog'
 import { getMaxDeviceWidth, measure } from '../../lib/utils/sizes'
 import { theme as _theme } from '../theme/styles'
-import UnknownProfileSVG from '../../assets/unknownProfile.svg'
 import useOnPress from '../../lib/hooks/useOnPress'
 import Invite from '../invite/Invite'
+import Avatar from '../common/view/Avatar'
 import _debounce from '../../lib/utils/debounce'
 import PrivacyPolicyAndTerms from './PrivacyPolicyAndTerms'
 import Amount from './Amount'
@@ -55,7 +55,6 @@ import TransactionConfirmation from './TransactionConfirmation'
 import SendToAddress from './SendToAddress'
 import SendByQR from './SendByQR'
 import SendLinkSummary from './SendLinkSummary'
-import SendQRSummary from './SendQRSummary'
 import { ACTION_SEND } from './utils/sendReceiveFlow'
 
 import FaceVerification from './FaceVerification/screens/VerificationScreen'
@@ -178,8 +177,8 @@ const Dashboard = props => {
           }
           res = (await feedPromise) || []
           res.length > 0 && !didRender && store.set('feedLoadAnimShown')(true)
-          res.length > 0 && setFeeds(res)
           feedRef.current = res
+          res.length > 0 && setFeeds(res)
         } else {
           res = (await feedPromise) || []
           const newFeed = uniqBy(concat(feedRef.current, res), 'id')
@@ -587,13 +586,13 @@ const Dashboard = props => {
           <Section.Stack alignItems="center" style={styles.headerWrapper}>
             <Animated.View style={avatarAnimStyles}>
               <TouchableOpacity onPress={goToProfile} style={styles.avatarWrapper}>
-                {avatar ? (
-                  <Image source={{ uri: avatar }} style={styles.avatar} />
-                ) : (
-                  <View style={styles.avatar}>
-                    <UnknownProfileSVG />
-                  </View>
-                )}
+                <Avatar
+                  source={avatar}
+                  style={styles.avatar}
+                  imageStyle={styles.avatar}
+                  unknownStyle={styles.avatar}
+                  plain
+                />
               </TouchableOpacity>
             </Animated.View>
             <Animated.View style={[styles.headerFullName, fullNameAnimateStyles]}>
@@ -735,12 +734,14 @@ const getStylesFromProps = ({ theme }) => ({
     width: '100%',
   },
   avatar: {
+    width: '100%',
+    height: '100%',
+    borderWidth: 0,
+    backgroundColor: 'transparent',
     borderRadius: Platform.select({
       web: '50%',
       default: 150 / 2,
     }),
-    height: '100%',
-    width: '100%',
   },
   buttonsRow: {
     alignItems: 'center',
@@ -827,8 +828,6 @@ export default createStackNavigator({
   FaceVerification,
   FaceVerificationIntro,
   FaceVerificationError,
-
-  SendQRSummary,
 
   TransactionConfirmation: {
     screen: TransactionConfirmation,

@@ -1,6 +1,6 @@
 // libraries
 import React, { useCallback, useMemo, useState } from 'react'
-import { Image, View } from 'react-native'
+import { View } from 'react-native'
 
 // components
 import { noop } from 'lodash'
@@ -58,6 +58,7 @@ const BorderedBox = ({
       : {
           top: -halfBoxSize,
         }
+
     return [
       styles.avatar,
       {
@@ -94,20 +95,18 @@ const BorderedBox = ({
       },
   )
 
-  const ImgComponent = image
-  const imgSource = useMemo(() => imageSource && { uri: imageSource }, [imageSource])
+  const ImageComponent = image
+  const [, imageStyle] = avatarStyles
 
   return (
     <View style={wrapperContainerStyles}>
       <Section.Stack style={[styles.borderedBox, enableSideMode && { borderRadius: 10 }]}>
         <View style={lineSeparatorStyles} />
-        {imageSource ? (
-          <Image source={imgSource} style={avatarStyles} />
-        ) : image ? (
+        {image && (
           <View style={avatarStyles}>
-            <ImgComponent />
+            <ImageComponent style={imageStyle} />
           </View>
-        ) : null}
+        )}
         <Section.Stack style={enableSideMode ? styles.boxShortContent : styles.boxContent}>
           <Section.Text
             fontSize={18}

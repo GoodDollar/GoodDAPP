@@ -8,7 +8,7 @@ import { isE2ERunning, isEmulator, isIOSNative } from '../../../../lib/utils/pla
 // Zoom SDK reference & helpers
 import api from '../api/FaceVerificationApi'
 import { FaceTecSDK } from '../sdk/FaceTecSDK'
-import { ExceptionType, kindOfSessionIssue } from '../utils/kindOfTheIssue'
+import { ExceptionType, hideRedBoxIfNonCritical, kindOfSessionIssue } from '../utils/kindOfTheIssue'
 import { MAX_RETRIES_ALLOWED, resultSuccessMessage } from '../sdk/FaceTecSDK.constants'
 import useRealtimeProps from '../../../../lib/hooks/useRealtimeProps'
 
@@ -22,7 +22,7 @@ const emptyBase64 = btoa(String.fromCharCode(0x20).repeat(40))
  * @property {string} config.enrollmentIdentifier Unique identifier string used for identify enrollment
  * @property {(lastMessage: string) => void} config.onSuccess Verification completion callback
  * @property @param {string} config.onSuccess.lastMessage Last status message (got from session status, server response or error thrown)
- * @property {(error: Error) => void} config.onError - Verfifcication error callback
+ * @property {(error: Error) => void} config.onError - Verification error callback
  *
  * @return {async () => Promise<void>} Function that starts verification/enrollment process
  */
@@ -46,7 +46,7 @@ export default (options = null) => {
   const accessors = useRealtimeProps([onUIReady, onCaptureDone, onRetry, onComplete, onError, maxRetries])
 
   // Starts verification/enrollment process
-  // Wrapped to useCallback for incapsulate session in a single call
+  // Wrapped to useCallback for encapsulate session in a single call
   // and execute corresponding callback on completion or error
   const startVerification = useCallback(async () => {
     // destructuring accessors keeping theirs names the
@@ -83,7 +83,7 @@ export default (options = null) => {
       return
     }
 
-    // preparing varification options object
+    // preparing verification options object
     const maxRetries = getMaxRetries()
     const verificationOptions = { onUIReady, onCaptureDone, onRetry, maxRetries }
 
@@ -96,7 +96,7 @@ export default (options = null) => {
     try {
       const verificationStatus = await FaceTecSDK.faceVerification(enrollmentIdentifier, verificationOptions)
 
-      log.debug('Zoom verification successfull', { verificationStatus })
+      log.debug('Zoom verification successful', { verificationStatus })
       onComplete(verificationStatus)
     } catch (exception) {
       let { message, name } = exception
@@ -123,7 +123,9 @@ export default (options = null) => {
       const dialogShown = name === 'NotAllowedError'
 
       assign(exception, { type: ExceptionType.Session, name })
-      log.error('Zoom verification failed', message, exception, { dialogShown })
+      hideRedBoxIfNonCritical(exception, () =>
+        log.error('Zoom verification failed', message, exception, { dialogShown }),
+      )
 
       onError(exception)
     } finally {

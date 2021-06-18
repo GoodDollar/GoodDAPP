@@ -66,7 +66,7 @@ const syncTXFromBlockchain = async () => {
       await userStorage.syncTxWithBlockchain(joinedAtBlockNumber)
       await userStorage.userProperties.set('lastTxSyncDate', now.valueOf())
     } catch (e) {
-      log.error('syncTXFromBlockchain failed', e.message, e)
+      log.warn('syncTXFromBlockchain failed', e.message, e)
     }
   }
 }
@@ -187,7 +187,6 @@ const AppSwitch = (props: LoadingProps) => {
       unsuccessfulLaunchAttempts += 1
 
       if (dialogShown) {
-        //TODO: FIX window.location for RN
         log.error('failed initializing app', e.message, e, { dialogShown })
         showErrorDialog('Wallet could not be loaded. Please refresh.', '', { onDismiss: () => restart('/') })
       } else {

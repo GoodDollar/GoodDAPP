@@ -1,5 +1,5 @@
 import bip39 from 'bip39-light'
-import { DESTINATION_PATH } from '../constants/localStorage'
+import { DESTINATION_PATH, INVITE_CODE } from '../constants/localStorage'
 import DeepLinking from '../../lib/utils/deepLinking'
 import { fireEvent, SIGNIN_FAILED, SIGNIN_SUCCESS } from '../../lib/analytics/analytics'
 import AsyncStorage from './asyncStorage'
@@ -16,7 +16,12 @@ const handleLinks = async log => {
   const params = DeepLinking.params
 
   try {
-    const { magiclink } = params
+    const { magiclink, inviteCode } = params
+
+    //if invite code exists, persist in asyncstorage
+    if (inviteCode) {
+      AsyncStorage.setItem(INVITE_CODE, inviteCode)
+    }
 
     if (magiclink) {
       let userNameAndPWD = Buffer.from(decodeURIComponent(magiclink), 'base64').toString()

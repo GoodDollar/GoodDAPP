@@ -1,6 +1,22 @@
 //@flow
-import { Platform } from 'react-native'
-import { debounce, defaults, get, isEmpty, isError, isNil, isString, keys, memoize, over, pick, values } from 'lodash'
+
+import {
+  debounce,
+  defaults,
+  get,
+  isEmpty,
+  isError,
+  isFunction,
+  isNil,
+  isString,
+  keys,
+  last,
+  memoize,
+  over,
+  pick,
+  values,
+} from 'lodash'
+
 import moment from 'moment'
 import Gun from '@gooddollar/gun'
 import SEA from '@gooddollar/gun/sea'
@@ -16,10 +32,11 @@ import API from '../API/api'
 import pino from '../logger/pino-logger'
 import { ExceptionCategory } from '../logger/exceptions'
 import isMobilePhone from '../validators/isMobilePhone'
-import { resizeImage } from '../utils/image'
+import { isValidBase64Image, isValidCIDImage, resizeImage } from '../utils/image'
 
 import { GD_GUN_CREDENTIALS } from '../constants/localStorage'
 import AsyncStorage from '../utils/asyncStorage'
+import Base64Storage from '../nft/Base64Storage'
 import defaultGun from './gundb'
 import UserProperties from './UserPropertiesClass'
 import { getUserModel, type UserModel } from './UserModel'
@@ -29,11 +46,6 @@ import { FeedEvent, FeedItemType, FeedStorage, TxStatus } from './FeedStorage'
 const logger = pino.child({ from: 'UserStorage' })
 
 const NULL_ADDRESS = '0x0000000000000000000000000000000000000000'
-
-const favicon = Platform.select({
-  web: `${process.env.PUBLIC_URL}/favicon-96x96.png`,
-  default: require('../../assets/Feed/favicon-96x96.png'),
-})
 
 /**
  * User details returned from Gun SEA
@@ -206,12 +218,6 @@ export class UserStorage {
   wallet: GoodWallet
 
   /**
-   * a gun node refering to gun.user()
-   * @instance {Gun}
-   */
-  // gunuser: Gun
-
-  /**
    * a gun node referring to gun
    * @instance {Gun}
    */
@@ -228,18 +234,6 @@ export class UserStorage {
    * @instance {UserProperties}
    */
   userProperties: UserProperties
-
-  /**
-   * a gun node refering to gun.user().get('profile')
-   * @instance {Gun}
-   */
-  // profile: Gun
-
-  /**
-   * a gun node refering to gun.user().get('feed')
-   * @instance {Gun}
-   */
-  // feed: Gun
 
   /**
    * current feed item
@@ -383,14 +377,26 @@ export class UserStorage {
     this.init()
   }
 
+  /**
+   * a gun node referring to gun.user().get('profile')
+   * @instance {Gun}
+   */
   get profile() {
     return this.gun.user().get('profile')
   }
 
+  /**
+   * a gun node referring to gun.user()
+   * @instance {Gun}
+   */
   get gunuser() {
     return this.gun.user()
   }
 
+  /**
+   * a gun node referring to gun.user().get('feed')
+   * @instance {Gun}
+   */
   get feed() {
     return this.gun.user().get('feed')
   }
@@ -601,33 +607,76 @@ export class UserStorage {
     }
   }
 
-  /**
-   * Set small avatar for user in case he doesn't have it
-   *
-   * @returns {Promise}
-   */
-  async checkSmallAvatar() {
-    const avatar = await this.getProfileFieldValue('avatar')
-    if (avatar) {
-      this.setAvatar(avatar)
-    }
-  }
+  // checkAvatar was removed as we don't need to keep updates/migrations only funcitons in the common API
 
-  async setAvatar(avatar) {
-    const smallAvatar = await resizeImage(avatar, 320) //save space and load on gun
-    return Promise.all([this.setProfileField('avatar', smallAvatar, 'public'), this.setSmallAvatar(smallAvatar)])
-  }
+  async setAvatar(avatar, withCleanup = false) {
+    // save space and load on gun
+    const avatarResized = await resizeImage(avatar, 320)
 
-  async setSmallAvatar(avatar) {
-    const smallAvatar = await resizeImage(avatar, 50)
-    return this.setProfileField('smallAvatar', smallAvatar, 'public')
-  }
-
-  removeAvatar() {
+    // eslint-disable-next-line
     return Promise.all([
-      this.setProfileField('avatar', null, 'public'),
-      this.setProfileField('smallAvatar', null, 'public'),
+      this._storeAvatar('avatar', avatarResized, withCleanup),
+      this.setSmallAvatar(avatarResized, withCleanup),
     ])
+  }
+
+  async setSmallAvatar(avatar, withCleanup = false) {
+    const smallAvatar = await resizeImage(avatar, 50)
+
+    return this._storeAvatar('smallAvatar', smallAvatar, withCleanup)
+  }
+
+  // eslint-disable-next-line require-await
+  async removeAvatar(withCleanup = false) {
+    return Promise.all(
+      // eslint-disable-next-line require-await
+      ['avatar', 'smallAvatar'].map(async field => {
+        // eslint-disable-next-line require-await
+        const updateGunDB = async () => this.setProfileField(field, null, 'public')
+
+        if (true !== withCleanup) {
+          return updateGunDB()
+        }
+
+        return this._removeBase64(field, updateGunDB)
+      }),
+    )
+  }
+
+  /**
+   * @private
+   * @param {String} avatar Base64 data url string
+   *
+   * @returns {Promise<string>} CID
+   */
+  async _storeAvatar(field, avatar, withCleanup = false) {
+    const cid = await Base64Storage.store(avatar)
+    // eslint-disable-next-line require-await
+    const updateGunDB = async () => this.setProfileField(field, cid, 'public')
+
+    if (true !== withCleanup) {
+      return updateGunDB()
+    }
+
+    return this._removeBase64(field, updateGunDB)
+  }
+
+  /**
+   * @private
+   * @param {async () => any} updateGUNCallback
+   */
+  async _removeBase64(field, updateGUNCallback = null) {
+    const cid = await this.getProfileFieldValue(field)
+
+    // executing GUN update actions first
+    if (isFunction(updateGUNCallback)) {
+      await updateGUNCallback()
+    }
+
+    // if avatar was a CID - delete if after GUN updated
+    if (isString(cid) && !isValidBase64Image(cid) && isValidCIDImage(cid)) {
+      await Base64Storage.delete(cid)
+    }
   }
 
   /**
@@ -912,7 +961,7 @@ export class UserStorage {
     const { errors, isValid } = profile.validate(update)
 
     if (!isValid) {
-      logger.error(
+      logger.warn(
         'setProfile failed',
         'Fields validation failed',
         new Error('setProfile failed: Fields validation failed'),
@@ -997,7 +1046,7 @@ export class UserStorage {
     const cleanValue = UserStorage.cleanHashedFieldForIndex(field, value)
 
     if (!cleanValue) {
-      logger.error(
+      logger.warn(
         `indexProfileField - field ${field} value is empty (value: ${value})`,
         cleanValue,
         new Error('isValidValue failed'),
@@ -1087,18 +1136,6 @@ export class UserStorage {
         throw new Error('Invalid privacy setting', { privacy })
     }
 
-    //no longer indexing in world writable index
-
-    //for all privacy cases we go through the index, in case field was changed from public to private so we remove it
-    // if (UserStorage.indexableFields[field] && isEmpty(value) === false) {
-    //   const indexPromiseResult = await this.indexProfileField(field, value, privacy)
-    //   logger.info('indexPromiseResult', indexPromiseResult)
-
-    //   if (indexPromiseResult.err) {
-    //     return indexPromiseResult
-    //   }
-    // }
-
     const storePrivacy = () =>
       this.profile
         .get(field)
@@ -1114,7 +1151,8 @@ export class UserStorage {
 
     logger.debug('setProfileField', { field, value, privacy, onlyPrivacy, display })
 
-    return Promise.race([
+    // changed to .all as .race looses possible rejection of promise haven't 'won' the race
+    return Promise.all([
       this.profile
         .get(field)
         .get('value')
@@ -1125,12 +1163,12 @@ export class UserStorage {
         }),
 
       storePrivacy(),
-    ])
+    ]).then(last)
   }
 
   /**
    * Generates index by field if privacy is public, or empty index if it's not public
-   * @depracated no longer indexing in world writable index
+   * @deprecated no longer indexing in world writable index
    * @param {string} field - Profile attribute
    * @param {string} value - Profile attribute value
    * @param {string} privacy - (private | public | masked)
@@ -1142,7 +1180,9 @@ export class UserStorage {
     if (!UserStorage.indexableFields[field]) {
       return Promise.resolve({ err: 'Not indexable field', ok: 0 })
     }
+
     const cleanValue = UserStorage.cleanHashedFieldForIndex(field, value)
+
     if (!cleanValue) {
       return Promise.resolve({
         err: 'Indexable field cannot be null or empty',
@@ -1268,7 +1308,7 @@ export class UserStorage {
       standardPrevFeedEvent,
     })
 
-    //if for some reason we dont have the receipt(from blockchain) yet then fetch it
+    //if for some reason we don't have the receipt(from blockchain) yet then fetch it
     const receipt = await this.wallet.getReceiptWithLogs(id).catch(e => {
       logger.warn('no receipt found for id:', e.message, e, id)
       return undefined
@@ -1296,7 +1336,7 @@ export class UserStorage {
 
   /**
    * Checks if username connected to a profile
-   * @depracated no longer using world writable index
+   * @deprecated no longer using world writable index
    * @param {string} username
    */
   async isUsername(username: string) {
@@ -1383,7 +1423,7 @@ export class UserStorage {
 
     profilePublickey = '~' + data.profilePublickey
 
-    //wallet address has 1-1 connecttion with profile public key,
+    // wallet address has 1-1 connection with profile public key,
     //so we can cache it
     if (attr === 'walletAddress') {
       this.walletAddressIndex[hashValue] = profilePublickey
@@ -1464,6 +1504,7 @@ export class UserStorage {
 
         const { address, initiator, initiatorType, value, displayName, message, avatar } = this._extractData(event)
 
+        // displayType is used by FeedItem and ModalItem to decide on colors/icons etc of tx feed card
         const displayType = this._extractDisplayType(event)
         logger.debug('formatEvent: initiator data', event.id, {
           initiatorType,
@@ -1497,6 +1538,7 @@ export class UserStorage {
           },
         }
 
+        logger.debug('formatEvent: updateEvent', { updatedEvent })
         return updatedEvent
       } catch (e) {
         logger.error('formatEvent: failed formatting event:', e.message, e, {
@@ -1546,7 +1588,7 @@ export class UserStorage {
     const fromEmailMobile = data.initiatorType && data.initiator
     data.displayName = customName || counterPartyFullName || fromEmailMobile || fromGD || 'Unknown'
 
-    data.avatar = status === 'error' || fromGD ? favicon : counterPartySmallAvatar
+    data.avatar = status === 'error' || fromGD ? -1 : counterPartySmallAvatar
 
     logger.debug('formatEvent: parsed data', {
       id,
@@ -1569,12 +1611,16 @@ export class UserStorage {
     return status === 'error' ? status : withdrawCode ? otplStatus : ''
   }
 
+  //displayType is used by FeedItem and ModalItem to decide on colors/icons etc of tx feed card
   _extractDisplayType(event) {
     switch (event.type) {
       case FeedItemType.EVENT_TYPE_BONUS:
       case FeedItemType.EVENT_TYPE_SEND:
       case FeedItemType.EVENT_TYPE_SENDDIRECT: {
         const type = FeedItemType.EVENT_TYPE_SENDDIRECT === event.type ? FeedItemType.EVENT_TYPE_SEND : event.type
+        if (event.otplStatus) {
+          return type + event.otplStatus
+        }
         return type + (event.status || TxStatus.COMPLETED).toLowerCase()
       }
       default:
@@ -1620,7 +1666,7 @@ export class UserStorage {
         .get(idxKey)
         .get('profile')
 
-      //need to return object so promise.all doesnt resolve node
+      // need to return object so promise.all doesn't resolve node
       return {
         gunProfile,
       }
@@ -1814,7 +1860,7 @@ export class UserStorage {
 
   /**
    * remove user from indexes
-   * deleting profile actually doenst delete but encrypts everything
+   * deleting profile actually doesn't delete but encrypts everything
    */
   async deleteProfile(): Promise<boolean> {
     this.unSubscribeProfileUpdates()

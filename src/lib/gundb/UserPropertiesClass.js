@@ -90,6 +90,7 @@ export default class UserProperties {
         if (message === 'Decrypting key missing') {
           this.reset()
         }
+
         props = {}
       }
 

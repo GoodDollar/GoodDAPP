@@ -12,6 +12,9 @@ import logger from '../../lib/logger/pino-logger'
 import { ExceptionCategory } from '../../lib/logger/exceptions'
 import { useDialog } from '../../lib/undux/utils/dialog'
 import goodWallet from '../../lib/wallet/GoodWallet'
+import { retry } from '../../lib/utils/async'
+import API from '../../lib/API/api'
+
 import { useScreenState } from '../appNavigation/stackNavigation'
 import { generateSendShareObject, generateSendShareText } from '../../lib/share'
 import { ACTION_SEND, ACTION_SEND_TO_ADDRESS, SEND_TITLE } from './utils/sendReceiveFlow'
@@ -153,6 +156,13 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
           onTransactionHash: hash => {
             log.debug('Send G$ to address', { hash })
             txhash = hash
+
+            // integrate with vendors callback, notifying payment has been made
+            retry(() =>
+              API.notifyVendor(txhash, vendorInfo).catch(e =>
+                log.error('failed notifying vendor callback', { vendorInfo }),
+              ),
+            )
 
             // Save transaction
             const transactionEvent: TransactionEvent = {

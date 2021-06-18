@@ -26,7 +26,7 @@ export const routeAndPathForCode = async (
     throw new Error('Invalid QR Code.')
   }
 
-  const { networkId, address, amount, reason, category } = code
+  const { networkId, address, amount, reason, category, vendorInfo } = code
 
   await goodWallet.ready
   const currentNetworkId = goodWallet.networkId
@@ -51,6 +51,7 @@ export const routeAndPathForCode = async (
         category,
         amount,
         profile,
+        vendorInfo,
         counterPartyDisplayName: profile.name,
         action: ACTION_SEND_TO_ADDRESS,
         type: screen === 'sendByQR' ? 'QR' : 'receive',

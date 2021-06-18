@@ -66,7 +66,7 @@ const IOSWebAppSignIn = ({ screenProps, navigation, styles }) => {
 
         window.location = '/'
       } else {
-        log.error('Failed to sign-in', errorText, new Error(errorText), {
+        log.warn('Failed to sign-in', errorText, new Error(errorText), {
           code,
           category: ExceptionCategory.Human,
           dialogShown: true,
@@ -74,7 +74,7 @@ const IOSWebAppSignIn = ({ screenProps, navigation, styles }) => {
         showErrorDialog(errorText)
       }
     } else {
-      log.error('Failed to sign-in', errorText, new Error(errorText), {
+      log.warn('Failed to sign-in', errorText, new Error(errorText), {
         code,
         category: ExceptionCategory.Human,
         dialogShown: true,

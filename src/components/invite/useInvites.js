@@ -6,6 +6,9 @@ import logger from '../../lib/logger/pino-logger'
 import { useDialog } from '../../lib/undux/utils/dialog'
 import { fireEvent, INVITE_BOUNTY, INVITE_JOIN } from '../../lib/analytics/analytics'
 import { decorate, ExceptionCode } from '../../lib/logger/exceptions'
+import AsyncStorage from '../../lib/utils/asyncStorage'
+import { INVITE_CODE } from '../../lib/constants/localStorage'
+
 import Config from '../../config/config'
 
 const wasOpenedProp = 'hasOpenedInviteScreen'
@@ -13,7 +16,8 @@ const wasOpenedProp = 'hasOpenedInviteScreen'
 const log = logger.child({ from: 'useInvites' })
 
 const registerForInvites = async () => {
-  const inviterInviteCode = userStorage.userProperties.get('inviterInviteCode')
+  const inviterInviteCode =
+    userStorage.userProperties.get('inviterInviteCode') || (await AsyncStorage.getItem(INVITE_CODE))
 
   let hasJoined = false
   try {

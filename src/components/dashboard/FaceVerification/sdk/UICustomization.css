@@ -1,33 +1,53 @@
-#zoom-feedback {
+#DOM_FT_feedbackBarElement {
   /* There's no way to specify font weight on FaceTecCustomization */
   font-weight: bold !important;
 }
 
-.zoom-user-helper h2 {
+#DOM_FT_readyScreenSubtextContainer {
+  min-height: 26px !important;
+}
+
+#DOM_FT_readyScreenHeaderElement,
+#DOM_FT_retryScreenHeaderElement {
   /* There's no font-weight enum value corresponding to the OpenType's FW_MEDIUM */
   font-weight: 500 !important;
 }
 
-#zoom-dev-mode-tag {
-  display: none !important;
+#DOM_FT_readyScreenSubtextElement,
+#DOM_FT_retryScreenSubtextElement,
+#DOM_FT_leftRetryImageSubtextElement,
+#DOM_FT_rightRetryImageSubtextElement,
+#DOM_FT_retryInstructionParagraphElement1 {
+  /*
+    it's seems customization font size for such elements
+    aren't applied anymore despite they only declated as
+    deprecated but not removed yet
+  */
+  font-size: 12px !important;
 }
 
-#zoom-upload-progress-wrapper .loading {
+#DOM_FT_retryInstructionParagraphElement1 {
+  color: rgb(66, 69, 74) !important;
+}
+
+#DOM_FT_uploadAnimationContainer {
   /* Changing custom upload progress image size */
   width: 134px !important;
   height: 134px !important;
 }
 
-#custom-activity-indicator-image {
+#DOM_FT_uploadProgressCustomImage {
   animation: none !important;
 }
 
-#zoom-upload-progress-message, #zoom-session-result-animation-success-message {
+#DOM_FT_uploadProgressMessageElement,
+#DOM_FT_successMessageText,
+#DOM_FT_unsuccessMessageText {
   font-weight: 500 !important;
 }
 
-#zoom-upload-progress-wrapper .loading::before,
-#zoom-upload-progress-wrapper .loading::after {
+#DOM_FT_uploadAnimationContainer::before,
+#DOM_FT_uploadAnimationContainer::after {
   display: inline-block;
   width: 280px;
   z-index: 999;
@@ -38,7 +58,7 @@
   white-space: pre-wrap;
 }
 
-#zoom-upload-progress-wrapper .loading::before {
+#DOM_FT_uploadAnimationContainer::before {
   /* Add custom text above the progress loader */
   content: "You need to stay on this screen\auntil the process completes.";
   color: #F8AF40;
@@ -48,18 +68,18 @@
 }
 
 @media (min-width: 801px) {
-  #zoom-upload-progress-wrapper .loading::before { 
-    top: -70%;
+  #DOM_FT_uploadAnimationContainer::before {
+    top: -60%;
   }
 }
 
 @media (max-width: 800px) {
-  #zoom-upload-progress-wrapper .loading::before { 
+  #DOM_FT_uploadAnimationContainer::before {
     top: -120%;
   }
 }
 
-#zoom-upload-progress-wrapper .loading::after {
+#DOM_FT_uploadAnimationContainer::after {
   /* Add custom text below the progress loader */
   content: "This may take a minute.";
   bottom: -210%;
@@ -71,28 +91,15 @@
 }
 
 @media screen and (max-width: 425px) {
-  #zoom-upload-progress-wrapper .loading::before {
+  #DOM_FT_uploadAnimationContainer::before {
     font-size: 15px;
   }
 
-  #ready-screen-header-container h2 {
+  #DOM_FT_readyScreenHeaderElement {
     margin-top: -20px !important;
   }
 
-  #ready-screen-subtext {
+  #DOM_FT_readyScreenSubtextElement {
     margin-top: -12px !important;
   }
-}
-
-#get-ready-for-video-screen > div > div {
-  /* Move the header text a bit higher to make space between oval and header text */
-  margin-top: 10px !important;
-}
-
-#unsucces-instruction-list p {
-  color: #fff !important;
-}
-
-#unsucces-instruction-list p span {
-  color: rgb(66, 69, 74) !important;
 }

@@ -58,8 +58,8 @@ export class EnrollmentProcessor {
    */
   onFaceTecSDKCompletelyDone() {
     const { subscriber, isSuccess, lastMessage, lastResult } = this
+    const { status } = lastResult || {}
     let latestMessage = lastMessage
-    const { status } = lastResult
 
     // if no errors were thrown and server haven't returned specific status messages
     if (!latestMessage) {
@@ -231,7 +231,7 @@ export class EnrollmentProcessor {
 
   /**
    * generates session ID and starts session
-   * enroll call proxioes here - just for keep non-async
+   * enroll call proxies here - just for keep non-async
    * interface with onComplete callback designed by Zoom
    * @private
    */
@@ -242,7 +242,7 @@ export class EnrollmentProcessor {
       // trying to retrieve session ID from Zoom server
       const sessionId = await api.issueSessionToken()
 
-      // if we've got it - strting enrollment session
+      // if we've got session ID - starting enrollment session
       new FaceTecSession(this, sessionId)
 
       // notifying subscriber that UI is ready

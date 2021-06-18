@@ -1,6 +1,6 @@
 // @flow
 import { Platform, Share } from 'react-native'
-import { fromPairs, isEmpty } from 'lodash'
+import { fromPairs, isEmpty, pickBy } from 'lodash'
 import { decode, encode, isMNID } from 'mnid'
 import isURL from 'validator/lib/isURL'
 import isEmail from '../validators/isEmail'
@@ -25,7 +25,7 @@ export const isSharingAvailable = Platform.select({
 export class VendorMetadata {
   callbackUrl: URL
 
-  invoiceData: string
+  invoiceId: string
 
   website: URL
 
@@ -39,9 +39,9 @@ export class VendorMetadata {
 
   static VENDOR_SHORT = 'ven'
 
-  constructor(callbackUrl: URL, invoiceData: string, website: URL, vendorName: string) {
+  constructor(callbackUrl: URL, invoiceId: string, website: URL, vendorName: string) {
     this.callbackUrl = callbackUrl
-    this.invoiceData = invoiceData
+    this.invoiceId = invoiceId
     this.website = website
     this.vendorName = vendorName
   }
@@ -54,7 +54,7 @@ export class VendorMetadata {
   toConcise(): Object {
     let response = {}
     response[VendorMetadata.CALLBACK_URL_SHORT] = this.callbackUrl
-    response[VendorMetadata.INVOICE_DATA_SHORT] = this.invoiceData
+    response[VendorMetadata.INVOICE_DATA_SHORT] = this.invoiceId
     response[VendorMetadata.WEBSITE_SHORT] = this.website
     response[VendorMetadata.VENDOR_SHORT] = this.vendorName
 
@@ -70,7 +70,7 @@ export class VendorMetadata {
   static fromConcise(concise: Object): VendorMetadata {
     return {
       callbackUrl: concise[VendorMetadata.CALLBACK_URL_SHORT],
-      invoiceData: concise[VendorMetadata.INVOICE_DATA_SHORT],
+      invoiceId: concise[VendorMetadata.INVOICE_DATA_SHORT],
       website: concise[VendorMetadata.WEBSITE_SHORT],
       vendorName: concise[VendorMetadata.VENDOR_SHORT],
     }
@@ -109,8 +109,7 @@ export function generateCode(
   if (counterPartyDisplayName) {
     codeObj.c = counterPartyDisplayName
   }
-
-  return codeObj
+  return pickBy(codeObj, _ => !isEmpty(_))
 }
 
 /**
@@ -145,7 +144,7 @@ export function readCode(code: string) {
     reason = reason === 'undefined' ? undefined : reason
     category = category === 'undefined' ? undefined : category
     counterPartyDisplayName = counterPartyDisplayName === 'undefined' ? undefined : counterPartyDisplayName
-    vendorInfo = vendorInfo === 'undefined' ? undefined : VendorMetadata.fromConcise(vendorInfo)
+    vendorInfo = vendorInfo == null ? undefined : VendorMetadata.fromConcise(vendorInfo)
     return {
       networkId: parseInt(network),
       address,

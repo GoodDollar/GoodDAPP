@@ -6,11 +6,11 @@ import { fireEvent } from '../analytics/analytics'
 import logger from '../logger/pino-logger'
 
 import profileFix from './profileFix'
-import smallAvatarFix from './avatar'
-import feedEventsFix from './feedEvents'
+import uploadAvatars from './avatar'
+import updateFeedEvents from './updateFeedEvents'
 
 const log = logger.child({ from: 'updates' })
-const updates = [smallAvatarFix, profileFix, feedEventsFix]
+const updates = [uploadAvatars, profileFix, updateFeedEvents]
 
 const update = async () => {
   const updatesData = (await userStorage.userProperties.get('updates')) || {

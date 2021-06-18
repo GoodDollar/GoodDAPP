@@ -79,11 +79,22 @@ export const executeWithdraw = async (
     return { status }
   } catch (e) {
     const { message } = e
+    const isOwnLinkIssue = message.endsWith('your own payment link.')
+    const logArgs = [
+      'code withdraw failed',
+      message,
+      e,
+      {
+        code,
+        category: isOwnLinkIssue ? ExceptionCategory.Human : ExceptionCategory.Blockhain,
+      },
+    ]
 
-    log.error('code withdraw failed', message, e, {
-      code,
-      category: message.endsWith('your own payment link.') ? ExceptionCategory.Human : ExceptionCategory.Blockhain,
-    })
+    if (isOwnLinkIssue) {
+      log.warn(...logArgs)
+    } else {
+      log.error(...logArgs)
+    }
 
     throw e
   }

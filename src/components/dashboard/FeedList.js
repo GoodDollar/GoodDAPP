@@ -103,22 +103,22 @@ const FeedList = ({
    */
   const handleFeedActionPress = useCallback(
     ({ id, status }: FeedEvent, actions: {}) => {
-      if (actions.canCancel) {
-        if (status === 'pending') {
-          // if status is 'pending' trying to cancel a tx that doesn't exist will fail and may confuse the user
-          log.error(
-            "Current transaction is still pending, it can't be cancelled right now",
-            'Pending - can`t be cancelled right now',
-            new Error('Transaction is still pending'),
-            {
-              id,
-              status,
-              category: ExceptionCategory.Human,
-              dialogShown: true,
-            },
-          )
-          showErrorDialog("Current transaction is still pending, it can't be cancelled right now")
-        } else if (canceledFeeds.current.includes(id)) {
+      if (!actions.canCancel) {
+        // if status is 'pending' trying to cancel a tx that doesn't exist will fail and may confuse the user
+        log.warn(
+          "Current transaction is still pending, it can't be cancelled right now",
+          'Pending - can`t be cancelled right now',
+          new Error('Transaction is still pending'),
+          {
+            id,
+            status,
+            category: ExceptionCategory.Human,
+            dialogShown: true,
+          },
+        )
+        showErrorDialog("Current transaction is still pending, it can't be cancelled right now23123123")
+      } else {
+        if (canceledFeeds.current.includes(id)) {
           log.info('Already cancelled', id)
         } else {
           try {

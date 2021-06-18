@@ -69,7 +69,7 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
     const showError = () => {
       const error = new Error('Incorrect pass phrase received')
 
-      log.error('Wallet recover failed', error.message, error, {
+      log.warn('Wallet recover failed', error.message, error, {
         mnemonics,
         category: ExceptionCategory.Human,
         dialogShown: true,

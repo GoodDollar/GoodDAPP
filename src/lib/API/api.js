@@ -184,8 +184,8 @@ export class APIService {
    * `/verify/sendotp` post api call
    * @param {UserRecord} user
    */
-  sendOTP(user: UserRecord): AxiosPromise<any> {
-    return this.client.post('/verify/sendotp', { user })
+  sendOTP(user: UserRecord, onlyCheckAlreadyVerified: boolean = false): AxiosPromise<any> {
+    return this.client.post('/verify/sendotp', { user, onlyCheckAlreadyVerified })
   }
 
   /**
@@ -268,6 +268,15 @@ export class APIService {
     const { faceVerificationUrl } = this
 
     return `${faceVerificationUrl}/${encodeURIComponent(enrollmentIdentifier)}`
+  }
+
+  /**
+   * `/verify/face/license/:licenseType` post api call
+   */
+  getLicenseKey(licenseType: string): Promise<$AxiosXHR<any>> {
+    const { client, faceVerificationUrl } = this
+
+    return client.post(`${faceVerificationUrl}/license/${encodeURIComponent(licenseType)}`, {})
   }
 
   /**
@@ -389,6 +398,17 @@ export class APIService {
     const { data } = await this.client.get('/verify/phase')
 
     return data.phase
+  }
+
+  // eslint-disable-next-line require-await
+  async notifyVendor(transactionId, vendorInfo) {
+    const { callbackUrl, invoiceId } = vendorInfo || {}
+
+    if (!callbackUrl) {
+      return // or throw error
+    }
+
+    return this.client.post(callbackUrl, { invoiceId, transactionId })
   }
 }
 

@@ -74,6 +74,7 @@ tree.txt
 radata/
 ios/assets/**
 android/app/src/main/assets/animations
+coverage/**
 
 .idea
 yarn.lock

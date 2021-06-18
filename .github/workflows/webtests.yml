@@ -90,6 +90,7 @@ jobs:
       MNEMONIC: 'myth like bonus scare over problem client lizard pioneer submit female collect'
       ADMIN_MNEMONIC: 'they bus duty candy uncover assault bullet kitchen kit acid spin physical'
       REACT_APP_ADMIN_MNEMONIC: 'they bus duty candy uncover assault bullet kitchen kit acid spin physical'
+      REACT_APP_NFT_STORAGE_KEY: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweEMxQzUwRjJkNUYwNzgxNDJEOEEyRGQ3ZkQ4NUY5ODVFMzZEOUI5NzAiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTYyMjQ2NTYyNzMyMCwibmFtZSI6Ikdvb2REb2xsYXJUZXN0In0.9Q02zYBwlJymF6ognSrvqdzch1Vo-Xw27QYA-ABlJsY'
       CI: true
       CHUNKS: ${{ needs.setup.outputs['test-chunks'] }}
       WALLET_CHUNK: 9

@@ -14,7 +14,7 @@ import useVerificationAttempts from '../hooks/useVerificationAttempts'
 
 import { getFirstWord } from '../../../../lib/utils/getFirstWord'
 
-const ErrorScreen = ({ styles, screenProps }) => {
+const ErrorScreen = ({ styles, screenProps, navigation }) => {
   const store = GDStore.useStore()
   const { isReachedMaxAttempts } = useVerificationAttempts()
 

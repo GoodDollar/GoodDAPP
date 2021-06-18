@@ -53,7 +53,7 @@ const HandlePaymentLink = (props: HandlePaymentLinkProps) => {
             showCloseButtons: false,
           })
           const code = readCode(decodeURIComponent(anyParams.code))
-
+          log.debug('decoded payment request', { code })
           if (isTheSameUser(code) === false) {
             try {
               const { route, params } = await routeAndPathForCode('send', code)
@@ -61,7 +61,7 @@ const HandlePaymentLink = (props: HandlePaymentLinkProps) => {
               screenProps.push(route, params)
             } catch (e) {
               hideDialog()
-              log.error('Payment link is incorrect', e.message, e, {
+              log.warn('Payment link is incorrect', e.message, e, {
                 code,
                 category: ExceptionCategory.Human,
                 dialogShown: true,
@@ -145,7 +145,7 @@ const HandlePaymentLink = (props: HandlePaymentLinkProps) => {
         const wrongPaymentDetailsError = 'Wrong payment link or payment details'
         switch (status) {
           case WITHDRAW_STATUS_COMPLETE:
-            log.error('Failed to complete withdraw', withdrawnOrSendError, new Error(withdrawnOrSendError), {
+            log.warn('Failed to complete withdraw', withdrawnOrSendError, new Error(withdrawnOrSendError), {
               status,
               transactionHash,
               paymentParams,
@@ -165,7 +165,7 @@ const HandlePaymentLink = (props: HandlePaymentLinkProps) => {
                 return await handleWithdraw(params)
               }
             }
-            log.error('Could not find payment details', wrongPaymentDetailsError, new Error(wrongPaymentDetailsError), {
+            log.warn('Could not find payment details', wrongPaymentDetailsError, new Error(wrongPaymentDetailsError), {
               status,
               transactionHash,
               paymentParams,

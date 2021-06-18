@@ -7,6 +7,7 @@ import Config from '../../../../config/config'
 import logger from '../../../../lib/logger/pino-logger'
 import { unexpectedErrorMessage } from '../sdk/FaceTecSDK.constants'
 
+import { hideRedBoxIfNonCritical } from '../utils/kindOfTheIssue'
 import { type FaceVerificationPayload, type FaceVerificationResponse } from './typings'
 
 class FaceVerificationApi {
@@ -26,6 +27,28 @@ class FaceVerificationApi {
     this.requestTimeout = faceVerificationRequestTimeout
   }
 
+  async getLicense(platform: string): Promise<string> {
+    const { rootApi, logger } = this
+
+    try {
+      const response = await this.wrapApiCall(rootApi.getLicenseKey(platform))
+      const license = get(response, 'license')
+
+      if (!license) {
+        throw new Error('FaceTec API response is empty')
+      }
+
+      logger.info('Obtained production license:', { license })
+
+      return license
+    } catch (exception) {
+      const { message } = exception
+
+      logger.error('Failed getting production license:', message, exception)
+      throw exception
+    }
+  }
+
   async issueSessionToken(): Promise<string> {
     const { rootApi, logger } = this
 
@@ -43,7 +66,7 @@ class FaceVerificationApi {
     } catch (exception) {
       const { message } = exception
 
-      logger.error('Session session token issue failed:', message, exception)
+      logger.error('Failed issuing session token:', message, exception)
       throw new Error('Session could not be started due to an unexpected issue during the network request.')
     }
   }
@@ -82,7 +105,7 @@ class FaceVerificationApi {
     } catch (exception) {
       const { message } = exception
 
-      logger.error('Face verification failed', message, exception)
+      hideRedBoxIfNonCritical(exception, () => logger.error('Face verification failed', message, exception))
       throw exception
     } finally {
       this.lastCancelToken = null

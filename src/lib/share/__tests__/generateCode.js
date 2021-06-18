@@ -1,6 +1,6 @@
 import { encode, isMNID } from 'mnid'
 
-import { generateCode, VendorMetadata } from '../'
+import { generateCode, readCode, VendorMetadata } from '../'
 
 describe('generateCode', () => {
   it(`should generate a string with an MNID valid code`, () => {
@@ -45,6 +45,28 @@ describe('generateCode', () => {
       cat: category,
       c: counterPartyDisplayName,
       ven: vendorInfoConcise,
+    })
+
+    let paramsBase64 = encodeURIComponent(
+      Buffer.from(JSON.stringify(code))
+        .toString('base64')
+        .replace(/=+$/, ''),
+    )
+
+    const vendorReadCode = readCode(paramsBase64)
+    expect(vendorReadCode).toEqual({
+      networkId,
+      address,
+      amount: amount,
+      reason,
+      category,
+      counterPartyDisplayName,
+      vendorInfo: {
+        callbackUrl: 'http://shop.example.com/api/callback',
+        invoiceId: 'INV#33333',
+        website: 'http://shop.example.com',
+        vendorName: 'Example Shop',
+      },
     })
   })
 })

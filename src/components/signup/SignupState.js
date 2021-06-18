@@ -14,6 +14,7 @@ import {
   DESTINATION_PATH,
   GD_INITIAL_REG_METHOD,
   GD_USER_MNEMONIC,
+  INVITE_CODE,
   IS_LOGGED_IN,
 } from '../../lib/constants/localStorage'
 
@@ -168,17 +169,17 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
 
     // if we have name from torus we skip to phone
     if (state.fullName) {
+      // if skipping phone is disabled
+      if (!skipMobile) {
+        return navigation.navigate('Phone')
+      }
+
       // if no email address and skipEmail is false (for example: when signup with facebook account that has no verified email)
       if (!skipEmail) {
         return navigateWithFocus('Email')
       }
 
-      // if skipping phone is enabled
-      if (skipMobile) {
-        return navigation.navigate('SignupCompleted')
-      }
-
-      return navigation.navigate('Phone')
+      return navigation.navigate('SignupCompleted')
     }
   }
 
@@ -191,7 +192,11 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
     const paymentParams = params && parsePaymentLinkParams(params)
 
     //get inviteCode from url or from payment link
-    return get(destinationPath, 'params.inviteCode') || get(paymentParams, 'inviteCode')
+    return (
+      (await AsyncStorage.getItem(INVITE_CODE)) ||
+      get(destinationPath, 'params.inviteCode') ||
+      get(paymentParams, 'inviteCode')
+    )
   }
 
   useEffect(() => {
@@ -427,7 +432,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
         AsyncStorage.removeItem(GD_INITIAL_REG_METHOD),
       ])
 
-      fireSignupEvent('SUCCESS')
+      fireSignupEvent('SUCCESS', { torusProvider, inviteCode })
 
       log.debug('New user created')
       setLoading(false)

@@ -52,6 +52,9 @@ const Config = {
   logLevel: (forceLogLevel && forceLogLevel[1]) || env.REACT_APP_LOG_LEVEL || 'debug',
   serverUrl: env.REACT_APP_SERVER_URL || 'http://localhost:3003',
   gunPublicUrl: env.REACT_APP_GUN_PUBLIC_URL || 'http://localhost:3003/gun',
+  nftStorageKey: env.REACT_APP_NFT_STORAGE_KEY,
+  nftPeers: (env.REACT_APP_NFT_PEERS || "https://cloudflare-ipfs.com/ipfs/{cid},https://ipfs.io/ipfs/{cid},https://{cid}.ipfs.dweb.link").split(","),
+  nftLazyUpload: env.REACT_APP_NFT_LAZY_UPLOAD === 'true',
   learnMoreEconomyUrl: env.REACT_APP_ECONOMY_URL || 'https://www.gooddollar.org/economic-model/',
   publicUrl,
   dashboardUrl: env.REACT_APP_DASHBOARD_URL || 'https://dashboard.gooddollar.org',
@@ -74,7 +77,7 @@ const Config = {
   showRewards: env.REACT_APP_DASHBOARD_SHOW_REWARDS === 'true',
   faceTecEncryptionKey: fixNL(env.REACT_APP_ZOOM_ENCRYPTION_KEY),
   faceTecLicenseKey: env.REACT_APP_ZOOM_LICENSE_KEY,
-  faceTecLicenseText: fixNL(env.REACT_APP_ZOOM_LICENSE_TEXT),
+  faceTecProductionMode: env.REACT_APP_ZOOM_PRODUCTION_MODE === 'true',
   faceVerificationRequestTimeout: env.REACT_APP_ZOOM_REQUEST_TIMEOUT || 60000,
   faceVerificationMaxAttemptsAllowed: Number(env.REACT_APP_FACE_VERIFICATION_ATTEMPTS || 3),
   faceVerificationPrivacyUrl:

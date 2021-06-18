@@ -7,7 +7,6 @@ import api from '../../../../lib/API/api'
 import Config from '../../../../config/config'
 import logger from '../../../../lib/logger/pino-logger'
 
-import { parseLicense } from '../utils/options'
 import { MAX_RETRIES_ALLOWED } from './FaceTecSDK.constants'
 
 export { FaceTecSDKStatus, FaceTecSessionStatus } from '@gooddollar/react-native-facetec'
@@ -21,9 +20,8 @@ export const FaceTecSDK = new class {
     this.requestTimeout = faceVerificationRequestTimeout
   }
 
-  async initialize(licenseKey, encryptionKey = null, licenseText = null) {
+  async initialize(licenseKey, encryptionKey = null, license = null) {
     const { sdk, logger, serverUrl } = this
-    const license = parseLicense(licenseText)
 
     try {
       return await sdk.initialize(serverUrl, api.jwt, licenseKey, encryptionKey, license)

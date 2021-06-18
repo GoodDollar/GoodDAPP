@@ -1,12 +1,14 @@
 // @flow
 import React, { useMemo } from 'react'
-import { TouchableOpacity, View } from 'react-native'
+import { Image, TouchableOpacity, View } from 'react-native'
 import { Avatar } from 'react-native-paper'
 
 import UnknownProfileSVG from '../../../assets/unknownProfile.svg'
 import { withStyles } from '../../../lib/styles'
 import useOnPress from '../../../lib/hooks/useOnPress'
-import { isValidImage } from '../../../lib/utils/image'
+
+import GoodDollarLogo from '../../../assets/Feed/favicon-96x96.svg'
+import useImageSource from '../../../lib/hooks/useImageSource'
 
 /**
  * Touchable Avatar
@@ -17,31 +19,52 @@ import { isValidImage } from '../../../lib/utils/image'
  * @param {Number} [props.size=34]
  * @returns {React.Node}
  */
-const CustomAvatar = ({ styles, style, source, onPress, size, imageSize, children, unknownStyle, ...avatarProps }) => {
+const CustomAvatar = ({
+  styles,
+  style,
+  imageStyle,
+  unknownStyle,
+  size,
+  imageSize,
+  plain,
+  source,
+  onPress,
+  children,
+  ...avatarProps
+}) => {
   const _onPress = useOnPress(onPress)
+  const [isGDLogo, imgSource] = useImageSource(source)
+  const ImageComponent = plain ? Image : Avatar.Image
 
-  const _source = useMemo(() => isValidImage(source), [source])
+  const calculatedStyles = useMemo(() => {
+    const container = { width: size, height: size, borderRadius: size / 2 }
+    const background = { backgroundColor: 'rgba(0, 0, 0, 0)' }
+    const wrapper = { ...background, width: size, height: size }
+
+    return { container, wrapper, background }
+  }, [size])
 
   return (
     <TouchableOpacity
       activeOpacity={1}
       disabled={!onPress}
       onPress={_onPress}
-      style={[styles.avatarContainer, { width: size, height: size, borderRadius: size / 2 }, style]}
+      style={[styles.avatarContainer, calculatedStyles.container, style]}
       underlayColor="#fff"
     >
-      {_source ? (
-        <Avatar.Image
+      {isGDLogo ? (
+        <View style={calculatedStyles.wrapper} {...avatarProps}>
+          <GoodDollarLogo />
+        </View>
+      ) : imgSource ? (
+        <ImageComponent
           size={imageSize || size - 2}
-          source={_source}
-          style={{ backgroundColor: 'rgba(0, 0, 0, 0)' }}
+          source={imgSource}
+          style={[calculatedStyles.background, imageStyle]}
           {...avatarProps}
         />
       ) : (
-        <View
-          style={[{ width: size, height: size, backgroundColor: 'rgba(0, 0, 0, 0)' }, unknownStyle]}
-          {...avatarProps}
-        >
+        <View style={[calculatedStyles.wrapper, unknownStyle]} {...avatarProps}>
           <UnknownProfileSVG />
         </View>
       )}
@@ -52,6 +75,7 @@ const CustomAvatar = ({ styles, style, source, onPress, size, imageSize, childre
 
 CustomAvatar.defaultProps = {
   size: 42,
+  plain: false,
 }
 
 const getStylesFromProps = ({ theme }) => ({

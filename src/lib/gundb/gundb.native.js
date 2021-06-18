@@ -1,6 +1,8 @@
 import asyncStore from '@gooddollar/gun/lib/ras.js'
 
-import AsyncStorage from '../utils/asyncStorage'
+// changed to use 'pure' async storage without our proxy wrapper and JSON serializer
+import AsyncStorage from '@react-native-async-storage/async-storage'
+
 import createGun from './gundb-factory'
 
 export default createGun({

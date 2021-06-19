@@ -88,7 +88,6 @@
     "@toruslabs/torus-direct-react-native-sdk": "^0.4.1",
     "@toruslabs/torus-direct-web-sdk": "^4.14.0",
     "@tradle/react-native-http": "^2.0.1",
-    "@ungap/global-this": "^0.4.4",
     "Base64": "^1.1.0",
     "FormData": "^0.10.1",
     "abi-decoder": "^1.2.0",

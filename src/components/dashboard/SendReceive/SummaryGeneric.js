@@ -10,6 +10,7 @@ import Text from '../../common/view/Text'
 import { withStyles } from '../../../lib/styles'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../lib/utils/sizes'
 import { isMobile } from '../../../lib/utils/platform'
+import isEmail from '../../../lib/validators/isEmail'
 import normalize from '../../../lib/utils/normalizeText'
 import SurveySend from '../SurveySend'
 
@@ -47,6 +48,8 @@ const SummaryGeneric = ({
 
   const [name, setName] = useState(profile.fullName)
   const [email, setEmail] = useState(profile.email)
+  const [emailError, setEmailError] = useState()
+  const [nameError, setNameError] = useState()
 
   useEffect(() => {
     if (!profile) {
@@ -59,6 +62,21 @@ const SummaryGeneric = ({
       setEmail(profile.email)
     }
   }, [profile])
+
+  useEffect(() => {
+    if (email) {
+      if (isEmail(email) === false) {
+        setEmailError('Please enter a valid email address')
+      } else {
+        setEmailError('')
+      }
+    }
+    if (!name) {
+      setNameError('Please enter a name')
+    } else {
+      setNameError('')
+    }
+  }, [email, name])
 
   // Custom verifier to ensure that we have all needed info
   const formHasErrors = () => {
@@ -166,6 +184,7 @@ const SummaryGeneric = ({
               <KeyboardAwareScrollView resetScrollToCoords={{ x: 0, y: 0 }} scrollEnabled={false}>
                 <Section.Row>
                   <InputRounded
+                    error={nameError}
                     onChange={setName}
                     icon="username"
                     iconSize={22}
@@ -175,7 +194,14 @@ const SummaryGeneric = ({
                   />
                 </Section.Row>
                 <Section.Row>
-                  <InputRounded onChange={setEmail} icon="envelope" iconSize={22} placeholder="E-Mail" value={email} />
+                  <InputRounded
+                    error={emailError}
+                    onChange={setEmail}
+                    icon="envelope"
+                    iconSize={22}
+                    placeholder="E-Mail"
+                    value={email}
+                  />
                 </Section.Row>
                 <Section.Text color="gray80Percent" fontSize={13} letterSpacing={0.07}>
                   {vendorInfoWarning}

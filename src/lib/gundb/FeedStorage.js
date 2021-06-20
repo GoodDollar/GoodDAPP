@@ -471,8 +471,9 @@ export class FeedStorage {
         feedEvent,
       })
 
-      // FIXME: temp fix to avoid updating feed event if old receipt
-      if (receiptDate.getTime() < new Date(feedEvent.date).getTime()) {
+      // reprocess same receipt in case we updated data format, only skip strictly older
+      // we can get receipt without having a previous feed item, so veerify .date field exists
+      if (feedEvent.date && receiptDate.getTime() < new Date(feedEvent.date).getTime()) {
         return feedEvent
       }
 
@@ -771,7 +772,7 @@ export class FeedStorage {
     const ack = saveDaySizePtr && saveDaySizePtr.then().catch(e => log.error('updateFeedEvent daySize', e.message, e))
 
     log.debug('updateFeedEvent done returning promise', event.id)
-    return Promise.all([saveAck, ack, eventAck])
+    return Promise.any([saveAck, ack, eventAck]) //we use .any cause gun might get stuck
       .then(() => event)
       .catch(gunError => {
         const e = this._gunException(gunError)

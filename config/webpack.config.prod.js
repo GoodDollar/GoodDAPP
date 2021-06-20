@@ -294,6 +294,7 @@ module.exports = {
           {
             test: /\.(js|mjs|jsx|ts|tsx)$/,
             include: [paths.appSrc, paths.reactnativeTranspile],
+            exclude: [paths.ignoreSrc],
             loader: require.resolve('babel-loader'),
             options: {
               customize: require.resolve('babel-preset-react-app/webpack-overrides'),

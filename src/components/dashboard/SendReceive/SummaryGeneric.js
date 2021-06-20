@@ -71,12 +71,12 @@ const SummaryGeneric = ({
         setEmailError('')
       }
     }
-    if (!name) {
+    if (profile.fullName && !name) {
       setNameError('Please enter a name')
     } else {
       setNameError('')
     }
-  }, [email, name])
+  }, [email, name, profile])
 
   // Custom verifier to ensure that we have all needed info
   const formHasErrors = () => {

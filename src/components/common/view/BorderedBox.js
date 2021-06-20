@@ -34,6 +34,7 @@ const BorderedBox = ({
   showCopyIcon = true,
   onCopied = noop,
   disableCopy = false,
+  overrideStyles = {},
 }) => {
   // show the copy success message or no
   const [performed, setPerformed] = useState(false)
@@ -107,7 +108,7 @@ const BorderedBox = ({
             <ImageComponent style={imageStyle} />
           </View>
         )}
-        <Section.Stack style={enableSideMode ? styles.boxShortContent : styles.boxContent}>
+        <Section.Stack style={[enableSideMode ? styles.boxShortContent : styles.boxContent, overrideStyles.boxContent]}>
           <Section.Text
             fontSize={18}
             fontFamily="Roboto Slab"

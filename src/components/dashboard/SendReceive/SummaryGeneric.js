@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { Platform, View } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import GDStore from '../../../lib/undux/GDStore'
@@ -6,6 +6,7 @@ import { BackButton } from '../../appNavigation/stackNavigation'
 import { BigGoodDollar, CustomButton, Icon, InputRounded, Section, Wrapper } from '../../common'
 import BorderedBox from '../../common/view/BorderedBox'
 import TopBar from '../../common/view/TopBar'
+import Text from '../../common/view/Text'
 import { withStyles } from '../../../lib/styles'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../lib/utils/sizes'
 import { isMobile } from '../../../lib/utils/platform'
@@ -43,8 +44,21 @@ const SummaryGeneric = ({
 
   const store = GDStore.useStore()
   const profile = store.get('privateProfile')
+
   const [name, setName] = useState(profile.fullName)
   const [email, setEmail] = useState(profile.email)
+
+  useEffect(() => {
+    if (!profile) {
+      return
+    }
+    if (!name) {
+      setName(profile.fullName)
+    }
+    if (!email) {
+      setEmail(profile.email)
+    }
+  }, [profile])
 
   // Custom verifier to ensure that we have all needed info
   const formHasErrors = () => {
@@ -56,12 +70,17 @@ const SummaryGeneric = ({
     return false
   }
 
-  const vendorInfoText =
-    !!vendorInfo &&
-    [
-      `- Website: ${vendorInfo.website || 'NO WEBSITE PROVIDED'}`,
-      `- Transaction ID: ${vendorInfo.invoiceData || 'NO INVOICE DATA PROVIDED'}`,
-    ].join('\n')
+  const vendorInfoText = (
+    <Section.Stack style={{ alignItems: 'center' }}>
+      <Section.Row>
+        <Text fontSize={13}>{`Website: ${vendorInfo.website || 'NO WEBSITE PROVIDED'}`}</Text>
+      </Section.Row>
+      <Section.Row>
+        <Text fontSize={13}>{`Invoice: ${vendorInfo.invoiceId || 'NO INVOICE DATA PROVIDED'}`}</Text>
+      </Section.Row>
+    </Section.Stack>
+  )
+
   const vendorInfoWarning =
     !!vendorInfo &&
     ['* The vendor of this transaction will receive the', 'transaction details along with your name and email.'].join(
@@ -74,7 +93,13 @@ const SummaryGeneric = ({
       <Section grow style={styles.section}>
         <Section.Stack>
           <Section.Row justifyContent="center">
-            <View style={[styles.sendIconWrapper, iconWrapperMargin, isSend ? styles.redIcon : styles.greenIcon]}>
+            <View
+              style={[
+                styles.sendIconWrapper,
+                vendorInfo ? {} : iconWrapperMargin,
+                isSend ? styles.redIcon : styles.greenIcon,
+              ]}
+            >
               <Icon name={iconName} size={getDesignRelativeHeight(45)} color="white" />
             </View>
           </Section.Row>
@@ -127,9 +152,8 @@ const SummaryGeneric = ({
           <Section.Stack>
             <Section.Separator width={20} color="transparent" style={{ zIndex: -10 }} />
             <BorderedBox
-              styles={styles}
+              overrideStyles={{ boxContent: { marginTop: 16, marginBottom: 16 } }}
               title="Vendor Details"
-              content={vendorInfoText}
               imageSize={28}
               image={props => <Icon size={28} {...props} name="info" />}
               copyButtonText=""
@@ -138,7 +162,7 @@ const SummaryGeneric = ({
               enableSideMode={false}
               disableCopy={true}
             >
-              <Section.Separator width={30} color="transparent" style={{ zIndex: -10 }} />
+              {vendorInfoText}
               <KeyboardAwareScrollView resetScrollToCoords={{ x: 0, y: 0 }} scrollEnabled={false}>
                 <Section.Row>
                   <InputRounded
@@ -153,13 +177,11 @@ const SummaryGeneric = ({
                 <Section.Row>
                   <InputRounded onChange={setEmail} icon="envelope" iconSize={22} placeholder="E-Mail" value={email} />
                 </Section.Row>
-                <Section.Separator width={30} color="transparent" style={{ zIndex: -10 }} />
                 <Section.Text color="gray80Percent" fontSize={13} letterSpacing={0.07}>
                   {vendorInfoWarning}
                 </Section.Text>
               </KeyboardAwareScrollView>
             </BorderedBox>
-            <Section.Separator width={30} color="transparent" style={{ zIndex: -10 }} />
           </Section.Stack>
         )}
         {isSend && (

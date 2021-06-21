@@ -1,5 +1,4 @@
 import { once } from 'lodash'
-import moment from 'moment'
 import { version as contractsVersion } from '../../node_modules/@gooddollar/goodcontracts/package.json'
 import { version } from '../../package.json'
 import { isWeb } from '../lib/utils/platform'
@@ -114,11 +113,6 @@ const Config = {
   torusEmailEnabled: env.REACT_APP_TORUS_AUTH0EMAIL_ENABLED === 'true',
   torusUxMode: isWeb ? (env.REACT_APP_TORUS_UXMODE || 'redirect') : 'popup',
   abTestPercentage: env.REACT_APP_AB_TEST_PERCENTAGE || 0.5,
-
-  // TODO: remove feed migration env vars after feed migration is done
-  feedMigrationDate: env.REACT_APP_FEED_MIGRATION_DATE || moment().format('YYYY/MM/DD'),
-  feedMigrationBlock: env.REACT_APP_FEED_MIGRATION_BLOCK || 6000000,
-  
   alchemyKey,
   ethereum: {
     '1': {

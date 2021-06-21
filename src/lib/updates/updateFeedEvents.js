@@ -1,12 +1,6 @@
-// import { get } from 'lodash'
-import Config from '../../config/config'
-
-// import userStorage from '../gundb/UserStorage'
 import wallet from '../wallet/GoodWallet'
 
-const { feedMigrationBlock, feedMigrationDate } = Config
-
-const fromDate = new Date(feedMigrationDate)
+const fromDate = new Date('2021/06/21')
 
 /**
  * fix broken feed items
@@ -16,6 +10,6 @@ const updateFeedEvents = async (lastUpdate, prevVersion, log) => {
   log.info('waiting for wallet init')
   await wallet.ready
   log.info('wallet ready, syncing blockchain')
-  return wallet.syncTxWithBlockchain(feedMigrationBlock)
+  return wallet.syncTxWithBlockchain(6000000)
 }
 export default { fromDate, update: updateFeedEvents, key: 'updateFeedEvents' }

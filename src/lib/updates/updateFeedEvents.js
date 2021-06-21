@@ -16,8 +16,6 @@ const updateFeedEvents = async (lastUpdate, prevVersion, log) => {
   log.info('waiting for wallet init')
   await wallet.ready
   log.info('wallet ready, syncing blockchain')
-  await wallet.syncTxWithBlockchain(feedMigrationBlock)
-  log.info('syncing wallet done')
-  return
+  return wallet.syncTxWithBlockchain(feedMigrationBlock)
 }
 export default { fromDate, update: updateFeedEvents, key: 'updateFeedEvents' }

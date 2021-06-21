@@ -1,6 +1,6 @@
 import { theme } from '../../components/theme/styles'
 import { getScreenHeight, getScreenWidth, isPortrait } from './orientation'
-import { isMobileNative } from './platform'
+import { isMobile } from './platform'
 
 const DESIGN_WIDTH = 360
 const DESIGN_HEIGHT = 640 - 24
@@ -31,7 +31,7 @@ const sizes = new class {
     const { maxWidthForTabletAndDesktop } = theme.sizes
 
     // To ensure it doesn't return values smaller than device width on mobile
-    return isMobileNative ? width : Math.min(width, maxWidthForTabletAndDesktop)
+    return isMobile ? width : Math.min(width, maxWidthForTabletAndDesktop)
   }
 
   getMaxDeviceHeight() {
@@ -39,7 +39,7 @@ const sizes = new class {
     const { maxHeightForTabletAndDesktop } = theme.sizes
 
     // To ensure it doesn't return values smaller than device height on mobile
-    return isMobileNative ? height : Math.min(height, maxHeightForTabletAndDesktop)
+    return isMobile ? height : Math.min(height, maxHeightForTabletAndDesktop)
   }
 
   /**

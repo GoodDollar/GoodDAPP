@@ -12,7 +12,7 @@ import WavesBackground from '../common/view/WavesBackground'
 // utils
 import Config from '../../config/config'
 import { getDesignRelativeHeight, getMaxDeviceHeight } from '../../lib/utils/sizes'
-import { isMobileNative } from '../../lib/utils/platform'
+import { isMobile, isMobileNative } from '../../lib/utils/platform'
 import AsyncStorage from '../../lib/utils/asyncStorage'
 
 // assets
@@ -56,7 +56,7 @@ const Splash = ({ animation, isLoggedIn }) => {
   }
 
   return (
-    <Wrapper style={isMobileNative ? styles.mobileWrapper : styles.wrapper}>
+    <Wrapper style={isMobile ? styles.mobileWrapper : styles.wrapper}>
       <Section style={styles.container}>
         <WavesBackground>
           <Section.Stack style={styles.content} grow justifyContent="center">

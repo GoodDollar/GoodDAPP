@@ -1,5 +1,5 @@
 // @flow
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { KeyboardAvoidingView } from 'react-native'
 import { isIOS } from '../../lib/utils/platform'
 import logger from '../../lib/logger/pino-logger'
@@ -192,12 +192,12 @@ const SMSAction = ({
   const _handleRetryWithCall = useOnPress(handleRetryWithCall)
   const _handleSkip = useOnPress(handleSkip)
 
-  const xRef = useRef()
+  const countdownIntervalRef = useRef()
   useEffect(() => {
     // if sent call (after several sms retries) don't wait until countdown completes to show "skip" message
     if (showWait && !isCall) {
       let value = smsRateLimitNormalized
-      xRef.current = setInterval(() => {
+      countdownIntervalRef.current = setInterval(() => {
         value--
         if (!value) {
           value = smsRateLimitNormalized
@@ -206,9 +206,9 @@ const SMSAction = ({
       }, 1000)
 
       setTimeout(() => {
-        if (xRef.current) {
-          clearInterval(xRef.current)
-          xRef.current = null
+        if (countdownIntervalRef.current) {
+          clearInterval(countdownIntervalRef.current)
+          countdownIntervalRef.current = null
         }
         setWait(false)
       }, smsRateLimit)

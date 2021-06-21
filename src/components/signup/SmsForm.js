@@ -1,5 +1,5 @@
 // @flow
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { KeyboardAvoidingView } from 'react-native'
 import { isIOS } from '../../lib/utils/platform'
 import logger from '../../lib/logger/pino-logger'
@@ -13,10 +13,12 @@ import OtpInput from '../common/form/OtpInput'
 import useOnPress from '../../lib/hooks/useOnPress'
 import LoadingIndicator from '../common/view/LoadingIndicator'
 import { fireEvent, SIGNUP_RETRY_SMS } from '../../lib/analytics/analytics'
+import Config from '../../config/config'
 import CustomWrapper from './signUpWrapper'
 import type { SignupState } from './SignupState'
 
 const log = logger.child({ from: 'SmsForm' })
+const { smsRateLimit } = Config
 
 type Props = {
   phone: string,
@@ -182,17 +184,36 @@ const SMSAction = ({
   tries,
   styles,
 }) => {
+  const smsRateLimitNormalized = smsRateLimit / 1000
   const [showWait, setWait] = useState(true)
+  const [waitTime, setWaitTime] = useState(smsRateLimitNormalized)
   const [isCall, setIsCall] = useState(false)
   const _handleRetry = useOnPress(handleRetry)
   const _handleRetryWithCall = useOnPress(handleRetryWithCall)
   const _handleSkip = useOnPress(handleSkip)
 
+  const countdownIntervalRef = useRef()
   useEffect(() => {
-    if (showWait) {
+    // if sent call (after several sms retries) don't wait until countdown completes to show "skip" message
+    if (showWait && !isCall) {
+      let value = smsRateLimitNormalized
+      countdownIntervalRef.current = setInterval(() => {
+        value--
+        if (!value) {
+          value = smsRateLimitNormalized
+        }
+        setWaitTime(value)
+      }, 1000)
+
       setTimeout(() => {
+        if (countdownIntervalRef.current) {
+          clearInterval(countdownIntervalRef.current)
+          countdownIntervalRef.current = null
+        }
         setWait(false)
-      }, 10000)
+      }, smsRateLimit)
+    } else {
+      setWait(false)
     }
   }, [showWait])
 
@@ -252,7 +273,7 @@ const SMSAction = ({
 
   return (
     <Section.Text fontSize={14} color="gray80Percent">
-      Please wait a few seconds until the {isCall ? 'call' : 'SMS'} arrives
+      Please wait {waitTime} seconds until the {isCall ? 'call' : 'SMS'} arrives
     </Section.Text>
   )
 }

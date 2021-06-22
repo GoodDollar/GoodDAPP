@@ -85,9 +85,6 @@ const InviteWelcome = ({ styles, screenProps, navigation }) => {
         goToSignUp()
       }
     })
-
-    // 454
-    // alert(Dimensions.get('window').height)
   }, [])
   const SVG = steps[step].illustration
   return (

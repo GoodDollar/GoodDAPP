@@ -1,8 +1,8 @@
 import { memoize } from 'lodash'
 
+import { Blob, NFTStorage } from 'nft.storage/src/lib'
 import Config from '../../config/config'
 import { fallback } from '../utils/async'
-import { Blob, NFTStorage } from './client'
 
 const { nftStorageKey, nftPeers } = Config
 

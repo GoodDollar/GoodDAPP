@@ -471,8 +471,9 @@ export class FeedStorage {
         feedEvent,
       })
 
-      // FIXME: temp fix to avoid updating feed event if old receipt
-      if (receiptDate.getTime() < new Date(feedEvent.date).getTime()) {
+      // reprocess same receipt in case we updated data format, only skip strictly older
+      // we can get receipt without having a previous feed item, so veerify .date field exists
+      if (feedEvent.date && receiptDate.getTime() < new Date(feedEvent.date).getTime()) {
         return feedEvent
       }
 
@@ -524,7 +525,7 @@ export class FeedStorage {
       log.debug('handleReceiptUpdate saving... done', receipt.transactionHash)
       this.updateFeedEventCounterParty(updatedFeedEvent)
 
-      if (TxType.TX_RECEIVE_GD) {
+      if (txType === TxType.TX_RECEIVE_GD) {
         // if outbox data missing from event
         if (
           !has(updatedFeedEvent, 'data.reason') ||
@@ -537,6 +538,7 @@ export class FeedStorage {
         }
       }
 
+      log.debug('handleReceiptUpdate done, returning updatedFeedEvent', receipt.transactionHash, { updatedFeedEvent })
       return updatedFeedEvent
     } catch (e) {
       log.error('handleReceiptUpdate failed', e.message, e)
@@ -770,7 +772,7 @@ export class FeedStorage {
     const ack = saveDaySizePtr && saveDaySizePtr.then().catch(e => log.error('updateFeedEvent daySize', e.message, e))
 
     log.debug('updateFeedEvent done returning promise', event.id)
-    return Promise.all([saveAck, ack, eventAck])
+    return Promise.any([saveAck, ack, eventAck]) //we use .any cause gun might get stuck
       .then(() => event)
       .catch(gunError => {
         const e = this._gunException(gunError)
@@ -1094,11 +1096,11 @@ export class FeedStorage {
     let recipientPubkey = this.gunuser.is.pub
 
     if (!senderPubkey) {
-      log.warn('getFromOutbox sender not found:', { event })
+      log.warn('getFromOutbox sender not found:', event.id, { event })
       return
     }
 
-    log.debug('getFromOutbox sender found:', { event, senderPubkey, recipientPubkey })
+    log.debug('getFromOutbox sender found:', event.id, { event, senderPubkey, recipientPubkey })
 
     const { data } = event
     const decryptedData = await this.gun
@@ -1116,10 +1118,10 @@ export class FeedStorage {
       },
     }
 
-    log.debug('getFromOutbox decrypted data:', { data })
+    log.debug('getFromOutbox decrypted data:', event.id, { data })
     this.updateFeedEvent(updatedEvent)
 
-    log.debug('getFromOutbox updated event:', { updatedEvent })
+    log.debug('getFromOutbox updated event:', event.id, { updatedEvent })
     return decryptedData
   }
 

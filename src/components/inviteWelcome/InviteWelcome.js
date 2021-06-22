@@ -15,7 +15,7 @@ import SelfieSVG from '../../assets/Invite/selfie.svg'
 import MobileSVG from '../../assets/Invite/mobile.svg'
 
 import Section from '../common/layout/Section'
-import { getDesignRelativeHeight, isShortDevice } from '../../lib/utils/sizes'
+import { getDesignRelativeHeight, isShortDevice, isVeryShortDevice } from '../../lib/utils/sizes'
 import NavBar from '../appNavigation/NavBar'
 import { theme } from '../theme/styles'
 
@@ -85,14 +85,17 @@ const InviteWelcome = ({ styles, screenProps, navigation }) => {
         goToSignUp()
       }
     })
+
+    // 454
+    // alert(Dimensions.get('window').height)
   }, [])
   const SVG = steps[step].illustration
   return (
     show === true && (
       <Wrapper backgroundColor="#fff" style={styles.mainWrapper}>
         <NavBar title="Welcome" />
-        <Section.Stack style={{ flex: 1 }}>
-          <Section.Stack style={styles.topTextContainer}>
+        <Section.Stack style={styles.contentContainer}>
+          <Section.Stack>
             {step === 1 && (
               <Text
                 color={'darkBlue'}
@@ -189,8 +192,10 @@ const getStylesFromProps = ({ theme }) => {
     subtitle: {
       marginTop: getDesignRelativeHeight(theme.sizes.default),
     },
-    topTextContainer: {
-      marginTop: getDesignRelativeHeight(isShortDevice ? 15 : 20),
+    contentContainer: {
+      flex: 1,
+      paddingBottom: isVeryShortDevice ? 20 : 0,
+      paddingTop: getDesignRelativeHeight(isShortDevice ? 15 : 20),
     },
     dots: {
       width: 48,

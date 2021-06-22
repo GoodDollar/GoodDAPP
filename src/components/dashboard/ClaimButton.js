@@ -98,21 +98,19 @@ export const ButtonCountdown = ({ styles, nextClaim }) => (
     {/* for some reason passing styles.countDownTimer doesnt work */}
     <Section.Row style={styles.countDownTimer}>
       {nextClaim &&
-        nextClaim.split('').map((value, index) => {
-          return (
-            <Text
-              key={index}
-              fontSize={30}
-              fontFamily="Roboto Slab"
-              fontWeight="bold"
-              style={[styles.countdown, ~[2, 5].indexOf(index) && styles.tallCountDown]}
-              lineHeight={40}
-              textAlign={'center'}
-            >
-              {value}
-            </Text>
-          )
-        })}
+        nextClaim.split('').map((value, index) => (
+          <Text
+            key={index}
+            fontSize={30}
+            fontFamily="Roboto Slab"
+            fontWeight="bold"
+            style={[styles.countdown, value === ':' ? styles.tallCountDown : null]}
+            lineHeight={40}
+            textAlign={'center'}
+          >
+            {value}
+          </Text>
+        ))}
     </Section.Row>
   </View>
 )

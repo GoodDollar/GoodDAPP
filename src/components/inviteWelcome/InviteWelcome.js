@@ -195,7 +195,8 @@ const getStylesFromProps = ({ theme }) => {
     contentContainer: {
       flex: 1,
       paddingBottom: isVeryShortDevice ? 20 : 0,
-      paddingTop: getDesignRelativeHeight(isShortDevice ? 15 : 20),
+      paddingTop: getDesignRelativeHeight(isShortDevice ? 35 : 45),
+      justifyContent: 'space-evenly',
     },
     dots: {
       width: 48,

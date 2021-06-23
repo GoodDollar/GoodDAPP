@@ -1268,7 +1268,17 @@ export class GoodWallet {
     return gasPrice
   }
 
+  // eslint-disable-next-line require-await
   async sendAmount(to: string, amount: number, callbacks: PromiEvents): Promise<TransactionReceipt> {
+    return this.sendAmountWithData(to, amount, null, callbacks)
+  }
+
+  async sendAmountWithData(
+    to: string,
+    amount: number,
+    data: string,
+    callbacks: PromiEvents,
+  ): Promise<TransactionReceipt> {
     if (!this.wallet.utils.isAddress(to)) {
       throw new Error('Address is invalid')
     }
@@ -1277,8 +1287,10 @@ export class GoodWallet {
       throw new Error('Amount is bigger than balance')
     }
 
-    log.info({ amount, to })
-    const transferCall = this.tokenContract.methods.transfer(to, amount.toString()) // retusn TX object (not sent to the blockchain yet)
+    log.info({ amount, to, data })
+    const transferCall = data
+      ? this.tokenContract.methods.transferAndCall(to, amount.toString(), data)
+      : this.tokenContract.methods.transfer(to, amount.toString()) // retusn TX object (not sent to the blockchain yet)
 
     return this.sendTransaction(transferCall, callbacks) // Send TX to the blockchain
   }

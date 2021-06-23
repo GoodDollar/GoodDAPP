@@ -152,7 +152,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
     async to => {
       try {
         let txhash
-        await goodWallet.sendAmount(to, amount, {
+        await goodWallet.sendAmountWithData(to, amount, get(vendorInfo, 'data', get(vendorInfo, 'invoiceId')), {
           onTransactionHash: hash => {
             log.debug('Send G$ to address', { hash })
             txhash = hash

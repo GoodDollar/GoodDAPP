@@ -81,8 +81,8 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
           // Save transaction
           const transactionEvent: TransactionEvent = {
             id: hash,
-            date: new Date().toString(),
-            createdDate: new Date().toString(),
+            date: new Date().toISOString(),
+            createdDate: new Date().toISOString(),
             type: FeedItemType.EVENT_TYPE_SEND,
             status: 'pending',
             data: {
@@ -167,7 +167,8 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
             // Save transaction
             const transactionEvent: TransactionEvent = {
               id: hash,
-              date: new Date().toString(),
+              createdDate: new Date().toISOString(),
+              date: new Date().toISOString(),
               type: FeedItemType.EVENT_TYPE_SENDDIRECT,
               data: {
                 to: address,

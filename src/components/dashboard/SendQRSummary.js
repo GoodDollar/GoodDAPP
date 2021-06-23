@@ -82,7 +82,8 @@ const SendQRSummary = ({ screenProps }: AmountProps, params) => {
           // Save transaction
           const transactionEvent: TransactionEvent = {
             id: hash,
-            date: new Date().toString(),
+            createdDate: new Date().toISOString(),
+            date: new Date().toISOString(),
             type: 'send',
             data: {
               to,

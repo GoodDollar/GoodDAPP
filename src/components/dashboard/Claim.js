@@ -423,7 +423,8 @@ const Claim = props => {
         const date = new Date()
         const transactionEvent: TransactionEvent = {
           id: txHash,
-          createdDate: date.toString(),
+          date: date.toISOString(),
+          createdDate: date.toISOString(),
           type: 'claim',
           data: {
             from: 'GoodDollar',

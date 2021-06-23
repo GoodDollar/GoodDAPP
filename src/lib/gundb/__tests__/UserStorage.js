@@ -25,17 +25,21 @@ import { addUser, setProfileFieldIndex } from './__util__/index'
 
 welcomeMessage.date = '2019-01-01'
 
-let event = { id: 'xyz', date: new Date('2019-01-01T10:00:00.000Z').toString(), data: { foo: 'bar', unchanged: 'zar' } }
-let event2 = { id: 'xyz2', date: new Date('2019-01-01T20:00:00.000Z').toString(), data: { foo: 'bar' } }
-let event3 = { id: 'xyz3', date: new Date('2019-01-01T14:00:00.000Z').toString(), data: { foo: 'xar' } }
+let event = {
+  id: 'xyz',
+  date: new Date('2019-01-01T10:00:00.000Z').toISOString(),
+  data: { foo: 'bar', unchanged: 'zar' },
+}
+let event2 = { id: 'xyz2', date: new Date('2019-01-01T20:00:00.000Z').toIsoString(), data: { foo: 'bar' } }
+let event3 = { id: 'xyz3', date: new Date('2019-01-01T14:00:00.000Z').toIsoString(), data: { foo: 'xar' } }
 let mergedEvent = {
   id: 'xyz',
-  date: new Date('2019-01-01').toString(),
+  date: new Date('2019-01-01').toISOString(),
   data: { foo: 'zar', unchanged: 'zar', extra: 'bar' },
 }
 let event4 = {
   id: 'xyz4',
-  date: new Date('2019-01-02T10:00:00.000Z').toString(),
+  date: new Date('2019-01-02T10:00:00.000Z').toISOString(),
   data: { foo: 'bar', unchanged: 'zar' },
 }
 
@@ -339,7 +343,7 @@ describe('UserStorage', () => {
     await delay(0)
     let updatedEvent = {
       ...event,
-      date: new Date('2019-01-01').toString(),
+      date: new Date('2019-01-01').toISOString(),
       data: { foo: 'updates first event', extra: 'bar' },
     }
     await userStorage.feedStorage.updateFeedEvent(updatedEvent)
@@ -404,7 +408,7 @@ describe('UserStorage', () => {
     const date = '2020-01-01'
     const transactionEvent: TransactionEvent = {
       id: 'xyz32',
-      date: new Date(date).toString(),
+      date: new Date(date).toISOString(),
       type: 'send',
       data: {
         to: 'Mike',
@@ -496,8 +500,8 @@ describe('UserStorage', () => {
   it('should return withdrawCode from formatEvent function', async () => {
     const event = {
       id: '0x538ec5afdce092b4178aecb2d77cbf2912e1eef7cd95c2feb20b62601cf24f47',
-      date: new Date().toString(),
-      createdDate: new Date().toString(),
+      date: new Date().toISOString(),
+      createdDate: new Date().toISOString(),
       type: 'send',
       status: 'pending',
       data: {

@@ -53,7 +53,8 @@ export const executeWithdraw = async (
 
             const transactionEvent: TransactionEvent = {
               id: transactionHash,
-              date: new Date().toString(),
+              createdDate: new Date().toISOString(),
+              date: new Date().toISOString(),
               type: 'withdraw',
               data: {
                 from: sender,

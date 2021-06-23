@@ -1,46 +1,23 @@
 // @flow
-import {
-  camelCase,
-  filter,
-  find,
-  flatten,
-  get,
-  has,
-  isEqual,
-  isError,
-  isUndefined,
-  merge,
-  noop,
-  omit,
-  orderBy,
-  pick,
-  set,
-  some,
-  takeWhile,
-  toPairs,
-  uniqBy,
-} from 'lodash'
+import { camelCase, find, get, has, isEqual, isError, isUndefined, orderBy, pick, set } from 'lodash'
 
 import Mutex from 'await-mutex'
 import EventEmitter from 'eventemitter3'
 
 import Config from '../../config/config'
 import delUndefValNested from '../utils/delUndefValNested'
-import AsyncStorage from '../utils/asyncStorage'
 import logger from '../../lib/logger/pino-logger'
 import { delay } from '../utils/async'
 import { isValidBase64Image } from '../utils/image'
 import Base64Storage from '../nft/Base64Storage'
+import getFeedDB from '../textile/FeedThreadDB'
 
 const log = logger.child({ from: 'FeedStorage' })
 
-/**TODO:
+/**
+ * //TODO:
  * handle bridge(mint)
  */
-
-function isValidDate(d) {
-  return d instanceof Date && !isNaN(d)
-}
 
 const COMPLETED_BONUS_REASON_TEXT = 'Your recent earned rewards'
 const NULL_ADDRESS = '0x0000000000000000000000000000000000000000'
@@ -113,11 +90,12 @@ export class FeedStorage {
    */
   feedIndex: Array<[Date, number]>
 
-  feedIds: {} = {}
-
   feedQ: {} = {}
 
   isEmitEvents = true
+
+  //threaddb instance
+  feedDB
 
   constructor(gun, wallet, userStorage) {
     this.gun = gun
@@ -131,106 +109,25 @@ export class FeedStorage {
   }
 
   async init() {
-    const { feed } = await this.gunuser
     const receiptEvents = ['receiptReceived', 'receiptUpdated', 'otplUpdated']
 
     receiptEvents.forEach(e => this.wallet.subscribeToEvent(e, r => this.handleReceipt(r)))
 
-    log.debug('initfeed', { feed })
-
-    if (feed == null) {
-      // for some reason this breaks on gun 2020 https://github.com/amark/gun/issues/987
-      await this.feed
-        .putAck({ initialized: true }) // restore old feed data - after nullified
-        .catch(e => {
-          log.error('initfeed restore old feed data failed:', e.message, e)
-          throw e
-        })
-
-      log.debug('initfeed empty feed', { feed })
-    }
-
-    const feedIndex = await this.feed.get('index').then()
-    this.feed.get('index').on(this.updateFeedIndex, false)
-    log.debug('initFeed subscribed to feedIndex', { feedIndex })
-
-    // load unencrypted feed from cache
-    this.feedIds = await AsyncStorage.getItem('GD_feed')
-      .catch(() => {
-        log.warn('initfeed failed parsing feed from cache')
-      })
-      .then(ids => ids || {})
-
     //mark as initialized, ie resolve ready promise
+
+    this.feedDB = getFeedDB()
+    const seed = this.wallet.wallet.eth.accounts.wallet[this.wallet.getAccountForType('gundb')].privateKey.slice(2)
+    await this.feedDB.init(seed)
+
     this.feedInitialized = true
     this.setReady()
 
-    //no need to block on this
-    this._syncFeedCache()
-  }
-
-  async _syncFeedCache() {
-    const items = await this.feed
-      .get('byid')
-      .then(null, 2000)
-      .catch(e => {
-        log.warn('initfeed fetch byid onthen failed', { e })
-      })
-
-    log.debug('initfeed cache byid', { items })
-
-    if (!items) {
-      await this.feed.putAck({ byid: {} }).catch(e => {
-        log.error('init feed cache byid failed:', e.message, e)
-        throw e
-      })
-
-      return
-    }
-
-    const ids = Object.entries(omit(items, '_'))
-
-    log.debug('initfeed cache got items', { ids })
-
-    const promises = ids.map(async ([k, v]) => {
-      if (this.feedIds[k]) {
-        return false
-      }
-
-      const data = await this.feed
-        .get('byid')
-        .get(k)
-        .decrypt()
-        .catch(noop)
-      log.debug('initfeed cache got missing cache item', { id: k, data })
-
-      if (!data) {
-        return false
-      }
-
-      this.feedIds[k] = data
-      return true
-    })
-
-    Promise.all(promises)
-      .then(shouldUpdateStatuses => {
-        if (!some(shouldUpdateStatuses)) {
-          return
-        }
-
-        log.debug('initfeed updating cache', this.feedIds, shouldUpdateStatuses)
-        AsyncStorage.setItem('GD_feed', this.feedIds)
-        this.emitUpdate({})
-      })
-      .catch(e => log.error('initfeed error caching feed items', e.message, e))
+    //TODO:remove
+    global.feeddb = this.feedDB
   }
 
   get gunuser() {
     return this.gun.user()
-  }
-
-  get feed() {
-    return this.gun.user().get('feed')
   }
 
   /***
@@ -392,33 +289,35 @@ export class FeedStorage {
       const txEvent = this.getTXEvent(txType, receipt)
       log.debug('handleReceiptUpdate got lock:', receipt.transactionHash, { txEvent, txType })
 
-      let eventTxHash = receipt.transactionHash
+      let feedEvent
       if (txType === TxType.TX_OTPL_WITHDRAW || txType === TxType.TX_OTPL_CANCEL) {
-        log.debug('getting tx hash by code', receipt.transactionHash, { txType })
-        eventTxHash = await this.getTransactionHashByCode(txEvent.data.paymentId)
-        log.debug('got tx hash by code', receipt.transactionHash, { txType, eventTxHash })
+        const paymentId = txEvent.data.paymentId
+        log.debug('handleReceiptUpdate: getting tx by code', receipt.transactionHash, { txType })
+        feedEvent = await this.getFeedItemByPaymentId(paymentId)
+        log.debug('got tx by code', receipt.transactionHash, { txType, paymentId })
 
-        if (!eventTxHash) {
+        if (!feedEvent) {
           log.warn('handleReceiptUpdate: Original tx for payment link not found', txType, receipt.transactionHash, {
             receipt,
           })
-          eventTxHash = receipt.transactionHash
           if (txType === TxType.TX_OTPL_CANCEL) {
             return
           }
         } else {
           log.debug('handleReceiptUpdate: found original tx for payment link', {
             paymentId: txEvent.data.paymentId,
-            eventTxHash,
+            txHash: receipt.transactionHash,
           })
         }
       }
 
       //get existing or make a new event (calling getFeedItem again because this is after mutex, maybe something changed)
-      const feedEvent = (await this.getFeedItemByTransactionHash(eventTxHash)) || {
-        id: eventTxHash,
-        createdDate: receiptDate.toString(),
-      }
+      feedEvent = feedEvent ||
+        (await this.getFeedItemByTransactionHash(receipt.transactionHash)) || {
+          id: receipt.transactionHash,
+          createdDate: receiptDate.toISOString(),
+          date: receiptDate.toISOString(),
+        }
 
       // cancel/withdraw are updating existing TX so we don't want to return here
       //   if (txType !== TxType.TX_OTPL_WITHDRAW && txType !== TxType.TX_OTPL_CANCEL) {
@@ -447,12 +346,9 @@ export class FeedStorage {
 
           break
         case TxType.TX_OTPL_DEPOSIT:
-          //update index for payment links by paymentId, so we can update when we receive withdraw event
-          this.feed.get('codeToTxHash').put({ [txEvent.data.paymentId]: feedEvent.id })
           otplStatus = TxStatus.PENDING
           break
         case TxType.TX_OTPL_CANCEL:
-          //update index for payment links by paymentId, so we can update when we receive withdraw event
           status = TxStatus.CANCELED
           break
         default:
@@ -488,7 +384,7 @@ export class FeedStorage {
         status,
         otplStatus,
         receiptReceived: true,
-        date: receiptDate.toString(),
+        date: receiptDate.toISOString(),
         data: {
           ...feedEvent.data,
           ...initialEvent.data,
@@ -651,33 +547,24 @@ export class FeedStorage {
     //a race exists between enqueuing and receipt from websockets/polling
     const release = await this.feedMutex.lock()
     try {
-      const existingEvent = this.feedIds[event.id]
-
+      const existingEvent = await this.feedDB.read(event.id)
       if (existingEvent) {
         log.warn('enqueueTx skipping existing event id', event, existingEvent)
         return false
       }
 
       event.status = event.status || 'pending'
-      event.createdDate = event.createdDate || new Date().toString()
+      event.createdDate = event.createdDate || new Date().toISOString()
       event.date = event.date || event.createdDate
 
       this.feedQ[event.id] = event
-
-      const paymentId = get(event, 'data.hashedCode')
-      if (paymentId) {
-        this.feed
-          .get('codeToTxHash')
-          .get(paymentId)
-          .put(event.id)
-      }
 
       //encrypt tx details in outbox so receiver can read details
       if (event.type === FeedItemType.EVENT_TYPE_SENDDIRECT) {
         this.addToOutbox(event)
       }
       await this.updateFeedEvent(event)
-      log.debug('enqueueTX ok:', { event, paymentId })
+      log.debug('enqueueTX ok:', { event })
 
       return true
     } catch (gunError) {
@@ -697,60 +584,10 @@ export class FeedStorage {
    * @param {string|*} previouseventDate
    * @returns {Promise} Promise with updated feed
    */
+  // eslint-disable-next-line require-await
   async updateFeedEvent(event: FeedEvent, previouseventDate: string | void): Promise<FeedEvent> {
     log.debug('updateFeedEvent:', event.id, { event })
 
-    //saving index by onetime code so we can retrieve and update it once withdrawn
-    //or skip own withdraw
-    const { feed } = this
-
-    let { date } = event
-
-    date = new Date(date)
-
-    // force valid dates
-    date = isValidDate(date) ? date : new Date()
-    let day = `${date.toISOString().slice(0, 10)}`
-
-    //check if we need to update the day index location
-    if (previouseventDate) {
-      let prevdate = new Date(previouseventDate)
-      prevdate = isValidDate(prevdate) ? prevdate : date
-      let prevday = `${prevdate.toISOString().slice(0, 10)}`
-      if (day !== prevday) {
-        let dayEventsArr =
-          (await feed.get(prevday).then(data => (typeof data === 'string' ? JSON.parse(data) : data), 5000)) || []
-        let removePos = dayEventsArr.findIndex(e => e.id === event.id)
-        if (removePos >= 0) {
-          dayEventsArr.splice(removePos, 1)
-          feed.get(prevday).put(JSON.stringify(dayEventsArr))
-          feed
-            .get('index')
-            .get(prevday)
-            .put(dayEventsArr.length)
-        }
-      }
-    }
-
-    // Update dates index
-    let dayEventsArr =
-      (await feed.get(day).then(data => (typeof data === 'string' ? JSON.parse(data) : data), 5000)) || []
-    let toUpd = find(dayEventsArr, e => e.id === event.id)
-    const eventIndexItem = { id: event.id, updateDate: event.date }
-    if (toUpd) {
-      merge(toUpd, eventIndexItem)
-    } else {
-      let insertPos = dayEventsArr.findIndex(e => date > new Date(e.updateDate))
-      if (insertPos >= 0) {
-        dayEventsArr.splice(insertPos, 0, eventIndexItem)
-      } else {
-        dayEventsArr.unshift(eventIndexItem)
-      }
-    }
-
-    log.debug('updateFeedEvent starting encrypt', event.id, { dayEventsArr, toUpd, day })
-
-    // Saving eventFeed by id
     const eventAck = this.writeFeedEvent(event).catch(e => {
       log.error('updateFeedEvent failedEncrypt byId:', e.message, e, {
         event,
@@ -758,65 +595,14 @@ export class FeedStorage {
 
       return { err: e.message }
     })
-    log.debug('updateFeedEvent encrypted saved', event.id)
-    const saveDayIndexPtr = feed.get(day).putAck(JSON.stringify(dayEventsArr))
-
-    const saveDaySizePtr = feed
-      .get('index')
-      .get(day)
-      .putAck(dayEventsArr.length)
-
-    const saveAck =
-      saveDayIndexPtr && saveDayIndexPtr.then().catch(e => log.error('updateFeedEvent dayIndex', e.message, e))
-
-    const ack = saveDaySizePtr && saveDaySizePtr.then().catch(e => log.error('updateFeedEvent daySize', e.message, e))
-
-    log.debug('updateFeedEvent done returning promise', event.id)
-    return Promise.any([saveAck, ack, eventAck]) //we use .any cause gun might get stuck
-      .then(() => event)
-      .catch(gunError => {
-        const e = this._gunException(gunError)
-
-        log.error('Save Indexes failed', e.message, e)
-      })
+    return eventAck
   }
 
   async writeFeedEvent(event): Promise<FeedEvent> {
     await this.ready //wait before accessing feedIds cache
 
-    this.feedIds[event.id] = event
-    AsyncStorage.setItem('GD_feed', this.feedIds)
+    await this.feedDB.write(event)
     this.emitUpdate({ event })
-    return this.feed
-      .get('byid')
-      .get(event.id)
-      .secretAck(event)
-      .catch(e => {
-        log.error('writeFeedEvent failed:', e.message, e, { event })
-        throw e
-      })
-  }
-
-  /**
-   * Used as subscription callback for gundb
-   * When the index of <day> to <number of events> changes
-   * We get the object and turn it into a sorted array by <day> which we keep in memory for feed display purposes
-   * @param {object} changed the index data from gundb an object with days as keys and number of event in that day as value
-   * @param {string} field the name of the gundb key changed
-   */
-  updateFeedIndex = (changed: any, field: string) => {
-    if (field !== 'index' || changed === undefined) {
-      return
-    }
-    delete changed._
-    let dayToNumEvents: Array<[string, number]> = toPairs(changed)
-    this.feedIndex = orderBy(dayToNumEvents, day => day[0], 'desc')
-    this.emitUpdate()
-    log.debug('updateFeedIndex', {
-      changed,
-      field,
-      newIndex: this.feedIndex,
-    })
   }
 
   /**
@@ -828,21 +614,10 @@ export class FeedStorage {
   async getFeedItemByTransactionHash(transactionHash: string): Promise<FeedEvent> {
     await this.ready //wait before accessing feedIds cache
 
-    const feedItem = this.feedIds[transactionHash]
+    const feedItem = await this.feedDB.read(transactionHash)
     if (feedItem) {
       return feedItem
     }
-
-    return this.feed
-      .get('byid')
-      .get(transactionHash)
-      .decrypt()
-      .then(feedItem => {
-        // update feed cache here
-        this.feedIds[transactionHash] = feedItem
-        return feedItem
-      })
-      .catch(noop)
   }
 
   /**
@@ -851,11 +626,8 @@ export class FeedStorage {
    * @param {string} hashedCode sha3 of the code
    * @returns transaction id that generated the code
    */
-  getTransactionHashByCode(hashedCode: string): Promise<string> {
-    return this.feed
-      .get('codeToTxHash')
-      .get(hashedCode)
-      .then()
+  getFeedItemByPaymentId(hashedCode: string): Promise<string> {
+    return this.feedDB.readByPaymentId(hashedCode)
   }
 
   /**
@@ -943,86 +715,36 @@ export class FeedStorage {
     }
   }
 
-  /**
-   * Returns the next page in feed. could contain more than numResults. each page will contain all of the transactions
-   * of the last day fetched even if > numResults
-   *
-   * @param {number} numResults - return at least this number of results if available
-   * @param {boolean} reset - should restart cursor
-   * @returns {Promise} Promise with an array of feed events
-   */
-  async getFeedPage(numResults: number, reset?: boolean = false): Promise<Array<FeedEvent>> {
-    await this.ready //wait before accessing feedIds cache
-
-    let { feedIndex, feedIds } = this
-
-    if (!feedIndex) {
-      log.warn('feedIndex not set returning empty')
-      return []
-    }
-
+  async getFeedDBPage(numResult: number, reset?: boolean) {
     if (reset || isUndefined(this.cursor)) {
       this.cursor = 0
     }
 
-    // running through the days history until we got the request numResults
-    // storing days selected to the daysToTake
-    let total = 0
-    let daysToTake = takeWhile(feedIndex.slice(this.cursor), ([, eventsAmount]) => {
-      const takeDay = total < numResults
+    await this.ready
 
-      if (takeDay) {
-        total += eventsAmount
-      }
+    const items = await this.feedDB.getFeedPage(numResult, this.cursor)
 
-      return takeDay
-    })
+    this.cursor += items.length
 
-    this.cursor += daysToTake.length
-
-    // going through the days we've selected, fetching feed indexes for that days
-    let promises: Array<Promise<Array<FeedEvent>>> = daysToTake.map(([date]) =>
-      this.feed
-        .get(date)
-        .then(data => (typeof data === 'string' ? JSON.parse(data) : data))
-        .catch(e => {
-          log.error('getFeed', e.message, e)
-          return []
-        }),
-    )
-
-    // filtering indexed items, taking the items a) having non-empty id b) having unique id
-    const eventsIndex = await Promise.all(promises).then(indexes => {
-      const filtered = filter(flatten(indexes), 'id')
-
-      return uniqBy(filtered, 'id')
-    })
-
-    log.debug('getFeedPage', {
-      feedIndex,
-      daysToTake,
-      eventsIndex,
+    log.debug('getFeedDbPage', {
+      items,
     })
 
     const events = await Promise.all(
-      eventsIndex.map(async ({ id }) => {
-        // taking feed item from the cache
-        let item = feedIds[id]
-        log.debug('getFeedPage got item', { id, item })
+      items.map(async item => {
+        const { id } = item
+        log.debug('getFeedDbPage got item', { id: item.id, item })
 
-        // if no item in the cache and it's some transaction
-        // then getting tx item details from the wallet
-
-        if (!item && id.startsWith('0x')) {
+        if (!item.receiptReceived && id.startsWith('0x')) {
           const receipt = await this.wallet.getReceiptWithLogs(id).catch(e => {
-            log.warn('getFeedPage no receipt found for id:', id, e.message, e)
+            log.warn('getFeedDbPage no receipt found for id:', id, e.message, e)
           })
 
           if (receipt) {
-            log.warn('getFeedPage: missing item in cache, processing receipt again', { id, receipt })
+            log.warn('getFeedDbPage: missing item in cache, processing receipt again', { id, receipt })
             item = await this.handleReceipt(receipt)
           } else {
-            log.warn('getFeedPage no receipt found for undefined item id:', id)
+            log.warn('getFeedDbPage no receipt found for undefined item id:', id)
           }
         }
 
@@ -1031,24 +753,7 @@ export class FeedStorage {
       }),
     )
 
-    // filtering events fetched to exclude empty/null/undefined ones
-    const filteredEvents = filter(
-      events,
-      e =>
-        e &&
-        !(
-          ['deleted', 'cancelled', 'canceled'].includes(get(e, 'status', '').toLowerCase()) ||
-          ['deleted', 'cancelled', 'canceled'].includes(get(e, 'otplStatus', '').toLowerCase())
-        ),
-    )
-    log.debug('getFeedPage filteredEvents', { filteredEvents })
-
-    if (eventsIndex.length > 0 && filteredEvents.length < numResults) {
-      log.debug('getFeedPage fetching more results')
-      const more = await this.getFeedPage(numResults - filteredEvents.length)
-      return filteredEvents.concat(more)
-    }
-    return filteredEvents
+    return events
   }
 
   /**
@@ -1140,5 +845,9 @@ export class FeedStorage {
     }
 
     return exception
+  }
+
+  getAllFeed() {
+    return this.feedDB.Feed.find().toArray()
   }
 }

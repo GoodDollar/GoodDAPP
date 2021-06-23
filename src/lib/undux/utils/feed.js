@@ -8,16 +8,16 @@ import { assertStore } from '../SimpleStore'
 
 const logger = pino.child({ from: 'feeds' })
 
-export const PAGE_SIZE = 10
+export const PAGE_SIZE = 20
 
 const getMockFeeds = () => {
   return Config.withMockedFeeds
     ? [
         {
           id: '111111111111111111111111111111111111111111111111111111111111333333',
-          date: new Date().getTime(),
+          date: new Date().toISOString(),
           type: 'message',
-          createdDate: 'Fri Aug 02 2019 15:15:44 GMT-0300 (Argentina Standard Time)',
+          createdDate: new Date('Fri Aug 02 2019 15:15:44 GMT-0300 (Argentina Standard Time)').toISOString(),
           status: 'completed',
           data: {
             message:
@@ -31,9 +31,9 @@ const getMockFeeds = () => {
         },
         {
           id: '111111111111111111111111111111111111111111111111111111111111222222',
-          date: new Date().getTime(),
+          date: new Date().toISOString(),
           type: 'invite',
-          createdDate: 'Fri Aug 02 2019 15:15:44 GMT-0300 (Argentina Standard Time)',
+          createdDate: new Date('Fri Aug 02 2019 15:15:44 GMT-0300 (Argentina Standard Time)').toISOString(),
           status: 'completed',
           data: {
             message:
@@ -45,9 +45,9 @@ const getMockFeeds = () => {
         },
         {
           id: '111111111111111111111111111111111111111111111111111111111111444444',
-          date: new Date().getTime(),
+          date: new Date().toISOString(),
           type: 'feedback',
-          createdDate: 'Fri Aug 02 2019 15:15:44 GMT-0300 (Argentina Standard Time)',
+          createdDate: new Date('Fri Aug 02 2019 15:15:44 GMT-0300 (Argentina Standard Time)').toISOString(),
           status: 'completed',
           data: {
             message: 'How likely are you to recommend GoodDollar to a friend or colleague?',

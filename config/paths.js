@@ -77,7 +77,6 @@ module.exports = {
   appIndexJs: resolveModule(resolveApp, 'src/index'),
   appPackageJson: resolveApp('package.json'),
   appSrc: resolveApp('src'),
-  ignoreSrc: resolveApp('src/lib/facetec'),
   reactnativeTranspile: /(react-native-)|(react-navigation)/,
   appTsConfig: resolveApp('tsconfig.json'),
   yarnLockFile: resolveApp('yarn.lock'),
@@ -85,7 +84,7 @@ module.exports = {
   proxySetup: resolveApp('src/setupProxy.js'),
   appNodeModules: resolveApp('node_modules'),
   publicUrl: getPublicUrl(resolveApp('package.json')),
-  servedPath: getServedPath(resolveApp('package.json'))  
+  servedPath: getServedPath(resolveApp('package.json'))
 };
 
 module.exports.moduleFileExtensions = moduleFileExtensions;

@@ -6,6 +6,7 @@ import { Platform } from 'react-native'
 import { deleteGunDB } from '../lib/hooks/useDeleteAccountDialog'
 import Config from '../config/config'
 import SimpleStore, { initStore } from '../lib/undux/SimpleStore'
+import GDStore from '../lib/undux/GDStore'
 import AsyncStorage from '../lib/utils/asyncStorage'
 import App from './AppHot'
 import '../lib/gundb/gundb'
@@ -52,7 +53,9 @@ const AppHolder = () => {
   return (
     <ActionSheetProvider>
       <SimpleStore.Container>
-        <AppHot />
+        <GDStore.Container>
+          <AppHot />
+        </GDStore.Container>
       </SimpleStore.Container>
     </ActionSheetProvider>
   )

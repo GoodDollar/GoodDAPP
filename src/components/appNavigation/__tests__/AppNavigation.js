@@ -11,9 +11,10 @@ import { theme } from '../../theme/styles'
 import goodWallet from '../../../lib/wallet/GoodWallet'
 import userStorage from '../../../lib/gundb/UserStorage'
 
-import { StoresWrapper } from '../../../lib/undux/utils/storeswrapper.js'
+import { StoresWrapper } from '../../../__tests__/__util__'
 
 jest.setTimeout(30000)
+
 describe('AppNavigation', () => {
   beforeAll(() => Promise.all([goodWallet.ready, userStorage.ready]))
   it('renders without errors', () => {

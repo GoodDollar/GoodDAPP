@@ -53,7 +53,10 @@ const Config = {
   serverUrl: env.REACT_APP_SERVER_URL || 'http://localhost:3003',
   gunPublicUrl: env.REACT_APP_GUN_PUBLIC_URL || 'http://localhost:3003/gun',
   nftStorageKey: env.REACT_APP_NFT_STORAGE_KEY,
-  nftPeers: (env.REACT_APP_NFT_PEERS || "https://cloudflare-ipfs.com/ipfs/{cid},https://ipfs.io/ipfs/{cid},https://{cid}.ipfs.dweb.link").split(","),
+  nftPeers: (
+    env.REACT_APP_NFT_PEERS ||
+    'https://cloudflare-ipfs.com/ipfs/{cid},https://ipfs.io/ipfs/{cid},https://{cid}.ipfs.dweb.link'
+  ).split(','),
   nftLazyUpload: env.REACT_APP_NFT_LAZY_UPLOAD === 'true',
   learnMoreEconomyUrl: env.REACT_APP_ECONOMY_URL || 'https://www.gooddollar.org/economic-model/',
   publicUrl,
@@ -111,10 +114,12 @@ const Config = {
   torusGoogleAuth0: env.REACT_APP_TORUS_GOOGLEAUTH0 || 'google-auth0-gooddollar',
   torusAuth0SMS: env.REACT_APP_TORUS_AUTH0SMS || 'gooddollar-auth0-sms-passwordless',
   torusEmailEnabled: env.REACT_APP_TORUS_AUTH0EMAIL_ENABLED === 'true',
-  torusUxMode: isWeb ? (env.REACT_APP_TORUS_UXMODE || 'redirect') : 'popup',
+  torusUxMode: isWeb ? env.REACT_APP_TORUS_UXMODE || 'redirect' : 'popup',
   abTestPercentage: env.REACT_APP_AB_TEST_PERCENTAGE || 0.5,
   smsRateLimit: env.REACT_APP_SMS_RATE_LIMIT || 60 * 1000, // rate limit for sms code verification resend
   alchemyKey,
+  textileKey: env.REACT_APP_TEXTILE_KEY,
+  textileSecret: env.REACT_APP_TEXTILE_SECRET,
   ethereum: {
     '1': {
       network_id: 1,

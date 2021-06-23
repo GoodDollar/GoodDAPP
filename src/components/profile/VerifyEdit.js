@@ -25,7 +25,6 @@ const EditProfile = ({ screenProps, theme, styles, navigation }) => {
   const field = get(navigation, 'state.params.field')
   const content = get(navigation, 'state.params.content')
   let fieldToSend
-  let fieldToSave
   let fieldToShow
   let sendToText
   let sendCodeRequestFn
@@ -33,7 +32,6 @@ const EditProfile = ({ screenProps, theme, styles, navigation }) => {
   switch (field) {
     case 'phone':
       fieldToSend = 'mobile'
-      fieldToSave = 'mobile'
       fieldToShow = 'phone number'
       sendToText = 'number'
       sendCodeRequestFn = 'sendOTP'
@@ -56,8 +54,8 @@ const EditProfile = ({ screenProps, theme, styles, navigation }) => {
 
       const { data } = await API[sendCodeRequestFn]({ [fieldToSend]: content })
       if (data.alreadyVerified) {
-        logger.debug('sendOTP', { data, fieldToSave, content })
-        await userStorage.setProfileField(fieldToSave, content)
+        logger.debug('send code', { data, fieldToSend, content })
+        await userStorage.setProfileField(fieldToSend, content)
         screenProps.pop()
       } else {
         screenProps.push('VerifyEditCode', { field, content })

@@ -1,12 +1,6 @@
 import React, { useMemo } from 'react'
 import { Text, TextProps } from 'rebass'
-import styled, {
-    DefaultTheme,
-    ThemeProvider as StyledComponentsThemeProvider,
-    createGlobalStyle,
-    css
-} from 'styled-components'
-import { Colors } from './styled'
+import styled, { ThemeProvider as StyledComponentsThemeProvider, createGlobalStyle, css } from 'styled-components'
 
 export * from './components'
 
@@ -33,7 +27,7 @@ const mediaWidthTemplates: { [width in keyof typeof MEDIA_WIDTHS]: typeof css } 
 const white = '#FFFFFF'
 const black = '#000000'
 
-export function colors(darkMode: boolean): Colors {
+export function colors(darkMode: boolean) {
     return {
         // base
         white,
@@ -89,10 +83,9 @@ export function colors(darkMode: boolean): Colors {
     }
 }
 
-export function theme(darkMode: boolean): DefaultTheme {
+export function theme(darkMode: boolean) {
     return {
         ...colors(darkMode),
-
         grids: {
             sm: 8,
             md: 12,
@@ -109,24 +102,24 @@ export function theme(darkMode: boolean): DefaultTheme {
         flexColumnNoWrap: css`
             display: flex;
             flex-flow: column nowrap;
-        `,
+        ` as any,
         flexRowNoWrap: css`
             display: flex;
             flex-flow: row nowrap;
-        `
+        ` as any
     }
 }
 
 export default function ThemeProvider({ children }: { children: React.ReactNode }) {
     //const darkMode = useIsDarkMode()
-    const darkMode = true
+    const darkMode = false
 
     const themeObject = useMemo(() => theme(darkMode), [darkMode])
 
     return <StyledComponentsThemeProvider theme={themeObject}>{children}</StyledComponentsThemeProvider>
 }
 
-const TextWrapper = styled(Text)<{ color: keyof Colors }>`
+const TextWrapper = styled(Text)<{ color: keyof ReturnType<typeof colors> }>`
     color: ${({ color, theme }) => (theme as any)[color]};
 `
 
@@ -181,5 +174,6 @@ input, textarea {
   }
 
 body {
-  min-height: 100vh;
+    min-height: 100vh;
+}
 `

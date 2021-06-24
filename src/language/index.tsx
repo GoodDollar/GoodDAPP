@@ -14,8 +14,10 @@ locales.map(locale => i18n.loadLocaleData(locale, { plurals: () => null }))
 
 const isLocaleValid = (locale: string) => locales.includes(locale)
 const getInitialLocale = () => {
-    const detectedLocale = detect(fromStorage('lang'), fromNavigator(), () => defaultLocale)
-    return detectedLocale && isLocaleValid(detectedLocale) ? detectedLocale : defaultLocale
+    // const detectedLocale = detect(fromStorage('lang'), fromNavigator(), () => defaultLocale)
+    // return detectedLocale && isLocaleValid(detectedLocale) ? detectedLocale : defaultLocale
+
+    return defaultLocale
 }
 
 async function activate(locale: string) {

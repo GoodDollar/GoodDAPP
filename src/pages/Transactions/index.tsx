@@ -57,10 +57,10 @@ export default function Transactions() {
                 </div>
             </div> */}
 
-            <div className="bg-dark-900 w-full max-w-2xl rounded mb-3 p-4">
+            <div className="w-full max-w-2xl rounded mb-3 p-4">
                 <div className="flex justify-between">
                     <div className="flex">
-                        <div className="p-1.5 bg-dark-800 rounded">
+                        <div className="p-1.5 rounded">
                             <User strokeWidth={1} size={34} color={theme.white} />
                         </div>
                         <div className="ml-3">
@@ -100,15 +100,12 @@ export default function Transactions() {
                 </div>
             </div>
 
-            <div className="bg-dark-900 w-full max-w-2xl rounded p-4">
-                <div className="w-auto flex justify-between items-center rounded bg-dark-800 p-0.5 whitespace-nowrap text-sm font-bold cursor-pointer select-none pointer-events-auto mt-3 mb-6">
+            <div className="w-full max-w-2xl rounded p-4">
+                <div className="w-auto flex justify-between items-center rounded p-0.5 whitespace-nowrap text-sm font-bold cursor-pointer select-none pointer-events-auto mt-3 mb-6">
                     <Link to={'/pool'} className={`w-3/6 p-3 text-center rounded-lg text-secondary`}>
                         {i18n._(t`Liquidity Positions`)}
                     </Link>
-                    <Link
-                        to={'/transactions'}
-                        className={`w-3/6 p-3 text-center rounded-lg text-primary text-bold bg-dark-900 `}
-                    >
+                    <Link to={'/transactions'} className={`w-3/6 p-3 text-center rounded-lg text-primary text-bold `}>
                         {i18n._(t`Transaction History`)}
                     </Link>
                 </div>

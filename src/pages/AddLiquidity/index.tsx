@@ -350,7 +350,7 @@ export default function AddLiquidity({
                     {currencies[Field.CURRENCY_B]?.getSymbol(chainId)} POOL
                 </button> */}
             </div>
-            <div className="bg-dark-900 w-full max-w-2xl rounded z-10 shadow-liquidity-purple-glow">
+            <div className="w-full max-w-2xl rounded z-10 shadow-liquidity-purple-glow">
                 <Header input={currencies[Field.CURRENCY_A]} output={currencies[Field.CURRENCY_B]} />
                 <Wrapper>
                     <TransactionConfirmationModal
@@ -417,8 +417,8 @@ export default function AddLiquidity({
                                 justify={expertMode ? 'space-between' : 'flex-start'}
                                 style={{ padding: '0 1rem' }}
                             >
-                                <button className="bg-dark-900 rounded-full p-3px -mt-6 -mb-6 z-10">
-                                    <div className="bg-dark-800 hover:bg-dark-700 rounded-full p-3">
+                                <button className="rounded-full p-3px -mt-6 -mb-6 z-10">
+                                    <div className="rounded-full p-3">
                                         <Plus size="32" color={theme.text2} />
                                     </div>
                                 </button>

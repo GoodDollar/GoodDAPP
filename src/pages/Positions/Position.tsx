@@ -60,7 +60,7 @@ export default function Position({ pair, showUnwrapped = false, stakedBalance }:
     return (
         <>
             <div
-                className="flex justify-between items-center rounded bg-dark-800 px-3 py-3 mt-2"
+                className="flex justify-between items-center rounded px-3 py-3 mt-2"
                 onClick={() => setShowMore(!showMore)}
             >
                 <DoubleCurrencyLogo currency0={currency0} currency1={currency1} size={30} margin={true} />
@@ -82,7 +82,7 @@ export default function Position({ pair, showUnwrapped = false, stakedBalance }:
                 </div>
             </div>
             {showMore && (
-                <AutoColumn gap="8px" className="bg-dark-800 p-4 -mt-2 mb-2 rounded-b-lg">
+                <AutoColumn gap="8px" className="p-4 -mt-2 mb-2 rounded-b-lg">
                     <FixedHeightRow>
                         <Text fontSize={16} fontWeight={500}>
                             Your total pool tokens:

@@ -11,7 +11,7 @@ const KashiLending = ({ farm }: any) => {
             {farm.type === 'KMP' && (
                 <Paper className="bg-dark-800">
                     <div
-                        className="bg-dark-850 grid grid-cols-3 md:grid-cols-4 px-4 py-2  cursor-pointer select-none rounded rounded-b-none"
+                        className="grid grid-cols-3 md:grid-cols-4 px-4 py-2  cursor-pointer select-none rounded rounded-b-none"
                         onClick={() => setExpand(!expand)}
                     >
                         <div className="text-sm sm:text-base font-semibold">{farm && farm.symbol}</div>

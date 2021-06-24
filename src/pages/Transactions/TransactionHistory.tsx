@@ -34,10 +34,7 @@ export default function TransactionHistory({ transactions }: any) {
             <div>
                 {transactions ? (
                     transactions.map((t: any) => (
-                        <div
-                            key={t.tx_hash}
-                            className="flex justify-between items-center rounded bg-dark-800 px-3 py-1 mb-3"
-                        >
+                        <div key={t.tx_hash} className="flex justify-between items-center rounded px-3 py-1 mb-3">
                             <div className="flex flex-row space-x-1 items-center">
                                 <div>
                                     <img src={t.token_0.logo_url} className="block w-6 h-6 rounded-full" alt="" />
@@ -63,7 +60,7 @@ export default function TransactionHistory({ transactions }: any) {
                         </div>
                     ))
                 ) : (
-                    <div className="text-gray-500 text-center px-4 py-14 border border-gray-800 rounded">
+                    <div className="text-gray-500 text-center px-4 py-14 rounded">
                         <Dots>Loading</Dots>
                     </div>
                 )}

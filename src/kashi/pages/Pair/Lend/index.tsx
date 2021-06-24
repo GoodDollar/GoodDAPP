@@ -188,16 +188,16 @@ export default function LendingPair({
                 </div>
 
                 <Tabs forceRenderTabPanel selectedIndex={tabIndex} onSelect={(index: number) => setTabIndex(index)}>
-                    <TabList className="flex rounded bg-dark-800 p-1">
+                    <TabList className="flex rounded p-1">
                         <Tab
                             className="flex flex-1 justify-center items-center rounded text-lg text-secondary hover:text-primary cursor-pointer focus:outline-none select-none px-3 py-4"
-                            selectedClassName="bg-dark-900 text-high-emphesis"
+                            selectedClassName="text-high-emphesis"
                         >
                             Deposit {pair.asset.symbol}
                         </Tab>
                         <Tab
                             className="flex flex-1 justify-center items-center rounded text-lg text-secondary hover:text-primary cursor-pointer focus:outline-none select-none px-3 py-4"
-                            selectedClassName="bg-dark-900 text-high-emphesis"
+                            selectedClassName="text-high-emphesis"
                         >
                             Withdraw {pair.asset.symbol}
                         </Tab>

@@ -21,7 +21,7 @@ export default function APRCard() {
         fetchData()
     }, [])
     return (
-        <div className="flex w-full justify-between items-center max-w-xl h-24 p-4 md:pl-5 md:pr-7 rounded bg-light-yellow bg-opacity-40">
+        <div className="flex w-full justify-between items-center max-w-xl h-24 p-4 md:pl-5 md:pr-7 rounded bg-opacity-40">
             <div className="flex flex-col">
                 <div className="flex flex-nowrap justify-center items-center mb-4 md:mb-2">
                     <p className="whitespace-nowrap text-caption2 md:text-lg md:leading-5 font-bold text-high-emphesis">
@@ -37,7 +37,7 @@ export default function APRCard() {
                         className={`
                         py-1 px-4 md:py-1.5 md:px-7 rounded
                         text-xs md:text-sm font-medium md:font-bold text-dark-900
-                        bg-light-yellow hover:bg-opacity-90`}
+                        hover:bg-opacity-90`}
                     >
                         {i18n._(t`View Stats`)}
                     </a>

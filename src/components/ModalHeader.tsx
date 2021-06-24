@@ -18,7 +18,7 @@ function ModalHeader({
                 </Typography>
             )}
             <div
-                className="absolute top-0 right-0 w-5 h-5 rounded-full border-2 text-primary hover:text-high-emphesis border-primary  flex items-center justify-center cursor-pointer"
+                className="absolute top-0 right-0 w-5 h-5 rounded-full text-primary hover:text-high-emphesis flex items-center justify-center cursor-pointer"
                 onClick={onClose}
             >
                 <svg width="8px" height="8px" viewBox="0 0 8 8" xmlns="http://www.w3.org/2000/svg">

@@ -154,8 +154,8 @@ export default function NetworkModal(): JSX.Element | null {
                 ].map((key: ChainId, i: number) => {
                     if (chainId === key) {
                         return (
-                            <button key={i} className="bg-gradient-to-r from-blue to-pink w-full rounded p-px">
-                                <div className="flex items-center h-full w-full bg-dark-1000 rounded p-3">
+                            <button key={i} className="from-blue to-pink w-full rounded p-px">
+                                <div className="flex items-center h-full w-full rounded p-3">
                                     <img
                                         src={NETWORK_ICON[key]}
                                         alt="Switch Network"
@@ -174,7 +174,7 @@ export default function NetworkModal(): JSX.Element | null {
                                 const params = PARAMS[key]
                                 library?.send('wallet_addEthereumChain', [params, account])
                             }}
-                            className="flex items-center bg-dark-800 hover:bg-dark-700 w-full rounded p-3 cursor-pointer"
+                            className="flex items-center w-full rounded p-3 cursor-pointer"
                         >
                             <img src={NETWORK_ICON[key]} alt="Switch Network" className="rounded-md mr-2 w-8 h-8" />
                             <div className="text-primary font-bold">{NETWORK_LABEL[key]}</div>

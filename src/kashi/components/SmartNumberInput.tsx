@@ -79,7 +79,7 @@ export default function SmartNumberInput({
             <div className="flex items-center relative w-full mb-4">
                 <NumericalInput
                     className={
-                        'w-full p-3 bg-input rounded disabled:cursor-not-allowed disabled:bg-dark-1000 disabled:ring disabled:ring-dark-800 focus:ring focus:ring-' +
+                        'w-full p-3 rounded disabled:cursor-not-allowed disabled:ring disabled:ring-dark-800 focus:ring focus:ring-' +
                         color
                     }
                     value={value}

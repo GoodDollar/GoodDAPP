@@ -318,7 +318,7 @@ export default function Swap() {
                 onConfirm={handleConfirmTokenWarning}
             />
             <SwapPoolTabs active={'swap'} />
-            <div className="bg-dark-900 shadow-swap-blue-glow w-full max-w-2xl rounded">
+            <div className="w-full max-w-2xl rounded">
                 <SwapHeader input={currencies[Field.INPUT]} output={currencies[Field.OUTPUT]} />
                 <Wrapper id="swap-page">
                     <ConfirmSwapModal
@@ -345,7 +345,7 @@ export default function Swap() {
                                     <div className=""></div>
                                     <Link
                                         to="/yield"
-                                        className="inline-flex items-center rounded-sm px-3 py-2 border-2 border-purple text-purple"
+                                        className="inline-flex items-center rounded-sm px-3 py-2 text-purple"
                                     >
                                         Visit Yield
                                     </Link>
@@ -383,14 +383,14 @@ export default function Swap() {
                                 style={{ padding: '0 1rem' }}
                             >
                                 <button
-                                    className="bg-dark-900 rounded-full p-3px -mt-6 -mb-6 z-10"
+                                    className="rounded-full p-3px -mt-6 -mb-6 z-10"
                                     onClick={() => {
                                         setApprovalSubmitted(false) // reset 2 step UI for approvals
                                         onSwitchTokens()
                                     }}
                                 >
                                     <div
-                                        className="bg-dark-800 hover:bg-dark-700 rounded-full p-3"
+                                        className="rounded-full p-3"
                                         onMouseEnter={() => setAnimateSwapArrows(true)}
                                         onMouseLeave={() => setAnimateSwapArrows(false)}
                                     >

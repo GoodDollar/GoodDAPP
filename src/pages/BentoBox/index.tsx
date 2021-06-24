@@ -54,13 +54,13 @@ function BentoBox(): JSX.Element {
 
                 <div className="container mx-auto sm:px-6 max-w-5xl">
                     <div className="grid gap-4 sm:gap-12 grid-flow-auto grid-cols-4">
-                        <Card className="col-span-2 md:col-span-1 w-full bg-dark-800 hover:bg-dark-900 cursor-pointer rounded shadow-pink-glow hover:shadow-pink-glow-hovered">
+                        <Card className="col-span-2 md:col-span-1 w-full cursor-pointer rounded hover:shadow-pink-glow-hovered">
                             <div className="relative w-full">
                                 <img alt="" src={KashiNeonSign} className="block m-auto w-full h-auto mb-4" />
                                 {account ? (
                                     <Link to={'/bento/kashi/borrow'}>
                                         <div
-                                            className="w-full border-gradient py-2 text-center"
+                                            className="w-full py-2 text-center"
                                             // className="w-full rounded text-lg text-high-emphesis px-4 py-2"
                                         >
                                             {i18n._(t`Enter`)}
@@ -71,13 +71,13 @@ function BentoBox(): JSX.Element {
                                 )}
                             </div>
                         </Card>
-                        <Card className="flex items-center justify-center col-span-2 md:col-span-1  bg-dark-800 hover:bg-dark-900 cursor-pointer shadow-blue-glow hover:shadow-blue-glow-hovered transition-colors">
+                        <Card className="flex items-center justify-center col-span-2 md:col-span-1  cursor-pointer transition-colors">
                             <img src={ComingSoon} alt="Coming Soon" className="block m-auto w-full h-auto" />
                         </Card>
-                        <Card className="flex items-center justify-center col-span-2 md:col-span-1 bg-dark-800 hover:bg-dark-900 cursor-pointer shadow-pink-glow hover:shadow-pink-glow-hovered transition-colors">
+                        <Card className="flex items-center justify-center col-span-2 md:col-span-1 cursor-pointer transition-colors">
                             <img src={ComingSoon} alt="Coming Soon" className="block m-auto w-full h-auto" />
                         </Card>
-                        <Card className="flex items-center justify-center col-span-2 md:col-span-1 bg-dark-800 hover:bg-dark-900 cursor-pointer shadow-blue-glow hover:shadow-blue-glow-hovered transition-colors">
+                        <Card className="flex items-center justify-center col-span-2 md:col-span-1 cursor-pointer transition-colors">
                             <img src={ComingSoon} alt="Coming Soon" className="block m-auto w-full h-auto" />
                         </Card>
                     </div>

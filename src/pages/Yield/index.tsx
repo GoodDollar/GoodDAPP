@@ -147,7 +147,7 @@ export default function Yield(): JSX.Element {
                                     <Menu section={section} setSection={setSection} />
                                 </div>
                                 {chainId === ChainId.MATIC && (
-                                    <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mt-4">
+                                    <div className="p-4 mt-4">
                                         <div className="flex">
                                             <div className="ml-3">
                                                 <p className="text-sm text-yellow-700">

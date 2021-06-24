@@ -117,7 +117,7 @@ export default function InputGroup({
                         )}
                         <div className="flex items-center relative w-full mb-4">
                             <NumericalInput
-                                className="w-full p-3 bg-input rounded focus:ring focus:ring-blue pr-20"
+                                className="w-full p-3 rounded focus:ring focus:ring-blue pr-20"
                                 value={depositValue}
                                 onUserInput={value => {
                                     setDepositValue(value)
@@ -169,7 +169,7 @@ export default function InputGroup({
                         )}
                         <div className="flex items-center relative w-full mb-4">
                             <NumericalInput
-                                className="w-full p-3 bg-input rounded focus:ring focus:ring-pink pr-20"
+                                className="w-full p-3 rounded focus:ring focus:ring-pink pr-20"
                                 value={withdrawValue}
                                 onUserInput={value => {
                                     setWithdrawValue(value)

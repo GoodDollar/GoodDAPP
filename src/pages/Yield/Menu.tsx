@@ -6,8 +6,8 @@ const Menu = ({ section, setSection }: any) => {
         <div className="overflow-x-auto">
             <div className="flex flex-row space-x-2 text-xs whitespace-nowrap lg:text-base lg:flex-col lg:space-y-2 lg:space-x-0">
                 <div
-                    className={`cursor-pointer bg-dark-900 rounded flex items-center px-4 py-6 border border-transparent ${section ===
-                        'portfolio' && 'border-gradient'}`}
+                    className={`cursor-pointer rounded flex items-center px-4 py-6 ${section === 'portfolio' &&
+                        'border-gradient'}`}
                     onClick={() => {
                         return setSection('portfolio')
                     }}
@@ -15,8 +15,8 @@ const Menu = ({ section, setSection }: any) => {
                     Your Staked Farms
                 </div>
                 <div
-                    className={`cursor-pointer bg-dark-900 rounded flex items-center px-4 py-6 border border-transparent ${section ===
-                        'all' && 'border-gradient'}`}
+                    className={`cursor-pointer rounded flex items-center px-4 py-6 ${section === 'all' &&
+                        'border-gradient'}`}
                     onClick={() => {
                         return setSection('all')
                     }}
@@ -24,8 +24,8 @@ const Menu = ({ section, setSection }: any) => {
                     All Yield Farms
                 </div>
                 <div
-                    className={`cursor-pointer bg-dark-900 rounded flex items-center px-4 py-6 border border-transparent ${section ===
-                        'kmp' && 'border-gradient'}`}
+                    className={`cursor-pointer rounded flex items-center px-4 py-6 ${section === 'kmp' &&
+                        'border-gradient'}`}
                     onClick={() => {
                         return setSection('kmp')
                     }}
@@ -33,8 +33,8 @@ const Menu = ({ section, setSection }: any) => {
                     Lending Yield Farms
                 </div>
                 <div
-                    className={`cursor-pointer bg-dark-900 rounded flex items-center px-4 py-6 border border-transparent ${section ===
-                        'slp' && 'border-gradient'}`}
+                    className={`cursor-pointer rounded flex items-center px-4 py-6 ${section === 'slp' &&
+                        'border-gradient'}`}
                     onClick={() => {
                         return setSection('slp')
                     }}
@@ -42,7 +42,7 @@ const Menu = ({ section, setSection }: any) => {
                     Liquidity Yield Farms
                 </div>
                 <div
-                    className={`cursor-pointer bg-dark-900 rounded flex justify-between items-center px-4 py-6 border border-transparent ${section ===
+                    className={`cursor-pointer rounded flex justify-between items-center px-4 py-6 ${section ===
                         'mcv2' && 'border-gradient'}`}
                     onClick={() => {
                         return setSection('mcv2')

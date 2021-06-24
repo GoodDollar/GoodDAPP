@@ -29,7 +29,7 @@ function Withdraw({ tokenAddress, tokenSymbol }: { tokenAddress: string; tokenSy
             )}
             <div className="flex items-center relative w-full mb-4">
                 <NumericalInput
-                    className="w-full p-3 bg-input rounded focus:ring focus:ring-pink"
+                    className="w-full p-3 rounded focus:ring focus:ring-pink"
                     value={value}
                     onUserInput={value => {
                         setValue(value)

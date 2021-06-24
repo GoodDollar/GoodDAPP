@@ -90,7 +90,7 @@ export default function SushiBarTips() {
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-5">
                     {tips.map(({ title, image, description, href }, i) => (
-                        <div className="bg-dark-900 px-6 py-5 rounded-md" key={i}>
+                        <div className="px-6 py-5 rounded-md" key={i}>
                             <div className="md:min-h-cardContent">
                                 <div className="flex items-center">
                                     <img

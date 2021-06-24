@@ -92,7 +92,7 @@ export default function InputGroup({
                     </div>
                 )}
                 <div className="px-4">
-                    <div className="block w-full p-4 text-sm rounded bg-purple bg-opacity-20 text-high-emphesis">
+                    <div className="block w-full p-4 text-sm rounded text-high-emphesis">
                         <div className="flex items-center">
                             <div className="ml-3">
                                 <p>
@@ -122,7 +122,7 @@ export default function InputGroup({
                         )}
                         <div className="relative flex items-center w-full mb-4">
                             <NumericalInput
-                                className="w-full p-3 pr-20 rounded bg-input focus:ring focus:ring-blue"
+                                className="w-full p-3 pr-20 rounded focus:ring focus:ring-blue"
                                 value={depositValue}
                                 onUserInput={value => {
                                     setDepositValue(value)
@@ -135,7 +135,7 @@ export default function InputGroup({
                                     onClick={() => {
                                         setDepositValue(fixedFormatting(balance.value, balance.decimals))
                                     }}
-                                    className="absolute border-0 right-4 focus:ring focus:ring-blue"
+                                    className="absolute right-4 focus:ring focus:ring-blue"
                                 >
                                     {i18n._(t`MAX`)}
                                 </Button>
@@ -174,7 +174,7 @@ export default function InputGroup({
                         )}
                         <div className="relative flex items-center w-full mb-4">
                             <NumericalInput
-                                className="w-full p-3 pr-20 rounded bg-input focus:ring focus:ring-pink"
+                                className="w-full p-3 pr-20 rounded focus:ring focus:ring-pink"
                                 value={withdrawValue}
                                 onUserInput={value => {
                                     setWithdrawValue(value)
@@ -187,7 +187,7 @@ export default function InputGroup({
                                     onClick={() => {
                                         setWithdrawValue(fixedFormatting(staked.value, staked.decimals))
                                     }}
-                                    className="absolute border-0 right-4 focus:ring focus:ring-pink"
+                                    className="absolute right-4 focus:ring focus:ring-pink"
                                 >
                                     {i18n._(t`MAX`)}
                                 </Button>

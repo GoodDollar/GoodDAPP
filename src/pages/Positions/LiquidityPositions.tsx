@@ -96,11 +96,11 @@ export default function LiquidityPositions() {
             </div>
             <div>
                 {!account ? (
-                    <div className="text-gray-500 text-center px-4 py-14 border border-gray-800 rounded">
+                    <div className="text-gray-500 text-center px-4 py-14 rounded">
                         {i18n._(t`Connect to a wallet to view your liquidity`)}
                     </div>
                 ) : v2IsLoading ? (
-                    <div className="text-gray-500 text-center px-4 py-14 border border-gray-800 rounded">
+                    <div className="text-gray-500 text-center px-4 py-14 rounded">
                         <Dots>{i18n._(t`Loading`)}</Dots>
                     </div>
                 ) : allV2PairsWithLiquidity?.length > 0 || stakingPairs?.length > 0 ? (
@@ -110,7 +110,7 @@ export default function LiquidityPositions() {
                         ))}
                     </>
                 ) : (
-                    <div className="text-gray-500 text-center px-4 py-14 border border-gray-800 rounded">
+                    <div className="text-gray-500 text-center px-4 py-14 rounded">
                         {i18n._(t`No liquidity positions found`)}
                     </div>
                 )}
@@ -131,7 +131,7 @@ export default function LiquidityPositions() {
                         </Button>
                     </Link>
                     <Link to="/create/ETH" className="w-full">
-                        <Button size="large" className="w-full bg-dark-800 text-secondary">
+                        <Button size="large" className="w-full text-secondary">
                             {i18n._(t`Create a Pair`)}
                         </Button>
                     </Link>

@@ -84,7 +84,7 @@ const TokenBalance = ({ balance }: { balance: BentoBalance }) => {
     const [expand, setExpand] = useState<boolean>(false)
     const { chainId } = useActiveWeb3React()
     return (
-        <Paper className="bg-dark-800 ">
+        <Paper className="">
             <div
                 className="grid grid-cols-3 py-4 px-4 cursor-pointer select-none rounded text-sm "
                 onClick={() => setExpand(!expand)}

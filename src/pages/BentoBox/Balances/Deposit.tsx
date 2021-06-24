@@ -52,7 +52,7 @@ export default function Deposit({
             )}
             <div className="flex items-center relative w-full mb-4">
                 <NumericalInput
-                    className="w-full p-3 bg-input rounded focus:ring focus:ring-blue"
+                    className="w-full p-3 rounded focus:ring focus:ring-blue"
                     value={value}
                     onUserInput={value => {
                         setValue(value)

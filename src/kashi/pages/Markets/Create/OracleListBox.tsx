@@ -22,7 +22,7 @@ function OracleListBox(): JSX.Element {
                             </Listbox.Label>
                             <div className="relative">
                                 <span className="inline-block w-full rounded-md shadow-sm">
-                                    <Listbox.Button className="cursor-pointer relative w-full rounded-md border bg-input border-none p-3 text-left focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition ease-in-out duration-150 sm:text-sm sm:leading-5">
+                                    <Listbox.Button className="cursor-pointer relative w-full rounded-md p-3 text-left focus:outline-none transition ease-in-out duration-150 sm:text-sm sm:leading-5">
                                         <span className="truncate flex items-center">
                                             <AsyncOracleIcon
                                                 name={selectedOracle.name}
@@ -53,11 +53,11 @@ function OracleListBox(): JSX.Element {
                                     leave="transition ease-in duration-100"
                                     leaveFrom="opacity-100"
                                     leaveTo="opacity-0"
-                                    className="z-10 absolute mt-1 w-full rounded-md bg-input shadow-lg"
+                                    className="z-10 absolute mt-1 w-full rounded-md shadow-lg"
                                 >
                                     <Listbox.Options
                                         static
-                                        className="max-h-60 rounded-md py-1 text-base leading-6 shadow-xs overflow-auto focus:border-none focus:outline-none sm:text-sm sm:leading-5"
+                                        className="max-h-60 rounded-md py-1 text-base leading-6 overflow-auto focus:outline-none sm:text-sm sm:leading-5"
                                     >
                                         {oracles.map((oracle: any) => (
                                             <Listbox.Option

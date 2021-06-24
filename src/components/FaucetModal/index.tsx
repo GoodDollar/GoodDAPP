@@ -92,24 +92,25 @@ export default function FaucetModal() {
         setWaiting(true)
         setError('')
         setTxHash('')
-        faucetContract?.drip()
-        .then((tx: any) => {
-            setWaiting(false)
-            setTxHash(tx.hash)
-        })
-        .catch((err: any) => {
-            if (err.code === 4001) {
-                setError('Transaction rejected.')
-            } else {
-                console.error(`Claim failed`, err, 'drip')
-                setError(`Claim failed: ${err.message}`)
-            }
-            setWaiting(false)
-        })
+        faucetContract
+            ?.drip()
+            .then((tx: any) => {
+                setWaiting(false)
+                setTxHash(tx.hash)
+            })
+            .catch((err: any) => {
+                if (err.code === 4001) {
+                    setError('Transaction rejected.')
+                } else {
+                    console.error(`Claim failed`, err, 'drip')
+                    setError(`Claim failed: ${err.message}`)
+                }
+                setWaiting(false)
+            })
     }, [faucetContract])
 
     useEffect(() => {
-        if(faucetModalOpen) {
+        if (faucetModalOpen) {
             setRunning(false)
         }
     }, [faucetModalOpen])
@@ -123,10 +124,7 @@ export default function FaucetModal() {
                 <HeaderRow>Faucet</HeaderRow>
                 <LowerSection>
                     <TYPE.body color={theme.text1}>Claim your test tokens here...</TYPE.body>
-                    <button
-                        onClick={claimFaucet}
-                        className="flex items-center bg-dark-800 hover:bg-dark-700 w-full rounded p-3 cursor-pointer mt-5"
-                    >
+                    <button onClick={claimFaucet} className="flex items-center w-full rounded p-3 cursor-pointer mt-5">
                         <div className="text-primary font-bold text-center w-full">Claim</div>
                     </button>
                 </LowerSection>
@@ -139,19 +137,18 @@ export default function FaucetModal() {
         [toggleFaucetModal, faucetErrorMessage]
     )
 
-    return (
-        !isRunning ?
-            <Modal isOpen={faucetModalOpen} onDismiss={toggleFaucetModal} minHeight={false} maxHeight={90}>
-                <Wrapper>{getModalContent()}</Wrapper>
-            </Modal>
-        :
-            <TransactionConfirmationModal
-                isOpen={faucetModalOpen}
-                onDismiss={toggleFaucetModal}
-                attemptingTxn={isWaiting}
-                hash={txHash}
-                content={confirmationContent}
-                pendingText={'Claiming test tokens'}
-            />
+    return !isRunning ? (
+        <Modal isOpen={faucetModalOpen} onDismiss={toggleFaucetModal} minHeight={false} maxHeight={90}>
+            <Wrapper>{getModalContent()}</Wrapper>
+        </Modal>
+    ) : (
+        <TransactionConfirmationModal
+            isOpen={faucetModalOpen}
+            onDismiss={toggleFaucetModal}
+            attemptingTxn={isWaiting}
+            hash={txHash}
+            content={confirmationContent}
+            pendingText={'Claiming test tokens'}
+        />
     )
 }

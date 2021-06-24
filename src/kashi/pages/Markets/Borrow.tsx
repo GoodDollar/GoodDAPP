@@ -108,7 +108,7 @@ export default function BorrowMarkets(): JSX.Element {
                                                 to={'/bento/kashi/borrow/' + pair.address}
                                                 className="block text-high-emphesis"
                                             >
-                                                <div className="grid gap-4 grid-cols-4 md:grid-cols-6 lg:grid-cols-7 py-4 px-4 items-center align-center  text-sm  rounded bg-dark-800 hover:bg-dark-pink">
+                                                <div className="grid gap-4 grid-cols-4 md:grid-cols-6 lg:grid-cols-7 py-4 px-4 items-center align-center  text-sm  rounded hover:bg-dark-pink">
                                                     <div className="hidden space-x-2 md:flex">
                                                         <AsyncTokenIcon
                                                             address={pair.asset.address}
@@ -210,7 +210,7 @@ export default function BorrowMarkets(): JSX.Element {
                                         to={'/bento/kashi/borrow/' + String(pair.address).toLowerCase()}
                                         className="block text-high-emphesis"
                                     >
-                                        <div className="grid gap-4 grid-cols-4 md:grid-cols-6 lg:grid-cols-7 py-4 px-4 items-center align-center text-sm  rounded bg-dark-800 hover:bg-dark-pink">
+                                        <div className="grid gap-4 grid-cols-4 md:grid-cols-6 lg:grid-cols-7 py-4 px-4 items-center align-center text-sm  rounded hover:bg-dark-pink">
                                             <div className="flex flex-col sm:flex-row items-start sm:items-center">
                                                 <div className="hidden space-x-2 md:flex">
                                                     <AsyncTokenIcon

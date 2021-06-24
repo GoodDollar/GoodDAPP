@@ -43,10 +43,10 @@ const inactiveTabStyle = `${tabStyle} text-secondary`
 
 const buttonStyle =
     'flex justify-center items-center w-full h-14 rounded font-bold md:font-medium md:text-lg mt-5 text-sm focus:outline-none focus:ring'
-const buttonStyleEnabled = `${buttonStyle} text-high-emphesis bg-gradient-to-r from-pink-red to-light-brown hover:opacity-90`
+const buttonStyleEnabled = `${buttonStyle} text-high-emphesis from-pink-red to-light-brown hover:opacity-90`
 const buttonStyleInsufficientFunds = `${buttonStyleEnabled} opacity-60`
 const buttonStyleDisabled = `${buttonStyle} text-secondary bg-dark-700`
-const buttonStyleConnectWallet = `${buttonStyle} text-high-emphesis bg-cyan-blue hover:bg-opacity-90`
+const buttonStyleConnectWallet = `${buttonStyle} text-high-emphesis hover:bg-opacity-90`
 
 interface StakeCardProps {
     sushiBalance: BalanceProps
@@ -150,8 +150,8 @@ export default function StakeCard({ sushiBalance, xSushiBalance }: StakeCardProp
     return (
         <>
             <TransactionFailedModal isOpen={modalOpen} onDismiss={() => setModalOpen(false)} />
-            <div className="bg-dark-900 shadow-swap-blue-glow w-full max-w-xl pt-2 pb-6 md:pb-9 px-3 md:pt-4 md:px-8 rounded">
-                <div className="flex w-full h-14 bg-dark-800 rounded">
+            <div className="w-full max-w-xl pt-2 pb-6 md:pb-9 px-3 md:pt-4 md:px-8 rounded">
+                <div className="flex w-full h-14 rounded">
                     <div
                         className="h-full w-6/12 p-0.5"
                         onClick={() => {
@@ -180,7 +180,7 @@ export default function StakeCard({ sushiBalance, xSushiBalance }: StakeCardProp
                     <p className="text-large md:text-h5 font-bold text-high-emphesis">
                         {activeTab === 0 ? i18n._(t`Stake SUSHI`) : i18n._(t`Unstake`)}
                     </p>
-                    <div className="border-gradient-r-pink-red-light-brown-dark-pink-red border-transparent border-solid border rounded-3xl px-4 md:px-3.5 py-1.5 md:py-0.5 text-high-emphesis text-xs font-medium md:text-caption md:font-normal">
+                    <div className="rounded-3xl px-4 md:px-3.5 py-1.5 md:py-0.5 text-high-emphesis text-xs font-medium md:text-caption md:font-normal">
                         {`1 xSUSHI = ${xSushiPerSushi.toFixed(4)} SUSHI`}
                     </div>
                 </div>
@@ -188,7 +188,7 @@ export default function StakeCard({ sushiBalance, xSushiBalance }: StakeCardProp
                 <StyledNumericalInput
                     value={input}
                     onUserInput={handleInput}
-                    className={`w-full h-14 px-3 md:px-5 mt-5 rounded bg-dark-800 text-caption2 md:text-lg font-bold text-dark-800${
+                    className={`w-full h-14 px-3 md:px-5 mt-5 rounded text-caption2 md:text-lg font-bold text-dark-800${
                         inputError ? ' pl-9 md:pl-12' : ''
                     }`}
                     placeholder=" "
@@ -197,7 +197,7 @@ export default function StakeCard({ sushiBalance, xSushiBalance }: StakeCardProp
                 <div className="relative h-0 bottom-14 w-full pointer-events-none">
                     <div
                         className={`flex justify-between items-center h-14 rounded px-3 md:px-5 ${
-                            inputError ? ' border border-red' : ''
+                            inputError ? ' border-red' : ''
                         }`}
                     >
                         <div className="flex">
@@ -219,8 +219,8 @@ export default function StakeCard({ sushiBalance, xSushiBalance }: StakeCardProp
                                 className={`
                                     pointer-events-auto
                                     focus:outline-none focus:ring hover:bg-opacity-40
-                                    md:bg-cyan-blue md:bg-opacity-30
-                                    border border-secondary md:border-cyan-blue
+                                    md:bg-opacity-30
+                                    md:border-cyan-blue
                                     rounded-2xl py-1 px-2 md:py-1 md:px-3 ml-3 md:ml-4
                                     text-xs md:text-caption2 font-bold md:font-normal md:text-cyan-blue
                                 `}
@@ -234,7 +234,7 @@ export default function StakeCard({ sushiBalance, xSushiBalance }: StakeCardProp
                 {(approvalState === ApprovalState.NOT_APPROVED || approvalState === ApprovalState.PENDING) &&
                 activeTab === 0 ? (
                     <Button
-                        className={`${buttonStyle} text-high-emphesis bg-cyan-blue hover:bg-opacity-90`}
+                        className={`${buttonStyle} text-high-emphesis hover:bg-opacity-90`}
                         disabled={approvalState === ApprovalState.PENDING}
                         onClick={approve}
                     >

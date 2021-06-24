@@ -86,7 +86,7 @@ export default function PoolFinder() {
             <Helmet>
                 <title>{i18n._(t`Find Pool`)} | Sushi</title>
             </Helmet>
-            <div className="relative w-full max-w-lg rounded bg-dark-900 shadow-liquidity-purple-glow">
+            <div className="relative w-full max-w-lg rounded shadow-liquidity-purple-glow">
                 <FindPoolTabs />
                 <AutoColumn style={{ padding: '1rem' }} gap="md">
                     <BlueCard>

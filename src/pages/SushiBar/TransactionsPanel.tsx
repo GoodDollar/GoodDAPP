@@ -205,8 +205,8 @@ export default function TransactionsPanel({}) {
             style={{ height: '33rem', minHeight: '33rem' }}
             className="flex flex-1 max-w-screen-md flex-col mt-11 md:mt-16"
         >
-            <div className="flex flex-1 flex-col border-2 border-dark-900 rounded">
-                <div className="flex flex-1 bg-dark-900 rounded-t p-2 md:p-8 pt-6 pb-0">
+            <div className="flex flex-1 flex-col rounded">
+                <div className="flex flex-1 rounded-t p-2 md:p-8 pt-6 pb-0">
                     <div className="relative w-full md:mt-2">
                         <div
                             className="grid justify-between w-full absolute -top-16 md:-top-24"

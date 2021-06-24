@@ -12,10 +12,10 @@ function Web3Faucet(): JSX.Element | null {
 
     return (
         <div
-            className="flex items-center rounded bg-dark-900 hover:bg-dark-800 p-0.5 whitespace-nowrap text-sm font-bold cursor-pointer select-none pointer-events-auto"
+            className="flex items-center rounded p-0.5 whitespace-nowrap text-sm font-bold cursor-pointer select-none pointer-events-auto"
             onClick={() => toggleFaucetModal()}
         >
-            <div className="grid grid-flow-col auto-cols-max items-center rounded-lg bg-dark-1000 text-sm text-secondary py-2 px-3 pointer-events-auto text-primary">
+            <div className="grid grid-flow-col auto-cols-max items-center rounded-lg text-sm text-secondary py-2 px-3 pointer-events-auto text-primary">
                 Claim Test Tokens
             </div>
             <FaucetModal />

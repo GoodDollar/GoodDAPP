@@ -29,7 +29,7 @@ export default function TransactionFailedModal({ isOpen, onDismiss }: Transactio
                 <div className="flex justify-center mt-5">
                     <button
                         onClick={onDismiss}
-                        className="flex justify-center items-center w-full h-12 rounded bg-pink hover:bg-opacity-90 text-lg font-medium text-high-emphesis"
+                        className="flex justify-center items-center w-full h-12 rounded text-lg font-medium text-high-emphesis"
                     >
                         {i18n._(t`Dismiss`)}
                     </button>

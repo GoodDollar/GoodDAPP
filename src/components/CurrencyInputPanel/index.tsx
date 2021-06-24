@@ -160,7 +160,7 @@ export default function CurrencyInputPanel({
     const valueUSDC = formattedNum(Number(value) * Number(currencyUSDC))
 
     return (
-        <div id={id} className="rounded bg-dark-800 p-5">
+        <div id={id} className="rounded p-5">
             <div
                 className="flex flex-col space-y-3 sm:space-y-0 sm:flex-row justify-between"
                 // hideInput={hideInput}
@@ -217,7 +217,7 @@ export default function CurrencyInputPanel({
                                     <CurrencyLogo currency={currency} size={'54px'} />
                                 </div>
                             ) : (
-                                <div className="bg-dark-700 rounded" style={{ maxWidth: 54, maxHeight: 54 }}>
+                                <div className="rounded" style={{ maxWidth: 54, maxHeight: 54 }}>
                                     <div style={{ width: 54, height: 54 }}>
                                         <Lottie animationData={selectCoinAnimation} autoplay loop />
                                     </div>
@@ -248,7 +248,7 @@ export default function CurrencyInputPanel({
                                                       currency.symbol.length
                                                   )
                                                 : currency?.getSymbol(chainId)) || (
-                                                <div className="bg-transparent hover:bg-primary border border-low-emphesis rounded-full px-2 py-1 text-secondary text-xs font-medium mt-1 whitespace-nowrap ">
+                                                <div className="rounded-full px-2 py-1 text-secondary text-xs font-medium mt-1 whitespace-nowrap ">
                                                     {i18n._(t`Select a token`)}
                                                 </div>
                                             )}
@@ -275,14 +275,14 @@ export default function CurrencyInputPanel({
                         </>
                     )} */}
                 </div>
-                <div className="flex items-center rounded bg-dark-900 space-x-3 p-3 w-full sm:w-3/5">
+                <div className="flex items-center rounded space-x-3 p-3 w-full sm:w-3/5">
                     {!hideInput && (
                         <>
                             {account && currency && showMaxButton && label !== 'To' && (
                                 <Button
                                     onClick={onMax}
                                     size="small"
-                                    className="bg-transparent hover:bg-primary border border-low-emphesis rounded-full text-secondary text-xs font-medium whitespace-nowrap"
+                                    className="rounded-full text-secondary text-xs font-medium whitespace-nowrap"
                                 >
                                     {i18n._(t`Max`)}
                                 </Button>

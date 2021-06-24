@@ -10,16 +10,16 @@ const SIZE = {
 
 const FILLED = {
     default: 'bg-transparent',
-    blue: 'bg-blue bg-opacity-80 w-full rounded text-base text-high-emphesis hover:bg-opacity-100',
-    pink: 'bg-pink bg-opacity-80 w-full rounded text-base text-high-emphesis hover:bg-opacity-100',
-    gradient: 'w-full text-high-emphesis bg-gradient-to-r from-blue to-pink'
+    blue: 'w-full rounded text-base text-high-emphesis hover:bg-opacity-100',
+    pink: 'w-full rounded text-base text-high-emphesis hover:bg-opacity-100',
+    gradient: 'w-full text-high-emphesis from-blue to-pink'
 }
 
 const OUTLINED = {
     default: 'bg-transparent',
-    blue: 'bg-blue bg-opacity-20 outline-blue rounded text-xs text-blue hover:bg-opacity-40',
-    pink: 'bg-pink bg-opacity-20 outline-pink rounded text-xs text-pink hover:bg-opacity-40',
-    gradient: 'bg-gradient-to-r from-blue to-pink'
+    blue: 'outline-blue rounded text-xs text-blue hover:bg-opacity-40',
+    pink: 'outline-pink rounded text-xs text-pink hover:bg-opacity-40',
+    gradient: 'from-blue to-pink'
 }
 
 const VARIANT = {
@@ -73,8 +73,7 @@ export function BackButton({ defaultRoute, className }: { defaultRoute: string; 
                     history.goBack()
                 }
             }}
-            className={`flex justify-center items-center p-2 mr-4 rounded-full bg-dark-900 w-12 h-12 ${className ||
-                ''}`}
+            className={`flex justify-center items-center p-2 mr-4 rounded-full w-12 h-12 ${className || ''}`}
         >
             <ChevronLeft className={'w-6 h-6'} />
         </button>

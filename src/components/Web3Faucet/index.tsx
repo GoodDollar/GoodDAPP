@@ -16,7 +16,7 @@ function Web3Faucet(): JSX.Element | null {
             onClick={() => toggleFaucetModal()}
         >
             <div className="grid grid-flow-col auto-cols-max items-center rounded-lg   py-2 px-3 pointer-events-auto ">
-                Claim Test Tokens
+                Claim UBI
             </div>
             <FaucetModal />
         </div>

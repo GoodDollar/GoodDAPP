@@ -86,6 +86,23 @@ export function colors(darkMode: boolean) {
 export function theme(darkMode: boolean) {
     return {
         ...colors(darkMode),
+        color: {
+            main: '#ffffff',
+            mainBg: '#EDF5FC',
+            border1: 'rgba(208, 217, 228, 0.483146)',
+            text1: '#0D182D',
+            text2: '#00B0FF',
+            text3: '#A5A5A5',
+            button1: 'rgba(0, 176, 255, 0.1)'
+        },
+        shadow: {
+            header: '0px 0px 16px rgba(206, 211, 218, 0.33815)',
+            wallet: '0px 15px 40px rgba(117, 117, 170, 0.102792)'
+        },
+        font: {
+            primary: `Roboto, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif, 'Segoe UI', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji'`,
+            secondary: `'Roboto Slab', system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif, 'Segoe UI', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji'`
+        },
         grids: {
             sm: 8,
             md: 12,

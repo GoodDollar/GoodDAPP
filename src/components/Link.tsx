@@ -26,11 +26,11 @@ export default Link
 export function NavLink<S = H.LocationState>({
     href = '#',
     children,
-    className = 'line    p-2 md:p-3 whitespace-nowrap',
+    className = 'line p-2 md:p-3 whitespace-nowrap',
     ...rest
 }: React.PropsWithoutRef<ReactRouterNavLinkProps<S>> & React.RefAttributes<HTMLAnchorElement>): JSX.Element {
     return (
-        <ReactRouterNavLink href={href} className={className} activeClassName="" {...rest}>
+        <ReactRouterNavLink href={href} className={className} activeClassName="active" {...rest}>
             {children}
         </ReactRouterNavLink>
     )

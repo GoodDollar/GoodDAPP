@@ -156,8 +156,9 @@ module.exports = {
                 ...defaultTheme.borderRadius,
                 none: '0',
                 px: '1px',
-                sm: '0.313rem',
-                DEFAULT: '0.625rem'
+                sm: '6px',
+                DEFAULT: '12px',
+                md: '20px'
             },
             textColor: {
                 ...defaultTheme.textColor,

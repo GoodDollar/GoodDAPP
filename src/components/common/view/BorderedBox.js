@@ -15,6 +15,7 @@ import { useClipboardCopy } from '../../../lib/hooks/useClipboard'
 import { withStyles } from '../../../lib/styles'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../lib/utils/sizes'
 import { truncateMiddle } from '../../../lib/utils/string'
+import Icon from './Icon'
 
 const copiedActionTimeout = 3000 // time during which the copy success message is displayed
 
@@ -140,12 +141,8 @@ const BorderedBox = ({
               </Section.Text>
             </>
           ) : enableIndicateAction && performed ? (
-            <CustomButton
-              style={[styles.copyButtonContainer, styles.performedButtonStyle]}
-              textStyle={styles.performedButtonText}
-              disabled
-            >
-              Copied
+            <CustomButton style={styles.copyButtonContainer} disabled>
+              <Icon size={16} name="success" color="white" />
             </CustomButton>
           ) : (
             <CustomButton onPress={copyToClipboard} style={styles.copyButtonContainer}>
@@ -212,14 +209,6 @@ const styles = ({ theme }) => {
       zIndex: 1,
       alignItems: 'center',
     },
-    performedButtonText: {
-      color: theme.colors.primary,
-    },
-    performedButtonStyle: {
-      backgroundColor: theme.colors.surface,
-      shadowOpacity: 0,
-      elevation: 0,
-    },
     boxCopyIconOuter: {
       width: '100%',
       height: height40,
@@ -273,6 +262,7 @@ const styles = ({ theme }) => {
       marginBottom: 0,
       marginRight: 'auto',
       marginLeft: 'auto',
+      backgroundColor: theme.colors.primary,
     },
   }
 }

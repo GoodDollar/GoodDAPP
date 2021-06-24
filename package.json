@@ -3,9 +3,21 @@
     "description": "SushiSwap Interface",
     "homepage": "https://app.sushi.com",
     "private": true,
+    "scripts": {
+        "analyze": "source-map-explorer 'build/static/js/*.js' --only-mapped --html analysis/index.html",
+        "prebuild": "lingui compile",
+        "prestart": "lingui compile",
+        "start": "cross-env PORT=3000 react-app-rewired start",
+        "dev": "cross-env PORT=3000 react-app-rewired start",
+        "build": "cross-env CI= GENERATE_SOURCEMAP=false react-app-rewired build",
+        "build:sourcemap": "GENERATE_SOURCEMAP=true react-app-rewired build",
+        "eject": "react-app-rewired eject",
+        "test": "react-app-rewired test --env=jsdom",
+        "prepare": "husky install",
+        "lingui": "lingui extract && lingui compile"
+    },
     "lint-staged": {
         "*.{js,jsx,ts,tsx}": [
-            "eslint --cache --fix",
             "prettier --write"
         ],
         "*.{md,css}": "prettier --write"
@@ -58,7 +70,6 @@
         "@types/react-window": "^1.8.2",
         "@types/rebass": "^4.0.5",
         "@types/styled-components": "^5.1.0",
-        "@types/testing-library__cypress": "^5.0.5",
         "@types/wcag-contrast": "^3.0.0",
         "@typescript-eslint/eslint-plugin": "^4.20.0",
         "@typescript-eslint/parser": "^4.20.0",
@@ -84,7 +95,6 @@
         "clsx": "^1.1.1",
         "copy-to-clipboard": "^3.2.0",
         "cross-env": "^7.0.2",
-        "cypress": "^4.11.0",
         "date-fns": "^2.20.0",
         "eslint": "^7.23.0",
         "eslint-config-prettier": "^8.1.0",
@@ -149,20 +159,6 @@
         "typescript": "^3.8.3",
         "use-count-up": "^2.2.5",
         "wcag-contrast": "^3.0.0"
-    },
-    "scripts": {
-        "analyze": "source-map-explorer 'build/static/js/*.js' --only-mapped --html analysis/index.html",
-        "prebuild": "lingui compile",
-        "prestart": "lingui compile",
-        "start": "cross-env PORT=3000 react-app-rewired start",
-        "dev": "cross-env PORT=3001 react-app-rewired start",
-        "build": "cross-env CI= GENERATE_SOURCEMAP=false react-app-rewired build",
-        "build:sourcemap": "GENERATE_SOURCEMAP=true react-app-rewired build",
-        "eject": "react-app-rewired eject",
-        "test": "react-app-rewired test --env=jsdom",
-        "integration-test": "start-server-and-test 'serve build -l 3000' http://localhost:3000 'cypress run'",
-        "prepare": "husky install",
-        "lingui": "lingui extract && lingui compile"
     },
     "browserslist": {
         "production": [

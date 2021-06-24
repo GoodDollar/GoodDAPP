@@ -258,7 +258,7 @@ export default function AddLiquidity({
                         <Trans>Pool Tokens</Trans>
                     </Text>
                 </Row>
-                <TYPE.italic fontSize={14} className="text-gray-500" textAlign="left" padding={'20px 0 20px 0'}>
+                <TYPE.italic fontSize={14} className="" textAlign="left" padding={'20px 0 20px 0'}>
                     {t`Output is estimated. If the price changes by more than ${allowedSlippage /
                         100}% your transaction will revert.`}
                 </TYPE.italic>
@@ -331,10 +331,7 @@ export default function AddLiquidity({
                 <title>{i18n._(t`Add Liquidity`)} | Sushi</title>
             </Helmet>
             <div className="w-full max-w-2xl mb-5 px-4">
-                <NavLink
-                    className="text-center text-secondary hover:text-high-emphesis text-base font-medium"
-                    to={'/pool'}
-                >
+                <NavLink className="center    " to={'/pool'}>
                     {i18n._(t`View Your Liquidity Positions`)} &gt;
                 </NavLink>
                 {/* <button
@@ -350,7 +347,7 @@ export default function AddLiquidity({
                     {currencies[Field.CURRENCY_B]?.getSymbol(chainId)} POOL
                 </button> */}
             </div>
-            <div className="w-full max-w-2xl rounded z-10 shadow-liquidity-purple-glow">
+            <div className="w-full max-w-2xl rounded z-10 ">
                 <Header input={currencies[Field.CURRENCY_A]} output={currencies[Field.CURRENCY_B]} />
                 <Wrapper>
                     <TransactionConfirmationModal

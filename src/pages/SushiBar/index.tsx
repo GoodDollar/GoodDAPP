@@ -1,7 +1,7 @@
 import React from 'react'
 import { useActiveWeb3React } from '../../hooks/useActiveWeb3React'
 import { Helmet } from 'react-helmet'
-import XSushiSign from '../../assets/images/xsushi-text-sign.png'
+import XSushiSign from '../../assets/images/xsushi-sign.png'
 import InfoCard from './InfoCard'
 import APRCard from './APRCard'
 import StakeCard from './StakeCard'

@@ -39,7 +39,7 @@ export default function BorrowMarkets(): JSX.Element {
             netWorth={netWorth}
             left={
                 <Card
-                    className="h-full bg-dark-900"
+                    className="h-full ark-900"
                     backgroundImage={BorrowGraphic}
                     title={i18n._(t`Borrow assets and leverage up`)}
                     description={i18n._(
@@ -51,11 +51,11 @@ export default function BorrowMarkets(): JSX.Element {
             <Helmet>
                 <title>{i18n._(t`Borrow`)} | Sushi</title>
             </Helmet>
-            <Card className="h-full bg-dark-900" header={<MarketHeader type="Borrow" lists={[pairs, positions]} />}>
+            <Card className="h-full ark-900" header={<MarketHeader type="Borrow" lists={[pairs, positions]} />}>
                 {positions.items && positions.items.length > 0 && (
                     <div className="pb-4">
                         <div>
-                            <div className="grid gap-4 grid-cols-4 md:grid-cols-6 lg:grid-cols-7 pb-4 px-4 text-sm text-secondary">
+                            <div className="grid gap-4 grid-cols-4 md:grid-cols-6 lg:grid-cols-7 pb-4 px-4  ">
                                 <ListHeaderWithSort
                                     className="col-span-1 md:col-span-2 lg:col-span-3"
                                     sort={positions}
@@ -104,11 +104,8 @@ export default function BorrowMarkets(): JSX.Element {
                                 {positions.items.map((pair: any) => {
                                     return (
                                         <div key={pair.address}>
-                                            <Link
-                                                to={'/bento/kashi/borrow/' + pair.address}
-                                                className="block text-high-emphesis"
-                                            >
-                                                <div className="grid gap-4 grid-cols-4 md:grid-cols-6 lg:grid-cols-7 py-4 px-4 items-center align-center  text-sm  rounded hover:bg-dark-pink">
+                                            <Link to={'/bento/kashi/borrow/' + pair.address} className="block ">
+                                                <div className="grid gap-4 grid-cols-4 md:grid-cols-6 lg:grid-cols-7 py-4 px-4 items-center align-center    rounded ark-pink">
                                                     <div className="hidden space-x-2 md:flex">
                                                         <AsyncTokenIcon
                                                             address={pair.asset.address}
@@ -128,21 +125,21 @@ export default function BorrowMarkets(): JSX.Element {
                                                         </div>
                                                         <div>{pair.oracle.name}</div>
                                                     </div>
-                                                    <div className="text-right">
+                                                    <div className="right">
                                                         <div>
                                                             {formattedNum(pair.currentUserBorrowAmount.string, false)}{' '}
                                                             {pair.asset.symbol}
                                                         </div>
-                                                        <div className="text-secondary text-sm">
+                                                        <div className=" ">
                                                             {formattedNum(pair.currentUserBorrowAmount.usd, true)}
                                                         </div>
                                                     </div>
-                                                    <div className="hidden md:block text-right">
+                                                    <div className="hidden md:block right">
                                                         <div>
                                                             {formattedNum(pair.userCollateralAmount.string, false)}{' '}
                                                             {pair.collateral.symbol}
                                                         </div>
-                                                        <div className="text-secondary text-sm">
+                                                        <div className=" ">
                                                             {formattedNum(pair.userCollateralAmount.usd, true)}
                                                         </div>
                                                     </div>
@@ -150,7 +147,7 @@ export default function BorrowMarkets(): JSX.Element {
                                                         {formattedPercent(pair.health.string)}
                                                         <GradientDot percent={pair.health.string} />
                                                     </div>
-                                                    <div className="text-right">
+                                                    <div className="right">
                                                         {formattedPercent(pair.interestPerYear.string)}
                                                     </div>
                                                 </div>
@@ -163,7 +160,7 @@ export default function BorrowMarkets(): JSX.Element {
                     </div>
                 )}
 
-                <div className="grid gap-4 grid-flow-col grid-cols-4 md:grid-cols-6 lg:grid-cols-7 pb-4 px-4 text-sm  text-secondary">
+                <div className="grid gap-4 grid-flow-col grid-cols-4 md:grid-cols-6 lg:grid-cols-7 pb-4 px-4   ">
                     <ListHeaderWithSort sort={pairs} sortKey="search">
                         {i18n._(t`Markets`)}
                     </ListHeaderWithSort>
@@ -208,9 +205,9 @@ export default function BorrowMarkets(): JSX.Element {
                                 <div key={pair.address}>
                                     <Link
                                         to={'/bento/kashi/borrow/' + String(pair.address).toLowerCase()}
-                                        className="block text-high-emphesis"
+                                        className="block "
                                     >
-                                        <div className="grid gap-4 grid-cols-4 md:grid-cols-6 lg:grid-cols-7 py-4 px-4 items-center align-center text-sm  rounded hover:bg-dark-pink">
+                                        <div className="grid gap-4 grid-cols-4 md:grid-cols-6 lg:grid-cols-7 py-4 px-4 items-center align-center   rounded ark-pink">
                                             <div className="flex flex-col sm:flex-row items-start sm:items-center">
                                                 <div className="hidden space-x-2 md:flex">
                                                     <AsyncTokenIcon
@@ -226,54 +223,54 @@ export default function BorrowMarkets(): JSX.Element {
                                                 </div>
                                                 <div className="sm:items-end md:hidden">
                                                     <div className="flex flex-col md:flex-row">
-                                                        <div className="font-semibold">{pair.asset.symbol} / </div>
+                                                        <div className="">{pair.asset.symbol} / </div>
                                                         <div>{pair.collateral.symbol}</div>
                                                     </div>
-                                                    <div className="mt-0 text-left text-white-500 text-xs block lg:hidden">
+                                                    <div className="mt-0 left  xs block lg:hidden">
                                                         {pair.oracle.name}
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div className="text-white hidden md:block">
+                                            <div className="white hidden md:block">
                                                 <strong>{pair.asset.symbol}</strong>
                                             </div>
                                             <div className="hidden md:block">{pair.collateral.symbol}</div>
                                             <div className="hidden lg:block">{pair.oracle.name}</div>
-                                            <div className="text-left md:text-right">
+                                            <div className="left right">
                                                 <div className="md:hidden">
                                                     <div className="flex flex-col">
                                                         <div>{formattedNum(pair.currentBorrowAmount.string)}</div>
                                                         <div>{pair.asset.symbol}</div>
                                                     </div>
-                                                    <div className="text-secondary">
+                                                    <div className="">
                                                         {formattedNum(pair.currentBorrowAmount.usd, true)}
                                                     </div>
                                                 </div>
                                                 <div className="hidden md:block">
                                                     {formattedNum(pair.currentBorrowAmount.string)} {pair.asset.symbol}
-                                                    <div className="text-secondary">
+                                                    <div className="">
                                                         {formattedNum(pair.currentBorrowAmount.usd, true)}
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div className="text-right">
+                                            <div className="right">
                                                 <div className="md:hidden">
                                                     <div className="flex flex-col">
                                                         <div>{formattedNum(pair.totalAssetAmount.string)}</div>
                                                         <div>{pair.asset.symbol}</div>
                                                     </div>
-                                                    <div className="text-secondary">
+                                                    <div className="">
                                                         {formattedNum(pair.totalAssetAmount.usd, true)}
                                                     </div>
                                                 </div>
                                                 <div className="hidden md:block">
                                                     {formattedNum(pair.totalAssetAmount.string)} {pair.asset.symbol}
-                                                    <div className="text-secondary">
+                                                    <div className="">
                                                         {formattedNum(pair.totalAssetAmount.usd, true)}
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div className="text-right">
+                                            <div className="right">
                                                 {formattedPercent(pair.currentInterestPerYear.string)}
                                             </div>
                                         </div>

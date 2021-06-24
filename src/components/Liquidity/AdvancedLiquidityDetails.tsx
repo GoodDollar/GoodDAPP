@@ -5,43 +5,43 @@ import { RowBetween, RowFixed } from '../Row'
 function TradeSummary() {
     return (
         <>
-            <AutoColumn style={{ padding: '0 16px' }} className="text-sm">
+            <AutoColumn style={{ padding: '0 16px' }} className="">
                 <RowBetween>
                     <RowFixed>
-                        <div className="text-secondary">Your Pool Tokens</div>
+                        <div className="">Your Pool Tokens</div>
                     </RowFixed>
                     <RowFixed>
-                        <div className="text-white">
+                        <div className="white">
                             1.576 →&nbsp;
-                            <span className="text-green">1.787 ETH/SUSHI SLP</span>
+                            <span className="green">1.787 ETH/SUSHI SLP</span>
                         </div>
                     </RowFixed>
                 </RowBetween>
                 <RowBetween>
                     <RowFixed>
-                        <div className="text-secondary">Your Pool Share</div>
+                        <div className="">Your Pool Share</div>
                     </RowFixed>
                     <RowFixed>
-                        <div className="text-white">
+                        <div className="white">
                             &lt; 0.01% →&nbsp;
-                            <span className="text-green">0.01%</span>
+                            <span className="green">0.01%</span>
                         </div>
                     </RowFixed>
                 </RowBetween>
                 <RowBetween>
                     <RowFixed>
-                        <div className="text-secondary">Liquidity Provider Fee</div>
+                        <div className="">Liquidity Provider Fee</div>
                     </RowFixed>
                     <RowFixed>
-                        <div className="text-white">0.00283 ETH</div>
+                        <div className="white">0.00283 ETH</div>
                     </RowFixed>
                 </RowBetween>
                 <RowBetween>
                     <RowFixed>
-                        <div className="text-secondary">Network Fee</div>
+                        <div className="">Network Fee</div>
                     </RowFixed>
                     <RowFixed>
-                        <div className="text-white">0.008654 ETH</div>
+                        <div className="white">0.008654 ETH</div>
                     </RowFixed>
                 </RowBetween>
             </AutoColumn>

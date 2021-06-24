@@ -83,8 +83,8 @@ export default function SushiBarTips() {
                     <ChevronLeft strokeWidth={2} size={18} color={theme.white} />
                     <span className="ml-1">Go Back</span>
                 </Button>
-                <div className="text-high-emphesis text-h4">Make the most of your xSUSHI.</div>
-                <div className="text-gray-500 py-3">
+                <div className=" h4">Make the most of your xSUSHI.</div>
+                <div className=" py-3">
                     You can leave the bar and exchange your xSUSHI for SUSHI (as well as collect any earned interest) at
                     any time. However, there are more ways to use xSUSHI to maximize your yield potential!
                 </div>
@@ -101,11 +101,11 @@ export default function SushiBarTips() {
                                         }}
                                         className="w-14 md:w-16"
                                     />
-                                    <div className="text-high-emphesis text-xl md:text-h5 ml-4 leading-6">{title}</div>
+                                    <div className="  h5 ml-4 leading-6">{title}</div>
                                 </div>
-                                <div className="text-caption text-gray-500 leading-6 mt-4 mb-3">{description}</div>
+                                <div className="caption  leading-6 mt-4 mb-3">{description}</div>
                             </div>
-                            <Link to={href} className="text-caption md:text-body text-primary font-bold pt-1">
+                            <Link to={href} className="caption body   pt-1">
                                 Learn More
                             </Link>
                         </div>

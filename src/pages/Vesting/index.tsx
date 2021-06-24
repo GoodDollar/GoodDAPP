@@ -173,10 +173,7 @@ export default function ClaimModal() {
                                             {i18n._(t`Community Approval`)}
                                         </TYPE.white>
                                     </RowBetween>
-                                    <div
-                                        className="text-sm text-gray-400 pt-2"
-                                        style={{ maxWidth: '300px', minHeight: '150px' }}
-                                    >
+                                    <div className="  pt-2" style={{ maxWidth: '300px', minHeight: '150px' }}>
                                         <Trans>
                                             Vesting is executed within the guidelines selected by the community in{' '}
                                             <a

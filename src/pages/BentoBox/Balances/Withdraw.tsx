@@ -23,7 +23,7 @@ function Withdraw({ tokenAddress, tokenSymbol }: { tokenAddress: string; tokenSy
     return (
         <>
             {account && (
-                <div className="text-sm text-secondary cursor-pointer text-right mb-2 pr-4">
+                <div className="  cursor-pointer right mb-2 pr-4">
                     {i18n._(t`Bento Balance: ${formattedNum(balance ? balance.value.toFixed(balance.decimals) : 0)}`)}
                 </div>
             )}

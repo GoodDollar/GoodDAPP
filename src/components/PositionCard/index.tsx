@@ -84,24 +84,20 @@ export function MinimalPositionCard({ pair, showUnwrapped = false, border }: Pos
             {userPoolBalance && JSBI.greaterThan(userPoolBalance.raw, JSBI.BigInt(0)) ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 rounded p-4 w-full mt-4 whitespace-nowrap">
                     <div className="flex justify-between">
-                        <div className="text-high-emphesis">{i18n._(t`Your Pool Tokens`)}</div>
-                        <div className="text-primary font-bold">
-                            {userPoolBalance ? userPoolBalance.toSignificant(4) : '-'}
-                        </div>
+                        <div className="">{i18n._(t`Your Pool Tokens`)}</div>
+                        <div className=" ">{userPoolBalance ? userPoolBalance.toSignificant(4) : '-'}</div>
                     </div>
                     <div className="flex justify-between">
-                        <div className="text-high-emphesis">{i18n._(t`Pooled ${currency0.getSymbol(chainId)}`)}</div>
-                        <div className="text-primary font-bold">{token0Deposited?.toSignificant(6)}</div>
+                        <div className="">{i18n._(t`Pooled ${currency0.getSymbol(chainId)}`)}</div>
+                        <div className=" ">{token0Deposited?.toSignificant(6)}</div>
                     </div>
                     <div className="flex justify-between">
-                        <div className="text-high-emphesis">{i18n._(t`Your Pool Share`)}</div>
-                        <div className="text-primary font-bold">
-                            {poolTokenPercentage ? poolTokenPercentage.toFixed(6) + '%' : '-'}
-                        </div>
+                        <div className="">{i18n._(t`Your Pool Share`)}</div>
+                        <div className=" ">{poolTokenPercentage ? poolTokenPercentage.toFixed(6) + '%' : '-'}</div>
                     </div>
                     <div className="flex justify-between">
-                        <div className="text-high-emphesis">{i18n._(t`Pooled ${currency1.getSymbol(chainId)}`)}</div>
-                        <div className="text-primary font-bold">{token1Deposited?.toSignificant(6)}</div>
+                        <div className="">{i18n._(t`Pooled ${currency1.getSymbol(chainId)}`)}</div>
+                        <div className=" ">{token1Deposited?.toSignificant(6)}</div>
                     </div>
                 </div>
             ) : (

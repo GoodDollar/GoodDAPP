@@ -3,16 +3,16 @@ import { ChevronLeft } from 'react-feather'
 import { useHistory } from 'react-router-dom'
 
 const FILLED = {
-    default: 'border-solid	w-full rounded text-base text-high-emphesis px-4 py-3',
-    blue: 'w-full rounded text-base text-high-emphesis px-4 py-3',
-    pink: 'w-full rounded text-base text-high-emphesis px-4 py-3',
+    default: '	w-full rounded   px-4 py-3',
+    blue: 'w-full rounded   px-4 py-3',
+    pink: 'w-full rounded   px-4 py-3',
     gradient: 'from-blue to-pink'
 }
 
 const OUTLINED = {
-    default: 'outline-blue rounded text-xs text-blue px-2 py-1',
-    blue: 'outline-blue rounded text-xs text-blue px-2 py-1',
-    pink: 'outline-pink rounded text-xs text-pink px-2 py-1',
+    default: 'outline-blue rounded xs blue px-2 py-1',
+    blue: 'outline-blue rounded xs blue px-2 py-1',
+    pink: 'outline-pink rounded xs pink px-2 py-1',
     gradient: 'from-blue to-pink'
 }
 
@@ -41,7 +41,7 @@ function Button({
 }: ButtonProps & React.ButtonHTMLAttributes<HTMLButtonElement>): JSX.Element {
     return (
         <button
-            className={`${VARIANT[variant][color]} focus:outline-none focus:ring disabled:opacity-50 ${className} border-0`}
+            className={`${VARIANT[variant][color]} focus:outline-none focus:ring disabled:opacity-50 ${className} `}
             {...rest}
         >
             {children}

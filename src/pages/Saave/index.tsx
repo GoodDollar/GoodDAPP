@@ -93,7 +93,7 @@ export default function Saave() {
                         </AutoColumn>
                     </CardSection>
                 </VoteCard>
-                <div className="relative w-full max-w-lg rounded bg-dark-900">
+                <div className="relative w-full max-w-lg rounded ark-900">
                     <SaaveHeader />
                     <Wrapper id="swap-page">
                         <AutoColumn style={{ paddingBottom: '10px' }}>

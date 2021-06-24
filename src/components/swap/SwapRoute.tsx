@@ -18,7 +18,7 @@ export default memo(function SwapRoute({ trade }: { trade: Trade }) {
                 return (
                     <Fragment key={i}>
                         <div className="flex flex-end space-x-2">
-                            <div className="text-sm font-bold  text-high-emphesis">{currency.getSymbol(chainId)}</div>
+                            <div className="   ">{currency.getSymbol(chainId)}</div>
                         </div>
                         {isLastItem ? null : <ChevronRight size={12} color={theme.text3} />}
                     </Fragment>

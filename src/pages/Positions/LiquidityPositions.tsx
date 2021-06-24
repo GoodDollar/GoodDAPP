@@ -88,19 +88,19 @@ export default function LiquidityPositions() {
     return (
         <>
             <div className="flex flex-col md:flex-row justify-start md:justify-between mb-6">
-                <div className="text-xl font-medium text-white">{i18n._(t`Your Liquidity Positions`)}</div>
+                <div className="  white">{i18n._(t`Your Liquidity Positions`)}</div>
                 <div className="flex items-center pr-2">
-                    <span className="mr-1 text-gray-500">{i18n._(t`Dont see a pool you joined?`)}</span>
+                    <span className="mr-1 ">{i18n._(t`Dont see a pool you joined?`)}</span>
                     <StyledInternalLink to={'/find'}>{i18n._(t`Import it`)}</StyledInternalLink>
                 </div>
             </div>
             <div>
                 {!account ? (
-                    <div className="text-gray-500 text-center px-4 py-14 rounded">
+                    <div className=" center px-4 py-14 rounded">
                         {i18n._(t`Connect to a wallet to view your liquidity`)}
                     </div>
                 ) : v2IsLoading ? (
-                    <div className="text-gray-500 text-center px-4 py-14 rounded">
+                    <div className=" center px-4 py-14 rounded">
                         <Dots>{i18n._(t`Loading`)}</Dots>
                     </div>
                 ) : allV2PairsWithLiquidity?.length > 0 || stakingPairs?.length > 0 ? (
@@ -110,9 +110,7 @@ export default function LiquidityPositions() {
                         ))}
                     </>
                 ) : (
-                    <div className="text-gray-500 text-center px-4 py-14 rounded">
-                        {i18n._(t`No liquidity positions found`)}
-                    </div>
+                    <div className=" center px-4 py-14 rounded">{i18n._(t`No liquidity positions found`)}</div>
                 )}
                 <AutoColumn justify={'center'} gap="xs" style={{ paddingTop: '1rem', paddingBottom: '1rem' }}>
                     {chainId && [ChainId.MAINNET, ChainId.BSC, ChainId.MATIC].includes(chainId) && (
@@ -131,7 +129,7 @@ export default function LiquidityPositions() {
                         </Button>
                     </Link>
                     <Link to="/create/ETH" className="w-full">
-                        <Button size="large" className="w-full text-secondary">
+                        <Button size="large" className="w-full ">
                             {i18n._(t`Create a Pair`)}
                         </Button>
                     </Link>

@@ -35,7 +35,7 @@ export default function LendingPair({
         <Layout
             left={
                 <Card
-                    className="h-full bg-dark-900"
+                    className="h-full ark-900"
                     backgroundImage={DepositGraphic}
                     title={i18n._(t`Lend assets for interest from borrowers.`)}
                     description={i18n._(
@@ -44,71 +44,63 @@ export default function LendingPair({
                 />
             }
             right={
-                <Card className="h-full bg-dark-900">
+                <Card className="h-full ark-900">
                     <div className="flex-col space-y-2">
                         <div className="flex justify-between">
-                            <div className="text-xl text-high-emphesis">{i18n._(t`Market Info`)}</div>
+                            <div className=" ">{i18n._(t`Market Info`)}</div>
                         </div>
                         <div className="flex justify-between">
-                            <div className="text-lg text-secondary">{i18n._(t`Total`)}</div>
-                            <div className="text-lg text-high-emphesis">
+                            <div className="lg ">{i18n._(t`Total`)}</div>
+                            <div className="lg ">
                                 {formattedNum(pair.currentAllAssets.string)} {pair.asset.symbol}
                             </div>
                         </div>
                         <div className="flex justify-between">
-                            <div className="text-lg text-secondary">{i18n._(t`Available`)}</div>
-                            <div className="text-lg text-high-emphesis">
+                            <div className="lg ">{i18n._(t`Available`)}</div>
+                            <div className="lg ">
                                 {formattedNum(pair.totalAssetAmount.string)} {pair.asset.symbol}
                             </div>
                         </div>
                         <div className="flex justify-between">
-                            <div className="text-lg text-secondary">{i18n._(t`Borrowed`)}</div>
+                            <div className="lg ">{i18n._(t`Borrowed`)}</div>
                             <div className="flex items-center">
-                                <div className="text-lg text-high-emphesis">
-                                    {formattedPercent(pair.utilization.string)}
-                                </div>
+                                <div className="lg ">{formattedPercent(pair.utilization.string)}</div>
                             </div>
                         </div>
                         <div className="flex justify-between">
-                            <div className="text-lg text-secondary">{i18n._(t`Supply APR`)}</div>
+                            <div className="lg ">{i18n._(t`Supply APR`)}</div>
                             <div className="flex items-center">
-                                <div className="text-lg text-high-emphesis">
-                                    {formattedPercent(pair.currentSupplyAPR.string)}
-                                </div>
+                                <div className="lg ">{formattedPercent(pair.currentSupplyAPR.string)}</div>
                             </div>
                         </div>
                         <div className="flex justify-between">
-                            <div className="text-lg text-secondary">{i18n._(t`Borrow APR`)}</div>
+                            <div className="lg ">{i18n._(t`Borrow APR`)}</div>
                             <div className="flex items-center">
-                                <div className="text-lg text-high-emphesis">
-                                    {formattedPercent(pair.currentInterestPerYear.string)}
-                                </div>
+                                <div className="lg ">{formattedPercent(pair.currentInterestPerYear.string)}</div>
                             </div>
                         </div>
                         <div className="flex justify-between">
-                            <div className="text-lg text-secondary">{i18n._(t`Collateral`)}</div>
+                            <div className="lg ">{i18n._(t`Collateral`)}</div>
                             <div className="flex items-center">
-                                <div className="text-lg text-high-emphesis">
+                                <div className="lg ">
                                     {formattedNum(pair.totalCollateralAmount.string)} {pair.collateral.symbol}
                                 </div>
                             </div>
                         </div>
                         {pair.utilization.value.gt(0) && (
                             <div className="flex justify-between">
-                                <div className="text-lg text-secondary">{i18n._(t`Health`)}</div>
+                                <div className="lg ">{i18n._(t`Health`)}</div>
                                 <div className="flex items-center">
-                                    <div className="text-lg text-high-emphesis">
-                                        {formattedPercent(pair.marketHealth.toFixed(16))}
-                                    </div>
+                                    <div className="lg ">{formattedPercent(pair.marketHealth.toFixed(16))}</div>
                                 </div>
                             </div>
                         )}
                         <div className="flex justify-between pt-3">
-                            <div className="text-xl text-high-emphesis">{i18n._(t`BentoBox`)}</div>
+                            <div className=" ">{i18n._(t`BentoBox`)}</div>
                         </div>
                         <div className="flex justify-between">
-                            <div className="text-lg text-secondary">{i18n._(t`${pair.asset.symbol} Strategy`)}</div>
-                            <div className="text-lg text-high-emphesis">
+                            <div className="lg ">{i18n._(t`${pair.asset.symbol} Strategy`)}</div>
+                            <div className="lg ">
                                 {i18n._(t`None`)}
                                 <QuestionHelper
                                     text={i18n._(
@@ -127,7 +119,7 @@ export default function LendingPair({
                 </title>
             </Helmet>
             <Card
-                className="h-full bg-dark-900"
+                className="h-full ark-900"
                 header={
                     <LendCardHeader>
                         <div className="flex items-center">
@@ -150,14 +142,12 @@ export default function LendingPair({
                             </div>
                             <div className="flex justify-between items-center">
                                 <div>
-                                    <div className="text-3xl text-high-emphesis">Lend {pair && pair.asset.symbol}</div>
+                                    <div className="3xl ">Lend {pair && pair.asset.symbol}</div>
                                     <div className="flex items-center">
-                                        <div className="text-sm text-secondary mr-1">Collateral:</div>
-                                        <div className="text-sm text-high-emphesis mr-2">
-                                            {pair && pair.collateral.symbol}
-                                        </div>
-                                        <div className="text-sm text-secondary mr-1">Oracle:</div>
-                                        <div className="text-sm text-high-emphesis">{pair && pair.oracle.name}</div>
+                                        <div className="  mr-1">Collateral:</div>
+                                        <div className="  mr-2">{pair && pair.collateral.symbol}</div>
+                                        <div className="  mr-1">Oracle:</div>
+                                        <div className=" ">{pair && pair.oracle.name}</div>
                                     </div>
                                 </div>
                             </div>
@@ -167,22 +157,20 @@ export default function LendingPair({
             >
                 <div className="flex justify-between mb-8">
                     <div>
-                        <div className="text-secondary text-lg">Lent</div>
-                        <div className="text-blue text-2xl">
+                        <div className=" lg">Lent</div>
+                        <div className="blue ">
                             {formattedNum(pair.currentUserAssetAmount.string)} {pair.asset.symbol}
                         </div>
-                        <div className="text-high-emphesis text-lg">
-                            {formattedNum(pair.currentUserAssetAmount.usd, true)}
-                        </div>
+                        <div className=" lg">{formattedNum(pair.currentUserAssetAmount.usd, true)}</div>
                     </div>
                     <div>
-                        <div className="text-secondary text-lg">Borrowed</div>
-                        <div className="text-high-emphesis text-2xl">{formattedPercent(pair.utilization.string)}</div>
+                        <div className=" lg">Borrowed</div>
+                        <div className=" ">{formattedPercent(pair.utilization.string)}</div>
                     </div>
-                    <div className="text-right">
+                    <div className="right">
                         <div>
-                            <div className="text-secondary text-lg">Supply APR</div>
-                            <div className="text-high-emphesis text-2xl">{formattedPercent(pair.supplyAPR.string)}</div>
+                            <div className=" lg">Supply APR</div>
+                            <div className=" ">{formattedPercent(pair.supplyAPR.string)}</div>
                         </div>
                     </div>
                 </div>
@@ -190,14 +178,14 @@ export default function LendingPair({
                 <Tabs forceRenderTabPanel selectedIndex={tabIndex} onSelect={(index: number) => setTabIndex(index)}>
                     <TabList className="flex rounded p-1">
                         <Tab
-                            className="flex flex-1 justify-center items-center rounded text-lg text-secondary hover:text-primary cursor-pointer focus:outline-none select-none px-3 py-4"
-                            selectedClassName="text-high-emphesis"
+                            className="flex flex-1 justify-center items-center rounded lg   cursor-pointer focus:outline-none select-none px-3 py-4"
+                            selectedClassName=""
                         >
                             Deposit {pair.asset.symbol}
                         </Tab>
                         <Tab
-                            className="flex flex-1 justify-center items-center rounded text-lg text-secondary hover:text-primary cursor-pointer focus:outline-none select-none px-3 py-4"
-                            selectedClassName="text-high-emphesis"
+                            className="flex flex-1 justify-center items-center rounded lg   cursor-pointer focus:outline-none select-none px-3 py-4"
+                            selectedClassName=""
                         >
                             Withdraw {pair.asset.symbol}
                         </Tab>

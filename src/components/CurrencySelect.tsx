@@ -10,7 +10,7 @@ function CurrencySelect({
     ...rest
 }: CurrencySelectProps & React.ButtonHTMLAttributes<HTMLButtonElement>): JSX.Element {
     return (
-        <button {...rest} className="rounded bg-dark-700">
+        <button {...rest} className="rounded ark-700">
             {!selected && <>ICON</>}
         </button>
     )

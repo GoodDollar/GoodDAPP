@@ -8,9 +8,9 @@ const KashiLending = ({ farm }: any) => {
     return (
         <>
             {farm.type === 'SLP' && (
-                <Paper className="bg-dark-800">
+                <Paper className="ark-800">
                     <div
-                        className="grid grid-cols-3 py-4 px-4 cursor-pointer select-none rounded text-sm"
+                        className="grid grid-cols-3 py-4 px-4 cursor-pointer select-none rounded "
                         onClick={() => setExpand(!expand)}
                     >
                         <div className="flex items-center">
@@ -28,16 +28,14 @@ const KashiLending = ({ farm }: any) => {
                         </div>
                         <div className="flex justify-end items-center">
                             <div>
-                                <div className="text-right">{formattedNum(farm.depositedUSD, true)} </div>
-                                <div className="text-secondary text-right">
-                                    {formattedNum(farm.depositedLP, false)} SLP
-                                </div>
+                                <div className="right">{formattedNum(farm.depositedUSD, true)} </div>
+                                <div className=" right">{formattedNum(farm.depositedLP, false)} SLP</div>
                             </div>
                         </div>
                         <div className="flex justify-end items-center">
                             <div>
-                                <div className="text-right">{formattedNum(farm.pendingSushi)} </div>
-                                <div className="text-secondary text-right">SUSHI</div>
+                                <div className="right">{formattedNum(farm.pendingSushi)} </div>
+                                <div className=" right">SUSHI</div>
                             </div>
                         </div>
                     </div>

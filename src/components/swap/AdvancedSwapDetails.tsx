@@ -28,9 +28,7 @@ function TradeSummary({ trade, allowedSlippage }: { trade: Trade; allowedSlippag
             <AutoColumn style={{ padding: '0 16px' }}>
                 <RowBetween>
                     <RowFixed>
-                        <div className="text-secondary text-sm">
-                            {isExactIn ? i18n._(t`Minimum received`) : i18n._(t`Maximum sold`)}
-                        </div>
+                        <div className=" ">{isExactIn ? i18n._(t`Minimum received`) : i18n._(t`Maximum sold`)}</div>
                         <QuestionHelper
                             text={i18n._(
                                 t`Your transaction will revert if there is a large, unfavorable price movement before it is confirmed.`
@@ -38,7 +36,7 @@ function TradeSummary({ trade, allowedSlippage }: { trade: Trade; allowedSlippag
                         />
                     </RowFixed>
                     <RowFixed>
-                        <div className="text-sm font-bold text-high-emphesis">
+                        <div className="  ">
                             {isExactIn
                                 ? `${slippageAdjustedAmounts[Field.OUTPUT]?.toSignificant(
                                       4
@@ -51,7 +49,7 @@ function TradeSummary({ trade, allowedSlippage }: { trade: Trade; allowedSlippag
                 </RowBetween>
                 <RowBetween>
                     <RowFixed>
-                        <div className="text-secondary text-sm">{i18n._(t`Price Impact`)}</div>
+                        <div className=" ">{i18n._(t`Price Impact`)}</div>
                         <QuestionHelper
                             text={i18n._(
                                 t`The difference between the market price and estimated price due to trade size.`
@@ -63,14 +61,14 @@ function TradeSummary({ trade, allowedSlippage }: { trade: Trade; allowedSlippag
 
                 <RowBetween>
                     <RowFixed>
-                        <div className="text-secondary text-sm">{i18n._(t`Liquidity Provider Fee`)}</div>
+                        <div className=" ">{i18n._(t`Liquidity Provider Fee`)}</div>
                         <QuestionHelper
                             text={i18n._(
                                 t`A portion of each trade (0.25%) goes to liquidity providers as a protocol incentive.`
                             )}
                         />
                     </RowFixed>
-                    <div className="text-sm font-bold text-high-emphesis">
+                    <div className="  ">
                         {realizedLPFee
                             ? `${realizedLPFee.toSignificant(4)} ${trade.inputAmount.currency.getSymbol(chainId)}`
                             : '-'}
@@ -102,7 +100,7 @@ export function AdvancedSwapDetails({ trade }: AdvancedSwapDetailsProps) {
                         <>
                             <RowBetween style={{ padding: '0 16px' }}>
                                 <span style={{ display: 'flex', alignItems: 'center' }}>
-                                    <div className="text-secondary text-sm">{i18n._(t`Route`)}</div>
+                                    <div className=" ">{i18n._(t`Route`)}</div>
                                     <QuestionHelper
                                         text={i18n._(
                                             t`Routing through these tokens resulted in the best price for your trade.`

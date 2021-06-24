@@ -9,24 +9,20 @@ const KashiLending = ({ farm }: any) => {
     return (
         <>
             {farm.type === 'KMP' && (
-                <Paper className="bg-dark-800">
+                <Paper className="ark-800">
                     <div
                         className="grid grid-cols-3 md:grid-cols-4 px-4 py-2  cursor-pointer select-none rounded rounded-b-none"
                         onClick={() => setExpand(!expand)}
                     >
-                        <div className="text-sm sm:text-base font-semibold">{farm && farm.symbol}</div>
-                        <div className="hidden md:block text-sm sm:text-base ml-4 text-gray-500 text-right">
-                            {'SUSHI'}
-                        </div>
-                        <div className="text-gray-500 text-sm sm:text-base text-right">
-                            {formattedNum(farm.tvl, true)}
-                        </div>
-                        <div className="font-semibold text-sm sm:text-base text-right">
+                        <div className="  ">{farm && farm.symbol}</div>
+                        <div className="hidden md:block   ml-4  right">{'SUSHI'}</div>
+                        <div className="   right">{formattedNum(farm.tvl, true)}</div>
+                        <div className="   right">
                             {farm.roiPerYear > 100 ? '10000%+' : formattedPercent(farm.roiPerYear * 100)}
                         </div>
                     </div>
                     <div
-                        className="grid grid-cols-3 md:grid-cols-4 py-4 px-4 cursor-pointer select-none rounded text-sm"
+                        className="grid grid-cols-3 md:grid-cols-4 py-4 px-4 cursor-pointer select-none rounded "
                         onClick={() => setExpand(!expand)}
                     >
                         <div className="flex items-center">
@@ -43,27 +39,23 @@ const KashiLending = ({ farm }: any) => {
                         </div>
                         <div className="md:col-span-1 hidden md:flex flex-row space-x-2 justify-end items-center ml-4">
                             <div>
-                                <div className="text-gray-500 text-right font-semibold text-sm sm:text-sm">
-                                    {formattedNum(farm.sushiRewardPerDay)} SUSHI
-                                </div>
-                                <div className="text-gray-500 text-right text-xs">per day</div>
+                                <div className=" right   ">{formattedNum(farm.sushiRewardPerDay)} SUSHI</div>
+                                <div className=" right xs">per day</div>
                             </div>
                         </div>
                         <div className="md:col-span-1 flex justify-end items-center">
                             <div>
-                                <div className="text-gray-500 text-right font-semibold text-sm sm:text-sm">
-                                    {formattedNum(farm.totalAssetStaked, false)} KMP
-                                </div>
-                                <div className="text-gray-500 text-right text-xs">Market Staked</div>
+                                <div className=" right   ">{formattedNum(farm.totalAssetStaked, false)} KMP</div>
+                                <div className=" right xs">Market Staked</div>
                             </div>
                         </div>
                         <div className="md:col-span-1 flex justify-end items-center">
                             <div>
-                                <div className="text-gray-500 text-right font-semibold text-base sm:text-lg">
+                                <div className=" right   lg">
                                     {farm.roiPerYear > 100 ? '10000%+' : formattedPercent(farm.roiPerYear * 100)}
                                     {/* {formattedPercent(farm.roiPerMonth * 100)}{' '} */}
                                 </div>
-                                <div className="text-gray-500 text-right text-xs">annualized</div>
+                                <div className=" right xs">annualized</div>
                                 {/* <div className="text-gray-500 text-right text-xs">per month</div> */}
                             </div>
                         </div>

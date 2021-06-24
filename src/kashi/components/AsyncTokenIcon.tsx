@@ -39,7 +39,7 @@ const AsyncTokenIcon = ({
     return loadedSrc ? (
         <img src={loadedSrc} className={className} alt="" />
     ) : (
-        <div className={[className, 'flex justify-center items-center bg-gray-900'].join(' ')}>
+        <div className={[className, 'flex justify-center items-center ray-900'].join(' ')}>
             <CustomLightSpinner src={Circle} alt="loader" size={'24px'} />
         </div>
     )

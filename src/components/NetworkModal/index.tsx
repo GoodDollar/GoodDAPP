@@ -135,9 +135,9 @@ export default function NetworkModal(): JSX.Element | null {
     return (
         <Modal isOpen={networkModalOpen} onDismiss={toggleNetworkModal}>
             <ModalHeader onClose={toggleNetworkModal} title="Select a Network" />
-            <div className="text-lg text-primary mb-6">
-                You are currently browsing <span className="font-bold text-pink">SUSHI</span>
-                <br /> on the <span className="font-bold text-blue">{NETWORK_LABEL[chainId]}</span> network
+            <div className="lg  mb-6">
+                You are currently browsing <span className=" pink">SUSHI</span>
+                <br /> on the <span className=" blue">{NETWORK_LABEL[chainId]}</span> network
             </div>
 
             <div className="flex flex-col space-y-5 overflow-y-auto">
@@ -161,7 +161,7 @@ export default function NetworkModal(): JSX.Element | null {
                                         alt="Switch Network"
                                         className="rounded-md mr-3 w-8 h-8"
                                     />
-                                    <div className="text-primary font-bold">{NETWORK_LABEL[key]}</div>
+                                    <div className=" ">{NETWORK_LABEL[key]}</div>
                                 </div>
                             </button>
                         )
@@ -177,7 +177,7 @@ export default function NetworkModal(): JSX.Element | null {
                             className="flex items-center w-full rounded p-3 cursor-pointer"
                         >
                             <img src={NETWORK_ICON[key]} alt="Switch Network" className="rounded-md mr-2 w-8 h-8" />
-                            <div className="text-primary font-bold">{NETWORK_LABEL[key]}</div>
+                            <div className=" ">{NETWORK_LABEL[key]}</div>
                         </button>
                     )
                 })}

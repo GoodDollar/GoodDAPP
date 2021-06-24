@@ -25,8 +25,8 @@ export default function Card({
                 {header && <>{header}</>}
 
                 <div className="px-2 py-4 sm:p-8">
-                    {title && <div className="text-2xl text-high-emphesis mb-4">{title}</div>}
-                    {description && <div className="text-base text-secondary">{description}</div>}
+                    {title && <div className="  mb-4">{title}</div>}
+                    {description && <div className=" ">{description}</div>}
                     {children}
                 </div>
 

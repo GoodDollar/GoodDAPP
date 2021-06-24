@@ -393,7 +393,7 @@ export default function RemoveLiquidity({
                     </RowFixed>
                 </RowBetween>
 
-                <TYPE.italic fontSize={14} className="text-gray-500" textAlign="left" padding={'20px 0 20px 0'}>
+                <TYPE.italic fontSize={14} className="" textAlign="left" padding={'20px 0 20px 0'}>
                     {t`Output is estimated. If the price changes by more than ${allowedSlippage /
                         100}% your transaction will revert.`}
                 </TYPE.italic>
@@ -508,10 +508,7 @@ export default function RemoveLiquidity({
             </Helmet>
 
             <div className="w-full max-w-2xl mb-5 px-4">
-                <NavLink
-                    className="text-center text-secondary hover:text-high-emphesis text-base font-medium"
-                    to={'/pool'}
-                >
+                <NavLink className="center    " to={'/pool'}>
                     {i18n._(t`View Your Liquidity Positions >`)}
                 </NavLink>
                 {/* <button
@@ -527,7 +524,7 @@ export default function RemoveLiquidity({
                     {currencies[Field.CURRENCY_B]?.getSymbol(chainId)} POOL
                 </button> */}
             </div>
-            <div className="w-full max-w-2xl rounded  shadow-liquidity-purple-glow">
+            <div className="w-full max-w-2xl rounded  ">
                 <Header input={currencyA} output={currencyB} />
                 <Wrapper>
                     <TransactionConfirmationModal

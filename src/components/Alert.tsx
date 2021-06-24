@@ -2,12 +2,12 @@ import React from 'react'
 
 const TYPE = {
     information: {
-        color: 'text-high-emphesis',
+        color: '',
         icon: (
             <svg
                 width="33"
                 height="33"
-                className="text-low-emphesis"
+                className=""
                 viewBox="0 0 33 33"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="currentColor"
@@ -21,10 +21,10 @@ const TYPE = {
         )
     },
     warning: {
-        color: 'text-high-emphesis',
+        color: '',
         icon: (
             <svg
-                className="h-5 w-5 text-yellow-400"
+                className="h-5 w-5 "
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 20 20"
                 fill="currentColor"
@@ -39,10 +39,10 @@ const TYPE = {
         )
     },
     error: {
-        color: 'text-high-emphesis',
+        color: '',
         icon: (
             <svg
-                className="h-5 w-5 text-red"
+                className="h-5 w-5 red"
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 20 20"
                 fill="currentColor"
@@ -77,12 +77,12 @@ export default function Alert({
     }
     const { color, icon } = TYPE[type]
     return (
-        <div className={`${className} block w-full rounded text-sm p-4 ${color}`}>
-            {title && <div className="text-2xl font-medium mb-1">{title}</div>}
+        <div className={`${className} block w-full rounded  p-4 ${color}`}>
+            {title && <div className="  mb-1">{title}</div>}
             <div className="flex items-center">
                 {showIcon && <div className="flex-shrink-0">{icon}</div>}
                 <div className={!showIcon ? 'ml-0' : 'ml-3'}>
-                    <p className="text-caption">{message}</p>
+                    <p className="caption">{message}</p>
                 </div>
             </div>
         </div>

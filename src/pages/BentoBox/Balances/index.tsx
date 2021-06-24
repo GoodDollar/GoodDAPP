@@ -38,7 +38,7 @@ export default function BentoBalances(): JSX.Element {
             <Layout
                 left={
                     <Card
-                        className="h-full bg-dark-900"
+                        className="h-full ark-900"
                         backgroundImage={BentoBoxImage}
                         title={i18n._(t`Deposit tokens into BentoBox for all the yields`)}
                         description={i18n._(
@@ -48,12 +48,12 @@ export default function BentoBalances(): JSX.Element {
                 }
             >
                 <Card
-                    className="h-full bg-dark-900"
+                    className="h-full ark-900"
                     header={
-                        <CardHeader className="flex justify-between items-center bg-dark-800">
+                        <CardHeader className="flex justify-between items-center ark-800">
                             <div className="flex flex-col md:flex-row items-center justify-between w-full">
                                 <div className="flex items-baseline">
-                                    <div className="text-3xl text-high-emphesis mr-4">{i18n._(t`BentoBox`)}</div>
+                                    <div className="3xl  mr-4">{i18n._(t`BentoBox`)}</div>
                                 </div>
                                 <div className="flex justify-end w-full py-4 md:py-0">
                                     <Search search={search} term={term} />
@@ -63,10 +63,10 @@ export default function BentoBalances(): JSX.Element {
                     }
                 >
                     <div className="grid gap-4 grid-flow-row auto-rows-max">
-                        <div className="px-4 grid grid-cols-3 text-sm  text-secondary select-none">
+                        <div className="px-4 grid grid-cols-3    select-none">
                             <div>{i18n._(t`Token`)}</div>
-                            <div className="text-right">{i18n._(t`Wallet`)}</div>
-                            <div className="text-right">{i18n._(t`BentoBox`)}</div>
+                            <div className="right">{i18n._(t`Wallet`)}</div>
+                            <div className="right">{i18n._(t`BentoBox`)}</div>
                         </div>
                         {items &&
                             items.length > 0 &&
@@ -86,7 +86,7 @@ const TokenBalance = ({ balance }: { balance: BentoBalance }) => {
     return (
         <Paper className="">
             <div
-                className="grid grid-cols-3 py-4 px-4 cursor-pointer select-none rounded text-sm "
+                className="grid grid-cols-3 py-4 px-4 cursor-pointer select-none rounded  "
                 onClick={() => setExpand(!expand)}
             >
                 <div className="flex items-center">
@@ -99,23 +99,23 @@ const TokenBalance = ({ balance }: { balance: BentoBalance }) => {
                 </div>
                 <div className="flex justify-end items-center">
                     <div>
-                        <div className="text-right">{formattedNum(balance.wallet.string)} </div>
-                        <div className="text-secondary text-right">{formattedNum(balance.wallet.usd, true)}</div>
+                        <div className="right">{formattedNum(balance.wallet.string)} </div>
+                        <div className=" right">{formattedNum(balance.wallet.usd, true)}</div>
                     </div>
                 </div>
                 <div className="flex justify-end items-center">
                     <div>
-                        <div className="text-right">{formattedNum(balance.bento.string)} </div>
-                        <div className="text-secondary text-right">{formattedNum(balance.bento.usd, true)}</div>
+                        <div className="right">{formattedNum(balance.bento.string)} </div>
+                        <div className=" right">{formattedNum(balance.bento.usd, true)}</div>
                     </div>
                 </div>
             </div>
             {expand && (
                 <div className="grid gap-4 grid-cols-2 px-4 pb-4">
-                    <div className="text-center col-span-2 md:col-span-1">
+                    <div className="center col-span-2 md:col-span-1">
                         <Deposit tokenAddress={balance.address} tokenSymbol={balance.symbol} />
                     </div>
-                    <div className="text-center col-span-2 md:col-span-1">
+                    <div className="center col-span-2 md:col-span-1">
                         <Withdraw tokenAddress={balance.address} tokenSymbol={balance.symbol} />
                     </div>
                 </div>

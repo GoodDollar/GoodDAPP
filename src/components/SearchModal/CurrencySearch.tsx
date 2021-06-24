@@ -163,7 +163,7 @@ export function CurrencySearch({
                     ref={inputRef as RefObject<HTMLInputElement>}
                     onChange={handleInput}
                     onKeyDown={handleEnter}
-                    className="w-full rounded placeholder-secondary focus:placeholder-primary  font-bold text-caption px-6 py-3.5"
+                    className="w-full rounded placeholder-secondary focus:placeholder-primary   caption px-6 py-3.5"
                 />
             </div>
             {showCommonBases && (

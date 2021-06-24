@@ -21,7 +21,7 @@ function MarketHeader({ type = 'Borrow', lists }: any) {
         <Header>
             <div className="flex flex-col md:flex-row items-center justify-between w-full">
                 <div className="flex items-center">
-                    <div className="text-3xl text-high-emphesis mr-4">{type}</div>
+                    <div className="3xl  mr-4">{type}</div>
                 </div>
 
                 <div className="flex justify-end w-full py-4 md:py-0">

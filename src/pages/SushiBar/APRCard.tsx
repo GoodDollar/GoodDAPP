@@ -21,12 +21,10 @@ export default function APRCard() {
         fetchData()
     }, [])
     return (
-        <div className="flex w-full justify-between items-center max-w-xl h-24 p-4 md:pl-5 md:pr-7 rounded bg-opacity-40">
+        <div className="flex w-full justify-between items-center max-w-xl h-24 p-4 md:pl-5 md:pr-7 rounded pacity-40">
             <div className="flex flex-col">
                 <div className="flex flex-nowrap justify-center items-center mb-4 md:mb-2">
-                    <p className="whitespace-nowrap text-caption2 md:text-lg md:leading-5 font-bold text-high-emphesis">
-                        {i18n._(t`Staking APR`)}{' '}
-                    </p>
+                    <p className="whitespace-nowrap caption2 lg md:leading-5  ">{i18n._(t`Staking APR`)} </p>
                     {/* <img className="cursor-pointer ml-3" src={MoreInfoSymbol} alt={'more info'} /> */}
                 </div>
                 <div className="flex">
@@ -36,20 +34,16 @@ export default function APRCard() {
                         rel="noreferrer noopener"
                         className={`
                         py-1 px-4 md:py-1.5 md:px-7 rounded
-                        text-xs md:text-sm font-medium md:font-bold text-dark-900
-                        hover:bg-opacity-90`}
+                        xs    
+                        pacity-90`}
                     >
                         {i18n._(t`View Stats`)}
                     </a>
                 </div>
             </div>
             <div className="flex flex-col">
-                <p className="text-right text-high-emphesis font-bold text-lg md:text-h4 mb-1">
-                    {`${Apr ? Apr.toFixed(2) + '%' : i18n._(t`Loading...`)}`}
-                </p>
-                <p className="text-right text-primary w-32 md:w-64 text-caption2 md:text-base">
-                    {i18n._(t`Yesterday's APR`)}
-                </p>
+                <p className="right   lg h4 mb-1">{`${Apr ? Apr.toFixed(2) + '%' : i18n._(t`Loading...`)}`}</p>
+                <p className="right  w-32 md:w-64 caption2 ">{i18n._(t`Yesterday's APR`)}</p>
             </div>
         </div>
     )

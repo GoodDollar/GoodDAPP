@@ -91,14 +91,14 @@ export default function InputGroup({
                     </div>
                 )}
                 <div className="px-4">
-                    <div className="text-high-emphesis block w-full rounded text-sm p-4">
+                    <div className=" block w-full rounded  p-4">
                         <div className="flex items-center">
                             <div className="ml-3">
                                 <p>
                                     <Trans>
                                         <b>Tip:</b> In order to start earning rewards, you will need to first acquire
                                         some SLP by adding liquidity to the specified pair or{' '}
-                                        <Link to="/migrate" className="underline text-blue">
+                                        <Link to="/migrate" className="underline blue">
                                             migrating existing liquidity.
                                         </Link>{' '}
                                         Once you have SLP you can stake it into this yield farm to start earning
@@ -112,9 +112,9 @@ export default function InputGroup({
                 </div>
                 <div className="grid gap-4 grid-cols-2 px-4">
                     {/* Deposit */}
-                    <div className="text-center col-span-2 md:col-span-1">
+                    <div className="center col-span-2 md:col-span-1">
                         {account && (
-                            <div className="text-sm text-secondary cursor-pointer text-right mb-2 pr-4">
+                            <div className="  cursor-pointer right mb-2 pr-4">
                                 {i18n._(t`Wallet Balance`)}:{' '}
                                 {formattedNum(fixedFormatting(balance.value, balance.decimals))} {type}
                             </div>
@@ -134,7 +134,7 @@ export default function InputGroup({
                                     onClick={() => {
                                         setDepositValue(fixedFormatting(balance.value, balance.decimals))
                                     }}
-                                    className="absolute right-4 focus:ring focus:ring-blue border-0"
+                                    className="absolute right-4 focus:ring focus:ring-blue "
                                 >
                                     {i18n._(t`MAX`)}
                                 </Button>
@@ -164,9 +164,9 @@ export default function InputGroup({
                         )}
                     </div>
                     {/* Withdraw */}
-                    <div className="text-center col-span-2 md:col-span-1">
+                    <div className="center col-span-2 md:col-span-1">
                         {account && (
-                            <div className="text-sm text-secondary cursor-pointer text-right mb-2 pr-4">
+                            <div className="  cursor-pointer right mb-2 pr-4">
                                 {i18n._(t`Your Staked`)}: {formattedNum(fixedFormatting(staked.value, staked.decimals))}{' '}
                                 {type}
                             </div>
@@ -186,7 +186,7 @@ export default function InputGroup({
                                     onClick={() => {
                                         setWithdrawValue(fixedFormatting(staked.value, staked.decimals))
                                     }}
-                                    className="absolute right-4 focus:ring focus:ring-pink border-0"
+                                    className="absolute right-4 focus:ring focus:ring-pink "
                                 >
                                     {i18n._(t`MAX`)}
                                 </Button>
@@ -194,7 +194,7 @@ export default function InputGroup({
                         </div>
                         <Button
                             color="pink"
-                            className="border-0"
+                            className=""
                             disabled={
                                 pendingTx ||
                                 Number(withdrawValue) === 0 ||

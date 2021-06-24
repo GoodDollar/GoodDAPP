@@ -36,17 +36,15 @@ const StyledNumericalInput = styled(NumericalInput)`
     caret-color: #e3e3e3;
 `
 
-const tabStyle =
-    'flex justify-center items-center h-full w-full rounded-lg cursor-pointer text-caption2 md:text-caption'
-const activeTabStyle = `${tabStyle} text-high-emphesis font-bold bg-dark-900`
-const inactiveTabStyle = `${tabStyle} text-secondary`
+const tabStyle = 'flex justify-center items-center h-full w-full rounded-lg cursor-pointer caption2 caption'
+const activeTabStyle = `${tabStyle}   ark-900`
+const inactiveTabStyle = `${tabStyle} `
 
-const buttonStyle =
-    'flex justify-center items-center w-full h-14 rounded font-bold md:font-medium md:text-lg mt-5 text-sm focus:outline-none focus:ring'
-const buttonStyleEnabled = `${buttonStyle} text-high-emphesis from-pink-red to-light-brown hover:opacity-90`
+const buttonStyle = 'flex justify-center items-center w-full h-14 rounded   lg mt-5  focus:outline-none focus:ring'
+const buttonStyleEnabled = `${buttonStyle}  from-pink-red to-light-brown hover:opacity-90`
 const buttonStyleInsufficientFunds = `${buttonStyleEnabled} opacity-60`
-const buttonStyleDisabled = `${buttonStyle} text-secondary bg-dark-700`
-const buttonStyleConnectWallet = `${buttonStyle} text-high-emphesis hover:bg-opacity-90`
+const buttonStyleDisabled = `${buttonStyle}  ark-700`
+const buttonStyleConnectWallet = `${buttonStyle}  pacity-90`
 
 interface StakeCardProps {
     sushiBalance: BalanceProps
@@ -177,10 +175,8 @@ export default function StakeCard({ sushiBalance, xSushiBalance }: StakeCardProp
                 </div>
 
                 <div className="flex justify-between items-center w-full mt-6">
-                    <p className="text-large md:text-h5 font-bold text-high-emphesis">
-                        {activeTab === 0 ? i18n._(t`Stake SUSHI`) : i18n._(t`Unstake`)}
-                    </p>
-                    <div className="rounded-3xl px-4 md:px-3.5 py-1.5 md:py-0.5 text-high-emphesis text-xs font-medium md:text-caption md:font-normal">
+                    <p className="large h5  ">{activeTab === 0 ? i18n._(t`Stake SUSHI`) : i18n._(t`Unstake`)}</p>
+                    <div className="rounded-3xl px-4 md:px-3.5 py-1.5 md:py-0.5  xs  caption md:font-normal">
                         {`1 xSUSHI = ${xSushiPerSushi.toFixed(4)} SUSHI`}
                     </div>
                 </div>
@@ -188,7 +184,7 @@ export default function StakeCard({ sushiBalance, xSushiBalance }: StakeCardProp
                 <StyledNumericalInput
                     value={input}
                     onUserInput={handleInput}
-                    className={`w-full h-14 px-3 md:px-5 mt-5 rounded text-caption2 md:text-lg font-bold text-dark-800${
+                    className={`w-full h-14 px-3 md:px-5 mt-5 rounded caption2 lg  ${
                         inputError ? ' pl-9 md:pl-12' : ''
                     }`}
                     placeholder=" "
@@ -197,32 +193,28 @@ export default function StakeCard({ sushiBalance, xSushiBalance }: StakeCardProp
                 <div className="relative h-0 bottom-14 w-full pointer-events-none">
                     <div
                         className={`flex justify-between items-center h-14 rounded px-3 md:px-5 ${
-                            inputError ? ' border-red' : ''
+                            inputError ? ' ' : ''
                         }`}
                     >
                         <div className="flex">
                             {inputError && <img className="w-4 md:w-5 mr-2" src={ErrorTriangle} alt="error" />}
-                            <p
-                                className={`text-caption2 md:text-lg font-bold ${
-                                    input ? 'text-high-emphesis' : 'text-secondary'
-                                }`}
-                            >
+                            <p className={`caption2 lg  ${input ? '' : ''}`}>
                                 {`${input ? input : '0'} ${activeTab === 0 ? '' : 'x'}SUSHI`}
                             </p>
                         </div>
-                        <div className="flex items-center text-secondary text-caption2 md:text-caption">
+                        <div className="flex items-center  caption2 caption">
                             <div className={input ? 'hidden md:flex md:items-center' : 'flex items-center'}>
                                 <p>{i18n._(t`Balance`)}:&nbsp;</p>
-                                <p className="text-caption font-bold">{formattedBalance}</p>
+                                <p className="caption ">{formattedBalance}</p>
                             </div>
                             <button
                                 className={`
                                     pointer-events-auto
-                                    focus:outline-none focus:ring hover:bg-opacity-40
-                                    md:bg-opacity-30
-                                    md:border-cyan-blue
+                                    focus:outline-none focus:ring pacity-40
+                                    pacity-30
+                                    
                                     rounded-2xl py-1 px-2 md:py-1 md:px-3 ml-3 md:ml-4
-                                    text-xs md:text-caption2 font-bold md:font-normal md:text-cyan-blue
+                                    xs caption2  md:font-normal 
                                 `}
                                 onClick={handleClickMax}
                             >
@@ -234,7 +226,7 @@ export default function StakeCard({ sushiBalance, xSushiBalance }: StakeCardProp
                 {(approvalState === ApprovalState.NOT_APPROVED || approvalState === ApprovalState.PENDING) &&
                 activeTab === 0 ? (
                     <Button
-                        className={`${buttonStyle} text-high-emphesis hover:bg-opacity-90`}
+                        className={`${buttonStyle}  pacity-90`}
                         disabled={approvalState === ApprovalState.PENDING}
                         onClick={approve}
                     >

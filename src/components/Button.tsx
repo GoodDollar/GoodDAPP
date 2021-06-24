@@ -9,16 +9,16 @@ const SIZE = {
 }
 
 const FILLED = {
-    default: 'bg-transparent',
-    blue: 'w-full rounded text-base text-high-emphesis hover:bg-opacity-100',
-    pink: 'w-full rounded text-base text-high-emphesis hover:bg-opacity-100',
-    gradient: 'w-full text-high-emphesis from-blue to-pink'
+    default: 'ransparent',
+    blue: 'w-full rounded   pacity-100',
+    pink: 'w-full rounded   pacity-100',
+    gradient: 'w-full  from-blue to-pink'
 }
 
 const OUTLINED = {
-    default: 'bg-transparent',
-    blue: 'outline-blue rounded text-xs text-blue hover:bg-opacity-40',
-    pink: 'outline-pink rounded text-xs text-pink hover:bg-opacity-40',
+    default: 'ransparent',
+    blue: 'outline-blue rounded xs blue pacity-40',
+    pink: 'outline-pink rounded xs pink pacity-40',
     gradient: 'from-blue to-pink'
 }
 
@@ -50,7 +50,7 @@ function Button({
 }: ButtonProps & React.ButtonHTMLAttributes<HTMLButtonElement>): JSX.Element {
     return (
         <button
-            className={`${VARIANT[variant][color]} ${SIZE[size]} rounded focus:outline-none focus:ring disabled:opacity-50 font-medium ${className}`}
+            className={`${VARIANT[variant][color]} ${SIZE[size]} rounded focus:outline-none focus:ring disabled:opacity-50  ${className}`}
             {...rest}
         >
             {children}

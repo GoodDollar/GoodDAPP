@@ -228,18 +228,14 @@ export default function CurrencyInputPanel({
                                     {pair?.token0.symbol}:{pair?.token1.symbol}
                                 </StyledTokenName>
                             ) : (
-                                <div className="flex flex-1 flex-col items-start justify-center w-full text-left mx-3.5 overflow-x-hidden">
-                                    {label && (
-                                        <div className="text-xs text-secondary font-medium whitespace-nowrap">
-                                            {label}
-                                        </div>
-                                    )}
+                                <div className="flex flex-1 flex-col items-start justify-center w-full left mx-3.5 overflow-x-hidden">
+                                    {label && <div className="xs   whitespace-nowrap">{label}</div>}
                                     <div className="flex items-center">
                                         {/* <StyledTokenName
                                             className="token-symbol-container"
                                             active={Boolean(currency && currency.symbol)}
                                         > */}
-                                        <div className="text-lg md:text-2xl font-bold whitespace-nowrap">
+                                        <div className="lg   whitespace-nowrap">
                                             {(currency && currency.symbol && currency.symbol.length > 20
                                                 ? currency.symbol.slice(0, 4) +
                                                   '...' +
@@ -248,7 +244,7 @@ export default function CurrencyInputPanel({
                                                       currency.symbol.length
                                                   )
                                                 : currency?.getSymbol(chainId)) || (
-                                                <div className="rounded-full px-2 py-1 text-secondary text-xs font-medium mt-1 whitespace-nowrap ">
+                                                <div className="rounded-full px-2 py-1  xs  mt-1 whitespace-nowrap ">
                                                     {i18n._(t`Select a token`)}
                                                 </div>
                                             )}
@@ -279,11 +275,7 @@ export default function CurrencyInputPanel({
                     {!hideInput && (
                         <>
                             {account && currency && showMaxButton && label !== 'To' && (
-                                <Button
-                                    onClick={onMax}
-                                    size="small"
-                                    className="rounded-full text-secondary text-xs font-medium whitespace-nowrap"
-                                >
+                                <Button onClick={onMax} size="small" className="rounded-full  xs  whitespace-nowrap">
                                     {i18n._(t`Max`)}
                                 </Button>
                             )}
@@ -296,18 +288,13 @@ export default function CurrencyInputPanel({
                             />
                             {account && (
                                 <div className="flex flex-col">
-                                    <div
-                                        onClick={onMax}
-                                        className="font-medium cursor-pointer text-xs text-low-emphesis"
-                                    >
+                                    <div onClick={onMax} className=" cursor-pointer xs ">
                                         {!hideBalance && !!currency && selectedCurrencyBalance
                                             ? (customBalanceText ?? 'Balance: ') +
                                               selectedCurrencyBalance?.toSignificant(6)
                                             : ' -'}
                                     </div>
-                                    {chainId === ChainId.MAINNET && (
-                                        <div className="font-medium text-xs text-secondary">≈ {valueUSDC} USDC</div>
-                                    )}
+                                    {chainId === ChainId.MAINNET && <div className=" xs ">≈ {valueUSDC} USDC</div>}
                                 </div>
                             )}
                         </>

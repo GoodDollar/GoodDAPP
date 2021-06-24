@@ -15,11 +15,7 @@ export default function LiquidityPrice({
     const { chainId } = useActiveWeb3React()
     return (
         <div className="rounded-b-md p-1" style={{ marginTop: '-20px' }}>
-            <AutoRow
-                justify={'space-between'}
-                style={{ padding: '0 1rem' }}
-                className="rounded-b-md text-secondary py-1"
-            >
+            <AutoRow justify={'space-between'} style={{ padding: '0 1rem' }} className="rounded-b-md  py-1">
                 <div>Current Rate</div>
                 <div>
                     {price?.toSignificant(6) ?? '-'} {output?.getSymbol(chainId)} per {input?.getSymbol(chainId)}

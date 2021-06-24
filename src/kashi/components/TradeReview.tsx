@@ -18,11 +18,11 @@ function TradeReview({ trade, allowedSlippage }: { trade: Trade | undefined; all
 
     return (
         <>
-            <div className="text-xl text-high-emphesis">Swap Review</div>
+            <div className=" ">Swap Review</div>
             {trade ? (
                 <div className="py-4 mb-4">
                     <div className="flex items-center justify-between">
-                        <div className="text-lg text-secondary">
+                        <div className="lg ">
                             {i18n._(t`Minimum received`)}
                             <QuestionHelper
                                 text={i18n._(
@@ -30,14 +30,14 @@ function TradeReview({ trade, allowedSlippage }: { trade: Trade | undefined; all
                                 )}
                             />
                         </div>
-                        <div className="text-lg">
+                        <div className="lg">
                             {`${slippageAdjustedAmounts[Field.OUTPUT]?.toSignificant(
                                 4
                             )} ${trade.outputAmount.currency.getSymbol(chainId)}` ?? '-'}
                         </div>
                     </div>
                     <div className="flex items-center justify-between">
-                        <div className="text-lg text-secondary">
+                        <div className="lg ">
                             {i18n._(t`Price Impact`)}
                             <QuestionHelper
                                 text={i18n._(
@@ -45,12 +45,12 @@ function TradeReview({ trade, allowedSlippage }: { trade: Trade | undefined; all
                                 )}
                             />
                         </div>
-                        <div className="text-lg">
+                        <div className="lg">
                             <FormattedPriceImpact priceImpact={priceImpactWithoutFee} />
                         </div>
                     </div>
                     <div className="flex items-center justify-between">
-                        <div className="text-lg text-secondary">
+                        <div className="lg ">
                             Liquidity Provider Fee
                             <QuestionHelper
                                 text={i18n._(
@@ -58,7 +58,7 @@ function TradeReview({ trade, allowedSlippage }: { trade: Trade | undefined; all
                                 )}
                             />
                         </div>
-                        <div className="text-lg">
+                        <div className="lg">
                             {realizedLPFee
                                 ? `${realizedLPFee.toSignificant(4)} ${trade.inputAmount.currency.getSymbol(chainId)}`
                                 : '-'}
@@ -66,7 +66,7 @@ function TradeReview({ trade, allowedSlippage }: { trade: Trade | undefined; all
                     </div>
                     {showRoute && (
                         <div className="flex items-center justify-between">
-                            <div className="text-lg text-secondary">
+                            <div className="lg ">
                                 {i18n._(t`Route`)}
                                 <QuestionHelper
                                     text={i18n._(
@@ -74,14 +74,14 @@ function TradeReview({ trade, allowedSlippage }: { trade: Trade | undefined; all
                                     )}
                                 />
                             </div>
-                            <div className="text-lg">
+                            <div className="lg">
                                 <SwapRoute trade={trade} />
                             </div>
                         </div>
                     )}
                 </div>
             ) : (
-                <div className="text-lg text-secondary mb-4">{i18n._(t`No liquidity found to do swap`)}</div>
+                <div className="lg  mb-4">{i18n._(t`No liquidity found to do swap`)}</div>
             )}
         </>
     )

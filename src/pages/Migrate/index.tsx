@@ -49,11 +49,11 @@ const AmountInput = ({ state }: { state: MigrateState }) => {
     if (!state.mode || state.lpTokens.length === 0 || !state.selectedLPToken) {
         return (
             <>
-                <Typography variant="caption" className="text-secondary">
+                <Typography variant="caption" className="">
                     Amount of Tokens
                 </Typography>
-                <div className="rounded p-3 cursor-not-allowed text-center">
-                    <Typography variant="body" className="text-secondary">
+                <div className="rounded p-3 cursor-not-allowed center">
+                    <Typography variant="body" className="">
                         {state.mode && state.lpTokens.length === 0 ? 'No LP tokens found' : 'Select an LP Token'}
                     </Typography>
                 </div>
@@ -63,7 +63,7 @@ const AmountInput = ({ state }: { state: MigrateState }) => {
 
     return (
         <>
-            <Typography variant="caption" className="text-secondary">
+            <Typography variant="caption" className="">
                 {i18n._(t`Amount of Tokens`)}
             </Typography>
 
@@ -99,14 +99,14 @@ const LPTokenSelect = ({ lpToken, onToggle, isSelected, updating, exchange }: Po
     return (
         <div
             key={lpToken.address}
-            className="cursor-pointer flex justify-between items-center rounded px-3 py-5 hover:bg-dark-700"
+            className="cursor-pointer flex justify-between items-center rounded px-3 py-5 ark-700"
             onClick={() => onToggle(lpToken)}
         >
             <div className="flex items-center space-x-3">
                 <DoubleCurrencyLogo currency0={lpToken.tokenA} currency1={lpToken.tokenB} size={20} />
                 <Typography
                     variant="body"
-                    className="text-primary"
+                    className=""
                 >{`${lpToken.tokenA.symbol}/${lpToken.tokenB.symbol}`}</Typography>
                 {lpToken.version && <Badge color="pink">{lpToken.version}</Badge>}
             </div>
@@ -141,7 +141,7 @@ const MigrateModeSelect = ({ state }: { state: MigrateState }) => {
                     acc.push(
                         <div
                             key={key}
-                            className="cursor-pointer flex justify-between items-center rounded p-3 hover:bg-dark-700"
+                            className="cursor-pointer flex justify-between items-center rounded p-3 ark-700"
                             onClick={() => toggleMode(key)}
                         >
                             <div>
@@ -149,7 +149,7 @@ const MigrateModeSelect = ({ state }: { state: MigrateState }) => {
                                     <Typography variant="caption">{text}</Typography>
                                 </div>
                                 <div>
-                                    <Typography variant="caption2" className="text-secondary">
+                                    <Typography variant="caption2" className="">
                                         {description}
                                     </Typography>
                                 </div>
@@ -207,15 +207,15 @@ const MigrateButtons = ({ state, exchange }: { state: MigrateState; exchange: st
     return (
         <div className="space-y-4">
             {insufficientAmount ? (
-                <div className="text-sm text-primary">{i18n._(t`Insufficient Balance`)}</div>
+                <div className=" ">{i18n._(t`Insufficient Balance`)}</div>
             ) : state.loading ? (
                 <Dots>{i18n._(t`Loading`)}</Dots>
             ) : (
                 <>
                     <div className="flex justify-between">
-                        <div className="text-sm text-secondary">
+                        <div className=" ">
                             {i18n._(t`Balance`)}:{' '}
-                            <span className="text-primary">{state.selectedLPToken.balance.toSignificant(4)}</span>
+                            <span className="">{state.selectedLPToken.balance.toSignificant(4)}</span>
                         </div>
                     </div>
                     {state.mode === 'approve' && (
@@ -244,10 +244,8 @@ const MigrateButtons = ({ state, exchange }: { state: MigrateState; exchange: st
                     )}
                 </>
             )}
-            {error.message && error.code !== 4001 && (
-                <div className="text-red text-center font-medium">{error.message}</div>
-            )}
-            <div className="text-sm text-low-emphesis text-center">
+            {error.message && error.code !== 4001 && <div className="red center ">{error.message}</div>}
+            <div className="  center">
                 {i18n._(
                     t`Your ${exchange} ${state.selectedLPToken.tokenA.symbol}/${state.selectedLPToken.tokenB.symbol} liquidity will become SushiSwap ${state.selectedLPToken.tokenA.symbol}/${state.selectedLPToken.tokenB.symbol} liquidity.`
                 )}
@@ -315,7 +313,7 @@ const MigrateV2 = () => {
                 <meta name="description" content="Migrate LP tokens to Sushi LP tokens" />
             </Helmet>
 
-            <div className="text-2xl text-center mb-8">{i18n._(t`Migrate ${exchange} Liquidity`)}</div>
+            <div className=" center mb-8">{i18n._(t`Migrate ${exchange} Liquidity`)}</div>
 
             <div className="w-full max-w-lg rounded p-5 space-y-4">
                 {/* <div className="flex justify-between items-center p-3">
@@ -324,11 +322,11 @@ const MigrateV2 = () => {
                     <QuestionHelper text={`Migrate your ${exchange} LP tokens to SushiSwap LP tokens.`} />
                 </div> */}
                 {!account ? (
-                    <Typography variant="body" className="text-primary text-center p-4">
+                    <Typography variant="body" className=" center p-4">
                         {i18n._(t`Connect to a wallet to view your liquidity`)}
                     </Typography>
                 ) : state.loading ? (
-                    <Typography variant="body" className="text-primary text-center p-4">
+                    <Typography variant="body" className=" center p-4">
                         <Dots>{i18n._(t`Loading your {exchange} liquidity positions`)}</Dots>
                     </Typography>
                 ) : (
@@ -338,7 +336,7 @@ const MigrateV2 = () => {
                         {!state.loading && (
                             <div>
                                 <Typography variant="body">{i18n._(t`Your Liquidity`)}</Typography>
-                                <Typography variant="caption" className="text-secondary">
+                                <Typography variant="caption" className="">
                                     {t`Click on a pool below, input the amount you wish to migrate or select max, and click
                                     migrate`}
                                 </Typography>

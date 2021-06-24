@@ -41,10 +41,8 @@ function BentoBox(): JSX.Element {
                     <img alt="" src={BentoBoxLogo} className="object-scale-down w-40 md:w-60 h-auto" />
 
                     <div className="container mx-auto max-w-3xl">
-                        <div className="font-bold text-center text-3xl md:text-5xl text-high-emphesis">
-                            {i18n._(t`BentoBox Apps`)}
-                        </div>
-                        <div className="font-medium text-base md:text-lg lg:text-xl text-center text-high-emphesis mt-0 md:mt-4 mb-8 p-4">
+                        <div className=" center 3xl 5xl ">{i18n._(t`BentoBox Apps`)}</div>
+                        <div className="  lg  center  mt-0 md:mt-4 mb-8 p-4">
                             {i18n._(
                                 t`BentoBox is an innovative way to use dapps gas-efficiently and gain extra yield.`
                             )}
@@ -54,13 +52,13 @@ function BentoBox(): JSX.Element {
 
                 <div className="container mx-auto sm:px-6 max-w-5xl">
                     <div className="grid gap-4 sm:gap-12 grid-flow-auto grid-cols-4">
-                        <Card className="col-span-2 md:col-span-1 w-full cursor-pointer rounded hover:shadow-pink-glow-hovered">
+                        <Card className="col-span-2 md:col-span-1 w-full cursor-pointer rounded">
                             <div className="relative w-full">
                                 <img alt="" src={KashiNeonSign} className="block m-auto w-full h-auto mb-4" />
                                 {account ? (
                                     <Link to={'/bento/kashi/borrow'}>
                                         <div
-                                            className="w-full py-2 text-center"
+                                            className="w-full py-2 center"
                                             // className="w-full rounded text-lg text-high-emphesis px-4 py-2"
                                         >
                                             {i18n._(t`Enter`)}

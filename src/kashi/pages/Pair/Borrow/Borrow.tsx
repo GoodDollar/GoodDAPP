@@ -333,7 +333,7 @@ export default function Borrow({ pair }: BorrowProps) {
 
     return (
         <>
-            <div className="text-3xl text-high-emphesis mt-6 mb-4">Borrow {pair.asset.symbol}</div>
+            <div className="3xl  mt-6 mb-4">Borrow {pair.asset.symbol}</div>
 
             <SmartNumberInput
                 color="pink"
@@ -395,7 +395,7 @@ export default function Borrow({ pair }: BorrowProps) {
                                     onMultiply(multipler)
                                     setSwap(true)
                                 }}
-                                className="mr-4 text-md focus:ring-pink"
+                                className="mr-4  focus:ring-pink"
                             >
                                 {multipler}x
                             </Button>

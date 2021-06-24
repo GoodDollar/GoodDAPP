@@ -50,8 +50,8 @@ export default function Positions() {
                             <User strokeWidth={1} size={34} color={theme.white} />
                         </div>
                         <div className="ml-3">
-                            <div className="font-semibold text-gray-300">{account && shortenAddress(account)}</div>
-                            <div className="text-sm text-gray-500">
+                            <div className=" ">{account && shortenAddress(account)}</div>
+                            <div className=" ">
                                 {account && chainId && (
                                     <>
                                         {userEthBalance ? (
@@ -68,7 +68,7 @@ export default function Positions() {
                         </div>
                     </div>
 
-                    <div className="text-sm text-primary font-semibold">
+                    <div className="  ">
                         {/* <div className="flex items-center">
                             <Copy strokeWidth={0.5} size={14} color={theme.white} />
                             <div className="ml-1">Copy Address</div>
@@ -89,11 +89,11 @@ export default function Positions() {
             </div>
 
             <div className="w-full max-w-2xl rounded p-4">
-                <div className="w-auto flex justify-between items-center rounded p-0.5 whitespace-nowrap text-sm font-bold cursor-pointer select-none pointer-events-auto mt-3 mb-6">
-                    <Link to={'/pool'} className={`w-3/6 p-3 text-center rounded-lg text-primary text-bold `}>
+                <div className="w-auto flex justify-between items-center rounded p-0.5 whitespace-nowrap   cursor-pointer select-none pointer-events-auto mt-3 mb-6">
+                    <Link to={'/pool'} className={`w-3/6 p-3 center rounded-lg  bold `}>
                         {i18n._(t`Liquidity Positions`)}
                     </Link>
-                    <Link to={'/transactions'} className={`w-3/6 p-3 text-center rounded-lg text-secondary`}>
+                    <Link to={'/transactions'} className={`w-3/6 p-3 center rounded-lg `}>
                         {i18n._(t`Transaction History`)}
                     </Link>
                 </div>

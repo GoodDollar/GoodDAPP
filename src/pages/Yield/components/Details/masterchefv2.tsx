@@ -92,14 +92,14 @@ export default function InputGroup({
                     </div>
                 )}
                 <div className="px-4">
-                    <div className="block w-full p-4 text-sm rounded text-high-emphesis">
+                    <div className="block w-full p-4  rounded ">
                         <div className="flex items-center">
                             <div className="ml-3">
                                 <p>
                                     <Trans>
                                         <b>Tip:</b> In order to start earning rewards, you will need to first acquire
                                         some SLP by adding liquidity to the specified pair or{' '}
-                                        <Link to="/migrate" className="underline text-blue">
+                                        <Link to="/migrate" className="underline blue">
                                             migrating existing liquidity.
                                         </Link>{' '}
                                         Once you have SLP you can stake it into this yield farm to start earning
@@ -113,9 +113,9 @@ export default function InputGroup({
                 </div>
                 <div className="grid grid-cols-2 gap-4 px-4">
                     {/* Deposit */}
-                    <div className="col-span-2 text-center md:col-span-1">
+                    <div className="col-span-2 center md:col-span-1">
                         {account && (
-                            <div className="pr-4 mb-2 text-sm text-right cursor-pointer text-secondary">
+                            <div className="pr-4 mb-2  right cursor-pointer ">
                                 {i18n._(t`Wallet Balance`)}:{' '}
                                 {formattedNum(fixedFormatting(balance.value, balance.decimals))} {type}
                             </div>
@@ -165,9 +165,9 @@ export default function InputGroup({
                         )}
                     </div>
                     {/* Withdraw */}
-                    <div className="col-span-2 text-center md:col-span-1">
+                    <div className="col-span-2 center md:col-span-1">
                         {account && (
-                            <div className="pr-4 mb-2 text-sm text-right cursor-pointer text-secondary">
+                            <div className="pr-4 mb-2  right cursor-pointer ">
                                 {i18n._(t`Your Staked`)}: {formattedNum(fixedFormatting(staked.value, staked.decimals))}{' '}
                                 {type}
                             </div>
@@ -195,7 +195,7 @@ export default function InputGroup({
                         </div>
                         <Button
                             color="pink"
-                            className="border-0"
+                            className=""
                             disabled={
                                 pendingTx ||
                                 Number(withdrawValue) === 0 ||

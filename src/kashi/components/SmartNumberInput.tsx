@@ -47,7 +47,7 @@ export default function SmartNumberInput({
     return (
         <>
             <div className="flex items-center justify-between my-4">
-                <div className="flex items-center text-base text-secondary">
+                <div className="flex items-center  ">
                     <span>
                         {useBentoTitleDirection == 'down' ? (
                             <ArrowDownRight size="1rem" style={{ display: 'inline' }} />
@@ -71,7 +71,7 @@ export default function SmartNumberInput({
                         </Button>
                     </span>
                 </div>
-                <div className="text-base text-secondary text-right" style={{ display: 'inline', cursor: 'pointer' }}>
+                <div className="  right" style={{ display: 'inline', cursor: 'pointer' }}>
                     {maxTitle} {formattedNum(max.toFixed(token.decimals))}
                 </div>
             </div>

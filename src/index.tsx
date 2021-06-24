@@ -20,7 +20,7 @@ import ListsUpdater from './state/lists/updater'
 import MulticallUpdater from './state/multicall/updater'
 import TransactionUpdater from './state/transactions/updater'
 import UserUpdater from './state/user/updater'
-import ThemeProvider, { ThemedGlobalStyle } from './theme'
+import ThemeProvider from './theme'
 import getLibrary from './utils/getLibrary'
 import LanguageProvider from 'language'
 
@@ -72,7 +72,6 @@ ReactDOM.render(
                         <Updaters />
                         <LanguageProvider>
                             <ThemeProvider>
-                                <ThemedGlobalStyle />
                                 <KashiProvider>
                                     <Router>
                                         <App />

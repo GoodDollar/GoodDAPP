@@ -16,9 +16,9 @@ export default function CardHeader({ className, children }: any) {
 }
 
 export function BorrowCardHeader({ children }: any) {
-    return <CardHeader className="border-pink">{children}</CardHeader>
+    return <CardHeader className="">{children}</CardHeader>
 }
 
 export function LendCardHeader({ children }: any) {
-    return <CardHeader className="border-blue">{children}</CardHeader>
+    return <CardHeader className="">{children}</CardHeader>
 }

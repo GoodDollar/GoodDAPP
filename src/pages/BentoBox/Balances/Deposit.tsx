@@ -46,7 +46,7 @@ export default function Deposit({
     return (
         <>
             {account && (
-                <div className="text-sm text-secondary cursor-pointer text-right mb-2 pr-4">
+                <div className="  cursor-pointer right mb-2 pr-4">
                     {i18n._(t`Wallet Balance`)}: {formattedNum(balance.value.toFixed(balance.decimals))}
                 </div>
             )}

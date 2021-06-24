@@ -18,24 +18,22 @@ export default function ListBox({ label, tokens, selectedToken, setSelectedToken
                 >
                     {({ open }) => (
                         <>
-                            <Listbox.Label className="block text-base leading-5 font-medium text-gray-700 pb-2">
-                                {label}
-                            </Listbox.Label>
+                            <Listbox.Label className="block  leading-5   pb-2">{label}</Listbox.Label>
                             <div className="relative">
-                                <span className="inline-block w-full rounded-md shadow-sm">
-                                    <Listbox.Button className="cursor-pointer relative w-full rounded-md p-3 text-left focus:outline-none transition ease-in-out duration-150 sm:text-sm sm:leading-5">
+                                <span className="inline-block w-full rounded-md ">
+                                    <Listbox.Button className="cursor-pointer relative w-full rounded-md p-3 left focus:outline-none transition ease-in-out duration-150  sm:leading-5">
                                         <span className="truncate flex items-center">
                                             <AsyncTokenIcon
                                                 address={selectedToken.address}
                                                 chainId={chainId}
                                                 className="w-10 h-10 rounded-sm mr-4"
                                             />
-                                            <span className="text-lg">{selectedToken.symbol}&nbsp;</span>
-                                            <span className="text-lg text-secondary">{selectedToken.name}</span>
+                                            <span className="lg">{selectedToken.symbol}&nbsp;</span>
+                                            <span className="lg ">{selectedToken.name}</span>
                                         </span>
                                         <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
                                             <svg
-                                                className="h-5 w-5 text-secondary"
+                                                className="h-5 w-5 "
                                                 viewBox="0 0 20 20"
                                                 fill="none"
                                                 stroke="currentColor"
@@ -56,18 +54,18 @@ export default function ListBox({ label, tokens, selectedToken, setSelectedToken
                                     leave="transition ease-in duration-100"
                                     leaveFrom="opacity-100"
                                     leaveTo="opacity-0"
-                                    className="z-10 absolute mt-1 w-full rounded-md shadow-lg"
+                                    className="z-10 absolute mt-1 w-full rounded-md "
                                 >
                                     <Listbox.Options
                                         static
-                                        className="max-h-60 rounded-md py-1 text-base leading-6 overflow-auto focus:outline-none sm:text-sm sm:leading-5"
+                                        className="max-h-60 rounded-md py-1  leading-6 overflow-auto focus:outline-none  sm:leading-5"
                                     >
                                         {tokens.map((token: any) => (
                                             <Listbox.Option key={token.address} value={token}>
                                                 {({ selected, active }) => (
                                                     <div
                                                         className={`${
-                                                            active ? 'bg-dark-blue' : ''
+                                                            active ? 'ark-blue' : ''
                                                         } cursor-pointer relative p-3`}
                                                     >
                                                         <span className="flex truncate items-center">
@@ -76,8 +74,8 @@ export default function ListBox({ label, tokens, selectedToken, setSelectedToken
                                                                 chainId={chainId}
                                                                 className="w-10 h-10 rounded-sm mr-4"
                                                             />
-                                                            <span className="text-lg">{token.symbol}&nbsp;</span>
-                                                            <span className="text-lg text-secondary">{token.name}</span>
+                                                            <span className="lg">{token.symbol}&nbsp;</span>
+                                                            <span className="lg ">{token.name}</span>
                                                         </span>
                                                     </div>
                                                 )}

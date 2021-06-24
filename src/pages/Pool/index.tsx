@@ -157,7 +157,7 @@ export default function Pool() {
             <Helmet>
                 <title>{i18n._(t`Pool`)} | Sushi</title>
             </Helmet>
-            <div className="w-full max-w-2xl rounded shadow-liquidity-purple-glow">
+            <div className="w-full max-w-2xl rounded ">
                 <ExchangeHeader />
                 <div id="pool-page" className="p-4">
                     <SwapPoolTabs active={'pool'} />
@@ -169,13 +169,11 @@ export default function Pool() {
                         type="information"
                     />
                     <div className="flex justify-between items-center my-4">
-                        <div className="text-xl text-high-emphesis font-medium">
-                            {i18n._(t`Your Liquidity Positions`)}
-                        </div>
-                        <div className="text-sm font-bold">
+                        <div className="  ">{i18n._(t`Your Liquidity Positions`)}</div>
+                        <div className=" ">
                             <Trans>
                                 Don&apos;t see a pool you joined?{' '}
-                                <Link id="import-pool-link" to="/find" className="text-blue">
+                                <Link id="import-pool-link" to="/find" className="blue">
                                     Import it.
                                 </Link>
                             </Trans>
@@ -241,7 +239,7 @@ export default function Pool() {
                             <Button
                                 id="create-pool-button"
                                 color="default"
-                                className="bg-dark-800"
+                                className="ark-800"
                                 onClick={() => history.push('/create/ETH')}
                             >
                                 {i18n._(t`Create a pair`)}

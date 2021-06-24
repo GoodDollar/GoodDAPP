@@ -17,7 +17,7 @@ export function ExchangeRateCheckBox({ color, pair, updateOracle, setUpdateOracl
                     disabled={pair.currentExchangeRate.isZero()}
                     set={setUpdateOracle}
                 />
-                <span className="text-primary ml-2 mr-1">Update exchange rate from the oracle</span>
+                <span className=" ml-2 mr-1">Update exchange rate from the oracle</span>
                 <QuestionHelper
                     text={
                         pair.currentExchangeRate.gt(0)
@@ -35,7 +35,7 @@ export function SwapCheckbox({ title, color, swap, setSwap, help }: any) {
         <div className="flex items-center justify-between mb-4">
             <div>
                 <Checkbox color={color} checked={swap} set={setSwap} />
-                <span className="text-primary ml-2 mr-1">{title}</span>
+                <span className=" ml-2 mr-1">{title}</span>
                 <QuestionHelper text={help} />
             </div>
             {swap && <Settings />}

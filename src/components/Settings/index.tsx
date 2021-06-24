@@ -157,18 +157,14 @@ export default function SettingsTab() {
             {open && (
                 <ExtendedMenuFlyout>
                     <AutoColumn gap="md" style={{ padding: '1rem' }}>
-                        <div className="text-base font-semibold text-high-emphesis">
-                            {i18n._(t`Transaction Settings`)}
-                        </div>
+                        <div className="  ">{i18n._(t`Transaction Settings`)}</div>
                         <TransactionSettings
                             rawSlippage={userSlippageTolerance}
                             setRawSlippage={setUserslippageTolerance}
                             deadline={ttl}
                             setDeadline={setTtl}
                         />
-                        <div className="text-base font-semibold text-high-emphesis">
-                            {i18n._(t`Interface Settings`)}
-                        </div>
+                        <div className="  ">{i18n._(t`Interface Settings`)}</div>
                         <RowBetween>
                             <RowFixed>
                                 <TYPE.black fontWeight={400} fontSize={14} color={theme.text2}>

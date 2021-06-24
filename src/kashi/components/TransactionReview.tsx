@@ -8,12 +8,12 @@ function TransactionReviewView({ transactionReview }: { transactionReview: Trans
         <>
             {transactionReview && transactionReview.length > 0 && (
                 <div className="py-4 mb-4">
-                    <div className="text-xl text-high-emphesis">Transaction Review</div>
+                    <div className=" ">Transaction Review</div>
                     {transactionReview.map((line, i) => {
                         return (
                             <div className="flex items-center justify-between" key={i}>
-                                <div className="text-lg text-secondary">{line.name}:</div>
-                                <div className="text-lg">
+                                <div className="lg ">{line.name}:</div>
+                                <div className="lg">
                                     {line.from}
                                     {line.direction === Direction.FLAT ? (
                                         <ArrowRight

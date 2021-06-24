@@ -4,10 +4,9 @@ import Badge from '../../components/Badge'
 const Menu = ({ section, setSection }: any) => {
     return (
         <div className="overflow-x-auto">
-            <div className="flex flex-row space-x-2 text-xs whitespace-nowrap lg:text-base lg:flex-col lg:space-y-2 lg:space-x-0">
+            <div className="flex flex-row space-x-2 xs whitespace-nowrap  lg:flex-col lg:space-y-2 lg:space-x-0">
                 <div
-                    className={`cursor-pointer rounded flex items-center px-4 py-6 ${section === 'portfolio' &&
-                        'border-gradient'}`}
+                    className={`cursor-pointer rounded flex items-center px-4 py-6 ${section === 'portfolio' && ''}`}
                     onClick={() => {
                         return setSection('portfolio')
                     }}
@@ -15,8 +14,7 @@ const Menu = ({ section, setSection }: any) => {
                     Your Staked Farms
                 </div>
                 <div
-                    className={`cursor-pointer rounded flex items-center px-4 py-6 ${section === 'all' &&
-                        'border-gradient'}`}
+                    className={`cursor-pointer rounded flex items-center px-4 py-6 ${section === 'all' && ''}`}
                     onClick={() => {
                         return setSection('all')
                     }}
@@ -24,8 +22,7 @@ const Menu = ({ section, setSection }: any) => {
                     All Yield Farms
                 </div>
                 <div
-                    className={`cursor-pointer rounded flex items-center px-4 py-6 ${section === 'kmp' &&
-                        'border-gradient'}`}
+                    className={`cursor-pointer rounded flex items-center px-4 py-6 ${section === 'kmp' && ''}`}
                     onClick={() => {
                         return setSection('kmp')
                     }}
@@ -33,8 +30,7 @@ const Menu = ({ section, setSection }: any) => {
                     Lending Yield Farms
                 </div>
                 <div
-                    className={`cursor-pointer rounded flex items-center px-4 py-6 ${section === 'slp' &&
-                        'border-gradient'}`}
+                    className={`cursor-pointer rounded flex items-center px-4 py-6 ${section === 'slp' && ''}`}
                     onClick={() => {
                         return setSection('slp')
                     }}
@@ -43,7 +39,7 @@ const Menu = ({ section, setSection }: any) => {
                 </div>
                 <div
                     className={`cursor-pointer rounded flex justify-between items-center px-4 py-6 ${section ===
-                        'mcv2' && 'border-gradient'}`}
+                        'mcv2' && ''}`}
                     onClick={() => {
                         return setSection('mcv2')
                     }}

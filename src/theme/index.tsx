@@ -161,19 +161,3 @@ export const TYPE = {
         return <TextWrapper fontWeight={500} color={error ? 'red1' : 'text2'} {...props} />
     }
 }
-
-export const ThemedGlobalStyle = createGlobalStyle`
-html {
-  color: #BFBFBF;
-  background-color: #0D0415;
-}
-
-input, textarea {
-    font-family: "DM Sans", sans-serif;
-    font-display: fallback;
-  }
-
-body {
-    min-height: 100vh;
-}
-`

@@ -119,7 +119,7 @@ const CreatePair = () => {
         <Layout
             left={
                 <Card
-                    className="h-full bg-dark-900"
+                    className="h-full ark-900"
                     backgroundImage={DepositGraphic}
                     title={'Create a new Kashi Market'}
                     description={
@@ -132,10 +132,10 @@ const CreatePair = () => {
                 <title>Create Market | Sushi</title>
             </Helmet>
             <Card
-                className="h-full bg-dark-900"
+                className="h-full ark-900"
                 header={
-                    <CardHeader className="bg-dark-800">
-                        <div className="text-3xl text-high-emphesis leading-48px">Create a Market</div>
+                    <CardHeader className="ark-800">
+                        <div className="3xl  leading-48px">Create a Market</div>
                     </CardHeader>
                 }
             >
@@ -164,7 +164,7 @@ const CreatePair = () => {
 
                     <Button
                         color="gradient"
-                        className="w-full rounded text-base text-high-emphesis px-4 py-3"
+                        className="w-full rounded   px-4 py-3"
                         onClick={() => handleCreate()}
                         disabled={
                             selectedCollateral === empty ||

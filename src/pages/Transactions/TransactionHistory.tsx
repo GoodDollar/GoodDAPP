@@ -24,7 +24,7 @@ export default function TransactionHistory({ transactions }: any) {
     return (
         <>
             <div className="flex justify-between mb-6 flex-col sm:flex-row items-start">
-                <div className="text-xl font-medium text-white">
+                <div className="  white">
                     {i18n._(t`Your Transaction History on ${chainId && NETWORK_LABEL[chainId]}`)}
                 </div>
                 {/* <LinkStyledButton>
@@ -48,7 +48,7 @@ export default function TransactionHistory({ transactions }: any) {
                                     href={getExplorerLink(chainId, t.tx_hash, 'transaction')}
                                     target="_blank"
                                     rel="noreferrer noopener"
-                                    className="flex flex-1 items-center text-sm px-3 py-2 text-primary rounded-lg text-bold bg-dark-900"
+                                    className="flex flex-1 items-center  px-3 py-2  rounded-lg bold ark-900"
                                 >
                                     <span className="mr-1">{t.description}</span>
                                     <ArrowUpRight strokeWidth={2} size={14} color={theme.blue1} />
@@ -60,7 +60,7 @@ export default function TransactionHistory({ transactions }: any) {
                         </div>
                     ))
                 ) : (
-                    <div className="text-gray-500 text-center px-4 py-14 rounded">
+                    <div className=" center px-4 py-14 rounded">
                         <Dots>Loading</Dots>
                     </div>
                 )}

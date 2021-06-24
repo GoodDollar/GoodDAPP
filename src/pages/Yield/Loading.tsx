@@ -8,9 +8,9 @@ const Loading = ({ term }: any) => {
     return (
         <>
             {term ? (
-                <div className="w-full text-center py-6">{i18n._(t`No Results`)}</div>
+                <div className="w-full center py-6">{i18n._(t`No Results`)}</div>
             ) : (
-                <div className="w-full text-center py-6">
+                <div className="w-full center py-6">
                     <Dots>{i18n._(t`Fetching Instruments`)}</Dots>
                 </div>
             )}

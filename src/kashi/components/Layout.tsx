@@ -35,56 +35,48 @@ export default function Layout({
                 <div className="flex col-span-12 xl:col-span-9 items-end">
                     <nav className="flex justify-between items-center w-full">
                         <div className="flex">
-                            <NavLink to="/bento/kashi/lend" className="pl-4 pr-2 sm:pl-8 sm:pr-4 border-b-2">
+                            <NavLink to="/bento/kashi/lend" className="pl-4 pr-2 sm:pl-8 sm:pr-4 ">
                                 <div
                                     className={
-                                        'flex items-center font-medium ' +
-                                        (location.pathname.startsWith('/bento/kashi/lend')
-                                            ? 'text-high-emphesis'
-                                            : 'text-secondary hover:text-primary')
+                                        'flex items-center  ' +
+                                        (location.pathname.startsWith('/bento/kashi/lend') ? '' : ' ')
                                     }
                                 >
-                                    <div className="whitespace-nowrap text-base">Lend</div>
+                                    <div className="whitespace-nowrap ">Lend</div>
                                 </div>
                             </NavLink>
-                            <NavLink to="/bento/kashi/borrow" className="px-2 sm:px-4 border-b-2">
+                            <NavLink to="/bento/kashi/borrow" className="px-2 sm:px-4 ">
                                 <div
                                     className={
-                                        'flex items-center font-medium ' +
-                                        (location.pathname.startsWith('/bento/kashi/borrow')
-                                            ? 'text-high-emphesis'
-                                            : 'text-secondary hover:text-primary')
+                                        'flex items-center  ' +
+                                        (location.pathname.startsWith('/bento/kashi/borrow') ? '' : ' ')
                                     }
                                 >
-                                    <div className="whitespace-nowrap text-base">Borrow</div>
+                                    <div className="whitespace-nowrap ">Borrow</div>
                                 </div>
                             </NavLink>
 
-                            <NavLink to="/bento/kashi/create" className="px-2 sm:px-4 border-b-2">
+                            <NavLink to="/bento/kashi/create" className="px-2 sm:px-4 ">
                                 <div
                                     className={
-                                        'flex items-center font-medium ' +
-                                        (location.pathname.startsWith('/bento/kashi/create')
-                                            ? 'text-high-emphesis'
-                                            : 'text-secondary hover:text-primary')
+                                        'flex items-center  ' +
+                                        (location.pathname.startsWith('/bento/kashi/create') ? '' : ' ')
                                     }
                                 >
-                                    <div className="whitespace-nowrap text-base">Create</div>
+                                    <div className="whitespace-nowrap ">Create</div>
                                 </div>
                             </NavLink>
                         </div>
                         <div className="flex pr-2 sm:pr-4">
                             <NavLink
                                 to="/bento/balances"
-                                className={`px-2 sm:px-4 flex justify-end items-center font-medium ${
-                                    location.pathname === '/bento/balances'
-                                        ? 'text-high-emphesis'
-                                        : 'text-secondary hover:text-primary'
+                                className={`px-2 sm:px-4 flex justify-end items-center  ${
+                                    location.pathname === '/bento/balances' ? '' : ' '
                                 }`}
                             >
                                 <BentoBoxLogo className="fill-current h-auto w-6 mr-2" />
-                                <div className="whitespace-nowrap text-base">BentoBox</div>
-                                <div className="whitespace-nowrap text-base ml-2">
+                                <div className="whitespace-nowrap ">BentoBox</div>
+                                <div className="whitespace-nowrap  ml-2">
                                     {formattedNum(
                                         balances
                                             ?.reduce((previousValue, currentValue) => {

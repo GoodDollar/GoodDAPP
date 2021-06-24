@@ -44,15 +44,10 @@ export default function Menu() {
         <Popover className="relative">
             {({ open }) => (
                 <>
-                    <Popover.Button
-                        className={classNames(open ? 'text-secondary' : 'text-primary', 'focus:outline-none')}
-                    >
+                    <Popover.Button className={classNames(open ? '' : '', 'focus:outline-none')}>
                         <MenuIcon
                             title="More"
-                            className={classNames(
-                                open ? 'text-gray-600' : 'text-gray-400',
-                                'inline-flex items-center ml-2 h-5 w-5 group-hover:text-secondary hover:text-high-emphesis'
-                            )}
+                            className={classNames(open ? '' : '', 'inline-flex items-center ml-2 h-5 w-5 group- ')}
                             aria-hidden="true"
                         />
                     </Popover.Button>
@@ -79,8 +74,8 @@ export default function Menu() {
                                             href={item.href}
                                             className="-m-3 p-3 block rounded-md transition ease-in-out duration-150"
                                         >
-                                            <p className="text-base font-medium text-high-emphesis">{item.name}</p>
-                                            <p className="mt-1 text-sm text-secondary">{item.description}</p>
+                                            <p className="  ">{item.name}</p>
+                                            <p className="mt-1  ">{item.description}</p>
                                         </ExternalLink>
                                     ))}
                                 </div>

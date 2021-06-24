@@ -283,7 +283,7 @@ export default function Swap() {
 
     return (
         <>
-            <div className="relative w-full max-w-lg rounded bg-dark-900">
+            <div className="relative w-full max-w-lg rounded ark-900">
                 <SwapHeader />
                 <Wrapper id="swap-page">
                     <ConfirmSwapModal

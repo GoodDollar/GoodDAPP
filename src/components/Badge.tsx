@@ -8,8 +8,8 @@ export interface BadgeProps {
 
 export const COLOR = {
     default: '',
-    blue: 'outline-blue rounded text-xs text-blue px-2 py-1',
-    pink: 'outline-pink rounded text-xs text-pink px-2 py-1'
+    blue: 'outline-blue rounded xs blue px-2 py-1',
+    pink: 'outline-pink rounded xs pink px-2 py-1'
 }
 
 function Badge({

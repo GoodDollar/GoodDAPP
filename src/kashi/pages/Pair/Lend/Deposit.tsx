@@ -69,7 +69,7 @@ export default function LendDepositAction({ pair }: any): JSX.Element {
 
     return (
         <>
-            <div className="text-3xl text-high-emphesis mt-6">Deposit {pair.asset.symbol}</div>
+            <div className="3xl  mt-6">Deposit {pair.asset.symbol}</div>
 
             <SmartNumberInput
                 color="blue"

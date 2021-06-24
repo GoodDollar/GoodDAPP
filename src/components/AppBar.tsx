@@ -119,7 +119,7 @@ function AppBar(): JSX.Element {
                                     </div>
                                 </div>
 
-                                <div className="flex flex-row items-center justify-center w-full lg:w-auto p-4 fixed left-0 bottom-0 lg:relative lg:p-0 lg:bg-transparent">
+                                <div className="flex flex-row items-center justify-center w-full lg:w-auto p-4 fixed left-0 bottom-0 lg:relative lg:p-0 ransparent">
                                     <div className="flex items-center justify-between sm:justify-end space-x-2 w-full">
                                         {chainId &&
                                             [ChainId.MAINNET].includes(chainId) &&
@@ -128,7 +128,7 @@ function AppBar(): JSX.Element {
                                                 <>
                                                     <QuestionHelper text={i18n._(t`Add SAK3 to your Metamask wallet`)}>
                                                         <div
-                                                            className="hidden sm:inline-block rounded-md cursor-pointer border-gray-400"
+                                                            className="hidden sm:inline-block rounded-md cursor-pointer "
                                                             onClick={() => {
                                                                 const params: any = {
                                                                     type: 'ERC20',
@@ -318,13 +318,13 @@ function AppBar(): JSX.Element {
                                         {chainId && chainId === ChainId.MATIC && (
                                             <div className="hidden sm:inline-block">
                                                 <a
-                                                    className="flex items-center rounded p-0.5 whitespace-nowrap text-sm font-bold cursor-pointer select-none pointer-events-auto"
+                                                    className="flex items-center rounded p-0.5 whitespace-nowrap   cursor-pointer select-none pointer-events-auto"
                                                     href="https://wallet.matic.network/bridge/"
                                                     target="_blank"
                                                     rel="noopener noreferrer"
                                                 >
-                                                    <div className="grid grid-flow-col auto-cols-max items-center rounded-lg text-sm text-secondary py-2 px-3 pointer-events-auto">
-                                                        <div className="text-primary">{i18n._(t`Bridge Assets`)}</div>
+                                                    <div className="grid grid-flow-col auto-cols-max items-center rounded-lg   py-2 px-3 pointer-events-auto">
+                                                        <div className="">{i18n._(t`Bridge Assets`)}</div>
                                                     </div>
                                                 </a>
                                             </div>
@@ -335,10 +335,10 @@ function AppBar(): JSX.Element {
                                             </div>
                                         )}
 
-                                        <div className="w-auto flex items-center rounded p-0.5 whitespace-nowrap text-sm font-bold cursor-pointer select-none pointer-events-auto">
+                                        <div className="w-auto flex items-center rounded p-0.5 whitespace-nowrap   cursor-pointer select-none pointer-events-auto">
                                             {account && chainId && userEthBalance && (
                                                 <>
-                                                    <div className="py-2 px-3 text-primary text-bold">
+                                                    <div className="py-2 px-3  bold">
                                                         {userEthBalance?.toSignificant(4)}{' '}
                                                         {Currency.getNativeCurrencySymbol(chainId)}
                                                     </div>
@@ -358,7 +358,7 @@ function AppBar(): JSX.Element {
                                 </div>
                                 <div className="-mr-2 flex sm:hidden">
                                     {/* Mobile menu button */}
-                                    <Disclosure.Button className="inline-flex items-center justify-center p-2 rounded-md text-primary hover:text-high-emphesis focus:outline-none">
+                                    <Disclosure.Button className="inline-flex items-center justify-center p-2 rounded-md   focus:outline-none">
                                         <span className="sr-only">{i18n._(t`Open main menu`)}</span>
                                         {open ? (
                                             <X title="Close" className="block h-6 w-6" aria-hidden="true" />

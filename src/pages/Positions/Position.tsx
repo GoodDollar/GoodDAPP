@@ -64,16 +64,16 @@ export default function Position({ pair, showUnwrapped = false, stakedBalance }:
                 onClick={() => setShowMore(!showMore)}
             >
                 <DoubleCurrencyLogo currency0={currency0} currency1={currency1} size={30} margin={true} />
-                <div className="flex-1 mr-2 py-2 rounded-lg text-xs md:text-sm md:text-bold text-white">
+                <div className="flex-1 mr-2 py-2 rounded-lg xs  bold white">
                     {currency0.getSymbol(chainId)} / {currency1.getSymbol(chainId)}
                 </div>
-                <div className="flex flex-col md:flex-row justify-between flex-1 text-xs md:text-sm px-3 py-2 text-primary rounded-lg md:text-bold bg-dark-900">
+                <div className="flex flex-col md:flex-row justify-between flex-1 xs  px-3 py-2  rounded-lg bold ark-900">
                     <div>
-                        <span className="text-white">{token0Deposited ? token0Deposited?.toSignificant(6) : '-'}</span>
+                        <span className="white">{token0Deposited ? token0Deposited?.toSignificant(6) : '-'}</span>
                         <span className="ml-1">{currency0.getSymbol(chainId)}</span>
                     </div>
                     <div>
-                        <span className="text-white">{token1Deposited ? token1Deposited?.toSignificant(6) : '-'}</span>
+                        <span className="white">{token1Deposited ? token1Deposited?.toSignificant(6) : '-'}</span>
                         <span className="ml-1">{currency1.getSymbol(chainId)}</span>
                     </div>
                 </div>

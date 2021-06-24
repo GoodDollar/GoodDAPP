@@ -29,7 +29,7 @@ export default function SushiBarTransactions() {
                     <div className="mb-8 md:mb-3">
                         <Button size="small" className="flex items-center pl-0" onClick={() => history.goBack()}>
                             <ChevronLeft strokeWidth={2} size={18} color={theme.white} />
-                            <span className="ml-1 text-high-emphesis">Go Back</span>
+                            <span className="ml-1 ">Go Back</span>
                         </Button>
                     </div>
 
@@ -37,7 +37,7 @@ export default function SushiBarTransactions() {
                         <BalanceCard sushiBalance={sushiBalance} xSushiBalance={xSushiBalance} />
                     </div>
 
-                    <div className="text-h5 mb-5 md:mb-3 text-high-emphesis">Your History</div>
+                    <div className="h5 mb-5 md:mb-3 ">Your History</div>
                 </div>
                 <div className="hidden md:block w-72 h-full" />
             </div>
@@ -49,14 +49,14 @@ export default function SushiBarTransactions() {
                 <div className="flex flex-1 max-w-screen-md flex-col mb-20 md:mb-0">
                     <TransactionsPanel />
 
-                    <div className="hidden md:flex justify-between text-caption mt-4">
+                    <div className="hidden md:flex justify-between caption mt-4">
                         <div className="flex items-center">
-                            <p className="text-primary font-bold">Total gain:&nbsp;</p>
-                            <p className="text-high-emphesis font-bold">{`${mock.totalGain} SUSHI`}</p>
+                            <p className=" ">Total gain:&nbsp;</p>
+                            <p className=" ">{`${mock.totalGain} SUSHI`}</p>
                         </div>
                         <div className="flex items-center">
-                            <p className="text-primary">Time weighted average balance staked:&nbsp;</p>
-                            <p className="text-high-emphesis font-bold">{`${mock.avgBalStaked} SUSHI`}</p>
+                            <p className="">Time weighted average balance staked:&nbsp;</p>
+                            <p className=" ">{`${mock.avgBalStaked} SUSHI`}</p>
                         </div>
                     </div>
                 </div>

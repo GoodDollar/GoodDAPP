@@ -134,12 +134,12 @@ export default function Yield(): JSX.Element {
                 </div>
                 <div className="col-span-4 lg:col-span-3">
                     <Card
-                        className="h-full bg-dark-900"
+                        className="h-full ark-900"
                         header={
-                            <CardHeader className="flex flex-col items-center bg-dark-800">
+                            <CardHeader className="flex flex-col items-center ark-800">
                                 <div className="flex justify-between w-full">
                                     <div className="items-center hidden md:flex">
-                                        <div className="mr-2 text-lg whitespace-nowrap">{i18n._(t`Yield Farms`)}</div>
+                                        <div className="mr-2 lg whitespace-nowrap">{i18n._(t`Yield Farms`)}</div>
                                     </div>
                                     <Search search={search} term={term} />
                                 </div>
@@ -150,7 +150,7 @@ export default function Yield(): JSX.Element {
                                     <div className="p-4 mt-4">
                                         <div className="flex">
                                             <div className="ml-3">
-                                                <p className="text-sm text-yellow-700">
+                                                <p className=" ">
                                                     Polygon subgraphs are currently experiencing high loads. The APY
                                                     displayed are based on lagging fees. Funds are safe, we are working
                                                     on resolving and providing accurate consolidated APY information.
@@ -187,9 +187,9 @@ export default function Yield(): JSX.Element {
                                             ) : (
                                                 <>
                                                     {term ? (
-                                                        <div className="w-full py-6 text-center">No Results.</div>
+                                                        <div className="w-full py-6 center">No Results.</div>
                                                     ) : (
-                                                        <div className="w-full py-6 text-center">
+                                                        <div className="w-full py-6 center">
                                                             <Dots>Fetching Portfolio</Dots>
                                                         </div>
                                                     )}
@@ -198,7 +198,7 @@ export default function Yield(): JSX.Element {
                                         </div>
                                     </>
                                 ) : (
-                                    <div className="w-full py-6 text-center">Connect Wallet.</div>
+                                    <div className="w-full py-6 center">Connect Wallet.</div>
                                 )}
                             </>
                         )}
@@ -219,9 +219,9 @@ export default function Yield(): JSX.Element {
                                     ) : (
                                         <>
                                             {term ? (
-                                                <div className="w-full py-6 text-center">No Results.</div>
+                                                <div className="w-full py-6 center">No Results.</div>
                                             ) : (
-                                                <div className="w-full py-6 text-center">
+                                                <div className="w-full py-6 center">
                                                     <Dots>Fetching Farms</Dots>
                                                 </div>
                                             )}
@@ -245,9 +245,9 @@ export default function Yield(): JSX.Element {
                                     ) : (
                                         <>
                                             {term ? (
-                                                <div className="w-full py-6 text-center">No Results.</div>
+                                                <div className="w-full py-6 center">No Results.</div>
                                             ) : (
-                                                <div className="w-full py-6 text-center">
+                                                <div className="w-full py-6 center">
                                                     <Dots>Fetching Farms</Dots>
                                                 </div>
                                             )}
@@ -271,9 +271,9 @@ export default function Yield(): JSX.Element {
                                     ) : (
                                         <>
                                             {term ? (
-                                                <div className="w-full py-6 text-center">No Results.</div>
+                                                <div className="w-full py-6 center">No Results.</div>
                                             ) : (
-                                                <div className="w-full py-6 text-center">
+                                                <div className="w-full py-6 center">
                                                     <Dots>Fetching Farms</Dots>
                                                 </div>
                                             )}
@@ -297,9 +297,9 @@ export default function Yield(): JSX.Element {
                                     ) : (
                                         <>
                                             {term ? (
-                                                <div className="w-full py-6 text-center">No Results.</div>
+                                                <div className="w-full py-6 center">No Results.</div>
                                             ) : (
-                                                <div className="w-full py-6 text-center">
+                                                <div className="w-full py-6 center">
                                                     <Dots>Fetching Farms</Dots>
                                                 </div>
                                             )}

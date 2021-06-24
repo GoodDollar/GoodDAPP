@@ -3,7 +3,6 @@ const plugin = require('tailwindcss/plugin')
 
 module.exports = {
     darkMode: false, // or 'media' or 'class'
-    important: true,
     theme: {
         linearBorderGradients: {
             directions: {
@@ -38,7 +37,6 @@ module.exports = {
             ...defaultTheme.colors,
             red: '#FF3838',
             blue: '#27B0E6',
-            pink: '#FA52A0',
             purple: '#A755DD',
             green: '#7CFF6B',
 

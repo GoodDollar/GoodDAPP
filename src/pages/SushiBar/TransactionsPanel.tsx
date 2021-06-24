@@ -161,14 +161,10 @@ const mock = {
 const TXS_PER_PAGE = 9
 
 const ColumnHeader = ({ className = '', children }: any) => (
-    <div className={`flex flex-1 h-14 md:h-20 text-caption2 md:text-lg text-high-emphesis font-bold ${className}`}>
-        {children}
-    </div>
+    <div className={`flex flex-1 h-14 md:h-20 caption2 lg   ${className}`}>{children}</div>
 )
 
-const Item = ({ children }: any) => (
-    <div className="h-12 mb-1 text-xs md:text-caption text-high-emphesis font-normal md:font-bold">{children}</div>
-)
+const Item = ({ children }: any) => <div className="h-12 mb-1 xs caption  font-normal ">{children}</div>
 
 const Transaction = ({ date, type, amount, txHash }: any) => (
     <>
@@ -177,10 +173,8 @@ const Transaction = ({ date, type, amount, txHash }: any) => (
         <Item>{amount.concat(' SUSHI')}</Item>
         <Item>
             <ExternalLink className="" href={`https://etherscan.io/tx/${txHash}`}>
-                <p className="hidden md:block relative -top-6 whitespace-nowrap text-cyan-blue hover:underline">
-                    View On Etherscan
-                </p>
-                <div className="flex items-center flex-nowrap md:hidden relative -top-4 whitespace-nowrap text-cyan-blue">
+                <p className="hidden md:block relative -top-6 whitespace-nowrap  hover:underline">View On Etherscan</p>
+                <div className="flex items-center flex-nowrap md:hidden relative -top-4 whitespace-nowrap ">
                     <p className="mr-1">Etherscan</p>
                     <img src={ArrowIcon} alt="arrow" />
                 </div>
@@ -245,15 +239,13 @@ export default function TransactionsPanel({}) {
                         </div>
                     </div>
                 </div>
-                <div className="flex justify-end items-center w-full h-10 px-2 text-secondary">
+                <div className="flex justify-end items-center w-full h-10 px-2 ">
                     {Array(Math.floor(mock.txs.length / (TXS_PER_PAGE + 1)) + 1)
                         .fill(null)
                         .map((v, i) => (
                             <div
                                 key={i}
-                                className={`flex mr-3 px-1 cursor-pointer ${
-                                    pageIndex === i ? 'text-high-emphesis' : 'text-secondary'
-                                }`}
+                                className={`flex mr-3 px-1 cursor-pointer ${pageIndex === i ? '' : ''}`}
                                 onClick={() => setPageIndex(i)}
                             >
                                 {(i + 1).toString()}

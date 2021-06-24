@@ -5,26 +5,28 @@ import React, { useEffect, useState } from 'react'
 import { Platform } from 'react-native'
 import { deleteGunDB } from '../lib/hooks/useDeleteAccountDialog'
 import Config from '../config/config'
-import SimpleStore, { initStore } from '../lib/undux/SimpleStore'
-import GDStore from '../lib/undux/GDStore'
+import SimpleStore from '../lib/undux/SimpleStore'
 import AsyncStorage from '../lib/utils/asyncStorage'
-import App from './AppHot'
-import '../lib/gundb/gundb'
+import AppStore from './AppStore'
 
-const AppHot = App
+import '../lib/gundb/gundb'
 
 const AppHolder = () => {
   const [ready, setReady] = useState(false)
 
   useEffect(() => {
+    if (Platform.OS !== 'web') {
+      return
+    }
+
     /**
      * decide if we need to clear storage
      */
     const upgradeVersion = async () => {
-      const valid = ['phase1', null] //in case multiple versions are valid
       const current = 'phase' + Config.phase
-      valid.push(current)
+      const valid = ['phase1', current] //in case multiple versions are valid
       const version = await AsyncStorage.getItem('GD_version')
+
       if (valid.includes(version)) {
         return
       }
@@ -36,15 +38,8 @@ const AppHolder = () => {
       AsyncStorage.setItem('GD_version', current) // required for mnemonic recovery
     }
 
-    ;(async () => {
-      if (Platform.OS === 'web') {
-        await upgradeVersion()
-      }
-
-      await initStore()
-      setReady(true)
-    })()
-  }, [])
+    upgradeVersion().then(() => setReady(true))
+  }, [setReady])
 
   if (!ready) {
     return null
@@ -53,9 +48,7 @@ const AppHolder = () => {
   return (
     <ActionSheetProvider>
       <SimpleStore.Container>
-        <GDStore.Container>
-          <AppHot />
-        </GDStore.Container>
+        <AppStore />
       </SimpleStore.Container>
     </ActionSheetProvider>
   )

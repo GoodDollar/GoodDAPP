@@ -1,34 +1,28 @@
 import styled from 'styled-components'
 
 export const StyledMenuButton = styled.button`
-  position: relative;
-  width: 100%;
-  height: 100%;
-  border: none;
-  background-color: transparent;
-  margin: 0;
-  padding: 0;
-  height: 35px;
-  // background-color: ${({ theme }) => theme.bg3};
-  padding: 0.15rem 0.5rem;
-  border-radius: 10px;
-  :hover,
-  :focus {
-    cursor: pointer;
-    outline: none;
-    // background-color: ${({ theme }) => theme.bg4};
-  }
-  /*
-  svg {
-    margin-top: 2px;
-  }
-  */
-  > * {
-    stroke: ${({ theme }) => theme.text1};
-  }
-  // ${({ theme }) => theme.mediaWidth.upToMedium`
-  //   margin-left: 4px;
-  // `};
+    position: relative;
+    width: 100%;
+    border: none;
+    margin: 0;
+    padding: 5px;
+    background: ${({ theme }) => theme.color.bg1};
+    box-shadow: ${({ theme }) => theme.shadow.settings};
+    border-radius: 12px;
+    :hover,
+    :focus {
+        cursor: pointer;
+        outline: none;
+    }
+    .wrapper {
+        border: 1px solid ${({ theme }) => theme.color.text2};
+        border-radius: 12px;
+        padding: 8px;
+    }
+
+    svg * {
+        fill: ${({ theme }) => theme.color.text2};
+    }
 `
 
 export const StyledMenu = styled.div`
@@ -46,17 +40,17 @@ export const StyledMenu = styled.div`
 
 export const MenuFlyout = styled.span`
     min-width: 8.125rem;
-    background-color: #161522;
-    // background-color: ${({ theme }) => theme.bg3};
-    box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.01), 0px 4px 8px rgba(0, 0, 0, 0.04), 0px 16px 24px rgba(0, 0, 0, 0.04),
-        0px 24px 32px rgba(0, 0, 0, 0.01);
-    border-radius: ${({ theme }) => theme.borderRadius};
-    padding: 0.5rem;
+    background-color: ${({ theme }) => theme.color.main};
+    box-shadow: ${({ theme }) => theme.shadow.swapCard};
+    border-radius: 20px;
+    padding: 16px 18px 32px 16px;
     display: flex;
     flex-direction: column;
-    font-size: 1rem;
     position: absolute;
-    top: 3rem;
-    right: 0rem;
+    top: calc(100% + 4px);
+    right: 0;
     z-index: 100;
+    color: ${({ theme }) => theme.color.input};
+    font-size: 16px;
+    line-height: 19px;
 `

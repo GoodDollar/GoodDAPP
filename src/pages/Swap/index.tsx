@@ -1,11 +1,11 @@
 import { ApprovalState, useApproveCallbackFromTrade } from '../../hooks/useApproveCallback'
 import { ArrowWrapper, BottomGrouping, SwapCallbackError, Wrapper } from '../../components/swap/styleds'
 import { AutoRow, RowBetween } from '../../components/Row'
-import { ButtonConfirmed, ButtonError, ButtonLight, ButtonPrimary } from '../../components/ButtonLegacy'
-import Card, { DarkCard, GreyCard } from '../../components/CardLegacy'
+import { ButtonConfirmed, GDButton } from '../../components/ButtonLegacy'
+import Card from '../../components/CardLegacy'
 import { ChainId, CurrencyAmount, JSBI, Token, Trade } from '@sushiswap/sdk'
 import Column, { AutoColumn } from '../../components/Column'
-import { LinkStyledButton, TYPE } from '../../theme'
+import { LinkStyledButton } from '../../theme'
 import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import { computeTradePriceBreakdown, warningSeverity } from '../../utils/prices'
 import { useAllTokens, useCurrency } from '../../hooks/Tokens'
@@ -28,11 +28,8 @@ import CurrencyInputPanel from '../../components/CurrencyInputPanel'
 import { Field } from '../../state/swap/actions'
 import { Helmet } from 'react-helmet'
 import { INITIAL_ALLOWED_SLIPPAGE } from '../../constants'
-import { Link } from 'react-router-dom'
 import Loader from '../../components/Loader'
 import Lottie from 'lottie-react'
-import PolygonLogo from '../../assets/images/matic-logo.png'
-import ProgressSteps from '../../components/ProgressSteps'
 import ReactGA from 'react-ga'
 import SwapHeader from '../../components/ExchangeHeader'
 import { SwapPoolTabs } from '../../components/NavigationTabs'
@@ -40,9 +37,7 @@ import { Text } from 'rebass'
 import { ThemeContext } from 'styled-components'
 import TokenWarningModal from '../../components/TokenWarningModal'
 import TradePrice from '../../components/swap/TradePrice'
-import UnsupportedCurrencyFooter from 'components/swap/UnsupportedCurrencyFooter'
 import confirmPriceImpactWithoutFee from '../../components/swap/confirmPriceImpactWithoutFee'
-import { isTradeBetter } from 'utils/trades'
 import { maxAmountSpend } from '../../utils/maxAmountSpend'
 import swapArrowsAnimationData from '../../assets/animation/swap-arrows.json'
 import { t, Trans } from '@lingui/macro'
@@ -51,11 +46,7 @@ import useENSAddress from '../../hooks/useENSAddress'
 import { useIsTransactionUnsupported } from 'hooks/Trades'
 import { useLingui } from '@lingui/react'
 import { useSwapCallback } from '../../hooks/useSwapCallback'
-//import MisoBanner from '../../assets/images/miso-banner.jpg'
-import SakeBanner from '../../assets/images/sake-banner.jpg'
-import SakeLogo from '../../assets/images/sake-square.png'
-import SakeBottle from '../../assets/images/sake-half.png'
-//import MisoLogo from '../../assets/images/miso-logo.png'
+import { SwapWrapper } from './styled'
 
 export default function Swap() {
     const { i18n } = useLingui()
@@ -318,7 +309,7 @@ export default function Swap() {
                 onConfirm={handleConfirmTokenWarning}
             />
             <SwapPoolTabs active={'swap'} />
-            <div className="w-full max-w-2xl rounded">
+            <SwapWrapper className="w-full rounded-md">
                 <SwapHeader input={currencies[Field.INPUT]} output={currencies[Field.OUTPUT]} />
                 <Wrapper id="swap-page">
                     <ConfirmSwapModal
@@ -334,36 +325,12 @@ export default function Swap() {
                         swapErrorMessage={swapErrorMessage}
                         onDismiss={handleConfirmDismiss}
                     />
-                    {chainId && chainId === ChainId.MATIC && (
-                        <div className="hidden md:block pb-4 space-y-2">
-                            <DarkCard>
-                                <div className="flex justify-between items-center">
-                                    <div>
-                                        <div className="white">New Yield Farms: ibBTC, BIFI, dTOP </div>
-                                        <div className="purple ">Add liquidity and stake now</div>
-                                    </div>
-                                    <div className=""></div>
-                                    <Link to="/yield" className="inline-flex items-center rounded-sm px-3 py-2 purple">
-                                        Visit Yield
-                                    </Link>
-                                    {/* <a
-                                        href="https://ayokiroll.medium.com/cf7e932f3a8"
-                                        target="_blank"
-                                        rel="noreferrer noopener"
-                                        className="inline-flex items-center rounded-sm px-3 py-2 border-2 border-purple text-purple"
-                                    >
-                                        Read Tutorial
-                                    </a> */}
-                                </div>
-                            </DarkCard>
-                        </div>
-                    )}
                     <AutoColumn gap={'md'}>
                         <CurrencyInputPanel
                             label={
                                 independentField === Field.OUTPUT && !showWrap && trade
-                                    ? i18n._(t`Swap From (est.):`)
-                                    : i18n._(t`Swap From:`)
+                                    ? i18n._(t`Swap from`)
+                                    : i18n._(t`Swap from`)
                             }
                             value={formattedAmounts[Field.INPUT]}
                             showMaxButton={!atMaxAmountInput}
@@ -377,7 +344,7 @@ export default function Swap() {
                         <AutoColumn justify="space-between">
                             <AutoRow
                                 justify={isExpertMode ? 'space-between' : 'flex-start'}
-                                style={{ padding: '0 1rem' }}
+                                style={{ padding: '0 1.25rem' }}
                             >
                                 <button
                                     className="rounded-full p-3px -mt-6 -mb-6 z-10"
@@ -385,9 +352,14 @@ export default function Swap() {
                                         setApprovalSubmitted(false) // reset 2 step UI for approvals
                                         onSwitchTokens()
                                     }}
+                                    style={{
+                                        background: theme.color.switch,
+                                        border: `2px solid ${theme.color.main}`
+                                    }}
                                 >
                                     <div
-                                        className="rounded-full p-3"
+                                        className="rounded-full"
+                                        style={{ padding: 6 }}
                                         onMouseEnter={() => setAnimateSwapArrows(true)}
                                         onMouseLeave={() => setAnimateSwapArrows(false)}
                                     >
@@ -396,25 +368,9 @@ export default function Swap() {
                                             autoplay={animateSwapArrows}
                                             loop={false}
                                             style={{ width: 32, height: 32 }}
-
-                                            // className="text-secondary fill-current"
                                         />
                                     </div>
                                 </button>
-                                {/* <ArrowWrapper clickable>
-                                      <ArrowDown
-                                        size="16"
-                                        onClick={() => {
-                                            setApprovalSubmitted(false) // reset 2 step UI for approvals
-                                            onSwitchTokens()
-                                        }}
-                                        color={
-                                            currencies[Field.INPUT] && currencies[Field.OUTPUT]
-                                                ? theme.primary1
-                                                : theme.text2
-                                        }
-                                    />
-                                </ArrowWrapper> */}
                                 {recipient === null && !showWrap && isExpertMode ? (
                                     <LinkStyledButton id="add-recipient-button" onClick={() => onChangeRecipient('')}>
                                         + Add a send (optional)
@@ -428,8 +384,8 @@ export default function Swap() {
                             onUserInput={handleTypeOutput}
                             label={
                                 independentField === Field.INPUT && !showWrap && trade
-                                    ? i18n._(t`Swap To (est.):`)
-                                    : i18n._(t`Swap To:`)
+                                    ? i18n._(t`Swap to`)
+                                    : i18n._(t`Swap to`)
                             }
                             showMaxButton={false}
                             currency={currencies[Field.OUTPUT]}
@@ -456,38 +412,30 @@ export default function Swap() {
                         ) : null}
 
                         {showWrap ? null : (
-                            <Card padding={showWrap ? '.25rem 1rem 0 1rem' : '0px'} borderRadius={'20px'}>
+                            <Card
+                                className="initial-info"
+                                padding={showWrap ? '.25rem 1rem 0 1rem' : '0px'}
+                                borderRadius={'20px'}
+                            >
                                 <AutoColumn gap="8px" style={{ padding: '0 16px' }}>
+                                    {allowedSlippage !== INITIAL_ALLOWED_SLIPPAGE && (
+                                        <RowBetween align="center">
+                                            <ClickableText onClick={toggleSettings}>
+                                                {i18n._(t`Slippage Tolerance`)}
+                                            </ClickableText>
+                                            <ClickableText onClick={toggleSettings}>
+                                                {allowedSlippage / 100}%
+                                            </ClickableText>
+                                        </RowBetween>
+                                    )}
                                     {Boolean(trade) && (
                                         <RowBetween align="center">
-                                            <Text fontWeight={500} fontSize={14} color={theme.text2}>
-                                                {i18n._(t`Price`)}
-                                            </Text>
+                                            <Text>{i18n._(t`Price`)}</Text>
                                             <TradePrice
                                                 price={trade?.executionPrice}
                                                 showInverted={showInverted}
                                                 setShowInverted={setShowInverted}
                                             />
-                                        </RowBetween>
-                                    )}
-                                    {allowedSlippage !== INITIAL_ALLOWED_SLIPPAGE && (
-                                        <RowBetween align="center">
-                                            <ClickableText
-                                                fontWeight={500}
-                                                fontSize={14}
-                                                color={theme.text2}
-                                                onClick={toggleSettings}
-                                            >
-                                                {i18n._(t`Slippage Tolerance`)}
-                                            </ClickableText>
-                                            <ClickableText
-                                                fontWeight={500}
-                                                fontSize={14}
-                                                color={theme.text2}
-                                                onClick={toggleSettings}
-                                            >
-                                                {allowedSlippage / 100}%
-                                            </ClickableText>
                                         </RowBetween>
                                     )}
                                 </AutoColumn>
@@ -496,27 +444,25 @@ export default function Swap() {
                     </AutoColumn>
                     <BottomGrouping>
                         {swapIsUnsupported ? (
-                            <ButtonPrimary disabled={true}>
-                                <TYPE.main mb="4px">{i18n._(t`Unsupported Asset`)}</TYPE.main>
-                            </ButtonPrimary>
+                            <GDButton>{i18n._(t`Unsupported Asset`)}</GDButton>
                         ) : !account ? (
-                            <ButtonLight onClick={toggleWalletModal}>{i18n._(t`Connect Wallet`)}</ButtonLight>
+                            <GDButton onClick={toggleWalletModal}>{i18n._(t`Connect Wallet`)}</GDButton>
                         ) : showWrap ? (
-                            <ButtonPrimary disabled={Boolean(wrapInputError)} onClick={onWrap}>
+                            <GDButton disabled={Boolean(wrapInputError)} onClick={onWrap}>
                                 {wrapInputError ??
                                     (wrapType === WrapType.WRAP
                                         ? i18n._(t`Wrap`)
                                         : wrapType === WrapType.UNWRAP
                                         ? i18n._(t`Unwrap`)
                                         : null)}
-                            </ButtonPrimary>
+                            </GDButton>
                         ) : noRoute && userHasSpecifiedInputOutput ? (
-                            <GreyCard style={{ textAlign: 'center' }}>
-                                <TYPE.main mb="4px">{i18n._(t`Insufficient liquidity for this trade`)}</TYPE.main>
-                                {singleHopOnly && (
+                            <GDButton disabled>
+                                {i18n._(t`Insufficient liquidity for this trade`)}
+                                {/*{singleHopOnly && (
                                     <TYPE.main mb="4px">{i18n._(t`Try enabling multi-hop trades`)}</TYPE.main>
-                                )}
-                            </GreyCard>
+                                )}*/}
+                            </GDButton>
                         ) : showApproveFlow ? (
                             <RowBetween>
                                 <ButtonConfirmed
@@ -528,15 +474,15 @@ export default function Swap() {
                                 >
                                     {approval === ApprovalState.PENDING ? (
                                         <AutoRow gap="6px" justify="center">
-                                            Approving <Loader stroke="white" />
+                                            APPROVING <Loader stroke="white" />
                                         </AutoRow>
                                     ) : approvalSubmitted && approval === ApprovalState.APPROVED ? (
-                                        i18n._(t`Approved`)
+                                        i18n._(t`APPROVED`)
                                     ) : (
-                                        i18n._(t`Approve ${currencies[Field.INPUT]?.getSymbol(chainId)}`)
+                                        i18n._(t`APPROVE`)
                                     )}
                                 </ButtonConfirmed>
-                                <ButtonError
+                                <GDButton
                                     onClick={() => {
                                         if (isExpertMode) {
                                             handleSwap()
@@ -559,17 +505,15 @@ export default function Swap() {
                                     }
                                     error={isValid && priceImpactSeverity > 2}
                                 >
-                                    <Text fontSize={16} fontWeight={500}>
-                                        {priceImpactSeverity > 3 && !isExpertMode
-                                            ? i18n._(t`Price Impact High`)
-                                            : priceImpactSeverity > 2
-                                            ? i18n._(t`Swap Anyway`)
-                                            : i18n._(t`Swap`)}
-                                    </Text>
-                                </ButtonError>
+                                    {priceImpactSeverity > 3 && !isExpertMode
+                                        ? i18n._(t`Price Impact High`)
+                                        : priceImpactSeverity > 2
+                                        ? i18n._(t`Swap Anyway`)
+                                        : i18n._(t`SWAP`)}
+                                </GDButton>
                             </RowBetween>
                         ) : (
-                            <ButtonError
+                            <GDButton
                                 onClick={() => {
                                     if (isExpertMode) {
                                         handleSwap()
@@ -585,7 +529,7 @@ export default function Swap() {
                                 }}
                                 id="swap-button"
                                 disabled={!isValid || (priceImpactSeverity > 3 && !isExpertMode) || !!swapCallbackError}
-                                error={isValid && priceImpactSeverity > 2 && !swapCallbackError}
+                                // error={isValid && priceImpactSeverity > 2 && !swapCallbackError}
                             >
                                 <Text fontSize={20} fontWeight={500}>
                                     {swapInputError
@@ -596,89 +540,26 @@ export default function Swap() {
                                         ? i18n._(t`Swap Anyway`)
                                         : i18n._(t`Swap`)}
                                 </Text>
-                            </ButtonError>
+                            </GDButton>
                         )}
-                        {showApproveFlow && (
+                        {/*{showApproveFlow && (
                             <Column style={{ marginTop: '1rem' }}>
                                 <ProgressSteps steps={[approval === ApprovalState.APPROVED]} />
                             </Column>
-                        )}
+                        )}*/}
                         {isExpertMode && swapErrorMessage ? <SwapCallbackError error={swapErrorMessage} /> : null}
                     </BottomGrouping>
-                    {/*{!trade && chainId && chainId === ChainId.MAINNET && (*/}
-                    {/*    <div*/}
-                    {/*        className="hidden sm:block w-full cursor-pointer pt-4"*/}
-                    {/*        onClick={() => toggleNetworkModal()}*/}
-                    {/*    >*/}
-                    {/*        <DarkCard>*/}
-                    {/*            <div className="flex justify-between items-center overflow-hidden">*/}
-                    {/*                <img src={PolygonLogo} className="w-24 h-24 absolute top-2" alt="" />*/}
-                    {/*                <div className="pl-32">*/}
-                    {/*                    <div className="text-high-emphesis">*/}
-                    {/*                        {i18n._(t`Check out Sushi on Polygon (Matic)`)}*/}
-                    {/*                    </div>*/}
-                    {/*                    <div className="text-high-emphesis text-sm">*/}
-                    {/*                        {i18n._(t`Click here to switch to Polygon using Metamask`)}*/}
-                    {/*                    </div>*/}
-                    {/*                </div>*/}
-                    {/*            </div>*/}
-                    {/*        </DarkCard>*/}
-                    {/*    </div>*/}
-                    {/*)}*/}
-                    {/* Banner */}
-                    {/* <a
-                        href={
-                            'https://app.sushi.com/swap?inputCurrency=0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48&outputCurrency=0xe9f84de264e91529af07fa2c746e934397810334'
-                        }
-                        className="hidden sm:block w-full cursor-pointer mt-4 py-1 rounded"
-                        style={{
-                            backgroundImage: `url(${SakeBanner})`,
-                            backgroundPosition: 'center',
-                            backgroundSize: 'cover',
-                            backgroundRepeat: 'no-repeat'
-                        }}
-                    >
-                        <div className="justify-between flex pl-5 pr-8 items-center gap-6">
-                            <div style={{ maxWidth: 134 }}>
-                                <img src={SakeLogo} style={{ maxWidth: '100%' }} />
-                            </div>
-                            <div style={{ maxWidth: 80 }}>
-                                <img src={SakeBottle} style={{ maxWidth: '100%' }} />
-                            </div>
-                            <div
-                                className="text-black font-normal flex flex-col space-y-2"
-                                style={{ lineHeight: 1.3, maxWidth: 250 }}
-                            >
-                                <div className="font-semibold">
-                                    <Trans>Missed the Auction?</Trans>
-                                </div>
-                                <div className="text-xs">
-                                    <Trans>Swap for SAK3 token on SUSHI now. Click here to swap.</Trans>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="justify-between flex pl-5 pr-8 items-center gap-6">
-                            <span className="text-high-emphesis font-normal" style={{ lineHeight: 1.3, maxWidth: 250 }}>
-                                <Trans>
-                                    Pour a hot bowl of MISO, the new <span className="font-bold">token launchpad</span>{' '}
-                                    from SUSHI
-                                </Trans>
-                            </span>
-                            <div style={{ maxWidth: 195 }}>
-                                <img src={MisoLogo} style={{ maxWidth: '100%' }} />
-                            </div>
-                        </div>
-                    </a> */}
                 </Wrapper>
-            </div>
-            {!swapIsUnsupported ? (
+            </SwapWrapper>
+            {!swapIsUnsupported && <AdvancedSwapDetailsDropdown trade={trade} />}
+            {/*{!swapIsUnsupported ? (
                 <AdvancedSwapDetailsDropdown trade={trade} />
             ) : (
                 <UnsupportedCurrencyFooter
                     show={swapIsUnsupported}
                     currencies={[currencies.INPUT, currencies.OUTPUT]}
                 />
-            )}
+            )}*/}
         </>
     )
 }

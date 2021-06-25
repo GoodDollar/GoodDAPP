@@ -7,7 +7,12 @@ import { AutoColumn } from '../Column'
 
 export const Wrapper = styled.div`
     position: relative;
-    padding: 1rem;
+    padding: 25px 21px 23px 21px;
+
+    background: ${({ theme }) => theme.color.bg1};
+    box-shadow: ${({ theme }) => theme.shadow.settings};
+    border-radius: 12px;
+    margin: 0 16px 25px 14px;
 `
 
 export const WrapperNoPadding = styled.div`

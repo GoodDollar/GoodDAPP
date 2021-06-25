@@ -44,52 +44,57 @@ const sheen = keyframes`{
 }`
 
 export const ButtonPrimary = styled(Base)`
-  /* background-color: ${({ theme }) => theme.primary1}; */
-  overflow:hidden;
-  background: linear-gradient(to right, #0094ec , #f537c3);
-  background-origin: border-box;
-  color: white;
-  &:focus {
-    box-shadow: 0 0 0 1pt ${({ theme }) => darken(0.05, theme.primary1)};
-    /*background: ${({ theme }) => darken(0.05, theme.primary1)};*/
-    background: linear-gradient(to right, #0094ec , #f537c3);
-  }
-  &:active {
-    box-shadow: 0 0 0 1pt ${({ theme }) => darken(0.1, theme.primary1)};
-    /*background: ${({ theme }) => darken(0.1, theme.primary1)};*/
-    background: linear-gradient(to right, #0094ec , #f537c3);
-  }
-  &:disabled {
-    pointer-events: none;
-    background: ${({ theme, altDisabledStyle, disabled }) =>
-        altDisabledStyle ? (disabled ? theme.bg3 : theme.primary1) : theme.bg3};
-    color: ${({ theme, altDisabledStyle, disabled }) =>
-        altDisabledStyle ? (disabled ? theme.text3 : 'white') : theme.text3};
-    cursor: auto;
-    box-shadow: none;
-    border: 1px solid transparent;
-    outline: none;
-    opacity: ${({ altDisabledStyle }) => (altDisabledStyle ? '0.5' : '1')};
-  }
-  &:hover {
-    /*background: ${({ theme }) => darken(0.05, theme.primary1)};*/
-    background: linear-gradient(to right, #0094ec , #f537c3);
+    /* background-color: ${({ theme }) => theme.primary1}; */
+    overflow: hidden;
+    background: linear-gradient(to right, #0094ec, #f537c3);
     background-origin: border-box;
-    &::after {
-      animation: ${sheen} 0.5s forwards;
+    color: white;
+    &:focus {
+        box-shadow: 0 0 0 1pt ${({ theme }) => darken(0.05, theme.primary1)};
+        /*background: ${({ theme }) => darken(0.05, theme.primary1)};*/
+        background: linear-gradient(to right, #0094ec, #f537c3);
     }
-  }
-  
-  &::after {
-    content: '';
-    position: absolute;
-    top: -50%;
-    right: -50%;
-    bottom: -50%;
-    left: -130%;
-    background: linear-gradient(to bottom, rgba(229, 172, 142, 0), rgba(255,255,255,0.5) 50%, rgba(229, 172, 142, 0));
-    transform: rotateZ(60deg) translate(-5em, 7.5em);
-  }
+    &:active {
+        box-shadow: 0 0 0 1pt ${({ theme }) => darken(0.1, theme.primary1)};
+        /*background: ${({ theme }) => darken(0.1, theme.primary1)};*/
+        background: linear-gradient(to right, #0094ec, #f537c3);
+    }
+    &:disabled {
+        pointer-events: none;
+        background: ${({ theme, altDisabledStyle, disabled }) =>
+            altDisabledStyle ? (disabled ? theme.bg3 : theme.primary1) : theme.bg3};
+        color: ${({ theme, altDisabledStyle, disabled }) =>
+            altDisabledStyle ? (disabled ? theme.text3 : 'white') : theme.text3};
+        cursor: auto;
+        box-shadow: none;
+        border: 1px solid transparent;
+        outline: none;
+        opacity: ${({ altDisabledStyle }) => (altDisabledStyle ? '0.5' : '1')};
+    }
+    &:hover {
+        /*background: ${({ theme }) => darken(0.05, theme.primary1)};*/
+        background: linear-gradient(to right, #0094ec, #f537c3);
+        background-origin: border-box;
+        &::after {
+            animation: ${sheen} 0.5s forwards;
+        }
+    }
+
+    &::after {
+        content: '';
+        position: absolute;
+        top: -50%;
+        right: -50%;
+        bottom: -50%;
+        left: -130%;
+        background: linear-gradient(
+            to bottom,
+            rgba(229, 172, 142, 0),
+            rgba(255, 255, 255, 0.5) 50%,
+            rgba(229, 172, 142, 0)
+        );
+        transform: rotateZ(60deg) translate(-5em, 7.5em);
+    }
 `
 
 export const ButtonPrimaryNormal = styled(Base)`
@@ -337,9 +342,9 @@ export function ButtonConfirmed({
     ...rest
 }: { confirmed?: boolean; altDisabledStyle?: boolean } & ButtonProps) {
     if (confirmed) {
-        return <ButtonConfirmedStyle {...rest} />
+        return <GDButton {...rest} disabled />
     } else {
-        return <ButtonPrimary {...rest} altDisabledStyle={altDisabledStyle} />
+        return <GDButton {...rest} />
     }
 }
 
@@ -391,3 +396,32 @@ export function ButtonRadio({ active, ...rest }: { active?: boolean } & ButtonPr
         return <ButtonPrimary {...rest} />
     }
 }
+
+export const GDButton = styled.button<{
+    width?: string
+    error?: boolean
+}>`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 71px;
+    width: ${({ width = '100%' }) => width};
+    border-radius: 20px;
+    color: ${({ theme }) => theme.color.main};
+    background: ${({ theme }) => theme.color.text2};
+    box-shadow: ${({ theme }) => theme.shadow.button};
+    cursor: pointer;
+
+    font-style: normal;
+    font-weight: 900;
+    font-size: 20px;
+    line-height: 16px;
+    text-align: center;
+
+    user-select: none;
+
+    :disabled {
+        opacity: 0.5;
+        cursor: auto;
+    }
+`

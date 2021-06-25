@@ -69,40 +69,74 @@ const StyledDropDown = styled(DropDown)<{ selected: boolean }>`
     height: 35%;
 
     path {
-        stroke: ${({ selected, theme }) => (selected ? theme.text1 : theme.white)};
+        stroke: ${({ theme }) => theme.color.switch};
         stroke-width: 1.5px;
     }
 `
 
 const StyledTokenName = styled.span<{ active?: boolean }>`
-//   ${({ active }) => (active ? '  margin: 0 0.25rem 0 0.75rem;' : '  margin: 0 0.25rem 0 0.25rem;')}
-//   font-size:  ${({ active }) => (active ? '24px' : '12px')};
+    //   ${({ active }) => (active ? '  margin: 0 0.25rem 0 0.75rem;' : '  margin: 0 0.25rem 0 0.25rem;')}
+    //   font-size:  ${({ active }) => (active ? '24px' : '12px')};
 `
 
-const StyledBalanceMax = styled.button`
-    height: 28px;
-    padding-right: 8px;
-    padding-left: 8px;
-    background-color: ${({ theme }) => theme.primary5};
-    border: 1px solid ${({ theme }) => theme.primary5};
-    border-radius: ${({ theme }) => theme.borderRadius};
-    font-size: 0.875rem;
+const CurrencyPanelWrapper = styled.div`
+    background: ${({ theme }) => theme.color.main};
+    border: 1px solid ${({ theme }) => theme.color.border2};
+    box-sizing: border-box;
+    border-radius: 12px;
 
-    font-weight: 500;
-    cursor: pointer;
-    margin-right: 0.5rem;
-    color: ${({ theme }) => theme.primaryText1};
-    :hover {
-        border: 1px solid ${({ theme }) => theme.primary1};
-    }
-    :focus {
-        border: 1px solid ${({ theme }) => theme.primary1};
-        outline: none;
+    .token-input-wrapper {
+        background: ${({ theme }) => theme.color.main};
+        border: 1px solid ${({ theme }) => theme.color.text2};
+        box-sizing: border-box;
+        border-radius: 6px;
+        height: 60px;
+
+        input {
+            font-weight: normal;
+            font-size: 24px;
+            line-height: 28px;
+            color: ${({ theme }) => theme.color.input};
+
+            &::placeholder {
+                color: ${({ theme }) => theme.color.input};
+            }
+        }
     }
 
-    ${({ theme }) => theme.mediaWidth.upToExtraSmall`
-    margin-right: 0.5rem;
-  `};
+    .max-btn {
+        border: 1px solid ${({ theme }) => theme.color.text5};
+        box-sizing: border-box;
+        border-radius: 46px;
+        font-weight: 900;
+        font-size: 12px;
+        line-height: 16px;
+        letter-spacing: 0.3px;
+        text-transform: uppercase;
+        color: ${({ theme }) => theme.color.text5};
+    }
+
+    .balance {
+        font-size: 12px;
+        line-height: 14px;
+        color: ${({ theme }) => theme.color.input};
+    }
+
+    .label {
+        font-weight: 900;
+        font-size: 16px;
+        line-height: 24px;
+        letter-spacing: 0.1px;
+        color: ${({ theme }) => theme.color.text5};
+    }
+
+    .currency {
+        font-style: normal;
+        font-weight: bold;
+        font-size: 24px;
+        line-height: 32px;
+        color: ${({ theme }) => theme.color.text6};
+    }
 `
 
 interface CurrencyInputPanelProps {
@@ -160,41 +194,9 @@ export default function CurrencyInputPanel({
     const valueUSDC = formattedNum(Number(value) * Number(currencyUSDC))
 
     return (
-        <div id={id} className="rounded p-5">
-            <div
-                className="flex flex-col space-y-3 sm:space-y-0 sm:flex-row justify-between"
-                // hideInput={hideInput}
-                // cornerRadiusBottomNone={cornerRadiusBottomNone}
-                // cornerRadiusTopNone={cornerRadiusTopNone}
-                // containerBackground={containerBackground}
-            >
-                {/* {!hideInput && (
-                    <LabelRow>
-                        <RowBetween>
-                            <TYPE.body color={theme.text3} fontWeight={500} fontSize={14}>
-                                {label}
-                            </TYPE.body>
-                            {account && (
-                                <TYPE.body
-                                    onClick={onMax}
-                                    color={theme.text3}
-                                    fontWeight={500}
-                                    fontSize={14}
-                                    style={{ display: 'inline', cursor: 'pointer' }}
-                                >
-                                    {!hideBalance && !!currency && selectedCurrencyBalance
-                                        ? (customBalanceText ?? 'Balance: ') + selectedCurrencyBalance?.toSignificant(6)
-                                        : ' -'}
-                                </TYPE.body>
-                            )}
-                        </RowBetween>
-                    </LabelRow>
-                )} */}
-                <div
-                    className="w-full sm:w-2/5"
-                    // style={hideInput ? { padding: '0', borderRadius: '8px' } : {}}
-                    // selected={disableCurrencySelect}
-                >
+        <CurrencyPanelWrapper id={id} className="rounded p-5">
+            <div className="flex flex-col space-y-3 sm:space-y-0 sm:flex-row justify-between">
+                <div className="w-full sm:w-2/5">
                     <CurrencySelect
                         selected={!!currency}
                         className="open-currency-select-button"
@@ -217,11 +219,20 @@ export default function CurrencyInputPanel({
                                     <CurrencyLogo currency={currency} size={'54px'} />
                                 </div>
                             ) : (
-                                <div className="rounded" style={{ maxWidth: 54, maxHeight: 54 }}>
-                                    <div style={{ width: 54, height: 54 }}>
-                                        <Lottie animationData={selectCoinAnimation} autoplay loop />
-                                    </div>
-                                </div>
+                                // <div className="rounded" style={{ maxWidth: 54, maxHeight: 54 }}>
+                                //     <div style={{ width: 54, height: 54 }}>
+                                //         <Lottie animationData={selectCoinAnimation} autoplay loop />
+                                //     </div>
+                                // </div>
+                                <svg
+                                    width="54"
+                                    height="54"
+                                    viewBox="0 0 54 54"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
+                                    <rect width="54" height="54" rx="27" fill="#00B0FF" />
+                                </svg>
                             )}
                             {pair ? (
                                 <StyledTokenName className="pair-name-container">
@@ -229,13 +240,9 @@ export default function CurrencyInputPanel({
                                 </StyledTokenName>
                             ) : (
                                 <div className="flex flex-1 flex-col items-start justify-center w-full left mx-3.5 overflow-x-hidden">
-                                    {label && <div className="xs   whitespace-nowrap">{label}</div>}
+                                    {label && <div className="label whitespace-nowrap">{label}</div>}
                                     <div className="flex items-center">
-                                        {/* <StyledTokenName
-                                            className="token-symbol-container"
-                                            active={Boolean(currency && currency.symbol)}
-                                        > */}
-                                        <div className="lg   whitespace-nowrap">
+                                        <div className="whitespace-nowrap currency">
                                             {(currency && currency.symbol && currency.symbol.length > 20
                                                 ? currency.symbol.slice(0, 4) +
                                                   '...' +
@@ -243,11 +250,7 @@ export default function CurrencyInputPanel({
                                                       currency.symbol.length - 5,
                                                       currency.symbol.length
                                                   )
-                                                : currency?.getSymbol(chainId)) || (
-                                                <div className="rounded-full px-2 py-1  xs  mt-1 whitespace-nowrap ">
-                                                    {i18n._(t`Select a token`)}
-                                                </div>
-                                            )}
+                                                : currency?.getSymbol(chainId)) || <div>{i18n._(t`GOO`)}</div>}
                                         </div>
                                         {/* </StyledTokenName> */}
                                         {!disableCurrencySelect && currency && <StyledDropDown selected={!!currency} />}
@@ -256,26 +259,12 @@ export default function CurrencyInputPanel({
                             )}
                         </div>
                     </CurrencySelect>
-                    {/* {!hideInput && (
-                        <>
-                            <NumericalInput
-                                className="token-amount-input"
-                                value={value}
-                                onUserInput={val => {
-                                    onUserInput(val)
-                                }}
-                            />
-                            {account && currency && showMaxButton && label !== 'To' && (
-                                <StyledBalanceMax onClick={onMax}>MAX</StyledBalanceMax>
-                            )}
-                        </>
-                    )} */}
                 </div>
-                <div className="flex items-center rounded space-x-3 p-3 w-full sm:w-3/5">
+                <div className="token-input-wrapper flex items-center rounded space-x-3 p-3 w-full sm:w-3/5">
                     {!hideInput && (
                         <>
                             {account && currency && showMaxButton && label !== 'To' && (
-                                <Button onClick={onMax} size="small" className="rounded-full  xs  whitespace-nowrap">
+                                <Button onClick={onMax} size="small" className="max-btn rounded-full whitespace-nowrap">
                                     {i18n._(t`Max`)}
                                 </Button>
                             )}
@@ -285,10 +274,11 @@ export default function CurrencyInputPanel({
                                 onUserInput={val => {
                                     onUserInput(val)
                                 }}
+                                placeholder="0.00"
                             />
                             {account && (
-                                <div className="flex flex-col">
-                                    <div onClick={onMax} className=" cursor-pointer xs ">
+                                <div className="flex flex-col balance">
+                                    <div onClick={onMax} className=" cursor-pointer">
                                         {!hideBalance && !!currency && selectedCurrencyBalance
                                             ? (customBalanceText ?? 'Balance: ') +
                                               selectedCurrencyBalance?.toSignificant(6)
@@ -311,6 +301,6 @@ export default function CurrencyInputPanel({
                     showCommonBases={showCommonBases}
                 />
             )}
-        </div>
+        </CurrencyPanelWrapper>
     )
 }

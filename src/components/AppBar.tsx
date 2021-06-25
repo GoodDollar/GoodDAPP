@@ -38,7 +38,7 @@ function AppBar(): JSX.Element {
     }, [pathname])
 
     return (
-        <AppBarWrapper className="flex flex-row flex-nowrap justify-between w-screen relative z2">
+        <AppBarWrapper className="flex flex-row flex-nowrap justify-between w-screen relative z-10">
             <Disclosure as="nav" className={navClassList}>
                 {({ open }) => (
                     <>

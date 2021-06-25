@@ -29,12 +29,6 @@ const FancyButton = styled.button`
     border: 1px solid ${({ theme }) => theme.bg3};
     outline: none;
     background: ${({ theme }) => theme.bg1};
-    :hover {
-        border: 1px solid ${({ theme }) => theme.bg4};
-    }
-    :focus {
-        border: 1px solid ${({ theme }) => theme.primary1};
-    }
 `
 
 const Option = styled(FancyButton)<{ active: boolean }>`
@@ -42,8 +36,9 @@ const Option = styled(FancyButton)<{ active: boolean }>`
     :hover {
         cursor: pointer;
     }
-    background-color: ${({ active, theme }) => active && theme.primary1};
-    color: ${({ active, theme }) => (active ? theme.white : theme.text1)};
+    background-color: ${({ active, theme }) => (active ? theme.color.text2 : 'transparent')};
+    color: ${({ active, theme }) => (active ? theme.color.main : theme.color.text2)};
+    border-color: ${({ theme }) => theme.color.text2};
 `
 
 const Input = styled.input`
@@ -64,11 +59,7 @@ const OptionCustom = styled(FancyButton)<{ active?: boolean; warning?: boolean }
     position: relative;
     padding: 0 0.75rem;
     flex: 1;
-    border: ${({ theme, active, warning }) => active && `1px solid ${warning ? theme.red1 : theme.primary1}`};
-    :hover {
-        border: ${({ theme, active, warning }) =>
-            active && `1px solid ${warning ? darken(0.1, theme.red1) : darken(0.1, theme.primary1)}`};
-    }
+    border: 1px solid ${({ theme }) => theme.color.text5};
 
     input {
         width: 100%;
@@ -149,9 +140,7 @@ export default function SlippageTabs({ rawSlippage, setRawSlippage, deadline, se
         <AutoColumn gap="md">
             <AutoColumn gap="sm">
                 <RowFixed>
-                    <TYPE.black fontWeight={400} fontSize={14} color={theme.text2}>
-                        {i18n._(t`Slippage tolerance`)}
-                    </TYPE.black>
+                    <p className="sub-title">{i18n._(t`Slippage tolerance`)}</p>
                     <QuestionHelper
                         text={i18n._(
                             t`Your transaction will revert if the price changes unfavorably by more than this percentage.`
@@ -186,34 +175,38 @@ export default function SlippageTabs({ rawSlippage, setRawSlippage, deadline, se
                     >
                         1%
                     </Option>
-                    <OptionCustom
-                        active={![10, 50, 100].includes(rawSlippage)}
-                        warning={!slippageInputIsValid}
-                        tabIndex={-1}
-                    >
-                        <RowBetween>
-                            {!!slippageInput &&
-                            (slippageError === SlippageError.RiskyLow || slippageError === SlippageError.RiskyHigh) ? (
-                                <SlippageEmojiContainer>
-                                    <span role="img" aria-label="warning">
-                                        ⚠️
-                                    </span>
-                                </SlippageEmojiContainer>
-                            ) : null}
-                            {/* https://github.com/DefinitelyTyped/DefinitelyTyped/issues/30451 */}
-                            <Input
-                                ref={inputRef as any}
-                                placeholder={(rawSlippage / 100).toFixed(2)}
-                                value={slippageInput}
-                                onBlur={() => {
-                                    parseCustomSlippage((rawSlippage / 100).toFixed(2))
-                                }}
-                                onChange={e => parseCustomSlippage(e.target.value)}
-                                color={!slippageInputIsValid ? 'red' : ''}
-                            />
-                            %
-                        </RowBetween>
-                    </OptionCustom>
+                    <div className="flex items-center space-x-2">
+                        <span>Custom</span>
+                        <OptionCustom
+                            active={![10, 50, 100].includes(rawSlippage)}
+                            warning={!slippageInputIsValid}
+                            tabIndex={-1}
+                        >
+                            <RowBetween>
+                                {!!slippageInput &&
+                                (slippageError === SlippageError.RiskyLow ||
+                                    slippageError === SlippageError.RiskyHigh) ? (
+                                    <SlippageEmojiContainer>
+                                        <span role="img" aria-label="warning">
+                                            ⚠️
+                                        </span>
+                                    </SlippageEmojiContainer>
+                                ) : null}
+                                {/* https://github.com/DefinitelyTyped/DefinitelyTyped/issues/30451 */}
+                                <Input
+                                    ref={inputRef as any}
+                                    placeholder={(rawSlippage / 100).toFixed(2)}
+                                    value={slippageInput}
+                                    onBlur={() => {
+                                        parseCustomSlippage((rawSlippage / 100).toFixed(2))
+                                    }}
+                                    onChange={e => parseCustomSlippage(e.target.value)}
+                                    color={!slippageInputIsValid ? 'red' : ''}
+                                />
+                                %
+                            </RowBetween>
+                        </OptionCustom>
+                    </div>
                 </RowBetween>
                 {!!slippageError && (
                     <RowBetween
@@ -234,9 +227,7 @@ export default function SlippageTabs({ rawSlippage, setRawSlippage, deadline, se
 
             <AutoColumn gap="sm">
                 <RowFixed>
-                    <TYPE.black fontSize={14} fontWeight={400} color={theme.text2}>
-                        {i18n._(t`Transaction deadline`)}
-                    </TYPE.black>
+                    <p className="sub-title">{i18n._(t`Transaction deadline`)}</p>
                     <QuestionHelper
                         text={i18n._(t`Your transaction will revert if it is pending for more than this long.`)}
                     />

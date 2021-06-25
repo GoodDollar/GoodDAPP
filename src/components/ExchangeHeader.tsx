@@ -1,59 +1,23 @@
-import React, { useState } from 'react'
+import React from 'react'
 import Settings from './Settings'
-import { NavLink } from './Link'
-import animationData from '../assets/animation/settings-slider.json'
-import profileAnimationData from '../assets/animation/wallet.json'
-
-import Lottie from 'lottie-react'
-import Gas from './Gas'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
+import styled from 'styled-components'
+
+const Title = styled.h2`
+    font-weight: bold;
+    font-size: 34px;
+    line-height: 40px;
+    letter-spacing: -0.02em;
+    color: ${({ theme }) => theme.color.text4};
+`
 
 export default function SwapHeader({ input = undefined, output = undefined }: any): JSX.Element {
     const { i18n } = useLingui()
-    const [animateSettings, setAnimateSettings] = useState(false)
-    const [animateWallet, setAnimateWallet] = useState(false)
     return (
-        <div className="flex justify-between space-x-3 pt-4 px-4">
+        <div className="flex justify-between items-center space-x-3 pt-4 px-4">
             <div className="grid grid-cols-2 rounded-md p-3px ark-800">
-                <NavLink
-                    className="flex items-center justify-center px-4 md:px-10 rounded-md center    "
-                    activeClassName="  "
-                    to={{
-                        pathname: '/swap',
-                        search: `?inputCurrency=${input && input.address ? input.address : 'ETH'}${
-                            output && output.address ? `&outputCurrency=${output.address}` : ''
-                        }`
-                    }}
-                >
-                    {i18n._(t`Swap`)}
-                </NavLink>
-                {/* <NavLink
-                    className="py-2 px-4 rounded-md text-center text-secondary hover:text-high-emphesis text-xs font-medium"
-                    activeClassName="bg-dark-900 text-high-emphesis"
-                    to="/limit-order"
-                >
-                    Limit Order
-                </NavLink> */}
-                <NavLink
-                    className="flex items-center justify-center px-4 md:px-10 rounded-md center    "
-                    activeClassName="  "
-                    to={`/add/${input && input.address ? input.address : 'ETH'}${
-                        output && output.address ? `/${output.address}` : ''
-                    }`}
-                    isActive={(match, location) => {
-                        console.log({ match, location })
-                        return (
-                            location.pathname === '/pool' ||
-                            location.pathname.includes('/add') ||
-                            location.pathname.includes('/remove') ||
-                            location.pathname.includes('/migrate') ||
-                            location.pathname.includes('/create')
-                        )
-                    }}
-                >
-                    {i18n._(t`Liquidity`)}
-                </NavLink>
+                <Title>{i18n._(t`Swap`)}</Title>
             </div>
             <div className="flex items-center rounded md:p-2">
                 <div className="grid grid-flow-col gap-3">
@@ -71,31 +35,6 @@ export default function SwapHeader({ input = undefined, output = undefined }: an
                     <div className="rounded-sm h-full w-full p-1 md:px-2">
                         <Settings />
                     </div>
-                    {/* <button
-                        onMouseEnter={() => setAnimateSettings(true)}
-                        onMouseLeave={() => setAnimateSettings(false)}
-                        className="flex items-center justify-center bg-dark-800 hover:bg-dark-700 rounded-sm h-full w-full p-1 md:px-2"
-                    >
-                        <Lottie
-                            animationData={animationData}
-                            autoplay={animateSettings}
-                            loop={false}
-                            style={{ width: 28, height: 28 }}
-                            className="transform rotate-90"
-                        />
-                    </button> */}
-                    {/* <button
-                        onMouseEnter={() => setAnimateWallet(true)}
-                        onMouseLeave={() => setAnimateWallet(false)}
-                        className="hidden md:flex items-center justify-center bg-dark-800 hover:bg-dark-700 rounded-sm h-full w-full px-2"
-                    >
-                        <Lottie
-                            animationData={profileAnimationData}
-                            autoplay={animateWallet}
-                            loop={false}
-                            style={{ width: 24, height: 24 }}
-                        />
-                    </button> */}
                 </div>
             </div>
         </div>

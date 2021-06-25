@@ -8,20 +8,24 @@ const AdvancedDetailsFooter = styled.div<{ show: boolean }>`
     padding-bottom: 16px;
     margin-top: -2rem;
     width: 100%;
-    //max-width: 544px;
-    //max-width: 574px;
-    max-width: 662px;
-    border-bottom-left-radius: 20px;
-    border-bottom-right-radius: 20px;
-    color: ${({ theme }) => theme.text2};
-    background-color: #202231;
-    // background-color: ${({ theme }) => theme.advancedBG};
+    max-width: 694px;
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
+    background-color: ${({ theme }) => theme.color.bg1};
     z-index: -1;
     padding-right: 10px;
     padding-left: 10px;
 
     transform: ${({ show }) => (show ? 'translateY(0%)' : 'translateY(-100%)')};
     transition: transform 300ms ease-in-out;
+    box-shadow: ${({ theme }) => theme.shadow.swapFooter};
+
+    font-weight: bold;
+    font-size: 14px;
+    line-height: 166%;
+    letter-spacing: 0.35px;
+    text-transform: uppercase;
+    color: ${({ theme }) => theme.color.text5};
 `
 
 export default function AdvancedSwapDetailsDropdown({ trade, ...rest }: AdvancedSwapDetailsProps) {

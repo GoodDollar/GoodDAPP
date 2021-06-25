@@ -35,8 +35,6 @@ const getTokenLogoURL = (address: string, chainId: any) => {
 const StyledNativeCurrencyLogo = styled.img<{ size: string }>`
     width: ${({ size }) => size};
     height: ${({ size }) => size};
-    box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.075);
-    border-radius: 10px;
 `
 
 const StyledLogo = styled(Logo)<{ size: string }>`
@@ -94,7 +92,7 @@ export default function CurrencyLogo({
     }, [chainId, currency, uriLocations])
 
     if (currency === ETHER && chainId) {
-        return <StyledNativeCurrencyLogo src={logo[chainId]} size={size} style={style} />
+        return <StyledNativeCurrencyLogo src={logo[chainId] ?? logo[ChainId.MAINNET]} size={size} style={style} />
     }
 
     return <StyledLogo size={size} srcs={srcs} alt={`${currency?.getSymbol(chainId) ?? 'token'} logo`} style={style} />

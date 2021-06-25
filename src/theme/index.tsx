@@ -90,14 +90,25 @@ export function theme(darkMode: boolean) {
             main: '#ffffff',
             mainBg: '#EDF5FC',
             border1: 'rgba(208, 217, 228, 0.483146)',
+            border2: '#E5E5E5',
             text1: '#0D182D',
             text2: '#00B0FF',
             text3: '#A5A5A5',
-            button1: 'rgba(0, 176, 255, 0.1)'
+            text4: '#42454A',
+            text5: '#8f9bb3',
+            text6: '#1A1F38',
+            input: '#173046',
+            button1: 'rgba(0, 176, 255, 0.1)',
+            bg1: '#f6f8fa',
+            switch: '#1FC2AF'
         },
         shadow: {
             header: '0px 0px 16px rgba(206, 211, 218, 0.33815)',
-            wallet: '0px 15px 40px rgba(117, 117, 170, 0.102792)'
+            wallet: '0px 15px 40px rgba(117, 117, 170, 0.102792)',
+            settings: '0px 1px 0px #DAE1ED;',
+            swapFooter: '-1px 2px 0px #DAE1ED',
+            button: '3px 3px 10px -1px rgba(11, 27, 102, 0.304824)',
+            swapCard: '12px 8px 44px -12px rgba(27, 58, 146, 0.16)'
         },
         font: {
             primary: `Roboto, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif, 'Segoe UI', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji'`,

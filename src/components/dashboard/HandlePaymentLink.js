@@ -46,6 +46,7 @@ const HandlePaymentLink = (props: HandlePaymentLinkProps) => {
       try {
         if (anyParams && anyParams.code) {
           const code = readCode(decodeURIComponent(anyParams.code))
+          
           log.debug('decoded payment request', { code })
 
           if (isTheSameUser(code)) {

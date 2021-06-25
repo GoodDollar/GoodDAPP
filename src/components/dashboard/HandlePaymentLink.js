@@ -45,16 +45,23 @@ const HandlePaymentLink = (props: HandlePaymentLinkProps) => {
     async anyParams => {
       try {
         if (anyParams && anyParams.code) {
-          showDialog({
-            onDismiss: noop,
-            title: 'Processing Payment Link...',
-            image: <LoadingIcon />,
-            message: 'please wait while processing...',
-            showCloseButtons: false,
-          })
           const code = readCode(decodeURIComponent(anyParams.code))
           log.debug('decoded payment request', { code })
-          if (isTheSameUser(code) === false) {
+
+          if (isTheSameUser(code)) {
+            showErrorDialog('You cannot use your own payment link', undefined, {
+              onDismiss: screenProps.goToRoot,
+            })
+          } else {
+            showDialog({
+              onDismiss: noop,
+              title: 'Processing Payment Link...',
+              image: <LoadingIcon />,
+              message: 'please wait while processing...',
+              showCloseButtons: false,
+              showButtons: false,
+            })
+
             try {
               const { route, params } = await routeAndPathForCode('send', code)
               hideDialog()

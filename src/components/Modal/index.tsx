@@ -31,6 +31,7 @@ const StyledDialogContent = styled(({ minHeight, maxHeight, mobile, isOpen, ...r
 )).attrs({
     'aria-label': 'dialog'
 })`
+    position: relative;
     overflow-y: ${({ mobile }) => (mobile ? 'scroll' : 'hidden')};
 
     &[data-reach-dialog-content] {
@@ -44,7 +45,7 @@ const StyledDialogContent = styled(({ minHeight, maxHeight, mobile, isOpen, ...r
 
         align-self: ${({ mobile }) => (mobile ? 'flex-end' : 'center')};
 
-        max-width: 420px;
+        max-width: 475px;
         ${({ maxHeight }) =>
             maxHeight &&
             css`

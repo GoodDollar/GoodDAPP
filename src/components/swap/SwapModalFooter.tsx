@@ -2,7 +2,7 @@ import { Trade, TradeType } from '@sushiswap/sdk'
 import React, { useContext, useMemo, useState } from 'react'
 import { Repeat } from 'react-feather'
 import { Text } from 'rebass'
-import { ThemeContext } from 'styled-components'
+import styled, { ThemeContext } from 'styled-components'
 import { useActiveWeb3React } from '../../hooks/useActiveWeb3React'
 import { Field } from '../../state/swap/actions'
 import { TYPE } from '../../theme'
@@ -12,7 +12,7 @@ import {
     formatExecutionPrice,
     warningSeverity
 } from '../../utils/prices'
-import { ButtonError } from '../ButtonLegacy'
+import { ButtonError, GDButton } from '../ButtonLegacy'
 import { AutoColumn } from '../Column'
 import QuestionHelper from '../QuestionHelper'
 import { AutoRow, RowBetween, RowFixed } from '../Row'
@@ -20,6 +20,11 @@ import FormattedPriceImpact from './FormattedPriceImpact'
 import { StyledBalanceMaxMini, SwapCallbackError } from './styleds'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
+
+const SwapModalFooterWrapper = styled.div`
+    div {
+    }
+`
 
 export default function SwapModalFooter({
     trade,
@@ -46,16 +51,16 @@ export default function SwapModalFooter({
     const severity = warningSeverity(priceImpactWithoutFee)
 
     return (
-        <>
-            <AutoColumn gap="0px">
+        <SwapModalFooterWrapper>
+            <AutoColumn className="mb-1" gap="0px">
                 <RowBetween align="center">
-                    <Text fontWeight={400} fontSize={14} color={theme.text2}>
+                    <Text fontWeight={700} fontSize={14} color={theme.color.text5}>
                         {i18n._(t`Price`)}
                     </Text>
                     <Text
-                        fontWeight={500}
                         fontSize={14}
-                        color={theme.text1}
+                        fontWeight={500}
+                        color={theme.color.text5}
                         style={{
                             justifyContent: 'center',
                             alignItems: 'center',
@@ -66,14 +71,26 @@ export default function SwapModalFooter({
                     >
                         {formatExecutionPrice(trade, showInverted, chainId)}
                         <StyledBalanceMaxMini onClick={() => setShowInverted(!showInverted)}>
-                            <Repeat size={14} />
+                            <svg
+                                width="17"
+                                height="17"
+                                viewBox="0 0 17 17"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <circle cx="8.5" cy="8.5" r="8.5" fill="#1A1F38" />
+                                <path
+                                    d="M4.95125 7.79163L2.125 10.625L4.95125 13.4583V11.3333H9.91667V9.91663H4.95125V7.79163ZM14.875 6.37496L12.0487 3.54163V5.66663H7.08333V7.08329H12.0487V9.20829L14.875 6.37496Z"
+                                    fill="white"
+                                />
+                            </svg>
                         </StyledBalanceMaxMini>
                     </Text>
                 </RowBetween>
 
                 <RowBetween>
                     <RowFixed>
-                        <TYPE.black fontSize={14} fontWeight={400} color={theme.text2}>
+                        <TYPE.black fontSize={14} fontWeight={700} color={theme.color.text5}>
                             {trade.tradeType === TradeType.EXACT_INPUT
                                 ? i18n._(t`Minimum received`)
                                 : i18n._(t`Maximum sold`)}
@@ -85,12 +102,12 @@ export default function SwapModalFooter({
                         />
                     </RowFixed>
                     <RowFixed>
-                        <TYPE.black fontSize={14}>
+                        <TYPE.black fontSize={14} fontWeight={500} color={theme.color.text5}>
                             {trade.tradeType === TradeType.EXACT_INPUT
                                 ? slippageAdjustedAmounts[Field.OUTPUT]?.toSignificant(4) ?? '-'
                                 : slippageAdjustedAmounts[Field.INPUT]?.toSignificant(4) ?? '-'}
                         </TYPE.black>
-                        <TYPE.black fontSize={14} marginLeft={'4px'}>
+                        <TYPE.black fontSize={14} marginLeft={'4px'} fontWeight={500} color={theme.color.text5}>
                             {trade.tradeType === TradeType.EXACT_INPUT
                                 ? trade.outputAmount.currency.getSymbol(chainId)
                                 : trade.inputAmount.currency.getSymbol(chainId)}
@@ -99,18 +116,20 @@ export default function SwapModalFooter({
                 </RowBetween>
                 <RowBetween>
                     <RowFixed>
-                        <TYPE.black color={theme.text2} fontSize={14} fontWeight={400}>
+                        <TYPE.black color={theme.color.text5} fontSize={14} fontWeight={700}>
                             {i18n._(t`Price Impact`)}
                         </TYPE.black>
                         <QuestionHelper
                             text={i18n._(t`The difference between the market price and your price due to trade size.`)}
                         />
                     </RowFixed>
-                    <FormattedPriceImpact priceImpact={priceImpactWithoutFee} />
+                    <TYPE.black fontSize={14} fontWeight={500} color={theme.color.text5}>
+                        <FormattedPriceImpact priceImpact={priceImpactWithoutFee} />
+                    </TYPE.black>
                 </RowBetween>
                 <RowBetween>
                     <RowFixed>
-                        <TYPE.black fontSize={14} fontWeight={400} color={theme.text2}>
+                        <TYPE.black fontSize={14} fontWeight={700} color={theme.color.text5}>
                             {i18n._(t`Liquidity Provider Fee`)}
                         </TYPE.black>
                         <QuestionHelper
@@ -119,7 +138,7 @@ export default function SwapModalFooter({
                             )}
                         />
                     </RowFixed>
-                    <TYPE.black fontSize={14}>
+                    <TYPE.black fontSize={14} fontWeight={500} color={theme.color.text5}>
                         {realizedLPFee
                             ? realizedLPFee?.toSignificant(6) + ' ' + trade.inputAmount.currency.getSymbol(chainId)
                             : '-'}
@@ -128,20 +147,20 @@ export default function SwapModalFooter({
             </AutoColumn>
 
             <AutoRow>
-                <ButtonError
+                <GDButton
                     onClick={onConfirm}
                     disabled={disabledConfirm}
                     error={severity > 2}
                     style={{ margin: '10px 0 0 0' }}
                     id="confirm-swap-or-send"
                 >
-                    <Text fontSize={20} fontWeight={500}>
+                    <Text fontSize={20} fontWeight={500} style={{ textTransform: 'uppercase' }}>
                         {severity > 2 ? i18n._(t`Swap Anyway`) : i18n._(t`Confirm Swap`)}
                     </Text>
-                </ButtonError>
+                </GDButton>
 
                 {swapErrorMessage ? <SwapCallbackError error={swapErrorMessage} /> : null}
             </AutoRow>
-        </>
+        </SwapModalFooterWrapper>
     )
 }

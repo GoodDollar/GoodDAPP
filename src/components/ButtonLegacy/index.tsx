@@ -400,11 +400,12 @@ export function ButtonRadio({ active, ...rest }: { active?: boolean } & ButtonPr
 export const GDButton = styled.button<{
     width?: string
     error?: boolean
+    size?: 'default' | 'sm'
 }>`
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 71px;
+    height: ${({ size }) => (size === 'sm' ? '32px' : '71px')};
     width: ${({ width = '100%' }) => width};
     border-radius: 20px;
     color: ${({ theme }) => theme.color.main};
@@ -413,8 +414,8 @@ export const GDButton = styled.button<{
     cursor: pointer;
 
     font-style: normal;
-    font-weight: 900;
-    font-size: 20px;
+    font-weight: ${({ size }) => (size === 'sm' ? '500' : '900')};
+    font-size: ${({ size }) => (size === 'sm' ? '14px' : '20px')};
     line-height: 16px;
     text-align: center;
 

@@ -1,5 +1,5 @@
 import { darken } from 'polished'
-import React, { HTMLProps, useCallback } from 'react'
+import React, { CSSProperties, HTMLProps, useCallback } from 'react'
 import { ArrowLeft, ExternalLink as LinkIconFeather, Trash, X } from 'react-feather'
 import ReactGA from 'react-ga'
 import { Link } from 'react-router-dom'
@@ -53,8 +53,25 @@ export const Button = styled.button.attrs<{ warning: boolean }, { backgroundColo
     }
 `
 
-export const CloseIcon = styled(X)`
+const CloseSVG = (props: JSX.IntrinsicElements['svg']) => (
+    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+        <path
+            d="M8.62728 10.5215L5.30765 13.8411L3.48842 12.0219L6.80805 8.70224L3.31963 5.21382L5.21388 3.31957L8.7023 6.80799L12.0219 3.48836L13.8412 5.30759L10.5215 8.62722L14.01 12.1156L12.1157 14.0099L8.62728 10.5215Z"
+            fill="#696D73"
+        />
+    </svg>
+)
+
+export const CloseIcon = styled(CloseSVG)<{ abs?: boolean }>`
     cursor: pointer;
+    ${({ abs }) =>
+        abs
+            ? `
+      position: absolute;
+      top: 18px;
+      right: 18px;
+    `
+            : ''}
 `
 
 // for wrapper react feather icons

@@ -11,19 +11,18 @@ import { getExplorerLink } from '../../utils'
 import { ButtonPrimary } from '../ButtonLegacy'
 import { AutoColumn, ColumnCenter } from '../Column'
 import Modal from '../Modal'
-import { RowBetween } from '../Row'
+import Row, { RowBetween } from '../Row'
 
 const Wrapper = styled.div`
     width: 100%;
+    padding: 0 20px;
 `
 const Section = styled(AutoColumn)`
     // padding: 24px;
 `
 
 const BottomSection = styled(Section)`
-    background-color: ${({ theme }) => theme.bg2};
-    border-bottom-left-radius: 20px;
-    border-bottom-right-radius: 20px;
+    text-transform: uppercase;
 `
 
 const ConfirmedIcon = styled(ColumnCenter)`
@@ -102,6 +101,14 @@ function TransactionSubmittedContent({
     )
 }
 
+const Title = styled(Text)`
+    font-weight: bold;
+    font-size: 34px;
+    line-height: 40px;
+    letter-spacing: -0.02em;
+    color: ${({ theme }) => theme.color.text4};
+`
+
 export function ConfirmationModalContent({
     title,
     bottomContent,
@@ -116,12 +123,10 @@ export function ConfirmationModalContent({
     return (
         <Wrapper>
             <Section>
-                <RowBetween>
-                    <Text fontWeight={500} fontSize={20}>
-                        {title}
-                    </Text>
-                    <CloseIcon onClick={onDismiss} />
-                </RowBetween>
+                <Row justify="center">
+                    <Title>{title}</Title>
+                    <CloseIcon onClick={onDismiss} abs />
+                </Row>
                 {topContent()}
             </Section>
             <BottomSection gap="12px">{bottomContent()}</BottomSection>

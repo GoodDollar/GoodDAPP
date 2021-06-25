@@ -52,32 +52,38 @@ const HandlePaymentLink = (props: HandlePaymentLinkProps) => {
             showErrorDialog('You cannot use your own payment link', undefined, {
               onDismiss: screenProps.goToRoot,
             })
-          } else {
-            showDialog({
-              onDismiss: noop,
-              title: 'Processing Payment Link...',
-              image: <LoadingIcon />,
-              message: 'please wait while processing...',
-              showCloseButtons: false,
-              showButtons: false,
-            })
-
-            try {
-              const { route, params } = await routeAndPathForCode('send', code)
-              hideDialog()
-              screenProps.push(route, params)
-            } catch (e) {
-              hideDialog()
-              log.warn('Payment link is incorrect', e.message, e, {
-                code,
-                category: ExceptionCategory.Human,
-                dialogShown: true,
-              })
-              showErrorDialog('Payment link is incorrect. Please double check your link.', undefined, {
-                onDismiss: screenProps.goToRoot,
-              })
-            }
+            
+            return
           }
+
+          showDialog({
+            onDismiss: noop,
+            title: 'Processing Payment Link...',
+            image: <LoadingIcon />,
+            message: 'please wait while processing...',
+            showCloseButtons: false,
+            showButtons: false,
+          })
+
+          try {
+            const { route, params } = await routeAndPathForCode('send', code)
+              
+            hideDialog()
+            screenProps.push(route, params)
+          } catch (e) {
+            hideDialog()
+              
+            log.warn('Payment link is incorrect', e.message, e, {
+              code,
+              category: ExceptionCategory.Human,
+              dialogShown: true,
+            })
+              
+            showErrorDialog('Payment link is incorrect. Please double check your link.', undefined, {
+              onDismiss: screenProps.goToRoot,
+            })
+          }
+          
         }
       } catch (e) {
         log.error('checkCode unexpected error:', e.message, e)

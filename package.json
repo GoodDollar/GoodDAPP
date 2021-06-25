@@ -276,6 +276,7 @@
     "node-webcrypto-ossl": "^1.0.48",
     "node-xml-lite": "0.0.7",
     "pn": "^1.1.0",
+    "promise.any": "^2.0.2",
     "react-test-renderer": "^16.9.0",
     "resolve": "1.8.1",
     "scoop": "0.0.2",

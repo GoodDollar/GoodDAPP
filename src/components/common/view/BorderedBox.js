@@ -15,7 +15,6 @@ import { useClipboardCopy } from '../../../lib/hooks/useClipboard'
 import { withStyles } from '../../../lib/styles'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../lib/utils/sizes'
 import { truncateMiddle } from '../../../lib/utils/string'
-import Icon from './Icon'
 
 const copiedActionTimeout = 3000 // time during which the copy success message is displayed
 
@@ -130,28 +129,19 @@ const BorderedBox = ({
         <View style={[styles.boxCopyIconWrapper, showCopyIcon ? null : styles.boxCopyButtonWrapper]}>
           {showCopyIcon ? (
             <>
-              {enableIndicateAction && performed ? (
-                <RoundIconButton
-                  onPress={copyToClipboard}
-                  iconSize={16}
-                  iconName="success"
-                  style={styles.copyIconContainer}
-                />
-              ) : (
-                <RoundIconButton
-                  onPress={copyToClipboard}
-                  iconSize={22}
-                  iconName="copy"
-                  style={styles.copyIconContainer}
-                />
-              )}
+              <RoundIconButton
+                onPress={copyToClipboard}
+                iconSize={22}
+                iconName="copy"
+                style={styles.copyIconContainer}
+              />
               <Section.Text fontSize={10} fontWeight="medium" color={theme.colors.primary}>
                 {copyButtonText}
               </Section.Text>
             </>
           ) : enableIndicateAction && performed ? (
             <CustomButton style={styles.copyButtonContainer} disabled>
-              <Icon size={16} name="success" color="white" />
+              Copied
             </CustomButton>
           ) : (
             <CustomButton onPress={copyToClipboard} style={styles.copyButtonContainer}>

@@ -3,22 +3,22 @@
 import { ActionSheetProvider } from '@expo/react-native-action-sheet'
 import React, { useEffect, useState } from 'react'
 import { Platform } from 'react-native'
-import { deleteGunDB } from '../lib/hooks/useDeleteAccountDialog'
-import Config from '../config/config'
-import SimpleStore from '../lib/undux/SimpleStore'
-import AsyncStorage from '../lib/utils/asyncStorage'
-import AppStore from './AppStore'
 
 import '../lib/gundb/gundb'
+import { IS_LOGGED_IN } from '../lib/constants/localStorage'
+import { deleteGunDB } from '../lib/hooks/useDeleteAccountDialog'
+import AsyncStorage from '../lib/utils/asyncStorage'
+
+import Config from '../config/config'
+
+import SimpleStore, { useCurriedSetters } from '../lib/undux/SimpleStore'
+import AppHot from './AppHot'
 
 const AppHolder = () => {
   const [ready, setReady] = useState(false)
+  const [setIsLoggedIn] = useCurriedSetters(['isLoggedIn'])
 
   useEffect(() => {
-    if (Platform.OS !== 'web') {
-      return
-    }
-
     /**
      * decide if we need to clear storage
      */
@@ -38,8 +38,27 @@ const AppHolder = () => {
       AsyncStorage.setItem('GD_version', current) // required for mnemonic recovery
     }
 
-    upgradeVersion().then(() => setReady(true))
-  }, [setReady])
+    const initStore = async () => {
+      const isLoggedIn = await AsyncStorage.getItem(IS_LOGGED_IN)
+
+      setIsLoggedIn(isLoggedIn)
+    }
+
+    const initializeApp = async () => {
+      if (Platform.OS === 'web') {
+        await upgradeVersion()
+      }
+
+      await initStore()
+      setReady(true)
+    }
+
+    if (ready) {
+      return
+    }
+
+    initializeApp()
+  }, [ready, setReady, setIsLoggedIn])
 
   if (!ready) {
     return null
@@ -47,11 +66,13 @@ const AppHolder = () => {
 
   return (
     <ActionSheetProvider>
-      <SimpleStore.Container>
-        <AppStore />
-      </SimpleStore.Container>
+      <AppHot />
     </ActionSheetProvider>
   )
 }
 
-export default AppHolder
+export default () => (
+  <SimpleStore.Container>
+    <AppHolder />
+  </SimpleStore.Container>
+)

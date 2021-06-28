@@ -140,11 +140,7 @@ const BorderedBox = ({
               </Section.Text>
             </>
           ) : enableIndicateAction && performed ? (
-            <CustomButton
-              style={[styles.copyButtonContainer, styles.performedButtonStyle]}
-              textStyle={styles.performedButtonText}
-              disabled
-            >
+            <CustomButton style={styles.copyButtonContainer} disabled>
               Copied
             </CustomButton>
           ) : (
@@ -212,14 +208,6 @@ const styles = ({ theme }) => {
       zIndex: 1,
       alignItems: 'center',
     },
-    performedButtonText: {
-      color: theme.colors.primary,
-    },
-    performedButtonStyle: {
-      backgroundColor: theme.colors.surface,
-      shadowOpacity: 0,
-      elevation: 0,
-    },
     boxCopyIconOuter: {
       width: '100%',
       height: height40,
@@ -273,6 +261,7 @@ const styles = ({ theme }) => {
       marginBottom: 0,
       marginRight: 'auto',
       marginLeft: 'auto',
+      backgroundColor: theme.colors.primary,
     },
   }
 }

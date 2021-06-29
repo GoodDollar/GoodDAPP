@@ -154,7 +154,7 @@ const FeedList = ({
           },
         )
 
-        showErrorDialog("Current transaction is still pending, it can't be cancelled right now23123123")
+        showErrorDialog("Current transaction is still pending, it can't be cancelled right now")
       }
 
       userStorage.userProperties.set('showQuickActionHint', false)

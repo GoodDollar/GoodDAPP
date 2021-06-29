@@ -13,6 +13,6 @@ module.exports = function(api) {
       ],
     ],
     plugins: ['react-native-paper/babel', 'lodash', 'transform-class-properties'],
-    ignore: [/src\/lib\/facetec\/facetecsdk\.web\.js/i]
+    ignore: [/src\/lib\/facetec/i]
   }
 }

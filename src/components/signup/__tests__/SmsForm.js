@@ -2,8 +2,7 @@ import { createSwitchNavigator } from '@react-navigation/core'
 import { createBrowserApp } from '@react-navigation/web'
 import React from 'react'
 import renderer from 'react-test-renderer'
-import { withThemeProvider } from '../../../__tests__/__util__'
-import { StoresWrapper } from '../../../lib/undux/utils/storeswrapper.js'
+import { StoresWrapper, withThemeProvider } from '../../../__tests__/__util__'
 
 // Note: test renderer must be required after react-native.
 

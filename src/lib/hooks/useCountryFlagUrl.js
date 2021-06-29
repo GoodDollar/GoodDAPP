@@ -44,6 +44,7 @@ export default countryCode => {
 
   return getCountryFlagUrl(code)
 }
+
 let sharedCountryCode
 
 export const useCountryCode = () => {

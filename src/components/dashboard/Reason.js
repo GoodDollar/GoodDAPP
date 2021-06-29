@@ -74,12 +74,13 @@ const SendReason = (props: AmountProps) => {
   const next = useCallback(() => {
     const [nextRoute, ...nextRoutes] = screenState.nextRoutes || []
 
-    props.screenProps.push(nextRoute, {
-      nextRoutes,
-      ...restState,
-      reason,
-      params,
-    })
+    screenState.category &&
+      props.screenProps.push(nextRoute, {
+        nextRoutes,
+        ...restState,
+        reason,
+        params,
+      })
   }, [restState, reason, screenState.nextRoutes, params])
 
   const handleCategoryBoxOnPress = category => {

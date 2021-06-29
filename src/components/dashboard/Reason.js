@@ -1,5 +1,5 @@
 // @flow
-import React, { useCallback } from 'react'
+import React from 'react'
 import { StyleSheet, TouchableOpacity, View } from 'react-native'
 import InputText from '../common/form/InputText'
 import { Section, Wrapper } from '../common'
@@ -70,18 +70,6 @@ const SendReason = (props: AmountProps) => {
   const [screenState, setScreenState] = useScreenState(screenProps)
 
   const { reason, isDisabledNextButton, ...restState } = screenState
-
-  const next = useCallback(() => {
-    const [nextRoute, ...nextRoutes] = screenState.nextRoutes || []
-
-    screenState.category &&
-      props.screenProps.push(nextRoute, {
-        nextRoutes,
-        ...restState,
-        reason,
-        params,
-      })
-  }, [restState, reason, screenState.nextRoutes, params])
 
   const handleCategoryBoxOnPress = category => {
     // set category and enable next button
@@ -250,7 +238,6 @@ const SendReason = (props: AmountProps) => {
             placeholder="Add a message"
             placeholderTextColor={theme.colors.darkGray}
             enablesReturnKeyAutomatically
-            onSubmitEditing={next}
           />
         </Section.Stack>
         <Section.Row style={styles.bottomContent}>

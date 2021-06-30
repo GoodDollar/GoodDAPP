@@ -1,5 +1,5 @@
 // @flow
-import React, { useCallback } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { StyleSheet, TouchableOpacity, View } from 'react-native'
 import InputText from '../common/form/InputText'
 import { Section, Wrapper } from '../common'
@@ -71,6 +71,8 @@ const SendReason = (props: AmountProps) => {
 
   const { reason, isDisabledNextButton, ...restState } = screenState
 
+  const paymentCategory = useMemo(() => PaymentCategory.labelOf(screenState.category), [screenState.category])
+
   const next = useCallback(() => {
     const [nextRoute, ...nextRoutes] = screenState.nextRoutes || []
 
@@ -95,7 +97,7 @@ const SendReason = (props: AmountProps) => {
     fireEvent(PAYMENT_CATEGORY_SELECTED, {
       action: screenState.action,
       amount: screenState.amount,
-      category: PaymentCategory.labelOf(category),
+      category: paymentCategory,
     })
   }
 
@@ -267,7 +269,7 @@ const SendReason = (props: AmountProps) => {
             <NextButton
               disabled={isDisabledNextButton !== false}
               nextRoutes={screenState.nextRoutes}
-              values={{ ...params, ...restState, reason, category: PaymentCategory.labelOf(screenState.category) }}
+              values={{ ...params, ...restState, reason, category: paymentCategory }}
               {...props}
               label="Next"
             />

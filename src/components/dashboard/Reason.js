@@ -1,5 +1,5 @@
 // @flow
-import React, { useCallback, useMemo } from 'react'
+import React, { useCallback, useEffect, useMemo } from 'react'
 import { StyleSheet, TouchableOpacity, View } from 'react-native'
 import InputText from '../common/form/InputText'
 import { Section, Wrapper } from '../common'
@@ -70,36 +70,46 @@ const SendReason = (props: AmountProps) => {
   const [screenState, setScreenState] = useScreenState(screenProps)
 
   const { reason, isDisabledNextButton, ...restState } = screenState
+  const { category, action, amount, nextRoutes = [] } = restState || {}
 
-  const paymentCategory = useMemo(() => PaymentCategory.labelOf(screenState.category), [screenState.category])
+  const [paymentCategory, paymentParams] = useMemo(() => {
+    const categoryLabel = category ? PaymentCategory.labelOf(category) : null
+    const allParams = { ...params, ...restState, reason, category: categoryLabel }
+
+    return [categoryLabel, allParams]
+  }, [category, params, reason, restState])
 
   const next = useCallback(() => {
-    const [nextRoute, ...nextRoutes] = screenState.nextRoutes || []
+    const [nextRoute, ...rest] = nextRoutes
 
-    if (isDisabledNextButton !== false) {
+    if (!category || isDisabledNextButton !== false) {
       return
     }
 
-    screenState.category &&
-      props.screenProps.push(nextRoute, {
-        nextRoutes,
-        ...restState,
-        reason,
-        params,
-      })
-  }, [restState, reason, screenState.nextRoutes, params])
-
-  const handleCategoryBoxOnPress = category => {
-    // set category and enable next button
-    setScreenState({ category, isDisabledNextButton: false })
-
-    // fire event
-    fireEvent(PAYMENT_CATEGORY_SELECTED, {
-      action: screenState.action,
-      amount: screenState.amount,
-      category: paymentCategory,
+    props.screenProps.push(nextRoute, {
+      nextRoutes: rest,
+      ...paymentParams,
     })
-  }
+  }, [paymentParams, nextRoutes, isDisabledNextButton, category])
+
+  const handleCategoryBoxOnPress = useCallback(
+    category => {
+      // set category and enable next button
+      setScreenState({ category, isDisabledNextButton: false })
+    },
+    [setScreenState],
+  )
+
+  // fire event
+  useEffect(() => {
+    const category = paymentCategory
+
+    if (!category) {
+      return
+    }
+
+    fireEvent(PAYMENT_CATEGORY_SELECTED, { action, amount, category })
+  }, [paymentCategory, action, amount])
 
   return (
     <Wrapper>
@@ -268,8 +278,8 @@ const SendReason = (props: AmountProps) => {
           <Section.Stack style={{ minWidth: getDesignRelativeWidth(244) }}>
             <NextButton
               disabled={isDisabledNextButton !== false}
-              nextRoutes={screenState.nextRoutes}
-              values={{ ...params, ...restState, reason, category: paymentCategory }}
+              nextRoutes={nextRoutes}
+              values={paymentParams}
               {...props}
               label="Next"
             />

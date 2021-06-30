@@ -85,9 +85,9 @@ function App(): JSX.Element {
 
     return (
         <Suspense fallback={null}>
-            <div className="flex flex-col h-screen overflow-x-hidden">
+            <div className="flex flex-col h-screen overflow-hidden">
                 <AppBar />
-                <div className="flex flex-grow">
+                <div className="flex flex-grow overflow-hidden">
                     <SideBar />
                     <div
                         ref={bodyRef}
@@ -97,7 +97,7 @@ function App(): JSX.Element {
                         }}
                     >
                         <Popups />
-                        <Polling />
+                        {/*<Polling />*/}
                         <Web3ReactManager>
                             <Routes />
                         </Web3ReactManager>

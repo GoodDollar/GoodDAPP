@@ -399,18 +399,20 @@ export function ButtonRadio({ active, ...rest }: { active?: boolean } & ButtonPr
 
 export const GDButton = styled.button<{
     width?: string
+    borderRadius?: string
     error?: boolean
     size?: 'default' | 'sm'
+    noShadow?: boolean
 }>`
     display: flex;
     align-items: center;
     justify-content: center;
     height: ${({ size }) => (size === 'sm' ? '32px' : '71px')};
     width: ${({ width = '100%' }) => width};
-    border-radius: 20px;
+    border-radius: ${({ borderRadius = '20px' }) => borderRadius};
     color: ${({ theme }) => theme.color.main};
     background: ${({ theme }) => theme.color.text2};
-    box-shadow: ${({ theme }) => theme.shadow.button};
+    box-shadow: ${({ theme, noShadow }) => (noShadow ? 'none' : theme.shadow.button)};
     cursor: pointer;
 
     font-style: normal;

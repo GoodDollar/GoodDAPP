@@ -5,9 +5,9 @@ import { useActiveWeb3React } from 'hooks/useActiveWeb3React'
 // import Connect from './kashi/pages/Connect'
 // import BorrowMarkets from './kashi/pages/Markets/Borrow'
 // import CreateMarkets from './kashi/pages/Markets/Create'
-// import LendMarkets from './kashi/pages/Markets/Lending'
+import LendMarkets from './kashi/pages/Markets/Lending'
 // import BorrowPair from './kashi/pages/Pair/Borrow'
-// import LendPair from './kashi/pages/Pair/Lend'
+import LendPair from './kashi/pages/Pair/Lend'
 // import AddLiquidity from './pages/AddLiquidity'
 // import {
 //     RedirectDuplicateTokenIds,
@@ -58,10 +58,10 @@ function Routes(): JSX.Element {
                 path="/bento/kashi"
                 render={props => <Redirect to="/bento/kashi/borrow" {...props} />}
             />*/}
-            {/*<WalletRoute exact strict path="/bento/kashi/lend" component={LendMarkets} />*/}
+            <WalletRoute exact strict path="/stakes" component={LendMarkets} />
             {/*<WalletRoute exact strict path="/bento/kashi/borrow" component={BorrowMarkets} />*/}
             {/*<WalletRoute exact strict path="/bento/kashi/create" component={CreateMarkets} />*/}
-            {/*<WalletRoute exact strict path="/bento/kashi/lend/:pairAddress" component={LendPair} />*/}
+            <WalletRoute exact strict path="/stakes/:pairAddress" component={LendPair} />
             {/*<WalletRoute exact strict path="/bento/kashi/borrow/:pairAddress" component={BorrowPair} />*/}
 
             {/*{chainId === ChainId.MAINNET && (

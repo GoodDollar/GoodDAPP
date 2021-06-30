@@ -14,6 +14,54 @@ import { useActiveWeb3React } from 'hooks/useActiveWeb3React'
 import { useKashiPairs } from '../../context'
 import useSearchAndSort from 'hooks/useSearchAndSort'
 import { useLingui } from '@lingui/react'
+import styled from 'styled-components'
+import { GDButton } from '../../../components/ButtonLegacy'
+
+const Wrapper = styled.div`
+    background: ${({ theme }) => theme.color.bg1};
+    box-shadow: ${({ theme }) => theme.shadow.settings};
+    border-radius: 12px;
+    padding: 14px 19px 15px 19px;
+`
+
+const Table = styled.table`
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 3px;
+
+    th {
+        padding-bottom: 8px;
+    }
+
+    tbody tr {
+        background: ${({ theme }) => theme.color.main};
+        //border-radius: 12px;
+
+        td {
+            padding: 15px;
+            border-top: 1px solid ${({ theme }) => theme.color.border2};
+            border-bottom: 1px solid ${({ theme }) => theme.color.border2};
+
+            font-style: normal;
+            font-weight: 500;
+            font-size: 14px;
+            line-height: 16px;
+            color: ${({ theme }) => theme.color.text4};
+
+            &:first-child {
+                border-left: 1px solid ${({ theme }) => theme.color.border2};
+                border-top-left-radius: 12px;
+                border-bottom-left-radius: 12px;
+            }
+
+            &:last-child {
+                border-right: 1px solid ${({ theme }) => theme.color.border2};
+                border-top-right-radius: 12px;
+                border-bottom-right-radius: 12px;
+            }
+        }
+    }
+`
 
 export default function LendingMarkets(): JSX.Element | null {
     const { i18n } = useLingui()
@@ -34,235 +82,133 @@ export default function LendingMarkets(): JSX.Element | null {
     )
 
     return (
-        <Layout
-            netWorth={netWorth}
-            left={
-                <Card
-                    className="h-full ark-900"
-                    backgroundImage={DepositGraphic}
-                    title={i18n._(t`Lend your assets, earn yield with no impermanent loss`)}
-                    description={i18n._(
-                        t`Isolated lending markets mitigate your risks as an asset lender. Know exactly what collateral is available to you in the event of counter party insolvency.`
-                    )}
-                />
-            }
-        >
-            <Card className="ark-900" header={<MarketHeader type="Lending" lists={[pairs, positions]} />}>
-                {positions.items && positions.items.length > 0 && (
-                    <div className="pb-4">
-                        <div>
-                            <div className="grid gap-4 grid-flow-col grid-cols-4 md:grid-cols-6 lg:grid-cols-7 pb-4 px-4  ">
-                                <ListHeaderWithSort sort={positions} sortKey="search">
-                                    <Trans>
-                                        <span className="hidden md:inline-block">Your</span> Positions
-                                    </Trans>
-                                </ListHeaderWithSort>
-                                <ListHeaderWithSort className="hidden md:flex" sort={positions} sortKey="asset.symbol">
+        <Layout>
+            <MarketHeader type="Stakes" lists={[pairs, positions]} />
+            <Wrapper>
+                <Table>
+                    <thead>
+                        <tr>
+                            <th>
+                                {/*<ListHeaderWithSort sort={pairs} sortKey="search">
+                                    {i18n._(t`Markets`)}
+                                </ListHeaderWithSort>*/}
+                            </th>
+                            <th>
+                                <ListHeaderWithSort className="hidden md:flex" sort={pairs} sortKey="asset.symbol">
                                     {i18n._(t`Lending`)}
                                 </ListHeaderWithSort>
-                                <ListHeaderWithSort
-                                    className="hidden md:flex"
-                                    sort={positions}
-                                    sortKey="collateral.symbol"
-                                >
+                            </th>
+                            <th>
+                                <ListHeaderWithSort className="hidden md:flex" sort={pairs} sortKey="collateral.symbol">
                                     {i18n._(t`Collateral`)}
                                 </ListHeaderWithSort>
-                                <ListHeaderWithSort className="hidden lg:flex" sort={positions} sortKey="oracle.name">
+                            </th>
+                            <th>
+                                <ListHeaderWithSort className="hidden lg:flex" sort={pairs} sortKey="oracle.name">
                                     {i18n._(t`Oracle`)}
                                 </ListHeaderWithSort>
+                            </th>
+                            <th>
                                 <ListHeaderWithSort
-                                    className="justify-end"
-                                    sort={positions}
-                                    sortKey="currentUserAssetAmount.usdValue"
-                                    direction="descending"
-                                >
-                                    {i18n._(t`Lent`)}
-                                </ListHeaderWithSort>
-                                <ListHeaderWithSort
-                                    className="justify-end"
-                                    sort={positions}
-                                    sortKey="currentUserLentAmount.usdValue"
-                                    direction="descending"
-                                >
-                                    {i18n._(t`Borrowed`)}
-                                </ListHeaderWithSort>
-                                <ListHeaderWithSort
-                                    className="justify-end"
-                                    sort={positions}
-                                    sortKey="supplyAPR.value"
+                                    sort={pairs}
+                                    sortKey="currentSupplyAPR.value"
                                     direction="descending"
                                 >
                                     {i18n._(t`APR`)}
                                 </ListHeaderWithSort>
-                            </div>
-                            <div className="flex-col space-y-2">
-                                {positions.items.map((pair: any) => {
-                                    return (
-                                        <div key={pair.address}>
-                                            <Link to={'/bento/kashi/lend/' + pair.address} className="block ">
-                                                <div className="grid gap-4 grid-flow-col grid-cols-4 md:grid-cols-6 lg:grid-cols-7 py-4 px-4 items-center align-center  rounded ark-blue">
-                                                    <div className="flex flex-col sm:flex-row items-start sm:items-center">
-                                                        <div className="hidden space-x-2 md:flex">
-                                                            <AsyncTokenIcon
-                                                                address={pair.asset.address}
-                                                                chainId={chainId}
-                                                                className="block w-5 h-5 md:w-10 md:h-10 lg:w-12 lg:h-12 rounded-lg"
-                                                            />
-                                                            <AsyncTokenIcon
-                                                                address={pair.collateral.address}
-                                                                chainId={chainId}
-                                                                className="block w-5 h-5 md:w-10 md:h-10 lg:w-12 lg:h-12 rounded-lg"
-                                                            />
-                                                        </div>
-                                                        <div className="sm:items-end md:hidden">
-                                                            <div>
-                                                                <strong>{pair.asset.symbol}</strong> /{' '}
-                                                                {pair.collateral.symbol}
-                                                            </div>
-                                                            <div className="mt-0 left  xs block lg:hidden">
-                                                                {pair.oracle.name}
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div className="white hidden md:block">
-                                                        <strong>{pair.asset.symbol}</strong>
-                                                    </div>
-                                                    <div className="hidden md:block">{pair.collateral.symbol}</div>
-                                                    <div className="hidden lg:block">{pair.oracle.name}</div>
-                                                    <div className="right">
-                                                        <div>
-                                                            {formattedNum(pair.currentUserAssetAmount.string, false)}{' '}
-                                                            {pair.asset.symbol}
-                                                        </div>
-                                                        <div className=" ">
-                                                            {formattedNum(pair.currentUserAssetAmount.usd, true)}
-                                                        </div>
-                                                    </div>
-                                                    <div className="right">
-                                                        <div>{formattedPercent(pair.utilization.string)}</div>
-                                                        <div className="">
-                                                            {formattedNum(pair.currentUserLentAmount.usd, true)}
-                                                        </div>
-                                                    </div>
-                                                    <div className="right">
-                                                        {formattedPercent(pair.supplyAPR.string)}
-                                                    </div>
-                                                </div>
-                                            </Link>
-                                        </div>
-                                    )
-                                })}
-                            </div>
-                        </div>
-                    </div>
-                )}
-                <div>
-                    <div className="grid gap-4 grid-flow-col grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-7 pb-4 px-4  ">
-                        <ListHeaderWithSort sort={pairs} sortKey="search">
-                            {i18n._(t`Markets`)}
-                        </ListHeaderWithSort>
-                        <ListHeaderWithSort className="hidden md:flex" sort={pairs} sortKey="asset.symbol">
-                            {i18n._(t`Lending`)}
-                        </ListHeaderWithSort>
-                        <ListHeaderWithSort className="hidden md:flex" sort={pairs} sortKey="collateral.symbol">
-                            {i18n._(t`Collateral`)}
-                        </ListHeaderWithSort>
-                        <ListHeaderWithSort className="hidden lg:flex" sort={pairs} sortKey="oracle.name">
-                            {i18n._(t`Oracle`)}
-                            <QuestionHelper
-                                text={i18n._(t`The onchain oracle that tracks the pricing for this pair `)}
-                            />
-                        </ListHeaderWithSort>
-                        <ListHeaderWithSort
-                            className="justify-end"
-                            sort={pairs}
-                            sortKey="currentSupplyAPR.value"
-                            direction="descending"
-                        >
-                            {i18n._(t`APR`)}
-                        </ListHeaderWithSort>
-                        <ListHeaderWithSort
-                            className="hidden sm:flex justify-end"
-                            sort={pairs}
-                            sortKey="utilization.value"
-                            direction="descending"
-                        >
-                            {i18n._(t`Borrowed`)}
-                        </ListHeaderWithSort>
-                        <ListHeaderWithSort
-                            className="justify-end"
-                            sort={pairs}
-                            sortKey="currentAllAssets.usdValue"
-                            direction="descending"
-                        >
-                            {i18n._(t`Total`)}
-                        </ListHeaderWithSort>
-                    </div>
-                    <div className="flex-col space-y-2">
+                            </th>
+                            <th>
+                                <ListHeaderWithSort sort={pairs} sortKey="utilization.value" direction="descending">
+                                    {i18n._(t`Borrowed`)}
+                                </ListHeaderWithSort>
+                            </th>
+                            <th>
+                                <ListHeaderWithSort
+                                    sort={pairs}
+                                    sortKey="currentAllAssets.usdValue"
+                                    direction="descending"
+                                >
+                                    {i18n._(t`Total`)}
+                                </ListHeaderWithSort>
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
                         {pairs.items &&
                             pairs.items.map(pair => {
                                 return (
-                                    <div key={pair.address}>
-                                        <Link
-                                            to={'/bento/kashi/lend/' + String(pair.address).toLowerCase()}
-                                            className="block "
-                                        >
-                                            <div className="grid gap-4 grid-flow-col grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-7 py-4 px-4 items-center align-center  rounded ark-blue">
-                                                <div className="flex flex-col sm:flex-row items-start sm:items-center">
-                                                    <div className="hidden space-x-2 md:flex">
-                                                        <AsyncTokenIcon
-                                                            address={pair.asset.address}
-                                                            chainId={chainId}
-                                                            className="block w-5 h-5 md:w-10 md:h-10 lg:w-12 lg:h-12 rounded-lg"
-                                                        />
-                                                        <AsyncTokenIcon
-                                                            address={pair.collateral.address}
-                                                            chainId={chainId}
-                                                            className="block w-5 h-5 md:w-10 md:h-10 lg:w-12 lg:h-12 rounded-lg"
-                                                        />
+                                    <tr key={pair.address}>
+                                        <td>
+                                            <div className="flex flex-col sm:flex-row items-start sm:items-center">
+                                                <div className="hidden space-x-2 md:flex">
+                                                    <AsyncTokenIcon
+                                                        address={pair.asset.address}
+                                                        chainId={chainId}
+                                                        className="block w-5 h-5 md:w-10 md:h-10 lg:w-12 lg:h-12 rounded-lg"
+                                                    />
+                                                    <AsyncTokenIcon
+                                                        address={pair.collateral.address}
+                                                        chainId={chainId}
+                                                        className="block w-5 h-5 md:w-10 md:h-10 lg:w-12 lg:h-12 rounded-lg"
+                                                    />
+                                                </div>
+                                                <div className="sm:items-end md:hidden">
+                                                    <div className="flex flex-col md:flex-row">
+                                                        <div className="">{pair.asset.symbol} / </div>
+                                                        <div>{pair.collateral.symbol}</div>
                                                     </div>
-                                                    <div className="sm:items-end md:hidden">
-                                                        <div className="flex flex-col md:flex-row">
-                                                            <div className="">{pair.asset.symbol} / </div>
-                                                            <div>{pair.collateral.symbol}</div>
-                                                        </div>
-                                                        <div className="mt-0 left  xs block lg:hidden">
-                                                            {pair.oracle.name}
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div className="left hidden md:block">
-                                                    <strong>{pair.asset.symbol}</strong>
-                                                </div>
-                                                <div className="left hidden md:block">{pair.collateral.symbol}</div>
-                                                <div className="left hidden lg:block">{pair.oracle.name}</div>
-                                                <div className="center right">
-                                                    {formattedPercent(pair.currentSupplyAPR.string)}
-                                                </div>
-                                                <div className="right hidden sm:block">
-                                                    {formattedPercent(pair.utilization.string)}
-                                                </div>
-                                                <div className="right">
-                                                    <div>
-                                                        {formattedNum(pair.currentAllAssets.string)} {pair.asset.symbol}
-                                                    </div>
-                                                    <div className="">
-                                                        {formattedNum(pair.currentAllAssets.usd, true)}
+                                                    <div className="mt-0 left  xs block lg:hidden">
+                                                        {pair.oracle.name}
                                                     </div>
                                                 </div>
                                             </div>
-                                        </Link>
-                                    </div>
+                                        </td>
+                                        <td>
+                                            <div className="left hidden md:block">
+                                                <strong>{pair.asset.symbol}</strong>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div className="left hidden md:block">{pair.collateral.symbol}</div>
+                                        </td>
+                                        <td>
+                                            <div className="left hidden lg:block">{pair.oracle.name}</div>
+                                        </td>
+                                        <td>
+                                            <div className="center right">
+                                                {formattedPercent(pair.currentSupplyAPR.string)}
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div className="right hidden sm:block">
+                                                {formattedPercent(pair.utilization.string)}
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div className="right">
+                                                <div>
+                                                    {formattedNum(pair.currentAllAssets.string)} {pair.asset.symbol}
+                                                </div>
+                                                <div className="">{formattedNum(pair.currentAllAssets.usd, true)}</div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <Link
+                                                to={'/stakes/' + String(pair.address).toLowerCase()}
+                                                className="block "
+                                            >
+                                                <GDButton size="sm" width="78px" borderRadius="6px" noShadow={true}>
+                                                    Stake
+                                                </GDButton>
+                                            </Link>
+                                        </td>
+                                    </tr>
                                 )
                             })}
-                    </div>
-                </div>
-                <div className="w-full py-6 center">
-                    <Link to="/bento/kashi/create" className="lg">
-                        {i18n._(t`+ Create a new market`)}
-                    </Link>
-                </div>
-            </Card>
+                    </tbody>
+                </Table>
+            </Wrapper>
         </Layout>
     )
 }

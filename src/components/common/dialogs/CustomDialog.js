@@ -7,12 +7,12 @@ import normalize from '../../../lib/utils/normalizeText'
 import SimpleStore from '../../../lib/undux/SimpleStore'
 import CustomButton from '../buttons/CustomButton'
 import ErrorAnimation from '../../common/animations/Error'
-import SuccessIcon from '../modal/SuccessIcon'
 import LoadingIcon from '../modal/LoadingIcon'
 import ModalWrapper from '../modal/ModalWrapper'
 import { theme } from '../../theme/styles'
 import Text from '../view/Text'
 import Section from '../layout/Section'
+import SuccessIcon from '../modal/SuccessIcon'
 
 export type DialogButtonProps = { color?: string, mode?: string, onPress?: Function => void, text: string, style?: any }
 export type DialogProps = {

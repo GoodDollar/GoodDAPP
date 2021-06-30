@@ -14,7 +14,7 @@ on:
 jobs:
   test:
     name: Detox Tests
-    runs-on: ubutnu-latest
+    runs-on: ubuntu-latest
     #disabled until we get it working again
     if: ${{ false && !contains(github.event.head_commit.message, 'skip ci') }}
     steps:
@@ -153,6 +153,8 @@ jobs:
           npx appcenter distribute release --token "${{ env.APPCENTER_TOKEN }}" --app "${{ env.APPCENTER_NAME }}" --group "Collaborators" --file "${{ env.UNIVERSAL_APK_PATH }}" --release-notes "$(git log -1 --pretty=format:'%h %s')" --debug
 
       - name: Distribute to stores - QA & PROD ONLY
-        if: ${{ endsWith(github.ref, '/next') || endsWith(github.ref, '/staging') }}
+      # FIXME: removed: endsWith(github.ref, '/staging') condition temporarily to prevent pushing to staging 
+      # from uploading to the play store until we republish the app
+        if: ${{ endsWith(github.ref, '/next')}}
         run: |
           npx appcenter distribute stores publish --token "${{ env.APPCENTER_TOKEN }}" --app "${{ env.APPCENTER_NAME }}" --store "${{ env.APPCENTER_STORE }}" --file "${{ env.UNIVERSAL_APK_PATH }}" --release-notes "$(git log -1 --pretty=format:'%h %s')"

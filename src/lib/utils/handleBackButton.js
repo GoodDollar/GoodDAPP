@@ -1,6 +1,10 @@
 import { BackHandler } from 'react-native'
+import { noop } from 'lodash'
+
 class BackButtonHandler {
-  constructor({ defaultAction }) {
+  constructor(options = {}) {
+    const { defaultAction = noop } = options
+
     this.defaultAction = defaultAction
     this.register()
   }
@@ -14,16 +18,9 @@ class BackButtonHandler {
     BackHandler.removeEventListener('hardwareBackPress', this.handler)
   }
 
-  lastPress = 0
-
   handler = action => {
-    const now = Date.now()
-
-    if (now - this.lastPress <= 300) {
-      return BackHandler.exitApp()
-    }
-    this.lastPress = Date.now()
     this.defaultAction()
+
     return true
   }
 }

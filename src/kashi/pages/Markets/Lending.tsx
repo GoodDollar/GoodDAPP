@@ -7,7 +7,7 @@ import DepositGraphic from 'assets/kashi/deposit-graphic.png'
 import { Link } from 'react-router-dom'
 import ListHeaderWithSort from 'kashi/components/ListHeaderWithSort'
 import QuestionHelper from '../../../components/QuestionHelper'
-import React from 'react'
+import React, { useState } from 'react'
 import { ZERO } from '../../functions'
 import { getCurrency } from 'kashi/constants'
 import { useActiveWeb3React } from 'hooks/useActiveWeb3React'
@@ -16,6 +16,8 @@ import useSearchAndSort from 'hooks/useSearchAndSort'
 import { useLingui } from '@lingui/react'
 import styled from 'styled-components'
 import { GDButton } from '../../../components/ButtonLegacy'
+import Modal from '../../../components/Modal'
+import LendingPair from '../Pair/Lend'
 
 const Wrapper = styled.div`
     background: ${({ theme }) => theme.color.bg1};
@@ -80,6 +82,7 @@ export default function LendingMarkets(): JSX.Element | null {
         { keys: ['search'], threshold: 0.1 },
         { key: 'currentSupplyAPR.value', direction: 'descending' }
     )
+    const [activePair, setActivePair] = useState<ArrayType<typeof pairs.items>>()
 
     return (
         <Layout>
@@ -194,14 +197,15 @@ export default function LendingMarkets(): JSX.Element | null {
                                             </div>
                                         </td>
                                         <td>
-                                            <Link
-                                                to={'/stakes/' + String(pair.address).toLowerCase()}
-                                                className="block "
+                                            <GDButton
+                                                size="sm"
+                                                width="78px"
+                                                borderRadius="6px"
+                                                noShadow={true}
+                                                onClick={() => setActivePair(pair)}
                                             >
-                                                <GDButton size="sm" width="78px" borderRadius="6px" noShadow={true}>
-                                                    Stake
-                                                </GDButton>
-                                            </Link>
+                                                Stake
+                                            </GDButton>
                                         </td>
                                     </tr>
                                 )
@@ -209,6 +213,9 @@ export default function LendingMarkets(): JSX.Element | null {
                     </tbody>
                 </Table>
             </Wrapper>
+            <Modal isOpen={!!activePair} onDismiss={() => {}}>
+                {activePair && <LendingPair pairAddress={activePair.address} />}
+            </Modal>
         </Layout>
     )
 }

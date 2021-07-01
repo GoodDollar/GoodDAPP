@@ -8,19 +8,12 @@ import { formattedNum, formattedPercent } from 'utils'
 import AsyncTokenIcon from '../../../components/AsyncTokenIcon'
 import { BackButton } from 'components'
 import Deposit from './Deposit'
-import DepositGraphic from 'assets/kashi/deposit-graphic.png'
-import { Helmet } from 'react-helmet'
-import QuestionHelper from 'components/QuestionHelper'
 import Withdraw from './Withdraw'
 import { t } from '@lingui/macro'
 import { useActiveWeb3React } from 'hooks/useActiveWeb3React'
 import { useLingui } from '@lingui/react'
 
-export default function LendingPair({
-    match: {
-        params: { pairAddress }
-    }
-}: RouteComponentProps<{ pairAddress: string }>): JSX.Element | null {
+export default function LendingPair({ pairAddress }: { pairAddress: string }) {
     const { i18n } = useLingui()
     const [tabIndex, setTabIndex] = useState(0)
 
@@ -32,172 +25,28 @@ export default function LendingPair({
     if (!pair) return info && info.blockTimeStamp.isZero() ? null : <Redirect to="/bento/kashi/lend"></Redirect>
 
     return (
-        <Layout
-            left={
-                <Card
-                    className="h-full ark-900"
-                    backgroundImage={DepositGraphic}
-                    title={i18n._(t`Lend assets for interest from borrowers.`)}
-                    description={i18n._(
-                        t`Have assets you want to earn additional interest on? Lend them in isolated markets and earn interest from borrowers. It's as easy as deposit and withdraw whenever you want.`
-                    )}
-                />
-            }
-            right={
-                <Card className="h-full ark-900">
-                    <div className="flex-col space-y-2">
-                        <div className="flex justify-between">
-                            <div className=" ">{i18n._(t`Market Info`)}</div>
-                        </div>
-                        <div className="flex justify-between">
-                            <div className="lg ">{i18n._(t`Total`)}</div>
-                            <div className="lg ">
-                                {formattedNum(pair.currentAllAssets.string)} {pair.asset.symbol}
-                            </div>
-                        </div>
-                        <div className="flex justify-between">
-                            <div className="lg ">{i18n._(t`Available`)}</div>
-                            <div className="lg ">
-                                {formattedNum(pair.totalAssetAmount.string)} {pair.asset.symbol}
-                            </div>
-                        </div>
-                        <div className="flex justify-between">
-                            <div className="lg ">{i18n._(t`Borrowed`)}</div>
-                            <div className="flex items-center">
-                                <div className="lg ">{formattedPercent(pair.utilization.string)}</div>
-                            </div>
-                        </div>
-                        <div className="flex justify-between">
-                            <div className="lg ">{i18n._(t`Supply APR`)}</div>
-                            <div className="flex items-center">
-                                <div className="lg ">{formattedPercent(pair.currentSupplyAPR.string)}</div>
-                            </div>
-                        </div>
-                        <div className="flex justify-between">
-                            <div className="lg ">{i18n._(t`Borrow APR`)}</div>
-                            <div className="flex items-center">
-                                <div className="lg ">{formattedPercent(pair.currentInterestPerYear.string)}</div>
-                            </div>
-                        </div>
-                        <div className="flex justify-between">
-                            <div className="lg ">{i18n._(t`Collateral`)}</div>
-                            <div className="flex items-center">
-                                <div className="lg ">
-                                    {formattedNum(pair.totalCollateralAmount.string)} {pair.collateral.symbol}
-                                </div>
-                            </div>
-                        </div>
-                        {pair.utilization.value.gt(0) && (
-                            <div className="flex justify-between">
-                                <div className="lg ">{i18n._(t`Health`)}</div>
-                                <div className="flex items-center">
-                                    <div className="lg ">{formattedPercent(pair.marketHealth.toFixed(16))}</div>
-                                </div>
-                            </div>
-                        )}
-                        <div className="flex justify-between pt-3">
-                            <div className=" ">{i18n._(t`BentoBox`)}</div>
-                        </div>
-                        <div className="flex justify-between">
-                            <div className="lg ">{i18n._(t`${pair.asset.symbol} Strategy`)}</div>
-                            <div className="lg ">
-                                {i18n._(t`None`)}
-                                <QuestionHelper
-                                    text={i18n._(
-                                        t`BentoBox strategies can create yield for your liquidity while it is not lent out. This token does not yet have a strategy in the BentoBox.`
-                                    )}
-                                />
-                            </div>
-                        </div>
+        <div>
+            <div className="flex justify-between mb-8">
+                <div>
+                    <div className=" lg">Lent</div>
+                    <div className="blue ">
+                        {formattedNum(pair.currentUserAssetAmount.string)} {pair.asset.symbol}
                     </div>
-                </Card>
-            }
-        >
-            <Helmet>
-                <title>
-                    Lend {pair?.asset?.symbol}-{pair?.collateral?.symbol} | Sushi
-                </title>
-            </Helmet>
-            <Card
-                className="h-full ark-900"
-                header={
-                    <LendCardHeader>
-                        <div className="flex items-center">
-                            <div className="flex items-center space-x-2 mr-4">
-                                <BackButton className="hidden md:flex" defaultRoute="/bento/kashi/lend" />
-                                {pair && (
-                                    <>
-                                        <AsyncTokenIcon
-                                            address={pair?.asset.address}
-                                            chainId={chainId}
-                                            className="block w-10 h-10 sm:w-12 sm:h-12 rounded-lg"
-                                        />
-                                        <AsyncTokenIcon
-                                            address={pair?.collateral.address}
-                                            chainId={chainId}
-                                            className="block w-10 h-10 sm:w-12 sm:h-12 rounded-lg"
-                                        />
-                                    </>
-                                )}
-                            </div>
-                            <div className="flex justify-between items-center">
-                                <div>
-                                    <div className="3xl ">Lend {pair && pair.asset.symbol}</div>
-                                    <div className="flex items-center">
-                                        <div className="  mr-1">Collateral:</div>
-                                        <div className="  mr-2">{pair && pair.collateral.symbol}</div>
-                                        <div className="  mr-1">Oracle:</div>
-                                        <div className=" ">{pair && pair.oracle.name}</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </LendCardHeader>
-                }
-            >
-                <div className="flex justify-between mb-8">
+                    <div className=" lg">{formattedNum(pair.currentUserAssetAmount.usd, true)}</div>
+                </div>
+                <div>
+                    <div className=" lg">Borrowed</div>
+                    <div className=" ">{formattedPercent(pair.utilization.string)}</div>
+                </div>
+                <div className="right">
                     <div>
-                        <div className=" lg">Lent</div>
-                        <div className="blue ">
-                            {formattedNum(pair.currentUserAssetAmount.string)} {pair.asset.symbol}
-                        </div>
-                        <div className=" lg">{formattedNum(pair.currentUserAssetAmount.usd, true)}</div>
-                    </div>
-                    <div>
-                        <div className=" lg">Borrowed</div>
-                        <div className=" ">{formattedPercent(pair.utilization.string)}</div>
-                    </div>
-                    <div className="right">
-                        <div>
-                            <div className=" lg">Supply APR</div>
-                            <div className=" ">{formattedPercent(pair.supplyAPR.string)}</div>
-                        </div>
+                        <div className=" lg">Supply APR</div>
+                        <div className=" ">{formattedPercent(pair.supplyAPR.string)}</div>
                     </div>
                 </div>
+            </div>
 
-                <Tabs forceRenderTabPanel selectedIndex={tabIndex} onSelect={(index: number) => setTabIndex(index)}>
-                    <TabList className="flex rounded p-1">
-                        <Tab
-                            className="flex flex-1 justify-center items-center rounded lg   cursor-pointer focus:outline-none select-none px-3 py-4"
-                            selectedClassName=""
-                        >
-                            Deposit {pair.asset.symbol}
-                        </Tab>
-                        <Tab
-                            className="flex flex-1 justify-center items-center rounded lg   cursor-pointer focus:outline-none select-none px-3 py-4"
-                            selectedClassName=""
-                        >
-                            Withdraw {pair.asset.symbol}
-                        </Tab>
-                    </TabList>
-                    <TabPanel>
-                        <Deposit pair={pair} />
-                    </TabPanel>
-                    <TabPanel>
-                        <Withdraw pair={pair} />
-                    </TabPanel>
-                </Tabs>
-            </Card>
-        </Layout>
+            <Deposit pair={pair} />
+        </div>
     )
 }

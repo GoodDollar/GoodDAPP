@@ -58,10 +58,10 @@ function Routes(): JSX.Element {
                 path="/bento/kashi"
                 render={props => <Redirect to="/bento/kashi/borrow" {...props} />}
             />*/}
-            <WalletRoute exact strict path="/stakes" component={LendMarkets} />
+            <Route exact strict path="/stakes" component={LendMarkets} />
             {/*<WalletRoute exact strict path="/bento/kashi/borrow" component={BorrowMarkets} />*/}
             {/*<WalletRoute exact strict path="/bento/kashi/create" component={CreateMarkets} />*/}
-            <WalletRoute exact strict path="/stakes/:pairAddress" component={LendPair} />
+            {/*<Route exact strict path="/stakes/:pairAddress" component={LendPair} />*/}
             {/*<WalletRoute exact strict path="/bento/kashi/borrow/:pairAddress" component={BorrowPair} />*/}
 
             {/*{chainId === ChainId.MAINNET && (

@@ -10,8 +10,9 @@ import logger from '../../lib/logger/pino-logger'
 import { delay } from '../utils/async'
 import { isValidBase64Image } from '../utils/image'
 import Base64Storage from '../nft/Base64Storage'
-import getFeedDB from '../textile/FeedThreadDB'
 
+// import getFeedDB from '../textile/FeedThreadDB'
+import getFeedDB from '../realmdb/FeedDB'
 const log = logger.child({ from: 'FeedStorage' })
 
 /**
@@ -117,7 +118,7 @@ export class FeedStorage {
 
     this.feedDB = getFeedDB()
     const seed = this.wallet.wallet.eth.accounts.wallet[this.wallet.getAccountForType('gundb')].privateKey.slice(2)
-    await this.feedDB.init(seed)
+    await this.feedDB.init(seed, this.wallet.getAccountForType('gundb'))
 
     this.feedInitialized = true
     this.setReady()
@@ -359,6 +360,8 @@ export class FeedStorage {
       //not initiated by user
       //other option is that TX was started on another wallet instance
       const initialEvent = this.dequeueTX(receipt.transactionHash) || {
+        id: receipt.transactionHash,
+        createdDate: receiptDate.toISOString(),
         data: {},
       }
 

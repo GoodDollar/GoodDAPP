@@ -8,13 +8,14 @@ import { Field } from '../../state/swap/actions'
 import { TYPE } from '../../theme'
 import { isAddress, shortenAddress } from '../../utils'
 import { computeSlippageAdjustedAmounts, computeTradePriceBreakdown, warningSeverity } from '../../utils/prices'
-import { ButtonPrimary, GDButton } from '../ButtonLegacy'
+import { ButtonPrimary } from '../ButtonLegacy'
 import { AutoColumn } from '../Column'
 import CurrencyLogo from '../CurrencyLogo'
 import { RowBetween, RowFixed } from '../Row'
 import { SwapShowAcceptChanges, TruncatedText } from './styleds'
 import { t, Trans } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
+import { ButtonAction } from '../gd/Button'
 
 const Wrapper = styled(AutoColumn)`
     .details {
@@ -113,7 +114,7 @@ export default function SwapModalHeader({
                             <AlertTriangle size={20} style={{ marginRight: '8px', minWidth: 24 }} />
                             <TYPE.main color={theme.primary1}> {i18n._(t`Price Updated`)}</TYPE.main>
                         </RowFixed>
-                        <GDButton
+                        <ButtonAction
                             size="sm"
                             width="fit-content"
                             style={{
@@ -124,7 +125,7 @@ export default function SwapModalHeader({
                             onClick={onAcceptChanges}
                         >
                             {i18n._(t`Accept`)}
-                        </GDButton>
+                        </ButtonAction>
                     </RowBetween>
                 </SwapShowAcceptChanges>
             ) : null}

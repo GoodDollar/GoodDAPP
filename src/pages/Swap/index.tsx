@@ -1,7 +1,7 @@
 import { ApprovalState, useApproveCallbackFromTrade } from '../../hooks/useApproveCallback'
 import { ArrowWrapper, BottomGrouping, SwapCallbackError, Wrapper } from '../../components/swap/styleds'
 import { AutoRow, RowBetween } from '../../components/Row'
-import { ButtonConfirmed, GDButton } from '../../components/ButtonLegacy'
+import { ButtonConfirmed } from '../../components/ButtonLegacy'
 import Card from '../../components/CardLegacy'
 import { ChainId, CurrencyAmount, JSBI, Token, Trade } from '@sushiswap/sdk'
 import Column, { AutoColumn } from '../../components/Column'
@@ -47,6 +47,7 @@ import { useIsTransactionUnsupported } from 'hooks/Trades'
 import { useLingui } from '@lingui/react'
 import { useSwapCallback } from '../../hooks/useSwapCallback'
 import { SwapWrapper } from './styled'
+import { ButtonAction } from '../../components/gd/Button'
 
 export default function Swap() {
     const { i18n } = useLingui()
@@ -444,25 +445,25 @@ export default function Swap() {
                     </AutoColumn>
                     <BottomGrouping>
                         {swapIsUnsupported ? (
-                            <GDButton>{i18n._(t`Unsupported Asset`)}</GDButton>
+                            <ButtonAction>{i18n._(t`Unsupported Asset`)}</ButtonAction>
                         ) : !account ? (
-                            <GDButton onClick={toggleWalletModal}>{i18n._(t`Connect Wallet`)}</GDButton>
+                            <ButtonAction onClick={toggleWalletModal}>{i18n._(t`Connect Wallet`)}</ButtonAction>
                         ) : showWrap ? (
-                            <GDButton disabled={Boolean(wrapInputError)} onClick={onWrap}>
+                            <ButtonAction disabled={Boolean(wrapInputError)} onClick={onWrap}>
                                 {wrapInputError ??
                                     (wrapType === WrapType.WRAP
                                         ? i18n._(t`Wrap`)
                                         : wrapType === WrapType.UNWRAP
                                         ? i18n._(t`Unwrap`)
                                         : null)}
-                            </GDButton>
+                            </ButtonAction>
                         ) : noRoute && userHasSpecifiedInputOutput ? (
-                            <GDButton disabled>
+                            <ButtonAction disabled>
                                 {i18n._(t`Insufficient liquidity for this trade`)}
                                 {/*{singleHopOnly && (
                                     <TYPE.main mb="4px">{i18n._(t`Try enabling multi-hop trades`)}</TYPE.main>
                                 )}*/}
-                            </GDButton>
+                            </ButtonAction>
                         ) : showApproveFlow ? (
                             <RowBetween>
                                 <ButtonConfirmed
@@ -482,7 +483,7 @@ export default function Swap() {
                                         i18n._(t`APPROVE`)
                                     )}
                                 </ButtonConfirmed>
-                                <GDButton
+                                <ButtonAction
                                     onClick={() => {
                                         if (isExpertMode) {
                                             handleSwap()
@@ -510,10 +511,10 @@ export default function Swap() {
                                         : priceImpactSeverity > 2
                                         ? i18n._(t`Swap Anyway`)
                                         : i18n._(t`SWAP`)}
-                                </GDButton>
+                                </ButtonAction>
                             </RowBetween>
                         ) : (
-                            <GDButton
+                            <ButtonAction
                                 onClick={() => {
                                     if (isExpertMode) {
                                         handleSwap()
@@ -540,7 +541,7 @@ export default function Swap() {
                                         ? i18n._(t`Swap Anyway`)
                                         : i18n._(t`Swap`)}
                                 </Text>
-                            </GDButton>
+                            </ButtonAction>
                         )}
                         {/*{showApproveFlow && (
                             <Column style={{ marginTop: '1rem' }}>

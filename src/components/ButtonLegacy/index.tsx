@@ -4,6 +4,7 @@ import { ChevronDown } from 'react-feather'
 import { Button as RebassButton, ButtonProps } from 'rebass/styled-components'
 import styled, { keyframes } from 'styled-components'
 import { RowBetween } from '../Row'
+import { ButtonAction } from '../gd/Button'
 
 const Base = styled(RebassButton)<{
     padding?: string
@@ -342,9 +343,9 @@ export function ButtonConfirmed({
     ...rest
 }: { confirmed?: boolean; altDisabledStyle?: boolean } & ButtonProps) {
     if (confirmed) {
-        return <GDButton {...rest} disabled />
+        return <ButtonAction {...rest} disabled />
     } else {
-        return <GDButton {...rest} />
+        return <ButtonAction {...rest} />
     }
 }
 
@@ -396,35 +397,3 @@ export function ButtonRadio({ active, ...rest }: { active?: boolean } & ButtonPr
         return <ButtonPrimary {...rest} />
     }
 }
-
-export const GDButton = styled.button<{
-    width?: string
-    borderRadius?: string
-    error?: boolean
-    size?: 'default' | 'sm'
-    noShadow?: boolean
-}>`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: ${({ size }) => (size === 'sm' ? '32px' : '71px')};
-    width: ${({ width = '100%' }) => width};
-    border-radius: ${({ borderRadius = '20px' }) => borderRadius};
-    color: ${({ theme }) => theme.color.main};
-    background: ${({ theme }) => theme.color.text2};
-    box-shadow: ${({ theme, noShadow }) => (noShadow ? 'none' : theme.shadow.button)};
-    cursor: pointer;
-
-    font-style: normal;
-    font-weight: ${({ size }) => (size === 'sm' ? '500' : '900')};
-    font-size: ${({ size }) => (size === 'sm' ? '14px' : '20px')};
-    line-height: 16px;
-    text-align: center;
-
-    user-select: none;
-
-    :disabled {
-        opacity: 0.5;
-        cursor: auto;
-    }
-`

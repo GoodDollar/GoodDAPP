@@ -33,6 +33,7 @@ import {
     RedirectPathToSwapOnly,
     RedirectToSwap
 } from './pages/Swap/redirects'
+import Portfolio from './pages/Portfolio'
 // import Tools from './pages/Tools'
 // import Vesting from './pages/Vesting'
 // import Yield from './pages/Yield'
@@ -59,6 +60,7 @@ function Routes(): JSX.Element {
                 render={props => <Redirect to="/bento/kashi/borrow" {...props} />}
             />*/}
             <Route exact strict path="/stakes" component={LendMarkets} />
+            <Route exact strict path="/portfolio" component={Portfolio} />
             {/*<WalletRoute exact strict path="/bento/kashi/borrow" component={BorrowMarkets} />*/}
             {/*<WalletRoute exact strict path="/bento/kashi/create" component={CreateMarkets} />*/}
             {/*<Route exact strict path="/stakes/:pairAddress" component={LendPair} />*/}

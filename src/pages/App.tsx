@@ -11,6 +11,17 @@ import { parse } from 'qs'
 import isEqual from 'lodash/isEqual'
 import SideBar from '../components/SideBar'
 import useTheme from '../hooks/useTheme'
+import styled from 'styled-components'
+
+export const Beta = styled.div`
+    font-style: normal;
+    font-weight: bold;
+    font-size: 14px;
+    line-height: 166%;
+    letter-spacing: 0.35px;
+    text-transform: uppercase;
+    color: ${({ theme }) => theme.color.text5};
+`
 
 function App(): JSX.Element {
     const bodyRef = useRef<any>(null)
@@ -91,7 +102,7 @@ function App(): JSX.Element {
                     <SideBar />
                     <div
                         ref={bodyRef}
-                        className="flex flex-col items-center justify-start flex-grow h-full overflow-y-auto overflow-x-hidden z-0 pt-4 sm:pt-8 px-4 md:pt-10 pb-20"
+                        className="flex flex-col items-center justify-between flex-grow h-full overflow-y-auto overflow-x-hidden z-0 pt-4 sm:pt-8 px-4 md:pt-10 pb-8"
                         style={{
                             background: theme.color.mainBg
                         }}
@@ -99,8 +110,11 @@ function App(): JSX.Element {
                         <Popups />
                         {/*<Polling />*/}
                         <Web3ReactManager>
-                            <Routes />
+                            <div className="flex flex-col flex-glow w-full items-center justify-start">
+                                <Routes />
+                            </div>
                         </Web3ReactManager>
+                        <Beta className="mt-8">This project is in beta. Use at your own risk</Beta>
                     </div>
                 </div>
             </div>

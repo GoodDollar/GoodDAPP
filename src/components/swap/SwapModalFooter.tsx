@@ -12,7 +12,7 @@ import {
     formatExecutionPrice,
     warningSeverity
 } from '../../utils/prices'
-import { ButtonError, GDButton } from '../ButtonLegacy'
+import { ButtonError } from '../ButtonLegacy'
 import { AutoColumn } from '../Column'
 import QuestionHelper from '../QuestionHelper'
 import { AutoRow, RowBetween, RowFixed } from '../Row'
@@ -20,6 +20,7 @@ import FormattedPriceImpact from './FormattedPriceImpact'
 import { StyledBalanceMaxMini, SwapCallbackError } from './styleds'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
+import { ButtonAction } from '../gd/Button'
 
 const SwapModalFooterWrapper = styled.div`
     div {
@@ -147,7 +148,7 @@ export default function SwapModalFooter({
             </AutoColumn>
 
             <AutoRow>
-                <GDButton
+                <ButtonAction
                     onClick={onConfirm}
                     disabled={disabledConfirm}
                     error={severity > 2}
@@ -157,7 +158,7 @@ export default function SwapModalFooter({
                     <Text fontSize={20} fontWeight={500} style={{ textTransform: 'uppercase' }}>
                         {severity > 2 ? i18n._(t`Swap Anyway`) : i18n._(t`Confirm Swap`)}
                     </Text>
-                </GDButton>
+                </ButtonAction>
 
                 {swapErrorMessage ? <SwapCallbackError error={swapErrorMessage} /> : null}
             </AutoRow>

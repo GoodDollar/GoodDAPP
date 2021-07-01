@@ -15,9 +15,9 @@ import { useKashiPairs } from '../../context'
 import useSearchAndSort from 'hooks/useSearchAndSort'
 import { useLingui } from '@lingui/react'
 import styled from 'styled-components'
-import { GDButton } from '../../../components/ButtonLegacy'
 import Modal from '../../../components/Modal'
 import LendingPair from '../Pair/Lend'
+import { ButtonAction } from '../../../components/gd/Button'
 
 const Wrapper = styled.div`
     background: ${({ theme }) => theme.color.bg1};
@@ -197,7 +197,7 @@ export default function LendingMarkets(): JSX.Element | null {
                                             </div>
                                         </td>
                                         <td>
-                                            <GDButton
+                                            <ButtonAction
                                                 size="sm"
                                                 width="78px"
                                                 borderRadius="6px"
@@ -205,7 +205,7 @@ export default function LendingMarkets(): JSX.Element | null {
                                                 onClick={() => setActivePair(pair)}
                                             >
                                                 Stake
-                                            </GDButton>
+                                            </ButtonAction>
                                         </td>
                                     </tr>
                                 )

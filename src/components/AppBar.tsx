@@ -10,6 +10,8 @@ import Web3Faucet from './Web3Faucet'
 import { Disclosure } from '@headlessui/react'
 import { useLingui } from '@lingui/react'
 import styled from 'styled-components'
+import { ButtonOutlined } from './gd/Button'
+import MoreMenu from './Menu'
 
 const AppBarWrapper = styled.header`
     background: ${({ theme }) => theme.color.main};
@@ -51,30 +53,47 @@ function AppBar(): JSX.Element {
                                 </div>
 
                                 <div className="flex flex-row items-center justify-center w-full lg:w-auto p-4 fixed left-0 bottom-0 lg:relative lg:p-0 ransparent">
-                                    {chainId &&
-                                        [ChainId.GÖRLI, ChainId.KOVAN, ChainId.RINKEBY, ChainId.ROPSTEN].includes(
-                                            chainId
-                                        ) && <Web3Faucet />}
                                     <div className="flex items-center justify-between sm:justify-end space-x-2 w-full">
+                                        <div className="whitespace-nowrap">G$ = 1USD</div>
+                                        {chainId &&
+                                            [ChainId.GÖRLI, ChainId.KOVAN, ChainId.RINKEBY, ChainId.ROPSTEN].includes(
+                                                chainId
+                                            ) && <Web3Faucet />}
                                         {library && library.provider.isMetaMask && (
                                             <div className="hidden sm:inline-block">
                                                 <Web3Network />
                                             </div>
                                         )}
 
-                                        <div className="w-auto flex items-center rounded p-0.5 whitespace-nowrap   cursor-pointer select-none pointer-events-auto">
-                                            {account && chainId && userEthBalance && (
-                                                <>
-                                                    <div className="py-2 px-3  bold">
-                                                        {userEthBalance?.toSignificant(4)}{' '}
-                                                        {Currency.getNativeCurrencySymbol(chainId)}
-                                                    </div>
-                                                </>
-                                            )}
-                                            <Web3Status />
-                                        </div>
+                                        <ButtonOutlined className="pr-1">
+                                            <div className="w-auto flex items-center rounded p-0.5 whitespace-nowrap   cursor-pointer select-none pointer-events-auto">
+                                                {account && chainId && userEthBalance && (
+                                                    <>
+                                                        <div className="py-2 px-3  bold">
+                                                            {userEthBalance?.toSignificant(4)}{' '}
+                                                            {Currency.getNativeCurrencySymbol(chainId)}
+                                                        </div>
+                                                    </>
+                                                )}
+                                                <Web3Status />
+                                            </div>
+                                        </ButtonOutlined>
+                                        <svg
+                                            width="29"
+                                            height="29"
+                                            viewBox="0 0 29 29"
+                                            fill="none"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            className="flex-shrink-0"
+                                        >
+                                            <path
+                                                d="M24.1667 18.4996L28.1662 14.5L24.1667 10.5004V4.83332H18.4996L14.5 0.83374L10.5004 4.83332H4.83332V10.5004L0.83374 14.5L4.83332 18.4996V24.1667H10.5004L14.5 28.1662L18.4996 24.1667H24.1667V18.4996ZM14.5 21.75V7.24999C18.4996 7.24999 21.75 10.5004 21.75 14.5C21.75 18.4996 18.4996 21.75 14.5 21.75Z"
+                                                fill="#00B0FF"
+                                            />
+                                        </svg>
+
                                         {/*<LanguageSwitch />*/}
-                                        {/*<MoreMenu />*/}
+                                        <MoreMenu />
                                     </div>
                                 </div>
                                 {/*<div className="-mr-2 flex sm:hidden">

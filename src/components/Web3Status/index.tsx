@@ -168,6 +168,13 @@ function StatusIcon({ connector }: { connector: AbstractConnector }) {
     return null
 }
 
+const Web3StatusInnerSC = styled.div`
+    color: ${({ theme }) => theme.color.input};
+    background: ${({ theme }) => theme.color.bg2};
+    box-shadow: ${({ theme }) => theme.shadow.settings};
+    border-radius: 3px;
+`
+
 function Web3StatusInner() {
     const { i18n } = useLingui()
     const { account, connector, error } = useWeb3React()
@@ -189,7 +196,7 @@ function Web3StatusInner() {
 
     if (account) {
         return (
-            <div
+            <Web3StatusInnerSC
                 id="web3-status-connected"
                 className="flex items-center rounded-lg   py-2 px-3"
                 onClick={toggleWalletModal}
@@ -204,8 +211,7 @@ function Web3StatusInner() {
                 ) : (
                     <div className="mr-2">{ENSName || shortenAddress(account)}</div>
                 )}
-                {!hasPendingTransactions && connector && <StatusIcon connector={connector} />}
-            </div>
+            </Web3StatusInnerSC>
         )
     } else if (error) {
         return (

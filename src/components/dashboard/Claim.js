@@ -251,7 +251,7 @@ const Claim = props => {
   // Format transformer function for claimed G$ amount
   const extraInfoAmountFormatter = useCallback(number => formatWithSIPrefix(weiToGd(number)), [])
 
-  const [nextClaim, updateTimer] = useTimer()
+  const [nextClaim, isReachedZero, updateTimer] = useTimer()
 
   const gatherStats = useCallback(
     async (all = false) => {
@@ -443,7 +443,14 @@ const Claim = props => {
     }
 
     return stopPolling
-  }, [appState, dailyUbi, startPolling, stopPolling])
+  }, [appState, dailyUbi])
+
+  useEffect(() => {
+    // trigger getting stats if reached time to claim, to make sure everything is update since we refresh
+    if (isReachedZero) {
+      gatherStats()
+    }
+  }, [isReachedZero])
 
   useEffect(() => {
     const init = async () => {

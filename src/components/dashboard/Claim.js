@@ -433,8 +433,9 @@ const Claim = props => {
   const [startPolling, stopPolling] = useInterval(gatherStats, 10000)
 
   useEffect(() => {
-    // do not poll blockchain when in background
-    if (appState === 'active') {
+    // poll blockchain only if the app not in background
+    // and the claim timer haven't reached zero
+    if (appState === 'active' && !dailyUbi) {
       // refresh all stats when returning back to app
       // or dailyUbi changed meaning a new cycle started
       // and start polling once refreshed

@@ -15,11 +15,9 @@ class FeedDB {
 
   publicKey
 
-  db = new Database(
-    'feed',
-    { name: 'Feed', schema: FeedItemSchema, indexes: [{ path: 'date' }, { path: 'data.hashedCode' }] },
-    { name: 'EncryptedFeed' },
-  )
+  db
+
+  isReady = false
 
   constructor() {
     this.ready = new Promise((resolve, reject) => {
@@ -30,6 +28,11 @@ class FeedDB {
 
   async init(pkeySeed, publicKey) {
     try {
+      this.db = new Database(
+        `feed_${publicKey}`,
+        { name: 'Feed', schema: FeedItemSchema, indexes: [{ path: 'date' }, { path: 'data.hashedCode' }] },
+        { name: 'EncryptedFeed' },
+      )
       const seed = Uint8Array.from(Buffer.from(pkeySeed, 'hex'))
       this.privateKey = TextileCrypto.PrivateKey.fromRawEd25519Seed(seed)
       this.publicKey = publicKey
@@ -40,6 +43,7 @@ class FeedDB {
       // if ((await this.Feed.count()) === 0) {
       // await this._syncFromLocalStorage()
       this.resolve()
+      this.isReady = true
     } catch (e) {
       log.error('failed initializing', e.message, e)
       this.reject(e)
@@ -54,6 +58,7 @@ class FeedDB {
 
     const app = new Realm.App({ id: REALM_APP_ID })
     const jwt = await AsyncStorage.getItem(JWT)
+    log.debug('initRealmDB', { jwt, REALM_APP_ID })
     const credentials = Realm.Credentials.jwt(jwt)
     try {
       // Authenticate the user
@@ -74,6 +79,7 @@ class FeedDB {
     await this.Feed.clear()
     let items = await AsyncStorage.getItem('GD_feed').then(_ => Object.values(_ || {}))
     items.forEach(i => {
+      i._id = i.id
       i.date = new Date(i.date).toISOString()
       i.createdDate = new Date(i.createdDate).toISOString()
     })
@@ -89,6 +95,7 @@ class FeedDB {
       log.warn('Feed item missing _id', { feedItem })
       throw new Error('feed item missing id')
     }
+    feedItem._id = feedItem.id
     await this.Feed.save(feedItem)
     this.encrypt(feedItem)
 

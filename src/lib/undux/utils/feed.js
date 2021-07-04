@@ -2,7 +2,7 @@
 import type { Store } from 'undux'
 import { throttle } from 'lodash'
 import Config from '../../../config/config'
-import userStorage from '../../gundb/UserStorage'
+import userStorage from '../../userStorage/UserStorage'
 import pino from '../../logger/pino-logger'
 import { assertStore } from '../SimpleStore'
 

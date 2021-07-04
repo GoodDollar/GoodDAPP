@@ -1,6 +1,6 @@
 import { filter } from 'lodash'
 
-import userStorage from '../gundb/UserStorage'
+import userStorage from '../userStorage/UserStorage'
 import Config from '../../config/config'
 import { fireEvent } from '../analytics/analytics'
 import logger from '../logger/pino-logger'

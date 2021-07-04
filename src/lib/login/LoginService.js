@@ -61,7 +61,11 @@ class LoginService {
     throw new Error('Method not implemented')
   }
 
-  async auth(): Promise<?Credentials | Error> {
+  async auth(refresh = false): Promise<?Credentials | Error> {
+    if (refresh) {
+      AsyncStorage.setItem(JWT, null)
+    }
+
     let creds = await this.getCredentials()
 
     if (!creds) {

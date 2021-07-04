@@ -17,7 +17,7 @@ import { initBGFetch } from '../../lib/notifications/backgroundFetch'
 import { createStackNavigator } from '../appNavigation/stackNavigation'
 import { initTransferEvents } from '../../lib/undux/utils/account'
 
-import userStorage from '../../lib/gundb/UserStorage'
+import userStorage from '../../lib/userStorage/UserStorage'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import useAppState from '../../lib/hooks/useAppState'
 import { PushButton } from '../appNavigation/PushButton'

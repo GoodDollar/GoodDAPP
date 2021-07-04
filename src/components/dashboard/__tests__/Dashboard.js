@@ -3,7 +3,7 @@ import { createBrowserApp } from '@react-navigation/web'
 import React from 'react'
 import renderer from 'react-test-renderer'
 import { StoresWrapper } from '../../../lib/undux/utils/storeswrapper.js'
-import userStorage from '../../../lib/gundb/UserStorage'
+import userStorage from '../../../lib/userStorage/UserStorage'
 import { withThemeProvider } from '../../../__tests__/__util__'
 import { getComponentWithMocks } from './__util__'
 

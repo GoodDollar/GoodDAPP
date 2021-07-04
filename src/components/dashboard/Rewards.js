@@ -12,7 +12,7 @@ import Config from '../../config/config'
 import logger from '../../lib/logger/pino-logger'
 import { openLink } from '../../lib/utils/linking'
 
-import userStorage from '../../lib/gundb/UserStorage'
+import userStorage from '../../lib/userStorage/UserStorage'
 
 const log = logger.child({ from: 'RewardsTab' })
 

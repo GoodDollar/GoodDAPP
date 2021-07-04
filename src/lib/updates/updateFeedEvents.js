@@ -1,5 +1,5 @@
 import { get } from 'lodash'
-import userStorage from '../gundb/UserStorage'
+import userStorage from '../userStorage/UserStorage'
 
 const fromDate = new Date('2021/06/17')
 

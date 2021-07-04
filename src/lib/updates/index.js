@@ -8,9 +8,10 @@ import logger from '../logger/pino-logger'
 import profileFix from './profileFix'
 import uploadAvatars from './avatar'
 import updateFeedEvents from './updateFeedEvents'
+import upgradeRealmDB from './upgradeRealmdb'
 
 const log = logger.child({ from: 'updates' })
-const updates = [uploadAvatars, profileFix, updateFeedEvents]
+const updates = [uploadAvatars, profileFix, updateFeedEvents, upgradeRealmDB]
 
 const update = async () => {
   const updatesData = (await userStorage.userProperties.get('updates')) || {

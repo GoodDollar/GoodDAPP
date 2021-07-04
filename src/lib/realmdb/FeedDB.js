@@ -75,6 +75,20 @@ class FeedDB {
     }
   }
 
+  async _syncFromRemote() {
+    const lastSync = (await AsyncStorage.getItem('GD_lastRealmSync')) || 0
+    const newItems = (await this.EncryptedFeed.find({
+      user_id: this.user.id,
+      date: { $gte: new Date(lastSync) },
+    })).filter(_ => !_._id.includes('settings'))
+    log.debug('_syncFromRemote', { newItems, lastSync })
+    AsyncStorage.setItem('GD_lastRealmSync', Date.now())
+    if (newItems.length) {
+      const decrypted = newItems.map(i => this._decrypt(i))
+      this.Feed.save(decrypted)
+    }
+  }
+
   async _syncFromLocalStorage() {
     await this.Feed.clear()
     let items = await AsyncStorage.getItem('GD_feed').then(_ => Object.values(_ || {}))
@@ -144,14 +158,25 @@ class FeedDB {
     // eslint-disable-next-line camelcase
     const user_id = this.user.id
 
-    return this.EncryptedFeed.updateOne({ txHash, user_id }, { txHash, user_id, encrypted }, { upsert: true })
+    return this.EncryptedFeed.updateOne(
+      { txHash, user_id },
+      { txHash, user_id, encrypted, date: feedItem.date },
+      { upsert: true },
+    )
   }
 
   async decrypt(id) {
-    const { encrypted } = await this.EncryptedFeed.findOne({ txHash: id, user_id: this.user.id })
-    const decrypted = await this.privateKey.decrypt(Uint8Array.from(Buffer.from(encrypted, 'base64')))
-    const item = JSON.parse(new TextDecoder().decode(decrypted))
-    return item
+    try {
+      const item = await this.EncryptedFeed.findOne({ txHash: id, user_id: this.user.id })
+      return this._decrypt(item)
+    } catch (e) {
+      log.warn('unable to decrypt item:', id)
+    }
+  }
+
+  async _decrypt(item) {
+    const decrypted = await this.privateKey.decrypt(Uint8Array.from(Buffer.from(item.encrypted, 'base64')))
+    return JSON.parse(new TextDecoder().decode(decrypted))
   }
 
   // // eslint-disable-next-line require-await

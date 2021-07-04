@@ -510,6 +510,8 @@ export class UserStorage {
       return
     }
 
+    const seed = this.wallet.wallet.eth.accounts.wallet[this.wallet.getAccountForType('gundb')].privateKey.slice(2)
+    await this.feedDB.init(seed, this.wallet.getAccountForType('gundb')) //only once user is registered he has access to realmdb via signed jwt
     await this.initFeed()
 
     // get trusted GoodDollar indexes and pub key
@@ -713,9 +715,7 @@ export class UserStorage {
    * the "false" (see gundb docs) passed is so we get the complete 'index' on every change and not just the day that changed
    */
   async initFeed() {
-    const seed = this.wallet.wallet.eth.accounts.wallet[this.wallet.getAccountForType('gundb')].privateKey.slice(2)
-    await this.feedDB.init(seed, this.wallet.getAccountForType('gundb'))
-    this.feedStorage = new FeedStorage(this.gun, this.wallet, this)
+    this.feedStorage = new FeedStorage(this.feedDB, this.gun, this.wallet, this)
     await this.feedStorage.init()
     this.startSystemFeed().catch(e => logger.error('initfeed failed initializing startSystemFeed', e.message, e))
   }
@@ -1734,7 +1734,7 @@ export class UserStorage {
    */
   saveLastBlockNumber(blockNumber: number | string): Promise<any> {
     logger.debug('saving lastBlock:', blockNumber)
-    return this.userProperties.set('lastBlock', blockNumber)
+    return this.userProperties.setLocal('lastBlock', blockNumber)
   }
 
   /**

@@ -57,6 +57,8 @@ export default class UserProperties {
 
   data: {}
 
+  local = {}
+
   constructor(storage) {
     const { defaultProperties } = UserProperties
     this.storage = storage
@@ -73,8 +75,9 @@ export default class UserProperties {
 
     this.ready = (async () => {
       const props = await AsyncStorage.getItem('props')
-
-      log.debug('found local settings:', { props })
+      const localProps = await AsyncStorage.getItem('localProps')
+      this.local = assign({}, localProps)
+      log.debug('found local settings:', { props, localProps, local: this.local })
 
       // if not props then block
       if (isNil(props)) {
@@ -100,6 +103,16 @@ export default class UserProperties {
     await this.updateAll({ [field]: value })
 
     return true
+  }
+
+  setLocal(field: string, value: any) {
+    this.local[field] = value
+    AsyncStorage.setItem('localProps', this.local)
+    return true
+  }
+
+  getLocal(field: string) {
+    return this.local[field]
   }
 
   /**

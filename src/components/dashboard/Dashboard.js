@@ -514,8 +514,11 @@ const Dashboard = props => {
   }
 
   useEffect(() => {
-    if (feedRef.current.length) {
-      getNotificationItem()
+    if (appState === 'active') {
+      if (feedRef.current.length) {
+        getNotificationItem()
+      }
+      userStorage.feedDB._syncFromRemote()
     }
   }, [appState])
 

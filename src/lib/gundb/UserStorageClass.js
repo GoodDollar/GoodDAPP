@@ -1739,7 +1739,7 @@ export class UserStorage {
    */
   saveLastBlockNumber(blockNumber: number | string): Promise<any> {
     logger.debug('saving lastBlock:', blockNumber)
-    return this.userProperties.set('lastBlock', blockNumber)
+    return this.userProperties.setLocal('lastBlock', blockNumber)
   }
 
   /**

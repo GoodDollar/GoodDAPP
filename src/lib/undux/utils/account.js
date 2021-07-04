@@ -63,7 +63,7 @@ const onBalanceChange = async (event: EventLog, store: Store) => {
  */
 let subscribed = false
 const initTransferEvents = (store: Store) => {
-  const lastBlock = userStorage.userProperties.get('lastBlock')
+  const lastBlock = userStorage.userProperties.getLocal('lastBlock') || 6400000
   log.debug('starting events listener', { lastBlock, subscribed })
   if (subscribed) {
     return

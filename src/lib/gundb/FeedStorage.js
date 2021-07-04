@@ -772,7 +772,7 @@ export class FeedStorage {
     const ack = saveDaySizePtr && saveDaySizePtr.then().catch(e => log.error('updateFeedEvent daySize', e.message, e))
 
     log.debug('updateFeedEvent done returning promise', event.id)
-    return Promise.any([saveAck, ack, eventAck]) //we use .any cause gun might get stuck
+    return Promise.race([saveAck, ack, eventAck]) //we use .any cause gun might get stuck
       .then(() => event)
       .catch(gunError => {
         const e = this._gunException(gunError)

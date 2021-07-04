@@ -153,8 +153,7 @@ jobs:
           npx appcenter distribute release --token "${{ env.APPCENTER_TOKEN }}" --app "${{ env.APPCENTER_NAME }}" --group "Collaborators" --file "${{ env.UNIVERSAL_APK_PATH }}" --release-notes "$(git log -1 --pretty=format:'%h %s')" --debug
 
       - name: Distribute to stores - QA & PROD ONLY
-      # FIXME: removed: endsWith(github.ref, '/staging') condition temporarily to prevent pushing to staging 
-      # from uploading to the play store until we republish the app
-        if: ${{ endsWith(github.ref, '/next')}}
-        run: |
-          npx appcenter distribute stores publish --token "${{ env.APPCENTER_TOKEN }}" --app "${{ env.APPCENTER_NAME }}" --store "${{ env.APPCENTER_STORE }}" --file "${{ env.UNIVERSAL_APK_PATH }}" --release-notes "$(git log -1 --pretty=format:'%h %s')"
+      # FIXME: removed condition temporarily to prevent publishing to play store until we republish the app
+        # if: ${{ endsWith(github.ref, '/next') || endsWith(github.ref, '/staging') }}
+        # run: |
+        #   npx appcenter distribute stores publish --token "${{ env.APPCENTER_TOKEN }}" --app "${{ env.APPCENTER_NAME }}" --store "${{ env.APPCENTER_STORE }}" --file "${{ env.UNIVERSAL_APK_PATH }}" --release-notes "$(git log -1 --pretty=format:'%h %s')"

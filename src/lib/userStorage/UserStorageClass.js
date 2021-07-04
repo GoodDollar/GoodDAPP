@@ -36,11 +36,10 @@ import { isValidBase64Image, isValidCIDImage, resizeImage } from '../utils/image
 import { GD_GUN_CREDENTIALS } from '../constants/localStorage'
 import AsyncStorage from '../utils/asyncStorage'
 import Base64Storage from '../nft/Base64Storage'
-import UserProperties from '../realmdb/UserProperties'
-import getFeedDB from '../realmdb/FeedDB'
 import defaultGun from '../gundb/gundb'
 import { getUserModel, type UserModel } from '../gundb//UserModel'
 import { type StandardFeed } from '../gundb/StandardFeed'
+import UserProperties from './UserProperties'
 import { FeedEvent, FeedItemType, FeedStorage, TxStatus } from './FeedStorage'
 
 const logger = pino.child({ from: 'UserStorage' })
@@ -371,9 +370,11 @@ export class UserStorage {
     return mnemonic
   }
 
-  constructor(wallet: GoodWallet, gun: Gun) {
-    this.gun = gun || defaultGun
+  constructor(wallet: GoodWallet, feeddb, userProperties) {
+    this.gun = defaultGun
     this.wallet = wallet
+    this.feedDB = feeddb
+    this.userProperties = userProperties
     this.init()
   }
 
@@ -496,9 +497,7 @@ export class UserStorage {
       pair: this.gunuser.pair(),
     })
 
-    // await Promise.all([this.initProperties(), this.initProfile()])
     this.initProfile().catch(e => logger.error('failed initializing initProfile', e.message, e))
-    await this.initProperties()
   }
 
   /**
@@ -511,19 +510,14 @@ export class UserStorage {
       return
     }
 
-    this.feedDB = getFeedDB()
-    const seed = this.wallet.wallet.eth.accounts.wallet[this.wallet.getAccountForType('gundb')].privateKey.slice(2)
-    await this.feedDB.init(seed, this.wallet.getAccountForType('gundb'))
-
-    this.feedStorage = new FeedStorage(this.gun, this.wallet, this)
-    this.initFeed()
+    await this.initFeed()
 
     // get trusted GoodDollar indexes and pub key
     let trustPromise = this.fetchTrustIndexes()
 
     logger.debug('subscribing to wallet events')
 
-    await Promise.all([trustPromise, this.feedStorage.ready])
+    await Promise.all([trustPromise])
 
     logger.debug('done initializing registered userstorage')
     this.initializedRegistered = true
@@ -543,7 +537,7 @@ export class UserStorage {
       try {
         // firstly, awaiting for wallet is ready
         await wallet.ready
-
+        await this.userProperties.ready
         const isReady = await retry(() => this.initGun(), 1) // init user storage, if exception thrown, retry init one more times
 
         logger.debug('userStorage initialized.')
@@ -719,6 +713,9 @@ export class UserStorage {
    * the "false" (see gundb docs) passed is so we get the complete 'index' on every change and not just the day that changed
    */
   async initFeed() {
+    const seed = this.wallet.wallet.eth.accounts.wallet[this.wallet.getAccountForType('gundb')].privateKey.slice(2)
+    await this.feedDB.init(seed, this.wallet.getAccountForType('gundb'))
+    this.feedStorage = new FeedStorage(this.gun, this.wallet, this)
     await this.feedStorage.init()
     this.startSystemFeed().catch(e => logger.error('initfeed failed initializing startSystemFeed', e.message, e))
   }
@@ -731,15 +728,17 @@ export class UserStorage {
     this.addStartClaimingCard()
 
     if (Config.enableInvites) {
-      inviteFriendsMessage.id = INVITE_NEW_ID
-      const bounty = await this.wallet.getUserInviteBounty()
-      inviteFriendsMessage.data.readMore = inviteFriendsMessage.data.readMore
-        .replace('100', bounty)
-        .replace('50', bounty / 2)
-      setTimeout(() => this.enqueueTX(inviteFriendsMessage), 60000) // 2 minutes
-      const firstInviteCard = this.feedStorage.feedIds['0.1']
-      if (
-        firstInviteCard &&
+      const firstInviteCard = await this.feedStorage.hasFeedItem('0.1')
+      const secondInviteCard = await this.feedStorage.hasFeedItem(INVITE_REMINDER_ID)
+      if (!firstInviteCard) {
+        inviteFriendsMessage.id = INVITE_NEW_ID
+        const bounty = await this.wallet.getUserInviteBounty()
+        inviteFriendsMessage.data.readMore = inviteFriendsMessage.data.readMore
+          .replace('100', bounty)
+          .replace('50', bounty / 2)
+        setTimeout(() => this.enqueueTX(inviteFriendsMessage), 60000) // 2 minutes
+      } else if (
+        !secondInviteCard &&
         moment(firstInviteCard.date)
           .add(2, 'weeks')
           .isBefore(moment())
@@ -756,17 +755,6 @@ export class UserStorage {
     }
 
     logger.debug('startSystemFeed: done')
-  }
-
-  /**
-   * Save user properties
-   */
-  async initProperties() {
-    // this.properties = this.gunuser.get('properties')
-
-    this.userProperties = new UserProperties(this.gun)
-    const properties = await this.userProperties.ready
-    logger.debug('init properties', { properties })
   }
 
   async initProfile() {

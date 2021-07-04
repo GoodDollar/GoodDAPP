@@ -112,7 +112,12 @@ export class FeedStorage {
   async init() {
     const receiptEvents = ['receiptReceived', 'receiptUpdated', 'otplUpdated']
 
-    receiptEvents.forEach(e => this.wallet.subscribeToEvent(e, r => this.handleReceipt(r)))
+    receiptEvents.forEach(e =>
+      this.wallet.subscribeToEvent(e, r => {
+        log.debug(`receipt callback for event ${e}:`, r.transactionHash)
+        this.handleReceipt(r)
+      }),
+    )
 
     //mark as initialized, ie resolve ready promise
 
@@ -620,6 +625,8 @@ export class FeedStorage {
     if (feedItem) {
       return feedItem
     }
+
+    log.warn('getFeedItemByTransactionHash: feed item not found', { id: transactionHash })
   }
 
   /**
@@ -851,5 +858,9 @@ export class FeedStorage {
 
   getAllFeed() {
     return this.feedDB.Feed.find().toArray()
+  }
+
+  hasFeedItem(id) {
+    return this.feedDB.Feed.has(id)
   }
 }

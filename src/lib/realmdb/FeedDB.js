@@ -21,16 +21,29 @@ class FeedDB {
     { name: 'EncryptedFeed' },
   )
 
-  async init(pkeySeed, publicKey) {
-    const seed = Uint8Array.from(Buffer.from(pkeySeed, 'hex'))
-    this.privateKey = TextileCrypto.PrivateKey.fromRawEd25519Seed(seed)
-    this.publicKey = publicKey
-    await this.db.open(1) // Versioned db on open
-    this.Feed = this.db.collection('Feed')
-    await this.initRealmDB()
+  constructor() {
+    this.ready = new Promise((resolve, reject) => {
+      this.resolve = resolve
+      this.reject = reject
+    })
+  }
 
-    // if ((await this.Feed.count()) === 0) {
-    await this._syncFromLocalStorage()
+  async init(pkeySeed, publicKey) {
+    try {
+      const seed = Uint8Array.from(Buffer.from(pkeySeed, 'hex'))
+      this.privateKey = TextileCrypto.PrivateKey.fromRawEd25519Seed(seed)
+      this.publicKey = publicKey
+      await this.db.open(1) // Versioned db on open
+      this.Feed = this.db.collection('Feed')
+      await this.initRealmDB()
+
+      // if ((await this.Feed.count()) === 0) {
+      // await this._syncFromLocalStorage()
+      this.resolve()
+    } catch (e) {
+      log.error('failed initializing', e.message, e)
+      this.reject(e)
+    }
 
     // }
     // this.initRemote().catch(e => log.error('initRemote failed', e.message, e))
@@ -61,7 +74,6 @@ class FeedDB {
     await this.Feed.clear()
     let items = await AsyncStorage.getItem('GD_feed').then(_ => Object.values(_ || {}))
     items.forEach(i => {
-      i._id = i.id
       i.date = new Date(i.date).toISOString()
       i.createdDate = new Date(i.createdDate).toISOString()
     })
@@ -73,8 +85,7 @@ class FeedDB {
   }
 
   async write(feedItem) {
-    feedItem._id = feedItem._id || feedItem.id
-    if (!feedItem._id) {
+    if (!feedItem.id) {
       log.warn('Feed item missing _id', { feedItem })
       throw new Error('feed item missing id')
     }
@@ -98,16 +109,25 @@ class FeedDB {
     const msg = new TextEncoder().encode(JSON.stringify(settings))
     const encrypted = await this.privateKey.public.encrypt(msg).then(_ => Buffer.from(_).toString('base64'))
     const _id = `${this.user.id}_settings`
-
-    return this.EncryptedFeed.updateOne({ _id }, { user_id: this.user_id, encrypted }, { upsert: true })
+    log.debug('encryptSettings:', { settings, encrypted, _id })
+    return this.EncryptedFeed.updateOne(
+      { _id, user_id: this.user.id },
+      { user_id: this.user.id, encrypted },
+      { upsert: true },
+    )
   }
 
   async decryptSettings() {
     const _id = `${this.user.id}_settings`
-    const { encrypted } = await this.EncryptedFeed.findOne({ _id })
-    const decrypted = await this.privateKey.decrypt(Uint8Array.from(Buffer.from(encrypted, 'base64')))
-    const item = JSON.parse(new TextDecoder().decode(decrypted))
-    return item
+    const encryptedSettings = await this.EncryptedFeed.findOne({ _id })
+    let settings = {}
+    if (encryptedSettings) {
+      const { encrypted } = encryptedSettings
+      const decrypted = await this.privateKey.decrypt(Uint8Array.from(Buffer.from(encrypted, 'base64')))
+      settings = JSON.parse(new TextDecoder().decode(decrypted))
+      log.debug('decrypttSettings:', { settings, _id })
+    }
+    return settings
   }
 
   async encrypt(feedItem) {

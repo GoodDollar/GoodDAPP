@@ -385,7 +385,7 @@ export class FeedStorage {
         .catch(_ => new Date())
 
       const txEvent = this.getTXEvent(txType, receipt)
-      log.debug('handleReceiptUpdate got lock:', receipt.transactionHash, { txEvent, txType, receiptDate })
+      log.debug('handleReceiptUpdate got lock:', receipt.transactionHash, { txEvent, txType })
 
       let eventTxHash = receipt.transactionHash
       if (txType === TxType.TX_OTPL_WITHDRAW || txType === TxType.TX_OTPL_CANCEL) {
@@ -414,11 +414,6 @@ export class FeedStorage {
         id: eventTxHash,
         createdDate: receiptDate.toString(),
       }
-
-      log.debug('handleReceiptUpdate getFeedItemByTransactionHash:', receipt.transactionHash, {
-        feedEvent,
-        paymentId: txEvent.data.paymentId,
-      })
 
       // cancel/withdraw are updating existing TX so we don't want to return here
       //   if (txType !== TxType.TX_OTPL_WITHDRAW && txType !== TxType.TX_OTPL_CANCEL) {
@@ -469,8 +464,6 @@ export class FeedStorage {
       log.debug('handleReceiptUpdate got enqueued event:', receipt.transactionHash, {
         initialEvent,
         feedEvent,
-        receiptDate: receiptDate.getTime(),
-        feedEventDate: new Date(feedEvent.date).getTime(),
       })
 
       // reprocess same receipt in case we updated data format, only skip strictly older
@@ -774,7 +767,7 @@ export class FeedStorage {
     const ack = saveDaySizePtr && saveDaySizePtr.then().catch(e => log.error('updateFeedEvent daySize', e.message, e))
 
     log.debug('updateFeedEvent done returning promise', event.id)
-    return Promise.any([saveAck, ack, eventAck]) //we use .any cause gun might get stuck
+    return Promise.race([saveAck, ack, eventAck]) //we use .any cause gun might get stuck
       .then(() => event)
       .catch(gunError => {
         const e = this._gunException(gunError)

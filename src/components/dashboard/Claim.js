@@ -270,7 +270,7 @@ const Claim = props => {
 
         const [
           [nextClaimMilis, entitlement],
-          { people, amount },
+          amountAndQuantity,
           activeClaimers,
           availableDistribution,
           totalFundsStaked,
@@ -278,8 +278,7 @@ const Claim = props => {
         ] = await Promise.all(promises)
 
         log.info('gatherStats:', {
-          people,
-          amount,
+          amountAndQuantity,
           nextClaimMilis,
           entitlement,
           activeClaimers,
@@ -296,6 +295,7 @@ const Claim = props => {
         }
 
         if (all) {
+          const { people, amount } = amountAndQuantity
           setPeopleClaimed(people)
           setTotalClaimed(amount)
           setActiveClaimers(activeClaimers)

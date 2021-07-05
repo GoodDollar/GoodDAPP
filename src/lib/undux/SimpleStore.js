@@ -1,9 +1,7 @@
 // @flow
 import { createConnectedStore } from 'undux'
 import { isString } from 'lodash'
-import AsyncStorage from '../utils/asyncStorage'
 
-import { IS_LOGGED_IN } from '../constants/localStorage'
 import pinoLogger from '../logger/pino-logger'
 import createStoreEffects, { unduxLogger } from './plugins'
 import { createUseCurriedSettersHook } from './utils/setter'
@@ -109,14 +107,7 @@ const { storeAccessor, storeEffects } = createStoreEffects()
  * default exported instance of our global Undux Store
  * @module
  */
-let SimpleStore: UnduxStore = createConnectedStore(initialState, storeEffects) // default value for tests
-
-const initStore = async () => {
-  let isLoggedIn = await AsyncStorage.getItem(IS_LOGGED_IN)
-  const newState = { ...initialState, isLoggedIn }
-  SimpleStore = createConnectedStore(newState, storeEffects)
-  return SimpleStore
-}
+const SimpleStore: UnduxStore = createConnectedStore(initialState, storeEffects) // default value for tests
 
 // functions which set userStorage and wallet to simple storage in init.js
 let setWallet, setUserStorage
@@ -150,7 +141,6 @@ const assertStoreSnapshot = (store, logger = unduxLogger, message = 'Operation f
 
 export {
   storeAccessor as store,
-  initStore,
   assertStore,
   assertStoreSnapshot,
   SimpleStore as default,

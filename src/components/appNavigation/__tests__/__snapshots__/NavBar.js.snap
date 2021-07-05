@@ -19,7 +19,7 @@ exports[`NavBar matches snapshot 1`] = `
       "flexDirection": "row",
       "flexGrow": 0,
       "flexShrink": 0,
-      "height": "56px",
+      "height": "55px",
       "msFlexAlign": "center",
       "msFlexDirection": "row",
       "msFlexNegative": 0,

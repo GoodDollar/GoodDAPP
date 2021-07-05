@@ -30,8 +30,8 @@ module.exports = {
     '^(?!.*\\.(js|jsx|css|json)$)': '<rootDir>/config/jest/fileTransform.js'
   },
   transformIgnorePatterns: [
-    '<rootDir>/src/lib/facetec/FaceTecSDK.web.js',
-    '<rootDir>/node_modules/(?!(jest-)?react-native|react-navigation|react-navigation-redux-helpers|react-phone-number-input|webrtc-adapter)',
+    '<rootDir>/src/lib/facetec',
+    '<rootDir>/node_modules/(?!(jest-)?nft.storage|react-native|react-navigation|react-navigation-redux-helpers|react-phone-number-input|webrtc-adapter)',
   ],
   moduleFileExtensions: [
     'web.js',

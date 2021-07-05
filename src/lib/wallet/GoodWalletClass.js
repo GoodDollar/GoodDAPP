@@ -1199,7 +1199,7 @@ export class GoodWallet {
 
   async hasJoinedInvites() {
     const user = await this.invitesContract.methods.users(this.account).call()
-    return user.joinedAt.toNumber() > 0
+    return [user.joinedAt.toNumber() > 0, user.invitedBy]
   }
 
   async joinInvites(inviter, codeLength = 10) {

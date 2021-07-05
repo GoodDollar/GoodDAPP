@@ -96,7 +96,7 @@ class TorusSDK {
       torusUser = { ...otherResponse, ...userInfo }
     }
 
-    const { name, email, privateKey } = torusUser
+    const { name, email, privateKey = '' } = torusUser
     const isLoginPhoneNumber = /\+[0-9]+$/.test(name)
     const leading = privateKey.length - 64
 

@@ -665,6 +665,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
 
   useEffect(() => {
     const backButtonHandler = new BackButtonHandler({ defaultAction: back })
+
     return () => {
       backButtonHandler.unregister()
     }

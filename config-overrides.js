@@ -14,10 +14,14 @@ module.exports = {
   jest: config => {
     config.transformIgnorePatterns = [
       '<rootDir>/src/lib/facetec',
-      '<rootDir>/node_modules/(?!(jest-)?react-native|react-navigation|react-navigation-redux-helpers|react-phone-number-input|webrtc-adapter)',
+      '<rootDir>/node_modules/(?!(jest-)?nft.storage|react-native|react-navigation|react-navigation-redux-helpers|react-phone-number-input|webrtc-adapter)',
     ]
 
-    config.setupFiles = ['react-app-polyfill/jsdom', '<rootDir>/config/initTest.js', 'jest-canvas-mock']
+    config.setupFiles = [
+      'react-app-polyfill/jsdom',
+      '<rootDir>/config/initTest.js',
+      'jest-canvas-mock'
+    ]
 
     config.globals = {
       TZ: 'UTC',

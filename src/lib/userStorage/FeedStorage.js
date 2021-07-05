@@ -120,7 +120,7 @@ export class FeedStorage {
 
     //mark as initialized, ie resolve ready promise
     await this.storage.ready
-
+    this.storage.on(data => this.emitUpdate())
     this.feedInitialized = true
     this.setReady()
 
@@ -606,7 +606,8 @@ export class FeedStorage {
     await this.ready //wait before accessing feedIds cache
 
     await this.storage.write(event)
-    this.emitUpdate({ event })
+
+    // this.emitUpdate({ event })
   }
 
   /**

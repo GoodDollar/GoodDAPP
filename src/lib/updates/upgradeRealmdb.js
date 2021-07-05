@@ -10,7 +10,5 @@ const upgradeRealmDB = async (lastUpdate, prevVersion, log) => {
   await userStorage.ready
   await userStorage.wallet.ready
   await userStorage.feedDB._syncFromLocalStorage()
-  const joinedAtBlockNumber = userStorage.userProperties.get('joinedAtBlock') || 6400000
-  await userStorage.syncTxWithBlockchain(joinedAtBlockNumber)
 }
 export default { fromDate, update: upgradeRealmDB, key: 'upgradeRealmDB' }

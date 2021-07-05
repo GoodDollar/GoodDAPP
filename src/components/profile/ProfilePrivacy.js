@@ -174,6 +174,7 @@ const ProfilePrivacy = props => {
               content={faceRecordId}
               truncateContent
               copyButtonText="Copy ID"
+              enableIndicateAction
             />
           </Section>
         </Section.Stack>

@@ -19,11 +19,26 @@ class FeedDB {
 
   isReady = false
 
+  listeners = []
+
   constructor() {
     this.ready = new Promise((resolve, reject) => {
       this.resolve = resolve
       this.reject = reject
     })
+  }
+
+  on(cb) {
+    this.listeners.push(cb)
+  }
+
+  off(cb) {
+    this.listeners = this.listeners.filter(_ => _ !== cb)
+  }
+
+  notifyChange = data => {
+    log.debug('notifyChange', { data, listeners: this.listeners.length })
+    this.listeners.map(cb => cb(data))
   }
 
   async init(pkeySeed, publicKey) {
@@ -38,8 +53,11 @@ class FeedDB {
       this.publicKey = publicKey
       await this.db.open(1) // Versioned db on open
       this.Feed = this.db.collection('Feed')
+      this.Feed.table.hook('updating', this.notifyChange)
+      this.Feed.table.hook('creating', this.notifyChange)
       await this.initRealmDB()
 
+      // this._update()
       // if ((await this.Feed.count()) === 0) {
       // await this._syncFromLocalStorage()
       this.resolve()
@@ -75,17 +93,25 @@ class FeedDB {
     }
   }
 
+  async _update() {
+    const items = await this.Feed.find().toArray()
+    items.forEach(i => this.encrypt(i))
+  }
+
   async _syncFromRemote() {
     const lastSync = (await AsyncStorage.getItem('GD_lastRealmSync')) || 0
-    const newItems = (await this.EncryptedFeed.find({
+    const newItems = await this.EncryptedFeed.find({
       user_id: this.user.id,
+      txHash: { $exists: true },
       date: { $gte: new Date(lastSync) },
-    })).filter(_ => !_._id.includes('settings'))
-    log.debug('_syncFromRemote', { newItems, lastSync })
-    AsyncStorage.setItem('GD_lastRealmSync', Date.now())
-    if (newItems.length) {
-      const decrypted = newItems.map(i => this._decrypt(i))
-      this.Feed.save(decrypted)
+    })
+    const filtered = newItems.filter(_ => !_._id.toString().includes('settings'))
+    log.debug('_syncFromRemote', { newItems, filtered, lastSync })
+    if (filtered.length) {
+      let decrypted = await Promise.all(filtered.map(i => this._decrypt(i)))
+      log.debug('_syncFromRemote', { decrypted })
+      await this.Feed.save(...decrypted)
+      AsyncStorage.setItem('GD_lastRealmSync', Date.now())
     }
   }
 
@@ -133,7 +159,7 @@ class FeedDB {
     log.debug('encryptSettings:', { settings, encrypted, _id })
     return this.EncryptedFeed.updateOne(
       { _id, user_id: this.user.id },
-      { user_id: this.user.id, encrypted },
+      { _id, user_id: this.user.id, encrypted },
       { upsert: true },
     )
   }
@@ -160,7 +186,7 @@ class FeedDB {
 
     return this.EncryptedFeed.updateOne(
       { txHash, user_id },
-      { txHash, user_id, encrypted, date: feedItem.date },
+      { txHash, user_id, encrypted, date: new Date(feedItem.date) },
       { upsert: true },
     )
   }
@@ -176,7 +202,8 @@ class FeedDB {
 
   async _decrypt(item) {
     const decrypted = await this.privateKey.decrypt(Uint8Array.from(Buffer.from(item.encrypted, 'base64')))
-    return JSON.parse(new TextDecoder().decode(decrypted))
+    const res = JSON.parse(new TextDecoder().decode(decrypted))
+    return res
   }
 
   // // eslint-disable-next-line require-await

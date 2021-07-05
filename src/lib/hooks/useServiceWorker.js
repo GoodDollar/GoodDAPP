@@ -12,6 +12,7 @@ let serviceWorkerRegistred = false
 export default () => {
   const store = SimpleStore.useStore()
   const interval = useRef()
+
   useEffect(() => {
     if (!isMobile) {
       const serviceWorker = require('../../serviceWorker')
@@ -24,6 +25,7 @@ export default () => {
           window.location.reload()
         })
       }
+
       const onRegister = reg => {
         //force check for service worker update
         reg.update()
@@ -38,6 +40,7 @@ export default () => {
         serviceWorker.register({ onRegister, onUpdate })
         serviceWorkerRegistred = true
       }
+
       if (isWebApp === false) {
         log.debug('useEffect, registering beforeinstallprompt')
 
@@ -49,6 +52,7 @@ export default () => {
         })
       }
     }
+
     setInitFunctions(store.set('wallet'), store.set('userStorage'))
     return () => interval.current && clearInterval(interval.current)
   }, [])

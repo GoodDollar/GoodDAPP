@@ -103,7 +103,44 @@ const FeedList = ({
    */
   const handleFeedActionPress = useCallback(
     ({ id, status }: FeedEvent, actions: {}) => {
-      if (!actions.canCancel) {
+      const cancelEvent = () => {
+        if (canceledFeeds.current.includes(id)) {
+          log.info('Already cancelled', id)
+          return
+        }
+
+        try {
+          canceledFeeds.current.push(id)
+          userStorage.cancelOTPLEvent(id)
+
+          goodWallet.cancelOTLByTransactionHash(id).catch(e => {
+            const uiMessage = decorate(e, ExceptionCode.E11) + `\nTransaction: ${id}`
+
+            log.error('cancel payment failed - quick actions', e.message, e, {
+              category: ExceptionCategory.Blockhain,
+              dialogShown: true,
+              id,
+            })
+
+            userStorage.updateOTPLEventStatus(id, 'pending')
+            showErrorDialog(uiMessage, ExceptionCode.E11)
+          })
+        } catch (e) {
+          const uiMessage = decorate(e, ExceptionCode.E13)
+
+          log.error('cancel payment failed - quick actions', e.message, e, { dialogShown: true })
+
+          canceledFeeds.current.pop()
+          userStorage.updateOTPLEventStatus(id, 'pending')
+          showErrorDialog(uiMessage, ExceptionCode.E13)
+        }
+      }
+
+      if (actions.canCancel) {
+        cancelEvent()
+      } else if (actions.canDelete) {
+        userStorage.deleteEvent(id).catch(e => log.error('delete event failed:', e.message, e))
+      } else {
         // if status is 'pending' trying to cancel a tx that doesn't exist will fail and may confuse the user
         log.warn(
           "Current transaction is still pending, it can't be cancelled right now",
@@ -116,39 +153,8 @@ const FeedList = ({
             dialogShown: true,
           },
         )
-        showErrorDialog("Current transaction is still pending, it can't be cancelled right now23123123")
-      } else {
-        if (canceledFeeds.current.includes(id)) {
-          log.info('Already cancelled', id)
-        } else {
-          try {
-            canceledFeeds.current.push(id)
-            userStorage.cancelOTPLEvent(id)
 
-            goodWallet.cancelOTLByTransactionHash(id).catch(e => {
-              const uiMessage = decorate(e, ExceptionCode.E11) + `\nTransaction: ${id}`
-
-              log.error('cancel payment failed - quick actions', e.message, e, {
-                category: ExceptionCategory.Blockhain,
-                dialogShown: true,
-                id,
-              })
-              userStorage.updateOTPLEventStatus(id, 'pending')
-              showErrorDialog(uiMessage, ExceptionCode.E11)
-            })
-          } catch (e) {
-            const uiMessage = decorate(e, ExceptionCode.E13)
-
-            log.error('cancel payment failed - quick actions', e.message, e, { dialogShown: true })
-            canceledFeeds.current.pop()
-            userStorage.updateOTPLEventStatus(id, 'pending')
-            showErrorDialog(uiMessage, ExceptionCode.E13)
-          }
-        }
-      }
-
-      if (actions.canDelete) {
-        userStorage.deleteEvent(id).catch(e => log.error('delete event failed:', e.message, e))
+        showErrorDialog("Current transaction is still pending, it can't be cancelled right now")
       }
 
       userStorage.userProperties.set('showQuickActionHint', false)

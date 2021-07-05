@@ -244,12 +244,7 @@ export class FeedStorage {
         return receipt.logs.find(e => e.name === 'PaymentWithdraw')
 
       case TxType.TX_OTPL_DEPOSIT:
-        return receipt.logs.find(
-          e =>
-            e.name === 'PaymentDeposit' ||
-            (e.data.to.toLowerCase() === this.wallet.oneTimePaymentsContract.address.toLowerCase() &&
-              e.data.from.toLowerCase() === this.walletAddress),
-        )
+        return receipt.logs.find(e => e.name === 'PaymentDeposit')
       case TxType.TX_SEND_GD:
         return orderBy(receipt.logs, 'e.data.value', 'desc').find(
           e => e.name === 'Transfer' && e.data.from.toLowerCase() === this.walletAddress,
@@ -390,7 +385,7 @@ export class FeedStorage {
         .catch(_ => new Date())
 
       const txEvent = this.getTXEvent(txType, receipt)
-      log.debug('handleReceiptUpdate got lock:', receipt.transactionHash, { txEvent, txType })
+      log.debug('handleReceiptUpdate got lock:', receipt.transactionHash, { txEvent, txType, receiptDate })
 
       let eventTxHash = receipt.transactionHash
       if (txType === TxType.TX_OTPL_WITHDRAW || txType === TxType.TX_OTPL_CANCEL) {
@@ -419,6 +414,11 @@ export class FeedStorage {
         id: eventTxHash,
         createdDate: receiptDate.toString(),
       }
+
+      log.debug('handleReceiptUpdate getFeedItemByTransactionHash:', receipt.transactionHash, {
+        feedEvent,
+        paymentId: txEvent.data.paymentId,
+      })
 
       // cancel/withdraw are updating existing TX so we don't want to return here
       //   if (txType !== TxType.TX_OTPL_WITHDRAW && txType !== TxType.TX_OTPL_CANCEL) {
@@ -469,10 +469,12 @@ export class FeedStorage {
       log.debug('handleReceiptUpdate got enqueued event:', receipt.transactionHash, {
         initialEvent,
         feedEvent,
+        receiptDate: receiptDate.getTime(),
+        feedEventDate: new Date(feedEvent.date).getTime(),
       })
 
       // reprocess same receipt in case we updated data format, only skip strictly older
-      // we can get receipt without having a previous feed item, so veerify .date field exists
+      // we can get receipt without having a previous feed item, so verify .date field exists
       if (feedEvent.date && receiptDate.getTime() < new Date(feedEvent.date).getTime()) {
         return feedEvent
       }
@@ -772,7 +774,7 @@ export class FeedStorage {
     const ack = saveDaySizePtr && saveDaySizePtr.then().catch(e => log.error('updateFeedEvent daySize', e.message, e))
 
     log.debug('updateFeedEvent done returning promise', event.id)
-    return Promise.race([saveAck, ack, eventAck]) //we use .any cause gun might get stuck
+    return Promise.any([saveAck, ack, eventAck]) //we use .any cause gun might get stuck
       .then(() => event)
       .catch(gunError => {
         const e = this._gunException(gunError)

@@ -63,8 +63,10 @@ const syncTXFromBlockchain = async () => {
   if (moment(lastUpdateDate).isSame(now, 'day') === false) {
     try {
       const joinedAtBlockNumber = userStorage.userProperties.get('joinedAtBlock')
+      log.debug('starting syncTXFromBlockchain', { joinedAtBlockNumber, lastUpdateDate })
       await userStorage.syncTxWithBlockchain(joinedAtBlockNumber)
       await userStorage.userProperties.set('lastTxSyncDate', now.valueOf())
+      log.debug('done syncTXFromBlockchain', { joinedAtBlockNumber, now })
     } catch (e) {
       log.warn('syncTXFromBlockchain failed', e.message, e)
     }
@@ -211,6 +213,8 @@ const AppSwitch = (props: LoadingProps) => {
     }
 
     if (ready && gdstore) {
+      userStorage.feedDB._syncFromRemote()
+      userStorage.userProperties._syncFromRemote()
       showOutOfGasError(props)
     }
   }, [gdstore, ready])

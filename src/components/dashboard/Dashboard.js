@@ -330,7 +330,6 @@ const Dashboard = props => {
   )
 
   const initDashboard = async () => {
-    await userStorage.initFeed()
     await handleFeedEvent()
     handleDeleteRedirect()
     await subscribeToFeed().catch(e => log.error('initDashboard feed failed', e.message, e))
@@ -518,7 +517,6 @@ const Dashboard = props => {
       if (feedRef.current.length) {
         getNotificationItem()
       }
-      userStorage.feedDB._syncFromRemote()
     }
   }, [appState])
 

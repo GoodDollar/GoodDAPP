@@ -20,14 +20,12 @@ export default class UserProperties {
     isMadeBackup: false,
     firstVisitApp: null,
     etoroAddCardSpending: true,
-    isAddedToHomeScreen: false,
     lastBonusCheckDate: null,
     countClaim: 0,
     regMethod: REGISTRATION_METHOD_SELF_CUSTODY,
     showQuickActionHint: true,
     registered: false,
     startClaimingAdded: false,
-    lastBlock: 6400000,
     joinedAtBlock: 6400000, // default block to start sync from
     lastTxSyncDate: 0,
     hasOpenedGoodMarket: false,
@@ -63,15 +61,6 @@ export default class UserProperties {
     const { defaultProperties } = UserProperties
     this.storage = storage
     this.data = assign({}, defaultProperties)
-    const syncProps = props => (this.data = assign({}, defaultProperties, props || {}))
-
-    const fetchProps = async () => {
-      if (this.storage.isReady) {
-        const props = await this.storage.decryptSettings()
-
-        syncProps(props)
-      }
-    }
 
     this.ready = (async () => {
       const props = await AsyncStorage.getItem('props')
@@ -81,15 +70,27 @@ export default class UserProperties {
 
       // if not props then block
       if (isNil(props)) {
-        await fetchProps()
+        await this._syncFromRemote()
       } else {
         // otherwise sync withs storage in background
-        syncProps(props)
-        fetchProps()
+        this._syncProps(props)
+        this._syncFromRemote()
       }
 
       return this.data
     })()
+  }
+
+  _syncProps(props) {
+    this.data = assign({}, UserProperties.defaultProperties, props || {})
+  }
+
+  async _syncFromRemote() {
+    if (this.storage.isReady) {
+      const props = await this.storage.decryptSettings()
+      log.debug('got remote props:', { props })
+      this._syncProps(props)
+    }
   }
 
   /**
@@ -121,7 +122,7 @@ export default class UserProperties {
    * @returns {Promise<any>}
    */
   get(field: string) {
-    return this.data[field]
+    return this.data[field] || this.local[field]
   }
 
   /**

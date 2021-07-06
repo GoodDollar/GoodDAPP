@@ -244,7 +244,7 @@ export class FeedStorage {
         return receipt.logs.find(e => e.name === 'PaymentWithdraw')
 
       case TxType.TX_OTPL_DEPOSIT:
-        return receipt.logs.find(e => e.name === 'PaymentDeposit')
+        return find(receipt.logs, { name: 'PaymentDeposit' })
       case TxType.TX_SEND_GD:
         return orderBy(receipt.logs, 'e.data.value', 'desc').find(
           e => e.name === 'Transfer' && e.data.from.toLowerCase() === this.walletAddress,

@@ -225,7 +225,6 @@ export default function WalletModal({
                             id={`connect-${key}`}
                             key={key}
                             active={option.connector && option.connector === connector}
-                            color={option.color}
                             link={option.href}
                             header={option.name}
                             subheader={null}

@@ -90,7 +90,6 @@ export default function Option({
     clickable = true,
     size,
     onClick = null,
-    color,
     header,
     subheader = null,
     icon,
@@ -101,23 +100,27 @@ export default function Option({
     clickable?: boolean
     size?: number | null
     onClick?: null | (() => void)
-    color: string
     header: React.ReactNode
     subheader: React.ReactNode | null
     icon: string
     active?: boolean
     id: string
+    /** @deprecated */
+    color?: string
 }) {
     const content = (
-        <OptionCardClickable id={id} onClick={onClick} clickable={clickable && !active} active={active}>
+        <OptionCardClickable
+            id={id}
+            onClick={clickable ? onClick : undefined}
+            clickable={clickable && !active}
+            active={active}
+        >
             <div className="flex items-center">
                 <IconWrapper size={size}>
                     <img src={icon} alt={'Icon'} />
                 </IconWrapper>
                 <OptionCardLeft>
-                    <HeaderText className="flex flex-grow justify-between" color={color}>
-                        {header}
-                    </HeaderText>
+                    <HeaderText className="flex flex-grow justify-between">{header}</HeaderText>
                     {subheader && <SubHeader>{subheader}</SubHeader>}
                 </OptionCardLeft>
             </div>

@@ -7,6 +7,8 @@ import Modal from '../Modal'
 import ModalHeader from '../ModalHeader'
 import React from 'react'
 import { useActiveWeb3React } from 'hooks/useActiveWeb3React'
+import Option from '../WalletModal/Option'
+import styled from 'styled-components'
 
 const PARAMS: {
     [chainId in ChainId]?: {
@@ -125,6 +127,24 @@ const PARAMS: {
     }
 }
 
+const TextWrapper = styled.div`
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 16px;
+    color: ${({ theme }) => theme.color.text1};
+
+    .site {
+        font-weight: 700;
+        color: ${({ theme }) => theme.color.text2};
+    }
+
+    .network {
+        font-weight: 700;
+        color: ${({ theme }) => theme.color.switch};
+    }
+`
+
 export default function NetworkModal(): JSX.Element | null {
     const { chainId, library, account } = useActiveWeb3React()
     const networkModalOpen = useModalOpen(ApplicationModal.NETWORK)
@@ -134,53 +154,33 @@ export default function NetworkModal(): JSX.Element | null {
 
     return (
         <Modal isOpen={networkModalOpen} onDismiss={toggleNetworkModal}>
-            <ModalHeader onClose={toggleNetworkModal} title="Select a Network" />
-            <div className="lg  mb-6">
-                You are currently browsing <span className=" pink">SUSHI</span>
-                <br /> on the <span className=" blue">{NETWORK_LABEL[chainId]}</span> network
-            </div>
+            <ModalHeader className="mb-1" onClose={toggleNetworkModal} title="Select network" />
+            <TextWrapper>
+                You are currently browsing <span className="site">GOOD DOLLAR</span>
+                <br /> on the <span className="network">{NETWORK_LABEL[chainId]}</span> network
+            </TextWrapper>
 
-            <div className="flex flex-col space-y-5 overflow-y-auto">
-                {[
-                    ChainId.MAINNET,
-                    ChainId.FANTOM,
-                    ChainId.BSC,
-                    ChainId.MATIC,
-                    ChainId.HECO,
-                    ChainId.XDAI,
-                    ChainId.HARMONY,
-                    ChainId.AVALANCHE,
-                    ChainId.OKEX
-                ].map((key: ChainId, i: number) => {
-                    if (chainId === key) {
+            <div className="flex flex-col space-y-5 overflow-y-auto mt-3">
+                {[ChainId.MAINNET, ChainId.FANTOM, ChainId.BSC, ChainId.MATIC, ChainId.HECO].map(
+                    (key: ChainId, i: number) => {
                         return (
-                            <button key={i} className="from-blue to-pink w-full rounded p-px">
-                                <div className="flex items-center h-full w-full rounded p-3">
-                                    <img
-                                        src={NETWORK_ICON[key]}
-                                        alt="Switch Network"
-                                        className="rounded-md mr-3 w-8 h-8"
-                                    />
-                                    <div className=" ">{NETWORK_LABEL[key]}</div>
-                                </div>
-                            </button>
+                            <Option
+                                clickable={chainId !== key}
+                                active={chainId === key}
+                                header={NETWORK_LABEL[key]}
+                                subheader={null}
+                                icon={NETWORK_ICON[key]}
+                                id={String(key)}
+                                key={key}
+                                onClick={() => {
+                                    toggleNetworkModal()
+                                    const params = PARAMS[key]
+                                    library?.send('wallet_addEthereumChain', [params, account])
+                                }}
+                            />
                         )
                     }
-                    return (
-                        <button
-                            key={i}
-                            onClick={() => {
-                                toggleNetworkModal()
-                                const params = PARAMS[key]
-                                library?.send('wallet_addEthereumChain', [params, account])
-                            }}
-                            className="flex items-center w-full rounded p-3 cursor-pointer"
-                        >
-                            <img src={NETWORK_ICON[key]} alt="Switch Network" className="rounded-md mr-2 w-8 h-8" />
-                            <div className=" ">{NETWORK_LABEL[key]}</div>
-                        </button>
-                    )
-                })}
+                )}
             </div>
         </Modal>
     )

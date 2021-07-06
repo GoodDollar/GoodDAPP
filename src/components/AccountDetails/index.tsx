@@ -20,6 +20,8 @@ import Identicon from '../Identicon'
 import { AutoRow } from '../Row'
 import Copy from './Copy'
 import Transaction from './Transaction'
+import Title from '../gd/Title'
+import { ButtonOutlined } from '../gd/Button'
 
 const HeaderRow = styled.div`
     ${({ theme }) => theme.flexRowNoWrap};
@@ -57,7 +59,6 @@ const InfoCard = styled.div`
     // border-radius: 10px;
     position: relative;
     display: grid;
-    grid-row-gap: 12px;
     margin-bottom: 20px;
 `
 
@@ -65,8 +66,12 @@ const AccountGroupingRow = styled.div`
     ${({ theme }) => theme.flexRowNoWrap};
     justify-content: space-between;
     align-items: center;
-    font-weight: 400;
-    color: ${({ theme }) => theme.text1};
+
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 19px;
+    color: ${({ theme }) => theme.color.text1};
 
     div {
         ${({ theme }) => theme.flexRowNoWrap}
@@ -101,6 +106,12 @@ const LowerSection = styled.div`
     border-bottom-left-radius: 20px;
     border-bottom-right-radius: 20px;
 
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 19px;
+    color: ${({ theme }) => theme.color.text1};
+
     h5 {
         margin: 0;
         font-weight: 400;
@@ -114,8 +125,11 @@ const AccountControl = styled.div`
     min-width: 0;
     width: 100%;
 
-    font-weight: 500;
-    font-size: 1.25rem;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 24px;
+    line-height: 28px;
+    color: ${({ theme }) => theme.color.text7};
 
     a:hover {
         text-decoration: underline;
@@ -131,20 +145,21 @@ const AccountControl = styled.div`
 `
 
 const AddressLink = styled(ExternalLink)<{ hasENS: boolean; isENS: boolean }>`
-    font-size: 0.825rem;
-    color: ${({ theme }) => theme.text3};
     margin-left: 1rem;
-    font-size: 0.825rem;
     display: flex;
-    :hover {
-        color: ${({ theme }) => theme.text2};
-    }
+
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 19px;
+    text-decoration-line: underline;
+    color: ${({ theme }) => theme.color.text2};
 `
 
 const CloseIcon = styled.div`
     position: absolute;
-    right: 1rem;
-    top: 14px;
+    right: 0;
+    top: 0;
     &:hover {
         cursor: pointer;
         opacity: 0.6;
@@ -153,7 +168,7 @@ const CloseIcon = styled.div`
 
 const CloseColor = styled(Close)`
     path {
-        stroke: ${({ theme }) => theme.text4};
+        fill: ${({ theme }) => theme.color.text8};
     }
 `
 
@@ -183,17 +198,7 @@ const TransactionListWrapper = styled.div`
     ${({ theme }) => theme.flexColumnNoWrap};
 `
 
-const WalletAction = styled(ButtonSecondary)`
-    width: fit-content;
-    font-weight: 400;
-    margin-left: 8px;
-    font-size: 0.825rem;
-    padding: 4px 6px;
-    :hover {
-        cursor: pointer;
-        text-decoration: underline;
-    }
-`
+const WalletAction = styled(ButtonOutlined)``
 
 const MainWalletAction = styled(WalletAction)`
     color: ${({ theme }) => theme.primary1};
@@ -238,7 +243,7 @@ export default function AccountDetails({
                     (connector !== injected || isMetaMask === (k === 'METAMASK'))
             )
             .map(k => SUPPORTED_WALLETS[k].name)[0]
-        return <WalletName>Connected with {name}</WalletName>
+        return `Connected with ${name}`
     }
 
     function getStatusIcon() {
@@ -301,14 +306,14 @@ export default function AccountDetails({
                 <CloseIcon onClick={toggleWalletModal}>
                     <CloseColor />
                 </CloseIcon>
-                <HeaderRow>Account</HeaderRow>
+                <Title className="text-center mb-8">Account</Title>
                 <AccountSection>
                     <YourAccount>
                         <InfoCard>
                             <AccountGroupingRow>
                                 {formatConnectorName()}
                                 <div>
-                                    {connector !== injected && connector !== walletlink && (
+                                    {/*{connector !== injected && connector !== walletlink && (
                                         <WalletAction
                                             style={{ fontSize: '.825rem', fontWeight: 400, marginRight: '8px' }}
                                             onClick={() => {
@@ -317,9 +322,10 @@ export default function AccountDetails({
                                         >
                                             Disconnect
                                         </WalletAction>
-                                    )}
+                                    )}*/}
                                     <WalletAction
-                                        style={{ fontSize: '.825rem', fontWeight: 400 }}
+                                        width={'75px'}
+                                        size="sm"
                                         onClick={() => {
                                             openOptions()
                                         }}
@@ -333,28 +339,26 @@ export default function AccountDetails({
                                     {ENSName ? (
                                         <>
                                             <div>
-                                                {getStatusIcon()}
                                                 <p> {ENSName}</p>
                                             </div>
                                         </>
                                     ) : (
                                         <>
                                             <div>
-                                                {getStatusIcon()}
                                                 <p> {account && shortenAddress(account)}</p>
                                             </div>
                                         </>
                                     )}
                                 </AccountControl>
                             </AccountGroupingRow>
-                            <AccountGroupingRow>
+                            <AccountGroupingRow className="mt-4">
                                 {ENSName ? (
                                     <>
                                         <AccountControl>
                                             <div>
                                                 {account && (
                                                     <Copy toCopy={account}>
-                                                        <span style={{ marginLeft: '4px' }}>Copy Address</span>
+                                                        <span style={{ marginLeft: '4px' }}>Copy address</span>
                                                     </Copy>
                                                 )}
                                                 {chainId && account && (
@@ -363,7 +367,6 @@ export default function AccountDetails({
                                                         isENS={true}
                                                         href={chainId && getExplorerLink(chainId, ENSName, 'address')}
                                                     >
-                                                        <LinkIcon size={16} />
                                                         <span style={{ marginLeft: '4px' }}>View on explorer</span>
                                                     </AddressLink>
                                                 )}
@@ -385,7 +388,6 @@ export default function AccountDetails({
                                                         isENS={false}
                                                         href={getExplorerLink(chainId, account, 'address')}
                                                     >
-                                                        <LinkIcon size={16} />
                                                         <span style={{ marginLeft: '4px' }}>View on explorer</span>
                                                     </AddressLink>
                                                 )}
@@ -408,9 +410,7 @@ export default function AccountDetails({
                     {renderTransactions(confirmedTransactions)}
                 </LowerSection>
             ) : (
-                <LowerSection>
-                    <TYPE.body color={theme.text1}>Your transactions will appear here...</TYPE.body>
-                </LowerSection>
+                <LowerSection>Your transactions will appear here...</LowerSection>
             )}
         </>
     )

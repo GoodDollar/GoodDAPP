@@ -1,6 +1,5 @@
 import { ChainId, Currency } from '@sushiswap/sdk'
-import React, { useEffect, useState } from 'react'
-import { useLocation } from 'react-router-dom'
+import React from 'react'
 import Logo from '../assets/images/logo.png'
 import { useActiveWeb3React } from '../hooks/useActiveWeb3React'
 import { useETHBalances } from '../state/wallet/hooks'
@@ -25,23 +24,11 @@ const AppBarWrapper = styled.header`
 function AppBar(): JSX.Element {
     const { i18n } = useLingui()
     const { account, chainId, library } = useActiveWeb3React()
-    const { pathname } = useLocation()
-
-    const [navClassList, setNavClassList] = useState('w-screen gradiant-z-10 backdrop-filter backdrop-blur')
-
     const userEthBalance = useETHBalances(account ? [account] : [])?.[account ?? '']
-
-    useEffect(() => {
-        if (pathname === '/trade') {
-            setNavClassList('w-screen z-10 backdrop-filter backdrop-blur')
-        } else {
-            setNavClassList('w-screen gradiant-z-10 backdrop-filter backdrop-blur')
-        }
-    }, [pathname])
 
     return (
         <AppBarWrapper className="flex flex-row flex-nowrap justify-between w-screen relative z-10">
-            <Disclosure as="nav" className={navClassList}>
+            <Disclosure as="nav" className="w-screen gradiant-z-10 backdrop-filter backdrop-blur">
                 {({ open }) => (
                     <>
                         <div className="px-4 py-1.5">
@@ -65,19 +52,21 @@ function AppBar(): JSX.Element {
                                             </div>
                                         )}
 
-                                        <ButtonOutlined className="pr-1">
-                                            <div className="w-auto flex items-center rounded p-0.5 whitespace-nowrap   cursor-pointer select-none pointer-events-auto">
-                                                {account && chainId && userEthBalance && (
-                                                    <>
-                                                        <div className="py-2 px-3  bold">
-                                                            {userEthBalance?.toSignificant(4)}{' '}
-                                                            {Currency.getNativeCurrencySymbol(chainId)}
-                                                        </div>
-                                                    </>
-                                                )}
+                                        {account && chainId && userEthBalance ? (
+                                            <ButtonOutlined className="pr-1">
+                                                <div className="w-auto flex items-center rounded p-0.5 whitespace-nowrap   cursor-pointer select-none pointer-events-auto">
+                                                    <div className="py-2 px-3  bold">
+                                                        {userEthBalance?.toSignificant(4)}{' '}
+                                                        {Currency.getNativeCurrencySymbol(chainId)}
+                                                    </div>
+                                                    <Web3Status />
+                                                </div>
+                                            </ButtonOutlined>
+                                        ) : (
+                                            <div className="pr-1">
                                                 <Web3Status />
                                             </div>
-                                        </ButtonOutlined>
+                                        )}
                                         <svg
                                             width="29"
                                             height="29"

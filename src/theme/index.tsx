@@ -97,6 +97,7 @@ export function theme(darkMode: boolean) {
             text4: '#42454A',
             text5: '#8f9bb3',
             text6: '#1A1F38',
+            text7: 'rgba(14, 39, 60, 0.7)',
             input: '#173046',
             button1: 'rgba(0, 176, 255, 0.1)',
             bg1: '#f6f8fa',

@@ -8,6 +8,7 @@ import { t } from '@lingui/macro'
 import { I18n } from '@lingui/core'
 import { useLingui } from '@lingui/react'
 import useTheme from '../hooks/useTheme'
+import styled from 'styled-components'
 
 const items = (i18n: I18n) => [
     {
@@ -37,6 +38,27 @@ const items = (i18n: I18n) => [
     }
 ]
 
+const MenuLink = styled(ExternalLink)`
+    white-space: nowrap;
+
+    .link-name {
+        font-style: normal;
+        font-weight: bold;
+        font-size: 18px;
+        line-height: 21px;
+        color: ${({ theme }) => theme.color.text7};
+    }
+
+    .link-description {
+        font-style: normal;
+        font-weight: normal;
+        font-size: 16px;
+        line-height: 166%;
+        letter-spacing: 0.35px;
+        color: ${({ theme }) => theme.color.text5};
+    }
+`
+
 export default function Menu() {
     const { i18n } = useLingui()
     const solutions = items(i18n)
@@ -49,7 +71,7 @@ export default function Menu() {
                     <Popover.Button className={classNames(open ? '' : '', 'focus:outline-none')}>
                         <MenuIcon
                             title="More"
-                            className={classNames(open ? '' : '', 'inline-flex items-center ml-2 h-5 w-5 group- ')}
+                            className={classNames(open ? '' : '', 'inline-flex items-center ml-2 h-5 w-5')}
                             aria-hidden="true"
                         />
                     </Popover.Button>
@@ -66,24 +88,25 @@ export default function Menu() {
                     >
                         <Popover.Panel
                             static
-                            className="absolute z-10 bottom-12 lg:top-12 left-full transform -translate-x-full mt-3 px-2 w-screen max-w-xs sm:px-0"
+                            className="absolute z-10 bottom-12 lg:top-12 left-full transform -translate-x-full mt-3 px-2 sm:px-0"
                         >
                             <div
                                 className="rounded-lg ring-1 ring-black ring-opacity-5 overflow-hidden"
                                 style={{
-                                    background: theme.color.main
+                                    background: theme.color.main,
+                                    width: 384
                                 }}
                             >
-                                <div className="relative grid gap-6 px-5 py-6 sm:gap-8 sm:p-8">
+                                <div className="relative grid gap-6 px-4 py-4 sm:gap-8 sm:p-8">
                                     {solutions.map(item => (
-                                        <ExternalLink
+                                        <MenuLink
                                             key={item.name}
                                             href={item.href}
-                                            className="-m-3 p-3 block rounded-md transition ease-in-out duration-150"
+                                            className="-m-3 p-2 block rounded-md transition ease-in-out duration-150"
                                         >
-                                            <p className="  ">{item.name}</p>
-                                            <p className="mt-1  ">{item.description}</p>
-                                        </ExternalLink>
+                                            <p className="link-name">{item.name}</p>
+                                            <p className="link-description">{item.description}</p>
+                                        </MenuLink>
                                     ))}
                                 </div>
                             </div>

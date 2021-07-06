@@ -18,20 +18,18 @@ import AccountDetails from '../AccountDetails'
 import Modal from '../Modal'
 import Option from './Option'
 import PendingView from './PendingView'
+import Title from '../gd/Title'
 
 const CloseIcon = styled.div`
     position: absolute;
-    right: 1rem;
-    top: 14px;
-    &:hover {
-        cursor: pointer;
-        opacity: 0.6;
-    }
+    right: 0;
+    top: 0;
+    cursor: pointer;
 `
 
 const CloseColor = styled(Close)`
     path {
-        stroke: ${({ theme }) => theme.text4};
+        fill: ${({ theme }) => theme.color.text8};
     }
 `
 
@@ -328,23 +326,8 @@ export default function WalletModal({
                 <CloseIcon onClick={toggleWalletModal}>
                     <CloseColor />
                 </CloseIcon>
-                {walletView !== WALLET_VIEWS.ACCOUNT ? (
-                    <HeaderRow color="blue">
-                        <HoverText
-                            onClick={() => {
-                                setPendingError(false)
-                                setWalletView(WALLET_VIEWS.ACCOUNT)
-                            }}
-                        >
-                            Back
-                        </HoverText>
-                    </HeaderRow>
-                ) : (
-                    <HeaderRow>
-                        <HoverText>Connect to a wallet</HoverText>
-                    </HeaderRow>
-                )}
-                <ContentWrapper>
+                <Title className="text-center">Connect wallet</Title>
+                <ContentWrapper className="mt-8">
                     {walletView === WALLET_VIEWS.PENDING ? (
                         <PendingView
                             connector={pendingWallet}
@@ -355,12 +338,12 @@ export default function WalletModal({
                     ) : (
                         <OptionGrid>{getOptions()}</OptionGrid>
                     )}
-                    {walletView !== WALLET_VIEWS.PENDING && (
+                    {/*{walletView !== WALLET_VIEWS.PENDING && (
                         <Blurb>
                             <span>New to Ethereum? &nbsp;</span>{' '}
                             <ExternalLink href="https://ethereum.org/wallets/">Learn more about wallets</ExternalLink>
                         </Blurb>
-                    )}
+                    )}*/}
                 </ContentWrapper>
             </UpperSection>
         )

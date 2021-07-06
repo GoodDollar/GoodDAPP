@@ -98,10 +98,12 @@ export function theme(darkMode: boolean) {
             text5: '#8f9bb3',
             text6: '#1A1F38',
             text7: 'rgba(14, 39, 60, 0.7)',
+            text8: '#696D73',
             input: '#173046',
             button1: 'rgba(0, 176, 255, 0.1)',
             bg1: '#f6f8fa',
-            switch: '#1FC2AF'
+            switch: '#1FC2AF',
+            hover: 'rgba(31,194,175,0.1)'
         },
         shadow: {
             header: '0px 0px 16px rgba(206, 211, 218, 0.33815)',

@@ -3,16 +3,11 @@ import styled from 'styled-components'
 import { ExternalLink } from '../../theme'
 
 const InfoCard = styled.button<{ active?: boolean }>`
-    //background-color: ${({ theme, active }) => (active ? theme.bg3 : theme.bg2)};
     padding: 1rem;
     outline: none;
-    border: 1px solid;
-    border-radius: ${({ theme }) => theme.borderRadius};
+    border-radius: 6px;
     width: 100% !important;
-    &:focus {
-        box-shadow: 0 0 0 1px ${({ theme }) => theme.primary1};
-    }
-    border-color: ${({ theme, active }) => (active ? 'transparent' : theme.bg3)};
+    border: 1px solid ${({ theme, active }) => (active ? theme.color.switch : 'transparent')};
 `
 
 const OptionCard = styled(InfoCard as any)`
@@ -34,7 +29,7 @@ const OptionCardClickable = styled(OptionCard as any)<{ clickable?: boolean }>`
     margin-top: 0;
     &:hover {
         cursor: ${({ clickable }) => (clickable ? 'pointer' : '')};
-        border: ${({ clickable, theme }) => (clickable ? `1px solid ${theme.primary1}` : ``)};
+        background: ${({ theme }) => theme.color.hover};
     }
     opacity: ${({ disabled }) => (disabled ? '0.5' : '1')};
 `
@@ -62,9 +57,11 @@ const CircleWrapper = styled.div`
 
 const HeaderText = styled.div`
     ${({ theme }) => theme.flexRowNoWrap};
-    color: ${props => (props.color === 'blue' ? ({ theme }) => theme.primary1 : ({ theme }) => theme.text1)};
-    font-size: 1rem;
-    font-weight: 500;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 21px;
+    color: ${({ theme }) => theme.color.text7};
 `
 
 const SubHeader = styled.div`
@@ -75,6 +72,7 @@ const SubHeader = styled.div`
 
 const IconWrapper = styled.div<{ size?: number | null }>`
     ${({ theme }) => theme.flexColumnNoWrap};
+    margin-right: 16px;
     align-items: center;
     justify-content: center;
     & > img,
@@ -112,24 +110,25 @@ export default function Option({
 }) {
     const content = (
         <OptionCardClickable id={id} onClick={onClick} clickable={clickable && !active} active={active}>
-            <OptionCardLeft>
-                <HeaderText color={color}>
-                    {active ? (
-                        <CircleWrapper>
-                            <GreenCircle>
-                                <div />
-                            </GreenCircle>
-                        </CircleWrapper>
-                    ) : (
-                        ''
-                    )}
-                    {header}
-                </HeaderText>
-                {subheader && <SubHeader>{subheader}</SubHeader>}
-            </OptionCardLeft>
-            <IconWrapper size={size}>
-                <img src={icon} alt={'Icon'} />
-            </IconWrapper>
+            <div className="flex items-center">
+                <IconWrapper size={size}>
+                    <img src={icon} alt={'Icon'} />
+                </IconWrapper>
+                <OptionCardLeft>
+                    <HeaderText className="flex flex-grow justify-between" color={color}>
+                        {header}
+                    </HeaderText>
+                    {subheader && <SubHeader>{subheader}</SubHeader>}
+                </OptionCardLeft>
+            </div>
+            {active && (
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM10 17L5 12L6.41 10.59L10 14.17L17.59 6.58L19 8L10 17Z"
+                        fill="#1FC2AF"
+                    />
+                </svg>
+            )}
         </OptionCardClickable>
     )
     if (link) {

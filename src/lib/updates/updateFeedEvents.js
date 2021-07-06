@@ -1,6 +1,6 @@
 import wallet from '../wallet/GoodWallet'
 
-const fromDate = new Date('2021/06/21')
+const fromDate = new Date('2021/07/5')
 
 /**
  * fix broken feed items

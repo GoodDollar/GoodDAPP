@@ -1,7 +1,8 @@
 import { useEffect, useMemo, useState } from 'react'
 
-import Base64Storage from '../nft/Base64Storage'
-import { isValidBase64Image, isValidCIDImage } from '../utils/image'
+import UserAvatarStorage from '../gundb/UserAvatarStorage'
+import { isValidBase64Image } from '../utils/image'
+import { isValidCID } from '../utils/ipfs'
 
 export default (avatar, skipCache = false) => {
   const cachedBase64 = useMemo(() => {
@@ -24,12 +25,12 @@ export default (avatar, skipCache = false) => {
       return
     }
 
-    if (!isValidCIDImage(avatar)) {
+    if (!isValidCID(avatar)) {
       return
     }
 
     // otherwise we're checking is it a valid CID and trying to load it from thes ipfs
-    Base64Storage.load(avatar, skipCache)
+    UserAvatarStorage.load(avatar, skipCache)
       .catch(() => null)
       .then(base64 => {
         if (!base64) {

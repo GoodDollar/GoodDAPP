@@ -1,7 +1,7 @@
 import { useEffect, useMemo } from 'react'
 import { first, last } from 'lodash'
 
-import { isGoodDollarImage, isValidLocalImage, isValidRootImage } from '../utils/image'
+import { isGoodDollarImage } from '../utils/image'
 import logger from '../logger/pino-logger'
 import useProfileAvatar from './useProfileAvatar'
 
@@ -13,11 +13,6 @@ export default (source, skipCache = false) => {
     // GD logo (-1)
     if (isGoodDollarImage(source)) {
       return [true, null]
-    }
-
-    // local (require()) image (numbers > 0) or relative url (starts with /)
-    if (isValidLocalImage(source) || isValidRootImage(source)) {
-      return [false, source]
     }
 
     // if no match - return null

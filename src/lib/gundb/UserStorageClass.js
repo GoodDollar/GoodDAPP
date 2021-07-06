@@ -32,11 +32,12 @@ import API from '../API/api'
 import pino from '../logger/pino-logger'
 import { ExceptionCategory } from '../logger/exceptions'
 import isMobilePhone from '../validators/isMobilePhone'
-import { isValidBase64Image, isValidCIDImage, resizeImage } from '../utils/image'
+import { isValidBase64Image, resizeImage } from '../utils/image'
+import { isValidCID } from '../utils/ipfs'
 
 import { GD_GUN_CREDENTIALS } from '../constants/localStorage'
 import AsyncStorage from '../utils/asyncStorage'
-import Base64Storage from '../nft/Base64Storage'
+import UserAvatarStorage from './UserAvatarStorage'
 import defaultGun from './gundb'
 import UserProperties from './UserPropertiesClass'
 import { getUserModel, type UserModel } from './UserModel'
@@ -650,7 +651,7 @@ export class UserStorage {
    * @returns {Promise<string>} CID
    */
   async _storeAvatar(field, avatar, withCleanup = false) {
-    const cid = await Base64Storage.store(avatar)
+    const cid = await UserAvatarStorage.store(avatar)
     // eslint-disable-next-line require-await
     const updateGunDB = async () => this.setProfileField(field, cid, 'public')
 
@@ -674,8 +675,8 @@ export class UserStorage {
     }
 
     // if avatar was a CID - delete if after GUN updated
-    if (isString(cid) && !isValidBase64Image(cid) && isValidCIDImage(cid)) {
-      await Base64Storage.delete(cid)
+    if (isString(cid) && !isValidBase64Image(cid) && isValidCID(cid)) {
+      await UserAvatarStorage.delete(cid)
     }
   }
 

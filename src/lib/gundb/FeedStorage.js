@@ -30,7 +30,7 @@ import AsyncStorage from '../utils/asyncStorage'
 import logger from '../../lib/logger/pino-logger'
 import { delay } from '../utils/async'
 import { isValidBase64Image } from '../utils/image'
-import Base64Storage from '../nft/Base64Storage'
+import UserAvatarStorage from '../gundb/UserAvatarStorage'
 
 const log = logger.child({ from: 'FeedStorage' })
 
@@ -570,7 +570,7 @@ export class FeedStorage {
 
             if (Config.nftLazyUpload && 'smallAvatar' === field && isValidBase64Image(value)) {
               // keep old base64 value if upload failed
-              value = await Base64Storage.store(value).catch(() => _value)
+              value = await UserAvatarStorage.store(value).catch(() => _value)
             }
 
             // ********************************************

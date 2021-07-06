@@ -1,7 +1,5 @@
-import { isNumber, isString } from 'lodash'
-import { isValidAsset } from './assets'
-
-const cidRe = /^[\w\d]+$/i
+import { isString } from 'lodash'
+import { File } from './ipfs'
 
 export const MAX_AVATAR_WIDTH = 600
 export const MAX_AVATAR_HEIGHT = 600
@@ -13,8 +11,46 @@ export const isValidBase64Image = source =>
 
 export const isGoodDollarImage = source => source === -1
 
-export const isValidLocalImage = source => isNumber(source) && source > 0 && isValidAsset(source)
+// converts image record to the data-url string
+// interface ImageRecord {
+//   filename: string; // uploaded file name
+//   mime: string;     // MIME-type of the image
+//   base64: string;   // image data as base64 string
+// }
+export const asDataUrl = imageRecord => {
+  const { mime, base64 } = imageRecord
 
-export const isValidRootImage = source => isString(source) && source.startsWith('/') && source.split('.').length > 1
+  return `data:${mime};base64,` + base64
+}
 
-export const isValidCIDImage = source => isString(source) && source.length >= 40 && cidRe.test(source)
+// reads File instance and converts it to the image record
+export const asImageRecord = async file => {
+  const { name, type } = file
+  const reader = new FileReader()
+
+  // using FileReader to read file as the data url asyncronously
+  const dataURL = await new Promise(resolve => {
+    reader.addEventListener('load', () => resolve(reader.result), false)
+    reader.readAsDataURL(file)
+  })
+
+  // stripping data uri scheme and mime type to get the bare base64 string
+  const base64 = dataURL.substring(dataURL.indexOf(',') + 1)
+
+  // returning ImageRecord
+  return { filename: name, mime: type, base64 }
+}
+
+// converts image record to the file instance:
+export const asFile = imageRecord => {
+  const { mime, filename, base64 } = imageRecord
+  const binary = atob(base64)
+  let offset = binary.length
+  const buffer = new Uint8Array(offset)
+
+  while (offset--) {
+    buffer[offset] = binary.charCodeAt(offset)
+  }
+
+  return new File([buffer], filename, { type: mime })
+}

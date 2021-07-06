@@ -1,21 +1,18 @@
+/* eslint require-await: "off", lines-around-comment: "off" */
 import { defer, from as fromPromise, throwError, timer } from 'rxjs'
 import { mergeMap, retryWhen } from 'rxjs/operators'
 import { assign, isError, isFunction, isObject, isString, once } from 'lodash'
 
-// eslint-disable-next-line require-await
 export const noopAsync = async () => true
 
-// eslint-disable-next-line require-await
 export const delay = async (millis, resolveWithValue = null) =>
   new Promise(resolve => setTimeout(() => resolve(resolveWithValue), millis))
 
-// eslint-disable-next-line require-await
 export const timeout = async (millis, message = null) =>
   delay(millis).then(() => {
     throw new Error(message)
   })
 
-// eslint-disable-next-line require-await
 export const retry = async (asyncFn, retries = 5, interval = 0) =>
   defer(() => fromPromise(asyncFn()))
     .pipe(
@@ -35,20 +32,28 @@ export const retry = async (asyncFn, retries = 5, interval = 0) =>
     )
     .toPromise()
 
-// eslint-disable-next-line require-await
+// custom helper implementing the fallback
+// strategy over the async functions array
 export const fallback = async asyncFns =>
-  // eslint-disable-next-line require-await
+  // calling reduce without initial accumulator
   asyncFns.reduce(async (current, next) => {
+    // first argument is the current accumulator
     let promise = current
 
+    // but if no initial accumulator, it will be set
+    // to the first array item (e.g. first function)
+    // so we're checking the type and if it's a
+    // function - calling it and using as accumulator value
     if (isFunction(current)) {
       promise = current()
     }
 
+    // to call the next function if current fails, we're
+    // putting it as the .catch(callback)
+    // finally, we're returning the promise chained
     return promise.catch(next)
   })
 
-// eslint-disable-next-line require-await
 export const promisifyGun = async callback =>
   new Promise((resolve, reject) => {
     const onAck = once(ack => {

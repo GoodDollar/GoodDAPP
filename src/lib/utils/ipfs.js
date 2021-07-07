@@ -7,7 +7,10 @@ const cidRe = /^[\w\d]+$/i
 export const isValidCID = source => isString(source) && source.length >= 40 && cidRe.test(source)
 
 // returns ipfs or of the CID's metadata.json
-export const metadataUrl = cid => `ipfs://${cid}/metadata.json`
+export const blobUrl = cid => 'ipfs://' + cid
+
+// returns ipfs url of the CID's metadata.json
+export const metadataUrl = cid => blobUrl(cid) + '/metadata.json'
 
 // parses ipfs url (e.g. ipfs://<cid>/<path>) onto cid + path
 // this is need because different gateways have different routing

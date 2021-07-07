@@ -2,7 +2,7 @@ import { assign, memoize } from 'lodash'
 
 import Config from '../../config/config'
 import { fallback } from '../utils/async'
-import { asFile, asImageRecord } from '../utils/image'
+import { fileToImageRecord } from '../utils/image'
 import { File, metadataUrl, NFTStorage, parseIpfsUrl } from '../utils/ipfs'
 
 class UserAvatarStorage {
@@ -46,9 +46,9 @@ class UserAvatarStorage {
     const asset = {
       name, // aren't used for storage, but are mandatory
       description: name, // so we're supplying full name here
-      image: asFile(smallAvatar || avatar), // small (preview) avatar, fallback to the full avatar if empty
+      image: fileToImageRecord(smallAvatar || avatar), // small (preview) avatar, fallback to the full avatar if empty
       properties: {
-        avatar: asFile(avatar), // full avatar
+        avatar: fileToImageRecord(avatar), // full avatar
       },
     }
 
@@ -133,7 +133,7 @@ class UserAvatarStorage {
       // get filename from the IPFS path,
       // create File instance from Blob,
       // convert to the image record
-      return asImageRecord(new File([blob], path, { type }))
+      return fileToImageRecord(new File([blob], path, { type }))
     })
   }
 

@@ -1,10 +1,15 @@
-import { isString } from 'lodash'
+import { isPlainObject, isString } from 'lodash'
 import { File } from './ipfs'
+
+//const base64Re = /^data:image\/(\w{3,5});base64,/i
 
 export const MAX_AVATAR_WIDTH = 600
 export const MAX_AVATAR_HEIGHT = 600
 
 export * from './imageHelpers'
+
+export const isImageRecord = source =>
+  isPlainObject(source) && ['mime', 'filename', 'base64'].every(field => field in source)
 
 export const isValidBase64Image = source =>
   isString(source) && source.startsWith('data:image/') && source.includes(';base64,')
@@ -17,14 +22,20 @@ export const isGoodDollarImage = source => source === -1
 //   mime: string;     // MIME-type of the image
 //   base64: string;   // image data as base64 string
 // }
-export const asDataUrl = imageRecord => {
+export const imageRecordToDataUrl = imageRecord => {
   const { mime, base64 } = imageRecord
 
   return `data:${mime};base64,` + base64
 }
 
+export const datUrlToImageRecord = (dataUrl, filename = 'image') => {
+  /*const { mime, base64 } = imageRecord
+
+  return `data:${mime};base64,` + base64*/
+}
+
 // reads File instance and converts it to the image record
-export const asImageRecord = async file => {
+export const fileToImageRecord = async file => {
   const { name, type } = file
   const reader = new FileReader()
 
@@ -42,7 +53,7 @@ export const asImageRecord = async file => {
 }
 
 // converts image record to the file instance:
-export const asFile = imageRecord => {
+export const imageRecordToFile = imageRecord => {
   const { mime, filename, base64 } = imageRecord
   const binary = atob(base64)
   let offset = binary.length

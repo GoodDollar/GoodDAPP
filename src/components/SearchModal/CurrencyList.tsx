@@ -27,10 +27,12 @@ function currencyKey(currency: Currency): string {
 }
 
 const StyledBalanceText = styled(Text)`
-    white-space: nowrap;
-    overflow: hidden;
-    max-width: 5rem;
-    text-overflow: ellipsis;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 14px;
+    text-align: right;
+    color: ${({ theme }) => theme.color.input};
 `
 
 const Tag = styled.div`
@@ -126,16 +128,16 @@ function CurrencyRow({
             disabled={isSelected}
             selected={otherSelected}
         >
-            <CurrencyLogo currency={currency} size={'24px'} />
+            <CurrencyLogo currency={currency} size={'32px'} />
             <Column>
-                <Text title={currency.getName(chainId)} fontWeight={500}>
+                <Text className="title" title={currency.getName(chainId)}>
                     {currency.getSymbol(chainId)}
                 </Text>
-                <TYPE.darkGray ml="0px" fontSize={'12px'} fontWeight={300}>
+                <TYPE.darkGray className="description" ml="0px">
                     {currency.getName(chainId)} {!isOnSelectedList && customAdded && '• Added by user'}
                 </TYPE.darkGray>
             </Column>
-            <TokenTags currency={currency} />
+            {<span /> || <TokenTags currency={currency} />}
             <RowFixed style={{ justifySelf: 'flex-end' }}>
                 {balance ? <Balance balance={balance} /> : account ? <Loader /> : null}
             </RowFixed>
@@ -254,7 +256,7 @@ export default function CurrencyList({
             width="100%"
             itemData={itemData}
             itemCount={itemData.length}
-            itemSize={56}
+            itemSize={66}
             itemKey={itemKey}
         >
             {Row}

@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 import { AutoColumn } from '../Column'
 import { RowBetween, RowFixed } from '../Row'
+import { Text } from 'rebass'
 
 export const ModalInfo = styled.div`
     ${({ theme }) => theme.flexRowNoWrap}
@@ -61,8 +62,8 @@ export const PaddedColumn = styled(AutoColumn)`
 `
 
 export const MenuItem = styled(RowBetween)`
-    padding: 4px 20px;
-    height: 56px;
+    padding: 10px 20px 10px 4px;
+    height: 66px;
     display: grid;
     grid-template-columns: auto minmax(auto, 1fr) auto minmax(0, 72px);
     grid-gap: 16px;
@@ -72,6 +73,23 @@ export const MenuItem = styled(RowBetween)`
         background-color: ${({ theme, disabled }) => !disabled && theme.bg2};
     }
     opacity: ${({ disabled, selected }) => (disabled || selected ? 0.5 : 1)};
+
+    .title {
+        font-style: normal;
+        font-weight: normal;
+        font-size: 18px;
+        line-height: 21px;
+        color: ${({ theme }) => theme.color.text7};
+    }
+
+    .description {
+        margin-top: 4px;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 19px;
+        color: ${({ theme }) => theme.color.text1};
+    }
 `
 
 export const SearchInput = styled.input`

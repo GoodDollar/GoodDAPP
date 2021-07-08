@@ -368,18 +368,12 @@ export class GoodWallet {
     )
 
     uniqEvents.forEach(event => {
-      this.getReceiptWithLogs(event.transactionHash)
-        .then(receipt => this.sendReceiptWithLogsToSubscribers(receipt, ['receiptUpdated']))
-        .catch(err =>
-          log.error('pollSendEvents event get/send receipt failed:', err.message, err, {
-            category: ExceptionCategory.Blockhain,
-          }),
-        )
+      this._notifyReceipt(event.transactionHash).catch(err =>
+        log.error('pollSendEvents event get/send receipt failed:', err.message, err, {
+          category: ExceptionCategory.Blockhain,
+        }),
+      )
     })
-
-    // Send for all events. We could define here different events
-    this.getSubscribers('send').forEach(cb => cb(events))
-    this.getSubscribers('balanceChanged').forEach(cb => cb(events))
   }
 
   async pollReceiveEvents(toBlock, from = null) {
@@ -412,18 +406,12 @@ export class GoodWallet {
     )
 
     uniqEvents.forEach(event => {
-      this.getReceiptWithLogs(event.transactionHash)
-        .then(receipt => this.sendReceiptWithLogsToSubscribers(receipt, ['receiptReceived']))
-        .catch(err =>
-          log.error('pollReceiveEvents event get/send receipt failed:', err.message, err, {
-            category: ExceptionCategory.Blockhain,
-          }),
-        )
+      this._notifyReceipt(event.transactionHash).catch(err =>
+        log.error('pollReceiveEvents event get/send receipt failed:', err.message, err, {
+          category: ExceptionCategory.Blockhain,
+        }),
+      )
     })
-
-    // Send for all events. We could define here different events
-    this.getSubscribers('receive').forEach(cb => cb(events))
-    this.getSubscribers('balanceChanged').forEach(cb => cb(events))
   }
 
   async pollOTPLEvents(toBlock, from = null) {
@@ -472,13 +460,11 @@ export class GoodWallet {
       _ => this.lastEventsBlock !== fromBlock || _.blockNumber > this.lastEventsBlock,
     )
     uniqEvents.forEach(event => {
-      this.getReceiptWithLogs(event.transactionHash)
-        .then(receipt => this.sendReceiptWithLogsToSubscribers(receipt, ['otplUpdated']))
-        .catch(err =>
-          log.error('pollOTPLEvents event get/send receipt failed:', err.message, err, {
-            category: ExceptionCategory.Blockhain,
-          }),
-        )
+      this._notifyReceipt(event.transactionHash).catch(err =>
+        log.error('pollOTPLEvents event get/send receipt failed:', err.message, err, {
+          category: ExceptionCategory.Blockhain,
+        }),
+      )
     })
   }
 
@@ -517,21 +503,15 @@ export class GoodWallet {
       } else {
         log.info('listenTxUpdates subscribed from', event)
 
-        this.getReceiptWithLogs(event.transactionHash)
-          .then(receipt => this.sendReceiptWithLogsToSubscribers(receipt, ['receiptUpdated']))
-          .catch(err =>
-            log.error('send event get/send receipt failed:', err.message, err, {
-              category: ExceptionCategory.Blockhain,
-            }),
-          )
+        this._notifyReceipt(event.transactionHash).catch(err =>
+          log.error('send event get/send receipt failed:', err.message, err, {
+            category: ExceptionCategory.Blockhain,
+          }),
+        )
 
         if (event && event.blockNumber && blockIntervalCallback) {
           blockIntervalCallback({ toBlock: event.blockNumber, event })
         }
-
-        // Send for all events. We could define here different events
-        this.getSubscribers('send').forEach(cb => cb(event))
-        this.getSubscribers('balanceChanged').forEach(cb => cb(event))
       }
     })
 
@@ -554,21 +534,15 @@ export class GoodWallet {
       } else {
         log.info('listenTxUpdates subscribed to', event)
 
-        this.getReceiptWithLogs(event.transactionHash)
-          .then(receipt => this.sendReceiptWithLogsToSubscribers(receipt, ['receiptReceived']))
-          .catch(err =>
-            log.error('receive event get/send receipt failed:', err.message, err, {
-              category: ExceptionCategory.Blockhain,
-            }),
-          )
+        this._notifyReceipt(event.transactionHash).catch(err =>
+          log.error('receive event get/send receipt failed:', err.message, err, {
+            category: ExceptionCategory.Blockhain,
+          }),
+        )
 
         if (event && blockIntervalCallback) {
           blockIntervalCallback({ toBlock: event.blockNumber, event })
         }
-
-        // Send for all events. We could define here different events
-        this.getSubscribers('receive').forEach(cb => cb(event))
-        this.getSubscribers('balanceChanged').forEach(cb => cb(event))
       }
     })
   }
@@ -589,13 +563,11 @@ export class GoodWallet {
         log.info('subscribeOTPL got event', { event })
 
         if (event && event.event && ['PaymentWithdraw', 'PaymentCancel'].includes(event.event)) {
-          this.getReceiptWithLogs(event.transactionHash)
-            .then(receipt => this.sendReceiptWithLogsToSubscribers(receipt, ['otplUpdated']))
-            .catch(err =>
-              log.error('send event get/send receipt failed:', err.message, err, {
-                category: ExceptionCategory.Blockhain,
-              }),
-            )
+          this._notifyReceipt(event.transactionHash).catch(err =>
+            log.error('send event get/send receipt failed:', err.message, err, {
+              category: ExceptionCategory.Blockhain,
+            }),
+          )
         }
 
         if (event && blockIntervalCallback) {
@@ -626,7 +598,8 @@ export class GoodWallet {
     subscriptions.forEach(subscription => {
       const subscribers = this.getSubscribers(subscription)
       log.debug('sendReceiptWithLogsToSubscribers', { subscription, subscribers })
-      this.getSubscribers(subscription).forEach(cb => {
+      this.getSubscribers('balanceChanged').forEach(cb => cb(receipt))
+      subscribers.forEach(cb => {
         log.debug('sendReceiptWithLogsToSubscribers receiptCallback:', {
           subscription,
           hash: receipt.transactionHash,

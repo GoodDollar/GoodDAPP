@@ -62,12 +62,11 @@ exports[`AppNavigation matches snapshot 1`] = `
             tabIndex="0"
           >
             <div
-              className="css-text-901oao r-color-jwli3a r-fontWeight-1it3c9n"
+              className="css-text-901oao r-color-jwli3a r-fontSize-3i2nvb r-fontWeight-1it3c9n"
               dir="auto"
               style={
                 Object {
                   "fontFamily": "gooddollar",
-                  "fontSize": "36px",
                   "fontStyle": "normal",
                 }
               }
@@ -243,7 +242,7 @@ exports[`AppNavigation matches snapshot 1`] = `
                     data-testid="amount_value"
                   >
                     <div
-                      className="css-text-901oao r-color-181bzza r-fontFamily-6jnb14 r-fontSize-111xbm8 r-fontWeight-1kfrs79 r-lineHeight-1gvhk8w r-marginRight-a5pmau r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                      className="css-text-901oao css-textOneLine-bfa6kz r-color-181bzza r-fontFamily-6jnb14 r-fontSize-111xbm8 r-fontWeight-b88u0q r-lineHeight-1gvhk8w r-marginRight-a5pmau r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                       dir="auto"
                     >
                       -.--

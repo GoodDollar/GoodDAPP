@@ -28,19 +28,11 @@ class FeedDB {
     })
   }
 
-  on(cb) {
-    this.listeners.push(cb)
-  }
-
-  off(cb) {
-    this.listeners = this.listeners.filter(_ => _ !== cb)
-  }
-
-  notifyChange = data => {
-    log.debug('notifyChange', { data, listeners: this.listeners.length })
-    this.listeners.map(cb => cb(data))
-  }
-
+  /**
+   * basic initialization
+   * @param {*} pkeySeed
+   * @param {*} publicKey
+   */
   async init(pkeySeed, publicKey) {
     try {
       this.db = new Database(`feed_${publicKey}`, {
@@ -53,25 +45,22 @@ class FeedDB {
       this.publicKey = publicKey
       await this.db.open(1) // Versioned db on open
       this.Feed = this.db.collection('Feed')
-      this.Feed.table.hook('updating', this.notifyChange)
-      this.Feed.table.hook('creating', this.notifyChange)
-      await this.initRealmDB()
-
-      // this._update()
-      // if ((await this.Feed.count()) === 0) {
-      // await this._syncFromLocalStorage()
+      this.Feed.table.hook('updating', this._notifyChange)
+      this.Feed.table.hook('creating', this._notifyChange)
+      await this._initRealmDB()
       this.resolve()
       this.isReady = true
     } catch (e) {
       log.error('failed initializing', e.message, e)
       this.reject(e)
     }
-
-    // }
-    // this.initRemote().catch(e => log.error('initRemote failed', e.message, e))
   }
 
-  async initRealmDB() {
+  /**
+   * helper to initialize with realmdb using JWT token
+   * @returns
+   */
+  async _initRealmDB() {
     const REALM_APP_ID = Config.realmAppID || 'wallet_dev-dhiht'
 
     const app = new Realm.App({ id: REALM_APP_ID })
@@ -93,11 +82,10 @@ class FeedDB {
     }
   }
 
-  async _update() {
-    const items = await this.Feed.find().toArray()
-    items.forEach(i => this.encrypt(i))
-  }
-
+  /**
+   * sync between devices.
+   * used in Appswitch to sync with remote when user comes back to app
+   */
   async _syncFromRemote() {
     const lastSync = (await AsyncStorage.getItem('GD_lastRealmSync')) || 0
     const newItems = await this.EncryptedFeed.find({
@@ -115,6 +103,10 @@ class FeedDB {
     }
   }
 
+  /**
+   * helper for testing migration from gundb
+   * TODO: remove
+   */
   async _syncFromLocalStorage() {
     await this.Feed.clear()
     let items = await AsyncStorage.getItem('GD_feed').then(_ => Object.values(_ || {}))
@@ -130,6 +122,35 @@ class FeedDB {
     log.debug('initialized threaddb with feed from asyncstorage. count:', items.length, items)
   }
 
+  /**
+   * listen to database changes
+   * @param {*} cb
+   */
+  on(cb) {
+    this.listeners.push(cb)
+  }
+
+  /**
+   * unsubscribe listener
+   * @param {*} cb
+   */
+  off(cb) {
+    this.listeners = this.listeners.filter(_ => _ !== cb)
+  }
+
+  /**
+   * helper to notify listeners for changes
+   * @param {*} data
+   */
+  _notifyChange = data => {
+    log.debug('notifyChange', { data, listeners: this.listeners.length })
+    this.listeners.map(cb => cb(data))
+  }
+
+  /**
+   * write a feed item to offline first db and then encrypt it with remote in background
+   * @param {*} feedItem
+   */
   async write(feedItem) {
     if (!feedItem.id) {
       log.warn('Feed item missing _id', { feedItem })
@@ -142,16 +163,31 @@ class FeedDB {
     // this.db.remote.push('Feed').catch(e => log.error('remote push failed', e.message, e))
   }
 
+  /**
+   * read a feed item from offline first db
+   * @param {*} id
+   * @returns
+   */
   // eslint-disable-next-line require-await
   async read(id) {
     return this.Feed.findById(id)
   }
 
+  /**
+   * find a feeditem of payment link by the payment link id from the blockchain event
+   * @param {*} paymentId
+   * @returns
+   */
   // eslint-disable-next-line require-await
   async readByPaymentId(paymentId) {
     return this.Feed.table.where({ 'data.hashedCode': paymentId }).toArray()
   }
 
+  /**
+   * save settings to remote encrypted
+   * @param {*} settings
+   * @returns
+   */
   async encryptSettings(settings) {
     const msg = new TextEncoder().encode(JSON.stringify(settings))
     const encrypted = await this.privateKey.public.encrypt(msg).then(_ => Buffer.from(_).toString('base64'))
@@ -164,6 +200,10 @@ class FeedDB {
     )
   }
 
+  /**
+   * read settings from remote and decrypt
+   * @returns
+   */
   async decryptSettings() {
     const _id = `${this.user.id}_settings`
     const encryptedSettings = await this.EncryptedFeed.findOne({ _id })
@@ -177,7 +217,12 @@ class FeedDB {
     return settings
   }
 
-  async encrypt(feedItem) {
+  /**
+   * helper to encrypt feed item in remote
+   * @param {*} feedItem
+   * @returns
+   */
+  async _encrypt(feedItem) {
     const msg = new TextEncoder().encode(JSON.stringify(feedItem))
     const encrypted = await this.privateKey.public.encrypt(msg).then(_ => Buffer.from(_).toString('base64'))
     const txHash = feedItem.id
@@ -192,6 +237,11 @@ class FeedDB {
     )
   }
 
+  /**
+   * read feeditem directly from remote
+   * @param {*} id
+   * @returns
+   */
   async decrypt(id) {
     try {
       const _id = `${id}_${this.user.id}`
@@ -202,12 +252,23 @@ class FeedDB {
     }
   }
 
+  /**
+   * helper for decrypting items
+   * @param {*} item
+   * @returns
+   */
   async _decrypt(item) {
     const decrypted = await this.privateKey.decrypt(Uint8Array.from(Buffer.from(item.encrypted, 'base64')))
     const res = JSON.parse(new TextDecoder().decode(decrypted))
     return res
   }
 
+  /**
+   * get feed page from offline first db
+   * @param {*} numResults
+   * @param {*} offset
+   * @returns
+   */
   // eslint-disable-next-line require-await
   async getFeedPage(numResults, offset) {
     const res = await this.Feed.table //use dexie directly because mongoify only sorts results and not all documents

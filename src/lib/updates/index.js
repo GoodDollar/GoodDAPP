@@ -63,6 +63,7 @@ const update = async () => {
   updatesData.lastVersionUpdate = Config.version
   updatesData.status = doneUpdates
 
+  log.debug('saving updates status:', { updatesData })
   await userStorage.userProperties.set('updates', updatesData)
 }
 

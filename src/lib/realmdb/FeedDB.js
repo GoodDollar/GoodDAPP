@@ -43,11 +43,11 @@ class FeedDB {
 
   async init(pkeySeed, publicKey) {
     try {
-      this.db = new Database(
-        `feed_${publicKey}`,
-        { name: 'Feed', schema: FeedItemSchema, indexes: [{ path: 'date' }, { path: 'data.hashedCode' }] },
-        { name: 'EncryptedFeed' },
-      )
+      this.db = new Database(`feed_${publicKey}`, {
+        name: 'Feed',
+        schema: FeedItemSchema,
+        indexes: [{ path: 'date' }, { path: 'data.hashedCode' }],
+      })
       const seed = Uint8Array.from(Buffer.from(pkeySeed, 'hex'))
       this.privateKey = TextileCrypto.PrivateKey.fromRawEd25519Seed(seed)
       this.publicKey = publicKey
@@ -183,17 +183,19 @@ class FeedDB {
     const txHash = feedItem.id
     // eslint-disable-next-line camelcase
     const user_id = this.user.id
-
+    // eslint-disable-next-line camelcase
+    const _id = `${txHash}_${user_id}`
     return this.EncryptedFeed.updateOne(
-      { txHash, user_id },
-      { txHash, user_id, encrypted, date: new Date(feedItem.date) },
+      { _id, txHash, user_id },
+      { _id, txHash, user_id, encrypted, date: new Date(feedItem.date) },
       { upsert: true },
     )
   }
 
   async decrypt(id) {
     try {
-      const item = await this.EncryptedFeed.findOne({ txHash: id, user_id: this.user.id })
+      const _id = `${id}_${this.user.id}`
+      const item = await this.EncryptedFeed.findOne({ _id, user_id: this.user.id })
       return this._decrypt(item)
     } catch (e) {
       log.warn('unable to decrypt item:', id)
@@ -206,27 +208,9 @@ class FeedDB {
     return res
   }
 
-  // // eslint-disable-next-line require-await
-  // async getFeedPage(numResults, offset) {
-  //   const res = await this.Feed.find({
-  //     $and: [
-  //       { status: { $nin: ['deleted', 'cancelled', 'canceled'] } },
-  //       { otplStatus: { $nin: ['deleted', 'cancelled', 'canceled'] } },
-  //     ],
-  //   })
-  //     .reverse()
-  //     .offset(offset)
-  //     .limit(numResults)
-  //     .sortBy('date')
-
-  //   log.debug('getFeedPage result:', numResults, offset, res.length, res)
-  //   return res
-  //   // .toArray()
-  // }
-
   // eslint-disable-next-line require-await
   async getFeedPage(numResults, offset) {
-    const res = await this.Feed.table
+    const res = await this.Feed.table //use dexie directly because mongoify only sorts results and not all documents
       .orderBy('date')
       .reverse()
       .offset(offset)
@@ -237,16 +221,6 @@ class FeedDB {
       )
       .limit(numResults)
       .toArray()
-
-    //   $and: [
-    //     { status: { $nin: ['deleted', 'cancelled', 'canceled'] } },
-    //     { otplStatus: { $nin: ['deleted', 'cancelled', 'canceled'] } },
-    //   ],
-    // })
-    //   .reverse()
-    //   .offset(offset)
-    //   .limit(numResults)
-    //   .sortBy('date')
 
     log.debug('getFeedPage result:', numResults, offset, res.length, res)
     return res

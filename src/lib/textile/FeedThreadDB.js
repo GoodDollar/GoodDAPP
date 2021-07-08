@@ -18,9 +18,9 @@ class FeedThreaddb {
 
   pkey
 
-  async init(pkeySeed) {
-    log.debug({ pkeySeed })
-    const seed = Uint8Array.from(Buffer.from(pkeySeed, 'hex'))
+  async init(privateKey, publicKey) {
+    log.debug({ privateKey })
+    const seed = Uint8Array.from(Buffer.from(privateKey, 'hex'))
     this.pkey = TextileCrypto.PrivateKey.fromRawEd25519Seed(seed)
     await this.db.open(2) // Versioned db on open
     this.Feed = this.db.collection('Feed')
@@ -29,7 +29,7 @@ class FeedThreaddb {
     // if ((await this.Feed.count()) === 0) {
     // await this._syncFromLocalStorage()
     // }
-    // this.initRemote().catch(e => log.error('initRemote failed', e.message, e))
+    this.initRemote().catch(e => log.error('initRemote failed', e.message, e))
   }
 
   async initRemote() {
@@ -44,9 +44,11 @@ class FeedThreaddb {
     // log.debug({ feedThreadId })
     const threadId = await remote.initialize() // Create random thread
     log.debug('Textile remote threadId', { threadId })
-    const pulledKeys = await remote.pull('Feed')
+    const pulledKeys = await remote.pull('EncryptedFeed')
     log.debug('pulled keys from remote', { pulledKeys })
   }
+
+  on() {}
 
   async _syncFromLocalStorage() {
     await this.Feed.clear()
@@ -71,7 +73,7 @@ class FeedThreaddb {
     await this.Feed.save(feedItem)
     this.encrypt(feedItem)
 
-    // this.db.remote.push('Feed').catch(e => log.error('remote push failed', e.message, e))
+    this.db.remote.push('EncryptedFeed').catch(e => log.error('remote push failed', e.message, e))
   }
 
   // eslint-disable-next-line require-await

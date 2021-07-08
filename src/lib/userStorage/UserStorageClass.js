@@ -254,6 +254,10 @@ export class UserStorage {
 
   _lastProfileUpdate: any
 
+  feedDB
+
+  userProperties
+
   profileSettings: {} = {
     fullName: { defaultPrivacy: 'public' },
     email: { defaultPrivacy: 'private' },

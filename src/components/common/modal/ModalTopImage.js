@@ -15,7 +15,6 @@ import SendAnimation from '../../common/animations/Send'
 
 // assets
 // svg illustrations
-import receiveIllustation from '../../../assets/Feed/receive.svg'
 import sendIllustration from '../../../assets/Feed/send.svg'
 import claimIllustration from '../../../assets/Feed/IllustrationsMenHero.svg' // eslint-disable-line
 import spendingIllustration from '../../../assets/Feed/spending.svg'
@@ -58,7 +57,7 @@ export const getImageByType = (type, styles = {}) =>
       containerStyle: styles.mainImageContainer,
     },
     receive: {
-      Component: receiveIllustation,
+      Component: ReceivedAnimation,
       style: styles.mainImage,
       containerStyle: styles.mainImageContainer,
     },

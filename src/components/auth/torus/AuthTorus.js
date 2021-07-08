@@ -168,6 +168,10 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
         await AsyncStorage.clear()
         replacing = true
       }
+      if (!torusUser.privateKey) {
+        log.warn('Missing private key from torus response', { torusUser })
+        throw new Error('Missing privateKey from torus response')
+      }
 
       //set masterseed so wallet can use it in 'ready' where we check if user exists
       await AsyncStorage.setItem(GD_USER_MASTERSEED, torusUser.privateKey)

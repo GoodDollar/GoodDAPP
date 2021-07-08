@@ -1,4 +1,9 @@
 import initGunDB from '../src/lib/gundb/gundb'
+import any from 'promise.any'
+
+if (typeof Promise.any !== 'function') {
+  any.shim()
+}
 
 if (typeof window !== 'undefined') {
   const crypto = new (require('node-webcrypto-ossl'))()

@@ -1,6 +1,6 @@
 {
   "name": "@gooddollar/gooddapp",
-  "version": "1.28.1-3",
+  "version": "1.29.1-0",
   "engines": {
     "node": "10.21.0",
     "npm": "6.x"
@@ -150,6 +150,7 @@
     "mnid": "^0.1.3",
     "mobile-device-detect": "^0.2.3",
     "moment": "^2.24.0",
+    "moment-duration-format": "^2.3.2",
     "nft.storage": "^1.4.0",
     "node-libs-react-native": "^1.0.3",
     "numeral": "^2.0.6",
@@ -276,6 +277,7 @@
     "node-webcrypto-ossl": "^1.0.48",
     "node-xml-lite": "0.0.7",
     "pn": "^1.1.0",
+    "promise.any": "^2.0.2",
     "react-test-renderer": "^16.9.0",
     "resolve": "1.8.1",
     "scoop": "0.0.2",

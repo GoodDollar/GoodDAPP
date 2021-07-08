@@ -244,12 +244,7 @@ export class FeedStorage {
         return receipt.logs.find(e => e.name === 'PaymentWithdraw')
 
       case TxType.TX_OTPL_DEPOSIT:
-        return receipt.logs.find(
-          e =>
-            e.name === 'PaymentDeposit' ||
-            (e.data.to.toLowerCase() === this.wallet.oneTimePaymentsContract.address.toLowerCase() &&
-              e.data.from.toLowerCase() === this.walletAddress),
-        )
+        return find(receipt.logs, { name: 'PaymentDeposit' })
       case TxType.TX_SEND_GD:
         return orderBy(receipt.logs, 'e.data.value', 'desc').find(
           e => e.name === 'Transfer' && e.data.from.toLowerCase() === this.walletAddress,
@@ -472,7 +467,7 @@ export class FeedStorage {
       })
 
       // reprocess same receipt in case we updated data format, only skip strictly older
-      // we can get receipt without having a previous feed item, so veerify .date field exists
+      // we can get receipt without having a previous feed item, so verify .date field exists
       if (feedEvent.date && receiptDate.getTime() < new Date(feedEvent.date).getTime()) {
         return feedEvent
       }
@@ -772,7 +767,7 @@ export class FeedStorage {
     const ack = saveDaySizePtr && saveDaySizePtr.then().catch(e => log.error('updateFeedEvent daySize', e.message, e))
 
     log.debug('updateFeedEvent done returning promise', event.id)
-    return Promise.any([saveAck, ack, eventAck]) //we use .any cause gun might get stuck
+    return Promise.race([saveAck, ack, eventAck]) //we use .any cause gun might get stuck
       .then(() => event)
       .catch(gunError => {
         const e = this._gunException(gunError)

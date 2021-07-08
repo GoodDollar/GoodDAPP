@@ -1,6 +1,6 @@
 // @flow
 import { Platform, Share } from 'react-native'
-import { fromPairs, isEmpty, pickBy } from 'lodash'
+import { fromPairs, isBoolean, isEmpty, isNumber, pickBy } from 'lodash'
 import { decode, encode, isMNID } from 'mnid'
 import isURL from 'validator/lib/isURL'
 import isEmail from '../validators/isEmail'
@@ -108,12 +108,24 @@ export function generateCode(
     a: amount,
     r: reason || '',
     cat: category,
-    ven: vendorInfo ? vendorInfo.toConcise() : {},
+    ven: {},
   }
+
+  if (vendorInfo) {
+    codeObj.ven = vendorInfo.toConcise()
+  }
+
   if (counterPartyDisplayName) {
     codeObj.c = counterPartyDisplayName
   }
-  return pickBy(codeObj, _ => !isEmpty(_))
+
+  return pickBy(codeObj, propValue => {
+    if ([isNumber, isBoolean].some(fn => fn(propValue))) {
+      return !!propValue
+    }
+
+    return !isEmpty(propValue)
+  })
 }
 
 /**

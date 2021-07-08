@@ -24,7 +24,7 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
           "boxShadow": "none, 0px 3px 4px rgba(0,0,0,0.24)",
           "flexGrow": 0,
           "flexShrink": 0,
-          "height": "56px",
+          "height": "55px",
           "msFlexNegative": 0,
           "msFlexPositive": 0,
           "paddingLeft": "4px",

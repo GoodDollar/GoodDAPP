@@ -45,31 +45,44 @@ const HandlePaymentLink = (props: HandlePaymentLinkProps) => {
     async anyParams => {
       try {
         if (anyParams && anyParams.code) {
+          const code = readCode(decodeURIComponent(anyParams.code))
+
+          log.debug('decoded payment request', { code })
+
+          if (isTheSameUser(code)) {
+            showErrorDialog('You cannot use your own payment link', undefined, {
+              onDismiss: screenProps.goToRoot,
+            })
+
+            return
+          }
+
           showDialog({
             onDismiss: noop,
             title: 'Processing Payment Link...',
             image: <LoadingIcon />,
             message: 'please wait while processing...',
             showCloseButtons: false,
+            showButtons: false,
           })
-          const code = readCode(decodeURIComponent(anyParams.code))
-          log.debug('decoded payment request', { code })
-          if (isTheSameUser(code) === false) {
-            try {
-              const { route, params } = await routeAndPathForCode('send', code)
-              hideDialog()
-              screenProps.push(route, params)
-            } catch (e) {
-              hideDialog()
-              log.warn('Payment link is incorrect', e.message, e, {
-                code,
-                category: ExceptionCategory.Human,
-                dialogShown: true,
-              })
-              showErrorDialog('Payment link is incorrect. Please double check your link.', undefined, {
-                onDismiss: screenProps.goToRoot,
-              })
-            }
+
+          try {
+            const { route, params } = await routeAndPathForCode('send', code)
+
+            hideDialog()
+            screenProps.push(route, params)
+          } catch (e) {
+            hideDialog()
+
+            log.warn('Payment link is incorrect', e.message, e, {
+              code,
+              category: ExceptionCategory.Human,
+              dialogShown: true,
+            })
+
+            showErrorDialog('Payment link is incorrect. Please double check your link.', undefined, {
+              onDismiss: screenProps.goToRoot,
+            })
           }
         }
       } catch (e) {

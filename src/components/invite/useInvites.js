@@ -15,27 +15,33 @@ const wasOpenedProp = 'hasOpenedInviteScreen'
 
 const log = logger.child({ from: 'useInvites' })
 
+const NULL_ADDRESS = '0x0000000000000000000000000000000000000000'
 const registerForInvites = async () => {
   const inviterInviteCode =
     userStorage.userProperties.get('inviterInviteCode') || (await AsyncStorage.getItem(INVITE_CODE))
+  let code = userStorage.userProperties.get('inviteCode')
+  let usedInviterCode = userStorage.userProperties.get('inviterInviteCodeUsed')
 
-  let hasJoined = false
+  //if already have code and already set inviter or dont have one just return
+  if (code && (usedInviterCode || !inviterInviteCode)) {
+    return code
+  }
+
   try {
-    if (inviterInviteCode) {
-      hasJoined = await goodWallet.hasJoinedInvites()
-      !hasJoined && fireEvent(INVITE_JOIN, { inviterInviteCode })
-    }
     log.debug('joining invites contract:', { inviterInviteCode })
     const inviteCode = await goodWallet.joinInvites(inviterInviteCode)
     log.debug('joined invites contract:', { inviteCode, inviterInviteCode })
-
-    //this is a fix for a bug that users didnt register correctly. so didnt collect bounty on first claim.
-    if (!hasJoined && (await goodWallet.isCitizen())) {
-      log.debug('joined invites. user already whitelisted. collecting bounty...')
-      await goodWallet.collectInviteBounty()
+    userStorage.userProperties.set('inviteCode', inviteCode)
+    if (inviterInviteCode) {
+      //in case we were invited
+      let [hasJoined, inviter] = await goodWallet.hasJoinedInvites()
+      if (!hasJoined || inviter === NULL_ADDRESS) {
+        //if not joined or not set inviter then fire event
+        fireEvent(INVITE_JOIN, { inviterInviteCode })
+      }
+      userStorage.userProperties.set('inviterInviteCodeUsed', true)
     }
 
-    userStorage.userProperties.set('inviteCode', inviteCode)
     return inviteCode
   } catch (e) {
     log.error('registerForInvites failed', e.message, e, { inviterInviteCode })
@@ -43,11 +49,7 @@ const registerForInvites = async () => {
 }
 
 const getInviteCode = async () => {
-  let code = userStorage.userProperties.get('inviteCode')
-
-  if (!code) {
-    code = await registerForInvites()
-  }
+  const code = await registerForInvites()
 
   return code
 }

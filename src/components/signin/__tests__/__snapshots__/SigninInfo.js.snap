@@ -23,7 +23,7 @@ exports[`SigninInfo matches snapshot 1`] = `
             "WebkitFlexGrow": 0,
             "boxShadow": "none, 0px 3px 4px rgba(0,0,0,0.24)",
             "flexGrow": 0,
-            "height": "56px",
+            "height": "55px",
             "msFlexPositive": 0,
             "paddingLeft": "4px",
             "paddingRight": "4px",

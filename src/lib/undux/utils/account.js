@@ -7,9 +7,10 @@ import userStorage from '../../gundb/UserStorage'
 import { assertStore } from '../SimpleStore'
 import Config from '../../../config/config'
 
+let subscribed = false
 const log = logger.child({ from: 'undux/utils/account' })
 
-const updateAll = async store => {
+export const updateAll = async store => {
   let walletOperations
 
   try {
@@ -61,10 +62,11 @@ const onBalanceChange = async (event: EventLog, store: Store) => {
 /**
  * Starts listening to Transfer events to (and from) the current account
  */
-let subscribed = false
-const initTransferEvents = (store: Store) => {
+export const initTransferEvents = (store: Store) => {
   const lastBlock = userStorage.userProperties.get('lastBlock')
+
   log.debug('starting events listener', { lastBlock, subscribed })
+
   if (subscribed) {
     return
   }
@@ -80,5 +82,3 @@ const initTransferEvents = (store: Store) => {
   goodWallet.balanceChanged(event => onBalanceChange(event, store))
   subscribed = true
 }
-
-export { initTransferEvents, updateAll }

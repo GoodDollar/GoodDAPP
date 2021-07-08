@@ -1,10 +1,10 @@
 import { isString, trimStart } from 'lodash'
 export { NFTStorage, Blob, File } from 'nft.storage/src/lib'
 
-const cidRe = /^[\w\d]+$/i
+const cidRegexp = /^[\w\d]+$/i
 
 // checks is string a valid CID. it should be at least 40 chars length and contrain only letters & numbers
-export const isValidCID = source => isString(source) && source.length >= 40 && cidRe.test(source)
+export const isValidCID = source => isString(source) && source.length >= 40 && cidRegexp.test(source)
 
 // returns ipfs or of the CID's metadata.json
 export const blobUrl = cid => 'ipfs://' + cid

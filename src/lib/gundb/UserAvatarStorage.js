@@ -1,8 +1,9 @@
+/* eslint require-await: "off" */
 import { assign, memoize } from 'lodash'
 
 import Config from '../../config/config'
 import { fallback } from '../utils/async'
-import { fileToImageRecord } from '../utils/image'
+import { asImageRecord } from '../utils/image'
 import { File, metadataUrl, NFTStorage, parseIpfsUrl } from '../utils/ipfs'
 
 class UserAvatarStorage {
@@ -46,9 +47,9 @@ class UserAvatarStorage {
     const asset = {
       name, // aren't used for storage, but are mandatory
       description: name, // so we're supplying full name here
-      image: fileToImageRecord(smallAvatar || avatar), // small (preview) avatar, fallback to the full avatar if empty
+      image: asImageRecord(smallAvatar || avatar), // small (preview) avatar, fallback to the full avatar if empty
       properties: {
-        avatar: fileToImageRecord(avatar), // full avatar
+        avatar: asImageRecord(avatar), // full avatar
       },
     }
 
@@ -133,7 +134,7 @@ class UserAvatarStorage {
       // get filename from the IPFS path,
       // create File instance from Blob,
       // convert to the image record
-      return fileToImageRecord(new File([blob], path, { type }))
+      return asImageRecord(new File([blob], path, { type }))
     })
   }
 

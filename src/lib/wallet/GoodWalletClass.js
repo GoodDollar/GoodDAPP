@@ -299,7 +299,7 @@ export class GoodWallet {
     this.lastEventsBlock = fromBlock
     this.pollEvents(
       () => Promise.all([this.pollSendEvents(), this.pollReceiveEvents(), this.pollOTPLEvents()]),
-      5000,
+      Config.web3Polling,
       lastBlockCallback,
     )
   }
@@ -636,6 +636,11 @@ export class GoodWallet {
       })
     })
     return receipt
+  }
+
+  async _notifyReceipt(txHash) {
+    const r = await this.getReceiptWithLogs(txHash)
+    return r && this.sendReceiptWithLogsToSubscribers(r, ['receiptUpdated'])
   }
 
   /**
@@ -1389,6 +1394,7 @@ export class GoodWallet {
         .on('receipt', r => {
           log.debug('got receipt', r)
           res(r)
+          this._notifyReceipt(r.transactionHash) //although receipt will be received by polling, we do this anyways immediately
           onReceipt && onReceipt(r)
         })
         .on('confirmation', c => {
@@ -1405,14 +1411,6 @@ export class GoodWallet {
         })
     })
     return res
-
-    /** receipt handling happens already in polling events */
-    // .then(async receipt => {
-    //   const transactionReceipt = await this.getReceiptWithLogs(receipt.transactionHash)
-    //   await this.sendReceiptWithLogsToSubscribers(transactionReceipt, ['receiptReceived', 'receiptUpdated'])
-    //   return transactionReceipt
-    // })
-    // .catch(this.handleError)
   }
 }
 

@@ -163,8 +163,8 @@ function StatusIcon({ connector }: { connector: AbstractConnector }) {
 }
 
 const Web3StatusInnerSC = styled.div`
+    background: ${({ theme }) => theme.color.bg1};
     color: ${({ theme }) => theme.color.input};
-    background: ${({ theme }) => theme.color.bg2};
     box-shadow: ${({ theme }) => theme.shadow.settings};
     border-radius: 3px;
 `

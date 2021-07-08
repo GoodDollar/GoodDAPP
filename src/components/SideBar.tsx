@@ -39,8 +39,9 @@ const SideBarSC = styled.aside`
     }
 
     .balance {
-        padding: 17px 4px 20px 22px;
+        padding: 17px 7px 20px 22px;
         margin: 0 26px 0 20px;
+        ${({ theme }) => (theme.darkMode ? 'border: 1px solid #A5A5A5;' : '')}
         box-shadow: ${({ theme }) => theme.shadow.wallet};
         border-radius: 23px;
 

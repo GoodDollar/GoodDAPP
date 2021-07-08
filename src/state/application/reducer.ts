@@ -6,6 +6,7 @@ import {
     removePopup,
     setKashiApprovalPending,
     setOpenModal,
+    setTheme,
     updateBlockNumber
 } from './actions'
 
@@ -16,13 +17,15 @@ export interface ApplicationState {
     readonly popupList: PopupList
     readonly openModal: ApplicationModal | null
     kashiApprovalPending: string
+    theme: 'light' | 'dark'
 }
 
 const initialState: ApplicationState = {
     blockNumber: {},
     popupList: [],
     openModal: null,
-    kashiApprovalPending: ''
+    kashiApprovalPending: '',
+    theme: (localStorage.getItem('application.theme') || 'light') as 'light' | 'dark'
 }
 
 export default createReducer(initialState, builder =>
@@ -57,5 +60,9 @@ export default createReducer(initialState, builder =>
         })
         .addCase(setKashiApprovalPending, (state, action) => {
             state.kashiApprovalPending = action.payload
+        })
+        .addCase(setTheme, (state, action) => {
+            localStorage.setItem('application.theme', action.payload)
+            state.theme = action.payload
         })
 )

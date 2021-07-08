@@ -4,6 +4,8 @@ export const SwapWrapper = styled.div`
     background: ${({ theme }) => theme.color.main};
     max-width: 712px;
     box-shadow: ${({ theme }) => theme.shadow.swapCard};
+    position: relative;
+    z-index: 2;
 
     .initial-info div {
         color: ${({ theme }) => theme.color.text5};

@@ -23,6 +23,7 @@ import UserUpdater from './state/user/updater'
 import ThemeProvider from './theme'
 import getLibrary from './utils/getLibrary'
 import LanguageProvider from 'language'
+import { createGlobalStyle } from 'styled-components'
 
 const Web3ProviderNetwork = createWeb3ReactRoot(NetworkContextName)
 
@@ -63,6 +64,12 @@ function Updaters() {
     )
 }
 
+const GlobalStyle = createGlobalStyle`
+  body {
+      color: ${({ theme }) => theme.color.text1};
+  }
+`
+
 ReactDOM.render(
     <StrictMode>
         <Web3ReactProvider getLibrary={getLibrary}>
@@ -72,6 +79,7 @@ ReactDOM.render(
                         <Updaters />
                         <LanguageProvider>
                             <ThemeProvider>
+                                <GlobalStyle />
                                 <KashiProvider>
                                     <Router>
                                         <App />

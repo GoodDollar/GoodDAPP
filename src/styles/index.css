@@ -17,6 +17,10 @@ button:focus {
   outline: none !important;
 }
 
+input, input[type] {
+  background-color: inherit;
+}
+
 input:focus {
   box-shadow: none !important;
   outline: none !important;

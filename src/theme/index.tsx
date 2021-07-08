@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react'
 import { Text, TextProps } from 'rebass'
 import styled, { ThemeProvider as StyledComponentsThemeProvider, createGlobalStyle, css } from 'styled-components'
+import { useApplicationTheme } from '../state/application/hooks'
 
 export * from './components'
 
@@ -29,6 +30,7 @@ const black = '#000000'
 
 export function colors(darkMode: boolean) {
     return {
+        darkMode,
         // base
         white,
         black,
@@ -87,29 +89,29 @@ export function theme(darkMode: boolean) {
     return {
         ...colors(darkMode),
         color: {
-            main: '#ffffff',
-            mainBg: '#EDF5FC',
+            main: darkMode ? '#151A30' : '#ffffff',
+            mainBg: darkMode ? '#222B45' : '#EDF5FC',
             border1: 'rgba(208, 217, 228, 0.483146)',
-            border2: '#E5E5E5',
-            text1: '#0D182D',
+            border2: darkMode ? '#151A30' : '#E5E5E5',
+            text1: darkMode ? '#FFFFFF' : '#0D182D',
             text2: '#00B0FF',
             text3: '#A5A5A5',
-            text4: '#42454A',
+            text4: darkMode ? '#FFFFFF' : '#42454A',
             text5: '#8f9bb3',
-            text6: '#1A1F38',
+            text6: darkMode ? '#FFFFFF' : '#1A1F38',
             text7: 'rgba(14, 39, 60, 0.7)',
             text8: '#696D73',
-            input: '#173046',
-            button1: 'rgba(0, 176, 255, 0.1)',
-            bg1: '#f6f8fa',
+            input: darkMode ? '#FFFFFF' : '#173046',
+            button1: darkMode ? '#2E3A59' : 'rgba(0, 176, 255, 0.1)',
+            bg1: darkMode ? '#1A1F38' : '#f6f8fa',
             switch: '#1FC2AF',
             hover: 'rgba(31,194,175,0.1)'
         },
         shadow: {
             header: '0px 0px 16px rgba(206, 211, 218, 0.33815)',
-            wallet: '0px 15px 40px rgba(117, 117, 170, 0.102792)',
-            settings: '0px 1px 0px #DAE1ED;',
-            swapFooter: '-1px 2px 0px #DAE1ED',
+            wallet: darkMode ? 'none' : '0px 15px 40px rgba(117, 117, 170, 0.102792)',
+            settings: darkMode ? 'none' : '0px 1px 0px #DAE1ED;',
+            swapFooter: darkMode ? 'none' : '-1px 2px 0px #DAE1ED',
             button: '3px 3px 10px -1px rgba(11, 27, 102, 0.304824)',
             swapCard: '12px 8px 44px -12px rgba(27, 58, 146, 0.16)'
         },
@@ -142,10 +144,9 @@ export function theme(darkMode: boolean) {
 }
 
 export default function ThemeProvider({ children }: { children: React.ReactNode }) {
-    //const darkMode = useIsDarkMode()
-    const darkMode = false
+    const [themeName] = useApplicationTheme()
 
-    const themeObject = useMemo(() => theme(darkMode), [darkMode])
+    const themeObject = useMemo(() => theme(themeName === 'dark'), [themeName])
 
     return <StyledComponentsThemeProvider theme={themeObject}>{children}</StyledComponentsThemeProvider>
 }

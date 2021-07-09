@@ -18,6 +18,7 @@ const parseDataUrl = (base64, fileName = 'image') => {
 
 export const MAX_AVATAR_WIDTH = 600
 export const MAX_AVATAR_HEIGHT = 600
+export const DEFAULT_AVATAR_FILENAME = 'GD_AVATAR'
 
 export * from './imageHelpers'
 

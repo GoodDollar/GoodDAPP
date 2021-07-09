@@ -1,10 +1,10 @@
 /* eslint require-await: "off" */
-import { assign, memoize } from 'lodash'
+import { assign } from 'lodash'
 
 import Config from '../../config/config'
 import { fallback } from '../utils/async'
-import { asImageRecord } from '../utils/image'
-import { File, metadataUrl, NFTStorage, parseIpfsUrl } from '../utils/ipfs'
+import { asFile, asImageRecord, DEFAULT_AVATAR_FILENAME } from '../utils/image'
+import { blobUrl, File, metadataUrl, NFTStorage, parseIpfsUrl } from '../utils/ipfs'
 
 class UserAvatarStorage {
   constructor(apiKey, peers, sizes) {
@@ -12,24 +12,19 @@ class UserAvatarStorage {
     this.client = new NFTStorage({ token: apiKey })
   }
 
-  async loadAvatars(cid, skipCache = false) {
-    const clear = () => this._clearCache(cid)
+  async loadAvatars(cid, size = 'small') {
+    const metadata = await this._loadMetadata(cid)
 
-    if (true === skipCache) {
-      clear()
+    if (false === metadata) {
+      return this._loadBase64(cid)
     }
 
-    try {
-      return await this._loadAvatars(cid)
-    } catch (exception) {
-      clear()
-      throw exception
-    }
+    return this._loadAvatar(metadata, size)
   }
 
-  async storeAvatars(profile) {
-    const { avatar, smallAvatar, fullName } = profile || {}
-    const name = fullName || 'Unknown'
+  async storeAvatars(avatar, smallAvatar) {
+    const { filename: name } = avatar || {}
+    const { filename: description = name } = smallAvatar || {}
 
     if (!avatar) {
       return
@@ -46,10 +41,10 @@ class UserAvatarStorage {
     // }
     const asset = {
       name, // aren't used for storage, but are mandatory
-      description: name, // so we're supplying full name here
-      image: asImageRecord(smallAvatar || avatar), // small (preview) avatar, fallback to the full avatar if empty
+      description, // so we're supplying full name here
+      image: asFile(smallAvatar || avatar), // small (preview) avatar, fallback to the full avatar if empty
       properties: {
-        avatar: asImageRecord(avatar), // full avatar
+        avatar: asFile(avatar), // full avatar
       },
     }
 
@@ -59,68 +54,50 @@ class UserAvatarStorage {
     return ipnft
   }
 
-  // eslint-disable-next-line require-await
   async deleteAvatars(cid) {
     const { client } = this
 
     return client.delete(cid)
   }
 
-  _loadAvatars = memoize(async cid => {
-    // loading metadata.json for the CID specified
-    const { name, image, properties } = await this._loadMetadata(cid)
+  async _loadAvatar(metadata, size = 'small') {
+    // parsing metadata.json for the CID specified
+    const { image, properties } = metadata
 
     // 'image' and 'properties.avatar' will be ipfs urls of the avatar images
-    // the rest of the 'properties' object is the profile object
-    // interface ProfileMetadata {
-    //   name: string; // asset's name
-    //   description: string; // asset's description
-    //   image: string; // small avatar's url
-    //   properties: {
-    //     avatar: string; // avatar's url
-    //   }
-    // }
-    const profile = { fullName: name }
     const { avatar } = properties
+    let ipfsUrl = avatar
 
-    if (avatar) {
-      // loading profile images from the corresponding ipfs urls
-      // metadata.image => smallAvatar
-      // metadata.properties.avatar => avatar
-      const mapping = [[avatar, 'avatar'], [image, 'smallAvatar']]
-
-      // doing requests in parallel
-      await Promise.all(
-        mapping.map(([ipfsUrl, field]) =>
-          this._loadFile(ipfsUrl)
-
-            // once loaded - updating corresponding profile field
-            .then(imageRecord => (profile[field] = imageRecord)),
-        ),
-      )
+    if (size === 'small' && image) {
+      ipfsUrl = image
     }
 
-    return profile
-  })
-
-  _clearCache(cid) {
-    const { cache } = this._loadAvatars
-
-    if (!cache.has(cid)) {
-      return
-    }
-
-    cache.delete(cid)
+    return this._loadFile(ipfsUrl)
   }
 
-  // eslint-disable-next-line require-await
   async _loadMetadata(cid) {
     const ipfsUrl = metadataUrl(cid)
 
-    return this._lookupPeers(ipfsUrl, response => response.json())
+    try {
+      return await this._lookupPeers(ipfsUrl, response => response.json())
+    } catch (exception) {
+      const { status } = exception.response || {}
+
+      if (status === 404) {
+        return false
+      }
+
+      throw exception
+    }
   }
 
-  // eslint-disable-next-line require-await
+  async _loadBase64(cid) {
+    const ipfsUrl = blobUrl(cid)
+    const base64 = await this._lookupPeers(ipfsUrl, response => response.text())
+
+    return asImageRecord(base64, DEFAULT_AVATAR_FILENAME)
+  }
+
   async _loadFile(ipfsUrl) {
     return this._lookupPeers(ipfsUrl, async (response, { path }) => {
       const { headers } = response
@@ -147,22 +124,40 @@ class UserAvatarStorage {
 
     // parsing IPFS url to the CID + path
     const parsedUrl = parseIpfsUrl(ipfsUrl)
+    let url
 
     // using async 'fallback' helper over the 'peers' array
-    return fallback(
+    const response = await fallback(
       peers.map(peer => async () => {
         // each peer is pre compiled template function
         // (see src/config/config./js)
         // to get url we need to call it with parsed url
         // ({ cid, path } object) as argument
-        const url = peer(parsedUrl)
-        const response = await fetch(url)
+        url = peer(parsedUrl)
 
-        // once fetched, calling the callback with parsed ipfs url
-        // and the final http url we requested
-        return loadCallback(response, { ...parsedUrl, url })
+        return fetch(url)
       }),
     )
+
+    const { ok, status } = response
+    let errorMessage
+
+    if (!ok || status >= 400) {
+      try {
+        errorMessage = await response.text()
+      } catch {
+        errorMessage = 'Unknown server error'
+      }
+
+      const exception = new Error(errorMessage)
+
+      exception.response = response
+      throw exception
+    }
+
+    // once fetched, calling the callback with parsed ipfs url
+    // and the final http url we requested
+    return loadCallback(response, { ...parsedUrl, url })
   }
 }
 

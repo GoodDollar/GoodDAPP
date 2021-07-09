@@ -605,13 +605,11 @@ const Dashboard = props => {
                 <BigGoodDollar
                   testID="amount_value"
                   number={balance}
-                  bigNumberProps={{
-                    fontSize: 42,
-                    fontWeight: 'semibold',
-                    lineHeight: 42,
-                    textAlign: 'left',
-                  }}
+                  bigNumberStyles={styles.bigNumberStyles}
                   bigNumberUnitStyles={styles.bigNumberUnitStyles}
+                  bigNumberProps={{
+                    numberOfLines: 1,
+                  }}
                 />
               </View>
             </Animated.View>
@@ -785,6 +783,12 @@ const getStylesFromProps = ({ theme }) => ({
   },
   bigNumberUnitStyles: {
     marginRight: normalize(-20),
+  },
+  bigNumberStyles: {
+    fontSize: 42,
+    fontWeight: '700',
+    lineHeight: 42,
+    textAlign: 'left',
   },
 })
 

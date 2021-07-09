@@ -15,7 +15,7 @@ class UserAvatarStorage {
     this.client = new NFTStorage({ token: apiKey })
   }
 
-  async loadAvatars(cid, size = 'small') {
+  async loadAvatar(cid, size = 'small') {
     let { metadata, image } = this.cache.get(cid) || {}
 
     if (isUndefined(metadata)) {
@@ -41,6 +41,18 @@ class UserAvatarStorage {
 
     this._updateCache(cid, cacheData)
     return image
+  }
+
+  async loadAvatars(cid) {
+    const smallAvatar = await this.loadAvatar(cid)
+    const { metadata } = this.cache.get(cid)
+    let avatar = smallAvatar
+
+    if (false !== metadata) {
+      avatar = await this._loadAvatar(metadata, 'large')
+    }
+
+    return { avatar, smallAvatar }
   }
 
   async storeAvatars(avatar, smallAvatar) {

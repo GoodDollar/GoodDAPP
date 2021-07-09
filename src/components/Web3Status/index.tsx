@@ -65,7 +65,7 @@ const Web3StatusConnect = styled(Web3StatusGeneric)<{ faded?: boolean }>`
     font-weight: 500;
     font-size: 16px;
     line-height: 19px;
-    color: ${({ theme }) => (theme.darkMode ? theme.color.text1 : theme.color.main)};
+    color: ${({ theme }) => theme.color.main};
     padding-left: 17px;
     padding-right: 17px;
     height: 42px;

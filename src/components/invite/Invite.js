@@ -270,7 +270,7 @@ const Invite = () => {
   const [invitees, refresh, level, inviteState] = useInvited()
 
   const totalEarned = get(inviteState, 'totalEarned', 0)
-  const bounty = result(level, 'bounty.toNumber', 100) / 100
+  const bounty = result(level, 'bounty.toNumber')
 
   const toggleHowTo = () => {
     !showHowTo && fireEvent(INVITE_HOWTO)
@@ -294,8 +294,9 @@ const Invite = () => {
           fontSize={28}
           color={theme.colors.darkBlue}
           lineHeight={34}
+          style={styles.bounty}
         >
-          {`Get ${bounty}G$`}
+          {bounty && `Get ${bounty / 100}G$`}
         </Section.Text>
         <Section.Text
           letterSpacing={0.1}
@@ -354,6 +355,9 @@ const styles = {
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: getDesignRelativeHeight(theme.paddings.defaultMargin * 3, false),
+  },
+  bounty: {
+    height: 34,
   },
 }
 export default Invite

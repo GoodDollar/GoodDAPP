@@ -1,6 +1,7 @@
 import { ChainId, Currency } from '@sushiswap/sdk'
 import React from 'react'
 import Logo from '../assets/images/logo.png'
+import LogoDark from '../assets/images/logo-dark.png'
 import { useActiveWeb3React } from '../hooks/useActiveWeb3React'
 import { useETHBalances } from '../state/wallet/hooks'
 import Web3Network from './Web3Network'
@@ -44,7 +45,11 @@ function AppBar(): JSX.Element {
                             <div className="flex items-center justify-between h-16">
                                 <div className="flex items-center">
                                     <div className="flex-shrink-0">
-                                        <img src={Logo} alt="Sushi" className="site-logo w-auto" />
+                                        <img
+                                            src={theme === 'dark' ? LogoDark : Logo}
+                                            alt="Sushi"
+                                            className="site-logo w-auto"
+                                        />
                                     </div>
                                 </div>
 

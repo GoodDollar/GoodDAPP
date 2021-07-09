@@ -13,7 +13,7 @@ export const ButtonAction = styled.button<{
     height: ${({ size }) => (size === 'sm' ? '32px' : '71px')};
     width: ${({ width = '100%' }) => width};
     border-radius: ${({ borderRadius = '20px' }) => borderRadius};
-    color: ${({ theme }) => theme.color.main};
+    color: ${({ theme }) => (theme.darkMode ? theme.color.text1 : theme.color.main)};
     background: ${({ theme }) => theme.color.text2};
     box-shadow: ${({ theme, noShadow }) => (noShadow ? 'none' : theme.shadow.button)};
     cursor: pointer;
@@ -44,7 +44,7 @@ export const ButtonDefault = styled.button<{
     height: ${({ size }) => (size === 'sm' ? '32px' : '42px')};
     width: ${({ width = '100%' }) => width};
     border-radius: ${({ borderRadius = '12px' }) => borderRadius};
-    color: ${({ theme }) => theme.color.main};
+    color: ${({ theme }) => (theme.darkMode ? theme.color.text1 : theme.color.main)};
     background: ${({ theme }) => theme.color.text2};
     cursor: pointer;
 

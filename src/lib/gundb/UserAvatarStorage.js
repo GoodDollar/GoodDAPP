@@ -1,25 +1,46 @@
 /* eslint require-await: "off" */
-import { assign } from 'lodash'
+import { assign, isUndefined } from 'lodash'
 
 import Config from '../../config/config'
+
 import { fallback } from '../utils/async'
 import { asFile, asImageRecord, DEFAULT_AVATAR_FILENAME } from '../utils/image'
 import { blobUrl, File, metadataUrl, NFTStorage, parseIpfsUrl } from '../utils/ipfs'
 
 class UserAvatarStorage {
+  cache = new Map()
+
   constructor(apiKey, peers, sizes) {
     assign(this, { peers })
     this.client = new NFTStorage({ token: apiKey })
   }
 
   async loadAvatars(cid, size = 'small') {
-    const metadata = await this._loadMetadata(cid)
+    let { metadata, image } = this.cache.get(cid) || {}
 
-    if (false === metadata) {
-      return this._loadBase64(cid)
+    if (isUndefined(metadata)) {
+      metadata = await this._loadMetadata(cid)
     }
 
-    return this._loadAvatar(metadata, size)
+    const isRawBase64 = false === metadata
+    const withCache = isRawBase64 || 'small' === size
+
+    if (!withCache || !image) {
+      // eslint-disable-next-line
+      image = await (isRawBase64
+        ? this._loadBase64(cid)
+        : this._loadAvatar(metadata, size)
+      )
+    }
+
+    const cacheData = { metadata }
+
+    if (withCache) {
+      assign(cacheData, { image })
+    }
+
+    this._updateCache(cid, cacheData)
+    return image
   }
 
   async storeAvatars(avatar, smallAvatar) {
@@ -55,9 +76,21 @@ class UserAvatarStorage {
   }
 
   async deleteAvatars(cid) {
-    const { client } = this
+    const { client, cache } = this
 
-    return client.delete(cid)
+    await client.delete(cid)
+    cache.delete(cid)
+  }
+
+  _updateCache(cid, data) {
+    const { cache } = this
+    let currentData = {}
+
+    if (cache.has(cid)) {
+      currentData = cache.get(cid)
+    }
+
+    cache.set(cid, { ...currentData, ...data })
   }
 
   async _loadAvatar(metadata, size = 'small') {

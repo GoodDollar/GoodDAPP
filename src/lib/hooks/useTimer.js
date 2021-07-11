@@ -8,7 +8,7 @@ import useInterval from './useInterval'
 const getTimerState = targetTime => {
   const duration = moment.duration(moment(targetTime).diff(moment()))
   const isReachedZero = duration.asSeconds() <= 0
-  const countdown = isReachedZero ? '00:00:00' : duration.format('HH:mm:ss')
+  const countdown = isReachedZero ? '00:00:00' : duration.format('HH:mm:ss', { trim: false })
 
   return [countdown, isReachedZero]
 }

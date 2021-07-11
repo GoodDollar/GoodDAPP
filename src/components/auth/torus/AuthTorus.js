@@ -159,8 +159,6 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
     try {
       torusUser = await torusUserPromise
 
-      fireEvent(TORUS_SUCCESS, { provider })
-
       const curSeed = await AsyncStorage.getItem(GD_USER_MASTERSEED)
       const curMnemonic = await AsyncStorage.getItem(GD_USER_MNEMONIC)
 
@@ -175,6 +173,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
 
       //set masterseed so wallet can use it in 'ready' where we check if user exists
       await AsyncStorage.setItem(GD_USER_MASTERSEED, torusUser.privateKey)
+      fireEvent(TORUS_SUCCESS, { provider })
       log.debug('torus login success', { torusUser, provider })
     } catch (e) {
       // store.set('loadingIndicator')({ loading: false })

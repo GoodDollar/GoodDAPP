@@ -62,7 +62,7 @@ const useInviteCode = () => {
   useEffect(() => {
     log.debug('useInviteCode didmount:', { inviteCode })
 
-    if (Config.enableInvites && !inviteCode) {
+    if (Config.enableInvites) {
       getInviteCode().then(code => {
         log.debug('useInviteCode registered user result:', { code })
         setInviteCode(code)

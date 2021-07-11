@@ -467,7 +467,10 @@ const Claim = props => {
         if (isValid && (await goodWallet.isCitizen())) {
           //collect invite bonus
           await handleClaim()
-          goodWallet.collectInviteBounty()
+          const inviteBonusCollected = userStorage.userProperties.get('inviteBonusCollected')
+          if (!inviteBonusCollected) {
+            goodWallet.collectInviteBounty().then(r => userStorage.userProperties.set('inviteBonusCollected', true))
+          }
         } else if (isValid === false) {
           goToRoot()
         } else {

@@ -159,7 +159,7 @@ class RealmDB implements DB {
     }
     feedItem._id = feedItem.id
     await this.Feed.save(feedItem)
-    this.encrypt(feedItem)
+    this._encrypt(feedItem)
 
     // this.db.remote.push('Feed').catch(e => log.error('remote push failed', e.message, e))
   }
@@ -236,21 +236,6 @@ class RealmDB implements DB {
       { _id, txHash, user_id, encrypted, date: new Date(feedItem.date) },
       { upsert: true },
     )
-  }
-
-  /**
-   * read feeditem directly from remote
-   * @param {*} id
-   * @returns
-   */
-  async decrypt(id) {
-    try {
-      const _id = `${id}_${this.user.id}`
-      const item = await this.EncryptedFeed.findOne({ _id, user_id: this.user.id })
-      return this._decrypt(item)
-    } catch (e) {
-      log.warn('unable to decrypt item:', id)
-    }
   }
 
   /**

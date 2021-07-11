@@ -39,6 +39,8 @@ export class VendorMetadata {
 
   static VENDOR_SHORT = 'ven'
 
+  static DATA_SHORT = 'd'
+
   constructor(callbackUrl: URL, invoiceId: string, website: URL, vendorName: string) {
     this.callbackUrl = callbackUrl
     this.invoiceId = invoiceId
@@ -57,6 +59,7 @@ export class VendorMetadata {
     response[VendorMetadata.INVOICE_DATA_SHORT] = this.invoiceId
     response[VendorMetadata.WEBSITE_SHORT] = this.website
     response[VendorMetadata.VENDOR_SHORT] = this.vendorName
+    response[VendorMetadata.DATA_SHORT] = this.data
 
     return response
   }
@@ -73,6 +76,7 @@ export class VendorMetadata {
       invoiceId: concise[VendorMetadata.INVOICE_DATA_SHORT],
       website: concise[VendorMetadata.WEBSITE_SHORT],
       vendorName: concise[VendorMetadata.VENDOR_SHORT],
+      data: concise[VendorMetadata.DATA_SHORT],
     }
   }
 }

@@ -70,7 +70,7 @@ export const routeAndPathForCode = async (
         }
       }
 
-      if (isNil(reason)) {
+      if (isNil(reason) && isNil(category)) {
         return {
           route: 'Reason',
           params: {

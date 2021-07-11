@@ -1,15 +1,17 @@
+//@flow
 import { Database } from '@textile/threaddb'
 import * as TextileCrypto from '@textile/crypto'
 import { once, sortBy } from 'lodash'
 import AsyncStorage from '../utils/asyncStorage'
-import logger from '../../lib/logger/pino-logger'
+import logger from '../logger/pino-logger'
 import Config from '../../config/config'
+import type { DB } from '../userStorage/UserStorage'
 
 import { FeedItemSchema } from './feedSchema' // Some json-schema.org schema
 
 const log = logger.child({ from: 'FeedThreadDB' })
 
-class FeedThreaddb {
+class TextileDB implements DB {
   db = new Database(
     'demo5',
     { name: 'Feed', schema: FeedItemSchema, indexes: [{ path: 'date' }, { path: 'data.hashedCode' }] },
@@ -146,4 +148,4 @@ class FeedThreaddb {
   }
 }
 
-export default once(() => new FeedThreaddb())
+export default once(() => new TextileDB())

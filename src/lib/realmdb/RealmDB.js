@@ -1,16 +1,17 @@
+//@flow
 import * as Realm from 'realm-web'
 import { Database } from '@textile/threaddb'
 import * as TextileCrypto from '@textile/crypto'
 import { once, sortBy } from 'lodash'
 import AsyncStorage from '../utils/asyncStorage'
 import { JWT } from '../constants/localStorage'
-import logger from '../../lib/logger/pino-logger'
+import logger from '../logger/pino-logger'
 import Config from '../../config/config'
 import { FeedItemSchema } from '../textile/feedSchema' // Some json-schema.org schema
-
+import type { DB } from '../userStorage/UserStorage'
 const log = logger.child({ from: 'FeedRealmDB' })
 
-class FeedDB {
+class RealmDB implements DB {
   privateKey
 
   publicKey
@@ -288,4 +289,4 @@ class FeedDB {
   }
 }
 
-export default once(() => new FeedDB())
+export default once(() => new RealmDB())

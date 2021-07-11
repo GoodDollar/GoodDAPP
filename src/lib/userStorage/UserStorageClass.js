@@ -41,6 +41,7 @@ import { getUserModel, type UserModel } from '../gundb//UserModel'
 import { type StandardFeed } from '../gundb/StandardFeed'
 import UserProperties from './UserProperties'
 import { FeedEvent, FeedItemType, FeedStorage, TxStatus } from './FeedStorage'
+import type { DB } from './UserStorage'
 
 const logger = pino.child({ from: 'UserStorage' })
 
@@ -254,7 +255,7 @@ export class UserStorage {
 
   _lastProfileUpdate: any
 
-  feedDB
+  feedDB: DB
 
   userProperties
 
@@ -374,7 +375,7 @@ export class UserStorage {
     return mnemonic
   }
 
-  constructor(wallet: GoodWallet, feeddb, userProperties) {
+  constructor(wallet: GoodWallet, feeddb: DB, userProperties) {
     this.gun = defaultGun
     this.wallet = wallet
     this.feedDB = feeddb

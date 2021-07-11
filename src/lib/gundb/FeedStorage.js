@@ -12,7 +12,7 @@ import { isValidBase64Image } from '../utils/image'
 import Base64Storage from '../nft/Base64Storage'
 
 // import getFeedDB from '../textile/FeedThreadDB'
-import getFeedDB from '../realmdb/FeedDB'
+import getDB from '../realmdb/RealmDB'
 const log = logger.child({ from: 'FeedStorage' })
 
 /**
@@ -116,7 +116,7 @@ export class FeedStorage {
 
     //mark as initialized, ie resolve ready promise
 
-    this.feedDB = getFeedDB()
+    this.feedDB = getDB()
     const seed = this.wallet.wallet.eth.accounts.wallet[this.wallet.getAccountForType('gundb')].privateKey.slice(2)
     await this.feedDB.init(seed, this.wallet.getAccountForType('gundb'))
 

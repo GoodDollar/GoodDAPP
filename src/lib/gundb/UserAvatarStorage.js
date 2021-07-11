@@ -15,13 +15,20 @@ class UserAvatarStorage {
     this.client = new NFTStorage({ token: apiKey })
   }
 
-  async loadAvatar(cid, size = 'small') {
-    let { metadata, image } = this.cache.get(cid) || {}
+  async loadMetadata(cid) {
+    let { metadata } = this.cache.get(cid) || {}
 
     if (isUndefined(metadata)) {
       metadata = await this._loadMetadata(cid)
+      this._updateCache(cid, { metadata })
     }
 
+    return metadata
+  }
+
+  async loadAvatar(cid, size = 'small') {
+    let { image } = this.cache.get(cid) || {}
+    const metadata = await this.loadMetadata(cid)
     const isRawBase64 = false === metadata
     const withCache = isRawBase64 || 'small' === size
 
@@ -31,28 +38,43 @@ class UserAvatarStorage {
         ? this._loadBase64(cid)
         : this._loadAvatar(metadata, size)
       )
+
+      if (withCache) {
+        this._updateCache(cid, { image })
+      }
     }
 
-    const cacheData = { metadata }
-
-    if (withCache) {
-      assign(cacheData, { image })
-    }
-
-    this._updateCache(cid, cacheData)
     return image
   }
 
   async loadAvatars(cid) {
-    const smallAvatar = await this.loadAvatar(cid)
-    const { metadata } = this.cache.get(cid)
-    let avatar = smallAvatar
+    const avatars = {}
+    const metadata = await this.loadMetadata(cid)
+    const loadImage = async () => this.loadAvatar(cid)
 
-    if (false !== metadata) {
-      avatar = await this._loadAvatar(metadata, 'large')
+    if (false === metadata) {
+      const avatar = await loadImage()
+
+      assign(avatars, { avatar, smallAvatar: { ...avatar } })
+    } else {
+      await Promise.all(
+        ['large', 'small'].map(async size => {
+          let image
+          let property = 'avatar'
+
+          if (size === 'small') {
+            property = 'smallAvatar'
+            image = await loadImage()
+          } else {
+            image = await this._loadAvatar(metadata, size)
+          }
+
+          avatars[property] = image
+        }),
+      )
     }
 
-    return { avatar, smallAvatar }
+    return avatars
   }
 
   async storeAvatars(avatar, smallAvatar) {

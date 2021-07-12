@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { Image, View } from 'react-native'
-import { get, result } from 'lodash'
+import { get, isNaN, isNil, result } from 'lodash'
 import { Avatar, CustomButton, Icon, Section, ShareButton, Text, Wrapper } from '../common'
 import { WavesBox } from '../common/view/WavesBox'
 import { theme } from '../theme/styles'
@@ -64,8 +64,11 @@ const ShareBox = ({ level }) => {
   const inviteCode = useInviteCode()
   const shareUrl = `${Config.invitesUrl}?inviteCode=${inviteCode}`
   const bounty = result(level, 'bounty.toNumber') / 100
-
   const share = useMemo(() => generateShareObject(shareTitle, shareMessage, shareUrl), [shareUrl])
+
+  if (isNil(bounty) || isNaN(bounty)) {
+    return null
+  }
 
   return (
     <WavesBox primarycolor={theme.colors.primary} style={styles.linkBoxStyle} title={'Share Your Invite Link'}>
@@ -270,7 +273,7 @@ const Invite = () => {
   const [invitees, refresh, level, inviteState] = useInvited()
 
   const totalEarned = get(inviteState, 'totalEarned', 0)
-  const bounty = result(level, 'bounty.toNumber')
+  const bounty = result(level, 'bounty.toNumber') / 100
 
   const toggleHowTo = () => {
     !showHowTo && fireEvent(INVITE_HOWTO)
@@ -284,53 +287,55 @@ const Invite = () => {
     }
   }, [inviteState])
 
+  if (isNil(bounty) || isNaN(bounty)) {
+    return
+  }
+
   return (
-    bounty !== undefined && (
-      <Wrapper style={styles.pageBackground} backgroundColor={theme.colors.lightGray}>
-        <Section.Stack style={styles.headLine}>
-          <Section.Text
-            letterSpacing={0.14}
-            fontWeight={'bold'}
-            fontFamily={theme.fonts.slab}
-            fontSize={28}
-            color={theme.colors.darkBlue}
-            lineHeight={34}
-            style={styles.bounty}
-          >
-            {`Get ${bounty / 100}G$`}
-          </Section.Text>
-          <Section.Text
-            letterSpacing={0.1}
-            fontWeight={'bold'}
-            fontFamily={theme.fonts.slab}
-            fontSize={20}
-            color={theme.colors.primary}
-            lineHeight={34}
-          >
-            For Each Friend You Invite!
-          </Section.Text>
-        </Section.Stack>
-        <Divider size={theme.sizes.defaultDouble} />
-        <Section.Text letterSpacing={-0.07} lineHeight={20} fontSize={15} color={theme.colors.darkBlue}>
-          {`Make sure they claim to get your reward`}
-        </Section.Text>
-        <Divider size={getDesignRelativeHeight(theme.paddings.defaultMargin * 3, false)} />
-        <CustomButton
+    <Wrapper style={styles.pageBackground} backgroundColor={theme.colors.lightGray}>
+      <Section.Stack style={styles.headLine}>
+        <Section.Text
+          letterSpacing={0.14}
+          fontWeight={'bold'}
+          fontFamily={theme.fonts.slab}
+          fontSize={28}
           color={theme.colors.darkBlue}
-          iconColor={theme.colors.darkBlue}
-          iconStyle={{ marginLeft: 10 }}
-          iconAlignment="right"
-          icon={showHowTo ? 'arrow-up' : 'arrow-down'}
-          mode="text"
-          textStyle={{ fontWeight: 'bold', letterSpacing: 0, textDecorationLine: 'underline' }}
-          onPress={toggleHowTo}
+          lineHeight={34}
+          style={styles.bounty}
         >
-          {`How Do I Invite People?`}
-        </CustomButton>
-        {showHowTo && <InvitesHowTO />}
-        <InvitesData {...{ invitees, refresh, level, totalEarned }} />
-      </Wrapper>
-    )
+          {`Get ${bounty / 100}G$`}
+        </Section.Text>
+        <Section.Text
+          letterSpacing={0.1}
+          fontWeight={'bold'}
+          fontFamily={theme.fonts.slab}
+          fontSize={20}
+          color={theme.colors.primary}
+          lineHeight={34}
+        >
+          For Each Friend You Invite!
+        </Section.Text>
+      </Section.Stack>
+      <Divider size={theme.sizes.defaultDouble} />
+      <Section.Text letterSpacing={-0.07} lineHeight={20} fontSize={15} color={theme.colors.darkBlue}>
+        {`Make sure they claim to get your reward`}
+      </Section.Text>
+      <Divider size={getDesignRelativeHeight(theme.paddings.defaultMargin * 3, false)} />
+      <CustomButton
+        color={theme.colors.darkBlue}
+        iconColor={theme.colors.darkBlue}
+        iconStyle={{ marginLeft: 10 }}
+        iconAlignment="right"
+        icon={showHowTo ? 'arrow-up' : 'arrow-down'}
+        mode="text"
+        textStyle={{ fontWeight: 'bold', letterSpacing: 0, textDecorationLine: 'underline' }}
+        onPress={toggleHowTo}
+      >
+        {`How Do I Invite People?`}
+      </CustomButton>
+      {showHowTo && <InvitesHowTO />}
+      <InvitesData {...{ invitees, refresh, level, totalEarned }} />
+    </Wrapper>
   )
 }
 

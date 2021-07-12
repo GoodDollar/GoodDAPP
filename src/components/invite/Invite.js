@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { Image, View } from 'react-native'
-import { get, result } from 'lodash'
+import { get, isNaN, isNil, result } from 'lodash'
 import { Avatar, CustomButton, Icon, Section, ShareButton, Text, Wrapper } from '../common'
 import { WavesBox } from '../common/view/WavesBox'
 import { theme } from '../theme/styles'
@@ -63,9 +63,12 @@ const InvitedUser = ({ address, status }) => {
 const ShareBox = ({ level }) => {
   const inviteCode = useInviteCode()
   const shareUrl = `${Config.invitesUrl}?inviteCode=${inviteCode}`
-  const bounty = result(level, 'bounty.toNumber', 100) / 100
-
+  const bounty = result(level, 'bounty.toNumber') / 100
   const share = useMemo(() => generateShareObject(shareTitle, shareMessage, shareUrl), [shareUrl])
+
+  if (isNil(bounty) || isNaN(bounty)) {
+    return null
+  }
 
   return (
     <WavesBox primarycolor={theme.colors.primary} style={styles.linkBoxStyle} title={'Share Your Invite Link'}>
@@ -270,7 +273,7 @@ const Invite = () => {
   const [invitees, refresh, level, inviteState] = useInvited()
 
   const totalEarned = get(inviteState, 'totalEarned', 0)
-  const bounty = result(level, 'bounty.toNumber', 100) / 100
+  const bounty = result(level, 'bounty.toNumber') / 100
 
   const toggleHowTo = () => {
     !showHowTo && fireEvent(INVITE_HOWTO)
@@ -284,6 +287,10 @@ const Invite = () => {
     }
   }, [inviteState])
 
+  if (isNil(bounty) || isNaN(bounty)) {
+    return null
+  }
+
   return (
     <Wrapper style={styles.pageBackground} backgroundColor={theme.colors.lightGray}>
       <Section.Stack style={styles.headLine}>
@@ -294,6 +301,7 @@ const Invite = () => {
           fontSize={28}
           color={theme.colors.darkBlue}
           lineHeight={34}
+          style={styles.bounty}
         >
           {`Get ${bounty}G$`}
         </Section.Text>
@@ -354,6 +362,9 @@ const styles = {
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: getDesignRelativeHeight(theme.paddings.defaultMargin * 3, false),
+  },
+  bounty: {
+    height: 34,
   },
 }
 export default Invite

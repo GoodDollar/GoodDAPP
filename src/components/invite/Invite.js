@@ -63,7 +63,7 @@ const InvitedUser = ({ address, status }) => {
 const ShareBox = ({ level }) => {
   const inviteCode = useInviteCode()
   const shareUrl = `${Config.invitesUrl}?inviteCode=${inviteCode}`
-  const bounty = result(level, 'bounty.toNumber', 0) / 100
+  const bounty = result(level, 'bounty.toNumber') / 100
 
   const share = useMemo(() => generateShareObject(shareTitle, shareMessage, shareUrl), [shareUrl])
 
@@ -270,7 +270,7 @@ const Invite = () => {
   const [invitees, refresh, level, inviteState] = useInvited()
 
   const totalEarned = get(inviteState, 'totalEarned', 0)
-  const bounty = result(level, 'bounty.toNumber', 0) / 100
+  const bounty = result(level, 'bounty.toNumber')
 
   const toggleHowTo = () => {
     !showHowTo && fireEvent(INVITE_HOWTO)
@@ -285,50 +285,52 @@ const Invite = () => {
   }, [inviteState])
 
   return (
-    <Wrapper style={styles.pageBackground} backgroundColor={theme.colors.lightGray}>
-      <Section.Stack style={styles.headLine}>
-        <Section.Text
-          letterSpacing={0.14}
-          fontWeight={'bold'}
-          fontFamily={theme.fonts.slab}
-          fontSize={28}
+    bounty !== undefined && (
+      <Wrapper style={styles.pageBackground} backgroundColor={theme.colors.lightGray}>
+        <Section.Stack style={styles.headLine}>
+          <Section.Text
+            letterSpacing={0.14}
+            fontWeight={'bold'}
+            fontFamily={theme.fonts.slab}
+            fontSize={28}
+            color={theme.colors.darkBlue}
+            lineHeight={34}
+            style={styles.bounty}
+          >
+            {`Get ${bounty / 100}G$`}
+          </Section.Text>
+          <Section.Text
+            letterSpacing={0.1}
+            fontWeight={'bold'}
+            fontFamily={theme.fonts.slab}
+            fontSize={20}
+            color={theme.colors.primary}
+            lineHeight={34}
+          >
+            For Each Friend You Invite!
+          </Section.Text>
+        </Section.Stack>
+        <Divider size={theme.sizes.defaultDouble} />
+        <Section.Text letterSpacing={-0.07} lineHeight={20} fontSize={15} color={theme.colors.darkBlue}>
+          {`Make sure they claim to get your reward`}
+        </Section.Text>
+        <Divider size={getDesignRelativeHeight(theme.paddings.defaultMargin * 3, false)} />
+        <CustomButton
           color={theme.colors.darkBlue}
-          lineHeight={34}
-          style={styles.bounty}
+          iconColor={theme.colors.darkBlue}
+          iconStyle={{ marginLeft: 10 }}
+          iconAlignment="right"
+          icon={showHowTo ? 'arrow-up' : 'arrow-down'}
+          mode="text"
+          textStyle={{ fontWeight: 'bold', letterSpacing: 0, textDecorationLine: 'underline' }}
+          onPress={toggleHowTo}
         >
-          {`Get ${bounty}G$`}
-        </Section.Text>
-        <Section.Text
-          letterSpacing={0.1}
-          fontWeight={'bold'}
-          fontFamily={theme.fonts.slab}
-          fontSize={20}
-          color={theme.colors.primary}
-          lineHeight={34}
-        >
-          For Each Friend You Invite!
-        </Section.Text>
-      </Section.Stack>
-      <Divider size={theme.sizes.defaultDouble} />
-      <Section.Text letterSpacing={-0.07} lineHeight={20} fontSize={15} color={theme.colors.darkBlue}>
-        {`Make sure they claim to get your reward`}
-      </Section.Text>
-      <Divider size={getDesignRelativeHeight(theme.paddings.defaultMargin * 3, false)} />
-      <CustomButton
-        color={theme.colors.darkBlue}
-        iconColor={theme.colors.darkBlue}
-        iconStyle={{ marginLeft: 10 }}
-        iconAlignment="right"
-        icon={showHowTo ? 'arrow-up' : 'arrow-down'}
-        mode="text"
-        textStyle={{ fontWeight: 'bold', letterSpacing: 0, textDecorationLine: 'underline' }}
-        onPress={toggleHowTo}
-      >
-        {`How Do I Invite People?`}
-      </CustomButton>
-      {showHowTo && <InvitesHowTO />}
-      <InvitesData {...{ invitees, refresh, level, totalEarned }} />
-    </Wrapper>
+          {`How Do I Invite People?`}
+        </CustomButton>
+        {showHowTo && <InvitesHowTO />}
+        <InvitesData {...{ invitees, refresh, level, totalEarned }} />
+      </Wrapper>
+    )
   )
 }
 

@@ -28,6 +28,8 @@ export const isImageRecord = source =>
 export const isValidBase64Image = source =>
   isString(source) && source.startsWith('data:image/') && source.includes(';base64,')
 
+export const getBase64Source = source => ({ uri: source })
+
 export const isGoodDollarImage = source => source === -1
 
 // converts image record to the data-url string

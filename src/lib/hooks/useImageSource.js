@@ -1,13 +1,35 @@
-import { useEffect, useMemo } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { first, last } from 'lodash'
 
-import { isGoodDollarImage } from '../utils/image'
+import UserAvatarStorage from '../gundb/UserAvatarStorage'
+import { isValidCID } from '../utils/ipfs'
+import { asDataUrl, getBase64Source, isGoodDollarImage, isImageRecord, isValidBase64Image } from '../utils/image'
+
 import logger from '../logger/pino-logger'
-import useProfileAvatar from './useProfileAvatar'
 
 const log = logger.child({ from: 'useImageSource' })
+const emptySource = [false, null]
 
-export default (source, skipCache = false) => {
+const imageToSource = source => {
+  // checking is image record or base64 data url
+  const isRecord = isImageRecord(source)
+
+  // if not return null
+  if (!isRecord && !isValidBase64Image(source)) {
+    return null
+  }
+
+  let base64 = source
+
+  if (isRecord) {
+    // assemble data url from image record
+    base64 = asDataUrl(source)
+  }
+
+  return [false, getBase64Source(base64)]
+}
+
+export default (source, size = 'small') => {
   // firstly, trying for image sources could be checked syncronously
   const cachedState = useMemo(() => {
     // GD logo (-1)
@@ -15,28 +37,35 @@ export default (source, skipCache = false) => {
       return [true, null]
     }
 
-    // if no match - return null
-    return null
+    // check is image record or data url
+    return imageToSource(source)
   }, [source])
 
-  // if GD, local or root image was detected - pass null to skip loading
-  const base64 = useProfileAvatar(cachedState ? null : source, skipCache)
+  // aggregating state variable
+  const [sourceState, setSourceState] = useState(() => cachedState || emptySource)
 
-  // aggregating memo
-  const sourceState = useMemo(() => {
-    // if GD, local or root image - return cached value
-    if (cachedState) {
-      return cachedState
+  useEffect(() => {
+    // if was GD image, base64 or image record - set it to state immediately
+    setSourceState(cachedState || emptySource)
+
+    // if not valid CID - keep 'undefined' profile image
+    if (!cachedState || !isValidCID(source)) {
+      return
     }
 
-    // if was base64 or was loaded form ipfs - return data url
-    if (base64) {
-      return [false, { uri: base64 }]
-    }
+    // otherwise trying to load it from thes ipfs
+    UserAvatarStorage.loadAvatar(source, size)
+      .catch(() => null)
+      .then(imageRecord => {
+        if (!imageRecord) {
+          return
+        }
 
-    // otherwise return unknown profile image
-    return [false, null]
-  }, [cachedState, base64])
+        // if no failures and we've got non-empty response -
+        // updating source according to the record received
+        setSourceState(imageToSource(imageRecord))
+      })
+  }, [cachedState, size, source, setSourceState])
 
   useEffect(() => {
     const resolved = last(sourceState)

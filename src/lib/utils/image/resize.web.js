@@ -1,23 +1,5 @@
-import { Image as NativeImage } from 'react-native'
-
 import { parseDataUrl } from './helpers'
-
-/**
- * Creates Image() instance and preloads image from then source or data URL
- * @param {Image | string} imageSource
- */
-export const createImage = async imageSource => {
-  if (imageSource instanceof Image) {
-    return imageSource
-  }
-
-  const image = new Image()
-
-  await NativeImage.prefetch(imageSource)
-  image.src = imageSource
-
-  return image
-}
+import { createImage } from './browser'
 
 /**
  * Resizes image to the specified dimensions
@@ -41,26 +23,4 @@ export const resizeImage = async (imageSource, targetWidth, targetHeight = null)
   canvas.getContext('2d').drawImage(image, 0, 0, width, height)
 
   return canvas.toDataURL(mime || 'image/png')
-}
-
-/**
- * Adjusts image size relative to specified constaints
- *
- * @param {Image | string} imageSource Image source or data URL
- * @param {number} maxWidth Maximum image width constrain to
- * @param {number?} maxHeight Maximum image height constrain to (optional)
- */
-export const constrainImage = async (imageSource, maxWidth, maxHeight = null) => {
-  const image = await createImage(imageSource)
-  let { width, height } = image
-
-  if ((width > height || !maxHeight) && width > maxWidth) {
-    height *= maxWidth / width
-    width = maxWidth
-  } else if (height > maxHeight) {
-    width *= maxHeight / height
-    height = maxHeight
-  }
-
-  return resizeImage(image, width, height)
 }

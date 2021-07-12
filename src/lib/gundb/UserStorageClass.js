@@ -6,7 +6,6 @@ import {
   get,
   isEmpty,
   isError,
-  isFunction,
   isNil,
   isString,
   keys,
@@ -32,7 +31,7 @@ import API from '../API/api'
 import pino from '../logger/pino-logger'
 import { ExceptionCategory } from '../logger/exceptions'
 import isMobilePhone from '../validators/isMobilePhone'
-import { isValidBase64Image, resizeImage } from '../utils/image'
+import { AVATAR_SIZE, resizeImageRecord, SMALL_AVATAR_SIZE } from '../utils/image'
 import { isValidCID } from '../utils/ipfs'
 
 import { GD_GUN_CREDENTIALS } from '../constants/localStorage'
@@ -262,7 +261,6 @@ export class UserStorage {
     mobile: { defaultPrivacy: 'private' },
     mnemonic: { defaultPrivacy: 'private' },
     avatar: { defaultPrivacy: 'public' },
-    smallAvatar: { defaultPrivacy: 'public' },
     walletAddress: { defaultPrivacy: 'public' },
     username: { defaultPrivacy: 'public' },
   }
@@ -612,71 +610,37 @@ export class UserStorage {
 
   async setAvatar(avatar, withCleanup = false) {
     // save space and load on gun
-    const avatarResized = await resizeImage(avatar, 320)
+    const resizedAvatar = await resizeImageRecord(avatar, AVATAR_SIZE)
+    const smallAvatar = await resizeImageRecord(resizedAvatar, SMALL_AVATAR_SIZE)
+    const cid = await UserAvatarStorage.storeAvatars(resizedAvatar, smallAvatar)
 
     // eslint-disable-next-line
-    return Promise.all([
-      this._storeAvatar('avatar', avatarResized, withCleanup),
-      this.setSmallAvatar(avatarResized, withCleanup),
-    ])
-  }
-
-  async setSmallAvatar(avatar, withCleanup = false) {
-    const smallAvatar = await resizeImage(avatar, 50)
-
-    return this._storeAvatar('smallAvatar', smallAvatar, withCleanup)
+    return this._linkAvatarsToDatabase(cid, withCleanup)
   }
 
   // eslint-disable-next-line require-await
   async removeAvatar(withCleanup = false) {
-    return Promise.all(
-      // eslint-disable-next-line require-await
-      ['avatar', 'smallAvatar'].map(async field => {
-        // eslint-disable-next-line require-await
-        const updateGunDB = async () => this.setProfileField(field, null, 'public')
-
-        if (true !== withCleanup) {
-          return updateGunDB()
-        }
-
-        return this._removeBase64(field, updateGunDB)
-      }),
-    )
+    return this._linkAvatarsToDatabase(null, withCleanup)
   }
 
   /**
    * @private
-   * @param {String} avatar Base64 data url string
-   *
-   * @returns {Promise<string>} CID
    */
-  async _storeAvatar(field, avatar, withCleanup = false) {
-    const cid = await UserAvatarStorage.store(avatar)
-    // eslint-disable-next-line require-await
-    const updateGunDB = async () => this.setProfileField(field, cid, 'public')
+  async _linkAvatarsToDatabase(cid, withCleanup = false) {
+    // get current CID value
+    let currentCID
+    const linkOnly = true !== withCleanup
 
-    if (true !== withCleanup) {
-      return updateGunDB()
+    if (!linkOnly) {
+      currentCID = await this.getProfileFieldValue('avatar')
     }
-
-    return this._removeBase64(field, updateGunDB)
-  }
-
-  /**
-   * @private
-   * @param {async () => any} updateGUNCallback
-   */
-  async _removeBase64(field, updateGUNCallback = null) {
-    const cid = await this.getProfileFieldValue(field)
 
     // executing GUN update actions first
-    if (isFunction(updateGUNCallback)) {
-      await updateGUNCallback()
-    }
+    await this.setProfileField('avatar', cid, 'public')
 
     // if avatar was a CID - delete if after GUN updated
-    if (isString(cid) && !isValidBase64Image(cid) && isValidCID(cid)) {
-      await UserAvatarStorage.delete(cid)
+    if (!linkOnly && isValidCID(currentCID)) {
+      await UserAvatarStorage.deleteAvatars(currentCID)
     }
   }
 
@@ -970,10 +934,6 @@ export class UserStorage {
       )
 
       throw errors
-    }
-
-    if (profile.avatar) {
-      profile.smallAvatar = await resizeImage(profile.avatar, 50)
     }
 
     /**
@@ -1470,7 +1430,7 @@ export class UserStorage {
       this.gun
         .get(profile)
         .get('profile')
-        .get('smallAvatar')
+        .get('avatar')
         .get('display')
         .then(null, 500),
       this.gun
@@ -1871,13 +1831,11 @@ export class UserStorage {
     let profileFields = await profile.then(_getProfileFields)
 
     const deleteField = field => {
-      if (!field.includes('avatar')) {
-        return this.setProfileFieldPrivacy(field, 'private')
-      }
-
       if (field === 'avatar') {
         return this.removeAvatar()
       }
+
+      return this.setProfileFieldPrivacy(field, 'private')
     }
 
     await Promise.all(

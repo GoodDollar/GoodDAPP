@@ -5,7 +5,7 @@ import logger from '../../logger/pino-logger'
 
 const log = logger.child({ from: 'useGunProfile' })
 
-const useGunProfile = (identifier, fields = ['fullName', 'smallAvatar']) => {
+const useGunProfile = (identifier, fields = ['fullName', 'avatar']) => {
   const gunSubscriptions = useRef({})
   const [profile, setProfile] = useState({})
 

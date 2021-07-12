@@ -63,7 +63,7 @@ const InvitedUser = ({ address, status }) => {
 const ShareBox = ({ level }) => {
   const inviteCode = useInviteCode()
   const shareUrl = `${Config.invitesUrl}?inviteCode=${inviteCode}`
-  const bounty = result(level, 'bounty.toNumber', 100) / 100
+  const bounty = result(level, 'bounty.toNumber', 0) / 100
 
   const share = useMemo(() => generateShareObject(shareTitle, shareMessage, shareUrl), [shareUrl])
 
@@ -270,7 +270,7 @@ const Invite = () => {
   const [invitees, refresh, level, inviteState] = useInvited()
 
   const totalEarned = get(inviteState, 'totalEarned', 0)
-  const bounty = result(level, 'bounty.toNumber')
+  const bounty = result(level, 'bounty.toNumber', 0) / 100
 
   const toggleHowTo = () => {
     !showHowTo && fireEvent(INVITE_HOWTO)
@@ -296,7 +296,7 @@ const Invite = () => {
           lineHeight={34}
           style={styles.bounty}
         >
-          {bounty && `Get ${bounty / 100}G$`}
+          {`Get ${bounty}G$`}
         </Section.Text>
         <Section.Text
           letterSpacing={0.1}

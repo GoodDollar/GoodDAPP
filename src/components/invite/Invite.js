@@ -288,7 +288,7 @@ const Invite = () => {
   }, [inviteState])
 
   if (isNil(bounty) || isNaN(bounty)) {
-    return
+    return null
   }
 
   return (
@@ -303,7 +303,7 @@ const Invite = () => {
           lineHeight={34}
           style={styles.bounty}
         >
-          {`Get ${bounty / 100}G$`}
+          {`Get ${bounty}G$`}
         </Section.Text>
         <Section.Text
           letterSpacing={0.1}

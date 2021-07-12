@@ -1,26 +1,10 @@
-import { isPlainObject, isString } from 'lodash'
+import { isPlainObject, isString, omit } from 'lodash'
+
 import { File } from './ipfs'
+import { resizeImage } from './image/resize'
+import { asDataUrl, mimeToExtension, parseDataUrl, stripBase64 } from './image/helpers'
 
-const dataUrlRegexp = /^data:(image\/(\w{3,5}));base64,/i
 const extensionRegexp = /\.\w{3,5}$/i
-
-const stripBase64 = dataURL => dataURL.substring(dataURL.indexOf(',') + 1)
-
-const parseDataUrl = (base64, fileName = 'image') => {
-  const [, mime, extension] = dataUrlRegexp.exec(base64)
-
-  return {
-    mime,
-    filename: `${fileName}.${extension}`,
-    base64: stripBase64(base64),
-  }
-}
-
-export const MAX_AVATAR_WIDTH = 600
-export const MAX_AVATAR_HEIGHT = 600
-export const DEFAULT_AVATAR_FILENAME = 'GD_AVATAR'
-
-export * from './imageHelpers'
 
 export const isImageRecord = source =>
   isPlainObject(source) && ['mime', 'filename', 'base64'].every(field => field in source)
@@ -31,18 +15,6 @@ export const isValidBase64Image = source =>
 export const getBase64Source = source => ({ uri: source })
 
 export const isGoodDollarImage = source => source === -1
-
-// converts image record to the data-url string
-// interface ImageRecord {
-//   filename: string; // uploaded file name
-//   mime: string;     // MIME-type of the image
-//   base64: string;   // image data as base64 string
-// }
-export const asDataUrl = imageRecord => {
-  const { mime, base64 } = imageRecord
-
-  return `data:${mime};base64,` + base64
-}
 
 // reads File instance and converts it to the image record
 export const asImageRecord = async (fileOrBase64, fileName = 'image') => {
@@ -101,7 +73,7 @@ export const updateImageRecord = (imageRecord, data) => {
   const { mime } = data
 
   if (mime) {
-    const dotExtension = '.' + mime.replace('image/', '')
+    const dotExtension = mimeToExtension(mime, { withDot: true })
     const { filename } = imageRecord
 
     if (!filename.endsWith(dotExtension)) {
@@ -111,3 +83,13 @@ export const updateImageRecord = (imageRecord, data) => {
 
   return updatedRecord
 }
+
+export const resizeImageRecord = async (imageRecord, size) => {
+  const resized = await resizeImage(asDataUrl(imageRecord), size)
+  const updated = omit(parseDataUrl(resized), 'filename')
+
+  return updateImageRecord(imageRecord, updated)
+}
+
+export * from './image/helpers'
+export * from './image/resize'

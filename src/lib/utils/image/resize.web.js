@@ -1,5 +1,7 @@
 import { Image as NativeImage } from 'react-native'
 
+import { parseDataUrl } from './helpers'
+
 /**
  * Creates Image() instance and preloads image from then source or data URL
  * @param {Image | string} imageSource
@@ -27,6 +29,7 @@ export const createImage = async imageSource => {
 export const resizeImage = async (imageSource, targetWidth, targetHeight = null) => {
   const canvas = document.createElement('canvas')
   const image = await createImage(imageSource)
+  const { mime } = parseDataUrl(image.src)
   let { width, height } = image
 
   // prepare resize scale factor properties
@@ -37,7 +40,7 @@ export const resizeImage = async (imageSource, targetWidth, targetHeight = null)
   Object.assign(canvas, { width, height })
   canvas.getContext('2d').drawImage(image, 0, 0, width, height)
 
-  return canvas.toDataURL('image/png')
+  return canvas.toDataURL(mime || 'image/png')
 }
 
 /**

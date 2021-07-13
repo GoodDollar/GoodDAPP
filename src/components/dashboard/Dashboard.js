@@ -610,6 +610,7 @@ const Dashboard = props => {
                   bigNumberProps={{
                     numberOfLines: 1,
                   }}
+                  style={styles.bigGoodDollar}
                 />
               </View>
             </Animated.View>
@@ -783,12 +784,18 @@ const getStylesFromProps = ({ theme }) => ({
   },
   bigNumberUnitStyles: {
     marginRight: normalize(-20),
+    alignSelf: 'stretch',
   },
   bigNumberStyles: {
     fontSize: 42,
     fontWeight: '700',
     lineHeight: 42,
-    textAlign: 'left',
+    textAlign: 'center',
+
+    alignSelf: 'stretch',
+  },
+  bigGoodDollar: {
+    width: '100%',
   },
 })
 

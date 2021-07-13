@@ -25,12 +25,13 @@ import Mutex from 'await-mutex'
 import EventEmitter from 'eventemitter3'
 
 import Config from '../../config/config'
+import { updateFeedEventAvatar } from '../updates/utils'
+
 import delUndefValNested from '../utils/delUndefValNested'
 import AsyncStorage from '../utils/asyncStorage'
-import logger from '../../lib/logger/pino-logger'
 import { delay } from '../utils/async'
-import { asImageRecord, isValidBase64Image } from '../utils/image'
-import UserAvatarStorage from '../gundb/UserAvatarStorage'
+
+import logger from '../../lib/logger/pino-logger'
 
 const log = logger.child({ from: 'FeedStorage' })
 
@@ -568,12 +569,9 @@ export class FeedStorage {
             // if yes - upload it and store CID instead
             let value = _value
 
-            if (Config.nftLazyUpload && 'avatar' === field && isValidBase64Image(value)) {
-              const avatar = asImageRecord(value)
-              const smallAvatar = { ...avatar }
-
+            if (Config.nftLazyUpload && 'avatar' === field) {
               // keep old base64 value if upload failed
-              value = await UserAvatarStorage.storeAvatars(avatar, smallAvatar).catch(() => _value)
+              value = await updateFeedEventAvatar(_value)
             }
 
             // ********************************************

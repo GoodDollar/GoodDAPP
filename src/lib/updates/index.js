@@ -5,12 +5,12 @@ import Config from '../../config/config'
 import { fireEvent } from '../analytics/analytics'
 import logger from '../logger/pino-logger'
 
-import profileFix from './profileFix'
-import uploadAvatars from './avatar'
-import updateFeedEvents from './updateFeedEvents'
+import migrateProfiles from './migrations/profiles'
+import migrateAvatars from './migrations/avatars'
+import migrateFeed from './migrations/feed'
 
 const log = logger.child({ from: 'updates' })
-const updates = [uploadAvatars, profileFix, updateFeedEvents]
+const migrations = [migrateAvatars, migrateProfiles, migrateFeed]
 
 const update = async () => {
   const updatesData = (await userStorage.userProperties.get('updates')) || {
@@ -26,7 +26,7 @@ const update = async () => {
   log.debug('starting updates:', { prevVersion, lastUpdate, doneUpdates })
 
   if (prevVersion) {
-    const promises = updates.map(upd => {
+    const promises = migrations.map(upd => {
       const updateKey = `${upd.key}_${new Date(upd.fromDate).toISOString()}`
 
       if (upd.fromDate > lastUpdate || !doneUpdates[updateKey]) {

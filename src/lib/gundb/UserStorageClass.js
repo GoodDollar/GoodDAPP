@@ -36,7 +36,7 @@ import { isValidCID } from '../utils/ipfs'
 
 import { GD_GUN_CREDENTIALS } from '../constants/localStorage'
 import AsyncStorage from '../utils/asyncStorage'
-import UserAvatarStorage from './UserAvatarStorage'
+import avatarStorage from './UserAvatarStorage'
 import defaultGun from './gundb'
 import UserProperties from './UserPropertiesClass'
 import { getUserModel, type UserModel } from './UserModel'
@@ -612,7 +612,7 @@ export class UserStorage {
     // save space and load on gun
     const resizedAvatar = await resizeImageRecord(avatar, AVATAR_SIZE)
     const smallAvatar = await resizeImageRecord(resizedAvatar, SMALL_AVATAR_SIZE)
-    const cid = await UserAvatarStorage.storeAvatars(resizedAvatar, smallAvatar)
+    const cid = await avatarStorage.storeAvatars(resizedAvatar, smallAvatar)
 
     // eslint-disable-next-line
     return this._linkAvatarsToDatabase(cid, withCleanup)
@@ -640,7 +640,7 @@ export class UserStorage {
 
     // if avatar was a CID - delete if after GUN updated
     if (!linkOnly && isValidCID(currentCID)) {
-      await UserAvatarStorage.deleteAvatars(currentCID)
+      await avatarStorage.deleteAvatars(currentCID)
     }
   }
 

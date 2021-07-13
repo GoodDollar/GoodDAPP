@@ -1,4 +1,4 @@
-import wallet from '../wallet/GoodWallet'
+import wallet from '../../wallet/GoodWallet'
 
 const fromDate = new Date('2021/07/5')
 

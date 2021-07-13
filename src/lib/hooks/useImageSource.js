@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { first, last } from 'lodash'
 
-import UserAvatarStorage from '../gundb/UserAvatarStorage'
+import avatarStorage from '../gundb/UserAvatarStorage'
 import { isValidCID } from '../utils/ipfs'
 import { asDataUrl, getBase64Source, isGoodDollarImage, isImageRecord, isValidBase64Image } from '../utils/image'
 
@@ -54,7 +54,8 @@ export default (source, size = 'small') => {
     }
 
     // otherwise trying to load it from thes ipfs
-    UserAvatarStorage.loadAvatar(source, size)
+    avatarStorage
+      .loadAvatar(source, size)
       .catch(() => null)
       .then(imageRecord => {
         if (!imageRecord) {

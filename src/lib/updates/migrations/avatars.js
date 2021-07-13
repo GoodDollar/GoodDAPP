@@ -1,12 +1,11 @@
 import { isString } from 'lodash'
 
-import userStorage from '../gundb/UserStorage'
-import UserAvatarStorage from '../gundb/UserAvatarStorage'
+import userStorage from '../../gundb/UserStorage'
 
-import { isValidBase64Image } from '../utils/image'
-import { isValidCID } from '../utils/ipfs'
+import { asImageRecord, isValidBase64Image } from '../../utils/image'
+import { loadIfRawBase64, updateFeedEventAvatar } from '../utils'
 
-const fromDate = new Date('2021/06/08')
+const fromDate = new Date('2021/07/15')
 
 const uploadProfileAvatar = async () => {
   const avatar = await userStorage.getProfileFieldValue('avatar')
@@ -18,20 +17,30 @@ const uploadProfileAvatar = async () => {
 
   // if still base64 - re-set avatar, userStorage will resize & upload
   // both avatar and smallAvatar it and store theirs CIDs in the GunDB
-  if (isValidBase64Image(avatar)) {
-    await userStorage.setAvatar(avatar, true)
-  } else {
-    // if already cid - check is cid valid and exists
-    try {
-      if (!isValidCID(avatar)) {
-        throw new Error('Not a valid CID')
-      }
+  // if already cid - check is cid valid
+  let avatarRecord
 
-      await UserAvatarStorage.load(avatar, true)
-    } catch {
-      // set null (delete avatar) if fails
-      await userStorage.removeAvatar(true)
+  try {
+    // if still base64 - convert to image record
+    if (isValidBase64Image(avatar)) {
+      avatarRecord = asImageRecord(avatar)
+    } else {
+      // if already cid - check is cid valid,
+      // then check if still raw base64
+      // if yes - load it as the image record
+      // if cid isn't valid, an exception will be thrown
+      avatarRecord = await loadIfRawBase64(avatar)
     }
+
+    // if we have image record prepared - re-set avatar from it
+    // userStorage will resize & upload both avatar and smallAvatar
+    // as a single nft.storage asset and store its CID in the GunDB
+    if (avatarRecord) {
+      await userStorage.setAvatar(avatarRecord, true)
+    }
+  } catch {
+    // set null (delete avatar) if fails
+    await userStorage.removeAvatar(true)
   }
 }
 
@@ -44,12 +53,7 @@ const hasCounterPartyAvatar = ({ data }) => {
 const uploadCounterPartyAvatar = async feedEvent => {
   const { data } = feedEvent
   const { counterPartySmallAvatar } = data
-  let avatar = counterPartySmallAvatar
-
-  // if still base64 - re-upload and store CID in the GunDB
-  if (isValidBase64Image(avatar)) {
-    avatar = await UserAvatarStorage.store(avatar)
-  }
+  const avatar = await updateFeedEventAvatar(counterPartySmallAvatar)
 
   if (avatar === counterPartySmallAvatar) {
     return

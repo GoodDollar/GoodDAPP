@@ -211,7 +211,6 @@ export default function WalletModal({
 
             // check for mobile options
             if (isMobile) {
-                //disable portis on mobile for now
                 if (option.connector === portis) {
                     return null
                 }

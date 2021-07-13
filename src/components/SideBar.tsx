@@ -57,6 +57,10 @@ const SideBarSC = styled.aside`
             line-height: 21px;
         }
     }
+
+    @media ${({ theme }) => theme.media.md} {
+        display: none;
+    }
 `
 
 export default function SideBar() {

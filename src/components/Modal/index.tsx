@@ -66,7 +66,7 @@ const StyledDialogContent = styled(({ minHeight, maxHeight, mobile, isOpen, ...r
       width:  85vw;
       ${mobile &&
           css`
-              width: 100vw;
+              width: 95vw;
               border-radius: 10px;
               border-bottom-left-radius: 0;
               border-bottom-right-radius: 0;
@@ -143,7 +143,7 @@ export default function Modal({
                                 <div className="from-blue to-pink w-full rounded p-px">
                                     <div
                                         className={`flex flex-col h-full w-full rounded overflow-y-auto ${
-                                            noPadding ? 'p-0' : 'p-6'
+                                            noPadding ? 'p-0' : 'p-6 sm:p-3'
                                         }`}
                                     >
                                         {/* prevents the automatic focusing of inputs on mobile by the reach dialog */}

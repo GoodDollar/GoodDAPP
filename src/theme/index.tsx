@@ -119,6 +119,9 @@ export function theme(darkMode: boolean) {
             primary: `Roboto, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif, 'Segoe UI', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji'`,
             secondary: `'Roboto Slab', system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif, 'Segoe UI', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji'`
         },
+        media: {
+            md: 'screen and (max-width: 975px)'
+        },
         grids: {
             sm: 8,
             md: 12,

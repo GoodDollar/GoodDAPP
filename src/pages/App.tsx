@@ -21,6 +21,13 @@ export const Beta = styled.div`
     letter-spacing: 0.35px;
     text-transform: uppercase;
     color: ${({ theme }) => theme.color.text5};
+    text-align: center;
+`
+
+const ContentWrapper = styled.div`
+    @media ${({ theme }) => theme.media.md} {
+        padding-bottom: 85px;
+    }
 `
 
 function App(): JSX.Element {
@@ -100,7 +107,7 @@ function App(): JSX.Element {
                 <AppBar />
                 <div className="flex flex-grow overflow-hidden">
                     <SideBar />
-                    <div
+                    <ContentWrapper
                         ref={bodyRef}
                         className="flex flex-col items-center justify-between flex-grow h-full overflow-y-auto overflow-x-hidden z-0 pt-4 sm:pt-8 px-4 md:pt-10 pb-8"
                         style={{
@@ -114,8 +121,8 @@ function App(): JSX.Element {
                                 <Routes />
                             </div>
                         </Web3ReactManager>
-                        <Beta className="mt-8">This project is in beta. Use at your own risk</Beta>
-                    </div>
+                        <Beta className="mt-3 lg:mt-8">This project is in beta. Use at your own risk</Beta>
+                    </ContentWrapper>
                 </div>
             </div>
         </Suspense>

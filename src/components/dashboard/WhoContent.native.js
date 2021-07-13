@@ -10,7 +10,7 @@ import InputText from '../common/form/InputWithAdornment'
 import { withStyles } from '../../lib/styles'
 import normalize from '../../lib/utils/normalizeText'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
-import userStorage from '../../lib/gundb/UserStorage'
+import userStorage from '../../lib/userStorage/UserStorage'
 import FeedContactItem from './FeedContactItem'
 import ItemSeparator from './ItemSeparator'
 

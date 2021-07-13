@@ -15,7 +15,7 @@ import GDStore from '../../lib/undux/GDStore'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
 import { updateAll as updateWalletStatus } from '../../lib/undux/utils/account'
 import { checkAuthStatus as getLoginState } from '../../lib/login/checkAuthStatus'
-import userStorage from '../../lib/gundb/UserStorage'
+import userStorage from '../../lib/userStorage/UserStorage'
 import runUpdates from '../../lib/updates'
 import useAppState from '../../lib/hooks/useAppState'
 import { identifyWith } from '../../lib/analytics/analytics'
@@ -63,8 +63,10 @@ const syncTXFromBlockchain = async () => {
   if (moment(lastUpdateDate).isSame(now, 'day') === false) {
     try {
       const joinedAtBlockNumber = userStorage.userProperties.get('joinedAtBlock')
+      log.debug('starting syncTXFromBlockchain', { joinedAtBlockNumber, lastUpdateDate })
       await userStorage.syncTxWithBlockchain(joinedAtBlockNumber)
       await userStorage.userProperties.set('lastTxSyncDate', now.valueOf())
+      log.debug('done syncTXFromBlockchain', { joinedAtBlockNumber, now })
     } catch (e) {
       log.warn('syncTXFromBlockchain failed', e.message, e)
     }
@@ -177,9 +179,10 @@ const AppSwitch = (props: LoadingProps) => {
       identifyWith(undefined, identifier)
 
       initialize()
-      runUpdates()
       showOutOfGasError(props)
       await initReg
+      runUpdates() //this needs to wait after initreg where we initialize the database
+
       setReady(true)
     } catch (e) {
       const dialogShown = unsuccessfulLaunchAttempts > 3
@@ -210,6 +213,8 @@ const AppSwitch = (props: LoadingProps) => {
     }
 
     if (ready && gdstore) {
+      userStorage.feedDB._syncFromRemote()
+      userStorage.userProperties._syncFromRemote()
       showOutOfGasError(props)
     }
   }, [gdstore, ready])

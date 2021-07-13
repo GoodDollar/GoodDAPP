@@ -1,6 +1,6 @@
 import { filter } from 'lodash'
 
-import userStorage from '../gundb/UserStorage'
+import userStorage from '../userStorage/UserStorage'
 import Config from '../../config/config'
 import { fireEvent } from '../analytics/analytics'
 import logger from '../logger/pino-logger'
@@ -8,9 +8,10 @@ import logger from '../logger/pino-logger'
 import profileFix from './profileFix'
 import uploadAvatars from './avatar'
 import updateFeedEvents from './updateFeedEvents'
+import upgradeRealmDB from './upgradeRealmdb'
 
 const log = logger.child({ from: 'updates' })
-const updates = [uploadAvatars, profileFix, updateFeedEvents]
+const updates = [uploadAvatars, profileFix, updateFeedEvents, upgradeRealmDB]
 
 const update = async () => {
   const updatesData = (await userStorage.userProperties.get('updates')) || {
@@ -62,6 +63,7 @@ const update = async () => {
   updatesData.lastVersionUpdate = Config.version
   updatesData.status = doneUpdates
 
+  log.debug('saving updates status:', { updatesData })
   await userStorage.userProperties.set('updates', updatesData)
 }
 

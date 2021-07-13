@@ -11,8 +11,6 @@ import { delay } from '../utils/async'
 import { isValidBase64Image } from '../utils/image'
 import Base64Storage from '../nft/Base64Storage'
 
-// import getFeedDB from '../textile/FeedThreadDB'
-import getDB from '../realmdb/RealmDB'
 const log = logger.child({ from: 'FeedStorage' })
 
 /**
@@ -98,9 +96,10 @@ export class FeedStorage {
   //threaddb instance
   feedDB
 
-  constructor(gun, wallet, userStorage) {
+  constructor(storage, gun, wallet, userStorage) {
     this.gun = gun
     this.wallet = wallet
+    this.storage = storage
     this.userStorage = userStorage
     this.walletAddress = wallet.account.toLowerCase()
     log.debug('initialized', { wallet: this.walletAddress })
@@ -112,19 +111,21 @@ export class FeedStorage {
   async init() {
     const receiptEvents = ['receiptReceived', 'receiptUpdated', 'otplUpdated']
 
-    receiptEvents.forEach(e => this.wallet.subscribeToEvent(e, r => this.handleReceipt(r)))
+    receiptEvents.forEach(e =>
+      this.wallet.subscribeToEvent(e, r => {
+        log.debug(`receipt callback for event ${e}:`, r.transactionHash)
+        this.handleReceipt(r)
+      }),
+    )
 
     //mark as initialized, ie resolve ready promise
-
-    this.feedDB = getDB()
-    const seed = this.wallet.wallet.eth.accounts.wallet[this.wallet.getAccountForType('gundb')].privateKey.slice(2)
-    await this.feedDB.init(seed, this.wallet.getAccountForType('gundb'))
-
+    await this.storage.ready
+    this.storage.on(data => this.emitUpdate())
     this.feedInitialized = true
     this.setReady()
 
     //TODO:remove
-    global.feeddb = this.feedDB
+    global.feeddb = this.storage
   }
 
   get gunuser() {
@@ -142,7 +143,12 @@ export class FeedStorage {
         return receipt.logs.find(e => e.name === 'PaymentWithdraw')
 
       case TxType.TX_OTPL_DEPOSIT:
-        return find(receipt.logs, { name: 'PaymentDeposit' })
+        return receipt.logs.find(
+          e =>
+            e.name === 'PaymentDeposit' ||
+            (e.data.to.toLowerCase() === this.wallet.oneTimePaymentsContract.address.toLowerCase() &&
+              e.data.from.toLowerCase() === this.walletAddress),
+        )
       case TxType.TX_SEND_GD:
         return orderBy(receipt.logs, 'e.data.value', 'desc').find(
           e => e.name === 'Transfer' && e.data.from.toLowerCase() === this.walletAddress,
@@ -366,7 +372,7 @@ export class FeedStorage {
       })
 
       // reprocess same receipt in case we updated data format, only skip strictly older
-      // we can get receipt without having a previous feed item, so verify .date field exists
+      // we can get receipt without having a previous feed item, so veerify .date field exists
       if (feedEvent.date && receiptDate.getTime() < new Date(feedEvent.date).getTime()) {
         return feedEvent
       }
@@ -545,7 +551,7 @@ export class FeedStorage {
     //a race exists between enqueuing and receipt from websockets/polling
     const release = await this.feedMutex.lock()
     try {
-      const existingEvent = await this.feedDB.read(event.id)
+      const existingEvent = await this.storage.read(event.id)
       if (existingEvent) {
         log.warn('enqueueTx skipping existing event id', event, existingEvent)
         return false
@@ -599,8 +605,9 @@ export class FeedStorage {
   async writeFeedEvent(event): Promise<FeedEvent> {
     await this.ready //wait before accessing feedIds cache
 
-    await this.feedDB.write(event)
-    this.emitUpdate({ event })
+    await this.storage.write(event)
+
+    // this.emitUpdate({ event })
   }
 
   /**
@@ -612,10 +619,12 @@ export class FeedStorage {
   async getFeedItemByTransactionHash(transactionHash: string): Promise<FeedEvent> {
     await this.ready //wait before accessing feedIds cache
 
-    const feedItem = await this.feedDB.read(transactionHash)
+    const feedItem = await this.storage.read(transactionHash)
     if (feedItem) {
       return feedItem
     }
+
+    log.warn('getFeedItemByTransactionHash: feed item not found', { id: transactionHash })
   }
 
   /**
@@ -625,7 +634,7 @@ export class FeedStorage {
    * @returns transaction id that generated the code
    */
   getFeedItemByPaymentId(hashedCode: string): Promise<string> {
-    return this.feedDB.readByPaymentId(hashedCode)
+    return this.storage.readByPaymentId(hashedCode)
   }
 
   /**
@@ -720,7 +729,7 @@ export class FeedStorage {
 
     await this.ready
 
-    const items = await this.feedDB.getFeedPage(numResult, this.cursor)
+    const items = await this.storage.getFeedPage(numResult, this.cursor)
 
     this.cursor += items.length
 
@@ -846,6 +855,10 @@ export class FeedStorage {
   }
 
   getAllFeed() {
-    return this.feedDB.Feed.find().toArray()
+    return this.storage.Feed.find().toArray()
+  }
+
+  hasFeedItem(id) {
+    return this.storage.Feed.has(id)
   }
 }

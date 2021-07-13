@@ -14,7 +14,7 @@ import FaucetABI from '@gooddollar/goodcontracts/upgradables/build/contracts/Fus
 import Web3 from 'web3'
 import { BN, toBN } from 'web3-utils'
 import abiDecoder from 'abi-decoder'
-import { chunk, get, invokeMap, last, range, result, uniqBy, values } from 'lodash'
+import { chunk, flatten, get, invokeMap, last, range, result, uniqBy, values } from 'lodash'
 import moment from 'moment'
 import bs58 from 'bs58'
 import Config from '../../config/config'
@@ -275,9 +275,10 @@ export class GoodWallet {
         }
         const nextLastBlock = await this.wallet.eth.getBlockNumber()
 
-        await fn() //await callback to finish processing events before updating lastEventblock
-        this.lastEventsBlock = nextLastBlock
-        lastBlockCallback(nextLastBlock)
+        const events = await fn(nextLastBlock) //await callback to finish processing events before updating lastEventblock
+        this._notifyEvents(flatten(events), this.lastEventsBlock)
+        this.lastEventsBlock = nextLastBlock + 1
+        lastBlockCallback(nextLastBlock + 1)
 
         log.info('pollEvents success:', { nextLastBlock, lastBlockCallback })
         return true
@@ -298,10 +299,34 @@ export class GoodWallet {
   async watchEvents(fromBlock, lastBlockCallback) {
     this.lastEventsBlock = fromBlock
     this.pollEvents(
-      () => Promise.all([this.pollSendEvents(), this.pollReceiveEvents(), this.pollOTPLEvents()]),
+      toBlock =>
+        Promise.all([this.pollSendEvents(toBlock), this.pollReceiveEvents(toBlock), this.pollOTPLEvents(toBlock)]),
       5000,
       lastBlockCallback,
     )
+  }
+
+  _notifyEvents(events, fromBlock) {
+    if (events.length === 0) {
+      return
+    }
+
+    log.debug('_notifyEvents got events', { events, fromBlock })
+
+    //we already got events up to lastBlock in case we are being called from regular polling and not from syncTxWithBlockchain
+
+    const uniqEvents = uniqBy(events, 'transactionHash').filter(
+      _ => this.lastEventsBlock !== fromBlock || _.blockNumber > this.lastEventsBlock,
+    )
+    uniqEvents.forEach(event => {
+      this.getReceiptWithLogs(event.transactionHash)
+        .then(receipt => this.sendReceiptWithLogsToSubscribers(receipt, ['receiptUpdated']))
+        .catch(err =>
+          log.error('_notifyEvents event get/send receipt failed:', err.message, err, {
+            category: ExceptionCategory.Blockhain,
+          }),
+        )
+    })
   }
 
   async syncTxWithBlockchain(startBlock) {
@@ -314,17 +339,19 @@ export class GoodWallet {
     try {
       const chunks = chunk(steps, 1000)
       for (let chunk of chunks) {
-        const ps = chunk.map(fromBlock => {
+        const ps = chunk.map(async fromBlock => {
           let toBlock = fromBlock + 100000
           if (toBlock > lastBlock) {
             toBlock = lastBlock
           }
           log.debug('sync tx step:', { fromBlock, toBlock })
-          return Promise.all([
+
+          const events = await Promise.all([
             this.pollSendEvents(toBlock, fromBlock),
             this.pollReceiveEvents(toBlock, fromBlock),
             this.pollOTPLEvents(toBlock, fromBlock),
           ])
+          this._notifyEvents(flatten(events), fromBlock)
         })
 
         // eslint-disable-next-line no-await-in-loop
@@ -356,30 +383,30 @@ export class GoodWallet {
       return []
     })
 
-    if (events.length === 0) {
-      return
+    if (events.length) {
+      // Send for all events. We could define here different events
+      this.getSubscribers('send').forEach(cb => cb(events))
+      this.getSubscribers('balanceChanged').forEach(cb => cb(events))
     }
 
-    log.info('pollSendEvents result:', events)
+    log.info('pollSendEvents result:', { events, from, fromBlock, toBlock, lastEventsBlock: this.lastEventsBlock })
 
-    //we already got events up to lastBlock in case we are being called from regular polling and not from syncTxWithBlockchain
-    const uniqEvents = uniqBy(events, 'transactionHash').filter(
-      _ => this.lastEventsBlock === fromBlock && _.blockNumber > fromBlock,
-    )
+    return events
 
-    uniqEvents.forEach(event => {
-      this.getReceiptWithLogs(event.transactionHash)
-        .then(receipt => this.sendReceiptWithLogsToSubscribers(receipt, ['receiptUpdated']))
-        .catch(err =>
-          log.error('pollSendEvents event get/send receipt failed:', err.message, err, {
-            category: ExceptionCategory.Blockhain,
-          }),
-        )
-    })
+    // //we already got events up to lastBlock in case we are being called from regular polling and not from syncTxWithBlockchain
+    // const uniqEvents = uniqBy(events, 'transactionHash').filter(
+    //   _ => this.lastEventsBlock === fromBlock && _.blockNumber > fromBlock,
+    // )
 
-    // Send for all events. We could define here different events
-    this.getSubscribers('send').forEach(cb => cb(events))
-    this.getSubscribers('balanceChanged').forEach(cb => cb(events))
+    // uniqEvents.forEach(event => {
+    //   this.getReceiptWithLogs(event.transactionHash)
+    //     .then(receipt => this.sendReceiptWithLogsToSubscribers(receipt, ['receiptUpdated']))
+    //     .catch(err =>
+    //       log.error('pollSendEvents event get/send receipt failed:', err.message, err, {
+    //         category: ExceptionCategory.Blockhain,
+    //       }),
+    //     )
+    // })
   }
 
   async pollReceiveEvents(toBlock, from = null) {
@@ -401,29 +428,31 @@ export class GoodWallet {
       })
       return []
     })
-    if (events.length === 0) {
-      return
+
+    log.info('pollReceiveEvents result:', { events, from, fromBlock, toBlock, lastEventsBlock: this.lastEventsBlock })
+
+    if (events.length) {
+      // Send for all events. We could define here different events
+      this.getSubscribers('receive').forEach(cb => cb(events))
+      this.getSubscribers('balanceChanged').forEach(cb => cb(events))
     }
-    log.info('pollReceiveEvents result:', { fromBlock, toBlock }, events)
 
-    //we already got events up to lastBlock in case we are being called from regular polling and not from syncTxWithBlockchain
-    const uniqEvents = uniqBy(events, 'transactionHash').filter(
-      _ => this.lastEventsBlock === fromBlock && _.blockNumber > fromBlock,
-    )
+    return events
 
-    uniqEvents.forEach(event => {
-      this.getReceiptWithLogs(event.transactionHash)
-        .then(receipt => this.sendReceiptWithLogsToSubscribers(receipt, ['receiptReceived']))
-        .catch(err =>
-          log.error('pollReceiveEvents event get/send receipt failed:', err.message, err, {
-            category: ExceptionCategory.Blockhain,
-          }),
-        )
-    })
+    // //we already got events up to lastBlock in case we are being called from regular polling and not from syncTxWithBlockchain
+    // const uniqEvents = uniqBy(events, 'transactionHash').filter(
+    //   _ => this.lastEventsBlock === fromBlock && _.blockNumber > fromBlock,
+    // )
 
-    // Send for all events. We could define here different events
-    this.getSubscribers('receive').forEach(cb => cb(events))
-    this.getSubscribers('balanceChanged').forEach(cb => cb(events))
+    // uniqEvents.forEach(event => {
+    //   this.getReceiptWithLogs(event.transactionHash)
+    //     .then(receipt => this.sendReceiptWithLogsToSubscribers(receipt, ['receiptReceived']))
+    //     .catch(err =>
+    //       log.error('pollReceiveEvents event get/send receipt failed:', err.message, err, {
+    //         category: ExceptionCategory.Blockhain,
+    //       }),
+    //     )
+    // })
   }
 
   async pollOTPLEvents(toBlock, from = null) {
@@ -461,25 +490,9 @@ export class GoodWallet {
 
     const events = eventsWithdraw.concat(eventsCancel)
 
-    if (events.length === 0) {
-      return
-    }
+    log.info('pollOTPLEvents result:', { events, from, fromBlock, toBlock, lastEventsBlock: this.lastEventsBlock })
 
-    log.info('pollOTPLEvents result', events)
-
-    //we already got events up to lastBlock in case we are being called from regular polling and not from syncTxWithBlockchain
-    const uniqEvents = uniqBy(events, 'transactionHash').filter(
-      _ => this.lastEventsBlock !== fromBlock || _.blockNumber > this.lastEventsBlock,
-    )
-    uniqEvents.forEach(event => {
-      this.getReceiptWithLogs(event.transactionHash)
-        .then(receipt => this.sendReceiptWithLogsToSubscribers(receipt, ['otplUpdated']))
-        .catch(err =>
-          log.error('pollOTPLEvents event get/send receipt failed:', err.message, err, {
-            category: ExceptionCategory.Blockhain,
-          }),
-        )
-    })
+    return events
   }
 
   /**

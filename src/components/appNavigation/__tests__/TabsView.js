@@ -4,7 +4,7 @@ import TabsView from '../TabsView'
 import Dashboard from '../../dashboard/Dashboard'
 import Profile from '../../profile/Profile'
 import SimpleStore from '../../../lib/undux/SimpleStore'
-import userStorage from '../../../lib/gundb/UserStorage'
+import userStorage from '../../../lib/userStorage/UserStorage'
 
 // Note: test renderer must be required after react-native.
 jest.setTimeout(20000)

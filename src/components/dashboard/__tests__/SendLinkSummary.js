@@ -1,7 +1,7 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
 import GDStore from '../../../lib/undux/GDStore'
-import userStorage from '../../../lib/gundb/UserStorage'
+import userStorage from '../../../lib/userStorage/UserStorage'
 
 import { getWebRouterComponentWithMocks, getWebRouterComponentWithRoutes } from './__util__'
 const { Container } = GDStore

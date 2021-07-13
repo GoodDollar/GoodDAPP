@@ -3,8 +3,8 @@ import { useCallback, useEffect, useRef } from 'react'
 
 import Config from '../../../config/config'
 import { fireEvent } from '../../../lib/analytics/analytics'
-import { longUseOfClaims } from '../../../lib/gundb/UserStorageClass'
-import userStorage from '../../../lib/gundb/UserStorage'
+import { longUseOfClaims } from '../../../lib/userStorage/UserStorageClass'
+import userStorage from '../../../lib/userStorage/UserStorage'
 import { CLAIM_TASK_COMPLETED, claimDaysThreshold } from './events'
 
 const claimDaysProperty = 'countClaim'

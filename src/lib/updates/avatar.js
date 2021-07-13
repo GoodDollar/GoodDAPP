@@ -1,6 +1,6 @@
 import { isString } from 'lodash'
 
-import userStorage from '../gundb/UserStorage'
+import userStorage from '../userStorage/UserStorage'
 import Base64Storage from '../nft/Base64Storage'
 
 import { isValidBase64Image, isValidCIDImage } from '../utils/image'

@@ -2,7 +2,7 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { View } from 'react-native'
 import { isEqual, isEqualWith, merge, pickBy } from 'lodash'
-import userStorage from '../../lib/gundb/UserStorage'
+import userStorage from '../../lib/userStorage/UserStorage'
 import logger from '../../lib/logger/pino-logger'
 import GDStore, { useCurriedSetters } from '../../lib/undux/GDStore'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'

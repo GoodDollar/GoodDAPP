@@ -1,5 +1,5 @@
 // @flow
-import userStorage from '../../gundb/UserStorage'
+import userStorage from '../../userStorage/UserStorage'
 
 describe('UserStorage', () => {
   beforeAll(async () => {

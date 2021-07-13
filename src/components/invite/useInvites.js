@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import { groupBy, keyBy } from 'lodash'
 import goodWallet from '../../lib/wallet/GoodWallet'
-import userStorage from '../../lib/gundb/UserStorage'
+import userStorage from '../../lib/userStorage/UserStorage'
 import logger from '../../lib/logger/pino-logger'
 import { useDialog } from '../../lib/undux/utils/dialog'
 import { fireEvent, INVITE_BOUNTY, INVITE_JOIN } from '../../lib/analytics/analytics'

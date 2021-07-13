@@ -4,7 +4,7 @@
  */
 import React, { useCallback, useEffect, useState } from 'react'
 import { fireEvent } from '../../lib/analytics/analytics'
-import userStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
+import userStorage, { type TransactionEvent } from '../../lib/userStorage/UserStorage'
 import logger from '../../lib/logger/pino-logger'
 import { ExceptionCategory } from '../../lib/logger/exceptions'
 import { useDialog } from '../../lib/undux/utils/dialog'
@@ -82,7 +82,8 @@ const SendQRSummary = ({ screenProps }: AmountProps, params) => {
           // Save transaction
           const transactionEvent: TransactionEvent = {
             id: hash,
-            date: new Date().toString(),
+            createdDate: new Date().toISOString(),
+            date: new Date().toISOString(),
             type: 'send',
             data: {
               to,

@@ -42,7 +42,7 @@ export default ({ API, showErrorDialog, theme }) => {
     })
 
     try {
-      const userStorage = await retryImport(() => import('../gundb/UserStorage')).then(_ => _.default)
+      const userStorage = await retryImport(() => import('../userStorage/UserStorage')).then(_ => _.default)
 
       const isDeleted = await userStorage.deleteAccount()
       log.debug('deleted account', isDeleted)

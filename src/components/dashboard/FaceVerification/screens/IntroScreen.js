@@ -16,7 +16,7 @@ import usePermissions from '../../../permissions/hooks/usePermissions'
 import useDisposingState from '../hooks/useDisposingState'
 
 // utils
-import UserStorage from '../../../../lib/gundb/UserStorage'
+import UserStorage from '../../../../lib/userStorage/UserStorage'
 import GDStore from '../../../../lib/undux/GDStore'
 import logger from '../../../../lib/logger/pino-logger'
 import { getFirstWord } from '../../../../lib/utils/getFirstWord'

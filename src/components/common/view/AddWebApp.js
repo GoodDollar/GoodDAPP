@@ -24,7 +24,7 @@ import {
 import { withStyles } from '../../../lib/styles'
 import AddAppSVG from '../../../assets/addApp.svg'
 
-// import userStorage from '../../../lib/gundb/UserStorage'
+// import userStorage from '../../../lib/userStorage/UserStorage'
 // import API from '../../../lib/API/api'
 
 const log = logger.child({ from: 'AddWebApp' })

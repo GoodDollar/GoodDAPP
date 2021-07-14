@@ -71,7 +71,14 @@ const ModalContentWrapper = styled.div`
 `
 
 const ExtendedMenuFlyout = styled(MenuFlyout)`
-    min-width: 400px;
+    width: 400px;
+    max-width: calc(100vw - 32px);
+    box-sizing: border-box;
+
+    @media ${({ theme }) => theme.media.md} {
+        right: -20px;
+    }
+
     .title {
         font-weight: 900;
         font-size: 16px;

@@ -1,5 +1,5 @@
 // @flow
-import React, { useCallback } from 'react'
+import React, { useCallback, useRef } from 'react'
 import { Platform, View } from 'react-native'
 import Wrapper from '../../common/layout/Wrapper'
 import Text from '../../common/view/Text'
@@ -22,6 +22,7 @@ import facebookBtnIcon from '../../../assets/Auth/btn_facebook.svg'
 import MobileBtnIcon from '../../../assets/Auth/btn_mobile.svg'
 import Config from '../../../config/config'
 import { LoginButton } from './LoginButton'
+import Recaptcha from './Recaptcha'
 
 // import { delay } from '../../../lib/utils/async'
 
@@ -33,11 +34,23 @@ const SignupScreen = ({ isSignup, screenProps, styles, handleLoginMethod, sdkIni
 
   const handleNavigatePrivacyPolicy = useCallback(() => push('PrivacyPolicy'), [push])
 
+  const recaptcha = useRef()
+
   const _google = () => handleLoginMethod('google')
 
   const _facebook = () => handleLoginMethod('facebook')
 
-  const _mobile = () => handleLoginMethod('auth0-pwdless-sms')
+  // const _mobile = () => handleLoginMethod('auth0-pwdless-sms')
+  const _mobile = () => {
+    // return
+    if (Platform.OS === 'web') {
+      recaptcha.current.execute()
+    } else {
+      recaptcha.current.open()
+    }
+  }
+
+  const onRecaptchaSuccess = () => handleLoginMethod('auth0-pwdless-sms')
 
   const _selfCustody = () => handleLoginMethod('selfCustody')
 
@@ -83,8 +96,10 @@ const SignupScreen = ({ isSignup, screenProps, styles, handleLoginMethod, sdkIni
       </Text>
     </>
   )
+
   return (
     <Wrapper backgroundColor="#fff" style={styles.mainWrapper}>
+      <Recaptcha ref={recaptcha} onSuccess={onRecaptchaSuccess} />
       <NavBar title={isSignup ? 'Signup' : 'Login'} />
       <Section.Stack style={{ flex: 1, justifyContent: 'center' }}>
         <Section.Stack style={{ flex: 1, maxHeight: 640 }}>

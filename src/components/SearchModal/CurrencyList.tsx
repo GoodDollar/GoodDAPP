@@ -129,7 +129,7 @@ function CurrencyRow({
             selected={otherSelected}
         >
             <CurrencyLogo currency={currency} size={'32px'} />
-            <Column>
+            <Column className="flex-grow">
                 <Text className="title" title={currency.getName(chainId)}>
                     {currency.getSymbol(chainId)}
                 </Text>
@@ -258,6 +258,7 @@ export default function CurrencyList({
             itemCount={itemData.length}
             itemSize={66}
             itemKey={itemKey}
+            className="overflow-hidden"
         >
             {Row}
         </FixedSizeList>

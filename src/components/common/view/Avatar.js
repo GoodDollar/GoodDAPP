@@ -27,13 +27,14 @@ const CustomAvatar = ({
   size,
   imageSize,
   plain,
+  type,
   source,
   onPress,
   children,
   ...avatarProps
 }) => {
   const _onPress = useOnPress(onPress)
-  const [isGDLogo, imgSource] = useImageSource(source)
+  const [isGDLogo, imgSource] = useImageSource(source, type)
   const ImageComponent = plain ? Image : Avatar.Image
 
   const calculatedStyles = useMemo(() => {
@@ -76,6 +77,7 @@ const CustomAvatar = ({
 CustomAvatar.defaultProps = {
   size: 42,
   plain: false,
+  type: 'small',
 }
 
 const getStylesFromProps = ({ theme }) => ({

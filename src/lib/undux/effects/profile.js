@@ -27,6 +27,7 @@ const withProfile: Effects<State> = (store: Store) => {
       take(1),
     )
     .subscribe(() => {
+      let lastAvatar
       const [setProfile, setPrivateProfile] = ['profile', 'privateProfile'].map(key => store.set(key))
 
       log.debug('Subcribed to the profile updates')
@@ -44,6 +45,14 @@ const withProfile: Effects<State> = (store: Store) => {
 
             const displayProfile = userStorage.getDisplayProfile(profile)
             const privateProfile = await userStorage.getPrivateProfile(profile)
+            const { avatar } = privateProfile
+
+            if (avatar !== lastAvatar) {
+              await userStorage.loadAvatars(privateProfile)
+              displayProfile.setAvatars(privateProfile)
+
+              lastAvatar = avatar
+            }
 
             setProfile(displayProfile)
             setPrivateProfile(privateProfile)

@@ -1,11 +1,13 @@
 //@flow
 
 import {
+  assign,
   debounce,
   defaults,
   get,
   isEmpty,
   isError,
+  isFunction,
   isNil,
   isString,
   keys,
@@ -621,6 +623,23 @@ export class UserStorage {
   // eslint-disable-next-line require-await
   async removeAvatar(withCleanup = false) {
     return this._linkAvatarsToDatabase(null, withCleanup)
+  }
+
+  // eslint-disable-next-line require-await
+  async loadAvatars(profile: UserModel) {
+    const { avatar } = profile
+
+    if (avatar) {
+      const avatars = await avatarStorage.loadAvatars()
+
+      if (isFunction(profile.setAvatars)) {
+        profile.setAvatars(avatars)
+      } else {
+        assign(profile, avatars)
+      }
+    }
+
+    return profile
   }
 
   /**
@@ -1760,13 +1779,14 @@ export class UserStorage {
   async getProfile(): Promise<any> {
     const encryptedProfile = await this.loadGunField(this.profile)
 
-    if (encryptedProfile === undefined) {
-      logger.error('getProfile: profile node undefined', '', new Error('Profile node undefined'))
+    if (encryptedProfile !== undefined) {
+      const privateProfile = await this.getPrivateProfile(encryptedProfile)
 
-      return {}
+      return this.loadAvatars(privateProfile)
     }
 
-    return this.getPrivateProfile(encryptedProfile)
+    logger.error('getProfile: profile node undefined', '', new Error('Profile node undefined'))
+    return {}
   }
 
   loadGunField(gunNode): Promise<any> {

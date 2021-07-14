@@ -36,7 +36,7 @@ export type AvatarProps = {
 const UserAvatar = ({ profile, children, styles, containerStyle, size, ...rest }: AvatarProps) => (
   <View style={styles.avatar}>
     <View style={[styles.innerAvatar, containerStyle]}>
-      <Avatar size={size} {...rest} source={profile.avatar}>
+      <Avatar {...rest} size={size} source={profile.avatar} type="large">
         {children}
       </Avatar>
     </View>

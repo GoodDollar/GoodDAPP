@@ -25,9 +25,10 @@ const Divider = ({ size = 10 }) => <Section.Separator color="transparent" width=
 const InvitedUser = ({ address, status }) => {
   const profile = useGunProfile(address)
   const isApproved = status === 'approved'
+
   return (
     <Section.Row style={{ alignItems: 'center', marginTop: theme.paddings.defaultMargin }}>
-      <Avatar source={profile.smallAvatar} size={28} />
+      <Avatar source={profile.avatar} size={28} />
       <Section.Text
         fontFamily={theme.fonts.slab}
         fontSize={14}

@@ -59,6 +59,15 @@ export const ButtonDefault = styled.button<{
         opacity: 0.5;
         cursor: auto;
     }
+
+    @media ${({ theme }) => theme.media.md} {
+        font-size: 12px;
+        line-height: 14px;
+        height: ${({ size }) => (size === 'sm' ? '26px' : '26px')};
+        border-radius: 6px;
+        width: auto;
+        display: block;
+    }
 `
 
 export const ButtonOutlined = styled.button<{

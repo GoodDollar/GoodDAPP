@@ -655,12 +655,14 @@ export class UserStorage {
     }
 
     // executing GUN update actions first
-    await this.setProfileField('avatar', cid, 'public')
+    const gunAck = await this.setProfileField('avatar', cid, 'public')
 
     // if avatar was a CID - delete if after GUN updated
     if (!linkOnly && isValidCID(currentCID)) {
       await avatarStorage.deleteAvatars(currentCID)
     }
+
+    return gunAck
   }
 
   /**
@@ -971,22 +973,33 @@ export class UserStorage {
        */
       pick(this.profileDefaults, fieldsToSave),
     )
+
     const results = await Promise.all(
       fieldsToSave.map(async field => {
         let isPrivate
+        const isAvatar = 'avatar' === field
+        const value = profileWithDefaults[field]
 
         try {
+          if (isAvatar) {
+            return this.setAvatar(value)
+          }
+
+          if (field.includes('avatar')) {
+            return
+          }
+
           isPrivate = get(this.profileSettings, `[${field}].defaultPrivacy`, 'private')
 
           if (update) {
             isPrivate = await this.getFieldPrivacy(field)
           }
 
-          return await this.setProfileField(field, profileWithDefaults[field], isPrivate)
+          return await this.setProfileField(field, value, isPrivate)
         } catch (e) {
           logger.warn('setProfile field failed:', e.message, e, {
             field,
-            value: profileWithDefaults[field],
+            value: isAvatar && value ? '<image record>' : value,
             isPrivate,
           })
 
@@ -1855,7 +1868,9 @@ export class UserStorage {
         return this.removeAvatar()
       }
 
-      return this.setProfileFieldPrivacy(field, 'private')
+      if (!field.includes('avatar')) {
+        return this.setProfileFieldPrivacy(field, 'private')
+      }
     }
 
     await Promise.all(

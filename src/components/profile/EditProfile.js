@@ -1,10 +1,9 @@
 // @flow
 import React, { useCallback, useEffect, useState } from 'react'
 import { View } from 'react-native'
-import { isEqual, isEqualWith, merge, pickBy } from 'lodash'
+import { isEqualWith, merge, pickBy } from 'lodash'
 import userStorage from '../../lib/gundb/UserStorage'
 import logger from '../../lib/logger/pino-logger'
-import GDStore, { useCurriedSetters } from '../../lib/undux/GDStore'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
 import { withStyles } from '../../lib/styles'
 import { Section, UserAvatar, Wrapper } from '../common'
@@ -13,6 +12,7 @@ import SaveButtonDisabled from '../common/animations/SaveButton/SaveButtonDisabl
 import { fireEvent, PROFILE_UPDATE } from '../../lib/analytics/analytics'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
 import { useDebounce } from '../../lib/hooks/useDebouce'
+import useStoredProfile from '../../lib/hooks/useStoredProfile'
 import RoundIconButton from '../common/buttons/RoundIconButton'
 import ProfileDataTable from './ProfileDataTable'
 
@@ -21,10 +21,7 @@ const log = logger.child({ from: TITLE })
 const avatarSize = getDesignRelativeWidth(136)
 
 const EditProfile = ({ screenProps, styles, navigation }) => {
-  const store = GDStore.useStore()
-  const storedProfile = store.get('privateProfile')
-  const [setPrivateProfile] = useCurriedSetters(['privateProfile'])
-  const [profile, setProfile] = useState(storedProfile)
+  const [storedProfile, profile, setProfile] = useStoredProfile(true)
   const [saving, setSaving] = useState(false)
   const [isValid, setIsValid] = useState(true)
   const [isPristine, setIsPristine] = useState(true)
@@ -123,18 +120,6 @@ const EditProfile = ({ screenProps, styles, navigation }) => {
       setSaving(false)
     }
   }, [validate, profile, setSaving, storedProfile, showErrorDialog])
-
-  useEffect(() => {
-    if (!isEqual(storedProfile, {})) {
-      return
-    }
-
-    // initialize profile value for first time from storedProfile in userStorage
-    userStorage.getProfile().then(profileFromUserStorage => {
-      setPrivateProfile(profileFromUserStorage)
-      setProfile(profileFromUserStorage)
-    })
-  }, [])
 
   // Validate after saving profile state in order to show errors
   useEffect(() => {

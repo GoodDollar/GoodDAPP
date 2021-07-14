@@ -1,30 +1,28 @@
 // @flow
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { StyleSheet } from 'react-native'
 import { withTheme } from 'react-native-paper'
 import { useWrappedUserStorage } from '../../lib/gundb/useWrappedStorage'
-import GDStore from '../../lib/undux/GDStore'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
 import logger from '../../lib/logger/pino-logger'
 import { CustomButton, Section, Wrapper } from '../common'
 import ImageCropper from '../common/form/ImageCropper'
-import useProfileAvatar from '../../lib/hooks/useProfileAvatar'
+import useStoredProfile from '../../lib/hooks/useStoredProfile'
+import { asDataUrl, asImageRecord, updateImageRecord } from '../../lib/utils/image'
 
 const log = logger.child({ from: 'EditAvatar' })
 
 const TITLE = 'Edit Avatar'
 
 const EditAvatar = ({ theme, screenProps }) => {
-  const store = GDStore.useStore()
   const [showErrorDialog] = useErrorDialog()
-
   const user = useWrappedUserStorage()
-  const profile = store.get('profile')
 
   const [isDirty, markAsDirty] = useState(false)
   const [processing, setProcessing] = useState(false)
 
-  const avatar = useProfileAvatar(profile.avatar, true)
+  const { avatar } = useStoredProfile()
+  const base64 = useMemo(() => (avatar ? asDataUrl(avatar) : null), [avatar])
   const croppedRef = useRef(avatar)
 
   const updateAvatar = useCallback(async () => {
@@ -46,7 +44,16 @@ const EditAvatar = ({ theme, screenProps }) => {
 
   const onCropped = useCallback(
     cropped => {
-      croppedRef.current = cropped
+      let croppedAvatar = asImageRecord(cropped)
+      const { current: avatar } = croppedRef
+
+      if (avatar) {
+        const { mime, base64 } = croppedAvatar
+
+        croppedAvatar = updateImageRecord(avatar, { mime, base64 })
+      }
+
+      croppedRef.current = croppedAvatar
       markAsDirty(true)
     },
     [markAsDirty],
@@ -65,7 +72,7 @@ const EditAvatar = ({ theme, screenProps }) => {
     <Wrapper>
       <Section style={styles.section}>
         <Section.Row>
-          <ImageCropper image={avatar} onChange={onCropped} />
+          <ImageCropper image={base64} onChange={onCropped} />
         </Section.Row>
         <Section.Stack justifyContent="flex-end" grow>
           <CustomButton

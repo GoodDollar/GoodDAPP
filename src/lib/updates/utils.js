@@ -22,7 +22,7 @@ export const updateFeedEventAvatar = async avatar => {
     let avatarRecord
 
     if (isValidBase64Image(avatar)) {
-      avatarRecord = asImageRecord(avatar)
+      avatarRecord = await asImageRecord(avatar)
     } else {
       avatarRecord = await loadIfRawBase64(avatar)
     }

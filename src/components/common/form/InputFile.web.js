@@ -1,12 +1,17 @@
 // libraries
 import React, { useRef } from 'react'
-import FileAPI from 'promisify-file-reader'
 
 // hooks
 import useOnPress from '../../../lib/hooks/useOnPress'
 
 // utils
-import { MAX_AVATAR_HEIGHT, MAX_AVATAR_WIDTH } from '../../../lib/utils/image'
+import {
+  asDataUrl,
+  asImageRecord,
+  MAX_AVATAR_HEIGHT,
+  MAX_AVATAR_WIDTH,
+  updateImageRecord,
+} from '../../../lib/utils/image'
 import { constrainImage } from '../../../lib/utils/image/constrain'
 import { createImage } from '../../../lib/utils/image/browser'
 
@@ -20,15 +25,16 @@ const InputFile = ({ Component, onChange }) => {
   // need to prevent default event - useOnPress does it
   const handleInputChange = useOnPress(async () => {
     const [file] = inputRef.current.files
-    const imageSource = await FileAPI.readAsDataURL(file)
-    const image = await createImage(imageSource)
+    const imageRecord = await asImageRecord(file)
+    const image = await createImage(asDataUrl(imageRecord))
 
     log.debug('Uploaded file to use as avatar', { file, image })
 
     // getting the reduces data url
-    const dataUrl = await constrainImage(image, MAX_AVATAR_WIDTH, MAX_AVATAR_HEIGHT)
+    const constrained = await constrainImage(image, MAX_AVATAR_WIDTH, MAX_AVATAR_HEIGHT)
+    const constrainedImage = updateImageRecord(imageRecord, constrained)
 
-    onChange(dataUrl)
+    onChange(constrainedImage)
   }, [onChange])
 
   return (

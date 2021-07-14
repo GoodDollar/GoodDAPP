@@ -43,14 +43,14 @@ const EditAvatar = ({ theme, screenProps }) => {
   }, [screenProps, markAsDirty, setProcessing, showErrorDialog, user])
 
   const onCropped = useCallback(
-    cropped => {
-      let croppedAvatar = asImageRecord(cropped)
+    async cropped => {
+      let croppedAvatar
       const { current: avatar } = croppedRef
 
       if (avatar) {
-        const { mime, base64 } = croppedAvatar
-
-        croppedAvatar = updateImageRecord(avatar, { mime, base64 })
+        croppedAvatar = updateImageRecord(avatar, cropped)
+      } else {
+        croppedAvatar = await asImageRecord(cropped)
       }
 
       croppedRef.current = croppedAvatar

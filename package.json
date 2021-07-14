@@ -161,7 +161,6 @@
     "pnp-webpack-plugin": "^1.6.4",
     "prettier": "^1.16.4",
     "process": "^0.11.10",
-    "promisify-file-reader": "^4.0.0",
     "punycode": "^1.4.1",
     "qrcode.react": "^0.9.3",
     "qs": "^6.8.0",

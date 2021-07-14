@@ -1,25 +1,39 @@
 // @flow
-import React from 'react'
+import React, { useCallback } from 'react'
 import ImagePicker from 'react-native-image-crop-picker'
 import { useActionSheet } from '@expo/react-native-action-sheet'
+
 import useOnPress from '../../../lib/hooks/useOnPress'
+import { mimeToExtension } from '../../../lib/utils/image'
+
+const { openCamera, openPicker } = ImagePicker
+const actions = [openCamera, openPicker]
 
 export const useFileInput = ({ pickerOptions, onChange }) => {
   const { showActionSheetWithOptions } = useActionSheet()
 
-  const handleSheetClick = async buttonIndex => {
-    const actions = [ImagePicker.openCamera, ImagePicker.openPicker]
-    const action = actions[buttonIndex]
+  const handleSheetClick = useCallback(
+    async buttonIndex => {
+      const action = actions[buttonIndex]
 
-    if (!action) {
-      return
-    }
+      if (!action) {
+        return
+      }
 
-    const image = await action(pickerOptions)
-    const imageData = `data:${image.mime};base64,${image.data}`
+      let { mime, data, filename } = await action(pickerOptions)
 
-    onChange(imageData)
-  }
+      if (!filename) {
+        const dotExtension = mimeToExtension(mime, { withDot: true })
+
+        filename = 'avatar' + dotExtension
+      }
+
+      const imageRecord = { mime, filename, base64: data }
+
+      onChange(imageRecord)
+    },
+    [onChange],
+  )
 
   const openSheet = useOnPress(() => {
     const sheetOptions = {
@@ -35,6 +49,8 @@ export const useFileInput = ({ pickerOptions, onChange }) => {
 
 const InputFile = ({ Component, pickerOptions, onChange }) => {
   const trigger = useFileInput({ pickerOptions, onChange })
+
   return <Component onPress={trigger} />
 }
+
 export default InputFile

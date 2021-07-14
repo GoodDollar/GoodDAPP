@@ -23,7 +23,7 @@ const uploadProfileAvatar = async () => {
   try {
     // if still base64 - convert to image record
     if (isValidBase64Image(avatar)) {
-      avatarRecord = asImageRecord(avatar)
+      avatarRecord = await asImageRecord(avatar)
     } else {
       // if already cid - check is cid valid,
       // then check if still raw base64

@@ -1,4 +1,4 @@
-import { isPlainObject, isString, omit } from 'lodash'
+import { isPlainObject, isString, pick } from 'lodash'
 
 import { File } from './ipfs'
 import { resizeImage } from './image/resize'
@@ -68,7 +68,13 @@ export const asFile = (imageRecordOrBase64, fileName = 'image') => {
   return new File([buffer], filename, { type: mime })
 }
 
-export const updateImageRecord = (imageRecord, data) => {
+export const updateImageRecord = (imageRecord, dataOrBase64) => {
+  let data = dataOrBase64
+
+  if (isValidBase64Image(data)) {
+    data = pick(parseDataUrl(data), 'mime', 'base64')
+  }
+
   const updatedRecord = { ...imageRecord, ...data }
   const { mime } = data
 
@@ -86,9 +92,8 @@ export const updateImageRecord = (imageRecord, data) => {
 
 export const resizeImageRecord = async (imageRecord, size) => {
   const resized = await resizeImage(asDataUrl(imageRecord), size)
-  const updated = omit(parseDataUrl(resized), 'filename')
 
-  return updateImageRecord(imageRecord, updated)
+  return updateImageRecord(imageRecord, resized)
 }
 
 export * from './image/helpers'

@@ -202,16 +202,16 @@ const SMSAction = ({
         if (!value) {
           value = smsRateLimitNormalized
         }
-        setWaitTime(value)
+        setWaitTime(parseInt(value))
       }, 1000)
-
+      logger.debug('Error countdownIntervalRef.current', countdownIntervalRef.current)
       setTimeout(() => {
         if (countdownIntervalRef.current) {
           clearInterval(countdownIntervalRef.current)
           countdownIntervalRef.current = null
         }
         setWait(false)
-      }, smsRateLimit)
+      }, parseInt(smsRateLimit))
     } else {
       setWait(false)
     }

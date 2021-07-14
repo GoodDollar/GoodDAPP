@@ -1,15 +1,16 @@
 import React from 'react'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import { NavLink } from './Link'
 import { useLingui } from '@lingui/react'
 import { t } from '@lingui/macro'
 import TwitterLogo from '../assets/images/twitter.png'
 import TelegramLogo from '../assets/images/telegram.png'
 
-const SideBarSC = styled.aside`
-    width: 268px;
+const SideBarSC = styled.aside<{ $mobile?: boolean }>`
+    width: ${({ $mobile }) => ($mobile ? 'auto' : '268px')};
     background: ${({ theme }) => theme.color.main};
-    border-right: 1px solid ${({ theme }) => theme.color.border1};
+    border-right: 1px solid ${({ theme, $mobile }) => ($mobile ? 'transparent' : theme.color.border1)};
+    flex-shrink: 0;
 
     nav a {
         display: flex;
@@ -41,8 +42,8 @@ const SideBarSC = styled.aside`
     .balance {
         padding: 17px 7px 20px 22px;
         margin: 0 26px 0 20px;
-        ${({ theme }) => (theme.darkMode ? 'border: 1px solid #A5A5A5;' : '')}
-        box-shadow: ${({ theme }) => theme.shadow.wallet};
+        ${({ theme, $mobile }) => (theme.darkMode && !$mobile ? 'border: 1px solid #A5A5A5;' : '')}
+        box-shadow: ${({ theme, $mobile }) => (!$mobile ? theme.shadow.wallet : '')};
         border-radius: 23px;
 
         .title {
@@ -58,16 +59,44 @@ const SideBarSC = styled.aside`
         }
     }
 
+    ${({ $mobile }) =>
+        $mobile
+            ? css`
+                  border-top: 1px solid ${({ theme }) => theme.color.border3};
+
+                  .balance {
+                      padding-left: 13px;
+                      padding-top: 34px;
+                      .title {
+                          padding-bottom: 17px;
+                          svg {
+                              display: none;
+                          }
+                      }
+                  }
+                  nav {
+                      border-bottom: 1px solid ${({ theme }) => theme.color.border3};
+                      padding-bottom: 20px;
+                  }
+
+                  .social {
+                      max-width: 300px;
+                  }
+              `
+            : ''}
+
+    display: ${({ $mobile }) => ($mobile ? 'none' : 'flex')};
+
     @media ${({ theme }) => theme.media.md} {
-        display: none;
+        display: ${({ $mobile }) => ($mobile ? 'block' : 'none')};
     }
 `
 
-export default function SideBar() {
+export default function SideBar({ mobile }: { mobile?: boolean }) {
     const { i18n } = useLingui()
 
     return (
-        <SideBarSC className="flex flex-col justify-between">
+        <SideBarSC className="flex flex-col justify-between" $mobile={mobile}>
             <nav>
                 <NavLink to={'/swap'}>{i18n._(t`Swap`)}</NavLink>
                 <NavLink to={'/stakes'}>{i18n._(t`Stakes`)}</NavLink>

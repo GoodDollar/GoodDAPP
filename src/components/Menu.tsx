@@ -13,34 +13,32 @@ import styled from 'styled-components'
 const items = (i18n: I18n) => [
     {
         name: i18n._(t`Docs`),
-        description: i18n._(t`Documentation for users of Sushi.`),
-        href: 'https://docs.sushi.com'
+        description: i18n._(t`Documentation for users`),
+        href: '#'
     },
     {
         name: i18n._(t`Dev`),
-        description: i18n._(t`Documentation for developers of Sushi.`),
-        href: 'https://dev.sushi.com'
+        description: i18n._(t`Documentation for developers`),
+        href: '#'
     },
     {
         name: i18n._(t`Open Source`),
-        description: i18n._(t`Sushi is a supporter of Open Source.`),
-        href: 'https://github.com/sushiswap'
+        description: i18n._(t`GoodDollar is a supporter of open source`),
+        href: '#'
     },
     {
         name: i18n._(t`Tools`),
-        description: i18n._(t`Tools to optimize your workflow.`),
-        href: '/tools'
+        description: i18n._(t`Tools to optimize workflow`),
+        href: '#'
     },
     {
         name: i18n._(t`Discord`),
-        description: i18n._(t`Join the community on Discord.`),
-        href: 'https://discord.gg/NVPXN4e'
+        description: i18n._(t`Join the community of discord`),
+        href: '#'
     }
 ]
 
 const MenuLink = styled(ExternalLink)`
-    white-space: nowrap;
-
     .link-name {
         font-style: normal;
         font-weight: bold;
@@ -59,10 +57,27 @@ const MenuLink = styled(ExternalLink)`
     }
 `
 
+const Panel = styled(Popover.Panel as any)`
+    position: absolute;
+    z-index: 10;
+    right: 0;
+    top: 100%;
+    transform: translate(0, 35px);
+    background-color: ${({ theme }) => theme.color.main};
+    width: 384px;
+    max-width: 95vw;
+
+    @media ${({ theme }) => theme.media.md} {
+        top: unset;
+        right: -8px;
+        bottom: 100%;
+        transform: translate(0, -35px);
+    }
+`
+
 export default function Menu() {
     const { i18n } = useLingui()
     const solutions = items(i18n)
-    const theme = useTheme()
 
     return (
         <Popover className="relative">
@@ -86,17 +101,8 @@ export default function Menu() {
                         leaveFrom="opacity-100 translate-y-0"
                         leaveTo="opacity-0 translate-y-1"
                     >
-                        <Popover.Panel
-                            static
-                            className="absolute z-10 bottom-12 lg:top-12 left-full transform -translate-x-full mt-3 px-2 sm:px-0"
-                        >
-                            <div
-                                className="rounded-lg ring-1 ring-black ring-opacity-5 overflow-hidden"
-                                style={{
-                                    background: theme.color.main,
-                                    width: 384
-                                }}
-                            >
+                        <Panel static className="rounded-lg">
+                            <div className="rounded-lg ring-1 ring-black ring-opacity-5 overflow-hidden">
                                 <div className="relative grid gap-6 px-4 py-4 sm:gap-8 sm:p-8">
                                     {solutions.map(item => (
                                         <MenuLink
@@ -110,7 +116,7 @@ export default function Menu() {
                                     ))}
                                 </div>
                             </div>
-                        </Popover.Panel>
+                        </Panel>
                     </Transition>
                 </>
             )}

@@ -176,7 +176,7 @@ export default function SlippageTabs({ rawSlippage, setRawSlippage, deadline, se
                         1%
                     </Option>
                     <div className="flex items-center space-x-2">
-                        <span>Custom</span>
+                        <span className="sm:hidden">Custom</span>
                         <OptionCustom
                             active={![10, 50, 100].includes(rawSlippage)}
                             warning={!slippageInputIsValid}

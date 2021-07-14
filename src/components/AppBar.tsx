@@ -17,6 +17,7 @@ import { useApplicationTheme } from '../state/application/hooks'
 import { ReactComponent as Burger } from '../assets/images/burger.svg'
 import { ReactComponent as X } from '../assets/images/x.svg'
 import { t } from '@lingui/macro'
+import SideBar from './SideBar'
 
 const AppBarWrapper = styled.header`
     background: ${({ theme }) => theme.color.main};
@@ -147,82 +148,9 @@ function AppBar(): JSX.Element {
                             </div>
                         </div>
 
-                        {/*<Disclosure.Panel className="sm:hidden">
-                            <div className="flex flex-col px-4 pt-2 pb-3 space-y-1">
-                                 Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white"
-                                 <a
-                                href="#"
-                                className="bg-gray-1000 text-white block px-3 py-2 rounded-md text-base font-medium"
-                            >
-                                Dashboard
-                            </a>
-
-                                <NavLink id={`swap-nav-link`} to={'/swap'}>
-                                    {i18n._(t`Swap`)}
-                                </NavLink>
-                                <NavLink
-                                    id={`pool-nav-link`}
-                                    to={'/pool'}
-                                    isActive={(match, { pathname }) =>
-                                        Boolean(match) ||
-                                        pathname.startsWith('/add') ||
-                                        pathname.startsWith('/remove') ||
-                                        pathname.startsWith('/create') ||
-                                        pathname.startsWith('/find')
-                                    }
-                                >
-                                    {i18n._(t`Pool`)}
-                                </NavLink>
-
-                                {chainId && [ChainId.MAINNET, ChainId.MATIC].includes(chainId) && (
-                                    <NavLink id={`yield-nav-link`} to={'/yield'}>
-                                        {i18n._(t`Yield`)}
-                                    </NavLink>
-                                )}
-                                {chainId &&
-                                    [ChainId.MAINNET, ChainId.KOVAN, ChainId.BSC, ChainId.MATIC].includes(chainId) && (
-                                        <NavLink id={`kashi-nav-link`} to={'/bento/kashi/lend'}>
-                                            {i18n._(t`Kashi Lending`)}
-                                        </NavLink>
-                                    )}
-                                {chainId &&
-                                    [ChainId.MAINNET, ChainId.KOVAN, ChainId.BSC, ChainId.MATIC].includes(chainId) && (
-                                        <NavLink id={`bento-nav-link`} to={'/bento'}>
-                                            {i18n._(t`BentoBox`)}
-                                        </NavLink>
-                                    )}
-                                {chainId === ChainId.MAINNET && (
-                                    <NavLink id={`stake-nav-link`} to={'/sushibar'}>
-                                        {i18n._(t`SushiBar`)}
-                                    </NavLink>
-                                )}
-                                {chainId === ChainId.MAINNET && (
-                                    <ExternalLink id={`stake-nav-link`} href={'https://miso.sushi.com'}>
-                                        {i18n._(t`Miso`)}
-                                    </ExternalLink>
-                                )}
-                                {chainId === ChainId.MAINNET && (
-                                    <NavLink id={`vesting-nav-link`} to={'/vesting'}>
-                                        {i18n._(t`Vesting`)}
-                                    </NavLink>
-                                )}
-                                {chainId &&
-                                    [
-                                        ChainId.MAINNET,
-                                        ChainId.BSC,
-                                        ChainId.XDAI,
-                                        ChainId.FANTOM,
-                                        ChainId.MATIC,
-                                    ].includes(chainId) && (
-                                        <ExternalLink
-                                            id={`analytics-nav-link`}
-                                            href={ANALYTICS_URL[chainId] || 'https://analytics.sushi.com'}
-                                        >
-                                            {i18n._(t`Analytics`)}
-                                        </ExternalLink>
-                                    )}
-                            </div>
-                        </Disclosure.Panel>*/}
+                        <Disclosure.Panel className="sm:hidden">
+                            <SideBar mobile />
+                        </Disclosure.Panel>
                     </>
                 )}
             </Disclosure>

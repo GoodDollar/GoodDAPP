@@ -8,6 +8,17 @@ interface LayoutProps {
     netWorth?: string
 }
 
+const LayoutSC = styled.div`
+    width: 100%;
+    padding-left: 5rem;
+    padding-right: 1rem;
+
+    @media ${({ theme }) => theme.media.md} {
+        padding-left: 0;
+        padding-right: 0;
+    }
+`
+
 const ContentWrapper = styled.div`
     background: ${({ theme }) => theme.color.main};
     box-shadow: ${({ theme }) => theme.shadow.button};
@@ -21,8 +32,8 @@ export default function Layout({
     right = undefined
 }: LayoutProps): JSX.Element {
     return (
-        <div className="w-full pr-4 pl-20">
+        <LayoutSC>
             <ContentWrapper>{children}</ContentWrapper>
-        </div>
+        </LayoutSC>
     )
 }

@@ -11,7 +11,6 @@ import { getDesignRelativeWidth } from '../../../lib/utils/sizes'
 import Avatar from '../../common/view/Avatar'
 import BigGoodDollar from '../../common/view/BigGoodDollar'
 import { Icon, Section, Text } from '../../common'
-import userStorage from '../../../lib/userStorage/UserStorage'
 import type { FeedEventProps } from './EventProps'
 import EventIcon from './EventIcon'
 import EventCounterParty from './EventCounterParty'
@@ -69,10 +68,6 @@ const ListEvent = ({ item: feed, theme, styles }: FeedEventProps) => {
   const isFeedTypeClaiming = feed.type === 'claiming'
   const isErrorCard = ['senderror', 'withdrawerror'].includes(itemType)
   const avatar = get(feed, 'data.endpoint.avatar')
-
-  const updateFeedEventAnimation = () => {
-    userStorage.updateFeedAnimationStatus(feed.id)
-  }
 
   if (itemType === 'empty') {
     return <EmptyEventFeed />
@@ -145,8 +140,7 @@ const ListEvent = ({ item: feed, theme, styles }: FeedEventProps) => {
               animStyle={styles.typeAnimatedIcon}
               type={itemType}
               size={normalize(34)}
-              onAnimationFinish={updateFeedEventAnimation}
-              showAnim={!feed.animationExecuted}
+              showAnim={false}
               delay={1000}
             />
           </View>

@@ -1,5 +1,4 @@
 //@flow
-import * as Realm from 'realm-web'
 import { Database } from '@textile/threaddb'
 import * as TextileCrypto from '@textile/crypto'
 import { once, sortBy } from 'lodash'
@@ -9,8 +8,9 @@ import logger from '../logger/pino-logger'
 import Config from '../../config/config'
 import { FeedItemSchema } from '../textile/feedSchema' // Some json-schema.org schema
 import type { DB } from '../userStorage/UserStorage'
+/* eslint-disable import/namespace */
+import * as Realm from './realm-web'
 const log = logger.child({ from: 'FeedRealmDB' })
-
 class RealmDB implements DB {
   privateKey
 
@@ -63,13 +63,12 @@ class RealmDB implements DB {
    */
   async _initRealmDB() {
     const REALM_APP_ID = Config.realmAppID || 'wallet_dev-dhiht'
-
-    const app = new Realm.App({ id: REALM_APP_ID })
     const jwt = await AsyncStorage.getItem(JWT)
     log.debug('initRealmDB', { jwt, REALM_APP_ID })
     const credentials = Realm.Credentials.jwt(jwt)
     try {
       // Authenticate the user
+      const app = new Realm.App({ id: REALM_APP_ID })
       this.user = await app.logIn(credentials)
       const mongodb = app.currentUser.mongoClient('mongodb-atlas')
       this.EncryptedFeed = mongodb.db('wallet').collection('encrypted_feed')
@@ -224,18 +223,24 @@ class RealmDB implements DB {
    * @returns
    */
   async _encrypt(feedItem) {
-    const msg = new TextEncoder().encode(JSON.stringify(feedItem))
-    const encrypted = await this.privateKey.public.encrypt(msg).then(_ => Buffer.from(_).toString('base64'))
-    const txHash = feedItem.id
-    // eslint-disable-next-line camelcase
-    const user_id = this.user.id
-    // eslint-disable-next-line camelcase
-    const _id = `${txHash}_${user_id}`
-    return this.EncryptedFeed.updateOne(
-      { _id, txHash, user_id },
-      { _id, txHash, user_id, encrypted, date: new Date(feedItem.date) },
-      { upsert: true },
-    )
+    try {
+      const msg = new TextEncoder().encode(JSON.stringify(feedItem))
+      const encrypted = await this.privateKey.public.encrypt(msg).then(_ => Buffer.from(_).toString('base64'))
+      const txHash = feedItem.id
+      // eslint-disable-next-line camelcase
+      const user_id = this.user.id
+      // eslint-disable-next-line camelcase
+      const _id = `${txHash}_${user_id}`
+      const res = await this.EncryptedFeed.updateOne(
+        { _id, txHash, user_id },
+        { _id, txHash, user_id, encrypted, date: new Date(feedItem.date) },
+        { upsert: true },
+      )
+      log.debug('_encrypt result:', { itemId: _id, res })
+      return res
+    } catch (e) {
+      log.error('error _encrypt feedItem:', e.message, e, { feedItem })
+    }
   }
 
   /**

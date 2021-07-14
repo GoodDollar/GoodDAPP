@@ -204,7 +204,6 @@ const SMSAction = ({
         }
         setWaitTime(parseInt(value))
       }, 1000)
-      logger.debug('Error countdownIntervalRef.current', countdownIntervalRef.current)
       setTimeout(() => {
         if (countdownIntervalRef.current) {
           clearInterval(countdownIntervalRef.current)

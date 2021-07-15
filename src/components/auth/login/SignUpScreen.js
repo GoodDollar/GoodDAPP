@@ -21,8 +21,11 @@ import googleBtnIcon from '../../../assets/Auth/btn_google.svg'
 import facebookBtnIcon from '../../../assets/Auth/btn_facebook.svg'
 import MobileBtnIcon from '../../../assets/Auth/btn_mobile.svg'
 import Config from '../../../config/config'
+import logger from '../../../lib/logger/pino-logger'
 import { LoginButton } from './LoginButton'
 import Recaptcha from './Recaptcha'
+
+const log = logger.child({ from: 'SignUpScreen' })
 
 const SignupScreen = ({ isSignup, screenProps, styles, handleLoginMethod, sdkInitialized, goBack }) => {
   const { push } = screenProps
@@ -52,11 +55,15 @@ const SignupScreen = ({ isSignup, screenProps, styles, handleLoginMethod, sdkIni
   }
 
   const onRecaptchaSuccess = () => {
+    log.debug('Recaptcha successfull')
     setIsRecaptchaSuccessfull(true)
     handleLoginMethod('auth0-pwdless-sms')
   }
 
-  const onRecaptchaFailed = () => setIsRecaptchaSuccessfull(false)
+  const onRecaptchaFailed = () => {
+    log.debug('Recaptcha failed')
+    setIsRecaptchaSuccessfull(false)
+  }
 
   const _selfCustody = () => handleLoginMethod('selfCustody')
 

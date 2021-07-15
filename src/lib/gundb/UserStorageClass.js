@@ -306,7 +306,7 @@ export class UserStorage {
       return value
     }
     if (field === 'mobile' || field === 'phone') {
-      return sha3(value.toString().replace(/[_-\s]+/g, ''))
+      return sha3(value.replace(/[_-\s]+/g, ''))
     }
     return sha3(`${value}`.toLowerCase())
   }

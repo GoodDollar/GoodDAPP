@@ -93,7 +93,7 @@ export default ({
   }
 
   if (!isUserTypingCountry && value) {
-    phoneNumber = value.toString().replace(countryCode, '')
+    phoneNumber = String(value).replace(countryCode, '')
   }
 
   const handleSelectCountry = useCallback(() => {

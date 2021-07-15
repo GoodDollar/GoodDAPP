@@ -23,8 +23,12 @@
         "downlevelIteration": true,
         "allowSyntheticDefaultImports": true,
         "types": ["react-spring", "jest"],
-        "baseUrl": "src"
+        "baseUrl": "src",
+        "typeRoots": [
+            "./node_modules/@types",
+            "./types"
+        ]
     },
     "exclude": ["node_modules", "cypress"],
-    "include": ["./src/**/*.ts", "./src/**/*.tsx"]
+    "include": ["./src/**/*.ts", "./src/**/*.tsx", "./types"]
 }

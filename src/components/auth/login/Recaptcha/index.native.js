@@ -15,7 +15,7 @@ const Recaptcha = React.forwardRef((props, ref) => {
     <ReCAPTCHA
       ref={ref}
       siteKey={Config.recaptchaSiteKey}
-      baseUrl={Config.recaptchaBaseUrl}
+      baseUrl={Config.publicUrl}
       size="normal"
       onExpire={props.onFail}
       onError={props.onFail}

@@ -1,14 +1,13 @@
 // @flow
-import GoodDollarABI from '@gooddollar/goodprotocol/artifacts/contracts/Interfaces.sol/IGoodDollar.json'
-import IdentityABI from '@gooddollar/goodprotocol/artifacts/contracts/Interfaces.sol/IIdentity.json'
+import GoodDollarABI from '@gooddollar/goodcontracts/build/contracts/GoodDollar.min.json'
+import IdentityABI from '@gooddollar/goodcontracts/build/contracts/Identity.min.json'
 import OneTimePaymentsABI from '@gooddollar/goodcontracts/build/contracts/OneTimePayments.min.json'
-import ContractsAddress from '@gooddollar/goodprotocol/releases/deployment.json'
+import ContractsAddress from '@gooddollar/goodcontracts/releases/deployment.json'
 import StakingModelAddress from '@gooddollar/goodcontracts/stakingModel/releases/deployment.json'
-
-// import UpgradablesAddress from '@gooddollar/goodcontracts/upgradables/releases/deployment.json'
-import ERC20ABI from '@gooddollar/goodprotocol/artifacts/contracts/Interfaces.sol/ERC20.json'
+import UpgradablesAddress from '@gooddollar/goodcontracts/upgradables/releases/deployment.json'
+import ERC20ABI from '@gooddollar/goodcontracts/build/contracts/ERC20.min.json'
 import UBIABI from '@gooddollar/goodcontracts/stakingModel/build/contracts/UBIScheme.min.json'
-import SimpleStaking from '@gooddollar/goodprotocol/artifacts/contracts/staking/SimpleStaking.sol/SimpleStaking.json'
+import SimpleDaiStaking from '@gooddollar/goodcontracts/stakingModel/build/contracts/SimpleDAIStaking.min.json'
 import InvitesABI from '@gooddollar/goodcontracts/upgradables/build/contracts/InvitesV1.min.json'
 import FaucetABI from '@gooddollar/goodcontracts/upgradables/build/contracts/FuseFaucet.min.json'
 
@@ -156,7 +155,7 @@ export class GoodWallet {
   }
 
   init(): Promise<any> {
-    const mainnetNetworkId = Config.network === 'production' ? 1 : 42 //get(ContractsAddress, Config.network + '-mainnet.networkId', 122)
+    const mainnetNetworkId = get(ContractsAddress, Config.network + '-mainnet.networkId', 122)
     const mainnethttpWeb3provider = Config.ethereum[mainnetNetworkId].httpWeb3provider
     this.web3Mainnet = new Web3(mainnethttpWeb3provider)
     const ready = WalletFactory.create(GoodWallet.WalletType, this.config)
@@ -201,10 +200,17 @@ export class GoodWallet {
         // UBI Contract
         this.UBIContract = new this.wallet.eth.Contract(
           UBIABI.abi,
-          get(ContractsAddress, `${this.network}.UBIScheme` /*UBIABI.networks[this.networkId].address*/),
+          get(StakingModelAddress, `${this.network}.UBIScheme` /*UBIABI.networks[this.networkId].address*/),
           { from: this.account },
         )
         abiDecoder.addABI(UBIABI.abi)
+
+        this.SimpleDaiStaking = new this.web3Mainnet.eth.Contract(
+          SimpleDaiStaking.abi,
+          get(StakingModelAddress, `${this.network}-mainnet.DAIStaking` /*UBIABI.networks[this.networkId].address*/),
+          { from: this.account },
+        )
+        abiDecoder.addABI(SimpleDaiStaking.abi)
 
         // OneTimePaymentLinks Contract
         this.oneTimePaymentsContract = new this.wallet.eth.Contract(
@@ -222,7 +228,7 @@ export class GoodWallet {
         // UBI Contract
         this.invitesContract = new this.wallet.eth.Contract(
           InvitesABI.abi,
-          get(ContractsAddress, `${this.network}.Invites` /*UBIABI.networks[this.networkId].address*/),
+          get(UpgradablesAddress, `${this.network}.Invites` /*UBIABI.networks[this.networkId].address*/),
           { from: this.account },
         )
         abiDecoder.addABI(InvitesABI.abi)
@@ -230,7 +236,7 @@ export class GoodWallet {
         // faucet Contract
         this.faucetContract = new this.wallet.eth.Contract(
           FaucetABI.abi,
-          get(ContractsAddress, `${this.network}.FuseFaucet`),
+          get(UpgradablesAddress, `${this.network}.FuseFaucet`),
           { from: this.account },
         )
         abiDecoder.addABI(FaucetABI.abi)
@@ -245,7 +251,7 @@ export class GoodWallet {
   }
 
   getRewardsAddresses() {
-    const addr = get(ContractsAddress, `${this.network}.Invites`)
+    const addr = get(UpgradablesAddress, `${this.network}.Invites`)
     return [addr].filter(_ => _ && _ !== NULL_ADDRESS).map(_ => _.toLowerCase())
   }
 
@@ -253,7 +259,6 @@ export class GoodWallet {
     const addrs = [
       get(StakingModelAddress, `${this.network}.UBIScheme`),
       get(StakingModelAddress, `${this.network}.UBISchemeOld`),
-      get(ContractsAddress, `${this.network}.UBIScheme`),
     ]
     return addrs.filter(_ => _ && _ !== NULL_ADDRESS).map(_ => _.toLowerCase())
   }
@@ -749,17 +754,8 @@ export class GoodWallet {
 
   async getTotalFundsStaked(): Promise<number> {
     try {
-      const stakingContract = new this.web3Mainnet.eth.Contract(SimpleStaking.abi, { from: this.account })
-
-      const contracts = get(StakingModelAddress, `${this.network}-mainnet.StakingContracts`)
-      const ps = contracts.map(async ([addr, rewards]) => {
-        const [, productivity] = await stakingContract.methods.getProductivity(NULL_ADDRESS, { to: addr }).call()
-        const decimals = await stakingContract.methods.stakingTokenDecimals({ to: addr }).call()
-        return productivity.div(decimals).toNumber()
-      })
-      const res = await Promise.all(ps)
-      const totalStaked = res.reduce((prev, cur) => prev + cur, 0)
-      return totalStaked
+      let totalFundsStaked = await this.SimpleDaiStaking.methods.totalStaked().call()
+      return this.web3Mainnet.utils.fromWei(totalFundsStaked.toString())
     } catch (exception) {
       const { message } = exception
       log.warn('getTotalFundsStaked failed', message, exception)

@@ -41,11 +41,11 @@ const withProfile: Effects<State> = (store: Store) => {
               return
             }
 
-            log.debug('Updating GDStore with the new profile', { profile })
-
             const displayProfile = userStorage.getDisplayProfile(profile)
             const privateProfile = await userStorage.getPrivateProfile(profile)
             const { avatar } = privateProfile
+
+            log.debug('Updating GDStore with the new profile', { displayProfile, privateProfile })
 
             if (avatar !== lastAvatar) {
               await userStorage.loadAvatars(privateProfile)
@@ -57,7 +57,7 @@ const withProfile: Effects<State> = (store: Store) => {
             setProfile(displayProfile)
             setPrivateProfile(privateProfile)
 
-            log.debug('GDStore has been updated with the new profile', { profile })
+            log.debug('GDStore has been updated with the new profile', { displayProfile, privateProfile })
           },
           1000,
           { trailing: true },

@@ -630,7 +630,7 @@ export class UserStorage {
     const { avatar } = profile
 
     if (avatar) {
-      const avatars = await avatarStorage.loadAvatars()
+      const avatars = await avatarStorage.loadAvatars(avatar)
 
       if (isFunction(profile.setAvatars)) {
         profile.setAvatars(avatars)

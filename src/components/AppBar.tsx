@@ -148,7 +148,7 @@ function AppBar(): JSX.Element {
                             </div>
                         </div>
 
-                        <Disclosure.Panel className="sm:hidden">
+                        <Disclosure.Panel>
                             <SideBar mobile />
                         </Disclosure.Panel>
                     </>

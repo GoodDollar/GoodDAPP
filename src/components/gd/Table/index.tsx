@@ -12,7 +12,7 @@ export interface TableProps extends HTMLAttributes<HTMLTableElement> {
 export const TableSC = styled.table`
     &.default {
         border-collapse: separate;
-        border-spacing: 0 3px;
+        border-spacing: 0 6px;
         width: 100%;
 
         thead {
@@ -22,6 +22,29 @@ export const TableSC = styled.table`
         }
 
         tbody {
+            tr:nth-child(odd) {
+                td {
+                    border-top: 1px solid ${({ theme }) => theme.color.border2};
+                    border-bottom: 1px solid ${({ theme }) => theme.color.border2};
+
+                    &:first-child {
+                        border-left: 1px solid ${({ theme }) => theme.color.border2};
+                        border-top-left-radius: 12px;
+                        border-bottom-left-radius: 12px;
+                    }
+
+                    &:last-child {
+                        border-right: 1px solid ${({ theme }) => theme.color.border2};
+                        border-top-right-radius: 12px;
+                        border-bottom-right-radius: 12px;
+                    }
+                }
+            }
+
+            tr:nth-child(even) {
+                display: none;
+            }
+
             td {
                 padding: 15px;
                 background: ${({ theme }) => theme.color.main};
@@ -29,19 +52,54 @@ export const TableSC = styled.table`
                 font-size: 14px;
                 line-height: 16px;
                 color: ${({ theme }) => theme.color.text4};
-                border-top: 1px solid ${({ theme }) => theme.color.border2};
-                border-bottom: 1px solid ${({ theme }) => theme.color.border2};
+            }
+        }
 
-                &:first-child {
-                    border-left: 1px solid ${({ theme }) => theme.color.border2};
-                    border-top-left-radius: 12px;
-                    border-bottom-left-radius: 12px;
+        @media ${({ theme }) => theme.media.md} {
+            border-spacing: 0 3px;
+
+            thead,
+            tbody {
+                td {
+                    font-size: 12px;
+                    padding: 11px 14px;
+                }
+                th {
+                    font-size: 10px;
                 }
 
-                &:last-child {
-                    border-right: 1px solid ${({ theme }) => theme.color.border2};
-                    border-top-right-radius: 12px;
-                    border-bottom-right-radius: 12px;
+                tr:nth-child(odd) {
+                    td {
+                        padding-bottom: 0;
+                        border-bottom: unset;
+                        &:first-child {
+                            border-bottom-left-radius: unset;
+                        }
+
+                        &:last-child {
+                            border-bottom-right-radius: unset;
+                        }
+                    }
+                }
+
+                tr:nth-child(even) {
+                    display: table-row;
+                    transform: translateY(-3px);
+
+                    td {
+                        display: table-cell;
+                        border-bottom: 1px solid ${({ theme }) => theme.color.border2};
+
+                        &:first-child {
+                            border-left: 1px solid ${({ theme }) => theme.color.border2};
+                            border-bottom-left-radius: 12px;
+                        }
+
+                        &:last-child {
+                            border-right: 1px solid ${({ theme }) => theme.color.border2};
+                            border-bottom-right-radius: 12px;
+                        }
+                    }
                 }
             }
         }

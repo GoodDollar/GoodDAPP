@@ -17,7 +17,7 @@ function Web3Faucet(): JSX.Element | null {
                 className="flex items-center rounded p-0.5 whitespace-nowrap   cursor-pointer select-none pointer-events-auto"
                 onClick={() => toggleFaucetModal()}
             >
-                <div className="grid grid-flow-col auto-cols-max items-center rounded-lg   py-2 px-3 pointer-events-auto ">
+                <div className="grid grid-flow-col auto-cols-max items-center rounded-lg px-3 pointer-events-auto ">
                     Claim UBI
                 </div>
                 <FaucetModal />

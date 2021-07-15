@@ -39,7 +39,7 @@ const Portfolio = () => {
                 <Card className="mb-4">
                     <PortfolioAnalyticSC className="flex">
                         <div className="flex flex-col justify-center flex-grow">
-                            <PortfolioTitleSC>
+                            <PortfolioTitleSC className="claimable-rewards">
                                 Claimable <br /> rewards
                             </PortfolioTitleSC>
                         </div>
@@ -91,7 +91,7 @@ const Portfolio = () => {
                             <td>DAI</td>
                             <td>COMPOUND</td>
                             <td>
-                                1,000 DAI <br />
+                                <span className="whitespace-nowrap">1,000 DAI</span> <br />
                                 1,000$
                             </td>
                             <td>
@@ -109,12 +109,19 @@ const Portfolio = () => {
                                 </ButtonDefault>
                             </td>
                         </tr>
+                        <tr className="mobile">
+                            <td colSpan={8}>
+                                <ButtonDefault size="sm" width="99px">
+                                    Withdraw
+                                </ButtonDefault>
+                            </td>
+                        </tr>
                         <tr>
                             <td>UBI</td>
                             <td>DAI</td>
                             <td>COMPOUND</td>
                             <td>
-                                1,000 DAI <br />
+                                <span className="whitespace-nowrap">1,000 DAI</span> <br />
                                 1,000$
                             </td>
                             <td>
@@ -128,6 +135,13 @@ const Portfolio = () => {
                             <td>10 GDAO</td>
                             <td>
                                 <ButtonDefault size="sm" width="99px">
+                                    Withdraw
+                                </ButtonDefault>
+                            </td>
+                        </tr>
+                        <tr className="mobile">
+                            <td colSpan={8}>
+                                <ButtonDefault size="sm" width="100%">
                                     Withdraw
                                 </ButtonDefault>
                             </td>

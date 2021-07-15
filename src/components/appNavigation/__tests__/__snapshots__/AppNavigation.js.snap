@@ -62,12 +62,11 @@ exports[`AppNavigation matches snapshot 1`] = `
             tabIndex="0"
           >
             <div
-              className="css-text-901oao r-color-jwli3a r-fontWeight-1it3c9n"
+              className="css-text-901oao r-color-jwli3a r-fontSize-3i2nvb r-fontWeight-1it3c9n"
               dir="auto"
               style={
                 Object {
                   "fontFamily": "gooddollar",
-                  "fontSize": "36px",
                   "fontStyle": "normal",
                 }
               }
@@ -89,12 +88,13 @@ exports[`AppNavigation matches snapshot 1`] = `
             tabIndex="0"
           >
             <h1
-              className="css-reset-4rbku5 css-text-901oao css-textOneLine-bfa6kz r-color-jwli3a r-fontSize-adyw6z r-fontWeight-majxgm r-textAlign-fdjqy7"
+              className="css-reset-4rbku5 css-text-901oao css-textOneLine-bfa6kz r-color-jwli3a r-fontSize-adyw6z r-fontWeight-majxgm"
               dir="auto"
               role="heading"
               style={
                 Object {
                   "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                  "textAlign": "left",
                 }
               }
             />
@@ -239,17 +239,17 @@ exports[`AppNavigation matches snapshot 1`] = `
                   className="css-view-1dbjc4n"
                 >
                   <div
-                    className="css-view-1dbjc4n r-alignItems-1d09ksm r-display-6koalj r-flexDirection-18u37iz"
+                    className="css-view-1dbjc4n r-alignItems-1d09ksm r-display-6koalj r-flexDirection-18u37iz r-width-13qz1uu"
                     data-testid="amount_value"
                   >
                     <div
-                      className="css-text-901oao r-color-181bzza r-fontFamily-6jnb14 r-fontSize-111xbm8 r-fontWeight-1kfrs79 r-lineHeight-1gvhk8w r-marginRight-a5pmau r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                      className="css-text-901oao css-textOneLine-bfa6kz r-alignSelf-1pz39u2 r-color-181bzza r-fontFamily-6jnb14 r-fontSize-111xbm8 r-fontWeight-b88u0q r-lineHeight-1gvhk8w r-marginRight-a5pmau r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                       dir="auto"
                     >
                       -.--
                     </div>
                     <div
-                      className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep r-marginRight-t5h68e"
+                      className="css-view-1dbjc4n r-alignItems-1awozwy r-alignSelf-1pz39u2 r-flexDirection-18u37iz r-justifyContent-1wtj0ep r-marginRight-t5h68e"
                     >
                       <div
                         className="css-text-901oao r-color-181bzza r-fontFamily-6jnb14 r-fontSize-1i10wst r-fontWeight-b88u0q r-lineHeight-hbpseb r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
@@ -301,7 +301,7 @@ exports[`AppNavigation matches snapshot 1`] = `
               }
             >
               <div
-                className="css-cursor-18t94o4 css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
+                className="css-cursor-18t94o4 css-view-1dbjc4n r-alignSelf-1pz39u2 r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
                 data-focusable={true}
                 onKeyDown={[Function]}
                 onKeyPress={[Function]}
@@ -315,28 +315,16 @@ exports[`AppNavigation matches snapshot 1`] = `
                 role="button"
                 style={
                   Object {
-                    "WebkitAlignSelf": "stretch",
-                    "alignSelf": "stretch",
                     "borderBottomLeftRadius": "50px",
                     "borderBottomRightRadius": "50px",
                     "borderTopLeftRadius": "50px",
                     "borderTopRightRadius": "50px",
-                    "msFlexItemAlign": "stretch",
-                    "msGridRowAlign": "stretch",
                   }
                 }
                 tabIndex="0"
               >
                 <div
-                  className="css-view-1dbjc4n r-alignItems-1oszu61 r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
-                  style={
-                    Object {
-                      "WebkitAlignSelf": "stretch",
-                      "alignSelf": "stretch",
-                      "msFlexItemAlign": "stretch",
-                      "msGridRowAlign": "stretch",
-                    }
-                  }
+                  className="css-view-1dbjc4n r-alignItems-1oszu61 r-alignSelf-1pz39u2 r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
                 >
                   <div
                     className="css-view-1dbjc4n r-marginHorizontal-1ybube5 r-marginVertical-712mwr"
@@ -413,7 +401,7 @@ exports[`AppNavigation matches snapshot 1`] = `
                   }
                 >
                   <div
-                    className="css-cursor-18t94o4 css-view-1dbjc4n r-borderRadius-ieixw r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
+                    className="css-cursor-18t94o4 css-view-1dbjc4n r-alignSelf-1pz39u2 r-borderRadius-ieixw r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
                     data-focusable={true}
                     onKeyDown={[Function]}
                     onKeyPress={[Function]}
@@ -425,26 +413,10 @@ exports[`AppNavigation matches snapshot 1`] = `
                     onResponderTerminationRequest={[Function]}
                     onStartShouldSetResponder={[Function]}
                     role="button"
-                    style={
-                      Object {
-                        "WebkitAlignSelf": "stretch",
-                        "alignSelf": "stretch",
-                        "msFlexItemAlign": "stretch",
-                        "msGridRowAlign": "stretch",
-                      }
-                    }
                     tabIndex="0"
                   >
                     <div
-                      className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci r-marginHorizontal-6cv0rn"
-                      style={
-                        Object {
-                          "WebkitAlignSelf": "stretch",
-                          "alignSelf": "stretch",
-                          "msFlexItemAlign": "stretch",
-                          "msGridRowAlign": "stretch",
-                        }
-                      }
+                      className="css-view-1dbjc4n r-alignItems-1awozwy r-alignSelf-1pz39u2 r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci r-marginHorizontal-6cv0rn"
                     >
                       <div
                         className="css-view-1dbjc4n r-marginHorizontal-1ydw1k6 r-marginVertical-712mwr"
@@ -494,7 +466,7 @@ exports[`AppNavigation matches snapshot 1`] = `
               }
             >
               <div
-                className="css-cursor-18t94o4 css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
+                className="css-cursor-18t94o4 css-view-1dbjc4n r-alignSelf-1pz39u2 r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
                 data-focusable={true}
                 onKeyDown={[Function]}
                 onKeyPress={[Function]}
@@ -508,28 +480,16 @@ exports[`AppNavigation matches snapshot 1`] = `
                 role="button"
                 style={
                   Object {
-                    "WebkitAlignSelf": "stretch",
-                    "alignSelf": "stretch",
                     "borderBottomLeftRadius": "50px",
                     "borderBottomRightRadius": "50px",
                     "borderTopLeftRadius": "50px",
                     "borderTopRightRadius": "50px",
-                    "msFlexItemAlign": "stretch",
-                    "msGridRowAlign": "stretch",
                   }
                 }
                 tabIndex="0"
               >
                 <div
-                  className="css-view-1dbjc4n r-alignItems-1oszu61 r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
-                  style={
-                    Object {
-                      "WebkitAlignSelf": "stretch",
-                      "alignSelf": "stretch",
-                      "msFlexItemAlign": "stretch",
-                      "msGridRowAlign": "stretch",
-                    }
-                  }
+                  className="css-view-1dbjc4n r-alignItems-1oszu61 r-alignSelf-1pz39u2 r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
                 >
                   <div
                     className="css-view-1dbjc4n r-marginHorizontal-1ybube5 r-marginVertical-712mwr"

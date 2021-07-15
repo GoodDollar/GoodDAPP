@@ -28,6 +28,10 @@ const registerForInvites = async () => {
   }
 
   try {
+    log.debug('joining invites contract:', { inviterInviteCode })
+    const inviteCode = await goodWallet.joinInvites(inviterInviteCode)
+    log.debug('joined invites contract:', { inviteCode, inviterInviteCode })
+    userStorage.userProperties.set('inviteCode', inviteCode)
     if (inviterInviteCode) {
       //in case we were invited
       let [hasJoined, inviter] = await goodWallet.hasJoinedInvites()
@@ -35,13 +39,9 @@ const registerForInvites = async () => {
         //if not joined or not set inviter then fire event
         fireEvent(INVITE_JOIN, { inviterInviteCode })
       }
+      userStorage.userProperties.set('inviterInviteCodeUsed', true)
     }
-    log.debug('joining invites contract:', { inviterInviteCode })
-    const inviteCode = await goodWallet.joinInvites(inviterInviteCode)
-    userStorage.userProperties.set('inviterInviteCodeUsed', true)
-    log.debug('joined invites contract:', { inviteCode, inviterInviteCode })
 
-    userStorage.userProperties.set('inviteCode', inviteCode)
     return inviteCode
   } catch (e) {
     log.error('registerForInvites failed', e.message, e, { inviterInviteCode })
@@ -62,7 +62,7 @@ const useInviteCode = () => {
   useEffect(() => {
     log.debug('useInviteCode didmount:', { inviteCode })
 
-    if (Config.enableInvites && !inviteCode) {
+    if (Config.enableInvites) {
       getInviteCode().then(code => {
         log.debug('useInviteCode registered user result:', { code })
         setInviteCode(code)

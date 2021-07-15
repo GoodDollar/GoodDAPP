@@ -1,5 +1,5 @@
 // @flow
-import React, { useCallback, useRef } from 'react'
+import React, { useCallback, useRef, useState } from 'react'
 import { Platform, View } from 'react-native'
 import Wrapper from '../../common/layout/Wrapper'
 import Text from '../../common/view/Text'
@@ -24,12 +24,10 @@ import Config from '../../../config/config'
 import { LoginButton } from './LoginButton'
 import Recaptcha from './Recaptcha'
 
-// import { delay } from '../../../lib/utils/async'
-
-// import SpinnerCheckMark from '../../common/animations/SpinnerCheckMark'
-
 const SignupScreen = ({ isSignup, screenProps, styles, handleLoginMethod, sdkInitialized, goBack }) => {
   const { push } = screenProps
+  const [isRecaptchaSuccessfull, setIsRecaptchaSuccessfull] = useState(false)
+
   const handleNavigateTermsOfUse = useCallback(() => push('PrivacyPolicyAndTerms'), [push])
 
   const handleNavigatePrivacyPolicy = useCallback(() => push('PrivacyPolicy'), [push])
@@ -40,17 +38,25 @@ const SignupScreen = ({ isSignup, screenProps, styles, handleLoginMethod, sdkIni
 
   const _facebook = () => handleLoginMethod('facebook')
 
-  // const _mobile = () => handleLoginMethod('auth0-pwdless-sms')
   const _mobile = () => {
-    // return
-    if (Platform.OS === 'web') {
-      recaptcha.current.execute()
+    // If recaptcha has already been passed successfully, trigger torus right away
+    if (isRecaptchaSuccessfull) {
+      onRecaptchaSuccess()
     } else {
-      recaptcha.current.open()
+      if (Platform.OS === 'web') {
+        recaptcha.current.execute()
+      } else {
+        recaptcha.current.open()
+      }
     }
   }
 
-  const onRecaptchaSuccess = () => handleLoginMethod('auth0-pwdless-sms')
+  const onRecaptchaSuccess = () => {
+    setIsRecaptchaSuccessfull(true)
+    handleLoginMethod('auth0-pwdless-sms')
+  }
+
+  const onRecaptchaFailed = () => setIsRecaptchaSuccessfull(false)
 
   const _selfCustody = () => handleLoginMethod('selfCustody')
 
@@ -99,7 +105,7 @@ const SignupScreen = ({ isSignup, screenProps, styles, handleLoginMethod, sdkIni
 
   return (
     <Wrapper backgroundColor="#fff" style={styles.mainWrapper}>
-      <Recaptcha ref={recaptcha} onSuccess={onRecaptchaSuccess} />
+      <Recaptcha ref={recaptcha} onSuccess={onRecaptchaSuccess} onFail={onRecaptchaFailed} />
       <NavBar title={isSignup ? 'Signup' : 'Login'} />
       <Section.Stack style={{ flex: 1, justifyContent: 'center' }}>
         <Section.Stack style={{ flex: 1, maxHeight: 640 }}>

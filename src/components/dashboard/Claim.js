@@ -435,7 +435,7 @@ const Claim = props => {
   // const [startPolling, stopPolling] = useInterval(gatherStats, 60000)
 
   useEffect(() => {
-    //refresh stats when user comes back to app, timer state has changed or dailyUBI has changed
+    // refresh stats when user comes back to app, timer state has changed or dailyUBI has changed
     if (appState === 'active') {
       // refresh all stats when returning back to app
       // or dailyUbi changed meaning a new cycle started

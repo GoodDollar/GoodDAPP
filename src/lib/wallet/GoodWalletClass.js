@@ -14,7 +14,7 @@ import FaucetABI from '@gooddollar/goodcontracts/upgradables/build/contracts/Fus
 import Web3 from 'web3'
 import { BN, toBN } from 'web3-utils'
 import abiDecoder from 'abi-decoder'
-import { chunk, get, invokeMap, last, range, result, uniqBy, values } from 'lodash'
+import { flatten, get, invokeMap, last, maxBy, result, uniqBy, values } from 'lodash'
 import moment from 'moment'
 import bs58 from 'bs58'
 import Config from '../../config/config'
@@ -30,7 +30,7 @@ const log = logger.child({ from: 'GoodWallet' })
 const ZERO = new BN('0')
 
 //17280 = 24hours seconds divided by 5 seconds blocktime
-const DAY_TOTAL_BLOCKS = (60 * 60 * 24) / 5
+// const DAY_TOTAL_BLOCKS = (60 * 60 * 24) / 5
 
 export const WITHDRAW_STATUS_PENDING = 'pending'
 export const WITHDRAW_STATUS_UNKNOWN = 'unknown'
@@ -274,12 +274,20 @@ export class GoodWallet {
           return
         }
         const nextLastBlock = await this.wallet.eth.getBlockNumber()
-
-        await fn() //await callback to finish processing events before updating lastEventblock
-        this.lastEventsBlock = nextLastBlock
-        lastBlockCallback(nextLastBlock)
-
-        log.info('pollEvents success:', { nextLastBlock, lastBlockCallback })
+        if (nextLastBlock < this.lastEventsBlock) {
+          // if next block not mined yet
+          return
+        }
+        const events = flatten(await fn()) //await callback to finish processing events before updating lastEventblock
+        if (events.length) {
+          const lastEvent = maxBy(events, 'blockNumber')
+          this._notifyEvents(flatten(events), this.lastEventsBlock)
+          this.lastEventsBlock = lastEvent.blockNumber + 1
+          lastBlockCallback(lastEvent.blockNumber + 1)
+        } else {
+          this.lastEventsBlock = nextLastBlock
+        }
+        log.info('pollEvents success:', { events: events.length, nextLastBlock })
         return true
       }
 
@@ -304,37 +312,56 @@ export class GoodWallet {
     )
   }
 
-  async syncTxWithBlockchain(startBlock) {
-    const lastBlock = await this.wallet.eth.getBlockNumber()
-    const steps = range(startBlock, lastBlock, 100000)
-    log.debug('Start sync tx from blockchain', {
-      steps,
-    })
-
-    try {
-      const chunks = chunk(steps, 1000)
-      for (let chunk of chunks) {
-        const ps = chunk.map(fromBlock => {
-          let toBlock = fromBlock + 100000
-          if (toBlock > lastBlock) {
-            toBlock = lastBlock
-          }
-          log.debug('sync tx step:', { fromBlock, toBlock })
-          return Promise.all([
-            this.pollSendEvents(toBlock, fromBlock),
-            this.pollReceiveEvents(toBlock, fromBlock),
-            this.pollOTPLEvents(toBlock, fromBlock),
-          ])
-        })
-
-        // eslint-disable-next-line no-await-in-loop
-        await Promise.all(ps)
-      }
-      log.debug('sync tx from blockchain finished successfully')
-    } catch (e) {
-      log.error('Failed to sync tx from blockchain', e.message, e)
+  _notifyEvents(events, fromBlock) {
+    if (events.length === 0) {
+      return
     }
+
+    log.debug('_notifyEvents got events', { events, fromBlock })
+    this.getSubscribers('balanceChanged').forEach(cb => cb())
+    const uniqEvents = uniqBy(events, 'transactionHash')
+    uniqEvents.forEach(event => {
+      this._notifyReceipt(event.transactionHash).catch(err =>
+        log.error('_notifyEvents event get/send receipt failed:', err.message, err, {
+          category: ExceptionCategory.Blockhain,
+        }),
+      )
+    })
   }
+
+  // async syncTxWithBlockchain(startBlock) {
+  //   const lastBlock = await this.wallet.eth.getBlockNumber()
+  //   const steps = range(startBlock, lastBlock, 100000)
+  //   log.debug('Start sync tx from blockchain', {
+  //     steps,
+  //   })
+
+  //   try {
+  //     const chunks = chunk(steps, 1000)
+  //     for (let chunk of chunks) {
+  //       const ps = chunk.map(async fromBlock => {
+  //         let toBlock = fromBlock + 100000
+  //         if (toBlock > lastBlock) {
+  //           toBlock = lastBlock
+  //         }
+  //         log.debug('sync tx step:', { fromBlock, toBlock })
+
+  //         const events = await Promise.all([
+  //           this.pollSendEvents(toBlock, fromBlock),
+  //           this.pollReceiveEvents(toBlock, fromBlock),
+  //           this.pollOTPLEvents(toBlock, fromBlock),
+  //         ])
+  //         this._notifyEvents(flatten(events), fromBlock)
+  //       })
+
+  //       // eslint-disable-next-line no-await-in-loop
+  //       await Promise.all(ps)
+  //     }
+  //     log.debug('sync tx from blockchain finished successfully')
+  //   } catch (e) {
+  //     log.error('Failed to sync tx from blockchain', e.message, e)
+  //   }
+  // }
 
   async pollSendEvents(toBlock, from = null) {
     const fromBlock = from || this.lastEventsBlock
@@ -356,24 +383,9 @@ export class GoodWallet {
       return []
     })
 
-    if (events.length === 0) {
-      return
-    }
+    log.info('pollSendEvents result:', { events, from, fromBlock, toBlock, lastEventsBlock: this.lastEventsBlock })
 
-    log.info('pollSendEvents result:', events)
-
-    //we already got events up to lastBlock in case we are being called from regular polling and not from syncTxWithBlockchain
-    const uniqEvents = uniqBy(events, 'transactionHash').filter(
-      _ => this.lastEventsBlock === fromBlock && _.blockNumber > fromBlock,
-    )
-
-    uniqEvents.forEach(event => {
-      this._notifyReceipt(event.transactionHash).catch(err =>
-        log.error('pollSendEvents event get/send receipt failed:', err.message, err, {
-          category: ExceptionCategory.Blockhain,
-        }),
-      )
-    })
+    return events
   }
 
   async pollReceiveEvents(toBlock, from = null) {
@@ -395,23 +407,10 @@ export class GoodWallet {
       })
       return []
     })
-    if (events.length === 0) {
-      return
-    }
-    log.info('pollReceiveEvents result:', { fromBlock, toBlock }, events)
 
-    //we already got events up to lastBlock in case we are being called from regular polling and not from syncTxWithBlockchain
-    const uniqEvents = uniqBy(events, 'transactionHash').filter(
-      _ => this.lastEventsBlock === fromBlock && _.blockNumber > fromBlock,
-    )
+    log.info('pollReceiveEvents result:', { events, from, fromBlock, toBlock, lastEventsBlock: this.lastEventsBlock })
 
-    uniqEvents.forEach(event => {
-      this._notifyReceipt(event.transactionHash).catch(err =>
-        log.error('pollReceiveEvents event get/send receipt failed:', err.message, err, {
-          category: ExceptionCategory.Blockhain,
-        }),
-      )
-    })
+    return events
   }
 
   async pollOTPLEvents(toBlock, from = null) {
@@ -449,135 +448,9 @@ export class GoodWallet {
 
     const events = eventsWithdraw.concat(eventsCancel)
 
-    if (events.length === 0) {
-      return
-    }
+    log.info('pollOTPLEvents result:', { events, from, fromBlock, toBlock, lastEventsBlock: this.lastEventsBlock })
 
-    log.info('pollOTPLEvents result', events)
-
-    //we already got events up to lastBlock in case we are being called from regular polling and not from syncTxWithBlockchain
-    const uniqEvents = uniqBy(events, 'transactionHash').filter(
-      _ => this.lastEventsBlock !== fromBlock || _.blockNumber > this.lastEventsBlock,
-    )
-    uniqEvents.forEach(event => {
-      this._notifyReceipt(event.transactionHash).catch(err =>
-        log.error('pollOTPLEvents event get/send receipt failed:', err.message, err, {
-          category: ExceptionCategory.Blockhain,
-        }),
-      )
-    })
-  }
-
-  /**
-   * Subscribes to Transfer events (from and to) the current account
-   * This is used to verify account balance changes
-   * @param {string} fromBlock - defaultValue: '0'
-   * @param {function} blockIntervalCallback
-   * @returns {Promise<R>|Promise<R|*>|Promise<*>}
-   */
-  async listenTxUpdates(fromBlock: int = 0, blockIntervalCallback: Function) {
-    const curBlock = await this.wallet.eth.getBlockNumber()
-    const dayAgoBlock = Math.max(0, fromBlock - DAY_TOTAL_BLOCKS)
-    log.debug('listenTxUpdates listening from block:', { fromBlock, dayAgoBlock, curBlock })
-    fromBlock = new BN(dayAgoBlock <= curBlock ? dayAgoBlock : curBlock)
-
-    this.subscribeToOTPLEvents(fromBlock, blockIntervalCallback)
-    const contract = this.erc20Contract
-
-    //Get transfers from this account
-    const fromEventsFilter = {
-      fromBlock,
-      filter: { from: this.wallet.utils.toChecksumAddress(this.account) },
-    }
-
-    contract.events.Transfer(fromEventsFilter, (error, event) => {
-      if (error) {
-        // eslint-disable-next-line no-negated-condition
-        if (error.currentTarget === undefined || error.currentTarget.readyState !== error.currentTarget.CLOSED) {
-          log.error('listenTxUpdates fromEventsPromise failed:', error.message, error, {
-            category: ExceptionCategory.Blockhain,
-          })
-        } else {
-          log.warn('listenTxUpdates fromEventsPromise failed:', error.message, error)
-        }
-      } else {
-        log.info('listenTxUpdates subscribed from', event)
-
-        this._notifyReceipt(event.transactionHash).catch(err =>
-          log.error('send event get/send receipt failed:', err.message, err, {
-            category: ExceptionCategory.Blockhain,
-          }),
-        )
-
-        if (event && event.blockNumber && blockIntervalCallback) {
-          blockIntervalCallback({ toBlock: event.blockNumber, event })
-        }
-      }
-    })
-
-    //Get transfers to this account
-    const toEventsFilter = {
-      fromBlock,
-      filter: { to: this.wallet.utils.toChecksumAddress(this.account) },
-    }
-
-    contract.events.Transfer(toEventsFilter, (error, event) => {
-      if (error) {
-        // eslint-disable-next-line no-negated-condition
-        if (error.currentTarget === undefined || error.currentTarget.readyState !== error.currentTarget.CLOSED) {
-          log.error('listenTxUpdates toEventsPromise failed:', error.message, error, {
-            category: ExceptionCategory.Blockhain,
-          })
-        } else {
-          log.warn('listenTxUpdates toEventsPromise failed:', error.message, error)
-        }
-      } else {
-        log.info('listenTxUpdates subscribed to', event)
-
-        this._notifyReceipt(event.transactionHash).catch(err =>
-          log.error('receive event get/send receipt failed:', err.message, err, {
-            category: ExceptionCategory.Blockhain,
-          }),
-        )
-
-        if (event && blockIntervalCallback) {
-          blockIntervalCallback({ toBlock: event.blockNumber, event })
-        }
-      }
-    })
-  }
-
-  subscribeToOTPLEvents(fromBlock: BN, blockIntervalCallback) {
-    const filter = { from: this.wallet.utils.toChecksumAddress(this.account) }
-    const handler = (error, event) => {
-      if (error) {
-        // eslint-disable-next-line no-negated-condition
-        if (error.currentTarget === undefined || error.currentTarget.readyState !== error.currentTarget.CLOSED) {
-          log.error('listenTxUpdates fromEventsPromise unexpected error:', error.message, error, {
-            category: ExceptionCategory.Blockhain,
-          })
-        } else {
-          log.warn('listenTxUpdates fromEventsPromise unexpected error:', error.message, error)
-        }
-      } else {
-        log.info('subscribeOTPL got event', { event })
-
-        if (event && event.event && ['PaymentWithdraw', 'PaymentCancel'].includes(event.event)) {
-          this._notifyReceipt(event.transactionHash).catch(err =>
-            log.error('send event get/send receipt failed:', err.message, err, {
-              category: ExceptionCategory.Blockhain,
-            }),
-          )
-        }
-
-        if (event && blockIntervalCallback) {
-          blockIntervalCallback({ toBlock: event.blockNumber, event })
-        }
-      }
-    }
-
-    this.oneTimePaymentsContract.events.PaymentWithdraw({ fromBlock, filter }, handler)
-    this.oneTimePaymentsContract.events.PaymentCancel({ fromBlock, filter }, handler)
+    return events
   }
 
   /**
@@ -590,15 +463,14 @@ export class GoodWallet {
       return null
     }
 
-    const logs = abiDecoder.decodeLogs(transactionReceipt.logs)
+    const logs = abiDecoder.decodeLogs(transactionReceipt.logs).filter(_ => _)
     return { ...transactionReceipt, logs }
   }
 
   sendReceiptWithLogsToSubscribers(receipt: any, subscriptions: Array<string>) {
     subscriptions.forEach(subscription => {
       const subscribers = this.getSubscribers(subscription)
-      log.debug('sendReceiptWithLogsToSubscribers', { subscription, subscribers })
-      this.getSubscribers('balanceChanged').forEach(cb => cb(receipt))
+      log.debug('sendReceiptWithLogsToSubscribers', { receipt, subscription, subscribers })
       subscribers.forEach(cb => {
         log.debug('sendReceiptWithLogsToSubscribers receiptCallback:', {
           subscription,
@@ -613,11 +485,11 @@ export class GoodWallet {
 
   async _notifyReceipt(txHash) {
     const receipt = await this.getReceiptWithLogs(txHash)
-    
+
     if (!receipt) {
       return
-    }  
-      
+    }
+
     return this.sendReceiptWithLogsToSubscribers(receipt, ['receiptUpdated'])
   }
 
@@ -1373,6 +1245,8 @@ export class GoodWallet {
           log.debug('got receipt', r)
           res(r)
           this._notifyReceipt(r.transactionHash) //although receipt will be received by polling, we do this anyways immediately
+          this.getSubscribers('balanceChanged').forEach(cb => cb())
+
           onReceipt && onReceipt(r)
         })
         .on('confirmation', c => {

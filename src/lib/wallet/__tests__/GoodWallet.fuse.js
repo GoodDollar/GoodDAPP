@@ -57,8 +57,7 @@ describe('GoodWalletShare/ReceiveTokens', () => {
 
   it('should claim and emit transfer event', async done => {
     let eventId = testWallet.subscribeToEvent('balanceChanged', events => {
-      expect(events).toBeTruthy()
-      expect(events[0].event).toBe('Transfer')
+      expect(events).toBeFalsy()
       testWallet.unsubscribeFromEvent(eventId)
       done()
     })

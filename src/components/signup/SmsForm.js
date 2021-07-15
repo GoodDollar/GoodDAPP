@@ -204,14 +204,13 @@ const SMSAction = ({
         }
         setWaitTime(value)
       }, 1000)
-
       setTimeout(() => {
         if (countdownIntervalRef.current) {
           clearInterval(countdownIntervalRef.current)
           countdownIntervalRef.current = null
         }
         setWait(false)
-      }, smsRateLimit)
+      }, parseInt(smsRateLimit))
     } else {
       setWait(false)
     }

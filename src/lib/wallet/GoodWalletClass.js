@@ -612,8 +612,13 @@ export class GoodWallet {
   }
 
   async _notifyReceipt(txHash) {
-    const r = await this.getReceiptWithLogs(txHash)
-    return r && this.sendReceiptWithLogsToSubscribers(r, ['receiptUpdated'])
+    const receipt = await this.getReceiptWithLogs(txHash)
+    
+    if (!receipt) {
+      return
+    }  
+      
+    return this.sendReceiptWithLogsToSubscribers(receipt, ['receiptUpdated'])
   }
 
   /**

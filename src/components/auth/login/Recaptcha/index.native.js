@@ -1,5 +1,6 @@
 import React from 'react'
 import ReCAPTCHA from 'react-native-recaptcha-that-works'
+import Config from '../../../../config/config'
 
 const Recaptcha = React.forwardRef((props, ref) => {
   const onVerify = value => {
@@ -13,8 +14,8 @@ const Recaptcha = React.forwardRef((props, ref) => {
   return (
     <ReCAPTCHA
       ref={ref}
-      siteKey="6LejsqwZAAAAAGsmSDWH5g09dOyNoGMcanBllKPF"
-      baseUrl="http://127.0.0.1"
+      siteKey={Config.recaptchaSiteKey}
+      baseUrl={Config.recaptchaBaseUrl}
       size="normal"
       onExpire={props.onFail}
       onError={props.onFail}

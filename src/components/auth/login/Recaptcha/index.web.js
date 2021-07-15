@@ -1,5 +1,6 @@
 import React from 'react'
 import ReCAPTCHA from 'react-google-recaptcha'
+import Config from '../../../../config/config'
 
 const Recaptcha = React.forwardRef((props, ref) => {
   const onChange = value => {
@@ -13,7 +14,7 @@ const Recaptcha = React.forwardRef((props, ref) => {
   return (
     <ReCAPTCHA
       ref={ref}
-      sitekey="6LejsqwZAAAAAGsmSDWH5g09dOyNoGMcanBllKPF"
+      sitekey={Config.recaptchaSiteKey}
       onChange={onChange}
       onErrored={props.onFail}
       onExpired={props.onFail}

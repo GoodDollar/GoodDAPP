@@ -629,7 +629,7 @@ export class UserStorage {
   async loadAvatars(profile: UserModel) {
     const { avatar } = profile
 
-    if (avatar) {
+    if (isValidCID(avatar)) {
       const avatars = await avatarStorage.loadAvatars(avatar)
 
       if (isFunction(profile.setAvatars)) {

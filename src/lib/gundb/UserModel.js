@@ -1,5 +1,5 @@
 // @flow
-import { defaults, mapValues, pick } from 'lodash'
+import { assign, mapValues, pick, pickBy } from 'lodash'
 import type { UserRecord } from '../API/api'
 import isMobilePhone from '../validators/isMobilePhone'
 import isValidUsername from '../validators/isValidUsername'
@@ -84,11 +84,13 @@ export const userModelValidations = {
 
 class UserModelClass {
   constructor(userRecord) {
-    defaults(this, userRecord)
+    assign(this, userRecord)
   }
 
   setAvatars(userRecord) {
-    defaults(this, pick(userRecord, 'avatar', 'smallAvatar'))
+    const avatars = pick(userRecord, 'avatar', 'smallAvatar')
+
+    assign(this, pickBy(avatars))
   }
 
   isValid(update: boolean = false) {

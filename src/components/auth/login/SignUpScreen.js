@@ -1,5 +1,5 @@
 // @flow
-import React, { useCallback, useRef, useState } from 'react'
+import React, { useCallback, useRef } from 'react'
 import { Platform, View } from 'react-native'
 import Wrapper from '../../common/layout/Wrapper'
 import Text from '../../common/view/Text'
@@ -29,41 +29,37 @@ const log = logger.child({ from: 'SignUpScreen' })
 
 const SignupScreen = ({ isSignup, screenProps, styles, handleLoginMethod, sdkInitialized, goBack }) => {
   const { push } = screenProps
-  const [isRecaptchaSuccessfull, setIsRecaptchaSuccessfull] = useState(false)
 
   const handleNavigateTermsOfUse = useCallback(() => push('PrivacyPolicyAndTerms'), [push])
 
   const handleNavigatePrivacyPolicy = useCallback(() => push('PrivacyPolicy'), [push])
 
-  const recaptcha = useRef()
+  const reCaptchaRef = useRef()
 
   const _google = () => handleLoginMethod('google')
 
   const _facebook = () => handleLoginMethod('facebook')
 
   const _mobile = () => {
+    const { current: captcha } = reCaptchaRef
+
     // If recaptcha has already been passed successfully, trigger torus right away
-    if (isRecaptchaSuccessfull) {
+    if (captcha.hasPassedCheck()) {
       onRecaptchaSuccess()
-    } else {
-      if (Platform.OS === 'web') {
-        recaptcha.current.execute()
-      } else {
-        recaptcha.current.open()
-      }
+      return
     }
+
+    captcha.launchCheck()
   }
 
-  const onRecaptchaSuccess = () => {
+  const onRecaptchaSuccess = useCallback(() => {
     log.debug('Recaptcha successfull')
-    setIsRecaptchaSuccessfull(true)
     handleLoginMethod('auth0-pwdless-sms')
-  }
+  }, [handleLoginMethod])
 
-  const onRecaptchaFailed = () => {
+  const onRecaptchaFailed = useCallback(() => {
     log.debug('Recaptcha failed')
-    setIsRecaptchaSuccessfull(false)
-  }
+  }, [])
 
   const _selfCustody = () => handleLoginMethod('selfCustody')
 
@@ -112,7 +108,7 @@ const SignupScreen = ({ isSignup, screenProps, styles, handleLoginMethod, sdkIni
 
   return (
     <Wrapper backgroundColor="#fff" style={styles.mainWrapper}>
-      <Recaptcha ref={recaptcha} onSuccess={onRecaptchaSuccess} onFail={onRecaptchaFailed} />
+      <Recaptcha ref={reCaptchaRef} onSuccess={onRecaptchaSuccess} onFailure={onRecaptchaFailed} />
       <NavBar title={isSignup ? 'Signup' : 'Login'} />
       <Section.Stack style={{ flex: 1, justifyContent: 'center' }}>
         <Section.Stack style={{ flex: 1, maxHeight: 640 }}>

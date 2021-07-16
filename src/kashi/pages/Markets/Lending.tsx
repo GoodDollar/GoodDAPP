@@ -18,48 +18,30 @@ import styled from 'styled-components'
 import Modal from '../../../components/Modal'
 import LendingPair from '../Pair/Lend'
 import { ButtonAction } from '../../../components/gd/Button'
+import Table, { TableSC } from '../../../components/gd/Table'
 
 const Wrapper = styled.div`
     background: ${({ theme }) => theme.color.bg1};
     box-shadow: ${({ theme }) => theme.shadow.settings};
     border-radius: 12px;
     padding: 14px 19px 15px 19px;
-`
 
-const Table = styled.table`
-    width: 100%;
-    border-collapse: separate;
-    border-spacing: 0 3px;
-
-    th {
-        padding-bottom: 8px;
-    }
-
-    tbody tr {
-        background: ${({ theme }) => theme.color.main};
-        //border-radius: 12px;
-
-        td {
-            padding: 15px;
-            border-top: 1px solid ${({ theme }) => theme.color.border2};
-            border-bottom: 1px solid ${({ theme }) => theme.color.border2};
-
-            font-style: normal;
-            font-weight: 500;
-            font-size: 14px;
-            line-height: 16px;
-            color: ${({ theme }) => theme.color.text4};
-
-            &:first-child {
-                border-left: 1px solid ${({ theme }) => theme.color.border2};
-                border-top-left-radius: 12px;
-                border-bottom-left-radius: 12px;
+    ${TableSC} {
+        @media ${({ theme }) => theme.media.md} {
+            td,
+            th {
+                &:nth-child(2),
+                &:nth-child(3),
+                &:nth-child(4),
+                &:nth-child(6),
+                &:nth-child(8) {
+                    display: none;
+                }
             }
 
-            &:last-child {
+            td:nth-child(7) {
                 border-right: 1px solid ${({ theme }) => theme.color.border2};
                 border-top-right-radius: 12px;
-                border-bottom-right-radius: 12px;
             }
         }
     }
@@ -88,8 +70,8 @@ export default function LendingMarkets(): JSX.Element | null {
         <Layout>
             <MarketHeader type="Stakes" lists={[pairs, positions]} />
             <Wrapper>
-                <Table>
-                    <thead>
+                <Table
+                    header={
                         <tr>
                             <th>
                                 {/*<ListHeaderWithSort sort={pairs} sortKey="search">
@@ -136,11 +118,12 @@ export default function LendingMarkets(): JSX.Element | null {
                             </th>
                             <th></th>
                         </tr>
-                    </thead>
-                    <tbody>
-                        {pairs.items &&
-                            pairs.items.map(pair => {
-                                return (
+                    }
+                >
+                    {pairs.items &&
+                        pairs.items.map(pair => {
+                            return (
+                                <>
                                     <tr key={pair.address}>
                                         <td>
                                             <div className="flex flex-col sm:flex-row items-start sm:items-center">
@@ -208,9 +191,22 @@ export default function LendingMarkets(): JSX.Element | null {
                                             </ButtonAction>
                                         </td>
                                     </tr>
-                                )
-                            })}
-                    </tbody>
+                                    <tr className="mobile">
+                                        <td colSpan={8}>
+                                            <ButtonAction
+                                                size="sm"
+                                                style={{ width: '100%' }}
+                                                borderRadius="6px"
+                                                noShadow={true}
+                                                onClick={() => setActivePair(pair)}
+                                            >
+                                                Stake
+                                            </ButtonAction>
+                                        </td>
+                                    </tr>
+                                </>
+                            )
+                        })}
                 </Table>
             </Wrapper>
             <Modal isOpen={!!activePair} onDismiss={() => {}}>

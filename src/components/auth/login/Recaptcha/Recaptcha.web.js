@@ -3,7 +3,6 @@ import { StyleSheet, View } from 'react-native'
 import ReCAPTCHA from 'react-google-recaptcha'
 
 const Recaptcha = forwardRef(({ siteKey, baseUrl, onStatusChange, children, ...props }, ref) => {
-  const captchaRef = useRef()
   const [recaptchaVisible, setRecaptchaVisible] = useState(false)
 
   useImperativeHandle(ref, () => ({
@@ -14,7 +13,6 @@ const Recaptcha = forwardRef(({ siteKey, baseUrl, onStatusChange, children, ...p
     <View style={styles.container}>
       <ReCAPTCHA
         {...props}
-        ref={captchaRef}
         sitekey={siteKey}
         onChange={onStatusChange}
         onErrored={onStatusChange}

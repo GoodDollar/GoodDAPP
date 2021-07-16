@@ -1,6 +1,5 @@
 import { noop } from 'lodash'
 import React, { useCallback, useImperativeHandle, useRef } from 'react'
-
 import Config from '../../../../config/config'
 import Captcha from './Recaptcha'
 

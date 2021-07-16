@@ -29,14 +29,9 @@ const Recaptcha = React.forwardRef(({ onSuccess = noop, onFailure = noop, childr
   }))
 
   return (
-    <Captcha
-      ref={captchaRef}
-      siteKey={recaptchaSiteKey}
-      baseUrl={publicUrl}
-      onStatusChange={onStatusChange}
-    >
+    <Captcha ref={captchaRef} siteKey={recaptchaSiteKey} baseUrl={publicUrl} onStatusChange={onStatusChange}>
       {children}
-    </Captcha>  
+    </Captcha>
   )
 })
 

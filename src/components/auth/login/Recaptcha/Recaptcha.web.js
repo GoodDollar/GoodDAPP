@@ -1,4 +1,4 @@
-import React, { forwardRef, useImperativeHandle, useRef, useState } from 'react'
+import React, { forwardRef, useImperativeHandle, useState } from 'react'
 import { StyleSheet, View } from 'react-native'
 import ReCAPTCHA from 'react-google-recaptcha'
 
@@ -9,7 +9,9 @@ const Recaptcha = forwardRef(({ siteKey, baseUrl, onStatusChange, children, ...p
     launch: () => setRecaptchaVisible(true),
   }))
 
-  return !recaptchaVisible ? children : (
+  return !recaptchaVisible ? (
+    children
+  ) : (
     <View style={styles.container}>
       <ReCAPTCHA
         {...props}

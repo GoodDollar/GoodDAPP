@@ -114,6 +114,7 @@ const Config = {
   torusUxMode: isWeb ? (env.REACT_APP_TORUS_UXMODE || 'redirect') : 'popup',
   abTestPercentage: env.REACT_APP_AB_TEST_PERCENTAGE || 0.5,
   smsRateLimit: env.REACT_APP_SMS_RATE_LIMIT || 60 * 1000, // rate limit for sms code verification resend
+  recaptchaSiteKey: env.REACT_APP_RECAPTCHA_SITE_KEY,
   alchemyKey,
   ethereum: {
     '1': {

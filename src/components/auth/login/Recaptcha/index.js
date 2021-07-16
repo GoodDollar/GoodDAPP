@@ -34,8 +34,9 @@ const Recaptcha = React.forwardRef(({ onSuccess = noop, onFailure = noop, childr
       siteKey={recaptchaSiteKey}
       baseUrl={publicUrl}
       onStatusChange={onStatusChange}
-      nested={children}
-    />
+    >
+      {children}
+    </Captcha>  
   )
 })
 

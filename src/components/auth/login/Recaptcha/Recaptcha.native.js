@@ -1,7 +1,7 @@
 import React, { forwardRef, useImperativeHandle, useRef } from 'react'
 import ReCAPTCHA from 'react-native-recaptcha-that-works'
 
-const Recaptcha = forwardRef(({ siteKey, baseUrl, onStatusChange, ...props }, ref) => {
+const Recaptcha = forwardRef(({ siteKey, baseUrl, onStatusChange, children, ...props }, ref) => {
   const captchaRef = useRef()
 
   useImperativeHandle(ref, () => ({
@@ -20,7 +20,7 @@ const Recaptcha = forwardRef(({ siteKey, baseUrl, onStatusChange, ...props }, re
         onError={onStatusChange}
         onVerify={onStatusChange}
       />
-      {props.nested}
+      {children}
     </>
   )
 })

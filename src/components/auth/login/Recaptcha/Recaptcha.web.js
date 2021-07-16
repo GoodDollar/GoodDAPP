@@ -1,11 +1,16 @@
-import React, { forwardRef, useRef } from 'react'
+import React, { forwardRef, useImperativeHandle, useRef, useState } from 'react'
 import { StyleSheet, View } from 'react-native'
 import ReCAPTCHA from 'react-google-recaptcha'
 
 const Recaptcha = forwardRef(({ siteKey, baseUrl, onStatusChange, ...props }, ref) => {
   const captchaRef = useRef()
+  const [recaptchaVisible, setRecaptchaVisible] = useState(false)
 
-  return (
+  useImperativeHandle(ref, () => ({
+    launch: () => setRecaptchaVisible(true),
+  }))
+
+  return recaptchaVisible ? (
     <View style={styles.container}>
       <ReCAPTCHA
         {...props}
@@ -17,6 +22,8 @@ const Recaptcha = forwardRef(({ siteKey, baseUrl, onStatusChange, ...props }, re
         size="normal"
       />
     </View>
+  ) : (
+    props.nested
   )
 })
 

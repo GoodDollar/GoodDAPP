@@ -5,7 +5,7 @@ import Captcha from './Recaptcha'
 
 const { recaptchaSiteKey, publicUrl } = Config
 
-const Recaptcha = React.forwardRef(({ onSuccess = noop, onFailure = noop }, ref) => {
+const Recaptcha = React.forwardRef(({ onSuccess = noop, onFailure = noop, children }, ref) => {
   const isPassedRef = useRef(false)
   const captchaRef = useRef()
 
@@ -28,7 +28,15 @@ const Recaptcha = React.forwardRef(({ onSuccess = noop, onFailure = noop }, ref)
     },
   }))
 
-  return <Captcha ref={captchaRef} siteKey={recaptchaSiteKey} baseUrl={publicUrl} onStatusChange={onStatusChange} />
+  return (
+    <Captcha
+      ref={captchaRef}
+      siteKey={recaptchaSiteKey}
+      baseUrl={publicUrl}
+      onStatusChange={onStatusChange}
+      nested={children}
+    />
+  )
 })
 
 export default Recaptcha

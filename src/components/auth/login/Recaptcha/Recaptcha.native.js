@@ -9,16 +9,19 @@ const Recaptcha = forwardRef(({ siteKey, baseUrl, onStatusChange, ...props }, re
   }))
 
   return (
-    <ReCAPTCHA
-      {...props}
-      ref={captchaRef}
-      siteKey={siteKey}
-      baseUrl={baseUrl}
-      size="normal"
-      onExpire={onStatusChange}
-      onError={onStatusChange}
-      onVerify={onStatusChange}
-    />
+    <>
+      <ReCAPTCHA
+        {...props}
+        ref={captchaRef}
+        siteKey={siteKey}
+        baseUrl={baseUrl}
+        size="normal"
+        onExpire={onStatusChange}
+        onError={onStatusChange}
+        onVerify={onStatusChange}
+      />
+      {props.nested}
+    </>
   )
 })
 

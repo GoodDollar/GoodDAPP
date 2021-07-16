@@ -49,7 +49,7 @@ export default (source, size = 'small') => {
     setSourceState(cachedState || emptySource)
 
     // if not valid CID - keep 'undefined' profile image
-    if (!cachedState || !isValidCID(source)) {
+    if (cachedState || !isValidCID(source)) {
       return
     }
 

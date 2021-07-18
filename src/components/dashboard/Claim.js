@@ -45,7 +45,7 @@ import useAppState from '../../lib/hooks/useAppState'
 import { WavesBox } from '../common/view/WavesBox'
 import useTimer from '../../lib/hooks/useTimer'
 
-// import useInterval from '../../lib/hooks/useInterval'
+import useInterval from '../../lib/hooks/useInterval'
 import type { DashboardProps } from './Dashboard'
 import useClaimCounter from './Claim/useClaimCounter'
 import ButtonBlock from './Claim/ButtonBlock'
@@ -432,7 +432,7 @@ const Claim = props => {
   }, [setLoading, handleFaceVerification, dailyUbi, setDailyUbi, showDialog, showErrorDialog])
 
   // constantly update stats but only for some data
-  // const [startPolling, stopPolling] = useInterval(gatherStats, 60000)
+  const [startPolling, stopPolling] = useInterval(gatherStats, 10000, false)
 
   useEffect(() => {
     // refresh stats when user comes back to app, timer state has changed or dailyUBI has changed
@@ -440,9 +440,13 @@ const Claim = props => {
       // refresh all stats when returning back to app
       // or dailyUbi changed meaning a new cycle started
       gatherStats(true)
+      if (isReachedZero && dailyUbi === 0) {
+        //keep polling if timer is 0 but dailyubi still didnt update
+        startPolling()
+      }
     }
 
-    // return stopPolling
+    return stopPolling
   }, [appState, isReachedZero, dailyUbi])
 
   useEffect(() => {

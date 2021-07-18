@@ -4,11 +4,13 @@ import IdentityABI from '@gooddollar/goodprotocol/artifacts/contracts/Interfaces
 import OneTimePaymentsABI from '@gooddollar/goodcontracts/build/contracts/OneTimePayments.min.json'
 import ContractsAddress from '@gooddollar/goodprotocol/releases/deployment.json'
 import StakingModelAddress from '@gooddollar/goodcontracts/stakingModel/releases/deployment.json'
+import cERC20ABI from '@gooddollar/goodprotocol/artifacts/contracts/Interfaces.sol/cERC20.json'
 
 // import UpgradablesAddress from '@gooddollar/goodcontracts/upgradables/releases/deployment.json'
 import ERC20ABI from '@gooddollar/goodprotocol/artifacts/contracts/Interfaces.sol/ERC20.json'
 import UBIABI from '@gooddollar/goodcontracts/stakingModel/build/contracts/UBIScheme.min.json'
-import SimpleStaking from '@gooddollar/goodprotocol/artifacts/contracts/staking/SimpleStaking.sol/SimpleStaking.json'
+import SimpleStakingABI from '@gooddollar/goodprotocol/artifacts/contracts/staking/SimpleStaking.sol/SimpleStaking.json'
+import FundManagerABI from '@gooddollar/goodprotocol/artifacts/contracts/staking/GoodFundManager.sol/GoodFundManager.json'
 import InvitesABI from '@gooddollar/goodcontracts/upgradables/build/contracts/InvitesV1.min.json'
 import FaucetABI from '@gooddollar/goodcontracts/upgradables/build/contracts/FuseFaucet.min.json'
 
@@ -749,17 +751,18 @@ export class GoodWallet {
 
   async getTotalFundsStaked(): Promise<number> {
     try {
-      const stakingContract = new this.web3Mainnet.eth.Contract(SimpleStaking.abi, { from: this.account })
+      // const contracts = get(StakingModelAddress, `${this.network}-mainnet.StakingContracts`)
+      const stakingContracts = get(ContractsAddress, `kovan-mainnet.StakingContracts`)
+      const ps = stakingContracts.map(async ([addr, rewards]) => {
+        const stakingContract = new this.web3Mainnet.eth.Contract(SimpleStakingABI.abi, addr, { from: this.account })
 
-      const contracts = get(StakingModelAddress, `${this.network}-mainnet.StakingContracts`)
-      const ps = contracts.map(async ([addr, rewards]) => {
-        const [, productivity] = await stakingContract.methods.getProductivity(NULL_ADDRESS, { to: addr }).call()
-        const decimals = await stakingContract.methods.stakingTokenDecimals({ to: addr }).call()
-        return productivity.div(decimals).toNumber()
+        const currentGains = await stakingContract.methods.currentGains(true, true).call()
+        return [currentGains[3].toNumber() / 1e8, currentGains[4].toNumber() / 1e8]
       })
       const res = await Promise.all(ps)
-      const totalStaked = res.reduce((prev, cur) => prev + cur, 0)
-      return totalStaked
+      const totalFundsStaked = res.reduce((prev, cur) => prev + cur[0], 0)
+      const pendingInterest = res.reduce((prev, cur) => prev + cur[1], 0)
+      return { totalFundsStaked, pendingInterest }
     } catch (exception) {
       const { message } = exception
       log.warn('getTotalFundsStaked failed', message, exception)
@@ -769,26 +772,34 @@ export class GoodWallet {
 
   async getInterestCollected(): Promise<number> {
     try {
-      const toBlock = await this.web3Mainnet.eth.getBlockNumber()
-      const fromBlock = parseInt(toBlock) - parseInt(Config.interestCollectedInterval)
+      const fundManager = new this.web3Mainnet.eth.Contract(
+        FundManagerABI.abi,
+        get(ContractsAddress, 'kovan-mainnet.GoodFundManager'),
+      )
+      const cdai = new this.web3Mainnet.eth.Contract(cERC20ABI.abi, get(ContractsAddress, 'kovan-mainnet.cDAI'))
+      const [collectInterestTimeThreshold, toBlock, cdaiExchangeRate] = await Promise.all([
+        fundManager.methods.collectInterestTimeThreshold().call(),
+        this.web3Mainnet.eth.getBlockNumber(),
+        cdai.methods
+          .exchangeRateStored()
+          .call()
+          .then(_ => this.web3Mainnet.utils.fromWei(_.toString()) / 1e10), //convert to decimals exchange rate is in 28 decimals
+      ])
+
+      const fromBlock = parseInt(toBlock) - ~~((collectInterestTimeThreshold.toNumber() * 2) / 15) //look for events since twice the collectInterestTimeThreshold time blocks ago. ~~ removes decimals.
       const InterestCollectedEventsFilter = {
         fromBlock,
         toBlock,
       }
 
-      const events = await this.SimpleDaiStaking.getPastEvents(
-        'InterestCollected',
-        InterestCollectedEventsFilter,
-      ).catch(e => {
-        //just warn about block not  found which is recoverable
-        const logFunc = e.code === -32000 ? log.warn : log.error
-        logFunc('InterestCollectedEvents failed:', e.message, e, {
+      const events = await fundManager.getPastEvents('FundsTransferred', InterestCollectedEventsFilter).catch(e => {
+        log.warn('InterestCollectedEvents failed:', e.message, e, {
           category: ExceptionCategory.Blockhain,
         })
         return []
       })
-      let interest = result(last(events), 'returnValues.daiValue.toString', '0')
-      interest = this.web3Mainnet.utils.fromWei(interest)
+      let interesInCDAI = result(last(events), 'returnValues.cDAIinterestEarned', ZERO).toNumber() / 1e8 //convert to decimals. cdai is 8 decimals
+      let interest = interesInCDAI * cdaiExchangeRate
       return interest
     } catch (exception) {
       const { message } = exception

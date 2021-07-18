@@ -4,10 +4,12 @@ import Config from '../../config/config'
 
 let GoodWallet
 if (Config.env === 'development') {
-  GoodWallet = require('./GoodWalletClassOld').GoodWallet
+  GoodWallet = require('./GoodWalletClass').GoodWallet
 } else {
   GoodWallet = require('./GoodWalletClassOld').GoodWallet
 }
-export default new GoodWallet({
+const wallet = new GoodWallet({
   web3Transport: Config.web3TransportProvider,
 })
+global.wallet = wallet
+export default wallet

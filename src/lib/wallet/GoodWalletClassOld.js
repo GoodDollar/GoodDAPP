@@ -754,8 +754,14 @@ export class GoodWallet {
 
   async getTotalFundsStaked(): Promise<number> {
     try {
-      let totalFundsStaked = await this.SimpleDaiStaking.methods.totalStaked().call()
-      return this.web3Mainnet.utils.fromWei(totalFundsStaked.toString())
+      let [totalFundsStaked, gains] = await Promise.all([
+        this.SimpleDaiStaking.methods.totalStaked().call(),
+        this.SimpleDaiStaking.methods.currentUBIInterest().call(),
+      ])
+      return {
+        totalFundsStaked: this.web3Mainnet.utils.fromWei(totalFundsStaked.toString()),
+        interestPending: this.web3Mainnet.utils.fromWei(gains[1].toString()),
+      }
     } catch (exception) {
       const { message } = exception
       log.warn('getTotalFundsStaked failed', message, exception)
@@ -785,6 +791,7 @@ export class GoodWallet {
       })
       let interest = result(last(events), 'returnValues.daiValue.toString', '0')
       interest = this.web3Mainnet.utils.fromWei(interest)
+
       return interest
     } catch (exception) {
       const { message } = exception

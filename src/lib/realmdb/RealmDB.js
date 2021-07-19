@@ -101,6 +101,16 @@ class RealmDB implements DB {
       await this.Feed.save(...decrypted)
       AsyncStorage.setItem('GD_lastRealmSync', Date.now())
     }
+
+    //sync items that we failed to save
+    const failedSync = await this.Feed.find({ sync: false }).toArray()
+    if (failedSync.length) {
+      log.debug('_syncFromRemote: saving failed items', failedSync.length)
+      failedSync.forEach(async item => {
+        await this._encrypt(item)
+        this.Feed.table.update({ _id: item.id }, { $set: { sync: true } })
+      })
+    }
   }
 
   /**
@@ -158,7 +168,10 @@ class RealmDB implements DB {
     }
     feedItem._id = feedItem.id
     await this.Feed.save(feedItem)
-    this._encrypt(feedItem)
+    this._encrypt(feedItem).catch(e => {
+      log.error('failed saving feedItem to remote', e.message, e)
+      this.Feed.table.update({ _id: feedItem.id }, { $set: { sync: false } })
+    })
 
     // this.db.remote.push('Feed').catch(e => log.error('remote push failed', e.message, e))
   }

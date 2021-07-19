@@ -15,19 +15,6 @@ export const SwapRowSC = styled.div`
         color: ${({ theme }) => theme.color.text5};
     }
 
-    .currency {
-        span {
-            font-weight: bold;
-            font-size: 24px;
-            line-height: 32px;
-            color: ${({ theme }) => theme.color.text6};
-        }
-
-        svg {
-            color: ${({ theme }) => theme.color.switch};
-        }
-    }
-
     display: flex;
     justify-content: space-between;
 
@@ -54,4 +41,17 @@ export const SwapRowIconSC = styled.div`
     height: 54px;
     background: #00b0ff;
     border-radius: 50%;
+`
+
+export const SwapRowCurrencySC = styled.div`
+    span {
+        font-weight: bold;
+        font-size: 24px;
+        line-height: 32px;
+        color: ${({ theme }) => theme.color.text6};
+    }
+
+    svg {
+        color: ${({ theme }) => theme.color.switch};
+    }
 `

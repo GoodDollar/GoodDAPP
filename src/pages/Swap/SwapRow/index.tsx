@@ -1,6 +1,7 @@
-import React, { CSSProperties, memo } from 'react'
-import { SwapRowSC, SwapRowIconSC } from './styled'
+import React, { CSSProperties, memo, useCallback, useState } from 'react'
+import { SwapRowSC, SwapRowIconSC, SwapRowCurrencySC } from './styled'
 import SwapInput from '../SwapInput'
+import SwapTokensModal from '../SwapTokensModal'
 
 const arrow = (
     <svg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -23,21 +24,31 @@ export interface SwapRowProps {
 }
 
 function SwapRow({ className, style, title, select, balance, autoMax }: SwapRowProps) {
+    const [showSelect, setShowSelect] = useState(false)
+
+    const handleShowSelect = useCallback(() => setShowSelect(true), [])
+    const handleCloseSelect = useCallback(() => setShowSelect(false), [])
+
     return (
         <SwapRowSC className={className} style={style}>
             <div className="select flex space-x-4">
-                <SwapRowIconSC />
+                <SwapRowIconSC onClick={select ? handleShowSelect : undefined} as={select ? 'button' : undefined} />
                 <div className="flex flex-col">
                     <div className="title">{title}</div>
-                    <div className="currency flex items-center space-x-1.5">
+                    <SwapRowCurrencySC
+                        className="flex items-center space-x-1.5"
+                        onClick={select ? handleShowSelect : undefined}
+                        as={select ? 'button' : undefined}
+                    >
                         <span>ETH</span>
                         {select && arrow}
-                    </div>
+                    </SwapRowCurrencySC>
                 </div>
             </div>
             <div className="input">
                 <SwapInput autoMax={autoMax} balance={balance} />
             </div>
+            {select && <SwapTokensModal open={showSelect} onClose={handleCloseSelect} />}
         </SwapRowSC>
     )
 }

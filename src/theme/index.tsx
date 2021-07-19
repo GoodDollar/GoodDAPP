@@ -103,6 +103,7 @@ export function theme(darkMode: boolean) {
             text6: darkMode ? '#FFFFFF' : '#1A1F38',
             text7: darkMode ? '#A3B2BF' : '#4F606F',
             text8: darkMode ? '#F6F8FA' : '#696D73',
+            text9: darkMode ? 'rgba(14, 39, 60, 0.7)' : 'rgba(14, 39, 60, 0.7)',
             input: darkMode ? '#FFFFFF' : '#173046',
             button1: darkMode ? '#2E3A59' : 'rgba(0, 176, 255, 0.1)',
             bg1: darkMode ? '#1A1F38' : '#f6f8fa',

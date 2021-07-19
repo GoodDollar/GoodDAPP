@@ -34,6 +34,13 @@ const StyledDialogContent = styled(({ minHeight, maxHeight, mobile, isOpen, ...r
     position: relative;
     overflow-y: ${({ mobile }) => (mobile ? 'scroll' : 'hidden')};
 
+    .modal-close {
+        position: absolute;
+        color: ${({ theme }) => theme.color.text8};
+        top: 15px;
+        right: 14px;
+    }
+
     &[data-reach-dialog-content] {
         margin: 0 0 2rem 0;
         background-color: ${({ theme }) => theme.bg1};
@@ -84,6 +91,7 @@ interface ModalProps {
     children?: React.ReactNode
     padding?: number
     noPadding?: boolean
+    showClose?: boolean
 }
 
 export default function Modal({
@@ -94,7 +102,8 @@ export default function Modal({
     initialFocusRef,
     children,
     padding = 5,
-    noPadding = false
+    noPadding = false,
+    showClose
 }: ModalProps) {
     const fadeTransition = useTransition(isOpen, null, {
         config: { duration: 200 },
@@ -146,6 +155,22 @@ export default function Modal({
                                             noPadding ? 'p-0' : 'p-6 sm:p-3'
                                         }`}
                                     >
+                                        {showClose && (
+                                            <button className="modal-close" onClick={onDismiss}>
+                                                <svg
+                                                    width="18"
+                                                    height="18"
+                                                    viewBox="0 0 18 18"
+                                                    fill="none"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                >
+                                                    <path
+                                                        d="M8.62728 10.9236L5.30765 14.2432L3.48842 12.424L6.80805 9.10434L3.31963 5.61592L5.21388 3.72167L8.7023 7.21009L12.0219 3.89046L13.8412 5.70969L10.5215 9.02932L14.01 12.5177L12.1157 14.412L8.62728 10.9236Z"
+                                                        fill="currentColor"
+                                                    />
+                                                </svg>
+                                            </button>
+                                        )}
                                         {/* prevents the automatic focusing of inputs on mobile by the reach dialog */}
                                         {!initialFocusRef && isMobile ? <div tabIndex={1} /> : null}
                                         {children}

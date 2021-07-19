@@ -8,13 +8,12 @@ import { ButtonEmpty } from 'components/ButtonLegacy'
 import Modal from 'components/Modal'
 
 interface WithdrawRewardsProps {
-    onClose?: () => void
     trigger: ReactElement<{ onClick: Function }>
 }
 
 type WithdrawRewardsState = 'none' | 'pending' | 'success'
 
-function WithdrawRewards({ trigger, onClose, ...rest }: WithdrawRewardsProps) {
+function WithdrawRewards({ trigger, ...rest }: WithdrawRewardsProps) {
     const [status, setStatus] = useState<WithdrawRewardsState>('none')
     const handleClaim = useCallback(() => {
         setStatus('pending')

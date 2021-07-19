@@ -3,7 +3,7 @@ import React, { ComponentType, HTMLAttributes, memo } from 'react'
 import cn from 'classnames'
 
 export interface TitleProps extends HTMLAttributes<HTMLDivElement> {
-    type?: 'default' | 'category'
+    type?: 'default' | 'category' | 'popup' | 'field'
     as?: keyof JSX.IntrinsicElements | ComponentType<Partial<Omit<TitleProps, 'as'>>>
 }
 
@@ -26,6 +26,22 @@ export const TitleSC = styled.div`
         letter-spacing: 0.1px;
         text-transform: uppercase;
         color: ${({ theme }) => theme.color.text5};
+    }
+
+    &.field {
+        font-weight: bold;
+        font-size: 14px;
+        line-height: 20px;
+        letter-spacing: 0.35px;
+        color: ${({ theme }) => theme.color.text5};
+    }
+
+    &.popup {
+        font-weight: 900;
+        font-size: 16px;
+        line-height: 24px;
+        letter-spacing: 0.1px;
+        color: ${({ theme }) => theme.color.text1};
     }
 `
 

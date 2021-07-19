@@ -1,5 +1,11 @@
-import React, { CSSProperties, memo, ReactNode } from 'react'
-import { SwapSettingsSC } from './styled'
+import React, { CSSProperties, memo } from 'react'
+import { SwapSettingsSC, SwapSettingsPopup, SwapSettingsButton } from './styled'
+import { useModalOpen, useToggleSettingsMenu } from '../../../state/application/hooks'
+import { ApplicationModal } from '../../../state/application/actions'
+import Title from '../../../components/gd/Title'
+import { QuestionHelper } from '../../../components'
+import MaskedInput from 'react-text-mask'
+import createNumberMask from 'text-mask-addons/dist/createNumberMask'
 
 const settingsIcon = (
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -14,11 +20,79 @@ export interface SwapSettingsProps {
     style?: CSSProperties
 }
 
+const minutesMask = createNumberMask({
+    prefix: '',
+    allowDecimal: false,
+    includeThousandsSeparator: false
+})
+
+const percentageMask = createNumberMask({
+    prefix: '',
+    suffix: '%',
+    allowDecimal: true,
+    decimalLimit: 2,
+    integerLimit: 3,
+    includeThousandsSeparator: false
+})
+
 function SwapSettings({ className, style }: SwapSettingsProps) {
+    const open = useModalOpen(ApplicationModal.SETTINGS)
+    const handleClick = useToggleSettingsMenu()
+
     return (
-        <SwapSettingsSC className={className} style={style}>
-            <div className="icon-wrapper">{settingsIcon}</div>
-        </SwapSettingsSC>
+        <>
+            <SwapSettingsSC className={className} style={style} onClick={handleClick}>
+                <div className="icon-wrapper">{settingsIcon}</div>
+            </SwapSettingsSC>
+            {open && (
+                <SwapSettingsPopup>
+                    <Title type="popup" style={{ marginBottom: 14 }}>
+                        Transaction settings
+                    </Title>
+                    <Title className="flex items-center" type="field">
+                        Slippage Tolerance{' '}
+                        <QuestionHelper
+                            text={
+                                'Your transaction will revert if the price changes unfavorably by more than this percentage.'
+                            }
+                        />
+                    </Title>
+                    <div className="flex items-center justify-between space-x-1.5">
+                        <SwapSettingsButton $active>0.1%</SwapSettingsButton>
+                        <SwapSettingsButton>0.5%</SwapSettingsButton>
+                        <SwapSettingsButton>1.0%</SwapSettingsButton>
+                        <div className="flex items-center flex-grow space-x-1.5">
+                            <span className="field">Custom</span>
+                            <MaskedInput
+                                className="flex-grow"
+                                type="text"
+                                placeholder="0.10%"
+                                size={3}
+                                guide={false}
+                                mask={percentageMask}
+                            />
+                        </div>
+                    </div>
+                    <Title className="flex items-center" type="field" style={{ marginTop: 29 }}>
+                        Transaction deadline{' '}
+                        <QuestionHelper
+                            text={'Your transaction will revert if it is pending for more than this long.'}
+                        />
+                    </Title>
+                    <div className="flex items-center space-x-1.5">
+                        <MaskedInput
+                            type="text"
+                            placeholder="20"
+                            size={3}
+                            guide={false}
+                            mask={minutesMask}
+                            style={{ paddingLeft: 45 }}
+                        />
+                        <span>minutes</span>
+                    </div>
+                </SwapSettingsPopup>
+            )}
+        </>
     )
 }
 

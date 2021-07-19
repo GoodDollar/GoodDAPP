@@ -94,6 +94,7 @@ export function theme(darkMode: boolean) {
             border1: darkMode ? 'rgba(208, 217, 228, 0.483146)' : 'rgba(208, 217, 228, 0.483146)',
             border2: darkMode ? '#151A30' : '#E5E5E5',
             border3: darkMode ? 'rgba(208,217,228,0.483146)' : '#ccefff',
+            border4: darkMode ? '#8F9BB3' : '#ffffff',
             text1: darkMode ? '#FFFFFF' : '#0D182D',
             text2: darkMode ? '#00B0FF' : '#00B0FF',
             text3: darkMode ? '#A5A5A5' : '#A5A5A5',

@@ -18,7 +18,6 @@ function SwapInput({ className, style, autoMax, balance, decimals = 18 }: SwapIn
                 prefix: '',
                 includeThousandsSeparator: false,
                 allowDecimal: Boolean(decimals),
-                decimalSymbol: '.',
                 decimalLimit: decimals
             }),
         [decimals]
@@ -31,6 +30,7 @@ function SwapInput({ className, style, autoMax, balance, decimals = 18 }: SwapIn
                 placeholder={balance ? String(balance) : '0.' + '0'.repeat(Math.min(decimals, 2))}
                 mask={mask}
                 guide={false}
+                size={1}
             />
             {balance != undefined && <SwapInputBalance>Balance: {balance}</SwapInputBalance>}
         </SwapInputSC>

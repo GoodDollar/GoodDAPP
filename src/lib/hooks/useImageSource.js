@@ -1,14 +1,13 @@
-import { useEffect, useMemo, useState } from 'react'
-import { first, last } from 'lodash'
+import { useEffect, useState } from 'react'
 
 import avatarStorage from '../gundb/UserAvatarStorage'
 import { isValidCID } from '../utils/ipfs'
-import { asDataUrl, getBase64Source, isGoodDollarImage, isImageRecord, isValidBase64Image } from '../utils/image'
+import { asDataUrl, isGoodDollarImage, isImageRecord, isValidBase64Image } from '../utils/image'
 
-import logger from '../logger/pino-logger'
+// import logger from '../logger/pino-logger'
 
-const log = logger.child({ from: 'useImageSource' })
-const emptySource = [false, null]
+// const log = logger.child({ from: 'useImageSource' })
+// const emptySource = [false, null]
 
 const imageToSource = source => {
   // checking is image record or base64 data url
@@ -26,31 +25,24 @@ const imageToSource = source => {
     base64 = asDataUrl(source)
   }
 
-  return [false, getBase64Source(base64)]
+  return { uri: base64 }
 }
 
 export default (source, size = 'small') => {
-  // firstly, trying for image sources could be checked syncronously
-  const cachedState = useMemo(() => {
-    // GD logo (-1)
-    if (isGoodDollarImage(source)) {
-      return [true, null]
-    }
-
-    // check is image record or data url
-    return imageToSource(source)
-  }, [source])
-
-  // aggregating state variable
-  const [sourceState, setSourceState] = useState(() => cachedState || emptySource)
+  const [image, setImage] = useState()
 
   useEffect(() => {
     // if was GD image, base64 or image record - set it to state immediately
-    setSourceState(cachedState || emptySource)
-
     // if not valid CID - keep 'undefined' profile image
-    if (cachedState || !isValidCID(source)) {
+    const validImage = imageToSource(source)
+
+    if ((!validImage || isGoodDollarImage(source)) && !isValidCID(source)) {
       return
+    }
+
+    //already base64?
+    if (validImage) {
+      return setImage(validImage)
     }
 
     // otherwise trying to load it from thes ipfs
@@ -64,16 +56,9 @@ export default (source, size = 'small') => {
 
         // if no failures and we've got non-empty response -
         // updating source according to the record received
-        setSourceState(imageToSource(imageRecord))
+        setImage(imageToSource(imageRecord))
       })
-  }, [cachedState, size, source, setSourceState])
+  }, [size, source, setImage])
 
-  useEffect(() => {
-    const resolved = last(sourceState)
-    const isGDLogo = first(sourceState) === true
-
-    log.debug('image source:', { source, isGDLogo, resolved })
-  }, [source, sourceState])
-
-  return sourceState
+  return image
 }

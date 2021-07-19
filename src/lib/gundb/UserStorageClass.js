@@ -648,9 +648,8 @@ export class UserStorage {
   async _linkAvatarsToDatabase(cid, withCleanup = false) {
     // get current CID value
     let currentCID
-    const linkOnly = true !== withCleanup
 
-    if (!linkOnly) {
+    if (withCleanup) {
       currentCID = await this.getProfileFieldValue('avatar')
     }
 
@@ -658,7 +657,7 @@ export class UserStorage {
     const gunAck = await this.setProfileField('avatar', cid, 'public')
 
     // if avatar was a CID - delete if after GUN updated
-    if (!linkOnly && isValidCID(currentCID)) {
+    if (withCleanup && isValidCID(currentCID)) {
       await avatarStorage.deleteAvatars(currentCID)
     }
 

@@ -1,16 +1,13 @@
-import React, { memo, useState } from 'react'
+import React, { memo } from 'react'
 import { Layout } from '../../kashi'
 import { PortfolioAnalyticSC, PortfolioSC, PortfolioTitleSC, PortfolioValueSC } from './styled'
 import Title from '../../components/gd/Title'
 import Card from '../../components/gd/Card'
 import { ButtonDefault } from '../../components/gd/Button'
 import Table from '../../components/gd/Table'
-import Modal from 'components/Modal'
 import WithdrawRewards from 'components/WithdrawRewards'
 
 const Portfolio = () => {
-    const [withdrawClaimableModalOpen, setWithdrawClaimableModalOpen] = useState(false)
-
     return (
         <Layout>
             <PortfolioSC>
@@ -56,22 +53,9 @@ const Portfolio = () => {
                             <PortfolioValueSC>~1,000 GDAO</PortfolioValueSC>
                         </div>
                         <div className="flex flex-col justify-center items-end flex-grow">
-                            <ButtonDefault width={'156px'} onClick={() => setWithdrawClaimableModalOpen(true)}>
-                                Withdraw rewards
-                            </ButtonDefault>
-                            <Modal
-                                isOpen={withdrawClaimableModalOpen}
-                                noPadding
-                                onDismiss={() => {
-                                    setWithdrawClaimableModalOpen(false)
-                                }}
-                            >
-                                <WithdrawRewards
-                                    onClose={() => {
-                                        setWithdrawClaimableModalOpen(false)
-                                    }}
-                                />
-                            </Modal>
+                            <WithdrawRewards
+                                trigger={<ButtonDefault width={'156px'}>Withdraw rewards</ButtonDefault>}
+                            />
                         </div>
                     </PortfolioAnalyticSC>
                 </Card>

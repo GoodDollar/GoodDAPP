@@ -13,11 +13,6 @@ import Base64Storage from '../nft/Base64Storage'
 
 const log = logger.child({ from: 'FeedStorage' })
 
-/**
- * //TODO:
- * handle bridge(mint)
- */
-
 const COMPLETED_BONUS_REASON_TEXT = 'Your recent earned rewards'
 const NULL_ADDRESS = '0x0000000000000000000000000000000000000000'
 
@@ -502,7 +497,6 @@ export class FeedStorage {
       })
     }
 
-    //TODO: get user+avatar or contract name
     log.debug('updateFeedEventCounterParty:', feedEvent.data.receiptEvent, feedEvent.id, feedEvent.txType)
 
     switch (feedEvent.type) {

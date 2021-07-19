@@ -1039,23 +1039,6 @@ export class UserStorage {
     }
 
     return true
-
-    //we no longer enforce uniqueness on email/mobile only on username
-    //TODO: no longer  using world writable index
-    // try {
-    // if (field === 'username') {
-    //   const indexValue = await global.gun
-    //     .get(`users/by${field}`)
-    //     .get(cleanValue)
-    //     .then()
-    //   return !(indexValue && indexValue.pub !== global.gun.user().is.pub)
-    // }
-
-    //   return true
-    // } catch (e) {
-    //   logger.error('Validate IndexProfileField failed', e.message, e)
-    //   return true
-    // }
   }
 
   async validateProfile(profile: any) {

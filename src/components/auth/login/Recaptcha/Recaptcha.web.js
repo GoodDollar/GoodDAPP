@@ -1,36 +1,27 @@
-import React, { forwardRef, useImperativeHandle, useState } from 'react'
-import { StyleSheet, View } from 'react-native'
+import React, { forwardRef, useImperativeHandle, useRef } from 'react'
 import ReCAPTCHA from 'react-google-recaptcha'
 
 const Recaptcha = forwardRef(({ siteKey, baseUrl, onStatusChange, children, ...props }, ref) => {
-  const [recaptchaVisible, setRecaptchaVisible] = useState(false)
+  const captchaRef = useRef()
 
   useImperativeHandle(ref, () => ({
-    launch: () => setRecaptchaVisible(true),
+    launch: () => captchaRef.current.execute(),
   }))
 
-  return !recaptchaVisible ? (
-    children
-  ) : (
-    <View style={styles.container}>
+  return (
+    <>
       <ReCAPTCHA
         {...props}
+        ref={captchaRef}
         sitekey={siteKey}
         onChange={onStatusChange}
         onErrored={onStatusChange}
         onExpired={onStatusChange}
-        size="normal"
+        size="invisible"
       />
-    </View>
+      {children}
+    </>
   )
-})
-
-const styles = StyleSheet.create({
-  container: {
-    width: '100%',
-    alignItems: 'center',
-    marginTop: 8,
-  },
 })
 
 export default Recaptcha

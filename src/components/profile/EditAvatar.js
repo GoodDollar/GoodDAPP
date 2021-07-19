@@ -15,13 +15,15 @@ const log = logger.child({ from: 'EditAvatar' })
 const TITLE = 'Edit Avatar'
 
 const EditAvatar = ({ theme, screenProps }) => {
+  const passedAvatar = screenProps.screenState.avatar
   const [showErrorDialog] = useErrorDialog()
   const user = useWrappedUserStorage()
 
-  const [isDirty, markAsDirty] = useState(false)
+  const [isDirty, markAsDirty] = useState(false || passedAvatar !== undefined)
   const [processing, setProcessing] = useState(false)
 
-  const { avatar } = useStoredProfile()
+  const { avatar: storedAvatar } = useStoredProfile()
+  const avatar = passedAvatar || storedAvatar
   const base64 = useMemo(() => (avatar ? asDataUrl(avatar) : null), [avatar])
   const croppedRef = useRef(avatar)
 

@@ -60,13 +60,9 @@ const ViewOrUploadAvatar = props => {
   const handleAddAvatar = useCallback(
     avatar => {
       fireEvent(PROFILE_IMAGE)
-      wrappedUserStorage.setAvatar(avatar).catch(e => {
-        log.error('save image failed:', e.message, e, { dialogShown: true })
-        showErrorDialog('Could not save image. Please try again.')
-      })
 
       if (Platform.OS === 'web') {
-        screenProps.push('EditAvatar')
+        screenProps.push('EditAvatar', { avatar })
       }
     },
     [screenProps, wrappedUserStorage],

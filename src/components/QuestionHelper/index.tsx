@@ -64,30 +64,11 @@ const QuestionHelper: FC<{ text: any }> = ({ children, text }) => {
     }
 
     return (
-        <span style={{ marginLeft: 4 }}>
-            <Tooltip text={text} show={show}>
-                <QuestionWrapper onClick={open} onMouseEnter={open} onMouseLeave={close}>
-                    <Question size={14} />
-                </QuestionWrapper>
-            </Tooltip>
-        </span>
-    )
-}
-
-export const LightQuestionHelper = ({ text }: { text: string }) => {
-    const [show, setShow] = useState<boolean>(false)
-
-    const open = useCallback(() => setShow(true), [setShow])
-    const close = useCallback(() => setShow(false), [setShow])
-
-    return (
-        <span style={{ marginLeft: 4 }}>
-            <Tooltip text={text} show={show}>
-                <LightQuestionWrapper onClick={open} onMouseEnter={open} onMouseLeave={close}>
-                    <QuestionMark>?</QuestionMark>
-                </LightQuestionWrapper>
-            </Tooltip>
-        </span>
+        <Tooltip text={text} show={show}>
+            <QuestionWrapper style={{ marginLeft: 4 }} onClick={open} onMouseEnter={open} onMouseLeave={close}>
+                <Question size={14} />
+            </QuestionWrapper>
+        </Tooltip>
     )
 }
 

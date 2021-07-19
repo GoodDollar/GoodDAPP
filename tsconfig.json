@@ -30,5 +30,5 @@
         ]
     },
     "exclude": ["node_modules", "cypress"],
-    "include": ["./src/**/*.ts", "./src/**/*.tsx", "./types"]
+    "include": ["./src/index.tsx", "./src/**/*.d.ts", "./types"]
 }

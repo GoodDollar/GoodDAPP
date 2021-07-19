@@ -10,7 +10,6 @@ const TooltipContainer = styled.div`
     font-size: 16px;
     line-height: 19px;
     color: ${({ theme }) => theme.color.text1};
-    background: ${({ theme }) => theme.color.main};
 `
 
 interface TooltipProps extends Omit<PopoverProps, 'content'> {

@@ -3701,6 +3701,13 @@
   dependencies:
     "@types/react" "*"
 
+"@types/react-text-mask@^5.4.8":
+  version "5.4.8"
+  resolved "https://registry.yarnpkg.com/@types/react-text-mask/-/react-text-mask-5.4.8.tgz#1e2013d8eb9f3ff64951568e5163270a83d31b92"
+  integrity sha512-KC2+fMkiwXUpijEdNrKcD1otO7VRqp4HFfq+vR756AG3d0z2lbIjO0/aFooqfd39t333Jkk4fvwWDpkvGBIoQg==
+  dependencies:
+    "@types/react" "*"
+
 "@types/react-transition-group@^4.4.1":
   version "4.4.1"
   resolved "https://registry.yarnpkg.com/@types/react-transition-group/-/react-transition-group-4.4.1.tgz#e1a3cb278df7f47f17b5082b1b3da17170bd44b1"
@@ -3806,6 +3813,18 @@
   version "1.0.7"
   resolved "https://registry.yarnpkg.com/@types/tapable/-/tapable-1.0.7.tgz#545158342f949e8fd3bfd813224971ecddc3fac4"
   integrity sha512-0VBprVqfgFD7Ehb2vd8Lh9TG3jP98gvr8rgehQqzztZNI7o8zS8Ad4jyZneKELphpuE212D8J70LnSNQSyO6bQ==
+
+"@types/text-mask-addons@^3.8.1":
+  version "3.8.1"
+  resolved "https://registry.yarnpkg.com/@types/text-mask-addons/-/text-mask-addons-3.8.1.tgz#4968d8592ab3ab8b0fd3d877fbbe991c84d5c2a0"
+  integrity sha512-TD4Ifr3ZyWtyr1gOrNgCpa6RxXJ3M81YNzQq4p2pxOCeiIgHqAm4iisxmfHGhJG8+Zzad/yp4rxg349UMEWioA==
+  dependencies:
+    "@types/text-mask-core" "*"
+
+"@types/text-mask-core@*":
+  version "5.1.1"
+  resolved "https://registry.yarnpkg.com/@types/text-mask-core/-/text-mask-core-5.1.1.tgz#8c699018b392940d8436734a5a564603d941a843"
+  integrity sha512-UixQLPJ5ulheZJkhpnEZMu0403jIVWXBM9EgfkXhuO9a/woVs9Bg9pebxB0dChI4DOxnQ5SR9bfRlaNMuDfXrg==
 
 "@types/uglify-js@*":
   version "3.13.0"
@@ -4010,7 +4029,7 @@
   resolved "https://registry.yarnpkg.com/@uniswap/merkle-distributor/-/merkle-distributor-1.0.1.tgz#dc3d911f65a860fc3f0cae074bdcd08ed6a27a4d"
   integrity sha512-5gDiTI5hrXIh5UWTrxKYjw30QQDnpl8ckDSpefldNenDlYO1RKkdUYMYpvrqGi2r7YzLYTlO6+TDlNs6O7hDRw==
 
-"@uniswap/sdk-core@^3.0.0-alpha.3":
+"@uniswap/sdk-core@^3.0.0", "@uniswap/sdk-core@^3.0.0-alpha.3":
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/@uniswap/sdk-core/-/sdk-core-3.0.0.tgz#e1acd7c438b21fe36d044cd39e6f0f925e22d04d"
   integrity sha512-Yarx/5lqPZvAAzI7i+twK/IueJNl+OhqbeiiTuD4+g+NEVPCU+SMBvLFzf0/jAlM1WKz6K1psQLUDwdgAj8I3w==
@@ -15903,7 +15922,7 @@ prompts@2.4.0, prompts@^2.0.1:
     kleur "^3.0.3"
     sisteransi "^1.0.5"
 
-prop-types@^15.5.0, prop-types@^15.5.4, prop-types@^15.5.8, prop-types@^15.6.1, prop-types@^15.6.2, prop-types@^15.7.2:
+prop-types@^15.5.0, prop-types@^15.5.4, prop-types@^15.5.6, prop-types@^15.5.8, prop-types@^15.6.1, prop-types@^15.6.2, prop-types@^15.7.2:
   version "15.7.2"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.7.2.tgz#52c41e75b8c87e72b9d9360e0206b99dcbffa6c5"
   integrity sha512-8QQikdH7//R2vurIJSutZ1smHYTcLpRWEOlHnzcWHmBYrOGUysKwSsrC89BCiFj3CbrfJ/nXFdJepOVrY1GCHQ==
@@ -16586,6 +16605,13 @@ react-tabs@^3.2.1:
   dependencies:
     clsx "^1.1.0"
     prop-types "^15.5.0"
+
+react-text-mask@^5.4.3:
+  version "5.4.3"
+  resolved "https://registry.yarnpkg.com/react-text-mask/-/react-text-mask-5.4.3.tgz#991efb4299e30c2e6c2c46d13f617169463e0d2d"
+  integrity sha1-mR77QpnjDC5sLEbRP2FxaUY+DS0=
+  dependencies:
+    prop-types "^15.5.6"
 
 react-tradingview-widget@^1.3.2:
   version "1.3.2"
@@ -18822,6 +18848,11 @@ text-extensions@^1.0.0:
   version "1.9.0"
   resolved "https://registry.yarnpkg.com/text-extensions/-/text-extensions-1.9.0.tgz#1853e45fee39c945ce6f6c36b2d659b5aabc2a26"
   integrity sha512-wiBrwC1EhBelW12Zy26JeOUkQ5mRu+5o8rpsJk5+2t+Y5vE7e842qtZDQ2g1NpX/29HdyFeJ4nSIhI47ENSxlQ==
+
+text-mask-addons@^3.8.0:
+  version "3.8.0"
+  resolved "https://registry.yarnpkg.com/text-mask-addons/-/text-mask-addons-3.8.0.tgz#17b61ef665a4f36811f2ea1f01a223b4be61ab26"
+  integrity sha1-F7Ye9mWk82gR8uofAaIjtL5hqyY=
 
 text-table@0.2.0, text-table@^0.2.0:
   version "0.2.0"

@@ -1,7 +1,9 @@
-import React, { CSSProperties, memo, useCallback, useState } from 'react'
+import React, { ChangeEventHandler, CSSProperties, memo, useCallback, useState, ChangeEvent } from 'react'
 import { SwapRowSC, SwapRowIconSC, SwapRowCurrencySC } from './styled'
 import SwapInput from '../SwapInput'
 import SwapTokensModal from '../SwapTokensModal'
+import { Currency } from '@sushiswap/sdk'
+import CurrencyLogo from '../../../components/CurrencyLogo'
 
 const arrow = (
     <svg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -21,18 +23,42 @@ export interface SwapRowProps {
     select: boolean
     balance?: string | number
     autoMax?: boolean
+    value?: string
+    onValueChange?: (value: string) => any
+    token?: Currency
+    tokenList?: Currency[]
+    onTokenChange?: (token: Currency) => any
 }
 
-function SwapRow({ className, style, title, select, balance, autoMax }: SwapRowProps) {
+function SwapRow({
+    className,
+    style,
+    title,
+    select,
+    balance,
+    autoMax,
+    value,
+    onValueChange,
+    token,
+    onTokenChange,
+    tokenList
+}: SwapRowProps) {
     const [showSelect, setShowSelect] = useState(false)
 
     const handleShowSelect = useCallback(() => setShowSelect(true), [])
     const handleCloseSelect = useCallback(() => setShowSelect(false), [])
+    const handleInputChange =
+        onValueChange &&
+        useCallback((event: ChangeEvent<HTMLInputElement>) => onValueChange(event.currentTarget.value), [onValueChange])
+    const handleSetMax =
+        onValueChange && useCallback(() => balance != null && onValueChange(String(balance)), [balance, onValueChange])
 
     return (
         <SwapRowSC className={className} style={style}>
             <div className="select flex space-x-4">
-                <SwapRowIconSC onClick={select ? handleShowSelect : undefined} as={select ? 'button' : undefined} />
+                <SwapRowIconSC onClick={select ? handleShowSelect : undefined} as={select ? 'button' : undefined}>
+                    <CurrencyLogo currency={token} size={'54px'} />
+                </SwapRowIconSC>
                 <div className="flex flex-col">
                     <div className="title">{title}</div>
                     <SwapRowCurrencySC
@@ -40,15 +66,30 @@ function SwapRow({ className, style, title, select, balance, autoMax }: SwapRowP
                         onClick={select ? handleShowSelect : undefined}
                         as={select ? 'button' : undefined}
                     >
-                        <span>ETH</span>
+                        <span>{token?.getSymbol()}</span>
                         {select && arrow}
                     </SwapRowCurrencySC>
                 </div>
             </div>
             <div className="input">
-                <SwapInput autoMax={autoMax} balance={balance} />
+                <SwapInput
+                    autoMax={autoMax}
+                    balance={balance}
+                    value={value}
+                    decimals={token?.decimals}
+                    onMax={handleSetMax}
+                    onChange={handleInputChange}
+                />
             </div>
-            {select && <SwapTokensModal open={showSelect} onClose={handleCloseSelect} />}
+            {select && (
+                <SwapTokensModal
+                    open={showSelect}
+                    token={token}
+                    tokenList={tokenList}
+                    onClose={handleCloseSelect}
+                    onTokenChange={onTokenChange}
+                />
+            )}
         </SwapRowSC>
     )
 }

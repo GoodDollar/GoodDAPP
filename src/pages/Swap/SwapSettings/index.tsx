@@ -6,6 +6,7 @@ import Title from '../../../components/gd/Title'
 import { QuestionHelper } from '../../../components'
 import MaskedInput from 'react-text-mask'
 import createNumberMask from 'text-mask-addons/dist/createNumberMask'
+import { useSwap } from '../hooks'
 
 const settingsIcon = (
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -38,6 +39,7 @@ const percentageMask = createNumberMask({
 function SwapSettings({ className, style }: SwapSettingsProps) {
     const open = useModalOpen(ApplicationModal.SETTINGS)
     const handleClick = useToggleSettingsMenu()
+    const { slippageTolerance, setSlippageTolerance } = useSwap()
 
     return (
         <>
@@ -58,18 +60,55 @@ function SwapSettings({ className, style }: SwapSettingsProps) {
                         />
                     </Title>
                     <div className="flex items-center justify-between space-x-1.5">
-                        <SwapSettingsButton $active>0.1%</SwapSettingsButton>
-                        <SwapSettingsButton>0.5%</SwapSettingsButton>
-                        <SwapSettingsButton>1.0%</SwapSettingsButton>
+                        <SwapSettingsButton
+                            $active={!slippageTolerance.custom && slippageTolerance.value === '0.1'}
+                            onClick={() =>
+                                setSlippageTolerance({
+                                    custom: false,
+                                    value: '0.1'
+                                })
+                            }
+                        >
+                            0.1%
+                        </SwapSettingsButton>
+                        <SwapSettingsButton
+                            $active={!slippageTolerance.custom && slippageTolerance.value === '0.5'}
+                            onClick={() =>
+                                setSlippageTolerance({
+                                    custom: false,
+                                    value: '0.5'
+                                })
+                            }
+                        >
+                            0.5%
+                        </SwapSettingsButton>
+                        <SwapSettingsButton
+                            $active={!slippageTolerance.custom && slippageTolerance.value === '1.0'}
+                            onClick={() =>
+                                setSlippageTolerance({
+                                    custom: false,
+                                    value: '1.0'
+                                })
+                            }
+                        >
+                            1.0%
+                        </SwapSettingsButton>
                         <div className="flex items-center flex-grow space-x-1.5">
                             <span className="field">Custom</span>
                             <MaskedInput
                                 className="flex-grow"
                                 type="text"
-                                placeholder="0.10%"
+                                placeholder={(slippageTolerance.value || '0.10') + '%'}
                                 size={3}
                                 guide={false}
                                 mask={percentageMask}
+                                value={slippageTolerance.custom ? slippageTolerance.value : ''}
+                                onChange={event =>
+                                    setSlippageTolerance({
+                                        custom: true,
+                                        value: event.currentTarget.value
+                                    })
+                                }
                             />
                         </div>
                     </div>

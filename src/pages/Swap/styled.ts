@@ -12,6 +12,7 @@ export const SwapCardSC = styled.div`
     }
 
     .switch {
+        user-select: none;
         position: relative;
         svg {
             color: ${({ theme }) => theme.color.main};
@@ -40,4 +41,14 @@ export const SwapContentWrapperSC = styled(Card).attrs(() => ({
     padding: 25px 21px 23px;
     display: flex;
     flex-direction: column;
+
+    > *:nth-child(2) {
+        order: 2;
+    }
+    > *:nth-child(4) {
+        order: 4;
+    }
+    > *:nth-child(5) {
+        order: 5;
+    }
 `

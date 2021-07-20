@@ -39,8 +39,6 @@ export const SwapRowSC = styled.div`
 export const SwapRowIconSC = styled.div`
     width: 54px;
     height: 54px;
-    background: #00b0ff;
-    border-radius: 50%;
 `
 
 export const SwapRowCurrencySC = styled.div`

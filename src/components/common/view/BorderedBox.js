@@ -127,15 +127,11 @@ const BorderedBox = ({
           </Section.Text>
           {children}
         </Section.Stack>
-        {disableCopy ? (
-          <div />
-        ) : (
+        {disableCopy ? null : (
           <View style={[styles.copyIconLineSeparator, showCopyIcon ? null : styles.copyButtonLineSeparator]} />
         )}
       </Section.Stack>
-      {disableCopy ? (
-        <div />
-      ) : (
+      {disableCopy ? null : (
         <View style={styles.boxCopyIconOuter}>
           <View style={[styles.boxCopyIconWrapper, showCopyIcon ? null : styles.boxCopyButtonWrapper]}>
             {showCopyIcon ? (
@@ -161,17 +157,9 @@ const BorderedBox = ({
             ) : (
               <CustomButton onPress={copyToClipboard} style={styles.copyButtonContainer}>
                 {copyButtonText}
-              </Section.Text>
-            </>
-          ) : enableIndicateAction && performed ? (
-            <CustomButton style={styles.copyButtonContainer} disabled>
-              Copied
-            </CustomButton>
-          ) : (
-            <CustomButton onPress={copyToClipboard} style={styles.copyButtonContainer}>
-              {copyButtonText}
-            </CustomButton>
-          )}
+              </CustomButton>
+            )}
+          </View>
         </View>
       )}
     </View>
@@ -289,5 +277,4 @@ const styles = ({ theme }) => {
     },
   }
 }
-
 export default withStyles(styles)(BorderedBox)

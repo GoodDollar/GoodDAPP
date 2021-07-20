@@ -14,8 +14,6 @@ export const init = async () => {
   log.debug('wallet and storage ready, initializing analytics', { initialized })
 
   if (initialized === false) {
-    global.wallet = goodWallet
-
     // set wallet to simple storage so we can use it in InternetConnection
     setWallet(goodWallet)
 

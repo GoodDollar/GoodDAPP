@@ -238,6 +238,8 @@ const Claim = props => {
   const [claimCycleTime, setClaimCycleTime] = useState('00:00:00')
 
   const [totalFundsStaked, setTotalFundsStaked] = useState()
+  const [interestPending, setInterestPending] = useState()
+
   const [interestCollected, setInterestCollected] = useState()
 
   const wrappedGoodWallet = wrapper(goodWallet, store)
@@ -274,7 +276,7 @@ const Claim = props => {
           amountAndQuantity,
           activeClaimers,
           availableDistribution,
-          totalFundsStaked,
+          stakingData,
           interestCollected,
         ] = await Promise.all(promises)
 
@@ -285,7 +287,7 @@ const Claim = props => {
           entitlement,
           activeClaimers,
           availableDistribution,
-          totalFundsStaked,
+          stakingData,
           interestCollected,
         })
 
@@ -302,7 +304,8 @@ const Claim = props => {
           setTotalClaimed(amount)
           setActiveClaimers(activeClaimers)
           setAvailableDistribution(availableDistribution)
-          setTotalFundsStaked(totalFundsStaked)
+          setTotalFundsStaked(stakingData.totalFundsStaked)
+          setInterestPending(stakingData.pendingInterest)
           setInterestCollected(interestCollected)
         }
       } catch (exception) {
@@ -632,11 +635,16 @@ const Claim = props => {
               style={styles.leftGrayBox}
             />
             <GrayBox
-              title={'Interest generated\nthis week'}
+              title={'Last Interest\nCollected'}
               value={formatWithabbreviations(interestCollected)}
-              symbol={'DAI'}
+              symbol={'$'}
             />
           </Section.Row>
+          {Config.env === 'development' && (
+            <Section.Row style={[styles.statsRow]}>
+              <GrayBox title={'Pending Interest'} value={formatWithabbreviations(interestPending)} symbol={'$'} />
+            </Section.Row>
+          )}
         </Section.Stack>
       )}
       <Section.Stack style={styles.footerWrapper}>

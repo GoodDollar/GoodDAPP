@@ -644,9 +644,11 @@ const Claim = props => {
               symbol={'$'}
             />
           </Section.Row>
-          <Section.Row style={[styles.statsRow]}>
-            <GrayBox title={'Pending Interest'} value={formatWithabbreviations(interestPending)} symbol={'$'} />
-          </Section.Row>
+          {Config.env === 'development' && (
+            <Section.Row style={[styles.statsRow]}>
+              <GrayBox title={'Pending Interest'} value={formatWithabbreviations(interestPending)} symbol={'$'} />
+            </Section.Row>
+          )}
         </Section.Stack>
       )}
       <Section.Stack style={styles.footerWrapper}>

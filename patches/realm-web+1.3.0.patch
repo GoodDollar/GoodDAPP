@@ -1,0 +1,26 @@
+diff --git a/node_modules/realm-web/dist/bundle.dom.es.js b/node_modules/realm-web/dist/bundle.dom.es.js
+index e214c6d..ae6ebea 100644
+--- a/node_modules/realm-web/dist/bundle.dom.es.js
++++ b/node_modules/realm-web/dist/bundle.dom.es.js
+@@ -1,7 +1,7 @@
+ import { EJSON, ObjectId } from 'bson';
+ import * as bson from 'bson';
+ export { bson as BSON };
+-
++console.log("REALM_WEB")
+ var __spreadArrays = (undefined && undefined.__spreadArrays) || function () {
+     for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
+     for (var r = Array(s), k = 0, i = 0; i < il; i++)
+diff --git a/node_modules/realm-web/dist/bundle.es.js b/node_modules/realm-web/dist/bundle.es.js
+index 88b63af..3c9c432 100644
+--- a/node_modules/realm-web/dist/bundle.es.js
++++ b/node_modules/realm-web/dist/bundle.es.js
+@@ -4,7 +4,7 @@ import * as bson from 'bson';
+ export { bson as BSON };
+ import fetch from 'node-fetch';
+ import NodeAbortController from 'abort-controller';
+-
++console.log("REALM_NATIVE")
+ ////////////////////////////////////////////////////////////////////////////
+ //
+ // Copyright 2020 Realm Inc.

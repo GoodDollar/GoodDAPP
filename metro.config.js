@@ -20,7 +20,6 @@ module.exports = (async () => {
       extraNodeModules: {
         ...nodeLibs,
         vm: require.resolve('vm-browserify'),
-        'realm-web-native': `${__dirname}/node_modules/realm-web/dist/bundle.es.js`,
       },
 
       assetExts: assetExts.filter(ext => ext !== 'svg'),

@@ -2,14 +2,13 @@
 import { Database } from '@textile/threaddb'
 import * as TextileCrypto from '@textile/crypto'
 import { once, sortBy } from 'lodash'
+import * as Realm from 'realm-web'
 import AsyncStorage from '../utils/asyncStorage'
 import { JWT } from '../constants/localStorage'
 import logger from '../logger/pino-logger'
 import Config from '../../config/config'
 import { FeedItemSchema } from '../textile/feedSchema' // Some json-schema.org schema
 import type { DB } from '../userStorage/UserStorage'
-/* eslint-disable import/namespace */
-import * as Realm from './realm-web'
 const log = logger.child({ from: 'FeedRealmDB' })
 class RealmDB implements DB {
   privateKey

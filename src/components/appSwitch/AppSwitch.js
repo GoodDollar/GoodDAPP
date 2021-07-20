@@ -3,7 +3,6 @@ import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { AppState } from 'react-native'
 import { SceneView } from '@react-navigation/core'
 import { debounce, isEmpty } from 'lodash'
-import moment from 'moment'
 import AsyncStorage from '../../lib/utils/asyncStorage'
 import { DESTINATION_PATH, GD_USER_MASTERSEED } from '../../lib/constants/localStorage'
 import { REGISTRATION_METHOD_SELF_CUSTODY, REGISTRATION_METHOD_TORUS } from '../../lib/constants/login'
@@ -55,21 +54,6 @@ const showOutOfGasError = debounce(
     leading: true,
   },
 )
-
-const syncTXFromBlockchain = async () => {
-  const lastUpdateDate = userStorage.userProperties.get('lastTxSyncDate') || 0
-  const now = moment()
-
-  if (moment(lastUpdateDate).isSame(now, 'day') === false) {
-    try {
-      const joinedAtBlockNumber = userStorage.userProperties.get('joinedAtBlock')
-      await userStorage.syncTxWithBlockchain(joinedAtBlockNumber)
-      await userStorage.userProperties.set('lastTxSyncDate', now.valueOf())
-    } catch (e) {
-      log.warn('syncTXFromBlockchain failed', e.message, e)
-    }
-  }
-}
 
 let unsuccessfulLaunchAttempts = 0
 
@@ -214,11 +198,7 @@ const AppSwitch = (props: LoadingProps) => {
     }
   }, [gdstore, ready])
 
-  const backgroundUpdates = useCallback(() => {
-    if (ready) {
-      syncTXFromBlockchain()
-    }
-  }, [ready])
+  const backgroundUpdates = useCallback(() => {}, [ready])
 
   useInviteCode()
 

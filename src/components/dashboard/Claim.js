@@ -44,6 +44,7 @@ import { BigGoodDollar, Section, WrapperClaim } from '../common/'
 import useAppState from '../../lib/hooks/useAppState'
 import { WavesBox } from '../common/view/WavesBox'
 import useTimer from '../../lib/hooks/useTimer'
+
 import useInterval from '../../lib/hooks/useInterval'
 import type { DashboardProps } from './Dashboard'
 import useClaimCounter from './Claim/useClaimCounter'
@@ -278,6 +279,7 @@ const Claim = props => {
         ] = await Promise.all(promises)
 
         log.info('gatherStats:', {
+          all,
           amountAndQuantity,
           nextClaimMilis,
           entitlement,
@@ -430,27 +432,22 @@ const Claim = props => {
   }, [setLoading, handleFaceVerification, dailyUbi, setDailyUbi, showDialog, showErrorDialog])
 
   // constantly update stats but only for some data
-  const [startPolling, stopPolling] = useInterval(gatherStats, 10000)
+  const [startPolling, stopPolling] = useInterval(gatherStats, 10000, false)
 
   useEffect(() => {
-    // poll blockchain only if the app not in background
-    // and the claim timer haven't reached zero
-    if (appState === 'active' && !dailyUbi) {
+    // refresh stats when user comes back to app, timer state has changed or dailyUBI has changed
+    if (appState === 'active') {
       // refresh all stats when returning back to app
       // or dailyUbi changed meaning a new cycle started
-      // and start polling once refreshed
-      gatherStats(true).then(startPolling)
+      gatherStats(true)
+      if (isReachedZero && dailyUbi === 0) {
+        //keep polling if timer is 0 but dailyubi still didnt update
+        startPolling()
+      }
     }
 
     return stopPolling
-  }, [appState, dailyUbi])
-
-  useEffect(() => {
-    // trigger getting stats if reached time to claim, to make sure everything is update since we refresh
-    if (isReachedZero) {
-      gatherStats()
-    }
-  }, [isReachedZero])
+  }, [appState, isReachedZero, dailyUbi])
 
   useEffect(() => {
     const init = async () => {

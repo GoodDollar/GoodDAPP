@@ -31,6 +31,7 @@
         "@ethersproject/experimental": "^5.0.1",
         "@fontsource/dm-sans": "^4.2.2",
         "@fullhuman/postcss-purgecss": "^4.0.3",
+        "@gooddollar/goodprotocol": "^1.0.0-beta.1",
         "@headlessui/react": "^1.0.0",
         "@hot-loader/react-dom": "^17.0.1",
         "@lingui/cli": "^3.9.0",
@@ -51,7 +52,9 @@
         "@tailwindcss/line-clamp": "^0.2.0",
         "@tailwindcss/postcss7-compat": "^2.0.4",
         "@tailwindcss/typography": "^0.3.1",
+        "@types/graphql": "^14.5.0",
         "@types/jest": "^25.2.1",
+        "@types/lodash": "^4.14.170",
         "@types/lodash.flatmap": "^4.5.6",
         "@types/luxon": "^1.24.4",
         "@types/multicodec": "^1.0.0",
@@ -71,6 +74,7 @@
         "@types/rebass": "^4.0.5",
         "@types/styled-components": "^5.1.0",
         "@types/wcag-contrast": "^3.0.0",
+        "@types/web3": "^1.2.2",
         "@uniswap/governance": "^1.0.2",
         "@uniswap/liquidity-staker": "^1.0.2",
         "@uniswap/merkle-distributor": "1.0.1",
@@ -78,6 +82,7 @@
         "@uniswap/token-lists": "^1.0.0-beta.19",
         "@uniswap/v2-core": "1.0.0",
         "@uniswap/v2-periphery": "^1.1.0-beta.0",
+        "@uniswap/v2-sdk": "^3.0.0",
         "@web3-react/core": "^6.1.0",
         "@web3-react/fortmatic-connector": "^6.1.6",
         "@web3-react/injected-connector": "^6.0.7",
@@ -94,12 +99,15 @@
         "copy-to-clipboard": "^3.2.0",
         "cross-env": "^7.0.2",
         "date-fns": "^2.20.0",
+        "decimal.js": "^10.3.1",
         "eth-permit": "^0.1.9",
         "ethers": "^5.0.7",
         "fathom-client": "^3.0.0",
         "fuse.js": "^6.4.6",
+        "graphql": "^15.5.1",
         "husky": "^6.0.0",
         "jazzicon": "^1.5.0",
+        "jsbi": "^3.1.5",
         "lint-staged": "^10.0.0",
         "lodash": "^4.17.20",
         "lodash.flatmap": "^4.5.0",
@@ -109,6 +117,7 @@
         "multihashes": "^3.0.1",
         "node-vibrant": "^3.1.5",
         "numeral": "^2.0.6",
+        "patch-package": "^6.4.7",
         "polished": "^3.3.2",
         "postcss": "^7",
         "postcss-preset-env": "^6.7.0",
@@ -150,16 +159,7 @@
         "typescript": "^3.8.3",
         "use-count-up": "^2.2.5",
         "wcag-contrast": "^3.0.0",
-        "@gooddollar/goodprotocol": "^1.0.0-beta.1",
-        "@types/graphql": "^14.5.0",
-        "@types/lodash": "^4.14.170",
-        "@types/web3": "^1.2.2",
-        "@uniswap/v2-sdk": "^3.0.0",
-        "decimal.js": "^10.3.1",
-        "graphql": "^15.5.1",
-        "patch-package": "^6.4.7",
-        "web3": "^1.3.6",
-        "jsbi": "^3.1.5"
+        "web3": "^1.3.6"
     },
     "browserslist": {
         "production": [
@@ -175,6 +175,11 @@
     },
     "license": "GPL-3.0-or-later",
     "dependencies": {
-        "@lufycz/sushi-data": "^2.0.0-canary-21"
+        "@lufycz/sushi-data": "^2.0.0-canary-21",
+        "@types/react-text-mask": "^5.4.8",
+        "@types/text-mask-addons": "^3.8.1",
+        "@uniswap/sdk-core": "^3.0.0",
+        "react-text-mask": "^5.4.3",
+        "text-mask-addons": "^3.8.0"
     }
 }

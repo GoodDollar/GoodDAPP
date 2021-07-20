@@ -1,7 +1,12 @@
-
 export class UnsupportedChainId extends Error {
   constructor(chainId: number | string = 'UNKNOWN') {
     super(`Unsupported chain ${ chainId }`);
+  }
+}
+
+export class InvalidChainId extends Error {
+  constructor(expectedChainId: number | string) {
+    super(`Invalid chain, expected ${ expectedChainId }`);
   }
 }
 

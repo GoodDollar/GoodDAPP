@@ -8,7 +8,7 @@ import { CDAI } from "./constants/tokens";
 import { cDaiPrice } from "./methods/cDaiPrice";
 import { v2TradeExactIn } from "./methods/v2TradeExactIn";
 import { goodMarketMakerContract } from "./contracts/GoodMarketMakerContract";
-import { getAccountId, getChainId } from "./utils/web3";
+import { getAccount, getChainId } from "./utils/web3";
 import { InsufficientLiquidity, UnexpectedToken, UnsupportedChainId, UnsupportedToken } from "./utils/errors";
 import { debug, debugGroup, debugGroupEnd } from "./utils/debug";
 import { g$Price } from "./apollo";
@@ -18,15 +18,17 @@ import { ERC20Contract } from "./contracts/ERC20Contract";
 import { EXCHANGE_HELPER_ADDRESS } from "./constants/addresses";
 import { computeRealizedLPFeePercent } from "./utils/prices";
 import { Trade } from "@uniswap/v2-sdk";
+import { cacheClear } from "./utils/memoize";
+import { SupportedChainId } from "./constants/chains";
 
 export type BuyInfo = {
   inputAmount: CurrencyAmount<Currency>
   outputAmount: CurrencyAmount<Currency>
   minimumOutputAmount: CurrencyAmount<Currency>
 
-  DAIAmount: CurrencyAmount<Currency>
-  cDAIAmount: CurrencyAmount<Currency>
-  GDXAmount: CurrencyAmount<Currency>
+  DAIAmount: CurrencyAmount<Currency> | null
+  cDAIAmount: CurrencyAmount<Currency> | null
+  GDXAmount: CurrencyAmount<Currency> | Fraction
 
   priceImpact: Fraction
   slippageTolerance: Percent
@@ -51,7 +53,7 @@ type G$Result = Omit<DAIResult, 'route' | 'trade'>
  * @param {Web3} web3 Web3 instance.
  * @param {CurrencyAmount<Currency>} currency Token X currency amount instance.
  * @param {Percent} slippageTolerance Slippage tolerance.
- * @return {DAIResult | null}
+ * @returns {DAIResult | null}
  */
 async function xToDai(web3: Web3, currency: CurrencyAmount<Currency>, slippageTolerance: Percent): Promise<DAIResult | null> {
   const chainId = await getChainId(web3)
@@ -79,10 +81,43 @@ async function xToDai(web3: Web3, currency: CurrencyAmount<Currency>, slippageTo
 }
 
 /**
+ * Tries to convert token X into G$. If it impossible - returns null.
+ * @param {Web3} web3 Web3 instance.
+ * @param {CurrencyAmount<Currency>} currency Token X currency amount instance.
+ * @param {Percent} slippageTolerance Slippage tolerance.
+ * @returns {DAIResult | null}
+ */
+async function xToG$(web3: Web3, currency: CurrencyAmount<Currency>, slippageTolerance: Percent): Promise<DAIResult | null> {
+  const chainId = await getChainId(web3)
+  console.log(chainId)
+  const G$ = await getToken(chainId, 'G$') as Token
+
+  debugGroup(`${ currency.currency.symbol } to G$`)
+
+  const trade = await v2TradeExactIn(currency, G$, { chainId })
+  if (!trade) {
+    debug('Trade', null)
+    debugGroupEnd(`${ currency.currency.symbol } to G$`)
+
+    return null
+  }
+
+  const amount = trade.outputAmount
+  debug('G$', amount.toSignificant(6))
+
+  const minAmount = trade.minimumAmountOut(slippageTolerance)
+  debug('G$ min', minAmount.toSignificant(6))
+
+  debugGroupEnd(`${ currency.currency.symbol } to G$`)
+
+  return { amount, minAmount, route: trade.route.path, trade }
+}
+
+/**
  * Tries to convert token DAI into cDAI.
  * @param {Web3} web3 Web3 instance.
  * @param {CurrencyAmount<Currency>} currency DAI token amount.
- * @return {CurrencyAmount<Currency>}
+ * @returns {CurrencyAmount<Currency>}
  * @throws {UnexpectedToken} If currency not DAI.
  */
 async function daiToCDai(web3: Web3, currency: CurrencyAmount<Currency>): Promise<CurrencyAmount<Currency>> {
@@ -94,7 +129,7 @@ async function daiToCDai(web3: Web3, currency: CurrencyAmount<Currency>): Promis
 
   debugGroup(`DAI to cDAI`)
 
-  const cDaiPriceRatio = await cDaiPrice(web3)
+  const cDaiPriceRatio = await cDaiPrice(web3, chainId)
   debug('cDAI ratio', cDaiPriceRatio.toSignificant(6))
 
   // DAI is 18 decimal number, cDAI is 8 decimal number, need to reduce 10 - 8 = 10 decimals from final value
@@ -107,12 +142,14 @@ async function daiToCDai(web3: Web3, currency: CurrencyAmount<Currency>): Promis
   return amount
 }
 
+let index = 0
+
 /**
  * Tries to convert token cDAI into G$.
  * @param {Web3} web3 Web3 instance.
  * @param {CurrencyAmount<Currency>} currency CDAI token amount.
  * @param {Percent} slippageTolerance Slippage tolerance.
- * @return {G$Result}
+ * @returns {G$Result}
  * @throws {UnexpectedToken} If currency not cDAI.
  */
 async function cDaiToG$(web3: Web3, currency: CurrencyAmount<Currency>, slippageTolerance: Percent): Promise<G$Result> {
@@ -124,7 +161,8 @@ async function cDaiToG$(web3: Web3, currency: CurrencyAmount<Currency>, slippage
   const goodMarketMaker = await goodMarketMakerContract(web3)
   const G$ = await getToken(chainId, 'G$') as Token
 
-  debugGroup(`cDAI to G$`)
+  const _index = ++index
+  debugGroup(`cDAI to G$ - ${ _index }`)
 
   const bigNumber = currency.multiply(currency.decimalScale).toFixed(0)
   const _priceMinimumOutputAmount = await goodMarketMaker.methods.buyReturn(CDAI[chainId].address, bigNumber).call() as BigNumber
@@ -135,7 +173,8 @@ async function cDaiToG$(web3: Web3, currency: CurrencyAmount<Currency>, slippage
   const minAmount = amount.subtract(amount.multiply(slippageTolerance))
   debug('G$ min', minAmount.toSignificant(6))
 
-  debugGroupEnd(`cDAI to G$`)
+  debugGroupEnd(`cDAI to G$ - ${ _index }`)
+  index--
 
   return { amount, minAmount }
 }
@@ -145,10 +184,10 @@ async function cDaiToG$(web3: Web3, currency: CurrencyAmount<Currency>, slippage
  * @param {Web3} web3 Web3 instance.
  * @param {CurrencyAmount<Currency>} cDAI CDAI token amount.
  * @param {CurrencyAmount<Currency>} G$ G$ token amount.
- * @return {Promise<Fraction>}
+ * @returns {Promise<Fraction>}
  */
 async function getPriceImpact(web3: Web3, cDAI: CurrencyAmount<Currency>, G$: CurrencyAmount<Currency>): Promise<Fraction> {
-  const { cDAI: price } = await g$Price(web3)
+  const { cDAI: price } = await g$Price(await getChainId(web3))
 
   const priceImpact = new Fraction(1).subtract(G$.divide(cDAI.divide(price)))
   debug('Price impact', priceImpact.toSignificant(6))
@@ -160,7 +199,7 @@ async function getPriceImpact(web3: Web3, cDAI: CurrencyAmount<Currency>, G$: Cu
 /**
  * Calculates liquidity fee.
  * @param {Trade<Currency, Currency, TradeType>} trade Currency amount.
- * @return {Fraction}
+ * @returns {Fraction}
  */
 function getLiquidityFee(trade: Trade<Currency, Currency, TradeType>): Fraction {
   const realizedLpFeePercent = computeRealizedLPFeePercent(trade)
@@ -180,7 +219,9 @@ function getLiquidityFee(trade: Trade<Currency, Currency, TradeType>): Fraction 
 export async function getMeta(web3: Web3, fromSymbol: string, amount: number | string, slippageTolerance: number = 0.5): Promise<BuyInfo | null> {
   const chainId = await getChainId(web3)
 
-  cDaiPrice.cache.clear?.call(null)
+  debugGroup(`Get meta ${ amount } ${ fromSymbol } to G$`)
+
+  cacheClear(cDaiPrice)
 
   const G$ = await getToken(chainId, 'G$') as Token
 
@@ -196,8 +237,8 @@ export async function getMeta(web3: Web3, fromSymbol: string, amount: number | s
 
   const DAI = await getToken(chainId, 'DAI') as Token
 
-  let DAIAmount: CurrencyAmount<Currency>
-  let cDAIAmount: CurrencyAmount<Currency>
+  let DAIAmount: CurrencyAmount<Currency> | null = null
+  let cDAIAmount: CurrencyAmount<Currency> | null = null
 
   let inputAmount: CurrencyAmount<Currency>
   let outputAmount: CurrencyAmount<Currency>
@@ -205,58 +246,81 @@ export async function getMeta(web3: Web3, fromSymbol: string, amount: number | s
   let route: Token[]
 
   let liquidityFee = new Fraction(0)
+  let priceImpact = new Fraction(0)
 
   const slippageTolerancePercent = decimalPercentToPercent(slippageTolerance)
 
-  if (FROM.symbol === 'G$') {
-    return null
-  } else if (FROM.symbol === 'cDAI') {
-    const cDAI = CDAI[chainId]
-    route = [cDAI]
-
-    inputAmount = CurrencyAmount.fromRawAmount(cDAI, decimalToJSBI(amount, cDAI.decimals))
-
-    DAIAmount = CurrencyAmount.fromRawAmount(DAI, 0)
-    cDAIAmount = inputAmount
-
-    ;({
-      amount: outputAmount,
-      minAmount: minimumOutputAmount
-    } = await cDaiToG$(web3, inputAmount, slippageTolerancePercent));
-  } else if (FROM.symbol === 'DAI') {
-    const DAI = await getToken(chainId, 'DAI') as Token
-    route = [DAI]
-
-    inputAmount = CurrencyAmount.fromRawAmount(DAI, decimalToJSBI(amount, DAI.decimals))
-
-    DAIAmount = inputAmount
-    cDAIAmount = await daiToCDai(web3, DAIAmount)
-
-    ;({
-      amount: outputAmount,
-      minAmount: minimumOutputAmount
-    } = await cDaiToG$(web3, cDAIAmount, slippageTolerancePercent));
-  } else {
+  if (chainId === SupportedChainId.FUSE) {
     inputAmount = CurrencyAmount.fromRawAmount(FROM, decimalToJSBI(amount, FROM.decimals))
-    const trade = await xToDai(web3, inputAmount, slippageTolerancePercent)
+
+    const trade = await xToG$(web3, inputAmount, slippageTolerancePercent)
 
     if (!trade) {
       return null
     }
 
-    DAIAmount = trade.minAmount
-    cDAIAmount = await daiToCDai(web3, DAIAmount)
     route = trade.route
 
     liquidityFee = getLiquidityFee(trade.trade)
 
-    ;([{ amount: outputAmount }, { minAmount: minimumOutputAmount }] = await Promise.all([
-      daiToCDai(web3, trade.amount).then(cDAI => cDaiToG$(web3, cDAI, ZERO_PERCENT)),
-      cDaiToG$(web3, cDAIAmount, ZERO_PERCENT)
-    ]));
+    outputAmount = trade.amount
+    minimumOutputAmount = trade.minAmount
+
+    priceImpact = trade.trade.priceImpact
+  } else {
+    if (FROM.symbol === 'G$') {
+      return null
+    } else if (FROM.symbol === 'cDAI') {
+      const cDAI = CDAI[chainId]
+      route = [cDAI]
+
+      inputAmount = CurrencyAmount.fromRawAmount(cDAI, decimalToJSBI(amount, cDAI.decimals))
+
+      DAIAmount = CurrencyAmount.fromRawAmount(DAI, 0)
+      cDAIAmount = inputAmount
+
+      ;({
+        amount: outputAmount,
+        minAmount: minimumOutputAmount
+      } = await cDaiToG$(web3, inputAmount, slippageTolerancePercent));
+    } else if (FROM.symbol === 'DAI') {
+      const DAI = await getToken(chainId, 'DAI') as Token
+      route = [DAI]
+
+      inputAmount = CurrencyAmount.fromRawAmount(DAI, decimalToJSBI(amount, DAI.decimals))
+
+      DAIAmount = inputAmount
+      cDAIAmount = await daiToCDai(web3, DAIAmount)
+
+      ;({
+        amount: outputAmount,
+        minAmount: minimumOutputAmount
+      } = await cDaiToG$(web3, cDAIAmount, slippageTolerancePercent));
+    } else {
+      inputAmount = CurrencyAmount.fromRawAmount(FROM, decimalToJSBI(amount, FROM.decimals))
+
+      const trade = await xToDai(web3, inputAmount, slippageTolerancePercent)
+
+      if (!trade) {
+        return null
+      }
+
+      DAIAmount = trade.minAmount
+      cDAIAmount = await daiToCDai(web3, DAIAmount)
+      route = trade.route
+
+      liquidityFee = getLiquidityFee(trade.trade)
+
+      ;([{ amount: outputAmount }, { minAmount: minimumOutputAmount }] = await Promise.all([
+        daiToCDai(web3, trade.amount).then(cDAI => cDaiToG$(web3, cDAI, ZERO_PERCENT)),
+        cDaiToG$(web3, cDAIAmount, ZERO_PERCENT)
+      ]));
+    }
+
+    priceImpact = await getPriceImpact(web3, cDAIAmount, minimumOutputAmount)
   }
 
-  const priceImpact = await getPriceImpact(web3, cDAIAmount, minimumOutputAmount)
+  debugGroupEnd(`Get meta ${ amount } ${ fromSymbol } to G$`)
 
   return {
     inputAmount,
@@ -280,24 +344,44 @@ export async function getMeta(web3: Web3, fromSymbol: string, amount: number | s
 /**
  * Pick necessary date from meta swap.
  * @param {BuyInfo} meta Result of the method getMeta() execution.
- * @return {input: string, minReturn: string, minDai: string}
+ * @returns {input: string, minReturn: string, minDai: string}
  */
-export function prepareValues(meta: BuyInfo): { input: string, minReturn: string, minDai: string } {
+function prepareValues(meta: BuyInfo): { input: string, minReturn: string, minDai: string } {
   if (!meta.route.length) {
     throw new InsufficientLiquidity()
   }
 
   const input = meta.inputAmount.multiply(meta.inputAmount.decimalScale).toFixed(0)
   const minReturn = meta.minimumOutputAmount.multiply(meta.minimumOutputAmount.decimalScale).toFixed(0)
-  const minDai = meta.DAIAmount.multiply(meta.DAIAmount.decimalScale).toFixed(0)
+  const minDai = meta.DAIAmount ? meta.DAIAmount.multiply(meta.DAIAmount.decimalScale).toFixed(0) : '0'
 
   debug({
     input: meta.inputAmount.toSignificant(6),
     minReturn: meta.minimumOutputAmount.toSignificant(6),
-    minDai: meta.DAIAmount.toSignificant(6)
+    minDai: meta.DAIAmount ? meta.DAIAmount.toSignificant(6) : '0'
   })
 
   return { input, minReturn, minDai }
+}
+
+/**
+ * Approve token usage.
+ * @param {Web3} web3 Web3 instance.
+ * @param {BuyInfo} meta Result of the method getMeta() execution.
+ */
+export async function approve(web3: Web3, meta: BuyInfo): Promise<void> {
+  const chainId = await getChainId(web3)
+  const account = await getAccount(web3)
+
+  const { input } = prepareValues(meta)
+
+  // If ETH - ignore method
+  if (meta.route[0].symbol === 'WETH9') {
+    return
+  } else {
+    // Approve ERC20 token to exchange
+    await ERC20Contract(web3, meta.route[0].address).methods.approve(EXCHANGE_HELPER_ADDRESS[chainId], input).send({ from: account })
+  }
 }
 
 /**
@@ -306,8 +390,7 @@ export function prepareValues(meta: BuyInfo): { input: string, minReturn: string
  * @param {BuyInfo} meta Result of the method getMeta() execution.
  */
 export async function buy(web3: Web3, meta: BuyInfo): Promise<void> {
-  const chainId = await getChainId(web3)
-  const accountId = await getAccountId(web3)
+  const account = await getAccount(web3)
 
   const contract = await exchangeHelperContract(web3)
 
@@ -321,8 +404,6 @@ export async function buy(web3: Web3, meta: BuyInfo): Promise<void> {
   } else {
     // Otherwise keep as if, convert into an addresses
     route = meta.route.map(token => token.address)
-    // Approve ERC20 token to exchange
-    await ERC20Contract(web3, route[0]).methods.approve(EXCHANGE_HELPER_ADDRESS[chainId], input).send({ from: accountId })
   }
 
   await contract.methods.buy(
@@ -332,7 +413,7 @@ export async function buy(web3: Web3, meta: BuyInfo): Promise<void> {
     BigNumber.from(minDai),
     ethers.constants.AddressZero
   ).send({
-    from: accountId,
+    from: account,
     value: route[0] === ethers.constants.AddressZero ? input : undefined
   })
 }

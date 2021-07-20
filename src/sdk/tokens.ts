@@ -6,7 +6,7 @@ import { SupportedChainId } from "./constants/chains";
 /**
  * Return list of tokens based on current chain ID.
  * @param {string | number} chainId Web3 instance.
- * @return {Currency[]}
+ * @returns {Currency[]}
  */
 export async function getList(chainId: SupportedChainId): Promise<Currency[]> {
   const [tokens] = await getTokens(chainId)

@@ -18,7 +18,7 @@ export function simpleStakingContract(web3: Web3, address: string) {
 /**
  * Returns staking all available addresses.
  * @param {Web3} web3 Web3 instance.
- * @return {Promise<string[]>}
+ * @returns {Promise<string[]>}
  */
 export async function getSimpleStakingContractAddresses(web3: Web3): Promise<string[]> {
   const chainId = await getChainId(web3)

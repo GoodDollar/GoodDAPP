@@ -9,7 +9,7 @@ const INPUT_FRACTION_AFTER_FEE = ONE_HUNDRED_PERCENT.subtract(THIRTY_BIPS_FEE)
 /**
  * Computes realized lp fee as a percent.
  * @param {Trade} trade Givem trade.
- * @return {Percent}
+ * @returns {Percent}
  */
 export function computeRealizedLPFeePercent(trade: Trade<Currency, Currency, TradeType>): Percent {
   // For each hop in our trade, take away the x*y=k price impact from 0.3% fees

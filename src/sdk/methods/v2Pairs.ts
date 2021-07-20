@@ -24,12 +24,17 @@ export enum PairState {
  * Calculates all existed currency combinations in given chain.
  * @param {SupportedChainId} chainId Chain ID.
  * @param {Array<[Currency, Currency]>} currencies Result of method allCurrencyCombinations(...).
- * @return {Promise<[PairState, Pair | null][]>} List of pairs that can be used for currencies exchange.
+ * @returns {Promise<[PairState, Pair | null][]>} List of pairs that can be used for currencies exchange.
  */
 export async function v2Pairs(chainId: SupportedChainId, currencies: Array<[Currency, Currency]>): Promise<[PairState, Pair | null][]> {
   const tokens = currencies.map(([currencyA, currencyB]) => [currencyA.wrapped, currencyB.wrapped])
 
   const pairAddresses = tokens.reduce((map, [tokenA, tokenB]) => {
+    // Token A should be strictly less than token B
+    if (tokenA.address.toLowerCase() > tokenB.address.toLowerCase()) {
+      [tokenA, tokenB] = [tokenB, tokenA]
+    }
+
     const address = tokenA &&
     tokenB &&
     tokenA.chainId === tokenB.chainId &&

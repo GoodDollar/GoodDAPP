@@ -4,16 +4,22 @@ import UBIScheme from "@gooddollar/goodprotocol/artifacts/contracts/ubi/UBISchem
 
 import { G$ContractAddresses } from "../constants/addresses";
 import { getChainId } from "../utils/web3";
+import { SupportedChainId } from "../constants/chains";
+import { UnsupportedChainId } from "../utils/errors";
 
 /**
  * Returns instance of UBIScheme contract.
  * @param {Web3} web3 Web3 instance.
  * @param {string?} address Deployed contract address in given chain ID.
  * @constructor
- * @todo UBIScheme was not presented in Kovan network
  */
 export async function ubiSchemeContract(web3: Web3, address?: string) {
-  address = address ?? G$ContractAddresses(await getChainId(web3), 'UBIScheme')
+  const chainId = await getChainId(web3)
+  if (chainId !== SupportedChainId.FUSE) {
+    throw new UnsupportedChainId(chainId)
+  }
+
+  address = address ?? G$ContractAddresses(chainId, 'UBIScheme')
 
   return new web3.eth.Contract(UBIScheme.abi as AbiItem[], address)
 }

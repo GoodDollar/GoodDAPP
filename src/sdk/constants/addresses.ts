@@ -11,7 +11,6 @@ type AddressMap = { [chainId: number]: string }
  * @param {SupportedChainId} chainId Chain ID.
  * @param {string} name Contract name.
  * @see node_modules/@gooddollar/goodprotocol/releases/deployment.json
- * @todo refactoring
  */
 export function G$ContractAddresses<T = ObjectLike>(chainId: SupportedChainId, name: string): T {
   let deploymentName: string
@@ -33,7 +32,7 @@ export function G$ContractAddresses<T = ObjectLike>(chainId: SupportedChainId, n
   }
 
   if (!contractsAddresses[deploymentName][name]) {
-    throw new Error('Inappropriate contract name')
+    throw new Error(`Inappropriate contract name ${ name }`)
   }
 
   return contractsAddresses[deploymentName][name] as unknown as T

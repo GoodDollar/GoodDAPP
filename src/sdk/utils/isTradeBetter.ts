@@ -8,7 +8,7 @@ import { ONE_HUNDRED_PERCENT, ZERO_PERCENT } from '../constants/misc'
  * @param {Trade} tradeA Trade A.
  * @param {Trade} tradeB Trade B.
  * @param {Percent=ZERO_PERCENT} minimumDelta Minimum delta between trade A and trade B.
- * @return {boolean | undefined}
+ * @returns {boolean | undefined}
  * @throws {Error} If tries to compare incomparable trades.
  */
 export function isTradeBetter(

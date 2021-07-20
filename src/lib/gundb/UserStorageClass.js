@@ -980,6 +980,7 @@ export class UserStorage {
         const value = profileWithDefaults[field]
 
         try {
+          // we dont store avatar/smallAvatar like other fields, so we return
           if (isAvatar) {
             return this.setAvatar(value)
           }

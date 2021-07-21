@@ -14,7 +14,7 @@ const MAX_HOPS = 3
  * @param {CurrencyAmount} currencyAmountOut Currency exchange from
  * @param {number=3} maxHops Maximum hops to find the best exchange route.
  * @param {SupportedChainId} chainId Chain ID.
- * @return {Promise<Trade>}
+ * @returns {Promise<Trade>}
  */
 export async function useV2TradeExactOut(
   currencyIn?: Currency,

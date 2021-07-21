@@ -51,13 +51,14 @@ const WETH_ONLY: ChainTokenList = {
 /* Used to construct intermediary pairs for trading. */
 export const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {
   ...WETH_ONLY,
-  [1]: [...WETH_ONLY[1], DAI, USDC[1], USDT, WBTC],
-  [42]: [...WETH_ONLY[42], USDC[42]],
+  [SupportedChainId.MAINNET]: [...WETH_ONLY[SupportedChainId.MAINNET], DAI[SupportedChainId.MAINNET], USDC[SupportedChainId.MAINNET], USDT, WBTC[SupportedChainId.MAINNET]],
+  [SupportedChainId.KOVAN]: [...WETH_ONLY[SupportedChainId.KOVAN], DAI[SupportedChainId.KOVAN], USDC[SupportedChainId.KOVAN], WBTC[SupportedChainId.KOVAN]],
+  [SupportedChainId.FUSE]: [...WETH_ONLY[SupportedChainId.FUSE], DAI[SupportedChainId.FUSE], USDC[SupportedChainId.FUSE]],
 }
 
 /* Additional swap bases. */
 export const ADDITIONAL_BASES: { [chainId: number]: { [tokenAddress: string]: Token[] } } = {
-  [1]: {
+  [SupportedChainId.MAINNET]: {
     ...mAssetsAdditionalBases,
     '0xF16E4d813f4DcfDe4c5b44f305c908742De84eF0': [ETH2X_FLI],
     '0xA948E86885e12Fb09AfEF8C52142EBDbDf73cD18': [UNI[1]],
@@ -69,14 +70,14 @@ export const ADDITIONAL_BASES: { [chainId: number]: { [tokenAddress: string]: To
     [TRIBE.address]: [FEI],
     [FRAX.address]: [FXS],
     [FXS.address]: [FRAX],
-    [WBTC.address]: [renBTC],
-    [renBTC.address]: [WBTC],
+    [WBTC[SupportedChainId.MAINNET].address]: [renBTC],
+    [renBTC.address]: [WBTC[SupportedChainId.MAINNET]],
   },
 }
 
 /* Some tokens can only be swapped via certain pairs, so we override the list of bases that are considered for these tokens. */
 export const CUSTOM_BASES: { [chainId: number]: { [tokenAddress: string]: Token[] } } = {
-  [1]: {
-    [AMPL.address]: [DAI, WETH9_EXTENDED[1]],
+  [SupportedChainId.MAINNET]: {
+    [AMPL.address]: [DAI[SupportedChainId.MAINNET], WETH9_EXTENDED[SupportedChainId.MAINNET]],
   },
 }

@@ -1,11 +1,11 @@
+import Web3 from "web3";
+import { ethers } from "ethers";
 import { Currency, Ether, Token } from "@uniswap/sdk-core";
 import flatMap from 'lodash/flatMap'
 
 import { SupportedChainId } from "../constants/chains";
 import { G$, G$X, GDAO, TOKEN_LISTS } from "../constants/tokens";
-import { ethers } from "ethers";
 import { UnsupportedChainId } from "../utils/errors";
-import Web3 from "web3";
 import { getChainId } from "../utils/web3";
 import { ERC20Contract } from "../contracts/ERC20Contract";
 
@@ -25,7 +25,7 @@ type TokenType = {
  * List of tokens from given url.
  * @see https://tokenlists.org/
  * @param {string} url Url to fetch.
- * @return {TokenType[]} List of tokens.
+ * @returns {TokenType[]} List of tokens.
  */
 async function fetchURL(url: string): Promise<TokenType[]> {
   return fetch(url).then(r => r.json()).then(r => r.tokens)
@@ -53,7 +53,7 @@ export async function cacheToken(supportedChainId: SupportedChainId, token: Toke
  * Trying to fetch token from predefined list or fetch it from ERC20 contract.
  * @param {Web3} web3 Web3 instance.
  * @param {string} address Token address.
- * @return {Token | Currency}
+ * @returns {Token | Currency}
  */
 export async function getTokenByAddress(web3: Web3, address: string): Promise<Token | Currency> {
   const chainId = await getChainId(web3)
@@ -76,7 +76,7 @@ export async function getTokenByAddress(web3: Web3, address: string): Promise<To
 /**
  * Retrieves and cache list of tokens for given chain ID.
  * @param {SupportedChainId} supportedChainId Chain ID.
- * @return {Promise<[Map<string, Currency>, Map<string, Currency>]>} Pairs of `symbol <-> Currency`.
+ * @returns {Promise<[Map<string, Currency>, Map<string, Currency>]>} Pairs of `symbol <-> Currency`.
  */
 export async function getTokens(supportedChainId: SupportedChainId): Promise<[Map<string, Currency>, Map<string, Currency>]> {
   const list = TOKEN_LISTS[supportedChainId]
@@ -88,13 +88,18 @@ export async function getTokens(supportedChainId: SupportedChainId): Promise<[Ma
   const tokenList = new Map<string, Currency>()
   const tokenListByAddress = new Map<string, Currency>()
 
-  tokenList.set('ETH', Ether.onChain(supportedChainId))
+  if (supportedChainId !== SupportedChainId.FUSE) {
+    tokenList.set('ETH', Ether.onChain(supportedChainId))
+  }
   tokenListByAddress.set(ethers.constants.AddressZero, Ether.onChain(supportedChainId))
 
   const tokens = flatMap(await Promise.all(list.map(fetchURL)))
 
   for (let token of tokens) {
     const { chainId, address, decimals, name, symbol } = token
+    if (symbol.toLowerCase().indexOf('deprecated') > -1) {
+      continue
+    }
     if (tokenList.has(symbol) || supportedChainId !== chainId) {
       continue
     }
@@ -133,7 +138,7 @@ export async function getTokens(supportedChainId: SupportedChainId): Promise<[Ma
  * Get single token from cached list of tokens.
  * @param {SupportedChainId} supportedChainId Chain ID.
  * @param {string} symbol Symbol, that represents currency.
- * @return {Promise<Currency | undefined>} Given currency or undefined, if it not exists.
+ * @returns {Promise<Currency | undefined>} Given currency or undefined, if it not exists.
  */
 export async function getToken(supportedChainId: SupportedChainId, symbol: string): Promise<Currency | undefined> {
   return getTokens(supportedChainId).then(([map]) => map.get(symbol))
@@ -143,7 +148,7 @@ export async function getToken(supportedChainId: SupportedChainId, symbol: strin
  * Get single token from cached list of tokens.
  * @param {SupportedChainId} supportedChainId Chain ID.
  * @param {string} address Address, that represents currency.
- * @return {Promise<Currency | undefined>} Given currency or undefined, if it not exists.
+ * @returns {Promise<Currency | undefined>} Given currency or undefined, if it not exists.
  */
 export async function getTokenByAddressFromList(supportedChainId: SupportedChainId, address: string): Promise<Currency | undefined> {
   return getTokens(supportedChainId).then(([, map]) => map.get(address))

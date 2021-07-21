@@ -11,7 +11,7 @@ import { getToken } from "../methods/tokenLists";
  * @param {Web3} web3 Web3 instance.
  * @param {Token | string} token Token instance or token's symbol representation in given network.
  * @param {string} account Account address.
- * @return {Promise<CurrencyAmount>}
+ * @returns {Promise<CurrencyAmount>}
  */
 export async function tokenBalance(web3: Web3, token: Token | string, account: string): Promise<CurrencyAmount<NativeCurrency | Currency>> {
   let _token

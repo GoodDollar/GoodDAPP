@@ -14,8 +14,5 @@ import { getChainId } from "../utils/web3";
 export async function exchangeHelperContract(web3: Web3, address?: string) {
   address = address ?? G$ContractAddresses(await getChainId(web3), 'ExchangeHelper')
 
-  console.log('address', address)
-  // 0x8f42aD1F3f570F648E63ae8c8790Dd14EF4f75dB
-
   return new web3.eth.Contract(ExchangeHelper.abi as AbiItem[], address)
 }

@@ -7,7 +7,7 @@ import { getToken } from "../methods/tokenLists";
 /**
  * Return exponent from decimals number.
  * @param {number | string} decimals Number of decimals.
- * @return {JSBI}
+ * @returns {JSBI}
  */
 export function toJSBI(decimals: number | string = 18): JSBI {
   if (decimals === 0) {
@@ -20,7 +20,7 @@ export function toJSBI(decimals: number | string = 18): JSBI {
  * Decimal into JS Big Integer.
  * @param {number | string} decimal Decimal number.
  * @param {number | string} decimals Number of decimals.
- * @return {JSBI}
+ * @returns {JSBI}
  */
 export function decimalToJSBI(decimal: number | string, decimals: number | string = 18): JSBI {
   return JSBI.BigInt(new Decimal(decimal).mul(toJSBI(decimals).toString()).toString())
@@ -29,7 +29,7 @@ export function decimalToJSBI(decimal: number | string, decimals: number | strin
 /**
  * Converts decimal number into percent object.
  * @param {number | string} decimalPercent Percent in decimal representation.
- * @return {Percent}
+ * @returns {Percent}
  */
 export function decimalPercentToPercent(decimalPercent: number | string): Percent {
   const [n, d] = new Decimal(decimalPercent).toFraction(1e18)
@@ -39,7 +39,7 @@ export function decimalPercentToPercent(decimalPercent: number | string): Percen
 /**
  * Converts decimal number into percent object.
  * @param {number | string} decimal Decimal number.
- * @return {Percent}
+ * @returns {Percent}
  */
 export function decimalToFraction(decimal: number | string): Fraction {
   return new Fraction(...new Decimal(decimal).toFraction(1e18).map(v => v.toString()) as [string, string])
@@ -49,7 +49,7 @@ export function decimalToFraction(decimal: number | string): Fraction {
  * Returns currency amount object for G$ in given chain ID.
  * @param {SupportedChainId} chainId Chain ID.
  * @param {number | string} amount Decimal value of G$ tokens.
- * @return {Promise<CurrencyAmount>}
+ * @returns {Promise<CurrencyAmount>}
  */
 export async function g$FromDecimal(chainId: SupportedChainId, amount: number | string): Promise<CurrencyAmount<Currency>> {
   const G$ = await getToken(chainId, 'G$')

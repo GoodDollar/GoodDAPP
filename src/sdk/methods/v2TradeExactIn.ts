@@ -5,8 +5,9 @@ import { allCommonPairs } from "./allCommonPairs";
 import { isTradeBetter } from "../utils/isTradeBetter";
 import { BETTER_TRADE_LESS_HOPS_THRESHOLD } from "../constants/misc";
 import { SupportedChainId } from "../constants/chains";
+import { debug } from "../utils/debug";
 
-const MAX_HOPS = 3
+const MAX_HOPS = 2
 
 /**
  * Returns the best trade for the token in to the exact amount of token in.
@@ -14,7 +15,7 @@ const MAX_HOPS = 3
  * @param {Currency} currencyOut Currency exchange to.
  * @param {number=3} maxHops Maximum hops to find the best exchange route.
  * @param {SupportedChainId} chainId Chain ID.
- * @return {Promise<Trade>}
+ * @returns {Promise<Trade>}
  */
 export async function v2TradeExactIn(
   currencyAmountIn?: CurrencyAmount<Currency>,
@@ -23,7 +24,7 @@ export async function v2TradeExactIn(
 ): Promise<Trade<Currency, Currency, TradeType.EXACT_INPUT> | null> {
   const allowedPairs = await allCommonPairs(chainId, currencyAmountIn?.currency, currencyOut)
 
-  console.log(allowedPairs.map(pair => [pair.token0.symbol, pair.token0.address, pair.token1.symbol, pair.token1.address]))
+  debug(allowedPairs.map(pair => [pair.token0.symbol, pair.token0.address, pair.token1.symbol, pair.token1.address]))
 
   if (currencyAmountIn && currencyOut && allowedPairs.length > 0) {
     if (maxHops === 1) {

@@ -11,6 +11,7 @@ import { SwapContext, SwapVariant, useTokens } from './hooks'
 import { ETHER } from '@sushiswap/sdk'
 import { useCurrencyBalance } from '../../state/wallet/hooks'
 import useActiveWeb3React from '../../hooks/useActiveWeb3React'
+import useG$ from '../../hooks/useG$'
 
 function Swap() {
     const [buying, setBuying] = useState(true)
@@ -31,8 +32,11 @@ function Swap() {
         []
     )
     const tokenList = useTokens()
+    const G$ = useG$()
+    const [swapValue, setSwapValue] = useState('')
     const { account } = useActiveWeb3React()
-    const fromBalance = useCurrencyBalance(account ?? undefined, swapPair.token)
+    const pairBalance = useCurrencyBalance(account ?? undefined, swapPair.token)
+    const swapBalance = useCurrencyBalance(account ?? undefined, G$)
 
     return (
         <SwapContext.Provider
@@ -58,7 +62,7 @@ function Swap() {
                             title={buying ? 'Swap from' : 'Swap to'}
                             select
                             autoMax
-                            balance={fromBalance?.toSignificant(4) ?? 0}
+                            balance={pairBalance?.toSignificant(4) ?? 0}
                             style={{ marginBottom: buying ? 13 : 0, marginTop: buying ? 0 : 13, order: buying ? 1 : 3 }}
                             token={swapPair.token}
                             value={swapPair.value}
@@ -74,7 +78,11 @@ function Swap() {
                         <SwapRow
                             title={buying ? 'Swap to' : 'Swap from'}
                             select={false}
-                            balance={0}
+                            balance={swapBalance?.toSignificant(4) ?? 0}
+                            token={G$}
+                            alternativeSymbol="G$"
+                            value={swapValue}
+                            onValueChange={setSwapValue}
                             style={{ marginTop: buying ? 13 : 0, marginBottom: buying ? 0 : 13, order: buying ? 3 : 1 }}
                         />
                         <div style={{ marginTop: 14, padding: '0 4px' }}>
@@ -90,7 +98,7 @@ function Swap() {
                         </ButtonAction>
                     </SwapContentWrapperSC>
                 </SwapWrapperSC>
-                <SwapDetails />
+                <SwapDetails open={Boolean(swapPair.value && swapValue)} />
             </SwapCardSC>
         </SwapContext.Provider>
     )

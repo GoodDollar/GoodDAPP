@@ -5,11 +5,12 @@ import SwapInfo from '../SwapInfo'
 export interface SwapDetailsProps {
     className?: string
     style?: CSSProperties
+    open?: boolean
 }
 
-function SwapDetails({ className, style }: SwapDetailsProps) {
+function SwapDetails({ className, style, open }: SwapDetailsProps) {
     return (
-        <SwapDetailsSC className={className} style={style}>
+        <SwapDetailsSC className={className} style={style} $open={open}>
             <SwapInfo
                 title="Minimum received"
                 value="37.94 GOO"

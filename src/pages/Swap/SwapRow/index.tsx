@@ -28,6 +28,7 @@ export interface SwapRowProps {
     token?: Currency
     tokenList?: Currency[]
     onTokenChange?: (token: Currency) => any
+    alternativeSymbol?: string
 }
 
 function SwapRow({
@@ -41,7 +42,8 @@ function SwapRow({
     onValueChange,
     token,
     onTokenChange,
-    tokenList
+    tokenList,
+    alternativeSymbol
 }: SwapRowProps) {
     const [showSelect, setShowSelect] = useState(false)
 
@@ -66,7 +68,7 @@ function SwapRow({
                         onClick={select ? handleShowSelect : undefined}
                         as={select ? 'button' : undefined}
                     >
-                        <span>{token?.getSymbol()}</span>
+                        <span>{token?.getSymbol() || alternativeSymbol}</span>
                         {select && arrow}
                     </SwapRowCurrencySC>
                 </div>

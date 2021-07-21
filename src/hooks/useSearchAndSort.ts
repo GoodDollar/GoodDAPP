@@ -1,6 +1,7 @@
 import { BigNumber } from '@ethersproject/bignumber'
 import React, { useState, useMemo } from 'react'
 import Fuse from 'fuse.js'
+import { Fraction } from '@uniswap/sdk-core'
 
 function getNested(theObject: any, path: string, separator = '.') {
     try {
@@ -36,6 +37,13 @@ const useSearchAndSort = (items: any, searchOptions: any = null, sortOptions: an
                             return sortConfig.direction === 'ascending' ? -1 : 1
                         }
                         if (aValue.gt(bValue)) {
+                            return sortConfig.direction === 'ascending' ? 1 : -1
+                        }
+                    } else if (aValue instanceof Fraction && bValue instanceof Fraction) {
+                        if (bValue.greaterThan(aValue)) {
+                            return sortConfig.direction === 'ascending' ? -1 : 1
+                        }
+                        if (aValue.greaterThan(bValue)) {
                             return sortConfig.direction === 'ascending' ? 1 : -1
                         }
                     } else {

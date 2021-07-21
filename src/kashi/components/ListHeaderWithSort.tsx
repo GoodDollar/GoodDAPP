@@ -15,6 +15,11 @@ const Wrapper = styled.div`
     svg {
         color: ${({ theme }) => theme.color.input};
     }
+
+    @media ${({ theme }) => theme.media.md} {
+        font-size: 10px;
+        line-height: 1.2;
+    }
 `
 
 function ListHeaderWithSort({
@@ -37,8 +42,8 @@ function ListHeaderWithSort({
         >
             <div>{children}</div>
             <div style={{ visibility: sort.sortConfig && sort.sortConfig.key === sortKey ? 'visible' : 'hidden' }}>
-                {(sort.sortConfig.direction === 'ascending' && <ChevronUp size={14} className="ml-2" />) ||
-                    (sort.sortConfig.direction === 'descending' && <ChevronDown size={14} className="ml-2" />)}
+                {(sort.sortConfig.direction === 'ascending' && <ChevronUp size={14} className="ml-1" />) ||
+                    (sort.sortConfig.direction === 'descending' && <ChevronDown size={14} className="ml-1" />)}
             </div>
         </Wrapper>
     )

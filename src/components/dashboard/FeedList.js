@@ -45,8 +45,8 @@ const getItemLayout = (_: any, index: number) => {
   }
 }
 
-const Item = memo(({ item, handleFeedSelection }) => {
-  return <FeedListItem key={keyExtractor(item)} item={item} handleFeedSelection={handleFeedSelection} />
+const Item = memo(({ item, handleFeedSelection, index }) => {
+  return <FeedListItem key={keyExtractor(item)} item={item} handleFeedSelection={handleFeedSelection} index={index} />
 })
 
 const FeedList = ({
@@ -92,7 +92,7 @@ const FeedList = ({
   }, [])
 
   const renderItemComponent = useCallback(
-    ({ item }) => <Item item={item} handleFeedSelection={handleItemSelection} />,
+    ({ item, index }) => <Item item={item} handleFeedSelection={handleItemSelection} index={index} />,
     [handleItemSelection],
   )
 

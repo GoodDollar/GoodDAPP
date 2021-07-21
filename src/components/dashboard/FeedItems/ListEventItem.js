@@ -11,7 +11,6 @@ import { getDesignRelativeWidth } from '../../../lib/utils/sizes'
 import Avatar from '../../common/view/Avatar'
 import BigGoodDollar from '../../common/view/BigGoodDollar'
 import { Icon, Section, Text } from '../../common'
-import userStorage from '../../../lib/gundb/UserStorage'
 import type { FeedEventProps } from './EventProps'
 import EventIcon from './EventIcon'
 import EventCounterParty from './EventCounterParty'
@@ -61,7 +60,7 @@ const InviteItem = ({ item, theme }) => {
  * @param {FeedEventProps} feedEvent - feed event
  * @returns {HTMLElement}
  */
-const ListEvent = ({ item: feed, theme, styles }: FeedEventProps) => {
+const ListEvent = ({ item: feed, theme, index, styles }: FeedEventProps) => {
   const itemType = feed.displayType || feed.type
   const eventSettings = getEventSettingsByType(theme, itemType)
   const mainColor = eventSettings.color
@@ -69,10 +68,6 @@ const ListEvent = ({ item: feed, theme, styles }: FeedEventProps) => {
   const isFeedTypeClaiming = feed.type === 'claiming'
   const isErrorCard = ['senderror', 'withdrawerror'].includes(itemType)
   const avatar = get(feed, 'data.endpoint.avatar')
-
-  const updateFeedEventAnimation = () => {
-    userStorage.updateFeedAnimationStatus(feed.id)
-  }
 
   if (itemType === 'empty') {
     return <EmptyEventFeed />
@@ -145,9 +140,8 @@ const ListEvent = ({ item: feed, theme, styles }: FeedEventProps) => {
               animStyle={styles.typeAnimatedIcon}
               type={itemType}
               size={normalize(34)}
-              onAnimationFinish={updateFeedEventAnimation}
-              showAnim={!feed.animationExecuted}
-              delay={1000}
+              showAnim={index === 1}
+              delay={100}
             />
           </View>
         </View>

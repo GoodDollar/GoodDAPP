@@ -606,8 +606,8 @@ export class GoodWallet {
 
   async getTotalFundsStaked(): Promise<number> {
     try {
-      // const contracts = get(StakingModelAddress, `${this.network}-mainnet.StakingContracts`)
-      const stakingContracts = get(ContractsAddress, `kovan-mainnet.StakingContracts`)
+      const stakingContracts = get(ContractsAddress, `${this.network}-mainnet.StakingContracts`)
+      // const stakingContracts = get(ContractsAddress, `kovan-mainnet.StakingContracts`)
       const ps = stakingContracts.map(async ([addr, rewards]) => {
         const stakingContract = new this.web3Mainnet.eth.Contract(SimpleStakingABI.abi, addr, { from: this.account })
 

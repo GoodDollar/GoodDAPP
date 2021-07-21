@@ -2,7 +2,7 @@ import Config from '../../config/config'
 
 // import { GoodWallet } from './GoodWalletClass'
 
-let GoodWallet
+export let GoodWallet
 if (Config.env === 'development') {
   GoodWallet = require('./GoodWalletClass').GoodWallet
 } else {

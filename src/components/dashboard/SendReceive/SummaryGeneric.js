@@ -88,7 +88,7 @@ const SummaryGeneric = ({
     return false
   }
 
-  const vendorInfoText = (
+  const vendorInfoText = !!vendorInfo && (
     <Section.Stack style={{ alignItems: 'center' }}>
       <Section.Row>
         <Text fontSize={13}>{`Website: ${vendorInfo.website || 'NO WEBSITE PROVIDED'}`}</Text>

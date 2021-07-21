@@ -24,6 +24,7 @@ import ThemeProvider from './theme'
 import getLibrary from './utils/getLibrary'
 import LanguageProvider from 'language'
 import { createGlobalStyle } from 'styled-components'
+import { Web3ContextProvider } from './hooks/useWeb3'
 
 const Web3ProviderNetwork = createWeb3ReactRoot(NetworkContextName)
 
@@ -74,21 +75,23 @@ ReactDOM.render(
     <StrictMode>
         <Web3ReactProvider getLibrary={getLibrary}>
             <Web3ProviderNetwork getLibrary={getLibrary}>
-                <Blocklist>
-                    <Provider store={store}>
-                        <Updaters />
-                        <LanguageProvider>
-                            <ThemeProvider>
-                                <GlobalStyle />
-                                <KashiProvider>
-                                    <Router>
-                                        <App />
-                                    </Router>
-                                </KashiProvider>
-                            </ThemeProvider>
-                        </LanguageProvider>
-                    </Provider>
-                </Blocklist>
+                <Web3ContextProvider>
+                    <Blocklist>
+                        <Provider store={store}>
+                            <Updaters />
+                            <LanguageProvider>
+                                <ThemeProvider>
+                                    <GlobalStyle />
+                                    <KashiProvider>
+                                        <Router>
+                                            <App />
+                                        </Router>
+                                    </KashiProvider>
+                                </ThemeProvider>
+                            </LanguageProvider>
+                        </Provider>
+                    </Blocklist>
+                </Web3ContextProvider>
             </Web3ProviderNetwork>
         </Web3ReactProvider>
     </StrictMode>,

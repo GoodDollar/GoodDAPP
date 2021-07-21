@@ -1,17 +1,10 @@
-import { Card, Layout, MarketHeader } from '../../components'
-import { Trans, t } from '@lingui/macro'
-import { formattedNum, formattedPercent } from '../../../utils'
-
+import { Layout, MarketHeader } from '../../components'
+import { t } from '@lingui/macro'
+import { formattedNum } from '../../../utils'
 import AsyncTokenIcon from '../../components/AsyncTokenIcon'
-import DepositGraphic from 'assets/kashi/deposit-graphic.png'
-import { Link } from 'react-router-dom'
 import ListHeaderWithSort from 'kashi/components/ListHeaderWithSort'
-import QuestionHelper from '../../../components/QuestionHelper'
-import React, { useState } from 'react'
-import { ZERO } from '../../functions'
-import { getCurrency } from 'kashi/constants'
+import React, { useEffect, useState, Fragment } from 'react'
 import { useActiveWeb3React } from 'hooks/useActiveWeb3React'
-import { useKashiPairs } from '../../context'
 import useSearchAndSort from 'hooks/useSearchAndSort'
 import { useLingui } from '@lingui/react'
 import styled from 'styled-components'
@@ -19,6 +12,8 @@ import Modal from '../../../components/Modal'
 import LendingPair from '../Pair/Lend'
 import { ButtonAction } from '../../../components/gd/Button'
 import Table, { TableSC } from '../../../components/gd/Table'
+import useWeb3 from '../../../hooks/useWeb3'
+import { getList as getStakes, Stake } from '../../../sdk/staking'
 
 const Wrapper = styled.div`
     background: ${({ theme }) => theme.color.bg1};
@@ -27,16 +22,69 @@ const Wrapper = styled.div`
     padding: 14px 19px 15px 19px;
 
     ${TableSC} {
+        tr:not(.mobile) {
+            td:first-child {
+                width: 65px;
+                padding-right: 0;
+            }
+        }
+
+        @media screen and (max-width: 1310px) {
+            td,
+            th {
+                &:nth-child(1) {
+                    display: none;
+                }
+            }
+
+            td:nth-child(2) {
+                border-left: 1px solid ${({ theme }) => theme.color.border2};
+                border-top-left-radius: 12px;
+                border-bottom-left-radius: 12px;
+            }
+        }
+
+        @media screen and (max-width: 1240px) {
+            td,
+            th {
+                &:nth-child(3) {
+                    display: none;
+                }
+            }
+        }
+
+        @media screen and (max-width: 1120px) {
+            td,
+            th {
+                &:nth-child(6) {
+                    display: none;
+                }
+            }
+        }
+
         @media ${({ theme }) => theme.media.md} {
             td,
             th {
-                &:nth-child(2),
-                &:nth-child(3),
-                &:nth-child(4),
+                text-align: center;
+
+                &:nth-child(5),
                 &:nth-child(6),
                 &:nth-child(8) {
                     display: none;
                 }
+            }
+
+            th {
+                padding-left: 26px !important;
+                padding-right: 8px !important;
+            }
+            td {
+                padding-left: 10px !important;
+                padding-right: 10px !important;
+            }
+
+            td:nth-child(2) {
+                border-bottom-left-radius: unset;
             }
 
             td:nth-child(7) {
@@ -50,133 +98,110 @@ const Wrapper = styled.div`
 export default function LendingMarkets(): JSX.Element | null {
     const { i18n } = useLingui()
     const { chainId } = useActiveWeb3React()
-    const fullPairs = useKashiPairs()
-    const netWorth: string = fullPairs.reduce((a, b) => a.add(b.netWorth), ZERO).toFixed(getCurrency(chainId).decimals)
+    const web3 = useWeb3()
+    const [stakes, setStakes] = useState<Stake[]>([])
+    useEffect(() => {
+        setStakes([])
+        if (chainId && web3) {
+            getStakes(web3).then(setStakes, console.error)
+        }
+    }, [chainId, web3])
 
-    const positions = useSearchAndSort(
-        fullPairs.filter((pair: any) => pair.userAssetFraction.gt(0)),
-        { keys: ['search'], threshold: 0.1 },
-        { key: 'currentUserAssetAmount.usdValue', direction: 'descending' }
+    const sorted = useSearchAndSort(
+        stakes,
+        { keys: ['tokens.A.symbol', 'tokens.B.symbol', 'tokens.A.name', 'tokens.B.name'], threshold: 0.1 },
+        { key: 'tokens.A.symbol', direction: 'descending' }
     )
-
-    const pairs = useSearchAndSort(
-        fullPairs,
-        { keys: ['search'], threshold: 0.1 },
-        { key: 'currentSupplyAPR.value', direction: 'descending' }
-    )
-    const [activePair, setActivePair] = useState<ArrayType<typeof pairs.items>>()
+    const [activePair, setActivePair] = useState<ArrayType<typeof sorted.items>>()
 
     return (
         <Layout>
-            <MarketHeader type="Stakes" lists={[pairs, positions]} />
+            <MarketHeader type="Stakes" lists={sorted} />
             <Wrapper>
                 <Table
                     header={
                         <tr>
+                            <th></th>
                             <th>
-                                {/*<ListHeaderWithSort sort={pairs} sortKey="search">
-                                    {i18n._(t`Markets`)}
-                                </ListHeaderWithSort>*/}
-                            </th>
-                            <th>
-                                <ListHeaderWithSort className="hidden md:flex" sort={pairs} sortKey="asset.symbol">
-                                    {i18n._(t`Lending`)}
+                                <ListHeaderWithSort sort={sorted} sortKey="tokens.A.symbol">
+                                    {i18n._(t`Token`)}
                                 </ListHeaderWithSort>
                             </th>
                             <th>
-                                <ListHeaderWithSort className="hidden md:flex" sort={pairs} sortKey="collateral.symbol">
-                                    {i18n._(t`Collateral`)}
+                                <ListHeaderWithSort sort={sorted} sortKey="protocol">
+                                    {i18n._(t`Protocol`)}
                                 </ListHeaderWithSort>
                             </th>
                             <th>
-                                <ListHeaderWithSort className="hidden lg:flex" sort={pairs} sortKey="oracle.name">
-                                    {i18n._(t`Oracle`)}
+                                <ListHeaderWithSort sort={sorted} sortKey="APY" direction="descending">
+                                    {i18n._(t`APY`)}
                                 </ListHeaderWithSort>
                             </th>
                             <th>
-                                <ListHeaderWithSort
-                                    sort={pairs}
-                                    sortKey="currentSupplyAPR.value"
-                                    direction="descending"
-                                >
-                                    {i18n._(t`APR`)}
+                                <ListHeaderWithSort sort={sorted} sortKey="socialAPY" direction="descending">
+                                    {i18n._(t`Social APY`)}
                                 </ListHeaderWithSort>
                             </th>
                             <th>
-                                <ListHeaderWithSort sort={pairs} sortKey="utilization.value" direction="descending">
-                                    {i18n._(t`Borrowed`)}
+                                <ListHeaderWithSort sort={sorted} sortKey="liquidity" direction="descending">
+                                    {i18n._(t`Liquidity`)}
                                 </ListHeaderWithSort>
                             </th>
                             <th>
-                                <ListHeaderWithSort
-                                    sort={pairs}
-                                    sortKey="currentAllAssets.usdValue"
-                                    direction="descending"
-                                >
-                                    {i18n._(t`Total`)}
+                                <ListHeaderWithSort sort={sorted} sortKey="rewards.G$" direction="descending">
+                                    {i18n._(t`Total Rewards`)}
                                 </ListHeaderWithSort>
                             </th>
                             <th></th>
                         </tr>
                     }
                 >
-                    {pairs.items &&
-                        pairs.items.map(pair => {
+                    {sorted.items &&
+                        sorted.items.map((stake: Stake) => {
                             return (
-                                <>
-                                    <tr key={pair.address}>
+                                <Fragment key={stake.address}>
+                                    <tr>
                                         <td>
-                                            <div className="flex flex-col sm:flex-row items-start sm:items-center">
-                                                <div className="hidden space-x-2 md:flex">
-                                                    <AsyncTokenIcon
-                                                        address={pair.asset.address}
-                                                        chainId={chainId}
-                                                        className="block w-5 h-5 md:w-10 md:h-10 lg:w-12 lg:h-12 rounded-lg"
-                                                    />
-                                                    <AsyncTokenIcon
-                                                        address={pair.collateral.address}
-                                                        chainId={chainId}
-                                                        className="block w-5 h-5 md:w-10 md:h-10 lg:w-12 lg:h-12 rounded-lg"
-                                                    />
-                                                </div>
-                                                <div className="sm:items-end md:hidden">
-                                                    <div className="flex flex-col md:flex-row">
-                                                        <div className="">{pair.asset.symbol} / </div>
-                                                        <div>{pair.collateral.symbol}</div>
-                                                    </div>
-                                                    <div className="mt-0 left  xs block lg:hidden">
-                                                        {pair.oracle.name}
-                                                    </div>
-                                                </div>
+                                            <div style={{ width: 48 }}>
+                                                <AsyncTokenIcon
+                                                    address={stake.tokens.A.address}
+                                                    chainId={chainId}
+                                                    className="block w-5 h-5 md:w-10 md:h-10 lg:w-12 lg:h-12 rounded-lg"
+                                                />
                                             </div>
                                         </td>
                                         <td>
-                                            <div className="left hidden md:block">
-                                                <strong>{pair.asset.symbol}</strong>
+                                            <div className="inline-flex flex-col md:flex-row">
+                                                <div className="whitespace-nowrap">{stake.tokens.A.symbol}/</div>
+                                                <div>{stake.tokens.B.symbol}</div>
                                             </div>
                                         </td>
                                         <td>
-                                            <div className="left hidden md:block">{pair.collateral.symbol}</div>
+                                            <div className="left">
+                                                <strong>{stake.protocol}</strong>
+                                            </div>
                                         </td>
                                         <td>
-                                            <div className="left hidden lg:block">{pair.oracle.name}</div>
+                                            <div className="left">{stake.APY.toFixed(2)}%</div>
+                                        </td>
+                                        <td>
+                                            <div className="left">{stake.socialAPY.toFixed(2)}%</div>
                                         </td>
                                         <td>
                                             <div className="center right">
-                                                {formattedPercent(pair.currentSupplyAPR.string)}
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div className="right hidden sm:block">
-                                                {formattedPercent(pair.utilization.string)}
+                                                ${stake.liquidity.toSignificant(6, { groupSeparator: ',' })}
                                             </div>
                                         </td>
                                         <td>
                                             <div className="right">
                                                 <div>
-                                                    {formattedNum(pair.currentAllAssets.string)} {pair.asset.symbol}
+                                                    {formattedNum(stake.rewards.G$.toFixed(2))}{' '}
+                                                    {stake.rewards.G$.currency.symbol}
                                                 </div>
-                                                <div className="">{formattedNum(pair.currentAllAssets.usd, true)}</div>
+                                                <div className="">
+                                                    {formattedNum(stake.rewards.GDAO.toFixed(2))}{' '}
+                                                    {stake.rewards.GDAO.currency.symbol}
+                                                </div>
                                             </div>
                                         </td>
                                         <td>
@@ -185,7 +210,7 @@ export default function LendingMarkets(): JSX.Element | null {
                                                 width="78px"
                                                 borderRadius="6px"
                                                 noShadow={true}
-                                                onClick={() => setActivePair(pair)}
+                                                onClick={() => setActivePair(stake)}
                                             >
                                                 Stake
                                             </ButtonAction>
@@ -198,13 +223,13 @@ export default function LendingMarkets(): JSX.Element | null {
                                                 style={{ width: '100%' }}
                                                 borderRadius="6px"
                                                 noShadow={true}
-                                                onClick={() => setActivePair(pair)}
+                                                onClick={() => setActivePair(stake)}
                                             >
                                                 Stake
                                             </ButtonAction>
                                         </td>
                                     </tr>
-                                </>
+                                </Fragment>
                             )
                         })}
                 </Table>

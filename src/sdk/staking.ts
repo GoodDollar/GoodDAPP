@@ -454,7 +454,7 @@ const getAPY = memoize<(web3: Web3, address: string, protocol: LIQUIDITY_PROTOCO
     const yearlyRewardG$ = await getYearlyRewardG$(web3, address)
 
     const liquidity = await getLiquidity(web3, address, protocol, token)
-    if (liquidity) {
+    if (!liquidity.equalTo(new Fraction(0))) {
       const APY = yearlyRewardG$.multiply(G$Ratio).divide(liquidity).multiply(100)
 
       debug('APY', APY.toSignificant(6), '%')

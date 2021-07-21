@@ -23,6 +23,7 @@ type TokenType = {
   logoURI: string
   name: string
   symbol: string
+  isDeprecated?: boolean
 }
 
 /**
@@ -103,8 +104,8 @@ export async function getTokens(supportedChainId: SupportedChainId): Promise<[Ma
   const tokens = flatMap(await Promise.all([UniswapTokenList.tokens, FuseTokenList.tokens, ...list.map(fetchURL)]))
 
   for (let token of tokens) {
-    const { chainId, address, decimals, name, symbol } = token
-    if (symbol.toLowerCase().indexOf('deprecated') > -1) {
+    const { chainId, address, decimals, name, symbol, isDeprecated } = token as TokenType
+    if (isDeprecated) {
       continue
     }
     if (tokenList.has(symbol) || supportedChainId !== chainId) {

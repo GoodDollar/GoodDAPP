@@ -15,6 +15,9 @@ import { UNISWAP_FACTORY_ADDRESSES, UNISWAP_INIT_CODE_HASH } from "../constants/
  */
 export const computePairAddress = memoize<(chainId: SupportedChainId, tokenA: Token, tokenB: Token) => string>(
   (chainId, tokenA, tokenB): string => {
+    if (!tokenA.sortsBefore(tokenB)) {
+      [tokenA, tokenB] = [tokenB, tokenA]
+    }
     return getCreate2Address(
       UNISWAP_FACTORY_ADDRESSES[chainId],
       keccak256(['bytes'], [pack(['address', 'address'], [tokenA.address, tokenB.address])]),

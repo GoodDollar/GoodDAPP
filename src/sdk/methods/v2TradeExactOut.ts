@@ -6,7 +6,7 @@ import { isTradeBetter } from "../utils/isTradeBetter";
 import { BETTER_TRADE_LESS_HOPS_THRESHOLD } from "../constants/misc";
 import { SupportedChainId } from "../constants/chains";
 
-const MAX_HOPS = 3
+const MAX_HOPS = 2
 
 /**
  * Returns the best trade for the token in to the exact amount of token out.
@@ -16,7 +16,7 @@ const MAX_HOPS = 3
  * @param {SupportedChainId} chainId Chain ID.
  * @returns {Promise<Trade>}
  */
-export async function useV2TradeExactOut(
+export async function v2TradeExactOut(
   currencyIn?: Currency,
   currencyAmountOut?: CurrencyAmount<Currency>,
   { maxHops = MAX_HOPS, chainId = SupportedChainId.MAINNET } = {}

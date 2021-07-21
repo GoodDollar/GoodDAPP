@@ -78,8 +78,8 @@ export const TOKEN_LISTS: { [chainId: number]: string[] } = {
     'https://raw.githubusercontent.com/compound-finance/token-list/master/compound.tokenlist.json'
   ],
   [SupportedChainId.KOVAN]: [
-    'https://gateway.ipfs.io/ipns/tokens.uniswap.org',
-    'https://testnet.tokenlist.eth.link/',
+    // 'https://gateway.ipfs.io/ipns/tokens.uniswap.org',
+    // 'https://testnet.tokenlist.eth.link/',
     'https://raw.githubusercontent.com/compound-finance/token-list/master/compound.tokenlist.json'
   ],
   [SupportedChainId.FUSE]: [

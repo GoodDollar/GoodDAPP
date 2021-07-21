@@ -30,14 +30,7 @@ export async function v2Pairs(chainId: SupportedChainId, currencies: Array<[Curr
   const tokens = currencies.map(([currencyA, currencyB]) => [currencyA.wrapped, currencyB.wrapped])
 
   const pairAddresses = tokens.reduce((map, [tokenA, tokenB]) => {
-    // Token A should be strictly less than token B
-    if (tokenA.address.toLowerCase() > tokenB.address.toLowerCase()) {
-      [tokenA, tokenB] = [tokenB, tokenA]
-    }
-
-    const address = tokenA &&
-    tokenB &&
-    tokenA.chainId === tokenB.chainId &&
+    const address = tokenA.chainId === tokenB.chainId &&
     !tokenA.equals(tokenB) &&
     UNISWAP_FACTORY_ADDRESSES[tokenA.chainId]
       ? computePairAddress(tokenA.chainId, tokenA, tokenB).toLowerCase()

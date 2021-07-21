@@ -1,26 +1,27 @@
 import Web3 from "web3";
-import { Trade } from "@uniswap/v2-sdk";
+import { BigNumber, ethers } from "ethers";
 import { Currency, CurrencyAmount, Fraction, Percent, Token, TradeType } from "@uniswap/sdk-core";
+import { Trade } from "@uniswap/v2-sdk";
 
 import { getToken } from "./methods/tokenLists";
 import { calculateExitContribution } from "./methods/calculateExitContribution";
-import { decimalPercentToPercent, g$FromDecimal } from "./utils/converter";
+import { decimalPercentToPercent, decimalToJSBI, g$FromDecimal } from "./utils/converter";
 import { CDAI, G$ } from "./constants/tokens";
 import { cDaiPrice } from "./methods/cDaiPrice";
 import { v2TradeExactIn } from "./methods/v2TradeExactIn";
-import { BuyInfo } from "./buy";
+import { BuyInfo, cDaiToG$, daiToCDai } from "./buy";
 import { goodMarketMakerContract } from "./contracts/GoodMarketMakerContract";
 import { getAccount, getChainId } from "./utils/web3";
 import { debug, debugGroup, debugGroupEnd } from "./utils/debug";
 import { InsufficientLiquidity, UnexpectedToken } from "./utils/errors";
 import { computeRealizedLPFeePercent } from "./utils/prices";
 import { tokenBalance } from "./utils/tokenBalance";
-import { BigNumber, ethers } from "ethers";
 import { exchangeHelperContract } from "./contracts/ExchangeHelperContract";
 import { ERC20Contract } from "./contracts/ERC20Contract";
 import { EXCHANGE_HELPER_ADDRESS } from "./constants/addresses";
-import { cacheClear } from "./utils/memoize";
 import { SupportedChainId } from "./constants/chains";
+import { v2TradeExactOut } from "./methods/v2TradeExactOut";
+import { ZERO_PERCENT } from "./constants/misc";
 
 export type SellInfo = { contribution: Fraction } & BuyInfo
 
@@ -36,17 +37,17 @@ type CDAIResult = Omit<XResult, 'route' | 'trade'>
 /**
  * Tries to convert token DAI into X. If it impossible - returns null.
  * @param {Web3} web3 Web3 instance.
- * @param {CurrencyAmount<Currency>} currency DAI token amount.
- * @param {Token} to Token X to convert to.
+ * @param {CurrencyAmount<Currency>} DAI DAI token amount.
+ * @param {Currency} to Token X to convert to.
  * @param {Percent} slippageTolerance Slippage tolerance.
  * @returns {DAIResult | null}
  */
-async function DaiToX(web3: Web3, currency: CurrencyAmount<Currency>, to: Token, slippageTolerance: Percent): Promise<XResult | null> {
+export async function DaiToXExactIn(web3: Web3, DAI: CurrencyAmount<Currency>, to: Currency, slippageTolerance: Percent): Promise<XResult | null> {
   const chainId = await getChainId(web3)
 
   debugGroup(`DAI to ${ to.symbol }`)
 
-  const trade = await v2TradeExactIn(currency, to, { chainId })
+  const trade = await v2TradeExactIn(DAI, to, { chainId })
   if (!trade) {
     debug('Trade', null)
     debugGroupEnd(`DAI to ${ to.symbol }`)
@@ -55,7 +56,7 @@ async function DaiToX(web3: Web3, currency: CurrencyAmount<Currency>, to: Token,
   }
 
   const amount = trade.outputAmount
-  debug(to.symbol, amount.toSignificant(6))
+  debug(DAI.currency.symbol, amount.toSignificant(6))
 
   const minAmount = trade.minimumAmountOut(slippageTolerance)
   debug(`${ to.symbol } min`, minAmount.toSignificant(6))
@@ -66,14 +67,40 @@ async function DaiToX(web3: Web3, currency: CurrencyAmount<Currency>, to: Token,
 }
 
 /**
+ * Tries get amount of token DAI from X. If it impossible - returns null.
+ * @param {Web3} web3 Web3 instance.
+ * @param {Currency} DAI DAI token amount.
+ * @param {CurrencyAmount<Currency>} to Token X to convert to.
+ * @returns {DAIResult | null}
+ */
+export async function DaiToXExactOut(web3: Web3, DAI: Currency, to: CurrencyAmount<Currency>): Promise<CurrencyAmount<Currency> | null> {
+  const chainId = await getChainId(web3)
+
+  debugGroup(`DAI to ${ to.currency.symbol }`)
+
+  const trade = await v2TradeExactOut(DAI, to, { chainId })
+  if (!trade) {
+    debug('Trade', null)
+    debugGroupEnd(`DAI to ${ to.currency.symbol }`)
+
+    return null
+  }
+
+  debug(DAI.symbol, trade.inputAmount.toSignificant(6))
+  debugGroupEnd(`DAI to ${ to.currency.symbol }`)
+
+  return trade.inputAmount
+}
+
+/**
  * Tries to convert token G$ into X. If it impossible - returns null.
  * @param {Web3} web3 Web3 instance.
- * @param {CurrencyAmount<Currency>} currency DAI token amount.
- * @param {Token} to Token X to convert to.
+ * @param {CurrencyAmount<Currency>} currency G$ token amount.
+ * @param {Currency} to Token X to convert to.
  * @param {Percent} slippageTolerance Slippage tolerance.
  * @returns {DAIResult | null}
  */
-async function G$ToX(web3: Web3, currency: CurrencyAmount<Currency>, to: Token, slippageTolerance: Percent): Promise<XResult | null> {
+export async function G$ToXExactIn(web3: Web3, currency: CurrencyAmount<Currency>, to: Currency, slippageTolerance: Percent): Promise<XResult | null> {
   const chainId = await getChainId(web3)
 
   debugGroup(`G$ to ${ to.symbol }`)
@@ -98,13 +125,39 @@ async function G$ToX(web3: Web3, currency: CurrencyAmount<Currency>, to: Token, 
 }
 
 /**
+ * Tries get amount of token G$ from X. If it impossible - returns null.
+ * @param {Web3} web3 Web3 instance.
+ * @param {Currency} G$ G$ token amount.
+ * @param {CurrencyAmount<Currency>} to Token X to convert to.
+ * @returns {DAIResult | null}
+ */
+export async function G$ToXExactOut(web3: Web3, G$: Currency, to: CurrencyAmount<Currency>): Promise<CurrencyAmount<Currency> | null> {
+  const chainId = await getChainId(web3)
+
+  debugGroup(`G$ to ${ to.currency.symbol }`)
+
+  const trade = await v2TradeExactOut(G$, to, { chainId })
+  if (!trade) {
+    debug('Trade', null)
+    debugGroupEnd(`G$ to ${ to.currency.symbol }`)
+
+    return null
+  }
+
+  debug(to.currency.symbol, trade.inputAmount.toSignificant(6))
+  debugGroupEnd(`G$ to ${ to.currency.symbol }`)
+
+  return trade.inputAmount
+}
+
+/**
  * Tries to convert token cDAI into DAI.
  * @param {Web3} web3 Web3 instance.
  * @param {CurrencyAmount<Currency>} currency CDAI token amount.
  * @returns {CurrencyAmount<Currency>}
  * @throws {UnexpectedToken} If currency not DAI.
  */
-async function cDaiToDai(web3: Web3, currency: CurrencyAmount<Currency>): Promise<CurrencyAmount<Currency>> {
+export async function cDaiToDai(web3: Web3, currency: CurrencyAmount<Currency>): Promise<CurrencyAmount<Currency>> {
   if (currency.currency.symbol !== 'cDAI') {
     throw new UnexpectedToken(currency.currency.symbol)
   }
@@ -135,7 +188,7 @@ async function cDaiToDai(web3: Web3, currency: CurrencyAmount<Currency>): Promis
  * @returns {CDAIResult}
  * @throws {UnexpectedToken} If currency not cDAI.
  */
-async function G$ToCDai(web3: Web3, currency: CurrencyAmount<Currency>, slippageTolerance: Percent): Promise<CDAIResult> {
+export async function G$ToCDai(web3: Web3, currency: CurrencyAmount<Currency>, slippageTolerance: Percent): Promise<CDAIResult> {
   if (currency.currency.symbol !== 'G$') {
     throw new UnexpectedToken(currency.currency.symbol)
   }
@@ -188,8 +241,6 @@ export async function getMeta(web3: Web3, toSymbol: string, amount: number | str
 
   debugGroup(`Get meta ${ amount } G$ to ${ toSymbol }`)
 
-  cacheClear(cDaiPrice)
-
   const G$ = await getToken(chainId, 'G$') as Token
   if (!G$) {
     throw new Error('Unsupported chain ID')
@@ -220,7 +271,7 @@ export async function getMeta(web3: Web3, toSymbol: string, amount: number | str
   const slippageTolerancePercent = decimalPercentToPercent(slippageTolerance)
 
   if (chainId === SupportedChainId.FUSE) {
-    const trade = await G$ToX(web3, inputAmount, TO, slippageTolerancePercent)
+    const trade = await G$ToXExactIn(web3, inputAmount, TO, slippageTolerancePercent)
     if (!trade) {
       return null
     }
@@ -253,7 +304,7 @@ export async function getMeta(web3: Web3, toSymbol: string, amount: number | str
 
       DAIAmount = await cDaiToDai(web3, cDAIAmount)
 
-      const trade = await DaiToX(web3, DAIAmount, TO, slippageTolerancePercent)
+      const trade = await DaiToXExactIn(web3, DAIAmount, TO, slippageTolerancePercent)
       if (!trade) {
         return null
       }
@@ -285,6 +336,67 @@ export async function getMeta(web3: Web3, toSymbol: string, amount: number | str
 
     route
   }
+}
+
+/**
+ * Returns trade information for selling G$ for exact token amount.
+ * @param {Web3} web3 Web3 instance.
+ * @param {string} toSymbol Symbol of the token that you want to get while selling G$.
+ * @param {number | string} toAmount Amount of how much token want to receive.
+ * @param {number} slippageTolerance Slippage tolerance while exchange tokens.
+ */
+export async function getMetaReverse(web3: Web3, toSymbol: string, toAmount: number | string, slippageTolerance: number = 0.5): Promise<SellInfo | null> {
+  const chainId = await getChainId(web3)
+
+  debugGroup(`Get meta ${ toAmount } ${ toSymbol } to G$`)
+
+  const G$ = await getToken(chainId, 'G$') as Token
+  if (!G$) {
+    throw new Error('Unsupported chain ID')
+  }
+
+  const TO = await getToken(chainId, toSymbol) as Token
+
+  if (!TO) {
+    throw new Error('Unsupported token')
+  }
+
+  const DAI = await getToken(chainId, 'DAI') as Token
+
+  let inputAmount: CurrencyAmount<Currency> = CurrencyAmount.fromRawAmount(TO, decimalToJSBI(toAmount, TO.decimals))
+
+  let result
+  if (chainId === SupportedChainId.FUSE) {
+    result = await G$ToXExactOut(web3, G$, inputAmount)
+  } else {
+    if (TO.symbol === 'G$') {
+      result = null
+    } else if (TO.symbol === 'cDAI') {
+      const { amount } = await cDaiToG$(web3, inputAmount, ZERO_PERCENT)
+      result = amount
+    } else if (TO.symbol === 'DAI') {
+      const cDai = await daiToCDai(web3, inputAmount)
+      const { amount } = await cDaiToG$(web3, cDai, ZERO_PERCENT)
+      result = amount
+    } else {
+      const dai = await DaiToXExactOut(web3, DAI, inputAmount)
+      if (!dai) {
+        result = null
+      } else {
+        const cDai = await daiToCDai(web3, dai)
+        const { amount } = await cDaiToG$(web3, cDai, ZERO_PERCENT)
+        result = amount
+      }
+    }
+  }
+
+  debugGroupEnd(`Get meta ${ toAmount } ${ toSymbol } to G$`)
+
+  if (!result) {
+    return null
+  }
+
+  return getMeta(web3, toSymbol, result.toExact(), slippageTolerance)
 }
 
 /**

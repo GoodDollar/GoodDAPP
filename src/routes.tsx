@@ -1,6 +1,6 @@
 import React from 'react'
 import { Route, Switch } from 'react-router-dom'
-import LendMarkets from './kashi/pages/Markets/Lending'
+import LendMarkets from './pages/Stake'
 import Swap from './pages/Swap'
 import SwapDeprecated from './pages/SwapDeprecated'
 import { RedirectHashRoutes, RedirectPathToSwapOnly, RedirectToSwap } from './pages/SwapDeprecated/redirects'

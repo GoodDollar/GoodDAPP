@@ -9,6 +9,10 @@ import { UnsupportedChainId } from "../utils/errors";
 import { getChainId } from "../utils/web3";
 import { ERC20Contract } from "../contracts/ERC20Contract";
 
+import UniswapTokenList from "../tokens/tokens.uniswap.org.json"
+import FuseTokenList from "../tokens/fuseswap-default.tokenlist.json"
+import { debug } from "../utils/debug";
+
 const cachedTokens: Map<SupportedChainId, Map<string, Currency>> = new Map()
 const cachedTokensByAddress: Map<SupportedChainId, Map<string, Currency>> = new Map()
 
@@ -28,7 +32,10 @@ type TokenType = {
  * @returns {TokenType[]} List of tokens.
  */
 async function fetchURL(url: string): Promise<TokenType[]> {
-  return fetch(url).then(r => r.json()).then(r => r.tokens)
+  return fetch(url).then(r => r.json()).then(r => r.tokens).catch(e => {
+    debug(url, e.message)
+    return []
+  })
 }
 
 /**
@@ -93,7 +100,7 @@ export async function getTokens(supportedChainId: SupportedChainId): Promise<[Ma
   }
   tokenListByAddress.set(ethers.constants.AddressZero, Ether.onChain(supportedChainId))
 
-  const tokens = flatMap(await Promise.all(list.map(fetchURL)))
+  const tokens = flatMap(await Promise.all([UniswapTokenList.tokens, FuseTokenList.tokens, ...list.map(fetchURL)]))
 
   for (let token of tokens) {
     const { chainId, address, decimals, name, symbol } = token

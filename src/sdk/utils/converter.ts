@@ -23,7 +23,7 @@ export function toJSBI(decimals: number | string = 18): JSBI {
  * @returns {JSBI}
  */
 export function decimalToJSBI(decimal: number | string, decimals: number | string = 18): JSBI {
-  return JSBI.BigInt(new Decimal(decimal).mul(toJSBI(decimals).toString()).toString())
+  return JSBI.BigInt(new Decimal(decimal).mul(toJSBI(decimals).toString()).toFixed(0))
 }
 
 /**
@@ -33,7 +33,7 @@ export function decimalToJSBI(decimal: number | string, decimals: number | strin
  */
 export function decimalPercentToPercent(decimalPercent: number | string): Percent {
   const [n, d] = new Decimal(decimalPercent).toFraction(1e18)
-  return new Percent(n.toFixed(), d.mul(100).toFixed())
+  return new Percent(n.toFixed(), d.mul(100).toFixed(0))
 }
 
 /**
@@ -42,7 +42,7 @@ export function decimalPercentToPercent(decimalPercent: number | string): Percen
  * @returns {Percent}
  */
 export function decimalToFraction(decimal: number | string): Fraction {
-  return new Fraction(...new Decimal(decimal).toFraction(1e18).map(v => v.toString()) as [string, string])
+  return new Fraction(...new Decimal(decimal).toFraction(1e18).map(v => v.toFixed(0)) as [string, string])
 }
 
 /**

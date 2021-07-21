@@ -219,6 +219,10 @@ function getLiquidityFee(trade: Trade<Currency, Currency, TradeType>): Fraction 
 export async function getMeta(web3: Web3, fromSymbol: string, amount: number | string, slippageTolerance: number = 0.5): Promise<BuyInfo | null> {
   const chainId = await getChainId(web3)
 
+  if (fromSymbol === 'ETH') {
+    fromSymbol = 'WETH'
+  }
+
   debugGroup(`Get meta ${ amount } ${ fromSymbol } to G$`)
 
   cacheClear(cDaiPrice)

@@ -22,9 +22,11 @@ export async function calculateExitContribution(web3: Web3, G$Currency: Currency
 
   debug('G$', G$Currency.toFixed(2))
   const GDXCurrency = await tokenBalance(web3, 'GDX', account)
-  debug('GDX', GDXCurrency.toFixed(2))
+  const GDXCurrencyAmount = CurrencyAmount.fromFractionalAmount(G$Currency.currency, GDXCurrency.numerator, GDXCurrency.denominator)
+  debug('GDX', GDXCurrencyAmount.toFixed(2))
 
-  const G$CurrencyDiscount = G$Currency.subtract(G$Currency.lessThan(GDXCurrency) ? G$Currency : GDXCurrency)
+
+  const G$CurrencyDiscount = G$Currency.subtract(G$Currency.lessThan(GDXCurrencyAmount) ? G$Currency : GDXCurrencyAmount)
   debug('G$ discount', G$CurrencyDiscount.toFixed(2))
 
   if (G$CurrencyDiscount.equalTo(0)) {

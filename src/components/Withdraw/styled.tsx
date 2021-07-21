@@ -35,6 +35,6 @@ export const WithdrawStyled = styled.div`
     }
 
     .horizontal {
-        border-bottom: 1px solid ${({ theme }) => theme.color.border2};
+        border-bottom: 1px solid #e5e5e5;
     }
 `

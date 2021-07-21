@@ -48,28 +48,18 @@ function PercentInputControls({ value, onPercentChange, disabled, ...rest }: Per
                 <MaskedInput
                     name="percent"
                     className="percent-input"
-                    disabled={disabled}
                     value={percentValue}
                     mask={percentMask}
                     onChange={handleChange}
                 />
             </div>
 
-            <input
-                className="mt-4 mb-3"
-                type="range"
-                disabled={disabled}
-                value={percentValue}
-                min={0}
-                max={100}
-                onChange={handleChange}
-            />
+            <input className="mt-4 mb-3" type="range" value={percentValue} min={0} max={100} onChange={handleChange} />
 
             <div className="flex justify-between gap-1">
                 <ButtonEmpty
                     className={cn('percent-button', { active: percentValue === '25' })}
                     onClick={e => handleSetPercentValue(e)}
-                    disabled={disabled}
                     data-value={'25'}
                 >
                     25%
@@ -77,7 +67,6 @@ function PercentInputControls({ value, onPercentChange, disabled, ...rest }: Per
                 <ButtonEmpty
                     className={cn('percent-button', { active: percentValue === '50' })}
                     onClick={e => handleSetPercentValue(e)}
-                    disabled={disabled}
                     data-value={'50'}
                 >
                     50%
@@ -85,7 +74,6 @@ function PercentInputControls({ value, onPercentChange, disabled, ...rest }: Per
                 <ButtonEmpty
                     className={cn('percent-button', { active: percentValue === '75' })}
                     onClick={e => handleSetPercentValue(e)}
-                    disabled={disabled}
                     data-value={'75'}
                 >
                     75%
@@ -93,7 +81,6 @@ function PercentInputControls({ value, onPercentChange, disabled, ...rest }: Per
                 <ButtonEmpty
                     className={cn('percent-button', { active: percentValue === '100' })}
                     onClick={e => handleSetPercentValue(e)}
-                    disabled={disabled}
                     data-value={'100'}
                 >
                     100%

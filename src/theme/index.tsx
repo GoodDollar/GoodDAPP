@@ -112,7 +112,7 @@ export function theme(darkMode: boolean) {
             bg1: darkMode ? '#1A1F38' : '#f6f8fa',
             switch: darkMode ? '#1FC2AF' : '#1FC2AF',
             hover: darkMode ? 'rgba(31, 194, 175, 0.3)' : 'rgba(31,194,175,0.1)',
-            rangeTrack: darkMode ? '#202747' : '#F5F5F5'
+            rangeTrack: darkMode ? '#8F9BB3' : '#F5F5F5'
         },
         shadow: {
             header: '0px 0px 16px rgba(206, 211, 218, 0.33815)',

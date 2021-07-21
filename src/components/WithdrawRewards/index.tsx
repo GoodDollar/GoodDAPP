@@ -1,4 +1,4 @@
-import React, { cloneElement, memo, ReactElement, useCallback, useState } from 'react'
+import React, { cloneElement, memo, ReactElement, useCallback, useEffect, useState } from 'react'
 import { ReactComponent as CrossSVG } from 'assets/images/x.svg'
 import { ReactComponent as LinkSVG } from 'assets/images/link-blue.svg'
 import { WithdrawRewardsStyled } from 'components/WithdrawRewards/styled'
@@ -20,26 +20,22 @@ function WithdrawRewards({ trigger, ...rest }: WithdrawRewardsProps) {
         setTimeout(() => setStatus('success'), 3000)
     }, [setStatus])
     const [isModalOpen, setModalOpen] = useState(false)
+    const handleClose = useCallback(() => {
+        setModalOpen(false)
+    }, [])
+
+    useEffect(() => {
+        if (isModalOpen && status !== 'none') setStatus('none')
+    }, [isModalOpen])
 
     return (
         <>
             {trigger && cloneElement(trigger, { onClick: () => setModalOpen(true) })}
 
-            <Modal
-                isOpen={isModalOpen}
-                noPadding
-                onDismiss={() => {
-                    setModalOpen(false)
-                }}
-            >
+            <Modal isOpen={isModalOpen} noPadding onDismiss={handleClose}>
                 <WithdrawRewardsStyled {...rest}>
                     <div className="flex flex-grow justify-end">
-                        <CrossSVG
-                            className="cursor-pointer"
-                            onClick={() => {
-                                setModalOpen(false)
-                            }}
-                        />
+                        <CrossSVG className="cursor-pointer" onClick={handleClose} />
                     </div>
                     {status === 'none' || status === 'pending' ? (
                         <>
@@ -72,12 +68,8 @@ function WithdrawRewards({ trigger, ...rest }: WithdrawRewardsProps) {
                                 </a>
                             </div>
                             <div className="flex justify-center">
-                                <ButtonEmpty
-                                    className="back-to-portfolio"
-                                    width="fit-content"
-                                    onClick={() => setModalOpen(false)}
-                                >
-                                    Back to portofolio
+                                <ButtonEmpty className="back-to-portfolio" width="fit-content" onClick={handleClose}>
+                                    Back to portfolio
                                 </ButtonEmpty>
                             </div>
                         </>

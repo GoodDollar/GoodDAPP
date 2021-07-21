@@ -96,6 +96,7 @@ export function theme(darkMode: boolean) {
             border2: darkMode ? '#151A30' : '#E5E5E5',
             border3: darkMode ? 'rgba(208,217,228,0.483146)' : '#ccefff',
             border4: darkMode ? '#8F9BB3' : '#ffffff',
+            border5: darkMode ? '#8F9BB3' : '#8F9BB3',
             text1: darkMode ? '#FFFFFF' : '#0D182D',
             text2: darkMode ? '#00B0FF' : '#00B0FF',
             text3: darkMode ? '#A5A5A5' : '#A5A5A5',
@@ -107,9 +108,11 @@ export function theme(darkMode: boolean) {
             text9: darkMode ? 'rgba(14, 39, 60, 0.7)' : 'rgba(14, 39, 60, 0.7)',
             input: darkMode ? '#FFFFFF' : '#173046',
             button1: darkMode ? '#2E3A59' : 'rgba(0, 176, 255, 0.1)',
+            button2: darkMode ? '#173046' : '#FFFFFF',
             bg1: darkMode ? '#1A1F38' : '#f6f8fa',
             switch: darkMode ? '#1FC2AF' : '#1FC2AF',
-            hover: darkMode ? 'rgba(31, 194, 175, 0.3)' : 'rgba(31,194,175,0.1)'
+            hover: darkMode ? 'rgba(31, 194, 175, 0.3)' : 'rgba(31,194,175,0.1)',
+            rangeTrack: darkMode ? '#202747' : '#F5F5F5'
         },
         shadow: {
             header: '0px 0px 16px rgba(206, 211, 218, 0.33815)',

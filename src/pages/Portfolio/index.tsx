@@ -6,6 +6,7 @@ import Card from '../../components/gd/Card'
 import { ButtonDefault } from '../../components/gd/Button'
 import Table from '../../components/gd/Table'
 import WithdrawRewards from 'components/WithdrawRewards'
+import PortfolioTableRow from 'components/PortfolioTableRow'
 
 const Portfolio = () => {
     return (
@@ -89,66 +90,8 @@ const Portfolio = () => {
                             </tr>
                         }
                     >
-                        <tr>
-                            <td>UBI</td>
-                            <td>DAI</td>
-                            <td>COMPOUND</td>
-                            <td>
-                                <span className="whitespace-nowrap">1,000 DAI</span> <br />
-                                1,000$
-                            </td>
-                            <td>
-                                100 G$ <br />
-                                ~10$
-                            </td>
-                            <td>
-                                This month 0.5X <br />
-                                Next month: 1.0X
-                            </td>
-                            <td>10 GDAO</td>
-                            <td>
-                                <ButtonDefault size="sm" width="99px">
-                                    Withdraw
-                                </ButtonDefault>
-                            </td>
-                        </tr>
-                        <tr className="mobile">
-                            <td colSpan={8}>
-                                <ButtonDefault size="sm" width="99px">
-                                    Withdraw
-                                </ButtonDefault>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>UBI</td>
-                            <td>DAI</td>
-                            <td>COMPOUND</td>
-                            <td>
-                                <span className="whitespace-nowrap">1,000 DAI</span> <br />
-                                1,000$
-                            </td>
-                            <td>
-                                100 G$ <br />
-                                ~10$
-                            </td>
-                            <td>
-                                This month 0.5X <br />
-                                Next month: 1.0X
-                            </td>
-                            <td>10 GDAO</td>
-                            <td>
-                                <ButtonDefault size="sm" width="99px">
-                                    Withdraw
-                                </ButtonDefault>
-                            </td>
-                        </tr>
-                        <tr className="mobile">
-                            <td colSpan={8}>
-                                <ButtonDefault size="sm" width="100%">
-                                    Withdraw
-                                </ButtonDefault>
-                            </td>
-                        </tr>
+                        <PortfolioTableRow />
+                        <PortfolioTableRow />
                     </Table>
                 </Card>
             </PortfolioSC>

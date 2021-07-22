@@ -33,7 +33,8 @@ const CustomAvatar = ({
   ...avatarProps
 }) => {
   const _onPress = useOnPress(onPress)
-  const [isGDLogo, imgSource] = useImageSource(source)
+  const isGDLogo = source === -1
+  const imgSource = useImageSource(source)
   const ImageComponent = plain ? Image : Avatar.Image
 
   const calculatedStyles = useMemo(() => {

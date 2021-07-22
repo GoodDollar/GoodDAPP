@@ -16,15 +16,17 @@ const TITLE = 'Edit Avatar'
 
 const EditAvatar = ({ theme, screenProps }) => {
   const store = GDStore.useStore()
+  const passedAvatar = screenProps.screenState.avatar
   const [showErrorDialog] = useErrorDialog()
 
   const user = useWrappedUserStorage()
   const profile = store.get('profile')
 
-  const [isDirty, markAsDirty] = useState(false)
+  const [isDirty, markAsDirty] = useState(false || passedAvatar !== undefined) //if passed avatar mark as dirty so we save it by default
   const [processing, setProcessing] = useState(false)
 
-  const avatar = useProfileAvatar(profile.avatar, true)
+  const storedAvatar = useProfileAvatar(profile.avatar, true)
+  const avatar = passedAvatar || storedAvatar
   const croppedRef = useRef(avatar)
 
   const updateAvatar = useCallback(async () => {

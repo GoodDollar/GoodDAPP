@@ -12,32 +12,29 @@ export default () => {
 
     const res = await VersionCheck.needUpdate({ currentVersion, latestVersion, depth: 3 })
 
-    // if (res.isNeeded) {
-    const onUpdate = () => {
-      Linking.openURL(res.storeUrl)
+    if (res.isNeeded) {
+      const onUpdate = () => {
+        Linking.openURL(res.storeUrl)
+      }
+
+      showDialog({
+        title: 'UPDATE AVAILABLE',
+        message: 'There is a new version of the app available, please update for better experience',
+        buttons: [
+          {
+            text: 'Later',
+            onPress: hideDialog,
+            style: styles.laterButton,
+          },
+          { text: 'Update', onPress: onUpdate },
+        ],
+      })
     }
-
-    showDialog({
-      title: 'UPDATE AVAILABLE',
-      message: 'There is a new version of the app available, please update for better experience',
-      buttons: [
-        {
-          text: 'Later',
-          onPress: hideDialog,
-          style: styles.laterButton,
-        },
-        { text: 'Update', onPress: onUpdate },
-      ],
-    })
-
-    // }
   }
 
   useEffect(() => {
     checkVersion()
   }, [])
-
-  // return [checkVersion]
 }
 
 const styles = StyleSheet.create({

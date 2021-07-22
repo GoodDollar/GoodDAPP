@@ -3,97 +3,18 @@ import { t } from '@lingui/macro'
 import { formattedNum } from '../../utils'
 import AsyncTokenIcon from '../../kashi/components/AsyncTokenIcon'
 import ListHeaderWithSort from '../../kashi/components/ListHeaderWithSort'
-import React, { useEffect, useState, Fragment } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import { useActiveWeb3React } from '../../hooks/useActiveWeb3React'
 import useSearchAndSort from '../../hooks/useSearchAndSort'
 import { useLingui } from '@lingui/react'
-import styled from 'styled-components'
 import Modal from '../../components/Modal'
-import LendingPair from '../../kashi/pages/Pair/Lend'
 import { ButtonAction } from '../../components/gd/Button'
-import Table, { TableSC } from '../../components/gd/Table'
+import Table from '../../components/gd/Table'
 import useWeb3 from '../../hooks/useWeb3'
 import { getList as getStakes, Stake } from '../../sdk/staking'
-
-const Wrapper = styled.div`
-    background: ${({ theme }) => theme.color.bg1};
-    box-shadow: ${({ theme }) => theme.shadow.settings};
-    border-radius: 12px;
-    padding: 14px 19px 15px 19px;
-
-    ${TableSC} {
-        tr:not(.mobile) {
-            td:first-child {
-                width: 65px;
-                padding-right: 0;
-            }
-        }
-
-        @media screen and (max-width: 1310px) {
-            td,
-            th {
-                &:nth-child(1) {
-                    display: none;
-                }
-            }
-
-            td:nth-child(2) {
-                border-left: 1px solid ${({ theme }) => theme.color.border2};
-                border-top-left-radius: 12px;
-                border-bottom-left-radius: 12px;
-            }
-        }
-
-        @media screen and (max-width: 1240px) {
-            td,
-            th {
-                &:nth-child(3) {
-                    display: none;
-                }
-            }
-        }
-
-        @media screen and (max-width: 1120px) {
-            td,
-            th {
-                &:nth-child(6) {
-                    display: none;
-                }
-            }
-        }
-
-        @media ${({ theme }) => theme.media.md} {
-            td,
-            th {
-                text-align: center;
-
-                &:nth-child(5),
-                &:nth-child(6),
-                &:nth-child(8) {
-                    display: none;
-                }
-            }
-
-            th {
-                padding-left: 26px !important;
-                padding-right: 8px !important;
-            }
-            td {
-                padding-left: 10px !important;
-                padding-right: 10px !important;
-            }
-
-            td:nth-child(2) {
-                border-bottom-left-radius: unset;
-            }
-
-            td:nth-child(7) {
-                border-right: 1px solid ${({ theme }) => theme.color.border2};
-                border-top-right-radius: 12px;
-            }
-        }
-    }
-`
+import Title from '../../components/gd/Title'
+import SwapInput from '../Swap/SwapInput'
+import { Switch, Wrapper } from './styled'
 
 export default function LendingMarkets(): JSX.Element | null {
     const { i18n } = useLingui()
@@ -112,7 +33,7 @@ export default function LendingMarkets(): JSX.Element | null {
         { keys: ['tokens.A.symbol', 'tokens.B.symbol', 'tokens.A.name', 'tokens.B.name'], threshold: 0.1 },
         { key: 'tokens.A.symbol', direction: 'descending' }
     )
-    const [activePair, setActivePair] = useState<ArrayType<typeof sorted.items>>()
+    const [activeStake, setActiveStake] = useState<Stake>()
 
     return (
         <Layout>
@@ -210,7 +131,7 @@ export default function LendingMarkets(): JSX.Element | null {
                                                 width="78px"
                                                 borderRadius="6px"
                                                 noShadow={true}
-                                                onClick={() => setActivePair(stake)}
+                                                onClick={() => setActiveStake(stake)}
                                             >
                                                 Stake
                                             </ButtonAction>
@@ -223,7 +144,7 @@ export default function LendingMarkets(): JSX.Element | null {
                                                 style={{ width: '100%' }}
                                                 borderRadius="6px"
                                                 noShadow={true}
-                                                onClick={() => setActivePair(stake)}
+                                                onClick={() => setActiveStake(stake)}
                                             >
                                                 Stake
                                             </ButtonAction>
@@ -234,8 +155,34 @@ export default function LendingMarkets(): JSX.Element | null {
                         })}
                 </Table>
             </Wrapper>
-            <Modal isOpen={!!activePair} onDismiss={() => {}}>
-                {activePair && <LendingPair pairAddress={activePair.address} />}
+            <Modal isOpen={!!activeStake} showClose onDismiss={() => setActiveStake(undefined)}>
+                {activeStake && (
+                    <div className="p-4">
+                        <Title className="flex space-x-2 items-center justify-center mb-2">
+                            <span>STAKE</span>
+                            <AsyncTokenIcon
+                                address={activeStake.tokens.A.address}
+                                chainId={chainId}
+                                className="block w-5 h-5 rounded-full"
+                            />
+                            <span>{activeStake.tokens.A.symbol}</span>
+                        </Title>
+                        <div className="flex items-center justify-between mb-3">
+                            <span>How much would you like to deposit?</span>
+                            <div className="flex items-center space-x-1">
+                                <span>{activeStake.tokens.A.symbol}</span>
+                                <Switch>
+                                    <div className="area" />
+                                    <input type="checkbox" />
+                                    <div className="toggle" />
+                                </Switch>
+                                <span>{activeStake.tokens.B.symbol}</span>
+                            </div>
+                        </div>
+                        <SwapInput balance="0.00" autoMax />
+                        <ButtonAction className="mt-4">APPROVE</ButtonAction>
+                    </div>
+                )}
             </Modal>
         </Layout>
     )

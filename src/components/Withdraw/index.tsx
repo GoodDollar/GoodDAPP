@@ -5,8 +5,9 @@ import { ReactComponent as CrossSVG } from 'assets/images/x.svg'
 import Title from 'components/gd/Title'
 import { ButtonAction } from 'components/gd/Button'
 import { ReactComponent as LinkSVG } from 'assets/images/link-blue.svg'
-import { ButtonEmpty } from 'components/ButtonLegacy'
+
 import PercentInputControls from 'components/Withdraw/PercentInputControls'
+import Button from 'components/Button'
 
 function formatNumber(value: number) {
     return Intl.NumberFormat('en-US', { style: 'decimal', maximumFractionDigits: 4 }).format(value)
@@ -97,9 +98,9 @@ function Withdraw({ token, protocol, totalStake, open, setOpen, ...rest }: Withd
                             </a>
                         </div>
                         <div className="flex justify-center">
-                            <ButtonEmpty className="back-to-portfolio" width="fit-content" onClick={handleClose}>
+                            <Button className="back-to-portfolio" onClick={handleClose}>
                                 Back to portfolio
-                            </ButtonEmpty>
+                            </Button>
                         </div>
                     </>
                 )}

@@ -13,8 +13,8 @@ import { useCurrencyBalance } from '../../state/wallet/hooks'
 import useActiveWeb3React from '../../hooks/useActiveWeb3React'
 import useG$ from '../../hooks/useG$'
 import useWeb3 from '../../hooks/useWeb3'
-import { getMeta as getBuyMeta, getMetaReverse as getBuyMetaReverse } from '../../sdk/buy'
-import { getMeta as getSellMeta, getMetaReverse as getSellMetaReverse } from '../../sdk/sell'
+import { BuyInfo, getMeta as getBuyMeta, getMetaReverse as getBuyMetaReverse } from '../../sdk/buy'
+import { getMeta as getSellMeta, getMetaReverse as getSellMetaReverse, SellInfo } from '../../sdk/sell'
 import { SupportedChainId } from '../../sdk/constants/chains'
 
 function Swap() {
@@ -41,6 +41,7 @@ function Swap() {
     const G$ = useG$()
     const [swapValue, setSwapValue] = useState('')
     const { account, chainId } = useActiveWeb3React()
+    const [meta, setMeta] = useState<undefined | BuyInfo | SellInfo>()
     const pairBalance = useCurrencyBalance(account ?? undefined, swapPair.token)
     const swapBalance = useCurrencyBalance(account ?? undefined, G$)
     const web3 = useWeb3()
@@ -65,6 +66,7 @@ function Swap() {
         if (!symbol) return
         if (!value.match(/[^0.]/)) {
             setOtherValue('')
+            setMeta(undefined)
             return
         }
 
@@ -80,6 +82,7 @@ function Swap() {
                     ? meta.inputAmount.toFixed()
                     : meta.outputAmount.toFixed()
             )
+            setMeta(meta)
         }, 400))
     }, [account, chainId, lastEdited, buying, web3, slippageTolerance.value])
 
@@ -118,6 +121,7 @@ function Swap() {
                             onTokenChange={token => {
                                 handleSetPair({ token, value: '' })
                                 setSwapValue('')
+                                setMeta(undefined)
                             }}
                             tokenList={tokenList ?? []}
                         />
@@ -146,6 +150,14 @@ function Swap() {
                                     slippageTolerance.value.endsWith('%') ? '' : '%'
                                 }`}
                             />
+                            {meta && (
+                                <SwapInfo
+                                    title="Price"
+                                    value={`${meta.inputAmount.divide(meta.outputAmount).toSignificant(6)} ${
+                                        meta.inputAmount.currency.symbol
+                                    } PER ${meta.outputAmount.currency.symbol} `}
+                                />
+                            )}
                         </div>
                         {!account ? (
                             <ButtonAction style={{ marginTop: 22 }} disabled>
@@ -169,7 +181,18 @@ function Swap() {
                         )}
                     </SwapContentWrapperSC>
                 </SwapWrapperSC>
-                <SwapDetails open={Boolean(swapPair.value && swapValue)} />
+                <SwapDetails
+                    open={Boolean(meta)}
+                    minimumReceived={
+                        meta &&
+                        `${meta.minimumOutputAmount.toSignificant(4)} ${meta.minimumOutputAmount.currency.symbol}`
+                    }
+                    priceImpact={meta && `${meta.priceImpact.toFixed(2)}%`}
+                    liquidityFee={meta && `${meta.liquidityFee.toSignificant(6)} ${swapPair.token.getSymbol()}`}
+                    route={meta?.route.map(token => token.symbol).join(' > ')}
+                    GDX={meta?.GDXAmount.toFixed(2)}
+                    exitContribution={(meta as SellInfo)?.contribution?.toSignificant(6)}
+                />
             </SwapCardSC>
         </SwapContext.Provider>
     )

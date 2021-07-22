@@ -6,36 +6,49 @@ export interface SwapDetailsProps {
     className?: string
     style?: CSSProperties
     open?: boolean
+    minimumReceived?: string
+    priceImpact?: string
+    liquidityFee?: string
+    route?: string
+    GDX?: string
+    exitContribution?: string
 }
 
-function SwapDetails({ className, style, open }: SwapDetailsProps) {
+function SwapDetails({
+    className,
+    style,
+    open,
+    minimumReceived,
+    priceImpact,
+    liquidityFee,
+    route,
+    GDX,
+    exitContribution
+}: SwapDetailsProps) {
     return (
         <SwapDetailsSC className={className} style={style} $open={open}>
             <SwapInfo
                 title="Minimum received"
-                value="37.94 GOO"
-                tip="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aspernatur at aut enim harum minima nostrum odit, quis quos sapiente sed sint sunt voluptas voluptatem! Cumque distinctio impedit repellendus tempore. Ullam."
+                value={minimumReceived}
+                tip="Your transaction will revert if there is a large, unfavorable price movement before it is confirmed."
             />
             <SwapInfo
                 title="Price Impact"
-                value="2.10%"
-                tip="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aspernatur at aut enim harum minima nostrum odit, quis quos sapiente sed sint sunt voluptas voluptatem! Cumque distinctio impedit repellendus tempore. Ullam."
+                value={priceImpact}
+                tip="Your transaction will revert if there is a large, unfavorable price movement before it is confirmed."
             />
             <SwapInfo
                 title="Liquidity Provider Fee"
-                value="0.00116 ETH"
-                tip="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aspernatur at aut enim harum minima nostrum odit, quis quos sapiente sed sint sunt voluptas voluptatem! Cumque distinctio impedit repellendus tempore. Ullam."
+                value={liquidityFee}
+                tip="A portion of each trade (0.25%) goes to liquidity providers as a protocol incentive."
             />
             <SwapInfo
                 title="Route"
-                value="ETH  >  DAI  >  cDAI  >  GOO"
-                tip="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aspernatur at aut enim harum minima nostrum odit, quis quos sapiente sed sint sunt voluptas voluptatem! Cumque distinctio impedit repellendus tempore. Ullam."
+                value={route}
+                tip="Routing through these tokens resulted in the best price for your trade."
             />
-            <SwapInfo
-                title="GDX"
-                value="+37.9877"
-                tip="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aspernatur at aut enim harum minima nostrum odit, quis quos sapiente sed sint sunt voluptas voluptatem! Cumque distinctio impedit repellendus tempore. Ullam."
-            />
+            <SwapInfo title="GDX" value={GDX} />
+            {exitContribution && <SwapInfo title="EXIT CONTRIBUTION" value={exitContribution} />}
         </SwapDetailsSC>
     )
 }

@@ -7,6 +7,7 @@ import logger from './lib/logger/pino-logger'
 import { APP_OPEN, fireEvent, initAnalytics } from './lib/analytics/analytics'
 import Config from './config/config'
 import handleLinks from './lib/utils/handleLinks'
+import useVersionCheck from './lib/hooks/useVersionCheck'
 
 const log = logger.child({ from: 'RouterSelector' })
 log.debug({ Config })
@@ -46,6 +47,7 @@ let AppRouter = React.lazy(() => {
 
 const RouterSelector = () => {
   const store = SimpleStore.useStore()
+  useVersionCheck()
 
   //we use global state for signup process to signal user has registered
   const isLoggedIn = store.get('isLoggedIn') //Promise.resolve( || AsyncStorage.getItem(IS_LOGGED_IN))

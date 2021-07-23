@@ -1,4 +1,4 @@
-import Web3 from "web3";
+import Web3 from 'web3';
 import memoize from 'lodash/memoize'
 import { BigNumber } from "ethers";
 import { Currency, CurrencyAmount, Fraction, Token } from "@uniswap/sdk-core";
@@ -403,6 +403,7 @@ export const getTokenPriceInUSDC = memoize<(web3: Web3, protocol: LIQUIDITY_PROT
 
       if (trade) {
         debug('Price', trade.outputAmount.toSignificant(6))
+        price = trade.outputAmount
       } else {
         debug('Price', null)
       }

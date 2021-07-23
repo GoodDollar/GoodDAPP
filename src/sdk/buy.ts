@@ -491,7 +491,7 @@ export async function approve(web3: Web3, meta: BuyInfo): Promise<void> {
   const { input } = prepareValues(meta)
 
   // If ETH - ignore method
-  if (meta.route[0].symbol === 'WETH9') {
+  if (meta.route[0].symbol === 'WETH') {
     return
   } else {
     // Approve ERC20 token to exchange
@@ -513,7 +513,7 @@ export async function buy(web3: Web3, meta: BuyInfo): Promise<void> {
 
   let route: string[]
   // If ETH - change route a little bit to start from a zero address
-  if (meta.route[0].symbol === 'WETH9') {
+  if (meta.route[0].symbol === 'WETH') {
     // Convert into an array of addresses
     route = [ethers.constants.AddressZero, ...meta.route.slice(1).map(token => token.address)]
   } else {

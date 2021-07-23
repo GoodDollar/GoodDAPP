@@ -4,8 +4,8 @@ import { ReactComponent as LinkSVG } from 'assets/images/link-blue.svg'
 import { WithdrawRewardsStyled } from 'components/WithdrawRewards/styled'
 import Title from 'components/gd/Title'
 import { ButtonAction } from 'components/gd/Button'
-import { ButtonEmpty } from 'components/ButtonLegacy'
 import Modal from 'components/Modal'
+import Button from 'components/Button'
 
 interface WithdrawRewardsProps {
     trigger: ReactElement<{ onClick: Function }>
@@ -68,9 +68,9 @@ function WithdrawRewards({ trigger, ...rest }: WithdrawRewardsProps) {
                                 </a>
                             </div>
                             <div className="flex justify-center">
-                                <ButtonEmpty className="back-to-portfolio" width="fit-content" onClick={handleClose}>
+                                <Button className="back-to-portfolio" onClick={handleClose}>
                                     Back to portfolio
-                                </ButtonEmpty>
+                                </Button>
                             </div>
                         </>
                     )}

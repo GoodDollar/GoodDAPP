@@ -1,4 +1,4 @@
-import React, { cloneElement, memo, useCallback, useEffect, useRef, useState } from 'react'
+import React, { cloneElement, memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { SwapCardSC, SwapContentWrapperSC, SwapWrapperSC } from './styled'
 import Title from '../../components/gd/Title'
 import SwapRow from './SwapRow'
@@ -13,8 +13,18 @@ import { useCurrencyBalance } from '../../state/wallet/hooks'
 import useActiveWeb3React from '../../hooks/useActiveWeb3React'
 import useG$ from '../../hooks/useG$'
 import useWeb3 from '../../hooks/useWeb3'
-import { BuyInfo, getMeta as getBuyMeta, getMetaReverse as getBuyMetaReverse } from '../../sdk/buy'
-import { getMeta as getSellMeta, getMetaReverse as getSellMetaReverse, SellInfo } from '../../sdk/sell'
+import {
+    approve as approveBuy,
+    BuyInfo,
+    getMeta as getBuyMeta,
+    getMetaReverse as getBuyMetaReverse
+} from '../../sdk/buy'
+import {
+    approve as approveSell,
+    getMeta as getSellMeta,
+    getMetaReverse as getSellMetaReverse,
+    SellInfo
+} from '../../sdk/sell'
 import { SupportedChainId } from '../../sdk/constants/chains'
 
 function Swap() {
@@ -85,6 +95,37 @@ function Swap() {
             setMeta(meta)
         }, 400))
     }, [account, chainId, lastEdited, buying, web3, slippageTolerance.value])
+    const [approved, setApproved] = useState(false)
+    const handleApprove = async () => {
+        if (!meta || !web3) return
+        if (buying) {
+            await approveBuy(web3, meta)
+        } else {
+            await approveSell(web3, meta)
+        }
+        setApproved(true)
+    }
+    useEffect(() => setApproved(false), [swapValue, swapPair, buying])
+
+    const balanceNotEnough = useMemo(
+        () =>
+            BigInt(meta?.inputAmount.multiply(meta?.inputAmount.decimalScale).toFixed(0) ?? '0') >
+            BigInt(pairBalance?.raw.toString() ?? '0'),
+        [meta?.inputAmount, pairBalance]
+    )
+
+    const route = useMemo(() => {
+        let route = meta?.route.map(token => token.symbol).join(' > ')
+
+        if (!route) return route
+        if (SupportedChainId[Number(chainId)] === 'FUSE') return route
+
+        if (buying) {
+            return route.endsWith('cDAI') ? `${route} > ${G$?.symbol}` : `${route} > cDAI > ${G$?.symbol}`
+        } else {
+            return route.startsWith('cDAI') ? `${G$?.symbol} > ${route}` : `${G$?.symbol} > cDAI > ${route}`
+        }
+    }, [meta?.route, buying, chainId])
 
     return (
         <SwapContext.Provider
@@ -153,9 +194,14 @@ function Swap() {
                             {meta && (
                                 <SwapInfo
                                     title="Price"
-                                    value={`${meta.inputAmount.divide(meta.outputAmount).toSignificant(6)} ${
-                                        meta.inputAmount.currency.symbol
-                                    } PER ${meta.outputAmount.currency.symbol} `}
+                                    value={`${
+                                        buying
+                                            ? meta.outputAmount.divide(meta.inputAmount.asFraction).toSignificant(6)
+                                            : meta.inputAmount
+                                                  .multiply(meta.outputAmount.decimalScale)
+                                                  .divide(meta.outputAmount.asFraction)
+                                                  .toSignificant(6)
+                                    } ${meta.inputAmount.currency.symbol} PER ${meta.outputAmount.currency.symbol} `}
                                 />
                             )}
                         </div>
@@ -170,11 +216,22 @@ function Swap() {
                         ) : (
                             <div className={swapPair.token === ETHER ? 'flex' : 'flex space-x-4'}>
                                 {swapPair.token !== ETHER && (
-                                    <ButtonAction className="flex-grow" style={{ marginTop: 22 }}>
-                                        Approve
+                                    <ButtonAction
+                                        className="flex-grow"
+                                        style={{ marginTop: 22 }}
+                                        onClick={handleApprove}
+                                        disabled={!meta || approved || balanceNotEnough}
+                                    >
+                                        {approved ? 'Approved' : 'Approve'}
                                     </ButtonAction>
                                 )}
-                                <ButtonAction className="flex-grow" style={{ marginTop: 22 }} disabled>
+                                <ButtonAction
+                                    className="flex-grow"
+                                    style={{ marginTop: 22 }}
+                                    disabled={
+                                        !meta || balanceNotEnough || (swapPair.token === ETHER ? false : !approved)
+                                    }
+                                >
                                     Swap
                                 </ButtonAction>
                             </div>
@@ -189,7 +246,7 @@ function Swap() {
                     }
                     priceImpact={meta && `${meta.priceImpact.toFixed(2)}%`}
                     liquidityFee={meta && `${meta.liquidityFee.toSignificant(6)} ${swapPair.token.getSymbol()}`}
-                    route={meta?.route.map(token => token.symbol).join(' > ')}
+                    route={route}
                     GDX={meta?.GDXAmount.toFixed(2)}
                     exitContribution={(meta as SellInfo)?.contribution?.toSignificant(6)}
                 />

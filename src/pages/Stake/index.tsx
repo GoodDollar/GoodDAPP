@@ -12,9 +12,8 @@ import { ButtonAction } from '../../components/gd/Button'
 import Table from '../../components/gd/Table'
 import useWeb3 from '../../hooks/useWeb3'
 import { getList as getStakes, Stake } from '../../sdk/staking'
-import Title from '../../components/gd/Title'
-import SwapInput from '../Swap/SwapInput'
-import { Switch, Wrapper } from './styled'
+import { Wrapper } from './styled'
+import StakeDeposit from './StakeDeposit'
 
 export default function LendingMarkets(): JSX.Element | null {
     const { i18n } = useLingui()
@@ -157,31 +156,13 @@ export default function LendingMarkets(): JSX.Element | null {
             </Wrapper>
             <Modal isOpen={!!activeStake} showClose onDismiss={() => setActiveStake(undefined)}>
                 {activeStake && (
-                    <div className="p-4">
-                        <Title className="flex space-x-2 items-center justify-center mb-2">
-                            <span>STAKE</span>
-                            <AsyncTokenIcon
-                                address={activeStake.tokens.A.address}
-                                chainId={chainId}
-                                className="block w-5 h-5 rounded-full"
-                            />
-                            <span>{activeStake.tokens.A.symbol}</span>
-                        </Title>
-                        <div className="flex items-center justify-between mb-3">
-                            <span>How much would you like to deposit?</span>
-                            <div className="flex items-center space-x-1">
-                                <span>{activeStake.tokens.A.symbol}</span>
-                                <Switch>
-                                    <div className="area" />
-                                    <input type="checkbox" />
-                                    <div className="toggle" />
-                                </Switch>
-                                <span>{activeStake.tokens.B.symbol}</span>
-                            </div>
-                        </div>
-                        <SwapInput balance="0.00" autoMax />
-                        <ButtonAction className="mt-4">APPROVE</ButtonAction>
-                    </div>
+                    <StakeDeposit
+                        stake={activeStake}
+                        onDeposit={() => {
+                            setActiveStake(undefined)
+                            web3 && getStakes(web3).then(setStakes, console.error)
+                        }}
+                    />
                 )}
             </Modal>
         </Layout>

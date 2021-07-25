@@ -51,7 +51,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
     contact,
     address,
     action,
-    vendorInfo,
+    vendorInfo = null,
   } = screenState
 
   // Going to root after shared
@@ -152,7 +152,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
     async to => {
       try {
         let txhash
-        await goodWallet.sendAmount(to, amount, {
+        await goodWallet.sendAmountWithData(to, amount, get(vendorInfo, 'data', get(vendorInfo, 'invoiceId')), {
           onTransactionHash: hash => {
             log.debug('Send G$ to address', { hash })
             txhash = hash
@@ -291,6 +291,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
       iconName="send"
       title="YOU ARE SENDING"
       action="send"
+      vendorInfo={vendorInfo}
     />
   )
 }

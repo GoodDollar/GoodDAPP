@@ -107,7 +107,7 @@ const Dashboard = props => {
   const showDeleteAccountDialog = useDeleteAccountDialog({ API, showErrorDialog, store, theme })
   const [update, setUpdate] = useState(0)
   const [showDelayedTimer, setShowDelayedTimer] = useState()
-  const currentFeed = store.get('currentFeed')
+  const [itemModal, setItemModal] = useState()
   const currentScreen = store.get('currentScreen')
   const loadingIndicator = store.get('loadingIndicator')
   const loadAnimShown = store.get('feedLoadAnimShown')
@@ -487,17 +487,18 @@ const Dashboard = props => {
    * don't show delayed items such as add to home popup if some other dialog is showing
    */
   useEffect(() => {
-    const showingSomething = get(currentScreen, 'dialogData.visible') || get(loadingIndicator, 'loading') || currentFeed
+    const showingSomething = get(currentScreen, 'dialogData.visible') || get(loadingIndicator, 'loading') || itemModal
 
     if (showDelayedTimer !== true && showDelayedTimer && showingSomething) {
       setShowDelayedTimer(clearTimeout(showDelayedTimer))
     } else if (!showDelayedTimer) {
       showDelayed()
     }
-  }, [get(currentScreen, 'dialogData.visible'), get(loadingIndicator, 'loading'), currentFeed])
+  }, [get(currentScreen, 'dialogData.visible'), get(loadingIndicator, 'loading'), itemModal])
 
   const showEventModal = useCallback(
     currentFeed => {
+      setItemModal(currentFeed)
       store.set('currentFeed')(currentFeed)
     },
     [store],
@@ -611,6 +612,7 @@ const Dashboard = props => {
                   bigNumberProps={{
                     numberOfLines: 1,
                   }}
+                  style={styles.bigGoodDollar}
                 />
               </View>
             </Animated.View>
@@ -667,12 +669,12 @@ const Dashboard = props => {
         headerLarge={headerLarge}
         scrollEventThrottle={500}
       />
-      {currentFeed && (
+      {itemModal && (
         <FeedModalList
           data={feedRef.current}
           handleFeedSelection={handleFeedSelection}
           onEndReached={nextFeed}
-          selectedFeed={currentFeed}
+          selectedFeed={itemModal}
           navigation={navigation}
         />
       )}
@@ -784,12 +786,18 @@ const getStylesFromProps = ({ theme }) => ({
   },
   bigNumberUnitStyles: {
     marginRight: normalize(-20),
+    alignSelf: 'stretch',
   },
   bigNumberStyles: {
     fontSize: 42,
     fontWeight: '700',
     lineHeight: 42,
-    textAlign: 'left',
+    textAlign: 'center',
+
+    alignSelf: 'stretch',
+  },
+  bigGoodDollar: {
+    width: '100%',
   },
 })
 

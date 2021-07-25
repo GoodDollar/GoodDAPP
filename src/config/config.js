@@ -117,9 +117,11 @@ const Config = {
   torusUxMode: isWeb ? env.REACT_APP_TORUS_UXMODE || 'redirect' : 'popup',
   abTestPercentage: env.REACT_APP_AB_TEST_PERCENTAGE || 0.5,
   smsRateLimit: env.REACT_APP_SMS_RATE_LIMIT || 60 * 1000, // rate limit for sms code verification resend
+  recaptchaSiteKey: env.REACT_APP_RECAPTCHA_SITE_KEY,
   alchemyKey,
   textileKey: env.REACT_APP_TEXTILE_KEY,
   textileSecret: env.REACT_APP_TEXTILE_SECRET,
+  web3Polling: env.REACT_APP_WEB3_POLLING || 30 * 1000, //poll every 30 seconds by default
   ethereum: {
     '1': {
       network_id: 1,
@@ -160,8 +162,8 @@ const Config = {
     },
     '4447': {
       network_id: 4447,
-      httpWeb3provider: 'http://localhost:9545/',
-      websocketWeb3Provider: 'ws://localhost:9545/ws',
+      httpWeb3provider: 'http://localhost:8545/',
+      websocketWeb3Provider: 'ws://localhost:8545/ws',
     },
   },
   nodeEnv: env.NODE_ENV,

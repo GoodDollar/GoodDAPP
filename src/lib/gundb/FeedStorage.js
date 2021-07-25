@@ -105,7 +105,7 @@ export class FeedStorage {
   }
 
   async init() {
-    const receiptEvents = ['receiptReceived', 'receiptUpdated', 'otplUpdated']
+    const receiptEvents = ['receiptUpdated']
 
     receiptEvents.forEach(e => this.wallet.subscribeToEvent(e, r => this.handleReceipt(r)))
 

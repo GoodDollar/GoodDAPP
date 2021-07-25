@@ -44,6 +44,7 @@ import { BigGoodDollar, Section, WrapperClaim } from '../common/'
 import useAppState from '../../lib/hooks/useAppState'
 import { WavesBox } from '../common/view/WavesBox'
 import useTimer from '../../lib/hooks/useTimer'
+
 import useInterval from '../../lib/hooks/useInterval'
 import type { DashboardProps } from './Dashboard'
 import useClaimCounter from './Claim/useClaimCounter'
@@ -237,6 +238,8 @@ const Claim = props => {
   const [claimCycleTime, setClaimCycleTime] = useState('00:00:00')
 
   const [totalFundsStaked, setTotalFundsStaked] = useState()
+  const [interestPending, setInterestPending] = useState()
+
   const [interestCollected, setInterestCollected] = useState()
 
   const wrappedGoodWallet = wrapper(goodWallet, store)
@@ -273,17 +276,18 @@ const Claim = props => {
           amountAndQuantity,
           activeClaimers,
           availableDistribution,
-          totalFundsStaked,
+          stakingData,
           interestCollected,
         ] = await Promise.all(promises)
 
         log.info('gatherStats:', {
+          all,
           amountAndQuantity,
           nextClaimMilis,
           entitlement,
           activeClaimers,
           availableDistribution,
-          totalFundsStaked,
+          stakingData,
           interestCollected,
         })
 
@@ -300,7 +304,8 @@ const Claim = props => {
           setTotalClaimed(amount)
           setActiveClaimers(activeClaimers)
           setAvailableDistribution(availableDistribution)
-          setTotalFundsStaked(totalFundsStaked)
+          setTotalFundsStaked(stakingData.totalFundsStaked)
+          setInterestPending(stakingData.pendingInterest)
           setInterestCollected(interestCollected)
         }
       } catch (exception) {
@@ -431,27 +436,22 @@ const Claim = props => {
   }, [setLoading, handleFaceVerification, dailyUbi, setDailyUbi, showDialog, showErrorDialog])
 
   // constantly update stats but only for some data
-  const [startPolling, stopPolling] = useInterval(gatherStats, 10000)
+  const [startPolling, stopPolling] = useInterval(gatherStats, 10000, false)
 
   useEffect(() => {
-    // poll blockchain only if the app not in background
-    // and the claim timer haven't reached zero
-    if (appState === 'active' && !dailyUbi) {
+    // refresh stats when user comes back to app, timer state has changed or dailyUBI has changed
+    if (appState === 'active') {
       // refresh all stats when returning back to app
       // or dailyUbi changed meaning a new cycle started
-      // and start polling once refreshed
-      gatherStats(true).then(startPolling)
+      gatherStats(true)
+      if (isReachedZero && dailyUbi === 0) {
+        //keep polling if timer is 0 but dailyubi still didnt update
+        startPolling()
+      }
     }
 
     return stopPolling
-  }, [appState, dailyUbi])
-
-  useEffect(() => {
-    // trigger getting stats if reached time to claim, to make sure everything is update since we refresh
-    if (isReachedZero) {
-      gatherStats()
-    }
-  }, [isReachedZero])
+  }, [appState, isReachedZero, dailyUbi])
 
   useEffect(() => {
     const init = async () => {
@@ -636,11 +636,16 @@ const Claim = props => {
               style={styles.leftGrayBox}
             />
             <GrayBox
-              title={'Interest generated\nthis week'}
+              title={'Last Interest\nCollected'}
               value={formatWithabbreviations(interestCollected)}
-              symbol={'DAI'}
+              symbol={'$'}
             />
           </Section.Row>
+          {Config.env === 'development' && (
+            <Section.Row style={[styles.statsRow]}>
+              <GrayBox title={'Pending Interest'} value={formatWithabbreviations(interestPending)} symbol={'$'} />
+            </Section.Row>
+          )}
         </Section.Stack>
       )}
       <Section.Stack style={styles.footerWrapper}>

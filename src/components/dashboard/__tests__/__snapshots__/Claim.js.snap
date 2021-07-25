@@ -829,8 +829,8 @@ staked
               }
             }
           >
-            Interest generated
-this week
+            Last Interest
+Collected
           </div>
           <div
             className="css-view-1dbjc4n r-alignItems-1d09ksm r-flexDirection-18u37iz r-justifyContent-1h0z5md"
@@ -877,7 +877,7 @@ this week
                 }
               }
             >
-              DAI
+              $
             </div>
           </div>
         </div>

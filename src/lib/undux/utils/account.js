@@ -4,8 +4,8 @@ import logger from '../../logger/pino-logger'
 import { ExceptionCategory } from '../../logger/exceptions'
 import goodWallet from '../../wallet/GoodWallet'
 import userStorage from '../../userStorage/UserStorage'
+import AsyncStorage from '../../utils/asyncStorage'
 import { assertStore } from '../SimpleStore'
-import Config from '../../../config/config'
 
 let subscribed = false
 const log = logger.child({ from: 'undux/utils/account' })
@@ -53,10 +53,7 @@ export const updateAll = async store => {
  * @returns {Promise<void>}
  */
 const onBalanceChange = async (event: EventLog, store: Store) => {
-  if (event) {
-    log.debug('new Transfer events:', { event, store })
-    await updateAll(store)
-  }
+  await updateAll(store)
 }
 
 /**
@@ -70,13 +67,7 @@ export const initTransferEvents = (store: Store) => {
     return
   }
 
-  if (Config.web3TransportProvider === 'WebSocketProvider') {
-    goodWallet.listenTxUpdates(parseInt(lastBlock), ({ fromBlock, toBlock }) =>
-      userStorage.saveLastBlockNumber(parseInt(toBlock) + 1),
-    )
-  } else {
-    goodWallet.watchEvents(parseInt(lastBlock), toBlock => userStorage.saveLastBlockNumber(parseInt(toBlock) + 1))
-  }
+  goodWallet.watchEvents(parseInt(lastBlock), toBlock => AsyncStorage.setItem('GD_lastBlock', toBlock))
 
   goodWallet.balanceChanged(event => onBalanceChange(event, store))
   subscribed = true

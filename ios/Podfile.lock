@@ -289,7 +289,7 @@ PODS:
     - React-Core
   - react-native-contacts (5.1.0):
     - React
-  - react-native-facetec (1.0.6):
+  - react-native-facetec (1.0.9):
     - React
   - react-native-image-resizer (1.2.0):
     - React
@@ -301,7 +301,7 @@ PODS:
     - React
   - react-native-udp (3.0.0):
     - React
-  - react-native-webview (11.0.2):
+  - react-native-webview (11.6.5):
     - React-Core
   - React-RCTActionSheet (0.61.5):
     - React-Core/RCTActionSheetHeaders (= 0.61.5)
@@ -381,7 +381,7 @@ PODS:
     - Sentry (= 6.0.9)
   - RNSVG (9.13.6):
     - React
-  - RNTorusDirectSdk (0.2.1):
+  - RNTorusDirectSdk (0.5.0):
     - React
     - secp256k1.c (= 0.1.2)
     - Torus-directSDK (~> 0.1.1)
@@ -658,12 +658,12 @@ SPEC CHECKSUMS:
   lottie-ios: 85ce835dd8c53e02509f20729fc7d6a4e6645a0a
   lottie-react-native: 2a1a82bb326ae51331a5520de0cf706733c6db69
   nanopb: 1bf24dd71191072e120b83dd02d08f3da0d65e53
-  Permission-Camera: afad27bf90337684d4a86f3825112d648c8c4d3b
-  Permission-PhotoLibrary: 4d2eff62c8f4b8a27bcf045c0e36f5047efbbf20
+  Permission-Camera: 53d46bd722aea28d796e20f05fb3cbe6cde6ccb6
+  Permission-PhotoLibrary: 3400b260e5f80e0dd9c04d00c2ceab233bf88427
   PromiseKit: 9616b0afef31eae56ab9ce044c8ec2b8612a15cd
   PromisesObjC: 3113f7f76903778cf4a0586bd1ab89329a0b7b97
   RCTRequired: b153add4da6e7dbc44aebf93f3cf4fcae392ddf1
-  RCTRestart: dd19aab87fc1118e05b6b5b91b959105647f56b4
+  RCTRestart: e8e3868a71dbec2cf8055fc2c0635db23c8c4479
   RCTTypeSafety: 9aa1b91d7f9310fc6eadc3cf95126ffe818af320
   React: b6a59ef847b2b40bb6e0180a97d0ca716969ac78
   React-Core: 688b451f7d616cc1134ac95295b593d1b5158a04
@@ -674,16 +674,16 @@ SPEC CHECKSUMS:
   React-jsinspector: fa0ecc501688c3c4c34f28834a76302233e29dc0
   react-native-blur: cad4d93b364f91e7b7931b3fa935455487e5c33c
   react-native-branch: 8bda99ca8dc5a16d32bd81c8a8d937cb3d2c5e0c
-  react-native-camera: cf8a153d33138dcc457172fc3c33fdf4e5d288d2
+  react-native-camera: d145df27a9178041b48b839b80ad79c9ef373fbd
   react-native-config: c98128a72bc2c3a1ca72caec0b021f0fa944aa29
   react-native-contacts: be6cde1ffc9c0196fbb57d987b9d40f12b85989c
-  react-native-facetec: 45d2d27d43af350dbc61281ebc18a93fd0d461aa
-  react-native-image-resizer: efae8dd718cbd47755df95aa45ad859e701ad7d8
-  react-native-netinfo: 3bf235d94cc291cf0673ad9fd9eaae82f84ed8a9
-  react-native-randombytes: 3638d24759d67c68f6ccba60c52a7a8a8faa6a23
-  react-native-safe-area-context: e200d4433aba6b7e60b52da5f37af11f7a0b0392
-  react-native-udp: 33df202da784dcdbd0915e4bdb2ef7b3c9aeffe3
-  react-native-webview: dfd7202ff115c44d3ea401c2f36122fb3ac79f07
+  react-native-facetec: 99711f845757902f86157e4a65991a56a25142bf
+  react-native-image-resizer: b718335229b7be37c809bf9ed81d7a066fbfd2dd
+  react-native-netinfo: 1ee553f84e01aaffbed0e5bd53d8515f7d675055
+  react-native-randombytes: 991545e6eaaf700b4ee384c291ef3d572e0b2ca8
+  react-native-safe-area-context: 8260e5157617df4b72865f44006797f895b2ada7
+  react-native-udp: 0c1afee1a1eb2b494b25e0c8ab39c783412e0984
+  react-native-webview: 9fef5edbbf9d03694c5fb513cc2e6d96694430af
   React-RCTActionSheet: 600b4d10e3aea0913b5a92256d2719c0cdd26d76
   React-RCTAnimation: 791a87558389c80908ed06cc5dfc5e7920dfa360
   React-RCTBlob: d89293cc0236d9cb0933d85e430b0bbe81ad1d72
@@ -694,28 +694,28 @@ SPEC CHECKSUMS:
   React-RCTText: 9ccc88273e9a3aacff5094d2175a605efa854dbe
   React-RCTVibration: a49a1f42bf8f5acf1c3e297097517c6b3af377ad
   ReactCommon: 198c7c8d3591f975e5431bec1b0b3b581aa1c5dd
-  RNBackgroundFetch: 5180d1ec9c646ebcd3e13dd1a7ddcca093caa728
-  RNCAsyncStorage: 05bae7ecfab1cbd5441993f1ca098f7c3b3f8d0e
-  RNCClipboard: 8148e21ac347c51fd6cd4b683389094c216bb543
-  RNCPushNotificationIOS: 4d9ffd08f00ef6c1029ebbf4d72fc711eca3ff01
-  RNDeviceInfo: 6ecb1d1c87d20e4c62354be0348de23362824dcd
+  RNBackgroundFetch: 8098740c9fa1419cd96cfecab942c132dda8c140
+  RNCAsyncStorage: bc2f81cc1df90c267ce9ed30bb2dbc93b945a8ee
+  RNCClipboard: a254f6e568bc713b7ef49646e216661369882030
+  RNCPushNotificationIOS: 9aa40ed0ff0e53f8ecf3baaaa7e5ccbaa5ba3894
+  RNDeviceInfo: 57bb2806fb7bd982a1434e9f0b4e6a6ab1f6702e
   RNFBAnalytics: 0a98aff1ad9abee16de201012f03179246c2e5bb
   RNFBApp: 2b4e07dfca4cf780b9e2d61bcc21e34d890cd654
   RNFS: 2bd9eb49dc82fa9676382f0585b992c424cd59df
   RNGestureHandler: dde546180bf24af0b5f737c8ad04b6f3fa51609a
   RNImageCropPicker: fc4b4d2a4d7176eeb6442fa191ba56493c14b6d6
   RNOS: 6f2f9a70895bbbfbdad7196abd952e7b01d45027
-  RNPermissions: ad71dd4f767ec254f2cd57592fbee02afee75467
+  RNPermissions: 1888705aebcc81714efa5dbff94351e4388ae012
   RNReanimated: 031fe8d9ea93c2bd689a40f05320ef9d96f74d7f
   RNScreens: 2a9cd603bcebc34319c92e595283d760dd1f55f5
   RNSentry: 51972e3fe50e2fb38ae459af8c87d61f63f364db
   RNSVG: 8ba35cbeb385a52fd960fd28db9d7d18b4c2974f
-  RNTorusDirectSdk: 1c60317365a46f67451e476d4989a6c0e723e17c
+  RNTorusDirectSdk: 2ddf5954dd3b6b3e2debd3bdf7df4e69ad4febf9
   RNVectorIcons: 0bb4def82230be1333ddaeee9fcba45f0b288ed4
   secp256k1.c: db47b726585d80f027423682eb369729e61b3b20
   Sentry: 388c9dc093b2fd3a264466a5c5b21e25959610a9
   Starscream: 4bb2f9942274833f7b4d296a55504dcfc7edb7b0
-  TcpSockets: 14306fb79f9750ea7d2ddd02d8bed182abb01797
+  TcpSockets: 8d839b9b14f6f344d98e4642ded13ab3112b462d
   TOCropViewController: 3105367e808b7d3d886a74ff59bf4804e7d3ab38
   Torus-directSDK: f48d6acca6b3a4c451881a636f3d8e8a7925469a
   Torus-fetchNodeDetails: 567d0c73c1b318c8811abcef0b2f31cfdcd5a4a4
@@ -725,4 +725,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: d29c7bbf74dd61f7429944cb4a5b71a60b87109c
 
-COCOAPODS: 1.10.0
+COCOAPODS: 1.10.1

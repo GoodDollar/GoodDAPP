@@ -228,9 +228,6 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
         identifyWith(null, goodWallet.getAccountForType('login'))
         fireSignupEvent('STARTED', { source })
 
-        // for QA
-        global.wallet = goodWallet
-
         const apiReady = async () => {
           await API.ready
           log.debug('ready: signupstate ready')

@@ -1,5 +1,5 @@
 // @flow
-import React, { useCallback } from 'react'
+import React, { useCallback, useRef } from 'react'
 import { Platform, View } from 'react-native'
 import Wrapper from '../../common/layout/Wrapper'
 import Text from '../../common/view/Text'
@@ -21,23 +21,49 @@ import googleBtnIcon from '../../../assets/Auth/btn_google.svg'
 import facebookBtnIcon from '../../../assets/Auth/btn_facebook.svg'
 import MobileBtnIcon from '../../../assets/Auth/btn_mobile.svg'
 import Config from '../../../config/config'
+import logger from '../../../lib/logger/pino-logger'
 import { LoginButton } from './LoginButton'
+import Recaptcha from './Recaptcha'
 
-// import { delay } from '../../../lib/utils/async'
-
-// import SpinnerCheckMark from '../../common/animations/SpinnerCheckMark'
+const log = logger.child({ from: 'SignUpScreen' })
 
 const SignupScreen = ({ isSignup, screenProps, styles, handleLoginMethod, sdkInitialized, goBack }) => {
   const { push } = screenProps
+
   const handleNavigateTermsOfUse = useCallback(() => push('PrivacyPolicyAndTerms'), [push])
 
   const handleNavigatePrivacyPolicy = useCallback(() => push('PrivacyPolicy'), [push])
+
+  const reCaptchaRef = useRef()
 
   const _google = () => handleLoginMethod('google')
 
   const _facebook = () => handleLoginMethod('facebook')
 
-  const _mobile = () => handleLoginMethod('auth0-pwdless-sms')
+  const _mobile = () => {
+    const { current: captcha } = reCaptchaRef
+
+    if (!captcha) {
+      return
+    }
+
+    // If recaptcha has already been passed successfully, trigger torus right away
+    if (captcha.hasPassedCheck()) {
+      onRecaptchaSuccess()
+      return
+    }
+
+    captcha.launchCheck()
+  }
+
+  const onRecaptchaSuccess = useCallback(() => {
+    log.debug('Recaptcha successfull')
+    handleLoginMethod('auth0-pwdless-sms')
+  }, [handleLoginMethod])
+
+  const onRecaptchaFailed = useCallback(() => {
+    log.debug('Recaptcha failed')
+  }, [])
 
   const _selfCustody = () => handleLoginMethod('selfCustody')
 
@@ -83,6 +109,7 @@ const SignupScreen = ({ isSignup, screenProps, styles, handleLoginMethod, sdkIni
       </Text>
     </>
   )
+
   return (
     <Wrapper backgroundColor="#fff" style={styles.mainWrapper}>
       <NavBar title={isSignup ? 'Signup' : 'Login'} />
@@ -132,22 +159,24 @@ const SignupScreen = ({ isSignup, screenProps, styles, handleLoginMethod, sdkIni
                 {`${buttonPrefix} with Facebook`}
               </LoginButton>
 
-              <LoginButton
-                style={[
-                  styles.buttonLayout,
-                  styles.buttonsMargin,
-                  {
-                    backgroundColor: mainTheme.colors.darkBlue,
-                  },
-                ]}
-                onPress={_mobile}
-                disabled={!sdkInitialized}
-                testID="login_with_auth0"
-                icon={MobileBtnIcon}
-                iconProps={{ viewBox: '0 0 14.001 26' }}
-              >
-                {`${buttonPrefix}${isSignup ? '' : ' with'} Passwordless`}
-              </LoginButton>
+              <Recaptcha ref={reCaptchaRef} onSuccess={onRecaptchaSuccess} onFailure={onRecaptchaFailed}>
+                <LoginButton
+                  style={[
+                    styles.buttonLayout,
+                    styles.buttonsMargin,
+                    {
+                      backgroundColor: mainTheme.colors.darkBlue,
+                    },
+                  ]}
+                  onPress={_mobile}
+                  disabled={!sdkInitialized}
+                  testID="login_with_auth0"
+                  icon={MobileBtnIcon}
+                  iconProps={{ viewBox: '0 0 14.001 26' }}
+                >
+                  {`${buttonPrefix}${isSignup ? '' : ' with'} Passwordless`}
+                </LoginButton>
+              </Recaptcha>
             </View>
             <Section.Stack style={styles.textButtonContainer}>
               <CustomButton

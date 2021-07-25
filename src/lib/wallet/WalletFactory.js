@@ -1,6 +1,5 @@
 // @flow
 import Web3 from 'web3'
-import ContractsAddress from '@gooddollar/goodcontracts/releases/deployment.json'
 import Config from '../../config/config'
 import SoftwareWalletProvider from './SoftwareWalletProvider'
 
@@ -9,6 +8,16 @@ export type WalletConfig = {
   httpWeb3provider: string,
   websocketWeb3Provider: string,
   web3Transport: string,
+}
+const networkToId = network => {
+  switch (network) {
+    case 'fuse':
+    case 'staging':
+    case 'production':
+      return '122'
+    default:
+      return '4447'
+  }
 }
 export default class WalletFactory {
   static create(walletType: string, walletConf: WalletConfig): Promise<Web3> {
@@ -20,7 +29,7 @@ export default class WalletFactory {
       case 'software':
       default: {
         let provider: SoftwareWalletProvider = new SoftwareWalletProvider({
-          ...Config.ethereum[ContractsAddress[Config.network].networkId],
+          ...Config.ethereum[networkToId(Config.network)],
           ...walletConf,
         })
         return provider.ready

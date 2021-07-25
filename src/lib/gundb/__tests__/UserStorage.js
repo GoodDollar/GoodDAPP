@@ -30,8 +30,8 @@ let event = {
   date: new Date('2019-01-01T10:00:00.000Z').toISOString(),
   data: { foo: 'bar', unchanged: 'zar' },
 }
-let event2 = { id: 'xyz2', date: new Date('2019-01-01T20:00:00.000Z').toIsoString(), data: { foo: 'bar' } }
-let event3 = { id: 'xyz3', date: new Date('2019-01-01T14:00:00.000Z').toIsoString(), data: { foo: 'xar' } }
+let event2 = { id: 'xyz2', date: new Date('2019-01-01T20:00:00.000Z').toISOString(), data: { foo: 'bar' } }
+let event3 = { id: 'xyz3', date: new Date('2019-01-01T14:00:00.000Z').toISOString(), data: { foo: 'xar' } }
 let mergedEvent = {
   id: 'xyz',
   date: new Date('2019-01-01').toISOString(),

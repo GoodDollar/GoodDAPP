@@ -42,7 +42,7 @@ import { getUserModel, type UserModel } from './UserModel'
 import { type StandardFeed } from './StandardFeed'
 import { FeedEvent, FeedItemType, FeedStorage, TxStatus } from './FeedStorage'
 
-const logger = pino.child({ from: 'UserStorage' })
+const logger = pino.child({ from: 'GunUserStorage' })
 
 const NULL_ADDRESS = '0x0000000000000000000000000000000000000000'
 
@@ -1229,7 +1229,7 @@ export class UserStorage {
    */
   // eslint-disable-next-line require-await
   async getFeedPage(numResults: number, reset?: boolean = false): Promise<Array<FeedEvent>> {
-    return this.feedStorage.getFeedDBPage(numResults, reset)
+    return this.feedStorage.getFeedPage(numResults, reset)
   }
 
   /**

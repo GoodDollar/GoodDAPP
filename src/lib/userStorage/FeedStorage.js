@@ -716,7 +716,7 @@ export class FeedStorage {
     }
   }
 
-  async getFeedDBPage(numResult: number, reset?: boolean) {
+  async getFeedPage(numResult: number, reset?: boolean) {
     if (reset || isUndefined(this.cursor)) {
       this.cursor = 0
     }
@@ -727,25 +727,25 @@ export class FeedStorage {
 
     this.cursor += items.length
 
-    log.debug('getFeedDbPage', {
+    log.debug('getFeedPage', {
       items,
     })
 
     const events = await Promise.all(
       items.map(async item => {
         const { id } = item
-        log.debug('getFeedDbPage got item', { id: item.id, item })
+        log.debug('getFeedPage got item', { id: item.id, item })
 
         if (!item.receiptReceived && id.startsWith('0x')) {
           const receipt = await this.wallet.getReceiptWithLogs(id).catch(e => {
-            log.warn('getFeedDbPage no receipt found for id:', id, e.message, e)
+            log.warn('getFeedPage no receipt found for id:', id, e.message, e)
           })
 
           if (receipt) {
-            log.warn('getFeedDbPage: missing item in cache, processing receipt again', { id, receipt })
+            log.warn('getFeedPage: missing item in cache, processing receipt again', { id, receipt })
             item = await this.handleReceipt(receipt)
           } else {
-            log.warn('getFeedDbPage no receipt found for undefined item id:', id)
+            log.warn('getFeedPage no receipt found for undefined item id:', id)
           }
         }
 

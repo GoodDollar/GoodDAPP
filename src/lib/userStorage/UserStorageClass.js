@@ -1212,7 +1212,7 @@ export class UserStorage {
    */
   // eslint-disable-next-line require-await
   async getFeedPage(numResults: number, reset?: boolean = false): Promise<Array<FeedEvent>> {
-    return this.feedStorage.getFeedDBPage(numResults, reset)
+    return this.feedStorage.getFeedPage(numResults, reset)
   }
 
   /**

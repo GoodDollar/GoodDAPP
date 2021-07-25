@@ -60,7 +60,7 @@ const InviteItem = ({ item, theme }) => {
  * @param {FeedEventProps} feedEvent - feed event
  * @returns {HTMLElement}
  */
-const ListEvent = ({ item: feed, theme, styles }: FeedEventProps) => {
+const ListEvent = ({ item: feed, theme, index, styles }: FeedEventProps) => {
   const itemType = feed.displayType || feed.type
   const eventSettings = getEventSettingsByType(theme, itemType)
   const mainColor = eventSettings.color
@@ -140,8 +140,8 @@ const ListEvent = ({ item: feed, theme, styles }: FeedEventProps) => {
               animStyle={styles.typeAnimatedIcon}
               type={itemType}
               size={normalize(34)}
-              showAnim={false}
-              delay={1000}
+              showAnim={index === 1}
+              delay={100}
             />
           </View>
         </View>

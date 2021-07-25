@@ -17,6 +17,7 @@ import getEventSettingsByType from './EventSettingsByType'
 type FeedListItemProps = {
   item: FeedEvent,
   onPress: Function,
+  index: number,
   theme?: any,
   styles?: any,
 }
@@ -26,6 +27,7 @@ type FeedListItemProps = {
  * @param {FeedListItemProps} props
  * @param {FeedEvent} props.item - feed event
  * @param {function} props.onPress
+ * @param {number} index
  * @param {object} props.theme
  * @param {object} props.styles
  * @returns {React.Node}

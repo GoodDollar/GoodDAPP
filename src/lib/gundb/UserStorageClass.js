@@ -1674,17 +1674,6 @@ export class UserStorage {
   }
 
   /**
-   * Sets the feed animation status
-   * @param {string} eventId
-   * @param {boolean} status
-   * @returns {Promise<FeedEvent>}
-   */
-  // eslint-disable-next-line require-await
-  async updateFeedAnimationStatus(eventId: string, status = true): Promise<FeedEvent> {
-    return this.feedStorage.updateFeedAnimationStatus(eventId, status)
-  }
-
-  /**
    * Sets the event's status
    * @param {string} eventId
    * @param {string} status

@@ -139,7 +139,7 @@ jobs:
           echo $CHUNKS | jq '.[${{ matrix.chunk }}] | .[] | @text' | xargs npm run coverage
           # npm run coverage
           # npm run coveralls || true
-          pkill -f ganache || true
+          # pkill -f ganache || true
 
       - name: Coveralls
         uses: coverallsapp/github-action@master

@@ -158,7 +158,7 @@ export class GoodWallet {
   }
 
   init(): Promise<any> {
-    const mainnetNetworkId = Config.network === 'production' ? 1 : 42 //get(ContractsAddress, Config.network + '-mainnet.networkId', 122)
+    const mainnetNetworkId = get(ContractsAddress, Config.network + '-mainnet.networkId', 122)
     const mainnethttpWeb3provider = Config.ethereum[mainnetNetworkId].httpWeb3provider
     this.web3Mainnet = new Web3(mainnethttpWeb3provider)
     const ready = WalletFactory.create(GoodWallet.WalletType, this.config)
@@ -607,7 +607,6 @@ export class GoodWallet {
   async getTotalFundsStaked(): Promise<number> {
     try {
       const stakingContracts = get(ContractsAddress, `${this.network}-mainnet.StakingContracts`)
-      // const stakingContracts = get(ContractsAddress, `kovan-mainnet.StakingContracts`)
       const ps = stakingContracts.map(async ([addr, rewards]) => {
         const stakingContract = new this.web3Mainnet.eth.Contract(SimpleStakingABI.abi, addr, { from: this.account })
 
@@ -629,9 +628,12 @@ export class GoodWallet {
     try {
       const fundManager = new this.web3Mainnet.eth.Contract(
         FundManagerABI.abi,
-        get(ContractsAddress, 'kovan-mainnet.GoodFundManager'),
+        get(ContractsAddress, `${this.network}-mainnet.GoodFundManager`),
       )
-      const cdai = new this.web3Mainnet.eth.Contract(cERC20ABI.abi, get(ContractsAddress, 'kovan-mainnet.cDAI'))
+      const cdai = new this.web3Mainnet.eth.Contract(
+        cERC20ABI.abi,
+        get(ContractsAddress, `${this.network}-mainnet.cDAI`),
+      )
       const [collectInterestTimeThreshold, toBlock, cdaiExchangeRate] = await Promise.all([
         fundManager.methods.collectInterestTimeThreshold().call(),
         this.web3Mainnet.eth.getBlockNumber(),

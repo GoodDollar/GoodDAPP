@@ -876,28 +876,6 @@ export class FeedStorage {
   }
 
   /**
-   * Sets the feed animation status
-   * @param {string} eventId
-   * @param {boolean} status
-   * @returns {Promise<FeedEvent>}
-   */
-  async updateFeedAnimationStatus(eventId: string, status = true): Promise<FeedEvent> {
-    const feedEvent = await this.getFeedItemByTransactionHash(eventId)
-
-    feedEvent.animationExecuted = status
-
-    return this.writeFeedEvent(feedEvent)
-      .then(_ => feedEvent)
-      .catch(e => {
-        log.error('updateFeedAnimationStatus by ID failed:', e.message, e, {
-          feedEvent,
-        })
-
-        return {}
-      })
-  }
-
-  /**
    * Sets the event's status
    * @param {string} eventId
    * @param {string} status

@@ -6,7 +6,7 @@ import type { HttpProvider, WebSocketProvider } from 'web3-providers'
 import IdentityABI from '@gooddollar/goodcontracts/build/contracts/Identity.min.json'
 import GoodDollarABI from '@gooddollar/goodcontracts/build/contracts/GoodDollar.min.json'
 import ProxyContractABI from '@gooddollar/goodcontracts/build/contracts/AdminWallet.min.json'
-import ContractsAddress from '@gooddollar/goodcontracts/releases/deployment.json'
+import ContractsAddress from '@gooddollar/goodprotocol/releases/deployment.json'
 
 import moment from 'moment'
 import get from 'lodash/get'

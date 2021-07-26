@@ -160,8 +160,8 @@ const Config = {
     },
     '4447': {
       network_id: 4447,
-      httpWeb3provider: 'http://localhost:9545/',
-      websocketWeb3Provider: 'ws://localhost:9545/ws',
+      httpWeb3provider: 'http://localhost:8545/',
+      websocketWeb3Provider: 'ws://localhost:8545/ws',
     },
   },
   nodeEnv: env.NODE_ENV,

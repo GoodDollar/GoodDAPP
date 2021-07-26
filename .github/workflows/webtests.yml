@@ -73,7 +73,7 @@ jobs:
         name: Set Chunk IDs
         run: |
           echo "::set-output name=test-chunk-ids::$(echo $CHUNKS | jq -cM 'to_entries | map(.key)')"
-          echo "::set-output name=wallet-chunk-id::$(echo $CHUNKS | jq 'to_entries | map(select(.value | .[] | index("GoodWallet"))) | unique | first | .key')"
+          echo "::set-output name=wallet-chunk-id::$(echo $CHUNKS | jq -cM 'to_entries | map(select(.value | .[] | index("GoodWallet"))) | unique | first | .key')"
         env:
           CHUNKS: ${{ steps['set-test-chunks'].outputs['test-chunks'] }}
 

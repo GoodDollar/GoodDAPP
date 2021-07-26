@@ -216,7 +216,7 @@
     "react-native-screens": "^2.1.0",
     "react-native-svg": "^9.13.6",
     "react-native-svg-transformer": "^0.14.3",
-    "react-native-swipeable-lists-gd": "0.0.2",
+    "react-native-swipeable-lists-gd": "0.0.3",
     "react-native-tcp": "^3.3.2",
     "react-native-udp": "^3.0.0",
     "react-native-v8": "^0.61.5-patch.0",

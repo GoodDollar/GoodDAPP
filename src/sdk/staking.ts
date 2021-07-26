@@ -1,4 +1,4 @@
-import Web3 from 'web3';
+import Web3 from 'web3'
 import memoize from 'lodash/memoize'
 import { BigNumber } from "ethers";
 import { Currency, CurrencyAmount, Fraction, Token } from "@uniswap/sdk-core";
@@ -401,16 +401,16 @@ export const getTokenPriceInUSDC = memoize<(web3: Web3, protocol: LIQUIDITY_PROT
       const trade = await v2TradeExactIn(amount, USDC, { chainId, maxHops: 2 })
       debug('Trade', trade)
 
-      if (trade) {
-        debug('Price', trade.outputAmount.toSignificant(6))
-        price = trade.outputAmount
-      } else {
-        debug('Price', null)
-      }
-    } else if (protocol === LIQUIDITY_PROTOCOL.AAVE) {
-      price = new Fraction(1)
-      debug('Price', price.toSignificant(6))
-    }
+            if (trade) {
+                debug('Price', trade.outputAmount.toSignificant(6))
+                price = trade.outputAmount
+            } else {
+                debug('Price', null)
+            }
+        } else if (protocol === LIQUIDITY_PROTOCOL.AAVE) {
+            price = new Fraction(1)
+            debug('Price', price.toSignificant(6))
+        }
 
     debugGroupEnd(name)
 
@@ -557,7 +557,7 @@ const getYearlyRewardG$ = memoize<(web3: Web3, address: string) => Promise<Curre
  * @param {boolean} inInterestToken Staking with token (false) or interest token (true)
  * @returns {Promise<{ address: string, amount: string }}
  */
-async function stakeMeta(web3: Web3, address: string, amount: number, inInterestToken: boolean = false): Promise<{ address: string, amount: string }> {
+async function stakeMeta(web3: Web3, address: string, amount: number | string, inInterestToken: boolean = false): Promise<{ address: string, amount: string }> {
   const contract = simpleStakingContract(web3, address)
 
   let tokenAddress
@@ -586,7 +586,7 @@ async function stakeMeta(web3: Web3, address: string, amount: number, inInterest
  * @param {boolean} inInterestToken Staking with token (false) or interest token (true)
  * @returns {Promise<void>}
  */
-export async function approve(web3: Web3, address: string, amount: number, inInterestToken: boolean = false): Promise<void> {
+export async function approve(web3: Web3, address: string, amount: number | string, inInterestToken: boolean = false): Promise<void> {
   const account = await getAccount(web3)
 
   const meta = await stakeMeta(web3, address, amount, inInterestToken)
@@ -602,7 +602,7 @@ export async function approve(web3: Web3, address: string, amount: number, inInt
  * @param {boolean} inInterestToken Staking with token (false) or interest token (true)
  * @returns {Promise<void>}
  */
-export async function stake(web3: Web3, address: string, amount: number, inInterestToken: boolean = false): Promise<void> {
+export async function stake(web3: Web3, address: string, amount: number | string, inInterestToken: boolean = false): Promise<void> {
   const contract = simpleStakingContract(web3, address)
   const account = await getAccount(web3)
 

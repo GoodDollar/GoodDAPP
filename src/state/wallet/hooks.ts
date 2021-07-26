@@ -89,8 +89,8 @@ export function useTokenBalances(
 }
 
 // get the balance for a single token/account combo
-export function useTokenBalance(account?: string, token?: Token): TokenAmount | undefined {
-    const tokenBalances = useTokenBalances(account, [token])
+export function useTokenBalance(account?: string | null, token?: Token): TokenAmount | undefined {
+    const tokenBalances = useTokenBalances(account === null ? undefined : account, [token])
     if (!token) return undefined
     return tokenBalances[token.address]
 }

@@ -26,7 +26,11 @@ function SwapInput({ className, style, autoMax, balance, decimals = 18, onMax, .
 
     return (
         <SwapInputSC className={className} style={style}>
-            {balance != undefined && autoMax && <SwapInputMaxButton onClick={onMax}>max</SwapInputMaxButton>}
+            {balance != undefined && autoMax && (
+                <SwapInputMaxButton disabled={inputProps.disabled} onClick={onMax}>
+                    max
+                </SwapInputMaxButton>
+            )}
             <MaskedInput
                 placeholder={'0.' + '0'.repeat(Math.min(decimals, 2))}
                 mask={mask}

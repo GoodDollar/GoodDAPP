@@ -64,6 +64,8 @@ jobs:
     outputs:
       test-chunks: ${{ steps['set-test-chunks'].outputs['test-chunks'] }}
       test-chunk-ids: ${{ steps['set-test-chunk-ids'].outputs['test-chunk-ids'] }}
+      wallet-chunk-id: ${{ steps['set-test-chunk-ids'].outputs['wallet-chunk-id'] }}
+
     steps:
       - uses: actions/checkout@v2
       - id: set-test-chunks
@@ -99,7 +101,7 @@ jobs:
 
     runs-on: ubuntu-latest
     steps:
-      - run: echo "${{ env }} $WALLET_CHUNK ${{ matrix.chunk }}"
+      - run: echo "wallet chunk id: $WALLET_CHUNK chunk: ${{ matrix.chunk }}"
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
         with:

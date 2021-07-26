@@ -19,6 +19,7 @@ import { decimalPercentToPercent, decimalToJSBI } from './utils/converter'
 import { ERC20Contract } from './contracts/ERC20Contract'
 import { compoundPrice } from './methods/compoundPrice'
 import { v2TradeExactIn } from './methods/v2TradeExactIn'
+import { cDaiPrice } from './methods/cDaiPrice'
 
 export type Stake = {
     APY: Fraction
@@ -205,27 +206,20 @@ async function metaMyStake(web3: Web3, address: string): Promise<MyStake | null>
     ])
 
     const { cDAI } = await g$Price(chainId)
+    const ratio = await cDaiPrice(web3, chainId)
+
     const rewardUSDC = {
-        claimed: rewardG$.claimed.multiply(cDAI).multiply(10 ** (CDAI[chainId].decimals - 2)),
-        unclaimed: rewardG$.unclaimed.multiply(cDAI).multiply(10 ** (CDAI[chainId].decimals - 2))
+        claimed: rewardG$.claimed
+            .multiply(cDAI)
+            .multiply(ratio)
+            .multiply(1e14),
+        unclaimed: rewardG$.unclaimed
+            .multiply(cDAI)
+            .multiply(ratio)
+            .multiply(1e14)
     }
 
-    debug(
-        'Reward USDC claimed',
-        CurrencyAmount.fromFractionalAmount(
-            CDAI[chainId],
-            rewardUSDC.claimed.numerator,
-            rewardUSDC.claimed.denominator
-        ).toSignificant(6)
-    )
-    debug(
-        'Reward USDC unclaimed',
-        CurrencyAmount.fromFractionalAmount(
-            CDAI[chainId],
-            rewardUSDC.unclaimed.numerator,
-            rewardUSDC.unclaimed.denominator
-        ).toSignificant(6)
-    )
+    const DAI = (await getToken(chainId, 'DAI')) as Token
 
     const result = {
         address,
@@ -235,12 +229,12 @@ async function metaMyStake(web3: Web3, address: string): Promise<MyStake | null>
             reward: rewardG$,
             reward$: {
                 claimed: CurrencyAmount.fromFractionalAmount(
-                    CDAI[chainId],
+                    DAI,
                     rewardUSDC.claimed.numerator,
                     rewardUSDC.claimed.denominator
                 ),
                 unclaimed: CurrencyAmount.fromFractionalAmount(
-                    CDAI[chainId],
+                    DAI,
                     rewardUSDC.unclaimed.numerator,
                     rewardUSDC.unclaimed.denominator
                 )
@@ -250,6 +244,9 @@ async function metaMyStake(web3: Web3, address: string): Promise<MyStake | null>
         stake: { amount, amount$ },
         tokens: { A: token, B: iToken }
     }
+
+    debug('Reward $ claimed', result.rewards.reward$.claimed.toSignificant(6))
+    debug('Reward $ unclaimed', result.rewards.reward$.unclaimed.toSignificant(6))
 
     debug('Result', result)
 
@@ -290,8 +287,6 @@ async function getRewardG$(web3: Web3, address: string, account: string): Promis
     const { 0: claimed, 1: unclaimed } = await simpleStaking.methods.getUserMintedAndPending(account).call()
 
     const chainId = await getChainId(web3)
-
-    console.log(claimed, unclaimed)
 
     const result = {
         claimed: CurrencyAmount.fromFractionalAmount(G$[chainId], claimed, 1e16),

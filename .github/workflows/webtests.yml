@@ -68,7 +68,7 @@ jobs:
       - uses: actions/checkout@v2
       - id: set-test-chunks
         name: Set Chunks
-        run: echo "::set-output name=test-chunks::$(find ./src -path \*/__tests__/*.js | sort | jq -R -s -c 'split("\n")[:-1]'| jq -cM '[_nwise(length / 10 | floor)]')"
+        run: echo "::set-output name=test-chunks::$(find ./src -path \*/__tests__/*.js | sort | jq -R -s -c 'split("\n")[:-1] | map(select(contains("__util") == false))' | jq -cM '[_nwise(length / 10 | floor)]')"
       - id: set-test-chunk-ids
         name: Set Chunk IDs
         run: |
@@ -95,10 +95,11 @@ jobs:
       REACT_APP_NFT_STORAGE_KEY: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweEMxQzUwRjJkNUYwNzgxNDJEOEEyRGQ3ZkQ4NUY5ODVFMzZEOUI5NzAiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTYyMjQ2NTYyNzMyMCwibmFtZSI6Ikdvb2REb2xsYXJUZXN0In0.9Q02zYBwlJymF6ognSrvqdzch1Vo-Xw27QYA-ABlJsY'
       CI: true
       CHUNKS: ${{ needs.setup.outputs['test-chunks'] }}
-      WALLET_CHUNK: ${{ needs.setup.outputs['wallet-chunk-id'] }}
+      WALLET_CHUNK: ${{ fromJson(needs.setup.outputs['wallet-chunk-id']) }}
 
     runs-on: ubuntu-latest
     steps:
+      - run: echo ${{ env }}
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
         with:

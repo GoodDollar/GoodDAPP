@@ -101,7 +101,7 @@ jobs:
 
     runs-on: ubuntu-latest
     steps:
-      - run: echo "wallet chunk id: $WALLET_CHUNK chunk: ${{ matrix.chunk }}"
+      - run: echo "wallet chunk id $WALLET_CHUNK chunk ${{ matrix.chunk }}"
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
         with:

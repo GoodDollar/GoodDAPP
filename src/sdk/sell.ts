@@ -1,6 +1,6 @@
 import Web3 from "web3";
 import { BigNumber, ethers } from "ethers";
-import { Currency, CurrencyAmount, Fraction, Percent, Token, TradeType } from "@uniswap/sdk-core";
+import { Currency, CurrencyAmount, Fraction, Percent, Token, TradeType, WETH9 } from "@uniswap/sdk-core";
 import { Trade } from "@uniswap/v2-sdk";
 
 import { getToken } from "./methods/tokenLists";
@@ -239,6 +239,12 @@ export async function getMeta(web3: Web3, toSymbol: string, amount: number | str
   const chainId = await getChainId(web3)
   const account = await getAccount(web3)
 
+  let isEth = false
+
+  if (toSymbol === 'ETH') {
+    isEth = true
+  }
+
   debugGroup(`Get meta ${ amount } G$ to ${ toSymbol }`)
 
   const G$ = await getToken(chainId, 'G$') as Token
@@ -317,6 +323,10 @@ export async function getMeta(web3: Web3, toSymbol: string, amount: number | str
   }
 
   debugGroupEnd(`Get meta ${ amount } G$ to ${ toSymbol }`)
+
+  if (isEth) {
+    route = [...route.slice(0, -1), WETH9[chainId]]
+  }
 
   return {
     inputAmount,

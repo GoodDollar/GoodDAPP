@@ -1,6 +1,6 @@
 import Web3 from "web3";
 import { BigNumber, ethers } from "ethers";
-import { Currency, CurrencyAmount, Fraction, Percent, Token, TradeType } from "@uniswap/sdk-core";
+import { Currency, CurrencyAmount, Fraction, Percent, Token, TradeType, WETH9 } from "@uniswap/sdk-core";
 import { Trade } from "@uniswap/v2-sdk";
 
 import { getToken } from "./methods/tokenLists";
@@ -272,8 +272,10 @@ function getLiquidityFee(trade: Trade<Currency, Currency, TradeType>): Fraction 
  */
 export async function getMeta(web3: Web3, fromSymbol: string, amount: number | string, slippageTolerance: number = 0.5): Promise<BuyInfo | null> {
   const chainId = await getChainId(web3)
+  let isEth = false
 
   if (fromSymbol === 'ETH') {
+    isEth = true
     fromSymbol = 'WETH'
   }
 
@@ -377,6 +379,10 @@ export async function getMeta(web3: Web3, fromSymbol: string, amount: number | s
   }
 
   debugGroupEnd(`Get meta ${ amount } ${ fromSymbol } to G$`)
+
+  if (isEth) {
+    route = [WETH9[chainId], ...route.slice(1)]
+  }
 
   return {
     inputAmount,
@@ -491,7 +497,7 @@ export async function approve(web3: Web3, meta: BuyInfo): Promise<void> {
   const { input } = prepareValues(meta)
 
   // If ETH - ignore method
-  if (meta.route[0].symbol === 'WETH') {
+  if (meta.route[0].symbol === 'WETH9') {
     return
   } else {
     // Approve ERC20 token to exchange
@@ -513,7 +519,7 @@ export async function buy(web3: Web3, meta: BuyInfo): Promise<void> {
 
   let route: string[]
   // If ETH - change route a little bit to start from a zero address
-  if (meta.route[0].symbol === 'WETH') {
+  if (meta.route[0].symbol === 'WETH9') {
     // Convert into an array of addresses
     route = [ethers.constants.AddressZero, ...meta.route.slice(1).map(token => token.address)]
   } else {

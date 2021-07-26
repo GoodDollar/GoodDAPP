@@ -95,11 +95,11 @@ jobs:
       REACT_APP_NFT_STORAGE_KEY: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweEMxQzUwRjJkNUYwNzgxNDJEOEEyRGQ3ZkQ4NUY5ODVFMzZEOUI5NzAiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTYyMjQ2NTYyNzMyMCwibmFtZSI6Ikdvb2REb2xsYXJUZXN0In0.9Q02zYBwlJymF6ognSrvqdzch1Vo-Xw27QYA-ABlJsY'
       CI: true
       CHUNKS: ${{ needs.setup.outputs['test-chunks'] }}
-      WALLET_CHUNK: ${{ fromJson(needs.setup.outputs['wallet-chunk-id']) }}
+      WALLET_CHUNK: ${{ needs.setup.outputs['wallet-chunk-id'] }}
 
     runs-on: ubuntu-latest
     steps:
-      - run: echo ${{ env }}
+      - run: echo "${{ env }} $WALLET_CHUNK ${{ matrix.chunk }}"
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
         with:

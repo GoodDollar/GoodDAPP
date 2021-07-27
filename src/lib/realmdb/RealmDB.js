@@ -312,6 +312,10 @@ class RealmDB implements DB, ProfileDB {
     return this.Profiles.updateOne({ user_id: this.user.id }, { $set: fields })
   }
 
+  setProfileField(field: string, value: string, privacy?: FieldPrivacy, onlyPrivacy?: boolean) {
+    return this.Profiles.updateOne({ user_id: this.user.id }, { [field]: value })
+  }
+
   removeAvatar(withCleanup?: boolean) {
     // eslint-disable-next-line require-await
     const updateRealmDB = async () => this.setProfileFields({ avatar: null })
@@ -378,26 +382,22 @@ class RealmDB implements DB, ProfileDB {
     return this.getProfile().then(data => data[field].privacy)
   }
 
-  // validateProfile(
-  //   profile: any,
-  // ): Promise<{
-  //   isValid: boolean,
-  //   errors: {},
-  // }>
-  // setProfileField(field: string, value: string, privacy?: FieldPrivacy, onlyPrivacy?: boolean): Promise<ACK>;
-  // // indexProfileField(field: string, value: string, privacy: FieldPrivacy): Promise<ACK>;
-  // setProfileFieldPrivacy(field: string, privacy: FieldPrivacy): Promise<ACK>;
-  // isUsername(username: string): Promise<boolean>;
-  // // getUserProfilePublickey(value: string): Promise<any>;
-  // // getUserAddress(field: string): string;
-  // getUserProfile(field?: string): { name: String, avatar: String };
-  // // _getProfileNodeTrusted(initiatorType, initiator, address): Gun
-  // // _getProfileNode(initiatorType, initiator, address): Gun
-  // getProfile(): Promise<any>;
-  // // getEncryptedProfile(profileNode): Promise<any>;
-  // // getPublicProfile(): Promise<any>;
-  // deleteProfile(): Promise<boolean>;
-  // // deleteAccount(): Promise<boolean>;
+  validateProfile(profile: any): Promise<{ isValid: boolean, errors: {} }> {
+    if (!profile) {
+      return { isValid: false, errors: {} }
+    }
+  }
+
+  async setProfileFieldPrivacy(field: string, privacy: FieldPrivacy) {
+    let value = await this.getProfileFieldValue(field)
+    return this.setProfileField(field, value, privacy, true)
+  }
+
+  isUsername(username: string): Promise<boolean> {}
+
+  getUserProfile(field?: string): { name: string, avatar: string } {}
+
+  deleteProfile(): Promise<boolean> {}
 }
 
 export default once(() => new RealmDB())

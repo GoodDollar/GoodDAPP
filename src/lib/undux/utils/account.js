@@ -3,7 +3,7 @@ import type { Store } from 'undux'
 import logger from '../../logger/pino-logger'
 import { ExceptionCategory } from '../../logger/exceptions'
 import goodWallet from '../../wallet/GoodWallet'
-import userStorage from '../../gundb/UserStorage'
+import userStorage from '../../userStorage/UserStorage'
 import AsyncStorage from '../../utils/asyncStorage'
 import { assertStore } from '../SimpleStore'
 
@@ -59,9 +59,8 @@ const onBalanceChange = async (event: EventLog, store: Store) => {
 /**
  * Starts listening to Transfer events to (and from) the current account
  */
-export const initTransferEvents = async (store: Store) => {
-  const lastBlock = (await AsyncStorage.getItem('GD_lastBlock')) || userStorage.userProperties.get('joinedAtBlock')
-
+export const initTransferEvents = (store: Store) => {
+  const lastBlock = userStorage.userProperties.getLocal('lastBlock') || 6400000
   log.debug('starting events listener', { lastBlock, subscribed })
 
   if (subscribed) {

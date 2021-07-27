@@ -331,33 +331,6 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
 
       requestPayload.regMethod = regMethod
 
-      const [mnemonic] = await Promise.all([
-        AsyncStorage.getItem(GD_USER_MNEMONIC).then(_ => _ || ''),
-
-        //make sure profile is initialized, maybe solve gun bug where profile is undefined
-        userStorage.profile.putAck({ initialized: true }).catch(e => {
-          log.error('set profile initialized failed:', e.message, e)
-          throw e
-        }),
-
-        // Stores creationBlock number into 'lastBlock' feed's node
-        userStorage.saveJoinedBlockNumber(),
-        userStorage.userProperties.updateAll({ regMethod, inviterInviteCode: inviteCode }),
-      ])
-
-      // trying to update profile 2 times, if failed anyway - re-throwing exception
-      await defer(() =>
-        fromPromise(
-          userStorage.setProfile({
-            ...requestPayload,
-            walletAddress: goodWallet.account,
-            mnemonic,
-          }),
-        ),
-      )
-        .pipe(retry(1))
-        .toPromise()
-
       let newUserData
 
       if (regMethod === REGISTRATION_METHOD_TORUS) {
@@ -406,6 +379,43 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
             throw exception
           }
         })
+
+      //refresh JWT
+      const login = retryImport(() => import('../../lib/login/GoodWalletLogin'))
+      const refresh = true
+      await login
+        .then(l => l.default.auth(refresh))
+        .catch(e => {
+          log.error('failed auth:', e.message, e)
+        })
+
+      await userStorage.initRegistered()
+      const [mnemonic] = await Promise.all([
+        AsyncStorage.getItem(GD_USER_MNEMONIC).then(_ => _ || ''),
+
+        //make sure profile is initialized, maybe solve gun bug where profile is undefined
+        userStorage.profile.putAck({ initialized: true }).catch(e => {
+          log.error('set profile initialized failed:', e.message, e)
+          throw e
+        }),
+
+        // Stores creationBlock number into 'lastBlock' feed's node
+        userStorage.saveJoinedBlockNumber(),
+        userStorage.userProperties.updateAll({ regMethod, inviterInviteCode: inviteCode }),
+      ])
+
+      // trying to update profile 2 times, if failed anyway - re-throwing exception
+      await defer(() =>
+        fromPromise(
+          userStorage.setProfile({
+            ...requestPayload,
+            walletAddress: goodWallet.account,
+            mnemonic,
+          }),
+        ),
+      )
+        .pipe(retry(1))
+        .toPromise()
 
       //set tokens for other services returned from backend
       await Promise.all(

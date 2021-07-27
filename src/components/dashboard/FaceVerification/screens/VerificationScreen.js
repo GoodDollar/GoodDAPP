@@ -2,7 +2,7 @@ import React, { useCallback, useMemo } from 'react'
 
 import Instructions from '../components/Instructions'
 
-import UserStorage from '../../../../lib/gundb/UserStorage'
+import UserStorage from '../../../../lib/userStorage/UserStorage'
 import { useCurriedSetters } from '../../../../lib/undux/GDStore'
 import goodWallet from '../../../../lib/wallet/GoodWallet'
 import logger from '../../../../lib/logger/pino-logger'

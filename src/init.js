@@ -1,6 +1,6 @@
 //@flow
 import goodWallet from './lib/wallet/GoodWallet'
-import userStorage from './lib/gundb/UserStorage'
+import userStorage from './lib/userStorage/UserStorage'
 import { setUserStorage, setWallet } from './lib/undux/SimpleStore'
 import logger from './lib/logger/pino-logger'
 

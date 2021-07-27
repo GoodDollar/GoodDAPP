@@ -61,7 +61,7 @@ export const mockEvent = (type, status) => ({
   type,
   id: '0x9812619905da200c4effe8cd2ca4b2b31eeddf133f8fd283069d2e5aec3b9f77',
   date: convertDateToUTC(1554130994000),
-  createdDate: 'Fri Aug 02 2019 15:15:44 GMT-0300 (Argentina Standard Time)',
+  createdDate: new Date('Fri Aug 02 2019 15:15:44 GMT-0300 (Argentina Standard Time)').toISOString(),
   status: status || 'completed',
   data: {
     amount: 4,

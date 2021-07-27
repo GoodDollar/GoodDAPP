@@ -6,8 +6,8 @@ import { text } from 'react-native-communications'
 import { fireEvent } from '../../lib/analytics/analytics'
 import GDStore from '../../lib/undux/GDStore'
 import gun from '../../lib/gundb/gundb'
-import userStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
-import { FeedItemType } from '../../lib/gundb/FeedStorage'
+import userStorage, { type TransactionEvent } from '../../lib/userStorage/UserStorage'
+import { FeedItemType } from '../../lib/userStorage/FeedStorage'
 import logger from '../../lib/logger/pino-logger'
 import { ExceptionCategory } from '../../lib/logger/exceptions'
 import { useDialog } from '../../lib/undux/utils/dialog'
@@ -81,8 +81,8 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
           // Save transaction
           const transactionEvent: TransactionEvent = {
             id: hash,
-            date: new Date().toString(),
-            createdDate: new Date().toString(),
+            date: new Date().toISOString(),
+            createdDate: new Date().toISOString(),
             type: FeedItemType.EVENT_TYPE_SEND,
             status: 'pending',
             data: {
@@ -167,7 +167,8 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
             // Save transaction
             const transactionEvent: TransactionEvent = {
               id: hash,
-              date: new Date().toString(),
+              createdDate: new Date().toISOString(),
+              date: new Date().toISOString(),
               type: FeedItemType.EVENT_TYPE_SENDDIRECT,
               data: {
                 to: address,

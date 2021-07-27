@@ -36,13 +36,14 @@ import { isValidBase64Image, isValidCIDImage, resizeImage } from '../utils/image
 import { GD_GUN_CREDENTIALS } from '../constants/localStorage'
 import AsyncStorage from '../utils/asyncStorage'
 import Base64Storage from '../nft/Base64Storage'
-import defaultGun from './gundb'
-import UserProperties from './UserPropertiesClass'
-import { getUserModel, type UserModel } from './UserModel'
-import { type StandardFeed } from './StandardFeed'
+import defaultGun from '../gundb/gundb'
+import { getUserModel, type UserModel } from '../gundb//UserModel'
+import { type StandardFeed } from '../gundb/StandardFeed'
+import UserProperties from './UserProperties'
 import { FeedEvent, FeedItemType, FeedStorage, TxStatus } from './FeedStorage'
+import type { DB } from './UserStorage'
 
-const logger = pino.child({ from: 'GunUserStorage' })
+const logger = pino.child({ from: 'UserStorage' })
 
 const NULL_ADDRESS = '0x0000000000000000000000000000000000000000'
 
@@ -254,6 +255,10 @@ export class UserStorage {
 
   _lastProfileUpdate: any
 
+  feedDB: DB
+
+  userProperties
+
   profileSettings: {} = {
     fullName: { defaultPrivacy: 'public' },
     email: { defaultPrivacy: 'private' },
@@ -370,9 +375,11 @@ export class UserStorage {
     return mnemonic
   }
 
-  constructor(wallet: GoodWallet, gun: Gun) {
-    this.gun = gun || defaultGun
+  constructor(wallet: GoodWallet, feeddb: DB, userProperties) {
+    this.gun = defaultGun
     this.wallet = wallet
+    this.feedDB = feeddb
+    this.userProperties = userProperties
     this.init()
   }
 
@@ -495,9 +502,7 @@ export class UserStorage {
       pair: this.gunuser.pair(),
     })
 
-    // await Promise.all([this.initProperties(), this.initProfile()])
     this.initProfile().catch(e => logger.error('failed initializing initProfile', e.message, e))
-    await this.initProperties()
   }
 
   /**
@@ -510,14 +515,16 @@ export class UserStorage {
       return
     }
 
-    this.feedStorage = new FeedStorage(this.gun, this.wallet, this)
+    const seed = this.wallet.wallet.eth.accounts.wallet[this.wallet.getAccountForType('gundb')].privateKey.slice(2)
+    await this.feedDB.init(seed, this.wallet.getAccountForType('gundb')) //only once user is registered he has access to realmdb via signed jwt
+    await this.initFeed()
 
     // get trusted GoodDollar indexes and pub key
     let trustPromise = this.fetchTrustIndexes()
 
     logger.debug('subscribing to wallet events')
 
-    await trustPromise
+    await Promise.all([trustPromise])
 
     logger.debug('done initializing registered userstorage')
     this.initializedRegistered = true
@@ -537,7 +544,7 @@ export class UserStorage {
       try {
         // firstly, awaiting for wallet is ready
         await wallet.ready
-
+        await this.userProperties.ready
         const isReady = await retry(() => this.initGun(), 1) // init user storage, if exception thrown, retry init one more times
 
         logger.debug('userStorage initialized.')
@@ -704,6 +711,7 @@ export class UserStorage {
    */
   // eslint-disable-next-line require-await
   async getAllFeed() {
+    await this.feedStorage.ready
     return this.feedStorage.getAllFeed()
   }
 
@@ -712,6 +720,7 @@ export class UserStorage {
    * the "false" (see gundb docs) passed is so we get the complete 'index' on every change and not just the day that changed
    */
   async initFeed() {
+    this.feedStorage = new FeedStorage(this.feedDB, this.gun, this.wallet, this)
     await this.feedStorage.init()
     this.startSystemFeed().catch(e => logger.error('initfeed failed initializing startSystemFeed', e.message, e))
   }
@@ -724,15 +733,17 @@ export class UserStorage {
     this.addStartClaimingCard()
 
     if (Config.enableInvites) {
-      inviteFriendsMessage.id = INVITE_NEW_ID
-      const bounty = await this.wallet.getUserInviteBounty()
-      inviteFriendsMessage.data.readMore = inviteFriendsMessage.data.readMore
-        .replace('100', bounty)
-        .replace('50', bounty / 2)
-      setTimeout(() => this.enqueueTX(inviteFriendsMessage), 60000) // 2 minutes
-      const firstInviteCard = this.feedStorage.feedIds['0.1']
-      if (
-        firstInviteCard &&
+      const firstInviteCard = await this.feedStorage.hasFeedItem('0.1')
+      const secondInviteCard = await this.feedStorage.hasFeedItem(INVITE_REMINDER_ID)
+      if (!firstInviteCard) {
+        inviteFriendsMessage.id = INVITE_NEW_ID
+        const bounty = await this.wallet.getUserInviteBounty()
+        inviteFriendsMessage.data.readMore = inviteFriendsMessage.data.readMore
+          .replace('100', bounty)
+          .replace('50', bounty / 2)
+        setTimeout(() => this.enqueueTX(inviteFriendsMessage), 60000) // 2 minutes
+      } else if (
+        !secondInviteCard &&
         moment(firstInviteCard.date)
           .add(2, 'weeks')
           .isBefore(moment())
@@ -749,17 +760,6 @@ export class UserStorage {
     }
 
     logger.debug('startSystemFeed: done')
-  }
-
-  /**
-   * Save user properties
-   */
-  async initProperties() {
-    // this.properties = this.gunuser.get('properties')
-
-    this.userProperties = new UserProperties(this.gun)
-    const properties = await this.userProperties.ready
-    logger.debug('init properties', { properties })
   }
 
   async initProfile() {
@@ -1039,23 +1039,6 @@ export class UserStorage {
     }
 
     return true
-
-    //we no longer enforce uniqueness on email/mobile only on username
-    //TODO: no longer  using world writable index
-    // try {
-    // if (field === 'username') {
-    //   const indexValue = await global.gun
-    //     .get(`users/by${field}`)
-    //     .get(cleanValue)
-    //     .then()
-    //   return !(indexValue && indexValue.pub !== global.gun.user().is.pub)
-    // }
-
-    //   return true
-    // } catch (e) {
-    //   logger.error('Validate IndexProfileField failed', e.message, e)
-    //   return true
-    // }
   }
 
   async validateProfile(profile: any) {
@@ -1671,6 +1654,17 @@ export class UserStorage {
   // eslint-disable-next-line require-await
   async updateEventStatus(eventId: string, status: string): Promise<FeedEvent> {
     return this.feedStorage.updateEventStatus(eventId, status)
+  }
+
+  /**
+   * Sets the feed animation status
+   * @param {string} eventId
+   * @param {boolean} status
+   * @returns {Promise<FeedEvent>}
+   */
+  // eslint-disable-next-line require-await
+  async updateFeedAnimationStatus(eventId: string, status = true): Promise<FeedEvent> {
+    return this.feedStorage.updateFeedAnimationStatus(eventId, status)
   }
 
   /**

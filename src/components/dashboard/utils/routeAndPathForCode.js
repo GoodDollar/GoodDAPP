@@ -2,7 +2,7 @@
 import { isNil } from 'lodash'
 import { getNetworkName } from '../../../lib/constants/network'
 import goodWallet from '../../../lib/wallet/GoodWallet'
-import userStorage from '../../../lib/gundb/UserStorage'
+import userStorage from '../../../lib/userStorage/UserStorage'
 import { ACTION_SEND_TO_ADDRESS } from './sendReceiveFlow'
 
 export type CodeType = {

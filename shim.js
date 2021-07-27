@@ -8,7 +8,7 @@ global.location = {
 global.process = require('process')
 // global.process.version = 'v0.10';
 global.process.browser = false
-
+global.process.release = { name: 'gooddollar-wallet' }
 const isDev = typeof __DEV__ === 'boolean' && __DEV__
 
 process.env['NODE_ENV'] = isDev ? 'development' : 'production'

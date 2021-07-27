@@ -17,7 +17,7 @@ import { initBGFetch } from '../../lib/notifications/backgroundFetch'
 import { createStackNavigator } from '../appNavigation/stackNavigation'
 import { initTransferEvents } from '../../lib/undux/utils/account'
 
-import userStorage from '../../lib/gundb/UserStorage'
+import userStorage from '../../lib/userStorage/UserStorage'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import useAppState from '../../lib/hooks/useAppState'
 import { PushButton } from '../appNavigation/PushButton'
@@ -330,7 +330,6 @@ const Dashboard = props => {
   )
 
   const initDashboard = async () => {
-    await userStorage.initFeed()
     await handleFeedEvent()
     handleDeleteRedirect()
     await subscribeToFeed().catch(e => log.error('initDashboard feed failed', e.message, e))
@@ -515,8 +514,10 @@ const Dashboard = props => {
   }
 
   useEffect(() => {
-    if (feedRef.current.length) {
-      getNotificationItem()
+    if (appState === 'active') {
+      if (feedRef.current.length) {
+        getNotificationItem()
+      }
     }
   }, [appState])
 

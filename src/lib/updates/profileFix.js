@@ -1,5 +1,5 @@
 import { Platform } from 'react-native'
-import userStorage from '../gundb/UserStorage'
+import userStorage from '../userStorage/UserStorage'
 import API from '../API/api'
 import { retry, timeout } from '../utils/async'
 

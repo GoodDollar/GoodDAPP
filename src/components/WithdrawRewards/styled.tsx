@@ -9,7 +9,8 @@ export const WithdrawRewardsStyled = styled.div`
         line-height: 20px;
         letter-spacing: 0.35px;
         color: ${({ theme }) => theme.red4};
-        padding: 20px 0 20px 0;
+        overflow-wrap: anywhere;
+        word-break: break-all;
     }
 
     .claim-reward {

@@ -33,7 +33,7 @@ export type Stake = {
 
 type MyReward = { claimed: CurrencyAmount<Currency>; unclaimed: CurrencyAmount<Currency> }
 
-type MyStake = {
+export type MyStake = {
     address: string
     protocol: LIQUIDITY_PROTOCOL
     multiplier: boolean

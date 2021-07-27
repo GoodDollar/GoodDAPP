@@ -46,6 +46,19 @@ export const PortfolioAnalyticSC = styled.div`
         line-height: 14px;
     }
 
+    > * {
+        padding-left: 5px;
+        padding-right: 5px;
+
+        &:first-child {
+            padding-left: 0;
+        }
+
+        &:last-child {
+            padding-right: 0;
+        }
+    }
+
     @media ${({ theme }) => theme.media.md} {
         flex-wrap: wrap;
         height: unset;
@@ -61,6 +74,10 @@ export const PortfolioAnalyticSC = styled.div`
 `
 
 export const PortfolioSC = styled.div`
+    th {
+        text-align: left;
+    }
+
     @media screen and (max-width: 1250px) {
         ${TableSC} {
             th:nth-child(3),

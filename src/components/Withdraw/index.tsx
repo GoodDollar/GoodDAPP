@@ -8,6 +8,8 @@ import { ReactComponent as LinkSVG } from 'assets/images/link-blue.svg'
 
 import PercentInputControls from 'components/Withdraw/PercentInputControls'
 import Button from 'components/Button'
+import { MyStake, withdraw } from '../../sdk/staking'
+import useWeb3 from '../../hooks/useWeb3'
 
 function formatNumber(value: number) {
     return Intl.NumberFormat('en-US', { style: 'decimal', maximumFractionDigits: 4 }).format(value)
@@ -19,11 +21,13 @@ interface WithdrawProps {
     totalStake: number
     open: boolean
     setOpen: (value: boolean) => void
+    onWithdraw: () => void
+    stake: MyStake
 }
 
 type WithdrawState = 'none' | 'pending' | 'success'
 
-function Withdraw({ token, protocol, totalStake, open, setOpen, ...rest }: WithdrawProps) {
+function Withdraw({ token, protocol, totalStake, open, setOpen, onWithdraw, stake, ...rest }: WithdrawProps) {
     const [status, setStatus] = useState<WithdrawState>('none')
 
     const [percentage, setPercentage] = useState<string>('50')
@@ -33,10 +37,19 @@ function Withdraw({ token, protocol, totalStake, open, setOpen, ...rest }: Withd
         setWithdrawAmount(totalStake * (Number(percentage) / 100))
     }, [percentage])
 
-    const handleWithdraw = useCallback(() => {
-        setStatus('pending')
-        setTimeout(() => setStatus('success'), 3000)
-    }, [setStatus])
+    const web3 = useWeb3()
+    const handleWithdraw = useCallback(async () => {
+        if (!web3) return
+        try {
+            setStatus('pending')
+            await withdraw(web3, stake.address, parseFloat(percentage))
+            setStatus('success')
+            onWithdraw()
+        } catch (e) {
+            console.error(e)
+            setStatus('none')
+        }
+    }, [setStatus, onWithdraw])
 
     const handleClose = useCallback(() => {
         setOpen(false)

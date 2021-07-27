@@ -1,4 +1,4 @@
-import React, { memo } from 'react'
+import React, { memo, useCallback, useState } from 'react'
 import { Layout } from '../../kashi'
 import { PortfolioAnalyticSC, PortfolioSC, PortfolioTitleSC, PortfolioValueSC } from './styled'
 import Title from '../../components/gd/Title'
@@ -7,8 +7,58 @@ import { ButtonDefault } from '../../components/gd/Button'
 import Table from '../../components/gd/Table'
 import WithdrawRewards from 'components/WithdrawRewards'
 import PortfolioTableRow from 'components/PortfolioTableRow'
+import usePromise from '../../hooks/usePromise'
+import { getMyList } from '../../sdk/staking'
+import useWeb3 from '../../hooks/useWeb3'
+import { Currency, CurrencyAmount } from '@uniswap/sdk-core'
 
 const Portfolio = () => {
+    const web3 = useWeb3()
+    const [dep, _update] = useState({})
+    const update = useCallback(() => _update({}), [])
+    const [data] = usePromise(async () => {
+        const list = web3 ? await getMyList(web3) : []
+
+        return {
+            list,
+            aggregated: list.reduce(
+                (acc, stake) => {
+                    return !acc
+                        ? {
+                              myStake: stake.stake.amount$,
+                              rewardsG$: stake.rewards.reward.claimed.add(stake.rewards.reward.unclaimed),
+                              rewardsG$Unclaimed: stake.rewards.reward.unclaimed,
+                              rewardsG$Unclaimed$: stake.rewards.reward$.unclaimed,
+                              rewardsGDAO: stake.rewards.GDAO.claimed.add(stake.rewards.GDAO.unclaimed),
+                              rewardsGDAOUnclaimed: stake.rewards.GDAO.unclaimed
+                          }
+                        : {
+                              myStake: acc.myStake.add(stake.stake.amount$),
+                              rewardsG$: acc.rewardsG$
+                                  .add(stake.rewards.reward.claimed)
+                                  .add(stake.rewards.reward.unclaimed),
+                              rewardsG$Unclaimed: acc.rewardsG$Unclaimed.add(stake.rewards.reward.unclaimed),
+                              rewardsG$Unclaimed$: acc.rewardsG$Unclaimed$.add(stake.rewards.reward$.unclaimed),
+                              rewardsGDAO: acc.rewardsGDAO
+                                  .add(stake.rewards.GDAO.claimed)
+                                  .add(stake.rewards.GDAO.unclaimed),
+                              rewardsGDAOUnclaimed: acc.rewardsGDAOUnclaimed.add(stake.rewards.GDAO.unclaimed)
+                          }
+                },
+                undefined as
+                    | undefined
+                    | {
+                          myStake: CurrencyAmount<Currency>
+                          rewardsG$: CurrencyAmount<Currency>
+                          rewardsG$Unclaimed: CurrencyAmount<Currency>
+                          rewardsG$Unclaimed$: CurrencyAmount<Currency>
+                          rewardsGDAO: CurrencyAmount<Currency>
+                          rewardsGDAOUnclaimed: CurrencyAmount<Currency>
+                      }
+            )
+        }
+    }, [dep])
+
     return (
         <Layout>
             <PortfolioSC>
@@ -17,21 +67,31 @@ const Portfolio = () => {
                     <PortfolioAnalyticSC className="flex">
                         <div className="flex flex-col justify-between flex-grow">
                             <Title type="category">My Stake</Title>
-                            <PortfolioValueSC>~$30,000</PortfolioValueSC>
+                            <PortfolioValueSC>~{data?.aggregated?.myStake.toFixed(2) ?? '0.00'}$</PortfolioValueSC>
                         </div>
                         <div className="flex flex-col justify-between flex-grow">
                             <Title type="category">
                                 Total Rewards to Date <br /> (G$ & GDAO)
                             </Title>
-                            <PortfolioValueSC>~1,000 G$</PortfolioValueSC>
+                            <PortfolioValueSC>
+                                -
+                                {/*~{data?.aggregated?.rewardsG$.add(data.aggregated.rewardsGDAO).toSignificant(6)}{' '}*/}
+                                {/*{data?.aggregated?.rewardsG$.currency.symbol}*/}
+                            </PortfolioValueSC>
                         </div>
                         <div className="flex flex-col justify-between flex-grow">
                             <Title type="category">G$ Rewards</Title>
-                            <PortfolioValueSC>$100</PortfolioValueSC>
+                            <PortfolioValueSC>
+                                {data?.aggregated?.rewardsG$.toSignificant(6) ?? '0.00'}{' '}
+                                {data?.aggregated?.rewardsG$.currency.symbol}
+                            </PortfolioValueSC>
                         </div>
                         <div className="flex flex-col justify-between flex-grow">
                             <Title type="category">GDAO Rewards</Title>
-                            <PortfolioValueSC>~1,000 GDAO</PortfolioValueSC>
+                            <PortfolioValueSC>
+                                {data?.aggregated?.rewardsGDAO.toSignificant(6) ?? '0.00'}{' '}
+                                {data?.aggregated?.rewardsGDAO.currency.symbol}
+                            </PortfolioValueSC>
                         </div>
                         <div className="flex flex-col justify-between flex-grow">
                             <Title type="category">Your social contribution from:</Title>
@@ -47,14 +107,22 @@ const Portfolio = () => {
                         </div>
                         <div className="flex flex-col justify-between flex-grow">
                             <Title type="category">G$ Rewards</Title>
-                            <PortfolioValueSC>~1,000 G$ / ~$100</PortfolioValueSC>
+                            <PortfolioValueSC>
+                                {data?.aggregated?.rewardsG$Unclaimed.toSignificant(6) ?? '0.00'}{' '}
+                                {data?.aggregated?.rewardsG$Unclaimed.currency.symbol} / ~
+                                {data?.aggregated?.rewardsG$Unclaimed$.toFixed(2) ?? '0.00'}$
+                            </PortfolioValueSC>
                         </div>
                         <div className="flex flex-col justify-between flex-grow">
                             <Title type="category">GDAO Rewards</Title>
-                            <PortfolioValueSC>~1,000 GDAO</PortfolioValueSC>
+                            <PortfolioValueSC>
+                                {data?.aggregated?.rewardsGDAOUnclaimed.toSignificant(6) ?? '0.00'}{' '}
+                                {data?.aggregated?.rewardsGDAOUnclaimed.currency.symbol}
+                            </PortfolioValueSC>
                         </div>
                         <div className="flex flex-col justify-center items-end flex-grow">
                             <WithdrawRewards
+                                onClaim={update}
                                 trigger={<ButtonDefault width={'156px'}>Withdraw rewards</ButtonDefault>}
                             />
                         </div>
@@ -90,8 +158,9 @@ const Portfolio = () => {
                             </tr>
                         }
                     >
-                        <PortfolioTableRow />
-                        <PortfolioTableRow />
+                        {data?.list.map(stake => (
+                            <PortfolioTableRow stake={stake} key={stake.address} onWithdraw={update} />
+                        ))}
                     </Table>
                 </Card>
             </PortfolioSC>

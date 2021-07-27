@@ -6,26 +6,42 @@ import Title from 'components/gd/Title'
 import { ButtonAction } from 'components/gd/Button'
 import Modal from 'components/Modal'
 import Button from 'components/Button'
+import { claim } from '../../sdk/staking'
+import useWeb3 from '../../hooks/useWeb3'
 
 interface WithdrawRewardsProps {
     trigger: ReactElement<{ onClick: Function }>
+    onClaim: () => void
 }
 
 type WithdrawRewardsState = 'none' | 'pending' | 'success'
 
-function WithdrawRewards({ trigger, ...rest }: WithdrawRewardsProps) {
+function WithdrawRewards({ trigger, onClaim, ...rest }: WithdrawRewardsProps) {
     const [status, setStatus] = useState<WithdrawRewardsState>('none')
-    const handleClaim = useCallback(() => {
-        setStatus('pending')
-        setTimeout(() => setStatus('success'), 3000)
-    }, [setStatus])
+    const [error, setError] = useState<Error>()
+    const web3 = useWeb3()
+    const handleClaim = useCallback(async () => {
+        if (!web3) return
+        try {
+            setStatus('pending')
+            await claim(web3)
+            setStatus('success')
+            onClaim()
+        } catch (e) {
+            setStatus('none')
+            setError(e)
+        }
+    }, [setStatus, onClaim])
     const [isModalOpen, setModalOpen] = useState(false)
     const handleClose = useCallback(() => {
         setModalOpen(false)
     }, [])
 
     useEffect(() => {
-        if (isModalOpen && status !== 'none') setStatus('none')
+        if (isModalOpen && status !== 'none') {
+            setStatus('none')
+            setError(undefined)
+        }
     }, [isModalOpen])
 
     return (
@@ -39,12 +55,8 @@ function WithdrawRewards({ trigger, ...rest }: WithdrawRewardsProps) {
                     </div>
                     {status === 'none' || status === 'pending' ? (
                         <>
-                            <Title className="flex flex-grow justify-center pt-3">Claimable Rewards</Title>
-                            <p className="warning">
-                                Warning message goes here...
-                                <br />
-                                Warning message goes here...
-                            </p>
+                            <Title className="flex flex-grow justify-center pt-3 mb-5">Claimable Rewards</Title>
+                            {error && <p className="warning mb-5">{error.message}</p>}
                             <div className="flex flex-col items-center gap-1 relative">
                                 <ButtonAction
                                     className="claim-reward"

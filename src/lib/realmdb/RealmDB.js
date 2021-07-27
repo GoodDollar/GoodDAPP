@@ -9,8 +9,10 @@ import logger from '../logger/pino-logger'
 import Config from '../../config/config'
 import { FeedItemSchema } from '../textile/feedSchema' // Some json-schema.org schema
 import type { DB } from '../userStorage/UserStorage'
+import type { ProfileDB } from '../userStorage/UserProfileStorage'
+
 const log = logger.child({ from: 'FeedRealmDB' })
-class RealmDB implements DB {
+class RealmDB implements DB, ProfileDB {
   privateKey
 
   publicKey
@@ -291,12 +293,9 @@ class RealmDB implements DB {
     return res
   }
 
-  setProfile(walletAddress: string, profile) {
-    this.Profiles.updateOne(
-      { user_id: this.user.id },
-      { user_id: this.user.id, walletAddress, ...profile },
-      { upsert: true },
-    )
+  //TODO:  make sure profile contains walletaddress or enforce it in schema in realmdb
+  setProfile(profile) {
+    this.Profiles.updateOne({ user_id: this.user.id }, { user_id: this.user.id, ...profile }, { upsert: true })
   }
 
   getProfile() {
@@ -307,8 +306,8 @@ class RealmDB implements DB {
     return this.Profiles.findOne({ walletAddress })
   }
 
-  setProfileFields(walletAddress: string, fields: { key: String, field: ProfileField }) {
-    return this.Profiles.updateOne({ walletAddress }, { $set: fields })
+  setProfileFields(fields: { key: String, field: ProfileField }) {
+    return this.Profiles.updateOne({ user_id: this.user.id }, { $set: fields })
   }
 }
 

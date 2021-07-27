@@ -71,6 +71,7 @@ class RealmDB implements DB {
       this.user = await app.logIn(credentials)
       const mongodb = app.currentUser.mongoClient('mongodb-atlas')
       this.EncryptedFeed = mongodb.db('wallet').collection('encrypted_feed')
+      this.Profiles = mongodb.db('wallet').collection('user_profiles')
 
       // `App.currentUser` updates to match the logged in user
       log.debug('realm logged in', { user: this.user })
@@ -288,6 +289,26 @@ class RealmDB implements DB {
 
     log.debug('getFeedPage result:', numResults, offset, res.length, res)
     return res
+  }
+
+  setProfile(walletAddress: string, profile) {
+    this.Profiles.updateOne(
+      { user_id: this.user.id },
+      { user_id: this.user.id, walletAddress, ...profile },
+      { upsert: true },
+    )
+  }
+
+  getProfile() {
+    return this.Profiles.findOne({ user_id: this.user.id })
+  }
+
+  getProfileByWalletAddress(walletAddress: string) {
+    return this.Profiles.findOne({ walletAddress })
+  }
+
+  setProfileFields(walletAddress: string, fields: { key: String, field: ProfileField }) {
+    return this.Profiles.updateOne({ walletAddress }, { $set: fields })
   }
 }
 

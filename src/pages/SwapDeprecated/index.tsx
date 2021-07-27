@@ -30,7 +30,7 @@ import { Helmet } from 'react-helmet'
 import { INITIAL_ALLOWED_SLIPPAGE } from '../../constants'
 import Loader from '../../components/Loader'
 import Lottie from 'lottie-react'
-import ReactGA from 'react-ga'
+
 import SwapHeader from '../../components/ExchangeHeader'
 import { SwapPoolTabs } from '../../components/NavigationTabs'
 import { Text } from 'rebass'
@@ -205,25 +205,6 @@ export default function Swap() {
                     showConfirm,
                     swapErrorMessage: undefined,
                     txHash: hash
-                })
-
-                ReactGA.event({
-                    category: 'Swap',
-                    action:
-                        recipient === null
-                            ? 'Swap w/o Send'
-                            : (recipientAddress ?? recipient) === account
-                            ? 'Swap w/o Send + recipient'
-                            : 'Swap w/ Send',
-                    label: [
-                        trade?.inputAmount?.currency?.getSymbol(chainId),
-                        trade?.outputAmount?.currency?.getSymbol(chainId)
-                    ].join('/')
-                })
-
-                ReactGA.event({
-                    category: 'Routing',
-                    action: singleHopOnly ? 'Swap with multihop disabled' : 'Swap with multihop enabled'
                 })
             })
             .catch(error => {

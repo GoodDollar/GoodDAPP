@@ -2,7 +2,7 @@ import React, { Suspense, useEffect, useRef, useState } from 'react'
 import { useHistory, useLocation } from 'react-router-dom'
 import { AppBar, Polling, Popups } from '../components'
 import Web3ReactManager from '../components/Web3ReactManager'
-import ReactGA from 'react-ga'
+
 import Routes from '../routes'
 import { useDispatch } from 'react-redux'
 import { AppDispatch } from '../state'
@@ -74,10 +74,6 @@ function App(): JSX.Element {
             bodyRef.current.scrollTo(0, 0)
         }
     }, [pathname])
-
-    useEffect(() => {
-        ReactGA.pageview(`${pathname}${search}`)
-    }, [pathname, search])
 
     useEffect(() => {
         if (!search) return

@@ -1,7 +1,7 @@
 import { ChainId, Pair, Token } from '@sushiswap/sdk'
 import flatMap from 'lodash.flatmap'
 import { useCallback, useMemo } from 'react'
-import ReactGA from 'react-ga'
+
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import { BASES_TO_TRACK_LIQUIDITY_FOR, PINNED_PAIRS } from '../../constants'
 import { useActiveWeb3React } from 'hooks/useActiveWeb3React'
@@ -91,10 +91,6 @@ export function useUserSingleHopOnly(): [boolean, (newSingleHopOnly: boolean) =>
 
     const setSingleHopOnly = useCallback(
         (newSingleHopOnly: boolean) => {
-            ReactGA.event({
-                category: 'Routing',
-                action: newSingleHopOnly ? 'enable single hop' : 'disable single hop'
-            })
             dispatch(updateUserSingleHopOnly({ userSingleHopOnly: newSingleHopOnly }))
         },
         [dispatch]

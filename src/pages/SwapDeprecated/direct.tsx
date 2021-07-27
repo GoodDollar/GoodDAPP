@@ -3,7 +3,7 @@ import UnsupportedCurrencyFooter from 'components/swap/UnsupportedCurrencyFooter
 import { useIsTransactionUnsupported } from 'hooks/Trades'
 import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import { ArrowDown } from 'react-feather'
-import ReactGA from 'react-ga'
+
 import { Text } from 'rebass'
 import { ThemeContext } from 'styled-components'
 import AddressInputPanel from '../../components/AddressInputPanel'
@@ -197,22 +197,6 @@ export default function Swap() {
                     showConfirm,
                     swapErrorMessage: undefined,
                     txHash: hash
-                })
-
-                ReactGA.event({
-                    category: 'Swap',
-                    action:
-                        recipient === null
-                            ? 'Swap w/o Send'
-                            : (recipientAddress ?? recipient) === account
-                            ? 'Swap w/o Send + recipient'
-                            : 'Swap w/ Send',
-                    label: [trade?.inputAmount?.currency?.symbol, trade?.outputAmount?.currency?.symbol].join('/')
-                })
-
-                ReactGA.event({
-                    category: 'Routing',
-                    action: singleHopOnly ? 'Swap with multihop disabled' : 'Swap with multihop enabled'
                 })
             })
             .catch(error => {

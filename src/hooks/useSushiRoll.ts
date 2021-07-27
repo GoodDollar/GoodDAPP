@@ -2,7 +2,7 @@ import { ChainId } from '@sushiswap/sdk'
 import { signERC2612Permit } from 'eth-permit'
 import { ethers } from 'ethers'
 import { useCallback } from 'react'
-import ReactGA from 'react-ga'
+
 import { useActiveWeb3React } from '../hooks/useActiveWeb3React'
 import { useSushiRollContract } from '../hooks/useContract'
 import LPToken from '../types/LPToken'
@@ -36,12 +36,6 @@ const useSushiRoll = (version: 'v1' | 'v2' = 'v2') => {
                 const gasLimit = await sushiRoll.estimateGas.migrate(...args)
                 const tx = sushiRoll.migrate(...args, {
                     gasLimit: gasLimit.mul(120).div(100)
-                })
-
-                ReactGA.event({
-                    category: 'Migrate',
-                    action: `${from}->Sushiswap`,
-                    label: 'migrate'
                 })
 
                 return tx
@@ -79,12 +73,6 @@ const useSushiRoll = (version: 'v1' | 'v2' = 'v2') => {
                 const gasLimit = await sushiRoll.estimateGas.migrateWithPermit(...args)
                 const tx = await sushiRoll.migrateWithPermit(...args, {
                     gasLimit: gasLimit.mul(120).div(100)
-                })
-
-                ReactGA.event({
-                    category: 'Migrate',
-                    action: `${from}->Sushiswap`,
-                    label: 'migrateWithPermit'
                 })
 
                 return tx

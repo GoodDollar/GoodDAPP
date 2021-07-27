@@ -5,7 +5,7 @@ import useTheme from 'hooks/useTheme'
 import useToggle from 'hooks/useToggle'
 import React, { KeyboardEvent, RefObject, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Edit } from 'react-feather'
-import ReactGA from 'react-ga'
+
 import { t } from '@lingui/macro'
 import AutoSizer from 'react-virtualized-auto-sizer'
 import { FixedSizeList } from 'react-window'
@@ -98,11 +98,6 @@ export function CurrencySearch({
 
     useEffect(() => {
         if (isAddressSearch) {
-            ReactGA.event({
-                category: 'Currency Select',
-                action: 'Search by address',
-                label: isAddressSearch
-            })
         }
     }, [isAddressSearch])
 

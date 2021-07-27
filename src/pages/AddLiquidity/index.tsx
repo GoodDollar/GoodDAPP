@@ -29,7 +29,7 @@ import { NavLink } from '../../components/Link'
 import { PairState } from '../../data/Reserves'
 import { Plus } from 'react-feather'
 import { PoolPriceBar } from './PoolPriceBar'
-import ReactGA from 'react-ga'
+
 import { RouteComponentProps } from 'react-router-dom'
 import { TYPE } from '../../theme'
 import { Text } from 'rebass'
@@ -201,15 +201,6 @@ export default function AddLiquidity({
                     })
 
                     setTxHash(response.hash)
-
-                    ReactGA.event({
-                        category: 'Liquidity',
-                        action: 'Add',
-                        label: [
-                            currencies[Field.CURRENCY_A]?.getSymbol(chainId),
-                            currencies[Field.CURRENCY_B]?.getSymbol(chainId)
-                        ].join('/')
-                    })
                 })
             )
             .catch(error => {

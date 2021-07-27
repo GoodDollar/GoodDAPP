@@ -26,7 +26,7 @@ import LiquidityPrice from '../../components/Liquidity/LiquidityPrice'
 import { MinimalPositionCard } from '../../components/PositionCard'
 import { NavLink } from '../../components/Link'
 import PercentInputPanel from '../../components/PercentInputPanel'
-import ReactGA from 'react-ga'
+
 import RemoveLiquidityReceiveDetails from '../../components/Liquidity/RemoveLiquidityReceiveDetails'
 import { RouteComponentProps } from 'react-router'
 import { TYPE } from '../../theme'
@@ -349,12 +349,6 @@ export default function RemoveLiquidity({
                     })
 
                     setTxHash(response.hash)
-
-                    ReactGA.event({
-                        category: 'Liquidity',
-                        action: 'Remove',
-                        label: [currencyA?.getSymbol(chainId), currencyB?.getSymbol(chainId)].join('/')
-                    })
                 })
                 .catch((error: Error) => {
                     setAttemptingTxn(false)

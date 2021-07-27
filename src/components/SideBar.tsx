@@ -7,6 +7,10 @@ import TwitterLogo from '../assets/images/twitter.png'
 import TelegramLogo from '../assets/images/telegram.png'
 import { getExplorerLink } from '../utils'
 import useActiveWeb3React from '../hooks/useActiveWeb3React'
+import usePromise from '../hooks/usePromise'
+import { getTokens } from '../sdk/methods/tokenLists'
+import { Token } from '@sushiswap/sdk'
+import { useTokenBalance } from '../state/wallet/hooks'
 
 const SideBarSC = styled.aside<{ $mobile?: boolean }>`
     width: ${({ $mobile }) => ($mobile ? 'auto' : '268px')};
@@ -58,6 +62,10 @@ const SideBarSC = styled.aside<{ $mobile?: boolean }>`
             margin-top: 5px;
             font-size: 18px;
             line-height: 21px;
+            div {
+                text-overflow: ellipsis;
+                overflow: hidden;
+            }
         }
     }
 
@@ -97,6 +105,23 @@ const SideBarSC = styled.aside<{ $mobile?: boolean }>`
 export default function SideBar({ mobile }: { mobile?: boolean }) {
     const { i18n } = useLingui()
     const { chainId, account } = useActiveWeb3React()
+    const [data] = usePromise(async () => {
+        if (!chainId) return {}
+        const [tokens] = await getTokens(chainId as any)
+
+        const g$ = tokens.get('G$')
+        const gdx = tokens.get('GDX')
+        const gdao = tokens.get('GDAO')
+
+        return {
+            g$: g$ && new Token(chainId, (g$ as any).address, g$.decimals, g$.symbol, g$.name),
+            gdx: gdx && new Token(chainId, (gdx as any).address, gdx.decimals, gdx.symbol, gdx.name),
+            gdao: gdao && new Token(chainId, (gdao as any).address, gdao.decimals, gdao.symbol, gdao.name)
+        }
+    }, [chainId])
+    const g$Balance = useTokenBalance(account, data?.g$)
+    const gdxBalance = useTokenBalance(account, data?.gdx)
+    const gdaoBalance = useTokenBalance(account, data?.gdao)
 
     return (
         <SideBarSC className="flex flex-col justify-between" $mobile={mobile}>
@@ -158,9 +183,11 @@ export default function SideBar({ mobile }: { mobile?: boolean }) {
                     </div>
                     <div className="details">
                         <div>
-                            G$ - / - <br />
-                            GDX - <br />
-                            GDAO -
+                            G$ {g$Balance?.toSignificant(6) ?? '-'}
+                            <br />
+                            GDX {gdxBalance?.toSignificant(6) ?? '-'}
+                            <br />
+                            GDAO {gdaoBalance?.toSignificant(6) ?? '-'}
                         </div>
                     </div>
                 </div>

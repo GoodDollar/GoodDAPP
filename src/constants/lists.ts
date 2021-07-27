@@ -20,6 +20,8 @@ const CMC_STABLECOIN = 'stablecoin.cmc.eth'
 const KLEROS_LIST = 't2crtokens.eth'
 const GEMINI_LIST = 'https://www.gemini.com/uniswap/manifest.json'
 const QUICK_SWAP = 'https://unpkg.com/quickswap-default-token-list@1.0.39/build/quickswap-default.tokenlist.json'
+const FUSE_LIST =
+    'https://raw.githubusercontent.com/fuseio/fuseswap-default-token-list/master/build/fuseswap-default.tokenlist.json'
 
 // lower index == higher priority for token import
 export const DEFAULT_LIST_OF_LISTS: string[] = [
@@ -39,6 +41,7 @@ export const DEFAULT_LIST_OF_LISTS: string[] = [
     KLEROS_LIST,
     GEMINI_LIST,
     QUICK_SWAP,
+    FUSE_LIST,
     ...UNSUPPORTED_LIST_URLS // need to load unsupported tokens as well
 ]
 

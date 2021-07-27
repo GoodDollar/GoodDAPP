@@ -10,6 +10,7 @@ import Numeral from 'numeral'
 import { TokenAddressMap } from '../state/lists/hooks'
 import { ethers } from 'ethers'
 import { getAddress } from '@ethersproject/address'
+import { AdditionalChainId } from '../constants'
 
 export const formatFromBalance = (value: BigNumber | undefined, decimals = 18): string => {
     if (value) {
@@ -362,6 +363,19 @@ const builders = {
             default:
                 return `${prefix}/${type}/${data}`
         }
+    },
+    fuse: (chainName = '', data: string, type: 'transaction' | 'token' | 'address' | 'block') => {
+        const prefix = 'https://explorer.fuse.io/'
+        switch (type) {
+            case 'transaction':
+                return `${prefix}/tx/${data}`
+            case 'token':
+                return `${prefix}/tokens/${data}`
+            case 'block':
+                return `${prefix}/blocks/${data}`
+            default:
+                return `${prefix}/${type}/${data}`
+        }
     }
 }
 
@@ -460,6 +474,10 @@ const chains: ChainObject = {
     [ChainId.OKEX_TESTNET]: {
         chainName: '',
         builder: builders.okexTestnet
+    },
+    [AdditionalChainId.FUSE]: {
+        chainName: '',
+        builder: builders.fuse
     }
 }
 

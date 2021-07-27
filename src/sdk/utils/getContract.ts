@@ -1,7 +1,7 @@
-import { Contract, ContractInterface, ethers } from "ethers";
+import { Contract, ContractInterface, ethers } from 'ethers'
 
-import { getProvider } from "../constants/provider";
-import { SupportedChainId } from "../constants/chains";
+import { getProvider } from '../constants/provider'
+import { SupportedChainId } from '../constants/chains'
 
 /**
  * Returns a contract in given chain ID.
@@ -11,5 +11,5 @@ import { SupportedChainId } from "../constants/chains";
  * @returns {Contract}
  */
 export function getContract(chainId: SupportedChainId, address: string, abi: ContractInterface): Contract {
-  return new ethers.Contract(address, abi, getProvider(chainId))
+    return new ethers.Contract(address, abi, getProvider(chainId))
 }

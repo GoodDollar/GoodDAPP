@@ -22,13 +22,14 @@ import {
 } from '../../sdk/buy'
 import {
     approve as approveSell,
-    sell,
     getMeta as getSellMeta,
     getMetaReverse as getSellMetaReverse,
+    sell,
     SellInfo
 } from '../../sdk/sell'
 import { SupportedChainId } from '../../sdk/constants/chains'
 import SwapConfirmModal from './SwapConfirmModal'
+import { FUSE } from '../../constants'
 
 function Swap() {
     const [buying, setBuying] = useState(true)
@@ -36,8 +37,9 @@ function Swap() {
         custom: false,
         value: '0.1'
     })
+    const { account, chainId } = useActiveWeb3React()
     const [swapPair, setSwapPair] = useState<SwapVariant>({
-        token: ETHER,
+        token: SupportedChainId[Number(chainId)] === 'FUSE' ? FUSE : ETHER,
         value: ''
     })
     const handleSetPair = useCallback(
@@ -53,7 +55,6 @@ function Swap() {
     const tokenList = useTokens()
     const G$ = useG$()
     const [swapValue, setSwapValue] = useState('')
-    const { account, chainId } = useActiveWeb3React()
     const [meta, setMeta] = useState<undefined | BuyInfo | SellInfo>()
     const pairBalance = useCurrencyBalance(account ?? undefined, swapPair.token)
     const swapBalance = useCurrencyBalance(account ?? undefined, G$)

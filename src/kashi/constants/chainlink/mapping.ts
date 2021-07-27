@@ -1,4 +1,5 @@
 import { ChainId } from '@sushiswap/sdk'
+import { AdditionalChainId } from '../../../constants'
 
 export type ChainlinkMappingList = {
     readonly [address: string]: {
@@ -12,7 +13,7 @@ export type ChainlinkMappingList = {
     }
 }
 
-export const CHAINLINK_MAPPING: { [chainId in ChainId]?: ChainlinkMappingList } = {
+export const CHAINLINK_MAPPING: { [chainId in ChainId | AdditionalChainId]?: ChainlinkMappingList } = {
     [ChainId.MAINNET]: {
         '0x72AFAECF99C9d9C8215fF44C77B94B99C28741e8': {
             from: '0x111111111117dC0aa78b770fA6A738034120C302',

@@ -32,7 +32,8 @@ const RPC = {
     [ChainId.HARMONY]: 'https://explorer.harmony.one',
     [ChainId.HARMONY_TESTNET]: 'https://explorer.pops.one',
     [ChainId.OKEX]: 'https://exchainrpc.okex.org',
-    [ChainId.OKEX_TESTNET]: 'https://exchaintestrpc.okex.org'
+    [ChainId.OKEX_TESTNET]: 'https://exchaintestrpc.okex.org',
+    [122]: 'https://rpc.fuse.io'
 }
 
 export const network = new NetworkConnector({
@@ -52,6 +53,7 @@ export const injected = new InjectedConnector({
         4, // rinkeby
         5, // goreli
         42, // kovan
+        122, // fuse
         250, // fantom
         4002, // fantom testnet
         137, // matic

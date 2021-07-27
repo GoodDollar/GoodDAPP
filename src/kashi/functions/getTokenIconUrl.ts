@@ -1,6 +1,7 @@
 import { ChainId } from '@sushiswap/sdk'
+import { AdditionalChainId } from '../../constants'
 
-const TOKEN_ICONS: { [chainId in ChainId]?: any } = {
+const TOKEN_ICONS: { [chainId in ChainId | AdditionalChainId]?: any } = {
     [ChainId.MAINNET]: {
         [String('0x111111111117dC0aa78b770fA6A738034120C302').toLowerCase()]: '1INCH-square',
         [String('0x7Fc66500c84A76Ad7e9c93437bFc5Ac33E2DDaE9').toLowerCase()]: 'AAVE-square',

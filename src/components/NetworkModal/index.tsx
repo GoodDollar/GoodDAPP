@@ -9,9 +9,10 @@ import React from 'react'
 import { useActiveWeb3React } from 'hooks/useActiveWeb3React'
 import Option from '../WalletModal/Option'
 import styled from 'styled-components'
+import { AdditionalChainId } from '../../constants'
 
 const PARAMS: {
-    [chainId in ChainId]?: {
+    [chainId in ChainId | AdditionalChainId]?: {
         chainId: string
         chainName: string
         nativeCurrency: {
@@ -124,6 +125,17 @@ const PARAMS: {
         },
         rpcUrls: ['https://exchainrpc.okex.org'],
         blockExplorerUrls: ['https://www.oklink.com/okexchain']
+    },
+    [AdditionalChainId.FUSE]: {
+        chainId: '0x7a',
+        chainName: 'Fuse',
+        nativeCurrency: {
+            name: 'FUSE Token',
+            symbol: 'FUSE',
+            decimals: 18
+        },
+        rpcUrls: ['https://rpc.fuse.io'],
+        blockExplorerUrls: ['https://explorer.fuse.io']
     }
 }
 
@@ -157,30 +169,39 @@ export default function NetworkModal(): JSX.Element | null {
             <ModalHeader className="mb-1" onClose={toggleNetworkModal} title="Select network" />
             <TextWrapper>
                 You are currently browsing <span className="site">GOOD DOLLAR</span>
-                <br /> on the <span className="network">{NETWORK_LABEL[chainId]}</span> network
+                <br /> on the <span className="network">{(NETWORK_LABEL as any)[chainId]}</span> network
             </TextWrapper>
 
             <div className="flex flex-col space-y-5 overflow-y-auto mt-3">
-                {[ChainId.MAINNET, ChainId.FANTOM, ChainId.BSC, ChainId.MATIC, ChainId.HECO].map(
-                    (key: ChainId, i: number) => {
-                        return (
-                            <Option
-                                clickable={chainId !== key}
-                                active={chainId === key}
-                                header={NETWORK_LABEL[key]}
-                                subheader={null}
-                                icon={NETWORK_ICON[key]}
-                                id={String(key)}
-                                key={key}
-                                onClick={() => {
-                                    toggleNetworkModal()
-                                    const params = PARAMS[key]
+                {[
+                    ChainId.MAINNET,
+                    ChainId.FANTOM,
+                    ChainId.BSC,
+                    ChainId.MATIC,
+                    ChainId.HECO,
+                    AdditionalChainId.FUSE
+                ].map((key: ChainId | AdditionalChainId, i: number) => {
+                    return (
+                        <Option
+                            clickable={chainId !== key}
+                            active={chainId === key}
+                            header={NETWORK_LABEL[key]}
+                            subheader={null}
+                            icon={NETWORK_ICON[key]}
+                            id={String(key)}
+                            key={key}
+                            onClick={() => {
+                                toggleNetworkModal()
+                                const params = PARAMS[key]
+                                if (key === ChainId.MAINNET) {
+                                    library?.send('wallet_switchEthereumChain', [{ chainId: '0x1' }])
+                                } else {
                                     library?.send('wallet_addEthereumChain', [params, account])
-                                }}
-                            />
-                        )
-                    }
-                )}
+                                }
+                            }}
+                        />
+                    )
+                })}
             </div>
         </Modal>
     )

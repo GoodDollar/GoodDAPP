@@ -15,7 +15,7 @@ export const REWARDS_DURATION_DAYS = 60
 
 // TODO add staking rewards addresses here
 export const STAKING_REWARDS_INFO: {
-    [chainId in ChainId]?: {
+    [chainId in ChainId | AdditionalChainId]?: {
         tokens: [Token, Token]
         stakingRewardAddress: string
     }[]

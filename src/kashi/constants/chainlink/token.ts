@@ -1,4 +1,5 @@
 import { ChainId } from '@sushiswap/sdk'
+import { AdditionalChainId } from '../../../constants'
 
 export type ChainlinkToken = {
     symbol: string
@@ -7,7 +8,7 @@ export type ChainlinkToken = {
     decimals: number
 }
 
-export const CHAINLINK_TOKENS: { [chainId in ChainId]?: ChainlinkToken[] } = {
+export const CHAINLINK_TOKENS: { [chainId in ChainId | AdditionalChainId]?: ChainlinkToken[] } = {
     [ChainId.MAINNET]: [
         { symbol: '1INCH', name: '1INCH Token', address: '0x111111111117dC0aa78b770fA6A738034120C302', decimals: 18 },
         { symbol: 'AAVE', name: 'Aave Token', address: '0x7Fc66500c84A76Ad7e9c93437bFc5Ac33E2DDaE9', decimals: 18 },

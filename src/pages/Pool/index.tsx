@@ -93,7 +93,7 @@ const EmptyProposals = styled.div`
     align-items: center;
 `
 
-const migrateFrom: { [chainId in ChainId]?: string } = {
+const migrateFrom: { [chainId in ChainId | AdditionalChainId]?: string } = {
     [ChainId.MAINNET]: 'Uniswap',
     [ChainId.BSC]: 'PancakeSwap',
     [ChainId.MATIC]: 'QuickSwap'

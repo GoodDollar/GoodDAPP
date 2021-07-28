@@ -14,19 +14,19 @@ import useWeb3 from '../../hooks/useWeb3'
 import { getList as getStakes, Stake } from '../../sdk/staking'
 import { Wrapper } from './styled'
 import StakeDeposit from './StakeDeposit'
+import usePromise from '../../hooks/usePromise'
 
-export default function LendingMarkets(): JSX.Element | null {
+export default function Stakes(): JSX.Element | null {
     const { i18n } = useLingui()
     const { chainId } = useActiveWeb3React()
     const web3 = useWeb3()
-    const [stakes, setStakes] = useState<Stake[]>([])
-    useEffect(() => {
-        setStakes([])
-        if (chainId && web3) {
-            getStakes(web3).then(setStakes, console.error)
-        }
-    }, [chainId, web3])
-
+    const [stakes = [], loading, error, refetch] = usePromise(async () => {
+        const [stakes] = await Promise.all([
+            web3 ? getStakes(web3) : Promise.resolve([]),
+            new Promise(resolve => setTimeout(resolve, 1000))
+        ])
+        return stakes
+    })
     const sorted = useSearchAndSort(
         stakes,
         { keys: ['tokens.A.symbol', 'tokens.B.symbol', 'tokens.A.name', 'tokens.B.name'], threshold: 0.1 },
@@ -36,7 +36,7 @@ export default function LendingMarkets(): JSX.Element | null {
 
     return (
         <Layout>
-            <MarketHeader type="Stakes" lists={sorted} />
+            <MarketHeader type="Stakes" lists={sorted} noSearch={loading || !stakes.length} />
             <Wrapper>
                 <Table
                     header={
@@ -76,7 +76,22 @@ export default function LendingMarkets(): JSX.Element | null {
                         </tr>
                     }
                 >
-                    {sorted.items &&
+                    {loading && (
+                        <tr>
+                            <td colSpan={8}>
+                                <div className="text-center">Loading...</div>
+                            </td>
+                        </tr>
+                    )}
+                    {!loading && !stakes.length && (
+                        <tr>
+                            <td colSpan={8}>
+                                <div className="text-center">{error ? error.message : 'No data.'}</div>
+                            </td>
+                        </tr>
+                    )}
+                    {!loading &&
+                        sorted.items &&
                         sorted.items.map((stake: Stake) => {
                             return (
                                 <Fragment key={stake.address}>
@@ -156,13 +171,7 @@ export default function LendingMarkets(): JSX.Element | null {
             </Wrapper>
             <Modal isOpen={!!activeStake} showClose onDismiss={() => setActiveStake(undefined)}>
                 {activeStake && (
-                    <StakeDeposit
-                        stake={activeStake}
-                        onDeposit={() => {
-                            web3 && getStakes(web3).then(setStakes, console.error)
-                        }}
-                        onClose={() => setActiveStake(undefined)}
-                    />
+                    <StakeDeposit stake={activeStake} onDeposit={refetch} onClose={() => setActiveStake(undefined)} />
                 )}
             </Modal>
         </Layout>

@@ -40,7 +40,7 @@ const Search = styled.div`
     }
 `
 
-function MarketHeader({ type = 'Borrow', lists }: any) {
+function MarketHeader({ type = 'Borrow', lists, noSearch = false }: any) {
     if (lists.setTerm) {
         lists = [lists]
     }
@@ -61,7 +61,7 @@ function MarketHeader({ type = 'Borrow', lists }: any) {
                 </div>
 
                 <div className="flex justify-end w-full py-4 md:py-0">
-                    <Search className="relative w-full max-w-md">
+                    <Search className="relative w-full max-w-md" hidden={noSearch}>
                         <input
                             className={`py-2 pl-4 pr-10 rounded w-full focus:outline-none focus:ring ${
                                 type === 'Borrow' ? 'focus:ring-pink' : 'focus:ring-blue'

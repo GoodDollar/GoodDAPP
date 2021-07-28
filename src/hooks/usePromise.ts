@@ -1,4 +1,4 @@
-import { useEffect, useReducer, useRef } from 'react'
+import { useCallback, useEffect, useReducer, useRef, useState } from 'react'
 
 const initialState = {
     loading: true,
@@ -7,6 +7,7 @@ const initialState = {
 }
 
 export default function usePromise<T>(getPromise: () => Promise<T>, deps: any[] = []) {
+    const [dependency, setDependency] = useState({})
     const [state, dispatch] = useReducer(
         (
             state: {
@@ -47,7 +48,7 @@ export default function usePromise<T>(getPromise: () => Promise<T>, deps: any[] 
             result => dispatch({ type: 'VALUE', payload: result }),
             e => dispatch({ type: 'ERROR', payload: e })
         )
-    }, deps)
+    }, [...deps, dependency])
 
-    return [state.value, state.loading, state.error] as const
+    return [state.value, state.loading, state.error, useCallback(() => setDependency({}), [])] as const
 }

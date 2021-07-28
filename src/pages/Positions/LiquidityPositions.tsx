@@ -8,7 +8,7 @@ import { useTokenBalancesWithLoadingIndicator } from 'state/wallet/hooks'
 import { toV2LiquidityToken, useTrackedTokenPairs } from 'state/user/hooks'
 import { usePairs } from 'data/Reserves'
 import { useStakingInfo } from 'state/stake/hooks'
-import { BIG_INT_ZERO } from '../../constants'
+import { AdditionalChainId, BIG_INT_ZERO } from '../../constants'
 import Position from './Position'
 import { t } from '@lingui/macro'
 
@@ -16,7 +16,7 @@ import { AutoColumn } from '../../components/Column'
 import { Text } from 'rebass'
 import { useLingui } from '@lingui/react'
 
-const migrateFrom: { [chainId in ChainId]?: string } = {
+const migrateFrom: { [chainId in ChainId | AdditionalChainId]?: string } = {
     [ChainId.MAINNET]: 'Uniswap',
     [ChainId.BSC]: 'PancakeSwap',
     [ChainId.MATIC]: 'QuickSwap'

@@ -8,6 +8,7 @@ import UNSUPPORTED_TOKEN_LIST from '../../constants/token-lists/sushiswap-v2-uns
 import sortByListPriority from 'utils/listSort'
 import { useMemo } from 'react'
 import { useSelector } from 'react-redux'
+import { AdditionalChainId } from '../../constants'
 
 type TagDetails = Tags[keyof Tags]
 export interface TagInfo extends TagDetails {
@@ -31,7 +32,11 @@ export class WrappedTokenInfo extends Token {
 }
 
 export type TokenAddressMap = Readonly<
-    { [chainId in ChainId]: Readonly<{ [tokenAddress: string]: { token: WrappedTokenInfo; list: TokenList } }> }
+    {
+        [chainId in ChainId | AdditionalChainId]: Readonly<{
+            [tokenAddress: string]: { token: WrappedTokenInfo; list: TokenList }
+        }>
+    }
 >
 
 /**
@@ -59,7 +64,8 @@ const EMPTY_LIST: TokenAddressMap = {
     [ChainId.HARMONY]: {},
     [ChainId.HARMONY_TESTNET]: {},
     [ChainId.OKEX]: {},
-    [ChainId.OKEX_TESTNET]: {}
+    [ChainId.OKEX_TESTNET]: {},
+    [AdditionalChainId.FUSE]: {}
 }
 
 const listCache: WeakMap<TokenList, TokenAddressMap> | null =
@@ -114,6 +120,7 @@ function combineMaps(map1: TokenAddressMap, map2: TokenAddressMap): TokenAddress
         3: { ...map1[3], ...map2[3] }, // ropsten
         4: { ...map1[4], ...map2[4] }, // rinkeby
         5: { ...map1[5], ...map2[5] }, // goerli
+        122: { ...map1[122], ...map2[122] }, // fuse
         42: { ...map1[42], ...map2[42] }, // kovan
         250: { ...map1[250], ...map2[250] }, // fantom
         4002: { ...map1[4002], ...map2[4002] }, // fantom testnet

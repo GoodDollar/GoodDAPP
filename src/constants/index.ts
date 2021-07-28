@@ -1,17 +1,61 @@
-import { ChainId, JSBI, Percent, Token, WETH } from '@sushiswap/sdk'
+import { ChainId, Currency, JSBI, Percent, Token, WETH } from '@sushiswap/sdk'
 import { fortmatic, injected, lattice, portis, torus, walletconnect, walletlink } from '../connectors'
 
 import { AbstractConnector } from '@web3-react/abstract-connector'
 
 export const POOL_DENY = ['14', '29', '45', '30']
 
+export const FUSE = (Object.assign({}, Currency, {
+    decimals: 18,
+    symbol: 'FUSE',
+    name: 'FUSE',
+    getSymbol(chainId?: ChainId) {
+        if (!chainId) {
+            return this === null || this === void 0 ? void 0 : this.symbol
+        }
+
+        if ((this === null || this === void 0 ? void 0 : this.symbol) === 'FUSE') {
+            return Currency.getNativeCurrencySymbol(chainId)
+        }
+
+        return this === null || this === void 0 ? void 0 : this.symbol
+    },
+
+    getName(chainId?: ChainId) {
+        if (!chainId) {
+            return this === null || this === void 0 ? void 0 : this.name
+        }
+
+        if ((this === null || this === void 0 ? void 0 : this.name) === 'FUSE') {
+            return Currency.getNativeCurrencyName(chainId)
+        }
+
+        return this === null || this === void 0 ? void 0 : this.name
+    }
+}) as unknown) as Currency
+console.log(FUSE)
+Object.defineProperty(Currency.NATIVE, 122, { value: FUSE })
+Object.defineProperty(Currency, 'FUSE', { value: FUSE })
+
+Object.defineProperty(ChainId, 'FUSE', { value: 122, writable: false, configurable: false })
+Object.defineProperty(ChainId, 122, { value: 'FUSE', writable: false, configurable: false })
+Object.defineProperty(WETH, 122, {
+    value: new Token(122, '0x0BE9e53fd7EDaC9F859882AfdDa116645287C629', 18, 'WFUSE', 'Wrapped FUSE'),
+    writable: false,
+    configurable: false
+})
+
+export enum AdditionalChainId {
+    FUSE = 122
+}
+
 // a list of tokens by chain
 type ChainTokenList = {
-    readonly [chainId in ChainId]: Token[]
+    readonly [chainId in ChainId | AdditionalChainId]: Token[]
 }
 
 type ChainTokenMap = {
-    readonly [chainId in ChainId]?: Token
+    readonly [chainId in ChainId | AdditionalChainId]?: Token
 }
 
 // Block time here is slightly higher (~1s) than average in order to avoid ongoing proposals past the displayed time
@@ -55,7 +99,7 @@ export const COMMON_CONTRACT_NAMES: { [address: string]: string } = {
 }
 
 // TODO: specify merkle distributor for mainnet
-export const MERKLE_DISTRIBUTOR_ADDRESS: { [chainId in ChainId]?: string } = {
+export const MERKLE_DISTRIBUTOR_ADDRESS: { [chainId in ChainId | AdditionalChainId]?: string } = {
     [ChainId.MAINNET]: '0xcBE6B83e77cdc011Cc18F6f0Df8444E5783ed982',
     [ChainId.ROPSTEN]: '0x84d1f7202e0e7dac211617017ca72a2cb5e2b955'
 }
@@ -97,7 +141,8 @@ const WRAPPED_NATIVE_ONLY: ChainTokenList = {
     [ChainId.HARMONY]: [WETH[ChainId.HARMONY]],
     [ChainId.HARMONY_TESTNET]: [WETH[ChainId.HARMONY_TESTNET]],
     [ChainId.OKEX]: [WETH[ChainId.OKEX]],
-    [ChainId.OKEX_TESTNET]: [WETH[ChainId.OKEX_TESTNET]]
+    [ChainId.OKEX_TESTNET]: [WETH[ChainId.OKEX_TESTNET]],
+    [122]: [new Token(122, '0x0BE9e53fd7EDaC9F859882AfdDa116645287C629', 18, 'WFUSE', 'Wrapped FUSE')]
 }
 
 // Default Ethereum chain tokens
@@ -234,7 +279,7 @@ export const CRV = new Token(ChainId.MAINNET, '0xD533a949740bb3306d119CC777fa900
  * Some tokens can only be swapped via certain pairs, so we override the list of bases that are considered for these
  * tokens.
  */
-export const CUSTOM_BASES: { [chainId in ChainId]?: { [tokenAddress: string]: Token[] } } = {
+export const CUSTOM_BASES: { [chainId in ChainId | AdditionalChainId]?: { [tokenAddress: string]: Token[] } } = {
     [ChainId.MAINNET]: {
         [AMPL.address]: [DAI, WETH[ChainId.MAINNET]],
         [DUCK.address]: [USDP, WETH[ChainId.MAINNET]],
@@ -273,7 +318,7 @@ export const BASES_TO_TRACK_LIQUIDITY_FOR: ChainTokenList = {
     [ChainId.BSC]: [...WRAPPED_NATIVE_ONLY[ChainId.BSC], BSC.DAI, BSC.USD, BSC.USDC, BSC.USDT, BSC.BTCB]
 }
 
-export const PINNED_PAIRS: { readonly [chainId in ChainId]?: [Token, Token][] } = {
+export const PINNED_PAIRS: { readonly [chainId in ChainId | AdditionalChainId]?: [Token, Token][] } = {
     [ChainId.MAINNET]: [
         [SUSHI[ChainId.MAINNET] as Token, WETH[ChainId.MAINNET]],
         [
@@ -419,7 +464,7 @@ export const BLOCKED_ADDRESSES: string[] = [
 ]
 
 // BentoBox Swappers
-export const BASE_SWAPPER: { [chainId in ChainId]?: string } = {
+export const BASE_SWAPPER: { [chainId in ChainId | AdditionalChainId]?: string } = {
     [ChainId.MAINNET]: '0x0',
     [ChainId.ROPSTEN]: '0xe4E2540D421e56b0B786d40c5F5268891288c6fb'
 }
@@ -427,7 +472,7 @@ export const BASE_SWAPPER: { [chainId in ChainId]?: string } = {
 // Boring Helper
 // export const BORING_HELPER_ADDRESS = '0x11Ca5375AdAfd6205E41131A4409f182677996E6'
 
-export const ANALYTICS_URL: { [chainId in ChainId]?: string } = {
+export const ANALYTICS_URL: { [chainId in ChainId | AdditionalChainId]?: string } = {
     [ChainId.MAINNET]: 'https://analytics.sushi.com',
     [ChainId.MATIC]: 'https://analytics-polygon.sushi.com',
     [ChainId.FANTOM]: 'https://analytics-ftm.sushi.com',

@@ -1,6 +1,7 @@
 import { BigNumber } from '@ethersproject/bignumber'
 import { ChainId } from '@sushiswap/sdk'
 import { ethers } from 'ethers'
+import { AdditionalChainId } from '../../constants'
 
 // Functions that need accrue to be called
 export const ACTION_ADD_ASSET = 1
@@ -65,7 +66,7 @@ export const PROTOCOL_FEE_DIVISOR = BigNumber.from('100000')
 // export const BENTOBOX_ADDRESS = '0xF5BCE5077908a1b7370B9ae04AdC565EBd643966'
 
 export const BENTOBOX_ADDRESS: {
-    [chainId in ChainId]: string
+    [chainId in ChainId | AdditionalChainId]: string
 } = {
     [ChainId.MAINNET]: '0xF5BCE5077908a1b7370B9ae04AdC565EBd643966',
     [ChainId.ROPSTEN]: '',
@@ -88,11 +89,12 @@ export const BENTOBOX_ADDRESS: {
     [ChainId.HARMONY]: '',
     [ChainId.HARMONY_TESTNET]: '',
     [ChainId.OKEX]: '',
-    [ChainId.OKEX_TESTNET]: ''
+    [ChainId.OKEX_TESTNET]: '',
+    [AdditionalChainId.FUSE]: ''
 }
 
 export const KASHI_ADDRESS: {
-    [chainId in ChainId]: string
+    [chainId in ChainId | AdditionalChainId]: string
 } = {
     [ChainId.MAINNET]: '0x2cBA6Ab6574646Badc84F0544d05059e57a5dc42',
     [ChainId.ROPSTEN]: '',
@@ -115,13 +117,14 @@ export const KASHI_ADDRESS: {
     [ChainId.HARMONY]: '',
     [ChainId.HARMONY_TESTNET]: '',
     [ChainId.OKEX]: '',
-    [ChainId.OKEX_TESTNET]: ''
+    [ChainId.OKEX_TESTNET]: '',
+    [AdditionalChainId.FUSE]: ''
 }
 
 // export const KASHI_ADDRESS = '0x2cBA6Ab6574646Badc84F0544d05059e57a5dc42'
 
 export const SUSHISWAP_SWAPPER_ADDRESS: {
-    [chainId in ChainId]: string
+    [chainId in ChainId | AdditionalChainId]: string
 } = {
     [ChainId.MAINNET]: '0x1766733112408b95239aD1951925567CB1203084',
     [ChainId.ROPSTEN]: '',
@@ -144,11 +147,12 @@ export const SUSHISWAP_SWAPPER_ADDRESS: {
     [ChainId.HARMONY]: '',
     [ChainId.HARMONY_TESTNET]: '',
     [ChainId.OKEX]: '',
-    [ChainId.OKEX_TESTNET]: ''
+    [ChainId.OKEX_TESTNET]: '',
+    [AdditionalChainId.FUSE]: ''
 }
 
 export const SUSHISWAP_MULTISWAPPER_ADDRESS: {
-    [chainId in ChainId]: string
+    [chainId in ChainId | AdditionalChainId]: string
 } = {
     [ChainId.MAINNET]: '0x545820d5Cc05248da112419fEfb18522c63C8e12',
     [ChainId.ROPSTEN]: '',
@@ -171,7 +175,8 @@ export const SUSHISWAP_MULTISWAPPER_ADDRESS: {
     [ChainId.HARMONY]: '',
     [ChainId.HARMONY_TESTNET]: '',
     [ChainId.OKEX]: '',
-    [ChainId.OKEX_TESTNET]: ''
+    [ChainId.OKEX_TESTNET]: '',
+    [AdditionalChainId.FUSE]: ''
 }
 
 export const SUSHISWAP_MULTI_EXACT_SWAPPER_ADDRESS = {
@@ -196,7 +201,8 @@ export const SUSHISWAP_MULTI_EXACT_SWAPPER_ADDRESS = {
     [ChainId.HARMONY]: '',
     [ChainId.HARMONY_TESTNET]: '',
     [ChainId.OKEX]: '',
-    [ChainId.OKEX_TESTNET]: ''
+    [ChainId.OKEX_TESTNET]: '',
+    [AdditionalChainId.FUSE]: ''
 }
 
 export const PEGGED_ORACLE_ADDRESS = '0x6cbfbB38498Df0E1e7A4506593cDB02db9001564'
@@ -229,7 +235,8 @@ export const BORING_HELPER_ADDRESS = {
     [ChainId.HARMONY]: '',
     [ChainId.HARMONY_TESTNET]: '',
     [ChainId.OKEX]: '',
-    [ChainId.OKEX_TESTNET]: ''
+    [ChainId.OKEX_TESTNET]: '',
+    [AdditionalChainId.FUSE]: ''
 }
 
 // export const BORING_HELPER_ADDRESS = '0x11Ca5375AdAfd6205E41131A4409f182677996E6'
@@ -238,7 +245,7 @@ type Currency = { address: string; decimals: number }
 
 // Pricing currency
 // TODO: Check decimals and finish table
-export const USD_CURRENCY: { [chainId in ChainId]?: Currency } = {
+export const USD_CURRENCY: { [chainId in ChainId | AdditionalChainId]?: Currency } = {
     [ChainId.MAINNET]: { address: '0xdAC17F958D2ee523a2206206994597C13D831ec7', decimals: 6 },
     [ChainId.ROPSTEN]: { address: '0x516de3a7A567d81737e3a46ec4FF9cFD1fcb0136', decimals: 6 },
     [ChainId.KOVAN]: { address: '0x07de306FF27a2B630B1141956844eB1552B956B5', decimals: 6 },

@@ -1,11 +1,11 @@
-import Web3 from "web3";
-import { AbiItem } from "web3-utils";
-import UBIScheme from "@gooddollar/goodprotocol/artifacts/contracts/ubi/UBIScheme.sol/UBIScheme.json";
+import Web3 from 'web3'
+import { AbiItem } from 'web3-utils'
+import UBIScheme from '@gooddollar/goodprotocol/artifacts/contracts/ubi/UBIScheme.sol/UBIScheme.json'
 
-import { G$ContractAddresses } from "../constants/addresses";
-import { getChainId } from "../utils/web3";
-import { SupportedChainId } from "../constants/chains";
-import { UnsupportedChainId } from "../utils/errors";
+import { G$ContractAddresses } from '../constants/addresses'
+import { getChainId } from '../utils/web3'
+import { SupportedChainId } from '../constants/chains'
+import { UnsupportedChainId } from '../utils/errors'
 
 /**
  * Returns instance of UBIScheme contract.
@@ -14,12 +14,12 @@ import { UnsupportedChainId } from "../utils/errors";
  * @constructor
  */
 export async function ubiSchemeContract(web3: Web3, address?: string) {
-  const chainId = await getChainId(web3)
-  if (chainId !== SupportedChainId.FUSE) {
-    throw new UnsupportedChainId(chainId)
-  }
+    const chainId = await getChainId(web3)
+    if (chainId !== SupportedChainId.FUSE) {
+        throw new UnsupportedChainId(chainId)
+    }
 
-  address = address ?? G$ContractAddresses(chainId, 'UBIScheme')
+    address = address ?? G$ContractAddresses(chainId, 'UBIScheme')
 
-  return new web3.eth.Contract(UBIScheme.abi as AbiItem[], address)
+    return new web3.eth.Contract(UBIScheme.abi as AbiItem[], address)
 }

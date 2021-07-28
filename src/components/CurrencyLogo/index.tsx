@@ -11,12 +11,15 @@ import Logo from '../Logo'
 import MaticLogo from '../../assets/images/matic-logo.png'
 import MoonbeamLogo from '../../assets/images/moonbeam-logo.png'
 import OKExLogo from '../../assets/images/okex-logo.png'
+import FuseLogo from '../../assets/images/fuse-logo.png'
 import { WrappedTokenInfo } from '../../state/lists/hooks'
 import { getMaticTokenLogoURL } from '../../constants/maticTokenMapping'
 import styled from 'styled-components'
 import { useActiveWeb3React } from '../../hooks/useActiveWeb3React'
 import useHttpLocations from '../../hooks/useHttpLocations'
 import xDaiLogo from '../../assets/images/xdai-logo.png'
+import { AdditionalChainId, FUSE } from '../../constants'
+import { getFuseTokenLogoURL } from '../../constants/fuseTokenMapping'
 
 const getTokenLogoURL = (address: string, chainId: any) => {
     let imageURL
@@ -26,6 +29,8 @@ const getTokenLogoURL = (address: string, chainId: any) => {
         imageURL = `https://v1exchange.pancakeswap.finance/images/coins/${address}.png`
     } else if (chainId === ChainId.MATIC) {
         imageURL = getMaticTokenLogoURL(address)
+    } else if (chainId === AdditionalChainId.FUSE) {
+        imageURL = getFuseTokenLogoURL(address)
     } else {
         imageURL = `https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/${address}/logo.png`
     }
@@ -46,7 +51,7 @@ const StyledLogo = styled(Logo)<{ size: string }>`
     // background-color: ${({ theme }) => theme.white};
 `
 
-const logo: { readonly [chainId in ChainId]?: string } = {
+const logo: { readonly [chainId in ChainId | AdditionalChainId]?: string } = {
     [ChainId.MAINNET]: EthereumLogo,
     [ChainId.FANTOM]: FantomLogo,
     [ChainId.FANTOM_TESTNET]: FantomLogo,
@@ -63,7 +68,8 @@ const logo: { readonly [chainId in ChainId]?: string } = {
     [ChainId.HARMONY]: HarmonyLogo,
     [ChainId.HARMONY_TESTNET]: HarmonyLogo,
     [ChainId.OKEX]: OKExLogo,
-    [ChainId.OKEX_TESTNET]: OKExLogo
+    [ChainId.OKEX_TESTNET]: OKExLogo,
+    [AdditionalChainId.FUSE]: FuseLogo
 }
 
 export default function CurrencyLogo({
@@ -91,7 +97,7 @@ export default function CurrencyLogo({
         return []
     }, [chainId, currency, uriLocations])
 
-    if (currency === ETHER && chainId) {
+    if ((currency === ETHER || currency === FUSE) && chainId) {
         return <StyledNativeCurrencyLogo src={logo[chainId] ?? logo[ChainId.MAINNET]} size={size} style={style} />
     }
 

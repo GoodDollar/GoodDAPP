@@ -1,7 +1,7 @@
-import { Currency } from "@uniswap/sdk-core";
+import { Currency } from '@uniswap/sdk-core'
 
-import { getTokens } from "./methods/tokenLists";
-import { SupportedChainId } from "./constants/chains";
+import { getTokens } from './methods/tokenLists'
+import { SupportedChainId } from './constants/chains'
 
 /**
  * Return list of tokens based on current chain ID.
@@ -9,7 +9,7 @@ import { SupportedChainId } from "./constants/chains";
  * @returns {Currency[]}
  */
 export async function getList(chainId: SupportedChainId): Promise<Currency[]> {
-  const [tokens] = await getTokens(chainId)
+    const [tokens] = await getTokens(chainId)
 
-  return Array.from(tokens.values()).filter(token => token.symbol && !['G$', 'GDX', 'GDAO'].includes(token.symbol))
+    return Array.from(tokens.values()).filter(token => token.symbol && !['G$', 'GDX', 'GDAO'].includes(token.symbol))
 }

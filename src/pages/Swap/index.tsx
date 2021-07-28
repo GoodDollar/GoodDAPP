@@ -292,8 +292,8 @@ function Swap() {
                                 Enter amount
                             </ButtonAction>
                         ) : (
-                            <div className={swapPair.token === ETHER ? 'flex' : 'flex space-x-4'}>
-                                {swapPair.token !== ETHER && (
+                            <div className={buying && swapPair.token === ETHER ? 'flex' : 'flex space-x-4'}>
+                                {!(buying && swapPair.token === ETHER) && (
                                     <ButtonAction
                                         className="flex-grow"
                                         style={{ marginTop: 22 }}
@@ -307,7 +307,9 @@ function Swap() {
                                     className="flex-grow"
                                     style={{ marginTop: 22 }}
                                     disabled={
-                                        !meta || balanceNotEnough || (swapPair.token === ETHER ? false : !approved)
+                                        !meta ||
+                                        balanceNotEnough ||
+                                        (buying && swapPair.token === ETHER ? false : !approved)
                                     }
                                     onClick={() => setShowConfirm(true)}
                                 >

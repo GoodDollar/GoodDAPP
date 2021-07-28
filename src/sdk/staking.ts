@@ -661,7 +661,7 @@ export async function stake(
     address: string,
     amount: number | string,
     inInterestToken: boolean = false
-): Promise<void> {
+): Promise<any> {
     const contract = simpleStakingContract(web3, address)
     const account = await getAccount(web3)
 
@@ -669,7 +669,7 @@ export async function stake(
 
     const meta = await stakeMeta(web3, address, amount, inInterestToken)
 
-    await contract.methods.stake(meta.amount, percentage.toFixed(0), inInterestToken).send({ from: account })
+    return contract.methods.stake(meta.amount, percentage.toFixed(0), inInterestToken).send({ from: account })
 }
 
 /**
@@ -679,7 +679,7 @@ export async function stake(
  * @param {number} percent How much to withdraw in percent relativity.
  * @returns {Promise<void>}
  */
-export async function withdraw(web3: Web3, address: string, percent: number): Promise<void> {
+export async function withdraw(web3: Web3, address: string, percent: number): Promise<any> {
     const contract = simpleStakingContract(web3, address)
 
     const account = await getAccount(web3)
@@ -698,7 +698,7 @@ export async function withdraw(web3: Web3, address: string, percent: number): Pr
     const rawAmount = amount.multiply(percentage)
     debug('Withdraw amount', rawAmount.toSignificant(6))
 
-    await contract.methods
+    return contract.methods
         .withdrawStake(rawAmount.multiply(amount.decimalScale).toFixed(0), false)
         .send({ from: account })
 }

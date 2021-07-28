@@ -546,7 +546,7 @@ export async function approve(web3: Web3, meta: BuyInfo): Promise<void> {
  * @param {Web3} web3 Web3 instance.
  * @param {BuyInfo} meta Result of the method getMeta() execution.
  */
-export async function buy(web3: Web3, meta: BuyInfo): Promise<void> {
+export async function buy(web3: Web3, meta: BuyInfo): Promise<any> {
     const account = await getAccount(web3)
 
     const contract = await exchangeHelperContract(web3)
@@ -563,7 +563,7 @@ export async function buy(web3: Web3, meta: BuyInfo): Promise<void> {
         route = meta.route.map(token => token.address)
     }
 
-    await contract.methods
+    return contract.methods
         .buy(
             route,
             BigNumber.from(input),

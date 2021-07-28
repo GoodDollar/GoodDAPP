@@ -119,12 +119,13 @@ function Swap() {
             setApproving(false)
         }
     }
+
     useEffect(() => setApproved(false), [swapValue, swapPair, buying])
 
     const balanceNotEnough = useMemo(
         () =>
             BigInt(meta?.inputAmount.multiply(meta?.inputAmount.decimalScale).toFixed(0) ?? '0') >
-            BigInt(pairBalance?.raw.toString() ?? '0'),
+            BigInt(buying ? pairBalance?.raw.toString() ?? '0' : swapBalance?.raw.toString() ?? '0'),
         [meta?.inputAmount, pairBalance]
     )
 
@@ -172,8 +173,7 @@ function Swap() {
     }
 
     const swapFields = {
-        minimumReceived:
-            meta && `${meta.minimumOutputAmount.toSignificant(4)} ${meta.minimumOutputAmount.currency.symbol}`,
+        minimumReceived: meta && `${meta.minimumOutputAmount.toSignificant(4)} ${outputSymbol}`,
         priceImpact: meta && `${meta.priceImpact.toFixed(2)}%`,
         liquidityFee: meta && `${meta.liquidityFee.toSignificant(6)} ${swapPair.token.getSymbol()}`,
         route: route,
@@ -183,14 +183,18 @@ function Swap() {
             meta &&
             `${
                 buying
-                    ? meta.inputAmount
-                          .divide(meta.outputAmount.asFraction)
-                          .multiply(meta.outputAmount.decimalScale)
-                          .toSignificant(6)
-                    : meta.outputAmount
+                    ? meta.outputAmount.greaterThan(0)
+                        ? meta.inputAmount
+                              .divide(meta.outputAmount.asFraction)
+                              .multiply(meta.outputAmount.decimalScale)
+                              .toSignificant(6)
+                        : '0'
+                    : meta.inputAmount.greaterThan(0)
+                    ? meta.outputAmount
                           .multiply(meta.inputAmount.decimalScale)
                           .divide(meta.inputAmount.asFraction)
                           .toSignificant(6)
+                    : '0'
             } ${inputSymbol} PER ${outputSymbol} `
     }
 

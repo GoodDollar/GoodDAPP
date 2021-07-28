@@ -11,5 +11,7 @@ import { SupportedChainId } from './constants/chains'
 export async function getList(chainId: SupportedChainId): Promise<Currency[]> {
     const [tokens] = await getTokens(chainId)
 
-    return Array.from(tokens.values()).filter(token => token.symbol && !['G$', 'GDX', 'GDAO'].includes(token.symbol))
+    return Array.from(tokens.values()).filter(
+        token => token.name && token.symbol && !['G$', 'GDX', 'GDAO'].includes(token.symbol)
+    )
 }

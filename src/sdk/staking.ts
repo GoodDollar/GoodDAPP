@@ -348,12 +348,12 @@ const getSocialAPY = memoize<(web3: Web3, protocol: string, token: Token, iToken
                     .multiply(100)
                     .add(compSupplyAPY)
                     .divide(RR)
-                debug('Social APY', socialAPY.toFixed(3), '%')
+                debug('Social APY', socialAPY.toFixed(2), '%')
             } else if (protocol === LIQUIDITY_PROTOCOL.AAVE) {
                 const { percentDepositAPY, percentDepositAPR } = await aaveStaking(chainId, token.symbol!)
 
                 socialAPY = percentDepositAPY.add(percentDepositAPR).divide(RR)
-                debug('Social APY', socialAPY.toFixed(3), '%')
+                debug('Social APY', socialAPY.toFixed(2), '%')
             }
         } else {
             debug('Social APY', 0, '%')
@@ -486,8 +486,9 @@ const getAPY = memoize<(web3: Web3, address: string, protocol: LIQUIDITY_PROTOCO
         if (!liquidity.equalTo(new Fraction(0))) {
             const APY = yearlyRewardG$
                 .multiply(G$Ratio)
+                .multiply(yearlyRewardG$.decimalScale)
                 .divide(liquidity)
-                .multiply(100)
+                .multiply(1e6)
 
             debug('APY', APY.toSignificant(6), '%')
             debugGroupEnd(`APY of ${protocol} for ${token.symbol}`)
@@ -517,6 +518,7 @@ const getLiquidity = memoize<
     (web3: Web3, address: string, protocol: LIQUIDITY_PROTOCOL, token: Token) => Promise<Fraction>
 >(
     async (web3, address, protocol, token) => {
+        const chainId = await getChainId(web3)
         const simpleStaking = await simpleStakingContract(web3, address)
 
         debugGroup(`Liquidity for ${token.symbol} in ${protocol} `)
@@ -527,19 +529,25 @@ const getLiquidity = memoize<
         const price = await getTokenPriceInUSDC(web3, protocol, token)
 
         if (!price) {
+            console.log(1)
             debug('Liquidity', zero)
             return zero
         }
 
+        const USDC = (await getToken(chainId, 'USDC')) as Token
+
         const { 1: totalProductivity } = await simpleStaking.methods.getProductivity(account).call()
         debug('Total Productivity', totalProductivity)
 
-        const liquidity = new Fraction(totalProductivity, 10 ** token.decimals).multiply(price)
-        debug('Liquidity', liquidity.toSignificant(6))
+        let liquidity = new Fraction(totalProductivity.toString(), 1).multiply(price).divide(10 ** token.decimals)
 
-        debugGroupEnd(`Liquidity for ${token.symbol} in ${protocol} `)
+        const liquidityUSDC = CurrencyAmount.fromFractionalAmount(USDC, liquidity.numerator, liquidity.denominator)
 
-        return liquidity
+        debug('Liquidity', liquidityUSDC.toSignificant(6))
+
+        debugGroupEnd(`Liquidity for ${token.symbol} in ${protocol}`)
+
+        return liquidityUSDC
     },
     (_, address, protocol, token) => address + protocol + token.address
 )
@@ -556,15 +564,11 @@ const getYearlyRewardGDAO = memoize<(web3: Web3, address: string) => Promise<Cur
         const chainId = await getChainId(web3)
 
         const rewards = await contract.methods.rewardsPerBlock(address).call()
-        const yearlyRewardGDAO = new Fraction(rewards.toString(), 1e18).multiply(2_104_400)
+        const yearlyRewardGDAO = CurrencyAmount.fromRawAmount(GDAO[chainId], rewards.toString()).multiply(2_104_400)
 
         debug('Yearly reward GDAO', yearlyRewardGDAO.toSignificant(6))
 
-        return CurrencyAmount.fromFractionalAmount(
-            GDAO[chainId],
-            yearlyRewardGDAO.numerator,
-            yearlyRewardGDAO.denominator
-        )
+        return yearlyRewardGDAO
     },
     (_, address) => address
 )
@@ -583,11 +587,11 @@ const getYearlyRewardG$ = memoize<(web3: Web3, address: string) => Promise<Curre
         const { blockReward } = (await contract.methods.rewardsForStakingContract(address).call()) as {
             blockReward: BigNumber
         }
-        const yearlyRewardG$ = new Fraction(blockReward.toString(), 1e2).multiply(2_104_400)
+        const yearlyRewardG$ = CurrencyAmount.fromRawAmount(G$[chainId], blockReward.toString()).multiply(2_104_400)
 
         debug('Yearly reward G$', yearlyRewardG$.toSignificant(6))
 
-        return CurrencyAmount.fromFractionalAmount(G$[chainId], yearlyRewardG$.numerator, yearlyRewardG$.denominator)
+        return yearlyRewardG$
     },
     (_, address) => address
 )

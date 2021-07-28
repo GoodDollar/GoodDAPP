@@ -12,95 +12,101 @@ import { getTokens } from '../sdk/methods/tokenLists'
 import { Token } from '@sushiswap/sdk'
 import { useTokenBalance } from '../state/wallet/hooks'
 import { useWeb3React } from '@web3-react/core'
+import { AdditionalChainId } from '../constants'
 
 const SideBarSC = styled.aside<{ $mobile?: boolean }>`
-    width: ${({ $mobile }) => ($mobile ? 'auto' : '268px')};
-    background: ${({ theme }) => theme.color.main};
-    border-right: 1px solid ${({ theme, $mobile }) => ($mobile ? 'transparent' : theme.color.border1)};
-    flex-shrink: 0;
+  width: ${({ $mobile }) => ($mobile ? 'auto' : '268px')};
+  background: ${({ theme }) => theme.color.main};
+  border-right: 1px solid ${({ theme, $mobile }) => ($mobile ? 'transparent' : theme.color.border1)};
+  flex-shrink: 0;
 
-    nav a {
-        display: flex;
-        align-items: center;
-        color: ${({ theme }) => theme.color.text1};
-        margin: 20px 15px 0;
-        padding-left: 18px;
-        font-weight: 500;
-        font-size: 18px;
+  nav a {
+    display: flex;
+    align-items: center;
+    color: ${({ theme }) => theme.color.text1};
+    margin: 20px 15px 0;
+    padding-left: 18px;
+    font-weight: 500;
+    font-size: 18px;
 
-        &.active {
-            font-weight: bold;
-            background-color: ${({ theme }) => theme.color.button1};
-            border-radius: 7px;
-            color: ${({ theme }) => theme.color.text2};
-        }
+    &.active {
+      font-weight: bold;
+      background-color: ${({ theme }) => theme.color.button1};
+      border-radius: 7px;
+      color: ${({ theme }) => theme.color.text2};
+    }
+  }
+
+  .social {
+    padding: 21px 33px 20px 28px;
+
+    span {
+      color: ${({ theme }) => theme.color.text3};
+      font-weight: 500;
+      font-size: 12px;
+    }
+  }
+
+  .balance {
+    padding: 17px 7px 20px 22px;
+    margin: 0 26px 0 20px;
+    ${({ theme, $mobile }) => (theme.darkMode && !$mobile ? 'border: 1px solid #A5A5A5;' : '')}
+    box-shadow: ${({ theme, $mobile }) => (!$mobile ? theme.shadow.wallet : '')};
+    border-radius: 23px;
+
+    .title {
+      font-weight: bold;
+      font-size: 18px;
+      line-height: 21px;
+      color: ${({ theme }) => theme.color.text1};
     }
 
-    .social {
-        padding: 21px 33px 20px 28px;
+    .details {
+      margin-top: 5px;
+      font-size: 18px;
+      line-height: 21px;
 
-        span {
-            color: ${({ theme }) => theme.color.text3};
-            font-weight: 500;
-            font-size: 12px;
-        }
+      div {
+        text-overflow: ellipsis;
+        overflow: hidden;
+      }
     }
+  }
 
-    .balance {
-        padding: 17px 7px 20px 22px;
-        margin: 0 26px 0 20px;
-        ${({ theme, $mobile }) => (theme.darkMode && !$mobile ? 'border: 1px solid #A5A5A5;' : '')}
-        box-shadow: ${({ theme, $mobile }) => (!$mobile ? theme.shadow.wallet : '')};
-        border-radius: 23px;
+  ${({ $mobile }) =>
+      $mobile
+          ? css`
+                border-top: 1px solid ${({ theme }) => theme.color.border3};
 
-        .title {
-            font-weight: bold;
-            font-size: 18px;
-            line-height: 21px;
-            color: ${({ theme }) => theme.color.text1};
-        }
-        .details {
-            margin-top: 5px;
-            font-size: 18px;
-            line-height: 21px;
-            div {
-                text-overflow: ellipsis;
-                overflow: hidden;
-            }
-        }
-    }
+                .balance {
+                    padding-left: 13px;
+                    padding-top: 34px;
 
-    ${({ $mobile }) =>
-        $mobile
-            ? css`
-                  border-top: 1px solid ${({ theme }) => theme.color.border3};
+                    .title {
+                        padding-bottom: 17px;
 
-                  .balance {
-                      padding-left: 13px;
-                      padding-top: 34px;
-                      .title {
-                          padding-bottom: 17px;
-                          svg {
-                              display: none;
-                          }
-                      }
-                  }
-                  nav {
-                      border-bottom: 1px solid ${({ theme }) => theme.color.border3};
-                      padding-bottom: 20px;
-                  }
+                        svg {
+                            display: none;
+                        }
+                    }
+                }
 
-                  .social {
-                      max-width: 300px;
-                  }
-              `
-            : ''}
+                nav {
+                    border-bottom: 1px solid ${({ theme }) => theme.color.border3};
+                    padding-bottom: 20px;
+                }
 
-    display: ${({ $mobile }) => ($mobile ? 'none' : 'flex')};
+                .social {
+                    max-width: 300px;
+                }
+            `
+          : ''}
 
-    @media ${({ theme }) => theme.media.md} {
-        display: ${({ $mobile }) => ($mobile ? 'block' : 'none')};
-    }
+  display: ${({ $mobile }) => ($mobile ? 'none' : 'flex')};
+
+  @media ${({ theme }) => theme.media.md} {
+    display: ${({ $mobile }) => ($mobile ? 'block' : 'none')};
+  }
 `
 
 export default function SideBar({ mobile }: { mobile?: boolean }) {
@@ -185,11 +191,15 @@ export default function SideBar({ mobile }: { mobile?: boolean }) {
                     </div>
                     <div className="details">
                         <div>
-                            G$ {g$Balance?.toExact() ?? '-'}
+                            G$ {g$Balance?.toExact() ?? '0'}
+                            {(chainId as any) !== AdditionalChainId.FUSE && (
+                                <>
+                                    <br />
+                                    GDX {gdxBalance?.toExact() ?? '-'}
+                                </>
+                            )}
                             <br />
-                            GDX {gdxBalance?.toExact() ?? '-'}
-                            <br />
-                            GDAO {gdaoBalance?.toSignificant(6) ?? '-'}
+                            GDAO {gdaoBalance?.toSignificant(6) ?? '0'}
                         </div>
                     </div>
                 </div>

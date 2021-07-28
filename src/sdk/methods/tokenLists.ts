@@ -54,7 +54,7 @@ export async function cacheToken(supportedChainId: SupportedChainId, token: Toke
         throw new UnsupportedChainId(supportedChainId)
     }
 
-    if (!tokenListByAddress.has(token.address)) {
+    if (!tokenList.has(token.symbol!) && !tokenListByAddress.has(token.address)) {
         tokenList.set(token.symbol!, token)
         tokenListByAddress.set(token.address, token)
     }

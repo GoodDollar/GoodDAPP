@@ -11,6 +11,7 @@ import usePromise from '../hooks/usePromise'
 import { getTokens } from '../sdk/methods/tokenLists'
 import { Token } from '@sushiswap/sdk'
 import { useTokenBalance } from '../state/wallet/hooks'
+import { useWeb3React } from '@web3-react/core'
 
 const SideBarSC = styled.aside<{ $mobile?: boolean }>`
     width: ${({ $mobile }) => ($mobile ? 'auto' : '268px')};
@@ -104,6 +105,7 @@ const SideBarSC = styled.aside<{ $mobile?: boolean }>`
 
 export default function SideBar({ mobile }: { mobile?: boolean }) {
     const { i18n } = useLingui()
+    const { chainId: currentChainId } = useWeb3React()
     const { chainId, account } = useActiveWeb3React()
     const [data] = usePromise(async () => {
         if (!chainId) return {}
@@ -127,7 +129,7 @@ export default function SideBar({ mobile }: { mobile?: boolean }) {
         <SideBarSC className="flex flex-col justify-between" $mobile={mobile}>
             <nav>
                 <NavLink to={'/swap'}>{i18n._(t`Swap`)}</NavLink>
-                <NavLink to={'/stakes'}>{i18n._(t`Stakes`)}</NavLink>
+                {currentChainId && <NavLink to={'/stakes'}>{i18n._(t`Stakes`)}</NavLink>}
                 {chainId && account && <NavLink to={'/portfolio'}>{i18n._(t`Portfolio`)}</NavLink>}
                 {chainId && account && (
                     <a
@@ -183,11 +185,11 @@ export default function SideBar({ mobile }: { mobile?: boolean }) {
                     </div>
                     <div className="details">
                         <div>
-                            G$ {g$Balance?.toExact() ?? '0'}
+                            G$ {g$Balance?.toExact() ?? '-'}
                             <br />
-                            GDX {gdxBalance?.toExact() ?? '0'}
+                            GDX {gdxBalance?.toExact() ?? '-'}
                             <br />
-                            GDAO {gdaoBalance?.toSignificant(6) ?? '0'}
+                            GDAO {gdaoBalance?.toSignificant(6) ?? '-'}
                         </div>
                     </div>
                 </div>

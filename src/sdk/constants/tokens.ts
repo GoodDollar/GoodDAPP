@@ -87,10 +87,10 @@ export const WETH9_EXTENDED: { [chainId: number]: Token } = {
     ...WETH9,
     [SupportedChainId.FUSE]: new Token(
         SupportedChainId.FUSE,
-        '0xa722c13135930332Eb3d749B2F0906559D2C5b99',
+        '0x0BE9e53fd7EDaC9F859882AfdDa116645287C629',
         18,
-        'WETH',
-        'Wrapped Ether'
+        'WETH9',
+        'Wrapped Fuse'
     )
 }
 

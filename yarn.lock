@@ -2163,14 +2163,16 @@
     truffle-plugin-verify "^0.3.11"
     truffle-safe-hdwallet-provider "0.0.7"
 
-"@gooddollar/goodprotocol@^1.0.0-beta.2":
-  version "1.0.0-beta.2"
-  resolved "https://registry.yarnpkg.com/@gooddollar/goodprotocol/-/goodprotocol-1.0.0-beta.2.tgz#5b3e3573410c2fd575a70cf9d96413b22c0126ad"
-  integrity sha512-w1XNc/1AkYzapCAa5If6hbfpz5BqOuoDjvY1Fdl3tJJkppLuYrVgHb2FKTZV4YtQfLjolc/W3N9dwVsdbpDlAA==
+"@gooddollar/goodprotocol@^1.0.0-beta.12":
+  version "1.0.0-beta.12"
+  resolved "https://registry.yarnpkg.com/@gooddollar/goodprotocol/-/goodprotocol-1.0.0-beta.12.tgz#a3ff622f4c8f01e7d00c8a53a403eb3b2f897c8b"
+  integrity sha512-zppFtKh9yEBCTrE1Qqi2/Rm2+DLoz5M2KuTnWvai7gX6HUPEBGWLnU4/hpQ6L2grUXFVmTKkaesIL2tl3fNUmw==
   dependencies:
     "@gooddollar/goodcontracts" "^2.6.1"
     "@openzeppelin/contracts-upgradeable" "^4.1.0"
+    "@typechain/hardhat" "^2.2.0"
     openzeppelin-solidity "^4.0.0"
+    patch-package latest
     truffle-plugin-verify "^0.5.11"
 
 "@graphql-typed-document-node/core@^3.0.0":
@@ -3358,6 +3360,13 @@
     loglevel "^1.7.1"
     memory-cache "^0.2.0"
     web3-utils "^1.3.3"
+
+"@typechain/hardhat@^2.2.0":
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/@typechain/hardhat/-/hardhat-2.2.0.tgz#a3e99b49c215c364c375c554bdce626bb21ecc47"
+  integrity sha512-ICZdbc5QA/bSZEvdAHsEL3/u260ZPIK7WZLNnoGywQNo6A98w7VKQW4DR7hPPMHe1FaSI1LTuIesRQvCUVyT3A==
+  dependencies:
+    fs-extra "^9.1.0"
 
 "@types/anymatch@*":
   version "1.3.1"
@@ -14767,7 +14776,7 @@ patch-package@6.2.2:
     slash "^2.0.0"
     tmp "^0.0.33"
 
-patch-package@^6.4.7:
+patch-package@^6.4.7, patch-package@latest:
   version "6.4.7"
   resolved "https://registry.yarnpkg.com/patch-package/-/patch-package-6.4.7.tgz#2282d53c397909a0d9ef92dae3fdeb558382b148"
   integrity sha512-S0vh/ZEafZ17hbhgqdnpunKDfzHQibQizx9g8yEf5dcVk3KOflOfdufRXQX8CSEkyOQwuM/bNz1GwKvFj54kaQ==

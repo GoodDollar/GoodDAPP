@@ -302,6 +302,7 @@ export async function getMeta(
     slippageTolerance: number = 0.5
 ): Promise<BuyInfo | null> {
     const chainId = await getChainId(web3)
+    console.log('CHAIN ID:', chainId)
 
     if (fromSymbol === 'ETH' || fromSymbol === 'FUSE') {
         fromSymbol = 'WETH9'

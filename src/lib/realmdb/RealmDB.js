@@ -56,12 +56,24 @@ class RealmDB implements DB {
     }
   }
 
+  get _databaseName() {
+    switch (Config.env) {
+      case 'production':
+        return 'wallet_prod'
+      case 'staging':
+        return 'wallet_qa'
+      default:
+      case 'development':
+        return 'wallet'
+    }
+  }
+
   /**
    * helper to initialize with realmdb using JWT token
    * @returns
    */
   async _initRealmDB() {
-    const REALM_APP_ID = Config.realmAppID || 'wallet_dev-dhiht'
+    const REALM_APP_ID = Config.realmAppID
     const jwt = await AsyncStorage.getItem(JWT)
     log.debug('initRealmDB', { jwt, REALM_APP_ID })
     const credentials = Realm.Credentials.jwt(jwt)
@@ -70,7 +82,7 @@ class RealmDB implements DB {
       const app = new Realm.App({ id: REALM_APP_ID })
       this.user = await app.logIn(credentials)
       const mongodb = app.currentUser.mongoClient('mongodb-atlas')
-      this.EncryptedFeed = mongodb.db('wallet').collection('encrypted_feed')
+      this.EncryptedFeed = mongodb.db(this._databaseName).collection('encrypted_feed')
 
       // `App.currentUser` updates to match the logged in user
       log.debug('realm logged in', { user: this.user })

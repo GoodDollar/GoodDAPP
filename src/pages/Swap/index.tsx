@@ -239,7 +239,7 @@ function Swap() {
                         <SwapRow
                             title={buying ? 'Swap from' : 'Swap to'}
                             select
-                            autoMax
+                            autoMax={buying}
                             balance={pairBalance?.toSignificant(4) ?? 0}
                             style={{ marginBottom: buying ? 13 : 0, marginTop: buying ? 0 : 13, order: buying ? 1 : 3 }}
                             token={swapPair.token}
@@ -262,6 +262,7 @@ function Swap() {
                         </div>
                         <SwapRow
                             title={buying ? 'Swap to' : 'Swap from'}
+                            autoMax={!buying}
                             select={false}
                             balance={swapBalance?.toExact() ?? 0}
                             token={G$}

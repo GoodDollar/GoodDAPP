@@ -4,7 +4,7 @@ import { Currency, Ether, Token } from '@uniswap/sdk-core'
 import flatMap from 'lodash/flatMap'
 
 import { SupportedChainId } from '../constants/chains'
-import { G$, GDX, GDAO, TOKEN_LISTS } from '../constants/tokens'
+import { FUSE, G$, GDAO, GDX, TOKEN_LISTS } from '../constants/tokens'
 import { UnsupportedChainId } from '../utils/errors'
 import { getChainId } from '../utils/web3'
 import { ERC20Contract } from '../contracts/ERC20Contract'
@@ -103,8 +103,11 @@ export async function getTokens(
 
     if (supportedChainId !== SupportedChainId.FUSE) {
         tokenList.set('ETH', Ether.onChain(supportedChainId))
+        tokenListByAddress.set(ethers.constants.AddressZero, Ether.onChain(supportedChainId))
+    } else {
+        tokenList.set('FUSE', FUSE)
+        tokenListByAddress.set(ethers.constants.AddressZero, FUSE)
     }
-    tokenListByAddress.set(ethers.constants.AddressZero, Ether.onChain(supportedChainId))
 
     const tokens = flatMap(await Promise.all([UniswapTokenList.tokens, FuseTokenList.tokens, ...list.map(fetchURL)]))
 

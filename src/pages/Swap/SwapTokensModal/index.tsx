@@ -47,6 +47,8 @@ function SwapTokensModal({
         setSearch('')
     }, [onClose])
 
+    console.log(tokenList)
+
     return (
         <Modal isOpen={open} showClose onDismiss={handleClose}>
             <SwapTokensModalSC className={className} style={style}>

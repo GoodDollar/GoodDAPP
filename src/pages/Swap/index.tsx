@@ -260,7 +260,7 @@ function Swap() {
                         <SwapRow
                             title={buying ? 'Swap to' : 'Swap from'}
                             select={false}
-                            balance={swapBalance?.toSignificant(4) ?? 0}
+                            balance={swapBalance?.toExact() ?? 0}
                             token={G$}
                             alternativeSymbol="G$"
                             value={swapValue}

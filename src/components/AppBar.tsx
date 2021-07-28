@@ -18,6 +18,8 @@ import { ReactComponent as Burger } from '../assets/images/burger.svg'
 import { ReactComponent as X } from '../assets/images/x.svg'
 import { t } from '@lingui/macro'
 import SideBar from './SideBar'
+import usePromise from '../hooks/usePromise'
+import { g$Price } from '../sdk/apollo'
 
 const AppBarWrapper = styled.header`
     background: ${({ theme }) => theme.color.main};
@@ -61,6 +63,11 @@ function AppBar(): JSX.Element {
     const { i18n } = useLingui()
     const { account, chainId, library } = useActiveWeb3React()
     const userEthBalance = useETHBalances(account ? [account] : [])?.[account ?? '']
+    const [G$Price] = usePromise(async () => {
+        if (!chainId) return undefined
+        const data = await g$Price(chainId)
+        return data.DAI.toFixed(2)
+    }, [chainId])
 
     return (
         <AppBarWrapper className="flex flex-row flex-nowrap justify-between w-screen relative z-10">
@@ -82,7 +89,7 @@ function AppBar(): JSX.Element {
 
                                 <div className="flex flex-row space-x-2">
                                     <div className="flex flex-row items-center space-x-2">
-                                        <div className="whitespace-nowrap">G$ = 1USD</div>
+                                        <div className="whitespace-nowrap">{G$Price ? `G$ = ${G$Price}USD` : ''}</div>
                                         {chainId &&
                                             [ChainId.GÖRLI, ChainId.KOVAN, ChainId.RINKEBY, ChainId.ROPSTEN].includes(
                                                 chainId

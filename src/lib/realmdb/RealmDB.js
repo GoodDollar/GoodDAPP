@@ -1,10 +1,8 @@
 //@flow
 import { Database } from '@textile/threaddb'
 import * as TextileCrypto from '@textile/crypto'
-import { get, isFunction, once, sortBy } from 'lodash'
+import { once, sortBy } from 'lodash'
 import * as Realm from 'realm-web'
-import { getUserModel } from '../gundb/UserModel'
-import type { UserModel } from '../gundb/UserModel'
 import AsyncStorage from '../utils/asyncStorage'
 import { JWT } from '../constants/localStorage'
 import logger from '../logger/pino-logger'
@@ -294,110 +292,6 @@ class RealmDB implements DB, ProfileDB {
     log.debug('getFeedPage result:', numResults, offset, res.length, res)
     return res
   }
-
-  //TODO:  make sure profile contains walletaddress or enforce it in schema in realmdb
-  setProfile(profile) {
-    this.Profiles.updateOne({ user_id: this.user.id }, { user_id: this.user.id, ...profile }, { upsert: true })
-  }
-
-  getProfile() {
-    return this.Profiles.findOne({ user_id: this.user.id })
-  }
-
-  getProfileByWalletAddress(walletAddress: string) {
-    return this.Profiles.findOne({ walletAddress })
-  }
-
-  setProfileFields(fields: { key: String, field: ProfileField }) {
-    return this.Profiles.updateOne({ user_id: this.user.id }, { $set: fields })
-  }
-
-  setProfileField(field: string, value: string, privacy?: FieldPrivacy, onlyPrivacy?: boolean) {
-    return this.Profiles.updateOne({ user_id: this.user.id }, { [field]: value })
-  }
-
-  removeAvatar(withCleanup?: boolean) {
-    // eslint-disable-next-line require-await
-    const updateRealmDB = async () => this.setProfileFields({ avatar: null })
-    if (withCleanup !== true) {
-      return updateRealmDB()
-    }
-    return this.setProfileFields({ avatar: null })
-  }
-
-  _storeAvatar(field: string, avatar: string, withCleanup = false) {
-    // eslint-disable-next-line require-await
-    const updateRealmDB = async () => this.setProfileFields({ [field]: avatar })
-    if (withCleanup !== true) {
-      return updateRealmDB()
-    }
-
-    return this.setProfileFields({ [field]: avatar })
-  }
-
-  async _removeBase64(field: string, updateGUNCallback = null) {
-    if (isFunction(updateGUNCallback)) {
-      await updateGUNCallback()
-    }
-  }
-
-  initProfile() {}
-
-  getProfileFieldValue(field: string) {
-    return this.getProfile().then(data => data[field].value)
-  }
-
-  getProfileFieldDisplayValue(field: string) {
-    return this.getProfile().then(data => data[field].display)
-  }
-
-  getProfileField(field: string) {
-    return this.getProfile().then(data => data[field])
-  }
-
-  getDisplayProfile(profile: {}): UserModel {
-    const displayProfile = Object.keys(profile).reduce(
-      (acc, currKey) => ({
-        ...acc,
-        [currKey]: get(profile, `${currKey}.display`),
-      }),
-      {},
-    )
-    return getUserModel(displayProfile)
-  }
-
-  getPrivateProfile(profile: {}): Promise<UserModel> {
-    const keys = this._getProfileFields(profile)
-    return Promise.all(keys.map(currKey => this.getProfileFieldValue(currKey)))
-      .then(values => {
-        return values.reduce((acc, currValue, index) => {
-          const currKey = keys[index]
-          return { ...acc, [currKey]: currValue }
-        }, {})
-      })
-      .then(getUserModel)
-  }
-
-  getFieldPrivacy(field: string) {
-    return this.getProfile().then(data => data[field].privacy)
-  }
-
-  validateProfile(profile: any): Promise<{ isValid: boolean, errors: {} }> {
-    if (!profile) {
-      return { isValid: false, errors: {} }
-    }
-  }
-
-  async setProfileFieldPrivacy(field: string, privacy: FieldPrivacy) {
-    let value = await this.getProfileFieldValue(field)
-    return this.setProfileField(field, value, privacy, true)
-  }
-
-  isUsername(username: string): Promise<boolean> {}
-
-  getUserProfile(field?: string): { name: string, avatar: string } {}
-
-  deleteProfile(): Promise<boolean> {}
 }
 
 export default once(() => new RealmDB())

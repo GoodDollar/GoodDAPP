@@ -1,13 +1,16 @@
 //@flow
 import { default as goodWallet } from '../wallet/GoodWallet'
 import getDB from '../realmdb/RealmDB'
+import { UserProfileStorage } from './UserProfileStorage'
 import { UserStorage } from './UserStorageClass'
 import UserProperties from './UserProperties'
 
 const db = getDB()
 
 const userStorage = new UserStorage(goodWallet, db, new UserProperties(db))
+const storage = new UserProfileStorage(goodWallet, db)
 global.userStorage = userStorage
+global.storage = storage
 
 export interface DB {
   init(privateKey: string, publicKey: string): void;

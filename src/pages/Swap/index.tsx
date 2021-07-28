@@ -139,6 +139,27 @@ function Swap() {
         }
     }, [meta?.route, buying, chainId])
 
+    let inputSymbol
+    let outputSymbol
+    if (meta) {
+        inputSymbol =
+            SupportedChainId[Number(chainId)] === 'FUSE'
+                ? meta.inputAmount.currency.symbol === 'WETH9'
+                    ? 'FUSE'
+                    : meta.inputAmount.currency.symbol
+                : meta.inputAmount.currency.symbol === 'WETH9'
+                ? 'ETH'
+                : meta.inputAmount.currency.symbol
+        outputSymbol =
+            SupportedChainId[Number(chainId)] === 'FUSE'
+                ? meta.outputAmount.currency.symbol === 'WETH9'
+                    ? 'FUSE'
+                    : meta.outputAmount.currency.symbol
+                : meta.outputAmount.currency.symbol === 'WETH9'
+                ? 'ETH'
+                : meta.outputAmount.currency.symbol
+    }
+
     const swapFields = {
         minimumReceived:
             meta && `${meta.minimumOutputAmount.toSignificant(4)} ${meta.minimumOutputAmount.currency.symbol}`,
@@ -151,12 +172,15 @@ function Swap() {
             meta &&
             `${
                 buying
-                    ? meta.outputAmount.divide(meta.inputAmount.asFraction).toSignificant(6)
-                    : meta.inputAmount
-                          .multiply(meta.outputAmount.decimalScale)
+                    ? meta.inputAmount
                           .divide(meta.outputAmount.asFraction)
+                          .multiply(meta.outputAmount.decimalScale)
                           .toSignificant(6)
-            } ${meta.inputAmount.currency.symbol} PER ${meta.outputAmount.currency.symbol} `
+                    : meta.outputAmount
+                          .multiply(meta.inputAmount.decimalScale)
+                          .divide(meta.inputAmount.asFraction)
+                          .toSignificant(6)
+            } ${inputSymbol} PER ${outputSymbol} `
     }
 
     const pair: [

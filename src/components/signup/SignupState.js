@@ -399,8 +399,6 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
           throw e
         }),
 
-        // Stores creationBlock number into 'lastBlock' feed's node
-        userStorage.saveJoinedBlockNumber(),
         userStorage.userProperties.updateAll({ regMethod, inviterInviteCode: inviteCode }),
       ])
 

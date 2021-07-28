@@ -159,9 +159,9 @@ export default function LendingMarkets(): JSX.Element | null {
                     <StakeDeposit
                         stake={activeStake}
                         onDeposit={() => {
-                            setActiveStake(undefined)
                             web3 && getStakes(web3).then(setStakes, console.error)
                         }}
+                        onClose={() => setActiveStake(undefined)}
                     />
                 )}
             </Modal>

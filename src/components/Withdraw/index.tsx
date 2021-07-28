@@ -10,6 +10,11 @@ import PercentInputControls from 'components/Withdraw/PercentInputControls'
 import Button from 'components/Button'
 import { MyStake, withdraw } from '../../sdk/staking'
 import useWeb3 from '../../hooks/useWeb3'
+import { addTransaction } from '../../state/transactions/actions'
+import { useDispatch } from 'react-redux'
+import useActiveWeb3React from '../../hooks/useActiveWeb3React'
+import { TransactionDetails } from '../../sdk/constants/transactions'
+import { getExplorerLink } from '../../utils'
 
 function formatNumber(value: number) {
     return Intl.NumberFormat('en-US', { style: 'decimal', maximumFractionDigits: 4 }).format(value)
@@ -36,13 +41,23 @@ function Withdraw({ token, protocol, totalStake, open, setOpen, onWithdraw, stak
     useEffect(() => {
         setWithdrawAmount(totalStake * (Number(percentage) / 100))
     }, [percentage])
-
+    const dispatch = useDispatch()
+    const [transactionDetails, setTransactionDetails] = useState<TransactionDetails>()
+    const { chainId } = useActiveWeb3React()
     const web3 = useWeb3()
     const handleWithdraw = useCallback(async () => {
         if (!web3) return
         try {
             setStatus('pending')
-            await withdraw(web3, stake.address, parseFloat(percentage))
+            const transactionDetails = await withdraw(web3, stake.address, parseFloat(percentage))
+            setTransactionDetails(transactionDetails)
+            dispatch(
+                addTransaction({
+                    chainId: chainId!,
+                    hash: transactionDetails.transactionHash,
+                    from: transactionDetails.from
+                })
+            )
             setStatus('success')
             onWithdraw()
         } catch (e) {
@@ -57,7 +72,10 @@ function Withdraw({ token, protocol, totalStake, open, setOpen, onWithdraw, stak
 
     useEffect(() => {
         if (open) setPercentage('50')
-        if (open && status !== 'none') setStatus('none')
+        if (open && status !== 'none') {
+            setStatus('none')
+            setTransactionDetails(undefined)
+        }
     }, [open])
 
     return (
@@ -106,7 +124,14 @@ function Withdraw({ token, protocol, totalStake, open, setOpen, onWithdraw, stak
                         <Title className="flex flex-grow justify-center pt-3">Success!</Title>
                         <div className="flex justify-center items-center gap-2 pt-7 pb-7">
                             Transaction was sent to the blockchain{' '}
-                            <a>
+                            <a
+                                href={
+                                    transactionDetails &&
+                                    chainId &&
+                                    getExplorerLink(chainId, transactionDetails?.transactionHash, 'transaction')
+                                }
+                                target="_blank"
+                            >
                                 <LinkSVG className="cursor-pointer" />
                             </a>
                         </div>

@@ -99,3 +99,41 @@ export const ButtonOutlined = styled.button<{
         cursor: auto;
     }
 `
+
+export const ButtonText = styled.button<{
+    size?: 'default' | 'sm'
+    error?: boolean
+    width?: string
+    borderRadius?: string
+}>`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: ${({ size }) => (size === 'sm' ? '32px' : '42px')};
+    width: ${({ width = '100%' }) => width};
+    border-radius: ${({ borderRadius = '12px' }) => borderRadius};
+    color: ${({ theme }) => theme.color.text2};
+    background: none;
+    cursor: pointer;
+
+    font-style: normal;
+    font-weight: 900;
+    font-size: ${({ size }) => (size === 'sm' ? '14px' : '16px')};
+    line-height: 16px;
+    text-align: center;
+    user-select: none;
+
+    :disabled {
+        opacity: 0.5;
+        cursor: auto;
+    }
+
+    @media ${({ theme }) => theme.media.md} {
+        font-size: 12px;
+        line-height: 14px;
+        height: ${({ size }) => (size === 'sm' ? '26px' : '26px')};
+        border-radius: 6px;
+        width: auto;
+        display: block;
+    }
+`

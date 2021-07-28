@@ -20,6 +20,7 @@ import { ERC20Contract } from './contracts/ERC20Contract'
 import { compoundPrice } from './methods/compoundPrice'
 import { v2TradeExactIn } from './methods/v2TradeExactIn'
 import { cDaiPrice } from './methods/cDaiPrice'
+import { TransactionDetails } from './constants/transactions'
 
 export type Stake = {
     APY: Fraction
@@ -661,7 +662,7 @@ export async function stake(
     address: string,
     amount: number | string,
     inInterestToken: boolean = false
-): Promise<any> {
+): Promise<TransactionDetails> {
     const contract = simpleStakingContract(web3, address)
     const account = await getAccount(web3)
 
@@ -679,7 +680,7 @@ export async function stake(
  * @param {number} percent How much to withdraw in percent relativity.
  * @returns {Promise<void>}
  */
-export async function withdraw(web3: Web3, address: string, percent: number): Promise<any> {
+export async function withdraw(web3: Web3, address: string, percent: number): Promise<TransactionDetails> {
     const contract = simpleStakingContract(web3, address)
 
     const account = await getAccount(web3)
@@ -707,13 +708,14 @@ export async function withdraw(web3: Web3, address: string, percent: number): Pr
  * Claim rewards from staking.
  * @param {Web3} web3 Web3 instance.
  */
-export async function claim(web3: Web3): Promise<void> {
+export async function claim(web3: Web3): Promise<TransactionDetails[]> {
     const chainId = await getChainId(web3)
     const account = await getAccount(web3)
 
     const simpleStakingAddresses = await getSimpleStakingContractAddresses(web3)
 
     let totalRewardGDAO = CurrencyAmount.fromRawAmount(GDAO[chainId], 0) as CurrencyAmount<Currency>
+    let transactions: TransactionDetails[] = []
     for (const address of simpleStakingAddresses) {
         const [rewardG$, rewardGDAO] = await Promise.all([
             getRewardG$(web3, address, account),
@@ -726,12 +728,16 @@ export async function claim(web3: Web3): Promise<void> {
 
         if (!rewardG$.unclaimed.equalTo(0)) {
             const simpleStaking = simpleStakingContract(web3, address)
-            await simpleStaking.methods.withdrawRewards().send({ from: account })
+            transactions.push(await simpleStaking.methods.withdrawRewards().send({ from: account }))
         }
     }
 
     if (!totalRewardGDAO.equalTo(0)) {
         const stakersDistribution = await stakersDistributionContract(web3)
-        await stakersDistribution.methods.claimReputation(account, simpleStakingAddresses).send({ from: account })
+        transactions.push(
+            await stakersDistribution.methods.claimReputation(account, simpleStakingAddresses).send({ from: account })
+        )
     }
+
+    return transactions
 }

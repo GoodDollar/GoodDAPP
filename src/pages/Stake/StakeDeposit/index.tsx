@@ -4,16 +4,23 @@ import Title from '../../../components/gd/Title'
 import AsyncTokenIcon from '../../../kashi/components/AsyncTokenIcon'
 import { Switch } from '../styled'
 import SwapInput from '../../Swap/SwapInput'
-import { ButtonAction } from '../../../components/gd/Button'
+import { ButtonAction, ButtonDefault, ButtonText } from '../../../components/gd/Button'
 import { Stake, approve, stake as deposit, getTokenPriceInUSDC } from '../../../sdk/staking'
 import useActiveWeb3React from '../../../hooks/useActiveWeb3React'
 import { useTokenBalance } from '../../../state/wallet/hooks'
 import { Token } from '@sushiswap/sdk'
 import useWeb3 from '../../../hooks/useWeb3'
+import { addTransaction } from '../../../state/transactions/actions'
+import { useDispatch } from 'react-redux'
+import { getExplorerLink } from '../../../utils'
+import { ReactComponent as LinkSVG } from '../../../assets/images/link-blue.svg'
+import { Link } from 'react-router-dom'
+import { TransactionDetails } from '../../../sdk/constants/transactions'
 
 export interface StakeDepositModalProps {
     stake: Stake
     onDeposit?: () => any
+    onClose: () => any
 }
 
 type Action<T extends string, P = never> = [P] extends [never]
@@ -28,10 +35,12 @@ const initialState = {
     dollarEquivalent: undefined as undefined | string,
     approved: false,
     loading: false,
-    error: undefined as undefined | string
+    error: undefined as undefined | string,
+    done: false,
+    transactionDetails: undefined as undefined | TransactionDetails
 }
 
-const StakeDeposit = ({ stake, onDeposit }: StakeDepositModalProps) => {
+const StakeDeposit = ({ stake, onDeposit, onClose }: StakeDepositModalProps) => {
     const { chainId, account } = useActiveWeb3React()
     const web3 = useWeb3()
 
@@ -44,6 +53,7 @@ const StakeDeposit = ({ stake, onDeposit }: StakeDepositModalProps) => {
                 | Action<'CHANGE_VALUE', string>
                 | Action<'CHANGE_APPROVED', string | undefined>
                 | Action<'SET_ERROR', Error>
+                | Action<'DONE', TransactionDetails>
         ) => {
             switch (action.type) {
                 case 'TOGGLE_TOKEN':
@@ -73,8 +83,12 @@ const StakeDeposit = ({ stake, onDeposit }: StakeDepositModalProps) => {
                         ...state,
                         error: action.payload.message
                     }
-                default:
-                    return state
+                case 'DONE':
+                    return {
+                        ...state,
+                        done: true,
+                        transactionDetails: action.payload
+                    }
             }
         },
         initialState
@@ -117,11 +131,15 @@ const StakeDeposit = ({ stake, onDeposit }: StakeDepositModalProps) => {
         }
     }
 
+    const reduxDispatch = useDispatch()
+
+    const approving = !state.done && !state.approved
+    const depositing = !state.done && state.approved
+
     return (
         <StakeDepositSC className="p-4">
             <Title className="flex space-x-2 items-center justify-center mb-2">
-                {state.approved && 'Deposit overview'}
-                {!state.approved && (
+                {approving ? (
                     <>
                         <span>STAKE</span>
                         <AsyncTokenIcon
@@ -131,29 +149,14 @@ const StakeDeposit = ({ stake, onDeposit }: StakeDepositModalProps) => {
                         />
                         <span>{stake.tokens.A.symbol}</span>
                     </>
+                ) : depositing ? (
+                    'Deposit overview'
+                ) : (
+                    'Success!'
                 )}
             </Title>
             {state.error && <div className="error mb-2">{state.error}</div>}
-            {state.approved && (
-                <div className="flex justify-between items-start">
-                    <div className="amount">amount</div>
-                    <div className="flex flex-col">
-                        <div className="flex items-center space-x-2 token">
-                            <AsyncTokenIcon
-                                address={stake.tokens.A.address}
-                                chainId={chainId}
-                                className="block w-5 h-5 rounded-full"
-                            />
-                            <span>{state.value}</span>
-                            <span>{tokenToDeposit.symbol}</span>
-                        </div>
-                        <div className="dollar-equivalent self-end">
-                            {state.dollarEquivalent && `$${state.dollarEquivalent}`}
-                        </div>
-                    </div>
-                </div>
-            )}
-            {!state.approved && (
+            {approving ? (
                 <>
                     <div className="flex items-center justify-between mb-3">
                         <span>How much would you like to deposit?</span>
@@ -213,22 +216,79 @@ const StakeDeposit = ({ stake, onDeposit }: StakeDepositModalProps) => {
                         {state.loading ? 'APPROVING' : !account ? 'Connect wallet' : 'APPROVE'}
                     </ButtonAction>
                 </>
-            )}
-            {state.approved && (
-                <div className="px-2">
-                    <ButtonAction
-                        className="mt-6"
-                        disabled={state.loading}
-                        onClick={() =>
-                            withLoading(async () => {
-                                await deposit(web3!, stake.address, state.value, state.token === 'B')
-                                if (onDeposit) onDeposit()
-                            })
-                        }
-                    >
-                        DEPOSIT
-                    </ButtonAction>
-                </div>
+            ) : depositing ? (
+                <>
+                    <div className="flex justify-between items-start">
+                        <div className="amount">amount</div>
+                        <div className="flex flex-col">
+                            <div className="flex items-center space-x-2 token">
+                                <AsyncTokenIcon
+                                    address={stake.tokens.A.address}
+                                    chainId={chainId}
+                                    className="block w-5 h-5 rounded-full"
+                                />
+                                <span>{state.value}</span>
+                                <span>{tokenToDeposit.symbol}</span>
+                            </div>
+                            <div className="dollar-equivalent self-end">
+                                {state.dollarEquivalent && `$${state.dollarEquivalent}`}
+                            </div>
+                        </div>
+                    </div>
+                    <div className="px-2">
+                        <ButtonAction
+                            className="mt-6"
+                            disabled={state.loading}
+                            onClick={() =>
+                                withLoading(async () => {
+                                    const transactionDetails = await deposit(
+                                        web3!,
+                                        stake.address,
+                                        state.value,
+                                        state.token === 'B'
+                                    )
+                                    reduxDispatch(
+                                        addTransaction({
+                                            chainId: chainId!,
+                                            hash: transactionDetails.transactionHash,
+                                            from: transactionDetails.from
+                                        })
+                                    )
+                                    dispatch({ type: 'DONE', payload: transactionDetails })
+                                    if (onDeposit) onDeposit()
+                                })
+                            }
+                        >
+                            DEPOSIT
+                        </ButtonAction>
+                    </div>
+                </>
+            ) : (
+                <>
+                    <div className="text-center mt-4">
+                        Transaction was sent to the blockchain{' '}
+                        <a
+                            href={
+                                state.transactionDetails &&
+                                chainId &&
+                                getExplorerLink(chainId, state.transactionDetails.transactionHash, 'transaction')
+                            }
+                            target="_blank"
+                        >
+                            <LinkSVG className="inline-block cursor-pointer" />
+                        </a>
+                    </div>
+                    <div className="flex flex-col items-center mt-4 space-y-2">
+                        <Link to="/portfolio">
+                            <ButtonDefault className="uppercase px-6" width="auto">
+                                Back to Portfolio
+                            </ButtonDefault>
+                        </Link>
+                        <ButtonText className="uppercase" onClick={onClose}>
+                            Close
+                        </ButtonText>
+                    </div>
+                </>
             )}
             {state.loading && <div className="walletNotice mt-2">You need to sign the transaction in your wallet</div>}
         </StakeDepositSC>

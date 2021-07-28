@@ -30,6 +30,8 @@ import {
 import { SupportedChainId } from '../../sdk/constants/chains'
 import SwapConfirmModal from './SwapConfirmModal'
 import { FUSE } from '../../constants'
+import { useDispatch } from 'react-redux'
+import { addTransaction } from '../../state/transactions/actions'
 
 function Swap() {
     const [buying, setBuying] = useState(true)
@@ -138,6 +140,7 @@ function Swap() {
             return route.startsWith('cDAI') ? `${G$?.symbol} > ${route}` : `${G$?.symbol} > cDAI > ${route}`
         }
     }, [meta?.route, buying, chainId])
+    const dispatch = useDispatch()
 
     const swapFields = {
         minimumReceived:
@@ -292,11 +295,14 @@ function Swap() {
                 onConfirm={async () => {
                     try {
                         setSwapping(true)
-                        if (buying) {
-                            await buy(web3!, meta!)
-                        } else {
-                            await sell(web3!, meta!)
-                        }
+                        const transactionDetails = buying ? await buy(web3!, meta!) : await sell(web3!, meta!)
+                        dispatch(
+                            addTransaction({
+                                chainId: chainId!,
+                                hash: transactionDetails.transactionHash,
+                                from: transactionDetails.from
+                            })
+                        )
                         handleSetPairValue('')
                         setSwapValue('')
                         setShowConfirm(false)

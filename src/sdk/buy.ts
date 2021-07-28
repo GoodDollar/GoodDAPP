@@ -21,6 +21,7 @@ import { computeRealizedLPFeePercent } from './utils/prices'
 import { SupportedChainId } from './constants/chains'
 import { v2TradeExactOut } from './methods/v2TradeExactOut'
 import { cDaiToDai, G$ToCDai } from './sell'
+import { TransactionDetails } from './constants/transactions'
 
 export type BuyInfo = {
     inputAmount: CurrencyAmount<Currency>
@@ -546,7 +547,7 @@ export async function approve(web3: Web3, meta: BuyInfo): Promise<void> {
  * @param {Web3} web3 Web3 instance.
  * @param {BuyInfo} meta Result of the method getMeta() execution.
  */
-export async function buy(web3: Web3, meta: BuyInfo): Promise<any> {
+export async function buy(web3: Web3, meta: BuyInfo): Promise<TransactionDetails> {
     const account = await getAccount(web3)
 
     const contract = await exchangeHelperContract(web3)

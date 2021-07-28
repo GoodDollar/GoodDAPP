@@ -23,16 +23,6 @@ import Transaction from './Transaction'
 import Title from '../gd/Title'
 import { ButtonOutlined } from '../gd/Button'
 
-const HeaderRow = styled.div`
-    ${({ theme }) => theme.flexRowNoWrap};
-    padding: 1rem 1rem;
-    font-weight: 500;
-    color: ${props => (props.color === 'blue' ? ({ theme }) => theme.primary1 : 'inherit')};
-    ${({ theme }) => theme.mediaWidth.upToMedium`
-    padding: 1rem;
-  `};
-`
-
 const UpperSection = styled.div`
     position: relative;
 
@@ -403,8 +393,10 @@ export default function AccountDetails({
             {!!pendingTransactions.length || !!confirmedTransactions.length ? (
                 <LowerSection>
                     <AutoRow mb={'1rem'} style={{ justifyContent: 'space-between' }}>
-                        <TYPE.body>Recent Transactions</TYPE.body>
-                        <LinkStyledButton onClick={clearAllTransactionsCallback}>(clear all)</LinkStyledButton>
+                        <Title type="category">Recent Transactions</Title>
+                        <ButtonOutlined className="px-2" size="sm" width="auto" onClick={clearAllTransactionsCallback}>
+                            Clear all
+                        </ButtonOutlined>
                     </AutoRow>
                     {renderTransactions(pendingTransactions)}
                     {renderTransactions(confirmedTransactions)}

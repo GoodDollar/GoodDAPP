@@ -11,11 +11,17 @@ import { RowFixed } from '../Row'
 const TransactionWrapper = styled.div``
 
 const TransactionStatusText = styled.div`
+    white-space: nowrap;
     margin-right: 0.5rem;
     display: flex;
     align-items: center;
-    :hover {
-        text-decoration: underline;
+    &:first-child {
+        margin-right: 0;
+        overflow: hidden;
+        span {
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
     }
 `
 
@@ -28,7 +34,24 @@ const TransactionState = styled(ExternalLink)<{ pending: boolean; success?: bool
     padding: 0.25rem 0rem;
     font-weight: 500;
     font-size: 0.825rem;
-    color: ${({ theme }) => theme.primary1};
+    color: ${({ theme }) => theme.color.text1};
+
+    .transition {
+        position: relative;
+
+        &:after {
+            content: '';
+            display: block;
+            position: absolute;
+            bottom: 2px;
+            left: 0;
+            right: 0;
+            border-bottom: 1px solid transparent;
+        }
+        &:hover:after {
+            border-bottom: 1px solid ${({ theme }) => theme.color.text1};
+        }
+    }
 `
 
 const IconWrapper = styled.div<{ pending: boolean; success?: boolean }>`
@@ -40,17 +63,20 @@ export default function Transaction({ hash }: { hash: string }): any {
     const allTransactions = useAllTransactions()
 
     const tx = allTransactions?.[hash]
-    const summary = tx?.summary
-    const pending = !tx?.receipt
-    const success = !pending && tx && (tx.receipt?.status === 1 || typeof tx.receipt?.status === 'undefined')
+    const pending = false
+    const success = true
 
     if (!chainId) return null
+    const splitIn = Math.floor(hash.length / 2)
 
     return (
         <TransactionWrapper>
             <TransactionState href={getExplorerLink(chainId, hash, 'transaction')} pending={pending} success={success}>
-                <RowFixed>
-                    <TransactionStatusText>{summary ?? hash} ↗</TransactionStatusText>
+                <RowFixed className="transition">
+                    <TransactionStatusText>
+                        <span>{hash.slice(0, splitIn)}</span>
+                    </TransactionStatusText>
+                    <TransactionStatusText>{hash.slice(splitIn)} ↗</TransactionStatusText>
                 </RowFixed>
                 <IconWrapper pending={pending} success={success}>
                     {pending ? <Loader /> : success ? <CheckCircle size="16" /> : <Triangle size="16" />}

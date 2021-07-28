@@ -8,6 +8,11 @@ import Modal from 'components/Modal'
 import Button from 'components/Button'
 import { claim } from '../../sdk/staking'
 import useWeb3 from '../../hooks/useWeb3'
+import { TransactionDetails } from '../../sdk/constants/transactions'
+import { useDispatch } from 'react-redux'
+import { addTransaction } from '../../state/transactions/actions'
+import useActiveWeb3React from '../../hooks/useActiveWeb3React'
+import { getExplorerLink } from '../../utils'
 
 interface WithdrawRewardsProps {
     trigger: ReactElement<{ onClick: Function }>
@@ -18,13 +23,26 @@ type WithdrawRewardsState = 'none' | 'pending' | 'success'
 
 function WithdrawRewards({ trigger, onClaim, ...rest }: WithdrawRewardsProps) {
     const [status, setStatus] = useState<WithdrawRewardsState>('none')
+    const { chainId } = useActiveWeb3React()
     const [error, setError] = useState<Error>()
     const web3 = useWeb3()
+    const [transactionDetails, setTransactionDetails] = useState<TransactionDetails>()
+    const dispatch = useDispatch()
     const handleClaim = useCallback(async () => {
         if (!web3) return
         try {
             setStatus('pending')
-            await claim(web3)
+            const transactions = await claim(web3)
+            transactions.forEach(transactionDetails =>
+                dispatch(
+                    addTransaction({
+                        chainId: chainId!,
+                        hash: transactionDetails.transactionHash,
+                        from: transactionDetails.from
+                    })
+                )
+            )
+            setTransactionDetails(transactions[transactions.length - 1])
             setStatus('success')
             onClaim()
         } catch (e) {
@@ -41,6 +59,7 @@ function WithdrawRewards({ trigger, onClaim, ...rest }: WithdrawRewardsProps) {
         if (isModalOpen && status !== 'none') {
             setStatus('none')
             setError(undefined)
+            setTransactionDetails(undefined)
         }
     }, [isModalOpen])
 
@@ -75,9 +94,16 @@ function WithdrawRewards({ trigger, onClaim, ...rest }: WithdrawRewardsProps) {
                             <Title className="flex flex-grow justify-center pt-3">Success!</Title>
                             <div className="flex justify-center items-center gap-2 pt-7 pb-7">
                                 Transaction was sent to the blockchain{' '}
-                                <a>
-                                    <LinkSVG className="cursor-pointer" />
-                                </a>
+                                {transactionDetails && (
+                                    <a
+                                        href={
+                                            chainId &&
+                                            getExplorerLink(chainId, transactionDetails?.transactionHash, 'transaction')
+                                        }
+                                    >
+                                        <LinkSVG className="cursor-pointer" />
+                                    </a>
+                                )}
                             </div>
                             <div className="flex justify-center">
                                 <Button className="back-to-portfolio" onClick={handleClose}>

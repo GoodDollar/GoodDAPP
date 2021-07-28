@@ -37,15 +37,12 @@ if (typeof GOOGLE_ANALYTICS_ID === 'string') {
 } else {
 }
 
-window.addEventListener('error', error => {})
-
 function Updaters() {
     return (
         <>
             <ListsUpdater />
             <UserUpdater />
             <ApplicationUpdater />
-            <TransactionUpdater />
             <MulticallUpdater />
         </>
     )

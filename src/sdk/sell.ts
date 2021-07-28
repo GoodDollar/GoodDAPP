@@ -22,6 +22,7 @@ import { EXCHANGE_HELPER_ADDRESS } from './constants/addresses'
 import { SupportedChainId } from './constants/chains'
 import { v2TradeExactOut } from './methods/v2TradeExactOut'
 import { ZERO_PERCENT } from './constants/misc'
+import { TransactionDetails } from './constants/transactions'
 
 export type SellInfo = { contribution: Fraction } & BuyInfo
 
@@ -492,7 +493,7 @@ export async function approve(web3: Web3, meta: BuyInfo): Promise<void> {
  * @param {Web3} web3 Web3 instance.
  * @param {BuyInfo} meta Result of the method getMeta() execution.
  */
-export async function sell(web3: Web3, meta: BuyInfo): Promise<any> {
+export async function sell(web3: Web3, meta: BuyInfo): Promise<TransactionDetails> {
     const account = await getAccount(web3)
 
     const contract = await exchangeHelperContract(web3)

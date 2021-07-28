@@ -11,9 +11,11 @@ import usePromise from '../../hooks/usePromise'
 import { getMyList } from '../../sdk/staking'
 import useWeb3 from '../../hooks/useWeb3'
 import { Currency, CurrencyAmount } from '@uniswap/sdk-core'
+import useActiveWeb3React from '../../hooks/useActiveWeb3React'
 
 const Portfolio = () => {
     const web3 = useWeb3()
+    const { chainId } = useActiveWeb3React()
     const [dep, _update] = useState({})
     const update = useCallback(() => _update({}), [])
     const [data] = usePromise(async () => {
@@ -57,7 +59,7 @@ const Portfolio = () => {
                       }
             )
         }
-    }, [dep])
+    }, [dep, chainId])
 
     return (
         <Layout>

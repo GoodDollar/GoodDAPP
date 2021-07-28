@@ -183,7 +183,7 @@ function Web3StatusInner() {
 
     const pending = sortedRecentTransactions.filter(tx => !tx.receipt).map(tx => tx.hash)
 
-    const hasPendingTransactions = !!pending.length
+    const hasPendingTransactions = false
 
     const toggleWalletModal = useWalletModalToggle()
 
@@ -239,9 +239,6 @@ export default function Web3Status() {
         return txs.filter(isTransactionRecent).sort(newTransactionsFirst)
     }, [allTransactions])
 
-    const pending = sortedRecentTransactions.filter(tx => !tx.receipt).map(tx => tx.hash)
-    const confirmed = sortedRecentTransactions.filter(tx => tx.receipt).map(tx => tx.hash)
-
     if (!contextNetwork.active && !active) {
         return null
     }
@@ -251,8 +248,8 @@ export default function Web3Status() {
             <Web3StatusInner />
             <WalletModal
                 ENSName={ENSName ?? undefined}
-                pendingTransactions={pending}
-                confirmedTransactions={confirmed}
+                pendingTransactions={[]}
+                confirmedTransactions={sortedRecentTransactions.map(tx => tx.hash)}
             />
         </>
     )

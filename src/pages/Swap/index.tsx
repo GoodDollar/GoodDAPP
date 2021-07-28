@@ -127,7 +127,15 @@ function Swap() {
     )
 
     const route = useMemo(() => {
-        let route = meta?.route.map(token => token.symbol).join(' > ')
+        let route = meta?.route
+            .map(token => {
+                return token.symbol === 'WETH9'
+                    ? SupportedChainId[Number(chainId)] === 'FUSE'
+                        ? 'FUSE'
+                        : 'ETH'
+                    : token.symbol
+            })
+            .join(' > ')
 
         if (!route) return route
         if (SupportedChainId[Number(chainId)] === 'FUSE') return route

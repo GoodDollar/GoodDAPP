@@ -1,6 +1,7 @@
-import { Token, WETH9 } from '@uniswap/sdk-core'
+import { Currency, NativeCurrency, Token, WETH9 } from '@uniswap/sdk-core'
 import { G$ContractAddresses, UNI_ADDRESS } from './addresses'
 import { SupportedChainId } from './chains'
+import invariant from 'tiny-invariant'
 
 export const AMPL = new Token(
     SupportedChainId.MAINNET,
@@ -87,10 +88,10 @@ export const WETH9_EXTENDED: { [chainId: number]: Token } = {
     ...WETH9,
     [SupportedChainId.FUSE]: new Token(
         SupportedChainId.FUSE,
-        '0xa722c13135930332Eb3d749B2F0906559D2C5b99',
+        '0x0BE9e53fd7EDaC9F859882AfdDa116645287C629',
         18,
-        'WETH',
-        'Wrapped Ether'
+        'WETH9',
+        'Wrapped Fuse'
     )
 }
 
@@ -225,6 +226,22 @@ export const WBTC: { [chainId: number]: Token } = {
     )
     // [SupportedChainId.FUSE]: new Token(SupportedChainId.FUSE, G$ContractAddresses(SupportedChainId.FUSE, 'WBTC'), 8, 'WBTC', 'Wrapped BTC'),
 }
+
+export const FUSE = new (class extends NativeCurrency {
+    equals(other: Currency): boolean {
+        return other.isNative && other.chainId === this.chainId
+    }
+
+    get wrapped(): Token {
+        const weth9 = WETH9_EXTENDED[this.chainId]
+        !weth9 ? invariant(false, 'WRAPPED') : void 0
+        return weth9
+    }
+
+    constructor(chainId: number, decimals: number, symbol?: string, name?: string) {
+        super(chainId, decimals, symbol, name)
+    }
+})(SupportedChainId.FUSE, 18, 'FUSE', 'Fuse')
 
 export const TOKEN_LISTS: { [chainId: number]: string[] } = {
     [SupportedChainId.MAINNET]: [

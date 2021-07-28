@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useState } from 'react'
 import useActiveWeb3React from '../../hooks/useActiveWeb3React'
 import { getList } from '../../sdk/tokens'
 import { ETHER, Currency, Token } from '@sushiswap/sdk'
+import { AdditionalChainId, FUSE } from '../../constants'
 
 export interface SwapVariant {
     token: Currency
@@ -38,7 +39,9 @@ export function useTokens() {
                     setTokens(
                         list.map(currency =>
                             currency.isNative
-                                ? ETHER
+                                ? (chainId as any) === AdditionalChainId.FUSE
+                                    ? FUSE
+                                    : ETHER
                                 : new Token(
                                       chainId,
                                       currency.address,

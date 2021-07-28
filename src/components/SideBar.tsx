@@ -183,11 +183,11 @@ export default function SideBar({ mobile }: { mobile?: boolean }) {
                     </div>
                     <div className="details">
                         <div>
-                            G$ {g$Balance?.toSignificant(6) ?? '-'}
+                            G$ {g$Balance?.toExact() ?? '0'}
                             <br />
-                            GDX {gdxBalance?.toSignificant(6) ?? '-'}
+                            GDX {gdxBalance?.toExact() ?? '0'}
                             <br />
-                            GDAO {gdaoBalance?.toSignificant(6) ?? '-'}
+                            GDAO {gdaoBalance?.toSignificant(6) ?? '0'}
                         </div>
                     </div>
                 </div>

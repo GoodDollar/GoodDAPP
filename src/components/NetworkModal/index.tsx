@@ -173,14 +173,7 @@ export default function NetworkModal(): JSX.Element | null {
             </TextWrapper>
 
             <div className="flex flex-col space-y-5 overflow-y-auto mt-3">
-                {[
-                    ChainId.MAINNET,
-                    ChainId.FANTOM,
-                    ChainId.BSC,
-                    ChainId.MATIC,
-                    ChainId.HECO,
-                    AdditionalChainId.FUSE
-                ].map((key: ChainId | AdditionalChainId, i: number) => {
+                {[ChainId.KOVAN, AdditionalChainId.FUSE].map((key: ChainId | AdditionalChainId) => {
                     return (
                         <Option
                             clickable={chainId !== key}
@@ -193,8 +186,17 @@ export default function NetworkModal(): JSX.Element | null {
                             onClick={() => {
                                 toggleNetworkModal()
                                 const params = PARAMS[key]
-                                if (key === ChainId.MAINNET) {
-                                    library?.send('wallet_switchEthereumChain', [{ chainId: '0x1' }])
+                                if (
+                                    [
+                                        ChainId.MAINNET,
+                                        ChainId.KOVAN,
+                                        ChainId.RINKEBY,
+                                        ChainId.GÖRLI,
+                                        ChainId.ROPSTEN
+                                    ].includes(key as any)
+                                ) {
+                                    console.log(key.toString(16))
+                                    library?.send('wallet_switchEthereumChain', [{ chainId: `0x${key.toString(16)}` }])
                                 } else {
                                     library?.send('wallet_addEthereumChain', [params, account])
                                 }

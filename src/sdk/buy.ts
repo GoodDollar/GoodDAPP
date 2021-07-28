@@ -303,11 +303,10 @@ export async function getMeta(
     slippageTolerance: number = 0.5
 ): Promise<BuyInfo | null> {
     const chainId = await getChainId(web3)
-    let isEth = false
+    console.log('CHAIN ID:', chainId)
 
-    if (fromSymbol === 'ETH') {
-        isEth = true
-        fromSymbol = 'WETH'
+    if (fromSymbol === 'ETH' || fromSymbol === 'FUSE') {
+        fromSymbol = 'WETH9'
     }
 
     debugGroup(`Get meta ${amount} ${fromSymbol} to G$`)
@@ -318,7 +317,7 @@ export async function getMeta(
         throw new UnsupportedChainId(chainId)
     }
 
-    const FROM = await getToken(chainId, fromSymbol)
+    const FROM = fromSymbol === 'WETH9' ? WETH9_EXTENDED[chainId] : await getToken(chainId, fromSymbol)
 
     if (!FROM) {
         throw new UnsupportedToken(fromSymbol)
@@ -410,10 +409,6 @@ export async function getMeta(
 
     debugGroupEnd(`Get meta ${amount} ${fromSymbol} to G$`)
 
-    if (isEth) {
-        route = [WETH9_EXTENDED[chainId], ...route.slice(1)]
-    }
-
     return {
         inputAmount,
         outputAmount,
@@ -449,8 +444,8 @@ export async function getMetaReverse(
 ): Promise<BuyInfo | null> {
     const chainId = await getChainId(web3)
 
-    if (fromSymbol === 'ETH') {
-        fromSymbol = 'WETH'
+    if (fromSymbol === 'ETH' || fromSymbol === 'FUSE') {
+        fromSymbol = 'WETH9'
     }
 
     debugGroup(`Get meta ${toAmount} G$ to ${fromSymbol}`)
@@ -461,7 +456,7 @@ export async function getMetaReverse(
         throw new UnsupportedChainId(chainId)
     }
 
-    const FROM = await getToken(chainId, fromSymbol)
+    const FROM = fromSymbol === 'WETH9' ? WETH9_EXTENDED[chainId] : await getToken(chainId, fromSymbol)
 
     if (!FROM) {
         throw new UnsupportedToken(fromSymbol)

@@ -269,20 +269,18 @@ export async function getMeta(
     const chainId = await getChainId(web3)
     const account = await getAccount(web3)
 
-    let isEth = false
-
-    if (toSymbol === 'ETH') {
-        isEth = true
+    if (toSymbol === 'ETH' || toSymbol === 'FUSE') {
+        toSymbol = 'WETH9'
     }
 
     debugGroup(`Get meta ${amount} G$ to ${toSymbol}`)
 
-    const G$ = (await getToken(chainId, 'G$')) as Token
+    const G$ = await getToken(chainId, 'G$')
     if (!G$) {
         throw new Error('Unsupported chain ID')
     }
 
-    const TO = (await getToken(chainId, toSymbol)) as Token
+    const TO = toSymbol === 'WETH9' ? WETH9_EXTENDED[chainId] : await getToken(chainId, toSymbol)
 
     if (!TO) {
         throw new Error('Unsupported token')
@@ -359,10 +357,6 @@ export async function getMeta(
 
     debugGroupEnd(`Get meta ${amount} G$ to ${toSymbol}`)
 
-    if (isEth) {
-        route = [...route.slice(0, -1), WETH9_EXTENDED[chainId]]
-    }
-
     return {
         inputAmount,
         outputAmount,
@@ -398,14 +392,18 @@ export async function getMetaReverse(
 ): Promise<SellInfo | null> {
     const chainId = await getChainId(web3)
 
+    if (toSymbol === 'ETH' || toSymbol === 'FUSE') {
+        toSymbol = 'WETH9'
+    }
+
     debugGroup(`Get meta ${toAmount} ${toSymbol} to G$`)
 
-    const G$ = (await getToken(chainId, 'G$')) as Token
+    const G$ = await getToken(chainId, 'G$')
     if (!G$) {
         throw new Error('Unsupported chain ID')
     }
 
-    const TO = (await getToken(chainId, toSymbol)) as Token
+    const TO = toSymbol === 'WETH9' ? WETH9_EXTENDED[chainId] : await getToken(chainId, toSymbol)
 
     if (!TO) {
         throw new Error('Unsupported token')

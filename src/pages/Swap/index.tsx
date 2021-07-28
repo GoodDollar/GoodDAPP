@@ -129,7 +129,15 @@ function Swap() {
     )
 
     const route = useMemo(() => {
-        let route = meta?.route.map(token => token.symbol).join(' > ')
+        let route = meta?.route
+            .map(token => {
+                return token.symbol === 'WETH9'
+                    ? SupportedChainId[Number(chainId)] === 'FUSE'
+                        ? 'FUSE'
+                        : 'ETH'
+                    : token.symbol
+            })
+            .join(' > ')
 
         if (!route) return route
         if (SupportedChainId[Number(chainId)] === 'FUSE') return route
@@ -141,6 +149,27 @@ function Swap() {
         }
     }, [meta?.route, buying, chainId])
     const dispatch = useDispatch()
+
+    let inputSymbol
+    let outputSymbol
+    if (meta) {
+        inputSymbol =
+            SupportedChainId[Number(chainId)] === 'FUSE'
+                ? meta.inputAmount.currency.symbol === 'WETH9'
+                    ? 'FUSE'
+                    : meta.inputAmount.currency.symbol
+                : meta.inputAmount.currency.symbol === 'WETH9'
+                ? 'ETH'
+                : meta.inputAmount.currency.symbol
+        outputSymbol =
+            SupportedChainId[Number(chainId)] === 'FUSE'
+                ? meta.outputAmount.currency.symbol === 'WETH9'
+                    ? 'FUSE'
+                    : meta.outputAmount.currency.symbol
+                : meta.outputAmount.currency.symbol === 'WETH9'
+                ? 'ETH'
+                : meta.outputAmount.currency.symbol
+    }
 
     const swapFields = {
         minimumReceived:
@@ -154,12 +183,15 @@ function Swap() {
             meta &&
             `${
                 buying
-                    ? meta.outputAmount.divide(meta.inputAmount.asFraction).toSignificant(6)
-                    : meta.inputAmount
-                          .multiply(meta.outputAmount.decimalScale)
+                    ? meta.inputAmount
                           .divide(meta.outputAmount.asFraction)
+                          .multiply(meta.outputAmount.decimalScale)
                           .toSignificant(6)
-            } ${meta.inputAmount.currency.symbol} PER ${meta.outputAmount.currency.symbol} `
+                    : meta.outputAmount
+                          .multiply(meta.inputAmount.decimalScale)
+                          .divide(meta.inputAmount.asFraction)
+                          .toSignificant(6)
+            } ${inputSymbol} PER ${outputSymbol} `
     }
 
     const pair: [
@@ -231,7 +263,7 @@ function Swap() {
                         <SwapRow
                             title={buying ? 'Swap to' : 'Swap from'}
                             select={false}
-                            balance={swapBalance?.toSignificant(4) ?? 0}
+                            balance={swapBalance?.toExact() ?? 0}
                             token={G$}
                             alternativeSymbol="G$"
                             value={swapValue}

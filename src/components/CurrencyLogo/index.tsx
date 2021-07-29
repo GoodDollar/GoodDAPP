@@ -20,8 +20,9 @@ import useHttpLocations from '../../hooks/useHttpLocations'
 import xDaiLogo from '../../assets/images/xdai-logo.png'
 import { AdditionalChainId, FUSE } from '../../constants'
 import { getFuseTokenLogoURL } from '../../constants/fuseTokenMapping'
+import { getKovanTokenLogoURL } from '../../constants/kovanTokenMapping'
 
-const getTokenLogoURL = (address: string, chainId: any) => {
+export const getTokenLogoURL = (address: string, chainId: any) => {
     let imageURL
     if (chainId === ChainId.MAINNET) {
         imageURL = `https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/${address}/logo.png`
@@ -31,6 +32,8 @@ const getTokenLogoURL = (address: string, chainId: any) => {
         imageURL = getMaticTokenLogoURL(address)
     } else if (chainId === AdditionalChainId.FUSE) {
         imageURL = getFuseTokenLogoURL(address)
+    } else if (chainId === AdditionalChainId.KOVAN) {
+        imageURL = getKovanTokenLogoURL(address)
     } else {
         imageURL = `https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/${address}/logo.png`
     }

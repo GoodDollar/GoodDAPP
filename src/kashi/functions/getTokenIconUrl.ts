@@ -1,5 +1,6 @@
 import { ChainId } from '@sushiswap/sdk'
 import { AdditionalChainId } from '../../constants'
+import { getTokenLogoURL } from '../../components/CurrencyLogo'
 
 const TOKEN_ICONS: { [chainId in ChainId | AdditionalChainId]?: any } = {
     [ChainId.MAINNET]: {
@@ -210,13 +211,14 @@ const TOKEN_ICONS: { [chainId in ChainId | AdditionalChainId]?: any } = {
 }
 
 function getTokenIconUrl(address: string, chainId: ChainId = 1): string {
-    const RESULT = TOKEN_ICONS[chainId][address.toLowerCase()]
-    if (!RESULT) {
-        console.log('Missing token icon', chainId, address)
-        return `${process.env.PUBLIC_URL}/images/tokens/unknown.png`
-    } else {
-        return `${process.env.PUBLIC_URL}/images/tokens/${RESULT.toLowerCase()}.jpg`
-    }
+    // const RESULT = TOKEN_ICONS[chainId][address.toLowerCase()]
+    // if (!RESULT) {
+    //     console.log('Missing token icon', chainId, address)
+    //     return `${process.env.PUBLIC_URL}/images/tokens/unknown.png`
+    // } else {
+    //     return `${process.env.PUBLIC_URL}/images/tokens/${RESULT.toLowerCase()}.jpg`
+    // }
+    return getTokenLogoURL(address, chainId)
 }
 
 export default getTokenIconUrl

@@ -3,12 +3,12 @@ import { SwapDetailsSC } from './styled'
 import SwapInfo from '../SwapInfo'
 
 export interface SwapDetailsFields {
-    minimumReceived?: string
-    priceImpact?: string
-    liquidityFee?: string
-    route?: string
-    GDX?: string
-    exitContribution?: string
+    minimumReceived?: string | null
+    priceImpact?: string | null
+    liquidityFee?: string | null
+    route?: string | null
+    GDX?: string | null
+    exitContribution?: string | null
 }
 
 export interface SwapDetailsProps extends SwapDetailsFields {

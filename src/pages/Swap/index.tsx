@@ -57,7 +57,7 @@ function Swap() {
     const tokenList = useTokens()
     const G$ = useG$()
     const [swapValue, setSwapValue] = useState('')
-    const [meta, setMeta] = useState<undefined | BuyInfo | SellInfo>()
+    const [meta, setMeta] = useState<undefined | null | BuyInfo | SellInfo>()
     const pairBalance = useCurrencyBalance(account ?? undefined, swapPair.token)
     const swapBalance = useCurrencyBalance(account ?? undefined, G$)
     const web3 = useWeb3()
@@ -88,7 +88,8 @@ function Swap() {
 
         const timer = (metaTimer.current = setTimeout(async () => {
             const meta = await getMeta(web3, symbol, value, parseFloat(slippageTolerance.value))
-            if (!meta || metaTimer.current !== timer) return
+            if (metaTimer.current !== timer) return
+            if (!meta) return setMeta(null)
             setOtherValue(
                 buying
                     ? field === 'external'
@@ -292,6 +293,10 @@ function Swap() {
                         {!account ? (
                             <ButtonAction style={{ marginTop: 22 }} disabled>
                                 Connect wallet
+                            </ButtonAction>
+                        ) : meta === null ? (
+                            <ButtonAction style={{ marginTop: 22 }} disabled>
+                                Insufficient Trade
                             </ButtonAction>
                         ) : !(swapPair.value || swapValue) ? (
                             <ButtonAction style={{ marginTop: 22 }} disabled>

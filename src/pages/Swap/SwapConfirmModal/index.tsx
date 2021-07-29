@@ -11,7 +11,7 @@ import { Currency } from '@sushiswap/sdk'
 export interface SwapConfirmModalProps extends SwapDetailsFields {
     className?: string
     style?: CSSProperties
-    price?: string
+    price?: string | null
     onConfirm?: () => any
     pair?: [
         {

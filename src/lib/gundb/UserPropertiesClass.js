@@ -28,8 +28,7 @@ export default class UserProperties {
     showQuickActionHint: true,
     registered: false,
     startClaimingAdded: false,
-    lastBlock: 0,
-    joinedAtBlock: 6400000, // default block to start sync from
+    lastBlock: 6400000, // default block to start sync from
     lastTxSyncDate: 0,
     hasOpenedGoodMarket: false,
     hasOpenedInviteScreen: false,
@@ -49,7 +48,7 @@ export default class UserProperties {
     'regMethod',
     'showQuickActionHint',
     'startClaimingAdded',
-    'joinedAtBlock',
+    'lastBlock',
     'lastTxSyncDate',
     'hasOpenedGoodMarket',
     'goodMarketClicked',

@@ -83,6 +83,8 @@ describe('GoodWalletShare/ReceiveTokens', () => {
   })
 
   it('should deposit and withdraw properly', async () => {
+    await adminWallet.topWallet(testWallet.account, 0, true)
+    await adminWallet.topWallet(testWallet2.account, 0, true)
     const { privateKey: DEPOSIT_CODE } = testWallet.wallet.eth.accounts.create()
     const DEPOSIT_CODE_HASH = testWallet.getWithdrawLink(DEPOSIT_CODE)
     const asParam = testWallet.wallet.eth.abi.encodeParameter('address', DEPOSIT_CODE_HASH)

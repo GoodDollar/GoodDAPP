@@ -122,6 +122,7 @@ const Config = {
   textileKey: env.REACT_APP_TEXTILE_KEY,
   textileSecret: env.REACT_APP_TEXTILE_SECRET,
   web3Polling: env.REACT_APP_WEB3_POLLING || 30 * 1000, //poll every 30 seconds by default
+  realmAppID: env.REACT_APP_REALM_APP_ID || 'wallet_dev-dhiht',
   ethereum: {
     '1': {
       network_id: 1,

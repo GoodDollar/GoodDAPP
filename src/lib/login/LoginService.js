@@ -120,6 +120,11 @@ class LoginService {
     if (jwt) {
       const decoded = jsonwebtoken.decode(jwt, { json: true })
 
+      //new format of jwt should contain aud, used with realmdb
+      if (!decoded.aud) {
+        return null
+      }
+
       if (decoded.exp && Date.now() < decoded.exp * 1000) {
         return jwt
       }

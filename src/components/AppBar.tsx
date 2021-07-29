@@ -96,10 +96,7 @@ function AppBar(): JSX.Element {
                                         <div className="whitespace-nowrap">
                                             {G$Price ? `1,000G$ = ${G$Price.multiply(1000).toFixed(2)}USD` : ''}
                                         </div>
-                                        {chainId &&
-                                            [ChainId.GÖRLI, ChainId.KOVAN, ChainId.RINKEBY, ChainId.ROPSTEN].includes(
-                                                chainId
-                                            ) && <Web3Faucet />}
+                                        {chainId && <Web3Faucet />}
                                         <Disclosure.Button className="mobile-menu-button inline-flex items-center justify-center p-2 rounded-md  focus:outline-none">
                                             <span className="sr-only">{i18n._(t`Open main menu`)}</span>
                                             {open ? (

@@ -45,6 +45,11 @@ export const ButtonDefault = styled.button<{
     width: ${({ width = '100%' }) => width};
     border-radius: ${({ borderRadius = '12px' }) => borderRadius};
     color: ${({ theme }) => theme.color.main};
+
+    svg {
+        color: ${({ theme }) => theme.color.main};
+    }
+
     background: ${({ theme }) => theme.color.text2};
     cursor: pointer;
 

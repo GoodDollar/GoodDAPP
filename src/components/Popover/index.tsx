@@ -80,9 +80,10 @@ export interface PopoverProps {
     show: boolean
     children: React.ReactNode
     placement?: Placement
+    offset?: [number, number]
 }
 
-export default function Popover({ content, show, children, placement = 'auto' }: PopoverProps) {
+export default function Popover({ content, show, children, placement = 'auto', offset = [8, 8] }: PopoverProps) {
     const [referenceElement, setReferenceElement] = useState<HTMLDivElement | null>(null)
     const [popperElement, setPopperElement] = useState<HTMLDivElement | null>(null)
     const [arrowElement, setArrowElement] = useState<HTMLDivElement | null>(null)
@@ -90,7 +91,7 @@ export default function Popover({ content, show, children, placement = 'auto' }:
         placement,
         strategy: 'fixed',
         modifiers: [
-            { name: 'offset', options: { offset: [8, 8] } },
+            { name: 'offset', options: { offset } },
             { name: 'arrow', options: { element: arrowElement } }
         ]
     })

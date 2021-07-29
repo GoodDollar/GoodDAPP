@@ -22,8 +22,8 @@ export default function Tooltip({ text, ...rest }: TooltipProps) {
 
 export function MouseoverTooltip({ children, ...rest }: Omit<TooltipProps, 'show'>) {
     const [show, setShow] = useState(false)
-    const open = useCallback(() => setShow(true), [setShow])
-    const close = useCallback(() => setShow(false), [setShow])
+    const open = useCallback(() => setShow(true), [])
+    const close = useCallback(() => setShow(false), [])
     return (
         <Tooltip {...rest} show={show}>
             <div onMouseEnter={open} onMouseLeave={close}>

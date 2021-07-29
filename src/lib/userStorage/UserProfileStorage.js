@@ -1,5 +1,5 @@
 // @flow
-import { get, isEmpty, isFunction, isString, keys } from 'lodash'
+import { get, isEmpty, isFunction, isString, keys, over } from 'lodash'
 import { App } from 'realm-web'
 import { sha3 } from 'web3-utils'
 import { getUserModel } from '../gundb/UserModel'
@@ -23,6 +23,7 @@ export type ProfileField = {
   privacy: FieldPrivacy,
 }
 
+export type Profile = { [key: string]: ProfileField }
 export interface ProfileDB {
   user: App;
 }
@@ -31,14 +32,16 @@ type ACK = {
   err: string,
 }
 
+//TODO:
+//1. userprofilestorage should be inside UserStorageClass, either instantiated inside or passed into constructor
+//2. create correct ProfileDB interface, move back the mongodb methods to RealmDB, RealmDB implements ProfileDB
+//2. create an interface ProfileStorage, UserProfileStorage implements ProfileStorage
+//3. do all the TODO in file
+//4. document methods and verify methods input types and return types are correct
+//4b. make sure async/await usage is correct as some methods are no longer async
+//5. implement pubsub for profile changes (one method to subscribe for profile updates, when profile changes notify the subscribers)
+//6. UserStorageClass should delegate all calls to UserProfileStorage
 export class UserProfileStorage {
-  constructor(wallet: GoodWallet, profiledb: ProfileDB) {
-    // const seed = Uint8Array.from(Buffer.from(pkeySeed, 'hex'))
-    // this.privateKey = TextileCrypto.PrivateKey.fromRawEd25519Seed(seed)
-    this.wallet = wallet
-    this.profiledb = profiledb
-  }
-
   profileDefaults: {} = {
     mobile: '',
   }
@@ -66,6 +69,27 @@ export class UserProfileStorage {
   subscribersProfileUpdates = []
 
   walletAddressIndex = {}
+
+  //unecrypted profile field values
+  profile: { [key: string]: ProfileField} = {}
+
+  constructor(wallet: GoodWallet, profiledb: ProfileDB) {
+    // const seed = Uint8Array.from(Buffer.from(pkeySeed, 'hex'))
+    // this.privateKey = TextileCrypto.PrivateKey.fromRawEd25519Seed(seed)
+    this.wallet = wallet
+    this.profiledb = profiledb
+  }
+
+  //TODO: implement init
+  /**
+   * read raw profile from database
+   * store unencrypted version in memory
+   */
+  init() {
+    let rawProfile = this._getProfile()
+    //TODO: here profile should be the same, just with value replaced with unecnrypted value
+    this.profile = rawProfile.map(f => _decrypt(f.value))
+  }
 
   serialize(field: string, value: any): any {
     const { profileDefaults } = this
@@ -117,29 +141,56 @@ export class UserProfileStorage {
     return true
   }
 
-  _getProfileFields = profile => keys(profile).filter(field => !['_', 'initialized'].includes(field))
-
   //TODO:  make sure profile contains walletaddress or enforce it in schema in realmdb
+  /**
+   * saves a complete profile to the underlying storage
+   * //TODO: decide if it expects values to be encrypted or it encrypts them before
+   * @param {*} profile
+   */
   setProfile(profile): Promise<any> {
+    //TODO: make sure profile values are encrypted
     this.profiledb.Profiles.updateOne(
       { user_id: this.profiledb.user.id },
       { user_id: this.profiledb.user.id, ...profile },
       { upsert: true },
     )
+    //TODO: update in-memory profile
   }
 
-  getProfile(): Promise<any> {
+  /**
+   * read the complete raw user profile from storage. result fields might be encrypted
+   */
+  _getProfile(): Promise<any> {
     return this.profiledb.Profiles.findOne({ user_id: this.profiledb.user.id })
   }
 
-  getProfileByWalletAddress(walletAddress: string): Promise<any> {
-    return this.profiledb.Profiles.findOne({ walletAddress })
+  /**
+   * gets the current unencrypted field values in-memory
+   * @returns
+   */
+  getProfile(): Profile {
+    return this.profile
   }
 
-  setProfileFields(fields: { key: String, field: ProfileField }): Promise<any> {
+  /**
+   * updates profile fields in storage
+   * @param {*} fields
+   * @returns
+   */
+  setProfileFields(fields: { [key: string]: ProfileField }): Promise<any> {
+    //TODO: does it first encrypt the values or it expects value to be encrypted?
+    //TODO: update also the in-memory this.profile
     return this.profiledb.Profiles.updateOne({ user_id: this.profiledb.user.id }, { $set: fields })
   }
 
+  /**
+   * 
+   * @param {*} field 
+   * @param {*} value 
+   * @param {*} privacy 
+   * @param {*} onlyPrivacy 
+   * @returns 
+   */
   setProfileField(
     field: string,
     value: string,
@@ -167,37 +218,28 @@ export class UserProfileStorage {
         throw new Error('Invalid privacy setting', { privacy })
     }
 
-    const storePrivacy = () =>
-      this.profiledb.Profiles.updateOne({ user_id: this.profiledb.user.id }, { $set: { [field]: display } })
-
-    if (onlyPrivacy) {
-      return storePrivacy()
-    }
-
     logger.debug('setProfileField', { field, value, privacy, onlyPrivacy, display })
 
-    return this.profiledb.Profiles.updateOne(
-      { user_id: this.profiledb.user.id },
-      { $set: { [field]: this.serialize(field, value) } },
-    )
+    return this.setProfileFields({ [field]: { display, value, privacy } })
   }
 
-  removeAvatar(withCleanup?: boolean): Promise<(void | ACK)[]> {
+  //TODO: ask alexey about cleanup
+  removeAvatar(): Promise<void> {
+    //get the current smallAvatar/avatar fields values (which should be ipfs pointers)
+    //call _removeBase64 to delete them from cache
+    //set both avatar+smallavatar fields value to null
     return Promise.all(
       // eslint-disable-next-line require-await
       ['avatar', 'smallAvatar'].map(async field => {
-        // eslint-disable-next-line require-await
-        const updateRealmDB = async () => this.setProfileField(field, null, 'public')
-
-        if (true !== withCleanup) {
-          return updateRealmDB()
-        }
-
-        return this._removeBase64(field, updateRealmDB)
+        // eslint-disable-next-line require-await        
+        this._removeBase64(field, updateRealmDB)
       }),
     )
+    //TODO: update both smallAvatar/avatar to null
+    return this.setProfileFields(field, null, 'public')
   }
 
+  //TODO: ask alexey baout cleanup
   async _storeAvatar(field: string, avatar: string, withCleanup = false): Promise<string> {
     const cid = await Base64Storage.store(avatar)
     // eslint-disable-next-line require-await
@@ -206,37 +248,57 @@ export class UserProfileStorage {
       return updateRealmDB()
     }
 
+    this.setProfileField(field, cid, 'public')
     return this.setProfileFields({ [field]: avatar })
   }
 
   async _removeBase64(field: string, updateRealmCallback = null): Promise<void> {
     const cid = await this.getProfileFieldValue(field)
 
-    if (isFunction(updateRealmCallback)) {
-      await updateRealmCallback()
-    }
-
     if (isString(cid) && !isValidBase64Image(cid) && isValidCIDImage(cid)) {
       await Base64Storage.delete(cid)
     }
   }
 
-  async initProfile(): Promise<void> {}
+  /**
+   * get another user public profile by wallet address
+   * @param {*} walletAddress 
+   * @returns 
+   */
+  getProfileByWalletAddress(walletAddress: string): Promise<any> {
+    return this._getPublicProfile('walletAddress',walletAddress)
+  }
 
-  getProfileFieldValue(field: string): Promise<string> {
-    return this.getProfile().then(data => data[field])
+  /**
+   * helper to get form storage a user public profile by key/value
+   * @param {*} field 
+   * @param {*} value 
+   */
+  _getPublicProfile(key: string,value:string):{[field:string]: string} {
+    //TODO: implement getPublicProfile on RealmDB which returns only fields where privacy isnt private
+    let profile = await this.profiledb.getPublicProfile(key, value)
+    //TODO: filter from profile the private fields and keep only the 'display' value
+    
+    //TODO: fetch smallAvatar
+    profile['smallAvatar'] = await Base64Storage...(profile['smallAvatar'])
+  }
+
+  getProfileFieldValue(field: string): string {
+    return this.profile[field].value
   }
 
   getProfileFieldDisplayValue(field: string): Promise<string> {
-    return this.getProfile().then(data => data[field].display)
+    return this.profile[field].display
   }
 
+  //TODO: remove this field and its usages, ProfilePrivacy should just use the complete profile
   getProfileField(field: string): Promise<string> {
     return this.getProfile().then(data => data[field])
   }
 
-  getDisplayProfile(profile: {}): UserModel {
-    const displayProfile = Object.keys(profile).reduce(
+  //TODO: modify usage in undux/effect
+  getDisplayProfile(): UserModel {
+    const displayProfile = Object.keys(this.profile).reduce(
       (acc, currKey) => ({
         ...acc,
         [currKey]: get(profile, `${currKey}.display`),
@@ -246,20 +308,20 @@ export class UserProfileStorage {
     return getUserModel(displayProfile)
   }
 
-  getPrivateProfile(profile: {}): Promise<UserModel> {
-    const keys = this._getProfileFields(profile)
-    return Promise.all(keys.map(currKey => this.getProfileFieldValue(currKey)))
-      .then(values => {
-        return values.reduce((acc, currValue, index) => {
-          const currKey = keys[index]
-          return { ...acc, [currKey]: currValue }
-        }, {})
-      })
-      .then(getUserModel)
+  //TODO: modify usage in undux/effect
+  getPrivateProfile(): UserModel {
+    const displayProfile = Object.keys(this.profile).reduce(
+      (acc, currKey) => ({
+        ...acc,
+        [currKey]: get(profile, `${currKey}.value`),
+      }),
+      {},
+    )
+    return getUserModel(displayProfile)
   }
 
   async getFieldPrivacy(field: string): Promise<any> {
-    const currentPrivacy = await this.getProfile().then(data => data[field].privacy)
+    const currentPrivacy = this.profile[field].privacy
 
     return currentPrivacy || this.profileSettings[field].defaultPrivacy || 'public'
   }
@@ -291,10 +353,11 @@ export class UserProfileStorage {
   }
 
   async setProfileFieldPrivacy(field: string, privacy: FieldPrivacy): Promise<ACK> {
-    let value = await this.getProfileFieldValue(field)
+    let value = this.getProfileFieldValue(field)
     return this.setProfileField(field, value, privacy, true)
   }
 
+  //TODO: merge logic with _getPublicProfile
   async getUserProfile(field?: string): { name: string, avatar: string } {
     const attr = isMobilePhone(field) ? 'mobile' : isEmail(field) ? 'email' : 'walletAddress'
     const profile = await this.profiledb.Profiles.findOne({ [attr]: field })
@@ -311,6 +374,16 @@ export class UserProfileStorage {
     return { name: fullName, avatar }
   }
 
+  notifyProfileUpdates() {
+    over(this.subscribersProfileUpdates)(this.profile)
+  }
+  subscribeProfileUpdates(callback: any => void) {
+    this.subscribersProfileUpdates.push(callback)
+    if (this.profile) {
+      callback(this.profile)
+    }
+  }
+
   unSubscribeProfileUpdates() {
     this.subscribersProfileUpdates = []
   }
@@ -318,36 +391,10 @@ export class UserProfileStorage {
   async deleteProfile(): Promise<boolean> {
     this.unSubscribeProfileUpdates()
 
-    // first delete from indexes then delete the profile itself
-    let profileFields = await this.getProfile().then(this._getProfileFields)
+    //TODO: delete avatars from Base64Storage/cache
 
-    const deleteField = field => {
-      if (!field.includes('avatar')) {
-        return this.setProfileFieldPrivacy(field, 'private')
-      }
 
-      if (field === 'avatar') {
-        return this.removeAvatar()
-      }
-    }
-
-    await Promise.all(
-      profileFields.map(field =>
-        retry(() => deleteField(field), 1).catch(exception => {
-          let error = exception
-          let { message } = error || {}
-
-          if (!error) {
-            error = new Error(`Deleting profile field ${field} failed`)
-            message =
-              'Some error occurred during' +
-              (field === 'avatar' ? 'deleting avatar' : 'setting the privacy to the field')
-          }
-
-          logger.error(`Deleting profile field ${field} failed`, message, error, { index: field })
-        }),
-      ),
-    )
+    //TODO: delete user record from realmdb
 
     return true
   }

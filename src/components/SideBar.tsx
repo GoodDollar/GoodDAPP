@@ -191,15 +191,15 @@ export default function SideBar({ mobile }: { mobile?: boolean }) {
                     </div>
                     <div className="details">
                         <div>
-                            G$ {g$Balance?.toExact() ?? '0'}
+                            G$ {g$Balance?.toExact({ groupSeparator: ',' }) ?? '0'}
                             {(chainId as any) !== AdditionalChainId.FUSE && (
                                 <>
                                     <br />
-                                    GDX {gdxBalance?.toExact() ?? '-'}
+                                    GDX {gdxBalance?.toExact({ groupSeparator: ',' }) ?? '-'}
                                 </>
                             )}
                             <br />
-                            GDAO {gdaoBalance?.toSignificant(6) ?? '0'}
+                            GDAO {gdaoBalance?.toSignificant(6, { groupSeparator: ',' }) ?? '0'}
                         </div>
                     </div>
                 </div>

@@ -6,6 +6,7 @@ import { getUserModel } from '../gundb/UserModel'
 import type { UserModel } from '../gundb/UserModel'
 import { ExceptionCategory } from '../logger/exceptions'
 import Base64Storage from '../nft/Base64Storage'
+import { retry } from '../utils/async'
 import { isValidBase64Image, isValidCIDImage } from '../utils/image'
 import pino from '../logger/pino-logger'
 import isEmail from '../validators/isEmail'
@@ -220,11 +221,10 @@ export class UserProfileStorage {
     }
   }
 
-  // TODO: todo
-  // async initProfile(): Promise<void> {}
+  async initProfile(): Promise<void> {}
 
   getProfileFieldValue(field: string): Promise<string> {
-    return this.getProfile().then(data => data[field]).value
+    return this.getProfile().then(data => data[field])
   }
 
   getProfileFieldDisplayValue(field: string): Promise<string> {
@@ -235,7 +235,6 @@ export class UserProfileStorage {
     return this.getProfile().then(data => data[field])
   }
 
-  // TODO: verify
   getDisplayProfile(profile: {}): UserModel {
     const displayProfile = Object.keys(profile).reduce(
       (acc, currKey) => ({
@@ -247,7 +246,6 @@ export class UserProfileStorage {
     return getUserModel(displayProfile)
   }
 
-  // TODO: verify
   getPrivateProfile(profile: {}): Promise<UserModel> {
     const keys = this._getProfileFields(profile)
     return Promise.all(keys.map(currKey => this.getProfileFieldValue(currKey)))
@@ -297,7 +295,6 @@ export class UserProfileStorage {
     return this.setProfileField(field, value, privacy, true)
   }
 
-  // TODO: i think this should be named -> getUserProfileByField
   async getUserProfile(field?: string): { name: string, avatar: string } {
     const attr = isMobilePhone(field) ? 'mobile' : isEmail(field) ? 'email' : 'walletAddress'
     const profile = await this.profiledb.Profiles.findOne({ [attr]: field })
@@ -318,7 +315,40 @@ export class UserProfileStorage {
     this.subscribersProfileUpdates = []
   }
 
-  deleteProfile(): Promise<boolean> {
+  async deleteProfile(): Promise<boolean> {
     this.unSubscribeProfileUpdates()
+
+    // first delete from indexes then delete the profile itself
+    let profileFields = await this.getProfile().then(this._getProfileFields)
+
+    const deleteField = field => {
+      if (!field.includes('avatar')) {
+        return this.setProfileFieldPrivacy(field, 'private')
+      }
+
+      if (field === 'avatar') {
+        return this.removeAvatar()
+      }
+    }
+
+    await Promise.all(
+      profileFields.map(field =>
+        retry(() => deleteField(field), 1).catch(exception => {
+          let error = exception
+          let { message } = error || {}
+
+          if (!error) {
+            error = new Error(`Deleting profile field ${field} failed`)
+            message =
+              'Some error occurred during' +
+              (field === 'avatar' ? 'deleting avatar' : 'setting the privacy to the field')
+          }
+
+          logger.error(`Deleting profile field ${field} failed`, message, error, { index: field })
+        }),
+      ),
+    )
+
+    return true
   }
 }

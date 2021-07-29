@@ -269,7 +269,7 @@ async function getPriceImpact(
 ): Promise<Fraction> {
     const { cDAI: price } = await g$Price(await getChainId(web3))
 
-    const priceImpact = new Fraction(1).subtract(G$.divide(cDAI.divide(price)))
+    const priceImpact = new Fraction(1).subtract(G$.divide(cDAI.divide(price)).multiply(1e6))
     debug('Price impact', priceImpact.toSignificant(6))
 
     return priceImpact
@@ -408,6 +408,7 @@ export async function getMeta(
     }
 
     debugGroupEnd(`Get meta ${amount} ${fromSymbol} to G$`)
+    debug('Route', route)
 
     return {
         inputAmount,

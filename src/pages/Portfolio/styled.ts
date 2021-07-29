@@ -78,6 +78,23 @@ export const PortfolioSC = styled.div`
         text-align: left;
     }
 
+    .comingSoon {
+        background: ${({ theme }) => theme.color.bg2};
+        border-radius: 6px;
+        color: ${({ theme }) => theme.color.main};
+        font-weight: bold;
+        font-size: 14px;
+        line-height: 166%;
+        letter-spacing: 0.35px;
+        text-transform: uppercase;
+        text-align: center;
+        padding: 11px 11px 12px 11px;
+        margin-top: 5px;
+        user-select: none;
+        max-width: 229px;
+        white-space: nowrap;
+    }
+
     @media screen and (max-width: 1250px) {
         ${TableSC} {
             th:nth-child(3),

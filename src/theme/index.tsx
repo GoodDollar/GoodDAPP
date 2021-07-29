@@ -110,6 +110,7 @@ export function theme(darkMode: boolean) {
             button1: darkMode ? '#2E3A59' : 'rgba(0, 176, 255, 0.1)',
             button2: darkMode ? '#173046' : '#FFFFFF',
             bg1: darkMode ? '#1A1F38' : '#f6f8fa',
+            bg2: darkMode ? 'rgba(13, 38, 61, 0.4)' : 'rgba(13, 38, 61, 0.4)',
             switch: darkMode ? '#1FC2AF' : '#1FC2AF',
             hover: darkMode ? 'rgba(31, 194, 175, 0.3)' : 'rgba(31,194,175,0.1)',
             rangeTrack: darkMode ? '#8F9BB3' : '#F5F5F5'

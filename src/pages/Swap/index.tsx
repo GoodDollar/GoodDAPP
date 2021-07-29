@@ -92,11 +92,11 @@ function Swap() {
             setOtherValue(
                 buying
                     ? field === 'external'
-                        ? meta.outputAmount.toFixed()
-                        : meta.inputAmount.toFixed()
+                        ? meta.outputAmount.toFixed(undefined, { groupSeparator: ',' })
+                        : meta.inputAmount.toFixed(undefined, { groupSeparator: ',' })
                     : field === 'external'
-                    ? meta.inputAmount.toFixed()
-                    : meta.outputAmount.toFixed()
+                    ? meta.inputAmount.toFixed(undefined, { groupSeparator: ',' })
+                    : meta.outputAmount.toFixed(undefined, { groupSeparator: ',' })
             )
             setMeta(meta)
         }, 400))
@@ -173,12 +173,14 @@ function Swap() {
     }
 
     const swapFields = {
-        minimumReceived: meta && `${meta.minimumOutputAmount.toSignificant(4)} ${outputSymbol}`,
-        priceImpact: meta && `${meta.priceImpact.toFixed(2)}%`,
-        liquidityFee: meta && `${meta.liquidityFee.toSignificant(6)} ${swapPair.token.getSymbol()}`,
+        minimumReceived:
+            meta && `${meta.minimumOutputAmount.toSignificant(4, { groupSeparator: ',' })} ${outputSymbol}`,
+        priceImpact: meta && `${meta.priceImpact.toFixed(2, { groupSeparator: ',' })}%`,
+        liquidityFee:
+            meta && `${meta.liquidityFee.toSignificant(6, { groupSeparator: ',' })} ${swapPair.token.getSymbol()}`,
         route: route,
-        GDX: meta?.GDXAmount.toFixed(2),
-        exitContribution: (meta as SellInfo)?.contribution?.toSignificant(6),
+        GDX: meta?.GDXAmount.toFixed(2, { groupSeparator: ',' }),
+        exitContribution: (meta as SellInfo)?.contribution?.toSignificant(6, { groupSeparator: ',' }),
         price:
             meta &&
             `${
@@ -187,13 +189,13 @@ function Swap() {
                         ? meta.inputAmount
                               .divide(meta.outputAmount.asFraction)
                               .multiply(meta.outputAmount.decimalScale)
-                              .toSignificant(6)
+                              .toSignificant(6, { groupSeparator: ',' })
                         : '0'
                     : meta.inputAmount.greaterThan(0)
                     ? meta.outputAmount
                           .multiply(meta.inputAmount.decimalScale)
                           .divide(meta.inputAmount.asFraction)
-                          .toSignificant(6)
+                          .toSignificant(6, { groupSeparator: ',' })
                     : '0'
             } ${inputSymbol} PER ${outputSymbol} `
     }
@@ -244,7 +246,7 @@ function Swap() {
                             title={buying ? 'Swap from' : 'Swap to'}
                             select
                             autoMax={buying}
-                            balance={pairBalance?.toSignificant(4) ?? 0}
+                            balance={pairBalance?.toSignificant(4, { groupSeparator: ',' }) ?? 0}
                             style={{ marginBottom: buying ? 13 : 0, marginTop: buying ? 0 : 13, order: buying ? 1 : 3 }}
                             token={swapPair.token}
                             value={swapPair.value}

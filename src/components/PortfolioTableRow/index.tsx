@@ -22,7 +22,7 @@ function PortfolioTableRow({ stake, onWithdraw }: PortfolioTableRowProps) {
                         open={isWithdrawOpen}
                         setOpen={setWithdrawOpen}
                         token={`${stake.tokens.A.symbol}`}
-                        totalStake={parseFloat(stake.stake.amount.toFixed())}
+                        totalStake={parseFloat(stake.stake.amount.toFixed(undefined, { groupSeparator: ',' }))}
                         protocol={'compound'}
                         onWithdraw={onWithdraw}
                         stake={stake}
@@ -31,18 +31,26 @@ function PortfolioTableRow({ stake, onWithdraw }: PortfolioTableRowProps) {
                 <td>{stake.protocol}</td>
                 <td>
                     <span className="whitespace-nowrap">
-                        {stake.stake.amount.toSignificant(6)} {stake.stake.amount.currency.symbol}
+                        {stake.stake.amount.toSignificant(6, { groupSeparator: ',' })}{' '}
+                        {stake.stake.amount.currency.symbol}
                     </span>{' '}
-                    <br />~{stake.stake.amount$.toFixed(2)}$
+                    <br />~{stake.stake.amount$.toFixed(2, { groupSeparator: ',' })}$
                 </td>
                 <td>
-                    {stake.rewards.reward.claimed.add(stake.rewards.reward.unclaimed).toSignificant(6)}{' '}
+                    {stake.rewards.reward.claimed
+                        .add(stake.rewards.reward.unclaimed)
+                        .toSignificant(6, { groupSeparator: ',' })}{' '}
                     {stake.rewards.reward.claimed.currency.symbol} <br />~
-                    {stake.rewards.reward$.claimed.add(stake.rewards.reward$.unclaimed).toFixed(2)}$
+                    {stake.rewards.reward$.claimed
+                        .add(stake.rewards.reward$.unclaimed)
+                        .toFixed(2, { groupSeparator: ',' })}
+                    $
                 </td>
                 <td>{stake.multiplier ? 'Yes' : 'No'}</td>
                 <td>
-                    {stake.rewards.GDAO.claimed.add(stake.rewards.GDAO.unclaimed).toSignificant(6)}{' '}
+                    {stake.rewards.GDAO.claimed
+                        .add(stake.rewards.GDAO.unclaimed)
+                        .toSignificant(6, { groupSeparator: ',' })}{' '}
                     {stake.rewards.GDAO.claimed.currency.symbol}
                 </td>
                 <td>

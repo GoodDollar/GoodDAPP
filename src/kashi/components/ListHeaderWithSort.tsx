@@ -37,7 +37,7 @@ function ListHeaderWithSort({
 }) {
     return (
         <Wrapper
-            className={`flex items-center cursor-pointer justify-center ${className}`}
+            className={`flex items-center cursor-pointer justify-start ${className}`}
             onClick={() => sort.requestSort(sortKey, direction)}
         >
             <div>{children}</div>

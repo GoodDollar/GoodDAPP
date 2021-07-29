@@ -130,11 +130,11 @@ export default function Stakes(): JSX.Element | null {
                                         <td>
                                             <div className="right">
                                                 <div>
-                                                    {formattedNum(stake.rewards.G$.toFixed(2))}{' '}
+                                                    {stake.rewards.G$.toFixed(2, { groupSeparator: ',' })}{' '}
                                                     {stake.rewards.G$.currency.symbol}
                                                 </div>
                                                 <div className="">
-                                                    {formattedNum(stake.rewards.GDAO.toFixed(2))}{' '}
+                                                    {stake.rewards.GDAO.toFixed(2, { groupSeparator: ',' })}{' '}
                                                     {stake.rewards.GDAO.currency.symbol}
                                                 </div>
                                             </div>

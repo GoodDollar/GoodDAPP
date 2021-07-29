@@ -69,7 +69,9 @@ const Portfolio = () => {
                     <PortfolioAnalyticSC className="flex">
                         <div className="flex flex-col justify-between flex-grow">
                             <Title type="category">My Stake</Title>
-                            <PortfolioValueSC>~{data?.aggregated?.myStake.toFixed(2) ?? '0.00'}$</PortfolioValueSC>
+                            <PortfolioValueSC>
+                                ~{data?.aggregated?.myStake.toFixed(2, { groupSeparator: ',' }) ?? '0.00'}$
+                            </PortfolioValueSC>
                         </div>
                         <div className="flex flex-col justify-between flex-grow">
                             <Title type="category">
@@ -84,19 +86,20 @@ const Portfolio = () => {
                         <div className="flex flex-col justify-between flex-grow">
                             <Title type="category">G$ Rewards</Title>
                             <PortfolioValueSC>
-                                {data?.aggregated?.rewardsG$.toSignificant(6) ?? '0.00'}{' '}
+                                {data?.aggregated?.rewardsG$.toSignificant(6, { groupSeparator: ',' }) ?? '0.00'}{' '}
                                 {data?.aggregated?.rewardsG$.currency.symbol}
                             </PortfolioValueSC>
                         </div>
                         <div className="flex flex-col justify-between flex-grow">
                             <Title type="category">GDAO Rewards</Title>
                             <PortfolioValueSC>
-                                {data?.aggregated?.rewardsGDAO.toSignificant(6) ?? '0.00'}{' '}
+                                {data?.aggregated?.rewardsGDAO.toSignificant(6, { groupSeparator: ',' }) ?? '0.00'}{' '}
                                 {data?.aggregated?.rewardsGDAO.currency.symbol}
                             </PortfolioValueSC>
                         </div>
                         <div className="flex flex-col justify-between flex-grow">
                             <Title type="category">Your social contribution from:</Title>
+                            <div className="comingSoon">Coming soon...</div>
                         </div>
                     </PortfolioAnalyticSC>
                 </Card>
@@ -110,15 +113,17 @@ const Portfolio = () => {
                         <div className="flex flex-col justify-between flex-grow">
                             <Title type="category">G$ Rewards</Title>
                             <PortfolioValueSC>
-                                {data?.aggregated?.rewardsG$Unclaimed.toSignificant(6) ?? '0.00'}{' '}
+                                {data?.aggregated?.rewardsG$Unclaimed.toSignificant(6, { groupSeparator: ',' }) ??
+                                    '0.00'}{' '}
                                 {data?.aggregated?.rewardsG$Unclaimed.currency.symbol} / ~
-                                {data?.aggregated?.rewardsG$Unclaimed$.toFixed(2) ?? '0.00'}$
+                                {data?.aggregated?.rewardsG$Unclaimed$.toFixed(2, { groupSeparator: ',' }) ?? '0.00'}$
                             </PortfolioValueSC>
                         </div>
                         <div className="flex flex-col justify-between flex-grow">
                             <Title type="category">GDAO Rewards</Title>
                             <PortfolioValueSC>
-                                {data?.aggregated?.rewardsGDAOUnclaimed.toSignificant(6) ?? '0.00'}{' '}
+                                {data?.aggregated?.rewardsGDAOUnclaimed.toSignificant(6, { groupSeparator: ',' }) ??
+                                    '0.00'}{' '}
                                 {data?.aggregated?.rewardsGDAOUnclaimed.currency.symbol}
                             </PortfolioValueSC>
                         </div>

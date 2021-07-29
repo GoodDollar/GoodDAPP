@@ -304,6 +304,29 @@ class RealmDB implements DB, ProfileDB {
     log.debug('getFeedPage result:', numResults, offset, res.length, res)
     return res
   }
+
+  /**
+   * read the complete raw user profile from storage. result fields might be encrypted
+   */
+
+  //TODO:  make sure profile contains walletaddress or enforce it in schema in realmdb
+  setProfile(profile) {
+    this.Profiles.updateOne({ user_id: this.user.id },
+      { user_id: this.user.id, ...profile },
+      { upsert: true })
+  }
+
+  getProfile(): Promise<any> {
+    return this.Profiles.findOne({ user_id: this.user.id })
+  }
+
+  getProfileByWalletAddress(walletAddress: string): Promise<any> {
+    return this.Profiles.findOne({ walletAddress })
+  }
+
+  setProfileFields(fields: { key: String, field: ProfileField }): Promise<any> {
+    return this.Profiles.updateOne({ user_id: this.user.id }, { $set: fields })
+  }
 }
 
 export default once(() => new RealmDB())

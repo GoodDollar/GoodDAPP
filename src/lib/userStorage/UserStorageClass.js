@@ -37,8 +37,10 @@ import { GD_GUN_CREDENTIALS } from '../constants/localStorage'
 import AsyncStorage from '../utils/asyncStorage'
 import Base64Storage from '../nft/Base64Storage'
 import defaultGun from '../gundb/gundb'
-import { getUserModel, type UserModel } from '../gundb//UserModel'
+import { getUserModel, type UserModel } from '../gundb/UserModel'
 import { type StandardFeed } from '../gundb/StandardFeed'
+import { default as goodWallet } from "../wallet/GoodWallet";
+import { UserProfileStorage } from "./UserProfileStorage";
 import UserProperties from './UserProperties'
 import { FeedEvent, FeedItemType, FeedStorage, TxStatus } from './FeedStorage'
 import type { DB } from './UserStorage'
@@ -518,6 +520,7 @@ export class UserStorage {
     const seed = this.wallet.wallet.eth.accounts.wallet[this.wallet.getAccountForType('gundb')].privateKey.slice(2)
     await this.feedDB.init(seed, this.wallet.getAccountForType('gundb')) //only once user is registered he has access to realmdb via signed jwt
     await this.initFeed()
+    await this.initRealmDBUserStorage()
 
     // get trusted GoodDollar indexes and pub key
     let trustPromise = this.fetchTrustIndexes()
@@ -713,6 +716,12 @@ export class UserStorage {
   async getAllFeed() {
     await this.feedStorage.ready
     return this.feedStorage.getAllFeed()
+  }
+
+  async initRealmDBUserStorage() {
+    this.userProfileStorage = new UserProfileStorage(this.wallet, this.feedDB)
+    await this.userProfileStorage.init()
+    global.storage = this.userProfileStorage
   }
 
   /**

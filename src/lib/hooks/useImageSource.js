@@ -7,9 +7,16 @@ export default (source, skipCache = false) => {
   // firstly, trying for image sources could be checked syncronously
   const cachedState = useMemo(() => {
     // GD logo (-1)
-    if (isGoodDollarImage(source) || isValidLocalImage(source) || isValidRootImage(source)) {
-      return source
+    if (isGoodDollarImage(source)) {
+      return [true, null]
     }
+
+    // local (require()) image (numbers > 0) or relative url (starts with /)
+    if (isValidLocalImage(source) || isValidRootImage(source)) {
+      return [false, source]
+    }
+
+    // if no match - return null
     return null
   }, [source])
 
@@ -18,14 +25,19 @@ export default (source, skipCache = false) => {
 
   // aggregating memo
   const sourceState = useMemo(() => {
+    // if GD, local or root image - return cached value
+    if (cachedState) {
+      return cachedState
+    }
+
     // if was base64 or was loaded form ipfs - return data url
     if (base64) {
-      return { uri: base64 }
+      return [false, { uri: base64 }]
     }
 
     // otherwise return unknown profile image
-    return source
-  }, [source, base64])
+    return [false, null]
+  }, [cachedState, base64])
 
   return sourceState
 }

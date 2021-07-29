@@ -34,44 +34,45 @@ const uploadProfileAvatar = async () => {
   }
 }
 
-const hasCounterPartyAvatar = ({ data }) => {
-  const { counterPartySmallAvatar } = data || {}
+// const hasCounterPartyAvatar = ({ data }) => {
+//   const { counterPartySmallAvatar } = data || {}
 
-  return !!counterPartySmallAvatar
-}
+//   return !!counterPartySmallAvatar
+// }
 
-const uploadCounterPartyAvatar = async feedEvent => {
-  const { data } = feedEvent
-  const { counterPartySmallAvatar } = data
-  let avatar = counterPartySmallAvatar
+// const uploadCounterPartyAvatar = async feedEvent => {
+//   const { data } = feedEvent
+//   const { counterPartySmallAvatar } = data
+//   let avatar = counterPartySmallAvatar
 
-  // if still base64 - re-upload and store CID in the GunDB
-  if (isValidBase64Image(avatar)) {
-    avatar = await Base64Storage.store(avatar)
-  }
+//   // if still base64 - re-upload and store CID in the GunDB
+//   if (isValidBase64Image(avatar)) {
+//     avatar = await Base64Storage.store(avatar)
+//   }
 
-  if (avatar === counterPartySmallAvatar) {
-    return
-  }
+//   if (avatar === counterPartySmallAvatar) {
+//     return
+//   }
 
-  userStorage.feedStorage.updateFeedEvent({
-    ...feedEvent,
-    data: {
-      ...data,
-      counterPartySmallAvatar: avatar,
-    },
-  })
-}
+//   userStorage.feedStorage.updateFeedEvent({
+//     ...feedEvent,
+//     data: {
+//       ...data,
+//       counterPartySmallAvatar: avatar,
+//     },
+//   })
+// }
 
 /**
  * @returns {Promise<void>}
  */
 const uploadAvatars = async (lastUpdate, prevVersion, log) => {
-  const allEvents = await userStorage.getAllFeed()
-  const eventsWithCounterParty = allEvents.filter(hasCounterPartyAvatar)
+  // const allEvents = await userStorage.getAllFeed()
+  // const eventsWithCounterParty = allEvents.filter(hasCounterPartyAvatar)
 
   await uploadProfileAvatar()
-  await Promise.all(eventsWithCounterParty.map(uploadCounterPartyAvatar))
+
+  // await Promise.all(eventsWithCounterParty.map(uploadCounterPartyAvatar))
 }
 
 export default { fromDate, update: uploadAvatars, key: 'uploadAvatars' }

@@ -1721,34 +1721,6 @@ export class UserStorage {
     await this.updateOTPLEventStatus(eventId, 'cancelled')
   }
 
-  /**
-   * Saves block number in the 'lastBlock' node
-   * @param blockNumber
-   * @returns {Promise<Promise<*>|Promise<R|*>>}
-   */
-  saveLastBlockNumber(blockNumber: number | string): Promise<any> {
-    logger.debug('saving lastBlock:', blockNumber)
-    return this.userProperties.setLocal('lastBlock', blockNumber)
-  }
-
-  /**
-   * Saves block number right after user registered
-   *
-   * @returns {void}
-   */
-  async saveJoinedBlockNumber(): void {
-    // default block to start sync from
-    const blockNumber = await this.wallet.getBlockNumber().catch(e => UserProperties.defaultProperties.joinedAtBlock)
-
-    logger.debug('Saving lastBlock number right after registration:', blockNumber)
-
-    return this.userProperties.updateAll({
-      joinedAtBlock: blockNumber,
-      lastBlock: blockNumber,
-      lastTxSyncDate: moment().valueOf(),
-    })
-  }
-
   async getProfile(): Promise<any> {
     const encryptedProfile = await this.loadGunField(this.profile)
 
@@ -1885,12 +1857,6 @@ export class UserStorage {
 
     logger.debug('deleteAccount', deleteResults)
     return true
-  }
-
-  async syncTxWithBlockchain(joinedAtBlockNumber) {
-    this.feedStorage.isEmitEvents = false
-    await this.wallet.syncTxWithBlockchain(joinedAtBlockNumber)
-    this.feedStorage.isEmitEvents = true
   }
 
   _gunException(gunError) {

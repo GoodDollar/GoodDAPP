@@ -70,7 +70,8 @@ REACT_APP_WEB3_SITE_URL = "https://w3.gooddollar.org"
 REACT_APP_USE_TORUS = "true"
 REACT_APP_ENABLE_SELF_CUSTODY = "true"
 REACT_APP_NFT_PEERS = "https://cloudflare-ipfs.com/ipfs/{cid},https://ipfs.io/ipfs/{cid},https://{cid}.ipfs.dweb.link"
-REACT_APP_NFT_LAZY_UPLOAD = "true"
+REACT_APP_NFT_LAZY_UPLOAD = "false"
+REACT_APP_REALM_APP_ID = "wallet_dev-dhiht"
 
 [context.staging.environment]
 NODE_ENV = "staging"
@@ -90,8 +91,7 @@ REACT_APP_ENV_PHASE_ONE = "true"
 REACT_APP_FACE_VERIFICATION_PRIVACY_URL = "https://medium.com/gooddollar/gooddollar-identity-pillar-balancing-identity-and-privacy-part-i-face-matching-d6864bcebf54"
 REACT_APP_WEB3_SITE_URL = "https://w3.gooddollar.org"
 REACT_APP_USE_TORUS = "true"
-REACT_APP_NFT_PEERS = "https://cloudflare-ipfs.com/ipfs/{cid},https://ipfs.io/ipfs/{cid},https://{cid}.ipfs.dweb.link"
-REACT_APP_NFT_LAZY_UPLOAD = "true"
+REACT_APP_REALM_APP_ID = "wallet_qa-iumgc"
 
 [context.next.environment]
 NODE_ENV = "production"
@@ -120,6 +120,4 @@ REACT_APP_TORUS_GOOGLEAUTH0 = "gooddollar-google-auth0"
 REACT_APP_ZOOM_PRODUCTION_MODE = "true"
 REACT_APP_ENABLE_SELF_CUSTODY = "false"
 REACT_APP_AB_TEST_PERCENTAGE = "0.5"
-REACT_APP_NFT_PEERS = "https://cloudflare-ipfs.com/ipfs/{cid},https://ipfs.io/ipfs/{cid},https://{cid}.ipfs.dweb.link"
-# Need to disable it this August - September
-REACT_APP_NFT_LAZY_UPLOAD = "true"
+REACT_APP_REALM_APP_ID = "wallet_prod-obclo"

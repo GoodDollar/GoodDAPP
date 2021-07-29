@@ -383,11 +383,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
       //refresh JWT
       const login = retryImport(() => import('../../lib/login/GoodWalletLogin'))
       const refresh = true
-      await login
-        .then(l => l.default.auth(refresh))
-        .catch(e => {
-          log.error('failed auth:', e.message, e)
-        })
+      await login.then(l => l.default.auth(refresh))
 
       await userStorage.initRegistered()
       const [mnemonic] = await Promise.all([
@@ -399,8 +395,6 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
           throw e
         }),
 
-        // Stores creationBlock number into 'lastBlock' feed's node
-        userStorage.saveJoinedBlockNumber(),
         userStorage.userProperties.updateAll({ regMethod, inviterInviteCode: inviteCode }),
       ])
 

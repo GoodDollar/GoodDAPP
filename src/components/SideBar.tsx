@@ -136,12 +136,8 @@ export default function SideBar({ mobile }: { mobile?: boolean }) {
         <SideBarSC className="flex flex-col justify-between" $mobile={mobile}>
             <nav>
                 <NavLink to={'/swap'}>{i18n._(t`Swap`)}</NavLink>
-                {currentChainId && stakesSupportedAt.includes(chainId) && (
-                    <NavLink to={'/stakes'}>{i18n._(t`Stakes`)}</NavLink>
-                )}
-                {chainId && account && portfolioSupportedAt.includes(chainId) && (
-                    <NavLink to={'/portfolio'}>{i18n._(t`Portfolio`)}</NavLink>
-                )}
+                <NavLink to={'/stakes'}>{i18n._(t`Stakes`)}</NavLink>
+                <NavLink to={'/portfolio'}>{i18n._(t`Portfolio`)}</NavLink>
                 {chainId && account && (
                     <a
                         className="line p-2 md:p-3 whitespace-nowrap"

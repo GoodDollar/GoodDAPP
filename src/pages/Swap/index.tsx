@@ -238,7 +238,7 @@ function Swap() {
             <SwapCardSC>
                 <SwapWrapperSC>
                     <div className="flex justify-between items-center">
-                        <Title>Swap</Title>
+                        <Title className="pl-4">Swap</Title>
                         <SwapSettings />
                     </div>
                     <SwapContentWrapperSC>

@@ -54,9 +54,11 @@ function PortfolioTableRow({ stake, onWithdraw }: PortfolioTableRowProps) {
                     {stake.rewards.GDAO.claimed.currency.symbol}
                 </td>
                 <td>
-                    <ButtonDefault size="sm" width="99px" onClick={handleWithdrawOpen}>
-                        Withdraw
-                    </ButtonDefault>
+                    <div className="flex justify-end">
+                        <ButtonDefault size="sm" width="99px" onClick={handleWithdrawOpen}>
+                            Withdraw
+                        </ButtonDefault>
+                    </div>
                 </td>
             </tr>
             <tr className="mobile">

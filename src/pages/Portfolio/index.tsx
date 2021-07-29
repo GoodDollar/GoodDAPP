@@ -97,9 +97,9 @@ const Portfolio = () => {
                                 {data?.aggregated?.rewardsGDAO.currency.symbol}
                             </PortfolioValueSC>
                         </div>
-                        <div className="flex flex-col justify-between flex-grow">
+                        <div className="flex flex-col justify-between flex-grow items-end">
                             <Title type="category">Your social contribution from:</Title>
-                            <div className="comingSoon">Coming soon...</div>
+                            <div className="comingSoon w-full">Coming soon...</div>
                         </div>
                     </PortfolioAnalyticSC>
                 </Card>
@@ -110,7 +110,7 @@ const Portfolio = () => {
                                 Claimable <br /> rewards
                             </PortfolioTitleSC>
                         </div>
-                        <div className="flex flex-col justify-between flex-grow">
+                        <div className="flex flex-col justify-between" style={{ flexGrow: 2 }}>
                             <Title type="category">G$ Rewards</Title>
                             <PortfolioValueSC>
                                 {data?.aggregated?.rewardsG$Unclaimed.toSignificant(6, { groupSeparator: ',' }) ??

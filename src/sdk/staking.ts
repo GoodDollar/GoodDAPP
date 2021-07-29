@@ -95,8 +95,8 @@ export async function getMyList(web3: Web3): Promise<MyStake[]> {
             stakes.push(stake)
         }
     } else {
-        const stakes = await Promise.all(simpleStakingAddresses.map(address => metaMyStake(web3, address)))
-        stakes.push(...(stakes.filter(Boolean) as MyStake[]))
+        const stakesRawList = await Promise.all(simpleStakingAddresses.map(address => metaMyStake(web3, address)))
+        stakes = stakesRawList.filter(Boolean) as MyStake[]
     }
 
     return stakes

@@ -1,4 +1,4 @@
-export const DEBUG_ENABLED = 1
+export const DEBUG_ENABLED = 0
 
 export const debug = DEBUG_ENABLED ? console.log : (...args: any[]) => undefined // debug fn will show right line number so
 

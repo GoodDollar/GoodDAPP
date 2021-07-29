@@ -8,7 +8,7 @@ import UserProperties from './UserProperties'
 const db = getDB()
 
 const userStorage = new UserStorage(goodWallet, db, new UserProperties(db))
-const storage = new UserProfileStorage(goodWallet, db)
+const storage = new UserProfileStorage(goodWallet, db, new UserProperties(db))
 global.userStorage = userStorage
 global.storage = storage
 

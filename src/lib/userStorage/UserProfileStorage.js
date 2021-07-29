@@ -1,5 +1,5 @@
 // @flow
-import { get, isFunction, isString, keys } from 'lodash'
+import { get, isEmpty, isFunction, isString, keys } from 'lodash'
 import { App } from 'realm-web'
 import { sha3 } from 'web3-utils'
 import { getUserModel } from '../gundb/UserModel'
@@ -38,6 +38,10 @@ export class UserProfileStorage {
     this.profiledb = profiledb
   }
 
+  profileDefaults: {} = {
+    mobile: '',
+  }
+
   profileSettings: {} = {
     fullName: { defaultPrivacy: 'public' },
     email: { defaultPrivacy: 'private' },
@@ -61,6 +65,30 @@ export class UserProfileStorage {
   subscribersProfileUpdates = []
 
   walletAddressIndex = {}
+
+  serialize(field: string, value: any): any {
+    const { profileDefaults } = this
+    const defaultValue = profileDefaults[field]
+    const hasDefaultValue = field in profileDefaults
+    const isFieldEmpty = isString(value) && isEmpty(value)
+
+    if (isFieldEmpty || (hasDefaultValue && value === defaultValue)) {
+      return null
+    }
+
+    return value
+  }
+
+  static maskField = (fieldType: 'email' | 'mobile' | 'phone', value: string): string => {
+    if (fieldType === 'email') {
+      let parts = value.split('@')
+      return `${parts[0][0]}${'*'.repeat(parts[0].length - 2)}${parts[0][parts[0].length - 1]}@${parts[1]}`
+    }
+    if (['mobile', 'phone'].includes(fieldType)) {
+      return `${'*'.repeat(value.length - 4)}${value.slice(-4)}`
+    }
+    return value
+  }
 
   static cleanHashedFieldForIndex = (field: string, value: string): string => {
     if (value === undefined) {
@@ -111,12 +139,54 @@ export class UserProfileStorage {
     return this.profiledb.Profiles.updateOne({ user_id: this.profiledb.user.id }, { $set: fields })
   }
 
+  setProfileField(
+    field: string,
+    value: string,
+    privacy: FieldPrivacy = 'public',
+    onlyPrivacy: boolean = false,
+  ): Promise<ACK> {
+    let display
+
+    switch (privacy) {
+      case 'private':
+        display = '******'
+        break
+      case 'masked':
+        display = UserProfileStorage.maskField(field, value)
+
+        //undo invalid masked field
+        if (display === value) {
+          privacy = 'public'
+        }
+        break
+      case 'public':
+        display = value
+        break
+      default:
+        throw new Error('Invalid privacy setting', { privacy })
+    }
+
+    const storePrivacy = () =>
+      this.profiledb.Profiles.updateOne({ user_id: this.profiledb.user.id }, { $set: { [field]: display } })
+
+    if (onlyPrivacy) {
+      return storePrivacy()
+    }
+
+    logger.debug('setProfileField', { field, value, privacy, onlyPrivacy, display })
+
+    return this.profiledb.Profiles.updateOne(
+      { user_id: this.profiledb.user.id },
+      { $set: { [field]: this.serialize(field, value) } },
+    )
+  }
+
   removeAvatar(withCleanup?: boolean): Promise<(void | ACK)[]> {
     return Promise.all(
       // eslint-disable-next-line require-await
       ['avatar', 'smallAvatar'].map(async field => {
         // eslint-disable-next-line require-await
-        const updateRealmDB = async () => this.setProfileFields({ [field]: null })
+        const updateRealmDB = async () => this.setProfileField(field, null, 'public')
 
         if (true !== withCleanup) {
           return updateRealmDB()
@@ -130,7 +200,7 @@ export class UserProfileStorage {
   async _storeAvatar(field: string, avatar: string, withCleanup = false): Promise<string> {
     const cid = await Base64Storage.store(avatar)
     // eslint-disable-next-line require-await
-    const updateRealmDB = async () => this.setProfileFields({ [field]: cid })
+    const updateRealmDB = async () => this.setProfileField(field, cid, 'public')
     if (withCleanup !== true) {
       return updateRealmDB()
     }
@@ -222,16 +292,10 @@ export class UserProfileStorage {
     return { isValid, errors }
   }
 
-  // TODO: check privacy field requirments
   async setProfileFieldPrivacy(field: string, privacy: FieldPrivacy): Promise<ACK> {
     let value = await this.getProfileFieldValue(field)
-    return value
-
-    // return this.setProfileField(field, value, privacy, true)
+    return this.setProfileField(field, value, privacy, true)
   }
-
-  // TODO: ??? gunDB method is not working
-  isUsername(username: string): Promise<boolean> {}
 
   // TODO: i think this should be named -> getUserProfileByField
   async getUserProfile(field?: string): { name: string, avatar: string } {

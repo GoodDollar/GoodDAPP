@@ -196,6 +196,10 @@ export class APIService {
     return this.client.post('/verify/user', { verificationData })
   }
 
+  verifyCaptcha(token: string): AxiosPromise<any> {
+    return this.client.post('/verify/recaptcha', { token })
+  }
+
   /**
    * `ip-api.com/json` get location api call
    */

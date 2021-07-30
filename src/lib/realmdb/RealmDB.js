@@ -271,6 +271,23 @@ class RealmDB implements DB, ProfileDB {
   }
 
   /**
+   *
+   * @param field
+   * @returns {Promise<*>}
+   * @private
+   */
+  async _encryptField(field) {
+    try {
+      const msg = new TextEncoder().encode(JSON.stringify(field))
+      const encrypted = await this.privateKey.public.encrypt(msg).then(_ => Buffer.from(_).toString('base64'))
+      log.debug('_encrypt result:', { field: encrypted })
+      return encrypted
+    } catch (e) {
+      log.error('error _encrypt feedItem:', e.message, e, { field })
+    }
+  }
+
+  /**
    * helper for decrypting items
    * @param {*} item
    * @returns
@@ -311,13 +328,15 @@ class RealmDB implements DB, ProfileDB {
 
   //TODO:  make sure profile contains walletaddress or enforce it in schema in realmdb
   setProfile(profile) {
-    this.Profiles.updateOne({ user_id: this.user.id },
-      { user_id: this.user.id, ...profile },
-      { upsert: true })
+    this.Profiles.updateOne({ user_id: this.user.id }, { user_id: this.user.id, ...profile }, { upsert: true })
   }
 
   getProfile(): Promise<any> {
     return this.Profiles.findOne({ user_id: this.user.id })
+  }
+
+  getProfileByField(key: string, field: string): Promise<any> {
+    return this.Profiles.findOne({ [key]: field })
   }
 
   getProfileByWalletAddress(walletAddress: string): Promise<any> {

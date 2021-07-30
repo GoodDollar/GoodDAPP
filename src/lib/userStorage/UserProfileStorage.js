@@ -4,7 +4,7 @@ import { App } from 'realm-web'
 import { sha3 } from 'web3-utils'
 import { getUserModel } from '../gundb/UserModel'
 import type { UserModel } from '../gundb/UserModel'
-import { UserStorage } from '../gundb/UserStorageClass'
+
 import { ExceptionCategory } from '../logger/exceptions'
 import Base64Storage from '../nft/Base64Storage'
 import { retry } from '../utils/async'
@@ -12,6 +12,7 @@ import { isValidBase64Image, isValidCIDImage } from '../utils/image'
 import pino from '../logger/pino-logger'
 import isEmail from '../validators/isEmail'
 import isMobilePhone from '../validators/isMobilePhone'
+import { UserStorage } from "./UserStorageClass";
 
 const logger = pino.child({ from: 'UserProfileStorage' })
 

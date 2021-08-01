@@ -79,7 +79,6 @@ export class APIService {
     const { serverUrl, apiTimeout } = Config
 
     this.jwt = jwtToken
-    log.info('initializing api...', serverUrl, jwtToken)
 
     return (this.ready = (async () => {
       let { jwt } = this
@@ -88,6 +87,7 @@ export class APIService {
         jwt = await AsyncStorage.getItem(JWT)
         this.jwt = jwt
       }
+      log.info('initializing api...', serverUrl, jwt)
 
       // eslint-disable-next-line require-await
       const exceptionHandler = async error => {

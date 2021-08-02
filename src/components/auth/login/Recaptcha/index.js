@@ -27,7 +27,7 @@ const Recaptcha = React.forwardRef(({ onSuccess = noop, onFailure = noop, childr
           hasPassed = false
         }
       } catch (exception) {
-        log.error('recaptcha verification failed', exception, result)
+        log.error('recaptcha verification failed', exception, exception.message, result)
         hasPassed = false
       } finally {
         isPassedRef.current = hasPassed

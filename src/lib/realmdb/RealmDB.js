@@ -204,7 +204,7 @@ class RealmDB implements DB {
    */
   // eslint-disable-next-line require-await
   async readByPaymentId(paymentId) {
-    return this.Feed.table.where({ 'data.hashedCode': paymentId }).toArray()
+    return this.Feed.table.get({ 'data.hashedCode': paymentId })
   }
 
   /**

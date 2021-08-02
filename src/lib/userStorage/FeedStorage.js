@@ -289,7 +289,6 @@ export class FeedStorage {
       let feedEvent
       if (txType === TxType.TX_OTPL_WITHDRAW || txType === TxType.TX_OTPL_CANCEL) {
         const paymentId = txEvent.data.paymentId
-        log.debug('handleReceiptUpdate: getting tx by code', receipt.transactionHash, { txType })
         feedEvent = await this.getFeedItemByPaymentId(paymentId)
         log.debug('got tx by code', receipt.transactionHash, { txType, paymentId })
 
@@ -304,6 +303,7 @@ export class FeedStorage {
           log.debug('handleReceiptUpdate: found original tx for payment link', {
             paymentId: txEvent.data.paymentId,
             txHash: receipt.transactionHash,
+            originalTX: feedEvent.id,
           })
         }
       }
@@ -346,6 +346,7 @@ export class FeedStorage {
           otplStatus = TxStatus.PENDING
           break
         case TxType.TX_OTPL_CANCEL:
+          otplStatus = TxStatus.CANCELED
           status = TxStatus.CANCELED
           break
         default:
@@ -355,11 +356,7 @@ export class FeedStorage {
       //get initial TX data from queue, if not in queue then it must be a receive TX ie
       //not initiated by user
       //other option is that TX was started on another wallet instance
-      const initialEvent = this.dequeueTX(receipt.transactionHash) || {
-        id: receipt.transactionHash,
-        createdDate: receiptDate.toISOString(),
-        data: {},
-      }
+      const initialEvent = this.dequeueTX(receipt.transactionHash) || { data: {} }
 
       log.debug('handleReceiptUpdate got enqueued event:', receipt.transactionHash, {
         initialEvent,

@@ -70,7 +70,8 @@ REACT_APP_WEB3_SITE_URL = "https://w3.gooddollar.org"
 REACT_APP_USE_TORUS = "true"
 REACT_APP_ENABLE_SELF_CUSTODY = "true"
 REACT_APP_NFT_PEERS = "https://cloudflare-ipfs.com/ipfs/{cid}/{path},https://ipfs.io/ipfs/{cid}/{path},https://{cid}.ipfs.dweb.link/{path}"
-REACT_APP_NFT_LAZY_UPLOAD = "true"
+REACT_APP_NFT_LAZY_UPLOAD = "false"
+REACT_APP_REALM_APP_ID = "wallet_dev-dhiht"
 
 [context.staging.environment]
 NODE_ENV = "staging"
@@ -91,6 +92,7 @@ REACT_APP_FACE_VERIFICATION_PRIVACY_URL = "https://medium.com/gooddollar/gooddol
 REACT_APP_WEB3_SITE_URL = "https://w3.gooddollar.org"
 REACT_APP_USE_TORUS = "true"
 REACT_APP_NFT_LAZY_UPLOAD = "true"
+REACT_APP_REALM_APP_ID = "wallet_qa-iumgc"
 
 [context.next.environment]
 NODE_ENV = "production"
@@ -121,3 +123,4 @@ REACT_APP_ENABLE_SELF_CUSTODY = "false"
 REACT_APP_AB_TEST_PERCENTAGE = "0.5"
 # Need to disable it this August - September
 REACT_APP_NFT_LAZY_UPLOAD = "true"
+REACT_APP_REALM_APP_ID = "wallet_prod-obclo"

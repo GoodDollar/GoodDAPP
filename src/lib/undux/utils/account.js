@@ -3,9 +3,8 @@ import type { Store } from 'undux'
 import logger from '../../logger/pino-logger'
 import { ExceptionCategory } from '../../logger/exceptions'
 import goodWallet from '../../wallet/GoodWallet'
-import userStorage from '../../gundb/UserStorage'
+import userStorage from '../../userStorage/UserStorage'
 import { assertStore } from '../SimpleStore'
-import Config from '../../../config/config'
 
 let subscribed = false
 const log = logger.child({ from: 'undux/utils/account' })
@@ -53,31 +52,21 @@ export const updateAll = async store => {
  * @returns {Promise<void>}
  */
 const onBalanceChange = async (event: EventLog, store: Store) => {
-  if (event) {
-    log.debug('new Transfer events:', { event, store })
-    await updateAll(store)
-  }
+  await updateAll(store)
 }
 
 /**
  * Starts listening to Transfer events to (and from) the current account
  */
 export const initTransferEvents = (store: Store) => {
-  const lastBlock = userStorage.userProperties.get('lastBlock')
-
+  const lastBlock = userStorage.userProperties.getLocal('lastBlock') || 6400000
   log.debug('starting events listener', { lastBlock, subscribed })
 
   if (subscribed) {
     return
   }
 
-  if (Config.web3TransportProvider === 'WebSocketProvider') {
-    goodWallet.listenTxUpdates(parseInt(lastBlock), ({ fromBlock, toBlock }) =>
-      userStorage.saveLastBlockNumber(parseInt(toBlock) + 1),
-    )
-  } else {
-    goodWallet.watchEvents(parseInt(lastBlock), toBlock => userStorage.saveLastBlockNumber(parseInt(toBlock) + 1))
-  }
+  goodWallet.watchEvents(parseInt(lastBlock), toBlock => userStorage.userProperties.setLocal('lastBlock', toBlock))
 
   goodWallet.balanceChanged(event => onBalanceChange(event, store))
   subscribed = true

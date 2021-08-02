@@ -2,7 +2,7 @@ import { createSwitchNavigator } from '@react-navigation/core'
 import { createBrowserApp } from '@react-navigation/web'
 import React from 'react'
 import renderer from 'react-test-renderer'
-import userStorage from '../../../lib/gundb/UserStorage'
+import userStorage from '../../../lib/userStorage/UserStorage'
 import { StoresWrapper, withThemeProvider } from '../../../__tests__/__util__'
 import { getComponentWithMocks } from './__util__'
 

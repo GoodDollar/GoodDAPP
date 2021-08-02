@@ -9,7 +9,7 @@ import AppNavigation from '../AppNavigation'
 import { theme } from '../../theme/styles'
 
 import goodWallet from '../../../lib/wallet/GoodWallet'
-import userStorage from '../../../lib/gundb/UserStorage'
+import userStorage from '../../../lib/userStorage/UserStorage'
 
 import { StoresWrapper } from '../../../__tests__/__util__'
 

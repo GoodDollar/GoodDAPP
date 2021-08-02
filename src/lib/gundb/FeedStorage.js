@@ -133,7 +133,7 @@ export class FeedStorage {
 
   async init() {
     const { feed } = await this.gunuser
-    const receiptEvents = ['receiptReceived', 'receiptUpdated', 'otplUpdated']
+    const receiptEvents = ['receiptUpdated']
 
     receiptEvents.forEach(e => this.wallet.subscribeToEvent(e, r => this.handleReceipt(r)))
 
@@ -869,28 +869,6 @@ export class FeedStorage {
       .then(_ => feedEvent)
       .catch(e => {
         log.error('updateEventStatus failedEncrypt byId:', e.message, e, {
-          feedEvent,
-        })
-
-        return {}
-      })
-  }
-
-  /**
-   * Sets the feed animation status
-   * @param {string} eventId
-   * @param {boolean} status
-   * @returns {Promise<FeedEvent>}
-   */
-  async updateFeedAnimationStatus(eventId: string, status = true): Promise<FeedEvent> {
-    const feedEvent = await this.getFeedItemByTransactionHash(eventId)
-
-    feedEvent.animationExecuted = status
-
-    return this.writeFeedEvent(feedEvent)
-      .then(_ => feedEvent)
-      .catch(e => {
-        log.error('updateFeedAnimationStatus by ID failed:', e.message, e, {
           feedEvent,
         })
 

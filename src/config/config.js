@@ -57,7 +57,11 @@ const Config = {
 
   // here we're splitting peers template strings to array then compiling them as
   // Lodash's templates to simplify cid/path substitution on load from certain peer
-  nftPeers: (process.env.REACT_APP_NFT_PEERS || defaultPeers).split(",").map(tmpl => template(tmpl, { interpolate: /{(\S+?)}/g })),
+  // eslint-disable-next-line
+  nftPeers: (env.REACT_APP_NFT_PEERS || defaultPeers)
+    .split(",")
+    .map(tmpl => template(tmpl, { interpolate: /{(\S+?)}/g })),
+
   nftLazyUpload: env.REACT_APP_NFT_LAZY_UPLOAD === 'true',
   learnMoreEconomyUrl: env.REACT_APP_ECONOMY_URL || 'https://www.gooddollar.org/economic-model/',
   publicUrl,
@@ -115,10 +119,15 @@ const Config = {
   torusGoogleAuth0: env.REACT_APP_TORUS_GOOGLEAUTH0 || 'google-auth0-gooddollar',
   torusAuth0SMS: env.REACT_APP_TORUS_AUTH0SMS || 'gooddollar-auth0-sms-passwordless',
   torusEmailEnabled: env.REACT_APP_TORUS_AUTH0EMAIL_ENABLED === 'true',
-  torusUxMode: isWeb ? (env.REACT_APP_TORUS_UXMODE || 'redirect') : 'popup',
+  torusUxMode: isWeb ? env.REACT_APP_TORUS_UXMODE || 'redirect' : 'popup',
   abTestPercentage: env.REACT_APP_AB_TEST_PERCENTAGE || 0.5,
   smsRateLimit: env.REACT_APP_SMS_RATE_LIMIT || 60 * 1000, // rate limit for sms code verification resend
+  recaptchaSiteKey: env.REACT_APP_RECAPTCHA_SITE_KEY,
   alchemyKey,
+  textileKey: env.REACT_APP_TEXTILE_KEY,
+  textileSecret: env.REACT_APP_TEXTILE_SECRET,
+  web3Polling: env.REACT_APP_WEB3_POLLING || 30 * 1000, //poll every 30 seconds by default
+  realmAppID: env.REACT_APP_REALM_APP_ID || 'wallet_dev-dhiht',
   ethereum: {
     '1': {
       network_id: 1,
@@ -159,8 +168,8 @@ const Config = {
     },
     '4447': {
       network_id: 4447,
-      httpWeb3provider: 'http://localhost:9545/',
-      websocketWeb3Provider: 'ws://localhost:9545/ws',
+      httpWeb3provider: 'http://localhost:8545/',
+      websocketWeb3Provider: 'ws://localhost:8545/ws',
     },
   },
   nodeEnv: env.NODE_ENV,

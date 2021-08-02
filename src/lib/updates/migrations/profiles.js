@@ -1,6 +1,8 @@
 import { Platform } from 'react-native'
-import userStorage from '../../gundb/UserStorage'
+
 import API from '../../API/api'
+import userStorage from '../../userStorage/UserStorage'
+
 import { retry, timeout } from '../../utils/async'
 
 const fromDate = new Date('2021/05/25')

@@ -21,9 +21,6 @@ const ready = async replacing => {
     userStorage.init()
   }
 
-  // for QA
-  global.wallet = goodWallet
-
   await userStorage.ready
   log.debug('ready: userstorage ready')
 
@@ -32,7 +29,7 @@ const ready = async replacing => {
   log.debug('ready: got login', login)
 
   try {
-    await login.auth()
+    await login.auth(true)
   } catch (exception) {
     const { message } = exception
 

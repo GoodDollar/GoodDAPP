@@ -1,7 +1,7 @@
 // @flow
 import React, { memo, useCallback, useEffect, useRef, useState } from 'react'
 import { Animated } from 'react-native'
-import { SwipeableFlatList } from 'react-native-swipeable-lists'
+import { SwipeableFlatList } from 'react-native-swipeable-lists-gd'
 import * as Animatable from 'react-native-animatable'
 import { get, isFunction, noop } from 'lodash'
 import moment from 'moment'
@@ -9,8 +9,8 @@ import moment from 'moment'
 import GDStore from '../../lib/undux/GDStore'
 import { withStyles } from '../../lib/styles'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
-import userStorage from '../../lib/gundb/UserStorage'
-import type { FeedEvent } from '../../lib/gundb/UserStorageClass'
+import userStorage from '../../lib/userStorage/UserStorage'
+import type { FeedEvent } from '../../lib/userStorage/UserStorageClass'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import ScrollToTopButton from '../common/buttons/ScrollToTopButton'
 import logger from '../../lib/logger/pino-logger'
@@ -45,8 +45,8 @@ const getItemLayout = (_: any, index: number) => {
   }
 }
 
-const Item = memo(({ item, handleFeedSelection }) => {
-  return <FeedListItem key={keyExtractor(item)} item={item} handleFeedSelection={handleFeedSelection} />
+const Item = memo(({ item, handleFeedSelection, index }) => {
+  return <FeedListItem key={keyExtractor(item)} item={item} handleFeedSelection={handleFeedSelection} index={index} />
 })
 
 const FeedList = ({
@@ -92,7 +92,7 @@ const FeedList = ({
   }, [])
 
   const renderItemComponent = useCallback(
-    ({ item }) => <Item item={item} handleFeedSelection={handleItemSelection} />,
+    ({ item, index }) => <Item item={item} handleFeedSelection={handleItemSelection} index={index} />,
     [handleItemSelection],
   )
 

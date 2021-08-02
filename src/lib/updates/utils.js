@@ -1,4 +1,4 @@
-import avatarStorage from '../gundb/UserAvatarStorage'
+import avatarStorage from '../userStorage/UserAvatarStorage'
 
 import { asImageRecord, isValidBase64Image } from '../utils/image'
 import { isValidCID } from '../utils/ipfs'

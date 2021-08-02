@@ -53,7 +53,9 @@ const IOSWebAppSignIn = ({ screenProps, navigation, styles }) => {
     if (userNameAndPWDArray.length === 2) {
       const userName = userNameAndPWDArray[0]
       const userPwd = userNameAndPWDArray[1]
-      const UserStorage = await retryImport(() => import('../../lib/gundb/UserStorageClass').then(_ => _.UserStorage))
+      const UserStorage = await retryImport(() =>
+        import('../../lib/userStorage/UserStorageClass').then(_ => _.UserStorage),
+      )
 
       const mnemonic = await UserStorage.getMnemonic(userName, userPwd)
 

@@ -30,8 +30,8 @@ body {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   font-display: swap;
-  font-family: 'Roboto', 'Segoe UI', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Arial','Helvetica Neue',
-    'Helvetica', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: 'Roboto', 'Segoe UI', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Arial',
+    'Helvetica Neue', 'Helvetica', -apple-system, BlinkMacSystemFont, sans-serif;
   margin: 0 auto;
   max-width: 475px;
   min-width: 320px;
@@ -69,4 +69,8 @@ button {
 .add-to-home-banner {
   padding-top: 10px;
   padding-bottom: 10px;
+}
+
+.grecaptcha-badge {
+  visibility: hidden;
 }

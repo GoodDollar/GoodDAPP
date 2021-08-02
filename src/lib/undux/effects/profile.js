@@ -3,7 +3,7 @@ import { debounce } from 'lodash'
 import type { Effects, Store } from 'undux'
 import { skipWhile, take } from 'rxjs/operators'
 
-import userStorage from '../../gundb/UserStorage'
+import userStorage from '../../userStorage/UserStorage'
 import type { State } from '../GDStore'
 import { assertStore, assertStoreSnapshot } from '../SimpleStore'
 

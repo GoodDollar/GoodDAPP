@@ -3,7 +3,6 @@ import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { AppState } from 'react-native'
 import { SceneView } from '@react-navigation/core'
 import { debounce, isEmpty } from 'lodash'
-import moment from 'moment'
 import AsyncStorage from '../../lib/utils/asyncStorage'
 import { DESTINATION_PATH, GD_USER_MASTERSEED } from '../../lib/constants/localStorage'
 import { REGISTRATION_METHOD_SELF_CUSTODY, REGISTRATION_METHOD_TORUS } from '../../lib/constants/login'
@@ -15,7 +14,7 @@ import GDStore from '../../lib/undux/GDStore'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
 import { updateAll as updateWalletStatus } from '../../lib/undux/utils/account'
 import { checkAuthStatus as getLoginState } from '../../lib/login/checkAuthStatus'
-import userStorage from '../../lib/gundb/UserStorage'
+import userStorage from '../../lib/userStorage/UserStorage'
 import runUpdates from '../../lib/updates'
 import useAppState from '../../lib/hooks/useAppState'
 import { identifyWith } from '../../lib/analytics/analytics'
@@ -55,21 +54,6 @@ const showOutOfGasError = debounce(
     leading: true,
   },
 )
-
-const syncTXFromBlockchain = async () => {
-  const lastUpdateDate = userStorage.userProperties.get('lastTxSyncDate') || 0
-  const now = moment()
-
-  if (moment(lastUpdateDate).isSame(now, 'day') === false) {
-    try {
-      const joinedAtBlockNumber = userStorage.userProperties.get('joinedAtBlock')
-      await userStorage.syncTxWithBlockchain(joinedAtBlockNumber)
-      await userStorage.userProperties.set('lastTxSyncDate', now.valueOf())
-    } catch (e) {
-      log.warn('syncTXFromBlockchain failed', e.message, e)
-    }
-  }
-}
 
 let unsuccessfulLaunchAttempts = 0
 
@@ -177,9 +161,10 @@ const AppSwitch = (props: LoadingProps) => {
       identifyWith(undefined, identifier)
 
       initialize()
-      runUpdates()
       showOutOfGasError(props)
       await initReg
+      runUpdates() //this needs to wait after initreg where we initialize the database
+
       setReady(true)
     } catch (e) {
       const dialogShown = unsuccessfulLaunchAttempts > 3
@@ -210,15 +195,13 @@ const AppSwitch = (props: LoadingProps) => {
     }
 
     if (ready && gdstore) {
+      userStorage.feedDB._syncFromRemote()
+      userStorage.userProperties._syncFromRemote()
       showOutOfGasError(props)
     }
   }, [gdstore, ready])
 
-  const backgroundUpdates = useCallback(() => {
-    if (ready) {
-      syncTXFromBlockchain()
-    }
-  }, [ready])
+  const backgroundUpdates = useCallback(() => {}, [ready])
 
   useInviteCode()
 

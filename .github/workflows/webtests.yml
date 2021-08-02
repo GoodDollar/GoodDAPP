@@ -64,14 +64,18 @@ jobs:
     outputs:
       test-chunks: ${{ steps['set-test-chunks'].outputs['test-chunks'] }}
       test-chunk-ids: ${{ steps['set-test-chunk-ids'].outputs['test-chunk-ids'] }}
+      wallet-chunk-id: ${{ steps['set-test-chunk-ids'].outputs['wallet-chunk-id'] }}
+
     steps:
       - uses: actions/checkout@v2
       - id: set-test-chunks
         name: Set Chunks
-        run: echo "::set-output name=test-chunks::$(find ./src -path \*/__tests__/*.js | sort | jq -R -s -c 'split("\n")[:-1]'| jq -cM '[_nwise(length / 10 | floor)]')"
+        run: echo "::set-output name=test-chunks::$(find ./src -path \*/__tests__/*.js | sort | jq -R -s -c 'split("\n")[:-1] | map(select(contains("__util") == false))' | jq -cM '[_nwise(length / 10 | floor)]')"
       - id: set-test-chunk-ids
         name: Set Chunk IDs
-        run: echo "::set-output name=test-chunk-ids::$(echo $CHUNKS | jq -cM 'to_entries | map(.key)')"
+        run: |
+          echo "::set-output name=test-chunk-ids::$(echo $CHUNKS | jq -cM 'to_entries | map(.key)')"
+          echo "::set-output name=wallet-chunk-id::$(echo $CHUNKS | jq -cM 'to_entries | map(select(.value | .[] | index("GoodWallet"))) | unique | first | .key')"
         env:
           CHUNKS: ${{ steps['set-test-chunks'].outputs['test-chunks'] }}
 
@@ -87,16 +91,17 @@ jobs:
       REACT_ENV: 'development'
       TEST_REACT_NATIVE: false
       BUNDLESIZE_GITHUB_TOKEN: 63f6d1717c6652d63234cf9629977b08f4bac3fd
-      MNEMONIC: 'myth like bonus scare over problem client lizard pioneer submit female collect'
-      ADMIN_MNEMONIC: 'they bus duty candy uncover assault bullet kitchen kit acid spin physical'
-      REACT_APP_ADMIN_MNEMONIC: 'they bus duty candy uncover assault bullet kitchen kit acid spin physical'
+      MNEMONIC: 'test test test test test test test test test test test junk'
+      ADMIN_MNEMONIC: 'test test test test test test test test test test test junk'
+      REACT_APP_ADMIN_MNEMONIC: 'test test test test test test test test test test test junk'
       REACT_APP_NFT_STORAGE_KEY: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweEMxQzUwRjJkNUYwNzgxNDJEOEEyRGQ3ZkQ4NUY5ODVFMzZEOUI5NzAiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTYyMjQ2NTYyNzMyMCwibmFtZSI6Ikdvb2REb2xsYXJUZXN0In0.9Q02zYBwlJymF6ognSrvqdzch1Vo-Xw27QYA-ABlJsY'
       CI: true
       CHUNKS: ${{ needs.setup.outputs['test-chunks'] }}
-      WALLET_CHUNK: 9
+      WALLET_CHUNK: ${{ needs.setup.outputs['wallet-chunk-id'] }}
 
     runs-on: ubuntu-latest
     steps:
+      - run: echo "wallet chunk id $WALLET_CHUNK chunk ${{ matrix.chunk }}"
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
         with:
@@ -110,28 +115,28 @@ jobs:
         if: matrix.chunk == env.WALLET_CHUNK
         name: cache goodcontracts
         with:
-          path: node_modules/@gooddollar/goodcontracts
-          key: ${{ hashFiles('node_modules/@gooddollar/goodcontracts/package-lock.json') }}
+          path: node_modules/@gooddollar/goodprotocol
+          key: ${{ hashFiles('node_modules/@gooddollar/goodprotocol/yarn.lock') }}
 
       - name: install goodcontracts
         if: "steps.contractsCache.outputs.cache-hit != 'true' && matrix.chunk == env.WALLET_CHUNK"
-        run: |
-          pushd node_modules/@gooddollar/goodcontracts
-          npm ci
-          cd stakingModel
-          npm ci
-          popd
+        run: npm run test:setup
+      #     pushd node_modules/@gooddollar/goodcontracts
+      #     npm ci
+      #     cd stakingModel
+      #     npm ci
+      #     popd
 
-      - name: prepare blockchain for test
-        if: matrix.chunk == env.WALLET_CHUNK
-        run: |
-          pushd node_modules/@gooddollar/goodcontracts/stakingModel
-          #temporary test
-          npm i ganache-cli@latest
-          npm run ganache:test &
-          npm run wait
-          npm run start:withmain
-          popd
+      # - name: prepare blockchain for test
+      #   if: matrix.chunk == env.WALLET_CHUNK
+      #   run: |
+      #     pushd node_modules/@gooddollar/goodcontracts/stakingModel
+      #     #temporary test
+      #     npm i ganache-cli@latest
+      #     npm run ganache:test &
+      #     npm run wait
+      #     npm run start:withmain
+      #     popd
 
       - name: run tests and code coverage
         run: |
@@ -139,7 +144,7 @@ jobs:
           echo $CHUNKS | jq '.[${{ matrix.chunk }}] | .[] | @text' | xargs npm run coverage
           # npm run coverage
           # npm run coveralls || true
-          pkill -f ganache || true
+          # pkill -f ganache || true
 
       - name: Coveralls
         uses: coverallsapp/github-action@master

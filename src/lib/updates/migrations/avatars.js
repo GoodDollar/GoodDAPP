@@ -1,6 +1,6 @@
 import { isString } from 'lodash'
 
-import userStorage from '../../gundb/UserStorage'
+import userStorage from '../../userStorage/UserStorage'
 
 import { asImageRecord, isValidBase64Image } from '../../utils/image'
 import { loadIfRawBase64, updateFeedEventAvatar } from '../utils'

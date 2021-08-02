@@ -3,7 +3,7 @@ import React, { useCallback, useState } from 'react'
 import { Platform, TouchableHighlight, View } from 'react-native'
 import * as Animatable from 'react-native-animatable'
 
-import type { FeedEvent } from '../../../lib/gundb/UserStorageClass'
+import type { FeedEvent } from '../../../lib/userStorage/UserStorageClass'
 import { withStyles } from '../../../lib/styles'
 import useNavigationMacro from '../../../lib/hooks/useNavigationMacro'
 import wavePattern from '../../../assets/feedListItemPattern.svg'
@@ -17,6 +17,7 @@ import getEventSettingsByType from './EventSettingsByType'
 type FeedListItemProps = {
   item: FeedEvent,
   onPress: Function,
+  index: number,
   theme?: any,
   styles?: any,
 }
@@ -26,6 +27,7 @@ type FeedListItemProps = {
  * @param {FeedListItemProps} props
  * @param {FeedEvent} props.item - feed event
  * @param {function} props.onPress
+ * @param {number} index
  * @param {object} props.theme
  * @param {object} props.styles
  * @returns {React.Node}

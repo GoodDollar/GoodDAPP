@@ -15,7 +15,6 @@ import {
   memoize,
   over,
   pick,
-  values,
 } from 'lodash'
 
 import moment from 'moment'
@@ -38,14 +37,14 @@ import { isValidCID } from '../utils/ipfs'
 
 import { GD_GUN_CREDENTIALS } from '../constants/localStorage'
 import AsyncStorage from '../utils/asyncStorage'
-import avatarStorage from './UserAvatarStorage'
+import avatarStorage from '../userStorage/UserAvatarStorage'
 import defaultGun from './gundb'
 import UserProperties from './UserPropertiesClass'
 import { getUserModel, type UserModel } from './UserModel'
 import { type StandardFeed } from './StandardFeed'
 import { FeedEvent, FeedItemType, FeedStorage, TxStatus } from './FeedStorage'
 
-const logger = pino.child({ from: 'UserStorage' })
+const logger = pino.child({ from: 'GunUserStorage' })
 
 const NULL_ADDRESS = '0x0000000000000000000000000000000000000000'
 
@@ -395,14 +394,6 @@ export class UserStorage {
   }
 
   /**
-   * a gun node referring to gun.user().get('feed')
-   * @instance {Gun}
-   */
-  get feed() {
-    return this.gun.user().get('feed')
-  }
-
-  /**
    * Convert to null, if value is equal to empty string
    * @param {string} field - Profile attribute
    * @param {string} value - Profile attribute value
@@ -696,17 +687,9 @@ export class UserStorage {
    * Returns a Promise that, when resolved, will have all the feeds available for the current user
    * @returns {Promise<Array<FeedEvent>>}
    */
+  // eslint-disable-next-line require-await
   async getAllFeed() {
-    const total = values((await this.feedStorage.feed.get('index').then(null, 1000)) || {}).reduce(
-      (acc, curr) => acc + curr,
-      0,
-    )
-    const prevCursor = this.cursor
-    logger.debug('getAllFeed', { total, prevCursor })
-    const feed = await this.getFeedPage(total, true)
-    this.cursor = prevCursor
-    logger.debug('getAllfeed', { feed, cursor: this.cursor })
-    return feed
+    return this.feedStorage.getAllFeed()
   }
 
   /**
@@ -1254,27 +1237,7 @@ export class UserStorage {
       reset,
       feedPage: feed,
     })
-    const res = await Promise.all(
-      feed
-        .filter(
-          feedItem =>
-            feedItem &&
-            feedItem.data &&
-            ['deleted', 'cancelled', 'canceled'].includes((feedItem.status || '').toLowerCase()) === false &&
-            feedItem.otplStatus !== 'cancelled',
-        )
-        .map(feedItem => {
-          if (
-            null ==
-            get(feedItem, 'data.receiptData', get(feedItem, 'data.receiptEvent', feedItem && feedItem.receiptReceived))
-          ) {
-            logger.debug('getFormattedEvents missing feed receipt', { feedItem })
-            return this.getFormatedEventById(feedItem.id)
-          }
-
-          return this.formatEvent(feedItem)
-        }),
-    )
+    const res = feed.map(this.formatEvent)
     logger.debug('getFormattedEvents done formatting events')
     return res
   }
@@ -1287,6 +1250,7 @@ export class UserStorage {
     }
 
     if (
+      id.startsWith('0x') === false ||
       get(
         prevFeedEvent,
         'data.receiptData',
@@ -1488,7 +1452,7 @@ export class UserStorage {
    */
   formatEvent = memoize(
     // eslint-disable-next-line require-await
-    async (event: FeedEvent): Promise<StandardFeed> => {
+    (event: FeedEvent) => {
       logger.debug('formatEvent: incoming event', event.id, { event })
 
       try {
@@ -1703,17 +1667,6 @@ export class UserStorage {
   }
 
   /**
-   * Sets the feed animation status
-   * @param {string} eventId
-   * @param {boolean} status
-   * @returns {Promise<FeedEvent>}
-   */
-  // eslint-disable-next-line require-await
-  async updateFeedAnimationStatus(eventId: string, status = true): Promise<FeedEvent> {
-    return this.feedStorage.updateFeedAnimationStatus(eventId, status)
-  }
-
-  /**
    * Sets the event's status
    * @param {string} eventId
    * @param {string} status
@@ -1759,34 +1712,6 @@ export class UserStorage {
    */
   async cancelOTPLEvent(eventId: string): Promise<FeedEvent> {
     await this.updateOTPLEventStatus(eventId, 'cancelled')
-  }
-
-  /**
-   * Saves block number in the 'lastBlock' node
-   * @param blockNumber
-   * @returns {Promise<Promise<*>|Promise<R|*>>}
-   */
-  saveLastBlockNumber(blockNumber: number | string): Promise<any> {
-    logger.debug('saving lastBlock:', blockNumber)
-    return this.userProperties.set('lastBlock', blockNumber)
-  }
-
-  /**
-   * Saves block number right after user registered
-   *
-   * @returns {void}
-   */
-  async saveJoinedBlockNumber(): void {
-    // default block to start sync from
-    const blockNumber = await this.wallet.getBlockNumber().catch(e => UserProperties.defaultProperties.joinedAtBlock)
-
-    logger.debug('Saving lastBlock number right after registration:', blockNumber)
-
-    return this.userProperties.updateAll({
-      joinedAtBlock: blockNumber,
-      lastBlock: blockNumber,
-      lastTxSyncDate: moment().valueOf(),
-    })
   }
 
   async getProfile(): Promise<any> {
@@ -1926,12 +1851,6 @@ export class UserStorage {
 
     logger.debug('deleteAccount', deleteResults)
     return true
-  }
-
-  async syncTxWithBlockchain(joinedAtBlockNumber) {
-    this.feedStorage.isEmitEvents = false
-    await this.wallet.syncTxWithBlockchain(joinedAtBlockNumber)
-    this.feedStorage.isEmitEvents = true
   }
 
   _gunException(gunError) {

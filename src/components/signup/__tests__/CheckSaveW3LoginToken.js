@@ -1,4 +1,4 @@
-import userStorage from '../../../lib/gundb/UserStorage'
+import userStorage from '../../../lib/userStorage/UserStorage'
 
 describe('Check W3 Login Token Save', () => {
   beforeAll(async () => {

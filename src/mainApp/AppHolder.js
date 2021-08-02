@@ -23,10 +23,10 @@ const AppHolder = () => {
      * decide if we need to clear storage
      */
     const upgradeVersion = async () => {
+      const valid = ['phase1', null] //in case multiple versions are valid
       const current = 'phase' + Config.phase
-      const valid = ['phase1', current] //in case multiple versions are valid
+      valid.push(current)
       const version = await AsyncStorage.getItem('GD_version')
-
       if (valid.includes(version)) {
         return
       }

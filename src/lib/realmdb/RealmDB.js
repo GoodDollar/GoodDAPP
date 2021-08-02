@@ -1,15 +1,15 @@
 //@flow
-import { Database } from '@textile/threaddb'
 import * as TextileCrypto from '@textile/crypto'
+import { Database } from '@textile/threaddb'
 import { once, sortBy } from 'lodash'
 import * as Realm from 'realm-web'
-import AsyncStorage from '../utils/asyncStorage'
+import Config from '../../config/config'
 import { JWT } from '../constants/localStorage'
 import logger from '../logger/pino-logger'
-import Config from '../../config/config'
 import { FeedItemSchema } from '../textile/feedSchema' // Some json-schema.org schema
-import type { DB } from '../userStorage/UserStorage'
 import type { ProfileDB } from '../userStorage/UserProfileStorage'
+import type { DB } from '../userStorage/UserStorage'
+import AsyncStorage from '../utils/asyncStorage'
 
 const log = logger.child({ from: 'RealmDB' })
 class RealmDB implements DB, ProfileDB {
@@ -271,7 +271,7 @@ class RealmDB implements DB, ProfileDB {
   }
 
   /**
-   *
+   * helper for encrypting fields
    * @param field
    * @returns {Promise<*>}
    * @private
@@ -283,7 +283,7 @@ class RealmDB implements DB, ProfileDB {
       log.debug('_encrypt result:', { field: encrypted })
       return encrypted
     } catch (e) {
-      log.error('error _encrypt feedItem:', e.message, e, { field })
+      log.error('error _encryptField field:', e.message, e, { field })
     }
   }
 
@@ -322,29 +322,72 @@ class RealmDB implements DB, ProfileDB {
     return res
   }
 
-  /**
-   * read the complete raw user profile from storage. result fields might be encrypted
-   */
-
   //TODO:  make sure profile contains walletaddress or enforce it in schema in realmdb
   setProfile(profile) {
     this.Profiles.updateOne({ user_id: this.user.id }, { user_id: this.user.id, ...profile }, { upsert: true })
   }
 
+  /**
+   * read the complete raw user profile from realmdb. result fields might be encrypted
+   *  @returns {Promise<any>}
+   */
   getProfile(): Promise<any> {
     return this.Profiles.findOne({ user_id: this.user.id })
   }
 
+  /**
+   * get user profile from realmdb. result fields might be encrypted
+   * @param key
+   * @param field
+   * @returns {Promise<any | null>}
+   */
   getProfileByField(key: string, field: string): Promise<any> {
     return this.Profiles.findOne({ [key]: field })
   }
 
+  /**
+   * get user profile from realmdb by WalletAddress. result fields might be encrypted
+   * @param walletAddress
+   * @returns {Promise<any | null>}
+   */
   getProfileByWalletAddress(walletAddress: string): Promise<any> {
-    return this.Profiles.findOne({ walletAddress })
+    return this.Profiles.getProfileByField('walletAddress', walletAddress)
   }
 
+  /**
+   * get user profile from realmdb by field. result fields might be encrypted
+   * @param key
+   * @param field
+   * @returns {Promise<{}|*>}
+   */
+  async getPublicProfile(key: string, field: string): Promise<any> {
+    const profile = await this.getProfileByField(key, field)
+    return Object.keys(profile)
+      .filter(key => profile[key].privacy !== 'private')
+      .reduce(
+        (acc, currKey) => ({
+          ...acc,
+          [currKey]: profile[currKey].display,
+        }),
+        {},
+      )
+  }
+
+  /**
+   * Set profile fields
+   * @param fields
+   * @returns {Promise<Realm.Services.MongoDB.UpdateResult<any>>}
+   */
   setProfileFields(fields: { key: String, field: ProfileField }): Promise<any> {
     return this.Profiles.updateOne({ user_id: this.user.id }, { $set: fields })
+  }
+
+  /**
+   * Removing user profile
+   * @returns {Promise<any | null>}
+   */
+  deleteProfile() {
+    return this.Profiles.findOneAndDelete({ user_id: this.user.id })
   }
 }
 

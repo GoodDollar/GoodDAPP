@@ -12,7 +12,7 @@ import { isValidBase64Image, isValidCIDImage } from '../utils/image'
 import pino from '../logger/pino-logger'
 import isEmail from '../validators/isEmail'
 import isMobilePhone from '../validators/isMobilePhone'
-import { UserStorage } from "./UserStorageClass";
+import { UserStorage } from './UserStorageClass'
 
 const logger = pino.child({ from: 'UserProfileStorage' })
 
@@ -32,10 +32,34 @@ export interface ProfileDB {
   getProfile(): Promise<any>;
   getProfileByField(key: string, field: string): Promise<any>;
   getProfileByWalletAddress(walletAddress: string): Promise<any>;
+  getPublicProfile(key: string, field: string): Promise<any>;
   setProfileFields(fields: { key: String, field: ProfileField }): Promise<any>;
   _encrypt(feedItem: string): string;
   _encryptField(feedItem: string): string;
   _decrypt(item: { encrypted: string }): string;
+  deleteProfile(): Promise<any>;
+}
+
+export interface UserProfileStorageIn {
+  _encryptProfileFields(profile: Profile): Promise<any>;
+  setProfile(profile: Profile): Promise<any>;
+  getProfile(): Profile;
+  setProfileFields(fields: { [key: string]: ProfileField }): Promise<any>;
+  setProfileField(field: string, value: string, privacy: FieldPrivacy, onlyPrivacy: boolean): Promise<ACK>;
+  removeAvatar(): Promise<void>;
+  _storeAvatar(field: string, avatar: string, withCleanup: boolean): Promise<string>;
+  _removeBase64(field: string, updateRealmCallback: Function): Promise<void>;
+  getProfileByWalletAddress(walletAddress: string): Promise<any>;
+  _getPublicProfile(key: string, value: string): { [field: string]: string };
+  getProfileFieldValue(field: string): string;
+  getProfileFieldDisplayValue(field: string): Promise<string>;
+  getDisplayProfile(): UserModel;
+  getPrivateProfile(): UserModel;
+  getFieldPrivacy(field: string): string;
+  validateProfile(profile: any): Promise<{ isValid: boolean, errors: {} }>;
+  setProfileFieldPrivacy(field: string, privacy: FieldPrivacy): Promise<ACK>;
+  getUserProfile(field?: string): { name: string, avatar: string };
+  deleteProfile(): Promise<boolean>;
 }
 
 type ACK = {
@@ -145,7 +169,7 @@ export class UserProfileStorage {
   }
 
   /**
-   *
+   * Set profile field with privacy
    * @param {*} field
    * @param {*} value
    * @param {*} privacy
@@ -184,22 +208,30 @@ export class UserProfileStorage {
     return this.setProfileFields({ [field]: { display, value, privacy } })
   }
 
-  //TODO: ask alexey about cleanup
-  // removeAvatar(): Promise<void> {
-  //   //get the current smallAvatar/avatar fields values (which should be ipfs pointers)
-  //   //call _removeBase64 to delete them from cache
-  //   //set both avatar+smallavatar fields value to null
-  //   return Promise.all(
-  //     // eslint-disable-next-line require-await
-  //     ['avatar', 'smallAvatar'].map(async field => {
-  //       // eslint-disable-next-line require-await
-  //       this._removeBase64(field, updateRealmDB)
-  //     }),
-  //   )
-  //   //TODO: update both smallAvatar/avatar to null
-  //   return this.setProfileFields(field, null, 'public')
-  // }
+  /**
+   * remove Avatar from profile
+   * @returns {Promise<[Promise<void>, Promise<void>, Promise<void>, Promise<void>, Promise<void>, Promise<void>, Promise<void>, Promise<void>, Promise<void>, Promise<void>]>}
+   */
+  // TODO: ask alexey about cleanup
+  removeAvatar(): Promise<void> {
+    return Promise.all(
+      // eslint-disable-next-line require-await
+      ['avatar', 'smallAvatar'].map(async field => {
+        // eslint-disable-next-line require-await
+        await this._removeBase64(field)
+        await this.setProfileField(field, null, 'public')
+      }),
+    )
+  }
 
+  /**
+   * store Avatar
+   * @param field
+   * @param avatar
+   * @param withCleanup
+   * @returns {Promise<ACK>}
+   * @private
+   */
   //TODO: ask alexey baout cleanup
   async _storeAvatar(field: string, avatar: string, withCleanup = false): Promise<string> {
     const cid = await Base64Storage.store(avatar)
@@ -209,10 +241,16 @@ export class UserProfileStorage {
       return updateRealmDB()
     }
 
-    this.setProfileField(field, cid, 'public')
-    return this.setProfileFields({ [field]: avatar })
+    return this.setProfileField(field, cid, 'public')
   }
 
+  /**
+   * remove base64 avatar from cache
+   * @param field
+   * @param updateRealmCallback
+   * @returns {Promise<void>}
+   * @private
+   */
   async _removeBase64(field: string, updateRealmCallback = null): Promise<void> {
     const cid = await this.getProfileFieldValue(field)
 
@@ -232,15 +270,15 @@ export class UserProfileStorage {
 
   /**
    * helper to get form storage a user public profile by key/value
-   * @param {*} field
+   * @param key
    * @param {*} value
    */
-  _getPublicProfile(key: string, value: string): { [field: string]: string } {
-    //TODO: implement getPublicProfile on RealmDB which returns only fields where privacy isnt private
-    // let profile = await this.profiledb.getPublicProfile(key, value)
-    //TODO: filter from profile the private fields and keep only the 'display' value
+  async _getPublicProfile(key: string, value: string): { [field: string]: string } {
+    let profile = await this.profiledb.getPublicProfile(key, value)
+
     //TODO: fetch smallAvatar
-    // profile['smallAvatar'] = await Base64Storage...(profile['smallAvatar'])
+    profile['smallAvatar'] = await Base64Storage(this.profile['smallAvatar'])
+    return profile
   }
 
   getProfileFieldValue(field: string): string {
@@ -251,17 +289,16 @@ export class UserProfileStorage {
     return this.profile[field].display
   }
 
-  // TODO: remove this field and its usages, ProfilePrivacy should just use the complete profile
-  // getProfileField(field: string): Promise<string> {
-  //   return this.getProfile().then(data => data[field])
-  // }
-
   //TODO: modify usage in undux/effect
+  /**
+   * Return display attribute of each profile property
+   * @returns {UserModel}
+   */
   getDisplayProfile(): UserModel {
     const displayProfile = Object.keys(this.profile).reduce(
       (acc, currKey) => ({
         ...acc,
-        [currKey]: get(profile, `${currKey}.display`),
+        [currKey]: this.profile[currKey].display,
       }),
       {},
     )
@@ -269,11 +306,15 @@ export class UserProfileStorage {
   }
 
   //TODO: modify usage in undux/effect
+  /**
+   * Returns user model with attribute values
+   * @returns {UserModel}
+   */
   getPrivateProfile(): UserModel {
     const displayProfile = Object.keys(this.profile).reduce(
       (acc, currKey) => ({
         ...acc,
-        [currKey]: get(profile, `${currKey}.value`),
+        [currKey]: this.profile[currKey].value,
       }),
       {},
     )
@@ -317,16 +358,15 @@ export class UserProfileStorage {
     return this.setProfileField(field, value, privacy, true)
   }
 
-  //TODO: merge logic with _getPublicProfile
   /**
-   * return user profile by field value
-   * @param field
-   * @returns {Promise<{name: undefined, avatar: undefined}|{name, avatar}>}
+   * return public user profile by field value
+   * @param field - Profile field value (email, mobile or wallet address value)
+   * @returns {object} profile - { name, avatar }
    */
   async getUserProfile(field?: string): { name: string, avatar: string } {
     const attr = isMobilePhone(field) ? 'mobile' : isEmail(field) ? 'email' : 'walletAddress'
 
-    const profile = await this.profiledb.getProfileByField(attr, field)
+    const profile = await this._getPublicProfile(attr, field)
     const { fullName, avatar } = profile
     if (profile == null) {
       logger.info(`getUserProfile by field <${field}> `)
@@ -355,13 +395,9 @@ export class UserProfileStorage {
     this.subscribersProfileUpdates = []
   }
 
-  async deleteProfile(): Promise<boolean> {
+  deleteProfile(): Promise<boolean> {
     this.unSubscribeProfileUpdates()
 
-    //TODO: delete avatars from Base64Storage/cache
-
-    //TODO: delete user record from realmdb
-
-    return true
+    return Promise.all([this.removeAvatar(), this.profiledb.deleteProfile()])
   }
 }

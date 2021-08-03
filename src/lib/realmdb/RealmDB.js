@@ -342,7 +342,7 @@ class RealmDB implements DB, ProfileDB {
    * @returns {Promise<any | null>}
    */
   getProfileByField(key: string, field: string): Promise<any> {
-    return this.Profiles.findOne({ [key]: field })
+    return this.Profiles.findOne({ [`${key}.display`]: field })
   }
 
   /**
@@ -352,25 +352,6 @@ class RealmDB implements DB, ProfileDB {
    */
   getProfileByWalletAddress(walletAddress: string): Promise<any> {
     return this.Profiles.getProfileByField('walletAddress', walletAddress)
-  }
-
-  /**
-   * get user profile from realmdb by field. result fields might be encrypted
-   * @param key
-   * @param field
-   * @returns {Promise<{}|*>}
-   */
-  async getPublicProfile(key: string, field: string): Promise<any> {
-    const profile = await this.getProfileByField(key, field)
-    return Object.keys(profile)
-      .filter(key => profile[key].privacy !== 'private')
-      .reduce(
-        (acc, currKey) => ({
-          ...acc,
-          [currKey]: profile[currKey].display,
-        }),
-        {},
-      )
   }
 
   /**

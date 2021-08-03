@@ -1,5 +1,5 @@
 // @flow
-import { isString, over } from 'lodash'
+import { isFunction, isString, over } from 'lodash'
 import { getUserModel } from '../gundb/UserModel'
 import type { UserModel } from '../gundb/UserModel'
 import Base64Storage from '../nft/Base64Storage'
@@ -65,8 +65,6 @@ export interface ProfileStorage {
 
 //TODO:
 //3. do all the TODO in file
-//4. document methods and verify methods input types and return types are correct
-//4b. make sure async/await usage is correct as some methods are no longer async
 //5. implement pubsub for profile changes (one method to subscribe for profile updates, when profile changes notify the subscribers)
 //6. UserStorageClass should delegate all calls to UserProfileStorage
 export class UserProfileStorage implements ProfileStorage {
@@ -104,13 +102,28 @@ export class UserProfileStorage implements ProfileStorage {
    */
   async init() {
     const rawProfile = await this.profiledb.getProfile()
-    Object.keys(rawProfile).map(
-      async item =>
-        (this.profile[item] = {
-          ...rawProfile[item],
-          value: await this.profiledb._decrypt({ encrypted: rawProfile[item].value }),
-        }),
+    this.profile = await this._decryptProfileFields(rawProfile)
+  }
+
+  /**
+   * helper for decrypt profile values
+   * @param profile
+   * @returns {Promise<{}>}
+   * @private
+   */
+  async _decryptProfileFields(profile): Promise<any> {
+    const outputProfile = {}
+    await Promise.all(
+      Object.keys(profile).map(
+        async item =>
+          typeof profile[item]?.value === 'string' &&
+          (outputProfile[item] = {
+            ...profile[item],
+            value: await this.profiledb._decrypt({ encrypted: profile[item]?.value }),
+          }),
+      ),
     )
+    return outputProfile
   }
 
   /**
@@ -203,14 +216,16 @@ export class UserProfileStorage implements ProfileStorage {
    * remove Avatar from profile
    * @returns {Promise<[Promise<void>, Promise<void>, Promise<void>, Promise<void>, Promise<void>, Promise<void>, Promise<void>, Promise<void>, Promise<void>, Promise<void>]>}
    */
-  // TODO: ask alexey about cleanup
-  removeAvatar(): Promise<void> {
+  removeAvatar(withCleanup = false): Promise<void> {
     return Promise.all(
       // eslint-disable-next-line require-await
       ['avatar', 'smallAvatar'].map(async field => {
         // eslint-disable-next-line require-await
-        await this._removeBase64(field)
-        await this.setProfileField(field, null, 'public')
+        const updateRealmDB = async () => this.setProfileField(field, null, 'public')
+        if (withCleanup !== true) {
+          return updateRealmDB()
+        }
+        return this._removeBase64(field, updateRealmDB)
       }),
     )
   }
@@ -222,7 +237,6 @@ export class UserProfileStorage implements ProfileStorage {
    * @param withCleanup
    * @returns {Promise<ACK>}
    */
-  //TODO: ask alexey baout cleanup
   async _storeAvatar(field: string, avatar: string, withCleanup = false): Promise<string> {
     const cid = await Base64Storage.store(avatar)
     // eslint-disable-next-line require-await
@@ -231,7 +245,7 @@ export class UserProfileStorage implements ProfileStorage {
       return updateRealmDB()
     }
 
-    return this.setProfileField(field, cid, 'public')
+    return this._removeBase64(field, updateRealmDB)
   }
 
   /**
@@ -243,6 +257,10 @@ export class UserProfileStorage implements ProfileStorage {
    */
   async _removeBase64(field: string, updateRealmCallback = null): Promise<void> {
     const cid = await this.getProfileFieldValue(field)
+
+    if (isFunction(updateRealmCallback)) {
+      await updateRealmCallback()
+    }
 
     if (isString(cid) && !isValidBase64Image(cid) && isValidCIDImage(cid)) {
       await Base64Storage.delete(cid)
@@ -259,12 +277,12 @@ export class UserProfileStorage implements ProfileStorage {
   }
 
   /**
-   * helper to get form storage a user public profile by key/value
+   * helper to get a user public profile by key/value
    * @param key
    * @param {*} value
    */
-  async _getPublicProfile(key: string, value: string): { [field: string]: string } {
-    let profile = await this.profiledb.getPublicProfile(key, value)
+  async _getPublicProfile(key: string, value: string): Promise<{ [field: string]: string }> {
+    const profile = await this.profiledb.getPublicProfile(key, value)
     profile.smallAvatar = await Base64Storage.load(this.profile.smallAvatar)
     return profile
   }
@@ -273,7 +291,7 @@ export class UserProfileStorage implements ProfileStorage {
     return this.profile[field]?.value
   }
 
-  getProfileFieldDisplayValue(field: string): Promise<string> {
+  getProfileFieldDisplayValue(field: string): string {
     return this.profile[field]?.display
   }
 

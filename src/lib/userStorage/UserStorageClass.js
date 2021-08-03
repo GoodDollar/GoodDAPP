@@ -39,8 +39,7 @@ import Base64Storage from '../nft/Base64Storage'
 import defaultGun from '../gundb/gundb'
 import { getUserModel, type UserModel } from '../gundb/UserModel'
 import { type StandardFeed } from '../gundb/StandardFeed'
-import { default as goodWallet } from "../wallet/GoodWallet";
-import { UserProfileStorage } from "./UserProfileStorage";
+import { UserProfileStorage } from './UserProfileStorage'
 import UserProperties from './UserProperties'
 import { FeedEvent, FeedItemType, FeedStorage, TxStatus } from './FeedStorage'
 import type { DB } from './UserStorage'
@@ -721,6 +720,7 @@ export class UserStorage {
   async initRealmDBUserStorage() {
     this.userProfileStorage = new UserProfileStorage(this.wallet, this.feedDB)
     await this.userProfileStorage.init()
+    this.storage = this.userProfileStorage
     global.storage = this.userProfileStorage
   }
 
@@ -1220,7 +1220,7 @@ export class UserStorage {
    * @returns {Promise} Promise with an array of feed events
    */
   // eslint-disable-next-line require-await
-  async getFeedPage(numResults: number, reset?: boolean = false): Promise<Array<FeedEvent>> {
+  async getFeedPage(numResults: number, reset?: boolean): Promise<Array<FeedEvent>> {
     return this.feedStorage.getFeedPage(numResults, reset)
   }
 

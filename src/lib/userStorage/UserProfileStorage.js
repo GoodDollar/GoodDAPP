@@ -1,13 +1,8 @@
 // @flow
-import { get, isEmpty, isFunction, isString, keys, over } from 'lodash'
-import { App } from 'realm-web'
-import { sha3 } from 'web3-utils'
+import { isString, over } from 'lodash'
 import { getUserModel } from '../gundb/UserModel'
 import type { UserModel } from '../gundb/UserModel'
-
-import { ExceptionCategory } from '../logger/exceptions'
 import Base64Storage from '../nft/Base64Storage'
-import { retry } from '../utils/async'
 import { isValidBase64Image, isValidCIDImage } from '../utils/image'
 import pino from '../logger/pino-logger'
 import isEmail from '../validators/isEmail'
@@ -27,6 +22,11 @@ export type ProfileField = {
 
 export type Profile = { [key: string]: ProfileField }
 
+type ACK = {
+  ok: number,
+  err: string,
+}
+
 export interface ProfileDB {
   setProfile(profile: Profile): Promise<void>;
   getProfile(): Promise<any>;
@@ -40,7 +40,8 @@ export interface ProfileDB {
   deleteProfile(): Promise<any>;
 }
 
-export interface UserProfileStorageIn {
+export interface ProfileStorage {
+  init(): Promise<any>;
   _encryptProfileFields(profile: Profile): Promise<any>;
   setProfile(profile: Profile): Promise<any>;
   getProfile(): Profile;
@@ -62,19 +63,13 @@ export interface UserProfileStorageIn {
   deleteProfile(): Promise<boolean>;
 }
 
-type ACK = {
-  ok: number,
-  err: string,
-}
-
 //TODO:
-//2. create an interface ProfileStorage, UserProfileStorage implements ProfileStorage
 //3. do all the TODO in file
 //4. document methods and verify methods input types and return types are correct
 //4b. make sure async/await usage is correct as some methods are no longer async
 //5. implement pubsub for profile changes (one method to subscribe for profile updates, when profile changes notify the subscribers)
 //6. UserStorageClass should delegate all calls to UserProfileStorage
-export class UserProfileStorage {
+export class UserProfileStorage implements ProfileStorage {
   profileDefaults: {} = {
     mobile: '',
   }
@@ -141,10 +136,9 @@ export class UserProfileStorage {
    * saves a complete profile to the underlying storage
    * @param {*} profile
    */
-  async setProfile(profile) {
+  async setProfile(profile): Promise<any> {
     const encryptedProfile = await this._encryptProfileFields(profile)
-    await this.profiledb.setProfile(encryptedProfile)
-    this.profile = profile
+    return this.profiledb.setProfile(encryptedProfile).then(() => (this.profile = profile))
   }
 
   /**
@@ -162,10 +156,7 @@ export class UserProfileStorage {
    */
   async setProfileFields(fields: { [key: string]: ProfileField }): Promise<any> {
     const encryptedFields = await this._encryptProfileFields(fields)
-    return Promise.all([
-      this.profiledb.setProfileFields(encryptedFields),
-      (this.profile = { ...this.profile, ...fields }),
-    ])
+    return this.profiledb.setProfileFields(encryptedFields).then(() => (this.profile = { ...this.profile, ...fields }))
   }
 
   /**
@@ -230,7 +221,6 @@ export class UserProfileStorage {
    * @param avatar
    * @param withCleanup
    * @returns {Promise<ACK>}
-   * @private
    */
   //TODO: ask alexey baout cleanup
   async _storeAvatar(field: string, avatar: string, withCleanup = false): Promise<string> {
@@ -275,18 +265,16 @@ export class UserProfileStorage {
    */
   async _getPublicProfile(key: string, value: string): { [field: string]: string } {
     let profile = await this.profiledb.getPublicProfile(key, value)
-
-    //TODO: fetch smallAvatar
-    profile['smallAvatar'] = await Base64Storage(this.profile['smallAvatar'])
+    profile.smallAvatar = await Base64Storage.load(this.profile.smallAvatar)
     return profile
   }
 
   getProfileFieldValue(field: string): string {
-    return this.profile[field].value
+    return this.profile[field]?.value
   }
 
   getProfileFieldDisplayValue(field: string): Promise<string> {
-    return this.profile[field].display
+    return this.profile[field]?.display
   }
 
   //TODO: modify usage in undux/effect
@@ -298,7 +286,7 @@ export class UserProfileStorage {
     const displayProfile = Object.keys(this.profile).reduce(
       (acc, currKey) => ({
         ...acc,
-        [currKey]: this.profile[currKey].display,
+        [currKey]: this.profile[currKey]?.display,
       }),
       {},
     )
@@ -314,7 +302,7 @@ export class UserProfileStorage {
     const displayProfile = Object.keys(this.profile).reduce(
       (acc, currKey) => ({
         ...acc,
-        [currKey]: this.profile[currKey].value,
+        [currKey]: this.profile[currKey]?.value,
       }),
       {},
     )
@@ -322,7 +310,7 @@ export class UserProfileStorage {
   }
 
   getFieldPrivacy(field: string): string {
-    const currentPrivacy = this.profile[field].privacy
+    const currentPrivacy = this.profile[field]?.privacy
 
     return currentPrivacy || this.profileSettings[field].defaultPrivacy || 'public'
   }
@@ -336,7 +324,7 @@ export class UserProfileStorage {
     const validatedFields = await Promise.all(
       fields.map(async field => ({
         field,
-        valid: await UserStorage.isValidValue(field, profile[field].value, true),
+        valid: await UserStorage.isValidValue(field, profile[field]?.value, true),
       })),
     )
 
@@ -395,9 +383,13 @@ export class UserProfileStorage {
     this.subscribersProfileUpdates = []
   }
 
+  /**
+   * Delete profile
+   * @returns {Promise<[Promise<void>, Promise<*>]>}
+   */
   deleteProfile(): Promise<boolean> {
     this.unSubscribeProfileUpdates()
 
-    return Promise.all([this.removeAvatar(), this.profiledb.deleteProfile()])
+    return Promise.all([this.removeAvatar(), this.profiledb.deleteProfile()]).then(() => (this.profile = {}))
   }
 }

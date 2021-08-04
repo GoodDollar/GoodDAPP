@@ -1,8 +1,9 @@
 {
-    "app_id": "wallet_qa-iumgc",
-    "config_version": 20210101,
-    "name": "Wallet_QA",
-    "location": "IE",
-    "deployment_model": "LOCAL",
-    "environment": "qa"
+  "app_id": "wallet_qa-iumgc",
+  "config_version": 20210101,
+  "name": "Wallet_QA",
+  "location": "IE",
+  "deployment_model": "LOCAL",
+  "environment": "qa",
+  "allowed_request_origins": ["https://goodqa.netlify.app", "https://localhost:3000"]
 }

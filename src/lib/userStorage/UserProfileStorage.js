@@ -34,15 +34,15 @@ export interface ProfileDB {
   getProfileByWalletAddress(walletAddress: string): Promise<any>;
   getPublicProfile(key: string, field: string): Promise<any>;
   setProfileFields(fields: { key: String, field: ProfileField }): Promise<any>;
-  _encrypt(feedItem: string): string;
-  _encryptField(feedItem: string): string;
-  _decrypt(item: { encrypted: string }): string;
+  encryptField(item: string): string;
+  decryptField(item: string): string;
   deleteProfile(): Promise<any>;
 }
 
 export interface ProfileStorage {
   init(): Promise<any>;
   _encryptProfileFields(profile: Profile): Promise<any>;
+  _decryptProfileFields(profile: Profile): Promise<any>;
   setProfile(profile: Profile): Promise<any>;
   getProfile(): Profile;
   setProfileFields(fields: { [key: string]: ProfileField }): Promise<any>;
@@ -51,7 +51,7 @@ export interface ProfileStorage {
   _storeAvatar(field: string, avatar: string, withCleanup: boolean): Promise<string>;
   _removeBase64(field: string, updateRealmCallback: Function): Promise<void>;
   getProfileByWalletAddress(walletAddress: string): Promise<any>;
-  _getPublicProfile(key: string, value: string): { [field: string]: string };
+  getPublicProfile(key: string, value: string): { [field: string]: string };
   getProfileFieldValue(field: string): string;
   getProfileFieldDisplayValue(field: string): Promise<string>;
   getDisplayProfile(): UserModel;
@@ -102,8 +102,7 @@ export class UserProfileStorage implements ProfileStorage {
    */
   async init() {
     const rawProfile = await this.profiledb.getProfile()
-
-    _setLocalProfile(this._decryptProfileFields(rawProfile))
+    this._setLocalProfile(await this._decryptProfileFields(rawProfile))
   }
 
   /**
@@ -112,7 +111,7 @@ export class UserProfileStorage implements ProfileStorage {
    * @private
    */
   _setLocalProfile(newValue) {
-    this.subscribeProfileUpdates(newValue)
+    // this.subscribeProfileUpdates(newValue)
     this.profile = newValue
   }
 
@@ -130,7 +129,7 @@ export class UserProfileStorage implements ProfileStorage {
           typeof profile[item]?.value === 'string' &&
           (outputProfile[item] = {
             ...profile[item],
-            value: await this.profiledb._decrypt({ encrypted: profile[item]?.value }),
+            value: await this.profiledb.decryptField(profile[item]?.value),
           }),
       ),
     )
@@ -143,13 +142,13 @@ export class UserProfileStorage implements ProfileStorage {
    */
   async _encryptProfileFields(profile): Promise<any> {
     let encryptProfile = {}
-    let { user_id, _id, ...fields } = profile
     await Promise.all(
-      Object.keys(fields).map(
+      Object.keys(profile).map(
         async field =>
+          typeof profile[field]?.value === 'string' &&
           (encryptProfile[field] = {
             ...profile[field],
-            value: await this.profiledb._encryptField(profile[field].value),
+            value: await this.profiledb.encryptField(profile[field]?.value),
           }),
       ),
     )
@@ -162,7 +161,7 @@ export class UserProfileStorage implements ProfileStorage {
    */
   async setProfile(profile): Promise<any> {
     const encryptedProfile = await this._encryptProfileFields(profile)
-    return this.profiledb.setProfile(encryptedProfile).then(() => (this.profile = profile))
+    return this.profiledb.setProfile(encryptedProfile).then(() => this._setLocalProfile(profile))
   }
 
   /**
@@ -292,7 +291,7 @@ export class UserProfileStorage implements ProfileStorage {
    * @param key
    * @param {*} value
    */
-  async _getPublicProfile(key: string, value: string): Promise<{ [field: string]: string }> {
+  async getPublicProfile(key: string, value: string): Promise<{ [field: string]: string }> {
     const rawProfile = await this.profiledb.getProfileByField(key, value)
     let publicProfile = Object.keys(rawProfile)
       .filter(key => rawProfile[key].privacy !== 'private')

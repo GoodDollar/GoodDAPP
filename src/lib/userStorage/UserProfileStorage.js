@@ -64,7 +64,7 @@ export interface ProfileStorage {
 }
 
 //TODO:
-//3. do all the TODO in file
+//3. TODO: ask Hadar about modify usage in undux/effect
 //5. implement pubsub for profile changes (one method to subscribe for profile updates, when profile changes notify the subscribers)
 //6. UserStorageClass should delegate all calls to UserProfileStorage
 export class UserProfileStorage implements ProfileStorage {
@@ -102,7 +102,18 @@ export class UserProfileStorage implements ProfileStorage {
    */
   async init() {
     const rawProfile = await this.profiledb.getProfile()
-    this.profile = await this._decryptProfileFields(rawProfile)
+
+    _setLocalProfile(this._decryptProfileFields(rawProfile))
+  }
+
+  /**
+   * helper for setting value of local profile state
+   * @param newValue
+   * @private
+   */
+  _setLocalProfile(newValue) {
+    this.subscribeProfileUpdates(newValue)
+    this.profile = newValue
   }
 
   /**
@@ -162,7 +173,7 @@ export class UserProfileStorage implements ProfileStorage {
    * @returns
    */
   getProfile(): Profile {
-    return this.profile
+    return Object.keys(this.profile).reduce((acc, currKey) => ({ ...acc, [currKey]: this.profile[currKey].value }), {})
   }
 
   /**
@@ -276,7 +287,7 @@ export class UserProfileStorage implements ProfileStorage {
    * @returns
    */
   getProfileByWalletAddress(walletAddress: string): Promise<any> {
-    return this._getPublicProfile('walletAddress', walletAddress)
+    return this.profiledb.getProfileByWalletAddress(walletAddress)
   }
 
   /**
@@ -285,9 +296,18 @@ export class UserProfileStorage implements ProfileStorage {
    * @param {*} value
    */
   async _getPublicProfile(key: string, value: string): Promise<{ [field: string]: string }> {
-    const profile = await this.profiledb.getPublicProfile(key, value)
-    profile.smallAvatar = await Base64Storage.load(this.profile.smallAvatar)
-    return profile
+    const rawProfile = await this.profiledb.getProfileByField(key, value)
+    let publicProfile = Object.keys(rawProfile)
+      .filter(key => rawProfile[key].privacy !== 'private')
+      .reduce(
+        (acc, currKey) => ({
+          ...acc,
+          [currKey]: rawProfile[currKey].display,
+        }),
+        {},
+      )
+    publicProfile.smallAvatar = await Base64Storage.load(this.profile.smallAvatar)
+    return publicProfile
   }
 
   getProfileFieldValue(field: string): string {
@@ -376,17 +396,17 @@ export class UserProfileStorage implements ProfileStorage {
     const attr = isMobilePhone(field) ? 'mobile' : isEmail(field) ? 'email' : 'walletAddress'
 
     const profile = await this._getPublicProfile(attr, field)
-    const { fullName, avatar } = profile
+    const { fullName, smallAvatar } = profile
     if (profile == null) {
       logger.info(`getUserProfile by field <${field}> `)
-      return { name: undefined, avatar: undefined }
+      return { name: undefined, smallAvatar: undefined }
     }
 
-    logger.info(`getUserProfile by field <${field}>`, { avatar, fullName })
+    logger.info(`getUserProfile by field <${field}>`, { smallAvatar, fullName })
     if (!fullName) {
       logger.info(`cannot get fullName from gun by field <${field}>`, { fullName })
     }
-    return { name: fullName, avatar }
+    return { name: fullName, smallAvatar }
   }
 
   notifyProfileUpdates() {
@@ -408,9 +428,10 @@ export class UserProfileStorage implements ProfileStorage {
    * Delete profile
    * @returns {Promise<[Promise<void>, Promise<*>]>}
    */
-  deleteProfile(): Promise<boolean> {
+  async deleteProfile(): Promise<boolean> {
     this.unSubscribeProfileUpdates()
-
-    return Promise.all([this.removeAvatar(), this.profiledb.deleteProfile()]).then(() => (this.profile = {}))
+    await this.removeAvatar()
+    await this.profiledb.deleteProfile()
+    this._setLocalProfile({})
   }
 }

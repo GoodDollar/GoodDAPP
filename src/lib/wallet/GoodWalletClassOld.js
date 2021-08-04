@@ -1004,9 +1004,13 @@ export class GoodWallet {
    * @param {object} txCallbacks
    * @returns {Promise<TransactionReceipt>}
    */
-  cancelOTL(hashedCode: string, txCallbacks: {} = {}): Promise<TransactionReceipt> {
-    const cancelOtlCall = this.oneTimePaymentsContract.methods.cancel(hashedCode)
-    return this.sendTransaction(cancelOtlCall, txCallbacks)
+  async cancelOTL(hashedCode: string, txCallbacks: {} = {}): Promise<TransactionReceipt> {
+    //check if already canceled
+    const isValid = await this.isPaymentLinkAvailable(hashedCode)
+    if (isValid) {
+      const cancelOtlCall = this.oneTimePaymentsContract.methods.cancel(hashedCode)
+      return this.sendTransaction(cancelOtlCall, txCallbacks)
+    }
   }
 
   async collectInviteBounties() {

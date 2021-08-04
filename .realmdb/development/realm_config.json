@@ -1,9 +1,13 @@
 {
-  "app_id": "wallet_dev-dhiht",
-  "config_version": 20210101,
-  "name": "Wallet_Dev",
-  "location": "US-VA",
-  "deployment_model": "GLOBAL",
-  "environment": "development",
-  "allowed_request_origins": ["https://gooddev.netlify.app", "https://localhost:3000", "http://localhost:3000"]
+    "app_id": "wallet_dev-dhiht",
+    "config_version": 20210101,
+    "name": "Wallet_Dev",
+    "location": "US-VA",
+    "deployment_model": "GLOBAL",
+    "environment": "development",
+    "allowed_request_origins": [
+        "https://gooddev.netlify.app",
+        "https://localhost:3000",
+        "http://localhost:3000"
+    ]
 }

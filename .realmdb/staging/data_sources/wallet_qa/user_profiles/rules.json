@@ -1,6 +1,5 @@
 {
   "collection": "user_profiles",
-  "database": "wallet_qa",
   "roles": [
     {
       "name": "owner",

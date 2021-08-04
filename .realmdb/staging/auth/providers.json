@@ -1,0 +1,24 @@
+{
+    "api-key": {
+        "name": "api-key",
+        "type": "api-key",
+        "disabled": true
+    },
+    "custom-token": {
+        "name": "custom-token",
+        "type": "custom-token",
+        "config": {
+            "audience": [
+                "realm_wallet_staging"
+            ],
+            "signingAlgorithm": "HS256",
+            "useJWKURI": false
+        },
+        "secret_config": {
+            "signingKeys": [
+                "jwtkey_dev"
+            ]
+        },
+        "disabled": false
+    }
+}

@@ -1,0 +1,8 @@
+{
+    "app_id": "wallet_prod-obclo",
+    "config_version": 20210101,
+    "name": "Wallet_prod",
+    "location": "IE",
+    "deployment_model": "GLOBAL",
+    "environment": "production"
+}

@@ -1,0 +1,8 @@
+{
+    "app_id": "wallet_qa-iumgc",
+    "config_version": 20210101,
+    "name": "Wallet_QA",
+    "location": "IE",
+    "deployment_model": "LOCAL",
+    "environment": "qa"
+}

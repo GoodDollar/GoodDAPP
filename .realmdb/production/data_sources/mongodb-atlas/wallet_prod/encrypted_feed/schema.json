@@ -1,0 +1,20 @@
+{
+    "properties": {
+        "_id": {
+            "bsonType": "string"
+        },
+        "date": {
+            "bsonType": "date"
+        },
+        "encrypted": {
+            "bsonType": "string"
+        },
+        "txHash": {
+            "bsonType": "string"
+        },
+        "user_id": {
+            "bsonType": "string"
+        }
+    },
+    "title": "encrypted_feed"
+}

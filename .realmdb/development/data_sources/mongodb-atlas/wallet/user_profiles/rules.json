@@ -1,0 +1,28 @@
+{
+    "collection": "user_profiles",
+    "database": "wallet",
+    "roles": [
+        {
+            "name": "owner",
+            "apply_when": {
+                "user_id": "%%user.id"
+            },
+            "read": true,
+            "write": true,
+            "insert": true,
+            "delete": true,
+            "search": true,
+            "additional_fields": {}
+        },
+        {
+            "name": "non-owner",
+            "apply_when": {},
+            "read": true,
+            "write": false,
+            "insert": false,
+            "delete": false,
+            "search": true,
+            "additional_fields": {}
+        }
+    ]
+}

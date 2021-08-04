@@ -80,8 +80,8 @@ class LoginService {
     // TODO: write the nonce https://gitlab.com/gooddollar/gooddapp/issues/1
     creds = await this.requestJWT(creds)
 
-    this.storeJWT(creds.jwt)
-    API.init()
+    await this.storeJWT(creds.jwt)
+    await API.init()
 
     return creds
   }
@@ -91,6 +91,7 @@ class LoginService {
 
     try {
       let jwt = await this.validateJWTExistenceAndExpiration()
+      log.debug('jwt validation result:', { jwt })
       if (!jwt) {
         const response = await API.auth(creds)
         const { status, data, statusText } = response

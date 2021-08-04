@@ -1,5 +1,6 @@
 {
-  "collection": "user_profiles",
+  "collection": "encrypted_feed",
+  "database": "wallet_qa",
   "roles": [
     {
       "name": "owner",

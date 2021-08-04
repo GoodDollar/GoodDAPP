@@ -3,7 +3,7 @@ import Config from '../../config/config'
 // import { GoodWallet } from './GoodWalletClass'
 
 let GoodWallet
-if (['production'].includes(Config.env) === false) {
+if (['staging', 'production'].includes(Config.env) === false) {
   GoodWallet = require('./GoodWalletClass').GoodWallet
 } else {
   GoodWallet = require('./GoodWalletClassOld').GoodWallet

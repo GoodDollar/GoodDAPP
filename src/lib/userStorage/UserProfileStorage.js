@@ -113,6 +113,9 @@ export class UserProfileStorage implements ProfileStorage {
    */
   async _decryptProfileFields(profile): Promise<any> {
     const outputProfile = {}
+    if (profile == null || typeof profile !== 'object') {
+      return {}
+    }
     await Promise.all(
       Object.keys(profile).map(
         async item =>

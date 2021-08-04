@@ -161,7 +161,8 @@ export class UserProfileStorage implements ProfileStorage {
    */
   async setProfile(profile): Promise<any> {
     const encryptedProfile = await this._encryptProfileFields(profile)
-    return this.profiledb.setProfile(encryptedProfile).then(() => this._setLocalProfile(profile))
+    await this.profiledb.setProfile(encryptedProfile)
+    this._setLocalProfile(profile)
   }
 
   /**
@@ -179,7 +180,9 @@ export class UserProfileStorage implements ProfileStorage {
    */
   async setProfileFields(fields: { [key: string]: ProfileField }): Promise<any> {
     const encryptedFields = await this._encryptProfileFields(fields)
-    return this.profiledb.setProfileFields(encryptedFields).then(() => (this.profile = { ...this.profile, ...fields }))
+    return this.profiledb
+      .setProfileFields(encryptedFields)
+      .then(() => this._setLocalProfile({ ...this.profile, ...fields }))
   }
 
   /**
@@ -229,7 +232,7 @@ export class UserProfileStorage implements ProfileStorage {
   removeAvatar(withCleanup = false): Promise<void> {
     return Promise.all(
       // eslint-disable-next-line require-await
-      ['avatar', 'smallAvatar'].map(async field => {
+      ['avatar'].map(async field => {
         // eslint-disable-next-line require-await
         const updateRealmDB = async () => this.setProfileField(field, null, 'public')
         if (withCleanup !== true) {
@@ -291,7 +294,7 @@ export class UserProfileStorage implements ProfileStorage {
    * @param key
    * @param {*} value
    */
-  async getPublicProfile(key: string, value: string): Promise<{ [field: string]: string }> {
+  async getPublicProfile(key: strin000g, value: string): Promise<{ [field: string]: string }> {
     const rawProfile = await this.profiledb.getProfileByField(key, value)
     let publicProfile = Object.keys(rawProfile)
       .filter(key => rawProfile[key].privacy !== 'private')
@@ -302,7 +305,8 @@ export class UserProfileStorage implements ProfileStorage {
         }),
         {},
       )
-    publicProfile.smallAvatar = await Base64Storage.load(this.profile.smallAvatar)
+
+    // publicProfile.smallAvatar = await Base64Storage.load(this.profile.smallAvatar)
     return publicProfile
   }
 
@@ -312,6 +316,10 @@ export class UserProfileStorage implements ProfileStorage {
 
   getProfileFieldDisplayValue(field: string): string {
     return this.profile[field]?.display
+  }
+
+  getProfileField(field: string): { value: string, display: string, privacy: string } {
+    return this.profile[field]
   }
 
   //TODO: modify usage in undux/effect
@@ -392,17 +400,18 @@ export class UserProfileStorage implements ProfileStorage {
     const attr = isMobilePhone(field) ? 'mobile' : isEmail(field) ? 'email' : 'walletAddress'
 
     const profile = await this._getPublicProfile(attr, field)
-    const { fullName, smallAvatar } = profile
+    const { fullName, avatar } = profile
     if (profile == null) {
       logger.info(`getUserProfile by field <${field}> `)
-      return { name: undefined, smallAvatar: undefined }
+      return { name: undefined, avatar: undefined }
     }
 
-    logger.info(`getUserProfile by field <${field}>`, { smallAvatar, fullName })
+    logger.info(`getUserProfile by field <${field}>`, { avatar, fullName })
     if (!fullName) {
       logger.info(`cannot get fullName from gun by field <${field}>`, { fullName })
     }
-    return { name: fullName, smallAvatar }
+
+    return { name: fullName, avatar: Base64Storage.load(avatar) }
   }
 
   notifyProfileUpdates() {
@@ -411,9 +420,10 @@ export class UserProfileStorage implements ProfileStorage {
 
   subscribeProfileUpdates(callback: any => void) {
     this.subscribersProfileUpdates.push(callback)
-    if (this.profile) {
-      callback(this.profile)
-    }
+
+    // if (this.profile) {
+    //   callback(this.profile)
+    // }
   }
 
   unSubscribeProfileUpdates() {

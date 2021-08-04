@@ -288,6 +288,17 @@ class RealmDB implements DB, ProfileDB {
 
   /**
    * helper for decrypting items
+   * @param {*} item
+   * @returns
+   */
+  async _decrypt(item) {
+    const decrypted = await this.privateKey.decrypt(Uint8Array.from(Buffer.from(item.encrypted, 'base64')))
+    const res = JSON.parse(new TextDecoder().decode(decrypted))
+    return res
+  }
+
+  /**
+   * helper for decrypting items
    * @param {*} field
    * @returns
    */

@@ -2,7 +2,7 @@
   "name": "mongodb-atlas",
   "type": "mongodb-atlas",
   "config": {
-    "clusterName": "Cluster0",
+    "clusterName": "RealmProduction",
     "readPreference": "primary",
     "wireProtocolEnabled": false
   },

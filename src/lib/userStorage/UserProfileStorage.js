@@ -232,7 +232,7 @@ export class UserProfileStorage implements ProfileStorage {
   removeAvatar(withCleanup = false): Promise<void> {
     return Promise.all(
       // eslint-disable-next-line require-await
-      ['avatar'].map(async field => {
+      ['avatar', 'smallAvatar'].map(async field => {
         // eslint-disable-next-line require-await
         const updateRealmDB = async () => this.setProfileField(field, null, 'public')
         if (withCleanup !== true) {
@@ -294,7 +294,7 @@ export class UserProfileStorage implements ProfileStorage {
    * @param key
    * @param {*} value
    */
-  async getPublicProfile(key: strin000g, value: string): Promise<{ [field: string]: string }> {
+  async getPublicProfile(key: string, value: string): Promise<{ [field: string]: string }> {
     const rawProfile = await this.profiledb.getProfileByField(key, value)
     let publicProfile = Object.keys(rawProfile)
       .filter(key => rawProfile[key].privacy !== 'private')
@@ -399,19 +399,19 @@ export class UserProfileStorage implements ProfileStorage {
   async getUserProfile(field?: string): { name: string, avatar: string } {
     const attr = isMobilePhone(field) ? 'mobile' : isEmail(field) ? 'email' : 'walletAddress'
 
-    const profile = await this._getPublicProfile(attr, field)
-    const { fullName, avatar } = profile
+    const profile = await this.getPublicProfile(attr, field)
+    const { fullName, smallAvatar } = profile
     if (profile == null) {
       logger.info(`getUserProfile by field <${field}> `)
-      return { name: undefined, avatar: undefined }
+      return { name: undefined, smallAvatar: undefined }
     }
 
-    logger.info(`getUserProfile by field <${field}>`, { avatar, fullName })
+    logger.info(`getUserProfile by field <${field}>`, { smallAvatar, fullName })
     if (!fullName) {
       logger.info(`cannot get fullName from gun by field <${field}>`, { fullName })
     }
 
-    return { name: fullName, avatar: Base64Storage.load(avatar) }
+    return { name: fullName, smallAvatar }
   }
 
   notifyProfileUpdates() {

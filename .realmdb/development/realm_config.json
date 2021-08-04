@@ -8,6 +8,7 @@
     "allowed_request_origins": [
         "https://gooddev.netlify.app",
         "https://localhost:3000",
-        "http://localhost:3000"
+        "http://localhost:3000",
+        "http://localhost"
     ]
 }

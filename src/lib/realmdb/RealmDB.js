@@ -101,10 +101,9 @@ class RealmDB implements DB {
     const lastSync = (await AsyncStorage.getItem('GD_lastRealmSync')) || 0
     const newItems = await this.EncryptedFeed.find({
       user_id: this.user.id,
-      txHash: { $exists: true },
       date: { $gte: new Date(lastSync) },
     })
-    const filtered = newItems.filter(_ => !_._id.toString().includes('settings'))
+    const filtered = newItems.filter(_ => !_._id.toString().includes('settings') && _.txHash)
     log.debug('_syncFromRemote', { newItems, filtered, lastSync })
     if (filtered.length) {
       let decrypted = await Promise.all(filtered.map(i => this._decrypt(i)))

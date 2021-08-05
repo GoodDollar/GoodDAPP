@@ -1,7 +1,7 @@
 import Gun from '@gooddollar/gun'
 import bip39 from 'bip39-light'
 import { GoodWallet } from '../../../../src/lib/wallet/GoodWalletClass'
-import { UserStorage } from '../../../../src/lib/gundb/UserStorageClass'
+import { UserStorage } from '../../../../src/lib/userStorage/UserStorageClass'
 import { GoodWalletLogin } from '../../../../src/lib/login/GoodWalletLogin'
 import { log } from '../../utils/commons'
 

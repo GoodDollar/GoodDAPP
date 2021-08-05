@@ -1,20 +1,6 @@
 //@flow
 
-import {
-  debounce,
-  defaults,
-  get,
-  isEmpty,
-  isError,
-  isFunction,
-  isNil,
-  isString,
-  keys,
-  last,
-  memoize,
-  over,
-  pick,
-} from 'lodash'
+import { debounce, defaults, get, isEmpty, isError, isNil, isString, keys, last, memoize, over, pick } from 'lodash'
 
 import moment from 'moment'
 import Gun from '@gooddollar/gun'
@@ -31,13 +17,12 @@ import API from '../API/api'
 import pino from '../logger/pino-logger'
 import { ExceptionCategory } from '../logger/exceptions'
 import isMobilePhone from '../validators/isMobilePhone'
-import { resizeImage } from '../utils/image'
+import { AVATAR_SIZE, resizeImage, SMALL_AVATAR_SIZE } from '../utils/image'
 import { isValidDataUrl } from '../utils/base64'
-import { isValidCID } from '../ipfs/utils'
 
 import { GD_GUN_CREDENTIALS } from '../constants/localStorage'
 import AsyncStorage from '../utils/asyncStorage'
-import Base64Storage from '../nft/Base64Storage'
+import IPFS from '../ipfs/IpfsStorage'
 import defaultGun from '../gundb/gundb'
 import { getUserModel, type UserModel } from '../gundb//UserModel'
 import { type StandardFeed } from '../gundb/StandardFeed'
@@ -609,37 +594,28 @@ export class UserStorage {
 
   // checkAvatar was removed as we don't need to keep updates/migrations only funcitons in the common API
 
-  async setAvatar(avatar, withCleanup = false) {
+  async setAvatar(avatar) {
     // save space and load on gun
-    const avatarResized = await resizeImage(avatar, 320)
+    const avatarResized = await resizeImage(avatar, AVATAR_SIZE)
 
     // eslint-disable-next-line
     return Promise.all([
-      this._storeAvatar('avatar', avatarResized, withCleanup),
-      this.setSmallAvatar(avatarResized, withCleanup),
+      this._storeAvatar('avatar', avatarResized),
+      this.setSmallAvatar(avatarResized),
     ])
   }
 
-  async setSmallAvatar(avatar, withCleanup = false) {
-    const smallAvatar = await resizeImage(avatar, 50)
+  async setSmallAvatar(avatar) {
+    const smallAvatar = await resizeImage(avatar, SMALL_AVATAR_SIZE)
 
-    return this._storeAvatar('smallAvatar', smallAvatar, withCleanup)
+    return this._storeAvatar('smallAvatar', smallAvatar)
   }
 
   // eslint-disable-next-line require-await
-  async removeAvatar(withCleanup = false) {
+  async removeAvatar() {
     return Promise.all(
       // eslint-disable-next-line require-await
-      ['avatar', 'smallAvatar'].map(async field => {
-        // eslint-disable-next-line require-await
-        const updateGunDB = async () => this.setProfileField(field, null, 'public')
-
-        if (true !== withCleanup) {
-          return updateGunDB()
-        }
-
-        return this._removeBase64(field, updateGunDB)
-      }),
+      ['avatar', 'smallAvatar'].map(async field => this.setProfileField(field, null, 'public')),
     )
   }
 
@@ -649,34 +625,10 @@ export class UserStorage {
    *
    * @returns {Promise<string>} CID
    */
-  async _storeAvatar(field, avatar, withCleanup = false) {
-    const cid = await Base64Storage.store(avatar)
-    // eslint-disable-next-line require-await
-    const updateGunDB = async () => this.setProfileField(field, cid, 'public')
+  async _storeAvatar(field, avatar) {
+    const cid = await IPFS.store(avatar)
 
-    if (true !== withCleanup) {
-      return updateGunDB()
-    }
-
-    return this._removeBase64(field, updateGunDB)
-  }
-
-  /**
-   * @private
-   * @param {async () => any} updateGUNCallback
-   */
-  async _removeBase64(field, updateGUNCallback = null) {
-    const cid = await this.getProfileFieldValue(field)
-
-    // executing GUN update actions first
-    if (isFunction(updateGUNCallback)) {
-      await updateGUNCallback()
-    }
-
-    // if avatar was a CID - delete if after GUN updated
-    if (isString(cid) && !isValidDataUrl(cid) && isValidCID(cid)) {
-      await Base64Storage.delete(cid)
-    }
+    return this.setProfileField(field, cid, 'public')
   }
 
   /**
@@ -956,9 +908,8 @@ export class UserStorage {
       throw errors
     }
 
-    if (profile.avatar) {
-      profile.smallAvatar = await resizeImage(profile.avatar, 50)
-    }
+    const { avatar } = profile
+    const shouldUpdateAvatar = !!avatar && isValidDataUrl(avatar)
 
     /**
      * Checking fields to save which changed, even if have undefined value (for example empty mobile input field return undefined).
@@ -976,22 +927,35 @@ export class UserStorage {
        */
       pick(this.profileDefaults, fieldsToSave),
     )
+
     const results = await Promise.all(
       fieldsToSave.map(async field => {
         let isPrivate
+        const isAvatar = 'avatar' === field
+        const value = profileWithDefaults[field]
 
         try {
+          if (shouldUpdateAvatar) {
+            if (isAvatar) {
+              return this.setAvatar(value)
+            }
+
+            if (field === 'smallAvatar') {
+              return
+            }
+          }
+
           isPrivate = get(this.profileSettings, `[${field}].defaultPrivacy`, 'private')
 
           if (update) {
             isPrivate = await this.getFieldPrivacy(field)
           }
 
-          return await this.setProfileField(field, profileWithDefaults[field], isPrivate)
+          return await this.setProfileField(field, value, isPrivate)
         } catch (e) {
           logger.warn('setProfile field failed:', e.message, e, {
             field,
-            value: profileWithDefaults[field],
+            value: isAvatar && shouldUpdateAvatar ? '<dataURL>' : value,
             isPrivate,
           })
 

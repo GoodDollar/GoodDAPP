@@ -491,7 +491,11 @@ export async function approve(web3: Web3, meta: BuyInfo): Promise<void> {
  * @param {Web3} web3 Web3 instance.
  * @param {BuyInfo} meta Result of the method getMeta() execution.
  */
-export async function sell(web3: Web3, meta: BuyInfo): Promise<TransactionDetails> {
+export async function sell(
+    web3: Web3,
+    meta: BuyInfo,
+    onSent?: (transactionHash: string) => void
+): Promise<TransactionDetails> {
     const account = await getAccount(web3)
 
     const contract = await exchangeHelperContract(web3)
@@ -501,7 +505,7 @@ export async function sell(web3: Web3, meta: BuyInfo): Promise<TransactionDetail
     // Convert into addresses
     let route: string[] = meta.route.map(token => token.address)
 
-    return contract.methods
+    const req = contract.methods
         .sell(
             route,
             BigNumber.from(input),
@@ -510,4 +514,7 @@ export async function sell(web3: Web3, meta: BuyInfo): Promise<TransactionDetail
             ethers.constants.AddressZero
         )
         .send({ from: account })
+
+    if (onSent) req.on('transactionHash', onSent)
+    return req
 }

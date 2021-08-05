@@ -4,11 +4,13 @@ import Card from '../../components/gd/Card'
 export const SwapCardSC = styled.div`
     max-width: 712px;
     align-self: stretch;
+    position: relative;
 
     margin-left: 5rem;
 
     @media ${({ theme }) => theme.media.md} {
         margin-left: 0;
+        align-self: center;
     }
 
     .switch {

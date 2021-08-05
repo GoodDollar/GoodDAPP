@@ -2,7 +2,7 @@ import React, { ChangeEventHandler, CSSProperties, memo, useCallback, useState, 
 import { SwapRowSC, SwapRowIconSC, SwapRowCurrencySC } from './styled'
 import SwapInput from '../SwapInput'
 import SwapTokensModal from '../SwapTokensModal'
-import { Currency } from '@sushiswap/sdk'
+import { Currency, CurrencyAmount } from '@sushiswap/sdk'
 import CurrencyLogo from '../../../components/CurrencyLogo'
 
 const arrow = (
@@ -21,7 +21,7 @@ export interface SwapRowProps {
     style?: CSSProperties
     title: string
     select: boolean
-    balance?: string | number
+    balance?: CurrencyAmount
     autoMax?: boolean
     value?: string
     onValueChange?: (value: string) => any
@@ -53,7 +53,8 @@ function SwapRow({
         onValueChange &&
         useCallback((event: ChangeEvent<HTMLInputElement>) => onValueChange(event.currentTarget.value), [onValueChange])
     const handleSetMax =
-        onValueChange && useCallback(() => balance != null && onValueChange(String(balance)), [balance, onValueChange])
+        onValueChange &&
+        useCallback(() => balance != null && onValueChange(balance.toExact()), [balance, onValueChange])
 
     return (
         <SwapRowSC className={className} style={style}>
@@ -76,7 +77,7 @@ function SwapRow({
             <div className="input">
                 <SwapInput
                     autoMax={autoMax}
-                    balance={balance}
+                    balance={balance?.toSignificant(6, { groupSeparator: ',' }) ?? 0}
                     value={value}
                     decimals={token?.decimals}
                     onMax={handleSetMax}

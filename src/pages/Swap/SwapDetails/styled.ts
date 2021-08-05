@@ -12,4 +12,5 @@ export const SwapDetailsSC = styled.div<{ $open?: boolean }>`
     z-index: 1;
     opacity: ${({ $open }) => ($open ? '1' : '0')};
     transition: opacity 0.4s ease, transform 0.6s ease;
+    display: ${({ $open }) => ($open ? 'block' : 'none')};
 `

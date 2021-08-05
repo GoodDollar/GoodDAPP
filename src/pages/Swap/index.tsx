@@ -15,7 +15,6 @@ import useG$ from '../../hooks/useG$'
 import useWeb3 from '../../hooks/useWeb3'
 import {
     approve as approveBuy,
-    buy,
     BuyInfo,
     getMeta as getBuyMeta,
     getMetaReverse as getBuyMetaReverse
@@ -24,14 +23,13 @@ import {
     approve as approveSell,
     getMeta as getSellMeta,
     getMetaReverse as getSellMetaReverse,
-    sell,
     SellInfo
 } from '../../sdk/sell'
 import { SupportedChainId } from '../../sdk/constants/chains'
 import SwapConfirmModal from './SwapConfirmModal'
 import { FUSE } from '../../constants'
 import { useDispatch } from 'react-redux'
-import { addTransaction } from '../../state/transactions/actions'
+import SwapDescriptions from './SwapDescriptions'
 
 function Swap() {
     const [buying, setBuying] = useState(true)
@@ -93,16 +91,15 @@ function Swap() {
             setOtherValue(
                 buying
                     ? field === 'external'
-                        ? meta.outputAmount.toFixed(undefined, { groupSeparator: ',' })
-                        : meta.inputAmount.toFixed(undefined, { groupSeparator: ',' })
+                        ? meta.outputAmount.toExact()
+                        : meta.inputAmount.toExact()
                     : field === 'external'
-                    ? meta.inputAmount.toFixed(undefined, { groupSeparator: ',' })
-                    : meta.outputAmount.toFixed(undefined, { groupSeparator: ',' })
+                    ? meta.inputAmount.toExact()
+                    : meta.outputAmount.toExact()
             )
             setMeta(meta)
         }, 400))
     }, [account, chainId, lastEdited, buying, web3, slippageTolerance.value])
-    const [swapping, setSwapping] = useState(false)
     const [approving, setApproving] = useState(false)
     const [showConfirm, setShowConfirm] = useState(false)
     const [approved, setApproved] = useState(false)
@@ -247,7 +244,7 @@ function Swap() {
                             title={buying ? 'Swap from' : 'Swap to'}
                             select
                             autoMax={buying}
-                            balance={pairBalance?.toSignificant(4, { groupSeparator: ',' }) ?? 0}
+                            balance={pairBalance}
                             style={{ marginBottom: buying ? 13 : 0, marginTop: buying ? 0 : 13, order: buying ? 1 : 3 }}
                             token={swapPair.token}
                             value={swapPair.value}
@@ -271,7 +268,7 @@ function Swap() {
                             title={buying ? 'Swap to' : 'Swap from'}
                             autoMax={!buying}
                             select={false}
-                            balance={swapBalance?.toExact() ?? 0}
+                            balance={swapBalance}
                             token={G$}
                             alternativeSymbol="G$"
                             value={swapValue}
@@ -294,7 +291,7 @@ function Swap() {
                             <ButtonAction style={{ marginTop: 22 }} disabled>
                                 Connect wallet
                             </ButtonAction>
-                        ) : meta === null ? (
+                        ) : meta === null || (meta && balanceNotEnough) ? (
                             <ButtonAction style={{ marginTop: 22 }} disabled>
                                 Insufficient Trade
                             </ButtonAction>
@@ -303,8 +300,10 @@ function Swap() {
                                 Enter amount
                             </ButtonAction>
                         ) : (
-                            <div className={buying && swapPair.token === ETHER ? 'flex' : 'flex space-x-4'}>
-                                {!(buying && swapPair.token === ETHER) && (
+                            <div
+                                className={buying && [ETHER, FUSE].includes(swapPair.token) ? 'flex' : 'flex space-x-4'}
+                            >
+                                {!(buying && [ETHER, FUSE].includes(swapPair.token)) && (
                                     <ButtonAction
                                         className="flex-grow"
                                         style={{ marginTop: 22 }}
@@ -320,7 +319,7 @@ function Swap() {
                                     disabled={
                                         !meta ||
                                         balanceNotEnough ||
-                                        (buying && swapPair.token === ETHER ? false : !approved)
+                                        (buying && [ETHER, FUSE].includes(swapPair.token) ? false : !approved)
                                     }
                                     onClick={() => setShowConfirm(true)}
                                 >
@@ -331,30 +330,19 @@ function Swap() {
                     </SwapContentWrapperSC>
                 </SwapWrapperSC>
                 <SwapDetails open={Boolean(meta)} {...swapFields} />
+                <SwapDescriptions gdx={!!swapFields.GDX} exitContribution={!!swapFields.exitContribution} />
             </SwapCardSC>
             <SwapConfirmModal
                 {...swapFields}
                 open={showConfirm}
                 onClose={() => setShowConfirm(false)}
                 pair={pair}
-                swapping={swapping}
+                meta={meta}
+                buying={buying}
                 onConfirm={async () => {
-                    try {
-                        setSwapping(true)
-                        const transactionDetails = buying ? await buy(web3!, meta!) : await sell(web3!, meta!)
-                        dispatch(
-                            addTransaction({
-                                chainId: chainId!,
-                                hash: transactionDetails.transactionHash,
-                                from: transactionDetails.from
-                            })
-                        )
-                        handleSetPairValue('')
-                        setSwapValue('')
-                        setShowConfirm(false)
-                    } finally {
-                        setSwapping(false)
-                    }
+                    handleSetPairValue('')
+                    setSwapValue('')
+                    setMeta(undefined)
                 }}
             />
         </SwapContext.Provider>

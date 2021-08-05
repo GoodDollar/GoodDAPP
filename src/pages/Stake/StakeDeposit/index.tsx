@@ -23,7 +23,7 @@ export interface StakeDepositModalProps {
     onClose: () => any
 }
 
-type Action<T extends string, P = never> = [P] extends [never]
+export type Action<T extends string, P = never> = [P] extends [never]
     ? { type: T }
     : P extends undefined
     ? { type: T; payload?: P }
@@ -181,15 +181,16 @@ const StakeDeposit = ({ stake, onDeposit, onClose }: StakeDepositModalProps) => 
                         </div>
                     </div>
                     <SwapInput
-                        balance={tokenToDepositBalance?.toSignificant(4)}
+                        balance={tokenToDepositBalance?.toSignificant(6, { groupSeparator: ',' })}
                         autoMax
                         disabled={state.loading}
-                        onMax={() =>
+                        value={state.value}
+                        onMax={() => {
                             dispatch({
                                 type: 'CHANGE_VALUE',
-                                payload: tokenToDepositBalance?.toFixed() ?? '0'
+                                payload: tokenToDepositBalance?.toExact() ?? '0'
                             })
-                        }
+                        }}
                         onChange={e =>
                             dispatch({
                                 type: 'CHANGE_VALUE',

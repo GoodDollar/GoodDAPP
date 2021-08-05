@@ -519,7 +519,7 @@ export class UserStorage {
     const seed = this.wallet.wallet.eth.accounts.wallet[this.wallet.getAccountForType('gundb')].privateKey.slice(2)
     await this.feedDB.init(seed, this.wallet.getAccountForType('gundb')) //only once user is registered he has access to realmdb via signed jwt
     await this.initFeed()
-    await this.initRealmDBUserStorage()
+
 
     // get trusted GoodDollar indexes and pub key
     let trustPromise = this.fetchTrustIndexes()
@@ -547,6 +547,7 @@ export class UserStorage {
         // firstly, awaiting for wallet is ready
         await wallet.ready
         await this.userProperties.ready
+        await this.initUserProfileStorage()
         const isReady = await retry(() => this.initGun(), 1) // init user storage, if exception thrown, retry init one more times
 
         logger.debug('userStorage initialized.')
@@ -612,71 +613,22 @@ export class UserStorage {
   async setAvatar(avatar, withCleanup = false) {
     // save space and load on gun
     const avatarResized = await resizeImage(avatar, 320)
-
     // eslint-disable-next-line
     return Promise.all([
-      this._storeAvatar('avatar', avatarResized, withCleanup),
-      this.setSmallAvatar(avatarResized, withCleanup),
+      this.userProfileStorage._storeAvatar('avatar', avatarResized, withCleanup),
+      this.userProfileStorage.setSmallAvatar(avatarResized, withCleanup),
     ])
   }
 
   async setSmallAvatar(avatar, withCleanup = false) {
     const smallAvatar = await resizeImage(avatar, 50)
 
-    return this._storeAvatar('smallAvatar', smallAvatar, withCleanup)
+    return this.userProfileStorage._storeAvatar('smallAvatar', smallAvatar, withCleanup)
   }
 
   // eslint-disable-next-line require-await
   async removeAvatar(withCleanup = false) {
-    return Promise.all(
-      // eslint-disable-next-line require-await
-      ['avatar', 'smallAvatar'].map(async field => {
-        // eslint-disable-next-line require-await
-        const updateGunDB = async () => this.setProfileField(field, null, 'public')
-
-        if (true !== withCleanup) {
-          return updateGunDB()
-        }
-
-        return this._removeBase64(field, updateGunDB)
-      }),
-    )
-  }
-
-  /**
-   * @private
-   * @param {String} avatar Base64 data url string
-   *
-   * @returns {Promise<string>} CID
-   */
-  async _storeAvatar(field, avatar, withCleanup = false) {
-    const cid = await Base64Storage.store(avatar)
-    // eslint-disable-next-line require-await
-    const updateGunDB = async () => this.setProfileField(field, cid, 'public')
-
-    if (true !== withCleanup) {
-      return updateGunDB()
-    }
-
-    return this._removeBase64(field, updateGunDB)
-  }
-
-  /**
-   * @private
-   * @param {async () => any} updateGUNCallback
-   */
-  async _removeBase64(field, updateGUNCallback = null) {
-    const cid = await this.getProfileFieldValue(field)
-
-    // executing GUN update actions first
-    if (isFunction(updateGUNCallback)) {
-      await updateGUNCallback()
-    }
-
-    // if avatar was a CID - delete if after GUN updated
-    if (isString(cid) && !isValidBase64Image(cid) && isValidCIDImage(cid)) {
-      await Base64Storage.delete(cid)
-    }
+    return this.userProfileStorage.removeAvatar(withCleanup)
   }
 
   /**
@@ -717,7 +669,10 @@ export class UserStorage {
     return this.feedStorage.getAllFeed()
   }
 
-  async initRealmDBUserStorage() {
+  async initUserProfileStorage() {
+    const seed = this.wallet.wallet.eth.accounts.wallet[this.wallet.getAccountForType('gundb')].privateKey.slice(2)
+    await this.feedDB.init(seed, this.wallet.getAccountForType('gundb')) //only once user is registered he has access to realmdb via signed jwt
+    await this.initFeed()
     this.userProfileStorage = new UserProfileStorage(this.wallet, this.feedDB)
     await this.userProfileStorage.init()
   }
@@ -845,28 +800,11 @@ export class UserStorage {
    * @returns {Promise<ProfileField>} Decrypted profile value
    */
   getProfileFieldValue(field: string): Promise<ProfileField> {
-    return this.profile
-      .get(field)
-      .get('value')
-      .decrypt(value => this.unserialize(field, value))
-      .catch(reason => {
-        let exception = reason
-        let { message } = exception
-
-        if (!isError(reason)) {
-          message = reason
-          exception = new Error(reason)
-        }
-
-        logger.error('getProfileFieldValue decrypt failed:', message, exception, { field, profile: this.user.pub })
-      })
+    return this.userProfileStorage.getProfileFieldDisplayValue(field)
   }
 
   getProfileFieldDisplayValue(field: string): Promise<string> {
-    return this.profile
-      .get(field)
-      .get('display')
-      .then()
+    return this.userProfileStorage.getProfileFieldDisplayValue(field)
   }
 
   /**
@@ -876,7 +814,7 @@ export class UserStorage {
    * @returns {Promise<ProfileField>} Gun profile attribute object
    */
   getProfileField(field: string): Promise<ProfileField> {
-    return this.profile.get(field).then()
+    return this.userProfileStorage.getProfileField()
   }
 
   /**
@@ -886,14 +824,7 @@ export class UserStorage {
    * @returns {UserModel} - User model with display values
    */
   getDisplayProfile(profile: {}): UserModel {
-    const displayProfile = Object.keys(profile).reduce(
-      (acc, currKey) => ({
-        ...acc,
-        [currKey]: get(profile, `${currKey}.display`),
-      }),
-      {},
-    )
-    return getUserModel(displayProfile)
+    return this.userProfileStorage.getDisplayProfile()
   }
 
   /**
@@ -903,15 +834,7 @@ export class UserStorage {
    * @returns {object} UserModel with some inherit functions
    */
   getPrivateProfile(profile: {}): Promise<UserModel> {
-    const keys = this._getProfileFields(profile)
-    return Promise.all(keys.map(currKey => this.getProfileFieldValue(currKey)))
-      .then(values => {
-        return values.reduce((acc, currValue, index) => {
-          const currKey = keys[index]
-          return { ...acc, [currKey]: currValue }
-        }, {})
-      })
-      .then(getUserModel)
+    return this.userProfileStorage.getPrivateProfile()
   }
 
   subscribeProfileUpdates(callback: any => void) {
@@ -926,12 +849,7 @@ export class UserStorage {
   }
 
   async getFieldPrivacy(field) {
-    const currentPrivacy = await this.profile
-      .get(field)
-      .get('privacy')
-      .then()
-
-    return currentPrivacy || this.profileSettings[field].defaultPrivacy || 'public'
+    return this.userProfileStorage.getFieldPrivacy(field)
   }
 
   /**
@@ -944,85 +862,7 @@ export class UserStorage {
    * @throws Error if profile is invalid
    */
   async setProfile(profile: UserModel, update: boolean = false): Promise<> {
-    if (profile && !profile.validate) {
-      profile = getUserModel(profile)
-    }
-
-    const { errors, isValid } = profile.validate(update)
-
-    if (!isValid) {
-      logger.warn(
-        'setProfile failed',
-        'Fields validation failed',
-        new Error('setProfile failed: Fields validation failed'),
-        { errors, category: ExceptionCategory.Human },
-      )
-
-      throw errors
-    }
-
-    if (profile.avatar) {
-      profile.smallAvatar = await resizeImage(profile.avatar, 50)
-    }
-
-    /**
-     * Checking fields to save which changed, even if have undefined value (for example empty mobile input field return undefined).
-     */
-    const fieldsToSave = keys(this.profileSettings).filter(key => key in profile)
-
-    /**
-     * Forming a new object of profile fields those have changed with default value if fields have undefined.
-     */
-    const profileWithDefaults = defaults(
-      Object.assign({}, ...fieldsToSave.map(field => ({ [field]: profile[field] }))),
-
-      /**
-       * Picked only those fields that have changed for setting default value if new field value equal undefined.
-       */
-      pick(this.profileDefaults, fieldsToSave),
-    )
-    const results = await Promise.all(
-      fieldsToSave.map(async field => {
-        let isPrivate
-
-        try {
-          isPrivate = get(this.profileSettings, `[${field}].defaultPrivacy`, 'private')
-
-          if (update) {
-            isPrivate = await this.getFieldPrivacy(field)
-          }
-
-          return await this.setProfileField(field, profileWithDefaults[field], isPrivate)
-        } catch (e) {
-          logger.warn('setProfile field failed:', e.message, e, {
-            field,
-            value: profileWithDefaults[field],
-            isPrivate,
-          })
-
-          return { err: `failed saving field ${field}` }
-        }
-      }),
-    )
-
-    const gunErrors = results.filter(ack => ack && ack.err).map(ack => ack.err)
-
-    if (gunErrors.length <= 0) {
-      return true
-    }
-
-    logger.error(
-      'setProfile partially failed',
-      'some of the fields failed during saving',
-      new Error('setProfile: some fields failed during saving'),
-      {
-        errCount: gunErrors.length,
-        errors: gunErrors,
-        strErrors: JSON.stringify(gunErrors),
-      },
-    )
-
-    throw gunErrors
+    return this.userProfileStorage.setProfile(profile, update)
   }
 
   /**
@@ -1049,28 +889,7 @@ export class UserStorage {
   }
 
   async validateProfile(profile: any) {
-    if (!profile) {
-      return { isValid: false, errors: {} }
-    }
-    const fields = Object.keys(profile).filter(prop => UserStorage.indexableFields[prop])
-
-    const validatedFields = await Promise.all(
-      fields.map(async field => ({
-        field,
-        valid: await UserStorage.isValidValue(field, profile[field], true),
-      })),
-    )
-    const errors = validatedFields.reduce((accErrors, curr) => {
-      if (!curr.valid) {
-        accErrors[curr.field] = `Unavailable ${curr.field}`
-      }
-      return accErrors
-    }, {})
-
-    const isValid = validatedFields.every(elem => elem.valid)
-    logger.debug({ fields, validatedFields, errors, isValid, profile })
-
-    return { isValid, errors }
+    return this.userProfileStorage.validateProfile(profile)
   }
 
   /**
@@ -1088,55 +907,7 @@ export class UserStorage {
     privacy: FieldPrivacy = 'public',
     onlyPrivacy: boolean = false,
   ): Promise<ACK> {
-    let display
-
-    switch (privacy) {
-      case 'private':
-        display = '******'
-        break
-      case 'masked':
-        display = UserStorage.maskField(field, value)
-
-        //undo invalid masked field
-        if (display === value) {
-          privacy = 'public'
-        }
-        break
-      case 'public':
-        display = value
-        break
-      default:
-        throw new Error('Invalid privacy setting', { privacy })
-    }
-
-    const storePrivacy = () =>
-      this.profile
-        .get(field)
-        .putAck({ display, privacy })
-        .catch(e => {
-          logger.warn('saving profile field display and privacy failed', e.message, e, { field })
-          throw e
-        })
-
-    if (onlyPrivacy) {
-      return storePrivacy()
-    }
-
-    logger.debug('setProfileField', { field, value, privacy, onlyPrivacy, display })
-
-    // changed to .all as .race looses possible rejection of promise haven't 'won' the race
-    return Promise.all([
-      this.profile
-        .get(field)
-        .get('value')
-        .secretAck(this.serialize(field, value))
-        .catch(e => {
-          logger.warn('encrypting profile field failed', e.message, e, { field })
-          throw e
-        }),
-
-      storePrivacy(),
-    ]).then(last)
+    return this.userProfileStorage.setProfileField(field, value, privacy, onlyPrivacy)
   }
 
   /**
@@ -1205,8 +976,7 @@ export class UserStorage {
    * @returns {Promise} Promise with updated field value, secret, display and privacy.
    */
   async setProfileFieldPrivacy(field: string, privacy: FieldPrivacy): Promise<ACK> {
-    let value = await this.getProfileFieldValue(field)
-    return this.setProfileField(field, value, privacy, true)
+    return this.userProfileStorage.setProfileFieldPrivacy(field, privacy)
   }
 
   /**
@@ -1413,31 +1183,7 @@ export class UserStorage {
    * @returns {object} profile - { name, avatar }
    */
   async getUserProfile(field: string = ''): { name: String, avatar: String } {
-    const profile = await this.getUserProfilePublickey(field)
-    if (profile == null) {
-      logger.info(`getUserProfile by field <${field}> with nullable profile public key`, { profilePublicKey: profile })
-      return { name: undefined, avatar: undefined }
-    }
-
-    const [avatar = undefined, name = undefined] = await Promise.all([
-      this.gun
-        .get(profile)
-        .get('profile')
-        .get('smallAvatar')
-        .get('display')
-        .then(null, 500),
-      this.gun
-        .get(profile)
-        .get('profile')
-        .get('fullName')
-        .get('display')
-        .then(null, 500),
-    ])
-    logger.info(`getUserProfile by field <${field}>`, { avatar, name, profilePublicKey: profile })
-    if (!name) {
-      logger.info(`cannot get fullName from gun by field <${field}>`, { name })
-    }
-    return { name, avatar }
+   return this.userProfileStorage.getUserProfile(field)
   }
 
   /**
@@ -1723,15 +1469,7 @@ export class UserStorage {
   }
 
   async getProfile(): Promise<any> {
-    const encryptedProfile = await this.loadGunField(this.profile)
-
-    if (encryptedProfile === undefined) {
-      logger.error('getProfile: profile node undefined', '', new Error('Profile node undefined'))
-
-      return {}
-    }
-
-    return this.getPrivateProfile(encryptedProfile)
+    return this.userProfileStorage.getProfile()
   }
 
   loadGunField(gunNode): Promise<any> {
@@ -1750,17 +1488,7 @@ export class UserStorage {
   }
 
   async getPublicProfile(): Promise<any> {
-    const encryptedProfile = await this.loadGunField(this.profile)
-
-    if (encryptedProfile === undefined) {
-      const error = new Error('Profile node undefined')
-
-      logger.error('getPublicProfile: profile node undefined', error.message, error)
-
-      return {}
-    }
-
-    return this.getDisplayProfile(encryptedProfile)
+    return this.userProfileStorage.getPublicProfile()
   }
 
   getFaceIdentifier(): string {
@@ -1789,41 +1517,7 @@ export class UserStorage {
    * deleting profile actually doesn't delete but encrypts everything
    */
   async deleteProfile(): Promise<boolean> {
-    this.unSubscribeProfileUpdates()
-
-    // first delete from indexes then delete the profile itself
-    const { profile, _getProfileFields } = this
-    let profileFields = await profile.then(_getProfileFields)
-
-    const deleteField = field => {
-      if (!field.includes('avatar')) {
-        return this.setProfileFieldPrivacy(field, 'private')
-      }
-
-      if (field === 'avatar') {
-        return this.removeAvatar()
-      }
-    }
-
-    await Promise.all(
-      profileFields.map(field =>
-        retry(() => deleteField(field), 1).catch(exception => {
-          let error = exception
-          let { message } = error || {}
-
-          if (!error) {
-            error = new Error(`Deleting profile field ${field} failed`)
-            message =
-              'Some error occurred during' +
-              (field === 'avatar' ? 'deleting avatar' : 'setting the privacy to the field')
-          }
-
-          logger.error(`Deleting profile field ${field} failed`, message, error, { index: field })
-        }),
-      ),
-    )
-
-    return true
+    return this.userProfileStorage.deleteProfile()
   }
 
   /**

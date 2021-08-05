@@ -3,7 +3,7 @@ import { isFunction, isString, over } from 'lodash'
 import { getUserModel } from '../gundb/UserModel'
 import type { UserModel } from '../gundb/UserModel'
 import Base64Storage from '../nft/Base64Storage'
-import { isValidBase64Image, isValidCIDImage } from '../utils/image'
+import { isValidBase64Image, isValidCIDImage, resizeImage } from '../utils/image'
 import pino from '../logger/pino-logger'
 import isEmail from '../validators/isEmail'
 import isMobilePhone from '../validators/isMobilePhone'
@@ -53,7 +53,8 @@ export interface ProfileStorage {
   getProfileByWalletAddress(walletAddress: string): Promise<any>;
   getPublicProfile(key: string, value: string): { [field: string]: string };
   getProfileFieldValue(field: string): string;
-  getProfileFieldDisplayValue(field: string): Promise<string>;
+  getProfileFieldDisplayValue(field: string): string;
+  getProfileField(field: string): ProfileField;
   getDisplayProfile(): UserModel;
   getPrivateProfile(): UserModel;
   getFieldPrivacy(field: string): string;
@@ -159,10 +160,15 @@ export class UserProfileStorage implements ProfileStorage {
    * saves a complete profile to the underlying storage
    * @param {*} profile
    */
-  async setProfile(profile): Promise<any> {
-    const encryptedProfile = await this._encryptProfileFields(profile)
-    await this.profiledb.setProfile(encryptedProfile)
-    this._setLocalProfile(profile)
+  async setProfile(profile, update: boolean = false): Promise<any> {
+    if (update) {
+      const { getErrors, isValid, validate, ...profileFields } = profile
+      await Promise.all(Object.keys(profileFields).map(async key => await this.setProfileField(key, profileFields[key])))
+    } else {
+      const encryptedProfile = await this._encryptProfileFields(profile)
+      await this.profiledb.setProfile(encryptedProfile)
+
+    }
   }
 
   /**
@@ -180,9 +186,8 @@ export class UserProfileStorage implements ProfileStorage {
    */
   async setProfileFields(fields: { [key: string]: ProfileField }): Promise<any> {
     const encryptedFields = await this._encryptProfileFields(fields)
-    return this.profiledb
-      .setProfileFields(encryptedFields)
-      .then(() => this._setLocalProfile({ ...this.profile, ...fields }))
+    await this.profiledb.setProfileFields(encryptedFields)
+    this._setLocalProfile({ ...this.profile, ...fields })
   }
 
   /**
@@ -225,6 +230,12 @@ export class UserProfileStorage implements ProfileStorage {
     return this.setProfileFields({ [field]: { display, value, privacy } })
   }
 
+  async setSmallAvatar(avatar, withCleanup = false) {
+    const smallAvatar = await resizeImage(avatar, 50)
+
+    return this._storeAvatar('smallAvatar', smallAvatar, withCleanup)
+  }
+
   /**
    * remove Avatar from profile
    * @returns {Promise<[Promise<void>, Promise<void>, Promise<void>, Promise<void>, Promise<void>, Promise<void>, Promise<void>, Promise<void>, Promise<void>, Promise<void>]>}
@@ -234,7 +245,7 @@ export class UserProfileStorage implements ProfileStorage {
       // eslint-disable-next-line require-await
       ['avatar', 'smallAvatar'].map(async field => {
         // eslint-disable-next-line require-await
-        const updateRealmDB = async () => this.setProfileField(field, null, 'public')
+        const updateRealmDB = async () => this.setProfileField(field, '', 'public')
         if (withCleanup !== true) {
           return updateRealmDB()
         }
@@ -296,6 +307,9 @@ export class UserProfileStorage implements ProfileStorage {
    */
   async getPublicProfile(key: string, value: string): Promise<{ [field: string]: string }> {
     const rawProfile = await this.profiledb.getProfileByField(key, value)
+    if (!rawProfile) {
+      return null
+    }
     let publicProfile = Object.keys(rawProfile)
       .filter(key => rawProfile[key].privacy !== 'private')
       .reduce(
@@ -369,7 +383,7 @@ export class UserProfileStorage implements ProfileStorage {
     const validatedFields = await Promise.all(
       fields.map(async field => ({
         field,
-        valid: await UserStorage.isValidValue(field, profile[field]?.value, true),
+        valid: await UserStorage.isValidValue(field, profile[field], true),
       })),
     )
 
@@ -400,18 +414,18 @@ export class UserProfileStorage implements ProfileStorage {
     const attr = isMobilePhone(field) ? 'mobile' : isEmail(field) ? 'email' : 'walletAddress'
 
     const profile = await this.getPublicProfile(attr, field)
-    const { fullName, smallAvatar } = profile
+    const { fullName, avatar } = profile
     if (profile == null) {
       logger.info(`getUserProfile by field <${field}> `)
-      return { name: undefined, smallAvatar: undefined }
+      return { name: undefined, avatar: undefined }
     }
 
-    logger.info(`getUserProfile by field <${field}>`, { smallAvatar, fullName })
+    logger.info(`getUserProfile by field <${field}>`, { avatar, fullName })
     if (!fullName) {
       logger.info(`cannot get fullName from gun by field <${field}>`, { fullName })
     }
 
-    return { name: fullName, smallAvatar }
+    return { name: fullName, avatar }
   }
 
   notifyProfileUpdates() {

@@ -1,14 +1,13 @@
 import { memoize } from 'lodash'
 
-import { Blob, NFTStorage } from 'nft.storage/src/lib'
 import Config from '../../config/config'
 import { fallback } from '../utils/async'
 
-const { nftStorageKey, nftPeers } = Config
+const { nftStorageKey, ipfsGateways } = Config
 
 class Base64Storage {
   constructor(apiKey, peers) {
-    this.client = new NFTStorage({ token: apiKey })
+    //this.client = new NFTStorage({ token: apiKey })
     this.peers = peers
   }
 
@@ -67,4 +66,4 @@ class Base64Storage {
   }
 }
 
-export default new Base64Storage(nftStorageKey, nftPeers)
+export default new Base64Storage(nftStorageKey, ipfsGateways)

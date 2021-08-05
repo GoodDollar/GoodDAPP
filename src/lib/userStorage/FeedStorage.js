@@ -465,7 +465,7 @@ export class FeedStorage {
             // if yes - upload it and store CID instead
             let value = _value
 
-            if (Config.nftLazyUpload && 'smallAvatar' === field && isValidBase64Image(value)) {
+            if (Config.ipfsLazyUpload && 'smallAvatar' === field && isValidBase64Image(value)) {
               // keep old base64 value if upload failed
               value = await Base64Storage.store(value).catch(() => _value)
             }

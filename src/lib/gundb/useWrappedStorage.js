@@ -1,5 +1,6 @@
 import SimpleStore from '../undux/SimpleStore'
 import wrapper from '../undux/utils/wrapper'
+
 // import userStorage from './UserStorage'
 import userStorage from '../userStorage/UserStorage'
 export const useWrappedUserStorage = () => {

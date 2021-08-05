@@ -67,7 +67,6 @@ export interface ProfileStorage {
 //TODO:
 //3. TODO: ask Hadar about modify usage in undux/effect
 //5. implement pubsub for profile changes (one method to subscribe for profile updates, when profile changes notify the subscribers)
-//6. UserStorageClass should delegate all calls to UserProfileStorage
 export class UserProfileStorage implements ProfileStorage {
   profileDefaults: {} = {
     mobile: '',
@@ -159,15 +158,18 @@ export class UserProfileStorage implements ProfileStorage {
   /**
    * saves a complete profile to the underlying storage
    * @param {*} profile
+   * @param update
    */
   async setProfile(profile, update: boolean = false): Promise<any> {
     if (update) {
       const { getErrors, isValid, validate, ...profileFields } = profile
-      await Promise.all(Object.keys(profileFields).map(async key => await this.setProfileField(key, profileFields[key])))
+      await Promise.all(
+        // eslint-disable-next-line no-return-await
+        Object.keys(profileFields).map(async key => await this.setProfileField(key, profileFields[key])),
+      )
     } else {
       const encryptedProfile = await this._encryptProfileFields(profile)
       await this.profiledb.setProfile(encryptedProfile)
-
     }
   }
 
@@ -240,7 +242,8 @@ export class UserProfileStorage implements ProfileStorage {
    * remove Avatar from profile
    * @returns {Promise<[Promise<void>, Promise<void>, Promise<void>, Promise<void>, Promise<void>, Promise<void>, Promise<void>, Promise<void>, Promise<void>, Promise<void>]>}
    */
-  removeAvatar(withCleanup = false): Promise<void> {
+  // eslint-disable-next-line require-await
+  async removeAvatar(withCleanup = false): Promise<void> {
     return Promise.all(
       // eslint-disable-next-line require-await
       ['avatar', 'smallAvatar'].map(async field => {
@@ -433,11 +436,7 @@ export class UserProfileStorage implements ProfileStorage {
   }
 
   subscribeProfileUpdates(callback: any => void) {
-    this.subscribersProfileUpdates.push(callback)
-
-    // if (this.profile) {
-    //   callback(this.profile)
-    // }
+    UserStorage.subscribeProfileUpdates(callback)
   }
 
   unSubscribeProfileUpdates() {

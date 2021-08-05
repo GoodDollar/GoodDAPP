@@ -520,7 +520,6 @@ export class UserStorage {
     await this.feedDB.init(seed, this.wallet.getAccountForType('gundb')) //only once user is registered he has access to realmdb via signed jwt
     await this.initFeed()
 
-
     // get trusted GoodDollar indexes and pub key
     let trustPromise = this.fetchTrustIndexes()
 
@@ -614,7 +613,7 @@ export class UserStorage {
     // save space and load on gun
     const avatarResized = await resizeImage(avatar, 320)
     // eslint-disable-next-line
-    return Promise.all([
+    await Promise.all([
       this.userProfileStorage._storeAvatar('avatar', avatarResized, withCleanup),
       this.userProfileStorage.setSmallAvatar(avatarResized, withCleanup),
     ])
@@ -1183,7 +1182,7 @@ export class UserStorage {
    * @returns {object} profile - { name, avatar }
    */
   async getUserProfile(field: string = ''): { name: String, avatar: String } {
-   return this.userProfileStorage.getUserProfile(field)
+    return this.userProfileStorage.getUserProfile(field)
   }
 
   /**

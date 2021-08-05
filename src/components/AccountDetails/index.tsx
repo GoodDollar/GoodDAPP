@@ -1,21 +1,15 @@
 import React, { useCallback, useContext } from 'react'
-import { ExternalLink as LinkIcon } from 'react-feather'
 import { useDispatch } from 'react-redux'
 import styled, { ThemeContext } from 'styled-components'
-import CoinbaseWalletIcon from '../../assets/images/coinbaseWalletIcon.svg'
-import FortmaticIcon from '../../assets/images/fortmaticIcon.png'
-import PortisIcon from '../../assets/images/portisIcon.png'
-import TorusIcon from '../../assets/images/torusIcon.png'
 import WalletConnectIcon from '../../assets/images/walletConnectIcon.svg'
 import { ReactComponent as Close } from '../../assets/images/x.svg'
-import { fortmatic, injected, portis, torus, walletconnect, walletlink } from '../../connectors'
+import { injected, walletconnect } from '../../connectors'
 import { SUPPORTED_WALLETS } from '../../constants'
 import { useActiveWeb3React } from '../../hooks/useActiveWeb3React'
 import { AppDispatch } from '../../state'
 import { clearAllTransactions } from '../../state/transactions/actions'
-import { ExternalLink, LinkStyledButton, TYPE } from '../../theme'
+import { ExternalLink } from '../../theme'
 import { getExplorerLink, shortenAddress } from '../../utils'
-import { ButtonSecondary } from '../ButtonLegacy'
 import Identicon from '../Identicon'
 import { AutoRow } from '../Row'
 import Copy from './Copy'
@@ -162,13 +156,6 @@ const CloseColor = styled(Close)`
     }
 `
 
-const WalletName = styled.div`
-    width: initial;
-    font-size: 0.825rem;
-    font-weight: 500;
-    color: ${({ theme }) => theme.text3};
-`
-
 const IconWrapper = styled.div<{ size?: number }>`
     ${({ theme }) => theme.flexColumnNoWrap};
     align-items: center;
@@ -189,10 +176,6 @@ const TransactionListWrapper = styled.div`
 `
 
 const WalletAction = styled(ButtonOutlined)``
-
-const MainWalletAction = styled(WalletAction)`
-    color: ${({ theme }) => theme.primary1};
-`
 
 function renderTransactions(transactions: string[]) {
     return (
@@ -220,7 +203,6 @@ export default function AccountDetails({
     openOptions
 }: AccountDetailsProps): any {
     const { chainId, account, connector } = useActiveWeb3React()
-    const theme = useContext(ThemeContext)
     const dispatch = useDispatch<AppDispatch>()
 
     function formatConnectorName() {
@@ -234,56 +216,6 @@ export default function AccountDetails({
             )
             .map(k => SUPPORTED_WALLETS[k].name)[0]
         return `Connected with ${name}`
-    }
-
-    function getStatusIcon() {
-        if (connector === injected) {
-            return (
-                <IconWrapper size={16}>
-                    <Identicon />
-                </IconWrapper>
-            )
-        } else if (connector === walletconnect) {
-            return (
-                <IconWrapper size={16}>
-                    <img src={WalletConnectIcon} alt={'wallet connect logo'} />
-                </IconWrapper>
-            )
-        } else if (connector === walletlink) {
-            return (
-                <IconWrapper size={16}>
-                    <img src={CoinbaseWalletIcon} alt={'coinbase wallet logo'} />
-                </IconWrapper>
-            )
-        } else if (connector === fortmatic) {
-            return (
-                <IconWrapper size={16}>
-                    <img src={FortmaticIcon} alt={'fortmatic logo'} />
-                </IconWrapper>
-            )
-        } else if (connector === portis) {
-            return (
-                <>
-                    <IconWrapper size={16}>
-                        <img src={PortisIcon} alt={'portis logo'} />
-                        <MainWalletAction
-                            onClick={() => {
-                                portis.portis.showPortis()
-                            }}
-                        >
-                            Show Portis
-                        </MainWalletAction>
-                    </IconWrapper>
-                </>
-            )
-        } else if (connector === torus) {
-            return (
-                <IconWrapper size={16}>
-                    <img src={TorusIcon} alt={'torus logo'} />
-                </IconWrapper>
-            )
-        }
-        return null
     }
 
     const clearAllTransactionsCallback = useCallback(() => {

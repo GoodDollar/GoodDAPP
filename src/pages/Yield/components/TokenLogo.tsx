@@ -3,10 +3,8 @@ import PlaceHolder from 'assets/images/placeholder.png'
 import KashiLogo from 'assets/kashi/kashi-neon.png'
 import { getAddress } from '@ethersproject/address'
 import styled from 'styled-components'
-//import EthereumLogo from "../../assets/img/eth.png";
 import { ChainId } from '@sushiswap/sdk'
 import { useActiveWeb3React } from '../../../hooks/useActiveWeb3React'
-import { getMaticTokenLogoURL } from '../../../constants/maticTokenMapping'
 
 const getTokenLogoURL = (address: string, chainId: any) => {
     let imageURL
@@ -16,14 +14,12 @@ const getTokenLogoURL = (address: string, chainId: any) => {
         )}/logo.png`
     } else if (chainId === ChainId.BSC) {
         imageURL = `https://v1exchange.pancakeswap.finance/images/coins/${isAddress(address)}.png`
-    } else if (chainId === ChainId.MATIC) {
-        imageURL = getMaticTokenLogoURL(address)
     } else {
         imageURL = `https://raw.githubusercontent.com/sushiswap/assets/master/blockchains/ethereum/assets/${isAddress(
             address
         )}/logo.png`
     }
-    //console.log('getTokenLogoURL:', chainId, imageURL)
+
     return imageURL
 }
 

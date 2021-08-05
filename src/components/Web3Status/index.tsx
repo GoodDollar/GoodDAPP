@@ -3,13 +3,9 @@ import { UnsupportedChainIdError, useWeb3React } from '@web3-react/core'
 import { darken, lighten } from 'polished'
 import React, { useMemo } from 'react'
 import { Activity } from 'react-feather'
-import styled, { css } from 'styled-components'
-import CoinbaseWalletIcon from '../../assets/images/coinbaseWalletIcon.svg'
-import FortmaticIcon from '../../assets/images/fortmaticIcon.png'
-import LatticeIcon from '../../assets/images/gridPlusWallet.png'
-import PortisIcon from '../../assets/images/portisIcon.png'
+import styled from 'styled-components'
 import WalletConnectIcon from '../../assets/images/walletConnectIcon.svg'
-import { fortmatic, injected, lattice, portis, walletconnect, walletlink } from '../../connectors'
+import { injected, walletconnect } from '../../connectors'
 import { NetworkContextName } from '../../constants'
 import useENSName from '../../hooks/useENSName'
 import { useWalletModalToggle } from '../../state/application/hooks'
@@ -76,23 +72,6 @@ const Web3StatusConnect = styled(Web3StatusGeneric)<{ faded?: boolean }>`
     }
 `
 
-const Web3StatusConnected = styled(Web3StatusGeneric)<{ pending?: boolean }>`
-    background-color: ${({ pending, theme }) => (pending ? theme.primary1 : theme.bg2)};
-    border: 1px solid ${({ pending, theme }) => (pending ? theme.primary1 : theme.bg3)};
-    color: ${({ pending, theme }) => (pending ? theme.white : theme.text1)};
-    font-weight: 500;
-    :hover,
-    :focus {
-        background-color: ${({ pending, theme }) =>
-            pending ? darken(0.05, theme.primary1) : lighten(0.05, theme.bg2)};
-
-        :focus {
-            border: 1px solid
-                ${({ pending, theme }) => (pending ? darken(0.1, theme.primary1) : darken(0.1, theme.bg3))};
-        }
-    }
-`
-
 const Text = styled.p`
     flex: 1 1 auto;
     overflow: hidden;
@@ -116,51 +95,6 @@ function newTransactionsFirst(a: TransactionDetails, b: TransactionDetails) {
     return b.addedTime - a.addedTime
 }
 
-const SOCK = (
-    <span role="img" aria-label="has socks emoji" style={{ marginTop: -4, marginBottom: -4 }}>
-        🧦
-    </span>
-)
-
-// eslint-disable-next-line react/prop-types
-function StatusIcon({ connector }: { connector: AbstractConnector }) {
-    if (connector === injected) {
-        return <Chef width={20} height={20} />
-        // return <Identicon />
-    } else if (connector === walletconnect) {
-        return (
-            <IconWrapper size={16}>
-                <img src={WalletConnectIcon} alt={'Wallet Connect'} />
-            </IconWrapper>
-        )
-    } else if (connector === lattice) {
-        return (
-            <IconWrapper size={16}>
-                <img src={LatticeIcon} alt={'Lattice'} />
-            </IconWrapper>
-        )
-    } else if (connector === walletlink) {
-        return (
-            <IconWrapper size={16}>
-                <img src={CoinbaseWalletIcon} alt={'Coinbase Wallet'} />
-            </IconWrapper>
-        )
-    } else if (connector === fortmatic) {
-        return (
-            <IconWrapper size={16}>
-                <img src={FortmaticIcon} alt={'Fortmatic'} />
-            </IconWrapper>
-        )
-    } else if (connector === portis) {
-        return (
-            <IconWrapper size={16}>
-                <img src={PortisIcon} alt={'Portis'} />
-            </IconWrapper>
-        )
-    }
-    return null
-}
-
 const Web3StatusInnerSC = styled.div`
     background: ${({ theme }) => theme.color.bg1};
     color: ${({ theme }) => theme.color.input};
@@ -170,7 +104,7 @@ const Web3StatusInnerSC = styled.div`
 
 function Web3StatusInner() {
     const { i18n } = useLingui()
-    const { account, connector, error } = useWeb3React()
+    const { account, error } = useWeb3React()
 
     const { ENSName } = useENSName(account ?? undefined)
 
@@ -191,7 +125,7 @@ function Web3StatusInner() {
         return (
             <Web3StatusInnerSC
                 id="web3-status-connected"
-                className="flex items-center rounded-lg   py-2 px-3"
+                className="flex items-center rounded-lg py-2 px-3"
                 onClick={toggleWalletModal}
             >
                 {hasPendingTransactions ? (

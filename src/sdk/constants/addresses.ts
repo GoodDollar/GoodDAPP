@@ -53,17 +53,7 @@ export const UNISWAP_INIT_CODE_HASH: AddressMap = {
     [SupportedChainId.FUSE]: '0x04990f130515035f22e76663517440918b83941b25a4ec04ecdf4b2898e846aa'
 }
 
-/* ContributionCalc contract address per network. */
-export const CONTRIBUTION_CALC_ADDRESS: AddressMap = {
-    [SupportedChainId.KOVAN]: '0xb8e03cE6bb337A1161ca6E53DE568efBe5650eaF'
-}
-
 /* ExchangeHelper contract address per network. */
 export const EXCHANGE_HELPER_ADDRESS: AddressMap = {
     [SupportedChainId.KOVAN]: '0x8f42aD1F3f570F648E63ae8c8790Dd14EF4f75dB'
-}
-
-/* GoodMarketMaker contract address per network. */
-export const GOOD_MARKET_MAKER_ADDRESS: AddressMap = {
-    [SupportedChainId.KOVAN]: '0xE0fdF6e09C4ac5aa5A8952ac32b16446eE0D0b79'
 }

@@ -13,7 +13,6 @@ import MoonbeamLogo from '../../assets/images/moonbeam-logo.png'
 import OKExLogo from '../../assets/images/okex-logo.png'
 import FuseLogo from '../../assets/images/fuse-logo.png'
 import { WrappedTokenInfo } from '../../state/lists/hooks'
-import { getMaticTokenLogoURL } from '../../constants/maticTokenMapping'
 import styled from 'styled-components'
 import { useActiveWeb3React } from '../../hooks/useActiveWeb3React'
 import useHttpLocations from '../../hooks/useHttpLocations'
@@ -28,8 +27,6 @@ export const getTokenLogoURL = (address: string, chainId: any) => {
         imageURL = `https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/${address}/logo.png`
     } else if (chainId === ChainId.BSC) {
         imageURL = `https://v1exchange.pancakeswap.finance/images/coins/${address}.png`
-    } else if (chainId === ChainId.MATIC) {
-        imageURL = getMaticTokenLogoURL(address)
     } else if (chainId === AdditionalChainId.FUSE) {
         imageURL = getFuseTokenLogoURL(address)
     } else if (chainId === AdditionalChainId.KOVAN) {

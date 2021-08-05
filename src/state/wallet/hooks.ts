@@ -6,7 +6,8 @@ import { useAllTokens } from '../../hooks/Tokens'
 import { useMulticallContract } from '../../hooks/useContract'
 import { isAddress } from '../../utils'
 import { useMultipleContractSingleData, useSingleContractMultipleData } from '../multicall/hooks'
-import { SUSHI } from './../../constants/index'
+import { FUSE, SUSHI } from '../../constants'
+import { useWeb3React } from '@web3-react/core'
 
 /**
  * Returns a map of the given addresses to their eventually consistent ETH balances.
@@ -104,18 +105,21 @@ export function useCurrencyBalances(
     ])
 
     const tokenBalances = useTokenBalances(account, tokens)
-    const containsETH: boolean = useMemo(() => currencies?.some(currency => currency === ETHER) ?? false, [currencies])
+    const containsETH: boolean = useMemo(
+        () => currencies?.some(currency => currency === ETHER || currency === FUSE) ?? false,
+        [currencies]
+    )
     const ethBalance = useETHBalances(containsETH ? [account] : [])
-
+    const { chainId } = useWeb3React()
     return useMemo(
         () =>
             currencies?.map(currency => {
                 if (!account || !currency) return undefined
                 if (currency instanceof Token) return tokenBalances[currency.address]
-                if (currency === ETHER) return ethBalance[account]
+                if (currency === ETHER || currency === FUSE) return ethBalance[account]
                 return undefined
             }) ?? [],
-        [account, currencies, ethBalance, tokenBalances]
+        [chainId, account, currencies, ethBalance, tokenBalances]
     )
 }
 

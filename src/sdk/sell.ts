@@ -1,12 +1,12 @@
 import Web3 from 'web3'
 import { BigNumber, ethers } from 'ethers'
-import { Currency, CurrencyAmount, Fraction, Percent, Token, TradeType } from '@uniswap/sdk-core'
+import { Currency, CurrencyAmount, Ether, Fraction, Percent, Token, TradeType } from '@uniswap/sdk-core'
 import { Trade } from '@uniswap/v2-sdk'
 
 import { getToken } from './methods/tokenLists'
 import { calculateExitContribution } from './methods/calculateExitContribution'
 import { decimalPercentToPercent, decimalToJSBI, g$FromDecimal } from './utils/converter'
-import { CDAI, G$, WETH9_EXTENDED } from './constants/tokens'
+import { CDAI, FUSE, G$ } from './constants/tokens'
 import { cDaiPrice } from './methods/cDaiPrice'
 import { v2TradeExactIn } from './methods/v2TradeExactIn'
 import { BuyInfo, cDaiToG$, daiToCDai } from './buy'
@@ -23,6 +23,7 @@ import { SupportedChainId } from './constants/chains'
 import { v2TradeExactOut } from './methods/v2TradeExactOut'
 import { ZERO_PERCENT } from './constants/misc'
 import { TransactionDetails } from './constants/transactions'
+import * as fuse from './contracts/FuseUniswapContract'
 
 export type SellInfo = { contribution: Fraction } & BuyInfo
 
@@ -269,10 +270,6 @@ export async function getMeta(
     const chainId = await getChainId(web3)
     const account = await getAccount(web3)
 
-    if (toSymbol === 'ETH' || toSymbol === 'FUSE') {
-        toSymbol = 'WETH9'
-    }
-
     debugGroup(`Get meta ${amount} G$ to ${toSymbol}`)
 
     const G$ = await getToken(chainId, 'G$')
@@ -280,7 +277,14 @@ export async function getMeta(
         throw new Error('Unsupported chain ID')
     }
 
-    const TO = toSymbol === 'WETH9' ? WETH9_EXTENDED[chainId] : await getToken(chainId, toSymbol)
+    let TO: Currency
+    if (toSymbol === 'ETH') {
+        TO = Ether.onChain(chainId)
+    } else if (toSymbol === 'FUSE') {
+        TO = FUSE
+    } else {
+        TO = (await getToken(chainId, toSymbol)) as Currency
+    }
 
     if (!TO) {
         throw new Error('Unsupported token')
@@ -295,6 +299,7 @@ export async function getMeta(
     let outputAmount: CurrencyAmount<Currency>
     let minimumOutputAmount: CurrencyAmount<Currency>
     let route: Token[]
+    let trade: Trade<Currency, Currency, TradeType> | null = null
 
     let priceImpact: Fraction = new Fraction(0)
     let liquidityFee: Fraction = new Fraction(0)
@@ -305,13 +310,14 @@ export async function getMeta(
     const slippageTolerancePercent = decimalPercentToPercent(slippageTolerance)
 
     if (chainId === SupportedChainId.FUSE) {
-        const trade = await G$ToXExactIn(web3, inputAmount, TO, slippageTolerancePercent)
-        if (!trade) {
+        const g$trade = await G$ToXExactIn(web3, inputAmount, TO, slippageTolerancePercent)
+        if (!g$trade) {
             return null
         }
 
-        ;({ priceImpact, liquidityFee } = realizedLPFeePriceImpact(trade.trade))
-        ;({ amount: outputAmount, minAmount: minimumOutputAmount, route } = trade)
+        trade = g$trade.trade
+        ;({ priceImpact, liquidityFee } = realizedLPFeePriceImpact(g$trade.trade))
+        ;({ amount: outputAmount, minAmount: minimumOutputAmount, route } = g$trade)
     } else {
         contribution = await calculateExitContribution(web3, inputAmount, account)
         if (TO.symbol === 'G$') {
@@ -343,13 +349,14 @@ export async function getMeta(
 
             DAIAmount = await cDaiToDai(web3, cDAIAmount)
 
-            const trade = await DaiToXExactIn(web3, DAIAmount, TO, slippageTolerancePercent)
-            if (!trade) {
+            const daiTrade = await DaiToXExactIn(web3, DAIAmount, TO, slippageTolerancePercent)
+            if (!daiTrade) {
                 return null
             }
 
-            ;({ priceImpact, liquidityFee } = realizedLPFeePriceImpact(trade.trade))
-            ;({ amount: outputAmount, minAmount: minimumOutputAmount, route } = trade)
+            trade = daiTrade.trade
+            ;({ priceImpact, liquidityFee } = realizedLPFeePriceImpact(daiTrade.trade))
+            ;({ amount: outputAmount, minAmount: minimumOutputAmount, route } = daiTrade)
         }
 
         GDXBalance = await tokenBalance(web3, 'GDX', account)
@@ -373,7 +380,8 @@ export async function getMeta(
         liquidityFee,
         liquidityToken: DAI,
 
-        route
+        route,
+        trade
     }
 }
 
@@ -392,10 +400,6 @@ export async function getMetaReverse(
 ): Promise<SellInfo | null> {
     const chainId = await getChainId(web3)
 
-    if (toSymbol === 'ETH' || toSymbol === 'FUSE') {
-        toSymbol = 'WETH9'
-    }
-
     debugGroup(`Get meta ${toAmount} ${toSymbol} to G$`)
 
     const G$ = await getToken(chainId, 'G$')
@@ -403,7 +407,14 @@ export async function getMetaReverse(
         throw new Error('Unsupported chain ID')
     }
 
-    const TO = toSymbol === 'WETH9' ? WETH9_EXTENDED[chainId] : await getToken(chainId, toSymbol)
+    let TO: Currency
+    if (toSymbol === 'ETH') {
+        TO = Ether.onChain(chainId)
+    } else if (toSymbol === 'FUSE') {
+        TO = FUSE
+    } else {
+        TO = (await getToken(chainId, toSymbol)) as Currency
+    }
 
     if (!TO) {
         throw new Error('Unsupported token')
@@ -477,13 +488,17 @@ function prepareValues(meta: BuyInfo): { input: string; minReturn: string; minCD
  */
 export async function approve(web3: Web3, meta: BuyInfo): Promise<void> {
     const chainId = await getChainId(web3)
-    const account = await getAccount(web3)
 
-    const { input } = prepareValues(meta)
-    // Approve ERC20 token to exchange
-    await ERC20Contract(web3, G$[chainId].address)
-        .methods.approve(EXCHANGE_HELPER_ADDRESS[chainId], input)
-        .send({ from: account })
+    if (chainId === SupportedChainId.FUSE) {
+        await fuse.approveSell(web3, meta.trade!)
+    } else {
+        const account = await getAccount(web3)
+        const { input } = prepareValues(meta)
+
+        await ERC20Contract(web3, G$[chainId].address)
+            .methods.approve(EXCHANGE_HELPER_ADDRESS[chainId], input)
+            .send({ from: account })
+    }
 }
 
 /**
@@ -496,25 +511,31 @@ export async function sell(
     meta: BuyInfo,
     onSent?: (transactionHash: string) => void
 ): Promise<TransactionDetails> {
-    const account = await getAccount(web3)
+    const chainId = await getChainId(web3)
 
-    const contract = await exchangeHelperContract(web3)
+    if (chainId === SupportedChainId.FUSE) {
+        return fuse.swap(web3, meta.trade!, meta.slippageTolerance)
+    } else {
+        const account = await getAccount(web3)
 
-    const { input, minReturn, minCDai } = prepareValues(meta)
+        const contract = await exchangeHelperContract(web3)
 
-    // Convert into addresses
-    let route: string[] = meta.route.map(token => token.address)
+        const { input, minReturn, minCDai } = prepareValues(meta)
 
-    const req = contract.methods
-        .sell(
-            route,
-            BigNumber.from(input),
-            BigNumber.from(minCDai),
-            BigNumber.from(minReturn),
-            ethers.constants.AddressZero
-        )
-        .send({ from: account })
+        // Convert into addresses
+        let route: string[] = meta.route.map(token => token.address)
 
-    if (onSent) req.on('transactionHash', onSent)
-    return req
+        const req = contract.methods
+            .sell(
+                route,
+                BigNumber.from(input),
+                BigNumber.from(minCDai),
+                BigNumber.from(minReturn),
+                ethers.constants.AddressZero
+            )
+            .send({ from: account })
+
+        if (onSent) req.on('transactionHash', onSent)
+        return req
+    }
 }

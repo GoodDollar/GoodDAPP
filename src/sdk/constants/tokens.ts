@@ -84,6 +84,22 @@ export const MIR = new Token(
     'Wrapped MIR'
 )
 
+export const FUSE = new (class extends NativeCurrency {
+    equals(other: Currency): boolean {
+        return other.isNative && other.chainId === this.chainId
+    }
+
+    get wrapped(): Token {
+        const weth9 = WETH9_EXTENDED[this.chainId]
+        !weth9 ? invariant(false, 'WRAPPED') : void 0
+        return weth9
+    }
+
+    constructor(chainId: number, decimals: number, symbol?: string, name?: string) {
+        super(chainId, decimals, symbol, name)
+    }
+})(SupportedChainId.FUSE, 18, 'FUSE', 'Fuse') as NativeCurrency
+
 export const WETH9_EXTENDED: { [chainId: number]: Token } = {
     ...WETH9,
     [SupportedChainId.FUSE]: new Token(
@@ -139,8 +155,14 @@ export const G$: { [chainId: number]: Token } = {
         2,
         'G$',
         'GoodDollar'
+    ),
+    [SupportedChainId.FUSE]: new Token(
+        SupportedChainId.FUSE,
+        '0x495d133B938596C9984d462F007B676bDc57eCEC',
+        2,
+        'G$',
+        'GoodDollar'
     )
-    // [SupportedChainId.FUSE]: new Token(SupportedChainId.FUSE, G$ContractAddresses(SupportedChainId.FUSE, 'GoodDollar'), 2, 'G$', 'GoodDollar'),
 }
 
 export const GDX: { [chainId: number]: Token } = {
@@ -226,22 +248,6 @@ export const WBTC: { [chainId: number]: Token } = {
     )
     // [SupportedChainId.FUSE]: new Token(SupportedChainId.FUSE, G$ContractAddresses(SupportedChainId.FUSE, 'WBTC'), 8, 'WBTC', 'Wrapped BTC'),
 }
-
-export const FUSE = new (class extends NativeCurrency {
-    equals(other: Currency): boolean {
-        return other.isNative && other.chainId === this.chainId
-    }
-
-    get wrapped(): Token {
-        const weth9 = WETH9_EXTENDED[this.chainId]
-        !weth9 ? invariant(false, 'WRAPPED') : void 0
-        return weth9
-    }
-
-    constructor(chainId: number, decimals: number, symbol?: string, name?: string) {
-        super(chainId, decimals, symbol, name)
-    }
-})(SupportedChainId.FUSE, 18, 'FUSE', 'Fuse')
 
 export const TOKEN_LISTS: { [chainId: number]: string[] } = {
     [SupportedChainId.MAINNET]: [

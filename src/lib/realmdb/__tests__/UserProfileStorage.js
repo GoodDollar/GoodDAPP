@@ -10,54 +10,44 @@ fromEntries.shim()
 jest.setTimeout(30000)
 
 const profile = {
-  _id: {
-    $oid: '6100139203f6bf504bbe810d',
-  },
-  user_id: '6100127ad24e71c3caec42eb',
   avatar: {
-    display: 'bafkreibnoelefnzgwbcacyt4vh52ymxvzbjq7mmqhtcnwarfq4lzegsiqe',
-    value:
-      't1OiSz4ptz/Rxv29opu07ZKupysdrw1tP+cIpYw6TmUb60LeYzYPFrt3PY0RJOfacm31c4dTllAcPb4uzJeGhvyDfX6KE7+fas76ToA8ZnFdauxmPQwLcuSdBiM3oYNuYQgZLMnOZIWvm4dlLvaS+sluF6fVaReWOJWMLKARce4FrgNIQw==',
+    display: '',
+    value: '',
     privacy: 'public',
   },
   email: {
-    display: 'lukasz.kilaszewski@polcode.net',
-    value:
-      'htz83RVvIe5YlZdgFt8LhIfa6aYsN8cc8hD7LZ2XMt1LzpDikbj0F4uTtcEGAD8Vh3SIQzHMuRcY1cVTPKlVFqNeAjnvbKsj/gPFnRoRCCs914PpAT0jg7wLh58Y+2Qm7SpOjxZMtSY=',
+    display: 'julian@gooddollar.org',
+    value: '',
     privacy: 'public',
   },
   fullName: {
-    value:
-      'EDcT/Ttho7weahofyNu5v5HdWX1LeTPjODinVbss16PKileHAsAdCDODCP3DEakm6FQkYBN+hwQSJQAb7oHCVWlvs6pZfl1gMR3ssuKlA0Jw2PF4tT+UZldTB5yw',
-    display: 'Łukasz Kilaszewski',
+    value: '',
+    display: 'Julian Kobryński',
     privacy: 'public',
   },
   mnemonic: {
-    value: 'wvrhHwnTJt3+xp4d1Y6Z/9nBWARHyY0sBkf6tkwpuumX47zHtVAoywAo0Az+i10pvPMc/nyUBF4fOKDOyIrSxKE3wOdBm46H+EjqNg==',
+    value: '',
     display: '',
     privacy: 'public',
   },
   username: {
-    value:
-      'PdmZlFG/wzx0wn9UPx2TszOrZT9kjyJLNv9GwYtOmjzT7QBLtXFQoTw8a/Uk2rVxiGkZeOJ04iBZ67sg9wQad1uy5OlfH6n1+3Odx7GPDzvXkps9',
-    display: 'UncleBilly',
+    value: '',
+    display: '',
     privacy: 'public',
   },
   mobile: {
-    display: '+48518205270',
-    value:
-      'j2I3e0oTvRHYDQRci3igtPJLmOPhiLsZV6W+M2ZsekrEx9Oe9DiSva3DzManAcUVxD9EoI/wtksfyGgUsbZ0nlRdMxUWqXeUZ3xTheytE/HQrbiZ+ok=',
+    display: '+48507471353',
+    value: '',
     privacy: 'public',
   },
   walletAddress: {
-    value:
-      'RXrwzZEapanWWd8croW4l/cPbYOFiDgQlxhKXMq0d4M6r0N8iaFSGK8GGAkw4bnNt2CkPdYjVV31w24Ppm6FXT8LxB0ggMPD6dwl1spOHhVbgP3iU3Zg5EElADWkQKIy9hZ6IkbY/U4SIST1oSZB5BK6Q3E=',
-    display: '0x70F2C175CFB5C4a6E9ad18eeF8A417DC7520Ff50',
+    value: '',
+    display: '0x740E22161DEEAa60b8b0b5cDAAA091534Ff21649',
     privacy: 'public',
   },
   smallAvatar: {
-    display: null,
-    value: 'RFmpGhPLnqtuKz6PwZxvmoFV6hjWlFHnVqKQvflnv9HabfkO0Vgf8GqMspO2nkOgpbbvYJRBtVoAREbPdQxzVBJ4GyiPFZe2RbSTuQ==',
+    display: '',
+    value: '',
     privacy: 'public',
   },
 }
@@ -77,14 +67,44 @@ describe('UserProfileStorage', () => {
     await db.init(seed, goodWallet.getAccountForType('gundb')) //only once user is registered he has access to realmdb via signed jwt
   })
 
-  it('should initialize without profile in db', async () => {
-    jest.spyOn(userProfileStorage.profiledb, 'getProfile').mockImplementation(() => null)
-    await userProfileStorage.init()
-    expect(userProfileStorage.profiledb.getProfile()).toBeNull()
+  it('should save profile to the db', async () => {
+    await userProfileStorage.setProfile(profile)
+
+    const encryptedProfile = await userProfileStorage.profiledb.getProfile()
+    const { user_id, _id, ...fields } = encryptedProfile
+
+    // Check if values were encrypted
+    Object.keys(fields).forEach(key => {
+      expect(profile[key].value).not.toEqual(encryptedProfile[key].value)
+    })
   })
 
-  it('should initialaze with profile in db', async () => {
-    jest.spyOn(userProfileStorage.profiledb, 'getProfile').mockImplementation(() => profile)
+  it('should initialize and decrypt values', async () => {
+    userProfileStorage.profile = {}
+    expect(userProfileStorage.profile).toEqual({})
+
     await userProfileStorage.init()
+
+    // Exclude user_id and id
+    const { user_id, id, ...fields } = userProfileStorage.profile
+
+    // Check if values are the same as in the original object
+    Object.keys(fields).forEach(key => {
+      expect(fields[key].value).toEqual(profile[key].value)
+    })
   })
+
+  // it('should initialize without profile in db', async () => {
+  //   jest.spyOn(userProfileStorage.profiledb, 'getProfile').mockImplementation(() => null)
+  //   await userProfileStorage.init()
+  //   expect(userProfileStorage.profiledb.getProfile()).toBeNull()
+  // })
+
+  // it('should initialaze with profile in db', async () => {
+  //   jest.spyOn(userProfileStorage.profiledb, 'getProfile').mockImplementation(() => profile)
+  //   await userProfileStorage.init()
+  //   // console.log(userProfileStorage.profiledb.getProfile())
+  //   console.log(await userProfileStorage.profile)
+  //   // console.log(userProfileStorage.getProfile())
+  // })
 })

@@ -302,6 +302,7 @@ export class GoodWallet {
   //eslint-disable-next-line require-await
   async watchEvents(fromBlock, lastBlockCallback) {
     const lastBlock = await this.syncTxWithBlockchain(fromBlock).catch(_ => fromBlock)
+    lastBlockCallback(lastBlock)
     this.lastEventsBlock = lastBlock
 
     this.pollEvents(

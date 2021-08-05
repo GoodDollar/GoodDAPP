@@ -1,11 +1,11 @@
 import { useEffect, useMemo, useState } from 'react'
 
-import Base64Storage from '../nft/Base64Storage'
-import { isValidDataUrl } from '../utils/base64'
+import IPFS from '../ipfs/IpfsStorage'
 import { isValidCID } from '../ipfs/utils'
+import { isValidDataUrl } from '../utils/base64'
 
-export default (avatar, skipCache = false) => {
-  const cachedBase64 = useMemo(() => {
+const useAvatar = (avatar, skipCache = false) => {
+  const cachedDataUrl = useMemo(() => {
     // checking is it base64 data url
     if (isValidDataUrl(avatar)) {
       return avatar
@@ -16,12 +16,12 @@ export default (avatar, skipCache = false) => {
   }, [avatar])
 
   // using cachedState as initial base64 value immediately in the state (if was base64)
-  const [base64, setBase64] = useState(cachedBase64)
+  const [dataUrl, setDataUrl] = useState(cachedDataUrl)
 
   useEffect(() => {
     // if was base64 set it to state immediately
-    if (cachedBase64) {
-      setBase64(cachedBase64)
+    if (cachedDataUrl) {
+      setDataUrl(cachedDataUrl)
       return
     }
 
@@ -30,17 +30,19 @@ export default (avatar, skipCache = false) => {
     }
 
     // otherwise we're checking is it a valid CID and trying to load it from thes ipfs
-    Base64Storage.load(avatar, skipCache)
+    IPFS.load(avatar, { skipCache })
       .catch(() => null)
-      .then(base64 => {
-        if (!base64) {
+      .then(dataUrl => {
+        if (!dataUrl) {
           return
         }
 
         // if no failures and we've got non-empty response - setting base64 received in the state
-        setBase64(base64)
+        setDataUrl(dataUrl)
       })
-  }, [cachedBase64, avatar, skipCache, setBase64])
+  }, [cachedDataUrl, avatar, skipCache, setDataUrl])
 
-  return base64
+  return dataUrl
 }
+
+export default useAvatar

@@ -11,7 +11,7 @@ import logger from '../../../lib/logger/pino-logger'
 import { fireEvent, PROFILE_IMAGE } from '../../../lib/analytics/analytics'
 import RoundIconButton from '../../common/buttons/RoundIconButton'
 import { useDebouncedOnPress } from '../../../lib/hooks/useOnPress'
-import useProfileAvatar from '../../../lib/hooks/useProfileAvatar'
+import useAvatar from '../../../lib/hooks/useAvatar'
 import openCropper from './openCropper'
 
 export const pickerOptions = {
@@ -37,7 +37,7 @@ const ViewOrUploadAvatar = props => {
   const profile = store.get('profile')
   const wrappedUserStorage = useWrappedUserStorage()
   const [showErrorDialog] = useErrorDialog()
-  const avatar = useProfileAvatar(profile.avatar, true)
+  const avatar = useAvatar(profile.avatar, true)
 
   const handleCameraPress = useDebouncedOnPress(() => {
     openCropper({

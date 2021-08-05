@@ -8,7 +8,7 @@ import { useErrorDialog } from '../../lib/undux/utils/dialog'
 import logger from '../../lib/logger/pino-logger'
 import { CustomButton, Section, Wrapper } from '../common'
 import ImageCropper from '../common/form/ImageCropper'
-import useProfileAvatar from '../../lib/hooks/useProfileAvatar'
+import useAvatar from '../../lib/hooks/useAvatar'
 
 const log = logger.child({ from: 'EditAvatar' })
 
@@ -25,7 +25,7 @@ const EditAvatar = ({ theme, screenProps }) => {
   const [isDirty, markAsDirty] = useState(false || passedAvatar !== undefined) //if passed avatar mark as dirty so we save it by default
   const [processing, setProcessing] = useState(false)
 
-  const storedAvatar = useProfileAvatar(profile.avatar, true)
+  const storedAvatar = useAvatar(profile.avatar, true)
   const avatar = passedAvatar || storedAvatar
   const croppedRef = useRef(avatar)
 

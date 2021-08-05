@@ -299,6 +299,9 @@ export class UserProfileStorage implements ProfileStorage {
    */
   async getPublicProfile(key: string, value: string): Promise<{ [field: string]: string }> {
     const rawProfile = await this.profiledb.getProfileByField(key, value)
+    if (!rawProfile) {
+      return null
+    }
     let publicProfile = Object.keys(rawProfile)
       .filter(key => rawProfile[key].privacy !== 'private')
       .reduce(

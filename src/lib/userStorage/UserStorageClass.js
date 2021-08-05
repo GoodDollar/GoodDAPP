@@ -519,7 +519,7 @@ export class UserStorage {
     const seed = this.wallet.wallet.eth.accounts.wallet[this.wallet.getAccountForType('gundb')].privateKey.slice(2)
     await this.feedDB.init(seed, this.wallet.getAccountForType('gundb')) //only once user is registered he has access to realmdb via signed jwt
     await this.initFeed()
-    await this.initUserProfileStorage()
+    await this.initRealmDBUserStorage()
 
     // get trusted GoodDollar indexes and pub key
     let trustPromise = this.fetchTrustIndexes()
@@ -717,11 +717,7 @@ export class UserStorage {
     return this.feedStorage.getAllFeed()
   }
 
-  /**
-   * Initialize user profile storage with realmdb
-   * @returns {Promise<void>}
-   */
-  async initUserProfileStorage() {
+  async initRealmDBUserStorage() {
     this.userProfileStorage = new UserProfileStorage(this.wallet, this.feedDB)
     await this.userProfileStorage.init()
   }
@@ -1222,7 +1218,7 @@ export class UserStorage {
    * @returns {Promise} Promise with an array of feed events
    */
   // eslint-disable-next-line require-await
-  async getFeedPage(numResults: number, reset: boolean = false): Promise<Array<FeedEvent>> {
+  async getFeedPage(numResults: number, reset?: boolean): Promise<Array<FeedEvent>> {
     return this.feedStorage.getFeedPage(numResults, reset)
   }
 

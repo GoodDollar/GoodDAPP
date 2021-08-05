@@ -85,8 +85,7 @@ class RealmDB implements DB, ProfileDB {
       const app = new Realm.App({ id: REALM_APP_ID })
       this.user = await app.logIn(credentials)
       const mongodb = app.currentUser.mongoClient('mongodb-atlas')
-      this.EncryptedFeed = mongodb.db(this._databaseName).collection('encrypted_feed')
-      this.Profiles = mongodb.db('wallet').collection('user_profiles')
+      this.database = mongodb.db(this._databaseName)
 
       // `App.currentUser` updates to match the logged in user
       log.debug('realm logged in', { user: this.user })
@@ -98,12 +97,30 @@ class RealmDB implements DB, ProfileDB {
   }
 
   /**
+   * helper to resolve issue with toJSON error in console
+   * @returns {Realm.Services.MongoDB.MongoDBCollection<any>}
+   * @private
+   */
+  _encryptedFeed() {
+    return this.database.collection('encrypted_feed')
+  }
+
+  /**
+   * helper to resolve issue with toJSON error in console
+   * @returns {Realm.Services.MongoDB.MongoDBCollection<any>}
+   * @private
+   */
+  _profiles() {
+    return this.database.collection('user_profiles')
+  }
+
+  /**
    * sync between devices.
    * used in Appswitch to sync with remote when user comes back to app
    */
   async _syncFromRemote() {
     const lastSync = (await AsyncStorage.getItem('GD_lastRealmSync')) || 0
-    const newItems = await this.EncryptedFeed.find({
+    const newItems = await this._encryptedFeed().find({
       user_id: this.user.id,
       date: { $gte: new Date(lastSync) },
     })
@@ -220,7 +237,7 @@ class RealmDB implements DB, ProfileDB {
     const encrypted = await this.privateKey.public.encrypt(msg).then(_ => Buffer.from(_).toString('base64'))
     const _id = `${this.user.id}_settings`
     log.debug('encryptSettings:', { settings, encrypted, _id })
-    return this.EncryptedFeed.updateOne(
+    return this._encryptedFeed().updateOne(
       { _id, user_id: this.user.id },
       { _id, user_id: this.user.id, encrypted },
       { upsert: true },
@@ -233,7 +250,7 @@ class RealmDB implements DB, ProfileDB {
    */
   async decryptSettings() {
     const _id = `${this.user.id}_settings`
-    const encryptedSettings = await this.EncryptedFeed.findOne({ _id })
+    const encryptedSettings = await this._encryptedFeed().findOne({ _id })
     let settings = {}
     if (encryptedSettings) {
       const { encrypted } = encryptedSettings
@@ -258,7 +275,7 @@ class RealmDB implements DB, ProfileDB {
       const user_id = this.user.id
       // eslint-disable-next-line camelcase
       const _id = `${txHash}_${user_id}`
-      const res = await this.EncryptedFeed.updateOne(
+      const res = await this._encryptedFeed().updateOne(
         { _id, txHash, user_id },
         { _id, txHash, user_id, encrypted, date: new Date(feedItem.date) },
         { upsert: true },
@@ -334,7 +351,7 @@ class RealmDB implements DB, ProfileDB {
 
   //TODO:  make sure profile contains walletaddress or enforce it in schema in realmdb
   setProfile(profile) {
-    this.Profiles.updateOne({ user_id: this.user.id }, { user_id: this.user.id, ...profile }, { upsert: true })
+    this._profiles().updateOne({ user_id: this.user.id }, { user_id: this.user.id, ...profile }, { upsert: true })
   }
 
   /**
@@ -342,7 +359,7 @@ class RealmDB implements DB, ProfileDB {
    *  @returns {Promise<any>}
    */
   getProfile(): Promise<any> {
-    return this.Profiles.findOne({ user_id: this.user.id })
+    return this._profiles().findOne({ user_id: this.user.id })
   }
 
   /**
@@ -352,7 +369,7 @@ class RealmDB implements DB, ProfileDB {
    * @returns {Promise<any | null>}
    */
   getProfileByField(key: string, field: string): Promise<any> {
-    return this.Profiles.findOne({ [`${key}.display`]: field })
+    return this._profiles().findOne({ [`${key}.display`]: field })
   }
 
   /**
@@ -361,7 +378,7 @@ class RealmDB implements DB, ProfileDB {
    * @returns {Promise<any | null>}
    */
   getProfileByWalletAddress(walletAddress: string): Promise<any> {
-    return this.Profiles.getProfileByField('walletAddress', walletAddress)
+    return this._profiles().getProfileByField('walletAddress', walletAddress)
   }
 
   /**
@@ -370,7 +387,7 @@ class RealmDB implements DB, ProfileDB {
    * @returns {Promise<Realm.Services.MongoDB.UpdateResult<any>>}
    */
   setProfileFields(fields: { key: String, field: ProfileField }): Promise<any> {
-    return this.Profiles.updateOne({ user_id: this.user.id }, { $set: fields })
+    return this._profiles().updateOne({ user_id: this.user.id }, { $set: fields })
   }
 
   /**
@@ -378,7 +395,7 @@ class RealmDB implements DB, ProfileDB {
    * @returns {Promise<any | null>}
    */
   deleteProfile() {
-    return this.Profiles.findOneAndDelete({ user_id: this.user.id })
+    return this._profiles().findOneAndDelete({ user_id: this.user.id })
   }
 }
 

@@ -2,6 +2,7 @@
 
 import React, { useCallback } from 'react'
 import { View } from 'react-native'
+// eslint-disable-next-line import/no-named-as-default
 import GoodWallet from '../../lib/wallet/GoodWallet'
 import InputText from '../common/form/InputText'
 import { Section, Text, Wrapper } from '../common'

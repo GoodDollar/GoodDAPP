@@ -3,7 +3,8 @@ import { isString } from 'lodash'
 import userStorage from '../userStorage/UserStorage'
 import Base64Storage from '../nft/Base64Storage'
 
-import { isValidBase64Image, isValidCIDImage } from '../utils/image'
+import { isValidDataUrl } from '../utils/base64'
+import { isValidCID } from '../ipfs/utils'
 
 const fromDate = new Date('2021/06/08')
 
@@ -17,12 +18,12 @@ const uploadProfileAvatar = async () => {
 
   // if still base64 - re-set avatar, userStorage will resize & upload
   // both avatar and smallAvatar it and store theirs CIDs in the GunDB
-  if (isValidBase64Image(avatar)) {
+  if (isValidDataUrl(avatar)) {
     await userStorage.setAvatar(avatar, true)
   } else {
     // if already cid - check is cid valid and exists
     try {
-      if (!isValidCIDImage(avatar)) {
+      if (!isValidCID(avatar)) {
         throw new Error('Not a valid CID')
       }
 
@@ -46,7 +47,7 @@ const uploadProfileAvatar = async () => {
 //   let avatar = counterPartySmallAvatar
 
 //   // if still base64 - re-upload and store CID in the GunDB
-//   if (isValidBase64Image(avatar)) {
+//   if (isValidDataUrl(avatar)) {
 //     avatar = await Base64Storage.store(avatar)
 //   }
 

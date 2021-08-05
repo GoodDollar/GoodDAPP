@@ -8,7 +8,7 @@ import Config from '../../config/config'
 import delUndefValNested from '../utils/delUndefValNested'
 import logger from '../../lib/logger/pino-logger'
 import { delay } from '../utils/async'
-import { isValidBase64Image } from '../utils/image'
+import { isValidDataUrl } from '../utils/base64'
 import Base64Storage from '../nft/Base64Storage'
 
 const log = logger.child({ from: 'FeedStorage' })
@@ -465,7 +465,7 @@ export class FeedStorage {
             // if yes - upload it and store CID instead
             let value = _value
 
-            if (Config.ipfsLazyUpload && 'smallAvatar' === field && isValidBase64Image(value)) {
+            if (Config.ipfsLazyUpload && 'smallAvatar' === field && isValidDataUrl(value)) {
               // keep old base64 value if upload failed
               value = await Base64Storage.store(value).catch(() => _value)
             }

@@ -1,12 +1,13 @@
 import { useEffect, useMemo, useState } from 'react'
 
 import Base64Storage from '../nft/Base64Storage'
-import { isValidBase64Image, isValidCIDImage } from '../utils/image'
+import { isValidDataUrl } from '../utils/base64'
+import { isValidCID } from '../ipfs/utils'
 
 export default (avatar, skipCache = false) => {
   const cachedBase64 = useMemo(() => {
     // checking is it base64 data url
-    if (isValidBase64Image(avatar)) {
+    if (isValidDataUrl(avatar)) {
       return avatar
     }
 
@@ -24,7 +25,7 @@ export default (avatar, skipCache = false) => {
       return
     }
 
-    if (!isValidCIDImage(avatar)) {
+    if (!isValidCID(avatar)) {
       return
     }
 

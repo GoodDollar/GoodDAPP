@@ -1,8 +1,10 @@
-import { once, template } from 'lodash'
+import { once } from 'lodash'
 import { version as contractsVersion } from '../../node_modules/@gooddollar/goodcontracts/package.json'
 import { version } from '../../package.json'
+
 import { isWeb } from '../lib/utils/platform'
 import { env as devenv, fixNL } from '../lib/utils/env'
+import mustache from '../lib/utils/mustache'
 
 import env from './env'
 
@@ -53,7 +55,7 @@ const Config = {
   logLevel: (forceLogLevel && forceLogLevel[1]) || env.REACT_APP_LOG_LEVEL || 'debug',
   serverUrl: env.REACT_APP_SERVER_URL || 'http://localhost:3003',
   gunPublicUrl: env.REACT_APP_GUN_PUBLIC_URL || 'http://localhost:3003/gun',
-  ipfsGateways: ipfsGateways.split(',').map(tmpl => template(tmpl, { interpolate: /{(\S+?)}/g })),
+  ipfsGateways: ipfsGateways.split(',').map(mustache),
   ipfsLazyUpload: env.REACT_APP_IPFS_LAZY_UPLOAD === 'true',
   pinataApiKey: env.REACT_APP_PINATA_API_KEY,
   pinataSecret: env.REACT_APP_PINATA_SECRET,

@@ -31,7 +31,9 @@ import API from '../API/api'
 import pino from '../logger/pino-logger'
 import { ExceptionCategory } from '../logger/exceptions'
 import isMobilePhone from '../validators/isMobilePhone'
-import { isValidBase64Image, isValidCIDImage, resizeImage } from '../utils/image'
+import { resizeImage } from '../utils/image'
+import { isValidDataUrl } from '../utils/base64'
+import { isValidCID } from '../ipfs/utils'
 
 import { GD_GUN_CREDENTIALS } from '../constants/localStorage'
 import AsyncStorage from '../utils/asyncStorage'
@@ -665,7 +667,7 @@ export class UserStorage {
     }
 
     // if avatar was a CID - delete if after GUN updated
-    if (isString(cid) && !isValidBase64Image(cid) && isValidCIDImage(cid)) {
+    if (isString(cid) && !isValidDataUrl(cid) && isValidCID(cid)) {
       await Base64Storage.delete(cid)
     }
   }

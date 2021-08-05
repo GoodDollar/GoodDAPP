@@ -17,7 +17,7 @@ import FaucetABI from '@gooddollar/goodcontracts/upgradables/build/contracts/Fus
 import Web3 from 'web3'
 import { BN, toBN } from 'web3-utils'
 import abiDecoder from 'abi-decoder'
-import { flatten, get, invokeMap, last, maxBy, result, uniqBy, values } from 'lodash'
+import { flatten, get, invokeMap, last, maxBy, result, sortBy, uniqBy, values } from 'lodash'
 import moment from 'moment'
 import bs58 from 'bs58'
 import Config from '../../config/config'
@@ -316,7 +316,7 @@ export class GoodWallet {
 
     log.debug('_notifyEvents got events', { events, fromBlock })
     this.getSubscribers('balanceChanged').forEach(cb => cb())
-    const uniqEvents = uniqBy(events, 'transactionHash')
+    const uniqEvents = sortBy(uniqBy(events, 'transactionHash'), 'blockNumber')
     uniqEvents.forEach(event => {
       this._notifyReceipt(event.transactionHash).catch(err =>
         log.error('_notifyEvents event get/send receipt failed:', err.message, err, {
@@ -1048,9 +1048,13 @@ export class GoodWallet {
    * @param {object} txCallbacks
    * @returns {Promise<TransactionReceipt>}
    */
-  cancelOTL(hashedCode: string, txCallbacks: {} = {}): Promise<TransactionReceipt> {
-    const cancelOtlCall = this.oneTimePaymentsContract.methods.cancel(hashedCode)
-    return this.sendTransaction(cancelOtlCall, txCallbacks)
+  async cancelOTL(hashedCode: string, txCallbacks: {} = {}): Promise<TransactionReceipt> {
+    //check if already canceled
+    const isValid = await this.isPaymentLinkAvailable(hashedCode)
+    if (isValid) {
+      const cancelOtlCall = this.oneTimePaymentsContract.methods.cancel(hashedCode)
+      return this.sendTransaction(cancelOtlCall, txCallbacks)
+    }
   }
 
   async collectInviteBounties() {

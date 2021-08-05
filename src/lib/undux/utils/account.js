@@ -4,7 +4,6 @@ import logger from '../../logger/pino-logger'
 import { ExceptionCategory } from '../../logger/exceptions'
 import goodWallet from '../../wallet/GoodWallet'
 import userStorage from '../../userStorage/UserStorage'
-import AsyncStorage from '../../utils/asyncStorage'
 import { assertStore } from '../SimpleStore'
 
 let subscribed = false
@@ -67,7 +66,7 @@ export const initTransferEvents = (store: Store) => {
     return
   }
 
-  goodWallet.watchEvents(parseInt(lastBlock), toBlock => AsyncStorage.setItem('GD_lastBlock', toBlock))
+  goodWallet.watchEvents(parseInt(lastBlock), toBlock => userStorage.userProperties.setLocal('lastBlock', toBlock))
 
   goodWallet.balanceChanged(event => onBalanceChange(event, store))
   subscribed = true

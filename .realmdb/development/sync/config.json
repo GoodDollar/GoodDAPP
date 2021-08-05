@@ -1,0 +1,14 @@
+{
+    "state": "enabled",
+    "partition": {
+        "key": "user_id",
+        "type": "string",
+        "permissions": {
+            "read": {},
+            "write": {}
+        }
+    },
+    "last_disabled": 1625566798,
+    "development_mode_enabled": false,
+    "service_name": "mongodb-atlas"
+}

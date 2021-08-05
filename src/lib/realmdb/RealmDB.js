@@ -45,6 +45,7 @@ class RealmDB implements DB, ProfileDB {
       const seed = Uint8Array.from(Buffer.from(pkeySeed, 'hex'))
       this.privateKey = TextileCrypto.PrivateKey.fromRawEd25519Seed(seed)
       this.publicKey = publicKey
+      this.pkeySeed = pkeySeed
       await this.db.open(1) // Versioned db on open
       this.Feed = this.db.collection('Feed')
       this.Feed.table.hook('updating', this._notifyChange)
@@ -104,10 +105,9 @@ class RealmDB implements DB, ProfileDB {
     const lastSync = (await AsyncStorage.getItem('GD_lastRealmSync')) || 0
     const newItems = await this.EncryptedFeed.find({
       user_id: this.user.id,
-      txHash: { $exists: true },
       date: { $gte: new Date(lastSync) },
     })
-    const filtered = newItems.filter(_ => !_._id.toString().includes('settings'))
+    const filtered = newItems.filter(_ => !_._id.toString().includes('settings') && _.txHash)
     log.debug('_syncFromRemote', { newItems, filtered, lastSync })
     if (filtered.length) {
       let decrypted = await Promise.all(filtered.map(i => this._decrypt(i)))
@@ -207,7 +207,7 @@ class RealmDB implements DB, ProfileDB {
    */
   // eslint-disable-next-line require-await
   async readByPaymentId(paymentId) {
-    return this.Feed.table.where({ 'data.hashedCode': paymentId }).toArray()
+    return this.Feed.table.get({ 'data.hashedCode': paymentId })
   }
 
   /**
@@ -274,16 +274,15 @@ class RealmDB implements DB, ProfileDB {
    * helper for encrypting fields
    * @param field
    * @returns {Promise<*>}
-   * @private
    */
-  async _encryptField(field) {
+  async encryptField(field) {
     try {
       const msg = new TextEncoder().encode(JSON.stringify(field))
       const encrypted = await this.privateKey.public.encrypt(msg).then(_ => Buffer.from(_).toString('base64'))
-      log.debug('_encrypt result:', { field: encrypted })
+      log.debug('encrypt result:', { field: encrypted })
       return encrypted
     } catch (e) {
-      log.error('error _encryptField field:', e.message, e, { field })
+      log.error('error encryptField field:', e.message, e, { field })
     }
   }
 
@@ -294,6 +293,17 @@ class RealmDB implements DB, ProfileDB {
    */
   async _decrypt(item) {
     const decrypted = await this.privateKey.decrypt(Uint8Array.from(Buffer.from(item.encrypted, 'base64')))
+    const res = JSON.parse(new TextDecoder().decode(decrypted))
+    return res
+  }
+
+  /**
+   * helper for decrypting items
+   * @param {*} field
+   * @returns
+   */
+  async decryptField(field) {
+    const decrypted = await this.privateKey.decrypt(Uint8Array.from(Buffer.from(field, 'base64')))
     const res = JSON.parse(new TextDecoder().decode(decrypted))
     return res
   }

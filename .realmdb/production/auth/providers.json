@@ -1,0 +1,27 @@
+{
+  "api-key": {
+    "name": "api-key",
+    "type": "api-key",
+    "disabled": true
+  },
+  "custom-token": {
+    "name": "custom-token",
+    "type": "custom-token",
+    "config": {
+      "audience": "realmdb_wallet_production",
+      "signingAlgorithm": "HS256",
+      "useJWKURI": false
+    },
+    "secret_config": {
+      "signingKeys": ["jwtkey"]
+    },
+    "disabled": false,
+    "metadata_fields": [
+      {
+        "required": false,
+        "name": "gdAddress",
+        "field_name": "walletAddress"
+      }
+    ]
+  }
+}

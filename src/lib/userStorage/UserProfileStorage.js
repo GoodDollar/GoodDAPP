@@ -102,8 +102,9 @@ export class UserProfileStorage implements ProfileStorage {
    */
   async init() {
     const rawProfile = await this.profiledb.getProfile()
+    const decrypted = await this._decryptProfileFields(rawProfile)
 
-    _setLocalProfile(this._decryptProfileFields(rawProfile))
+    this._setLocalProfile(decrypted)
   }
 
   /**
@@ -165,7 +166,8 @@ export class UserProfileStorage implements ProfileStorage {
    */
   async setProfile(profile): Promise<any> {
     const encryptedProfile = await this._encryptProfileFields(profile)
-    return this.profiledb.setProfile(encryptedProfile).then(() => (this.profile = profile))
+    this.profile = profile
+    return this.profiledb.setProfile(encryptedProfile)
   }
 
   /**
@@ -414,10 +416,10 @@ export class UserProfileStorage implements ProfileStorage {
   }
 
   subscribeProfileUpdates(callback: any => void) {
-    this.subscribersProfileUpdates.push(callback)
-    if (this.profile) {
-      callback(this.profile)
-    }
+    // this.subscribersProfileUpdates.push(callback)
+    // if (this.profile) {
+    //   callback(this.profile)
+    // }
   }
 
   unSubscribeProfileUpdates() {

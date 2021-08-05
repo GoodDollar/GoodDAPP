@@ -14,28 +14,28 @@ const items = (i18n: I18n) => [
     {
         name: i18n._(t`Docs`),
         description: i18n._(t`Documentation for users`),
-        href: '#'
-    },
-    {
-        name: i18n._(t`Dev`),
-        description: i18n._(t`Documentation for developers`),
-        href: '#'
-    },
-    {
-        name: i18n._(t`Open Source`),
-        description: i18n._(t`GoodDollar is a supporter of open source`),
-        href: '#'
-    },
-    {
-        name: i18n._(t`Tools`),
-        description: i18n._(t`Tools to optimize workflow`),
-        href: '#'
-    },
-    {
-        name: i18n._(t`Discord`),
-        description: i18n._(t`Join the community of discord`),
-        href: '#'
+        href: 'https://docs.gooddollar.org/'
     }
+    // {
+    //     name: i18n._(t`Dev`),
+    //     description: i18n._(t`Documentation for developers`),
+    //     href: '#'
+    // },
+    // {
+    //     name: i18n._(t`Open Source`),
+    //     description: i18n._(t`GoodDollar is a supporter of open source`),
+    //     href: '#'
+    // },
+    // {
+    //     name: i18n._(t`Tools`),
+    //     description: i18n._(t`Tools to optimize workflow`),
+    //     href: '#'
+    // },
+    // {
+    //     name: i18n._(t`Discord`),
+    //     description: i18n._(t`Join the community of discord`),
+    //     href: '#'
+    // }
 ]
 
 const MenuLink = styled(ExternalLink)`

@@ -15,7 +15,7 @@ function PortfolioTableRow({ stake, onWithdraw }: PortfolioTableRowProps) {
     return (
         <>
             <tr>
-                <td>-</td>
+                <td>UBI</td>
                 <td>
                     {stake.tokens.A.symbol} / {stake.tokens.B.symbol}
                     <Withdraw
@@ -36,7 +36,7 @@ function PortfolioTableRow({ stake, onWithdraw }: PortfolioTableRowProps) {
                     </span>{' '}
                     <br />~{stake.stake.amount$.toFixed(2, { groupSeparator: ',' })}$
                 </td>
-                <td>
+                <td className="whitespace-nowrap">
                     {stake.rewards.reward.claimed
                         .add(stake.rewards.reward.unclaimed)
                         .toSignificant(6, { groupSeparator: ',' })}{' '}
@@ -46,7 +46,17 @@ function PortfolioTableRow({ stake, onWithdraw }: PortfolioTableRowProps) {
                         .toFixed(2, { groupSeparator: ',' })}
                     $
                 </td>
-                <td>{stake.multiplier ? 'Yes' : 'No'}</td>
+                <td className="whitespace-nowrap">
+                    {stake.multiplier ? (
+                        <>This month 1.0X</>
+                    ) : (
+                        <>
+                            This month 0.5X
+                            <br />
+                            Next month: 1.0X
+                        </>
+                    )}
+                </td>
                 <td>
                     {stake.rewards.GDAO.claimed
                         .add(stake.rewards.GDAO.unclaimed)

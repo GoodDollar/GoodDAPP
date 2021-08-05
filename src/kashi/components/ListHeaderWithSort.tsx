@@ -12,7 +12,7 @@ const Wrapper = styled.div`
     color: ${({ theme }) => theme.color.text5};
     user-select: none;
 
-    svg {
+    .sort svg {
         color: ${({ theme }) => theme.color.input};
     }
 
@@ -41,7 +41,10 @@ function ListHeaderWithSort({
             onClick={() => sort.requestSort(sortKey, direction)}
         >
             <div>{children}</div>
-            <div style={{ visibility: sort.sortConfig && sort.sortConfig.key === sortKey ? 'visible' : 'hidden' }}>
+            <div
+                className="sort"
+                style={{ visibility: sort.sortConfig && sort.sortConfig.key === sortKey ? 'visible' : 'hidden' }}
+            >
                 {(sort.sortConfig.direction === 'ascending' && <ChevronUp size={14} className="ml-1" />) ||
                     (sort.sortConfig.direction === 'descending' && <ChevronDown size={14} className="ml-1" />)}
             </div>

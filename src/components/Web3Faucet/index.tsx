@@ -52,6 +52,7 @@ function Web3Faucet(): JSX.Element | null {
     return (
         <div>
             <MouseoverTooltip
+                placement="bottom"
                 text={
                     claimActive
                         ? 'Click this button to Claim your Daily UBI in G$'

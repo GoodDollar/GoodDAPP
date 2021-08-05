@@ -39,3 +39,4 @@ cypress/fixtures/example.json
 .eslintcache
 
 analysis/index.html
+deploy.sh

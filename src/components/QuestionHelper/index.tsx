@@ -1,7 +1,7 @@
 import React, { FC, useCallback, useState } from 'react'
 import { HelpCircle as Question } from 'react-feather'
 import styled from 'styled-components'
-import Tooltip from '../Tooltip'
+import Tooltip, { TooltipProps } from '../Tooltip'
 
 const QuestionWrapper = styled.div<{ noPadding?: boolean }>`
     display: flex;
@@ -47,7 +47,7 @@ const QuestionMark = styled.span`
     font-size: 1rem;
 `
 
-const QuestionHelper: FC<{ text: any }> = ({ children, text }) => {
+const QuestionHelper: FC<Omit<TooltipProps, 'show' | 'children'>> = ({ children, text, ...rest }) => {
     const [show, setShow] = useState<boolean>(false)
 
     const open = useCallback(() => setShow(true), [setShow])
@@ -55,7 +55,7 @@ const QuestionHelper: FC<{ text: any }> = ({ children, text }) => {
 
     if (children) {
         return (
-            <Tooltip text={text} show={show}>
+            <Tooltip text={text} show={show} {...rest}>
                 <QuestionWrapper onClick={open} onMouseEnter={open} onMouseLeave={close} noPadding>
                     {children}
                 </QuestionWrapper>

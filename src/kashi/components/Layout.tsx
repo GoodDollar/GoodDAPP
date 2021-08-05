@@ -13,6 +13,10 @@ const LayoutSC = styled.div`
     padding-left: 5rem;
     padding-right: 1rem;
 
+    @media screen and (max-width: 1250px) {
+        padding-left: 1rem;
+    }
+
     @media ${({ theme }) => theme.media.md} {
         padding-left: 0;
         padding-right: 0;

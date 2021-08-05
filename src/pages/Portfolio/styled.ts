@@ -28,13 +28,19 @@ export const PortfolioTitleSC = styled.div`
 export const PortfolioValueSC = styled.div`
     font-style: normal;
     font-weight: bold;
-    font-size: 24px;
-    line-height: 32px;
+    font-size: 20px;
+    line-height: 1;
     color: ${({ theme }) => theme.color.text6};
+    margin-top: 0.6em;
+
+    white-space: nowrap;
+
+    @media screen and (max-width: 1199px) {
+        font-size: 16px;
+    }
 
     @media ${({ theme }) => theme.media.md} {
         font-size: 16px;
-        line-height: 32px;
         margin-bottom: 10px;
     }
 `
@@ -93,6 +99,12 @@ export const PortfolioSC = styled.div`
         user-select: none;
         max-width: 229px;
         white-space: nowrap;
+    }
+
+    .social-contribution {
+        ${TitleSC}.category {
+            font-size: 12px;
+        }
     }
 
     @media screen and (max-width: 1250px) {

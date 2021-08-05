@@ -17,6 +17,7 @@ import StakeDeposit from './StakeDeposit'
 import usePromise from '../../hooks/usePromise'
 import { stakesSupportedAt, SupportedChainId } from '../../sdk/constants/chains'
 import Placeholder from '../../components/gd/Placeholder'
+import { QuestionHelper } from '../../components'
 
 export default function Stakes(): JSX.Element | null {
     const { i18n } = useLingui()
@@ -44,32 +45,50 @@ export default function Stakes(): JSX.Element | null {
                         <th></th>
                         <th>
                             <ListHeaderWithSort sort={sorted} sortKey="tokens.A.symbol">
-                                {i18n._(t`Token`)}
+                                <div className="flex items-center">
+                                    {i18n._(t`Token`)}{' '}
+                                    <QuestionHelper text="This is the token that is currently being staked." />
+                                </div>
                             </ListHeaderWithSort>
                         </th>
                         <th>
                             <ListHeaderWithSort sort={sorted} sortKey="protocol">
-                                {i18n._(t`Protocol`)}
+                                <div className="flex items-center">
+                                    {i18n._(t`Protocol`)}
+                                    <QuestionHelper text="This is the protocol that the token is staked to." />
+                                </div>
                             </ListHeaderWithSort>
                         </th>
                         <th>
                             <ListHeaderWithSort sort={sorted} sortKey="APY" direction="descending">
-                                {i18n._(t`APY`)}
+                                <div className="flex items-center">
+                                    {i18n._(t`APY`)}
+                                    <QuestionHelper text="This is the current Annual Percentage Yield being earned." />
+                                </div>
                             </ListHeaderWithSort>
                         </th>
                         <th>
                             <ListHeaderWithSort sort={sorted} sortKey="socialAPY" direction="descending">
-                                {i18n._(t`Social APY`)}
+                                <div className="flex items-center">
+                                    {i18n._(t`Social APY`)}
+                                    <QuestionHelper text="This is the annual percentage of UBI you’ll generate" />
+                                </div>
                             </ListHeaderWithSort>
                         </th>
                         <th>
                             <ListHeaderWithSort sort={sorted} sortKey="liquidity" direction="descending">
-                                {i18n._(t`Liquidity`)}
+                                <div className="flex items-center">
+                                    {i18n._(t`Liquidity`)}
+                                    <QuestionHelper text="This is the Total Value Staked in the staking contract (USD)." />
+                                </div>
                             </ListHeaderWithSort>
                         </th>
                         <th>
                             <ListHeaderWithSort sort={sorted} sortKey="rewards.G$" direction="descending">
-                                {i18n._(t`Total Rewards`)}
+                                <div className="flex items-center">
+                                    {i18n._(t`Total Rewards`)}
+                                    <QuestionHelper text="This is the Total Yearly Rewards in G$ and GDAO. " />
+                                </div>
                             </ListHeaderWithSort>
                         </th>
                         <th></th>

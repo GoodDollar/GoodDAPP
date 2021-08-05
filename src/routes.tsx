@@ -4,7 +4,6 @@ import Stakes from './pages/Stake'
 import Swap from './pages/Swap'
 import { RedirectHashRoutes, RedirectPathToSwapOnly } from './pages/SwapDeprecated/redirects'
 import Portfolio from './pages/Portfolio'
-import useActiveWeb3React from './hooks/useActiveWeb3React'
 import { useWeb3React } from '@web3-react/core'
 
 function Routes(): JSX.Element {

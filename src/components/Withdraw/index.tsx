@@ -64,7 +64,7 @@ function Withdraw({ token, protocol, totalStake, open, setOpen, onWithdraw, stak
             console.error(e)
             setStatus('none')
         }
-    }, [setStatus, onWithdraw])
+    }, [setStatus, onWithdraw, percentage])
 
     const handleClose = useCallback(() => {
         setOpen(false)

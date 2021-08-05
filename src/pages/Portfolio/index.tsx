@@ -14,6 +14,7 @@ import { Currency, CurrencyAmount } from '@uniswap/sdk-core'
 import useActiveWeb3React from '../../hooks/useActiveWeb3React'
 import { portfolioSupportedAt, SupportedChainId } from '../../sdk/constants/chains'
 import Placeholder from '../../components/gd/Placeholder'
+import { QuestionHelper } from '../../components'
 
 const Portfolio = () => {
     const web3 = useWeb3()
@@ -29,6 +30,7 @@ const Portfolio = () => {
                         ? {
                               myStake: stake.stake.amount$,
                               rewardsG$: stake.rewards.reward.claimed.add(stake.rewards.reward.unclaimed),
+                              rewardsG$$: stake.rewards.reward$.claimed.add(stake.rewards.reward$.unclaimed),
                               rewardsG$Unclaimed: stake.rewards.reward.unclaimed,
                               rewardsG$Unclaimed$: stake.rewards.reward$.unclaimed,
                               rewardsGDAO: stake.rewards.GDAO.claimed.add(stake.rewards.GDAO.unclaimed),
@@ -39,6 +41,9 @@ const Portfolio = () => {
                               rewardsG$: acc.rewardsG$
                                   .add(stake.rewards.reward.claimed)
                                   .add(stake.rewards.reward.unclaimed),
+                              rewardsG$$: acc.rewardsG$$
+                                  .add(stake.rewards.reward$.claimed)
+                                  .add(stake.rewards.reward$.unclaimed),
                               rewardsG$Unclaimed: acc.rewardsG$Unclaimed.add(stake.rewards.reward.unclaimed),
                               rewardsG$Unclaimed$: acc.rewardsG$Unclaimed$.add(stake.rewards.reward$.unclaimed),
                               rewardsGDAO: acc.rewardsGDAO
@@ -52,6 +57,7 @@ const Portfolio = () => {
                     | {
                           myStake: CurrencyAmount<Currency>
                           rewardsG$: CurrencyAmount<Currency>
+                          rewardsG$$: CurrencyAmount<Currency>
                           rewardsG$Unclaimed: CurrencyAmount<Currency>
                           rewardsG$Unclaimed$: CurrencyAmount<Currency>
                           rewardsGDAO: CurrencyAmount<Currency>
@@ -65,38 +71,42 @@ const Portfolio = () => {
         <>
             <Card className="mb-4">
                 <PortfolioAnalyticSC className="flex">
-                    <div className="flex flex-col justify-between flex-grow">
+                    <div className="flex flex-col flex-grow">
                         <Title type="category">My Stake</Title>
                         <PortfolioValueSC>
                             ~{data?.aggregated?.myStake.toFixed(2, { groupSeparator: ',' }) ?? '0.00'}$
                         </PortfolioValueSC>
                     </div>
-                    <div className="flex flex-col justify-between flex-grow">
-                        <Title type="category">
-                            Total Rewards to Date <br /> (G$ & GDAO)
-                        </Title>
-                        <PortfolioValueSC>
-                            -{/*~{data?.aggregated?.rewardsG$.add(data.aggregated.rewardsGDAO).toSignificant(6)}{' '}*/}
-                            {/*{data?.aggregated?.rewardsG$.currency.symbol}*/}
-                        </PortfolioValueSC>
-                    </div>
-                    <div className="flex flex-col justify-between flex-grow">
+                    <div className="flex flex-col" style={{ flexGrow: 2 }}>
                         <Title type="category">G$ Rewards</Title>
                         <PortfolioValueSC>
                             {data?.aggregated?.rewardsG$.toSignificant(6, { groupSeparator: ',' }) ?? '0.00'}{' '}
                             {data?.aggregated?.rewardsG$.currency.symbol}
+                            <br />
+                            <small>
+                                ~{data?.aggregated?.rewardsG$$.toFixed(2, { groupSeparator: ',' }) ?? '0.00'}$
+                            </small>
                         </PortfolioValueSC>
                     </div>
-                    <div className="flex flex-col justify-between flex-grow">
+                    <div className="flex flex-col flex-grow">
                         <Title type="category">GDAO Rewards</Title>
                         <PortfolioValueSC>
                             {data?.aggregated?.rewardsGDAO.toSignificant(6, { groupSeparator: ',' }) ?? '0.00'}{' '}
                             {data?.aggregated?.rewardsGDAO.currency.symbol}
                         </PortfolioValueSC>
                     </div>
-                    <div className="flex flex-col justify-between flex-grow items-end">
+                    <div className="flex flex-col justify-between lg:items-center items-start">
                         <Title type="category">Your social contribution from:</Title>
-                        <div className="comingSoon w-full">Coming soon...</div>
+                        <div className="social-contribution flex flex-grow">
+                            <div className="flex flex-col items-center mr-8">
+                                <PortfolioValueSC>–</PortfolioValueSC>
+                                <Title type="category">Staking</Title>
+                            </div>
+                            <div className="flex flex-col items-center ml-8">
+                                <PortfolioValueSC>–</PortfolioValueSC>
+                                <Title type="category">Holding</Title>
+                            </div>
+                        </div>
                     </div>
                 </PortfolioAnalyticSC>
             </Card>
@@ -107,22 +117,25 @@ const Portfolio = () => {
                             Claimable <br /> rewards
                         </PortfolioTitleSC>
                     </div>
-                    <div className="flex flex-col justify-between" style={{ flexGrow: 2 }}>
+                    <div className="flex flex-col " style={{ flexGrow: 2 }}>
                         <Title type="category">G$ Rewards</Title>
                         <PortfolioValueSC>
                             {data?.aggregated?.rewardsG$Unclaimed.toSignificant(6, { groupSeparator: ',' }) ?? '0.00'}{' '}
-                            {data?.aggregated?.rewardsG$Unclaimed.currency.symbol} / ~
-                            {data?.aggregated?.rewardsG$Unclaimed$.toFixed(2, { groupSeparator: ',' }) ?? '0.00'}$
+                            {data?.aggregated?.rewardsG$Unclaimed.currency.symbol}
+                            <br />
+                            <small>
+                                ~{data?.aggregated?.rewardsG$Unclaimed$.toFixed(2, { groupSeparator: ',' }) ?? '0.00'}$
+                            </small>
                         </PortfolioValueSC>
                     </div>
-                    <div className="flex flex-col justify-between flex-grow">
+                    <div className="flex flex-col  flex-grow">
                         <Title type="category">GDAO Rewards</Title>
                         <PortfolioValueSC>
                             {data?.aggregated?.rewardsGDAOUnclaimed.toSignificant(6, { groupSeparator: ',' }) ?? '0.00'}{' '}
                             {data?.aggregated?.rewardsGDAOUnclaimed.currency.symbol}
                         </PortfolioValueSC>
                     </div>
-                    <div className="flex flex-col justify-center items-end flex-grow">
+                    <div className="flex flex-col justify-center items-end">
                         <WithdrawRewards
                             onClaim={update}
                             trigger={<ButtonDefault width={'156px'}>Withdraw rewards</ButtonDefault>}
@@ -139,10 +152,14 @@ const Portfolio = () => {
                                 <Title type={'category'}>TYPE</Title>
                             </th>
                             <th>
-                                <Title type={'category'}>TOKEN</Title>
+                                <Title type={'category'} className="flex items-center">
+                                    TOKEN <QuestionHelper text="This is the token that is currently being staked. " />
+                                </Title>
                             </th>
                             <th>
-                                <Title type={'category'}>PROTOCOL</Title>
+                                <Title type={'category'} className="flex items-center">
+                                    PROTOCOL <QuestionHelper text="This is the protocol that the token is staked to." />
+                                </Title>
                             </th>
                             <th>
                                 <Title type={'category'}>STAKE</Title>

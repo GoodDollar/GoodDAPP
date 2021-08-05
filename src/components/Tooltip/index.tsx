@@ -12,7 +12,7 @@ const TooltipContainer = styled.div`
     color: ${({ theme }) => theme.color.text1};
 `
 
-interface TooltipProps extends Omit<PopoverProps, 'content'> {
+export interface TooltipProps extends Omit<PopoverProps, 'content'> {
     text: string
 }
 

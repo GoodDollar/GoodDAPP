@@ -162,6 +162,8 @@ const map: Record<string, string | undefined> = {
         'https://raw.githubusercontent.com/compound-finance/token-list/master/assets/ctoken_wbtc.svg',
     '0xb7a4F3E9097C08dA09517b5aB877F7a917224ede':
         'https://raw.githubusercontent.com/compound-finance/token-list/master/assets/asset_USDC.svg',
+    '0xe22da380ee6B445bb8273C81944ADEB6E8450422':
+        'https://raw.githubusercontent.com/compound-finance/token-list/master/assets/asset_USDC.svg',
     '0x46183b8822BB7Cbf27E10A1acc95DfB3b5f0ec79':
         'https://raw.githubusercontent.com/mul53/token-assets/main/assets/etheruem/0x67c5870b4a41d4ebef24d2456547a03f1f3e094b/logo.png'
 }

@@ -371,8 +371,8 @@ export const SUPPORTED_WALLETS: { [key: string]: WalletInfo } = {
         href: null,
         color: '#4196FC',
         mobile: true
-    },
-    LATTICE: {
+    }
+    /* LATTICE: {
         connector: lattice,
         name: 'Lattice',
         iconName: 'gridPlusWallet.png',
@@ -424,7 +424,7 @@ export const SUPPORTED_WALLETS: { [key: string]: WalletInfo } = {
         href: null,
         color: '#315CF5',
         mobile: true
-    }
+    }*/
 }
 
 export const NetworkContextName = 'NETWORK'

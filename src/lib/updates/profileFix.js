@@ -72,7 +72,7 @@ const checkProfile = async (lastUpdate, prevVersion, log) => {
       throw e
     })
 
-  const fullName = await userStorage.getProfileField('fullName').catch(_ => false)
+  const fullName = userStorage.getProfileField('fullName')
 
   if (fullName && fullName.display && fullName.privacy && fullName.value) {
     return

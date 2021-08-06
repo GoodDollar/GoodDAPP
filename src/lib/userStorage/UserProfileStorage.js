@@ -3,7 +3,7 @@ import { isFunction, isString, over } from 'lodash'
 import { getUserModel } from '../gundb/UserModel'
 import type { UserModel } from '../gundb/UserModel'
 import Base64Storage from '../nft/Base64Storage'
-import { isValidBase64Image, isValidCIDImage } from '../utils/image'
+import { isValidBase64Image, isValidCIDImage, resizeImage } from '../utils/image'
 import pino from '../logger/pino-logger'
 import isEmail from '../validators/isEmail'
 import isMobilePhone from '../validators/isMobilePhone'
@@ -53,7 +53,8 @@ export interface ProfileStorage {
   getProfileByWalletAddress(walletAddress: string): Promise<any>;
   getPublicProfile(key: string, value: string): { [field: string]: string };
   getProfileFieldValue(field: string): string;
-  getProfileFieldDisplayValue(field: string): Promise<string>;
+  getProfileFieldDisplayValue(field: string): string;
+  getProfileField(field: string): ProfileField;
   getDisplayProfile(): UserModel;
   getPrivateProfile(): UserModel;
   getFieldPrivacy(field: string): string;
@@ -66,7 +67,6 @@ export interface ProfileStorage {
 //TODO:
 //3. TODO: ask Hadar about modify usage in undux/effect
 //5. implement pubsub for profile changes (one method to subscribe for profile updates, when profile changes notify the subscribers)
-//6. UserStorageClass should delegate all calls to UserProfileStorage
 export class UserProfileStorage implements ProfileStorage {
   profileDefaults: {} = {
     mobile: '',
@@ -161,11 +161,19 @@ export class UserProfileStorage implements ProfileStorage {
   /**
    * saves a complete profile to the underlying storage
    * @param {*} profile
+   * @param update
    */
-  async setProfile(profile): Promise<any> {
-    const encryptedProfile = await this._encryptProfileFields(profile)
-    await this.profiledb.setProfile(encryptedProfile)
-    this._setLocalProfile(profile)
+  async setProfile(profile, update: boolean = false): Promise<any> {
+    if (update) {
+      const { getErrors, isValid, validate, ...profileFields } = profile
+      await Promise.all(
+        // eslint-disable-next-line no-return-await
+        Object.keys(profileFields).map(async key => await this.setProfileField(key, profileFields[key])),
+      )
+    } else {
+      const encryptedProfile = await this._encryptProfileFields(profile)
+      await this.profiledb.setProfile(encryptedProfile)
+    }
   }
 
   /**
@@ -183,9 +191,8 @@ export class UserProfileStorage implements ProfileStorage {
    */
   async setProfileFields(fields: { [key: string]: ProfileField }): Promise<any> {
     const encryptedFields = await this._encryptProfileFields(fields)
-    return this.profiledb
-      .setProfileFields(encryptedFields)
-      .then(() => this._setLocalProfile({ ...this.profile, ...fields }))
+    await this.profiledb.setProfileFields(encryptedFields)
+    this._setLocalProfile({ ...this.profile, ...fields })
   }
 
   /**
@@ -228,11 +235,18 @@ export class UserProfileStorage implements ProfileStorage {
     return this.setProfileFields({ [field]: { display, value, privacy } })
   }
 
+  async setSmallAvatar(avatar, withCleanup = false) {
+    const smallAvatar = await resizeImage(avatar, 50)
+
+    return this._storeAvatar('smallAvatar', smallAvatar, withCleanup)
+  }
+
   /**
    * remove Avatar from profile
    * @returns {Promise<[Promise<void>, Promise<void>, Promise<void>, Promise<void>, Promise<void>, Promise<void>, Promise<void>, Promise<void>, Promise<void>, Promise<void>]>}
    */
-  removeAvatar(withCleanup = false): Promise<void> {
+  // eslint-disable-next-line require-await
+  async removeAvatar(withCleanup = false): Promise<void> {
     return Promise.all(
       // eslint-disable-next-line require-await
       ['avatar', 'smallAvatar'].map(async field => {
@@ -375,7 +389,7 @@ export class UserProfileStorage implements ProfileStorage {
     const validatedFields = await Promise.all(
       fields.map(async field => ({
         field,
-        valid: await UserStorage.isValidValue(field, profile[field]?.value, true),
+        valid: await UserStorage.isValidValue(field, profile[field], true),
       })),
     )
 
@@ -406,18 +420,18 @@ export class UserProfileStorage implements ProfileStorage {
     const attr = isMobilePhone(field) ? 'mobile' : isEmail(field) ? 'email' : 'walletAddress'
 
     const profile = await this.getPublicProfile(attr, field)
+    const { fullName, avatar } = profile
     if (profile == null) {
       logger.info(`getUserProfile by field <${field}> `)
-      return { name: undefined, smallAvatar: undefined }
+      return { name: undefined, avatar: undefined }
     }
-    const { fullName, smallAvatar } = profile
 
-    logger.info(`getUserProfile by field <${field}>`, { smallAvatar, fullName })
+    logger.info(`getUserProfile by field <${field}>`, { avatar, fullName })
     if (!fullName) {
       logger.info(`cannot get fullName from gun by field <${field}>`, { fullName })
     }
 
-    return { name: fullName, smallAvatar }
+    return { name: fullName, avatar }
   }
 
   notifyProfileUpdates() {
@@ -425,11 +439,7 @@ export class UserProfileStorage implements ProfileStorage {
   }
 
   subscribeProfileUpdates(callback: any => void) {
-    this.subscribersProfileUpdates.push(callback)
-
-    // if (this.profile) {
-    //   callback(this.profile)
-    // }
+    UserStorage.subscribeProfileUpdates(callback)
   }
 
   unSubscribeProfileUpdates() {

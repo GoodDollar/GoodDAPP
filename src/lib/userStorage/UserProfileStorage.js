@@ -1,8 +1,8 @@
 // @flow
-import { debounce, isFunction, isString, over } from 'lodash'
+import { assign, debounce, over, toPairs } from 'lodash'
 import { ExceptionCategory } from '../logger/exceptions'
 import Base64Storage from '../nft/Base64Storage'
-import { isValidBase64Image, isValidCIDImage, resizeImage } from '../utils/image'
+import { isValidBase64Image, resizeImage } from '../utils/image'
 import pino from '../logger/pino-logger'
 import isEmail from '../validators/isEmail'
 import isMobilePhone from '../validators/isMobilePhone'
@@ -40,17 +40,17 @@ export interface ProfileDB {
   deleteProfile(): Promise<any>;
 }
 
+// private methods couldn't be a part of the interface
+// by definition interface describes only public API
+// so they have been removed
 export interface ProfileStorage {
   init(): Promise<any>;
-  _encryptProfileFields(profile: Profile): Promise<any>;
-  _decryptProfileFields(profile: Profile): Promise<any>;
   setProfile(profile: Profile): Promise<any>;
   getProfile(): Profile;
   setProfileFields(fields: { [key: string]: ProfileField }): Promise<any>;
   setProfileField(field: string, value: string, privacy: FieldPrivacy, onlyPrivacy: boolean): Promise<ACK>;
+  setAvatar(avatar: string): Promise<void>;
   removeAvatar(): Promise<void>;
-  _storeAvatar(field: string, avatar: string, withCleanup: boolean): Promise<string>;
-  _removeBase64(field: string, updateRealmCallback: Function): Promise<void>;
   getProfileByWalletAddress(walletAddress: string): Promise<any>;
   getPublicProfile(key: string, value: string): { [field: string]: string };
   getProfileFieldValue(field: string): string;
@@ -188,8 +188,12 @@ export class UserProfileStorage implements ProfileStorage {
       throw errors
     }
 
-    if (profile.avatar) {
-      profile.smallAvatar = await resizeImage(profile.avatar, 50)
+    const { avatar } = profile
+
+    if (!!avatar && isValidBase64Image(avatar)) {
+      const cids = await this._resizeAndStoreAvatars(avatar)
+
+      assign(profile, cids)
     }
 
     const fieldsToSave = fields.reduce(
@@ -203,6 +207,7 @@ export class UserProfileStorage implements ProfileStorage {
       }),
       {},
     )
+
     return this.setProfileFields(fieldsToSave)
   }
 
@@ -221,6 +226,7 @@ export class UserProfileStorage implements ProfileStorage {
    */
   async setProfileFields(fields: { [key: string]: ProfileField }): Promise<any> {
     const encryptedFields = await this._encryptProfileFields(fields)
+
     await this.profiledb.setProfileFields(encryptedFields)
     this._setLocalProfile({ ...this.profile, ...fields })
   }
@@ -265,66 +271,55 @@ export class UserProfileStorage implements ProfileStorage {
     return this.setProfileFields({ [field]: { display, value, privacy } })
   }
 
-  async setSmallAvatar(avatar, withCleanup = false) {
-    const smallAvatar = await resizeImage(avatar, 50)
+  /**
+   * @returns {Promise<CID[]>}
+   */
+  async setAvatar(avatar) {
+    const cids = await this._resizeAndStoreAvatars(avatar)
 
-    return this._storeAvatar('smallAvatar', smallAvatar, withCleanup)
+    await Promise.all(
+      // eslint-disable-next-line require-await
+      toPairs(cids).map(async ([field, value]) => this.setProfileField(field, value, 'public')),
+    )
   }
 
   /**
    * remove Avatar from profile
    * @returns {Promise<[Promise<void>, Promise<void>, Promise<void>, Promise<void>, Promise<void>, Promise<void>, Promise<void>, Promise<void>, Promise<void>, Promise<void>]>}
    */
-  // eslint-disable-next-line require-await
   async removeAvatar(withCleanup = false): Promise<void> {
-    return Promise.all(
+    await Promise.all(
       // eslint-disable-next-line require-await
-      ['avatar', 'smallAvatar'].map(async field => {
-        // eslint-disable-next-line require-await
-        const updateRealmDB = async () => this.setProfileField(field, '', 'public')
-        if (withCleanup !== true) {
-          return updateRealmDB()
-        }
-        return this._removeBase64(field, updateRealmDB)
-      }),
+      ['avatar', 'smallAvatar'].map(async field => this.setProfileField(field, '', 'public')),
     )
   }
 
   /**
    * store Avatar
    * @param field
-   * @param avatar
+   * @param avatarDataUrl
    * @param withCleanup
-   * @returns {Promise<ACK>}
+   * @returns {Promise<{ avatar: CID, smallAvatar: CID }>}
    */
-  async _storeAvatar(field: string, avatar: string, withCleanup = false): Promise<string> {
-    const cid = await Base64Storage.store(avatar)
-    // eslint-disable-next-line require-await
-    const updateRealmDB = async () => this.setProfileField(field, cid, 'public')
-    if (withCleanup !== true) {
-      return updateRealmDB()
-    }
+  async _resizeAndStoreAvatars(avatarDataUrl: string): Promise<{ avatar: string, smallAvatar: string }> {
+    let resizedDataUrl
+    const avatarSizes = [320, 50]
 
-    return this._removeBase64(field, updateRealmDB)
-  }
+    const resizedAvatars = await Promise.all(
+      avatarSizes.map(async size => {
+        resizedDataUrl = await resizeImage(resizedDataUrl || avatarDataUrl, size)
 
-  /**
-   * remove base64 avatar from cache
-   * @param field
-   * @param updateRealmCallback
-   * @returns {Promise<void>}
-   * @private
-   */
-  async _removeBase64(field: string, updateRealmCallback = null): Promise<void> {
-    const cid = await this.getProfileFieldValue(field)
+        return resizedDataUrl
+      }),
+    )
 
-    if (isFunction(updateRealmCallback)) {
-      await updateRealmCallback()
-    }
+    // TODO: replace via IPFS.store() call once #3370 will be merged
+    const [avatar, smallAvatar] = await Promise.all(
+      // eslint-disable-next-line require-await
+      resizedAvatars.map(async dataUrl => Base64Storage.store(dataUrl)),
+    )
 
-    if (isString(cid) && !isValidBase64Image(cid) && isValidCIDImage(cid)) {
-      await Base64Storage.delete(cid)
-    }
+    return { avatar, smallAvatar }
   }
 
   /**

@@ -17,7 +17,6 @@ import API from '../API/api'
 import pino from '../logger/pino-logger'
 import { ExceptionCategory } from '../logger/exceptions'
 import isMobilePhone from '../validators/isMobilePhone'
-import { resizeImage } from '../utils/image'
 
 import { GD_GUN_CREDENTIALS } from '../constants/localStorage'
 import AsyncStorage from '../utils/asyncStorage'
@@ -594,24 +593,23 @@ export class UserStorage {
   // checkAvatar was removed as we don't need to keep updates/migrations only funcitons in the common API
 
   async setAvatar(avatar, withCleanup = false) {
-    // save space and load on gun
-    const avatarResized = await resizeImage(avatar, 320)
-    // eslint-disable-next-line
-    await Promise.all([
-      this.userProfileStorage._storeAvatar('avatar', avatarResized, withCleanup),
-      this.userProfileStorage.setSmallAvatar(avatarResized, withCleanup),
-    ])
+    // // save space and load on gun
+    // const avatarResized = await resizeImage(avatar, 320)
+    // // eslint-disable-next-line
+    // await Promise.all([
+    //   this.userProfileStorage._storeAvatar('avatar', avatarResized, withCleanup),
+    //   this.userProfileStorage.setSmallAvatar(avatarResized, withCleanup),
+    // ])
   }
 
   async setSmallAvatar(avatar, withCleanup = false) {
-    const smallAvatar = await resizeImage(avatar, 50)
-
-    return this.userProfileStorage._storeAvatar('smallAvatar', smallAvatar, withCleanup)
+    // const smallAvatar = await resizeImage(avatar, 50)
+    // return this.userProfileStorage._storeAvatar('smallAvatar', smallAvatar, withCleanup)
   }
 
   // eslint-disable-next-line require-await
   async removeAvatar(withCleanup = false) {
-    return this.userProfileStorage.removeAvatar(withCleanup)
+    // return this.userProfileStorage.removeAvatar(withCleanup)
   }
 
   /**

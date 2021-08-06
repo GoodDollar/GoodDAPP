@@ -3,7 +3,7 @@ import bip39 from 'bip39-light'
 import faker from 'faker'
 import { GoodWallet } from '../src/lib/wallet/GoodWalletClass'
 import { GoodWalletLogin } from '../src/lib/login/GoodWalletLogin'
-import { UserStorage } from '../src/lib/gundb/UserStorageClass'
+import { UserStorage } from '../src/lib/userStorage/UserStorageClass'
 import Config from '../src/config/config'
 import API from '../src/lib/API/api'
 const Timeout = (timeout = 3000) => {

@@ -1,20 +1,6 @@
 //@flow
 
-import {
-  debounce,
-  defaults,
-  get,
-  isEmpty,
-  isError,
-  isFunction,
-  isNil,
-  isString,
-  keys,
-  last,
-  memoize,
-  over,
-  pick,
-} from 'lodash'
+import { debounce, get, isEmpty, isError, isNil, isString, memoize, over } from 'lodash'
 
 import moment from 'moment'
 import Gun from '@gooddollar/gun'
@@ -31,15 +17,13 @@ import API from '../API/api'
 import pino from '../logger/pino-logger'
 import { ExceptionCategory } from '../logger/exceptions'
 import isMobilePhone from '../validators/isMobilePhone'
-import { isValidBase64Image, isValidCIDImage, resizeImage } from '../utils/image'
+import { resizeImage } from '../utils/image'
 
 import { GD_GUN_CREDENTIALS } from '../constants/localStorage'
 import AsyncStorage from '../utils/asyncStorage'
-import Base64Storage from '../nft/Base64Storage'
 import defaultGun from '../gundb/gundb'
-import { getUserModel, type UserModel } from '../gundb/UserModel'
 import { type StandardFeed } from '../gundb/StandardFeed'
-import { UserProfileStorage } from './UserProfileStorage'
+import { Profile, UserProfileStorage } from './UserProfileStorage'
 import UserProperties from './UserProperties'
 import { FeedEvent, FeedItemType, FeedStorage, TxStatus } from './FeedStorage'
 import type { DB } from './UserStorage'
@@ -837,16 +821,14 @@ export class UserStorage {
   }
 
   subscribeProfileUpdates(callback: any => void) {
-    this.subscribersProfileUpdates.push(callback)
-    if (this._lastProfileUpdate) {
-      callback(this._lastProfileUpdate)
-    }
+    this.userProfileStorage.subscribeProfileUpdates(callback)
   }
 
   unSubscribeProfileUpdates() {
     this.subscribersProfileUpdates = []
   }
 
+  // eslint-disable-next-line require-await
   async getFieldPrivacy(field) {
     return this.userProfileStorage.getFieldPrivacy(field)
   }
@@ -860,6 +842,7 @@ export class UserStorage {
    * @returns {Promise} Promise with profile settings updates and privacy validations
    * @throws Error if profile is invalid
    */
+  // eslint-disable-next-line require-await
   async setProfile(profile: UserModel, update: boolean = false): Promise<> {
     return this.userProfileStorage.setProfile(profile, update)
   }
@@ -868,7 +851,7 @@ export class UserStorage {
    *
    * @param {string} field
    * @param {string} value
-   * @param {string} privacy
+   * @param trusted
    * @returns {boolean}
    */
   static isValidValue(field: string, value: string, trusted: boolean = false) {
@@ -887,6 +870,7 @@ export class UserStorage {
     return true
   }
 
+  // eslint-disable-next-line require-await
   async validateProfile(profile: any) {
     return this.userProfileStorage.validateProfile(profile)
   }
@@ -897,6 +881,7 @@ export class UserStorage {
    * @param {string} field - Profile attribute
    * @param {string} value - Profile attribute value
    * @param {string} privacy - (private | public | masked)
+   * @param onlyPrivacy
    * @returns {Promise} Promise with updated field value, secret, display and privacy.
    */
   // eslint-disable-next-line require-await
@@ -974,6 +959,7 @@ export class UserStorage {
    * @param {string} privacy - (private | public | masked)
    * @returns {Promise} Promise with updated field value, secret, display and privacy.
    */
+  // eslint-disable-next-line require-await
   async setProfileFieldPrivacy(field: string, privacy: FieldPrivacy): Promise<ACK> {
     return this.userProfileStorage.setProfileFieldPrivacy(field, privacy)
   }
@@ -1181,6 +1167,7 @@ export class UserStorage {
    * @param {string} field - Profile field value (email, mobile or wallet address value)
    * @returns {object} profile - { name, avatar }
    */
+  // eslint-disable-next-line require-await
   async getUserProfile(field: string = ''): { name: String, avatar: String } {
     return this.userProfileStorage.getUserProfile(field)
   }
@@ -1467,7 +1454,7 @@ export class UserStorage {
     await this.updateOTPLEventStatus(eventId, 'cancelled')
   }
 
-  async getProfile(): Promise<any> {
+  getProfile(): Profile {
     return this.userProfileStorage.getProfile()
   }
 
@@ -1486,8 +1473,9 @@ export class UserStorage {
     return this.loadGunField(profileNode)
   }
 
-  async getPublicProfile(): Promise<any> {
-    return this.userProfileStorage.getPublicProfile()
+  // eslint-disable-next-line require-await
+  async getPublicProfile(key: string, string: string): Promise<any> {
+    return this.userProfileStorage.getPublicProfile(key, string)
   }
 
   getFaceIdentifier(): string {
@@ -1507,14 +1495,10 @@ export class UserStorage {
   }
 
   /**
-   * @private
-   */
-  _getProfileFields = profile => keys(profile).filter(field => !['_', 'initialized'].includes(field))
-
-  /**
    * remove user from indexes
    * deleting profile actually doesn't delete but encrypts everything
    */
+  // eslint-disable-next-line require-await
   async deleteProfile(): Promise<boolean> {
     return this.userProfileStorage.deleteProfile()
   }

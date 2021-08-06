@@ -378,7 +378,7 @@ class RealmDB implements DB, ProfileDB {
    * @returns {Promise<any | null>}
    */
   getProfileByWalletAddress(walletAddress: string): Promise<any> {
-    return this._profiles().getProfileByField('walletAddress', walletAddress)
+    return this.getProfileByField('walletAddress', walletAddress)
   }
 
   /**

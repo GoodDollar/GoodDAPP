@@ -1,5 +1,5 @@
 // @flow
-import { isFunction, isString, over } from 'lodash'
+import { debounce, isFunction, isString, over } from 'lodash'
 import { getUserModel } from '../gundb/UserModel'
 import type { UserModel } from '../gundb/UserModel'
 import Base64Storage from '../nft/Base64Storage'
@@ -83,6 +83,8 @@ export class UserProfileStorage implements ProfileStorage {
     username: { defaultPrivacy: 'public' },
   }
 
+  _lastProfileUpdate: any
+
   subscribersProfileUpdates = []
 
   walletAddressIndex = {}
@@ -113,6 +115,15 @@ export class UserProfileStorage implements ProfileStorage {
   _setLocalProfile(newValue) {
     // this.subscribeProfileUpdates(newValue)
     this.profile = newValue
+    const onProfileUpdate = debounce(
+      doc => {
+        this._lastProfileUpdate = doc
+        over(this.subscribersProfileUpdates)(doc)
+      },
+      500,
+      { leading: false, trailing: true },
+    )
+    onProfileUpdate(newValue)
   }
 
   /**
@@ -436,7 +447,10 @@ export class UserProfileStorage implements ProfileStorage {
   }
 
   subscribeProfileUpdates(callback: any => void) {
-    UserStorage.subscribeProfileUpdates(callback)
+    this.subscribersProfileUpdates.push(callback)
+    if (this._lastProfileUpdate) {
+      callback(this._lastProfileUpdate)
+    }
   }
 
   unSubscribeProfileUpdates() {

@@ -37,6 +37,7 @@ export interface ProfileDB {
   setProfileFields(fields: { key: String, field: ProfileField }): Promise<any>;
   encryptField(item: string): string;
   decryptField(item: string): string;
+  removeField(field: string): Promise<any>;
   deleteProfile(): Promise<any>;
 }
 
@@ -103,7 +104,14 @@ export class UserProfileStorage implements ProfileStorage {
    */
   async init() {
     const rawProfile = await this.profiledb.getProfile()
-    this._setLocalProfile(await this._decryptProfileFields(rawProfile))
+    const decryptedProfile = await this._decryptProfileFields(rawProfile)
+    if (!decryptedProfile.avatar) {
+      decryptedProfile.avatar = { value: null, display: null, privacy: 'public' }
+    }
+    if (!decryptedProfile.smallAvatar) {
+      decryptedProfile.smallAvatar = { value: null, display: null, privacy: 'public' }
+    }
+    this._setLocalProfile(decryptedProfile)
   }
 
   /**
@@ -283,6 +291,13 @@ export class UserProfileStorage implements ProfileStorage {
     )
   }
 
+  removeField(field) {
+    const profileToUpdate = this.profile
+    profileToUpdate[field] = { value: null, display: null, privacy: 'public' }
+    this._setLocalProfile(profileToUpdate)
+    return this.profiledb.removeField(field)
+  }
+
   /**
    * remove Avatar from profile
    * @returns {Promise<[Promise<void>, Promise<void>, Promise<void>, Promise<void>, Promise<void>, Promise<void>, Promise<void>, Promise<void>, Promise<void>, Promise<void>]>}
@@ -290,15 +305,13 @@ export class UserProfileStorage implements ProfileStorage {
   async removeAvatar(withCleanup = false): Promise<void> {
     await Promise.all(
       // eslint-disable-next-line require-await
-      ['avatar', 'smallAvatar'].map(async field => this.setProfileField(field, '', 'public')),
+      ['avatar', 'smallAvatar'].map(async field => this.removeField(field)),
     )
   }
 
   /**
    * store Avatar
-   * @param field
    * @param avatarDataUrl
-   * @param withCleanup
    * @returns {Promise<{ avatar: CID, smallAvatar: CID }>}
    */
   async _resizeAndStoreAvatars(avatarDataUrl: string): Promise<{ avatar: string, smallAvatar: string }> {
@@ -350,8 +363,9 @@ export class UserProfileStorage implements ProfileStorage {
         }),
         {},
       )
-
-    // publicProfile.smallAvatar = await Base64Storage.load(this.profile.smallAvatar)
+    if (this.profile.smallAvatar) {
+      publicProfile.smallAvatar = this.profile.smallAvatar
+    }
     return publicProfile
   }
 

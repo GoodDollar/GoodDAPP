@@ -391,6 +391,15 @@ class RealmDB implements DB, ProfileDB {
   }
 
   /**
+   * Removing the field from record
+   * @param field
+   * @returns {Promise<Realm.Services.MongoDB.UpdateResult<*>>}
+   */
+  removeField(field) {
+    return this._profiles().updateOne({ user_id: this.user.id }, { $unset: { [field]: { value: null } } })
+  }
+
+  /**
    * Removing user profile
    * @returns {Promise<any | null>}
    */

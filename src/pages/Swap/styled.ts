@@ -11,6 +11,8 @@ export const SwapCardSC = styled.div`
     @media ${({ theme }) => theme.media.md} {
         margin-left: 0;
         align-self: center;
+        max-width: 100%;
+        width: 500px;
     }
 
     .switch {

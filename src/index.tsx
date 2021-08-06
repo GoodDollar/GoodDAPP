@@ -52,6 +52,22 @@ const GlobalStyle = createGlobalStyle`
   body {
       color: ${({ theme }) => theme.color.text1};
   }
+
+  ::-webkit-scrollbar {
+    background-color: ${({ theme }) => theme.color.main};
+    width: 16px;
+  }
+  ::-webkit-scrollbar-track {
+    background-color: ${({ theme }) => theme.color.main};
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: #babac0;
+    border-radius: 16px;
+    border: 4px solid ${({ theme }) => theme.color.main};
+  }
+  ::-webkit-scrollbar-button {
+    display:none;
+  }
 `
 
 ReactDOM.render(

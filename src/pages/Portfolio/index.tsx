@@ -71,13 +71,13 @@ const Portfolio = () => {
         <>
             <Card className="mb-4">
                 <PortfolioAnalyticSC className="flex">
-                    <div className="flex flex-col flex-grow">
+                    <div className="flex flex-col">
                         <Title type="category">My Stake</Title>
                         <PortfolioValueSC>
                             ~{data?.aggregated?.myStake.toFixed(2, { groupSeparator: ',' }) ?? '0.00'}$
                         </PortfolioValueSC>
                     </div>
-                    <div className="flex flex-col" style={{ flexGrow: 2 }}>
+                    <div className="flex flex-col">
                         <Title type="category">G$ Rewards</Title>
                         <PortfolioValueSC>
                             {data?.aggregated?.rewardsG$.toSignificant(6, { groupSeparator: ',' }) ?? '0.00'}{' '}
@@ -88,7 +88,7 @@ const Portfolio = () => {
                             </small>
                         </PortfolioValueSC>
                     </div>
-                    <div className="flex flex-col flex-grow">
+                    <div className="flex flex-col">
                         <Title type="category">GDAO Rewards</Title>
                         <PortfolioValueSC>
                             {data?.aggregated?.rewardsGDAO.toSignificant(6, { groupSeparator: ',' }) ?? '0.00'}{' '}
@@ -112,12 +112,12 @@ const Portfolio = () => {
             </Card>
             <Card className="mb-4">
                 <PortfolioAnalyticSC className="flex">
-                    <div className="flex flex-col justify-center flex-grow">
+                    <div className="flex flex-col justify-center ">
                         <PortfolioTitleSC className="claimable-rewards">
                             Claimable <br /> rewards
                         </PortfolioTitleSC>
                     </div>
-                    <div className="flex flex-col " style={{ flexGrow: 2 }}>
+                    <div className="flex flex-col">
                         <Title type="category">G$ Rewards</Title>
                         <PortfolioValueSC>
                             {data?.aggregated?.rewardsG$Unclaimed.toSignificant(6, { groupSeparator: ',' }) ?? '0.00'}{' '}
@@ -128,7 +128,7 @@ const Portfolio = () => {
                             </small>
                         </PortfolioValueSC>
                     </div>
-                    <div className="flex flex-col  flex-grow">
+                    <div className="flex flex-col">
                         <Title type="category">GDAO Rewards</Title>
                         <PortfolioValueSC>
                             {data?.aggregated?.rewardsGDAOUnclaimed.toSignificant(6, { groupSeparator: ',' }) ?? '0.00'}{' '}

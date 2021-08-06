@@ -24,9 +24,9 @@ export const Beta = styled.div`
     text-align: center;
 `
 
-const ContentWrapper = styled.div`
+const Wrapper = styled.div`
     @media ${({ theme }) => theme.media.md} {
-        padding-bottom: 85px;
+        padding-bottom: 75px;
     }
 `
 
@@ -101,11 +101,11 @@ function App(): JSX.Element {
         <Suspense fallback={null}>
             <div className="flex flex-col h-screen overflow-hidden">
                 <AppBar />
-                <div className="flex flex-grow overflow-hidden">
+                <Wrapper className="flex flex-grow overflow-hidden">
                     <SideBar />
-                    <ContentWrapper
+                    <div
                         ref={bodyRef}
-                        className="flex flex-col items-center justify-between flex-grow h-full overflow-y-auto overflow-x-hidden z-0 pt-4 sm:pt-8 px-4 md:pt-10 pb-8"
+                        className="flex flex-col items-center justify-between flex-grow h-full overflow-y-auto overflow-x-hidden z-0 pt-4 sm:pt-8 px-4 md:pt-10 pb-3 lg:pb-8"
                         style={{
                             background: theme.color.mainBg
                         }}
@@ -118,8 +118,8 @@ function App(): JSX.Element {
                             </div>
                         </Web3ReactManager>
                         <Beta className="mt-3 lg:mt-8">This project is in beta. Use at your own risk</Beta>
-                    </ContentWrapper>
-                </div>
+                    </div>
+                </Wrapper>
             </div>
         </Suspense>
     )

@@ -330,18 +330,6 @@ export class APIService {
   }
 
   /**
-   * Get array buffer from image url
-   * @param {string} url - image url
-   */
-  getBase64FromImageUrl(url: string) {
-    return axios.get(url, { responseType: 'arraybuffer' }).then(response => {
-      let image = btoa(new Uint8Array(response.data).reduce((data, byte) => data + String.fromCharCode(byte), ''))
-
-      return `data:${response.headers['content-type'].toLowerCase()};base64,${image}`
-    })
-  }
-
-  /**
    * `/trust` get api call
    */
   getTrust() {

@@ -11,8 +11,9 @@ export default async ({ pickerOptions, wrappedUserStorage, showErrorDialog, avat
   // iOS supports reading from a base64 string, android does not.
   const { mime, data } = await Platform.select({
     // eslint-disable-next-line require-await
-    android: () => withTemporaryFile(avatar, async ({ uri }) => crop(uri)),
-    default: () => crop(avatar),
+    android: async () => withTemporaryFile(avatar, async ({ uri }) => crop(uri)),
+    // eslint-disable-next-line require-await
+    default: async () => crop(avatar),
   })()
 
   const newAvatar = assembleDataUrl(data, mime)

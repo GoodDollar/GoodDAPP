@@ -52,6 +52,17 @@ const profile = {
   },
 }
 
+const profileKeyValue = {
+  avatar: 'https://via.placeholder.com/150',
+  email: 'julian@gooddollar.org',
+  fullName: 'Julian Kobryński',
+  mnemonic: 'duty disorder rocket velvet later fabric scheme paddle remove phone target medal',
+  username: 'juliankobrynski',
+  mobile: '+48507471353',
+  walletAddress: '0x740E22161DEEAa60b8b0b5cDAAA091534Ff21649',
+  smallAvatar: 'https://via.placeholder.com/150',
+}
+
 describe('UserProfileStorage', () => {
   let userProfileStorage
 
@@ -147,9 +158,7 @@ describe('UserProfileStorage', () => {
     })
 
     // Reset profile
-    await userProfileStorage.setProfile(profile, true)
-
-    // console.log('OLD PROFILE', userProfileStorage.profile)
+    await userProfileStorage.setProfile(profileKeyValue, true)
   })
 
   it('should set public profile field', async () => {

@@ -2,6 +2,7 @@
 import { debounce, isFunction, isString, over } from 'lodash'
 import { getUserModel } from '../gundb/UserModel'
 import type { UserModel } from '../gundb/UserModel'
+import { ExceptionCategory } from '../logger/exceptions'
 import Base64Storage from '../nft/Base64Storage'
 import { isValidBase64Image, isValidCIDImage, resizeImage } from '../utils/image'
 import pino from '../logger/pino-logger'
@@ -64,8 +65,6 @@ export interface ProfileStorage {
   deleteProfile(): Promise<boolean>;
 }
 
-//TODO:
-//3. TODO: ask Hadar about modify usage in undux/effect
 //5. implement pubsub for profile changes (one method to subscribe for profile updates, when profile changes notify the subscribers)
 export class UserProfileStorage implements ProfileStorage {
   profileDefaults: {} = {
@@ -175,24 +174,39 @@ export class UserProfileStorage implements ProfileStorage {
    * @param update
    */
   async setProfile(profile, update: boolean = false): Promise<any> {
-    if (update) {
-      const { getErrors, isValid, validate, ...profileFields } = profile
-      const fieldsToSave = Object.keys(profileFields).reduce(
-        (acc, currKey) => ({
-          ...acc,
-          [currKey]: {
-            value: profileFields[currKey],
-            display: profileFields[currKey],
-            privacy: this.getFieldPrivacy(currKey),
-          },
-        }),
-        {},
-      )
-      await this.setProfileFields(fieldsToSave)
-    } else {
-      const encryptedProfile = await this._encryptProfileFields(profile)
-      await this.profiledb.setProfile(encryptedProfile)
+    if (profile && !profile.validate) {
+      profile = getUserModel(profile)
     }
+    const fields = Object.keys(profile).filter(prop => UserStorage.indexableFields[prop])
+    let { errors, isValid } = profile.validate(update)
+
+    if (!isValid) {
+      logger.warn(
+        'setProfile failed',
+        'Fields validation failed',
+        new Error('setProfile failed: Fields validation failed'),
+        { errors, category: ExceptionCategory.Human },
+      )
+
+      throw errors
+    }
+
+    if (profile.avatar) {
+      profile.smallAvatar = await resizeImage(profile.avatar, 50)
+    }
+
+    const fieldsToSave = fields.reduce(
+      (acc, currKey) => ({
+        ...acc,
+        [currKey]: {
+          value: profile[currKey],
+          display: profile[currKey],
+          privacy: this.getFieldPrivacy(currKey),
+        },
+      }),
+      {},
+    )
+    return this.setProfileFields(fieldsToSave)
   }
 
   /**
@@ -361,7 +375,6 @@ export class UserProfileStorage implements ProfileStorage {
     return this.profile[field]
   }
 
-  //TODO: modify usage in undux/effect
   /**
    * Return display attribute of each profile property
    * @returns {UserModel}
@@ -377,7 +390,6 @@ export class UserProfileStorage implements ProfileStorage {
     return getUserModel(displayProfile)
   }
 
-  //TODO: modify usage in undux/effect
   /**
    * Returns user model with attribute values
    * @returns {UserModel}

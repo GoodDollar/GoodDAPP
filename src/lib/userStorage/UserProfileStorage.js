@@ -174,10 +174,18 @@ export class UserProfileStorage implements ProfileStorage {
   async setProfile(profile, update: boolean = false): Promise<any> {
     if (update) {
       const { getErrors, isValid, validate, ...profileFields } = profile
-      await Promise.all(
-        // eslint-disable-next-line no-return-await
-        Object.keys(profileFields).map(async key => await this.setProfileField(key, profileFields[key])),
+      const fieldsToSave = Object.keys(profileFields).reduce(
+        (acc, currKey) => ({
+          ...acc,
+          [currKey]: {
+            value: profileFields[currKey],
+            display: profileFields[currKey],
+            privacy: this.getFieldPrivacy(currKey),
+          },
+        }),
+        {},
       )
+      await this.setProfileFields(fieldsToSave)
     } else {
       const encryptedProfile = await this._encryptProfileFields(profile)
       await this.profiledb.setProfile(encryptedProfile)

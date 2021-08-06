@@ -120,7 +120,6 @@ export class UserProfileStorage implements ProfileStorage {
    * @private
    */
   _setLocalProfile(newValue) {
-    // this.subscribeProfileUpdates(newValue)
     this.profile = newValue
     const onProfileUpdate = debounce(
       doc => {
@@ -469,10 +468,6 @@ export class UserProfileStorage implements ProfileStorage {
     }
 
     return { name: fullName, avatar }
-  }
-
-  notifyProfileUpdates() {
-    over(this.subscribersProfileUpdates)(this.profile)
   }
 
   subscribeProfileUpdates(callback: any => void) {

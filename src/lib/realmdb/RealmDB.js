@@ -351,7 +351,11 @@ class RealmDB implements DB, ProfileDB {
 
   //TODO:  make sure profile contains walletaddress or enforce it in schema in realmdb
   setProfile(profile) {
-    this._profiles().updateOne({ user_id: this.user.id }, { user_id: this.user.id, ...profile }, { upsert: true })
+    return this._profiles().updateOne(
+      { user_id: this.user.id },
+      { user_id: this.user.id, ...profile },
+      { upsert: true },
+    )
   }
 
   /**
@@ -404,7 +408,7 @@ class RealmDB implements DB, ProfileDB {
    * @returns {Promise<any | null>}
    */
   deleteProfile() {
-    return this._profiles().findOneAndDelete({ user_id: this.user.id })
+    return this._profiles().deleteOne({ user_id: this.user.id })
   }
 }
 

@@ -237,7 +237,7 @@ export class UserProfileStorage implements ProfileStorage {
       // eslint-disable-next-line require-await
       ['avatar', 'smallAvatar'].map(async field => {
         // eslint-disable-next-line require-await
-        const updateRealmDB = async () => this.setProfileField(field, null, 'public')
+        const updateRealmDB = async () => this.setProfileField(field, '', 'public')
         if (withCleanup !== true) {
           return updateRealmDB()
         }
@@ -406,11 +406,11 @@ export class UserProfileStorage implements ProfileStorage {
     const attr = isMobilePhone(field) ? 'mobile' : isEmail(field) ? 'email' : 'walletAddress'
 
     const profile = await this.getPublicProfile(attr, field)
-    const { fullName, smallAvatar } = profile
     if (profile == null) {
       logger.info(`getUserProfile by field <${field}> `)
       return { name: undefined, smallAvatar: undefined }
     }
+    const { fullName, smallAvatar } = profile
 
     logger.info(`getUserProfile by field <${field}>`, { smallAvatar, fullName })
     if (!fullName) {

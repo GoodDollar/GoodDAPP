@@ -128,12 +128,12 @@ describe('UserProfileStorage', () => {
     const oldProfile = userProfileStorage.profile
     const fieldsToUpdate = {
       fullName: {
-        value: '',
+        value: 'John Doe',
         display: 'John Doe',
         privacy: 'public',
       },
       username: {
-        value: '',
+        value: 'johndoe123',
         display: 'johndoe123',
         privacy: 'public',
       },
@@ -145,6 +145,11 @@ describe('UserProfileStorage', () => {
     Object.keys(fieldsToUpdate).forEach(key => {
       expect(fieldsToUpdate[key].value).toEqual(newProfile[key].value)
     })
+
+    // Reset profile
+    await userProfileStorage.setProfile(profile, true)
+
+    // console.log('OLD PROFILE', userProfileStorage.profile)
   })
 
   it('should set public profile field', async () => {
@@ -177,7 +182,7 @@ describe('UserProfileStorage', () => {
 
   it('should get prodile by wallet address', async () => {
     // Reset profile
-    await userProfileStorage.setProfile(profile)
+    await userProfileStorage.setProfile(profile, true)
     const foundProfile = await userProfileStorage.getProfileByWalletAddress(
       userProfileStorage.profile.walletAddress.display,
     )
@@ -206,6 +211,8 @@ describe('UserProfileStorage', () => {
 
   it('should get profile by full name', async () => {
     const fullName = userProfileStorage.profile.fullName.display
+
+    // console.log('FULL NAME', fullName)
     const foundProfile = await userProfileStorage.getPublicProfile('fullName', fullName)
     expect(foundProfile.fullName).toEqual(fullName)
   })

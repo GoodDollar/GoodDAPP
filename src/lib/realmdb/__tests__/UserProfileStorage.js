@@ -10,57 +10,27 @@ fromEntries.shim()
 jest.setTimeout(30000)
 
 const profile = {
-  avatar: {
-    display: 'https://via.placeholder.com/150',
-    value: 'https://via.placeholder.com/150',
-    privacy: 'public',
-  },
-  email: {
-    display: 'julian@gooddollar.org',
-    value: 'julian@gooddollar.org',
-    privacy: 'public',
-  },
-  fullName: {
-    value: 'Julian Kobryński',
-    display: 'Julian Kobryński',
-    privacy: 'public',
-  },
-  mnemonic: {
-    value: 'duty disorder rocket velvet later fabric scheme paddle remove phone target medal',
-    display: 'duty disorder rocket velvet later fabric scheme paddle remove phone target medal',
-    privacy: 'public',
-  },
-  username: {
-    value: 'juliankobrynski',
-    display: 'juliankobrynski',
-    privacy: 'public',
-  },
-  mobile: {
-    value: '+48507471353',
-    display: '+48507471353',
-    privacy: 'public',
-  },
-  walletAddress: {
-    value: '0x740E22161DEEAa60b8b0b5cDAAA091534Ff21649',
-    display: '0x740E22161DEEAa60b8b0b5cDAAA091534Ff21649',
-    privacy: 'public',
-  },
-  smallAvatar: {
-    display: 'https://via.placeholder.com/150',
-    value: 'https://via.placeholder.com/150',
-    privacy: 'public',
-  },
-}
-
-const profileKeyValue = {
-  avatar: 'https://via.placeholder.com/150',
+  // avatar: '',
   email: 'julian@gooddollar.org',
   fullName: 'Julian Kobryński',
   mnemonic: 'duty disorder rocket velvet later fabric scheme paddle remove phone target medal',
   username: 'juliankobrynski',
   mobile: '+48507471353',
   walletAddress: '0x740E22161DEEAa60b8b0b5cDAAA091534Ff21649',
-  smallAvatar: 'https://via.placeholder.com/150',
+
+  // smallAvatar: '',
+}
+
+const profileKeyValue = {
+  // avatar: '',
+  email: 'julian@gooddollar.org',
+  fullName: 'Julian Kobryński',
+  mnemonic: 'duty disorder rocket velvet later fabric scheme paddle remove phone target medal',
+  username: 'juliankobrynski',
+  mobile: '+48507471353',
+  walletAddress: '0x740E22161DEEAa60b8b0b5cDAAA091534Ff21649',
+
+  // smallAvatar: '',
 }
 
 describe('UserProfileStorage', () => {
@@ -90,7 +60,7 @@ describe('UserProfileStorage', () => {
 
     // Check if values were encrypted
     Object.keys(fields).forEach(key => {
-      expect(profile[key].value).not.toEqual(encryptedProfile[key].value)
+      expect(profile[key]).not.toEqual(encryptedProfile[key].value)
     })
   })
 
@@ -106,7 +76,7 @@ describe('UserProfileStorage', () => {
       userProfileStorage.profile,
     )
 
-    // // Check if values are the same as in the original object
+    // Check if values are the same as in the original object
     expect(fields).toEqual(profile)
   })
 

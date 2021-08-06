@@ -11,8 +11,8 @@ jest.setTimeout(30000)
 
 const profile = {
   avatar: {
-    display: '',
-    value: '',
+    display: 'https://via.placeholder.com/150',
+    value: 'https://via.placeholder.com/150',
     privacy: 'public',
   },
   email: {
@@ -46,8 +46,8 @@ const profile = {
     privacy: 'public',
   },
   smallAvatar: {
-    display: '',
-    value: '',
+    display: 'https://via.placeholder.com/150',
+    value: 'https://via.placeholder.com/150',
     privacy: 'public',
   },
 }
@@ -415,5 +415,53 @@ describe('UserProfileStorage', () => {
     // console.log(errors)
     expect(isValid).toBeFalsy()
     expect(errors).toEqual(expect.objectContaining({ email: 'Unavailable email' }))
+    expect(errors).toEqual(expect.objectContaining({ mnemonic: 'Unavailable mnemonic' }))
+    expect(errors).toEqual(expect.objectContaining({ username: 'Unavailable username' }))
+    expect(errors).toEqual(expect.objectContaining({ mobile: 'Unavailable mobile' }))
+    expect(errors).toEqual(expect.objectContaining({ walletAddress: 'Unavailable walletAddress' }))
   })
+
+  it('should set profile field to private', async () => {
+    await userProfileStorage.setProfileFieldPrivacy('email', 'private')
+    expect(userProfileStorage.getFieldPrivacy('email')).toEqual('private')
+  })
+
+  it('should set profile field to masked', async () => {
+    await userProfileStorage.setProfileFieldPrivacy('email', 'masked')
+    expect(userProfileStorage.getFieldPrivacy('email')).toEqual('masked')
+  })
+
+  it('should set profile field to public', async () => {
+    await userProfileStorage.setProfileFieldPrivacy('email', 'public')
+    expect(userProfileStorage.getFieldPrivacy('email')).toEqual('public')
+  })
+
+  it('should find profile using getUserProfile with valid email', async () => {
+    const foundProfile = await userProfileStorage.getUserProfile(userProfileStorage.profile.email.value)
+    expect(foundProfile).toEqual(expect.objectContaining({ name: userProfileStorage.profile.fullName.value }))
+  })
+
+  it('should find profile using getUserProfile with valid mobile', async () => {
+    const foundProfile = await userProfileStorage.getUserProfile(userProfileStorage.profile.mobile.value)
+    expect(foundProfile).toEqual(expect.objectContaining({ name: userProfileStorage.profile.fullName.value }))
+  })
+
+  it('should find profile using getUserProfile with valid walletAddress', async () => {
+    const foundProfile = await userProfileStorage.getUserProfile(userProfileStorage.profile.walletAddress.value)
+    expect(foundProfile).toEqual(expect.objectContaining({ name: userProfileStorage.profile.fullName.value }))
+  })
+
+  // it('should not find profile using getUserProfile with invalid email', async () => {
+  //   const foundProfile = await userProfileStorage.getUserProfile('123123123')
+  //   console.log(foundProfile)
+  //   // expect(foundProfile).toEqual(expect.objectContaining({ name: userProfileStorage.profile.fullName.value }))
+  // })
+
+  // it('should delete profile', async () => {
+  //   await userProfileStorage.deleteProfile()
+
+  //   // await userProfileStorage.init()
+  //   // console.log(userProfileStorage.profile)
+  //   expect(userProfileStorage.profile).toEqual({})
+  // })
 })

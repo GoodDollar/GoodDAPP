@@ -26,13 +26,16 @@ function WithdrawRewards({ trigger, onClaim, ...rest }: WithdrawRewardsProps) {
     const { chainId } = useActiveWeb3React()
     const [error, setError] = useState<Error>()
     const web3 = useWeb3()
-    const [transactionDetails, setTransactionDetails] = useState<TransactionDetails>()
+    const [transactionHash, setTransactionHash] = useState<string>()
     const dispatch = useDispatch()
     const handleClaim = useCallback(async () => {
         if (!web3) return
         try {
             setStatus('pending')
-            const transactions = await claim(web3)
+            const transactions = await claim(web3, firstTransactionHash => {
+                setTransactionHash(firstTransactionHash)
+                setStatus('success')
+            })
             transactions.forEach(transactionDetails =>
                 dispatch(
                     addTransaction({
@@ -42,8 +45,6 @@ function WithdrawRewards({ trigger, onClaim, ...rest }: WithdrawRewardsProps) {
                     })
                 )
             )
-            setTransactionDetails(transactions[transactions.length - 1])
-            setStatus('success')
             onClaim()
         } catch (e) {
             setStatus('none')
@@ -59,7 +60,7 @@ function WithdrawRewards({ trigger, onClaim, ...rest }: WithdrawRewardsProps) {
         if (isModalOpen && status !== 'none') {
             setStatus('none')
             setError(undefined)
-            setTransactionDetails(undefined)
+            setTransactionHash(undefined)
         }
     }, [isModalOpen])
 
@@ -94,13 +95,8 @@ function WithdrawRewards({ trigger, onClaim, ...rest }: WithdrawRewardsProps) {
                             <Title className="flex flex-grow justify-center pt-3">Success!</Title>
                             <div className="flex justify-center items-center gap-2 pt-7 pb-7">
                                 Transaction was sent to the blockchain{' '}
-                                {transactionDetails && (
-                                    <a
-                                        href={
-                                            chainId &&
-                                            getExplorerLink(chainId, transactionDetails?.transactionHash, 'transaction')
-                                        }
-                                    >
+                                {transactionHash && (
+                                    <a href={chainId && getExplorerLink(chainId, transactionHash, 'transaction')}>
                                         <LinkSVG className="cursor-pointer" />
                                     </a>
                                 )}

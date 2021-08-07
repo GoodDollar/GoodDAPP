@@ -95,7 +95,7 @@ export default function Stakes(): JSX.Element | null {
                     </tr>
                 }
             >
-                {loading && (
+                {loading && !sorted.items.length && (
                     <tr>
                         <td colSpan={8}>
                             <div className="text-center">Loading...</div>
@@ -109,8 +109,7 @@ export default function Stakes(): JSX.Element | null {
                         </td>
                     </tr>
                 )}
-                {!loading &&
-                    sorted.items &&
+                {sorted.items &&
                     sorted.items.map((stake: Stake) => {
                         return (
                             <Fragment key={stake.address}>
@@ -192,7 +191,7 @@ export default function Stakes(): JSX.Element | null {
 
     return (
         <Layout>
-            <MarketHeader type="Stakes" lists={sorted} noSearch={loading || !stakes.length} />
+            <MarketHeader type="Stakes" lists={sorted} noSearch={!stakes.length} />
             {account && stakesSupportedAt.includes(chainId) ? (
                 table
             ) : (

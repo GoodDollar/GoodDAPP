@@ -636,21 +636,27 @@ async function stakeMeta(
  * @param {string} address Stake address.
  * @param {number} amount Amount of tokens to stake.
  * @param {boolean} inInterestToken Staking with token (false) or interest token (true)
+ * @param {function} [onSent] calls when a transaction sent to a blockchain
  * @returns {Promise<void>}
  */
 export async function approve(
     web3: Web3,
     address: string,
     amount: number | string,
-    inInterestToken: boolean = false
+    inInterestToken: boolean = false,
+    onSent?: (transactionHash: string) => void
 ): Promise<void> {
     const account = await getAccount(web3)
 
     const meta = await stakeMeta(web3, address, amount, inInterestToken)
 
-    await ERC20Contract(web3, meta.address)
+    const req = ERC20Contract(web3, meta.address)
         .methods.approve(address, meta.amount)
         .send({ from: account })
+
+    if (onSent) req.on('transactionHash', onSent)
+
+    await req
 }
 
 /**
@@ -659,13 +665,15 @@ export async function approve(
  * @param {string} address Stake address.
  * @param {number} amount Amount of tokens to stake.
  * @param {boolean} inInterestToken Staking with token (false) or interest token (true)
+ * @param {function} [onSent] calls when a transaction sent to a blockchain
  * @returns {Promise<void>}
  */
 export async function stake(
     web3: Web3,
     address: string,
     amount: number | string,
-    inInterestToken: boolean = false
+    inInterestToken: boolean = false,
+    onSent?: (transactionHash: string) => void
 ): Promise<TransactionDetails> {
     const contract = simpleStakingContract(web3, address)
     const account = await getAccount(web3)
@@ -674,7 +682,11 @@ export async function stake(
 
     const meta = await stakeMeta(web3, address, amount, inInterestToken)
 
-    return contract.methods.stake(meta.amount, percentage.toFixed(0), inInterestToken).send({ from: account })
+    const req = contract.methods.stake(meta.amount, percentage.toFixed(0), inInterestToken).send({ from: account })
+
+    if (onSent) req.on('transactionHash', onSent)
+
+    return req
 }
 
 /**
@@ -682,9 +694,15 @@ export async function stake(
  * @param {Web3} web3 Web3 instance.
  * @param {string} address Stake address.
  * @param {number} percent How much to withdraw in percent relativity.
+ * @param {function} [onSent] calls when a transaction sent to a blockchain
  * @returns {Promise<void>}
  */
-export async function withdraw(web3: Web3, address: string, percent: number): Promise<TransactionDetails> {
+export async function withdraw(
+    web3: Web3,
+    address: string,
+    percent: number,
+    onSent?: (transactionHash: string) => void
+): Promise<TransactionDetails> {
     const contract = simpleStakingContract(web3, address)
 
     const account = await getAccount(web3)
@@ -703,23 +721,31 @@ export async function withdraw(web3: Web3, address: string, percent: number): Pr
     const rawAmount = amount.multiply(percentage)
     debug('Withdraw amount', rawAmount.toSignificant(6))
 
-    return contract.methods
+    const req = contract.methods
         .withdrawStake(rawAmount.multiply(amount.decimalScale).toFixed(0), false)
         .send({ from: account })
+
+    if (onSent) req.on('transactionHash', onSent)
+
+    return req
 }
 
 /**
  * Claim rewards from staking.
  * @param {Web3} web3 Web3 instance.
+ * @param {function} [onSent] calls when transactions sent to a blockchain
  */
-export async function claim(web3: Web3): Promise<TransactionDetails[]> {
+export async function claim(
+    web3: Web3,
+    onSent?: (firstTransactionHash: string) => void
+): Promise<TransactionDetails[]> {
     const chainId = await getChainId(web3)
     const account = await getAccount(web3)
 
     const simpleStakingAddresses = await getSimpleStakingContractAddresses(web3)
 
     let totalRewardGDAO = CurrencyAmount.fromRawAmount(GDAO[chainId], 0) as CurrencyAmount<Currency>
-    let transactions: TransactionDetails[] = []
+    let transactions: any[] = []
     for (const address of simpleStakingAddresses) {
         const [rewardG$, rewardGDAO] = await Promise.all([
             getRewardG$(web3, address, account),
@@ -732,16 +758,28 @@ export async function claim(web3: Web3): Promise<TransactionDetails[]> {
 
         if (!rewardG$.unclaimed.equalTo(0)) {
             const simpleStaking = simpleStakingContract(web3, address)
-            transactions.push(await simpleStaking.methods.withdrawRewards().send({ from: account }))
+            transactions.push(simpleStaking.methods.withdrawRewards().send({ from: account }))
         }
     }
 
     if (!totalRewardGDAO.equalTo(0)) {
         const stakersDistribution = await stakersDistributionContract(web3)
         transactions.push(
-            await stakersDistribution.methods.claimReputation(account, simpleStakingAddresses).send({ from: account })
+            stakersDistribution.methods.claimReputation(account, simpleStakingAddresses).send({ from: account })
         )
     }
 
-    return transactions
+    if (onSent) {
+        Promise.all(
+            transactions.map(
+                transaction =>
+                    new Promise<string>((resolve, reject) => {
+                        transaction.on('transactionHash', resolve)
+                        transaction.on('error', reject)
+                    })
+            )
+        ).then(hashes => onSent(hashes[0]))
+    }
+
+    return Promise.all(transactions)
 }

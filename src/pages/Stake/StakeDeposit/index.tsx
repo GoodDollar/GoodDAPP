@@ -34,10 +34,11 @@ const initialState = {
     value: '',
     dollarEquivalent: undefined as undefined | string,
     approved: false,
+    signed: false,
     loading: false,
     error: undefined as undefined | string,
     done: false,
-    transactionDetails: undefined as undefined | TransactionDetails
+    transactionHash: undefined as undefined | string
 }
 
 const StakeDeposit = ({ stake, onDeposit, onClose }: StakeDepositModalProps) => {
@@ -51,9 +52,10 @@ const StakeDeposit = ({ stake, onDeposit, onClose }: StakeDepositModalProps) => 
                 | Action<'TOGGLE_TOKEN', boolean>
                 | Action<'TOGGLE_LOADING'>
                 | Action<'CHANGE_VALUE', string>
+                | Action<'CHANGE_SIGNED'>
                 | Action<'CHANGE_APPROVED', string | undefined>
                 | Action<'SET_ERROR', Error>
-                | Action<'DONE', TransactionDetails>
+                | Action<'DONE', string>
         ) => {
             switch (action.type) {
                 case 'TOGGLE_TOKEN':
@@ -65,6 +67,11 @@ const StakeDeposit = ({ stake, onDeposit, onClose }: StakeDepositModalProps) => 
                     return {
                         ...state,
                         value: action.payload
+                    }
+                case 'CHANGE_SIGNED':
+                    return {
+                        ...state,
+                        signed: true
                     }
                 case 'CHANGE_APPROVED':
                     return {
@@ -87,7 +94,7 @@ const StakeDeposit = ({ stake, onDeposit, onClose }: StakeDepositModalProps) => 
                     return {
                         ...state,
                         done: true,
-                        transactionDetails: action.payload
+                        transactionHash: action.payload
                     }
             }
         },
@@ -205,7 +212,9 @@ const StakeDeposit = ({ stake, onDeposit, onClose }: StakeDepositModalProps) => 
                             withLoading(async () => {
                                 const [tokenPriceInUSDC] = await Promise.all([
                                     await getTokenPriceInUSDC(web3!, stake.protocol, tokenToDeposit),
-                                    await approve(web3!, stake.address, state.value, state.token === 'B')
+                                    await approve(web3!, stake.address, state.value, state.token === 'B', () => {
+                                        dispatch({ type: 'CHANGE_SIGNED' })
+                                    })
                                 ])
                                 dispatch({
                                     type: 'CHANGE_APPROVED',
@@ -246,7 +255,10 @@ const StakeDeposit = ({ stake, onDeposit, onClose }: StakeDepositModalProps) => 
                                         web3!,
                                         stake.address,
                                         state.value,
-                                        state.token === 'B'
+                                        state.token === 'B',
+                                        transactionHash => {
+                                            dispatch({ type: 'DONE', payload: transactionHash })
+                                        }
                                     )
                                     reduxDispatch(
                                         addTransaction({
@@ -255,7 +267,6 @@ const StakeDeposit = ({ stake, onDeposit, onClose }: StakeDepositModalProps) => 
                                             from: transactionDetails.from
                                         })
                                     )
-                                    dispatch({ type: 'DONE', payload: transactionDetails })
                                     if (onDeposit) onDeposit()
                                 })
                             }
@@ -270,9 +281,9 @@ const StakeDeposit = ({ stake, onDeposit, onClose }: StakeDepositModalProps) => 
                         Transaction was sent to the blockchain{' '}
                         <a
                             href={
-                                state.transactionDetails &&
+                                state.transactionHash &&
                                 chainId &&
-                                getExplorerLink(chainId, state.transactionDetails.transactionHash, 'transaction')
+                                getExplorerLink(chainId, state.transactionHash, 'transaction')
                             }
                             target="_blank"
                         >
@@ -291,7 +302,9 @@ const StakeDeposit = ({ stake, onDeposit, onClose }: StakeDepositModalProps) => 
                     </div>
                 </>
             )}
-            {state.loading && <div className="walletNotice mt-2">You need to sign the transaction in your wallet</div>}
+            {state.loading && !state.signed && (
+                <div className="walletNotice mt-2">You need to sign the transaction in your wallet</div>
+            )}
         </StakeDepositSC>
     )
 }

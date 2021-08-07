@@ -42,15 +42,17 @@ function Withdraw({ token, protocol, totalStake, open, setOpen, onWithdraw, stak
         setWithdrawAmount(totalStake * (Number(percentage) / 100))
     }, [percentage])
     const dispatch = useDispatch()
-    const [transactionDetails, setTransactionDetails] = useState<TransactionDetails>()
+    const [transactionHash, setTransactionHash] = useState<string>()
     const { chainId } = useActiveWeb3React()
     const web3 = useWeb3()
     const handleWithdraw = useCallback(async () => {
         if (!web3) return
         try {
             setStatus('pending')
-            const transactionDetails = await withdraw(web3, stake.address, parseFloat(percentage))
-            setTransactionDetails(transactionDetails)
+            const transactionDetails = await withdraw(web3, stake.address, parseFloat(percentage), transactionHash => {
+                setTransactionHash(transactionHash)
+                setStatus('success')
+            })
             dispatch(
                 addTransaction({
                     chainId: chainId!,
@@ -58,7 +60,6 @@ function Withdraw({ token, protocol, totalStake, open, setOpen, onWithdraw, stak
                     from: transactionDetails.from
                 })
             )
-            setStatus('success')
             onWithdraw()
         } catch (e) {
             console.error(e)
@@ -74,7 +75,7 @@ function Withdraw({ token, protocol, totalStake, open, setOpen, onWithdraw, stak
         if (open) setPercentage('50')
         if (open && status !== 'none') {
             setStatus('none')
-            setTransactionDetails(undefined)
+            setTransactionHash(undefined)
         }
     }, [open])
 
@@ -126,9 +127,9 @@ function Withdraw({ token, protocol, totalStake, open, setOpen, onWithdraw, stak
                             Transaction was sent to the blockchain{' '}
                             <a
                                 href={
-                                    transactionDetails &&
+                                    transactionHash &&
                                     chainId &&
-                                    getExplorerLink(chainId, transactionDetails?.transactionHash, 'transaction')
+                                    getExplorerLink(chainId, transactionHash, 'transaction')
                                 }
                                 target="_blank"
                             >

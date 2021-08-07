@@ -505,6 +505,7 @@ export async function approve(web3: Web3, meta: BuyInfo): Promise<void> {
  * Swap tokens.
  * @param {Web3} web3 Web3 instance.
  * @param {BuyInfo} meta Result of the method getMeta() execution.
+ * @param {Function} onSent On sent event listener.
  */
 export async function sell(
     web3: Web3,
@@ -514,7 +515,7 @@ export async function sell(
     const chainId = await getChainId(web3)
 
     if (chainId === SupportedChainId.FUSE) {
-        return fuse.swap(web3, meta.trade!, meta.slippageTolerance)
+        return fuse.swap(web3, meta.trade!, meta.slippageTolerance, onSent)
     } else {
         const account = await getAccount(web3)
 

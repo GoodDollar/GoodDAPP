@@ -255,7 +255,7 @@ class RealmDB implements DB {
       // eslint-disable-next-line camelcase
       const _id = `${txHash}_${user_id}`
       const res = await this.EncryptedFeed.updateOne(
-        { _id, txHash, user_id },
+        { _id, user_id },
         { _id, txHash, user_id, encrypted, date: new Date(feedItem.date) },
         { upsert: true },
       )

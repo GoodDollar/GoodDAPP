@@ -2,7 +2,6 @@
 import React, { memo, useCallback, useEffect, useRef, useState } from 'react'
 import { Animated } from 'react-native'
 import { SwipeableFlatList } from 'react-native-swipeable-lists-gd'
-import * as Animatable from 'react-native-animatable'
 import { get, isFunction, noop } from 'lodash'
 import moment from 'moment'
 
@@ -177,15 +176,14 @@ const FeedList = ({
       }
 
       return (
-        <Animatable.View animation="fadeIn" delay={750} style={styles.expandAction}>
-          <FeedActions
-            onPress={hasAction && (() => handleFeedActionPress(item, actions))}
-            actionIcon={actionIcon(actions)}
-            {...props}
-          >
-            {actionLabel(actions)}
-          </FeedActions>
-        </Animatable.View>
+        <FeedActions
+          onPress={hasAction && (() => handleFeedActionPress(item, actions))}
+          actionIcon={actionIcon(actions)}
+          {...props}
+          style={styles.expandAction}
+        >
+          {actionLabel(actions)}
+        </FeedActions>
       )
     },
     [feeds],

@@ -1,5 +1,5 @@
 // @flow
-import React, { useCallback, useState } from 'react'
+import React, { useCallback } from 'react'
 import { Platform, TouchableHighlight, View } from 'react-native'
 import * as Animatable from 'react-native-animatable'
 
@@ -34,7 +34,6 @@ type FeedListItemProps = {
  */
 const FeedListItem = React.memo((props: FeedListItemProps) => {
   const disableAnimForTests = Config.env === 'test'
-  const [animationFinished, setAnimationFinished] = useState<boolean>(disableAnimForTests)
   const simpleStore = SimpleStore.useStore()
   const { theme, item, handleFeedSelection, styles } = props
   const { id, type, displayType, action } = item
@@ -60,13 +59,6 @@ const FeedListItem = React.memo((props: FeedListItemProps) => {
       onItemPress()
     }
   }, [fireEvent, type, onItemPress, id])
-
-  const onAnimationFinished = useCallback(
-    ({ finished }) => {
-      return finished && setAnimationFinished(true)
-    },
-    [setAnimationFinished],
-  )
 
   if (isItemEmpty) {
     const feedLoadAnimShown = simpleStore.get('feedLoadAnimShown')
@@ -134,22 +126,15 @@ const FeedListItem = React.memo((props: FeedListItemProps) => {
   }
 
   return (
-    <Animatable.View
-      onAnimationEnd={onAnimationFinished}
-      animation={disableAnimForTests ? '' : 'fadeIn'}
-      easing={easing}
-      useNativeDriver
+    <TouchableHighlight
+      activeOpacity={0.5}
+      onPress={onPress}
+      style={[styles.row, styles.rowHasBeenAnimated]}
+      tvParallaxProperties={{ pressMagnification: 1.1 }}
+      underlayColor={theme.colors.lightGray}
     >
-      <TouchableHighlight
-        activeOpacity={0.5}
-        onPress={onPress}
-        style={[styles.row, animationFinished && styles.rowHasBeenAnimated]}
-        tvParallaxProperties={{ pressMagnification: 1.1 }}
-        underlayColor={theme.colors.lightGray}
-      >
-        <ListEventItem {...props} />
-      </TouchableHighlight>
-    </Animatable.View>
+      <ListEventItem {...props} />
+    </TouchableHighlight>
   )
 })
 

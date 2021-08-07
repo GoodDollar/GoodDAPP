@@ -1,7 +1,7 @@
 // @flow
 import { camelCase, find, get, has, isEqual, isError, isUndefined, orderBy, pick, set } from 'lodash'
 
-import Mutex from 'await-mutex'
+// import Mutex from 'await-mutex'
 import EventEmitter from 'eventemitter3'
 
 import Config from '../../config/config'
@@ -69,7 +69,7 @@ export type FeedEvent = {
 // const TX_SEND_TOKEN = 'TX_SEND_TOKEN'
 
 export class FeedStorage {
-  feedMutex = new Mutex()
+  // feedMutex = new Mutex()
 
   feedEvents = new EventEmitter()
 
@@ -276,7 +276,7 @@ export class FeedStorage {
   async handleReceiptUpdate(txType, receipt) {
     //receipt received via websockets/polling need mutex to prevent race
     //with enqueuing the initial TX data
-    const release = await this.feedMutex.lock()
+    // const release = await this.feedMutex.lock()
     try {
       const receiptDate = await this.wallet.wallet.eth
         .getBlock(receipt.blockNumber)
@@ -365,7 +365,7 @@ export class FeedStorage {
 
       // reprocess same receipt in case we updated data format, only skip strictly older
       // we can get receipt without having a previous feed item, so veerify .date field exists
-      if (feedEvent.date && receiptDate.getTime() < new Date(feedEvent.date).getTime()) {
+      if (feedEvent.receiptReceived && (feedEvent.date && receiptDate.getTime() < new Date(feedEvent.date).getTime())) {
         return feedEvent
       }
 
@@ -435,7 +435,7 @@ export class FeedStorage {
     } catch (e) {
       log.error('handleReceiptUpdate failed', e.message, e)
     } finally {
-      release()
+      // release()
     }
     return
   }
@@ -540,7 +540,7 @@ export class FeedStorage {
     await this.ready //wait before accessing feedIds cache
 
     //a race exists between enqueuing and receipt from websockets/polling
-    const release = await this.feedMutex.lock()
+    // const release = await this.feedMutex.lock()
     try {
       const existingEvent = await this.storage.read(event.id)
       if (existingEvent) {
@@ -568,7 +568,7 @@ export class FeedStorage {
       log.error('enqueueTX failed: ', e.message, e, { event })
       return false
     } finally {
-      release()
+      // release()
     }
   }
 
@@ -702,14 +702,14 @@ export class FeedStorage {
       return
     }
 
-    const release = await this.feedMutex.lock()
+    // const release = await this.feedMutex.lock()
 
     try {
       await this.updateEventStatus(txHash, 'error')
     } catch (e) {
       log.error('Failed to set error status for feed event', e.message, e)
     } finally {
-      release()
+      // release()
     }
   }
 

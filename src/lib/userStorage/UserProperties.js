@@ -70,7 +70,7 @@ export default class UserProperties {
 
       // if not props then block
       if (isNil(props)) {
-        await this._syncFromRemote()
+        this._syncFromRemote()
       } else {
         // otherwise sync withs storage in background
         this._syncProps(props)
@@ -86,11 +86,10 @@ export default class UserProperties {
   }
 
   async _syncFromRemote() {
-    if (this.storage.isReady) {
-      const props = await this.storage.decryptSettings()
-      log.debug('got remote props:', { props })
-      this._syncProps(props)
-    }
+    await this.storage.ready
+    const props = await this.storage.decryptSettings()
+    log.debug('got remote props:', { props })
+    this._syncProps(props)
   }
 
   /**

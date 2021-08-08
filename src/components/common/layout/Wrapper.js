@@ -18,7 +18,7 @@ const Wrapper = props => {
 
   const containerProps = {
     style: [styles.container, growStyle, style],
-    'data-name': 'viewWrapper',
+    dataSet: { name: 'viewWrapper' },
     ...rest,
   }
 

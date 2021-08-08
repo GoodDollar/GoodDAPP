@@ -1,5 +1,5 @@
 // @flow
-import { camelCase, find, get, has, isEqual, isError, isUndefined, orderBy, pick, set } from 'lodash'
+import { camelCase, debounce, find, get, has, isEqual, isError, isUndefined, orderBy, pick, set } from 'lodash'
 
 // import Mutex from 'await-mutex'
 import EventEmitter from 'eventemitter3'
@@ -828,12 +828,12 @@ export class FeedStorage {
     return decryptedData
   }
 
-  emitUpdate(event) {
+  emitUpdate = debounce(event => {
     if (this.isEmitEvents) {
       this.feedEvents.emit('updated', event)
       log.debug('emitted updated event', { event })
     }
-  }
+  }, 1000)
 
   _gunException(gunError) {
     let exception = gunError

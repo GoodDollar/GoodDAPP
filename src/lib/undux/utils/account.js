@@ -59,14 +59,14 @@ const onBalanceChange = async (event: EventLog, store: Store) => {
  * Starts listening to Transfer events to (and from) the current account
  */
 export const initTransferEvents = (store: Store) => {
-  const lastBlock = userStorage.userProperties.getLocal('lastBlock') || 6400000
+  const lastBlock = userStorage.userProperties.get('lastBlock') || 6400000
   log.debug('starting events listener', { lastBlock, subscribed })
 
   if (subscribed) {
     return
   }
 
-  goodWallet.watchEvents(parseInt(lastBlock), toBlock => userStorage.userProperties.setLocal('lastBlock', toBlock))
+  goodWallet.watchEvents(parseInt(lastBlock), toBlock => userStorage.userProperties.set('lastBlock', toBlock))
 
   goodWallet.balanceChanged(event => onBalanceChange(event, store))
   subscribed = true

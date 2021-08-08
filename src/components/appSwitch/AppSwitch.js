@@ -172,7 +172,16 @@ const AppSwitch = (props: LoadingProps) => {
       unsuccessfulLaunchAttempts += 1
 
       if (dialogShown) {
+        //if error in realmdb logout the user, he needs to signin/signup again
         log.error('failed initializing app', e.message, e, { dialogShown })
+        if (e.message.includes('realmdb')) {
+          await AsyncStorage.clear()
+          return showErrorDialog(
+            'We are sorry, but due to database upgrade, you need to perform the Signup process again. Make sure to use the same account you previously signed in with.',
+            '',
+            { onDismiss: () => restart('/') },
+          )
+        }
         showErrorDialog('Wallet could not be loaded. Please refresh.', '', { onDismiss: () => restart('/') })
       } else {
         await delay(1500)

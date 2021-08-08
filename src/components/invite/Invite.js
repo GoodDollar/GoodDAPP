@@ -94,6 +94,9 @@ const ShareBox = ({ level }) => {
             flex: 1,
             padding: 0,
             marginRight: 8,
+            whiteSpace: 'nowrap',
+            textOverflow: 'ellipsis',
+            overflow: 'hidden',
           }}
         >
           {shareUrl}

@@ -70,7 +70,7 @@ export default class UserProperties {
 
       // if not props then block
       if (isNil(props)) {
-        this._syncFromRemote()
+        await this._syncFromRemote()
       } else {
         // otherwise sync withs storage in background
         this._syncProps(props)

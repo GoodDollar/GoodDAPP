@@ -156,7 +156,7 @@ const FeedList = ({
         showErrorDialog("Current transaction is still pending, it can't be cancelled right now")
       }
 
-      userStorage.userProperties.set('showQuickActionHint', false)
+      userStorage.userProperties.setLocal('showQuickActionHint', false)
       setShowBounce(false)
     },
     [showErrorDialog, setShowBounce],
@@ -191,7 +191,7 @@ const FeedList = ({
 
   const manageDisplayQuickActionHint = useCallback(async () => {
     // Could be string containing date to show quick action hint after - otherwise boolean
-    const showQuickActionHintFlag = await userStorage.userProperties.get('showQuickActionHint')
+    const showQuickActionHintFlag = await userStorage.userProperties.getLocal('showQuickActionHint')
 
     const _showBounce =
       typeof showQuickActionHintFlag === 'string'
@@ -201,7 +201,7 @@ const FeedList = ({
     setShowBounce(_showBounce)
 
     if (_showBounce) {
-      await userStorage.userProperties.set(
+      await userStorage.userProperties.setLocal(
         'showQuickActionHint',
         moment()
           .add(24, 'hours')

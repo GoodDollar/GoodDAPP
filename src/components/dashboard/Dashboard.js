@@ -213,10 +213,14 @@ const Dashboard = props => {
   }
 
   const onFeedUpdated = useCallback(
-    debounce(event => {
-      log.debug('feed cache updated', { event })
-      getFeedPage(true)
-    }, 500),
+    debounce(
+      event => {
+        log.debug('feed cache updated', { event })
+        getFeedPage(true)
+      },
+      500,
+      { leading: true },
+    ),
     [getFeedPage],
   )
 

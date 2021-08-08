@@ -115,7 +115,7 @@ export class FeedStorage {
 
     //mark as initialized, ie resolve ready promise
     await this.storage.ready
-    this.storage.on(data => this.emitUpdate())
+    this.storage.on(data => this.emitUpdate(data))
     this.feedInitialized = true
     this.setReady()
 
@@ -828,12 +828,16 @@ export class FeedStorage {
     return decryptedData
   }
 
-  emitUpdate = debounce(event => {
-    if (this.isEmitEvents) {
-      this.feedEvents.emit('updated', event)
-      log.debug('emitted updated event', { event })
-    }
-  }, 1000)
+  emitUpdate = debounce(
+    event => {
+      if (this.isEmitEvents) {
+        this.feedEvents.emit('updated', event)
+        log.debug('emitted updated event', { event })
+      }
+    },
+    1000,
+    { leading: true },
+  )
 
   _gunException(gunError) {
     let exception = gunError

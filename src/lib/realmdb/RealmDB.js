@@ -45,8 +45,8 @@ class RealmDB implements DB {
       this.publicKey = publicKey
       await this.db.open(1) // Versioned db on open
       this.Feed = this.db.collection('Feed')
-      this.Feed.table.hook('updating', this._notifyChange)
-      this.Feed.table.hook('creating', this._notifyChange)
+      this.Feed.table.hook('updating', (modify, id, event) => this._notifyChange({ modify, id, event }))
+      this.Feed.table.hook('creating', (id, event) => this._notifyChange({ id, event }))
       await this._initRealmDB()
       this.resolve()
       this.isReady = true

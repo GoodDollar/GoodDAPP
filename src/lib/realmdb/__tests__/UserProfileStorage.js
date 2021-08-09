@@ -381,11 +381,15 @@ describe('UserProfileStorage', () => {
     expect(foundProfile).toEqual(expect.objectContaining({ name: userProfileStorage.profile.fullName.value }))
   })
 
-  // it('should not find profile using getUserProfile with invalid email', async () => {
-  //   const foundProfile = await userProfileStorage.getUserProfile('123123123')
-  //   console.log(foundProfile)
-  //   // expect(foundProfile).toEqual(expect.objectContaining({ name: userProfileStorage.profile.fullName.value }))
-  // })
+  it('should not find profile using getUserProfile with invalid value', async () => {
+    const foundProfile = await userProfileStorage.getUserProfile('as123asdas12312a')
+    expect(Object.values(foundProfile).every(key => key == null)).toBeTruthy()
+  })
+
+  it('should not find profile using getUserProfile with invalid field', async () => {
+    const foundProfile = await userProfileStorage.getUserProfile(userProfileStorage.profile.fullName.value)
+    expect(Object.values(foundProfile).every(key => key == null)).toBeTruthy()
+  })
 
   it('should delete profile', async () => {
     await userProfileStorage.deleteProfile()

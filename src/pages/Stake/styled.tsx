@@ -15,6 +15,16 @@ export const Wrapper = styled.div`
             }
         }
 
+        td {
+            padding-left: 10px !important;
+            padding-right: 10px !important;
+        }
+
+        th {
+            padding-left: 10px !important;
+            padding-right: 0 !important;
+        }
+
         @media screen and (max-width: 1310px) {
             td,
             th {

@@ -147,11 +147,11 @@ export default function Stakes(): JSX.Element | null {
                                     </td>
                                     <td>
                                         <div className="right">
-                                            <div>
+                                            <div className="whitespace-nowrap">
                                                 {stake.rewards.G$.toFixed(2, { groupSeparator: ',' })}{' '}
                                                 {stake.rewards.G$.currency.symbol}
                                             </div>
-                                            <div className="">
+                                            <div className="whitespace-nowrap">
                                                 {stake.rewards.GDAO.toFixed(2, { groupSeparator: ',' })}{' '}
                                                 {stake.rewards.GDAO.currency.symbol}
                                             </div>

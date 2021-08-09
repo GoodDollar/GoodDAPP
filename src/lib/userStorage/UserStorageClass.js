@@ -590,26 +590,34 @@ export class UserStorage {
     }
   }
 
-  // checkAvatar was removed as we don't need to keep updates/migrations only funcitons in the common API
-
-  async setAvatar(avatar, withCleanup = false) {
-    // // save space and load on gun
-    // const avatarResized = await resizeImage(avatar, 320)
-    // // eslint-disable-next-line
-    // await Promise.all([
-    //   this.userProfileStorage._storeAvatar('avatar', avatarResized, withCleanup),
-    //   this.userProfileStorage.setSmallAvatar(avatarResized, withCleanup),
-    // ])
+  /**
+   * Avatar setter
+   * @param avatar
+   * @returns {Promise<CID[]>}
+   */
+  // eslint-disable-next-line require-await
+  async setAvatar(avatar) {
+    return this.userProfileStorage.setAvatar(avatar)
   }
 
-  async setSmallAvatar(avatar, withCleanup = false) {
-    // const smallAvatar = await resizeImage(avatar, 50)
-    // return this.userProfileStorage._storeAvatar('smallAvatar', smallAvatar, withCleanup)
+  /**
+   * small Avatar setter
+   * @param avatar
+   * @returns {Promise<*>}
+   */
+  // eslint-disable-next-line require-await
+  async setSmallAvatar(avatar) {
+    return this.userProfileStorage.setSmallAvatar(avatar)
   }
 
+  /**
+   * remove Avatar
+   * @param withCleanup
+   * @returns {Promise<void>}
+   */
   // eslint-disable-next-line require-await
   async removeAvatar(withCleanup = false) {
-    // return this.userProfileStorage.removeAvatar(withCleanup)
+    return this.userProfileStorage.removeAvatar()
   }
 
   /**

@@ -160,7 +160,7 @@ function SwapConfirmModal({
                             value={route}
                             tip="Routing through these tokens resulted in the best price for your trade."
                         />
-                        <SwapInfo title="GDX" value={GDX} />
+                        {GDX && <SwapInfo title="GDX" value={GDX} />}
                         {exitContribution && <SwapInfo title="EXIT CONTRIBUTION" value={exitContribution} />}
                     </div>
                     <ButtonAction onClick={handleSwap} disabled={false}>

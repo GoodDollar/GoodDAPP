@@ -177,8 +177,14 @@ function Swap() {
         liquidityFee:
             meta && `${meta.liquidityFee.toSignificant(6, { groupSeparator: ',' })} ${swapPair.token.getSymbol()}`,
         route: route,
-        GDX: meta?.GDXAmount.toFixed(2, { groupSeparator: ',' }),
-        exitContribution: (meta as SellInfo)?.contribution?.toSignificant(6, { groupSeparator: ',' }),
+        GDX:
+            (chainId as any) === SupportedChainId.FUSE
+                ? undefined
+                : meta?.GDXAmount.toFixed(2, { groupSeparator: ',' }),
+        exitContribution:
+            (chainId as any) === SupportedChainId.FUSE
+                ? undefined
+                : (meta as SellInfo)?.contribution?.toSignificant(6, { groupSeparator: ',' }),
         price:
             meta &&
             `${

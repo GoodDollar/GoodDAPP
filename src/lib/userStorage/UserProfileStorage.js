@@ -32,12 +32,12 @@ export interface ProfileDB {
   setProfile(profile: Profile): Promise<void>;
   getProfile(): Promise<any>;
   getProfileByField(key: string, field: string): Promise<any>;
-  getProfileByWalletAddress(walletAddress: string): Promise<any>;
   getPublicProfile(key: string, field: string): Promise<any>;
   setProfileFields(fields: { key: String, field: ProfileField }): Promise<any>;
   encryptField(item: string): string;
   decryptField(item: string): string;
   removeField(field: string): Promise<any>;
+  setFieldToNull(field: string, privacy: string): Promise<any>;
   deleteProfile(): Promise<any>;
 }
 
@@ -105,12 +105,16 @@ export class UserProfileStorage implements ProfileStorage {
   async init() {
     const rawProfile = await this.profiledb.getProfile()
     const decryptedProfile = await this._decryptProfileFields(rawProfile)
-    if (!decryptedProfile.avatar) {
-      decryptedProfile.avatar = { value: null, display: null, privacy: 'public' }
-    }
-    if (!decryptedProfile.smallAvatar) {
-      decryptedProfile.smallAvatar = { value: null, display: null, privacy: 'public' }
-    }
+    // eslint-disable-next-line array-callback-return
+    Object.keys(this.profileSettings).map(field => {
+      if (!decryptedProfile[field]) {
+        decryptedProfile[field] = {
+          value: null,
+          display: null,
+          privacy: this.profileSettings[field].defaultPrivacy || 'public',
+        }
+      }
+    })
     this._setLocalProfile(decryptedProfile)
   }
 
@@ -181,7 +185,8 @@ export class UserProfileStorage implements ProfileStorage {
     if (profile && !profile.validate) {
       profile = getUserModel(profile)
     }
-    const fields = Object.keys(profile).filter(prop => UserStorage.indexableFields[prop])
+
+    const fields = Object.keys(profile).filter(prop => this.profileSettings[prop])
     let { errors, isValid } = profile.validate(update)
 
     if (!isValid) {
@@ -290,11 +295,28 @@ export class UserProfileStorage implements ProfileStorage {
     )
   }
 
+  /**
+   * Remove field from db
+   * @param field
+   * @returns {Promise<*>}
+   */
   removeField(field) {
     const profileToUpdate = this.profile
-    profileToUpdate[field] = { value: null, display: null, privacy: 'public' }
+    profileToUpdate[field] = { value: null, display: null, privacy: this.getFieldPrivacy(field) }
     this._setLocalProfile(profileToUpdate)
     return this.profiledb.removeField(field)
+  }
+
+  /**
+   * Set field to null
+   * @param field
+   * @returns {Promise<*>}
+   */
+  setFieldToNull(field) {
+    const profileToUpdate = this.profile
+    profileToUpdate[field] = { value: null, display: null, privacy: this.getFieldPrivacy(field) }
+    this._setLocalProfile(profileToUpdate)
+    return this.profiledb.setFieldToNull(field)
   }
 
   /**
@@ -304,7 +326,7 @@ export class UserProfileStorage implements ProfileStorage {
   async removeAvatar(withCleanup = false): Promise<void> {
     await Promise.all(
       // eslint-disable-next-line require-await
-      ['avatar', 'smallAvatar'].map(async field => this.removeField(field)),
+      ['avatar', 'smallAvatar'].map(async field => this.setFieldToNull(field, this.getFieldPrivacy(field))),
     )
   }
 
@@ -340,7 +362,7 @@ export class UserProfileStorage implements ProfileStorage {
    * @returns
    */
   getProfileByWalletAddress(walletAddress: string): Promise<any> {
-    return this.profiledb.getProfileByWalletAddress(walletAddress)
+    return this.profiledb.getProfileByField('walletAddress', walletAddress)
   }
 
   /**

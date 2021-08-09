@@ -47,6 +47,7 @@ const GoodMarketButton = ({ styles }) => {
       toValue: 0,
       duration: marketAnimationDuration,
       easing: Easing.ease,
+      useNativeDriver: true,
     }).start()
   }, [])
 

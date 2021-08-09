@@ -481,11 +481,11 @@ export class UserProfileStorage implements ProfileStorage {
     const attr = isMobilePhone(field) ? 'mobile' : isEmail(field) ? 'email' : 'walletAddress'
 
     const profile = await this.getPublicProfile(attr, field)
-    const { fullName, avatar } = profile
     if (profile == null) {
       logger.info(`getUserProfile by field <${field}> `)
       return { name: undefined, avatar: undefined }
     }
+    const { fullName, avatar } = profile
 
     logger.info(`getUserProfile by field <${field}>`, { avatar, fullName })
     if (!fullName) {

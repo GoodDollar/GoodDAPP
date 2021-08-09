@@ -1444,9 +1444,8 @@ export class UserStorage {
   formatEvent = memoize(
     // eslint-disable-next-line require-await
     (event: FeedEvent) => {
-      logger.debug('formatEvent: incoming event', event.id, { event })
-
       try {
+        logger.debug('formatEvent: incoming event', event.id, { event })
         const { data, type, date, id, status, createdDate, animationExecuted, action } = event
         const { sender, preReasonText, reason, code: withdrawCode, subtitle, readMore, smallReadMore } = data
 

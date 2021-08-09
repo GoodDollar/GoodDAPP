@@ -11,7 +11,7 @@ export const SwapCardSC = styled.div<{ open: boolean }>`
     @media screen and (max-height: 720px) {
         transform-origin: 0 0;
         transform: scale(0.8);
-        margin-bottom: -150px;
+        margin-bottom: -${({ open }) => (open ? 150 : 115)}px;
     }
 
     @media ${({ theme }) => theme.media.md} {

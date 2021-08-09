@@ -290,8 +290,8 @@ async function getRewardG$(web3: Web3, address: string, account: string): Promis
     const chainId = await getChainId(web3)
 
     const result = {
-        claimed: CurrencyAmount.fromFractionalAmount(G$[chainId], claimed, 1e16),
-        unclaimed: CurrencyAmount.fromFractionalAmount(G$[chainId], unclaimed, 1e16)
+        claimed: CurrencyAmount.fromRawAmount(G$[chainId], claimed),
+        unclaimed: CurrencyAmount.fromRawAmount(G$[chainId], unclaimed)
     }
 
     debug(`Reward G$ claimed`, result.claimed.toSignificant(6))
@@ -529,7 +529,6 @@ const getLiquidity = memoize<
         const price = await getTokenPriceInUSDC(web3, protocol, token)
 
         if (!price) {
-            console.log(1)
             debug('Liquidity', zero)
             return zero
         }

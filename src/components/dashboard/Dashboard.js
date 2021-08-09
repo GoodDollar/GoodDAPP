@@ -78,10 +78,10 @@ export type DashboardProps = {
 }
 
 const useNativeDriverForAnimation = Platform.select({
-  web: true,
+  web: false,
 
   // animating height/width or top/bottom/left/right attrs is not supported by native driver on native
-  default: false,
+  default: true,
 })
 
 const feedMutex = new Mutex()

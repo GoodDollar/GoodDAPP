@@ -14,6 +14,7 @@ const LoadingIcon = ({ styles, style, loadingIconStyle }) => {
         toValue: 1,
         easing: Easing.linear,
         delay: 0,
+        useNativeDriver: true,
       }),
     ).start()
   }, [])

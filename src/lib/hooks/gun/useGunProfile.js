@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { get, result } from 'lodash'
-import userStorage from '../../userStorage/UserStorage'
+import userStorage from '../../gundb/UserStorage'
 import logger from '../../logger/pino-logger'
 
 const log = logger.child({ from: 'useGunProfile' })

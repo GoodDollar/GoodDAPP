@@ -2,7 +2,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { StyleSheet } from 'react-native'
 import { withTheme } from 'react-native-paper'
-import { useWrappedUserStorage } from '../../lib/userStorage/useWrappedStorage'
+import { useWrappedUserStorage } from '../../lib/gundb/useWrappedStorage'
 import GDStore from '../../lib/undux/GDStore'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
 import logger from '../../lib/logger/pino-logger'

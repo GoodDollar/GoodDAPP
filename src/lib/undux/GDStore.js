@@ -1,7 +1,7 @@
 // @flow
 import { createConnectedStore, type StoreDefinition } from 'undux'
 import { compose } from 'lodash/fp'
-import type { StandardFeed } from '../userStorage/StandardFeed'
+import type { StandardFeed } from '../gundb/StandardFeed'
 import effects from './effects'
 import withPinoLogger from './plugins/logger'
 import { createUseCurriedSettersHook } from './utils/setter'

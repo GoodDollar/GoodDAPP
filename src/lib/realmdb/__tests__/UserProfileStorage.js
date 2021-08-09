@@ -52,6 +52,36 @@ describe('UserProfileStorage', () => {
     jest.restoreAllMocks()
   })
 
+  it('should not save profile without email to the db', async () => {
+    const { email, ...fields } = profile
+
+    try {
+      await userProfileStorage.setProfile(fields)
+    } catch (exception) {
+      expect(exception).toEqual(expect.objectContaining({ email: 'Email is required' }))
+    }
+  })
+
+  it('should not save profile without mobile to the db', async () => {
+    const { mobile, ...fields } = profile
+
+    try {
+      await userProfileStorage.setProfile(fields)
+    } catch (exception) {
+      expect(exception).toEqual(expect.objectContaining({ mobile: 'Mobile is required' }))
+    }
+  })
+
+  it('should not save profile without username to the db', async () => {
+    const { username, ...fields } = profile
+
+    try {
+      await userProfileStorage.setProfile(fields)
+    } catch (exception) {
+      expect(exception).toEqual(expect.objectContaining({ username: 'Username is required' }))
+    }
+  })
+
   it('should save profile to the db', async () => {
     await userProfileStorage.setProfile(profile)
 
@@ -78,6 +108,12 @@ describe('UserProfileStorage', () => {
     expect(Object.values(userProfileStorage.getProfile()).every(v => v === null)).toBeTruthy()
   })
 
+  it('should get users profile', async () => {
+    await userProfileStorage.init()
+    const profile = userProfileStorage.getProfile()
+    expect(profile).toEqual(expect.objectContaining(profile))
+  })
+
   it('should encrypt profile fields', async () => {
     const encrypted = await userProfileStorage._encryptProfileFields(profile)
     Object.keys(encrypted).forEach(key => {
@@ -93,9 +129,19 @@ describe('UserProfileStorage', () => {
     })
   })
 
-  it('should get users profile', async () => {
-    await userProfileStorage.init()
-    expect(userProfileStorage.getProfile()).not.toEqual({})
+  it('should decrypt null profile', async () => {
+    const decrypted = await userProfileStorage._decryptProfileFields(null)
+    expect(decrypted).toEqual({})
+  })
+
+  it('should decrypt undefined profile', async () => {
+    const decrypted = await userProfileStorage._decryptProfileFields(undefined)
+    expect(decrypted).toEqual({})
+  })
+
+  it('should decrypt invalid type profile', async () => {
+    const decrypted = await userProfileStorage._decryptProfileFields(false)
+    expect(decrypted).toEqual({})
   })
 
   it('should set multiple profile fields', async () => {
@@ -152,7 +198,15 @@ describe('UserProfileStorage', () => {
     expect(newProfile.username).not.toEqual(oldProfile.username)
   })
 
-  it('should get prodile by wallet address', async () => {
+  it('should throw error for invalid privacy setting', async () => {
+    try {
+      await userProfileStorage.setProfileField('username', 'johndoe1111', '123123123')
+    } catch (exception) {
+      expect(exception.message).toEqual('Invalid privacy setting')
+    }
+  })
+
+  it('should get profile by wallet address', async () => {
     // Reset profile
     await userProfileStorage.setProfile(profile, true)
     const foundProfile = await userProfileStorage.getProfileByWalletAddress(

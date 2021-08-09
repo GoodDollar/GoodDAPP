@@ -601,16 +601,6 @@ export class UserStorage {
   }
 
   /**
-   * small Avatar setter
-   * @param avatar
-   * @returns {Promise<*>}
-   */
-  // eslint-disable-next-line require-await
-  async setSmallAvatar(avatar) {
-    return this.userProfileStorage.setSmallAvatar(avatar)
-  }
-
-  /**
    * remove Avatar
    * @param withCleanup
    * @returns {Promise<void>}
@@ -830,8 +820,8 @@ export class UserStorage {
     this.userProfileStorage.subscribeProfileUpdates(callback)
   }
 
-  unSubscribeProfileUpdates() {
-    this.subscribersProfileUpdates = []
+  unSubscribeProfileUpdates(callback?: any => void = null) {
+    this.userProfileStorage.unSubscribeProfileUpdates(callback)
   }
 
   // eslint-disable-next-line require-await

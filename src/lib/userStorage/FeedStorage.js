@@ -751,7 +751,7 @@ export class FeedStorage {
       }),
     )
 
-    return events
+    return events.filter(_ => _)
   }
 
   /**

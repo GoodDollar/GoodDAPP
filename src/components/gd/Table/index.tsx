@@ -17,7 +17,7 @@ export const TableSC = styled.table`
 
         thead {
             th {
-                padding: 0 15px 3px;
+                padding: 0 8px 3px;
             }
         }
 
@@ -46,7 +46,7 @@ export const TableSC = styled.table`
             }
 
             td {
-                padding: 15px;
+                padding: 15px 8px;
                 background: ${({ theme }) => theme.color.main};
                 font-weight: 500;
                 font-size: 14px;

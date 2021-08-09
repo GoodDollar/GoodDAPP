@@ -377,21 +377,25 @@ class RealmDB implements DB, ProfileDB {
   }
 
   /**
-   * get user profile from realmdb by WalletAddress. result fields might be encrypted
-   * @param walletAddress
-   * @returns {Promise<any | null>}
-   */
-  getProfileByWalletAddress(walletAddress: string): Promise<any> {
-    return this.getProfileByField('walletAddress', walletAddress)
-  }
-
-  /**
    * Set profile fields
    * @param fields
    * @returns {Promise<Realm.Services.MongoDB.UpdateResult<any>>}
    */
   setProfileFields(fields: { key: String, field: ProfileField }): Promise<any> {
     return this._profiles().updateOne({ user_id: this.user.id }, { $set: fields })
+  }
+
+  /**
+   * Set Field to null
+   * @param field
+   * @param privacy
+   * @returns {Promise<Realm.Services.MongoDB.UpdateResult<*>>}
+   */
+  setFieldToNull(field, privacy) {
+    return this._profiles().updateOne(
+      { user_id: this.user.id },
+      { $set: { [field]: { value: null, display: null, privacy } } },
+    )
   }
 
   /**

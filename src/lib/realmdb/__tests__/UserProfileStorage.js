@@ -231,11 +231,6 @@ describe('UserProfileStorage', () => {
     expect(foundProfile).toBeNull()
   })
 
-  it('should get avatar value', () => {
-    const avatar = userProfileStorage.getProfileFieldValue('avatar')
-    expect(avatar).toEqual(userProfileStorage.profile.avatar.value)
-  })
-
   it('should get email value', () => {
     const email = userProfileStorage.getProfileFieldValue('email')
     expect(email).toEqual(userProfileStorage.profile.email.value)
@@ -264,11 +259,6 @@ describe('UserProfileStorage', () => {
   it('should get walletAddress value', () => {
     const walletAddress = userProfileStorage.getProfileFieldValue('walletAddress')
     expect(walletAddress).toEqual(userProfileStorage.profile.walletAddress.value)
-  })
-
-  it('should get smallAvatar value', () => {
-    const smallAvatar = userProfileStorage.getProfileFieldValue('smallAvatar')
-    expect(smallAvatar).toEqual(userProfileStorage.profile.smallAvatar.value)
   })
 
   it('should not get invalid value from profile', () => {
@@ -304,11 +294,6 @@ describe('UserProfileStorage', () => {
   it('should get walletAddress display value', () => {
     const walletAddress = userProfileStorage.getProfileFieldDisplayValue('walletAddress')
     expect(walletAddress).toEqual(userProfileStorage.profile.walletAddress.value)
-  })
-
-  it('should get smallAvatar display value', () => {
-    const smallAvatar = userProfileStorage.getProfileFieldDisplayValue('smallAvatar')
-    expect(smallAvatar).toEqual(userProfileStorage.profile.smallAvatar.value)
   })
 
   it('should not get display value for invalid field', () => {
@@ -356,46 +341,14 @@ describe('UserProfileStorage', () => {
 
   it('should fail profile validation with email error', async () => {
     const { isValid, errors } = await userProfileStorage.validateProfile({
-      avatar: {
-        display: '',
-        value: '',
-        privacy: '',
-      },
-      email: {
-        display: '',
-        value: '',
-        privacy: '',
-      },
-      fullName: {
-        value: '',
-        display: '',
-        privacy: '',
-      },
-      mnemonic: {
-        value: '',
-        display: '',
-        privacy: '',
-      },
-      username: {
-        value: '',
-        display: '',
-        privacy: '',
-      },
-      mobile: {
-        value: '',
-        display: '',
-        privacy: '',
-      },
-      walletAddress: {
-        value: '',
-        display: '',
-        privacy: '',
-      },
-      smallAvatar: {
-        display: '',
-        value: '',
-        privacy: '',
-      },
+      avatar: '',
+      email: '',
+      fullName: '',
+      mnemonic: '',
+      username: '',
+      mobile: '',
+      walletAddress: '',
+      smallAvatar: '',
     })
 
     // console.log(errors)

@@ -10,7 +10,7 @@ import { fireEvent, INVITE_HOWTO, INVITE_SHARE } from '../../lib/analytics/analy
 import Config from '../../config/config'
 import { generateShareObject, isSharingAvailable } from '../../lib/share'
 import userStorage from '../../lib/userStorage/UserStorage'
-import useGunProfile from '../../lib/hooks/gun/useGunProfile'
+import useGunProfile from '../../lib/gundb/useGunProfile'
 import ModalLeftBorder from '../common/modal/ModalLeftBorder'
 import { useCollectBounty, useInviteCode, useInvited, useInviteScreenOpened } from './useInvites'
 import FriendsSVG from './friends.svg'

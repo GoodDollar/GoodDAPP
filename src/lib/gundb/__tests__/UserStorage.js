@@ -18,7 +18,7 @@ import {
 } from '../UserStorageClass'
 
 import UserPropertiesClass from '../UserPropertiesClass'
-import { getUserModel } from '../UserModel'
+import { getUserModel } from '../../userStorage/UserModel'
 import { delay } from '../../utils/async'
 import { addUser, setProfileFieldIndex } from './__util__/index'
 

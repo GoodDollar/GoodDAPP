@@ -1,13 +1,13 @@
 // @flow
 import { assign, debounce, over, toPairs } from 'lodash'
-import { getUserModel } from '../gundb/UserModel'
-import type { UserModel } from '../gundb/UserModel'
 import { ExceptionCategory } from '../logger/exceptions'
 import Base64Storage from '../nft/Base64Storage'
 import { isValidBase64Image, resizeImage } from '../utils/image'
 import pino from '../logger/pino-logger'
 import isEmail from '../validators/isEmail'
 import isMobilePhone from '../validators/isMobilePhone'
+import type { UserModel } from './UserModel'
+import { getUserModel } from './UserModel'
 import { UserStorage } from './UserStorageClass'
 
 const logger = pino.child({ from: 'UserProfileStorage' })

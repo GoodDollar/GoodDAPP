@@ -36,10 +36,10 @@ import { isValidBase64Image, isValidCIDImage, resizeImage } from '../utils/image
 import { GD_GUN_CREDENTIALS } from '../constants/localStorage'
 import AsyncStorage from '../utils/asyncStorage'
 import Base64Storage from '../nft/Base64Storage'
+import { getUserModel, type UserModel } from '../userStorage/UserModel'
+import { type StandardFeed } from '../userStorage/StandardFeed'
 import defaultGun from './gundb'
 import UserProperties from './UserPropertiesClass'
-import { getUserModel, type UserModel } from './UserModel'
-import { type StandardFeed } from './StandardFeed'
 import { FeedEvent, FeedItemType, FeedStorage, TxStatus } from './FeedStorage'
 
 const logger = pino.child({ from: 'GunUserStorage' })

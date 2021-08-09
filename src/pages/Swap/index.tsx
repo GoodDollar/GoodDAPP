@@ -239,7 +239,7 @@ function Swap() {
                 setBuying
             }}
         >
-            <SwapCardSC>
+            <SwapCardSC open={Boolean(meta)}>
                 <SwapWrapperSC>
                     <div className="flex justify-between items-center">
                         <Title className="pl-4">Swap</Title>

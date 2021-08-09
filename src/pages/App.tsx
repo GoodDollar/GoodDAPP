@@ -22,6 +22,11 @@ export const Beta = styled.div`
     text-transform: uppercase;
     color: ${({ theme }) => theme.color.text5};
     text-align: center;
+
+    @media screen and (max-height: 720px) {
+        font-size: 12px;
+        margin-top: 30px;
+    }
 `
 
 const Wrapper = styled.div`
@@ -105,7 +110,7 @@ function App(): JSX.Element {
                     <SideBar />
                     <div
                         ref={bodyRef}
-                        className="flex flex-col items-center justify-between flex-grow h-full overflow-y-auto overflow-x-hidden z-0 pt-4 sm:pt-8 px-4 md:pt-10 pb-3 lg:pb-8"
+                        className="flex flex-col items-center justify-between flex-grow h-full overflow-y-auto overflow-x-hidden z-0 pt-4 sm:pt-8 px-4 md:pt-10 pb-4"
                         style={{
                             background: theme.color.mainBg
                         }}

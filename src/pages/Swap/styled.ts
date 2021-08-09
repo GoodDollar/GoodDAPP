@@ -1,14 +1,22 @@
 import styled from 'styled-components'
 import Card from '../../components/gd/Card'
 
-export const SwapCardSC = styled.div`
+export const SwapCardSC = styled.div<{ open: boolean }>`
     max-width: 712px;
     align-self: stretch;
     position: relative;
 
     margin-left: 5rem;
 
+    @media screen and (max-height: 720px) {
+        transform-origin: 0 0;
+        transform: scale(0.8);
+        margin-bottom: -150px;
+    }
+
     @media ${({ theme }) => theme.media.md} {
+        transform: none;
+        margin-bottom: unset;
         margin-left: 0;
         align-self: center;
         max-width: 100%;

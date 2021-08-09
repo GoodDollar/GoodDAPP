@@ -76,7 +76,17 @@ function WithdrawRewards({ trigger, onClaim, ...rest }: WithdrawRewardsProps) {
                     {status === 'none' || status === 'pending' ? (
                         <>
                             <Title className="flex flex-grow justify-center pt-3 mb-5">Claimable Rewards</Title>
-                            {error && <p className="warning mb-5">{error.message}</p>}
+                            {
+                                <p className="warning mb-5">
+                                    {error ? (
+                                        error.message
+                                    ) : (
+                                        <>
+                                            Warning message goes here... <br /> Warning message goes here...
+                                        </>
+                                    )}
+                                </p>
+                            }
                             <div className="flex flex-col items-center gap-1 relative">
                                 <ButtonAction
                                     className="claim-reward"

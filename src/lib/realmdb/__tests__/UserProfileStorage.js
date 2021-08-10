@@ -84,13 +84,21 @@ describe('UserProfileStorage', () => {
 
   it('should save profile to the db', async () => {
     await userProfileStorage.setProfile(profile)
+    const { user_id, _id, ...fields } = await userProfileStorage.profiledb.getProfile()
 
-    const encryptedProfile = await userProfileStorage.profiledb.getProfile()
-    const { user_id, _id, ...fields } = encryptedProfile
-
-    // Check if values were encrypted
+    expect(user_id).not.toBeNull()
+    expect(_id).not.toBeNull()
     Object.keys(fields).forEach(key => {
-      expect(profile[key]).not.toEqual(encryptedProfile[key].value)
+      expect(profile[key]).toEqual(fields[key].display)
+    })
+  })
+
+  it('should store encrypted values in the db', async () => {
+    const { user_id, _id, ...fields } = await userProfileStorage.profiledb.getProfile()
+
+    Object.keys(fields).forEach(key => {
+      expect(profile[key]).not.toEqual(fields[key].value)
+      expect(fields[key].value.length).toBeGreaterThan(0)
     })
   })
 
@@ -106,19 +114,6 @@ describe('UserProfileStorage', () => {
     jest.spyOn(userProfileStorage.profiledb, 'getProfile').mockImplementation(() => null)
     await userProfileStorage.init()
     expect(Object.values(userProfileStorage.getProfile()).every(v => v === null)).toBeTruthy()
-  })
-
-  it('should get users profile', async () => {
-    await userProfileStorage.init()
-    const profile = userProfileStorage.getProfile()
-    expect(profile).toEqual(expect.objectContaining(profile))
-  })
-
-  it('should encrypt profile fields', async () => {
-    const encrypted = await userProfileStorage._encryptProfileFields(profile)
-    Object.keys(encrypted).forEach(key => {
-      expect(profile[key].value).not.toEqual(encrypted[key].value)
-    })
   })
 
   it('should decrypt profile fields', async () => {
@@ -171,7 +166,6 @@ describe('UserProfileStorage', () => {
   })
 
   it('should set private profile field', async () => {
-    const oldProfile = userProfileStorage.profile
     const username = 'johndoe123'
     await userProfileStorage.setProfileField('username', username, 'private')
     const newProfile = userProfileStorage.profile
@@ -181,21 +175,13 @@ describe('UserProfileStorage', () => {
       value: username,
       privacy: 'private',
     })
-    expect(newProfile.username).not.toEqual(oldProfile.username)
   })
 
   it('should set public profile field', async () => {
-    const oldProfile = userProfileStorage.profile
     const username = 'johndoe321'
     await userProfileStorage.setProfileField('username', username)
-    const newProfile = userProfileStorage.profile
 
-    expect(newProfile.username).toEqual({
-      display: username,
-      value: username,
-      privacy: 'public',
-    })
-    expect(newProfile.username).not.toEqual(oldProfile.username)
+    expect(userProfileStorage.getProfile().username).toEqual(username)
   })
 
   it('should throw error for invalid privacy setting', async () => {
@@ -223,125 +209,34 @@ describe('UserProfileStorage', () => {
     expect(foundProfile).toBeNull()
   })
 
-  it('should get profile by email', async () => {
+  it('should get public profile by valid field', async () => {
     const email = userProfileStorage.profile.email.display
     const foundProfile = await userProfileStorage.getPublicProfile('email', email)
     expect(foundProfile.username).toEqual(userProfileStorage.profile.username.display)
   })
 
-  it('should not get profile by invalid email', async () => {
+  it('should not get public profile by invalid field', async () => {
     const email = '123123123'
     const foundProfile = await userProfileStorage.getPublicProfile('email', email)
     expect(foundProfile).toBeNull()
   })
 
-  it('should get profile by full name', async () => {
-    const fullName = userProfileStorage.profile.fullName.display
-    const foundProfile = await userProfileStorage.getPublicProfile('fullName', fullName)
-    expect(foundProfile.fullName).toEqual(fullName)
-  })
-
-  it('should not get profile by invalid full name', async () => {
-    const fullName = ''
-    const foundProfile = await userProfileStorage.getPublicProfile('fullName', fullName)
-    expect(foundProfile).toBeNull()
-  })
-
-  it('should get profile by username', async () => {
-    const username = userProfileStorage.profile.username.display
-    const foundProfile = await userProfileStorage.getPublicProfile('username', username)
-    expect(foundProfile.username).toEqual(username)
-  })
-
-  it('should not get profile by invalid username', async () => {
-    const username = ''
-    const foundProfile = await userProfileStorage.getPublicProfile('username', username)
-    expect(foundProfile).toBeNull()
-  })
-
-  it('should get profile by mobile', async () => {
-    const mobile = userProfileStorage.profile.mobile.display
-    const foundProfile = await userProfileStorage.getPublicProfile('mobile', mobile)
-    expect(foundProfile.username).toEqual(userProfileStorage.profile.username.display)
-  })
-
-  it('should not get profile by invalid mobile', async () => {
-    const mobile = 'abcabcabc'
-    const foundProfile = await userProfileStorage.getPublicProfile('mobile', mobile)
-    expect(foundProfile).toBeNull()
-  })
-
-  it('should not get profile by invalid field', async () => {
-    const foundProfile = await userProfileStorage.getPublicProfile('', '')
-    expect(foundProfile).toBeNull()
-  })
-
-  it('should get email value', () => {
+  it('should get profile field value', () => {
     const email = userProfileStorage.getProfileFieldValue('email')
     expect(email).toEqual(userProfileStorage.profile.email.value)
   })
 
-  it('should get fullName value', () => {
-    const fullName = userProfileStorage.getProfileFieldValue('fullName')
-    expect(fullName).toEqual(userProfileStorage.profile.fullName.value)
-  })
-
-  it('should get mnemonic value', () => {
-    const mnemonic = userProfileStorage.getProfileFieldValue('mnemonic')
-    expect(mnemonic).toEqual(userProfileStorage.profile.mnemonic.value)
-  })
-
-  it('should get username value', () => {
-    const username = userProfileStorage.getProfileFieldValue('username')
-    expect(username).toEqual(userProfileStorage.profile.username.value)
-  })
-
-  it('should get mobile value', () => {
-    const mobile = userProfileStorage.getProfileFieldValue('mobile')
-    expect(mobile).toEqual(userProfileStorage.profile.mobile.value)
-  })
-
-  it('should get walletAddress value', () => {
-    const walletAddress = userProfileStorage.getProfileFieldValue('walletAddress')
-    expect(walletAddress).toEqual(userProfileStorage.profile.walletAddress.value)
-  })
-
-  it('should not get invalid value from profile', () => {
+  it('should not get profile value for invalid field', () => {
     const value = userProfileStorage.getProfileFieldValue('abc')
     expect(value).toEqual(undefined)
   })
 
-  it('should get email display value', () => {
+  it('should get profile field display value', () => {
     const email = userProfileStorage.getProfileFieldDisplayValue('email')
     expect(email).toEqual(userProfileStorage.profile.email.value)
   })
 
-  it('should get fullName display value', () => {
-    const fullName = userProfileStorage.getProfileFieldDisplayValue('fullName')
-    expect(fullName).toEqual(userProfileStorage.profile.fullName.value)
-  })
-
-  it('should get mnemonic display value', () => {
-    const mnemonic = userProfileStorage.getProfileFieldDisplayValue('mnemonic')
-    expect(mnemonic).toEqual(userProfileStorage.profile.mnemonic.value)
-  })
-
-  it('should get username display value', () => {
-    const username = userProfileStorage.getProfileFieldDisplayValue('username')
-    expect(username).toEqual(userProfileStorage.profile.username.value)
-  })
-
-  it('should get mobile display value', () => {
-    const mobile = userProfileStorage.getProfileFieldDisplayValue('mobile')
-    expect(mobile).toEqual(userProfileStorage.profile.mobile.value)
-  })
-
-  it('should get walletAddress display value', () => {
-    const walletAddress = userProfileStorage.getProfileFieldDisplayValue('walletAddress')
-    expect(walletAddress).toEqual(userProfileStorage.profile.walletAddress.value)
-  })
-
-  it('should not get display value for invalid field', () => {
+  it('should not get profile field display value for invalid field', () => {
     const value = userProfileStorage.getProfileFieldDisplayValue('abc')
     expect(value).toEqual(undefined)
   })
@@ -408,16 +303,21 @@ describe('UserProfileStorage', () => {
   it('should set profile field to private', async () => {
     await userProfileStorage.setProfileFieldPrivacy('email', 'private')
     expect(userProfileStorage.getFieldPrivacy('email')).toEqual('private')
+    expect(userProfileStorage.getProfileFieldDisplayValue('email')).toEqual('******')
   })
 
   it('should set profile field to masked', async () => {
     await userProfileStorage.setProfileFieldPrivacy('email', 'masked')
     expect(userProfileStorage.getFieldPrivacy('email')).toEqual('masked')
+    expect(userProfileStorage.getProfileFieldDisplayValue('email')).toContain('****')
   })
 
   it('should set profile field to public', async () => {
     await userProfileStorage.setProfileFieldPrivacy('email', 'public')
     expect(userProfileStorage.getFieldPrivacy('email')).toEqual('public')
+    expect(userProfileStorage.getProfileFieldValue('email')).toEqual(
+      userProfileStorage.getProfileFieldDisplayValue('email'),
+    )
   })
 
   it('should find profile using getUserProfile with valid email', async () => {
@@ -425,23 +325,8 @@ describe('UserProfileStorage', () => {
     expect(foundProfile).toEqual(expect.objectContaining({ name: userProfileStorage.profile.fullName.value }))
   })
 
-  it('should find profile using getUserProfile with valid mobile', async () => {
-    const foundProfile = await userProfileStorage.getUserProfile(userProfileStorage.profile.mobile.value)
-    expect(foundProfile).toEqual(expect.objectContaining({ name: userProfileStorage.profile.fullName.value }))
-  })
-
-  it('should find profile using getUserProfile with valid walletAddress', async () => {
-    const foundProfile = await userProfileStorage.getUserProfile(userProfileStorage.profile.walletAddress.value)
-    expect(foundProfile).toEqual(expect.objectContaining({ name: userProfileStorage.profile.fullName.value }))
-  })
-
   it('should not find profile using getUserProfile with invalid value', async () => {
     const foundProfile = await userProfileStorage.getUserProfile('as123asdas12312a')
-    expect(Object.values(foundProfile).every(key => key == null)).toBeTruthy()
-  })
-
-  it('should not find profile using getUserProfile with invalid field', async () => {
-    const foundProfile = await userProfileStorage.getUserProfile(userProfileStorage.profile.fullName.value)
     expect(Object.values(foundProfile).every(key => key == null)).toBeTruthy()
   })
 

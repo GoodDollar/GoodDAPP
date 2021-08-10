@@ -2,7 +2,7 @@ import React, { useCallback, useState } from 'react'
 import { ButtonDefault } from '../gd/Button'
 import { SupportedChainId } from '../../sdk/constants/chains'
 import usePromise from '../../hooks/usePromise'
-import { check, claim } from '../../sdk/ubi'
+import { check, claim, isWhitelisted } from '../../sdk/ubi'
 import useWeb3 from '../../hooks/useWeb3'
 import useActiveWeb3React from '../../hooks/useActiveWeb3React'
 import { MouseoverTooltip } from '../Tooltip'
@@ -35,6 +35,13 @@ function Web3Faucet(): JSX.Element | null {
     const web3 = useWeb3()
     const [claimable, , , refetch] = usePromise(async () => {
         if (!web3 || (chainId as any) !== SupportedChainId.FUSE) return false
+        const whitelisted = await isWhitelisted(web3).catch(e => {
+            console.error(e)
+            return false
+        })
+
+        if (!whitelisted) return new Error('Only whitelisted wallets can claim')
+
         const amount = await check(web3).catch(e => {
             console.error(e)
             return ''
@@ -47,16 +54,18 @@ function Web3Faucet(): JSX.Element | null {
         refetch()
     }, [web3])
 
-    const claimActive = (chainId as any) === SupportedChainId.FUSE && claimable
+    const claimActive = (chainId as any) === SupportedChainId.FUSE && claimable === true
 
     return (
         <div>
             <MouseoverTooltip
                 placement="bottom"
                 text={
-                    claimActive
-                        ? 'Click this button to Claim your Daily UBI in G$'
-                        : 'Please connect your Web3 wallet to the Fuse Network to Claim UBI.'
+                    (chainId as any) !== SupportedChainId.FUSE
+                        ? 'Please connect your Web3 wallet to the Fuse Network to Claim UBI.'
+                        : claimable instanceof Error
+                        ? claimable.message
+                        : 'Click this button to Claim your Daily UBI in G$'
                 }
                 offset={[0, 12]}
             >

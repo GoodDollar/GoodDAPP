@@ -12,7 +12,7 @@ import FormData from 'form-data'
 import fetch from 'node-fetch'
 import { GoodWallet } from '../src/lib/wallet/GoodWalletClass'
 import { GoodWalletLogin } from '../src/lib/login/GoodWalletLogin'
-import { UserStorage } from '../src/lib/userStorage/UserStorageClass'
+import { UserStorage } from '../src/lib/gundb/UserStorageClass'
 import Config from '../src/config/config'
 import API from '../src/lib/API/api'
 const Timeout = (timeout = 3000) => {

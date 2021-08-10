@@ -29,7 +29,6 @@ exports[`Auth matches snapshot 1`] = `
           >
             <div
               className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-display-6koalj r-flex-13awgt0 r-flexDirection-eqz5dr r-flexGrow-16y2uox r-justifyContent-1wtj0ep r-maxHeight-87ditf r-overflowX-lltvgl r-overflowY-1rnoaur r-padding-t60dpp r-paddingHorizontal-mk0yit r-paddingVertical-rjfia r-position-bnwqim r-width-13qz1uu"
-              data-name="viewWrapper"
             >
               <div
                 className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-evnaw r-fontWeight-majxgm r-lineHeight-waer2z r-marginBottom-eektet r-marginTop-1lfx3nc r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"

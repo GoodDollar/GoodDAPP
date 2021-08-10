@@ -5,14 +5,19 @@ exports[`SideMenuItem matches snapshot 1`] = `
   className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
-    className="css-view-1dbjc4n r-alignItems-1awozwy r-borderBottomColor-1fn3lry r-borderBottomWidth-qklmqi r-borderStyle-1phboty r-cursor-1loqt21 r-flexDirection-18u37iz r-justifyContent-1h0z5md r-padding-nsbfu8 r-paddingLeft-gy4na3 r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
-    onClick={[Function]}
-    onContextMenu={[Function]}
+    className="css-view-1dbjc4n r-alignItems-1awozwy r-borderBottomColor-1fn3lry r-borderBottomWidth-qklmqi r-borderStyle-1phboty r-cursor-1loqt21 r-flexDirection-18u37iz r-justifyContent-1h0z5md r-padding-nsbfu8 r-paddingLeft-gy4na3 r-touchAction-1otgn73 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
+    data-focusable={true}
     onKeyDown={[Function]}
+    onKeyUp={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
     style={
       Object {
-        "WebkitTransitionDuration": "0s",
-        "transitionDuration": "0s",
+        "opacity": 1,
       }
     }
     tabIndex="0"
@@ -37,7 +42,7 @@ exports[`SideMenuItem matches snapshot 1`] = `
       </div>
     </div>
     <div
-      className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-majxgm r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+      className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-majxgm r-lineHeight-rjixqe r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
       dir="auto"
     >
       Profile

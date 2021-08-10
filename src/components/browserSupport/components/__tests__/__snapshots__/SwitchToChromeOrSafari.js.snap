@@ -14,7 +14,7 @@ exports[`SwitchToChromeOrSafari matches snapshot 1`] = `
         className="css-view-1dbjc4n r-alignSelf-1kihuf0 r-marginBottom-1peese0 r-width-13qz1uu"
         style={
           Object {
-            "marginTop": "0px",
+            "marginTop": "8px",
           }
         }
       >
@@ -22,7 +22,7 @@ exports[`SwitchToChromeOrSafari matches snapshot 1`] = `
       </div>
     </div>
     <div
-      className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-marginBottom-1peese0 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+      className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-1x35g6 r-fontWeight-b88u0q r-lineHeight-17rnw9f r-marginBottom-1peese0 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
       dir="auto"
     >
       For best user

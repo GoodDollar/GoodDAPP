@@ -5,13 +5,13 @@ exports[`SignIn - MnemonicInput matches snapshot 1`] = `
   className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
-    className="css-view-1dbjc4n r-flexDirection-18u37iz r-height-1r8g8re r-marginTop-knv0ih r-width-17x6qj0"
+    className="css-view-1dbjc4n r-flexDirection-18u37iz r-height-1ugchlj r-marginTop-knv0ih r-width-17x6qj0"
   >
     <div
-      className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1jb27wt r-borderBottomLeftRadius-5kex9v r-borderColor-17xuhkx r-borderTopLeftRadius-1ct94d3 r-borderWidth-rs99b7 r-display-6koalj r-height-1r8g8re r-justifyContent-1777fci r-width-1yvhtrz"
+      className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1jb27wt r-borderBottomLeftRadius-5kex9v r-borderColor-17xuhkx r-borderTopLeftRadius-1ct94d3 r-borderWidth-rs99b7 r-display-6koalj r-height-1ugchlj r-justifyContent-1777fci r-width-1yvhtrz"
     >
       <div
-        className="css-text-901oao r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+        className="css-text-901oao r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-lineHeight-hbpseb r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
         dir="auto"
       >
         1
@@ -21,12 +21,14 @@ exports[`SignIn - MnemonicInput matches snapshot 1`] = `
       autoCapitalize="sentences"
       autoComplete="on"
       autoCorrect="on"
-      className="css-textinput-11aywtz r-backgroundColor-14lw9ot r-borderBottomRightRadius-1inxgn4 r-borderColor-17xuhkx r-borderTopRightRadius-3y0fky r-borderWidth-rs99b7 r-flex-13awgt0 r-height-1r8g8re r-justifyContent-1777fci r-paddingLeft-1qhn6m8 r-width-v53qcl"
+      className="css-textinput-11aywtz r-backgroundColor-14lw9ot r-borderBottomRightRadius-1inxgn4 r-borderColor-17xuhkx r-borderTopRightRadius-3y0fky r-borderWidth-rs99b7 r-flex-13awgt0 r-height-1ugchlj r-justifyContent-1777fci r-paddingLeft-1qhn6m8 r-width-v53qcl"
+      data-focusable={true}
       dir="auto"
       onBlur={[Function]}
       onChange={[Function]}
       onFocus={[Function]}
       onKeyDown={[Function]}
+      onKeyPress={[Function]}
       onSelect={[Function]}
       readOnly={false}
       spellCheck={true}
@@ -35,13 +37,13 @@ exports[`SignIn - MnemonicInput matches snapshot 1`] = `
     />
   </div>
   <div
-    className="css-view-1dbjc4n r-flexDirection-18u37iz r-height-1r8g8re r-marginTop-knv0ih r-width-17x6qj0"
+    className="css-view-1dbjc4n r-flexDirection-18u37iz r-height-1ugchlj r-marginTop-knv0ih r-width-17x6qj0"
   >
     <div
-      className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1jb27wt r-borderBottomLeftRadius-5kex9v r-borderColor-17xuhkx r-borderTopLeftRadius-1ct94d3 r-borderWidth-rs99b7 r-display-6koalj r-height-1r8g8re r-justifyContent-1777fci r-width-1yvhtrz"
+      className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1jb27wt r-borderBottomLeftRadius-5kex9v r-borderColor-17xuhkx r-borderTopLeftRadius-1ct94d3 r-borderWidth-rs99b7 r-display-6koalj r-height-1ugchlj r-justifyContent-1777fci r-width-1yvhtrz"
     >
       <div
-        className="css-text-901oao r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+        className="css-text-901oao r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-lineHeight-hbpseb r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
         dir="auto"
       >
         2
@@ -51,12 +53,14 @@ exports[`SignIn - MnemonicInput matches snapshot 1`] = `
       autoCapitalize="sentences"
       autoComplete="on"
       autoCorrect="on"
-      className="css-textinput-11aywtz r-backgroundColor-14lw9ot r-borderBottomRightRadius-1inxgn4 r-borderColor-17xuhkx r-borderTopRightRadius-3y0fky r-borderWidth-rs99b7 r-flex-13awgt0 r-height-1r8g8re r-justifyContent-1777fci r-paddingLeft-1qhn6m8 r-width-v53qcl"
+      className="css-textinput-11aywtz r-backgroundColor-14lw9ot r-borderBottomRightRadius-1inxgn4 r-borderColor-17xuhkx r-borderTopRightRadius-3y0fky r-borderWidth-rs99b7 r-flex-13awgt0 r-height-1ugchlj r-justifyContent-1777fci r-paddingLeft-1qhn6m8 r-width-v53qcl"
+      data-focusable={true}
       dir="auto"
       onBlur={[Function]}
       onChange={[Function]}
       onFocus={[Function]}
       onKeyDown={[Function]}
+      onKeyPress={[Function]}
       onSelect={[Function]}
       readOnly={false}
       spellCheck={true}
@@ -65,13 +69,13 @@ exports[`SignIn - MnemonicInput matches snapshot 1`] = `
     />
   </div>
   <div
-    className="css-view-1dbjc4n r-flexDirection-18u37iz r-height-1r8g8re r-marginTop-knv0ih r-width-17x6qj0"
+    className="css-view-1dbjc4n r-flexDirection-18u37iz r-height-1ugchlj r-marginTop-knv0ih r-width-17x6qj0"
   >
     <div
-      className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1jb27wt r-borderBottomLeftRadius-5kex9v r-borderColor-17xuhkx r-borderTopLeftRadius-1ct94d3 r-borderWidth-rs99b7 r-display-6koalj r-height-1r8g8re r-justifyContent-1777fci r-width-1yvhtrz"
+      className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1jb27wt r-borderBottomLeftRadius-5kex9v r-borderColor-17xuhkx r-borderTopLeftRadius-1ct94d3 r-borderWidth-rs99b7 r-display-6koalj r-height-1ugchlj r-justifyContent-1777fci r-width-1yvhtrz"
     >
       <div
-        className="css-text-901oao r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+        className="css-text-901oao r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-lineHeight-hbpseb r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
         dir="auto"
       >
         3
@@ -81,12 +85,14 @@ exports[`SignIn - MnemonicInput matches snapshot 1`] = `
       autoCapitalize="sentences"
       autoComplete="on"
       autoCorrect="on"
-      className="css-textinput-11aywtz r-backgroundColor-14lw9ot r-borderBottomRightRadius-1inxgn4 r-borderColor-17xuhkx r-borderTopRightRadius-3y0fky r-borderWidth-rs99b7 r-flex-13awgt0 r-height-1r8g8re r-justifyContent-1777fci r-paddingLeft-1qhn6m8 r-width-v53qcl"
+      className="css-textinput-11aywtz r-backgroundColor-14lw9ot r-borderBottomRightRadius-1inxgn4 r-borderColor-17xuhkx r-borderTopRightRadius-3y0fky r-borderWidth-rs99b7 r-flex-13awgt0 r-height-1ugchlj r-justifyContent-1777fci r-paddingLeft-1qhn6m8 r-width-v53qcl"
+      data-focusable={true}
       dir="auto"
       onBlur={[Function]}
       onChange={[Function]}
       onFocus={[Function]}
       onKeyDown={[Function]}
+      onKeyPress={[Function]}
       onSelect={[Function]}
       readOnly={false}
       spellCheck={true}
@@ -95,13 +101,13 @@ exports[`SignIn - MnemonicInput matches snapshot 1`] = `
     />
   </div>
   <div
-    className="css-view-1dbjc4n r-flexDirection-18u37iz r-height-1r8g8re r-marginTop-knv0ih r-width-17x6qj0"
+    className="css-view-1dbjc4n r-flexDirection-18u37iz r-height-1ugchlj r-marginTop-knv0ih r-width-17x6qj0"
   >
     <div
-      className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1jb27wt r-borderBottomLeftRadius-5kex9v r-borderColor-17xuhkx r-borderTopLeftRadius-1ct94d3 r-borderWidth-rs99b7 r-display-6koalj r-height-1r8g8re r-justifyContent-1777fci r-width-1yvhtrz"
+      className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1jb27wt r-borderBottomLeftRadius-5kex9v r-borderColor-17xuhkx r-borderTopLeftRadius-1ct94d3 r-borderWidth-rs99b7 r-display-6koalj r-height-1ugchlj r-justifyContent-1777fci r-width-1yvhtrz"
     >
       <div
-        className="css-text-901oao r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+        className="css-text-901oao r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-lineHeight-hbpseb r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
         dir="auto"
       >
         4
@@ -111,12 +117,14 @@ exports[`SignIn - MnemonicInput matches snapshot 1`] = `
       autoCapitalize="sentences"
       autoComplete="on"
       autoCorrect="on"
-      className="css-textinput-11aywtz r-backgroundColor-14lw9ot r-borderBottomRightRadius-1inxgn4 r-borderColor-17xuhkx r-borderTopRightRadius-3y0fky r-borderWidth-rs99b7 r-flex-13awgt0 r-height-1r8g8re r-justifyContent-1777fci r-paddingLeft-1qhn6m8 r-width-v53qcl"
+      className="css-textinput-11aywtz r-backgroundColor-14lw9ot r-borderBottomRightRadius-1inxgn4 r-borderColor-17xuhkx r-borderTopRightRadius-3y0fky r-borderWidth-rs99b7 r-flex-13awgt0 r-height-1ugchlj r-justifyContent-1777fci r-paddingLeft-1qhn6m8 r-width-v53qcl"
+      data-focusable={true}
       dir="auto"
       onBlur={[Function]}
       onChange={[Function]}
       onFocus={[Function]}
       onKeyDown={[Function]}
+      onKeyPress={[Function]}
       onSelect={[Function]}
       readOnly={false}
       spellCheck={true}
@@ -125,13 +133,13 @@ exports[`SignIn - MnemonicInput matches snapshot 1`] = `
     />
   </div>
   <div
-    className="css-view-1dbjc4n r-flexDirection-18u37iz r-height-1r8g8re r-marginTop-knv0ih r-width-17x6qj0"
+    className="css-view-1dbjc4n r-flexDirection-18u37iz r-height-1ugchlj r-marginTop-knv0ih r-width-17x6qj0"
   >
     <div
-      className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1jb27wt r-borderBottomLeftRadius-5kex9v r-borderColor-17xuhkx r-borderTopLeftRadius-1ct94d3 r-borderWidth-rs99b7 r-display-6koalj r-height-1r8g8re r-justifyContent-1777fci r-width-1yvhtrz"
+      className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1jb27wt r-borderBottomLeftRadius-5kex9v r-borderColor-17xuhkx r-borderTopLeftRadius-1ct94d3 r-borderWidth-rs99b7 r-display-6koalj r-height-1ugchlj r-justifyContent-1777fci r-width-1yvhtrz"
     >
       <div
-        className="css-text-901oao r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+        className="css-text-901oao r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-lineHeight-hbpseb r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
         dir="auto"
       >
         5
@@ -141,12 +149,14 @@ exports[`SignIn - MnemonicInput matches snapshot 1`] = `
       autoCapitalize="sentences"
       autoComplete="on"
       autoCorrect="on"
-      className="css-textinput-11aywtz r-backgroundColor-14lw9ot r-borderBottomRightRadius-1inxgn4 r-borderColor-17xuhkx r-borderTopRightRadius-3y0fky r-borderWidth-rs99b7 r-flex-13awgt0 r-height-1r8g8re r-justifyContent-1777fci r-paddingLeft-1qhn6m8 r-width-v53qcl"
+      className="css-textinput-11aywtz r-backgroundColor-14lw9ot r-borderBottomRightRadius-1inxgn4 r-borderColor-17xuhkx r-borderTopRightRadius-3y0fky r-borderWidth-rs99b7 r-flex-13awgt0 r-height-1ugchlj r-justifyContent-1777fci r-paddingLeft-1qhn6m8 r-width-v53qcl"
+      data-focusable={true}
       dir="auto"
       onBlur={[Function]}
       onChange={[Function]}
       onFocus={[Function]}
       onKeyDown={[Function]}
+      onKeyPress={[Function]}
       onSelect={[Function]}
       readOnly={false}
       spellCheck={true}
@@ -155,13 +165,13 @@ exports[`SignIn - MnemonicInput matches snapshot 1`] = `
     />
   </div>
   <div
-    className="css-view-1dbjc4n r-flexDirection-18u37iz r-height-1r8g8re r-marginTop-knv0ih r-width-17x6qj0"
+    className="css-view-1dbjc4n r-flexDirection-18u37iz r-height-1ugchlj r-marginTop-knv0ih r-width-17x6qj0"
   >
     <div
-      className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1jb27wt r-borderBottomLeftRadius-5kex9v r-borderColor-17xuhkx r-borderTopLeftRadius-1ct94d3 r-borderWidth-rs99b7 r-display-6koalj r-height-1r8g8re r-justifyContent-1777fci r-width-1yvhtrz"
+      className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1jb27wt r-borderBottomLeftRadius-5kex9v r-borderColor-17xuhkx r-borderTopLeftRadius-1ct94d3 r-borderWidth-rs99b7 r-display-6koalj r-height-1ugchlj r-justifyContent-1777fci r-width-1yvhtrz"
     >
       <div
-        className="css-text-901oao r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+        className="css-text-901oao r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-lineHeight-hbpseb r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
         dir="auto"
       >
         6
@@ -171,12 +181,14 @@ exports[`SignIn - MnemonicInput matches snapshot 1`] = `
       autoCapitalize="sentences"
       autoComplete="on"
       autoCorrect="on"
-      className="css-textinput-11aywtz r-backgroundColor-14lw9ot r-borderBottomRightRadius-1inxgn4 r-borderColor-17xuhkx r-borderTopRightRadius-3y0fky r-borderWidth-rs99b7 r-flex-13awgt0 r-height-1r8g8re r-justifyContent-1777fci r-paddingLeft-1qhn6m8 r-width-v53qcl"
+      className="css-textinput-11aywtz r-backgroundColor-14lw9ot r-borderBottomRightRadius-1inxgn4 r-borderColor-17xuhkx r-borderTopRightRadius-3y0fky r-borderWidth-rs99b7 r-flex-13awgt0 r-height-1ugchlj r-justifyContent-1777fci r-paddingLeft-1qhn6m8 r-width-v53qcl"
+      data-focusable={true}
       dir="auto"
       onBlur={[Function]}
       onChange={[Function]}
       onFocus={[Function]}
       onKeyDown={[Function]}
+      onKeyPress={[Function]}
       onSelect={[Function]}
       readOnly={false}
       spellCheck={true}
@@ -185,13 +197,13 @@ exports[`SignIn - MnemonicInput matches snapshot 1`] = `
     />
   </div>
   <div
-    className="css-view-1dbjc4n r-flexDirection-18u37iz r-height-1r8g8re r-marginTop-knv0ih r-width-17x6qj0"
+    className="css-view-1dbjc4n r-flexDirection-18u37iz r-height-1ugchlj r-marginTop-knv0ih r-width-17x6qj0"
   >
     <div
-      className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1jb27wt r-borderBottomLeftRadius-5kex9v r-borderColor-17xuhkx r-borderTopLeftRadius-1ct94d3 r-borderWidth-rs99b7 r-display-6koalj r-height-1r8g8re r-justifyContent-1777fci r-width-1yvhtrz"
+      className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1jb27wt r-borderBottomLeftRadius-5kex9v r-borderColor-17xuhkx r-borderTopLeftRadius-1ct94d3 r-borderWidth-rs99b7 r-display-6koalj r-height-1ugchlj r-justifyContent-1777fci r-width-1yvhtrz"
     >
       <div
-        className="css-text-901oao r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+        className="css-text-901oao r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-lineHeight-hbpseb r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
         dir="auto"
       >
         7
@@ -201,12 +213,14 @@ exports[`SignIn - MnemonicInput matches snapshot 1`] = `
       autoCapitalize="sentences"
       autoComplete="on"
       autoCorrect="on"
-      className="css-textinput-11aywtz r-backgroundColor-14lw9ot r-borderBottomRightRadius-1inxgn4 r-borderColor-17xuhkx r-borderTopRightRadius-3y0fky r-borderWidth-rs99b7 r-flex-13awgt0 r-height-1r8g8re r-justifyContent-1777fci r-paddingLeft-1qhn6m8 r-width-v53qcl"
+      className="css-textinput-11aywtz r-backgroundColor-14lw9ot r-borderBottomRightRadius-1inxgn4 r-borderColor-17xuhkx r-borderTopRightRadius-3y0fky r-borderWidth-rs99b7 r-flex-13awgt0 r-height-1ugchlj r-justifyContent-1777fci r-paddingLeft-1qhn6m8 r-width-v53qcl"
+      data-focusable={true}
       dir="auto"
       onBlur={[Function]}
       onChange={[Function]}
       onFocus={[Function]}
       onKeyDown={[Function]}
+      onKeyPress={[Function]}
       onSelect={[Function]}
       readOnly={false}
       spellCheck={true}
@@ -215,13 +229,13 @@ exports[`SignIn - MnemonicInput matches snapshot 1`] = `
     />
   </div>
   <div
-    className="css-view-1dbjc4n r-flexDirection-18u37iz r-height-1r8g8re r-marginTop-knv0ih r-width-17x6qj0"
+    className="css-view-1dbjc4n r-flexDirection-18u37iz r-height-1ugchlj r-marginTop-knv0ih r-width-17x6qj0"
   >
     <div
-      className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1jb27wt r-borderBottomLeftRadius-5kex9v r-borderColor-17xuhkx r-borderTopLeftRadius-1ct94d3 r-borderWidth-rs99b7 r-display-6koalj r-height-1r8g8re r-justifyContent-1777fci r-width-1yvhtrz"
+      className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1jb27wt r-borderBottomLeftRadius-5kex9v r-borderColor-17xuhkx r-borderTopLeftRadius-1ct94d3 r-borderWidth-rs99b7 r-display-6koalj r-height-1ugchlj r-justifyContent-1777fci r-width-1yvhtrz"
     >
       <div
-        className="css-text-901oao r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+        className="css-text-901oao r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-lineHeight-hbpseb r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
         dir="auto"
       >
         8
@@ -231,12 +245,14 @@ exports[`SignIn - MnemonicInput matches snapshot 1`] = `
       autoCapitalize="sentences"
       autoComplete="on"
       autoCorrect="on"
-      className="css-textinput-11aywtz r-backgroundColor-14lw9ot r-borderBottomRightRadius-1inxgn4 r-borderColor-17xuhkx r-borderTopRightRadius-3y0fky r-borderWidth-rs99b7 r-flex-13awgt0 r-height-1r8g8re r-justifyContent-1777fci r-paddingLeft-1qhn6m8 r-width-v53qcl"
+      className="css-textinput-11aywtz r-backgroundColor-14lw9ot r-borderBottomRightRadius-1inxgn4 r-borderColor-17xuhkx r-borderTopRightRadius-3y0fky r-borderWidth-rs99b7 r-flex-13awgt0 r-height-1ugchlj r-justifyContent-1777fci r-paddingLeft-1qhn6m8 r-width-v53qcl"
+      data-focusable={true}
       dir="auto"
       onBlur={[Function]}
       onChange={[Function]}
       onFocus={[Function]}
       onKeyDown={[Function]}
+      onKeyPress={[Function]}
       onSelect={[Function]}
       readOnly={false}
       spellCheck={true}
@@ -245,13 +261,13 @@ exports[`SignIn - MnemonicInput matches snapshot 1`] = `
     />
   </div>
   <div
-    className="css-view-1dbjc4n r-flexDirection-18u37iz r-height-1r8g8re r-marginTop-knv0ih r-width-17x6qj0"
+    className="css-view-1dbjc4n r-flexDirection-18u37iz r-height-1ugchlj r-marginTop-knv0ih r-width-17x6qj0"
   >
     <div
-      className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1jb27wt r-borderBottomLeftRadius-5kex9v r-borderColor-17xuhkx r-borderTopLeftRadius-1ct94d3 r-borderWidth-rs99b7 r-display-6koalj r-height-1r8g8re r-justifyContent-1777fci r-width-1yvhtrz"
+      className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1jb27wt r-borderBottomLeftRadius-5kex9v r-borderColor-17xuhkx r-borderTopLeftRadius-1ct94d3 r-borderWidth-rs99b7 r-display-6koalj r-height-1ugchlj r-justifyContent-1777fci r-width-1yvhtrz"
     >
       <div
-        className="css-text-901oao r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+        className="css-text-901oao r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-lineHeight-hbpseb r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
         dir="auto"
       >
         9
@@ -261,12 +277,14 @@ exports[`SignIn - MnemonicInput matches snapshot 1`] = `
       autoCapitalize="sentences"
       autoComplete="on"
       autoCorrect="on"
-      className="css-textinput-11aywtz r-backgroundColor-14lw9ot r-borderBottomRightRadius-1inxgn4 r-borderColor-17xuhkx r-borderTopRightRadius-3y0fky r-borderWidth-rs99b7 r-flex-13awgt0 r-height-1r8g8re r-justifyContent-1777fci r-paddingLeft-1qhn6m8 r-width-v53qcl"
+      className="css-textinput-11aywtz r-backgroundColor-14lw9ot r-borderBottomRightRadius-1inxgn4 r-borderColor-17xuhkx r-borderTopRightRadius-3y0fky r-borderWidth-rs99b7 r-flex-13awgt0 r-height-1ugchlj r-justifyContent-1777fci r-paddingLeft-1qhn6m8 r-width-v53qcl"
+      data-focusable={true}
       dir="auto"
       onBlur={[Function]}
       onChange={[Function]}
       onFocus={[Function]}
       onKeyDown={[Function]}
+      onKeyPress={[Function]}
       onSelect={[Function]}
       readOnly={false}
       spellCheck={true}
@@ -275,13 +293,13 @@ exports[`SignIn - MnemonicInput matches snapshot 1`] = `
     />
   </div>
   <div
-    className="css-view-1dbjc4n r-flexDirection-18u37iz r-height-1r8g8re r-marginTop-knv0ih r-width-17x6qj0"
+    className="css-view-1dbjc4n r-flexDirection-18u37iz r-height-1ugchlj r-marginTop-knv0ih r-width-17x6qj0"
   >
     <div
-      className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1jb27wt r-borderBottomLeftRadius-5kex9v r-borderColor-17xuhkx r-borderTopLeftRadius-1ct94d3 r-borderWidth-rs99b7 r-display-6koalj r-height-1r8g8re r-justifyContent-1777fci r-width-1yvhtrz"
+      className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1jb27wt r-borderBottomLeftRadius-5kex9v r-borderColor-17xuhkx r-borderTopLeftRadius-1ct94d3 r-borderWidth-rs99b7 r-display-6koalj r-height-1ugchlj r-justifyContent-1777fci r-width-1yvhtrz"
     >
       <div
-        className="css-text-901oao r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+        className="css-text-901oao r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-lineHeight-hbpseb r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
         dir="auto"
       >
         10
@@ -291,12 +309,14 @@ exports[`SignIn - MnemonicInput matches snapshot 1`] = `
       autoCapitalize="sentences"
       autoComplete="on"
       autoCorrect="on"
-      className="css-textinput-11aywtz r-backgroundColor-14lw9ot r-borderBottomRightRadius-1inxgn4 r-borderColor-17xuhkx r-borderTopRightRadius-3y0fky r-borderWidth-rs99b7 r-flex-13awgt0 r-height-1r8g8re r-justifyContent-1777fci r-paddingLeft-1qhn6m8 r-width-v53qcl"
+      className="css-textinput-11aywtz r-backgroundColor-14lw9ot r-borderBottomRightRadius-1inxgn4 r-borderColor-17xuhkx r-borderTopRightRadius-3y0fky r-borderWidth-rs99b7 r-flex-13awgt0 r-height-1ugchlj r-justifyContent-1777fci r-paddingLeft-1qhn6m8 r-width-v53qcl"
+      data-focusable={true}
       dir="auto"
       onBlur={[Function]}
       onChange={[Function]}
       onFocus={[Function]}
       onKeyDown={[Function]}
+      onKeyPress={[Function]}
       onSelect={[Function]}
       readOnly={false}
       spellCheck={true}
@@ -305,13 +325,13 @@ exports[`SignIn - MnemonicInput matches snapshot 1`] = `
     />
   </div>
   <div
-    className="css-view-1dbjc4n r-flexDirection-18u37iz r-height-1r8g8re r-marginTop-knv0ih r-width-17x6qj0"
+    className="css-view-1dbjc4n r-flexDirection-18u37iz r-height-1ugchlj r-marginTop-knv0ih r-width-17x6qj0"
   >
     <div
-      className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1jb27wt r-borderBottomLeftRadius-5kex9v r-borderColor-17xuhkx r-borderTopLeftRadius-1ct94d3 r-borderWidth-rs99b7 r-display-6koalj r-height-1r8g8re r-justifyContent-1777fci r-width-1yvhtrz"
+      className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1jb27wt r-borderBottomLeftRadius-5kex9v r-borderColor-17xuhkx r-borderTopLeftRadius-1ct94d3 r-borderWidth-rs99b7 r-display-6koalj r-height-1ugchlj r-justifyContent-1777fci r-width-1yvhtrz"
     >
       <div
-        className="css-text-901oao r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+        className="css-text-901oao r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-lineHeight-hbpseb r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
         dir="auto"
       >
         11
@@ -321,12 +341,14 @@ exports[`SignIn - MnemonicInput matches snapshot 1`] = `
       autoCapitalize="sentences"
       autoComplete="on"
       autoCorrect="on"
-      className="css-textinput-11aywtz r-backgroundColor-14lw9ot r-borderBottomRightRadius-1inxgn4 r-borderColor-17xuhkx r-borderTopRightRadius-3y0fky r-borderWidth-rs99b7 r-flex-13awgt0 r-height-1r8g8re r-justifyContent-1777fci r-paddingLeft-1qhn6m8 r-width-v53qcl"
+      className="css-textinput-11aywtz r-backgroundColor-14lw9ot r-borderBottomRightRadius-1inxgn4 r-borderColor-17xuhkx r-borderTopRightRadius-3y0fky r-borderWidth-rs99b7 r-flex-13awgt0 r-height-1ugchlj r-justifyContent-1777fci r-paddingLeft-1qhn6m8 r-width-v53qcl"
+      data-focusable={true}
       dir="auto"
       onBlur={[Function]}
       onChange={[Function]}
       onFocus={[Function]}
       onKeyDown={[Function]}
+      onKeyPress={[Function]}
       onSelect={[Function]}
       readOnly={false}
       spellCheck={true}
@@ -335,13 +357,13 @@ exports[`SignIn - MnemonicInput matches snapshot 1`] = `
     />
   </div>
   <div
-    className="css-view-1dbjc4n r-flexDirection-18u37iz r-height-1r8g8re r-marginTop-knv0ih r-width-17x6qj0"
+    className="css-view-1dbjc4n r-flexDirection-18u37iz r-height-1ugchlj r-marginTop-knv0ih r-width-17x6qj0"
   >
     <div
-      className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1jb27wt r-borderBottomLeftRadius-5kex9v r-borderColor-17xuhkx r-borderTopLeftRadius-1ct94d3 r-borderWidth-rs99b7 r-display-6koalj r-height-1r8g8re r-justifyContent-1777fci r-width-1yvhtrz"
+      className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1jb27wt r-borderBottomLeftRadius-5kex9v r-borderColor-17xuhkx r-borderTopLeftRadius-1ct94d3 r-borderWidth-rs99b7 r-display-6koalj r-height-1ugchlj r-justifyContent-1777fci r-width-1yvhtrz"
     >
       <div
-        className="css-text-901oao r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+        className="css-text-901oao r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-lineHeight-hbpseb r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
         dir="auto"
       >
         12
@@ -351,12 +373,14 @@ exports[`SignIn - MnemonicInput matches snapshot 1`] = `
       autoCapitalize="sentences"
       autoComplete="on"
       autoCorrect="on"
-      className="css-textinput-11aywtz r-backgroundColor-14lw9ot r-borderBottomRightRadius-1inxgn4 r-borderColor-17xuhkx r-borderTopRightRadius-3y0fky r-borderWidth-rs99b7 r-flex-13awgt0 r-height-1r8g8re r-justifyContent-1777fci r-paddingLeft-1qhn6m8 r-width-v53qcl"
+      className="css-textinput-11aywtz r-backgroundColor-14lw9ot r-borderBottomRightRadius-1inxgn4 r-borderColor-17xuhkx r-borderTopRightRadius-3y0fky r-borderWidth-rs99b7 r-flex-13awgt0 r-height-1ugchlj r-justifyContent-1777fci r-paddingLeft-1qhn6m8 r-width-v53qcl"
+      data-focusable={true}
       dir="auto"
       onBlur={[Function]}
       onChange={[Function]}
       onFocus={[Function]}
       onKeyDown={[Function]}
+      onKeyPress={[Function]}
       onSelect={[Function]}
       readOnly={false}
       spellCheck={true}

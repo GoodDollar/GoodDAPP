@@ -9,7 +9,6 @@ exports[`LoadingIcon matches snapshot 1`] = `
   >
     <div
       className="css-view-1dbjc4n"
-      id="animatedComponent"
       style={
         Object {
           "WebkitTransform": "rotate(0deg)",

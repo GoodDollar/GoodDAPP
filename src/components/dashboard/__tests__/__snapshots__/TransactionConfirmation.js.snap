@@ -6,7 +6,6 @@ exports[`TransactionConfirmation matches snapshot 1`] = `
 >
   <div
     className="css-view-1dbjc4n r-display-6koalj r-flexDirection-eqz5dr r-flexGrow-16y2uox r-maxHeight-87ditf r-overflowX-lltvgl r-overflowY-1rnoaur r-padding-edyy15 r-position-bnwqim r-width-13qz1uu"
-    data-name="viewWrapper"
     style={
       Object {
         "backgroundImage": "linear-gradient(3.141592653589793rad,#00AFFF,#2DC0F7,#28C0EF,#23C0E7,#1EC1DF,#19C1D7,#14C1CF,#0FC2C7,#0FC2C7,#0AC2BF,#05C2B7,#00C3AF)",

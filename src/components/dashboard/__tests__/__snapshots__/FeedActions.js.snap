@@ -5,7 +5,7 @@ exports[`FeedActions matches snapshot 1`] = `
   className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
-    className="css-view-1dbjc4n r-alignItems-1awozwy r-alignSelf-173mn98 r-borderBottomRightRadius-nefvgx r-borderTopRightRadius-3f7b68 r-display-6koalj r-flex-13awgt0 r-height-1pi2tsx r-justifyContent-1777fci r-marginRight-1kb76zh r-marginTop-knv0ih r-maxHeight-46g5hj r-padding-edyy15 r-paddingLeft-puj83k r-paddingRight-9aemit r-width-1n20pny"
+    className="css-view-1dbjc4n r-alignItems-1awozwy r-alignSelf-173mn98 r-borderBottomRightRadius-nefvgx r-borderTopRightRadius-3f7b68 r-display-6koalj r-flex-13awgt0 r-height-1pi2tsx r-justifyContent-1777fci r-marginRight-1kb76zh r-marginTop-knv0ih r-maxHeight-1wlz0di r-padding-edyy15 r-paddingLeft-puj83k r-paddingRight-9aemit r-width-1n20pny"
     style={
       Object {
         "backgroundColor": "rgba(0,0,0,0.00)",

@@ -28,13 +28,13 @@ exports[`SummaryTable matches snapshot 1`] = `
       }
     >
       <div
-        className="css-text-901oao r-color-vaa0vc r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+        className="css-text-901oao r-color-vaa0vc r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-1it3c9n r-lineHeight-rjixqe r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
         dir="auto"
       >
         To:
       </div>
       <div
-        className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+        className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1x35g6 r-fontWeight-1it3c9n r-lineHeight-17rnw9f r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
         dir="auto"
       >
         name
@@ -49,7 +49,7 @@ exports[`SummaryTable matches snapshot 1`] = `
       }
     >
       <div
-        className="css-text-901oao r-color-vaa0vc r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+        className="css-text-901oao r-color-vaa0vc r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-1it3c9n r-lineHeight-rjixqe r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
         dir="auto"
       >
         Amount:
@@ -58,7 +58,7 @@ exports[`SummaryTable matches snapshot 1`] = `
         className="css-view-1dbjc4n r-alignItems-1d09ksm r-display-6koalj r-flexDirection-18u37iz"
       >
         <div
-          className="css-text-901oao r-color-1q5uqvh r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-marginRight-a5pmau r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+          className="css-text-901oao r-color-1q5uqvh r-fontFamily-6jnb14 r-fontSize-1x35g6 r-fontWeight-b88u0q r-lineHeight-ueyrd6 r-marginRight-a5pmau r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
           dir="auto"
         >
           0.20
@@ -67,13 +67,13 @@ exports[`SummaryTable matches snapshot 1`] = `
           className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
         >
           <div
-            className="css-text-901oao r-color-1q5uqvh r-fontFamily-6jnb14 r-fontSize-1b43r93 r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+            className="css-text-901oao r-color-1q5uqvh r-fontFamily-6jnb14 r-fontSize-1b43r93 r-fontWeight-b88u0q r-lineHeight-hbpseb r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
             dir="auto"
           >
             G
           </div>
           <div
-            className="css-text-901oao r-color-1q5uqvh r-fontFamily-6jnb14 r-fontSize-1b43r93 r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+            className="css-text-901oao r-color-1q5uqvh r-fontFamily-6jnb14 r-fontSize-1b43r93 r-fontWeight-b88u0q r-lineHeight-hbpseb r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
             dir="auto"
           >
             $
@@ -90,13 +90,13 @@ exports[`SummaryTable matches snapshot 1`] = `
       }
     >
       <div
-        className="css-text-901oao r-color-vaa0vc r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+        className="css-text-901oao r-color-vaa0vc r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-1it3c9n r-lineHeight-rjixqe r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
         dir="auto"
       >
         For:
       </div>
       <div
-        className="css-text-901oao css-textMultiLine-cens5h r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-1it3c9n r-lineHeight-qvk6io r-marginLeft-1n0xq6e r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+        className="css-text-901oao css-textMultiLine-cens5h r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-1it3c9n r-lineHeight-rjixqe r-marginLeft-1n0xq6e r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
         dir="auto"
         style={
           Object {
@@ -139,7 +139,7 @@ exports[`SummaryTable matches snapshot with minimal properties 1`] = `
       }
     >
       <div
-        className="css-text-901oao r-color-vaa0vc r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+        className="css-text-901oao r-color-vaa0vc r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-1it3c9n r-lineHeight-rjixqe r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
         dir="auto"
       >
         Amount:
@@ -148,7 +148,7 @@ exports[`SummaryTable matches snapshot with minimal properties 1`] = `
         className="css-view-1dbjc4n r-alignItems-1d09ksm r-display-6koalj r-flexDirection-18u37iz"
       >
         <div
-          className="css-text-901oao r-color-1q5uqvh r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-marginRight-a5pmau r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+          className="css-text-901oao r-color-1q5uqvh r-fontFamily-6jnb14 r-fontSize-1x35g6 r-fontWeight-b88u0q r-lineHeight-ueyrd6 r-marginRight-a5pmau r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
           dir="auto"
         >
           0.20
@@ -157,13 +157,13 @@ exports[`SummaryTable matches snapshot with minimal properties 1`] = `
           className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
         >
           <div
-            className="css-text-901oao r-color-1q5uqvh r-fontFamily-6jnb14 r-fontSize-1b43r93 r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+            className="css-text-901oao r-color-1q5uqvh r-fontFamily-6jnb14 r-fontSize-1b43r93 r-fontWeight-b88u0q r-lineHeight-hbpseb r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
             dir="auto"
           >
             G
           </div>
           <div
-            className="css-text-901oao r-color-1q5uqvh r-fontFamily-6jnb14 r-fontSize-1b43r93 r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+            className="css-text-901oao r-color-1q5uqvh r-fontFamily-6jnb14 r-fontSize-1b43r93 r-fontWeight-b88u0q r-lineHeight-hbpseb r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
             dir="auto"
           >
             $

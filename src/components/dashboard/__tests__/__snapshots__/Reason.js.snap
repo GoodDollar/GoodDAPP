@@ -6,7 +6,6 @@ exports[`Reason matches snapshot 1`] = `
 >
   <div
     className="css-view-1dbjc4n r-display-6koalj r-flexDirection-eqz5dr r-flexGrow-16y2uox r-maxHeight-87ditf r-overflowX-lltvgl r-overflowY-1rnoaur r-padding-edyy15 r-position-bnwqim r-width-13qz1uu"
-    data-name="viewWrapper"
     style={
       Object {
         "backgroundImage": "linear-gradient(3.141592653589793rad,#00AFFF,#2DC0F7,#28C0EF,#23C0E7,#1EC1DF,#19C1D7,#14C1CF,#0FC2C7,#0FC2C7,#0AC2BF,#05C2B7,#00C3AF)",
@@ -20,7 +19,7 @@ exports[`Reason matches snapshot 1`] = `
         className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-justifyContent-1h0z5md"
       >
         <div
-          className="css-text-901oao r-color-waoq6i r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-letterSpacing-i0j7gm r-lineHeight-qvk6io r-marginVertical-c8eef1 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
+          className="css-text-901oao r-color-waoq6i r-fontFamily-6jnb14 r-fontSize-zz5t5d r-fontWeight-b88u0q r-letterSpacing-i0j7gm r-lineHeight-37tt59 r-marginVertical-c8eef1 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
           dir="auto"
         >
           What Is The
@@ -38,20 +37,25 @@ Transaction For?
             className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-justifyContent-1wtj0ep"
           >
             <div
-              className="css-view-1dbjc4n r-cursor-1loqt21 r-marginHorizontal-4amgru r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
-              onClick={[Function]}
-              onContextMenu={[Function]}
+              className="css-view-1dbjc4n r-cursor-1loqt21 r-marginHorizontal-4amgru r-touchAction-1otgn73 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
+              data-focusable={true}
               onKeyDown={[Function]}
+              onKeyUp={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
               style={
                 Object {
-                  "WebkitTransitionDuration": "0s",
-                  "transitionDuration": "0s",
+                  "opacity": 1,
                 }
               }
               tabIndex="0"
             >
               <div
-                className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderColor-17xuhkx r-borderRadius-1f0042m r-borderStyle-1phboty r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz r-flexGrow-16y2uox r-maxHeight-46g5hj r-maxWidth-x3gwly r-minHeight-ifefl9 r-minWidth-bcqeeo r-position-bnwqim r-width-13qz1uu"
+                className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderColor-17xuhkx r-borderRadius-1f0042m r-borderStyle-1phboty r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz r-flexGrow-16y2uox r-maxHeight-1755o8z r-maxWidth-s86s8b r-minHeight-1p38lxi r-minWidth-1lhnj9p r-position-bnwqim r-width-13qz1uu"
                 style={
                   Object {
                     "borderBottomWidth": "0px",
@@ -109,20 +113,25 @@ Transaction For?
             className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-justifyContent-1wtj0ep"
           >
             <div
-              className="css-view-1dbjc4n r-cursor-1loqt21 r-marginHorizontal-4amgru r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
-              onClick={[Function]}
-              onContextMenu={[Function]}
+              className="css-view-1dbjc4n r-cursor-1loqt21 r-marginHorizontal-4amgru r-touchAction-1otgn73 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
+              data-focusable={true}
               onKeyDown={[Function]}
+              onKeyUp={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
               style={
                 Object {
-                  "WebkitTransitionDuration": "0s",
-                  "transitionDuration": "0s",
+                  "opacity": 1,
                 }
               }
               tabIndex="0"
             >
               <div
-                className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderColor-17xuhkx r-borderRadius-1f0042m r-borderStyle-1phboty r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz r-flexGrow-16y2uox r-maxHeight-46g5hj r-maxWidth-x3gwly r-minHeight-ifefl9 r-minWidth-bcqeeo r-position-bnwqim r-width-13qz1uu"
+                className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderColor-17xuhkx r-borderRadius-1f0042m r-borderStyle-1phboty r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz r-flexGrow-16y2uox r-maxHeight-1755o8z r-maxWidth-s86s8b r-minHeight-1p38lxi r-minWidth-1lhnj9p r-position-bnwqim r-width-13qz1uu"
                 style={
                   Object {
                     "borderBottomWidth": "0px",
@@ -181,20 +190,25 @@ Engagement
             className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-justifyContent-1wtj0ep"
           >
             <div
-              className="css-view-1dbjc4n r-cursor-1loqt21 r-marginHorizontal-4amgru r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
-              onClick={[Function]}
-              onContextMenu={[Function]}
+              className="css-view-1dbjc4n r-cursor-1loqt21 r-marginHorizontal-4amgru r-touchAction-1otgn73 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
+              data-focusable={true}
               onKeyDown={[Function]}
+              onKeyUp={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
               style={
                 Object {
-                  "WebkitTransitionDuration": "0s",
-                  "transitionDuration": "0s",
+                  "opacity": 1,
                 }
               }
               tabIndex="0"
             >
               <div
-                className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderColor-17xuhkx r-borderRadius-1f0042m r-borderStyle-1phboty r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz r-flexGrow-16y2uox r-maxHeight-46g5hj r-maxWidth-x3gwly r-minHeight-ifefl9 r-minWidth-bcqeeo r-position-bnwqim r-width-13qz1uu"
+                className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderColor-17xuhkx r-borderRadius-1f0042m r-borderStyle-1phboty r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz r-flexGrow-16y2uox r-maxHeight-1755o8z r-maxWidth-s86s8b r-minHeight-1p38lxi r-minWidth-1lhnj9p r-position-bnwqim r-width-13qz1uu"
                 style={
                   Object {
                     "borderBottomWidth": "0px",
@@ -261,20 +275,25 @@ Engagement
             className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-justifyContent-1wtj0ep"
           >
             <div
-              className="css-view-1dbjc4n r-cursor-1loqt21 r-marginHorizontal-4amgru r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
-              onClick={[Function]}
-              onContextMenu={[Function]}
+              className="css-view-1dbjc4n r-cursor-1loqt21 r-marginHorizontal-4amgru r-touchAction-1otgn73 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
+              data-focusable={true}
               onKeyDown={[Function]}
+              onKeyUp={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
               style={
                 Object {
-                  "WebkitTransitionDuration": "0s",
-                  "transitionDuration": "0s",
+                  "opacity": 1,
                 }
               }
               tabIndex="0"
             >
               <div
-                className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderColor-17xuhkx r-borderRadius-1f0042m r-borderStyle-1phboty r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz r-flexGrow-16y2uox r-maxHeight-46g5hj r-maxWidth-x3gwly r-minHeight-ifefl9 r-minWidth-bcqeeo r-position-bnwqim r-width-13qz1uu"
+                className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderColor-17xuhkx r-borderRadius-1f0042m r-borderStyle-1phboty r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz r-flexGrow-16y2uox r-maxHeight-1755o8z r-maxWidth-s86s8b r-minHeight-1p38lxi r-minWidth-1lhnj9p r-position-bnwqim r-width-13qz1uu"
                 style={
                   Object {
                     "borderBottomWidth": "0px",
@@ -333,20 +352,25 @@ Consultation
             className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-justifyContent-1wtj0ep"
           >
             <div
-              className="css-view-1dbjc4n r-cursor-1loqt21 r-marginHorizontal-4amgru r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
-              onClick={[Function]}
-              onContextMenu={[Function]}
+              className="css-view-1dbjc4n r-cursor-1loqt21 r-marginHorizontal-4amgru r-touchAction-1otgn73 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
+              data-focusable={true}
               onKeyDown={[Function]}
+              onKeyUp={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
               style={
                 Object {
-                  "WebkitTransitionDuration": "0s",
-                  "transitionDuration": "0s",
+                  "opacity": 1,
                 }
               }
               tabIndex="0"
             >
               <div
-                className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderColor-17xuhkx r-borderRadius-1f0042m r-borderStyle-1phboty r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz r-flexGrow-16y2uox r-maxHeight-46g5hj r-maxWidth-x3gwly r-minHeight-ifefl9 r-minWidth-bcqeeo r-position-bnwqim r-width-13qz1uu"
+                className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderColor-17xuhkx r-borderRadius-1f0042m r-borderStyle-1phboty r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz r-flexGrow-16y2uox r-maxHeight-1755o8z r-maxWidth-s86s8b r-minHeight-1p38lxi r-minWidth-1lhnj9p r-position-bnwqim r-width-13qz1uu"
                 style={
                   Object {
                     "borderBottomWidth": "0px",
@@ -404,20 +428,25 @@ Consultation
             className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-justifyContent-1wtj0ep"
           >
             <div
-              className="css-view-1dbjc4n r-cursor-1loqt21 r-marginHorizontal-4amgru r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
-              onClick={[Function]}
-              onContextMenu={[Function]}
+              className="css-view-1dbjc4n r-cursor-1loqt21 r-marginHorizontal-4amgru r-touchAction-1otgn73 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
+              data-focusable={true}
               onKeyDown={[Function]}
+              onKeyUp={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
               style={
                 Object {
-                  "WebkitTransitionDuration": "0s",
-                  "transitionDuration": "0s",
+                  "opacity": 1,
                 }
               }
               tabIndex="0"
             >
               <div
-                className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderColor-17xuhkx r-borderRadius-1f0042m r-borderStyle-1phboty r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz r-flexGrow-16y2uox r-maxHeight-46g5hj r-maxWidth-x3gwly r-minHeight-ifefl9 r-minWidth-bcqeeo r-position-bnwqim r-width-13qz1uu"
+                className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderColor-17xuhkx r-borderRadius-1f0042m r-borderStyle-1phboty r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz r-flexGrow-16y2uox r-maxHeight-1755o8z r-maxWidth-s86s8b r-minHeight-1p38lxi r-minWidth-1lhnj9p r-position-bnwqim r-width-13qz1uu"
                 style={
                   Object {
                     "borderBottomWidth": "0px",
@@ -483,13 +512,15 @@ Consultation
               autoComplete="on"
               autoCorrect="on"
               autoFocus={true}
-              className="css-textinput-11aywtz r-backgroundColor-14lw9ot r-borderBottomColor-1ny7kx0 r-borderBottomWidth-qklmqi r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-hiw28u r-marginTop-1m4o0o r-paddingHorizontal-1dye5f7 r-paddingVertical-oyd9sg r-placeholderTextColor-18tw6j8 r-textAlign-q4m81j"
+              className="css-textinput-11aywtz r-backgroundColor-14lw9ot r-borderBottomColor-1ny7kx0 r-borderBottomWidth-qklmqi r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-1i10wst r-marginTop-1m4o0o r-paddingHorizontal-1dye5f7 r-paddingVertical-oyd9sg r-placeholderTextColor-18tw6j8 r-textAlign-q4m81j"
+              data-focusable={true}
               dir="auto"
               maxLength={256}
               onBlur={[Function]}
               onChange={[Function]}
               onFocus={[Function]}
               onKeyDown={[Function]}
+              onKeyPress={[Function]}
               onSelect={[Function]}
               onTouchStart={[Function]}
               placeholder="Add a message"
@@ -501,7 +532,6 @@ Consultation
           <div
             className="css-text-901oao r-fontSize-1enofrn r-paddingHorizontal-1e081e0 r-paddingVertical-oyd9sg r-textAlign-q4m81j"
             dir="auto"
-            id="animatedComponent"
             style={
               Object {
                 "WebkitTransform": "translateY(0px)",
@@ -528,7 +558,6 @@ Consultation
         >
           <div
             className="css-view-1dbjc4n r-alignItems-1oszu61 r-borderColor-17xuhkx r-borderStyle-1phboty r-display-6koalj r-justifyContent-1777fci"
-            id="animatedComponent"
             style={
               Object {
                 "backgroundColor": "rgba(0,0,0,0.00)",
@@ -555,9 +584,16 @@ Consultation
           >
             <div
               className="css-cursor-18t94o4 css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
-              onClick={[Function]}
-              onContextMenu={[Function]}
+              data-focusable={true}
               onKeyDown={[Function]}
+              onKeyPress={[Function]}
+              onKeyUp={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
               role="button"
               style={
                 Object {
@@ -591,7 +627,7 @@ Consultation
                     className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
                   >
                     <div
-                      className="css-text-901oao r-alignItems-1awozwy r-color-vaa0vc r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-qvk6io r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                      className="css-text-901oao r-alignItems-1awozwy r-color-vaa0vc r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-hbpseb r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                       dir="auto"
                     >
                       Cancel
@@ -603,14 +639,21 @@ Consultation
           </div>
         </div>
         <div
-          className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-justifyContent-1wtj0ep r-minWidth-bcqeeo"
+          className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-justifyContent-1wtj0ep"
+          style={
+            Object {
+              "minWidth": "244px",
+            }
+          }
         >
           <div
             className="css-view-1dbjc4n r-alignItems-1oszu61 r-borderColor-17xuhkx r-borderStyle-1phboty r-display-6koalj r-justifyContent-1777fci"
-            id="animatedComponent"
             style={
               Object {
-                "WebkitFlex": 2,
+                "WebkitBoxFlex": 2,
+                "WebkitFlexBasis": "0%",
+                "WebkitFlexGrow": 2,
+                "WebkitFlexShrink": 1,
                 "backgroundColor": "rgba(0,0,0,0.12)",
                 "borderBottomLeftRadius": "50px",
                 "borderBottomRightRadius": "50px",
@@ -620,14 +663,18 @@ Consultation
                 "borderTopLeftRadius": "50px",
                 "borderTopRightRadius": "50px",
                 "borderTopWidth": "0px",
-                "flex": 2,
+                "flexBasis": "0%",
+                "flexGrow": 2,
+                "flexShrink": 1,
                 "marginBottom": "0px",
                 "marginLeft": "0px",
                 "marginRight": "0px",
                 "marginTop": "0px",
                 "minHeight": "44px",
                 "minWidth": "64px",
-                "msFlex": "2 1 0%",
+                "msFlexNegative": 1,
+                "msFlexPositive": 2,
+                "msFlexPreferredSize": "0%",
                 "paddingBottom": "0px",
                 "paddingLeft": "0px",
                 "paddingRight": "0px",
@@ -636,11 +683,17 @@ Consultation
             }
           >
             <div
-              aria-disabled={true}
-              className="css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
-              onClick={[Function]}
-              onContextMenu={[Function]}
+              className="css-cursor-18t94o4 css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
+              data-focusable={true}
               onKeyDown={[Function]}
+              onKeyPress={[Function]}
+              onKeyUp={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
               role="button"
               style={
                 Object {
@@ -654,7 +707,7 @@ Consultation
                   "msGridRowAlign": "stretch",
                 }
               }
-              tabIndex="-1"
+              tabIndex="0"
             >
               <div
                 className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
@@ -674,7 +727,7 @@ Consultation
                     className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
                   >
                     <div
-                      className="css-text-901oao r-alignItems-1awozwy r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-qvk6io r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
+                      className="css-text-901oao r-alignItems-1awozwy r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-hbpseb r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
                       dir="auto"
                     >
                       Next

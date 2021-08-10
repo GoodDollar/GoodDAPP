@@ -141,7 +141,6 @@ exports[`Dashboard matches snapshot 1`] = `
       </div>
       <div
         className="css-view-1dbjc4n r-backgroundColor-l26x2w r-display-6koalj r-flexDirection-eqz5dr r-flexGrow-16y2uox r-maxHeight-87ditf r-overflowX-lltvgl r-overflowY-buy8e9 r-padding-t60dpp r-position-bnwqim r-width-13qz1uu"
-        data-name="viewWrapper"
       >
         <div
           className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderRadius-1f0042m r-borderTopLeftRadius-ou6ah9 r-borderTopRightRadius-t12b5v r-marginBottom-efb0ki r-marginLeft-1jkjb r-marginRight-1kb76zh r-paddingBottom-12rqra3 r-paddingHorizontal-1e081e0 r-paddingLeft-1m04atk r-paddingRight-1pyaxff r-paddingTop-95jzfe r-paddingVertical-1yzf0co r-position-bnwqim r-zIndex-mhe3cw"

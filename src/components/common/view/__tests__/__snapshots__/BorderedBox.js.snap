@@ -11,13 +11,18 @@ exports[`BorderedBox matches snapshot 1`] = `
       className="css-view-1dbjc4n r-alignItems-1awozwy r-borderColor-e397lv r-borderRadius-1f0042m r-borderStyle-1phboty r-borderWidth-rs99b7 r-display-6koalj r-flexDirection-eqz5dr r-justifyContent-1777fci r-padding-t60dpp r-position-bnwqim"
     >
       <div
-        className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-height-1w2pmg r-position-u8s1d r-top-ipm5af r-width-1h2t8mc"
+        className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-height-4v7adb r-position-u8s1d r-top-18nhz7w"
+        style={
+          Object {
+            "width": "88px",
+          }
+        }
       />
       <div
-        className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-justifyContent-1wtj0ep r-marginBottom-p1pxzi r-marginTop-1mnahxq r-padding-t60dpp"
+        className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-justifyContent-1wtj0ep r-marginBottom-tjf2cy r-marginTop-fcs4qk r-padding-t60dpp"
       >
         <div
-          className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-marginBottom-p1pxzi r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+          className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-1i10wst r-fontWeight-b88u0q r-lineHeight-135wba7 r-marginBottom-5oul0u r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
           dir="auto"
         />
         <div
@@ -26,27 +31,32 @@ exports[`BorderedBox matches snapshot 1`] = `
         />
       </div>
       <div
-        className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-bottom-1p0dtai r-height-1w2pmg r-position-u8s1d r-width-1h2t8mc"
+        className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-bottom-14bkmb3 r-height-4v7adb r-position-u8s1d r-width-1v6so3z"
       />
     </div>
     <div
-      className="css-view-1dbjc4n r-alignItems-1awozwy r-bottom-1p0dtai r-display-6koalj r-height-1w2pmg r-justifyContent-1777fci r-maxHeight-46g5hj r-position-u8s1d r-width-13qz1uu"
+      className="css-view-1dbjc4n r-alignItems-1awozwy r-bottom-wuw1bi r-display-6koalj r-height-eu3ka r-justifyContent-1777fci r-maxHeight-yca7ao r-position-u8s1d r-width-13qz1uu"
     >
       <div
-        className="css-view-1dbjc4n r-height-1w2pmg r-width-1h2t8mc"
+        className="css-view-1dbjc4n r-height-eu3ka r-width-1dcdz4f"
       >
         <div
           className="css-view-1dbjc4n"
         >
           <div
-            className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1jb27wt r-borderRadius-17gur6a r-cursor-1loqt21 r-display-6koalj r-height-1w2pmg r-justifyContent-1777fci r-marginBottom-p1pxzi r-marginLeft-1jj8364 r-marginRight-lchren r-maxHeight-46g5hj r-minWidth-bcqeeo r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-width-1h2t8mc"
-            onClick={[Function]}
-            onContextMenu={[Function]}
+            className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1jb27wt r-borderRadius-y47klf r-cursor-1loqt21 r-display-6koalj r-height-eu3ka r-justifyContent-1777fci r-marginBottom-qdjnpu r-marginLeft-1jj8364 r-marginRight-lchren r-maxHeight-yca7ao r-minWidth-vkv6oe r-touchAction-1otgn73 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-width-1aockid"
+            data-focusable={true}
             onKeyDown={[Function]}
+            onKeyUp={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
             style={
               Object {
-                "WebkitTransitionDuration": "0s",
-                "transitionDuration": "0s",
+                "opacity": 1,
               }
             }
             tabIndex="0"

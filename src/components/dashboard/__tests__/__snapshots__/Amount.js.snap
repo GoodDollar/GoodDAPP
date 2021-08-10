@@ -9,7 +9,6 @@ exports[`Amount matches snapshot 1`] = `
   >
     <div
       className="css-view-1dbjc4n r-display-6koalj r-flexDirection-eqz5dr r-flexGrow-16y2uox r-maxHeight-87ditf r-overflowX-lltvgl r-overflowY-1rnoaur r-padding-edyy15 r-position-bnwqim r-width-13qz1uu"
-      data-name="viewWrapper"
       style={
         Object {
           "backgroundImage": "linear-gradient(3.141592653589793rad,#00AFFF,#2DC0F7,#28C0EF,#23C0E7,#1EC1DF,#19C1D7,#14C1CF,#0FC2C7,#0FC2C7,#0AC2BF,#05C2B7,#00C3AF)",
@@ -26,7 +25,7 @@ exports[`Amount matches snapshot 1`] = `
             className="css-view-1dbjc4n r-alignItems-1d09ksm r-display-6koalj r-flexDirection-18u37iz"
           >
             <div
-              className="css-text-901oao r-color-181bzza r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-marginRight-a5pmau r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+              className="css-text-901oao r-color-181bzza r-fontFamily-6jnb14 r-fontSize-3i2nvb r-fontWeight-b88u0q r-lineHeight-ueyrd6 r-marginRight-a5pmau r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
               dir="auto"
             >
               -.--
@@ -35,13 +34,13 @@ exports[`Amount matches snapshot 1`] = `
               className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
             >
               <div
-                className="css-text-901oao r-color-181bzza r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                className="css-text-901oao r-color-181bzza r-fontFamily-6jnb14 r-fontSize-1i10wst r-fontWeight-b88u0q r-lineHeight-hbpseb r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                 dir="auto"
               >
                 G
               </div>
               <div
-                className="css-text-901oao r-color-181bzza r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                className="css-text-901oao r-color-181bzza r-fontFamily-6jnb14 r-fontSize-1i10wst r-fontWeight-b88u0q r-lineHeight-hbpseb r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                 dir="auto"
               >
                 $
@@ -49,20 +48,25 @@ exports[`Amount matches snapshot 1`] = `
             </div>
           </div>
           <div
-            className="css-view-1dbjc4n r-cursor-1loqt21 r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
-            onClick={[Function]}
-            onContextMenu={[Function]}
+            className="css-view-1dbjc4n r-cursor-1loqt21 r-touchAction-1otgn73 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
+            data-focusable={true}
             onKeyDown={[Function]}
+            onKeyUp={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
             style={
               Object {
-                "WebkitTransitionDuration": "0s",
-                "transitionDuration": "0s",
+                "opacity": 1,
               }
             }
             tabIndex="0"
           >
             <div
-              className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-marginRight-61z16t"
+              className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-marginRight-1mf7evn"
             >
               <div
                 className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1uqle4r r-borderRadius-ieixw r-display-6koalj r-height-1g7fiml r-justifyContent-1777fci r-marginBottom-d0pm55 r-width-199wky7"
@@ -110,10 +114,10 @@ exports[`Amount matches snapshot 1`] = `
             className="css-view-1dbjc4n r-display-6koalj r-flex-13awgt0 r-justifyContent-1wtj0ep r-width-13qz1uu"
           >
             <div
-              className="css-view-1dbjc4n r-height-1w2pmg r-minHeight-ifefl9"
+              className="css-view-1dbjc4n r-height-132bva r-minHeight-1hsi953"
             >
               <div
-                className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-majxgm r-lineHeight-qvk6io r-marginVertical-c8eef1 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
+                className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1x35g6 r-fontWeight-majxgm r-lineHeight-17rnw9f r-marginVertical-c8eef1 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
                 dir="auto"
               >
                 How much?
@@ -129,20 +133,27 @@ exports[`Amount matches snapshot 1`] = `
                     autoComplete="on"
                     autoCorrect="on"
                     autoFocus={true}
-                    className="css-textinput-11aywtz r-backgroundColor-14lw9ot r-borderBottomColor-1ny7kx0 r-borderBottomWidth-qklmqi r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-vw2c0b r-letterSpacing-19r33im r-marginTop-1mnahxq r-paddingHorizontal-1dye5f7 r-paddingVertical-oyd9sg r-placeholderTextColor-1xktb6b r-textAlign-q4m81j"
+                    className="css-textinput-11aywtz r-backgroundColor-14lw9ot r-borderBottomColor-1ny7kx0 r-borderBottomWidth-qklmqi r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-1ui5ee8 r-fontWeight-vw2c0b r-letterSpacing-19r33im r-marginTop-o5ey6k r-paddingHorizontal-1dye5f7 r-paddingVertical-oyd9sg r-placeholderTextColor-1xktb6b r-textAlign-q4m81j"
                     dir="auto"
                     maxLength={20}
                     onBlur={[Function]}
                     onChange={[Function]}
-                    onClick={[Function]}
-                    onContextMenu={[Function]}
                     onFocus={[Function]}
                     onKeyDown={[Function]}
+                    onKeyPress={[Function]}
+                    onKeyUp={[Function]}
+                    onResponderGrant={[Function]}
+                    onResponderMove={[Function]}
+                    onResponderRelease={[Function]}
+                    onResponderTerminate={[Function]}
+                    onResponderTerminationRequest={[Function]}
                     onSelect={[Function]}
+                    onStartShouldSetResponder={[Function]}
                     onTouchStart={[Function]}
                     placeholder="0 G$"
                     readOnly={false}
                     spellCheck={true}
+                    tabIndex="-1"
                     type="text"
                     value=""
                   />
@@ -150,7 +161,6 @@ exports[`Amount matches snapshot 1`] = `
                 <div
                   className="css-text-901oao r-paddingHorizontal-1e081e0 r-paddingVertical-oyd9sg r-textAlign-q4m81j"
                   dir="auto"
-                  id="animatedComponent"
                   style={
                     Object {
                       "WebkitTransform": "translateY(0px)",
@@ -178,13 +188,19 @@ exports[`Amount matches snapshot 1`] = `
               >
                 <div
                   className="css-view-1dbjc4n r-alignItems-1awozwy r-cursor-1loqt21 r-display-6koalj r-flex-13awgt0 r-padding-edyy15 r-touchAction-1otgn73 r-userSelect-lrvibr"
-                  onClick={[Function]}
-                  onContextMenu={[Function]}
+                  data-focusable={true}
                   onKeyDown={[Function]}
+                  onKeyUp={[Function]}
+                  onResponderGrant={[Function]}
+                  onResponderMove={[Function]}
+                  onResponderRelease={[Function]}
+                  onResponderTerminate={[Function]}
+                  onResponderTerminationRequest={[Function]}
+                  onStartShouldSetResponder={[Function]}
                   tabIndex="0"
                 >
                   <div
-                    className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                    className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-adyw6z r-fontWeight-b88u0q r-lineHeight-135wba7 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                     dir="auto"
                   >
                     1
@@ -192,13 +208,19 @@ exports[`Amount matches snapshot 1`] = `
                 </div>
                 <div
                   className="css-view-1dbjc4n r-alignItems-1awozwy r-cursor-1loqt21 r-display-6koalj r-flex-13awgt0 r-padding-edyy15 r-touchAction-1otgn73 r-userSelect-lrvibr"
-                  onClick={[Function]}
-                  onContextMenu={[Function]}
+                  data-focusable={true}
                   onKeyDown={[Function]}
+                  onKeyUp={[Function]}
+                  onResponderGrant={[Function]}
+                  onResponderMove={[Function]}
+                  onResponderRelease={[Function]}
+                  onResponderTerminate={[Function]}
+                  onResponderTerminationRequest={[Function]}
+                  onStartShouldSetResponder={[Function]}
                   tabIndex="0"
                 >
                   <div
-                    className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                    className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-adyw6z r-fontWeight-b88u0q r-lineHeight-135wba7 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                     dir="auto"
                   >
                     2
@@ -206,13 +228,19 @@ exports[`Amount matches snapshot 1`] = `
                 </div>
                 <div
                   className="css-view-1dbjc4n r-alignItems-1awozwy r-cursor-1loqt21 r-display-6koalj r-flex-13awgt0 r-padding-edyy15 r-touchAction-1otgn73 r-userSelect-lrvibr"
-                  onClick={[Function]}
-                  onContextMenu={[Function]}
+                  data-focusable={true}
                   onKeyDown={[Function]}
+                  onKeyUp={[Function]}
+                  onResponderGrant={[Function]}
+                  onResponderMove={[Function]}
+                  onResponderRelease={[Function]}
+                  onResponderTerminate={[Function]}
+                  onResponderTerminationRequest={[Function]}
+                  onStartShouldSetResponder={[Function]}
                   tabIndex="0"
                 >
                   <div
-                    className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                    className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-adyw6z r-fontWeight-b88u0q r-lineHeight-135wba7 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                     dir="auto"
                   >
                     3
@@ -224,13 +252,19 @@ exports[`Amount matches snapshot 1`] = `
               >
                 <div
                   className="css-view-1dbjc4n r-alignItems-1awozwy r-cursor-1loqt21 r-display-6koalj r-flex-13awgt0 r-padding-edyy15 r-touchAction-1otgn73 r-userSelect-lrvibr"
-                  onClick={[Function]}
-                  onContextMenu={[Function]}
+                  data-focusable={true}
                   onKeyDown={[Function]}
+                  onKeyUp={[Function]}
+                  onResponderGrant={[Function]}
+                  onResponderMove={[Function]}
+                  onResponderRelease={[Function]}
+                  onResponderTerminate={[Function]}
+                  onResponderTerminationRequest={[Function]}
+                  onStartShouldSetResponder={[Function]}
                   tabIndex="0"
                 >
                   <div
-                    className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                    className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-adyw6z r-fontWeight-b88u0q r-lineHeight-135wba7 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                     dir="auto"
                   >
                     4
@@ -238,13 +272,19 @@ exports[`Amount matches snapshot 1`] = `
                 </div>
                 <div
                   className="css-view-1dbjc4n r-alignItems-1awozwy r-cursor-1loqt21 r-display-6koalj r-flex-13awgt0 r-padding-edyy15 r-touchAction-1otgn73 r-userSelect-lrvibr"
-                  onClick={[Function]}
-                  onContextMenu={[Function]}
+                  data-focusable={true}
                   onKeyDown={[Function]}
+                  onKeyUp={[Function]}
+                  onResponderGrant={[Function]}
+                  onResponderMove={[Function]}
+                  onResponderRelease={[Function]}
+                  onResponderTerminate={[Function]}
+                  onResponderTerminationRequest={[Function]}
+                  onStartShouldSetResponder={[Function]}
                   tabIndex="0"
                 >
                   <div
-                    className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                    className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-adyw6z r-fontWeight-b88u0q r-lineHeight-135wba7 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                     dir="auto"
                   >
                     5
@@ -252,13 +292,19 @@ exports[`Amount matches snapshot 1`] = `
                 </div>
                 <div
                   className="css-view-1dbjc4n r-alignItems-1awozwy r-cursor-1loqt21 r-display-6koalj r-flex-13awgt0 r-padding-edyy15 r-touchAction-1otgn73 r-userSelect-lrvibr"
-                  onClick={[Function]}
-                  onContextMenu={[Function]}
+                  data-focusable={true}
                   onKeyDown={[Function]}
+                  onKeyUp={[Function]}
+                  onResponderGrant={[Function]}
+                  onResponderMove={[Function]}
+                  onResponderRelease={[Function]}
+                  onResponderTerminate={[Function]}
+                  onResponderTerminationRequest={[Function]}
+                  onStartShouldSetResponder={[Function]}
                   tabIndex="0"
                 >
                   <div
-                    className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                    className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-adyw6z r-fontWeight-b88u0q r-lineHeight-135wba7 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                     dir="auto"
                   >
                     6
@@ -270,13 +316,19 @@ exports[`Amount matches snapshot 1`] = `
               >
                 <div
                   className="css-view-1dbjc4n r-alignItems-1awozwy r-cursor-1loqt21 r-display-6koalj r-flex-13awgt0 r-padding-edyy15 r-touchAction-1otgn73 r-userSelect-lrvibr"
-                  onClick={[Function]}
-                  onContextMenu={[Function]}
+                  data-focusable={true}
                   onKeyDown={[Function]}
+                  onKeyUp={[Function]}
+                  onResponderGrant={[Function]}
+                  onResponderMove={[Function]}
+                  onResponderRelease={[Function]}
+                  onResponderTerminate={[Function]}
+                  onResponderTerminationRequest={[Function]}
+                  onStartShouldSetResponder={[Function]}
                   tabIndex="0"
                 >
                   <div
-                    className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                    className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-adyw6z r-fontWeight-b88u0q r-lineHeight-135wba7 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                     dir="auto"
                   >
                     7
@@ -284,13 +336,19 @@ exports[`Amount matches snapshot 1`] = `
                 </div>
                 <div
                   className="css-view-1dbjc4n r-alignItems-1awozwy r-cursor-1loqt21 r-display-6koalj r-flex-13awgt0 r-padding-edyy15 r-touchAction-1otgn73 r-userSelect-lrvibr"
-                  onClick={[Function]}
-                  onContextMenu={[Function]}
+                  data-focusable={true}
                   onKeyDown={[Function]}
+                  onKeyUp={[Function]}
+                  onResponderGrant={[Function]}
+                  onResponderMove={[Function]}
+                  onResponderRelease={[Function]}
+                  onResponderTerminate={[Function]}
+                  onResponderTerminationRequest={[Function]}
+                  onStartShouldSetResponder={[Function]}
                   tabIndex="0"
                 >
                   <div
-                    className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                    className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-adyw6z r-fontWeight-b88u0q r-lineHeight-135wba7 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                     dir="auto"
                   >
                     8
@@ -298,13 +356,19 @@ exports[`Amount matches snapshot 1`] = `
                 </div>
                 <div
                   className="css-view-1dbjc4n r-alignItems-1awozwy r-cursor-1loqt21 r-display-6koalj r-flex-13awgt0 r-padding-edyy15 r-touchAction-1otgn73 r-userSelect-lrvibr"
-                  onClick={[Function]}
-                  onContextMenu={[Function]}
+                  data-focusable={true}
                   onKeyDown={[Function]}
+                  onKeyUp={[Function]}
+                  onResponderGrant={[Function]}
+                  onResponderMove={[Function]}
+                  onResponderRelease={[Function]}
+                  onResponderTerminate={[Function]}
+                  onResponderTerminationRequest={[Function]}
+                  onStartShouldSetResponder={[Function]}
                   tabIndex="0"
                 >
                   <div
-                    className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                    className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-adyw6z r-fontWeight-b88u0q r-lineHeight-135wba7 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                     dir="auto"
                   >
                     9
@@ -316,13 +380,19 @@ exports[`Amount matches snapshot 1`] = `
               >
                 <div
                   className="css-view-1dbjc4n r-alignItems-1awozwy r-cursor-1loqt21 r-display-6koalj r-flex-13awgt0 r-padding-edyy15 r-touchAction-1otgn73 r-userSelect-lrvibr"
-                  onClick={[Function]}
-                  onContextMenu={[Function]}
+                  data-focusable={true}
                   onKeyDown={[Function]}
+                  onKeyUp={[Function]}
+                  onResponderGrant={[Function]}
+                  onResponderMove={[Function]}
+                  onResponderRelease={[Function]}
+                  onResponderTerminate={[Function]}
+                  onResponderTerminationRequest={[Function]}
+                  onStartShouldSetResponder={[Function]}
                   tabIndex="0"
                 >
                   <div
-                    className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                    className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-adyw6z r-fontWeight-b88u0q r-lineHeight-135wba7 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                     dir="auto"
                   >
                     .
@@ -330,13 +400,19 @@ exports[`Amount matches snapshot 1`] = `
                 </div>
                 <div
                   className="css-view-1dbjc4n r-alignItems-1awozwy r-cursor-1loqt21 r-display-6koalj r-flex-13awgt0 r-padding-edyy15 r-touchAction-1otgn73 r-userSelect-lrvibr"
-                  onClick={[Function]}
-                  onContextMenu={[Function]}
+                  data-focusable={true}
                   onKeyDown={[Function]}
+                  onKeyUp={[Function]}
+                  onResponderGrant={[Function]}
+                  onResponderMove={[Function]}
+                  onResponderRelease={[Function]}
+                  onResponderTerminate={[Function]}
+                  onResponderTerminationRequest={[Function]}
+                  onStartShouldSetResponder={[Function]}
                   tabIndex="0"
                 >
                   <div
-                    className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                    className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-adyw6z r-fontWeight-b88u0q r-lineHeight-135wba7 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                     dir="auto"
                   >
                     0
@@ -344,21 +420,26 @@ exports[`Amount matches snapshot 1`] = `
                 </div>
                 <div
                   className="css-view-1dbjc4n r-alignItems-1awozwy r-cursor-1loqt21 r-display-6koalj r-flex-13awgt0 r-padding-edyy15 r-touchAction-1otgn73 r-userSelect-lrvibr"
-                  onClick={[Function]}
-                  onContextMenu={[Function]}
+                  data-focusable={true}
                   onKeyDown={[Function]}
+                  onKeyUp={[Function]}
+                  onResponderGrant={[Function]}
+                  onResponderMove={[Function]}
+                  onResponderRelease={[Function]}
+                  onResponderTerminate={[Function]}
+                  onResponderTerminationRequest={[Function]}
+                  onStartShouldSetResponder={[Function]}
                   tabIndex="0"
                 >
                   <div
                     className="css-view-1dbjc4n r-backgroundRepeat-u6sd8q r-backgroundSize-ehq7j7 r-cursor-1loqt21 r-height-1g7fiml r-justifyContent-1777fci r-width-1aockid"
                   >
                     <div
-                      className="css-text-901oao r-color-cddv6f r-textAlign-q4m81j"
+                      className="css-text-901oao r-color-cddv6f r-fontSize-1i10wst r-textAlign-q4m81j"
                       dir="auto"
                       style={
                         Object {
                           "fontFamily": "gooddollar",
-                          "fontSize": "18px",
                           "fontStyle": "normal",
                           "fontWeight": "normal",
                         }
@@ -387,8 +468,7 @@ exports[`Amount matches snapshot 1`] = `
             }
           >
             <div
-              className="css-view-1dbjc4n r-alignItems-1oszu61 r-display-6koalj r-justifyContent-1777fci r-marginRight-61z16t r-marginTop-1mnahxq"
-              id="animatedComponent"
+              className="css-view-1dbjc4n r-alignItems-1oszu61 r-display-6koalj r-justifyContent-1777fci"
               style={
                 Object {
                   "backgroundColor": "rgba(0,0,0,0.00)",
@@ -410,6 +490,8 @@ exports[`Amount matches snapshot 1`] = `
                   "borderTopWidth": "0px",
                   "marginBottom": "0px",
                   "marginLeft": "0px",
+                  "marginRight": "0px",
+                  "marginTop": "0px",
                   "minHeight": "44px",
                   "minWidth": "auto",
                   "paddingBottom": "0px",
@@ -421,9 +503,16 @@ exports[`Amount matches snapshot 1`] = `
             >
               <div
                 className="css-cursor-18t94o4 css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
-                onClick={[Function]}
-                onContextMenu={[Function]}
+                data-focusable={true}
                 onKeyDown={[Function]}
+                onKeyPress={[Function]}
+                onKeyUp={[Function]}
+                onResponderGrant={[Function]}
+                onResponderMove={[Function]}
+                onResponderRelease={[Function]}
+                onResponderTerminate={[Function]}
+                onResponderTerminationRequest={[Function]}
+                onStartShouldSetResponder={[Function]}
                 role="button"
                 style={
                   Object {
@@ -457,7 +546,7 @@ exports[`Amount matches snapshot 1`] = `
                       className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
                     >
                       <div
-                        className="css-text-901oao r-alignItems-1awozwy r-color-vaa0vc r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-qvk6io r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                        className="css-text-901oao r-alignItems-1awozwy r-color-vaa0vc r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-hbpseb r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                         dir="auto"
                       >
                         Cancel
@@ -480,11 +569,13 @@ exports[`Amount matches snapshot 1`] = `
             }
           >
             <div
-              className="css-view-1dbjc4n r-alignItems-1oszu61 r-display-6koalj r-justifyContent-1777fci r-marginRight-61z16t r-marginTop-1mnahxq"
-              id="animatedComponent"
+              className="css-view-1dbjc4n r-alignItems-1oszu61 r-display-6koalj r-justifyContent-1777fci"
               style={
                 Object {
-                  "WebkitFlex": 2,
+                  "WebkitBoxFlex": 2,
+                  "WebkitFlexBasis": "0%",
+                  "WebkitFlexGrow": 2,
+                  "WebkitFlexShrink": 1,
                   "backgroundColor": "rgba(0,0,0,0.12)",
                   "borderBottomColor": "rgba(0,175,255,1.00)",
                   "borderBottomLeftRadius": "50px",
@@ -502,12 +593,18 @@ exports[`Amount matches snapshot 1`] = `
                   "borderTopRightRadius": "50px",
                   "borderTopStyle": "solid",
                   "borderTopWidth": "0px",
-                  "flex": 2,
+                  "flexBasis": "0%",
+                  "flexGrow": 2,
+                  "flexShrink": 1,
                   "marginBottom": "0px",
                   "marginLeft": "0px",
+                  "marginRight": "0px",
+                  "marginTop": "0px",
                   "minHeight": "44px",
                   "minWidth": "64px",
-                  "msFlex": "2 1 0%",
+                  "msFlexNegative": 1,
+                  "msFlexPositive": 2,
+                  "msFlexPreferredSize": "0%",
                   "paddingBottom": "0px",
                   "paddingLeft": "0px",
                   "paddingRight": "0px",
@@ -516,11 +613,17 @@ exports[`Amount matches snapshot 1`] = `
               }
             >
               <div
-                aria-disabled={true}
-                className="css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
-                onClick={[Function]}
-                onContextMenu={[Function]}
+                className="css-cursor-18t94o4 css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
+                data-focusable={true}
                 onKeyDown={[Function]}
+                onKeyPress={[Function]}
+                onKeyUp={[Function]}
+                onResponderGrant={[Function]}
+                onResponderMove={[Function]}
+                onResponderRelease={[Function]}
+                onResponderTerminate={[Function]}
+                onResponderTerminationRequest={[Function]}
+                onStartShouldSetResponder={[Function]}
                 role="button"
                 style={
                   Object {
@@ -534,7 +637,7 @@ exports[`Amount matches snapshot 1`] = `
                     "msGridRowAlign": "stretch",
                   }
                 }
-                tabIndex="-1"
+                tabIndex="0"
               >
                 <div
                   className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
@@ -554,7 +657,7 @@ exports[`Amount matches snapshot 1`] = `
                       className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
                     >
                       <div
-                        className="css-text-901oao r-alignItems-1awozwy r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-qvk6io r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
+                        className="css-text-901oao r-alignItems-1awozwy r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-hbpseb r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
                         dir="auto"
                       >
                         Next

@@ -8,7 +8,7 @@ exports[`AmountInput matches snapshot 1`] = `
     className="css-view-1dbjc4n r-display-6koalj r-flex-13awgt0 r-justifyContent-1wtj0ep r-width-13qz1uu"
   >
     <div
-      className="css-view-1dbjc4n r-height-1w2pmg r-minHeight-ifefl9"
+      className="css-view-1dbjc4n r-height-132bva r-minHeight-1hsi953"
     >
       <div
         className="css-view-1dbjc4n r-marginBottom-5oul0u r-width-13qz1uu"
@@ -21,19 +21,26 @@ exports[`AmountInput matches snapshot 1`] = `
             autoComplete="on"
             autoCorrect="on"
             autoFocus={true}
-            className="css-textinput-11aywtz r-backgroundColor-14lw9ot r-borderBottomColor-1ny7kx0 r-borderBottomWidth-qklmqi r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-vw2c0b r-letterSpacing-19r33im r-marginTop-1mnahxq r-paddingHorizontal-1dye5f7 r-paddingVertical-oyd9sg r-placeholderTextColor-1xktb6b r-textAlign-q4m81j"
+            className="css-textinput-11aywtz r-backgroundColor-14lw9ot r-borderBottomColor-1ny7kx0 r-borderBottomWidth-qklmqi r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-1ui5ee8 r-fontWeight-vw2c0b r-letterSpacing-19r33im r-marginTop-o5ey6k r-paddingHorizontal-1dye5f7 r-paddingVertical-oyd9sg r-placeholderTextColor-1xktb6b r-textAlign-q4m81j"
             dir="auto"
             onBlur={[Function]}
             onChange={[Function]}
-            onClick={[Function]}
-            onContextMenu={[Function]}
             onFocus={[Function]}
             onKeyDown={[Function]}
+            onKeyPress={[Function]}
+            onKeyUp={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
             onSelect={[Function]}
+            onStartShouldSetResponder={[Function]}
             onTouchStart={[Function]}
             placeholder="0 G$"
             readOnly={false}
             spellCheck={true}
+            tabIndex="-1"
             type="text"
             value="14"
           />
@@ -41,7 +48,6 @@ exports[`AmountInput matches snapshot 1`] = `
         <div
           className="css-text-901oao r-paddingVertical-oyd9sg r-textAlign-q4m81j"
           dir="auto"
-          id="animatedComponent"
           style={
             Object {
               "WebkitTransform": "translateY(0px)",
@@ -70,13 +76,19 @@ exports[`AmountInput matches snapshot 1`] = `
       >
         <div
           className="css-view-1dbjc4n r-alignItems-1awozwy r-cursor-1loqt21 r-display-6koalj r-flex-13awgt0 r-padding-edyy15 r-touchAction-1otgn73 r-userSelect-lrvibr"
-          onClick={[Function]}
-          onContextMenu={[Function]}
+          data-focusable={true}
           onKeyDown={[Function]}
+          onKeyUp={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
           tabIndex="0"
         >
           <div
-            className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+            className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-adyw6z r-fontWeight-b88u0q r-lineHeight-135wba7 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
             dir="auto"
           >
             1
@@ -84,13 +96,19 @@ exports[`AmountInput matches snapshot 1`] = `
         </div>
         <div
           className="css-view-1dbjc4n r-alignItems-1awozwy r-cursor-1loqt21 r-display-6koalj r-flex-13awgt0 r-padding-edyy15 r-touchAction-1otgn73 r-userSelect-lrvibr"
-          onClick={[Function]}
-          onContextMenu={[Function]}
+          data-focusable={true}
           onKeyDown={[Function]}
+          onKeyUp={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
           tabIndex="0"
         >
           <div
-            className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+            className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-adyw6z r-fontWeight-b88u0q r-lineHeight-135wba7 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
             dir="auto"
           >
             2
@@ -98,13 +116,19 @@ exports[`AmountInput matches snapshot 1`] = `
         </div>
         <div
           className="css-view-1dbjc4n r-alignItems-1awozwy r-cursor-1loqt21 r-display-6koalj r-flex-13awgt0 r-padding-edyy15 r-touchAction-1otgn73 r-userSelect-lrvibr"
-          onClick={[Function]}
-          onContextMenu={[Function]}
+          data-focusable={true}
           onKeyDown={[Function]}
+          onKeyUp={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
           tabIndex="0"
         >
           <div
-            className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+            className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-adyw6z r-fontWeight-b88u0q r-lineHeight-135wba7 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
             dir="auto"
           >
             3
@@ -116,13 +140,19 @@ exports[`AmountInput matches snapshot 1`] = `
       >
         <div
           className="css-view-1dbjc4n r-alignItems-1awozwy r-cursor-1loqt21 r-display-6koalj r-flex-13awgt0 r-padding-edyy15 r-touchAction-1otgn73 r-userSelect-lrvibr"
-          onClick={[Function]}
-          onContextMenu={[Function]}
+          data-focusable={true}
           onKeyDown={[Function]}
+          onKeyUp={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
           tabIndex="0"
         >
           <div
-            className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+            className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-adyw6z r-fontWeight-b88u0q r-lineHeight-135wba7 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
             dir="auto"
           >
             4
@@ -130,13 +160,19 @@ exports[`AmountInput matches snapshot 1`] = `
         </div>
         <div
           className="css-view-1dbjc4n r-alignItems-1awozwy r-cursor-1loqt21 r-display-6koalj r-flex-13awgt0 r-padding-edyy15 r-touchAction-1otgn73 r-userSelect-lrvibr"
-          onClick={[Function]}
-          onContextMenu={[Function]}
+          data-focusable={true}
           onKeyDown={[Function]}
+          onKeyUp={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
           tabIndex="0"
         >
           <div
-            className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+            className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-adyw6z r-fontWeight-b88u0q r-lineHeight-135wba7 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
             dir="auto"
           >
             5
@@ -144,13 +180,19 @@ exports[`AmountInput matches snapshot 1`] = `
         </div>
         <div
           className="css-view-1dbjc4n r-alignItems-1awozwy r-cursor-1loqt21 r-display-6koalj r-flex-13awgt0 r-padding-edyy15 r-touchAction-1otgn73 r-userSelect-lrvibr"
-          onClick={[Function]}
-          onContextMenu={[Function]}
+          data-focusable={true}
           onKeyDown={[Function]}
+          onKeyUp={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
           tabIndex="0"
         >
           <div
-            className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+            className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-adyw6z r-fontWeight-b88u0q r-lineHeight-135wba7 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
             dir="auto"
           >
             6
@@ -162,13 +204,19 @@ exports[`AmountInput matches snapshot 1`] = `
       >
         <div
           className="css-view-1dbjc4n r-alignItems-1awozwy r-cursor-1loqt21 r-display-6koalj r-flex-13awgt0 r-padding-edyy15 r-touchAction-1otgn73 r-userSelect-lrvibr"
-          onClick={[Function]}
-          onContextMenu={[Function]}
+          data-focusable={true}
           onKeyDown={[Function]}
+          onKeyUp={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
           tabIndex="0"
         >
           <div
-            className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+            className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-adyw6z r-fontWeight-b88u0q r-lineHeight-135wba7 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
             dir="auto"
           >
             7
@@ -176,13 +224,19 @@ exports[`AmountInput matches snapshot 1`] = `
         </div>
         <div
           className="css-view-1dbjc4n r-alignItems-1awozwy r-cursor-1loqt21 r-display-6koalj r-flex-13awgt0 r-padding-edyy15 r-touchAction-1otgn73 r-userSelect-lrvibr"
-          onClick={[Function]}
-          onContextMenu={[Function]}
+          data-focusable={true}
           onKeyDown={[Function]}
+          onKeyUp={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
           tabIndex="0"
         >
           <div
-            className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+            className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-adyw6z r-fontWeight-b88u0q r-lineHeight-135wba7 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
             dir="auto"
           >
             8
@@ -190,13 +244,19 @@ exports[`AmountInput matches snapshot 1`] = `
         </div>
         <div
           className="css-view-1dbjc4n r-alignItems-1awozwy r-cursor-1loqt21 r-display-6koalj r-flex-13awgt0 r-padding-edyy15 r-touchAction-1otgn73 r-userSelect-lrvibr"
-          onClick={[Function]}
-          onContextMenu={[Function]}
+          data-focusable={true}
           onKeyDown={[Function]}
+          onKeyUp={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
           tabIndex="0"
         >
           <div
-            className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+            className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-adyw6z r-fontWeight-b88u0q r-lineHeight-135wba7 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
             dir="auto"
           >
             9
@@ -208,13 +268,19 @@ exports[`AmountInput matches snapshot 1`] = `
       >
         <div
           className="css-view-1dbjc4n r-alignItems-1awozwy r-cursor-1loqt21 r-display-6koalj r-flex-13awgt0 r-padding-edyy15 r-touchAction-1otgn73 r-userSelect-lrvibr"
-          onClick={[Function]}
-          onContextMenu={[Function]}
+          data-focusable={true}
           onKeyDown={[Function]}
+          onKeyUp={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
           tabIndex="0"
         >
           <div
-            className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+            className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-adyw6z r-fontWeight-b88u0q r-lineHeight-135wba7 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
             dir="auto"
           >
             .
@@ -222,13 +288,19 @@ exports[`AmountInput matches snapshot 1`] = `
         </div>
         <div
           className="css-view-1dbjc4n r-alignItems-1awozwy r-cursor-1loqt21 r-display-6koalj r-flex-13awgt0 r-padding-edyy15 r-touchAction-1otgn73 r-userSelect-lrvibr"
-          onClick={[Function]}
-          onContextMenu={[Function]}
+          data-focusable={true}
           onKeyDown={[Function]}
+          onKeyUp={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
           tabIndex="0"
         >
           <div
-            className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+            className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-adyw6z r-fontWeight-b88u0q r-lineHeight-135wba7 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
             dir="auto"
           >
             0
@@ -236,21 +308,26 @@ exports[`AmountInput matches snapshot 1`] = `
         </div>
         <div
           className="css-view-1dbjc4n r-alignItems-1awozwy r-cursor-1loqt21 r-display-6koalj r-flex-13awgt0 r-padding-edyy15 r-touchAction-1otgn73 r-userSelect-lrvibr"
-          onClick={[Function]}
-          onContextMenu={[Function]}
+          data-focusable={true}
           onKeyDown={[Function]}
+          onKeyUp={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
           tabIndex="0"
         >
           <div
             className="css-view-1dbjc4n r-backgroundRepeat-u6sd8q r-backgroundSize-ehq7j7 r-cursor-1loqt21 r-height-1g7fiml r-justifyContent-1777fci r-width-1aockid"
           >
             <div
-              className="css-text-901oao r-color-cddv6f r-textAlign-q4m81j"
+              className="css-text-901oao r-color-cddv6f r-fontSize-1i10wst r-textAlign-q4m81j"
               dir="auto"
               style={
                 Object {
                   "fontFamily": "gooddollar",
-                  "fontSize": "18px",
                   "fontStyle": "normal",
                   "fontWeight": "normal",
                 }

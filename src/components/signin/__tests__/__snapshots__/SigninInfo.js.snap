@@ -184,7 +184,6 @@ exports[`SigninInfo matches snapshot 1`] = `
           >
             <div
               className="css-view-1dbjc4n r-display-6koalj r-flexDirection-eqz5dr r-flexGrow-16y2uox r-justifyContent-1d7fvdj r-marginBottom-ku1wi2 r-maxHeight-f5c2rd r-overflowX-lltvgl r-overflowY-1rnoaur r-padding-edyy15 r-paddingHorizontal-mk0yit r-paddingTop-elmauq r-position-bnwqim r-width-13qz1uu"
-              data-name="viewWrapper"
               style={
                 Object {
                   "backgroundColor": "rgba(255,255,255,1.00)",

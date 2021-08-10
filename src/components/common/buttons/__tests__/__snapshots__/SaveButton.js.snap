@@ -10,7 +10,6 @@ exports[`WrappedSaveButton matches snapshot 1`] = `
     <div
       className="css-view-1dbjc4n r-display-6koalj r-justifyContent-1777fci"
       data-testid="save_button"
-      id="animatedComponent"
       style={
         Object {
           "WebkitAlignItems": "stretch",
@@ -50,9 +49,16 @@ exports[`WrappedSaveButton matches snapshot 1`] = `
     >
       <div
         className="css-cursor-18t94o4 css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
-        onClick={[Function]}
-        onContextMenu={[Function]}
+        data-focusable={true}
         onKeyDown={[Function]}
+        onKeyPress={[Function]}
+        onKeyUp={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
         role="button"
         style={
           Object {
@@ -86,7 +92,7 @@ exports[`WrappedSaveButton matches snapshot 1`] = `
               className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
             >
               <div
-                className="css-text-901oao r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-majxgm r-lineHeight-qvk6io r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
+                className="css-text-901oao r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-majxgm r-lineHeight-rjixqe r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
                 dir="auto"
               >
                 Save
@@ -110,7 +116,6 @@ exports[`WrappedSaveButton matches snapshot 2`] = `
     <div
       className="css-view-1dbjc4n r-display-6koalj r-justifyContent-1777fci"
       data-testid="save_button"
-      id="animatedComponent"
       style={
         Object {
           "WebkitAlignItems": "stretch",
@@ -149,9 +154,16 @@ exports[`WrappedSaveButton matches snapshot 2`] = `
     >
       <div
         className="css-cursor-18t94o4 css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
-        onClick={[Function]}
-        onContextMenu={[Function]}
+        data-focusable={true}
         onKeyDown={[Function]}
+        onKeyPress={[Function]}
+        onKeyUp={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
         role="button"
         style={
           Object {
@@ -185,7 +197,7 @@ exports[`WrappedSaveButton matches snapshot 2`] = `
               className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
             >
               <div
-                className="css-text-901oao r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-majxgm r-lineHeight-qvk6io r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
+                className="css-text-901oao r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-majxgm r-lineHeight-rjixqe r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
                 dir="auto"
               >
                 Title in SaveButton
@@ -209,7 +221,6 @@ exports[`WrappedSaveButton matches snapshot 3`] = `
     <div
       className="css-view-1dbjc4n r-display-6koalj r-justifyContent-1777fci"
       data-testid="save_button"
-      id="animatedComponent"
       style={
         Object {
           "WebkitAlignItems": "stretch",
@@ -249,9 +260,16 @@ exports[`WrappedSaveButton matches snapshot 3`] = `
     >
       <div
         className="css-cursor-18t94o4 css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
-        onClick={[Function]}
-        onContextMenu={[Function]}
+        data-focusable={true}
         onKeyDown={[Function]}
+        onKeyPress={[Function]}
+        onKeyUp={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
         role="button"
         style={
           Object {
@@ -285,7 +303,7 @@ exports[`WrappedSaveButton matches snapshot 3`] = `
               className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
             >
               <div
-                className="css-text-901oao r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-majxgm r-lineHeight-qvk6io r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
+                className="css-text-901oao r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-majxgm r-lineHeight-rjixqe r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
                 dir="auto"
               >
                 SaveButton with color
@@ -309,7 +327,6 @@ exports[`WrappedSaveButton matches snapshot 4`] = `
     <div
       className="css-view-1dbjc4n r-display-6koalj r-justifyContent-1777fci"
       data-testid="save_button"
-      id="animatedComponent"
       style={
         Object {
           "WebkitAlignItems": "stretch",
@@ -349,9 +366,16 @@ exports[`WrappedSaveButton matches snapshot 4`] = `
     >
       <div
         className="css-cursor-18t94o4 css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
-        onClick={[Function]}
-        onContextMenu={[Function]}
+        data-focusable={true}
         onKeyDown={[Function]}
+        onKeyPress={[Function]}
+        onKeyUp={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
         role="button"
         style={
           Object {
@@ -385,7 +409,7 @@ exports[`WrappedSaveButton matches snapshot 4`] = `
               className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
             >
               <div
-                className="css-text-901oao r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-majxgm r-lineHeight-qvk6io r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
+                className="css-text-901oao r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-majxgm r-lineHeight-rjixqe r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
                 dir="auto"
               >
                 SaveButton with custom delay

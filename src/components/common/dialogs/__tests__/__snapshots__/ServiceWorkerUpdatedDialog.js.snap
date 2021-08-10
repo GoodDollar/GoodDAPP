@@ -8,10 +8,10 @@ exports[`ServiceWorkerUpdatedDialog NewReleaseDialog matches snapshot 1`] = `
     className="css-view-1dbjc4n"
   >
     <div
-      className="css-view-1dbjc4n r-alignItems-1nd77g7 r-display-6koalj r-paddingTop-wk8lta"
+      className="css-view-1dbjc4n r-alignItems-1nd77g7 r-display-6koalj r-paddingTop-fd4yh7"
     >
       <div
-        className="css-view-1dbjc4n r-height-1w2pmg r-marginBottom-p1pxzi r-position-bnwqim r-top-ipm5af r-width-1h2t8mc"
+        className="css-view-1dbjc4n r-height-4rl0ck r-marginBottom-7jeja3 r-position-bnwqim r-top-ipm5af r-width-15x33iy"
       >
         <div
           className="css-view-1dbjc4n r-width-13qz1uu"
@@ -21,7 +21,7 @@ exports[`ServiceWorkerUpdatedDialog NewReleaseDialog matches snapshot 1`] = `
               "WebkitJustifyContent": "flex-end",
               "height": "100px",
               "justifyContent": "flex-end",
-              "marginTop": "0px",
+              "marginTop": "50px",
               "msFlexPack": "end",
             }
           }
@@ -30,7 +30,7 @@ exports[`ServiceWorkerUpdatedDialog NewReleaseDialog matches snapshot 1`] = `
             className="css-view-1dbjc4n"
             style={
               Object {
-                "marginBottom": "0px",
+                "marginBottom": "-20px",
                 "width": "100%",
               }
             }
@@ -38,35 +38,38 @@ exports[`ServiceWorkerUpdatedDialog NewReleaseDialog matches snapshot 1`] = `
         </div>
       </div>
       <div
-        className="css-text-901oao r-borderBottomColor-lpwvss r-borderBottomStyle-rull8r r-borderBottomWidth-wgabs5 r-borderTopColor-dw99bl r-borderTopStyle-1efd50x r-borderTopWidth-1jxfwug r-color-qjtdzx r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-marginBottom-p1pxzi r-paddingBottom-1mdbw0j r-paddingTop-wk8lta r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-13qz1uu"
+        className="css-text-901oao r-borderBottomColor-lpwvss r-borderBottomStyle-rull8r r-borderBottomWidth-wgabs5 r-borderTopColor-dw99bl r-borderTopStyle-1efd50x r-borderTopWidth-1jxfwug r-color-qjtdzx r-fontFamily-vnw8o6 r-fontSize-yy2aun r-fontWeight-b88u0q r-lineHeight-xnfwke r-marginBottom-hxarbt r-paddingBottom-wgs6xk r-paddingTop-1b9bua6 r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-13qz1uu"
         dir="auto"
       >
         Good News: We’re Live!
       </div>
     </div>
     <div
-      className="css-view-1dbjc4n r-minHeight-ifefl9"
+      className="css-view-1dbjc4n r-minHeight-h3f8nf"
     >
       <div
-        className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+        className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-1it3c9n r-lineHeight-eaezby r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
         dir="auto"
       >
         <span
-          className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+          className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-b88u0q r-lineHeight-eaezby r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+          dir="auto"
         >
           1.
         </span>
          Click ‘update’
 
         <span
-          className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+          className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-b88u0q r-lineHeight-eaezby r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+          dir="auto"
         >
           2.
         </span>
-         Sign up (one last time, we promise )
+         Sign up (one last time, we promise :))
 
         <span
-          className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+          className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-b88u0q r-lineHeight-eaezby r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+          dir="auto"
         >
           3.
         </span>
@@ -85,15 +88,15 @@ exports[`ServiceWorkerUpdatedDialog RegularDialog matches snapshot 1`] = `
     className="css-view-1dbjc4n"
   >
     <div
-      className="css-view-1dbjc4n r-alignItems-1nd77g7 r-display-6koalj r-paddingTop-wk8lta"
+      className="css-view-1dbjc4n r-alignItems-1nd77g7 r-display-6koalj r-paddingTop-fd4yh7"
     >
       <div
-        className="css-view-1dbjc4n r-height-1w2pmg r-justifyContent-1777fci r-marginBottom-p1pxzi r-textAlign-q4m81j r-width-1h2t8mc"
+        className="css-view-1dbjc4n r-height-smjest r-justifyContent-1777fci r-marginBottom-eektet r-textAlign-q4m81j r-width-1jtfok8"
       >
         <updateversion.svg />
       </div>
       <div
-        className="css-text-901oao r-borderBottomColor-lpwvss r-borderBottomStyle-rull8r r-borderBottomWidth-wgabs5 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-marginBottom-p1pxzi r-paddingBottom-1mdbw0j r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-13qz1uu"
+        className="css-text-901oao r-borderBottomColor-lpwvss r-borderBottomStyle-rull8r r-borderBottomWidth-wgabs5 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-evnaw r-fontWeight-b88u0q r-lineHeight-eaezby r-marginBottom-hxarbt r-paddingBottom-wgs6xk r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-13qz1uu"
         dir="auto"
       >
         Hip hip hooray!
@@ -101,10 +104,10 @@ We have a new version :)
       </div>
     </div>
     <div
-      className="css-view-1dbjc4n r-minHeight-ifefl9"
+      className="css-view-1dbjc4n r-minHeight-h3f8nf"
     >
       <div
-        className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+        className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-1it3c9n r-lineHeight-rjixqe r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
         dir="auto"
       >
         Thanks to your awesome feedback we were able to improve our wallet. We hope now you’ll enjoy it even more.

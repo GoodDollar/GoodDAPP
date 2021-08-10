@@ -101,7 +101,7 @@ class RealmDB implements DB, ProfileDB {
    * @returns {Realm.Services.MongoDB.MongoDBCollection<any>}
    * @private
    */
-  _encryptedFeed() {
+  get encryptedFeed() {
     return this.database.collection('encrypted_feed')
   }
 
@@ -110,7 +110,7 @@ class RealmDB implements DB, ProfileDB {
    * @returns {Realm.Services.MongoDB.MongoDBCollection<any>}
    * @private
    */
-  _profiles() {
+  get profiles() {
     return this.database.collection('user_profiles')
   }
 
@@ -120,7 +120,7 @@ class RealmDB implements DB, ProfileDB {
    */
   async _syncFromRemote() {
     const lastSync = (await AsyncStorage.getItem('GD_lastRealmSync')) || 0
-    const newItems = await this._encryptedFeed().find({
+    const newItems = await this.encryptedFeed.find({
       user_id: this.user.id,
       date: { $gte: new Date(lastSync) },
     })
@@ -237,7 +237,7 @@ class RealmDB implements DB, ProfileDB {
     const encrypted = await this.privateKey.public.encrypt(msg).then(_ => Buffer.from(_).toString('base64'))
     const _id = `${this.user.id}_settings`
     log.debug('encryptSettings:', { settings, encrypted, _id })
-    return this._encryptedFeed().updateOne(
+    return this.encryptedFeed.updateOne(
       { _id, user_id: this.user.id },
       { _id, user_id: this.user.id, encrypted },
       { upsert: true },
@@ -250,7 +250,7 @@ class RealmDB implements DB, ProfileDB {
    */
   async decryptSettings() {
     const _id = `${this.user.id}_settings`
-    const encryptedSettings = await this._encryptedFeed().findOne({ _id })
+    const encryptedSettings = await this.encryptedFeed.findOne({ _id })
     let settings = {}
     if (encryptedSettings) {
       const { encrypted } = encryptedSettings
@@ -266,7 +266,7 @@ class RealmDB implements DB, ProfileDB {
    * @param {*} feedItem
    * @returns
    */
-  async _encrypt(feedItem) {
+  async _encrypt(feedItem): Promise<any> {
     try {
       const msg = new TextEncoder().encode(JSON.stringify(feedItem))
       const encrypted = await this.privateKey.public.encrypt(msg).then(_ => Buffer.from(_).toString('base64'))
@@ -275,7 +275,7 @@ class RealmDB implements DB, ProfileDB {
       const user_id = this.user.id
       // eslint-disable-next-line camelcase
       const _id = `${txHash}_${user_id}`
-      const res = await this._encryptedFeed().updateOne(
+      const res = await this.encryptedFeed.updateOne(
         { _id, txHash, user_id },
         { _id, txHash, user_id, encrypted, date: new Date(feedItem.date) },
         { upsert: true },
@@ -292,7 +292,7 @@ class RealmDB implements DB, ProfileDB {
    * @param field
    * @returns {Promise<*>}
    */
-  async encryptField(field) {
+  async encryptField(field): Promise<string> {
     try {
       const msg = new TextEncoder().encode(JSON.stringify(field))
       const encrypted = await this.privateKey.public.encrypt(msg).then(_ => Buffer.from(_).toString('base64'))
@@ -308,10 +308,9 @@ class RealmDB implements DB, ProfileDB {
    * @param {*} item
    * @returns
    */
-  async _decrypt(item) {
+  async _decrypt(item): Promise<string> {
     const decrypted = await this.privateKey.decrypt(Uint8Array.from(Buffer.from(item.encrypted, 'base64')))
-    const res = JSON.parse(new TextDecoder().decode(decrypted))
-    return res
+    return JSON.parse(new TextDecoder().decode(decrypted))
   }
 
   /**
@@ -319,10 +318,9 @@ class RealmDB implements DB, ProfileDB {
    * @param {*} field
    * @returns
    */
-  async decryptField(field) {
+  async decryptField(field): Promise<string> {
     const decrypted = await this.privateKey.decrypt(Uint8Array.from(Buffer.from(field, 'base64')))
-    const res = JSON.parse(new TextDecoder().decode(decrypted))
-    return res
+    return JSON.parse(new TextDecoder().decode(decrypted))
   }
 
   /**
@@ -332,7 +330,7 @@ class RealmDB implements DB, ProfileDB {
    * @returns
    */
   // eslint-disable-next-line require-await
-  async getFeedPage(numResults, offset) {
+  async getFeedPage(numResults, offset): Promise<any> {
     const res = await this.Feed.table //use dexie directly because mongoify only sorts results and not all documents
       .orderBy('date')
       .reverse()
@@ -350,20 +348,18 @@ class RealmDB implements DB, ProfileDB {
   }
 
   //TODO:  make sure profile contains walletaddress or enforce it in schema in realmdb
-  setProfile(profile) {
-    return this._profiles().updateOne(
-      { user_id: this.user.id },
-      { user_id: this.user.id, ...profile },
-      { upsert: true },
-    )
+  // eslint-disable-next-line require-await
+  async setProfile(profile: { [key: string]: ProfileField }): Promise<any> {
+    return this.profiles.updateOne({ user_id: this.user.id }, { user_id: this.user.id, ...profile }, { upsert: true })
   }
 
   /**
    * read the complete raw user profile from realmdb. result fields might be encrypted
    *  @returns {Promise<any>}
    */
-  getProfile(): Promise<any> {
-    return this._profiles().findOne({ user_id: this.user.id })
+  // eslint-disable-next-line require-await
+  async getProfile(): Promise<Profile> {
+    return this.profiles.findOne({ user_id: this.user.id })
   }
 
   /**
@@ -372,8 +368,9 @@ class RealmDB implements DB, ProfileDB {
    * @param field
    * @returns {Promise<any | null>}
    */
-  getProfileByField(key: string, field: string): Promise<any> {
-    return this._profiles().findOne({ [`${key}.display`]: field })
+  // eslint-disable-next-line require-await
+  async getProfileByField(key: string, field: string): Promise<Profile> {
+    return this.profiles.findOne({ [`${key}.display`]: field })
   }
 
   /**
@@ -381,8 +378,9 @@ class RealmDB implements DB, ProfileDB {
    * @param fields
    * @returns {Promise<Realm.Services.MongoDB.UpdateResult<any>>}
    */
-  setProfileFields(fields: { [key: string]: ProfileField }): Promise<any> {
-    return this._profiles().updateOne({ user_id: this.user.id }, { $set: fields })
+  // eslint-disable-next-line require-await
+  async setProfileFields(fields: { [key: string]: ProfileField }): Promise<any> {
+    return this.profiles.updateOne({ user_id: this.user.id }, { $set: fields })
   }
 
   /**
@@ -390,16 +388,18 @@ class RealmDB implements DB, ProfileDB {
    * @param field
    * @returns {Promise<Realm.Services.MongoDB.UpdateResult<*>>}
    */
-  removeField(field) {
-    return this._profiles().updateOne({ user_id: this.user.id }, { $unset: { [field]: { value: null } } })
+  // eslint-disable-next-line require-await
+  async removeField(field: string): Promise<any> {
+    return this.profiles.updateOne({ user_id: this.user.id }, { $unset: { [field]: { value: null } } })
   }
 
   /**
    * Removing user profile
    * @returns {Promise<any | null>}
    */
-  deleteProfile() {
-    return this._profiles().deleteOne({ user_id: this.user.id })
+  // eslint-disable-next-line require-await
+  async deleteProfile(): Promise<any> {
+    return this.profiles.deleteOne({ user_id: this.user.id })
   }
 }
 

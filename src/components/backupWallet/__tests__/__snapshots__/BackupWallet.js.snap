@@ -6,6 +6,7 @@ exports[`BackupWallet matches snapshot 1`] = `
 >
   <div
     className="css-view-1dbjc4n r-backgroundColor-1b3fm86 r-display-6koalj r-flexDirection-eqz5dr r-flexGrow-16y2uox r-maxHeight-87ditf r-overflowX-lltvgl r-overflowY-1rnoaur r-padding-edyy15 r-position-bnwqim r-width-13qz1uu"
+    data-name="viewWrapper"
     style={
       Object {
         "backgroundImage": "linear-gradient(3.141592653589793rad,#00AFFF,#2DC0F7,#28C0EF,#23C0E7,#1EC1DF,#19C1D7,#14C1CF,#0FC2C7,#0FC2C7,#0AC2BF,#05C2B7,#00C3AF)",
@@ -24,14 +25,13 @@ exports[`BackupWallet matches snapshot 1`] = `
       }
     >
       <div
-        className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-b88u0q r-lineHeight-hbpseb r-marginVertical-c8eef1 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+        className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-b88u0q r-lineHeight-qvk6io r-marginVertical-c8eef1 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
         dir="auto"
       >
         please save your 12-word pass phrase
 
         <span
-          className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-lineHeight-hbpseb r-marginVertical-c8eef1 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
-          dir="auto"
+          className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-lineHeight-qvk6io r-marginVertical-c8eef1 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
         >
           and keep it in a secure location
 so you can recover your wallet anytime
@@ -41,13 +41,13 @@ so you can recover your wallet anytime
         className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-18u37iz r-flexGrow-16y2uox r-flexWrap-1w6e6rj r-justifyContent-1wtj0ep r-margin-hwh8t1 r-overflowY-1rnoaur"
       >
         <div
-          className="css-view-1dbjc4n r-flexDirection-18u37iz r-height-1ugchlj r-marginTop-knv0ih r-width-17x6qj0"
+          className="css-view-1dbjc4n r-flexDirection-18u37iz r-height-1r8g8re r-marginTop-knv0ih r-width-17x6qj0"
         >
           <div
-            className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1jb27wt r-borderBottomLeftRadius-5kex9v r-borderColor-17xuhkx r-borderTopLeftRadius-1ct94d3 r-borderWidth-rs99b7 r-display-6koalj r-height-1ugchlj r-justifyContent-1777fci r-width-1yvhtrz"
+            className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1jb27wt r-borderBottomLeftRadius-5kex9v r-borderColor-17xuhkx r-borderTopLeftRadius-1ct94d3 r-borderWidth-rs99b7 r-display-6koalj r-height-1r8g8re r-justifyContent-1777fci r-width-1yvhtrz"
           >
             <div
-              className="css-text-901oao r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-lineHeight-hbpseb r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+              className="css-text-901oao r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
               dir="auto"
             >
               1
@@ -57,14 +57,12 @@ so you can recover your wallet anytime
             autoCapitalize="sentences"
             autoComplete="on"
             autoCorrect="on"
-            className="css-textinput-11aywtz r-backgroundColor-14lw9ot r-borderBottomRightRadius-1inxgn4 r-borderColor-17xuhkx r-borderTopRightRadius-3y0fky r-borderWidth-rs99b7 r-flex-13awgt0 r-height-1ugchlj r-justifyContent-1777fci r-paddingLeft-1qhn6m8 r-width-v53qcl"
-            data-focusable={true}
+            className="css-textinput-11aywtz r-backgroundColor-14lw9ot r-borderBottomRightRadius-1inxgn4 r-borderColor-17xuhkx r-borderTopRightRadius-3y0fky r-borderWidth-rs99b7 r-flex-13awgt0 r-height-1r8g8re r-justifyContent-1777fci r-paddingLeft-1qhn6m8 r-width-v53qcl"
             dir="auto"
             onBlur={[Function]}
             onChange={[Function]}
             onFocus={[Function]}
             onKeyDown={[Function]}
-            onKeyPress={[Function]}
             onSelect={[Function]}
             readOnly={false}
             spellCheck={true}
@@ -73,13 +71,13 @@ so you can recover your wallet anytime
           />
         </div>
         <div
-          className="css-view-1dbjc4n r-flexDirection-18u37iz r-height-1ugchlj r-marginTop-knv0ih r-width-17x6qj0"
+          className="css-view-1dbjc4n r-flexDirection-18u37iz r-height-1r8g8re r-marginTop-knv0ih r-width-17x6qj0"
         >
           <div
-            className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1jb27wt r-borderBottomLeftRadius-5kex9v r-borderColor-17xuhkx r-borderTopLeftRadius-1ct94d3 r-borderWidth-rs99b7 r-display-6koalj r-height-1ugchlj r-justifyContent-1777fci r-width-1yvhtrz"
+            className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1jb27wt r-borderBottomLeftRadius-5kex9v r-borderColor-17xuhkx r-borderTopLeftRadius-1ct94d3 r-borderWidth-rs99b7 r-display-6koalj r-height-1r8g8re r-justifyContent-1777fci r-width-1yvhtrz"
           >
             <div
-              className="css-text-901oao r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-lineHeight-hbpseb r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+              className="css-text-901oao r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
               dir="auto"
             >
               2
@@ -89,14 +87,12 @@ so you can recover your wallet anytime
             autoCapitalize="sentences"
             autoComplete="on"
             autoCorrect="on"
-            className="css-textinput-11aywtz r-backgroundColor-14lw9ot r-borderBottomRightRadius-1inxgn4 r-borderColor-17xuhkx r-borderTopRightRadius-3y0fky r-borderWidth-rs99b7 r-flex-13awgt0 r-height-1ugchlj r-justifyContent-1777fci r-paddingLeft-1qhn6m8 r-width-v53qcl"
-            data-focusable={true}
+            className="css-textinput-11aywtz r-backgroundColor-14lw9ot r-borderBottomRightRadius-1inxgn4 r-borderColor-17xuhkx r-borderTopRightRadius-3y0fky r-borderWidth-rs99b7 r-flex-13awgt0 r-height-1r8g8re r-justifyContent-1777fci r-paddingLeft-1qhn6m8 r-width-v53qcl"
             dir="auto"
             onBlur={[Function]}
             onChange={[Function]}
             onFocus={[Function]}
             onKeyDown={[Function]}
-            onKeyPress={[Function]}
             onSelect={[Function]}
             readOnly={false}
             spellCheck={true}
@@ -105,13 +101,13 @@ so you can recover your wallet anytime
           />
         </div>
         <div
-          className="css-view-1dbjc4n r-flexDirection-18u37iz r-height-1ugchlj r-marginTop-knv0ih r-width-17x6qj0"
+          className="css-view-1dbjc4n r-flexDirection-18u37iz r-height-1r8g8re r-marginTop-knv0ih r-width-17x6qj0"
         >
           <div
-            className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1jb27wt r-borderBottomLeftRadius-5kex9v r-borderColor-17xuhkx r-borderTopLeftRadius-1ct94d3 r-borderWidth-rs99b7 r-display-6koalj r-height-1ugchlj r-justifyContent-1777fci r-width-1yvhtrz"
+            className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1jb27wt r-borderBottomLeftRadius-5kex9v r-borderColor-17xuhkx r-borderTopLeftRadius-1ct94d3 r-borderWidth-rs99b7 r-display-6koalj r-height-1r8g8re r-justifyContent-1777fci r-width-1yvhtrz"
           >
             <div
-              className="css-text-901oao r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-lineHeight-hbpseb r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+              className="css-text-901oao r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
               dir="auto"
             >
               3
@@ -121,14 +117,12 @@ so you can recover your wallet anytime
             autoCapitalize="sentences"
             autoComplete="on"
             autoCorrect="on"
-            className="css-textinput-11aywtz r-backgroundColor-14lw9ot r-borderBottomRightRadius-1inxgn4 r-borderColor-17xuhkx r-borderTopRightRadius-3y0fky r-borderWidth-rs99b7 r-flex-13awgt0 r-height-1ugchlj r-justifyContent-1777fci r-paddingLeft-1qhn6m8 r-width-v53qcl"
-            data-focusable={true}
+            className="css-textinput-11aywtz r-backgroundColor-14lw9ot r-borderBottomRightRadius-1inxgn4 r-borderColor-17xuhkx r-borderTopRightRadius-3y0fky r-borderWidth-rs99b7 r-flex-13awgt0 r-height-1r8g8re r-justifyContent-1777fci r-paddingLeft-1qhn6m8 r-width-v53qcl"
             dir="auto"
             onBlur={[Function]}
             onChange={[Function]}
             onFocus={[Function]}
             onKeyDown={[Function]}
-            onKeyPress={[Function]}
             onSelect={[Function]}
             readOnly={false}
             spellCheck={true}
@@ -137,13 +131,13 @@ so you can recover your wallet anytime
           />
         </div>
         <div
-          className="css-view-1dbjc4n r-flexDirection-18u37iz r-height-1ugchlj r-marginTop-knv0ih r-width-17x6qj0"
+          className="css-view-1dbjc4n r-flexDirection-18u37iz r-height-1r8g8re r-marginTop-knv0ih r-width-17x6qj0"
         >
           <div
-            className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1jb27wt r-borderBottomLeftRadius-5kex9v r-borderColor-17xuhkx r-borderTopLeftRadius-1ct94d3 r-borderWidth-rs99b7 r-display-6koalj r-height-1ugchlj r-justifyContent-1777fci r-width-1yvhtrz"
+            className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1jb27wt r-borderBottomLeftRadius-5kex9v r-borderColor-17xuhkx r-borderTopLeftRadius-1ct94d3 r-borderWidth-rs99b7 r-display-6koalj r-height-1r8g8re r-justifyContent-1777fci r-width-1yvhtrz"
           >
             <div
-              className="css-text-901oao r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-lineHeight-hbpseb r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+              className="css-text-901oao r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
               dir="auto"
             >
               4
@@ -153,14 +147,12 @@ so you can recover your wallet anytime
             autoCapitalize="sentences"
             autoComplete="on"
             autoCorrect="on"
-            className="css-textinput-11aywtz r-backgroundColor-14lw9ot r-borderBottomRightRadius-1inxgn4 r-borderColor-17xuhkx r-borderTopRightRadius-3y0fky r-borderWidth-rs99b7 r-flex-13awgt0 r-height-1ugchlj r-justifyContent-1777fci r-paddingLeft-1qhn6m8 r-width-v53qcl"
-            data-focusable={true}
+            className="css-textinput-11aywtz r-backgroundColor-14lw9ot r-borderBottomRightRadius-1inxgn4 r-borderColor-17xuhkx r-borderTopRightRadius-3y0fky r-borderWidth-rs99b7 r-flex-13awgt0 r-height-1r8g8re r-justifyContent-1777fci r-paddingLeft-1qhn6m8 r-width-v53qcl"
             dir="auto"
             onBlur={[Function]}
             onChange={[Function]}
             onFocus={[Function]}
             onKeyDown={[Function]}
-            onKeyPress={[Function]}
             onSelect={[Function]}
             readOnly={false}
             spellCheck={true}
@@ -169,13 +161,13 @@ so you can recover your wallet anytime
           />
         </div>
         <div
-          className="css-view-1dbjc4n r-flexDirection-18u37iz r-height-1ugchlj r-marginTop-knv0ih r-width-17x6qj0"
+          className="css-view-1dbjc4n r-flexDirection-18u37iz r-height-1r8g8re r-marginTop-knv0ih r-width-17x6qj0"
         >
           <div
-            className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1jb27wt r-borderBottomLeftRadius-5kex9v r-borderColor-17xuhkx r-borderTopLeftRadius-1ct94d3 r-borderWidth-rs99b7 r-display-6koalj r-height-1ugchlj r-justifyContent-1777fci r-width-1yvhtrz"
+            className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1jb27wt r-borderBottomLeftRadius-5kex9v r-borderColor-17xuhkx r-borderTopLeftRadius-1ct94d3 r-borderWidth-rs99b7 r-display-6koalj r-height-1r8g8re r-justifyContent-1777fci r-width-1yvhtrz"
           >
             <div
-              className="css-text-901oao r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-lineHeight-hbpseb r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+              className="css-text-901oao r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
               dir="auto"
             >
               5
@@ -185,14 +177,12 @@ so you can recover your wallet anytime
             autoCapitalize="sentences"
             autoComplete="on"
             autoCorrect="on"
-            className="css-textinput-11aywtz r-backgroundColor-14lw9ot r-borderBottomRightRadius-1inxgn4 r-borderColor-17xuhkx r-borderTopRightRadius-3y0fky r-borderWidth-rs99b7 r-flex-13awgt0 r-height-1ugchlj r-justifyContent-1777fci r-paddingLeft-1qhn6m8 r-width-v53qcl"
-            data-focusable={true}
+            className="css-textinput-11aywtz r-backgroundColor-14lw9ot r-borderBottomRightRadius-1inxgn4 r-borderColor-17xuhkx r-borderTopRightRadius-3y0fky r-borderWidth-rs99b7 r-flex-13awgt0 r-height-1r8g8re r-justifyContent-1777fci r-paddingLeft-1qhn6m8 r-width-v53qcl"
             dir="auto"
             onBlur={[Function]}
             onChange={[Function]}
             onFocus={[Function]}
             onKeyDown={[Function]}
-            onKeyPress={[Function]}
             onSelect={[Function]}
             readOnly={false}
             spellCheck={true}
@@ -201,13 +191,13 @@ so you can recover your wallet anytime
           />
         </div>
         <div
-          className="css-view-1dbjc4n r-flexDirection-18u37iz r-height-1ugchlj r-marginTop-knv0ih r-width-17x6qj0"
+          className="css-view-1dbjc4n r-flexDirection-18u37iz r-height-1r8g8re r-marginTop-knv0ih r-width-17x6qj0"
         >
           <div
-            className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1jb27wt r-borderBottomLeftRadius-5kex9v r-borderColor-17xuhkx r-borderTopLeftRadius-1ct94d3 r-borderWidth-rs99b7 r-display-6koalj r-height-1ugchlj r-justifyContent-1777fci r-width-1yvhtrz"
+            className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1jb27wt r-borderBottomLeftRadius-5kex9v r-borderColor-17xuhkx r-borderTopLeftRadius-1ct94d3 r-borderWidth-rs99b7 r-display-6koalj r-height-1r8g8re r-justifyContent-1777fci r-width-1yvhtrz"
           >
             <div
-              className="css-text-901oao r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-lineHeight-hbpseb r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+              className="css-text-901oao r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
               dir="auto"
             >
               6
@@ -217,14 +207,12 @@ so you can recover your wallet anytime
             autoCapitalize="sentences"
             autoComplete="on"
             autoCorrect="on"
-            className="css-textinput-11aywtz r-backgroundColor-14lw9ot r-borderBottomRightRadius-1inxgn4 r-borderColor-17xuhkx r-borderTopRightRadius-3y0fky r-borderWidth-rs99b7 r-flex-13awgt0 r-height-1ugchlj r-justifyContent-1777fci r-paddingLeft-1qhn6m8 r-width-v53qcl"
-            data-focusable={true}
+            className="css-textinput-11aywtz r-backgroundColor-14lw9ot r-borderBottomRightRadius-1inxgn4 r-borderColor-17xuhkx r-borderTopRightRadius-3y0fky r-borderWidth-rs99b7 r-flex-13awgt0 r-height-1r8g8re r-justifyContent-1777fci r-paddingLeft-1qhn6m8 r-width-v53qcl"
             dir="auto"
             onBlur={[Function]}
             onChange={[Function]}
             onFocus={[Function]}
             onKeyDown={[Function]}
-            onKeyPress={[Function]}
             onSelect={[Function]}
             readOnly={false}
             spellCheck={true}
@@ -233,13 +221,13 @@ so you can recover your wallet anytime
           />
         </div>
         <div
-          className="css-view-1dbjc4n r-flexDirection-18u37iz r-height-1ugchlj r-marginTop-knv0ih r-width-17x6qj0"
+          className="css-view-1dbjc4n r-flexDirection-18u37iz r-height-1r8g8re r-marginTop-knv0ih r-width-17x6qj0"
         >
           <div
-            className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1jb27wt r-borderBottomLeftRadius-5kex9v r-borderColor-17xuhkx r-borderTopLeftRadius-1ct94d3 r-borderWidth-rs99b7 r-display-6koalj r-height-1ugchlj r-justifyContent-1777fci r-width-1yvhtrz"
+            className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1jb27wt r-borderBottomLeftRadius-5kex9v r-borderColor-17xuhkx r-borderTopLeftRadius-1ct94d3 r-borderWidth-rs99b7 r-display-6koalj r-height-1r8g8re r-justifyContent-1777fci r-width-1yvhtrz"
           >
             <div
-              className="css-text-901oao r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-lineHeight-hbpseb r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+              className="css-text-901oao r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
               dir="auto"
             >
               7
@@ -249,14 +237,12 @@ so you can recover your wallet anytime
             autoCapitalize="sentences"
             autoComplete="on"
             autoCorrect="on"
-            className="css-textinput-11aywtz r-backgroundColor-14lw9ot r-borderBottomRightRadius-1inxgn4 r-borderColor-17xuhkx r-borderTopRightRadius-3y0fky r-borderWidth-rs99b7 r-flex-13awgt0 r-height-1ugchlj r-justifyContent-1777fci r-paddingLeft-1qhn6m8 r-width-v53qcl"
-            data-focusable={true}
+            className="css-textinput-11aywtz r-backgroundColor-14lw9ot r-borderBottomRightRadius-1inxgn4 r-borderColor-17xuhkx r-borderTopRightRadius-3y0fky r-borderWidth-rs99b7 r-flex-13awgt0 r-height-1r8g8re r-justifyContent-1777fci r-paddingLeft-1qhn6m8 r-width-v53qcl"
             dir="auto"
             onBlur={[Function]}
             onChange={[Function]}
             onFocus={[Function]}
             onKeyDown={[Function]}
-            onKeyPress={[Function]}
             onSelect={[Function]}
             readOnly={false}
             spellCheck={true}
@@ -265,13 +251,13 @@ so you can recover your wallet anytime
           />
         </div>
         <div
-          className="css-view-1dbjc4n r-flexDirection-18u37iz r-height-1ugchlj r-marginTop-knv0ih r-width-17x6qj0"
+          className="css-view-1dbjc4n r-flexDirection-18u37iz r-height-1r8g8re r-marginTop-knv0ih r-width-17x6qj0"
         >
           <div
-            className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1jb27wt r-borderBottomLeftRadius-5kex9v r-borderColor-17xuhkx r-borderTopLeftRadius-1ct94d3 r-borderWidth-rs99b7 r-display-6koalj r-height-1ugchlj r-justifyContent-1777fci r-width-1yvhtrz"
+            className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1jb27wt r-borderBottomLeftRadius-5kex9v r-borderColor-17xuhkx r-borderTopLeftRadius-1ct94d3 r-borderWidth-rs99b7 r-display-6koalj r-height-1r8g8re r-justifyContent-1777fci r-width-1yvhtrz"
           >
             <div
-              className="css-text-901oao r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-lineHeight-hbpseb r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+              className="css-text-901oao r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
               dir="auto"
             >
               8
@@ -281,14 +267,12 @@ so you can recover your wallet anytime
             autoCapitalize="sentences"
             autoComplete="on"
             autoCorrect="on"
-            className="css-textinput-11aywtz r-backgroundColor-14lw9ot r-borderBottomRightRadius-1inxgn4 r-borderColor-17xuhkx r-borderTopRightRadius-3y0fky r-borderWidth-rs99b7 r-flex-13awgt0 r-height-1ugchlj r-justifyContent-1777fci r-paddingLeft-1qhn6m8 r-width-v53qcl"
-            data-focusable={true}
+            className="css-textinput-11aywtz r-backgroundColor-14lw9ot r-borderBottomRightRadius-1inxgn4 r-borderColor-17xuhkx r-borderTopRightRadius-3y0fky r-borderWidth-rs99b7 r-flex-13awgt0 r-height-1r8g8re r-justifyContent-1777fci r-paddingLeft-1qhn6m8 r-width-v53qcl"
             dir="auto"
             onBlur={[Function]}
             onChange={[Function]}
             onFocus={[Function]}
             onKeyDown={[Function]}
-            onKeyPress={[Function]}
             onSelect={[Function]}
             readOnly={false}
             spellCheck={true}
@@ -297,13 +281,13 @@ so you can recover your wallet anytime
           />
         </div>
         <div
-          className="css-view-1dbjc4n r-flexDirection-18u37iz r-height-1ugchlj r-marginTop-knv0ih r-width-17x6qj0"
+          className="css-view-1dbjc4n r-flexDirection-18u37iz r-height-1r8g8re r-marginTop-knv0ih r-width-17x6qj0"
         >
           <div
-            className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1jb27wt r-borderBottomLeftRadius-5kex9v r-borderColor-17xuhkx r-borderTopLeftRadius-1ct94d3 r-borderWidth-rs99b7 r-display-6koalj r-height-1ugchlj r-justifyContent-1777fci r-width-1yvhtrz"
+            className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1jb27wt r-borderBottomLeftRadius-5kex9v r-borderColor-17xuhkx r-borderTopLeftRadius-1ct94d3 r-borderWidth-rs99b7 r-display-6koalj r-height-1r8g8re r-justifyContent-1777fci r-width-1yvhtrz"
           >
             <div
-              className="css-text-901oao r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-lineHeight-hbpseb r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+              className="css-text-901oao r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
               dir="auto"
             >
               9
@@ -313,14 +297,12 @@ so you can recover your wallet anytime
             autoCapitalize="sentences"
             autoComplete="on"
             autoCorrect="on"
-            className="css-textinput-11aywtz r-backgroundColor-14lw9ot r-borderBottomRightRadius-1inxgn4 r-borderColor-17xuhkx r-borderTopRightRadius-3y0fky r-borderWidth-rs99b7 r-flex-13awgt0 r-height-1ugchlj r-justifyContent-1777fci r-paddingLeft-1qhn6m8 r-width-v53qcl"
-            data-focusable={true}
+            className="css-textinput-11aywtz r-backgroundColor-14lw9ot r-borderBottomRightRadius-1inxgn4 r-borderColor-17xuhkx r-borderTopRightRadius-3y0fky r-borderWidth-rs99b7 r-flex-13awgt0 r-height-1r8g8re r-justifyContent-1777fci r-paddingLeft-1qhn6m8 r-width-v53qcl"
             dir="auto"
             onBlur={[Function]}
             onChange={[Function]}
             onFocus={[Function]}
             onKeyDown={[Function]}
-            onKeyPress={[Function]}
             onSelect={[Function]}
             readOnly={false}
             spellCheck={true}
@@ -329,13 +311,13 @@ so you can recover your wallet anytime
           />
         </div>
         <div
-          className="css-view-1dbjc4n r-flexDirection-18u37iz r-height-1ugchlj r-marginTop-knv0ih r-width-17x6qj0"
+          className="css-view-1dbjc4n r-flexDirection-18u37iz r-height-1r8g8re r-marginTop-knv0ih r-width-17x6qj0"
         >
           <div
-            className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1jb27wt r-borderBottomLeftRadius-5kex9v r-borderColor-17xuhkx r-borderTopLeftRadius-1ct94d3 r-borderWidth-rs99b7 r-display-6koalj r-height-1ugchlj r-justifyContent-1777fci r-width-1yvhtrz"
+            className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1jb27wt r-borderBottomLeftRadius-5kex9v r-borderColor-17xuhkx r-borderTopLeftRadius-1ct94d3 r-borderWidth-rs99b7 r-display-6koalj r-height-1r8g8re r-justifyContent-1777fci r-width-1yvhtrz"
           >
             <div
-              className="css-text-901oao r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-lineHeight-hbpseb r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+              className="css-text-901oao r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
               dir="auto"
             >
               10
@@ -345,14 +327,12 @@ so you can recover your wallet anytime
             autoCapitalize="sentences"
             autoComplete="on"
             autoCorrect="on"
-            className="css-textinput-11aywtz r-backgroundColor-14lw9ot r-borderBottomRightRadius-1inxgn4 r-borderColor-17xuhkx r-borderTopRightRadius-3y0fky r-borderWidth-rs99b7 r-flex-13awgt0 r-height-1ugchlj r-justifyContent-1777fci r-paddingLeft-1qhn6m8 r-width-v53qcl"
-            data-focusable={true}
+            className="css-textinput-11aywtz r-backgroundColor-14lw9ot r-borderBottomRightRadius-1inxgn4 r-borderColor-17xuhkx r-borderTopRightRadius-3y0fky r-borderWidth-rs99b7 r-flex-13awgt0 r-height-1r8g8re r-justifyContent-1777fci r-paddingLeft-1qhn6m8 r-width-v53qcl"
             dir="auto"
             onBlur={[Function]}
             onChange={[Function]}
             onFocus={[Function]}
             onKeyDown={[Function]}
-            onKeyPress={[Function]}
             onSelect={[Function]}
             readOnly={false}
             spellCheck={true}
@@ -361,13 +341,13 @@ so you can recover your wallet anytime
           />
         </div>
         <div
-          className="css-view-1dbjc4n r-flexDirection-18u37iz r-height-1ugchlj r-marginTop-knv0ih r-width-17x6qj0"
+          className="css-view-1dbjc4n r-flexDirection-18u37iz r-height-1r8g8re r-marginTop-knv0ih r-width-17x6qj0"
         >
           <div
-            className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1jb27wt r-borderBottomLeftRadius-5kex9v r-borderColor-17xuhkx r-borderTopLeftRadius-1ct94d3 r-borderWidth-rs99b7 r-display-6koalj r-height-1ugchlj r-justifyContent-1777fci r-width-1yvhtrz"
+            className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1jb27wt r-borderBottomLeftRadius-5kex9v r-borderColor-17xuhkx r-borderTopLeftRadius-1ct94d3 r-borderWidth-rs99b7 r-display-6koalj r-height-1r8g8re r-justifyContent-1777fci r-width-1yvhtrz"
           >
             <div
-              className="css-text-901oao r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-lineHeight-hbpseb r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+              className="css-text-901oao r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
               dir="auto"
             >
               11
@@ -377,14 +357,12 @@ so you can recover your wallet anytime
             autoCapitalize="sentences"
             autoComplete="on"
             autoCorrect="on"
-            className="css-textinput-11aywtz r-backgroundColor-14lw9ot r-borderBottomRightRadius-1inxgn4 r-borderColor-17xuhkx r-borderTopRightRadius-3y0fky r-borderWidth-rs99b7 r-flex-13awgt0 r-height-1ugchlj r-justifyContent-1777fci r-paddingLeft-1qhn6m8 r-width-v53qcl"
-            data-focusable={true}
+            className="css-textinput-11aywtz r-backgroundColor-14lw9ot r-borderBottomRightRadius-1inxgn4 r-borderColor-17xuhkx r-borderTopRightRadius-3y0fky r-borderWidth-rs99b7 r-flex-13awgt0 r-height-1r8g8re r-justifyContent-1777fci r-paddingLeft-1qhn6m8 r-width-v53qcl"
             dir="auto"
             onBlur={[Function]}
             onChange={[Function]}
             onFocus={[Function]}
             onKeyDown={[Function]}
-            onKeyPress={[Function]}
             onSelect={[Function]}
             readOnly={false}
             spellCheck={true}
@@ -393,13 +371,13 @@ so you can recover your wallet anytime
           />
         </div>
         <div
-          className="css-view-1dbjc4n r-flexDirection-18u37iz r-height-1ugchlj r-marginTop-knv0ih r-width-17x6qj0"
+          className="css-view-1dbjc4n r-flexDirection-18u37iz r-height-1r8g8re r-marginTop-knv0ih r-width-17x6qj0"
         >
           <div
-            className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1jb27wt r-borderBottomLeftRadius-5kex9v r-borderColor-17xuhkx r-borderTopLeftRadius-1ct94d3 r-borderWidth-rs99b7 r-display-6koalj r-height-1ugchlj r-justifyContent-1777fci r-width-1yvhtrz"
+            className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1jb27wt r-borderBottomLeftRadius-5kex9v r-borderColor-17xuhkx r-borderTopLeftRadius-1ct94d3 r-borderWidth-rs99b7 r-display-6koalj r-height-1r8g8re r-justifyContent-1777fci r-width-1yvhtrz"
           >
             <div
-              className="css-text-901oao r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-lineHeight-hbpseb r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+              className="css-text-901oao r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
               dir="auto"
             >
               12
@@ -409,14 +387,12 @@ so you can recover your wallet anytime
             autoCapitalize="sentences"
             autoComplete="on"
             autoCorrect="on"
-            className="css-textinput-11aywtz r-backgroundColor-14lw9ot r-borderBottomRightRadius-1inxgn4 r-borderColor-17xuhkx r-borderTopRightRadius-3y0fky r-borderWidth-rs99b7 r-flex-13awgt0 r-height-1ugchlj r-justifyContent-1777fci r-paddingLeft-1qhn6m8 r-width-v53qcl"
-            data-focusable={true}
+            className="css-textinput-11aywtz r-backgroundColor-14lw9ot r-borderBottomRightRadius-1inxgn4 r-borderColor-17xuhkx r-borderTopRightRadius-3y0fky r-borderWidth-rs99b7 r-flex-13awgt0 r-height-1r8g8re r-justifyContent-1777fci r-paddingLeft-1qhn6m8 r-width-v53qcl"
             dir="auto"
             onBlur={[Function]}
             onChange={[Function]}
             onFocus={[Function]}
             onKeyDown={[Function]}
-            onKeyPress={[Function]}
             onSelect={[Function]}
             readOnly={false}
             spellCheck={true}
@@ -430,6 +406,7 @@ so you can recover your wallet anytime
       >
         <div
           className="css-view-1dbjc4n r-alignItems-1oszu61 r-borderColor-17xuhkx r-display-6koalj r-justifyContent-1777fci"
+          id="animatedComponent"
           style={
             Object {
               "backgroundColor": "rgba(0,0,0,0.00)",
@@ -460,16 +437,9 @@ so you can recover your wallet anytime
         >
           <div
             className="css-cursor-18t94o4 css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
-            data-focusable={true}
+            onClick={[Function]}
+            onContextMenu={[Function]}
             onKeyDown={[Function]}
-            onKeyPress={[Function]}
-            onKeyUp={[Function]}
-            onResponderGrant={[Function]}
-            onResponderMove={[Function]}
-            onResponderRelease={[Function]}
-            onResponderTerminate={[Function]}
-            onResponderTerminationRequest={[Function]}
-            onStartShouldSetResponder={[Function]}
             role="button"
             style={
               Object {
@@ -503,7 +473,7 @@ so you can recover your wallet anytime
                   className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
                 >
                   <div
-                    className="css-text-901oao r-alignItems-1awozwy r-color-1q5uqvh r-fontFamily-vnw8o6 r-fontSize-a023e6 r-fontWeight-1it3c9n r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-hbpseb r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-1ddef8g r-textTransform-3twk1y"
+                    className="css-text-901oao r-alignItems-1awozwy r-color-1q5uqvh r-fontFamily-vnw8o6 r-fontSize-a023e6 r-fontWeight-1it3c9n r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-qvk6io r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-1ddef8g r-textTransform-3twk1y"
                     dir="auto"
                   >
                     Copy all to clipboard
@@ -515,6 +485,7 @@ so you can recover your wallet anytime
         </div>
         <div
           className="css-view-1dbjc4n r-alignItems-1oszu61 r-borderColor-17xuhkx r-display-6koalj r-justifyContent-1777fci"
+          id="animatedComponent"
           style={
             Object {
               "backgroundColor": "rgba(0,0,0,0.00)",
@@ -545,16 +516,9 @@ so you can recover your wallet anytime
         >
           <div
             className="css-cursor-18t94o4 css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
-            data-focusable={true}
+            onClick={[Function]}
+            onContextMenu={[Function]}
             onKeyDown={[Function]}
-            onKeyPress={[Function]}
-            onKeyUp={[Function]}
-            onResponderGrant={[Function]}
-            onResponderMove={[Function]}
-            onResponderRelease={[Function]}
-            onResponderTerminate={[Function]}
-            onResponderTerminationRequest={[Function]}
-            onStartShouldSetResponder={[Function]}
             role="button"
             style={
               Object {
@@ -588,7 +552,7 @@ so you can recover your wallet anytime
                   className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
                 >
                   <div
-                    className="css-text-901oao r-alignItems-1awozwy r-color-1q5uqvh r-fontFamily-vnw8o6 r-fontSize-a023e6 r-fontWeight-1it3c9n r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-hbpseb r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-1ddef8g r-textTransform-3twk1y"
+                    className="css-text-901oao r-alignItems-1awozwy r-color-1q5uqvh r-fontFamily-vnw8o6 r-fontSize-a023e6 r-fontWeight-1it3c9n r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-qvk6io r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-1ddef8g r-textTransform-3twk1y"
                     dir="auto"
                   >
                     Send me a backup email
@@ -601,6 +565,7 @@ so you can recover your wallet anytime
       </div>
       <div
         className="css-view-1dbjc4n r-alignItems-1oszu61 r-backgroundColor-1jb27wt r-borderColor-17xuhkx r-display-6koalj r-justifyContent-1777fci"
+        id="animatedComponent"
         style={
           Object {
             "borderBottomLeftRadius": "50px",
@@ -631,16 +596,9 @@ so you can recover your wallet anytime
       >
         <div
           className="css-cursor-18t94o4 css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
-          data-focusable={true}
+          onClick={[Function]}
+          onContextMenu={[Function]}
           onKeyDown={[Function]}
-          onKeyPress={[Function]}
-          onKeyUp={[Function]}
-          onResponderGrant={[Function]}
-          onResponderMove={[Function]}
-          onResponderRelease={[Function]}
-          onResponderTerminate={[Function]}
-          onResponderTerminationRequest={[Function]}
-          onStartShouldSetResponder={[Function]}
           role="button"
           style={
             Object {
@@ -674,7 +632,7 @@ so you can recover your wallet anytime
                 className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
               >
                 <div
-                  className="css-text-901oao r-alignItems-1awozwy r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-hbpseb r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
+                  className="css-text-901oao r-alignItems-1awozwy r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-qvk6io r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
                   dir="auto"
                 >
                   Done

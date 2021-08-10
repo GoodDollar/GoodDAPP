@@ -6,6 +6,7 @@ exports[`FaceVerification IntroScreen matches snapshot 1`] = `
 >
   <div
     className="css-view-1dbjc4n r-display-6koalj r-flexDirection-eqz5dr r-flexGrow-16y2uox r-maxHeight-87ditf r-overflowX-lltvgl r-overflowY-1rnoaur r-padding-edyy15 r-position-bnwqim r-width-13qz1uu"
+    data-name="viewWrapper"
     style={
       Object {
         "backgroundImage": "linear-gradient(3.141592653589793rad,#00AFFF,#2DC0F7,#28C0EF,#23C0E7,#1EC1DF,#19C1D7,#14C1CF,#0FC2C7,#0FC2C7,#0AC2BF,#05C2B7,#00C3AF)",
@@ -13,19 +14,18 @@ exports[`FaceVerification IntroScreen matches snapshot 1`] = `
     }
   >
     <div
-      className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-14lw9ot r-borderRadius-1f0042m r-display-6koalj r-flexDirection-eqz5dr r-flexGrow-16y2uox r-flexShrink-1q142lx r-justifyContent-1777fci r-paddingBottom-1l7z4oj r-paddingHorizontal-1e081e0 r-paddingLeft-1m04atk r-paddingRight-1pyaxff r-paddingTop-95jzfe r-paddingVertical-1yzf0co"
+      className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-14lw9ot r-borderRadius-1f0042m r-display-6koalj r-flexDirection-eqz5dr r-flexGrow-16y2uox r-flexShrink-1q142lx r-justifyContent-1777fci r-paddingBottom-1mdbw0j r-paddingHorizontal-1e081e0 r-paddingLeft-gy4na3 r-paddingRight-9aemit r-paddingTop-wk8lta r-paddingVertical-1yzf0co"
     >
       <div
         className="css-view-1dbjc4n r-flexGrow-16y2uox r-justifyContent-1wtj0ep r-width-13qz1uu"
       >
         <div
-          className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1x35g6 r-fontWeight-b88u0q r-lineHeight-17rnw9f r-marginTop-1wzrnnt r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+          className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-marginTop-1mnahxq r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
           dir="auto"
         >
           ,
           <span
-            className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1x35g6 r-fontWeight-1it3c9n r-lineHeight-17rnw9f r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
-            dir="auto"
+            className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
           >
             
 Verify you are a real
@@ -33,28 +33,26 @@ live person
           </span>
         </div>
         <div
-          className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1i10wst r-fontWeight-1it3c9n r-letterSpacing-1j4bhhx r-lineHeight-waer2z r-marginTop-1wzrnnt r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+          className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-1it3c9n r-letterSpacing-1j4bhhx r-lineHeight-qvk6io r-marginTop-1mnahxq r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
           dir="auto"
         >
           Your image is only used to prevent the creation of duplicate accounts and will never be transferred to any third party
         </div>
         <div
-          className="css-text-901oao r-color-1q5uqvh r-cursor-1loqt21 r-fontFamily-vnw8o6 r-fontSize-1i10wst r-fontWeight-b88u0q r-lineHeight-eaezby r-marginTop-1x0uki6 r-textAlign-q4m81j r-textDecorationLine-1ddef8g r-textTransform-3twk1y"
-          data-focusable={true}
+          className="css-text-901oao r-color-1q5uqvh r-cursor-1loqt21 r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-marginTop-1mnahxq r-textAlign-q4m81j r-textDecorationLine-1ddef8g r-textTransform-3twk1y"
           dir="auto"
           onClick={[Function]}
-          onKeyDown={[Function]}
-          tabIndex="0"
         >
           Learn More
         </div>
         <div
-          className="css-view-1dbjc4n r-alignItems-1awozwy r-marginBottom-10qg9sp r-marginTop-1x0uki6 r-width-13qz1uu"
+          className="css-view-1dbjc4n r-alignItems-1awozwy r-marginBottom-p1pxzi r-marginTop-1mnahxq r-width-13qz1uu"
         >
           <FashionPhotoshoot.svg />
         </div>
         <div
-          className="css-view-1dbjc4n r-display-6koalj r-justifyContent-1777fci r-width-13qz1uu"
+          className="css-view-1dbjc4n r-display-6koalj r-justifyContent-1777fci r-marginBottom-p1pxzi r-marginTop-1mnahxq r-paddingLeft-gy4na3 r-paddingRight-9aemit r-width-13qz1uu"
+          id="animatedComponent"
           style={
             Object {
               "WebkitAlignItems": "stretch",
@@ -77,10 +75,8 @@ live person
               "borderTopRightRadius": "50px",
               "borderTopStyle": "solid",
               "borderTopWidth": "0px",
-              "marginBottom": "0px",
               "marginLeft": "0px",
               "marginRight": "0px",
-              "marginTop": "0px",
               "minHeight": "44px",
               "minWidth": "64px",
               "msFlexAlign": "stretch",
@@ -92,17 +88,11 @@ live person
           }
         >
           <div
-            className="css-cursor-18t94o4 css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
-            data-focusable={true}
+            aria-disabled={true}
+            className="css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
+            onClick={[Function]}
+            onContextMenu={[Function]}
             onKeyDown={[Function]}
-            onKeyPress={[Function]}
-            onKeyUp={[Function]}
-            onResponderGrant={[Function]}
-            onResponderMove={[Function]}
-            onResponderRelease={[Function]}
-            onResponderTerminate={[Function]}
-            onResponderTerminationRequest={[Function]}
-            onStartShouldSetResponder={[Function]}
             role="button"
             style={
               Object {
@@ -116,7 +106,7 @@ live person
                 "msGridRowAlign": "stretch",
               }
             }
-            tabIndex="0"
+            tabIndex="-1"
           >
             <div
               className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
@@ -136,7 +126,7 @@ live person
                   className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
                 >
                   <div
-                    className="css-text-901oao r-alignItems-1awozwy r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-hbpseb r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
+                    className="css-text-901oao r-alignItems-1awozwy r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-qvk6io r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
                     dir="auto"
                   >
                     OK, VERIFY ME

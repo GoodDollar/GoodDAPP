@@ -9,6 +9,7 @@ exports[`PhoneForm matches snapshot 1`] = `
   >
     <div
       className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-display-6koalj r-flexDirection-eqz5dr r-flexGrow-16y2uox r-maxHeight-87ditf r-overflowX-lltvgl r-overflowY-1rnoaur r-padding-nsbfu8 r-position-bnwqim r-width-13qz1uu"
+      data-name="viewWrapper"
     >
       <div
         className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-borderRadius-1f0042m r-flexGrow-16y2uox r-padding-t60dpp r-paddingHorizontal-1e081e0 r-paddingVertical-1yzf0co"
@@ -36,7 +37,7 @@ exports[`PhoneForm matches snapshot 1`] = `
             }
           >
             <div
-              className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-height-4d76ec r-minHeight-ql8eny"
+              className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-height-1w2pmg r-minHeight-ifefl9"
               style={
                 Object {
                   "WebkitBoxPack": "start",
@@ -50,7 +51,7 @@ exports[`PhoneForm matches snapshot 1`] = `
                 className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1777fci"
               >
                 <div
-                  className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-evnaw r-fontWeight-majxgm r-lineHeight-17rnw9f r-marginVertical-c8eef1 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                  className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-majxgm r-lineHeight-qvk6io r-marginVertical-c8eef1 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                   dir="auto"
                 >
                   Kevin,
@@ -1645,6 +1646,7 @@ so we could verify you
                 <div
                   className="css-text-901oao r-paddingHorizontal-1e081e0 r-textAlign-q4m81j"
                   dir="auto"
+                  id="animatedComponent"
                   style={
                     Object {
                       "WebkitTransform": "translateY(0px)",
@@ -1670,7 +1672,7 @@ so we could verify you
               className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1777fci r-marginBottom-5oul0u r-marginTop-1t01tom"
             >
               <div
-                className="css-text-901oao r-color-vaa0vc r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-1it3c9n r-lineHeight-rjixqe r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                className="css-text-901oao r-color-vaa0vc r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                 dir="auto"
               >
                 A verification code will be sent to this number
@@ -1691,6 +1693,7 @@ so we could verify you
         >
           <div
             className="css-view-1dbjc4n r-alignItems-1oszu61 r-display-6koalj r-flex-13awgt0 r-justifyContent-1777fci r-padding-t60dpp"
+            id="animatedComponent"
             style={
               Object {
                 "backgroundColor": "rgba(0,0,0,0.12)",
@@ -1722,17 +1725,11 @@ so we could verify you
             }
           >
             <div
-              className="css-cursor-18t94o4 css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
-              data-focusable={true}
+              aria-disabled={true}
+              className="css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
+              onClick={[Function]}
+              onContextMenu={[Function]}
               onKeyDown={[Function]}
-              onKeyPress={[Function]}
-              onKeyUp={[Function]}
-              onResponderGrant={[Function]}
-              onResponderMove={[Function]}
-              onResponderRelease={[Function]}
-              onResponderTerminate={[Function]}
-              onResponderTerminationRequest={[Function]}
-              onStartShouldSetResponder={[Function]}
               role="button"
               style={
                 Object {
@@ -1746,7 +1743,7 @@ so we could verify you
                   "msGridRowAlign": "stretch",
                 }
               }
-              tabIndex="0"
+              tabIndex="-1"
             >
               <div
                 className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
@@ -1766,7 +1763,7 @@ so we could verify you
                     className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
                   >
                     <div
-                      className="css-text-901oao r-alignItems-1awozwy r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-hbpseb r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
+                      className="css-text-901oao r-alignItems-1awozwy r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-qvk6io r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
                       dir="auto"
                     >
                       Next

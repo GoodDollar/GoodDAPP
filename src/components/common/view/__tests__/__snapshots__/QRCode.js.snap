@@ -65,12 +65,12 @@ exports[`QRCode matches snapshot 1`] = `
             "dark": false,
             "feedItems": Object {
               "borderRadius": 8,
-              "height": 84,
+              "height": 0,
               "itemBackgroundColor": "#fff",
             },
             "fontStyle": Object {
               "color": "#555",
-              "fontSize": 18,
+              "fontSize": 0,
               "textAlign": "center",
             },
             "fonts": Object {
@@ -194,12 +194,12 @@ exports[`QRCode matches snapshot 2`] = `
             "dark": false,
             "feedItems": Object {
               "borderRadius": 8,
-              "height": 84,
+              "height": 0,
               "itemBackgroundColor": "#fff",
             },
             "fontStyle": Object {
               "color": "#555",
-              "fontSize": 18,
+              "fontSize": 0,
               "textAlign": "center",
             },
             "fonts": Object {

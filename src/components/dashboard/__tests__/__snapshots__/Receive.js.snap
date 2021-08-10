@@ -6,6 +6,7 @@ exports[`Receive matches snapshot 1`] = `
 >
   <div
     className="css-view-1dbjc4n r-display-6koalj r-flexDirection-eqz5dr r-flexGrow-16y2uox r-maxHeight-87ditf r-overflowX-lltvgl r-overflowY-1rnoaur r-padding-edyy15 r-position-bnwqim r-width-13qz1uu"
+    data-name="viewWrapper"
     style={
       Object {
         "backgroundImage": "linear-gradient(3.141592653589793rad,#00AFFF,#2DC0F7,#28C0EF,#23C0E7,#1EC1DF,#19C1D7,#14C1CF,#0FC2C7,#0FC2C7,#0AC2BF,#05C2B7,#00C3AF)",
@@ -22,7 +23,7 @@ exports[`Receive matches snapshot 1`] = `
           className="css-view-1dbjc4n r-alignItems-1d09ksm r-display-6koalj r-flexDirection-18u37iz"
         >
           <div
-            className="css-text-901oao r-color-181bzza r-fontFamily-6jnb14 r-fontSize-3i2nvb r-fontWeight-b88u0q r-lineHeight-ueyrd6 r-marginRight-a5pmau r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+            className="css-text-901oao r-color-181bzza r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-marginRight-a5pmau r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
             dir="auto"
           >
             -.--
@@ -31,13 +32,13 @@ exports[`Receive matches snapshot 1`] = `
             className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
           >
             <div
-              className="css-text-901oao r-color-181bzza r-fontFamily-6jnb14 r-fontSize-1i10wst r-fontWeight-b88u0q r-lineHeight-hbpseb r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+              className="css-text-901oao r-color-181bzza r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
               dir="auto"
             >
               G
             </div>
             <div
-              className="css-text-901oao r-color-181bzza r-fontFamily-6jnb14 r-fontSize-1i10wst r-fontWeight-b88u0q r-lineHeight-hbpseb r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+              className="css-text-901oao r-color-181bzza r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
               dir="auto"
             >
               $
@@ -59,7 +60,7 @@ exports[`Receive matches snapshot 1`] = `
         className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-eqz5dr r-justifyContent-1777fci"
       >
         <div
-          className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-lineHeight-hbpseb r-marginBottom-1peese0 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+          className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-lineHeight-qvk6io r-marginBottom-p1pxzi r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
           dir="auto"
         >
           Let someone scan your wallet address
@@ -125,12 +126,12 @@ exports[`Receive matches snapshot 1`] = `
                   "dark": false,
                   "feedItems": Object {
                     "borderRadius": 8,
-                    "height": 84,
+                    "height": 0,
                     "itemBackgroundColor": "#fff",
                   },
                   "fontStyle": Object {
                     "color": "#555",
-                    "fontSize": 18,
+                    "fontSize": 0,
                     "textAlign": "center",
                   },
                   "fonts": Object {
@@ -191,7 +192,7 @@ exports[`Receive matches snapshot 1`] = `
         className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-eqz5dr r-flexGrow-16y2uox r-justifyContent-1777fci r-marginVertical-7e3msg"
       >
         <div
-          className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-1it3c9n r-lineHeight-rjixqe r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+          className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
           dir="auto"
         >
           - OR -
@@ -201,7 +202,8 @@ exports[`Receive matches snapshot 1`] = `
         className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-justifyContent-1wtj0ep"
       >
         <div
-          className="css-view-1dbjc4n r-alignItems-1oszu61 r-borderColor-17xuhkx r-borderWidth-rs99b7 r-display-6koalj r-justifyContent-1777fci"
+          className="css-view-1dbjc4n r-alignItems-1oszu61 r-borderColor-17xuhkx r-borderWidth-rs99b7 r-display-6koalj r-justifyContent-1777fci r-marginBottom-p1pxzi"
+          id="animatedComponent"
           style={
             Object {
               "backgroundColor": "rgba(0,0,0,0.00)",
@@ -213,7 +215,6 @@ exports[`Receive matches snapshot 1`] = `
               "borderTopLeftRadius": "50px",
               "borderTopRightRadius": "50px",
               "borderTopStyle": "solid",
-              "marginBottom": "0px",
               "marginLeft": "0px",
               "marginRight": "0px",
               "marginTop": "0px",
@@ -228,16 +229,9 @@ exports[`Receive matches snapshot 1`] = `
         >
           <div
             className="css-cursor-18t94o4 css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
-            data-focusable={true}
+            onClick={[Function]}
+            onContextMenu={[Function]}
             onKeyDown={[Function]}
-            onKeyPress={[Function]}
-            onKeyUp={[Function]}
-            onResponderGrant={[Function]}
-            onResponderMove={[Function]}
-            onResponderRelease={[Function]}
-            onResponderTerminate={[Function]}
-            onResponderTerminationRequest={[Function]}
-            onStartShouldSetResponder={[Function]}
             role="button"
             style={
               Object {
@@ -271,7 +265,7 @@ exports[`Receive matches snapshot 1`] = `
                   className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
                 >
                   <div
-                    className="css-text-901oao r-alignItems-1awozwy r-color-1q5uqvh r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-hbpseb r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
+                    className="css-text-901oao r-alignItems-1awozwy r-color-1q5uqvh r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-qvk6io r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
                     dir="auto"
                   >
                     Request specific amount
@@ -285,7 +279,8 @@ exports[`Receive matches snapshot 1`] = `
           className="css-view-1dbjc4n r-height-10ptun7"
         />
         <div
-          className="css-view-1dbjc4n r-alignItems-1oszu61 r-borderColor-17xuhkx r-display-6koalj r-justifyContent-1777fci"
+          className="css-view-1dbjc4n r-alignItems-1oszu61 r-borderColor-17xuhkx r-display-6koalj r-justifyContent-1777fci r-marginBottom-p1pxzi"
+          id="animatedComponent"
           style={
             Object {
               "backgroundColor": "rgba(0,175,255,1.00)",
@@ -302,7 +297,6 @@ exports[`Receive matches snapshot 1`] = `
               "borderTopStyle": "solid",
               "borderTopWidth": "0px",
               "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
-              "marginBottom": "0px",
               "marginLeft": "0px",
               "marginRight": "0px",
               "marginTop": "0px",
@@ -317,16 +311,9 @@ exports[`Receive matches snapshot 1`] = `
         >
           <div
             className="css-cursor-18t94o4 css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
-            data-focusable={true}
+            onClick={[Function]}
+            onContextMenu={[Function]}
             onKeyDown={[Function]}
-            onKeyPress={[Function]}
-            onKeyUp={[Function]}
-            onResponderGrant={[Function]}
-            onResponderMove={[Function]}
-            onResponderRelease={[Function]}
-            onResponderTerminate={[Function]}
-            onResponderTerminationRequest={[Function]}
-            onStartShouldSetResponder={[Function]}
             role="button"
             style={
               Object {
@@ -360,7 +347,7 @@ exports[`Receive matches snapshot 1`] = `
                   className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
                 >
                   <div
-                    className="css-text-901oao r-alignItems-1awozwy r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-hbpseb r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
+                    className="css-text-901oao r-alignItems-1awozwy r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-qvk6io r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
                     dir="auto"
                   >
                     Receive via wallet link

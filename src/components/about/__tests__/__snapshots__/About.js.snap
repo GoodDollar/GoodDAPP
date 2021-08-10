@@ -6,6 +6,7 @@ exports[`About matches snapshot 1`] = `
 >
   <div
     className="css-view-1dbjc4n r-display-6koalj r-flexDirection-eqz5dr r-flexGrow-16y2uox r-maxHeight-87ditf r-overflowX-lltvgl r-overflowY-1rnoaur r-padding-t60dpp r-position-bnwqim r-width-13qz1uu"
+    data-name="viewWrapper"
     style={
       Object {
         "backgroundImage": "linear-gradient(3.141592653589793rad,#00AFFF,#2DC0F7,#28C0EF,#23C0E7,#1EC1DF,#19C1D7,#14C1CF,#0FC2C7,#0FC2C7,#0AC2BF,#05C2B7,#00C3AF)",
@@ -22,7 +23,7 @@ exports[`About matches snapshot 1`] = `
         className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-flexGrow-16y2uox r-justifyContent-1wtj0ep r-marginBottom-2uub5q r-marginTop-1p6u9xm"
       >
         <div
-          className="css-text-901oao r-color-waoq6i r-fontFamily-vnw8o6 r-fontSize-evnaw r-fontWeight-1it3c9n r-lineHeight-17rnw9f r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+          className="css-text-901oao r-color-waoq6i r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
           dir="auto"
         >
           Welcome to
@@ -47,20 +48,19 @@ exports[`About matches snapshot 1`] = `
             />
           </div>
           <div
-            className="css-text-901oao r-color-waoq6i r-fontFamily-vnw8o6 r-fontSize-evnaw r-fontWeight-1it3c9n r-lineHeight-17rnw9f r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+            className="css-text-901oao r-color-waoq6i r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
             dir="auto"
           >
             V1.0
           </div>
         </div>
         <div
-          className="css-text-901oao r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-1i10wst r-fontWeight-1it3c9n r-lineHeight-135wba7 r-maxWidth-b4zvlm r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+          className="css-text-901oao r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-1it3c9n r-lineHeight-qvk6io r-maxWidth-x3gwly r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
           dir="auto"
         >
           GoodDollar is a payment system with a built-in small basic income based on blockchain technology.
           <span
-            className="css-text-901oao css-textHasAncestor-16my406 r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-1i10wst r-fontWeight-b88u0q r-lineHeight-135wba7 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
-            dir="auto"
+            className="css-text-901oao css-textHasAncestor-16my406 r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
           >
             
 Let's change the world, for good.

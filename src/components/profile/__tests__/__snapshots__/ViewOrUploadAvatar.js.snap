@@ -6,6 +6,7 @@ exports[`ViewAvatar matches snapshot 1`] = `
 >
   <div
     className="css-view-1dbjc4n r-display-6koalj r-flexDirection-eqz5dr r-flexGrow-16y2uox r-maxHeight-87ditf r-overflowX-lltvgl r-overflowY-1rnoaur r-padding-edyy15 r-position-bnwqim r-width-13qz1uu"
+    data-name="viewWrapper"
     style={
       Object {
         "backgroundImage": "linear-gradient(3.141592653589793rad,#00AFFF,#2DC0F7,#28C0EF,#23C0E7,#1EC1DF,#19C1D7,#14C1CF,#0FC2C7,#0FC2C7,#0AC2BF,#05C2B7,#00C3AF)",
@@ -56,19 +57,14 @@ exports[`ViewAvatar matches snapshot 1`] = `
               className="css-view-1dbjc4n"
             >
               <div
-                className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1uqle4r r-borderRadius-10jnvle r-cursor-1loqt21 r-display-6koalj r-height-ur6pnr r-justifyContent-1777fci r-touchAction-1otgn73 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-width-1mhb1uw"
-                data-focusable={true}
+                className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1uqle4r r-borderRadius-10jnvle r-cursor-1loqt21 r-display-6koalj r-height-ur6pnr r-justifyContent-1777fci r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-width-1mhb1uw"
+                onClick={[Function]}
+                onContextMenu={[Function]}
                 onKeyDown={[Function]}
-                onKeyUp={[Function]}
-                onResponderGrant={[Function]}
-                onResponderMove={[Function]}
-                onResponderRelease={[Function]}
-                onResponderTerminate={[Function]}
-                onResponderTerminationRequest={[Function]}
-                onStartShouldSetResponder={[Function]}
                 style={
                   Object {
-                    "opacity": 1,
+                    "WebkitTransitionDuration": "0s",
+                    "transitionDuration": "0s",
                   }
                 }
                 tabIndex="0"
@@ -125,26 +121,22 @@ exports[`ViewAvatar matches snapshot 1`] = `
               >
                 <div
                   aria-disabled={true}
-                  className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-qt01xk r-borderColor-y68mpx r-borderWidth-rs99b7 r-justifyContent-1777fci r-marginTop-1mmau9f r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-width-1tecaoj r-zIndex-417010"
-                  disabled={true}
+                  className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-qt01xk r-borderColor-y68mpx r-borderWidth-rs99b7 r-justifyContent-1777fci r-marginTop-1mmau9f r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-width-1tecaoj r-zIndex-417010"
+                  onClick={[Function]}
+                  onContextMenu={[Function]}
                   onKeyDown={[Function]}
-                  onKeyUp={[Function]}
-                  onResponderGrant={[Function]}
-                  onResponderMove={[Function]}
-                  onResponderRelease={[Function]}
-                  onResponderTerminate={[Function]}
-                  onResponderTerminationRequest={[Function]}
-                  onStartShouldSetResponder={[Function]}
                   style={
                     Object {
+                      "WebkitTransitionDuration": "0s",
                       "borderBottomLeftRadius": "136px",
                       "borderBottomRightRadius": "136px",
                       "borderTopLeftRadius": "136px",
                       "borderTopRightRadius": "136px",
                       "height": "272px",
-                      "opacity": 1,
+                      "transitionDuration": "0s",
                     }
                   }
+                  tabIndex="-1"
                 >
                   <div
                     className="css-view-1dbjc4n r-width-1tecaoj"
@@ -168,6 +160,7 @@ exports[`ViewAvatar matches snapshot 1`] = `
       >
         <div
           className="css-view-1dbjc4n r-alignItems-1oszu61 r-display-6koalj r-justifyContent-1777fci"
+          id="animatedComponent"
           style={
             Object {
               "backgroundColor": "rgba(0,175,255,1.00)",
@@ -203,16 +196,9 @@ exports[`ViewAvatar matches snapshot 1`] = `
         >
           <div
             className="css-cursor-18t94o4 css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
-            data-focusable={true}
+            onClick={[Function]}
+            onContextMenu={[Function]}
             onKeyDown={[Function]}
-            onKeyPress={[Function]}
-            onKeyUp={[Function]}
-            onResponderGrant={[Function]}
-            onResponderMove={[Function]}
-            onResponderRelease={[Function]}
-            onResponderTerminate={[Function]}
-            onResponderTerminationRequest={[Function]}
-            onStartShouldSetResponder={[Function]}
             role="button"
             style={
               Object {
@@ -246,7 +232,7 @@ exports[`ViewAvatar matches snapshot 1`] = `
                   className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
                 >
                   <div
-                    className="css-text-901oao r-alignItems-1awozwy r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-hbpseb r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
+                    className="css-text-901oao r-alignItems-1awozwy r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-qvk6io r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
                     dir="auto"
                   >
                     Done

@@ -6,6 +6,7 @@ exports[`TransactionConfirmation matches snapshot 1`] = `
 >
   <div
     className="css-view-1dbjc4n r-display-6koalj r-flexDirection-eqz5dr r-flexGrow-16y2uox r-maxHeight-87ditf r-overflowX-lltvgl r-overflowY-1rnoaur r-padding-edyy15 r-position-bnwqim r-width-13qz1uu"
+    data-name="viewWrapper"
     style={
       Object {
         "backgroundImage": "linear-gradient(3.141592653589793rad,#00AFFF,#2DC0F7,#28C0EF,#23C0E7,#1EC1DF,#19C1D7,#14C1CF,#0FC2C7,#0FC2C7,#0AC2BF,#05C2B7,#00C3AF)",
@@ -19,7 +20,7 @@ exports[`TransactionConfirmation matches snapshot 1`] = `
         className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-eqz5dr r-justifyContent-1wtj0ep r-marginTop-1t01tom"
       >
         <div
-          className="css-text-901oao r-alignItems-1awozwy r-color-cddv6f r-display-6koalj r-fontFamily-vnw8o6 r-fontSize-evnaw r-fontWeight-b88u0q r-justifyContent-1777fci r-lineHeight-17rnw9f r-marginBottom-1ifxtd0 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+          className="css-text-901oao r-alignItems-1awozwy r-color-cddv6f r-display-6koalj r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-b88u0q r-justifyContent-1777fci r-lineHeight-qvk6io r-marginBottom-p1pxzi r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
           dir="auto"
         >
           Complete Your Transaction:
@@ -28,48 +29,44 @@ exports[`TransactionConfirmation matches snapshot 1`] = `
           className="css-view-1dbjc4n r-alignItems-1oszu61 r-display-6koalj r-flexDirection-eqz5dr r-justifyContent-1h0z5md r-marginHorizontal-1jgb5lz r-textAlign-fdjqy7"
         >
           <div
-            className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-letterSpacing-uz4sb0 r-lineHeight-vrz42v r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+            className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-letterSpacing-uz4sb0 r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
             dir="auto"
           >
             <span
-              className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-b88u0q r-letterSpacing-uz4sb0 r-lineHeight-vrz42v r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
-              dir="auto"
+              className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-b88u0q r-letterSpacing-uz4sb0 r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
             >
               1. 
             </span>
             Copy the link below
           </div>
           <div
-            className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-letterSpacing-uz4sb0 r-lineHeight-vrz42v r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+            className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-letterSpacing-uz4sb0 r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
             dir="auto"
           >
             <span
-              className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-b88u0q r-letterSpacing-uz4sb0 r-lineHeight-vrz42v r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
-              dir="auto"
+              className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-b88u0q r-letterSpacing-uz4sb0 r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
             >
               2. 
             </span>
             Share it with sender
           </div>
           <div
-            className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-letterSpacing-uz4sb0 r-lineHeight-vrz42v r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+            className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-letterSpacing-uz4sb0 r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
             dir="auto"
           >
             <span
-              className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-b88u0q r-letterSpacing-uz4sb0 r-lineHeight-vrz42v r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
-              dir="auto"
+              className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-b88u0q r-letterSpacing-uz4sb0 r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
             >
               3. 
             </span>
             Sender approves request
           </div>
           <div
-            className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-letterSpacing-uz4sb0 r-lineHeight-vrz42v r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+            className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-letterSpacing-uz4sb0 r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
             dir="auto"
           >
             <span
-              className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-b88u0q r-letterSpacing-uz4sb0 r-lineHeight-vrz42v r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
-              dir="auto"
+              className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-b88u0q r-letterSpacing-uz4sb0 r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
             >
               4. 
             </span>
@@ -78,7 +75,7 @@ exports[`TransactionConfirmation matches snapshot 1`] = `
         </div>
       </div>
       <div
-        className="css-view-1dbjc4n r-alignItems-1awozwy r-height-1x8dyos r-marginTop-1t01tom r-width-13qz1uu"
+        className="css-view-1dbjc4n r-alignItems-1awozwy r-height-1w2pmg r-marginTop-1t01tom r-width-13qz1uu"
       >
         <confirmTransaction.svg />
       </div>
@@ -86,19 +83,14 @@ exports[`TransactionConfirmation matches snapshot 1`] = `
         className="css-view-1dbjc4n r-marginTop-1t01tom"
       >
         <div
-          className="css-view-1dbjc4n r-cursor-1loqt21 r-touchAction-1otgn73 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-width-13qz1uu"
-          data-focusable={true}
+          className="css-view-1dbjc4n r-cursor-1loqt21 r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-width-13qz1uu"
+          onClick={[Function]}
+          onContextMenu={[Function]}
           onKeyDown={[Function]}
-          onKeyUp={[Function]}
-          onResponderGrant={[Function]}
-          onResponderMove={[Function]}
-          onResponderRelease={[Function]}
-          onResponderTerminate={[Function]}
-          onResponderTerminationRequest={[Function]}
-          onStartShouldSetResponder={[Function]}
           style={
             Object {
-              "opacity": 1,
+              "WebkitTransitionDuration": "0s",
+              "transitionDuration": "0s",
             }
           }
           tabIndex="0"

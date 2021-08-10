@@ -2,7 +2,6 @@
 import React, { memo, useCallback, useEffect, useRef, useState } from 'react'
 import { Animated } from 'react-native'
 import { SwipeableFlatList } from 'react-native-swipeable-lists-gd'
-import * as Animatable from 'react-native-animatable'
 import { get, isFunction, noop } from 'lodash'
 import moment from 'moment'
 
@@ -157,7 +156,7 @@ const FeedList = ({
         showErrorDialog("Current transaction is still pending, it can't be cancelled right now")
       }
 
-      userStorage.userProperties.set('showQuickActionHint', false)
+      userStorage.userProperties.setLocal('showQuickActionHint', false)
       setShowBounce(false)
     },
     [showErrorDialog, setShowBounce],
@@ -177,15 +176,14 @@ const FeedList = ({
       }
 
       return (
-        <Animatable.View animation="fadeIn" delay={750} style={styles.expandAction}>
-          <FeedActions
-            onPress={hasAction && (() => handleFeedActionPress(item, actions))}
-            actionIcon={actionIcon(actions)}
-            {...props}
-          >
-            {actionLabel(actions)}
-          </FeedActions>
-        </Animatable.View>
+        <FeedActions
+          onPress={hasAction && (() => handleFeedActionPress(item, actions))}
+          actionIcon={actionIcon(actions)}
+          {...props}
+          style={styles.expandAction}
+        >
+          {actionLabel(actions)}
+        </FeedActions>
       )
     },
     [feeds],
@@ -193,7 +191,7 @@ const FeedList = ({
 
   const manageDisplayQuickActionHint = useCallback(async () => {
     // Could be string containing date to show quick action hint after - otherwise boolean
-    const showQuickActionHintFlag = await userStorage.userProperties.get('showQuickActionHint')
+    const showQuickActionHintFlag = await userStorage.userProperties.getLocal('showQuickActionHint')
 
     const _showBounce =
       typeof showQuickActionHintFlag === 'string'
@@ -203,7 +201,7 @@ const FeedList = ({
     setShowBounce(_showBounce)
 
     if (_showBounce) {
-      await userStorage.userProperties.set(
+      await userStorage.userProperties.setLocal(
         'showQuickActionHint',
         moment()
           .add(24, 'hours')

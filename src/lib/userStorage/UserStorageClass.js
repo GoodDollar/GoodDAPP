@@ -501,6 +501,8 @@ export class UserStorage {
 
     const seed = this.wallet.wallet.eth.accounts.wallet[this.wallet.getAccountForType('gundb')].privateKey.slice(2)
     await this.feedDB.init(seed, this.wallet.getAccountForType('gundb')) //only once user is registered he has access to realmdb via signed jwt
+    //after we initialize the database wait for user properties which depands on database
+    await this.userProperties.ready
     await this.initFeed()
 
     // get trusted GoodDollar indexes and pub key
@@ -528,7 +530,6 @@ export class UserStorage {
       try {
         // firstly, awaiting for wallet is ready
         await wallet.ready
-        await this.userProperties.ready
         await this.initUserProfileStorage()
         const isReady = await retry(() => this.initGun(), 1) // init user storage, if exception thrown, retry init one more times
 
@@ -1188,9 +1189,8 @@ export class UserStorage {
   formatEvent = memoize(
     // eslint-disable-next-line require-await
     (event: FeedEvent) => {
-      logger.debug('formatEvent: incoming event', event.id, { event })
-
       try {
+        logger.debug('formatEvent: incoming event', event.id, { event })
         const { data, type, date, id, status, createdDate, animationExecuted, action } = event
         const { sender, preReasonText, reason, code: withdrawCode, subtitle, readMore, smallReadMore } = data
 

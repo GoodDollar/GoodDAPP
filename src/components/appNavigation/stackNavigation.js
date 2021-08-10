@@ -15,6 +15,7 @@ import logger from '../../lib/logger/pino-logger'
 import CustomButton, { type ButtonProps } from '../common/buttons/CustomButton'
 import Blurred from '../common/view/Blurred'
 import BackButtonHandler from '../../lib/utils/handleBackButton'
+import { GlobalTogglesContext } from '../../lib/contexts/togglesContext'
 import NavBar from './NavBar'
 import { navigationOptions } from './navigationConfig'
 import { PushButton } from './PushButton'
@@ -98,10 +99,10 @@ class AppView extends Component<AppViewProps, AppViewState> {
   }
 
   handleClickOutside = event => {
-    const { sideMenuSwap, isMenuOpened } = this
+    const { setMenu, isMenuOpened } = this
 
-    if (isWeb && isMenuOpened() && event.target === document.documentElement) {
-      sideMenuSwap(false)
+    if (isWeb && isMenuOpened && event.target === document.documentElement) {
+      setMenu(false)
     }
   }
 
@@ -256,30 +257,33 @@ class AppView extends Component<AppViewProps, AppViewState> {
     this.setState(state => ({ currentState: { ...state.currentState, ...data } }))
   }
 
-  /**
-   * Based on the value returned by the onChange callback sets the simpleStore sidemenu visibility value
-   * @param {boolean} visible
-   */
-  sideMenuSwap = visible => {
-    const { store } = this.props
+  // /**
+  //  * Based on the value returned by the onChange callback sets the simpleStore sidemenu visibility value
+  //  * @param {boolean} visible
+  //  */
+  // sideMenuSwap = visible => {
+  //   const { store } = this.props
 
-    store.set('sidemenu')({
-      ...(store.get('sidemenu') || {}),
-      visible,
-    })
-  }
+  //   store.set('sidemenu')({
+  //     ...(store.get('sidemenu') || {}),
+  //     visible,
+  //   })
+  // }
 
-  isMenuOpened = () => {
-    const { store } = this.props
+  // isMenuOpened = () => {
+  //   const { store } = this.props
 
-    if (!store) {
-      return false
-    }
+  //   if (!store) {
+  //     return false
+  //   }
 
-    return store.get('sidemenu').visible
-  }
+  //   return store.get('sidemenu').visible
+  // }
 
   render() {
+    const { isMenuOn, setMenu } = this.context
+    this.setMenu = setMenu
+    this.isMenuOpened = isMenuOn
     const { descriptors, navigation, navigationConfig, screenProps: incomingScreenProps } = this.props
     const activeKey = navigation.state.routes[navigation.state.index].key
     const descriptor = descriptors[activeKey]
@@ -305,20 +309,20 @@ class AppView extends Component<AppViewProps, AppViewState> {
       setScreenState: this.setScreenState,
     }
 
-    log.info('stackNavigation Render: FIXME rerender', descriptor, activeKey)
+    log.info('stackNavigation Render: FIXME rerender', descriptor, activeKey, isMenuOn)
 
     const Component = this.getComponent(descriptor.getComponent(), { screenProps })
     const pageTitle = title || activeKey
 
     return (
       <React.Fragment>
-        {this.isMenuOpened() && (
+        {isMenuOn && (
           <View style={[styles.sideMenuContainer, styles.menuOpenStyle]} ref={this.wrapperRef}>
             <SideMenu
               menuPosition="right"
               isOpen={true}
               disableGestures={true}
-              onChange={this.sideMenuSwap}
+              onChange={this.setMenu}
               menu={
                 <SafeAreaView style={styles.safeArea}>
                   <SideMenuPanel navigation={navigation} />
@@ -346,6 +350,8 @@ class AppView extends Component<AppViewProps, AppViewState> {
     )
   }
 }
+
+AppView.contextType = GlobalTogglesContext
 
 const styles = StyleSheet.create({
   scrollView: {

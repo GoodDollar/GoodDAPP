@@ -17,7 +17,7 @@ import FaucetABI from '@gooddollar/goodcontracts/upgradables/build/contracts/Fus
 import Web3 from 'web3'
 import { BN, toBN } from 'web3-utils'
 import abiDecoder from 'abi-decoder'
-import { flatten, get, invokeMap, last, maxBy, result, sortBy, uniqBy, values } from 'lodash'
+import { chunk, flatten, get, invokeMap, last, maxBy, range, result, sortBy, uniqBy, values } from 'lodash'
 import moment from 'moment'
 import bs58 from 'bs58'
 import Config from '../../config/config'
@@ -28,7 +28,7 @@ import { delay } from '../utils/async'
 import { generateShareLink } from '../share'
 import WalletFactory from './WalletFactory'
 
-const log = logger.child({ from: 'GoodWallet' })
+const log = logger.child({ from: 'GoodWalletV2' })
 
 const ZERO = new BN('0')
 
@@ -301,7 +301,10 @@ export class GoodWallet {
 
   //eslint-disable-next-line require-await
   async watchEvents(fromBlock, lastBlockCallback) {
-    this.lastEventsBlock = fromBlock
+    const lastBlock = await this.syncTxWithBlockchain(fromBlock).catch(_ => fromBlock)
+    lastBlockCallback(lastBlock)
+    this.lastEventsBlock = lastBlock
+
     this.pollEvents(
       () => Promise.all([this.pollSendEvents(), this.pollReceiveEvents(), this.pollOTPLEvents()]),
       Config.web3Polling,
@@ -326,39 +329,40 @@ export class GoodWallet {
     })
   }
 
-  // async syncTxWithBlockchain(startBlock) {
-  //   const lastBlock = await this.wallet.eth.getBlockNumber()
-  //   const steps = range(startBlock, lastBlock, 100000)
-  //   log.debug('Start sync tx from blockchain', {
-  //     steps,
-  //   })
+  async syncTxWithBlockchain(startBlock) {
+    const lastBlock = await this.wallet.eth.getBlockNumber()
+    const steps = range(startBlock, lastBlock, 100000)
+    log.debug('Start sync tx from blockchain', {
+      steps,
+    })
 
-  //   try {
-  //     const chunks = chunk(steps, 1000)
-  //     for (let chunk of chunks) {
-  //       const ps = chunk.map(async fromBlock => {
-  //         let toBlock = fromBlock + 100000
-  //         if (toBlock > lastBlock) {
-  //           toBlock = lastBlock
-  //         }
-  //         log.debug('sync tx step:', { fromBlock, toBlock })
+    try {
+      const chunks = chunk(steps, 1000)
+      for (let chunk of chunks) {
+        const ps = chunk.map(async fromBlock => {
+          let toBlock = fromBlock + 100000
+          if (toBlock > lastBlock) {
+            toBlock = lastBlock
+          }
+          log.debug('sync tx step:', { fromBlock, toBlock })
 
-  //         const events = await Promise.all([
-  //           this.pollSendEvents(toBlock, fromBlock),
-  //           this.pollReceiveEvents(toBlock, fromBlock),
-  //           this.pollOTPLEvents(toBlock, fromBlock),
-  //         ])
-  //         this._notifyEvents(flatten(events), fromBlock)
-  //       })
+          const events = await Promise.all([
+            this.pollSendEvents(toBlock, fromBlock),
+            this.pollReceiveEvents(toBlock, fromBlock),
+            this.pollOTPLEvents(toBlock, fromBlock),
+          ])
+          this._notifyEvents(flatten(events), fromBlock)
+        })
 
-  //       // eslint-disable-next-line no-await-in-loop
-  //       await Promise.all(ps)
-  //     }
-  //     log.debug('sync tx from blockchain finished successfully')
-  //   } catch (e) {
-  //     log.error('Failed to sync tx from blockchain', e.message, e)
-  //   }
-  // }
+        // eslint-disable-next-line no-await-in-loop
+        await Promise.all(ps)
+      }
+      log.debug('sync tx from blockchain finished successfully')
+      return lastBlock
+    } catch (e) {
+      log.error('Failed to sync tx from blockchain', e.message, e)
+    }
+  }
 
   async pollSendEvents(toBlock, from = null) {
     const fromBlock = from || this.lastEventsBlock

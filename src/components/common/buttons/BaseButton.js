@@ -39,6 +39,7 @@ const Button = ({
       Animated.timing(elevationAnim, {
         toValue: 8,
         duration: 200 * scale,
+        useNativeDriver: true,
       }).start()
     }
   }
@@ -49,6 +50,7 @@ const Button = ({
       Animated.timing(elevationAnim, {
         toValue: 2,
         duration: 150 * scale,
+        useNativeDriver: true,
       }).start()
     }
   }

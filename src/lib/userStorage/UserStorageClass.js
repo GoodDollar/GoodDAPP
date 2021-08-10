@@ -501,6 +501,8 @@ export class UserStorage {
 
     const seed = this.wallet.wallet.eth.accounts.wallet[this.wallet.getAccountForType('gundb')].privateKey.slice(2)
     await this.feedDB.init(seed, this.wallet.getAccountForType('gundb')) //only once user is registered he has access to realmdb via signed jwt
+    //after we initialize the database wait for user properties which depands on database
+    await this.userProperties.ready
     await this.initFeed()
 
     // get trusted GoodDollar indexes and pub key
@@ -528,7 +530,6 @@ export class UserStorage {
       try {
         // firstly, awaiting for wallet is ready
         await wallet.ready
-        await this.userProperties.ready
         await this.initUserProfileStorage()
         const isReady = await retry(() => this.initGun(), 1) // init user storage, if exception thrown, retry init one more times
 
@@ -597,7 +598,17 @@ export class UserStorage {
    */
   // eslint-disable-next-line require-await
   async setAvatar(avatar) {
-    return this.userProfileStorage.setAvatar(avatar)
+    return this.profileStorage.setAvatar(avatar)
+  }
+
+  /**
+   * small Avatar setter
+   * @param avatar
+   * @returns {Promise<*>}
+   */
+  // eslint-disable-next-line require-await
+  async setSmallAvatar(avatar) {
+    return this.profileStorage.setSmallAvatar(avatar)
   }
 
   /**
@@ -607,7 +618,7 @@ export class UserStorage {
    */
   // eslint-disable-next-line require-await
   async removeAvatar(withCleanup = false) {
-    return this.userProfileStorage.removeAvatar()
+    return this.profileStorage.removeAvatar()
   }
 
   /**
@@ -652,8 +663,8 @@ export class UserStorage {
     const seed = this.wallet.wallet.eth.accounts.wallet[this.wallet.getAccountForType('gundb')].privateKey.slice(2)
     await this.feedDB.init(seed, this.wallet.getAccountForType('gundb')) //only once user is registered he has access to realmdb via signed jwt
     await this.initFeed()
-    this.userProfileStorage = new UserProfileStorage(this.wallet, this.feedDB)
-    await this.userProfileStorage.init()
+    this.profileStorage = new UserProfileStorage(this.wallet, this.feedDB)
+    await this.profileStorage.init()
   }
 
   /**
@@ -779,11 +790,11 @@ export class UserStorage {
    * @returns {Promise<ProfileField>} Decrypted profile value
    */
   getProfileFieldValue(field: string): Promise<ProfileField> {
-    return this.userProfileStorage.getProfileFieldDisplayValue(field)
+    return this.profileStorage.getProfileFieldDisplayValue(field)
   }
 
   getProfileFieldDisplayValue(field: string): Promise<string> {
-    return this.userProfileStorage.getProfileFieldDisplayValue(field)
+    return this.profileStorage.getProfileFieldDisplayValue(field)
   }
 
   /**
@@ -793,7 +804,7 @@ export class UserStorage {
    * @returns {Promise<ProfileField>} Gun profile attribute object
    */
   getProfileField(field: string): Promise<ProfileField> {
-    return this.userProfileStorage.getProfileField()
+    return this.profileStorage.getProfileField()
   }
 
   /**
@@ -803,7 +814,7 @@ export class UserStorage {
    * @returns {UserModel} - User model with display values
    */
   getDisplayProfile(profile: {}): UserModel {
-    return this.userProfileStorage.getDisplayProfile()
+    return this.profileStorage.getDisplayProfile()
   }
 
   /**
@@ -813,20 +824,20 @@ export class UserStorage {
    * @returns {object} UserModel with some inherit functions
    */
   getPrivateProfile(profile: {}): Promise<UserModel> {
-    return this.userProfileStorage.getPrivateProfile()
+    return this.profileStorage.getPrivateProfile()
   }
 
   subscribeProfileUpdates(callback: any => void) {
-    this.userProfileStorage.subscribeProfileUpdates(callback)
+    this.profileStorage.subscribeProfileUpdates(callback)
   }
 
-  unSubscribeProfileUpdates(callback?: any => void = null) {
-    this.userProfileStorage.unSubscribeProfileUpdates(callback)
+  unSubscribeProfileUpdates(callback?: any => void) {
+    this.profileStorage.unSubscribeProfileUpdates(callback)
   }
 
   // eslint-disable-next-line require-await
   async getFieldPrivacy(field) {
-    return this.userProfileStorage.getFieldPrivacy(field)
+    return this.profileStorage.getFieldPrivacy(field)
   }
 
   /**
@@ -840,7 +851,7 @@ export class UserStorage {
    */
   // eslint-disable-next-line require-await
   async setProfile(profile: UserModel, update: boolean = false): Promise<> {
-    return this.userProfileStorage.setProfile(profile, update)
+    return this.profileStorage.setProfile(profile, update)
   }
 
   /**
@@ -868,7 +879,7 @@ export class UserStorage {
 
   // eslint-disable-next-line require-await
   async validateProfile(profile: any) {
-    return this.userProfileStorage.validateProfile(profile)
+    return this.profileStorage.validateProfile(profile)
   }
 
   /**
@@ -887,7 +898,7 @@ export class UserStorage {
     privacy: FieldPrivacy = 'public',
     onlyPrivacy: boolean = false,
   ): Promise<ACK> {
-    return this.userProfileStorage.setProfileField(field, value, privacy, onlyPrivacy)
+    return this.profileStorage.setProfileField(field, value, privacy, onlyPrivacy)
   }
 
   /**
@@ -957,7 +968,7 @@ export class UserStorage {
    */
   // eslint-disable-next-line require-await
   async setProfileFieldPrivacy(field: string, privacy: FieldPrivacy): Promise<ACK> {
-    return this.userProfileStorage.setProfileFieldPrivacy(field, privacy)
+    return this.profileStorage.setProfileFieldPrivacy(field, privacy)
   }
 
   /**
@@ -1165,7 +1176,7 @@ export class UserStorage {
    */
   // eslint-disable-next-line require-await
   async getUserProfile(field: string = ''): { name: String, avatar: String } {
-    return this.userProfileStorage.getUserProfile(field)
+    return this.profileStorage.getUserProfile(field)
   }
 
   /**
@@ -1178,9 +1189,8 @@ export class UserStorage {
   formatEvent = memoize(
     // eslint-disable-next-line require-await
     (event: FeedEvent) => {
-      logger.debug('formatEvent: incoming event', event.id, { event })
-
       try {
+        logger.debug('formatEvent: incoming event', event.id, { event })
         const { data, type, date, id, status, createdDate, animationExecuted, action } = event
         const { sender, preReasonText, reason, code: withdrawCode, subtitle, readMore, smallReadMore } = data
 
@@ -1451,7 +1461,7 @@ export class UserStorage {
   }
 
   getProfile(): Profile {
-    return this.userProfileStorage.getProfile()
+    return this.profileStorage.getProfile()
   }
 
   loadGunField(gunNode): Promise<any> {
@@ -1471,7 +1481,7 @@ export class UserStorage {
 
   // eslint-disable-next-line require-await
   async getPublicProfile(key: string, string: string): Promise<any> {
-    return this.userProfileStorage.getPublicProfile(key, string)
+    return this.profileStorage.getPublicProfile(key, string)
   }
 
   getFaceIdentifier(): string {
@@ -1496,7 +1506,7 @@ export class UserStorage {
    */
   // eslint-disable-next-line require-await
   async deleteProfile(): Promise<boolean> {
-    return this.userProfileStorage.deleteProfile()
+    return this.profileStorage.deleteProfile()
   }
 
   /**

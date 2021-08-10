@@ -1,9 +1,8 @@
 // @flow
-
 import { ActionSheetProvider } from '@expo/react-native-action-sheet'
 import React, { useEffect, useState } from 'react'
 import { Platform } from 'react-native'
-
+import '../lib/shim'
 import '../lib/gundb/gundb'
 import { IS_LOGGED_IN } from '../lib/constants/localStorage'
 import { deleteGunDB } from '../lib/hooks/useDeleteAccountDialog'

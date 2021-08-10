@@ -1,1 +1,123 @@
-{}
+{
+    "properties": {
+        "_id": {
+            "bsonType": "objectId"
+        },
+        "avatar": {
+            "bsonType": "object",
+            "properties": {
+                "display": {
+                    "bsonType": "string"
+                },
+                "privacy": {
+                    "bsonType": "string"
+                },
+                "value": {
+                    "bsonType": "string"
+                }
+            }
+        },
+        "email": {
+            "bsonType": "object",
+            "properties": {
+                "display": {
+                    "bsonType": "string"
+                },
+                "privacy": {
+                    "bsonType": "string"
+                },
+                "value": {
+                    "bsonType": "string"
+                }
+            }
+        },
+        "fullName": {
+            "bsonType": "object",
+            "properties": {
+                "display": {
+                    "bsonType": "string"
+                },
+                "privacy": {
+                    "bsonType": "string"
+                },
+                "value": {
+                    "bsonType": "string"
+                }
+            }
+        },
+        "mnemonic": {
+            "bsonType": "object",
+            "properties": {
+                "display": {
+                    "bsonType": "string"
+                },
+                "privacy": {
+                    "bsonType": "string"
+                },
+                "value": {
+                    "bsonType": "string"
+                }
+            }
+        },
+        "mobile": {
+            "bsonType": "object",
+            "properties": {
+                "display": {
+                    "bsonType": "string"
+                },
+                "privacy": {
+                    "bsonType": "string"
+                },
+                "value": {
+                    "bsonType": "string"
+                }
+            }
+        },
+        "smallAvatar": {
+            "bsonType": "object",
+            "properties": {
+                "display": {
+                    "bsonType": "string"
+                },
+                "privacy": {
+                    "bsonType": "string"
+                },
+                "value": {
+                    "bsonType": "string"
+                }
+            }
+        },
+        "user_id": {
+            "bsonType": "string"
+        },
+        "username": {
+            "bsonType": "object",
+            "properties": {
+                "display": {
+                    "bsonType": "string"
+                },
+                "privacy": {
+                    "bsonType": "string"
+                },
+                "value": {
+                    "bsonType": "string"
+                }
+            }
+        },
+        "walletAddress": {
+            "bsonType": "object",
+            "properties": {
+                "display": {
+                    "bsonType": "string"
+                },
+                "privacy": {
+                    "bsonType": "string"
+                },
+                "value": {
+                    "bsonType": "string"
+                }
+            }
+        }
+    },
+    "title": "user_profile"
+}

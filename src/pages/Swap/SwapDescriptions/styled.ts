@@ -35,7 +35,8 @@ export const SwapDescriptionsSC = styled.div`
         font-weight: 500;
     }
 
-    @media screen and (max-width: 1350px) {
+    @media screen and (min-height: 720px) and (max-width: 1350px),
+        screen and (max-height: 720px) and (max-width: 1160px) {
         position: static;
         transform: none;
         display: flex;

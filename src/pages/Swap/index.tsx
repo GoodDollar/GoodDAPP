@@ -85,7 +85,10 @@ function Swap() {
         }
 
         const timer = (metaTimer.current = setTimeout(async () => {
-            const meta = await getMeta(web3, symbol, value, parseFloat(slippageTolerance.value))
+            const meta = await getMeta(web3, symbol, value, parseFloat(slippageTolerance.value)).catch(e => {
+                console.error(e)
+                return null
+            })
             if (metaTimer.current !== timer) return
             if (!meta) return setMeta(null)
             setOtherValue(

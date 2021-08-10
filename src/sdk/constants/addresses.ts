@@ -53,7 +53,6 @@ export const UNISWAP_INIT_CODE_HASH: AddressMap = {
     [SupportedChainId.FUSE]: '0x04990f130515035f22e76663517440918b83941b25a4ec04ecdf4b2898e846aa'
 }
 
-/* ExchangeHelper contract address per network. */
-export const EXCHANGE_HELPER_ADDRESS: AddressMap = {
-    [SupportedChainId.KOVAN]: '0x8f42aD1F3f570F648E63ae8c8790Dd14EF4f75dB'
+export const UNISWAP_CONTRACT_ADDRESS: AddressMap = {
+    [SupportedChainId.FUSE]: '0xFB76e9E7d88E308aB530330eD90e84a952570319'
 }

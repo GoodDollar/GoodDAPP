@@ -16,7 +16,7 @@ import { g$Price } from './apollo'
 import { ZERO_PERCENT } from './constants/misc'
 import { exchangeHelperContract } from './contracts/ExchangeHelperContract'
 import { ERC20Contract } from './contracts/ERC20Contract'
-import { EXCHANGE_HELPER_ADDRESS } from './constants/addresses'
+import { G$ContractAddresses } from './constants/addresses'
 import { computeRealizedLPFeePercent } from './utils/prices'
 import { SupportedChainId } from './constants/chains'
 import { v2TradeExactOut } from './methods/v2TradeExactOut'
@@ -546,7 +546,7 @@ export async function approve(web3: Web3, meta: BuyInfo): Promise<void> {
         const { input } = prepareValues(meta)
 
         await ERC20Contract(web3, meta.route[0].address)
-            .methods.approve(EXCHANGE_HELPER_ADDRESS[chainId], input)
+            .methods.approve(G$ContractAddresses(chainId, 'ExchangeHelper'), input)
             .send({ from: account })
     }
 }

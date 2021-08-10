@@ -9,6 +9,7 @@ exports[`ScrollToTopButton should match snapshot 1`] = `
   >
     <div
       className="css-view-1dbjc4n"
+      id="animatedComponent"
       style={
         Object {
           "opacity": 0,
@@ -16,19 +17,14 @@ exports[`ScrollToTopButton should match snapshot 1`] = `
       }
     >
       <div
-        className="css-view-1dbjc4n r-cursor-1loqt21 r-touchAction-1otgn73 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
-        data-focusable={true}
+        className="css-view-1dbjc4n r-cursor-1loqt21 r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
+        onClick={[Function]}
+        onContextMenu={[Function]}
         onKeyDown={[Function]}
-        onKeyUp={[Function]}
-        onResponderGrant={[Function]}
-        onResponderMove={[Function]}
-        onResponderRelease={[Function]}
-        onResponderTerminate={[Function]}
-        onResponderTerminationRequest={[Function]}
-        onStartShouldSetResponder={[Function]}
         style={
           Object {
-            "opacity": 1,
+            "WebkitTransitionDuration": "0s",
+            "transitionDuration": "0s",
           }
         }
         tabIndex="0"

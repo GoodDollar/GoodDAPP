@@ -29,6 +29,7 @@ exports[`FaceVerification Instructions matches snapshot 1`] = `
                 "backgroundImage": "url(\\"FVPortrait2x.png\\")",
               }
             }
+            suppressHydrationWarning={true}
           />
           <img
             alt=""
@@ -38,10 +39,10 @@ exports[`FaceVerification Instructions matches snapshot 1`] = `
           />
         </div>
         <div
-          className="css-view-1dbjc4n r-flexGrow-16y2uox r-justifyContent-17s6mgv r-paddingBottom-1mi0q7o r-paddingHorizontal-utggzx"
+          className="css-view-1dbjc4n r-flexGrow-16y2uox r-justifyContent-17s6mgv r-paddingBottom-1mdbw0j r-paddingHorizontal-mk0yit"
         >
           <div
-            className="css-view-1dbjc4n r-paddingVertical-1f1sjgu"
+            className="css-view-1dbjc4n r-paddingVertical-rjfia"
           >
             <div
               className="css-view-1dbjc4n r-backgroundColor-ajuhk3 r-borderRadius-1xfd6ze r-paddingLeft-qi0n3"
@@ -57,7 +58,7 @@ exports[`FaceVerification Instructions matches snapshot 1`] = `
                 }
               />
               <div
-                className="css-text-901oao r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-b88u0q r-letterSpacing-uz4sb0 r-lineHeight-hbpseb r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                className="css-text-901oao r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-b88u0q r-letterSpacing-uz4sb0 r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                 dir="auto"
                 style={
                   Object {
@@ -83,7 +84,7 @@ exports[`FaceVerification Instructions matches snapshot 1`] = `
                   }
                 />
                 <div
-                  className="css-text-901oao r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-letterSpacing-uz4sb0 r-lineHeight-hbpseb r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                  className="css-text-901oao r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-letterSpacing-uz4sb0 r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                   dir="auto"
                 >
                   Hold Your Camera at Eye Level
@@ -106,7 +107,7 @@ exports[`FaceVerification Instructions matches snapshot 1`] = `
                   }
                 />
                 <div
-                  className="css-text-901oao r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-letterSpacing-uz4sb0 r-lineHeight-hbpseb r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                  className="css-text-901oao r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-letterSpacing-uz4sb0 r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                   dir="auto"
                 >
                   Light Your Face Evenly
@@ -117,6 +118,7 @@ exports[`FaceVerification Instructions matches snapshot 1`] = `
           <div
             className="css-view-1dbjc4n r-display-6koalj r-justifyContent-1777fci r-width-13qz1uu"
             data-testid="dismiss_button"
+            id="animatedComponent"
             style={
               Object {
                 "WebkitAlignItems": "stretch",
@@ -157,16 +159,9 @@ exports[`FaceVerification Instructions matches snapshot 1`] = `
           >
             <div
               className="css-cursor-18t94o4 css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
-              data-focusable={true}
+              onClick={[Function]}
+              onContextMenu={[Function]}
               onKeyDown={[Function]}
-              onKeyPress={[Function]}
-              onKeyUp={[Function]}
-              onResponderGrant={[Function]}
-              onResponderMove={[Function]}
-              onResponderRelease={[Function]}
-              onResponderTerminate={[Function]}
-              onResponderTerminationRequest={[Function]}
-              onStartShouldSetResponder={[Function]}
               role="button"
               style={
                 Object {
@@ -200,7 +195,7 @@ exports[`FaceVerification Instructions matches snapshot 1`] = `
                     className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
                   >
                     <div
-                      className="css-text-901oao r-alignItems-1awozwy r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-hbpseb r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
+                      className="css-text-901oao r-alignItems-1awozwy r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-qvk6io r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
                       dir="auto"
                     >
                       GOT IT

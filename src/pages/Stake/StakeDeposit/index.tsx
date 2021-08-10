@@ -162,7 +162,7 @@ const StakeDeposit = ({ stake, onDeposit, onClose }: StakeDepositModalProps) => 
                     'Success!'
                 )}
             </Title>
-            {
+            {(approving || state.error) && (
                 <div className="error mb-2">
                     {state.error ? (
                         state.error
@@ -172,7 +172,7 @@ const StakeDeposit = ({ stake, onDeposit, onClose }: StakeDepositModalProps) => 
                         </>
                     )}
                 </div>
-            }
+            )}
             {approving ? (
                 <>
                     <div className="flex items-center justify-between mb-3">

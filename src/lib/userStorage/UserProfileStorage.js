@@ -82,8 +82,6 @@ export class UserProfileStorage implements ProfileStorage {
     username: { defaultPrivacy: 'public' },
   }
 
-  _lastProfileUpdate: any
-
   subscribersProfileUpdates = []
 
   walletAddressIndex = {}
@@ -142,16 +140,14 @@ export class UserProfileStorage implements ProfileStorage {
    */
   _setLocalProfile(newValue: Profile) {
     this.profile = newValue
-    const onProfileUpdate = debounce(
-      doc => {
-        this._lastProfileUpdate = doc
-        over(this.subscribersProfileUpdates)(doc)
-      },
-      500,
-      { leading: false, trailing: true },
-    )
-    onProfileUpdate(newValue)
+
+    this.onProfileUpdate()
   }
+
+  onProfileUpdate = debounce(() => over(this.subscribersProfileUpdates)(this.profile), 500, {
+    leading: false,
+    trailing: true,
+  })
 
   /**
    * helper for decrypt profile values
@@ -517,13 +513,20 @@ export class UserProfileStorage implements ProfileStorage {
 
   subscribeProfileUpdates(callback: any => void) {
     this.subscribersProfileUpdates.push(callback)
-    if (this._lastProfileUpdate) {
-      callback(this._lastProfileUpdate)
+
+    if (this.profile) {
+      callback(this.profile)
     }
   }
 
-  unSubscribeProfileUpdates() {
-    this.subscribersProfileUpdates = []
+  unSubscribeProfileUpdates(callback?: any => void) {
+    let filteredSubscribers = []
+
+    if (callback) {
+      filteredSubscribers = this.subscribersProfileUpdates.filter(fn => fn !== callback)
+    }
+
+    this.subscribersProfileUpdates = filteredSubscribers
   }
 
   /**

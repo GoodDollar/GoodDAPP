@@ -381,21 +381,8 @@ class RealmDB implements DB, ProfileDB {
    * @param fields
    * @returns {Promise<Realm.Services.MongoDB.UpdateResult<any>>}
    */
-  setProfileFields(fields: { key: String, field: ProfileField }): Promise<any> {
+  setProfileFields(fields: { [key: string]: ProfileField }): Promise<any> {
     return this._profiles().updateOne({ user_id: this.user.id }, { $set: fields }, { upsert: true })
-  }
-
-  /**
-   * Set Field to null
-   * @param field
-   * @param privacy
-   * @returns {Promise<Realm.Services.MongoDB.UpdateResult<*>>}
-   */
-  setFieldToNull(field, privacy) {
-    return this._profiles().updateOne(
-      { user_id: this.user.id },
-      { $set: { [field]: { value: null, display: null, privacy } } },
-    )
   }
 
   /**

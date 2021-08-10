@@ -94,6 +94,9 @@ const ShareBox = ({ level }) => {
             flex: 1,
             padding: 0,
             marginRight: 8,
+            whiteSpace: 'nowrap',
+            textOverflow: 'ellipsis',
+            overflow: 'hidden',
           }}
         >
           {shareUrl}
@@ -259,11 +262,17 @@ const InvitesHowTO = () => {
 const InvitesData = ({ invitees, refresh, level, totalEarned = 0 }) => (
   <View style={{ width: '100%' }}>
     <Divider size={getDesignRelativeHeight(theme.paddings.defaultMargin * 3, false)} />
-    <ShareBox level={level} />
+    <Section.Stack>
+      <ShareBox level={level} />
+    </Section.Stack>
     <Divider size={theme.paddings.defaultMargin * 1.5} />
-    <TotalEarnedBox totalEarned={totalEarned} />
+    <Section.Stack>
+      <TotalEarnedBox totalEarned={totalEarned} />
+    </Section.Stack>
     <Divider size={theme.paddings.defaultMargin * 1.5} />
-    <InvitesBox invitees={invitees} refresh={refresh} />
+    <Section.Stack>
+      <InvitesBox invitees={invitees} refresh={refresh} />
+    </Section.Stack>
   </View>
 )
 

@@ -140,7 +140,7 @@ const ListEvent = ({ item: feed, theme, index, styles }: FeedEventProps) => {
               animStyle={styles.typeAnimatedIcon}
               type={itemType}
               size={normalize(34)}
-              showAnim={index === 1}
+              showAnim={index === 0}
               delay={100}
             />
           </View>

@@ -235,8 +235,10 @@ export class UserProfileStorage implements ProfileStorage {
       }),
       {},
     )
-
-    return this.setProfileFields(fieldsToSave)
+    if (update) {
+      return this.setProfileFields(fieldsToSave)
+    }
+    return this.setNewProfileFields(fieldsToSave)
   }
 
   /**
@@ -248,13 +250,25 @@ export class UserProfileStorage implements ProfileStorage {
   }
 
   /**
-   * updates profile fields in storage
+   * updates profile fields in realm
    * @param {*} fields
    * @returns
    */
   async setProfileFields(fields: { [key: string]: ProfileField }): Promise<any> {
     const encryptedFields = await this._encryptProfileFields(fields)
     await this.profiledb.setProfileFields(encryptedFields)
+    this._setLocalProfile({ ...this.profile, ...fields })
+  }
+
+  /**
+   * create new profile with given fields in realm
+   * @param fields
+   * @returns {Promise<void>}
+   * @private
+   */
+  async setNewProfileFields(fields: { [key: string]: ProfileField }): Promise<any> {
+    const encryptedFields = await this._encryptProfileFields(fields)
+    await this.profiledb.setProfile(encryptedFields)
     this._setLocalProfile({ ...this.profile, ...fields })
   }
 

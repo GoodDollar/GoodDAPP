@@ -1446,6 +1446,11 @@ export class UserStorage {
     return this.profileStorage.getProfile()
   }
 
+  // eslint-disable-next-line require-await
+  async getProfileByWalletAddress(walletAddress: string): Promise<Profile> {
+    return this.profileStorage.getProfileByWalletAddress(walletAddress)
+  }
+
   loadGunField(gunNode): Promise<any> {
     // eslint-disable-next-line no-async-promise-executor
     return new Promise(async res => {

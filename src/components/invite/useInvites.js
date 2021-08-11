@@ -156,7 +156,7 @@ const useInvited = () => {
     const user = await goodWallet.invitesContract.methods.users(goodWallet.account).call()
 
     const level = await goodWallet.invitesContract.methods.levels(user.level).call()
-    setLevel(parseInt(level))
+    setLevel(level)
     setTotalEarned(parseInt(user.totalEarned) / 100) //convert from wei to decimals
   }
 

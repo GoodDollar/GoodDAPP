@@ -11,7 +11,7 @@ import isEmail from '../validators/isEmail'
 import isMobilePhone from '../validators/isMobilePhone'
 import type { UserModel } from './UserModel'
 import { getUserModel } from './UserModel'
-import { UserProfileStaticMethods } from './UserProfileStaticMethods'
+import { isValidValue, maskField } from './utils'
 import type { ACK, FieldPrivacy, ProfileField } from './UserStorageClass'
 
 const logger = pino.child({ from: 'UserProfileStorage' })
@@ -279,7 +279,7 @@ export class UserProfileStorage implements ProfileStorage {
         display = '******'
         break
       case 'masked':
-        display = UserProfileStaticMethods.maskField(field, value)
+        display = maskField(field, value)
 
         //undo invalid masked field
         if (display === value) {
@@ -466,7 +466,7 @@ export class UserProfileStorage implements ProfileStorage {
     const validatedFields = await Promise.all(
       fields.map(async field => ({
         field,
-        valid: await UserProfileStaticMethods.isValidValue(field, profile[field], true),
+        valid: await isValidValue(field, profile[field], true),
       })),
     )
 

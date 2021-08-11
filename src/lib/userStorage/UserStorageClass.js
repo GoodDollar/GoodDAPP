@@ -624,20 +624,6 @@ export class UserStorage {
     return this.feedStorage.getAllFeed()
   }
 
-  // async initUserProfileStorage() {
-  //   try {
-  //     const seed = this.wallet.wallet.eth.accounts.wallet[this.wallet.getAccountForType('gundb')].privateKey.slice(2)
-  //
-  //     await this.feedDB.init(seed, this.wallet.getAccountForType('gundb')) //only once user is registered he has access to realmdb via signed jwt
-  //     await this.initFeed()
-  //
-  //     this.profileStorage = new UserProfileStorage(this.wallet, this.feedDB)
-  //     await this.profileStorage.init()
-  //   } catch (error) {
-  //     logger.error('initUserProfileStorage failed', error)
-  //   }
-  // }
-
   /**
    * Subscribes to changes on the event index of day to number of events
    * the "false" (see gundb docs) passed is so we get the complete 'index' on every change and not just the day that changed

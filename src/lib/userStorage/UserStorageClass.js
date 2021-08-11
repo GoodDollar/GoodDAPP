@@ -814,39 +814,8 @@ export class UserStorage {
    */
   async isUsername(username: string) {
     const cleanValue = UserStorage.cleanHashedFieldForIndex('username', username)
-    const profile = await this.gun
-      .get('users/byusername')
-      .get(cleanValue)
-      .then()
-    return profile !== undefined
-  }
-
-  /**
-   * Save survey
-   * @param {string} hash
-   * @param {object} details
-   * @returns {Promise<void>}
-   */
-  async saveSurveyDetails(hash, details: SurveyDetails) {
-    try {
-      const date = moment(new Date()).format('DDMMYY')
-
-      await this.gun
-        .get('survey')
-        .get(date)
-        .then()
-      await this.gun
-        .get('survey')
-        .get(date)
-        .putAck({ [hash]: details })
-
-      return true
-    } catch (gunError) {
-      const e = this._gunException(gunError)
-
-      logger.error('saveSurveyDetails :', e.message, e, { details })
-      return false
-    }
+    const profile = await this.profileStorage.getProfilesByHashIndex('username', cleanValue)
+    return profile?.length > 0
   }
 
   /**

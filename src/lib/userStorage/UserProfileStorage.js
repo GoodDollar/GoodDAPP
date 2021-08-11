@@ -406,6 +406,10 @@ export class UserProfileStorage implements ProfileStorage {
     return this.profiledb.getProfileBy({ [`${field}.display`]: value })
   }
 
+  getProfilesByHashIndex(field: string, value: string): Promise<any> {
+    return this.profiledb.getProfilesBy({ [`index.${field}.value`]: value })
+  }
+
   /**
    * helper to get a user public profile by key/value
    * @param key

@@ -10,15 +10,14 @@ fromEntries.shim()
 jest.setTimeout(30000)
 
 const profile = {
-  // avatar: '',
   email: 'julian@gooddollar.org',
   fullName: 'Julian Kobryński',
   mnemonic: 'duty disorder rocket velvet later fabric scheme paddle remove phone target medal',
   username: 'juliankobrynski',
   mobile: '+48507471353',
   walletAddress: '0x740E22161DEEAa60b8b0b5cDAAA091534Ff21649',
-
-  // smallAvatar: '',
+  avatar: 'bafkreicekhneo55iwdxr5imxac6g4duid6atnj5mmx35y7fhkodjzovrze',
+  smallAvatar: 'bafkreief77r6pciejdilymrqrvt77gve6zluleleqz55og3yuqseelxppi',
 }
 
 describe('UserProfileStorage', () => {
@@ -39,34 +38,6 @@ describe('UserProfileStorage', () => {
   beforeEach(() => {
     jest.restoreAllMocks()
   })
-
-  // it('should not save invalid profiles', async () => {
-  //   const { email, mobile, username, ...fields } = profile
-
-  //   const invalidProfiles = [
-  //     { mobile, username, ...fields },
-  //     { email, mobile, ...fields },
-  //     { email, username, ...fields },
-  //   ]
-
-  //   const errorMessages = ['Email is required', 'Mobile is required', 'Username is required']
-
-  //   const missingFields = ['email', 'mobile', 'username']
-
-  //   await Promise.all(
-  //     invalidProfiles.map(async (item, index) => {
-  //       const message = errorMessages[index]
-  //       const fieldName = missingFields[index]
-  //       // const wrappedResponse = expect(userProfileStorage.setProfile(item)).rejects
-  //       userProfileStorage.setProfile(item)
-
-  //       // await wrappedResponse.toThrow()
-  //       // await wrappedResponse.toHaveProperty(fieldName, message)
-  //       // when @Łukasz Kilaszewski will refactor setProfile to throw an exception instead of key-value pairs object remove wrappedResponse const and replace the previous 2 lines with:
-  //       // expect(userProfileStorage.setProfile(item)).rejects.toThrow(message)
-  //     }),
-  //   )
-  // })
 
   it('should not save profile without email to the db', async () => {
     const { email, ...fields } = profile
@@ -105,7 +76,12 @@ describe('UserProfileStorage', () => {
     expect(user_id).not.toBeNull()
     expect(_id).not.toBeNull()
     Object.keys(fields).forEach(key => {
-      expect(profile[key]).toEqual(fields[key].display)
+      const privacy = fields[key].privacy
+      if (privacy === 'public') {
+        expect(profile[key]).toEqual(fields[key].display)
+      } else {
+        expect(fields[key].display).toEqual('******')
+      }
     })
   })
 
@@ -238,9 +214,14 @@ describe('UserProfileStorage', () => {
     expect(value).toEqual(undefined)
   })
 
-  it('should get profile field display value', () => {
+  it('should get private profile field display value', () => {
     const email = userProfileStorage.getProfileFieldDisplayValue('email')
-    expect(email).toEqual(userProfileStorage.profile.email.value)
+    expect(email).toEqual('******')
+  })
+
+  it('should get public profile field display value', () => {
+    const email = userProfileStorage.getProfileFieldDisplayValue('username')
+    expect(email).toEqual(userProfileStorage.profile.username.value)
   })
 
   it('should not get profile field display value for invalid field', () => {

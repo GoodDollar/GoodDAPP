@@ -141,7 +141,7 @@ export class FeedStorage {
         return receipt.logs.find(
           e =>
             e.name === 'PaymentDeposit' ||
-            (e.data.to.toLowerCase() === this.wallet.oneTimePaymentsContract.address.toLowerCase() &&
+            (e.data.to.toLowerCase() === this.wallet.oneTimePaymentsContract._address.toLowerCase() &&
               e.data.from.toLowerCase() === this.walletAddress),
         )
       case TxType.TX_SEND_GD:
@@ -204,7 +204,7 @@ export class FeedStorage {
 
         return (
           e.name === 'PaymentDeposit' &&
-          to.toLowerCase() === this.wallet.oneTimePaymentsContract.address.toLowerCase() &&
+          to.toLowerCase() === this.wallet.oneTimePaymentsContract._address.toLowerCase() &&
           from.toLowerCase() === this.walletAddress
         )
       })
@@ -222,14 +222,14 @@ export class FeedStorage {
 
     if (eventsName.Transfer) {
       const gdTransferEvents = events.filter(
-        e => this.wallet.erc20Contract.address.toLowerCase() === e.address.toLowerCase() && e.name === 'Transfer',
+        e => this.wallet.erc20Contract._address.toLowerCase() === e.address.toLowerCase() && e.name === 'Transfer',
       )
 
       //we are not listening to the PaymentDeposit event so check here
       if (
         gdTransferEvents.find(
           e =>
-            e.data.to.toLowerCase() === this.wallet.oneTimePaymentsContract.address.toLowerCase() &&
+            e.data.to.toLowerCase() === this.wallet.oneTimePaymentsContract._address.toLowerCase() &&
             e.data.from.toLowerCase() === this.walletAddress,
         )
       ) {

@@ -10,6 +10,7 @@ import ContractsAddress from '@gooddollar/goodprotocol/releases/deployment.json'
 
 import moment from 'moment'
 import get from 'lodash/get'
+import assign from 'lodash/assign'
 import Mutex from 'await-mutex'
 import * as web3Utils from 'web3-utils'
 import logger from '../../../../lib/logger/pino-logger'
@@ -87,6 +88,13 @@ export class Wallet {
     log.debug('Initializing wallet:', { mnemonic: this.mnemonic, conf: conf.ethereum })
 
     this.web3 = new Web3(this.getWeb3TransportProvider(), null, {
+      defaultBlock: 'latest',
+      defaultGasPrice,
+      transactionBlockTimeout: 5,
+      transactionConfirmationBlocks: 1,
+      transactionPollingTimeout: 30,
+    })
+    assign(this.web3.eth, {
       defaultBlock: 'latest',
       defaultGasPrice,
       transactionBlockTimeout: 5,

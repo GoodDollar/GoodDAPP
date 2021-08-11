@@ -263,7 +263,7 @@ const Dashboard = props => {
 
     const entitlement = await goodWallet
       .checkEntitlement()
-      .then(_ => _.toNumber())
+      .then(parseInt)
       .catch(e => 0)
 
     if (!entitlement) {

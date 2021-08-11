@@ -251,11 +251,13 @@ class RealmDB implements DB, ProfileDB {
     const _id = `${this.user.id}_settings`
     const encryptedSettings = await this.encryptedFeed.findOne({ _id })
     let settings = {}
+
     if (encryptedSettings) {
       const { encrypted } = encryptedSettings
       const decrypted = await this.privateKey.decrypt(Uint8Array.from(Buffer.from(encrypted, 'base64')))
+
       settings = JSON.parse(new TextDecoder().decode(decrypted))
-      log.debug('decrypttSettings:', { settings, _id })
+      log.debug('decryptSettings:', { settings, _id })
     }
     return settings
   }
@@ -295,6 +297,7 @@ class RealmDB implements DB, ProfileDB {
     try {
       const msg = new TextEncoder().encode(JSON.stringify(field))
       const encrypted = await this.privateKey.public.encrypt(msg).then(_ => Buffer.from(_).toString('base64'))
+
       log.debug('encrypt result:', { field: encrypted })
       return encrypted
     } catch (e) {
@@ -309,6 +312,7 @@ class RealmDB implements DB, ProfileDB {
    */
   async _decrypt(item): Promise<string> {
     const decrypted = await this.privateKey.decrypt(Uint8Array.from(Buffer.from(item.encrypted, 'base64')))
+
     return JSON.parse(new TextDecoder().decode(decrypted))
   }
 
@@ -319,6 +323,7 @@ class RealmDB implements DB, ProfileDB {
    */
   async decryptField(field): Promise<string> {
     const decrypted = await this.privateKey.decrypt(Uint8Array.from(Buffer.from(field, 'base64')))
+
     return JSON.parse(new TextDecoder().decode(decrypted))
   }
 

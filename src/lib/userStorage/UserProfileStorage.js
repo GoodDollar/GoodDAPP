@@ -186,30 +186,23 @@ export class UserProfileStorage implements ProfileStorage {
     if (profile && !profile.validate) {
       profile = getUserModel(profile)
     }
-    const fields = Object.keys(profile).filter(prop => this.profileSettings[prop])
+
+    const fields = Object.keys(profile).filter(prop => prop in this.profileSettings)
     let { errors, isValid } = profile.validate(update)
 
-    //enforce profile to have walletAddress
-    if (!update) {
-      if (!fields.includes('walletAddress')) {
-        logger.warn(
-          'setProfile failed',
-          'walletAddress is required in profile',
-          new Error('setProfile failed: WalletAddress is required in profile'),
-          { errors, category: ExceptionCategory.Human },
-        )
-
-        throw errors
-      }
+    // enforce profile to have walletAddress
+    if (false === update && !fields.includes('walletAddress')) {
+      isValid = false
+      errors.walletAddress = 'walletAddress is required in profile'
     }
 
     if (!isValid) {
-      logger.warn(
-        'setProfile failed',
-        'Fields validation failed',
-        new Error('setProfile failed: Fields validation failed'),
-        { errors, category: ExceptionCategory.Human },
-      )
+      const errorMessage = 'Fields validation failed'
+
+      logger.warn('setProfile failed', errorMessage, new Error(errorMessage), {
+        errors,
+        category: ExceptionCategory.Human,
+      })
 
       throw errors
     }

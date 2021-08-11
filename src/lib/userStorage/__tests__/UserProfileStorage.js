@@ -1,6 +1,6 @@
 import 'fake-indexeddb/auto'
 import fromEntries from 'object.fromentries'
-import { forIn, isFunction, isNull, omitBy } from 'lodash'
+import { forIn, isFunction, isNil, omitBy } from 'lodash'
 
 import getDB from '../../realmdb/RealmDB'
 import AsyncStorage from '../../utils/asyncStorage'
@@ -59,33 +59,30 @@ describe('UserProfileStorage', () => {
   })
 
   it('should not save invalid profiles', async () => {
-    const { email, mobile, username, ...fields } = profile
+    const { email, username, ...fields } = profile
 
-    const invalidProfiles = [
-      { mobile, username, ...fields },
-      { email, mobile, ...fields },
-      { email, username, ...fields },
-    ]
+    // mobile is not mandatory
+    const invalidProfiles = [{ username, email: '', ...fields }, { email, username: '', ...fields }]
 
-    const errorMessages = ['Email is required', 'Mobile is required', 'Username is required']
-    const missingFields = ['email', 'mobile', 'username']
+    const errorMessages = ['Email is required', 'Username cannot be empty']
+    const missingFields = ['email', 'username']
 
     await Promise.all(
       invalidProfiles.map(async (item, index) => {
         const message = errorMessages[index]
         const fieldName = missingFields[index]
-        const wrappedResponse = expect(userProfileStorage.setProfile(item)).rejects
 
-        await wrappedResponse.toThrow()
-        await wrappedResponse.toHaveProperty(fieldName, message)
+        // it seems toThrow is stictly checking rejected with value to be an exception
+        // se we'll check only for rejection and for validation message
+        await expect(userProfileStorage.setProfile(item)).rejects.toHaveProperty(fieldName, message)
       }),
     )
   })
 
   it('should save profile to the db', async () => {
-    await userProfileStorage.setProfile(profile)
-
     const { user_id, _id, ...fields } = await userProfileStorage.profiledb.getProfile()
+
+    // we calling setProfile in beforeEach so no need to do it again here
 
     expect(user_id).not.toBeNull()
     expect(_id).not.toBeNull()
@@ -115,7 +112,7 @@ describe('UserProfileStorage', () => {
     jest.spyOn(userProfileStorage.profiledb, 'getProfile').mockImplementation(() => null)
 
     await userProfileStorage.init()
-    expect(Object.values(userProfileStorage.getProfile()).every(isNull)).toBeTruthy()
+    expect(Object.values(userProfileStorage.getProfile()).every(isNil)).toBeTruthy()
   })
 
   it('should decrypt profile fields', async () => {
@@ -182,7 +179,8 @@ describe('UserProfileStorage', () => {
   })
 
   it('should throw error for invalid privacy setting', async () => {
-    await expect(userProfileStorage.setProfileField('username', 'johndoe1111', '123123123')).rejects.toThrow(
+    // sync functions are wrapped onto callback
+    await expect(() => userProfileStorage.setProfileField('username', 'johndoe1111', '123123123')).toThrow(
       'Invalid privacy setting',
     )
   })
@@ -218,12 +216,12 @@ describe('UserProfileStorage', () => {
   })
 
   it('should get profile field value & display value', () => {
-    const email = userProfileStorage.profile.email.value
+    const { value, display } = userProfileStorage.profile.email
 
     expect([
       userProfileStorage.getProfileFieldDisplayValue('email'),
       userProfileStorage.getProfileFieldValue('email'),
-    ]).toEqual([email])
+    ]).toEqual([display, value])
   })
 
   it('should not get profile field value & display value for invalid field', () => {
@@ -264,6 +262,7 @@ describe('UserProfileStorage', () => {
 
   it('should fail profile validation with empty profile', async () => {
     const { isValid, errors } = await userProfileStorage.validateProfile()
+
     expect(isValid).toBeFalsy()
     expect(errors).toEqual({})
   })
@@ -311,13 +310,13 @@ describe('UserProfileStorage', () => {
   it('should find profile using getUserProfile with valid email', async () => {
     const foundProfile = await userProfileStorage.getUserProfile(userProfileStorage.profile.email.value)
 
-    expect(foundProfile).toEqual(expect.objectContaining({ name: userProfileStorage.profile.fullName.value }))
+    expect(foundProfile).toHaveProperty('name', userProfileStorage.profile.fullName.value)
   })
 
   it('should not find profile using getUserProfile with invalid value', async () => {
     const foundProfile = await userProfileStorage.getUserProfile('as123asdas12312a')
 
-    expect(Object.values(foundProfile).every(isNull)).toBeTruthy()
+    expect(Object.values(foundProfile).every(isNil)).toBeTruthy()
   })
 
   it('should delete profile', async () => {

@@ -53,11 +53,7 @@ const getEmailErrorMessage = (email?: string) => {
  * @returns {string} Mobile error message if invalid, or empty string
  */
 const getMobileErrorMessage = (mobile?: string) => {
-  if (!mobile) {
-    return ''
-  }
-
-  if (!isMobilePhone(mobile)) {
+  if (mobile && !isMobilePhone(mobile)) {
     return 'Please enter a valid phone format'
   }
 

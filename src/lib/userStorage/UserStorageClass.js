@@ -21,8 +21,8 @@ import isMobilePhone from '../validators/isMobilePhone'
 import { GD_GUN_CREDENTIALS } from '../constants/localStorage'
 import AsyncStorage from '../utils/asyncStorage'
 import defaultGun from '../gundb/gundb'
-import { type StandardFeed } from '../userStorage/StandardFeed'
-import { Profile, UserProfileStorage } from './UserProfileStorage'
+import { type StandardFeed } from './StandardFeed'
+import { UserProfileStorage } from './UserProfileStorage'
 import UserProperties from './UserProperties'
 import { FeedEvent, FeedItemType, FeedStorage, TxStatus } from './FeedStorage'
 import type { DB } from './UserStorage'
@@ -44,13 +44,13 @@ export type GunDBUser = {
 /**
  * possible privacy level for profile fields
  */
-type FieldPrivacy = 'private' | 'public' | 'masked'
+export type FieldPrivacy = 'private' | 'public' | 'masked'
 
-type ACK = {
+export type ACK = {
   ok: number,
   err: string,
 }
-type EncryptedField = any
+export type EncryptedField = any
 
 /**
  * User's profile field data

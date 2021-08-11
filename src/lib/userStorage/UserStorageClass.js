@@ -33,24 +33,10 @@ const logger = pino.child({ from: 'UserStorage' })
 const NULL_ADDRESS = '0x0000000000000000000000000000000000000000'
 
 /**
- * User details returned from Gun SEA
- */
-export type GunDBUser = {
-  alias: string,
-  epub: string,
-  pub: string,
-  sea: any,
-}
-
-/**
  * possible privacy level for profile fields
  */
 type FieldPrivacy = 'private' | 'public' | 'masked'
 
-type ACK = {
-  ok: number,
-  err: string,
-}
 type EncryptedField = any
 
 /**
@@ -224,12 +210,6 @@ export class UserStorage {
    * current feed item
    */
   cursor: number = 0
-
-  /**
-   * object with Gun SEA user details
-   * @instance {GunDBUser}
-   */
-  user: GunDBUser
 
   /**
    * A promise which is resolved once init() is done
@@ -781,7 +761,7 @@ export class UserStorage {
 
     if (!cleanValue) {
       logger.warn(
-        `indexProfileField - field ${field} value is empty (value: ${value})`,
+        `isValidValue - field ${field} value is empty (value: ${value})`,
         cleanValue,
         new Error('isValidValue failed'),
         { category: ExceptionCategory.Human },
@@ -812,66 +792,8 @@ export class UserStorage {
     value: string,
     privacy: FieldPrivacy = 'public',
     onlyPrivacy: boolean = false,
-  ): Promise<ACK> {
+  ): Promise<void> {
     return this.profileStorage.setProfileField(field, value, privacy, onlyPrivacy)
-  }
-
-  /**
-   * Generates index by field if privacy is public, or empty index if it's not public
-   * @deprecated no longer indexing in world writable index
-   * @param {string} field - Profile attribute
-   * @param {string} value - Profile attribute value
-   * @param {string} privacy - (private | public | masked)
-   * @returns Gun result promise after index is generated
-   * @todo This is world writable so theoretically a malicious user could delete the indexes
-   * need to develop for gundb immutable keys to non first user
-   */
-  async indexProfileField(field: string, value: string, privacy: FieldPrivacy): Promise<ACK> {
-    if (!UserStorage.indexableFields[field]) {
-      return Promise.resolve({ err: 'Not indexable field', ok: 0 })
-    }
-
-    const cleanValue = UserStorage.cleanHashedFieldForIndex(field, value)
-
-    if (!cleanValue) {
-      return Promise.resolve({
-        err: 'Indexable field cannot be null or empty',
-        ok: 0,
-      })
-    }
-
-    try {
-      if (field === 'username' && !(await UserStorage.isValidValue(field, value, false))) {
-        return Promise.resolve({
-          err: `Existing index on field ${field}`,
-          ok: 0,
-        })
-      }
-      const indexNode = this.gun.get(`users/by${field}`).get(cleanValue)
-      const indexValue = await indexNode.then()
-
-      logger.debug('indexProfileField', {
-        field,
-        value,
-        privacy,
-        indexValue: indexValue,
-        currentUser: this.gunuser.is.pub,
-      })
-
-      // now that we use the hash of the email/mobile there's no privacy issue
-      // if (privacy !== 'public' && indexValue !== undefined) {
-      //   return indexNode.putAck(null)
-      // }
-
-      return await indexNode.putAck(this.gunuser)
-    } catch (gunError) {
-      const e = this._gunException(gunError)
-
-      logger.error('indexProfileField failed', e.message, e, { field })
-
-      // TODO: this should return unexpected error
-      // return Promise.resolve({ err: `Unexpected Error`, ok: 0 })
-    }
   }
 
   /**
@@ -882,7 +804,7 @@ export class UserStorage {
    * @returns {Promise} Promise with updated field value, secret, display and privacy.
    */
   // eslint-disable-next-line require-await
-  async setProfileFieldPrivacy(field: string, privacy: FieldPrivacy): Promise<ACK> {
+  async setProfileFieldPrivacy(field: string, privacy: FieldPrivacy): Promise<void> {
     return this.profileStorage.setProfileFieldPrivacy(field, privacy)
   }
 

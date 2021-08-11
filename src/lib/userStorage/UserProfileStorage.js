@@ -509,6 +509,7 @@ export class UserProfileStorage implements ProfileStorage {
       logger.info(`getUserProfile by field <${field}> `)
       return { name: undefined, avatar: undefined }
     }
+
     const { fullName, avatar } = profile
 
     logger.info(`getUserProfile by field <${field}>`, { avatar, fullName })

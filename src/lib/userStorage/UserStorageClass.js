@@ -506,13 +506,9 @@ export class UserStorage {
         const seed = Uint8Array.from(Buffer.from(pkeySeed, 'hex'))
         this.profilePrivateKey = TextileCrypto.PrivateKey.fromRawEd25519Seed(seed)
         this.profileStorage = new UserProfileStorage(this.wallet, this.feedDB)
-        const isReady = await retry(() => this.initGun(), 1) // init user storage, if exception thrown, retry init one more times
-
-        await this.feedDB.init(seed, this.wallet.getAccountForType('gundb')) //only once user is registered he has access to realmdb via signed jwt
-        await this.initFeed()
 
         logger.debug('userStorage initialized.')
-        return isReady
+        return true
       } catch (exception) {
         let logLevel = 'error'
         const { account } = wallet

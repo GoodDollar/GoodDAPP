@@ -1169,7 +1169,7 @@ export class GoodWallet {
 
     log.info({ amount, to, data })
     const transferCall = data
-      ? this.tokenContract.methods.transferAndCall(to, amount.toString(), data)
+      ? this.tokenContract.methods.transferAndCall(to, amount.toString(), this.wallet.utils.toHex(data))
       : this.tokenContract.methods.transfer(to, amount.toString()) // retusn TX object (not sent to the blockchain yet)
 
     return this.sendTransaction(transferCall, callbacks) // Send TX to the blockchain

@@ -819,19 +819,6 @@ export class UserStorage {
   }
 
   /**
-   * Get all survey
-   * @returns {Promise<void>}
-   */
-  async getSurveyDetailByHashAndDate(hash: string, date: string) {
-    const result = await this.gun
-      .get('survey')
-      .get(date)
-      .get(hash)
-      .then()
-    return result
-  }
-
-  /**
    *
    * @param {string} value email/mobile/walletAddress to fetch by
    */
@@ -880,18 +867,20 @@ export class UserStorage {
    * @param {string} field - Profile field value (email, mobile or wallet address value)
    * @returns { string } address
    */
-  async getUserAddress(field: string) {
-    const profile = await this.getUserProfilePublickey(field)
-    if (profile == null) {
+  async getUserAddress(value: string) {
+    if (!value) {
       return
     }
 
-    return this.gun
-      .get(profile)
-      .get('profile')
-      .get('walletAddress')
-      .get('display')
-      .then()
+    const attr = isMobilePhone(value) ? 'mobile' : isEmail(value) ? 'email' : 'walletAddress'
+    const hashValue = UserStorage.cleanHashedFieldForIndex(attr, value)
+
+    const profile = await this.profileStorage.getProfilesByHashIndex(attr, hashValue)
+    if (profile.length === 0) {
+      return
+    }
+
+    return profile[0].walletAddress.display
   }
 
   /**

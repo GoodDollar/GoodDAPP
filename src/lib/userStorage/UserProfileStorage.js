@@ -406,6 +406,7 @@ export class UserProfileStorage implements ProfileStorage {
     return this.profiledb.getProfileBy({ [`${field}.display`]: value })
   }
 
+  //TODO: need to save hashed walletAddress to index and make it unique in realmdb
   getProfilesByHashIndex(field: string, value: string): Promise<any> {
     return this.profiledb.getProfilesBy({ [`index.${field}.value`]: value })
   }

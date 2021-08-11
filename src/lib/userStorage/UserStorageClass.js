@@ -823,43 +823,14 @@ export class UserStorage {
    * @param {string} value email/mobile/walletAddress to fetch by
    */
   async getUserProfilePublickey(value: string) {
-    if (!value) {
+    const { publicKey } = (await this.profileStorage.getProfileByWalletAddress(value)) || {}
+    logger.info(`getUserProfilePublicKey`, { publicKey })
+
+    if (publicKey == null) {
       return
     }
 
-    const attr = isMobilePhone(value) ? 'mobile' : isEmail(value) ? 'email' : 'walletAddress'
-    const hashValue = UserStorage.cleanHashedFieldForIndex(attr, value)
-
-    logger.info(`getUserProfilePublicKey by value <${value}>`, { attr, hashValue })
-
-    let profilePublickey
-    if (attr === 'walletAddress') {
-      profilePublickey = this.walletAddressIndex[hashValue]
-      logger.info(`getUserProfilePublicKey from indexes`, { profilePublickey })
-    }
-    if (profilePublickey) {
-      return profilePublickey
-    }
-
-    const { data } = await API.getProfileBy(hashValue)
-    profilePublickey = get(data, 'profilePublickey')
-
-    logger.info(`getUserProfilePublicKey from API`, { profilePublickey })
-
-    if (profilePublickey == null) {
-      return
-    }
-
-    profilePublickey = '~' + data.profilePublickey
-
-    // wallet address has 1-1 connection with profile public key,
-    //so we can cache it
-    if (attr === 'walletAddress') {
-      this.walletAddressIndex[hashValue] = profilePublickey
-      AsyncStorage.setItem('GD_walletIndex', this.walletAddressIndex)
-    }
-
-    return profilePublickey
+    return publicKey
   }
 
   /**

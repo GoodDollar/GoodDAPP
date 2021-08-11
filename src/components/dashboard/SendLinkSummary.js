@@ -5,7 +5,6 @@ import { get } from 'lodash'
 import { text } from 'react-native-communications'
 import { fireEvent } from '../../lib/analytics/analytics'
 import GDStore from '../../lib/undux/GDStore'
-import gun from '../../lib/gundb/gundb'
 import userStorage, { type TransactionEvent } from '../../lib/userStorage/UserStorage'
 import { FeedItemType } from '../../lib/userStorage/FeedStorage'
 import logger from '../../lib/logger/pino-logger'
@@ -238,12 +237,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
     if (phoneNumber) {
       const cleanPhoneNumber = phoneNumber.replace(/\D/g, '')
 
-      const profileKey = await userStorage.getUserProfilePublickey(cleanPhoneNumber)
-      walletAddress = await gun
-        .get(profileKey)
-        .get('profile')
-        .get('walletAddress')
-        .get('display')
+      walletAddress = await userStorage.getUserAddress(cleanPhoneNumber)
     }
 
     if (phoneNumber) {

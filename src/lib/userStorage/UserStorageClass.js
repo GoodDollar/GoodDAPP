@@ -4,8 +4,9 @@ import { debounce, get, isEmpty, isError, isNil, isString, memoize, over } from 
 
 import moment from 'moment'
 import Gun from '@gooddollar/gun'
-import SEA from '@gooddollar/gun/sea'
 import { gunAuth as gunPKAuth } from '@gooddollar/gun-pk-auth'
+import * as TextileCrypto from '@textile/crypto'
+
 import { sha3 } from 'web3-utils'
 import isEmail from '../../lib/validators/isEmail'
 
@@ -275,7 +276,7 @@ export class UserStorage {
     username: true,
   }
 
-  // trusted GoodDollar user indexes
+  // trusted GoodDollar signature
   trust = {}
 
   walletAddressIndex = {}
@@ -499,18 +500,11 @@ export class UserStorage {
       return
     }
 
-    const seed = this.wallet.wallet.eth.accounts.wallet[this.wallet.getAccountForType('gundb')].privateKey.slice(2)
-    await this.feedDB.init(seed, this.wallet.getAccountForType('gundb')) //only once user is registered he has access to realmdb via signed jwt
+    await this.feedDB.init(this.profilePrivateKey, this.wallet.getAccountForType('gundb')) //only once user is registered he has access to realmdb via signed jwt
     //after we initialize the database wait for user properties which depands on database
-    await this.userProperties.ready
-    await this.initFeed()
-
-    // get trusted GoodDollar indexes and pub key
-    let trustPromise = this.fetchTrustIndexes()
+    await Promise.all([this.userProperties.ready, this.profileStorage.init(), this.initFeed()])
 
     logger.debug('subscribing to wallet events')
-
-    await Promise.all([trustPromise])
 
     logger.debug('done initializing registered userstorage')
     this.initializedRegistered = true
@@ -530,7 +524,14 @@ export class UserStorage {
       try {
         // firstly, awaiting for wallet is ready
         await wallet.ready
-        await this.initUserProfileStorage()
+
+        const pkeySeed = this.wallet.wallet.eth.accounts.wallet[
+          this.wallet.getAccountForType('gundb')
+        ].privateKey.slice(2)
+        const seed = Uint8Array.from(Buffer.from(pkeySeed, 'hex'))
+        this.profilePrivateKey = TextileCrypto.PrivateKey.fromRawEd25519Seed(seed)
+        this.profileStorage = new UserProfileStorage(this.wallet, this.feedDB)
+
         const isReady = await retry(() => this.initGun(), 1) // init user storage, if exception thrown, retry init one more times
 
         logger.debug('userStorage initialized.')
@@ -552,43 +553,6 @@ export class UserStorage {
     })()
 
     return this.ready
-  }
-
-  /**
-   * Fetches trusted GoodDollar indexes and pub key
-   * @returns Promise
-   * @private
-   */
-  async fetchTrustIndexes() {
-    try {
-      AsyncStorage.getItem('GD_walletIndex').then(idx => (this.walletAddressIndex = idx || {}))
-      const { data, lastFetch } = (await AsyncStorage.getItem('GD_trust')) || {}
-
-      let refetch = true
-
-      if (lastFetch) {
-        const stale = moment().diff(moment(lastFetch), 'days')
-        refetch = stale >= 7
-        logger.debug('fetchTrustIndexes', { stale, lastFetch, data })
-      }
-      if (data == null || refetch) {
-        // make sure server is up
-        await API.ping()
-
-        // fetch trust data
-        const { data } = await API.getTrust()
-
-        AsyncStorage.setItem('GD_trust', { data, lastFetch: Date.now() })
-        this.trust = data
-      } else {
-        this.trust = data
-      }
-    } catch (exception) {
-      const { message } = exception
-
-      // if fetch trust request failed even we're pinged the server - it's an exception
-      logger.error('Could not fetch /trust', message, exception)
-    }
   }
 
   /**
@@ -646,7 +610,8 @@ export class UserStorage {
   }
 
   sign(msg: any) {
-    return SEA.sign(msg, this.gunuser.pair())
+    msg = new TextEncoder().encode(msg)
+    return this.profilePrivateKey.sign(msg).then(_ => Buffer.from(_).toString('base64'))
   }
 
   /**
@@ -657,14 +622,6 @@ export class UserStorage {
   async getAllFeed() {
     await this.feedStorage.ready
     return this.feedStorage.getAllFeed()
-  }
-
-  async initUserProfileStorage() {
-    const seed = this.wallet.wallet.eth.accounts.wallet[this.wallet.getAccountForType('gundb')].privateKey.slice(2)
-    await this.feedDB.init(seed, this.wallet.getAccountForType('gundb')) //only once user is registered he has access to realmdb via signed jwt
-    await this.initFeed()
-    this.profileStorage = new UserProfileStorage(this.wallet, this.feedDB)
-    await this.profileStorage.init()
   }
 
   /**
@@ -1318,65 +1275,6 @@ export class UserStorage {
       default:
         return event.type
     }
-  }
-
-  async _getProfileNodeTrusted(initiatorType, initiator, address): Gun {
-    if (!initiator && (!address || address === NULL_ADDRESS)) {
-      return
-    }
-
-    const byIndex = initiatorType && initiator && (await this.getUserProfilePublickey(initiator))
-
-    const byAddress = address && (await this.getUserProfilePublickey(address))
-
-    let gunProfile = (byIndex || byAddress) && this.gun.get(byIndex || byAddress).get('profile')
-
-    //need to return object so promise.all doesn't resolve node
-    return {
-      gunProfile,
-    }
-  }
-
-  async _getProfileNode(initiatorType, initiator, address): Gun {
-    const getProfile = async (indexName, idxKey) => {
-      const trustIdx = this.trust[indexName]
-      const trustExists =
-        trustIdx &&
-        (await this.gun
-          .get(trustIdx)
-          .get(idxKey)
-          .then())
-      let idxSoul = `users/${indexName}`
-      if (trustExists) {
-        idxSoul = trustIdx
-      }
-      logger.debug('extractProfile:', { idxSoul, idxKey, trustExists })
-
-      // Need to verify if user deleted, otherwise gun might stuck here and feed wont be displayed (gun <0.2020)
-      let gunProfile = this.gun
-        .get(idxSoul)
-        .get(idxKey)
-        .get('profile')
-
-      // need to return object so promise.all doesn't resolve node
-      return {
-        gunProfile,
-      }
-
-      // logger.warn('_extractProfileToShow invalid profile', { idxSoul, idxKey })
-      // return undefined
-    }
-
-    if (!initiator && (!address || address === NULL_ADDRESS)) {
-      return
-    }
-
-    const searchField = initiatorType && `by${initiatorType}`
-    const byIndex = searchField && (await getProfile(searchField, initiator))
-
-    const byAddress = address && (await getProfile('bywalletAddress', address))
-
-    return byIndex || byAddress
   }
 
   /**

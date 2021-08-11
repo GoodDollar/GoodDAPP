@@ -1,7 +1,7 @@
 //@flow
+import { Database, Collection } from '@textile/threaddb'
 import * as TextileCrypto from '@textile/crypto'
-import { Database } from '@textile/threaddb'
-import { once, sortBy } from 'lodash'
+import { get, once, sortBy } from 'lodash'
 import * as Realm from 'realm-web'
 import Config from '../../config/config'
 import { JWT } from '../constants/localStorage'
@@ -15,13 +15,13 @@ const log = logger.child({ from: 'RealmDB' })
 class RealmDB implements DB, ProfileDB {
   privateKey
 
-  publicKey
-
-  db
+  db: Database
 
   isReady = false
 
   listeners = []
+
+  Feed: Collection
 
   constructor() {
     this.ready = new Promise((resolve, reject) => {
@@ -33,18 +33,16 @@ class RealmDB implements DB, ProfileDB {
   /**
    * basic initialization
    * @param {*} pkeySeed
-   * @param {*} publicKey
+   * @param {*} publicKeyHex
    */
-  async init(pkeySeed, publicKey) {
+  async init(privateKey: TextileCrypto.PrivateKey) {
     try {
-      this.db = new Database(`feed_${publicKey}`, {
+      this.db = new Database(`feed_${privateKey.public.toString()}`, {
         name: 'Feed',
         schema: FeedItemSchema,
         indexes: [{ path: 'date' }, { path: 'data.hashedCode' }],
       })
-      const seed = Uint8Array.from(Buffer.from(pkeySeed, 'hex'))
-      this.privateKey = TextileCrypto.PrivateKey.fromRawEd25519Seed(seed)
-      this.publicKey = publicKey
+      this.privateKey = privateKey
       await this.db.open(1) // Versioned db on open
       this.Feed = this.db.collection('Feed')
       this.Feed.table.hook('updating', (modify, id, event) => this._notifyChange({ modify, id, event }))
@@ -88,6 +86,7 @@ class RealmDB implements DB, ProfileDB {
 
       // `App.currentUser` updates to match the logged in user
       log.debug('realm logged in', { user: this.user })
+      this._syncFromRemote()
       return this.user
     } catch (err) {
       log.error('Failed to log in', err)
@@ -118,10 +117,16 @@ class RealmDB implements DB, ProfileDB {
    * used in Appswitch to sync with remote when user comes back to app
    */
   async _syncFromRemote() {
-    const lastSync = (await AsyncStorage.getItem('GD_lastRealmSync')) || 0
+    // this.Feed.
+    const lastSync = await this.Feed.table //use dexie directly because mongoify only sorts results and not all documents
+      .orderBy('date')
+      .reverse()
+      .limit(1)
+      .toArray()
+      .then(r => get(r, '[0].date', 0))
     const newItems = await this.encryptedFeed.find({
       user_id: this.user.id,
-      date: { $gte: new Date(lastSync) },
+      date: { $gt: new Date(lastSync) },
     })
     const filtered = newItems.filter(_ => !_._id.toString().includes('settings') && _.txHash)
     log.debug('_syncFromRemote', { newItems, filtered, lastSync })
@@ -129,7 +134,6 @@ class RealmDB implements DB, ProfileDB {
       let decrypted = await Promise.all(filtered.map(i => this._decrypt(i)))
       log.debug('_syncFromRemote', { decrypted })
       await this.Feed.save(...decrypted)
-      AsyncStorage.setItem('GD_lastRealmSync', Date.now())
     }
 
     //sync items that we failed to save
@@ -141,6 +145,7 @@ class RealmDB implements DB, ProfileDB {
         this.Feed.table.update({ _id: item.id }, { $set: { sync: true } })
       })
     }
+    log.info('_syncfromremote done')
   }
 
   /**
@@ -275,7 +280,7 @@ class RealmDB implements DB, ProfileDB {
       // eslint-disable-next-line camelcase
       const _id = `${txHash}_${user_id}`
       const res = await this.encryptedFeed.updateOne(
-        { _id, txHash, user_id },
+        { _id, user_id },
         { _id, txHash, user_id, encrypted, date: new Date(feedItem.date) },
         { upsert: true },
       )

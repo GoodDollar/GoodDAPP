@@ -388,13 +388,6 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
       await userStorage.initRegistered()
       const [mnemonic] = await Promise.all([
         AsyncStorage.getItem(GD_USER_MNEMONIC).then(_ => _ || ''),
-
-        //make sure profile is initialized, maybe solve gun bug where profile is undefined
-        userStorage.profile.putAck({ initialized: true }).catch(e => {
-          log.error('set profile initialized failed:', e.message, e)
-          throw e
-        }),
-
         userStorage.userProperties.updateAll({ regMethod, inviterInviteCode: inviteCode }),
       ])
 

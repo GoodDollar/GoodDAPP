@@ -1,6 +1,6 @@
 //@flow
 
-import { debounce, get, isEmpty, isError, isNil, isString, memoize, over } from 'lodash'
+import { get, isEmpty, isError, isNil, isString, memoize } from 'lodash'
 
 import moment from 'moment'
 import Gun from '@gooddollar/gun'
@@ -196,12 +196,6 @@ export class UserStorage {
 
   /**
    * a gun node referring tto gun.user().get('properties')
-   * @instance {Gun}
-   */
-  // properties: Gun
-
-  /**
-   * a gun node referring tto gun.user().get('properties')
    * @instance {UserProperties}
    */
   userProperties: UserProperties
@@ -307,14 +301,6 @@ export class UserStorage {
   }
 
   /**
-   * a gun node referring to gun.user().get('profile')
-   * @instance {Gun}
-   */
-  get profile() {
-    return this.gun.user().get('profile')
-  }
-
-  /**
    * a gun node referring to gun.user()
    * @instance {Gun}
    */
@@ -353,33 +339,6 @@ export class UserStorage {
     const hasDefaultValue = field in profileDefaults
 
     return isNil(value) && hasDefaultValue ? defaultValue : value
-  }
-
-  gunAuth(username: string, password: string): Promise<any> {
-    return new Promise((res, rej) => {
-      this.gunuser.auth(username, password, user => {
-        logger.debug('gundb auth', user.err)
-        if (user.err) {
-          return rej(user.err)
-        }
-        res(user)
-      })
-    })
-  }
-
-  gunCreate(username: string, password: string): Promise<any> {
-    return new Promise((res, rej) => {
-      this.gunuser.create(username, password, user => {
-        logger.debug('gundb user created', user)
-
-        //if username exists its not an error we can create
-        //multiple accounts under same username
-        // if (user.err) {
-        //   return rej(user.err)
-        // }
-        res(user)
-      })
-    })
   }
 
   /**
@@ -424,15 +383,13 @@ export class UserStorage {
       pubkey: this.gunuser.is,
       pair: this.gunuser.pair(),
     })
-
-    this.initProfile().catch(e => logger.error('failed initializing initProfile', e.message, e))
   }
 
   /**
-   * Initialize wallet, gundb user, feed and subscribe to events
+   * Initialize wallet, user, feed and subscribe to events
    */
   async initRegistered() {
-    logger.debug('Initializing GunDB UserStorage for registered user', this.initializedRegistered)
+    logger.debug('Initializing UserStorage for registered user', this.initializedRegistered)
 
     if (this.initializedRegistered) {
       return
@@ -447,11 +404,6 @@ export class UserStorage {
     logger.debug('done initializing registered userstorage')
     this.initializedRegistered = true
 
-    // save ref to user
-    this.gun
-      .get('users')
-      .get(this.gunuser.is.pub)
-      .put(this.gunuser)
     return true
   }
 
@@ -470,10 +422,8 @@ export class UserStorage {
         this.profilePrivateKey = TextileCrypto.PrivateKey.fromRawEd25519Seed(seed)
         this.profileStorage = new UserProfileStorage(this.wallet, this.feedDB)
 
-        const isReady = await retry(() => this.initGun(), 1) // init user storage, if exception thrown, retry init one more times
-
         logger.debug('userStorage initialized.')
-        return isReady
+        return true
       } catch (exception) {
         let logLevel = 'error'
         const { account } = wallet
@@ -563,8 +513,7 @@ export class UserStorage {
   }
 
   /**
-   * Subscribes to changes on the event index of day to number of events
-   * the "false" (see gundb docs) passed is so we get the complete 'index' on every change and not just the day that changed
+   * initializes the feedstorage and default feed items
    */
   async initFeed() {
     this.feedStorage = new FeedStorage(this.feedDB, this.gun, this.wallet, this)
@@ -607,35 +556,6 @@ export class UserStorage {
     }
 
     logger.debug('startSystemFeed: done')
-  }
-
-  async initProfile() {
-    const [gunuser, profile] = await Promise.all([this.gunuser.then(null, 1000), this.profile.then(null, 1000)])
-
-    if (profile === null) {
-      // in case profile was deleted in the past it will be exactly null
-      await this.profile.putAck({ initialized: true }).catch(e => {
-        logger.error('set profile initialized failed:', e.message, e)
-        throw e
-      })
-    }
-
-    // this.profile = this.gunuser.get('profile')
-    const onProfileUpdate = debounce(
-      doc => {
-        this._lastProfileUpdate = doc
-        over(this.subscribersProfileUpdates)(doc)
-      },
-      500,
-      { leading: false, trailing: true },
-    )
-    this.profile.open(onProfileUpdate)
-
-    logger.debug('init opened profile', {
-      gunRef: this.profile,
-      profile,
-      gunuser,
-    })
   }
 
   addAllCardsTest() {
@@ -696,7 +616,7 @@ export class UserStorage {
    * Returns progfile attribute value
    *
    * @param {string} field - Profile attribute
-   * @returns {Promise<ProfileField>} Gun profile attribute object
+   * @returns {Promise<ProfileField>} field data
    */
   getProfileField(field: string): Promise<ProfileField> {
     return this.profileStorage.getProfileField()

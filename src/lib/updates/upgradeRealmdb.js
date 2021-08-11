@@ -8,7 +8,7 @@ const fromDate = new Date('2021/07/06')
  */
 const upgradeRealmDB = async (lastUpdate, prevVersion, log) => {
   await userStorage.ready
-  await userStorage.wallet.ready
+  await userStorage.initGun()
   const pubkey = userStorage.gunuser.pair().pub
   let done = 0
   const promise = new Promise((res, rej) => {

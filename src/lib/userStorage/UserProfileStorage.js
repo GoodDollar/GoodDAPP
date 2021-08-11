@@ -430,9 +430,7 @@ export class UserProfileStorage implements ProfileStorage {
         }),
         {},
       )
-    if (this.profile.smallAvatar) {
-      publicProfile.smallAvatar = this.profile.smallAvatar
-    }
+
     return publicProfile
   }
 
@@ -524,18 +522,15 @@ export class UserProfileStorage implements ProfileStorage {
     const attr = isMobilePhone(field) ? 'mobile' : isEmail(field) ? 'email' : 'walletAddress'
 
     const profile = await this.getPublicProfile(attr, field)
-    const { fullName, avatar } = profile
     if (profile == null) {
-      logger.info(`getUserProfile by field <${field}> `)
+      logger.warn(`getUserProfile: by field <${field}> empty result`)
       return { name: undefined, avatar: undefined }
     }
+    const { fullName, smallAvatar } = profile
 
-    logger.info(`getUserProfile by field <${field}>`, { avatar, fullName })
-    if (!fullName) {
-      logger.info(`cannot get fullName from gun by field <${field}>`, { fullName })
-    }
+    logger.info(`getUserProfile by field <${field}>`, { fullName })
 
-    return { name: fullName, avatar }
+    return { name: fullName, avatar: smallAvatar }
   }
 
   subscribeProfileUpdates(callback: any => void) {

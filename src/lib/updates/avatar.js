@@ -1,4 +1,3 @@
-import { first, groupBy, set, uniqBy } from 'lodash'
 import userStorage from '../userStorage/UserStorage'
 
 import { analyzeAvatar, updateFeedEventAvatar } from './utils'
@@ -17,33 +16,27 @@ const uploadProfileAvatar = async () => {
 }
 
 const hasCounterPartyAvatar = ({ data }) => {
-  const { counterPartySmallAvatar, counterPartyAddress } = data || {}
+  const { counterPartySmallAvatar } = data || {}
 
-  return !(!counterPartySmallAvatar || !counterPartyAddress)
+  return !!counterPartySmallAvatar
 }
 
-const uploadCounterPartyAvatar = async feedEvents => {
-  const {
-    data: { counterPartySmallAvatar },
-  } = first(feedEvents)
+const uploadCounterPartyAvatar = async feedEvent => {
+  const { data } = feedEvent
+  const { counterPartySmallAvatar } = data
+  const avatar = await updateFeedEventAvatar(counterPartySmallAvatar)
 
-  try {
-    // upload only unique avatars
-    const avatar = await updateFeedEventAvatar(counterPartySmallAvatar)
-
-    if (avatar === counterPartySmallAvatar) {
-      return
-    }
-
-    // set uploaded CID to the all events in the group
-    feedEvents.forEach(feedEvent => {
-      set(feedEvent, 'data.counterPartySmallAvatar', avatar)
-      userStorage.feedStorage.updateFeedEvent(feedEvent)
-    })
-  } catch {
-    // catch quietly individual upload exception
+  if (avatar === counterPartySmallAvatar) {
     return
   }
+
+  userStorage.feedStorage.updateFeedEvent({
+    ...feedEvent,
+    data: {
+      ...data,
+      counterPartySmallAvatar: avatar,
+    },
+  })
 }
 
 /**
@@ -51,14 +44,10 @@ const uploadCounterPartyAvatar = async feedEvents => {
  */
 const uploadAvatars = async (lastUpdate, prevVersion, log) => {
   const allEvents = await userStorage.getAllFeed()
-  const uniqueEvents = uniqBy(allEvents, 'id')
-  const eventsWithCounterParty = uniqueEvents.filter(hasCounterPartyAvatar)
-
-  // group events by counterparty to decrease uploads
-  const groupedEvents = groupBy(eventsWithCounterParty, 'data.counterPartyAddress')
+  const eventsWithCounterParty = allEvents.filter(hasCounterPartyAvatar)
 
   await uploadProfileAvatar()
-  await Promise.all(groupedEvents.map(uploadCounterPartyAvatar))
+  await Promise.all(eventsWithCounterParty.map(uploadCounterPartyAvatar))
 }
 
 export default { fromDate, update: uploadAvatars, key: 'uploadAvatars' }

@@ -156,6 +156,7 @@ export class UserProfileStorage implements ProfileStorage {
    * @private
    */
   async _decryptProfileFields(profile: { [key: string]: ProfileField }): Promise<any> {
+    logger.debug('decryptProfileFields: incoming', { profile })
     const outputProfile = {}
     await Promise.all(
       Object.keys(profile).map(
@@ -163,7 +164,10 @@ export class UserProfileStorage implements ProfileStorage {
           typeof profile[item]?.value === 'string' &&
           (outputProfile[item] = {
             ...profile[item],
-            value: await this.profiledb.decryptField(profile[item]?.value),
+            value: await this.profiledb.decryptField(profile[item]?.value).catch(e => {
+              logger.warn('decryptProfileFields: failed decrypting profile field', e.message, e, { item })
+              return ''
+            }),
           }),
       ),
     )

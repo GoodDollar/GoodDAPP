@@ -1,5 +1,7 @@
 // @flow
-import { assign, debounce, over, toPairs } from 'lodash'
+import { assign, debounce, toPairs } from 'lodash'
+import EventEmitter from 'eventemitter3'
+
 import Profile from '../../components/profile/Profile'
 import { ExceptionCategory } from '../logger/exceptions'
 import Base64Storage from '../nft/Base64Storage'
@@ -72,12 +74,12 @@ export class UserProfileStorage implements ProfileStorage {
     username: true,
   }
 
-  subscribersProfileUpdates = []
-
   walletAddressIndex = {}
 
   //unecrypted profile field values
   profile: Profile = {}
+
+  events = new EventEmitter()
 
   constructor(wallet: GoodWallet, profiledb: ProfileDB) {
     // const seed = Uint8Array.from(Buffer.from(pkeySeed, 'hex'))
@@ -92,6 +94,7 @@ export class UserProfileStorage implements ProfileStorage {
   async init(): Promise<void> {
     const rawProfile = await this.profiledb.getProfile()
     const decryptedProfile = await this._decryptProfileFields(rawProfile)
+
     const profile = Object.keys(this.profileSettings).reduce(
       (acc, field) => ({
         ...acc,
@@ -105,6 +108,7 @@ export class UserProfileStorage implements ProfileStorage {
       }),
       {},
     )
+
     this._setLocalProfile(profile)
   }
 
@@ -119,7 +123,7 @@ export class UserProfileStorage implements ProfileStorage {
     this.onProfileUpdate()
   }
 
-  onProfileUpdate = debounce(() => over(this.subscribersProfileUpdates)(this.profile), 500, {
+  onProfileUpdate = debounce(() => this.events.emit('update', this.profile), 500, {
     leading: false,
     trailing: true,
   })
@@ -131,18 +135,20 @@ export class UserProfileStorage implements ProfileStorage {
    * @private
    */
   async _decryptProfileFields(profile: Profile): Promise<Profile> {
-    const outputProfile = {}
+    const decryptedProfile = {}
+
     await Promise.all(
       Object.keys(profile).map(
         async item =>
           typeof profile[item]?.value === 'string' &&
-          (outputProfile[item] = {
+          (decryptedProfile[item] = {
             ...profile[item],
             value: await this.profiledb.decryptField(profile[item]?.value),
           }),
       ),
     )
-    return outputProfile
+
+    return decryptedProfile
   }
 
   /**
@@ -150,7 +156,8 @@ export class UserProfileStorage implements ProfileStorage {
    * @param {*} profile
    */
   async _encryptProfileFields(profile: Profile): Promise<Profile> {
-    let encryptProfile = {}
+    const encryptProfile = {}
+
     await Promise.all(
       Object.keys(profile).map(async field =>
         typeof profile[field]?.value === 'string'
@@ -164,6 +171,7 @@ export class UserProfileStorage implements ProfileStorage {
             }),
       ),
     )
+
     return encryptProfile
   }
 
@@ -223,10 +231,11 @@ export class UserProfileStorage implements ProfileStorage {
       }),
       {},
     )
-    if (update) {
-      return this.setProfileFields(fieldsToSave)
+
+    if (!update) {
+      return this.setNewProfileFields(fieldsToSave)
     }
-    return this.setNewProfileFields(fieldsToSave)
+    return this.setProfileFields(fieldsToSave)
   }
 
   /**
@@ -244,6 +253,7 @@ export class UserProfileStorage implements ProfileStorage {
    */
   async setProfileFields(fields: Profile): Promise<void> {
     const encryptedFields = await this._encryptProfileFields(fields)
+
     await this.profiledb.setProfileFields(encryptedFields)
     this._setLocalProfile({ ...this.profile, ...fields })
   }
@@ -256,6 +266,7 @@ export class UserProfileStorage implements ProfileStorage {
    */
   async setNewProfileFields(fields: Profile): Promise<void> {
     const encryptedFields = await this._encryptProfileFields(fields)
+
     await this.profiledb.setProfile(encryptedFields)
     this._setLocalProfile({ ...this.profile, ...fields })
   }
@@ -270,6 +281,7 @@ export class UserProfileStorage implements ProfileStorage {
    */
   _setDisplayFieldBasedOnPrivacy(field: string, value: string, privacy: string): string {
     let display
+
     switch (privacy) {
       case 'private':
         display = '******'
@@ -288,6 +300,7 @@ export class UserProfileStorage implements ProfileStorage {
       default:
         throw new Error('Invalid privacy setting', { privacy })
     }
+
     return display
   }
 
@@ -379,10 +392,12 @@ export class UserProfileStorage implements ProfileStorage {
    */
   async getPublicProfile(key: string, value: string): Promise<{ [field: string]: string }> {
     const rawProfile = await this.profiledb.getProfileByField(key, value)
+
     if (!rawProfile) {
       return null
     }
-    let publicProfile = Object.keys(rawProfile)
+
+    const publicProfile = Object.keys(rawProfile)
       .filter(key => rawProfile[key].privacy !== 'private')
       .reduce(
         (acc, currKey) => ({
@@ -394,6 +409,7 @@ export class UserProfileStorage implements ProfileStorage {
     if (this.profile.smallAvatar) {
       publicProfile.smallAvatar = this.profile.smallAvatar
     }
+
     return publicProfile
   }
 
@@ -421,6 +437,7 @@ export class UserProfileStorage implements ProfileStorage {
       }),
       {},
     )
+
     return getUserModel(displayProfile)
   }
 
@@ -436,6 +453,7 @@ export class UserProfileStorage implements ProfileStorage {
       }),
       {},
     )
+
     return getUserModel(displayProfile)
   }
 
@@ -449,6 +467,7 @@ export class UserProfileStorage implements ProfileStorage {
     if (!profile) {
       return { isValid: false, errors: {} }
     }
+
     const fields = Object.keys(profile).filter(prop => this.indexableFields[prop])
 
     const validatedFields = await Promise.all(
@@ -466,13 +485,13 @@ export class UserProfileStorage implements ProfileStorage {
     }, {})
 
     const isValid = validatedFields.every(elem => elem.valid)
-    logger.debug({ fields, validatedFields, errors, isValid, profile })
 
+    logger.debug({ fields, validatedFields, errors, isValid, profile })
     return { isValid, errors }
   }
 
   setProfileFieldPrivacy(field: string, privacy: FieldPrivacy): Promise<void> {
-    let value = this.getProfileFieldValue(field)
+    const value = this.getProfileFieldValue(field)
     return this.setProfileField(field, value, privacy, true)
   }
 
@@ -483,15 +502,16 @@ export class UserProfileStorage implements ProfileStorage {
    */
   async getUserProfile(field?: string): { name: string, avatar: string } {
     const attr = isMobilePhone(field) ? 'mobile' : isEmail(field) ? 'email' : 'walletAddress'
-
     const profile = await this.getPublicProfile(attr, field)
     const { fullName, avatar } = profile
+
     if (profile == null) {
       logger.info(`getUserProfile by field <${field}> `)
       return { name: undefined, avatar: undefined }
     }
 
     logger.info(`getUserProfile by field <${field}>`, { avatar, fullName })
+
     if (!fullName) {
       logger.info(`cannot get fullName from gun by field <${field}>`, { fullName })
     }
@@ -500,7 +520,7 @@ export class UserProfileStorage implements ProfileStorage {
   }
 
   subscribeProfileUpdates(callback: any => void): void {
-    this.subscribersProfileUpdates.push(callback)
+    this.events.on('update', callback)
 
     if (this.profile) {
       callback(this.profile)
@@ -508,13 +528,12 @@ export class UserProfileStorage implements ProfileStorage {
   }
 
   unSubscribeProfileUpdates(callback?: any => void): void {
-    let filteredSubscribers = []
-
-    if (callback) {
-      filteredSubscribers = this.subscribersProfileUpdates.filter(fn => fn !== callback)
+    if (!callback) {
+      this.events.removeAllListeners('update')
+      return
     }
 
-    this.subscribersProfileUpdates = filteredSubscribers
+    this.events.off('update', callback)
   }
 
   /**

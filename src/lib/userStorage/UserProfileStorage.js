@@ -10,7 +10,7 @@ import isMobilePhone from '../validators/isMobilePhone'
 import type { UserModel } from './UserModel'
 import { getUserModel } from './UserModel'
 import { UserProfileStaticMethods } from './UserProfileStaticMethods'
-import type { ACK, FieldPrivacy, ProfileField } from './UserStorageClass'
+import type { FieldPrivacy, ProfileField } from './UserStorageClass'
 
 const logger = pino.child({ from: 'UserProfileStorage' })
 
@@ -18,11 +18,11 @@ export interface ProfileDB {
   setProfile(profile: Profile): Promise<void>;
   getProfile(): Promise<Profile>;
   getProfileByField(key: string, field: string): Promise<Profile>;
-  getPublicProfile(key: string, field: string): Promise<any>;
+  getPublicProfile(key: string, field: string): Promise<Profile>;
   setProfileFields(fields: Profile): Promise<void>;
   encryptField(item: string): string;
   decryptField(item: string): string;
-  deleteProfile(): Promise<any>;
+  deleteProfile(): Promise<boolean>;
 }
 
 // private methods couldn't be a part of the interface
@@ -33,7 +33,7 @@ export interface ProfileStorage {
   setProfile(profile: Profile): Promise<void>;
   getProfile(): { [key: string]: string };
   setProfileFields(fields: Profile): Promise<void>;
-  setProfileField(field: string, value: string, privacy: FieldPrivacy, onlyPrivacy: boolean): Promise<ACK>;
+  setProfileField(field: string, value: string, privacy: FieldPrivacy, onlyPrivacy: boolean): Promise<void>;
   setAvatar(avatar: string): Promise<void>;
   removeAvatar(): Promise<void>;
   getProfileByWalletAddress(walletAddress: string): Promise<Profile>;
@@ -45,7 +45,7 @@ export interface ProfileStorage {
   getPrivateProfile(): UserModel;
   getFieldPrivacy(field: string): string;
   validateProfile(profile: any): Promise<{ isValid: boolean, errors: {} }>;
-  setProfileFieldPrivacy(field: string, privacy: FieldPrivacy): Promise<ACK>;
+  setProfileFieldPrivacy(field: string, privacy: FieldPrivacy): Promise<void>;
   getUserProfile(field?: string): { name: string, avatar: string };
   deleteProfile(): Promise<boolean>;
 }
@@ -113,7 +113,7 @@ export class UserProfileStorage implements ProfileStorage {
    * @param newValue
    * @private
    */
-  _setLocalProfile(newValue: Profile) {
+  _setLocalProfile(newValue: Profile): void {
     this.profile = newValue
 
     this.onProfileUpdate()
@@ -130,7 +130,7 @@ export class UserProfileStorage implements ProfileStorage {
    * @returns {Promise<{}>}
    * @private
    */
-  async _decryptProfileFields(profile: Profile): Promise<any> {
+  async _decryptProfileFields(profile: Profile): Promise<Profile> {
     const outputProfile = {}
     await Promise.all(
       Object.keys(profile).map(
@@ -149,7 +149,7 @@ export class UserProfileStorage implements ProfileStorage {
    * encrypt decrypted profile
    * @param {*} profile
    */
-  async _encryptProfileFields(profile: Profile): Promise<any> {
+  async _encryptProfileFields(profile: Profile): Promise<Profile> {
     let encryptProfile = {}
     await Promise.all(
       Object.keys(profile).map(async field =>
@@ -172,13 +172,26 @@ export class UserProfileStorage implements ProfileStorage {
    * @param {*} profile
    * @param update
    */
-  async setProfile(profile: { [key: string]: string }, update: boolean = false): Promise<any> {
+  async setProfile(profile: { [key: string]: string }, update: boolean = false): Promise<void> {
     if (profile && !profile.validate) {
       profile = getUserModel(profile)
     }
-
     const fields = Object.keys(profile).filter(prop => this.profileSettings[prop])
     let { errors, isValid } = profile.validate(update)
+
+    //enforce profile to have walletAddress
+    if (!update) {
+      if (!fields.includes('walletAddress')) {
+        logger.warn(
+          'setProfile failed',
+          'walletAddress is required in profile',
+          new Error('setProfile failed: WalletAddress is required in profile'),
+          { errors, category: ExceptionCategory.Human },
+        )
+
+        throw errors
+      }
+    }
 
     if (!isValid) {
       logger.warn(
@@ -204,7 +217,7 @@ export class UserProfileStorage implements ProfileStorage {
         ...acc,
         [currKey]: {
           value: profile[currKey],
-          display: profile[currKey],
+          display: this._setDisplayFieldBasedOnPrivacy(currKey, profile[currKey], this.getFieldPrivacy(currKey)),
           privacy: this.getFieldPrivacy(currKey),
         },
       }),
@@ -229,7 +242,7 @@ export class UserProfileStorage implements ProfileStorage {
    * @param {*} fields
    * @returns
    */
-  async setProfileFields(fields: Profile): Promise<any> {
+  async setProfileFields(fields: Profile): Promise<void> {
     const encryptedFields = await this._encryptProfileFields(fields)
     await this.profiledb.setProfileFields(encryptedFields)
     this._setLocalProfile({ ...this.profile, ...fields })
@@ -241,7 +254,7 @@ export class UserProfileStorage implements ProfileStorage {
    * @returns {Promise<void>}
    * @private
    */
-  async setNewProfileFields(fields: Profile): Promise<any> {
+  async setNewProfileFields(fields: Profile): Promise<void> {
     const encryptedFields = await this._encryptProfileFields(fields)
     await this.profiledb.setProfile(encryptedFields)
     this._setLocalProfile({ ...this.profile, ...fields })
@@ -255,7 +268,7 @@ export class UserProfileStorage implements ProfileStorage {
    * @returns {*}
    * @private
    */
-  _setDisplayFieldBasedOnPrivacy(field: string, value: string, privacy: string) {
+  _setDisplayFieldBasedOnPrivacy(field: string, value: string, privacy: string): string {
     let display
     switch (privacy) {
       case 'private':
@@ -291,19 +304,17 @@ export class UserProfileStorage implements ProfileStorage {
     value: string,
     privacy: FieldPrivacy = 'public',
     onlyPrivacy: boolean = false,
-  ): Promise<ACK> {
+  ): Promise<void> {
     const display = this._setDisplayFieldBasedOnPrivacy(field, value, privacy)
-
     logger.debug('setProfileField', { field, value, privacy, onlyPrivacy, display })
-
-    return this.setProfileFields({ [field]: { display, value, privacy } })
+    return this.setProfileFields({ [field]: { value, display, privacy } })
   }
 
   /**
    * Avatar setter
    * @returns {Promise<CID[]>}
    */
-  async setAvatar(avatar) {
+  async setAvatar(avatar): Promise<CID[]> {
     const cids = await this._resizeAndStoreAvatars(avatar)
 
     await Promise.all(
@@ -460,7 +471,7 @@ export class UserProfileStorage implements ProfileStorage {
     return { isValid, errors }
   }
 
-  setProfileFieldPrivacy(field: string, privacy: FieldPrivacy): Promise<ACK> {
+  setProfileFieldPrivacy(field: string, privacy: FieldPrivacy): Promise<void> {
     let value = this.getProfileFieldValue(field)
     return this.setProfileField(field, value, privacy, true)
   }
@@ -488,7 +499,7 @@ export class UserProfileStorage implements ProfileStorage {
     return { name: fullName, avatar }
   }
 
-  subscribeProfileUpdates(callback: any => void) {
+  subscribeProfileUpdates(callback: any => void): void {
     this.subscribersProfileUpdates.push(callback)
 
     if (this.profile) {
@@ -496,7 +507,7 @@ export class UserProfileStorage implements ProfileStorage {
     }
   }
 
-  unSubscribeProfileUpdates(callback?: any => void) {
+  unSubscribeProfileUpdates(callback?: any => void): void {
     let filteredSubscribers = []
 
     if (callback) {

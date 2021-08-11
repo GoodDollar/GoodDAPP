@@ -21,18 +21,6 @@ const profile = {
   // smallAvatar: '',
 }
 
-const profileKeyValue = {
-  // avatar: '',
-  email: 'julian@gooddollar.org',
-  fullName: 'Julian Kobryński',
-  mnemonic: 'duty disorder rocket velvet later fabric scheme paddle remove phone target medal',
-  username: 'juliankobrynski',
-  mobile: '+48507471353',
-  walletAddress: '0x740E22161DEEAa60b8b0b5cDAAA091534Ff21649',
-
-  // smallAvatar: '',
-}
-
 describe('UserProfileStorage', () => {
   let userProfileStorage
 
@@ -51,6 +39,34 @@ describe('UserProfileStorage', () => {
   beforeEach(() => {
     jest.restoreAllMocks()
   })
+
+  // it('should not save invalid profiles', async () => {
+  //   const { email, mobile, username, ...fields } = profile
+
+  //   const invalidProfiles = [
+  //     { mobile, username, ...fields },
+  //     { email, mobile, ...fields },
+  //     { email, username, ...fields },
+  //   ]
+
+  //   const errorMessages = ['Email is required', 'Mobile is required', 'Username is required']
+
+  //   const missingFields = ['email', 'mobile', 'username']
+
+  //   await Promise.all(
+  //     invalidProfiles.map(async (item, index) => {
+  //       const message = errorMessages[index]
+  //       const fieldName = missingFields[index]
+  //       // const wrappedResponse = expect(userProfileStorage.setProfile(item)).rejects
+  //       userProfileStorage.setProfile(item)
+
+  //       // await wrappedResponse.toThrow()
+  //       // await wrappedResponse.toHaveProperty(fieldName, message)
+  //       // when @Łukasz Kilaszewski will refactor setProfile to throw an exception instead of key-value pairs object remove wrappedResponse const and replace the previous 2 lines with:
+  //       // expect(userProfileStorage.setProfile(item)).rejects.toThrow(message)
+  //     }),
+  //   )
+  // })
 
   it('should not save profile without email to the db', async () => {
     const { email, ...fields } = profile
@@ -124,19 +140,10 @@ describe('UserProfileStorage', () => {
     })
   })
 
-  it('should decrypt null profile', async () => {
-    const decrypted = await userProfileStorage._decryptProfileFields(null)
-    expect(decrypted).toEqual({})
-  })
-
-  it('should decrypt undefined profile', async () => {
-    const decrypted = await userProfileStorage._decryptProfileFields(undefined)
-    expect(decrypted).toEqual({})
-  })
-
-  it('should decrypt invalid type profile', async () => {
-    const decrypted = await userProfileStorage._decryptProfileFields(false)
-    expect(decrypted).toEqual({})
+  it('should decrypt invalid or empty profile', async () => {
+    const invalidProfiles = [null, undefined, false]
+    const decrypted = await Promise.all(invalidProfiles.map(item => userProfileStorage._decryptProfileFields(item)))
+    decrypted.forEach(item => expect(item).toEqual({}))
   })
 
   it('should set multiple profile fields', async () => {
@@ -162,7 +169,7 @@ describe('UserProfileStorage', () => {
     })
 
     // Reset profile
-    await userProfileStorage.setProfile(profileKeyValue, true)
+    await userProfileStorage.setProfile(profile, true)
   })
 
   it('should set private profile field', async () => {
@@ -309,7 +316,7 @@ describe('UserProfileStorage', () => {
   it('should set profile field to masked', async () => {
     await userProfileStorage.setProfileFieldPrivacy('email', 'masked')
     expect(userProfileStorage.getFieldPrivacy('email')).toEqual('masked')
-    expect(userProfileStorage.getProfileFieldDisplayValue('email')).toContain('****')
+    expect(userProfileStorage.getProfileFieldDisplayValue('email')).toContain('j****n')
   })
 
   it('should set profile field to public', async () => {

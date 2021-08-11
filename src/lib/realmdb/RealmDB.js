@@ -362,6 +362,21 @@ class RealmDB implements DB, ProfileDB {
   }
 
   /**
+   * profile change watcher
+   * @param id
+   * @returns {Promise<AsyncGenerator<Realm.Services.MongoDB.ChangeEvent<*>>>}
+   */
+  // eslint-disable-next-line require-await,require-yield
+  async *watchProfile(id?: string): AsyncIterator<any> {
+    return this.profiles.watch({
+      filter: {
+        operationType: 'update',
+        user_id: id || this.user.id,
+      },
+    })
+  }
+
+  /**
    * get user profile from realmdb. result fields might be encrypted
    * @param key
    * @param field
@@ -380,16 +395,6 @@ class RealmDB implements DB, ProfileDB {
   // eslint-disable-next-line require-await
   async setProfileFields(fields: { [key: string]: ProfileField }): Promise<any> {
     return this.profiles.updateOne({ user_id: this.user.id }, { $set: fields })
-  }
-
-  /**
-   * Removing the field from record
-   * @param field
-   * @returns {Promise<Realm.Services.MongoDB.UpdateResult<*>>}
-   */
-  // eslint-disable-next-line require-await
-  async removeField(field: string): Promise<any> {
-    return this.profiles.updateOne({ user_id: this.user.id }, { $unset: { [field]: { value: null } } })
   }
 
   /**

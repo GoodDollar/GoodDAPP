@@ -1,6 +1,6 @@
 //@flow
 
-import { debounce, get, isEmpty, isError, isNil, isString, memoize, over } from 'lodash'
+import { debounce, get, isError, isString, memoize, over } from 'lodash'
 
 import moment from 'moment'
 import Gun from '@gooddollar/gun'
@@ -21,8 +21,8 @@ import isMobilePhone from '../validators/isMobilePhone'
 import { GD_GUN_CREDENTIALS } from '../constants/localStorage'
 import AsyncStorage from '../utils/asyncStorage'
 import defaultGun from '../gundb/gundb'
-import { type StandardFeed } from '../userStorage/StandardFeed'
-import { Profile, UserProfileStorage } from './UserProfileStorage'
+import { type StandardFeed } from './StandardFeed'
+import { UserProfileStorage } from './UserProfileStorage'
 import UserProperties from './UserProperties'
 import { FeedEvent, FeedItemType, FeedStorage, TxStatus } from './FeedStorage'
 import type { DB } from './UserStorage'
@@ -44,13 +44,13 @@ export type GunDBUser = {
 /**
  * possible privacy level for profile fields
  */
-type FieldPrivacy = 'private' | 'public' | 'masked'
+export type FieldPrivacy = 'private' | 'public' | 'masked'
 
-type ACK = {
+export type ACK = {
   ok: number,
   err: string,
 }
-type EncryptedField = any
+export type EncryptedField = any
 
 /**
  * User's profile field data
@@ -383,39 +383,6 @@ export class UserStorage {
     return this.gun.user()
   }
 
-  /**
-   * Convert to null, if value is equal to empty string
-   * @param {string} field - Profile attribute
-   * @param {string} value - Profile attribute value
-   * @returns serialized value
-   */
-  serialize(field: string, value: any): any {
-    const { profileDefaults } = this
-    const defaultValue = profileDefaults[field]
-    const hasDefaultValue = field in profileDefaults
-    const isFieldEmpty = isString(value) && isEmpty(value)
-
-    if (isFieldEmpty || (hasDefaultValue && value === defaultValue)) {
-      return null
-    }
-
-    return value
-  }
-
-  /**
-   * Parse null value with replace according to defaults profile values, otherwise return value
-   * @param {string} field - Profile attribute
-   * @param {string} value - Profile attribute value
-   * @returns unserialized value
-   */
-  unserialize(field: string, value: any): any {
-    const { profileDefaults } = this
-    const defaultValue = profileDefaults[field]
-    const hasDefaultValue = field in profileDefaults
-
-    return isNil(value) && hasDefaultValue ? defaultValue : value
-  }
-
   gunAuth(username: string, password: string): Promise<any> {
     return new Promise((res, rej) => {
       this.gunuser.auth(username, password, user => {
@@ -602,16 +569,6 @@ export class UserStorage {
   }
 
   /**
-   * small Avatar setter
-   * @param avatar
-   * @returns {Promise<*>}
-   */
-  // eslint-disable-next-line require-await
-  async setSmallAvatar(avatar) {
-    return this.profileStorage.setSmallAvatar(avatar)
-  }
-
-  /**
    * remove Avatar
    * @param withCleanup
    * @returns {Promise<void>}
@@ -656,13 +613,16 @@ export class UserStorage {
   // eslint-disable-next-line require-await
   async getAllFeed() {
     await this.feedStorage.ready
+
     return this.feedStorage.getAllFeed()
   }
 
   async initUserProfileStorage() {
     const seed = this.wallet.wallet.eth.accounts.wallet[this.wallet.getAccountForType('gundb')].privateKey.slice(2)
+
     await this.feedDB.init(seed, this.wallet.getAccountForType('gundb')) //only once user is registered he has access to realmdb via signed jwt
     await this.initFeed()
+
     this.profileStorage = new UserProfileStorage(this.wallet, this.feedDB)
     await this.profileStorage.init()
   }
@@ -673,6 +633,7 @@ export class UserStorage {
    */
   async initFeed() {
     this.feedStorage = new FeedStorage(this.feedDB, this.gun, this.wallet, this)
+
     await this.feedStorage.init()
     this.startSystemFeed().catch(e => logger.error('initfeed failed initializing startSystemFeed', e.message, e))
   }
@@ -680,13 +641,16 @@ export class UserStorage {
   async startSystemFeed() {
     const userProperties = await this.userProperties.getAll()
     const firstVisitAppDate = userProperties.firstVisitApp
+
     logger.debug('startSystemFeed', { userProperties, firstVisitAppDate })
+
     this.addBackupCard()
     this.addStartClaimingCard()
 
     if (Config.enableInvites) {
       const firstInviteCard = await this.feedStorage.hasFeedItem('0.1')
       const secondInviteCard = await this.feedStorage.hasFeedItem(INVITE_REMINDER_ID)
+
       if (!firstInviteCard) {
         inviteFriendsMessage.id = INVITE_NEW_ID
         const bounty = await this.wallet.getUserInviteBounty()
@@ -734,6 +698,7 @@ export class UserStorage {
       500,
       { leading: false, trailing: true },
     )
+
     this.profile.open(onProfileUpdate)
 
     logger.debug('init opened profile', {
@@ -991,12 +956,15 @@ export class UserStorage {
    */
   async getFormattedEvents(numResults: number, reset?: boolean): Promise<Array<StandardFeed>> {
     const feed = await this.getFeedPage(numResults, reset)
+
     logger.debug('getFormattedEvents page result:', {
       numResults,
       reset,
       feedPage: feed,
     })
+
     const res = feed.map(this.formatEvent)
+
     logger.debug('getFormattedEvents done formatting events')
     return res
   }
@@ -1004,6 +972,7 @@ export class UserStorage {
   async getFormatedEventById(id: string): Promise<StandardFeed> {
     const prevFeedEvent = await this.feedStorage.getFeedItemByTransactionHash(id)
     const standardPrevFeedEvent = this.formatEvent(prevFeedEvent)
+
     if (!prevFeedEvent) {
       return undefined
     }
@@ -1029,12 +998,14 @@ export class UserStorage {
       logger.warn('no receipt found for id:', e.message, e, id)
       return undefined
     })
+
     if (!receipt) {
       return standardPrevFeedEvent
     }
 
     //update the event
     let updatedEvent = await this.feedStorage.handleReceipt(receipt)
+
     if (updatedEvent === undefined) {
       return standardPrevFeedEvent
     }
@@ -1043,6 +1014,7 @@ export class UserStorage {
       prevFeedEvent,
       updatedEvent,
     })
+
     return this.formatEvent(updatedEvent).catch(e => {
       logger.error('getFormatedEventById Failed formatting event:', e.message, e, { id })
 
@@ -1057,10 +1029,12 @@ export class UserStorage {
    */
   async isUsername(username: string) {
     const cleanValue = UserStorage.cleanHashedFieldForIndex('username', username)
+
     const profile = await this.gun
       .get('users/byusername')
       .get(cleanValue)
       .then()
+
     return profile !== undefined
   }
 
@@ -1078,6 +1052,7 @@ export class UserStorage {
         .get('survey')
         .get(date)
         .then()
+
       await this.gun
         .get('survey')
         .get(date)
@@ -1102,6 +1077,7 @@ export class UserStorage {
       .get(date)
       .get(hash)
       .then()
+
     return result
   }
 
@@ -1124,13 +1100,14 @@ export class UserStorage {
       profilePublickey = this.walletAddressIndex[hashValue]
       logger.info(`getUserProfilePublicKey from indexes`, { profilePublickey })
     }
+
     if (profilePublickey) {
       return profilePublickey
     }
 
     const { data } = await API.getProfileBy(hashValue)
-    profilePublickey = get(data, 'profilePublickey')
 
+    profilePublickey = get(data, 'profilePublickey')
     logger.info(`getUserProfilePublicKey from API`, { profilePublickey })
 
     if (profilePublickey == null) {
@@ -1156,6 +1133,7 @@ export class UserStorage {
    */
   async getUserAddress(field: string) {
     const profile = await this.getUserProfilePublickey(field)
+
     if (profile == null) {
       return
     }
@@ -1300,6 +1278,7 @@ export class UserStorage {
     if (type === 'withdraw') {
       return ''
     }
+
     return status === 'error' ? status : withdrawCode ? otplStatus : ''
   }
 
@@ -1310,9 +1289,11 @@ export class UserStorage {
       case FeedItemType.EVENT_TYPE_SEND:
       case FeedItemType.EVENT_TYPE_SENDDIRECT: {
         const type = FeedItemType.EVENT_TYPE_SENDDIRECT === event.type ? FeedItemType.EVENT_TYPE_SEND : event.type
+
         if (event.otplStatus) {
           return type + event.otplStatus
         }
+
         return type + (event.status || TxStatus.COMPLETED).toLowerCase()
       }
       default:
@@ -1326,12 +1307,11 @@ export class UserStorage {
     }
 
     const byIndex = initiatorType && initiator && (await this.getUserProfilePublickey(initiator))
-
     const byAddress = address && (await this.getUserProfilePublickey(address))
 
-    let gunProfile = (byIndex || byAddress) && this.gun.get(byIndex || byAddress).get('profile')
+    const gunProfile = (byIndex || byAddress) && this.gun.get(byIndex || byAddress).get('profile')
 
-    //need to return object so promise.all doesn't resolve node
+    // need to return object so promise.all doesn't resolve node
     return {
       gunProfile,
     }
@@ -1346,10 +1326,13 @@ export class UserStorage {
           .get(trustIdx)
           .get(idxKey)
           .then())
+
       let idxSoul = `users/${indexName}`
+
       if (trustExists) {
         idxSoul = trustIdx
       }
+
       logger.debug('extractProfile:', { idxSoul, idxKey, trustExists })
 
       // Need to verify if user deleted, otherwise gun might stuck here and feed wont be displayed (gun <0.2020)
@@ -1373,7 +1356,6 @@ export class UserStorage {
 
     const searchField = initiatorType && `by${initiatorType}`
     const byIndex = searchField && (await getProfile(searchField, initiator))
-
     const byAddress = address && (await getProfile('bywalletAddress', address))
 
     return byIndex || byAddress

@@ -318,48 +318,6 @@ export class UserStorage {
     return value
   }
 
-  /**
-   *
-   * @param {string} username
-   * @param {string} password
-   * @returns {Promise<*>}
-   */
-  static async getMnemonic(username: String, password: String): Promise<String> {
-    let gun = defaultGun
-    let gunuser = gun.user()
-    let mnemonic = ''
-
-    //hack to get gun working. these seems to preload data gun needs to login
-    //otherwise it get stuck on a clean incognito
-    const existingUser = await this.gun.get('~@' + username).onThen(null, { wait: 3000 })
-    logger.debug('getMnemonic:', { existingUser })
-    const authUserInGun = (username, password) => {
-      return new Promise((res, rej) => {
-        gunuser.auth(username, password, user => {
-          logger.debug('getMnemonic gundb auth', { user })
-          if (user.err) {
-            const error = isString(user.err) ? new Error(user.err) : user.err
-            logger.error('Error getMnemonic UserStorage', error.message, error)
-            return rej(false)
-          }
-          res(true)
-        })
-      })
-    }
-
-    if (existingUser && (await authUserInGun(username, password))) {
-      const profile = gunuser.get('profile')
-      mnemonic = await profile
-        .get('mnemonic')
-        .get('value')
-        .decrypt()
-      logger.debug('getMnemonic', { mnemonic })
-      await gunuser.leave()
-    }
-
-    return mnemonic
-  }
-
   constructor(wallet: GoodWallet, feeddb: DB, userProperties) {
     this.gun = defaultGun
     this.wallet = wallet

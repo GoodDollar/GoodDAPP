@@ -1,5 +1,5 @@
 //@flow
-import { Database, Collection } from '@textile/threaddb'
+import { Collection, Database } from '@textile/threaddb'
 import * as TextileCrypto from '@textile/crypto'
 import { get, once, sortBy } from 'lodash'
 import * as Realm from 'realm-web'
@@ -373,8 +373,8 @@ class RealmDB implements DB, ProfileDB {
    * @returns {Promise<any | null>}
    */
   // eslint-disable-next-line require-await
-  async getProfileByField(key: string, field: string): Promise<Profile> {
-    return this.profiles.findOne({ [`${key}.display`]: field })
+  async getProfileBy(query: object): Promise<Profile> {
+    return this.profiles.findOne(query)
   }
 
   /**

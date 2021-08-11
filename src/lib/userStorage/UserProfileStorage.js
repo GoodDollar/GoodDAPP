@@ -399,7 +399,11 @@ export class UserProfileStorage implements ProfileStorage {
    * @returns
    */
   getProfileByWalletAddress(walletAddress: string): Promise<any> {
-    return this.profiledb.getProfileByField('walletAddress', walletAddress)
+    return this.getProfileByField('walletAddress', walletAddress)
+  }
+
+  getProfileByField(field: string, value: string): Promise<any> {
+    return this.profiledb.getProfileBy({ [`${field}.display`]: value })
   }
 
   /**

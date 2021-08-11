@@ -157,12 +157,13 @@ const AppSwitch = (props: LoadingProps) => {
       gdstore.set('isLoggedInCitizen')(isLoggedInCitizen)
 
       //identify user asap for analytics
+
       const identifier = goodWallet.getAccountForType('login')
       identifyWith(undefined, identifier)
-
+      await initReg
       initialize()
       showOutOfGasError(props)
-      await initReg
+
       runUpdates() //this needs to wait after initreg where we initialize the database
 
       setReady(true)

@@ -1,6 +1,6 @@
 //@flow
 
-import { get, isEmpty, isError, isNil, isString, memoize } from 'lodash'
+import { get, isEmpty, isNil, isString, memoize } from 'lodash'
 
 import moment from 'moment'
 import Gun from '@gooddollar/gun'
@@ -1091,21 +1091,6 @@ export class UserStorage {
     return this.profileStorage.getProfile()
   }
 
-  loadGunField(gunNode): Promise<any> {
-    // eslint-disable-next-line no-async-promise-executor
-    return new Promise(async res => {
-      gunNode.load(p => res(p))
-      let isNode = await gunNode
-      if (isNode === undefined) {
-        res(undefined)
-      }
-    })
-  }
-
-  getEncryptedProfile(profileNode): Promise<> {
-    return this.loadGunField(profileNode)
-  }
-
   // eslint-disable-next-line require-await
   async getPublicProfile(key: string, string: string): Promise<any> {
     return this.profileStorage.getPublicProfile(key, string)
@@ -1116,20 +1101,7 @@ export class UserStorage {
   }
 
   /**
-   * Checks if the current user was already registered to gunDB
-   * @returns {Promise<boolean>|Promise<boolean>}
-   */
-  async userAlreadyExist(): Promise<boolean> {
-    const gunNode = this.gunuser.get('registered')
-    const exists = await gunNode.then(null, 1000)
-
-    logger.debug('userAlreadyExist', { exists })
-    return exists
-  }
-
-  /**
-   * remove user from indexes
-   * deleting profile actually doesn't delete but encrypts everything
+   * delete user profile
    */
   // eslint-disable-next-line require-await
   async deleteProfile(): Promise<boolean> {
@@ -1138,13 +1110,13 @@ export class UserStorage {
 
   /**
    * Delete the user account.
-   * Deleting gundb profile and clearing local storage
+   * Deleting profile and clearing local storage
    * Calling the server to delete their data
    */
   async deleteAccount(): Promise<boolean> {
     let deleteResults = false
     let deleteAccountResult
-    const { wallet, userProperties, gunuser, _trackStatus } = this
+    const { wallet, userProperties, _trackStatus } = this
 
     try {
       const faceIdentifier = this.getFaceIdentifier()
@@ -1158,7 +1130,6 @@ export class UserStorage {
           _trackStatus(retry(() => wallet.deleteAccount(), 1, 500), 'wallet'),
           _trackStatus(this.deleteProfile(), 'profile'),
           _trackStatus(userProperties.reset(), 'userprops'),
-          _trackStatus(gunuser.get('registered').putAck(false), 'registered'),
         ])
       }
     } catch (e) {
@@ -1170,16 +1141,6 @@ export class UserStorage {
     return true
   }
 
-  _gunException(gunError) {
-    let exception = gunError
-
-    if (!isError(exception)) {
-      exception = new Error(gunError.err || gunError)
-    }
-
-    return exception
-  }
-
   _trackStatus = (promise, label) =>
     promise
       .then(() => {
@@ -1188,9 +1149,9 @@ export class UserStorage {
         logger.debug('Cleanup:', status)
         return status
       })
-      .catch(gunError => {
+      .catch(error => {
         const status = { [label]: 'failed' }
-        const e = this._gunException(gunError)
+        const e = error
 
         logger.debug('Cleanup:', e.message, e, status)
         return status

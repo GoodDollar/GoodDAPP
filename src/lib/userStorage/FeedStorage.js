@@ -1,5 +1,5 @@
 // @flow
-import { debounce, find, get, has, isEqual, isError, isUndefined, orderBy, pick, set } from 'lodash'
+import { debounce, find, get, has, isEqual, isUndefined, orderBy, pick, set } from 'lodash'
 
 // import Mutex from 'await-mutex'
 import EventEmitter from 'eventemitter3'
@@ -512,9 +512,7 @@ export class FeedStorage {
       log.debug('enqueueTX ok:', { event })
 
       return true
-    } catch (gunError) {
-      const e = this._gunException(gunError)
-
+    } catch (e) {
       log.error('enqueueTX failed: ', e.message, e, { event })
       return false
     } finally {
@@ -788,16 +786,6 @@ export class FeedStorage {
     1000,
     { leading: true },
   )
-
-  _gunException(gunError) {
-    let exception = gunError
-
-    if (!isError(exception)) {
-      exception = new Error(gunError.err || gunError)
-    }
-
-    return exception
-  }
 
   getAllFeed() {
     return this.storage.Feed.find().toArray()

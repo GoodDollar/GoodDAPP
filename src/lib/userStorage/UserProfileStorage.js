@@ -277,11 +277,6 @@ export class UserProfileStorage implements ProfileStorage {
         break
       case 'masked':
         display = maskField(field, value)
-
-        //undo invalid masked field
-        if (display === value) {
-          privacy = 'public'
-        }
         break
       case 'public':
         display = value

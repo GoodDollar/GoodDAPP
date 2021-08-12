@@ -2,7 +2,6 @@
 import { assign, debounce, toPairs } from 'lodash'
 import EventEmitter from 'eventemitter3'
 
-import Profile from '../../components/profile/Profile'
 import { ExceptionCategory } from '../logger/exceptions'
 import Base64Storage from '../nft/Base64Storage'
 import { isValidBase64Image, resizeImage } from '../utils/image'
@@ -11,7 +10,7 @@ import isEmail from '../validators/isEmail'
 import isMobilePhone from '../validators/isMobilePhone'
 import type { UserModel } from './UserModel'
 import { getUserModel } from './UserModel'
-import type { FieldPrivacy, ProfileField } from './UserStorageClass'
+import type { FieldPrivacy, Profile, ProfileField } from './UserStorageClass'
 import { isValidValue, maskField } from './utlis'
 
 const logger = pino.child({ from: 'UserProfileStorage' })

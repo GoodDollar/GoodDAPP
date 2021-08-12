@@ -1,7 +1,7 @@
 //@flow
 
 import * as TextileCrypto from '@textile/crypto'
-import { debounce, defaults, get, isEmpty, isError, isNil, isString, keys, last, memoize, over, pick } from 'lodash'
+import { debounce, get, isError, isString, memoize, over } from 'lodash'
 
 import moment from 'moment'
 import Gun from '@gooddollar/gun'
@@ -18,16 +18,14 @@ import API from '../API/api'
 import pino from '../logger/pino-logger'
 import { ExceptionCategory } from '../logger/exceptions'
 import isMobilePhone from '../validators/isMobilePhone'
-import { AVATAR_SIZE, resizeImage, SMALL_AVATAR_SIZE } from '../utils/image'
-import { isValidDataUrl } from '../utils/base64'
 
 import { GD_GUN_CREDENTIALS } from '../constants/localStorage'
 import AsyncStorage from '../utils/asyncStorage'
-import IPFS from '../ipfs/IpfsStorage'
 import defaultGun from '../gundb/gundb'
 import { type StandardFeed } from './StandardFeed'
-import { getUserModel, type UserModel } from './UserModel'
+import { type UserModel } from './UserModel'
 import UserProperties from './UserProperties'
+import { UserProfileStorage } from './UserProfileStorage'
 import { FeedEvent, FeedItemType, FeedStorage, TxStatus } from './FeedStorage'
 import type { DB } from './UserStorage'
 

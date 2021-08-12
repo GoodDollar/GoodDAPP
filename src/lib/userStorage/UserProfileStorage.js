@@ -170,31 +170,22 @@ export class UserProfileStorage implements ProfileStorage {
       profile = getUserModel(profile)
     }
 
-    const fields = Object.keys(profile).filter(prop => this.profileSettings[prop])
+    const fields = Object.keys(profile).filter(prop => prop in this.profileSettings)
     let { errors, isValid } = profile.validate(update)
 
     // enforce profile to have walletAddress
-    if (!update) {
-      if (!(profile?.walletAddress?.length > 0)) {
-        logger.warn(
-          'setProfile failed',
-          'walletAddress is required in profile',
-          new Error('setProfile failed: WalletAddress is required in profile'),
-          { walletAddress: 'walletAddress cannot be empty', category: ExceptionCategory.Human },
-        )
-
-        // eslint-disable-next-line no-throw-literal
-        throw { ...errors, walletAddress: 'Wallet Address is required' }
-      }
+    if (!update && !fields.includes('walletAddress')) {
+      isValid = false
+      errors.walletAddress = 'Wallet Address is required'
     }
 
     if (!isValid) {
-      logger.warn(
-        'setProfile failed',
-        'Fields validation failed',
-        new Error('setProfile failed: Fields validation failed'),
-        { errors, category: ExceptionCategory.Human },
-      )
+      const errorMessage = 'Fields validation failed'
+
+      logger.warn('setProfile failed', errorMessage, new Error(errorMessage), {
+        errors,
+        category: ExceptionCategory.Human,
+      })
 
       throw errors
     }

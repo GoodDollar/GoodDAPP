@@ -87,9 +87,15 @@ export default class UserProperties {
 
   async _syncFromRemote() {
     await this.storage.ready
-    const props = await this.storage.decryptSettings()
-    log.debug('got remote props:', { props })
-    this._syncProps(props)
+
+    try {
+      const props = await this.storage.decryptSettings()
+
+      log.debug('got remote props:', { props })
+      this._syncProps(props)
+    } catch (e) {
+      log.error('error getting remote props', e.message, e)
+    }
   }
 
   /**

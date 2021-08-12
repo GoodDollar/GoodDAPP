@@ -95,21 +95,7 @@ export class UserProfileStorage implements ProfileStorage {
     const rawProfile = await this.profiledb.getProfile()
     const decryptedProfile = await this._decryptProfileFields(rawProfile)
 
-    const profile = Object.keys(this.profileSettings).reduce(
-      (acc, field) => ({
-        ...acc,
-        [field]: !decryptedProfile[field]
-          ? {
-              value: null,
-              display: null,
-              privacy: this.getFieldPrivacy(field),
-            }
-          : { ...decryptedProfile[field] },
-      }),
-      {},
-    )
-
-    this._setLocalProfile(profile)
+    this._setLocalProfile(decryptedProfile)
   }
 
   /**

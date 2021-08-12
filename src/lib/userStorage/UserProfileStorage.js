@@ -178,10 +178,11 @@ export class UserProfileStorage implements ProfileStorage {
           'setProfile failed',
           'walletAddress is required in profile',
           new Error('setProfile failed: WalletAddress is required in profile'),
-          { errors, category: ExceptionCategory.Human },
+          { walletAddress: 'walletAddress cannot be empty', category: ExceptionCategory.Human },
         )
 
-        throw errors
+        // eslint-disable-next-line no-throw-literal
+        throw { ...errors, walletAddress: 'walletAddress cannot be empty' }
       }
     }
 
@@ -190,7 +191,7 @@ export class UserProfileStorage implements ProfileStorage {
         'setProfile failed',
         'Fields validation failed',
         new Error('setProfile failed: Fields validation failed'),
-        { walletAddress: 'Wallet Address cannot be empty', category: ExceptionCategory.Human },
+        { errors, category: ExceptionCategory.Human },
       )
 
       throw errors

@@ -169,10 +169,10 @@ export class UserProfileStorage implements ProfileStorage {
       profile = getUserModel(profile)
     }
     const fields = Object.keys(profile).filter(prop => this.profileSettings[prop])
-    let { errors, isValid } = profile.validate(update)
+    let errors = {}
 
-    //enforce profile to have walletAddress
     if (!update) {
+      //enforce profile to have walletAddress
       if (!profile?.walletAddress?.length > 0) {
         logger.warn(
           'setProfile failed',
@@ -183,19 +183,19 @@ export class UserProfileStorage implements ProfileStorage {
 
         throw errors
       }
+
+      //enforce profile to have email
+      if (!profile?.email?.length > 0) {
+        logger.warn(
+          'setProfile failed',
+          'email is required in profile',
+          new Error('setProfile failed: email is required in profile'),
+          { errors, category: ExceptionCategory.Human },
+        )
+
+        throw errors
+      }
     }
-
-    if (!isValid) {
-      logger.warn(
-        'setProfile failed',
-        'Fields validation failed',
-        new Error('setProfile failed: Fields validation failed'),
-        { errors, category: ExceptionCategory.Human },
-      )
-
-      throw errors
-    }
-
     const { avatar } = profile
 
     if (!!avatar && isValidBase64Image(avatar)) {
@@ -243,13 +243,6 @@ export class UserProfileStorage implements ProfileStorage {
 
     await this.profiledb.setProfileFields(encryptedFields)
     this._setLocalProfile({ ...this.profile, ...fields })
-  }
-
-  async setProfileFieldToNull(key): Promise<void> {
-    await this.profiledb.setProfileFields({ [key]: null })
-    const profileToUpdate = { ...this.profile }
-    delete profileToUpdate[key]
-    this._setLocalProfile({ ...profileToUpdate })
   }
 
   /**

@@ -2,7 +2,6 @@
 import { assign, debounce, toPairs } from 'lodash'
 import EventEmitter from 'eventemitter3'
 
-import Profile from '../../components/profile/Profile'
 import { ExceptionCategory } from '../logger/exceptions'
 import Base64Storage from '../nft/Base64Storage'
 import { isValidBase64Image, resizeImage } from '../utils/image'
@@ -11,7 +10,7 @@ import isEmail from '../validators/isEmail'
 import isMobilePhone from '../validators/isMobilePhone'
 import type { UserModel } from './UserModel'
 import { getUserModel } from './UserModel'
-import type { FieldPrivacy, ProfileField } from './UserStorageClass'
+import type { FieldPrivacy, Profile, ProfileField } from './UserStorageClass'
 import { isValidValue, maskField } from './utlis'
 
 const logger = pino.child({ from: 'UserProfileStorage' })
@@ -147,16 +146,15 @@ export class UserProfileStorage implements ProfileStorage {
     const encryptProfile = {}
 
     await Promise.all(
-      Object.keys(profile).map(async field =>
-        typeof profile[field]?.value === 'string'
-          ? (encryptProfile[field] = {
-              ...profile[field],
-              value: await this.profiledb.encryptField(profile[field]?.value),
-            })
-          : profile[field]?.value === null &&
-            (encryptProfile[field] = {
-              ...profile[field],
-            }),
+      Object.keys(profile).map(
+        async field =>
+          (encryptProfile[field] =
+            profile[field] === null
+              ? null
+              : {
+                  ...profile[field],
+                  value: await this.profiledb.encryptField(profile[field]?.value),
+                }),
       ),
     )
 
@@ -172,27 +170,34 @@ export class UserProfileStorage implements ProfileStorage {
     if (profile && !profile.validate) {
       profile = getUserModel(profile)
     }
+    const fields = Object.keys(profile).filter(prop => this.profileSettings[prop])
+    let errors = {}
 
-    const fields = Object.keys(profile).filter(prop => prop in this.profileSettings)
-    let { errors, isValid } = profile.validate(update)
+    if (!update) {
+      //enforce profile to have walletAddress
+      if (!profile?.walletAddress?.length > 0) {
+        logger.warn(
+          'setProfile failed',
+          'walletAddress is required in profile',
+          new Error('setProfile failed: WalletAddress is required in profile'),
+          { errors, category: ExceptionCategory.Human },
+        )
 
-    // enforce profile to have walletAddress
-    if (false === update && !fields.includes('walletAddress')) {
-      isValid = false
-      errors.walletAddress = 'walletAddress is required in profile'
+        throw errors
+      }
+
+      //enforce profile to have email
+      if (!profile?.email?.length > 0) {
+        logger.warn(
+          'setProfile failed',
+          'email is required in profile',
+          new Error('setProfile failed: email is required in profile'),
+          { errors, category: ExceptionCategory.Human },
+        )
+
+        throw errors
+      }
     }
-
-    if (!isValid) {
-      const errorMessage = 'Fields validation failed'
-
-      logger.warn('setProfile failed', errorMessage, new Error(errorMessage), {
-        errors,
-        category: ExceptionCategory.Human,
-      })
-
-      throw errors
-    }
-
     const { avatar } = profile
 
     if (!!avatar && isValidBase64Image(avatar)) {
@@ -224,7 +229,10 @@ export class UserProfileStorage implements ProfileStorage {
    * @returns
    */
   getProfile(): { [key: string]: string } {
-    return Object.keys(this.profile).reduce((acc, currKey) => ({ ...acc, [currKey]: this.profile[currKey].value }), {})
+    return Object.keys(this.profile).reduce(
+      (acc, currKey) => ({ ...acc, [currKey]: this.profile[currKey]?.value ?? null }),
+      {},
+    )
   }
 
   /**
@@ -324,9 +332,7 @@ export class UserProfileStorage implements ProfileStorage {
   async removeAvatar(): Promise<void> {
     await Promise.all(
       // eslint-disable-next-line require-await
-      ['avatar', 'smallAvatar'].map(async field =>
-        this.setProfileFields({ [field]: { value: null, display: null, privacy: null } }),
-      ),
+      ['avatar', 'smallAvatar'].map(async field => this.setProfileFields({ [field]: null })),
     )
   }
 

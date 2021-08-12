@@ -63,6 +63,11 @@ export type ProfileField = {
 }
 
 /**
+ * User's profile
+ */
+export type Profile = { [key: string]: ProfileField }
+
+/**
  * Survey details
  */
 export type SurveyDetails = {

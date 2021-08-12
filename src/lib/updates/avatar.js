@@ -1,4 +1,4 @@
-import { first, groupBy, set, uniqBy } from 'lodash'
+import { first, groupBy, set } from 'lodash'
 import userStorage from '../userStorage/UserStorage'
 
 import { analyzeAvatar, updateFeedEventAvatar } from './utils'
@@ -51,8 +51,7 @@ const uploadCounterPartyAvatar = async feedEvents => {
  */
 const uploadAvatars = async (lastUpdate, prevVersion, log) => {
   const allEvents = await userStorage.getAllFeed()
-  const uniqueEvents = uniqBy(allEvents, 'id')
-  const eventsWithCounterParty = uniqueEvents.filter(hasCounterPartyAvatar)
+  const eventsWithCounterParty = allEvents.filter(hasCounterPartyAvatar)
 
   // group events by counterparty to decrease uploads
   const groupedEvents = groupBy(eventsWithCounterParty, 'data.counterPartyAddress')

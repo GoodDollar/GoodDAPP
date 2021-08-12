@@ -16,6 +16,13 @@ import GoodMarketDialog from './GoodMarketDialog'
 
 export const marketAnimationDuration = 1500
 
+const useNativeDriverForAnimation = Platform.select({
+  web: true,
+
+  // animating height/width or top/bottom/left/right attrs is not supported by native driver on native
+  default: false,
+})
+
 const GoodMarketButton = ({ styles }) => {
   const [showDialog] = useDialog()
   const slideAnim = useRef(new Animated.Value(-60)).current
@@ -47,7 +54,7 @@ const GoodMarketButton = ({ styles }) => {
       toValue: 0,
       duration: marketAnimationDuration,
       easing: Easing.ease,
-      useNativeDriver: true,
+      useNativeDriver: useNativeDriverForAnimation,
     }).start()
   }, [])
 

@@ -1,14 +1,17 @@
 import { once } from 'lodash'
 import { version as contractsVersion } from '../../node_modules/@gooddollar/goodcontracts/package.json'
 import { version } from '../../package.json'
+
 import { isWeb } from '../lib/utils/platform'
 import { env as devenv, fixNL } from '../lib/utils/env'
+import mustache from '../lib/utils/mustache'
 
 import env from './env'
 
 // E2E checker utility import
 //import { isE2ERunning } from '../lib/utils/platform'
 const { search: qs = '', origin } = isWeb ? window.location : {}
+let publicUrl = env.REACT_APP_PUBLIC_URL || origin
 
 const forceLogLevel = qs.match(/level=(.*?)($|&)/)
 const forcePeer = qs.match(/gun=(.*?)($|&)/)
@@ -21,8 +24,8 @@ const isPhaseOne = 1 === phase
 const isPhaseTwo = 2 === phase
 
 const alchemyKey = env.REACT_APP_ALCHEMY_KEY
-let publicUrl = env.REACT_APP_PUBLIC_URL || origin
 const isEToro = env.REACT_APP_ETORO === 'true' || env.REACT_APP_NETWORK === 'etoro'
+const ipfsGateways = env.REACT_APP_IPFS_GATEWAYS || 'https://cloudflare-ipfs.com/ipfs/{cid},https://ipfs.io/ipfs/{cid},https://{cid}.ipfs.dweb.link'
 
 if (!publicUrl) {
   publicUrl = (() => {
@@ -52,12 +55,11 @@ const Config = {
   logLevel: (forceLogLevel && forceLogLevel[1]) || env.REACT_APP_LOG_LEVEL || 'debug',
   serverUrl: env.REACT_APP_SERVER_URL || 'http://localhost:3003',
   gunPublicUrl: env.REACT_APP_GUN_PUBLIC_URL || 'http://localhost:3003/gun',
-  nftStorageKey: env.REACT_APP_NFT_STORAGE_KEY,
-  nftPeers: (
-    env.REACT_APP_NFT_PEERS ||
-    'https://cloudflare-ipfs.com/ipfs/{cid},https://ipfs.io/ipfs/{cid},https://{cid}.ipfs.dweb.link'
-  ).split(','),
-  nftLazyUpload: env.REACT_APP_NFT_LAZY_UPLOAD === 'true',
+  ipfsGateways: ipfsGateways.split(',').map(mustache),
+  ipfsLazyUpload: env.REACT_APP_IPFS_LAZY_UPLOAD === 'true',
+  pinataApiKey: env.REACT_APP_PINATA_API_KEY,
+  pinataSecret: env.REACT_APP_PINATA_SECRET,
+  pinataBaseUrl: env.REACT_APP_PINATA_API_URL || 'https://api.pinata.cloud',
   learnMoreEconomyUrl: env.REACT_APP_ECONOMY_URL || 'https://www.gooddollar.org/economic-model/',
   publicUrl,
   dashboardUrl: env.REACT_APP_DASHBOARD_URL || 'https://dashboard.gooddollar.org',

@@ -80,6 +80,10 @@ describe('UserProfileStorage', () => {
   })
 
   it('should save profile to the db', async () => {
+    // Has to be here
+    // setProfile with update: true in beforeEach won't work with no profile in db
+    // setProfile has to be successfully called with update: false at least once
+    await userProfileStorage.setProfile(profile)
     const { user_id, _id, ...fields } = await userProfileStorage.profiledb.getProfile()
 
     // we calling setProfile in beforeEach so no need to do it again here

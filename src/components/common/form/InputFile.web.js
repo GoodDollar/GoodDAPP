@@ -7,7 +7,9 @@ import useOnPress from '../../../lib/hooks/useOnPress'
 
 // utils
 import logger from '../../../lib/logger/pino-logger'
-import { constrainImage, createImage, MAX_AVATAR_HEIGHT, MAX_AVATAR_WIDTH } from '../../../lib/utils/image'
+import { constrainImage } from '../../../lib/utils/image/constrain'
+import { createImage } from '../../../lib/utils/image/browser'
+import { MAX_AVATAR_HEIGHT, MAX_AVATAR_WIDTH } from '../../../lib/utils/image'
 
 const log = logger.child({ from: 'InputFile' })
 

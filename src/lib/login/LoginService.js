@@ -90,7 +90,7 @@ class LoginService {
     log.info('Calling server for authentication')
 
     try {
-      let jwt = await this.validateJWTExistenceAndExpiration()
+      let { jwt } = await this.validateJWTExistenceAndExpiration()
       log.debug('jwt validation result:', { jwt })
       if (!jwt) {
         const response = await API.auth(creds)
@@ -123,14 +123,14 @@ class LoginService {
 
       //new format of jwt should contain aud, used with realmdb
       if (!decoded.aud) {
-        return null
+        return { jwt: null, decoded }
       }
 
       if (decoded.exp && Date.now() < decoded.exp * 1000) {
-        return jwt
+        return { jwt, decoded }
       }
     }
-    return null
+    return { jwt: null, decoded: null }
   }
 }
 

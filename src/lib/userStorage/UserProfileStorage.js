@@ -190,7 +190,7 @@ export class UserProfileStorage implements ProfileStorage {
         'setProfile failed',
         'Fields validation failed',
         new Error('setProfile failed: Fields validation failed'),
-        { errors, category: ExceptionCategory.Human },
+        { walletAddress: 'Wallet Address cannot be empty', category: ExceptionCategory.Human },
       )
 
       throw errors

@@ -16,7 +16,7 @@ const uploadProfileAvatar = async () => {
   }
 
   // if still base64 - re-set avatar, userStorage will resize & upload
-  // both avatar and smallAvatar it and store theirs CIDs in the GunDB
+  // both avatar and smallAvatar it and store theirs CIDs in the userstorage
   if (isValidBase64Image(avatar)) {
     await userStorage.setAvatar(avatar, true)
   } else {
@@ -45,7 +45,7 @@ const uploadProfileAvatar = async () => {
 //   const { counterPartySmallAvatar } = data
 //   let avatar = counterPartySmallAvatar
 
-//   // if still base64 - re-upload and store CID in the GunDB
+//   // if still base64 - re-upload and store CID in the userstorage
 //   if (isValidBase64Image(avatar)) {
 //     avatar = await Base64Storage.store(avatar)
 //   }

@@ -12,7 +12,7 @@ import logger from '../../logger/pino-logger'
 const log = logger.child({ from: 'undux/effects/profile' })
 
 /**
- * Undux Effect: On isLoggedIn subscribes the store to profile updates on gundb
+ * Undux Effect: On isLoggedIn subscribes the store to profile updates on profilestorage
  * @param {Store} store
  */
 const withProfile: Effects<State> = (store: Store) => {

@@ -412,14 +412,6 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
       )
 
       await Promise.all([
-        userStorage.gunuser
-          .get('registered')
-          .putAck(true)
-          .catch(e => {
-            log.error('set user registered failed:', e.message, e)
-            throw e
-          }),
-
         userStorage.userProperties.set('registered', true),
 
         AsyncStorage.setItem(IS_LOGGED_IN, true),

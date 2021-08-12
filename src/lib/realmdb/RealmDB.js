@@ -407,6 +407,15 @@ class RealmDB implements DB, ProfileDB {
   }
 
   /**
+   * deletes both local and remote storage
+   * @returns
+   */
+  // eslint-disable-next-line require-await
+  async deleteAccount(): Promise<void> {
+    return Promise.all([this.db.delete(), this.encryptedFeed.deleteMany({ user_id: this.user.id })])
+  }
+
+  /**
    * Removing user profile
    * @returns {Promise<any | null>}
    */

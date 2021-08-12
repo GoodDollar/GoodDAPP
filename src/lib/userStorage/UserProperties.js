@@ -7,8 +7,7 @@ import pino from '../logger/pino-logger'
 const log = pino.child({ from: 'UserProperties' })
 
 /**
- * Users gundb to handle user storage.
- * User storage is used to keep the user Self Soverign Profile and his blockchain transcation history
+ * Keep user local and persisted flags/properties
  * @class
  *  */
 export default class UserProperties {
@@ -157,7 +156,7 @@ export default class UserProperties {
   }
 
   /**
-   * Helper method for store props both in the GUN and AsyncStorage
+   * Helper method for store props both in storage and AsyncStorage
    * @private
    */
   async _storeProps(data, logLabel, logPayload = {}) {

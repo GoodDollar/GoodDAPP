@@ -66,7 +66,7 @@ class LoginService {
       AsyncStorage.setItem(JWT, null)
     }
 
-    let creds = await this.getCredentials()
+    let creds = !refresh && (await this.getCredentials())
 
     if (!creds) {
       log.info('Generating creds because no creds was stored or we got an error reading AsyncStorage')

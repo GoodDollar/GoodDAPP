@@ -59,17 +59,27 @@ describe('UserProfileStorage', () => {
   })
 
   it('should not save invalid profiles', async () => {
-    const { email, username, walletAddress, ...fields } = profile
+    const { email, username, mobile, walletAddress, ...fields } = profile
 
     // mobile is not mandatory
     const invalidProfiles = [
-      { username, walletAddress, email: '', ...fields },
-      { email, walletAddress, username: '', ...fields },
-      { email, username, ...fields },
+      { username, walletAddress, mobile, ...fields },
+      { username, walletAddress, mobile, email: 'abc', ...fields },
+      { email, walletAddress, mobile, username: '', ...fields },
+      { email, walletAddress, mobile, username: 'John Doe', ...fields },
+      { email, username, mobile, ...fields },
+      { email, username, mobile, walletAddress: '', ...fields },
     ]
 
-    const errorMessages = ['Email is required', 'Username cannot be empty', 'walletAddress is required in profile']
-    const missingFields = ['email', 'username', 'walletAddress']
+    const errorMessages = [
+      'Email is required',
+      'Enter a valid format: yourname@example.com',
+      'Username cannot be empty',
+      'Only letters, numbers and underscore',
+      'walletAddress cannot be empty',
+      'walletAddress cannot be empty',
+    ]
+    const missingFields = ['email', 'email', 'username', 'username', 'walletAddress', 'walletAddress']
 
     await Promise.all(
       invalidProfiles.map(async (item, index) => {

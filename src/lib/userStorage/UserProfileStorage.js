@@ -184,7 +184,7 @@ export class UserProfileStorage implements ProfileStorage {
         )
 
         // eslint-disable-next-line no-throw-literal
-        throw { ...errors, walletAddress: 'walletAddress cannot be empty' }
+        throw { ...errors, walletAddress: 'Wallet Address is required' }
       }
     }
 

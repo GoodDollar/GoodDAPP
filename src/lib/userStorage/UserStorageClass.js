@@ -506,13 +506,9 @@ export class UserStorage {
         const seed = Uint8Array.from(Buffer.from(pkeySeed, 'hex'))
         this.profilePrivateKey = TextileCrypto.PrivateKey.fromRawEd25519Seed(seed)
         this.profileStorage = new UserProfileStorage(this.wallet, this.feedDB)
-        const isReady = await retry(() => this.initGun(), 1) // init user storage, if exception thrown, retry init one more times
-
-        await this.feedDB.init(seed, this.wallet.getAccountForType('gundb')) //only once user is registered he has access to realmdb via signed jwt
-        await this.initFeed()
 
         logger.debug('userStorage initialized.')
-        return isReady
+        return true
       } catch (exception) {
         let logLevel = 'error'
         const { account } = wallet
@@ -627,20 +623,6 @@ export class UserStorage {
 
     return this.feedStorage.getAllFeed()
   }
-
-  // async initUserProfileStorage() {
-  //   try {
-  //     const seed = this.wallet.wallet.eth.accounts.wallet[this.wallet.getAccountForType('gundb')].privateKey.slice(2)
-  //
-  //     await this.feedDB.init(seed, this.wallet.getAccountForType('gundb')) //only once user is registered he has access to realmdb via signed jwt
-  //     await this.initFeed()
-  //
-  //     this.profileStorage = new UserProfileStorage(this.wallet, this.feedDB)
-  //     await this.profileStorage.init()
-  //   } catch (error) {
-  //     logger.error('initUserProfileStorage failed', error)
-  //   }
-  // }
 
   /**
    * Subscribes to changes on the event index of day to number of events

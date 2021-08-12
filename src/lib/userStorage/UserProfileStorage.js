@@ -11,8 +11,8 @@ import isEmail from '../validators/isEmail'
 import isMobilePhone from '../validators/isMobilePhone'
 import type { UserModel } from './UserModel'
 import { getUserModel } from './UserModel'
-import { isValidValue, maskField } from './utils'
 import type { FieldPrivacy, ProfileField } from './UserStorageClass'
+import { isValidValue, maskField } from './utlis'
 
 const logger = pino.child({ from: 'UserProfileStorage' })
 
@@ -95,21 +95,7 @@ export class UserProfileStorage implements ProfileStorage {
     const rawProfile = await this.profiledb.getProfile()
     const decryptedProfile = await this._decryptProfileFields(rawProfile)
 
-    const profile = Object.keys(this.profileSettings).reduce(
-      (acc, field) => ({
-        ...acc,
-        [field]: !decryptedProfile[field]
-          ? {
-              value: null,
-              display: null,
-              privacy: this.getFieldPrivacy(field),
-            }
-          : { ...decryptedProfile[field] },
-      }),
-      {},
-    )
-
-    this._setLocalProfile(profile)
+    this._setLocalProfile(decryptedProfile)
   }
 
   /**

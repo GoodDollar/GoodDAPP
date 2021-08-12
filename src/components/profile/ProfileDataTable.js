@@ -28,8 +28,8 @@ const ProfileDataTable = ({
   setLockSubmit = noop,
   showCustomFlag,
 }) => {
-  const phoneMeta = showCustomFlag && profile.mobile && parsePhoneNumberFromString(profile.mobile)
-  const countryFlagUrl = useCountryFlagUrl(phoneMeta && phoneMeta.country)
+  const phoneMeta = showCustomFlag && profile.mobile && parsePhoneNumberFromString(profile?.mobile)
+  const countryFlagUrl = useCountryFlagUrl(phoneMeta?.country)
 
   const verifyEdit = useCallback(
     (field, content) => {
@@ -129,7 +129,9 @@ const ProfileDataTable = ({
             </Section.Stack>
           ) : (
             <Fragment>
-              {showCustomFlag && countryFlagUrl && <Image source={{ uri: countryFlagUrl }} style={styles.flag} />}
+              {phoneMeta && showCustomFlag && countryFlagUrl && (
+                <Image source={{ uri: countryFlagUrl }} style={styles.flag} />
+              )}
               <InputRounded
                 containerStyle={countryFlagUrl && styles.disabledPhoneContainer}
                 disabled={true}

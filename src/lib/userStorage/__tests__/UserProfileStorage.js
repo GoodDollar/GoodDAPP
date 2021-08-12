@@ -59,13 +59,17 @@ describe('UserProfileStorage', () => {
   })
 
   it('should not save invalid profiles', async () => {
-    const { email, username, ...fields } = profile
+    const { email, username, walletAddress, ...fields } = profile
 
     // mobile is not mandatory
-    const invalidProfiles = [{ username, email: '', ...fields }, { email, username: '', ...fields }]
+    const invalidProfiles = [
+      { username, walletAddress, email: '', ...fields },
+      { email, walletAddress, username: '', ...fields },
+      { email, username, ...fields },
+    ]
 
-    const errorMessages = ['Email is required', 'Username cannot be empty']
-    const missingFields = ['email', 'username']
+    const errorMessages = ['Email is required', 'Username cannot be empty', 'walletAddress is required in profile']
+    const missingFields = ['email', 'username', 'walletAddress']
 
     await Promise.all(
       invalidProfiles.map(async (item, index) => {
@@ -76,14 +80,6 @@ describe('UserProfileStorage', () => {
         // se we'll check only for rejection and for validation message
         await expect(userProfileStorage.setProfile(item)).rejects.toHaveProperty(fieldName, message)
       }),
-    )
-  })
-
-  it('should not save profile without walletAddress', async () => {
-    const { walletAddress, ...fields } = profile
-    await expect(userProfileStorage.setProfile(fields)).rejects.toHaveProperty(
-      'walletAddress',
-      'walletAddress is required in profile',
     )
   })
 

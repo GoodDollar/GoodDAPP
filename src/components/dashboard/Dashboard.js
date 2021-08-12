@@ -78,10 +78,10 @@ export type DashboardProps = {
 }
 
 const useNativeDriverForAnimation = Platform.select({
-  web: false,
+  web: true,
 
   // animating height/width or top/bottom/left/right attrs is not supported by native driver on native
-  default: true,
+  default: false,
 })
 
 const feedMutex = new Mutex()
@@ -277,13 +277,13 @@ const Dashboard = props => {
           duration: 750,
           easing: Easing.ease,
           delay: 1000,
-          useNativeDriver: true,
+          useNativeDriver: useNativeDriverForAnimation,
         }),
         Animated.timing(claimAnimValue, {
           toValue: 1,
           duration: 750,
           easing: Easing.ease,
-          useNativeDriver: true,
+          useNativeDriver: useNativeDriverForAnimation,
         }),
       ]).start(resolve),
     )
@@ -408,7 +408,7 @@ const Dashboard = props => {
           toValue: 1,
           duration: fullNameOpacityTiming,
           easing: easingOut,
-          useNativeDriver: true,
+          useNativeDriver: useNativeDriverForAnimation,
         }),
         Animated.timing(headerBalanceBottomAnimValue, {
           toValue: 0,
@@ -453,7 +453,7 @@ const Dashboard = props => {
           toValue: 0,
           duration: fullNameOpacityTiming,
           easing: easingIn,
-          useNativeDriver: true,
+          useNativeDriver: useNativeDriverForAnimation,
         }),
         Animated.timing(headerBalanceBottomAnimValue, {
           toValue: Platform.select({ web: 68, default: 60 }),

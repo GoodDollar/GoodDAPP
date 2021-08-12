@@ -21,13 +21,15 @@ const EditAvatar = ({ theme, screenProps }) => {
 
   const user = useWrappedUserStorage()
   const profile = store.get('profile')
+  const storedAvatar = useAvatar(profile.avatar)
 
-  const [isDirty, markAsDirty] = useState(false || passedAvatar !== undefined) //if passed avatar mark as dirty so we save it by default
+  // if passed avatar mark as dirty so we save it by default
+  const [avatar, setAvatar] = useState(() => passedAvatar || storedAvatar)
+  const [isDirty, markAsDirty] = useState(() => !!passedAvatar)
   const [processing, setProcessing] = useState(false)
 
-  const storedAvatar = useAvatar(profile.avatar, true)
-  const avatar = passedAvatar || storedAvatar
   const croppedRef = useRef(avatar)
+  const initializedRef = useRef(false)
 
   const updateAvatar = useCallback(async () => {
     setProcessing(true)
@@ -55,13 +57,22 @@ const EditAvatar = ({ theme, screenProps }) => {
   )
 
   useEffect(() => {
+    if (initializedRef.current) {
+      setAvatar(storedAvatar)
+      return
+    }
+
+    initializedRef.current = true
+  }, [setAvatar, storedAvatar])
+
+  useEffect(() => {
     if (processing) {
       return
     }
 
     markAsDirty(false)
     croppedRef.current = avatar
-  }, [avatar])
+  }, [avatar, markAsDirty])
 
   return (
     <Wrapper>

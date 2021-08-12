@@ -1,4 +1,4 @@
-import { first, groupBy, set } from 'lodash'
+import { first, groupBy, set, values } from 'lodash'
 import userStorage from '../userStorage/UserStorage'
 
 import { analyzeAvatar, updateFeedEventAvatar } from './utils'
@@ -54,7 +54,7 @@ const uploadAvatars = async (lastUpdate, prevVersion, log) => {
   const eventsWithCounterParty = allEvents.filter(hasCounterPartyAvatar)
 
   // group events by counterparty to decrease uploads
-  const groupedEvents = groupBy(eventsWithCounterParty, 'data.counterPartyAddress')
+  const groupedEvents = values(groupBy(eventsWithCounterParty, 'data.counterPartyAddress'))
 
   await uploadProfileAvatar()
   await Promise.all(groupedEvents.map(uploadCounterPartyAvatar))

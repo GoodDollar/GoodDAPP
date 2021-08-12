@@ -10,6 +10,16 @@ export const isValidDataUrl = source =>
 
 export const stripBase64 = dataURL => dataURL.substring(dataURL.indexOf(',') + 1)
 
+export const normalizeDataUrl = (dataURL, mime) => {
+  const mimeHeader = dataUrlTmpl({ mime, base64: '' })
+
+  if (dataURL.startsWith(mimeHeader)) {
+    return dataURL
+  }
+
+  return mimeHeader + stripBase64(dataURL)
+}
+
 export const parseDataUrl = dataURL => {
   const [, mime, extension] = dataUrlRegexp.exec(dataURL)
 

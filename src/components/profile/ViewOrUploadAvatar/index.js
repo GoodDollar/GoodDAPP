@@ -64,8 +64,18 @@ const ViewOrUploadAvatar = props => {
       fireEvent(PROFILE_IMAGE)
 
       if (Platform.OS === 'web') {
+        // on web - goto avatar cropper
         screenProps.push('EditAvatar', { avatar })
+        return
       }
+
+      // for native just set new avatar.
+      // no need to crop it additionally
+      // as the picker component does this
+      wrappedUserStorage.setAvatar(avatar).catch(e => {
+        log.error('save image failed:', e.message, e, { dialogShown: true })
+        showErrorDialog('Could not save image. Please try again.')
+      })
     },
     [screenProps, wrappedUserStorage],
   )

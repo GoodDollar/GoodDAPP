@@ -6,6 +6,7 @@ import Config from '../../config/config'
 
 import { fallback } from '../utils/async'
 import { withTemporaryFile } from '../utils/fs'
+import { normalizeDataUrl } from '../utils/base64'
 
 class IpfsStorage {
   constructor(httpFactory, config) {
@@ -71,7 +72,8 @@ class IpfsStorage {
     const mime = get(headers, 'content-type')
     const binary = mime.startsWith('image/')
     const format = binary ? 'DataURL' : 'Text'
-    const dataUrl = await FileAPI[`readAs${format}`](data)
+    const rawData = await FileAPI[`readAs${format}`](data)
+    const dataUrl = binary ? normalizeDataUrl(rawData, mime) : rawData
 
     return { binary, dataUrl }
   })

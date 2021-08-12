@@ -27,9 +27,19 @@ class GoodWalletLogin extends LoginService {
     const signature = await wallet.sign(message, 'login')
     const gdSignature = await wallet.sign(message, 'gd')
 
+    let profileSignature = null
+    let profilePublickey = null
+
+    if (this.userStorage) {
+      profileSignature = await this.userStorage.sign(message)
+      profilePublickey = this.userStorage.profilePrivateKey.public.toString()
+    }
+
     const creds = {
       signature,
       gdSignature,
+      profilePublickey,
+      profileSignature,
       nonce,
       networkId,
     }

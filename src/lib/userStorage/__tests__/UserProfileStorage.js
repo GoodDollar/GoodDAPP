@@ -92,7 +92,12 @@ describe('UserProfileStorage', () => {
     expect(_id).not.toBeNull()
 
     for (const key in fields) {
-      expect(profile[key]).toEqual(fields[key].display)
+      const field = fields[key]
+      if (field.privacy === 'public') {
+        expect(profile[key]).toEqual(field.display)
+      } else {
+        expect(field.display).toEqual('******')
+      }
     }
   })
 
@@ -206,8 +211,8 @@ describe('UserProfileStorage', () => {
   })
 
   it('should get public profile by valid field', async () => {
-    const email = userProfileStorage.profile.email.display
-    const foundProfile = await userProfileStorage.getPublicProfile('email', email)
+    const username = userProfileStorage.profile.username.display
+    const foundProfile = await userProfileStorage.getPublicProfile('username', username)
 
     expect(foundProfile.username).toEqual(userProfileStorage.profile.username.display)
   })

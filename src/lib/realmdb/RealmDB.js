@@ -351,7 +351,6 @@ class RealmDB implements DB, ProfileDB {
     return res
   }
 
-  //TODO:  make sure profile contains walletaddress or enforce it in schema in realmdb
   // eslint-disable-next-line require-await
   async setProfile(profile: { [key: string]: ProfileField }): Promise<any> {
     return this.profiles.updateOne(
@@ -392,7 +391,7 @@ class RealmDB implements DB, ProfileDB {
    * @returns {Promise<Realm.Services.MongoDB.UpdateResult<any>>}
    */
   // eslint-disable-next-line require-await
-  async setProfileFields(fields: { [key: string]: ProfileField }): Promise<any> {
+  async setProfileFields(fields: Profile): Promise<void> {
     return this.profiles.updateOne({ user_id: this.user.id }, { $set: fields })
   }
 
@@ -403,7 +402,7 @@ class RealmDB implements DB, ProfileDB {
    */
   // eslint-disable-next-line require-await
   async removeField(field: string): Promise<any> {
-    return this.profiles.updateOne({ user_id: this.user.id }, { $unset: { [field]: { value: null } } })
+    return this.profiles.updateOne({ user_id: this.user.id }, { $unset: { [field]: true } })
   }
 
   /**
@@ -420,7 +419,7 @@ class RealmDB implements DB, ProfileDB {
    * @returns {Promise<any | null>}
    */
   // eslint-disable-next-line require-await
-  async deleteProfile(): Promise<any> {
+  async deleteProfile(): Promise<boolean> {
     return this.profiles.deleteOne({ user_id: this.user.id })
   }
 }

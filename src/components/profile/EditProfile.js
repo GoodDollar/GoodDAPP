@@ -54,7 +54,6 @@ const EditProfile = ({ screenProps, styles, navigation }) => {
 
         return undefined
       })
-
       const { isValid, errors } = profile.validate()
       const { isValid: isValidIndex, errors: errorsIndex } = await userStorage.validateProfile(pickBy(profile))
       const valid = isValid && isValidIndex
@@ -82,42 +81,42 @@ const EditProfile = ({ screenProps, styles, navigation }) => {
   )
 
   const handleSaveButton = useCallback(async () => {
-    setSaving(true)
-    fireEvent(PROFILE_UPDATE)
-
-    const isValid = await validate()
-
-    // with flush triggers immediate call for the validation
-    if (!isValid) {
-      setSaving(false)
-      return false
-    }
-
-    //create profile only with updated/new fields so we don't resave data
-    const toupdate = pickBy(profile, (v, k) => {
-      if (typeof v === 'function') {
-        return true
-      }
-
-      if (storedProfile[k] === undefined) {
-        return true
-      }
-
-      if (['string', 'number'].includes(typeof v)) {
-        return v.toString() !== storedProfile[k].toString()
-      }
-
-      if (v !== storedProfile[k]) {
-        return true
-      }
-
-      return false
-    })
-
     try {
+      setSaving(true)
+      fireEvent(PROFILE_UPDATE)
+
+      const isValid = await validate()
+
+      // with flush triggers immediate call for the validation
+      if (!isValid) {
+        setSaving(false)
+        return false
+      }
+
+      //create profile only with updated/new fields so we don't resave data
+      const toupdate = pickBy(profile, (v, k) => {
+        if (typeof v === 'function') {
+          return true
+        }
+
+        if (storedProfile[k] == null) {
+          return true
+        }
+
+        if (['string', 'number'].includes(typeof v)) {
+          return v.toString() !== storedProfile[k].toString()
+        }
+
+        if (v !== storedProfile[k]) {
+          return true
+        }
+
+        return false
+      })
+
       await userStorage.setProfile(toupdate, true)
     } catch (e) {
-      log.error('Error saving profile', e.message, e, { toupdate, dialogShown: true })
+      log.error('Error saving profile', e.message, e, { profile, dialogShown: true })
       showErrorDialog('Could not save profile. Please try again.')
     } finally {
       setSaving(false)

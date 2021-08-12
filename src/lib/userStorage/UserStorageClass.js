@@ -1,6 +1,6 @@
 //@flow
 
-import { get, isEmpty, isNil, isString, memoize } from 'lodash'
+import { get, memoize } from 'lodash'
 
 import moment from 'moment'
 import Gun from '@gooddollar/gun'
@@ -22,8 +22,8 @@ import isMobilePhone from '../validators/isMobilePhone'
 import { GD_GUN_CREDENTIALS } from '../constants/localStorage'
 import AsyncStorage from '../utils/asyncStorage'
 import defaultGun from '../gundb/gundb'
-import { type StandardFeed } from '../userStorage/StandardFeed'
-import { Profile, UserProfileStorage } from './UserProfileStorage'
+import { type StandardFeed } from './StandardFeed'
+import { UserProfileStorage } from './UserProfileStorage'
 import UserProperties from './UserProperties'
 import { FeedEvent, FeedItemType, FeedStorage, TxStatus } from './FeedStorage'
 import type { DB } from './UserStorage'
@@ -35,7 +35,7 @@ const NULL_ADDRESS = '0x0000000000000000000000000000000000000000'
 /**
  * possible privacy level for profile fields
  */
-type FieldPrivacy = 'private' | 'public' | 'masked'
+export type FieldPrivacy = 'private' | 'public' | 'masked'
 
 type EncryptedField = any
 
@@ -309,39 +309,6 @@ export class UserStorage {
   }
 
   /**
-   * Convert to null, if value is equal to empty string
-   * @param {string} field - Profile attribute
-   * @param {string} value - Profile attribute value
-   * @returns serialized value
-   */
-  serialize(field: string, value: any): any {
-    const { profileDefaults } = this
-    const defaultValue = profileDefaults[field]
-    const hasDefaultValue = field in profileDefaults
-    const isFieldEmpty = isString(value) && isEmpty(value)
-
-    if (isFieldEmpty || (hasDefaultValue && value === defaultValue)) {
-      return null
-    }
-
-    return value
-  }
-
-  /**
-   * Parse null value with replace according to defaults profile values, otherwise return value
-   * @param {string} field - Profile attribute
-   * @param {string} value - Profile attribute value
-   * @returns unserialized value
-   */
-  unserialize(field: string, value: any): any {
-    const { profileDefaults } = this
-    const defaultValue = profileDefaults[field]
-    const hasDefaultValue = field in profileDefaults
-
-    return isNil(value) && hasDefaultValue ? defaultValue : value
-  }
-
-  /**
    * Initialize wallet, gundb user, feed and subscribe to events
    */
   async initGun() {
@@ -454,16 +421,6 @@ export class UserStorage {
   }
 
   /**
-   * small Avatar setter
-   * @param avatar
-   * @returns {Promise<*>}
-   */
-  // eslint-disable-next-line require-await
-  async setSmallAvatar(avatar) {
-    return this.profileStorage.setSmallAvatar(avatar)
-  }
-
-  /**
    * remove Avatar
    * @param withCleanup
    * @returns {Promise<void>}
@@ -509,6 +466,7 @@ export class UserStorage {
   // eslint-disable-next-line require-await
   async getAllFeed() {
     await this.feedStorage.ready
+
     return this.feedStorage.getAllFeed()
   }
 
@@ -517,6 +475,7 @@ export class UserStorage {
    */
   async initFeed() {
     this.feedStorage = new FeedStorage(this.feedDB, this.gun, this.wallet, this)
+
     await this.feedStorage.init()
     this.startSystemFeed().catch(e => logger.error('initfeed failed initializing startSystemFeed', e.message, e))
   }
@@ -524,13 +483,16 @@ export class UserStorage {
   async startSystemFeed() {
     const userProperties = await this.userProperties.getAll()
     const firstVisitAppDate = userProperties.firstVisitApp
+
     logger.debug('startSystemFeed', { userProperties, firstVisitAppDate })
+
     this.addBackupCard()
     this.addStartClaimingCard()
 
     if (Config.enableInvites) {
       const firstInviteCard = await this.feedStorage.hasFeedItem('0.1')
       const secondInviteCard = await this.feedStorage.hasFeedItem(INVITE_REMINDER_ID)
+
       if (!firstInviteCard) {
         inviteFriendsMessage.id = INVITE_NEW_ID
         const bounty = await this.wallet.getUserInviteBounty()
@@ -748,12 +710,15 @@ export class UserStorage {
    */
   async getFormattedEvents(numResults: number, reset?: boolean): Promise<Array<StandardFeed>> {
     const feed = await this.getFeedPage(numResults, reset)
+
     logger.debug('getFormattedEvents page result:', {
       numResults,
       reset,
       feedPage: feed,
     })
+
     const res = feed.map(this.formatEvent)
+
     logger.debug('getFormattedEvents done formatting events')
     return res
   }
@@ -761,6 +726,7 @@ export class UserStorage {
   async getFormatedEventById(id: string): Promise<StandardFeed> {
     const prevFeedEvent = await this.feedStorage.getFeedItemByTransactionHash(id)
     const standardPrevFeedEvent = this.formatEvent(prevFeedEvent)
+
     if (!prevFeedEvent) {
       return undefined
     }
@@ -786,12 +752,14 @@ export class UserStorage {
       logger.warn('no receipt found for id:', e.message, e, id)
       return undefined
     })
+
     if (!receipt) {
       return standardPrevFeedEvent
     }
 
     //update the event
     let updatedEvent = await this.feedStorage.handleReceipt(receipt)
+
     if (updatedEvent === undefined) {
       return standardPrevFeedEvent
     }
@@ -800,6 +768,7 @@ export class UserStorage {
       prevFeedEvent,
       updatedEvent,
     })
+
     return this.formatEvent(updatedEvent).catch(e => {
       logger.error('getFormatedEventById Failed formatting event:', e.message, e, { id })
 
@@ -986,6 +955,7 @@ export class UserStorage {
     if (type === 'withdraw') {
       return ''
     }
+
     return status === 'error' ? status : withdrawCode ? otplStatus : ''
   }
 
@@ -996,9 +966,11 @@ export class UserStorage {
       case FeedItemType.EVENT_TYPE_SEND:
       case FeedItemType.EVENT_TYPE_SENDDIRECT: {
         const type = FeedItemType.EVENT_TYPE_SENDDIRECT === event.type ? FeedItemType.EVENT_TYPE_SEND : event.type
+
         if (event.otplStatus) {
           return type + event.otplStatus
         }
+
         return type + (event.status || TxStatus.COMPLETED).toLowerCase()
       }
       default:
@@ -1089,6 +1061,11 @@ export class UserStorage {
 
   getProfile(): Profile {
     return this.profileStorage.getProfile()
+  }
+
+  // eslint-disable-next-line require-await
+  async getProfileByWalletAddress(walletAddress: string): Promise<Profile> {
+    return this.profileStorage.getProfileByWalletAddress(walletAddress)
   }
 
   // eslint-disable-next-line require-await

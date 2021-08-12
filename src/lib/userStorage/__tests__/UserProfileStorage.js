@@ -76,8 +76,8 @@ describe('UserProfileStorage', () => {
       'Enter a valid format: yourname@example.com',
       'Username cannot be empty',
       'Only letters, numbers and underscore',
-      'walletAddress cannot be empty',
-      'walletAddress cannot be empty',
+      'Wallet Address is required',
+      'Wallet Address is required',
     ]
     const missingFields = ['email', 'email', 'username', 'username', 'walletAddress', 'walletAddress']
 

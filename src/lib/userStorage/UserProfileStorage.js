@@ -145,16 +145,15 @@ export class UserProfileStorage implements ProfileStorage {
     const encryptProfile = {}
 
     await Promise.all(
-      Object.keys(profile).map(async field =>
-        typeof profile[field]?.value === 'string'
-          ? (encryptProfile[field] = {
-              ...profile[field],
-              value: await this.profiledb.encryptField(profile[field]?.value),
-            })
-          : profile[field]?.value === null &&
-            (encryptProfile[field] = {
-              ...profile[field],
-            }),
+      Object.keys(profile).map(
+        async field =>
+          (encryptProfile[field] =
+            profile[field] === null
+              ? null
+              : {
+                  ...profile[field],
+                  value: await this.profiledb.encryptField(profile[field]?.value),
+                }),
       ),
     )
 
@@ -175,7 +174,7 @@ export class UserProfileStorage implements ProfileStorage {
 
     //enforce profile to have walletAddress
     if (!update) {
-      if (!fields.includes('walletAddress')) {
+      if (!profile?.walletAddress?.length > 0) {
         logger.warn(
           'setProfile failed',
           'walletAddress is required in profile',
@@ -229,7 +228,10 @@ export class UserProfileStorage implements ProfileStorage {
    * @returns
    */
   getProfile(): { [key: string]: string } {
-    return Object.keys(this.profile).reduce((acc, currKey) => ({ ...acc, [currKey]: this.profile[currKey].value }), {})
+    return Object.keys(this.profile).reduce(
+      (acc, currKey) => ({ ...acc, [currKey]: this.profile[currKey]?.value ?? null }),
+      {},
+    )
   }
 
   /**
@@ -242,6 +244,13 @@ export class UserProfileStorage implements ProfileStorage {
 
     await this.profiledb.setProfileFields(encryptedFields)
     this._setLocalProfile({ ...this.profile, ...fields })
+  }
+
+  async setProfileFieldToNull(key): Promise<void> {
+    await this.profiledb.setProfileFields({ [key]: null })
+    const profileToUpdate = { ...this.profile }
+    delete profileToUpdate[key]
+    this._setLocalProfile({ ...profileToUpdate })
   }
 
   /**
@@ -329,9 +338,7 @@ export class UserProfileStorage implements ProfileStorage {
   async removeAvatar(): Promise<void> {
     await Promise.all(
       // eslint-disable-next-line require-await
-      ['avatar', 'smallAvatar'].map(async field =>
-        this.setProfileFields({ [field]: { value: null, display: null, privacy: null } }),
-      ),
+      ['avatar', 'smallAvatar'].map(async field => this.setProfileFields({ [field]: null })),
     )
   }
 

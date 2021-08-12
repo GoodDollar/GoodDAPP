@@ -10,6 +10,11 @@ export const isValidDataUrl = source =>
 
 export const stripBase64 = dataURL => dataURL.substring(dataURL.indexOf(',') + 1)
 
+// on native app FileAPI reads as dataurl incorrectly
+// it always sets appplication/octet-stream conenttype
+// this function fix the data url by replacing the
+// invalid mime with the value we received from the
+// Content-Type header of the IPFS gateways's response
 export const normalizeDataUrl = (dataURL, mime) => {
   const mimeHeader = dataUrlTmpl({ mime, base64: '' })
 

@@ -79,6 +79,14 @@ describe('UserProfileStorage', () => {
     )
   })
 
+  it('should not save profile without walletAddress', async () => {
+    const { walletAddress, ...fields } = profile
+    await expect(userProfileStorage.setProfile(fields)).rejects.toHaveProperty(
+      'walletAddress',
+      'walletAddress is required in profile',
+    )
+  })
+
   it('should save profile to the db', async () => {
     // Has to be here
     // setProfile with update: true in beforeEach won't work with no profile in db

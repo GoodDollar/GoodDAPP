@@ -17,11 +17,12 @@ import API from '../API/api'
 import pino from '../logger/pino-logger'
 import { ExceptionCategory } from '../logger/exceptions'
 import isMobilePhone from '../validators/isMobilePhone'
-import { isValidBase64Image, resizeImage } from '../utils/image'
+import { AVATAR_SIZE, resizeImage, SMALL_AVATAR_SIZE } from '../utils/image'
+import { isValidDataUrl } from '../utils/base64'
 
 import { GD_GUN_CREDENTIALS } from '../constants/localStorage'
 import AsyncStorage from '../utils/asyncStorage'
-import Base64Storage from '../nft/Base64Storage'
+import IPFS from '../ipfs/IpfsStorage'
 import { getUserModel, type UserModel } from '../userStorage/UserModel'
 import { type StandardFeed } from '../userStorage/StandardFeed'
 import defaultGun from './gundb'
@@ -588,7 +589,7 @@ export class UserStorage {
 
   async setAvatar(avatar) {
     // save space and load on gun
-    const avatarResized = await resizeImage(avatar, 320)
+    const avatarResized = await resizeImage(avatar, AVATAR_SIZE)
 
     // eslint-disable-next-line
     return Promise.all([
@@ -598,7 +599,7 @@ export class UserStorage {
   }
 
   async setSmallAvatar(avatar) {
-    const smallAvatar = await resizeImage(avatar, 50)
+    const smallAvatar = await resizeImage(avatar, SMALL_AVATAR_SIZE)
 
     return this._storeAvatar('smallAvatar', smallAvatar)
   }
@@ -618,7 +619,7 @@ export class UserStorage {
    * @returns {Promise<string>} CID
    */
   async _storeAvatar(field, avatar) {
-    const cid = await Base64Storage.store(avatar)
+    const cid = await IPFS.store(avatar)
 
     return this.setProfileField(field, cid, 'public')
   }
@@ -908,7 +909,7 @@ export class UserStorage {
     }
 
     const { avatar } = profile
-    const shouldUpdateAvatar = !!avatar && isValidBase64Image(avatar)
+    const shouldUpdateAvatar = !!avatar && isValidDataUrl(avatar)
 
     /**
      * Checking fields to save which changed, even if have undefined value (for example empty mobile input field return undefined).

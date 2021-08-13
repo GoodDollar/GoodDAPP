@@ -2,16 +2,16 @@
 import { assign, debounce, toPairs } from 'lodash'
 import EventEmitter from 'eventemitter3'
 
-import Profile from '../../components/profile/Profile'
 import { ExceptionCategory } from '../logger/exceptions'
-import Base64Storage from '../nft/Base64Storage'
-import { isValidBase64Image, resizeImage } from '../utils/image'
+import IPFS from '../ipfs/IpfsStorage'
+import { AVATAR_SIZE, resizeImage, SMALL_AVATAR_SIZE } from '../utils/image'
+import { isValidDataUrl } from '../utils/base64'
 import pino from '../logger/pino-logger'
 import isEmail from '../validators/isEmail'
 import isMobilePhone from '../validators/isMobilePhone'
 import type { UserModel } from './UserModel'
 import { getUserModel } from './UserModel'
-import type { FieldPrivacy, ProfileField } from './UserStorageClass'
+import type { FieldPrivacy, Profile, ProfileField } from './UserStorageClass'
 import { isValidValue, maskField } from './utlis'
 
 const logger = pino.child({ from: 'UserProfileStorage' })
@@ -172,37 +172,30 @@ export class UserProfileStorage implements ProfileStorage {
     if (profile && !profile.validate) {
       profile = getUserModel(profile)
     }
-    const fields = Object.keys(profile).filter(prop => this.profileSettings[prop])
+
+    const fields = Object.keys(profile).filter(prop => prop in this.profileSettings)
     let { errors, isValid } = profile.validate(update)
 
-    //enforce profile to have walletAddress
-    if (!update) {
-      if (!profile?.walletAddress?.length > 0) {
-        logger.warn(
-          'setProfile failed',
-          'walletAddress is required in profile',
-          new Error('setProfile failed: WalletAddress is required in profile'),
-          { errors, category: ExceptionCategory.Human },
-        )
-
-        throw errors
-      }
+    // enforce profile to have walletAddress
+    if (!update && !profile.walletAddress) {
+      isValid = false
+      errors.walletAddress = 'Wallet Address is required'
     }
 
     if (!isValid) {
-      logger.warn(
-        'setProfile failed',
-        'Fields validation failed',
-        new Error('setProfile failed: Fields validation failed'),
-        { errors, category: ExceptionCategory.Human },
-      )
+      const errorMessage = 'Fields validation failed'
+
+      logger.warn('setProfile failed', errorMessage, new Error(errorMessage), {
+        errors,
+        category: ExceptionCategory.Human,
+      })
 
       throw errors
     }
 
     const { avatar } = profile
 
-    if (!!avatar && isValidBase64Image(avatar)) {
+    if (!!avatar && isValidDataUrl(avatar)) {
       const cids = await this._resizeAndStoreAvatars(avatar)
 
       assign(profile, cids)
@@ -223,6 +216,7 @@ export class UserProfileStorage implements ProfileStorage {
     if (!update) {
       return this.setNewProfileFields(fieldsToSave)
     }
+
     return this.setProfileFields(fieldsToSave)
   }
 
@@ -247,13 +241,6 @@ export class UserProfileStorage implements ProfileStorage {
 
     await this.profiledb.setProfileFields(encryptedFields)
     this._setLocalProfile({ ...this.profile, ...fields })
-  }
-
-  async setProfileFieldToNull(key): Promise<void> {
-    await this.profiledb.setProfileFields({ [key]: null })
-    const profileToUpdate = { ...this.profile }
-    delete profileToUpdate[key]
-    this._setLocalProfile({ ...profileToUpdate })
   }
 
   /**
@@ -286,11 +273,6 @@ export class UserProfileStorage implements ProfileStorage {
         break
       case 'masked':
         display = maskField(field, value)
-
-        //undo invalid masked field
-        if (display === value) {
-          privacy = 'public'
-        }
         break
       case 'public':
         display = value
@@ -352,7 +334,7 @@ export class UserProfileStorage implements ProfileStorage {
    */
   async _resizeAndStoreAvatars(avatarDataUrl: string): Promise<{ avatar: string, smallAvatar: string }> {
     let resizedDataUrl
-    const avatarSizes = [320, 50]
+    const avatarSizes = [AVATAR_SIZE, SMALL_AVATAR_SIZE]
 
     const resizedAvatars = await Promise.all(
       avatarSizes.map(async size => {
@@ -365,7 +347,7 @@ export class UserProfileStorage implements ProfileStorage {
     // TODO: replace via IPFS.store() call once #3370 will be merged
     const [avatar, smallAvatar] = await Promise.all(
       // eslint-disable-next-line require-await
-      resizedAvatars.map(async dataUrl => Base64Storage.store(dataUrl)),
+      resizedAvatars.map(async dataUrl => IPFS.store(dataUrl)),
     )
 
     return { avatar, smallAvatar }

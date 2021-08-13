@@ -23,8 +23,9 @@ import { GD_GUN_CREDENTIALS } from '../constants/localStorage'
 import AsyncStorage from '../utils/asyncStorage'
 import defaultGun from '../gundb/gundb'
 import { type StandardFeed } from './StandardFeed'
-import { UserProfileStorage } from './UserProfileStorage'
+import { type UserModel } from './UserModel'
 import UserProperties from './UserProperties'
+import { UserProfileStorage } from './UserProfileStorage'
 import { FeedEvent, FeedItemType, FeedStorage, TxStatus } from './FeedStorage'
 import type { DB } from './UserStorage'
 
@@ -47,6 +48,11 @@ export type ProfileField = {
   display: string,
   privacy: FieldPrivacy,
 }
+
+/**
+ * User's profile
+ */
+export type Profile = { [key: string]: ProfileField }
 
 /**
  * Survey details

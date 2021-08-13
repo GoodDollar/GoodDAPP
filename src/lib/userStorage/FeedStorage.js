@@ -1,9 +1,11 @@
 // @flow
-import { debounce, find, get, has, isEqual, isUndefined, orderBy, pick, set } from 'lodash'
-
-// import Mutex from 'await-mutex'
+import { assign, debounce, find, get, has, isEqual, isUndefined, orderBy, pick, set } from 'lodash'
 import EventEmitter from 'eventemitter3'
+
 import delUndefValNested from '../utils/delUndefValNested'
+import { updateFeedEventAvatar } from '../updates/utils'
+
+import Config from '../../config/config'
 import logger from '../../lib/logger/pino-logger'
 
 const log = logger.child({ from: 'FeedStorage' })
@@ -437,10 +439,23 @@ export class FeedStorage {
 
   updateFeedEventCounterParty(feedEvent) {
     const getCounterParty = async address => {
-      const { name, avatar } = await this.userStorage.getUserProfile(address)
-      feedEvent.data.counterPartyAddress = address
-      feedEvent.data.counterPartyFullName = name
-      feedEvent.data.counterPartySmallAvatar = avatar
+      let { name, avatar } = await this.userStorage.getUserProfile(address)
+
+      /** THIS CODE BLOCK MAY BE REMOVED AFTER SEPTEMBER 2021 */
+      /** =================================================== */
+      if (Config.ipfsLazyUpload) {
+        // keep old base64 value if upload failed
+        avatar = await updateFeedEventAvatar(avatar).catch(() => avatar)
+      }
+
+      /** =================================================== */
+
+      assign(feedEvent.data, {
+        counterPartyAddress: address,
+        counterPartyFullName: name,
+        counterPartySmallAvatar: avatar,
+      })
+
       await this.updateFeedEvent(feedEvent)
     }
 

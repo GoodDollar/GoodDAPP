@@ -16,6 +16,8 @@ import { useDialog } from '../../lib/undux/utils/dialog'
 
 // utils
 import { withStyles } from '../../lib/styles'
+
+// eslint-disable-next-line import/no-named-as-default
 import GoodWallet from '../../lib/wallet/GoodWallet'
 import config from '../../config/config'
 

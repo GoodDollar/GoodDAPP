@@ -28,24 +28,19 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
           className="css-view-1dbjc4n"
         />
         <div
-          className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-qt01xk r-borderColor-y68mpx r-borderWidth-rs99b7 r-cursor-1loqt21 r-justifyContent-1777fci r-touchAction-1otgn73 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
-          data-focusable={true}
+          className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-qt01xk r-borderColor-y68mpx r-borderWidth-rs99b7 r-cursor-1loqt21 r-justifyContent-1777fci r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
+          onClick={[Function]}
+          onContextMenu={[Function]}
           onKeyDown={[Function]}
-          onKeyUp={[Function]}
-          onResponderGrant={[Function]}
-          onResponderMove={[Function]}
-          onResponderRelease={[Function]}
-          onResponderTerminate={[Function]}
-          onResponderTerminationRequest={[Function]}
-          onStartShouldSetResponder={[Function]}
           style={
             Object {
+              "WebkitTransitionDuration": "0s",
               "borderBottomLeftRadius": "28px",
               "borderBottomRightRadius": "28px",
               "borderTopLeftRadius": "28px",
               "borderTopRightRadius": "28px",
               "height": "56px",
-              "opacity": 1,
+              "transitionDuration": "0s",
               "width": "56px",
             }
           }
@@ -70,13 +65,13 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
       className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderRadius-1f0042m r-flexGrow-16y2uox r-justifyContent-1wtj0ep r-paddingHorizontal-1e081e0 r-paddingVertical-1yzf0co"
     >
       <div
-        className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1x35g6 r-fontWeight-majxgm r-lineHeight-17rnw9f r-marginVertical-c8eef1 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
+        className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-majxgm r-lineHeight-qvk6io r-marginVertical-c8eef1 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
         dir="auto"
       >
         YOUR WALLET ADDRESS:
       </div>
       <div
-        className="css-view-1dbjc4n r-flex-1d9yedq r-marginBottom-p1pxzi r-marginHorizontal-vlx1xi r-marginTop-19h5ruw r-width-13qz1uu"
+        className="css-view-1dbjc4n r-flex-1d9yedq r-marginBottom-p1pxzi r-marginHorizontal-mvpalk r-marginTop-1mnahxq r-width-13qz1uu"
       >
         <div
           className="css-view-1dbjc4n r-marginBottom-5oul0u r-width-13qz1uu"
@@ -86,13 +81,11 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
             autoComplete="on"
             autoCorrect="on"
             className="css-textinput-11aywtz r-backgroundColor-14lw9ot r-borderBottomColor-1ny7kx0 r-borderBottomWidth-qklmqi r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-vbi3md r-paddingHorizontal-1dye5f7 r-paddingVertical-oyd9sg r-placeholderTextColor-1xktb6b r-textAlign-q4m81j"
-            data-focusable={true}
             dir="auto"
             onBlur={[Function]}
             onChange={[Function]}
             onFocus={[Function]}
             onKeyDown={[Function]}
-            onKeyPress={[Function]}
             onSelect={[Function]}
             onTouchStart={[Function]}
             readOnly={true}
@@ -103,32 +96,32 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
         </div>
       </div>
       <div
-        className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1x35g6 r-fontWeight-majxgm r-lineHeight-17rnw9f r-marginBottom-117bsoe r-marginTop-l71dzp r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+        className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-majxgm r-lineHeight-qvk6io r-marginBottom-p1pxzi r-marginTop-1mnahxq r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
         dir="auto"
       >
         Copy & share it
 with others
       </div>
       <div
-        className="css-view-1dbjc4n r-alignItems-1awozwy r-borderColor-17xuhkx r-borderRadius-1f0042m r-borderStyle-1phboty r-borderWidth-d045u9 r-display-6koalj r-flexDirection-18u37iz r-justifyContent-a2tzq0 r-marginBottom-117bsoe r-marginHorizontal-1jgb5lz r-paddingHorizontal-uekwnc r-paddingVertical-23eiwj r-width-iyfy8q"
+        className="css-view-1dbjc4n r-alignItems-1awozwy r-borderColor-17xuhkx r-borderRadius-1f0042m r-borderStyle-1phboty r-borderWidth-d045u9 r-display-6koalj r-flexDirection-18u37iz r-justifyContent-a2tzq0 r-marginBottom-p1pxzi r-marginHorizontal-1jgb5lz r-paddingHorizontal-mk0yit r-paddingVertical-rjfia r-width-iyfy8q"
       >
         <div
-          className="css-view-1dbjc4n r-display-6koalj r-flexDirection-eqz5dr r-height-chkelg r-justifyContent-1777fci r-marginRight-19einr3 r-transform-1aeo46e r-width-13nck5o"
+          className="css-view-1dbjc4n r-display-6koalj r-flexDirection-eqz5dr r-height-1w2pmg r-justifyContent-1777fci r-marginRight-61z16t r-transform-1aeo46e r-width-1h2t8mc"
         >
           <div
             className="css-view-1dbjc4n"
           />
         </div>
         <div
-          className="css-text-901oao r-color-11zaip3 r-flex-13awgt0 r-fontFamily-6jnb14 r-fontSize-vbi3md r-fontWeight-b88u0q r-letterSpacing-i0j7gm r-lineHeight-10yl4k r-paddingRight-1qortcd r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+          className="css-text-901oao r-color-11zaip3 r-flex-13awgt0 r-fontFamily-6jnb14 r-fontSize-vbi3md r-fontWeight-b88u0q r-letterSpacing-i0j7gm r-lineHeight-qvk6io r-paddingRight-1qortcd r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
           dir="auto"
         >
           Keep in mind - Do not send tokens from Ethereum network to this address. This is an internal Network address for G$ tokens only.
         </div>
       </div>
       <div
-        className="css-view-1dbjc4n r-borderColor-17xuhkx r-borderStyle-1phboty r-display-6koalj r-justifyContent-1777fci r-marginBottom-p1pxzi"
-        data-gdtype="copybutton"
+        className="css-view-1dbjc4n r-borderColor-17xuhkx r-borderStyle-1phboty r-display-6koalj r-justifyContent-1777fci r-marginBottom-p1pxzi r-marginRight-61z16t r-marginTop-1mnahxq"
+        id="animatedComponent"
         style={
           Object {
             "WebkitAlignItems": "stretch",
@@ -145,8 +138,6 @@ with others
             "borderTopWidth": "0px",
             "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
             "marginLeft": "0px",
-            "marginRight": "0px",
-            "marginTop": "0px",
             "minHeight": "44px",
             "minWidth": "64px",
             "msFlexAlign": "stretch",
@@ -159,16 +150,9 @@ with others
       >
         <div
           className="css-cursor-18t94o4 css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
-          data-focusable={true}
+          onClick={[Function]}
+          onContextMenu={[Function]}
           onKeyDown={[Function]}
-          onKeyPress={[Function]}
-          onKeyUp={[Function]}
-          onResponderGrant={[Function]}
-          onResponderMove={[Function]}
-          onResponderRelease={[Function]}
-          onResponderTerminate={[Function]}
-          onResponderTerminationRequest={[Function]}
-          onStartShouldSetResponder={[Function]}
           role="button"
           style={
             Object {
@@ -202,7 +186,7 @@ with others
                 className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
               >
                 <div
-                  className="css-text-901oao r-alignItems-1awozwy r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-hbpseb r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
+                  className="css-text-901oao r-alignItems-1awozwy r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-qvk6io r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
                   dir="auto"
                 >
                   Copy to Clipboard

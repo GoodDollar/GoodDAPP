@@ -3,12 +3,15 @@ import { Provider as PaperProvider } from 'react-native-paper'
 import { theme as defaultTheme } from '../../components/theme/styles'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import GDStore from '../../lib/undux/GDStore'
+import { GlobalTogglesContextProvider } from '../../lib/contexts/togglesContext'
 
 export const StoresWrapper = ({ children }) => {
   return (
-    <GDStore.Container>
-      <SimpleStore.Container>{children}</SimpleStore.Container>
-    </GDStore.Container>
+    <GlobalTogglesContextProvider>
+      <GDStore.Container>
+        <SimpleStore.Container>{children}</SimpleStore.Container>
+      </GDStore.Container>
+    </GlobalTogglesContextProvider>
   )
 }
 
@@ -21,7 +24,9 @@ export const withThemeProvider = (Component, theme = defaultTheme) => props => (
 )
 
 export const withSimpleStateProvider = (Component, theme = defaultTheme) => props => (
-  <SimpleStore.Container>
-    <Component {...props} />
-  </SimpleStore.Container>
+  <GlobalTogglesContextProvider>
+    <SimpleStore.Container>
+      <Component {...props} />
+    </SimpleStore.Container>
+  </GlobalTogglesContextProvider>
 )

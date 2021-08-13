@@ -10,7 +10,7 @@ exports[`WebViewScreen Instances FAQ matches snapshot 1`] = `
   src="https://community.gooddollar.org/faq"
   style={
     Object {
-      "height": 768,
+      "height": 0,
     }
   }
   title="FAQ"
@@ -28,7 +28,7 @@ exports[`WebViewScreen Instances PrivacyPolicy matches snapshot 1`] = `
   src="https://www.gooddollar.org/privacy-policy/?gd-frame=1"
   style={
     Object {
-      "height": 768,
+      "height": 0,
     }
   }
   title="Privacy Policy"
@@ -46,7 +46,7 @@ exports[`WebViewScreen Instances PrivacyPolicyAndTerms matches snapshot 1`] = `
   src="https://community.gooddollar.org/tou/"
   style={
     Object {
-      "height": 768,
+      "height": 0,
     }
   }
   title="Privacy Policy & Terms"
@@ -64,7 +64,7 @@ exports[`WebViewScreen Instances Support matches snapshot 1`] = `
   src="https://help.gooddollar.org?transitioned=1"
   style={
     Object {
-      "height": 768,
+      "height": 0,
     }
   }
   title=" Help & Feedback"
@@ -82,7 +82,7 @@ exports[`WebViewScreen Instances TermsOFUse matches snapshot 1`] = `
   src="https://www.gooddollar.org/terms-conditions/?gd-frame=1"
   style={
     Object {
-      "height": 768,
+      "height": 0,
     }
   }
   title="Terms Of Use"

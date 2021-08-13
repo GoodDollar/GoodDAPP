@@ -1,5 +1,5 @@
 // @flow
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { Animated, Dimensions, Easing, Platform, TouchableOpacity, View } from 'react-native'
 import { concat, debounce, get, noop, uniqBy } from 'lodash'
 import Mutex from 'await-mutex'
@@ -38,6 +38,7 @@ import Invite from '../invite/Invite'
 import Avatar from '../common/view/Avatar'
 import _debounce from '../../lib/utils/debounce'
 import useProfile from '../../lib/userStorage/useProfile'
+import { GlobalTogglesContext } from '../../lib/contexts/togglesContext'
 import PrivacyPolicyAndTerms from './PrivacyPolicyAndTerms'
 import Amount from './Amount'
 import Claim from './Claim'
@@ -118,6 +119,7 @@ const Dashboard = props => {
   const [headerLarge, setHeaderLarge] = useState(true)
   const { appState } = useAppState()
   const [animateMarket, setAnimateMarket] = useState(false)
+  const { setBlur } = useContext(GlobalTogglesContext)
 
   const headerAnimateStyles = {
     position: 'relative',
@@ -504,7 +506,6 @@ const Dashboard = props => {
   const showEventModal = useCallback(
     currentFeed => {
       setItemModal(currentFeed)
-      store.set('currentFeed')(currentFeed)
     },
     [store],
   )
@@ -529,6 +530,7 @@ const Dashboard = props => {
   const handleFeedSelection = useCallback(
     (receipt, horizontal) => {
       showEventModal(horizontal ? receipt : null)
+      setBlur(horizontal)
     },
     [showEventModal],
   )

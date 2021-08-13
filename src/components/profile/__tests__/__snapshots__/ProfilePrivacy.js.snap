@@ -14,7 +14,7 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
     }
   >
     <div
-      className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderRadius-17gur6a r-flexGrow-16y2uox r-paddingBottom-1mi0q7o r-paddingHorizontal-1e081e0 r-paddingLeft-gy4na3 r-paddingRight-9aemit r-paddingVertical-1yzf0co"
+      className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderRadius-17gur6a r-flexGrow-16y2uox r-paddingBottom-1mdbw0j r-paddingHorizontal-1e081e0 r-paddingLeft-gy4na3 r-paddingRight-9aemit r-paddingTop-wk8lta r-paddingVertical-1yzf0co"
     >
       <div
         className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-flexGrow-16y2uox"
@@ -28,28 +28,23 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
         }
       >
         <div
-          className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1777fci r-marginBottom-1yflyrw r-maxHeight-15n77fl"
+          className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1777fci r-marginBottom-p1pxzi r-maxHeight-15n77fl"
         >
           <div
-            className="css-text-901oao r-color-181bzza r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-b88u0q r-lineHeight-hbpseb r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+            className="css-text-901oao r-color-181bzza r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
             dir="auto"
           >
             Manage your privacy settings
           </div>
           <div
-            className="css-view-1dbjc4n r-cursor-1loqt21 r-marginLeft-1rngwi6 r-touchAction-1otgn73 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
-            data-focusable={true}
+            className="css-view-1dbjc4n r-cursor-1loqt21 r-marginLeft-1rngwi6 r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
+            onClick={[Function]}
+            onContextMenu={[Function]}
             onKeyDown={[Function]}
-            onKeyUp={[Function]}
-            onResponderGrant={[Function]}
-            onResponderMove={[Function]}
-            onResponderRelease={[Function]}
-            onResponderTerminate={[Function]}
-            onResponderTerminationRequest={[Function]}
-            onStartShouldSetResponder={[Function]}
             style={
               Object {
-                "opacity": 1,
+                "WebkitTransitionDuration": "0s",
+                "transitionDuration": "0s",
               }
             }
             tabIndex="0"
@@ -83,7 +78,7 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
             className="css-view-1dbjc4n r-alignItems-1awozwy r-borderBottomColor-1fn3lry r-borderBottomWidth-qklmqi r-borderStyle-1phboty r-display-6koalj r-flexDirection-18u37iz r-padding-edyy15 r-paddingLeft-gu0qjt"
           >
             <div
-              className="css-text-901oao r-color-181bzza r-flexGrow-16xksha r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-lineHeight-hbpseb r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+              className="css-text-901oao r-color-181bzza r-flexGrow-16xksha r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
               dir="auto"
             >
               
@@ -92,7 +87,7 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
               className="css-view-1dbjc4n r-alignItems-1awozwy r-minWidth-1c8i11 r-width-1ih7r1r"
             >
               <div
-                className="css-text-901oao r-color-181bzza r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-1it3c9n r-lineHeight-rjixqe r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                className="css-text-901oao r-color-181bzza r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                 dir="auto"
               >
                 Private
@@ -102,7 +97,7 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
               className="css-view-1dbjc4n r-alignItems-1awozwy r-minWidth-1c8i11 r-width-1ih7r1r"
             >
               <div
-                className="css-text-901oao r-color-181bzza r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-1it3c9n r-lineHeight-rjixqe r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                className="css-text-901oao r-color-181bzza r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                 dir="auto"
               >
                 Masked
@@ -112,7 +107,7 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
               className="css-view-1dbjc4n r-alignItems-1awozwy r-minWidth-1c8i11 r-width-1ih7r1r"
             >
               <div
-                className="css-text-901oao r-color-181bzza r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-1it3c9n r-lineHeight-rjixqe r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                className="css-text-901oao r-color-181bzza r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                 dir="auto"
               >
                 Public
@@ -123,7 +118,7 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
             className="css-view-1dbjc4n r-alignItems-1awozwy r-borderBottomColor-1fn3lry r-borderBottomWidth-qklmqi r-borderStyle-1phboty r-display-6koalj r-flexDirection-18u37iz r-padding-edyy15 r-paddingLeft-gu0qjt"
           >
             <div
-              className="css-text-901oao r-color-181bzza r-flexGrow-16xksha r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-lineHeight-hbpseb r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+              className="css-text-901oao r-color-181bzza r-flexGrow-16xksha r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
               dir="auto"
             >
               Phone number
@@ -132,22 +127,17 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
               className="css-view-1dbjc4n r-alignItems-1awozwy r-minWidth-1c8i11 r-width-1ih7r1r"
             >
               <div
+                aria-live="polite"
                 className="css-cursor-18t94o4 css-view-1dbjc4n r-borderRadius-6ncur5 r-overflow-1udh08x r-position-bnwqim"
-                data-focusable={true}
+                onClick={[Function]}
+                onContextMenu={[Function]}
                 onKeyDown={[Function]}
-                onKeyPress={[Function]}
-                onKeyUp={[Function]}
-                onResponderGrant={[Function]}
-                onResponderMove={[Function]}
-                onResponderRelease={[Function]}
-                onResponderTerminate={[Function]}
-                onResponderTerminationRequest={[Function]}
-                onStartShouldSetResponder={[Function]}
                 role="button"
                 tabIndex="0"
               >
                 <div
                   className="css-view-1dbjc4n"
+                  id="animatedComponent"
                   style={
                     Object {
                       "borderBottomColor": "rgba(85,85,85,1.00)",
@@ -177,22 +167,17 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
               className="css-view-1dbjc4n r-alignItems-1awozwy r-minWidth-1c8i11 r-width-1ih7r1r"
             >
               <div
+                aria-live="polite"
                 className="css-cursor-18t94o4 css-view-1dbjc4n r-borderRadius-6ncur5 r-overflow-1udh08x r-position-bnwqim"
-                data-focusable={true}
+                onClick={[Function]}
+                onContextMenu={[Function]}
                 onKeyDown={[Function]}
-                onKeyPress={[Function]}
-                onKeyUp={[Function]}
-                onResponderGrant={[Function]}
-                onResponderMove={[Function]}
-                onResponderRelease={[Function]}
-                onResponderTerminate={[Function]}
-                onResponderTerminationRequest={[Function]}
-                onStartShouldSetResponder={[Function]}
                 role="button"
                 tabIndex="0"
               >
                 <div
                   className="css-view-1dbjc4n"
+                  id="animatedComponent"
                   style={
                     Object {
                       "borderBottomColor": "rgba(85,85,85,1.00)",
@@ -222,22 +207,17 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
               className="css-view-1dbjc4n r-alignItems-1awozwy r-minWidth-1c8i11 r-width-1ih7r1r"
             >
               <div
+                aria-live="polite"
                 className="css-cursor-18t94o4 css-view-1dbjc4n r-borderRadius-6ncur5 r-overflow-1udh08x r-position-bnwqim"
-                data-focusable={true}
+                onClick={[Function]}
+                onContextMenu={[Function]}
                 onKeyDown={[Function]}
-                onKeyPress={[Function]}
-                onKeyUp={[Function]}
-                onResponderGrant={[Function]}
-                onResponderMove={[Function]}
-                onResponderRelease={[Function]}
-                onResponderTerminate={[Function]}
-                onResponderTerminationRequest={[Function]}
-                onStartShouldSetResponder={[Function]}
                 role="button"
                 tabIndex="0"
               >
                 <div
                   className="css-view-1dbjc4n"
+                  id="animatedComponent"
                   style={
                     Object {
                       "borderBottomColor": "rgba(85,85,85,1.00)",
@@ -268,7 +248,7 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
             className="css-view-1dbjc4n r-alignItems-1awozwy r-borderBottomColor-1fn3lry r-borderBottomWidth-qklmqi r-borderStyle-1phboty r-display-6koalj r-flexDirection-18u37iz r-padding-edyy15 r-paddingLeft-gu0qjt"
           >
             <div
-              className="css-text-901oao r-color-181bzza r-flexGrow-16xksha r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-lineHeight-hbpseb r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+              className="css-text-901oao r-color-181bzza r-flexGrow-16xksha r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
               dir="auto"
             >
               Email
@@ -277,22 +257,17 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
               className="css-view-1dbjc4n r-alignItems-1awozwy r-minWidth-1c8i11 r-width-1ih7r1r"
             >
               <div
+                aria-live="polite"
                 className="css-cursor-18t94o4 css-view-1dbjc4n r-borderRadius-6ncur5 r-overflow-1udh08x r-position-bnwqim"
-                data-focusable={true}
+                onClick={[Function]}
+                onContextMenu={[Function]}
                 onKeyDown={[Function]}
-                onKeyPress={[Function]}
-                onKeyUp={[Function]}
-                onResponderGrant={[Function]}
-                onResponderMove={[Function]}
-                onResponderRelease={[Function]}
-                onResponderTerminate={[Function]}
-                onResponderTerminationRequest={[Function]}
-                onStartShouldSetResponder={[Function]}
                 role="button"
                 tabIndex="0"
               >
                 <div
                   className="css-view-1dbjc4n"
+                  id="animatedComponent"
                   style={
                     Object {
                       "borderBottomColor": "rgba(85,85,85,1.00)",
@@ -322,22 +297,17 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
               className="css-view-1dbjc4n r-alignItems-1awozwy r-minWidth-1c8i11 r-width-1ih7r1r"
             >
               <div
+                aria-live="polite"
                 className="css-cursor-18t94o4 css-view-1dbjc4n r-borderRadius-6ncur5 r-overflow-1udh08x r-position-bnwqim"
-                data-focusable={true}
+                onClick={[Function]}
+                onContextMenu={[Function]}
                 onKeyDown={[Function]}
-                onKeyPress={[Function]}
-                onKeyUp={[Function]}
-                onResponderGrant={[Function]}
-                onResponderMove={[Function]}
-                onResponderRelease={[Function]}
-                onResponderTerminate={[Function]}
-                onResponderTerminationRequest={[Function]}
-                onStartShouldSetResponder={[Function]}
                 role="button"
                 tabIndex="0"
               >
                 <div
                   className="css-view-1dbjc4n"
+                  id="animatedComponent"
                   style={
                     Object {
                       "borderBottomColor": "rgba(85,85,85,1.00)",
@@ -367,22 +337,17 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
               className="css-view-1dbjc4n r-alignItems-1awozwy r-minWidth-1c8i11 r-width-1ih7r1r"
             >
               <div
+                aria-live="polite"
                 className="css-cursor-18t94o4 css-view-1dbjc4n r-borderRadius-6ncur5 r-overflow-1udh08x r-position-bnwqim"
-                data-focusable={true}
+                onClick={[Function]}
+                onContextMenu={[Function]}
                 onKeyDown={[Function]}
-                onKeyPress={[Function]}
-                onKeyUp={[Function]}
-                onResponderGrant={[Function]}
-                onResponderMove={[Function]}
-                onResponderRelease={[Function]}
-                onResponderTerminate={[Function]}
-                onResponderTerminationRequest={[Function]}
-                onStartShouldSetResponder={[Function]}
                 role="button"
                 tabIndex="0"
               >
                 <div
                   className="css-view-1dbjc4n"
+                  id="animatedComponent"
                   style={
                     Object {
                       "borderBottomColor": "rgba(85,85,85,1.00)",
@@ -420,73 +385,37 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
               className="css-view-1dbjc4n r-alignItems-1awozwy r-borderColor-e397lv r-borderRadius-1f0042m r-borderStyle-1phboty r-borderWidth-rs99b7 r-display-6koalj r-flexDirection-eqz5dr r-justifyContent-1777fci r-padding-t60dpp r-position-bnwqim"
             >
               <div
-                className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-height-4v7adb r-position-u8s1d r-top-18nhz7w"
-                style={
-                  Object {
-                    "width": "88px",
-                  }
-                }
+                className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-height-1w2pmg r-position-u8s1d r-top-ipm5af r-width-1h2t8mc"
               />
               <div
-                className="css-view-1dbjc4n r-alignItems-1awozwy r-position-u8s1d r-zIndex-184en5c"
-                style={
-                  Object {
-                    "borderBottomLeftRadius": "34px",
-                    "borderBottomRightRadius": "34px",
-                    "borderTopLeftRadius": "34px",
-                    "borderTopRightRadius": "34px",
-                    "height": "68px",
-                    "top": "-34px",
-                    "width": "68px",
-                  }
-                }
+                className="css-view-1dbjc4n r-alignItems-1awozwy r-borderRadius-17gur6a r-height-1w2pmg r-position-u8s1d r-top-ipm5af r-width-1h2t8mc r-zIndex-184en5c"
               >
                 <div
                   aria-disabled={true}
-                  className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1niwhzg r-borderColor-y68mpx r-borderWidth-1yadl64 r-justifyContent-1777fci r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
-                  disabled={true}
+                  className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1niwhzg r-borderColor-y68mpx r-borderRadius-17gur6a r-borderWidth-1yadl64 r-height-1w2pmg r-justifyContent-1777fci r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-width-1h2t8mc"
+                  onClick={[Function]}
+                  onContextMenu={[Function]}
                   onKeyDown={[Function]}
-                  onKeyUp={[Function]}
-                  onResponderGrant={[Function]}
-                  onResponderMove={[Function]}
-                  onResponderRelease={[Function]}
-                  onResponderTerminate={[Function]}
-                  onResponderTerminationRequest={[Function]}
-                  onStartShouldSetResponder={[Function]}
                   style={
                     Object {
-                      "borderBottomLeftRadius": "34px",
-                      "borderBottomRightRadius": "34px",
-                      "borderTopLeftRadius": "34px",
-                      "borderTopRightRadius": "34px",
-                      "height": "68px",
-                      "opacity": 1,
-                      "width": "68px",
+                      "WebkitTransitionDuration": "0s",
+                      "transitionDuration": "0s",
                     }
                   }
+                  tabIndex="-1"
                 >
                   <div
-                    className="css-view-1dbjc4n r-backgroundColor-1niwhzg"
-                    style={
-                      Object {
-                        "borderBottomLeftRadius": "34px",
-                        "borderBottomRightRadius": "34px",
-                        "borderTopLeftRadius": "34px",
-                        "borderTopRightRadius": "34px",
-                        "height": "68px",
-                        "width": "68px",
-                      }
-                    }
+                    className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-borderRadius-17gur6a r-height-1w2pmg r-width-1h2t8mc"
                   >
                     <unknownProfile.svg />
                   </div>
                 </div>
               </div>
               <div
-                className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-justifyContent-1wtj0ep r-marginBottom-tjf2cy r-marginTop-fcs4qk r-padding-t60dpp"
+                className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-justifyContent-1wtj0ep r-marginBottom-p1pxzi r-marginTop-1mnahxq r-padding-t60dpp"
               >
                 <div
-                  className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-1i10wst r-fontWeight-b88u0q r-lineHeight-135wba7 r-marginBottom-5oul0u r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                  className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-marginBottom-p1pxzi r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                   dir="auto"
                 >
                   My Face Record ID
@@ -499,32 +428,27 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
                 </div>
               </div>
               <div
-                className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-bottom-14bkmb3 r-height-4v7adb r-position-u8s1d r-width-1v6so3z"
+                className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-bottom-1p0dtai r-height-1w2pmg r-position-u8s1d r-width-1h2t8mc"
               />
             </div>
             <div
-              className="css-view-1dbjc4n r-alignItems-1awozwy r-bottom-wuw1bi r-display-6koalj r-height-eu3ka r-justifyContent-1777fci r-maxHeight-yca7ao r-position-u8s1d r-width-13qz1uu"
+              className="css-view-1dbjc4n r-alignItems-1awozwy r-bottom-1p0dtai r-display-6koalj r-height-1w2pmg r-justifyContent-1777fci r-maxHeight-46g5hj r-position-u8s1d r-width-13qz1uu"
             >
               <div
-                className="css-view-1dbjc4n r-height-eu3ka r-width-1dcdz4f"
+                className="css-view-1dbjc4n r-height-1w2pmg r-width-1h2t8mc"
               >
                 <div
                   className="css-view-1dbjc4n"
                 >
                   <div
-                    className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1jb27wt r-borderRadius-y47klf r-cursor-1loqt21 r-display-6koalj r-height-eu3ka r-justifyContent-1777fci r-marginBottom-qdjnpu r-marginLeft-1jj8364 r-marginRight-lchren r-maxHeight-yca7ao r-minWidth-vkv6oe r-touchAction-1otgn73 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-width-1aockid"
-                    data-focusable={true}
+                    className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1jb27wt r-borderRadius-17gur6a r-cursor-1loqt21 r-display-6koalj r-height-1w2pmg r-justifyContent-1777fci r-marginBottom-p1pxzi r-marginLeft-1jj8364 r-marginRight-lchren r-maxHeight-46g5hj r-minWidth-bcqeeo r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-width-1h2t8mc"
+                    onClick={[Function]}
+                    onContextMenu={[Function]}
                     onKeyDown={[Function]}
-                    onKeyUp={[Function]}
-                    onResponderGrant={[Function]}
-                    onResponderMove={[Function]}
-                    onResponderRelease={[Function]}
-                    onResponderTerminate={[Function]}
-                    onResponderTerminationRequest={[Function]}
-                    onStartShouldSetResponder={[Function]}
                     style={
                       Object {
-                        "opacity": 1,
+                        "WebkitTransitionDuration": "0s",
+                        "transitionDuration": "0s",
                       }
                     }
                     tabIndex="0"
@@ -567,7 +491,8 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
         }
       >
         <div
-          className="css-view-1dbjc4n r-alignItems-1oszu61 r-backgroundColor-1niwhzg r-borderStyle-1phboty r-borderWidth-1yadl64 r-display-6koalj r-flexGrow-16y2uox r-justifyContent-1777fci r-padding-t60dpp r-paddingLeft-gy4na3 r-paddingRight-9aemit"
+          className="css-view-1dbjc4n r-alignItems-1oszu61 r-backgroundColor-1niwhzg r-borderStyle-1phboty r-borderWidth-1yadl64 r-display-6koalj r-flexGrow-16y2uox r-justifyContent-1777fci r-marginBottom-p1pxzi r-marginTop-1mnahxq r-padding-t60dpp r-paddingLeft-gy4na3 r-paddingRight-9aemit"
+          id="animatedComponent"
           style={
             Object {
               "borderBottomColor": "rgba(0,175,255,1.00)",
@@ -578,10 +503,8 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
               "borderTopColor": "rgba(0,175,255,1.00)",
               "borderTopLeftRadius": "50px",
               "borderTopRightRadius": "50px",
-              "marginBottom": "0px",
               "marginLeft": "0px",
               "marginRight": "0px",
-              "marginTop": "0px",
               "minHeight": "44px",
               "minWidth": "auto",
             }
@@ -589,16 +512,9 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
         >
           <div
             className="css-cursor-18t94o4 css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
-            data-focusable={true}
+            onClick={[Function]}
+            onContextMenu={[Function]}
             onKeyDown={[Function]}
-            onKeyPress={[Function]}
-            onKeyUp={[Function]}
-            onResponderGrant={[Function]}
-            onResponderMove={[Function]}
-            onResponderRelease={[Function]}
-            onResponderTerminate={[Function]}
-            onResponderTerminationRequest={[Function]}
-            onStartShouldSetResponder={[Function]}
             role="button"
             style={
               Object {
@@ -632,7 +548,7 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
                   className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
                 >
                   <div
-                    className="css-text-901oao r-alignItems-1awozwy r-color-vaa0vc r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-hbpseb r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                    className="css-text-901oao r-alignItems-1awozwy r-color-vaa0vc r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-qvk6io r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                     dir="auto"
                   >
                     Cancel
@@ -643,7 +559,8 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
           </div>
         </div>
         <div
-          className="css-view-1dbjc4n r-alignItems-1oszu61 r-borderStyle-1phboty r-borderWidth-1yadl64 r-display-6koalj r-justifyContent-1777fci r-padding-t60dpp r-paddingLeft-gy4na3 r-paddingRight-9aemit"
+          className="css-view-1dbjc4n r-alignItems-1oszu61 r-borderStyle-1phboty r-borderWidth-1yadl64 r-display-6koalj r-justifyContent-1777fci r-marginBottom-p1pxzi r-marginTop-1mnahxq r-padding-t60dpp r-paddingLeft-gy4na3 r-paddingRight-9aemit"
+          id="animatedComponent"
           style={
             Object {
               "WebkitBoxFlex": 10,
@@ -658,10 +575,8 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
               "borderTopLeftRadius": "50px",
               "borderTopRightRadius": "50px",
               "flexGrow": 10,
-              "marginBottom": "0px",
               "marginLeft": "0px",
               "marginRight": "0px",
-              "marginTop": "0px",
               "minHeight": "44px",
               "minWidth": "64px",
               "msFlexPositive": 10,
@@ -669,17 +584,11 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
           }
         >
           <div
-            className="css-cursor-18t94o4 css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
-            data-focusable={true}
+            aria-disabled={true}
+            className="css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
+            onClick={[Function]}
+            onContextMenu={[Function]}
             onKeyDown={[Function]}
-            onKeyPress={[Function]}
-            onKeyUp={[Function]}
-            onResponderGrant={[Function]}
-            onResponderMove={[Function]}
-            onResponderRelease={[Function]}
-            onResponderTerminate={[Function]}
-            onResponderTerminationRequest={[Function]}
-            onStartShouldSetResponder={[Function]}
             role="button"
             style={
               Object {
@@ -693,7 +602,7 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
                 "msGridRowAlign": "stretch",
               }
             }
-            tabIndex="0"
+            tabIndex="-1"
           >
             <div
               className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
@@ -713,7 +622,7 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
                   className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
                 >
                   <div
-                    className="css-text-901oao r-alignItems-1awozwy r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-hbpseb r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
+                    className="css-text-901oao r-alignItems-1awozwy r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-qvk6io r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
                     dir="auto"
                   >
                     Save

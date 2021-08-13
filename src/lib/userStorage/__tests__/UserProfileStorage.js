@@ -68,7 +68,6 @@ describe('UserProfileStorage', () => {
       { email, walletAddress, mobile, username: '', ...fields },
       { email, walletAddress, mobile, username: 'John Doe', ...fields },
       { email, username, mobile, ...fields },
-      { email, username, mobile, walletAddress: '', ...fields },
     ]
 
     const errorMessages = [
@@ -77,9 +76,8 @@ describe('UserProfileStorage', () => {
       'Username cannot be empty',
       'Only letters, numbers and underscore',
       'Wallet Address is required',
-      'Wallet Address is required',
     ]
-    const missingFields = ['email', 'email', 'username', 'username', 'walletAddress', 'walletAddress']
+    const missingFields = ['email', 'email', 'username', 'username', 'walletAddress']
 
     await Promise.all(
       invalidProfiles.map(async (item, index) => {

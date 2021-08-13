@@ -11,7 +11,7 @@ import logger from '../../../lib/logger/pino-logger'
 import { fireEvent, PROFILE_IMAGE } from '../../../lib/analytics/analytics'
 import RoundIconButton from '../../common/buttons/RoundIconButton'
 import { useDebouncedOnPress } from '../../../lib/hooks/useOnPress'
-import useProfileAvatar from '../../../lib/hooks/useProfileAvatar'
+import useAvatar from '../../../lib/hooks/useAvatar'
 import openCropper from './openCropper'
 
 export const pickerOptions = {
@@ -37,7 +37,7 @@ const ViewOrUploadAvatar = props => {
   const profile = store.get('profile')
   const wrappedUserStorage = useWrappedUserStorage()
   const [showErrorDialog] = useErrorDialog()
-  const avatar = useProfileAvatar(profile.avatar, true)
+  const avatar = useAvatar(profile.avatar, true)
 
   const handleCameraPress = useDebouncedOnPress(() => {
     openCropper({
@@ -64,8 +64,18 @@ const ViewOrUploadAvatar = props => {
       fireEvent(PROFILE_IMAGE)
 
       if (Platform.OS === 'web') {
+        // on web - goto avatar cropper
         screenProps.push('EditAvatar', { avatar })
+        return
       }
+
+      // for native just set new avatar.
+      // no need to crop it additionally
+      // as the picker component does this
+      wrappedUserStorage.setAvatar(avatar).catch(e => {
+        log.error('save image failed:', e.message, e, { dialogShown: true })
+        showErrorDialog('Could not save image. Please try again.')
+      })
     },
     [screenProps, wrappedUserStorage],
   )

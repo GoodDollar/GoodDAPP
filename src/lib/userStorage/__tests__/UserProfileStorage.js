@@ -37,6 +37,7 @@ describe('UserProfileStorage', () => {
   const iterateUserModel = (profile, callback) => forIn(omitBy(profile, isFunction), callback)
 
   beforeAll(async () => {
+    // expires in 2040
     await AsyncStorage.setItem(
       'GD_jwt',
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dnZWRJbkFzIjoiMHg1YjliNDlmZjM1ZmE4OWZkMWZiOWNmNGJmNTNkNmI1MDA5ZmVjNjgxIiwiZ2RBZGRyZXNzIjoiMHg3NDBlMjIxNjFkZWVhYTYwYjhiMGI1Y2RhYWEwOTE1MzRmZjIxNjQ5IiwicHJvZmlsZVB1YmxpY2tleSI6IjlZdFNlSXdELVN3Z080UVIxaHBobGt4dFhleUdESjFIX01PQ3pncWcwWEkuTDN3RTJZUkpOT3c0cUo1UFVST0lRNTk3OVR3RFlCcmFmZGUwTlFkXzFSUSIsImV4cCI6MjIzMzU3MzQzNiwiYXVkIjoicmVhbG1kYl93YWxsZXRfZGV2ZWxvcG1lbnQiLCJzdWIiOiIweDViOWI0OWZmMzVmYTg5ZmQxZmI5Y2Y0YmY1M2Q2YjUwMDlmZWM2ODEiLCJpYXQiOjE2Mjg3NzM0MzZ9.y4EJ6Ban0MJL0TORh_kaO_9CKbGouI9FmuRo9iBgUCo',
@@ -77,6 +78,7 @@ describe('UserProfileStorage', () => {
       'Only letters, numbers and underscore',
       'Wallet Address is required',
     ]
+
     const missingFields = ['email', 'email', 'username', 'username', 'walletAddress']
 
     await Promise.all(
@@ -157,6 +159,7 @@ describe('UserProfileStorage', () => {
 
   it('should set multiple profile fields', async () => {
     const oldProfile = userProfileStorage.profile
+
     const fieldsToUpdate = {
       fullName: {
         value: 'John Doe',
@@ -171,6 +174,7 @@ describe('UserProfileStorage', () => {
     }
 
     await userProfileStorage.setProfileFields(fieldsToUpdate)
+
     const newProfile = userProfileStorage.profile
 
     expect(newProfile).not.toEqual(oldProfile)
@@ -182,6 +186,7 @@ describe('UserProfileStorage', () => {
 
   it('should set private profile field', async () => {
     const username = 'johndoe123'
+
     const fieldValue = {
       display: '******',
       value: username,
@@ -200,7 +205,7 @@ describe('UserProfileStorage', () => {
   })
 
   it('should throw error for invalid privacy setting', async () => {
-    // sync functions are wrapped onto callback
+    // sync functions should be wrapped onto callback instead of .resolve/.reject wrapper
     await expect(() => userProfileStorage.setProfileField('username', 'johndoe1111', '123123123')).toThrow(
       'Invalid privacy setting',
     )
@@ -208,6 +213,7 @@ describe('UserProfileStorage', () => {
 
   it('should get profile by wallet address', async () => {
     const usersProfile = await userProfileStorage.profiledb.getProfile()
+
     const foundProfile = await userProfileStorage.getProfileByWalletAddress(
       userProfileStorage.profile.walletAddress.display,
     )
@@ -290,6 +296,7 @@ describe('UserProfileStorage', () => {
 
   it('should fail profile validation with email error', async () => {
     const { isValid, errors } = await userProfileStorage.validateProfile(emptyProfile)
+
     const errorMessages = {
       email: 'Unavailable email',
       mnemonic: 'Unavailable mnemonic',

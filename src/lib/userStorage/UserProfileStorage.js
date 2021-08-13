@@ -125,6 +125,7 @@ export class UserProfileStorage implements ProfileStorage {
     if (profile == null || typeof profile !== 'object') {
       return {}
     }
+
     await Promise.all(
       Object.keys(profile).map(
         async item =>

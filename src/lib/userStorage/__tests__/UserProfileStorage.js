@@ -2,6 +2,7 @@ import 'fake-indexeddb/auto'
 import fromEntries from 'object.fromentries'
 import { forIn, isFunction, isNil, omitBy } from 'lodash'
 
+import * as TextileCrypto from '@textile/crypto'
 import getDB from '../../realmdb/RealmDB'
 import AsyncStorage from '../../utils/asyncStorage'
 import { default as goodWallet } from '../../wallet/GoodWallet'
@@ -46,9 +47,11 @@ describe('UserProfileStorage', () => {
     await goodWallet.ready
 
     const db = getDB()
-    const seed = goodWallet.wallet.eth.accounts.wallet[goodWallet.getAccountForType('gundb')].privateKey.slice(2)
+    const pkeySeed = goodWallet.wallet.eth.accounts.wallet[goodWallet.getAccountForType('gundb')].privateKey.slice(2)
+    const seed = Uint8Array.from(Buffer.from(pkeySeed, 'hex'))
+    const privateKey = TextileCrypto.PrivateKey.fromRawEd25519Seed(seed)
 
-    await db.init(seed, goodWallet.getAccountForType('gundb')) // only once user is registered he has access to realmdb via signed jwt
+    await db.init(privateKey) // only once user is registered he has access to realmdb via signed jwt
     userProfileStorage = new UserProfileStorage(goodWallet, db)
   })
 

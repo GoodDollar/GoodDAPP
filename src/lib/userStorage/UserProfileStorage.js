@@ -129,7 +129,10 @@ export class UserProfileStorage implements ProfileStorage {
           typeof profile[item]?.value === 'string' &&
           (decryptedProfile[item] = {
             ...profile[item],
-            value: await this.profiledb.decryptField(profile[item]?.value),
+            value: await this.profiledb.decryptField(profile[item]?.value).catch(e => {
+              logger.warn('decryptProfileFields: failed decrypting profile field', e.message, e, { item })
+              return ''
+            }),
           }),
       ),
     )
@@ -355,9 +358,18 @@ export class UserProfileStorage implements ProfileStorage {
    * @param {*} walletAddress
    * @returns
    */
-  // eslint-disable-next-line require-await
-  async getProfileByWalletAddress(walletAddress: string): Promise<Profile> {
-    return this.profiledb.getProfileByField('walletAddress', walletAddress)
+  getProfileByWalletAddress(walletAddress: string): Promise<any> {
+    return this.getProfileByField('walletAddress', walletAddress)
+  }
+
+  getProfileByField(field: string, value: string): Promise<any> {
+    return this.profiledb.getProfileBy({ [`${field}.display`]: value })
+  }
+
+  //TODO: need to save hashed walletAddress to index and make it unique in realmdb
+  //TODO: in the future it should also validate the index.field.proof
+  getProfilesByHashIndex(field: string, value: string): Promise<any> {
+    return this.profiledb.getProfilesBy({ [`index.${field}.value`]: value })
   }
 
   /**
@@ -381,9 +393,6 @@ export class UserProfileStorage implements ProfileStorage {
         }),
         {},
       )
-    if (this.profile.smallAvatar) {
-      publicProfile.smallAvatar = this.profile.smallAvatar
-    }
 
     return publicProfile
   }
@@ -478,20 +487,15 @@ export class UserProfileStorage implements ProfileStorage {
   async getUserProfile(field?: string): { name: string, avatar: string } {
     const attr = isMobilePhone(field) ? 'mobile' : isEmail(field) ? 'email' : 'walletAddress'
     const profile = await this.getPublicProfile(attr, field)
-    const { fullName, avatar } = profile
-
     if (profile == null) {
-      logger.info(`getUserProfile by field <${field}> `)
+      logger.warn(`getUserProfile: by field <${field}> empty result`)
       return { name: undefined, avatar: undefined }
     }
+    const { fullName, smallAvatar } = profile
 
-    logger.info(`getUserProfile by field <${field}>`, { avatar, fullName })
+    logger.info(`getUserProfile by field <${field}>`, { fullName })
 
-    if (!fullName) {
-      logger.info(`cannot get fullName from gun by field <${field}>`, { fullName })
-    }
-
-    return { name: fullName, avatar }
+    return { name: fullName, avatar: smallAvatar }
   }
 
   subscribeProfileUpdates(callback: any => void): void {

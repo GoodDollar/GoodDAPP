@@ -2,7 +2,6 @@
 import React from 'react'
 import { Platform, SafeAreaView } from 'react-native'
 import Recover from '../signin/Mnemonics'
-import logger from '../../lib/logger/pino-logger'
 import { fireEvent, SIGNUP_METHOD_SELECTED } from '../../lib/analytics/analytics'
 import CustomButton from '../common/buttons/CustomButton'
 import AnimationsPeopleFlying from '../common/animations/PeopleFlying'
@@ -15,7 +14,6 @@ import { withStyles } from '../../lib/styles'
 import Section from '../common/layout/Section'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import SimpleStore from '../../lib/undux/SimpleStore'
-import { deleteGunDB } from '../../lib/hooks/useDeleteAccountDialog'
 import { REGISTRATION_METHOD_SELF_CUSTODY } from '../../lib/constants/login'
 
 type Props = {
@@ -26,28 +24,8 @@ type Props = {
   styles: any,
 }
 
-const log = logger.child({ from: 'Auth' })
-
 const Auth = (props: Props) => {
-  const handleSignUp = async () => {
-    const { store } = props
-    store.set('loadingIndicator')({ loading: true })
-    try {
-      if (Platform.OS === 'web') {
-        const req = deleteGunDB()
-        await req
-      } else {
-        //this is commented since on native it will also clear the MNEMONIC that was used to create the account
-        // await AsyncStorage.clear()
-      }
-
-      log.info('indexedDb successfully cleared')
-    } catch (e) {
-      log.warn('Failed to clear indexedDb', e.message, e)
-    } finally {
-      store.set('loadingIndicator')({ loading: false })
-    }
-
+  const handleSignUp = () => {
     fireEvent(SIGNUP_METHOD_SELECTED, { method: REGISTRATION_METHOD_SELF_CUSTODY })
 
     props.navigation.navigate('Signup', { regMethod: REGISTRATION_METHOD_SELF_CUSTODY })

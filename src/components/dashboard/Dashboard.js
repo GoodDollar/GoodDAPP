@@ -205,7 +205,7 @@ const Dashboard = props => {
   //subscribeToFeed probably should be an effect that updates the feed items
   //as they come in, currently on each new item it simply reset the feed
   //currently it seems too complicated to make it its own effect as it both depends on "feeds" and changes them
-  //which would lead to many unwanted subscribe/unsubscribe to gun
+  //which would lead to many unwanted subscribe/unsubscribe
   const subscribeToFeed = async () => {
     await getFeedPage(true)
 

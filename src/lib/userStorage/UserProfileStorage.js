@@ -1,6 +1,5 @@
 // @flow
-import { assign, debounce, toPairs } from 'lodash'
-import EventEmitter from 'eventemitter3'
+import { assign, toPairs } from 'lodash'
 
 import { ExceptionCategory } from '../logger/exceptions'
 import IPFS from '../ipfs/IpfsStorage'
@@ -79,8 +78,6 @@ export class UserProfileStorage implements ProfileStorage {
   //unecrypted profile field values
   profile: Profile = {}
 
-  events = new EventEmitter()
-
   constructor(wallet: GoodWallet, profiledb: ProfileDB) {
     // const seed = Uint8Array.from(Buffer.from(pkeySeed, 'hex'))
     // this.privateKey = TextileCrypto.PrivateKey.fromRawEd25519Seed(seed)
@@ -105,14 +102,7 @@ export class UserProfileStorage implements ProfileStorage {
    */
   _setLocalProfile(newValue: Profile): void {
     this.profile = newValue
-
-    this.onProfileUpdate()
   }
-
-  onProfileUpdate = debounce(() => this.events.emit('update', this.profile), 500, {
-    leading: false,
-    trailing: true,
-  })
 
   /**
    * helper for decrypt profile values
@@ -502,29 +492,11 @@ export class UserProfileStorage implements ProfileStorage {
     return { name: fullName, avatar: smallAvatar }
   }
 
-  subscribeProfileUpdates(callback: any => void): void {
-    this.events.on('update', callback)
-
-    if (this.profile) {
-      callback(this.profile)
-    }
-  }
-
-  unSubscribeProfileUpdates(callback?: any => void): void {
-    if (!callback) {
-      this.events.removeAllListeners('update')
-      return
-    }
-
-    this.events.off('update', callback)
-  }
-
   /**
    * Delete profile
    * @returns {Promise<[Promise<void>, Promise<*>]>}
    */
   async deleteProfile(): Promise<boolean> {
-    this.unSubscribeProfileUpdates()
     await this.profiledb.deleteProfile()
     this._setLocalProfile({})
   }

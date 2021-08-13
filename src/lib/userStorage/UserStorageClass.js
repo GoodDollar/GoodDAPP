@@ -216,10 +216,6 @@ export class UserStorage {
    */
   ready: Promise<boolean>
 
-  subscribersProfileUpdates = []
-
-  _lastProfileUpdate: any
-
   feedDB: DB
 
   userProperties
@@ -608,14 +604,6 @@ export class UserStorage {
    */
   getPrivateProfile(profile: {}): Promise<UserModel> {
     return this.profileStorage.getPrivateProfile()
-  }
-
-  subscribeProfileUpdates(callback: any => void) {
-    this.profileStorage.subscribeProfileUpdates(callback)
-  }
-
-  unSubscribeProfileUpdates(callback?: any => void) {
-    this.profileStorage.unSubscribeProfileUpdates(callback)
   }
 
   // eslint-disable-next-line require-await

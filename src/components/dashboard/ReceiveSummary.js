@@ -2,8 +2,8 @@
 import React, { useCallback, useMemo } from 'react'
 import { useScreenState } from '../appNavigation/stackNavigation'
 import goodWallet from '../../lib/wallet/GoodWallet'
-import GDStore from '../../lib/undux/GDStore'
 import { generateCode, generateReceiveShareObject } from '../../lib/share'
+import useProfile from '../../lib/userStorage/useProfile'
 import { ACTION_RECEIVE, navigationOptions } from './utils/sendReceiveFlow'
 import SummaryGeneric from './SendReceive/SummaryGeneric'
 
@@ -14,11 +14,10 @@ export type ReceiveProps = {
 }
 
 const ReceiveAmount = ({ screenProps, styles }: ReceiveProps) => {
-  const gdStore = GDStore.useStore()
   const [screenState] = useScreenState(screenProps)
 
   const { navigateTo } = screenProps
-  const { fullName } = gdStore.get('profile')
+  const { fullName } = useProfile()
   const { amount, reason, category, counterPartyDisplayName } = screenState
 
   const shareOrString = useMemo(() => {

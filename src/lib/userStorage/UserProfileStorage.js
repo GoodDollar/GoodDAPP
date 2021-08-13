@@ -122,9 +122,11 @@ export class UserProfileStorage implements ProfileStorage {
    */
   async _decryptProfileFields(profile: Profile): Promise<Profile> {
     const decryptedProfile = {}
+
     if (!profile) {
       return {}
     }
+
     await Promise.all(
       Object.keys(profile).map(
         async item =>
@@ -179,7 +181,7 @@ export class UserProfileStorage implements ProfileStorage {
     let { errors, isValid } = profile.validate(update)
 
     // enforce profile to have walletAddress
-    if (false === update && !fields.includes('walletAddress')) {
+    if (!update || !fields.walletAddress) {
       isValid = false
       errors.walletAddress = 'walletAddress is required in profile'
     }

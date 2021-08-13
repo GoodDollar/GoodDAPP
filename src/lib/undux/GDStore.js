@@ -2,7 +2,6 @@
 import { createConnectedStore, type StoreDefinition } from 'undux'
 import { compose } from 'lodash/fp'
 import type { StandardFeed } from '../userStorage/StandardFeed'
-import effects from './effects'
 import withPinoLogger from './plugins/logger'
 import { createUseCurriedSettersHook } from './utils/setter'
 
@@ -75,13 +74,7 @@ const initialState: State = {
  * default exported instance of our global Undux Store
  * @module
  */
-const GDStore: StoreDefinition<State> = createConnectedStore(
-  initialState,
-  compose(
-    effects,
-    withPinoLogger,
-  ),
-)
+const GDStore: StoreDefinition<State> = createConnectedStore(initialState, compose(withPinoLogger))
 
 export const useCurriedSetters = createUseCurriedSettersHook(() => GDStore)
 

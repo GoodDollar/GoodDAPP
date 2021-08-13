@@ -260,7 +260,7 @@ class RealmDB implements DB, ProfileDB {
       const { encrypted } = encryptedSettings
       const decrypted = await this.privateKey.decrypt(Uint8Array.from(Buffer.from(encrypted, 'base64')))
       settings = JSON.parse(new TextDecoder().decode(decrypted))
-      log.debug('decrypttSettings:', { settings, _id })
+      log.debug('decryptSettings:', { settings, _id })
     }
     return settings
   }

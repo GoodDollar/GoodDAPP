@@ -41,6 +41,7 @@ export const isValidValue = (field: string, value: string, trusted: boolean = fa
       new Error('isValidValue failed'),
       { category: ExceptionCategory.Human },
     )
+
     return false
   }
 

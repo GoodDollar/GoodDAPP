@@ -372,7 +372,7 @@ export class UserProfileStorage implements ProfileStorage {
    * @param {*} value
    */
   async getPublicProfile(key: string, value: string): Promise<{ [field: string]: string }> {
-    const rawProfile = await this.profiledb.getProfileByField(key, value)
+    const rawProfile = await this.getProfileByField(key, value)
 
     if (!rawProfile) {
       return null

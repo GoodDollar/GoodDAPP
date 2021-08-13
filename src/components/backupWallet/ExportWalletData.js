@@ -16,9 +16,7 @@ import { useDialog } from '../../lib/undux/utils/dialog'
 
 // utils
 import { withStyles } from '../../lib/styles'
-
-// eslint-disable-next-line import/no-named-as-default
-import GoodWallet from '../../lib/wallet/GoodWallet'
+import goodWallet from '../../lib/wallet/GoodWallet'
 import config from '../../config/config'
 
 // assets
@@ -42,11 +40,11 @@ const ExportWalletData = ({ navigation, styles, theme }: ExportWalletProps) => {
   const handleGoHome = useCallback(() => navigate('Home'), [navigate])
 
   const [publicKey, fullPrivateKey, web3ProviderUrl, networkId] = useMemo(() => {
-    const { account = '', networkId } = GoodWallet
+    const { account = '', networkId } = goodWallet
 
     return [
       account,
-      get(GoodWallet, 'wallet.eth.accounts.wallet[0].privateKey', ''),
+      get(goodWallet, 'wallet.eth.accounts.wallet[0].privateKey', ''),
       networkId && config.ethereum[networkId].httpWeb3provider,
       networkId,
     ]

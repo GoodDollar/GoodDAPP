@@ -1,10 +1,9 @@
 // @flow
 import React, { useCallback, useEffect, useState } from 'react'
 import { View } from 'react-native'
-import { isEqual, isEqualWith, merge, pickBy } from 'lodash'
+import { isEqualWith, merge, pickBy } from 'lodash'
 import userStorage from '../../lib/userStorage/UserStorage'
 import logger from '../../lib/logger/pino-logger'
-import GDStore, { useCurriedSetters } from '../../lib/undux/GDStore'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
 import { withStyles } from '../../lib/styles'
 import { Section, UserAvatar, Wrapper } from '../common'
@@ -12,8 +11,8 @@ import SaveButton from '../common/animations/SaveButton/SaveButton'
 import SaveButtonDisabled from '../common/animations/SaveButton/SaveButtonDisabled'
 import { fireEvent, PROFILE_UPDATE } from '../../lib/analytics/analytics'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
-import { useDebounce } from '../../lib/hooks/useDebouce'
 import RoundIconButton from '../common/buttons/RoundIconButton'
+import useProfile from '../../lib/userStorage/useProfile'
 import ProfileDataTable from './ProfileDataTable'
 
 const TITLE = 'Edit Profile'
@@ -21,10 +20,8 @@ const log = logger.child({ from: TITLE })
 const avatarSize = getDesignRelativeWidth(136)
 
 const EditProfile = ({ screenProps, styles, navigation }) => {
-  const store = GDStore.useStore()
-  const storedProfile = store.get('privateProfile')
-  const [setPrivateProfile] = useCurriedSetters(['privateProfile'])
-  const [profile, setProfile] = useState(storedProfile)
+  const storedProfile = useProfile()
+  const [profile, setProfile] = useState(() => storedProfile)
   const [saving, setSaving] = useState(false)
   const [isValid, setIsValid] = useState(true)
   const [isPristine, setIsPristine] = useState(true)
@@ -33,7 +30,6 @@ const EditProfile = ({ screenProps, styles, navigation }) => {
   const [showErrorDialog] = useErrorDialog()
   const { push, pop } = screenProps
 
-  const deboucedProfile = useDebounce(profile, 500)
   const onProfileSaved = useCallback(() => pop(), [pop])
   const handleEditAvatar = useCallback(() => push(`ViewAvatar`), [push])
 
@@ -54,7 +50,6 @@ const EditProfile = ({ screenProps, styles, navigation }) => {
 
         return undefined
       })
-
       const { isValid, errors } = profile.validate()
       const { isValid: isValidIndex, errors: errorsIndex } = await userStorage.validateProfile(pickBy(profile))
       const valid = isValid && isValidIndex
@@ -68,7 +63,7 @@ const EditProfile = ({ screenProps, styles, navigation }) => {
       log.warn('validate profile failed', e.message, e)
       return false
     }
-  }, [profile, storedProfile, setIsPristine, setErrors, setIsValid])
+  }, [profile, setIsPristine, setErrors, setIsValid])
 
   const handleProfileChange = useCallback(
     newProfile => {
@@ -82,64 +77,52 @@ const EditProfile = ({ screenProps, styles, navigation }) => {
   )
 
   const handleSaveButton = useCallback(async () => {
-    setSaving(true)
-    fireEvent(PROFILE_UPDATE)
-
-    const isValid = await validate()
-
-    // with flush triggers immediate call for the validation
-    if (!isValid) {
-      setSaving(false)
-      return false
-    }
-
-    //create profile only with updated/new fields so we don't resave data
-    const toupdate = pickBy(profile, (v, k) => {
-      if (typeof v === 'function') {
-        return true
-      }
-
-      if (storedProfile[k] === undefined) {
-        return true
-      }
-
-      if (['string', 'number'].includes(typeof v)) {
-        return v.toString() !== storedProfile[k].toString()
-      }
-
-      if (v !== storedProfile[k]) {
-        return true
-      }
-
-      return false
-    })
-
     try {
+      setSaving(true)
+      fireEvent(PROFILE_UPDATE)
+
+      const isValid = await validate()
+
+      // with flush triggers immediate call for the validation
+      if (!isValid) {
+        setSaving(false)
+        return false
+      }
+
+      //create profile only with updated/new fields so we don't resave data
+      const toupdate = pickBy(profile, (v, k) => {
+        if (typeof v === 'function') {
+          return true
+        }
+
+        if (storedProfile[k] == null) {
+          return true
+        }
+
+        if (['string', 'number'].includes(typeof v)) {
+          return v.toString() !== storedProfile[k].toString()
+        }
+
+        if (v !== storedProfile[k]) {
+          return true
+        }
+
+        return false
+      })
+
       await userStorage.setProfile(toupdate, true)
     } catch (e) {
-      log.error('Error saving profile', e.message, e, { toupdate, dialogShown: true })
+      log.error('Error saving profile', e.message, e, { profile, dialogShown: true })
       showErrorDialog('Could not save profile. Please try again.')
     } finally {
       setSaving(false)
     }
   }, [validate, profile, setSaving, storedProfile, showErrorDialog])
 
-  useEffect(() => {
-    if (!isEqual(storedProfile, {})) {
-      return
-    }
-
-    // initialize profile value for first time from storedProfile in userStorage
-    userStorage.getProfile().then(profileFromUserStorage => {
-      setPrivateProfile(profileFromUserStorage)
-      setProfile(profileFromUserStorage)
-    })
-  }, [])
-
   // Validate after saving profile state in order to show errors
   useEffect(() => {
     validate()
-  }, [deboucedProfile])
+  }, [profile])
 
   return (
     <Wrapper>

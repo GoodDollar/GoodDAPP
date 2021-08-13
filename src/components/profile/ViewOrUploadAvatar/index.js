@@ -1,7 +1,6 @@
 // @flow
 import React, { useCallback } from 'react'
 import { Platform } from 'react-native'
-import GDStore from '../../../lib/undux/GDStore'
 import { CustomButton, Section, UserAvatar, Wrapper } from '../../common'
 import { withStyles } from '../../../lib/styles'
 import { useWrappedUserStorage } from '../../../lib/userStorage/useWrappedStorage'
@@ -12,6 +11,7 @@ import { fireEvent, PROFILE_IMAGE } from '../../../lib/analytics/analytics'
 import RoundIconButton from '../../common/buttons/RoundIconButton'
 import { useDebouncedOnPress } from '../../../lib/hooks/useOnPress'
 import useAvatar from '../../../lib/hooks/useAvatar'
+import useProfile from '../../../lib/userStorage/useProfile'
 import openCropper from './openCropper'
 
 export const pickerOptions = {
@@ -33,8 +33,7 @@ const TITLE = 'My Profile'
 
 const ViewOrUploadAvatar = props => {
   const { styles, screenProps } = props
-  const store = GDStore.useStore()
-  const profile = store.get('profile')
+  const profile = useProfile()
   const wrappedUserStorage = useWrappedUserStorage()
   const [showErrorDialog] = useErrorDialog()
   const avatar = useAvatar(profile.avatar, true)

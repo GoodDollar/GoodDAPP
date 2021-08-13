@@ -37,6 +37,7 @@ import useOnPress from '../../lib/hooks/useOnPress'
 import Invite from '../invite/Invite'
 import Avatar from '../common/view/Avatar'
 import _debounce from '../../lib/utils/debounce'
+import useProfile from '../../lib/userStorage/useProfile'
 import { GlobalTogglesContext } from '../../lib/contexts/togglesContext'
 import PrivacyPolicyAndTerms from './PrivacyPolicyAndTerms'
 import Amount from './Amount'
@@ -113,7 +114,7 @@ const Dashboard = props => {
   const loadingIndicator = store.get('loadingIndicator')
   const loadAnimShown = store.get('feedLoadAnimShown')
   const { balance, entitlement } = gdstore.get('account')
-  const { avatar, fullName } = gdstore.get('profile')
+  const { avatar, fullName } = useProfile()
   const [feeds, setFeeds] = useState([])
   const [headerLarge, setHeaderLarge] = useState(true)
   const { appState } = useAppState()
@@ -207,7 +208,7 @@ const Dashboard = props => {
   //subscribeToFeed probably should be an effect that updates the feed items
   //as they come in, currently on each new item it simply reset the feed
   //currently it seems too complicated to make it its own effect as it both depends on "feeds" and changes them
-  //which would lead to many unwanted subscribe/unsubscribe to gun
+  //which would lead to many unwanted subscribe/unsubscribe
   const subscribeToFeed = async () => {
     await getFeedPage(true)
 

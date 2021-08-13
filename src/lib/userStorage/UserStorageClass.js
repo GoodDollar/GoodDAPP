@@ -1,12 +1,12 @@
 //@flow
 
-import * as TextileCrypto from '@textile/crypto'
-import { debounce, get, isError, isString, memoize, over } from 'lodash'
+import { get, memoize } from 'lodash'
 
 import moment from 'moment'
 import Gun from '@gooddollar/gun'
-import SEA from '@gooddollar/gun/sea'
 import { gunAuth as gunPKAuth } from '@gooddollar/gun-pk-auth'
+import * as TextileCrypto from '@textile/crypto'
+
 import { sha3 } from 'web3-utils'
 import isEmail from '../../lib/validators/isEmail'
 
@@ -34,25 +34,11 @@ const logger = pino.child({ from: 'UserStorage' })
 const NULL_ADDRESS = '0x0000000000000000000000000000000000000000'
 
 /**
- * User details returned from Gun SEA
- */
-export type GunDBUser = {
-  alias: string,
-  epub: string,
-  pub: string,
-  sea: any,
-}
-
-/**
  * possible privacy level for profile fields
  */
 export type FieldPrivacy = 'private' | 'public' | 'masked'
 
-export type ACK = {
-  ok: number,
-  err: string,
-}
-export type EncryptedField = any
+type EncryptedField = any
 
 /**
  * User's profile field data
@@ -216,12 +202,6 @@ export class UserStorage {
 
   /**
    * a gun node referring tto gun.user().get('properties')
-   * @instance {Gun}
-   */
-  // properties: Gun
-
-  /**
-   * a gun node referring tto gun.user().get('properties')
    * @instance {UserProperties}
    */
   userProperties: UserProperties
@@ -230,12 +210,6 @@ export class UserStorage {
    * current feed item
    */
   cursor: number = 0
-
-  /**
-   * object with Gun SEA user details
-   * @instance {GunDBUser}
-   */
-  user: GunDBUser
 
   /**
    * A promise which is resolved once init() is done
@@ -282,7 +256,7 @@ export class UserStorage {
     username: true,
   }
 
-  // trusted GoodDollar user indexes
+  // trusted GoodDollar signature
   trust = {}
 
   walletAddressIndex = {}
@@ -324,48 +298,6 @@ export class UserStorage {
     return value
   }
 
-  /**
-   *
-   * @param {string} username
-   * @param {string} password
-   * @returns {Promise<*>}
-   */
-  static async getMnemonic(username: String, password: String): Promise<String> {
-    let gun = defaultGun
-    let gunuser = gun.user()
-    let mnemonic = ''
-
-    //hack to get gun working. these seems to preload data gun needs to login
-    //otherwise it get stuck on a clean incognito
-    const existingUser = await this.gun.get('~@' + username).onThen(null, { wait: 3000 })
-    logger.debug('getMnemonic:', { existingUser })
-    const authUserInGun = (username, password) => {
-      return new Promise((res, rej) => {
-        gunuser.auth(username, password, user => {
-          logger.debug('getMnemonic gundb auth', { user })
-          if (user.err) {
-            const error = isString(user.err) ? new Error(user.err) : user.err
-            logger.error('Error getMnemonic UserStorage', error.message, error)
-            return rej(false)
-          }
-          res(true)
-        })
-      })
-    }
-
-    if (existingUser && (await authUserInGun(username, password))) {
-      const profile = gunuser.get('profile')
-      mnemonic = await profile
-        .get('mnemonic')
-        .get('value')
-        .decrypt()
-      logger.debug('getMnemonic', { mnemonic })
-      await gunuser.leave()
-    }
-
-    return mnemonic
-  }
-
   constructor(wallet: GoodWallet, feeddb: DB, userProperties) {
     this.gun = defaultGun
     this.wallet = wallet
@@ -375,46 +307,11 @@ export class UserStorage {
   }
 
   /**
-   * a gun node referring to gun.user().get('profile')
-   * @instance {Gun}
-   */
-  get profile() {
-    return this.gun.user().get('profile')
-  }
-
-  /**
    * a gun node referring to gun.user()
    * @instance {Gun}
    */
   get gunuser() {
     return this.gun.user()
-  }
-
-  gunAuth(username: string, password: string): Promise<any> {
-    return new Promise((res, rej) => {
-      this.gunuser.auth(username, password, user => {
-        logger.debug('gundb auth', user.err)
-        if (user.err) {
-          return rej(user.err)
-        }
-        res(user)
-      })
-    })
-  }
-
-  gunCreate(username: string, password: string): Promise<any> {
-    return new Promise((res, rej) => {
-      this.gunuser.create(username, password, user => {
-        logger.debug('gundb user created', user)
-
-        //if username exists its not an error we can create
-        //multiple accounts under same username
-        // if (user.err) {
-        //   return rej(user.err)
-        // }
-        res(user)
-      })
-    })
   }
 
   /**
@@ -459,42 +356,27 @@ export class UserStorage {
       pubkey: this.gunuser.is,
       pair: this.gunuser.pair(),
     })
-
-    this.initProfile().catch(e => logger.error('failed initializing initProfile', e.message, e))
   }
 
   /**
-   * Initialize wallet, gundb user, feed and subscribe to events
+   * Initialize wallet, user, feed and subscribe to events
    */
   async initRegistered() {
-    logger.debug('Initializing GunDB UserStorage for registered user', this.initializedRegistered)
+    logger.debug('Initializing UserStorage for registered user', this.initializedRegistered)
 
     if (this.initializedRegistered) {
       return
     }
 
-    const seed = this.wallet.wallet.eth.accounts.wallet[this.wallet.getAccountForType('gundb')].privateKey.slice(2)
-    await this.feedDB.init(seed, this.wallet.getAccountForType('gundb')) //only once user is registered he has access to realmdb via signed jwt
+    await this.feedDB.init(this.profilePrivateKey, this.wallet.getAccountForType('gundb')) //only once user is registered he has access to realmdb via signed jwt
     //after we initialize the database wait for user properties which depands on database
-    await this.userProperties.ready
     await Promise.all([this.userProperties.ready, this.profileStorage.init(), this.initFeed()])
-    await this.initFeed()
-
-    // get trusted GoodDollar indexes and pub key
-    let trustPromise = this.fetchTrustIndexes()
 
     logger.debug('subscribing to wallet events')
-
-    await Promise.all([trustPromise])
 
     logger.debug('done initializing registered userstorage')
     this.initializedRegistered = true
 
-    // save ref to user
-    this.gun
-      .get('users')
-      .get(this.gunuser.is.pub)
-      .put(this.gunuser)
     return true
   }
 
@@ -532,43 +414,6 @@ export class UserStorage {
     })()
 
     return this.ready
-  }
-
-  /**
-   * Fetches trusted GoodDollar indexes and pub key
-   * @returns Promise
-   * @private
-   */
-  async fetchTrustIndexes() {
-    try {
-      AsyncStorage.getItem('GD_walletIndex').then(idx => (this.walletAddressIndex = idx || {}))
-      const { data, lastFetch } = (await AsyncStorage.getItem('GD_trust')) || {}
-
-      let refetch = true
-
-      if (lastFetch) {
-        const stale = moment().diff(moment(lastFetch), 'days')
-        refetch = stale >= 7
-        logger.debug('fetchTrustIndexes', { stale, lastFetch, data })
-      }
-      if (data == null || refetch) {
-        // make sure server is up
-        await API.ping()
-
-        // fetch trust data
-        const { data } = await API.getTrust()
-
-        AsyncStorage.setItem('GD_trust', { data, lastFetch: Date.now() })
-        this.trust = data
-      } else {
-        this.trust = data
-      }
-    } catch (exception) {
-      const { message } = exception
-
-      // if fetch trust request failed even we're pinged the server - it's an exception
-      logger.error('Could not fetch /trust', message, exception)
-    }
   }
 
   /**
@@ -616,7 +461,8 @@ export class UserStorage {
   }
 
   sign(msg: any) {
-    return SEA.sign(msg, this.gunuser.pair())
+    msg = new TextEncoder().encode(msg)
+    return this.profilePrivateKey.sign(msg).then(_ => Buffer.from(_).toString('base64'))
   }
 
   /**
@@ -631,8 +477,7 @@ export class UserStorage {
   }
 
   /**
-   * Subscribes to changes on the event index of day to number of events
-   * the "false" (see gundb docs) passed is so we get the complete 'index' on every change and not just the day that changed
+   * initializes the feedstorage and default feed items
    */
   async initFeed() {
     this.feedStorage = new FeedStorage(this.feedDB, this.gun, this.wallet, this)
@@ -679,36 +524,6 @@ export class UserStorage {
     }
 
     logger.debug('startSystemFeed: done')
-  }
-
-  async initProfile() {
-    const [gunuser, profile] = await Promise.all([this.gunuser.then(null, 1000), this.profile.then(null, 1000)])
-
-    if (profile === null) {
-      // in case profile was deleted in the past it will be exactly null
-      await this.profile.putAck({ initialized: true }).catch(e => {
-        logger.error('set profile initialized failed:', e.message, e)
-        throw e
-      })
-    }
-
-    // this.profile = this.gunuser.get('profile')
-    const onProfileUpdate = debounce(
-      doc => {
-        this._lastProfileUpdate = doc
-        over(this.subscribersProfileUpdates)(doc)
-      },
-      500,
-      { leading: false, trailing: true },
-    )
-
-    this.profile.open(onProfileUpdate)
-
-    logger.debug('init opened profile', {
-      gunRef: this.profile,
-      profile,
-      gunuser,
-    })
   }
 
   addAllCardsTest() {
@@ -769,7 +584,7 @@ export class UserStorage {
    * Returns progfile attribute value
    *
    * @param {string} field - Profile attribute
-   * @returns {Promise<ProfileField>} Gun profile attribute object
+   * @returns {Promise<ProfileField>} field data
    */
   getProfileField(field: string): Promise<ProfileField> {
     return this.profileStorage.getProfileField()
@@ -834,7 +649,7 @@ export class UserStorage {
 
     if (!cleanValue) {
       logger.warn(
-        `indexProfileField - field ${field} value is empty (value: ${value})`,
+        `isValidValue - field ${field} value is empty (value: ${value})`,
         cleanValue,
         new Error('isValidValue failed'),
         { category: ExceptionCategory.Human },
@@ -865,66 +680,8 @@ export class UserStorage {
     value: string,
     privacy: FieldPrivacy = 'public',
     onlyPrivacy: boolean = false,
-  ): Promise<ACK> {
+  ): Promise<void> {
     return this.profileStorage.setProfileField(field, value, privacy, onlyPrivacy)
-  }
-
-  /**
-   * Generates index by field if privacy is public, or empty index if it's not public
-   * @deprecated no longer indexing in world writable index
-   * @param {string} field - Profile attribute
-   * @param {string} value - Profile attribute value
-   * @param {string} privacy - (private | public | masked)
-   * @returns Gun result promise after index is generated
-   * @todo This is world writable so theoretically a malicious user could delete the indexes
-   * need to develop for gundb immutable keys to non first user
-   */
-  async indexProfileField(field: string, value: string, privacy: FieldPrivacy): Promise<ACK> {
-    if (!UserStorage.indexableFields[field]) {
-      return Promise.resolve({ err: 'Not indexable field', ok: 0 })
-    }
-
-    const cleanValue = UserStorage.cleanHashedFieldForIndex(field, value)
-
-    if (!cleanValue) {
-      return Promise.resolve({
-        err: 'Indexable field cannot be null or empty',
-        ok: 0,
-      })
-    }
-
-    try {
-      if (field === 'username' && !(await UserStorage.isValidValue(field, value, false))) {
-        return Promise.resolve({
-          err: `Existing index on field ${field}`,
-          ok: 0,
-        })
-      }
-      const indexNode = this.gun.get(`users/by${field}`).get(cleanValue)
-      const indexValue = await indexNode.then()
-
-      logger.debug('indexProfileField', {
-        field,
-        value,
-        privacy,
-        indexValue: indexValue,
-        currentUser: this.gunuser.is.pub,
-      })
-
-      // now that we use the hash of the email/mobile there's no privacy issue
-      // if (privacy !== 'public' && indexValue !== undefined) {
-      //   return indexNode.putAck(null)
-      // }
-
-      return await indexNode.putAck(this.gunuser)
-    } catch (gunError) {
-      const e = this._gunException(gunError)
-
-      logger.error('indexProfileField failed', e.message, e, { field })
-
-      // TODO: this should return unexpected error
-      // return Promise.resolve({ err: `Unexpected Error`, ok: 0 })
-    }
   }
 
   /**
@@ -935,7 +692,7 @@ export class UserStorage {
    * @returns {Promise} Promise with updated field value, secret, display and privacy.
    */
   // eslint-disable-next-line require-await
-  async setProfileFieldPrivacy(field: string, privacy: FieldPrivacy): Promise<ACK> {
+  async setProfileFieldPrivacy(field: string, privacy: FieldPrivacy): Promise<void> {
     return this.profileStorage.setProfileFieldPrivacy(field, privacy)
   }
 
@@ -1032,56 +789,8 @@ export class UserStorage {
    */
   async isUsername(username: string) {
     const cleanValue = UserStorage.cleanHashedFieldForIndex('username', username)
-
-    const profile = await this.gun
-      .get('users/byusername')
-      .get(cleanValue)
-      .then()
-
-    return profile !== undefined
-  }
-
-  /**
-   * Save survey
-   * @param {string} hash
-   * @param {object} details
-   * @returns {Promise<void>}
-   */
-  async saveSurveyDetails(hash, details: SurveyDetails) {
-    try {
-      const date = moment(new Date()).format('DDMMYY')
-
-      await this.gun
-        .get('survey')
-        .get(date)
-        .then()
-
-      await this.gun
-        .get('survey')
-        .get(date)
-        .putAck({ [hash]: details })
-
-      return true
-    } catch (gunError) {
-      const e = this._gunException(gunError)
-
-      logger.error('saveSurveyDetails :', e.message, e, { details })
-      return false
-    }
-  }
-
-  /**
-   * Get all survey
-   * @returns {Promise<void>}
-   */
-  async getSurveyDetailByHashAndDate(hash: string, date: string) {
-    const result = await this.gun
-      .get('survey')
-      .get(date)
-      .get(hash)
-      .then()
-
-    return result
+    const profile = await this.profileStorage.getProfilesByHashIndex('username', cleanValue)
+    return profile?.length > 0
   }
 
   /**
@@ -1089,44 +798,14 @@ export class UserStorage {
    * @param {string} value email/mobile/walletAddress to fetch by
    */
   async getUserProfilePublickey(value: string) {
-    if (!value) {
+    const { publicKey } = (await this.profileStorage.getProfileByWalletAddress(value)) || {}
+    logger.info(`getUserProfilePublicKey`, { publicKey })
+
+    if (publicKey == null) {
       return
     }
 
-    const attr = isMobilePhone(value) ? 'mobile' : isEmail(value) ? 'email' : 'walletAddress'
-    const hashValue = UserStorage.cleanHashedFieldForIndex(attr, value)
-
-    logger.info(`getUserProfilePublicKey by value <${value}>`, { attr, hashValue })
-
-    let profilePublickey
-    if (attr === 'walletAddress') {
-      profilePublickey = this.walletAddressIndex[hashValue]
-      logger.info(`getUserProfilePublicKey from indexes`, { profilePublickey })
-    }
-
-    if (profilePublickey) {
-      return profilePublickey
-    }
-
-    const { data } = await API.getProfileBy(hashValue)
-
-    profilePublickey = get(data, 'profilePublickey')
-    logger.info(`getUserProfilePublicKey from API`, { profilePublickey })
-
-    if (profilePublickey == null) {
-      return
-    }
-
-    profilePublickey = '~' + data.profilePublickey
-
-    // wallet address has 1-1 connection with profile public key,
-    //so we can cache it
-    if (attr === 'walletAddress') {
-      this.walletAddressIndex[hashValue] = profilePublickey
-      AsyncStorage.setItem('GD_walletIndex', this.walletAddressIndex)
-    }
-
-    return profilePublickey
+    return publicKey
   }
 
   /**
@@ -1134,19 +813,20 @@ export class UserStorage {
    * @param {string} field - Profile field value (email, mobile or wallet address value)
    * @returns { string } address
    */
-  async getUserAddress(field: string) {
-    const profile = await this.getUserProfilePublickey(field)
-
-    if (profile == null) {
+  async getUserAddress(value: string) {
+    if (!value) {
       return
     }
 
-    return this.gun
-      .get(profile)
-      .get('profile')
-      .get('walletAddress')
-      .get('display')
-      .then()
+    const attr = isMobilePhone(value) ? 'mobile' : isEmail(value) ? 'email' : 'walletAddress'
+    const hashValue = UserStorage.cleanHashedFieldForIndex(attr, value)
+
+    const profile = await this.profileStorage.getProfilesByHashIndex(attr, hashValue)
+    if (profile.length === 0) {
+      return
+    }
+
+    return profile[0].walletAddress.display
   }
 
   /**
@@ -1304,66 +984,6 @@ export class UserStorage {
     }
   }
 
-  async _getProfileNodeTrusted(initiatorType, initiator, address): Gun {
-    if (!initiator && (!address || address === NULL_ADDRESS)) {
-      return
-    }
-
-    const byIndex = initiatorType && initiator && (await this.getUserProfilePublickey(initiator))
-    const byAddress = address && (await this.getUserProfilePublickey(address))
-
-    const gunProfile = (byIndex || byAddress) && this.gun.get(byIndex || byAddress).get('profile')
-
-    // need to return object so promise.all doesn't resolve node
-    return {
-      gunProfile,
-    }
-  }
-
-  async _getProfileNode(initiatorType, initiator, address): Gun {
-    const getProfile = async (indexName, idxKey) => {
-      const trustIdx = this.trust[indexName]
-      const trustExists =
-        trustIdx &&
-        (await this.gun
-          .get(trustIdx)
-          .get(idxKey)
-          .then())
-
-      let idxSoul = `users/${indexName}`
-
-      if (trustExists) {
-        idxSoul = trustIdx
-      }
-
-      logger.debug('extractProfile:', { idxSoul, idxKey, trustExists })
-
-      // Need to verify if user deleted, otherwise gun might stuck here and feed wont be displayed (gun <0.2020)
-      let gunProfile = this.gun
-        .get(idxSoul)
-        .get(idxKey)
-        .get('profile')
-
-      // need to return object so promise.all doesn't resolve node
-      return {
-        gunProfile,
-      }
-
-      // logger.warn('_extractProfileToShow invalid profile', { idxSoul, idxKey })
-      // return undefined
-    }
-
-    if (!initiator && (!address || address === NULL_ADDRESS)) {
-      return
-    }
-
-    const searchField = initiatorType && `by${initiatorType}`
-    const byIndex = searchField && (await getProfile(searchField, initiator))
-    const byAddress = address && (await getProfile('bywalletAddress', address))
-
-    return byIndex || byAddress
-  }
-
   /**
    * enqueue a new pending TX done on DAPP, to be later merged with the blockchain tx
    * the DAPP event can contain more details than the blockchain tx event
@@ -1454,21 +1074,6 @@ export class UserStorage {
     return this.profileStorage.getProfileByWalletAddress(walletAddress)
   }
 
-  loadGunField(gunNode): Promise<any> {
-    // eslint-disable-next-line no-async-promise-executor
-    return new Promise(async res => {
-      gunNode.load(p => res(p))
-      let isNode = await gunNode
-      if (isNode === undefined) {
-        res(undefined)
-      }
-    })
-  }
-
-  getEncryptedProfile(profileNode): Promise<> {
-    return this.loadGunField(profileNode)
-  }
-
   // eslint-disable-next-line require-await
   async getPublicProfile(key: string, string: string): Promise<any> {
     return this.profileStorage.getPublicProfile(key, string)
@@ -1479,20 +1084,7 @@ export class UserStorage {
   }
 
   /**
-   * Checks if the current user was already registered to gunDB
-   * @returns {Promise<boolean>|Promise<boolean>}
-   */
-  async userAlreadyExist(): Promise<boolean> {
-    const gunNode = this.gunuser.get('registered')
-    const exists = await gunNode.then(null, 1000)
-
-    logger.debug('userAlreadyExist', { exists })
-    return exists
-  }
-
-  /**
-   * remove user from indexes
-   * deleting profile actually doesn't delete but encrypts everything
+   * delete user profile
    */
   // eslint-disable-next-line require-await
   async deleteProfile(): Promise<boolean> {
@@ -1501,13 +1093,13 @@ export class UserStorage {
 
   /**
    * Delete the user account.
-   * Deleting gundb profile and clearing local storage
+   * Deleting profile and clearing local storage
    * Calling the server to delete their data
    */
   async deleteAccount(): Promise<boolean> {
     let deleteResults = false
     let deleteAccountResult
-    const { wallet, userProperties, gunuser, _trackStatus } = this
+    const { wallet, userProperties, _trackStatus } = this
 
     try {
       const faceIdentifier = this.getFaceIdentifier()
@@ -1519,9 +1111,9 @@ export class UserStorage {
       if (get(deleteAccountResult, 'data.ok', false)) {
         deleteResults = await Promise.all([
           _trackStatus(retry(() => wallet.deleteAccount(), 1, 500), 'wallet'),
+          _trackStatus(this.feedDB.deleteAccount()),
           _trackStatus(this.deleteProfile(), 'profile'),
           _trackStatus(userProperties.reset(), 'userprops'),
-          _trackStatus(gunuser.get('registered').putAck(false), 'registered'),
         ])
       }
     } catch (e) {
@@ -1533,16 +1125,6 @@ export class UserStorage {
     return true
   }
 
-  _gunException(gunError) {
-    let exception = gunError
-
-    if (!isError(exception)) {
-      exception = new Error(gunError.err || gunError)
-    }
-
-    return exception
-  }
-
   _trackStatus = (promise, label) =>
     promise
       .then(() => {
@@ -1551,9 +1133,9 @@ export class UserStorage {
         logger.debug('Cleanup:', status)
         return status
       })
-      .catch(gunError => {
+      .catch(error => {
         const status = { [label]: 'failed' }
-        const e = this._gunException(gunError)
+        const e = error
 
         logger.debug('Cleanup:', e.message, e, status)
         return status

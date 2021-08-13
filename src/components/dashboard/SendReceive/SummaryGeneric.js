@@ -1,7 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { Platform, View } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import GDStore from '../../../lib/undux/GDStore'
 import { BackButton } from '../../appNavigation/stackNavigation'
 import { BigGoodDollar, CustomButton, Icon, InputRounded, Section, Wrapper } from '../../common'
 import BorderedBox from '../../common/view/BorderedBox'
@@ -13,7 +12,7 @@ import { isMobile } from '../../../lib/utils/platform'
 import isEmail from '../../../lib/validators/isEmail'
 import normalize from '../../../lib/utils/normalizeText'
 import SurveySend from '../SurveySend'
-
+import useProfile from '../../../lib/userStorage/useProfile'
 const SummaryGeneric = ({
   screenProps,
   styles,
@@ -43,8 +42,7 @@ const SummaryGeneric = ({
     }
   }
 
-  const store = GDStore.useStore()
-  const profile = store.get('privateProfile')
+  const profile = useProfile()
 
   const [name, setName] = useState(profile.fullName)
   const [email, setEmail] = useState(profile.email)

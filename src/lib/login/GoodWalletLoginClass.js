@@ -17,7 +17,7 @@ class GoodWalletLogin extends LoginService {
 
   async login(): Promise<Credentials> {
     const { toSign } = LoginService
-    const { wallet, userStorage } = this
+    const { wallet } = this
     const { networkId } = wallet
     const { utils } = wallet.wallet
 
@@ -26,12 +26,13 @@ class GoodWalletLogin extends LoginService {
 
     const signature = await wallet.sign(message, 'login')
     const gdSignature = await wallet.sign(message, 'gd')
+
     let profileSignature = null
     let profilePublickey = null
 
-    if (userStorage) {
-      profileSignature = await userStorage.sign(message)
-      profilePublickey = userStorage.user.pub
+    if (this.userStorage) {
+      profileSignature = await this.userStorage.sign(message)
+      profilePublickey = this.userStorage.profilePrivateKey.public.toString()
     }
 
     const creds = {

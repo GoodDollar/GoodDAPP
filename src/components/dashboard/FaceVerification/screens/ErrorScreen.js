@@ -9,23 +9,23 @@ import GeneralError from '../components/GeneralError'
 import UnrecoverableError from '../components/UnrecoverableError'
 import SwitchToAnotherDevice from '../components/SwitchToAnotherDevice'
 
-import GDStore from '../../../../lib/undux/GDStore'
 import useVerificationAttempts from '../hooks/useVerificationAttempts'
 
 import { getFirstWord } from '../../../../lib/utils/getFirstWord'
+import useProfile from '../../../../lib/userStorage/useProfile'
 
 const ErrorScreen = ({ styles, screenProps, navigation }) => {
-  const store = GDStore.useStore()
+  const profile = useProfile()
   const { isReachedMaxAttempts } = useVerificationAttempts()
 
   const exception = get(screenProps, 'screenState.error')
   const kindOfTheIssue = get(exception, 'name')
 
   const title = useMemo(() => {
-    const { fullName } = store.get('profile')
+    const { fullName } = profile
 
     return getFirstWord(fullName)
-  }, [store])
+  }, [profile])
 
   const onRetry = useCallback(() => screenProps.navigateTo('FaceVerificationIntro'), [screenProps])
 

@@ -18,7 +18,9 @@ exports[`Auth matches snapshot 1`] = `
       <div
         className="css-view-1dbjc4n r-WebkitOverflowScrolling-150rngu r-display-6koalj r-flexDirection-eqz5dr r-flexGrow-16y2uox r-flexShrink-1wbh5a2 r-overflowX-11yh6sk r-overflowY-1rnoaur r-transform-1sncvnh"
         onScroll={[Function]}
+        onTouchEnd={[Function]}
         onTouchMove={[Function]}
+        onTouchStart={[Function]}
         onWheel={[Function]}
       >
         <div
@@ -32,7 +34,7 @@ exports[`Auth matches snapshot 1`] = `
               data-name="viewWrapper"
             >
               <div
-                className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-evnaw r-fontWeight-majxgm r-lineHeight-waer2z r-marginBottom-eektet r-marginTop-1lfx3nc r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-majxgm r-lineHeight-qvk6io r-marginBottom-p1pxzi r-marginTop-1mnahxq r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                 data-testid="welcomeLabel"
                 dir="auto"
               >
@@ -63,22 +65,14 @@ you are accepting our
 
                   <span
                     className="css-text-901oao css-textHasAncestor-16my406 r-color-vaa0vc r-cursor-1loqt21 r-fontFamily-vnw8o6 r-fontSize-1enofrn r-fontWeight-b88u0q r-lineHeight-1cwl3u0 r-textAlign-q4m81j r-textDecorationLine-1ddef8g r-textTransform-3twk1y"
-                    data-focusable={true}
-                    dir="auto"
                     onClick={[Function]}
-                    onKeyDown={[Function]}
-                    tabIndex="0"
                   >
                     Terms of Use
                   </span>
                    and 
                   <span
                     className="css-text-901oao css-textHasAncestor-16my406 r-color-vaa0vc r-cursor-1loqt21 r-fontFamily-vnw8o6 r-fontSize-1enofrn r-fontWeight-b88u0q r-lineHeight-1cwl3u0 r-textAlign-q4m81j r-textDecorationLine-1ddef8g r-textTransform-3twk1y"
-                    data-focusable={true}
-                    dir="auto"
                     onClick={[Function]}
-                    onKeyDown={[Function]}
-                    tabIndex="0"
                   >
                     Privacy Policy
                   </span>
@@ -86,6 +80,7 @@ you are accepting our
                 <div
                   className="css-view-1dbjc4n r-display-6koalj r-justifyContent-1777fci r-padding-t60dpp"
                   data-testid="firstButton"
+                  id="animatedComponent"
                   style={
                     Object {
                       "WebkitAlignItems": "stretch",
@@ -123,16 +118,9 @@ you are accepting our
                 >
                   <div
                     className="css-cursor-18t94o4 css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
-                    data-focusable={true}
+                    onClick={[Function]}
+                    onContextMenu={[Function]}
                     onKeyDown={[Function]}
-                    onKeyPress={[Function]}
-                    onKeyUp={[Function]}
-                    onResponderGrant={[Function]}
-                    onResponderMove={[Function]}
-                    onResponderRelease={[Function]}
-                    onResponderTerminate={[Function]}
-                    onResponderTerminationRequest={[Function]}
-                    onStartShouldSetResponder={[Function]}
                     role="button"
                     style={
                       Object {
@@ -166,7 +154,7 @@ you are accepting our
                           className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
                         >
                           <div
-                            className="css-text-901oao r-alignItems-1awozwy r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-hbpseb r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
+                            className="css-text-901oao r-alignItems-1awozwy r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-qvk6io r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
                             dir="auto"
                           >
                             Create a wallet
@@ -177,8 +165,9 @@ you are accepting our
                   </div>
                 </div>
                 <div
-                  className="css-view-1dbjc4n r-display-6koalj r-justifyContent-1777fci r-padding-t60dpp"
+                  className="css-view-1dbjc4n r-display-6koalj r-justifyContent-1777fci r-marginBottom-p1pxzi r-marginTop-1mnahxq r-padding-t60dpp"
                   data-testid="signInButton"
+                  id="animatedComponent"
                   style={
                     Object {
                       "WebkitAlignItems": "stretch",
@@ -201,10 +190,8 @@ you are accepting our
                       "borderTopRightRadius": "50px",
                       "borderTopStyle": "solid",
                       "borderTopWidth": "1px",
-                      "marginBottom": "0px",
                       "marginLeft": "0px",
                       "marginRight": "0px",
-                      "marginTop": "0px",
                       "minHeight": "44px",
                       "minWidth": "64px",
                       "msFlexAlign": "stretch",
@@ -215,16 +202,9 @@ you are accepting our
                 >
                   <div
                     className="css-cursor-18t94o4 css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
-                    data-focusable={true}
+                    onClick={[Function]}
+                    onContextMenu={[Function]}
                     onKeyDown={[Function]}
-                    onKeyPress={[Function]}
-                    onKeyUp={[Function]}
-                    onResponderGrant={[Function]}
-                    onResponderMove={[Function]}
-                    onResponderRelease={[Function]}
-                    onResponderTerminate={[Function]}
-                    onResponderTerminationRequest={[Function]}
-                    onStartShouldSetResponder={[Function]}
                     role="button"
                     style={
                       Object {
@@ -258,13 +238,12 @@ you are accepting our
                           className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
                         >
                           <div
-                            className="css-text-901oao r-alignItems-1awozwy r-color-1q5uqvh r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-hbpseb r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                            className="css-text-901oao r-alignItems-1awozwy r-color-1q5uqvh r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-qvk6io r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                             dir="auto"
                           >
                             ALREADY REGISTERED?
                             <span
-                              className="css-text-901oao css-textHasAncestor-16my406 r-alignItems-1awozwy r-color-1q5uqvh r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1vr29t4 r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-hbpseb r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
-                              dir="auto"
+                              className="css-text-901oao css-textHasAncestor-16my406 r-alignItems-1awozwy r-color-1q5uqvh r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1vr29t4 r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-qvk6io r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
                             >
                                SIGN IN
                             </span>

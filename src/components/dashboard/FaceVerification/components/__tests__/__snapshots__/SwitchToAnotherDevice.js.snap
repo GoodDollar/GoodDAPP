@@ -14,10 +14,10 @@ exports[`FaceVerification SwitchToAnotherDevice matches snapshot 1`] = `
     }
   >
     <div
-      className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-14lw9ot r-borderRadius-1f0042m r-display-6koalj r-flex-13awgt0 r-flexGrow-16y2uox r-flexShrink-1q142lx r-height-1pi2tsx r-paddingBottom-1l7z4oj r-paddingTop-95jzfe"
+      className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-14lw9ot r-borderRadius-1f0042m r-display-6koalj r-flex-13awgt0 r-flexGrow-16y2uox r-flexShrink-1q142lx r-height-1pi2tsx r-paddingBottom-1mdbw0j r-paddingTop-wk8lta"
     >
       <div
-        className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-14lw9ot r-borderRadius-1f0042m r-flex-13awgt0 r-marginBottom-p1pxzi r-paddingBottom-1hslgdd r-paddingHorizontal-1dye5f7 r-paddingTop-4x0g5h r-paddingVertical-1yzf0co r-width-13qz1uu"
+        className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-14lw9ot r-borderRadius-1f0042m r-flex-13awgt0 r-marginBottom-p1pxzi r-paddingBottom-1mdbw0j r-paddingHorizontal-mk0yit r-paddingTop-wk8lta r-paddingVertical-1yzf0co r-width-13qz1uu"
         style={
           Object {
             "WebkitBoxPack": "justify",
@@ -28,7 +28,7 @@ exports[`FaceVerification SwitchToAnotherDevice matches snapshot 1`] = `
         }
       >
         <div
-          className="css-text-901oao r-color-11zaip3 r-fontFamily-vnw8o6 r-fontSize-1x35g6 r-fontWeight-majxgm r-lineHeight-17rnw9f r-marginVertical-c8eef1 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+          className="css-text-901oao r-color-11zaip3 r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-majxgm r-lineHeight-qvk6io r-marginVertical-c8eef1 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
           dir="auto"
         >
           ,
@@ -36,7 +36,7 @@ Please try to switch
 to another device
         </div>
         <div
-          className="css-view-1dbjc4n r-flexGrow-16y2uox r-height-ma5732 r-justifyContent-1777fci r-width-13qz1uu"
+          className="css-view-1dbjc4n r-height-1w2pmg r-width-13qz1uu"
         >
           <FRSwitchToAnotherDevice.svg
             height="100%"
@@ -45,7 +45,7 @@ to another device
           />
         </div>
         <div
-          className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderRadius-1f0042m r-flexGrow-16y2uox r-justifyContent-1777fci r-marginBottom-p1pxzi r-paddingHorizontal-mk0yit r-paddingVertical-rjfia r-width-13qz1uu"
+          className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderRadius-1f0042m r-marginBottom-p1pxzi r-paddingHorizontal-mk0yit r-paddingVertical-rjfia r-width-13qz1uu"
         >
           <div
             className="css-view-1dbjc4n"
@@ -61,17 +61,17 @@ to another device
             }
           />
           <div
-            className="css-view-1dbjc4n r-paddingVertical-1yzf0co"
+            className="css-view-1dbjc4n r-paddingVertical-rjfia"
           >
             <div
-              className="css-text-901oao r-color-1q5uqvh r-fontFamily-vnw8o6 r-fontSize-adyw6z r-fontWeight-1it3c9n r-lineHeight-17rnw9f r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+              className="css-text-901oao r-color-1q5uqvh r-fontFamily-vnw8o6 r-fontSize-1i10wst r-fontWeight-1it3c9n r-lineHeight-waer2z r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
               dir="auto"
             >
               Sometimes, switching to a
 different device is a good solution.
             </div>
             <div
-              className="css-text-901oao r-color-1q5uqvh r-fontFamily-vnw8o6 r-fontSize-adyw6z r-fontWeight-b88u0q r-lineHeight-17rnw9f r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+              className="css-text-901oao r-color-1q5uqvh r-fontFamily-vnw8o6 r-fontSize-1i10wst r-fontWeight-b88u0q r-lineHeight-waer2z r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
               dir="auto"
             >
               Sorry about that… :)
@@ -93,11 +93,12 @@ different device is a good solution.
         </div>
       </div>
       <div
-        className="css-view-1dbjc4n r-paddingHorizontal-1pn2ns4 r-width-13qz1uu"
+        className="css-view-1dbjc4n r-paddingHorizontal-mk0yit r-width-13qz1uu"
       >
         <div
           className="css-view-1dbjc4n r-display-6koalj r-justifyContent-1777fci r-marginBottom-p1pxzi"
           data-testid="ok_button"
+          id="animatedComponent"
           style={
             Object {
               "WebkitAlignItems": "stretch",
@@ -136,16 +137,9 @@ different device is a good solution.
         >
           <div
             className="css-cursor-18t94o4 css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
-            data-focusable={true}
+            onClick={[Function]}
+            onContextMenu={[Function]}
             onKeyDown={[Function]}
-            onKeyPress={[Function]}
-            onKeyUp={[Function]}
-            onResponderGrant={[Function]}
-            onResponderMove={[Function]}
-            onResponderRelease={[Function]}
-            onResponderTerminate={[Function]}
-            onResponderTerminationRequest={[Function]}
-            onStartShouldSetResponder={[Function]}
             role="button"
             style={
               Object {
@@ -179,7 +173,7 @@ different device is a good solution.
                   className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
                 >
                   <div
-                    className="css-text-901oao r-alignItems-1awozwy r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-hbpseb r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
+                    className="css-text-901oao r-alignItems-1awozwy r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-qvk6io r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
                     dir="auto"
                   >
                     OK

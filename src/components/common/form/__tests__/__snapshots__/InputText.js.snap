@@ -14,14 +14,12 @@ exports[`InputText empty matches snapshot 1`] = `
         autoCapitalize="sentences"
         autoComplete="on"
         autoCorrect="on"
-        className="css-textinput-11aywtz r-backgroundColor-14lw9ot r-borderBottomColor-1ny7kx0 r-borderBottomWidth-qklmqi r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-1i10wst r-paddingHorizontal-1dye5f7 r-paddingVertical-oyd9sg r-placeholderTextColor-1xktb6b r-textAlign-q4m81j"
-        data-focusable={true}
+        className="css-textinput-11aywtz r-backgroundColor-14lw9ot r-borderBottomColor-1ny7kx0 r-borderBottomWidth-qklmqi r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-hiw28u r-paddingHorizontal-1dye5f7 r-paddingVertical-oyd9sg r-placeholderTextColor-1xktb6b r-textAlign-q4m81j"
         dir="auto"
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
         onKeyDown={[Function]}
-        onKeyPress={[Function]}
         onSelect={[Function]}
         onTouchStart={[Function]}
         readOnly={false}
@@ -32,6 +30,7 @@ exports[`InputText empty matches snapshot 1`] = `
     <div
       className="css-text-901oao r-paddingVertical-oyd9sg r-textAlign-q4m81j"
       dir="auto"
+      id="animatedComponent"
       style={
         Object {
           "WebkitTransform": "translateY(0px)",
@@ -68,14 +67,12 @@ exports[`InputText matches snapshot 1`] = `
         autoCapitalize="sentences"
         autoComplete="on"
         autoCorrect="on"
-        className="css-textinput-11aywtz r-backgroundColor-14lw9ot r-borderBottomColor-1ny7kx0 r-borderBottomWidth-qklmqi r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-1i10wst r-paddingHorizontal-1dye5f7 r-paddingVertical-oyd9sg r-placeholderTextColor-1xktb6b r-textAlign-q4m81j"
-        data-focusable={true}
+        className="css-textinput-11aywtz r-backgroundColor-14lw9ot r-borderBottomColor-1ny7kx0 r-borderBottomWidth-qklmqi r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-hiw28u r-paddingHorizontal-1dye5f7 r-paddingVertical-oyd9sg r-placeholderTextColor-1xktb6b r-textAlign-q4m81j"
         dir="auto"
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
         onKeyDown={[Function]}
-        onKeyPress={[Function]}
         onSelect={[Function]}
         onTouchStart={[Function]}
         readOnly={false}
@@ -87,6 +84,7 @@ exports[`InputText matches snapshot 1`] = `
     <div
       className="css-text-901oao r-paddingVertical-oyd9sg r-textAlign-q4m81j"
       dir="auto"
+      id="animatedComponent"
       style={
         Object {
           "WebkitTransform": "translateY(0px)",

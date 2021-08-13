@@ -177,7 +177,7 @@ export class UserProfileStorage implements ProfileStorage {
     let { errors, isValid } = profile.validate(update)
 
     // enforce profile to have walletAddress
-    if (!update && !fields.includes('walletAddress')) {
+    if (!update && !profile.walletAddress) {
       isValid = false
       errors.walletAddress = 'Wallet Address is required'
     }

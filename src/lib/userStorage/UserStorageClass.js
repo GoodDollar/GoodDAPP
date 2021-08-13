@@ -610,14 +610,6 @@ export class UserStorage {
     return this.profileStorage.getPrivateProfile()
   }
 
-  subscribeProfileUpdates(callback: any => void) {
-    this.profileStorage.subscribeProfileUpdates(callback)
-  }
-
-  unSubscribeProfileUpdates(callback?: any => void) {
-    this.profileStorage.unSubscribeProfileUpdates(callback)
-  }
-
   // eslint-disable-next-line require-await
   async getFieldPrivacy(field) {
     return this.profileStorage.getFieldPrivacy(field)

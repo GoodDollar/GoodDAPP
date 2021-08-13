@@ -501,29 +501,11 @@ export class UserProfileStorage implements ProfileStorage {
     return { name: fullName, avatar: smallAvatar }
   }
 
-  subscribeProfileUpdates(callback: any => void): void {
-    this.events.on('update', callback)
-
-    if (this.profile) {
-      callback(this.profile)
-    }
-  }
-
-  unSubscribeProfileUpdates(callback?: any => void): void {
-    if (!callback) {
-      this.events.removeAllListeners('update')
-      return
-    }
-
-    this.events.off('update', callback)
-  }
-
   /**
    * Delete profile
    * @returns {Promise<[Promise<void>, Promise<*>]>}
    */
   async deleteProfile(): Promise<boolean> {
-    this.unSubscribeProfileUpdates()
     await this.profiledb.deleteProfile()
     this._setLocalProfile({})
   }

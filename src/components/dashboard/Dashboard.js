@@ -37,6 +37,7 @@ import useOnPress from '../../lib/hooks/useOnPress'
 import Invite from '../invite/Invite'
 import Avatar from '../common/view/Avatar'
 import _debounce from '../../lib/utils/debounce'
+import useProfile from '../../lib/userStorage/useProfile'
 import PrivacyPolicyAndTerms from './PrivacyPolicyAndTerms'
 import Amount from './Amount'
 import Claim from './Claim'
@@ -112,7 +113,7 @@ const Dashboard = props => {
   const loadingIndicator = store.get('loadingIndicator')
   const loadAnimShown = store.get('feedLoadAnimShown')
   const { balance, entitlement } = gdstore.get('account')
-  const { avatar, fullName } = gdstore.get('profile')
+  const { avatar, fullName } = useProfile()
   const [feeds, setFeeds] = useState([])
   const [headerLarge, setHeaderLarge] = useState(true)
   const { appState } = useAppState()

@@ -12,7 +12,7 @@ import { isMobile } from '../../../lib/utils/platform'
 import isEmail from '../../../lib/validators/isEmail'
 import normalize from '../../../lib/utils/normalizeText'
 import SurveySend from '../SurveySend'
-import userStorage from '../../../lib/userStorage/UserStorage'
+import useProfile from '../../../lib/userStorage/useProfile'
 const SummaryGeneric = ({
   screenProps,
   styles,
@@ -42,7 +42,7 @@ const SummaryGeneric = ({
     }
   }
 
-  const profile = userStorage.getProfile()
+  const profile = useProfile()
 
   const [name, setName] = useState(profile.fullName)
   const [email, setEmail] = useState(profile.email)

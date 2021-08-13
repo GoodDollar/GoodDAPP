@@ -17,7 +17,9 @@ import SimpleStore from '../lib/undux/SimpleStore'
 
 import { isMobile } from '../lib/utils/platform'
 import Config from '../config/config'
+import { GlobalTogglesContextProvider } from '../lib/contexts/togglesContext'
 import logger from '../lib/logger/pino-logger'
+
 import { theme } from '../components/theme/styles'
 
 const log = logger.child({ from: 'App' })
@@ -62,9 +64,11 @@ export const App = () => {
     <PaperProvider theme={theme}>
       <AppWrapper {...wrapperProps}>
         <Fragment>
-          <SimpleStoreDialog />
-          <LoadingIndicator />
-          <SplashOrRouter store={store} />
+          <GlobalTogglesContextProvider>
+            <SimpleStoreDialog />
+            <LoadingIndicator />
+            <SplashOrRouter store={store} />
+          </GlobalTogglesContextProvider>
         </Fragment>
       </AppWrapper>
     </PaperProvider>

@@ -12,35 +12,31 @@ exports[`UserAvatar matches snapshot 1`] = `
     >
       <div
         aria-disabled={true}
-        className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-qt01xk r-borderColor-y68mpx r-borderWidth-rs99b7 r-justifyContent-1777fci r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
-        disabled={true}
+        className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-qt01xk r-borderColor-y68mpx r-borderWidth-rs99b7 r-justifyContent-1777fci r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
+        onClick={[Function]}
+        onContextMenu={[Function]}
         onKeyDown={[Function]}
-        onKeyUp={[Function]}
-        onResponderGrant={[Function]}
-        onResponderMove={[Function]}
-        onResponderRelease={[Function]}
-        onResponderTerminate={[Function]}
-        onResponderTerminationRequest={[Function]}
-        onStartShouldSetResponder={[Function]}
         style={
           Object {
-            "borderBottomLeftRadius": "68px",
-            "borderBottomRightRadius": "68px",
-            "borderTopLeftRadius": "68px",
-            "borderTopRightRadius": "68px",
-            "height": "136px",
-            "opacity": 1,
-            "width": "136px",
+            "WebkitTransitionDuration": "0s",
+            "borderBottomLeftRadius": "0px",
+            "borderBottomRightRadius": "0px",
+            "borderTopLeftRadius": "0px",
+            "borderTopRightRadius": "0px",
+            "height": "0px",
+            "transitionDuration": "0s",
+            "width": "0px",
           }
         }
+        tabIndex="-1"
       >
         <div
           className="css-view-1dbjc4n"
           style={
             Object {
               "backgroundColor": "rgba(0,0,0,0.00)",
-              "height": "136px",
-              "width": "136px",
+              "height": "0px",
+              "width": "0px",
             }
           }
         >

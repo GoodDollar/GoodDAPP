@@ -14,7 +14,8 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
     }
   >
     <div
-      className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz"
+      className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-height-1w2pmg"
+      id="animatedComponent"
       style={
         Object {
           "WebkitBoxFlex": 0,
@@ -24,7 +25,6 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
           "boxShadow": "none, 0px 3px 4px rgba(0,0,0,0.24)",
           "flexGrow": 0,
           "flexShrink": 0,
-          "height": "55px",
           "msFlexNegative": 0,
           "msFlexPositive": 0,
           "paddingLeft": "4px",
@@ -33,19 +33,14 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
       }
     >
       <div
-        className="css-view-1dbjc4n r-alignItems-1awozwy r-cursor-1loqt21 r-flexDirection-eqz5dr r-justifyContent-1777fci r-marginLeft-1ozfoo7 r-touchAction-1otgn73 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-width-m0fvr6"
-        data-focusable={true}
+        className="css-view-1dbjc4n r-alignItems-1awozwy r-cursor-1loqt21 r-flexDirection-eqz5dr r-justifyContent-1777fci r-marginLeft-1ozfoo7 r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-width-m0fvr6"
+        onClick={[Function]}
+        onContextMenu={[Function]}
         onKeyDown={[Function]}
-        onKeyUp={[Function]}
-        onResponderGrant={[Function]}
-        onResponderMove={[Function]}
-        onResponderRelease={[Function]}
-        onResponderTerminate={[Function]}
-        onResponderTerminationRequest={[Function]}
-        onStartShouldSetResponder={[Function]}
         style={
           Object {
-            "opacity": 1,
+            "WebkitTransitionDuration": "0s",
+            "transitionDuration": "0s",
           }
         }
         tabIndex="0"
@@ -81,15 +76,9 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
       </div>
       <div
         className="css-view-1dbjc4n r-flex-13awgt0 r-paddingHorizontal-1e081e0"
-        data-focusable={true}
+        onClick={[Function]}
+        onContextMenu={[Function]}
         onKeyDown={[Function]}
-        onKeyUp={[Function]}
-        onResponderGrant={[Function]}
-        onResponderMove={[Function]}
-        onResponderRelease={[Function]}
-        onResponderTerminate={[Function]}
-        onResponderTerminationRequest={[Function]}
-        onStartShouldSetResponder={[Function]}
         style={
           Object {
             "marginLeft": "8px",
@@ -98,7 +87,7 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
         tabIndex="0"
       >
         <h1
-          className="css-reset-4rbku5 css-text-901oao css-textOneLine-bfa6kz r-color-jwli3a r-fontSize-ubezar r-fontWeight-majxgm r-textAlign-q4m81j r-textTransform-tsynxw"
+          className="css-reset-4rbku5 css-text-901oao css-textOneLine-vcwn7f r-color-jwli3a r-fontSize-hiw28u r-fontWeight-majxgm r-textAlign-q4m81j r-textTransform-tsynxw"
           dir="auto"
           role="heading"
           style={
@@ -111,17 +100,11 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
         </h1>
       </div>
       <div
-        className="css-cursor-18t94o4 css-view-1dbjc4n r-alignItems-1awozwy r-justifyContent-1777fci r-margin-5scogr r-overflow-1udh08x r-position-bnwqim"
-        data-focusable={true}
+        aria-disabled={true}
+        className="css-view-1dbjc4n r-alignItems-1awozwy r-justifyContent-1777fci r-margin-5scogr r-overflow-1udh08x r-position-bnwqim"
+        onClick={[Function]}
+        onContextMenu={[Function]}
         onKeyDown={[Function]}
-        onKeyPress={[Function]}
-        onKeyUp={[Function]}
-        onResponderGrant={[Function]}
-        onResponderMove={[Function]}
-        onResponderRelease={[Function]}
-        onResponderTerminate={[Function]}
-        onResponderTerminationRequest={[Function]}
-        onStartShouldSetResponder={[Function]}
         role="button"
         style={
           Object {
@@ -133,19 +116,8 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
             "width": "36px",
           }
         }
-        tabIndex="0"
+        tabIndex="-1"
       >
-        <span
-          className="css-hitSlop-mjp8i1"
-          style={
-            Object {
-              "bottom": "-10px",
-              "left": "-10px",
-              "right": "-10px",
-              "top": "-10px",
-            }
-          }
-        />
         <div
           className="css-view-1dbjc4n"
         >
@@ -159,15 +131,13 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
             }
           >
             <div
-              className="css-view-1dbjc4n r-position-u8s1d"
+              className="css-view-1dbjc4n r-bottom-1p0dtai r-left-1d2f490 r-position-u8s1d r-top-ipm5af"
+              id="animatedComponent"
               style={
                 Object {
                   "WebkitTransform": "rotate(0deg)",
-                  "bottom": "0px",
-                  "left": "0px",
                   "opacity": 1,
                   "right": "0px",
-                  "top": "0px",
                   "transform": "rotate(0deg)",
                 }
               }
@@ -179,7 +149,9 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
     <div
       className="css-view-1dbjc4n r-WebkitOverflowScrolling-150rngu r-backgroundColor-14lw9ot r-flexDirection-eqz5dr r-flexGrow-16y2uox r-flexShrink-1wbh5a2 r-overflowX-11yh6sk r-overflowY-1rnoaur r-paddingHorizontal-8wx0ln r-transform-1sncvnh"
       onScroll={[Function]}
+      onTouchEnd={[Function]}
       onTouchMove={[Function]}
+      onTouchStart={[Function]}
       onWheel={[Function]}
     >
       <div
@@ -200,7 +172,7 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
           }
         />
         <div
-          className="css-text-901oao r-color-cqee49 r-fontFamily-6jnb14 r-fontSize-zz5t5d r-fontWeight-b88u0q r-lineHeight-160dpxk r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+          className="css-text-901oao r-color-cqee49 r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
           dir="auto"
         >
           My account details
@@ -216,7 +188,7 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
           }
         />
         <div
-          className="css-text-901oao r-color-cqee49 r-fontFamily-vnw8o6 r-fontSize-a023e6 r-fontWeight-majxgm r-lineHeight-14yzgew r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+          className="css-text-901oao r-color-cqee49 r-fontFamily-vnw8o6 r-fontSize-a023e6 r-fontWeight-majxgm r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
           dir="auto"
         >
           All your information at a glance to easily import GoodDollar to MetaMask
@@ -239,8 +211,8 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
           className="css-view-1dbjc4n"
           style={
             Object {
-              "marginLeft": "14px",
-              "marginRight": "14px",
+              "marginLeft": "0px",
+              "marginRight": "0px",
             }
           }
         >
@@ -256,43 +228,34 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
             }
           >
             <div
-              className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-left-54mlpa r-position-u8s1d r-top-1ej1qmr r-width-z2qzgk"
-              style={
-                Object {
-                  "height": "38px",
-                }
-              }
+              className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-height-1w2pmg r-left-1d2f490 r-position-u8s1d r-top-ipm5af r-width-1h2t8mc"
             />
             <div
-              className="css-view-1dbjc4n r-alignItems-1awozwy r-position-u8s1d r-zIndex-184en5c"
+              className="css-view-1dbjc4n r-alignItems-1awozwy r-height-1w2pmg r-left-1d2f490 r-position-u8s1d r-top-ipm5af r-width-1h2t8mc r-zIndex-184en5c"
               style={
                 Object {
-                  "borderBottomLeftRadius": "14px",
-                  "borderBottomRightRadius": "14px",
-                  "borderTopLeftRadius": "14px",
-                  "borderTopRightRadius": "14px",
-                  "height": "28px",
-                  "left": "-14px",
-                  "top": "25px",
-                  "width": "28px",
+                  "borderBottomLeftRadius": "0px",
+                  "borderBottomRightRadius": "0px",
+                  "borderTopLeftRadius": "0px",
+                  "borderTopRightRadius": "0px",
                 }
               }
             >
               <checkmark.svg
                 style={
                   Object {
-                    "borderRadius": 14,
-                    "height": 28,
-                    "width": 28,
+                    "borderRadius": 0,
+                    "height": 0,
+                    "width": 0,
                   }
                 }
               />
             </div>
             <div
-              className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-justifyContent-1wtj0ep r-marginBottom-1o4vxx4 r-marginTop-bw7i6d r-padding-t60dpp r-width-1akxima"
+              className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-justifyContent-1wtj0ep r-marginBottom-p1pxzi r-marginTop-1mnahxq r-padding-t60dpp r-width-1akxima"
             >
               <div
-                className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-1i10wst r-fontWeight-b88u0q r-lineHeight-135wba7 r-marginBottom-15zivkp r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-marginBottom-p1pxzi r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                 dir="auto"
               >
                 My Private Key
@@ -305,17 +268,18 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
               </div>
             </div>
             <div
-              className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-bottom-14bkmb3 r-height-4v7adb r-position-u8s1d r-width-1rhso5v"
+              className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-bottom-1p0dtai r-height-1w2pmg r-position-u8s1d r-width-1h2t8mc"
             />
           </div>
           <div
-            className="css-view-1dbjc4n r-alignItems-1awozwy r-bottom-wuw1bi r-display-6koalj r-height-eu3ka r-justifyContent-1777fci r-maxHeight-yca7ao r-position-u8s1d r-width-13qz1uu"
+            className="css-view-1dbjc4n r-alignItems-1awozwy r-bottom-1p0dtai r-display-6koalj r-height-1w2pmg r-justifyContent-1777fci r-maxHeight-46g5hj r-position-u8s1d r-width-13qz1uu"
           >
             <div
-              className="css-view-1dbjc4n r-height-eu3ka r-width-1rhso5v"
+              className="css-view-1dbjc4n r-height-1w2pmg r-width-1h2t8mc"
             >
               <div
-                className="css-view-1dbjc4n r-alignItems-1awozwy r-borderStyle-1phboty r-display-6koalj r-height-eu3ka r-justifyContent-1777fci r-padding-t60dpp"
+                className="css-view-1dbjc4n r-alignItems-1awozwy r-borderStyle-1phboty r-display-6koalj r-height-1w2pmg r-justifyContent-1777fci r-marginBottom-p1pxzi r-marginTop-1mnahxq r-padding-t60dpp r-width-1h2t8mc"
+                id="animatedComponent"
                 style={
                   Object {
                     "backgroundColor": "rgba(0,175,255,1.00)",
@@ -332,30 +296,20 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
                     "borderTopRightRadius": "50px",
                     "borderTopWidth": "0px",
                     "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
-                    "marginBottom": "0px",
                     "marginLeft": "auto",
                     "marginRight": "auto",
-                    "marginTop": "0px",
-                    "minHeight": "40px",
+                    "minHeight": "0px",
                     "minWidth": "64px",
                     "paddingLeft": "0px",
                     "paddingRight": "0px",
-                    "width": "211.1111111111111px",
                   }
                 }
               >
                 <div
                   className="css-cursor-18t94o4 css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
-                  data-focusable={true}
+                  onClick={[Function]}
+                  onContextMenu={[Function]}
                   onKeyDown={[Function]}
-                  onKeyPress={[Function]}
-                  onKeyUp={[Function]}
-                  onResponderGrant={[Function]}
-                  onResponderMove={[Function]}
-                  onResponderRelease={[Function]}
-                  onResponderTerminate={[Function]}
-                  onResponderTerminationRequest={[Function]}
-                  onStartShouldSetResponder={[Function]}
                   role="button"
                   style={
                     Object {
@@ -389,7 +343,7 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
                         className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
                       >
                         <div
-                          className="css-text-901oao r-alignItems-1awozwy r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-hbpseb r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
+                          className="css-text-901oao r-alignItems-1awozwy r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-qvk6io r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
                           dir="auto"
                         >
                           Copy Key
@@ -420,8 +374,8 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
           className="css-view-1dbjc4n"
           style={
             Object {
-              "marginLeft": "14px",
-              "marginRight": "14px",
+              "marginLeft": "0px",
+              "marginRight": "0px",
             }
           }
         >
@@ -437,43 +391,34 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
             }
           >
             <div
-              className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-left-54mlpa r-position-u8s1d r-top-1ej1qmr r-width-z2qzgk"
-              style={
-                Object {
-                  "height": "38px",
-                }
-              }
+              className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-height-1w2pmg r-left-1d2f490 r-position-u8s1d r-top-ipm5af r-width-1h2t8mc"
             />
             <div
-              className="css-view-1dbjc4n r-alignItems-1awozwy r-position-u8s1d r-zIndex-184en5c"
+              className="css-view-1dbjc4n r-alignItems-1awozwy r-height-1w2pmg r-left-1d2f490 r-position-u8s1d r-top-ipm5af r-width-1h2t8mc r-zIndex-184en5c"
               style={
                 Object {
-                  "borderBottomLeftRadius": "14px",
-                  "borderBottomRightRadius": "14px",
-                  "borderTopLeftRadius": "14px",
-                  "borderTopRightRadius": "14px",
-                  "height": "28px",
-                  "left": "-14px",
-                  "top": "25px",
-                  "width": "28px",
+                  "borderBottomLeftRadius": "0px",
+                  "borderBottomRightRadius": "0px",
+                  "borderTopLeftRadius": "0px",
+                  "borderTopRightRadius": "0px",
                 }
               }
             >
               <checkmark.svg
                 style={
                   Object {
-                    "borderRadius": 14,
-                    "height": 28,
-                    "width": 28,
+                    "borderRadius": 0,
+                    "height": 0,
+                    "width": 0,
                   }
                 }
               />
             </div>
             <div
-              className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-justifyContent-1wtj0ep r-marginBottom-1o4vxx4 r-marginTop-bw7i6d r-padding-t60dpp r-width-1akxima"
+              className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-justifyContent-1wtj0ep r-marginBottom-p1pxzi r-marginTop-1mnahxq r-padding-t60dpp r-width-1akxima"
             >
               <div
-                className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-1i10wst r-fontWeight-b88u0q r-lineHeight-135wba7 r-marginBottom-15zivkp r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-marginBottom-p1pxzi r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                 dir="auto"
               >
                 My Wallet Address
@@ -486,17 +431,18 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
               </div>
             </div>
             <div
-              className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-bottom-14bkmb3 r-height-4v7adb r-position-u8s1d r-width-1rhso5v"
+              className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-bottom-1p0dtai r-height-1w2pmg r-position-u8s1d r-width-1h2t8mc"
             />
           </div>
           <div
-            className="css-view-1dbjc4n r-alignItems-1awozwy r-bottom-wuw1bi r-display-6koalj r-height-eu3ka r-justifyContent-1777fci r-maxHeight-yca7ao r-position-u8s1d r-width-13qz1uu"
+            className="css-view-1dbjc4n r-alignItems-1awozwy r-bottom-1p0dtai r-display-6koalj r-height-1w2pmg r-justifyContent-1777fci r-maxHeight-46g5hj r-position-u8s1d r-width-13qz1uu"
           >
             <div
-              className="css-view-1dbjc4n r-height-eu3ka r-width-1rhso5v"
+              className="css-view-1dbjc4n r-height-1w2pmg r-width-1h2t8mc"
             >
               <div
-                className="css-view-1dbjc4n r-alignItems-1awozwy r-borderStyle-1phboty r-display-6koalj r-height-eu3ka r-justifyContent-1777fci r-padding-t60dpp"
+                className="css-view-1dbjc4n r-alignItems-1awozwy r-borderStyle-1phboty r-display-6koalj r-height-1w2pmg r-justifyContent-1777fci r-marginBottom-p1pxzi r-marginTop-1mnahxq r-padding-t60dpp r-width-1h2t8mc"
+                id="animatedComponent"
                 style={
                   Object {
                     "backgroundColor": "rgba(0,175,255,1.00)",
@@ -513,30 +459,20 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
                     "borderTopRightRadius": "50px",
                     "borderTopWidth": "0px",
                     "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
-                    "marginBottom": "0px",
                     "marginLeft": "auto",
                     "marginRight": "auto",
-                    "marginTop": "0px",
-                    "minHeight": "40px",
+                    "minHeight": "0px",
                     "minWidth": "64px",
                     "paddingLeft": "0px",
                     "paddingRight": "0px",
-                    "width": "211.1111111111111px",
                   }
                 }
               >
                 <div
                   className="css-cursor-18t94o4 css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
-                  data-focusable={true}
+                  onClick={[Function]}
+                  onContextMenu={[Function]}
                   onKeyDown={[Function]}
-                  onKeyPress={[Function]}
-                  onKeyUp={[Function]}
-                  onResponderGrant={[Function]}
-                  onResponderMove={[Function]}
-                  onResponderRelease={[Function]}
-                  onResponderTerminate={[Function]}
-                  onResponderTerminationRequest={[Function]}
-                  onStartShouldSetResponder={[Function]}
                   role="button"
                   style={
                     Object {
@@ -570,7 +506,7 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
                         className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
                       >
                         <div
-                          className="css-text-901oao r-alignItems-1awozwy r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-hbpseb r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
+                          className="css-text-901oao r-alignItems-1awozwy r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-qvk6io r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
                           dir="auto"
                         >
                           Copy address
@@ -601,8 +537,8 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
           className="css-view-1dbjc4n"
           style={
             Object {
-              "marginLeft": "14px",
-              "marginRight": "14px",
+              "marginLeft": "0px",
+              "marginRight": "0px",
             }
           }
         >
@@ -618,43 +554,34 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
             }
           >
             <div
-              className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-left-54mlpa r-position-u8s1d r-top-1ej1qmr r-width-z2qzgk"
-              style={
-                Object {
-                  "height": "38px",
-                }
-              }
+              className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-height-1w2pmg r-left-1d2f490 r-position-u8s1d r-top-ipm5af r-width-1h2t8mc"
             />
             <div
-              className="css-view-1dbjc4n r-alignItems-1awozwy r-position-u8s1d r-zIndex-184en5c"
+              className="css-view-1dbjc4n r-alignItems-1awozwy r-height-1w2pmg r-left-1d2f490 r-position-u8s1d r-top-ipm5af r-width-1h2t8mc r-zIndex-184en5c"
               style={
                 Object {
-                  "borderBottomLeftRadius": "14px",
-                  "borderBottomRightRadius": "14px",
-                  "borderTopLeftRadius": "14px",
-                  "borderTopRightRadius": "14px",
-                  "height": "28px",
-                  "left": "-14px",
-                  "top": "25px",
-                  "width": "28px",
+                  "borderBottomLeftRadius": "0px",
+                  "borderBottomRightRadius": "0px",
+                  "borderTopLeftRadius": "0px",
+                  "borderTopRightRadius": "0px",
                 }
               }
             >
               <checkmark.svg
                 style={
                   Object {
-                    "borderRadius": 14,
-                    "height": 28,
-                    "width": 28,
+                    "borderRadius": 0,
+                    "height": 0,
+                    "width": 0,
                   }
                 }
               />
             </div>
             <div
-              className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-justifyContent-1wtj0ep r-marginBottom-1o4vxx4 r-marginTop-bw7i6d r-padding-t60dpp r-width-1akxima"
+              className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-justifyContent-1wtj0ep r-marginBottom-p1pxzi r-marginTop-1mnahxq r-padding-t60dpp r-width-1akxima"
             >
               <div
-                className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-1i10wst r-fontWeight-b88u0q r-lineHeight-135wba7 r-marginBottom-15zivkp r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-marginBottom-p1pxzi r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                 dir="auto"
               >
                 Fuse Network RPC Address
@@ -665,17 +592,18 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
               />
             </div>
             <div
-              className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-bottom-14bkmb3 r-height-4v7adb r-position-u8s1d r-width-1rhso5v"
+              className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-bottom-1p0dtai r-height-1w2pmg r-position-u8s1d r-width-1h2t8mc"
             />
           </div>
           <div
-            className="css-view-1dbjc4n r-alignItems-1awozwy r-bottom-wuw1bi r-display-6koalj r-height-eu3ka r-justifyContent-1777fci r-maxHeight-yca7ao r-position-u8s1d r-width-13qz1uu"
+            className="css-view-1dbjc4n r-alignItems-1awozwy r-bottom-1p0dtai r-display-6koalj r-height-1w2pmg r-justifyContent-1777fci r-maxHeight-46g5hj r-position-u8s1d r-width-13qz1uu"
           >
             <div
-              className="css-view-1dbjc4n r-height-eu3ka r-width-1rhso5v"
+              className="css-view-1dbjc4n r-height-1w2pmg r-width-1h2t8mc"
             >
               <div
-                className="css-view-1dbjc4n r-alignItems-1awozwy r-borderStyle-1phboty r-display-6koalj r-height-eu3ka r-justifyContent-1777fci r-padding-t60dpp"
+                className="css-view-1dbjc4n r-alignItems-1awozwy r-borderStyle-1phboty r-display-6koalj r-height-1w2pmg r-justifyContent-1777fci r-marginBottom-p1pxzi r-marginTop-1mnahxq r-padding-t60dpp r-width-1h2t8mc"
+                id="animatedComponent"
                 style={
                   Object {
                     "backgroundColor": "rgba(0,175,255,1.00)",
@@ -692,30 +620,20 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
                     "borderTopRightRadius": "50px",
                     "borderTopWidth": "0px",
                     "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
-                    "marginBottom": "0px",
                     "marginLeft": "auto",
                     "marginRight": "auto",
-                    "marginTop": "0px",
-                    "minHeight": "40px",
+                    "minHeight": "0px",
                     "minWidth": "64px",
                     "paddingLeft": "0px",
                     "paddingRight": "0px",
-                    "width": "211.1111111111111px",
                   }
                 }
               >
                 <div
                   className="css-cursor-18t94o4 css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
-                  data-focusable={true}
+                  onClick={[Function]}
+                  onContextMenu={[Function]}
                   onKeyDown={[Function]}
-                  onKeyPress={[Function]}
-                  onKeyUp={[Function]}
-                  onResponderGrant={[Function]}
-                  onResponderMove={[Function]}
-                  onResponderRelease={[Function]}
-                  onResponderTerminate={[Function]}
-                  onResponderTerminationRequest={[Function]}
-                  onStartShouldSetResponder={[Function]}
                   role="button"
                   style={
                     Object {
@@ -749,7 +667,7 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
                         className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
                       >
                         <div
-                          className="css-text-901oao r-alignItems-1awozwy r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-hbpseb r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
+                          className="css-text-901oao r-alignItems-1awozwy r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-qvk6io r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
                           dir="auto"
                         >
                           Copy RPC
@@ -780,8 +698,8 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
           className="css-view-1dbjc4n"
           style={
             Object {
-              "marginLeft": "14px",
-              "marginRight": "14px",
+              "marginLeft": "0px",
+              "marginRight": "0px",
             }
           }
         >
@@ -797,43 +715,34 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
             }
           >
             <div
-              className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-left-54mlpa r-position-u8s1d r-top-1ej1qmr r-width-z2qzgk"
-              style={
-                Object {
-                  "height": "38px",
-                }
-              }
+              className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-height-1w2pmg r-left-1d2f490 r-position-u8s1d r-top-ipm5af r-width-1h2t8mc"
             />
             <div
-              className="css-view-1dbjc4n r-alignItems-1awozwy r-position-u8s1d r-zIndex-184en5c"
+              className="css-view-1dbjc4n r-alignItems-1awozwy r-height-1w2pmg r-left-1d2f490 r-position-u8s1d r-top-ipm5af r-width-1h2t8mc r-zIndex-184en5c"
               style={
                 Object {
-                  "borderBottomLeftRadius": "14px",
-                  "borderBottomRightRadius": "14px",
-                  "borderTopLeftRadius": "14px",
-                  "borderTopRightRadius": "14px",
-                  "height": "28px",
-                  "left": "-14px",
-                  "top": "25px",
-                  "width": "28px",
+                  "borderBottomLeftRadius": "0px",
+                  "borderBottomRightRadius": "0px",
+                  "borderTopLeftRadius": "0px",
+                  "borderTopRightRadius": "0px",
                 }
               }
             >
               <checkmark.svg
                 style={
                   Object {
-                    "borderRadius": 14,
-                    "height": 28,
-                    "width": 28,
+                    "borderRadius": 0,
+                    "height": 0,
+                    "width": 0,
                   }
                 }
               />
             </div>
             <div
-              className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-justifyContent-1wtj0ep r-marginBottom-1o4vxx4 r-marginTop-bw7i6d r-padding-t60dpp r-width-1akxima"
+              className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-justifyContent-1wtj0ep r-marginBottom-p1pxzi r-marginTop-1mnahxq r-padding-t60dpp r-width-1akxima"
             >
               <div
-                className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-1i10wst r-fontWeight-b88u0q r-lineHeight-135wba7 r-marginBottom-15zivkp r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-marginBottom-p1pxzi r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                 dir="auto"
               >
                 Fuse ID Chain
@@ -846,17 +755,18 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
               </div>
             </div>
             <div
-              className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-bottom-14bkmb3 r-height-4v7adb r-position-u8s1d r-width-1rhso5v"
+              className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-bottom-1p0dtai r-height-1w2pmg r-position-u8s1d r-width-1h2t8mc"
             />
           </div>
           <div
-            className="css-view-1dbjc4n r-alignItems-1awozwy r-bottom-wuw1bi r-display-6koalj r-height-eu3ka r-justifyContent-1777fci r-maxHeight-yca7ao r-position-u8s1d r-width-13qz1uu"
+            className="css-view-1dbjc4n r-alignItems-1awozwy r-bottom-1p0dtai r-display-6koalj r-height-1w2pmg r-justifyContent-1777fci r-maxHeight-46g5hj r-position-u8s1d r-width-13qz1uu"
           >
             <div
-              className="css-view-1dbjc4n r-height-eu3ka r-width-1rhso5v"
+              className="css-view-1dbjc4n r-height-1w2pmg r-width-1h2t8mc"
             >
               <div
-                className="css-view-1dbjc4n r-alignItems-1awozwy r-borderStyle-1phboty r-display-6koalj r-height-eu3ka r-justifyContent-1777fci r-padding-t60dpp"
+                className="css-view-1dbjc4n r-alignItems-1awozwy r-borderStyle-1phboty r-display-6koalj r-height-1w2pmg r-justifyContent-1777fci r-marginBottom-p1pxzi r-marginTop-1mnahxq r-padding-t60dpp r-width-1h2t8mc"
+                id="animatedComponent"
                 style={
                   Object {
                     "backgroundColor": "rgba(0,175,255,1.00)",
@@ -873,30 +783,20 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
                     "borderTopRightRadius": "50px",
                     "borderTopWidth": "0px",
                     "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
-                    "marginBottom": "0px",
                     "marginLeft": "auto",
                     "marginRight": "auto",
-                    "marginTop": "0px",
-                    "minHeight": "40px",
+                    "minHeight": "0px",
                     "minWidth": "64px",
                     "paddingLeft": "0px",
                     "paddingRight": "0px",
-                    "width": "211.1111111111111px",
                   }
                 }
               >
                 <div
                   className="css-cursor-18t94o4 css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
-                  data-focusable={true}
+                  onClick={[Function]}
+                  onContextMenu={[Function]}
                   onKeyDown={[Function]}
-                  onKeyPress={[Function]}
-                  onKeyUp={[Function]}
-                  onResponderGrant={[Function]}
-                  onResponderMove={[Function]}
-                  onResponderRelease={[Function]}
-                  onResponderTerminate={[Function]}
-                  onResponderTerminationRequest={[Function]}
-                  onStartShouldSetResponder={[Function]}
                   role="button"
                   style={
                     Object {
@@ -930,7 +830,7 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
                         className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
                       >
                         <div
-                          className="css-text-901oao r-alignItems-1awozwy r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-hbpseb r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
+                          className="css-text-901oao r-alignItems-1awozwy r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-qvk6io r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
                           dir="auto"
                         >
                           Copy ID Chain

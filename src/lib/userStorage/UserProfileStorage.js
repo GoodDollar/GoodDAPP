@@ -1,5 +1,5 @@
 // @flow
-import { assign, debounce, toPairs } from 'lodash'
+import { assign, debounce, isNil, isObject, toPairs } from 'lodash'
 import EventEmitter from 'eventemitter3'
 
 import { ExceptionCategory } from '../logger/exceptions'
@@ -122,7 +122,8 @@ export class UserProfileStorage implements ProfileStorage {
    */
   async _decryptProfileFields(profile: Profile): Promise<Profile> {
     const decryptedProfile = {}
-    if (profile == null || typeof profile !== 'object') {
+
+    if (isNil(profile) || !isObject(profile)) {
       return {}
     }
 
@@ -180,9 +181,9 @@ export class UserProfileStorage implements ProfileStorage {
     let { errors, isValid } = profile.validate(update)
 
     // enforce profile to have walletAddress
-    if (!update && !profile.walletAddress) {
+    if (false === update && !fields.includes('walletAddress')) {
       isValid = false
-      errors.walletAddress = 'Wallet Address is required'
+      errors.walletAddress = 'walletAddress is required in profile'
     }
 
     if (!isValid) {

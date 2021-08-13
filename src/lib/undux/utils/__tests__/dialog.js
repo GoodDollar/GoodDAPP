@@ -16,12 +16,14 @@ const createStore = (intialValues = {}) => {
 }
 
 describe('Dialog', () => {
+  const setDialogBlur = jest.fn()
+
   it('show dialog with data', () => {
     const store = createStore()
     const data = {
       title: 'Title',
     }
-    showDialogWithData(store, data)
+    showDialogWithData(store, setDialogBlur, data)
     expect(store.get('currentScreen')).toEqual({
       dialogData: {
         ...data,
@@ -32,7 +34,7 @@ describe('Dialog', () => {
 
   it('hide dialog', () => {
     const store = createStore()
-    hideDialog(store)
+    hideDialog(store, setDialogBlur)
     expect(store.get('currentScreen')).toEqual({
       dialogData: {
         visible: false,
@@ -45,7 +47,7 @@ describe('Dialog', () => {
     const data = {
       title: 'Title',
     }
-    showDialogWithData(store, data)
+    showDialogWithData(store, setDialogBlur, data)
     expect(store.get('currentScreen')).toEqual({
       dialogData: {
         ...data,
@@ -53,7 +55,7 @@ describe('Dialog', () => {
       },
     })
 
-    hideDialog(store)
+    hideDialog(store, setDialogBlur)
     expect(store.get('currentScreen')).toEqual({
       dialogData: {
         visible: false,
@@ -67,7 +69,7 @@ describe('Dialog', () => {
     const error = {
       message,
     }
-    showDialogForError(store, 'human readable', error)
+    showDialogForError(store, setDialogBlur, 'human readable', error)
     expect(store.get('currentScreen')).toEqual({
       dialogData: {
         visible: true,
@@ -84,7 +86,7 @@ describe('Dialog', () => {
     const error = {
       err,
     }
-    showDialogForError(store, 'human readable', error)
+    showDialogForError(store, setDialogBlur, 'human readable', error)
     expect(store.get('currentScreen')).toEqual({
       dialogData: {
         visible: true,
@@ -105,7 +107,7 @@ describe('Dialog', () => {
         },
       },
     }
-    showDialogForError(store, 'human readable', error)
+    showDialogForError(store, setDialogBlur, 'human readable', error)
     expect(store.get('currentScreen')).toEqual({
       dialogData: {
         visible: true,

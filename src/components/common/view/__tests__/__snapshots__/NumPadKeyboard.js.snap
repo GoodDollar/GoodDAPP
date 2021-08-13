@@ -12,19 +12,13 @@ exports[`NumPadKeyboard matches snapshot 1`] = `
     >
       <div
         className="css-view-1dbjc4n r-alignItems-1awozwy r-cursor-1loqt21 r-display-6koalj r-flex-13awgt0 r-padding-edyy15 r-touchAction-1otgn73 r-userSelect-lrvibr"
-        data-focusable={true}
+        onClick={[Function]}
+        onContextMenu={[Function]}
         onKeyDown={[Function]}
-        onKeyUp={[Function]}
-        onResponderGrant={[Function]}
-        onResponderMove={[Function]}
-        onResponderRelease={[Function]}
-        onResponderTerminate={[Function]}
-        onResponderTerminationRequest={[Function]}
-        onStartShouldSetResponder={[Function]}
         tabIndex="0"
       >
         <div
-          className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-adyw6z r-fontWeight-b88u0q r-lineHeight-135wba7 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+          className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
           dir="auto"
         >
           1
@@ -32,19 +26,13 @@ exports[`NumPadKeyboard matches snapshot 1`] = `
       </div>
       <div
         className="css-view-1dbjc4n r-alignItems-1awozwy r-cursor-1loqt21 r-display-6koalj r-flex-13awgt0 r-padding-edyy15 r-touchAction-1otgn73 r-userSelect-lrvibr"
-        data-focusable={true}
+        onClick={[Function]}
+        onContextMenu={[Function]}
         onKeyDown={[Function]}
-        onKeyUp={[Function]}
-        onResponderGrant={[Function]}
-        onResponderMove={[Function]}
-        onResponderRelease={[Function]}
-        onResponderTerminate={[Function]}
-        onResponderTerminationRequest={[Function]}
-        onStartShouldSetResponder={[Function]}
         tabIndex="0"
       >
         <div
-          className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-adyw6z r-fontWeight-b88u0q r-lineHeight-135wba7 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+          className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
           dir="auto"
         >
           2
@@ -52,19 +40,13 @@ exports[`NumPadKeyboard matches snapshot 1`] = `
       </div>
       <div
         className="css-view-1dbjc4n r-alignItems-1awozwy r-cursor-1loqt21 r-display-6koalj r-flex-13awgt0 r-padding-edyy15 r-touchAction-1otgn73 r-userSelect-lrvibr"
-        data-focusable={true}
+        onClick={[Function]}
+        onContextMenu={[Function]}
         onKeyDown={[Function]}
-        onKeyUp={[Function]}
-        onResponderGrant={[Function]}
-        onResponderMove={[Function]}
-        onResponderRelease={[Function]}
-        onResponderTerminate={[Function]}
-        onResponderTerminationRequest={[Function]}
-        onStartShouldSetResponder={[Function]}
         tabIndex="0"
       >
         <div
-          className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-adyw6z r-fontWeight-b88u0q r-lineHeight-135wba7 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+          className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
           dir="auto"
         >
           3
@@ -76,19 +58,13 @@ exports[`NumPadKeyboard matches snapshot 1`] = `
     >
       <div
         className="css-view-1dbjc4n r-alignItems-1awozwy r-cursor-1loqt21 r-display-6koalj r-flex-13awgt0 r-padding-edyy15 r-touchAction-1otgn73 r-userSelect-lrvibr"
-        data-focusable={true}
+        onClick={[Function]}
+        onContextMenu={[Function]}
         onKeyDown={[Function]}
-        onKeyUp={[Function]}
-        onResponderGrant={[Function]}
-        onResponderMove={[Function]}
-        onResponderRelease={[Function]}
-        onResponderTerminate={[Function]}
-        onResponderTerminationRequest={[Function]}
-        onStartShouldSetResponder={[Function]}
         tabIndex="0"
       >
         <div
-          className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-adyw6z r-fontWeight-b88u0q r-lineHeight-135wba7 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+          className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
           dir="auto"
         >
           4
@@ -96,19 +72,13 @@ exports[`NumPadKeyboard matches snapshot 1`] = `
       </div>
       <div
         className="css-view-1dbjc4n r-alignItems-1awozwy r-cursor-1loqt21 r-display-6koalj r-flex-13awgt0 r-padding-edyy15 r-touchAction-1otgn73 r-userSelect-lrvibr"
-        data-focusable={true}
+        onClick={[Function]}
+        onContextMenu={[Function]}
         onKeyDown={[Function]}
-        onKeyUp={[Function]}
-        onResponderGrant={[Function]}
-        onResponderMove={[Function]}
-        onResponderRelease={[Function]}
-        onResponderTerminate={[Function]}
-        onResponderTerminationRequest={[Function]}
-        onStartShouldSetResponder={[Function]}
         tabIndex="0"
       >
         <div
-          className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-adyw6z r-fontWeight-b88u0q r-lineHeight-135wba7 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+          className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
           dir="auto"
         >
           5
@@ -116,19 +86,13 @@ exports[`NumPadKeyboard matches snapshot 1`] = `
       </div>
       <div
         className="css-view-1dbjc4n r-alignItems-1awozwy r-cursor-1loqt21 r-display-6koalj r-flex-13awgt0 r-padding-edyy15 r-touchAction-1otgn73 r-userSelect-lrvibr"
-        data-focusable={true}
+        onClick={[Function]}
+        onContextMenu={[Function]}
         onKeyDown={[Function]}
-        onKeyUp={[Function]}
-        onResponderGrant={[Function]}
-        onResponderMove={[Function]}
-        onResponderRelease={[Function]}
-        onResponderTerminate={[Function]}
-        onResponderTerminationRequest={[Function]}
-        onStartShouldSetResponder={[Function]}
         tabIndex="0"
       >
         <div
-          className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-adyw6z r-fontWeight-b88u0q r-lineHeight-135wba7 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+          className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
           dir="auto"
         >
           6
@@ -140,19 +104,13 @@ exports[`NumPadKeyboard matches snapshot 1`] = `
     >
       <div
         className="css-view-1dbjc4n r-alignItems-1awozwy r-cursor-1loqt21 r-display-6koalj r-flex-13awgt0 r-padding-edyy15 r-touchAction-1otgn73 r-userSelect-lrvibr"
-        data-focusable={true}
+        onClick={[Function]}
+        onContextMenu={[Function]}
         onKeyDown={[Function]}
-        onKeyUp={[Function]}
-        onResponderGrant={[Function]}
-        onResponderMove={[Function]}
-        onResponderRelease={[Function]}
-        onResponderTerminate={[Function]}
-        onResponderTerminationRequest={[Function]}
-        onStartShouldSetResponder={[Function]}
         tabIndex="0"
       >
         <div
-          className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-adyw6z r-fontWeight-b88u0q r-lineHeight-135wba7 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+          className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
           dir="auto"
         >
           7
@@ -160,19 +118,13 @@ exports[`NumPadKeyboard matches snapshot 1`] = `
       </div>
       <div
         className="css-view-1dbjc4n r-alignItems-1awozwy r-cursor-1loqt21 r-display-6koalj r-flex-13awgt0 r-padding-edyy15 r-touchAction-1otgn73 r-userSelect-lrvibr"
-        data-focusable={true}
+        onClick={[Function]}
+        onContextMenu={[Function]}
         onKeyDown={[Function]}
-        onKeyUp={[Function]}
-        onResponderGrant={[Function]}
-        onResponderMove={[Function]}
-        onResponderRelease={[Function]}
-        onResponderTerminate={[Function]}
-        onResponderTerminationRequest={[Function]}
-        onStartShouldSetResponder={[Function]}
         tabIndex="0"
       >
         <div
-          className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-adyw6z r-fontWeight-b88u0q r-lineHeight-135wba7 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+          className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
           dir="auto"
         >
           8
@@ -180,19 +132,13 @@ exports[`NumPadKeyboard matches snapshot 1`] = `
       </div>
       <div
         className="css-view-1dbjc4n r-alignItems-1awozwy r-cursor-1loqt21 r-display-6koalj r-flex-13awgt0 r-padding-edyy15 r-touchAction-1otgn73 r-userSelect-lrvibr"
-        data-focusable={true}
+        onClick={[Function]}
+        onContextMenu={[Function]}
         onKeyDown={[Function]}
-        onKeyUp={[Function]}
-        onResponderGrant={[Function]}
-        onResponderMove={[Function]}
-        onResponderRelease={[Function]}
-        onResponderTerminate={[Function]}
-        onResponderTerminationRequest={[Function]}
-        onStartShouldSetResponder={[Function]}
         tabIndex="0"
       >
         <div
-          className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-adyw6z r-fontWeight-b88u0q r-lineHeight-135wba7 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+          className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
           dir="auto"
         >
           9
@@ -204,19 +150,13 @@ exports[`NumPadKeyboard matches snapshot 1`] = `
     >
       <div
         className="css-view-1dbjc4n r-alignItems-1awozwy r-cursor-1loqt21 r-display-6koalj r-flex-13awgt0 r-padding-edyy15 r-touchAction-1otgn73 r-userSelect-lrvibr"
-        data-focusable={true}
+        onClick={[Function]}
+        onContextMenu={[Function]}
         onKeyDown={[Function]}
-        onKeyUp={[Function]}
-        onResponderGrant={[Function]}
-        onResponderMove={[Function]}
-        onResponderRelease={[Function]}
-        onResponderTerminate={[Function]}
-        onResponderTerminationRequest={[Function]}
-        onStartShouldSetResponder={[Function]}
         tabIndex="0"
       >
         <div
-          className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-adyw6z r-fontWeight-b88u0q r-lineHeight-135wba7 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+          className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
           dir="auto"
         >
           .
@@ -224,19 +164,13 @@ exports[`NumPadKeyboard matches snapshot 1`] = `
       </div>
       <div
         className="css-view-1dbjc4n r-alignItems-1awozwy r-cursor-1loqt21 r-display-6koalj r-flex-13awgt0 r-padding-edyy15 r-touchAction-1otgn73 r-userSelect-lrvibr"
-        data-focusable={true}
+        onClick={[Function]}
+        onContextMenu={[Function]}
         onKeyDown={[Function]}
-        onKeyUp={[Function]}
-        onResponderGrant={[Function]}
-        onResponderMove={[Function]}
-        onResponderRelease={[Function]}
-        onResponderTerminate={[Function]}
-        onResponderTerminationRequest={[Function]}
-        onStartShouldSetResponder={[Function]}
         tabIndex="0"
       >
         <div
-          className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-adyw6z r-fontWeight-b88u0q r-lineHeight-135wba7 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+          className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
           dir="auto"
         >
           0
@@ -244,15 +178,9 @@ exports[`NumPadKeyboard matches snapshot 1`] = `
       </div>
       <div
         className="css-view-1dbjc4n r-alignItems-1awozwy r-cursor-1loqt21 r-display-6koalj r-flex-13awgt0 r-padding-edyy15 r-touchAction-1otgn73 r-userSelect-lrvibr"
-        data-focusable={true}
+        onClick={[Function]}
+        onContextMenu={[Function]}
         onKeyDown={[Function]}
-        onKeyUp={[Function]}
-        onResponderGrant={[Function]}
-        onResponderMove={[Function]}
-        onResponderRelease={[Function]}
-        onResponderTerminate={[Function]}
-        onResponderTerminationRequest={[Function]}
-        onStartShouldSetResponder={[Function]}
         tabIndex="0"
       >
         <div

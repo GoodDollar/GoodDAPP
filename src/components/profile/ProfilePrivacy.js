@@ -49,7 +49,7 @@ const ProfileAvatar = withStyles(() => ({
     backgroundColor: 'transparent',
   },
 }))(({ styles, style }) => {
-  const { avatar } = useProfile()
+  const { smallAvatar: avatar } = useProfile()
 
   return <Avatar source={avatar} style={[styles.avatar, style]} imageStyle={style} unknownStyle={style} plain />
 })

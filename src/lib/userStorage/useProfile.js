@@ -3,16 +3,18 @@ import { useEffect, useMemo, useState } from 'react'
 
 import userStorage from './UserStorage'
 
-const defaultFields = ['fullName', 'avatar']
+const defaultPublicFields = ['fullName', 'smallAvatar']
 
-const useProfile = (fields = defaultFields) =>
+const useProfile = fields =>
   useMemo(() => {
     const rawProfile = userStorage.getProfile()
-
-    return pick(rawProfile, fields)
+    if (fields) {
+      return pick(rawProfile, fields)
+    }
+    return rawProfile
   }, [fields])
 
-export const useUserProfile = (walletAddress, fields = defaultFields) => {
+export const useUserProfile = (walletAddress, fields = defaultPublicFields) => {
   const [profile, setProfile] = useState(null)
 
   useEffect(() => {

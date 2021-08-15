@@ -26,7 +26,7 @@ const TopBar = ({
 }) => {
   const store = GDStore.useStore()
   const { balance } = store.get('account')
-  const { avatar } = useProfile()
+  const { smallAvatar: avatar } = useProfile()
 
   const redirectToProfile = useCallback(() => {
     if (!push || !profileAsLink) {

@@ -5,7 +5,6 @@ import { get, memoize } from 'lodash'
 import moment from 'moment'
 import Gun from '@gooddollar/gun'
 import { gunAuth as gunPKAuth } from '@gooddollar/gun-pk-auth'
-import * as TextileCrypto from '@textile/crypto'
 
 import { sha3 } from 'web3-utils'
 import isEmail from '../../lib/validators/isEmail'
@@ -384,12 +383,8 @@ export class UserStorage {
         // firstly, awaiting for wallet is ready
         await wallet.ready
 
-        const pkeySeed = this.wallet.wallet.eth.accounts.wallet[
-          this.wallet.getAccountForType('gundb')
-        ].privateKey.slice(2)
-        const seed = Uint8Array.from(Buffer.from(pkeySeed, 'hex'))
-        this.profilePrivateKey = TextileCrypto.PrivateKey.fromRawEd25519Seed(seed)
-        this.profileStorage = new UserProfileStorage(this.wallet, this.feedDB)
+        this.profilePrivateKey = wallet.getEd25519Key('gundb')
+        this.profileStorage = new UserProfileStorage(this.wallet, this.feedDB, this.profilePrivateKey)
 
         logger.debug('userStorage initialized.')
         return true

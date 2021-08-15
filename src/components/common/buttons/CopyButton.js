@@ -47,21 +47,21 @@ const CopyButton = ({ toCopy, children, onPress = noop, onPressDone = noop, icon
   switch (copyState) {
     case DONE: {
       return (
-        <CustomButton data-gdtype={'copybutton-done'} testID={toCopy} mode={mode} onPress={done} {...props}>
+        <CustomButton dataSet={{ gdtype: 'copybutton-done' }} testID={toCopy} mode={mode} onPress={done} {...props}>
           Done
         </CustomButton>
       )
     }
     case COPIED: {
       return (
-        <CustomButton data-gdtype={'copybutton-copied'} mode={mode} {...props}>
+        <CustomButton dataSet={{ gdtype: 'copybutton-copied' }} mode={mode} {...props}>
           <Icon size={16} name="success" color={iconColor || 'white'} />
         </CustomButton>
       )
     }
     default: {
       return (
-        <CustomButton data-gdtype={'copybutton'} mode={mode} onPress={onPressHandler} {...props}>
+        <CustomButton data={{ gdtype: 'copybutton' }} mode={mode} onPress={onPressHandler} {...props}>
           {children || 'Copy to Clipboard'}
         </CustomButton>
       )

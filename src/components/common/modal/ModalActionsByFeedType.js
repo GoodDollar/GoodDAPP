@@ -9,8 +9,6 @@ import ShareButton from '../buttons/ShareButton'
 
 import { useErrorDialog } from '../../../lib/undux/utils/dialog'
 
-import GDStore from '../../../lib/undux/GDStore'
-
 import logger from '../../../lib/logger/pino-logger'
 import { decorate, ExceptionCategory, ExceptionCode } from '../../../lib/logger/exceptions'
 import normalize from '../../../lib/utils/normalizeText'
@@ -24,6 +22,7 @@ import { CLICK_BTN_CARD_ACTION, fireEvent } from '../../../lib/analytics/analyti
 import config from '../../../config/config'
 
 import { generateSendShareObject, generateShareLink, isSharingAvailable } from '../../../lib/share'
+import useProfile from '../../../lib/userStorage/useProfile'
 
 const log = logger.child({ from: 'ModalActionsByFeed' })
 
@@ -36,10 +35,9 @@ const ModalButton = ({ children, ...props }) => (
 const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigation }) => {
   const [showErrorDialog] = useErrorDialog()
 
-  const store = GDStore.useStore()
   const _handleModalClose = useCallback(handleModalClose)
   const inviteCode = userStorage.userProperties.get('inviteCode')
-  const { fullName: currentUserName } = store.get('profile')
+  const { fullName: currentUserName } = useProfile()
 
   const [cancellingPayment, setCancellingPayment] = useState(false)
   const [paymentLinkForShare, setPaymentLinkForShare] = useState({})

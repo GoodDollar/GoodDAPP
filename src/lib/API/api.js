@@ -19,8 +19,8 @@ const log = logger.child({ from: 'API' })
 export type Credentials = {
   signature?: string, //signed with address used to login to the system
   gdSignature?: string, //signed with address of user wallet holding G$
-  profileSignature?: string, //signed with address of user profile on GunDB
-  profilePublickey?: string, //public key of user profile on gundb
+  profileSignature?: string, //signed with address of user profile
+  profilePublickey?: string, //public key used for storing user profile
   nonce?: string,
   jwt?: string,
 }
@@ -327,18 +327,6 @@ export class APIService {
     const endpoint = this.enrollmentUrl(enrollmentIdentifier)
 
     return client.get(endpoint)
-  }
-
-  /**
-   * Get array buffer from image url
-   * @param {string} url - image url
-   */
-  getBase64FromImageUrl(url: string) {
-    return axios.get(url, { responseType: 'arraybuffer' }).then(response => {
-      let image = btoa(new Uint8Array(response.data).reduce((data, byte) => data + String.fromCharCode(byte), ''))
-
-      return `data:${response.headers['content-type'].toLowerCase()};base64,${image}`
-    })
   }
 
   /**

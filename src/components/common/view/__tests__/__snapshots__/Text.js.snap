@@ -2,7 +2,7 @@
 
 exports[`Text matches snapshot 1`] = `
 <div
-  className="css-text-901oao r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-lineHeight-hbpseb r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+  className="css-text-901oao r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
   dir="auto"
 >
   Example Text
@@ -11,7 +11,7 @@ exports[`Text matches snapshot 1`] = `
 
 exports[`Text matches snapshot with different fontSize 1`] = `
 <div
-  className="css-text-901oao r-fontFamily-vnw8o6 r-fontSize-adyw6z r-fontWeight-1it3c9n r-lineHeight-135wba7 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+  className="css-text-901oao r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
   dir="auto"
 >
   Example Text
@@ -20,7 +20,7 @@ exports[`Text matches snapshot with different fontSize 1`] = `
 
 exports[`Text matches snapshot with different textAlign 1`] = `
 <div
-  className="css-text-901oao r-color-howw7u r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-lineHeight-hbpseb r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+  className="css-text-901oao r-color-howw7u r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
   dir="auto"
 >
   Example Text
@@ -29,7 +29,7 @@ exports[`Text matches snapshot with different textAlign 1`] = `
 
 exports[`Text matches snapshot with string color 1`] = `
 <div
-  className="css-text-901oao r-color-howw7u r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-lineHeight-hbpseb r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+  className="css-text-901oao r-color-howw7u r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
   dir="auto"
 >
   Example Text
@@ -38,7 +38,7 @@ exports[`Text matches snapshot with string color 1`] = `
 
 exports[`Text matches snapshot with theme defined color 1`] = `
 <div
-  className="css-text-901oao r-color-1r0wm8w r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-lineHeight-hbpseb r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+  className="css-text-901oao r-color-1r0wm8w r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
   dir="auto"
 >
   Example Text

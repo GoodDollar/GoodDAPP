@@ -3,12 +3,14 @@ import React, { useMemo } from 'react'
 import { Image, TouchableOpacity, View } from 'react-native'
 import { Avatar } from 'react-native-paper'
 
-import UnknownProfileSVG from '../../../assets/unknownProfile.svg'
-import { withStyles } from '../../../lib/styles'
 import useOnPress from '../../../lib/hooks/useOnPress'
+import useAvatar from '../../../lib/hooks/useAvatar'
 
+import { getBase64Source, isGoodDollarImage } from '../../../lib/utils/image'
+import { withStyles } from '../../../lib/styles'
+
+import UnknownProfileSVG from '../../../assets/unknownProfile.svg'
 import GoodDollarLogo from '../../../assets/Feed/favicon-96x96.svg'
-import useImageSource from '../../../lib/hooks/useImageSource'
 
 /**
  * Touchable Avatar
@@ -33,8 +35,9 @@ const CustomAvatar = ({
   ...avatarProps
 }) => {
   const _onPress = useOnPress(onPress)
-  const [isGDLogo, imgSource] = useImageSource(source)
+  const isGDLogo = isGoodDollarImage(source)
   const ImageComponent = plain ? Image : Avatar.Image
+  const dataUrl = useAvatar(isGDLogo || !source ? null : source)
 
   const calculatedStyles = useMemo(() => {
     const container = { width: size, height: size, borderRadius: size / 2 }
@@ -43,6 +46,8 @@ const CustomAvatar = ({
 
     return { container, wrapper, background }
   }, [size])
+
+  const imgSource = useMemo(() => (dataUrl ? getBase64Source(dataUrl) : null), [dataUrl])
 
   return (
     <TouchableOpacity

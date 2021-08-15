@@ -8,7 +8,7 @@ exports[`OptionsRow matches snapshot 1`] = `
     className="css-view-1dbjc4n r-alignItems-1awozwy r-borderBottomColor-1fn3lry r-borderBottomWidth-qklmqi r-borderStyle-1phboty r-display-6koalj r-flexDirection-18u37iz r-padding-edyy15 r-paddingLeft-gu0qjt"
   >
     <div
-      className="css-text-901oao r-color-181bzza r-flexGrow-16xksha r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-lineHeight-hbpseb r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+      className="css-text-901oao r-color-181bzza r-flexGrow-16xksha r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
       dir="auto"
     >
       
@@ -17,7 +17,7 @@ exports[`OptionsRow matches snapshot 1`] = `
       className="css-view-1dbjc4n r-alignItems-1awozwy r-minWidth-1c8i11 r-width-1ih7r1r"
     >
       <div
-        className="css-text-901oao r-color-181bzza r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-1it3c9n r-lineHeight-rjixqe r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+        className="css-text-901oao r-color-181bzza r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
         dir="auto"
       >
         Private
@@ -27,7 +27,7 @@ exports[`OptionsRow matches snapshot 1`] = `
       className="css-view-1dbjc4n r-alignItems-1awozwy r-minWidth-1c8i11 r-width-1ih7r1r"
     >
       <div
-        className="css-text-901oao r-color-181bzza r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-1it3c9n r-lineHeight-rjixqe r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+        className="css-text-901oao r-color-181bzza r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
         dir="auto"
       >
         Masked
@@ -37,7 +37,7 @@ exports[`OptionsRow matches snapshot 1`] = `
       className="css-view-1dbjc4n r-alignItems-1awozwy r-minWidth-1c8i11 r-width-1ih7r1r"
     >
       <div
-        className="css-text-901oao r-color-181bzza r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-1it3c9n r-lineHeight-rjixqe r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+        className="css-text-901oao r-color-181bzza r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
         dir="auto"
       >
         Public

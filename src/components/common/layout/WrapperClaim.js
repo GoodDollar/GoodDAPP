@@ -29,7 +29,7 @@ const WrapperClaim = ({ children, style, styles, ...props }) => {
   }, [shouldGrow, container, style])
 
   return (
-    <View data-name="viewWrapper" style={wrapperStyles} {...props}>
+    <View dataSet={{ name: 'viewWrapper' }} style={wrapperStyles} {...props}>
       <View style={backgroundGradientStyles} />
       {children}
     </View>

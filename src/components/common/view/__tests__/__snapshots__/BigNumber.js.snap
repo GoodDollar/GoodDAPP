@@ -8,13 +8,13 @@ exports[`BigNumber matches snapshot 1`] = `
     className="css-view-1dbjc4n r-alignItems-1d09ksm r-display-6koalj r-flexDirection-18u37iz"
   >
     <div
-      className="css-text-901oao r-color-181bzza r-fontFamily-6jnb14 r-fontSize-3i2nvb r-fontWeight-b88u0q r-lineHeight-ueyrd6 r-marginRight-a5pmau r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+      className="css-text-901oao r-color-181bzza r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-marginRight-a5pmau r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
       dir="auto"
     >
       10
     </div>
     <div
-      className="css-text-901oao r-color-181bzza r-fontFamily-6jnb14 r-fontSize-1i10wst r-fontWeight-b88u0q r-lineHeight-14yzgew r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+      className="css-text-901oao r-color-181bzza r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
       dir="auto"
     >
       G$

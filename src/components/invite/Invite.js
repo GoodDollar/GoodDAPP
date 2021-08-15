@@ -10,7 +10,7 @@ import { fireEvent, INVITE_HOWTO, INVITE_SHARE } from '../../lib/analytics/analy
 import Config from '../../config/config'
 import { generateShareObject, isSharingAvailable } from '../../lib/share'
 import userStorage from '../../lib/userStorage/UserStorage'
-import useGunProfile from '../../lib/hooks/gun/useGunProfile'
+import { useUserProfile } from '../../lib/userStorage/useProfile'
 import ModalLeftBorder from '../common/modal/ModalLeftBorder'
 import { useCollectBounty, useInviteCode, useInvited, useInviteScreenOpened } from './useInvites'
 import FriendsSVG from './friends.svg'
@@ -23,11 +23,12 @@ const log = logger.child({ from: 'Invite' })
 const Divider = ({ size = 10 }) => <Section.Separator color="transparent" width={size} style={{ zIndex: -10 }} />
 
 const InvitedUser = ({ address, status }) => {
-  const profile = useGunProfile(address)
+  const profile = useUserProfile(address)
   const isApproved = status === 'approved'
+
   return (
     <Section.Row style={{ alignItems: 'center', marginTop: theme.paddings.defaultMargin }}>
-      <Avatar source={profile.smallAvatar} size={28} />
+      <Avatar source={profile?.smallAvatar} size={28} />
       <Section.Text
         fontFamily={theme.fonts.slab}
         fontSize={14}
@@ -40,7 +41,7 @@ const InvitedUser = ({ address, status }) => {
           textAlign: 'left',
         }}
       >
-        {profile.fullName}
+        {profile?.fullName}
       </Section.Text>
       <Section.Row alignItems={'flex-start'}>
         {isApproved ? <Icon name={'check'} color={'green'} /> : <Icon name={'time'} color={'orange'} />}

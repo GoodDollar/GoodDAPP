@@ -4,8 +4,6 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { get } from 'lodash'
 import { text } from 'react-native-communications'
 import { fireEvent } from '../../lib/analytics/analytics'
-import GDStore from '../../lib/undux/GDStore'
-import gun from '../../lib/gundb/gundb'
 import userStorage, { type TransactionEvent } from '../../lib/userStorage/UserStorage'
 import { FeedItemType } from '../../lib/userStorage/FeedStorage'
 import logger from '../../lib/logger/pino-logger'
@@ -17,6 +15,7 @@ import API from '../../lib/API/api'
 
 import { useScreenState } from '../appNavigation/stackNavigation'
 import { generateSendShareObject, generateSendShareText } from '../../lib/share'
+import useProfile from '../../lib/userStorage/useProfile'
 import { ACTION_SEND, ACTION_SEND_TO_ADDRESS, SEND_TITLE } from './utils/sendReceiveFlow'
 import SummaryGeneric from './SendReceive/SummaryGeneric'
 
@@ -33,7 +32,6 @@ export type AmountProps = {
  * @param {any} props.screenProps
  */
 const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
-  const gdstore = GDStore.useStore()
   const inviteCode = userStorage.userProperties.get('inviteCode')
   const [screenState] = useScreenState(screenProps)
   const [showDialog, hideDialog, showErrorDialog] = useDialog()
@@ -42,7 +40,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
   const [link, setLink] = useState('')
 
   const { goToRoot, navigateTo } = screenProps
-  const { fullName } = gdstore.get('profile')
+  const { fullName } = useProfile()
   const {
     amount,
     reason = null,
@@ -238,12 +236,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
     if (phoneNumber) {
       const cleanPhoneNumber = phoneNumber.replace(/\D/g, '')
 
-      const profileKey = await userStorage.getUserProfilePublickey(cleanPhoneNumber)
-      walletAddress = await gun
-        .get(profileKey)
-        .get('profile')
-        .get('walletAddress')
-        .get('display')
+      walletAddress = await userStorage.getUserAddress(cleanPhoneNumber)
     }
 
     if (phoneNumber) {

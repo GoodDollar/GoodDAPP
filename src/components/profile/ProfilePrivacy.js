@@ -21,10 +21,10 @@ import userStorage from '../../lib/userStorage/UserStorage'
 import logger from '../../lib/logger/pino-logger'
 import { withStyles } from '../../lib/styles'
 import { fireEvent, PROFILE_PRIVACY } from '../../lib/analytics/analytics'
-import GDStore from '../../lib/undux/GDStore'
 import { getDesignRelativeHeight, isSmallDevice } from '../../lib/utils/sizes'
 
 // assets
+import useProfile from '../../lib/userStorage/useProfile'
 import OptionsRow from './OptionsRow'
 
 // initialize child logger
@@ -49,8 +49,7 @@ const ProfileAvatar = withStyles(() => ({
     backgroundColor: 'transparent',
   },
 }))(({ styles, style }) => {
-  const gdstore = GDStore.useStore()
-  const { avatar } = gdstore.get('profile')
+  const { avatar } = useProfile()
 
   return <Avatar source={avatar} style={[styles.avatar, style]} imageStyle={style} unknownStyle={style} plain />
 })

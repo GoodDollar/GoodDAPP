@@ -1,5 +1,5 @@
 // @flow
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { Animated, Dimensions, Easing, Platform, TouchableOpacity, View } from 'react-native'
 import { concat, debounce, get, noop, uniqBy } from 'lodash'
 import Mutex from 'await-mutex'
@@ -37,6 +37,8 @@ import useOnPress from '../../lib/hooks/useOnPress'
 import Invite from '../invite/Invite'
 import Avatar from '../common/view/Avatar'
 import _debounce from '../../lib/utils/debounce'
+import useProfile from '../../lib/userStorage/useProfile'
+import { GlobalTogglesContext } from '../../lib/contexts/togglesContext'
 import PrivacyPolicyAndTerms from './PrivacyPolicyAndTerms'
 import Amount from './Amount'
 import Claim from './Claim'
@@ -78,10 +80,10 @@ export type DashboardProps = {
 }
 
 const useNativeDriverForAnimation = Platform.select({
-  web: false,
+  web: true,
 
   // animating height/width or top/bottom/left/right attrs is not supported by native driver on native
-  default: true,
+  default: false,
 })
 
 const feedMutex = new Mutex()
@@ -112,11 +114,12 @@ const Dashboard = props => {
   const loadingIndicator = store.get('loadingIndicator')
   const loadAnimShown = store.get('feedLoadAnimShown')
   const { balance, entitlement } = gdstore.get('account')
-  const { avatar, fullName } = gdstore.get('profile')
+  const { avatar, fullName } = useProfile()
   const [feeds, setFeeds] = useState([])
   const [headerLarge, setHeaderLarge] = useState(true)
   const { appState } = useAppState()
   const [animateMarket, setAnimateMarket] = useState(false)
+  const { setBlur } = useContext(GlobalTogglesContext)
 
   const headerAnimateStyles = {
     position: 'relative',
@@ -205,7 +208,7 @@ const Dashboard = props => {
   //subscribeToFeed probably should be an effect that updates the feed items
   //as they come in, currently on each new item it simply reset the feed
   //currently it seems too complicated to make it its own effect as it both depends on "feeds" and changes them
-  //which would lead to many unwanted subscribe/unsubscribe to gun
+  //which would lead to many unwanted subscribe/unsubscribe
   const subscribeToFeed = async () => {
     await getFeedPage(true)
 
@@ -277,13 +280,13 @@ const Dashboard = props => {
           duration: 750,
           easing: Easing.ease,
           delay: 1000,
-          useNativeDriver: true,
+          useNativeDriver: useNativeDriverForAnimation,
         }),
         Animated.timing(claimAnimValue, {
           toValue: 1,
           duration: 750,
           easing: Easing.ease,
-          useNativeDriver: true,
+          useNativeDriver: useNativeDriverForAnimation,
         }),
       ]).start(resolve),
     )
@@ -408,7 +411,7 @@ const Dashboard = props => {
           toValue: 1,
           duration: fullNameOpacityTiming,
           easing: easingOut,
-          useNativeDriver: true,
+          useNativeDriver: useNativeDriverForAnimation,
         }),
         Animated.timing(headerBalanceBottomAnimValue, {
           toValue: 0,
@@ -453,7 +456,7 @@ const Dashboard = props => {
           toValue: 0,
           duration: fullNameOpacityTiming,
           easing: easingIn,
-          useNativeDriver: true,
+          useNativeDriver: useNativeDriverForAnimation,
         }),
         Animated.timing(headerBalanceBottomAnimValue, {
           toValue: Platform.select({ web: 68, default: 60 }),
@@ -503,7 +506,6 @@ const Dashboard = props => {
   const showEventModal = useCallback(
     currentFeed => {
       setItemModal(currentFeed)
-      store.set('currentFeed')(currentFeed)
     },
     [store],
   )
@@ -528,6 +530,7 @@ const Dashboard = props => {
   const handleFeedSelection = useCallback(
     (receipt, horizontal) => {
       showEventModal(horizontal ? receipt : null)
+      setBlur(horizontal)
     },
     [showEventModal],
   )

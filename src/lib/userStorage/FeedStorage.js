@@ -1,15 +1,12 @@
 // @flow
-import { camelCase, debounce, find, get, has, isEqual, isError, isUndefined, orderBy, pick, set } from 'lodash'
-
-// import Mutex from 'await-mutex'
+import { assign, debounce, find, get, has, isEqual, isUndefined, orderBy, pick, set } from 'lodash'
 import EventEmitter from 'eventemitter3'
 
-import Config from '../../config/config'
 import delUndefValNested from '../utils/delUndefValNested'
+import { updateFeedEventAvatar } from '../updates/utils'
+
+import Config from '../../config/config'
 import logger from '../../lib/logger/pino-logger'
-import { delay } from '../utils/async'
-import { isValidBase64Image } from '../utils/image'
-import Base64Storage from '../nft/Base64Storage'
 
 const log = logger.child({ from: 'FeedStorage' })
 
@@ -442,56 +439,24 @@ export class FeedStorage {
 
   updateFeedEventCounterParty(feedEvent) {
     const getCounterParty = async address => {
-      const publicKey = await this.userStorage.getUserProfilePublickey(address)
-      log.debug('updateFeedEventCounterParty got counter party:', feedEvent.id, { publicKey, address })
+      let { name, avatar } = await this.userStorage.getUserProfile(address)
 
-      if (!publicKey) {
-        return
+      /** THIS CODE BLOCK MAY BE REMOVED AFTER SEPTEMBER 2021 */
+      /** =================================================== */
+      if (Config.ipfsLazyUpload) {
+        // keep old base64 value if upload failed
+        avatar = await updateFeedEventAvatar(avatar).catch(() => avatar)
       }
 
-      feedEvent.data.counterPartyAddress = address
-      feedEvent.data.counterPartyProfile = publicKey
+      /** =================================================== */
+
+      assign(feedEvent.data, {
+        counterPartyAddress: address,
+        counterPartyFullName: name,
+        counterPartySmallAvatar: avatar,
+      })
 
       await this.updateFeedEvent(feedEvent)
-      ;['fullName', 'smallAvatar'].forEach(field => {
-        this.gun
-          .get(publicKey)
-          .get('profile')
-          .get(field)
-          .get('display')
-          .on(async (_value, nodeID, message, event) => {
-            // *** REMOVE THIS CODE BLOCK AT AUG - SEP 21
-            // if got avatar - check is it an base64
-            // if yes - upload it and store CID instead
-            let value = _value
-
-            if (Config.nftLazyUpload && 'smallAvatar' === field && isValidBase64Image(value)) {
-              // keep old base64 value if upload failed
-              value = await Base64Storage.store(value).catch(() => _value)
-            }
-
-            // ********************************************
-
-            event.off()
-
-            if (!value) {
-              return
-            }
-
-            log.debug('updateFeedEventCounterParty updating field:', feedEvent.id, {
-              field,
-              value,
-              data: feedEvent.data,
-            })
-
-            //this will create counterPartyFullName, counterPartySmallAvatar
-            if (feedEvent.data[camelCase(`counterParty ${field}`)] !== value) {
-              feedEvent.data[camelCase(`counterParty ${field}`)] = value
-              await delay(500) //delay so we don't hit the dashboard feed debounce timeout
-              this.updateFeedEvent(feedEvent)
-            }
-          })
-      })
     }
 
     log.debug('updateFeedEventCounterParty:', feedEvent.data.receiptEvent, feedEvent.id, feedEvent.txType)
@@ -562,9 +527,7 @@ export class FeedStorage {
       log.debug('enqueueTX ok:', { event })
 
       return true
-    } catch (gunError) {
-      const e = this._gunException(gunError)
-
+    } catch (e) {
       log.error('enqueueTX failed: ', e.message, e, { event })
       return false
     } finally {
@@ -838,16 +801,6 @@ export class FeedStorage {
     1000,
     { leading: true },
   )
-
-  _gunException(gunError) {
-    let exception = gunError
-
-    if (!isError(exception)) {
-      exception = new Error(gunError.err || gunError)
-    }
-
-    return exception
-  }
 
   getAllFeed() {
     return this.storage.Feed.find().toArray()

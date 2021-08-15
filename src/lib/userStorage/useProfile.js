@@ -1,25 +1,32 @@
 import { mapValues, pick } from 'lodash'
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import userStorage from './UserStorage'
 
 const defaultPublicFields = ['fullName', 'smallAvatar']
 
-const useProfile = fields =>
-  useMemo(() => {
-    const rawProfile = userStorage.getProfile()
-    if (fields) {
-      return pick(rawProfile, fields)
-    }
-    return rawProfile
-  }, [fields])
+const useProfile = fields => {
+  const rawProfile = userStorage.getPrivateProfile()
+  if (fields) {
+    return pick(rawProfile, fields)
+  }
+  return rawProfile
+}
+
+export const useDisplayProfile = fields => {
+  const rawProfile = userStorage.getDisplayProfile()
+  if (fields) {
+    return pick(rawProfile, fields)
+  }
+  return rawProfile
+}
 
 export const useUserProfile = (walletAddress, fields = defaultPublicFields) => {
   const [profile, setProfile] = useState(null)
 
   useEffect(() => {
     userStorage
-      .getProfileByWalletAddress(walletAddress)
+      .getPublicProfile('walletAddress', walletAddress)
       .then(rawProfile => setProfile(mapValues(pick(rawProfile, fields), 'display')))
   }, [walletAddress, fields, setProfile])
 

@@ -216,10 +216,6 @@ export class UserStorage {
    */
   ready: Promise<boolean>
 
-  subscribersProfileUpdates = []
-
-  _lastProfileUpdate: any
-
   feedDB: DB
 
   userProperties

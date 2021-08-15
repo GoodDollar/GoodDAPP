@@ -181,7 +181,7 @@ export class UserProfileStorage implements ProfileStorage {
     let { errors, isValid } = profile.validate(update)
 
     // enforce profile to have walletAddress
-    if (!update && !profile.walletAddress) {
+    if (!update || !profile.walletAddress) {
       isValid = false
       errors.walletAddress = 'walletAddress is required in profile'
     }
@@ -382,7 +382,7 @@ export class UserProfileStorage implements ProfileStorage {
    * @param {*} value
    */
   async getPublicProfile(key: string, value: string): Promise<{ [field: string]: string }> {
-    const rawProfile = await this.profiledb.getProfileByField(key, value)
+    const rawProfile = await this.getProfileByField(key, value)
 
     if (!rawProfile) {
       return null

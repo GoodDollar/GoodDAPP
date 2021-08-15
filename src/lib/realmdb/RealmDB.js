@@ -302,7 +302,6 @@ class RealmDB implements DB, ProfileDB {
     try {
       const msg = new TextEncoder().encode(JSON.stringify(field))
       const encrypted = await this.privateKey.public.encrypt(msg).then(_ => Buffer.from(_).toString('base64'))
-
       log.debug('encrypt result:', { field: encrypted })
       return encrypted
     } catch (e) {
@@ -317,7 +316,6 @@ class RealmDB implements DB, ProfileDB {
    */
   async _decrypt(item): Promise<string> {
     const decrypted = await this.privateKey.decrypt(Uint8Array.from(Buffer.from(item.encrypted, 'base64')))
-
     return JSON.parse(new TextDecoder().decode(decrypted))
   }
 
@@ -328,7 +326,6 @@ class RealmDB implements DB, ProfileDB {
    */
   async decryptField(field): Promise<string> {
     const decrypted = await this.privateKey.decrypt(Uint8Array.from(Buffer.from(field, 'base64')))
-
     return JSON.parse(new TextDecoder().decode(decrypted))
   }
 

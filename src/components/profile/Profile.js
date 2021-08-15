@@ -6,7 +6,7 @@ import { Section, Text, UserAvatar, Wrapper } from '../common'
 import { withStyles } from '../../lib/styles'
 import { getDesignRelativeWidth } from '../../lib/utils/sizes'
 import RoundIconButton from '../common/buttons/RoundIconButton'
-import useProfile from '../../lib/userStorage/useProfile'
+import { useDisplayProfile } from '../../lib/userStorage/useProfile'
 import EditAvatar from './EditAvatar'
 import EditProfile from './EditProfile'
 import ProfileDataTable from './ProfileDataTable'
@@ -18,7 +18,7 @@ import VerifyEditCode from './VerifyEditCode'
 const avatarSize = getDesignRelativeWidth(136)
 
 const ProfileWrapper = props => {
-  const profile = useProfile()
+  const profile = useDisplayProfile()
   const { screenProps, styles } = props
 
   const handleAvatarPress = useCallback(() => screenProps.push(`ViewAvatar`), [screenProps])

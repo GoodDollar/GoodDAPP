@@ -6,7 +6,6 @@ import moment from 'moment'
 import Gun from '@gooddollar/gun'
 import { gunAuth as gunPKAuth } from '@gooddollar/gun-pk-auth'
 
-import { sha3 } from 'web3-utils'
 import isEmail from '../../lib/validators/isEmail'
 
 import { retry } from '../utils/async'
@@ -15,7 +14,6 @@ import FaceVerificationAPI from '../../components/dashboard/FaceVerification/api
 import Config from '../../config/config'
 import API from '../API/api'
 import pino from '../logger/pino-logger'
-import { ExceptionCategory } from '../logger/exceptions'
 import isMobilePhone from '../validators/isMobilePhone'
 
 import { GD_GUN_CREDENTIALS } from '../constants/localStorage'
@@ -257,23 +255,6 @@ export class UserStorage {
   walletAddressIndex = {}
 
   ready: Promise<boolean> = null
-
-  /**
-   * Clean string removing blank spaces and special characters, and converts to lower case
-   *
-   * @param {string} field - Field name
-   * @param {string} value - Field value
-   * @returns {string} - Value without '+' (plus), '-' (minus), '_' (underscore), ' ' (space), in lower case
-   */
-  static cleanHashedFieldForIndex = (field: string, value: string): string => {
-    if (value === undefined) {
-      return value
-    }
-    if (field === 'mobile' || field === 'phone') {
-      return sha3(value.replace(/[_-\s]+/g, ''))
-    }
-    return sha3(`${value}`.toLowerCase())
-  }
 
   /**
    * Returns phone with last 4 numbers, and before that ***,
@@ -620,29 +601,6 @@ export class UserStorage {
     return this.profileStorage.setProfile(profile, update)
   }
 
-  /**
-   *
-   * @param {string} field
-   * @param {string} value
-   * @param trusted
-   * @returns {boolean}
-   */
-  static isValidValue(field: string, value: string, trusted: boolean = false) {
-    const cleanValue = UserStorage.cleanHashedFieldForIndex(field, value)
-
-    if (!cleanValue) {
-      logger.warn(
-        `isValidValue - field ${field} value is empty (value: ${value})`,
-        cleanValue,
-        new Error('isValidValue failed'),
-        { category: ExceptionCategory.Human },
-      )
-      return false
-    }
-
-    return true
-  }
-
   // eslint-disable-next-line require-await
   async validateProfile(profile: any) {
     return this.profileStorage.validateProfile(profile)
@@ -771,8 +729,7 @@ export class UserStorage {
    * @param {string} username
    */
   async isUsername(username: string) {
-    const cleanValue = UserStorage.cleanHashedFieldForIndex('username', username)
-    const profile = await this.profileStorage.getProfilesByHashIndex('username', cleanValue)
+    const profile = await this.profileStorage.getProfilesByHashIndex('username', username)
     return profile?.length > 0
   }
 
@@ -802,9 +759,8 @@ export class UserStorage {
     }
 
     const attr = isMobilePhone(value) ? 'mobile' : isEmail(value) ? 'email' : 'walletAddress'
-    const hashValue = UserStorage.cleanHashedFieldForIndex(attr, value)
 
-    const profile = await this.profileStorage.getProfilesByHashIndex(attr, hashValue)
+    const profile = await this.profileStorage.getProfilesByHashIndex(attr, value)
     if (profile.length === 0) {
       return
     }

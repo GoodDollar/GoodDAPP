@@ -71,8 +71,6 @@ describe('UserProfileStorage', () => {
       { username, walletAddress, mobile, email: 'abc', ...fields },
       { email, walletAddress, mobile, username: '', ...fields },
       { email, walletAddress, mobile, username: 'John Doe', ...fields },
-      { email, username, mobile, ...fields },
-      { email, username, mobile, walletAddress: '', ...fields },
     ]
 
     const errorMessages = [
@@ -80,11 +78,9 @@ describe('UserProfileStorage', () => {
       'Enter a valid format: yourname@example.com',
       'Username cannot be empty',
       'Only letters, numbers and underscore',
-      'Wallet Address is required',
-      'Wallet Address is required',
     ]
 
-    const missingFields = ['email', 'email', 'username', 'username', 'walletAddress', 'walletAddress']
+    const missingFields = ['email', 'email', 'username', 'username']
 
     await Promise.all(
       invalidProfiles.map(async (item, index) => {
@@ -112,6 +108,9 @@ describe('UserProfileStorage', () => {
 
     for (const key in fields) {
       const field = fields[key]
+      if (!field.privacy) {
+        continue
+      } //skip non profile fields
       if (field.privacy === 'public') {
         expect(profile[key]).toEqual(field.display)
       } else {
@@ -124,6 +123,9 @@ describe('UserProfileStorage', () => {
     const { user_id, _id, ...fields } = await userProfileStorage.profiledb.getProfile()
 
     for (const key in fields) {
+      if (!fields[key].value) {
+        continue
+      } //skip non core profile fields
       expect(profile[key]).not.toEqual(fields[key].value)
       expect(fields[key].value.length).toBeGreaterThan(0)
     }

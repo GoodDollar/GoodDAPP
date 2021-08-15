@@ -553,7 +553,9 @@ export class GoodWallet {
         .periodStart()
         .call()
         .then(_ => _.toNumber() * 1000)
-      const today = moment().diff(ubiStart, 'days')
+      const today = moment()
+        .utc()
+        .diff(ubiStart, 'days')
 
       //we dont use getDailyStats because it returns stats for last day where claim happened
       //if user is the first the stats he says are incorrect and will reset once he claims

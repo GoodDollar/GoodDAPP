@@ -327,7 +327,11 @@ class RealmDB implements DB, ProfileDB {
 
   // eslint-disable-next-line require-await
   async setProfile(profile: { [key: string]: ProfileField }): Promise<any> {
-    return this.profiles.updateOne({ user_id: this.user.id }, { user_id: this.user.id, ...profile }, { upsert: true })
+    return this.profiles.updateOne(
+      { user_id: this.user.id },
+      { $set: { user_id: this.user.id, ...profile } },
+      { upsert: true },
+    )
   }
 
   /**

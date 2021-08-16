@@ -2,7 +2,6 @@
 import { assign } from 'lodash'
 import * as TextileCrypto from '@textile/crypto'
 
-import { ExceptionCategory } from '../logger/exceptions'
 import IPFS from '../ipfs/IpfsStorage'
 import { AVATAR_SIZE, resizeImage, SMALL_AVATAR_SIZE } from '../utils/image'
 import { isValidDataUrl } from '../utils/base64'
@@ -42,7 +41,6 @@ export interface ProfileStorage {
   init(): Promise<void>;
   setProfile(profile: Profile): Promise<void>;
   getProfile(): { [key: string]: string };
-  setProfileFields(fields: Profile): Promise<void>;
   setProfileField(field: string, value: string, privacy: FieldPrivacy, onlyPrivacy: boolean): Promise<void>;
   setAvatar(avatar: string): Promise<void>;
   removeAvatar(): Promise<void>;
@@ -199,23 +197,7 @@ export class UserProfileStorage implements ProfileStorage {
    * @param update
    */
   async setProfile(profile: { [key: string]: string }, update: boolean = false): Promise<void> {
-    if (profile && !profile.validate) {
-      profile = getUserModel(profile)
-    }
-
     const fields = Object.keys(profile).filter(prop => this.profileSettings[prop])
-    let { errors, isValid } = profile.validate(update)
-
-    if (!isValid) {
-      const errorMessage = 'Fields validation failed'
-
-      logger.warn('setProfile failed', errorMessage, new Error(errorMessage), {
-        errors,
-        category: ExceptionCategory.Human,
-      })
-
-      throw errors
-    }
 
     const { avatar } = profile
 
@@ -246,13 +228,13 @@ export class UserProfileStorage implements ProfileStorage {
       const index = {
         walletAddress: {
           hash: this.wallet.wallet.utils.sha3(cleanHashedFieldForIndex('walletAddress', this.wallet.account)),
-          proof: this.wallet.sign(cleanHashedFieldForIndex('walletAddress', this.wallet.account)),
+          proof: await this.wallet.sign(cleanHashedFieldForIndex('walletAddress', this.wallet.account)),
         },
       }
-      return this.setProfileFields({ ...fieldsToSave, index, publicKey: this.privateKey.public.toString() })
+      return this._setProfileFields({ ...fieldsToSave, index, publicKey: this.privateKey.public.toString() })
     }
 
-    return this.setProfileFields(fieldsToSave)
+    return this._setProfileFields(fieldsToSave)
   }
 
   /**
@@ -268,7 +250,7 @@ export class UserProfileStorage implements ProfileStorage {
    * @param {*} fields
    * @returns
    */
-  async setProfileFields(fields: Profile): Promise<void> {
+  async _setProfileFields(fields: Profile): Promise<void> {
     const encryptedFields = await this._encryptProfileFields(fields)
 
     await this.profiledb.setProfile(encryptedFields)
@@ -319,7 +301,7 @@ export class UserProfileStorage implements ProfileStorage {
   ): Promise<void> {
     const display = this._setDisplayFieldBasedOnPrivacy(field, value, privacy)
     logger.debug('setProfileField', { field, value, privacy, onlyPrivacy, display })
-    return this.setProfileFields({ [field]: { value, display, privacy } })
+    return this._setProfileFields({ [field]: { value, display, privacy } })
   }
 
   /**
@@ -328,7 +310,7 @@ export class UserProfileStorage implements ProfileStorage {
    */
   async setAvatar(avatar): Promise<CID[]> {
     const cids = await this._resizeAndStoreAvatars(avatar)
-    return this.setProfile(cids)
+    return this.setProfile(cids, true)
   }
 
   /**
@@ -337,7 +319,7 @@ export class UserProfileStorage implements ProfileStorage {
    */
   // eslint-disable-next-line require-await
   async removeAvatar(): Promise<void> {
-    return this.setProfileFields({ avatar: null, smallAvatar: null })
+    return this._setProfileFields({ avatar: null, smallAvatar: null })
   }
 
   /**

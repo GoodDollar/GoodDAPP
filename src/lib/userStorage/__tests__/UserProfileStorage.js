@@ -1,3 +1,4 @@
+import 'fake-indexeddb/auto'
 import { forIn, isFunction, isNil, omitBy } from 'lodash'
 
 import { UserProfileStorage } from '../UserProfileStorage'

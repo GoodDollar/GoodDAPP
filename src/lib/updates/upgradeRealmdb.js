@@ -15,27 +15,36 @@ const upgradeRealmDB = async (lastUpdate, prevVersion, log) => {
     userStorage.gunuser
       .get('trust')
       .get(pubkey)
-      .on(keys => {
+      .then(keys => {
         userStorage.gunuser
           .get('feed')
           .get('byid')
           .on(async data => {
             delete data._
-            await setFeedItems(data, keys, log)
+            await setFeedItems(data, keys, log).catch(e => rej(e))
             done += 1
-            if (done === 2) {
+            if (done === 3) {
               res()
             }
           })
 
         userStorage.gunuser.get('properties').on(async data => {
-          await setProperties(data, keys, log)
+          await setProperties(data, keys, log).catch(e => rej(e))
           done += 1
-          if (done === 2) {
+          if (done === 3) {
             res()
           }
         })
-      })
+
+        userStorage.gunuser.get('profile').on(async data => {
+          delete data._
+          await setProfile(data, keys, log).catch(e => rej(e))
+          done += 1
+          if (done === 3) {
+            res()
+          }
+        })
+      }, 3000)
   })
   await promise
   log.info('done upgradeRealmdb')
@@ -73,6 +82,33 @@ const setProperties = async (data, keys, log) => {
   } catch (e) {
     log.warn('unable to decrypt properties:', e.message, e, { data, decrypted })
   }
+}
+
+const setProfile = async (data, keys, log) => {
+  const pubkey = userStorage.gunuser.pair().pub
+  log.debug('setProfile:', { data })
+  const profile = {}
+  const promisses = Object.entries(data).map(async ([k, v]) => {
+    if (!v['#']) {
+      return
+    }
+    const data = await userStorage.gun.get(v['#']).then(null, 1000)
+    let decrypted
+    try {
+      const value = data.value
+      const path = 'value' + k + 'profile~' + pubkey
+      const encryptedKey = keys[path]
+      log.debug('setProfile: field', { data, k, value, encryptedKey, path })
+      const secureKey = await SEA.decrypt(encryptedKey, userStorage.gunuser.pair())
+      decrypted = await SEA.decrypt(value, secureKey)
+      profile[k] = decrypted
+    } catch (e) {
+      log.warn('unable to decrypt profile field item:', e.message, e, { k, v, data, decrypted })
+    }
+  })
+  await Promise.all(promisses)
+  log.info('saving profile', { profile })
+  return userStorage.profileStorage.setProfile(profile)
 }
 
 export default { fromDate, update: upgradeRealmDB, key: 'upgradeRealmDB' }

@@ -1,5 +1,5 @@
 // @flow
-import { assign, toPairs } from 'lodash'
+import { assign } from 'lodash'
 import * as TextileCrypto from '@textile/crypto'
 
 import { ExceptionCategory } from '../logger/exceptions'
@@ -167,12 +167,8 @@ export class UserProfileStorage implements ProfileStorage {
 
     await Promise.all(
       Object.keys(profile).map(async field => {
-        if (profile[field] == null) {
-          return
-        }
-
         //only encrypt fields with .value format ie(ProfileField)
-        if (profile[field].value) {
+        if (profile[field]?.value) {
           return (encryptProfile[field] = {
             ...profile[field],
             value: await this._encryptField(profile[field]?.value),
@@ -338,22 +334,16 @@ export class UserProfileStorage implements ProfileStorage {
    */
   async setAvatar(avatar): Promise<CID[]> {
     const cids = await this._resizeAndStoreAvatars(avatar)
-
-    await Promise.all(
-      // eslint-disable-next-line require-await
-      toPairs(cids).map(async ([field, value]) => this.setProfileField(field, value, 'public')),
-    )
+    return this.setProfile(cids)
   }
 
   /**
    * remove Avatar from profile
    * @returns {Promise<[Promise<void>, Promise<void>, Promise<void>, Promise<void>, Promise<void>, Promise<void>, Promise<void>, Promise<void>, Promise<void>, Promise<void>]>}
    */
+  // eslint-disable-next-line require-await
   async removeAvatar(): Promise<void> {
-    await Promise.all(
-      // eslint-disable-next-line require-await
-      ['avatar', 'smallAvatar'].map(async field => this.setProfileFields({ [field]: null })),
-    )
+    return this.setProfileFields({ avatar: null, smallAvatar: null })
   }
 
   /**

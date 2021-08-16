@@ -1,6 +1,6 @@
 import SEA from '@gooddollar/gun/sea'
 import userStorage from '../userStorage/UserStorage'
-const fromDate = new Date('2021/08/16')
+const fromDate = new Date('2021/08/15')
 
 /**
  * import feed and properties from gundb to realmdb

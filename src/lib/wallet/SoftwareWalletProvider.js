@@ -95,6 +95,7 @@ class SoftwareWalletProvider {
     }
 
     let web3 = new Web3(provider, null, this.defaults)
+
     assign(web3.eth, this.defaults)
     privateKeys.forEach(pkey => {
       let wallet = web3.eth.accounts.privateKeyToAccount(pkey)

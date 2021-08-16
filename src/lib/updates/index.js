@@ -6,9 +6,10 @@ import { fireEvent } from '../analytics/analytics'
 import logger from '../logger/pino-logger'
 import uploadAvatars from './avatar'
 import upgradeRealmDB from './upgradeRealmdb'
+import upgradeProfileRealmDB from './upgradeProfileRealmdb'
 
 const log = logger.child({ from: 'updates' })
-const updates = [uploadAvatars, upgradeRealmDB]
+const updates = [uploadAvatars, upgradeRealmDB, upgradeProfileRealmDB]
 
 const update = async () => {
   const updatesData = (await userStorage.userProperties.get('updates')) || {

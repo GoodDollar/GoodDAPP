@@ -1,3 +1,5 @@
+// eslint-disable-next-line import/order
+import { initUserStorage } from '../../../lib/userStorage/__tests__/__util__'
 import React from 'react'
 
 // Note: test renderer must be required after react-native.
@@ -11,7 +13,13 @@ jest.doMock('../../../lib/wallet/GoodWallet', () => {
   }
 })
 
+jest.setTimeout(10000)
+
 describe('ReceiveToAddress', () => {
+  beforeAll(async () => {
+    await initUserStorage()
+  })
+
   const ReceiveToAddress = getWebRouterComponentWithMocks('../ReceiveToAddress')
 
   afterAll(() => jest.dontMock('../../../lib/wallet/GoodWallet'))

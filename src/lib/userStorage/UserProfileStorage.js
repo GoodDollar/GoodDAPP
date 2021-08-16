@@ -180,12 +180,6 @@ export class UserProfileStorage implements ProfileStorage {
     const fields = Object.keys(profile).filter(prop => prop in this.profileSettings)
     let { errors, isValid } = profile.validate(update)
 
-    // // enforce profile to have walletAddress
-    // if (!update || !profile.walletAddress) {
-    //   isValid = false
-    //   errors.walletAddress = 'walletAddress is required in profile'
-    // }
-
     if (!isValid) {
       const errorMessage = 'Fields validation failed'
 
@@ -300,6 +294,7 @@ export class UserProfileStorage implements ProfileStorage {
     onlyPrivacy: boolean = false,
   ): Promise<void> {
     const display = this._setDisplayFieldBasedOnPrivacy(field, value, privacy)
+
     logger.debug('setProfileField', { field, value, privacy, onlyPrivacy, display })
     return this.setProfileFields({ [field]: { value, display, privacy } })
   }

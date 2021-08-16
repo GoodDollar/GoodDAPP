@@ -1,6 +1,6 @@
 // @flow
 import { assign, toPairs } from 'lodash'
-import TextileCrypto from '@textile/crypto'
+import * as TextileCrypto from '@textile/crypto'
 
 import { ExceptionCategory } from '../logger/exceptions'
 import IPFS from '../ipfs/IpfsStorage'
@@ -66,9 +66,7 @@ export class UserProfileStorage implements ProfileStorage {
   indexableFields = {
     email: true,
     mobile: true,
-    mnemonic: true,
     phone: true,
-    walletAddress: true,
     username: true,
   }
 
@@ -168,16 +166,22 @@ export class UserProfileStorage implements ProfileStorage {
     const encryptProfile = {}
 
     await Promise.all(
-      Object.keys(profile).map(
-        async field =>
-          (encryptProfile[field] =
-            profile[field] === null
-              ? null
-              : {
-                  ...profile[field],
-                  value: await this._encryptField(profile[field]?.value),
-                }),
-      ),
+      Object.keys(profile).map(async field => {
+        if (profile[field] == null) {
+          return
+        }
+
+        //only encrypt fields with .value format ie(ProfileField)
+        if (profile[field].value) {
+          return (encryptProfile[field] = {
+            ...profile[field],
+            value: await this._encryptField(profile[field]?.value),
+          })
+        }
+
+        //non encrypted fields
+        encryptProfile[field] = profile[field]
+      }),
     )
 
     return encryptProfile
@@ -217,7 +221,7 @@ export class UserProfileStorage implements ProfileStorage {
 
     if (!update) {
       //inject walletaddress field for new profile
-      fields.walletAddress = this.wallet.account
+      profile.walletAddress = this.wallet.account
     }
 
     const fieldsToSave = fields.reduce(
@@ -235,11 +239,11 @@ export class UserProfileStorage implements ProfileStorage {
     if (!update) {
       const index = {
         walletAddress: {
-          hash: this.wallet.wallet.utils.sha3(cleanHashedFieldForIndex(this.wallet.account)),
-          proof: this.wallet.sign(cleanHashedFieldForIndex(this.wallet.account)),
+          hash: this.wallet.wallet.utils.sha3(cleanHashedFieldForIndex('walletAddress', this.wallet.account)),
+          proof: this.wallet.sign(cleanHashedFieldForIndex('walletAddress', this.wallet.account)),
         },
       }
-      return this.setNewProfile({ ...fieldsToSave, index, publicKey: this.privateKey.public.toString() })
+      return this._setNewProfile({ ...fieldsToSave, index, publicKey: this.privateKey.public.toString() })
     }
 
     return this.setProfileFields(fieldsToSave)
@@ -274,7 +278,7 @@ export class UserProfileStorage implements ProfileStorage {
    * @returns {Promise<void>}
    * @private
    */
-  async setNewProfile(fields: Profile): Promise<void> {
+  async _setNewProfile(fields: Profile): Promise<void> {
     const encryptedFields = await this._encryptProfileFields(fields)
 
     await this.profiledb.setProfile(encryptedFields)
@@ -393,7 +397,7 @@ export class UserProfileStorage implements ProfileStorage {
 
   //TODO: in the future it should also validate the index.field.proof
   getProfilesByHashIndex(field: string, value: string): Promise<any> {
-    return this.profiledb.getProfilesBy({ [`index.${field}.hash`]: cleanHashedFieldForIndex(value) })
+    return this.profiledb.getProfilesBy({ [`index.${field}.hash`]: cleanHashedFieldForIndex(field, value) })
   }
 
   /**

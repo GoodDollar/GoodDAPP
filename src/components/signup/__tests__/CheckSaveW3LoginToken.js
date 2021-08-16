@@ -1,9 +1,12 @@
+// eslint-disable-next-line import/order
+import { initUserStorage } from '../../../lib/userStorage/__tests__/__util__'
 import userStorage from '../../../lib/userStorage/UserStorage'
+
+jest.setTimeout(15000)
 
 describe('Check W3 Login Token Save', () => {
   beforeAll(async () => {
-    jest.setTimeout(15000)
-    await userStorage.ready
+    await initUserStorage()
   })
 
   it('should save login token', async () => {
@@ -14,12 +17,12 @@ describe('Check W3 Login Token Save', () => {
       })
       .join('')
 
-    userStorage.setProfileField('loginToken', token, 'private')
+    await userStorage.setProfileField('loginToken', token, 'private')
 
-    const savedPrivateTokenValue = await userStorage.getProfileField('loginToken')
-    const savedTokenValue = await userStorage.getProfileFieldValue('loginToken')
+    const savedPrivateTokenValue = await userStorage.getProfileFieldValue('loginToken')
+    const savedTokenValue = await userStorage.getPrivateProfile().loginToken
 
     expect(savedTokenValue).toBe(token)
-    expect(savedPrivateTokenValue.display).toBe('******')
+    expect(savedPrivateTokenValue).toBe('******')
   })
 })

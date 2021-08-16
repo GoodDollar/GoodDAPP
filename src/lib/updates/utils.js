@@ -3,6 +3,7 @@ import { isString } from 'lodash'
 import IPFS from '../ipfs/IpfsStorage'
 import { isValidCID } from '../ipfs/utils'
 import { isValidDataUrl } from '../utils/base64'
+import userStorage from '../userStorage/UserStorage'
 
 export const analyzeAvatar = async avatar => {
   if (!isString(avatar)) {
@@ -43,4 +44,15 @@ export const updateFeedEventAvatar = async avatar => {
   }
 
   return avatar
+}
+
+// eslint-disable-next-line require-await
+export const gunPublicKeyTrust = async () => {
+  const { gunuser } = userStorage
+  const pubkey = gunuser.pair().pub
+
+  return gunuser
+    .get('trust')
+    .get(pubkey)
+    .then(null, 3000)
 }

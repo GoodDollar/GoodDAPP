@@ -1,5 +1,5 @@
 // @flow
-import React, { useCallback, useState } from 'react'
+import React, { useCallback } from 'react'
 import { Platform } from 'react-native'
 import { CustomButton, Section, UserAvatar, Wrapper } from '../../common'
 import { withStyles } from '../../../lib/styles'
@@ -32,9 +32,8 @@ const log = logger.child({ from: 'VieOrUploadAvatar' })
 const TITLE = 'My Profile'
 
 const ViewOrUploadAvatar = props => {
-  const [forceUpdate, setForceUpdate] = useState(false)
   const { styles, screenProps } = props
-  const profile = useProfile() //TODO: once this is reactive, we can remove forceUpdate
+  const [profile, refreshProfile] = useProfile('*', true)
   const wrappedUserStorage = useWrappedUserStorage()
   const [showErrorDialog] = useErrorDialog()
   const avatar = useAvatar(profile.avatar, true)
@@ -53,12 +52,12 @@ const ViewOrUploadAvatar = props => {
   const handleClosePress = useCallback(async () => {
     try {
       await wrappedUserStorage.removeAvatar()
-      setForceUpdate(true) //added this until useProfile is reactive
+      refreshProfile()
     } catch (e) {
       log.error('delete image failed:', e.message, e, { dialogShown: true })
       showErrorDialog('Could not delete image. Please try again.')
     }
-  }, [wrappedUserStorage, showErrorDialog, forceUpdate])
+  }, [wrappedUserStorage, showErrorDialog, refreshProfile])
 
   const handleAddAvatar = useCallback(
     avatar => {

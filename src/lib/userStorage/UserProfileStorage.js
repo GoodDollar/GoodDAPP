@@ -197,6 +197,11 @@ export class UserProfileStorage implements ProfileStorage {
    * @param update
    */
   async setProfile(profile: { [key: string]: string }, update: boolean = false): Promise<void> {
+    if (!update) {
+      //inject walletaddress field for new profile
+      profile.walletAddress = this.wallet.account
+    }
+
     const fields = Object.keys(profile).filter(prop => this.profileSettings[prop])
 
     const { avatar } = profile
@@ -205,11 +210,6 @@ export class UserProfileStorage implements ProfileStorage {
       const cids = await this._resizeAndStoreAvatars(avatar)
 
       assign(profile, cids)
-    }
-
-    if (!update) {
-      //inject walletaddress field for new profile
-      profile.walletAddress = this.wallet.account
     }
 
     const fieldsToSave = fields.reduce(
@@ -231,6 +231,7 @@ export class UserProfileStorage implements ProfileStorage {
           proof: await this.wallet.sign(cleanHashedFieldForIndex('walletAddress', this.wallet.account)),
         },
       }
+      logger.debug('setProfile new:', { fields, profile, fieldsToSave, index })
       return this._setProfileFields({ ...fieldsToSave, index, publicKey: this.privateKey.public.toString() })
     }
 
@@ -359,7 +360,8 @@ export class UserProfileStorage implements ProfileStorage {
 
   //TODO: in the future it should also validate the index.field.proof
   getProfilesByHashIndex(field: string, value: string): Promise<any> {
-    return this.profiledb.getProfilesBy({ [`index.${field}.hash`]: cleanHashedFieldForIndex(field, value) })
+    const hashed = this.wallet.wallet.utils.sha3(cleanHashedFieldForIndex('walletAddress', this.wallet.account))
+    return this.profiledb.getProfilesBy({ [`index.${field}.hash`]: hashed })
   }
 
   /**
@@ -367,19 +369,19 @@ export class UserProfileStorage implements ProfileStorage {
    * @param key
    * @param {*} value
    */
-  async getPublicProfile(key: string, value: string): Promise<{ [field: string]: string }> {
-    const rawProfile = await this.profiledb.getProfileBy({ [`${key}.display`]: value })
+  async getPublicProfile(field: string, value: string): Promise<{ [field: string]: string }> {
+    const profiles = await this.getProfilesByHashIndex(field, value)
 
-    if (!rawProfile) {
+    if (!profiles?.length) {
       return null
     }
-
+    const rawProfile = profiles[0]
     const publicProfile = Object.keys(rawProfile)
-      .filter(key => rawProfile[key].privacy !== 'private')
+      .filter(key => rawProfile[key] && rawProfile[key].privacy !== 'private')
       .reduce(
         (acc, currKey) => ({
           ...acc,
-          [currKey]: rawProfile[currKey].display,
+          [currKey]: rawProfile[currKey].display || rawProfile[currKey],
         }),
         {},
       )

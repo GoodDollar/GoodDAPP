@@ -729,8 +729,8 @@ export class UserStorage {
    * @param {string} username
    */
   async isUsername(username: string) {
-    const profile = await this.profileStorage.getProfilesByHashIndex('username', username)
-    return profile?.length > 0
+    const profiles = await this.profileStorage.getProfilesByHashIndex('username', username)
+    return profiles?.length > 0
   }
 
   /**
@@ -1006,11 +1006,6 @@ export class UserStorage {
 
   getProfile(): Profile {
     return this.profileStorage.getProfile()
-  }
-
-  // eslint-disable-next-line require-await
-  async getProfileByWalletAddress(walletAddress: string): Promise<Profile> {
-    return this.profileStorage.getProfileByWalletAddress(walletAddress)
   }
 
   // eslint-disable-next-line require-await

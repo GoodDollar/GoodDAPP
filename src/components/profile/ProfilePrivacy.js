@@ -54,10 +54,13 @@ const ProfileAvatar = withStyles(() => ({
 })
 
 const ProfilePrivacy = props => {
-  const initialState = mapValues(pick(userStorage.getProfile(), profileFields), v => v.privacy)
+  const [initialPrivacy, setInitialPrivacy] = useState(() => {
+    const profile = userStorage.getProfile()
 
-  const [initialPrivacy, setInitialPrivacy] = useState(initialState)
-  const [privacy, setPrivacy] = useState(initialState)
+    return mapValues(pick(profile, profileFields), 'privacy')
+  })
+
+  const [privacy, setPrivacy] = useState(initialPrivacy)
   const [loading, setLoading] = useState(false)
   const { screenProps, styles, theme } = props
   const [showDialog] = useDialog()
@@ -102,25 +105,22 @@ const ProfilePrivacy = props => {
   const handleSave = useCallback(async () => {
     setLoading(true)
 
-    fireEvent(PROFILE_PRIVACY, { privacy: valuesToBeUpdated.map(k => privacy[k]), valuesToBeUpdated })
+    fireEvent(PROFILE_PRIVACY, {
+      privacy: valuesToBeUpdated.map(k => privacy[k]),
+      valuesToBeUpdated,
+    })
 
     try {
-      // filters out fields to be updated
-      const toUpdate = valuesToBeUpdated.map(field => ({
-        update: userStorage.setProfileFieldPrivacy(field, privacy[field]),
-        field,
-      }))
-
       // updates fields
-      await Promise.all(toUpdate.map(({ update }) => update))
+      await Promise.all(valuesToBeUpdated.map(field => userStorage.setProfileFieldPrivacy(field, privacy[field])))
 
       // resets initial privacy states with currently set values
       setInitialPrivacy(privacy)
     } catch (e) {
       log.error('Failed to save new privacy', e.message, e)
+    } finally {
+      setLoading(false)
     }
-
-    setLoading(false)
   }, [setLoading, valuesToBeUpdated, setInitialPrivacy, privacy])
 
   return (
@@ -138,7 +138,7 @@ const ProfilePrivacy = props => {
             {profileFields.map(field => (
               <RadioButton.Group
                 onValueChange={value => {
-                  setPrivacy({ ...privacy, [`${field}`]: value })
+                  setPrivacy({ ...privacy, [field]: value })
                 }}
                 value={privacy[field]}
                 key={field}

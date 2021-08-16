@@ -131,7 +131,7 @@ class RealmDB implements DB, ProfileDB {
     const filtered = newItems.filter(_ => !_._id.toString().includes('settings') && _.txHash)
     log.debug('_syncFromRemote', { newItems, filtered, lastSync })
     if (filtered.length) {
-      let decrypted = await Promise.all(filtered.map(i => this._decrypt(i)))
+      let decrypted = (await Promise.all(filtered.map(i => this._decrypt(i)))).filter(_ => _)
       log.debug('_syncFromRemote', { decrypted })
       await this.Feed.save(...decrypted)
     }
@@ -256,9 +256,11 @@ class RealmDB implements DB, ProfileDB {
     const _id = `${this.user.id}_settings`
     const encryptedSettings = await this.encryptedFeed.findOne({ _id })
     let settings = {}
-    if (encryptedSettings) {
-      const { encrypted } = encryptedSettings
+
+    const { encrypted } = encryptedSettings || {}
+    if (encrypted) {
       const decrypted = await this.privateKey.decrypt(Uint8Array.from(Buffer.from(encrypted, 'base64')))
+
       settings = JSON.parse(new TextDecoder().decode(decrypted))
       log.debug('decryptSettings:', { settings, _id })
     }
@@ -297,8 +299,12 @@ class RealmDB implements DB, ProfileDB {
    * @returns
    */
   async _decrypt(item): Promise<string> {
-    const decrypted = await this.privateKey.decrypt(Uint8Array.from(Buffer.from(item.encrypted, 'base64')))
-    return JSON.parse(new TextDecoder().decode(decrypted))
+    try {
+      const decrypted = await this.privateKey.decrypt(Uint8Array.from(Buffer.from(item.encrypted, 'base64')))
+      return JSON.parse(new TextDecoder().decode(decrypted))
+    } catch (e) {
+      log.warn('failed _decrypt', { item })
+    }
   }
 
   /**

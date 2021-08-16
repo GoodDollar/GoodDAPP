@@ -301,6 +301,7 @@ export class UserProfileStorage implements ProfileStorage {
     onlyPrivacy: boolean = false,
   ): Promise<void> {
     const display = this._setDisplayFieldBasedOnPrivacy(field, value, privacy)
+
     logger.debug('setProfileField', { field, value, privacy, onlyPrivacy, display })
     return this._setProfileFields({ [field]: { value, display, privacy } })
   }

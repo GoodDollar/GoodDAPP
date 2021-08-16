@@ -273,4 +273,4 @@ const AddWebApp = props => {
   return null
 }
 
-export default withStyles()(AddWebApp)
+export default AddWebApp

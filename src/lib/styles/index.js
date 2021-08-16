@@ -1,5 +1,5 @@
 import React from 'react'
-import { withTheme, useTheme } from 'react-native-paper'
+import { useTheme, withTheme } from 'react-native-paper'
 import { StyleSheet } from 'react-native'
 
 function isFunction(functionToCheck) {

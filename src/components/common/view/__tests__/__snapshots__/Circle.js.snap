@@ -11,7 +11,7 @@ exports[`Circle matches snapshot 1`] = `
       className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1jb27wt r-borderRadius-ieixw r-boxShadow-qxigt r-display-6koalj r-height-1mdbics r-justifyContent-1777fci r-marginTop-knv0ih r-width-1gnwdna r-zIndex-mhe3cw"
     >
       <div
-        className="css-text-901oao r-color-jwli3a r-display-1adg3ll r-fontFamily-6jnb14 r-fontSize-adyw6z r-fontWeight-b88u0q r-lineHeight-135wba7 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-zIndex-1ediw5f"
+        className="css-text-901oao r-color-jwli3a r-display-1adg3ll r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-zIndex-1ediw5f"
         dir="auto"
       >
         10
@@ -21,7 +21,7 @@ exports[`Circle matches snapshot 1`] = `
       className="css-view-1dbjc4n r-alignItems-1awozwy r-justifyContent-1h0z5md r-paddingLeft-1pvhfgn"
     >
       <div
-        className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1i10wst r-fontWeight-1it3c9n r-lineHeight-135wba7 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+        className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
         dir="auto"
       >
          Test text

@@ -7,7 +7,9 @@ exports[`FeedModalItem - Invite matches snapshot 1`] = `
   <div
     className="css-view-1dbjc4n r-WebkitOverflowScrolling-150rngu r-flexDirection-eqz5dr r-flexGrow-16y2uox r-flexShrink-1wbh5a2 r-overflowX-11yh6sk r-overflowY-1rnoaur r-transform-1sncvnh"
     onScroll={[Function]}
+    onTouchEnd={[Function]}
     onTouchMove={[Function]}
+    onTouchStart={[Function]}
     onWheel={[Function]}
   >
     <div
@@ -19,7 +21,7 @@ exports[`FeedModalItem - Invite matches snapshot 1`] = `
           Object {
             "WebkitAlignSelf": "flex-start",
             "alignSelf": "flex-start",
-            "height": "768px",
+            "height": "0px",
             "msFlexItemAlign": "start",
           }
         }
@@ -30,8 +32,8 @@ exports[`FeedModalItem - Invite matches snapshot 1`] = `
             Object {
               "WebkitAlignSelf": "center",
               "alignSelf": "center",
-              "marginBottom": "88.51948051948051px",
-              "marginTop": "62.33766233766234px",
+              "marginBottom": "0px",
+              "marginTop": "0px",
               "maxWidth": "475px",
               "msFlexItemAlign": "center",
               "msGridRowAlign": "center",
@@ -55,19 +57,14 @@ exports[`FeedModalItem - Invite matches snapshot 1`] = `
               className="css-view-1dbjc4n r-flexGrow-16y2uox r-flexShrink-1wbh5a2"
             >
               <div
-                className="css-view-1dbjc4n r-cursor-1loqt21 r-height-1uopjct r-marginLeft-1jj8364 r-marginRight-1bbvk3j r-position-u8s1d r-right-zchlnj r-top-1nd9uzx r-touchAction-1otgn73 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-width-1y566p8 r-zIndex-pezta"
-                data-focusable={true}
+                className="css-view-1dbjc4n r-cursor-1loqt21 r-height-1uopjct r-marginLeft-1jj8364 r-marginRight-1bbvk3j r-position-u8s1d r-right-zchlnj r-top-1nd9uzx r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-width-1y566p8 r-zIndex-pezta"
+                onClick={[Function]}
+                onContextMenu={[Function]}
                 onKeyDown={[Function]}
-                onKeyUp={[Function]}
-                onResponderGrant={[Function]}
-                onResponderMove={[Function]}
-                onResponderRelease={[Function]}
-                onResponderTerminate={[Function]}
-                onResponderTerminationRequest={[Function]}
-                onStartShouldSetResponder={[Function]}
                 style={
                   Object {
-                    "opacity": 1,
+                    "WebkitTransitionDuration": "0s",
+                    "transitionDuration": "0s",
                   }
                 }
                 tabIndex="0"
@@ -99,6 +96,7 @@ exports[`FeedModalItem - Invite matches snapshot 1`] = `
                           "backgroundImage": "url(\\"inviteFriends.png\\")",
                         }
                       }
+                      suppressHydrationWarning={true}
                     />
                     <img
                       alt=""
@@ -130,7 +128,7 @@ exports[`FeedModalItem - Invite matches snapshot 1`] = `
                   }
                 >
                   <div
-                    className="css-text-901oao css-textMultiLine-cens5h r-alignItems-1d09ksm r-color-cddv6f r-display-6koalj r-flex-13awgt0 r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-height-16l9doz r-lineHeight-hbpseb r-marginRight-lchren r-paddingRight-1hvjb8t r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
+                    className="css-text-901oao css-textMultiLine-cens5h r-alignItems-1d09ksm r-color-cddv6f r-display-6koalj r-flex-13awgt0 r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-height-16l9doz r-lineHeight-qvk6io r-marginRight-lchren r-paddingRight-1hvjb8t r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
                     dir="auto"
                     style={
                       Object {
@@ -141,7 +139,6 @@ exports[`FeedModalItem - Invite matches snapshot 1`] = `
                     
                     <span
                       className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-evnaw r-fontWeight-majxgm r-lineHeight-hbpseb r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
-                      dir="auto"
                     >
                       Misao Matimbo
                     </span>
@@ -151,7 +148,7 @@ exports[`FeedModalItem - Invite matches snapshot 1`] = `
                   className="css-view-1dbjc4n r-flex-13awgt0"
                 >
                   <div
-                    className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-1it3c9n r-lineHeight-rjixqe r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                    className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                     dir="auto"
                   >
                     aaa
@@ -165,16 +162,13 @@ exports[`FeedModalItem - Invite matches snapshot 1`] = `
                   >
                     <div
                       className="css-text-901oao r-color-cddv6f r-cursor-1loqt21 r-fontFamily-vnw8o6 r-fontSize-1gkfh8e r-fontWeight-1it3c9n r-lineHeight-1b6yf8j r-textAlign-fdjqy7 r-textDecorationLine-1ddef8g r-textTransform-3twk1y"
-                      data-focusable={true}
                       dir="auto"
                       onClick={[Function]}
-                      onKeyDown={[Function]}
-                      tabIndex="0"
                     >
                       Transaction Details
                     </div>
                     <div
-                      className="css-text-901oao css-textOneLine-bfa6kz r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1gkfh8e r-fontWeight-1it3c9n r-lineHeight-1b6yf8j r-maxWidth-x1dlf0 r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                      className="css-text-901oao css-textOneLine-vcwn7f r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1gkfh8e r-fontWeight-1it3c9n r-lineHeight-1b6yf8j r-maxWidth-x1dlf0 r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                       dir="auto"
                     >
                       0x9812619905da200c4effe8cd2ca4b2b31eeddf133f8fd283069d2e5aec3b9f77
@@ -182,6 +176,7 @@ exports[`FeedModalItem - Invite matches snapshot 1`] = `
                   </div>
                   <div
                     className="css-view-1dbjc4n r-alignItems-1oszu61 r-display-6koalj r-justifyContent-1777fci"
+                    id="animatedComponent"
                     style={
                       Object {
                         "backgroundColor": "rgba(0,175,255,1.00)",
@@ -217,16 +212,9 @@ exports[`FeedModalItem - Invite matches snapshot 1`] = `
                   >
                     <div
                       className="css-cursor-18t94o4 css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
-                      data-focusable={true}
+                      onClick={[Function]}
+                      onContextMenu={[Function]}
                       onKeyDown={[Function]}
-                      onKeyPress={[Function]}
-                      onKeyUp={[Function]}
-                      onResponderGrant={[Function]}
-                      onResponderMove={[Function]}
-                      onResponderRelease={[Function]}
-                      onResponderTerminate={[Function]}
-                      onResponderTerminationRequest={[Function]}
-                      onStartShouldSetResponder={[Function]}
                       role="button"
                       style={
                         Object {
@@ -260,7 +248,7 @@ exports[`FeedModalItem - Invite matches snapshot 1`] = `
                             className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
                           >
                             <div
-                              className="css-text-901oao r-alignItems-1awozwy r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-hbpseb r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
+                              className="css-text-901oao r-alignItems-1awozwy r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-qvk6io r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
                               dir="auto"
                             >
                               Ok
@@ -288,7 +276,9 @@ exports[`FeedModalItem - Message matches snapshot 1`] = `
   <div
     className="css-view-1dbjc4n r-WebkitOverflowScrolling-150rngu r-flexDirection-eqz5dr r-flexGrow-16y2uox r-flexShrink-1wbh5a2 r-overflowX-11yh6sk r-overflowY-1rnoaur r-transform-1sncvnh"
     onScroll={[Function]}
+    onTouchEnd={[Function]}
     onTouchMove={[Function]}
+    onTouchStart={[Function]}
     onWheel={[Function]}
   >
     <div
@@ -300,7 +290,7 @@ exports[`FeedModalItem - Message matches snapshot 1`] = `
           Object {
             "WebkitAlignSelf": "flex-start",
             "alignSelf": "flex-start",
-            "height": "768px",
+            "height": "0px",
             "msFlexItemAlign": "start",
           }
         }
@@ -311,8 +301,8 @@ exports[`FeedModalItem - Message matches snapshot 1`] = `
             Object {
               "WebkitAlignSelf": "center",
               "alignSelf": "center",
-              "marginBottom": "88.51948051948051px",
-              "marginTop": "62.33766233766234px",
+              "marginBottom": "0px",
+              "marginTop": "0px",
               "maxWidth": "475px",
               "msFlexItemAlign": "center",
               "msGridRowAlign": "center",
@@ -336,19 +326,14 @@ exports[`FeedModalItem - Message matches snapshot 1`] = `
               className="css-view-1dbjc4n r-flexGrow-16y2uox r-flexShrink-1wbh5a2"
             >
               <div
-                className="css-view-1dbjc4n r-cursor-1loqt21 r-height-1uopjct r-marginLeft-1jj8364 r-marginRight-1bbvk3j r-position-u8s1d r-right-zchlnj r-top-1nd9uzx r-touchAction-1otgn73 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-width-1y566p8 r-zIndex-pezta"
-                data-focusable={true}
+                className="css-view-1dbjc4n r-cursor-1loqt21 r-height-1uopjct r-marginLeft-1jj8364 r-marginRight-1bbvk3j r-position-u8s1d r-right-zchlnj r-top-1nd9uzx r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-width-1y566p8 r-zIndex-pezta"
+                onClick={[Function]}
+                onContextMenu={[Function]}
                 onKeyDown={[Function]}
-                onKeyUp={[Function]}
-                onResponderGrant={[Function]}
-                onResponderMove={[Function]}
-                onResponderRelease={[Function]}
-                onResponderTerminate={[Function]}
-                onResponderTerminationRequest={[Function]}
-                onStartShouldSetResponder={[Function]}
                 style={
                   Object {
-                    "opacity": 1,
+                    "WebkitTransitionDuration": "0s",
+                    "transitionDuration": "0s",
                   }
                 }
                 tabIndex="0"
@@ -380,6 +365,7 @@ exports[`FeedModalItem - Message matches snapshot 1`] = `
                           "backgroundImage": "url(\\"message.png\\")",
                         }
                       }
+                      suppressHydrationWarning={true}
                     />
                     <img
                       alt=""
@@ -412,27 +398,23 @@ exports[`FeedModalItem - Message matches snapshot 1`] = `
                 >
                   <div
                     aria-disabled={true}
-                    className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-l26x2w r-borderColor-y68mpx r-borderWidth-rs99b7 r-justifyContent-1777fci r-marginRight-12zb1j4 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
-                    disabled={true}
+                    className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-l26x2w r-borderColor-y68mpx r-borderWidth-rs99b7 r-justifyContent-1777fci r-marginRight-12zb1j4 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
+                    onClick={[Function]}
+                    onContextMenu={[Function]}
                     onKeyDown={[Function]}
-                    onKeyUp={[Function]}
-                    onResponderGrant={[Function]}
-                    onResponderMove={[Function]}
-                    onResponderRelease={[Function]}
-                    onResponderTerminate={[Function]}
-                    onResponderTerminationRequest={[Function]}
-                    onStartShouldSetResponder={[Function]}
                     style={
                       Object {
+                        "WebkitTransitionDuration": "0s",
                         "borderBottomLeftRadius": "17px",
                         "borderBottomRightRadius": "17px",
                         "borderTopLeftRadius": "17px",
                         "borderTopRightRadius": "17px",
                         "height": "34px",
-                        "opacity": 1,
+                        "transitionDuration": "0s",
                         "width": "34px",
                       }
                     }
+                    tabIndex="-1"
                   >
                     <div
                       className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-height-1r8g8re r-width-1acpoxo"
@@ -463,6 +445,7 @@ exports[`FeedModalItem - Message matches snapshot 1`] = `
                               "backgroundImage": "url(\\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAkCAIAAAB0Xu9BAAAABGdBTUEAALGPC/xhBQAAAuNJREFUWEetmD1WHDEQhDdxRMYlnBFyBIccgdQhKVcgJeQMpE5JSTd2uqnvIGpVUqmm9TPrffD0eLMzUn+qVnXPwiFd/PP6eLh47v7EaazbmxsOxjhTT88z9hV7GoNF1cUCvN7TTPv/gf/+uQPm862MWTL6fff4HfDx4S79/oVAlAUwqOmYR0rnazuFnhfOy/ErMKkcBFOr1vOjUi2MFn4nuMil6OPh5eGANLhW3y6u3aH7ijEDCxgCvzFmimvc95TekZLyMSeJC68Bkw0kqUy1K87FlpGZqsGFCyqEtQNDdFUtFctTiuhnPKNysid/WFEFLE2O102XJdEE+8IgeuGsjeJyGHm/xHvQ3JtKVsGGp85g9rK6xMHtvHO9+WACYjk5vkVM6XQ6OZubCJvTfPicYPeHO2AKFl5NuF5UK1VDUbeLxh2BcRGKTQE3irHm3+vPj6cfCod50Eqv5QxtwBQUGhZhbrGVuRia1B4MNp6edwBxld2sl1splfHCwfsvCZfrCQyWmX10djjOlWJSSy3VQlS6LmfrgNvaieRWx1LZ6s9co+P0DLsy3OdLU3lWRclQsVcHJBcUQ0k9/WVVrmpRzYQzpgAdQcAXxZzUnFX3proannrYH+Vq6KkLi+UkarH09mC8YPr2RMWOlEqFkQClsykGEv7CqCUbXcG8+SaGvJ4a8d4y6epND+pEhxoN0vWUu5ntXlFb5/JT7JfJJqoTdy9u9qc7ax3xJRHqJLADWEl23cFWl4K9fvoaCJ2BHpmJ3s3z+O0U/DmzdMjB9alWZtg4e3yxzPa7lUR7nkvxLHO9+tvJX3mtSDpwX8GajB283I8R8a7D2MhUZr1iNWdny256yYLd52DwRYBtRMvE7rsmtxIUE+zLKQCDO4jlxB6CZ8M17GhuY+XTE8vNhQiIiSE82ZsGwk1pht4ZSpT0YVpon6EvevOXXH8JxVR78QzNuamupW/7UB7wO/+7sG5V4ekXb4cL5Lyv+4IAAAAASUVORK5CYII=\\")",
                             }
                           }
+                          suppressHydrationWarning={true}
                         />
                         <img
                           alt=""
@@ -474,7 +457,7 @@ exports[`FeedModalItem - Message matches snapshot 1`] = `
                     </div>
                   </div>
                   <div
-                    className="css-text-901oao css-textMultiLine-cens5h r-alignItems-1d09ksm r-color-cddv6f r-display-6koalj r-flex-13awgt0 r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-height-16l9doz r-lineHeight-hbpseb r-marginRight-lchren r-paddingRight-1hvjb8t r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
+                    className="css-text-901oao css-textMultiLine-cens5h r-alignItems-1d09ksm r-color-cddv6f r-display-6koalj r-flex-13awgt0 r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-height-16l9doz r-lineHeight-qvk6io r-marginRight-lchren r-paddingRight-1hvjb8t r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
                     dir="auto"
                     style={
                       Object {
@@ -485,7 +468,6 @@ exports[`FeedModalItem - Message matches snapshot 1`] = `
                     
                     <span
                       className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-evnaw r-fontWeight-majxgm r-lineHeight-hbpseb r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
-                      dir="auto"
                     >
                       Misao Matimbo
                     </span>
@@ -513,7 +495,7 @@ exports[`FeedModalItem - Message matches snapshot 1`] = `
                   className="css-view-1dbjc4n r-flex-13awgt0"
                 >
                   <div
-                    className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-1it3c9n r-lineHeight-rjixqe r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                    className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                     dir="auto"
                   >
                     aaa
@@ -527,16 +509,13 @@ exports[`FeedModalItem - Message matches snapshot 1`] = `
                   >
                     <div
                       className="css-text-901oao r-color-cddv6f r-cursor-1loqt21 r-fontFamily-vnw8o6 r-fontSize-1gkfh8e r-fontWeight-1it3c9n r-lineHeight-1b6yf8j r-textAlign-fdjqy7 r-textDecorationLine-1ddef8g r-textTransform-3twk1y"
-                      data-focusable={true}
                       dir="auto"
                       onClick={[Function]}
-                      onKeyDown={[Function]}
-                      tabIndex="0"
                     >
                       Transaction Details
                     </div>
                     <div
-                      className="css-text-901oao css-textOneLine-bfa6kz r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1gkfh8e r-fontWeight-1it3c9n r-lineHeight-1b6yf8j r-maxWidth-x1dlf0 r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                      className="css-text-901oao css-textOneLine-vcwn7f r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1gkfh8e r-fontWeight-1it3c9n r-lineHeight-1b6yf8j r-maxWidth-x1dlf0 r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                       dir="auto"
                     >
                       0x9812619905da200c4effe8cd2ca4b2b31eeddf133f8fd283069d2e5aec3b9f77
@@ -544,6 +523,7 @@ exports[`FeedModalItem - Message matches snapshot 1`] = `
                   </div>
                   <div
                     className="css-view-1dbjc4n r-alignItems-1oszu61 r-display-6koalj r-justifyContent-1777fci"
+                    id="animatedComponent"
                     style={
                       Object {
                         "backgroundColor": "rgba(0,175,255,1.00)",
@@ -579,16 +559,9 @@ exports[`FeedModalItem - Message matches snapshot 1`] = `
                   >
                     <div
                       className="css-cursor-18t94o4 css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
-                      data-focusable={true}
+                      onClick={[Function]}
+                      onContextMenu={[Function]}
                       onKeyDown={[Function]}
-                      onKeyPress={[Function]}
-                      onKeyUp={[Function]}
-                      onResponderGrant={[Function]}
-                      onResponderMove={[Function]}
-                      onResponderRelease={[Function]}
-                      onResponderTerminate={[Function]}
-                      onResponderTerminationRequest={[Function]}
-                      onStartShouldSetResponder={[Function]}
                       role="button"
                       style={
                         Object {
@@ -622,7 +595,7 @@ exports[`FeedModalItem - Message matches snapshot 1`] = `
                             className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
                           >
                             <div
-                              className="css-text-901oao r-alignItems-1awozwy r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-hbpseb r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
+                              className="css-text-901oao r-alignItems-1awozwy r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-qvk6io r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
                               dir="auto"
                             >
                               Ok
@@ -650,7 +623,9 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
   <div
     className="css-view-1dbjc4n r-WebkitOverflowScrolling-150rngu r-flexDirection-eqz5dr r-flexGrow-16y2uox r-flexShrink-1wbh5a2 r-overflowX-11yh6sk r-overflowY-1rnoaur r-transform-1sncvnh"
     onScroll={[Function]}
+    onTouchEnd={[Function]}
     onTouchMove={[Function]}
+    onTouchStart={[Function]}
     onWheel={[Function]}
   >
     <div
@@ -662,7 +637,7 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
           Object {
             "WebkitAlignSelf": "flex-start",
             "alignSelf": "flex-start",
-            "height": "768px",
+            "height": "0px",
             "msFlexItemAlign": "start",
           }
         }
@@ -673,8 +648,8 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
             Object {
               "WebkitAlignSelf": "center",
               "alignSelf": "center",
-              "marginBottom": "88.51948051948051px",
-              "marginTop": "62.33766233766234px",
+              "marginBottom": "0px",
+              "marginTop": "0px",
               "maxWidth": "475px",
               "msFlexItemAlign": "center",
               "msGridRowAlign": "center",
@@ -698,19 +673,14 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
               className="css-view-1dbjc4n r-flexGrow-16y2uox r-flexShrink-1wbh5a2"
             >
               <div
-                className="css-view-1dbjc4n r-cursor-1loqt21 r-height-1uopjct r-marginLeft-1jj8364 r-marginRight-1bbvk3j r-position-u8s1d r-right-zchlnj r-top-1nd9uzx r-touchAction-1otgn73 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-width-1y566p8 r-zIndex-pezta"
-                data-focusable={true}
+                className="css-view-1dbjc4n r-cursor-1loqt21 r-height-1uopjct r-marginLeft-1jj8364 r-marginRight-1bbvk3j r-position-u8s1d r-right-zchlnj r-top-1nd9uzx r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-width-1y566p8 r-zIndex-pezta"
+                onClick={[Function]}
+                onContextMenu={[Function]}
                 onKeyDown={[Function]}
-                onKeyUp={[Function]}
-                onResponderGrant={[Function]}
-                onResponderMove={[Function]}
-                onResponderRelease={[Function]}
-                onResponderTerminate={[Function]}
-                onResponderTerminationRequest={[Function]}
-                onStartShouldSetResponder={[Function]}
                 style={
                   Object {
-                    "opacity": 1,
+                    "WebkitTransitionDuration": "0s",
+                    "transitionDuration": "0s",
                   }
                 }
                 tabIndex="0"
@@ -730,8 +700,8 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                   <send.svg
                     style={
                       Object {
-                        "height": 110,
-                        "width": 70,
+                        "height": 0,
+                        "width": 0,
                       }
                     }
                   />
@@ -746,7 +716,7 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                     01.04.19 15:03
                   </div>
                   <div
-                    className="css-text-901oao r-color-11zaip3 r-fontFamily-vnw8o6 r-fontSize-evnaw r-fontWeight-b88u0q r-lineHeight-17rnw9f r-marginLeft-1jj8364 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                    className="css-text-901oao r-color-11zaip3 r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-marginLeft-1jj8364 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                     dir="auto"
                   >
                     -
@@ -755,7 +725,7 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                     className="css-view-1dbjc4n r-alignItems-1d09ksm r-display-6koalj r-flexDirection-18u37iz"
                   >
                     <div
-                      className="css-text-901oao r-color-11zaip3 r-fontFamily-6jnb14 r-fontSize-1x35g6 r-fontWeight-b88u0q r-lineHeight-ueyrd6 r-marginRight-1d4mawv r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                      className="css-text-901oao r-color-11zaip3 r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-marginRight-1d4mawv r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                       dir="auto"
                     >
                       0.04
@@ -764,13 +734,13 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                       className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
                     >
                       <div
-                        className="css-text-901oao r-color-11zaip3 r-fontFamily-6jnb14 r-fontSize-1enofrn r-fontWeight-b88u0q r-lineHeight-hbpseb r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                        className="css-text-901oao r-color-11zaip3 r-fontFamily-6jnb14 r-fontSize-1enofrn r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                         dir="auto"
                       >
                         G
                       </div>
                       <div
-                        className="css-text-901oao r-color-11zaip3 r-fontFamily-6jnb14 r-fontSize-1enofrn r-fontWeight-b88u0q r-lineHeight-hbpseb r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                        className="css-text-901oao r-color-11zaip3 r-fontFamily-6jnb14 r-fontSize-1enofrn r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                         dir="auto"
                       >
                         $
@@ -791,27 +761,23 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                 >
                   <div
                     aria-disabled={true}
-                    className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-l26x2w r-borderColor-y68mpx r-borderWidth-rs99b7 r-justifyContent-1777fci r-marginRight-12zb1j4 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
-                    disabled={true}
+                    className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-l26x2w r-borderColor-y68mpx r-borderWidth-rs99b7 r-justifyContent-1777fci r-marginRight-12zb1j4 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
+                    onClick={[Function]}
+                    onContextMenu={[Function]}
                     onKeyDown={[Function]}
-                    onKeyUp={[Function]}
-                    onResponderGrant={[Function]}
-                    onResponderMove={[Function]}
-                    onResponderRelease={[Function]}
-                    onResponderTerminate={[Function]}
-                    onResponderTerminationRequest={[Function]}
-                    onStartShouldSetResponder={[Function]}
                     style={
                       Object {
+                        "WebkitTransitionDuration": "0s",
                         "borderBottomLeftRadius": "17px",
                         "borderBottomRightRadius": "17px",
                         "borderTopLeftRadius": "17px",
                         "borderTopRightRadius": "17px",
                         "height": "34px",
-                        "opacity": 1,
+                        "transitionDuration": "0s",
                         "width": "34px",
                       }
                     }
+                    tabIndex="-1"
                   >
                     <div
                       className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-height-1r8g8re r-width-1acpoxo"
@@ -842,6 +808,7 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                               "backgroundImage": "url(\\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAkCAIAAAB0Xu9BAAAABGdBTUEAALGPC/xhBQAAAuNJREFUWEetmD1WHDEQhDdxRMYlnBFyBIccgdQhKVcgJeQMpE5JSTd2uqnvIGpVUqmm9TPrffD0eLMzUn+qVnXPwiFd/PP6eLh47v7EaazbmxsOxjhTT88z9hV7GoNF1cUCvN7TTPv/gf/+uQPm862MWTL6fff4HfDx4S79/oVAlAUwqOmYR0rnazuFnhfOy/ErMKkcBFOr1vOjUi2MFn4nuMil6OPh5eGANLhW3y6u3aH7ijEDCxgCvzFmimvc95TekZLyMSeJC68Bkw0kqUy1K87FlpGZqsGFCyqEtQNDdFUtFctTiuhnPKNysid/WFEFLE2O102XJdEE+8IgeuGsjeJyGHm/xHvQ3JtKVsGGp85g9rK6xMHtvHO9+WACYjk5vkVM6XQ6OZubCJvTfPicYPeHO2AKFl5NuF5UK1VDUbeLxh2BcRGKTQE3irHm3+vPj6cfCod50Eqv5QxtwBQUGhZhbrGVuRia1B4MNp6edwBxld2sl1splfHCwfsvCZfrCQyWmX10djjOlWJSSy3VQlS6LmfrgNvaieRWx1LZ6s9co+P0DLsy3OdLU3lWRclQsVcHJBcUQ0k9/WVVrmpRzYQzpgAdQcAXxZzUnFX3proannrYH+Vq6KkLi+UkarH09mC8YPr2RMWOlEqFkQClsykGEv7CqCUbXcG8+SaGvJ4a8d4y6epND+pEhxoN0vWUu5ntXlFb5/JT7JfJJqoTdy9u9qc7ax3xJRHqJLADWEl23cFWl4K9fvoaCJ2BHpmJ3s3z+O0U/DmzdMjB9alWZtg4e3yxzPa7lUR7nkvxLHO9+tvJX3mtSDpwX8GajB283I8R8a7D2MhUZr1iNWdny256yYLd52DwRYBtRMvE7rsmtxIUE+zLKQCDO4jlxB6CZ8M17GhuY+XTE8vNhQiIiSE82ZsGwk1pht4ZSpT0YVpon6EvevOXXH8JxVR78QzNuamupW/7UB7wO/+7sG5V4ekXb4cL5Lyv+4IAAAAASUVORK5CYII=\\")",
                             }
                           }
+                          suppressHydrationWarning={true}
                         />
                         <img
                           alt=""
@@ -853,7 +820,7 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                     </div>
                   </div>
                   <div
-                    className="css-text-901oao css-textMultiLine-cens5h r-alignItems-1d09ksm r-color-cddv6f r-display-6koalj r-flex-13awgt0 r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-height-16l9doz r-lineHeight-hbpseb r-marginRight-lchren r-paddingRight-1hvjb8t r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
+                    className="css-text-901oao css-textMultiLine-cens5h r-alignItems-1d09ksm r-color-cddv6f r-display-6koalj r-flex-13awgt0 r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-height-16l9doz r-lineHeight-qvk6io r-marginRight-lchren r-paddingRight-1hvjb8t r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
                     dir="auto"
                     style={
                       Object {
@@ -863,13 +830,11 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                   >
                     <span
                       className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1cwl3u0 r-marginRight-1ifrmw8 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
-                      dir="auto"
                     >
                       To: 
                     </span>
                     <span
                       className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-evnaw r-fontWeight-majxgm r-lineHeight-hbpseb r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
-                      dir="auto"
                     >
                       Misao Matimbo
                     </span>
@@ -886,7 +851,7 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                   className="css-view-1dbjc4n r-flex-13awgt0"
                 >
                   <div
-                    className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-1it3c9n r-lineHeight-rjixqe r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                    className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                     dir="auto"
                   >
                     aaa
@@ -900,16 +865,13 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                   >
                     <div
                       className="css-text-901oao r-color-cddv6f r-cursor-1loqt21 r-fontFamily-vnw8o6 r-fontSize-1gkfh8e r-fontWeight-1it3c9n r-lineHeight-1b6yf8j r-textAlign-fdjqy7 r-textDecorationLine-1ddef8g r-textTransform-3twk1y"
-                      data-focusable={true}
                       dir="auto"
                       onClick={[Function]}
-                      onKeyDown={[Function]}
-                      tabIndex="0"
                     >
                       Transaction Details
                     </div>
                     <div
-                      className="css-text-901oao css-textOneLine-bfa6kz r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1gkfh8e r-fontWeight-1it3c9n r-lineHeight-1b6yf8j r-maxWidth-x1dlf0 r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                      className="css-text-901oao css-textOneLine-vcwn7f r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1gkfh8e r-fontWeight-1it3c9n r-lineHeight-1b6yf8j r-maxWidth-x1dlf0 r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                       dir="auto"
                     >
                       0x9812619905da200c4effe8cd2ca4b2b31eeddf133f8fd283069d2e5aec3b9f77
@@ -917,6 +879,7 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                   </div>
                   <div
                     className="css-view-1dbjc4n r-alignItems-1oszu61 r-display-6koalj r-justifyContent-1777fci"
+                    id="animatedComponent"
                     style={
                       Object {
                         "backgroundColor": "rgba(0,175,255,1.00)",
@@ -952,16 +915,9 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                   >
                     <div
                       className="css-cursor-18t94o4 css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
-                      data-focusable={true}
+                      onClick={[Function]}
+                      onContextMenu={[Function]}
                       onKeyDown={[Function]}
-                      onKeyPress={[Function]}
-                      onKeyUp={[Function]}
-                      onResponderGrant={[Function]}
-                      onResponderMove={[Function]}
-                      onResponderRelease={[Function]}
-                      onResponderTerminate={[Function]}
-                      onResponderTerminationRequest={[Function]}
-                      onStartShouldSetResponder={[Function]}
                       role="button"
                       style={
                         Object {
@@ -995,7 +951,7 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                             className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
                           >
                             <div
-                              className="css-text-901oao r-alignItems-1awozwy r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-hbpseb r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
+                              className="css-text-901oao r-alignItems-1awozwy r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-qvk6io r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
                               dir="auto"
                             >
                               Ok
@@ -1023,7 +979,9 @@ exports[`FeedModalItem - Send with Error status matches snapshot 1`] = `
   <div
     className="css-view-1dbjc4n r-WebkitOverflowScrolling-150rngu r-flexDirection-eqz5dr r-flexGrow-16y2uox r-flexShrink-1wbh5a2 r-overflowX-11yh6sk r-overflowY-1rnoaur r-transform-1sncvnh"
     onScroll={[Function]}
+    onTouchEnd={[Function]}
     onTouchMove={[Function]}
+    onTouchStart={[Function]}
     onWheel={[Function]}
   >
     <div
@@ -1035,7 +993,7 @@ exports[`FeedModalItem - Send with Error status matches snapshot 1`] = `
           Object {
             "WebkitAlignSelf": "flex-start",
             "alignSelf": "flex-start",
-            "height": "768px",
+            "height": "0px",
             "msFlexItemAlign": "start",
           }
         }
@@ -1046,8 +1004,8 @@ exports[`FeedModalItem - Send with Error status matches snapshot 1`] = `
             Object {
               "WebkitAlignSelf": "center",
               "alignSelf": "center",
-              "marginBottom": "88.51948051948051px",
-              "marginTop": "62.33766233766234px",
+              "marginBottom": "0px",
+              "marginTop": "0px",
               "maxWidth": "475px",
               "msFlexItemAlign": "center",
               "msGridRowAlign": "center",
@@ -1071,19 +1029,14 @@ exports[`FeedModalItem - Send with Error status matches snapshot 1`] = `
               className="css-view-1dbjc4n r-flexGrow-16y2uox r-flexShrink-1wbh5a2"
             >
               <div
-                className="css-view-1dbjc4n r-cursor-1loqt21 r-height-1uopjct r-marginLeft-1jj8364 r-marginRight-1bbvk3j r-position-u8s1d r-right-zchlnj r-top-1nd9uzx r-touchAction-1otgn73 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-width-1y566p8 r-zIndex-pezta"
-                data-focusable={true}
+                className="css-view-1dbjc4n r-cursor-1loqt21 r-height-1uopjct r-marginLeft-1jj8364 r-marginRight-1bbvk3j r-position-u8s1d r-right-zchlnj r-top-1nd9uzx r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-width-1y566p8 r-zIndex-pezta"
+                onClick={[Function]}
+                onContextMenu={[Function]}
                 onKeyDown={[Function]}
-                onKeyUp={[Function]}
-                onResponderGrant={[Function]}
-                onResponderMove={[Function]}
-                onResponderRelease={[Function]}
-                onResponderTerminate={[Function]}
-                onResponderTerminationRequest={[Function]}
-                onStartShouldSetResponder={[Function]}
                 style={
                   Object {
-                    "opacity": 1,
+                    "WebkitTransitionDuration": "0s",
+                    "transitionDuration": "0s",
                   }
                 }
                 tabIndex="0"
@@ -1103,8 +1056,8 @@ exports[`FeedModalItem - Send with Error status matches snapshot 1`] = `
                   <send.svg
                     style={
                       Object {
-                        "height": 110,
-                        "width": 70,
+                        "height": 0,
+                        "width": 0,
                       }
                     }
                   />
@@ -1119,7 +1072,7 @@ exports[`FeedModalItem - Send with Error status matches snapshot 1`] = `
                     01.04.19 15:03
                   </div>
                   <div
-                    className="css-text-901oao r-color-11zaip3 r-fontFamily-vnw8o6 r-fontSize-evnaw r-fontWeight-b88u0q r-lineHeight-17rnw9f r-marginLeft-1jj8364 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                    className="css-text-901oao r-color-11zaip3 r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-marginLeft-1jj8364 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                     dir="auto"
                   >
                     -
@@ -1128,7 +1081,7 @@ exports[`FeedModalItem - Send with Error status matches snapshot 1`] = `
                     className="css-view-1dbjc4n r-alignItems-1d09ksm r-display-6koalj r-flexDirection-18u37iz"
                   >
                     <div
-                      className="css-text-901oao r-color-11zaip3 r-fontFamily-6jnb14 r-fontSize-1x35g6 r-fontWeight-b88u0q r-lineHeight-ueyrd6 r-marginRight-1d4mawv r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                      className="css-text-901oao r-color-11zaip3 r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-marginRight-1d4mawv r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                       dir="auto"
                     >
                       0.04
@@ -1137,13 +1090,13 @@ exports[`FeedModalItem - Send with Error status matches snapshot 1`] = `
                       className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
                     >
                       <div
-                        className="css-text-901oao r-color-11zaip3 r-fontFamily-6jnb14 r-fontSize-1enofrn r-fontWeight-b88u0q r-lineHeight-hbpseb r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                        className="css-text-901oao r-color-11zaip3 r-fontFamily-6jnb14 r-fontSize-1enofrn r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                         dir="auto"
                       >
                         G
                       </div>
                       <div
-                        className="css-text-901oao r-color-11zaip3 r-fontFamily-6jnb14 r-fontSize-1enofrn r-fontWeight-b88u0q r-lineHeight-hbpseb r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                        className="css-text-901oao r-color-11zaip3 r-fontFamily-6jnb14 r-fontSize-1enofrn r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                         dir="auto"
                       >
                         $
@@ -1164,27 +1117,23 @@ exports[`FeedModalItem - Send with Error status matches snapshot 1`] = `
                 >
                   <div
                     aria-disabled={true}
-                    className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-l26x2w r-borderColor-y68mpx r-borderWidth-rs99b7 r-justifyContent-1777fci r-marginRight-12zb1j4 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
-                    disabled={true}
+                    className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-l26x2w r-borderColor-y68mpx r-borderWidth-rs99b7 r-justifyContent-1777fci r-marginRight-12zb1j4 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
+                    onClick={[Function]}
+                    onContextMenu={[Function]}
                     onKeyDown={[Function]}
-                    onKeyUp={[Function]}
-                    onResponderGrant={[Function]}
-                    onResponderMove={[Function]}
-                    onResponderRelease={[Function]}
-                    onResponderTerminate={[Function]}
-                    onResponderTerminationRequest={[Function]}
-                    onStartShouldSetResponder={[Function]}
                     style={
                       Object {
+                        "WebkitTransitionDuration": "0s",
                         "borderBottomLeftRadius": "17px",
                         "borderBottomRightRadius": "17px",
                         "borderTopLeftRadius": "17px",
                         "borderTopRightRadius": "17px",
                         "height": "34px",
-                        "opacity": 1,
+                        "transitionDuration": "0s",
                         "width": "34px",
                       }
                     }
+                    tabIndex="-1"
                   >
                     <div
                       className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-height-1r8g8re r-width-1acpoxo"
@@ -1215,6 +1164,7 @@ exports[`FeedModalItem - Send with Error status matches snapshot 1`] = `
                               "backgroundImage": "url(\\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAkCAIAAAB0Xu9BAAAABGdBTUEAALGPC/xhBQAAAuNJREFUWEetmD1WHDEQhDdxRMYlnBFyBIccgdQhKVcgJeQMpE5JSTd2uqnvIGpVUqmm9TPrffD0eLMzUn+qVnXPwiFd/PP6eLh47v7EaazbmxsOxjhTT88z9hV7GoNF1cUCvN7TTPv/gf/+uQPm862MWTL6fff4HfDx4S79/oVAlAUwqOmYR0rnazuFnhfOy/ErMKkcBFOr1vOjUi2MFn4nuMil6OPh5eGANLhW3y6u3aH7ijEDCxgCvzFmimvc95TekZLyMSeJC68Bkw0kqUy1K87FlpGZqsGFCyqEtQNDdFUtFctTiuhnPKNysid/WFEFLE2O102XJdEE+8IgeuGsjeJyGHm/xHvQ3JtKVsGGp85g9rK6xMHtvHO9+WACYjk5vkVM6XQ6OZubCJvTfPicYPeHO2AKFl5NuF5UK1VDUbeLxh2BcRGKTQE3irHm3+vPj6cfCod50Eqv5QxtwBQUGhZhbrGVuRia1B4MNp6edwBxld2sl1splfHCwfsvCZfrCQyWmX10djjOlWJSSy3VQlS6LmfrgNvaieRWx1LZ6s9co+P0DLsy3OdLU3lWRclQsVcHJBcUQ0k9/WVVrmpRzYQzpgAdQcAXxZzUnFX3proannrYH+Vq6KkLi+UkarH09mC8YPr2RMWOlEqFkQClsykGEv7CqCUbXcG8+SaGvJ4a8d4y6epND+pEhxoN0vWUu5ntXlFb5/JT7JfJJqoTdy9u9qc7ax3xJRHqJLADWEl23cFWl4K9fvoaCJ2BHpmJ3s3z+O0U/DmzdMjB9alWZtg4e3yxzPa7lUR7nkvxLHO9+tvJX3mtSDpwX8GajB283I8R8a7D2MhUZr1iNWdny256yYLd52DwRYBtRMvE7rsmtxIUE+zLKQCDO4jlxB6CZ8M17GhuY+XTE8vNhQiIiSE82ZsGwk1pht4ZSpT0YVpon6EvevOXXH8JxVR78QzNuamupW/7UB7wO/+7sG5V4ekXb4cL5Lyv+4IAAAAASUVORK5CYII=\\")",
                             }
                           }
+                          suppressHydrationWarning={true}
                         />
                         <img
                           alt=""
@@ -1226,7 +1176,7 @@ exports[`FeedModalItem - Send with Error status matches snapshot 1`] = `
                     </div>
                   </div>
                   <div
-                    className="css-text-901oao css-textMultiLine-cens5h r-alignItems-1d09ksm r-color-cddv6f r-display-6koalj r-flex-13awgt0 r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-height-16l9doz r-lineHeight-hbpseb r-marginRight-lchren r-paddingRight-1hvjb8t r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
+                    className="css-text-901oao css-textMultiLine-cens5h r-alignItems-1d09ksm r-color-cddv6f r-display-6koalj r-flex-13awgt0 r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-height-16l9doz r-lineHeight-qvk6io r-marginRight-lchren r-paddingRight-1hvjb8t r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
                     dir="auto"
                     style={
                       Object {
@@ -1236,13 +1186,11 @@ exports[`FeedModalItem - Send with Error status matches snapshot 1`] = `
                   >
                     <span
                       className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1cwl3u0 r-marginRight-1ifrmw8 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
-                      dir="auto"
                     >
                       To: 
                     </span>
                     <span
                       className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-evnaw r-fontWeight-majxgm r-lineHeight-hbpseb r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
-                      dir="auto"
                     >
                       Misao Matimbo
                     </span>
@@ -1259,7 +1207,7 @@ exports[`FeedModalItem - Send with Error status matches snapshot 1`] = `
                   className="css-view-1dbjc4n r-flex-13awgt0"
                 >
                   <div
-                    className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-1it3c9n r-lineHeight-rjixqe r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                    className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                     dir="auto"
                   >
                     aaa
@@ -1273,16 +1221,13 @@ exports[`FeedModalItem - Send with Error status matches snapshot 1`] = `
                   >
                     <div
                       className="css-text-901oao r-color-cddv6f r-cursor-1loqt21 r-fontFamily-vnw8o6 r-fontSize-1gkfh8e r-fontWeight-1it3c9n r-lineHeight-1b6yf8j r-textAlign-fdjqy7 r-textDecorationLine-1ddef8g r-textTransform-3twk1y"
-                      data-focusable={true}
                       dir="auto"
                       onClick={[Function]}
-                      onKeyDown={[Function]}
-                      tabIndex="0"
                     >
                       Transaction Details
                     </div>
                     <div
-                      className="css-text-901oao css-textOneLine-bfa6kz r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1gkfh8e r-fontWeight-1it3c9n r-lineHeight-1b6yf8j r-maxWidth-x1dlf0 r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                      className="css-text-901oao css-textOneLine-vcwn7f r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1gkfh8e r-fontWeight-1it3c9n r-lineHeight-1b6yf8j r-maxWidth-x1dlf0 r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                       dir="auto"
                     >
                       0x9812619905da200c4effe8cd2ca4b2b31eeddf133f8fd283069d2e5aec3b9f77
@@ -1290,6 +1235,7 @@ exports[`FeedModalItem - Send with Error status matches snapshot 1`] = `
                   </div>
                   <div
                     className="css-view-1dbjc4n r-alignItems-1oszu61 r-display-6koalj r-justifyContent-1777fci"
+                    id="animatedComponent"
                     style={
                       Object {
                         "backgroundColor": "rgba(0,175,255,1.00)",
@@ -1325,16 +1271,9 @@ exports[`FeedModalItem - Send with Error status matches snapshot 1`] = `
                   >
                     <div
                       className="css-cursor-18t94o4 css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
-                      data-focusable={true}
+                      onClick={[Function]}
+                      onContextMenu={[Function]}
                       onKeyDown={[Function]}
-                      onKeyPress={[Function]}
-                      onKeyUp={[Function]}
-                      onResponderGrant={[Function]}
-                      onResponderMove={[Function]}
-                      onResponderRelease={[Function]}
-                      onResponderTerminate={[Function]}
-                      onResponderTerminationRequest={[Function]}
-                      onStartShouldSetResponder={[Function]}
                       role="button"
                       style={
                         Object {
@@ -1368,7 +1307,7 @@ exports[`FeedModalItem - Send with Error status matches snapshot 1`] = `
                             className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
                           >
                             <div
-                              className="css-text-901oao r-alignItems-1awozwy r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-hbpseb r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
+                              className="css-text-901oao r-alignItems-1awozwy r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-qvk6io r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
                               dir="auto"
                             >
                               Ok
@@ -1396,7 +1335,9 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
   <div
     className="css-view-1dbjc4n r-WebkitOverflowScrolling-150rngu r-flexDirection-eqz5dr r-flexGrow-16y2uox r-flexShrink-1wbh5a2 r-overflowX-11yh6sk r-overflowY-1rnoaur r-transform-1sncvnh"
     onScroll={[Function]}
+    onTouchEnd={[Function]}
     onTouchMove={[Function]}
+    onTouchStart={[Function]}
     onWheel={[Function]}
   >
     <div
@@ -1408,7 +1349,7 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
           Object {
             "WebkitAlignSelf": "flex-start",
             "alignSelf": "flex-start",
-            "height": "768px",
+            "height": "0px",
             "msFlexItemAlign": "start",
           }
         }
@@ -1419,8 +1360,8 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
             Object {
               "WebkitAlignSelf": "center",
               "alignSelf": "center",
-              "marginBottom": "88.51948051948051px",
-              "marginTop": "62.33766233766234px",
+              "marginBottom": "0px",
+              "marginTop": "0px",
               "maxWidth": "475px",
               "msFlexItemAlign": "center",
               "msGridRowAlign": "center",
@@ -1444,19 +1385,14 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
               className="css-view-1dbjc4n r-flexGrow-16y2uox r-flexShrink-1wbh5a2"
             >
               <div
-                className="css-view-1dbjc4n r-cursor-1loqt21 r-height-1uopjct r-marginLeft-1jj8364 r-marginRight-1bbvk3j r-position-u8s1d r-right-zchlnj r-top-1nd9uzx r-touchAction-1otgn73 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-width-1y566p8 r-zIndex-pezta"
-                data-focusable={true}
+                className="css-view-1dbjc4n r-cursor-1loqt21 r-height-1uopjct r-marginLeft-1jj8364 r-marginRight-1bbvk3j r-position-u8s1d r-right-zchlnj r-top-1nd9uzx r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-width-1y566p8 r-zIndex-pezta"
+                onClick={[Function]}
+                onContextMenu={[Function]}
                 onKeyDown={[Function]}
-                onKeyUp={[Function]}
-                onResponderGrant={[Function]}
-                onResponderMove={[Function]}
-                onResponderRelease={[Function]}
-                onResponderTerminate={[Function]}
-                onResponderTerminationRequest={[Function]}
-                onStartShouldSetResponder={[Function]}
                 style={
                   Object {
-                    "opacity": 1,
+                    "WebkitTransitionDuration": "0s",
+                    "transitionDuration": "0s",
                   }
                 }
                 tabIndex="0"
@@ -1477,7 +1413,7 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                     className="css-view-1dbjc4n"
                     style={
                       Object {
-                        "height": "160px",
+                        "height": "0px",
                       }
                     }
                   />
@@ -1492,7 +1428,7 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                     01.04.19 15:03
                   </div>
                   <div
-                    className="css-text-901oao r-color-qjtdzx r-fontFamily-vnw8o6 r-fontSize-evnaw r-fontWeight-b88u0q r-lineHeight-17rnw9f r-marginLeft-1jj8364 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                    className="css-text-901oao r-color-qjtdzx r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-marginLeft-1jj8364 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                     dir="auto"
                   >
                     +
@@ -1501,7 +1437,7 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                     className="css-view-1dbjc4n r-alignItems-1d09ksm r-display-6koalj r-flexDirection-18u37iz"
                   >
                     <div
-                      className="css-text-901oao r-color-qjtdzx r-fontFamily-6jnb14 r-fontSize-1x35g6 r-fontWeight-b88u0q r-lineHeight-ueyrd6 r-marginRight-1d4mawv r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                      className="css-text-901oao r-color-qjtdzx r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-marginRight-1d4mawv r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                       dir="auto"
                     >
                       0.04
@@ -1510,13 +1446,13 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                       className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
                     >
                       <div
-                        className="css-text-901oao r-color-qjtdzx r-fontFamily-6jnb14 r-fontSize-1enofrn r-fontWeight-b88u0q r-lineHeight-hbpseb r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                        className="css-text-901oao r-color-qjtdzx r-fontFamily-6jnb14 r-fontSize-1enofrn r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                         dir="auto"
                       >
                         G
                       </div>
                       <div
-                        className="css-text-901oao r-color-qjtdzx r-fontFamily-6jnb14 r-fontSize-1enofrn r-fontWeight-b88u0q r-lineHeight-hbpseb r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                        className="css-text-901oao r-color-qjtdzx r-fontFamily-6jnb14 r-fontSize-1enofrn r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                         dir="auto"
                       >
                         $
@@ -1537,27 +1473,23 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                 >
                   <div
                     aria-disabled={true}
-                    className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-l26x2w r-borderColor-y68mpx r-borderWidth-rs99b7 r-justifyContent-1777fci r-marginRight-12zb1j4 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
-                    disabled={true}
+                    className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-l26x2w r-borderColor-y68mpx r-borderWidth-rs99b7 r-justifyContent-1777fci r-marginRight-12zb1j4 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
+                    onClick={[Function]}
+                    onContextMenu={[Function]}
                     onKeyDown={[Function]}
-                    onKeyUp={[Function]}
-                    onResponderGrant={[Function]}
-                    onResponderMove={[Function]}
-                    onResponderRelease={[Function]}
-                    onResponderTerminate={[Function]}
-                    onResponderTerminationRequest={[Function]}
-                    onStartShouldSetResponder={[Function]}
                     style={
                       Object {
+                        "WebkitTransitionDuration": "0s",
                         "borderBottomLeftRadius": "17px",
                         "borderBottomRightRadius": "17px",
                         "borderTopLeftRadius": "17px",
                         "borderTopRightRadius": "17px",
                         "height": "34px",
-                        "opacity": 1,
+                        "transitionDuration": "0s",
                         "width": "34px",
                       }
                     }
+                    tabIndex="-1"
                   >
                     <div
                       className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-height-1r8g8re r-width-1acpoxo"
@@ -1588,6 +1520,7 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                               "backgroundImage": "url(\\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAkCAIAAAB0Xu9BAAAABGdBTUEAALGPC/xhBQAAAuNJREFUWEetmD1WHDEQhDdxRMYlnBFyBIccgdQhKVcgJeQMpE5JSTd2uqnvIGpVUqmm9TPrffD0eLMzUn+qVnXPwiFd/PP6eLh47v7EaazbmxsOxjhTT88z9hV7GoNF1cUCvN7TTPv/gf/+uQPm862MWTL6fff4HfDx4S79/oVAlAUwqOmYR0rnazuFnhfOy/ErMKkcBFOr1vOjUi2MFn4nuMil6OPh5eGANLhW3y6u3aH7ijEDCxgCvzFmimvc95TekZLyMSeJC68Bkw0kqUy1K87FlpGZqsGFCyqEtQNDdFUtFctTiuhnPKNysid/WFEFLE2O102XJdEE+8IgeuGsjeJyGHm/xHvQ3JtKVsGGp85g9rK6xMHtvHO9+WACYjk5vkVM6XQ6OZubCJvTfPicYPeHO2AKFl5NuF5UK1VDUbeLxh2BcRGKTQE3irHm3+vPj6cfCod50Eqv5QxtwBQUGhZhbrGVuRia1B4MNp6edwBxld2sl1splfHCwfsvCZfrCQyWmX10djjOlWJSSy3VQlS6LmfrgNvaieRWx1LZ6s9co+P0DLsy3OdLU3lWRclQsVcHJBcUQ0k9/WVVrmpRzYQzpgAdQcAXxZzUnFX3proannrYH+Vq6KkLi+UkarH09mC8YPr2RMWOlEqFkQClsykGEv7CqCUbXcG8+SaGvJ4a8d4y6epND+pEhxoN0vWUu5ntXlFb5/JT7JfJJqoTdy9u9qc7ax3xJRHqJLADWEl23cFWl4K9fvoaCJ2BHpmJ3s3z+O0U/DmzdMjB9alWZtg4e3yxzPa7lUR7nkvxLHO9+tvJX3mtSDpwX8GajB283I8R8a7D2MhUZr1iNWdny256yYLd52DwRYBtRMvE7rsmtxIUE+zLKQCDO4jlxB6CZ8M17GhuY+XTE8vNhQiIiSE82ZsGwk1pht4ZSpT0YVpon6EvevOXXH8JxVR78QzNuamupW/7UB7wO/+7sG5V4ekXb4cL5Lyv+4IAAAAASUVORK5CYII=\\")",
                             }
                           }
+                          suppressHydrationWarning={true}
                         />
                         <img
                           alt=""
@@ -1599,7 +1532,7 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                     </div>
                   </div>
                   <div
-                    className="css-text-901oao css-textMultiLine-cens5h r-alignItems-1d09ksm r-color-cddv6f r-display-6koalj r-flex-13awgt0 r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-height-16l9doz r-lineHeight-hbpseb r-marginRight-lchren r-paddingRight-1hvjb8t r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
+                    className="css-text-901oao css-textMultiLine-cens5h r-alignItems-1d09ksm r-color-cddv6f r-display-6koalj r-flex-13awgt0 r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-height-16l9doz r-lineHeight-qvk6io r-marginRight-lchren r-paddingRight-1hvjb8t r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
                     dir="auto"
                     style={
                       Object {
@@ -1609,13 +1542,11 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                   >
                     <span
                       className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1cwl3u0 r-marginRight-1ifrmw8 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
-                      dir="auto"
                     >
                       From: 
                     </span>
                     <span
                       className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-evnaw r-fontWeight-majxgm r-lineHeight-hbpseb r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
-                      dir="auto"
                     >
                       Misao Matimbo
                     </span>
@@ -1632,7 +1563,7 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                   className="css-view-1dbjc4n r-flex-13awgt0"
                 >
                   <div
-                    className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-1it3c9n r-lineHeight-rjixqe r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                    className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                     dir="auto"
                   >
                     aaa
@@ -1646,16 +1577,13 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                   >
                     <div
                       className="css-text-901oao r-color-cddv6f r-cursor-1loqt21 r-fontFamily-vnw8o6 r-fontSize-1gkfh8e r-fontWeight-1it3c9n r-lineHeight-1b6yf8j r-textAlign-fdjqy7 r-textDecorationLine-1ddef8g r-textTransform-3twk1y"
-                      data-focusable={true}
                       dir="auto"
                       onClick={[Function]}
-                      onKeyDown={[Function]}
-                      tabIndex="0"
                     >
                       Transaction Details
                     </div>
                     <div
-                      className="css-text-901oao css-textOneLine-bfa6kz r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1gkfh8e r-fontWeight-1it3c9n r-lineHeight-1b6yf8j r-maxWidth-x1dlf0 r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                      className="css-text-901oao css-textOneLine-vcwn7f r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1gkfh8e r-fontWeight-1it3c9n r-lineHeight-1b6yf8j r-maxWidth-x1dlf0 r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                       dir="auto"
                     >
                       0x9812619905da200c4effe8cd2ca4b2b31eeddf133f8fd283069d2e5aec3b9f77
@@ -1663,6 +1591,7 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                   </div>
                   <div
                     className="css-view-1dbjc4n r-alignItems-1oszu61 r-display-6koalj r-justifyContent-1777fci"
+                    id="animatedComponent"
                     style={
                       Object {
                         "backgroundColor": "rgba(0,175,255,1.00)",
@@ -1698,16 +1627,9 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                   >
                     <div
                       className="css-cursor-18t94o4 css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
-                      data-focusable={true}
+                      onClick={[Function]}
+                      onContextMenu={[Function]}
                       onKeyDown={[Function]}
-                      onKeyPress={[Function]}
-                      onKeyUp={[Function]}
-                      onResponderGrant={[Function]}
-                      onResponderMove={[Function]}
-                      onResponderRelease={[Function]}
-                      onResponderTerminate={[Function]}
-                      onResponderTerminationRequest={[Function]}
-                      onStartShouldSetResponder={[Function]}
                       role="button"
                       style={
                         Object {
@@ -1741,7 +1663,7 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                             className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
                           >
                             <div
-                              className="css-text-901oao r-alignItems-1awozwy r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-hbpseb r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
+                              className="css-text-901oao r-alignItems-1awozwy r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-qvk6io r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
                               dir="auto"
                             >
                               Ok

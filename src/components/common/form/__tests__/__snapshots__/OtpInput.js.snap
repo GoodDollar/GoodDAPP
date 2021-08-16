@@ -8,22 +8,21 @@ exports[`OtpInput empty matches snapshot 1`] = `
     className="css-view-1dbjc4n r-display-6koalj r-flexDirection-18u37iz r-justifyContent-1d7fvdj r-marginBottom-5oul0u"
   >
     <div
-      className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-paddingHorizontal-10el5fd"
+      className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-paddingHorizontal-mk0yit"
     >
       <input
         autoCapitalize="sentences"
         autoComplete="on"
         autoCorrect="on"
-        className="css-textinput-11aywtz r-borderBottomColor-1uy9gz5 r-borderBottomWidth-wgabs5 r-borderLeftWidth-gxnn5r r-borderRightWidth-fnigne r-borderTopWidth-13yce4e r-fontSize-1i10wst r-marginBottom-p1pxzi r-marginVertical-r0h9e2 r-paddingVertical-atwnbb r-textAlign-q4m81j r-width-13qz1uu"
-        data-focusable={true}
+        className="css-textinput-11aywtz r-borderBottomColor-1uy9gz5 r-borderBottomWidth-wgabs5 r-borderLeftWidth-gxnn5r r-borderRightWidth-fnigne r-borderTopWidth-13yce4e r-fontSize-hiw28u r-marginBottom-p1pxzi r-marginVertical-r0h9e2 r-paddingVertical-rjfia r-textAlign-q4m81j r-width-13qz1uu"
         dir="auto"
-        enterkeyhint="next"
+        disabled={false}
+        enterKeyHint="next"
         maxLength={1}
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
         onKeyDown={[Function]}
-        onKeyPress={[Function]}
         onSelect={[Function]}
         readOnly={false}
         spellCheck={true}
@@ -32,22 +31,21 @@ exports[`OtpInput empty matches snapshot 1`] = `
       />
     </div>
     <div
-      className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-paddingHorizontal-10el5fd"
+      className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-paddingHorizontal-mk0yit"
     >
       <input
         autoCapitalize="sentences"
         autoComplete="on"
         autoCorrect="on"
-        className="css-textinput-11aywtz r-borderBottomColor-1uy9gz5 r-borderBottomWidth-wgabs5 r-borderLeftWidth-gxnn5r r-borderRightWidth-fnigne r-borderTopWidth-13yce4e r-fontSize-1i10wst r-marginBottom-p1pxzi r-marginVertical-r0h9e2 r-paddingVertical-atwnbb r-textAlign-q4m81j r-width-13qz1uu"
-        data-focusable={true}
+        className="css-textinput-11aywtz r-borderBottomColor-1uy9gz5 r-borderBottomWidth-wgabs5 r-borderLeftWidth-gxnn5r r-borderRightWidth-fnigne r-borderTopWidth-13yce4e r-fontSize-hiw28u r-marginBottom-p1pxzi r-marginVertical-r0h9e2 r-paddingVertical-rjfia r-textAlign-q4m81j r-width-13qz1uu"
         dir="auto"
-        enterkeyhint="next"
+        disabled={false}
+        enterKeyHint="next"
         maxLength={1}
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
         onKeyDown={[Function]}
-        onKeyPress={[Function]}
         onSelect={[Function]}
         readOnly={false}
         spellCheck={true}
@@ -56,22 +54,21 @@ exports[`OtpInput empty matches snapshot 1`] = `
       />
     </div>
     <div
-      className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-paddingHorizontal-10el5fd"
+      className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-paddingHorizontal-mk0yit"
     >
       <input
         autoCapitalize="sentences"
         autoComplete="on"
         autoCorrect="on"
-        className="css-textinput-11aywtz r-borderBottomColor-1uy9gz5 r-borderBottomWidth-wgabs5 r-borderLeftWidth-gxnn5r r-borderRightWidth-fnigne r-borderTopWidth-13yce4e r-fontSize-1i10wst r-marginBottom-p1pxzi r-marginVertical-r0h9e2 r-paddingVertical-atwnbb r-textAlign-q4m81j r-width-13qz1uu"
-        data-focusable={true}
+        className="css-textinput-11aywtz r-borderBottomColor-1uy9gz5 r-borderBottomWidth-wgabs5 r-borderLeftWidth-gxnn5r r-borderRightWidth-fnigne r-borderTopWidth-13yce4e r-fontSize-hiw28u r-marginBottom-p1pxzi r-marginVertical-r0h9e2 r-paddingVertical-rjfia r-textAlign-q4m81j r-width-13qz1uu"
         dir="auto"
-        enterkeyhint="next"
+        disabled={false}
+        enterKeyHint="next"
         maxLength={1}
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
         onKeyDown={[Function]}
-        onKeyPress={[Function]}
         onSelect={[Function]}
         readOnly={false}
         spellCheck={true}
@@ -80,22 +77,21 @@ exports[`OtpInput empty matches snapshot 1`] = `
       />
     </div>
     <div
-      className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-paddingHorizontal-10el5fd"
+      className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-paddingHorizontal-mk0yit"
     >
       <input
         autoCapitalize="sentences"
         autoComplete="on"
         autoCorrect="on"
-        className="css-textinput-11aywtz r-borderBottomColor-1uy9gz5 r-borderBottomWidth-wgabs5 r-borderLeftWidth-gxnn5r r-borderRightWidth-fnigne r-borderTopWidth-13yce4e r-fontSize-1i10wst r-marginBottom-p1pxzi r-marginVertical-r0h9e2 r-paddingVertical-atwnbb r-textAlign-q4m81j r-width-13qz1uu"
-        data-focusable={true}
+        className="css-textinput-11aywtz r-borderBottomColor-1uy9gz5 r-borderBottomWidth-wgabs5 r-borderLeftWidth-gxnn5r r-borderRightWidth-fnigne r-borderTopWidth-13yce4e r-fontSize-hiw28u r-marginBottom-p1pxzi r-marginVertical-r0h9e2 r-paddingVertical-rjfia r-textAlign-q4m81j r-width-13qz1uu"
         dir="auto"
-        enterkeyhint="next"
+        disabled={false}
+        enterKeyHint="next"
         maxLength={1}
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
         onKeyDown={[Function]}
-        onKeyPress={[Function]}
         onSelect={[Function]}
         readOnly={false}
         spellCheck={true}
@@ -104,22 +100,21 @@ exports[`OtpInput empty matches snapshot 1`] = `
       />
     </div>
     <div
-      className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-paddingHorizontal-10el5fd"
+      className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-paddingHorizontal-mk0yit"
     >
       <input
         autoCapitalize="sentences"
         autoComplete="on"
         autoCorrect="on"
-        className="css-textinput-11aywtz r-borderBottomColor-1uy9gz5 r-borderBottomWidth-wgabs5 r-borderLeftWidth-gxnn5r r-borderRightWidth-fnigne r-borderTopWidth-13yce4e r-fontSize-1i10wst r-marginBottom-p1pxzi r-marginVertical-r0h9e2 r-paddingVertical-atwnbb r-textAlign-q4m81j r-width-13qz1uu"
-        data-focusable={true}
+        className="css-textinput-11aywtz r-borderBottomColor-1uy9gz5 r-borderBottomWidth-wgabs5 r-borderLeftWidth-gxnn5r r-borderRightWidth-fnigne r-borderTopWidth-13yce4e r-fontSize-hiw28u r-marginBottom-p1pxzi r-marginVertical-r0h9e2 r-paddingVertical-rjfia r-textAlign-q4m81j r-width-13qz1uu"
         dir="auto"
-        enterkeyhint="next"
+        disabled={false}
+        enterKeyHint="next"
         maxLength={1}
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
         onKeyDown={[Function]}
-        onKeyPress={[Function]}
         onSelect={[Function]}
         readOnly={false}
         spellCheck={true}
@@ -128,22 +123,21 @@ exports[`OtpInput empty matches snapshot 1`] = `
       />
     </div>
     <div
-      className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-paddingHorizontal-10el5fd"
+      className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-paddingHorizontal-mk0yit"
     >
       <input
         autoCapitalize="sentences"
         autoComplete="on"
         autoCorrect="on"
-        className="css-textinput-11aywtz r-borderBottomColor-1uy9gz5 r-borderBottomWidth-wgabs5 r-borderLeftWidth-gxnn5r r-borderRightWidth-fnigne r-borderTopWidth-13yce4e r-fontSize-1i10wst r-marginBottom-p1pxzi r-marginVertical-r0h9e2 r-paddingVertical-atwnbb r-textAlign-q4m81j r-width-13qz1uu"
-        data-focusable={true}
+        className="css-textinput-11aywtz r-borderBottomColor-1uy9gz5 r-borderBottomWidth-wgabs5 r-borderLeftWidth-gxnn5r r-borderRightWidth-fnigne r-borderTopWidth-13yce4e r-fontSize-hiw28u r-marginBottom-p1pxzi r-marginVertical-r0h9e2 r-paddingVertical-rjfia r-textAlign-q4m81j r-width-13qz1uu"
         dir="auto"
-        enterkeyhint="next"
+        disabled={false}
+        enterKeyHint="next"
         maxLength={1}
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
         onKeyDown={[Function]}
-        onKeyPress={[Function]}
         onSelect={[Function]}
         readOnly={false}
         spellCheck={true}
@@ -163,22 +157,21 @@ exports[`OtpInput matches snapshot 1`] = `
     className="css-view-1dbjc4n r-display-6koalj r-flexDirection-18u37iz r-justifyContent-1d7fvdj r-marginBottom-5oul0u"
   >
     <div
-      className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-paddingHorizontal-10el5fd"
+      className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-paddingHorizontal-mk0yit"
     >
       <input
         autoCapitalize="sentences"
         autoComplete="on"
         autoCorrect="on"
-        className="css-textinput-11aywtz r-borderBottomColor-1uy9gz5 r-borderBottomWidth-wgabs5 r-borderLeftWidth-gxnn5r r-borderRightWidth-fnigne r-borderTopWidth-13yce4e r-fontSize-1i10wst r-marginBottom-p1pxzi r-marginVertical-r0h9e2 r-paddingVertical-atwnbb r-textAlign-q4m81j r-width-13qz1uu"
-        data-focusable={true}
+        className="css-textinput-11aywtz r-borderBottomColor-1uy9gz5 r-borderBottomWidth-wgabs5 r-borderLeftWidth-gxnn5r r-borderRightWidth-fnigne r-borderTopWidth-13yce4e r-fontSize-hiw28u r-marginBottom-p1pxzi r-marginVertical-r0h9e2 r-paddingVertical-rjfia r-textAlign-q4m81j r-width-13qz1uu"
         dir="auto"
-        enterkeyhint="next"
+        disabled={false}
+        enterKeyHint="next"
         maxLength={1}
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
         onKeyDown={[Function]}
-        onKeyPress={[Function]}
         onSelect={[Function]}
         placeholder=""
         readOnly={false}
@@ -188,22 +181,21 @@ exports[`OtpInput matches snapshot 1`] = `
       />
     </div>
     <div
-      className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-paddingHorizontal-10el5fd"
+      className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-paddingHorizontal-mk0yit"
     >
       <input
         autoCapitalize="sentences"
         autoComplete="on"
         autoCorrect="on"
-        className="css-textinput-11aywtz r-borderBottomColor-1uy9gz5 r-borderBottomWidth-wgabs5 r-borderLeftWidth-gxnn5r r-borderRightWidth-fnigne r-borderTopWidth-13yce4e r-fontSize-1i10wst r-marginBottom-p1pxzi r-marginVertical-r0h9e2 r-paddingVertical-atwnbb r-textAlign-q4m81j r-width-13qz1uu"
-        data-focusable={true}
+        className="css-textinput-11aywtz r-borderBottomColor-1uy9gz5 r-borderBottomWidth-wgabs5 r-borderLeftWidth-gxnn5r r-borderRightWidth-fnigne r-borderTopWidth-13yce4e r-fontSize-hiw28u r-marginBottom-p1pxzi r-marginVertical-r0h9e2 r-paddingVertical-rjfia r-textAlign-q4m81j r-width-13qz1uu"
         dir="auto"
-        enterkeyhint="next"
+        disabled={false}
+        enterKeyHint="next"
         maxLength={1}
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
         onKeyDown={[Function]}
-        onKeyPress={[Function]}
         onSelect={[Function]}
         placeholder=""
         readOnly={false}
@@ -213,22 +205,21 @@ exports[`OtpInput matches snapshot 1`] = `
       />
     </div>
     <div
-      className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-paddingHorizontal-10el5fd"
+      className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-paddingHorizontal-mk0yit"
     >
       <input
         autoCapitalize="sentences"
         autoComplete="on"
         autoCorrect="on"
-        className="css-textinput-11aywtz r-borderBottomColor-1uy9gz5 r-borderBottomWidth-wgabs5 r-borderLeftWidth-gxnn5r r-borderRightWidth-fnigne r-borderTopWidth-13yce4e r-fontSize-1i10wst r-marginBottom-p1pxzi r-marginVertical-r0h9e2 r-paddingVertical-atwnbb r-textAlign-q4m81j r-width-13qz1uu"
-        data-focusable={true}
+        className="css-textinput-11aywtz r-borderBottomColor-1uy9gz5 r-borderBottomWidth-wgabs5 r-borderLeftWidth-gxnn5r r-borderRightWidth-fnigne r-borderTopWidth-13yce4e r-fontSize-hiw28u r-marginBottom-p1pxzi r-marginVertical-r0h9e2 r-paddingVertical-rjfia r-textAlign-q4m81j r-width-13qz1uu"
         dir="auto"
-        enterkeyhint="next"
+        disabled={false}
+        enterKeyHint="next"
         maxLength={1}
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
         onKeyDown={[Function]}
-        onKeyPress={[Function]}
         onSelect={[Function]}
         placeholder=""
         readOnly={false}
@@ -238,22 +229,21 @@ exports[`OtpInput matches snapshot 1`] = `
       />
     </div>
     <div
-      className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-paddingHorizontal-10el5fd"
+      className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-paddingHorizontal-mk0yit"
     >
       <input
         autoCapitalize="sentences"
         autoComplete="on"
         autoCorrect="on"
-        className="css-textinput-11aywtz r-borderBottomColor-1uy9gz5 r-borderBottomWidth-wgabs5 r-borderLeftWidth-gxnn5r r-borderRightWidth-fnigne r-borderTopWidth-13yce4e r-fontSize-1i10wst r-marginBottom-p1pxzi r-marginVertical-r0h9e2 r-paddingVertical-atwnbb r-textAlign-q4m81j r-width-13qz1uu"
-        data-focusable={true}
+        className="css-textinput-11aywtz r-borderBottomColor-1uy9gz5 r-borderBottomWidth-wgabs5 r-borderLeftWidth-gxnn5r r-borderRightWidth-fnigne r-borderTopWidth-13yce4e r-fontSize-hiw28u r-marginBottom-p1pxzi r-marginVertical-r0h9e2 r-paddingVertical-rjfia r-textAlign-q4m81j r-width-13qz1uu"
         dir="auto"
-        enterkeyhint="next"
+        disabled={false}
+        enterKeyHint="next"
         maxLength={1}
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
         onKeyDown={[Function]}
-        onKeyPress={[Function]}
         onSelect={[Function]}
         placeholder=""
         readOnly={false}
@@ -263,22 +253,21 @@ exports[`OtpInput matches snapshot 1`] = `
       />
     </div>
     <div
-      className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-paddingHorizontal-10el5fd"
+      className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-paddingHorizontal-mk0yit"
     >
       <input
         autoCapitalize="sentences"
         autoComplete="on"
         autoCorrect="on"
-        className="css-textinput-11aywtz r-borderBottomColor-1uy9gz5 r-borderBottomWidth-wgabs5 r-borderLeftWidth-gxnn5r r-borderRightWidth-fnigne r-borderTopWidth-13yce4e r-fontSize-1i10wst r-marginBottom-p1pxzi r-marginVertical-r0h9e2 r-paddingVertical-atwnbb r-textAlign-q4m81j r-width-13qz1uu"
-        data-focusable={true}
+        className="css-textinput-11aywtz r-borderBottomColor-1uy9gz5 r-borderBottomWidth-wgabs5 r-borderLeftWidth-gxnn5r r-borderRightWidth-fnigne r-borderTopWidth-13yce4e r-fontSize-hiw28u r-marginBottom-p1pxzi r-marginVertical-r0h9e2 r-paddingVertical-rjfia r-textAlign-q4m81j r-width-13qz1uu"
         dir="auto"
-        enterkeyhint="next"
+        disabled={false}
+        enterKeyHint="next"
         maxLength={1}
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
         onKeyDown={[Function]}
-        onKeyPress={[Function]}
         onSelect={[Function]}
         placeholder=""
         readOnly={false}
@@ -288,22 +277,21 @@ exports[`OtpInput matches snapshot 1`] = `
       />
     </div>
     <div
-      className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-paddingHorizontal-10el5fd"
+      className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-paddingHorizontal-mk0yit"
     >
       <input
         autoCapitalize="sentences"
         autoComplete="on"
         autoCorrect="on"
-        className="css-textinput-11aywtz r-borderBottomColor-1uy9gz5 r-borderBottomWidth-wgabs5 r-borderLeftWidth-gxnn5r r-borderRightWidth-fnigne r-borderTopWidth-13yce4e r-fontSize-1i10wst r-marginBottom-p1pxzi r-marginVertical-r0h9e2 r-paddingVertical-atwnbb r-textAlign-q4m81j r-width-13qz1uu"
-        data-focusable={true}
+        className="css-textinput-11aywtz r-borderBottomColor-1uy9gz5 r-borderBottomWidth-wgabs5 r-borderLeftWidth-gxnn5r r-borderRightWidth-fnigne r-borderTopWidth-13yce4e r-fontSize-hiw28u r-marginBottom-p1pxzi r-marginVertical-r0h9e2 r-paddingVertical-rjfia r-textAlign-q4m81j r-width-13qz1uu"
         dir="auto"
-        enterkeyhint="next"
+        disabled={false}
+        enterKeyHint="next"
         maxLength={1}
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
         onKeyDown={[Function]}
-        onKeyPress={[Function]}
         onSelect={[Function]}
         placeholder=""
         readOnly={false}
@@ -324,22 +312,21 @@ exports[`OtpInput number matches snapshot 1`] = `
     className="css-view-1dbjc4n r-display-6koalj r-flexDirection-18u37iz r-justifyContent-1d7fvdj r-marginBottom-5oul0u"
   >
     <div
-      className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-paddingHorizontal-10el5fd"
+      className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-paddingHorizontal-mk0yit"
     >
       <input
         autoCapitalize="sentences"
         autoComplete="on"
         autoCorrect="on"
-        className="css-textinput-11aywtz r-borderBottomColor-1uy9gz5 r-borderBottomWidth-wgabs5 r-borderLeftWidth-gxnn5r r-borderRightWidth-fnigne r-borderTopWidth-13yce4e r-fontSize-1i10wst r-marginBottom-p1pxzi r-marginVertical-r0h9e2 r-paddingVertical-atwnbb r-textAlign-q4m81j r-width-13qz1uu"
-        data-focusable={true}
+        className="css-textinput-11aywtz r-borderBottomColor-1uy9gz5 r-borderBottomWidth-wgabs5 r-borderLeftWidth-gxnn5r r-borderRightWidth-fnigne r-borderTopWidth-13yce4e r-fontSize-hiw28u r-marginBottom-p1pxzi r-marginVertical-r0h9e2 r-paddingVertical-rjfia r-textAlign-q4m81j r-width-13qz1uu"
         dir="auto"
-        enterkeyhint="next"
+        disabled={false}
+        enterKeyHint="next"
         maxLength={1}
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
         onKeyDown={[Function]}
-        onKeyPress={[Function]}
         onSelect={[Function]}
         placeholder=""
         readOnly={false}
@@ -349,22 +336,21 @@ exports[`OtpInput number matches snapshot 1`] = `
       />
     </div>
     <div
-      className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-paddingHorizontal-10el5fd"
+      className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-paddingHorizontal-mk0yit"
     >
       <input
         autoCapitalize="sentences"
         autoComplete="on"
         autoCorrect="on"
-        className="css-textinput-11aywtz r-borderBottomColor-1uy9gz5 r-borderBottomWidth-wgabs5 r-borderLeftWidth-gxnn5r r-borderRightWidth-fnigne r-borderTopWidth-13yce4e r-fontSize-1i10wst r-marginBottom-p1pxzi r-marginVertical-r0h9e2 r-paddingVertical-atwnbb r-textAlign-q4m81j r-width-13qz1uu"
-        data-focusable={true}
+        className="css-textinput-11aywtz r-borderBottomColor-1uy9gz5 r-borderBottomWidth-wgabs5 r-borderLeftWidth-gxnn5r r-borderRightWidth-fnigne r-borderTopWidth-13yce4e r-fontSize-hiw28u r-marginBottom-p1pxzi r-marginVertical-r0h9e2 r-paddingVertical-rjfia r-textAlign-q4m81j r-width-13qz1uu"
         dir="auto"
-        enterkeyhint="next"
+        disabled={false}
+        enterKeyHint="next"
         maxLength={1}
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
         onKeyDown={[Function]}
-        onKeyPress={[Function]}
         onSelect={[Function]}
         placeholder=""
         readOnly={false}
@@ -374,22 +360,21 @@ exports[`OtpInput number matches snapshot 1`] = `
       />
     </div>
     <div
-      className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-paddingHorizontal-10el5fd"
+      className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-paddingHorizontal-mk0yit"
     >
       <input
         autoCapitalize="sentences"
         autoComplete="on"
         autoCorrect="on"
-        className="css-textinput-11aywtz r-borderBottomColor-1uy9gz5 r-borderBottomWidth-wgabs5 r-borderLeftWidth-gxnn5r r-borderRightWidth-fnigne r-borderTopWidth-13yce4e r-fontSize-1i10wst r-marginBottom-p1pxzi r-marginVertical-r0h9e2 r-paddingVertical-atwnbb r-textAlign-q4m81j r-width-13qz1uu"
-        data-focusable={true}
+        className="css-textinput-11aywtz r-borderBottomColor-1uy9gz5 r-borderBottomWidth-wgabs5 r-borderLeftWidth-gxnn5r r-borderRightWidth-fnigne r-borderTopWidth-13yce4e r-fontSize-hiw28u r-marginBottom-p1pxzi r-marginVertical-r0h9e2 r-paddingVertical-rjfia r-textAlign-q4m81j r-width-13qz1uu"
         dir="auto"
-        enterkeyhint="next"
+        disabled={false}
+        enterKeyHint="next"
         maxLength={1}
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
         onKeyDown={[Function]}
-        onKeyPress={[Function]}
         onSelect={[Function]}
         placeholder=""
         readOnly={false}
@@ -399,22 +384,21 @@ exports[`OtpInput number matches snapshot 1`] = `
       />
     </div>
     <div
-      className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-paddingHorizontal-10el5fd"
+      className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-paddingHorizontal-mk0yit"
     >
       <input
         autoCapitalize="sentences"
         autoComplete="on"
         autoCorrect="on"
-        className="css-textinput-11aywtz r-borderBottomColor-1uy9gz5 r-borderBottomWidth-wgabs5 r-borderLeftWidth-gxnn5r r-borderRightWidth-fnigne r-borderTopWidth-13yce4e r-fontSize-1i10wst r-marginBottom-p1pxzi r-marginVertical-r0h9e2 r-paddingVertical-atwnbb r-textAlign-q4m81j r-width-13qz1uu"
-        data-focusable={true}
+        className="css-textinput-11aywtz r-borderBottomColor-1uy9gz5 r-borderBottomWidth-wgabs5 r-borderLeftWidth-gxnn5r r-borderRightWidth-fnigne r-borderTopWidth-13yce4e r-fontSize-hiw28u r-marginBottom-p1pxzi r-marginVertical-r0h9e2 r-paddingVertical-rjfia r-textAlign-q4m81j r-width-13qz1uu"
         dir="auto"
-        enterkeyhint="next"
+        disabled={false}
+        enterKeyHint="next"
         maxLength={1}
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
         onKeyDown={[Function]}
-        onKeyPress={[Function]}
         onSelect={[Function]}
         placeholder=""
         readOnly={false}
@@ -424,22 +408,21 @@ exports[`OtpInput number matches snapshot 1`] = `
       />
     </div>
     <div
-      className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-paddingHorizontal-10el5fd"
+      className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-paddingHorizontal-mk0yit"
     >
       <input
         autoCapitalize="sentences"
         autoComplete="on"
         autoCorrect="on"
-        className="css-textinput-11aywtz r-borderBottomColor-1uy9gz5 r-borderBottomWidth-wgabs5 r-borderLeftWidth-gxnn5r r-borderRightWidth-fnigne r-borderTopWidth-13yce4e r-fontSize-1i10wst r-marginBottom-p1pxzi r-marginVertical-r0h9e2 r-paddingVertical-atwnbb r-textAlign-q4m81j r-width-13qz1uu"
-        data-focusable={true}
+        className="css-textinput-11aywtz r-borderBottomColor-1uy9gz5 r-borderBottomWidth-wgabs5 r-borderLeftWidth-gxnn5r r-borderRightWidth-fnigne r-borderTopWidth-13yce4e r-fontSize-hiw28u r-marginBottom-p1pxzi r-marginVertical-r0h9e2 r-paddingVertical-rjfia r-textAlign-q4m81j r-width-13qz1uu"
         dir="auto"
-        enterkeyhint="next"
+        disabled={false}
+        enterKeyHint="next"
         maxLength={1}
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
         onKeyDown={[Function]}
-        onKeyPress={[Function]}
         onSelect={[Function]}
         placeholder=""
         readOnly={false}
@@ -449,22 +432,21 @@ exports[`OtpInput number matches snapshot 1`] = `
       />
     </div>
     <div
-      className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-paddingHorizontal-10el5fd"
+      className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-paddingHorizontal-mk0yit"
     >
       <input
         autoCapitalize="sentences"
         autoComplete="on"
         autoCorrect="on"
-        className="css-textinput-11aywtz r-borderBottomColor-1uy9gz5 r-borderBottomWidth-wgabs5 r-borderLeftWidth-gxnn5r r-borderRightWidth-fnigne r-borderTopWidth-13yce4e r-fontSize-1i10wst r-marginBottom-p1pxzi r-marginVertical-r0h9e2 r-paddingVertical-atwnbb r-textAlign-q4m81j r-width-13qz1uu"
-        data-focusable={true}
+        className="css-textinput-11aywtz r-borderBottomColor-1uy9gz5 r-borderBottomWidth-wgabs5 r-borderLeftWidth-gxnn5r r-borderRightWidth-fnigne r-borderTopWidth-13yce4e r-fontSize-hiw28u r-marginBottom-p1pxzi r-marginVertical-r0h9e2 r-paddingVertical-rjfia r-textAlign-q4m81j r-width-13qz1uu"
         dir="auto"
-        enterkeyhint="next"
+        disabled={false}
+        enterKeyHint="next"
         maxLength={1}
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
         onKeyDown={[Function]}
-        onKeyPress={[Function]}
         onSelect={[Function]}
         placeholder=""
         readOnly={false}

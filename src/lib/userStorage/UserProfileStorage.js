@@ -1,6 +1,5 @@
 // @flow
-import { assign, debounce, toPairs } from 'lodash'
-import EventEmitter from 'eventemitter3'
+import { assign, toPairs } from 'lodash'
 
 import { ExceptionCategory } from '../logger/exceptions'
 import IPFS from '../ipfs/IpfsStorage'
@@ -79,8 +78,6 @@ export class UserProfileStorage implements ProfileStorage {
   //unecrypted profile field values
   profile: Profile = {}
 
-  events = new EventEmitter()
-
   constructor(wallet: GoodWallet, profiledb: ProfileDB) {
     // const seed = Uint8Array.from(Buffer.from(pkeySeed, 'hex'))
     // this.privateKey = TextileCrypto.PrivateKey.fromRawEd25519Seed(seed)
@@ -105,14 +102,7 @@ export class UserProfileStorage implements ProfileStorage {
    */
   _setLocalProfile(newValue: Profile): void {
     this.profile = newValue
-
-    this.onProfileUpdate()
   }
-
-  onProfileUpdate = debounce(() => this.events.emit('update', this.profile), 500, {
-    leading: false,
-    trailing: true,
-  })
 
   /**
    * helper for decrypt profile values
@@ -122,7 +112,8 @@ export class UserProfileStorage implements ProfileStorage {
    */
   async _decryptProfileFields(profile: Profile): Promise<Profile> {
     const decryptedProfile = {}
-    if (profile == null || typeof profile !== 'object') {
+
+    if (!profile) {
       return {}
     }
 
@@ -180,9 +171,9 @@ export class UserProfileStorage implements ProfileStorage {
     let { errors, isValid } = profile.validate(update)
 
     // enforce profile to have walletAddress
-    if (!update && !profile.walletAddress) {
+    if (!update || !profile.walletAddress) {
       isValid = false
-      errors.walletAddress = 'Wallet Address is required'
+      errors.walletAddress = 'walletAddress is required in profile'
     }
 
     if (!isValid) {
@@ -381,7 +372,7 @@ export class UserProfileStorage implements ProfileStorage {
    * @param {*} value
    */
   async getPublicProfile(key: string, value: string): Promise<{ [field: string]: string }> {
-    const rawProfile = await this.profiledb.getProfileByField(key, value)
+    const rawProfile = await this.getProfileByField(key, value)
 
     if (!rawProfile) {
       return null

@@ -1,15 +1,10 @@
-import 'fake-indexeddb/auto'
-import fromEntries from 'object.fromentries'
 import { forIn, isFunction, isNil, omitBy } from 'lodash'
 
-import * as TextileCrypto from '@textile/crypto'
-import getDB from '../../realmdb/RealmDB'
-import AsyncStorage from '../../utils/asyncStorage'
-import { default as goodWallet } from '../../wallet/GoodWallet'
-
 import { UserProfileStorage } from '../UserProfileStorage'
+import userStorage from '../UserStorage'
 
-fromEntries.shim()
+import { initUserStorage } from './__util__'
+
 jest.setTimeout(30000)
 
 describe('UserProfileStorage', () => {
@@ -38,21 +33,11 @@ describe('UserProfileStorage', () => {
   const iterateUserModel = (profile, callback) => forIn(omitBy(profile, isFunction), callback)
 
   beforeAll(async () => {
-    // expires in 2040
-    await AsyncStorage.setItem(
-      'GD_jwt',
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dnZWRJbkFzIjoiMHg1YjliNDlmZjM1ZmE4OWZkMWZiOWNmNGJmNTNkNmI1MDA5ZmVjNjgxIiwiZ2RBZGRyZXNzIjoiMHg3NDBlMjIxNjFkZWVhYTYwYjhiMGI1Y2RhYWEwOTE1MzRmZjIxNjQ5IiwicHJvZmlsZVB1YmxpY2tleSI6IjlZdFNlSXdELVN3Z080UVIxaHBobGt4dFhleUdESjFIX01PQ3pncWcwWEkuTDN3RTJZUkpOT3c0cUo1UFVST0lRNTk3OVR3RFlCcmFmZGUwTlFkXzFSUSIsImV4cCI6MjIzMzU3MzQzNiwiYXVkIjoicmVhbG1kYl93YWxsZXRfZGV2ZWxvcG1lbnQiLCJzdWIiOiIweDViOWI0OWZmMzVmYTg5ZmQxZmI5Y2Y0YmY1M2Q2YjUwMDlmZWM2ODEiLCJpYXQiOjE2Mjg3NzM0MzZ9.y4EJ6Ban0MJL0TORh_kaO_9CKbGouI9FmuRo9iBgUCo',
-    )
+    await initUserStorage()
 
-    await goodWallet.ready
+    const { wallet, feedDB } = userStorage
 
-    const db = getDB()
-    const pkeySeed = goodWallet.wallet.eth.accounts.wallet[goodWallet.getAccountForType('gundb')].privateKey.slice(2)
-    const seed = Uint8Array.from(Buffer.from(pkeySeed, 'hex'))
-    const privateKey = TextileCrypto.PrivateKey.fromRawEd25519Seed(seed)
-
-    await db.init(privateKey) // only once user is registered he has access to realmdb via signed jwt
-    userProfileStorage = new UserProfileStorage(goodWallet, db)
+    userProfileStorage = new UserProfileStorage(wallet, feedDB)
   })
 
   beforeEach(async () => {
@@ -63,14 +48,14 @@ describe('UserProfileStorage', () => {
   })
 
   it('should not save invalid profiles', async () => {
-    const { email, username, mobile, walletAddress, ...fields } = profile
+    const { email, username, mobile, ...fields } = profile
 
     // mobile is not mandatory
     const invalidProfiles = [
-      { username, walletAddress, mobile, ...fields },
-      { username, walletAddress, mobile, email: 'abc', ...fields },
-      { email, walletAddress, mobile, username: '', ...fields },
-      { email, walletAddress, mobile, username: 'John Doe', ...fields },
+      { username, mobile, ...fields },
+      { username, mobile, email: 'abc', ...fields },
+      { email, mobile, username: '', ...fields },
+      { email, mobile, username: 'John Doe', ...fields },
     ]
 
     const errorMessages = [

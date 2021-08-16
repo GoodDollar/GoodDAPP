@@ -122,7 +122,7 @@ describe('UserProfileStorage', () => {
     userProfileStorage.profile = {}
     await userProfileStorage.init()
 
-    expect(userProfileStorage.getProfile()).toEqual(expect.objectContaining(profile))
+    expect(userProfileStorage.getPrivateProfile()).toEqual(expect.objectContaining(profile))
   })
 
   it('should initialize without profile in db', async () => {
@@ -195,7 +195,7 @@ describe('UserProfileStorage', () => {
     const username = 'johndoe321'
 
     await userProfileStorage.setProfileField('username', username)
-    expect(userProfileStorage.getProfile().username).toEqual(username)
+    expect(userProfileStorage.getProfile().username.value).toEqual(username)
   })
 
   it('should throw error for invalid privacy setting', async () => {
@@ -213,7 +213,7 @@ describe('UserProfileStorage', () => {
     )
 
     // Check if correct profile was found
-    expect(foundProfile.user_id).toEqual(usersProfile.user_id)
+    expect(foundProfile.username).toEqual(usersProfile.username.display)
   })
 
   it('should not find a wallet with invalid address', async () => {

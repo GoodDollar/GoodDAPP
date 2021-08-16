@@ -35,6 +35,7 @@ const EditAvatar = ({ theme, screenProps }) => {
 
     try {
       await user.setAvatar(croppedRef.current)
+      screenProps.pop()
     } catch (exception) {
       const { message } = exception
 
@@ -43,8 +44,6 @@ const EditAvatar = ({ theme, screenProps }) => {
     } finally {
       setProcessing(false)
     }
-
-    screenProps.pop()
   }, [screenProps, markAsDirty, setProcessing, showErrorDialog, user])
 
   const onCropped = useCallback(

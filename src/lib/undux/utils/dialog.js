@@ -64,12 +64,12 @@ export const showDialogWithData = (store: Store, setDialogBlur, dialogData: Dial
 
 export const hideDialog = (store: Store, setDialogBlur) => {
   log.debug('hideDialog')
+  setDialogBlur(false)
 
   if (!assertStore(store, log, 'hideDialog failed')) {
     return
   }
 
-  setDialogBlur(false)
   store.set('currentScreen')({
     ...store.get('currentScreen'),
     dialogData: {

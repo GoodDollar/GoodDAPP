@@ -16,10 +16,20 @@ import { cleanHashedFieldForIndex, isValidValue, maskField } from './utlis'
 
 const logger = pino.child({ from: 'UserProfileStorage' })
 
+//TODO:
+// 1. fix return types notice profile vs usermodel, fix rest of dapp code that uses it
+// 2. make sure interfaces are matching
+// 3. getuserpublicprofile should use hash indexes and clean+hash input
+// 4. save user hashed values correctly in index field
+// 5. _resizeAndStoreAvatars should be called only if avatar changed
+// 6. wallet address should be automatically set if missing and not verified in profile
+// 7. avatar delete not working
+// 8. cache ipfsstorage in indexdb, use threaddb
+// 9. when storing avatar/small update cache
+// 9. avatar edit save failure -> cant close error popup + no blurred background
 export interface ProfileDB {
   setProfile(profile: Profile): Promise<void>;
   getProfile(): Promise<Profile>;
-  getProfileByField(key: string, field: string): Promise<Profile>;
   getPublicProfile(key: string, field: string): Promise<Profile>;
   setProfileFields(fields: Profile): Promise<void>;
   deleteProfile(): Promise<boolean>;
@@ -250,10 +260,7 @@ export class UserProfileStorage implements ProfileStorage {
    * @returns
    */
   getProfile(): { [key: string]: string } {
-    return Object.keys(this.profile).reduce(
-      (acc, currKey) => ({ ...acc, [currKey]: this.profile[currKey]?.value ?? null }),
-      {},
-    )
+    return this.profile
   }
 
   /**
@@ -365,11 +372,7 @@ export class UserProfileStorage implements ProfileStorage {
    * @returns
    */
   getProfileByWalletAddress(walletAddress: string): Promise<any> {
-    return this.getProfileByField('walletAddress', walletAddress)
-  }
-
-  getProfileByField(field: string, value: string): Promise<any> {
-    return this.profiledb.getProfileBy({ [`${field}.display`]: value })
+    return this.getPublicProfile('walletAddress', walletAddress)
   }
 
   //TODO: in the future it should also validate the index.field.proof
@@ -383,7 +386,7 @@ export class UserProfileStorage implements ProfileStorage {
    * @param {*} value
    */
   async getPublicProfile(key: string, value: string): Promise<{ [field: string]: string }> {
-    const rawProfile = await this.getProfileByField(key, value)
+    const rawProfile = await this.profiledb.getProfileBy({ [`${key}.display`]: value })
 
     if (!rawProfile) {
       return null

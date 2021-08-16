@@ -1,10 +1,11 @@
-import 'fake-indexeddb/auto'
+// Has to be the first import because of fake-indexeddb import inside
+// eslint-disable-next-line import/order
+import { initUserStorage } from './__util__'
+
 import { forIn, isFunction, isNil, omitBy } from 'lodash'
 
 import { UserProfileStorage } from '../UserProfileStorage'
 import userStorage from '../UserStorage'
-
-import { initUserStorage } from './__util__'
 
 jest.setTimeout(30000)
 

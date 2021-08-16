@@ -33,7 +33,7 @@ const TITLE = 'My Profile'
 
 const ViewOrUploadAvatar = props => {
   const { styles, screenProps } = props
-  const [profile, refreshProfile] = useProfile('*', true)
+  const [profile, refreshProfile] = useProfile(true)
   const wrappedUserStorage = useWrappedUserStorage()
   const [showErrorDialog] = useErrorDialog()
   const avatar = useAvatar(profile.avatar, true)

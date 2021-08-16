@@ -1,4 +1,4 @@
-import { isArray, mapValues, pick } from 'lodash'
+import { mapValues, pick } from 'lodash'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 
 import userStorage from './UserStorage'
@@ -8,7 +8,7 @@ const defaultPublicFields = ['fullName', 'smallAvatar']
 const getProfile = (fields, display) => {
   const profile = display ? userStorage.getDisplayProfile() : userStorage.getPrivateProfile()
 
-  return isArray(fields) ? pick(profile, fields) : profile
+  return fields ? pick(profile, fields) : profile
 }
 
 const useProfileHook = (fields, allowRefresh = false, display = false) => {
@@ -22,8 +22,8 @@ const useProfileHook = (fields, allowRefresh = false, display = false) => {
   return useMemo(() => (allowRefresh ? [profile, refreshProfile] : profile), [profile, refreshProfile, allowRefresh])
 }
 
-const useProfile = (fields = '*', allowRefresh = false) => useProfileHook(fields, allowRefresh)
-export const usePublicProfile = (fields = '*', allowRefresh = false) => useProfileHook(fields, allowRefresh, true)
+const useProfile = (allowRefresh = false, fields = null) => useProfileHook(fields, allowRefresh)
+export const usePublicProfile = (allowRefresh = false, fields = null) => useProfileHook(fields, allowRefresh, true)
 
 export const usePublicProfileOf = (walletAddress, fields = defaultPublicFields) => {
   const [profile, setProfile] = useState(null)

@@ -239,7 +239,7 @@ export class UserProfileStorage implements ProfileStorage {
           proof: this.wallet.sign(cleanHashedFieldForIndex('walletAddress', this.wallet.account)),
         },
       }
-      return this._setNewProfile({ ...fieldsToSave, index, publicKey: this.privateKey.public.toString() })
+      return this.setProfileFields({ ...fieldsToSave, index, publicKey: this.privateKey.public.toString() })
     }
 
     return this.setProfileFields(fieldsToSave)
@@ -262,19 +262,6 @@ export class UserProfileStorage implements ProfileStorage {
    * @returns
    */
   async setProfileFields(fields: Profile): Promise<void> {
-    const encryptedFields = await this._encryptProfileFields(fields)
-
-    await this.profiledb.setProfileFields(encryptedFields)
-    this._setLocalProfile({ ...this.profile, ...fields })
-  }
-
-  /**
-   * create new profile with given fields in realm
-   * @param fields
-   * @returns {Promise<void>}
-   * @private
-   */
-  async _setNewProfile(fields: Profile): Promise<void> {
     const encryptedFields = await this._encryptProfileFields(fields)
 
     await this.profiledb.setProfile(encryptedFields)

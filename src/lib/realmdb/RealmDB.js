@@ -112,6 +112,10 @@ class RealmDB implements DB, ProfileDB {
     return this.database.collection('user_profiles')
   }
 
+  get inboxes() {
+    return this.database.collection('inboxes')
+  }
+
   /**
    * sync between devices.
    * used in Appswitch to sync with remote when user comes back to app

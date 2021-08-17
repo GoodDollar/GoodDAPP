@@ -8,7 +8,7 @@ import renderer from 'react-test-renderer'
 
 import { getWebRouterComponentWithMocks } from './__util__'
 
-jest.setTimeout(10000)
+jest.setTimeout(20000)
 
 describe('Send', () => {
   beforeAll(async () => {

@@ -8,7 +8,7 @@ import SimpleStore from '../../../lib/undux/SimpleStore'
 
 // Note: test renderer must be required after react-native.
 
-jest.setTimeout(10000)
+jest.setTimeout(20000)
 
 describe('Profile', () => {
   beforeAll(async () => {

@@ -730,6 +730,7 @@ export class FeedStorage {
     if (recipientPubkey) {
       // const seed = Uint8Array.from(Buffer.from(recipientPubkey, 'hex'))
       // const pubKey = TextileCrypto.PublicKey.fromString(seed)
+      log.debug('OUTBOX PUBKEY', recipientPubkey)
       const pubKey = TextileCrypto.PublicKey.fromString(recipientPubkey)
       log.debug('OUTBOX RECIPIENT PUBLIC KEY', pubKey)
       const data = pick(event.data, [

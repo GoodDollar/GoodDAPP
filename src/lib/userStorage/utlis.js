@@ -12,7 +12,7 @@ const logger = pino.child({ from: 'UserProfileUtils' })
  * @param {string} value - Field value
  * @returns {string} - Value without '+' (plus), '-' (minus), '_' (underscore), ' ' (space), in lower case
  */
-const cleanHashedFieldForIndex = (field: string, value: string): string => {
+export const cleanHashedFieldForIndex = (field: string, value: string): string => {
   if (value === undefined) {
     return value
   }

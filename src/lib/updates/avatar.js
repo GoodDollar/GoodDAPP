@@ -8,7 +8,6 @@ const fromDate = new Date('2021/08/06')
 const uploadProfileAvatar = async () => {
   const avatar = await userStorage.getProfileFieldValue('avatar')
   const { shouldUpload, shouldUnset, dataUrl } = await analyzeAvatar(avatar)
-
   if (shouldUnset) {
     await userStorage.removeAvatar()
   } else if (shouldUpload) {
@@ -57,7 +56,9 @@ const uploadAvatars = async (lastUpdate, prevVersion, log) => {
   const groupedEvents = values(groupBy(eventsWithCounterParty, 'data.counterPartyAddress'))
 
   await uploadProfileAvatar()
+  log.debug('done storing user avatar')
   await Promise.all(groupedEvents.map(uploadCounterPartyAvatar))
+  log.debug('done storing feed avatars')
 }
 
 export default { fromDate, update: uploadAvatars, key: 'uploadAvatars' }

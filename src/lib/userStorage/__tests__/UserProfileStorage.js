@@ -1,11 +1,16 @@
 // Has to be the first import because of fake-indexeddb import inside
 // eslint-disable-next-line import/order
-import { initUserStorage } from './__util__'
-
+import fromEntries from 'object.fromentries'
 import { forIn, isFunction, isNil, omitBy } from 'lodash'
+import 'fake-indexeddb/auto'
+
+// import { initUserStorage } from './__util__'
+import goodWallet from '../../wallet/GoodWallet'
+import getDB from '../../realmdb/RealmDB'
+import AsyncStorage from '../../utils/asyncStorage'
 
 import { UserProfileStorage } from '../UserProfileStorage'
-import userStorage from '../UserStorage'
+fromEntries.shim()
 
 jest.setTimeout(30000)
 
@@ -18,7 +23,6 @@ describe('UserProfileStorage', () => {
     mnemonic: 'duty disorder rocket velvet later fabric scheme paddle remove phone target medal',
     username: 'juliankobrynski',
     mobile: '+48507471353',
-    walletAddress: '0x740E22161DEEAa60b8b0b5cDAAA091534Ff21649',
   }
 
   const emptyProfile = {
@@ -35,11 +39,16 @@ describe('UserProfileStorage', () => {
   const iterateUserModel = (profile, callback) => forIn(omitBy(profile, isFunction), callback)
 
   beforeAll(async () => {
-    await initUserStorage()
+    await AsyncStorage.setItem(
+      'GD_jwt',
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dnZWRJbkFzIjoiMHg1YjliNDlmZjM1ZmE4OWZkMWZiOWNmNGJmNTNkNmI1MDA5ZmVjNjgxIiwiZ2RBZGRyZXNzIjoiMHg3NDBlMjIxNjFkZWVhYTYwYjhiMGI1Y2RhYWEwOTE1MzRmZjIxNjQ5IiwicHJvZmlsZVB1YmxpY2tleSI6IjlZdFNlSXdELVN3Z080UVIxaHBobGt4dFhleUdESjFIX01PQ3pncWcwWEkuTDN3RTJZUkpOT3c0cUo1UFVST0lRNTk3OVR3RFlCcmFmZGUwTlFkXzFSUSIsImV4cCI6MjIzMzU3MzQzNiwiYXVkIjoicmVhbG1kYl93YWxsZXRfZGV2ZWxvcG1lbnQiLCJzdWIiOiIweDViOWI0OWZmMzVmYTg5ZmQxZmI5Y2Y0YmY1M2Q2YjUwMDlmZWM2ODEiLCJpYXQiOjE2Mjg3NzM0MzZ9.y4EJ6Ban0MJL0TORh_kaO_9CKbGouI9FmuRo9iBgUCo',
+    )
+    const db = getDB()
+    await goodWallet.ready
+    const pkey = goodWallet.getEd25519Key('gundb')
+    await db.init(pkey)
 
-    const { wallet, feedDB } = userStorage
-
-    userProfileStorage = new UserProfileStorage(wallet, feedDB)
+    userProfileStorage = new UserProfileStorage(goodWallet, db, pkey)
   })
 
   beforeEach(async () => {
@@ -49,7 +58,7 @@ describe('UserProfileStorage', () => {
     await userProfileStorage.setProfile(profile, true)
   })
 
-  it('should not save invalid profiles', async () => {
+  it('should save any value', async () => {
     const { email, username, mobile, ...fields } = profile
 
     // mobile is not mandatory
@@ -60,23 +69,9 @@ describe('UserProfileStorage', () => {
       { email, mobile, username: 'John Doe', ...fields },
     ]
 
-    const errorMessages = [
-      'Email is required',
-      'Enter a valid format: yourname@example.com',
-      'Username cannot be empty',
-      'Only letters, numbers and underscore',
-    ]
-
-    const missingFields = ['email', 'email', 'username', 'username']
-
     await Promise.all(
       invalidProfiles.map(async (item, index) => {
-        const message = errorMessages[index]
-        const fieldName = missingFields[index]
-
-        // it seems toThrow is stictly checking rejected with value to be an exception
-        // se we'll check only for rejection and for validation message
-        await expect(userProfileStorage.setProfile(item)).rejects.toHaveProperty(fieldName, message)
+        await expect(userProfileStorage.setProfile(item)).resolves
       }),
     )
   })
@@ -86,13 +81,16 @@ describe('UserProfileStorage', () => {
     // setProfile with update: true in beforeEach won't work with no profile in db
     // setProfile has to be successfully called with update: false at least once
     await userProfileStorage.setProfile(profile)
-    const { user_id, _id, ...fields } = await userProfileStorage.profiledb.getProfile()
+    const { user_id, _id, publicKey, index, walletAddress, ...fields } = await userProfileStorage.profiledb.getProfile()
 
     // we calling setProfile in beforeEach so no need to do it again here
 
     expect(user_id).not.toBeNull()
     expect(_id).not.toBeNull()
 
+    expect(publicKey).toEqual(userProfileStorage.privateKey.public.toString())
+    expect(walletAddress.display).toEqual(goodWallet.account)
+    expect(index.walletAddress.hash).toEqual(goodWallet.wallet.utils.sha3(goodWallet.account.toLowerCase()))
     for (const key in fields) {
       const field = fields[key]
       if (!field.privacy) {
@@ -155,26 +153,20 @@ describe('UserProfileStorage', () => {
     const oldProfile = userProfileStorage.profile
 
     const fieldsToUpdate = {
-      fullName: {
-        value: 'John Doe',
-        display: 'John Doe',
-        privacy: 'public',
-      },
-      username: {
-        value: 'johndoe123',
-        display: 'johndoe123',
-        privacy: 'public',
-      },
+      fullName: 'John Doe',
+      username: 'johndoe123',
     }
+    await userProfileStorage.setProfile(fieldsToUpdate, true)
 
-    await userProfileStorage.setProfileFields(fieldsToUpdate)
+    const updatedProfile = userProfileStorage.profile
 
-    const newProfile = userProfileStorage.profile
+    await userProfileStorage.init()
+    const refreshedProfile = userProfileStorage.profile
 
-    expect(newProfile).not.toEqual(oldProfile)
-
+    expect(updatedProfile).not.toEqual(oldProfile)
     for (const key in fieldsToUpdate) {
-      expect(fieldsToUpdate[key].value).toEqual(newProfile[key].value)
+      expect(fieldsToUpdate[key]).toEqual(updatedProfile[key].value)
+      expect(fieldsToUpdate[key]).toEqual(refreshedProfile[key].value)
     }
   })
 
@@ -208,25 +200,22 @@ describe('UserProfileStorage', () => {
   it('should get profile by wallet address', async () => {
     const usersProfile = await userProfileStorage.profiledb.getProfile()
 
-    const foundProfile = await userProfileStorage.getProfileByWalletAddress(
-      userProfileStorage.profile.walletAddress.display,
-    )
+    const foundProfile = await userProfileStorage.getProfileByWalletAddress(goodWallet.account)
 
     // Check if correct profile was found
     expect(foundProfile.username).toEqual(usersProfile.username.display)
   })
 
   it('should not find a wallet with invalid address', async () => {
-    const foundProfile = await userProfileStorage.getProfileByWalletAddress('123123123')
+    const foundProfile = await userProfileStorage.getProfileByWalletAddress('0x111')
 
     expect(foundProfile).toBeNull()
   })
 
-  it('should get public profile by valid field', async () => {
-    const username = userProfileStorage.profile.username.display
-    const foundProfile = await userProfileStorage.getPublicProfile('username', username)
+  it('should get public profile by wallet adddress', async () => {
+    const foundProfile = await userProfileStorage.getPublicProfile('walletAddress', goodWallet.account)
 
-    expect(foundProfile.username).toEqual(userProfileStorage.profile.username.display)
+    expect(foundProfile.walletAddress).toEqual(goodWallet.account)
   })
 
   it('should not get public profile by invalid field', async () => {
@@ -288,15 +277,13 @@ describe('UserProfileStorage', () => {
     expect(errors).toEqual({})
   })
 
-  it('should fail profile validation with email error', async () => {
+  it('should fail profile validation with error', async () => {
     const { isValid, errors } = await userProfileStorage.validateProfile(emptyProfile)
 
     const errorMessages = {
       email: 'Unavailable email',
-      mnemonic: 'Unavailable mnemonic',
       username: 'Unavailable username',
       mobile: 'Unavailable mobile',
-      walletAddress: 'Unavailable walletAddress',
     }
 
     expect(isValid).toBeFalsy()
@@ -327,12 +314,6 @@ describe('UserProfileStorage', () => {
     expect(userProfileStorage.getProfileFieldValue('email')).toEqual(
       userProfileStorage.getProfileFieldDisplayValue('email'),
     )
-  })
-
-  it('should find profile using getUserProfile with valid email', async () => {
-    const foundProfile = await userProfileStorage.getUserProfile(userProfileStorage.profile.email.value)
-
-    expect(foundProfile).toHaveProperty('name', userProfileStorage.profile.fullName.value)
   })
 
   it('should not find profile using getUserProfile with invalid value', async () => {

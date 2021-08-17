@@ -1,11 +1,11 @@
 // @flow
-import { assign } from 'lodash'
 import * as TextileCrypto from '@textile/crypto'
+import { assign } from 'lodash'
 
 import IPFS from '../ipfs/IpfsStorage'
-import { AVATAR_SIZE, resizeImage, SMALL_AVATAR_SIZE } from '../utils/image'
-import { isValidDataUrl } from '../utils/base64'
 import pino from '../logger/pino-logger'
+import { isValidDataUrl } from '../utils/base64'
+import { AVATAR_SIZE, resizeImage, SMALL_AVATAR_SIZE } from '../utils/image'
 import isEmail from '../validators/isEmail'
 import isMobilePhone from '../validators/isMobilePhone'
 import type { UserModel } from './UserModel'
@@ -372,12 +372,14 @@ export class UserProfileStorage implements ProfileStorage {
    * @param {*} value
    */
   async getPublicProfile(field: string, value?: string): Promise<{ [field: string]: string }> {
-    let attr
+    let attr, profiles
     if (!value) {
       attr = isMobilePhone(field) ? 'mobile' : isEmail(field) ? 'email' : 'walletAddress'
+      profiles = await this.getProfilesByHashIndex(attr, field)
+    } else {
+      profiles = await this.getProfilesByHashIndex(field, value)
     }
 
-    const profiles = await this.getProfilesByHashIndex(field, value ?? attr)
     if (!profiles?.length) {
       logger.warn(`getPublicProfile: by field <${field}> and  value <${value}> empty result`)
       return null
@@ -392,17 +394,37 @@ export class UserProfileStorage implements ProfileStorage {
         }),
         {},
       )
-    return publicProfile
+
+    const { fullName, smallAvatar } = publicProfile
+
+    logger.info(`getPublicProfile by field <${field}>`, { fullName })
+
+    return { name: fullName, avatar: smallAvatar }
   }
 
+  /**
+   * Returns ProfileField value. It may be encrypted
+   * @param field
+   * @returns {EncryptedField}
+   */
   getProfileFieldValue(field: string): string {
     return this.profile[field]?.value
   }
 
+  /**
+   * Returns profile field display value
+   * @param field
+   * @returns {string}
+   */
   getProfileFieldDisplayValue(field: string): string {
     return this.profile[field]?.display
   }
 
+  /**
+   * Returns ProfileField
+   * @param field
+   * @returns {ProfileField}
+   */
   getProfileField(field: string): { value: string, display: string, privacy: string } {
     return this.profile[field]
   }
@@ -439,13 +461,23 @@ export class UserProfileStorage implements ProfileStorage {
     return getUserModel(displayProfile)
   }
 
+  /**
+   * Returns field privacy
+   * @param field
+   * @returns {"private"|"public"|"masked"|string}
+   */
   getFieldPrivacy(field: string): string {
     const currentPrivacy = this.profile[field]?.privacy
 
     return currentPrivacy || this.profileSettings[field].defaultPrivacy || 'public'
   }
 
-  async validateProfile(profile: any): Promise<{ isValid: boolean, errors: {} }> {
+  /**
+   * Checks if profile is valid profile
+   * @param profile
+   * @returns {Promise<{isValid: boolean, errors: {}}|{isValid, errors}>}
+   */
+  async validateProfile(profile: Profile): Promise<{ isValid: boolean, errors: {} }> {
     if (!profile) {
       return { isValid: false, errors: {} }
     }
@@ -472,6 +504,12 @@ export class UserProfileStorage implements ProfileStorage {
     return { isValid, errors }
   }
 
+  /**
+   * Set only profile field privacy
+   * @param field
+   * @param privacy
+   * @returns {Promise<void>}
+   */
   setProfileFieldPrivacy(field: string, privacy: FieldPrivacy): Promise<void> {
     const value = this.getProfileFieldValue(field)
     return this.setProfileField(field, value, privacy, true)

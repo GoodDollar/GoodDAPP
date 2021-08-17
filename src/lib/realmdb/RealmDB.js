@@ -9,6 +9,7 @@ import logger from '../logger/pino-logger'
 import { FeedItemSchema } from '../textile/feedSchema' // Some json-schema.org schema
 import type { ProfileDB } from '../userStorage/UserProfileStorage'
 import type { DB } from '../userStorage/UserStorage'
+import type { Profile } from '../userStorage/UserStorageClass'
 import AsyncStorage from '../utils/asyncStorage'
 
 const log = logger.child({ from: 'RealmDB' })
@@ -32,8 +33,7 @@ class RealmDB implements DB, ProfileDB {
 
   /**
    * basic initialization
-   * @param {*} pkeySeed
-   * @param {*} publicKeyHex
+   * @param privateKey
    */
   async init(privateKey: TextileCrypto.PrivateKey) {
     try {
@@ -110,6 +110,10 @@ class RealmDB implements DB, ProfileDB {
    */
   get profiles() {
     return this.database.collection('user_profiles')
+  }
+
+  get inboxes() {
+    return this.database.collection('inboxes')
   }
 
   /**
@@ -272,7 +276,7 @@ class RealmDB implements DB, ProfileDB {
    * @param {*} feedItem
    * @returns
    */
-  async _encrypt(feedItem): Promise<any> {
+  async _encrypt(feedItem): Promise<string> {
     try {
       const msg = new TextEncoder().encode(JSON.stringify(feedItem))
       const encrypted = await this.privateKey.public.encrypt(msg).then(_ => Buffer.from(_).toString('base64'))
@@ -332,7 +336,7 @@ class RealmDB implements DB, ProfileDB {
   }
 
   // eslint-disable-next-line require-await
-  async setProfile(profile: { [key: string]: ProfileField }): Promise<any> {
+  async setProfile(profile: Profile): Promise<any> {
     return this.profiles.updateOne(
       { user_id: this.user.id },
       { $set: { user_id: this.user.id, ...profile } },
@@ -351,8 +355,7 @@ class RealmDB implements DB, ProfileDB {
 
   /**
    * get user profile from realmdb. result fields might be encrypted
-   * @param key
-   * @param field
+   * @param query
    * @returns {Promise<any | null>}
    */
   // eslint-disable-next-line require-await
@@ -360,6 +363,11 @@ class RealmDB implements DB, ProfileDB {
     return this.profiles.findOne(query)
   }
 
+  /**
+   * get users profiles from realmdb. result fields might be encrypted
+   * @param query
+   * @returns {Promise<any | null>}
+   */
   // eslint-disable-next-line require-await
   async getProfilesBy(query: Object): Promise<Array<Profile>> {
     return this.profiles.find(query)

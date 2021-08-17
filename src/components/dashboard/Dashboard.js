@@ -119,7 +119,7 @@ const Dashboard = props => {
   const [headerLarge, setHeaderLarge] = useState(true)
   const { appState } = useAppState()
   const [animateMarket, setAnimateMarket] = useState(false)
-  const { setBlur } = useContext(GlobalTogglesContext)
+  const { setDialogBlur } = useContext(GlobalTogglesContext)
 
   const headerAnimateStyles = {
     position: 'relative',
@@ -530,7 +530,7 @@ const Dashboard = props => {
   const handleFeedSelection = useCallback(
     (receipt, horizontal) => {
       showEventModal(horizontal ? receipt : null)
-      setBlur(horizontal)
+      setDialogBlur(horizontal)
     },
     [showEventModal],
   )

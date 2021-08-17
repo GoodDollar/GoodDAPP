@@ -356,12 +356,12 @@ class RealmDB implements DB, ProfileDB {
    * @returns {Promise<any | null>}
    */
   // eslint-disable-next-line require-await
-  async getProfileBy(query: object): Promise<Profile> {
+  async getProfileBy(query: Object): Promise<Profile> {
     return this.profiles.findOne(query)
   }
 
   // eslint-disable-next-line require-await
-  async getProfilesBy(query: object): Promise<Array<Profile>> {
+  async getProfilesBy(query: Object): Promise<Array<Profile>> {
     return this.profiles.find(query)
   }
 

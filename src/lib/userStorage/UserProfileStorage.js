@@ -30,6 +30,7 @@ export interface ProfileDB {
   setProfile(profile: Profile): Promise<void>;
   getProfile(): Promise<Profile>;
   getPublicProfile(key: string, field: string): Promise<Profile>;
+  getProfilesBy(query: Object): Promise<Array<Profile>>;
   setProfileFields(fields: Profile): Promise<void>;
   deleteProfile(): Promise<boolean>;
 }
@@ -54,7 +55,6 @@ export interface ProfileStorage {
   getFieldPrivacy(field: string): string;
   validateProfile(profile: any): Promise<{ isValid: boolean, errors: {} }>;
   setProfileFieldPrivacy(field: string, privacy: FieldPrivacy): Promise<void>;
-  getUserProfile(field?: string): { name: string, avatar: string };
   deleteProfile(): Promise<boolean>;
 }
 
@@ -368,13 +368,18 @@ export class UserProfileStorage implements ProfileStorage {
 
   /**
    * helper to get a user public profile by key/value
-   * @param key
+   * @param field
    * @param {*} value
    */
-  async getPublicProfile(field: string, value: string): Promise<{ [field: string]: string }> {
-    const profiles = await this.getProfilesByHashIndex(field, value)
+  async getPublicProfile(field: string, value?: string): Promise<{ [field: string]: string }> {
+    let attr
+    if (!value) {
+      attr = isMobilePhone(field) ? 'mobile' : isEmail(field) ? 'email' : 'walletAddress'
+    }
 
+    const profiles = await this.getProfilesByHashIndex(field, value ?? attr)
     if (!profiles?.length) {
+      logger.warn(`getPublicProfile: by field <${field}> and  value <${value}> empty result`)
       return null
     }
     const rawProfile = profiles[0]
@@ -387,7 +392,6 @@ export class UserProfileStorage implements ProfileStorage {
         }),
         {},
       )
-
     return publicProfile
   }
 
@@ -471,25 +475,6 @@ export class UserProfileStorage implements ProfileStorage {
   setProfileFieldPrivacy(field: string, privacy: FieldPrivacy): Promise<void> {
     const value = this.getProfileFieldValue(field)
     return this.setProfileField(field, value, privacy, true)
-  }
-
-  /**
-   * return public user profile by field value
-   * @param field - Profile field value (email, mobile or wallet address value)
-   * @returns {object} profile - { name, avatar }
-   */
-  async getUserProfile(field?: string): { name: string, avatar: string } {
-    const attr = isMobilePhone(field) ? 'mobile' : isEmail(field) ? 'email' : 'walletAddress'
-    const profile = await this.getPublicProfile(attr, field)
-    if (profile == null) {
-      logger.warn(`getUserProfile: by field <${field}> empty result`)
-      return { name: undefined, avatar: undefined }
-    }
-    const { fullName, smallAvatar } = profile
-
-    logger.info(`getUserProfile by field <${field}>`, { fullName })
-
-    return { name: fullName, avatar: smallAvatar }
   }
 
   /**

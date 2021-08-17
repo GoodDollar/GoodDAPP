@@ -2,6 +2,7 @@
 // eslint-disable-next-line import/order
 import fromEntries from 'object.fromentries'
 import { forIn, isFunction, isNil, omitBy } from 'lodash'
+// eslint-disable-next-line import/no-unresolved
 import 'fake-indexeddb/auto'
 
 // import { initUserStorage } from './__util__'
@@ -317,7 +318,7 @@ describe('UserProfileStorage', () => {
   })
 
   it('should not find profile using getUserProfile with invalid value', async () => {
-    const foundProfile = await userProfileStorage.getUserProfile('as123asdas12312a')
+    const foundProfile = await userProfileStorage.getPublicProfile('as123asdas12312a')
 
     expect(Object.values(foundProfile).every(isNil)).toBeTruthy()
   })

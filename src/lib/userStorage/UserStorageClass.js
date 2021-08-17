@@ -769,17 +769,6 @@ export class UserStorage {
   }
 
   /**
-   * Returns name and avatar from profile based filtered by received value
-   *
-   * @param {string} field - Profile field value (email, mobile or wallet address value)
-   * @returns {object} profile - { name, avatar }
-   */
-  // eslint-disable-next-line require-await
-  async getUserProfile(field: string = ''): { name: String, avatar: String } {
-    return this.profileStorage.getUserProfile(field)
-  }
-
-  /**
    * Returns the feed in a standard format to be loaded in feed list and modal
    *
    * @param {FeedEvent} event - Feed event with data, type, date and id props
@@ -1009,7 +998,7 @@ export class UserStorage {
   }
 
   // eslint-disable-next-line require-await
-  async getPublicProfile(key: string, string: string): Promise<any> {
+  async getPublicProfile(key: string, string?: string): Promise<any> {
     return this.profileStorage.getPublicProfile(key, string)
   }
 

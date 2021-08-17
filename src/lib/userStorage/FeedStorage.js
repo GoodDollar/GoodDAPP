@@ -52,6 +52,12 @@ export const TxStatus = {
   CANCELED: 'cancelled',
 }
 
+export type TransactionData = {
+  txHash: string,
+  recipientPublicKey: string,
+  encrypted: string,
+}
+
 export type FeedEvent = {
   id: string,
   type: string,
@@ -724,15 +730,10 @@ export class FeedStorage {
    * @param {*} event
    */
   async addToOutbox(event: FeedEvent) {
-    log.debug('ADD TO OUTBOX', event)
-    let recipientPubkey = await this.userStorage.getUserProfilePublickey(event.data.to).then(_ => _.slice(1)) //remove ~prefix
+    let recipientPubkey = await this.userStorage.getUserProfilePublickey(event.data.to) //remove ~prefix
 
     if (recipientPubkey) {
-      // const seed = Uint8Array.from(Buffer.from(recipientPubkey, 'hex'))
-      // const pubKey = TextileCrypto.PublicKey.fromString(seed)
-      log.debug('OUTBOX PUBKEY', recipientPubkey)
       const pubKey = TextileCrypto.PublicKey.fromString(recipientPubkey)
-      log.debug('OUTBOX RECIPIENT PUBLIC KEY', pubKey)
       const data = pick(event.data, [
         'reason',
         'category',
@@ -743,6 +744,17 @@ export class FeedStorage {
         'sellerWebsite',
         'sellerName',
       ])
+      const encoded = new TextEncoder().encode(JSON.stringify(data))
+      const encrypted = await pubKey.encrypt(encoded).then(_ => Buffer.from(_).toString('base64'))
+
+      const dataToSave: TransactionData = {
+        txHash: event.id,
+        recipientPublicKey: recipientPubkey,
+        encrypted,
+      }
+
+      await this.storage.addToOutbox(dataToSave)
+
       log.debug('addToOutbox:', { recipientPubkey, data })
       await this.gunuser
         .get('outbox')

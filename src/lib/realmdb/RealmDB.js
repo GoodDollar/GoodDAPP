@@ -10,6 +10,7 @@ import { FeedItemSchema } from '../textile/feedSchema' // Some json-schema.org s
 import type { ProfileDB } from '../userStorage/UserProfileStorage'
 import type { DB } from '../userStorage/UserStorage'
 import AsyncStorage from '../utils/asyncStorage'
+import { TransactionData } from '../userStorage/FeedStorage'
 
 const log = logger.child({ from: 'RealmDB' })
 class RealmDB implements DB, ProfileDB {
@@ -405,6 +406,20 @@ class RealmDB implements DB, ProfileDB {
   // eslint-disable-next-line require-await
   async deleteProfile(): Promise<boolean> {
     return this.profiles.deleteOne({ user_id: this.user.id })
+  }
+
+  /**
+   *
+   * @param {TransactionData} data
+   * @returns {Promise<any>}
+   */
+  // eslint-disable-next-line require-await
+  async addToOutbox(data: TransactionData): Promise<any> {
+    return this.inboxes.updateOne(
+      { txhash: data.txHash, user_id: this.user.id },
+      { ...data, user_id: this.user.id },
+      { upsert: true },
+    )
   }
 }
 

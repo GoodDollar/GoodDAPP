@@ -2,6 +2,7 @@
 import { assign, debounce, find, get, has, isEqual, isUndefined, orderBy, pick, set } from 'lodash'
 import EventEmitter from 'eventemitter3'
 
+import * as TextileCrypto from '@textile/crypto'
 import delUndefValNested from '../utils/delUndefValNested'
 import { updateFeedEventAvatar } from '../updates/utils'
 
@@ -724,10 +725,13 @@ export class FeedStorage {
    */
   async addToOutbox(event: FeedEvent) {
     log.debug('ADD TO OUTBOX', event)
-    log.debug('OUTBOX RECIPIENT EVENT DATA', event.data.to)
     let recipientPubkey = await this.userStorage.getUserProfilePublickey(event.data.to).then(_ => _.slice(1)) //remove ~prefix
 
     if (recipientPubkey) {
+      // const seed = Uint8Array.from(Buffer.from(recipientPubkey, 'hex'))
+      // const pubKey = TextileCrypto.PublicKey.fromString(seed)
+      const pubKey = TextileCrypto.PublicKey.fromString(recipientPubkey)
+      log.debug('OUTBOX RECIPIENT PUBLIC KEY', pubKey)
       const data = pick(event.data, [
         'reason',
         'category',

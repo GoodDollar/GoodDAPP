@@ -20,6 +20,7 @@ import abiDecoder from 'abi-decoder'
 import { chunk, flatten, get, invokeMap, last, maxBy, range, result, sortBy, uniqBy, values } from 'lodash'
 import moment from 'moment'
 import bs58 from 'bs58'
+import * as TextileCrypto from '@textile/crypto'
 import Config from '../../config/config'
 import logger from '../logger/pino-logger'
 import { ExceptionCategory } from '../logger/exceptions'
@@ -774,6 +775,13 @@ export class GoodWallet {
     let signed = await this.wallet.eth.sign(toSign, account)
 
     return signed.signature
+  }
+
+  // eslint-disable-next-line require-await
+  getEd25519Key(accountType: AccountUsage): TextileCrypto.PrivateKey {
+    const pkeySeed = this.accounts[this.getAccountForType(accountType)].privateKey.slice(2)
+    const seed = Uint8Array.from(Buffer.from(pkeySeed, 'hex'))
+    return TextileCrypto.PrivateKey.fromRawEd25519Seed(seed)
   }
 
   /**

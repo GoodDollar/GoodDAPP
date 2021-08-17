@@ -298,22 +298,6 @@ class RealmDB implements DB, ProfileDB {
   }
 
   /**
-   * helper for encrypting fields
-   * @param field
-   * @returns {Promise<*>}
-   */
-  async encryptField(field): Promise<string> {
-    try {
-      const msg = new TextEncoder().encode(JSON.stringify(field))
-      const encrypted = await this.privateKey.public.encrypt(msg).then(_ => Buffer.from(_).toString('base64'))
-      log.debug('encrypt result:', { field: encrypted })
-      return encrypted
-    } catch (e) {
-      log.error('error encryptField field:', e.message, e, { field })
-    }
-  }
-
-  /**
    * helper for decrypting items
    * @param {*} item
    * @returns
@@ -325,16 +309,6 @@ class RealmDB implements DB, ProfileDB {
     } catch (e) {
       log.warn('failed _decrypt', { item })
     }
-  }
-
-  /**
-   * helper for decrypting items
-   * @param {*} field
-   * @returns
-   */
-  async decryptField(field): Promise<string> {
-    const decrypted = await this.privateKey.decrypt(Uint8Array.from(Buffer.from(field, 'base64')))
-    return JSON.parse(new TextDecoder().decode(decrypted))
   }
 
   /**
@@ -365,7 +339,7 @@ class RealmDB implements DB, ProfileDB {
   async setProfile(profile: { [key: string]: ProfileField }): Promise<any> {
     return this.profiles.updateOne(
       { user_id: this.user.id },
-      { publicKey: this.privateKey.public.toString(), user_id: this.user.id, ...profile },
+      { $set: { user_id: this.user.id, ...profile } },
       { upsert: true },
     )
   }
@@ -402,7 +376,7 @@ class RealmDB implements DB, ProfileDB {
    */
   // eslint-disable-next-line require-await
   async setProfileFields(fields: Profile): Promise<void> {
-    return this.profiles.updateOne({ user_id: this.user.id }, { $set: fields })
+    return this.setProfile(fields)
   }
 
   /**

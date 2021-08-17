@@ -3,7 +3,7 @@ import { version as contractsVersion } from '../../node_modules/@gooddollar/good
 import { version } from '../../package.json'
 
 import { isWeb } from '../lib/utils/platform'
-import { env as devenv, fixNL } from '../lib/utils/env'
+import { env as devenv, fixNL, publicUrlForEnv } from '../lib/utils/env'
 import mustache from '../lib/utils/mustache'
 
 import env from './env'
@@ -28,18 +28,10 @@ const isEToro = env.REACT_APP_ETORO === 'true' || env.REACT_APP_NETWORK === 'eto
 const ipfsGateways = env.REACT_APP_IPFS_GATEWAYS || 'https://cloudflare-ipfs.com/ipfs/{cid},https://ipfs.io/ipfs/{cid},https://{cid}.ipfs.dweb.link'
 
 if (!publicUrl) {
-  publicUrl = (() => {
-    switch (appEnv) {
-      case 'development':
-        return 'https://gooddev.netlify.app'
-      case 'staging':
-        return 'https://goodqa.netlify.app'
-      case 'production':
-        return 'https://wallet.gooddollar.org'
-      default:
-        return
-    }
-  })()
+  publicUrl = publicUrlForEnv(appEnv)
+} else if (!isWeb && publicUrl.includes(':localhost')) {
+  // hotfix REACT_APP_PUBLIC_URL from .env for the local native app run
+  publicUrl = publicUrlForEnv('development')
 }
 
 const Config = {

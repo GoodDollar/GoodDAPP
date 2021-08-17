@@ -227,11 +227,12 @@ export class UserProfileStorage implements ProfileStorage {
     if (!update) {
       const index = {
         walletAddress: {
-          hash: this.wallet.wallet.utils.sha3(cleanHashedFieldForIndex('walletAddress', this.wallet.account)),
+          hash: cleanHashedFieldForIndex('walletAddress', this.wallet.account),
           proof: await this.wallet.sign(cleanHashedFieldForIndex('walletAddress', this.wallet.account)),
         },
       }
       logger.debug('setProfile new:', { fields, profile, fieldsToSave, index })
+
       return this._setProfileFields({ ...fieldsToSave, index, publicKey: this.privateKey.public.toString() })
     }
 
@@ -361,7 +362,7 @@ export class UserProfileStorage implements ProfileStorage {
 
   //TODO: in the future it should also validate the index.field.proof
   getProfilesByHashIndex(field: string, value: string): Promise<any> {
-    const hashed = this.wallet.wallet.utils.sha3(cleanHashedFieldForIndex('walletAddress', this.wallet.account))
+    const hashed = cleanHashedFieldForIndex(field, value)
     return this.profiledb.getProfilesBy({ [`index.${field}.hash`]: hashed })
   }
 

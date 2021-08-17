@@ -786,6 +786,7 @@ export class UserStorage {
    * @param {string} value email/mobile/walletAddress to fetch by
    */
   async getUserProfilePublickey(value: string) {
+    logger.debug('OUTBOX WALLET', await this.profileStorage.getProfileByWalletAddress(value))
     const { publicKey } = (await this.profileStorage.getProfileByWalletAddress(value)) || {}
     logger.info(`getUserProfilePublicKey`, { publicKey })
 

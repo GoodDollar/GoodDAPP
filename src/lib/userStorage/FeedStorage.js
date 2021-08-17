@@ -723,6 +723,8 @@ export class FeedStorage {
    * @param {*} event
    */
   async addToOutbox(event: FeedEvent) {
+    log.debug('ADD TO OUTBOX', event)
+    log.debug('OUTBOX RECIPIENT EVENT DATA', event.data.to)
     let recipientPubkey = await this.userStorage.getUserProfilePublickey(event.data.to).then(_ => _.slice(1)) //remove ~prefix
 
     if (recipientPubkey) {
@@ -758,6 +760,8 @@ export class FeedStorage {
    * @param {*} event
    */
   async getFromOutbox(event: FeedEvent) {
+    log.debug('GET FROM OUTBOX', event)
+    log.debug('OUTBOX PROFILESTORAGE', this.userStorage.profileStorage)
     let senderPubkey = await this.userStorage.getUserProfilePublickey(get(event, 'data.receiptEvent.from'))
     let recipientPubkey = this.gunuser.is.pub
 

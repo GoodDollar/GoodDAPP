@@ -1,7 +1,7 @@
 /* eslint require-await: "off" */
 import SEA from '@gooddollar/gun/sea'
 import userStorage from '../userStorage/UserStorage'
-import { gunPublicKeyTrust } from './utils'
+import { gunPublicKeyTrust, processGunNode } from './utils'
 
 const fromDate = new Date('2021/07/06')
 
@@ -12,31 +12,21 @@ const fromDate = new Date('2021/07/06')
 const upgradeRealmDB = async (lastUpdate, prevVersion, log) => {
   await userStorage.ready
   await userStorage.initGun()
-  let done = 0
+
+  const { gunuser } = userStorage
   const keys = await gunPublicKeyTrust()
 
-  const promise = new Promise((res, rej) => {
-    userStorage.gunuser
-      .get('feed')
-      .get('byid')
-      .on(async data => {
-        delete data._
-        await setFeedItems(data, keys, log).catch(e => rej(e))
-        done += 1
-        if (done === 2) {
-          res()
-        }
-      })
+  await Promise.all([
+    processGunNode(gunuser.get('feed').get('byid'), async data => {
+      delete data._
+      await setFeedItems(data, keys, log)
+    }),
 
-    userStorage.gunuser.get('properties').on(async data => {
-      await setProperties(data, keys, log).catch(e => rej(e))
-      done += 1
-      if (done === 2) {
-        res()
-      }
-    })
-  })
-  await promise
+    processGunNode(gunuser.get('properties'), async data => {
+      await setProperties(data, keys, log)
+    }),
+  ])
+
   log.info('done upgradeRealmdb')
 }
 

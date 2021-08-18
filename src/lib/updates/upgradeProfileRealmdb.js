@@ -1,7 +1,7 @@
 import SEA from '@gooddollar/gun/sea'
 
 import userStorage from '../userStorage/UserStorage'
-import { gunPublicKeyTrust } from './utils'
+import { gunPublicKeyTrust, processGunNode } from './utils'
 
 const fromDate = new Date('2021/08/15')
 
@@ -12,16 +12,14 @@ const fromDate = new Date('2021/08/15')
 const upgradeProfileRealmDB = async (lastUpdate, prevVersion, log) => {
   await userStorage.ready
   await userStorage.initGun()
+
   const keys = await gunPublicKeyTrust()
 
-  const promise = new Promise((res, rej) => {
-    userStorage.gunuser.get('profile').on(async data => {
-      delete data._
-      await setProfile(data, keys, log).catch(e => rej(e))
-      res()
-    })
+  await processGunNode(userStorage.gunuser.get('profile'), async data => {
+    delete data._
+    await setProfile(data, keys, log)
   })
-  await promise
+
   log.info('done upgradeProfileRealmdb')
 }
 

@@ -256,7 +256,7 @@
     "uuid": "^8.3.2",
     "validator": "^10.11.0",
     "vm-browserify": "^1.1.2",
-    "web3": "^2.0.0-alpha.1",
+    "web3": "^1.5.1",
     "web3-providers": "^2.0.0-alpha.1",
     "web3-utils": "^2.0.0-alpha.1",
     "webpack-manifest-plugin": "^2.2.0",

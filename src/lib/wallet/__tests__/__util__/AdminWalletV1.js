@@ -383,7 +383,7 @@ export class Wallet {
     this.nonce = parseInt(await this.web3.eth.getTransactionCount(this.address))
     log.debug('sending tx:', { gas, gasPrice, nonce: this.nonce })
     return new Promise((res, rej) => {
-      tx.send({ gas, gasPrice, chainId: this.networkId, nonce: this.nonce })
+      tx.send({ gas, gasPrice, chainId: this.networkId, nonce: this.nonce, from: this.address })
         .on('transactionHash', h => {
           this.nonce = this.nonce + 1
           log.debug('sendTransaction nonce increased:', this.nonce)

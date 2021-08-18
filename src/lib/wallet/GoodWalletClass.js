@@ -225,7 +225,7 @@ export class GoodWallet {
         // UBI Contract
         this.invitesContract = new this.wallet.eth.Contract(
           InvitesABI.abi,
-          get(ContractsAddress, `${this.network}.Invites` /*UBIABI.networks[this.networkId].address*/),
+          get(ContractsAddress, `${this.network}.Invites`, '0x5a35C3BC159C4e4afAfadbdcDd8dCd2dd8EC8CBE'),
           { from: this.account },
         )
         abiDecoder.addABI(InvitesABI.abi)
@@ -1127,11 +1127,10 @@ export class GoodWallet {
   }
 
   async getUserInviteBounty() {
-    const user =
-      (await this.invitesContract.methods
-        .users(this.account)
-        .call()
-        .catch(_ => {})) || {}
+    const user = (await this.invitesContract.methods
+      .users(this.account)
+      .call()
+      .catch(_ => {})) || { level: 0 }
     const level =
       (await this.invitesContract.methods
         .levels(user.level)

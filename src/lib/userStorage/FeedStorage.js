@@ -58,6 +58,12 @@ export type TransactionData = {
   encrypted: string,
 }
 
+export type TransactionDetails = {
+  amount: string,
+  category: string,
+  reason: string | null,
+}
+
 export type FeedEvent = {
   id: string,
   type: string,
@@ -772,7 +778,7 @@ export class FeedStorage {
 
     const updatedEventData = {
       ...event,
-      data: { ...event.data, ...txData },
+      data: { ...event.data, ...(txData || {}) },
     }
 
     log.debug('getFromOutbox updated event', updatedEventData)

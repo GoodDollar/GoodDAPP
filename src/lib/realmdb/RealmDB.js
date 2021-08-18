@@ -10,7 +10,7 @@ import { FeedItemSchema } from '../textile/feedSchema' // Some json-schema.org s
 import type { ProfileDB } from '../userStorage/UserProfileStorage'
 import type { DB } from '../userStorage/UserStorage'
 import AsyncStorage from '../utils/asyncStorage'
-import { TransactionData } from '../userStorage/FeedStorage'
+import { TransactionData, TransactionDetails } from '../userStorage/FeedStorage'
 
 const log = logger.child({ from: 'RealmDB' })
 class RealmDB implements DB, ProfileDB {
@@ -421,9 +421,9 @@ class RealmDB implements DB, ProfileDB {
   /**
    *
    * @param {string} txHash
-   * @returns {Promise<any>}
+   * @returns {Promise<TransactionDetails>}
    */
-  async getFromOutbox(txHash: string): Promise<any> {
+  async getFromOutbox(txHash: string): Promise<TransactionDetails> {
     const data = await this.inboxes.findOne({ txHash })
     const decrypted = await this._decrypt(data)
     return decrypted

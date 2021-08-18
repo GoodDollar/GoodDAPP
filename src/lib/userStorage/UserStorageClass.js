@@ -19,6 +19,7 @@ import isMobilePhone from '../validators/isMobilePhone'
 import { GD_GUN_CREDENTIALS } from '../constants/localStorage'
 import AsyncStorage from '../utils/asyncStorage'
 import defaultGun from '../gundb/gundb'
+import { GoodWallet } from '../wallet/GoodWallet'
 import { type StandardFeed } from './StandardFeed'
 import { type UserModel } from './UserModel'
 import UserProperties from './UserProperties'
@@ -50,15 +51,6 @@ export type ProfileField = {
  * User's profile
  */
 export type Profile = { [key: string]: ProfileField }
-
-/**
- * Survey details
- */
-export type SurveyDetails = {
-  amount: string,
-  reason: string,
-  survey: string,
-}
 
 /**
  * Blockchain transaction event data
@@ -208,14 +200,7 @@ export class UserStorage {
    */
   cursor: number = 0
 
-  /**
-   * A promise which is resolved once init() is done
-   */
-  ready: Promise<boolean>
-
   feedDB: DB
-
-  userProperties
 
   profileSettings: {} = {
     fullName: { defaultPrivacy: 'public' },
@@ -226,13 +211,6 @@ export class UserStorage {
     smallAvatar: { defaultPrivacy: 'public' },
     walletAddress: { defaultPrivacy: 'public' },
     username: { defaultPrivacy: 'public' },
-  }
-
-  /**
-   * Object with default value for profile fields
-   */
-  profileDefaults: {} = {
-    mobile: '',
   }
 
   /**
@@ -254,6 +232,9 @@ export class UserStorage {
 
   walletAddressIndex = {}
 
+  /**
+   * A promise which is resolved once init() is done
+   */
   ready: Promise<boolean> = null
 
   /**
@@ -750,8 +731,8 @@ export class UserStorage {
 
   /**
    *
-   * @param {string} field - Profile field value (email, mobile or wallet address value)
    * @returns { string } address
+   * @param value
    */
   async getUserAddress(value: string) {
     if (!value) {
@@ -885,14 +866,6 @@ export class UserStorage {
     return data
   }
 
-  _extractWithdrawStatus(withdrawCode, otplStatus = 'pending', status, type) {
-    if (type === 'withdraw') {
-      return ''
-    }
-
-    return status === 'error' ? status : withdrawCode ? otplStatus : ''
-  }
-
   //displayType is used by FeedItem and ModalItem to decide on colors/icons etc of tx feed card
   _extractDisplayType(event) {
     switch (event.type) {
@@ -915,7 +888,7 @@ export class UserStorage {
   /**
    * enqueue a new pending TX done on DAPP, to be later merged with the blockchain tx
    * the DAPP event can contain more details than the blockchain tx event
-   * @param {FeedEvent} event
+   * @param {FeedEvent} _event
    * @returns {Promise<>}
    */
   // eslint-disable-next-line require-await

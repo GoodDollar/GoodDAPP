@@ -86,7 +86,7 @@ class RealmDB implements DB, ProfileDB {
 
       // `App.currentUser` updates to match the logged in user
       log.debug('realm logged in', { user: this.user })
-      this._syncFromRemote()
+      await this._syncFromRemote()
       return this.user
     } catch (err) {
       log.error('Failed to log in', err)
@@ -110,10 +110,6 @@ class RealmDB implements DB, ProfileDB {
    */
   get profiles() {
     return this.database.collection('user_profiles')
-  }
-
-  get inboxes() {
-    return this.database.collection('inboxes')
   }
 
   /**
@@ -371,16 +367,6 @@ class RealmDB implements DB, ProfileDB {
   // eslint-disable-next-line require-await
   async getProfilesBy(query: Object): Promise<Array<Profile>> {
     return this.profiles.find(query)
-  }
-
-  /**
-   * Set profile fields
-   * @param fields
-   * @returns {Promise<Realm.Services.MongoDB.UpdateResult<any>>}
-   */
-  // eslint-disable-next-line require-await
-  async setProfileFields(fields: Profile): Promise<void> {
-    return this.setProfile(fields)
   }
 
   /**

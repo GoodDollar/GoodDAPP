@@ -8,6 +8,7 @@ import { isValidDataUrl } from '../utils/base64'
 import { AVATAR_SIZE, resizeImage, SMALL_AVATAR_SIZE } from '../utils/image'
 import isEmail from '../validators/isEmail'
 import isMobilePhone from '../validators/isMobilePhone'
+import { GoodWallet } from '../wallet/GoodWallet'
 import type { UserModel } from './UserModel'
 import { getUserModel } from './UserModel'
 import type { FieldPrivacy, Profile, ProfileField } from './UserStorageClass'
@@ -16,22 +17,20 @@ import { cleanHashedFieldForIndex, isValidValue, maskField } from './utlis'
 const logger = pino.child({ from: 'UserProfileStorage' })
 
 //TODO:
-// 1. fix return types notice profile vs usermodel, fix rest of dapp code that uses it
-// 2. make sure interfaces are matching
-// 3. getuserpublicprofile should use hash indexes and clean+hash input
-// 4. save user hashed values correctly in index field
-// 5. _resizeAndStoreAvatars should be called only if avatar changed
-// 6. wallet address should be automatically set if missing and not verified in profile
-// 7. avatar delete not working
+// 1. fix return types notice profile vs usermodel, fix rest of dapp code that uses it, ok
+// 2. make sure interfaces are matching, ok
+// 3. getuserpublicprofile should use hash indexes and clean+hash input, ok
+// 4. save user hashed values correctly in index field, ok
+// 5. _resizeAndStoreAvatars should be called only if avatar changed, ok
+// 6. wallet address should be automatically set if missing and not verified in profile, ok
 // 8. cache ipfsstorage in indexdb, use threaddb
 // 9. when storing avatar/small update cache
-// 9. avatar edit save failure -> cant close error popup + no blurred background
+// 9. avatar edit save failure -> cant close error popup + no blurred background, ok
 export interface ProfileDB {
   setProfile(profile: Profile): Promise<void>;
   getProfile(): Promise<Profile>;
   getPublicProfile(key: string, field: string): Promise<Profile>;
   getProfilesBy(query: Object): Promise<Array<Profile>>;
-  setProfileFields(fields: Profile): Promise<void>;
   deleteProfile(): Promise<boolean>;
 }
 
@@ -40,13 +39,13 @@ export interface ProfileDB {
 // so they have been removed
 export interface ProfileStorage {
   init(): Promise<void>;
-  setProfile(profile: Profile): Promise<void>;
+  setProfile(profile: UserModel): Promise<void>;
   getProfile(): { [key: string]: string };
   setProfileField(field: string, value: string, privacy: FieldPrivacy, onlyPrivacy: boolean): Promise<void>;
   setAvatar(avatar: string): Promise<void>;
   removeAvatar(): Promise<void>;
   getProfileByWalletAddress(walletAddress: string): Promise<Profile>;
-  getPublicProfile(key: string, value: string): { [field: string]: string };
+  getPublicProfile(key: string, value: string): { name: string, avatar: string };
   getProfileFieldValue(field: string): string;
   getProfileFieldDisplayValue(field: string): string;
   getProfileField(field: string): ProfileField;
@@ -196,7 +195,7 @@ export class UserProfileStorage implements ProfileStorage {
    * @param {*} profile
    * @param update
    */
-  async setProfile(profile: { [key: string]: string }, update: boolean = false): Promise<void> {
+  async setProfile(profile: UserModel, update: boolean = false): Promise<void> {
     if (!update) {
       //inject walletaddress field for new profile
       profile.walletAddress = this.wallet.account

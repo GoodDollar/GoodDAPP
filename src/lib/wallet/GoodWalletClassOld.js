@@ -532,7 +532,7 @@ export class GoodWallet {
   async getNextClaimTime(): Promise<any> {
     try {
       const hasClaim = await this.checkEntitlement()
-        .then(_ => parseInt(_))
+        .then(parseInt)
         .catch(e => 0)
 
       //if has current available amount to claim then he can claim  immediatly
@@ -541,7 +541,7 @@ export class GoodWallet {
       }
 
       const startRef = await this.UBIContract.methods.periodStart.call().then(_ => moment(parseInt(_) * 1000).utc())
-      const curDay = await this.UBIContract.methods.currentDay.call().then(_ => parseInt(_))
+      const curDay = await this.UBIContract.methods.currentDay.call().then(parseInt)
       if (startRef.isBefore(moment().utc())) {
         startRef.add(curDay + 1, 'days')
       }
@@ -607,7 +607,7 @@ export class GoodWallet {
       return this.UBIContract.methods
         .dailyCyclePool()
         .call()
-        .then(_ => parseInt(_))
+        .then(parseInt)
     } catch (exception) {
       const { message } = exception
       log.warn('getTodayDistribution failed', message, exception)
@@ -796,7 +796,7 @@ export class GoodWallet {
       return this.identityContract.methods
         .dateAdded(this.account)
         .call()
-        .then(_ => parseInt(_))
+        .then(parseInt)
         .then(_ => new Date(_ * 1000))
     } catch (exception) {
       const { message } = exception

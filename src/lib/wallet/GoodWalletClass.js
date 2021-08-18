@@ -603,7 +603,7 @@ export class GoodWallet {
       return this.UBIContract.methods
         .dailyCyclePool()
         .call()
-        .then(_ => parseInt(_))
+        .then(parseInt)
     } catch (exception) {
       const { message } = exception
       log.warn('getTodayDistribution failed', message, exception)
@@ -809,7 +809,7 @@ export class GoodWallet {
       return this.identityContract.methods
         .dateAdded(this.account)
         .call()
-        .then(_ => parseInt(_))
+        .then(parseInt)
         .then(_ => new Date(_ * 1000))
     } catch (exception) {
       const { message } = exception

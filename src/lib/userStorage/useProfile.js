@@ -1,23 +1,36 @@
 import { mapValues, pick } from 'lodash'
-import { useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 
 import userStorage from './UserStorage'
 
-const defaultFields = ['fullName', 'avatar']
+const defaultPublicFields = ['fullName', 'smallAvatar']
 
-const useProfile = (fields = defaultFields) =>
-  useMemo(() => {
-    const rawProfile = userStorage.getProfile()
+const getProfile = (fields, display) => {
+  const profile = display ? userStorage.getDisplayProfile() : userStorage.getPrivateProfile()
 
-    return pick(rawProfile, fields)
-  }, [fields])
+  return fields ? pick(profile, fields) : profile
+}
 
-export const useUserProfile = (walletAddress, fields = defaultFields) => {
+const useProfileHook = (fields, allowRefresh = false, display = false) => {
+  const [profile, setProfile] = useState(() => getProfile(fields, display))
+
+  const refreshProfile = useCallback(() => setProfile(getProfile(fields, display)), [fields, display, setProfile])
+
+  // auto refresh provide each time fields and private changes
+  useEffect(() => void refreshProfile(), [refreshProfile])
+
+  return useMemo(() => (allowRefresh ? [profile, refreshProfile] : profile), [profile, refreshProfile, allowRefresh])
+}
+
+const useProfile = (allowRefresh = false, fields = null) => useProfileHook(fields, allowRefresh)
+export const usePublicProfile = (allowRefresh = false, fields = null) => useProfileHook(fields, allowRefresh, true)
+
+export const usePublicProfileOf = (walletAddress, fields = defaultPublicFields) => {
   const [profile, setProfile] = useState(null)
 
   useEffect(() => {
     userStorage
-      .getProfileByWalletAddress(walletAddress)
+      .getPublicProfile('walletAddress', walletAddress)
       .then(rawProfile => setProfile(mapValues(pick(rawProfile, fields), 'display')))
   }, [walletAddress, fields, setProfile])
 

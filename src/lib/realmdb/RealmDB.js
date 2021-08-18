@@ -131,7 +131,7 @@ class RealmDB implements DB, ProfileDB {
     const filtered = newItems.filter(_ => !_._id.toString().includes('settings') && _.txHash)
     log.debug('_syncFromRemote', { newItems, filtered, lastSync })
     if (filtered.length) {
-      let decrypted = await Promise.all(filtered.map(i => this._decrypt(i)))
+      let decrypted = (await Promise.all(filtered.map(i => this._decrypt(i)))).filter(_ => _)
       log.debug('_syncFromRemote', { decrypted })
       await this.Feed.save(...decrypted)
     }
@@ -256,9 +256,11 @@ class RealmDB implements DB, ProfileDB {
     const _id = `${this.user.id}_settings`
     const encryptedSettings = await this.encryptedFeed.findOne({ _id })
     let settings = {}
-    if (encryptedSettings) {
-      const { encrypted } = encryptedSettings
+
+    const { encrypted } = encryptedSettings || {}
+    if (encrypted) {
       const decrypted = await this.privateKey.decrypt(Uint8Array.from(Buffer.from(encrypted, 'base64')))
+
       settings = JSON.parse(new TextDecoder().decode(decrypted))
       log.debug('decryptSettings:', { settings, _id })
     }
@@ -292,39 +294,17 @@ class RealmDB implements DB, ProfileDB {
   }
 
   /**
-   * helper for encrypting fields
-   * @param field
-   * @returns {Promise<*>}
-   */
-  async encryptField(field): Promise<string> {
-    try {
-      const msg = new TextEncoder().encode(JSON.stringify(field))
-      const encrypted = await this.privateKey.public.encrypt(msg).then(_ => Buffer.from(_).toString('base64'))
-      log.debug('encrypt result:', { field: encrypted })
-      return encrypted
-    } catch (e) {
-      log.error('error encryptField field:', e.message, e, { field })
-    }
-  }
-
-  /**
    * helper for decrypting items
    * @param {*} item
    * @returns
    */
   async _decrypt(item): Promise<string> {
-    const decrypted = await this.privateKey.decrypt(Uint8Array.from(Buffer.from(item.encrypted, 'base64')))
-    return JSON.parse(new TextDecoder().decode(decrypted))
-  }
-
-  /**
-   * helper for decrypting items
-   * @param {*} field
-   * @returns
-   */
-  async decryptField(field): Promise<string> {
-    const decrypted = await this.privateKey.decrypt(Uint8Array.from(Buffer.from(field, 'base64')))
-    return JSON.parse(new TextDecoder().decode(decrypted))
+    try {
+      const decrypted = await this.privateKey.decrypt(Uint8Array.from(Buffer.from(item.encrypted, 'base64')))
+      return JSON.parse(new TextDecoder().decode(decrypted))
+    } catch (e) {
+      log.warn('failed _decrypt', { item })
+    }
   }
 
   /**
@@ -335,27 +315,32 @@ class RealmDB implements DB, ProfileDB {
    */
   // eslint-disable-next-line require-await
   async getFeedPage(numResults, offset): Promise<any> {
-    const res = await this.Feed.table //use dexie directly because mongoify only sorts results and not all documents
-      .orderBy('date')
-      .reverse()
-      .offset(offset)
-      .filter(
-        i =>
-          ['deleted', 'cancelled', 'canceled'].includes(i.status) === false &&
-          ['deleted', 'cancelled', 'canceled'].includes(i.otplStatus) === false,
-      )
-      .limit(numResults)
-      .toArray()
+    try {
+      const res = await this.Feed.table //use dexie directly because mongoify only sorts results and not all documents
+        .orderBy('date')
+        .reverse()
+        .offset(offset)
+        .filter(
+          i =>
+            ['deleted', 'cancelled', 'canceled'].includes(i.status) === false &&
+            ['deleted', 'cancelled', 'canceled'].includes(i.otplStatus) === false,
+        )
+        .limit(numResults)
+        .toArray()
 
-    log.debug('getFeedPage result:', numResults, offset, res.length, res)
-    return res
+      log.debug('getFeedPage result:', numResults, offset, res.length, res)
+      return res
+    } catch (e) {
+      log.warn('getFeedPage failed:', e.message, e)
+      return []
+    }
   }
 
   // eslint-disable-next-line require-await
   async setProfile(profile: { [key: string]: ProfileField }): Promise<any> {
     return this.profiles.updateOne(
       { user_id: this.user.id },
-      { publicKey: this.privateKey.public.toString(), user_id: this.user.id, ...profile },
+      { $set: { user_id: this.user.id, ...profile } },
       { upsert: true },
     )
   }
@@ -392,7 +377,7 @@ class RealmDB implements DB, ProfileDB {
    */
   // eslint-disable-next-line require-await
   async setProfileFields(fields: Profile): Promise<void> {
-    return this.profiles.updateOne({ user_id: this.user.id }, { $set: fields })
+    return this.setProfile(fields)
   }
 
   /**

@@ -1,7 +1,7 @@
 // @flow
-import { assign, toPairs } from 'lodash'
+import { assign } from 'lodash'
+import * as TextileCrypto from '@textile/crypto'
 
-import { ExceptionCategory } from '../logger/exceptions'
 import IPFS from '../ipfs/IpfsStorage'
 import { AVATAR_SIZE, resizeImage, SMALL_AVATAR_SIZE } from '../utils/image'
 import { isValidDataUrl } from '../utils/base64'
@@ -11,18 +11,15 @@ import isMobilePhone from '../validators/isMobilePhone'
 import type { UserModel } from './UserModel'
 import { getUserModel } from './UserModel'
 import type { FieldPrivacy, Profile, ProfileField } from './UserStorageClass'
-import { isValidValue, maskField } from './utlis'
+import { cleanHashedFieldForIndex, isValidValue, maskField } from './utlis'
 
 const logger = pino.child({ from: 'UserProfileStorage' })
 
 export interface ProfileDB {
   setProfile(profile: Profile): Promise<void>;
   getProfile(): Promise<Profile>;
-  getProfileByField(key: string, field: string): Promise<Profile>;
   getPublicProfile(key: string, field: string): Promise<Profile>;
   setProfileFields(fields: Profile): Promise<void>;
-  encryptField(item: string): string;
-  decryptField(item: string): string;
   deleteProfile(): Promise<boolean>;
 }
 
@@ -33,7 +30,6 @@ export interface ProfileStorage {
   init(): Promise<void>;
   setProfile(profile: Profile): Promise<void>;
   getProfile(): { [key: string]: string };
-  setProfileFields(fields: Profile): Promise<void>;
   setProfileField(field: string, value: string, privacy: FieldPrivacy, onlyPrivacy: boolean): Promise<void>;
   setAvatar(avatar: string): Promise<void>;
   removeAvatar(): Promise<void>;
@@ -67,9 +63,7 @@ export class UserProfileStorage implements ProfileStorage {
   indexableFields = {
     email: true,
     mobile: true,
-    mnemonic: true,
     phone: true,
-    walletAddress: true,
     username: true,
   }
 
@@ -78,11 +72,12 @@ export class UserProfileStorage implements ProfileStorage {
   //unecrypted profile field values
   profile: Profile = {}
 
-  constructor(wallet: GoodWallet, profiledb: ProfileDB) {
+  constructor(wallet: GoodWallet, profiledb: ProfileDB, privateKey: TextileCrypto.PrivateKey) {
     // const seed = Uint8Array.from(Buffer.from(pkeySeed, 'hex'))
     // this.privateKey = TextileCrypto.PrivateKey.fromRawEd25519Seed(seed)
     this.wallet = wallet
     this.profiledb = profiledb
+    this.privateKey = privateKey
   }
 
   /**
@@ -93,6 +88,32 @@ export class UserProfileStorage implements ProfileStorage {
     const decryptedProfile = await this._decryptProfileFields(rawProfile)
 
     this._setLocalProfile(decryptedProfile)
+  }
+
+  /**
+   * helper for decrypting items
+   * @param {*} field
+   * @returns
+   */
+  async _decryptField(field): Promise<string> {
+    const decrypted = await this.privateKey.decrypt(Uint8Array.from(Buffer.from(field, 'base64')))
+    return JSON.parse(new TextDecoder().decode(decrypted))
+  }
+
+  /**
+   * helper for encrypting fields
+   * @param field
+   * @returns {Promise<*>}
+   */
+  async _encryptField(field): Promise<string> {
+    try {
+      const msg = new TextEncoder().encode(JSON.stringify(field))
+      const encrypted = await this.privateKey.public.encrypt(msg).then(_ => Buffer.from(_).toString('base64'))
+      logger.debug('encrypt result:', { field: encrypted })
+      return encrypted
+    } catch (e) {
+      logger.error('error encryptField field:', e.message, e, { field })
+    }
   }
 
   /**
@@ -123,7 +144,7 @@ export class UserProfileStorage implements ProfileStorage {
           typeof profile[item]?.value === 'string' &&
           (decryptedProfile[item] = {
             ...profile[item],
-            value: await this.profiledb.decryptField(profile[item]?.value).catch(e => {
+            value: await this._decryptField(profile[item]?.value).catch(e => {
               logger.warn('decryptProfileFields: failed decrypting profile field', e.message, e, { item })
               return ''
             }),
@@ -142,16 +163,18 @@ export class UserProfileStorage implements ProfileStorage {
     const encryptProfile = {}
 
     await Promise.all(
-      Object.keys(profile).map(
-        async field =>
-          (encryptProfile[field] =
-            profile[field] === null
-              ? null
-              : {
-                  ...profile[field],
-                  value: await this.profiledb.encryptField(profile[field]?.value),
-                }),
-      ),
+      Object.keys(profile).map(async field => {
+        //only encrypt fields with .value format ie(ProfileField)
+        if (profile[field]?.value) {
+          return (encryptProfile[field] = {
+            ...profile[field],
+            value: await this._encryptField(profile[field]?.value),
+          })
+        }
+
+        //non encrypted fields
+        encryptProfile[field] = profile[field]
+      }),
     )
 
     return encryptProfile
@@ -163,29 +186,12 @@ export class UserProfileStorage implements ProfileStorage {
    * @param update
    */
   async setProfile(profile: { [key: string]: string }, update: boolean = false): Promise<void> {
-    if (profile && !profile.validate) {
-      profile = getUserModel(profile)
+    if (!update) {
+      //inject walletaddress field for new profile
+      profile.walletAddress = this.wallet.account
     }
 
-    const fields = Object.keys(profile).filter(prop => prop in this.profileSettings)
-    let { errors, isValid } = profile.validate(update)
-
-    // enforce profile to have walletAddress
-    if (!update || !profile.walletAddress) {
-      isValid = false
-      errors.walletAddress = 'walletAddress is required in profile'
-    }
-
-    if (!isValid) {
-      const errorMessage = 'Fields validation failed'
-
-      logger.warn('setProfile failed', errorMessage, new Error(errorMessage), {
-        errors,
-        category: ExceptionCategory.Human,
-      })
-
-      throw errors
-    }
+    const fields = Object.keys(profile).filter(prop => this.profileSettings[prop])
 
     const { avatar } = profile
 
@@ -208,10 +214,18 @@ export class UserProfileStorage implements ProfileStorage {
     )
 
     if (!update) {
-      return this.setNewProfileFields(fieldsToSave)
+      const index = {
+        walletAddress: {
+          hash: cleanHashedFieldForIndex('walletAddress', this.wallet.account),
+          proof: await this.wallet.sign(cleanHashedFieldForIndex('walletAddress', this.wallet.account)),
+        },
+      }
+      logger.debug('setProfile new:', { fields, profile, fieldsToSave, index })
+
+      return this._setProfileFields({ ...fieldsToSave, index, publicKey: this.privateKey.public.toString() })
     }
 
-    return this.setProfileFields(fieldsToSave)
+    return this._setProfileFields(fieldsToSave)
   }
 
   /**
@@ -219,10 +233,7 @@ export class UserProfileStorage implements ProfileStorage {
    * @returns
    */
   getProfile(): { [key: string]: string } {
-    return Object.keys(this.profile).reduce(
-      (acc, currKey) => ({ ...acc, [currKey]: this.profile[currKey]?.value ?? null }),
-      {},
-    )
+    return this.profile
   }
 
   /**
@@ -230,20 +241,7 @@ export class UserProfileStorage implements ProfileStorage {
    * @param {*} fields
    * @returns
    */
-  async setProfileFields(fields: Profile): Promise<void> {
-    const encryptedFields = await this._encryptProfileFields(fields)
-
-    await this.profiledb.setProfileFields(encryptedFields)
-    this._setLocalProfile({ ...this.profile, ...fields })
-  }
-
-  /**
-   * create new profile with given fields in realm
-   * @param fields
-   * @returns {Promise<void>}
-   * @private
-   */
-  async setNewProfileFields(fields: Profile): Promise<void> {
+  async _setProfileFields(fields: Profile): Promise<void> {
     const encryptedFields = await this._encryptProfileFields(fields)
 
     await this.profiledb.setProfile(encryptedFields)
@@ -293,8 +291,9 @@ export class UserProfileStorage implements ProfileStorage {
     onlyPrivacy: boolean = false,
   ): Promise<void> {
     const display = this._setDisplayFieldBasedOnPrivacy(field, value, privacy)
+
     logger.debug('setProfileField', { field, value, privacy, onlyPrivacy, display })
-    return this.setProfileFields({ [field]: { value, display, privacy } })
+    return this._setProfileFields({ [field]: { value, display, privacy } })
   }
 
   /**
@@ -303,22 +302,16 @@ export class UserProfileStorage implements ProfileStorage {
    */
   async setAvatar(avatar): Promise<CID[]> {
     const cids = await this._resizeAndStoreAvatars(avatar)
-
-    await Promise.all(
-      // eslint-disable-next-line require-await
-      toPairs(cids).map(async ([field, value]) => this.setProfileField(field, value, 'public')),
-    )
+    return this.setProfile(cids, true)
   }
 
   /**
    * remove Avatar from profile
    * @returns {Promise<[Promise<void>, Promise<void>, Promise<void>, Promise<void>, Promise<void>, Promise<void>, Promise<void>, Promise<void>, Promise<void>, Promise<void>]>}
    */
+  // eslint-disable-next-line require-await
   async removeAvatar(): Promise<void> {
-    await Promise.all(
-      // eslint-disable-next-line require-await
-      ['avatar', 'smallAvatar'].map(async field => this.setProfileFields({ [field]: null })),
-    )
+    return this._setProfileFields({ avatar: null, smallAvatar: null })
   }
 
   /**
@@ -353,17 +346,13 @@ export class UserProfileStorage implements ProfileStorage {
    * @returns
    */
   getProfileByWalletAddress(walletAddress: string): Promise<any> {
-    return this.getProfileByField('walletAddress', walletAddress)
+    return this.getPublicProfile('walletAddress', walletAddress)
   }
 
-  getProfileByField(field: string, value: string): Promise<any> {
-    return this.profiledb.getProfileBy({ [`${field}.display`]: value })
-  }
-
-  //TODO: need to save hashed walletAddress to index and make it unique in realmdb
   //TODO: in the future it should also validate the index.field.proof
   getProfilesByHashIndex(field: string, value: string): Promise<any> {
-    return this.profiledb.getProfilesBy({ [`index.${field}.value`]: value })
+    const hashed = cleanHashedFieldForIndex(field, value)
+    return this.profiledb.getProfilesBy({ [`index.${field}.hash`]: hashed })
   }
 
   /**
@@ -371,19 +360,19 @@ export class UserProfileStorage implements ProfileStorage {
    * @param key
    * @param {*} value
    */
-  async getPublicProfile(key: string, value: string): Promise<{ [field: string]: string }> {
-    const rawProfile = await this.getProfileByField(key, value)
+  async getPublicProfile(field: string, value: string): Promise<{ [field: string]: string }> {
+    const profiles = await this.getProfilesByHashIndex(field, value)
 
-    if (!rawProfile) {
+    if (!profiles?.length) {
       return null
     }
-
+    const rawProfile = profiles[0]
     const publicProfile = Object.keys(rawProfile)
-      .filter(key => rawProfile[key].privacy !== 'private')
+      .filter(key => rawProfile[key] && rawProfile[key].privacy !== 'private')
       .reduce(
         (acc, currKey) => ({
           ...acc,
-          [currKey]: rawProfile[currKey].display,
+          [currKey]: rawProfile[currKey].display || rawProfile[currKey],
         }),
         {},
       )

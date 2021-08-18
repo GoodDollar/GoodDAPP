@@ -1,3 +1,5 @@
+// eslint-disable-next-line import/order
+import { initUserStorage } from '../../../../lib/userStorage/__tests__/__util__'
 import React from 'react'
 import { View } from 'react-native'
 
@@ -11,8 +13,14 @@ import Text from '../Text'
 
 const { Container } = GDStore
 
+jest.setTimeout(20000)
+
 describe('TopBar', () => {
   const WrappedTopBar = withThemeProvider(TopBar)
+
+  beforeAll(async () => {
+    await initUserStorage()
+  })
 
   it('renders without errors', () => {
     const tree = renderer.create(

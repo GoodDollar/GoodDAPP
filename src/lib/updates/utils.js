@@ -1,8 +1,9 @@
-import { isString } from 'lodash'
+import { debounce, isString } from 'lodash'
 
 import IPFS from '../ipfs/IpfsStorage'
 import { isValidCID } from '../ipfs/utils'
 import { isValidDataUrl } from '../utils/base64'
+import userStorage from '../userStorage/UserStorage'
 
 export const analyzeAvatar = async avatar => {
   if (!isString(avatar)) {
@@ -44,3 +45,50 @@ export const updateFeedEventAvatar = async avatar => {
 
   return avatar
 }
+
+// eslint-disable-next-line require-await
+export const gunPublicKeyTrust = async () => {
+  const { gunuser } = userStorage
+  const pubkey = gunuser.pair().pub
+
+  return gunuser
+    .get('trust')
+    .get(pubkey)
+    .then(null, 3000)
+}
+
+// https://github.com/GoodDollar/GoodDAPP/pull/3388#discussion_r690419144
+// eslint-disable-next-line require-await
+export const processGunNode = async (node, callback) =>
+  new Promise((resolve, reject) => {
+    let eventListener
+
+    // debounced fn to resolve promise only if there were
+    // no new data blocks during 3 sec from the last one
+    const onDataChunk = debounce(() => {
+      if (eventListener) {
+        eventListener.off()
+      }
+
+      resolve()
+    }, 3000)
+
+    node.on(async (data, _, __, listener) => {
+      if (!eventListener) {
+        eventListener = listener
+      }
+
+      try {
+        await callback(data)
+        onDataChunk()
+      } catch (exception) {
+        eventListener = null
+
+        // if got an exception - stop .on() subscription
+        listener.off()
+
+        // and reject a promise
+        reject(exception)
+      }
+    })
+  })

@@ -114,12 +114,12 @@ const Dashboard = props => {
   const loadingIndicator = store.get('loadingIndicator')
   const loadAnimShown = store.get('feedLoadAnimShown')
   const { balance, entitlement } = gdstore.get('account')
-  const { avatar, fullName } = useProfile()
+  const { smallAvatar: avatar, fullName } = useProfile()
   const [feeds, setFeeds] = useState([])
   const [headerLarge, setHeaderLarge] = useState(true)
   const { appState } = useAppState()
   const [animateMarket, setAnimateMarket] = useState(false)
-  const { setBlur } = useContext(GlobalTogglesContext)
+  const { setDialogBlur } = useContext(GlobalTogglesContext)
 
   const headerAnimateStyles = {
     position: 'relative',
@@ -221,8 +221,9 @@ const Dashboard = props => {
         log.debug('feed cache updated', { event })
         getFeedPage(true)
       },
-      500,
-      { leading: true },
+      300,
+      { leading: false },
+      { leading: false }, //this delay seems to solve error from dexie about indexeddb transaction
     ),
     [getFeedPage],
   )
@@ -330,8 +331,8 @@ const Dashboard = props => {
           return getFeedPage()
         }
       },
-      500,
-      { leading: true },
+      300,
+      { leading: false }, //this delay seems to solve error from dexie about indexeddb transaction
     ),
     [getFeedPage],
   )
@@ -530,9 +531,9 @@ const Dashboard = props => {
   const handleFeedSelection = useCallback(
     (receipt, horizontal) => {
       showEventModal(horizontal ? receipt : null)
-      setBlur(horizontal)
+      setDialogBlur(horizontal)
     },
-    [showEventModal],
+    [showEventModal, setDialogBlur],
   )
 
   const showNewFeedEvent = useCallback(

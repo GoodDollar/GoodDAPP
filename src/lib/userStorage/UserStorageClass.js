@@ -5,9 +5,7 @@ import { get, memoize } from 'lodash'
 import moment from 'moment'
 import Gun from '@gooddollar/gun'
 import { gunAuth as gunPKAuth } from '@gooddollar/gun-pk-auth'
-import * as TextileCrypto from '@textile/crypto'
 
-import { sha3 } from 'web3-utils'
 import isEmail from '../../lib/validators/isEmail'
 
 import { retry } from '../utils/async'
@@ -16,7 +14,6 @@ import FaceVerificationAPI from '../../components/dashboard/FaceVerification/api
 import Config from '../../config/config'
 import API from '../API/api'
 import pino from '../logger/pino-logger'
-import { ExceptionCategory } from '../logger/exceptions'
 import isMobilePhone from '../validators/isMobilePhone'
 
 import { GD_GUN_CREDENTIALS } from '../constants/localStorage'
@@ -260,23 +257,6 @@ export class UserStorage {
   ready: Promise<boolean> = null
 
   /**
-   * Clean string removing blank spaces and special characters, and converts to lower case
-   *
-   * @param {string} field - Field name
-   * @param {string} value - Field value
-   * @returns {string} - Value without '+' (plus), '-' (minus), '_' (underscore), ' ' (space), in lower case
-   */
-  static cleanHashedFieldForIndex = (field: string, value: string): string => {
-    if (value === undefined) {
-      return value
-    }
-    if (field === 'mobile' || field === 'phone') {
-      return sha3(value.replace(/[_-\s]+/g, ''))
-    }
-    return sha3(`${value}`.toLowerCase())
-  }
-
-  /**
    * Returns phone with last 4 numbers, and before that ***,
    * and hide email user characters leaving visible only first and last character
    * @param {string} fieldType - (Email, mobile or phone) Field name
@@ -384,12 +364,8 @@ export class UserStorage {
         // firstly, awaiting for wallet is ready
         await wallet.ready
 
-        const pkeySeed = this.wallet.wallet.eth.accounts.wallet[
-          this.wallet.getAccountForType('gundb')
-        ].privateKey.slice(2)
-        const seed = Uint8Array.from(Buffer.from(pkeySeed, 'hex'))
-        this.profilePrivateKey = TextileCrypto.PrivateKey.fromRawEd25519Seed(seed)
-        this.profileStorage = new UserProfileStorage(this.wallet, this.feedDB)
+        this.profilePrivateKey = wallet.getEd25519Key('gundb')
+        this.profileStorage = new UserProfileStorage(this.wallet, this.feedDB, this.profilePrivateKey)
 
         logger.debug('userStorage initialized.')
         return true
@@ -625,29 +601,6 @@ export class UserStorage {
     return this.profileStorage.setProfile(profile, update)
   }
 
-  /**
-   *
-   * @param {string} field
-   * @param {string} value
-   * @param trusted
-   * @returns {boolean}
-   */
-  static isValidValue(field: string, value: string, trusted: boolean = false) {
-    const cleanValue = UserStorage.cleanHashedFieldForIndex(field, value)
-
-    if (!cleanValue) {
-      logger.warn(
-        `isValidValue - field ${field} value is empty (value: ${value})`,
-        cleanValue,
-        new Error('isValidValue failed'),
-        { category: ExceptionCategory.Human },
-      )
-      return false
-    }
-
-    return true
-  }
-
   // eslint-disable-next-line require-await
   async validateProfile(profile: any) {
     return this.profileStorage.validateProfile(profile)
@@ -776,9 +729,8 @@ export class UserStorage {
    * @param {string} username
    */
   async isUsername(username: string) {
-    const cleanValue = UserStorage.cleanHashedFieldForIndex('username', username)
-    const profile = await this.profileStorage.getProfilesByHashIndex('username', cleanValue)
-    return profile?.length > 0
+    const profiles = await this.profileStorage.getProfilesByHashIndex('username', username)
+    return profiles?.length > 0
   }
 
   /**
@@ -807,9 +759,8 @@ export class UserStorage {
     }
 
     const attr = isMobilePhone(value) ? 'mobile' : isEmail(value) ? 'email' : 'walletAddress'
-    const hashValue = UserStorage.cleanHashedFieldForIndex(attr, value)
 
-    const profile = await this.profileStorage.getProfilesByHashIndex(attr, hashValue)
+    const profile = await this.profileStorage.getProfilesByHashIndex(attr, value)
     if (profile.length === 0) {
       return
     }
@@ -1055,11 +1006,6 @@ export class UserStorage {
 
   getProfile(): Profile {
     return this.profileStorage.getProfile()
-  }
-
-  // eslint-disable-next-line require-await
-  async getProfileByWalletAddress(walletAddress: string): Promise<Profile> {
-    return this.profileStorage.getProfileByWalletAddress(walletAddress)
   }
 
   // eslint-disable-next-line require-await

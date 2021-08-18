@@ -150,7 +150,8 @@ const AppSwitch = (props: LoadingProps) => {
       //after dynamic routes update, if user arrived here, then he is already loggedin
       //initialize the citizen status and wallet status
       //create jwt token and initialize the API service
-      const [{ isLoggedInCitizen, isLoggedIn }] = await Promise.all([getLoginState(), updateWalletStatus(gdstore)])
+      updateWalletStatus(gdstore)
+      const { isLoggedInCitizen, isLoggedIn } = await getLoginState()
       log.debug('initialize ready', { isLoggedIn, isLoggedInCitizen })
       const initReg = userStorage.initRegistered()
       gdstore.set('isLoggedIn')(isLoggedIn)
@@ -160,10 +161,9 @@ const AppSwitch = (props: LoadingProps) => {
 
       const identifier = goodWallet.getAccountForType('login')
       identifyWith(undefined, identifier)
+      showOutOfGasError(props)
       await initReg
       initialize()
-      showOutOfGasError(props)
-
       runUpdates() //this needs to wait after initreg where we initialize the database
 
       setReady(true)

@@ -221,8 +221,9 @@ const Dashboard = props => {
         log.debug('feed cache updated', { event })
         getFeedPage(true)
       },
-      500,
-      { leading: true },
+      300,
+      { leading: false },
+      { leading: false }, //this delay seems to solve error from dexie about indexeddb transaction
     ),
     [getFeedPage],
   )
@@ -330,8 +331,8 @@ const Dashboard = props => {
           return getFeedPage()
         }
       },
-      500,
-      { leading: true },
+      300,
+      { leading: false }, //this delay seems to solve error from dexie about indexeddb transaction
     ),
     [getFeedPage],
   )

@@ -121,7 +121,7 @@ export class Wallet {
     this.network = conf.network
     this.networkId = conf.ethNetwork.network_id
     const adminWalletAddress = get(ContractsAddress, `${this.network}.AdminWallet`)
-    this.proxyContract = new this.web3.eth.Contract(ProxyContractABI.abi, adminWalletAddress)
+    this.proxyContract = new this.web3.eth.Contract(ProxyContractABI.abi, adminWalletAddress, { from: this.address })
 
     const adminWalletContractBalance = await this.web3.eth.getBalance(adminWalletAddress)
     log.info(`AdminWallet contract balance`, { adminWalletContractBalance, adminWalletAddress })

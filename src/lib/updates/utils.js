@@ -1,4 +1,4 @@
-import { isString } from 'lodash'
+import { debounce, isString } from 'lodash'
 
 import IPFS from '../ipfs/IpfsStorage'
 import { isValidCID } from '../ipfs/utils'
@@ -56,3 +56,39 @@ export const gunPublicKeyTrust = async () => {
     .get(pubkey)
     .then(null, 3000)
 }
+
+// https://github.com/GoodDollar/GoodDAPP/pull/3388#discussion_r690419144
+// eslint-disable-next-line require-await
+export const processGunNode = async (node, callback) =>
+  new Promise((resolve, reject) => {
+    let eventListener
+
+    // debounced fn to resolve promise only if there were
+    // no new data blocks during 3 sec from the last one
+    const onDataChunk = debounce(() => {
+      if (eventListener) {
+        eventListener.off()
+      }
+
+      resolve()
+    }, 3000)
+
+    node.on(async (data, _, __, listener) => {
+      if (!eventListener) {
+        eventListener = listener
+      }
+
+      try {
+        await callback(data)
+        onDataChunk()
+      } catch (exception) {
+        eventListener = null
+
+        // if got an exception - stop .on() subscription
+        listener.off()
+
+        // and reject a promise
+        reject(exception)
+      }
+    })
+  })

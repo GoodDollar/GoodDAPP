@@ -320,20 +320,25 @@ class RealmDB implements DB, ProfileDB {
    */
   // eslint-disable-next-line require-await
   async getFeedPage(numResults, offset): Promise<any> {
-    const res = await this.Feed.table //use dexie directly because mongoify only sorts results and not all documents
-      .orderBy('date')
-      .reverse()
-      .offset(offset)
-      .filter(
-        i =>
-          ['deleted', 'cancelled', 'canceled'].includes(i.status) === false &&
-          ['deleted', 'cancelled', 'canceled'].includes(i.otplStatus) === false,
-      )
-      .limit(numResults)
-      .toArray()
+    try {
+      const res = await this.Feed.table //use dexie directly because mongoify only sorts results and not all documents
+        .orderBy('date')
+        .reverse()
+        .offset(offset)
+        .filter(
+          i =>
+            ['deleted', 'cancelled', 'canceled'].includes(i.status) === false &&
+            ['deleted', 'cancelled', 'canceled'].includes(i.otplStatus) === false,
+        )
+        .limit(numResults)
+        .toArray()
 
-    log.debug('getFeedPage result:', numResults, offset, res.length, res)
-    return res
+      log.debug('getFeedPage result:', numResults, offset, res.length, res)
+      return res
+    } catch (e) {
+      log.warn('getFeedPage failed:', e.message, e)
+      return []
+    }
   }
 
   // eslint-disable-next-line require-await

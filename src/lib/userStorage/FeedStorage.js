@@ -753,19 +753,9 @@ export class FeedStorage {
         encrypted,
       }
 
-      await this.storage.addToOutbox(dataToSave)
+      log.debug('addToOutbox data', dataToSave)
 
-      log.debug('addToOutbox:', { recipientPubkey, data })
-      await this.gunuser
-        .get('outbox')
-        .get(recipientPubkey)
-        .get(event.id)
-        .secretAck(data)
-      this.gunuser
-        .get('outbox')
-        .get(recipientPubkey)
-        .get(event.id)
-        .trust(recipientPubkey)
+      await this.storage.addToOutbox(dataToSave)
     } else {
       log.warn('addToOutbox recipient not found:', event.id)
     }
@@ -777,39 +767,18 @@ export class FeedStorage {
    * @param {*} event
    */
   async getFromOutbox(event: FeedEvent) {
-    log.debug('GET FROM OUTBOX', event)
-    log.debug('OUTBOX PROFILESTORAGE', this.userStorage.profileStorage)
-    let senderPubkey = await this.userStorage.getUserProfilePublickey(get(event, 'data.receiptEvent.from'))
-    let recipientPubkey = this.gunuser.is.pub
+    const txData = await this.storage.getFromOutbox(event.id)
+    log.debug('getFromOutbox saved data', txData)
 
-    if (!senderPubkey) {
-      log.warn('getFromOutbox sender not found:', event.id, { event })
-      return
-    }
-
-    log.debug('getFromOutbox sender found:', event.id, { event, senderPubkey, recipientPubkey })
-
-    const { data } = event
-    const decryptedData = await this.gun
-      .get(senderPubkey)
-      .get('outbox')
-      .get(recipientPubkey)
-      .get(event.id)
-      .onDecrypt()
-
-    const updatedEvent = {
+    const updatedEventData = {
       ...event,
-      data: {
-        ...data,
-        ...(decryptedData || {}),
-      },
+      data: { ...event.data, ...txData },
     }
 
-    log.debug('getFromOutbox decrypted data:', event.id, { data })
-    this.updateFeedEvent(updatedEvent)
+    log.debug('getFromOutbox updated event', updatedEventData)
+    this.updateFeedEvent(updatedEventData)
 
-    log.debug('getFromOutbox updated event:', event.id, { updatedEvent })
-    return decryptedData
+    return txData
   }
 
   emitUpdate = debounce(

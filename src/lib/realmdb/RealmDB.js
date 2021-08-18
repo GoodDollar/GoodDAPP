@@ -415,11 +415,18 @@ class RealmDB implements DB, ProfileDB {
    */
   // eslint-disable-next-line require-await
   async addToOutbox(data: TransactionData): Promise<any> {
-    return this.inboxes.updateOne(
-      { txhash: data.txHash, user_id: this.user.id },
-      { ...data, user_id: this.user.id },
-      { upsert: true },
-    )
+    return this.inboxes.insertOne({ user_id: this.user.id, ...data })
+  }
+
+  /**
+   *
+   * @param {string} txHash
+   * @returns {Promise<any>}
+   */
+  async getFromOutbox(txHash: string): Promise<any> {
+    const data = await this.inboxes.findOne({ txHash })
+    const decrypted = await this._decrypt(data)
+    return decrypted
   }
 }
 

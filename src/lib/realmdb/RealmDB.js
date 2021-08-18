@@ -10,7 +10,7 @@ import { FeedItemSchema } from '../textile/feedSchema' // Some json-schema.org s
 import type { ProfileDB } from '../userStorage/UserProfileStorage'
 import type { DB } from '../userStorage/UserStorage'
 import AsyncStorage from '../utils/asyncStorage'
-import { TransactionData, TransactionDetails } from '../userStorage/FeedStorage'
+import type { TransactionData, TransactionDetails } from '../userStorage/FeedStorage'
 
 const log = logger.child({ from: 'RealmDB' })
 class RealmDB implements DB, ProfileDB {

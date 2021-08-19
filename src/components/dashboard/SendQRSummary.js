@@ -38,6 +38,7 @@ const SendQRSummary = ({ screenProps }: AmountProps, params) => {
   const [profile, setProfile] = useState({})
   const updateRecepientProfile = async () => {
     const profile = await userStorage.getPublicProfile(to)
+    
     setProfile(profile)
   }
 

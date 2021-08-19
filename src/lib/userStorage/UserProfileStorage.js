@@ -10,7 +10,7 @@ import isMobilePhone from '../validators/isMobilePhone'
 import type { UserModel } from './UserModel'
 import { getUserModel } from './UserModel'
 import type { FieldPrivacy, Profile, ProfileField } from './UserStorageClass'
-import { cleanHashedFieldForIndex, isValidValue, maskField } from './utlis'
+import { cleanHashedFieldForIndex, maskField } from './utlis'
 
 const logger = pino.child({ from: 'UserProfileStorage' })
 
@@ -37,7 +37,6 @@ export interface ProfileStorage {
   getDisplayProfile(): UserModel;
   getPrivateProfile(): UserModel;
   getFieldPrivacy(field: string): string;
-  validateProfile(profile: any): Promise<{ isValid: boolean, errors: {} }>;
   setProfileFieldPrivacy(field: string, privacy: FieldPrivacy): Promise<void>;
   deleteProfile(): Promise<boolean>;
 }
@@ -452,38 +451,6 @@ export class UserProfileStorage implements ProfileStorage {
     const currentPrivacy = this.profile[field]?.privacy
 
     return currentPrivacy || this.profileSettings[field].defaultPrivacy || 'public'
-  }
-
-  /**
-   * Checks if profile is valid profile
-   * @param profile
-   * @returns {Promise<{isValid: boolean, errors: {}}|{isValid, errors}>}
-   */
-  async validateProfile(profile: Profile): Promise<{ isValid: boolean, errors: {} }> {
-    if (!profile) {
-      return { isValid: false, errors: {} }
-    }
-
-    const fields = Object.keys(profile).filter(prop => this.indexableFields[prop])
-
-    const validatedFields = await Promise.all(
-      fields.map(async field => ({
-        field,
-        valid: await isValidValue(field, profile[field]),
-      })),
-    )
-
-    const errors = validatedFields.reduce((accErrors, curr) => {
-      if (!curr.valid) {
-        accErrors[curr.field] = `Unavailable ${curr.field}`
-      }
-      return accErrors
-    }, {})
-
-    const isValid = validatedFields.every(elem => elem.valid)
-
-    logger.debug({ fields, validatedFields, errors, isValid, profile })
-    return { isValid, errors }
   }
 
   /**

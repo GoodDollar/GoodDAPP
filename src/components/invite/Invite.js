@@ -282,8 +282,8 @@ const Invite = () => {
   const [showHowTo, setShowHowTo] = useState(!wasOpened)
   const [invitees, refresh, level, inviteState] = useInvited()
 
-  const totalEarned = get(inviteState, 'totalEarned', 0)
-  const bounty = result(level, 'bounty.toNumber') / 100
+  const totalEarned = parseInt(get(inviteState, 'totalEarned', 0))
+  const bounty = parseInt(get(level, 'bounty', 0)) / 100
 
   const toggleHowTo = () => {
     !showHowTo && fireEvent(INVITE_HOWTO)

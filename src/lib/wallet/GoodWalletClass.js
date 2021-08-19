@@ -17,7 +17,7 @@ import FaucetABI from '@gooddollar/goodcontracts/upgradables/build/contracts/Fus
 import Web3 from 'web3'
 import { BN, toBN } from 'web3-utils'
 import abiDecoder from 'abi-decoder'
-import { chunk, flatten, get, invokeMap, last, maxBy, range, result, sortBy, uniqBy, values } from 'lodash'
+import { chunk, flatten, get, invokeMap, last, maxBy, range, sortBy, uniqBy, values } from 'lodash'
 import moment from 'moment'
 import bs58 from 'bs58'
 import * as TextileCrypto from '@textile/crypto'
@@ -225,7 +225,7 @@ export class GoodWallet {
         // UBI Contract
         this.invitesContract = new this.wallet.eth.Contract(
           InvitesABI.abi,
-          get(ContractsAddress, `${this.network}.Invites` /*UBIABI.networks[this.networkId].address*/),
+          get(ContractsAddress, `${this.network}.Invites`, '0x5a35C3BC159C4e4afAfadbdcDd8dCd2dd8EC8CBE'),
           { from: this.account },
         )
         abiDecoder.addABI(InvitesABI.abi)
@@ -503,7 +503,7 @@ export class GoodWallet {
     const canDelete = await this.identityContract.methods
       .lastAuthenticated(this.account)
       .call()
-      .then(_ => _.toNumber() > 0)
+      .then(_ => parseInt(_) > 0)
       .catch(_ => true)
 
     if (canDelete === false) {
@@ -528,7 +528,7 @@ export class GoodWallet {
   async getNextClaimTime(): Promise<any> {
     try {
       const hasClaim = await this.checkEntitlement()
-        .then(_ => _.toNumber())
+        .then(_ => parseInt(_))
         .catch(e => 0)
 
       //if has current available amount to claim then he can claim  immediatly
@@ -536,8 +536,8 @@ export class GoodWallet {
         return [0, hasClaim]
       }
 
-      const startRef = await this.UBIContract.methods.periodStart.call().then(_ => moment(_.toNumber() * 1000).utc())
-      const curDay = await this.UBIContract.methods.currentDay.call().then(_ => _.toNumber())
+      const startRef = await this.UBIContract.methods.periodStart.call().then(_ => moment(parseInt(_) * 1000).utc())
+      const curDay = await this.UBIContract.methods.currentDay.call().then(_ => parseInt(_))
       if (startRef.isBefore(moment().utc())) {
         startRef.add(curDay + 1, 'days')
       }
@@ -553,7 +553,7 @@ export class GoodWallet {
       const ubiStart = await this.UBIContract.methods
         .periodStart()
         .call()
-        .then(_ => _.toNumber() * 1000)
+        .then(_ => parseInt(_) * 1000)
       const today = moment()
         .utc()
         .diff(ubiStart, 'days')
@@ -588,7 +588,7 @@ export class GoodWallet {
   async getActiveClaimers(): Promise<number> {
     try {
       const activeUsersCount = await this.UBIContract.methods.activeUsersCount().call()
-      return activeUsersCount.toNumber()
+      return parseInt(activeUsersCount)
     } catch (exception) {
       const { message } = exception
 
@@ -603,7 +603,7 @@ export class GoodWallet {
       return this.UBIContract.methods
         .dailyCyclePool()
         .call()
-        .then(_ => _.toNumber())
+        .then(parseInt)
     } catch (exception) {
       const { message } = exception
       log.warn('getTodayDistribution failed', message, exception)
@@ -618,7 +618,7 @@ export class GoodWallet {
         const stakingContract = new this.web3Mainnet.eth.Contract(SimpleStakingABI.abi, addr, { from: this.account })
 
         const currentGains = await stakingContract.methods.currentGains(true, true).call()
-        return [currentGains[3].toNumber() / 1e8, currentGains[4].toNumber() / 1e8]
+        return [parseInt(currentGains[3]) / 1e8, parseInt(currentGains[4]) / 1e8]
       })
       const res = await Promise.all(ps)
       const totalFundsStaked = res.reduce((prev, cur) => prev + cur[0], 0)
@@ -642,7 +642,10 @@ export class GoodWallet {
         get(ContractsAddress, `${this.network}-mainnet.cDAI`),
       )
       const [collectInterestTimeThreshold, toBlock, cdaiExchangeRate] = await Promise.all([
-        fundManager.methods.collectInterestTimeThreshold().call(),
+        fundManager.methods
+          .collectInterestTimeThreshold()
+          .call()
+          .then(parseInt),
         this.web3Mainnet.eth.getBlockNumber(),
         cdai.methods
           .exchangeRateStored()
@@ -650,7 +653,7 @@ export class GoodWallet {
           .then(_ => this.web3Mainnet.utils.fromWei(_.toString()) / 1e10), //convert to decimals exchange rate is in 28 decimals
       ])
 
-      const fromBlock = parseInt(toBlock) - ~~((collectInterestTimeThreshold.toNumber() * 2) / 15) //look for events since twice the collectInterestTimeThreshold time blocks ago. ~~ removes decimals.
+      const fromBlock = parseInt(toBlock) - ~~((collectInterestTimeThreshold * 2) / 15) //look for events since twice the collectInterestTimeThreshold time blocks ago. ~~ removes decimals.
       const InterestCollectedEventsFilter = {
         fromBlock,
         toBlock,
@@ -662,7 +665,8 @@ export class GoodWallet {
         })
         return []
       })
-      let interesInCDAI = result(last(events), 'returnValues.cDAIinterestEarned', ZERO).toNumber() / 1e8 //convert to decimals. cdai is 8 decimals
+      log.debug('getInterestCollected:', { events })
+      let interesInCDAI = parseInt(get(last(events), 'returnValues.cDAIinterestEarned', '0')) / 1e8 //convert to decimals. cdai is 8 decimals
       let interest = interesInCDAI * cdaiExchangeRate
       return interest
     } catch (exception) {
@@ -805,7 +809,7 @@ export class GoodWallet {
       return this.identityContract.methods
         .dateAdded(this.account)
         .call()
-        .then(_ => _.toNumber())
+        .then(parseInt)
         .then(_ => new Date(_ * 1000))
     } catch (exception) {
       const { message } = exception
@@ -892,7 +896,7 @@ export class GoodWallet {
       throw new Error(`Amount is bigger than balance`)
     }
 
-    const otpAddress = this.oneTimePaymentsContract.address
+    const otpAddress = this.oneTimePaymentsContract._address
     const transferAndCall = this.tokenContract.methods.transferAndCall(otpAddress, amount, hashedCode)
 
     // Fixed gas amount so it can work locally with ganache
@@ -1089,7 +1093,7 @@ export class GoodWallet {
 
   async hasJoinedInvites() {
     const user = await this.invitesContract.methods.users(this.account).call()
-    return [user.joinedAt.toNumber() > 0, user.invitedBy]
+    return [parseInt(user.joinedAt) > 0, user.invitedBy]
   }
 
   async joinInvites(inviter, codeLength = 10) {
@@ -1123,17 +1127,16 @@ export class GoodWallet {
   }
 
   async getUserInviteBounty() {
-    const user =
-      (await this.invitesContract.methods
-        .users(this.account)
-        .call()
-        .catch(_ => {})) || {}
+    const user = (await this.invitesContract.methods
+      .users(this.account)
+      .call()
+      .catch(_ => {})) || { level: 0 }
     const level =
       (await this.invitesContract.methods
         .levels(user.level)
         .call()
         .catch(_ => {})) || {}
-    return result(level, 'bounty.toNumber', 10000) / 100
+    return parseInt(get(level, 'bounty', 10000)) / 100
   }
 
   handleError(e: Error) {

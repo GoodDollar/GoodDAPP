@@ -1,4 +1,5 @@
 import 'fake-indexeddb/auto'
+import * as TextileCrypto from '@textile/crypto'
 import fromEntries from 'object.fromentries'
 import userStorage from '../UserStorage'
 import defaultGun from '../../gundb/gundb'
@@ -16,7 +17,7 @@ const feedEvent = {
   type: 'senddirect',
   data: {
     to: '0x77ceeadfb6b852de370f94e395dd61ca7ad5b30f',
-    reason: null,
+    reason: 'random reason',
     category: 'Product',
     amount: '5500',
   },
@@ -26,32 +27,49 @@ const feedEvent = {
 
 describe('FeedStorage', () => {
   let feedStorage
+  let privateKey
 
   beforeAll(async () => {
     await initUserStorage()
     const { wallet, feedDB } = userStorage
     feedStorage = new FeedStorage(feedDB, defaultGun, wallet, userStorage)
     await feedStorage.init()
+    const seed = Uint8Array.from(Buffer.from('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'))
+    privateKey = TextileCrypto.PrivateKey.fromRawEd25519Seed(seed)
+  })
+
+  beforeEach(() => {
+    jest.restoreAllMocks()
   })
 
   it('should add new event to outbox', async () => {
+    const publicKey = privateKey.public.toString()
+    jest.spyOn(feedStorage.userStorage, 'getUserProfilePublickey').mockImplementation(() => publicKey)
     await feedStorage.addToOutbox(feedEvent)
     const savedItem = await feedStorage.storage.inboxes.findOne({ txHash: feedEvent.id })
     const userId = feedStorage.storage.user.id
     const recipientPubkey = await feedStorage.userStorage.getUserProfilePublickey(feedEvent.data.to)
+
     expect(savedItem).toHaveProperty('user_id', userId)
     expect(savedItem).toHaveProperty('txHash', feedEvent.id)
     expect(savedItem).toHaveProperty('recipientPublicKey', recipientPubkey)
+    expect(savedItem.encrypted).toBeDefined()
   })
 
-  // it('should get event from outbox and decrypt', async () => {
-  //   const decrypted = await feedStorage.getFromOutbox(feedEvent)
-  //   console.log('DECRYPTED', decrypted)
-  // })
+  it('should get event from outbox and decrypt', async () => {
+    feedStorage.storage.privateKey = privateKey
+    const { reason, category, amount } = feedEvent.data
+    const decrypted = await feedStorage.getFromOutbox(feedEvent)
+
+    expect(decrypted).toHaveProperty('reason', reason)
+    expect(decrypted).toHaveProperty('category', category)
+    expect(decrypted).toHaveProperty('amount', amount)
+  })
 
   it('should delete record', async () => {
     await feedStorage.storage.inboxes.findOneAndDelete({ txHash: feedEvent.id })
     const savedItem = await feedStorage.storage.inboxes.findOne({ txHash: feedEvent.id })
+
     expect(savedItem).toBeNull()
   })
 })

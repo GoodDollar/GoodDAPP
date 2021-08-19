@@ -360,6 +360,7 @@ export class UserProfileStorage implements ProfileStorage {
    */
   async getPublicProfile(field: string, value?: string): Promise<{ [field: string]: string }> {
     let attr, profiles
+
     if (!value) {
       attr = isMobilePhone(field) ? 'mobile' : isEmail(field) ? 'email' : 'walletAddress'
       profiles = await this.getProfilesByHashIndex(attr, field)

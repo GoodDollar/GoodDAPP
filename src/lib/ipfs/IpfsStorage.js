@@ -1,5 +1,5 @@
 import FileAPI from 'promisify-file-reader'
-import { get, memoize } from 'lodash'
+import { get } from 'lodash'
 import axios from 'axios'
 
 import Config from '../../config/config'
@@ -42,26 +42,7 @@ class IpfsStorage {
     return get(data, 'IpfsHash')
   }
 
-  async load(cid, options = null) {
-    const { skipCache = false, withFormat = false } = options || {}
-    const clear = () => this._clearCache(cid)
-
-    if (true === skipCache) {
-      clear()
-    }
-
-    try {
-      const cidContent = await this._load(cid)
-      const { dataUrl } = cidContent
-
-      return withFormat ? cidContent : dataUrl
-    } catch (exception) {
-      clear()
-      throw exception
-    }
-  }
-
-  _load = memoize(async cid => {
+  async load(cid, withFormat = false) {
     const { gateways, client } = this
 
     const { data, headers } = await fallback(
@@ -75,17 +56,11 @@ class IpfsStorage {
     const rawData = await FileAPI[`readAs${format}`](data)
     const dataUrl = binary ? normalizeDataUrl(rawData, mime) : rawData
 
-    return { binary, dataUrl }
-  })
-
-  _clearCache(cid) {
-    const { cache } = this._load
-
-    if (!cache.has(cid)) {
-      return
+    if (withFormat) {
+      return { binary, dataUrl }
     }
 
-    cache.delete(cid)
+    return dataUrl
   }
 }
 

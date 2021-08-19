@@ -19,10 +19,7 @@ export const analyzeAvatar = async avatar => {
       throw new Error('Not a valid CID')
     }
 
-    const { dataUrl, binary } = await IPFS.load(avatar, {
-      skipCache: true,
-      withFormat: true,
-    })
+    const { dataUrl, binary } = await IPFS.load(avatar, true)
 
     if (!binary) {
       return { dataUrl, shouldUpload: true }

@@ -42,7 +42,7 @@ class IpfsStorage {
     return get(data, 'IpfsHash')
   }
 
-  async load(cid, withFormat = false) {
+  async load(cid, withMetadata = false) {
     const { gateways, client } = this
 
     const { data, headers } = await fallback(
@@ -51,13 +51,14 @@ class IpfsStorage {
     )
 
     const mime = get(headers, 'content-type')
+    const size = get(headers, 'content-length')
     const binary = mime.startsWith('image/')
     const format = binary ? 'DataURL' : 'Text'
     const rawData = await FileAPI[`readAs${format}`](data)
     const dataUrl = binary ? normalizeDataUrl(rawData, mime) : rawData
 
-    if (withFormat) {
-      return { binary, dataUrl }
+    if (withMetadata) {
+      return { binary, cid, dataUrl, mime, size }
     }
 
     return dataUrl

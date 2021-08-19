@@ -4,6 +4,7 @@ import * as TextileCrypto from '@textile/crypto'
 
 import logger from '../logger/pino-logger'
 import { FeedItemIndexes, FeedItemSchema } from './feedSchema'
+import { IpfsSchema } from './ipfsSchema'
 
 const log = logger.child({ from: 'RealmDB' })
 
@@ -35,12 +36,27 @@ class ThreadDB {
     return this.Feed.table
   }
 
+  get Ipfs(): Collection {
+    return this.db.collection('Ipfs')
+  }
+
+  get IpfsTable() {
+    return this.Ipfs.table
+  }
+
   constructor(databaseId) {
-    this.db = new Database(`feed_${databaseId}`, {
-      name: 'Feed',
-      schema: FeedItemSchema,
-      indexes: FeedItemIndexes,
-    })
+    this.db = new Database(
+      `feed_${databaseId}`,
+      {
+        name: 'Feed',
+        schema: FeedItemSchema,
+        indexes: FeedItemIndexes,
+      },
+      {
+        name: 'Ipfs',
+        schema: IpfsSchema,
+      },
+    )
   }
 
   async init() {

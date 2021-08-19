@@ -1,9 +1,5 @@
-import 'fake-indexeddb/auto'
-import fromEntries from 'object.fromentries'
 import AsyncStorage from '../../../utils/asyncStorage'
 import userStorage from '../../UserStorage'
-
-fromEntries.shim()
 
 export const initUserStorage = async () => {
   // expires in 2040

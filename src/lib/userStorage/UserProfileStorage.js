@@ -1,5 +1,5 @@
 // @flow
-import * as TextileCrypto from '@textile/crypto'
+import TextileCrypto from '@textile/crypto'
 import { assign } from 'lodash'
 import IPFS from '../ipfs/IpfsStorage'
 import pino from '../logger/pino-logger'
@@ -22,9 +22,6 @@ export interface ProfileDB {
   deleteProfile(): Promise<boolean>;
 }
 
-// private methods couldn't be a part of the interface
-// by definition interface describes only public API
-// so they have been removed
 export interface ProfileStorage {
   init(): Promise<void>;
   setProfile(profile: UserModel): Promise<void>;
@@ -33,7 +30,7 @@ export interface ProfileStorage {
   setAvatar(avatar: string): Promise<void>;
   removeAvatar(): Promise<void>;
   getProfileByWalletAddress(walletAddress: string): Promise<Profile>;
-  getPublicProfile(key: string, value: string): { name: string, avatar: string };
+  getPublicProfile(key: string, value?: string): Promise<{ [field: string]: string }>;
   getProfileFieldValue(field: string): string;
   getProfileFieldDisplayValue(field: string): string;
   getProfileField(field: string): ProfileField;
@@ -45,7 +42,6 @@ export interface ProfileStorage {
   deleteProfile(): Promise<boolean>;
 }
 
-//5. implement pubsub for profile changes (one method to subscribe for profile updates, when profile changes notify the subscribers)
 export class UserProfileStorage implements ProfileStorage {
   profileSettings: {} = {
     fullName: { defaultPrivacy: 'public' },
@@ -71,8 +67,6 @@ export class UserProfileStorage implements ProfileStorage {
   profile: Profile = {}
 
   constructor(wallet: GoodWallet, profiledb: ProfileDB, privateKey: TextileCrypto.PrivateKey) {
-    // const seed = Uint8Array.from(Buffer.from(pkeySeed, 'hex'))
-    // this.privateKey = TextileCrypto.PrivateKey.fromRawEd25519Seed(seed)
     this.wallet = wallet
     this.profiledb = profiledb
     this.privateKey = privateKey

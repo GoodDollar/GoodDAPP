@@ -431,6 +431,7 @@ class RealmDB implements DB, ProfileDB {
   async getFromOutbox(txHash: string): Promise<TransactionDetails> {
     const data = await this.inboxes.findOne({ txHash })
     const decrypted = await this._decrypt(data)
+
     return decrypted
   }
 }

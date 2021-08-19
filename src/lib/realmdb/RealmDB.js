@@ -1,27 +1,28 @@
 //@flow
-import { Collection, Database } from '@textile/threaddb'
-import * as TextileCrypto from '@textile/crypto'
 import { get, once, sortBy } from 'lodash'
 import * as Realm from 'realm-web'
+import * as TextileCrypto from '@textile/crypto'
+
+import AsyncStorage from '../utils/asyncStorage'
+import ThreadDB from '../textile/ThreadDB'
+
 import Config from '../../config/config'
 import { JWT } from '../constants/localStorage'
 import logger from '../logger/pino-logger'
-import { FeedItemSchema } from '../textile/feedSchema' // Some json-schema.org schema
+
 import type { ProfileDB } from '../userStorage/UserProfileStorage'
 import type { DB } from '../userStorage/UserStorage'
-import AsyncStorage from '../utils/asyncStorage'
 
 const log = logger.child({ from: 'RealmDB' })
+
 class RealmDB implements DB, ProfileDB {
   privateKey
 
-  db: Database
+  db: ThreadDB
 
   isReady = false
 
   listeners = []
-
-  Feed: Collection
 
   constructor() {
     this.ready = new Promise((resolve, reject) => {
@@ -37,16 +38,12 @@ class RealmDB implements DB, ProfileDB {
    */
   async init(privateKey: TextileCrypto.PrivateKey) {
     try {
-      this.db = new Database(`feed_${privateKey.public.toString()}`, {
-        name: 'Feed',
-        schema: FeedItemSchema,
-        indexes: [{ path: 'date' }, { path: 'data.hashedCode' }],
-      })
       this.privateKey = privateKey
-      await this.db.open(1) // Versioned db on open
-      this.Feed = this.db.collection('Feed')
-      this.Feed.table.hook('updating', (modify, id, event) => this._notifyChange({ modify, id, event }))
-      this.Feed.table.hook('creating', (id, event) => this._notifyChange({ id, event }))
+      this.db = await ThreadDB.open(privateKey)
+
+      this.db.FeedTable.hook('updating', (modify, id, event) => this._notifyChange({ modify, id, event }))
+      this.db.FeedTable.hook('creating', (id, event) => this._notifyChange({ id, event }))
+
       await this._initRealmDB()
       this.resolve()
       this.isReady = true
@@ -75,8 +72,10 @@ class RealmDB implements DB, ProfileDB {
   async _initRealmDB() {
     const REALM_APP_ID = Config.realmAppID
     const jwt = await AsyncStorage.getItem(JWT)
-    log.debug('initRealmDB', { jwt, REALM_APP_ID })
     const credentials = Realm.Credentials.jwt(jwt)
+
+    log.debug('initRealmDB', { jwt, REALM_APP_ID })
+
     try {
       // Authenticate the user
       const app = new Realm.App({ id: REALM_APP_ID })
@@ -117,34 +116,42 @@ class RealmDB implements DB, ProfileDB {
    * used in Appswitch to sync with remote when user comes back to app
    */
   async _syncFromRemote() {
-    // this.Feed.
-    const lastSync = await this.Feed.table //use dexie directly because mongoify only sorts results and not all documents
-      .orderBy('date')
+    // this.db.Feed.
+    const lastSync = await this.db.FeedTable.orderBy('date') //use dexie directly because mongoify only sorts results and not all documents
       .reverse()
       .limit(1)
       .toArray()
       .then(r => get(r, '[0].date', 0))
+
     const newItems = await this.encryptedFeed.find({
       user_id: this.user.id,
       date: { $gt: new Date(lastSync) },
     })
+
     const filtered = newItems.filter(_ => !_._id.toString().includes('settings') && _.txHash)
+
     log.debug('_syncFromRemote', { newItems, filtered, lastSync })
+
     if (filtered.length) {
       let decrypted = (await Promise.all(filtered.map(i => this._decrypt(i)))).filter(_ => _)
       log.debug('_syncFromRemote', { decrypted })
-      await this.Feed.save(...decrypted)
+
+      await this.db.Feed.save(...decrypted)
     }
 
     //sync items that we failed to save
-    const failedSync = await this.Feed.find({ sync: false }).toArray()
+    const failedSync = await this.db.Feed.find({ sync: false }).toArray()
+
     if (failedSync.length) {
       log.debug('_syncFromRemote: saving failed items', failedSync.length)
+
       failedSync.forEach(async item => {
         await this._encrypt(item)
-        this.Feed.table.update({ _id: item.id }, { $set: { sync: true } })
+
+        this.db.FeedTable.update({ _id: item.id }, { $set: { sync: true } })
       })
     }
+
     log.info('_syncfromremote done')
   }
 
@@ -153,17 +160,22 @@ class RealmDB implements DB, ProfileDB {
    * TODO: remove
    */
   async _syncFromLocalStorage() {
-    await this.Feed.clear()
+    await this.db.Feed.clear()
+
     let items = await AsyncStorage.getItem('GD_feed').then(_ => Object.values(_ || {}))
+
     items.forEach(i => {
       i._id = i.id
       i.date = new Date(i.date).toISOString()
       i.createdDate = new Date(i.createdDate).toISOString()
     })
+
     items = sortBy(items, 'date')
+
     if (items.length) {
       await Promise.all(items.map(i => this.write(i)))
     }
+
     log.debug('initialized threaddb with feed from asyncstorage. count:', items.length, items)
   }
 
@@ -189,6 +201,7 @@ class RealmDB implements DB, ProfileDB {
    */
   _notifyChange = data => {
     log.debug('notifyChange', { data, listeners: this.listeners.length })
+
     this.listeners.map(cb => cb(data))
   }
 
@@ -199,13 +212,17 @@ class RealmDB implements DB, ProfileDB {
   async write(feedItem) {
     if (!feedItem.id) {
       log.warn('Feed item missing _id', { feedItem })
+
       throw new Error('feed item missing id')
     }
+
     feedItem._id = feedItem.id
-    await this.Feed.save(feedItem)
+    await this.db.Feed.save(feedItem)
+
     this._encrypt(feedItem).catch(e => {
       log.error('failed saving feedItem to remote', e.message, e)
-      this.Feed.table.update({ _id: feedItem.id }, { $set: { sync: false } })
+
+      this.db.FeedTable.update({ _id: feedItem.id }, { $set: { sync: false } })
     })
 
     // this.db.remote.push('Feed').catch(e => log.error('remote push failed', e.message, e))
@@ -218,7 +235,7 @@ class RealmDB implements DB, ProfileDB {
    */
   // eslint-disable-next-line require-await
   async read(id) {
-    return this.Feed.findById(id)
+    return this.db.Feed.findById(id)
   }
 
   /**
@@ -228,7 +245,7 @@ class RealmDB implements DB, ProfileDB {
    */
   // eslint-disable-next-line require-await
   async readByPaymentId(paymentId) {
-    return this.Feed.table.get({ 'data.hashedCode': paymentId })
+    return this.db.FeedTable.get({ 'data.hashedCode': paymentId })
   }
 
   /**
@@ -240,7 +257,9 @@ class RealmDB implements DB, ProfileDB {
     const msg = new TextEncoder().encode(JSON.stringify(settings))
     const encrypted = await this.privateKey.public.encrypt(msg).then(_ => Buffer.from(_).toString('base64'))
     const _id = `${this.user.id}_settings`
+
     log.debug('encryptSettings:', { settings, encrypted, _id })
+
     return this.encryptedFeed.updateOne(
       { _id, user_id: this.user.id },
       { _id, user_id: this.user.id, encrypted },
@@ -258,12 +277,14 @@ class RealmDB implements DB, ProfileDB {
     let settings = {}
 
     const { encrypted } = encryptedSettings || {}
+
     if (encrypted) {
       const decrypted = await this.privateKey.decrypt(Uint8Array.from(Buffer.from(encrypted, 'base64')))
 
       settings = JSON.parse(new TextDecoder().decode(decrypted))
       log.debug('decryptSettings:', { settings, _id })
     }
+
     return settings
   }
 
@@ -286,7 +307,9 @@ class RealmDB implements DB, ProfileDB {
         { _id, txHash, user_id, encrypted, date: new Date(feedItem.date) },
         { upsert: true },
       )
+
       log.debug('_encrypt result:', { itemId: _id, res })
+
       return res
     } catch (e) {
       log.error('error _encrypt feedItem:', e.message, e, { feedItem })
@@ -301,6 +324,7 @@ class RealmDB implements DB, ProfileDB {
   async _decrypt(item): Promise<string> {
     try {
       const decrypted = await this.privateKey.decrypt(Uint8Array.from(Buffer.from(item.encrypted, 'base64')))
+
       return JSON.parse(new TextDecoder().decode(decrypted))
     } catch (e) {
       log.warn('failed _decrypt', { item })
@@ -316,8 +340,7 @@ class RealmDB implements DB, ProfileDB {
   // eslint-disable-next-line require-await
   async getFeedPage(numResults, offset): Promise<any> {
     try {
-      const res = await this.Feed.table //use dexie directly because mongoify only sorts results and not all documents
-        .orderBy('date')
+      const res = await this.db.FeedTable.orderBy('date') //use dexie directly because mongoify only sorts results and not all documents
         .reverse()
         .offset(offset)
         .filter(

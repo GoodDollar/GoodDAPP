@@ -30,7 +30,7 @@ export const updateAll = async store => {
     const [balance, entitlement] = walletOperations
     const account = store.get('account')
     const balanceChanged = !account.balance || account.balance !== balance
-    const entitlementChanged = !account.entitlement || !account.entitlement.eq(entitlement)
+    const entitlementChanged = !account.entitlement || account.entitlement !== entitlement
 
     if (balanceChanged || entitlementChanged || account.ready === false) {
       store.set('account')({ balance, entitlement, ready: true })

@@ -1,19 +1,24 @@
-if (!Object.fromEntries) {
-  Object.defineProperty(Object, 'fromEntries', {
-    value(entries) {
-      if (!entries || !entries[Symbol.iterator]) {
-        throw new Error('Object.fromEntries() requires a single iterable argument')
-      }
+import { fromPairs } from 'lodash'
 
-      const o = {}
+const shim = (object, method, implementation) => {
+  if ('function' === typeof object[method]) {
+    return
+  }
 
-      Object.keys(entries).forEach(key => {
-        const [k, v] = entries[key]
-
-        o[k] = v
-      })
-
-      return o
-    },
-  })
+  Object.defineProperty(object, method, { value: implementation })
 }
+
+shim(Object, 'fromEntries', entries => {
+  if (!entries || !entries[Symbol.iterator]) {
+    throw new Error('Object.fromEntries() requires a single iterable argument')
+  }
+
+  return fromPairs(entries)
+})
+
+// shouldn't be arrow to access 'this'
+shim(Promise.prototype, 'finally', function(fn) {
+  const onFinally = callback => Promise.resolve(fn()).then(callback)
+
+  return this.then(result => onFinally(() => result), reason => onFinally(() => Promise.reject(reason)))
+})

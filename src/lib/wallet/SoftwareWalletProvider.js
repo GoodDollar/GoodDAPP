@@ -2,6 +2,7 @@
 import Web3 from 'web3'
 import bip39 from 'bip39-light'
 import type { HttpProvider, WebSocketProvider } from 'web3-providers'
+import { assign } from 'lodash'
 import AsyncStorage from '../utils/asyncStorage'
 import Config from '../../config/config'
 import { GD_USER_MASTERSEED, GD_USER_MNEMONIC, GD_USER_PRIVATEKEYS } from '../constants/localStorage'
@@ -94,6 +95,8 @@ class SoftwareWalletProvider {
     }
 
     let web3 = new Web3(provider, null, this.defaults)
+
+    assign(web3.eth, this.defaults)
     privateKeys.forEach(pkey => {
       let wallet = web3.eth.accounts.privateKeyToAccount(pkey)
       web3.eth.accounts.wallet.add(wallet)

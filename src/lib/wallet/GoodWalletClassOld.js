@@ -507,7 +507,7 @@ export class GoodWallet {
     const canDelete = await this.identityContract.methods
       .lastAuthenticated(this.account)
       .call()
-      .then(_ => _.toNumber() > 0)
+      .then(_ => parseInt(_) > 0)
       .catch(_ => true)
 
     if (canDelete === false) {
@@ -532,7 +532,7 @@ export class GoodWallet {
   async getNextClaimTime(): Promise<any> {
     try {
       const hasClaim = await this.checkEntitlement()
-        .then(_ => _.toNumber())
+        .then(parseInt)
         .catch(e => 0)
 
       //if has current available amount to claim then he can claim  immediatly
@@ -540,8 +540,8 @@ export class GoodWallet {
         return [0, hasClaim]
       }
 
-      const startRef = await this.UBIContract.methods.periodStart.call().then(_ => moment(_.toNumber() * 1000).utc())
-      const curDay = await this.UBIContract.methods.currentDay.call().then(_ => _.toNumber())
+      const startRef = await this.UBIContract.methods.periodStart.call().then(_ => moment(parseInt(_) * 1000).utc())
+      const curDay = await this.UBIContract.methods.currentDay.call().then(parseInt)
       if (startRef.isBefore(moment().utc())) {
         startRef.add(curDay + 1, 'days')
       }
@@ -557,7 +557,7 @@ export class GoodWallet {
       const ubiStart = await this.UBIContract.methods
         .periodStart()
         .call()
-        .then(_ => _.toNumber() * 1000)
+        .then(_ => parseInt(_) * 1000)
       const today = moment()
         .utc()
         .diff(ubiStart, 'days')
@@ -592,7 +592,7 @@ export class GoodWallet {
   async getActiveClaimers(): Promise<number> {
     try {
       const activeUsersCount = await this.UBIContract.methods.activeUsersCount().call()
-      return activeUsersCount.toNumber()
+      return parseInt(activeUsersCount)
     } catch (exception) {
       const { message } = exception
 
@@ -607,7 +607,7 @@ export class GoodWallet {
       return this.UBIContract.methods
         .dailyCyclePool()
         .call()
-        .then(_ => _.toNumber())
+        .then(parseInt)
     } catch (exception) {
       const { message } = exception
       log.warn('getTodayDistribution failed', message, exception)
@@ -796,7 +796,7 @@ export class GoodWallet {
       return this.identityContract.methods
         .dateAdded(this.account)
         .call()
-        .then(_ => _.toNumber())
+        .then(parseInt)
         .then(_ => new Date(_ * 1000))
     } catch (exception) {
       const { message } = exception
@@ -883,7 +883,7 @@ export class GoodWallet {
       throw new Error(`Amount is bigger than balance`)
     }
 
-    const otpAddress = this.oneTimePaymentsContract.address
+    const otpAddress = this.oneTimePaymentsContract._address
     const transferAndCall = this.tokenContract.methods.transferAndCall(otpAddress, amount, hashedCode)
 
     // Fixed gas amount so it can work locally with ganache
@@ -1080,7 +1080,7 @@ export class GoodWallet {
 
   async hasJoinedInvites() {
     const user = await this.invitesContract.methods.users(this.account).call()
-    return [user.joinedAt.toNumber() > 0, user.invitedBy]
+    return [parseInt(user.joinedAt) > 0, user.invitedBy]
   }
 
   async joinInvites(inviter, codeLength = 10) {
@@ -1124,7 +1124,7 @@ export class GoodWallet {
         .levels(user.level)
         .call()
         .catch(_ => {})) || {}
-    return result(level, 'bounty.toNumber', 10000) / 100
+    return parseInt(get(level, 'bounty', 10000)) / 100
   }
 
   handleError(e: Error) {

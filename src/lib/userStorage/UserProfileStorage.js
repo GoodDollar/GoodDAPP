@@ -1,14 +1,12 @@
 // @flow
 import * as TextileCrypto from '@textile/crypto'
 import { assign } from 'lodash'
-
 import IPFS from '../ipfs/IpfsStorage'
 import pino from '../logger/pino-logger'
 import { isValidDataUrl } from '../utils/base64'
 import { AVATAR_SIZE, resizeImage, SMALL_AVATAR_SIZE } from '../utils/image'
 import isEmail from '../validators/isEmail'
 import isMobilePhone from '../validators/isMobilePhone'
-import { GoodWallet } from '../wallet/GoodWallet'
 import type { UserModel } from './UserModel'
 import { getUserModel } from './UserModel'
 import type { FieldPrivacy, Profile, ProfileField } from './UserStorageClass'

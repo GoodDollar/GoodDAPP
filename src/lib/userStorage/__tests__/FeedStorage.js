@@ -45,10 +45,6 @@ describe('FeedStorage', () => {
     await feedStorage.init()
   })
 
-  it('should pass', () => {
-    expect(true).toBeTruthy()
-  })
-
   it('should add new event to outbox', async () => {
     await feedStorage.addToOutbox(feedEvent)
     const savedItem = await feedStorage.storage.inboxes.findOne({ txHash: feedEvent.id })
@@ -65,13 +61,8 @@ describe('FeedStorage', () => {
   // })
 
   it('should delete record', async () => {
-    try {
-      // const result = await feedStorage.userStorage.inboxes.findOneAndDelete({ txHash: feedEvent.id })
-      await feedStorage.userStorage.inboxes.findOneAndDelete({ txHash: feedEvent.id })
-
-      // console.log('RESULT', result)
-    } catch (e) {
-      // console.log('EXCEPTION', e)
-    }
+    await feedStorage.storage.inboxes.findOneAndDelete({ txHash: feedEvent.id })
+    const savedItem = await feedStorage.storage.inboxes.findOne({ txHash: feedEvent.id })
+    expect(savedItem).toBeNull()
   })
 })

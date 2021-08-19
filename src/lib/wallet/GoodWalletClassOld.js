@@ -765,7 +765,7 @@ export class GoodWallet {
     let account = this.getAccountForType(accountType)
     let signed = await this.wallet.eth.sign(toSign, account)
 
-    return signed.signature
+    return signed
   }
 
   // eslint-disable-next-line require-await

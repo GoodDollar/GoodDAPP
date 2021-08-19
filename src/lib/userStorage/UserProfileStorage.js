@@ -395,11 +395,11 @@ export class UserProfileStorage implements ProfileStorage {
         {},
       )
 
-    const { fullName, smallAvatar } = publicProfile
+    const { fullName } = publicProfile
 
     logger.info(`getPublicProfile by field <${field}>`, { fullName })
 
-    return { name: fullName, avatar: smallAvatar }
+    return publicProfile
   }
 
   /**
@@ -425,7 +425,7 @@ export class UserProfileStorage implements ProfileStorage {
    * @param field
    * @returns {ProfileField}
    */
-  getProfileField(field: string): { value: string, display: string, privacy: string } {
+  getProfileField(field: string): ProfileField {
     return this.profile[field]
   }
 
@@ -464,9 +464,9 @@ export class UserProfileStorage implements ProfileStorage {
   /**
    * Returns field privacy
    * @param field
-   * @returns {"private"|"public"|"masked"|string}
+   * @returns {FieldPrivacy}
    */
-  getFieldPrivacy(field: string): string {
+  getFieldPrivacy(field: string): FieldPrivacy {
     const currentPrivacy = this.profile[field]?.privacy
 
     return currentPrivacy || this.profileSettings[field].defaultPrivacy || 'public'

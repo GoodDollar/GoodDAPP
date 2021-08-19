@@ -534,13 +534,13 @@ export class UserStorage {
   }
 
   /**
-   * Returns progfile attribute value
+   * Returns profile attribute value
    *
    * @param {string} field - Profile attribute
-   * @returns {Promise<ProfileField>} field data
+   * @returns {ProfileField} field data
    */
-  getProfileField(field: string): Promise<ProfileField> {
-    return this.profileStorage.getProfileField()
+  getProfileField(field: string): ProfileField {
+    return this.profileStorage.getProfileField(field)
   }
 
   /**

@@ -331,6 +331,11 @@ class RealmDB implements DB, ProfileDB {
     return res
   }
 
+  /**
+   * Update or create new user profile
+   * @param profile
+   * @returns {Promise<Realm.Services.MongoDB.UpdateResult<*>>}
+   */
   // eslint-disable-next-line require-await
   async setProfile(profile: Profile): Promise<any> {
     return this.profiles.updateOne(
@@ -342,7 +347,7 @@ class RealmDB implements DB, ProfileDB {
 
   /**
    * read the complete raw user profile from realmdb. result fields might be encrypted
-   *  @returns {Promise<any>}
+   *  @returns {Promise<Profile>}
    */
   // eslint-disable-next-line require-await
   async getProfile(): Promise<Profile> {
@@ -352,7 +357,7 @@ class RealmDB implements DB, ProfileDB {
   /**
    * get user profile from realmdb. result fields might be encrypted
    * @param query
-   * @returns {Promise<any | null>}
+   * @returns {Promise<Profile>}
    */
   // eslint-disable-next-line require-await
   async getProfileBy(query: Object): Promise<Profile> {
@@ -362,7 +367,7 @@ class RealmDB implements DB, ProfileDB {
   /**
    * get users profiles from realmdb. result fields might be encrypted
    * @param query
-   * @returns {Promise<any | null>}
+   * @returns {Promise<Array<Profile>>}
    */
   // eslint-disable-next-line require-await
   async getProfilesBy(query: Object): Promise<Array<Profile>> {
@@ -381,16 +386,16 @@ class RealmDB implements DB, ProfileDB {
 
   /**
    * deletes both local and remote storage
-   * @returns
+   * @returns {Promise<[void, Realm.Services.MongoDB.DeleteResult]>}
    */
   // eslint-disable-next-line require-await
-  async deleteAccount(): Promise<void> {
+  async deleteAccount(): Promise<any> {
     return Promise.all([this.db.delete(), this.encryptedFeed.deleteMany({ user_id: this.user.id })])
   }
 
   /**
    * Removing user profile
-   * @returns {Promise<any | null>}
+   * @returns {Promise<Realm.Services.MongoDB.DeleteResult>}
    */
   // eslint-disable-next-line require-await
   async deleteProfile(): Promise<boolean> {

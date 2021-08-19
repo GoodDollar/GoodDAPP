@@ -1,21 +1,14 @@
-// Has to be the first import because of fake-indexeddb import inside
-// eslint-disable-next-line import/order
-import fromEntries from 'object.fromentries'
 import { forIn, isFunction, isNil, omitBy } from 'lodash'
-import 'fake-indexeddb/auto'
-
-// import { initUserStorage } from './__util__'
-import goodWallet from '../../wallet/GoodWallet'
-import getDB from '../../realmdb/RealmDB'
-import AsyncStorage from '../../utils/asyncStorage'
 
 import { UserProfileStorage } from '../UserProfileStorage'
-fromEntries.shim()
+import userStorage from '../UserStorage'
+import { initUserStorage } from './__util__'
 
 jest.setTimeout(30000)
 
 describe('UserProfileStorage', () => {
   let userProfileStorage
+  let goodWallet
 
   const profile = {
     email: 'julian@gooddollar.org',
@@ -39,16 +32,12 @@ describe('UserProfileStorage', () => {
   const iterateUserModel = (profile, callback) => forIn(omitBy(profile, isFunction), callback)
 
   beforeAll(async () => {
-    await AsyncStorage.setItem(
-      'GD_jwt',
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dnZWRJbkFzIjoiMHg1YjliNDlmZjM1ZmE4OWZkMWZiOWNmNGJmNTNkNmI1MDA5ZmVjNjgxIiwiZ2RBZGRyZXNzIjoiMHg3NDBlMjIxNjFkZWVhYTYwYjhiMGI1Y2RhYWEwOTE1MzRmZjIxNjQ5IiwicHJvZmlsZVB1YmxpY2tleSI6IjlZdFNlSXdELVN3Z080UVIxaHBobGt4dFhleUdESjFIX01PQ3pncWcwWEkuTDN3RTJZUkpOT3c0cUo1UFVST0lRNTk3OVR3RFlCcmFmZGUwTlFkXzFSUSIsImV4cCI6MjIzMzU3MzQzNiwiYXVkIjoicmVhbG1kYl93YWxsZXRfZGV2ZWxvcG1lbnQiLCJzdWIiOiIweDViOWI0OWZmMzVmYTg5ZmQxZmI5Y2Y0YmY1M2Q2YjUwMDlmZWM2ODEiLCJpYXQiOjE2Mjg3NzM0MzZ9.y4EJ6Ban0MJL0TORh_kaO_9CKbGouI9FmuRo9iBgUCo',
-    )
-    const db = getDB()
-    await goodWallet.ready
-    const pkey = goodWallet.getEd25519Key('gundb')
-    await db.init(pkey)
+    await initUserStorage()
 
-    userProfileStorage = new UserProfileStorage(goodWallet, db, pkey)
+    const { wallet, feedDB, profilePrivateKey } = userStorage
+
+    userProfileStorage = new UserProfileStorage(wallet, feedDB, profilePrivateKey)
+    goodWallet = wallet
   })
 
   beforeEach(async () => {

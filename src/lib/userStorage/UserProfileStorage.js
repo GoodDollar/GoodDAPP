@@ -16,17 +16,6 @@ import { cleanHashedFieldForIndex, isValidValue, maskField } from './utlis'
 
 const logger = pino.child({ from: 'UserProfileStorage' })
 
-//TODO:
-// 1. fix return types notice profile vs usermodel, fix rest of dapp code that uses it
-// 2. make sure interfaces are matching
-// 3. getuserpublicprofile should use hash indexes and clean+hash input
-// 4. save user hashed values correctly in index field
-// 5. _resizeAndStoreAvatars should be called only if avatar changed
-// 6. wallet address should be automatically set if missing and not verified in profile
-// 7. avatar delete not working
-// 8. cache ipfsstorage in indexdb, use threaddb
-// 9. when storing avatar/small update cache
-// 9. avatar edit save failure -> cant close error popup + no blurred background, ok
 export interface ProfileDB {
   setProfile(profile: Profile): Promise<void>;
   getProfile(): Promise<Profile>;

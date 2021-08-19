@@ -1,5 +1,5 @@
 // @flow
-import React, { useCallback, useMemo, useRef } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { FlatList, View } from 'react-native'
 import { Portal } from 'react-native-paper'
 import { withStyles } from '../../lib/styles'
@@ -49,8 +49,6 @@ const FeedModalList = ({
   styles,
   navigation,
 }: FeedModalListProps) => {
-  const flatListRef = useRef()
-
   // Component is in loading state until matches the offset for the selected item
 
   const feeds = useFeeds(data, false) // get feeds without invites
@@ -59,6 +57,18 @@ const FeedModalList = ({
     feeds,
     selectedFeed,
   ])
+
+  /**
+   * hack to fix https://github.com/necolas/react-native-web/issues/2030
+   */
+  const getFlatListRef = useCallback(
+    flatList => {
+      if (flatList) {
+        flatList.scrollToIndex({ animated: false, index: selectedFeedIndex })
+      }
+    },
+    [selectedFeedIndex],
+  )
 
   const renderItemComponent = useCallback(
     ({ item }: ItemComponentProps) => {
@@ -79,7 +89,7 @@ const FeedModalList = ({
           initialNumToRender={5}
           initialScrollIndex={selectedFeedIndex}
           onEndReached={onEndReached}
-          ref={flatListRef}
+          ref={getFlatListRef}
           renderItem={renderItemComponent}
           horizontal
           pagingEnabled

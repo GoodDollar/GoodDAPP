@@ -10,6 +10,7 @@ import ContractsAddress from '@gooddollar/goodprotocol/releases/deployment.json'
 
 import moment from 'moment'
 import get from 'lodash/get'
+import assign from 'lodash/assign'
 import Mutex from 'await-mutex'
 import * as web3Utils from 'web3-utils'
 import logger from '../../../../lib/logger/pino-logger'
@@ -93,6 +94,13 @@ export class Wallet {
       transactionConfirmationBlocks: 1,
       transactionPollingTimeout: 30,
     })
+    assign(this.web3.eth, {
+      defaultBlock: 'latest',
+      defaultGasPrice,
+      transactionBlockTimeout: 5,
+      transactionConfirmationBlocks: 1,
+      transactionPollingTimeout: 30,
+    })
     if (conf.privateKey) {
       let account = this.web3.eth.accounts.privateKeyToAccount(conf.privateKey)
       this.web3.eth.accounts.wallet.add(account)
@@ -113,7 +121,7 @@ export class Wallet {
     this.network = conf.network
     this.networkId = conf.ethNetwork.network_id
     const adminWalletAddress = get(ContractsAddress, `${this.network}.AdminWallet`)
-    this.proxyContract = new this.web3.eth.Contract(ProxyContractABI.abi, adminWalletAddress)
+    this.proxyContract = new this.web3.eth.Contract(ProxyContractABI.abi, adminWalletAddress, { from: this.address })
 
     const adminWalletContractBalance = await this.web3.eth.getBalance(adminWalletAddress)
     log.info(`AdminWallet contract balance`, { adminWalletContractBalance, adminWalletAddress })
@@ -375,7 +383,7 @@ export class Wallet {
     this.nonce = parseInt(await this.web3.eth.getTransactionCount(this.address))
     log.debug('sending tx:', { gas, gasPrice, nonce: this.nonce })
     return new Promise((res, rej) => {
-      tx.send({ gas, gasPrice, chainId: this.networkId, nonce: this.nonce })
+      tx.send({ gas, gasPrice, chainId: this.networkId, nonce: this.nonce, from: this.address })
         .on('transactionHash', h => {
           this.nonce = this.nonce + 1
           log.debug('sendTransaction nonce increased:', this.nonce)

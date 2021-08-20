@@ -543,7 +543,7 @@ export class GoodWallet {
       const curDay = await this.UBIContract.methods
         .currentDay()
         .call()
-        .then(_ => parseInt(_))
+        .then(parseInt)
       if (startRef.isBefore(moment().utc())) {
         startRef.add(curDay + 1, 'days')
       }

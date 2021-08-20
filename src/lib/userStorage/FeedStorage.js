@@ -734,7 +734,7 @@ export class FeedStorage {
 
     if (recipientPubkey) {
       const pubKey = TextileCrypto.PublicKey.fromString(recipientPubkey)
-      
+
       const data = pick(event.data, [
         'reason',
         'category',
@@ -766,7 +766,7 @@ export class FeedStorage {
     const recipientPublicKey = this.userStorage.profilePrivateKey.public.toString()
     const txData = await this.storage.getFromOutbox(recipientPublicKey, event.id)
 
-        log.debug('getFromOutbox saved data', txData)
+    log.debug('getFromOutbox saved data', txData)
 
     const updatedEventData = {
       ...event,
@@ -774,7 +774,7 @@ export class FeedStorage {
     }
 
     log.debug('getFromOutbox updated event', updatedEventData)
-    this.updateFeedEvent(updatedEventData)
+    await this.updateFeedEvent(updatedEventData)
 
     return txData
   }

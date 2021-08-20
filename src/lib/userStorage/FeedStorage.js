@@ -52,12 +52,6 @@ export const TxStatus = {
   CANCELED: 'cancelled',
 }
 
-export type TransactionData = {
-  txHash: string,
-  recipientPublicKey: string,
-  encrypted: string,
-}
-
 export type TransactionDetails = {
   amount: string,
   category: string,
@@ -753,15 +747,9 @@ export class FeedStorage {
       const encoded = new TextEncoder().encode(JSON.stringify(data))
       const encrypted = await pubKey.encrypt(encoded).then(_ => Buffer.from(_).toString('base64'))
 
-      const dataToSave: TransactionData = {
-        txHash: event.id,
-        recipientPublicKey: recipientPubkey,
-        encrypted,
-      }
+      log.debug('addToOutbox data', { txHash: event.id, recipientPubkey, encrypted })
 
-      log.debug('addToOutbox data', dataToSave)
-
-      await this.storage.addToOutbox(dataToSave)
+      await this.storage.addToOutbox(recipientPubkey, event.id, encrypted)
     } else {
       log.warn('addToOutbox recipient not found:', event.id)
     }

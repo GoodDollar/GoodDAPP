@@ -2,6 +2,7 @@
 import { assign, debounce, find, get, has, isEqual, isUndefined, orderBy, pick, set } from 'lodash'
 import EventEmitter from 'eventemitter3'
 
+import * as TextileCrypto from '@textile/crypto'
 import delUndefValNested from '../utils/delUndefValNested'
 import { updateFeedEventAvatar } from '../updates/utils'
 
@@ -49,6 +50,12 @@ export const TxStatus = {
   COMPLETED: 'completed',
   PENDING: 'pending',
   CANCELED: 'cancelled',
+}
+
+export type TransactionDetails = {
+  amount: string,
+  category: string,
+  reason: string | null,
 }
 
 export type FeedEvent = {
@@ -723,9 +730,11 @@ export class FeedStorage {
    * @param {*} event
    */
   async addToOutbox(event: FeedEvent) {
-    let recipientPubkey = await this.userStorage.getUserProfilePublickey(event.data.to).then(_ => _.slice(1)) //remove ~prefix
+    let recipientPubkey = await this.userStorage.getUserProfilePublickey(event.data.to) //remove ~prefix
 
     if (recipientPubkey) {
+      const pubKey = TextileCrypto.PublicKey.fromString(recipientPubkey)
+      
       const data = pick(event.data, [
         'reason',
         'category',
@@ -736,17 +745,13 @@ export class FeedStorage {
         'sellerWebsite',
         'sellerName',
       ])
-      log.debug('addToOutbox:', { recipientPubkey, data })
-      await this.gunuser
-        .get('outbox')
-        .get(recipientPubkey)
-        .get(event.id)
-        .secretAck(data)
-      this.gunuser
-        .get('outbox')
-        .get(recipientPubkey)
-        .get(event.id)
-        .trust(recipientPubkey)
+
+      const encoded = new TextEncoder().encode(JSON.stringify(data))
+      const encrypted = await pubKey.encrypt(encoded).then(_ => Buffer.from(_).toString('base64'))
+
+      log.debug('addToOutbox data', { txHash: event.id, recipientPubkey, encrypted })
+
+      await this.storage.addToOutbox(recipientPubkey, event.id, encrypted)
     } else {
       log.warn('addToOutbox recipient not found:', event.id)
     }
@@ -758,37 +763,20 @@ export class FeedStorage {
    * @param {*} event
    */
   async getFromOutbox(event: FeedEvent) {
-    let senderPubkey = await this.userStorage.getUserProfilePublickey(get(event, 'data.receiptEvent.from'))
-    let recipientPubkey = this.gunuser.is.pub
+    const recipientPublicKey = this.userStorage.profilePrivateKey.public.toString()
+    const txData = await this.storage.getFromOutbox(recipientPublicKey, event.id)
 
-    if (!senderPubkey) {
-      log.warn('getFromOutbox sender not found:', event.id, { event })
-      return
-    }
+        log.debug('getFromOutbox saved data', txData)
 
-    log.debug('getFromOutbox sender found:', event.id, { event, senderPubkey, recipientPubkey })
-
-    const { data } = event
-    const decryptedData = await this.gun
-      .get(senderPubkey)
-      .get('outbox')
-      .get(recipientPubkey)
-      .get(event.id)
-      .onDecrypt()
-
-    const updatedEvent = {
+    const updatedEventData = {
       ...event,
-      data: {
-        ...data,
-        ...(decryptedData || {}),
-      },
+      data: { ...event.data, ...(txData || {}) },
     }
 
-    log.debug('getFromOutbox decrypted data:', event.id, { data })
-    this.updateFeedEvent(updatedEvent)
+    log.debug('getFromOutbox updated event', updatedEventData)
+    this.updateFeedEvent(updatedEventData)
 
-    log.debug('getFromOutbox updated event:', event.id, { updatedEvent })
-    return decryptedData
+    return txData
   }
 
   emitUpdate = debounce(

@@ -10,6 +10,7 @@ import { FeedItemSchema } from '../textile/feedSchema' // Some json-schema.org s
 import type { ProfileDB } from '../userStorage/UserProfileStorage'
 import type { DB } from '../userStorage/UserStorage'
 import AsyncStorage from '../utils/asyncStorage'
+import type { TransactionDetails } from '../userStorage/FeedStorage'
 
 const log = logger.child({ from: 'RealmDB' })
 class RealmDB implements DB, ProfileDB {
@@ -110,6 +111,10 @@ class RealmDB implements DB, ProfileDB {
    */
   get profiles() {
     return this.database.collection('user_profiles')
+  }
+
+  get inboxes() {
+    return this.database.collection('inboxes')
   }
 
   /**
@@ -406,6 +411,29 @@ class RealmDB implements DB, ProfileDB {
   // eslint-disable-next-line require-await
   async deleteProfile(): Promise<boolean> {
     return this.profiles.deleteOne({ user_id: this.user.id })
+  }
+
+  /**
+   *
+   * @param {string} recipientPublicKey
+   * @param {string} txHash
+   * @param {string} encrypted
+   */
+  // eslint-disable-next-line require-await
+  async addToOutbox(recipientPublicKey: string, txHash: string, encrypted: string): Promise<any> {
+    return this.inboxes.insertOne({ user_id: this.user.id, recipientPublicKey, txHash, encrypted })
+  }
+
+  /**
+   *
+   * @param {string} txHash
+   * @returns {Promise<TransactionDetails>}
+   */
+  async getFromOutbox(recipientPublicKey: string, txHash: string): Promise<TransactionDetails> {
+    const data = await this.inboxes.findOne({ txHash, recipientPublicKey })
+    const decrypted = await this._decrypt(data)
+
+    return decrypted
   }
 }
 

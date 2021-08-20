@@ -27,15 +27,15 @@ const feedEvent = {
 
 describe('FeedStorage', () => {
   let feedStorage
-  let privateKey
+  const privateKey = TextileCrypto.PrivateKey.fromRandom()
 
   beforeAll(async () => {
     await initUserStorage()
+
     const { wallet, feedDB } = userStorage
     feedStorage = new FeedStorage(feedDB, defaultGun, wallet, userStorage)
+
     await feedStorage.init()
-    const seed = Uint8Array.from(Buffer.from('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'))
-    privateKey = TextileCrypto.PrivateKey.fromRawEd25519Seed(seed)
   })
 
   beforeEach(() => {
@@ -58,6 +58,7 @@ describe('FeedStorage', () => {
 
   it('should get event from outbox and decrypt', async () => {
     feedStorage.storage.privateKey = privateKey
+    feedStorage.userStorage.profilePrivateKey = privateKey
     const { reason, category, amount } = feedEvent.data
     const decrypted = await feedStorage.getFromOutbox(feedEvent)
 

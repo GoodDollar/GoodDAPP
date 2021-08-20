@@ -429,8 +429,8 @@ class RealmDB implements DB, ProfileDB {
    * @param {string} txHash
    * @returns {Promise<TransactionDetails>}
    */
-  async getFromOutbox(txHash: string): Promise<TransactionDetails> {
-    const data = await this.inboxes.findOne({ txHash, recipientPublicKey: this.privateKey.public.toString() })
+  async getFromOutbox(txHash: string, recipientPublicKey: string): Promise<TransactionDetails> {
+    const data = await this.inboxes.findOne({ txHash, recipientPublicKey })
     const decrypted = await this._decrypt(data)
 
     return decrypted

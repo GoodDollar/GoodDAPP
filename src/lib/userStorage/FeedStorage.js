@@ -761,7 +761,8 @@ export class FeedStorage {
    * @param {*} event
    */
   async getFromOutbox(event: FeedEvent) {
-    const txData = await this.storage.getFromOutbox(event.id)
+    const recipientPublicKey = this.userStorage.profilePrivateKey.public.toString()
+    const txData = await this.storage.getFromOutbox(event.id, recipientPublicKey)
     log.debug('getFromOutbox saved data', txData)
 
     const updatedEventData = {

@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { Image, View } from 'react-native'
-import { get, isNaN, isNil, result } from 'lodash'
+import { get, isNaN, isNil } from 'lodash'
 import { Avatar, CustomButton, Icon, Section, ShareButton, Text, Wrapper } from '../common'
 import { WavesBox } from '../common/view/WavesBox'
 import { theme } from '../theme/styles'
@@ -64,7 +64,7 @@ const InvitedUser = ({ address, status }) => {
 const ShareBox = ({ level }) => {
   const inviteCode = useInviteCode()
   const shareUrl = `${Config.invitesUrl}?inviteCode=${inviteCode}`
-  const bounty = result(level, 'bounty.toNumber') / 100
+  const bounty = parseInt(level.bounty) / 100
   const share = useMemo(() => generateShareObject(shareTitle, shareMessage, shareUrl), [shareUrl])
 
   if (isNil(bounty) || isNaN(bounty)) {

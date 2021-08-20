@@ -734,6 +734,7 @@ export class FeedStorage {
 
     if (recipientPubkey) {
       const pubKey = TextileCrypto.PublicKey.fromString(recipientPubkey)
+      
       const data = pick(event.data, [
         'reason',
         'category',
@@ -744,6 +745,7 @@ export class FeedStorage {
         'sellerWebsite',
         'sellerName',
       ])
+
       const encoded = new TextEncoder().encode(JSON.stringify(data))
       const encrypted = await pubKey.encrypt(encoded).then(_ => Buffer.from(_).toString('base64'))
 
@@ -762,8 +764,9 @@ export class FeedStorage {
    */
   async getFromOutbox(event: FeedEvent) {
     const recipientPublicKey = this.userStorage.profilePrivateKey.public.toString()
-    const txData = await this.storage.getFromOutbox(event.id, recipientPublicKey)
-    log.debug('getFromOutbox saved data', txData)
+    const txData = await this.storage.getFromOutbox(recipientPublicKey, event.id)
+
+        log.debug('getFromOutbox saved data', txData)
 
     const updatedEventData = {
       ...event,

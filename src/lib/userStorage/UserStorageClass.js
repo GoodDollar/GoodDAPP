@@ -1,6 +1,6 @@
 //@flow
 
-import { get, memoize } from 'lodash'
+import { assign, get, memoize } from 'lodash'
 
 import moment from 'moment'
 import Gun from '@gooddollar/gun'
@@ -16,15 +16,20 @@ import API from '../API/api'
 import pino from '../logger/pino-logger'
 import isMobilePhone from '../validators/isMobilePhone'
 
+import { AVATAR_SIZE, resizeImage, SMALL_AVATAR_SIZE } from '../utils/image'
+import { isValidDataUrl } from '../utils/base64'
+
 import { GD_GUN_CREDENTIALS } from '../constants/localStorage'
 import AsyncStorage from '../utils/asyncStorage'
 import defaultGun from '../gundb/gundb'
+import { ThreadDB } from '../textile/ThreadDB'
 import { type StandardFeed } from './StandardFeed'
 import { type UserModel } from './UserModel'
 import UserProperties from './UserProperties'
 import { UserProfileStorage } from './UserProfileStorage'
 import { FeedEvent, FeedItemType, FeedStorage, TxStatus } from './FeedStorage'
 import type { DB } from './UserStorage'
+import createAssetStorage, { type UserAssetStorage } from './UserAssetStorage'
 
 const logger = pino.child({ from: 'UserStorage' })
 
@@ -213,9 +218,13 @@ export class UserStorage {
    */
   ready: Promise<boolean>
 
-  feedDB: DB
+  backendDB: DB
+
+  frontendDB: ThreadDB
 
   userProperties
+
+  userAssets: UserAssetStorage
 
   profileSettings: {} = {
     fullName: { defaultPrivacy: 'public' },
@@ -277,7 +286,7 @@ export class UserStorage {
   constructor(wallet: GoodWallet, feeddb: DB, userProperties) {
     this.gun = defaultGun
     this.wallet = wallet
-    this.feedDB = feeddb
+    this.backendDB = feeddb
     this.userProperties = userProperties
     this.init()
   }
@@ -344,7 +353,8 @@ export class UserStorage {
       return
     }
 
-    await this.feedDB.init(this.profilePrivateKey, this.wallet.getAccountForType('gundb')) //only once user is registered he has access to realmdb via signed jwt
+    await this.initDatabases()
+
     //after we initialize the database wait for user properties which depands on database
     await Promise.all([this.userProperties.ready, this.profileStorage.init(), this.initFeed()])
 
@@ -356,6 +366,16 @@ export class UserStorage {
     return true
   }
 
+  async initDatabases() {
+    const frontendDB = new ThreadDB(this.profilePrivateKey)
+    const userAssets = createAssetStorage(frontendDB)
+
+    await frontendDB.init()
+    await this.backendDB.init(this.profilePrivateKey) //only once user is registered he has access to realmdb via signed jwt
+
+    assign(this, { frontendDB, userAssets })
+  }
+
   init(): Promise {
     const { wallet } = this
 
@@ -365,7 +385,7 @@ export class UserStorage {
         await wallet.ready
 
         this.profilePrivateKey = wallet.getEd25519Key('gundb')
-        this.profileStorage = new UserProfileStorage(this.wallet, this.feedDB, this.profilePrivateKey)
+        this.profileStorage = new UserProfileStorage(this.wallet, this.backendDB, this.profilePrivateKey)
 
         logger.debug('userStorage initialized.')
         return true
@@ -390,22 +410,47 @@ export class UserStorage {
 
   /**
    * Avatar setter
-   * @param avatar
    * @returns {Promise<CID[]>}
    */
-  // eslint-disable-next-line require-await
-  async setAvatar(avatar) {
-    return this.profileStorage.setAvatar(avatar)
+  async setAvatar(avatar): Promise<CID[]> {
+    const cids = await this._resizeAndStoreAvatars(avatar)
+
+    return this.profileStorage.setProfile(cids, true)
   }
 
   /**
-   * remove Avatar
-   * @param withCleanup
-   * @returns {Promise<void>}
+   * remove Avatar from profile
+   * @returns {Promise<[Promise<void>, Promise<void>, Promise<void>, Promise<void>, Promise<void>, Promise<void>, Promise<void>, Promise<void>, Promise<void>, Promise<void>]>}
    */
   // eslint-disable-next-line require-await
-  async removeAvatar(withCleanup = false) {
-    return this.profileStorage.removeAvatar()
+  async removeAvatar(): Promise<void> {
+    return this.profileStorage.setProfileFields({ avatar: null, smallAvatar: null })
+  }
+
+  /**
+   * store Avatar
+   * @param avatarDataUrl
+   * @returns {Promise<{ avatar: CID, smallAvatar: CID }>}
+   */
+  async _resizeAndStoreAvatars(avatarDataUrl: string): Promise<{ avatar: string, smallAvatar: string }> {
+    let resizedDataUrl
+    const avatarSizes = [AVATAR_SIZE, SMALL_AVATAR_SIZE]
+
+    const resizedAvatars = await Promise.all(
+      avatarSizes.map(async size => {
+        resizedDataUrl = await resizeImage(resizedDataUrl || avatarDataUrl, size)
+
+        return resizedDataUrl
+      }),
+    )
+
+    // TODO: replace via IPFS.store() call once #3370 will be merged
+    const [avatar, smallAvatar] = await Promise.all(
+      // eslint-disable-next-line require-await
+      resizedAvatars.map(async dataUrl => this.userAssets.store(dataUrl)),
+    )
+
+    return { avatar, smallAvatar }
   }
 
   /**
@@ -452,7 +497,7 @@ export class UserStorage {
    * initializes the feedstorage and default feed items
    */
   async initFeed() {
-    this.feedStorage = new FeedStorage(this.feedDB, this.gun, this.wallet, this)
+    this.feedStorage = new FeedStorage(this.backendDB, this.gun, this.wallet, this)
 
     await this.feedStorage.init()
     this.startSystemFeed().catch(e => logger.error('initfeed failed initializing startSystemFeed', e.message, e))
@@ -598,6 +643,14 @@ export class UserStorage {
    */
   // eslint-disable-next-line require-await
   async setProfile(profile: UserModel, update: boolean = false): Promise<> {
+    const { avatar } = profile
+
+    if (!!avatar && isValidDataUrl(avatar)) {
+      const cids = await this._resizeAndStoreAvatars(avatar)
+
+      assign(profile, cids)
+    }
+
     return this.profileStorage.setProfile(profile, update)
   }
 
@@ -1045,7 +1098,7 @@ export class UserStorage {
       if (get(deleteAccountResult, 'data.ok', false)) {
         deleteResults = await Promise.all([
           _trackStatus(retry(() => wallet.deleteAccount(), 1, 500), 'wallet'),
-          _trackStatus(this.feedDB.deleteAccount()),
+          _trackStatus(this.backendDB.deleteAccount()),
           _trackStatus(this.deleteProfile(), 'profile'),
           _trackStatus(userProperties.reset(), 'userprops'),
         ])

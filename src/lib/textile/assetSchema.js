@@ -1,6 +1,6 @@
-export const IpfsSchema = {
+export const AssetSchema = {
   $schema: 'http://json-schema.org/draft-07/schema#',
-  title: 'Ipfs',
+  title: 'Asset',
   description: 'An IPFS storage schema',
   type: 'object',
   properties: {

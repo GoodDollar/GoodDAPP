@@ -34,9 +34,9 @@ describe('UserProfileStorage', () => {
   beforeAll(async () => {
     await initUserStorage()
 
-    const { wallet, feedDB, profilePrivateKey } = userStorage
+    const { wallet, backendDB, profilePrivateKey } = userStorage
 
-    userProfileStorage = new UserProfileStorage(wallet, feedDB, profilePrivateKey)
+    userProfileStorage = new UserProfileStorage(wallet, backendDB, profilePrivateKey)
     goodWallet = wallet
   })
 

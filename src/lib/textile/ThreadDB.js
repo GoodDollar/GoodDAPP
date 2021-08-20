@@ -2,34 +2,22 @@
 import { Collection, Database } from '@textile/threaddb'
 import * as TextileCrypto from '@textile/crypto'
 
+import { assign } from 'lodash'
 import logger from '../logger/pino-logger'
 import { FeedItemIndexes, FeedItemSchema } from './feedSchema'
-import { IpfsSchema } from './ipfsSchema'
+import { AssetSchema } from './assetSchema'
 
 const log = logger.child({ from: 'RealmDB' })
 
-class ThreadDB {
-  db: Database
+export class ThreadDB {
+  frontendDB: Database
 
-  static databases = {}
+  privateKey: TextileCrypto.PrivateKey
 
-  static async open(privateKey: TextileCrypto.PrivateKey) {
-    const databaseId = privateKey.public.toString()
-    const { databases } = ThreadDB
-    let database = databases[databaseId]
-
-    if (!database) {
-      database = new ThreadDB(databaseId)
-
-      await databases.init()
-      databases[databaseId] = database
-    }
-
-    return database
-  }
+  databaseID: string
 
   get Feed(): Collection {
-    return this.db.collection('Feed')
+    return this.frontendDB.collection('Feed')
   }
 
   get FeedTable() {
@@ -37,36 +25,38 @@ class ThreadDB {
   }
 
   get Ipfs(): Collection {
-    return this.db.collection('Ipfs')
+    return this.frontendDB.collection('Ipfs')
   }
 
   get IpfsTable() {
     return this.Ipfs.table
   }
 
-  constructor(databaseId) {
-    this.db = new Database(
-      `feed_${databaseId}`,
+  constructor(privateKey: TextileCrypto.PrivateKey) {
+    const databaseID = privateKey.public.toString()
+
+    const frontendDB = new Database(
+      `feed_${databaseID}`,
       {
         name: 'Feed',
         schema: FeedItemSchema,
         indexes: FeedItemIndexes,
       },
       {
-        name: 'Ipfs',
-        schema: IpfsSchema,
+        name: 'Assets',
+        schema: AssetSchema,
       },
     )
+
+    assign(this, { frontendDB, privateKey, databaseID })
   }
 
   async init() {
     try {
-      await this.db.open(1) // Versioned db on open
+      await this.frontendDB.open(2) // Versioned db on open
     } catch (e) {
       log.error('failed initializing', e.message, e)
       throw e
     }
   }
 }
-
-export default ThreadDB

@@ -10,8 +10,5 @@ export const initUserStorage = async () => {
 
   // user storage awaits for the wallet during initialization
   await userStorage.ready
-
-  const { feedDB, profilePrivateKey } = userStorage
-
-  await feedDB.init(profilePrivateKey)
+  await userStorage.initDatabases()
 }

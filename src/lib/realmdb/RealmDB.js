@@ -1,10 +1,10 @@
 //@flow
-import { get, once, sortBy } from 'lodash'
+import { assign, get, once, sortBy } from 'lodash'
 import * as Realm from 'realm-web'
 import * as TextileCrypto from '@textile/crypto'
 
 import AsyncStorage from '../utils/asyncStorage'
-import ThreadDB from '../textile/ThreadDB'
+import { type ThreadDB } from '../textile/ThreadDB'
 
 import Config from '../../config/config'
 import { JWT } from '../constants/localStorage'
@@ -16,13 +16,15 @@ import type { DB } from '../userStorage/UserStorage'
 const log = logger.child({ from: 'RealmDB' })
 
 class RealmDB implements DB, ProfileDB {
-  privateKey
+  frontendDB: ThreadDB
 
-  db: ThreadDB
+  backendDB: Realm.Services.MongoDB
 
-  isReady = false
+  privateKey: TextileCrypto.PrivateKey
 
-  listeners = []
+  isReady: boolean = false
+
+  listeners: Function[] = []
 
   constructor() {
     this.ready = new Promise((resolve, reject) => {
@@ -36,15 +38,16 @@ class RealmDB implements DB, ProfileDB {
    * @param {*} pkeySeed
    * @param {*} publicKeyHex
    */
-  async init(privateKey: TextileCrypto.PrivateKey) {
+  async init(frontendDB: ThreadDB) {
     try {
-      this.privateKey = privateKey
-      this.db = await ThreadDB.open(privateKey)
+      const { privateKey, FeedTable } = frontendDB
 
-      this.db.FeedTable.hook('updating', (modify, id, event) => this._notifyChange({ modify, id, event }))
-      this.db.FeedTable.hook('creating', (id, event) => this._notifyChange({ id, event }))
+      FeedTable.hook('updating', (modify, id, event) => this._notifyChange({ modify, id, event }))
+      FeedTable.hook('creating', (id, event) => this._notifyChange({ id, event }))
 
+      assign(this, { privateKey, frontendDB })
       await this._initRealmDB()
+
       this.resolve()
       this.isReady = true
     } catch (e) {
@@ -79,12 +82,13 @@ class RealmDB implements DB, ProfileDB {
     try {
       // Authenticate the user
       const app = new Realm.App({ id: REALM_APP_ID })
-      this.user = await app.logIn(credentials)
+      const user = await app.logIn(credentials)
       const mongodb = app.currentUser.mongoClient('mongodb-atlas')
-      this.database = mongodb.db(this._databaseName)
 
       // `App.currentUser` updates to match the logged in user
-      log.debug('realm logged in', { user: this.user })
+      log.debug('realm logged in', { user })
+      assign(this, { user, backendDB: mongodb.db(this._databaseName) })
+
       this._syncFromRemote()
       return this.user
     } catch (err) {
@@ -99,7 +103,7 @@ class RealmDB implements DB, ProfileDB {
    * @private
    */
   get encryptedFeed() {
-    return this.database.collection('encrypted_feed')
+    return this.backendDB.collection('encrypted_feed')
   }
 
   /**
@@ -108,7 +112,7 @@ class RealmDB implements DB, ProfileDB {
    * @private
    */
   get profiles() {
-    return this.database.collection('user_profiles')
+    return this.backendDB.collection('user_profiles')
   }
 
   /**
@@ -117,7 +121,7 @@ class RealmDB implements DB, ProfileDB {
    */
   async _syncFromRemote() {
     // this.db.Feed.
-    const lastSync = await this.db.FeedTable.orderBy('date') //use dexie directly because mongoify only sorts results and not all documents
+    const lastSync = await this.frontendDB.FeedTable.orderBy('date') //use dexie directly because mongoify only sorts results and not all documents
       .reverse()
       .limit(1)
       .toArray()
@@ -136,11 +140,11 @@ class RealmDB implements DB, ProfileDB {
       let decrypted = (await Promise.all(filtered.map(i => this._decrypt(i)))).filter(_ => _)
       log.debug('_syncFromRemote', { decrypted })
 
-      await this.db.Feed.save(...decrypted)
+      await this.frontendDB.Feed.save(...decrypted)
     }
 
     //sync items that we failed to save
-    const failedSync = await this.db.Feed.find({ sync: false }).toArray()
+    const failedSync = await this.frontendDB.Feed.find({ sync: false }).toArray()
 
     if (failedSync.length) {
       log.debug('_syncFromRemote: saving failed items', failedSync.length)
@@ -148,7 +152,7 @@ class RealmDB implements DB, ProfileDB {
       failedSync.forEach(async item => {
         await this._encrypt(item)
 
-        this.db.FeedTable.update({ _id: item.id }, { $set: { sync: true } })
+        this.frontendDB.FeedTable.update({ _id: item.id }, { $set: { sync: true } })
       })
     }
 
@@ -160,7 +164,7 @@ class RealmDB implements DB, ProfileDB {
    * TODO: remove
    */
   async _syncFromLocalStorage() {
-    await this.db.Feed.clear()
+    await this.frontendDB.Feed.clear()
 
     let items = await AsyncStorage.getItem('GD_feed').then(_ => Object.values(_ || {}))
 
@@ -217,12 +221,12 @@ class RealmDB implements DB, ProfileDB {
     }
 
     feedItem._id = feedItem.id
-    await this.db.Feed.save(feedItem)
+    await this.frontendDB.Feed.save(feedItem)
 
     this._encrypt(feedItem).catch(e => {
       log.error('failed saving feedItem to remote', e.message, e)
 
-      this.db.FeedTable.update({ _id: feedItem.id }, { $set: { sync: false } })
+      this.frontendDB.FeedTable.update({ _id: feedItem.id }, { $set: { sync: false } })
     })
 
     // this.db.remote.push('Feed').catch(e => log.error('remote push failed', e.message, e))
@@ -235,7 +239,7 @@ class RealmDB implements DB, ProfileDB {
    */
   // eslint-disable-next-line require-await
   async read(id) {
-    return this.db.Feed.findById(id)
+    return this.frontendDB.Feed.findById(id)
   }
 
   /**
@@ -245,7 +249,7 @@ class RealmDB implements DB, ProfileDB {
    */
   // eslint-disable-next-line require-await
   async readByPaymentId(paymentId) {
-    return this.db.FeedTable.get({ 'data.hashedCode': paymentId })
+    return this.frontendDB.FeedTable.get({ 'data.hashedCode': paymentId })
   }
 
   /**
@@ -340,7 +344,7 @@ class RealmDB implements DB, ProfileDB {
   // eslint-disable-next-line require-await
   async getFeedPage(numResults, offset): Promise<any> {
     try {
-      const res = await this.db.FeedTable.orderBy('date') //use dexie directly because mongoify only sorts results and not all documents
+      const res = await this.frontendDB.FeedTable.orderBy('date') //use dexie directly because mongoify only sorts results and not all documents
         .reverse()
         .offset(offset)
         .filter(
@@ -419,7 +423,7 @@ class RealmDB implements DB, ProfileDB {
    */
   // eslint-disable-next-line require-await
   async deleteAccount(): Promise<void> {
-    return Promise.all([this.db.delete(), this.encryptedFeed.deleteMany({ user_id: this.user.id })])
+    return Promise.all([this.frontendDB.delete(), this.encryptedFeed.deleteMany({ user_id: this.user.id })])
   }
 
   /**

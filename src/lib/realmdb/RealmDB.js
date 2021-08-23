@@ -86,7 +86,7 @@ class RealmDB implements DB, ProfileDB {
 
       // `App.currentUser` updates to match the logged in user
       log.debug('realm logged in', { user: this.user })
-      await this._syncFromRemote()
+      this._syncFromRemote().catch(e => log.warn('_syncFromRemote failed:', e.message, e))
       return this.user
     } catch (err) {
       log.error('Failed to log in', err)

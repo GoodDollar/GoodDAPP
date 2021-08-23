@@ -9,7 +9,7 @@ import isEmail from '../validators/isEmail'
 import isMobilePhone from '../validators/isMobilePhone'
 import type { UserModel } from './UserModel'
 import { getUserModel } from './UserModel'
-import type { FieldPrivacy, Profile, ProfileField } from './UserStorageClass'
+import type { FieldPrivacy, Profile } from './UserStorageClass'
 import { cleanHashedFieldForIndex, maskField } from './utlis'
 
 const logger = pino.child({ from: 'UserProfileStorage' })
@@ -33,7 +33,6 @@ export interface ProfileStorage {
   getPublicProfile(key: string, value?: string): Promise<{ [field: string]: string }>;
   getProfileFieldValue(field: string): string;
   getProfileFieldDisplayValue(field: string): string;
-  getProfileField(field: string): ProfileField;
   getDisplayProfile(): UserModel;
   getPrivateProfile(): UserModel;
   getFieldPrivacy(field: string): string;
@@ -349,7 +348,8 @@ export class UserProfileStorage implements ProfileStorage {
   /**
    * helper to get a user public profile by key/value
    * @param field
-   * @param {*} value
+   * @param {*} value - it is optional if you pass value as first param,
+   * then method will check what kind of field it is
    */
   async getPublicProfile(field: string, value?: string): Promise<{ [field: string]: string }> {
     let attr, profiles
@@ -399,15 +399,6 @@ export class UserProfileStorage implements ProfileStorage {
    */
   getProfileFieldDisplayValue(field: string): string {
     return this.profile[field]?.display
-  }
-
-  /**
-   * Returns ProfileField
-   * @param field
-   * @returns {ProfileField}
-   */
-  getProfileField(field: string): ProfileField {
-    return this.profile[field]
   }
 
   /**

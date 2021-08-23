@@ -533,16 +533,6 @@ export class UserStorage {
   }
 
   /**
-   * Returns profile attribute value
-   *
-   * @param {string} field - Profile attribute
-   * @returns {ProfileField} field data
-   */
-  getProfileField(field: string): ProfileField {
-    return this.profileStorage.getProfileField(field)
-  }
-
-  /**
    * Return display attribute of each profile property
    *
    * @param {object} profile - User profile

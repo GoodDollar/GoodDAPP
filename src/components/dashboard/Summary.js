@@ -112,7 +112,6 @@ const getStylesFromProps = ({ theme }) => {
       paddingBottom: theme.sizes.default,
     },
 
-    // TODO: all this properties can be removed once we merge Text component in
     bigGoodDollar: {
       color: theme.colors.primary,
       fontFamily: theme.fonts.default,

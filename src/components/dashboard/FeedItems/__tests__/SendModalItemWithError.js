@@ -5,7 +5,7 @@ import renderer from 'react-test-renderer'
 import SendModalItemWithError from '../SendModalItemWithError'
 import { generateFeedItemProps } from '../../__tests__/__util__'
 import { withThemeProvider } from '../../../../__tests__/__util__'
-import userStorage from '../../../../lib/gundb/UserStorage'
+import userStorage from '../../../../lib/userStorage/UserStorage'
 
 jest.setTimeout(20000)
 

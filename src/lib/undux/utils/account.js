@@ -3,8 +3,7 @@ import type { Store } from 'undux'
 import logger from '../../logger/pino-logger'
 import { ExceptionCategory } from '../../logger/exceptions'
 import goodWallet from '../../wallet/GoodWallet'
-import userStorage from '../../gundb/UserStorage'
-import AsyncStorage from '../../utils/asyncStorage'
+import userStorage from '../../userStorage/UserStorage'
 import { assertStore } from '../SimpleStore'
 
 let subscribed = false
@@ -31,7 +30,7 @@ export const updateAll = async store => {
     const [balance, entitlement] = walletOperations
     const account = store.get('account')
     const balanceChanged = !account.balance || account.balance !== balance
-    const entitlementChanged = !account.entitlement || !account.entitlement.eq(entitlement)
+    const entitlementChanged = !account.entitlement || account.entitlement !== entitlement
 
     if (balanceChanged || entitlementChanged || account.ready === false) {
       store.set('account')({ balance, entitlement, ready: true })
@@ -59,16 +58,15 @@ const onBalanceChange = async (event: EventLog, store: Store) => {
 /**
  * Starts listening to Transfer events to (and from) the current account
  */
-export const initTransferEvents = async (store: Store) => {
-  const lastBlock = (await AsyncStorage.getItem('GD_lastBlock')) || userStorage.userProperties.get('joinedAtBlock')
-
+export const initTransferEvents = (store: Store) => {
+  const lastBlock = userStorage.userProperties.get('lastBlock') || 6400000
   log.debug('starting events listener', { lastBlock, subscribed })
 
   if (subscribed) {
     return
   }
 
-  goodWallet.watchEvents(parseInt(lastBlock), toBlock => AsyncStorage.setItem('GD_lastBlock', toBlock))
+  goodWallet.watchEvents(parseInt(lastBlock), toBlock => userStorage.userProperties.set('lastBlock', toBlock))
 
   goodWallet.balanceChanged(event => onBalanceChange(event, store))
   subscribed = true

@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import { groupBy, keyBy } from 'lodash'
 import goodWallet from '../../lib/wallet/GoodWallet'
-import userStorage from '../../lib/gundb/UserStorage'
+import userStorage from '../../lib/userStorage/UserStorage'
 import logger from '../../lib/logger/pino-logger'
 import { useDialog } from '../../lib/undux/utils/dialog'
 import { fireEvent, INVITE_BOUNTY, INVITE_JOIN } from '../../lib/analytics/analytics'
@@ -157,7 +157,7 @@ const useInvited = () => {
 
     const level = await goodWallet.invitesContract.methods.levels(user.level).call()
     setLevel(level)
-    setTotalEarned(user.totalEarned.toNumber() / 100) //convert from wei to decimals
+    setTotalEarned(parseInt(user.totalEarned) / 100) //convert from wei to decimals
   }
 
   const updateInvited = async () => {

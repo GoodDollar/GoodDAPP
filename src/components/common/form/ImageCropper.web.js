@@ -15,7 +15,7 @@ const ImageCropper = props => {
       dragMode="move"
       aspectRatio={1}
       guides={false}
-      autoCropArea={9 / 10}
+      autoCropArea={1}
       restore={false}
       highlight={false}
       center={false}

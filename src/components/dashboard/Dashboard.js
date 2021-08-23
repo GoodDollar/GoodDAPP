@@ -1,5 +1,5 @@
 // @flow
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { Animated, Dimensions, Easing, Platform, TouchableOpacity, View } from 'react-native'
 import { concat, debounce, get, noop, uniqBy } from 'lodash'
 import Mutex from 'await-mutex'
@@ -17,7 +17,7 @@ import { initBGFetch } from '../../lib/notifications/backgroundFetch'
 import { createStackNavigator } from '../appNavigation/stackNavigation'
 import { initTransferEvents } from '../../lib/undux/utils/account'
 
-import userStorage from '../../lib/gundb/UserStorage'
+import userStorage from '../../lib/userStorage/UserStorage'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import useAppState from '../../lib/hooks/useAppState'
 import { PushButton } from '../appNavigation/PushButton'
@@ -37,6 +37,8 @@ import useOnPress from '../../lib/hooks/useOnPress'
 import Invite from '../invite/Invite'
 import Avatar from '../common/view/Avatar'
 import _debounce from '../../lib/utils/debounce'
+import useProfile from '../../lib/userStorage/useProfile'
+import { GlobalTogglesContext } from '../../lib/contexts/togglesContext'
 import PrivacyPolicyAndTerms from './PrivacyPolicyAndTerms'
 import Amount from './Amount'
 import Claim from './Claim'
@@ -112,11 +114,12 @@ const Dashboard = props => {
   const loadingIndicator = store.get('loadingIndicator')
   const loadAnimShown = store.get('feedLoadAnimShown')
   const { balance, entitlement } = gdstore.get('account')
-  const { avatar, fullName } = gdstore.get('profile')
+  const { smallAvatar: avatar, fullName } = useProfile()
   const [feeds, setFeeds] = useState([])
   const [headerLarge, setHeaderLarge] = useState(true)
   const { appState } = useAppState()
   const [animateMarket, setAnimateMarket] = useState(false)
+  const { setDialogBlur } = useContext(GlobalTogglesContext)
 
   const headerAnimateStyles = {
     position: 'relative',
@@ -205,7 +208,7 @@ const Dashboard = props => {
   //subscribeToFeed probably should be an effect that updates the feed items
   //as they come in, currently on each new item it simply reset the feed
   //currently it seems too complicated to make it its own effect as it both depends on "feeds" and changes them
-  //which would lead to many unwanted subscribe/unsubscribe to gun
+  //which would lead to many unwanted subscribe/unsubscribe
   const subscribeToFeed = async () => {
     await getFeedPage(true)
 
@@ -213,10 +216,15 @@ const Dashboard = props => {
   }
 
   const onFeedUpdated = useCallback(
-    debounce(event => {
-      log.debug('feed cache updated', { event })
-      getFeedPage(true)
-    }, 500),
+    debounce(
+      event => {
+        log.debug('feed cache updated', { event })
+        getFeedPage(true)
+      },
+      300,
+      { leading: false },
+      { leading: false }, //this delay seems to solve error from dexie about indexeddb transaction
+    ),
     [getFeedPage],
   )
 
@@ -259,7 +267,7 @@ const Dashboard = props => {
 
     const entitlement = await goodWallet
       .checkEntitlement()
-      .then(_ => _.toNumber())
+      .then(parseInt)
       .catch(e => 0)
 
     if (!entitlement) {
@@ -273,13 +281,13 @@ const Dashboard = props => {
           duration: 750,
           easing: Easing.ease,
           delay: 1000,
-          useNativeDriver: true,
+          useNativeDriver: useNativeDriverForAnimation,
         }),
         Animated.timing(claimAnimValue, {
           toValue: 1,
           duration: 750,
           easing: Easing.ease,
-          useNativeDriver: true,
+          useNativeDriver: useNativeDriverForAnimation,
         }),
       ]).start(resolve),
     )
@@ -323,14 +331,13 @@ const Dashboard = props => {
           return getFeedPage()
         }
       },
-      500,
-      { leading: true },
+      300,
+      { leading: false }, //this delay seems to solve error from dexie about indexeddb transaction
     ),
     [getFeedPage],
   )
 
   const initDashboard = async () => {
-    await userStorage.initFeed()
     await handleFeedEvent()
     handleDeleteRedirect()
     await subscribeToFeed().catch(e => log.error('initDashboard feed failed', e.message, e))
@@ -405,7 +412,7 @@ const Dashboard = props => {
           toValue: 1,
           duration: fullNameOpacityTiming,
           easing: easingOut,
-          useNativeDriver: true,
+          useNativeDriver: useNativeDriverForAnimation,
         }),
         Animated.timing(headerBalanceBottomAnimValue, {
           toValue: 0,
@@ -450,7 +457,7 @@ const Dashboard = props => {
           toValue: 0,
           duration: fullNameOpacityTiming,
           easing: easingIn,
-          useNativeDriver: true,
+          useNativeDriver: useNativeDriverForAnimation,
         }),
         Animated.timing(headerBalanceBottomAnimValue, {
           toValue: Platform.select({ web: 68, default: 60 }),
@@ -500,7 +507,6 @@ const Dashboard = props => {
   const showEventModal = useCallback(
     currentFeed => {
       setItemModal(currentFeed)
-      store.set('currentFeed')(currentFeed)
     },
     [store],
   )
@@ -515,16 +521,19 @@ const Dashboard = props => {
   }
 
   useEffect(() => {
-    if (feedRef.current.length) {
-      getNotificationItem()
+    if (appState === 'active') {
+      if (feedRef.current.length) {
+        getNotificationItem()
+      }
     }
   }, [appState])
 
   const handleFeedSelection = useCallback(
     (receipt, horizontal) => {
       showEventModal(horizontal ? receipt : null)
+      setDialogBlur(horizontal)
     },
-    [showEventModal],
+    [showEventModal, setDialogBlur],
   )
 
   const showNewFeedEvent = useCallback(
@@ -661,8 +670,8 @@ const Dashboard = props => {
         initialNumToRender={PAGE_SIZE}
         onEndReached={nextFeed} // How far from the end the bottom edge of the list must be from the end of the content to trigger the onEndReached callback.
         // we can use decimal (from 0 to 1) or integer numbers. Integer - it is a pixels from the end. Decimal it is the percentage from the end
-        onEndReachedThreshold={0.7} // Determines the maximum number of items rendered outside of the visible area
-        windowSize={20}
+        onEndReachedThreshold={5}
+        windowSize={20} // Determines the maximum number of items rendered outside of the visible area
         onScrollEnd={handleScrollEnd}
         onScroll={onScroll}
         headerLarge={headerLarge}

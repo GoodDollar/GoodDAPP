@@ -14,12 +14,14 @@ const Fade = ({ show, style, children }) => {
         toValue: 0,
         duration: 250,
         easing: easingOut,
+        useNativeDriver: true,
       }).start()
     } else {
       return Animated.timing(fadeAnim, {
         toValue: 1,
         duration: 250,
         easing: easingIn,
+        useNativeDriver: true,
       }).start()
     }
   }, [show])

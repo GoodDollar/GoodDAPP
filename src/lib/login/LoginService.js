@@ -61,8 +61,12 @@ class LoginService {
     throw new Error('Method not implemented')
   }
 
-  async auth(): Promise<?Credentials | Error> {
-    let creds = await this.getCredentials()
+  async auth(refresh = false): Promise<?Credentials | Error> {
+    if (refresh) {
+      AsyncStorage.setItem(JWT, null)
+    }
+
+    let creds = !refresh && (await this.getCredentials())
 
     if (!creds) {
       log.info('Generating creds because no creds was stored or we got an error reading AsyncStorage')
@@ -76,8 +80,8 @@ class LoginService {
     // TODO: write the nonce https://gitlab.com/gooddollar/gooddapp/issues/1
     creds = await this.requestJWT(creds)
 
-    this.storeJWT(creds.jwt)
-    API.init()
+    await this.storeJWT(creds.jwt)
+    await API.init()
 
     return creds
   }
@@ -86,7 +90,8 @@ class LoginService {
     log.info('Calling server for authentication')
 
     try {
-      let jwt = await this.validateJWTExistenceAndExpiration()
+      let { jwt } = await this.validateJWTExistenceAndExpiration()
+      log.debug('jwt validation result:', { jwt })
       if (!jwt) {
         const response = await API.auth(creds)
         const { status, data, statusText } = response
@@ -116,11 +121,16 @@ class LoginService {
     if (jwt) {
       const decoded = jsonwebtoken.decode(jwt, { json: true })
 
+      //new format of jwt should contain aud, used with realmdb
+      if (!decoded.aud) {
+        return { jwt: null, decoded }
+      }
+
       if (decoded.exp && Date.now() < decoded.exp * 1000) {
-        return jwt
+        return { jwt, decoded }
       }
     }
-    return null
+    return { jwt: null, decoded: null }
   }
 }
 

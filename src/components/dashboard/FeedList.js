@@ -1,16 +1,15 @@
 // @flow
 import React, { memo, useCallback, useEffect, useRef, useState } from 'react'
 import { Animated } from 'react-native'
-import { SwipeableFlatList } from 'react-native-swipeable-lists'
-import * as Animatable from 'react-native-animatable'
+import { SwipeableFlatList } from 'react-native-swipeable-lists-gd'
 import { get, isFunction, noop } from 'lodash'
 import moment from 'moment'
 
 import GDStore from '../../lib/undux/GDStore'
 import { withStyles } from '../../lib/styles'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
-import userStorage from '../../lib/gundb/UserStorage'
-import type { FeedEvent } from '../../lib/gundb/UserStorageClass'
+import userStorage from '../../lib/userStorage/UserStorage'
+import type { FeedEvent } from '../../lib/userStorage/UserStorageClass'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import ScrollToTopButton from '../common/buttons/ScrollToTopButton'
 import logger from '../../lib/logger/pino-logger'
@@ -45,8 +44,8 @@ const getItemLayout = (_: any, index: number) => {
   }
 }
 
-const Item = memo(({ item, handleFeedSelection }) => {
-  return <FeedListItem key={keyExtractor(item)} item={item} handleFeedSelection={handleFeedSelection} />
+const Item = memo(({ item, handleFeedSelection, index }) => {
+  return <FeedListItem key={keyExtractor(item)} item={item} handleFeedSelection={handleFeedSelection} index={index} />
 })
 
 const FeedList = ({
@@ -92,7 +91,7 @@ const FeedList = ({
   }, [])
 
   const renderItemComponent = useCallback(
-    ({ item }) => <Item item={item} handleFeedSelection={handleItemSelection} />,
+    ({ item, index }) => <Item item={item} handleFeedSelection={handleItemSelection} index={index} />,
     [handleItemSelection],
   )
 
@@ -157,7 +156,7 @@ const FeedList = ({
         showErrorDialog("Current transaction is still pending, it can't be cancelled right now")
       }
 
-      userStorage.userProperties.set('showQuickActionHint', false)
+      userStorage.userProperties.setLocal('showQuickActionHint', false)
       setShowBounce(false)
     },
     [showErrorDialog, setShowBounce],
@@ -177,15 +176,14 @@ const FeedList = ({
       }
 
       return (
-        <Animatable.View animation="fadeIn" delay={750} style={styles.expandAction}>
-          <FeedActions
-            onPress={hasAction && (() => handleFeedActionPress(item, actions))}
-            actionIcon={actionIcon(actions)}
-            {...props}
-          >
-            {actionLabel(actions)}
-          </FeedActions>
-        </Animatable.View>
+        <FeedActions
+          onPress={hasAction && (() => handleFeedActionPress(item, actions))}
+          actionIcon={actionIcon(actions)}
+          {...props}
+          style={styles.expandAction}
+        >
+          {actionLabel(actions)}
+        </FeedActions>
       )
     },
     [feeds],
@@ -193,7 +191,7 @@ const FeedList = ({
 
   const manageDisplayQuickActionHint = useCallback(async () => {
     // Could be string containing date to show quick action hint after - otherwise boolean
-    const showQuickActionHintFlag = await userStorage.userProperties.get('showQuickActionHint')
+    const showQuickActionHintFlag = await userStorage.userProperties.getLocal('showQuickActionHint')
 
     const _showBounce =
       typeof showQuickActionHintFlag === 'string'
@@ -203,7 +201,7 @@ const FeedList = ({
     setShowBounce(_showBounce)
 
     if (_showBounce) {
-      await userStorage.userProperties.set(
+      await userStorage.userProperties.setLocal(
         'showQuickActionHint',
         moment()
           .add(24, 'hours')

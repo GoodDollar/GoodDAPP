@@ -10,7 +10,9 @@ exports[`ProfileDataTable matches snapshot 1`] = `
     <div
       className="css-view-1dbjc4n r-WebkitOverflowScrolling-150rngu r-flexDirection-eqz5dr r-flexGrow-16y2uox r-flexShrink-1wbh5a2 r-overflowX-11yh6sk r-overflowY-buy8e9 r-touchAction-19z077z r-transform-1sncvnh"
       onScroll={[Function]}
+      onTouchEnd={[Function]}
       onTouchMove={[Function]}
+      onTouchStart={[Function]}
       onWheel={[Function]}
     >
       <div
@@ -26,7 +28,6 @@ exports[`ProfileDataTable matches snapshot 1`] = `
               className="css-view-1dbjc4n r-borderBottomColor-oucylx r-borderLeftColor-855088 r-borderRadius-1fuqb1j r-borderRightColor-114ovsg r-borderTopColor-18grtmt r-borderTopLeftRadius-ou6ah9 r-borderTopRightRadius-t12b5v r-borderWidth-rs99b7 r-marginBottom-zl2h9q r-marginTop-1bymd8e r-paddingBottom-l4nmg1 r-paddingHorizontal-1dye5f7 r-paddingTop-vmopo1 r-paddingVertical-rjfia r-position-bnwqim"
             >
               <input
-                aria-disabled={true}
                 autoCapitalize="sentences"
                 autoComplete="on"
                 autoCorrect="on"
@@ -37,12 +38,10 @@ exports[`ProfileDataTable matches snapshot 1`] = `
                 onChange={[Function]}
                 onFocus={[Function]}
                 onKeyDown={[Function]}
-                onKeyPress={[Function]}
                 onSelect={[Function]}
                 placeholder="Choose a Username"
                 readOnly={true}
                 spellCheck={true}
-                tabIndex="-1"
                 type="text"
               />
               <div
@@ -77,7 +76,6 @@ exports[`ProfileDataTable matches snapshot 1`] = `
               className="css-view-1dbjc4n r-borderBottomColor-oucylx r-borderLeftColor-855088 r-borderRadius-1fuqb1j r-borderRightColor-114ovsg r-borderTopColor-18grtmt r-borderTopLeftRadius-ou6ah9 r-borderTopRightRadius-t12b5v r-borderWidth-rs99b7 r-marginBottom-zl2h9q r-marginTop-1bymd8e r-paddingBottom-l4nmg1 r-paddingHorizontal-1dye5f7 r-paddingTop-vmopo1 r-paddingVertical-rjfia r-position-bnwqim"
             >
               <input
-                aria-disabled={true}
                 autoCapitalize="sentences"
                 autoComplete="on"
                 autoCorrect="on"
@@ -88,12 +86,10 @@ exports[`ProfileDataTable matches snapshot 1`] = `
                 onChange={[Function]}
                 onFocus={[Function]}
                 onKeyDown={[Function]}
-                onKeyPress={[Function]}
                 onSelect={[Function]}
                 placeholder="Add your Mobile"
                 readOnly={true}
                 spellCheck={true}
-                tabIndex="-1"
                 type="text"
                 value="2222222222222"
               />
@@ -129,7 +125,6 @@ exports[`ProfileDataTable matches snapshot 1`] = `
               className="css-view-1dbjc4n r-borderBottomColor-oucylx r-borderLeftColor-855088 r-borderRadius-1fuqb1j r-borderRightColor-114ovsg r-borderTopColor-18grtmt r-borderTopLeftRadius-ou6ah9 r-borderTopRightRadius-t12b5v r-borderWidth-rs99b7 r-marginBottom-zl2h9q r-marginTop-1bymd8e r-paddingBottom-l4nmg1 r-paddingHorizontal-1dye5f7 r-paddingTop-vmopo1 r-paddingVertical-rjfia r-position-bnwqim"
             >
               <input
-                aria-disabled={true}
                 autoCapitalize="sentences"
                 autoComplete="on"
                 autoCorrect="on"
@@ -140,12 +135,10 @@ exports[`ProfileDataTable matches snapshot 1`] = `
                 onChange={[Function]}
                 onFocus={[Function]}
                 onKeyDown={[Function]}
-                onKeyPress={[Function]}
                 onSelect={[Function]}
                 placeholder="Add your Email"
                 readOnly={true}
                 spellCheck={true}
-                tabIndex="-1"
                 type="text"
                 value="john@doe.com"
               />
@@ -187,7 +180,9 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
     <div
       className="css-view-1dbjc4n r-WebkitOverflowScrolling-150rngu r-flexDirection-eqz5dr r-flexGrow-16y2uox r-flexShrink-1wbh5a2 r-overflowX-11yh6sk r-overflowY-buy8e9 r-touchAction-19z077z r-transform-1sncvnh"
       onScroll={[Function]}
+      onTouchEnd={[Function]}
       onTouchMove={[Function]}
+      onTouchStart={[Function]}
       onWheel={[Function]}
     >
       <div
@@ -207,13 +202,12 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
                 autoComplete="on"
                 autoCorrect="on"
                 className="css-textinput-11aywtz r-backgroundColor-1niwhzg r-color-cddv6f r-flex-13awgt0 r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-16dba41 r-justifyContent-1777fci r-paddingVertical-1w50u8q r-placeholderTextColor-1xktb6b"
-                data-focusable={true}
                 dir="auto"
+                disabled={false}
                 onBlur={[Function]}
                 onChange={[Function]}
                 onFocus={[Function]}
                 onKeyDown={[Function]}
-                onKeyPress={[Function]}
                 onSelect={[Function]}
                 placeholder="Choose a Username"
                 readOnly={false}
@@ -1881,13 +1875,12 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
                 autoComplete="on"
                 autoCorrect="on"
                 className="css-textinput-11aywtz r-backgroundColor-1niwhzg r-color-cddv6f r-flex-13awgt0 r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-16dba41 r-justifyContent-1777fci r-paddingVertical-1w50u8q r-placeholderTextColor-1xktb6b"
-                data-focusable={true}
                 dir="auto"
+                disabled={false}
                 onBlur={[Function]}
                 onChange={[Function]}
                 onFocus={[Function]}
                 onKeyDown={[Function]}
-                onKeyPress={[Function]}
                 onSelect={[Function]}
                 placeholder="Add your Email"
                 readOnly={false}
@@ -1933,7 +1926,9 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
     <div
       className="css-view-1dbjc4n r-WebkitOverflowScrolling-150rngu r-flexDirection-eqz5dr r-flexGrow-16y2uox r-flexShrink-1wbh5a2 r-overflowX-11yh6sk r-overflowY-buy8e9 r-touchAction-19z077z r-transform-1sncvnh"
       onScroll={[Function]}
+      onTouchEnd={[Function]}
       onTouchMove={[Function]}
+      onTouchStart={[Function]}
       onWheel={[Function]}
     >
       <div
@@ -1953,13 +1948,12 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
                 autoComplete="on"
                 autoCorrect="on"
                 className="css-textinput-11aywtz r-backgroundColor-1niwhzg r-color-cddv6f r-flex-13awgt0 r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-16dba41 r-justifyContent-1777fci r-paddingVertical-1w50u8q r-placeholderTextColor-1xktb6b"
-                data-focusable={true}
                 dir="auto"
+                disabled={false}
                 onBlur={[Function]}
                 onChange={[Function]}
                 onFocus={[Function]}
                 onKeyDown={[Function]}
-                onKeyPress={[Function]}
                 onSelect={[Function]}
                 placeholder="Choose a Username"
                 readOnly={false}
@@ -3617,6 +3611,7 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
             <div
               className="css-text-901oao r-fontWeight-16dba41 r-paddingTop-wk8lta"
               dir="auto"
+              id="animatedComponent"
               style={
                 Object {
                   "WebkitTransform": "translateY(0px)",
@@ -3655,13 +3650,12 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
                 autoComplete="on"
                 autoCorrect="on"
                 className="css-textinput-11aywtz r-backgroundColor-1niwhzg r-color-11zaip3 r-flex-13awgt0 r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-16dba41 r-justifyContent-1777fci r-paddingVertical-1w50u8q r-placeholderTextColor-1xktb6b"
-                data-focusable={true}
                 dir="auto"
+                disabled={false}
                 onBlur={[Function]}
                 onChange={[Function]}
                 onFocus={[Function]}
                 onKeyDown={[Function]}
-                onKeyPress={[Function]}
                 onSelect={[Function]}
                 placeholder="Add your Email"
                 readOnly={false}
@@ -3691,6 +3685,7 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
             <div
               className="css-text-901oao r-color-11zaip3 r-fontWeight-16dba41 r-paddingTop-wk8lta"
               dir="auto"
+              id="animatedComponent"
               style={
                 Object {
                   "WebkitTransform": "translateY(0px)",

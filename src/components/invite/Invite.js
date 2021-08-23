@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { Image, View } from 'react-native'
-import { get, isNaN, isNil, result } from 'lodash'
+import { get, isNaN, isNil } from 'lodash'
 import { Avatar, CustomButton, Icon, Section, ShareButton, Text, Wrapper } from '../common'
 import { WavesBox } from '../common/view/WavesBox'
 import { theme } from '../theme/styles'
@@ -9,8 +9,8 @@ import logger from '../../lib/logger/pino-logger'
 import { fireEvent, INVITE_HOWTO, INVITE_SHARE } from '../../lib/analytics/analytics'
 import Config from '../../config/config'
 import { generateShareObject, isSharingAvailable } from '../../lib/share'
-import userStorage from '../../lib/gundb/UserStorage'
-import useGunProfile from '../../lib/hooks/gun/useGunProfile'
+import userStorage from '../../lib/userStorage/UserStorage'
+import { usePublicProfileOf } from '../../lib/userStorage/useProfile'
 import ModalLeftBorder from '../common/modal/ModalLeftBorder'
 import { useCollectBounty, useInviteCode, useInvited, useInviteScreenOpened } from './useInvites'
 import FriendsSVG from './friends.svg'
@@ -23,11 +23,12 @@ const log = logger.child({ from: 'Invite' })
 const Divider = ({ size = 10 }) => <Section.Separator color="transparent" width={size} style={{ zIndex: -10 }} />
 
 const InvitedUser = ({ address, status }) => {
-  const profile = useGunProfile(address)
+  const profile = usePublicProfileOf(address)
   const isApproved = status === 'approved'
+
   return (
     <Section.Row style={{ alignItems: 'center', marginTop: theme.paddings.defaultMargin }}>
-      <Avatar source={profile.smallAvatar} size={28} />
+      <Avatar source={profile?.smallAvatar} size={28} />
       <Section.Text
         fontFamily={theme.fonts.slab}
         fontSize={14}
@@ -40,7 +41,7 @@ const InvitedUser = ({ address, status }) => {
           textAlign: 'left',
         }}
       >
-        {profile.fullName}
+        {profile?.fullName}
       </Section.Text>
       <Section.Row alignItems={'flex-start'}>
         {isApproved ? <Icon name={'check'} color={'green'} /> : <Icon name={'time'} color={'orange'} />}
@@ -63,7 +64,7 @@ const InvitedUser = ({ address, status }) => {
 const ShareBox = ({ level }) => {
   const inviteCode = useInviteCode()
   const shareUrl = `${Config.invitesUrl}?inviteCode=${inviteCode}`
-  const bounty = result(level, 'bounty.toNumber') / 100
+  const bounty = parseInt(level.bounty) / 100
   const share = useMemo(() => generateShareObject(shareTitle, shareMessage, shareUrl), [shareUrl])
 
   if (isNil(bounty) || isNaN(bounty)) {
@@ -94,6 +95,9 @@ const ShareBox = ({ level }) => {
             flex: 1,
             padding: 0,
             marginRight: 8,
+            whiteSpace: 'nowrap',
+            textOverflow: 'ellipsis',
+            overflow: 'hidden',
           }}
         >
           {shareUrl}
@@ -259,11 +263,17 @@ const InvitesHowTO = () => {
 const InvitesData = ({ invitees, refresh, level, totalEarned = 0 }) => (
   <View style={{ width: '100%' }}>
     <Divider size={getDesignRelativeHeight(theme.paddings.defaultMargin * 3, false)} />
-    <ShareBox level={level} />
+    <Section.Stack>
+      <ShareBox level={level} />
+    </Section.Stack>
     <Divider size={theme.paddings.defaultMargin * 1.5} />
-    <TotalEarnedBox totalEarned={totalEarned} />
+    <Section.Stack>
+      <TotalEarnedBox totalEarned={totalEarned} />
+    </Section.Stack>
     <Divider size={theme.paddings.defaultMargin * 1.5} />
-    <InvitesBox invitees={invitees} refresh={refresh} />
+    <Section.Stack>
+      <InvitesBox invitees={invitees} refresh={refresh} />
+    </Section.Stack>
   </View>
 )
 
@@ -272,8 +282,8 @@ const Invite = () => {
   const [showHowTo, setShowHowTo] = useState(!wasOpened)
   const [invitees, refresh, level, inviteState] = useInvited()
 
-  const totalEarned = get(inviteState, 'totalEarned', 0)
-  const bounty = result(level, 'bounty.toNumber') / 100
+  const totalEarned = parseInt(get(inviteState, 'totalEarned', 0))
+  const bounty = parseInt(get(level, 'bounty', 0)) / 100
 
   const toggleHowTo = () => {
     !showHowTo && fireEvent(INVITE_HOWTO)

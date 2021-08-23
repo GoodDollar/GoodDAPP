@@ -16,8 +16,7 @@ import usePermissions from '../../../permissions/hooks/usePermissions'
 import useDisposingState from '../hooks/useDisposingState'
 
 // utils
-import UserStorage from '../../../../lib/gundb/UserStorage'
-import GDStore from '../../../../lib/undux/GDStore'
+import UserStorage from '../../../../lib/userStorage/UserStorage'
 import logger from '../../../../lib/logger/pino-logger'
 import { getFirstWord } from '../../../../lib/utils/getFirstWord'
 import {
@@ -40,6 +39,7 @@ import useFaceTecSDK from '../hooks/useFaceTecSDK'
 // assets
 import wait24hourIllustration from '../../../../assets/Claim/wait24Hour.svg'
 import FashionShootSVG from '../../../../assets/FaceVerification/FashionPhotoshoot.svg'
+import useProfile from '../../../../lib/userStorage/useProfile'
 
 const log = logger.child({ from: 'FaceVerificationIntro' })
 const { useABTesting } = createABTesting('FV_Intro_Screen')
@@ -142,8 +142,7 @@ const IntroScreenB = ({ styles, firstName, ready, onVerify, onLearnMore }) => (
 )
 
 const IntroScreen = ({ styles, screenProps }) => {
-  const store = GDStore.useStore()
-  const { fullName } = store.get('profile')
+  const { fullName } = useProfile()
   const { screenState, goToRoot, navigateTo, pop, push } = screenProps
   const isValid = get(screenState, 'isValid', false)
 

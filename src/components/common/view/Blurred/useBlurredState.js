@@ -1,24 +1,18 @@
-import { useMemo } from 'react'
-import { get } from 'lodash'
+import { useContext, useMemo } from 'react'
 import { isAndroid } from 'mobile-device-detect'
 
 import SimpleStore from '../../../../lib/undux/SimpleStore.js'
 
 import { getOriginalScreenHeight } from '../../../../lib/utils/orientation'
+import { GlobalTogglesContext } from '../../../../lib/contexts/togglesContext'
 
 const useBlurredState = (options = null) => {
+  const { isDialogBlurOn, isMenuOn } = useContext(GlobalTogglesContext)
   const { whenDialog = false, whenSideMenu = false } = options || {}
   const store = SimpleStore.useStore()
-
   const isBlurred = useMemo(() => {
-    const isPopupShown = get(store.get('currentScreen'), 'dialogData.visible', false)
-    const isSideNavShown = get(store.get('sidemenu'), 'visible', false)
-    const isFeedPopupShown = !!store.get('currentFeed')
-
-    const isDialogShown = isPopupShown || isFeedPopupShown
-
-    return (whenDialog && isDialogShown) || (whenSideMenu && isSideNavShown)
-  }, [whenDialog, whenSideMenu, store])
+    return (whenDialog && isDialogBlurOn) || (whenSideMenu && isMenuOn)
+  }, [whenDialog, whenSideMenu, store, isDialogBlurOn, isMenuOn])
 
   const blurStyle = useMemo(() => {
     const isMobileKbdShown = !!store.get('isMobileKeyboardShown')

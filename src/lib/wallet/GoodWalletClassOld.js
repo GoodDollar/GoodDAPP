@@ -14,9 +14,11 @@ import FaucetABI from '@gooddollar/goodcontracts/upgradables/build/contracts/Fus
 import Web3 from 'web3'
 import { BN, toBN } from 'web3-utils'
 import abiDecoder from 'abi-decoder'
-import { flatten, get, invokeMap, last, maxBy, result, uniqBy, values } from 'lodash'
+import { chunk, flatten, get, invokeMap, last, maxBy, range, result, sortBy, uniqBy, values } from 'lodash'
 import moment from 'moment'
 import bs58 from 'bs58'
+import * as TextileCrypto from '@textile/crypto'
+
 import Config from '../../config/config'
 import logger from '../logger/pino-logger'
 import { ExceptionCategory } from '../logger/exceptions'
@@ -304,7 +306,10 @@ export class GoodWallet {
 
   //eslint-disable-next-line require-await
   async watchEvents(fromBlock, lastBlockCallback) {
-    this.lastEventsBlock = fromBlock
+    const lastBlock = await this.syncTxWithBlockchain(fromBlock).catch(_ => fromBlock)
+    lastBlockCallback(lastBlock)
+    this.lastEventsBlock = lastBlock
+
     this.pollEvents(
       () => Promise.all([this.pollSendEvents(), this.pollReceiveEvents(), this.pollOTPLEvents()]),
       Config.web3Polling,
@@ -319,7 +324,7 @@ export class GoodWallet {
 
     log.debug('_notifyEvents got events', { events, fromBlock })
     this.getSubscribers('balanceChanged').forEach(cb => cb())
-    const uniqEvents = uniqBy(events, 'transactionHash')
+    const uniqEvents = sortBy(uniqBy(events, 'transactionHash'), 'blockNumber')
     uniqEvents.forEach(event => {
       this._notifyReceipt(event.transactionHash).catch(err =>
         log.error('_notifyEvents event get/send receipt failed:', err.message, err, {
@@ -327,6 +332,41 @@ export class GoodWallet {
         }),
       )
     })
+  }
+
+  async syncTxWithBlockchain(startBlock) {
+    const lastBlock = await this.wallet.eth.getBlockNumber()
+    const steps = range(startBlock, lastBlock, 100000)
+    log.debug('Start sync tx from blockchain', {
+      steps,
+    })
+
+    try {
+      const chunks = chunk(steps, 1000)
+      for (let chunk of chunks) {
+        const ps = chunk.map(async fromBlock => {
+          let toBlock = fromBlock + 100000
+          if (toBlock > lastBlock) {
+            toBlock = lastBlock
+          }
+          log.debug('sync tx step:', { fromBlock, toBlock })
+
+          const events = await Promise.all([
+            this.pollSendEvents(toBlock, fromBlock),
+            this.pollReceiveEvents(toBlock, fromBlock),
+            this.pollOTPLEvents(toBlock, fromBlock),
+          ])
+          this._notifyEvents(flatten(events), fromBlock)
+        })
+
+        // eslint-disable-next-line no-await-in-loop
+        await Promise.all(ps)
+      }
+      log.debug('sync tx from blockchain finished successfully')
+      return lastBlock
+    } catch (e) {
+      log.error('Failed to sync tx from blockchain', e.message, e)
+    }
   }
 
   async pollSendEvents(toBlock, from = null) {
@@ -467,7 +507,7 @@ export class GoodWallet {
     const canDelete = await this.identityContract.methods
       .lastAuthenticated(this.account)
       .call()
-      .then(_ => _.toNumber() > 0)
+      .then(_ => parseInt(_) > 0)
       .catch(_ => true)
 
     if (canDelete === false) {
@@ -492,7 +532,7 @@ export class GoodWallet {
   async getNextClaimTime(): Promise<any> {
     try {
       const hasClaim = await this.checkEntitlement()
-        .then(_ => _.toNumber())
+        .then(parseInt)
         .catch(e => 0)
 
       //if has current available amount to claim then he can claim  immediatly
@@ -500,8 +540,8 @@ export class GoodWallet {
         return [0, hasClaim]
       }
 
-      const startRef = await this.UBIContract.methods.periodStart.call().then(_ => moment(_.toNumber() * 1000).utc())
-      const curDay = await this.UBIContract.methods.currentDay.call().then(_ => _.toNumber())
+      const startRef = await this.UBIContract.methods.periodStart.call().then(_ => moment(parseInt(_) * 1000).utc())
+      const curDay = await this.UBIContract.methods.currentDay.call().then(parseInt)
       if (startRef.isBefore(moment().utc())) {
         startRef.add(curDay + 1, 'days')
       }
@@ -517,8 +557,10 @@ export class GoodWallet {
       const ubiStart = await this.UBIContract.methods
         .periodStart()
         .call()
-        .then(_ => _.toNumber() * 1000)
-      const today = moment().diff(ubiStart, 'days')
+        .then(_ => parseInt(_) * 1000)
+      const today = moment()
+        .utc()
+        .diff(ubiStart, 'days')
 
       //we dont use getDailyStats because it returns stats for last day where claim happened
       //if user is the first the stats he says are incorrect and will reset once he claims
@@ -550,7 +592,7 @@ export class GoodWallet {
   async getActiveClaimers(): Promise<number> {
     try {
       const activeUsersCount = await this.UBIContract.methods.activeUsersCount().call()
-      return activeUsersCount.toNumber()
+      return parseInt(activeUsersCount)
     } catch (exception) {
       const { message } = exception
 
@@ -565,7 +607,7 @@ export class GoodWallet {
       return this.UBIContract.methods
         .dailyCyclePool()
         .call()
-        .then(_ => _.toNumber())
+        .then(parseInt)
     } catch (exception) {
       const { message } = exception
       log.warn('getTodayDistribution failed', message, exception)
@@ -723,7 +765,14 @@ export class GoodWallet {
     let account = this.getAccountForType(accountType)
     let signed = await this.wallet.eth.sign(toSign, account)
 
-    return signed.signature
+    return signed
+  }
+
+  // eslint-disable-next-line require-await
+  getEd25519Key(accountType: AccountUsage): TextileCrypto.PrivateKey {
+    const pkeySeed = this.wallet.eth.accounts.wallet[this.getAccountForType(accountType)].privateKey.slice(2)
+    const seed = Uint8Array.from(Buffer.from(pkeySeed, 'hex'))
+    return TextileCrypto.PrivateKey.fromRawEd25519Seed(seed)
   }
 
   /**
@@ -747,7 +796,7 @@ export class GoodWallet {
       return this.identityContract.methods
         .dateAdded(this.account)
         .call()
-        .then(_ => _.toNumber())
+        .then(parseInt)
         .then(_ => new Date(_ * 1000))
     } catch (exception) {
       const { message } = exception
@@ -834,7 +883,7 @@ export class GoodWallet {
       throw new Error(`Amount is bigger than balance`)
     }
 
-    const otpAddress = this.oneTimePaymentsContract.address
+    const otpAddress = this.oneTimePaymentsContract._address
     const transferAndCall = this.tokenContract.methods.transferAndCall(otpAddress, amount, hashedCode)
 
     // Fixed gas amount so it can work locally with ganache
@@ -1004,9 +1053,13 @@ export class GoodWallet {
    * @param {object} txCallbacks
    * @returns {Promise<TransactionReceipt>}
    */
-  cancelOTL(hashedCode: string, txCallbacks: {} = {}): Promise<TransactionReceipt> {
-    const cancelOtlCall = this.oneTimePaymentsContract.methods.cancel(hashedCode)
-    return this.sendTransaction(cancelOtlCall, txCallbacks)
+  async cancelOTL(hashedCode: string, txCallbacks: {} = {}): Promise<TransactionReceipt> {
+    //check if already canceled
+    const isValid = await this.isPaymentLinkAvailable(hashedCode)
+    if (isValid) {
+      const cancelOtlCall = this.oneTimePaymentsContract.methods.cancel(hashedCode)
+      return this.sendTransaction(cancelOtlCall, txCallbacks)
+    }
   }
 
   async collectInviteBounties() {
@@ -1027,7 +1080,7 @@ export class GoodWallet {
 
   async hasJoinedInvites() {
     const user = await this.invitesContract.methods.users(this.account).call()
-    return [user.joinedAt.toNumber() > 0, user.invitedBy]
+    return [parseInt(user.joinedAt) > 0, user.invitedBy]
   }
 
   async joinInvites(inviter, codeLength = 10) {
@@ -1071,7 +1124,7 @@ export class GoodWallet {
         .levels(user.level)
         .call()
         .catch(_ => {})) || {}
-    return result(level, 'bounty.toNumber', 10000) / 100
+    return parseInt(get(level, 'bounty', 10000)) / 100
   }
 
   handleError(e: Error) {
@@ -1117,7 +1170,7 @@ export class GoodWallet {
 
     log.info({ amount, to, data })
     const transferCall = data
-      ? this.tokenContract.methods.transferAndCall(to, amount.toString(), data)
+      ? this.tokenContract.methods.transferAndCall(to, amount.toString(), this.wallet.utils.toHex(data))
       : this.tokenContract.methods.transfer(to, amount.toString()) // retusn TX object (not sent to the blockchain yet)
 
     return this.sendTransaction(transferCall, callbacks) // Send TX to the blockchain

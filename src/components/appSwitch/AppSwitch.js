@@ -14,7 +14,7 @@ import GDStore from '../../lib/undux/GDStore'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
 import { updateAll as updateWalletStatus } from '../../lib/undux/utils/account'
 import { checkAuthStatus as getLoginState } from '../../lib/login/checkAuthStatus'
-import userStorage from '../../lib/gundb/UserStorage'
+import userStorage from '../../lib/userStorage/UserStorage'
 import runUpdates from '../../lib/updates'
 import useAppState from '../../lib/hooks/useAppState'
 import { identifyWith } from '../../lib/analytics/analytics'
@@ -150,20 +150,22 @@ const AppSwitch = (props: LoadingProps) => {
       //after dynamic routes update, if user arrived here, then he is already loggedin
       //initialize the citizen status and wallet status
       //create jwt token and initialize the API service
-      const [{ isLoggedInCitizen, isLoggedIn }] = await Promise.all([getLoginState(), updateWalletStatus(gdstore)])
+      updateWalletStatus(gdstore)
+      const { isLoggedInCitizen, isLoggedIn } = await getLoginState()
       log.debug('initialize ready', { isLoggedIn, isLoggedInCitizen })
       const initReg = userStorage.initRegistered()
       gdstore.set('isLoggedIn')(isLoggedIn)
       gdstore.set('isLoggedInCitizen')(isLoggedInCitizen)
 
       //identify user asap for analytics
+
       const identifier = goodWallet.getAccountForType('login')
       identifyWith(undefined, identifier)
-
-      initialize()
-      runUpdates()
       showOutOfGasError(props)
       await initReg
+      initialize()
+      runUpdates() //this needs to wait after initreg where we initialize the database
+
       setReady(true)
     } catch (e) {
       const dialogShown = unsuccessfulLaunchAttempts > 3
@@ -171,7 +173,16 @@ const AppSwitch = (props: LoadingProps) => {
       unsuccessfulLaunchAttempts += 1
 
       if (dialogShown) {
+        //if error in realmdb logout the user, he needs to signin/signup again
         log.error('failed initializing app', e.message, e, { dialogShown })
+        if (e.message.includes('realmdb')) {
+          await AsyncStorage.clear()
+          return showErrorDialog(
+            'We are sorry, but due to database upgrade, you need to perform the Signup process again. Make sure to use the same account you previously signed in with.',
+            '',
+            { onDismiss: () => restart('/') },
+          )
+        }
         showErrorDialog('Wallet could not be loaded. Please refresh.', '', { onDismiss: () => restart('/') })
       } else {
         await delay(1500)
@@ -194,6 +205,8 @@ const AppSwitch = (props: LoadingProps) => {
     }
 
     if (ready && gdstore) {
+      userStorage.feedDB._syncFromRemote()
+      userStorage.userProperties._syncFromRemote()
       showOutOfGasError(props)
     }
   }, [gdstore, ready])

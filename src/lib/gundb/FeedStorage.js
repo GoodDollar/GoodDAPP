@@ -29,8 +29,7 @@ import delUndefValNested from '../utils/delUndefValNested'
 import AsyncStorage from '../utils/asyncStorage'
 import logger from '../../lib/logger/pino-logger'
 import { delay } from '../utils/async'
-import { isValidBase64Image } from '../utils/image'
-import Base64Storage from '../nft/Base64Storage'
+import { updateFeedEventAvatar } from '../updates/utils'
 
 const log = logger.child({ from: 'FeedStorage' })
 
@@ -305,7 +304,7 @@ export class FeedStorage {
 
         return (
           e.name === 'PaymentDeposit' &&
-          to.toLowerCase() === this.wallet.oneTimePaymentsContract.address.toLowerCase() &&
+          to.toLowerCase() === this.wallet.oneTimePaymentsContract._address.toLowerCase() &&
           from.toLowerCase() === this.walletAddress
         )
       })
@@ -323,14 +322,14 @@ export class FeedStorage {
 
     if (eventsName.Transfer) {
       const gdTransferEvents = events.filter(
-        e => this.wallet.erc20Contract.address.toLowerCase() === e.address.toLowerCase() && e.name === 'Transfer',
+        e => this.wallet.erc20Contract._address.toLowerCase() === e.address.toLowerCase() && e.name === 'Transfer',
       )
 
       //we are not listening to the PaymentDeposit event so check here
       if (
         gdTransferEvents.find(
           e =>
-            e.data.to.toLowerCase() === this.wallet.oneTimePaymentsContract.address.toLowerCase() &&
+            e.data.to.toLowerCase() === this.wallet.oneTimePaymentsContract._address.toLowerCase() &&
             e.data.from.toLowerCase() === this.walletAddress,
         )
       ) {
@@ -568,9 +567,9 @@ export class FeedStorage {
             // if yes - upload it and store CID instead
             let value = _value
 
-            if (Config.nftLazyUpload && 'smallAvatar' === field && isValidBase64Image(value)) {
+            if (Config.ipfsLazyUpload && 'smallAvatar' === field) {
               // keep old base64 value if upload failed
-              value = await Base64Storage.store(value).catch(() => _value)
+              value = await updateFeedEventAvatar(value).catch(() => _value)
             }
 
             // ********************************************
@@ -868,28 +867,6 @@ export class FeedStorage {
       .then(_ => feedEvent)
       .catch(e => {
         log.error('updateEventStatus failedEncrypt byId:', e.message, e, {
-          feedEvent,
-        })
-
-        return {}
-      })
-  }
-
-  /**
-   * Sets the feed animation status
-   * @param {string} eventId
-   * @param {boolean} status
-   * @returns {Promise<FeedEvent>}
-   */
-  async updateFeedAnimationStatus(eventId: string, status = true): Promise<FeedEvent> {
-    const feedEvent = await this.getFeedItemByTransactionHash(eventId)
-
-    feedEvent.animationExecuted = status
-
-    return this.writeFeedEvent(feedEvent)
-      .then(_ => feedEvent)
-      .catch(e => {
-        log.error('updateFeedAnimationStatus by ID failed:', e.message, e, {
           feedEvent,
         })
 

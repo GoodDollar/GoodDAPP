@@ -8,14 +8,14 @@ exports[`SendModalItemWithError matches snapshot 1`] = `
     className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-justifyContent-1777fci"
   >
     <div
-      className="css-text-901oao r-color-11zaip3 r-fontFamily-vnw8o6 r-fontSize-evnaw r-fontWeight-majxgm r-lineHeight-17rnw9f r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+      className="css-text-901oao r-color-11zaip3 r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-majxgm r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
       dir="auto"
     >
       We're sorry.
 This transaction failed.
     </div>
     <div
-      className="css-text-901oao r-color-11zaip3 r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-lineHeight-hbpseb r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+      className="css-text-901oao r-color-11zaip3 r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
       dir="auto"
     >
       Something went wrong on our side,
@@ -25,11 +25,12 @@ please try again.
       className="css-view-1dbjc4n r-borderColor-1bakgjs r-borderRadius-ieixw r-borderWidth-1d6rzhh r-display-6koalj r-flexDirection-18u37iz r-flexGrow-18kxxzh r-flexShrink-1q142lx r-justifyContent-1777fci r-marginTop-1wzrnnt r-padding-494qqr"
     >
       <div
-        className="css-text-901oao r-color-11zaip3 r-fontSize-1x35g6 r-fontWeight-1it3c9n"
+        className="css-text-901oao r-color-11zaip3 r-fontWeight-1it3c9n"
         dir="auto"
         style={
           Object {
             "fontFamily": "gooddollar",
+            "fontSize": "24px",
             "fontStyle": "normal",
           }
         }
@@ -53,13 +54,13 @@ please try again.
       className="css-view-1dbjc4n r-alignItems-obd0qt r-borderBottomColor-c7jyll r-borderBottomWidth-qklmqi r-borderStyle-1phboty r-flexDirection-18u37iz r-height-eu3ka r-justifyContent-1wtj0ep r-marginTop-14gqq1x r-paddingBottom-iphfwy"
     >
       <div
-        className="css-text-901oao r-color-vaa0vc r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-1it3c9n r-lineHeight-rjixqe r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+        className="css-text-901oao r-color-vaa0vc r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
         dir="auto"
       >
         To:
       </div>
       <div
-        className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1x35g6 r-fontWeight-1it3c9n r-lineHeight-17rnw9f r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+        className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
         dir="auto"
       >
         Misao Matimbo
@@ -69,7 +70,7 @@ please try again.
       className="css-view-1dbjc4n r-alignItems-obd0qt r-borderBottomColor-c7jyll r-borderBottomWidth-qklmqi r-borderStyle-1phboty r-flexDirection-18u37iz r-height-eu3ka r-justifyContent-1wtj0ep r-marginTop-14gqq1x r-paddingBottom-iphfwy"
     >
       <div
-        className="css-text-901oao r-color-vaa0vc r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-1it3c9n r-lineHeight-rjixqe r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+        className="css-text-901oao r-color-vaa0vc r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
         dir="auto"
       >
         Amount:
@@ -78,7 +79,7 @@ please try again.
         className="css-view-1dbjc4n r-alignItems-1d09ksm r-display-6koalj r-flexDirection-18u37iz"
       >
         <div
-          className="css-text-901oao r-color-1q5uqvh r-fontFamily-6jnb14 r-fontSize-1x35g6 r-fontWeight-b88u0q r-lineHeight-ueyrd6 r-marginRight-a5pmau r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+          className="css-text-901oao r-color-1q5uqvh r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-marginRight-a5pmau r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
           dir="auto"
         >
           0.04
@@ -87,13 +88,13 @@ please try again.
           className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
         >
           <div
-            className="css-text-901oao r-color-1q5uqvh r-fontFamily-6jnb14 r-fontSize-1b43r93 r-fontWeight-b88u0q r-lineHeight-hbpseb r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+            className="css-text-901oao r-color-1q5uqvh r-fontFamily-6jnb14 r-fontSize-1b43r93 r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
             dir="auto"
           >
             G
           </div>
           <div
-            className="css-text-901oao r-color-1q5uqvh r-fontFamily-6jnb14 r-fontSize-1b43r93 r-fontWeight-b88u0q r-lineHeight-hbpseb r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+            className="css-text-901oao r-color-1q5uqvh r-fontFamily-6jnb14 r-fontSize-1b43r93 r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
             dir="auto"
           >
             $
@@ -105,13 +106,13 @@ please try again.
       className="css-view-1dbjc4n r-alignItems-obd0qt r-borderBottomColor-c7jyll r-borderBottomWidth-qklmqi r-borderStyle-1phboty r-flexDirection-18u37iz r-height-eu3ka r-justifyContent-1wtj0ep r-marginTop-14gqq1x r-paddingBottom-iphfwy"
     >
       <div
-        className="css-text-901oao r-color-vaa0vc r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-1it3c9n r-lineHeight-rjixqe r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+        className="css-text-901oao r-color-vaa0vc r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
         dir="auto"
       >
         For:
       </div>
       <div
-        className="css-text-901oao css-textMultiLine-cens5h r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-1it3c9n r-lineHeight-rjixqe r-marginLeft-1n0xq6e r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+        className="css-text-901oao css-textMultiLine-cens5h r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-1it3c9n r-lineHeight-qvk6io r-marginLeft-1n0xq6e r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
         dir="auto"
         style={
           Object {
@@ -131,16 +132,13 @@ please try again.
     >
       <div
         className="css-text-901oao r-color-cddv6f r-cursor-1loqt21 r-fontFamily-vnw8o6 r-fontSize-1gkfh8e r-fontWeight-1it3c9n r-lineHeight-1b6yf8j r-textAlign-fdjqy7 r-textDecorationLine-1ddef8g r-textTransform-3twk1y"
-        data-focusable={true}
         dir="auto"
         onClick={[Function]}
-        onKeyDown={[Function]}
-        tabIndex="0"
       >
         Transaction Details
       </div>
       <div
-        className="css-text-901oao css-textOneLine-bfa6kz r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1gkfh8e r-fontWeight-1it3c9n r-lineHeight-1b6yf8j r-maxWidth-x1dlf0 r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+        className="css-text-901oao css-textOneLine-vcwn7f r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1gkfh8e r-fontWeight-1it3c9n r-lineHeight-1b6yf8j r-maxWidth-x1dlf0 r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
         dir="auto"
       >
         0x9812619905da200c4effe8cd2ca4b2b31eeddf133f8fd283069d2e5aec3b9f77
@@ -148,6 +146,7 @@ please try again.
     </div>
     <div
       className="css-view-1dbjc4n r-alignItems-1oszu61 r-borderStyle-1phboty r-display-6koalj r-justifyContent-1777fci"
+      id="animatedComponent"
       style={
         Object {
           "backgroundColor": "rgba(0,175,255,1.00)",
@@ -179,16 +178,9 @@ please try again.
     >
       <div
         className="css-cursor-18t94o4 css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
-        data-focusable={true}
+        onClick={[Function]}
+        onContextMenu={[Function]}
         onKeyDown={[Function]}
-        onKeyPress={[Function]}
-        onKeyUp={[Function]}
-        onResponderGrant={[Function]}
-        onResponderMove={[Function]}
-        onResponderRelease={[Function]}
-        onResponderTerminate={[Function]}
-        onResponderTerminationRequest={[Function]}
-        onStartShouldSetResponder={[Function]}
         role="button"
         style={
           Object {
@@ -222,7 +214,7 @@ please try again.
               className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
             >
               <div
-                className="css-text-901oao r-alignItems-1awozwy r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-hbpseb r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
+                className="css-text-901oao r-alignItems-1awozwy r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-qvk6io r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
                 dir="auto"
               >
                 Ok

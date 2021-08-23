@@ -41,6 +41,12 @@ describe('Wallet Initialization', () => {
     expect(goodWallet.getAccountForType('gd')).toBe(goodWallet.accounts[0].address)
     expect(goodWallet.getAccountForType('faceVerification')).toBe(goodWallet.accounts[5].address)
   })
+
+  it('should have connection', async () => {
+    await goodWallet.wallet.eth.getBalance(goodWallet.account)
+    const connected = goodWallet.wallet.currentProvider.connected
+    expect(connected).toBeTruthy()
+  })
 })
 
 describe('Wallet Creation', () => {

@@ -14,18 +14,17 @@ exports[`FaceVerification DuplicateFoundError matches snapshot 1`] = `
     }
   >
     <div
-      className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-14lw9ot r-borderRadius-1f0042m r-display-6koalj r-flex-13awgt0 r-flexGrow-16y2uox r-flexShrink-1q142lx r-height-1pi2tsx r-justifyContent-1d7fvdj r-paddingBottom-1l7z4oj r-paddingLeft-1m04atk r-paddingRight-1pyaxff r-paddingTop-95jzfe"
+      className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-14lw9ot r-borderRadius-1f0042m r-display-6koalj r-flex-13awgt0 r-flexGrow-16y2uox r-flexShrink-1q142lx r-height-1pi2tsx r-justifyContent-1d7fvdj r-paddingBottom-1mdbw0j r-paddingLeft-gy4na3 r-paddingRight-9aemit r-paddingTop-wk8lta"
     >
       <div
-        className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderRadius-1f0042m r-flex-13awgt0 r-justifyContent-1d7fvdj r-marginBottom-p1pxzi r-paddingBottom-1l7z4oj r-paddingHorizontal-1e081e0 r-paddingLeft-1m04atk r-paddingRight-1pyaxff r-paddingTop-tskmnb r-paddingVertical-1yzf0co r-width-13qz1uu"
+        className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderRadius-1f0042m r-flex-13awgt0 r-justifyContent-1d7fvdj r-marginBottom-p1pxzi r-paddingBottom-1mdbw0j r-paddingHorizontal-1e081e0 r-paddingLeft-gy4na3 r-paddingRight-9aemit r-paddingTop-wk8lta r-paddingVertical-1yzf0co r-width-13qz1uu"
       >
         <div
-          className="css-text-901oao r-color-11zaip3 r-fontFamily-vnw8o6 r-fontSize-1x35g6 r-fontWeight-1it3c9n r-lineHeight-17rnw9f r-marginVertical-c8eef1 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+          className="css-text-901oao r-color-11zaip3 r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-1it3c9n r-lineHeight-qvk6io r-marginVertical-c8eef1 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
           dir="auto"
         >
           <span
-            className="css-text-901oao css-textHasAncestor-16my406 r-color-11zaip3 r-fontFamily-vnw8o6 r-fontSize-1x35g6 r-fontWeight-b88u0q r-lineHeight-17rnw9f r-marginVertical-c8eef1 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
-            dir="auto"
+            className="css-text-901oao css-textHasAncestor-16my406 r-color-11zaip3 r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-marginVertical-c8eef1 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
           />
           ,
 Unfortunately we found 
@@ -35,22 +34,20 @@ your twin...
           className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderRadius-1f0042m r-marginBottom-p1pxzi r-paddingBottom-1mdbw0j r-paddingHorizontal-1e081e0 r-paddingTop-wk8lta r-paddingVertical-1yzf0co"
         >
           <div
-            className="css-view-1dbjc4n r-paddingBottom-b6sd5j r-paddingTop-qiwf3y"
+            className="css-view-1dbjc4n r-paddingBottom-1mdbw0j r-paddingTop-wk8lta"
           >
             <div
-              className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-lineHeight-hbpseb r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+              className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
               dir="auto"
             >
               <span
-                className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1i10wst r-fontWeight-b88u0q r-lineHeight-waer2z r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
-                dir="auto"
+                className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
               >
                 You can open ONLY ONE account 
 per person. 
               </span>
               <span
-                className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1i10wst r-fontWeight-1it3c9n r-lineHeight-waer2z r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
-                dir="auto"
+                className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
               >
                 If this is your only active 
 account - please contact our support
@@ -62,7 +59,7 @@ account - please contact our support
           className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1d7fvdj"
         >
           <div
-            className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-height-ma5732 r-justifyContent-1777fci r-marginBottom-p1pxzi r-marginLeft-11wrixw r-marginRight-61z16t r-marginTop-1mnahxq r-width-13qz1uu"
+            className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-height-1w2pmg r-justifyContent-1777fci r-marginBottom-p1pxzi r-marginLeft-11wrixw r-marginRight-61z16t r-marginTop-1mnahxq r-width-13qz1uu"
           >
             <FVErrorTwin.svg />
           </div>
@@ -72,7 +69,8 @@ account - please contact our support
         className="css-view-1dbjc4n r-width-13qz1uu"
       >
         <div
-          className="css-view-1dbjc4n r-display-6koalj r-justifyContent-1777fci r-marginLeft-11wrixw r-marginRight-61z16t r-marginTop-1mnahxq"
+          className="css-view-1dbjc4n r-display-6koalj r-justifyContent-1777fci r-marginBottom-p1pxzi r-marginLeft-11wrixw r-marginRight-61z16t r-marginTop-1mnahxq r-paddingLeft-gy4na3 r-paddingRight-9aemit"
+          id="animatedComponent"
           style={
             Object {
               "WebkitAlignItems": "stretch",
@@ -95,7 +93,6 @@ account - please contact our support
               "borderTopRightRadius": "50px",
               "borderTopStyle": "solid",
               "borderTopWidth": "1px",
-              "marginBottom": "16px",
               "minHeight": "44px",
               "minWidth": "64px",
               "msFlexAlign": "stretch",
@@ -108,16 +105,9 @@ account - please contact our support
         >
           <div
             className="css-cursor-18t94o4 css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
-            data-focusable={true}
+            onClick={[Function]}
+            onContextMenu={[Function]}
             onKeyDown={[Function]}
-            onKeyPress={[Function]}
-            onKeyUp={[Function]}
-            onResponderGrant={[Function]}
-            onResponderMove={[Function]}
-            onResponderRelease={[Function]}
-            onResponderTerminate={[Function]}
-            onResponderTerminationRequest={[Function]}
-            onStartShouldSetResponder={[Function]}
             role="button"
             style={
               Object {
@@ -151,7 +141,7 @@ account - please contact our support
                   className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
                 >
                   <div
-                    className="css-text-901oao r-alignItems-1awozwy r-color-1q5uqvh r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-hbpseb r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
+                    className="css-text-901oao r-alignItems-1awozwy r-color-1q5uqvh r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-qvk6io r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
                     dir="auto"
                   >
                     CONTACT SUPPORT
@@ -162,7 +152,8 @@ account - please contact our support
           </div>
         </div>
         <div
-          className="css-view-1dbjc4n r-display-6koalj r-justifyContent-1777fci r-marginBottom-p1pxzi r-marginLeft-11wrixw r-marginRight-61z16t r-marginTop-1mnahxq"
+          className="css-view-1dbjc4n r-display-6koalj r-justifyContent-1777fci r-marginBottom-p1pxzi r-marginLeft-11wrixw r-marginRight-61z16t r-marginTop-1mnahxq r-paddingLeft-gy4na3 r-paddingRight-9aemit"
+          id="animatedComponent"
           style={
             Object {
               "WebkitAlignItems": "stretch",
@@ -198,16 +189,9 @@ account - please contact our support
         >
           <div
             className="css-cursor-18t94o4 css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
-            data-focusable={true}
+            onClick={[Function]}
+            onContextMenu={[Function]}
             onKeyDown={[Function]}
-            onKeyPress={[Function]}
-            onKeyUp={[Function]}
-            onResponderGrant={[Function]}
-            onResponderMove={[Function]}
-            onResponderRelease={[Function]}
-            onResponderTerminate={[Function]}
-            onResponderTerminationRequest={[Function]}
-            onStartShouldSetResponder={[Function]}
             role="button"
             style={
               Object {
@@ -241,7 +225,7 @@ account - please contact our support
                   className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
                 >
                   <div
-                    className="css-text-901oao r-alignItems-1awozwy r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-hbpseb r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
+                    className="css-text-901oao r-alignItems-1awozwy r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-qvk6io r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
                     dir="auto"
                   >
                     TRY AGAIN

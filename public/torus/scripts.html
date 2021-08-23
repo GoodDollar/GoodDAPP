@@ -124,22 +124,13 @@
         <div class="beat beat-odd"></div>
     </div>
     <div class="title content" id="redirectText" style="display: none;">
-      <div id="navigateLinkWrapper">
-        <a id="navigateLink">Click here</a> to continue with your login
-      </div>
-      <div id="nonChromeMessageWrapper" style="display: none;">
-        Could not redirect to the GoodDollar app from the browser you're using.
-        <br>
-        Please, switch your default browser to Chrome and try login again.
-      </div>
+        <div><a id="navigateLink">Click here</a> to continue with your login</div>
     </div>
 </div>
 <script>
     document.getElementById("message").style.visibility = "visible";
     var navigateLink = document.getElementById("navigateLink");
     var redirectText = document.getElementById("redirectText");
-    var navigateLinkWrapper = document.getElementById("navigateLinkWrapper");
-    var nonChromeMessageWrapper = document.getElementById("nonChromeMessageWrapper");
     var linkToNavigate;
     var instanceParams = {};
     // Replace these urls with your app package urls
@@ -176,18 +167,9 @@
         if (whiteListedURLs.includes(instanceParams.redirectUri)) {
             linkToNavigate = instanceParams.redirectUri + location.search + location.hash;
             window.location.href = linkToNavigate;
-
             setTimeout(() => {
-              var ua = navigator.userAgent;
-
-              if (ua.includes("Android") && !ua.includes("Chrome")) {
-                navigateLinkWrapper.style.display = "none";
-                nonChromeMessageWrapper.style.display = "block";
-              } else {
                 navigateLink.href = linkToNavigate;
-              }
-
-              redirectText.style.display = "block";
+                redirectText.style.display = "block";
             }, 1000)
         }
         else {

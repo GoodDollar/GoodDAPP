@@ -8,7 +8,7 @@ exports[`Section matches snapshot 1`] = `
     className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderRadius-1f0042m r-paddingHorizontal-1e081e0 r-paddingVertical-1yzf0co"
   >
     <div
-      className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1x35g6 r-fontWeight-1it3c9n r-lineHeight-17rnw9f r-marginVertical-c8eef1 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
+      className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-1it3c9n r-lineHeight-qvk6io r-marginVertical-c8eef1 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
       dir="auto"
     >
       GoodDollar is a good economy, each day you can collect your part in the economy
@@ -17,7 +17,7 @@ exports[`Section matches snapshot 1`] = `
       className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
     >
       <div
-        className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-lineHeight-hbpseb r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+        className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
         dir="auto"
       >
         TODAY'S DAILY INCOME 
@@ -46,7 +46,7 @@ exports[`Section matches snapshot with properties 1`] = `
       }
     >
       <div
-        className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-lineHeight-hbpseb r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+        className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
         dir="auto"
       >
         Second text
@@ -64,7 +64,7 @@ exports[`Section matches snapshot with properties 1`] = `
       }
     >
       <div
-        className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-lineHeight-hbpseb r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+        className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
         dir="auto"
       >
         TODAY'S DAILY INCOME 

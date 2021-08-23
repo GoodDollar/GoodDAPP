@@ -1,15 +1,16 @@
-import { useCallback } from 'react'
+import { useCallback, useContext } from 'react'
 import { noop } from 'lodash'
-import SimpleStore, { useCurriedSetters } from '../undux/SimpleStore.js'
+import SimpleStore from '../undux/SimpleStore.js'
 import { useDialog } from '../undux/utils/dialog'
 import { fireEventFromNavigation } from '../analytics/analytics'
 import { getRoutePath } from '../../components/appNavigation/stackNavigation'
+import { GlobalTogglesContext } from '../contexts/togglesContext'
 
 export default (options = {}) => {
   const [, hideDialog] = useDialog()
   const store = SimpleStore.useStore()
 
-  const [setCurrentFeed, setSideMenu] = useCurriedSetters(['currentFeed', 'sidemenu'])
+  const { setMenu, setDialogBlur } = useContext(GlobalTogglesContext)
   const { resetFeed = true, resetMenu = true, resetPopups = true, fireEvent = true, onChange = noop } = options
 
   return useCallback(
@@ -29,18 +30,17 @@ export default (options = {}) => {
       }
 
       if (resetFeed) {
-        setCurrentFeed(null)
+        setDialogBlur(false)
       }
 
       if (resetMenu) {
-        const { visible } = store.get('sidemenu')
-        visible && setSideMenu({ visible: false })
+        setMenu(false)
       }
 
       if (fireEvent) {
         fireEventFromNavigation(action)
       }
     },
-    [hideDialog, setSideMenu, setCurrentFeed, resetFeed, resetMenu, resetPopups, fireEvent, onChange, store],
+    [hideDialog, setMenu, setDialogBlur, resetFeed, resetMenu, resetPopups, fireEvent, onChange, store],
   )
 }

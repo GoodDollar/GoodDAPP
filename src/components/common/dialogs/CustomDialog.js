@@ -5,6 +5,7 @@ import { Paragraph, Portal } from 'react-native-paper'
 import { isString } from 'lodash'
 import normalize from '../../../lib/utils/normalizeText'
 import SimpleStore from '../../../lib/undux/SimpleStore'
+import { useDialog } from '../../../lib/undux/utils/dialog'
 import CustomButton from '../buttons/CustomButton'
 import ErrorAnimation from '../../common/animations/Error'
 import SuccessIcon from '../modal/SuccessIcon'
@@ -147,13 +148,14 @@ const getColorFromType = (type: string) => {
 
 const SimpleStoreDialog = () => {
   const store = SimpleStore.useStore()
+  const [, hideDialog] = useDialog()
   const { dialogData } = store.get('currentScreen')
   return (
     <CustomDialog
       {...dialogData}
       onDismiss={(...args) => {
         const currentDialogData = { ...dialogData }
-        store.set('currentScreen')({ dialogData: { visible: false } })
+        hideDialog()
         currentDialogData.onDismiss && currentDialogData.onDismiss(currentDialogData)
       }}
     />

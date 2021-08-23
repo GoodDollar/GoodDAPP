@@ -1,12 +1,12 @@
 // @flow
 import React, { useCallback } from 'react'
 import { Platform, View } from 'react-native'
-import GDStore from '../../lib/undux/GDStore'
 import { createStackNavigator } from '../appNavigation/stackNavigation'
 import { Section, Text, UserAvatar, Wrapper } from '../common'
 import { withStyles } from '../../lib/styles'
 import { getDesignRelativeWidth } from '../../lib/utils/sizes'
 import RoundIconButton from '../common/buttons/RoundIconButton'
+import { usePublicProfile } from '../../lib/userStorage/useProfile'
 import EditAvatar from './EditAvatar'
 import EditProfile from './EditProfile'
 import ProfileDataTable from './ProfileDataTable'
@@ -18,8 +18,7 @@ import VerifyEditCode from './VerifyEditCode'
 const avatarSize = getDesignRelativeWidth(136)
 
 const ProfileWrapper = props => {
-  const store = GDStore.useStore()
-  const profile = store.get('profile')
+  const profile = usePublicProfile()
   const { screenProps, styles } = props
 
   const handleAvatarPress = useCallback(() => screenProps.push(`ViewAvatar`), [screenProps])

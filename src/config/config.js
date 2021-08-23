@@ -1,14 +1,17 @@
 import { once } from 'lodash'
 import { version as contractsVersion } from '../../node_modules/@gooddollar/goodcontracts/package.json'
 import { version } from '../../package.json'
+
 import { isWeb } from '../lib/utils/platform'
-import { env as devenv, fixNL } from '../lib/utils/env'
+import { env as devenv, fixNL, publicUrlForEnv } from '../lib/utils/env'
+import mustache from '../lib/utils/mustache'
 
 import env from './env'
 
 // E2E checker utility import
 //import { isE2ERunning } from '../lib/utils/platform'
 const { search: qs = '', origin } = isWeb ? window.location : {}
+let publicUrl = env.REACT_APP_PUBLIC_URL || origin
 
 const forceLogLevel = qs.match(/level=(.*?)($|&)/)
 const forcePeer = qs.match(/gun=(.*?)($|&)/)
@@ -21,22 +24,14 @@ const isPhaseOne = 1 === phase
 const isPhaseTwo = 2 === phase
 
 const alchemyKey = env.REACT_APP_ALCHEMY_KEY
-let publicUrl = env.REACT_APP_PUBLIC_URL || origin
 const isEToro = env.REACT_APP_ETORO === 'true' || env.REACT_APP_NETWORK === 'etoro'
+const ipfsGateways = env.REACT_APP_IPFS_GATEWAYS || 'https://cloudflare-ipfs.com/ipfs/{cid},https://ipfs.io/ipfs/{cid},https://{cid}.ipfs.dweb.link'
 
 if (!publicUrl) {
-  publicUrl = (() => {
-    switch (appEnv) {
-      case 'development':
-        return 'https://gooddev.netlify.app'
-      case 'staging':
-        return 'https://goodqa.netlify.app'
-      case 'production':
-        return 'https://wallet.gooddollar.org'
-      default:
-        return
-    }
-  })()
+  publicUrl = publicUrlForEnv(appEnv)
+} else if (!isWeb && publicUrl.includes(':localhost')) {
+  // hotfix REACT_APP_PUBLIC_URL from .env for the local native app run
+  publicUrl = publicUrlForEnv('development')
 }
 
 const Config = {
@@ -52,12 +47,11 @@ const Config = {
   logLevel: (forceLogLevel && forceLogLevel[1]) || env.REACT_APP_LOG_LEVEL || 'debug',
   serverUrl: env.REACT_APP_SERVER_URL || 'http://localhost:3003',
   gunPublicUrl: env.REACT_APP_GUN_PUBLIC_URL || 'http://localhost:3003/gun',
-  nftStorageKey: env.REACT_APP_NFT_STORAGE_KEY,
-  nftPeers: (
-    env.REACT_APP_NFT_PEERS ||
-    'https://cloudflare-ipfs.com/ipfs/{cid},https://ipfs.io/ipfs/{cid},https://{cid}.ipfs.dweb.link'
-  ).split(','),
-  nftLazyUpload: env.REACT_APP_NFT_LAZY_UPLOAD === 'true',
+  ipfsGateways: ipfsGateways.split(',').map(mustache),
+  ipfsLazyUpload: env.REACT_APP_IPFS_LAZY_UPLOAD === 'true',
+  pinataApiKey: env.REACT_APP_PINATA_API_KEY,
+  pinataSecret: env.REACT_APP_PINATA_SECRET,
+  pinataBaseUrl: env.REACT_APP_PINATA_API_URL || 'https://api.pinata.cloud',
   learnMoreEconomyUrl: env.REACT_APP_ECONOMY_URL || 'https://www.gooddollar.org/economic-model/',
   publicUrl,
   dashboardUrl: env.REACT_APP_DASHBOARD_URL || 'https://dashboard.gooddollar.org',
@@ -119,7 +113,10 @@ const Config = {
   smsRateLimit: env.REACT_APP_SMS_RATE_LIMIT || 60 * 1000, // rate limit for sms code verification resend
   recaptchaSiteKey: env.REACT_APP_RECAPTCHA_SITE_KEY,
   alchemyKey,
+  textileKey: env.REACT_APP_TEXTILE_KEY,
+  textileSecret: env.REACT_APP_TEXTILE_SECRET,
   web3Polling: env.REACT_APP_WEB3_POLLING || 30 * 1000, //poll every 30 seconds by default
+  realmAppID: env.REACT_APP_REALM_APP_ID || 'wallet_dev-dhiht',
   ethereum: {
     '1': {
       network_id: 1,
@@ -160,8 +157,8 @@ const Config = {
     },
     '4447': {
       network_id: 4447,
-      httpWeb3provider: 'http://localhost:9545/',
-      websocketWeb3Provider: 'ws://localhost:9545/ws',
+      httpWeb3provider: 'http://localhost:8545/',
+      websocketWeb3Provider: 'ws://localhost:8545/ws',
     },
   },
   nodeEnv: env.NODE_ENV,

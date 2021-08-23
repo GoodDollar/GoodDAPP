@@ -1,66 +1,48 @@
-import { isString } from 'lodash'
+import { first, groupBy, set, values } from 'lodash'
+import userStorage from '../userStorage/UserStorage'
 
-import userStorage from '../gundb/UserStorage'
-import Base64Storage from '../nft/Base64Storage'
+import { analyzeAvatar, updateFeedEventAvatar } from './utils'
 
-import { isValidBase64Image, isValidCIDImage } from '../utils/image'
-
-const fromDate = new Date('2021/06/08')
+const fromDate = new Date('2021/08/06')
 
 const uploadProfileAvatar = async () => {
   const avatar = await userStorage.getProfileFieldValue('avatar')
-
-  // if empty - do nothing
-  if (!isString(avatar)) {
-    return
-  }
-
-  // if still base64 - re-set avatar, userStorage will resize & upload
-  // both avatar and smallAvatar it and store theirs CIDs in the GunDB
-  if (isValidBase64Image(avatar)) {
-    await userStorage.setAvatar(avatar, true)
-  } else {
-    // if already cid - check is cid valid and exists
-    try {
-      if (!isValidCIDImage(avatar)) {
-        throw new Error('Not a valid CID')
-      }
-
-      await Base64Storage.load(avatar, true)
-    } catch {
-      // set null (delete avatar) if fails
-      await userStorage.removeAvatar(true)
-    }
+  const { shouldUpload, shouldUnset, dataUrl } = await analyzeAvatar(avatar)
+  if (shouldUnset) {
+    await userStorage.removeAvatar()
+  } else if (shouldUpload) {
+    await userStorage.setAvatar(dataUrl)
   }
 }
 
 const hasCounterPartyAvatar = ({ data }) => {
-  const { counterPartySmallAvatar } = data || {}
+  const { counterPartySmallAvatar, counterPartyAddress } = data || {}
 
-  return !!counterPartySmallAvatar
+  return !(!counterPartySmallAvatar || !counterPartyAddress)
 }
 
-const uploadCounterPartyAvatar = async feedEvent => {
-  const { data } = feedEvent
-  const { counterPartySmallAvatar } = data
-  let avatar = counterPartySmallAvatar
+const uploadCounterPartyAvatar = async feedEvents => {
+  const {
+    data: { counterPartySmallAvatar },
+  } = first(feedEvents)
 
-  // if still base64 - re-upload and store CID in the GunDB
-  if (isValidBase64Image(avatar)) {
-    avatar = await Base64Storage.store(avatar)
-  }
+  try {
+    // upload only unique avatars
+    const avatar = await updateFeedEventAvatar(counterPartySmallAvatar)
 
-  if (avatar === counterPartySmallAvatar) {
+    if (avatar === counterPartySmallAvatar) {
+      return
+    }
+
+    // set uploaded CID to the all events in the group
+    feedEvents.forEach(feedEvent => {
+      set(feedEvent, 'data.counterPartySmallAvatar', avatar)
+      userStorage.feedStorage.updateFeedEvent(feedEvent)
+    })
+  } catch {
+    // catch quietly individual upload exception
     return
   }
-
-  userStorage.feedStorage.updateFeedEvent({
-    ...feedEvent,
-    data: {
-      ...data,
-      counterPartySmallAvatar: avatar,
-    },
-  })
 }
 
 /**
@@ -70,8 +52,13 @@ const uploadAvatars = async (lastUpdate, prevVersion, log) => {
   const allEvents = await userStorage.getAllFeed()
   const eventsWithCounterParty = allEvents.filter(hasCounterPartyAvatar)
 
+  // group events by counterparty to decrease uploads
+  const groupedEvents = values(groupBy(eventsWithCounterParty, 'data.counterPartyAddress'))
+
   await uploadProfileAvatar()
-  await Promise.all(eventsWithCounterParty.map(uploadCounterPartyAvatar))
+  log.debug('done storing user avatar')
+  await Promise.all(groupedEvents.map(uploadCounterPartyAvatar))
+  log.debug('done storing feed avatars')
 }
 
 export default { fromDate, update: uploadAvatars, key: 'uploadAvatars' }

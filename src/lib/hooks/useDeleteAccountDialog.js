@@ -6,30 +6,8 @@ import IconWrapper from '../../components/common/modal/IconWrapper'
 import LoadingIcon from '../../components/common/modal/LoadingIcon'
 import retryImport from '../utils/retryImport'
 import restart from '../utils/restart'
-import { isMobileNative } from '../utils/platform'
 
 const log = logger.child({ from: 'useDeleteAccountDialog' })
-
-export const deleteGunDB = () => {
-  return new Promise((res, rej) => {
-    const openreq = indexedDB.open('radata')
-    openreq.onerror = e => res()
-    openreq.onsuccess = e => {
-      const db = openreq.result
-      var transaction = db.transaction(['radata'], 'readwrite')
-      transaction.onerror = e => res()
-
-      // create an object store on the transaction
-      const objectStore = transaction.objectStore('radata')
-
-      // Make a request to clear all the data out of the object store
-      const objectStoreRequest = objectStore.clear()
-
-      objectStoreRequest.onsuccess = res
-      objectStoreRequest.onerror = () => rej(objectStoreRequest.error)
-    }
-  })
-}
 
 export default ({ API, showErrorDialog, theme }) => {
   const deleteHandler = useCallback(async () => {
@@ -42,17 +20,14 @@ export default ({ API, showErrorDialog, theme }) => {
     })
 
     try {
-      const userStorage = await retryImport(() => import('../gundb/UserStorage')).then(_ => _.default)
+      const userStorage = await retryImport(() => import('../userStorage/UserStorage')).then(_ => _.default)
 
       const isDeleted = await userStorage.deleteAccount()
       log.debug('deleted account', isDeleted)
 
       if (isDeleted) {
-        const req = isMobileNative ? Promise.resolve() : deleteGunDB()
-
         // remove all local data so its not cached and user will re-login
-        await Promise.all([AsyncStorage.clear(), req.catch()])
-
+        await AsyncStorage.clear()
         restart()
       } else {
         log.error(

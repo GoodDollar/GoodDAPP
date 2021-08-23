@@ -1,6 +1,6 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
-import userStorage from '../../../lib/gundb/UserStorage'
+import userStorage from '../../../lib/userStorage/UserStorage'
 import { getWebRouterComponentWithMocks } from '../../dashboard/__tests__/__util__'
 
 // Note: test renderer must be required after react-native.

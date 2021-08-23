@@ -18,24 +18,27 @@ import {
 } from '../UserStorageClass'
 
 import UserPropertiesClass from '../UserPropertiesClass'
-import { getUserModel } from '../UserModel'
-import update from '../../updates'
+import { getUserModel } from '../../userStorage/UserModel'
 import { delay } from '../../utils/async'
 import { addUser, setProfileFieldIndex } from './__util__/index'
 
 welcomeMessage.date = '2019-01-01'
 
-let event = { id: 'xyz', date: new Date('2019-01-01T10:00:00.000Z').toString(), data: { foo: 'bar', unchanged: 'zar' } }
-let event2 = { id: 'xyz2', date: new Date('2019-01-01T20:00:00.000Z').toString(), data: { foo: 'bar' } }
-let event3 = { id: 'xyz3', date: new Date('2019-01-01T14:00:00.000Z').toString(), data: { foo: 'xar' } }
+let event = {
+  id: 'xyz',
+  date: new Date('2019-01-01T10:00:00.000Z').toISOString(),
+  data: { foo: 'bar', unchanged: 'zar' },
+}
+let event2 = { id: 'xyz2', date: new Date('2019-01-01T20:00:00.000Z').toISOString(), data: { foo: 'bar' } }
+let event3 = { id: 'xyz3', date: new Date('2019-01-01T14:00:00.000Z').toISOString(), data: { foo: 'xar' } }
 let mergedEvent = {
   id: 'xyz',
-  date: new Date('2019-01-01').toString(),
+  date: new Date('2019-01-01').toISOString(),
   data: { foo: 'zar', unchanged: 'zar', extra: 'bar' },
 }
 let event4 = {
   id: 'xyz4',
-  date: new Date('2019-01-02T10:00:00.000Z').toString(),
+  date: new Date('2019-01-02T10:00:00.000Z').toISOString(),
   data: { foo: 'bar', unchanged: 'zar' },
 }
 
@@ -65,20 +68,6 @@ describe('UserStorage', () => {
 
   afterAll(() => {
     assign(API, { ping, getTrust })
-  })
-
-  it('check updates', async () => {
-    const updatesDataBefore = (await userStorage.userProperties.get('updates')) || {}
-    expect(updatesDataBefore.lastUpdate).toBeUndefined()
-    expect(updatesDataBefore.lastVersionUpdate).toBeUndefined()
-    expect(updatesDataBefore.status).toBeUndefined()
-
-    await update()
-
-    const updatesDataAfter = (await userStorage.userProperties.get('updates')) || {}
-    expect(typeof updatesDataAfter.lastUpdate === 'string').toBeTruthy()
-    expect(updatesDataAfter.lastVersionUpdate).toEqual(Config.version)
-    expect(typeof updatesDataAfter.status === 'object').toBeTruthy()
   })
 
   it('logins to gundb', () => {
@@ -137,11 +126,6 @@ describe('UserStorage', () => {
     expect(res).toBeTruthy()
     isMadeBackup = await userStorage.userProperties.get('isMadeBackup')
     expect(isMadeBackup).toBeTruthy()
-  })
-
-  xit('get magic line', async () => {
-    const magicLink = await userStorage.getMagicLink()
-    expect(magicLink).toBeTruthy()
   })
 
   it('gets profile field', async () => {
@@ -255,7 +239,7 @@ describe('UserStorage', () => {
   //     })
 
   //     const gunRes = await userStorage.feedStorage.updateFeedEvent(event)
-  //     const index = await userStorage.feed
+  //     const index = await userStorage.feedStorage.feed
   //       .get('index')
   //       .once()
   //       .then()
@@ -312,11 +296,11 @@ describe('UserStorage', () => {
 
   it('events/add event', async () => {
     await userStorage.feedStorage.updateFeedEvent(event)
-    const index = await userStorage.feed
+    const index = await userStorage.feedStorage.feed
       .get('index')
       .once()
       .then()
-    const events = await userStorage.getAllFeed()
+    const events = await userStorage.getFeedPage(100, true)
     expect(index).toHaveProperty('2019-01-01')
     expect(events).toContainEqual(event)
   })
@@ -324,11 +308,11 @@ describe('UserStorage', () => {
   it('events/add second event', async () => {
     await userStorage.feedStorage.updateFeedEvent(event)
     await userStorage.feedStorage.updateFeedEvent(event2)
-    const index = await userStorage.feed
+    const index = await userStorage.feedStorage.feed
       .get('index')
       .once()
       .then()
-    const events = await userStorage.getAllFeed()
+    const events = await userStorage.getFeedPage(100, true)
     expect(index['2019-01-01']).toBeGreaterThanOrEqual(2)
     expect(events).toContainEqual(event2)
     expect(events).toContainEqual(event)
@@ -339,16 +323,16 @@ describe('UserStorage', () => {
     await delay(0)
     let updatedEvent = {
       ...event,
-      date: new Date('2019-01-01').toString(),
+      date: new Date('2019-01-01').toISOString(),
       data: { foo: 'updates first event', extra: 'bar' },
     }
     await userStorage.feedStorage.updateFeedEvent(updatedEvent)
     await delay(100)
-    const index = await userStorage.feed
+    const index = await userStorage.feedStorage.feed
       .get('index')
       .once()
       .then()
-    const events = await userStorage.getAllFeed()
+    const events = await userStorage.getFeedPage(100, true)
     expect(index['2019-01-01']).toBeGreaterThanOrEqual(1)
     expect(events).toContainEqual(updatedEvent)
   })
@@ -357,19 +341,19 @@ describe('UserStorage', () => {
     await userStorage.feedStorage.updateFeedEvent(mergedEvent)
     await userStorage.feedStorage.updateFeedEvent(event2)
     await userStorage.feedStorage.updateFeedEvent(event3)
-    const index = await userStorage.feed
+    const index = await userStorage.feedStorage.feed
       .get('index')
       .once()
       .then()
-    const events = await userStorage.getAllFeed()
+    const events = await userStorage.getFeedPage(100, true)
     expect(index['2019-01-01']).toBeGreaterThanOrEqual(3)
     expect(events).toEqual(expect.arrayContaining([event2, event3, mergedEvent]))
   })
 
   it('events/keeps event index sorted', async () => {
     await userStorage.feedStorage.updateFeedEvent(event4)
-    const index = await userStorage.feed.get('index').then()
-    const events = await userStorage.feed.get('2019-01-02').then(JSON.parse)
+    const index = await userStorage.feedStorage.feed.get('index').then()
+    const events = await userStorage.feedStorage.feed.get('2019-01-02').then(JSON.parse)
     expect(index['2019-01-02']).toEqual(1)
     expect(events.map(event => event.id)).toEqual([event4.id])
   })
@@ -381,7 +365,7 @@ describe('UserStorage', () => {
   })
 
   it('events/has the welcome event already set', async () => {
-    const events = await userStorage.getAllFeed()
+    const events = await userStorage.getFeedPage(100, true)
     if (Config.isEToro) {
       expect(events).toContainEqual(welcomeMessageOnlyEtoro)
     } else {
@@ -404,7 +388,7 @@ describe('UserStorage', () => {
     const date = '2020-01-01'
     const transactionEvent: TransactionEvent = {
       id: 'xyz32',
-      date: new Date(date).toString(),
+      date: new Date(date).toISOString(),
       type: 'send',
       data: {
         to: 'Mike',
@@ -415,35 +399,35 @@ describe('UserStorage', () => {
       },
     }
     await userStorage.feedStorage.updateFeedEvent(transactionEvent)
-    const index = await userStorage.feed
+    const index = await userStorage.feedStorage.feed
       .get('index')
       .once()
       .then()
-    const events = await userStorage.getAllFeed()
+    const events = await userStorage.getFeedPage(100, true)
     expect(index).toHaveProperty(date)
     expect(events).toContainEqual(transactionEvent)
   })
 
   it('events/add invite event', async () => {
     await userStorage.feedStorage.updateFeedEvent(inviteFriendsMessage)
-    const events = await userStorage.getAllFeed()
+    const events = await userStorage.getFeedPage(100, true)
     expect(events).toContainEqual(inviteFriendsMessage)
   })
 
   it('events/add start claiming event', async () => {
     await userStorage.feedStorage.updateFeedEvent(startClaiming)
-    const events = await userStorage.getAllFeed()
+    const events = await userStorage.getFeedPage(100, true)
     expect(events).toContainEqual(startClaiming)
   })
 
   it('events/claimed  for 14 days ', async () => {
     await userStorage.feedStorage.updateFeedEvent(longUseOfClaims)
-    const events = await userStorage.getAllFeed()
+    const events = await userStorage.getFeedPage(100, true)
     expect(events).toContainEqual(longUseOfClaims)
   })
 
   it('events/doesnt have the welcome event already set', async () => {
-    const events = await userStorage.getAllFeed()
+    const events = await userStorage.getFeedPage(100, true)
     if (Config.isEToro) {
       expect(events).toEqual(expect.not.objectContaining(welcomeMessage))
     } else {
@@ -453,13 +437,13 @@ describe('UserStorage', () => {
 
   it('events/add welcome etoro', async () => {
     await userStorage.feedStorage.updateFeedEvent(welcomeMessageOnlyEtoro)
-    const events = await userStorage.getAllFeed()
+    const events = await userStorage.getFeedPage(100, true)
     expect(events).toContainEqual(welcomeMessageOnlyEtoro)
   })
 
   it('events/has the backupMessage event already set', async () => {
     await userStorage.feedStorage.updateFeedEvent(backupMessage)
-    const events = await userStorage.getAllFeed()
+    const events = await userStorage.getFeedPage(100, true)
     expect(events).toContainEqual(backupMessage)
   })
 
@@ -480,7 +464,7 @@ describe('UserStorage', () => {
   it('should delete the Welcome event', async () => {
     const deletedEvent = await userStorage.deleteEvent(welcomeMessage.id)
     const date = `${new Date(welcomeMessage.date).toISOString().slice(0, 10)}`
-    const index = await userStorage.feed
+    const index = await userStorage.feedStorage.feed
       .get('index')
       .once()
       .then()
@@ -489,15 +473,15 @@ describe('UserStorage', () => {
     const formattedEvents = await userStorage.getFormattedEvents()
     expect(formattedEvents).not.toContainEqual(deletedEvent)
 
-    const events = await userStorage.getAllFeed()
+    const events = await userStorage.getFeedPage(100, true)
     expect(events).not.toContainEqual(deletedEvent)
   })
 
   it('should return withdrawCode from formatEvent function', async () => {
     const event = {
       id: '0x538ec5afdce092b4178aecb2d77cbf2912e1eef7cd95c2feb20b62601cf24f47',
-      date: new Date().toString(),
-      createdDate: new Date().toString(),
+      date: new Date().toISOString(),
+      createdDate: new Date().toISOString(),
       type: 'send',
       status: 'pending',
       data: {

@@ -2,9 +2,9 @@
 /**
  * @file Displays a summary when sending G$ directly to a blockchain address
  */
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { fireEvent } from '../../lib/analytics/analytics'
-import userStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
+import userStorage, { type TransactionEvent } from '../../lib/userStorage/UserStorage'
 import logger from '../../lib/logger/pino-logger'
 import { ExceptionCategory } from '../../lib/logger/exceptions'
 import { useDialog } from '../../lib/undux/utils/dialog'
@@ -13,8 +13,6 @@ import { BackButton, useScreenState } from '../appNavigation/stackNavigation'
 import { CustomButton, Section, Wrapper } from '../common'
 import SummaryTable from '../common/view/SummaryTable'
 import TopBar from '../common/view/TopBar'
-import Config from '../../config/config'
-import SurveySend from './SurveySend'
 import { SEND_TITLE } from './utils/sendReceiveFlow'
 
 export type AmountProps = {
@@ -34,8 +32,6 @@ const SendQRSummary = ({ screenProps }: AmountProps, params) => {
   const [screenState] = useScreenState(screenProps)
   const goodWallet = useWrappedGoodWallet()
   const [showDialog, , showErrorDialog] = useDialog()
-  const [survey, setSurvey] = useState('other')
-  const [showSurvey, setShowSurvey] = useState(false)
   const [loading, setLoading] = useState(false)
   const [isValid, setIsValid] = useState(screenState.isValid)
   const { amount, reason, to } = screenState
@@ -82,7 +78,8 @@ const SendQRSummary = ({ screenProps }: AmountProps, params) => {
           // Save transaction
           const transactionEvent: TransactionEvent = {
             id: hash,
-            date: new Date().toString(),
+            createdDate: new Date().toISOString(),
+            date: new Date().toISOString(),
             type: 'send',
             data: {
               to,
@@ -92,13 +89,6 @@ const SendQRSummary = ({ screenProps }: AmountProps, params) => {
           }
 
           userStorage.enqueueTX(transactionEvent)
-          if (Config.isEToro) {
-            userStorage.saveSurveyDetails(hash, {
-              reason,
-              amount,
-              survey,
-            })
-          }
 
           fireEvent('SEND_DONE', { type: screenState.params.type })
           showDialog({
@@ -142,8 +132,6 @@ const SendQRSummary = ({ screenProps }: AmountProps, params) => {
     return () => setIsValid(undefined)
   }, [isValid])
 
-  const handleConfirm = useCallback(() => (Config.isEToro ? setShowSurvey(true) : confirm()), [setShowSurvey, confirm])
-
   return (
     <Wrapper>
       <TopBar push={screenProps.push} />
@@ -160,13 +148,12 @@ const SendQRSummary = ({ screenProps }: AmountProps, params) => {
             </BackButton>
           </Section.Row>
           <Section.Stack grow={3}>
-            <CustomButton mode="contained" onPress={handleConfirm} loading={loading}>
+            <CustomButton mode="contained" onPress={confirm} loading={loading}>
               Confirm
             </CustomButton>
           </Section.Stack>
         </Section.Row>
       </Section>
-      {showSurvey && <SurveySend handleCheckSurvey={setSurvey} onDismiss={confirm} />}
     </Wrapper>
   )
 }

@@ -8,7 +8,7 @@ import ClaimSvg from '../../assets/Claim/claim-footer.svg'
 
 // import useOnPress from '../../lib/hooks/useOnPress'
 // import { isBrowser } from '../../lib/utils/platform'
-import userStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
+import userStorage, { type TransactionEvent } from '../../lib/userStorage/UserStorage'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import logger from '../../lib/logger/pino-logger'
 import { decorate, ExceptionCategory, ExceptionCode } from '../../lib/logger/exceptions'
@@ -221,7 +221,7 @@ const Claim = props => {
   const gdstore = GDStore.useStore()
 
   const { entitlement } = gdstore.get('account')
-  const [dailyUbi, setDailyUbi] = useState((entitlement && entitlement.toNumber()) || 0)
+  const [dailyUbi, setDailyUbi] = useState((entitlement && parseInt(entitlement)) || 0)
   const isCitizen = gdstore.get('isLoggedInCitizen')
   const { isValid } = screenState
 
@@ -353,7 +353,7 @@ const Claim = props => {
       }
 
       //when we come back from FR entitlement might not be set yet
-      const curEntitlement = dailyUbi || (await goodWallet.checkEntitlement().then(_ => _.toNumber()))
+      const curEntitlement = dailyUbi || (await goodWallet.checkEntitlement().then(parseInt))
 
       if (!curEntitlement) {
         return
@@ -374,7 +374,8 @@ const Claim = props => {
         const date = new Date()
         const transactionEvent: TransactionEvent = {
           id: txHash,
-          createdDate: date.toString(),
+          date: date.toISOString(),
+          createdDate: date.toISOString(),
           type: 'claim',
           data: {
             from: 'GoodDollar',
@@ -391,14 +392,14 @@ const Claim = props => {
         fireMauticEvent({ claim: claimsSoFar, last_claim: moment().format('YYYY-MM-DD') })
         fireGoogleAnalyticsEvent(CLAIM_GEO, {
           claimValue: weiToGd(curEntitlement),
-          eventLabel: goodWallet.UBIContract.address,
+          eventLabel: goodWallet.UBIContract._address,
         })
 
         // legacy support for claim-geo event for UA. remove once we move to new dashboard and GA4
         if (isMobileNative === false) {
           fireGoogleAnalyticsEvent('claim-geo', {
             claimValue: weiToGd(curEntitlement),
-            eventLabel: goodWallet.UBIContract.address,
+            eventLabel: goodWallet.UBIContract._address,
           })
         }
 

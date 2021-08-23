@@ -1,11 +1,16 @@
+// eslint-disable-next-line import/order
+import { initUserStorage } from '../../../lib/userStorage/__tests__/__util__'
 import React from 'react'
 
 // Note: test renderer must be required after react-native.
 import renderer from 'react-test-renderer'
 
+jest.setTimeout(20000)
+
 let getWebRouterComponentWithMocks
 describe('Receive', () => {
-  beforeAll(() => {
+  beforeAll(async () => {
+    await initUserStorage()
     localStorage.setItem(
       'GD_USER_MNEMONIC',
       'burger must derive wrong dry unaware reopen laptop acoustic report slender scene',

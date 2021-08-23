@@ -10,7 +10,7 @@ import { Icon, Text } from '../../components/common'
 import useOnPress from '../../lib/hooks/useOnPress'
 import useSideMenu from '../../lib/hooks/useSideMenu'
 import { isMobileNative } from '../../lib/utils/platform'
-import userStorage from '../../lib/gundb/UserStorage'
+import userStorage from '../../lib/userStorage/UserStorage'
 import { useInvited } from '../invite/useInvites'
 import { theme } from '../theme/styles'
 const { isEToro, enableInvites, showRewards } = config

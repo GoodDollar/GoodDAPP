@@ -1,3 +1,6 @@
+import { initUserStorage } from '../../../../lib/userStorage/__tests__/__util__'
+
+// eslint-disable-next-line import/order
 import { assign } from 'lodash'
 
 import API from '../../../../lib/API/api'
@@ -14,11 +17,15 @@ const httpProviderMock = jest.fn().mockImplementation(() => {
 let WEB3PROVIDERS = require('web3-providers')
 WEB3PROVIDERS.HttpProvider = httpProviderMock
 
+jest.setTimeout(30000)
+
 describe('routeAndPathForCode', () => {
   const { getProfileBy } = API
 
   beforeAll(async () => {
     jest.resetAllMocks()
+
+    await initUserStorage()
 
     await goodWallet.ready
     networkId = goodWallet.networkId

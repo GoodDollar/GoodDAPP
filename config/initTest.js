@@ -1,5 +1,8 @@
-import initGunDB from '../src/lib/gundb/gundb'
+import 'fake-indexeddb/auto'
 import any from 'promise.any'
+
+import initGunDB from '../src/lib/gundb/gundb'
+import '../src/lib/shim'
 
 if (typeof Promise.any !== 'function') {
   any.shim()

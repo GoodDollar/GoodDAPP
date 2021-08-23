@@ -16,7 +16,8 @@ exports[`Profile matches snapshot 1`] = `
       }
     >
       <div
-        className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz"
+        className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-height-1w2pmg"
+        id="animatedComponent"
         style={
           Object {
             "WebkitBoxFlex": 0,
@@ -26,7 +27,6 @@ exports[`Profile matches snapshot 1`] = `
             "boxShadow": "none, 0px 3px 4px rgba(0,0,0,0.24)",
             "flexGrow": 0,
             "flexShrink": 0,
-            "height": "55px",
             "msFlexNegative": 0,
             "msFlexPositive": 0,
             "paddingLeft": "4px",
@@ -35,19 +35,14 @@ exports[`Profile matches snapshot 1`] = `
         }
       >
         <div
-          className="css-view-1dbjc4n r-alignItems-1awozwy r-cursor-1loqt21 r-flexDirection-eqz5dr r-justifyContent-1777fci r-marginLeft-1ozfoo7 r-touchAction-1otgn73 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-width-m0fvr6"
-          data-focusable={true}
+          className="css-view-1dbjc4n r-alignItems-1awozwy r-cursor-1loqt21 r-flexDirection-eqz5dr r-justifyContent-1777fci r-marginLeft-1ozfoo7 r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-width-m0fvr6"
+          onClick={[Function]}
+          onContextMenu={[Function]}
           onKeyDown={[Function]}
-          onKeyUp={[Function]}
-          onResponderGrant={[Function]}
-          onResponderMove={[Function]}
-          onResponderRelease={[Function]}
-          onResponderTerminate={[Function]}
-          onResponderTerminationRequest={[Function]}
-          onStartShouldSetResponder={[Function]}
           style={
             Object {
-              "opacity": 1,
+              "WebkitTransitionDuration": "0s",
+              "transitionDuration": "0s",
             }
           }
           tabIndex="0"
@@ -65,11 +60,12 @@ exports[`Profile matches snapshot 1`] = `
             }
           >
             <div
-              className="css-text-901oao r-color-jwli3a r-fontSize-evnaw r-fontWeight-1it3c9n"
+              className="css-text-901oao r-color-jwli3a r-fontWeight-1it3c9n"
               dir="auto"
               style={
                 Object {
                   "fontFamily": "gooddollar",
+                  "fontSize": "22px",
                   "fontStyle": "normal",
                 }
               }
@@ -80,15 +76,9 @@ exports[`Profile matches snapshot 1`] = `
         </div>
         <div
           className="css-view-1dbjc4n r-flex-13awgt0 r-paddingHorizontal-1e081e0"
-          data-focusable={true}
+          onClick={[Function]}
+          onContextMenu={[Function]}
           onKeyDown={[Function]}
-          onKeyUp={[Function]}
-          onResponderGrant={[Function]}
-          onResponderMove={[Function]}
-          onResponderRelease={[Function]}
-          onResponderTerminate={[Function]}
-          onResponderTerminationRequest={[Function]}
-          onStartShouldSetResponder={[Function]}
           style={
             Object {
               "marginLeft": "8px",
@@ -97,7 +87,7 @@ exports[`Profile matches snapshot 1`] = `
           tabIndex="0"
         >
           <h1
-            className="css-reset-4rbku5 css-text-901oao css-textOneLine-bfa6kz r-color-jwli3a r-fontSize-ubezar r-fontWeight-majxgm r-textAlign-q4m81j r-textTransform-tsynxw"
+            className="css-reset-4rbku5 css-text-901oao css-textOneLine-vcwn7f r-color-jwli3a r-fontSize-hiw28u r-fontWeight-majxgm r-textAlign-q4m81j r-textTransform-tsynxw"
             dir="auto"
             role="heading"
             style={
@@ -110,17 +100,11 @@ exports[`Profile matches snapshot 1`] = `
           </h1>
         </div>
         <div
-          className="css-cursor-18t94o4 css-view-1dbjc4n r-alignItems-1awozwy r-justifyContent-1777fci r-margin-5scogr r-overflow-1udh08x r-position-bnwqim"
-          data-focusable={true}
+          aria-disabled={true}
+          className="css-view-1dbjc4n r-alignItems-1awozwy r-justifyContent-1777fci r-margin-5scogr r-overflow-1udh08x r-position-bnwqim"
+          onClick={[Function]}
+          onContextMenu={[Function]}
           onKeyDown={[Function]}
-          onKeyPress={[Function]}
-          onKeyUp={[Function]}
-          onResponderGrant={[Function]}
-          onResponderMove={[Function]}
-          onResponderRelease={[Function]}
-          onResponderTerminate={[Function]}
-          onResponderTerminationRequest={[Function]}
-          onStartShouldSetResponder={[Function]}
           role="button"
           style={
             Object {
@@ -132,19 +116,8 @@ exports[`Profile matches snapshot 1`] = `
               "width": "36px",
             }
           }
-          tabIndex="0"
+          tabIndex="-1"
         >
-          <span
-            className="css-hitSlop-mjp8i1"
-            style={
-              Object {
-                "bottom": "-10px",
-                "left": "-10px",
-                "right": "-10px",
-                "top": "-10px",
-              }
-            }
-          />
           <div
             className="css-view-1dbjc4n"
           >
@@ -159,6 +132,7 @@ exports[`Profile matches snapshot 1`] = `
             >
               <div
                 className="css-view-1dbjc4n r-bottom-1p0dtai r-left-1d2f490 r-position-u8s1d r-right-zchlnj r-top-ipm5af"
+                id="animatedComponent"
                 style={
                   Object {
                     "WebkitTransform": "rotate(0deg)",
@@ -174,7 +148,9 @@ exports[`Profile matches snapshot 1`] = `
       <div
         className="css-view-1dbjc4n r-WebkitOverflowScrolling-150rngu r-display-6koalj r-flexDirection-eqz5dr r-flexGrow-16y2uox r-flexShrink-1wbh5a2 r-overflowX-11yh6sk r-overflowY-1rnoaur r-transform-1sncvnh"
         onScroll={[Function]}
+        onTouchEnd={[Function]}
         onTouchMove={[Function]}
+        onTouchStart={[Function]}
         onWheel={[Function]}
       >
         <div
@@ -190,7 +166,7 @@ exports[`Profile matches snapshot 1`] = `
             }
           >
             <div
-              className="css-view-1dbjc4n r-display-6koalj r-flexDirection-18u37iz r-height-98c09q r-justifyContent-1777fci r-position-bnwqim r-zIndex-184en5c"
+              className="css-view-1dbjc4n r-display-6koalj r-flexDirection-18u37iz r-height-1w2pmg r-justifyContent-1777fci r-position-bnwqim r-zIndex-184en5c"
               style={
                 Object {
                   "WebkitAlignItems": "flex-start",
@@ -201,22 +177,17 @@ exports[`Profile matches snapshot 1`] = `
               }
             >
               <div
-                className="css-view-1dbjc4n r-left-ctyi22 r-position-u8s1d"
+                className="css-view-1dbjc4n r-left-1d2f490 r-position-u8s1d"
               >
                 <div
-                  className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1uqle4r r-borderRadius-10jnvle r-cursor-1loqt21 r-display-6koalj r-height-ur6pnr r-justifyContent-1777fci r-touchAction-1otgn73 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-width-1mhb1uw"
-                  data-focusable={true}
+                  className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1uqle4r r-borderRadius-10jnvle r-cursor-1loqt21 r-display-6koalj r-height-ur6pnr r-justifyContent-1777fci r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-width-1mhb1uw"
+                  onClick={[Function]}
+                  onContextMenu={[Function]}
                   onKeyDown={[Function]}
-                  onKeyUp={[Function]}
-                  onResponderGrant={[Function]}
-                  onResponderMove={[Function]}
-                  onResponderRelease={[Function]}
-                  onResponderTerminate={[Function]}
-                  onResponderTerminationRequest={[Function]}
-                  onStartShouldSetResponder={[Function]}
                   style={
                     Object {
-                      "opacity": 1,
+                      "WebkitTransitionDuration": "0s",
+                      "transitionDuration": "0s",
                     }
                   }
                   tabIndex="0"
@@ -243,22 +214,17 @@ exports[`Profile matches snapshot 1`] = `
                 </div>
               </div>
               <div
-                className="css-view-1dbjc4n r-position-u8s1d r-right-1ff5aok"
+                className="css-view-1dbjc4n r-position-u8s1d r-right-zchlnj"
               >
                 <div
-                  className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1uqle4r r-borderRadius-10jnvle r-cursor-1loqt21 r-display-6koalj r-height-ur6pnr r-justifyContent-1777fci r-touchAction-1otgn73 r-transform-1defyd4 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-width-1mhb1uw"
-                  data-focusable={true}
+                  className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1uqle4r r-borderRadius-10jnvle r-cursor-1loqt21 r-display-6koalj r-height-ur6pnr r-justifyContent-1777fci r-touchAction-1otgn73 r-transform-1defyd4 r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-width-1mhb1uw"
+                  onClick={[Function]}
+                  onContextMenu={[Function]}
                   onKeyDown={[Function]}
-                  onKeyUp={[Function]}
-                  onResponderGrant={[Function]}
-                  onResponderMove={[Function]}
-                  onResponderRelease={[Function]}
-                  onResponderTerminate={[Function]}
-                  onResponderTerminationRequest={[Function]}
-                  onStartShouldSetResponder={[Function]}
                   style={
                     Object {
-                      "opacity": 1,
+                      "WebkitTransitionDuration": "0s",
+                      "transitionDuration": "0s",
                     }
                   }
                   tabIndex="0"
@@ -297,7 +263,9 @@ exports[`Profile matches snapshot 1`] = `
                 <div
                   className="css-view-1dbjc4n r-WebkitOverflowScrolling-150rngu r-flexDirection-eqz5dr r-flexGrow-16y2uox r-flexShrink-1wbh5a2 r-overflowX-11yh6sk r-overflowY-buy8e9 r-touchAction-19z077z r-transform-1sncvnh"
                   onScroll={[Function]}
+                  onTouchEnd={[Function]}
                   onTouchMove={[Function]}
+                  onTouchStart={[Function]}
                   onWheel={[Function]}
                 >
                   <div
@@ -313,7 +281,6 @@ exports[`Profile matches snapshot 1`] = `
                           className="css-view-1dbjc4n r-borderBottomColor-oucylx r-borderLeftColor-855088 r-borderRadius-1fuqb1j r-borderRightColor-114ovsg r-borderTopColor-18grtmt r-borderTopLeftRadius-ou6ah9 r-borderTopRightRadius-t12b5v r-borderWidth-rs99b7 r-marginBottom-zl2h9q r-marginTop-1bymd8e r-paddingBottom-l4nmg1 r-paddingHorizontal-1dye5f7 r-paddingTop-vmopo1 r-paddingVertical-rjfia r-position-bnwqim"
                         >
                           <input
-                            aria-disabled={true}
                             autoCapitalize="sentences"
                             autoComplete="on"
                             autoCorrect="on"
@@ -324,24 +291,23 @@ exports[`Profile matches snapshot 1`] = `
                             onChange={[Function]}
                             onFocus={[Function]}
                             onKeyDown={[Function]}
-                            onKeyPress={[Function]}
                             onSelect={[Function]}
                             placeholder="Choose a Username"
                             readOnly={true}
                             spellCheck={true}
-                            tabIndex="-1"
                             type="text"
                           />
                           <div
                             className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-height-1pi2tsx r-justifyContent-1777fci r-position-u8s1d r-right-zchlnj r-top-1jy2w8o r-width-1yvhtrz r-zIndex-184en5c"
                           >
                             <div
-                              className="css-text-901oao r-fontSize-evnaw r-fontWeight-1it3c9n"
+                              className="css-text-901oao r-fontWeight-1it3c9n"
                               dir="auto"
                               style={
                                 Object {
                                   "color": "rgba(0,175,255,1.00)",
                                   "fontFamily": "gooddollar",
+                                  "fontSize": "22px",
                                   "fontStyle": "normal",
                                 }
                               }
@@ -362,7 +328,6 @@ exports[`Profile matches snapshot 1`] = `
                           className="css-view-1dbjc4n r-borderBottomColor-oucylx r-borderLeftColor-855088 r-borderRadius-1fuqb1j r-borderRightColor-114ovsg r-borderTopColor-18grtmt r-borderTopLeftRadius-ou6ah9 r-borderTopRightRadius-t12b5v r-borderWidth-rs99b7 r-marginBottom-zl2h9q r-marginTop-1bymd8e r-paddingBottom-l4nmg1 r-paddingHorizontal-1dye5f7 r-paddingTop-vmopo1 r-paddingVertical-rjfia r-position-bnwqim"
                         >
                           <input
-                            aria-disabled={true}
                             autoCapitalize="sentences"
                             autoComplete="on"
                             autoCorrect="on"
@@ -373,12 +338,10 @@ exports[`Profile matches snapshot 1`] = `
                             onChange={[Function]}
                             onFocus={[Function]}
                             onKeyDown={[Function]}
-                            onKeyPress={[Function]}
                             onSelect={[Function]}
                             placeholder="Add your Mobile"
                             readOnly={true}
                             spellCheck={true}
-                            tabIndex="-1"
                             type="text"
                           />
                           <div
@@ -412,7 +375,6 @@ exports[`Profile matches snapshot 1`] = `
                           className="css-view-1dbjc4n r-borderBottomColor-oucylx r-borderLeftColor-855088 r-borderRadius-1fuqb1j r-borderRightColor-114ovsg r-borderTopColor-18grtmt r-borderTopLeftRadius-ou6ah9 r-borderTopRightRadius-t12b5v r-borderWidth-rs99b7 r-marginBottom-zl2h9q r-marginTop-1bymd8e r-paddingBottom-l4nmg1 r-paddingHorizontal-1dye5f7 r-paddingTop-vmopo1 r-paddingVertical-rjfia r-position-bnwqim"
                         >
                           <input
-                            aria-disabled={true}
                             autoCapitalize="sentences"
                             autoComplete="on"
                             autoCorrect="on"
@@ -423,12 +385,10 @@ exports[`Profile matches snapshot 1`] = `
                             onChange={[Function]}
                             onFocus={[Function]}
                             onKeyDown={[Function]}
-                            onKeyPress={[Function]}
                             onSelect={[Function]}
                             placeholder="Add your Email"
                             readOnly={true}
                             spellCheck={true}
-                            tabIndex="-1"
                             type="text"
                           />
                           <div
@@ -459,37 +419,26 @@ exports[`Profile matches snapshot 1`] = `
               className="css-view-1dbjc4n r-alignItems-1awozwy r-alignSelf-1kihuf0 r-justifyContent-1777fci r-position-u8s1d r-zIndex-184en5c"
             >
               <div
-                className="css-view-1dbjc4n r-flexDirection-18u37iz r-justifyContent-1777fci r-width-hir158"
+                className="css-view-1dbjc4n r-flexDirection-18u37iz r-justifyContent-1777fci r-width-1h2t8mc"
               >
                 <div
                   className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-eqz5dr"
                 >
                   <div
-                    className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-qt01xk r-borderColor-11mg6pl r-borderRadius-1hf3jpi r-borderWidth-1d6rzhh r-cursor-1loqt21 r-justifyContent-1777fci r-touchAction-1otgn73 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-width-hir158"
-                    data-focusable={true}
+                    className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-qt01xk r-borderColor-11mg6pl r-borderRadius-17gur6a r-borderWidth-1d6rzhh r-cursor-1loqt21 r-height-1w2pmg r-justifyContent-1777fci r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-width-1h2t8mc"
+                    onClick={[Function]}
+                    onContextMenu={[Function]}
                     onKeyDown={[Function]}
-                    onKeyUp={[Function]}
-                    onResponderGrant={[Function]}
-                    onResponderMove={[Function]}
-                    onResponderRelease={[Function]}
-                    onResponderTerminate={[Function]}
-                    onResponderTerminationRequest={[Function]}
-                    onStartShouldSetResponder={[Function]}
                     style={
                       Object {
-                        "height": "136px",
-                        "opacity": 1,
+                        "WebkitTransitionDuration": "0s",
+                        "transitionDuration": "0s",
                       }
                     }
                     tabIndex="0"
                   >
                     <div
-                      className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1niwhzg r-borderColor-11mg6pl r-borderRadius-1hf3jpi r-borderWidth-1d6rzhh r-justifyContent-1777fci r-width-hir158"
-                      style={
-                        Object {
-                          "height": "136px",
-                        }
-                      }
+                      className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1niwhzg r-borderColor-11mg6pl r-borderRadius-17gur6a r-borderWidth-1d6rzhh r-height-1w2pmg r-justifyContent-1777fci r-width-1h2t8mc"
                     >
                       <unknownProfile.svg />
                     </div>
@@ -497,7 +446,7 @@ exports[`Profile matches snapshot 1`] = `
                 </div>
               </div>
               <div
-                className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-evnaw r-fontWeight-1it3c9n r-lineHeight-1h1c4di r-marginTop-knv0ih r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-1it3c9n r-lineHeight-qvk6io r-marginTop-knv0ih r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                 dir="auto"
               />
             </div>

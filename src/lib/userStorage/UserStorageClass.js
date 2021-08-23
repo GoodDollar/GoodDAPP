@@ -371,7 +371,7 @@ export class UserStorage {
     const userAssets = createAssetStorage(frontendDB)
 
     await frontendDB.init()
-    await this.backendDB.init(this.profilePrivateKey) //only once user is registered he has access to realmdb via signed jwt
+    await this.backendDB.init(frontendDB) // only once user is registered he has access to realmdb via signed jwt
 
     assign(this, { frontendDB, userAssets })
   }

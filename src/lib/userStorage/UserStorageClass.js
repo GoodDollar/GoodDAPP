@@ -412,10 +412,32 @@ export class UserStorage {
    * Avatar setter
    * @returns {Promise<CID[]>}
    */
+  // eslint-disable-next-line require-await
   async setAvatar(avatar): Promise<CID[]> {
-    const cids = await this._resizeAndStoreAvatars(avatar)
+    return this._clearAvatarsCache(async () => {
+      const cids = await this._resizeAndStoreAvatars(avatar)
 
-    return this.profileStorage.setProfile(cids, true)
+      return this.profileStorage.setProfile(cids, true)
+    })
+  }
+
+  // eslint-disable-next-line require-await
+  async getAvatar() {
+    const cid = this.getProfileFieldDisplayValue('avatar')
+
+    return this.loadAvatar(cid)
+  }
+
+  // eslint-disable-next-line require-await
+  async getSmallAvatar() {
+    const cid = this.getProfileFieldDisplayValue('smallAvatar')
+
+    return this.loadAvatar(cid)
+  }
+
+  // eslint-disable-next-line require-await
+  async loadAvatar(cid: stirng) {
+    return this.userAssets.load(cid)
   }
 
   /**
@@ -424,7 +446,10 @@ export class UserStorage {
    */
   // eslint-disable-next-line require-await
   async removeAvatar(): Promise<void> {
-    return this.profileStorage.setProfileFields({ avatar: null, smallAvatar: null })
+    // eslint-disable-next-line require-await
+    return this._clearAvatarsCache(async () =>
+      this.profileStorage.setProfileFields({ avatar: null, smallAvatar: null }),
+    )
   }
 
   /**
@@ -444,13 +469,28 @@ export class UserStorage {
       }),
     )
 
-    // TODO: replace via IPFS.store() call once #3370 will be merged
     const [avatar, smallAvatar] = await Promise.all(
       // eslint-disable-next-line require-await
       resizedAvatars.map(async dataUrl => this.userAssets.store(dataUrl)),
     )
 
     return { avatar, smallAvatar }
+  }
+
+  async _clearAvatarsCache(callback) {
+    const avatarsCIDs = ['avatar', 'smallAvatar'].map(field => this.getProfileFieldDisplayValue(field))
+
+    await callback()
+    await Promise.all(
+      // eslint-disable-next-line require-await
+      avatarsCIDs.map(async cid => {
+        if (!cid) {
+          return
+        }
+
+        this.userAssets.clearCache(cid)
+      }),
+    )
   }
 
   /**
@@ -589,11 +629,11 @@ export class UserStorage {
    * @param {string} field - Profile attribute
    * @returns {Promise<ProfileField>} Decrypted profile value
    */
-  getProfileFieldValue(field: string): Promise<ProfileField> {
-    return this.profileStorage.getProfileFieldDisplayValue(field)
+  getProfileFieldValue(field: string): string {
+    return this.profileStorage.getProfileFieldValue(field)
   }
 
-  getProfileFieldDisplayValue(field: string): Promise<string> {
+  getProfileFieldDisplayValue(field: string): string {
     return this.profileStorage.getProfileFieldDisplayValue(field)
   }
 
@@ -603,7 +643,7 @@ export class UserStorage {
    * @param {string} field - Profile attribute
    * @returns {Promise<ProfileField>} field data
    */
-  getProfileField(field: string): Promise<ProfileField> {
+  getProfileField(field: string): ProfileField {
     return this.profileStorage.getProfileField()
   }
 
@@ -613,7 +653,7 @@ export class UserStorage {
    * @param {object} profile - User profile
    * @returns {UserModel} - User model with display values
    */
-  getDisplayProfile(profile: {}): UserModel {
+  getDisplayProfile(profile: any): UserModel {
     return this.profileStorage.getDisplayProfile()
   }
 
@@ -623,7 +663,7 @@ export class UserStorage {
    * @param {object} profile - user profile
    * @returns {object} UserModel with some inherit functions
    */
-  getPrivateProfile(profile: {}): Promise<UserModel> {
+  getPrivateProfile(profile: any): UserModel {
     return this.profileStorage.getPrivateProfile()
   }
 
@@ -642,13 +682,18 @@ export class UserStorage {
    * @throws Error if profile is invalid
    */
   // eslint-disable-next-line require-await
-  async setProfile(profile: UserModel, update: boolean = false): Promise<> {
+  async setProfile(profile: UserModel, update: boolean = false): Promise<void> {
     const { avatar } = profile
 
     if (!!avatar && isValidDataUrl(avatar)) {
-      const cids = await this._resizeAndStoreAvatars(avatar)
+      const currentAvatar = await this.getAvatar() // will be already cached
 
-      assign(profile, cids)
+      if (avatar !== currentAvatar) {
+        // if new avatar was set - re-uploading
+        const cids = await this._resizeAndStoreAvatars(avatar)
+
+        assign(profile, cids)
+      }
     }
 
     return this.profileStorage.setProfile(profile, update)

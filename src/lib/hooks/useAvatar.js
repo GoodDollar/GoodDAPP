@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 
-import IPFS from '../ipfs/IpfsStorage'
+import userStorage from '../userStorage/UserStorage'
+
 import { isValidCID } from '../ipfs/utils'
 import { isValidDataUrl } from '../utils/base64'
 
@@ -30,7 +31,9 @@ const useAvatar = avatar => {
     }
 
     // otherwise we're checking is it a valid CID and trying to load it from thes ipfs
-    IPFS.load(avatar)
+    // no need to use useWrappedStorage as we're catching the error
+    userStorage
+      .loadAvatar(avatar)
       .catch(() => null)
       .then(dataUrl => {
         if (!dataUrl) {

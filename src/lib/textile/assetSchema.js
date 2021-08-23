@@ -8,14 +8,6 @@ export const AssetSchema = {
       description: 'CID hash',
       type: 'string',
     },
-    mime: {
-      type: 'string',
-      default: 'application/octet-stream',
-    },
-    size: {
-      type: 'number',
-      default: 0,
-    },
     binary: {
       type: 'boolean',
       default: true,
@@ -25,5 +17,5 @@ export const AssetSchema = {
       type: 'string',
     },
   },
-  required: ['_id', 'mime', 'size', 'binary', 'dataUrl'],
+  required: ['_id', 'binary', 'dataUrl'],
 }

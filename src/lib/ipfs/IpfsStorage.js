@@ -51,14 +51,13 @@ class IpfsStorage {
     )
 
     const mime = get(headers, 'content-type')
-    const size = get(headers, 'content-length')
-    const binary = mime.startsWith('image/')
+    const binary = !mime.startsWith('text/')
     const format = binary ? 'DataURL' : 'Text'
     const rawData = await FileAPI[`readAs${format}`](data)
     const dataUrl = binary ? normalizeDataUrl(rawData, mime) : rawData
 
     if (withMetadata) {
-      return { binary, cid, dataUrl, mime, size }
+      return { binary, dataUrl }
     }
 
     return dataUrl

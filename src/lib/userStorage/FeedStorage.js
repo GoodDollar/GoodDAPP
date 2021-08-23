@@ -412,7 +412,9 @@ export class FeedStorage {
       }
 
       log.debug('handleReceiptUpdate saving... done', receipt.transactionHash)
-      this.updateFeedEventCounterParty(updatedFeedEvent)
+      this.updateFeedEventCounterParty(updatedFeedEvent).catch(e => {
+        log.warn('updateFeedEventCounterParty failed:', e.message, e)
+      })
 
       if (txType === TxType.TX_RECEIVE_GD) {
         // if outbox data missing from event
@@ -437,42 +439,48 @@ export class FeedStorage {
     return
   }
 
-  updateFeedEventCounterParty(feedEvent) {
-    const getCounterParty = async address => {
-      let { name, avatar } = await this.userStorage.getUserProfile(address)
-
-      /** THIS CODE BLOCK MAY BE REMOVED AFTER SEPTEMBER 2021 */
-      /** =================================================== */
-      if (Config.ipfsLazyUpload) {
-        // keep old base64 value if upload failed
-        avatar = await updateFeedEventAvatar(avatar).catch(() => avatar)
-      }
-
-      /** =================================================== */
-
-      assign(feedEvent.data, {
-        counterPartyAddress: address,
-        counterPartyFullName: name,
-        counterPartySmallAvatar: avatar,
-      })
-
-      await this.updateFeedEvent(feedEvent)
-    }
+  async updateFeedEventCounterParty(feedEvent) {
+    let addressField
 
     log.debug('updateFeedEventCounterParty:', feedEvent.data.receiptEvent, feedEvent.id, feedEvent.txType)
 
     switch (feedEvent.type) {
       case FeedItemType.EVENT_TYPE_SENDDIRECT:
       case FeedItemType.EVENT_TYPE_SEND:
-        getCounterParty(get(feedEvent, 'data.receiptEvent.to'), feedEvent)
+        addressField = 'to'
         break
       case FeedItemType.EVENT_TYPE_WITHDRAW:
       case FeedItemType.EVENT_TYPE_RECEIVE:
-        getCounterParty(get(feedEvent, 'data.receiptEvent.from'), feedEvent)
+        addressField = 'from'
         break
       default:
         break
     }
+
+    if (!addressField) {
+      return
+    }
+
+    const address = get(feedEvent, `data.receiptEvent.${addressField}`)
+    let { name, avatar } = await this.userStorage.getUserProfile(address)
+
+    /** THIS CODE BLOCK MAY BE REMOVED AFTER SEPTEMBER 2021 */
+    /** =================================================== */
+    if (Config.ipfsLazyUpload) {
+      // keep old base64 value if upload failed
+      avatar = await updateFeedEventAvatar(avatar).catch(() => avatar)
+    }
+
+    /** =================================================== */
+
+    assign(feedEvent.data, {
+      counterPartyAddress: address,
+      counterPartyFullName: name,
+      counterPartySmallAvatar: avatar,
+      counterPartyLastUpdate: new Date().getTime(),
+    })
+
+    await this.updateFeedEvent(feedEvent)
   }
 
   /**

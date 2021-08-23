@@ -540,8 +540,14 @@ export class GoodWallet {
         return [0, hasClaim]
       }
 
-      const startRef = await this.UBIContract.methods.periodStart.call().then(_ => moment(parseInt(_) * 1000).utc())
-      const curDay = await this.UBIContract.methods.currentDay.call().then(parseInt)
+      const startRef = await this.UBIContract.methods
+        .periodStart()
+        .call()
+        .then(_ => moment(parseInt(_) * 1000).utc())
+      const curDay = await this.UBIContract.methods
+        .currentDay()
+        .call()
+        .then(parseInt)
       if (startRef.isBefore(moment().utc())) {
         startRef.add(curDay + 1, 'days')
       }

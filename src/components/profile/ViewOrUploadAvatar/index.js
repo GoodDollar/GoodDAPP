@@ -82,7 +82,7 @@ const ViewOrUploadAvatar = props => {
           showErrorDialog('Could not save image. Please try again.')
         })
     },
-    [screenProps, wrappedUserStorage],
+    [screenProps, wrappedUserStorage, refreshProfile],
   )
 
   const goToProfile = useCallback(() => screenProps.pop(), [screenProps])

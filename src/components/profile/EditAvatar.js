@@ -41,10 +41,16 @@ const EditAvatar = ({ theme, screenProps }) => {
 
       log.error('saving image failed:', message, exception, { dialogShown: true })
       showErrorDialog('We could not capture all your beauty. Please try again.')
-    } finally {
-      setProcessing(false)
     }
+
+    // finally {
+    //   setProcessing(false)
+    // }
   }, [screenProps, markAsDirty, setProcessing, showErrorDialog, user])
+
+  useEffect(() => {
+    return () => setProcessing(false)
+  }, [])
 
   const onCropped = useCallback(
     cropped => {

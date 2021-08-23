@@ -54,7 +54,7 @@ const EditProfile = ({ screenProps, styles }) => {
       const { isValid, errors } = profile.validate()
       const valid = isValid
 
-      setErrors(merge(errors))
+      setErrors(errors)
       setIsValid(valid)
       setIsPristine(pristine)
 

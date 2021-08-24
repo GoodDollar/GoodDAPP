@@ -1,4 +1,4 @@
-import { mapValues, pick } from 'lodash'
+import { pick } from 'lodash'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 
 import userStorage from './UserStorage'
@@ -31,7 +31,7 @@ export const usePublicProfileOf = (walletAddress, fields = defaultPublicFields) 
   useEffect(() => {
     userStorage
       .getPublicProfile('walletAddress', walletAddress)
-      .then(rawProfile => setProfile(mapValues(pick(rawProfile, fields), 'display')))
+      .then(rawProfile => setProfile(pick(rawProfile, fields)))
   }, [walletAddress, fields, setProfile])
 
   return profile

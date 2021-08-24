@@ -52,15 +52,6 @@ export type ProfileField = {
 export type Profile = { [key: string]: ProfileField }
 
 /**
- * Survey details
- */
-export type SurveyDetails = {
-  amount: string,
-  reason: string,
-  survey: string,
-}
-
-/**
  * Blockchain transaction event data
  */
 export type TransactionEvent = FeedEvent & {
@@ -208,14 +199,7 @@ export class UserStorage {
    */
   cursor: number = 0
 
-  /**
-   * A promise which is resolved once init() is done
-   */
-  ready: Promise<boolean>
-
   feedDB: DB
-
-  userProperties
 
   profileSettings: {} = {
     fullName: { defaultPrivacy: 'public' },
@@ -226,13 +210,6 @@ export class UserStorage {
     smallAvatar: { defaultPrivacy: 'public' },
     walletAddress: { defaultPrivacy: 'public' },
     username: { defaultPrivacy: 'public' },
-  }
-
-  /**
-   * Object with default value for profile fields
-   */
-  profileDefaults: {} = {
-    mobile: '',
   }
 
   /**
@@ -254,6 +231,9 @@ export class UserStorage {
 
   walletAddressIndex = {}
 
+  /**
+   * A promise which is resolved once init() is done
+   */
   ready: Promise<boolean> = null
 
   /**
@@ -553,16 +533,6 @@ export class UserStorage {
   }
 
   /**
-   * Returns progfile attribute value
-   *
-   * @param {string} field - Profile attribute
-   * @returns {Promise<ProfileField>} field data
-   */
-  getProfileField(field: string): Promise<ProfileField> {
-    return this.profileStorage.getProfileField()
-  }
-
-  /**
    * Return display attribute of each profile property
    *
    * @param {object} profile - User profile
@@ -750,8 +720,8 @@ export class UserStorage {
 
   /**
    *
-   * @param {string} field - Profile field value (email, mobile or wallet address value)
    * @returns { string } address
+   * @param value
    */
   async getUserAddress(value: string) {
     if (!value) {
@@ -766,17 +736,6 @@ export class UserStorage {
     }
 
     return profile[0].walletAddress.display
-  }
-
-  /**
-   * Returns name and avatar from profile based filtered by received value
-   *
-   * @param {string} field - Profile field value (email, mobile or wallet address value)
-   * @returns {object} profile - { name, avatar }
-   */
-  // eslint-disable-next-line require-await
-  async getUserProfile(field: string = ''): { name: String, avatar: String } {
-    return this.profileStorage.getUserProfile(field)
   }
 
   /**
@@ -896,14 +855,6 @@ export class UserStorage {
     return data
   }
 
-  _extractWithdrawStatus(withdrawCode, otplStatus = 'pending', status, type) {
-    if (type === 'withdraw') {
-      return ''
-    }
-
-    return status === 'error' ? status : withdrawCode ? otplStatus : ''
-  }
-
   //displayType is used by FeedItem and ModalItem to decide on colors/icons etc of tx feed card
   _extractDisplayType(event) {
     switch (event.type) {
@@ -926,7 +877,7 @@ export class UserStorage {
   /**
    * enqueue a new pending TX done on DAPP, to be later merged with the blockchain tx
    * the DAPP event can contain more details than the blockchain tx event
-   * @param {FeedEvent} event
+   * @param {FeedEvent} _event
    * @returns {Promise<>}
    */
   // eslint-disable-next-line require-await
@@ -1009,7 +960,7 @@ export class UserStorage {
   }
 
   // eslint-disable-next-line require-await
-  async getPublicProfile(key: string, string: string): Promise<any> {
+  async getPublicProfile(key: string, string?: string): Promise<any> {
     return this.profileStorage.getPublicProfile(key, string)
   }
 

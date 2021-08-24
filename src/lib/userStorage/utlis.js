@@ -28,10 +28,9 @@ export const cleanHashedFieldForIndex = (field: string, value: string): string =
  *
  * @param {string} field
  * @param {string} value
- * @param trusted
  * @returns {boolean}
  */
-export const isValidValue = (field: string, value: string, trusted: boolean = false) => {
+export const isValidValue = (field: string, value: string) => {
   const cleanValue = cleanHashedFieldForIndex(field, value)
 
   if (!cleanValue) {

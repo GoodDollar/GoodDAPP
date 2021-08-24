@@ -19,7 +19,7 @@ const TITLE = 'Edit Profile'
 const log = logger.child({ from: TITLE })
 const avatarSize = getDesignRelativeWidth(136)
 
-const EditProfile = ({ screenProps, styles, navigation }) => {
+const EditProfile = ({ screenProps, styles }) => {
   const storedProfile = useProfile()
   const [profile, setProfile] = useState(() => storedProfile)
   const [saving, setSaving] = useState(false)
@@ -33,6 +33,7 @@ const EditProfile = ({ screenProps, styles, navigation }) => {
   const onProfileSaved = useCallback(() => pop(), [pop])
   const handleEditAvatar = useCallback(() => push(`ViewAvatar`), [push])
 
+  // eslint-disable-next-line require-await
   const validate = useCallback(async () => {
     if (!profile || !profile.validate) {
       return false
@@ -51,10 +52,9 @@ const EditProfile = ({ screenProps, styles, navigation }) => {
         return undefined
       })
       const { isValid, errors } = profile.validate()
-      const { isValid: isValidIndex, errors: errorsIndex } = await userStorage.validateProfile(pickBy(profile))
-      const valid = isValid && isValidIndex
+      const valid = isValid
 
-      setErrors(merge(errors, errorsIndex))
+      setErrors(errors)
       setIsValid(valid)
       setIsPristine(pristine)
 

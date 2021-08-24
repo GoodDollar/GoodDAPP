@@ -41,7 +41,7 @@ export class UserAssetStorage {
 
   // async as invokes threaddb method to remove asset from the cache collection
   async clearCache(cid: string): Promise<void> {
-    await this.frontendDB.Ipfs.delete(cid)
+    await this.frontendDB.Assets.delete(cid)
     delete this.localCache[cid]
   }
 
@@ -50,7 +50,7 @@ export class UserAssetStorage {
     let data = localCache[cid]
 
     if (!data) {
-      data = await this.frontendDB.Ipfs.findById(cid)
+      data = await this.frontendDB.Assets.findById(cid)
 
       if (data) {
         localCache[cid] = pick(data, 'dataUrl', 'binary')
@@ -64,7 +64,7 @@ export class UserAssetStorage {
     const { dataUrl, binary = true } = data
     const cachedData = { dataUrl, binary }
 
-    await this.frontendDB.Ipfs.save({ _id: cid, ...cachedData })
+    await this.frontendDB.Assets.save({ _id: cid, ...cachedData })
     this.localCache[cid] = cachedData
   }
 }

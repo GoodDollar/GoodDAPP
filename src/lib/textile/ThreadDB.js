@@ -5,7 +5,7 @@ import * as TextileCrypto from '@textile/crypto'
 import { assign } from 'lodash'
 import logger from '../logger/pino-logger'
 import { FeedItemIndexes, FeedItemSchema } from './feedSchema'
-import { AssetSchema } from './assetSchema'
+import { AssetsSchema } from './assetsSchema'
 
 const log = logger.child({ from: 'RealmDB' })
 
@@ -24,12 +24,8 @@ export class ThreadDB {
     return this.Feed.table
   }
 
-  get Ipfs(): Collection {
-    return this.frontendDB.collection('Ipfs')
-  }
-
-  get IpfsTable() {
-    return this.Ipfs.table
+  get Assets(): Collection {
+    return this.frontendDB.collection('Assets')
   }
 
   constructor(privateKey: TextileCrypto.PrivateKey) {
@@ -44,7 +40,7 @@ export class ThreadDB {
       },
       {
         name: 'Assets',
-        schema: AssetSchema,
+        schema: AssetsSchema,
       },
     )
 

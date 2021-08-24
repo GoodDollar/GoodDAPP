@@ -1,6 +1,6 @@
-import React, { useEffect, useMemo, useState } from 'react'
-import { Image, View } from 'react-native'
-import { get, isNaN, isNil } from 'lodash'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import { Image, TextInput, View } from 'react-native'
+import { get, isNaN, isNil, noop } from 'lodash'
 import { Avatar, CustomButton, Icon, Section, ShareButton, Text, Wrapper } from '../common'
 import { WavesBox } from '../common/view/WavesBox'
 import { theme } from '../theme/styles'
@@ -12,6 +12,8 @@ import { generateShareObject, isSharingAvailable } from '../../lib/share'
 import userStorage from '../../lib/userStorage/UserStorage'
 import { usePublicProfileOf } from '../../lib/userStorage/useProfile'
 import ModalLeftBorder from '../common/modal/ModalLeftBorder'
+import { useDialog } from '../../lib/undux/utils/dialog'
+import LoadingIcon from '../common/modal/LoadingIcon'
 import { useCollectBounty, useInviteCode, useInvited, useInviteScreenOpened } from './useInvites'
 import FriendsSVG from './friends.svg'
 import EtoroPNG from './etoro.png'
@@ -114,6 +116,61 @@ const ShareBox = ({ level }) => {
         />
       </Section.Row>
       <ShareIcons shareUrl={shareUrl} />
+    </WavesBox>
+  )
+}
+
+const InputCodeBox = () => {
+  const [code, setCode] = useState('')
+  const [showDialog] = useDialog()
+
+  const onSubmit = useCallback(async () => {
+    showDialog({
+      image: <LoadingIcon />,
+      loading: true,
+      message: 'Please wait\nThis might take a few seconds...',
+      showButtons: false,
+      title: `COLLECTING INVITE BOUNTY`,
+      showCloseButtons: false,
+      onDismiss: noop,
+    })
+
+    // log.debug('CODE', code)
+    const inviteCode = await userStorage.wallet.joinInvites(code)
+    log.debug('JOIN INVITES RESULT', inviteCode)
+    try {
+      const collectResult = await userStorage.wallet.collectInviteBounty()
+      log.debug('COLLECT INVITE BOUNTY RESULT', collectResult)
+    } catch (e) {
+      log.debug('JOIN INVITES EXCEPTION', e.message)
+    }
+  }, [code])
+
+  return (
+    <WavesBox title={'Use invite code'} primarycolor={theme.colors.green} style={styles.linkBoxStyle}>
+      <Section.Stack style={{ alignItems: 'flex-start', marginTop: 11, marginBottom: 11 }}>
+        <Section.Row style={{ width: '100%', alignItems: 'center' }}>
+          <TextInput
+            value={code}
+            onChangeText={setCode}
+            style={{
+              flex: 1,
+              borderBottomWidth: 1,
+              borderBottomColor: theme.colors.primary,
+              paddingVertical: 8,
+              marginRight: 12,
+            }}
+            placeholder="You can still use invite code!"
+          />
+          <CustomButton
+            textStyle={{ fontSize: 14, color: theme.colors.white }}
+            style={{ flexGrow: 0, minWidth: 70, height: 32, minHeight: 32 }}
+            onPress={onSubmit}
+          >
+            USE
+          </CustomButton>
+        </Section.Row>
+      </Section.Stack>
     </WavesBox>
   )
 }
@@ -263,6 +320,10 @@ const InvitesHowTO = () => {
 const InvitesData = ({ invitees, refresh, level, totalEarned = 0 }) => (
   <View style={{ width: '100%' }}>
     <Divider size={getDesignRelativeHeight(theme.paddings.defaultMargin * 3, false)} />
+    <Section.Stack>
+      <InputCodeBox />
+    </Section.Stack>
+    <Divider size={theme.paddings.defaultMargin * 1.5} />
     <Section.Stack>
       <ShareBox level={level} />
     </Section.Stack>

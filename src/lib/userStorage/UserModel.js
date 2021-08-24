@@ -106,7 +106,8 @@ class UserModelClass {
   }
 
   getErrors(update: boolean = false) {
-    const fieldsToValidate = pick(this, 'email', 'mobile', 'username')
+    const { email, username, mobile } = this
+    const fieldsToValidate = { email, username, mobile }
 
     // eslint-disable-next-line
     return mapValues(fieldsToValidate, (value, field) =>

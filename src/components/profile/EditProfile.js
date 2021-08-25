@@ -1,7 +1,7 @@
 // @flow
 import React, { useCallback, useEffect, useState } from 'react'
 import { View } from 'react-native'
-import { isEqualWith, merge, pickBy } from 'lodash'
+import { isEqualWith, pickBy } from 'lodash'
 import userStorage from '../../lib/userStorage/UserStorage'
 import logger from '../../lib/logger/pino-logger'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'

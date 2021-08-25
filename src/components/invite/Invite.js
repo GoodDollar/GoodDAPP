@@ -14,6 +14,10 @@ import { usePublicProfileOf } from '../../lib/userStorage/useProfile'
 import ModalLeftBorder from '../common/modal/ModalLeftBorder'
 import { useDialog } from '../../lib/undux/utils/dialog'
 import LoadingIcon from '../common/modal/LoadingIcon'
+import asyncStorage from '../../lib/utils/asyncStorage'
+import { INVITE_CODE } from '../../lib/constants/localStorage'
+import SuccessIcon from '../common/modal/SuccessIcon'
+import goodWallet from '../../lib/wallet/GoodWallet'
 import { useCollectBounty, useInviteCode, useInvited, useInviteScreenOpened } from './useInvites'
 import FriendsSVG from './friends.svg'
 import EtoroPNG from './etoro.png'
@@ -122,7 +126,15 @@ const ShareBox = ({ level }) => {
 
 const InputCodeBox = () => {
   const [code, setCode] = useState('')
-  const [showDialog] = useDialog()
+  const [visible, setVisible] = useState(false)
+  const [showDialog, , showErrorDialog] = useDialog()
+
+  useEffect(async () => {
+    const usedInviterCode = userStorage.userProperties.get('inviterInviteCodeUsed')
+    const inviterInviteCode =
+      userStorage.userProperties.get('inviterInviteCode') || (await asyncStorage.getItem(INVITE_CODE))
+    setVisible(!(usedInviterCode || inviterInviteCode))
+  }, [])
 
   const onSubmit = useCallback(async () => {
     showDialog({
@@ -135,18 +147,35 @@ const InputCodeBox = () => {
       onDismiss: noop,
     })
 
-    // log.debug('CODE', code)
-    const inviteCode = await userStorage.wallet.joinInvites(code)
-    log.debug('JOIN INVITES RESULT', inviteCode)
-    try {
-      const collectResult = await userStorage.wallet.collectInviteBounty()
-      log.debug('COLLECT INVITE BOUNTY RESULT', collectResult)
-    } catch (e) {
-      log.debug('JOIN INVITES EXCEPTION', e.message)
+    await goodWallet.joinInvites(code)
+    const canCollect = await goodWallet.invitesContract.methods.canCollectBountyFor(goodWallet.account).call()
+
+    if (canCollect) {
+      try {
+        await goodWallet.collectInviteBounty()
+        showDialog({
+          title: 'Payment Link Processed Successfully',
+          image: <SuccessIcon />,
+          message: "You received G$'s!",
+          buttons: [
+            {
+              text: 'YAY!',
+            },
+          ],
+        })
+      } catch (e) {
+        log.debug('collectInviteBounty failed', e.message)
+      } finally {
+        userStorage.userProperties.set('inviterInviteCodeUsed', true)
+        await asyncStorage.setItem(INVITE_CODE, code)
+        setVisible(false)
+      }
+    } else {
+      showErrorDialog('You need to Claim your first G$s in order to receive the reward')
     }
   }, [code])
 
-  return (
+  return visible ? (
     <WavesBox title={'Use invite code'} primarycolor={theme.colors.green} style={styles.linkBoxStyle}>
       <Section.Stack style={{ alignItems: 'flex-start', marginTop: 11, marginBottom: 11 }}>
         <Section.Row style={{ width: '100%', alignItems: 'center' }}>
@@ -172,7 +201,7 @@ const InputCodeBox = () => {
         </Section.Row>
       </Section.Stack>
     </WavesBox>
-  )
+  ) : null
 }
 
 const InvitesBox = React.memo(({ invitees, refresh }) => {

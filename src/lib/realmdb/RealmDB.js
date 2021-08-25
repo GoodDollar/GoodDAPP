@@ -9,6 +9,7 @@ import logger from '../logger/pino-logger'
 import { FeedItemSchema } from '../textile/feedSchema' // Some json-schema.org schema
 import type { ProfileDB } from '../userStorage/UserProfileStorage'
 import type { DB } from '../userStorage/UserStorage'
+import type { Profile } from '../userStorage/UserStorageClass'
 import AsyncStorage from '../utils/asyncStorage'
 import type { TransactionDetails } from '../userStorage/FeedStorage'
 
@@ -33,8 +34,7 @@ class RealmDB implements DB, ProfileDB {
 
   /**
    * basic initialization
-   * @param {*} pkeySeed
-   * @param {*} publicKeyHex
+   * @param privateKey
    */
   async init(privateKey: TextileCrypto.PrivateKey) {
     try {
@@ -87,7 +87,7 @@ class RealmDB implements DB, ProfileDB {
 
       // `App.currentUser` updates to match the logged in user
       log.debug('realm logged in', { user: this.user })
-      this._syncFromRemote()
+      this._syncFromRemote().catch(e => log.warn('_syncFromRemote failed:', e.message, e))
       return this.user
     } catch (err) {
       log.error('Failed to log in', err)
@@ -277,7 +277,7 @@ class RealmDB implements DB, ProfileDB {
    * @param {*} feedItem
    * @returns
    */
-  async _encrypt(feedItem): Promise<any> {
+  async _encrypt(feedItem): Promise<string> {
     try {
       const msg = new TextEncoder().encode(JSON.stringify(feedItem))
       const encrypted = await this.privateKey.public.encrypt(msg).then(_ => Buffer.from(_).toString('base64'))
@@ -341,8 +341,13 @@ class RealmDB implements DB, ProfileDB {
     }
   }
 
+  /**
+   * Update or create new user profile
+   * @param profile
+   * @returns {Promise<Realm.Services.MongoDB.UpdateResult<*>>}
+   */
   // eslint-disable-next-line require-await
-  async setProfile(profile: { [key: string]: ProfileField }): Promise<any> {
+  async setProfile(profile: Profile): Promise<any> {
     return this.profiles.updateOne(
       { user_id: this.user.id },
       { $set: { user_id: this.user.id, ...profile } },
@@ -352,7 +357,7 @@ class RealmDB implements DB, ProfileDB {
 
   /**
    * read the complete raw user profile from realmdb. result fields might be encrypted
-   *  @returns {Promise<any>}
+   *  @returns {Promise<Profile>}
    */
   // eslint-disable-next-line require-await
   async getProfile(): Promise<Profile> {
@@ -361,28 +366,22 @@ class RealmDB implements DB, ProfileDB {
 
   /**
    * get user profile from realmdb. result fields might be encrypted
-   * @param key
-   * @param field
-   * @returns {Promise<any | null>}
+   * @param query
+   * @returns {Promise<Profile>}
    */
   // eslint-disable-next-line require-await
-  async getProfileBy(query: object): Promise<Profile> {
+  async getProfileBy(query: Object): Promise<Profile> {
     return this.profiles.findOne(query)
   }
 
-  // eslint-disable-next-line require-await
-  async getProfilesBy(query: object): Promise<Array<Profile>> {
-    return this.profiles.find(query)
-  }
-
   /**
-   * Set profile fields
-   * @param fields
-   * @returns {Promise<Realm.Services.MongoDB.UpdateResult<any>>}
+   * get users profiles from realmdb. result fields might be encrypted
+   * @param query
+   * @returns {Promise<Array<Profile>>}
    */
   // eslint-disable-next-line require-await
-  async setProfileFields(fields: Profile): Promise<void> {
-    return this.setProfile(fields)
+  async getProfilesBy(query: Object): Promise<Array<Profile>> {
+    return this.profiles.find(query)
   }
 
   /**
@@ -397,16 +396,16 @@ class RealmDB implements DB, ProfileDB {
 
   /**
    * deletes both local and remote storage
-   * @returns
+   * @returns {Promise<[void, Realm.Services.MongoDB.DeleteResult]>}
    */
   // eslint-disable-next-line require-await
-  async deleteAccount(): Promise<void> {
+  async deleteAccount(): Promise<any> {
     return Promise.all([this.db.delete(), this.encryptedFeed.deleteMany({ user_id: this.user.id })])
   }
 
   /**
    * Removing user profile
-   * @returns {Promise<any | null>}
+   * @returns {Promise<Realm.Services.MongoDB.DeleteResult>}
    */
   // eslint-disable-next-line require-await
   async deleteProfile(): Promise<boolean> {

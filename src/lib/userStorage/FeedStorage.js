@@ -446,7 +446,7 @@ export class FeedStorage {
 
   updateFeedEventCounterParty(feedEvent) {
     const getCounterParty = async address => {
-      let { name, avatar } = await this.userStorage.getUserProfile(address)
+      let { name, avatar } = await this.userStorage.getPublicProfile(address)
 
       /** THIS CODE BLOCK MAY BE REMOVED AFTER SEPTEMBER 2021 */
       /** =================================================== */

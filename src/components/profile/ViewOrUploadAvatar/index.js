@@ -72,12 +72,17 @@ const ViewOrUploadAvatar = props => {
       // for native just set new avatar.
       // no need to crop it additionally
       // as the picker component does this
-      wrappedUserStorage.setAvatar(avatar).catch(e => {
-        log.error('save image failed:', e.message, e, { dialogShown: true })
-        showErrorDialog('Could not save image. Please try again.')
-      })
+      wrappedUserStorage
+        .setAvatar(avatar)
+        .then(() => {
+          refreshProfile()
+        })
+        .catch(e => {
+          log.error('save image failed:', e.message, e, { dialogShown: true })
+          showErrorDialog('Could not save image. Please try again.')
+        })
     },
-    [screenProps, wrappedUserStorage],
+    [screenProps, wrappedUserStorage, refreshProfile],
   )
 
   const goToProfile = useCallback(() => screenProps.pop(), [screenProps])

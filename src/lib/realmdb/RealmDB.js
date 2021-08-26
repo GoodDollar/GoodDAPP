@@ -1,17 +1,19 @@
 //@flow
 import { assign, get, once, sortBy } from 'lodash'
 import * as Realm from 'realm-web'
-import * as TextileCrypto from '@textile/crypto'
+import TextileCrypto from '@textile/crypto'
 
+import { JWT } from '../constants/localStorage'
 import AsyncStorage from '../utils/asyncStorage'
-import { type ThreadDB } from '../textile/ThreadDB'
 
 import Config from '../../config/config'
-import { JWT } from '../constants/localStorage'
 import logger from '../logger/pino-logger'
 
+import type { ThreadDB } from '../textile/ThreadDB'
 import type { ProfileDB } from '../userStorage/UserProfileStorage'
 import type { DB } from '../userStorage/UserStorage'
+import type { Profile } from '../userStorage/UserStorageClass'
+import type { TransactionDetails } from '../userStorage/FeedStorage'
 
 const log = logger.child({ from: 'RealmDB' })
 
@@ -35,8 +37,7 @@ class RealmDB implements DB, ProfileDB {
 
   /**
    * basic initialization
-   * @param {*} pkeySeed
-   * @param {*} publicKeyHex
+   * @param privateKey
    */
   async init(frontendDB: ThreadDB) {
     try {
@@ -89,7 +90,7 @@ class RealmDB implements DB, ProfileDB {
       log.debug('realm logged in', { user })
       assign(this, { user, backendDB: mongodb.db(this._databaseName) })
 
-      this._syncFromRemote()
+      this._syncFromRemote().catch(e => log.warn('_syncFromRemote failed:', e.message, e))
       return this.user
     } catch (err) {
       log.error('Failed to log in', err)
@@ -113,6 +114,10 @@ class RealmDB implements DB, ProfileDB {
    */
   get profiles() {
     return this.backendDB.collection('user_profiles')
+  }
+
+  get inboxes() {
+    return this.database.collection('inboxes')
   }
 
   /**
@@ -297,7 +302,7 @@ class RealmDB implements DB, ProfileDB {
    * @param {*} feedItem
    * @returns
    */
-  async _encrypt(feedItem): Promise<any> {
+  async _encrypt(feedItem): Promise<string> {
     try {
       const msg = new TextEncoder().encode(JSON.stringify(feedItem))
       const encrypted = await this.privateKey.public.encrypt(msg).then(_ => Buffer.from(_).toString('base64'))
@@ -363,8 +368,13 @@ class RealmDB implements DB, ProfileDB {
     }
   }
 
+  /**
+   * Update or create new user profile
+   * @param profile
+   * @returns {Promise<Realm.Services.MongoDB.UpdateResult<*>>}
+   */
   // eslint-disable-next-line require-await
-  async setProfile(profile: { [key: string]: ProfileField }): Promise<any> {
+  async setProfile(profile: Profile): Promise<any> {
     return this.profiles.updateOne(
       { user_id: this.user.id },
       { $set: { user_id: this.user.id, ...profile } },
@@ -374,7 +384,7 @@ class RealmDB implements DB, ProfileDB {
 
   /**
    * read the complete raw user profile from realmdb. result fields might be encrypted
-   *  @returns {Promise<any>}
+   *  @returns {Promise<Profile>}
    */
   // eslint-disable-next-line require-await
   async getProfile(): Promise<Profile> {
@@ -383,28 +393,22 @@ class RealmDB implements DB, ProfileDB {
 
   /**
    * get user profile from realmdb. result fields might be encrypted
-   * @param key
-   * @param field
-   * @returns {Promise<any | null>}
+   * @param query
+   * @returns {Promise<Profile>}
    */
   // eslint-disable-next-line require-await
-  async getProfileBy(query: object): Promise<Profile> {
+  async getProfileBy(query: Object): Promise<Profile> {
     return this.profiles.findOne(query)
   }
 
-  // eslint-disable-next-line require-await
-  async getProfilesBy(query: object): Promise<Array<Profile>> {
-    return this.profiles.find(query)
-  }
-
   /**
-   * Set profile fields
-   * @param fields
-   * @returns {Promise<Realm.Services.MongoDB.UpdateResult<any>>}
+   * get users profiles from realmdb. result fields might be encrypted
+   * @param query
+   * @returns {Promise<Array<Profile>>}
    */
   // eslint-disable-next-line require-await
-  async setProfileFields(fields: Profile): Promise<void> {
-    return this.setProfile(fields)
+  async getProfilesBy(query: Object): Promise<Array<Profile>> {
+    return this.profiles.find(query)
   }
 
   /**
@@ -419,20 +423,43 @@ class RealmDB implements DB, ProfileDB {
 
   /**
    * deletes both local and remote storage
-   * @returns
+   * @returns {Promise<[void, Realm.Services.MongoDB.DeleteResult]>}
    */
   // eslint-disable-next-line require-await
-  async deleteAccount(): Promise<void> {
+  async deleteAccount(): Promise<any> {
     return Promise.all([this.frontendDB.delete(), this.encryptedFeed.deleteMany({ user_id: this.user.id })])
   }
 
   /**
    * Removing user profile
-   * @returns {Promise<any | null>}
+   * @returns {Promise<Realm.Services.MongoDB.DeleteResult>}
    */
   // eslint-disable-next-line require-await
   async deleteProfile(): Promise<boolean> {
     return this.profiles.deleteOne({ user_id: this.user.id })
+  }
+
+  /**
+   *
+   * @param {string} recipientPublicKey
+   * @param {string} txHash
+   * @param {string} encrypted
+   */
+  // eslint-disable-next-line require-await
+  async addToOutbox(recipientPublicKey: string, txHash: string, encrypted: string): Promise<any> {
+    return this.inboxes.insertOne({ user_id: this.user.id, recipientPublicKey, txHash, encrypted })
+  }
+
+  /**
+   *
+   * @param {string} txHash
+   * @returns {Promise<TransactionDetails>}
+   */
+  async getFromOutbox(recipientPublicKey: string, txHash: string): Promise<TransactionDetails> {
+    const data = await this.inboxes.findOne({ txHash, recipientPublicKey })
+    const decrypted = await this._decrypt(data)
+
+    return decrypted
   }
 }
 

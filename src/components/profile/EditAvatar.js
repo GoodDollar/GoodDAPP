@@ -35,15 +35,17 @@ const EditAvatar = ({ theme, screenProps }) => {
 
     try {
       await user.setAvatar(croppedRef.current)
-      screenProps.pop()
     } catch (exception) {
       const { message } = exception
 
       log.error('saving image failed:', message, exception, { dialogShown: true })
       showErrorDialog('We could not capture all your beauty. Please try again.')
+      return
     } finally {
       setProcessing(false)
     }
+
+    screenProps.pop()
   }, [screenProps, markAsDirty, setProcessing, showErrorDialog, user])
 
   const onCropped = useCallback(

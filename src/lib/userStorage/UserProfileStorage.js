@@ -1,13 +1,14 @@
 // @flow
-import * as TextileCrypto from '@textile/crypto'
+import TextileCrypto from '@textile/crypto'
 
-import pino from '../logger/pino-logger'
 import isEmail from '../validators/isEmail'
 import isMobilePhone from '../validators/isMobilePhone'
+
+import pino from '../logger/pino-logger'
 import type { UserModel } from './UserModel'
 import { getUserModel } from './UserModel'
-import type { FieldPrivacy, Profile, ProfileField } from './UserStorageClass'
-import { cleanHashedFieldForIndex, isValidValue, maskField } from './utlis'
+import { cleanHashedFieldForIndex, maskField } from './utlis'
+import type { FieldPrivacy, Profile } from './UserStorageClass'
 
 const logger = pino.child({ from: 'UserProfileStorage' })
 
@@ -15,34 +16,27 @@ export interface ProfileDB {
   setProfile(profile: Profile): Promise<void>;
   getProfile(): Promise<Profile>;
   getPublicProfile(key: string, field: string): Promise<Profile>;
-  setProfileFields(fields: Profile): Promise<void>;
+  getProfilesBy(query: Object): Promise<Array<Profile>>;
   deleteProfile(): Promise<boolean>;
 }
 
-// private methods couldn't be a part of the interface
-// by definition interface describes only public API
-// so they have been removed
 export interface ProfileStorage {
   init(): Promise<void>;
-  setProfile(profile: Profile): Promise<void>;
+  setProfile(profile: UserModel): Promise<void>;
   getProfile(): { [key: string]: string };
   setProfileField(field: string, value: string, privacy: FieldPrivacy, onlyPrivacy: boolean): Promise<void>;
   setProfileFields(fields: Profile): Promise<void>;
   getProfileByWalletAddress(walletAddress: string): Promise<Profile>;
-  getPublicProfile(key: string, value: string): { [field: string]: string };
+  getPublicProfile(key: string, value?: string): Promise<{ [field: string]: string }>;
   getProfileFieldValue(field: string): string;
   getProfileFieldDisplayValue(field: string): string;
-  getProfileField(field: string): ProfileField;
   getDisplayProfile(): UserModel;
   getPrivateProfile(): UserModel;
   getFieldPrivacy(field: string): string;
-  validateProfile(profile: any): Promise<{ isValid: boolean, errors: {} }>;
   setProfileFieldPrivacy(field: string, privacy: FieldPrivacy): Promise<void>;
-  getUserProfile(field?: string): { name: string, avatar: string };
   deleteProfile(): Promise<boolean>;
 }
 
-//5. implement pubsub for profile changes (one method to subscribe for profile updates, when profile changes notify the subscribers)
 export class UserProfileStorage implements ProfileStorage {
   profileSettings: {} = {
     fullName: { defaultPrivacy: 'public' },
@@ -68,8 +62,6 @@ export class UserProfileStorage implements ProfileStorage {
   profile: Profile = {}
 
   constructor(wallet: GoodWallet, profiledb: ProfileDB, privateKey: TextileCrypto.PrivateKey) {
-    // const seed = Uint8Array.from(Buffer.from(pkeySeed, 'hex'))
-    // this.privateKey = TextileCrypto.PrivateKey.fromRawEd25519Seed(seed)
     this.wallet = wallet
     this.profiledb = profiledb
     this.privateKey = privateKey
@@ -180,7 +172,7 @@ export class UserProfileStorage implements ProfileStorage {
    * @param {*} profile
    * @param update
    */
-  async setProfile(profile: { [key: string]: string }, update: boolean = false): Promise<void> {
+  async setProfile(profile: UserModel, update: boolean = false): Promise<void> {
     if (!update) {
       //inject walletaddress field for new profile
       profile.walletAddress = this.wallet.account
@@ -300,13 +292,22 @@ export class UserProfileStorage implements ProfileStorage {
 
   /**
    * helper to get a user public profile by key/value
-   * @param key
-   * @param {*} value
+   * @param field
+   * @param {*} value - it is optional if you pass value as first param,
+   * then method will check what kind of field it is
    */
-  async getPublicProfile(field: string, value: string): Promise<{ [field: string]: string }> {
-    const profiles = await this.getProfilesByHashIndex(field, value)
+  async getPublicProfile(field: string, value?: string): Promise<{ [field: string]: string }> {
+    let attr, profiles
+
+    if (!value) {
+      attr = isMobilePhone(field) ? 'mobile' : isEmail(field) ? 'email' : 'walletAddress'
+      profiles = await this.getProfilesByHashIndex(attr, field)
+    } else {
+      profiles = await this.getProfilesByHashIndex(field, value)
+    }
 
     if (!profiles?.length) {
+      logger.warn(`getPublicProfile: by field <${field}> and  value <${value}> empty result`)
       return null
     }
     const rawProfile = profiles[0]
@@ -320,19 +321,29 @@ export class UserProfileStorage implements ProfileStorage {
         {},
       )
 
+    const { fullName } = publicProfile
+
+    logger.info(`getPublicProfile by field <${field}>`, { fullName })
+
     return publicProfile
   }
 
+  /**
+   * Returns ProfileField value. It may be encrypted
+   * @param field
+   * @returns {EncryptedField}
+   */
   getProfileFieldValue(field: string): string {
     return this.profile[field]?.value
   }
 
+  /**
+   * Returns profile field display value
+   * @param field
+   * @returns {string}
+   */
   getProfileFieldDisplayValue(field: string): string {
     return this.profile[field]?.display
-  }
-
-  getProfileField(field: string): { value: string, display: string, privacy: string } {
-    return this.profile[field]
   }
 
   /**
@@ -367,61 +378,26 @@ export class UserProfileStorage implements ProfileStorage {
     return getUserModel(displayProfile)
   }
 
-  getFieldPrivacy(field: string): string {
+  /**
+   * Returns field privacy
+   * @param field
+   * @returns {FieldPrivacy}
+   */
+  getFieldPrivacy(field: string): FieldPrivacy {
     const currentPrivacy = this.profile[field]?.privacy
 
     return currentPrivacy || this.profileSettings[field].defaultPrivacy || 'public'
   }
 
-  async validateProfile(profile: any): Promise<{ isValid: boolean, errors: {} }> {
-    if (!profile) {
-      return { isValid: false, errors: {} }
-    }
-
-    const fields = Object.keys(profile).filter(prop => this.indexableFields[prop])
-
-    const validatedFields = await Promise.all(
-      fields.map(async field => ({
-        field,
-        valid: await isValidValue(field, profile[field], true),
-      })),
-    )
-
-    const errors = validatedFields.reduce((accErrors, curr) => {
-      if (!curr.valid) {
-        accErrors[curr.field] = `Unavailable ${curr.field}`
-      }
-      return accErrors
-    }, {})
-
-    const isValid = validatedFields.every(elem => elem.valid)
-
-    logger.debug({ fields, validatedFields, errors, isValid, profile })
-    return { isValid, errors }
-  }
-
+  /**
+   * Set only profile field privacy
+   * @param field
+   * @param privacy
+   * @returns {Promise<void>}
+   */
   setProfileFieldPrivacy(field: string, privacy: FieldPrivacy): Promise<void> {
     const value = this.getProfileFieldValue(field)
     return this.setProfileField(field, value, privacy, true)
-  }
-
-  /**
-   * return public user profile by field value
-   * @param field - Profile field value (email, mobile or wallet address value)
-   * @returns {object} profile - { name, avatar }
-   */
-  async getUserProfile(field?: string): { name: string, avatar: string } {
-    const attr = isMobilePhone(field) ? 'mobile' : isEmail(field) ? 'email' : 'walletAddress'
-    const profile = await this.getPublicProfile(attr, field)
-    if (profile == null) {
-      logger.warn(`getUserProfile: by field <${field}> empty result`)
-      return { name: undefined, avatar: undefined }
-    }
-    const { fullName, smallAvatar } = profile
-
-    logger.info(`getUserProfile by field <${field}>`, { fullName })
-
-    return { name: fullName, avatar: smallAvatar }
   }
 
   /**

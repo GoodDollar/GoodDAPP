@@ -141,16 +141,19 @@ const InputCodeBox = () => {
     })
 
     await goodWallet.joinInvites(code)
+    
     const canCollect = await goodWallet.invitesContract.methods.canCollectBountyFor(goodWallet.account).call()
 
     if (!canCollect) {
       showErrorDialog('You need to Claim your first G$s in order to receive the reward')
       return
     }
+    
     try {
       await goodWallet.collectInviteBounty()
       await asyncStorage.setItem(INVITE_CODE, code)
       userStorage.userProperties.set('inviterInviteCodeUsed', true)
+      
       showDialog({
         title: 'Payment Link Processed Successfully',
         image: <SuccessIcon />,
@@ -162,7 +165,7 @@ const InputCodeBox = () => {
         ],
       })
     } catch (e) {
-      log.debug('collectInviteBounty failed', e.message)
+      log.warn('collectInviteBounty failed', e.message, e)
     } finally {
       setVisible(false)
     }
@@ -173,10 +176,12 @@ const InputCodeBox = () => {
     const [code, usedCode] = ['inviterInviteCode', 'inviterInviteCodeUsed'].map(prop => userProperties.get(prop))
 
     asyncStorage.getItem(INVITE_CODE).then(cachedCode => {
-      log.debug('VISIBLE', !(usedCode || code || cachedCode))
-      setVisible(!(usedCode || code || cachedCode))
+      const isVisible = !(usedCode || code || cachedCode)
+      
+      log.debug('VISIBLE', isVisible)
+      setVisible(isVisible)
     })
-  }, [])
+  }, [setVisible])
 
   if (!visible) {
     return null

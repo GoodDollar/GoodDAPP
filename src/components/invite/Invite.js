@@ -149,6 +149,7 @@ const InputCodeBox = () => {
       return
     }
     
+
     try {
       await goodWallet.collectInviteBounty()
       await asyncStorage.setItem(INVITE_CODE, code)

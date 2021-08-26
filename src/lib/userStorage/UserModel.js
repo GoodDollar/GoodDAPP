@@ -1,5 +1,4 @@
 // @flow
-import { assign, mapValues, pick, pickBy } from 'lodash'
 import type { UserRecord } from '../API/api'
 import isMobilePhone from '../validators/isMobilePhone'
 import isValidUsername from '../validators/isValidUsername'
@@ -82,48 +81,31 @@ export const userModelValidations = {
   username: getUsernameErrorMessage,
 }
 
-class UserModelClass {
-  constructor(userRecord) {
-    assign(this, userRecord)
-  }
-
-  setAvatars(userRecord) {
-    const avatars = pick(userRecord, 'avatar', 'smallAvatar')
-
-    assign(this, pickBy(avatars))
-  }
-
-  isValid(update: boolean = false) {
-    const errors = this.getErrors(update)
-
-    return this._isValid(errors)
-  }
-
-  validate(update: boolean = false) {
-    const errors = this.getErrors(update)
-
-    return { isValid: this._isValid(errors), errors }
-  }
-
-  getErrors(update: boolean = false) {
-    const { email, username, mobile } = this
-    const fieldsToValidate = { email, username, mobile }
-
-    // eslint-disable-next-line
-    return mapValues(fieldsToValidate, (value, field) =>
-      false === update || value ? userModelValidations[field](value) : '',
-    )
-  }
-
-  _isValid(errors) {
-    return Object.keys(errors).every(key => errors[key] === '')
-  }
-}
-
 /**
  * Returns an object with record attributes plus some methods to validate, getErrors and check if it is valid
  *
  * @param {UserRecord} record - User record
  * @returns {UserModel} User model with some available methods
  */
-export const getUserModel = (record: UserRecord): UserModel => new UserModelClass(record)
+export const getUserModel = (record: UserRecord): UserModel => {
+  const _isValid = errors => Object.keys(errors).every(key => errors[key] === '')
+
+  return {
+    ...record,
+    isValid: function(update: boolean = false) {
+      const errors = this.getErrors(update)
+      return _isValid(errors)
+    },
+    getErrors: function(update: boolean = false) {
+      return {
+        email: update === false || this.email ? userModelValidations.email(this.email) : '',
+        mobile: update === false || this.mobile ? userModelValidations.mobile(this.mobile) : '',
+        username: update === false || this.username ? userModelValidations.username(this.username) : '',
+      }
+    },
+    validate: function(update: boolean = false) {
+      const errors = this.getErrors(update)
+      return { isValid: _isValid(errors), errors }
+    },
+  }
+}

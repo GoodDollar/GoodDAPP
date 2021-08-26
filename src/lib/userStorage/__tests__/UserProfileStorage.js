@@ -18,17 +18,6 @@ describe('UserProfileStorage', () => {
     mobile: '+48507471353',
   }
 
-  const emptyProfile = {
-    avatar: '',
-    email: '',
-    fullName: '',
-    mnemonic: '',
-    username: '',
-    mobile: '',
-    walletAddress: '',
-    smallAvatar: '',
-  }
-
   const iterateUserModel = (profile, callback) => forIn(omitBy(profile, isFunction), callback)
 
   beforeAll(async () => {
@@ -250,36 +239,6 @@ describe('UserProfileStorage', () => {
     for (const key in userProfileStorage.profile) {
       expect(userProfileStorage.profile[key].privacy).toEqual(userProfileStorage.getFieldPrivacy(key))
     }
-  })
-
-  it('should pass profile validation', async () => {
-    const { isValid, errors } = await userProfileStorage.validateProfile(profile)
-
-    expect(isValid).toBeTruthy()
-    expect(errors).toEqual({})
-  })
-
-  it('should fail profile validation with empty profile', async () => {
-    const { isValid, errors } = await userProfileStorage.validateProfile()
-
-    expect(isValid).toBeFalsy()
-    expect(errors).toEqual({})
-  })
-
-  it('should fail profile validation with error', async () => {
-    const { isValid, errors } = await userProfileStorage.validateProfile(emptyProfile)
-
-    const errorMessages = {
-      email: 'Unavailable email',
-      username: 'Unavailable username',
-      mobile: 'Unavailable mobile',
-    }
-
-    expect(isValid).toBeFalsy()
-
-    forIn(errorMessages, (message, field) => {
-      expect(errors).toHaveProperty(field, message)
-    })
   })
 
   it('should set profile field to private', async () => {

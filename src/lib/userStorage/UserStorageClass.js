@@ -535,10 +535,9 @@ export class UserStorage {
   /**
    * Return display attribute of each profile property
    *
-   * @param {object} profile - User profile
    * @returns {UserModel} - User model with display values
    */
-  getDisplayProfile(profile: {}): UserModel {
+  getDisplayProfile(): UserModel {
     return this.profileStorage.getDisplayProfile()
   }
 
@@ -569,11 +568,6 @@ export class UserStorage {
   // eslint-disable-next-line require-await
   async setProfile(profile: UserModel, update: boolean = false): Promise<> {
     return this.profileStorage.setProfile(profile, update)
-  }
-
-  // eslint-disable-next-line require-await
-  async validateProfile(profile: any) {
-    return this.profileStorage.validateProfile(profile)
   }
 
   /**

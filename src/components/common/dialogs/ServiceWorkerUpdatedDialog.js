@@ -37,7 +37,7 @@ const dialogStyles = ({ theme }) => {
     imageContainer: {
       paddingTop: getDesignRelativeHeight(32),
       display: 'flex',
-      alignItems: ' center',
+      alignItems: 'center',
     },
     phase1Title: {
       ...Platform.select({

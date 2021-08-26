@@ -8,7 +8,7 @@ import { pick } from 'lodash'
 import Splash, { animationDuration, shouldAnimateSplash } from './components/splash/Splash'
 
 // hooks
-import useUpdateDialog from './lib/hooks/useUpdateDialog'
+import useUpdateDialog from './components/appUpdate/useUpdateDialog'
 import useBrowserSupport from './components/browserSupport/hooks/useBrowserSupport'
 import UnsupportedBrowser from './components/browserSupport/components/UnsupportedBrowser'
 

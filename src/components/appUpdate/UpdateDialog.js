@@ -1,9 +1,11 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { StyleSheet, Text, TouchableOpacity } from 'react-native'
-import { useDialog } from '../undux/utils/dialog'
-import { RegularDialog } from '../../components/common/dialogs/ServiceWorkerUpdatedDialog'
-import { theme } from '../../components/theme/styles'
-import useOnPress from './useOnPress'
+
+import { RegularDialog } from '../common/dialogs/ServiceWorkerUpdatedDialog'
+import useOnPress from '../../lib/hooks/useOnPress'
+import { useDialog } from '../../lib/undux/utils/dialog'
+
+import { theme } from '../theme/styles'
 
 const WhatsNewButtonComponent = ({ onOpenUrl }) => {
   const handlePress = useOnPress(() => onOpenUrl())
@@ -20,22 +22,25 @@ const WhatsNewButtonComponent = ({ onOpenUrl }) => {
 export default () => {
   const [showDialog] = useDialog()
 
-  const showUpdateDialog = (onUpdateCallback, onOpenUrl) =>
-    showDialog({
-      showCloseButtons: false,
-      content: <RegularDialog />,
-      buttonsContainerStyle: styles.serviceWorkerDialogButtonsContainer,
-      buttons: [
-        {
-          mode: 'custom',
-          Component: () => <WhatsNewButtonComponent onOpenUrl={onOpenUrl} />,
-        },
-        {
-          text: 'UPDATE',
-          onPress: onUpdateCallback,
-        },
-      ],
-    })
+  const showUpdateDialog = useCallback(
+    (onUpdateCallback, onOpenUrl) =>
+      showDialog({
+        showCloseButtons: false,
+        content: <RegularDialog />,
+        buttonsContainerStyle: styles.serviceWorkerDialogButtonsContainer,
+        buttons: [
+          {
+            mode: 'custom',
+            Component: () => <WhatsNewButtonComponent onOpenUrl={onOpenUrl} />,
+          },
+          {
+            text: 'UPDATE',
+            onPress: onUpdateCallback,
+          },
+        ],
+      }),
+    [showDialog],
+  )
 
   return [showUpdateDialog]
 }

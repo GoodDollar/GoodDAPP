@@ -1,5 +1,5 @@
 // @flow
-import { assign, mapValues, pick, pickBy } from 'lodash'
+import { assign, isFunction, mapValues, negate, pick, pickBy } from 'lodash'
 import type { UserRecord } from '../API/api'
 import isMobilePhone from '../validators/isMobilePhone'
 import isValidUsername from '../validators/isValidUsername'
@@ -76,6 +76,9 @@ const getUsernameErrorMessage = (username: string) => {
   return ''
 }
 
+const nonMethodMapper = negate(isFunction)
+const getUserRecord = userModel => pickBy(userModel, nonMethodMapper)
+
 export const userModelValidations = {
   email: getEmailErrorMessage,
   mobile: getMobileErrorMessage,
@@ -87,20 +90,19 @@ export class UserModelClass {
     assign(this, userRecord)
   }
 
-  setAvatars(userRecord) {
-    const avatars = pick(userRecord, 'avatar', 'smallAvatar')
-
-    assign(this, pickBy(avatars))
-  }
-
   isValid(update: boolean = false) {
     const errors = this.getErrors(update)
 
     return this._isValid(errors)
   }
 
-  update(field) {
-    return new UserModelClass({ ...this, ...field })
+  update(fields: UserRecord): UserModel {
+    const updatedFields = {
+      ...getUserRecord(this),
+      ...fields
+    }
+    
+    return new UserModelClass(updatedFields)
   }
 
   validate(update: boolean = false) {

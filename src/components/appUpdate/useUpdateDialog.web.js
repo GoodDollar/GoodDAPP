@@ -39,5 +39,5 @@ export default () => {
     const onOpenUrl = () => window.open(Config.newVersionUrl, '_blank')
 
     showUpdateDialog(onUpdate, onOpenUrl)
-  }, [serviceWorkerUpdated, showUpdateDialog])
+  }, [serviceWorkerUpdated])
 }

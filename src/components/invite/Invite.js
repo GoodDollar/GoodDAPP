@@ -127,7 +127,7 @@ const ShareBox = ({ level }) => {
 const InputCodeBox = () => {
   const [code, setCode] = useState('')
   const [visible, setVisible] = useState(false)
-  const [showDialog, , showErrorDialog] = useDialog()
+  const [showDialog, hideDialog, showErrorDialog] = useDialog()
 
   const onSubmit = useCallback(async () => {
     showDialog({
@@ -141,20 +141,19 @@ const InputCodeBox = () => {
     })
 
     await goodWallet.joinInvites(code)
-    
+
     const canCollect = await goodWallet.invitesContract.methods.canCollectBountyFor(goodWallet.account).call()
 
     if (!canCollect) {
       showErrorDialog('You need to Claim your first G$s in order to receive the reward')
       return
     }
-    
 
     try {
       await goodWallet.collectInviteBounty()
       await asyncStorage.setItem(INVITE_CODE, code)
       userStorage.userProperties.set('inviterInviteCodeUsed', true)
-      
+
       showDialog({
         title: 'Payment Link Processed Successfully',
         image: <SuccessIcon />,
@@ -167,10 +166,11 @@ const InputCodeBox = () => {
       })
     } catch (e) {
       log.warn('collectInviteBounty failed', e.message, e)
+      hideDialog()
     } finally {
       setVisible(false)
     }
-  }, [code, showDialog, showErrorDialog, setVisible])
+  }, [code, showDialog, hideDialog, showErrorDialog, setVisible])
 
   useEffect(() => {
     const { userProperties } = userStorage
@@ -178,7 +178,7 @@ const InputCodeBox = () => {
 
     asyncStorage.getItem(INVITE_CODE).then(cachedCode => {
       const isVisible = !(usedCode || code || cachedCode)
-      
+
       log.debug('VISIBLE', isVisible)
       setVisible(isVisible)
     })

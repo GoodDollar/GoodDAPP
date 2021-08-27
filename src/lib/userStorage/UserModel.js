@@ -76,8 +76,8 @@ const getUsernameErrorMessage = (username: string) => {
   return ''
 }
 
-const nonMethodMapper = negate(isFunction)
-const getUserRecord = userModel => pickBy(userModel, nonMethodMapper)
+const nonMethodFilter = negate(isFunction)
+const getUserRecord = userModel => pickBy(userModel, nonMethodFilter)
 
 export const userModelValidations = {
   email: getEmailErrorMessage,
@@ -99,9 +99,9 @@ export class UserModelClass {
   update(fields: UserRecord): UserModel {
     const updatedFields = {
       ...getUserRecord(this),
-      ...fields
+      ...fields,
     }
-    
+
     return new UserModelClass(updatedFields)
   }
 

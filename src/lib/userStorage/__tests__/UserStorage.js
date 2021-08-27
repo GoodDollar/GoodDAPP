@@ -1,4 +1,3 @@
-import UserPropertiesClass from '../../gundb/UserPropertiesClass'
 import { getUserModel } from '../UserModel'
 import userStorage from '../UserStorage'
 import { initUserStorage } from './__util__'
@@ -29,48 +28,36 @@ describe('UserStorage', () => {
 
   it('sets realmdb field', async () => {
     await userStorage.setProfile({ username: 'testname' })
-    const res = await userStorage.getProfileFieldDisplayValue('username')
-    expect(res).toEqual('testname')
+    expect(userStorage.getProfileFieldDisplayValue('username')).toEqual('testname')
   })
 
   it('updates realmdb field', async () => {
     await userStorage.setProfile({ username: 'testname' }, true)
-    const res = await userStorage.getProfileFieldDisplayValue('username')
-    expect(res).toEqual('testname')
+    expect(userStorage.getProfileFieldDisplayValue('username')).toEqual('testname')
   })
 
   it('sets profile field', async () => {
     await userStorage.setProfileField('username', 'testname', 'public')
-    const res = await userStorage.getProfileFieldDisplayValue('username')
-    expect(res).toEqual('testname')
+    expect(userStorage.getProfileFieldDisplayValue('username')).toEqual('testname')
   })
 
   it('update profile field', async () => {
     await userStorage.setProfileField('username', 'testname2', 'public')
-    const res = await userStorage.getProfileFieldDisplayValue('username')
-    expect(res).toEqual('testname2')
+    expect(userStorage.getProfileFieldDisplayValue('username')).toEqual('testname2')
   })
 
-  it('has default user properties', async () => {
-    const res = await userStorage.userProperties.getAll()
-
-    //firstvisitapp is initialized in userStorage init
-    const expected = { ...UserPropertiesClass.defaultProperties, firstVisitApp: null }
-    expect(expected).toEqual(expect.objectContaining(res))
+  it('has default user properties', () => {
+    expect(userStorage.userProperties.getAll()).toHaveProperty('firstVisitApp', null)
   })
 
   it('set user property', async () => {
-    const res = await userStorage.userProperties.set('test', true)
-    expect(res).toBeTruthy()
+    await expect(userStorage.userProperties.set('test', true)).resolves.toBeTruthy()
   })
 
   it('get user property', async () => {
-    let isMadeBackup = await userStorage.userProperties.get('isMadeBackup')
-    expect(isMadeBackup).toBeFalsy()
-    const res = await userStorage.userProperties.set('isMadeBackup', true)
-    expect(res).toBeTruthy()
-    isMadeBackup = await userStorage.userProperties.get('isMadeBackup')
-    expect(isMadeBackup).toBeTruthy()
+    expect(userStorage.userProperties.get('isMadeBackup')).toBeFalsy()
+    await expect(userStorage.userProperties.set('isMadeBackup', true)).resolves.toBeTruthy()
+    expect(userStorage.userProperties.get('isMadeBackup')).toBeTruthy()
   })
 
   it('sets profile field private (encrypted)', async () => {
@@ -86,11 +73,9 @@ describe('UserStorage', () => {
   })
 
   it('returns object with undefined fullName for fake user identifier', async () => {
-    const userProfile = await userStorage.getPublicProfile('fake')
-    expect(userProfile).toBeNull()
+    await expect(userStorage.getPublicProfile('fake')).resolves.toBeNull()
   })
 
-  //
   it('sets profile email field masked', async () => {
     await userStorage.setProfileField('email', 'johndoe@blah.com', 'masked')
     const res = userStorage.getProfile().email
@@ -115,13 +100,13 @@ describe('UserStorage', () => {
     expect(before).toMatchObject({ privacy: 'masked', display: '***********4928' })
 
     await userStorage.setProfileFieldPrivacy('mobile', 'public')
-    const after = await userStorage.getProfile().mobile
+    const after = userStorage.getProfile().mobile
     expect(after).toMatchObject({ privacy: 'public', display: '+972-50-7384928' })
   })
 
   it('change profile field privacy to private', async () => {
     await userStorage.setProfileFieldPrivacy('mobile', 'private')
-    const res = await userStorage.getProfile().mobile
+    const res = userStorage.getProfile().mobile
     expect(res).toEqual(expect.objectContaining({ privacy: 'private', display: '******' }))
   })
 
@@ -131,7 +116,9 @@ describe('UserStorage', () => {
       userStorage.setProfileField('email', 'johndoe@blah.com', 'masked'),
       userStorage.setProfileField('username', 'hadar2', 'public'),
     ])
+
     const { isValid, getErrors, validate, ...displayProfile } = userStorage.getDisplayProfile()
+
     expect(displayProfile).toEqual(
       expect.objectContaining({
         username: 'hadar2',
@@ -159,28 +146,13 @@ describe('UserStorage', () => {
     )
   })
 
-  it('update profile field uses privacy settings', async () => {
-    // Making sure that privacy default is not override in other tests
-    await Promise.all([
-      userStorage.setProfileField('fullName', 'Old Name', 'public'),
-      userStorage.setProfileField('mobile', '+22222222211', 'masked'),
-      userStorage.setProfileField('email', 'new@domain.com', 'masked'),
-    ])
+  describe('prepare helpers for update profile with privacy settings', () => {
     const profileData = {
       fullName: 'New Name',
       email: 'new@email.com',
       mobile: '+22222222222',
       username: 'hadar2',
     }
-    const profile = getUserModel(profileData)
-    const fieldsPrivacy = await Promise.all([
-      userStorage.getFieldPrivacy('mobile'),
-      userStorage.getFieldPrivacy('email'),
-    ])
-    expect(fieldsPrivacy).toEqual(['masked', 'masked'])
-    await userStorage.setProfile(profile, true)
-    const result = userStorage.getProfile().username.display
-    expect(result).toEqual('hadar2')
 
     const checkPrivateProfile = () => {
       const { isValid, getErrors, validate, ...privateProfile } = userStorage.getPrivateProfile()
@@ -195,25 +167,50 @@ describe('UserStorage', () => {
         username: 'hadar2',
       })
     }
-    checkPrivateProfile()
-    checkDisplayProfile()
+
+    it('update profile field uses privacy settings', async () => {
+      // Making sure that privacy default is not override in other tests
+      await Promise.all([
+        userStorage.setProfileField('fullName', 'Old Name', 'public'),
+        userStorage.setProfileField('mobile', '+22222222211', 'masked'),
+        userStorage.setProfileField('email', 'new@domain.com', 'masked'),
+      ])
+
+      expect(userStorage.getFieldPrivacy('mobile')).toEqual('masked')
+      expect(userStorage.getFieldPrivacy('email')).toEqual('masked')
+
+      const profile = getUserModel(profileData)
+
+      await userStorage.setProfile(profile, true)
+      expect(userStorage.getProfile().username.display).toEqual('hadar2')
+
+      checkPrivateProfile()
+      checkDisplayProfile()
+    })
   })
 
   it(`update profile doesn't change privacy settings`, async () => {
     const email = 'johndoe@blah.com'
+    const profile = { email, fullName: 'full name', mobile: '+22222222222' }
     await userStorage.setProfileField('email', email, 'public')
-    await userStorage.setProfile(getUserModel({ email, fullName: 'full name', mobile: '+22222222222' }), true)
 
-    const result = userStorage.getDisplayProfile()
-    expect(result.email).toBe(email)
+    await userStorage.setProfile(getUserModel(profile), true)
+    expect(userStorage.getDisplayProfile().email).toBe(email)
+
+    await userStorage.setProfile(profile, true)
+    expect(userStorage.getDisplayProfile().email).toBe(email)
   })
 
   it(`setting profile changes privacy settings`, async () => {
     const email = 'johndoe@blah.com'
-    await userStorage.setProfileField('email', email, 'public')
-    await userStorage.setProfile({ email, fullName: 'full name', mobile: '+22222222222' })
+    const profile = { email, fullName: 'full name', mobile: '+22222222222' }
 
-    const result = userStorage.getDisplayProfile()
-    expect(result.email).toBe('******')
+    await userStorage.setProfileField('email', email, 'public')
+
+    await userStorage.setProfile(getUserModel(profile))
+    expect(userStorage.getDisplayProfile().email).toBe('******')
+
+    await userStorage.setProfile(profile)
+    expect(userStorage.getDisplayProfile().email).toBe('******')
   })
 })

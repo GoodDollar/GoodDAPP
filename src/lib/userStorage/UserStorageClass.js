@@ -551,8 +551,7 @@ export class UserStorage {
     return this.profileStorage.getPrivateProfile()
   }
 
-  // eslint-disable-next-line require-await
-  async getFieldPrivacy(field) {
+  getFieldPrivacy(field) {
     return this.profileStorage.getFieldPrivacy(field)
   }
 

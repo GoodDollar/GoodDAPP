@@ -59,9 +59,8 @@ describe('UserProfileStorage', () => {
     // setProfile with update: true in beforeEach won't work with no profile in db
     // setProfile has to be successfully called with update: false at least once
     await userProfileStorage.setProfile(profile)
-    const { user_id, _id, publicKey, index, walletAddress, ...fields } = await userProfileStorage.profiledb.getProfile()
 
-    // we calling setProfile in beforeEach so no need to do it again here
+    const { user_id, _id, publicKey, index, walletAddress, ...fields } = await userProfileStorage.profiledb.getProfile()
 
     expect(user_id).not.toBeNull()
     expect(_id).not.toBeNull()
@@ -69,16 +68,16 @@ describe('UserProfileStorage', () => {
     expect(publicKey).toEqual(userProfileStorage.privateKey.public.toString())
     expect(walletAddress.display).toEqual(goodWallet.account)
     expect(index.walletAddress.hash).toEqual(goodWallet.wallet.utils.sha3(goodWallet.account.toLowerCase()))
+
     for (const key in fields) {
-      const field = fields[key]
-      if (!field.privacy) {
+      const { privacy, display } = fields[key]
+
+      //skip non profile fields
+      if (!privacy) {
         continue
-      } //skip non profile fields
-      if (field.privacy === 'public') {
-        expect(profile[key]).toEqual(field.display)
-      } else {
-        expect(field.display).toEqual('******')
       }
+
+      expect(display).toEqual(privacy === 'public' ? profile[key] : '******')
     }
   })
 
@@ -86,11 +85,15 @@ describe('UserProfileStorage', () => {
     const { user_id, _id, ...fields } = await userProfileStorage.profiledb.getProfile()
 
     for (const key in fields) {
-      if (!fields[key].value) {
+      const { value } = fields[key]
+
+      //skip non core profile fields
+      if (!value) {
         continue
-      } //skip non core profile fields
-      expect(profile[key]).not.toEqual(fields[key].value)
-      expect(fields[key].value.length).toBeGreaterThan(0)
+      }
+
+      expect(profile[key]).not.toEqual(value)
+      expect(value.length).toBeGreaterThan(0)
     }
   })
 
@@ -134,14 +137,15 @@ describe('UserProfileStorage', () => {
       fullName: 'John Doe',
       username: 'johndoe123',
     }
+
     await userProfileStorage.setProfile(fieldsToUpdate, true)
 
     const updatedProfile = userProfileStorage.profile
-
     await userProfileStorage.init()
-    const refreshedProfile = userProfileStorage.profile
 
+    const refreshedProfile = userProfileStorage.profile
     expect(updatedProfile).not.toEqual(oldProfile)
+
     for (const key in fieldsToUpdate) {
       expect(fieldsToUpdate[key]).toEqual(updatedProfile[key].value)
       expect(fieldsToUpdate[key]).toEqual(refreshedProfile[key].value)
@@ -177,7 +181,6 @@ describe('UserProfileStorage', () => {
 
   it('should get profile by wallet address', async () => {
     const usersProfile = await userProfileStorage.profiledb.getProfile()
-
     const foundProfile = await userProfileStorage.getProfileByWalletAddress(goodWallet.account)
 
     // Check if correct profile was found

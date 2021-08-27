@@ -99,6 +99,10 @@ export class UserModelClass {
     return this._isValid(errors)
   }
 
+  update(field) {
+    return new UserModelClass({ ...this, ...field })
+  }
+
   validate(update: boolean = false) {
     const errors = this.getErrors(update)
 

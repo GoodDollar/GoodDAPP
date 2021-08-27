@@ -70,6 +70,7 @@ const EditProfile = ({ screenProps, styles }) => {
       if (saving) {
         return
       }
+
       setProfile(newProfile)
     },
     [setProfile, saving],

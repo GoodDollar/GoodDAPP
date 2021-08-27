@@ -29,6 +29,7 @@ module.exports = {
 
     config.testPathIgnorePatterns = [
       '/__tests__/__util__/',
+      '/__tests__/__suites__/',
       '/__tests__/__mocks__/',
       '<rootDir>/src/index.js',
       '<rootDir>/src/init.js',
@@ -37,6 +38,7 @@ module.exports = {
 
     config.coveragePathIgnorePatterns = [
       "/__tests__/__util__/",
+      "/__tests__/__suites__/",
       "<rootDir>/src/index.js",
       "<rootDir>/src/init.js",
       "<rootDir>/src/serviceWorker.js",

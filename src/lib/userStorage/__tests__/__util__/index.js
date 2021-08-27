@@ -1,7 +1,9 @@
+import { memoize } from 'lodash'
+
 import AsyncStorage from '../../../utils/asyncStorage'
 import userStorage from '../../UserStorage'
 
-export const initUserStorage = async () => {
+export const initUserStorage = memoize(async () => {
   // expires in 2040
   await AsyncStorage.setItem(
     'GD_jwt',
@@ -14,4 +16,4 @@ export const initUserStorage = async () => {
   const { feedDB, profilePrivateKey } = userStorage
 
   await feedDB.init(profilePrivateKey)
-}
+})

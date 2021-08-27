@@ -449,7 +449,7 @@ export class UserProfileStorage implements ProfileStorage {
   getFieldPrivacy(field: string): FieldPrivacy {
     const currentPrivacy = this.profile[field]?.privacy
 
-    return currentPrivacy || this.profileSettings[field].defaultPrivacy || 'public'
+    return currentPrivacy || this.profileSettings[field]?.defaultPrivacy || 'public'
   }
 
   /**

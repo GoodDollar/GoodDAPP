@@ -1,5 +1,5 @@
 // @flow
-import { assign, isFunction, mapValues, negate, pick, pickBy } from 'lodash'
+import { assign, isFunction, mapValues, omitBy, pick } from 'lodash'
 import type { UserRecord } from '../API/api'
 import isMobilePhone from '../validators/isMobilePhone'
 import isValidUsername from '../validators/isValidUsername'
@@ -76,8 +76,7 @@ const getUsernameErrorMessage = (username: string) => {
   return ''
 }
 
-const nonMethodFilter = negate(isFunction)
-const getUserRecord = userModel => pickBy(userModel, nonMethodFilter)
+export const getUserRecord = userModel => omitBy(userModel, isFunction)
 
 export const userModelValidations = {
   email: getEmailErrorMessage,

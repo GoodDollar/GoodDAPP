@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { StyleSheet, Text, TouchableOpacity } from 'react-native'
 
 import { RegularDialog } from '../common/dialogs/ServiceWorkerUpdatedDialog'
@@ -21,10 +21,21 @@ const WhatsNewButtonComponent = ({ onOpenUrl }) => {
 
 export default () => {
   const [showDialog] = useDialog()
+  const showDialogRef = useRef(showDialog)
+  const updateDialogRef = useRef()
 
-  const showUpdateDialog = useCallback(
-    (onUpdateCallback, onOpenUrl) =>
-      showDialog({
+  // keep showDialog ref up to date
+  useEffect(() => void (showDialogRef.current = showDialog), [showDialog])
+
+  // inline functions outside effects are allowed if we're accessing refs only
+  // https://reactjs.org/docs/hooks-faq.html#how-to-create-expensive-objects-lazily
+  ;(() => {
+    if (updateDialogRef.current) {
+      return
+    }
+
+    updateDialogRef.current = (onUpdateCallback, onOpenUrl) =>
+      showDialogRef.current({
         showCloseButtons: false,
         content: <RegularDialog />,
         buttonsContainerStyle: styles.serviceWorkerDialogButtonsContainer,
@@ -38,11 +49,10 @@ export default () => {
             onPress: onUpdateCallback,
           },
         ],
-      }),
-    [showDialog],
-  )
+      })
+  })()
 
-  return [showUpdateDialog]
+  return updateDialogRef
 }
 
 const styles = StyleSheet.create({

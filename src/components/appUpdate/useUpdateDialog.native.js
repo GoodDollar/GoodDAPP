@@ -9,7 +9,7 @@ import useShowUpdateDialog from './UpdateDialog'
 const log = logger.child({ from: 'useUpdateDialog' })
 
 export default () => {
-  const [showUpdateDialog] = useShowUpdateDialog()
+  const updateDialogRef = useShowUpdateDialog()
 
   useEffect(() => {
     const checkVersion = async () => {
@@ -26,7 +26,7 @@ export default () => {
 
       const [onUpdate, onOpenUrl] = [res.storeUrl, Config.newVersionUrl].map(url => () => Linking.openURL(url))
 
-      showUpdateDialog(onUpdate, onOpenUrl)
+      updateDialogRef.current(onUpdate, onOpenUrl)
     }
 
     checkVersion()

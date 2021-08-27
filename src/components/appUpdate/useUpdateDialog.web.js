@@ -9,7 +9,7 @@ import useShowUpdateDialog from './UpdateDialog'
 const log = logger.child({ from: 'useUpdateDialog' })
 
 export default () => {
-  const [showUpdateDialog] = useShowUpdateDialog()
+  const updateDialogRef = useShowUpdateDialog()
   const store = SimpleStore.useStore()
   const serviceWorkerUpdated = store.get('serviceWorkerUpdated')
 
@@ -38,6 +38,6 @@ export default () => {
 
     const onOpenUrl = () => window.open(Config.newVersionUrl, '_blank')
 
-    showUpdateDialog(onUpdate, onOpenUrl)
+    updateDialogRef.current(onUpdate, onOpenUrl)
   }, [serviceWorkerUpdated])
 }

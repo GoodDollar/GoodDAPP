@@ -183,7 +183,7 @@ describe('UserStorage', () => {
     expect(userStorage.getFieldPrivacy('email')).toEqual('masked')
 
     await userStorage.setProfile(getUserModel(profile), true)
-    expect(userStorage.getProfile().username.display).toEqual('hadar2')
+    expect(userStorage.getProfile().username.display).toEqual('testuser')
 
     checkPrivateProfile()
     checkDisplayProfile()

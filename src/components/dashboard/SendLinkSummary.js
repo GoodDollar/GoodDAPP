@@ -39,7 +39,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
   const [shared, setShared] = useState(false)
   const [link, setLink] = useState('')
 
-  const { goToRoot, navigation, navigateTo } = screenProps
+  const { goToRoot, navigateTo } = screenProps
   const { fullName } = useProfile()
   const {
     amount,
@@ -187,7 +187,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
               title: 'SUCCESS!',
               message: 'The G$ was sent successfully',
               buttons: [{ text: 'Yay!' }],
-              onDismiss: () => navigation.navigate('Home'), //for some reason gotoRoot doesnt work here, when starting in handlepaymentlink page
+              onDismiss: goToRoot,
             })
 
             return hash
@@ -212,7 +212,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
         })
       }
     },
-    [address, amount, reason, showDialog, showErrorDialog, navigation],
+    [address, amount, reason, showDialog, showErrorDialog, goToRoot],
   )
 
   const sendViaLink = useCallback(() => {

@@ -494,9 +494,6 @@ export class UserStorage {
     }
     this.user = this.gunuser.is
 
-    //try to make sure all gun SEA  decryption keys are preloaded
-    this.gunuser.get('trust').load()
-
     logger.debug('GunDB logged in', {
       pubkey: this.gunuser.is,
       pair: this.gunuser.pair(),

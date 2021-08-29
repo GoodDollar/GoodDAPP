@@ -103,6 +103,7 @@ class RealmDB implements DB {
       user_id: this.user.id,
       date: { $gte: new Date(lastSync) },
     })
+
     const filtered = newItems.filter(_ => !_._id.toString().includes('settings') && _.txHash)
     log.debug('_syncFromRemote', { newItems, filtered, lastSync })
     if (filtered.length) {
@@ -111,6 +112,7 @@ class RealmDB implements DB {
       await this.Feed.save(...decrypted)
       AsyncStorage.setItem('GD_lastRealmSync', Date.now())
     }
+    AsyncStorage.setItem('GD_lastRealmSync', Date.now())
 
     //sync items that we failed to save
     const failedSync = await this.Feed.find({ sync: false }).toArray()

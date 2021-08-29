@@ -343,7 +343,7 @@ export class GoodWallet {
     })
 
     try {
-      const chunks = chunk(steps, 1000)
+      const chunks = chunk(steps, 100)
       for (let chunk of chunks) {
         const ps = chunk.map(async fromBlock => {
           let toBlock = fromBlock + STEP

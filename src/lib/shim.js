@@ -1,3 +1,5 @@
+import 'abortcontroller-polyfill/dist/polyfill-patch-fetch'
+
 /* eslint-disable no-extend-native */
 if (!Object.fromEntries) {
   Object.defineProperty(Object, 'fromEntries', {

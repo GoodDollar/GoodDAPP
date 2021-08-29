@@ -21,6 +21,7 @@ import userStorage from '../../lib/userStorage/UserStorage'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import useAppState from '../../lib/hooks/useAppState'
 import { PushButton } from '../appNavigation/PushButton'
+import { useNativeDriverForAnimation } from '../../lib/utils/platform'
 import TabsView from '../appNavigation/TabsView'
 import BigGoodDollar from '../common/view/BigGoodDollar'
 import ClaimButton from '../common/buttons/ClaimButton'
@@ -78,13 +79,6 @@ export type DashboardProps = {
   store: Store,
   styles?: any,
 }
-
-const useNativeDriverForAnimation = Platform.select({
-  web: true,
-
-  // animating height/width or top/bottom/left/right attrs is not supported by native driver on native
-  default: false,
-})
 
 const feedMutex = new Mutex()
 

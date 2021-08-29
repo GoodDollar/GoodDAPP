@@ -11,17 +11,10 @@ import { useDialog } from '../../../../lib/undux/utils/dialog'
 import { fireEvent, GOTO_MARKET_POPUP } from '../../../../lib/analytics/analytics'
 import { withStyles } from '../../../../lib/styles'
 import { getDesignRelativeWidth } from '../../../../lib/utils/sizes'
-import { isIOSNative } from '../../../../lib/utils/platform'
+import { isIOSNative, useNativeDriverForAnimation } from '../../../../lib/utils/platform'
 import GoodMarketDialog from './GoodMarketDialog'
 
 export const marketAnimationDuration = 1500
-
-const useNativeDriverForAnimation = Platform.select({
-  web: true,
-
-  // animating height/width or top/bottom/left/right attrs is not supported by native driver on native
-  default: false,
-})
 
 const GoodMarketButton = ({ styles }) => {
   const [showDialog] = useDialog()

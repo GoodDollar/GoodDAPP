@@ -446,21 +446,21 @@ export class FeedStorage {
 
   updateFeedEventCounterParty(feedEvent) {
     const getCounterParty = async address => {
-      let { name, avatar } = await this.userStorage.getPublicProfile(address)
+      let { fullName, smallAvatar } = await this.userStorage.getPublicProfile(address)
 
       /** THIS CODE BLOCK MAY BE REMOVED AFTER SEPTEMBER 2021 */
       /** =================================================== */
       if (Config.ipfsLazyUpload) {
         // keep old base64 value if upload failed
-        avatar = await updateFeedEventAvatar(avatar).catch(() => avatar)
+        smallAvatar = await updateFeedEventAvatar(smallAvatar).catch(() => smallAvatar)
       }
 
       /** =================================================== */
 
       assign(feedEvent.data, {
         counterPartyAddress: address,
-        counterPartyFullName: name,
-        counterPartySmallAvatar: avatar,
+        counterPartyFullName: fullName,
+        counterPartySmallAvatar: smallAvatar,
       })
 
       await this.updateFeedEvent(feedEvent)

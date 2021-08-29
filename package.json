@@ -97,6 +97,7 @@
     "Base64": "^1.1.0",
     "FormData": "^0.10.1",
     "abi-decoder": "^1.2.0",
+    "abortcontroller-polyfill": "^1.7.3",
     "amplitude-js": "^7.1.0",
     "asyncstorage-down": "^4.2.0",
     "await-mutex": "1.0.1",

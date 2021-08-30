@@ -332,16 +332,17 @@ export class GoodWallet {
 
   async syncTxWithBlockchain(startBlock) {
     const lastBlock = await this.wallet.eth.getBlockNumber()
-    const steps = range(startBlock, lastBlock, 100000)
+    const STEP = 10000
+    const steps = range(startBlock, lastBlock, STEP)
     log.debug('Start sync tx from blockchain', {
       steps,
     })
 
     try {
-      const chunks = chunk(steps, 1000)
+      const chunks = chunk(steps, 100)
       for (let chunk of chunks) {
         const ps = chunk.map(async fromBlock => {
-          let toBlock = fromBlock + 100000
+          let toBlock = fromBlock + STEP
           if (toBlock > lastBlock) {
             toBlock = lastBlock
           }

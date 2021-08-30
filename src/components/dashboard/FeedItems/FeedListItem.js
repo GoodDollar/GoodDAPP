@@ -10,6 +10,7 @@ import wavePattern from '../../../assets/feedListItemPattern.svg'
 import SimpleStore from '../../../lib/undux/SimpleStore'
 import { CARD_OPEN, fireEvent } from '../../../lib/analytics/analytics'
 import useOnPress from '../../../lib/hooks/useOnPress'
+import { useNativeDriverForAnimation } from '../../../lib/utils/platform'
 import Config from '../../../config/config'
 import ListEventItem from './ListEventItem'
 import getEventSettingsByType from './EventSettingsByType'
@@ -85,7 +86,12 @@ const FeedListItem = React.memo((props: FeedListItemProps) => {
 
     return (
       <>
-        <Animatable.View animation={showLoadAnim ? animScheme : ''} duration={duration} easing={easing} useNativeDriver>
+        <Animatable.View
+          animation={showLoadAnim ? animScheme : ''}
+          duration={duration}
+          easing={easing}
+          useNativeDriver={useNativeDriverForAnimation}
+        >
           <View style={styles.row}>
             <View style={styles.rowContent}>
               <View style={[styles.rowContentBorder, imageStyle]} />
@@ -98,7 +104,7 @@ const FeedListItem = React.memo((props: FeedListItemProps) => {
           duration={duration}
           delay={200}
           easing={easing}
-          useNativeDriver
+          useNativeDriver={useNativeDriverForAnimation}
         >
           <View style={styles.row}>
             <View style={styles.rowContent}>
@@ -112,7 +118,7 @@ const FeedListItem = React.memo((props: FeedListItemProps) => {
           duration={duration}
           delay={550}
           easing={easing}
-          useNativeDriver
+          useNativeDriver={useNativeDriverForAnimation}
         >
           <View style={styles.row}>
             <View style={styles.rowContent}>

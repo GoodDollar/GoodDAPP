@@ -1,14 +1,20 @@
 import React, { useMemo } from 'react'
-import SimpleStore from './lib/undux/SimpleStore'
+
 import Splash, { animationDuration } from './components/splash/Splash'
+import useUpdateDialog from './components/appUpdate/useUpdateDialog'
+
+import SimpleStore from './lib/undux/SimpleStore'
+
 import { delay } from './lib/utils/async'
 import retryImport from './lib/utils/retryImport'
-import logger from './lib/logger/pino-logger'
-import { APP_OPEN, fireEvent, initAnalytics } from './lib/analytics/analytics'
-import Config from './config/config'
 import handleLinks from './lib/utils/handleLinks'
+import { APP_OPEN, fireEvent, initAnalytics } from './lib/analytics/analytics'
+
+import Config from './config/config'
+import logger from './lib/logger/pino-logger'
 
 const log = logger.child({ from: 'RouterSelector' })
+
 log.debug({ Config })
 
 // import Router from './SignupRouter'
@@ -46,6 +52,7 @@ let AppRouter = React.lazy(() => {
 
 const RouterSelector = () => {
   const store = SimpleStore.useStore()
+  useUpdateDialog()
 
   //we use global state for signup process to signal user has registered
   const isLoggedIn = store.get('isLoggedIn') //Promise.resolve( || AsyncStorage.getItem(IS_LOGGED_IN))

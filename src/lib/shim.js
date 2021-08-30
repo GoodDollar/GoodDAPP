@@ -1,4 +1,5 @@
 import { fromPairs } from 'lodash'
+import 'abortcontroller-polyfill/dist/polyfill-patch-fetch'
 
 const shim = (object, method, implementation) => {
   if ('function' === typeof object[method]) {

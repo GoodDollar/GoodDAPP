@@ -1,7 +1,7 @@
 //@flow
 import { Collection, Database } from '@textile/threaddb'
 import * as TextileCrypto from '@textile/crypto'
-import { get, once, sortBy } from 'lodash'
+import { once, sortBy } from 'lodash'
 import * as Realm from 'realm-web'
 import Config from '../../config/config'
 import { JWT } from '../constants/localStorage'
@@ -122,17 +122,12 @@ class RealmDB implements DB, ProfileDB {
    * used in Appswitch to sync with remote when user comes back to app
    */
   async _syncFromRemote() {
-    // this.Feed.
-    const lastSync = await this.Feed.table //use dexie directly because mongoify only sorts results and not all documents
-      .orderBy('date')
-      .reverse()
-      .limit(1)
-      .toArray()
-      .then(r => get(r, '[0].date', 0))
+    const lastSync = (await AsyncStorage.getItem('GD_lastRealmSync')) || 0
     const newItems = await this.encryptedFeed.find({
       user_id: this.user.id,
       date: { $gt: new Date(lastSync) },
     })
+
     const filtered = newItems.filter(_ => !_._id.toString().includes('settings') && _.txHash)
     log.debug('_syncFromRemote', { newItems, filtered, lastSync })
     if (filtered.length) {
@@ -140,6 +135,7 @@ class RealmDB implements DB, ProfileDB {
       log.debug('_syncFromRemote', { decrypted })
       await this.Feed.save(...decrypted)
     }
+    AsyncStorage.setItem('GD_lastRealmSync', Date.now())
 
     //sync items that we failed to save
     const failedSync = await this.Feed.find({ sync: false }).toArray()

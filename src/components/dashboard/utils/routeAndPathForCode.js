@@ -52,7 +52,7 @@ export const routeAndPathForCode = async (
         amount,
         profile,
         vendorInfo,
-        counterPartyDisplayName: profile.name,
+        counterPartyDisplayName: profile.fullName,
         action: ACTION_SEND_TO_ADDRESS,
         type: screen === 'sendByQR' ? 'QR' : 'receive',
       }

@@ -1,5 +1,5 @@
 // @flow
-import { assign, mapValues, pick, pickBy } from 'lodash'
+import { assign, isFunction, mapValues, omitBy, pick } from 'lodash'
 import type { UserRecord } from '../API/api'
 import isMobilePhone from '../validators/isMobilePhone'
 import isValidUsername from '../validators/isValidUsername'
@@ -76,27 +76,32 @@ const getUsernameErrorMessage = (username: string) => {
   return ''
 }
 
+export const getUserRecord = userModel => omitBy(userModel, isFunction)
+
 export const userModelValidations = {
   email: getEmailErrorMessage,
   mobile: getMobileErrorMessage,
   username: getUsernameErrorMessage,
 }
 
-class UserModelClass {
+export class UserModelClass {
   constructor(userRecord) {
     assign(this, userRecord)
-  }
-
-  setAvatars(userRecord) {
-    const avatars = pick(userRecord, 'avatar', 'smallAvatar')
-
-    assign(this, pickBy(avatars))
   }
 
   isValid(update: boolean = false) {
     const errors = this.getErrors(update)
 
     return this._isValid(errors)
+  }
+
+  update(fields: UserRecord): UserModel {
+    const updatedFields = {
+      ...getUserRecord(this),
+      ...fields,
+    }
+
+    return new UserModelClass(updatedFields)
   }
 
   validate(update: boolean = false) {
@@ -106,8 +111,7 @@ class UserModelClass {
   }
 
   getErrors(update: boolean = false) {
-    const { email, username, mobile } = this
-    const fieldsToValidate = { email, username, mobile }
+    const fieldsToValidate = pick(this, 'email', 'mobile', 'username')
 
     // eslint-disable-next-line
     return mapValues(fieldsToValidate, (value, field) =>

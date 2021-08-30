@@ -376,7 +376,7 @@ export class FeedStorage {
       log.debug('handleReceiptUpdate type', { feedEvent, type })
 
       //merge incoming receipt data into existing event
-      const updatedFeedEvent: FeedEvent = {
+      let updatedFeedEvent: FeedEvent = {
         ...feedEvent,
         ...initialEvent,
         type,
@@ -414,25 +414,24 @@ export class FeedStorage {
         updatedFeedEvent,
       })
 
+      if (txType === TxType.TX_RECEIVE_GD) {
+        // if outbox data missing from event
+        if (
+          !has(updatedFeedEvent, 'fetchedOutbox') &&
+          !has(updatedFeedEvent, 'data.category') &&
+          !has(updatedFeedEvent, 'data.reason')
+        ) {
+          // check if sender left encrypted tx details for us
+          updatedFeedEvent = await this.getFromOutbox(updatedFeedEvent)
+        }
+      }
+
       if (isEqual(feedEvent, updatedFeedEvent) === false) {
         await this.updateFeedEvent(updatedFeedEvent, feedEvent.date)
       }
 
       log.debug('handleReceiptUpdate saving... done', receipt.transactionHash)
       this.updateFeedEventCounterParty(updatedFeedEvent)
-
-      if (txType === TxType.TX_RECEIVE_GD) {
-        // if outbox data missing from event
-        if (
-          !has(updatedFeedEvent, 'data.reason') ||
-          !has(updatedFeedEvent, 'data.category') ||
-          !has(updatedFeedEvent, 'data.amount')
-        ) {
-          // check if sender left encrypted tx details for us, this will
-          // update source event once data received/decrypted via onDecrypt
-          await this.getFromOutbox(updatedFeedEvent)
-        }
-      }
 
       log.debug('handleReceiptUpdate done, returning updatedFeedEvent', receipt.transactionHash, { updatedFeedEvent })
       return updatedFeedEvent
@@ -628,28 +627,6 @@ export class FeedStorage {
   }
 
   /**
-   * Sets the feed animation status
-   * @param {string} eventId
-   * @param {boolean} status
-   * @returns {Promise<FeedEvent>}
-   */
-  async updateFeedAnimationStatus(eventId: string, status = true): Promise<FeedEvent> {
-    const feedEvent = await this.getFeedItemByTransactionHash(eventId)
-
-    feedEvent.animationExecuted = status
-
-    return this.writeFeedEvent(feedEvent)
-      .then(_ => feedEvent)
-      .catch(e => {
-        log.error('updateFeedAnimationStatus by ID failed:', e.message, e, {
-          feedEvent,
-        })
-
-        return {}
-      })
-  }
-
-  /**
    * Sets the event's status
    * @param {string} eventId
    * @param {string} status
@@ -756,7 +733,7 @@ export class FeedStorage {
       const encoded = new TextEncoder().encode(JSON.stringify(data))
       const encrypted = await pubKey.encrypt(encoded).then(_ => Buffer.from(_).toString('base64'))
 
-      log.debug('addToOutbox data', { txHash: event.id, recipientPubkey, encrypted })
+      log.debug('addToOutbox data', { data, txHash: event.id, recipientPubkey, encrypted })
 
       await this.storage.addToOutbox(recipientPubkey, event.id, encrypted)
     } else {
@@ -777,13 +754,15 @@ export class FeedStorage {
 
     const updatedEventData = {
       ...event,
+      fetchedOutbox: true,
       data: { ...event.data, ...(txData || {}) },
     }
 
     log.debug('getFromOutbox updated event', updatedEventData)
-    await this.updateFeedEvent(updatedEventData)
 
-    return txData
+    // await this.updateFeedEvent(updatedEventData)
+
+    return updatedEventData
   }
 
   emitUpdate = debounce(

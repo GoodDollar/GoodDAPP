@@ -1,7 +1,7 @@
 //@flow
 import { Collection, Database } from '@textile/threaddb'
 import * as TextileCrypto from '@textile/crypto'
-import { once, sortBy } from 'lodash'
+import { isEmpty, once, sortBy } from 'lodash'
 import * as Realm from 'realm-web'
 import Config from '../../config/config'
 import { JWT } from '../constants/localStorage'
@@ -54,7 +54,10 @@ class RealmDB implements DB, ProfileDB {
       this.privateKey = privateKey
       await this.db.open(2) // Versioned db on open
       this.Feed = this.db.collection('Feed')
-      this.Feed.table.hook('updating', (modify, id, event) => this._notifyChange({ modify, id, event }))
+      this.Feed.table.hook(
+        'updating',
+        (modify, id, event) => !isEmpty(modify) && this._notifyChange({ modify, id, event }),
+      )
       this.Feed.table.hook('creating', (id, event) => this._notifyChange({ id, event }))
       await this._initRealmDB()
       this.resolve()
@@ -211,7 +214,7 @@ class RealmDB implements DB, ProfileDB {
       throw new Error('feed item missing id')
     }
     feedItem._id = feedItem.id
-    await this.Feed.save(feedItem)
+    await this.Feed.table.update(feedItem._id, feedItem)
     this._encrypt(feedItem).catch(e => {
       log.error('failed saving feedItem to remote', e.message, e)
       this.Feed.table.update({ _id: feedItem.id }, { $set: { sync: false } })
@@ -337,7 +340,7 @@ class RealmDB implements DB, ProfileDB {
         .limit(numResults)
         .toArray()
 
-      log.debug('getFeedPage result:', numResults, offset, res.length, res)
+      log.debug('getFeedPage result:', { numResults, offset, len: res.length, res })
       return res
     } catch (e) {
       log.warn('getFeedPage failed:', e.message, e)

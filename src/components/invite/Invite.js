@@ -8,15 +8,15 @@ import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils
 import logger from '../../lib/logger/pino-logger'
 import { fireEvent, INVITE_HOWTO, INVITE_SHARE } from '../../lib/analytics/analytics'
 import Config from '../../config/config'
-import { generateShareObject, isSharingAvailable } from '../../lib/share'
+import { extractQueryParams, generateShareObject, isSharingAvailable } from '../../lib/share'
 import userStorage from '../../lib/userStorage/UserStorage'
 import { usePublicProfileOf } from '../../lib/userStorage/useProfile'
 import ModalLeftBorder from '../common/modal/ModalLeftBorder'
 import { useDialog } from '../../lib/undux/utils/dialog'
 import LoadingIcon from '../common/modal/LoadingIcon'
-import asyncStorage from '../../lib/utils/asyncStorage'
-import { INVITE_CODE } from '../../lib/constants/localStorage'
 import SuccessIcon from '../common/modal/SuccessIcon'
+import { InfoIcon } from '../common/modal/InfoIcon'
+
 import goodWallet from '../../lib/wallet/GoodWallet'
 import { useCollectBounty, useInviteCode, useInvited, useInviteScreenOpened } from './useInvites'
 import FriendsSVG from './friends.svg'
@@ -124,10 +124,13 @@ const ShareBox = ({ level }) => {
   )
 }
 
-const InputCodeBox = () => {
+const InputCodeBox = ({ navigateTo }) => {
   const [code, setCode] = useState('')
-  const [visible, setVisible] = useState(false)
-  const [showDialog, hideDialog, showErrorDialog] = useDialog()
+  const inviteCodeUsed = userStorage.userProperties.get('inviterInviteCodeUsed')
+  const [visible, setVisible] = useState(!inviteCodeUsed)
+  const [showDialog, hideDialog] = useDialog()
+  const extractedCode = get(extractQueryParams(code), 'inviteCode', code)
+  const isValidCode = extractedCode.length >= 10
 
   const onSubmit = useCallback(async () => {
     showDialog({
@@ -135,29 +138,49 @@ const InputCodeBox = () => {
       loading: true,
       message: 'Please wait\nThis might take a few seconds...',
       showButtons: false,
-      title: `COLLECTING INVITE BOUNTY`,
+      title: `Collecting Invite Reward`,
       showCloseButtons: false,
       onDismiss: noop,
     })
 
-    await goodWallet.joinInvites(code)
-
-    const canCollect = await goodWallet.invitesContract.methods.canCollectBountyFor(goodWallet.account).call()
-
-    if (!canCollect) {
-      showErrorDialog('You need to Claim your first G$s in order to receive the reward')
-      return
-    }
-
     try {
-      await goodWallet.collectInviteBounty()
-      await asyncStorage.setItem(INVITE_CODE, code)
-      userStorage.userProperties.set('inviterInviteCodeUsed', true)
+      await goodWallet.joinInvites(code)
+      userStorage.userProperties.updateAll({ inviterInviteCodeUsed: true, inviterInviteCode: code })
+      setVisible(false)
+      const canCollect = await goodWallet.invitesContract.methods.canCollectBountyFor(goodWallet.account).call()
+      if (!canCollect) {
+        const isCitizen = await goodWallet.isCitizen()
+        return showDialog({
+          image: <InfoIcon />,
+          title: isCitizen ? 'Your inviter is not verified yet' : 'Claim your first G$s',
+          message: isCitizen
+            ? 'Ask your inviter to get verified by Claiming his first G$s'
+            : 'In order to receive the reward',
+          buttons: !isCitizen && [
+            {
+              text: 'Later',
+              mode: 'text',
+              color: theme.colors.gray80Percent,
+              onPress: dismiss => {
+                dismiss()
+              },
+            },
+            {
+              text: 'Claim Now',
+              onPress: dismiss => {
+                dismiss()
+                navigateTo('Claim')
+              },
+            },
+          ],
+        })
+      }
 
+      await goodWallet.collectInviteBounty()
+      userStorage.userProperties.set('inviteBonusCollected', true)
       showDialog({
-        title: 'Payment Link Processed Successfully',
+        title: `Reward Collected!`,
         image: <SuccessIcon />,
-        message: "You received G$'s!",
         buttons: [
           {
             text: 'YAY!',
@@ -167,22 +190,18 @@ const InputCodeBox = () => {
     } catch (e) {
       log.warn('collectInviteBounty failed', e.message, e)
       hideDialog()
-    } finally {
-      setVisible(false)
     }
-  }, [code, showDialog, hideDialog, showErrorDialog, setVisible])
+  }, [code, showDialog, hideDialog, setVisible])
 
   useEffect(() => {
-    const { userProperties } = userStorage
-    const [code, usedCode] = ['inviterInviteCode', 'inviterInviteCodeUsed'].map(prop => userProperties.get(prop))
-
-    asyncStorage.getItem(INVITE_CODE).then(cachedCode => {
-      const isVisible = !(usedCode || code || cachedCode)
-
-      log.debug('VISIBLE', isVisible)
-      setVisible(isVisible)
-    })
-  }, [setVisible])
+    const isCollected = userStorage.userProperties.get('inviteBonusCollected')
+    if (!isCollected && inviteCodeUsed) {
+      goodWallet.invitesContract.methods
+        .canCollectBountyFor(goodWallet.account)
+        .call()
+        .then(canCollect => onSubmit())
+    }
+  }, [])
 
   if (!visible) {
     return null
@@ -193,23 +212,25 @@ const InputCodeBox = () => {
       <Section.Stack style={{ alignItems: 'flex-start', marginTop: 11, marginBottom: 11 }}>
         <Section.Row style={{ width: '100%', alignItems: 'center' }}>
           <TextInput
-            value={code}
+            value={extractedCode}
             onChangeText={setCode}
             style={{
               flex: 1,
-              borderBottomWidth: 1,
-              borderBottomColor: theme.colors.primary,
+
+              // borderBottomWidth: 1,
+              // borderBottomColor: theme.colors.primary,
               paddingVertical: 8,
               marginRight: 12,
             }}
-            placeholder="You can still use invite code!"
+            placeholder="Paste your invite code/link here"
           />
           <CustomButton
             textStyle={{ fontSize: 14, color: theme.colors.white }}
             style={{ flexGrow: 0, minWidth: 70, height: 32, minHeight: 32 }}
             onPress={onSubmit}
+            disabled={!isValidCode}
           >
-            USE
+            Get Reward
           </CustomButton>
         </Section.Row>
       </Section.Stack>
@@ -359,11 +380,11 @@ const InvitesHowTO = () => {
   )
 }
 
-const InvitesData = ({ invitees, refresh, level, totalEarned = 0 }) => (
+const InvitesData = ({ invitees, refresh, level, totalEarned = 0, navigateTo }) => (
   <View style={{ width: '100%' }}>
     <Divider size={getDesignRelativeHeight(theme.paddings.defaultMargin * 3, false)} />
     <Section.Stack>
-      <InputCodeBox />
+      <InputCodeBox navigateTo={navigateTo} />
     </Section.Stack>
     <Divider size={theme.paddings.defaultMargin * 1.5} />
     <Section.Stack>
@@ -380,7 +401,7 @@ const InvitesData = ({ invitees, refresh, level, totalEarned = 0 }) => (
   </View>
 )
 
-const Invite = () => {
+const Invite = ({ screenProps }) => {
   const { wasOpened } = useInviteScreenOpened()
   const [showHowTo, setShowHowTo] = useState(!wasOpened)
   const [invitees, refresh, level, inviteState] = useInvited()
@@ -447,7 +468,7 @@ const Invite = () => {
         {`How Do I Invite People?`}
       </CustomButton>
       {showHowTo && <InvitesHowTO />}
-      <InvitesData {...{ invitees, refresh, level, totalEarned }} />
+      <InvitesData {...{ invitees, refresh, level, totalEarned, navigateTo: screenProps.navigateTo }} />
     </Wrapper>
   )
 }

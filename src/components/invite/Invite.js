@@ -125,12 +125,15 @@ const ShareBox = ({ level }) => {
 }
 
 const InputCodeBox = ({ navigateTo }) => {
-  const [code, setCode] = useState('')
+  const [code, setCode] = useState(userStorage.userProperties.get('inviterInviteCode') || '')
   const inviteCodeUsed = userStorage.userProperties.get('inviterInviteCodeUsed')
-  const [visible, setVisible] = useState(!inviteCodeUsed)
+
+  //show component if reward not collected yet
+  const [visible, setVisible] = useState(!userStorage.userProperties.get('inviteBonusCollected'))
   const [showDialog, hideDialog] = useDialog()
   const extractedCode = get(extractQueryParams(code), 'inviteCode', code)
   const isValidCode = extractedCode.length >= 10
+  const [disabled, setDisabled] = useState(!isValidCode) //disable button if code invalid or cant collect
 
   const onSubmit = useCallback(async () => {
     showDialog({
@@ -146,7 +149,6 @@ const InputCodeBox = ({ navigateTo }) => {
     try {
       await goodWallet.joinInvites(code)
       userStorage.userProperties.updateAll({ inviterInviteCodeUsed: true, inviterInviteCode: code })
-      setVisible(false)
       const canCollect = await goodWallet.invitesContract.methods.canCollectBountyFor(goodWallet.account).call()
       if (!canCollect) {
         const isCitizen = await goodWallet.isCitizen()
@@ -187,6 +189,7 @@ const InputCodeBox = ({ navigateTo }) => {
           },
         ],
       })
+      setVisible(false)
     } catch (e) {
       log.warn('collectInviteBounty failed', e.message, e)
       hideDialog()
@@ -194,14 +197,13 @@ const InputCodeBox = ({ navigateTo }) => {
   }, [code, showDialog, hideDialog, setVisible])
 
   useEffect(() => {
-    const isCollected = userStorage.userProperties.get('inviteBonusCollected')
-    if (!isCollected && inviteCodeUsed) {
+    if (visible && inviteCodeUsed) {
       goodWallet.invitesContract.methods
         .canCollectBountyFor(goodWallet.account)
         .call()
-        .then(canCollect => onSubmit())
+        .then(_ => setDisabled(!_))
     }
-  }, [])
+  }, [visible, inviteCodeUsed])
 
   if (!visible) {
     return null
@@ -212,6 +214,7 @@ const InputCodeBox = ({ navigateTo }) => {
       <Section.Stack style={{ alignItems: 'flex-start', marginTop: 11, marginBottom: 11 }}>
         <Section.Row style={{ width: '100%', alignItems: 'center' }}>
           <TextInput
+            disabled={inviteCodeUsed}
             value={extractedCode}
             onChangeText={setCode}
             style={{
@@ -228,7 +231,7 @@ const InputCodeBox = ({ navigateTo }) => {
             textStyle={{ fontSize: 14, color: theme.colors.white }}
             style={{ flexGrow: 0, minWidth: 70, height: 32, minHeight: 32 }}
             onPress={onSubmit}
-            disabled={!isValidCode}
+            disabled={disabled}
           >
             Get Reward
           </CustomButton>

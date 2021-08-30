@@ -197,13 +197,15 @@ const InputCodeBox = ({ navigateTo }) => {
   }, [code, showDialog, hideDialog, setVisible])
 
   useEffect(() => {
-    if (visible && inviteCodeUsed) {
-      goodWallet.invitesContract.methods
-        .canCollectBountyFor(goodWallet.account)
-        .call()
-        .then(_ => setDisabled(!_))
+    if (!visible || !inviteCodeUsed) {
+      return
     }
-  }, [visible, inviteCodeUsed])
+    
+    goodWallet.invitesContract.methods
+      .canCollectBountyFor(goodWallet.account)
+      .call()
+      .then(calCollect => setDisabled(!calCollect))
+  }, [visible, inviteCodeUsed, setDisabled])
 
   if (!visible) {
     return null

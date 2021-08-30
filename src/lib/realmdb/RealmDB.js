@@ -12,6 +12,7 @@ import type { DB } from '../userStorage/UserStorage'
 import type { Profile } from '../userStorage/UserStorageClass'
 import AsyncStorage from '../utils/asyncStorage'
 import type { TransactionDetails } from '../userStorage/FeedStorage'
+import { AssetsSchema } from '../textile/assetSchema'
 
 const log = logger.child({ from: 'RealmDB' })
 class RealmDB implements DB, ProfileDB {
@@ -38,13 +39,20 @@ class RealmDB implements DB, ProfileDB {
    */
   async init(privateKey: TextileCrypto.PrivateKey) {
     try {
-      this.db = new Database(`feed_${privateKey.public.toString()}`, {
-        name: 'Feed',
-        schema: FeedItemSchema,
-        indexes: [{ path: 'date' }, { path: 'data.hashedCode' }],
-      })
+      this.db = new Database(
+        `feed_${privateKey.public.toString()}`,
+        {
+          name: 'Feed',
+          schema: FeedItemSchema,
+          indexes: [{ path: 'date' }, { path: 'data.hashedCode' }],
+        },
+        {
+          name: 'Assets',
+          schema: AssetsSchema,
+        },
+      )
       this.privateKey = privateKey
-      await this.db.open(1) // Versioned db on open
+      await this.db.open(2) // Versioned db on open
       this.Feed = this.db.collection('Feed')
       this.Feed.table.hook('updating', (modify, id, event) => this._notifyChange({ modify, id, event }))
       this.Feed.table.hook('creating', (id, event) => this._notifyChange({ id, event }))

@@ -200,7 +200,7 @@ const InputCodeBox = ({ navigateTo }) => {
       log.warn('collectInviteBounty failed', e.message, e)
       hideDialog()
     }
-  }, [code, showDialog, hideDialog, setVisible])
+  }, [code, showDialog, hideDialog, setVisible, onUnableToCollect])
 
   useEffect(() => {
     if (!visible || !inviteCodeUsed) {

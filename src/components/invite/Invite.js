@@ -135,6 +135,33 @@ const InputCodeBox = ({ navigateTo }) => {
   const isValidCode = extractedCode.length >= 10
   const [disabled, setDisabled] = useState(!isValidCode) //disable button if code invalid or cant collect
 
+  const onUnableToCollect = useCallback(async () => {
+     const isCitizen = await goodWallet.isCitizen()
+       
+    showDialog({
+      image: <InfoIcon />,
+      title: isCitizen ? 'Your inviter is not verified yet' : 'Claim your first G$s',
+      message: isCitizen
+        ? 'Ask your inviter to get verified by Claiming his first G$s'
+        : 'In order to receive the reward',
+      buttons: !isCitizen && [{
+          text: 'Later',
+          mode: 'text',
+          color: theme.colors.gray80Percent,
+          onPress: dismiss => {
+            dismiss()
+          },
+        },{
+          text: 'Claim Now',
+          onPress: dismiss => {
+            dismiss()
+            navigateTo('Claim')
+          },
+        }],
+      })
+   }
+  }, [navigateTo, showDialog])
+  
   const onSubmit = useCallback(async () => {
     showDialog({
       image: <LoadingIcon />,

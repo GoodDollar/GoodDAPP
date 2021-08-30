@@ -57,11 +57,11 @@ const ProfileDataTable = ({
   }, [verifyEdit, profile.mobile, storedProfile.mobile])
 
   // username handlers
-  const onUserNameChange = useCallback(username => onChange({ ...profile, username }), [onChange, profile])
+  const onUserNameChange = useCallback(username => onChange(profile.update({ username })), [onChange, profile])
 
   // phone handlers
   const onPhoneInputFocus = useCallback(() => setLockSubmit(true), [setLockSubmit])
-  const onPhoneInputChange = useCallback(value => onChange({ ...profile, mobile: value }), [onChange, profile])
+  const onPhoneInputChange = useCallback(value => onChange(profile.update({ mobile: value })), [onChange, profile])
   const onPhoneInputBlur = useCallback(() => {
     const { errors: _errors } = profile.validate()
     const isValid = !_errors.mobile
@@ -76,7 +76,7 @@ const ProfileDataTable = ({
 
   // email handlers
   const onEmailFocus = useCallback(() => setLockSubmit(true), [setLockSubmit])
-  const onEmailChange = useCallback(email => onChange({ ...profile, email }), [onChange, profile])
+  const onEmailChange = useCallback(email => onChange(profile.update({ email })), [onChange, profile])
   const onEmailBlur = useCallback(() => {
     const { errors: _errors } = profile.validate()
 

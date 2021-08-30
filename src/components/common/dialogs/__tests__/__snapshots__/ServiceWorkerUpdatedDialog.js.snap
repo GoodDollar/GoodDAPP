@@ -8,7 +8,7 @@ exports[`ServiceWorkerUpdatedDialog NewReleaseDialog matches snapshot 1`] = `
     className="css-view-1dbjc4n"
   >
     <div
-      className="css-view-1dbjc4n r-alignItems-1nd77g7 r-display-6koalj r-paddingTop-wk8lta"
+      className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-paddingTop-wk8lta"
     >
       <div
         className="css-view-1dbjc4n r-height-1w2pmg r-marginBottom-p1pxzi r-position-bnwqim r-top-ipm5af r-width-1h2t8mc"
@@ -85,7 +85,7 @@ exports[`ServiceWorkerUpdatedDialog RegularDialog matches snapshot 1`] = `
     className="css-view-1dbjc4n"
   >
     <div
-      className="css-view-1dbjc4n r-alignItems-1nd77g7 r-display-6koalj r-paddingTop-wk8lta"
+      className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-paddingTop-wk8lta"
     >
       <div
         className="css-view-1dbjc4n r-height-1w2pmg r-justifyContent-1777fci r-marginBottom-p1pxzi r-textAlign-q4m81j r-width-1h2t8mc"

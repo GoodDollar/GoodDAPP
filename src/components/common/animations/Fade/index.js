@@ -1,6 +1,7 @@
 // @flow
 import React, { useEffect, useState } from 'react'
 import { Animated, Easing } from 'react-native'
+import { useNativeDriverForAnimation } from '../../../../lib/utils/platform'
 
 const Fade = ({ show, style, children }) => {
   const [fadeAnim] = useState(new Animated.Value(0))
@@ -14,14 +15,14 @@ const Fade = ({ show, style, children }) => {
         toValue: 0,
         duration: 250,
         easing: easingOut,
-        useNativeDriver: true,
+        useNativeDriver: useNativeDriverForAnimation,
       }).start()
     } else {
       return Animated.timing(fadeAnim, {
         toValue: 1,
         duration: 250,
         easing: easingIn,
-        useNativeDriver: true,
+        useNativeDriver: useNativeDriverForAnimation,
       }).start()
     }
   }, [show])

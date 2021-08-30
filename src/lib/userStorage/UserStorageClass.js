@@ -326,9 +326,6 @@ export class UserStorage {
     }
     this.user = this.gunuser.is
 
-    //try to make sure all gun SEA  decryption keys are preloaded
-    this.gunuser.get('trust').load()
-
     logger.debug('GunDB logged in', {
       pubkey: this.gunuser.is,
       pair: this.gunuser.pair(),
@@ -632,10 +629,9 @@ export class UserStorage {
   /**
    * Return display attribute of each profile property
    *
-   * @param {object} profile - User profile
    * @returns {UserModel} - User model with display values
    */
-  getDisplayProfile(profile: any): UserModel {
+  getDisplayProfile(): UserModel {
     return this.profileStorage.getDisplayProfile()
   }
 
@@ -649,8 +645,7 @@ export class UserStorage {
     return this.profileStorage.getPrivateProfile()
   }
 
-  // eslint-disable-next-line require-await
-  async getFieldPrivacy(field) {
+  getFieldPrivacy(field) {
     return this.profileStorage.getFieldPrivacy(field)
   }
 
@@ -679,11 +674,6 @@ export class UserStorage {
     }
 
     return this.profileStorage.setProfile(profile, update)
-  }
-
-  // eslint-disable-next-line require-await
-  async validateProfile(profile: any) {
-    return this.profileStorage.validateProfile(profile)
   }
 
   /**

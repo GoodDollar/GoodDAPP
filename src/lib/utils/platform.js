@@ -52,6 +52,11 @@ export const isCypress =
 
 export const isE2ERunning = isCypress && 'development' === env
 
+export const useNativeDriverForAnimation = Platform.select({
+  web: false,
+  native: true,
+})
+
 export { isMobileWeb, isIOSWeb, isAndroidWeb, isMobileOnlyWeb, isTablet, isMobileSafari, isChrome }
 
 //from https://github.com/f2etw/detect-inapp/blob/master/src/inapp.js

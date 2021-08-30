@@ -141,7 +141,7 @@ const SendQRSummary = ({ screenProps }: AmountProps, params) => {
         <Section.Row justifyContent="center">
           <Section.Text color="gray80Percent">{'* the transaction may take\na few seconds to complete'}</Section.Text>
         </Section.Row>
-        <SummaryTable counterPartyDisplayName={profile.name || to} amount={amount} reason={reason} />
+        <SummaryTable counterPartyDisplayName={profile.fullName || to} amount={amount} reason={reason} />
         <Section.Row>
           <Section.Row grow={1} justifyContent="flex-start">
             <BackButton mode="text" screenProps={screenProps}>

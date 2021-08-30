@@ -1,5 +1,5 @@
 //@flow
-import { assign, get, once, sortBy } from 'lodash'
+import { assign, once, sortBy } from 'lodash'
 import * as Realm from 'realm-web'
 import TextileCrypto from '@textile/crypto'
 
@@ -125,13 +125,7 @@ class RealmDB implements DB, ProfileDB {
    * used in Appswitch to sync with remote when user comes back to app
    */
   async _syncFromRemote() {
-    // this.db.Feed.
-    const lastSync = await this.frontendDB.FeedTable.orderBy('date') //use dexie directly because mongoify only sorts results and not all documents
-      .reverse()
-      .limit(1)
-      .toArray()
-      .then(r => get(r, '[0].date', 0))
-
+    const lastSync = (await AsyncStorage.getItem('GD_lastRealmSync')) || 0
     const newItems = await this.encryptedFeed.find({
       user_id: this.user.id,
       date: { $gt: new Date(lastSync) },
@@ -147,6 +141,7 @@ class RealmDB implements DB, ProfileDB {
 
       await this.frontendDB.Feed.save(...decrypted)
     }
+    AsyncStorage.setItem('GD_lastRealmSync', Date.now())
 
     //sync items that we failed to save
     const failedSync = await this.frontendDB.Feed.find({ sync: false }).toArray()

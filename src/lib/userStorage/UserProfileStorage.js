@@ -180,17 +180,22 @@ export class UserProfileStorage implements ProfileStorage {
 
     const fields = Object.keys(profile).filter(prop => this.profileSettings[prop])
 
-    const fieldsToSave = fields.reduce(
-      (acc, currKey) => ({
+    const fieldsToSave = fields.reduce((acc, currKey) => {
+      const { display, privacy } = this._setDisplayFieldBasedOnPrivacy(
+        currKey,
+        profile[currKey],
+        update ? this.getFieldPrivacy(currKey) : this.profileSettings[currKey].defaultPrivacy || 'public',
+      )
+
+      return {
         ...acc,
         [currKey]: {
           value: profile[currKey],
-          display: this._setDisplayFieldBasedOnPrivacy(currKey, profile[currKey], this.getFieldPrivacy(currKey)),
-          privacy: this.getFieldPrivacy(currKey),
+          display,
+          privacy,
         },
-      }),
-      {},
-    )
+      }
+    }, {})
 
     if (!update) {
       const index = {
@@ -231,12 +236,13 @@ export class UserProfileStorage implements ProfileStorage {
    * helper to set display field based on privacy setting
    * @param field
    * @param value
-   * @param privacy
+   * @param fieldPrivacy
    * @returns {*}
    * @private
    */
-  _setDisplayFieldBasedOnPrivacy(field: string, value: string, privacy: string): string {
+  _setDisplayFieldBasedOnPrivacy(field: string, value: string, fieldPrivacy: string): string {
     let display
+    let privacy = fieldPrivacy
 
     switch (privacy) {
       case 'private':
@@ -244,6 +250,9 @@ export class UserProfileStorage implements ProfileStorage {
         break
       case 'masked':
         display = maskField(field, value)
+        if (display === value) {
+          privacy = 'public'
+        }
         break
       case 'public':
         display = value
@@ -251,8 +260,7 @@ export class UserProfileStorage implements ProfileStorage {
       default:
         throw new Error('Invalid privacy setting', { privacy })
     }
-
-    return display
+    return { display, privacy }
   }
 
   /**
@@ -266,10 +274,10 @@ export class UserProfileStorage implements ProfileStorage {
   setProfileField(
     field: string,
     value: string,
-    privacy: FieldPrivacy = 'public',
+    fieldPrivacy: FieldPrivacy = 'public',
     onlyPrivacy: boolean = false,
   ): Promise<void> {
-    const display = this._setDisplayFieldBasedOnPrivacy(field, value, privacy)
+    const { display, privacy } = this._setDisplayFieldBasedOnPrivacy(field, value, fieldPrivacy)
 
     logger.debug('setProfileField', { field, value, privacy, onlyPrivacy, display })
     return this.setProfileFields({ [field]: { value, display, privacy } })
@@ -386,7 +394,7 @@ export class UserProfileStorage implements ProfileStorage {
   getFieldPrivacy(field: string): FieldPrivacy {
     const currentPrivacy = this.profile[field]?.privacy
 
-    return currentPrivacy || this.profileSettings[field].defaultPrivacy || 'public'
+    return currentPrivacy || this.profileSettings[field]?.defaultPrivacy || 'public'
   }
 
   /**

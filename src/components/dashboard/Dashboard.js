@@ -383,93 +383,95 @@ const Dashboard = props => {
     const balanceCalculatedLeftMargin = headerContentWidth - balanceBlockWidth - 20
 
     if (headerLarge) {
+      //useNativeDriver is always false because native doesnt support animating height
       Animated.parallel([
         Animated.timing(headerAvatarAnimValue, {
           toValue: 68,
           duration: timing,
           easing: easingOut,
-          useNativeDriver: useNativeDriverForAnimation,
+          useNativeDriver: false,
         }),
         Animated.timing(headerHeightAnimValue, {
           toValue: 176,
           duration: timing,
           easing: easingOut,
-          useNativeDriver: useNativeDriverForAnimation,
+          useNativeDriver: false,
         }),
         Animated.timing(headerAvatarLeftAnimValue, {
           toValue: 0,
           duration: timing,
           easing: easingOut,
-          useNativeDriver: useNativeDriverForAnimation,
+          useNativeDriver: false,
         }),
         Animated.timing(headerFullNameOpacityAnimValue, {
           toValue: 1,
           duration: fullNameOpacityTiming,
           easing: easingOut,
-          useNativeDriver: useNativeDriverForAnimation,
+          useNativeDriver: false,
         }),
         Animated.timing(headerBalanceBottomAnimValue, {
           toValue: 0,
           duration: timing,
           easing: easingOut,
-          useNativeDriver: useNativeDriverForAnimation,
+          useNativeDriver: false,
         }),
         Animated.timing(headerBalanceRightMarginAnimValue, {
           toValue: 0,
           duration: timing,
           easing: easingOut,
-          useNativeDriver: useNativeDriverForAnimation,
+          useNativeDriver: false,
         }),
         Animated.timing(headerBalanceLeftMarginAnimValue, {
           toValue: 0,
           duration: timing,
           easing: easingOut,
-          useNativeDriver: useNativeDriverForAnimation,
+          useNativeDriver: false,
         }),
       ]).start()
     } else {
+      //useNativeDriver is always false because native doesnt support animating height
       Animated.parallel([
         Animated.timing(headerAvatarAnimValue, {
           toValue: 42,
           duration: timing,
           easing: easingIn,
-          useNativeDriver: useNativeDriverForAnimation,
+          useNativeDriver: false,
         }),
         Animated.timing(headerHeightAnimValue, {
           toValue: 40,
           duration: timing,
           easing: easingIn,
-          useNativeDriver: useNativeDriverForAnimation,
+          useNativeDriver: false,
         }),
         Animated.timing(headerAvatarLeftAnimValue, {
           toValue: initialAvatarLeftPosition,
           duration: timing,
           easing: easingIn,
-          useNativeDriver: useNativeDriverForAnimation,
+          useNativeDriver: false,
         }),
         Animated.timing(headerFullNameOpacityAnimValue, {
           toValue: 0,
           duration: fullNameOpacityTiming,
           easing: easingIn,
-          useNativeDriver: useNativeDriverForAnimation,
+          useNativeDriver: false,
         }),
         Animated.timing(headerBalanceBottomAnimValue, {
           toValue: Platform.select({ web: 68, default: 60 }),
           duration: timing,
           easing: easingIn,
-          useNativeDriver: useNativeDriverForAnimation,
+          useNativeDriver: false,
         }),
         Animated.timing(headerBalanceRightMarginAnimValue, {
           toValue: 24,
           duration: timing,
           easing: easingIn,
-          useNativeDriver: useNativeDriverForAnimation,
+          useNativeDriver: false,
         }),
         Animated.timing(headerBalanceLeftMarginAnimValue, {
           toValue: balanceCalculatedLeftMargin,
           duration: timing,
           easing: easingIn,
-          useNativeDriver: useNativeDriverForAnimation,
+          useNativeDriver: false,
         }),
       ]).start()
     }
@@ -669,7 +671,7 @@ const Dashboard = props => {
         onScrollEnd={handleScrollEnd}
         onScroll={onScroll}
         headerLarge={headerLarge}
-        scrollEventThrottle={500}
+        scrollEventThrottle={300}
       />
       {itemModal && (
         <FeedModalList

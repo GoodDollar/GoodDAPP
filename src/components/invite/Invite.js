@@ -136,32 +136,34 @@ const InputCodeBox = ({ navigateTo }) => {
   const [disabled, setDisabled] = useState(!isValidCode) //disable button if code invalid or cant collect
 
   const onUnableToCollect = useCallback(async () => {
-     const isCitizen = await goodWallet.isCitizen()
-       
+    const isCitizen = await goodWallet.isCitizen()
+
     showDialog({
       image: <InfoIcon />,
       title: isCitizen ? 'Your inviter is not verified yet' : 'Claim your first G$s',
       message: isCitizen
         ? 'Ask your inviter to get verified by Claiming his first G$s'
         : 'In order to receive the reward',
-      buttons: !isCitizen && [{
+      buttons: !isCitizen && [
+        {
           text: 'Later',
           mode: 'text',
           color: theme.colors.gray80Percent,
           onPress: dismiss => {
             dismiss()
           },
-        },{
+        },
+        {
           text: 'Claim Now',
           onPress: dismiss => {
             dismiss()
             navigateTo('Claim')
           },
-        }],
-      })
-   }
+        },
+      ],
+    })
   }, [navigateTo, showDialog])
-  
+
   const onSubmit = useCallback(async () => {
     showDialog({
       image: <LoadingIcon />,
@@ -176,9 +178,9 @@ const InputCodeBox = ({ navigateTo }) => {
     try {
       await goodWallet.joinInvites(code)
       userStorage.userProperties.updateAll({ inviterInviteCodeUsed: true, inviterInviteCode: code })
-      
+
       const canCollect = await goodWallet.invitesContract.methods.canCollectBountyFor(goodWallet.account).call()
-      
+
       if (!canCollect) {
         onUnableToCollect()
         return
@@ -206,11 +208,11 @@ const InputCodeBox = ({ navigateTo }) => {
     if (!visible || !inviteCodeUsed) {
       return
     }
-    
+
     goodWallet.invitesContract.methods
       .canCollectBountyFor(goodWallet.account)
       .call()
-      .then(calCollect => setDisabled(!calCollect))
+      .then(canCollect => setDisabled(!canCollect))
   }, [visible, inviteCodeUsed, setDisabled])
 
   if (!visible) {

@@ -371,7 +371,7 @@ export class UserProfileStorage implements ProfileStorage {
 
     if (!profiles?.length) {
       logger.warn(`getPublicProfile: by field <${field}> and  value <${value}> empty result`)
-      return null
+      return {}
     }
     const rawProfile = profiles[0]
     const publicProfile = Object.keys(rawProfile)

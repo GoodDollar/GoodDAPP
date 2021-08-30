@@ -446,11 +446,18 @@ export class FeedStorage {
 
   updateFeedEventCounterParty(feedEvent) {
     const getCounterParty = async address => {
+      if (!address) {
+        return
+      }
       let { fullName, smallAvatar } = await this.userStorage.getPublicProfile(address)
+
+      if (!(fullName || smallAvatar)) {
+        return
+      }
 
       /** THIS CODE BLOCK MAY BE REMOVED AFTER SEPTEMBER 2021 */
       /** =================================================== */
-      if (Config.ipfsLazyUpload) {
+      if (Config.ipfsLazyUpload && smallAvatar) {
         // keep old base64 value if upload failed
         smallAvatar = await updateFeedEventAvatar(smallAvatar).catch(() => smallAvatar)
       }

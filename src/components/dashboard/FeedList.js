@@ -65,22 +65,15 @@ const FeedList = ({
   const canceledFeeds = useRef([])
   const [showBounce, setShowBounce] = useState(true)
   const [displayContent, setDisplayContent] = useState(false)
-  const [ableItemSelection, setAbleItemSelection] = useState(true)
 
   const feeds = useFeeds(data)
 
-  const handleItemSelection = useCallback(
-    (...args) => {
-      if (ableItemSelection) {
-        handleFeedSelection(...args)
-      }
-    },
-    [ableItemSelection, handleFeedSelection],
-  )
+  const handleItemSelection = handleFeedSelection
 
-  const onScrollStart = useCallback(() => setAbleItemSelection(false), [setAbleItemSelection])
+  //shouldnt be required with latest react-native-web
+  // const onScrollStart = useCallback(() => setAbleItemSelection(false), [setAbleItemSelection])
 
-  const onScrollEnd = useCallback(() => setAbleItemSelection(true), [setAbleItemSelection])
+  // const onScrollEnd = useCallback(() => setAbleItemSelection(true), [setAbleItemSelection])
 
   const scrollToTop = useCallback(() => {
     const list = get(flRef, 'current._component._flatListRef', {})
@@ -232,8 +225,6 @@ const FeedList = ({
         numColumns={1}
         onEndReached={onEndReached}
         onEndReachedThreshold={onEndReachedThreshold}
-        onScrollBeginDrag={onScrollStart}
-        onScrollEndDrag={onScrollEnd}
         onMomentumScrollEnd={_onScrollEnd}
         refreshing={false}
         renderItem={renderItemComponent}

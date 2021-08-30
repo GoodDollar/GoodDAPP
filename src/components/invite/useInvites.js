@@ -22,11 +22,6 @@ const registerForInvites = async () => {
   let code = userStorage.userProperties.get('inviteCode')
   let usedInviterCode = userStorage.userProperties.get('inviterInviteCodeUsed')
 
-  // This is temporary, the condition below has to be adjusted
-  if (!inviterInviteCode) {
-    return code
-  }
-
   //if already have code and already set inviter or dont have one just return
   if (code && (usedInviterCode || !inviterInviteCode)) {
     return code

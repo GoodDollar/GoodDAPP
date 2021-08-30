@@ -227,9 +227,6 @@ const InputCodeBox = ({ navigateTo }) => {
             onChangeText={setCode}
             style={{
               flex: 1,
-
-              // borderBottomWidth: 1,
-              // borderBottomColor: theme.colors.primary,
               paddingVertical: 8,
               marginRight: 12,
             }}

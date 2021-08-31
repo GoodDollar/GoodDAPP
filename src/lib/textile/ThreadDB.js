@@ -11,24 +11,24 @@ import { ProfilesSchema } from './profilesSchema'
 const log = logger.child({ from: 'RealmDB' })
 
 export class ThreadDB {
-  textile: Database
+  db: Database
 
   privateKey: TextileCrypto.PrivateKey
 
   databaseID: string
 
   get Feed(): Collection {
-    return this.textile.collection('Feed')
+    return this.db.collection('Feed')
   }
 
   get Assets(): Collection {
-    return this.textile.collection('Assets')
+    return this.db.collection('Assets')
   }
 
   constructor(privateKey: TextileCrypto.PrivateKey) {
     const databaseID = privateKey.public.toString()
 
-    const textile = new Database(
+    const db = new Database(
       `feed_${databaseID}`,
       {
         name: 'Feed',
@@ -45,12 +45,12 @@ export class ThreadDB {
       },
     )
 
-    assign(this, { textile, privateKey, databaseID })
+    assign(this, { db, privateKey, databaseID })
   }
 
   async init() {
     try {
-      await this.textile.open(3) // Versioned db on open
+      await this.db.open(3) // Versioned db on open
     } catch (e) {
       log.error('failed initializing', e.message, e)
       throw e

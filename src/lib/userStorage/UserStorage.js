@@ -11,7 +11,7 @@ const userStorage = new UserStorage(goodWallet, db, new UserProperties(db))
 global.userStorage = userStorage
 
 export interface DB {
-  init(frontendDB: ThreadDB): void;
+  init(db: ThreadDB): void;
   write(feeditem): Promise<void>;
   read(id: string): Promise<any>;
   readByPaymentId(paymentId: string): Promise<any>;

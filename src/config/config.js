@@ -88,7 +88,7 @@ const Config = {
   skipEmailVerification: env.REACT_APP_SKIP_EMAIL_VERIFICATION === 'true',
   skipMobileVerification: env.REACT_APP_SKIP_MOBILE_VERIFICATION === 'true',
   withMockedFeeds: env.REACT_APP_WITH_MOCKED_FEEDS === 'true',
-  feedItemTtl: moment.duration(env.REACT_APP_FEEDITEM_TTL || '24:00:00').as('milliseconds'), // default for 1 day min
+  feedItemTtl: moment.duration(env.REACT_APP_FEEDITEM_TTL || '24:00:00').as('milliseconds'), // default for 1 day
   safariMobileKeyboardGuidedSize: env.REACT_APP_SAFARI_MOBILE_KEYBOARD_GUIDED_SIZE === 'true',
   receiveUrl: env.REACT_APP_RECEIVE_URL || `${publicUrl}`,
   enableShortUrl: env.REACT_APP_ENABLE_SHORTURL === 'true',

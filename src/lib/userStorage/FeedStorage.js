@@ -92,16 +92,16 @@ export class FeedStorage {
 
   isEmitEvents = true
 
-  textileDB: ThreadDB
+  db: ThreadDB
 
   userStorage: UserStorage
 
   constructor(userStorage: UserStorage) {
-    const { gun, wallet, db, textileDB } = UserStorage
+    const { gun, wallet, db, database } = UserStorage
 
-    assign(this, { gun, wallet, textileDB, userStorage })
+    assign(this, { gun, wallet, db, userStorage })
 
-    this.storage = db
+    this.storage = database
     this.walletAddress = wallet.account.toLowerCase()
 
     log.debug('initialized', { wallet: this.walletAddress })
@@ -126,9 +126,6 @@ export class FeedStorage {
     this.storage.on(data => this.emitUpdate(data))
     this.feedInitialized = true
     this.setReady()
-
-    //TODO:remove
-    global.feeddb = this.storage
   }
 
   get gunuser() {

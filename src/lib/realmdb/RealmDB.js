@@ -352,11 +352,35 @@ class RealmDB implements DB, ProfileDB {
    */
   // eslint-disable-next-line require-await
   async setProfile(profile: Profile): Promise<any> {
-    return this.profiles.updateOne(
-      { user_id: this.user.id },
-      { $set: { user_id: this.user.id, ...profile } },
-      { upsert: true },
-    )
+    return this.profiles
+      .updateOne({ user_id: this.user.id }, { $set: { user_id: this.user.id, ...profile } }, { upsert: true })
+      .then(result => {
+        const { matchedCount, modifiedCount } = result
+        if (matchedCount && modifiedCount) {
+          log.debug(`Successfully set a  profile.`)
+        }
+      })
+      .catch(err => log.error(`Failed to set profile: ${err}`))
+  }
+
+  /**
+   * Helper for getProfile methods, to add logs
+   * @param query
+   * @returns {Promise<*>}
+   * @private
+   */
+  // eslint-disable-next-line require-await
+  async _logProfileQueryStatus(query): Promise<Profile> {
+    return query
+      .then(result => {
+        if (result) {
+          log.debug(`Successfully found profile: ${result}.`)
+        } else {
+          log.debug('No profile matches the provided query.')
+        }
+        return result
+      })
+      .catch(err => log.error(`Failed to find profile: ${err}`))
   }
 
   /**
@@ -365,7 +389,7 @@ class RealmDB implements DB, ProfileDB {
    */
   // eslint-disable-next-line require-await
   async getProfile(): Promise<Profile> {
-    return this.profiles.findOne({ user_id: this.user.id })
+    return this._logProfileQueryStatus(this.profiles.findOne({ user_id: this.user.id }))
   }
 
   /**
@@ -375,7 +399,7 @@ class RealmDB implements DB, ProfileDB {
    */
   // eslint-disable-next-line require-await
   async getProfileBy(query: Object): Promise<Profile> {
-    return this.profiles.findOne(query)
+    return this._logProfileQueryStatus(this.profiles.findOne(query))
   }
 
   /**
@@ -385,7 +409,7 @@ class RealmDB implements DB, ProfileDB {
    */
   // eslint-disable-next-line require-await
   async getProfilesBy(query: Object): Promise<Array<Profile>> {
-    return this.profiles.find(query)
+    return this._logProfileQueryStatus(this.profiles.find(query))
   }
 
   /**
@@ -395,7 +419,15 @@ class RealmDB implements DB, ProfileDB {
    */
   // eslint-disable-next-line require-await
   async removeField(field: string): Promise<any> {
-    return this.profiles.updateOne({ user_id: this.user.id }, { $unset: { [field]: true } })
+    return this.profiles
+      .updateOne({ user_id: this.user.id }, { $unset: { [field]: true } })
+      .then(result => {
+        const { matchedCount, modifiedCount } = result
+        if (matchedCount && modifiedCount) {
+          log.debug(`Successfully remove field.`)
+        }
+      })
+      .catch(err => log.error(`Failed to remove field: ${err}`))
   }
 
   /**
@@ -404,7 +436,13 @@ class RealmDB implements DB, ProfileDB {
    */
   // eslint-disable-next-line require-await
   async deleteAccount(): Promise<any> {
-    return Promise.all([this.db.delete(), this.encryptedFeed.deleteMany({ user_id: this.user.id })])
+    return Promise.all([
+      this.db.delete(),
+      this.encryptedFeed
+        .deleteMany({ user_id: this.user.id })
+        .then(result => log.debug(`Deleted ${result.deletedCount} account(s).`))
+        .catch(err => log.error(`Delete account failed with error: ${err}`)),
+    ])
   }
 
   /**
@@ -413,7 +451,10 @@ class RealmDB implements DB, ProfileDB {
    */
   // eslint-disable-next-line require-await
   async deleteProfile(): Promise<boolean> {
-    return this.profiles.deleteOne({ user_id: this.user.id })
+    return this.profiles
+      .deleteOne({ user_id: this.user.id })
+      .then(result => log.debug(`Deleted ${result.deletedCount} profile.`))
+      .catch(err => log.error(`Delete profile failed with error: ${err}`))
   }
 
   /**
@@ -424,16 +465,30 @@ class RealmDB implements DB, ProfileDB {
    */
   // eslint-disable-next-line require-await
   async addToOutbox(recipientPublicKey: string, txHash: string, encrypted: string): Promise<any> {
-    return this.inboxes.insertOne({ user_id: this.user.id, recipientPublicKey, txHash, encrypted })
+    return this.inboxes
+      .insertOne({ user_id: this.user.id, recipientPublicKey, txHash, encrypted })
+      .then(result => log.debug(`Successfully inserted item with _id: ${result.insertedId}`))
+      .catch(err => log.error(`Failed to insert item: ${err}`))
   }
 
   /**
    *
+   * @param recipientPublicKey
    * @param {string} txHash
    * @returns {Promise<TransactionDetails>}
    */
   async getFromOutbox(recipientPublicKey: string, txHash: string): Promise<TransactionDetails> {
-    const data = await this.inboxes.findOne({ txHash, recipientPublicKey })
+    const data = await this.inboxes
+      .findOne({ txHash, recipientPublicKey })
+      .then(result => {
+        if (result) {
+          log.debug(`Successfully found document: ${result}.`)
+        } else {
+          log.debug('No document matches the provided query.')
+        }
+        return result
+      })
+      .catch(err => log.error(`Failed to find document: ${err}`))
     const decrypted = await this._decrypt(data)
 
     return decrypted

@@ -25,6 +25,10 @@ export class ThreadDB {
     return this.db.collection('Assets')
   }
 
+  get Profiles(): Collection {
+    return this.db.collection('Profiles')
+  }
+
   constructor(privateKey: TextileCrypto.PrivateKey) {
     const databaseID = privateKey.public.toString()
 

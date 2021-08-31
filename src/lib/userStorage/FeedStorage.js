@@ -443,6 +443,7 @@ export class FeedStorage {
 
   async getCounterParty(feedEvent) {
     let addressField
+    const { Profiles } = this.db
 
     log.debug('updateFeedEventCounterParty:', feedEvent.data.receiptEvent, feedEvent.id, feedEvent.txType)
 
@@ -465,16 +466,27 @@ export class FeedStorage {
       return {}
     }
 
-    let { fullName, smallAvatar } = await this.userStorage.getPublicProfile(address)
+    let profile = await Profiles.findById(address)
+    let { fullName, smallAvatar, lastUpdated } = profile || {}
+    const lastUpdatedTs = new Date(lastUpdated).getTime()
 
-    /** THIS CODE BLOCK MAY BE REMOVED AFTER SEPTEMBER 2021 */
-    /** =================================================== */
-    if (Config.ipfsLazyUpload && smallAvatar) {
-      // keep old base64 value if upload failed
-      smallAvatar = await updateFeedEventAvatar(smallAvatar).catch(() => smallAvatar)
+    // if not cached OR non-complete profile and ttl spent
+    if (!profile || ((!fullName || !smallAvatar) && Date.now() - lastUpdatedTs > Config.feedItemTtl)) {
+      // fetch (or re-fetch) from RealmDB
+      ;({ fullName, smallAvatar } = await this.userStorage.getPublicProfile(address))
+
+      /** THIS CODE BLOCK MAY BE REMOVED AFTER SEPTEMBER 2021 */
+      /** =================================================== */
+      if (Config.ipfsLazyUpload && smallAvatar) {
+        // keep old base64 value if upload failed
+        smallAvatar = await updateFeedEventAvatar(smallAvatar).catch(() => smallAvatar)
+      }
+
+      /** =================================================== */
+
+      // cache, update last sync date
+      await Profiles.save({ _id: address, fullName, smallAvatar, lastUpdated: new Date().toISOString() })
     }
-
-    /** =================================================== */
 
     return {
       counterPartyAddress: address,

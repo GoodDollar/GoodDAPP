@@ -1,5 +1,5 @@
 // @flow
-import { assign, debounce, find, get, has, isEqual, isUndefined, orderBy, pick, set } from 'lodash'
+import { debounce, find, get, has, isEqual, isUndefined, orderBy, pick, set } from 'lodash'
 import EventEmitter from 'eventemitter3'
 
 import * as TextileCrypto from '@textile/crypto'
@@ -8,7 +8,7 @@ import { updateFeedEventAvatar } from '../updates/utils'
 
 import Config from '../../config/config'
 import logger from '../../lib/logger/pino-logger'
-
+import { UserStorage } from './UserStorageClass'
 const log = logger.child({ from: 'FeedStorage' })
 
 const COMPLETED_BONUS_REASON_TEXT = 'Your recent earned rewards'
@@ -95,7 +95,9 @@ export class FeedStorage {
   //threaddb instance
   feedDB
 
-  constructor(storage, gun, wallet, userStorage) {
+  userStorage: UserStorage
+
+  constructor(storage, gun, wallet, userStorage: UserStorage) {
     this.gun = gun
     this.wallet = wallet
     this.storage = storage
@@ -376,7 +378,7 @@ export class FeedStorage {
       log.debug('handleReceiptUpdate type', { feedEvent, type })
 
       //merge incoming receipt data into existing event
-      let updatedFeedEvent: FeedEvent = {
+      const updatedFeedEvent: FeedEvent = {
         ...feedEvent,
         ...initialEvent,
         type,
@@ -414,24 +416,21 @@ export class FeedStorage {
         updatedFeedEvent,
       })
 
-      if (txType === TxType.TX_RECEIVE_GD) {
-        // if outbox data missing from event
-        if (
-          !has(updatedFeedEvent, 'fetchedOutbox') &&
-          !has(updatedFeedEvent, 'data.category') &&
-          !has(updatedFeedEvent, 'data.reason')
-        ) {
-          // check if sender left encrypted tx details for us
-          updatedFeedEvent = await this.getFromOutbox(updatedFeedEvent)
-        }
-      }
+      const [counterPartyData, txData] = await Promise.all([
+        this.getCounterParty(updatedFeedEvent),
+        this.getFromOutbox(updatedFeedEvent),
+      ])
+
+      log.debug('handleReceiptUpdate got counterparty and outbox', receipt.transactionHash, {
+        counterPartyData,
+        txData,
+      })
+      updatedFeedEvent.fetchedOutbox = true
+      updatedFeedEvent.data = { ...updatedFeedEvent.data, ...txData, ...counterPartyData }
 
       if (isEqual(feedEvent, updatedFeedEvent) === false) {
-        await this.updateFeedEvent(updatedFeedEvent, feedEvent.date)
+        await this.updateFeedEvent(updatedFeedEvent)
       }
-
-      log.debug('handleReceiptUpdate saving... done', receipt.transactionHash)
-      this.updateFeedEventCounterParty(updatedFeedEvent)
 
       log.debug('handleReceiptUpdate done, returning updatedFeedEvent', receipt.transactionHash, { updatedFeedEvent })
       return updatedFeedEvent
@@ -443,7 +442,7 @@ export class FeedStorage {
     return
   }
 
-  async updateFeedEventCounterParty(feedEvent) {
+  async getCounterParty(feedEvent) {
     let addressField
 
     log.debug('updateFeedEventCounterParty:', feedEvent.data.receiptEvent, feedEvent.id, feedEvent.txType)
@@ -461,30 +460,28 @@ export class FeedStorage {
         break
     }
 
-    if (!addressField) {
-      return
+    const address = get(feedEvent, `data.receiptEvent.${addressField}`)
+
+    if (!addressField || !address) {
+      return {}
     }
 
-    const address = get(feedEvent, `data.receiptEvent.${addressField}`)
-    let { name, avatar } = await this.userStorage.getUserProfile(address)
+    let { fullName, smallAvatar } = await this.userStorage.getPublicProfile(address)
 
     /** THIS CODE BLOCK MAY BE REMOVED AFTER SEPTEMBER 2021 */
     /** =================================================== */
-    if (Config.ipfsLazyUpload) {
+    if (Config.ipfsLazyUpload && smallAvatar) {
       // keep old base64 value if upload failed
-      avatar = await updateFeedEventAvatar(avatar).catch(() => avatar)
+      smallAvatar = await updateFeedEventAvatar(smallAvatar).catch(() => smallAvatar)
     }
 
     /** =================================================== */
 
-    assign(feedEvent.data, {
+    return {
       counterPartyAddress: address,
-      counterPartyFullName: name,
-      counterPartySmallAvatar: avatar,
-      counterPartyLastUpdate: new Date().getTime(),
-    })
-
-    await this.updateFeedEvent(feedEvent)
+      counterPartyFullName: fullName,
+      counterPartySmallAvatar: smallAvatar,
+    }
   }
 
   /**
@@ -555,7 +552,7 @@ export class FeedStorage {
    * @returns {Promise} Promise with updated feed
    */
   // eslint-disable-next-line require-await
-  async updateFeedEvent(event: FeedEvent, previouseventDate: string | void): Promise<FeedEvent> {
+  async updateFeedEvent(event: FeedEvent): Promise<FeedEvent> {
     log.debug('updateFeedEvent:', event.id, { event })
 
     const eventAck = this.writeFeedEvent(event).catch(e => {
@@ -746,22 +743,21 @@ export class FeedStorage {
    * @param {*} event
    */
   async getFromOutbox(event: FeedEvent) {
+    // if outbox data missing from event
+    if (
+      event.txType !== TxType.TX_RECEIVE_GD ||
+      has(event, 'fetchedOutbox') ||
+      has(event, 'data.category') ||
+      has(event, 'data.reason')
+    ) {
+      return {}
+    }
+
     const recipientPublicKey = this.userStorage.profilePrivateKey.public.toString()
     const txData = await this.storage.getFromOutbox(recipientPublicKey, event.id)
 
     log.debug('getFromOutbox saved data', txData)
-
-    const updatedEventData = {
-      ...event,
-      fetchedOutbox: true,
-      data: { ...event.data, ...(txData || {}) },
-    }
-
-    log.debug('getFromOutbox updated event', updatedEventData)
-
-    // await this.updateFeedEvent(updatedEventData)
-
-    return updatedEventData
+    return txData || {}
   }
 
   emitUpdate = debounce(

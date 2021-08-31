@@ -1,5 +1,5 @@
 //@flow
-import { assign, isEmpty, once, sortBy } from 'lodash'
+import { assign, once, sortBy } from 'lodash'
 import * as Realm from 'realm-web'
 import TextileCrypto from '@textile/crypto'
 
@@ -44,14 +44,7 @@ class RealmDB implements DB, ProfileDB {
       const { privateKey, FeedTable } = frontendDB
 
       FeedTable.hook('creating', (id, event) => this._notifyChange({ id, event }))
-
-      FeedTable.hook('updating', (modify, id, event) => {
-        if (!modify || isEmpty(modify)) {
-          return
-        }
-
-        this._notifyChange({ modify, id, event })
-      })
+      FeedTable.hook('updating', (modify, id, event) => this._notifyChange({ modify, id, event }))
 
       assign(this, { privateKey, frontendDB })
       await this._initRealmDB()
@@ -228,8 +221,7 @@ class RealmDB implements DB, ProfileDB {
     }
 
     feedItem._id = feedItem.id
-    await this.frontendDB.FeedTable.update(feedItem._id, feedItem)
-
+    await this.Feed.save(feedItem)
     this._encrypt(feedItem).catch(e => {
       log.error('failed saving feedItem to remote', e.message, e)
 
@@ -313,7 +305,7 @@ class RealmDB implements DB, ProfileDB {
       const _id = `${txHash}_${user_id}`
       const res = await this.encryptedFeed.updateOne(
         { _id, user_id },
-        { _id, txHash, user_id, encrypted, date: new Date(feedItem.date) },
+        { _id, txHash, user_id, encrypted, date: new Date(feedItem.date || Date.now()) },
         { upsert: true },
       )
 

@@ -88,7 +88,7 @@ class RealmDB implements DB, ProfileDB {
 
       // `App.currentUser` updates to match the logged in user
       log.debug('realm logged in', { user })
-      assign(this, { user, backendDB: mongodb.db(this._databaseName) })
+      assign(this, { user, database: mongodb.db(this._databaseName) })
 
       this._syncFromRemote().catch(e => log.warn('_syncFromRemote failed:', e.message, e))
       return this.user

@@ -206,6 +206,9 @@ const InputCodeBox = ({ navigateTo }) => {
 
   useEffect(() => {
     if (!visible || !inviteCodeUsed) {
+      if (isValidCode) {
+        setDisabled(false)
+      }
       return
     }
 
@@ -213,7 +216,7 @@ const InputCodeBox = ({ navigateTo }) => {
       .canCollectBountyFor(goodWallet.account)
       .call()
       .then(canCollect => setDisabled(!canCollect))
-  }, [visible, inviteCodeUsed, setDisabled])
+  }, [isValidCode, visible, inviteCodeUsed, setDisabled])
 
   if (!visible) {
     return null

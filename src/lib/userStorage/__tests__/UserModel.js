@@ -25,16 +25,6 @@ describe('UserModel', () => {
     expect(model.isValid()).toBeFalsy()
   })
 
-  it('Profile without email isValid() should false', () => {
-    delete validProfile.email
-
-    const model = getUserModel(validProfile)
-    const { isValid, errors } = model.validate()
-
-    expect(isValid).toBeFalsy()
-    expect(errors.email).toBe('Email is required')
-  })
-
   it('Invalid email should get error on email property', () => {
     validProfile.email = 'fakeemail'
 

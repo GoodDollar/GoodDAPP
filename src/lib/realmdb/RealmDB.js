@@ -1,5 +1,5 @@
 //@flow
-import { assign, once, sortBy } from 'lodash'
+import { assign, isEmpty, once, sortBy } from 'lodash'
 import * as Realm from 'realm-web'
 import TextileCrypto from '@textile/crypto'
 
@@ -43,8 +43,15 @@ class RealmDB implements DB, ProfileDB {
     try {
       const { privateKey, FeedTable } = frontendDB
 
-      FeedTable.hook('updating', (modify, id, event) => this._notifyChange({ modify, id, event }))
       FeedTable.hook('creating', (id, event) => this._notifyChange({ id, event }))
+
+      FeedTable.hook('updating', (modify, id, event) => {
+        if (!modify || isEmpty(modify)) {
+          return
+        }
+
+        this._notifyChange({ modify, id, event })
+      })
 
       assign(this, { privateKey, frontendDB })
       await this._initRealmDB()
@@ -221,15 +228,13 @@ class RealmDB implements DB, ProfileDB {
     }
 
     feedItem._id = feedItem.id
-    await this.frontendDB.Feed.save(feedItem)
+    await this.frontendDB.FeedTable.update(feedItem._id, feedItem)
 
     this._encrypt(feedItem).catch(e => {
       log.error('failed saving feedItem to remote', e.message, e)
 
       this.frontendDB.FeedTable.update({ _id: feedItem.id }, { $set: { sync: false } })
     })
-
-    // this.db.remote.push('Feed').catch(e => log.error('remote push failed', e.message, e))
   }
 
   /**
@@ -355,7 +360,7 @@ class RealmDB implements DB, ProfileDB {
         .limit(numResults)
         .toArray()
 
-      log.debug('getFeedPage result:', numResults, offset, res.length, res)
+      log.debug('getFeedPage result:', { numResults, offset, len: res.length, res })
       return res
     } catch (e) {
       log.warn('getFeedPage failed:', e.message, e)

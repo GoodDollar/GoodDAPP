@@ -27,7 +27,7 @@ export default () =>
       goodWallet = userStorage.wallet
     })
 
-    afterEach(async () => {
+    beforeEach(async () => {
       jest.restoreAllMocks()
 
       // Reset profile
@@ -98,23 +98,6 @@ export default () =>
       )
     })
 
-    it('should save any value', async () => {
-      const { email, username, mobile, ...fields } = profile
-
-      const invalidProfiles = [
-        { username, mobile, ...fields },
-        { username, mobile, email: 'abc', ...fields },
-        { email, mobile, username: '', ...fields },
-        { email, mobile, username: 'John Doe', ...fields },
-      ]
-
-      await Promise.all(
-        invalidProfiles.map(async (item, index) => {
-          await expect(userProfileStorage.setProfile(item)).resolves
-        }),
-      )
-    })
-
     it('should set multiple profile fields', async () => {
       const oldProfile = userProfileStorage.profile
 
@@ -174,7 +157,7 @@ export default () =>
     it('should not find a wallet with invalid address', async () => {
       const foundProfile = await userProfileStorage.getProfileByWalletAddress('0x111')
 
-      expect(foundProfile).toBeNull()
+      expect(foundProfile).toEqual({})
     })
 
     it('should get public profile by wallet adddress', async () => {
@@ -187,7 +170,7 @@ export default () =>
       const email = '123123123'
       const foundProfile = await userProfileStorage.getPublicProfile('email', email)
 
-      expect(foundProfile).toBeNull()
+      expect(foundProfile).toEqual({})
     })
 
     it('should get profile field value & display value', () => {
@@ -254,7 +237,7 @@ export default () =>
     it('should not find profile using getUserProfile with invalid value', async () => {
       const foundProfile = await userProfileStorage.getPublicProfile('as123asdas12312a')
 
-      expect(foundProfile).toBeNull()
+      expect(foundProfile).toEqual({})
     })
 
     it('should delete profile', async () => {

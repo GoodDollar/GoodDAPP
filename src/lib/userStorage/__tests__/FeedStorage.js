@@ -60,11 +60,11 @@ describe('FeedStorage', () => {
     feedStorage.storage.privateKey = privateKey
     feedStorage.userStorage.profilePrivateKey = privateKey
     const { reason, category, amount } = feedEvent.data
-    const decrypted = await feedStorage.getFromOutbox(feedEvent)
+    const { data } = await feedStorage.getFromOutbox(feedEvent)
 
-    expect(decrypted).toHaveProperty('reason', reason)
-    expect(decrypted).toHaveProperty('category', category)
-    expect(decrypted).toHaveProperty('amount', amount)
+    expect(data).toHaveProperty('reason', reason)
+    expect(data).toHaveProperty('category', category)
+    expect(data).toHaveProperty('amount', amount)
   })
 
   it('should delete record', async () => {

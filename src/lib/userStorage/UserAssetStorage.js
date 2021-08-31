@@ -5,23 +5,23 @@ import IPFS from '../ipfs/IpfsStorage'
 import { ThreadDB } from '../textile/ThreadDB'
 
 export class UserAssetStorage {
-  fileBackend: any
+  storage: any
 
-  frontendDB: ThreadDB
+  db: ThreadDB
 
   localCache: { [string]: { binary: boolean, dataUrl: string } } = {}
 
-  static factory(frontendDB: ThreadDB): UserAssetStorage {
-    return new UserAssetStorage(IPFS, frontendDB)
+  static factory(db: ThreadDB): UserAssetStorage {
+    return new UserAssetStorage(IPFS, db)
   }
 
-  constructor(fileBackend: any, frontendDB: ThreadDB) {
-    assign(this, { fileBackend, frontendDB })
+  constructor(storage: any, db: ThreadDB) {
+    assign(this, { storage, db })
   }
 
   // eslint-disable-next-line require-await
   async store(dataUrl: string): Promise<string> {
-    const cid = await this.fileBackend.store(dataUrl)
+    const cid = await this.storage.store(dataUrl)
 
     await this._writeCache(cid, { dataUrl, binary: true })
     return cid
@@ -32,7 +32,7 @@ export class UserAssetStorage {
     let avatar = await this._readCache(cid)
 
     if (!avatar) {
-      avatar = await this.fileBackend.load(cid, true)
+      avatar = await this.storage.load(cid, true)
       await this._writeCache(cid, avatar)
     }
 
@@ -41,7 +41,7 @@ export class UserAssetStorage {
 
   // async as invokes threaddb method to remove asset from the cache collection
   async clearCache(cid: string): Promise<void> {
-    await this.frontendDB.Assets.delete(cid)
+    await this.db.Assets.delete(cid)
     delete this.localCache[cid]
   }
 
@@ -50,7 +50,7 @@ export class UserAssetStorage {
     let data = localCache[cid]
 
     if (!data) {
-      data = await this.frontendDB.Assets.findById(cid)
+      data = await this.db.Assets.findById(cid)
 
       if (data) {
         localCache[cid] = pick(data, 'dataUrl', 'binary')
@@ -64,7 +64,7 @@ export class UserAssetStorage {
     const { dataUrl, binary = true } = data
     const cachedData = { dataUrl, binary }
 
-    await this.frontendDB.Assets.save({ _id: cid, ...cachedData })
+    await this.db.Assets.save({ _id: cid, ...cachedData })
     this.localCache[cid] = cachedData
   }
 }

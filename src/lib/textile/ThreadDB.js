@@ -20,10 +20,6 @@ export class ThreadDB {
     return this.frontendDB.collection('Feed')
   }
 
-  get FeedTable() {
-    return this.Feed.table
-  }
-
   get Assets(): Collection {
     return this.frontendDB.collection('Assets')
   }

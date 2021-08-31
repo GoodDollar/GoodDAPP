@@ -214,9 +214,9 @@ export class UserStorage {
     byitem: new WeakMap(),
   }
 
-  backendDB: DB
+  storage: DB
 
-  frontendDB: ThreadDB
+  textileDB: ThreadDB
 
   userProperties
 
@@ -275,10 +275,10 @@ export class UserStorage {
     return value
   }
 
-  constructor(wallet: GoodWallet, feeddb: DB, userProperties) {
+  constructor(wallet: GoodWallet, storage: DB, userProperties) {
     this.gun = defaultGun
     this.wallet = wallet
-    this.backendDB = feeddb
+    this.storage = storage
     this.userProperties = userProperties
     this.init()
   }
@@ -356,13 +356,13 @@ export class UserStorage {
   }
 
   async initDatabases() {
-    const frontendDB = new ThreadDB(this.profilePrivateKey)
-    const userAssets = createAssetStorage(frontendDB)
+    const textileDB = new ThreadDB(this.profilePrivateKey)
+    const userAssets = createAssetStorage(textileDB)
 
-    await frontendDB.init()
-    await this.backendDB.init(frontendDB) // only once user is registered he has access to realmdb via signed jwt
+    await textileDB.init()
+    await this.storage.init(textileDB) // only once user is registered he has access to realmdb via signed jwt
 
-    assign(this, { frontendDB, userAssets })
+    assign(this, { textileDB, userAssets })
   }
 
   init(): Promise {
@@ -374,7 +374,7 @@ export class UserStorage {
         await wallet.ready
 
         this.profilePrivateKey = wallet.getEd25519Key('gundb')
-        this.profileStorage = new UserProfileStorage(this.wallet, this.backendDB, this.profilePrivateKey)
+        this.profileStorage = new UserProfileStorage(this.wallet, this.storage, this.profilePrivateKey)
 
         logger.debug('userStorage initialized.')
         return true
@@ -526,7 +526,7 @@ export class UserStorage {
    * initializes the feedstorage and default feed items
    */
   async initFeed() {
-    this.feedStorage = new FeedStorage(this.backendDB, this.gun, this.wallet, this)
+    this.feedStorage = new FeedStorage(this.storage, this.gun, this.wallet, this)
 
     await this.feedStorage.init()
     this.startSystemFeed().catch(e => logger.error('initfeed failed initializing startSystemFeed', e.message, e))
@@ -1131,7 +1131,7 @@ export class UserStorage {
       if (get(deleteAccountResult, 'data.ok', false)) {
         deleteResults = await Promise.all([
           _trackStatus(retry(() => wallet.deleteAccount(), 1, 500), 'wallet'),
-          _trackStatus(this.backendDB.deleteAccount()),
+          _trackStatus(this.storage.deleteAccount()),
           _trackStatus(this.deleteProfile(), 'profile'),
           _trackStatus(userProperties.reset(), 'userprops'),
         ])

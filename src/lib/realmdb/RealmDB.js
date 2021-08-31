@@ -18,9 +18,9 @@ import type { TransactionDetails } from '../userStorage/FeedStorage'
 const log = logger.child({ from: 'RealmDB' })
 
 class RealmDB implements DB, ProfileDB {
-  frontendDB: ThreadDB
+  textileDB: ThreadDB
 
-  backendDB: Realm.Services.MongoDB
+  db: Realm.Services.MongoDB
 
   privateKey: TextileCrypto.PrivateKey
 
@@ -39,14 +39,14 @@ class RealmDB implements DB, ProfileDB {
    * basic initialization
    * @param privateKey
    */
-  async init(frontendDB: ThreadDB) {
+  async init(textileDB: ThreadDB) {
     try {
-      const { privateKey, FeedTable } = frontendDB
+      const { privateKey, Feed } = textileDB
 
-      FeedTable.hook('creating', (id, event) => this._notifyChange({ id, event }))
-      FeedTable.hook('updating', (modify, id, event) => this._notifyChange({ modify, id, event }))
+      Feed.table.hook('creating', (id, event) => this._notifyChange({ id, event }))
+      Feed.table.hook('updating', (modify, id, event) => this._notifyChange({ modify, id, event }))
 
-      assign(this, { privateKey, frontendDB })
+      assign(this, { privateKey, textileDB })
       await this._initRealmDB()
 
       this.resolve()
@@ -104,7 +104,7 @@ class RealmDB implements DB, ProfileDB {
    * @private
    */
   get encryptedFeed() {
-    return this.backendDB.collection('encrypted_feed')
+    return this.db.collection('encrypted_feed')
   }
 
   /**
@@ -113,7 +113,7 @@ class RealmDB implements DB, ProfileDB {
    * @private
    */
   get profiles() {
-    return this.backendDB.collection('user_profiles')
+    return this.db.collection('user_profiles')
   }
 
   get inboxes() {
@@ -139,12 +139,12 @@ class RealmDB implements DB, ProfileDB {
       let decrypted = (await Promise.all(filtered.map(i => this._decrypt(i)))).filter(_ => _)
       log.debug('_syncFromRemote', { decrypted })
 
-      await this.frontendDB.Feed.save(...decrypted)
+      await this.textileDB.Feed.save(...decrypted)
     }
     AsyncStorage.setItem('GD_lastRealmSync', Date.now())
 
     //sync items that we failed to save
-    const failedSync = await this.frontendDB.Feed.find({ sync: false }).toArray()
+    const failedSync = await this.textileDB.Feed.find({ sync: false }).toArray()
 
     if (failedSync.length) {
       log.debug('_syncFromRemote: saving failed items', failedSync.length)
@@ -152,7 +152,7 @@ class RealmDB implements DB, ProfileDB {
       failedSync.forEach(async item => {
         await this._encrypt(item)
 
-        this.frontendDB.FeedTable.update({ _id: item.id }, { $set: { sync: true } })
+        this.textileDB.Feed.table.update({ _id: item.id }, { $set: { sync: true } })
       })
     }
 
@@ -164,7 +164,7 @@ class RealmDB implements DB, ProfileDB {
    * TODO: remove
    */
   async _syncFromLocalStorage() {
-    await this.frontendDB.Feed.clear()
+    await this.textileDB.Feed.clear()
 
     let items = await AsyncStorage.getItem('GD_feed').then(_ => Object.values(_ || {}))
 
@@ -225,7 +225,7 @@ class RealmDB implements DB, ProfileDB {
     this._encrypt(feedItem).catch(e => {
       log.error('failed saving feedItem to remote', e.message, e)
 
-      this.frontendDB.FeedTable.update({ _id: feedItem.id }, { $set: { sync: false } })
+      this.textileDB.Feed.table.update({ _id: feedItem.id }, { $set: { sync: false } })
     })
   }
 
@@ -236,7 +236,7 @@ class RealmDB implements DB, ProfileDB {
    */
   // eslint-disable-next-line require-await
   async read(id) {
-    return this.frontendDB.Feed.findById(id)
+    return this.textileDB.Feed.findById(id)
   }
 
   /**
@@ -246,7 +246,7 @@ class RealmDB implements DB, ProfileDB {
    */
   // eslint-disable-next-line require-await
   async readByPaymentId(paymentId) {
-    return this.frontendDB.FeedTable.get({ 'data.hashedCode': paymentId })
+    return this.textileDB.Feed.table.get({ 'data.hashedCode': paymentId })
   }
 
   /**
@@ -341,7 +341,9 @@ class RealmDB implements DB, ProfileDB {
   // eslint-disable-next-line require-await
   async getFeedPage(numResults, offset): Promise<any> {
     try {
-      const res = await this.frontendDB.FeedTable.orderBy('date') //use dexie directly because mongoify only sorts results and not all documents
+      // use dexie directly because mongoify only sorts results and not all documents
+      const res = await this.textileDB.Feed.table
+        .orderBy('date')
         .reverse()
         .offset(offset)
         .filter(
@@ -419,7 +421,7 @@ class RealmDB implements DB, ProfileDB {
    */
   // eslint-disable-next-line require-await
   async deleteAccount(): Promise<any> {
-    return Promise.all([this.frontendDB.delete(), this.encryptedFeed.deleteMany({ user_id: this.user.id })])
+    return Promise.all([this.textileDB.delete(), this.encryptedFeed.deleteMany({ user_id: this.user.id })])
   }
 
   /**

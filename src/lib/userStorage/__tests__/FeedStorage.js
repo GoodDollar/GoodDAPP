@@ -2,7 +2,6 @@ import 'fake-indexeddb/auto'
 import * as TextileCrypto from '@textile/crypto'
 import fromEntries from 'object.fromentries'
 import userStorage from '../UserStorage'
-import defaultGun from '../../gundb/gundb'
 import { FeedStorage } from '../FeedStorage'
 import { initUserStorage } from './__util__'
 
@@ -32,9 +31,7 @@ describe('FeedStorage', () => {
   beforeAll(async () => {
     await initUserStorage()
 
-    const { wallet, feedDB } = userStorage
-    feedStorage = new FeedStorage(feedDB, defaultGun, wallet, userStorage)
-
+    feedStorage = new FeedStorage(userStorage)
     await feedStorage.init()
   })
 

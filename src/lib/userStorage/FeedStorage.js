@@ -1,5 +1,5 @@
 // @flow
-import { debounce, find, get, has, isEqual, isUndefined, orderBy, pick, set } from 'lodash'
+import { assign, debounce, find, get, has, isEqual, isUndefined, orderBy, pick, set } from 'lodash'
 import EventEmitter from 'eventemitter3'
 
 import * as TextileCrypto from '@textile/crypto'
@@ -9,8 +9,8 @@ import { updateFeedEventAvatar } from '../updates/utils'
 import Config from '../../config/config'
 import logger from '../../lib/logger/pino-logger'
 import { UserStorage } from './UserStorageClass'
-const log = logger.child({ from: 'FeedStorage' })
 
+const log = logger.child({ from: 'FeedStorage' })
 const COMPLETED_BONUS_REASON_TEXT = 'Your recent earned rewards'
 const NULL_ADDRESS = '0x0000000000000000000000000000000000000000'
 
@@ -92,18 +92,20 @@ export class FeedStorage {
 
   isEmitEvents = true
 
-  //threaddb instance
-  feedDB
+  textileDB: ThreadDB
 
   userStorage: UserStorage
 
-  constructor(storage, gun, wallet, userStorage: UserStorage) {
-    this.gun = gun
-    this.wallet = wallet
-    this.storage = storage
-    this.userStorage = userStorage
+  constructor(userStorage: UserStorage) {
+    const { gun, wallet, db, textileDB } = UserStorage
+
+    assign(this, { gun, wallet, textileDB, userStorage })
+
+    this.storage = db
     this.walletAddress = wallet.account.toLowerCase()
+
     log.debug('initialized', { wallet: this.walletAddress })
+
     this.ready = new Promise((resolve, reject) => {
       this.setReady = resolve
     })

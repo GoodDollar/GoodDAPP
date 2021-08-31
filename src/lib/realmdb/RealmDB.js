@@ -13,6 +13,7 @@ import type { Profile } from '../userStorage/UserStorageClass'
 import AsyncStorage from '../utils/asyncStorage'
 import type { TransactionDetails } from '../userStorage/FeedStorage'
 import { AssetsSchema } from '../textile/assetSchema'
+import { ProfilesSchema } from '../textile/profilesSchema'
 
 const log = logger.child({ from: 'RealmDB' })
 class RealmDB implements DB, ProfileDB {
@@ -50,9 +51,13 @@ class RealmDB implements DB, ProfileDB {
           name: 'Assets',
           schema: AssetsSchema,
         },
+        {
+          name: 'Profiles',
+          schema: ProfilesSchema,
+        },
       )
       this.privateKey = privateKey
-      await this.db.open(2) // Versioned db on open
+      await this.db.open(3) // Versioned db on open
       this.Feed = this.db.collection('Feed')
       this.Feed.table.hook('updating', (modify, id, event) => this._notifyChange({ modify, id, event }))
       this.Feed.table.hook('creating', (id, event) => this._notifyChange({ id, event }))

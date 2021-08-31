@@ -1,6 +1,6 @@
 //@flow
 
-import { assign, get, isString } from 'lodash'
+import { assign, get, isEqual, isString, keys, pick } from 'lodash'
 
 import moment from 'moment'
 import Gun from '@gooddollar/gun'
@@ -847,8 +847,9 @@ export class UserStorage {
     return this._cacheFormattedEvent(event, async () => {
       logger.debug('formatEvent: incoming event', event.id, { event })
 
+      const { feedStorage } = this
       const { data, type } = event
-      const { counterPartyFullName, counterPartySmallAvatar, counterPartyLastUpdate } = data
+      const { counterPartyFullName, counterPartySmallAvatar } = data
 
       const counterPartyEvents = [
         FeedItemType.EVENT_TYPE_SENDDIRECT,
@@ -858,8 +859,11 @@ export class UserStorage {
       ]
 
       if (counterPartyEvents.includes(type) && (!counterPartyFullName || !counterPartySmallAvatar)) {
-        if (!counterPartyLastUpdate || new Date().getTime() - counterPartyLastUpdate > Config.feedItemTtl) {
-          await this.feedStorage.updateFeedEventCounterParty(event)
+        const counterPartyData = await feedStorage.getCounterParty(event)
+
+        if (!isEqual(counterPartyData, pick(data, keys(counterPartyData)))) {
+          assign(data, counterPartyData)
+          await feedStorage.updateFeedEvent(event)
         }
       }
 

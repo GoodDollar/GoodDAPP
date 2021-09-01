@@ -1,6 +1,7 @@
 // @flow
 import { debounce, find, get, has, isEqual, isUndefined, orderBy, pick, set } from 'lodash'
 import EventEmitter from 'eventemitter3'
+import moment from 'moment'
 
 import * as TextileCrypto from '@textile/crypto'
 import delUndefValNested from '../utils/delUndefValNested'
@@ -9,8 +10,8 @@ import { updateFeedEventAvatar } from '../updates/utils'
 import Config from '../../config/config'
 import logger from '../../lib/logger/pino-logger'
 import { UserStorage } from './UserStorageClass'
-const log = logger.child({ from: 'FeedStorage' })
 
+const log = logger.child({ from: 'FeedStorage' })
 const COMPLETED_BONUS_REASON_TEXT = 'Your recent earned rewards'
 const NULL_ADDRESS = '0x0000000000000000000000000000000000000000'
 
@@ -90,20 +91,26 @@ export class FeedStorage {
 
   feedQ: {} = {}
 
+  profilesCache = {}
+
   isEmitEvents = true
 
-  //threaddb instance
-  feedDB
+  db: ThreadDB
 
   userStorage: UserStorage
 
-  constructor(storage, gun, wallet, userStorage: UserStorage) {
+  constructor(userStorage: UserStorage) {
+    const { gun, wallet, db, database } = userStorage
+
+    this.db = db
     this.gun = gun
     this.wallet = wallet
-    this.storage = storage
+    this.storage = database
     this.userStorage = userStorage
     this.walletAddress = wallet.account.toLowerCase()
+
     log.debug('initialized', { wallet: this.walletAddress })
+
     this.ready = new Promise((resolve, reject) => {
       this.setReady = resolve
     })
@@ -124,9 +131,6 @@ export class FeedStorage {
     this.storage.on(data => this.emitUpdate(data))
     this.feedInitialized = true
     this.setReady()
-
-    //TODO:remove
-    global.feeddb = this.storage
   }
 
   get gunuser() {
@@ -466,22 +470,56 @@ export class FeedStorage {
       return {}
     }
 
-    let { fullName, smallAvatar } = await this.userStorage.getPublicProfile(address)
+    let profile = await this._readProfileCache(address)
+    let { fullName, smallAvatar, lastUpdated } = profile || {}
 
-    /** THIS CODE BLOCK MAY BE REMOVED AFTER SEPTEMBER 2021 */
-    /** =================================================== */
-    if (Config.ipfsLazyUpload && smallAvatar) {
-      // keep old base64 value if upload failed
-      smallAvatar = await updateFeedEventAvatar(smallAvatar).catch(() => smallAvatar)
+    // if not cached OR non-complete profile and ttl spent
+    if (!profile || ((!fullName || !smallAvatar) && moment().diff(moment(lastUpdated)) > Config.feedItemTtl)) {
+      // fetch (or re-fetch) from RealmDB
+      ;({ fullName, smallAvatar } = await this.userStorage.getPublicProfile(address))
+
+      /** THIS CODE BLOCK MAY BE REMOVED AFTER SEPTEMBER 2021 */
+      /** =================================================== */
+      if (Config.ipfsLazyUpload && smallAvatar) {
+        // keep old base64 value if upload failed
+        smallAvatar = await updateFeedEventAvatar(smallAvatar).catch(() => smallAvatar)
+      }
+
+      /** =================================================== */
+
+      // cache, update last sync date
+      await this._writeProfileCache({ address, fullName, smallAvatar })
     }
-
-    /** =================================================== */
 
     return {
       counterPartyAddress: address,
       counterPartyFullName: fullName,
       counterPartySmallAvatar: smallAvatar,
     }
+  }
+
+  async _readProfileCache(address) {
+    const { profilesCache } = this
+    let profile = profilesCache[address]
+
+    if (!profile) {
+      profile = await this.db.Profiles.findById(address)
+
+      if (profile) {
+        const { fullName, smallAvatar } = profile
+
+        profilesCache[address] = { fullName, smallAvatar }
+      }
+    }
+
+    return profile
+  }
+
+  async _writeProfileCache(profile) {
+    const { address, fullName, smallAvatar } = profile
+
+    this.profilesCache[address] = { fullName, smallAvatar }
+    await this.db.Profiles.save({ _id: address, fullName, smallAvatar, lastUpdated: new Date().toISOString() })
   }
 
   /**

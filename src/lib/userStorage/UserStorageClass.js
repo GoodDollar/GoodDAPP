@@ -1,6 +1,6 @@
 //@flow
 
-import { get, memoize } from 'lodash'
+import { assign, get, isEqual, isString, keys, pick } from 'lodash'
 
 import moment from 'moment'
 import Gun from '@gooddollar/gun'
@@ -16,15 +16,20 @@ import API from '../API/api'
 import pino from '../logger/pino-logger'
 import isMobilePhone from '../validators/isMobilePhone'
 
+import { AVATAR_SIZE, resizeImage, SMALL_AVATAR_SIZE } from '../utils/image'
+import { isValidDataUrl } from '../utils/base64'
+
 import { GD_GUN_CREDENTIALS } from '../constants/localStorage'
 import AsyncStorage from '../utils/asyncStorage'
 import defaultGun from '../gundb/gundb'
+import { ThreadDB } from '../textile/ThreadDB'
 import { type StandardFeed } from './StandardFeed'
 import { type UserModel } from './UserModel'
 import UserProperties from './UserProperties'
 import { UserProfileStorage } from './UserProfileStorage'
 import { FeedEvent, FeedItemType, FeedStorage, TxStatus } from './FeedStorage'
 import type { DB } from './UserStorage'
+import createAssetStorage, { type UserAssetStorage } from './UserAssetStorage'
 
 const logger = pino.child({ from: 'UserStorage' })
 
@@ -199,7 +204,23 @@ export class UserStorage {
    */
   cursor: number = 0
 
-  feedDB: DB
+  /**
+   * A promise which is resolved once init() is done
+   */
+  ready: Promise<boolean>
+
+  feedCache = {
+    byid: {},
+    byitem: new WeakMap(),
+  }
+
+  database: DB
+
+  db: ThreadDB
+
+  userProperties
+
+  userAssets: UserAssetStorage
 
   profileSettings: {} = {
     fullName: { defaultPrivacy: 'public' },
@@ -254,10 +275,10 @@ export class UserStorage {
     return value
   }
 
-  constructor(wallet: GoodWallet, feeddb: DB, userProperties) {
+  constructor(wallet: GoodWallet, database: DB, userProperties) {
     this.gun = defaultGun
     this.wallet = wallet
-    this.feedDB = feeddb
+    this.database = database
     this.userProperties = userProperties
     this.init()
   }
@@ -321,7 +342,8 @@ export class UserStorage {
       return
     }
 
-    await this.feedDB.init(this.profilePrivateKey, this.wallet.getAccountForType('gundb')) //only once user is registered he has access to realmdb via signed jwt
+    await this.initDatabases()
+
     //after we initialize the database wait for user properties which depands on database
     await Promise.all([this.userProperties.ready, this.profileStorage.init(), this.initFeed()])
 
@@ -333,6 +355,16 @@ export class UserStorage {
     return true
   }
 
+  async initDatabases() {
+    const db = new ThreadDB(this.profilePrivateKey)
+    const userAssets = createAssetStorage(db)
+
+    await db.init()
+    await this.database.init(db) // only once user is registered he has access to realmdb via signed jwt
+
+    assign(this, { db, userAssets })
+  }
+
   init(): Promise {
     const { wallet } = this
 
@@ -342,7 +374,7 @@ export class UserStorage {
         await wallet.ready
 
         this.profilePrivateKey = wallet.getEd25519Key('gundb')
-        this.profileStorage = new UserProfileStorage(this.wallet, this.feedDB, this.profilePrivateKey)
+        this.profileStorage = new UserProfileStorage(this.wallet, this.database, this.profilePrivateKey)
 
         logger.debug('userStorage initialized.')
         return true
@@ -367,22 +399,87 @@ export class UserStorage {
 
   /**
    * Avatar setter
-   * @param avatar
    * @returns {Promise<CID[]>}
    */
   // eslint-disable-next-line require-await
-  async setAvatar(avatar) {
-    return this.profileStorage.setAvatar(avatar)
+  async setAvatar(avatar): Promise<CID[]> {
+    return this._clearAvatarsCache(async () => {
+      const cids = await this._resizeAndStoreAvatars(avatar)
+
+      return this.profileStorage.setProfile(cids, true)
+    })
+  }
+
+  // eslint-disable-next-line require-await
+  async getAvatar() {
+    const cid = this.getProfileFieldDisplayValue('avatar')
+
+    return this.loadAvatar(cid)
+  }
+
+  // eslint-disable-next-line require-await
+  async getSmallAvatar() {
+    const cid = this.getProfileFieldDisplayValue('smallAvatar')
+
+    return this.loadAvatar(cid)
+  }
+
+  // eslint-disable-next-line require-await
+  async loadAvatar(cid: stirng) {
+    return this.userAssets.load(cid)
   }
 
   /**
-   * remove Avatar
-   * @param withCleanup
-   * @returns {Promise<void>}
+   * remove Avatar from profile
+   * @returns {Promise<[Promise<void>, Promise<void>, Promise<void>, Promise<void>, Promise<void>, Promise<void>, Promise<void>, Promise<void>, Promise<void>, Promise<void>]>}
    */
   // eslint-disable-next-line require-await
-  async removeAvatar(withCleanup = false) {
-    return this.profileStorage.removeAvatar()
+  async removeAvatar(): Promise<void> {
+    // eslint-disable-next-line require-await
+    return this._clearAvatarsCache(async () =>
+      this.profileStorage.setProfileFields({ avatar: null, smallAvatar: null }),
+    )
+  }
+
+  /**
+   * store Avatar
+   * @param avatarDataUrl
+   * @returns {Promise<{ avatar: CID, smallAvatar: CID }>}
+   */
+  async _resizeAndStoreAvatars(avatarDataUrl: string): Promise<{ avatar: string, smallAvatar: string }> {
+    let resizedDataUrl
+    const avatarSizes = [AVATAR_SIZE, SMALL_AVATAR_SIZE]
+
+    const resizedAvatars = await Promise.all(
+      avatarSizes.map(async size => {
+        resizedDataUrl = await resizeImage(resizedDataUrl || avatarDataUrl, size)
+
+        return resizedDataUrl
+      }),
+    )
+
+    const [avatar, smallAvatar] = await Promise.all(
+      // eslint-disable-next-line require-await
+      resizedAvatars.map(async dataUrl => this.userAssets.store(dataUrl)),
+    )
+
+    return { avatar, smallAvatar }
+  }
+
+  async _clearAvatarsCache(callback) {
+    const avatarsCIDs = ['avatar', 'smallAvatar'].map(field => this.getProfileFieldDisplayValue(field))
+
+    await callback()
+    await Promise.all(
+      // eslint-disable-next-line require-await
+      avatarsCIDs.map(async cid => {
+        if (!cid) {
+          return
+        }
+
+        this.userAssets.clearCache(cid)
+      }),
+    )
   }
 
   /**
@@ -429,7 +526,7 @@ export class UserStorage {
    * initializes the feedstorage and default feed items
    */
   async initFeed() {
-    this.feedStorage = new FeedStorage(this.feedDB, this.gun, this.wallet, this)
+    this.feedStorage = new FeedStorage(this.database, this.gun, this.wallet, this)
 
     await this.feedStorage.init()
     this.startSystemFeed().catch(e => logger.error('initfeed failed initializing startSystemFeed', e.message, e))
@@ -521,11 +618,11 @@ export class UserStorage {
    * @param {string} field - Profile attribute
    * @returns {Promise<ProfileField>} Decrypted profile value
    */
-  getProfileFieldValue(field: string): Promise<ProfileField> {
-    return this.profileStorage.getProfileFieldDisplayValue(field)
+  getProfileFieldValue(field: string): string {
+    return this.profileStorage.getProfileFieldValue(field)
   }
 
-  getProfileFieldDisplayValue(field: string): Promise<string> {
+  getProfileFieldDisplayValue(field: string): string {
     return this.profileStorage.getProfileFieldDisplayValue(field)
   }
 
@@ -544,7 +641,7 @@ export class UserStorage {
    * @param {object} profile - user profile
    * @returns {object} UserModel with some inherit functions
    */
-  getPrivateProfile(profile: {}): Promise<UserModel> {
+  getPrivateProfile(profile: any): UserModel {
     return this.profileStorage.getPrivateProfile()
   }
 
@@ -562,7 +659,20 @@ export class UserStorage {
    * @throws Error if profile is invalid
    */
   // eslint-disable-next-line require-await
-  async setProfile(profile: UserModel, update: boolean = false): Promise<> {
+  async setProfile(profile: UserModel, update: boolean = false): Promise<void> {
+    const { avatar } = profile
+
+    if (!!avatar && isValidDataUrl(avatar)) {
+      const currentAvatar = await this.getAvatar() // will be already cached
+
+      if (avatar !== currentAvatar) {
+        // if new avatar was set - re-uploading
+        const cids = await this._resizeAndStoreAvatars(avatar)
+
+        assign(profile, cids)
+      }
+    }
+
     return this.profileStorage.setProfile(profile, update)
   }
 
@@ -624,7 +734,8 @@ export class UserStorage {
       feedPage: feed,
     })
 
-    const res = feed.map(this.formatEvent)
+    // eslint-disable-next-line require-await
+    const res = await Promise.all(feed.map(async event => this.formatEvent(event)))
 
     logger.debug('getFormattedEvents done formatting events')
     return res
@@ -632,7 +743,7 @@ export class UserStorage {
 
   async getFormatedEventById(id: string): Promise<StandardFeed> {
     const prevFeedEvent = await this.feedStorage.getFeedItemByTransactionHash(id)
-    const standardPrevFeedEvent = this.formatEvent(prevFeedEvent)
+    const standardPrevFeedEvent = await this.formatEvent(prevFeedEvent)
 
     if (!prevFeedEvent) {
       return undefined
@@ -676,11 +787,7 @@ export class UserStorage {
       updatedEvent,
     })
 
-    return this.formatEvent(updatedEvent).catch(e => {
-      logger.error('getFormatedEventById Failed formatting event:', e.message, e, { id })
-
-      return {}
-    })
+    return this.formatEvent(updatedEvent)
   }
 
   /**
@@ -735,60 +842,102 @@ export class UserStorage {
    * @returns {Promise} Promise with StandardFeed object,
    *  with props { id, date, type, data: { amount, message, endpoint: { address, displayName, avatar, withdrawStatus }}}
    */
-  formatEvent = memoize(
-    // eslint-disable-next-line require-await
-    (event: FeedEvent) => {
-      try {
-        logger.debug('formatEvent: incoming event', event.id, { event })
-        const { data, type, date, id, status, createdDate, animationExecuted, action } = event
-        const { sender, preReasonText, reason, code: withdrawCode, subtitle, readMore, smallReadMore } = data
+  // eslint-disable-next-line require-await
+  async formatEvent(event: FeedEvent) {
+    return this._cacheFormattedEvent(event, async () => {
+      logger.debug('formatEvent: incoming event', event.id, { event })
 
-        const { address, initiator, initiatorType, value, displayName, message, avatar } = this._extractData(event)
+      const { feedStorage } = this
+      const { data, type } = event
+      const { counterPartyFullName, counterPartySmallAvatar } = data
 
-        // displayType is used by FeedItem and ModalItem to decide on colors/icons etc of tx feed card
-        const displayType = this._extractDisplayType(event)
-        logger.debug('formatEvent: initiator data', event.id, {
-          initiatorType,
-          initiator,
-          address,
-        })
+      const counterPartyEvents = [
+        FeedItemType.EVENT_TYPE_SENDDIRECT,
+        FeedItemType.EVENT_TYPE_SEND,
+        FeedItemType.EVENT_TYPE_WITHDRAW,
+        FeedItemType.EVENT_TYPE_RECEIVE,
+      ]
 
-        let updatedEvent = {
-          id,
-          date: new Date(date).getTime(),
-          type,
-          displayType,
-          status,
-          createdDate,
-          animationExecuted,
-          action,
-          data: {
-            receiptHash: get(event, 'data.receiptEvent.txHash'),
-            endpoint: {
-              address: sender,
-              displayName,
-              avatar,
-            },
-            amount: value,
-            preMessageText: preReasonText,
-            message: reason || message,
-            subtitle,
-            readMore,
-            smallReadMore,
-            withdrawCode,
-          },
+      if (counterPartyEvents.includes(type) && (!counterPartyFullName || !counterPartySmallAvatar)) {
+        const counterPartyData = await feedStorage.getCounterParty(event)
+
+        if (!isEqual(counterPartyData, pick(data, keys(counterPartyData)))) {
+          assign(data, counterPartyData)
+          feedStorage.updateFeedEvent(event)
         }
+      }
 
-        logger.debug('formatEvent: updateEvent', { updatedEvent })
-        return updatedEvent
+      const { date, id, status, createdDate, animationExecuted, action } = event
+      const { sender, preReasonText, reason, code: withdrawCode, subtitle, readMore, smallReadMore } = data
+      const { address, initiator, initiatorType, value, displayName, message, avatar } = this._extractData(event)
+
+      // displayType is used by FeedItem and ModalItem to decide on colors/icons etc of tx feed card
+      const displayType = this._extractDisplayType(event)
+
+      logger.debug('formatEvent: initiator data', event.id, {
+        initiatorType,
+        initiator,
+        address,
+      })
+
+      let updatedEvent = {
+        id,
+        date: new Date(date).getTime(),
+        type,
+        displayType,
+        status,
+        createdDate,
+        animationExecuted,
+        action,
+        data: {
+          receiptHash: get(event, 'data.receiptEvent.txHash'),
+          endpoint: {
+            address: sender,
+            displayName,
+            avatar,
+          },
+          amount: value,
+          preMessageText: preReasonText,
+          message: reason || message,
+          subtitle,
+          readMore,
+          smallReadMore,
+          withdrawCode,
+        },
+      }
+
+      logger.debug('formatEvent: updateEvent', { updatedEvent })
+      return updatedEvent
+    })
+  }
+
+  async _cacheFormattedEvent(feedEvent, callback) {
+    const { id } = feedEvent
+    const { byid, byitem } = this.feedCache
+    const cacheById = isString(id) && id.startsWith('0x')
+    let cachedEvent = cacheById ? byid[id] : byitem.get(feedEvent)
+
+    if (!cachedEvent) {
+      try {
+        cachedEvent = await callback()
+
+        if (cacheById) {
+          byid[id] = cachedEvent
+        } else {
+          byitem.set(feedEvent, cachedEvent)
+        }
       } catch (e) {
         logger.error('formatEvent: failed formatting event:', e.message, e, {
-          event,
+          event: feedEvent,
         })
+
+        // do not cache if error
         return {}
       }
-    },
-  )
+    }
+
+    return cachedEvent
+  }
 
   _extractData({
     type,
@@ -986,7 +1135,7 @@ export class UserStorage {
       if (get(deleteAccountResult, 'data.ok', false)) {
         deleteResults = await Promise.all([
           _trackStatus(retry(() => wallet.deleteAccount(), 1, 500), 'wallet'),
-          _trackStatus(this.feedDB.deleteAccount()),
+          _trackStatus(this.database.deleteAccount()),
           _trackStatus(this.deleteProfile(), 'profile'),
           _trackStatus(userProperties.reset(), 'userprops'),
         ])

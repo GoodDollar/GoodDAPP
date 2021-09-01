@@ -33,3 +33,5 @@ export const FeedItemSchema = {
   },
   required: ['_id', 'id', 'type', 'date', 'createdDate', 'status'],
 }
+
+export const FeedItemIndexes = [{ path: 'date' }, { path: 'data.hashedCode' }]

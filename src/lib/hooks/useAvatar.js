@@ -1,10 +1,11 @@
 import { useEffect, useMemo, useState } from 'react'
 
-import IPFS from '../ipfs/IpfsStorage'
+import userStorage from '../userStorage/UserStorage'
+
 import { isValidCID } from '../ipfs/utils'
 import { isValidDataUrl } from '../utils/base64'
 
-const useAvatar = (avatar, skipCache = false) => {
+const useAvatar = avatar => {
   const cachedDataUrl = useMemo(() => {
     // checking is it base64 data url
     if (isValidDataUrl(avatar)) {
@@ -30,7 +31,9 @@ const useAvatar = (avatar, skipCache = false) => {
     }
 
     // otherwise we're checking is it a valid CID and trying to load it from thes ipfs
-    IPFS.load(avatar, { skipCache })
+    // no need to use useWrappedStorage as we're catching the error
+    userStorage
+      .loadAvatar(avatar)
       .catch(() => null)
       .then(dataUrl => {
         if (!dataUrl) {
@@ -40,7 +43,7 @@ const useAvatar = (avatar, skipCache = false) => {
         // if no failures and we've got non-empty response - setting base64 received in the state
         setDataUrl(dataUrl)
       })
-  }, [cachedDataUrl, avatar, skipCache, setDataUrl])
+  }, [cachedDataUrl, avatar, setDataUrl])
 
   return dataUrl
 }

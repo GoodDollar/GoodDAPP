@@ -14,7 +14,7 @@ const httpProviderMock = jest.fn().mockImplementation(() => {
   return require('ganache-cli').provider({ network_id: networkId })
 })
 
-let WEB3PROVIDERS = require('web3-providers')
+let WEB3PROVIDERS = require('web3-core')
 WEB3PROVIDERS.HttpProvider = httpProviderMock
 
 jest.setTimeout(30000)

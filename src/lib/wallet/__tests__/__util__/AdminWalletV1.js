@@ -2,6 +2,7 @@
 import Web3 from 'web3'
 import HDKey from 'hdkey'
 import bip39 from 'bip39-light'
+import type { HttpProvider, WebSocketProvider } from 'web3-core'
 import IdentityABI from '@gooddollar/goodcontracts/build/contracts/Identity.min.json'
 import GoodDollarABI from '@gooddollar/goodcontracts/build/contracts/GoodDollar.min.json'
 import ProxyContractABI from '@gooddollar/goodcontracts/build/contracts/AdminWallet.min.json'
@@ -69,7 +70,7 @@ export class Wallet {
     this.ready = this.init()
   }
 
-  getWeb3TransportProvider() {
+  getWeb3TransportProvider(): HttpProvider | WebSocketProvider {
     const provider = conf.ethNetwork.httpWeb3provider + conf.infuraKey
     const web3Provider = new Web3.providers.HttpProvider(provider)
     log.debug({ conf, web3Provider, provider })

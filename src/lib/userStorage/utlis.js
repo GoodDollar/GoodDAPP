@@ -2,8 +2,20 @@
 import { sha3 } from 'web3-utils'
 import { ExceptionCategory } from '../logger/exceptions'
 import pino from '../logger/pino-logger'
+import { isValidDataUrl } from '../utils/base64'
 
 const logger = pino.child({ from: 'UserProfileUtils' })
+
+export const asLogRecord = publicProfile => {
+  let { smallAvatar } = publicProfile
+  let profile = publicProfile
+
+  if (isValidDataUrl(smallAvatar)) {
+    profile = { ...publicProfile, smallAvatar: '<base64>' }
+  }
+
+  return { profile }
+}
 
 /**
  * Clean string removing blank spaces and special characters, and converts to lower case

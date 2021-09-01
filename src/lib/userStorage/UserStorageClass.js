@@ -526,7 +526,7 @@ export class UserStorage {
    * initializes the feedstorage and default feed items
    */
   async initFeed() {
-    this.feedStorage = new FeedStorage(this.database, this.gun, this.wallet, this)
+    this.feedStorage = new FeedStorage(this)
 
     await this.feedStorage.init()
     this.startSystemFeed().catch(e => logger.error('initfeed failed initializing startSystemFeed', e.message, e))

@@ -8,6 +8,7 @@ const fromDate = new Date('2021/08/06')
 const uploadProfileAvatar = async () => {
   const avatar = await userStorage.getProfileFieldValue('avatar')
   const { shouldUpload, shouldUnset, dataUrl } = await analyzeAvatar(avatar)
+
   if (shouldUnset) {
     await userStorage.removeAvatar()
   } else if (shouldUpload) {

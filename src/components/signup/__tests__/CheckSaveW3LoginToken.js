@@ -19,10 +19,10 @@ describe('Check W3 Login Token Save', () => {
 
     await userStorage.setProfileField('loginToken', token, 'private')
 
-    const savedPrivateTokenValue = await userStorage.getProfileFieldValue('loginToken')
-    const savedTokenValue = await userStorage.getPrivateProfile().loginToken
+    const savedDisplayTokenValue = userStorage.getProfileFieldDisplayValue('loginToken')
+    const savedTokenValue = userStorage.getProfileFieldValue('loginToken')
 
     expect(savedTokenValue).toBe(token)
-    expect(savedPrivateTokenValue).toBe('******')
+    expect(savedDisplayTokenValue).toBe('******')
   })
 })

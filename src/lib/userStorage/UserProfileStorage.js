@@ -1,18 +1,15 @@
 // @flow
 import TextileCrypto from '@textile/crypto'
-import { assign } from 'lodash'
-import IPFS from '../ipfs/IpfsStorage'
-import pino from '../logger/js-logger'
-import { isValidDataUrl } from '../utils/base64'
-import { AVATAR_SIZE, resizeImage, SMALL_AVATAR_SIZE } from '../utils/image'
 import isEmail from '../validators/isEmail'
 import isMobilePhone from '../validators/isMobilePhone'
+
+import log from '../logger/js-logger'
 import type { UserModel } from './UserModel'
 import { getUserModel } from './UserModel'
-import type { FieldPrivacy, Profile } from './UserStorageClass'
 import { cleanHashedFieldForIndex, maskField } from './utlis'
+import type { FieldPrivacy, Profile } from './UserStorageClass'
 
-const logger = pino.get('UserProfileStorage')
+const logger = log.get('UserProfileStorage')
 
 export interface ProfileDB {
   setProfile(profile: Profile): Promise<void>;
@@ -27,8 +24,7 @@ export interface ProfileStorage {
   setProfile(profile: UserModel): Promise<void>;
   getProfile(): { [key: string]: string };
   setProfileField(field: string, value: string, privacy: FieldPrivacy, onlyPrivacy: boolean): Promise<void>;
-  setAvatar(avatar: string): Promise<void>;
-  removeAvatar(): Promise<void>;
+  setProfileFields(fields: Profile): Promise<void>;
   getProfileByWalletAddress(walletAddress: string): Promise<Profile>;
   getPublicProfile(key: string, value?: string): Promise<{ [field: string]: string }>;
   getProfileFieldValue(field: string): string;
@@ -183,14 +179,6 @@ export class UserProfileStorage implements ProfileStorage {
 
     const fields = Object.keys(profile).filter(prop => this.profileSettings[prop])
 
-    const { avatar } = profile
-
-    if (!!avatar && isValidDataUrl(avatar)) {
-      const cids = await this._resizeAndStoreAvatars(avatar)
-
-      assign(profile, cids)
-    }
-
     const fieldsToSave = fields.reduce((acc, currKey) => {
       const { display, privacy } = this._setDisplayFieldBasedOnPrivacy(
         currKey,
@@ -215,12 +203,12 @@ export class UserProfileStorage implements ProfileStorage {
           proof: await this.wallet.sign(cleanHashedFieldForIndex('walletAddress', this.wallet.account)),
         },
       }
-      logger.debug('setProfile new:', { fields, profile, fieldsToSave, index })
 
-      return this._setProfileFields({ ...fieldsToSave, index, publicKey: this.privateKey.public.toString() })
+      logger.debug('setProfile new:', { fields, profile, fieldsToSave, index })
+      return this.setProfileFields({ ...fieldsToSave, index, publicKey: this.privateKey.public.toString() })
     }
 
-    return this._setProfileFields(fieldsToSave)
+    return this.setProfileFields(fieldsToSave)
   }
 
   /**
@@ -236,7 +224,7 @@ export class UserProfileStorage implements ProfileStorage {
    * @param {*} fields
    * @returns
    */
-  async _setProfileFields(fields: Profile): Promise<void> {
+  async setProfileFields(fields: Profile): Promise<void> {
     const encryptedFields = await this._encryptProfileFields(fields)
 
     await this.profiledb.setProfile(encryptedFields)
@@ -291,51 +279,7 @@ export class UserProfileStorage implements ProfileStorage {
     const { display, privacy } = this._setDisplayFieldBasedOnPrivacy(field, value, fieldPrivacy)
 
     logger.debug('setProfileField', { field, value, privacy, onlyPrivacy, display })
-    return this._setProfileFields({ [field]: { value, display, privacy } })
-  }
-
-  /**
-   * Avatar setter
-   * @returns {Promise<CID[]>}
-   */
-  async setAvatar(avatar): Promise<CID[]> {
-    const cids = await this._resizeAndStoreAvatars(avatar)
-    return this.setProfile(cids, true)
-  }
-
-  /**
-   * remove Avatar from profile
-   * @returns {Promise<[Promise<void>, Promise<void>, Promise<void>, Promise<void>, Promise<void>, Promise<void>, Promise<void>, Promise<void>, Promise<void>, Promise<void>]>}
-   */
-  // eslint-disable-next-line require-await
-  async removeAvatar(): Promise<void> {
-    return this._setProfileFields({ avatar: null, smallAvatar: null })
-  }
-
-  /**
-   * store Avatar
-   * @param avatarDataUrl
-   * @returns {Promise<{ avatar: CID, smallAvatar: CID }>}
-   */
-  async _resizeAndStoreAvatars(avatarDataUrl: string): Promise<{ avatar: string, smallAvatar: string }> {
-    let resizedDataUrl
-    const avatarSizes = [AVATAR_SIZE, SMALL_AVATAR_SIZE]
-
-    const resizedAvatars = await Promise.all(
-      avatarSizes.map(async size => {
-        resizedDataUrl = await resizeImage(resizedDataUrl || avatarDataUrl, size)
-
-        return resizedDataUrl
-      }),
-    )
-
-    // TODO: replace via IPFS.store() call once #3370 will be merged
-    const [avatar, smallAvatar] = await Promise.all(
-      // eslint-disable-next-line require-await
-      resizedAvatars.map(async dataUrl => IPFS.store(dataUrl)),
-    )
-
-    return { avatar, smallAvatar }
+    return this.setProfileFields({ [field]: { value, display, privacy } })
   }
 
   /**

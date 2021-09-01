@@ -1111,8 +1111,7 @@ export class GoodWallet {
       : this.wallet.utils.fromUtf8(bs58.encode(Buffer.from(this.account.slice(2), 'hex')).slice(0, codeLength))
 
     //check under which account invitecode is registered, maybe we have a collission
-    const registered =
-      !hasJoined && (await this.invitesContract.methods.codeToUser(this.wallet.utils.fromAscii(myCode)).call())
+    const registered = !hasJoined && (await this.invitesContract.methods.codeToUser(myCode).call())
     log.debug('joinInvites:', { inviter, myCode, codeLength, hasJoined, invitedBy, inviteCode })
 
     //code collision

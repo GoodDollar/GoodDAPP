@@ -375,7 +375,7 @@ class RealmDB implements DB, ProfileDB {
    */
   // eslint-disable-next-line require-await
   async _logProfileQueryStatus(query): Promise<Profile> {
-    return query
+    return query()
       .then(result => {
         if (result) {
           log.debug(`Successfully found profile: ${result}.`)
@@ -393,7 +393,7 @@ class RealmDB implements DB, ProfileDB {
    */
   // eslint-disable-next-line require-await
   async getProfile(): Promise<Profile> {
-    return this._logProfileQueryStatus(this.profiles.findOne({ user_id: this.user.id }))
+    return this._logProfileQueryStatus(() => this.profiles.findOne({ user_id: this.user.id }))
   }
 
   /**
@@ -403,7 +403,7 @@ class RealmDB implements DB, ProfileDB {
    */
   // eslint-disable-next-line require-await
   async getProfileBy(query: Object): Promise<Profile> {
-    return this._logProfileQueryStatus(this.profiles.findOne(query))
+    return this._logProfileQueryStatus(() => this.profiles.findOne(query))
   }
 
   /**
@@ -413,7 +413,7 @@ class RealmDB implements DB, ProfileDB {
    */
   // eslint-disable-next-line require-await
   async getProfilesBy(query: Object): Promise<Array<Profile>> {
-    return this._logProfileQueryStatus(this.profiles.find(query))
+    return this._logProfileQueryStatus(() => this.profiles.find(query))
   }
 
   /**

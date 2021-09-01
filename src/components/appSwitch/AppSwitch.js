@@ -205,7 +205,9 @@ const AppSwitch = (props: LoadingProps) => {
     }
 
     if (ready && gdstore) {
-      userStorage.db._syncFromRemote()
+      // TODO: do not call private methods, create single method sync()
+      // in user storage class designed to be called from outside
+      userStorage.database._syncFromRemote()
       userStorage.userProperties._syncFromRemote()
       showOutOfGasError(props)
     }

@@ -45,7 +45,7 @@ const setFeedItems = (data, keys, log) => {
       decrypted.date = new Date(decrypted.date).toISOString()
       decrypted.createdDate = new Date(decrypted.createdDate).toISOString()
 
-      return userStorage.feedDB.write(decrypted)
+      return userStorage.database.write(decrypted)
     } catch (e) {
       log.warn('unable to decrypt feed item:', e.message, e, { k, v, decrypted })
     }
@@ -65,7 +65,7 @@ const setProperties = async (data, keys, log) => {
     decrypted = await SEA.decrypt(data, secureKey)
     console.info('found settings', { decrypted })
 
-    return userStorage.feedDB.encryptSettings(decrypted)
+    return userStorage.database.encryptSettings(decrypted)
   } catch (e) {
     log.warn('unable to decrypt properties:', e.message, e, { data, decrypted })
   }

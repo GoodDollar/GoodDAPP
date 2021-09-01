@@ -1,6 +1,7 @@
 // @flow
 import { assign, debounce, find, get, has, isEqual, isUndefined, orderBy, pick, set } from 'lodash'
 import EventEmitter from 'eventemitter3'
+import moment from 'moment'
 
 import * as TextileCrypto from '@textile/crypto'
 import delUndefValNested from '../utils/delUndefValNested'
@@ -469,10 +470,9 @@ export class FeedStorage {
 
     let profile = await this._readProfileCache(address)
     let { fullName, smallAvatar, lastUpdated } = profile || {}
-    const lastUpdatedTs = new Date(lastUpdated).getTime()
 
     // if not cached OR non-complete profile and ttl spent
-    if (!profile || ((!fullName || !smallAvatar) && Date.now() - lastUpdatedTs > Config.feedItemTtl)) {
+    if (!profile || ((!fullName || !smallAvatar) && moment().diff(moment(lastUpdated)) > Config.feedItemTtl)) {
       // fetch (or re-fetch) from RealmDB
       ;({ fullName, smallAvatar } = await this.userStorage.getPublicProfile(address))
 

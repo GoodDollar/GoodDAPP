@@ -100,7 +100,7 @@ export class FeedStorage {
   userStorage: UserStorage
 
   constructor(userStorage: UserStorage) {
-    const { gun, wallet, db, database } = UserStorage
+    const { gun, wallet, db, database } = userStorage
 
     assign(this, { gun, wallet, db, userStorage })
 

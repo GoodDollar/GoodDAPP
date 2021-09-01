@@ -104,12 +104,41 @@ class RealmDB implements DB, ProfileDB {
   }
 
   /**
+   * helper for reconnecting to realmDB
+   * @private
+   */
+  _reconnectToRealm(): void {
+    if (this.database === undefined) {
+      log.debug('trying reconnect to realmDB')
+      this._initRealmDB().then(() =>
+        log.debug('Successfully reconnect to realmDB').catch(e => log.error('there was an error with reconnecting', e)),
+      )
+    }
+  }
+
+  /**
+   * helper for getting realmDB collection
+   * @param name
+   * @returns {Realm.Services.MongoDB.MongoDBCollection<any>}
+   * @private
+   */
+  _getCollection(name) {
+    return this.database.collection(name)
+  }
+
+  /**
    * helper to resolve issue with toJSON error in console
    * @returns {Realm.Services.MongoDB.MongoDBCollection<any>}
    * @private
    */
   get encryptedFeed() {
-    return this.database.collection('encrypted_feed')
+    try {
+      return this._getCollection('encrypted_feed')
+    } catch (e) {
+      log.error('failed to get profile collection', e)
+      this._reconnectToRealm()
+      return this._getCollection('encrypted_feed')
+    }
   }
 
   /**
@@ -118,15 +147,23 @@ class RealmDB implements DB, ProfileDB {
    * @private
    */
   get profiles() {
-    return this.database.collection('user_profiles')
-  }
-
-  get mongoDatabase() {
-    return this.database
+    try {
+      return this._getCollection('user_profiles')
+    } catch (e) {
+      log.error('failed to get profile collection', e)
+      this._reconnectToRealm()
+      return this._getCollection('user_profiles')
+    }
   }
 
   get inboxes() {
-    return this.database.collection('inboxes')
+    try {
+      return this._getCollection('inboxes')
+    } catch (e) {
+      log.error('failed to get inboxes collection', e)
+      this._reconnectToRealm()
+      return this._getCollection('inboxes')
+    }
   }
 
   /**

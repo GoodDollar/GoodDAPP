@@ -449,7 +449,7 @@ export class FeedStorage {
   async getCounterParty(feedEvent) {
     let addressField
 
-    log.debug('updateFeedEventCounterParty:', feedEvent.data.receiptEvent, feedEvent.id, feedEvent.txType)
+    log.debug('getCounterParty:', feedEvent.data.receiptEvent, feedEvent.id, feedEvent.txType)
 
     switch (feedEvent.type) {
       case FeedItemType.EVENT_TYPE_SENDDIRECT:
@@ -476,7 +476,11 @@ export class FeedStorage {
     // if not cached OR non-complete profile and ttl spent
     if (!profile || ((!fullName || !smallAvatar) && moment().diff(moment(lastUpdated)) > Config.feedItemTtl)) {
       // fetch (or re-fetch) from RealmDB
-      ;({ fullName, smallAvatar } = await this.userStorage.getPublicProfile(address))
+
+      profile = await this.userStorage.getPublicProfile(address)
+      ;({ fullName, smallAvatar } = profile)
+
+      log.debug('getCounterParty: refetch profile', { profile })
 
       /** THIS CODE BLOCK MAY BE REMOVED AFTER SEPTEMBER 2021 */
       /** =================================================== */
@@ -512,12 +516,14 @@ export class FeedStorage {
       }
     }
 
+    log.debug('_readProfileCache', { profile })
     return profile
   }
 
   async _writeProfileCache(profile) {
     const { address, fullName, smallAvatar } = profile
 
+    log.debug('_writeProfileCache', { profile })
     this.profilesCache[address] = { fullName, smallAvatar }
     await this.db.Profiles.save({ _id: address, fullName, smallAvatar, lastUpdated: new Date().toISOString() })
   }

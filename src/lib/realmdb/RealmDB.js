@@ -2,6 +2,7 @@
 import { once, sortBy } from 'lodash'
 import * as Realm from 'realm-web'
 import TextileCrypto from '@textile/crypto'
+import EventEmitter from 'eventemitter3'
 
 import { JWT } from '../constants/localStorage'
 import AsyncStorage from '../utils/asyncStorage'
@@ -26,7 +27,7 @@ class RealmDB implements DB, ProfileDB {
 
   isReady: boolean = false
 
-  listeners: Function[] = []
+  dbEvents = new EventEmitter()
 
   constructor() {
     this.ready = new Promise((resolve, reject) => {
@@ -188,18 +189,25 @@ class RealmDB implements DB, ProfileDB {
 
   /**
    * listen to database changes
-   * @param {*} cb
+   * @param {*} callback
    */
-  on(cb) {
-    this.listeners.push(cb)
+  on(callback) {
+    this.dbEvents.on('changes', callback)
   }
 
   /**
    * unsubscribe listener
-   * @param {*} cb
+   * @param {*} callback
    */
-  off(cb) {
-    this.listeners = this.listeners.filter(_ => _ !== cb)
+  off(callback = null) {
+    const { dbEvents } = this
+
+    if (callback) {
+      dbEvents.off('changes', callback)
+      return
+    }
+
+    dbEvents.removeAllListeners()
   }
 
   /**
@@ -207,9 +215,10 @@ class RealmDB implements DB, ProfileDB {
    * @param {*} data
    */
   _notifyChange = data => {
-    log.debug('notifyChange', { data, listeners: this.listeners.length })
+    const { dbEvents } = this
 
-    this.listeners.map(cb => cb(data))
+    log.debug('notifyChange', { data, listeners: dbEvents.listenerCount('changes') })
+    dbEvents.emit('changes', data)
   }
 
   /**

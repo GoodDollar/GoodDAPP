@@ -863,7 +863,7 @@ export class UserStorage {
 
         if (!isEqual(counterPartyData, pick(data, keys(counterPartyData)))) {
           assign(data, counterPartyData)
-          await feedStorage.updateFeedEvent(event)
+          feedStorage.updateFeedEvent(event)
         }
       }
 

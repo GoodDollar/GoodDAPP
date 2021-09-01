@@ -1,5 +1,5 @@
 //@flow
-import { assign, once, sortBy } from 'lodash'
+import { once, sortBy } from 'lodash'
 import * as Realm from 'realm-web'
 import TextileCrypto from '@textile/crypto'
 
@@ -43,10 +43,11 @@ class RealmDB implements DB, ProfileDB {
     try {
       const { privateKey, Feed } = db
 
+      this.privateKey = privateKey
+      this.db = db
+
       Feed.table.hook('creating', (id, event) => this._notifyChange({ id, event }))
       Feed.table.hook('updating', (modify, id, event) => this._notifyChange({ modify, id, event }))
-
-      assign(this, { privateKey, db })
       await this._initRealmDB()
 
       this.resolve()
@@ -88,7 +89,9 @@ class RealmDB implements DB, ProfileDB {
 
       // `App.currentUser` updates to match the logged in user
       log.debug('realm logged in', { user })
-      assign(this, { user, database: mongodb.db(this._databaseName) })
+
+      this.user = user
+      this.database = mongodb.db(this._databaseName)
 
       this._syncFromRemote().catch(e => log.warn('_syncFromRemote failed:', e.message, e))
       return this.user

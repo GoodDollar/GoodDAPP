@@ -1,5 +1,5 @@
 // @flow
-import { assign, debounce, find, get, has, isEqual, isUndefined, orderBy, pick, set } from 'lodash'
+import { debounce, find, get, has, isEqual, isUndefined, orderBy, pick, set } from 'lodash'
 import EventEmitter from 'eventemitter3'
 import moment from 'moment'
 
@@ -102,9 +102,11 @@ export class FeedStorage {
   constructor(userStorage: UserStorage) {
     const { gun, wallet, db, database } = userStorage
 
-    assign(this, { gun, wallet, db, userStorage })
-
+    this.db = db
+    this.gun = gun
+    this.wallet = wallet
     this.storage = database
+    this.userStorage = userStorage
     this.walletAddress = wallet.account.toLowerCase()
 
     log.debug('initialized', { wallet: this.walletAddress })

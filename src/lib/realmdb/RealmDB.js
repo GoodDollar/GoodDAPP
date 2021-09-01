@@ -1,18 +1,18 @@
 //@flow
-import { Collection, Database } from '@textile/threaddb'
 import * as TextileCrypto from '@textile/crypto'
+import { Collection, Database } from '@textile/threaddb'
 import { once, sortBy } from 'lodash'
 import * as Realm from 'realm-web'
 import Config from '../../config/config'
 import { JWT } from '../constants/localStorage'
 import logger from '../logger/pino-logger'
+import { AssetsSchema } from '../textile/assetSchema'
 import { FeedItemSchema } from '../textile/feedSchema' // Some json-schema.org schema
+import type { TransactionDetails } from '../userStorage/FeedStorage'
 import type { ProfileDB } from '../userStorage/UserProfileStorage'
 import type { DB } from '../userStorage/UserStorage'
 import type { Profile } from '../userStorage/UserStorageClass'
 import AsyncStorage from '../utils/asyncStorage'
-import type { TransactionDetails } from '../userStorage/FeedStorage'
-import { AssetsSchema } from '../textile/assetSchema'
 
 const log = logger.child({ from: 'RealmDB' })
 class RealmDB implements DB, ProfileDB {
@@ -107,12 +107,15 @@ class RealmDB implements DB, ProfileDB {
    * helper for reconnecting to realmDB
    * @private
    */
-  _reconnectToRealm(): void {
+  async _reconnectToRealm(): void {
     if (this.database === undefined) {
       log.debug('trying reconnect to realmDB')
-      this._initRealmDB().then(() =>
-        log.debug('Successfully reconnect to realmDB').catch(e => log.error('there was an error with reconnecting', e)),
-      )
+      try {
+        await this._initRealmDB()
+        log.debug('Successfully reconnect to realmDB')
+      } catch (e) {
+        log.error('there was an error with reconnecting', e)
+      }
     }
   }
 
@@ -132,38 +135,36 @@ class RealmDB implements DB, ProfileDB {
    * @private
    */
   get encryptedFeed() {
-    try {
-      return this._getCollection('encrypted_feed')
-    } catch (e) {
-      log.error('failed to get profile collection', e)
-      this._reconnectToRealm()
-      return this._getCollection('encrypted_feed')
-    }
+    return this._getCollection('encrypted_feed')
   }
 
   /**
-   * helper to resolve issue with toJSON error in console
+   * getter to resolve issue with toJSON error in console
    * @returns {Realm.Services.MongoDB.MongoDBCollection<any>}
    * @private
    */
   get profiles() {
-    try {
-      return this._getCollection('user_profiles')
-    } catch (e) {
-      log.error('failed to get profile collection', e)
-      this._reconnectToRealm()
-      return this._getCollection('user_profiles')
-    }
+    return (async () => {
+      try {
+        return this._getCollection('user_profiles')
+      } catch (e) {
+        log.error('failed to get profile collection', e)
+        await this._reconnectToRealm()
+        return this._getCollection('user_profiles')
+      }
+    })()
   }
 
   get inboxes() {
-    try {
-      return this._getCollection('inboxes')
-    } catch (e) {
-      log.error('failed to get inboxes collection', e)
-      this._reconnectToRealm()
-      return this._getCollection('inboxes')
-    }
+    return (async () => {
+      try {
+        return this._getCollection('inboxes')
+      } catch (e) {
+        log.error('failed to get inboxes collection', e)
+        await this._reconnectToRealm()
+        return this._getCollection('inboxes')
+      }
+    })()
   }
 
   /**
@@ -387,21 +388,62 @@ class RealmDB implements DB, ProfileDB {
   }
 
   /**
+   * Helper to wait between retries
+   * @param millSeconds
+   * @returns {Promise<unknown>}
+   */
+  waitFor(millSeconds) {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve()
+      }, millSeconds)
+    })
+  }
+
+  /**
+   * Function for retry call
+   * @param callback - query
+   * @param nthTry -
+   * @param delay - delay time between retries
+   * @returns {Promise<unknown>}
+   */
+  async retry(callback, nthTry, delay) {
+    try {
+      const data = await callback()
+      log.debug(`Successfully retry a call, ${callback}`)
+      return data
+    } catch (e) {
+      if (nthTry === 1) {
+        log.error('Failed to retry a call', callback)
+        return Promise.reject(e)
+      }
+      log.debug(`Failed to retry a call, trying again, ${nthTry} time`)
+      await this.waitFor(delay)
+      return this.retry(callback, nthTry - 1, delay)
+    }
+  }
+
+  /**
    * Update or create new user profile
    * @param profile
    * @returns {Promise<Realm.Services.MongoDB.UpdateResult<*>>}
    */
   // eslint-disable-next-line require-await
   async setProfile(profile: Profile): Promise<any> {
-    return this.profiles
-      .updateOne({ user_id: this.user.id }, { $set: { user_id: this.user.id, ...profile } }, { upsert: true })
-      .then(result => {
-        const { matchedCount, modifiedCount } = result
-        if (matchedCount && modifiedCount) {
-          log.debug(`Successfully set a  profile.`)
-        }
-      })
-      .catch(err => log.error(`Failed to set profile: ${err}`))
+    const profiles = await this.profiles
+    const query = () =>
+      profiles.updateOne({ user_id: this.user.id }, { $set: { user_id: this.user.id, ...profile } }, { upsert: true })
+    try {
+      const result = query()
+      const { matchedCount, modifiedCount } = result
+      if (matchedCount && modifiedCount) {
+        log.debug(`Successfully set a  profile.`)
+      }
+      return result
+    } catch (e) {
+      log.error(`Failed to set profile: ${e}`)
+      await this.retry(() => query(), 4, 2000)
+    }
   }
 
   /**
@@ -412,16 +454,17 @@ class RealmDB implements DB, ProfileDB {
    */
   // eslint-disable-next-line require-await
   async _logProfileQueryStatus(query): Promise<Profile> {
-    return query()
-      .then(result => {
-        if (result) {
-          log.debug(`Successfully found profile: ${result}.`)
-        } else {
-          log.debug('No profile matches the provided query.')
-        }
-        return result
-      })
-      .catch(err => log.error(`Failed to find profile: ${err}`))
+    try {
+      const result = await query()
+      if (result) {
+        log.debug(`Successfully found profile: ${result}.`)
+      } else {
+        log.debug('No profile matches the provided query.')
+      }
+      return result
+    } catch (e) {
+      log.error(`Failed to find profile: ${e}`)
+    }
   }
 
   /**
@@ -430,7 +473,8 @@ class RealmDB implements DB, ProfileDB {
    */
   // eslint-disable-next-line require-await
   async getProfile(): Promise<Profile> {
-    return this._logProfileQueryStatus(() => this.profiles.findOne({ user_id: this.user.id }))
+    const profiles = await this.profiles
+    return this._logProfileQueryStatus(() => profiles.findOne({ user_id: this.user.id }))
   }
 
   /**
@@ -440,7 +484,8 @@ class RealmDB implements DB, ProfileDB {
    */
   // eslint-disable-next-line require-await
   async getProfileBy(query: Object): Promise<Profile> {
-    return this._logProfileQueryStatus(() => this.profiles.findOne(query))
+    const profiles = await this.profiles
+    return this._logProfileQueryStatus(() => profiles.findOne(query))
   }
 
   /**
@@ -450,7 +495,8 @@ class RealmDB implements DB, ProfileDB {
    */
   // eslint-disable-next-line require-await
   async getProfilesBy(query: Object): Promise<Array<Profile>> {
-    return this._logProfileQueryStatus(() => this.profiles.find(query))
+    const profiles = await this.profiles
+    return this._logProfileQueryStatus(() => profiles.find(query))
   }
 
   /**
@@ -460,15 +506,19 @@ class RealmDB implements DB, ProfileDB {
    */
   // eslint-disable-next-line require-await
   async removeField(field: string): Promise<any> {
-    return this.profiles
-      .updateOne({ user_id: this.user.id }, { $unset: { [field]: true } })
-      .then(result => {
-        const { matchedCount, modifiedCount } = result
-        if (matchedCount && modifiedCount) {
-          log.debug(`Successfully remove field.`)
-        }
-      })
-      .catch(err => log.error(`Failed to remove field: ${err}`))
+    const profiles = await this.profiles
+    const query = profiles.updateOne({ user_id: this.user.id }, { $unset: { [field]: true } })
+    try {
+      const result = await query()
+      const { matchedCount, modifiedCount } = result
+      if (matchedCount && modifiedCount) {
+        log.debug(`Successfully remove field.`)
+      }
+      return result
+    } catch (e) {
+      log.error(`Failed to remove field: ${e}`)
+      await this.retry(() => query(), 4, 2000)
+    }
   }
 
   /**
@@ -476,14 +526,17 @@ class RealmDB implements DB, ProfileDB {
    * @returns {Promise<[void, Realm.Services.MongoDB.DeleteResult]>}
    */
   // eslint-disable-next-line require-await
+
   async deleteAccount(): Promise<any> {
-    return Promise.all([
-      this.db.delete(),
-      this.encryptedFeed
-        .deleteMany({ user_id: this.user.id })
-        .then(result => log.debug(`Deleted ${result.deletedCount} account(s).`))
-        .catch(err => log.error(`Delete account failed with error: ${err}`)),
-    ])
+    const query = () => this.encryptedFeed.deleteMany({ user_id: this.user.id })
+    try {
+      await Promise.all([this.db.delete(), query()])
+      log.debug(`Delete account successful`)
+      return true
+    } catch (e) {
+      log.error(`Delete account failed with error: ${e}`)
+      await this.retry(() => query(), 4, 2000)
+    }
   }
 
   /**
@@ -492,10 +545,16 @@ class RealmDB implements DB, ProfileDB {
    */
   // eslint-disable-next-line require-await
   async deleteProfile(): Promise<boolean> {
-    return this.profiles
-      .deleteOne({ user_id: this.user.id })
-      .then(result => log.debug(`Deleted ${result.deletedCount} profile.`))
-      .catch(err => log.error(`Delete profile failed with error: ${err}`))
+    const profiles = await this.profiles
+    const query = () => profiles.deleteOne({ user_id: this.user.id })
+    try {
+      const result = await query()
+      log.debug(`Deleted ${result.deletedCount} profile.`)
+      return result
+    } catch (e) {
+      log.error(`Delete profile failed with error: ${e}`)
+      await this.retry(() => query(), 4, 2000)
+    }
   }
 
   /**
@@ -506,10 +565,16 @@ class RealmDB implements DB, ProfileDB {
    */
   // eslint-disable-next-line require-await
   async addToOutbox(recipientPublicKey: string, txHash: string, encrypted: string): Promise<any> {
-    return this.inboxes
-      .insertOne({ user_id: this.user.id, recipientPublicKey, txHash, encrypted })
-      .then(result => log.debug(`Successfully inserted item with _id: ${result.insertedId}`))
-      .catch(err => log.error(`Failed to insert item: ${err}`))
+    const inboxes = await this.inboxes
+    const query = () => inboxes.insertOne({ user_id: this.user.id, recipientPublicKey, txHash, encrypted })
+    try {
+      const result = await query
+      log.debug(`Successfully inserted item with _id: ${result.insertedId}`)
+      return result
+    } catch (e) {
+      log.error(`Failed to insert item: ${e}`)
+      await this.retry(() => query(), 4, 2000)
+    }
   }
 
   /**
@@ -519,20 +584,19 @@ class RealmDB implements DB, ProfileDB {
    * @returns {Promise<TransactionDetails>}
    */
   async getFromOutbox(recipientPublicKey: string, txHash: string): Promise<TransactionDetails> {
-    const data = await this.inboxes
-      .findOne({ txHash, recipientPublicKey })
-      .then(result => {
-        if (result) {
-          log.debug(`Successfully found document: ${result}.`)
-        } else {
-          log.debug('No document matches the provided query.')
-        }
-        return result
-      })
-      .catch(err => log.error(`Failed to find document: ${err}`))
-    const decrypted = await this._decrypt(data)
-
-    return decrypted
+    try {
+      const inboxes = await this.inboxes
+      const result = inboxes.findOne({ txHash, recipientPublicKey })
+      if (result) {
+        log.debug(`Successfully found document: ${result}.`)
+      } else {
+        log.debug('No document matches the provided query.')
+      }
+      const decrypted = await this._decrypt(result)
+      return decrypted
+    } catch (e) {
+      log.error(`Failed to find document: ${e}`)
+    }
   }
 }
 

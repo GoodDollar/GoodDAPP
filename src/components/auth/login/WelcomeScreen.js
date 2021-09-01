@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react'
 import { View } from 'react-native'
 
-// import logger from '../../../lib/logger/pino-logger'
+// import logger from '../../../lib/logger/js-logger'
 import {
   fireEvent,
   SIGNIN_METHOD_SELECTED,
@@ -37,7 +37,7 @@ import ready from '../ready'
 import Auth from '../../auth/Auth'
 import AuthTorus from '../../auth/torus/AuthTorus'
 
-// const log = logger.child({ from: 'Welcome' })
+// const log = logger.get('Welcome')
 const AuthType = config.torusEnabled ? AuthTorus : Auth
 
 const WelcomeScreen = ({ styles, screenProps, navigation }) => {

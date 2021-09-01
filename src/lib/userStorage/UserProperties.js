@@ -3,8 +3,8 @@ import { assign, isNil } from 'lodash'
 import AsyncStorage from '../utils/asyncStorage'
 import { retry } from '../utils/async'
 import { REGISTRATION_METHOD_SELF_CUSTODY } from '../constants/login'
-import pino from '../logger/pino-logger'
-const log = pino.child({ from: 'UserProperties' })
+import pino from '../logger/js-logger'
+const log = pino.get('UserProperties')
 
 /**
  * Keep user local and persisted flags/properties

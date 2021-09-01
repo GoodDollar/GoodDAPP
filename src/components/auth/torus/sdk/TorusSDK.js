@@ -1,7 +1,7 @@
 import { defaults, first, omit, pad } from 'lodash'
 
 import Config from '../../../../config/config'
-import logger from '../../../../lib/logger/pino-logger'
+import logger from '../../../../lib/logger/js-logger'
 import Torus from './torus'
 
 import {
@@ -17,7 +17,7 @@ class TorusSDK {
   strategies = {}
 
   static factory(options) {
-    const sdk = new TorusSDK(Config, options, logger.child({ from: 'TorusSDK' }))
+    const sdk = new TorusSDK(Config, options, logger.get('TorusSDK'))
 
     sdk.addStrategy('facebook', FacebookStrategy)
     sdk.addStrategy('google-old', GoogleLegacyStrategy)

@@ -1,12 +1,12 @@
 // @flow
 import React, { useCallback } from 'react'
 import { get } from 'lodash'
-import logger from '../../lib/logger/pino-logger'
+import logger from '../../lib/logger/js-logger'
 import userStorage from '../../lib/userStorage/UserStorage'
 import EmailConfirmation from '../signup/EmailConfirmation'
 import SmsForm from '../signup/SmsForm'
 
-const log = logger.child({ from: 'Verify Edit Code' })
+const log = logger.get('Verify Edit Code')
 
 const VerifyEditCode = props => {
   const { navigation, screenProps } = props

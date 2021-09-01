@@ -4,10 +4,10 @@ import { noop } from 'lodash'
 import useMountedState from '../../../../lib/hooks/useMountedState'
 
 import TorusSDK from '../sdk/TorusSDK'
-import logger from '../../../../lib/logger/pino-logger'
+import logger from '../../../../lib/logger/js-logger'
 import useSDKOptions from './useSDKOptions'
 
-const log = logger.child({ from: 'AuthTorus' })
+const log = logger.get('AuthTorus')
 
 export default (onInitialized = noop) => {
   const [sdk, setSDK] = useState()

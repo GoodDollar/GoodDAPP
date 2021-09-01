@@ -2,7 +2,7 @@
 import React, { useCallback, useState } from 'react'
 import { View } from 'react-native'
 import { get } from 'lodash'
-import logger from '../../lib/logger/pino-logger'
+import logger from '../../lib/logger/js-logger'
 import { withStyles } from '../../lib/styles'
 import { Section, Wrapper } from '../common'
 import Text from '../common/view/Text'
@@ -14,7 +14,7 @@ import { useErrorDialog } from '../../lib/undux/utils/dialog'
 import userStorage from '../../lib/userStorage/UserStorage'
 import useProfile from '../../lib/userStorage/useProfile'
 
-const log = logger.child({ from: 'Verify edit profile field' })
+const log = logger.get('Verify edit profile field')
 
 const EditProfile = ({ screenProps, theme, styles, navigation }) => {
   const [loading, setLoading] = useState(false)

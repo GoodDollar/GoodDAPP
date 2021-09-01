@@ -6,7 +6,7 @@ import { withStyles } from '../../../lib/styles'
 import { useWrappedUserStorage } from '../../../lib/userStorage/useWrappedStorage'
 import { useErrorDialog } from '../../../lib/undux/utils/dialog'
 import InputFile from '../../common/form/InputFile'
-import logger from '../../../lib/logger/pino-logger'
+import logger from '../../../lib/logger/js-logger'
 import { fireEvent, PROFILE_IMAGE } from '../../../lib/analytics/analytics'
 import RoundIconButton from '../../common/buttons/RoundIconButton'
 import { useDebouncedOnPress } from '../../../lib/hooks/useOnPress'
@@ -28,7 +28,7 @@ export const pickerOptions = {
   hideBottomControls: true,
 }
 
-const log = logger.child({ from: 'VieOrUploadAvatar' })
+const log = logger.get('VieOrUploadAvatar')
 const TITLE = 'My Profile'
 
 const ViewOrUploadAvatar = props => {

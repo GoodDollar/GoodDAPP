@@ -17,7 +17,7 @@ import useDisposingState from '../hooks/useDisposingState'
 
 // utils
 import UserStorage from '../../../../lib/userStorage/UserStorage'
-import logger from '../../../../lib/logger/pino-logger'
+import logger from '../../../../lib/logger/js-logger'
 import { getFirstWord } from '../../../../lib/utils/getFirstWord'
 import {
   getDesignRelativeHeight,
@@ -41,7 +41,7 @@ import wait24hourIllustration from '../../../../assets/Claim/wait24Hour.svg'
 import FashionShootSVG from '../../../../assets/FaceVerification/FashionPhotoshoot.svg'
 import useProfile from '../../../../lib/userStorage/useProfile'
 
-const log = logger.child({ from: 'FaceVerificationIntro' })
+const log = logger.get('FaceVerificationIntro')
 const { useABTesting } = createABTesting('FV_Intro_Screen')
 
 const commonTextStyles = {

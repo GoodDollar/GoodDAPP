@@ -6,7 +6,7 @@ import Text from '../../common/view/Text'
 import Icon from '../view/Icon'
 
 import Config from '../../../config/config'
-import logger from '../../../lib/logger/pino-logger'
+import logger from '../../../lib/logger/js-logger'
 
 import AsyncStorage from '../../../lib/utils/asyncStorage'
 import { useDialog } from '../../../lib/undux/utils/dialog'
@@ -27,7 +27,7 @@ import AddAppSVG from '../../../assets/addApp.svg'
 // import userStorage from '../../../lib/userStorage/UserStorage'
 // import API from '../../../lib/API/api'
 
-const log = logger.child({ from: 'AddWebApp' })
+const log = logger.get('AddWebApp')
 
 const mapStylesToProps = ({ theme }) => {
   return {

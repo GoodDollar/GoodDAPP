@@ -7,7 +7,7 @@ import { enhanceArgentinaCountryCode } from '../../lib/utils/phoneNumber'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import { userModelValidations } from '../../lib/userStorage/UserModel'
 import { getScreenHeight } from '../../lib/utils/orientation'
-import logger from '../../lib/logger/pino-logger'
+import logger from '../../lib/logger/js-logger'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import { withStyles } from '../../lib/styles'
 import Config from '../../config/config'
@@ -17,7 +17,7 @@ import ErrorText from '../common/form/ErrorText'
 import FormNumberInput from './PhoneNumberInput/PhoneNumberInput'
 import CustomWrapper from './signUpWrapper'
 
-const log = logger.child({ from: 'PhoneForm' })
+const log = logger.get('PhoneForm')
 
 type Props = {
   doneCallback: ({ phone: string }) => null,

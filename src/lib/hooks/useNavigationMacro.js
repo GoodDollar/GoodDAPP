@@ -2,9 +2,9 @@ import { useCallback, useContext } from 'react'
 import { NavigationContext } from '@react-navigation/core'
 import { memoize, noop } from 'lodash'
 
-import logger from '../logger/pino-logger'
+import logger from '../logger/js-logger'
 
-const log = logger.child({ from: 'useNavigationMacro' })
+const log = logger.get('useNavigationMacro')
 
 const ALLOWED_METHODS = ['navigate', 'push']
 

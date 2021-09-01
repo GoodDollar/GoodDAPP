@@ -3,7 +3,7 @@ import PushNotification from 'react-native-push-notification'
 import moment from 'moment'
 import { once } from 'lodash'
 import AsyncStorage from '../utils/asyncStorage'
-import logger from '../logger/pino-logger'
+import logger from '../logger/js-logger'
 import { IS_LOGGED_IN } from '../constants/localStorage'
 import userStorage from '../userStorage/UserStorage'
 import goodWallet from '../wallet/GoodWallet'
@@ -22,7 +22,7 @@ const options = {
   periodic: true,
 }
 
-const log = logger.child({ from: 'backgroundFetch' })
+const log = logger.get('backgroundFetch')
 
 const task = async taskId => {
   log.info('[BackgroundFetch] taskId: ', taskId)

@@ -3,7 +3,7 @@ import { FlatList, PermissionsAndroid } from 'react-native'
 import { promisify } from 'es6-promisify'
 import contacts from 'react-native-contacts'
 import { map, memoize, orderBy, uniq } from 'lodash'
-import logger from '../../lib/logger/pino-logger'
+import logger from '../../lib/logger/js-logger'
 import { isAndroid } from '../../lib/utils/platform'
 import { Section } from '../common'
 import InputText from '../common/form/InputWithAdornment'
@@ -15,7 +15,7 @@ import FeedContactItem from './FeedContactItem'
 import ItemSeparator from './ItemSeparator'
 
 const Contacts = promisify(contacts.getAll)
-const log = logger.child({ from: 'Who' })
+const log = logger.get('Who')
 
 const WhoContent = ({ styles, setContact, error, text, value, next, state, showNext, setValue }) => {
   const [contacts, setContacts] = useState([])

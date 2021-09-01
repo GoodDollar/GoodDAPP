@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { groupBy, keyBy } from 'lodash'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import userStorage from '../../lib/userStorage/UserStorage'
-import logger from '../../lib/logger/pino-logger'
+import logger from '../../lib/logger/js-logger'
 import { useDialog } from '../../lib/undux/utils/dialog'
 import { fireEvent, INVITE_BOUNTY, INVITE_JOIN } from '../../lib/analytics/analytics'
 import { decorate, ExceptionCode } from '../../lib/logger/exceptions'
@@ -13,7 +13,7 @@ import Config from '../../config/config'
 
 const wasOpenedProp = 'hasOpenedInviteScreen'
 
-const log = logger.child({ from: 'useInvites' })
+const log = logger.get('useInvites')
 
 const NULL_ADDRESS = '0x0000000000000000000000000000000000000000'
 const registerForInvites = async () => {

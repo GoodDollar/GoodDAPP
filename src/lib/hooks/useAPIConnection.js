@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useState } from 'react'
 import API from '../API/api'
-import logger from '../logger/pino-logger'
+import logger from '../logger/js-logger'
 import { delay } from '../utils/async'
 
-const log = logger.child({ from: 'useAPIConnection' })
+const log = logger.get('useAPIConnection')
 
 export default () => {
   const [isConnection, setIsConnection] = useState(false)

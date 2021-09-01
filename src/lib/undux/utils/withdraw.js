@@ -1,13 +1,13 @@
 // @flow
 import type { Store } from 'undux'
 import goodWallet from '../../wallet/GoodWallet'
-import pino from '../../logger/pino-logger'
+import pino from '../../logger/js-logger'
 import { ExceptionCategory } from '../../logger/exceptions'
 import userStorage from '../../userStorage/UserStorage'
 import type { TransactionEvent } from '../../userStorage/UserStorage'
 import { WITHDRAW_STATUS_PENDING } from '../../wallet/GoodWalletClass'
 
-const log = pino.child({ from: 'withdraw' })
+const log = pino.get('withdraw')
 
 type ReceiptType = {
   transactionHash: string,

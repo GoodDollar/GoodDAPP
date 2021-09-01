@@ -12,13 +12,13 @@ import userStorage from '../../lib/userStorage/UserStorage'
 import type { FeedEvent } from '../../lib/userStorage/UserStorageClass'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import ScrollToTopButton from '../common/buttons/ScrollToTopButton'
-import logger from '../../lib/logger/pino-logger'
+import logger from '../../lib/logger/js-logger'
 import { decorate, ExceptionCategory, ExceptionCode } from '../../lib/logger/exceptions'
 import FeedListItem from './FeedItems/FeedListItem'
 import FeedActions from './FeedActions'
 import { keyExtractor, useFeeds, VIEWABILITY_CONFIG } from './utils/feed'
 
-const log = logger.child({ from: 'ShareButton' })
+const log = logger.get('ShareButton')
 
 const AnimatedSwipeableFlatList = Animated.createAnimatedComponent(SwipeableFlatList)
 

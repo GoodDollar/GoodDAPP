@@ -2,7 +2,7 @@ import React, { useCallback, useState } from 'react'
 import isEmail from '../../lib/validators/isEmail'
 import { BackButton, useScreenState } from '../appNavigation/stackNavigation'
 import userStorage from '../../lib/userStorage/UserStorage'
-import logger from '../../lib/logger/pino-logger'
+import logger from '../../lib/logger/js-logger'
 import InputRecipient from '../common/form/InputRecipient'
 import isMobilePhone from '../../lib/validators/isMobilePhone'
 import goodWallet from '../../lib/wallet/GoodWallet'
@@ -11,7 +11,7 @@ import TopBar from '../common/view/TopBar'
 
 const SEND_TITLE = 'Send G$'
 
-const log = logger.child({ from: SEND_TITLE })
+const log = logger.get(SEND_TITLE)
 
 const ScanQRButton = ({ push, disabled }) => {
   const onPress = useCallback(() => push('SendByQR'), [push])

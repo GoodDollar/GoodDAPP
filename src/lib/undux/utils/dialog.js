@@ -3,10 +3,10 @@ import { useContext } from 'react'
 import type { Store } from 'undux'
 import SimpleStore, { assertStore } from '../SimpleStore'
 import { type DialogProps } from '../../../components/common/dialogs/CustomDialog'
-import pino from '../../logger/pino-logger'
+import pino from '../../logger/js-logger'
 import { fireEvent } from '../../analytics/analytics'
 import { GlobalTogglesContext } from '../../contexts/togglesContext'
-const log = pino.child({ from: 'dialogs' })
+const log = pino.get('dialogs')
 
 export const showDialogForError = (
   store: Store,

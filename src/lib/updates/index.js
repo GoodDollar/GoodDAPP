@@ -3,12 +3,12 @@ import { filter } from 'lodash'
 import userStorage from '../userStorage/UserStorage'
 import Config from '../../config/config'
 import { fireEvent } from '../analytics/analytics'
-import logger from '../logger/pino-logger'
+import logger from '../logger/js-logger'
 import uploadAvatars from './avatar'
 import upgradeRealmDB from './upgradeRealmdb'
 import upgradeProfileRealmDB from './upgradeProfileRealmdb'
 
-const log = logger.child({ from: 'updates' })
+const log = logger.get('updates')
 const updates = [uploadAvatars, upgradeRealmDB, upgradeProfileRealmDB]
 
 const update = async () => {

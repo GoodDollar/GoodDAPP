@@ -7,7 +7,7 @@ import { get } from 'lodash'
 import bip39 from 'bip39-light'
 import AsyncStorage from '../../lib/utils/asyncStorage'
 import { IS_LOGGED_IN } from '../../lib/constants/localStorage'
-import logger from '../../lib/logger/pino-logger'
+import logger from '../../lib/logger/js-logger'
 import { ExceptionCategory } from '../../lib/logger/exceptions'
 import { withStyles } from '../../lib/styles'
 import { useDialog, useErrorDialog } from '../../lib/undux/utils/dialog'
@@ -25,7 +25,7 @@ import Wrapper from '../common/layout/Wrapper'
 import normalize from '../../lib/utils/normalizeText'
 
 const TITLE = 'Recover'
-const log = logger.child({ from: TITLE })
+const log = logger.get(TITLE)
 const MAX_WORDS = 12
 
 const Mnemonics = ({ screenProps, navigation, styles }) => {

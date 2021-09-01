@@ -5,13 +5,13 @@ import useRealtimeProps from '../../../../lib/hooks/useRealtimeProps'
 
 import { ExceptionType, hideRedBoxIfNonCritical, kindOfSDKIssue } from '../utils/kindOfTheIssue'
 
-import logger from '../../../../lib/logger/pino-logger'
+import logger from '../../../../lib/logger/js-logger'
 import { isE2ERunning, isEmulator } from '../../../../lib/utils/platform'
 
 import FaceTecGlobalState from '../sdk/FaceTecGlobalState'
 import useCriticalErrorHandler from './useCriticalErrorHandler'
 
-const log = logger.child({ from: 'useFaceTecSDK' })
+const log = logger.get('useFaceTecSDK')
 
 /**
  * ZoomSDK initialization hook

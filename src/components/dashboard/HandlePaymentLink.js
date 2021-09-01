@@ -2,7 +2,7 @@
 import React, { useCallback, useEffect } from 'react'
 import { noop } from 'lodash'
 import { Wrapper } from '../common'
-import logger from '../../lib/logger/pino-logger'
+import logger from '../../lib/logger/js-logger'
 import { parsePaymentLinkParams, readCode } from '../../lib/share'
 import { useDialog, useErrorDialog } from '../../lib/undux/utils/dialog'
 import LoadingIcon from '../common/modal/LoadingIcon'
@@ -22,7 +22,7 @@ import goodWallet from '../../lib/wallet/GoodWallet'
 
 import { routeAndPathForCode } from './utils/routeAndPathForCode'
 
-const log = logger.child({ from: 'HandlePaymentLink' })
+const log = logger.get('HandlePaymentLink')
 
 export type HandlePaymentLinkProps = {
   screenprops: any,

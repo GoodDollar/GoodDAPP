@@ -15,7 +15,7 @@ import SimpleStore from '../../lib/undux/SimpleStore'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
 
 // utils
-import logger from '../../lib/logger/pino-logger'
+import logger from '../../lib/logger/js-logger'
 import { decorate, ExceptionCode } from '../../lib/logger/exceptions'
 import { extractQueryParams, readCode } from '../../lib/share'
 import { wrapFunction } from '../../lib/undux/utils/wrapper'
@@ -27,7 +27,7 @@ import { routeAndPathForCode } from './utils/routeAndPathForCode'
 
 const QR_DEFAULT_DELAY = 300
 
-const log = logger.child({ from: 'SendByQR' })
+const log = logger.get('SendByQR')
 
 type Props = {
   screenProps: any,

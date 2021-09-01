@@ -3,10 +3,10 @@ import type { Store } from 'undux'
 import { throttle } from 'lodash'
 import Config from '../../../config/config'
 import userStorage from '../../userStorage/UserStorage'
-import pino from '../../logger/pino-logger'
+import pino from '../../logger/js-logger'
 import { assertStore } from '../SimpleStore'
 
-const logger = pino.child({ from: 'feeds' })
+const logger = pino.get('feeds')
 
 export const PAGE_SIZE = 20
 

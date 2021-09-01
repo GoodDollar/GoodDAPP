@@ -6,7 +6,7 @@ import AnimationBase from '../Base'
 import { isMobileNative } from '../../../../lib/utils/platform'
 import animationData from './data.json'
 
-// const log = logger.child({ from: 'SpinnerCheckMark' })
+// const log = logger.get('SpinnerCheckMark')
 
 class SpinnerCheckMark extends AnimationBase {
   state = {

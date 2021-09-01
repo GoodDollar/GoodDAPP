@@ -6,11 +6,11 @@ import { assign } from 'lodash'
 import AsyncStorage from '../utils/asyncStorage'
 import Config from '../../config/config'
 import { GD_USER_MASTERSEED, GD_USER_MNEMONIC, GD_USER_PRIVATEKEYS } from '../constants/localStorage'
-import logger from '../logger/pino-logger'
+import logger from '../logger/js-logger'
 import type { WalletConfig } from './WalletFactory'
 import MultipleAddressWallet from './MultipleAddressWallet'
 
-const log = logger.child({ from: 'SoftwareWalletProvider' })
+const log = logger.get('SoftwareWalletProvider')
 
 /**
  * save mnemonics (secret phrase) to user device

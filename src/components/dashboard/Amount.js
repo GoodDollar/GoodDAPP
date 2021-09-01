@@ -2,7 +2,7 @@
 import React, { useCallback, useState } from 'react'
 import { KeyboardAvoidingView, StyleSheet } from 'react-native'
 import { BN } from 'web3-utils'
-import logger from '../../lib/logger/pino-logger'
+import logger from '../../lib/logger/js-logger'
 import { AmountInput, ScanQRButton, Section, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
 import { BackButton, NextButton, useScreenState } from '../appNavigation/stackNavigation'
@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
   },
 })
 
-const log = logger.child({ from: 'Amount' })
+const log = logger.get('Amount')
 
 const Amount = (props: AmountProps) => {
   const { screenProps } = props

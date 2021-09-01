@@ -10,7 +10,7 @@ import ClaimSvg from '../../assets/Claim/claim-footer.svg'
 // import { isBrowser } from '../../lib/utils/platform'
 import userStorage, { type TransactionEvent } from '../../lib/userStorage/UserStorage'
 import goodWallet from '../../lib/wallet/GoodWallet'
-import logger from '../../lib/logger/pino-logger'
+import logger from '../../lib/logger/js-logger'
 import { decorate, ExceptionCategory, ExceptionCode } from '../../lib/logger/exceptions'
 import GDStore from '../../lib/undux/GDStore'
 import SimpleStore from '../../lib/undux/SimpleStore'
@@ -52,7 +52,7 @@ import ButtonBlock from './Claim/ButtonBlock'
 
 type ClaimProps = DashboardProps
 
-const log = logger.child({ from: 'Claim' })
+const log = logger.get('Claim')
 
 const LoadingAnimation = ({ success, speed = 3 }) => (
   <View style={{ alignItems: 'center' }}>
@@ -337,7 +337,7 @@ const Claim = props => {
     ],
   )
 
-  const handleFaceVerification = useCallback(() => navigate('FaceVerificationIntro', { from: 'Claim' }), [navigate])
+  const handleFaceVerification = useCallback(() => navigate('FaceVerificationIntro', 'Claim'), [navigate])
 
   const handleClaim = useCallback(async () => {
     setLoading(true)

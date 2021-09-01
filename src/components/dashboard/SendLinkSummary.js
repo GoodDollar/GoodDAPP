@@ -6,7 +6,7 @@ import { text } from 'react-native-communications'
 import { fireEvent } from '../../lib/analytics/analytics'
 import userStorage, { type TransactionEvent } from '../../lib/userStorage/UserStorage'
 import { FeedItemType } from '../../lib/userStorage/FeedStorage'
-import logger from '../../lib/logger/pino-logger'
+import logger from '../../lib/logger/js-logger'
 import { ExceptionCategory } from '../../lib/logger/exceptions'
 import { useDialog } from '../../lib/undux/utils/dialog'
 import goodWallet from '../../lib/wallet/GoodWallet'
@@ -19,7 +19,7 @@ import useProfile from '../../lib/userStorage/useProfile'
 import { ACTION_SEND, ACTION_SEND_TO_ADDRESS, SEND_TITLE } from './utils/sendReceiveFlow'
 import SummaryGeneric from './SendReceive/SummaryGeneric'
 
-const log = logger.child({ from: 'SendLinkSummary' })
+const log = logger.get('SendLinkSummary')
 
 export type AmountProps = {
   screenProps: any,

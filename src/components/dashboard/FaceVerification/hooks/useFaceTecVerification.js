@@ -2,7 +2,7 @@ import { useCallback, useRef } from 'react'
 import { assign, noop } from 'lodash'
 
 // logger & utils
-import logger from '../../../../lib/logger/pino-logger'
+import logger from '../../../../lib/logger/js-logger'
 import { isE2ERunning, isEmulator, isIOSNative } from '../../../../lib/utils/platform'
 
 // Zoom SDK reference & helpers
@@ -12,7 +12,7 @@ import { ExceptionType, hideRedBoxIfNonCritical, kindOfSessionIssue } from '../u
 import { MAX_RETRIES_ALLOWED, resultSuccessMessage } from '../sdk/FaceTecSDK.constants'
 import useRealtimeProps from '../../../../lib/hooks/useRealtimeProps'
 
-const log = logger.child({ from: 'useFaceTecVerification' })
+const log = logger.get('useFaceTecVerification')
 const emptyBase64 = btoa(String.fromCharCode(0x20).repeat(40))
 
 /**

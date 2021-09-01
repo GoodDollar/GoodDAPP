@@ -4,7 +4,7 @@ import { Platform, View } from 'react-native'
 import { fireEvent } from '../../lib/analytics/analytics'
 import API, { getErrorMessage } from '../../lib/API/api'
 import userStorage from '../../lib/userStorage/UserStorage'
-import logger from '../../lib/logger/pino-logger'
+import logger from '../../lib/logger/js-logger'
 import { useDialog, useErrorDialog } from '../../lib/undux/utils/dialog'
 import { CustomButton } from '../common'
 import Section from '../common/layout/Section'
@@ -14,7 +14,7 @@ import Illustration from '../../assets/Signup/maginLinkIllustration.svg'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import Wrapper from '../common/layout/Wrapper'
 
-const log = logger.child({ from: 'MagicLinkInfo' })
+const log = logger.get('MagicLinkInfo')
 
 const MagicLinkInfoComponent = props => {
   const { styles, screenProps } = props

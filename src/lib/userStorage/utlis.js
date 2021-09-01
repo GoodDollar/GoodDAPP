@@ -1,9 +1,9 @@
 // @flow
 import { sha3 } from 'web3-utils'
 import { ExceptionCategory } from '../logger/exceptions'
-import pino from '../logger/pino-logger'
+import pino from '../logger/js-logger'
 
-const logger = pino.child({ from: 'UserProfileUtils' })
+const logger = pino.get('UserProfileUtils')
 
 /**
  * Clean string removing blank spaces and special characters, and converts to lower case

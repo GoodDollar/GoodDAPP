@@ -11,9 +11,9 @@ import handleLinks from './lib/utils/handleLinks'
 import { APP_OPEN, fireEvent, initAnalytics } from './lib/analytics/analytics'
 
 import Config from './config/config'
-import logger from './lib/logger/pino-logger'
+import logger from './lib/logger/js-logger'
 
-const log = logger.child({ from: 'RouterSelector' })
+const log = logger.get('RouterSelector')
 
 log.debug({ Config })
 

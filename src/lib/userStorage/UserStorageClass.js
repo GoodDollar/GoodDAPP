@@ -13,7 +13,7 @@ import { retry } from '../utils/async'
 import FaceVerificationAPI from '../../components/dashboard/FaceVerification/api/FaceVerificationApi'
 import Config from '../../config/config'
 import API from '../API/api'
-import pino from '../logger/pino-logger'
+import pino from '../logger/js-logger'
 import isMobilePhone from '../validators/isMobilePhone'
 
 import { GD_GUN_CREDENTIALS } from '../constants/localStorage'
@@ -26,7 +26,7 @@ import { UserProfileStorage } from './UserProfileStorage'
 import { FeedEvent, FeedItemType, FeedStorage, TxStatus } from './FeedStorage'
 import type { DB } from './UserStorage'
 
-const logger = pino.child({ from: 'UserStorage' })
+const logger = pino.get('UserStorage')
 
 const NULL_ADDRESS = '0x0000000000000000000000000000000000000000'
 

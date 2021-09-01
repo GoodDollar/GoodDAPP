@@ -3,9 +3,9 @@ import { assign, isNil, isUndefined } from 'lodash'
 import AsyncStorage from '../../lib/utils/asyncStorage'
 import { retry } from '../../lib/utils/async'
 import { REGISTRATION_METHOD_SELF_CUSTODY } from '../constants/login'
-import pino from '../logger/pino-logger'
+import pino from '../logger/js-logger'
 
-const log = pino.child({ from: 'UserProperties' })
+const log = pino.get('UserProperties')
 
 /**
  * Users gundb to handle user storage.

@@ -2,7 +2,7 @@
 import React from 'react'
 import { KeyboardAvoidingView } from 'react-native'
 import { isIOS } from '../../lib/utils/platform'
-import logger from '../../lib/logger/pino-logger'
+import logger from '../../lib/logger/js-logger'
 import API from '../../lib/API/api'
 import { withStyles } from '../../lib/styles'
 import SpinnerCheckMark from '../common/animations/SpinnerCheckMark'
@@ -16,7 +16,7 @@ import { fireEvent, SIGNUP_RETRY_EMAIL } from '../../lib/analytics/analytics'
 import CustomWrapper from './signUpWrapper'
 import type { SignupState } from './SignupState'
 
-const log = logger.child({ from: 'EmailConfirmation' })
+const log = logger.get('EmailConfirmation')
 
 type Props = {
   phone: string,

@@ -1,7 +1,7 @@
 // @flow
 import { invokeMap, isFunction } from 'lodash'
 
-import logger from '../../../lib/logger/pino-logger'
+import logger from '../../../lib/logger/js-logger'
 import { type Permission, Permissions, type PermissionStatus, PermissionStatuses } from '../types'
 
 class PermissionsAPI {
@@ -195,4 +195,4 @@ class PermissionsAPI {
 
 const { permissions, clipboard, mediaDevices } = navigator
 
-export default new PermissionsAPI(permissions, clipboard, mediaDevices, logger.child({ from: 'PermissionsAPI' }))
+export default new PermissionsAPI(permissions, clipboard, mediaDevices, logger.get('PermissionsAPI'))

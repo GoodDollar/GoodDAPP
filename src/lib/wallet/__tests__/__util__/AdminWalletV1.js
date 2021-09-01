@@ -2,7 +2,7 @@
 import Web3 from 'web3'
 import HDKey from 'hdkey'
 import bip39 from 'bip39-light'
-import type { HttpProvider, WebSocketProvider } from 'web3-providers'
+import type { HttpProvider, WebSocketProvider } from 'web3-core'
 import IdentityABI from '@gooddollar/goodcontracts/build/contracts/Identity.min.json'
 import GoodDollarABI from '@gooddollar/goodcontracts/build/contracts/GoodDollar.min.json'
 import ProxyContractABI from '@gooddollar/goodcontracts/build/contracts/AdminWallet.min.json'
@@ -13,7 +13,7 @@ import get from 'lodash/get'
 import assign from 'lodash/assign'
 import Mutex from 'await-mutex'
 import * as web3Utils from 'web3-utils'
-import logger from '../../../../lib/logger/pino-logger'
+import logger from '../../../../lib/logger/js-logger'
 import conf from '../../../../config/config'
 import { type TransactionReceipt } from './blockchain-types'
 
@@ -22,7 +22,7 @@ const networks = conf.ethereum
 const network = conf.network
 const networkId = ContractsAddress[network].networkId
 conf.ethNetwork = networks[networkId]
-const log = logger.child({ from: 'AdminWallet' })
+const log = logger.get('AdminWallet')
 
 const defaultGasPrice = web3Utils.toWei('1', 'gwei')
 const adminMinBalance = 100000

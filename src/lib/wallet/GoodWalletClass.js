@@ -22,14 +22,14 @@ import moment from 'moment'
 import bs58 from 'bs58'
 import * as TextileCrypto from '@textile/crypto'
 import Config from '../../config/config'
-import logger from '../logger/pino-logger'
+import logger from '../logger/js-logger'
 import { ExceptionCategory } from '../logger/exceptions'
 import API from '../API/api'
 import { delay } from '../utils/async'
 import { generateShareLink } from '../share'
 import WalletFactory from './WalletFactory'
 
-const log = logger.child({ from: 'GoodWalletV2' })
+const log = logger.get('GoodWalletV2')
 
 const ZERO = new BN('0')
 

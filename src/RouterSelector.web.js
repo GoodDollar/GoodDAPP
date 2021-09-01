@@ -19,11 +19,11 @@ import retryImport from './lib/utils/retryImport'
 import DeepLinking from './lib/utils/deepLinking'
 import InternetConnection from './components/common/connectionDialog/internetConnection'
 import isWebApp from './lib/utils/isWebApp'
-import logger from './lib/logger/pino-logger'
+import logger from './lib/logger/js-logger'
 import { APP_OPEN, fireEvent, initAnalytics } from './lib/analytics/analytics'
 import handleLinks from './lib/utils/handleLinks'
 
-const log = logger.child({ from: 'RouterSelector' })
+const log = logger.get('RouterSelector')
 
 // identify the case user signup/in using torus redirect flow, so we want to load page asap
 const isAuthReload = DeepLinking.pathname.startsWith('/Welcome/Auth')

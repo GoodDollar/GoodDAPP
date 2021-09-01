@@ -4,13 +4,13 @@ import { StyleSheet } from 'react-native'
 import { withTheme } from 'react-native-paper'
 import { useWrappedUserStorage } from '../../lib/userStorage/useWrappedStorage'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
-import logger from '../../lib/logger/pino-logger'
+import logger from '../../lib/logger/js-logger'
 import { CustomButton, Section, Wrapper } from '../common'
 import ImageCropper from '../common/form/ImageCropper'
 import useAvatar from '../../lib/hooks/useAvatar'
 import useProfile from '../../lib/userStorage/useProfile'
 
-const log = logger.child({ from: 'EditAvatar' })
+const log = logger.get('EditAvatar')
 
 const TITLE = 'Edit Avatar'
 

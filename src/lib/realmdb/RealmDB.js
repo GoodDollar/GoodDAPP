@@ -5,7 +5,7 @@ import { once, sortBy } from 'lodash'
 import * as Realm from 'realm-web'
 import Config from '../../config/config'
 import { JWT } from '../constants/localStorage'
-import logger from '../logger/pino-logger'
+import logger from '../logger/js-logger'
 import { FeedItemSchema } from '../textile/feedSchema' // Some json-schema.org schema
 import type { ProfileDB } from '../userStorage/UserProfileStorage'
 import type { DB } from '../userStorage/UserStorage'
@@ -15,7 +15,7 @@ import type { TransactionDetails } from '../userStorage/FeedStorage'
 import { AssetsSchema } from '../textile/assetSchema'
 import { ProfilesSchema } from '../textile/profilesSchema'
 
-const log = logger.child({ from: 'RealmDB' })
+const log = logger.get('RealmDB')
 class RealmDB implements DB, ProfileDB {
   privateKey
 

@@ -3,7 +3,7 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { View } from 'react-native'
 import { isEqualWith, pickBy } from 'lodash'
 import userStorage from '../../lib/userStorage/UserStorage'
-import logger from '../../lib/logger/pino-logger'
+import logger from '../../lib/logger/js-logger'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
 import { withStyles } from '../../lib/styles'
 import { Section, UserAvatar, Wrapper } from '../common'
@@ -16,7 +16,7 @@ import useProfile from '../../lib/userStorage/useProfile'
 import ProfileDataTable from './ProfileDataTable'
 
 const TITLE = 'Edit Profile'
-const log = logger.child({ from: TITLE })
+const log = logger.get(TITLE)
 const avatarSize = getDesignRelativeWidth(136)
 
 const EditProfile = ({ screenProps, styles }) => {

@@ -14,7 +14,7 @@ import SimpleStore from '../../lib/undux/SimpleStore'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
 
 // utils
-import logger from '../../lib/logger/pino-logger'
+import logger from '../../lib/logger/js-logger'
 import { decorate, ExceptionCategory, ExceptionCode } from '../../lib/logger/exceptions'
 import { extractQueryParams, readReceiveLink } from '../../lib/share'
 import { wrapFunction } from '../../lib/undux/utils/wrapper'
@@ -25,7 +25,7 @@ import QRCameraPermissionDialog from './SendRecieveQRCameraPermissionDialog'
 
 const QR_DEFAULT_DELAY = 300
 
-const log = logger.child({ from: 'ReceiveByQR.web' })
+const log = logger.get('ReceiveByQR.web')
 
 const ReceiveByQR = ({ screenProps }) => {
   const [qrDelay, setQRDelay] = useState(QR_DEFAULT_DELAY)

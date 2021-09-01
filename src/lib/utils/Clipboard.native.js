@@ -1,8 +1,8 @@
 // @flow
 import Clipboard from '@react-native-community/clipboard'
-import logger from '../../lib/logger/pino-logger'
+import logger from '../../lib/logger/js-logger'
 
-const log = logger.child({ from: 'Clipboard' })
+const log = logger.get('Clipboard')
 
 export default new class {
   constructor(api) {

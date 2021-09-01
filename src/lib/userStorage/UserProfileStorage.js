@@ -2,7 +2,7 @@
 import TextileCrypto from '@textile/crypto'
 import { assign } from 'lodash'
 import IPFS from '../ipfs/IpfsStorage'
-import pino from '../logger/pino-logger'
+import pino from '../logger/js-logger'
 import { isValidDataUrl } from '../utils/base64'
 import { AVATAR_SIZE, resizeImage, SMALL_AVATAR_SIZE } from '../utils/image'
 import isEmail from '../validators/isEmail'
@@ -12,7 +12,7 @@ import { getUserModel } from './UserModel'
 import type { FieldPrivacy, Profile } from './UserStorageClass'
 import { cleanHashedFieldForIndex, maskField } from './utlis'
 
-const logger = pino.child({ from: 'UserProfileStorage' })
+const logger = pino.get('UserProfileStorage')
 
 export interface ProfileDB {
   setProfile(profile: Profile): Promise<void>;

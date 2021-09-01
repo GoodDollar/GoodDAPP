@@ -1,13 +1,13 @@
 import React, { useCallback } from 'react'
 import AsyncStorage from '../utils/asyncStorage'
 
-import logger from '../logger/pino-logger'
+import logger from '../logger/js-logger'
 import IconWrapper from '../../components/common/modal/IconWrapper'
 import LoadingIcon from '../../components/common/modal/LoadingIcon'
 import retryImport from '../utils/retryImport'
 import restart from '../utils/restart'
 
-const log = logger.child({ from: 'useDeleteAccountDialog' })
+const log = logger.get('useDeleteAccountDialog')
 
 export default ({ API, showErrorDialog, theme }) => {
   const deleteHandler = useCallback(async () => {

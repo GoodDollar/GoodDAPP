@@ -3,13 +3,13 @@ import { Database } from '@textile/threaddb'
 import * as TextileCrypto from '@textile/crypto'
 import { once, sortBy } from 'lodash'
 import AsyncStorage from '../utils/asyncStorage'
-import logger from '../logger/pino-logger'
+import logger from '../logger/js-logger'
 import Config from '../../config/config'
 import type { DB } from '../userStorage/UserStorage'
 
 import { FeedItemSchema } from './feedSchema' // Some json-schema.org schema
 
-const log = logger.child({ from: 'FeedThreadDB' })
+const log = logger.get('FeedThreadDB')
 
 class TextileDB implements DB {
   db = new Database(

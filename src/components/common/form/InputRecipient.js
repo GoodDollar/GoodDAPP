@@ -11,10 +11,10 @@ import { useClipboardPaste } from '../../../lib/hooks/useClipboard'
 import usePermissions from '../../permissions/hooks/usePermissions'
 
 // utils
-import logger from '../../../lib/logger/pino-logger'
+import logger from '../../../lib/logger/js-logger'
 import { Permissions } from '../../permissions/types'
 
-const log = logger.child({ from: 'InputRecipient' })
+const log = logger.get('InputRecipient')
 
 /**
  * TopBar - used To display contextual information in a small container

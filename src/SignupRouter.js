@@ -4,7 +4,7 @@ import Config from './config/config'
 
 import createAppContainer from './lib/utils/createAppContainer'
 import useNavigationStateHandler from './lib/hooks/useNavigationStateHandler'
-import logger from './lib/logger/pino-logger'
+import logger from './lib/logger/js-logger'
 
 import Signup from './components/signup/SignupState'
 import SigninInfo from './components/signin/SigninInfo'
@@ -12,7 +12,7 @@ import Blurred from './components/common/view/Blurred'
 import Welcome from './components/auth/login/WelcomeScreen'
 import InviteWelcome from './components/inviteWelcome/InviteWelcome'
 
-const log = logger.child({ from: 'SignupRouter' })
+const log = logger.get('SignupRouter')
 
 const generateRouter = () => {
   const initialRouteName = 'InviteWelcome'

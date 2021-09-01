@@ -118,6 +118,7 @@
     "hex-to-rgba": "^2.0.1",
     "https-browserify": "0.0.1",
     "jetifier": "^1.6.5",
+    "js-logger": "^1.6.1",
     "jsonwebtoken": "^8.5.1",
     "loadjs": "^3.6.1",
     "lodash": "^4.17.21",

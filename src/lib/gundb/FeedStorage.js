@@ -27,11 +27,11 @@ import EventEmitter from 'eventemitter3'
 import Config from '../../config/config'
 import delUndefValNested from '../utils/delUndefValNested'
 import AsyncStorage from '../utils/asyncStorage'
-import logger from '../../lib/logger/pino-logger'
+import logger from '../../lib/logger/js-logger'
 import { delay } from '../utils/async'
 import { updateFeedEventAvatar } from '../updates/utils'
 
-const log = logger.child({ from: 'FeedStorage' })
+const log = logger.get('FeedStorage')
 
 /**TODO:
  * handle bridge(mint)

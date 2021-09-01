@@ -4,11 +4,11 @@ import { get } from 'lodash'
 import Config from '../../config/config'
 import API from '../API/api'
 import { delay } from '../utils/async'
-import logger from '../logger/pino-logger'
+import logger from '../logger/js-logger'
 import SimpleStore from '../undux/SimpleStore'
 import useAppState from './useAppState'
 
-const log = logger.child({ from: 'hasConnectionChange' })
+const log = logger.get('hasConnectionChange')
 
 export const useConnection = () => {
   const { isConnected = true } = useNetInfo() || {}

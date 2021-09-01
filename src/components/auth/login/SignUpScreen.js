@@ -21,11 +21,11 @@ import googleBtnIcon from '../../../assets/Auth/btn_google.svg'
 import facebookBtnIcon from '../../../assets/Auth/btn_facebook.svg'
 import MobileBtnIcon from '../../../assets/Auth/btn_mobile.svg'
 import Config from '../../../config/config'
-import logger from '../../../lib/logger/pino-logger'
+import logger from '../../../lib/logger/js-logger'
 import { LoginButton } from './LoginButton'
 import Recaptcha from './Recaptcha'
 
-const log = logger.child({ from: 'SignUpScreen' })
+const log = logger.get('SignUpScreen')
 
 const SignupScreen = ({ isSignup, screenProps, styles, handleLoginMethod, sdkInitialized, goBack }) => {
   const { push } = screenProps

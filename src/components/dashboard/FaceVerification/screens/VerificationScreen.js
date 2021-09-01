@@ -5,7 +5,7 @@ import Instructions from '../components/Instructions'
 import UserStorage from '../../../../lib/userStorage/UserStorage'
 import { useCurriedSetters } from '../../../../lib/undux/GDStore'
 import goodWallet from '../../../../lib/wallet/GoodWallet'
-import logger from '../../../../lib/logger/pino-logger'
+import logger from '../../../../lib/logger/js-logger'
 
 import useFaceTecSDK from '../hooks/useFaceTecSDK'
 import useFaceTecVerification from '../hooks/useFaceTecVerification'
@@ -23,7 +23,7 @@ import {
   FV_ZOOMFAILED,
 } from '../../../../lib/analytics/analytics'
 
-const log = logger.child({ from: 'FaceVerification' })
+const log = logger.get('FaceVerification')
 
 const FaceVerification = ({ screenProps }) => {
   const [setIsCitizen] = useCurriedSetters(['isLoggedInCitizen'])

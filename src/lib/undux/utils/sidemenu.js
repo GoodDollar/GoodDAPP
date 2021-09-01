@@ -1,9 +1,9 @@
 // @flow
 import type { Store } from 'undux'
 import { assertStore } from '../SimpleStore'
-import pino from '../../logger/pino-logger'
+import pino from '../../logger/js-logger'
 
-const log = pino.child({ from: 'sideMenu' })
+const log = pino.get('sideMenu')
 
 export const showSidemenu = (store: Store) => {
   if (!assertStore(store, log, 'showSidemenu failed')) {

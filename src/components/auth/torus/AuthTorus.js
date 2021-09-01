@@ -4,7 +4,7 @@ import { Paragraph } from 'react-native-paper'
 import { Platform, View } from 'react-native'
 import { get } from 'lodash'
 import AsyncStorage from '../../../lib/utils/asyncStorage'
-import logger from '../../../lib/logger/pino-logger'
+import logger from '../../../lib/logger/js-logger'
 import {
   fireEvent,
   SIGNIN_METHOD_SELECTED,
@@ -46,7 +46,7 @@ import DeepLinking from '../../../lib/utils/deepLinking'
 import useTorus from './hooks/useTorus'
 import { LoginStrategy } from './sdk/strategies'
 
-const log = logger.child({ from: 'AuthTorus' })
+const log = logger.get('AuthTorus')
 
 export const useAlreadySignedUp = () => {
   const [showDialog, hideDialog] = useDialog()

@@ -6,7 +6,7 @@ import { showSupportDialog } from '../../../common/dialogs/showSupportDialog'
 
 import { useDialog } from '../../../../lib/undux/utils/dialog'
 import { isMobileOnly } from '../../../../lib/utils/platform'
-import logger from '../../../../lib/logger/pino-logger'
+import logger from '../../../../lib/logger/js-logger'
 
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../../lib/utils/sizes'
 import { withStyles } from '../../../../lib/styles'
@@ -14,7 +14,7 @@ import IllustrationSVG from '../../../../assets/FRUnrecoverableError.svg'
 
 import { ExceptionType, isLicenseIssue } from '../utils/kindOfTheIssue'
 
-const log = logger.child({ from: 'FaceVerification' })
+const log = logger.get('FaceVerification')
 
 const UnrecoverableError = ({ styles, exception, nav }) => {
   const [, hideDialog, showErrorDialog] = useDialog()

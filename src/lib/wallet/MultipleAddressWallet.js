@@ -2,7 +2,7 @@
 import HDKey from 'hdkey'
 import bip39 from 'bip39-light'
 import conf from '../../config/config'
-import logger from '../logger/pino-logger'
+import logger from '../logger/js-logger'
 
 class MultipleAddressWallet {
   ready: Promise<Web3>

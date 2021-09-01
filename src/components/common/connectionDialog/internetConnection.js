@@ -13,9 +13,9 @@ import {
   // useConnectionWeb3,
 } from '../../../lib/hooks/hasConnectionChange'
 import { useDialog } from '../../../lib/undux/utils/dialog'
-import logger from '../../../lib/logger/pino-logger'
+import logger from '../../../lib/logger/js-logger'
 
-const log = logger.child({ from: 'InternetConnection' })
+const log = logger.get('InternetConnection')
 
 const InternetConnection = props => {
   const [showDialog, hideDialog] = useDialog()

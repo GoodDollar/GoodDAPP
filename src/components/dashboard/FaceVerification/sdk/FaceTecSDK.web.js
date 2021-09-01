@@ -1,6 +1,6 @@
 import { assign, get, isString } from 'lodash'
 
-import logger from '../../../../lib/logger/pino-logger'
+import logger from '../../../../lib/logger/js-logger'
 
 import FaceTec from '../../../../lib/facetec/FaceTecSDK'
 import { parseVerificationOptions } from '../utils/options'
@@ -204,4 +204,4 @@ export const FaceTecSDK = new class {
     exception.code = sdkStatus
     this.throwException(exception)
   }
-}(FaceTec.FaceTecSDK, logger.child({ from: 'FaceTecSDK.web' }))
+}(FaceTec.FaceTecSDK, logger.get('FaceTecSDK.web'))

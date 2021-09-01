@@ -11,11 +11,11 @@ import { CustomButton, Section, Text } from '../common'
 import MnemonicInput from '../signin/MnemonicInput'
 import userStorage from '../../lib/userStorage/UserStorage'
 import { backupMessage } from '../../lib/userStorage/UserStorageClass'
-import logger from '../../lib/logger/pino-logger'
+import logger from '../../lib/logger/js-logger'
 import { fireEvent, PHRASE_BACKUP } from '../../lib/analytics/analytics'
 import Wrapper from '../common/layout/Wrapper'
 
-const log = logger.child({ from: 'BackupWallet' })
+const log = logger.get('BackupWallet')
 const TITLE = 'Backup my wallet'
 
 type BackupWalletProps = {

@@ -1,9 +1,9 @@
 import React, { useCallback, useState } from 'react'
 
-// import logger from '../../../../lib/logger/pino-logger'
+// import logger from '../../../../lib/logger/js-logger'
 import SpinnerCheckMark from './SpinnerCheckMark'
 
-// const log = logger.child({ from: 'SpinnerCheckmark' })
+// const log = logger.get('SpinnerCheckmark')
 export default props => {
   const { loading, success, onFinish } = props
   const shouldPlay = loading || success

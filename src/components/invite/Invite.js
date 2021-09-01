@@ -176,8 +176,8 @@ const InputCodeBox = ({ navigateTo }) => {
     })
 
     try {
-      await goodWallet.joinInvites(code)
-      userStorage.userProperties.updateAll({ inviterInviteCodeUsed: true, inviterInviteCode: code })
+      await goodWallet.joinInvites(extractedCode)
+      userStorage.userProperties.updateAll({ inviterInviteCodeUsed: true, inviterInviteCode: extractedCode })
 
       const canCollect = await goodWallet.invitesContract.methods.canCollectBountyFor(goodWallet.account).call()
 
@@ -202,7 +202,7 @@ const InputCodeBox = ({ navigateTo }) => {
       log.warn('collectInviteBounty failed', e.message, e)
       hideDialog()
     }
-  }, [code, showDialog, hideDialog, setVisible, onUnableToCollect])
+  }, [extractedCode, showDialog, hideDialog, setVisible, onUnableToCollect])
 
   useEffect(() => {
     if (!visible || !inviteCodeUsed) {

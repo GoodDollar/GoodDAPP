@@ -224,7 +224,7 @@ class RealmDB implements DB, ProfileDB {
     }
 
     feedItem._id = feedItem.id
-    await this.Feed.save(feedItem)
+    await this.db.Feed.save(feedItem)
     this._encrypt(feedItem).catch(e => {
       log.error('failed saving feedItem to remote', e.message, e)
 

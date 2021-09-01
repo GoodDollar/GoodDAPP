@@ -810,10 +810,10 @@ export class FeedStorage {
   )
 
   getAllFeed() {
-    return this.storage.Feed.find().toArray()
+    return this.storage.db.Feed.find().toArray()
   }
 
   hasFeedItem(id) {
-    return this.storage.Feed.has(id)
+    return this.storage.db.Feed.has(id)
   }
 }

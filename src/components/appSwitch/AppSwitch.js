@@ -205,7 +205,7 @@ const AppSwitch = (props: LoadingProps) => {
     }
 
     if (ready && gdstore) {
-      userStorage.feedDB._syncFromRemote()
+      userStorage.db._syncFromRemote()
       userStorage.userProperties._syncFromRemote()
       showOutOfGasError(props)
     }

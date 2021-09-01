@@ -90,6 +90,8 @@ export class FeedStorage {
 
   feedQ: {} = {}
 
+  profilesCache = {}
+
   isEmitEvents = true
 
   db: ThreadDB
@@ -443,7 +445,6 @@ export class FeedStorage {
 
   async getCounterParty(feedEvent) {
     let addressField
-    const { Profiles } = this.db
 
     log.debug('updateFeedEventCounterParty:', feedEvent.data.receiptEvent, feedEvent.id, feedEvent.txType)
 
@@ -466,7 +467,7 @@ export class FeedStorage {
       return {}
     }
 
-    let profile = await Profiles.findById(address)
+    let profile = await this._readProfileCache(address)
     let { fullName, smallAvatar, lastUpdated } = profile || {}
     const lastUpdatedTs = new Date(lastUpdated).getTime()
 
@@ -485,7 +486,7 @@ export class FeedStorage {
       /** =================================================== */
 
       // cache, update last sync date
-      await Profiles.save({ _id: address, fullName, smallAvatar, lastUpdated: new Date().toISOString() })
+      await this._writeProfileCache({ address, fullName, smallAvatar })
     }
 
     return {
@@ -493,6 +494,30 @@ export class FeedStorage {
       counterPartyFullName: fullName,
       counterPartySmallAvatar: smallAvatar,
     }
+  }
+
+  async _readProfileCache(address) {
+    const { profilesCache } = this
+    let profile = profilesCache[address]
+
+    if (!profile) {
+      profile = await this.db.Profiles.findById(address)
+
+      if (profile) {
+        const { fullName, smallAvatar } = profile
+
+        profilesCache[address] = { fullName, smallAvatar }
+      }
+    }
+
+    return profile
+  }
+
+  async _writeProfileCache(profile) {
+    const { address, fullName, smallAvatar } = profile
+
+    this.profilesCache[address] = { fullName, smallAvatar }
+    await this.db.Profiles.save({ _id: address, fullName, smallAvatar, lastUpdated: new Date().toISOString() })
   }
 
   /**

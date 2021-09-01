@@ -104,6 +104,42 @@ class RealmDB implements DB, ProfileDB {
   }
 
   /**
+   * Helper to wait between retries
+   * @param millSeconds
+   * @returns {Promise<unknown>}
+   */
+  waitFor(millSeconds) {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve()
+      }, millSeconds)
+    })
+  }
+
+  /**
+   * Function for retry call
+   * @param callback - query
+   * @param nthTry -
+   * @param delay - delay time between retries
+   * @returns {Promise<unknown>}
+   */
+  async retry(callback, nthTry, delay) {
+    try {
+      const data = await callback()
+      log.debug(`Successfully retry a call, ${callback}`)
+      return data
+    } catch (e) {
+      if (nthTry === 1) {
+        log.error('Failed to retry a call', callback)
+        return Promise.reject(e)
+      }
+      log.debug(`Failed to retry a call, trying again, ${nthTry} time`)
+      await this.waitFor(delay)
+      return this.retry(callback, nthTry - 1, delay)
+    }
+  }
+
+  /**
    * helper for reconnecting to realmDB
    * @private
    */
@@ -115,6 +151,7 @@ class RealmDB implements DB, ProfileDB {
         log.debug('Successfully reconnect to realmDB')
       } catch (e) {
         log.error('there was an error with reconnecting', e)
+        await this.retry(() => this._initRealmDB(), 4, 2000)
       }
     }
   }
@@ -384,42 +421,6 @@ class RealmDB implements DB, ProfileDB {
     } catch (e) {
       log.warn('getFeedPage failed:', e.message, e)
       return []
-    }
-  }
-
-  /**
-   * Helper to wait between retries
-   * @param millSeconds
-   * @returns {Promise<unknown>}
-   */
-  waitFor(millSeconds) {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        resolve()
-      }, millSeconds)
-    })
-  }
-
-  /**
-   * Function for retry call
-   * @param callback - query
-   * @param nthTry -
-   * @param delay - delay time between retries
-   * @returns {Promise<unknown>}
-   */
-  async retry(callback, nthTry, delay) {
-    try {
-      const data = await callback()
-      log.debug(`Successfully retry a call, ${callback}`)
-      return data
-    } catch (e) {
-      if (nthTry === 1) {
-        log.error('Failed to retry a call', callback)
-        return Promise.reject(e)
-      }
-      log.debug(`Failed to retry a call, trying again, ${nthTry} time`)
-      await this.waitFor(delay)
-      return this.retry(callback, nthTry - 1, delay)
     }
   }
 

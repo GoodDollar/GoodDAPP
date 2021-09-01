@@ -10,6 +10,7 @@ import { updateFeedEventAvatar } from '../updates/utils'
 import Config from '../../config/config'
 import logger from '../../lib/logger/js-logger'
 import { UserStorage } from './UserStorageClass'
+import { asLogRecord } from './utlis'
 
 const log = logger.get('FeedStorage')
 const COMPLETED_BONUS_REASON_TEXT = 'Your recent earned rewards'
@@ -480,8 +481,6 @@ export class FeedStorage {
       profile = await this.userStorage.getPublicProfile(address)
       ;({ fullName, smallAvatar } = profile)
 
-      log.debug('getCounterParty: refetch profile', { profile })
-
       /** THIS CODE BLOCK MAY BE REMOVED AFTER SEPTEMBER 2021 */
       /** =================================================== */
       if (Config.ipfsLazyUpload && smallAvatar) {
@@ -490,6 +489,8 @@ export class FeedStorage {
       }
 
       /** =================================================== */
+
+      log.debug('getCounterParty: refetch profile', asLogRecord(profile))
 
       // cache, update last sync date
       await this._writeProfileCache({ address, fullName, smallAvatar })
@@ -516,14 +517,14 @@ export class FeedStorage {
       }
     }
 
-    log.debug('_readProfileCache', { profile })
+    log.debug('_readProfileCache', asLogRecord(profile))
     return profile
   }
 
   async _writeProfileCache(profile) {
     const { address, fullName, smallAvatar } = profile
 
-    log.debug('_writeProfileCache', { profile })
+    log.debug('_writeProfileCache', asLogRecord(profile))
     this.profilesCache[address] = { fullName, smallAvatar }
     await this.db.Profiles.save({ _id: address, fullName, smallAvatar, lastUpdated: new Date().toISOString() })
   }

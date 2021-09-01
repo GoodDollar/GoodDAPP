@@ -121,6 +121,10 @@ class RealmDB implements DB, ProfileDB {
     return this.database.collection('user_profiles')
   }
 
+  get mongoDatabase() {
+    return this.database
+  }
+
   get inboxes() {
     return this.database.collection('inboxes')
   }

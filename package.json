@@ -235,7 +235,7 @@
     "@svgr/webpack": "^5.3.0",
     "artillery": "^1.6.0-28",
     "auto-changelog": "^1.16.2",
-    "babel-jest": "^24",
+    "babel-jest": "^24.*",
     "babel-loader": "8.0.6",
     "babel-plugin-import": "^1.13.0",
     "babel-plugin-inline-dotenv": "^1.5.0",

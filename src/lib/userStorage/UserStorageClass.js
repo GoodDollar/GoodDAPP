@@ -1,6 +1,6 @@
 //@flow
 
-import { assign, get, isEqual, isString, keys, pick } from 'lodash'
+import { assign, get, isEqual, keys, memoize, pick } from 'lodash'
 
 import moment from 'moment'
 import Gun from '@gooddollar/gun'
@@ -209,11 +209,6 @@ export class UserStorage {
    */
   ready: Promise<boolean>
 
-  feedCache = {
-    byid: {},
-    byitem: new WeakMap(),
-  }
-
   database: DB
 
   db: ThreadDB
@@ -280,6 +275,7 @@ export class UserStorage {
     this.wallet = wallet
     this.database = database
     this.userProperties = userProperties
+    this._formatEvent.cache = new WeakMap()
     this.init()
   }
 
@@ -844,100 +840,82 @@ export class UserStorage {
    */
   // eslint-disable-next-line require-await
   async formatEvent(event: FeedEvent) {
-    return this._cacheFormattedEvent(event, async () => {
-      logger.debug('formatEvent: incoming event', event.id, { event })
+    try {
+      return await this._formatEvent(event)
+    } catch (e) {
+      logger.error('formatEvent: failed formatting event:', e.message, e, { event })
 
-      const { feedStorage } = this
-      const { data, type } = event
-      const { counterPartyFullName, counterPartySmallAvatar } = data
-
-      const counterPartyEvents = [
-        FeedItemType.EVENT_TYPE_SENDDIRECT,
-        FeedItemType.EVENT_TYPE_SEND,
-        FeedItemType.EVENT_TYPE_WITHDRAW,
-        FeedItemType.EVENT_TYPE_RECEIVE,
-      ]
-
-      if (counterPartyEvents.includes(type) && (!counterPartyFullName || !counterPartySmallAvatar)) {
-        const counterPartyData = await feedStorage.getCounterParty(event)
-
-        if (!isEqual(counterPartyData, pick(data, keys(counterPartyData)))) {
-          assign(data, counterPartyData)
-          feedStorage.updateFeedEvent(event)
-        }
-      }
-
-      const { date, id, status, createdDate, animationExecuted, action } = event
-      const { sender, preReasonText, reason, code: withdrawCode, subtitle, readMore, smallReadMore } = data
-      const { address, initiator, initiatorType, value, displayName, message, avatar } = this._extractData(event)
-
-      // displayType is used by FeedItem and ModalItem to decide on colors/icons etc of tx feed card
-      const displayType = this._extractDisplayType(event)
-
-      logger.debug('formatEvent: initiator data', event.id, {
-        initiatorType,
-        initiator,
-        address,
-      })
-
-      let updatedEvent = {
-        id,
-        date: new Date(date).getTime(),
-        type,
-        displayType,
-        status,
-        createdDate,
-        animationExecuted,
-        action,
-        data: {
-          receiptHash: get(event, 'data.receiptEvent.txHash'),
-          endpoint: {
-            address: sender,
-            displayName,
-            avatar,
-          },
-          amount: value,
-          preMessageText: preReasonText,
-          message: reason || message,
-          subtitle,
-          readMore,
-          smallReadMore,
-          withdrawCode,
-        },
-      }
-
-      logger.debug('formatEvent: updateEvent', { updatedEvent })
-      return updatedEvent
-    })
+      // do not cache if error
+      this._formatEvent.cache.delete(event)
+      return {}
+    }
   }
 
-  async _cacheFormattedEvent(feedEvent, callback) {
-    const { id } = feedEvent
-    const { byid, byitem } = this.feedCache
-    const cacheById = isString(id) && id.startsWith('0x')
-    let cachedEvent = cacheById ? byid[id] : byitem.get(feedEvent)
+  _formatEvent = memoize(async event => {
+    logger.debug('formatEvent: incoming event', event.id, { event })
 
-    if (!cachedEvent) {
-      try {
-        cachedEvent = await callback()
+    const { feedStorage } = this
+    const { data, type } = event
+    const { counterPartyFullName, counterPartySmallAvatar } = data
 
-        if (cacheById) {
-          byid[id] = cachedEvent
-        } else {
-          byitem.set(feedEvent, cachedEvent)
-        }
-      } catch (e) {
-        logger.error('formatEvent: failed formatting event:', e.message, e, {
-          event: feedEvent,
-        })
+    const counterPartyEvents = [
+      FeedItemType.EVENT_TYPE_SENDDIRECT,
+      FeedItemType.EVENT_TYPE_SEND,
+      FeedItemType.EVENT_TYPE_WITHDRAW,
+      FeedItemType.EVENT_TYPE_RECEIVE,
+    ]
 
-        // do not cache if error
-        return {}
+    if (counterPartyEvents.includes(type) && (!counterPartyFullName || !counterPartySmallAvatar)) {
+      const counterPartyData = await feedStorage.getCounterParty(event)
+
+      if (!isEqual(counterPartyData, pick(data, keys(counterPartyData)))) {
+        assign(data, counterPartyData)
+        feedStorage.updateFeedEvent(event)
       }
     }
 
-    return cachedEvent
-  }
+    const { date, id, status, createdDate, animationExecuted, action } = event
+    const { sender, preReasonText, reason, code: withdrawCode, subtitle, readMore, smallReadMore } = data
+    const { address, initiator, initiatorType, value, displayName, message, avatar } = this._extractData(event)
+
+    // displayType is used by FeedItem and ModalItem to decide on colors/icons etc of tx feed card
+    const displayType = this._extractDisplayType(event)
+
+    logger.debug('formatEvent: initiator data', event.id, {
+      initiatorType,
+      initiator,
+      address,
+    })
+
+    let updatedEvent = {
+      id,
+      date: new Date(date).getTime(),
+      type,
+      displayType,
+      status,
+      createdDate,
+      animationExecuted,
+      action,
+      data: {
+        receiptHash: get(event, 'data.receiptEvent.txHash'),
+        endpoint: {
+          address: sender,
+          displayName,
+          avatar,
+        },
+        amount: value,
+        preMessageText: preReasonText,
+        message: reason || message,
+        subtitle,
+        readMore,
+        smallReadMore,
+        withdrawCode,
+      },
+    }
+
+    logger.debug('formatEvent: updateEvent', { updatedEvent })
+    return updatedEvent
+  })
 
   _extractData({
     type,

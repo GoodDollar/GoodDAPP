@@ -595,7 +595,7 @@ class RealmDB implements DB, ProfileDB {
     const inboxes = await this.inboxes
     const query = () => inboxes.insertOne({ user_id: this.user.id, recipientPublicKey, txHash, encrypted })
     try {
-      const result = await query
+      const result = await query()
       log.debug(`Successfully inserted item with _id: ${result.insertedId}`)
       return result
     } catch (e) {
@@ -613,7 +613,7 @@ class RealmDB implements DB, ProfileDB {
   async getFromOutbox(recipientPublicKey: string, txHash: string): Promise<TransactionDetails> {
     try {
       const inboxes = await this.inboxes
-      const result = inboxes.findOne({ txHash, recipientPublicKey })
+      const result = await inboxes.findOne({ txHash, recipientPublicKey })
       if (result) {
         log.debug(`Successfully found document: ${result}.`)
       } else {

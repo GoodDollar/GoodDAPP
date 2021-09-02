@@ -1087,37 +1087,41 @@ export class GoodWallet {
 
   async hasJoinedInvites() {
     const user = await this.invitesContract.methods.users(this.account).call()
-    return [parseInt(user.joinedAt) > 0, user.invitedBy]
+    return [parseInt(user.joinedAt) > 0, user.invitedBy, user.inviteCode]
   }
 
   async joinInvites(inviter, codeLength = 10) {
-    let myCode = bs58.encode(Buffer.from(this.account.slice(2), 'hex')).slice(0, codeLength)
-    const registered = await this.invitesContract.methods.codeToUser(this.wallet.utils.fromAscii(myCode)).call()
+    const [hasJoined, invitedBy, inviteCode] = await this.hasJoinedInvites()
 
-    log.debug('joinInvites:', { inviter, myCode, codeLength, registered })
+    let myCode = hasJoined
+      ? inviteCode
+      : this.wallet.utils.fromUtf8(bs58.encode(Buffer.from(this.account.slice(2), 'hex')).slice(0, codeLength))
 
-    //not registered
-    if (registered.search(/^0x0+$/) >= 0) {
+    //check under which account invitecode is registered, maybe we have a collission
+    const registered = !hasJoined && (await this.invitesContract.methods.codeToUser(myCode).call())
+    log.debug('joinInvites:', { inviter, myCode, codeLength, hasJoined, invitedBy, inviteCode })
+
+    //code collision
+    if (hasJoined === false && registered !== this.account && registered !== NULL_ADDRESS) {
+      log.warn('joinInvites code collision:', { inviter, myCode, codeLength, registered })
+      return this.joinInvites(inviter, codeLength + 1)
+    }
+
+    //not registered or not marked inviter
+    if (!hasJoined || (inviter && invitedBy === NULL_ADDRESS)) {
       const tx = this.invitesContract.methods.join(
-        this.wallet.utils.fromAscii(myCode),
-        (inviter && this.wallet.utils.fromAscii(inviter)) || '0x0'.padEnd(66, 0),
+        myCode,
+        (inviter && this.wallet.utils.fromUtf8(inviter)) || '0x0'.padEnd(66, 0),
       )
-      log.debug('joinInvites registering:', { inviter, myCode, codeLength, registered })
+      log.debug('joinInvites registering:', { inviter, myCode, inviteCode, hasJoined, codeLength, registered })
       await this.sendTransaction(tx).catch(e => {
         log.error('joinInvites failed:', e.message, e, { inviter, myCode, codeLength, registered })
         throw e
       })
-      return myCode
     }
 
     //already registered
-    if (registered === this.account) {
-      return myCode
-    }
-
-    //code collission
-    log.warn('joinInvites code collision:', { inviter, myCode, codeLength, registered })
-    return this.joinInvites(inviter, codeLength + 1)
+    return this.wallet.utils.toUtf8(myCode)
   }
 
   async getUserInviteBounty() {

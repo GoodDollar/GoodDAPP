@@ -1,37 +1,19 @@
 import React from 'react'
-import { View } from 'react-native'
 import { noop } from 'lodash'
 
-import Icon from '../common/view/Icon'
 import ExplanationDialog from '../common/dialogs/ExplanationDialog'
 
 import { withStyles } from '../../lib/styles'
 
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
-
-const mapImageStylesToProps = ({ theme }) => ({
-  imageWrapper: {
-    display: 'flex',
-    alignItems: 'center',
-    transform: [{ rotate: '180deg' }],
-  },
-  image: {
-    color: theme.colors.primary,
-  },
-})
-
-const WarningImage = withStyles(mapImageStylesToProps)(({ styles, ...imageProps }) => (
-  <View style={styles.imageWrapper}>
-    <Icon name="system-filled" size={100} style={styles.image} />
-  </View>
-))
+import { InfoIcon } from '../common/modal/InfoIcon'
 
 const ExportWarningPopup = ({ styles, onDismiss = noop, ...dialogProps }) => (
   <ExplanationDialog
     {...dialogProps}
     title={`Do Not Send Tokens\nFrom Ethereum Network\nTo This Address`}
     text={`Keep in mind - This is an internal\nnetwork address for G$ tokens only.`}
-    image={WarningImage}
+    image={InfoIcon}
     titleStyle={styles.title}
     textStyle={styles.text}
     containerStyle={styles.container}

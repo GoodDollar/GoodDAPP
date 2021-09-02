@@ -216,7 +216,6 @@ const Dashboard = props => {
         getFeedPage(true)
       },
       300,
-      { leading: false },
       { leading: false }, //this delay seems to solve error from dexie about indexeddb transaction
     ),
     [getFeedPage],
@@ -317,15 +316,16 @@ const Dashboard = props => {
     [setUpdate],
   )
 
+  // const nextFeed = x => console.log('end reached', { x })
   const nextFeed = useCallback(
     debounce(
-      () => {
-        if (feedRef.current.length > 0) {
-          log.debug('getNextFeed called')
+      ({ distanceFromEnd }) => {
+        if (distanceFromEnd > 0 && feedRef.current.length > 0) {
+          log.debug('getNextFeed called', feedRef.current.length, { distanceFromEnd })
           return getFeedPage()
         }
       },
-      300,
+      100,
       { leading: false }, //this delay seems to solve error from dexie about indexeddb transaction
     ),
     [getFeedPage],
@@ -663,11 +663,11 @@ const Dashboard = props => {
       <FeedList
         data={feedRef.current}
         handleFeedSelection={handleFeedSelection}
-        initialNumToRender={PAGE_SIZE}
+        initialNumToRender={10}
         onEndReached={nextFeed} // How far from the end the bottom edge of the list must be from the end of the content to trigger the onEndReached callback.
         // we can use decimal (from 0 to 1) or integer numbers. Integer - it is a pixels from the end. Decimal it is the percentage from the end
-        onEndReachedThreshold={5}
-        windowSize={20} // Determines the maximum number of items rendered outside of the visible area
+        onEndReachedThreshold={0.8}
+        windowSize={10} // Determines the maximum number of items rendered outside of the visible area
         onScrollEnd={handleScrollEnd}
         onScroll={onScroll}
         headerLarge={headerLarge}

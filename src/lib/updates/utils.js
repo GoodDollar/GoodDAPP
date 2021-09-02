@@ -1,11 +1,13 @@
 import { debounce, isString } from 'lodash'
 
-import IPFS from '../ipfs/IpfsStorage'
 import { isValidCID } from '../ipfs/utils'
 import { isValidDataUrl } from '../utils/base64'
+
 import userStorage from '../userStorage/UserStorage'
 
 export const analyzeAvatar = async avatar => {
+  const { userAssets } = userStorage
+
   if (!isString(avatar)) {
     return { shouldUnset: true }
   }
@@ -19,10 +21,7 @@ export const analyzeAvatar = async avatar => {
       throw new Error('Not a valid CID')
     }
 
-    const { dataUrl, binary } = await IPFS.load(avatar, {
-      skipCache: true,
-      withFormat: true,
-    })
+    const { dataUrl, binary } = await userAssets.load(avatar, true)
 
     if (!binary) {
       return { dataUrl, shouldUpload: true }
@@ -35,12 +34,13 @@ export const analyzeAvatar = async avatar => {
 }
 
 export const updateFeedEventAvatar = async avatar => {
+  const { userAssets } = userStorage
   const { shouldUpload, shouldUnset, dataUrl } = await analyzeAvatar(avatar)
 
   if (shouldUnset) {
     return null
   } else if (shouldUpload) {
-    return IPFS.store(dataUrl)
+    return userAssets.store(dataUrl)
   }
 
   return avatar

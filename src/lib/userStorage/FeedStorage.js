@@ -1,6 +1,7 @@
 // @flow
-import { assign, debounce, find, get, has, isEqual, isUndefined, orderBy, pick, set } from 'lodash'
+import { debounce, find, get, has, isEqual, isUndefined, orderBy, pick, set } from 'lodash'
 import EventEmitter from 'eventemitter3'
+import moment from 'moment'
 
 import * as TextileCrypto from '@textile/crypto'
 import delUndefValNested from '../utils/delUndefValNested'
@@ -8,9 +9,10 @@ import { updateFeedEventAvatar } from '../updates/utils'
 
 import Config from '../../config/config'
 import logger from '../../lib/logger/pino-logger'
+import { UserStorage } from './UserStorageClass'
+import { asLogRecord } from './utlis'
 
 const log = logger.child({ from: 'FeedStorage' })
-
 const COMPLETED_BONUS_REASON_TEXT = 'Your recent earned rewards'
 const NULL_ADDRESS = '0x0000000000000000000000000000000000000000'
 
@@ -90,18 +92,26 @@ export class FeedStorage {
 
   feedQ: {} = {}
 
+  profilesCache = {}
+
   isEmitEvents = true
 
-  //threaddb instance
-  feedDB
+  db: ThreadDB
 
-  constructor(storage, gun, wallet, userStorage) {
+  userStorage: UserStorage
+
+  constructor(userStorage: UserStorage) {
+    const { gun, wallet, db, database } = userStorage
+
+    this.db = db
     this.gun = gun
     this.wallet = wallet
-    this.storage = storage
+    this.storage = database
     this.userStorage = userStorage
     this.walletAddress = wallet.account.toLowerCase()
+
     log.debug('initialized', { wallet: this.walletAddress })
+
     this.ready = new Promise((resolve, reject) => {
       this.setReady = resolve
     })
@@ -122,9 +132,6 @@ export class FeedStorage {
     this.storage.on(data => this.emitUpdate(data))
     this.feedInitialized = true
     this.setReady()
-
-    //TODO:remove
-    global.feeddb = this.storage
   }
 
   get gunuser() {
@@ -414,24 +421,20 @@ export class FeedStorage {
         updatedFeedEvent,
       })
 
+      const [counterPartyData, txData] = await Promise.all([
+        this.getCounterParty(updatedFeedEvent),
+        this.getFromOutbox(updatedFeedEvent),
+      ])
+
+      log.debug('handleReceiptUpdate got counterparty and outbox', receipt.transactionHash, {
+        counterPartyData,
+        txData,
+      })
+      updatedFeedEvent.fetchedOutbox = true
+      updatedFeedEvent.data = { ...updatedFeedEvent.data, ...txData, ...counterPartyData }
+
       if (isEqual(feedEvent, updatedFeedEvent) === false) {
-        await this.updateFeedEvent(updatedFeedEvent, feedEvent.date)
-      }
-
-      log.debug('handleReceiptUpdate saving... done', receipt.transactionHash)
-      this.updateFeedEventCounterParty(updatedFeedEvent)
-
-      if (txType === TxType.TX_RECEIVE_GD) {
-        // if outbox data missing from event
-        if (
-          !has(updatedFeedEvent, 'data.reason') ||
-          !has(updatedFeedEvent, 'data.category') ||
-          !has(updatedFeedEvent, 'data.amount')
-        ) {
-          // check if sender left encrypted tx details for us, this will
-          // update source event once data received/decrypted via onDecrypt
-          await this.getFromOutbox(updatedFeedEvent)
-        }
+        await this.updateFeedEvent(updatedFeedEvent)
       }
 
       log.debug('handleReceiptUpdate done, returning updatedFeedEvent', receipt.transactionHash, { updatedFeedEvent })
@@ -444,16 +447,39 @@ export class FeedStorage {
     return
   }
 
-  updateFeedEventCounterParty(feedEvent) {
-    const getCounterParty = async address => {
-      if (!address) {
-        return
-      }
-      let { fullName, smallAvatar } = await this.userStorage.getPublicProfile(address)
+  async getCounterParty(feedEvent) {
+    let addressField
 
-      if (!(fullName || smallAvatar)) {
-        return
-      }
+    log.debug('getCounterParty:', feedEvent.data.receiptEvent, feedEvent.id, feedEvent.txType)
+
+    switch (feedEvent.type) {
+      case FeedItemType.EVENT_TYPE_SENDDIRECT:
+      case FeedItemType.EVENT_TYPE_SEND:
+        addressField = 'to'
+        break
+      case FeedItemType.EVENT_TYPE_WITHDRAW:
+      case FeedItemType.EVENT_TYPE_RECEIVE:
+        addressField = 'from'
+        break
+      default:
+        break
+    }
+
+    const address = get(feedEvent, `data.receiptEvent.${addressField}`)
+
+    if (!addressField || !address) {
+      return {}
+    }
+
+    let profile = await this._readProfileCache(address)
+    let { fullName, smallAvatar, lastUpdated } = profile || {}
+
+    // if not cached OR non-complete profile and ttl spent
+    if (!profile || ((!fullName || !smallAvatar) && moment().diff(moment(lastUpdated)) > Config.feedItemTtl)) {
+      // fetch (or re-fetch) from RealmDB
+
+      profile = await this.userStorage.getPublicProfile(address)
+      ;({ fullName, smallAvatar } = profile)
 
       /** THIS CODE BLOCK MAY BE REMOVED AFTER SEPTEMBER 2021 */
       /** =================================================== */
@@ -464,29 +490,43 @@ export class FeedStorage {
 
       /** =================================================== */
 
-      assign(feedEvent.data, {
-        counterPartyAddress: address,
-        counterPartyFullName: fullName,
-        counterPartySmallAvatar: smallAvatar,
-      })
+      log.debug('getCounterParty: refetch profile', asLogRecord(profile))
 
-      await this.updateFeedEvent(feedEvent)
+      // cache, update last sync date
+      await this._writeProfileCache({ address, fullName, smallAvatar })
     }
 
-    log.debug('updateFeedEventCounterParty:', feedEvent.data.receiptEvent, feedEvent.id, feedEvent.txType)
-
-    switch (feedEvent.type) {
-      case FeedItemType.EVENT_TYPE_SENDDIRECT:
-      case FeedItemType.EVENT_TYPE_SEND:
-        getCounterParty(get(feedEvent, 'data.receiptEvent.to'), feedEvent)
-        break
-      case FeedItemType.EVENT_TYPE_WITHDRAW:
-      case FeedItemType.EVENT_TYPE_RECEIVE:
-        getCounterParty(get(feedEvent, 'data.receiptEvent.from'), feedEvent)
-        break
-      default:
-        break
+    return {
+      counterPartyAddress: address,
+      counterPartyFullName: fullName,
+      counterPartySmallAvatar: smallAvatar,
     }
+  }
+
+  async _readProfileCache(address) {
+    const { profilesCache } = this
+    let profile = profilesCache[address]
+
+    if (!profile) {
+      profile = await this.db.Profiles.findById(address)
+
+      if (profile) {
+        const { fullName, smallAvatar } = profile
+
+        profilesCache[address] = { fullName, smallAvatar }
+      }
+    }
+
+    log.debug('_readProfileCache', asLogRecord(profile))
+    return profile
+  }
+
+  async _writeProfileCache(profile) {
+    const { address, fullName, smallAvatar } = profile
+
+    log.debug('_writeProfileCache', asLogRecord(profile))
+    this.profilesCache[address] = { fullName, smallAvatar }
+    await this.db.Profiles.save({ _id: address, fullName, smallAvatar, lastUpdated: new Date().toISOString() })
   }
 
   /**
@@ -557,7 +597,7 @@ export class FeedStorage {
    * @returns {Promise} Promise with updated feed
    */
   // eslint-disable-next-line require-await
-  async updateFeedEvent(event: FeedEvent, previouseventDate: string | void): Promise<FeedEvent> {
+  async updateFeedEvent(event: FeedEvent): Promise<FeedEvent> {
     log.debug('updateFeedEvent:', event.id, { event })
 
     const eventAck = this.writeFeedEvent(event).catch(e => {
@@ -620,28 +660,6 @@ export class FeedStorage {
       .then(_ => feedEvent)
       .catch(e => {
         log.error('updateEventStatus failedEncrypt byId:', e.message, e, {
-          feedEvent,
-        })
-
-        return {}
-      })
-  }
-
-  /**
-   * Sets the feed animation status
-   * @param {string} eventId
-   * @param {boolean} status
-   * @returns {Promise<FeedEvent>}
-   */
-  async updateFeedAnimationStatus(eventId: string, status = true): Promise<FeedEvent> {
-    const feedEvent = await this.getFeedItemByTransactionHash(eventId)
-
-    feedEvent.animationExecuted = status
-
-    return this.writeFeedEvent(feedEvent)
-      .then(_ => feedEvent)
-      .catch(e => {
-        log.error('updateFeedAnimationStatus by ID failed:', e.message, e, {
           feedEvent,
         })
 
@@ -756,7 +774,7 @@ export class FeedStorage {
       const encoded = new TextEncoder().encode(JSON.stringify(data))
       const encrypted = await pubKey.encrypt(encoded).then(_ => Buffer.from(_).toString('base64'))
 
-      log.debug('addToOutbox data', { txHash: event.id, recipientPubkey, encrypted })
+      log.debug('addToOutbox data', { data, txHash: event.id, recipientPubkey, encrypted })
 
       await this.storage.addToOutbox(recipientPubkey, event.id, encrypted)
     } else {
@@ -770,20 +788,21 @@ export class FeedStorage {
    * @param {*} event
    */
   async getFromOutbox(event: FeedEvent) {
+    // if outbox data missing from event
+    if (
+      event.txType !== TxType.TX_RECEIVE_GD ||
+      has(event, 'fetchedOutbox') ||
+      has(event, 'data.category') ||
+      has(event, 'data.reason')
+    ) {
+      return {}
+    }
+
     const recipientPublicKey = this.userStorage.profilePrivateKey.public.toString()
     const txData = await this.storage.getFromOutbox(recipientPublicKey, event.id)
 
     log.debug('getFromOutbox saved data', txData)
-
-    const updatedEventData = {
-      ...event,
-      data: { ...event.data, ...(txData || {}) },
-    }
-
-    log.debug('getFromOutbox updated event', updatedEventData)
-    await this.updateFeedEvent(updatedEventData)
-
-    return txData
+    return txData || {}
   }
 
   emitUpdate = debounce(
@@ -798,10 +817,10 @@ export class FeedStorage {
   )
 
   getAllFeed() {
-    return this.storage.Feed.find().toArray()
+    return this.db.Feed.find().toArray()
   }
 
   hasFeedItem(id) {
-    return this.storage.Feed.has(id)
+    return this.db.Feed.has(id)
   }
 }

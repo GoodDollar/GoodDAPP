@@ -110,19 +110,13 @@ class RealmDB implements DB, ProfileDB {
     this.user = user
   }
 
-  async _ensureRealmDBConnected() {
+  async _realmQuery(callback) {
     const { app, user } = this
 
-    if (user && user === app.currentUser && user.state === 'active') {
-      return
-    }
-
-    await this._connectRealmDB()
-  }
-
-  async _realmQuery(callback) {
     try {
-      await this._ensureRealmDBConnected()
+      if (!user || user !== app.currentUser || user.state !== 'active') {
+        await this._connectRealmDB()
+      }
 
       return await _retry(callback)
     } catch (e) {

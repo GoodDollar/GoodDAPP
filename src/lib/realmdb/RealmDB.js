@@ -103,8 +103,7 @@ class RealmDB implements DB, ProfileDB {
   }
 
   async _connectRealmDB() {
-    const { app } = this
-    const user = await _retry(() => app.logIn(this.credentials))
+    const user = await _retry(() => this.app.logIn(this.credentials))
 
     // Authenticate the user
     log.debug('realm logged in', { user })

@@ -25,7 +25,7 @@ import logger from '../../../lib/logger/js-logger'
 import { LoginButton } from './LoginButton'
 import Recaptcha from './Recaptcha'
 
-const log = logger.get('SignUpScreen')
+const log = logger.child({ from: 'SignUpScreen' })
 
 const SignupScreen = ({ isSignup, screenProps, styles, handleLoginMethod, sdkInitialized, goBack }) => {
   const { push } = screenProps

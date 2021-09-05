@@ -17,7 +17,7 @@ import Config from '../../config/config'
 import CustomWrapper from './signUpWrapper'
 import type { SignupState } from './SignupState'
 
-const log = logger.get('SmsForm')
+const log = logger.child({ from: 'SmsForm' })
 const { smsRateLimit } = Config
 
 type Props = {

@@ -14,7 +14,7 @@ import usePermissions from '../../permissions/hooks/usePermissions'
 import logger from '../../../lib/logger/js-logger'
 import { Permissions } from '../../permissions/types'
 
-const log = logger.get('InputRecipient')
+const log = logger.child({ from: 'InputRecipient' })
 
 /**
  * TopBar - used To display contextual information in a small container

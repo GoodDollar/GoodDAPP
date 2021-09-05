@@ -3,7 +3,7 @@ import { Collection, Database } from '@textile/threaddb'
 import * as TextileCrypto from '@textile/crypto'
 
 import { assign } from 'lodash'
-import logger from '../logger/pino-logger'
+import logger from '../logger/js-logger'
 import { FeedItemIndexes, FeedItemSchema } from './feedSchema'
 import { AssetsSchema } from './assetsSchema'
 import { ProfilesSchema } from './profilesSchema'

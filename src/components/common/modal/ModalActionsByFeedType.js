@@ -24,7 +24,7 @@ import config from '../../../config/config'
 import { generateSendShareObject, generateShareLink, isSharingAvailable } from '../../../lib/share'
 import useProfile from '../../../lib/userStorage/useProfile'
 
-const log = logger.get('ModalActionsByFeed')
+const log = logger.child({ from: 'ModalActionsByFeed' })
 
 const ModalButton = ({ children, ...props }) => (
   <CustomButton mode="contained" style={{ minWidth: 96 }} {...props}>

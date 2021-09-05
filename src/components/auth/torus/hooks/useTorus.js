@@ -7,7 +7,7 @@ import TorusSDK from '../sdk/TorusSDK'
 import logger from '../../../../lib/logger/js-logger'
 import useSDKOptions from './useSDKOptions'
 
-const log = logger.get('AuthTorus')
+const log = logger.child({ from: 'AuthTorus' })
 
 export default (onInitialized = noop) => {
   const [sdk, setSDK] = useState()

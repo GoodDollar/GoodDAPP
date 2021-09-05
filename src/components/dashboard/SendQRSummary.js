@@ -20,7 +20,7 @@ export type AmountProps = {
   navigation: any,
 }
 
-const log = logger.get('SendQRSummary')
+const log = logger.child({ from: 'SendQRSummary' })
 
 /**
  * Screen that shows transaction summary for a send qr action

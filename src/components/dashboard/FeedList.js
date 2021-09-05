@@ -18,7 +18,7 @@ import FeedListItem from './FeedItems/FeedListItem'
 import FeedActions from './FeedActions'
 import { keyExtractor, useFeeds, VIEWABILITY_CONFIG } from './utils/feed'
 
-const log = logger.get('ShareButton')
+const log = logger.child({ from: 'ShareButton' })
 
 const AnimatedSwipeableFlatList = Animated.createAnimatedComponent(SwipeableFlatList)
 

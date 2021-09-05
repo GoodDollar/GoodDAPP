@@ -3,7 +3,7 @@ import API from '../API/api'
 import logger from '../logger/js-logger'
 import { delay } from '../utils/async'
 
-const log = logger.get('useAPIConnection')
+const log = logger.child({ from: 'useAPIConnection' })
 
 export default () => {
   const [isConnection, setIsConnection] = useState(false)

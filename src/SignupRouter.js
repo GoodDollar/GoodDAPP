@@ -12,7 +12,7 @@ import Blurred from './components/common/view/Blurred'
 import Welcome from './components/auth/login/WelcomeScreen'
 import InviteWelcome from './components/inviteWelcome/InviteWelcome'
 
-const log = logger.get('SignupRouter')
+const log = logger.child({ from: 'SignupRouter' })
 
 const generateRouter = () => {
   const initialRouteName = 'InviteWelcome'

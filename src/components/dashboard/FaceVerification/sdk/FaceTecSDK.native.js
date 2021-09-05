@@ -61,4 +61,4 @@ export const FaceTecSDK = new class {
       over(subscriptions)()
     }
   }
-}(Config, FaceTec.sdk, logger.get('FaceTecSDK.native')) // eslint-disable-line
+}(Config, FaceTec.sdk, logger.child({ from: 'FaceTecSDK.native' })) // eslint-disable-line

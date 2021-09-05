@@ -6,7 +6,7 @@ import SimpleStore from '../undux/SimpleStore'
 let isFirstCheckWeb3 = false
 let needToBindEventsWeb3 = true
 
-const log = logger.get('useHasConnectionWeb3')
+const log = logger.child({ from: 'useHasConnectionWeb3' })
 
 export default () => {
   const [isConnection, setIsConnection] = useState(true)

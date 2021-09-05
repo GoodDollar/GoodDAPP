@@ -16,7 +16,7 @@ import useProfile from '../../lib/userStorage/useProfile'
 import ProfileDataTable from './ProfileDataTable'
 
 const TITLE = 'Edit Profile'
-const log = logger.get(TITLE)
+const log = logger.child({ from: TITLE })
 const avatarSize = getDesignRelativeWidth(136)
 
 const EditProfile = ({ screenProps, styles }) => {

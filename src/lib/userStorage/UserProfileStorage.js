@@ -9,7 +9,7 @@ import { getUserModel } from './UserModel'
 import { cleanHashedFieldForIndex, maskField } from './utlis'
 import type { FieldPrivacy, Profile } from './UserStorageClass'
 
-const logger = log.get('UserProfileStorage')
+const logger = log.child({ from: 'UserProfileStorage' })
 
 export interface ProfileDB {
   setProfile(profile: Profile): Promise<void>;

@@ -3,7 +3,7 @@ import { FetchResult } from '@react-native-community/push-notification-ios'
 import AsyncStorage from './lib/utils/asyncStorage'
 import logger from './lib/logger/js-logger'
 
-const log = logger.get('pushNotifications')
+const log = logger.child({ from: 'pushNotifications' })
 
 const setFeedOpened = async data => {
   await AsyncStorage.setItem('GD_NOTIFICATION_OPENED', data.id)

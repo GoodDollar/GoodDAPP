@@ -19,7 +19,7 @@ import useProfile from '../../lib/userStorage/useProfile'
 import { ACTION_SEND, ACTION_SEND_TO_ADDRESS, SEND_TITLE } from './utils/sendReceiveFlow'
 import SummaryGeneric from './SendReceive/SummaryGeneric'
 
-const log = logger.get('SendLinkSummary')
+const log = logger.child({ from: 'SendLinkSummary' })
 
 export type AmountProps = {
   screenProps: any,

@@ -14,7 +14,7 @@ import { useErrorDialog } from '../../lib/undux/utils/dialog'
 import userStorage from '../../lib/userStorage/UserStorage'
 import useProfile from '../../lib/userStorage/useProfile'
 
-const log = logger.get('Verify edit profile field')
+const log = logger.child({ from: 'Verify edit profile field' })
 
 const EditProfile = ({ screenProps, theme, styles, navigation }) => {
   const [loading, setLoading] = useState(false)

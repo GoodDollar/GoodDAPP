@@ -29,7 +29,7 @@ import defaultGun from './gundb'
 import UserProperties from './UserPropertiesClass'
 import { FeedEvent, FeedItemType, FeedStorage, TxStatus } from './FeedStorage'
 
-const logger = pino.get('GunUserStorage')
+const logger = pino.child({ from: 'GunUserStorage' })
 
 const NULL_ADDRESS = '0x0000000000000000000000000000000000000000'
 

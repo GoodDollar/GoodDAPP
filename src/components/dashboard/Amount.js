@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
   },
 })
 
-const log = logger.get('Amount')
+const log = logger.child({ from: 'Amount' })
 
 const Amount = (props: AmountProps) => {
   const { screenProps } = props

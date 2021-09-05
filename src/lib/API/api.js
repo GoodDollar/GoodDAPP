@@ -14,7 +14,7 @@ import type { NameRecord } from '../../components/signup/NameForm'
 import type { EmailRecord } from '../../components/signup/EmailForm'
 import type { MobileRecord } from '../../components/signup/PhoneForm'
 
-const log = logger.get('API')
+const log = logger.child({ from: 'API' })
 
 export type Credentials = {
   signature?: string, //signed with address used to login to the system

@@ -10,7 +10,7 @@ import logger from '../logger/js-logger'
 import type { WalletConfig } from './WalletFactory'
 import MultipleAddressWallet from './MultipleAddressWallet'
 
-const log = logger.get('SoftwareWalletProvider')
+const log = logger.child({ from: 'SoftwareWalletProvider' })
 
 /**
  * save mnemonics (secret phrase) to user device

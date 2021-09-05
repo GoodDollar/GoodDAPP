@@ -90,7 +90,7 @@ export class AnalyticsClass {
     const { fireEvent, loggerApi } = this
     const debouncedFireEvent = debounce(fireEvent, 500, { leading: true })
 
-    loggerApi.on(loggerApi.ERROR.name, args => this.onErrorLogged(debouncedFireEvent, args))
+    loggerApi.on(loggerApi.ERROR.name, (...args) => this.onErrorLogged(debouncedFireEvent, args))
   }
 
   identifyWith = (email, identifier = null) => {

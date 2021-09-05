@@ -5,7 +5,7 @@ import { bindKey } from 'lodash'
 
 import logger from '../../lib/logger/js-logger'
 
-const log = logger.get('Clipboard')
+const log = logger.child({ from: 'Clipboard' })
 const readText = bindKey(navigator.clipboard, 'readText')
 
 export default new class {

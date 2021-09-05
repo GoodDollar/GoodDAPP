@@ -23,7 +23,7 @@ import {
   FV_ZOOMFAILED,
 } from '../../../../lib/analytics/analytics'
 
-const log = logger.get('FaceVerification')
+const log = logger.child({ from: 'FaceVerification' })
 
 const FaceVerification = ({ screenProps }) => {
   const [setIsCitizen] = useCurriedSetters(['isLoggedInCitizen'])

@@ -10,7 +10,7 @@ import ImageCropper from '../common/form/ImageCropper'
 import useAvatar from '../../lib/hooks/useAvatar'
 import useProfile from '../../lib/userStorage/useProfile'
 
-const log = logger.get('EditAvatar')
+const log = logger.child({ from: 'EditAvatar' })
 
 const TITLE = 'Edit Avatar'
 

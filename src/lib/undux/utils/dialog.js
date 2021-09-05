@@ -6,7 +6,7 @@ import { type DialogProps } from '../../../components/common/dialogs/CustomDialo
 import pino from '../../logger/js-logger'
 import { fireEvent } from '../../analytics/analytics'
 import { GlobalTogglesContext } from '../../contexts/togglesContext'
-const log = pino.get('dialogs')
+const log = pino.child({ from: 'dialogs' })
 
 export const showDialogForError = (
   store: Store,

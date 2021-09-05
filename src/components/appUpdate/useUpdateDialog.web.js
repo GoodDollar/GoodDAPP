@@ -6,7 +6,7 @@ import Config from '../../config/config'
 import logger from '../../lib/logger/js-logger'
 import useShowUpdateDialog from './UpdateDialog'
 
-const log = logger.get('useUpdateDialog')
+const log = logger.child({ from: 'useUpdateDialog' })
 
 export default () => {
   const updateDialogRef = useShowUpdateDialog()

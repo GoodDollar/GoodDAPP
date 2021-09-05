@@ -22,7 +22,7 @@ const networks = conf.ethereum
 const network = conf.network
 const networkId = ContractsAddress[network].networkId
 conf.ethNetwork = networks[networkId]
-const log = logger.get('AdminWallet')
+const log = logger.child({ from: 'AdminWallet' })
 
 const defaultGasPrice = web3Utils.toWei('1', 'gwei')
 const adminMinBalance = 100000

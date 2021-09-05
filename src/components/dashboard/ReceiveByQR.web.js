@@ -25,7 +25,7 @@ import QRCameraPermissionDialog from './SendRecieveQRCameraPermissionDialog'
 
 const QR_DEFAULT_DELAY = 300
 
-const log = logger.get('ReceiveByQR.web')
+const log = logger.child({ from: 'ReceiveByQR.web' })
 
 const ReceiveByQR = ({ screenProps }) => {
   const [qrDelay, setQRDelay] = useState(QR_DEFAULT_DELAY)

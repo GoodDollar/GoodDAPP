@@ -202,4 +202,4 @@ class FaceVerificationApi {
   }
 }
 
-export default new FaceVerificationApi(Config, API, logger.get('FaceVerificationApi'))
+export default new FaceVerificationApi(Config, API, logger.child({ from: 'FaceVerificationApi' }))

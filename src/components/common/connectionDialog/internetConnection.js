@@ -15,7 +15,7 @@ import {
 import { useDialog } from '../../../lib/undux/utils/dialog'
 import logger from '../../../lib/logger/js-logger'
 
-const log = logger.get('InternetConnection')
+const log = logger.child({ from: 'InternetConnection' })
 
 const InternetConnection = props => {
   const [showDialog, hideDialog] = useDialog()

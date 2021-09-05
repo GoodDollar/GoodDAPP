@@ -8,7 +8,7 @@ import logger from '../logger/js-logger'
 import SimpleStore from '../undux/SimpleStore'
 import useAppState from './useAppState'
 
-const log = logger.get('hasConnectionChange')
+const log = logger.child({ from: 'hasConnectionChange' })
 
 export const useConnection = () => {
   const { isConnected = true } = useNetInfo() || {}

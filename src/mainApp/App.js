@@ -22,7 +22,7 @@ import logger from '../lib/logger/js-logger'
 
 import { theme } from '../components/theme/styles'
 
-const log = logger.get('App')
+const log = logger.child({ from: 'App' })
 
 const SplashOrRouter = ({ store }) => {
   const [showDesktopSplash, setShowDesktopSplash] = useState(() => {

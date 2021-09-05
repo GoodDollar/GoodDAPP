@@ -10,7 +10,7 @@ import { fireEvent, FV_TRYAGAINLATER } from '../../../../lib/analytics/analytics
 import logger from '../../../../lib/logger/js-logger'
 import { hideRedBox } from '../utils/kindOfTheIssue'
 
-const log = logger.get('useVerificationAttempts')
+const log = logger.child({ from: 'useVerificationAttempts' })
 
 export default () => {
   const store = GDStore.useStore()

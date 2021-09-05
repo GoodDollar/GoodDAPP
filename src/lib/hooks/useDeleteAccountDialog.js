@@ -7,7 +7,7 @@ import LoadingIcon from '../../components/common/modal/LoadingIcon'
 import retryImport from '../utils/retryImport'
 import restart from '../utils/restart'
 
-const log = logger.get('useDeleteAccountDialog')
+const log = logger.child({ from: 'useDeleteAccountDialog' })
 
 export default ({ API, showErrorDialog, theme }) => {
   const deleteHandler = useCallback(async () => {

@@ -14,7 +14,7 @@ import Illustration from '../../assets/Signup/maginLinkIllustration.svg'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import Wrapper from '../common/layout/Wrapper'
 
-const log = logger.get('MagicLinkInfo')
+const log = logger.child({ from: 'MagicLinkInfo' })
 
 const MagicLinkInfoComponent = props => {
   const { styles, screenProps } = props

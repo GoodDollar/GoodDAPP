@@ -31,7 +31,7 @@ import logger from '../../lib/logger/js-logger'
 import { delay } from '../utils/async'
 import { updateFeedEventAvatar } from '../updates/utils'
 
-const log = logger.get('FeedStorage')
+const log = logger.child({ from: 'FeedStorage' })
 
 /**TODO:
  * handle bridge(mint)

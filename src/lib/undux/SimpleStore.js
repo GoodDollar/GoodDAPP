@@ -121,7 +121,7 @@ const storeAssertion = (condition, logger, message) => {
   const assertionFailed = condition()
 
   if (isString(logger)) {
-    log = pinoLogger.get(logger)
+    log = pinoLogger.child({ from: logger })
   }
 
   if (assertionFailed) {

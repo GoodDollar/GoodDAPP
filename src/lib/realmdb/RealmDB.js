@@ -16,7 +16,7 @@ import type { DB } from '../userStorage/UserStorage'
 import type { Profile } from '../userStorage/UserStorageClass'
 import type { TransactionDetails } from '../userStorage/FeedStorage'
 
-const log = logger.get('RealmDB')
+const log = logger.child({ from: 'RealmDB' })
 class RealmDB implements DB, ProfileDB {
   db: ThreadDB
 

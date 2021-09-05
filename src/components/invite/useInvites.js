@@ -13,7 +13,7 @@ import Config from '../../config/config'
 
 const wasOpenedProp = 'hasOpenedInviteScreen'
 
-const log = logger.get('useInvites')
+const log = logger.child({ from: 'useInvites' })
 
 const NULL_ADDRESS = '0x0000000000000000000000000000000000000000'
 const registerForInvites = async () => {

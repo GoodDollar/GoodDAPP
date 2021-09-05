@@ -3,7 +3,7 @@ import type { Credentials } from '../API/api'
 import logger from '../logger/js-logger'
 import LoginService from './LoginService'
 
-const log = logger.get('GoodWalletLogin')
+const log = logger.child({ from: 'GoodWalletLogin' })
 
 class GoodWalletLogin extends LoginService {
   wallet: GoodWallet

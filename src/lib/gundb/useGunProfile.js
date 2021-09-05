@@ -3,7 +3,7 @@ import { get, result } from 'lodash'
 import logger from '../logger/js-logger'
 import userStorage from './UserStorage'
 
-const log = logger.get('useGunProfile')
+const log = logger.child({ from: 'useGunProfile' })
 
 const useGunProfile = (identifier, fields = ['fullName', 'smallAvatar']) => {
   const gunSubscriptions = useRef({})

@@ -27,7 +27,7 @@ import AddAppSVG from '../../../assets/addApp.svg'
 // import userStorage from '../../../lib/userStorage/UserStorage'
 // import API from '../../../lib/API/api'
 
-const log = logger.get('AddWebApp')
+const log = logger.child({ from: 'AddWebApp' })
 
 const mapStylesToProps = ({ theme }) => {
   return {

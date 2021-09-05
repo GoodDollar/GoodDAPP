@@ -4,7 +4,7 @@ import { memoize, noop } from 'lodash'
 
 import logger from '../logger/js-logger'
 
-const log = logger.get('useNavigationMacro')
+const log = logger.child({ from: 'useNavigationMacro' })
 
 const ALLOWED_METHODS = ['navigate', 'push']
 

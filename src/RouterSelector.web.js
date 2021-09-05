@@ -23,7 +23,7 @@ import logger from './lib/logger/js-logger'
 import { APP_OPEN, fireEvent, initAnalytics } from './lib/analytics/analytics'
 import handleLinks from './lib/utils/handleLinks'
 
-const log = logger.get('RouterSelector')
+const log = logger.child({ from: 'RouterSelector' })
 
 // identify the case user signup/in using torus redirect flow, so we want to load page asap
 const isAuthReload = DeepLinking.pathname.startsWith('/Welcome/Auth')

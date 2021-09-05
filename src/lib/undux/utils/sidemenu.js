@@ -3,7 +3,7 @@ import type { Store } from 'undux'
 import { assertStore } from '../SimpleStore'
 import pino from '../../logger/js-logger'
 
-const log = pino.get('sideMenu')
+const log = pino.child({ from: 'sideMenu' })
 
 export const showSidemenu = (store: Store) => {
   if (!assertStore(store, log, 'showSidemenu failed')) {

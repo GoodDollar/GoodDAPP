@@ -11,7 +11,7 @@ import { isE2ERunning, isEmulator } from '../../../../lib/utils/platform'
 import FaceTecGlobalState from '../sdk/FaceTecGlobalState'
 import useCriticalErrorHandler from './useCriticalErrorHandler'
 
-const log = logger.get('useFaceTecSDK')
+const log = logger.child({ from: 'useFaceTecSDK' })
 
 /**
  * ZoomSDK initialization hook

@@ -6,7 +6,7 @@ import isWebApp from '../utils/isWebApp'
 import { isMobile } from '../utils/platform'
 import { resetLastSplash } from '../../components/splash/Splash'
 
-const log = logger.get('App')
+const log = logger.child({ from: 'App' })
 let serviceWorkerRegistred = false
 
 export default () => {

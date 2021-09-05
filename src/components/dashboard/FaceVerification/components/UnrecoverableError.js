@@ -14,7 +14,7 @@ import IllustrationSVG from '../../../../assets/FRUnrecoverableError.svg'
 
 import { ExceptionType, isLicenseIssue } from '../utils/kindOfTheIssue'
 
-const log = logger.get('FaceVerification')
+const log = logger.child({ from: 'FaceVerification' })
 
 const UnrecoverableError = ({ styles, exception, nav }) => {
   const [, hideDialog, showErrorDialog] = useDialog()

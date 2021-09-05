@@ -9,7 +9,7 @@ import Text from '../common/view/Text'
 
 const height = getScreenHeight()
 
-const log = logger.get('MnemonicInput')
+const log = logger.child({ from: 'MnemonicInput' })
 const MAX_WORDS = 12
 
 type Props = {

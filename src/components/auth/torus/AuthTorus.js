@@ -46,7 +46,7 @@ import DeepLinking from '../../../lib/utils/deepLinking'
 import useTorus from './hooks/useTorus'
 import { LoginStrategy } from './sdk/strategies'
 
-const log = logger.get('AuthTorus')
+const log = logger.child({ from: 'AuthTorus' })
 
 export const useAlreadySignedUp = () => {
   const [showDialog, hideDialog] = useDialog()

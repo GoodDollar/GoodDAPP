@@ -6,7 +6,7 @@ import API, { getErrorMessage } from '../API/api'
 import { CREDS, JWT } from '../constants/localStorage'
 import logger from '../logger/js-logger'
 
-const log = logger.get('LoginService')
+const log = logger.child({ from: 'LoginService' })
 
 class LoginService {
   static toSign = 'Login to GoodDAPP'

@@ -28,7 +28,7 @@ export const pickerOptions = {
   hideBottomControls: true,
 }
 
-const log = logger.get('VieOrUploadAvatar')
+const log = logger.child({ from: 'VieOrUploadAvatar' })
 const TITLE = 'My Profile'
 
 const ViewOrUploadAvatar = props => {

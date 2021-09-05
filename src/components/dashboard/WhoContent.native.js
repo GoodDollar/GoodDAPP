@@ -15,7 +15,7 @@ import FeedContactItem from './FeedContactItem'
 import ItemSeparator from './ItemSeparator'
 
 const Contacts = promisify(contacts.getAll)
-const log = logger.get('Who')
+const log = logger.child({ from: 'Who' })
 
 const WhoContent = ({ styles, setContact, error, text, value, next, state, showNext, setValue }) => {
   const [contacts, setContacts] = useState([])

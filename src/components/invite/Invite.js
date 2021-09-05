@@ -24,7 +24,7 @@ import EtoroPNG from './etoro.png'
 import ShareIcons from './ShareIcons'
 import { shareMessage, shareTitle } from './constants'
 
-const log = logger.get('Invite')
+const log = logger.child({ from: 'Invite' })
 
 const Divider = ({ size = 10 }) => <Section.Separator color="transparent" width={size} style={{ zIndex: -10 }} />
 

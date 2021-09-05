@@ -28,7 +28,7 @@ import useProfile from '../../lib/userStorage/useProfile'
 import OptionsRow from './OptionsRow'
 
 // initialize child logger
-const log = logger.get('ProfilePrivacy')
+const log = logger.child({ from: 'ProfilePrivacy' })
 
 // privacy options
 const privacyOptions = ['private', 'masked', 'public']

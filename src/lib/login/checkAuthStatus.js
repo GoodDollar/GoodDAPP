@@ -3,7 +3,7 @@ import goodWallet from '../wallet/GoodWallet'
 import logger from '../../lib/logger/js-logger'
 import goodWalletLogin from './GoodWalletLogin'
 
-const log = logger.get('checkAuthStatus')
+const log = logger.child({ from: 'checkAuthStatus' })
 
 const jwtSignin = async () => {
   log.debug('jwtsignin')

@@ -5,7 +5,7 @@ import logger from '../../../../lib/logger/js-logger'
 import API from '../../../../lib/API/api'
 import Captcha from './Recaptcha'
 
-const log = logger.get('init')
+const log = logger.child({ from: 'init' })
 
 const { recaptchaSiteKey, publicUrl } = Config
 

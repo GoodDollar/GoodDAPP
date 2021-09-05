@@ -37,7 +37,7 @@ import ready from '../ready'
 import Auth from '../../auth/Auth'
 import AuthTorus from '../../auth/torus/AuthTorus'
 
-// const log = logger.get('Welcome')
+// const log = logger.child({ from: 'Welcome' })
 const AuthType = config.torusEnabled ? AuthTorus : Auth
 
 const WelcomeScreen = ({ styles, screenProps, navigation }) => {

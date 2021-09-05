@@ -4,7 +4,7 @@ import { ExceptionCategory } from '../logger/exceptions'
 import logging from '../logger/js-logger'
 import { isValidDataUrl } from '../utils/base64'
 
-const logger = logging.get('UserProfileUtils')
+const logger = logging.child({ from: 'UserProfileUtils' })
 
 export const asLogRecord = publicProfile => {
   let { smallAvatar } = publicProfile

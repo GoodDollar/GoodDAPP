@@ -10,7 +10,7 @@ import OopsSVG from '../../assets/oops.svg'
 import logger from '../../lib/logger/js-logger'
 import { withStyles } from '../../lib/styles'
 
-const log = logger.get('OutOfGasError')
+const log = logger.child({ from: 'OutOfGasError' })
 
 const OutOfGasError = props => {
   const { styles, theme } = props

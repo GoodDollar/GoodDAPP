@@ -7,7 +7,7 @@ import userStorage from '../../userStorage/UserStorage'
 import type { TransactionEvent } from '../../userStorage/UserStorage'
 import { WITHDRAW_STATUS_PENDING } from '../../wallet/GoodWalletClass'
 
-const log = pino.get('withdraw')
+const log = pino.child({ from: 'withdraw' })
 
 type ReceiptType = {
   transactionHash: string,

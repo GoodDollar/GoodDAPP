@@ -22,7 +22,7 @@ import goodWallet from '../../lib/wallet/GoodWallet'
 
 import { routeAndPathForCode } from './utils/routeAndPathForCode'
 
-const log = logger.get('HandlePaymentLink')
+const log = logger.child({ from: 'HandlePaymentLink' })
 
 export type HandlePaymentLinkProps = {
   screenprops: any,

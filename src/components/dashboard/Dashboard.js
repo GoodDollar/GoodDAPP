@@ -66,7 +66,7 @@ import FaceVerificationError from './FaceVerification/screens/ErrorScreen'
 
 import GoodMarketButton from './GoodMarket/components/GoodMarketButton'
 
-const log = logger.get('Dashboard')
+const log = logger.child({ from: 'Dashboard' })
 
 let didRender = false
 const screenWidth = getMaxDeviceWidth()

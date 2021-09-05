@@ -7,7 +7,7 @@ import { DetectWebview } from '../../../../lib/utils/platform'
 import logger from '../../../../lib/logger/js-logger'
 
 const { useABTesting } = createABTesting('torusUxMode')
-const log = logger.get('AuthTorus')
+const log = logger.child({ from: 'AuthTorus' })
 
 export default (onOptions = noop) => {
   const [, abVariant, abTestInitialized] = useABTesting()

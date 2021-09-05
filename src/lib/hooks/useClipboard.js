@@ -8,7 +8,7 @@ import logger from '../logger/js-logger'
 import useRealtimeProps from './useRealtimeProps'
 import { preventPressed } from './useOnPress'
 
-const log = logger.get('useClipboard Hook')
+const log = logger.child({ from: 'useClipboard Hook' })
 
 // should be non-async to avoid possible 'non-user interaction' issues
 const writeString = content =>

@@ -17,7 +17,7 @@ class TorusSDK {
   strategies = {}
 
   static factory(options) {
-    const sdk = new TorusSDK(Config, options, logger.get('TorusSDK'))
+    const sdk = new TorusSDK(Config, options, logger.child({ from: 'TorusSDK' }))
 
     sdk.addStrategy('facebook', FacebookStrategy)
     sdk.addStrategy('google-old', GoogleLegacyStrategy)

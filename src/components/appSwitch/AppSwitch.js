@@ -32,7 +32,7 @@ type LoadingProps = {
   descriptors: any,
 }
 
-const log = logger.get('AppSwitch')
+const log = logger.child({ from: 'AppSwitch' })
 
 const GAS_CHECK_DEBOUNCE_TIME = 1000
 const showOutOfGasError = debounce(

@@ -17,7 +17,7 @@ import ErrorText from '../common/form/ErrorText'
 import FormNumberInput from './PhoneNumberInput/PhoneNumberInput'
 import CustomWrapper from './signUpWrapper'
 
-const log = logger.get('PhoneForm')
+const log = logger.child({ from: 'PhoneForm' })
 
 type Props = {
   doneCallback: ({ phone: string }) => null,

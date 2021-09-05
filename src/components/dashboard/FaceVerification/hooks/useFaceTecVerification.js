@@ -12,7 +12,7 @@ import { ExceptionType, hideRedBoxIfNonCritical, kindOfSessionIssue } from '../u
 import { MAX_RETRIES_ALLOWED, resultSuccessMessage } from '../sdk/FaceTecSDK.constants'
 import useRealtimeProps from '../../../../lib/hooks/useRealtimeProps'
 
-const log = logger.get('useFaceTecVerification')
+const log = logger.child({ from: 'useFaceTecVerification' })
 const emptyBase64 = btoa(String.fromCharCode(0x20).repeat(40))
 
 /**

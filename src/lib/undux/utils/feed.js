@@ -6,7 +6,7 @@ import userStorage from '../../userStorage/UserStorage'
 import pino from '../../logger/js-logger'
 import { assertStore } from '../SimpleStore'
 
-const logger = pino.get('feeds')
+const logger = pino.child({ from: 'feeds' })
 
 export const PAGE_SIZE = 20
 

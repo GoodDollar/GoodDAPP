@@ -5,7 +5,7 @@ import { retry } from '../../lib/utils/async'
 import { REGISTRATION_METHOD_SELF_CUSTODY } from '../constants/login'
 import pino from '../logger/js-logger'
 
-const log = pino.get('UserProperties')
+const log = pino.child({ from: 'UserProperties' })
 
 /**
  * Users gundb to handle user storage.

@@ -3,7 +3,7 @@ import { useCallback, useEffect, useRef } from 'react'
 import logger from '../../lib/logger/js-logger'
 import IframeManager from './iframe.manager'
 
-const log = logger.get('IframeTab.web')
+const log = logger.child('IframeTab.web')
 
 export const useIframeLoaded = (src, onLoaded) => {
   const isLoadedRef = useRef(false)

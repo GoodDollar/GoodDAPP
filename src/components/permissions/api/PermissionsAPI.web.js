@@ -195,4 +195,4 @@ class PermissionsAPI {
 
 const { permissions, clipboard, mediaDevices } = navigator
 
-export default new PermissionsAPI(permissions, clipboard, mediaDevices, logger.get('PermissionsAPI'))
+export default new PermissionsAPI(permissions, clipboard, mediaDevices, logger.child({ from: 'PermissionsAPI' }))

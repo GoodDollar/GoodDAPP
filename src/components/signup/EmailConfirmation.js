@@ -16,7 +16,7 @@ import { fireEvent, SIGNUP_RETRY_EMAIL } from '../../lib/analytics/analytics'
 import CustomWrapper from './signUpWrapper'
 import type { SignupState } from './SignupState'
 
-const log = logger.get('EmailConfirmation')
+const log = logger.child({ from: 'EmailConfirmation' })
 
 type Props = {
   phone: string,

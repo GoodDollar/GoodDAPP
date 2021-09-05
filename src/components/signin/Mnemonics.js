@@ -25,7 +25,7 @@ import Wrapper from '../common/layout/Wrapper'
 import normalize from '../../lib/utils/normalizeText'
 
 const TITLE = 'Recover'
-const log = logger.get(TITLE)
+const log = logger.child({ from: TITLE })
 const MAX_WORDS = 12
 
 const Mnemonics = ({ screenProps, navigation, styles }) => {

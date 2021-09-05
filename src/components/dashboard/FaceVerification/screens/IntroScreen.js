@@ -41,7 +41,7 @@ import wait24hourIllustration from '../../../../assets/Claim/wait24Hour.svg'
 import FashionShootSVG from '../../../../assets/FaceVerification/FashionPhotoshoot.svg'
 import useProfile from '../../../../lib/userStorage/useProfile'
 
-const log = logger.get('FaceVerificationIntro')
+const log = logger.child({ from: 'FaceVerificationIntro' })
 const { useABTesting } = createABTesting('FV_Intro_Screen')
 
 const commonTextStyles = {

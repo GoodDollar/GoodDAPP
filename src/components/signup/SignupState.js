@@ -44,7 +44,7 @@ import EmailForm from './EmailForm'
 import NameForm from './NameForm'
 
 // import MagicLinkInfo from './MagicLinkInfo'
-const log = logger.get('SignupState')
+const log = logger.child({ from: 'SignupState' })
 
 export type SignupState = UserModel & SMSRecord & { invite_code?: string }
 

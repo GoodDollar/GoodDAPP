@@ -8,7 +8,7 @@ import uploadAvatars from './avatar'
 import upgradeRealmDB from './upgradeRealmdb'
 import upgradeProfileRealmDB from './upgradeProfileRealmdb'
 
-const log = logger.get('updates')
+const log = logger.child({ from: 'updates' })
 const updates = [uploadAvatars, upgradeRealmDB, upgradeProfileRealmDB]
 
 const update = async () => {

@@ -4,7 +4,7 @@ import logger from '../logger/js-logger'
 import { extractQueryParams } from '../share'
 import extractPathname from './extractPathname'
 
-const log = logger.get('deeplinking.native')
+const log = logger.child({ from: 'deeplinking.native' })
 
 class DeepLinkingNative {
   constructor() {

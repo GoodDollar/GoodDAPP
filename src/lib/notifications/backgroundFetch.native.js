@@ -22,7 +22,7 @@ const options = {
   periodic: true,
 }
 
-const log = logger.get('backgroundFetch')
+const log = logger.child({ from: 'backgroundFetch' })
 
 const task = async taskId => {
   log.info('[BackgroundFetch] taskId: ', taskId)

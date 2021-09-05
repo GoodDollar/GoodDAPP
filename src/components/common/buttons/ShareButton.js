@@ -18,7 +18,7 @@ type ShareButtonProps = {
   buttonProps: any,
 }
 
-const log = logger.get('ShareButton')
+const log = logger.child({ from: 'ShareButton' })
 const SharingButton = isSharingAvailable ? CustomButton : CopyButton
 
 const ShareButton = ({ share, onPressed = noop, actionText, ...buttonProps }: ShareButtonProps) => {

@@ -14,7 +14,7 @@ import Config from '../../../config/config'
 import logger from '../../../lib/logger/js-logger'
 import claimQueueIllustration from '../../../assets/Claim/claimQueue.svg'
 
-const log = logger.get('useClaimQueue')
+const log = logger.child({ from: 'useClaimQueue' })
 const isQueueDisabled = !Config.claimQueue
 
 const ClaimQueuePopupText = ({ styles }) => (

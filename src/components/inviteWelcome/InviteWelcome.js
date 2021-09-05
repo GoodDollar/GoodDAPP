@@ -19,7 +19,7 @@ import { getDesignRelativeHeight, isShortDevice, isVeryShortDevice } from '../..
 import NavBar from '../appNavigation/NavBar'
 import { theme } from '../theme/styles'
 
-// const log = logger.get('Welcome')
+// const log = logger.child({ from: 'Welcome' })
 
 const steps = {
   1: {

@@ -15,7 +15,7 @@ import { useDialog } from '../../../lib/undux/utils/dialog'
 import logger from '../../../lib/logger/js-logger'
 import { isAndroidWeb, isBrowser, isChrome, isIOSWeb, isSafari } from '../../../lib/utils/platform'
 
-const log = logger.get('useBrowserSupport')
+const log = logger.child({ from: 'useBrowserSupport' })
 
 export default (options = {}) => {
   const {

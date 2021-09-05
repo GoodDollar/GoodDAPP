@@ -11,7 +11,7 @@ import { constrainImage } from '../../../lib/utils/image/constrain'
 import { createImage } from '../../../lib/utils/image/browser'
 import { MAX_AVATAR_HEIGHT, MAX_AVATAR_WIDTH } from '../../../lib/utils/image'
 
-const log = logger.get('InputFile')
+const log = logger.child({ from: 'InputFile' })
 
 const InputFile = ({ Component, onChange }) => {
   const inputRef = useRef(null)

@@ -6,7 +6,7 @@ import AsyncStorage from '../utils/asyncStorage'
 import { AB_TESTING } from '../constants/localStorage'
 import logger from '../logger/js-logger'
 
-const log = logger.get('useABTesting')
+const log = logger.child({ from: 'useABTesting' })
 
 const loadPersistedVariants = once(async () => {
   return (await AsyncStorage.getItem(AB_TESTING)) || {}

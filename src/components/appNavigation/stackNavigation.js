@@ -27,7 +27,7 @@ export const DEFAULT_PARAMS = {
   code: undefined,
 }
 
-const log = logger.get('stackNavigation')
+const log = logger.child({ from: 'stackNavigation' })
 
 type AppViewProps = {
   descriptors: any,

@@ -10,7 +10,7 @@ import { executeWithdraw } from '../../lib/undux/utils/withdraw'
 import { Section, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
 
-const log = logger.get('ReceiveByQR')
+const log = logger.child({ from: 'ReceiveByQR' })
 
 const ReceiveByQR = ({ screenProps }) => {
   const [withdrawParams, setWithdrawParams] = useState({ receiveLink: '', reason: '' })

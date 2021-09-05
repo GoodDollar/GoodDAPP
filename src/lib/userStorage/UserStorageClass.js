@@ -31,7 +31,7 @@ import { FeedEvent, FeedItemType, FeedStorage, TxStatus } from './FeedStorage'
 import type { DB } from './UserStorage'
 import createAssetStorage, { type UserAssetStorage } from './UserAssetStorage'
 
-const logger = pino.get('UserStorage')
+const logger = pino.child({ from: 'UserStorage' })
 
 const NULL_ADDRESS = '0x0000000000000000000000000000000000000000'
 

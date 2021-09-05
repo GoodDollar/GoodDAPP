@@ -52,7 +52,7 @@ import ButtonBlock from './Claim/ButtonBlock'
 
 type ClaimProps = DashboardProps
 
-const log = logger.get('Claim')
+const log = logger.child({ from: 'Claim' })
 
 const LoadingAnimation = ({ success, speed = 3 }) => (
   <View style={{ alignItems: 'center' }}>
@@ -337,7 +337,7 @@ const Claim = props => {
     ],
   )
 
-  const handleFaceVerification = useCallback(() => navigate('FaceVerificationIntro', 'Claim'), [navigate])
+  const handleFaceVerification = useCallback(() => navigate('FaceVerificationIntro', { from: 'Claim' }), [navigate])
 
   const handleClaim = useCallback(async () => {
     setLoading(true)

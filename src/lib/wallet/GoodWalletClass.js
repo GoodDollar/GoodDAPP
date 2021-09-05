@@ -29,7 +29,7 @@ import { delay } from '../utils/async'
 import { generateShareLink } from '../share'
 import WalletFactory from './WalletFactory'
 
-const log = logger.get('GoodWalletV2')
+const log = logger.child({ from: 'GoodWalletV2' })
 
 const ZERO = new BN('0')
 

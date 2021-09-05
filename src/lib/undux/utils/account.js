@@ -7,7 +7,7 @@ import userStorage from '../../userStorage/UserStorage'
 import { assertStore } from '../SimpleStore'
 
 let subscribed = false
-const log = logger.get('undux/utils/account')
+const log = logger.child({ from: 'undux/utils/account' })
 
 export const updateAll = async store => {
   let walletOperations

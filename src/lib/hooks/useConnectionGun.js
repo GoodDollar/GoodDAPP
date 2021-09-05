@@ -7,7 +7,7 @@ import SimpleStore from '../undux/SimpleStore'
 let isFirstCheckGun = false
 let needToBindEventsGun = true
 
-const log = logger.get('useHasConnectionGun')
+const log = logger.child({ from: 'useHasConnectionGun' })
 
 export default () => {
   const [isConnection, setIsConnection] = useState(true)

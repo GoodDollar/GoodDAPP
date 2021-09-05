@@ -12,7 +12,7 @@ import { weiToGd } from '../wallet/utils'
 import Config from '../../config/config'
 import logger from '../logger/js-logger'
 
-const log = logger.get('share.index')
+const log = logger.child({ from: 'share.index' })
 
 export const isSharingAvailable = Platform.select({
   web: isMobileWeb && !!navigator.share,

@@ -27,7 +27,7 @@ import { routeAndPathForCode } from './utils/routeAndPathForCode'
 
 const QR_DEFAULT_DELAY = 300
 
-const log = logger.get('SendByQR')
+const log = logger.child({ from: 'SendByQR' })
 
 type Props = {
   screenProps: any,

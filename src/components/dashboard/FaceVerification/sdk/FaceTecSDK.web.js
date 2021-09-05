@@ -204,4 +204,4 @@ export const FaceTecSDK = new class {
     exception.code = sdkStatus
     this.throwException(exception)
   }
-}(FaceTec.FaceTecSDK, logger.get('FaceTecSDK.web'))
+}(FaceTec.FaceTecSDK, logger.child({ from: 'FaceTecSDK.web' }))

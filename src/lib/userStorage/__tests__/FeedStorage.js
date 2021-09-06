@@ -45,12 +45,13 @@ describe('FeedStorage', () => {
 
   it('should add new event to outbox', async () => {
     const publicKey = privateKey.public.toString()
+    const { storage } = feedStorage
 
     jest.spyOn(feedStorage.userStorage, 'getUserProfilePublickey').mockImplementation(() => publicKey)
     await feedStorage.addToOutbox(feedEvent)
 
-    const savedItem = await feedStorage.storage.inboxes.findOne({ txHash: feedEvent.id })
-    const userId = feedStorage.storage.user.id
+    const savedItem = await storage._realmQuery(() => storage.inboxes.findOne({ txHash: feedEvent.id }))
+    const userId = storage.user.id
     const recipientPubkey = await feedStorage.userStorage.getUserProfilePublickey(feedEvent.data.to)
 
     expect(savedItem).toHaveProperty('user_id', userId)
@@ -72,8 +73,11 @@ describe('FeedStorage', () => {
   })
 
   it('should delete record', async () => {
-    await feedStorage.storage.inboxes.findOneAndDelete({ txHash: feedEvent.id })
-    const savedItem = await feedStorage.storage.inboxes.findOne({ txHash: feedEvent.id })
+    const { storage } = feedStorage
+
+    await storage._realmQuery(() => storage.inboxes.findOneAndDelete({ txHash: feedEvent.id }))
+
+    const savedItem = await storage._realmQuery(() => storage.inboxes.findOne({ txHash: feedEvent.id }))
 
     expect(savedItem).toBeNull()
   })

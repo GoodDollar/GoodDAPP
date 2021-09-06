@@ -125,6 +125,8 @@ const ShareBox = ({ level }) => {
 }
 
 const InputCodeBox = ({ navigateTo }) => {
+  const ownInviteCode = useInviteCode()
+
   const [code, setCode] = useState(userStorage.userProperties.get('inviterInviteCode') || '')
   const inviteCodeUsed = userStorage.userProperties.get('inviterInviteCodeUsed')
 
@@ -132,7 +134,7 @@ const InputCodeBox = ({ navigateTo }) => {
   const [visible, setVisible] = useState(!userStorage.userProperties.get('inviteBonusCollected'))
   const [showDialog, hideDialog] = useDialog()
   const extractedCode = get(extractQueryParams(code), 'inviteCode', code)
-  const isValidCode = extractedCode.length >= 10
+  const isValidCode = extractedCode.length >= 10 && extractedCode !== ownInviteCode
   const [disabled, setDisabled] = useState(!isValidCode) //disable button if code invalid or cant collect
 
   const onUnableToCollect = useCallback(async () => {
@@ -207,7 +209,9 @@ const InputCodeBox = ({ navigateTo }) => {
   useEffect(() => {
     if (!visible || !inviteCodeUsed) {
       if (isValidCode) {
-        setDisabled(false)
+        goodWallet.isInviterCodeValid(extractedCode).then(isValidInviter => {
+          isValidInviter ? setDisabled(false) : setDisabled(true)
+        })
       }
       return
     }
@@ -216,7 +220,7 @@ const InputCodeBox = ({ navigateTo }) => {
       .canCollectBountyFor(goodWallet.account)
       .call()
       .then(canCollect => setDisabled(!canCollect))
-  }, [isValidCode, visible, inviteCodeUsed, setDisabled])
+  }, [extractedCode, isValidCode, visible, inviteCodeUsed, setDisabled])
 
   if (!visible) {
     return null

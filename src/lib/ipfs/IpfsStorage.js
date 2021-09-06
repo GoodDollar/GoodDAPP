@@ -60,12 +60,14 @@ class IpfsStorage {
   }
 
   async _loopkupGateways(cid) {
-    const { gateways, _requestGateway } = this
+    const { logger, gateways, _requestGateway } = this
+
+    logger.debug('lookup cid:', { cid })
 
     // try gateways and update failed counters
     try {
       // eslint-disable-next-line require-await
-      return await fallback(gateways.map(() => async gateway => _requestGateway(cid, gateway)))
+      return await fallback(gateways.map(gateway => async () => _requestGateway(cid, gateway)))
     } finally {
       // doesn't changes gateway order if it have failed count < 3
       // the gateways failed more times will be moved to the end

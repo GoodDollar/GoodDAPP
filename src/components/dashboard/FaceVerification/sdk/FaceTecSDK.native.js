@@ -5,7 +5,7 @@ import FaceTec, { FaceTecUxEvent } from '@gooddollar/react-native-facetec'
 
 import api from '../../../../lib/API/api'
 import Config from '../../../../config/config'
-import logger from '../../../../lib/logger/pino-logger'
+import logger from '../../../../lib/logger/js-logger'
 
 import { MAX_RETRIES_ALLOWED } from './FaceTecSDK.constants'
 

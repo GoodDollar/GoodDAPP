@@ -1,7 +1,7 @@
 import { defaults, first, omit, pad } from 'lodash'
 
 import Config from '../../../../config/config'
-import logger from '../../../../lib/logger/pino-logger'
+import logger from '../../../../lib/logger/js-logger'
 import Torus from './torus'
 
 import {

@@ -8,7 +8,7 @@ import { JWT } from '../constants/localStorage'
 import AsyncStorage from '../utils/asyncStorage'
 
 import Config from '../../config/config'
-import logger from '../logger/pino-logger'
+import logger from '../logger/js-logger'
 
 import type { ThreadDB } from '../textile/ThreadDB'
 import type { ProfileDB } from '../userStorage/UserProfileStorage'

@@ -5,7 +5,7 @@ import { Avatar, CustomButton, Icon, Section, ShareButton, Text, Wrapper } from 
 import { WavesBox } from '../common/view/WavesBox'
 import { theme } from '../theme/styles'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
-import logger from '../../lib/logger/pino-logger'
+import logger from '../../lib/logger/js-logger'
 import { fireEvent, INVITE_HOWTO, INVITE_SHARE } from '../../lib/analytics/analytics'
 import Config from '../../config/config'
 import { extractQueryParams, generateShareObject, isSharingAvailable } from '../../lib/share'

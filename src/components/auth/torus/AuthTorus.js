@@ -4,7 +4,7 @@ import { Paragraph } from 'react-native-paper'
 import { Platform, View } from 'react-native'
 import { get } from 'lodash'
 import AsyncStorage from '../../../lib/utils/asyncStorage'
-import logger from '../../../lib/logger/pino-logger'
+import logger from '../../../lib/logger/js-logger'
 import {
   fireEvent,
   SIGNIN_METHOD_SELECTED,

@@ -14,7 +14,7 @@ import { retry } from '../utils/async'
 import FaceVerificationAPI from '../../components/dashboard/FaceVerification/api/FaceVerificationApi'
 import Config from '../../config/config'
 import API from '../API/api'
-import pino from '../logger/pino-logger'
+import pino from '../logger/js-logger'
 import { ExceptionCategory } from '../logger/exceptions'
 import isMobilePhone from '../validators/isMobilePhone'
 import { AVATAR_SIZE, resizeImage, SMALL_AVATAR_SIZE } from '../utils/image'
@@ -592,10 +592,7 @@ export class UserStorage {
     const avatarResized = await resizeImage(avatar, AVATAR_SIZE)
 
     // eslint-disable-next-line
-    return Promise.all([
-      this._storeAvatar('avatar', avatarResized),
-      this.setSmallAvatar(avatarResized),
-    ])
+    return Promise.all([this._storeAvatar('avatar', avatarResized), this.setSmallAvatar(avatarResized)])
   }
 
   async setSmallAvatar(avatar) {

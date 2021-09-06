@@ -17,7 +17,7 @@ import useDisposingState from '../hooks/useDisposingState'
 
 // utils
 import UserStorage from '../../../../lib/userStorage/UserStorage'
-import logger from '../../../../lib/logger/pino-logger'
+import logger from '../../../../lib/logger/js-logger'
 import { getFirstWord } from '../../../../lib/utils/getFirstWord'
 import {
   getDesignRelativeHeight,

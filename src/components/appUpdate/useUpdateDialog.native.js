@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { Linking } from 'react-native'
 import VersionCheck from 'react-native-version-check'
 
-import logger from '../../lib/logger/pino-logger'
+import logger from '../../lib/logger/js-logger'
 import Config from '../../config/config'
 import useShowUpdateDialog from './UpdateDialog'
 

@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { noop } from 'lodash'
 
 import api from '../api/FaceVerificationApi'
-import logger from '../../../../lib/logger/pino-logger'
+import logger from '../../../../lib/logger/js-logger'
 import useMountedState from '../../../../lib/hooks/useMountedState'
 
 const log = logger.child({ from: 'useFaceTecVerification' })

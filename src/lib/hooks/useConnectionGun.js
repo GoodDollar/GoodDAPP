@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { AppState } from 'react-native'
 import Config from '../../config/config'
-import logger from '../logger/pino-logger'
+import logger from '../logger/js-logger'
 import SimpleStore from '../undux/SimpleStore'
 
 let isFirstCheckGun = false

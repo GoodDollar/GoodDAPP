@@ -4,7 +4,7 @@ import Config from '../../config/config'
 import { fireEvent } from '../analytics/analytics'
 import AsyncStorage from '../utils/asyncStorage'
 import { AB_TESTING } from '../constants/localStorage'
-import logger from '../logger/pino-logger'
+import logger from '../logger/js-logger'
 
 const log = logger.child({ from: 'useABTesting' })
 

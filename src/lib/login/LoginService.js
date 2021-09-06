@@ -4,7 +4,7 @@ import AsyncStorage from '../utils/asyncStorage'
 import type { Credentials } from '../API/api'
 import API, { getErrorMessage } from '../API/api'
 import { CREDS, JWT } from '../constants/localStorage'
-import logger from '../logger/pino-logger'
+import logger from '../logger/js-logger'
 
 const log = logger.child({ from: 'LoginService' })
 

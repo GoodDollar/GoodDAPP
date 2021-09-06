@@ -8,7 +8,7 @@ import { throttleAdapter } from '../utils/axios'
 import AsyncStorage from '../utils/asyncStorage'
 import Config from '../../config/config'
 import { JWT } from '../constants/localStorage'
-import logger from '../logger/pino-logger'
+import logger from '../logger/js-logger'
 
 import type { NameRecord } from '../../components/signup/NameForm'
 import type { EmailRecord } from '../../components/signup/EmailForm'

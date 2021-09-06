@@ -2,7 +2,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { KeyboardAvoidingView } from 'react-native'
 import { isIOS } from '../../lib/utils/platform'
-import logger from '../../lib/logger/pino-logger'
+import logger from '../../lib/logger/js-logger'
 import API, { getErrorMessage } from '../../lib/API/api'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import { withStyles } from '../../lib/styles'

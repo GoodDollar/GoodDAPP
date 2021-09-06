@@ -3,7 +3,7 @@ import { useEffect } from 'react'
 import SimpleStore from '../../lib/undux/SimpleStore'
 
 import Config from '../../config/config'
-import logger from '../../lib/logger/pino-logger'
+import logger from '../../lib/logger/js-logger'
 import useShowUpdateDialog from './UpdateDialog'
 
 const log = logger.child({ from: 'useUpdateDialog' })

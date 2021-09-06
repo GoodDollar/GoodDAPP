@@ -2,7 +2,7 @@
 import goodWallet from './lib/wallet/GoodWallet'
 import userStorage from './lib/userStorage/UserStorage'
 import { setUserStorage, setWallet } from './lib/undux/SimpleStore'
-import logger from './lib/logger/pino-logger'
+import logger from './lib/logger/js-logger'
 
 const log = logger.child({ from: 'init' })
 

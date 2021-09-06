@@ -9,7 +9,7 @@ import ShareButton from '../buttons/ShareButton'
 
 import { useErrorDialog } from '../../../lib/undux/utils/dialog'
 
-import logger from '../../../lib/logger/pino-logger'
+import logger from '../../../lib/logger/js-logger'
 import { decorate, ExceptionCategory, ExceptionCode } from '../../../lib/logger/exceptions'
 import normalize from '../../../lib/utils/normalizeText'
 import userStorage from '../../../lib/userStorage/UserStorage'

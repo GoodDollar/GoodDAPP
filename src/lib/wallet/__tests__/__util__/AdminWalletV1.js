@@ -13,7 +13,7 @@ import get from 'lodash/get'
 import assign from 'lodash/assign'
 import Mutex from 'await-mutex'
 import * as web3Utils from 'web3-utils'
-import logger from '../../../../lib/logger/pino-logger'
+import logger from '../../../../lib/logger/js-logger'
 import conf from '../../../../config/config'
 import { type TransactionReceipt } from './blockchain-types'
 

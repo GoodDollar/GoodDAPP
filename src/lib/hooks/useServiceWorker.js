@@ -1,7 +1,7 @@
 // @flow
 import { useEffect, useRef } from 'react'
 import SimpleStore, { setInitFunctions } from '../undux/SimpleStore'
-import logger from '../logger/pino-logger'
+import logger from '../logger/js-logger'
 import isWebApp from '../utils/isWebApp'
 import { isMobile } from '../utils/platform'
 import { resetLastSplash } from '../../components/splash/Splash'

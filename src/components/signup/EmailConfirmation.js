@@ -2,7 +2,7 @@
 import React from 'react'
 import { KeyboardAvoidingView } from 'react-native'
 import { isIOS } from '../../lib/utils/platform'
-import logger from '../../lib/logger/pino-logger'
+import logger from '../../lib/logger/js-logger'
 import API from '../../lib/API/api'
 import { withStyles } from '../../lib/styles'
 import SpinnerCheckMark from '../common/animations/SpinnerCheckMark'

@@ -4,7 +4,7 @@ import { assign, get, isError, isObject } from 'lodash'
 
 import API from '../../../../lib/API/api'
 import Config from '../../../../config/config'
-import logger from '../../../../lib/logger/pino-logger'
+import logger from '../../../../lib/logger/js-logger'
 import { unexpectedErrorMessage } from '../sdk/FaceTecSDK.constants'
 
 import { hideRedBoxIfNonCritical } from '../utils/kindOfTheIssue'

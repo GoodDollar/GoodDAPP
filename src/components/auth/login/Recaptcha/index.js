@@ -1,7 +1,7 @@
 import { noop } from 'lodash'
 import React, { useCallback, useImperativeHandle, useRef } from 'react'
 import Config from '../../../../config/config'
-import logger from '../../../../lib/logger/pino-logger'
+import logger from '../../../../lib/logger/js-logger'
 import API from '../../../../lib/API/api'
 import Captcha from './Recaptcha'
 

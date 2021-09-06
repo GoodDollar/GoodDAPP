@@ -7,7 +7,7 @@ import { AwaitButton, CustomButton, Section, Wrapper } from '../common'
 import Separator from '../common/layout/Separator'
 import Text from '../common/view/Text'
 import OopsSVG from '../../assets/oops.svg'
-import logger from '../../lib/logger/pino-logger'
+import logger from '../../lib/logger/js-logger'
 import { withStyles } from '../../lib/styles'
 
 const log = logger.child({ from: 'OutOfGasError' })

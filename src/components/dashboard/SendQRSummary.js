@@ -5,7 +5,7 @@
 import React, { useEffect, useState } from 'react'
 import { fireEvent } from '../../lib/analytics/analytics'
 import userStorage, { type TransactionEvent } from '../../lib/userStorage/UserStorage'
-import logger from '../../lib/logger/pino-logger'
+import logger from '../../lib/logger/js-logger'
 import { ExceptionCategory } from '../../lib/logger/exceptions'
 import { useDialog } from '../../lib/undux/utils/dialog'
 import { useWrappedGoodWallet } from '../../lib/wallet/useWrappedWallet'

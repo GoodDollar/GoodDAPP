@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { StyleSheet } from 'react-native'
 import QRCodeScanner from 'react-native-qrcode-scanner'
 
-import logger from '../../lib/logger/pino-logger'
+import logger from '../../lib/logger/js-logger'
 import { extractQueryParams, readReceiveLink } from '../../lib/share'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import { wrapFunction } from '../../lib/undux/utils/wrapper'

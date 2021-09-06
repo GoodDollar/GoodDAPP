@@ -8,11 +8,11 @@ import delUndefValNested from '../utils/delUndefValNested'
 import { updateFeedEventAvatar } from '../updates/utils'
 
 import Config from '../../config/config'
-import logger from '../../lib/logger/pino-logger'
+import logger from '../../lib/logger/js-logger'
 import { UserStorage } from './UserStorageClass'
 import { asLogRecord } from './utlis'
-
 const log = logger.child({ from: 'FeedStorage' })
+
 const COMPLETED_BONUS_REASON_TEXT = 'Your recent earned rewards'
 const NULL_ADDRESS = '0x0000000000000000000000000000000000000000'
 

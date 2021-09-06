@@ -1,6 +1,6 @@
 import branch from 'react-native-branch'
 import { assign, camelCase, mapKeys, over } from 'lodash'
-import logger from '../logger/pino-logger'
+import logger from '../logger/js-logger'
 import { extractQueryParams } from '../share'
 import extractPathname from './extractPathname'
 

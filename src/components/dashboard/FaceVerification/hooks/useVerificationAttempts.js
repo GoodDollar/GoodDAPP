@@ -7,7 +7,7 @@ import useRealtimeStoreState from '../../../../lib/hooks/useRealtimeStoreState'
 
 import GDStore, { defaultVerificationState } from '../../../../lib/undux/GDStore'
 import { fireEvent, FV_TRYAGAINLATER } from '../../../../lib/analytics/analytics'
-import logger from '../../../../lib/logger/pino-logger'
+import logger from '../../../../lib/logger/js-logger'
 import { hideRedBox } from '../utils/kindOfTheIssue'
 
 const log = logger.child({ from: 'useVerificationAttempts' })

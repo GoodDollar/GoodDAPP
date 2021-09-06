@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react'
 import { View } from 'react-native'
 
-// import logger from '../../../lib/logger/pino-logger'
+// import logger from '../../../lib/logger/js-logger'
 import {
   fireEvent,
   SIGNIN_METHOD_SELECTED,

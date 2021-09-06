@@ -11,7 +11,7 @@ import { useDialog } from '../../../lib/undux/utils/dialog'
 import { showSupportDialog } from '../../common/dialogs/showSupportDialog'
 import { showQueueDialog } from '../../common/dialogs/showQueueDialog'
 import Config from '../../../config/config'
-import logger from '../../../lib/logger/pino-logger'
+import logger from '../../../lib/logger/js-logger'
 import claimQueueIllustration from '../../../assets/Claim/claimQueue.svg'
 
 const log = logger.child({ from: 'useClaimQueue' })

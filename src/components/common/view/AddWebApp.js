@@ -6,7 +6,7 @@ import Text from '../../common/view/Text'
 import Icon from '../view/Icon'
 
 import Config from '../../../config/config'
-import logger from '../../../lib/logger/pino-logger'
+import logger from '../../../lib/logger/js-logger'
 
 import AsyncStorage from '../../../lib/utils/asyncStorage'
 import { useDialog } from '../../../lib/undux/utils/dialog'

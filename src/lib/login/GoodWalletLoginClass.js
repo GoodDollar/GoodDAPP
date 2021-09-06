@@ -1,6 +1,6 @@
 // @flow
 import type { Credentials } from '../API/api'
-import logger from '../logger/pino-logger'
+import logger from '../logger/js-logger'
 import LoginService from './LoginService'
 
 const log = logger.child({ from: 'GoodWalletLogin' })

@@ -21,7 +21,7 @@ import {
 import { REGISTRATION_METHOD_SELF_CUSTODY, REGISTRATION_METHOD_TORUS } from '../../lib/constants/login'
 import NavBar from '../appNavigation/NavBar'
 import { navigationConfig } from '../appNavigation/navigationConfig'
-import logger from '../../lib/logger/pino-logger'
+import logger from '../../lib/logger/js-logger'
 import { decorate, ExceptionCode } from '../../lib/logger/exceptions'
 import API, { getErrorMessage } from '../../lib/API/api'
 import SimpleStore from '../../lib/undux/SimpleStore'

@@ -18,7 +18,7 @@ import SimpleStore from '../lib/undux/SimpleStore'
 import { isMobile } from '../lib/utils/platform'
 import Config from '../config/config'
 import { GlobalTogglesContextProvider } from '../lib/contexts/togglesContext'
-import logger from '../lib/logger/pino-logger'
+import logger from '../lib/logger/js-logger'
 
 import { theme } from '../components/theme/styles'
 

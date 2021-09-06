@@ -10,7 +10,7 @@ import isMobilePhone from '../validators/isMobilePhone'
 import { weiToGd } from '../wallet/utils'
 
 import Config from '../../config/config'
-import logger from '../logger/pino-logger'
+import logger from '../logger/js-logger'
 
 const log = logger.child({ from: 'share.index' })
 

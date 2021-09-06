@@ -1,7 +1,7 @@
 import Config from '../../config/config'
 
 import API from '../../lib/API/api'
-import logger from '../../lib/logger/pino-logger'
+import logger from '../../lib/logger/js-logger'
 import apisFactory from './apis'
 
 import { AnalyticsClass } from './AnalyticsClass'

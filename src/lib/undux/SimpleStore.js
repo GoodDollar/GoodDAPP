@@ -2,7 +2,7 @@
 import { createConnectedStore } from 'undux'
 import { isString } from 'lodash'
 
-import pinoLogger from '../logger/pino-logger'
+import pinoLogger from '../logger/js-logger'
 import createStoreEffects, { unduxLogger } from './plugins'
 import { createUseCurriedSettersHook } from './utils/setter'
 

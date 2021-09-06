@@ -13,7 +13,7 @@ import { retry } from '../utils/async'
 import FaceVerificationAPI from '../../components/dashboard/FaceVerification/api/FaceVerificationApi'
 import Config from '../../config/config'
 import API from '../API/api'
-import pino from '../logger/pino-logger'
+import pino from '../logger/js-logger'
 import isMobilePhone from '../validators/isMobilePhone'
 
 import { AVATAR_SIZE, resizeImage, SMALL_AVATAR_SIZE } from '../utils/image'

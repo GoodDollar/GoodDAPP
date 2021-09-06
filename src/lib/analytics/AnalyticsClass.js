@@ -20,7 +20,6 @@ import {
 import { isMobileReactNative } from '../utils/platform'
 
 import { cloneErrorObject, ExceptionCategory } from '../logger/exceptions'
-import { LogEvent } from '../logger/pino-logger'
 import { ANALYTICS_EVENT, ERROR_LOG } from './constants'
 
 export class AnalyticsClass {
@@ -29,7 +28,7 @@ export class AnalyticsClass {
   apisFactory = null
 
   constructor(apisFactory, rootApi, Config, loggerApi) {
-    const logger = loggerApi.child({ from: 'analytics' })
+    const logger = loggerApi.get('analytics')
     const options = pick(Config, 'sentryDSN', 'amplitudeKey', 'version', 'env', 'phase')
 
     assign(this, options, { logger, apisFactory, rootApi, loggerApi })
@@ -91,7 +90,7 @@ export class AnalyticsClass {
     const { fireEvent, loggerApi } = this
     const debouncedFireEvent = debounce(fireEvent, 500, { leading: true })
 
-    loggerApi.on(LogEvent.Error, (...args) => this.onErrorLogged(debouncedFireEvent, args))
+    loggerApi.on(loggerApi.ERROR.name, (...args) => this.onErrorLogged(debouncedFireEvent, args))
   }
 
   identifyWith = (email, identifier = null) => {
@@ -329,12 +328,11 @@ export class AnalyticsClass {
   }
 
   // @private
-  onErrorLogged(fireEvent, args) {
+  onErrorLogged(debouncedFireEvent, args) {
     const { apis, isSentryEnabled, isFullStoryEnabled, env } = this
     const isRunningTests = env === 'test'
     const { Unexpected, Network, Human } = ExceptionCategory
     const [logContext, logMessage, eMsg = '', errorObj, extra = {}] = args
-    const debouncedFireEvent = debounce(fireEvent, 500, { leading: true })
 
     let { dialogShown, category = Unexpected, ...context } = extra
     let categoryToPassIntoLog = category

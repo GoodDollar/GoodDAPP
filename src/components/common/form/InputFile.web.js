@@ -6,7 +6,7 @@ import FileAPI from 'promisify-file-reader'
 import useOnPress from '../../../lib/hooks/useOnPress'
 
 // utils
-import logger from '../../../lib/logger/pino-logger'
+import logger from '../../../lib/logger/js-logger'
 import { constrainImage } from '../../../lib/utils/image/constrain'
 import { createImage } from '../../../lib/utils/image/browser'
 import { MAX_AVATAR_HEIGHT, MAX_AVATAR_WIDTH } from '../../../lib/utils/image'

@@ -1,16 +1,15 @@
 // @flow
 import TextileCrypto from '@textile/crypto'
-
 import isEmail from '../validators/isEmail'
 import isMobilePhone from '../validators/isMobilePhone'
 
-import pino from '../logger/pino-logger'
+import log from '../logger/js-logger'
 import type { UserModel } from './UserModel'
 import { getUserModel } from './UserModel'
 import { cleanHashedFieldForIndex, maskField } from './utlis'
 import type { FieldPrivacy, Profile } from './UserStorageClass'
 
-const logger = pino.child({ from: 'UserProfileStorage' })
+const logger = log.child({ from: 'UserProfileStorage' })
 
 export interface ProfileDB {
   setProfile(profile: Profile): Promise<void>;

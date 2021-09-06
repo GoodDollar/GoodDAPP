@@ -77,7 +77,6 @@ android/app/src/main/assets/animations
 coverage/**
 
 .idea
-yarn.lock
 account.data.txt
 .gradle
 .png-cache

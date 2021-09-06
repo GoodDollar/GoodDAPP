@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { View } from 'react-native'
 
-// import logger from '../../lib/logger/pino-logger'
+// import logger from '../../lib/logger/js-logger'
 import { fireEvent, INVITEWELCOME_NEXT, INVITEWELCOME_SKIPPED } from '../../lib/analytics/analytics'
 import { withStyles } from '../../lib/styles'
 import { getShadowStyles } from '../../lib/utils/getStyles'

@@ -2,7 +2,7 @@ import { useCallback, useRef } from 'react'
 import { assign, noop } from 'lodash'
 
 // logger & utils
-import logger from '../../../../lib/logger/pino-logger'
+import logger from '../../../../lib/logger/js-logger'
 import { isE2ERunning, isEmulator, isIOSNative } from '../../../../lib/utils/platform'
 
 // Zoom SDK reference & helpers

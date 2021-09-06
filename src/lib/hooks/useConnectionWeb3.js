@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { AppState } from 'react-native'
-import logger from '../logger/pino-logger'
+import logger from '../logger/js-logger'
 import SimpleStore from '../undux/SimpleStore'
 
 let isFirstCheckWeb3 = false

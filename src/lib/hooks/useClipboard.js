@@ -4,7 +4,7 @@ import { noop } from 'lodash'
 import { delay as waitFor } from '../utils/async'
 import Clipboard from '../utils/Clipboard'
 
-import logger from '../logger/pino-logger'
+import logger from '../logger/js-logger'
 import useRealtimeProps from './useRealtimeProps'
 import { preventPressed } from './useOnPress'
 

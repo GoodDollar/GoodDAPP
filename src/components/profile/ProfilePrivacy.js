@@ -18,7 +18,7 @@ import { useDialog } from '../../lib/undux/utils/dialog'
 
 // utils
 import userStorage from '../../lib/userStorage/UserStorage'
-import logger from '../../lib/logger/pino-logger'
+import logger from '../../lib/logger/js-logger'
 import { withStyles } from '../../lib/styles'
 import { fireEvent, PROFILE_PRIVACY } from '../../lib/analytics/analytics'
 import { getDesignRelativeHeight, isSmallDevice } from '../../lib/utils/sizes'

@@ -1,10 +1,10 @@
 // @flow
 import { sha3 } from 'web3-utils'
 import { ExceptionCategory } from '../logger/exceptions'
-import pino from '../logger/pino-logger'
+import logging from '../logger/js-logger'
 import { isValidDataUrl } from '../utils/base64'
 
-const logger = pino.child({ from: 'UserProfileUtils' })
+const logger = logging.child({ from: 'UserProfileUtils' })
 
 export const asLogRecord = profile => {
   if (profile && isValidDataUrl(profile.smallAvatar)) {

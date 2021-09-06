@@ -12,7 +12,7 @@ import { assign, findLastIndex } from 'lodash'
 
 import './gundb-extend'
 import Config from '../../config/config'
-import logger from '../logger/pino-logger'
+import logger from '../logger/js-logger'
 
 export default function createGun(options = {}) {
   const { gunPublicUrl, nodeEnv, peersProb, forcePeer } = Config

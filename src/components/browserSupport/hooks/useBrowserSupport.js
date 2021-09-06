@@ -12,7 +12,7 @@ import useMountedState from '../../../lib/hooks/useMountedState'
 import { useDialog } from '../../../lib/undux/utils/dialog'
 
 // utils
-import logger from '../../../lib/logger/pino-logger'
+import logger from '../../../lib/logger/js-logger'
 import { isAndroidWeb, isBrowser, isChrome, isIOSWeb, isSafari } from '../../../lib/utils/platform'
 
 const log = logger.child({ from: 'useBrowserSupport' })

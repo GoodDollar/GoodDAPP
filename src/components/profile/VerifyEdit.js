@@ -2,7 +2,7 @@
 import React, { useCallback, useState } from 'react'
 import { View } from 'react-native'
 import { get } from 'lodash'
-import logger from '../../lib/logger/pino-logger'
+import logger from '../../lib/logger/js-logger'
 import { withStyles } from '../../lib/styles'
 import { Section, Wrapper } from '../common'
 import Text from '../common/view/Text'

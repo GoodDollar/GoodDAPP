@@ -11,7 +11,7 @@ export const createUseCurriedSettersHook = getConnectedStore => (props: string[]
 
 export const createUseStorePropHook = getConnectedStore => prop => {
   const store = getConnectedStore().useStore()
-  const [setProperty] = useCurriedSetters(store)
+  const [setProperty] = useCurriedSetters(store, [prop])
 
   return [store.get(prop), setProperty]
 }

@@ -1,10 +1,12 @@
 import { Platform } from 'react-native'
 import ImagePicker from 'react-native-image-crop-picker'
-import { assembleDataUrl } from '../../../lib/utils/base64'
 
+import userStorage from '../../../lib/userStorage/UserStorage'
+
+import { assembleDataUrl } from '../../../lib/utils/base64'
 import { withTemporaryFile } from '../../../lib/utils/fs'
 
-export default async ({ pickerOptions, wrappedUserStorage, showErrorDialog, avatar, log }) => {
+export default async ({ pickerOptions, showErrorDialog, avatar, log }) => {
   // eslint-disable-next-line require-await
   const crop = async path => ImagePicker.openCropper({ ...pickerOptions, path })
 
@@ -18,7 +20,7 @@ export default async ({ pickerOptions, wrappedUserStorage, showErrorDialog, avat
 
   const newAvatar = assembleDataUrl(data, mime)
 
-  wrappedUserStorage.setAvatar(newAvatar).catch(e => {
+  userStorage.setAvatar(newAvatar).catch(e => {
     showErrorDialog('Could not save image. Please try again.')
     log.error('save image failed:', e.message, e)
   })

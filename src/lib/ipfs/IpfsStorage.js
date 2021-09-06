@@ -1,15 +1,16 @@
 import FileAPI from 'promisify-file-reader'
-import { get } from 'lodash'
+import { get, sortBy } from 'lodash'
 import axios from 'axios'
 
 import Config from '../../config/config'
+import logger from '../../lib/logger/js-logger'
 
 import { fallback } from '../utils/async'
 import { withTemporaryFile } from '../utils/fs'
 import { normalizeDataUrl } from '../utils/base64'
 
 class IpfsStorage {
-  constructor(httpFactory, config) {
+  constructor(httpFactory, config, logger) {
     const { pinataApiKey, pinataSecret, pinataBaseUrl, ipfsGateways } = config
 
     this.client = httpFactory.create({
@@ -23,8 +24,9 @@ class IpfsStorage {
       },
     })
 
-    this.gateways = ipfsGateways
+    this.logger = logger
     this.client.get = url => httpFactory.get(url, { responseType: 'blob' })
+    this.gateways = ipfsGateways.map((urlFactory, index) => ({ urlFactory, index, failed: 0 }))
   }
 
   async store(dataUrl) {
@@ -43,13 +45,7 @@ class IpfsStorage {
   }
 
   async load(cid, withMetadata = false) {
-    const { gateways, client } = this
-
-    const { data, headers } = await fallback(
-      // eslint-disable-next-line require-await
-      gateways.map(urlFactory => async () => client.get(urlFactory({ cid }))),
-    )
-
+    const { data, headers } = await this._loopkupGateways(cid)
     const mime = get(headers, 'content-type')
     const binary = !mime.startsWith('text/')
     const format = binary ? 'DataURL' : 'Text'
@@ -62,6 +58,46 @@ class IpfsStorage {
 
     return dataUrl
   }
+
+  async _loopkupGateways(cid) {
+    const { gateways, _requestGateway } = this
+
+    // try gateways and update failed counters
+    try {
+      // eslint-disable-next-line require-await
+      return await fallback(gateways.map(async gateway => _requestGateway(cid, gateway)))
+    } finally {
+      // doesn't changes gateway order if it have failed count < 3
+      // the gateways failed more times will be moved to the end
+      const failingAttemptsGreaterThree = ({ failed }) => (failed < 3 ? 0 : failed)
+
+      // re order gateways. non-failing will keep priorities set in config
+      this.gateways = sortBy(gateways, failingAttemptsGreaterThree, 'index')
+    }
+  }
+
+  _requestGateway = async (cid, gateway) => {
+    const { urlFactory } = gateway
+    const { client, logger } = this
+    const url = urlFactory({ cid })
+
+    try {
+      // try gateway
+      const response = await client.get(url)
+
+      // reset failing attempts counter on success
+      gateway.failed = 0
+      logger.debug('try IPFS url: success', { url })
+
+      return response
+    } catch (exception) {
+      logger.debug('try IPFS url: FAIL', { url })
+
+      // increase it on error
+      gateway.failed += 1
+      throw exception
+    }
+  }
 }
 
-export default new IpfsStorage(axios, Config)
+export default new IpfsStorage(axios, Config, logger.child({ from: 'IpfsStorage' }))

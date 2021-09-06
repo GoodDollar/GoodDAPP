@@ -4,6 +4,7 @@ import userStorage from '../userStorage/UserStorage'
 
 import { isValidCID } from '../ipfs/utils'
 import { isValidDataUrl } from '../utils/base64'
+import { useStoreProp } from '../undux/GDStore'
 
 const useAvatar = avatar => {
   const cachedDataUrl = useMemo(() => {
@@ -46,6 +47,15 @@ const useAvatar = avatar => {
   }, [cachedDataUrl, avatar, setDataUrl])
 
   return dataUrl
+}
+
+export const useUploadedAvatar = () => {
+  const [uploadedAvatar, setUploadedAvatar] = useStoreProp('uploadedAvatar')
+  const [avatarJustUploaded] = useState(() => uploadedAvatar)
+
+  useEffect(() => void setUploadedAvatar(null), [setUploadedAvatar])
+
+  return [avatarJustUploaded, setUploadedAvatar]
 }
 
 export default useAvatar

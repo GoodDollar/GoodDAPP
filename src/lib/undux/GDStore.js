@@ -3,7 +3,7 @@ import { createConnectedStore, type StoreDefinition } from 'undux'
 import { compose } from 'lodash/fp'
 import type { StandardFeed } from '../userStorage/StandardFeed'
 import withPinoLogger from './plugins/logger'
-import { createUseCurriedSettersHook } from './utils/setter'
+import { createUseCurriedSettersHook, createUseStorePropHook } from './utils/props'
 
 /**
  * Account data
@@ -68,6 +68,7 @@ const initialState: State = {
   currentFeed: undefined,
   feedLoading: false,
   inviteCode: undefined,
+  uploadedAvatar: null,
 }
 
 /**
@@ -77,5 +78,7 @@ const initialState: State = {
 const GDStore: StoreDefinition<State> = createConnectedStore(initialState, compose(withPinoLogger))
 
 export const useCurriedSetters = createUseCurriedSettersHook(() => GDStore)
+
+export const useStoreProp = createUseStorePropHook(() => GDStore)
 
 export default GDStore

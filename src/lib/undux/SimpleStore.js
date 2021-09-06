@@ -1,10 +1,10 @@
 // @flow
 import { createConnectedStore } from 'undux'
-import { isString } from 'lodash'
+import { isString, over } from 'lodash'
 
 import pinoLogger from '../logger/js-logger'
 import createStoreEffects, { unduxLogger } from './plugins'
-import { createUseCurriedSettersHook } from './utils/setter'
+import { createUseCurriedSettersHook, createUseStorePropHook } from './utils/props'
 
 /**
  * Dialog data. This is being used to show a dialog across the app
@@ -131,7 +131,7 @@ const storeAssertion = (condition, logger, message) => {
   return !assertionFailed
 }
 
-const useCurriedSetters = createUseCurriedSettersHook(() => SimpleStore)
+const [useCurriedSetters, useStoreProp] = over([createUseCurriedSettersHook, createUseStorePropHook])(() => SimpleStore)
 
 const assertStore = (store, logger = unduxLogger, message = 'Operation failed') =>
   storeAssertion(() => !store, logger, message)
@@ -148,4 +148,5 @@ export {
   setWallet,
   setUserStorage,
   useCurriedSetters,
+  useStoreProp,
 }

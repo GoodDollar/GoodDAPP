@@ -7,7 +7,7 @@ import { useErrorDialog } from '../../lib/undux/utils/dialog'
 import logger from '../../lib/logger/js-logger'
 import { CustomButton, Section, Wrapper } from '../common'
 import ImageCropper from '../common/form/ImageCropper'
-import useAvatar from '../../lib/hooks/useAvatar'
+import useAvatar, { useUploadedAvatar } from '../../lib/hooks/useAvatar'
 import useProfile from '../../lib/userStorage/useProfile'
 
 const log = logger.child({ from: 'EditAvatar' })
@@ -15,7 +15,7 @@ const log = logger.child({ from: 'EditAvatar' })
 const TITLE = 'Edit Avatar'
 
 const EditAvatar = ({ theme, screenProps }) => {
-  const passedAvatar = screenProps.screenState.avatar
+  const [avatarJustUploaded] = useUploadedAvatar()
   const [showErrorDialog] = useErrorDialog()
 
   const user = useWrappedUserStorage()
@@ -23,8 +23,8 @@ const EditAvatar = ({ theme, screenProps }) => {
   const storedAvatar = useAvatar(profile.avatar)
 
   // if passed avatar mark as dirty so we save it by default
-  const [avatar, setAvatar] = useState(() => passedAvatar || storedAvatar)
-  const [isDirty, markAsDirty] = useState(() => !!passedAvatar)
+  const [avatar, setAvatar] = useState(() => avatarJustUploaded || storedAvatar)
+  const [isDirty, markAsDirty] = useState(() => !!avatarJustUploaded)
   const [processing, setProcessing] = useState(false)
 
   const croppedRef = useRef(avatar)

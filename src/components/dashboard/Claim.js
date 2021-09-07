@@ -403,8 +403,15 @@ const Claim = props => {
           })
         }
 
-        //reset dailyUBI so statistics are shown after successful claim
+        // reset dailyUBI so statistics are shown after successful claim
         setDailyUbi(0)
+
+        // collect invite bonuses
+        const inviteBonusCollected = userStorage.userProperties.get('inviteBonusCollected')
+
+        if (!inviteBonusCollected) {
+          goodWallet.collectInviteBounty().then(r => userStorage.userProperties.set('inviteBonusCollected', true))
+        }
 
         showDialog({
           image: <LoadingAnimation success speed={2} />,
@@ -460,21 +467,22 @@ const Claim = props => {
         setLoading(true)
       }
 
-      // if we returned from face recognition then the isValid param would be set
-      // this happens only on first claim
-      log.debug('from FR:', { isValid, screenState })
+      if ('undefined' !== typeof isValid) {
+        // if we returned from face recognition then the isValid param would be set
+        // this happens only on first claim
+        log.debug('from FR:', { isValid, screenState })
+      }
 
       try {
+        // if returned from FV with validated state
         if (isValid && (await goodWallet.isCitizen())) {
-          //collect invite bonus
+          // claim & collect invite bonus
           await handleClaim()
-          const inviteBonusCollected = userStorage.userProperties.get('inviteBonusCollected')
-          if (!inviteBonusCollected) {
-            goodWallet.collectInviteBounty().then(r => userStorage.userProperties.set('inviteBonusCollected', true))
-          }
         } else if (isValid === false) {
+          // with non-validated state
           goToRoot()
         } else {
+          // opened claim page (non-returned from FV)
           if (isCitizen === false) {
             goodWallet.isCitizen().then(_ => gdstore.set('isLoggedInCitizen')(_))
           }

@@ -46,6 +46,10 @@
   font-weight: 500 !important;
 }
 
+#DOM_FT_uploadProgressMessageElement {
+ position: relative;
+}
+
 #DOM_FT_uploadAnimationContainer::before,
 #DOM_FT_uploadAnimationContainer::after {
   display: inline-block;

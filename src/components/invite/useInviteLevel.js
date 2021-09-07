@@ -1,15 +1,28 @@
-import { useState } from 'react'
-import GDStore from '../../lib/undux/GDStore'
+import { useEffect } from 'react'
+import { useStoreProp } from '../../lib/undux/GDStore'
+import goodWallet from '../../lib/wallet/GoodWallet'
+import logger from '../../lib/logger/js-logger'
+
+const log = logger.child({ from: 'useInviteLevel' })
 
 const useInviteLevel = () => {
-  const gdstore = GDStore.useStore()
-  const [level, setInviteLevel] = useState(() => gdstore.get('inviteLevel') || {})
+  const [inviteLevel, setInviteLevel] = useStoreProp('inviteLevel')
 
-  const setLevel = value => {
-    gdstore.set('inviteLevel')(value)
-    setInviteLevel(value)
+  const updateData = async () => {
+    try {
+      const user = await goodWallet.invitesContract.methods.users(goodWallet.account).call()
+      const level = await goodWallet.invitesContract.methods.levels(user.level).call()
+      setInviteLevel(level)
+      log.debug('set inviteLevel to', { level })
+    } catch (e) {
+      log.error('setInviteLevel failed:', e.message, e)
+    }
   }
 
-  return { level, setLevel }
+  useEffect(() => {
+    updateData()
+  }, [])
+
+  return inviteLevel
 }
 export default useInviteLevel

@@ -150,14 +150,11 @@ const useCollectBounty = () => {
 
 const useInvited = () => {
   const [invites, setInvites] = useState([])
-  const { level, setLevel } = useInviteLevel()
+  const level = useInviteLevel()
   const [totalEarned, setTotalEarned] = useState(0)
 
   const updateData = async () => {
     const user = await goodWallet.invitesContract.methods.users(goodWallet.account).call()
-
-    const level = await goodWallet.invitesContract.methods.levels(user.level).call()
-    setLevel(level)
     setTotalEarned(parseInt(user.totalEarned) / 100) //convert from wei to decimals
   }
 

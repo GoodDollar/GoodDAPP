@@ -68,7 +68,7 @@ const initialState: State = {
   currentFeed: undefined,
   feedLoading: false,
   inviteCode: undefined,
-  inviteLevel: undefined,
+  inviteLevel: {},
   uploadedAvatar: null,
 }
 

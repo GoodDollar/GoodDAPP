@@ -28,6 +28,7 @@ import ClaimButton from '../common/buttons/ClaimButton'
 import Section from '../common/layout/Section'
 import Wrapper from '../common/layout/Wrapper'
 import logger from '../../lib/logger/js-logger'
+import useInviteLevel from '../invite/useInviteLevel'
 import { Statistics, Support } from '../webView/webViewInstances'
 import { withStyles } from '../../lib/styles'
 import Mnemonics from '../signin/Mnemonics'
@@ -114,6 +115,7 @@ const Dashboard = props => {
   const { appState } = useAppState()
   const [animateMarket, setAnimateMarket] = useState(false)
   const { setDialogBlur } = useContext(GlobalTogglesContext)
+  useInviteLevel()
 
   const headerAnimateStyles = {
     position: 'relative',

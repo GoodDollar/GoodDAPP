@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
-import { groupBy, keyBy, noop, over } from 'lodash'
+import { groupBy, keyBy, over } from 'lodash'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import userStorage from '../../lib/userStorage/UserStorage'
 import logger from '../../lib/logger/js-logger'
@@ -177,9 +177,10 @@ export const useCollectBounty = () => {
   return [canCollect, collected]
 }
 
-export const useInvitesData = () => {
+export const useInvited = () => {
   const [invitesData, setInvitesData] = useStoreProp('invitesData')
   const [data, setData] = useState(() => invitesData)
+  const [invites, setInvites] = useState([])
   const { level, totalEarned } = data || {}
 
   const updateData = useCallback(async () => {
@@ -197,48 +198,33 @@ export const useInvitesData = () => {
     }
   }, [setInvitesData, setData])
 
-  useEffect(() => void updateData().catch(noop), [updateData])
+  const updateInvited = useCallback(async () => {
+    try {
+      await updateData()
 
-  return [level, totalEarned, updateData]
-}
+      const [invitees, pending] = await Promise.all([
+        goodWallet.invitesContract.methods.getInvitees(goodWallet.account).call(),
+        goodWallet.invitesContract.methods
+          .getPendingInvitees(goodWallet.account)
+          .call()
+          .then(_ => keyBy(_)),
+      ])
+      log.debug('updateInvited got invitees and pending invitees', { invitees, pending })
 
-export const useInvited = () => {
-  const [invites, setInvites] = useState([])
-  const [level, totalEarned, updateData] = useInvitesData()
+      let invited = invitees.map(addr => ({
+        address: addr,
+      }))
 
-  const updateInvited = useCallback(
-    async (skipData = false) => {
-      try {
-        if (true !== skipData) {
-          await updateData()
-        }
-
-        const [invitees, pending] = await Promise.all([
-          goodWallet.invitesContract.methods.getInvitees(goodWallet.account).call(),
-          goodWallet.invitesContract.methods
-            .getPendingInvitees(goodWallet.account)
-            .call()
-            .then(_ => keyBy(_)),
-        ])
-        log.debug('updateInvited got invitees and pending invitees', { invitees, pending })
-
-        let invited = invitees.map(addr => ({
-          address: addr,
-        }))
-
-        invited.forEach(i => (i.status = pending[i.address] ? 'pending' : 'approved'))
-        setInvites(invited)
-        log.debug('set invitees to', { invitees })
-      } catch (e) {
-        log.error('updateInvited failed:', e.message, e)
-      }
-    },
-    [setInvites, updateData],
-  )
+      invited.forEach(i => (i.status = pending[i.address] ? 'pending' : 'approved'))
+      setInvites(invited)
+      log.debug('set invitees to', { invitees })
+    } catch (e) {
+      log.error('updateInvited failed:', e.message, e)
+    }
+  }, [setInvites, updateData])
 
   useEffect(() => {
-    // do not update data on mount hook as useInvitesData does this
-    updateInvited(true)
+    updateInvited()
   }, [updateInvited])
 
   const { pending = [], approved = [] } = useMemo(() => groupBy(invites, 'status'), [invites])

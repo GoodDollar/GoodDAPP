@@ -44,10 +44,7 @@
 #DOM_FT_successMessageText,
 #DOM_FT_unsuccessMessageText {
   font-weight: 500 !important;
-}
-
-#DOM_FT_uploadProgressMessageElement {
- position: relative;
+  position: relative;
 }
 
 #DOM_FT_uploadAnimationContainer::before,

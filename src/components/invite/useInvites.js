@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
-import { groupBy, keyBy, over } from 'lodash'
+import { groupBy, keyBy, noop, over } from 'lodash'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import userStorage from '../../lib/userStorage/UserStorage'
 import logger from '../../lib/logger/js-logger'
@@ -80,27 +80,43 @@ export const useInviteBonusCollected = () => {
   const [showDialog] = useDialog()
   const [collected, setCollected] = useState(() => userStorage.userProperties.get(collectedProp))
 
-  const collectInviteBounty = useCallback(async () => {
-    if (userStorage.userProperties.get(collectedProp)) {
-      return
-    }
+  const getCanCollect = useCallback(
+    // eslint-disable-next-line require-await
+    async () => goodWallet.invitesContract.methods.canCollectBountyFor(goodWallet.account).call(),
+    [],
+  )
 
-    await goodWallet.collectInviteBounty()
-    userStorage.userProperties.set(collectedProp, true)
-    setCollected(true)
+  const collectInviteBounty = useCallback(
+    async (onUnableToCollect = noop) => {
+      if (userStorage.userProperties.get(collectedProp)) {
+        return
+      }
 
-    showDialog({
-      title: `Reward Collected!`,
-      image: <SuccessIcon />,
-      buttons: [
-        {
-          text: 'YAY!',
-        },
-      ],
-    })
-  }, [setCollected])
+      const canCollect = await getCanCollect()
 
-  return [collected, collectInviteBounty]
+      if (!canCollect) {
+        onUnableToCollect()
+        return
+      }
+
+      await goodWallet.collectInviteBounty()
+      userStorage.userProperties.set(collectedProp, true)
+      setCollected(true)
+
+      showDialog({
+        title: `Reward Collected!`,
+        image: <SuccessIcon />,
+        buttons: [
+          {
+            text: 'YAY!',
+          },
+        ],
+      })
+    },
+    [setCollected, getCanCollect],
+  )
+
+  return [collected, getCanCollect, collectInviteBounty]
 }
 
 export const useCollectBounty = () => {

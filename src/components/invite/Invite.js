@@ -132,7 +132,7 @@ const ShareBox = ({ level }) => {
 const InputCodeBox = ({ navigateTo }) => {
   const ownInviteCode = useInviteCode()
   const [showDialog, hideDialog] = useDialog()
-  const [collected, collectInviteBounty] = useInviteBonusCollected()
+  const [collected, getCanCollect, collectInviteBounty] = useInviteBonusCollected()
 
   //show component if reward not collected yet
   const [visible, setVisible] = useState(() => !collected)
@@ -188,20 +188,13 @@ const InputCodeBox = ({ navigateTo }) => {
       await goodWallet.joinInvites(extractedCode)
       userStorage.userProperties.updateAll({ inviterInviteCodeUsed: true, inviterInviteCode: extractedCode })
 
-      const canCollect = await goodWallet.invitesContract.methods.canCollectBountyFor(goodWallet.account).call()
-
-      if (!canCollect) {
-        onUnableToCollect()
-        return
-      }
-
-      await collectInviteBounty()
+      await collectInviteBounty(onUnableToCollect)
       setVisible(false)
     } catch (e) {
       log.warn('collectInviteBounty failed', e.message, e)
       hideDialog()
     }
-  }, [extractedCode, showDialog, hideDialog, setVisible, onUnableToCollect, collectInviteBounty])
+  }, [extractedCode, showDialog, hideDialog, setVisible, getCanCollect, onUnableToCollect, collectInviteBounty])
 
   useEffect(() => {
     if (!visible || !inviteCodeUsed) {
@@ -213,11 +206,8 @@ const InputCodeBox = ({ navigateTo }) => {
       return
     }
 
-    goodWallet.invitesContract.methods
-      .canCollectBountyFor(goodWallet.account)
-      .call()
-      .then(canCollect => setDisabled(!canCollect))
-  }, [extractedCode, isValidCode, visible, inviteCodeUsed, setDisabled])
+    getCanCollect().then(canCollect => setDisabled(!canCollect))
+  }, [extractedCode, isValidCode, visible, inviteCodeUsed, getCanCollect, setDisabled])
 
   if (!visible) {
     return null

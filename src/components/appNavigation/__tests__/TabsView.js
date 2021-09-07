@@ -4,7 +4,7 @@ import ImportedTabsView from '../TabsView'
 import Dashboard from '../../dashboard/Dashboard'
 import Profile from '../../profile/Profile'
 import userStorage from '../../../lib/userStorage/UserStorage'
-import { withSimpleStateProvider } from '../../../__tests__/__util__/index'
+import { withStoresProvider } from '../../../__tests__/__util__/index'
 
 // Note: test renderer must be required after react-native.
 jest.setTimeout(20000)
@@ -24,7 +24,7 @@ describe('TabsView', () => {
     },
   }
 
-  const TabsView = withSimpleStateProvider(ImportedTabsView)
+  const TabsView = withStoresProvider(ImportedTabsView)
 
   it('renders without errors', () => {
     const tree = renderer.create(<TabsView routes={routes} />)

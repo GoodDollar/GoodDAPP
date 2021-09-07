@@ -30,29 +30,13 @@ export default class UserProperties {
     hasOpenedGoodMarket: false,
     hasOpenedInviteScreen: false,
     goodMarketClicked: false,
+    inviteBonusCollected: false,
     inviterInviteCode: null,
     inviteCode: null,
     lastInviteState: { pending: 0, approved: 0 },
   }
 
-  fields = [
-    'isMadeBackup',
-    'firstVisitApp',
-    'etoroAddCardSpending',
-    'isAddedToHomeScreen',
-    'lastBonusCheckDate',
-    'countClaim',
-    'regMethod',
-    'showQuickActionHint',
-    'startClaimingAdded',
-    'lastBlock',
-    'lastTxSyncDate',
-    'hasOpenedGoodMarket',
-    'goodMarketClicked',
-    'lastInviteState',
-  ]
-
-  data: {}
+  data = {}
 
   local = {}
 
@@ -64,6 +48,7 @@ export default class UserProperties {
     this.ready = (async () => {
       const props = await AsyncStorage.getItem('props')
       const localProps = await AsyncStorage.getItem('localProps')
+
       this.local = assign({}, localProps)
       log.debug('found local settings:', { props, localProps, local: this.local })
 
@@ -126,7 +111,9 @@ export default class UserProperties {
    * @returns {Promise<any>}
    */
   get(field: string) {
-    return this.data[field] || this.local[field]
+    const { data } = this
+
+    return field in data ? data[field] : this.local[field]
   }
 
   /**
@@ -170,9 +157,9 @@ export default class UserProperties {
 
     try {
       await AsyncStorage.setItem('props', data)
-      if (this.storage.isReady) {
-        this.storage.ready.then(_ => retry(() => this.storage.encryptSettings(data), 2, 500).catch(logError)) //dont await on this, sync in background
-      }
+
+      // dont await on this, sync in background
+      this.ready.then(() => retry(() => this.storage.encryptSettings(data), 2, 500).catch(logError))
     } catch (e) {
       logError(e)
       throw e

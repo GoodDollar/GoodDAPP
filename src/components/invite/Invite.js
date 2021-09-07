@@ -14,11 +14,16 @@ import { usePublicProfileOf } from '../../lib/userStorage/useProfile'
 import ModalLeftBorder from '../common/modal/ModalLeftBorder'
 import { useDialog } from '../../lib/undux/utils/dialog'
 import LoadingIcon from '../common/modal/LoadingIcon'
-import SuccessIcon from '../common/modal/SuccessIcon'
 import { InfoIcon } from '../common/modal/InfoIcon'
 
 import goodWallet from '../../lib/wallet/GoodWallet'
-import { useCollectBounty, useInviteCode, useInvited, useInviteScreenOpened } from './useInvites'
+import {
+  useCollectBounty,
+  useInviteBonusCollected,
+  useInviteCode,
+  useInvited,
+  useInviteScreenOpened,
+} from './useInvites'
 import FriendsSVG from './friends.svg'
 import EtoroPNG from './etoro.png'
 import ShareIcons from './ShareIcons'
@@ -126,16 +131,18 @@ const ShareBox = ({ level }) => {
 
 const InputCodeBox = ({ navigateTo }) => {
   const ownInviteCode = useInviteCode()
-
-  const [code, setCode] = useState(userStorage.userProperties.get('inviterInviteCode') || '')
-  const inviteCodeUsed = userStorage.userProperties.get('inviterInviteCodeUsed')
+  const [showDialog, hideDialog] = useDialog()
+  const [collected, collectInviteBounty] = useInviteBonusCollected()
 
   //show component if reward not collected yet
-  const [visible, setVisible] = useState(!userStorage.userProperties.get('inviteBonusCollected'))
-  const [showDialog, hideDialog] = useDialog()
+  const [visible, setVisible] = useState(() => !collected)
+  const [code, setCode] = useState(userStorage.userProperties.get('inviterInviteCode') || '')
+
   const extractedCode = get(extractQueryParams(code), 'inviteCode', code)
   const isValidCode = extractedCode.length >= 10 && extractedCode !== ownInviteCode
-  const [disabled, setDisabled] = useState(!isValidCode) //disable button if code invalid or cant collect
+  const inviteCodeUsed = userStorage.userProperties.get('inviterInviteCodeUsed')
+
+  const [disabled, setDisabled] = useState(() => !isValidCode) //disable button if code invalid or cant collect
 
   const onUnableToCollect = useCallback(async () => {
     const isCitizen = await goodWallet.isCitizen()
@@ -188,23 +195,13 @@ const InputCodeBox = ({ navigateTo }) => {
         return
       }
 
-      await goodWallet.collectInviteBounty()
-      userStorage.userProperties.set('inviteBonusCollected', true)
-      showDialog({
-        title: `Reward Collected!`,
-        image: <SuccessIcon />,
-        buttons: [
-          {
-            text: 'YAY!',
-          },
-        ],
-      })
+      await collectInviteBounty()
       setVisible(false)
     } catch (e) {
       log.warn('collectInviteBounty failed', e.message, e)
       hideDialog()
     }
-  }, [extractedCode, showDialog, hideDialog, setVisible, onUnableToCollect])
+  }, [extractedCode, showDialog, hideDialog, setVisible, onUnableToCollect, collectInviteBounty])
 
   useEffect(() => {
     if (!visible || !inviteCodeUsed) {

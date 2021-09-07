@@ -46,6 +46,7 @@ import { WavesBox } from '../common/view/WavesBox'
 import useTimer from '../../lib/hooks/useTimer'
 
 import useInterval from '../../lib/hooks/useInterval'
+import { useInviteBonusCollected } from '../invite/useInvites'
 import type { DashboardProps } from './Dashboard'
 import useClaimCounter from './Claim/useClaimCounter'
 import ButtonBlock from './Claim/ButtonBlock'
@@ -244,6 +245,7 @@ const Claim = props => {
 
   const wrappedGoodWallet = wrapper(goodWallet, store)
   const advanceClaimsCounter = useClaimCounter()
+  const [, collectInviteBounty] = useInviteBonusCollected()
 
   // A function which will open 'learn more' page in a new tab
   // const openLearnMoreLink = useOnPress(() => openLink(Config.learnMoreEconomyUrl), [])
@@ -406,19 +408,12 @@ const Claim = props => {
         // reset dailyUBI so statistics are shown after successful claim
         setDailyUbi(0)
 
-        // collect invite bonuses
-        const inviteBonusCollected = userStorage.userProperties.get('inviteBonusCollected')
-
-        if (!inviteBonusCollected) {
-          goodWallet.collectInviteBounty().then(r => userStorage.userProperties.set('inviteBonusCollected', true))
-        }
-
         showDialog({
           image: <LoadingAnimation success speed={2} />,
           buttons: [{ text: 'Yay!' }],
           message: `You've claimed your daily G$\nsee you tomorrow.`,
           title: 'CHA-CHING!',
-          onDismiss: () => {},
+          onDismiss: collectInviteBounty, // collect invite bonuses
         })
       } else {
         fireEvent(CLAIM_FAILED, { txhash: receipt.transactionHash, txNotCompleted: true })

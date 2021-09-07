@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { groupBy, keyBy, noop, over } from 'lodash'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import userStorage from '../../lib/userStorage/UserStorage'
@@ -11,12 +11,14 @@ import { INVITE_CODE } from '../../lib/constants/localStorage'
 
 import Config from '../../config/config'
 import { useStoreProp } from '../../lib/undux/GDStore'
-
-const wasOpenedProp = 'hasOpenedInviteScreen'
+import SuccessIcon from '../common/modal/SuccessIcon'
 
 const log = logger.child({ from: 'useInvites' })
 
+const collectedProp = 'inviteBonusCollected'
+const wasOpenedProp = 'hasOpenedInviteScreen'
 const NULL_ADDRESS = '0x0000000000000000000000000000000000000000'
+
 const registerForInvites = async () => {
   const inviterInviteCode =
     userStorage.userProperties.get('inviterInviteCode') || (await AsyncStorage.getItem(INVITE_CODE))
@@ -55,7 +57,7 @@ const getInviteCode = async () => {
   return code
 }
 
-const useInviteCode = () => {
+export const useInviteCode = () => {
   const [inviteCode, setInviteCode] = useState(userStorage.userProperties.get('inviteCode'))
 
   //return user invite code or register him with a new code
@@ -74,7 +76,34 @@ const useInviteCode = () => {
   return inviteCode
 }
 
-const useCollectBounty = () => {
+export const useInviteBonusCollected = () => {
+  const [showDialog] = useDialog()
+  const [collected, setCollected] = useState(() => userStorage.userProperties.get(collectedProp))
+
+  const collectInviteBounty = useCallback(async () => {
+    if (userStorage.userProperties.get(collectedProp)) {
+      return
+    }
+
+    await goodWallet.collectInviteBounty()
+    userStorage.userProperties.set(collectedProp, true)
+    setCollected(true)
+
+    showDialog({
+      title: `Reward Collected!`,
+      image: <SuccessIcon />,
+      buttons: [
+        {
+          text: 'YAY!',
+        },
+      ],
+    })
+  }, [setCollected])
+
+  return [collected, collectInviteBounty]
+}
+
+export const useCollectBounty = () => {
   const [showDialog, , showErrorDialog] = useDialog()
   const [canCollect, setCanCollect] = useState(undefined)
   const [collected, setCollected] = useState(undefined)
@@ -173,7 +202,7 @@ export const useInvitesData = () => {
   return [level, totalEarned, updateData]
 }
 
-const useInvited = () => {
+export const useInvited = () => {
   const [invites, setInvites] = useState([])
   const [level, totalEarned, updateData] = useInvitesData()
 
@@ -217,7 +246,7 @@ const useInvited = () => {
   return [invites, updateInvited, level, { pending: pending.length, approved: approved.length, totalEarned }]
 }
 
-const useInviteScreenOpened = () => {
+export const useInviteScreenOpened = () => {
   const { userProperties } = userStorage
 
   const [wasOpened, setWasOpened] = useState(userProperties.get(wasOpenedProp))
@@ -237,5 +266,3 @@ const useInviteScreenOpened = () => {
 
   return { wasOpened, trackOpened }
 }
-
-export { useInviteCode, useInvited, useCollectBounty, useInviteScreenOpened }

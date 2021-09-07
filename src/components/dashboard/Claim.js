@@ -2,6 +2,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { Platform, View } from 'react-native'
 import moment from 'moment'
+import { noop } from 'lodash'
 import AsyncStorage from '../../lib/utils/asyncStorage'
 
 import ClaimSvg from '../../assets/Claim/claim-footer.svg'
@@ -413,7 +414,7 @@ const Claim = props => {
           buttons: [{ text: 'Yay!' }],
           message: `You've claimed your daily G$\nsee you tomorrow.`,
           title: 'CHA-CHING!',
-          onDismiss: collectInviteBounty, // collect invite bonuses
+          onDismiss: noop,
         })
       } else {
         fireEvent(CLAIM_FAILED, { txhash: receipt.transactionHash, txNotCompleted: true })
@@ -473,6 +474,9 @@ const Claim = props => {
         if (isValid && (await goodWallet.isCitizen())) {
           // claim & collect invite bonus
           await handleClaim()
+
+          // collect invite bonuses
+          await collectInviteBounty()
         } else if (isValid === false) {
           // with non-validated state
           goToRoot()

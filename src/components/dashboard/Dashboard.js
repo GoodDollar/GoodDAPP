@@ -28,6 +28,7 @@ import ClaimButton from '../common/buttons/ClaimButton'
 import Section from '../common/layout/Section'
 import Wrapper from '../common/layout/Wrapper'
 import logger from '../../lib/logger/js-logger'
+import { useInvitesData } from '../invite/useInvites'
 import { Statistics, Support } from '../webView/webViewInstances'
 import { withStyles } from '../../lib/styles'
 import Mnemonics from '../signin/Mnemonics'
@@ -244,6 +245,9 @@ const Dashboard = props => {
       },
     ],
   }).current
+
+  // preload invites data to display invite code box immediately when invites pages opened
+  useInvitesData()
 
   useEffect(() => {
     if (feedLoaded && appState === 'active') {

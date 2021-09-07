@@ -1,5 +1,5 @@
-import { useCallback, useEffect, useState } from 'react'
-import { groupBy, keyBy } from 'lodash'
+import { useCallback, useEffect, useMemo, useState } from 'react'
+import { groupBy, keyBy, noop, over } from 'lodash'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import userStorage from '../../lib/userStorage/UserStorage'
 import logger from '../../lib/logger/js-logger'
@@ -10,7 +10,7 @@ import AsyncStorage from '../../lib/utils/asyncStorage'
 import { INVITE_CODE } from '../../lib/constants/localStorage'
 
 import Config from '../../config/config'
-import useInviteLevel from './useInviteLevel'
+import { useStoreProp } from '../../lib/undux/GDStore'
 
 const wasOpenedProp = 'hasOpenedInviteScreen'
 
@@ -148,46 +148,71 @@ const useCollectBounty = () => {
   return [canCollect, collected]
 }
 
+export const useInvitesData = () => {
+  const [invitesData, setInvitesData] = useStoreProp('invitesData')
+  const [data, setData] = useState(() => invitesData)
+  const { level, totalEarned } = data || {}
+
+  const updateData = useCallback(async () => {
+    try {
+      const user = await goodWallet.invitesContract.methods.users(goodWallet.account).call()
+      const level = await goodWallet.invitesContract.methods.levels(user.level).call()
+      const totalEarned = parseInt(user.totalEarned) / 100
+      const invitesData = { level, totalEarned }
+
+      over([setInvitesData, setData])(invitesData)
+      log.debug('set invitesData to', invitesData)
+    } catch (e) {
+      log.error('set invitesData failed:', e.message, e)
+      throw e
+    }
+  }, [setInvitesData, setData])
+
+  useEffect(() => void updateData().catch(noop), [updateData])
+
+  return [level, totalEarned, updateData]
+}
+
 const useInvited = () => {
   const [invites, setInvites] = useState([])
-  const level = useInviteLevel()
-  const [totalEarned, setTotalEarned] = useState(0)
+  const [level, totalEarned, updateData] = useInvitesData()
 
-  const updateData = async () => {
-    const user = await goodWallet.invitesContract.methods.users(goodWallet.account).call()
-    setTotalEarned(parseInt(user.totalEarned) / 100) //convert from wei to decimals
-  }
+  const updateInvited = useCallback(
+    async (skipData = false) => {
+      try {
+        if (true !== skipData) {
+          await updateData()
+        }
 
-  const updateInvited = async () => {
-    try {
-      await updateData()
+        const [invitees, pending] = await Promise.all([
+          goodWallet.invitesContract.methods.getInvitees(goodWallet.account).call(),
+          goodWallet.invitesContract.methods
+            .getPendingInvitees(goodWallet.account)
+            .call()
+            .then(_ => keyBy(_)),
+        ])
+        log.debug('updateInvited got invitees and pending invitees', { invitees, pending })
 
-      const [invitees, pending] = await Promise.all([
-        goodWallet.invitesContract.methods.getInvitees(goodWallet.account).call(),
-        goodWallet.invitesContract.methods
-          .getPendingInvitees(goodWallet.account)
-          .call()
-          .then(_ => keyBy(_)),
-      ])
-      log.debug('updateInvited got invitees and pending invitees', { invitees, pending })
+        let invited = invitees.map(addr => ({
+          address: addr,
+        }))
 
-      let invited = invitees.map(addr => ({
-        address: addr,
-      }))
-
-      invited.forEach(i => (i.status = pending[i.address] ? 'pending' : 'approved'))
-      setInvites(invited)
-      log.debug('set invitees to', { invitees })
-    } catch (e) {
-      log.error('updateInvited failed:', e.message, e)
-    }
-  }
+        invited.forEach(i => (i.status = pending[i.address] ? 'pending' : 'approved'))
+        setInvites(invited)
+        log.debug('set invitees to', { invitees })
+      } catch (e) {
+        log.error('updateInvited failed:', e.message, e)
+      }
+    },
+    [setInvites, updateData],
+  )
 
   useEffect(() => {
-    updateInvited()
-  }, [])
+    // do not update data on mount hook as useInvitesData does this
+    updateInvited(true)
+  }, [updateInvited])
 
-  const { pending = [], approved = [] } = groupBy(invites, 'status')
+  const { pending = [], approved = [] } = useMemo(() => groupBy(invites, 'status'), [invites])
 
   return [invites, updateInvited, level, { pending: pending.length, approved: approved.length, totalEarned }]
 }

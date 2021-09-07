@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 import { groupBy, keyBy } from 'lodash'
+import GDStore from '../../lib/undux/GDStore'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import userStorage from '../../lib/userStorage/UserStorage'
 import logger from '../../lib/logger/js-logger'
@@ -148,14 +149,16 @@ const useCollectBounty = () => {
 }
 
 const useInvited = () => {
+  const gdstore = GDStore.useStore()
   const [invites, setInvites] = useState([])
-  const [level, setLevel] = useState({})
+  const [level, setLevel] = useState(gdstore.get('inviteLevel') ?? {})
   const [totalEarned, setTotalEarned] = useState(0)
 
   const updateData = async () => {
     const user = await goodWallet.invitesContract.methods.users(goodWallet.account).call()
 
     const level = await goodWallet.invitesContract.methods.levels(user.level).call()
+    gdstore.set('inviteLevel')(level)
     setLevel(level)
     setTotalEarned(parseInt(user.totalEarned) / 100) //convert from wei to decimals
   }

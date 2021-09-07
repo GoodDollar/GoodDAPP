@@ -69,13 +69,13 @@
 
 @media (min-width: 801px) {
   #DOM_FT_uploadAnimationContainer::before {
-    top: -60%;
+    top: -30%;
   }
 }
 
 @media (max-width: 800px) {
   #DOM_FT_uploadAnimationContainer::before {
-    top: -120%;
+    top: -30%;
   }
 }
 

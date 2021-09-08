@@ -1,7 +1,6 @@
 import React, { memo, useCallback, useEffect, useRef } from 'react'
 import { View } from 'react-native'
 import CardFlip from 'react-native-card-flip'
-import { noop } from 'lodash'
 
 import { CustomButton } from '../common'
 import Section from '../common/layout/Section'
@@ -183,7 +182,7 @@ const ClaimAnimationButton = memo(({ styles, entitlement, nextClaim, onPress, is
     [entitlement, onPress],
   )
 
-  const flipPerspective = isMobileNative ? noop() : 0
+  const flipPerspective = isMobileNative ? undefined : CardFlip.defaultProps.perspective
 
   return (
     <CardFlip

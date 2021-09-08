@@ -21,14 +21,14 @@ exports[`ClaimButton matches snapshot for citizen with entitlement 1`] = `
       id="animatedComponent"
       style={
         Object {
-          "WebkitTransform": "perspective(0px) rotateX(0deg)",
+          "WebkitTransform": "perspective(800px) rotateX(0deg)",
           "bottom": "0px",
           "left": "0px",
           "opacity": 100,
           "position": "absolute",
           "right": "0px",
           "top": "0px",
-          "transform": "perspective(0px) rotateX(0deg)",
+          "transform": "perspective(800px) rotateX(0deg)",
           "zIndex": 0,
         }
       }
@@ -181,14 +181,14 @@ exports[`ClaimButton matches snapshot for citizen with entitlement 1`] = `
       id="animatedComponent"
       style={
         Object {
-          "WebkitTransform": "perspective(0px) rotateX(-180deg)",
+          "WebkitTransform": "perspective(-800px) rotateX(-180deg)",
           "bottom": "0px",
           "left": "0px",
           "opacity": 0,
           "position": "absolute",
           "right": "0px",
           "top": "0px",
-          "transform": "perspective(0px) rotateX(-180deg)",
+          "transform": "perspective(-800px) rotateX(-180deg)",
           "zIndex": 1,
         }
       }
@@ -341,14 +341,14 @@ exports[`ClaimButton matches snapshot for citizen without entitlement 1`] = `
       id="animatedComponent"
       style={
         Object {
-          "WebkitTransform": "perspective(0px) rotateY(0deg)",
+          "WebkitTransform": "perspective(800px) rotateY(0deg)",
           "bottom": "0px",
           "left": "0px",
           "opacity": 100,
           "position": "absolute",
           "right": "0px",
           "top": "0px",
-          "transform": "perspective(0px) rotateY(0deg)",
+          "transform": "perspective(800px) rotateY(0deg)",
           "zIndex": 1,
         }
       }
@@ -501,14 +501,14 @@ exports[`ClaimButton matches snapshot for citizen without entitlement 1`] = `
       id="animatedComponent"
       style={
         Object {
-          "WebkitTransform": "perspective(0px) rotateY(-180deg)",
+          "WebkitTransform": "perspective(-800px) rotateY(-180deg)",
           "bottom": "0px",
           "left": "0px",
           "opacity": 0,
           "position": "absolute",
           "right": "0px",
           "top": "0px",
-          "transform": "perspective(0px) rotateY(-180deg)",
+          "transform": "perspective(-800px) rotateY(-180deg)",
           "zIndex": 0,
         }
       }
@@ -681,14 +681,14 @@ exports[`ClaimButton matches snapshot for non-citizen 1`] = `
       id="animatedComponent"
       style={
         Object {
-          "WebkitTransform": "perspective(0px) rotateY(0deg)",
+          "WebkitTransform": "perspective(800px) rotateY(0deg)",
           "bottom": "0px",
           "left": "0px",
           "opacity": 100,
           "position": "absolute",
           "right": "0px",
           "top": "0px",
-          "transform": "perspective(0px) rotateY(0deg)",
+          "transform": "perspective(800px) rotateY(0deg)",
           "zIndex": 1,
         }
       }
@@ -841,14 +841,14 @@ exports[`ClaimButton matches snapshot for non-citizen 1`] = `
       id="animatedComponent"
       style={
         Object {
-          "WebkitTransform": "perspective(0px) rotateY(-180deg)",
+          "WebkitTransform": "perspective(-800px) rotateY(-180deg)",
           "bottom": "0px",
           "left": "0px",
           "opacity": 0,
           "position": "absolute",
           "right": "0px",
           "top": "0px",
-          "transform": "perspective(0px) rotateY(-180deg)",
+          "transform": "perspective(-800px) rotateY(-180deg)",
           "zIndex": 0,
         }
       }

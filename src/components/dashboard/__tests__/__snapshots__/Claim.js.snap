@@ -234,14 +234,14 @@ More G$'s Coming Soon
             id="animatedComponent"
             style={
               Object {
-                "WebkitTransform": "perspective(0px) rotateY(0deg)",
+                "WebkitTransform": "perspective(800px) rotateY(0deg)",
                 "bottom": "0px",
                 "left": "0px",
                 "opacity": 100,
                 "position": "absolute",
                 "right": "0px",
                 "top": "0px",
-                "transform": "perspective(0px) rotateY(0deg)",
+                "transform": "perspective(800px) rotateY(0deg)",
               }
             }
           >
@@ -388,14 +388,14 @@ More G$'s Coming Soon
             id="animatedComponent"
             style={
               Object {
-                "WebkitTransform": "perspective(0px) rotateY(-180deg)",
+                "WebkitTransform": "perspective(-800px) rotateY(-180deg)",
                 "bottom": "0px",
                 "left": "0px",
                 "opacity": 0,
                 "position": "absolute",
                 "right": "0px",
                 "top": "0px",
-                "transform": "perspective(0px) rotateY(-180deg)",
+                "transform": "perspective(-800px) rotateY(-180deg)",
                 "zIndex": 0,
               }
             }

@@ -2,8 +2,9 @@ import { createSwitchNavigator } from '@react-navigation/core'
 import { createBrowserApp } from '@react-navigation/web'
 import React from 'react'
 import renderer from 'react-test-renderer'
-import userStorage from '../../../lib/userStorage/UserStorage'
+
 import { StoresWrapper, withThemeProvider } from '../../../__tests__/__util__'
+import { initUserStorage } from '../../../lib/userStorage/__tests__/__util__'
 import { getComponentWithMocks } from './__util__'
 
 const routes = {
@@ -27,8 +28,7 @@ class AppNavigation extends React.Component<AppNavigationProps, AppNavigationSta
 describe('Dashboard', () => {
   beforeAll(async () => {
     jest.setTimeout(15000)
-    await userStorage.wallet.ready
-    await userStorage.ready
+    await initUserStorage()
   })
 
   it('renders without errors', () => {

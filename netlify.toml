@@ -48,6 +48,7 @@ command = "CI= npm run build"
         must-revalidate'''
 
 [build.environment]
+NODE_VERSION = "14.17.6"
 GENERATE_SOURCEMAP = "true"
 NODE_ENV = "development"
 REACT_APP_SERVICE_WORKER = "true"

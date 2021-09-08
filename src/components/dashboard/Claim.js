@@ -47,7 +47,7 @@ import { WavesBox } from '../common/view/WavesBox'
 import useTimer from '../../lib/hooks/useTimer'
 
 import useInterval from '../../lib/hooks/useInterval'
-import { useInviteBonusCollected } from '../invite/useInvites'
+import { useInviteBonus } from '../invite/useInvites'
 import type { DashboardProps } from './Dashboard'
 import useClaimCounter from './Claim/useClaimCounter'
 import ButtonBlock from './Claim/ButtonBlock'
@@ -246,7 +246,7 @@ const Claim = props => {
 
   const wrappedGoodWallet = wrapper(goodWallet, store)
   const advanceClaimsCounter = useClaimCounter()
-  const [, , collectInviteBounty] = useInviteBonusCollected()
+  const [, , collectInviteBounty] = useInviteBonus()
 
   // A function which will open 'learn more' page in a new tab
   // const openLearnMoreLink = useOnPress(() => openLink(Config.learnMoreEconomyUrl), [])

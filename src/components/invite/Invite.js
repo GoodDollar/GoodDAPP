@@ -17,13 +17,7 @@ import LoadingIcon from '../common/modal/LoadingIcon'
 import { InfoIcon } from '../common/modal/InfoIcon'
 
 import goodWallet from '../../lib/wallet/GoodWallet'
-import {
-  useCollectBounty,
-  useInviteBonusCollected,
-  useInviteCode,
-  useInvited,
-  useInviteScreenOpened,
-} from './useInvites'
+import { useCollectBounty, useInviteBonus, useInviteCode, useInvited, useInviteScreenOpened } from './useInvites'
 import FriendsSVG from './friends.svg'
 import EtoroPNG from './etoro.png'
 import ShareIcons from './ShareIcons'
@@ -132,7 +126,7 @@ const ShareBox = ({ level }) => {
 const InputCodeBox = ({ navigateTo }) => {
   const ownInviteCode = useInviteCode()
   const [showDialog, hideDialog] = useDialog()
-  const [collected, getCanCollect, collectInviteBounty] = useInviteBonusCollected()
+  const [collected, getCanCollect, collectInviteBounty] = useInviteBonus()
 
   //show component if reward not collected yet
   const [visible, setVisible] = useState(() => !collected)

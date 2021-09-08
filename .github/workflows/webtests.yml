@@ -40,7 +40,7 @@ jobs:
           ref: ${{ github.event.inputs.release == 'qa' && 'master' || 'staging' }}
       - name: setup git
         run: |
-          git config --local user.email "alexey@gooddollar.org"
+          git config --local user.email "techadmin@gooddollar.org"
           git config --local user.name "Techadmin"
           npm install -g auto-changelog
       - name: update version qa

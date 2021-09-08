@@ -76,9 +76,16 @@ export const useInviteCode = () => {
   return inviteCode
 }
 
-export const useInviteBonusCollected = () => {
+const getConnectedFlagValue = () => {
+  const collected = userStorage.userProperties.get(collectedProp)
+
+  log.debug(`useInviteBonus: got ${collectedProp}:`, { collected })
+  return collected
+}
+
+export const useInviteBonus = () => {
   const [showDialog] = useDialog()
-  const [collected, setCollected] = useState(() => userStorage.userProperties.get(collectedProp))
+  const [collected, setCollected] = useState(() => getConnectedFlagValue())
 
   const getCanCollect = useCallback(
     // eslint-disable-next-line require-await
@@ -88,11 +95,13 @@ export const useInviteBonusCollected = () => {
 
   const collectInviteBounty = useCallback(
     async (onUnableToCollect = noop) => {
-      if (userStorage.userProperties.get(collectedProp)) {
+      if (getConnectedFlagValue()) {
         return
       }
 
       const canCollect = await getCanCollect()
+
+      log.debug(`useInviteBonus: got canCollect:`, { canCollect })
 
       if (!canCollect) {
         onUnableToCollect()
@@ -102,6 +111,8 @@ export const useInviteBonusCollected = () => {
       await goodWallet.collectInviteBounty()
       userStorage.userProperties.set(collectedProp, true)
       setCollected(true)
+
+      log.debug(`useInviteBonus: invite bonty collecyed`)
 
       showDialog({
         title: `Reward Collected!`,

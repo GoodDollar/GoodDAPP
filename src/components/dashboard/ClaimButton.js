@@ -183,7 +183,7 @@ const ClaimAnimationButton = memo(({ styles, entitlement, nextClaim, onPress, is
     [entitlement, onPress],
   )
 
-  const flipPerspective = isMobileNative ? noop() : 0
+  const flipPerspective = isMobileNative ? noop() : 800
 
   return (
     <CardFlip

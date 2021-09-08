@@ -12,6 +12,8 @@ import { weiToGd } from '../../lib/wallet/utils'
 import { getDesignRelativeHeight, getDesignRelativeWidth, isSmallDevice } from '../../lib/utils/sizes'
 import { isMobileNative } from '../../lib/utils/platform'
 
+const flipPerspective = isMobileNative ? undefined : CardFlip.defaultProps.perspective
+
 const ButtonAmountToClaim = ({ showLabelOnly = false, entitlement, isCitizen, styles, isInQueue }) => (
   <View>
     {showLabelOnly ? (
@@ -181,8 +183,6 @@ const ClaimAnimationButton = memo(({ styles, entitlement, nextClaim, onPress, is
     },
     [entitlement, onPress],
   )
-
-  const flipPerspective = isMobileNative ? undefined : CardFlip.defaultProps.perspective
 
   return (
     <CardFlip

@@ -1084,6 +1084,12 @@ export class GoodWallet {
     }
   }
 
+  async isInviterCodeValid(inviterCode) {
+    const byteCode = this.wallet.utils.fromUtf8(inviterCode)
+    const registered = await this.invitesContract.methods.codeToUser(byteCode).call()
+    return registered !== NULL_ADDRESS
+  }
+
   async hasJoinedInvites() {
     const user = await this.invitesContract.methods.users(this.account).call()
     return [parseInt(user.joinedAt) > 0, user.invitedBy, user.inviteCode]

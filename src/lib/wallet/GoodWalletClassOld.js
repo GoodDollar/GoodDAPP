@@ -14,7 +14,7 @@ import FaucetABI from '@gooddollar/goodcontracts/upgradables/build/contracts/Fus
 import Web3 from 'web3'
 import { BN, toBN } from 'web3-utils'
 import abiDecoder from 'abi-decoder'
-import { chunk, flatten, get, invokeMap, last, maxBy, range, result, sortBy, uniqBy, values } from 'lodash'
+import { chunk, flatten, get, last, maxBy, range, result, sortBy, uniqBy, values } from 'lodash'
 import moment from 'moment'
 import bs58 from 'bs58'
 import * as TextileCrypto from '@textile/crypto'
@@ -575,8 +575,7 @@ export class GoodWallet {
         this.UBIContract.methods.getClaimerCount(today).call(),
         this.UBIContract.methods.getClaimAmount(today).call(),
       ])
-      const [people, amount] = invokeMap(stats || [ZERO, ZERO], 'toNumber')
-
+      const [people, amount] = stats || ['0', '0']
       return { amount, people }
     } catch (e) {
       log.error('getAmountAndQuantityClaimedToday failed', e.message, e, { category: ExceptionCategory.Blockhain })

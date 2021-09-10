@@ -3158,10 +3158,10 @@
     eslint-plugin-react-native "3.6.0"
     prettier "1.16.4"
 
-"@react-native-community/netinfo@^5.5.1":
-  version "5.5.1"
-  resolved "https://registry.yarnpkg.com/@react-native-community/netinfo/-/netinfo-5.5.1.tgz#6433d4d9d5fbe836f019e5a88a6a24b6e2dc50b9"
-  integrity sha512-6NKX/WzzC5FP2RSzoq+7CW/iIiRL2S6yN0JKiGvZ8EWAzJ43dbX5KG4kRa1JiKopAal5Vyh80dymbygeylwekQ==
+"@react-native-community/netinfo@^6.0.2":
+  version "6.0.2"
+  resolved "https://registry.yarnpkg.com/@react-native-community/netinfo/-/netinfo-6.0.2.tgz#3b61757c46d0f387815d42b651bbee1eb998a385"
+  integrity sha512-HbVIv6p+VAzSqALkfKKNbtSy0TneL7EILIqxiOjt/5weVdTuZ88NRyPNQAZBh6W8QYirXJo3f00ryMk9iLs7gQ==
 
 "@react-native-community/push-notification-ios@^1.0.1", "@react-native-community/push-notification-ios@^1.2.0":
   version "1.2.0"

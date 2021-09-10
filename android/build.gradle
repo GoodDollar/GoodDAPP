@@ -52,3 +52,9 @@ allprojects {
         maven { url "$rootDir/../node_modules/detox/Detox-android"}
     }
 }
+
+configurations.all {
+    resolutionStrategy {
+        force 'androidx.core:core-ktx:1.6.0'
+    }
+}

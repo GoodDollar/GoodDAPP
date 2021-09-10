@@ -1,9 +1,13 @@
 // @flow
-import { assign, isNil } from 'lodash'
+import { assign, forIn, isNil } from 'lodash'
+import EventEmitter from 'eventemitter3'
+
 import AsyncStorage from '../utils/asyncStorage'
 import { retry } from '../utils/async'
+
 import { REGISTRATION_METHOD_SELF_CUSTODY } from '../constants/login'
 import pino from '../logger/js-logger'
+
 const log = pino.child({ from: 'UserProperties' })
 
 /**
@@ -39,6 +43,8 @@ export default class UserProperties {
   data = {}
 
   local = {}
+
+  events = new EventEmitter()
 
   constructor(storage) {
     const { defaultProperties } = UserProperties
@@ -132,8 +138,24 @@ export default class UserProperties {
 
     assign(data, properties)
     await this._storeProps(data, 'set() / updateAll()', { properties })
+    forIn(properties, (value, field) => this.events.emit(field, value))
 
     return true
+  }
+
+  on(field, callback) {
+    this.events.on(field, callback)
+  }
+
+  off(field, callback = null) {
+    const { events } = this
+
+    if (callback) {
+      events.off(field, callback)
+      return
+    }
+
+    events.removeAllListeners(field)
   }
 
   /**

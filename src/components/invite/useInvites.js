@@ -127,6 +127,16 @@ export const useInviteBonus = () => {
     [setCollected, getCanCollect],
   )
 
+  useEffect(() => {
+    const { userProperties } = userStorage
+
+    userProperties.on(collectedProp, setCollected)
+
+    return () => {
+      userProperties.off(collectedProp, setCollected)
+    }
+  }, [setCollected])
+
   return [collected, getCanCollect, collectInviteBounty]
 }
 
@@ -147,6 +157,7 @@ export const useCollectBounty = () => {
       await goodWallet.collectInviteBounties()
 
       fireEvent(INVITE_BOUNTY, { numCollected: canCollect })
+      userStorage.userProperties.set(collectedProp, true)
       setCollected(true)
 
       showDialog({

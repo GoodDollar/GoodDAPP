@@ -345,8 +345,8 @@ export class FeedStorage {
       //   }
 
       let status = TxStatus.COMPLETED
-      let otplStatus
-      let type = TxTypeToEventType[txType]
+      let otplStatus = ''
+      let type = TxTypeToEventType[txType] || feedEvent.type
 
       switch (txType) {
         case TxType.TX_ERROR:

@@ -266,17 +266,19 @@ export class GoodWallet {
   }
 
   async pollEvents(fn, time, lastBlockCallback) {
+    const STEP = 10000 //pokt network max events request
     try {
       const run = async () => {
         if (this.isPollEvents === false) {
           return
         }
-        const nextLastBlock = await this.wallet.eth.getBlockNumber()
+        let nextLastBlock = await this.wallet.eth.getBlockNumber()
         if (nextLastBlock < this.lastEventsBlock) {
           // if next block not mined yet
           return
         }
-        const events = flatten(await fn()) //await callback to finish processing events before updating lastEventblock
+        nextLastBlock = Math.min(nextLastBlock, this.lastEventsBlock + STEP)
+        const events = flatten(await fn(nextLastBlock)) //await callback to finish processing events before updating lastEventblock
         if (events.length) {
           const lastEvent = maxBy(events, 'blockNumber')
           this._notifyEvents(flatten(events), this.lastEventsBlock)
@@ -307,7 +309,8 @@ export class GoodWallet {
     this.lastEventsBlock = lastBlock
 
     this.pollEvents(
-      () => Promise.all([this.pollSendEvents(), this.pollReceiveEvents(), this.pollOTPLEvents()]),
+      toBlock =>
+        Promise.all([this.pollSendEvents(toBlock), this.pollReceiveEvents(toBlock), this.pollOTPLEvents(toBlock)]),
       Config.web3Polling,
       lastBlockCallback,
     )

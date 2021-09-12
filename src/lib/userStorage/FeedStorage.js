@@ -25,6 +25,7 @@ export const TxType = {
   TX_CLAIM: 'TX_CLAIM',
   TX_REWARD: 'TX_REWARD',
   TX_MINT: 'TX_MINT',
+  TX_ERROR: 'TX_ERROR',
 }
 
 export const FeedItemType = {
@@ -52,6 +53,7 @@ export const TxStatus = {
   COMPLETED: 'completed',
   PENDING: 'pending',
   CANCELED: 'cancelled',
+  ERROR: 'error',
 }
 
 export type TransactionDetails = {
@@ -178,7 +180,7 @@ export class FeedStorage {
             this.walletAddress.toLowerCase() === e.data.to.toLowerCase(),
         )
       default:
-        return
+        return {}
     }
   }
 
@@ -188,6 +190,10 @@ export class FeedStorage {
    * @param {*} receipt
    */
   getTxType(receipt) {
+    if (receipt.status === false) {
+      return TxType.TX_ERROR
+    }
+
     const events = get(receipt, 'logs', [])
     const eventsName = {}
     get(receipt, 'logs', []).forEach(_ => (eventsName[_.name] = true))
@@ -343,6 +349,9 @@ export class FeedStorage {
       let type = TxTypeToEventType[txType]
 
       switch (txType) {
+        case TxType.TX_ERROR:
+          status = TxStatus.ERROR
+          break
         case TxType.TX_OTPL_WITHDRAW:
           otplStatus =
             get(txEvent, 'data.to', 'to') === get(txEvent, 'data.from', 'from') ? TxStatus.CANCELED : TxStatus.COMPLETED

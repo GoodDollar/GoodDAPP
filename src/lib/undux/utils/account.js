@@ -66,7 +66,7 @@ export const initTransferEvents = (store: Store) => {
     return
   }
 
-  goodWallet.watchEvents(parseInt(lastBlock), toBlock => userStorage.userProperties.set('lastBlock', toBlock))
+  goodWallet.watchEvents(parseInt(lastBlock), toBlock => userStorage.userProperties.set('lastBlock', parseInt(toBlock)))
 
   goodWallet.balanceChanged(event => onBalanceChange(event, store))
   subscribed = true

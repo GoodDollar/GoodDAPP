@@ -286,8 +286,9 @@ export class GoodWallet {
         if (events.length) {
           const lastEvent = maxBy(events, 'blockNumber')
           this._notifyEvents(flatten(events), this.lastEventsBlock)
-          this.lastEventsBlock = lastEvent.blockNumber + 1
-          lastBlockCallback(lastEvent.blockNumber + 1)
+          const lastBlock = parseInt(lastEvent.blockNumber) + 1
+          this.lastEventsBlock = lastBlock
+          lastBlockCallback(lastBlock)
         } else {
           this.lastEventsBlock = nextLastBlock
         }
@@ -338,11 +339,14 @@ export class GoodWallet {
   }
 
   async syncTxWithBlockchain(startBlock) {
-    const STEP = 10000
     const lastBlock = await this.wallet.eth.getBlockNumber()
+    startBlock = Math.min(startBlock, lastBlock)
+    const STEP = 10000
     const steps = range(startBlock, lastBlock, STEP)
     log.debug('Start sync tx from blockchain', {
       steps,
+      startBlock,
+      lastBlock,
     })
 
     try {

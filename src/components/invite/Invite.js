@@ -17,7 +17,14 @@ import LoadingIcon from '../common/modal/LoadingIcon'
 import { InfoIcon } from '../common/modal/InfoIcon'
 
 import goodWallet from '../../lib/wallet/GoodWallet'
-import { useCollectBounty, useInviteBonus, useInviteCode, useInvited, useInviteScreenOpened } from './useInvites'
+import {
+  registerForInvites,
+  useCollectBounty,
+  useInviteBonus,
+  useInviteCode,
+  useInvited,
+  useInviteScreenOpened,
+} from './useInvites'
 import FriendsSVG from './friends.svg'
 import EtoroPNG from './etoro.png'
 import ShareIcons from './ShareIcons'
@@ -68,13 +75,9 @@ const InvitedUser = ({ address, status }) => {
 
 const ShareBox = ({ level }) => {
   const inviteCode = useInviteCode()
-  const shareUrl = `${Config.invitesUrl}?inviteCode=${inviteCode}`
-  const bounty = parseInt(level.bounty) / 100
+  const shareUrl = inviteCode ? `${Config.invitesUrl}?inviteCode=${inviteCode}` : ''
+  const bounty = level?.bounty ? parseInt(level.bounty) / 100 : ''
   const share = useMemo(() => generateShareObject(shareTitle, shareMessage, shareUrl), [shareUrl])
-
-  if (isNil(bounty) || isNaN(bounty)) {
-    return null
-  }
 
   return (
     <WavesBox primarycolor={theme.colors.primary} style={styles.linkBoxStyle} title={'Share Your Invite Link'}>
@@ -178,12 +181,10 @@ const InputCodeBox = ({ navigateTo }) => {
 
     try {
       if (!inviteCodeUsed) {
-        await goodWallet.joinInvites(code)
-        userStorage.userProperties.updateAll({ inviterInviteCodeUsed: true, inviterInviteCode: code })
+        await registerForInvites(code)
       }
 
       await collectInviteBounty(onUnableToCollect)
-      setVisible(false)
     } catch (e) {
       log.warn('collectInviteBounty failed', e.message, e)
       hideDialog()
@@ -207,6 +208,10 @@ const InputCodeBox = ({ navigateTo }) => {
       setDisabled(!isValidInviter)
     })
   }, [code, ownInviteCode, inviteCodeUsed, visible, setDisabled])
+
+  useEffect(() => {
+    setVisible(!collected)
+  }, [collected])
 
   if (!visible) {
     return null

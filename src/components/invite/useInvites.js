@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
-import { groupBy, keyBy, noop, over } from 'lodash'
+import { groupBy, keyBy, noop } from 'lodash'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import userStorage from '../../lib/userStorage/UserStorage'
 import logger from '../../lib/logger/js-logger'
@@ -10,8 +10,8 @@ import AsyncStorage from '../../lib/utils/asyncStorage'
 import { INVITE_CODE } from '../../lib/constants/localStorage'
 
 import Config from '../../config/config'
-import { useStoreProp } from '../../lib/undux/GDStore'
 import SuccessIcon from '../common/modal/SuccessIcon'
+import LoadingIcon from '../common/modal/LoadingIcon'
 import { useUserProperty } from '../../lib/userStorage/useProfile'
 
 const log = logger.child({ from: 'useInvites' })
@@ -20,9 +20,7 @@ const collectedProp = 'inviteBonusCollected'
 const wasOpenedProp = 'hasOpenedInviteScreen'
 const NULL_ADDRESS = '0x0000000000000000000000000000000000000000'
 
-const registerForInvites = async () => {
-  const inviterInviteCode =
-    userStorage.userProperties.get('inviterInviteCode') || (await AsyncStorage.getItem(INVITE_CODE))
+export const registerForInvites = async inviterInviteCode => {
   let code = userStorage.userProperties.get('inviteCode')
   let usedInviterCode = userStorage.userProperties.get('inviterInviteCodeUsed')
 
@@ -43,7 +41,7 @@ const registerForInvites = async () => {
         //if not joined or not set inviter then fire event
         fireEvent(INVITE_JOIN, { inviterInviteCode })
       }
-      userStorage.userProperties.set('inviterInviteCodeUsed', true)
+      userStorage.userProperties.updateAll({ inviterInviteCodeUsed: true, inviterInviteCode: inviterInviteCode })
     }
 
     return inviteCode
@@ -53,11 +51,14 @@ const registerForInvites = async () => {
 }
 
 const getInviteCode = async () => {
-  const code = await registerForInvites()
+  const inviterInviteCode =
+    userStorage.userProperties.get('inviterInviteCode') || (await AsyncStorage.getItem(INVITE_CODE))
+  const code = await registerForInvites(inviterInviteCode)
 
   return code
 }
 
+let _inviteCodePromise
 export const useInviteCode = () => {
   const [inviteCode, setInviteCode] = useState(userStorage.userProperties.get('inviteCode'))
 
@@ -67,9 +68,14 @@ export const useInviteCode = () => {
     log.debug('useInviteCode didmount:', { inviteCode })
 
     if (Config.enableInvites) {
-      getInviteCode().then(code => {
+      if (!_inviteCodePromise) {
+        _inviteCodePromise = getInviteCode()
+      }
+
+      _inviteCodePromise.then(code => {
         log.debug('useInviteCode registered user result:', { code })
         setInviteCode(code)
+        _inviteCodePromise = undefined
       })
     }
   }, [])
@@ -77,7 +83,7 @@ export const useInviteCode = () => {
   return inviteCode
 }
 
-const getConnectedFlagValue = () => {
+const getCollectedFlagValue = () => {
   const collected = userStorage.userProperties.get(collectedProp)
 
   log.debug(`useInviteBonus: got ${collectedProp}:`, { collected })
@@ -90,7 +96,7 @@ export const useInviteBonus = () => {
 
   const collectInviteBounty = useCallback(
     async (onUnableToCollect = noop) => {
-      if (getConnectedFlagValue()) {
+      if (getCollectedFlagValue()) {
         return
       }
 
@@ -103,10 +109,20 @@ export const useInviteBonus = () => {
         return
       }
 
+      showDialog({
+        image: <LoadingIcon />,
+        loading: true,
+        message: 'Please wait\nThis might take a few seconds...',
+        showButtons: false,
+        title: `Collecting Invite Reward`,
+        showCloseButtons: false,
+        onDismiss: noop,
+      })
+
       await goodWallet.collectInviteBounty()
       userStorage.userProperties.set(collectedProp, true)
 
-      log.debug(`useInviteBonus: invite bonty collecyed`)
+      log.debug(`useInviteBonus: invite bonty collected`)
 
       showDialog({
         title: `Reward Collected!`,
@@ -200,8 +216,7 @@ export const useCollectBounty = () => {
 }
 
 export const useInvited = () => {
-  const [invitesData, setInvitesData] = useStoreProp('invitesData')
-  const [data, setData] = useState(() => invitesData)
+  const [data, setData] = useState()
   const [invites, setInvites] = useState([])
   const { level, totalEarned } = data || {}
 
@@ -212,13 +227,13 @@ export const useInvited = () => {
       const totalEarned = parseInt(user.totalEarned) / 100
       const invitesData = { level, totalEarned }
 
-      over([setInvitesData, setData])(invitesData)
+      setData(invitesData)
       log.debug('set invitesData to', invitesData)
     } catch (e) {
       log.error('set invitesData failed:', e.message, e)
       throw e
     }
-  }, [setInvitesData, setData])
+  }, [setData])
 
   const updateInvited = useCallback(async () => {
     try {

@@ -1111,7 +1111,7 @@ export class GoodWallet {
     return registered !== NULL_ADDRESS
   }
 
-  async hasJoinedInvites() {
+  async hasJoinedInvites(): [boolean, string, string] {
     const user = await this.invitesContract.methods.users(this.account).call()
     return [parseInt(user.joinedAt) > 0, user.invitedBy, user.inviteCode]
   }

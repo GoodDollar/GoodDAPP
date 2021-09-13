@@ -8,9 +8,9 @@ import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils
 import logger from '../../lib/logger/js-logger'
 import { fireEvent, INVITE_HOWTO, INVITE_SHARE } from '../../lib/analytics/analytics'
 import Config from '../../config/config'
-import { extractQueryParams, generateShareObject, isSharingAvailable } from '../../lib/share'
+import { generateShareObject, isSharingAvailable } from '../../lib/share'
 import userStorage from '../../lib/userStorage/UserStorage'
-import { usePublicProfileOf } from '../../lib/userStorage/useProfile'
+import { usePublicProfileOf, useUserProperty } from '../../lib/userStorage/useProfile'
 import ModalLeftBorder from '../common/modal/ModalLeftBorder'
 import { useDialog } from '../../lib/undux/utils/dialog'
 import LoadingIcon from '../common/modal/LoadingIcon'
@@ -126,17 +126,15 @@ const ShareBox = ({ level }) => {
 const InputCodeBox = ({ navigateTo }) => {
   const ownInviteCode = useInviteCode()
   const [showDialog, hideDialog] = useDialog()
-  const [collected, getCanCollect, collectInviteBounty] = useInviteBonus()
+  const [collected, collectInviteBounty] = useInviteBonus()
+  const [code, setCode] = useState(() => userStorage.userProperties.get('inviterInviteCode') || '')
+  const inviteCodeUsed = useUserProperty('inviterInviteCodeUsed')
 
   //show component if reward not collected yet
   const [visible, setVisible] = useState(() => !collected)
-  const [code, setCode] = useState(userStorage.userProperties.get('inviterInviteCode') || '')
 
-  const extractedCode = get(extractQueryParams(code), 'inviteCode', code)
-  const isValidCode = extractedCode.length >= 10 && extractedCode !== ownInviteCode
-  const inviteCodeUsed = userStorage.userProperties.get('inviterInviteCodeUsed')
-
-  const [disabled, setDisabled] = useState(() => !isValidCode) //disable button if code invalid or cant collect
+  // disable button if code invalid or cant collect
+  const [disabled, setDisabled] = useState(() => (inviteCodeUsed ? collected : true))
 
   const onUnableToCollect = useCallback(async () => {
     const isCitizen = await goodWallet.isCitizen()
@@ -179,8 +177,10 @@ const InputCodeBox = ({ navigateTo }) => {
     })
 
     try {
-      await goodWallet.joinInvites(extractedCode)
-      userStorage.userProperties.updateAll({ inviterInviteCodeUsed: true, inviterInviteCode: extractedCode })
+      if (!inviteCodeUsed) {
+        await goodWallet.joinInvites(code)
+        userStorage.userProperties.updateAll({ inviterInviteCodeUsed: true, inviterInviteCode: code })
+      }
 
       await collectInviteBounty(onUnableToCollect)
       setVisible(false)
@@ -188,20 +188,25 @@ const InputCodeBox = ({ navigateTo }) => {
       log.warn('collectInviteBounty failed', e.message, e)
       hideDialog()
     }
-  }, [extractedCode, showDialog, hideDialog, setVisible, getCanCollect, onUnableToCollect, collectInviteBounty])
+  }, [code, inviteCodeUsed, showDialog, hideDialog, setVisible, onUnableToCollect, collectInviteBounty])
 
   useEffect(() => {
-    if (!visible || !inviteCodeUsed) {
-      if (isValidCode) {
-        goodWallet.isInviterCodeValid(extractedCode).then(isValidInviter => {
-          isValidInviter ? setDisabled(false) : setDisabled(true)
-        })
-      }
+    log.debug('updating disabled state:', { visible, inviteCodeUsed })
+
+    if (!visible || inviteCodeUsed) {
+      log.debug('updating disabled state: bountry collected or code already used')
       return
     }
 
-    getCanCollect().then(canCollect => setDisabled(!canCollect))
-  }, [extractedCode, isValidCode, visible, inviteCodeUsed, getCanCollect, setDisabled])
+    const isValidCode = code.length >= 10 && code !== ownInviteCode
+
+    log.debug('updating disabled state:', { code, isValidCode, ownInviteCode })
+
+    goodWallet.isInviterCodeValid(code).then(isValidInviter => {
+      log.debug('updating disabled state:', { isValidInviter })
+      setDisabled(!isValidInviter)
+    })
+  }, [code, ownInviteCode, inviteCodeUsed, visible, setDisabled])
 
   if (!visible) {
     return null
@@ -213,7 +218,7 @@ const InputCodeBox = ({ navigateTo }) => {
         <Section.Row style={{ width: '100%', alignItems: 'center' }}>
           <TextInput
             disabled={inviteCodeUsed}
-            value={extractedCode}
+            value={code}
             onChangeText={setCode}
             style={{
               flex: 1,

@@ -12,6 +12,7 @@ import { INVITE_CODE } from '../../lib/constants/localStorage'
 import Config from '../../config/config'
 import { useStoreProp } from '../../lib/undux/GDStore'
 import SuccessIcon from '../common/modal/SuccessIcon'
+import { useUserProperty } from '../../lib/userStorage/useProfile'
 
 const log = logger.child({ from: 'useInvites' })
 
@@ -85,13 +86,7 @@ const getConnectedFlagValue = () => {
 
 export const useInviteBonus = () => {
   const [showDialog] = useDialog()
-  const [collected, setCollected] = useState(() => getConnectedFlagValue())
-
-  const getCanCollect = useCallback(
-    // eslint-disable-next-line require-await
-    async () => goodWallet.invitesContract.methods.canCollectBountyFor(goodWallet.account).call(),
-    [],
-  )
+  const collected = useUserProperty(collectedProp)
 
   const collectInviteBounty = useCallback(
     async (onUnableToCollect = noop) => {
@@ -99,7 +94,7 @@ export const useInviteBonus = () => {
         return
       }
 
-      const canCollect = await getCanCollect()
+      const canCollect = await goodWallet.invitesContract.methods.canCollectBountyFor(goodWallet.account).call()
 
       log.debug(`useInviteBonus: got canCollect:`, { canCollect })
 
@@ -110,7 +105,6 @@ export const useInviteBonus = () => {
 
       await goodWallet.collectInviteBounty()
       userStorage.userProperties.set(collectedProp, true)
-      setCollected(true)
 
       log.debug(`useInviteBonus: invite bonty collecyed`)
 
@@ -124,20 +118,10 @@ export const useInviteBonus = () => {
         ],
       })
     },
-    [setCollected, getCanCollect],
+    [showDialog],
   )
 
-  useEffect(() => {
-    const { userProperties } = userStorage
-
-    userProperties.on(collectedProp, setCollected)
-
-    return () => {
-      userProperties.off(collectedProp, setCollected)
-    }
-  }, [setCollected])
-
-  return [collected, getCanCollect, collectInviteBounty]
+  return [collected, collectInviteBounty]
 }
 
 export const useCollectBounty = () => {

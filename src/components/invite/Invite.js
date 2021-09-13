@@ -17,7 +17,14 @@ import LoadingIcon from '../common/modal/LoadingIcon'
 import { InfoIcon } from '../common/modal/InfoIcon'
 
 import goodWallet from '../../lib/wallet/GoodWallet'
-import { useCollectBounty, useInviteBonus, useInviteCode, useInvited, useInviteScreenOpened } from './useInvites'
+import {
+  registerForInvites,
+  useCollectBounty,
+  useInviteBonus,
+  useInviteCode,
+  useInvited,
+  useInviteScreenOpened,
+} from './useInvites'
 import FriendsSVG from './friends.svg'
 import EtoroPNG from './etoro.png'
 import ShareIcons from './ShareIcons'
@@ -68,13 +75,9 @@ const InvitedUser = ({ address, status }) => {
 
 const ShareBox = ({ level }) => {
   const inviteCode = useInviteCode()
-  const shareUrl = `${Config.invitesUrl}?inviteCode=${inviteCode}`
-  const bounty = parseInt(level.bounty) / 100
+  const shareUrl = inviteCode ? `${Config.invitesUrl}?inviteCode=${inviteCode}` : ''
+  const bounty = level?.bounty ? parseInt(level.bounty) / 100 : ''
   const share = useMemo(() => generateShareObject(shareTitle, shareMessage, shareUrl), [shareUrl])
-
-  if (isNil(bounty) || isNaN(bounty)) {
-    return null
-  }
 
   return (
     <WavesBox primarycolor={theme.colors.primary} style={styles.linkBoxStyle} title={'Share Your Invite Link'}>
@@ -129,14 +132,14 @@ const InputCodeBox = ({ navigateTo }) => {
   const [collected, getCanCollect, collectInviteBounty] = useInviteBonus()
 
   //show component if reward not collected yet
-  const [visible, setVisible] = useState(() => !collected)
+  const [visible, setVisible] = useState(!collected)
   const [code, setCode] = useState(userStorage.userProperties.get('inviterInviteCode') || '')
 
   const extractedCode = get(extractQueryParams(code), 'inviteCode', code)
   const isValidCode = extractedCode.length >= 10 && extractedCode !== ownInviteCode
   const inviteCodeUsed = userStorage.userProperties.get('inviterInviteCodeUsed')
 
-  const [disabled, setDisabled] = useState(() => !isValidCode) //disable button if code invalid or cant collect
+  const [disabled, setDisabled] = useState(!isValidCode) //disable button if code invalid or cant collect
 
   const onUnableToCollect = useCallback(async () => {
     const isCitizen = await goodWallet.isCitizen()
@@ -179,11 +182,9 @@ const InputCodeBox = ({ navigateTo }) => {
     })
 
     try {
-      await goodWallet.joinInvites(extractedCode)
-      userStorage.userProperties.updateAll({ inviterInviteCodeUsed: true, inviterInviteCode: extractedCode })
+      await registerForInvites(extractedCode)
 
       await collectInviteBounty(onUnableToCollect)
-      setVisible(false)
     } catch (e) {
       log.warn('collectInviteBounty failed', e.message, e)
       hideDialog()
@@ -202,6 +203,10 @@ const InputCodeBox = ({ navigateTo }) => {
 
     getCanCollect().then(canCollect => setDisabled(!canCollect))
   }, [extractedCode, isValidCode, visible, inviteCodeUsed, getCanCollect, setDisabled])
+
+  useEffect(() => {
+    setVisible(!collected)
+  }, [collected])
 
   if (!visible) {
     return null

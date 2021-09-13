@@ -2631,10 +2631,10 @@
     truffle-plugin-verify "^0.3.11"
     truffle-safe-hdwallet-provider "0.0.7"
 
-"@gooddollar/goodprotocol@^1.0.0-beta.19":
-  version "1.0.0-beta.20"
-  resolved "https://registry.yarnpkg.com/@gooddollar/goodprotocol/-/goodprotocol-1.0.0-beta.20.tgz#7793f6627daaca439d0f24043b943d75e2a14cb8"
-  integrity sha512-z7/LHzLgRqV0EZ04LRhf58l2Zp6x97Mmaz3pJUaVEnxLU21ukcnq7N3t22j9IDSne1lQCdhju6ECIhywXPLDPA==
+"@gooddollar/goodprotocol@^1.0.0-beta.24":
+  version "1.0.0-beta.24"
+  resolved "https://registry.yarnpkg.com/@gooddollar/goodprotocol/-/goodprotocol-1.0.0-beta.24.tgz#8d3d51542e28ed8aba47e605077ee044b0f5100e"
+  integrity sha512-nOxClXx1GZrZW9D8ouDpLQtlAgxNtbVNoC3Gwifvl6/xCKVUs17j5cj1YRJdMgJv0uwYlbnXs4I4LUCEH357HQ==
   dependencies:
     "@gooddollar/goodcontracts" "^2.6.1"
     "@openzeppelin/contracts-upgradeable" "^4.1.0"

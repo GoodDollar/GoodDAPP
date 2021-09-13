@@ -1,8 +1,7 @@
 import branch from 'react-native-branch'
 import { assign, camelCase, mapKeys, over } from 'lodash'
 import logger from '../logger/js-logger'
-import { extractQueryParams } from '../share'
-import extractPathname from './extractPathname'
+import { extractPathName, extractQueryParams } from './uri'
 
 const log = logger.child({ from: 'deeplinking.native' })
 
@@ -93,7 +92,7 @@ class DeepLinkingNative {
 
     const decodedLink = decodeURI(link)
     assign(queryParams, extractQueryParams(decodedLink))
-    this.pathname = extractPathname(link)
+    this.pathname = extractPathName(link)
 
     assign(this.params, queryParams)
     assign(this.callbackParams, { originalLink: link, path: this.pathname, queryParams, branch: ccParams })

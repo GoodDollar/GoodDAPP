@@ -1,8 +1,7 @@
 // @flow
 import { Platform, Share } from 'react-native'
-import { fromPairs, isBoolean, isEmpty, isNumber, pickBy } from 'lodash'
+import { isBoolean, isEmpty, isNumber, pickBy } from 'lodash'
 import { decode, encode, isMNID } from 'mnid'
-import isURL from 'validator/lib/isURL'
 import isEmail from '../validators/isEmail'
 
 import { isMobileNative, isMobileWeb } from '../utils/platform'
@@ -11,6 +10,7 @@ import { weiToGd } from '../wallet/utils'
 
 import Config from '../../config/config'
 import logger from '../logger/js-logger'
+import { isValidURI } from '../utils/uri'
 
 const log = logger.child({ from: 'share.index' })
 
@@ -187,30 +187,12 @@ export function readCode(code: string) {
 export function readReceiveLink(link: string) {
   // checks that the link has the expected strings in it
   const isValidReceiveLink = ['receiveLink', 'reason'].every(v => link.indexOf(v) !== -1)
-  const isUrlOptions = { require_tld: false }
 
-  if (!isURL(link, isUrlOptions) || !isValidReceiveLink) {
+  if (!isValidURI(link) || !isValidReceiveLink) {
     return null
   }
 
   return link
-}
-
-/**
- * Extracts query params values and returns them as a key-value pair
- * @param {string} link - url with queryParams
- * @returns {object} - {key: value}
- */
-export function extractQueryParams(link: string = ''): {} {
-  const queryParams = link.split('?')[1] || ''
-  const keyValuePairs: Array<[string, string]> = queryParams
-    .split('&')
-    .filter(_ => _)
-
-    // $FlowFixMe
-    .map(p => p.split('='))
-    .filter(p => p[0] !== '' && p[0] !== undefined)
-  return fromPairs(keyValuePairs)
 }
 
 type ShareObject = {

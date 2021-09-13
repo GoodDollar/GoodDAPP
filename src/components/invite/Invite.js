@@ -17,6 +17,7 @@ import LoadingIcon from '../common/modal/LoadingIcon'
 import { InfoIcon } from '../common/modal/InfoIcon'
 
 import goodWallet from '../../lib/wallet/GoodWallet'
+import { extractQueryParams, isValidURI } from '../../lib/utils/uri'
 import {
   registerForInvites,
   useCollectBounty,
@@ -130,7 +131,8 @@ const InputCodeBox = ({ navigateTo }) => {
   const ownInviteCode = useInviteCode()
   const [showDialog, hideDialog] = useDialog()
   const [collected, collectInviteBounty] = useInviteBonus()
-  const [code, setCode] = useState(() => userStorage.userProperties.get('inviterInviteCode') || '')
+  const [input, setInput] = useState(() => userStorage.userProperties.get('inviterInviteCode') || '')
+  const code = useMemo(() => (isValidURI(input) ? get(extractQueryParams(input), 'inviteCode') : input), [input])
   const inviteCodeUsed = useUserProperty('inviterInviteCodeUsed')
 
   //show component if reward not collected yet
@@ -223,8 +225,8 @@ const InputCodeBox = ({ navigateTo }) => {
         <Section.Row style={{ width: '100%', alignItems: 'center' }}>
           <TextInput
             disabled={inviteCodeUsed}
-            value={code}
-            onChangeText={setCode}
+            value={input}
+            onChangeText={setInput}
             style={{
               flex: 1,
               paddingVertical: 8,

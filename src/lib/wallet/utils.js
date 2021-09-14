@@ -48,7 +48,7 @@ export const maskToWei = (mask: string, settings?: {}): number => gdToWei(toRawV
 
 export const getTxLogArgs = tx => {
   try {
-    const { arguments: _args, _method } = tx
+    const { arguments: _args, _method, transactionHash } = tx
     const { inputs, name, signature } = _method
     const args = zipObject(map(inputs, 'name'), _args)
 
@@ -56,6 +56,7 @@ export const getTxLogArgs = tx => {
       method: name,
       signature,
       args,
+      transactionHash,
     }
   } catch {
     return {

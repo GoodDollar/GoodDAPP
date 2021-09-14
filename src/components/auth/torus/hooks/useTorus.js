@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { noop } from 'lodash'
 import { isMobileNative } from '../../../../lib/utils/platform'
 
@@ -10,7 +10,7 @@ import logger from '../../../../lib/logger/js-logger'
 const log = logger.child({ from: 'AuthTorus' })
 
 export default (onInitialized = noop) => {
-  const sdk = useMemo(() => TorusSDK.factory({ uxMode: isMobileNative ? 'popup' : 'redirect' }, [isMobileNative]))
+  const sdk = useState(() => TorusSDK.factory({ uxMode: isMobileNative ? 'popup' : 'redirect' }))
   const [initialized, setInitialized] = useState(false)
   const onInitializedRef = useRef(onInitialized)
   const mountedState = useMountedState()
@@ -38,9 +38,7 @@ export default (onInitialized = noop) => {
       }
     }
 
-    if (sdk) {
-      registerTorusWorker()
-    }
+    registerTorusWorker()
   }, [sdk])
 
   return [sdk, initialized]

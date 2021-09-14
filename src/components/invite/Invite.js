@@ -196,16 +196,22 @@ const InputCodeBox = ({ navigateTo }) => {
     log.debug('updating disabled state:', { collected, inviteCodeUsed })
 
     if (collected || inviteCodeUsed) {
-      log.debug('not updating disabled state: bountry collected or code already used')
+      log.debug('not updating disabled state: bounty collected or code already used')
       return
     }
 
     log.debug('updating disabled state:', { extractedCode, isValidCode, ownInviteCode })
 
-    goodWallet.isInviterCodeValid(extractedCode).then(isValidInviter => {
-      log.debug('updating disabled state:', { isValidInviter })
-      setDisabled(!isValidInviter)
-    })
+    goodWallet
+      .isInviterCodeValid(extractedCode)
+      .catch(e => {
+        log.error('failed to check is inviter valid:', e.message, e)
+        return false
+      })
+      .then(isValidInviter => {
+        log.debug('updating disabled state:', { isValidInviter })
+        setDisabled(!isValidInviter)
+      })
   }, [extractedCode, isValidCode, inviteCodeUsed, collected, setDisabled])
 
   if (collected) {

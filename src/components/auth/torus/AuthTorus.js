@@ -288,12 +288,13 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
     provider: 'facebook' | 'google' | 'auth0' | 'auth0-pwdless-email' | 'auth0-pwdless-sms',
     torusUserRedirectPromise,
   ) => {
+    showLoadingDialog()
+
     fireEvent(isSignup ? SIGNUP_METHOD_SELECTED : SIGNIN_METHOD_SELECTED, {
       method: provider,
       torusPopupMode: torusSDK.popupMode, //for a/b testing
     })
 
-    showLoadingDialog()
     try {
       if (provider === 'selfCustody') {
         return selfCustody()
@@ -310,6 +311,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
         authScreen && AsyncStorage.setItem('recallTorusRedirectScreen', authScreen)
 
         await getTorusUser(provider).catch(showSignupError)
+        hideDialog() //we hide dialog because on safari pressing back doesnt reload page
         return
       }
 
@@ -393,8 +395,6 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
       const uiMessage = decorate(e, ExceptionCode.E14)
       showSupportDialog(showErrorDialog, hideDialog, navigation.navigate, uiMessage)
       log.error('Failed to initialize wallet and storage', message, e)
-    } finally {
-      store.set('loadingIndicator')({ loading: false })
     }
   }
 

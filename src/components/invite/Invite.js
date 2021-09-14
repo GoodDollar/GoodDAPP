@@ -135,7 +135,7 @@ const InputCodeBox = ({ navigateTo }) => {
 
   const [code, setCode] = useState(userStorage.userProperties.get('inviterInviteCode') || '')
   const extractedCode = useMemo(() => (isValidURI(code) ? get(extractQueryParams(code), 'inviteCode') : code), [code])
-  const isValidCode = extractedCode.length >= 10 && extractedCode !== ownInviteCode
+  const isValidCode = extractedCode.length >= 10 && extractedCode.length <= 32 && extractedCode !== ownInviteCode
 
   // disable button if code invalid or cant collect
   const [disabled, setDisabled] = useState(!isValidCode)

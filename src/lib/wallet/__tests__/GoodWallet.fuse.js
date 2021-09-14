@@ -1,4 +1,4 @@
-import { GoodWallet } from '../GoodWalletClass'
+import { GoodWallet } from '../WalletClassSelector'
 import adminWallet from './__util__/AdminWalletV1'
 
 // eslint-disable-next-line require-await

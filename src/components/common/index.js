@@ -1,8 +1,8 @@
 // @flow
-
+//NOTICE: dont put any components that load wallet/userstorage here
+//so we can lazy load them
 import Address from './view/Address'
 import AmountInput from './view/AmountInput'
-import Avatar from './view/Avatar'
 import BigGoodDollar from './view/BigGoodDollar'
 import BigNumber from './view/BigNumber'
 import CopyButton from './buttons/CopyButton'
@@ -25,7 +25,6 @@ import AwaitButton from './buttons/AwaitButton'
 import Section from './layout/Section'
 import ShareButton from './buttons/ShareButton'
 import Text from './view/Text'
-import UserAvatar from './view/UserAvatar'
 import Wrapper from './layout/Wrapper'
 import WrapperClaim from './layout/WrapperClaim'
 import ClaimButton from './buttons/ClaimButton'
@@ -33,7 +32,6 @@ import ClaimButton from './buttons/ClaimButton'
 export {
   Address,
   AmountInput,
-  Avatar,
   BigGoodDollar,
   BigNumber,
   ClaimButton,
@@ -56,7 +54,6 @@ export {
   Section,
   ShareButton,
   Text,
-  UserAvatar,
   Wrapper,
   AwaitButton,
   WrapperClaim,

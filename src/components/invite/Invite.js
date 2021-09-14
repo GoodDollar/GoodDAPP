@@ -183,6 +183,7 @@ const InputCodeBox = ({ navigateTo }) => {
     try {
       if (!inviteCodeUsed) {
         await registerForInvites(extractedCode)
+        setCode(extractedCode)
       }
 
       await collectInviteBounty(onUnableToCollect)
@@ -190,7 +191,7 @@ const InputCodeBox = ({ navigateTo }) => {
       log.warn('collectInviteBounty failed', e.message, e)
       hideDialog()
     }
-  }, [extractedCode, inviteCodeUsed, showDialog, hideDialog, onUnableToCollect, collectInviteBounty])
+  }, [extractedCode, inviteCodeUsed, extractedCode, showDialog, hideDialog, onUnableToCollect, collectInviteBounty])
 
   useEffect(() => {
     log.debug('updating disabled state:', { collected, inviteCodeUsed, extractedCode, isValidCode, ownInviteCode })

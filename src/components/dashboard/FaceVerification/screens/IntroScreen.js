@@ -4,10 +4,11 @@ import { Platform, View } from 'react-native'
 import { get } from 'lodash'
 
 //components
-import Separator from '../../../common/layout/Separator'
+// import Separator from '../../../common/layout/Separator'
 import Text from '../../../common/view/Text'
 import { CustomButton, Section, Wrapper } from '../../../common'
-import FaceVerificationSmiley from '../../../common/animations/FaceVerificationSmiley'
+
+// import FaceVerificationSmiley from '../../../common/animations/FaceVerificationSmiley'
 
 // hooks
 import useOnPress from '../../../../lib/hooks/useOnPress'
@@ -22,7 +23,8 @@ import { getFirstWord } from '../../../../lib/utils/getFirstWord'
 import {
   getDesignRelativeHeight,
   getDesignRelativeWidth,
-  isLargeDevice,
+
+  // isLargeDevice,
   isSmallDevice,
 } from '../../../../lib/utils/sizes'
 import { withStyles } from '../../../../lib/styles'
@@ -33,7 +35,7 @@ import { Permissions } from '../../../permissions/types'
 import { showQueueDialog } from '../../../common/dialogs/showQueueDialog'
 import { fireEvent, FV_CAMERAPERMISSION, FV_CANTACCESSCAMERA, FV_INTRO } from '../../../../lib/analytics/analytics'
 
-import createABTesting from '../../../../lib/hooks/useABTesting'
+// import createABTesting from '../../../../lib/hooks/useABTesting'
 import useFaceTecSDK from '../hooks/useFaceTecSDK'
 
 // assets
@@ -42,14 +44,15 @@ import FashionShootSVG from '../../../../assets/FaceVerification/FashionPhotosho
 import useProfile from '../../../../lib/userStorage/useProfile'
 
 const log = logger.child({ from: 'FaceVerificationIntro' })
-const { useABTesting } = createABTesting('FV_Intro_Screen')
 
-const commonTextStyles = {
-  textAlign: 'center',
-  color: 'primary',
-  fontSize: isLargeDevice ? 18 : 16,
-  lineHeight: 25,
-}
+// const { useABTesting } = createABTesting('FV_Intro_Screen')
+
+// const commonTextStyles = {
+//   textAlign: 'center',
+//   color: 'primary',
+//   fontSize: isLargeDevice ? 18 : 16,
+//   lineHeight: 25,
+// }
 
 const WalletDeletedPopupText = ({ styles }) => (
   <View style={styles.wrapper}>
@@ -68,43 +71,43 @@ const WalletDeletedPopupText = ({ styles }) => (
   </View>
 )
 
-const IntroScreenA = ({ styles, firstName, ready, onVerify, onLearnMore }) => (
-  <Wrapper>
-    <Section style={styles.topContainer} grow>
-      <View style={styles.mainContent}>
-        <Section.Title fontWeight="medium" textTransform="none" style={styles.mainTitle}>
-          {`${firstName},\nOnly a real live person\ncan claim G$’s`}
-        </Section.Title>
-        <View style={styles.illustration}>
-          <FaceVerificationSmiley />
-        </View>
-        <View>
-          <Separator width={2} />
-          <Text textAlign="center" style={styles.descriptionContainer}>
-            <Text {...commonTextStyles} fontWeight="bold">
-              {`Once in a while\n`}
-            </Text>
-            <Text {...commonTextStyles}>{`we'll need to take a short video of you\n`}</Text>
-            <Text {...commonTextStyles}>{`to prevent duplicate accounts.\n`}</Text>
-            <Text
-              {...commonTextStyles}
-              fontWeight="bold"
-              textDecorationLine="underline"
-              style={styles.descriptionUnderline}
-              onPress={onLearnMore}
-            >
-              {`Learn more`}
-            </Text>
-          </Text>
-          <Separator style={styles.bottomSeparator} width={2} />
-        </View>
-        <CustomButton style={styles.button} onPress={onVerify} disabled={!ready}>
-          OK, VERIFY ME
-        </CustomButton>
-      </View>
-    </Section>
-  </Wrapper>
-)
+// const IntroScreenA = ({ styles, firstName, ready, onVerify, onLearnMore }) => (
+//   <Wrapper>
+//     <Section style={styles.topContainer} grow>
+//       <View style={styles.mainContent}>
+//         <Section.Title fontWeight="medium" textTransform="none" style={styles.mainTitle}>
+//           {`${firstName},\nOnly a real live person\ncan claim G$’s`}
+//         </Section.Title>
+//         <View style={styles.illustration}>
+//           <FaceVerificationSmiley />
+//         </View>
+//         <View>
+//           <Separator width={2} />
+//           <Text textAlign="center" style={styles.descriptionContainer}>
+//             <Text {...commonTextStyles} fontWeight="bold">
+//               {`Once in a while\n`}
+//             </Text>
+//             <Text {...commonTextStyles}>{`we'll need to take a short video of you\n`}</Text>
+//             <Text {...commonTextStyles}>{`to prevent duplicate accounts.\n`}</Text>
+//             <Text
+//               {...commonTextStyles}
+//               fontWeight="bold"
+//               textDecorationLine="underline"
+//               style={styles.descriptionUnderline}
+//               onPress={onLearnMore}
+//             >
+//               {`Learn more`}
+//             </Text>
+//           </Text>
+//           <Separator style={styles.bottomSeparator} width={2} />
+//         </View>
+//         <CustomButton style={styles.button} onPress={onVerify} disabled={!ready}>
+//           OK, VERIFY ME
+//         </CustomButton>
+//       </View>
+//     </Section>
+//   </Wrapper>
+// )
 
 const IntroScreenB = ({ styles, firstName, ready, onVerify, onLearnMore }) => (
   <Wrapper>
@@ -147,7 +150,9 @@ const IntroScreen = ({ styles, screenProps }) => {
   const isValid = get(screenState, 'isValid', false)
 
   const navigateToHome = useCallback(() => navigateTo('Home'), [navigateTo])
-  const [Intro, ab] = useABTesting(IntroScreenA, IntroScreenB)
+  const Intro = IntroScreenB
+
+  // const [Intro, ab] = useABTesting(IntroScreenA, IntroScreenB)
 
   const [disposing, checkDisposalState] = useDisposingState({
     requestOnMounted: false,
@@ -202,7 +207,7 @@ const IntroScreen = ({ styles, screenProps }) => {
     if (isValid) {
       pop({ isValid })
     } else {
-      fireEvent(FV_INTRO, { ab })
+      fireEvent(FV_INTRO)
       checkDisposalState()
     }
   }, [])

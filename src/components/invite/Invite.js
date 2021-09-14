@@ -195,12 +195,20 @@ const InputCodeBox = ({ navigateTo }) => {
   useEffect(() => {
     log.debug('updating disabled state:', { collected, inviteCodeUsed })
 
-    if (collected || inviteCodeUsed) {
+    if (collected) {
       log.debug('not updating disabled state: bountry collected or code already used')
       return
     }
 
-    log.debug('updating disabled state:', { extractedCode, isValidCode, ownInviteCode })
+    log.debug('updating disabled state:', { extractedCode, isValidCode, ownInviteCode, inviteCodeUsed })
+
+    if (inviteCodeUsed) {
+      goodWallet.invitesContract.methods
+        .canCollectBountyFor(goodWallet.account)
+        .call()
+        .then(canCollect => setDisabled(!canCollect))
+      return
+    }
 
     goodWallet.isInviterCodeValid(extractedCode).then(isValidInviter => {
       log.debug('updating disabled state:', { isValidInviter })

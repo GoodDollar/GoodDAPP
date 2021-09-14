@@ -1,6 +1,8 @@
 // @flow
 
 import { MaskService } from 'react-native-masked-text'
+import { map, zipObject } from 'lodash'
+
 const DECIMALS = 2
 
 const maskSettings = {
@@ -43,3 +45,24 @@ export const toRawValue = (masked: string, settings?: {}): number =>
 
 export const weiToMask = (wei: number, settings?: {}): string => toMask(weiToGd(wei), settings)
 export const maskToWei = (mask: string, settings?: {}): number => gdToWei(toRawValue(mask, settings))
+
+export const getTxLogArgs = tx => {
+  try {
+    const { arguments: _args, _method, transactionHash } = tx
+    const { inputs, name, signature } = _method
+    const args = zipObject(map(inputs, 'name'), _args)
+
+    return {
+      method: name,
+      signature,
+      args,
+      transactionHash,
+    }
+  } catch {
+    return {
+      method: 'unknown',
+      signature: null,
+      args: {},
+    }
+  }
+}

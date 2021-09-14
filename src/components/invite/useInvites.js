@@ -87,19 +87,19 @@ export const useInviteBonus = () => {
   const [showDialog] = useDialog()
   const collected = useUserProperty(collectedProp)
 
-  const getCanCollect = useCallback(
-    // eslint-disable-next-line require-await
-    async () => goodWallet.invitesContract.methods.canCollectBountyFor(goodWallet.account).call(),
-    [],
-  )
-
   const collectInviteBounty = useCallback(
     async (onUnableToCollect = noop) => {
       if (collected) {
         return
       }
 
-      const canCollect = await getCanCollect()
+      const canCollect = await goodWallet.invitesContract.methods
+        .canCollectBountyFor(goodWallet.account)
+        .call()
+        .catch(e => {
+          log.error('useInviteBonus: failed to get canCollect:', e.message, e)
+          return false
+        })
 
       log.debug(`useInviteBonus: got canCollect:`, { canCollect })
 
@@ -133,14 +133,10 @@ export const useInviteBonus = () => {
         ],
       })
     },
-    [showDialog, getCanCollect, collected],
+    [showDialog, collected],
   )
 
-  useEffect(() => {
-    log.debug(`useInviteBonus: got ${collectedProp}:`, { collected })
-  }, [collected])
-
-  return [collected, getCanCollect, collectInviteBounty]
+  return [collected, collectInviteBounty]
 }
 
 export const useCollectBounty = () => {
@@ -214,7 +210,6 @@ export const useCollectBounty = () => {
     }
   }, [canCollect])
 
-  log.debug({ canCollect, collected })
   return [canCollect, collected]
 }
 

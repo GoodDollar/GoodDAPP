@@ -28,6 +28,7 @@ import API from '../API/api'
 import { delay } from '../utils/async'
 import { generateShareLink } from '../share'
 import WalletFactory from './WalletFactory'
+import { getTxLogArgs } from './utils'
 
 const log = logger.child({ from: 'GoodWalletV2' })
 
@@ -1329,7 +1330,7 @@ export class GoodWallet {
         })
         .on('error', e => {
           log.error('sendTransaction error:', e.message, e, {
-            tx,
+            tx: getTxLogArgs(tx),
             category: ExceptionCategory.Blockhain,
           })
           rej(e)

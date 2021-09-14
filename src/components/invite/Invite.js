@@ -193,14 +193,12 @@ const InputCodeBox = ({ navigateTo }) => {
 
   //manages the get reward button state (disabled/enabled)
   useEffect(() => {
-    log.debug('updating disabled state:', { collected, inviteCodeUsed })
+    log.debug('updating disabled state:', { extractedCode, isValidCode, ownInviteCode, inviteCodeUsed })
 
     if (collected) {
       log.debug('not updating disabled state: bountry collected or code already used')
       return
     }
-
-    log.debug('updating disabled state:', { extractedCode, isValidCode, ownInviteCode, inviteCodeUsed })
 
     if (inviteCodeUsed) {
       goodWallet.invitesContract.methods
@@ -210,10 +208,16 @@ const InputCodeBox = ({ navigateTo }) => {
       return
     }
 
-    goodWallet.isInviterCodeValid(extractedCode).then(isValidInviter => {
-      log.debug('updating disabled state:', { isValidInviter })
-      setDisabled(!isValidInviter)
-    })
+    goodWallet
+      .isInviterCodeValid(extractedCode)
+      .catch(e => {
+        log.error('failed to check is inviter valid:', e.message, e)
+        return false
+      })
+      .then(isValidInviter => {
+        log.debug('updating disabled state:', { isValidInviter })
+        setDisabled(!isValidInviter)
+      })
   }, [extractedCode, isValidCode, inviteCodeUsed, collected, setDisabled])
 
   if (collected) {

@@ -17,7 +17,7 @@ import LoadingIcon from '../common/modal/LoadingIcon'
 import { InfoIcon } from '../common/modal/InfoIcon'
 
 import goodWallet from '../../lib/wallet/GoodWallet'
-import { extractQueryParams, isValidURI } from '../../lib/utils/uri'
+import { extractQueryParams } from '../../lib/utils/uri'
 import {
   registerForInvites,
   useCollectBounty,
@@ -134,7 +134,7 @@ const InputCodeBox = ({ navigateTo }) => {
   const [collected, getCanCollect, collectInviteBounty] = useInviteBonus()
 
   const [code, setCode] = useState(userStorage.userProperties.get('inviterInviteCode') || '')
-  const extractedCode = useMemo(() => (isValidURI(code) ? get(extractQueryParams(code), 'inviteCode') : code), [code])
+  const extractedCode = useMemo(() => get(extractQueryParams(code), 'inviteCode', code), [code])
   const isValidCode = extractedCode.length >= 10 && extractedCode.length <= 32 && extractedCode !== ownInviteCode
 
   // disable button if code invalid or cant collect
@@ -181,17 +181,15 @@ const InputCodeBox = ({ navigateTo }) => {
     })
 
     try {
-      if (!inviteCodeUsed) {
-        await registerForInvites(extractedCode)
-        setCode(extractedCode)
-      }
+      await registerForInvites(extractedCode)
+      setCode(extractedCode)
 
       await collectInviteBounty(onUnableToCollect)
     } catch (e) {
       log.warn('collectInviteBounty failed', e.message, e)
       hideDialog()
     }
-  }, [extractedCode, inviteCodeUsed, setCode, showDialog, hideDialog, onUnableToCollect, collectInviteBounty])
+  }, [extractedCode, setCode, showDialog, hideDialog, onUnableToCollect, collectInviteBounty])
 
   useEffect(() => {
     log.debug('updating disabled state:', { collected, inviteCodeUsed, extractedCode, isValidCode, ownInviteCode })

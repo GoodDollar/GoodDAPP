@@ -130,16 +130,15 @@ const ShareBox = ({ level }) => {
 const InputCodeBox = ({ navigateTo }) => {
   const ownInviteCode = useInviteCode()
   const [showDialog, hideDialog] = useDialog()
-  const [collected, collectInviteBounty] = useInviteBonus()
-  const [input, setInput] = useState(() => userStorage.userProperties.get('inviterInviteCode') || '')
-  const code = useMemo(() => (isValidURI(input) ? get(extractQueryParams(input), 'inviteCode') : input), [input])
   const inviteCodeUsed = useUserProperty('inviterInviteCodeUsed')
+  const [collected, getCanCollect, collectInviteBounty] = useInviteBonus()
 
-  //show component if reward not collected yet
-  const [visible, setVisible] = useState(() => !collected)
+  const [code, setCode] = useState(userStorage.userProperties.get('inviterInviteCode') || '')
+  const extractedCode = useMemo(() => (isValidURI(code) ? get(extractQueryParams(code), 'inviteCode') : code), [code])
+  const isValidCode = extractedCode.length >= 10 && extractedCode !== ownInviteCode
 
   // disable button if code invalid or cant collect
-  const [disabled, setDisabled] = useState(() => (inviteCodeUsed ? collected : true))
+  const [disabled, setDisabled] = useState(!isValidCode)
 
   const onUnableToCollect = useCallback(async () => {
     const isCitizen = await goodWallet.isCitizen()
@@ -183,7 +182,7 @@ const InputCodeBox = ({ navigateTo }) => {
 
     try {
       if (!inviteCodeUsed) {
-        await registerForInvites(code)
+        await registerForInvites(extractedCode)
       }
 
       await collectInviteBounty(onUnableToCollect)
@@ -191,31 +190,36 @@ const InputCodeBox = ({ navigateTo }) => {
       log.warn('collectInviteBounty failed', e.message, e)
       hideDialog()
     }
-  }, [code, inviteCodeUsed, showDialog, hideDialog, setVisible, onUnableToCollect, collectInviteBounty])
+  }, [extractedCode, inviteCodeUsed, showDialog, hideDialog, onUnableToCollect, collectInviteBounty])
 
   useEffect(() => {
-    log.debug('updating disabled state:', { visible, inviteCodeUsed })
+    log.debug('updating disabled state:', { collected, inviteCodeUsed, extractedCode, isValidCode, ownInviteCode })
 
-    if (!visible || inviteCodeUsed) {
-      log.debug('updating disabled state: bountry collected or code already used')
+    if (collected) {
+      log.debug('updating disabled state: bounty collected')
       return
     }
 
-    const isValidCode = code.length >= 10 && code !== ownInviteCode
+    if (inviteCodeUsed) {
+      log.debug('updating disabled state: invite code used')
 
-    log.debug('updating disabled state:', { code, isValidCode, ownInviteCode })
+      getCanCollect().then(canCollect => {
+        log.debug('updating disabled state:', { canCollect })
+        setDisabled(!canCollect)
+      })
 
-    goodWallet.isInviterCodeValid(code).then(isValidInviter => {
-      log.debug('updating disabled state:', { isValidInviter })
-      setDisabled(!isValidInviter)
-    })
-  }, [code, ownInviteCode, inviteCodeUsed, visible, setDisabled])
+      return
+    }
 
-  useEffect(() => {
-    setVisible(!collected)
-  }, [collected])
+    if (isValidCode) {
+      goodWallet.isInviterCodeValid(extractedCode).then(isValidInviter => {
+        log.debug('updating disabled state:', { isValidInviter })
+        setDisabled(!isValidInviter)
+      })
+    }
+  }, [extractedCode, ownInviteCode, inviteCodeUsed, collected, isValidCode, setDisabled, getCanCollect])
 
-  if (!visible) {
+  if (collected) {
     return null
   }
 
@@ -225,8 +229,8 @@ const InputCodeBox = ({ navigateTo }) => {
         <Section.Row style={{ width: '100%', alignItems: 'center' }}>
           <TextInput
             disabled={inviteCodeUsed}
-            value={input}
-            onChangeText={setInput}
+            value={code}
+            onChangeText={setCode}
             style={{
               flex: 1,
               paddingVertical: 8,

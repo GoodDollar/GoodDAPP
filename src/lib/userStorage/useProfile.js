@@ -38,7 +38,7 @@ export const usePublicProfileOf = (walletAddress, fields = defaultPublicFields) 
 }
 
 export const useUserProperty = property => {
-  const [propertyValue, setPropertyValue] = useState(() => userStorage.userProperties.get(property))
+  const [propertyValue, setPropertyValue] = useState(userStorage.userProperties.get(property))
 
   useEffect(() => {
     const { userProperties } = userStorage

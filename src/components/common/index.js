@@ -26,6 +26,7 @@ import AwaitButton from './buttons/AwaitButton'
 import Section from './layout/Section'
 import ShareButton from './buttons/ShareButton'
 import Text from './view/Text'
+import UserAvatar from './view/UserAvatar'
 import Wrapper from './layout/Wrapper'
 import WrapperClaim from './layout/WrapperClaim'
 import ClaimButton from './buttons/ClaimButton'
@@ -58,6 +59,7 @@ export {
   Text,
   Wrapper,
   AwaitButton,
+  UserAvatar,
   WrapperClaim,
 }
 

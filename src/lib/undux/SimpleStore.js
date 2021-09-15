@@ -99,6 +99,7 @@ const initialState: State = {
   userStorage: null,
   serviceWorkerUpdated: null,
   regMethod: 'torus',
+  setDialogBlur: null,
 }
 
 const { storeAccessor, storeEffects } = createStoreEffects()

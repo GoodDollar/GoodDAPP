@@ -150,7 +150,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
 
       return torusSDK.triggerLogin(provider)
     },
-    [torusSDK],
+    [],
   )
 
   const handleTorusResponse = async (torusUserPromise, provider) => {

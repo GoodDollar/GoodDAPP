@@ -200,29 +200,36 @@ const InputCodeBox = ({ navigateTo }) => {
       return
     }
 
-    if (inviteCodeUsed) {
-      getCanCollect().then(canCollect => {
-        log.debug('updating disabled state:', { canCollect })
-        setDisabled(!canCollect)
-      })
+    if (!inviteCodeUsed) {
+      log.debug('updating disabled state: invite code used')
+      log.debug('updating disabled state: ', { isValidCode })
+
+      setDisabled(!isValidCode)
+
+      if (isValidCode) {
+        log.debug('updating disabled state: code is valid')
+
+        goodWallet
+          .isInviterCodeValid(extractedCode)
+          .catch(e => {
+            log.error('failed to check is inviter valid:', e.message, e)
+            return false
+          })
+          .then(isValidInviter => {
+            log.debug('updating disabled state:', { isValidInviter })
+            setDisabled(!isValidInviter)
+          })
+      }
+
       return
     }
 
-    if (!isValidCode) {
-      log.debug('not updating disabled state: trying to redeem invalid or own invite code')
-      return
-    }
+    log.debug('updating disabled state: invite code NOT used')
 
-    goodWallet
-      .isInviterCodeValid(extractedCode)
-      .catch(e => {
-        log.error('failed to check is inviter valid:', e.message, e)
-        return false
-      })
-      .then(isValidInviter => {
-        log.debug('updating disabled state:', { isValidInviter })
-        setDisabled(!isValidInviter)
-      })
+    getCanCollect().then(canCollect => {
+      log.debug('updating disabled state:', { canCollect })
+      setDisabled(!canCollect)
+    })
   }, [extractedCode, isValidCode, inviteCodeUsed, collected, setDisabled, getCanCollect])
 
   if (collected) {

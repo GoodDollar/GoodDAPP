@@ -87,19 +87,22 @@ export const useInviteBonus = () => {
   const [showDialog] = useDialog()
   const collected = useUserProperty(collectedProp)
 
+  const getCanCollect = useCallback(async () => {
+    try {
+      return await goodWallet.invitesContract.methods.canCollectBountyFor(goodWallet.account).call()
+    } catch (e) {
+      log.error('useInviteBonus: failed to get canCollect:', e.message, e)
+      return false
+    }
+  }, [])
+
   const collectInviteBounty = useCallback(
     async (onUnableToCollect = noop) => {
       if (collected) {
         return
       }
 
-      const canCollect = await goodWallet.invitesContract.methods
-        .canCollectBountyFor(goodWallet.account)
-        .call()
-        .catch(e => {
-          log.error('useInviteBonus: failed to get canCollect:', e.message, e)
-          return false
-        })
+      const canCollect = await getCanCollect()
 
       log.debug(`useInviteBonus: got canCollect:`, { canCollect })
 
@@ -136,7 +139,7 @@ export const useInviteBonus = () => {
     [showDialog, collected],
   )
 
-  return [collected, collectInviteBounty]
+  return [collected, getCanCollect, collectInviteBounty]
 }
 
 export const useCollectBounty = () => {

@@ -131,7 +131,7 @@ const InputCodeBox = ({ navigateTo }) => {
   const ownInviteCode = useInviteCode()
   const [showDialog, hideDialog] = useDialog()
   const inviteCodeUsed = useUserProperty('inviterInviteCodeUsed')
-  const [collected, collectInviteBounty] = useInviteBonus()
+  const [collected, getCanCollect, collectInviteBounty] = useInviteBonus()
 
   const [code, setCode] = useState(userStorage.userProperties.get('inviterInviteCode') || '')
 
@@ -196,15 +196,20 @@ const InputCodeBox = ({ navigateTo }) => {
     log.debug('updating disabled state:', { extractedCode, isValidCode, ownInviteCode, inviteCodeUsed })
 
     if (collected) {
-      log.debug('not updating disabled state: bountry collected or code already used')
+      log.debug('not updating disabled state: bounty collected')
       return
     }
 
     if (inviteCodeUsed) {
-      goodWallet.invitesContract.methods
-        .canCollectBountyFor(goodWallet.account)
-        .call()
-        .then(canCollect => setDisabled(!canCollect))
+      getCanCollect().then(canCollect => {
+        log.debug('updating disabled state:', { canCollect })
+        setDisabled(!canCollect)
+      })
+      return
+    }
+
+    if (!isValidCode) {
+      log.debug('not updating disabled state: trying to redeem invalid or own invite code')
       return
     }
 
@@ -218,7 +223,7 @@ const InputCodeBox = ({ navigateTo }) => {
         log.debug('updating disabled state:', { isValidInviter })
         setDisabled(!isValidInviter)
       })
-  }, [extractedCode, isValidCode, inviteCodeUsed, collected, setDisabled])
+  }, [extractedCode, isValidCode, inviteCodeUsed, collected, setDisabled, getCanCollect])
 
   if (collected) {
     return null

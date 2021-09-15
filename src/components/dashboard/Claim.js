@@ -246,7 +246,7 @@ const Claim = props => {
 
   const wrappedGoodWallet = wrapper(goodWallet, store)
   const advanceClaimsCounter = useClaimCounter()
-  const [, collectInviteBounty] = useInviteBonus()
+  const [, , collectInviteBounty] = useInviteBonus()
 
   // A function which will open 'learn more' page in a new tab
   // const openLearnMoreLink = useOnPress(() => openLink(Config.learnMoreEconomyUrl), [])

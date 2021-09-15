@@ -130,6 +130,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
 
   const getTorusUserRedirect = async () => {
     const isExpecting = await AsyncStorage.getItem('recallTorusRedirectStarted')
+
     if (sdkInitialized && isExpecting && torusSDK.popupMode === false && (DeepLinking.hash || DeepLinking.query)) {
       log.debug('triggering torus redirect callback flow')
       AsyncStorage.removeItem('recallTorusRedirectStarted')
@@ -150,7 +151,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
 
       return torusSDK.triggerLogin(provider)
     },
-    [],
+    [torusSDK],
   )
 
   const handleTorusResponse = async (torusUserPromise, provider) => {

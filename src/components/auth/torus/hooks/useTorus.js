@@ -1,23 +1,19 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { noop } from 'lodash'
+import { isMobileNative } from '../../../../lib/utils/platform'
 
 import useMountedState from '../../../../lib/hooks/useMountedState'
 
 import TorusSDK from '../sdk/TorusSDK'
 import logger from '../../../../lib/logger/js-logger'
-import useSDKOptions from './useSDKOptions'
 
 const log = logger.child({ from: 'AuthTorus' })
 
 export default (onInitialized = noop) => {
-  const [sdk, setSDK] = useState()
+  const sdk = useState(() => TorusSDK.factory({ uxMode: isMobileNative ? 'popup' : 'redirect' }))
   const [initialized, setInitialized] = useState(false)
   const onInitializedRef = useRef(onInitialized)
   const mountedState = useMountedState()
-
-  const applySDKOptions = useCallback(options => setSDK(TorusSDK.factory(options)), [setSDK])
-
-  useSDKOptions(applySDKOptions)
 
   useEffect(() => {
     onInitializedRef.current = onInitialized
@@ -42,9 +38,7 @@ export default (onInitialized = noop) => {
       }
     }
 
-    if (sdk) {
-      registerTorusWorker()
-    }
+    registerTorusWorker()
   }, [sdk])
 
   return [sdk, initialized]

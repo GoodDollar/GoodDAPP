@@ -1,6 +1,6 @@
 // @flow
 import { default as API } from '../API/api'
-import { GoodWallet } from '../wallet/GoodWallet'
+import { GoodWallet } from '../wallet/WalletClassSelector'
 
 export const userExists = async ({ mnemonics, privateKey, email, mobile }): Promise<any> => {
   const walletSeed = mnemonics || privateKey

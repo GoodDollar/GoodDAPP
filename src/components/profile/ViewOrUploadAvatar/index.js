@@ -1,7 +1,8 @@
 // @flow
 import React, { useCallback } from 'react'
 import { Platform } from 'react-native'
-import { CustomButton, Section, UserAvatar, Wrapper } from '../../common'
+import { CustomButton, Section, Wrapper } from '../../common'
+import UserAvatar from '../../common/view/UserAvatar'
 import { withStyles } from '../../../lib/styles'
 import { useErrorDialog } from '../../../lib/undux/utils/dialog'
 import InputFile from '../../common/form/InputFile'

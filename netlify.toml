@@ -1,5 +1,5 @@
 [build]
-command = "CI= yarn build --production=false"
+command = "CI= yarn build"
 
 [[headers]]
   for = "*"
@@ -51,6 +51,7 @@ command = "CI= yarn build --production=false"
 NODE_VERSION = "14.17.6"
 GENERATE_SOURCEMAP = "true"
 NODE_ENV = "development"
+YARN_FLAGS = "--production=false"
 REACT_APP_SERVICE_WORKER = "true"
 REACT_APP_ENV = "development"
 REACT_APP_LOG_LEVEL = "debug"

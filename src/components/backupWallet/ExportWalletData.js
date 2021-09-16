@@ -55,7 +55,7 @@ const ExportWalletData = ({ navigation, styles, theme }: ExportWalletProps) => {
       showDialog({
         showButtons: false,
         onDismiss: noop,
-        content: <ExportWarningPopup onDismiss={noop} />,
+        content: <ExportWarningPopup />,
       }),
     [showDialog],
   )

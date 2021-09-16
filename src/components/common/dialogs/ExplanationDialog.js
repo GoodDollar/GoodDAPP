@@ -1,5 +1,5 @@
 // libraries
-import React, { useCallback, useMemo } from 'react'
+import React, { useCallback, useContext, useMemo } from 'react'
 import { Image, Platform, View } from 'react-native'
 import { isEmpty, noop } from 'lodash'
 
@@ -12,18 +12,19 @@ import { hideDialog } from '../../../lib/undux/utils/dialog'
 import { withStyles } from '../../../lib/styles'
 import { getDesignRelativeHeight } from '../../../lib/utils/sizes'
 import normalizeText from '../../../lib/utils/normalizeText'
-import { setDialogBlur } from '../../../lib/contexts/togglesContext'
+import { GlobalTogglesContext } from '../../../lib/contexts/togglesContext'
 
 const defaultCustomStyle = {}
 
 const ExplanationButton = ({ text = 'OK', action = noop, mode, styles, style = defaultCustomStyle }) => {
   const { buttonText, textModeButtonText, textModeButton } = styles
   const store = SimpleStore.useStore()
+  const { setDialogBlur } = useContext(GlobalTogglesContext)
   const isTextMode = mode === 'text'
 
   const handleActionPress = useCallback(() => {
     action()
-    hideDialog(store, state => setDialogBlur(store, state))
+    hideDialog(store, setDialogBlur)
   }, [action, store])
 
   return (

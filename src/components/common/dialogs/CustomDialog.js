@@ -1,8 +1,9 @@
 // @flow
-import React, { useCallback } from 'react'
+import React, { useCallback, useContext } from 'react'
 import { StyleSheet, View } from 'react-native'
 import { Paragraph, Portal } from 'react-native-paper'
 import { isString } from 'lodash'
+
 import normalize from '../../../lib/utils/normalizeText'
 import SimpleStore from '../../../lib/undux/SimpleStore'
 import { useDialog } from '../../../lib/undux/utils/dialog'
@@ -14,6 +15,7 @@ import ModalWrapper from '../modal/ModalWrapper'
 import { theme } from '../../theme/styles'
 import Text from '../view/Text'
 import Section from '../layout/Section'
+import { GlobalTogglesContext } from '../../../lib/contexts/togglesContext'
 
 export type DialogButtonProps = { color?: string, mode?: string, onPress?: Function => void, text: string, style?: any }
 export type DialogProps = {
@@ -66,6 +68,7 @@ const CustomDialog = ({
   fullHeight = false,
   isMinHeight = true,
 }: DialogProps) => {
+  const globalToggleState = useContext(GlobalTogglesContext)
   const defaultImage = type === 'error' ? <ErrorAnimation /> : loading ? <LoadingIcon /> : <SuccessIcon />
   const modalColor = getColorFromType(type)
   const textColor = type === 'error' ? 'red' : 'darkGray'
@@ -73,10 +76,13 @@ const CustomDialog = ({
   const handleMessage = _message => (isString(_message) ? Paragraph : Section.Row)
   const Message = handleMessage(message)
   const BoldMessage = handleMessage(boldMessage)
-
   const _onDismiss = useCallback(onDismiss)
 
-  return visible ? (
+  if (!visible) {
+    return null
+  }
+
+  return (
     <Portal>
       <ModalWrapper
         onClose={_onDismiss}
@@ -95,7 +101,15 @@ const CustomDialog = ({
             </Text>
           )}
           <View style={styles.content}>
-            {content || (
+            {content ? (
+              // eslint-disable-next-line prettier/prettier
+              // need to pass down the global GlobalTogglesContext value
+              // as it's done in RN Paper's <Portal /> source with theme/settings providers:
+              // https://github.com/callstack/react-native-paper/blob/main/src/components/Portal/Portal.tsx#L54
+              // otherwise useContext(GlobalTogglesContext) will return undefined for
+              // any custom dialog component (e.g. ExplanationDialog and other ones)
+              <GlobalTogglesContext.Provider value={globalToggleState}>{content}</GlobalTogglesContext.Provider>
+            ) : (
               <>
                 {children}
                 {image ? image : defaultImage}
@@ -133,7 +147,7 @@ const CustomDialog = ({
         </React.Fragment>
       </ModalWrapper>
     </Portal>
-  ) : null
+  )
 }
 
 const getColorFromType = (type: string) => {

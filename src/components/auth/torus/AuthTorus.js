@@ -18,6 +18,7 @@ import {
   SIGNUP_STARTED,
   TORUS_FAILED,
   TORUS_POPUP_CLOSED,
+  TORUS_REDIRECT_SUCCESS,
   TORUS_SUCCESS,
 } from '../../../lib/analytics/analytics'
 import { GD_USER_MASTERSEED, GD_USER_MNEMONIC, IS_LOGGED_IN } from '../../../lib/constants/localStorage'
@@ -291,10 +292,24 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
   ) => {
     showLoadingDialog()
 
-    fireEvent(isSignup ? SIGNUP_METHOD_SELECTED : SIGNIN_METHOD_SELECTED, {
-      method: provider,
-      torusPopupMode: torusSDK.popupMode, //for a/b testing
-    })
+    //in case of redirect flow we need to recover the provider/login type
+    if (provider == null) {
+      provider = await AsyncStorage.getItem('recallTorusRedirectProvider')
+    }
+
+    //in case this is triggered as a callback after redirect we fire a different vent
+    if (torusUserRedirectPromise) {
+      fireEvent(TORUS_REDIRECT_SUCCESS, {
+        isSignup,
+        method: provider,
+        torusPopupMode: torusSDK.popupMode, //this should always be false in case of redirect
+      })
+    } else {
+      fireEvent(isSignup ? SIGNUP_METHOD_SELECTED : SIGNIN_METHOD_SELECTED, {
+        method: provider,
+        torusPopupMode: torusSDK.popupMode, //for a/b testing
+      })
+    }
 
     try {
       if (provider === 'selfCustody') {
@@ -314,11 +329,6 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
         await getTorusUser(provider).catch(showSignupError)
         hideDialog() //we hide dialog because on safari pressing back doesnt reload page
         return
-      }
-
-      //in case of redirect flow we need to recover the provider/login type
-      if (provider == null) {
-        provider = await AsyncStorage.getItem('recallTorusRedirectProvider')
       }
 
       let torusResponse

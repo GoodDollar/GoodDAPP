@@ -37,7 +37,7 @@ const AppHolder = () => {
     const initStore = async () => {
       const isLoggedIn = await AsyncStorage.getItem(IS_LOGGED_IN)
 
-      setIsLoggedIn(isLoggedIn)
+      setIsLoggedIn(!!isLoggedIn)
     }
 
     const initializeApp = async () => {

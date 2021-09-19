@@ -209,6 +209,7 @@ const AppSwitch = (props: LoadingProps) => {
       // in user storage class designed to be called from outside
       userStorage.database._syncFromRemote()
       userStorage.userProperties._syncFromRemote()
+      getLoginState() //this will refresh the jwt token if wasnt active for a long time
       showOutOfGasError(props)
     }
   }, [gdstore, ready])

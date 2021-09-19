@@ -6,7 +6,6 @@ import goodWalletLogin from './GoodWalletLogin'
 const log = logger.child({ from: 'checkAuthStatus' })
 
 const jwtSignin = async () => {
-  log.debug('jwtsignin')
   const credsOrFailed = await goodWalletLogin.auth().catch(e => false)
   let { decoded } = await goodWalletLogin.validateJWTExistenceAndExpiration()
   log.info('jwtsignin: jwt data', { decoded })

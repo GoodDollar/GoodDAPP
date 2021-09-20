@@ -155,6 +155,9 @@ const kindOfSDKIssuesMap = mapValues(
 
       // The provided public encryption key is missing or invalid.
       'EncryptionKeyInvalid',
+
+      // FV has been passed but user hasn't been whitelisted in contracts
+      'UnableToWhitelist',
     ],
 
     ResourceLoadingError,
@@ -165,7 +168,7 @@ const kindOfSDKIssuesMap = mapValues(
 const unexpectedRe = /unexpected\s+issue/i
 const licenceIssuesCodes = sdkStatusTransformer(LicenseError)
 const createPredicate = exception => codes => codes.includes(get(exception, 'code'))
-const criticalIssues = ['UnrecoverableError', 'NotSupportedError', 'ResourceLoadingError']
+const criticalIssues = ['UnrecoverableError', 'NotSupportedError', 'ResourceLoadingError', 'UnableToWhitelist']
 
 export const ExceptionType = {
   SDK: 'sdk',

@@ -110,14 +110,27 @@ class RealmDB implements DB, ProfileDB {
     this.user = user
   }
 
-  async _realmQuery(callback) {
-    const { app, user } = this
+  async _pingRealmDB() {
+    if (!this.isReady) {
+      await this.ready
+    }
+
+    const { user } = this
 
     try {
-      if (!user || user !== app.currentUser || user.state !== 'active') {
+      if (!user || user !== this.app.currentUser || user.state !== 'active') {
         await this._connectRealmDB()
       }
+    } catch (e) {
+      log.error('RealmDB error:', e.message, e)
+      throw e
+    }
+  }
 
+  async _realmQuery(callback) {
+    await this._pingRealmDB()
+
+    try {
       return await _retry(callback)
     } catch (e) {
       log.error('RealmDB error:', e.message, e)
@@ -303,6 +316,8 @@ class RealmDB implements DB, ProfileDB {
    * @returns
    */
   async encryptSettings(settings) {
+    await this._pingRealmDB()
+
     const msg = new TextEncoder().encode(JSON.stringify(settings))
     const encrypted = await this.privateKey.public.encrypt(msg).then(_ => Buffer.from(_).toString('base64'))
     const _id = `${this.user.id}_settings`
@@ -322,6 +337,8 @@ class RealmDB implements DB, ProfileDB {
    * @returns
    */
   async decryptSettings() {
+    await this._pingRealmDB()
+
     const _id = `${this.user.id}_settings`
     const encryptedSettings = await this._realmQuery(() => this.encryptedFeed.findOne({ _id }))
     let settings = {}
@@ -345,6 +362,8 @@ class RealmDB implements DB, ProfileDB {
    */
   async _encrypt(feedItem): Promise<string> {
     try {
+      await this._pingRealmDB()
+
       const msg = new TextEncoder().encode(JSON.stringify(feedItem))
       const encrypted = await this.privateKey.public.encrypt(msg).then(_ => Buffer.from(_).toString('base64'))
       const txHash = feedItem.id
@@ -376,6 +395,8 @@ class RealmDB implements DB, ProfileDB {
    */
   async _decrypt(item): Promise<string> {
     try {
+      await this._pingRealmDB()
+
       const decrypted = await this.privateKey.decrypt(Uint8Array.from(Buffer.from(item.encrypted, 'base64')))
 
       return JSON.parse(new TextDecoder().decode(decrypted))

@@ -97,7 +97,7 @@ class RealmDB implements DB, ProfileDB {
 
       return this.user
     } catch (err) {
-      log.error('Failed to log in', err)
+      log.error('Failed to log in', err.message, err)
       throw err
     }
   }
@@ -401,7 +401,7 @@ class RealmDB implements DB, ProfileDB {
 
       return JSON.parse(new TextDecoder().decode(decrypted))
     } catch (e) {
-      log.warn('failed _decrypt', { item })
+      log.warn('failed _decrypt', e.message, e, { item })
     }
   }
 

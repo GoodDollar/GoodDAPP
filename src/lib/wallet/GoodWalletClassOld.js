@@ -1295,7 +1295,7 @@ export class GoodWallet {
     log.debug('sendTransaction:', { gas, gasPrice })
     const { ok } = await this.verifyHasGas(gas * gasPrice)
     if (ok === false) {
-      return Promise.reject('Reached daily transactions limit or not a citizen').catch(this.handleError)
+      return Promise.reject(new Error('Reached daily transactions limit or not a citizen')).catch(this.handleError)
     }
     const res = new Promise((res, rej) => {
       tx.send({ gas, gasPrice, chainId: this.networkId })

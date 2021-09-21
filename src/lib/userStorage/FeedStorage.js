@@ -144,6 +144,8 @@ export class FeedStorage {
    * return the event relevant for the tx type
    */
   getTXEvent(txType, receipt) {
+    const [_from, _to] = ['from', 'to'].map(addr => ev => get(ev, `data.${addr}`, '').toLowerCase())
+
     switch (txType) {
       case TxType.TX_OTPL_CANCEL:
         return receipt.logs.find(e => e.name === 'PaymentCancel')
@@ -154,30 +156,27 @@ export class FeedStorage {
         return receipt.logs.find(
           e =>
             e.name === 'PaymentDeposit' ||
-            (e.data.to.toLowerCase() === this.wallet.oneTimePaymentsContract._address.toLowerCase() &&
-              e.data.from.toLowerCase() === this.walletAddress),
+            (_to(e) === this.wallet.oneTimePaymentsContract._address.toLowerCase() && _from(e) === this.walletAddress),
         )
       case TxType.TX_SEND_GD:
         return orderBy(receipt.logs, 'e.data.value', 'desc').find(
-          e => e.name === 'Transfer' && e.data.from.toLowerCase() === this.walletAddress,
+          e => e.name === 'Transfer' && _from(e) === this.walletAddress,
         )
       case TxType.TX_MINT:
       case TxType.TX_RECEIVE_GD:
         return orderBy(receipt.logs, 'e.data.value', 'desc').find(
-          e => e.name === 'Transfer' && e.data.to.toLowerCase() === this.walletAddress,
+          e => e.name === 'Transfer' && _to(e) === this.walletAddress,
         )
       case TxType.TX_CLAIM:
         return orderBy(receipt.logs, 'e.data.value', 'desc').find(
-          e =>
-            e.name === 'UBIClaimed' ||
-            (e.name === 'Transfer' && this.wallet.getUBIAddresses().includes(e.data.from.toLowerCase())),
+          e => e.name === 'UBIClaimed' || (e.name === 'Transfer' && this.wallet.getUBIAddresses().includes(_from(e))),
         )
       case TxType.TX_REWARD:
         return orderBy(receipt.logs, 'e.data.value', 'desc').find(
           e =>
             e.name === 'Transfer' &&
-            this.wallet.getRewardsAddresses().includes(e.data.from.toLowerCase()) &&
-            this.walletAddress.toLowerCase() === e.data.to.toLowerCase(),
+            this.wallet.getRewardsAddresses().includes(_from(e)) &&
+            this.walletAddress.toLowerCase() === _to(e),
         )
       default:
         return {}

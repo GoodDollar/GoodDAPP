@@ -1,10 +1,13 @@
 // @flow
 import React, { useCallback } from 'react'
 import { Platform, View } from 'react-native'
+import { get } from 'lodash'
+
 import Icon from '../../common/view/Icon'
 import Text from '../../common/view/Text'
 import SummaryTable from '../../common/view/SummaryTable'
 import ModalActionsByFeedType from '../../common/modal/ModalActionsByFeedType'
+
 import { withStyles } from '../../../lib/styles'
 import type { FeedEventProps } from './EventProps'
 
@@ -32,9 +35,9 @@ const FeedModalItem = ({ item, onPress, styles, theme }: FeedEventProps) => {
         </View>
       </View>
       <SummaryTable
-        counterPartyDisplayName={item.data.endpoint.displayName}
-        amount={item.data.amount}
-        reason={item.data.message}
+        counterPartyDisplayName={get(item, 'data.endpoint.displayName')}
+        amount={get(item, 'data.amount', 0)}
+        reason={get(item, 'data.message', '')}
         compact={true}
       />
       <ModalActionsByFeedType item={item} handleModalClose={buttonPress} />

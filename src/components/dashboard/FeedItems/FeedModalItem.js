@@ -1,7 +1,7 @@
 // @flow
 import React, { useCallback } from 'react'
 import { View } from 'react-native'
-import { get } from 'lodash'
+import { get, isNil } from 'lodash'
 import Avatar from '../../common/view/Avatar'
 import BigGoodDollar from '../../common/view/BigGoodDollar'
 import Text from '../../common/view/Text'
@@ -60,7 +60,7 @@ const FeedModalItem = (props: FeedEventProps) => {
                     </Text>
                   )}
                   <BigGoodDollar
-                    number={item.data.amount}
+                    number={get(item, 'data.amount', 0)}
                     color={mainColor}
                     bigNumberProps={{ fontSize: 24 }}
                     bigNumberStyles={styles.bigNumberStyles}
@@ -82,17 +82,17 @@ const FeedModalItem = (props: FeedEventProps) => {
             )}
           </View>
           <View style={styles.messageContainer}>
-            {!!item.data.preMessageText && (
+            {!!get(item, 'data.preMessageText') && (
               <Text fontSize={14} textAlign="left" lineHeight={20} letterSpacing={0.14} fontWeight="bold">
                 {item.data.preMessageText}
                 {'\n\n'}
               </Text>
             )}
             <Text fontSize={14} textAlign="left">
-              {item.data.message || ''}
+              {get(item, 'data.message', '')}
             </Text>
           </View>
-          {item.data.receiptHash == null && item.status === 'pending' && (
+          {isNil(get(item, 'data.receiptHash')) && item.status === 'pending' && (
             <View style={styles.messageContainer}>
               <Text fontSize={14} color="gray50Percent">
                 Your balance will be updated in a minute

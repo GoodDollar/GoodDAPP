@@ -33,7 +33,7 @@ const InviteItem = ({ item, theme }) => {
           fontWeight="bold"
           letterSpacing={0.09}
         >
-          {item.data.subtitle}
+          {get(item, 'data.subtitle', '')}
         </Text>
         <Text
           color={theme.colors.white}
@@ -43,7 +43,7 @@ const InviteItem = ({ item, theme }) => {
           fontWeight="regular"
           letterSpacing={-0.07}
         >
-          {item.data.readMore}
+          {get(item, 'data.readMore', '')}
         </Text>
       </Section.Stack>
       <Section.Stack
@@ -99,7 +99,7 @@ const ListEvent = ({ item: feed, theme, index, styles }: FeedEventProps) => {
                   </Text>
                 )}
                 <BigGoodDollar
-                  number={feed.data.amount}
+                  number={get(feed, 'data.amount', 0)}
                   color={mainColor}
                   bigNumberProps={{ fontSize: 20, lineHeight: 20 }}
                   bigNumberStyles={styles.bigNumberStyles}
@@ -207,12 +207,16 @@ const getFeedTextStyles = () => ({
 
 const FeedText = withStyles(getFeedTextStyles)(({ styles, feed, isSmallDevice }) => {
   let result = ''
-  const readMore = feed.data.readMore || feed.data.smallReadMore
+  const readMore = get(feed, 'data.readMore', get(feed, 'data.smallReadMore', ''))
   if (readMore) {
     result = (
-      <ReadMoreText color="gray80Percent" text={readMore} buttonText={feed.data.readMore ? 'Learn more...' : ''} />
+      <ReadMoreText
+        color="gray80Percent"
+        text={readMore}
+        buttonText={get(feed, 'data.readMore') ? 'Learn more...' : ''}
+      />
     )
-  } else if (feed.data.readMore === false) {
+  } else if (get(feed, 'data.readMore') === false) {
     //if readMore is exactly false we don't show anything
     result = null
   } else {
@@ -225,7 +229,7 @@ const FeedText = withStyles(getFeedTextStyles)(({ styles, feed, isSmallDevice })
         textTransform="capitalize"
         style={styles.message}
       >
-        {feed.data.message}
+        {get(feed, 'data.message')}
       </Text>
     )
   }

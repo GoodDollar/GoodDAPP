@@ -1,7 +1,7 @@
 import BackgroundFetch from 'react-native-background-fetch'
 import PushNotification from 'react-native-push-notification'
 import moment from 'moment'
-import { once } from 'lodash'
+import { get, once } from 'lodash'
 import AsyncStorage from '../utils/asyncStorage'
 import logger from '../logger/js-logger'
 import { IS_LOGGED_IN } from '../constants/localStorage'
@@ -73,8 +73,8 @@ const task = async taskId => {
   log.info('pushing local notifications for feed items:', { total: newFeeds.length })
   newFeeds.map(feed =>
     PushNotification.localNotification({
-      title: `Payment from/to ${feed.data.counterPartyDisplayName} received/accepted`,
-      message: `G$ ${feed.data.amount}`,
+      title: `Payment from/to ${get(feed, 'data.counterPartyDisplayName', 'Unknown')} received/accepted`,
+      message: `G$ ${get(feed, 'data.amount', 0)}`,
       id: feed.id,
       userInfo: { id: feed.id },
     }),

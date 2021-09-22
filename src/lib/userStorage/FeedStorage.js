@@ -5,12 +5,13 @@ import moment from 'moment'
 
 import * as TextileCrypto from '@textile/crypto'
 import delUndefValNested from '../utils/delUndefValNested'
-import { updateFeedEventAvatar } from '../updates/utils'
+import { updateFeedEventAvatar } from '../updates/utils/feed'
 
 import Config from '../../config/config'
 import logger from '../../lib/logger/js-logger'
-import { UserStorage } from './UserStorageClass'
+import type { UserStorage } from './UserStorageClass'
 import { asLogRecord } from './utlis'
+
 const log = logger.child({ from: 'FeedStorage' })
 
 const COMPLETED_BONUS_REASON_TEXT = 'Your recent earned rewards'

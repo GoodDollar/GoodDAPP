@@ -7,7 +7,7 @@ import Config from '../../../../config/config'
 import logger from '../../../../lib/logger/js-logger'
 import { unexpectedErrorMessage } from '../sdk/FaceTecSDK.constants'
 
-import { hideRedBoxIfNonCritical } from '../utils/kindOfTheIssue'
+import { hideRedBoxIfNonCritical } from '../utils/redBox'
 import { type FaceVerificationPayload, type FaceVerificationResponse } from './typings'
 
 class FaceVerificationApi {

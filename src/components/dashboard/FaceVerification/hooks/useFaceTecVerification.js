@@ -8,7 +8,8 @@ import { isE2ERunning, isEmulator, isIOSNative } from '../../../../lib/utils/pla
 // Zoom SDK reference & helpers
 import api from '../api/FaceVerificationApi'
 import { FaceTecSDK } from '../sdk/FaceTecSDK'
-import { ExceptionType, hideRedBoxIfNonCritical, kindOfSessionIssue } from '../utils/kindOfTheIssue'
+import { ExceptionType, kindOfSessionIssue } from '../utils/kindOfTheIssue'
+import { hideRedBoxIfNonCritical } from '../utils/redBox'
 import { MAX_RETRIES_ALLOWED, resultSuccessMessage } from '../sdk/FaceTecSDK.constants'
 import useRealtimeProps from '../../../../lib/hooks/useRealtimeProps'
 

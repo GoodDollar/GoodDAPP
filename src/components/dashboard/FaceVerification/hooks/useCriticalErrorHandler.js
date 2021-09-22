@@ -3,7 +3,7 @@ import { useCallback } from 'react'
 import { useDialog } from '../../../../lib/undux/utils/dialog'
 import useRealtimeProps from '../../../../lib/hooks/useRealtimeProps'
 
-import { isCriticalIssue } from '../utils/kindOfTheIssue'
+import { isCriticalIssue } from '../utils/redBox'
 import { isWeb } from '../../../../lib/utils/platform'
 
 import FaceTecGlobalState from '../sdk/FaceTecGlobalState'

@@ -1,9 +1,7 @@
 /* eslint no-console: "off" */
 
-import { assign, findKey, get, mapValues } from 'lodash'
+import { findKey, get, mapValues } from 'lodash'
 import { FaceTecSDKStatus, FaceTecSessionStatus } from '../sdk/FaceTecSDK'
-import { isMobileNative } from '../../../../lib/utils/platform'
-import Config from '../../../../config/config'
 
 const statusTransformer = statusesEnum => statusesKeys =>
   statusesKeys.reduce((statuses, key) => {
@@ -165,10 +163,8 @@ const kindOfSDKIssuesMap = mapValues(
   sdkStatusTransformer,
 )
 
-const unexpectedRe = /unexpected\s+issue/i
 const licenceIssuesCodes = sdkStatusTransformer(LicenseError)
 const createPredicate = exception => codes => codes.includes(get(exception, 'code'))
-const criticalIssues = ['UnrecoverableError', 'NotSupportedError', 'ResourceLoadingError', 'UnableToWhitelist']
 
 export const ExceptionType = {
   SDK: 'sdk',
@@ -177,30 +173,6 @@ export const ExceptionType = {
 
 export const isLicenseIssue = exception => createPredicate(exception)(licenceIssuesCodes)
 
-export const isCriticalIssue = exception => criticalIssues.includes(get(exception, 'name'))
-
 export const kindOfSessionIssue = exception => findKey(kindOfSessionIssuesMap, createPredicate(exception))
 
 export const kindOfSDKIssue = exception => findKey(kindOfSDKIssuesMap, createPredicate(exception))
-
-export const hideRedBoxIfNonCritical = (exception, logCallback) => {
-  if (unexpectedRe.test(exception.message || '') || isCriticalIssue(exception)) {
-    logCallback()
-    return
-  }
-
-  hideRedBox(logCallback)
-}
-
-export const hideRedBox = logCallback => {
-  const { reportErrorsAsExceptions } = console
-
-  if (!isMobileNative || Config.env === 'production' || !reportErrorsAsExceptions) {
-    logCallback()
-    return
-  }
-
-  console.reportErrorsAsExceptions = false
-  logCallback()
-  assign(console, { reportErrorsAsExceptions })
-}

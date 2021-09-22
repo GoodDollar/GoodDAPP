@@ -1,50 +1,13 @@
-import { debounce, isString } from 'lodash'
+import { debounce } from 'lodash'
 
-import { isValidCID } from '../ipfs/utils'
-import { isValidDataUrl } from '../utils/base64'
+import userStorage from '../../userStorage/UserStorage'
+import * as feedUtils from './feed'
 
-import userStorage from '../userStorage/UserStorage'
+// eslint-disable-next-line require-await
+export const analyzeAvatar = async avatar => feedUtils.analyzeAvatar(avatar, userStorage)
 
-export const analyzeAvatar = async avatar => {
-  const { userAssets } = userStorage
-
-  if (!isString(avatar)) {
-    return { shouldUnset: true }
-  }
-
-  if (isValidDataUrl(avatar)) {
-    return { dataUrl: avatar, shouldUpload: true }
-  }
-
-  try {
-    if (!isValidCID(avatar)) {
-      throw new Error('Not a valid CID')
-    }
-
-    const { dataUrl, binary } = await userAssets.load(avatar, true)
-
-    if (!binary) {
-      return { dataUrl, shouldUpload: true }
-    }
-  } catch {
-    return { shouldUnset: true }
-  }
-
-  return { shouldUpload: false }
-}
-
-export const updateFeedEventAvatar = async avatar => {
-  const { userAssets } = userStorage
-  const { shouldUpload, shouldUnset, dataUrl } = await analyzeAvatar(avatar)
-
-  if (shouldUnset) {
-    return null
-  } else if (shouldUpload) {
-    return userAssets.store(dataUrl)
-  }
-
-  return avatar
-}
+// eslint-disable-next-line require-await
+export const updateFeedEventAvatar = async avatar => feedUtils.updateFeedEventAvatar(avatar, userStorage)
 
 // eslint-disable-next-line require-await
 export const gunPublicKeyTrust = async () => {

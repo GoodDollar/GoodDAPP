@@ -11,7 +11,11 @@ const jwtSignin = async () => {
   log.info('jwtsignin: jwt data', { decoded })
   if (credsOrFailed === false || decoded.aud === 'unsigned') {
     log.warn('jwt login failed or missing aud in jwt, trying to refresh token', { credsOrFailed, decoded })
-    return goodWalletLogin.auth(true)
+    await goodWalletLogin.auth(true)
+    let { decoded: decoded2 } = await goodWalletLogin.validateJWTExistenceAndExpiration()
+    if (decoded2.aud === 'unsigned') {
+      throw new Error('jwt is of unsigned user')
+    }
   }
   return credsOrFailed
 }

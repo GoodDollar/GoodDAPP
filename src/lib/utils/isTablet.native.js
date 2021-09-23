@@ -1,3 +1,3 @@
-import DeviceInfo from 'react-native-device-info'
+import { isTablet } from 'react-native-device-info'
 
-export default DeviceInfo.isTablet()
+export default isTablet()

@@ -1,18 +1,15 @@
 import { useEffect, useState } from 'react'
-import NetInfo from '@react-native-community/netinfo'
+import { addEventListener, fetch } from '@react-native-community/netinfo'
 
 export default () => {
   const [isConnection, setIsConnection] = useState(true)
 
-  NetInfo.fetch().then(({ isConnected }) => {
-    setIsConnection(isConnected)
-  })
-
   useEffect(() => {
-    return NetInfo.addEventListener(({ isConnected }) => {
-      setIsConnection(isConnected)
-    })
-  }, [NetInfo])
+    const updateOnlineStatus = ({ isConnected }) => setIsConnection(isConnected)
+
+    fetch().then(updateOnlineStatus)
+    return addEventListener(updateOnlineStatus)
+  }, [setIsConnection])
 
   return isConnection
 }

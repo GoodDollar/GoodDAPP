@@ -1,7 +1,7 @@
 // @flow
 import { assign, noop, over } from 'lodash'
 
-import FaceTec, { FaceTecUxEvent } from '@gooddollar/react-native-facetec'
+import { FaceTecUxEvent, sdk } from '@gooddollar/react-native-facetec'
 
 import api from '../../../../lib/API/api'
 import Config from '../../../../config/config'
@@ -11,8 +11,7 @@ import { MAX_RETRIES_ALLOWED } from './FaceTecSDK.constants'
 
 export { FaceTecSDKStatus, FaceTecSessionStatus } from '@gooddollar/react-native-facetec'
 
-// sdk class
-export const FaceTecSDK = new class {
+class FaceTec {
   constructor(Config, sdk, logger) {
     const { serverUrl, faceVerificationRequestTimeout } = Config
 
@@ -61,4 +60,7 @@ export const FaceTecSDK = new class {
       over(subscriptions)()
     }
   }
-}(Config, FaceTec.sdk, logger.child({ from: 'FaceTecSDK.native' })) // eslint-disable-line
+}
+
+// sdk class
+export const FaceTecSDK = new FaceTec(Config, sdk, logger.child({ from: 'FaceTecSDK.native' }))

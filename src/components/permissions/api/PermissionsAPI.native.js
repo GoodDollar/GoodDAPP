@@ -5,7 +5,7 @@ import { check, PERMISSIONS, request, RESULTS } from 'react-native-permissions'
 
 import { type Permission, Permissions, type PermissionStatus, PermissionStatuses } from '../types'
 
-export default new class {
+export default new (class {
   // permissions enum to platform permissions map
   platformPermissions = {
     [Permissions.Clipboard]: null, // accessing clipboard doesn't requires pemrissions on native
@@ -58,4 +58,4 @@ export default new class {
 
     return RESULTS.GRANTED === result
   }
-}({ request, check })
+})({ request, check })

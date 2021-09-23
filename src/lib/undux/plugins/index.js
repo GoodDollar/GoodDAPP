@@ -9,9 +9,6 @@ export default () => {
 
   return {
     storeAccessor,
-    storeEffects: compose(
-      withPinoLogger,
-      withStoreAccessor,
-    ),
+    storeEffects: compose(withPinoLogger, withStoreAccessor),
   }
 }

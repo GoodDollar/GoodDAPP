@@ -3,19 +3,16 @@ import { useEffect, useState } from 'react'
 export default () => {
   const [isConnection, setIsConnection] = useState(true)
 
-  const updateOnlineStatus = () => {
-    setIsConnection(navigator.onLine)
-  }
-
   useEffect(() => {
-    window.addEventListener('online', updateOnlineStatus)
-    window.addEventListener('offline', updateOnlineStatus)
+    const events = ['online', 'offline']
+    const updateOnlineStatus = () => setIsConnection(navigator.onLine)
+
+    events.forEach(event => window.addEventListener(event, updateOnlineStatus))
 
     return () => {
-      window.removeEventListener('online', updateOnlineStatus)
-      window.removeEventListener('offline', updateOnlineStatus)
+      events.forEach(event => window.removeEventListener(event, updateOnlineStatus))
     }
-  }, [])
+  }, [setIsConnection])
 
   return isConnection
 }

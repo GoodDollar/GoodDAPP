@@ -125,6 +125,9 @@ module.exports = {
     // https://twitter.com/wSokra/status/969679223278505985
     runtimeChunk: true,
   },
+  stats: {
+    warningsFilter: [/critical\s+dependency:/i],
+  },
   resolve: {
     // This allows you to set a fallback for where Webpack should look for modules.
     // We placed these paths second because we want `node_modules` to "win"

@@ -2,7 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import { isFunction } from 'lodash'
 import { AB_TESTING, DESTINATION_PATH, INVITE_CODE, IS_FIRST_VISIT } from '../constants/localStorage'
 
-export default new class {
+export default new (class {
   constructor(storageApi) {
     this.storageApi = storageApi
 
@@ -52,4 +52,4 @@ export default new class {
       return jsonValue
     }
   }
-}(AsyncStorage)
+})(AsyncStorage)

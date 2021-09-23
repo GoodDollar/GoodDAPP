@@ -1112,7 +1112,10 @@ export class UserStorage {
 
       if (get(deleteAccountResult, 'data.ok', false)) {
         deleteResults = await Promise.all([
-          _trackStatus(retry(() => wallet.deleteAccount(), 1, 500), 'wallet'),
+          _trackStatus(
+            retry(() => wallet.deleteAccount(), 1, 500),
+            'wallet',
+          ),
           _trackStatus(this.database.deleteAccount()),
           _trackStatus(this.deleteProfile(), 'profile'),
           _trackStatus(userProperties.reset(), 'userprops'),

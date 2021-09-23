@@ -21,5 +21,8 @@ shim(Object, 'fromEntries', entries => {
 shim(Promise.prototype, 'finally', function(fn) {
   const onFinally = callback => Promise.resolve(fn()).then(callback)
 
-  return this.then(result => onFinally(() => result), reason => onFinally(() => Promise.reject(reason)))
+  return this.then(
+    result => onFinally(() => result),
+    reason => onFinally(() => Promise.reject(reason)),
+  )
 })

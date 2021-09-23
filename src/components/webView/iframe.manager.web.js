@@ -3,7 +3,7 @@ import { trimEnd } from 'lodash'
 
 const TRIM_URL_CHARS = ' /#'
 
-export default new class {
+export default new (class {
   emitter = new EventEmitter()
 
   constructor() {
@@ -41,4 +41,4 @@ export default new class {
       emitter.emit(pageSource)
     }
   }
-}()
+})()

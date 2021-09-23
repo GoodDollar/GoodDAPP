@@ -123,9 +123,6 @@ module.exports = {
     // Point sourcemap entries to original disk location (format as URL on Windows)
     devtoolModuleFilenameTemplate: info => path.relative(paths.appSrc, info.absoluteResourcePath).replace(/\\/g, '/'),
   },
-  stats: {
-    warningsFilter: [/critical\s+dependency:/i],
-  },
   optimization: {
     minimizer: [
       new TerserPlugin({

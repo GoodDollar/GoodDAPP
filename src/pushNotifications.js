@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/default
 import PushNotification from 'react-native-push-notification'
 import { FetchResult } from '@react-native-community/push-notification-ios'
 import AsyncStorage from './lib/utils/asyncStorage'

@@ -1,7 +1,9 @@
 import BackgroundFetch from 'react-native-background-fetch'
+// eslint-disable-next-line import/default
 import PushNotification from 'react-native-push-notification'
 import moment from 'moment'
 import { get, once } from 'lodash'
+
 import AsyncStorage from '../utils/asyncStorage'
 import logger from '../logger/js-logger'
 import { IS_LOGGED_IN } from '../constants/localStorage'

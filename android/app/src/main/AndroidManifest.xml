@@ -52,14 +52,6 @@
           <category android:name="android.intent.category.BROWSABLE" />
         </intent-filter>
 
-        <!-- Branch URI Scheme -->
-        <intent-filter>
-            <data android:scheme="branchandroid" />
-            <action android:name="android.intent.action.VIEW" />
-            <category android:name="android.intent.category.DEFAULT" />
-            <category android:name="android.intent.category.BROWSABLE" />
-        </intent-filter>
-
         <!-- Branch App Links (optional) -->
         <intent-filter android:autoVerify="true">
           <action android:name="android.intent.action.VIEW" />
@@ -91,14 +83,6 @@
               <action android:name="com.htc.intent.action.QUICKBOOT_POWERON"/>
           </intent-filter>
       </receiver>
-
-      <service
-          android:name="com.dieam.reactnativepushnotification.modules.RNPushNotificationListenerService"
-          android:exported="false" >
-          <intent-filter>
-              <action android:name="com.google.firebase.MESSAGING_EVENT" />
-          </intent-filter>
-      </service>
 
       <!-- Branch keys -->
       <meta-data android:name="io.branch.sdk.BranchKey" android:value="key_live_ikHIYZgGRpA8nYBtiRlGHpkhBDaBI273"/>

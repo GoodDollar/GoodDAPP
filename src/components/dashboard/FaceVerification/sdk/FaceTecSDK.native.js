@@ -11,7 +11,8 @@ import { MAX_RETRIES_ALLOWED } from './FaceTecSDK.constants'
 
 export { FaceTecSDKStatus, FaceTecSessionStatus } from '@gooddollar/react-native-facetec'
 
-class FaceTec {
+// sdk class
+export const FaceTecSDK = new (class {
   constructor(Config, sdk, logger) {
     const { serverUrl, faceVerificationRequestTimeout } = Config
 
@@ -60,7 +61,4 @@ class FaceTec {
       over(subscriptions)()
     }
   }
-}
-
-// sdk class
-export const FaceTecSDK = new FaceTec(Config, sdk, logger.child({ from: 'FaceTecSDK.native' }))
+})(Config, sdk, logger.child({ from: 'FaceTecSDK.native' }))

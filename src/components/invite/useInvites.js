@@ -18,7 +18,6 @@ const log = logger.child({ from: 'useInvites' })
 
 const collectedProp = 'inviteBonusCollected'
 const wasOpenedProp = 'hasOpenedInviteScreen'
-const NULL_ADDRESS = '0x0000000000000000000000000000000000000000'
 
 export const registerForInvites = async inviterInviteCode => {
   let code = userStorage.userProperties.get('inviteCode')
@@ -34,13 +33,10 @@ export const registerForInvites = async inviterInviteCode => {
     const inviteCode = await goodWallet.joinInvites(inviterInviteCode)
     log.debug('joined invites contract:', { inviteCode, inviterInviteCode })
     userStorage.userProperties.set('inviteCode', inviteCode)
+
+    //in case we were invited fire event
     if (inviterInviteCode) {
-      //in case we were invited
-      let [hasJoined, inviter] = await goodWallet.hasJoinedInvites()
-      if (!hasJoined || inviter === NULL_ADDRESS) {
-        //if not joined or not set inviter then fire event
-        fireEvent(INVITE_JOIN, { inviterInviteCode })
-      }
+      fireEvent(INVITE_JOIN, { inviterInviteCode })
       userStorage.userProperties.updateAll({ inviterInviteCodeUsed: true, inviterInviteCode: inviterInviteCode })
     }
 

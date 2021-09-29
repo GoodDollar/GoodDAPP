@@ -1,6 +1,6 @@
 {
   "name": "@gooddollar/gooddapp",
-  "version": "1.33.1-0",
+  "version": "1.33.1-2",
   "engines": {
     "node": ">=10.21.0",
     "npm": "6.x"

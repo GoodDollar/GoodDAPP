@@ -39,6 +39,7 @@
         android:exported="true"
         android:launchMode="singleTask"
         android:screenOrientation="portrait">
+
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />
             <category android:name="android.intent.category.LAUNCHER" />
@@ -51,13 +52,22 @@
           <category android:name="android.intent.category.BROWSABLE" />
         </intent-filter>
 
-        <!-- Branch App Links -->
+        <!-- Branch URI Scheme -->
+        <intent-filter>
+            <data android:scheme="branchandroid" />
+            <action android:name="android.intent.action.VIEW" />
+            <category android:name="android.intent.category.DEFAULT" />
+            <category android:name="android.intent.category.BROWSABLE" />
+        </intent-filter>
+
+        <!-- Branch App Links (optional) -->
         <intent-filter android:autoVerify="true">
           <action android:name="android.intent.action.VIEW" />
           <category android:name="android.intent.category.DEFAULT" />
           <category android:name="android.intent.category.BROWSABLE" />
           <data android:scheme="https" android:host="gooddollar.app.link" />
         </intent-filter>
+
         <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -98,6 +108,11 @@
           <action android:name="com.google.android.c2dm.intent.RECEIVE" />
         </intent-filter>
       </service>
+
+        <!-- Branch keys -->
+        <meta-data android:name="io.branch.sdk.BranchKey" android:value="key_live_ikHIYZgGRpA8nYBtiRlGHpkhBDaBI273"/>
+        <meta-data android:name="io.branch.sdk.BranchKey.test" android:value="key_test_cgJV25dQUfs3i9EwlQcNshglEFcrVW5K"/>
+
     </application>
 
 </manifest>

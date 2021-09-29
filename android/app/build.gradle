@@ -167,6 +167,9 @@ android {
         renderscriptSupportModeEnabled true
         testBuildType System.getProperty('testBuildType', 'debug')  // This will later be used to control the test apk build type
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
+        ndk {
+            abiFilters 'armeabi-v7a', 'x86'
+        }
         manifestPlaceholders = [
             'torusRedirectScheme': 'gooddollar',
             'torusRedirectHost': 'org.gooddollar',
@@ -222,13 +225,10 @@ android {
 
         }
     }
-    packagingOptions {
-        // Make sure libjsc.so does not packed in APK
-        exclude "**/libjsc.so"
-    }
 
-    dexOptions {
-        javaMaxHeapSize "4G"
+    packagingOptions {
+        pickFirst 'lib/x86_64/libjsc.so'
+        pickFirst 'lib/arm64-v8a/libjsc.so'
     }
 }
 
@@ -265,6 +265,7 @@ dependencies {
 
     if (enableHermes) {
         def hermesPath = "../../node_modules/hermes-engine/android/";
+
         debugImplementation files(hermesPath + "hermes-debug.aar")
         releaseImplementation files(hermesPath + "hermes-release.aar")
     } else {

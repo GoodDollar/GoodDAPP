@@ -42,9 +42,9 @@ public class MainApplication extends Application implements ReactApplication {
   @Override
   public void onCreate() {
     super.onCreate();
+    RNBranchModule.getAutoInstance(this);
     SoLoader.init(this, /* native exopackage */ false);
     initializeFlipper(this, getReactNativeHost().getReactInstanceManager()); // Remove this line if you don't want Flipper enabled
-    RNBranchModule.getAutoInstance(this);
   }
 
   /**

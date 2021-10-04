@@ -20,7 +20,6 @@ module.exports = {
     config.setupFiles = [
       'react-app-polyfill/jsdom',
       '<rootDir>/config/initTest.js',
-      'jest-canvas-mock'
     ]
 
     config.globals = {
@@ -54,7 +53,6 @@ module.exports = {
     if (process.env.TEST_REACT_NATIVE === 'true') {
       config.coverageDirectory = 'coverageNative'
       config.preset = 'react-native'
-      config.browser = false
       config.testPathIgnorePatterns.push('<rootDir>/src/.*/.*(web).js')
       config.coveragePathIgnorePatterns.push('<rootDir>/src/.*/.*(web).js')
     } else {
@@ -63,7 +61,6 @@ module.exports = {
         '^react-native-linear-gradient$': 'react-native-web-linear-gradient',
       }
       config.resolver = 'jest-pnp-resolver'
-      config.browser = true
       config.testURL = 'http://localhost'
       config.testPathIgnorePatterns.push('<rootDir>/src/.*/.*(android|ios|native).js')
       config.coveragePathIgnorePatterns.push('<rootDir>/src/.*/.*(android|ios|native).js')

@@ -15,14 +15,11 @@ module.exports = {
   setupFiles: [
     'react-app-polyfill/jsdom',
     '<rootDir>/config/initTest.js',
-    'jest-canvas-mock',
   ],
   testMatch: [
     '<rootDir>/src/**/__tests__/**/*.{js,jsx,ts,tsx}',
     '<rootDir>/src/**/?(*.)(spec|test).{js,jsx,ts,tsx}'
   ],
-  testEnvironment: 'jsdom',
-  browser: true,
   testURL: 'http://localhost',
   transform: {
     '^.+\\.(js|jsx)$': 'babel-jest',

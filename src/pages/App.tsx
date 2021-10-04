@@ -112,7 +112,7 @@ function App(): JSX.Element {
                         ref={bodyRef}
                         className="flex flex-col items-center justify-between flex-grow h-full overflow-y-auto overflow-x-hidden z-0 pt-4 sm:pt-8 px-4 md:pt-10 pb-4"
                         style={{
-                            background: theme.color.mainBg
+                            background: 'white'
                         }}
                     >
                         <Popups />

@@ -131,6 +131,7 @@ const StakeDeposit = ({ stake, onDeposit, onClose }: StakeDepositModalProps) => 
         } catch (e) {
             dispatch({
                 type: 'SET_ERROR',
+                // @ts-ignore
                 payload: e
             })
         } finally {
@@ -296,6 +297,7 @@ const StakeDeposit = ({ stake, onDeposit, onClose }: StakeDepositModalProps) => 
                                 getExplorerLink(chainId, state.transactionHash, 'transaction')
                             }
                             target="_blank"
+                            rel="noreferrer"
                         >
                             <LinkSVG className="inline-block cursor-pointer" />
                         </a>

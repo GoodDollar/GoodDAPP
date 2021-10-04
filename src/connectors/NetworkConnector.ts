@@ -91,16 +91,16 @@ class MiniRpcProvider implements AsyncSendable {
                 reject,
                 request: { method }
             } = byKey[result.id]
-            if (resolve && reject) {
-                if ('error' in result) {
-                    reject(new RequestError(result?.error?.message, result?.error?.code, result?.error?.data))
-                } else if ('result' in result) {
-                    resolve(result.result)
-                } else {
+
+            if ('error' in result) {
+                reject && reject(new RequestError(result?.error?.message, result?.error?.code, result?.error?.data))
+            } else if ('result' in result) {
+                resolve && resolve(result.result)
+            } else {
+                reject &&
                     reject(
                         new RequestError(`Received unexpected JSON-RPC response to ${method} request.`, -32000, result)
                     )
-                }
             }
         }
     }

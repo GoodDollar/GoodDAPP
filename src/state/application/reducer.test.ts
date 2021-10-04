@@ -1,7 +1,8 @@
 import { ChainId } from '@sushiswap/sdk'
 import { createStore, Store } from 'redux'
-import { addPopup, ApplicationModal, removePopup, setOpenModal, updateBlockNumber } from './actions'
-import reducer, { ApplicationState } from './reducer'
+import { addPopup, removePopup, setOpenModal, updateBlockNumber } from './actions'
+import reducer from './reducer'
+import { ApplicationModal, ApplicationState } from './types'
 
 describe('application reducer', () => {
     let store: Store<ApplicationState>

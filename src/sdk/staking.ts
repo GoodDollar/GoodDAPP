@@ -607,7 +607,7 @@ async function stakeMeta(
     web3: Web3,
     address: string,
     amount: number | string,
-    inInterestToken: boolean = false
+    inInterestToken = false
 ): Promise<{ address: string; amount: string }> {
     const contract = simpleStakingContract(web3, address)
 
@@ -642,7 +642,7 @@ export async function approve(
     web3: Web3,
     address: string,
     amount: number | string,
-    inInterestToken: boolean = false,
+    inInterestToken = false,
     onSent?: (transactionHash: string) => void
 ): Promise<void> {
     const account = await getAccount(web3)
@@ -671,7 +671,7 @@ export async function stake(
     web3: Web3,
     address: string,
     amount: number | string,
-    inInterestToken: boolean = false,
+    inInterestToken = false,
     onSent?: (transactionHash: string) => void
 ): Promise<TransactionDetails> {
     const contract = simpleStakingContract(web3, address)

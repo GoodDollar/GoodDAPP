@@ -1,7 +1,7 @@
 import React, { CSSProperties, memo } from 'react'
 import { SwapSettingsSC, SwapSettingsPopup, SwapSettingsButton } from './styled'
 import { useModalOpen, useToggleSettingsMenu } from '../../../state/application/hooks'
-import { ApplicationModal } from '../../../state/application/actions'
+import { ApplicationModal } from '../../../state/application/types'
 import Title from '../../../components/gd/Title'
 import { QuestionHelper } from '../../../components'
 import MaskedInput from 'react-text-mask'

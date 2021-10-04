@@ -132,6 +132,7 @@ function Withdraw({ token, protocol, totalStake, open, setOpen, onWithdraw, stak
                                     getExplorerLink(chainId, transactionHash, 'transaction')
                                 }
                                 target="_blank"
+                                rel="noreferrer"
                             >
                                 <LinkSVG className="cursor-pointer" />
                             </a>

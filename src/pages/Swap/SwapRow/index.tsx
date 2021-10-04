@@ -49,12 +49,14 @@ function SwapRow({
 
     const handleShowSelect = useCallback(() => setShowSelect(true), [])
     const handleCloseSelect = useCallback(() => setShowSelect(false), [])
-    const handleInputChange =
-        onValueChange &&
-        useCallback((event: ChangeEvent<HTMLInputElement>) => onValueChange(event.currentTarget.value), [onValueChange])
-    const handleSetMax =
-        onValueChange &&
-        useCallback(() => balance != null && onValueChange(balance.toExact()), [balance, onValueChange])
+    const handleInputChange = useCallback(
+        (event: ChangeEvent<HTMLInputElement>) => onValueChange && onValueChange(event.currentTarget.value),
+        [onValueChange]
+    )
+    const handleSetMax = useCallback(() => onValueChange && balance != null && onValueChange(balance.toExact()), [
+        balance,
+        onValueChange
+    ])
 
     return (
         <SwapRowSC className={className} style={style}>

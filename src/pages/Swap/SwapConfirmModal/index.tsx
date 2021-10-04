@@ -188,6 +188,7 @@ function SwapConfirmModal({
                                 className="text-cyan-blue hover:underline"
                                 href={getExplorerLink(chainId, hash, 'transaction')}
                                 target="_blank"
+                                rel="noreferrer"
                             >
                                 View on explorer
                             </a>

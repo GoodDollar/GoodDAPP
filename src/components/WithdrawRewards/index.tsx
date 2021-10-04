@@ -48,7 +48,7 @@ function WithdrawRewards({ trigger, onClaim, ...rest }: WithdrawRewardsProps) {
             onClaim()
         } catch (e) {
             setStatus('none')
-            setError(e)
+            setError(e as Error)
         }
     }, [setStatus, onClaim])
     const [isModalOpen, setModalOpen] = useState(false)

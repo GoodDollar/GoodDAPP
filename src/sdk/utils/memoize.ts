@@ -4,7 +4,7 @@
  * @param {number} delay Delay of cache clear.
  * @returns {void}
  */
-export function delayedCacheClear(memoize: any, delay: number = 60_000): void {
+export function delayedCacheClear(memoize: any, delay = 60_000): void {
   setTimeout(() => memoize.cache.clear?.call(null), delay)
 }
 

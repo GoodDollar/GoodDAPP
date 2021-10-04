@@ -142,6 +142,7 @@ export default function SideBar({ mobile }: { mobile?: boolean }) {
                     className="line p-2 md:p-3 whitespace-nowrap"
                     href={'https://wallet.gooddollar.org/'}
                     target="_blank"
+                    rel="noreferrer"
                 >
                     Wallet
                     <svg
@@ -203,12 +204,12 @@ export default function SideBar({ mobile }: { mobile?: boolean }) {
                     </div>
                 </div>
                 <div className="social flex justify-between">
-                    <a href="https://twitter.com/gooddollarorg" target="_blank" className="flex items-center space-x-2">
+                    <a href="https://twitter.com/gooddollarorg" target="_blank" className="flex items-center space-x-2" rel="noreferrer">
                         <img src={TwitterLogo} alt="twitter logo" width="24" height="24" />
                         <span>Twitter</span>
                     </a>
 
-                    <a href="https://t.me/GoodDollarX" target="_blank" className="flex items-center space-x-2">
+                    <a href="https://t.me/GoodDollarX" target="_blank" className="flex items-center space-x-2" rel="noreferrer">
                         <img src={TelegramLogo} alt="telegram logo" width="24" height="24" />
                         <span>Telegram</span>
                     </a>

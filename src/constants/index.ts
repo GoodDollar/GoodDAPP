@@ -47,7 +47,7 @@ Object.defineProperty(WETH, 122, {
 
 export enum AdditionalChainId {
     FUSE = 122,
-    KOVAN = 42
+    //KOVAN = 42
 }
 
 // a list of tokens by chain

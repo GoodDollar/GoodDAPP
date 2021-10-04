@@ -29,8 +29,8 @@ export const getTokenLogoURL = (address: string, chainId: any) => {
         imageURL = `https://v1exchange.pancakeswap.finance/images/coins/${address}.png`
     } else if (chainId === AdditionalChainId.FUSE) {
         imageURL = getFuseTokenLogoURL(address)
-    } else if (chainId === AdditionalChainId.KOVAN) {
-        imageURL = getKovanTokenLogoURL(address)
+/*    } else if (chainId === AdditionalChainId.KOVAN) {
+        imageURL = getKovanTokenLogoURL(address)*/
     } else {
         imageURL = `https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/${address}/logo.png`
     }

@@ -1,9 +1,9 @@
 import React, { useCallback, useContext, useEffect } from 'react'
 import { X } from 'react-feather'
 import { animated } from 'react-spring'
-import { useSpring } from 'react-spring/web'
+import { useSpring } from 'react-spring'
 import styled, { ThemeContext } from 'styled-components'
-import { PopupContent } from '../../state/application/actions'
+import { PopupContent } from '../../state/application/types'
 import { useRemovePopup } from '../../state/application/hooks'
 import ListUpdatePopup from './ListUpdatePopup'
 import TransactionPopup from './TransactionPopup'
@@ -94,7 +94,7 @@ export default function PopupItem({
 
     return (
         <Popup>
-            <StyledClose color={theme.text2} onClick={removeThisPopup} />
+            <StyledClose color={theme && theme.text2} onClick={removeThisPopup} />
             {popupContent}
             {removeAfterMs !== null ? <AnimatedFader style={faderStyle} /> : null}
         </Popup>

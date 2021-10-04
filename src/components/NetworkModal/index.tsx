@@ -1,7 +1,7 @@
 import { NETWORK_ICON, NETWORK_LABEL } from '../../constants/networks'
 import { useModalOpen, useNetworkModalToggle } from '../../state/application/hooks'
 
-import { ApplicationModal } from '../../state/application/actions'
+import { ApplicationModal } from '../../state/application/types'
 import { ChainId } from '@sushiswap/sdk'
 import Modal from '../Modal'
 import ModalHeader from '../ModalHeader'

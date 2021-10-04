@@ -1,24 +1,6 @@
 import { createReducer, nanoid } from '@reduxjs/toolkit'
-import {
-    addPopup,
-    ApplicationModal,
-    PopupContent,
-    removePopup,
-    setKashiApprovalPending,
-    setOpenModal,
-    setTheme,
-    updateBlockNumber
-} from './actions'
-
-type PopupList = Array<{ key: string; show: boolean; content: PopupContent; removeAfterMs: number | null }>
-
-export interface ApplicationState {
-    readonly blockNumber: { readonly [chainId: number]: number }
-    readonly popupList: PopupList
-    readonly openModal: ApplicationModal | null
-    kashiApprovalPending: string
-    theme: 'light' | 'dark'
-}
+import { addPopup, removePopup, setKashiApprovalPending, setOpenModal, setTheme, updateBlockNumber } from './actions'
+import { ApplicationState } from './types'
 
 const initialState: ApplicationState = {
     blockNumber: {},

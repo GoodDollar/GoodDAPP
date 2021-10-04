@@ -11,13 +11,13 @@ export class InvalidChainId extends Error {
 }
 
 export class UnsupportedToken extends Error {
-  constructor(token: string = 'UNKNOWN') {
+  constructor(token = 'UNKNOWN') {
     super(`Unsupported token ${ token }`);
   }
 }
 
 export class UnexpectedToken extends Error {
-  constructor(token: string = 'UNKNOWN') {
+  constructor(token = 'UNKNOWN') {
     super(`Unexpected token ${ token }`);
   }
 }

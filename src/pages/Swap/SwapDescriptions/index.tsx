@@ -20,7 +20,7 @@ function SwapDescriptions({ className, style, gdx, exitContribution }: SwapDescr
             )}
             {exitContribution && (
                 <div className="block">
-                    <div className="title">What's an exit contribution?</div>
+                    <div className="title">What&apos;s an exit contribution?</div>
                     <div className="description">Some descriptive text goes here</div>
                 </div>
             )}

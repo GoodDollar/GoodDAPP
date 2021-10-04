@@ -20,6 +20,7 @@ import { G$ContractAddresses } from './constants/addresses'
 import { computeRealizedLPFeePercent } from './utils/prices'
 import { SupportedChainId } from './constants/chains'
 import { v2TradeExactOut } from './methods/v2TradeExactOut'
+// eslint-disable-next-line import/no-cycle
 import { cDaiToDai, G$ToCDai } from './sell'
 import * as fuse from './contracts/FuseUniswapContract'
 
@@ -301,7 +302,7 @@ export async function getMeta(
     web3: Web3,
     fromSymbol: string,
     amount: number | string,
-    slippageTolerance: number = 0.5
+    slippageTolerance = 0.5
 ): Promise<BuyInfo | null> {
     const chainId = await getChainId(web3)
     console.log('CHAIN ID:', chainId)
@@ -451,7 +452,7 @@ export async function getMetaReverse(
     web3: Web3,
     fromSymbol: string,
     toAmount: number | string,
-    slippageTolerance: number = 0.5
+    slippageTolerance = 0.5
 ): Promise<BuyInfo | null> {
     const chainId = await getChainId(web3)
 

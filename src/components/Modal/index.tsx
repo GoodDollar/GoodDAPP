@@ -140,7 +140,7 @@ export default function Modal({
                                     ? {
                                           ...bind(),
                                           style: {
-                                              transform: y.interpolate(y => `translateY(${y > 0 ? y : 0}px)`)
+                                              transform: y.interpolate(y => `translateY(${(y as number) > 0 ? y : 0}px)`)
                                           }
                                       }
                                     : {})}

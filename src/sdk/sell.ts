@@ -9,6 +9,7 @@ import { decimalPercentToPercent, decimalToJSBI, g$FromDecimal } from './utils/c
 import { CDAI, FUSE, G$ } from './constants/tokens'
 import { cDaiPrice } from './methods/cDaiPrice'
 import { v2TradeExactIn } from './methods/v2TradeExactIn'
+// eslint-disable-next-line import/no-cycle
 import { BuyInfo, cDaiToG$, daiToCDai } from './buy'
 import { goodMarketMakerContract } from './contracts/GoodMarketMakerContract'
 import { getAccount, getChainId } from './utils/web3'
@@ -265,7 +266,7 @@ export async function getMeta(
     web3: Web3,
     toSymbol: string,
     amount: number | string,
-    slippageTolerance: number = 0.5
+    slippageTolerance = 0.5
 ): Promise<SellInfo | null> {
     const chainId = await getChainId(web3)
     const account = await getAccount(web3)
@@ -396,7 +397,7 @@ export async function getMetaReverse(
     web3: Web3,
     toSymbol: string,
     toAmount: number | string,
-    slippageTolerance: number = 0.5
+    slippageTolerance = 0.5
 ): Promise<SellInfo | null> {
     const chainId = await getChainId(web3)
 

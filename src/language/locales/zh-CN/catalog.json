@@ -347,5 +347,6 @@
   "xSUSHI automatically earn fees (0.05% of all swaps, including multichain swaps) proportional\nto your share of the SushiBar.": "xSUSHI自动收取手续费（按比例收取每笔交易的0.05%）。",
   "{0} Deposited": "{0}存入的",
   "{0} Strategy": "{0}策略",
-  "{0} per {1}": "{0}每{1}"
+  "{0} per {1}": "{0}每{1}",
+  "This project is in beta. Use at your own risk": "该项目处于测试阶段。使用风险自负"
 }

@@ -347,5 +347,6 @@
   "xSUSHI automatically earn fees (0.05% of all swaps, including multichain swaps) proportional\nto your share of the SushiBar.": "xSUSHI tự động kiếm phí (0,05% của tất cả các giao dịch hoán đổi, bao gồm cả các giao dịch hoán đổi nhiều vòng) tỷ lệ \n với phần của bạn trên SushiBar.",
   "{0} Deposited": "{0} gửi",
   "{0} Strategy": "{0} Chiến lược",
-  "{0} per {1}": "{0} mỗi {1}"
+  "{0} per {1}": "{0} mỗi {1}",
+  "This project is in beta. Use at your own risk": "Dự án này đang trong giai đoạn thử nghiệm. Sử dụng có nguy cơ của riêng bạn"
 }

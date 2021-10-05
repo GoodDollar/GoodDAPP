@@ -349,5 +349,6 @@
   "xSUSHI automatically earn fees (0.05% of all swaps, including multichain swaps) proportional\nto your share of the SushiBar.": "",
   "{0} Deposited": "",
   "{0} Strategy": "",
-  "{0} per {1}": ""
+  "{0} per {1}": "",
+  "This project is in beta. Use at your own risk": "הפרויקט הזה נמצא בגרסת בטא. השתמש באחריותך בלבד"
 }

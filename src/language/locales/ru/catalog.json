@@ -347,5 +347,6 @@
   "xSUSHI automatically earn fees (0.05% of all swaps, including multichain swaps) proportional\nto your share of the SushiBar.": "xSUSHI автоматически получает комиссию (0,05% от всех свопов, включая свопы \n вашей доле в SushiBar.",
   "{0} Deposited": "{0} Депозит",
   "{0} Strategy": "{0} Стратегия",
-  "{0} per {1}": "{0} за {1}"
+  "{0} per {1}": "{0} за {1}",
+  "This project is in beta. Use at your own risk": "Этот проект находится в стадии бета-тестирования. Используйте на свой риск"
 }

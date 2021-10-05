@@ -347,5 +347,6 @@
   "xSUSHI automatically earn fees (0.05% of all swaps, including multichain swaps) proportional\nto your share of the SushiBar.": "xSUSHI guadagna automaticamente commissioni (lo 0,05% di tutti gli scambi, inclusi gli scambi multi-chain) in proporzione alla tua quota del SushiBar.",
   "{0} Deposited": "{0} depositato",
   "{0} Strategy": "Strategia {0}",
-  "{0} per {1}": "{0} per {1}"
+  "{0} per {1}": "{0} per {1}",
+  "This project is in beta. Use at your own risk": "Questo progetto è in versione beta. Utilizzare a proprio rischio"
 }

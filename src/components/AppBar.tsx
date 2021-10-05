@@ -20,6 +20,7 @@ import { t } from '@lingui/macro'
 import SideBar from './SideBar'
 import usePromise from '../hooks/usePromise'
 import { g$Price } from '../sdk/apollo'
+import LanguageSwitch from "./LanguageSwitch";
 
 const AppBarWrapper = styled.header`
     background: ${({ theme }) => theme.color.main};
@@ -150,7 +151,7 @@ function AppBar(): JSX.Element {
                                                 )}
                                             </svg>
 
-                                            {/*<LanguageSwitch />*/}
+                                            <LanguageSwitch />
                                             <MoreMenu />
                                         </div>
                                     </div>

@@ -1,6 +1,8 @@
 import 'fake-indexeddb/auto'
 import any from 'promise.any'
-import { noop } from 'lodash'
+import { assign, noop } from 'lodash'
+import { Crypto } from 'node-webcrypto-ossl'
+import { TextEncoder, TextDecoder } from 'fastestsmallesttextencoderdecoder'
 
 import initGunDB from '../src/lib/gundb/gundb'
 import '../src/lib/shim'
@@ -10,19 +12,15 @@ if (typeof Promise.any !== 'function') {
 }
 
 if (typeof window !== 'undefined') {
-  const crypto = new (require('node-webcrypto-ossl'))()
-  const { TextEncoder, TextDecoder } = require('text-encoding', 1)
-
   if (typeof HTMLCanvasElement !== 'undefined') {
     HTMLCanvasElement.prototype.getContext = () => ({
       fillRect: noop
     })
   }
 
+  window.crypto = new Crypto()
   window.matchMedia = () => ({ matches: true });
-  window.crypto = crypto
-  window.TextDecoder = TextDecoder
-  window.TextEncoder = TextEncoder
+  assign(window, { TextDecoder, TextEncoder })
 }
 
 if (typeof navigator !== 'undefined') {

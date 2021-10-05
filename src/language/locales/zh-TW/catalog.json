@@ -348,5 +348,6 @@
   "{0} Deposited": "{0}存入的",
   "{0} Strategy": "{0}策略",
   "{0} per {1}": "{0}每{1}",
-  "This project is in beta. Use at your own risk": "該項目處於測試階段。使用風險自負"
+  "This project is in beta. Use at your own risk": "該項目處於測試階段。使用風險自負",
+  "Please connect your Web3 wallet to the Fuse Network to Claim UBI.": "請將您的 Web3 錢包連接到 Fuse 網絡以領取 UBI。"
 }

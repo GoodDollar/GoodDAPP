@@ -348,5 +348,6 @@
   "{0} Deposited": "{0} Депозит",
   "{0} Strategy": "{0} Стратегия",
   "{0} per {1}": "{0} за {1}",
-  "This project is in beta. Use at your own risk": "Этот проект находится в стадии бета-тестирования. Используйте на свой риск"
+  "This project is in beta. Use at your own risk": "Этот проект находится в стадии бета-тестирования. Используйте на свой риск",
+  "Please connect your Web3 wallet to the Fuse Network to Claim UBI.": "Подключите свой кошелек Web3 к сети Fuse, чтобы получить UBI."
 }

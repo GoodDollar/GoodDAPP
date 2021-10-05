@@ -348,5 +348,6 @@
   "{0} Deposited": "{0} gửi",
   "{0} Strategy": "{0} Chiến lược",
   "{0} per {1}": "{0} mỗi {1}",
-  "This project is in beta. Use at your own risk": "Dự án này đang trong giai đoạn thử nghiệm. Sử dụng có nguy cơ của riêng bạn"
+  "This project is in beta. Use at your own risk": "Dự án này đang trong giai đoạn thử nghiệm. Sử dụng có nguy cơ của riêng bạn",
+  "Please connect your Web3 wallet to the Fuse Network to Claim UBI.": "Vui lòng kết nối ví Web3 của bạn với Mạng cầu chì để Yêu cầu UBI."
 }

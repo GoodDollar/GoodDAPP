@@ -7,6 +7,8 @@ import useWeb3 from '../../hooks/useWeb3'
 import useActiveWeb3React from '../../hooks/useActiveWeb3React'
 import { MouseoverTooltip } from '../Tooltip'
 import styled from 'styled-components'
+import { t } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 
 const ClaimButton = styled(ButtonDefault).attrs(props => ({
     disabled: false as boolean,
@@ -31,6 +33,7 @@ const ClaimButton = styled(ButtonDefault).attrs(props => ({
 `
 
 function Web3Faucet(): JSX.Element | null {
+    const { i18n } = useLingui()
     const { chainId } = useActiveWeb3React()
     const web3 = useWeb3()
     const [claimable, , , refetch] = usePromise(async () => {
@@ -62,7 +65,7 @@ function Web3Faucet(): JSX.Element | null {
                 placement="bottom"
                 text={
                     (chainId as any) !== SupportedChainId.FUSE
-                        ? 'Please connect your Web3 wallet to the Fuse Network to Claim UBI.'
+                        ? i18n._(t`Please connect your Web3 wallet to the Fuse Network to Claim UBI.`)
                         : claimable instanceof Error
                         ? claimable.message
                         : 'Click this button to Claim your Daily UBI in G$'

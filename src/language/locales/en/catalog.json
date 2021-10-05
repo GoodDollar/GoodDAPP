@@ -348,5 +348,6 @@
   "{0} Deposited": "{0} Deposited",
   "{0} Strategy": "{0} Strategy",
   "{0} per {1}": "{0} per {1}",
-  "This project is in beta. Use at your own risk": "This project is in beta. Use at your own risk"
+  "This project is in beta. Use at your own risk": "This project is in beta. Use at your own risk",
+  "Please connect your Web3 wallet to the Fuse Network to Claim UBI.": ""
 }

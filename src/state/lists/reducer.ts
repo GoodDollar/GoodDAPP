@@ -48,8 +48,10 @@ export default createReducer(initialState, builder =>
     builder
         .addCase(fetchTokenList.pending, (state, { payload: { requestId, url } }) => {
             state.byUrl[url] = {
+                // eslint-disable-next-line
                 // @ts-ignore
                 current: null,
+                // eslint-disable-next-line
                 // @ts-ignore
                 pendingUpdate: null,
                 ...state.byUrl[url],

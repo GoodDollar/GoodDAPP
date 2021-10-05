@@ -131,8 +131,7 @@ const StakeDeposit = ({ stake, onDeposit, onClose }: StakeDepositModalProps) => 
         } catch (e) {
             dispatch({
                 type: 'SET_ERROR',
-                // @ts-ignore
-                payload: e
+                payload: e as Error
             })
         } finally {
             dispatch({ type: 'TOGGLE_LOADING' })

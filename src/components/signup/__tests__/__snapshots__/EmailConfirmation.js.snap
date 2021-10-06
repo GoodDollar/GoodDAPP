@@ -224,7 +224,6 @@ was emailed to you
                   <div
                     className="css-text-901oao r-paddingHorizontal-1e081e0 r-textAlign-q4m81j"
                     dir="auto"
-                    id="animatedComponent"
                     style={
                       Object {
                         "WebkitTransform": "translateY(0px)",

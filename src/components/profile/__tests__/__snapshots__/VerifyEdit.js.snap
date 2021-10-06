@@ -58,7 +58,6 @@ email again…
         >
           <div
             className="css-view-1dbjc4n r-display-6koalj r-fontSize-1b43r93 r-justifyContent-1777fci r-marginTop-1mnahxq"
-            id="animatedComponent"
             style={
               Object {
                 "WebkitAlignItems": "stretch",
@@ -145,7 +144,6 @@ email again…
           </div>
           <div
             className="css-view-1dbjc4n r-display-6koalj r-justifyContent-1777fci r-marginTop-1mnahxq"
-            id="animatedComponent"
             style={
               Object {
                 "WebkitAlignItems": "stretch",

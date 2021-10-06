@@ -6,7 +6,6 @@ exports[`CustomButton matches snapshot 1`] = `
 >
   <div
     className="css-view-1dbjc4n r-display-6koalj r-justifyContent-1777fci"
-    id="animatedComponent"
     style={
       Object {
         "WebkitAlignItems": "stretch",

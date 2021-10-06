@@ -1,7 +1,7 @@
 // @flow
 import { assign, noop, over } from 'lodash'
 
-import FaceTec, { FaceTecUxEvent } from '@gooddollar/react-native-facetec'
+import { FaceTecUxEvent, sdk } from '@gooddollar/react-native-facetec'
 
 import api from '../../../../lib/API/api'
 import Config from '../../../../config/config'
@@ -61,4 +61,4 @@ export const FaceTecSDK = new class {
       over(subscriptions)()
     }
   }
-}(Config, FaceTec.sdk, logger.child({ from: 'FaceTecSDK.native' })) // eslint-disable-line
+}(Config, sdk, logger.child({ from: 'FaceTecSDK.native' }))

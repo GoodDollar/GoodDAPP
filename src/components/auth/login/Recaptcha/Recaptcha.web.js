@@ -1,5 +1,5 @@
 import React, { forwardRef, useImperativeHandle, useRef } from 'react'
-import ReCAPTCHA from 'react-google-recaptcha'
+import GoogleRecaptcha from 'react-google-recaptcha'
 
 const Recaptcha = forwardRef(({ siteKey, baseUrl, onStatusChange, children, ...props }, ref) => {
   const captchaRef = useRef()
@@ -10,7 +10,7 @@ const Recaptcha = forwardRef(({ siteKey, baseUrl, onStatusChange, children, ...p
 
   return (
     <>
-      <ReCAPTCHA
+      <GoogleRecaptcha
         {...props}
         ref={captchaRef}
         sitekey={siteKey}

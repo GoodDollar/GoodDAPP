@@ -1,5 +1,5 @@
 // @flow
-import TextileCrypto from '@textile/crypto'
+import TextileCrypto from '@textile/crypto' // eslint-disable-line import/default
 import isEmail from '../validators/isEmail'
 import isMobilePhone from '../validators/isMobilePhone'
 

@@ -165,7 +165,6 @@ on your mobile device.
         </div>
         <div
           className="css-view-1dbjc4n r-alignItems-1oszu61 r-backgroundColor-1niwhzg r-borderWidth-rs99b7 r-display-6koalj r-justifyContent-1777fci r-marginTop-1mnahxq r-padding-t60dpp"
-          id="animatedComponent"
           style={
             Object {
               "borderBottomColor": "rgba(255,255,255,1.00)",

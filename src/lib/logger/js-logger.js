@@ -7,6 +7,8 @@ import Config from '../../config/config'
 const emitter = new EventEmitter()
 global.logger = Logger
 
+// this isn't a hook, but eslint reports warning wrongly
+// eslint-disable-next-line react-hooks/rules-of-hooks
 Logger.useDefaults({
   defaultLevel: Logger[Config.logLevel.toUpperCase()],
   formatter: (messages, context) => {

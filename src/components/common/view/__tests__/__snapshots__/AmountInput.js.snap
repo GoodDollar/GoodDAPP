@@ -41,7 +41,6 @@ exports[`AmountInput matches snapshot 1`] = `
         <div
           className="css-text-901oao r-paddingVertical-oyd9sg r-textAlign-q4m81j"
           dir="auto"
-          id="animatedComponent"
           style={
             Object {
               "WebkitTransform": "translateY(0px)",

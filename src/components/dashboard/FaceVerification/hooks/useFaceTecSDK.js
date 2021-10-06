@@ -3,7 +3,8 @@ import { assign, noop } from 'lodash'
 
 import useRealtimeProps from '../../../../lib/hooks/useRealtimeProps'
 
-import { ExceptionType, hideRedBoxIfNonCritical, kindOfSDKIssue } from '../utils/kindOfTheIssue'
+import { ExceptionType, kindOfSDKIssue } from '../utils/kindOfTheIssue'
+import { hideRedBoxIfNonCritical } from '../utils/redBox'
 
 import logger from '../../../../lib/logger/js-logger'
 import { isE2ERunning, isEmulator } from '../../../../lib/utils/platform'

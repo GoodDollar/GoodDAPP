@@ -121,7 +121,6 @@ with others
       </div>
       <div
         className="css-view-1dbjc4n r-borderColor-17xuhkx r-borderStyle-1phboty r-display-6koalj r-justifyContent-1777fci r-marginBottom-p1pxzi r-marginRight-61z16t r-marginTop-1mnahxq"
-        id="animatedComponent"
         style={
           Object {
             "WebkitAlignItems": "stretch",

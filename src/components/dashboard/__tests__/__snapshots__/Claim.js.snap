@@ -219,7 +219,6 @@ More G$'s Coming Soon
       >
         <div
           className="css-view-1dbjc4n r-alignItems-1awozwy"
-          id="animatedComponent"
           style={
             Object {
               "WebkitTransform": "scale(1)",
@@ -231,7 +230,6 @@ More G$'s Coming Soon
         >
           <div
             className="css-view-1dbjc4n r-flex-13awgt0 r-zIndex-184en5c"
-            id="animatedComponent"
             style={
               Object {
                 "WebkitTransform": "perspective(800px) rotateY(0deg)",
@@ -247,7 +245,6 @@ More G$'s Coming Soon
           >
             <div
               className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flexDirection-eqz5dr r-justifyContent-1777fci r-marginLeft-11wrixw r-marginRight-61z16t r-marginTop-1mnahxq r-padding-t60dpp"
-              id="animatedComponent"
               style={
                 Object {
                   "backgroundColor": "rgba(248,175,64,1.00)",
@@ -385,7 +382,6 @@ More G$'s Coming Soon
           </div>
           <div
             className="css-view-1dbjc4n r-flex-13awgt0"
-            id="animatedComponent"
             style={
               Object {
                 "WebkitTransform": "perspective(-800px) rotateY(-180deg)",
@@ -402,7 +398,6 @@ More G$'s Coming Soon
           >
             <div
               className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-justifyContent-1777fci r-marginLeft-11wrixw r-marginRight-61z16t r-marginTop-1mnahxq r-padding-t60dpp"
-              id="animatedComponent"
               style={
                 Object {
                   "backgroundColor": "rgba(0,195,174,1.00)",

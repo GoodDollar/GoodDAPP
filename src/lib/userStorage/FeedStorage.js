@@ -5,12 +5,13 @@ import moment from 'moment'
 
 import * as TextileCrypto from '@textile/crypto'
 import delUndefValNested from '../utils/delUndefValNested'
-import { updateFeedEventAvatar } from '../updates/utils'
+import { updateFeedEventAvatar } from '../updates/utils/feed'
 
 import Config from '../../config/config'
 import logger from '../../lib/logger/js-logger'
-import { UserStorage } from './UserStorageClass'
+import type { UserStorage } from './UserStorageClass'
 import { asLogRecord } from './utlis'
+
 const log = logger.child({ from: 'FeedStorage' })
 
 const COMPLETED_BONUS_REASON_TEXT = 'Your recent earned rewards'
@@ -384,7 +385,7 @@ export class FeedStorage {
 
       // reprocess same receipt in case we updated data format, only skip strictly older
       // we can get receipt without having a previous feed item, so veerify .date field exists
-      if (feedEvent.receiptReceived && (feedEvent.date && receiptDate.getTime() < new Date(feedEvent.date).getTime())) {
+      if (feedEvent.receiptReceived && feedEvent.date && receiptDate.getTime() < new Date(feedEvent.date).getTime()) {
         return feedEvent
       }
 

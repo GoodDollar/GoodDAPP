@@ -1,7 +1,7 @@
 // @flow
 import { once, sortBy } from 'lodash'
 import * as Realm from 'realm-web'
-import TextileCrypto from '@textile/crypto'
+import TextileCrypto from '@textile/crypto' // eslint-disable-line import/default
 import EventEmitter from 'eventemitter3'
 
 import { JWT } from '../constants/localStorage'

@@ -6,7 +6,6 @@ exports[`ClaimButton matches snapshot for citizen with entitlement 1`] = `
 >
   <div
     className="css-view-1dbjc4n r-alignItems-1awozwy"
-    id="animatedComponent"
     style={
       Object {
         "WebkitTransform": "scale(1)",
@@ -18,7 +17,6 @@ exports[`ClaimButton matches snapshot for citizen with entitlement 1`] = `
   >
     <div
       className="css-view-1dbjc4n r-flex-13awgt0"
-      id="animatedComponent"
       style={
         Object {
           "WebkitTransform": "perspective(800px) rotateX(0deg)",
@@ -35,7 +33,6 @@ exports[`ClaimButton matches snapshot for citizen with entitlement 1`] = `
     >
       <div
         className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flexDirection-eqz5dr r-justifyContent-1777fci"
-        id="animatedComponent"
         style={
           Object {
             "backgroundColor": "rgba(248,175,64,1.00)",
@@ -178,7 +175,6 @@ exports[`ClaimButton matches snapshot for citizen with entitlement 1`] = `
     </div>
     <div
       className="css-view-1dbjc4n r-flex-13awgt0"
-      id="animatedComponent"
       style={
         Object {
           "WebkitTransform": "perspective(-800px) rotateX(-180deg)",
@@ -195,7 +191,6 @@ exports[`ClaimButton matches snapshot for citizen with entitlement 1`] = `
     >
       <div
         className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-justifyContent-1777fci"
-        id="animatedComponent"
         style={
           Object {
             "backgroundColor": "rgba(0,195,174,1.00)",
@@ -326,7 +321,6 @@ exports[`ClaimButton matches snapshot for citizen without entitlement 1`] = `
 >
   <div
     className="css-view-1dbjc4n r-alignItems-1awozwy"
-    id="animatedComponent"
     style={
       Object {
         "WebkitTransform": "scale(1)",
@@ -338,7 +332,6 @@ exports[`ClaimButton matches snapshot for citizen without entitlement 1`] = `
   >
     <div
       className="css-view-1dbjc4n r-flex-13awgt0"
-      id="animatedComponent"
       style={
         Object {
           "WebkitTransform": "perspective(800px) rotateY(0deg)",
@@ -355,7 +348,6 @@ exports[`ClaimButton matches snapshot for citizen without entitlement 1`] = `
     >
       <div
         className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flexDirection-eqz5dr r-justifyContent-1777fci"
-        id="animatedComponent"
         style={
           Object {
             "backgroundColor": "rgba(248,175,64,1.00)",
@@ -498,7 +490,6 @@ exports[`ClaimButton matches snapshot for citizen without entitlement 1`] = `
     </div>
     <div
       className="css-view-1dbjc4n r-flex-13awgt0"
-      id="animatedComponent"
       style={
         Object {
           "WebkitTransform": "perspective(-800px) rotateY(-180deg)",
@@ -515,7 +506,6 @@ exports[`ClaimButton matches snapshot for citizen without entitlement 1`] = `
     >
       <div
         className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flexDirection-eqz5dr r-justifyContent-1777fci"
-        id="animatedComponent"
         style={
           Object {
             "backgroundColor": "rgba(248,175,64,1.00)",
@@ -666,7 +656,6 @@ exports[`ClaimButton matches snapshot for non-citizen 1`] = `
 >
   <div
     className="css-view-1dbjc4n r-alignItems-1awozwy"
-    id="animatedComponent"
     style={
       Object {
         "WebkitTransform": "scale(1)",
@@ -678,7 +667,6 @@ exports[`ClaimButton matches snapshot for non-citizen 1`] = `
   >
     <div
       className="css-view-1dbjc4n r-flex-13awgt0"
-      id="animatedComponent"
       style={
         Object {
           "WebkitTransform": "perspective(800px) rotateY(0deg)",
@@ -695,7 +683,6 @@ exports[`ClaimButton matches snapshot for non-citizen 1`] = `
     >
       <div
         className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flexDirection-eqz5dr r-justifyContent-1777fci"
-        id="animatedComponent"
         style={
           Object {
             "backgroundColor": "rgba(248,175,64,1.00)",
@@ -838,7 +825,6 @@ exports[`ClaimButton matches snapshot for non-citizen 1`] = `
     </div>
     <div
       className="css-view-1dbjc4n r-flex-13awgt0"
-      id="animatedComponent"
       style={
         Object {
           "WebkitTransform": "perspective(-800px) rotateY(-180deg)",
@@ -855,7 +841,6 @@ exports[`ClaimButton matches snapshot for non-citizen 1`] = `
     >
       <div
         className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-justifyContent-1777fci"
-        id="animatedComponent"
         style={
           Object {
             "backgroundColor": "rgba(0,195,174,1.00)",

@@ -1,6 +1,6 @@
 diff --git a/node_modules/react-native-gesture-handler/gestureHandlerRootHOC.web.js b/node_modules/react-native-gesture-handler/gestureHandlerRootHOC.web.js
 new file mode 100644
-index 0000000..5ce0257
+index 0000000..63dcdcc
 --- /dev/null
 +++ b/node_modules/react-native-gesture-handler/gestureHandlerRootHOC.web.js
 @@ -0,0 +1,11 @@
@@ -15,3 +15,4 @@ index 0000000..5ce0257
 +  // All other targets (ios, web, macos, ect...) should do nothing.
 +  return Component;
 +}
+\ No newline at end of file

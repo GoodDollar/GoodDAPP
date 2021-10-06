@@ -8,7 +8,7 @@ import useRealtimeStoreState from '../../../../lib/hooks/useRealtimeStoreState'
 import GDStore, { defaultVerificationState } from '../../../../lib/undux/GDStore'
 import { fireEvent, FV_TRYAGAINLATER } from '../../../../lib/analytics/analytics'
 import logger from '../../../../lib/logger/js-logger'
-import { hideRedBox } from '../utils/kindOfTheIssue'
+import { hideRedBox } from '../utils/redBox'
 
 const log = logger.child({ from: 'useVerificationAttempts' })
 

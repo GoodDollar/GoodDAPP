@@ -98,7 +98,6 @@ different device is a good solution.
         <div
           className="css-view-1dbjc4n r-display-6koalj r-justifyContent-1777fci r-marginBottom-p1pxzi"
           data-testid="ok_button"
-          id="animatedComponent"
           style={
             Object {
               "WebkitAlignItems": "stretch",

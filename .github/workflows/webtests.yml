@@ -109,7 +109,7 @@ jobs:
       - name: Install npm dependencies
         uses: bahmutov/npm-install@v1
         with:
-          useYarn: true
+          install-command: yarn --frozen-lockfile
 
       - uses: actions/cache@v2
         id: contractsCache

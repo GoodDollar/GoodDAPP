@@ -9,7 +9,6 @@ exports[`ScrollToTopButton should match snapshot 1`] = `
   >
     <div
       className="css-view-1dbjc4n"
-      id="animatedComponent"
       style={
         Object {
           "opacity": 0,

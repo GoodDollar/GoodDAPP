@@ -2,7 +2,7 @@ import 'fake-indexeddb/auto'
 import any from 'promise.any'
 import { assign, noop } from 'lodash'
 import { Crypto } from 'node-webcrypto-ossl'
-import { TextEncoder, TextDecoder } from 'fastestsmallesttextencoderdecoder'
+import { TextEncoder, TextDecoder } from 'util'
 
 import initGunDB from '../src/lib/gundb/gundb'
 import '../src/lib/shim'

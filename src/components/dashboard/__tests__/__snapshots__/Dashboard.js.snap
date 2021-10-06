@@ -72,12 +72,11 @@ exports[`Dashboard matches snapshot 1`] = `
             </div>
           </div>
           <div
-            aria-disabled={true}
             className="css-view-1dbjc4n r-flex-13awgt0 r-paddingHorizontal-1e081e0"
             onClick={[Function]}
             onContextMenu={[Function]}
             onKeyDown={[Function]}
-            tabIndex="-1"
+            tabIndex="0"
           >
             <h1
               className="css-reset-4rbku5 css-text-901oao css-textOneLine-vcwn7f r-color-jwli3a r-fontSize-adyw6z r-fontWeight-majxgm"
@@ -89,7 +88,6 @@ exports[`Dashboard matches snapshot 1`] = `
                   "textAlign": "left",
                 }
               }
-              tabIndex="0"
             />
           </div>
           <div

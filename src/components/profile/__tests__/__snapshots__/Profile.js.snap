@@ -75,7 +75,6 @@ exports[`Profile matches snapshot 1`] = `
           </div>
         </div>
         <div
-          aria-disabled={true}
           className="css-view-1dbjc4n r-flex-13awgt0 r-paddingHorizontal-1e081e0"
           onClick={[Function]}
           onContextMenu={[Function]}
@@ -85,7 +84,7 @@ exports[`Profile matches snapshot 1`] = `
               "marginLeft": "8px",
             }
           }
-          tabIndex="-1"
+          tabIndex="0"
         >
           <h1
             className="css-reset-4rbku5 css-text-901oao css-textOneLine-vcwn7f r-color-jwli3a r-fontSize-hiw28u r-fontWeight-majxgm r-textAlign-q4m81j r-textTransform-tsynxw"
@@ -96,7 +95,6 @@ exports[`Profile matches snapshot 1`] = `
                 "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
               }
             }
-            tabIndex="0"
           >
             My Profile
           </h1>

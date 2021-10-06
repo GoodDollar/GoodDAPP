@@ -16,6 +16,8 @@ import Copy from './Copy'
 import Transaction from './Transaction'
 import Title from '../gd/Title'
 import { ButtonOutlined } from '../gd/Button'
+import { t } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 
 const UpperSection = styled.div`
     position: relative;
@@ -202,6 +204,7 @@ export default function AccountDetails({
     ENSName,
     openOptions
 }: AccountDetailsProps): any {
+    const { i18n } = useLingui()
     const { chainId, account, connector } = useActiveWeb3React()
     const dispatch = useDispatch<AppDispatch>()
 
@@ -215,7 +218,7 @@ export default function AccountDetails({
                     (connector !== injected || isMetaMask === (k === 'METAMASK'))
             )
             .map(k => SUPPORTED_WALLETS[k].name)[0]
-        return `Connected with ${name}`
+        return `${i18n._(t`Connected with`)} ${name}`
     }
 
     const clearAllTransactionsCallback = useCallback(() => {
@@ -228,7 +231,7 @@ export default function AccountDetails({
                 <CloseIcon onClick={toggleWalletModal}>
                     <CloseColor />
                 </CloseIcon>
-                <Title className="text-center mb-8">Account</Title>
+                <Title className="text-center mb-8">{i18n._(t`Account`)}</Title>
                 <AccountSection>
                     <YourAccount>
                         <InfoCard>
@@ -252,7 +255,7 @@ export default function AccountDetails({
                                             openOptions()
                                         }}
                                     >
-                                        Change
+                                        {i18n._(t`Change`)}
                                     </WalletAction>
                                 </div>
                             </AccountGroupingRow>
@@ -280,7 +283,7 @@ export default function AccountDetails({
                                             <div>
                                                 {account && (
                                                     <Copy toCopy={account}>
-                                                        <span style={{ marginLeft: '4px' }}>Copy address</span>
+                                                        <span style={{ marginLeft: '4px' }}>{i18n._(t`Copy address`)}</span>
                                                     </Copy>
                                                 )}
                                                 {chainId && account && (
@@ -289,7 +292,7 @@ export default function AccountDetails({
                                                         isENS={true}
                                                         href={chainId && getExplorerLink(chainId, ENSName, 'address')}
                                                     >
-                                                        <span style={{ marginLeft: '4px' }}>View on explorer</span>
+                                                        <span style={{ marginLeft: '4px' }}>{i18n._(t`View on explorer`)}</span>
                                                     </AddressLink>
                                                 )}
                                             </div>
@@ -301,7 +304,7 @@ export default function AccountDetails({
                                             <div>
                                                 {account && (
                                                     <Copy toCopy={account}>
-                                                        <span style={{ marginLeft: '4px' }}>Copy Address</span>
+                                                        <span style={{ marginLeft: '4px' }}>{i18n._(t`Copy address`)}</span>
                                                     </Copy>
                                                 )}
                                                 {chainId && account && (
@@ -310,7 +313,7 @@ export default function AccountDetails({
                                                         isENS={false}
                                                         href={getExplorerLink(chainId, account, 'address')}
                                                     >
-                                                        <span style={{ marginLeft: '4px' }}>View on explorer</span>
+                                                        <span style={{ marginLeft: '4px' }}>{i18n._(t`View on explorer`)}</span>
                                                     </AddressLink>
                                                 )}
                                             </div>
@@ -325,16 +328,16 @@ export default function AccountDetails({
             {!!pendingTransactions.length || !!confirmedTransactions.length ? (
                 <LowerSection>
                     <AutoRow mb={'1rem'} style={{ justifyContent: 'space-between' }}>
-                        <Title type="category">Recent Transactions</Title>
+                        <Title type="category">{i18n._(t`Recent Transactions`)}</Title>
                         <ButtonOutlined className="px-2" size="sm" width="auto" onClick={clearAllTransactionsCallback}>
-                            Clear all
+                        {i18n._(t`Clear all`)}
                         </ButtonOutlined>
                     </AutoRow>
                     {renderTransactions(pendingTransactions)}
                     {renderTransactions(confirmedTransactions)}
                 </LowerSection>
             ) : (
-                <LowerSection>Your transactions will appear here...</LowerSection>
+                <LowerSection>{i18n._(t`Your transactions will appear here...`)}</LowerSection>
             )}
         </>
     )

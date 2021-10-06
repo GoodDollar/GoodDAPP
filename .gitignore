@@ -40,3 +40,5 @@ cypress/fixtures/example.json
 
 analysis/index.html
 deploy.sh
+
+/playground

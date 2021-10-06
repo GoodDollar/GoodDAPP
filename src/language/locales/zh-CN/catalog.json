@@ -349,5 +349,20 @@
   "{0} Strategy": "{0}策略",
   "{0} per {1}": "{0}每{1}",
   "This project is in beta. Use at your own risk": "该项目处于测试阶段。使用风险自负",
-  "Please connect your Web3 wallet to the Fuse Network to Claim UBI.": "请将您的 Web3 钱包连接到 Fuse 网络以领取 UBI。"
+  "Please connect your Web3 wallet to the Fuse Network to Claim UBI.": "请将您的 Web3 钱包连接到 Fuse 网络以领取 UBI。",
+  "Copied": "已复制",
+  "Connected with": "与",
+  "Clear all": "清除所有",
+  "Account": "帐户",
+  "Change": "改变",
+  "Copy address": "复制地址",
+  "Recent Transactions": "最近的交易",
+  "Your transactions will appear here...": "您的交易将出现在这里......",
+  "Recipient": "接受者",
+  "(View on explorer)": "（在探险家上查看）",
+  "Blocked address": "被封锁的地址",
+  "Claim your test tokens here...": "在这里介绍你的测试令牌......",
+  "Network Fee": "网络费用",
+  "Current Rate": "当前利率",
+  "You Will Receive:": "您将收到："
 }

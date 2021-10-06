@@ -349,5 +349,20 @@
   "{0} Strategy": "{0} Стратегия",
   "{0} per {1}": "{0} за {1}",
   "This project is in beta. Use at your own risk": "Этот проект находится в стадии бета-тестирования. Используйте на свой риск",
-  "Please connect your Web3 wallet to the Fuse Network to Claim UBI.": "Подключите свой кошелек Web3 к сети Fuse, чтобы получить UBI."
+  "Please connect your Web3 wallet to the Fuse Network to Claim UBI.": "Подключите свой кошелек Web3 к сети Fuse, чтобы получить UBI.",
+  "Copied": "Скопировано",
+  "Connected with": "Связаны с",
+  "Clear all": "Очистить все",
+  "Account": "Счет",
+  "Change": "Изменять",
+  "Copy address": "Копировать адрес",
+  "Recent Transactions": "Последние транзакции",
+  "Your transactions will appear here...": "Ваши транзакции появятся здесь ...",
+  "Recipient": "Получатель",
+  "(View on explorer)": "(Просмотр на Explorer)",
+  "Blocked address": "Заблокированный адрес",
+  "Claim your test tokens here...": "Требуйте свои тестовые токены здесь ...",
+  "Network Fee": "Сетевая плата",
+  "Current Rate": "Текущая скорость",
+  "You Will Receive:": "Вы получите:"
 }

@@ -349,5 +349,20 @@
   "{0} Strategy": "{0} Strategie",
   "{0} per {1}": "{0} pe {1}",
   "This project is in beta. Use at your own risk": "Acest proiect este în versiune beta. Folosiți pe propria răspundere",
-  "Please connect your Web3 wallet to the Fuse Network to Claim UBI.": "Vă rugăm să vă conectați portofelul Web3 la Rețeaua de siguranțe pentru a revendica UBI."
+  "Please connect your Web3 wallet to the Fuse Network to Claim UBI.": "Vă rugăm să vă conectați portofelul Web3 la Rețeaua de siguranțe pentru a revendica UBI.",
+  "Copied": "Copiat",
+  "Connected with": "Conectat cu",
+  "Clear all": "Curata tot",
+  "Account": "Cont",
+  "Change": "Schimbare",
+  "Copy address": "Adresa de copiere",
+  "Recent Transactions": "tranzactii recente",
+  "Your transactions will appear here...": "Tranzacțiile dvs. vor apărea aici ...",
+  "Recipient": "Destinatar",
+  "(View on explorer)": "(Vizualizați pe Explorer)",
+  "Blocked address": "Adresa blocată",
+  "Claim your test tokens here...": "Revendicați jetoanele de testare aici ...",
+  "Network Fee": "Taxa de rețea",
+  "Current Rate": "Rata curenta",
+  "You Will Receive:": "Vei primi:"
 }

@@ -349,5 +349,20 @@
   "{0} Strategy": "Strategia {0}",
   "{0} per {1}": "{0} per {1}",
   "This project is in beta. Use at your own risk": "Questo progetto è in versione beta. Utilizzare a proprio rischio",
-  "Please connect your Web3 wallet to the Fuse Network to Claim UBI.": "Collega il tuo portafoglio Web3 alla rete Fuse per richiedere UBI."
+  "Please connect your Web3 wallet to the Fuse Network to Claim UBI.": "Collega il tuo portafoglio Web3 alla rete Fuse per richiedere UBI.",
+  "Copied": "copiato",
+  "Connected with": "Connesso con",
+  "Clear all": "Cancella tutto",
+  "Account": "Account",
+  "Change": "Modificare",
+  "Copy address": "Copia indirizzo",
+  "Recent Transactions": "Le transazioni recenti",
+  "Your transactions will appear here...": "Le tue transazioni appariranno qui ...",
+  "Recipient": "Destinataria",
+  "(View on explorer)": "(Visualizza su Explorer)",
+  "Blocked address": "Indirizzo bloccato",
+  "Claim your test tokens here...": "Richiedi i tuoi token di prova qui ...",
+  "Network Fee": "Tassa di rete",
+  "Current Rate": "Tasso attuale",
+  "You Will Receive:": "Riceverai:"
 }

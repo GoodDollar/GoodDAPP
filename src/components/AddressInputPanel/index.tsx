@@ -6,6 +6,8 @@ import { ExternalLink, TYPE } from '../../theme'
 import { getExplorerLink } from '../../utils'
 import { AutoColumn } from '../Column'
 import { RowBetween } from '../Row'
+import { t } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 
 const InputPanel = styled.div`
     ${({ theme }) => theme.flexColumnNoWrap}
@@ -76,6 +78,7 @@ export default function AddressInputPanel({
     // triggers whenever the typed value changes
     onChange: (value: string) => void
 }) {
+    const { i18n } = useLingui()
     const { chainId } = useActiveWeb3React()
     const theme = useContext(ThemeContext)
 
@@ -99,14 +102,14 @@ export default function AddressInputPanel({
                     <AutoColumn gap="md">
                         <RowBetween>
                             <TYPE.black color={theme.text2} fontWeight={500} fontSize={14}>
-                                Recipient
+                                {i18n._(t`Recipient`)}
                             </TYPE.black>
                             {address && chainId && (
                                 <ExternalLink
                                     href={getExplorerLink(chainId, name ?? address, 'address')}
                                     style={{ fontSize: '14px' }}
                                 >
-                                    (View on explorer)
+                                    {i18n._(t`(View on explorer)`)}
                                 </ExternalLink>
                             )}
                         </RowBetween>

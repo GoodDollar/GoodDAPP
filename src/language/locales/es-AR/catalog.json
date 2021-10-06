@@ -349,5 +349,7 @@
   "{0} Strategy": "{0} Estrategia",
   "{0} per {1}": "{0} por {1}",
   "This project is in beta. Use at your own risk": "Este proyecto está en beta. Úselo bajo su propio riesgo",
-  "Please connect your Web3 wallet to the Fuse Network to Claim UBI.": "請將您的 Web3 錢包連接到 Fuse 網絡以領取 UBI。"
+  "Please connect your Web3 wallet to the Fuse Network to Claim UBI.": "請將您的 Web3 錢包連接到 Fuse 網絡以領取 UBI。",
+  "Copied": "Copiado",
+  "Connected with": "Conectado con"
 }

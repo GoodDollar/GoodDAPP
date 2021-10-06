@@ -351,5 +351,20 @@
   "{0} Strategy": "",
   "{0} per {1}": "",
   "This project is in beta. Use at your own risk": "הפרויקט הזה נמצא בגרסת בטא. השתמש באחריותך בלבד",
-  "Please connect your Web3 wallet to the Fuse Network to Claim UBI.": "חבר את ארנק Web3 שלך לרשת Fuse כדי לתבוע UBI."
+  "Please connect your Web3 wallet to the Fuse Network to Claim UBI.": "חבר את ארנק Web3 שלך לרשת Fuse כדי לתבוע UBI.",
+  "Copied": "מוּעֲתָק",
+  "Connected with": "מחובר עם",
+  "Clear all": "נקה את כל",
+  "Account": "חֶשְׁבּוֹן",
+  "Change": "שינוי",
+  "Copy address": "העתקת העתקה",
+  "Recent Transactions": "תנועות אחרונות",
+  "Your transactions will appear here...": "העסקאות שלך יופיעו כאן ...",
+  "Recipient": "מקבל",
+  "(View on explorer)": "(הצג על Explorer)",
+  "Blocked address": "כתובת חסומה",
+  "Claim your test tokens here...": "תביעה שלך מבחן אסימונים כאן ...",
+  "Network Fee": "דמי רשת",
+  "Current Rate": "שער הנוכחי",
+  "You Will Receive:": "אתה תקבל:"
 }

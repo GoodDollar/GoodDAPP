@@ -349,5 +349,20 @@
   "{0} Strategy": "{0} Chiến lược",
   "{0} per {1}": "{0} mỗi {1}",
   "This project is in beta. Use at your own risk": "Dự án này đang trong giai đoạn thử nghiệm. Sử dụng có nguy cơ của riêng bạn",
-  "Please connect your Web3 wallet to the Fuse Network to Claim UBI.": "Vui lòng kết nối ví Web3 của bạn với Mạng cầu chì để Yêu cầu UBI."
+  "Please connect your Web3 wallet to the Fuse Network to Claim UBI.": "Vui lòng kết nối ví Web3 của bạn với Mạng cầu chì để Yêu cầu UBI.",
+  "Copied": "Đã sao chép",
+  "Connected with": "Kết nối với",
+  "Clear all": "Quet sạch tât cả",
+  "Account": "Tài khoản",
+  "Change": "Thay đổi",
+  "Copy address": "Sao chép địa chỉ",
+  "Recent Transactions": "Giao dịch gần đây",
+  "Your transactions will appear here...": "Giao dịch của bạn sẽ xuất hiện ở đây ...",
+  "Recipient": "Người nhận",
+  "(View on explorer)": "(Xem trên Explorer)",
+  "Blocked address": "Địa chỉ bị chặn",
+  "Claim your test tokens here...": "Yêu cầu mã thông báo thử nghiệm của bạn ở đây ...",
+  "Network Fee": "Phí mạng",
+  "Current Rate": "Tỷ lệ hiện tại",
+  "You Will Receive:": "Bạn sẽ nhận:"
 }

@@ -1,7 +1,11 @@
 import React from 'react'
 import { NavLink } from '../Link'
+import { t } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 
 export default function LiquidityHeader({ input = undefined, output = undefined }: any): JSX.Element {
+    const { i18n } = useLingui()
+
     return (
         <div className="grid grid-cols-2 rounded-md p-3px ark-800">
             <NavLink
@@ -11,7 +15,7 @@ export default function LiquidityHeader({ input = undefined, output = undefined 
                     output && output.address ? `/${output.address}` : ''
                 }`}
             >
-                Add
+                {i18n._(t`Add`)}
             </NavLink>
             <NavLink
                 onClick={event => {
@@ -23,7 +27,7 @@ export default function LiquidityHeader({ input = undefined, output = undefined 
                     output && output.address ? `/${output.address}` : `${input.address ? '/ETH' : ''}`
                 }`}
             >
-                Remove
+                {i18n._(t`Remove`)}
             </NavLink>
         </div>
     )

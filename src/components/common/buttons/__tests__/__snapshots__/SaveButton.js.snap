@@ -10,7 +10,6 @@ exports[`WrappedSaveButton matches snapshot 1`] = `
     <div
       className="css-view-1dbjc4n r-display-6koalj r-justifyContent-1777fci"
       data-testid="save_button"
-      id="animatedComponent"
       style={
         Object {
           "WebkitAlignItems": "stretch",
@@ -110,7 +109,6 @@ exports[`WrappedSaveButton matches snapshot 2`] = `
     <div
       className="css-view-1dbjc4n r-display-6koalj r-justifyContent-1777fci"
       data-testid="save_button"
-      id="animatedComponent"
       style={
         Object {
           "WebkitAlignItems": "stretch",
@@ -209,7 +207,6 @@ exports[`WrappedSaveButton matches snapshot 3`] = `
     <div
       className="css-view-1dbjc4n r-display-6koalj r-justifyContent-1777fci"
       data-testid="save_button"
-      id="animatedComponent"
       style={
         Object {
           "WebkitAlignItems": "stretch",
@@ -309,7 +306,6 @@ exports[`WrappedSaveButton matches snapshot 4`] = `
     <div
       className="css-view-1dbjc4n r-display-6koalj r-justifyContent-1777fci"
       data-testid="save_button"
-      id="animatedComponent"
       style={
         Object {
           "WebkitAlignItems": "stretch",

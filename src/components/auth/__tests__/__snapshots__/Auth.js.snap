@@ -80,7 +80,6 @@ you are accepting our
                 <div
                   className="css-view-1dbjc4n r-display-6koalj r-justifyContent-1777fci r-padding-t60dpp"
                   data-testid="firstButton"
-                  id="animatedComponent"
                   style={
                     Object {
                       "WebkitAlignItems": "stretch",
@@ -167,7 +166,6 @@ you are accepting our
                 <div
                   className="css-view-1dbjc4n r-display-6koalj r-justifyContent-1777fci r-marginBottom-p1pxzi r-marginTop-1mnahxq r-padding-t60dpp"
                   data-testid="signInButton"
-                  id="animatedComponent"
                   style={
                     Object {
                       "WebkitAlignItems": "stretch",

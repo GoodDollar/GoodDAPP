@@ -203,7 +203,6 @@ exports[`Receive matches snapshot 1`] = `
       >
         <div
           className="css-view-1dbjc4n r-alignItems-1oszu61 r-borderColor-17xuhkx r-borderWidth-rs99b7 r-display-6koalj r-justifyContent-1777fci r-marginBottom-p1pxzi"
-          id="animatedComponent"
           style={
             Object {
               "backgroundColor": "rgba(0,0,0,0.00)",
@@ -280,7 +279,6 @@ exports[`Receive matches snapshot 1`] = `
         />
         <div
           className="css-view-1dbjc4n r-alignItems-1oszu61 r-borderColor-17xuhkx r-display-6koalj r-justifyContent-1777fci r-marginBottom-p1pxzi"
-          id="animatedComponent"
           style={
             Object {
               "backgroundColor": "rgba(0,175,255,1.00)",

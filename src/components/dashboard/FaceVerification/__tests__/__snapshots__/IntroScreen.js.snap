@@ -52,7 +52,6 @@ live person
         </div>
         <div
           className="css-view-1dbjc4n r-display-6koalj r-justifyContent-1777fci r-marginBottom-p1pxzi r-marginTop-1mnahxq r-paddingLeft-gy4na3 r-paddingRight-9aemit r-width-13qz1uu"
-          id="animatedComponent"
           style={
             Object {
               "WebkitAlignItems": "stretch",

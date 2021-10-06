@@ -134,7 +134,6 @@ exports[`Send matches snapshot 1`] = `
           >
             <div
               className="css-view-1dbjc4n r-position-u8s1d r-right-zchlnj"
-              id="animatedComponent"
               style={
                 Object {
                   "WebkitTransform": "scaleY(0.5)",
@@ -189,7 +188,6 @@ exports[`Send matches snapshot 1`] = `
           <div
             className="css-text-901oao r-paddingHorizontal-1e081e0 r-textAlign-fdjqy7"
             dir="auto"
-            id="animatedComponent"
             style={
               Object {
                 "WebkitTransform": "translateY(0px)",
@@ -325,7 +323,6 @@ exports[`Send matches snapshot 1`] = `
         >
           <div
             className="css-view-1dbjc4n r-alignItems-1oszu61 r-display-6koalj r-justifyContent-1777fci"
-            id="animatedComponent"
             style={
               Object {
                 "backgroundColor": "rgba(0,0,0,0.00)",
@@ -420,7 +417,6 @@ exports[`Send matches snapshot 1`] = `
         >
           <div
             className="css-view-1dbjc4n r-alignItems-1oszu61 r-display-6koalj r-justifyContent-1777fci"
-            id="animatedComponent"
             style={
               Object {
                 "WebkitFlex": 2,

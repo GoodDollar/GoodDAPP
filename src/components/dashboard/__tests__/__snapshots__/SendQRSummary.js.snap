@@ -118,7 +118,6 @@ a few seconds to complete
         >
           <div
             className="css-view-1dbjc4n r-alignItems-1oszu61 r-display-6koalj r-justifyContent-1777fci"
-            id="animatedComponent"
             style={
               Object {
                 "backgroundColor": "rgba(0,0,0,0.00)",
@@ -213,7 +212,6 @@ a few seconds to complete
         >
           <div
             className="css-view-1dbjc4n r-alignItems-1oszu61 r-display-6koalj r-justifyContent-1777fci"
-            id="animatedComponent"
             style={
               Object {
                 "backgroundColor": "rgba(0,175,255,1.00)",

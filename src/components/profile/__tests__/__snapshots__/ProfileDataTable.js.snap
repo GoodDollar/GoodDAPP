@@ -3611,7 +3611,6 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
             <div
               className="css-text-901oao r-fontWeight-16dba41 r-paddingTop-wk8lta"
               dir="auto"
-              id="animatedComponent"
               style={
                 Object {
                   "WebkitTransform": "translateY(0px)",
@@ -3685,7 +3684,6 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
             <div
               className="css-text-901oao r-color-11zaip3 r-fontWeight-16dba41 r-paddingTop-wk8lta"
               dir="auto"
-              id="animatedComponent"
               style={
                 Object {
                   "WebkitTransform": "translateY(0px)",

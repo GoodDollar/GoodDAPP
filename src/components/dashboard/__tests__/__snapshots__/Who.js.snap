@@ -141,7 +141,6 @@ exports[`Who matches snapshot 1`] = `
             <div
               className="css-text-901oao r-paddingHorizontal-1e081e0 r-paddingVertical-oyd9sg r-textAlign-q4m81j"
               dir="auto"
-              id="animatedComponent"
               style={
                 Object {
                   "WebkitTransform": "translateY(0px)",
@@ -185,7 +184,6 @@ exports[`Who matches snapshot 1`] = `
           >
             <div
               className="css-view-1dbjc4n r-alignItems-1oszu61 r-display-6koalj r-justifyContent-1777fci r-marginRight-61z16t"
-              id="animatedComponent"
               style={
                 Object {
                   "backgroundColor": "rgba(0,0,0,0.00)",
@@ -279,7 +277,6 @@ exports[`Who matches snapshot 1`] = `
           >
             <div
               className="css-view-1dbjc4n r-alignItems-1oszu61 r-display-6koalj r-justifyContent-1777fci r-marginRight-61z16t"
-              id="animatedComponent"
               style={
                 Object {
                   "WebkitFlex": 2,

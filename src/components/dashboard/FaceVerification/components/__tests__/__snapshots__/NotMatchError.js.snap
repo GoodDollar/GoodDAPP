@@ -110,7 +110,6 @@ please contact our support
       >
         <div
           className="css-view-1dbjc4n r-display-6koalj r-justifyContent-1777fci r-marginBottom-p1pxzi r-marginLeft-11wrixw r-marginRight-61z16t r-marginTop-1mnahxq r-paddingLeft-gy4na3 r-paddingRight-9aemit"
-          id="animatedComponent"
           style={
             Object {
               "WebkitAlignItems": "stretch",
@@ -193,7 +192,6 @@ please contact our support
         </div>
         <div
           className="css-view-1dbjc4n r-display-6koalj r-justifyContent-1777fci r-marginBottom-p1pxzi r-marginLeft-11wrixw r-marginRight-61z16t r-marginTop-1mnahxq r-paddingLeft-gy4na3 r-paddingRight-9aemit"
-          id="animatedComponent"
           style={
             Object {
               "WebkitAlignItems": "stretch",

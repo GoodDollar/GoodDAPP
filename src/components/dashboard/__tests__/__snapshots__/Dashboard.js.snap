@@ -27,7 +27,6 @@ exports[`Dashboard matches snapshot 1`] = `
       >
         <div
           className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-overflow-1udh08x"
-          id="animatedComponent"
           style={
             Object {
               "backgroundColor": "rgba(0,175,255,1.00)",
@@ -72,22 +71,25 @@ exports[`Dashboard matches snapshot 1`] = `
             </div>
           </div>
           <div
+            aria-disabled={true}
             className="css-view-1dbjc4n r-flex-13awgt0 r-paddingHorizontal-1e081e0"
             onClick={[Function]}
             onContextMenu={[Function]}
             onKeyDown={[Function]}
-            tabIndex="0"
+            tabIndex="-1"
           >
             <h1
-              className="css-reset-4rbku5 css-text-901oao css-textOneLine-vcwn7f r-color-jwli3a r-fontSize-adyw6z r-fontWeight-majxgm"
+              className="css-reset-4rbku5 css-text-901oao css-textMultiLine-cens5h r-color-jwli3a r-fontSize-adyw6z r-fontWeight-majxgm"
               dir="auto"
               role="heading"
               style={
                 Object {
+                  "WebkitLineClamp": 1,
                   "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                   "textAlign": "left",
                 }
               }
+              tabIndex="0"
             />
           </div>
           <div
@@ -134,7 +136,6 @@ exports[`Dashboard matches snapshot 1`] = `
         >
           <div
             className="css-view-1dbjc4n r-position-bnwqim"
-            id="animatedComponent"
             style={
               Object {
                 "height": "176px",
@@ -146,7 +147,6 @@ exports[`Dashboard matches snapshot 1`] = `
             >
               <div
                 className="css-view-1dbjc4n r-left-1d2f490"
-                id="animatedComponent"
                 style={
                   Object {
                     "height": "68px",
@@ -191,7 +191,6 @@ exports[`Dashboard matches snapshot 1`] = `
               </div>
               <div
                 className="css-view-1dbjc4n r-alignItems-1awozwy r-justifyContent-1777fci"
-                id="animatedComponent"
                 style={
                   Object {
                     "opacity": 1,
@@ -208,7 +207,6 @@ exports[`Dashboard matches snapshot 1`] = `
               </div>
               <div
                 className="css-view-1dbjc4n r-alignItems-1d09ksm r-bottom-1p0dtai"
-                id="animatedComponent"
                 style={
                   Object {
                     "marginLeft": "0px",
@@ -224,8 +222,13 @@ exports[`Dashboard matches snapshot 1`] = `
                     data-testid="amount_value"
                   >
                     <div
-                      className="css-text-901oao css-textOneLine-vcwn7f r-alignSelf-1pz39u2 r-color-181bzza r-fontFamily-6jnb14 r-fontSize-111xbm8 r-fontWeight-b88u0q r-lineHeight-1gvhk8w r-marginRight-a5pmau r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                      className="css-text-901oao css-textMultiLine-cens5h r-alignSelf-1pz39u2 r-color-181bzza r-fontFamily-6jnb14 r-fontSize-111xbm8 r-fontWeight-b88u0q r-lineHeight-1gvhk8w r-marginRight-a5pmau r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                       dir="auto"
+                      style={
+                        Object {
+                          "WebkitLineClamp": 1,
+                        }
+                      }
                     >
                       -.--
                     </div>
@@ -255,7 +258,6 @@ exports[`Dashboard matches snapshot 1`] = `
           >
             <div
               className="css-view-1dbjc4n r-alignItems-1oszu61 r-borderWidth-1yadl64 r-display-6koalj r-flex-13awgt0 r-justifyContent-1777fci r-marginBottom-p1pxzi r-padding-t60dpp"
-              id="animatedComponent"
               style={
                 Object {
                   "backgroundColor": "rgba(0,175,255,1.00)",
@@ -335,7 +337,6 @@ exports[`Dashboard matches snapshot 1`] = `
             >
               <div
                 className="css-view-1dbjc4n"
-                id="animatedComponent"
                 style={
                   Object {
                     "WebkitTransform": "scale(1)",
@@ -348,7 +349,6 @@ exports[`Dashboard matches snapshot 1`] = `
                 <div
                   className="css-view-1dbjc4n r-alignItems-1awozwy r-borderRadius-ieixw r-display-6koalj r-height-1pi2tsx r-justifyContent-1777fci r-marginBottom-p1pxzi r-position-u8s1d r-width-13qz1uu"
                   data-testid="claim_button"
-                  id="animatedComponent"
                   style={
                     Object {
                       "backgroundColor": "rgba(0,195,174,1.00)",
@@ -409,7 +409,6 @@ exports[`Dashboard matches snapshot 1`] = `
             </div>
             <div
               className="css-view-1dbjc4n r-alignItems-1oszu61 r-borderWidth-1yadl64 r-display-6koalj r-flex-13awgt0 r-justifyContent-1777fci r-marginBottom-p1pxzi r-padding-t60dpp"
-              id="animatedComponent"
               style={
                 Object {
                   "backgroundColor": "rgba(0,175,255,1.00)",

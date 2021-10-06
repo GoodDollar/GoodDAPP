@@ -39,7 +39,6 @@ please switch to Chrome or Safari
     >
       <div
         className="css-view-1dbjc4n r-display-6koalj r-justifyContent-1777fci r-paddingLeft-gy4na3 r-paddingRight-9aemit"
-        id="animatedComponent"
         style={
           Object {
             "WebkitAlignItems": "stretch",

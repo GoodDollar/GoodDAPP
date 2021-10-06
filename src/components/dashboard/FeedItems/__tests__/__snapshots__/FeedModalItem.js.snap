@@ -168,15 +168,19 @@ exports[`FeedModalItem - Invite matches snapshot 1`] = `
                       Transaction Details
                     </div>
                     <div
-                      className="css-text-901oao css-textOneLine-vcwn7f r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1gkfh8e r-fontWeight-1it3c9n r-lineHeight-1b6yf8j r-maxWidth-x1dlf0 r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                      className="css-text-901oao css-textMultiLine-cens5h r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1gkfh8e r-fontWeight-1it3c9n r-lineHeight-1b6yf8j r-maxWidth-x1dlf0 r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                       dir="auto"
+                      style={
+                        Object {
+                          "WebkitLineClamp": 1,
+                        }
+                      }
                     >
                       0x9812619905da200c4effe8cd2ca4b2b31eeddf133f8fd283069d2e5aec3b9f77
                     </div>
                   </div>
                   <div
                     className="css-view-1dbjc4n r-alignItems-1oszu61 r-display-6koalj r-justifyContent-1777fci"
-                    id="animatedComponent"
                     style={
                       Object {
                         "backgroundColor": "rgba(0,175,255,1.00)",
@@ -515,15 +519,19 @@ exports[`FeedModalItem - Message matches snapshot 1`] = `
                       Transaction Details
                     </div>
                     <div
-                      className="css-text-901oao css-textOneLine-vcwn7f r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1gkfh8e r-fontWeight-1it3c9n r-lineHeight-1b6yf8j r-maxWidth-x1dlf0 r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                      className="css-text-901oao css-textMultiLine-cens5h r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1gkfh8e r-fontWeight-1it3c9n r-lineHeight-1b6yf8j r-maxWidth-x1dlf0 r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                       dir="auto"
+                      style={
+                        Object {
+                          "WebkitLineClamp": 1,
+                        }
+                      }
                     >
                       0x9812619905da200c4effe8cd2ca4b2b31eeddf133f8fd283069d2e5aec3b9f77
                     </div>
                   </div>
                   <div
                     className="css-view-1dbjc4n r-alignItems-1oszu61 r-display-6koalj r-justifyContent-1777fci"
-                    id="animatedComponent"
                     style={
                       Object {
                         "backgroundColor": "rgba(0,175,255,1.00)",
@@ -871,15 +879,19 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                       Transaction Details
                     </div>
                     <div
-                      className="css-text-901oao css-textOneLine-vcwn7f r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1gkfh8e r-fontWeight-1it3c9n r-lineHeight-1b6yf8j r-maxWidth-x1dlf0 r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                      className="css-text-901oao css-textMultiLine-cens5h r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1gkfh8e r-fontWeight-1it3c9n r-lineHeight-1b6yf8j r-maxWidth-x1dlf0 r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                       dir="auto"
+                      style={
+                        Object {
+                          "WebkitLineClamp": 1,
+                        }
+                      }
                     >
                       0x9812619905da200c4effe8cd2ca4b2b31eeddf133f8fd283069d2e5aec3b9f77
                     </div>
                   </div>
                   <div
                     className="css-view-1dbjc4n r-alignItems-1oszu61 r-display-6koalj r-justifyContent-1777fci"
-                    id="animatedComponent"
                     style={
                       Object {
                         "backgroundColor": "rgba(0,175,255,1.00)",
@@ -1227,15 +1239,19 @@ exports[`FeedModalItem - Send with Error status matches snapshot 1`] = `
                       Transaction Details
                     </div>
                     <div
-                      className="css-text-901oao css-textOneLine-vcwn7f r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1gkfh8e r-fontWeight-1it3c9n r-lineHeight-1b6yf8j r-maxWidth-x1dlf0 r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                      className="css-text-901oao css-textMultiLine-cens5h r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1gkfh8e r-fontWeight-1it3c9n r-lineHeight-1b6yf8j r-maxWidth-x1dlf0 r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                       dir="auto"
+                      style={
+                        Object {
+                          "WebkitLineClamp": 1,
+                        }
+                      }
                     >
                       0x9812619905da200c4effe8cd2ca4b2b31eeddf133f8fd283069d2e5aec3b9f77
                     </div>
                   </div>
                   <div
                     className="css-view-1dbjc4n r-alignItems-1oszu61 r-display-6koalj r-justifyContent-1777fci"
-                    id="animatedComponent"
                     style={
                       Object {
                         "backgroundColor": "rgba(0,175,255,1.00)",
@@ -1583,15 +1599,19 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                       Transaction Details
                     </div>
                     <div
-                      className="css-text-901oao css-textOneLine-vcwn7f r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1gkfh8e r-fontWeight-1it3c9n r-lineHeight-1b6yf8j r-maxWidth-x1dlf0 r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                      className="css-text-901oao css-textMultiLine-cens5h r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1gkfh8e r-fontWeight-1it3c9n r-lineHeight-1b6yf8j r-maxWidth-x1dlf0 r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                       dir="auto"
+                      style={
+                        Object {
+                          "WebkitLineClamp": 1,
+                        }
+                      }
                     >
                       0x9812619905da200c4effe8cd2ca4b2b31eeddf133f8fd283069d2e5aec3b9f77
                     </div>
                   </div>
                   <div
                     className="css-view-1dbjc4n r-alignItems-1oszu61 r-display-6koalj r-justifyContent-1777fci"
-                    id="animatedComponent"
                     style={
                       Object {
                         "backgroundColor": "rgba(0,175,255,1.00)",

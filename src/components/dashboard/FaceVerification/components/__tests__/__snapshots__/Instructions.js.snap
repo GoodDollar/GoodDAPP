@@ -91,7 +91,6 @@ exports[`FaceVerification Instructions matches snapshot 1`] = `
         <div
           className="css-view-1dbjc4n r-display-6koalj r-justifyContent-1777fci r-paddingLeft-gy4na3 r-paddingRight-9aemit r-width-13qz1uu"
           data-testid="dismiss_button"
-          id="animatedComponent"
           style={
             Object {
               "WebkitAlignItems": "stretch",

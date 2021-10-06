@@ -89,7 +89,6 @@ exports[`NameForm matches snapshot 1`] = `
                   <div
                     className="css-text-901oao r-paddingHorizontal-1e081e0 r-paddingVertical-oyd9sg r-textAlign-q4m81j"
                     dir="auto"
-                    id="animatedComponent"
                     style={
                       Object {
                         "WebkitTransform": "translateY(0px)",
@@ -127,7 +126,6 @@ exports[`NameForm matches snapshot 1`] = `
         >
           <div
             className="css-view-1dbjc4n r-alignItems-1oszu61 r-display-6koalj r-flex-13awgt0 r-justifyContent-1777fci r-padding-t60dpp"
-            id="animatedComponent"
             style={
               Object {
                 "backgroundColor": "rgba(0,175,255,1.00)",
@@ -303,7 +301,6 @@ exports[`NameForm matches snapshot with empty value 1`] = `
                   <div
                     className="css-text-901oao r-paddingHorizontal-1e081e0 r-paddingVertical-oyd9sg r-textAlign-q4m81j"
                     dir="auto"
-                    id="animatedComponent"
                     style={
                       Object {
                         "WebkitTransform": "translateY(0px)",
@@ -341,7 +338,6 @@ exports[`NameForm matches snapshot with empty value 1`] = `
         >
           <div
             className="css-view-1dbjc4n r-alignItems-1oszu61 r-display-6koalj r-flex-13awgt0 r-justifyContent-1777fci r-padding-t60dpp"
-            id="animatedComponent"
             style={
               Object {
                 "backgroundColor": "rgba(0,0,0,0.12)",

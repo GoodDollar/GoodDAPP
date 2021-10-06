@@ -137,7 +137,6 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
               >
                 <div
                   className="css-view-1dbjc4n"
-                  id="animatedComponent"
                   style={
                     Object {
                       "borderBottomColor": "rgba(85,85,85,1.00)",
@@ -177,7 +176,6 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
               >
                 <div
                   className="css-view-1dbjc4n"
-                  id="animatedComponent"
                   style={
                     Object {
                       "borderBottomColor": "rgba(85,85,85,1.00)",
@@ -217,7 +215,6 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
               >
                 <div
                   className="css-view-1dbjc4n"
-                  id="animatedComponent"
                   style={
                     Object {
                       "borderBottomColor": "rgba(85,85,85,1.00)",
@@ -267,7 +264,6 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
               >
                 <div
                   className="css-view-1dbjc4n"
-                  id="animatedComponent"
                   style={
                     Object {
                       "borderBottomColor": "rgba(85,85,85,1.00)",
@@ -307,7 +303,6 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
               >
                 <div
                   className="css-view-1dbjc4n"
-                  id="animatedComponent"
                   style={
                     Object {
                       "borderBottomColor": "rgba(85,85,85,1.00)",
@@ -347,7 +342,6 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
               >
                 <div
                   className="css-view-1dbjc4n"
-                  id="animatedComponent"
                   style={
                     Object {
                       "borderBottomColor": "rgba(85,85,85,1.00)",
@@ -492,7 +486,6 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
       >
         <div
           className="css-view-1dbjc4n r-alignItems-1oszu61 r-backgroundColor-1niwhzg r-borderStyle-1phboty r-borderWidth-1yadl64 r-display-6koalj r-flexGrow-16y2uox r-justifyContent-1777fci r-marginBottom-p1pxzi r-marginTop-1mnahxq r-padding-t60dpp r-paddingLeft-gy4na3 r-paddingRight-9aemit"
-          id="animatedComponent"
           style={
             Object {
               "borderBottomColor": "rgba(0,175,255,1.00)",
@@ -560,7 +553,6 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
         </div>
         <div
           className="css-view-1dbjc4n r-alignItems-1oszu61 r-borderStyle-1phboty r-borderWidth-1yadl64 r-display-6koalj r-justifyContent-1777fci r-marginBottom-p1pxzi r-marginTop-1mnahxq r-padding-t60dpp r-paddingLeft-gy4na3 r-paddingRight-9aemit"
-          id="animatedComponent"
           style={
             Object {
               "WebkitBoxFlex": 10,

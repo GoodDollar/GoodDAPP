@@ -155,7 +155,6 @@ exports[`SendToAddress matches snapshot 1`] = `
           <div
             className="css-text-901oao r-color-11zaip3 r-paddingHorizontal-1e081e0 r-paddingVertical-oyd9sg r-textAlign-q4m81j"
             dir="auto"
-            id="animatedComponent"
             style={
               Object {
                 "WebkitTransform": "translateY(0px)",
@@ -219,7 +218,6 @@ exports[`SendToAddress matches snapshot 1`] = `
         >
           <div
             className="css-view-1dbjc4n r-alignItems-1oszu61 r-borderColor-17xuhkx r-borderStyle-1phboty r-display-6koalj r-justifyContent-1777fci r-marginBottom-p1pxzi r-marginRight-61z16t"
-            id="animatedComponent"
             style={
               Object {
                 "backgroundColor": "rgba(0,0,0,0.00)",
@@ -304,7 +302,6 @@ exports[`SendToAddress matches snapshot 1`] = `
         >
           <div
             className="css-view-1dbjc4n r-alignItems-1oszu61 r-borderColor-17xuhkx r-borderStyle-1phboty r-display-6koalj r-justifyContent-1777fci r-marginBottom-p1pxzi r-marginRight-61z16t"
-            id="animatedComponent"
             style={
               Object {
                 "WebkitFlex": 2,

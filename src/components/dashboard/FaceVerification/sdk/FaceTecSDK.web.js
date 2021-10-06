@@ -20,7 +20,7 @@ export const {
 } = FaceTec.FaceTecSDK
 
 // sdk class
-export const FaceTecSDK = new (class {
+export const FaceTecSDK = new class {
   constructor(sdk, logger) {
     // setting a the directory path for other ZoOm Resources.
     sdk.setResourceDirectory(`${FACETEC_PUBLIC_PATH}/resources`)
@@ -204,4 +204,4 @@ export const FaceTecSDK = new (class {
     exception.code = sdkStatus
     this.throwException(exception)
   }
-})(FaceTec.FaceTecSDK, logger.child({ from: 'FaceTecSDK.web' }))
+}(FaceTec.FaceTecSDK, logger.child({ from: 'FaceTecSDK.web' }))

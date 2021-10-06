@@ -23,7 +23,7 @@ const getDesignRelativeSize = (size, isMax = true, baseSize, currentSize) => {
 // had to re-defined those utils set as an class instance
 // to allow mocking getMaxDeviceWidth/Height.
 // otherwise there are used as closures and couldn't be overrided
-const sizes = new (class {
+const sizes = new class {
   // have moved the following two functions here to break the circle dependency
   // components/theme/styles -> lib/utls/normalizeText -> lib/utils/orientation -> components/theme/styles
   getMaxDeviceWidth() {
@@ -70,7 +70,7 @@ const sizes = new (class {
   async measure(view) {
     return new Promise(resolve => view.measure((x, y, width, height) => resolve({ x, y, width, height })))
   }
-})()
+}()
 
 // backward compatibility expors
 export const { getMaxDeviceWidth, getMaxDeviceHeight, getDesignRelativeWidth, getDesignRelativeHeight, measure } = sizes

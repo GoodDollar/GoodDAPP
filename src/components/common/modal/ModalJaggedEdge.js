@@ -14,7 +14,9 @@ const getStylesFromProps = ({ theme }) => ({
   jaggedEdge: {
     ...Platform.select({
       web: {
-        backgroundImage: `linear-gradient(40deg, transparent 75%, ${theme.modals.backgroundColor} 76%), linear-gradient(-40deg, transparent 75%, ${theme.modals.backgroundColor} 76%)`,
+        backgroundImage: `linear-gradient(40deg, transparent 75%, ${
+          theme.modals.backgroundColor
+        } 76%), linear-gradient(-40deg, transparent 75%, ${theme.modals.backgroundColor} 76%)`,
         backgroundPosition: `-${theme.modals.jaggedEdgeSize / 2}px 0`,
         backgroundRepeat: 'repeat-x',
         backgroundSize: `${theme.modals.jaggedEdgeSize}px ${theme.modals.jaggedEdgeSize}px`,

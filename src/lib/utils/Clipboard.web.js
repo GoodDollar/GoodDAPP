@@ -8,7 +8,7 @@ import logger from '../../lib/logger/js-logger'
 const log = logger.child({ from: 'Clipboard' })
 const readText = bindKey(navigator.clipboard, 'readText')
 
-export default new (class {
+export default new class {
   constructor(api) {
     this.api = api
   }
@@ -27,4 +27,4 @@ export default new (class {
     await api.writeText(text)
     log.debug('setString', text)
   }
-})({ readText, writeText })
+}({ readText, writeText })

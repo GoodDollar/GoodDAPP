@@ -71,25 +71,13 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
 
   const torusUserFromProps =
     get(navigation, 'state.params.torusUser') ||
-    get(
-      navigation.state.routes.find(route => get(route, 'params.torusUser')),
-      'params.torusUser',
-      {},
-    )
+    get(navigation.state.routes.find(route => get(route, 'params.torusUser')), 'params.torusUser', {})
   const _regMethod =
     get(navigation, 'state.params.regMethod') ||
-    get(
-      navigation.state.routes.find(route => get(route, 'params.regMethod')),
-      'params.regMethod',
-      undefined,
-    )
+    get(navigation.state.routes.find(route => get(route, 'params.regMethod')), 'params.regMethod', undefined)
   const _torusProvider =
     get(navigation, 'state.params.torusProvider') ||
-    get(
-      navigation.state.routes.find(route => get(route, 'params.torusProvider')),
-      'params.torusProvider',
-      undefined,
-    )
+    get(navigation.state.routes.find(route => get(route, 'params.torusProvider')), 'params.torusProvider', undefined)
 
   const [regMethod] = useState(_regMethod)
   const [torusProvider] = useState(_torusProvider)

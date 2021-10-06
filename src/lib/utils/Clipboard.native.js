@@ -4,7 +4,7 @@ import logger from '../../lib/logger/js-logger'
 
 const log = logger.child({ from: 'Clipboard' })
 
-export default new (class {
+export default new class {
   constructor(api) {
     this.api = api
   }
@@ -25,4 +25,4 @@ export default new (class {
     log.debug('setString', text)
     api.setString(text)
   }
-})(Clipboard)
+}(Clipboard)

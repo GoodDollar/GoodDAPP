@@ -8,6 +8,8 @@ import { ExternalLink } from '../../theme/components'
 import { getExplorerLink } from '../../utils'
 import { AutoColumn, ColumnCenter } from '../Column'
 import { RowBetween } from '../Row'
+import { t } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 
 const ConfirmOrLoadingWrapper = styled.div`
     width: 100%;
@@ -19,6 +21,8 @@ const ConfirmedIcon = styled(ColumnCenter)`
 `
 
 export function LoadingView({ children, onDismiss }: { children: any; onDismiss: () => void }) {
+    const { i18n } = useLingui()
+
     return (
         <ConfirmOrLoadingWrapper>
             <RowBetween>
@@ -30,7 +34,7 @@ export function LoadingView({ children, onDismiss }: { children: any; onDismiss:
             </ConfirmedIcon>
             <AutoColumn gap="100px" justify={'center'}>
                 {children}
-                <TYPE.subHeader>Confirm this transaction in your wallet</TYPE.subHeader>
+                <TYPE.subHeader>{i18n._(t`Confirm this transaction in your wallet`)}</TYPE.subHeader>
             </AutoColumn>
         </ConfirmOrLoadingWrapper>
     )
@@ -45,6 +49,7 @@ export function SubmittedView({
     onDismiss: () => void
     hash: string | undefined
 }) {
+    const { i18n } = useLingui()
     const theme = useContext(ThemeContext)
     const { chainId } = useActiveWeb3React()
 
@@ -61,7 +66,7 @@ export function SubmittedView({
                 {children}
                 {chainId && hash && (
                     <ExternalLink href={getExplorerLink(chainId, hash, 'transaction')} style={{ marginLeft: '4px' }}>
-                        <TYPE.subHeader>View transaction on explorer</TYPE.subHeader>
+                        <TYPE.subHeader>{i18n._(t`View transaction on explorer`)}</TYPE.subHeader>
                     </ExternalLink>
                 )}
             </AutoColumn>

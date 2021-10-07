@@ -7,6 +7,8 @@ import { AutoColumn } from '../Column'
 import CurrencyLogo from '../CurrencyLogo'
 import QuestionHelper from '../QuestionHelper'
 import { AutoRow } from '../Row'
+import { t } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 
 const BaseWrapper = styled.div<{ disable?: boolean }>`
     border: 1px solid ${({ theme, disable }) => (disable ? 'transparent' : theme.bg3)};
@@ -33,13 +35,15 @@ export default function CommonBases({
     selectedCurrency?: Currency | null
     onSelect: (currency: Currency) => void
 }) {
+    const { i18n } = useLingui()
+
     return (
         <AutoColumn gap="md">
             <AutoRow>
                 <Text fontWeight={500} fontSize={14}>
-                    Common bases
+                    {i18n._(t`Common bases`)}
                 </Text>
-                <QuestionHelper text="These tokens are commonly paired with other tokens." />
+                <QuestionHelper text={i18n._(t`These tokens are commonly paired with other tokens.`)} />
             </AutoRow>
             <AutoRow gap="4px">
                 <BaseWrapper

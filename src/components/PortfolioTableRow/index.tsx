@@ -2,6 +2,8 @@ import React, { memo, useCallback, useState } from 'react'
 import { ButtonDefault } from 'components/gd/Button'
 import Withdraw from 'components/Withdraw'
 import { MyStake } from '../../sdk/staking'
+import { t } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 
 interface PortfolioTableRowProps {
     stake: MyStake
@@ -9,6 +11,7 @@ interface PortfolioTableRowProps {
 }
 
 function PortfolioTableRow({ stake, onWithdraw }: PortfolioTableRowProps) {
+    const { i18n } = useLingui()
     const [isWithdrawOpen, setWithdrawOpen] = useState(false)
     const handleWithdrawOpen = useCallback(() => setWithdrawOpen(true), [])
 
@@ -48,12 +51,12 @@ function PortfolioTableRow({ stake, onWithdraw }: PortfolioTableRowProps) {
                 </td>
                 <td className="whitespace-nowrap">
                     {stake.multiplier ? (
-                        <>This month 1.0X</>
+                        <>{i18n._(t`This month`)} 1.0X</>
                     ) : (
                         <>
-                            This month 0.5X
+                            {i18n._(t`This month`)} 0.5X
                             <br />
-                            Next month: 1.0X
+                            {i18n._(t`Next month:`)} 1.0X
                         </>
                     )}
                 </td>
@@ -66,7 +69,7 @@ function PortfolioTableRow({ stake, onWithdraw }: PortfolioTableRowProps) {
                 <td>
                     <div className="flex justify-end">
                         <ButtonDefault size="sm" width="99px" onClick={handleWithdrawOpen}>
-                            Withdraw
+                            {i18n._(t`Withdraw`)}
                         </ButtonDefault>
                     </div>
                 </td>
@@ -74,7 +77,7 @@ function PortfolioTableRow({ stake, onWithdraw }: PortfolioTableRowProps) {
             <tr className="mobile">
                 <td colSpan={8}>
                     <ButtonDefault size="sm" width="99px" onClick={handleWithdrawOpen}>
-                        Withdraw
+                        {i18n._(t`Withdraw`)}
                     </ButtonDefault>
                 </td>
             </tr>

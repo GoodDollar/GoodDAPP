@@ -12,6 +12,8 @@ import { ButtonPrimary } from '../ButtonLegacy'
 import { AutoColumn, ColumnCenter } from '../Column'
 import Modal from '../Modal'
 import Row, { RowBetween } from '../Row'
+import { t } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 
 const Wrapper = styled.div`
     width: 100%;
@@ -30,6 +32,8 @@ const ConfirmedIcon = styled(ColumnCenter)`
 `
 
 function ConfirmationPendingContent({ onDismiss, pendingText }: { onDismiss: () => void; pendingText: string }) {
+    const { i18n } = useLingui()
+
     return (
         <Wrapper>
             <Section>
@@ -42,7 +46,7 @@ function ConfirmationPendingContent({ onDismiss, pendingText }: { onDismiss: () 
                 </ConfirmedIcon>
                 <AutoColumn gap="12px" justify={'center'}>
                     <Text fontWeight={500} fontSize={20}>
-                        Waiting For Confirmation
+                        {i18n._(t`Waiting For Confirmation`)}
                     </Text>
                     <AutoColumn gap="12px" justify={'center'}>
                         <Text fontWeight={600} fontSize={14} color="" textAlign="center">
@@ -50,7 +54,7 @@ function ConfirmationPendingContent({ onDismiss, pendingText }: { onDismiss: () 
                         </Text>
                     </AutoColumn>
                     <Text fontSize={12} color="#565A69" textAlign="center">
-                        Confirm this transaction in your wallet
+                        {i18n._(t`Confirm this transaction in your wallet`)}
                     </Text>
                 </AutoColumn>
             </Section>
@@ -67,6 +71,7 @@ function TransactionSubmittedContent({
     hash: string | undefined
     chainId: ChainId
 }) {
+    const { i18n } = useLingui()
     const theme = useContext(ThemeContext)
 
     return (
@@ -81,18 +86,18 @@ function TransactionSubmittedContent({
                 </ConfirmedIcon>
                 <AutoColumn gap="12px" justify={'center'}>
                     <Text fontWeight={500} fontSize={20}>
-                        Transaction Submitted
+                        {i18n._(t`Transaction Submitted`)}
                     </Text>
                     {chainId && hash && (
                         <ExternalLink href={getExplorerLink(chainId, hash, 'transaction')}>
                             <Text fontWeight={500} fontSize={14} color={theme.primary1}>
-                                View on explorer
+                                {i18n._(t`View on explorer`)}
                             </Text>
                         </ExternalLink>
                     )}
                     <ButtonPrimary onClick={onDismiss} style={{ margin: '20px 0 0 0' }}>
                         <Text fontWeight={500} fontSize={20}>
-                            Close
+                            {i18n._(t`Close`)}
                         </Text>
                     </ButtonPrimary>
                 </AutoColumn>

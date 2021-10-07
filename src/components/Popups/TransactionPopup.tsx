@@ -7,6 +7,8 @@ import { ExternalLink } from '../../theme/components'
 import { getExplorerLink } from '../../utils'
 import { AutoColumn } from '../Column'
 import { AutoRow } from '../Row'
+import { t } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 
 const RowNoFlex = styled(AutoRow)`
     flex-wrap: nowrap;
@@ -21,6 +23,7 @@ export default function TransactionPopup({
     success?: boolean
     summary?: string
 }) {
+    const { i18n } = useLingui()
     const { chainId } = useActiveWeb3React()
 
     const theme = useContext(ThemeContext)
@@ -39,7 +42,9 @@ export default function TransactionPopup({
                     {summary ?? 'Hash: ' + hash.slice(0, 8) + '...' + hash.slice(58, 65)}
                 </TYPE.body>
                 {chainId && (
-                    <ExternalLink href={getExplorerLink(chainId, hash, 'transaction')}>View on explorer</ExternalLink>
+                    <ExternalLink href={getExplorerLink(chainId, hash, 'transaction')}>
+                        {i18n._(t`View on explorer`)}
+                    </ExternalLink>
                 )}
             </AutoColumn>
         </RowNoFlex>

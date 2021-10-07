@@ -17,6 +17,8 @@ import { ExternalLink } from '../../theme'
 import AccountDetails from '../AccountDetails'
 import Option from './Option'
 import PendingView from './PendingView'
+import { t } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 
 const CloseIcon = styled.div`
     position: absolute;
@@ -123,6 +125,7 @@ export default function WalletStandalone({
     confirmedTransactions: string[] // hashes of confirmed
     ENSName?: string
 }) {
+    const { i18n } = useLingui()
     // important that these are destructed from the account-specific web3-react context
     const { active, account, connector, activate, error } = useWeb3React()
 
@@ -294,13 +297,15 @@ export default function WalletStandalone({
                         <CloseColor />
                     </CloseIcon>
                     <HeaderRow>
-                        {error instanceof UnsupportedChainIdError ? 'Wrong Network' : 'Error connecting'}
+                        {error instanceof UnsupportedChainIdError
+                            ? i18n._(t`Wrong Network`)
+                            : i18n._(t`Error connecting`)}
                     </HeaderRow>
                     <ContentWrapper>
                         {error instanceof UnsupportedChainIdError ? (
                             <h5>Please connect to the appropriate Ethereum network.</h5>
                         ) : (
-                            'Error connecting. Try refreshing the page.'
+                            i18n._(t`Error connecting. Try refreshing the page.`)
                         )}
                     </ContentWrapper>
                 </UpperSection>
@@ -327,12 +332,12 @@ export default function WalletStandalone({
                                 setWalletView(WALLET_VIEWS.ACCOUNT)
                             }}
                         >
-                            Back
+                            {i18n._(t`Back`)}
                         </HoverText>
                     </HeaderRow>
                 ) : (
                     <HeaderRow>
-                        <HoverText>Connect to a wallet</HoverText>
+                        <HoverText>{i18n._(t`Connect to a wallet`)}</HoverText>
                     </HeaderRow>
                 )}
                 <ContentWrapper>
@@ -349,7 +354,9 @@ export default function WalletStandalone({
                     {walletView !== WALLET_VIEWS.PENDING && (
                         <Blurb>
                             <span>New to Ethereum? &nbsp;</span>{' '}
-                            <ExternalLink href="https://ethereum.org/wallets/">Learn more about wallets</ExternalLink>
+                            <ExternalLink href="https://ethereum.org/wallets/">
+                                {i18n._(t`Learn more about wallets`)}
+                            </ExternalLink>
                         </Blurb>
                     )}
                 </ContentWrapper>

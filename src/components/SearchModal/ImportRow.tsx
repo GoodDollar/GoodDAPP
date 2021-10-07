@@ -12,6 +12,8 @@ import { CheckCircle } from 'react-feather'
 import { useCombinedInactiveList } from 'state/lists/hooks'
 import styled from 'styled-components'
 import { TYPE } from 'theme'
+import { t } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 
 const TokenSection = styled.div<{ dim?: boolean }>`
     padding: 4px 20px;
@@ -53,6 +55,7 @@ export default function ImportRow({
     showImportView: () => void
     setImportToken: (token: Token) => void
 }) {
+    const { i18n } = useLingui()
     // gloabls
     const { chainId } = useActiveWeb3React()
     const theme = useTheme()
@@ -78,7 +81,7 @@ export default function ImportRow({
                 {list && list.logoURI && (
                     <RowFixed>
                         <TYPE.small mr="4px" color={theme.text3}>
-                            via {list.name}
+                            {i18n._(t`via`)} {list.name}
                         </TYPE.small>
                         <ListLogo logoURI={list.logoURI} size="12px" />
                     </RowFixed>
@@ -95,12 +98,12 @@ export default function ImportRow({
                         showImportView()
                     }}
                 >
-                    Import
+                    {i18n._(t`Import`)}
                 </ButtonPrimary>
             ) : (
                 <RowFixed style={{ minWidth: 'fit-content' }}>
                     <CheckIcon />
-                    <TYPE.main color={theme.green1}>Active</TYPE.main>
+                    <TYPE.main color={theme.green1}>{i18n._(t`Active`)}</TYPE.main>
                 </RowFixed>
             )}
         </TokenSection>

@@ -26,6 +26,8 @@ import Row, { RowBetween, RowFixed } from '../Row'
 import ListToggle from '../Toggle/ListToggle'
 import CurrencyModalView from './CurrencyModalView'
 import { PaddedColumn, SearchInput, Separator, SeparatorDark } from './styleds'
+import { t } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 
 const Wrapper = styled(Column)`
     width: 100%;
@@ -91,6 +93,7 @@ function listUrlRowHTMLId(listUrl: string) {
 }
 
 const ListRow = memo(function ListRow({ listUrl }: { listUrl: string }) {
+    const { i18n } = useLingui()
     const listsByUrl = useSelector<AppState, AppState['lists']['byUrl']>(state => state.lists.byUrl)
     const dispatch = useDispatch<AppDispatch>()
     const { current: list, pendingUpdate: pending } = listsByUrl[listUrl]
@@ -119,7 +122,10 @@ const ListRow = memo(function ListRow({ listUrl }: { listUrl: string }) {
     }, [dispatch, listUrl, pending])
 
     const handleRemoveList = useCallback(() => {
-        if (window.prompt(`Please confirm you would like to remove this list by typing REMOVE`) === `REMOVE`) {
+        if (
+            window.prompt(i18n._(t`Please confirm you would like to remove this list by typing`) + ' REMOVE') ===
+            `REMOVE`
+        ) {
             dispatch(removeList(listUrl))
         }
     }, [dispatch, listUrl])
@@ -152,7 +158,7 @@ const ListRow = memo(function ListRow({ listUrl }: { listUrl: string }) {
                 </Row>
                 <RowFixed mt="4px">
                     <StyledListUrlText active={isActive} mr="6px">
-                        {list.tokens.length} tokens
+                        {list.tokens.length} {i18n._(t`tokens`)}
                     </StyledListUrlText>
                     <StyledMenu ref={node as any}>
                         <ButtonEmpty onClick={toggle} ref={setReferenceElement} padding="0">
@@ -168,17 +174,17 @@ const ListRow = memo(function ListRow({ listUrl }: { listUrl: string }) {
                                 <div>{list && listVersionLabel(list.version)}</div>
                                 <SeparatorDark />
                                 <ExternalLink href={`https://tokenlists.org/token-list?url=${listUrl}`}>
-                                    View list
+                                    {i18n._(t`View list`)}
                                 </ExternalLink>
                                 <UnpaddedLinkStyledButton
                                     onClick={handleRemoveList}
                                     disabled={Object.keys(listsByUrl).length === 1}
                                 >
-                                    Remove list
+                                    {i18n._(t`Remove list`)}
                                 </UnpaddedLinkStyledButton>
                                 {pending && (
                                     <UnpaddedLinkStyledButton onClick={handleAcceptListUpdate}>
-                                        Update list
+                                        {i18n._(t`Update list`)}
                                     </UnpaddedLinkStyledButton>
                                 )}
                             </PopoverContainer>
@@ -213,6 +219,7 @@ function ManageLists({
     setImportList: (list: TokenList) => void
     setListUrl: (url: string) => void
 }) {
+    const { i18n } = useLingui()
     const theme = useTheme()
 
     const [listUrlInput, setListUrlInput] = useState<string>('')
@@ -278,14 +285,14 @@ function ManageLists({
         async function fetchTempList() {
             fetchList(listUrlInput, false)
                 .then(list => setTempList(list))
-                .catch(() => setAddError('Error importing list'))
+                .catch(() => setAddError(i18n._(t`Error importing list`)))
         }
         // if valid url, fetch details for card
         if (validUrl) {
             fetchTempList()
         } else {
             setTempList(undefined)
-            listUrlInput !== '' && setAddError('Enter valid list location')
+            listUrlInput !== '' && setAddError(i18n._(t`Enter valid list location`)))
         }
 
         // reset error
@@ -339,7 +346,7 @@ function ManageLists({
                                     <IconWrapper stroke={theme.text2} size="16px" marginRight={'10px'}>
                                         <CheckCircle />
                                     </IconWrapper>
-                                    <TYPE.body color={theme.text2}>Loaded</TYPE.body>
+                                    <TYPE.body color={theme.text2}>{i18n._(t`Loaded`)}</TYPE.body>
                                 </RowFixed>
                             ) : (
                                 <ButtonPrimary
@@ -348,7 +355,7 @@ function ManageLists({
                                     width="fit-content"
                                     onClick={handleImport}
                                 >
-                                    Import
+                                    {i18n._(t`Import`)}
                                 </ButtonPrimary>
                             )}
                         </RowBetween>

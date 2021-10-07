@@ -134,23 +134,23 @@ export default function SwapModalHeader({
                     {trade.tradeType === TradeType.EXACT_INPUT ? (
                         <TYPE.italic textAlign="left" style={{ width: '100%' }}>
                             <Trans>
-                                Output is estimated. You will receive at least{' '}
+                                {i18n._(t`Output is estimated. You will receive at least`)}{' '}
                                 <b>
                                     {slippageAdjustedAmounts[Field.OUTPUT]?.toSignificant(6)}{' '}
                                     {trade.outputAmount.currency.getSymbol(chainId)}
                                 </b>{' '}
-                                or the transaction will revert.
+                                {i18n._(t`or the transaction will revert.`)}
                             </Trans>
                         </TYPE.italic>
                     ) : (
                         <TYPE.italic textAlign="left" style={{ width: '100%' }}>
                             <Trans>
-                                Input is estimated. You will sell at most{' '}
+                                {i18n._(t`Input is estimated. You will sell at most`)}{' '}
                                 <b>
                                     {slippageAdjustedAmounts[Field.INPUT]?.toSignificant(6)}{' '}
                                     {trade.inputAmount.currency.getSymbol(chainId)}
                                 </b>{' '}
-                                or the transaction will revert.
+                                {i18n._(t`or the transaction will revert.`)}
                             </Trans>
                         </TYPE.italic>
                     )}
@@ -159,7 +159,7 @@ export default function SwapModalHeader({
                     <AutoColumn justify="flex-start" gap="sm" style={{ padding: '12px 0 0 0px' }}>
                         <TYPE.main>
                             <Trans>
-                                Output will be sent to{' '}
+                                {i18n._(t`Output will be sent to`)}{' '}
                                 <b title={recipient}>{isAddress(recipient) ? shortenAddress(recipient) : recipient}</b>
                             </Trans>
                         </TYPE.main>

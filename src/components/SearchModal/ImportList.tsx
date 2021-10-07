@@ -20,6 +20,8 @@ import { CloseIcon, TYPE } from 'theme'
 import { ExternalLink } from '../../theme/components'
 import CurrencyModalView from './CurrencyModalView'
 import { Checkbox, PaddedColumn, TextDot } from './styleds'
+import { t } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 
 const Wrapper = styled.div`
     position: relative;
@@ -35,6 +37,7 @@ interface ImportProps {
 }
 
 function ImportList({ listURL, list, setModalView, onDismiss }: ImportProps) {
+    const { i18n } = useLingui()
     const theme = useTheme()
     const dispatch = useDispatch<AppDispatch>()
 
@@ -69,7 +72,7 @@ function ImportList({ listURL, list, setModalView, onDismiss }: ImportProps) {
             <PaddedColumn gap="14px" style={{ width: '100%', flex: '1 1' }}>
                 <RowBetween>
                     <ArrowLeft style={{ cursor: 'pointer' }} onClick={() => setModalView(CurrencyModalView.manage)} />
-                    <TYPE.mediumHeader>Import List</TYPE.mediumHeader>
+                    <TYPE.mediumHeader>{i18n._(t`Import List`)}</TYPE.mediumHeader>
                     <CloseIcon onClick={onDismiss} />
                 </RowBetween>
             </PaddedColumn>
@@ -87,7 +90,7 @@ function ImportList({ listURL, list, setModalView, onDismiss }: ImportProps) {
                                         </TYPE.body>
                                         <TextDot />
                                         <TYPE.main fontSize={'16px'} ml="6px">
-                                            {list.tokens.length} tokens
+                                            {list.tokens.length} {i18n._(t`tokens`)}
                                         </TYPE.main>
                                     </RowFixed>
                                     <ExternalLink href={`https://tokenlists.org/token-list?url=${listURL}`}>
@@ -103,18 +106,20 @@ function ImportList({ listURL, list, setModalView, onDismiss }: ImportProps) {
                         <AutoColumn justify="center" style={{ textAlign: 'center', gap: '16px', marginBottom: '12px' }}>
                             <AlertTriangle stroke={theme.red1} size={32} />
                             <TYPE.body fontWeight={500} fontSize={20} color={theme.red1}>
-                                Import at your own risk{' '}
+                                {i18n._(t`Import at your own risk`)}{' '}
                             </TYPE.body>
                         </AutoColumn>
 
                         <AutoColumn style={{ textAlign: 'center', gap: '16px', marginBottom: '12px' }}>
                             <TYPE.body fontWeight={500} color={theme.red1}>
-                                By adding this list you are implicitly trusting that the data is correct. Anyone can
-                                create a list, including creating fake versions of existing lists and lists that claim
-                                to represent projects that do not have one.
+                                {i18n._(
+                                    t`By adding this list you are implicitly trusting that the data is correct. Anyone can create a list, including creating fake versions of existing lists and lists that claim to represent projects that do not have one.`
+                                )}
                             </TYPE.body>
                             <TYPE.body fontWeight={600} color={theme.red1}>
-                                If you purchase a token from this list, you may not be able to sell it back.
+                                {i18n._(
+                                    t`If you purchase a token from this list, you may not be able to sell it back.`
+                                )}
                             </TYPE.body>
                         </AutoColumn>
                         <AutoRow
@@ -129,7 +134,7 @@ function ImportList({ listURL, list, setModalView, onDismiss }: ImportProps) {
                                 onChange={() => setConfirmed(!confirmed)}
                             />
                             <TYPE.body ml="10px" fontSize="16px" color={theme.red1} fontWeight={500}>
-                                I understand
+                                {i18n._(t`I understand`)}
                             </TYPE.body>
                         </AutoRow>
                     </Card>
@@ -141,7 +146,7 @@ function ImportList({ listURL, list, setModalView, onDismiss }: ImportProps) {
                         padding="10px 1rem"
                         onClick={handleAddList}
                     >
-                        Import
+                        {i18n._(t`Import`)}
                     </ButtonPrimary>
                     {addError ? (
                         <TYPE.error title={addError} style={{ textOverflow: 'ellipsis', overflow: 'hidden' }} error>

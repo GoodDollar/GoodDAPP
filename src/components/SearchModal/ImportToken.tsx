@@ -18,6 +18,8 @@ import { CloseIcon, TYPE } from 'theme'
 import { getExplorerLink } from 'utils'
 import { ExternalLink } from '../../theme/components'
 import { Checkbox, PaddedColumn } from './styleds'
+import { t } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 
 const Wrapper = styled.div`
     position: relative;
@@ -47,6 +49,7 @@ interface ImportProps {
 }
 
 export function ImportToken({ tokens, onBack, onDismiss, handleCurrencySelect }: ImportProps) {
+    const { i18n } = useLingui()
     const theme = useTheme()
 
     const { chainId } = useActiveWeb3React()
@@ -68,7 +71,9 @@ export function ImportToken({ tokens, onBack, onDismiss, handleCurrencySelect }:
             <PaddedColumn gap="14px" style={{ width: '100%', flex: '1 1' }}>
                 <RowBetween>
                     {onBack ? <ArrowLeft style={{ cursor: 'pointer' }} onClick={onBack} /> : <div></div>}
-                    <TYPE.mediumHeader>Import {tokens.length > 1 ? 'Tokens' : 'Token'}</TYPE.mediumHeader>
+                    <TYPE.mediumHeader>
+                        {i18n._(t`Import`)} {tokens.length > 1 ? i18n._(t`Tokens`) : i18n._(t`Token`)}
+                    </TYPE.mediumHeader>
                     {onDismiss ? <CloseIcon onClick={onDismiss} /> : <div></div>}
                 </RowBetween>
             </PaddedColumn>
@@ -99,7 +104,7 @@ export function ImportToken({ tokens, onBack, onDismiss, handleCurrencySelect }:
                                     <RowFixed>
                                         {list.logoURI && <ListLogo logoURI={list.logoURI} size="12px" />}
                                         <TYPE.small ml="6px" color={theme.text3}>
-                                            via {list.name}
+                                            {i18n._(t`via`)} {list.name}
                                         </TYPE.small>
                                     </RowFixed>
                                 ) : (
@@ -107,7 +112,7 @@ export function ImportToken({ tokens, onBack, onDismiss, handleCurrencySelect }:
                                         <RowFixed>
                                             <AlertTriangle stroke={theme.red1} size="10px" />
                                             <TYPE.body color={theme.red1} ml="4px" fontSize="10px" fontWeight={500}>
-                                                Unknown Source
+                                                {i18n._(t`Unknown Source`)}
                                             </TYPE.body>
                                         </RowFixed>
                                     </WarningWrapper>
@@ -127,17 +132,18 @@ export function ImportToken({ tokens, onBack, onDismiss, handleCurrencySelect }:
                     <AutoColumn justify="center" style={{ textAlign: 'center', gap: '16px', marginBottom: '12px' }}>
                         <AlertTriangle stroke={fromLists ? theme.yellow2 : theme.red1} size={32} />
                         <TYPE.body fontWeight={600} fontSize={20} color={fromLists ? theme.yellow2 : theme.red1}>
-                            Trade at your own risk!
+                            {i18n._(t`Trade at your own risk!`)}
                         </TYPE.body>
                     </AutoColumn>
 
                     <AutoColumn style={{ textAlign: 'center', gap: '16px', marginBottom: '12px' }}>
                         <TYPE.body fontWeight={400} color={fromLists ? theme.yellow2 : theme.red1}>
-                            Anyone can create a token, including creating fake versions of existing tokens that claim to
-                            represent projects.
+                            {i18n._(
+                                t`Anyone can create a token, including creating fake versions of existing tokens that claim to represent projects.`
+                            )}
                         </TYPE.body>
                         <TYPE.body fontWeight={600} color={fromLists ? theme.yellow2 : theme.red1}>
-                            If you purchase this token, you may not be able to sell it back.
+                            {i18n._(t`If you purchase this token, you may not be able to sell it back.`)}
                         </TYPE.body>
                     </AutoColumn>
                     <AutoRow justify="center" style={{ cursor: 'pointer' }} onClick={() => setConfirmed(!confirmed)}>
@@ -154,7 +160,7 @@ export function ImportToken({ tokens, onBack, onDismiss, handleCurrencySelect }:
                             color={fromLists ? theme.yellow2 : theme.red1}
                             fontWeight={500}
                         >
-                            I understand
+                            {i18n._(t`I understand`)}
                         </TYPE.body>
                     </AutoRow>
                 </Card>
@@ -169,7 +175,7 @@ export function ImportToken({ tokens, onBack, onDismiss, handleCurrencySelect }:
                     }}
                     className=".token-dismiss-button"
                 >
-                    Import
+                    {i18n._(t`Import`)}
                 </ButtonPrimary>
             </PaddedColumn>
         </Wrapper>

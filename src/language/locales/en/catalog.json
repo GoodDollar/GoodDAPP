@@ -205,7 +205,6 @@
   "Price Impact High": "Price Impact High",
   "Price Impact Too High": "Price Impact Too High",
   "Price Updated": "Price Updated",
-  "Protocol": "",
   "Rates": "Rates",
   "Read Tutorial": "Read Tutorial",
   "Read the contract": "Read the contract",
@@ -427,5 +426,19 @@
   "Try Again": "Try Again",
   "Initializing...": "Initializing...",
   "Back": "Back",
-  "Learn more about wallets": "Learn more about wallets"
+  "Learn more about wallets": "Learn more about wallets",
+  "New to Ethereum?": "New to Ethereum?",
+  "Click this button to Claim your Daily UBI in": "Click this button to Claim your Daily UBI in",
+  "Claim UBI": "Claim UBI",
+  "How much would you like to withdraw?": "How much would you like to withdraw?",
+  "Total stake": "Total stake",
+  "WITHDRAW": "WITHDRAW",
+  "PENDING SIGN...": "PENDING SIGN...",
+  "Success!": "Success!",
+  "Transaction was sent to the blockchain": "Transaction was sent to the blockchain",
+  "Back to portfolio": "Back to portfolio",
+  "Claimable Rewards": "Claimable Rewards",
+  "You need to sign the transaction in your wallet": "You need to sign the transaction in your wallet",
+  "Wallet balance": "Wallet balance",
+  "Protocol": "Protocol"
 }

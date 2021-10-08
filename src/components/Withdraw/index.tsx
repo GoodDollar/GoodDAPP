@@ -15,6 +15,8 @@ import { useDispatch } from 'react-redux'
 import useActiveWeb3React from '../../hooks/useActiveWeb3React'
 import { TransactionDetails } from '../../sdk/constants/transactions'
 import { getExplorerLink } from '../../utils'
+import { t } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 
 function formatNumber(value: number) {
     return Intl.NumberFormat('en-US', { style: 'decimal', maximumFractionDigits: 4 }).format(value)
@@ -33,6 +35,7 @@ interface WithdrawProps {
 type WithdrawState = 'none' | 'pending' | 'success'
 
 function Withdraw({ token, protocol, totalStake, open, setOpen, onWithdraw, stake, ...rest }: WithdrawProps) {
+    const { i18n } = useLingui()
     const [status, setStatus] = useState<WithdrawState>('none')
 
     const [percentage, setPercentage] = useState<string>('50')
@@ -87,17 +90,17 @@ function Withdraw({ token, protocol, totalStake, open, setOpen, onWithdraw, stak
                 </div>
                 {status === 'none' || status === 'pending' ? (
                     <>
-                        <Title className="flex flex-grow justify-center pt-3 pb-3">Withdraw</Title>
+                        <Title className="flex flex-grow justify-center pt-3 pb-3">{i18n._(t`Withdraw`)}</Title>
                         <div className="details-row flex justify-between">
-                            <div>Token</div>
+                            <div>{i18n._(t`Token`)}</div>
                             <div>{token}</div>
                         </div>
                         <div className="details-row flex justify-between">
-                            <div>Protocol</div>
+                            <div>{i18n._(t`Protocol`)}</div>
                             <div>{protocol}</div>
                         </div>
                         <div className="details-row flex justify-between">
-                            <div>Total stake</div>
+                            <div>{i18n._(t`Total stake`)}</div>
                             <div>{`${formatNumber(totalStake)} ${token}`}</div>
                         </div>
 
@@ -112,8 +115,8 @@ function Withdraw({ token, protocol, totalStake, open, setOpen, onWithdraw, stak
                         <div className="flex flex-col items-center gap-1 relative mt-7">
                             <ButtonAction className="withdraw" disabled={status === 'pending'} onClick={handleWithdraw}>
                                 {status === 'pending'
-                                    ? 'PENDING SIGN...'
-                                    : `WITHDRAW ${formatNumber(withdrawAmount)} ${token.toUpperCase()}`}
+                                    ? i18n._(t`PENDING SIGN...`)
+                                    : `${i18n._(t`WITHDRAW`)} ${formatNumber(withdrawAmount)} ${token.toUpperCase()}`}
                             </ButtonAction>
                             {status === 'pending' && (
                                 <p className="pending-hint">You need to sign the transaction in your wallet</p>
@@ -122,9 +125,9 @@ function Withdraw({ token, protocol, totalStake, open, setOpen, onWithdraw, stak
                     </>
                 ) : (
                     <>
-                        <Title className="flex flex-grow justify-center pt-3">Success!</Title>
+                        <Title className="flex flex-grow justify-center pt-3">{i18n._(t`Success!`)}</Title>
                         <div className="flex justify-center items-center gap-2 pt-7 pb-7">
-                            Transaction was sent to the blockchain{' '}
+                            {i18n._(t`Transaction was sent to the blockchain`)}{' '}
                             <a
                                 href={
                                     transactionHash &&
@@ -139,7 +142,7 @@ function Withdraw({ token, protocol, totalStake, open, setOpen, onWithdraw, stak
                         </div>
                         <div className="flex justify-center">
                             <Button className="back-to-portfolio" onClick={handleClose}>
-                                Back to portfolio
+                                {i18n._(t`Back to portfolio`)}
                             </Button>
                         </div>
                     </>

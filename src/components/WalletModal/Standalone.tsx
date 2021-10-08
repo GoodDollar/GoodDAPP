@@ -303,7 +303,7 @@ export default function WalletStandalone({
                     </HeaderRow>
                     <ContentWrapper>
                         {error instanceof UnsupportedChainIdError ? (
-                            <h5>Please connect to the appropriate Ethereum network.</h5>
+                            <h5>{i18n._(t`Please connect to the appropriate Ethereum network.`)}</h5>
                         ) : (
                             i18n._(t`Error connecting. Try refreshing the page.`)
                         )}
@@ -353,7 +353,7 @@ export default function WalletStandalone({
                     )}
                     {walletView !== WALLET_VIEWS.PENDING && (
                         <Blurb>
-                            <span>New to Ethereum? &nbsp;</span>{' '}
+                            <span>{i18n._(t`New to Ethereum?`)} &nbsp;</span>{' '}
                             <ExternalLink href="https://ethereum.org/wallets/">
                                 {i18n._(t`Learn more about wallets`)}
                             </ExternalLink>

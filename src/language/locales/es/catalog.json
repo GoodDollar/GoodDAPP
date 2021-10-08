@@ -205,7 +205,6 @@
   "Price Impact High": "Impacto de precio alto",
   "Price Impact Too High": "Impacto de precio demasiado alto",
   "Price Updated": "Precio actualizado",
-  "Protocol": "",
   "Rates": "Tarifas",
   "Read Tutorial": "Leer tutorial",
   "Read the contract": "Leer el contrato",
@@ -428,5 +427,19 @@
   "Try Again": "Intentar otra vez",
   "Initializing...": "Inicializando ...",
   "Back": "atrás",
-  "Learn more about wallets": "Aprende más sobre las carteras"
+  "Learn more about wallets": "Aprende más sobre las carteras",
+  "New to Ethereum?": "Nuevo en ethereum?",
+  "Click this button to Claim your Daily UBI in G$": "Haga clic en este botón para reclamar su UBI diario en G $",
+  "Click this button to Claim your Daily UBI in": "Haga clic en este botón para reclamar su UBI diario en",
+  "Claim UBI": "Reclamar UBI",
+  "Total stake": "Estaca total",
+  "WITHDRAW": "RETIRAR",
+  "PENDING SIGN...": "Signo pendiente ...",
+  "Success!": "¡Éxito!",
+  "Transaction was sent to the blockchain": "La transacción fue enviada al bloque de bloques.",
+  "Back to portfolio": "Volver a la cartera",
+  "Claimable Rewards": "Recompensas reclamables",
+  "You need to sign the transaction in your wallet": "Necesitas firmar la transacción en tu billetera.",
+  "Wallet balance": "Balance de billetera",
+  "Protocol": "Protocolo"
 }

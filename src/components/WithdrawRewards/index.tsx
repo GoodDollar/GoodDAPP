@@ -13,6 +13,8 @@ import { useDispatch } from 'react-redux'
 import { addTransaction } from '../../state/transactions/actions'
 import useActiveWeb3React from '../../hooks/useActiveWeb3React'
 import { getExplorerLink } from '../../utils'
+import { t } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 
 interface WithdrawRewardsProps {
     trigger: ReactElement<{ onClick: Function }>
@@ -22,6 +24,7 @@ interface WithdrawRewardsProps {
 type WithdrawRewardsState = 'none' | 'pending' | 'success'
 
 function WithdrawRewards({ trigger, onClaim, ...rest }: WithdrawRewardsProps) {
+    const { i18n } = useLingui()
     const [status, setStatus] = useState<WithdrawRewardsState>('none')
     const { chainId } = useActiveWeb3React()
     const [error, setError] = useState<Error>()
@@ -75,7 +78,9 @@ function WithdrawRewards({ trigger, onClaim, ...rest }: WithdrawRewardsProps) {
                     </div>
                     {status === 'none' || status === 'pending' ? (
                         <>
-                            <Title className="flex flex-grow justify-center pt-3 mb-5">Claimable Rewards</Title>
+                            <Title className="flex flex-grow justify-center pt-3 mb-5">
+                                {i18n._(t`Claimable Rewards`)}
+                            </Title>
                             {
                                 <p className="warning mb-5">
                                     {error ? (
@@ -96,7 +101,9 @@ function WithdrawRewards({ trigger, onClaim, ...rest }: WithdrawRewardsProps) {
                                     {status === 'pending' ? 'PENDING SIGN...' : 'CLAIM REWARD'}
                                 </ButtonAction>
                                 {status === 'pending' && (
-                                    <p className="pending-hint">You need to sign the transaction in your wallet</p>
+                                    <p className="pending-hint">
+                                        {i18n._(t`You need to sign the transaction in your wallet`)}
+                                    </p>
                                 )}
                             </div>
                         </>
@@ -104,7 +111,7 @@ function WithdrawRewards({ trigger, onClaim, ...rest }: WithdrawRewardsProps) {
                         <>
                             <Title className="flex flex-grow justify-center pt-3">Success!</Title>
                             <div className="flex justify-center items-center gap-2 pt-7 pb-7">
-                                Transaction was sent to the blockchain{' '}
+                                {i18n._(t`Transaction was sent to the blockchain`)}{' '}
                                 {transactionHash && (
                                     <a href={chainId && getExplorerLink(chainId, transactionHash, 'transaction')}>
                                         <LinkSVG className="cursor-pointer" />
@@ -113,7 +120,7 @@ function WithdrawRewards({ trigger, onClaim, ...rest }: WithdrawRewardsProps) {
                             </div>
                             <div className="flex justify-center">
                                 <Button className="back-to-portfolio" onClick={handleClose}>
-                                    Back to portfolio
+                                    {i18n._(t`Back to portfolio`)}
                                 </Button>
                             </div>
                         </>

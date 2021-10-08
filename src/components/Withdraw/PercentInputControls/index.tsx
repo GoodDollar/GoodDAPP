@@ -4,6 +4,8 @@ import MaskedInput from 'react-text-mask'
 import { createNumberMask } from 'text-mask-addons'
 import { ButtonEmpty } from 'components/ButtonLegacy'
 import cn from 'classnames'
+import { t } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 
 interface PercentInputControlsProps {
     value: string
@@ -22,6 +24,7 @@ const restrictValue = (value: string | undefined) => {
 const percentMask = createNumberMask({ prefix: '', suffix: '%', integerLimit: 3 })
 
 function PercentInputControls({ value, onPercentChange, disabled, ...rest }: PercentInputControlsProps) {
+    const { i18n } = useLingui()
     const [percentValue, setPercentValue] = useState(value)
     const handleChange = useCallback(
         (e: ChangeEvent<HTMLInputElement>) => {
@@ -44,7 +47,7 @@ function PercentInputControls({ value, onPercentChange, disabled, ...rest }: Per
     return (
         <PercentInputControlsStyled>
             <div className="flex justify-between items-center">
-                <label htmlFor="percent">How much would you like to withdraw?</label>
+                <label htmlFor="percent">{i18n._(t`How much would you like to withdraw?`)}</label>
                 <MaskedInput
                     name="percent"
                     className="percent-input"

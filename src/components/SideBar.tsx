@@ -144,7 +144,7 @@ export default function SideBar({ mobile }: { mobile?: boolean }) {
                     target="_blank"
                     rel="noreferrer"
                 >
-                    Wallet
+                    {i18n._(t`Wallet`)}
                     <svg
                         className="ml-2"
                         width="14"
@@ -165,7 +165,7 @@ export default function SideBar({ mobile }: { mobile?: boolean }) {
             <div>
                 <div className="balance">
                     <div className="title flex justify-between items-center">
-                        <span>Wallet balance</span>
+                        <span>{i18n._(t`Wallet balance`)}</span>
                         <svg width="34" height="34" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <circle cx="17" cy="17" r="17" fill="url(#paint0_radial)" />
                             <path
@@ -204,12 +204,22 @@ export default function SideBar({ mobile }: { mobile?: boolean }) {
                     </div>
                 </div>
                 <div className="social flex justify-between">
-                    <a href="https://twitter.com/gooddollarorg" target="_blank" className="flex items-center space-x-2" rel="noreferrer">
+                    <a
+                        href="https://twitter.com/gooddollarorg"
+                        target="_blank"
+                        className="flex items-center space-x-2"
+                        rel="noreferrer"
+                    >
                         <img src={TwitterLogo} alt="twitter logo" width="24" height="24" />
                         <span>Twitter</span>
                     </a>
 
-                    <a href="https://t.me/GoodDollarX" target="_blank" className="flex items-center space-x-2" rel="noreferrer">
+                    <a
+                        href="https://t.me/GoodDollarX"
+                        target="_blank"
+                        className="flex items-center space-x-2"
+                        rel="noreferrer"
+                    >
                         <img src={TelegramLogo} alt="telegram logo" width="24" height="24" />
                         <span>Telegram</span>
                     </a>

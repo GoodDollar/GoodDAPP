@@ -2,6 +2,8 @@ import { BackHandler } from 'react-native'
 import { noop } from 'lodash'
 
 class BackButtonHandler {
+  subscription = null
+
   constructor(options = {}) {
     const { defaultAction = noop } = options
 
@@ -11,11 +13,17 @@ class BackButtonHandler {
 
   register = () => {
     this.unregister()
-    BackHandler.addEventListener('hardwareBackPress', this.handler)
+    this.subscription = BackHandler.addEventListener('hardwareBackPress', this.handler)
   }
 
   unregister = () => {
-    BackHandler.removeEventListener('hardwareBackPress', this.handler)
+    const { subscription } = this
+
+    if (subscription) {
+      subscription.remove()
+    }
+
+    this.subscription = null
   }
 
   handler = action => {

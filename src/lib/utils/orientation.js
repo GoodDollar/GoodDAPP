@@ -13,7 +13,7 @@ if (!originalScreenWidth) {
   originalScreenWidth = Dimensions.get('window').width
 }
 
-const eventListeners = new WeakMap()
+const eventSubscriptions = new WeakMap()
 
 export const getOriginalScreenHeight = () => originalScreenHeight
 export const getOriginalScreenWidth = () => originalScreenWidth
@@ -36,19 +36,20 @@ const listenOrientationChange = callback => {
       width: getScreenWidth(),
     })
 
-  eventListeners.set(callback, changeHandler)
-  Dimensions.addEventListener('change', changeHandler)
+  const subscription = Dimensions.addEventListener('change', changeHandler)
+
+  eventSubscriptions.set(callback, subscription)
 }
 
 export const unlistenOrientationChange = callback => {
-  if (!eventListeners.has(callback)) {
+  if (!eventSubscriptions.has(callback)) {
     return
   }
 
-  const changeHandler = eventListeners.get(callback)
+  const subscription = eventSubscriptions.get(callback)
 
-  eventListeners.delete(callback)
-  Dimensions.removeEventListener('change', changeHandler)
+  eventSubscriptions.delete(callback)
+  subscription.remove()
 }
 
 export default listenOrientationChange

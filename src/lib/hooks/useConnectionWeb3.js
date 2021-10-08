@@ -133,7 +133,7 @@ export default () => {
       }
     }
 
-    AppState.addEventListener('change', onAppStateChange)
+    const subscription = AppState.addEventListener('change', onAppStateChange)
 
     if (!isFirstCheckWeb3) {
       log.debug('web3 first')
@@ -145,7 +145,7 @@ export default () => {
      */
     return () => {
       killLastConnectionCheck()
-      AppState.removeEventListener('change', onAppStateChange)
+      subscription.remove()
     }
   }, [isWeb3Connection, wallet])
 

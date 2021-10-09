@@ -16,6 +16,8 @@ import { AutoColumn } from '../../components/Column'
 import { RowBetween, RowFixed } from '../../components/Row'
 import CurrencyLogo from '../../components/CurrencyLogo'
 import { ButtonPrimaryNormal } from '../../components/ButtonLegacy'
+import { t } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 
 export const FixedHeightRow = styled(RowBetween)`
     height: 24px;
@@ -28,6 +30,7 @@ type Props = {
 }
 
 export default function Position({ pair, showUnwrapped = false, stakedBalance }: Props) {
+    const { i18n } = useLingui()
     const theme = useContext(ThemeContext)
     const { account, chainId } = useActiveWeb3React()
 
@@ -85,7 +88,7 @@ export default function Position({ pair, showUnwrapped = false, stakedBalance }:
                 <AutoColumn gap="8px" className="p-4 -mt-2 mb-2 rounded-b-lg">
                     <FixedHeightRow>
                         <Text fontSize={16} fontWeight={500}>
-                            Your total pool tokens:
+                            {i18n._(t`Your total pool tokens:`)}
                         </Text>
                         <Text fontSize={16} fontWeight={500}>
                             {userPoolBalance ? userPoolBalance.toSignificant(4) : '-'}
@@ -158,7 +161,7 @@ export default function Position({ pair, showUnwrapped = false, stakedBalance }:
                                 to={`/add/${currencyId(currency0)}/${currencyId(currency1)}`}
                                 width="48%"
                             >
-                                Add
+                                {i18n._(t`Add`)}
                             </ButtonPrimaryNormal>
                             <ButtonPrimaryNormal
                                 padding="8px"
@@ -167,7 +170,7 @@ export default function Position({ pair, showUnwrapped = false, stakedBalance }:
                                 width="48%"
                                 to={`/remove/${currencyId(currency0)}/${currencyId(currency1)}`}
                             >
-                                Remove
+                                {i18n._(t`Remove`)}
                             </ButtonPrimaryNormal>
                         </RowBetween>
                     )}

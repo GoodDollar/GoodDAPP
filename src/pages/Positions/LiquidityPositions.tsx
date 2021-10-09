@@ -115,9 +115,9 @@ export default function LiquidityPositions() {
                 <AutoColumn justify={'center'} gap="xs" style={{ paddingTop: '1rem', paddingBottom: '1rem' }}>
                     {chainId && [ChainId.MAINNET, ChainId.BSC, ChainId.MATIC].includes(chainId) && (
                         <Text textAlign="center" fontSize={16} style={{ padding: '.5rem 0 .5rem 0' }}>
-                            Have Liquidity on {(chainId && migrateFrom[chainId]) ?? ''}?{' '}
+                            {i18n._(t`Have Liquidity on ${(chainId && migrateFrom[chainId]) ?? ''}?`)}{' '}
                             <StyledInternalLink id="migrate-pool-link" to={'/migrate'}>
-                                Migrate Now.
+                                {i18n._(t`Migrate Now.`)}
                             </StyledInternalLink>
                         </Text>
                     )}

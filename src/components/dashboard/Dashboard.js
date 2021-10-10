@@ -18,7 +18,6 @@ import { createStackNavigator } from '../appNavigation/stackNavigation'
 import { initTransferEvents } from '../../lib/undux/utils/account'
 
 import userStorage from '../../lib/userStorage/UserStorage'
-import goodWallet from '../../lib/wallet/GoodWallet'
 import useAppState from '../../lib/hooks/useAppState'
 import { PushButton } from '../appNavigation/PushButton'
 import { useNativeDriverForAnimation } from '../../lib/utils/platform'
@@ -251,18 +250,7 @@ const Dashboard = props => {
     }
   }, [appState, feedLoaded])
 
-  const animateClaim = useCallback(async () => {
-    const inQueue = await userStorage.userProperties.get('claimQueueAdded')
-
-    if (inQueue && inQueue.status === 'pending') {
-      return
-    }
-
-    const entitlement = await goodWallet
-      .checkEntitlement()
-      .then(parseInt)
-      .catch(e => 0)
-
+  const animateClaim = useCallback(() => {
     if (!entitlement) {
       return
     }
@@ -284,7 +272,7 @@ const Dashboard = props => {
         }),
       ]).start(resolve),
     )
-  }, [])
+  }, [entitlement])
 
   const animateItems = useCallback(async () => {
     await animateClaim()

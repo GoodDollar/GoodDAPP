@@ -292,7 +292,7 @@ function Swap() {
                         />
                         <div style={{ marginTop: 14, padding: '0 4px' }}>
                             <SwapInfo
-                                title="Slippage Tolerance"
+                                title={i18n._(t`Slippage Tolerance`)}
                                 value={`${slippageTolerance.value || '0'}${
                                     slippageTolerance.value.endsWith('%') ? '' : '%'
                                 }`}

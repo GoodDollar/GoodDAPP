@@ -1,6 +1,8 @@
 import React, { CSSProperties, memo } from 'react'
 import { SwapDetailsSC } from './styled'
 import SwapInfo from '../SwapInfo'
+import { t } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 
 export interface SwapDetailsFields {
     minimumReceived?: string | null
@@ -28,27 +30,33 @@ function SwapDetails({
     GDX,
     exitContribution
 }: SwapDetailsProps) {
+    const { i18n } = useLingui()
+
     return (
         <SwapDetailsSC className={className} style={style} $open={open}>
             <SwapInfo
-                title="Minimum received"
+                title={i18n._(t`Minimum received`)}
                 value={minimumReceived}
-                tip="Your transaction will revert if there is a large, unfavorable price movement before it is confirmed."
+                tip={i18n._(
+                    t`Your transaction will revert if there is a large, unfavorable price movement before it is confirmed.`
+                )}
             />
             <SwapInfo
-                title="Price Impact"
+                title={i18n._(t`Price Impact`)}
                 value={priceImpact}
-                tip="Your transaction will revert if there is a large, unfavorable price movement before it is confirmed."
+                tip={i18n._(
+                    t`Your transaction will revert if there is a large, unfavorable price movement before it is confirmed.`
+                )}
             />
             <SwapInfo
-                title="Liquidity Provider Fee"
+                title={i18n._(t`Liquidity Provider Fee`)}
                 value={liquidityFee}
-                tip="A portion of each trade (0.25%) goes to liquidity providers as a protocol incentive."
+                tip={i18n._(t`A portion of each trade (0.25%) goes to liquidity providers as a protocol incentive.`)}
             />
             <SwapInfo
-                title="Route"
+                title={i18n._(t`Route`)}
                 value={route}
-                tip="Routing through these tokens resulted in the best price for your trade."
+                tip={i18n._(t`Routing through these tokens resulted in the best price for your trade.`)}
             />
             {GDX && <SwapInfo title="GDX" value={GDX} />}
             {exitContribution && <SwapInfo title="EXIT CONTRIBUTION" value={exitContribution} />}

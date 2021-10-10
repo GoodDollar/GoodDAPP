@@ -98,14 +98,14 @@ export default function Stakes(): JSX.Element | null {
                 {loading && !sorted.items.length && (
                     <tr>
                         <td colSpan={8}>
-                            <div className="text-center">Loading...</div>
+                            <div className="text-center">{i18n._(t`Loading...`)}</div>
                         </td>
                     </tr>
                 )}
                 {!loading && !stakes.length && (
                     <tr>
                         <td colSpan={8}>
-                            <div className="text-center">{error ? error.message : 'No data.'}</div>
+                            <div className="text-center">{error ? error.message : i18n._(t`No data.`)}</div>
                         </td>
                     </tr>
                 )}
@@ -165,7 +165,7 @@ export default function Stakes(): JSX.Element | null {
                                             noShadow={true}
                                             onClick={() => setActiveStake(stake)}
                                         >
-                                            Stake
+                                            {i18n._(t`Stake`)}
                                         </ButtonAction>
                                     </td>
                                 </tr>
@@ -178,7 +178,7 @@ export default function Stakes(): JSX.Element | null {
                                             noShadow={true}
                                             onClick={() => setActiveStake(stake)}
                                         >
-                                            Stake
+                                            {i18n._(t`Stake`)}
                                         </ButtonAction>
                                     </td>
                                 </tr>
@@ -197,8 +197,12 @@ export default function Stakes(): JSX.Element | null {
             ) : (
                 <Placeholder className="mx-4">
                     {!stakesSupportedAt.includes(chainId)
-                        ? `Switch your network to ${SupportedChainId[stakesSupportedAt[0] as any]} to work with Stakes`
-                        : 'Connect to a wallet'}
+                        ? i18n._(
+                              t`Switch your network to ${
+                                  SupportedChainId[stakesSupportedAt[0] as any]
+                              } to work with Stakes`
+                          )
+                        : i18n._(t`Connect to a wallet`)}
                 </Placeholder>
             )}
             <Modal isOpen={!!activeStake} showClose onDismiss={() => setActiveStake(undefined)}>

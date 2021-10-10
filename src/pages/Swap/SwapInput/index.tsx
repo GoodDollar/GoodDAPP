@@ -2,6 +2,8 @@ import React, { CSSProperties, memo, MouseEventHandler, useMemo } from 'react'
 import { SwapInputSC, SwapInputMaxButton, SwapInputBalance } from './styled'
 import MaskedInput from 'react-text-mask'
 import createNumberMask from 'text-mask-addons/dist/createNumberMask'
+import { t } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 
 export interface SwapInputProps extends Omit<JSX.IntrinsicElements['input'], 'ref'> {
     className?: string
@@ -13,6 +15,8 @@ export interface SwapInputProps extends Omit<JSX.IntrinsicElements['input'], 're
 }
 
 function SwapInput({ className, style, autoMax, balance, decimals = 18, onMax, ...inputProps }: SwapInputProps) {
+    const { i18n } = useLingui()
+
     const mask = useMemo(
         () =>
             createNumberMask({
@@ -28,7 +32,7 @@ function SwapInput({ className, style, autoMax, balance, decimals = 18, onMax, .
         <SwapInputSC className={className} style={style}>
             {balance != undefined && autoMax && (
                 <SwapInputMaxButton disabled={inputProps.disabled} onClick={onMax}>
-                    max
+                    {i18n._(t`max`)}
                 </SwapInputMaxButton>
             )}
             <MaskedInput
@@ -38,7 +42,11 @@ function SwapInput({ className, style, autoMax, balance, decimals = 18, onMax, .
                 size={1}
                 {...inputProps}
             />
-            {balance != undefined && <SwapInputBalance>Balance: {balance}</SwapInputBalance>}
+            {balance != undefined && (
+                <SwapInputBalance>
+                    {i18n._(t`Balance`)}: {balance}
+                </SwapInputBalance>
+            )}
         </SwapInputSC>
     )
 }

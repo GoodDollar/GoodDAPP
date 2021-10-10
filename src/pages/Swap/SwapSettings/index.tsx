@@ -7,6 +7,8 @@ import { QuestionHelper } from '../../../components'
 import MaskedInput from 'react-text-mask'
 import createNumberMask from 'text-mask-addons/dist/createNumberMask'
 import { useSwap } from '../hooks'
+import { t } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 
 const settingsIcon = (
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -37,6 +39,7 @@ const percentageMask = createNumberMask({
 })
 
 function SwapSettings({ className, style }: SwapSettingsProps) {
+    const { i18n } = useLingui()
     const open = useModalOpen(ApplicationModal.SETTINGS)
     const handleClick = useToggleSettingsMenu()
     const { slippageTolerance, setSlippageTolerance } = useSwap()
@@ -49,14 +52,14 @@ function SwapSettings({ className, style }: SwapSettingsProps) {
             {open && (
                 <SwapSettingsPopup>
                     <Title type="popup" style={{ marginBottom: 14 }}>
-                        Transaction settings
+                        {i18n._(t`Transaction settings`)}
                     </Title>
                     <Title className="flex items-center" type="field">
-                        Slippage Tolerance{' '}
+                        {i18n._(t`Slippage Tolerance`)}{' '}
                         <QuestionHelper
-                            text={
-                                'Your transaction will revert if the price changes unfavorably by more than this percentage.'
-                            }
+                            text={i18n._(
+                                t`Your transaction will revert if the price changes unfavorably by more than this percentage.`
+                            )}
                         />
                     </Title>
                     <div className="flex items-center justify-between space-x-1.5">
@@ -113,9 +116,9 @@ function SwapSettings({ className, style }: SwapSettingsProps) {
                         </div>
                     </div>
                     <Title className="flex items-center" type="field" style={{ marginTop: 29 }}>
-                        Transaction deadline{' '}
+                        {i18n._(t`Transaction deadline`)}{' '}
                         <QuestionHelper
-                            text={'Your transaction will revert if it is pending for more than this long.'}
+                            text={i18n._(t`Your transaction will revert if it is pending for more than this long.`)}
                         />
                     </Title>
                     <div className="flex items-center space-x-1.5">
@@ -127,7 +130,7 @@ function SwapSettings({ className, style }: SwapSettingsProps) {
                             mask={minutesMask}
                             style={{ paddingLeft: 45 }}
                         />
-                        <span>minutes</span>
+                        <span> {i18n._(t`minutes`)}</span>
                     </div>
                 </SwapSettingsPopup>
             )}

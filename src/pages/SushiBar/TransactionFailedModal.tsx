@@ -23,8 +23,8 @@ export default function TransactionFailedModal({ isOpen, onDismiss }: Transactio
                     <img className="w-24" src={RejectedIcon} alt="transaction rejected" />
                 </div>
                 <div className="flex items-baseline justify-center flex-nowrap h4 mt-3">
-                    <p className="">Uh Oh!&nbsp;</p>
-                    <p className="pink">Transaction rejected.</p>
+                    <p className="">{i18n._(t`Uh Oh!`)}&nbsp;</p>
+                    <p className="pink">{i18n._(t`Transaction rejected.`)}</p>
                 </div>
                 <div className="flex justify-center mt-5">
                     <button onClick={onDismiss} className="flex justify-center items-center w-full h-12 rounded lg  ">

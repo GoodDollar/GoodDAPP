@@ -494,5 +494,16 @@
   "Transaction settings": "הגדרות עסקאות",
   "Search name or paste the address": "שם חיפוש או הדבק את הכתובת",
   "Swap from": "החלפה מ",
-  "Swap to": "להחליף ל"
+  "Swap to": "להחליף ל",
+  "Your Vested SUSHI will be released each week for the next 6 months. The amount released each week is determined by your historical farming rewards. You do not need to harvest each week as unclaimed amounts from each week will continue to accrue onto the next.": "הסושי המוקדש שלך ישוחרר מדי שבוע במשך 6 החודשים הבאים. הסכום שפורסם בכל שבוע נקבע על ידי תגמולים החקלאות ההיסטוריים שלך. אתה לא צריך לקצור כל שבוע כמו כמויות unclaimed מכל שבוע ימשיך לצבור על הבא.",
+  "per day": "ליום",
+  "Polygon subgraphs are currently experiencing high loads. The APY displayed are based on lagging fees. Funds are safe, we are working on resolving and providing accurate consolidated APY information.": "Subgraphs מצולע חווים כיום עומסים גבוהים. המוצג APY מבוססים על דמי הפיגור. כספים בטוחים, אנו עובדים על פתרון ומתן מידע APY מאוחד מדויק.",
+  "No Results.": "אין תוצאות.",
+  "Fetching Farms": "מביאים חוות.",
+  "Your Staked Farms": "החוות שלך staked.",
+  "All Yield Farms": "כל חוות התשואה",
+  "Lending Yield Farms": "חוות תשואה ההלוואות",
+  "Liquidity Yield Farms": "חוות תשואה נזילות",
+  "Double Yield Farms": "חוות תשואה כפולה",
+  "New": "חָדָשׁ"
 }

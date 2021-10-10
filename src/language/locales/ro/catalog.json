@@ -492,5 +492,16 @@
   "Transaction settings": "Setări de tranzacție",
   "Search name or paste the address": "Numele de căutare sau lipiți adresa",
   "Swap from": "Swap de la",
-  "Swap to": "Swap la."
+  "Swap to": "Swap la.",
+  "Your Vested SUSHI will be released each week for the next 6 months. The amount released each week is determined by your historical farming rewards. You do not need to harvest each week as unclaimed amounts from each week will continue to accrue onto the next.": "Sushiul dvs. vizibil va fi lansat în fiecare săptămână pentru următoarele 6 luni. Suma eliberată în fiecare săptămână este determinată de recompensele dvs. istorice ale agriculturii. Nu este nevoie să recoltați în fiecare săptămână, deoarece sumele nerevendicate din fiecare săptămână vor continua să se acumuleze pe următorul.",
+  "per day": "pe zi",
+  "Polygon subgraphs are currently experiencing high loads. The APY displayed are based on lagging fees. Funds are safe, we are working on resolving and providing accurate consolidated APY information.": "Poligonul Subgraps se confruntă în prezent cu încărcături mari. Afișajul afișat se bazează pe taxe de întârziere. Fondurile sunt sigure, lucrăm la rezolvarea și furnizarea de informații specifice consolidate.",
+  "No Results.": "Fara rezultate.",
+  "Fetching Farms": "Preluarea fermelor",
+  "Your Staked Farms": "Fermele tale comise",
+  "All Yield Farms": "Toate fermele de randament",
+  "Lending Yield Farms": "Împrumuturile de producție",
+  "Liquidity Yield Farms": "Farmele de producere a lichidității",
+  "Double Yield Farms": "Ferme de randament dublu",
+  "New": "Nou"
 }

@@ -61,7 +61,7 @@ export default function TransactionHistory({ transactions }: any) {
                     ))
                 ) : (
                     <div className=" center px-4 py-14 rounded">
-                        <Dots>Loading</Dots>
+                        <Dots>{i18n._(t`Loading`)}</Dots>
                     </div>
                 )}
             </div>

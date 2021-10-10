@@ -493,5 +493,16 @@
   "Transaction settings": "Настройки транзакции",
   "Search name or paste the address": "Имя поиска или вставьте адрес",
   "Swap from": "Откуда",
-  "Swap to": "Охватить"
+  "Swap to": "Охватить",
+  "Your Vested SUSHI will be released each week for the next 6 months. The amount released each week is determined by your historical farming rewards. You do not need to harvest each week as unclaimed amounts from each week will continue to accrue onto the next.": "Ваши наделенные суши будут выпущены каждую неделю в течение следующих 6 месяцев. Сумма, выпущенная каждую неделю, определяется вашим историческим сельским вознаграждением. Вам не нужно собирать каждую неделю, так как невостребованные суммы от каждой недели будут продолжать накапливаться на следующий.",
+  "per day": "в день",
+  "Polygon subgraphs are currently experiencing high loads. The APY displayed are based on lagging fees. Funds are safe, we are working on resolving and providing accurate consolidated APY information.": "Подграфы полигонов в настоящее время испытывают высокие нагрузки. Окрашенные APY основаны на отсталых сборах. Средства в безопасности, мы работаем над разрешением и предоставлением точной консолидированной информации APY.",
+  "No Results.": "Никаких результатов.",
+  "Fetching Farms": "Приборы фермерских хозяйств",
+  "Your Staked Farms": "Ваши поставленные фермы",
+  "All Yield Farms": "Все выходные фермы",
+  "Lending Yield Farms": "Кредитование доходности фермы",
+  "Liquidity Yield Farms": "Фарды доходности ликвидности",
+  "Double Yield Farms": "Двойные доходные фермы",
+  "New": "Новый"
 }

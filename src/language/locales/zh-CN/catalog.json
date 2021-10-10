@@ -492,5 +492,16 @@
   "Transaction settings": "交易设置",
   "Search name or paste the address": "搜索名称或粘贴地址",
   "Swap from": "换从",
-  "Swap to": "交换到"
+  "Swap to": "交换到",
+  "Your Vested SUSHI will be released each week for the next 6 months. The amount released each week is determined by your historical farming rewards. You do not need to harvest each week as unclaimed amounts from each week will continue to accrue onto the next.": "您的既寿司将在未来6个月内每周发布。 每周发布的金额由您的历史农业奖励决定。 您不需要每周收获，因为每周的无人认领金额将继续累积到下一个。",
+  "per day": "每天",
+  "Polygon subgraphs are currently experiencing high loads. The APY displayed are based on lagging fees. Funds are safe, we are working on resolving and providing accurate consolidated APY information.": "多边形子图目前正在经历高负荷。 显示的APY基于滞后费用。 资金是安全的，我们正在努力解决和提供准确的综合APY信息。",
+  "No Results.": "没有结果。",
+  "Fetching Farms": "救援农场",
+  "Your Staked Farms": "你的赌场",
+  "All Yield Farms": "所有屈服农场",
+  "Lending Yield Farms": "贷款屈服农场",
+  "Liquidity Yield Farms": "流动性屈服农场",
+  "Double Yield Farms": "双产农场",
+  "New": "新的"
 }

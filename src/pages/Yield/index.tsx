@@ -151,9 +151,9 @@ export default function Yield(): JSX.Element {
                                         <div className="flex">
                                             <div className="ml-3">
                                                 <p className=" ">
-                                                    Polygon subgraphs are currently experiencing high loads. The APY
-                                                    displayed are based on lagging fees. Funds are safe, we are working
-                                                    on resolving and providing accurate consolidated APY information.
+                                                    {i18n._(
+                                                        t`Polygon subgraphs are currently experiencing high loads. The APY displayed are based on lagging fees. Funds are safe, we are working on resolving and providing accurate consolidated APY information.`
+                                                    )}
                                                 </p>
                                             </div>
                                         </div>
@@ -219,10 +219,10 @@ export default function Yield(): JSX.Element {
                                     ) : (
                                         <>
                                             {term ? (
-                                                <div className="w-full py-6 center">No Results.</div>
+                                                <div className="w-full py-6 center">{i18n._(t`No Results.`)}</div>
                                             ) : (
                                                 <div className="w-full py-6 center">
-                                                    <Dots>Fetching Farms</Dots>
+                                                    <Dots>{i18n._(t`Fetching Farms`)}</Dots>
                                                 </div>
                                             )}
                                         </>
@@ -245,10 +245,10 @@ export default function Yield(): JSX.Element {
                                     ) : (
                                         <>
                                             {term ? (
-                                                <div className="w-full py-6 center">No Results.</div>
+                                                <div className="w-full py-6 center">{i18n._(t`No Results.`)}</div>
                                             ) : (
                                                 <div className="w-full py-6 center">
-                                                    <Dots>Fetching Farms</Dots>
+                                                    <Dots>{i18n._(t`Fetching Farms`)}</Dots>
                                                 </div>
                                             )}
                                         </>
@@ -271,10 +271,10 @@ export default function Yield(): JSX.Element {
                                     ) : (
                                         <>
                                             {term ? (
-                                                <div className="w-full py-6 center">No Results.</div>
+                                                <div className="w-full py-6 center">{i18n._(t`No Results.`)}</div>
                                             ) : (
                                                 <div className="w-full py-6 center">
-                                                    <Dots>Fetching Farms</Dots>
+                                                    <Dots>{i18n._(t`Fetching Farms`)}</Dots>
                                                 </div>
                                             )}
                                         </>
@@ -297,10 +297,10 @@ export default function Yield(): JSX.Element {
                                     ) : (
                                         <>
                                             {term ? (
-                                                <div className="w-full py-6 center">No Results.</div>
+                                                <div className="w-full py-6 center">{i18n._(t`No Results.`)}</div>
                                             ) : (
                                                 <div className="w-full py-6 center">
-                                                    <Dots>Fetching Farms</Dots>
+                                                    <Dots>{i18n._(t`Fetching Farms`)}</Dots>
                                                 </div>
                                             )}
                                         </>

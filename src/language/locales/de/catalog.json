@@ -492,5 +492,16 @@
   "Transaction settings": "Transaktionseinstellungen",
   "Search name or paste the address": "Suchname oder Fügen Sie die Adresse ein",
   "Swap from": "Swap von",
-  "Swap to": "Tauschen"
+  "Swap to": "Tauschen",
+  "Your Vested SUSHI will be released each week for the next 6 months. The amount released each week is determined by your historical farming rewards. You do not need to harvest each week as unclaimed amounts from each week will continue to accrue onto the next.": "Ihr Tier-Sushi wird jede Woche für die nächsten 6 Monate veröffentlicht. Der veröffentlichte Betrag, der jede Woche veröffentlicht wird, wird von Ihren historischen Landwirtschaftsbelohnungen bestimmt. Sie müssen jede Woche nicht ernten, da nicht in Anspruch genommene Beträge von jeder Woche weiterhin auf dem nächsten anfallen werden.",
+  "per day": "pro Tag",
+  "Polygon subgraphs are currently experiencing high loads. The APY displayed are based on lagging fees. Funds are safe, we are working on resolving and providing accurate consolidated APY information.": "Polygon-Untergraphen erleben derzeit hohe Belastungen. Das angezeigte APY basiert auf verzögerten Gebühren. Fonds sind sicher, wir arbeiten an der Lösung und bieten genaue konsolidierte APD-Informationen.",
+  "No Results.": "Keine Ergebnisse.",
+  "Fetching Farms": "Farmen abholen.",
+  "Your Staked Farms": "Ihre stakierten Farmen",
+  "All Yield Farms": "Alle Ertragsfarmen",
+  "Lending Yield Farms": "Kredite der Kredite",
+  "Liquidity Yield Farms": "Liquiditäts-Renditen-Farmen",
+  "Double Yield Farms": "Doppel-Renditen-Farmen",
+  "New": "Neu"
 }

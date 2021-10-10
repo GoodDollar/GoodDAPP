@@ -401,10 +401,10 @@ export default function Swap() {
                     <BottomGrouping style={{ paddingBottom: '1rem' }}>
                         {swapIsUnsupported ? (
                             <ButtonPrimary disabled={true}>
-                                <TYPE.main mb="4px">Unsupported Asset</TYPE.main>
+                                <TYPE.main mb="4px">{i18n._(t`Unsupported Asset`)}</TYPE.main>
                             </ButtonPrimary>
                         ) : !account ? (
-                            <ButtonLight onClick={toggleWalletModal}>Connect Wallet</ButtonLight>
+                            <ButtonLight onClick={toggleWalletModal}>{i18n._(t`Connect Wallet`)}</ButtonLight>
                         ) : showWrap ? (
                             <ButtonPrimary disabled={Boolean(wrapInputError)} onClick={onWrap}>
                                 {wrapInputError ??
@@ -432,7 +432,7 @@ export default function Swap() {
                                 >
                                     {approval === ApprovalState.PENDING ? (
                                         <AutoRow gap="6px" justify="center">
-                                            Approving <Loader stroke="white" />
+                                            {i18n._(t`Approving`)} <Loader stroke="white" />
                                         </AutoRow>
                                     ) : approvalSubmitted && approval === ApprovalState.APPROVED ? (
                                         i18n._(t`Approved`)

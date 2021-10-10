@@ -140,7 +140,7 @@ export default function Pool() {
                                 <FixedHeightRow>
                                     <RowFixed>
                                         <Text fontWeight={500} fontSize={16}>
-                                            SAAVE
+                                            {i18n._(t`SAAVE`)}
                                         </Text>
                                     </RowFixed>
                                 </FixedHeightRow>

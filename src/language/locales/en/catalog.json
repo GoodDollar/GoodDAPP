@@ -490,5 +490,16 @@
   "Transaction settings": "Transaction settings",
   "Search name or paste the address": "Search name or paste the address",
   "Swap from": "Swap from",
-  "Swap to": "Swap to"
+  "Swap to": "Swap to",
+  "Your Vested SUSHI will be released each week for the next 6 months. The amount released each week is determined by your historical farming rewards. You do not need to harvest each week as unclaimed amounts from each week will continue to accrue onto the next.": "Your Vested SUSHI will be released each week for the next 6 months. The amount released each week is determined by your historical farming rewards. You do not need to harvest each week as unclaimed amounts from each week will continue to accrue onto the next.",
+  "per day": "per day",
+  "Polygon subgraphs are currently experiencing high loads. The APY displayed are based on lagging fees. Funds are safe, we are working on resolving and providing accurate consolidated APY information.": "Polygon subgraphs are currently experiencing high loads. The APY displayed are based on lagging fees. Funds are safe, we are working on resolving and providing accurate consolidated APY information.",
+  "No Results.": "No Results.",
+  "Fetching Farms": "Fetching Farms",
+  "Your Staked Farms": "Your Staked Farms",
+  "All Yield Farms": "All Yield Farms",
+  "Lending Yield Farms": "Lending Yield Farms",
+  "Liquidity Yield Farms": "Liquidity Yield Farms",
+  "Double Yield Farms": "Double Yield Farms",
+  "New": "New"
 }

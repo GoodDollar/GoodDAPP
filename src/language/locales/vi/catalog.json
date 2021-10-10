@@ -492,5 +492,16 @@
   "Transaction settings": "Cài đặt giao dịch",
   "Search name or paste the address": "Tên tìm kiếm hoặc dán địa chỉ",
   "Swap from": "Trao đổi từ",
-  "Swap to": "Trao đổi đến."
+  "Swap to": "Trao đổi đến.",
+  "Your Vested SUSHI will be released each week for the next 6 months. The amount released each week is determined by your historical farming rewards. You do not need to harvest each week as unclaimed amounts from each week will continue to accrue onto the next.": "Sushi tặng của bạn sẽ được phát hành mỗi tuần trong 6 tháng tới. Số tiền được phát hành mỗi tuần được xác định bởi các phần thưởng canh tác lịch sử của bạn. Bạn không cần thu hoạch mỗi tuần với số tiền không có người nhận từ mỗi tuần sẽ tiếp tục tích lũy vào tiếp theo.",
+  "per day": "mỗi ngày",
+  "Polygon subgraphs are currently experiencing high loads. The APY displayed are based on lagging fees. Funds are safe, we are working on resolving and providing accurate consolidated APY information.": "Subgraphs đa giác hiện đang gặp tải cao. APY được hiển thị dựa trên phí lag. Quỹ an toàn, chúng tôi đang nghiên cứu giải quyết và cung cấp thông tin APY hợp nhất chính xác.",
+  "No Results.": "Ko có kết quả.",
+  "Fetching Farms": "Fetching Farms.",
+  "Your Staked Farms": "Trang trại của bạn",
+  "All Yield Farms": "Tất cả các trang trại năng suất",
+  "Lending Yield Farms": "Cho vay Năng tiêu trang trại",
+  "Liquidity Yield Farms": "Năng sản lợi suất thanh khoản",
+  "Double Yield Farms": "Trang trại gấp đôi",
+  "New": "Mới"
 }

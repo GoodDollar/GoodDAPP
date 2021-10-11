@@ -30,8 +30,11 @@ import SwapConfirmModal from './SwapConfirmModal'
 import { FUSE } from '../../constants'
 import { useDispatch } from 'react-redux'
 import SwapDescriptions from './SwapDescriptions'
+import { t } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 
 function Swap() {
+    const { i18n } = useLingui()
     const [buying, setBuying] = useState(true)
     const [slippageTolerance, setSlippageTolerance] = useState({
         custom: false,
@@ -245,12 +248,12 @@ function Swap() {
             <SwapCardSC open={Boolean(meta)}>
                 <SwapWrapperSC>
                     <div className="flex justify-between items-center">
-                        <Title className="pl-4">Swap</Title>
+                        <Title className="pl-4">{i18n._(t`Swap`)}</Title>
                         <SwapSettings />
                     </div>
                     <SwapContentWrapperSC>
                         <SwapRow
-                            title={buying ? 'Swap from' : 'Swap to'}
+                            title={buying ? i18n._(t`Swap from`) : i18n._(t`Swap to`)}
                             select
                             autoMax={buying}
                             balance={pairBalance}
@@ -274,7 +277,7 @@ function Swap() {
                             })}
                         </div>
                         <SwapRow
-                            title={buying ? 'Swap to' : 'Swap from'}
+                            title={buying ? i18n._(t`Swap to`) : i18n._(t`Swap from`)}
                             autoMax={!buying}
                             select={false}
                             balance={swapBalance}
@@ -289,7 +292,7 @@ function Swap() {
                         />
                         <div style={{ marginTop: 14, padding: '0 4px' }}>
                             <SwapInfo
-                                title="Slippage Tolerance"
+                                title={i18n._(t`Slippage Tolerance`)}
                                 value={`${slippageTolerance.value || '0'}${
                                     slippageTolerance.value.endsWith('%') ? '' : '%'
                                 }`}
@@ -319,7 +322,11 @@ function Swap() {
                                         onClick={handleApprove}
                                         disabled={!meta || approved || approving || balanceNotEnough}
                                     >
-                                        {approving ? 'Approving' : approved ? 'Approved' : 'Approve'}
+                                        {approving
+                                            ? i18n._(t`Approving`)
+                                            : approved
+                                            ? i18n._(t`Approved`)
+                                            : i18n._(t`Approve`)}
                                     </ButtonAction>
                                 )}
                                 <ButtonAction
@@ -332,7 +339,7 @@ function Swap() {
                                     }
                                     onClick={() => setShowConfirm(true)}
                                 >
-                                    Swap
+                                    {i18n._(t`Swap`)}
                                 </ButtonAction>
                             </div>
                         )}

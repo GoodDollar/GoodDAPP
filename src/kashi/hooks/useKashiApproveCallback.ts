@@ -111,6 +111,7 @@ function useKashiApproveCallback(): [
             }
         } catch (e) {
             return {
+                // eslint-disable-next-line
                 // @ts-ignore
                 outcome: e.code === 4001 ? BentoApproveOutcome.REJECTED : BentoApproveOutcome.FAILED
             }

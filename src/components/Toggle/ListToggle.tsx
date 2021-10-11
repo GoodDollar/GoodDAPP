@@ -1,6 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 import { TYPE } from '../../theme'
+import { t } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 
 const Wrapper = styled.button<{ isActive?: boolean; activeElement?: boolean }>`
     border-radius: 10px;
@@ -38,17 +40,19 @@ export interface ToggleProps {
 }
 
 export default function ListToggle({ id, isActive, bgColor, toggle }: ToggleProps) {
+    const { i18n } = useLingui()
+
     return (
         <Wrapper id={id} isActive={isActive} onClick={toggle}>
             {isActive && (
                 <StatusText fontWeight="600" margin="0 6px" isActive={true}>
-                    ON
+                    {i18n._(t`ON`)}
                 </StatusText>
             )}
             <ToggleElement isActive={isActive} bgColor={bgColor} />
             {!isActive && (
                 <StatusText fontWeight="600" margin="0 6px" isActive={false}>
-                    OFF
+                    {i18n._(t`OFF`)}
                 </StatusText>
             )}
         </Wrapper>

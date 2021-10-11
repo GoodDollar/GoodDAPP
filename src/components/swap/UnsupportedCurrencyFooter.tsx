@@ -12,6 +12,8 @@ import { CloseIcon, ExternalLink, TYPE } from 'theme'
 import { getExplorerLink } from 'utils'
 import { wrappedCurrency } from 'utils/wrappedCurrency'
 import { useUnsupportedTokens } from '../../hooks/Tokens'
+import { t } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 
 const DetailsFooter = styled.div<{ show: boolean }>`
     padding-top: calc(16px + 2rem);
@@ -45,6 +47,7 @@ export default function UnsupportedCurrencyFooter({
     show: boolean
     currencies: (Currency | undefined)[]
 }) {
+    const { i18n } = useLingui()
     const { chainId } = useActiveWeb3React()
     const [showDetails, setShowDetails] = useState(false)
 
@@ -63,7 +66,7 @@ export default function UnsupportedCurrencyFooter({
                 <Card padding="2rem">
                     <AutoColumn gap="lg">
                         <RowBetween>
-                            <TYPE.mediumHeader>Unsupported Assets</TYPE.mediumHeader>
+                            <TYPE.mediumHeader>{i18n._(t`Unsupported Assets`)}</TYPE.mediumHeader>
 
                             <CloseIcon onClick={() => setShowDetails(false)} />
                         </RowBetween>
@@ -90,15 +93,16 @@ export default function UnsupportedCurrencyFooter({
                         })}
                         <AutoColumn gap="lg">
                             <TYPE.body fontWeight={500}>
-                                Some assets are not available through this interface because they may not work well with
-                                our smart contract or we are unable to allow trading for legal reasons.
+                                {i18n._(
+                                    t`Some assets are not available through this interface because they may not work well with our smart contract or we are unable to allow trading for legal reasons.`
+                                )}
                             </TYPE.body>
                         </AutoColumn>
                     </AutoColumn>
                 </Card>
             </Modal>
             <ButtonEmpty padding={'0'} onClick={() => setShowDetails(true)}>
-                <TYPE.blue>Read more about unsupported assets</TYPE.blue>
+                <TYPE.blue>{i18n._(t`Read more about unsupported assets`)}</TYPE.blue>
             </ButtonEmpty>
         </DetailsFooter>
     )

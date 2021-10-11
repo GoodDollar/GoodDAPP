@@ -5,8 +5,11 @@ import { MasterChefV1Details, MasterChefV2Details, MiniChefDetails } from '../De
 import { useActiveWeb3React } from '../../../../hooks/useActiveWeb3React'
 import { ChainId } from '@sushiswap/sdk'
 import AsyncTokenIcon from '../../../../kashi/components/AsyncTokenIcon'
+import { t } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 
 const LiquidityPosition = ({ farm }: any) => {
+    const { i18n } = useLingui()
     const [expand, setExpand] = useState<boolean>(false)
     const { chainId } = useActiveWeb3React()
 
@@ -77,27 +80,27 @@ const LiquidityPosition = ({ farm }: any) => {
                                 {farm && farm.contract === 'minichef' && (
                                     <>
                                         <div className=" right  xs">
-                                            {formattedNum(farm.sushiRewardPerDay)} SUSHI per day
+                                            {formattedNum(farm.sushiRewardPerDay)} SUSHI {i18n._(t`per day`)}
                                         </div>
                                         <div className=" right  xs">
-                                            {formattedNum(farm.secondaryRewardPerDay)} WMATIC per day
+                                            {formattedNum(farm.secondaryRewardPerDay)} WMATIC {i18n._(t`per day`)}
                                         </div>
                                     </>
                                 )}
                                 {farm && farm.contract === 'masterchefv2' && (
                                     <>
                                         <div className=" right  xs">
-                                            {formattedNum(farm.sushiRewardPerDay)} SUSHI per day
+                                            {formattedNum(farm.sushiRewardPerDay)} SUSHI {i18n._(t`per day`)}
                                         </div>
                                         <div className=" right  xs">
-                                            {formattedNum(farm.secondaryRewardPerDay)} ALCX per day
+                                            {formattedNum(farm.secondaryRewardPerDay)} ALCX {i18n._(t`per day`)}
                                         </div>
                                     </>
                                 )}
                                 {farm && farm.contract === 'masterchefv1' && (
                                     <>
                                         <div className=" right   ">{formattedNum(farm.sushiRewardPerDay)} SUSHI</div>
-                                        <div className=" right xs">per day</div>
+                                        <div className=" right xs">{i18n._(t`per day`)}</div>
                                     </>
                                 )}
                             </div>
@@ -106,7 +109,7 @@ const LiquidityPosition = ({ farm }: any) => {
                             <div>
                                 {/* <div className="text-right">{formattedNum(farm.tvl, true)} </div> */}
                                 <div className=" right   ">{formattedNum(farm.slpBalance / 1e18, false)} SLP</div>
-                                <div className=" right xs">Market Staked</div>
+                                <div className=" right xs">{i18n._(t`Market Staked`)}</div>
                             </div>
                         </div>
                         <div className="md:col-span-1 flex justify-end items-center">
@@ -115,7 +118,7 @@ const LiquidityPosition = ({ farm }: any) => {
                                     {farm.roiPerYear > 100 ? '10000%+' : formattedPercent(farm.roiPerYear * 100)}
                                     {/* {formattedPercent(farm.roiPerMonth * 100)}{' '} */}
                                 </div>
-                                <div className=" right xs">annualized</div>
+                                <div className=" right xs">{i18n._(t`annualized`)}</div>
                                 {/* <div className="text-gray-500 text-right text-xs">per month</div> */}
                             </div>
                         </div>

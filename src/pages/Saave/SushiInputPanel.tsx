@@ -258,7 +258,7 @@ export default function CurrencyInputPanel({
                                 }}
                             >
                                 <Aligner>
-                                    <StyledButtonName>SAAVE</StyledButtonName>
+                                    <StyledButtonName>{i18n._(t`SAAVE`)}</StyledButtonName>
                                 </Aligner>
                             </ButtonSelect>
                         )}

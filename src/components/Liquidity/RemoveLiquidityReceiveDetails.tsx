@@ -6,6 +6,8 @@ import { AutoRow, RowBetween } from '../../components/Row'
 import { useActiveWeb3React } from '../../hooks/useActiveWeb3React'
 import { StyledInternalLink, TYPE } from '../../theme'
 import { currencyId } from '../../utils/currencyId'
+import { t } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 
 interface RemoveLiquidityReceiveDetailsProps {
     currencyA?: Currency
@@ -26,6 +28,7 @@ export default function RemoveLiquidityReceiveDetails({
     hasETH,
     id
 }: RemoveLiquidityReceiveDetailsProps) {
+    const { i18n } = useLingui()
     const { chainId } = useActiveWeb3React()
     if (!chainId || !currencyA || !currencyB) throw new Error('missing dependencies')
     return (
@@ -33,7 +36,7 @@ export default function RemoveLiquidityReceiveDetails({
             <div className="flex flex-col space-y-3 sm:space-y-0 sm:flex-row justify-between">
                 <div className="w-full sm:w-2/5 white" style={{ margin: 'auto 0px' }}>
                     <AutoColumn>
-                        <div>You Will Receive:</div>
+                        <div>{i18n._(t`You Will Receive:`)}</div>
                         <RowBetween className="">
                             {hasWETH ? (
                                 <StyledInternalLink

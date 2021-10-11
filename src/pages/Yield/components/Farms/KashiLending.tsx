@@ -3,8 +3,11 @@ import { formattedNum, formattedPercent } from '../../../../utils'
 import { DoubleLogo, Paper } from '../../components'
 import { MasterChefV1Details } from '../Details'
 import { getTokenIconUrl } from '../../../../kashi/functions'
+import { t } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 
 const KashiLending = ({ farm }: any) => {
+    const { i18n } = useLingui()
     const [expand, setExpand] = useState<boolean>(false)
     return (
         <>
@@ -40,13 +43,13 @@ const KashiLending = ({ farm }: any) => {
                         <div className="md:col-span-1 hidden md:flex flex-row space-x-2 justify-end items-center ml-4">
                             <div>
                                 <div className=" right   ">{formattedNum(farm.sushiRewardPerDay)} SUSHI</div>
-                                <div className=" right xs">per day</div>
+                                <div className=" right xs">{i18n._(t`per day`)}</div>
                             </div>
                         </div>
                         <div className="md:col-span-1 flex justify-end items-center">
                             <div>
                                 <div className=" right   ">{formattedNum(farm.totalAssetStaked, false)} KMP</div>
-                                <div className=" right xs">Market Staked</div>
+                                <div className=" right xs">{i18n._(t`Market Staked`)}</div>
                             </div>
                         </div>
                         <div className="md:col-span-1 flex justify-end items-center">
@@ -55,7 +58,7 @@ const KashiLending = ({ farm }: any) => {
                                     {farm.roiPerYear > 100 ? '10000%+' : formattedPercent(farm.roiPerYear * 100)}
                                     {/* {formattedPercent(farm.roiPerMonth * 100)}{' '} */}
                                 </div>
-                                <div className=" right xs">annualized</div>
+                                <div className=" right xs">{i18n._(t`annualized`)}</div>
                                 {/* <div className="text-gray-500 text-right text-xs">per month</div> */}
                             </div>
                         </div>

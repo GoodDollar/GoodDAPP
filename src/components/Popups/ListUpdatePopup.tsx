@@ -12,6 +12,8 @@ import listVersionLabel from '../../utils/listVersionLabel'
 import { ButtonSecondary } from '../ButtonLegacy'
 import { AutoColumn } from '../Column'
 import { AutoRow } from '../Row'
+import { t } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 
 export const ChangesList = styled.ul`
     max-height: 400px;
@@ -31,6 +33,7 @@ export default function ListUpdatePopup({
     newList: TokenList
     auto: boolean
 }) {
+    const { i18n } = useLingui()
     const removePopup = useRemovePopup()
     const removeThisPopup = useCallback(() => removePopup(popKey), [popKey, removePopup])
     const dispatch = useDispatch<AppDispatch>()
@@ -59,15 +62,15 @@ export default function ListUpdatePopup({
             <AutoColumn style={{ flex: '1' }} gap="8px">
                 {auto ? (
                     <TYPE.body fontWeight={500}>
-                        The token list &quot;{oldList.name}&quot; has been updated to{' '}
+                        {i18n._(t`The token list`)} &quot;{oldList.name}&quot; {i18n._(t`has been updated to`)}{' '}
                         <strong>{listVersionLabel(newList.version)}</strong>.
                     </TYPE.body>
                 ) : (
                     <>
                         <div>
                             <Text>
-                                An update is available for the token list &quot;{oldList.name}&quot; (
-                                {listVersionLabel(oldList.version)} to {listVersionLabel(newList.version)}).
+                                {i18n._(t`An update is available for the token list`)} &quot;{oldList.name}&quot; (
+                                {listVersionLabel(oldList.version)} {i18n._(t`to`)} {listVersionLabel(newList.version)}).
                             </Text>
                             <ChangesList>
                                 {tokensAdded.length > 0 ? (
@@ -78,7 +81,7 @@ export default function ListUpdatePopup({
                                                 {i === tokensAdded.length - 1 ? null : ', '}
                                             </React.Fragment>
                                         ))}{' '}
-                                        added
+                                        {i18n._(t`added`)}
                                     </li>
                                 ) : null}
                                 {tokensRemoved.length > 0 ? (
@@ -89,18 +92,18 @@ export default function ListUpdatePopup({
                                                 {i === tokensRemoved.length - 1 ? null : ', '}
                                             </React.Fragment>
                                         ))}{' '}
-                                        removed
+                                        {i18n._(t`removed`)}
                                     </li>
                                 ) : null}
-                                {numTokensChanged > 0 ? <li>{numTokensChanged} tokens updated</li> : null}
+                                {numTokensChanged > 0 ? <li>{numTokensChanged} {i18n._(t`tokens updated`)}</li> : null}
                             </ChangesList>
                         </div>
                         <AutoRow>
                             <div style={{ flexGrow: 1, marginRight: 12 }}>
-                                <ButtonSecondary onClick={handleAcceptUpdate}>Accept update</ButtonSecondary>
+                                <ButtonSecondary onClick={handleAcceptUpdate}>{i18n._(t`Accept update`)}</ButtonSecondary>
                             </div>
                             <div style={{ flexGrow: 1 }}>
-                                <ButtonSecondary onClick={removeThisPopup}>Dismiss</ButtonSecondary>
+                                <ButtonSecondary onClick={removeThisPopup}>{i18n._(t`Dismiss`)}</ButtonSecondary>
                             </div>
                         </AutoRow>
                     </>

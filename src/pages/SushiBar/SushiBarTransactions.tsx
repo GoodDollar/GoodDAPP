@@ -8,6 +8,8 @@ import { SUSHI, XSUSHI } from '../../constants'
 import useTokenBalance from '../../hooks/useTokenBalance'
 import { useHistory } from 'react-router-dom'
 import TransactionsPanel from './TransactionsPanel'
+import { t } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 
 const mock = {
     totalGain: 75.72,
@@ -15,6 +17,7 @@ const mock = {
 }
 
 export default function SushiBarTransactions() {
+    const { i18n } = useLingui()
     const theme = useContext(ThemeContext)
 
     const sushiBalance = useTokenBalance(SUSHI[ChainId.MAINNET]?.address ?? '')
@@ -29,7 +32,7 @@ export default function SushiBarTransactions() {
                     <div className="mb-8 md:mb-3">
                         <Button size="small" className="flex items-center pl-0" onClick={() => history.goBack()}>
                             <ChevronLeft strokeWidth={2} size={18} color={theme.white} />
-                            <span className="ml-1 ">Go Back</span>
+                            <span className="ml-1 ">{i18n._(t`Go Back`)}</span>
                         </Button>
                     </div>
 
@@ -37,7 +40,7 @@ export default function SushiBarTransactions() {
                         <BalanceCard sushiBalance={sushiBalance} xSushiBalance={xSushiBalance} />
                     </div>
 
-                    <div className="h5 mb-5 md:mb-3 ">Your History</div>
+                    <div className="h5 mb-5 md:mb-3 ">{i18n._(t`Your History`)}</div>
                 </div>
                 <div className="hidden md:block w-72 h-full" />
             </div>

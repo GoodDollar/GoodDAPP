@@ -11,7 +11,7 @@ import RoFlag from '../../assets/images/ro-flag.png'
 import RuFlag from '../../assets/images/ru-flag.png'
 import ViFlag from '../../assets/images/vi-flag.png'
 import { useOnClickOutside } from '../../hooks/useOnClickOutside'
-import { ApplicationModal } from '../../state/application/actions'
+import { ApplicationModal } from '../../state/application/types'
 import { useModalOpen, useToggleModal } from '../../state/application/hooks'
 import { useLanguageData } from '../../language/hooks'
 

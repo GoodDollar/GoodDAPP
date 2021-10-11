@@ -75,10 +75,10 @@ ReactDOM.render(
         <Web3ReactProvider getLibrary={getLibrary}>
             <Web3ProviderNetwork getLibrary={getLibrary}>
                 <Web3ContextProvider>
-                    <Blocklist>
-                        <Provider store={store}>
-                            <Updaters />
-                            <LanguageProvider>
+                    <Provider store={store}>
+                        <LanguageProvider>
+                            <Blocklist>
+                                <Updaters />
                                 <ThemeProvider>
                                     <GlobalStyle />
                                     <KashiProvider>
@@ -87,9 +87,9 @@ ReactDOM.render(
                                         </Router>
                                     </KashiProvider>
                                 </ThemeProvider>
-                            </LanguageProvider>
-                        </Provider>
-                    </Blocklist>
+                            </Blocklist>
+                        </LanguageProvider>
+                    </Provider>
                 </Web3ContextProvider>
             </Web3ProviderNetwork>
         </Web3ReactProvider>

@@ -9,6 +9,8 @@ import { AutoColumn } from '../Column'
 import DoubleCurrencyLogo from '../DoubleLogo'
 import { RowBetween, RowFixed } from '../Row'
 import { FixedHeightRow, HoverCard } from './index'
+import { t } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 
 interface PositionCardProps extends RouteComponentProps<{}> {
     token: Token
@@ -16,6 +18,7 @@ interface PositionCardProps extends RouteComponentProps<{}> {
 }
 
 function V1PositionCard({ token, V1LiquidityBalance }: PositionCardProps) {
+    const { i18n } = useLingui()
     const theme = useContext(ThemeContext)
 
     const { chainId } = useActiveWeb3React()
@@ -47,7 +50,7 @@ function V1PositionCard({ token, V1LiquidityBalance }: PositionCardProps) {
                 <AutoColumn gap="8px">
                     <RowBetween marginTop="10px">
                         <ButtonSecondary width="68%" as={Link} to={`/migrate/v1/${V1LiquidityBalance.token.address}`}>
-                            Migrate
+                            {i18n._(t`Migrate`)}
                         </ButtonSecondary>
 
                         <ButtonSecondary
@@ -56,7 +59,7 @@ function V1PositionCard({ token, V1LiquidityBalance }: PositionCardProps) {
                             as={Link}
                             to={`/remove/v1/${V1LiquidityBalance.token.address}`}
                         >
-                            Remove
+                            {i18n._(t`Remove`)}
                         </ButtonSecondary>
                     </RowBetween>
                 </AutoColumn>

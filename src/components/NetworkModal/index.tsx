@@ -10,6 +10,8 @@ import { useActiveWeb3React } from 'hooks/useActiveWeb3React'
 import Option from '../WalletModal/Option'
 import styled from 'styled-components'
 import { AdditionalChainId } from '../../constants'
+import { t } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 
 const PARAMS: {
     [chainId in ChainId | AdditionalChainId]?: {
@@ -158,6 +160,7 @@ const TextWrapper = styled.div`
 `
 
 export default function NetworkModal(): JSX.Element | null {
+    const { i18n } = useLingui()
     const { chainId, library, account } = useActiveWeb3React()
     const networkModalOpen = useModalOpen(ApplicationModal.NETWORK)
     const toggleNetworkModal = useNetworkModalToggle()
@@ -168,8 +171,9 @@ export default function NetworkModal(): JSX.Element | null {
         <Modal isOpen={networkModalOpen} onDismiss={toggleNetworkModal}>
             <ModalHeader className="mb-1" onClose={toggleNetworkModal} title="Select network" />
             <TextWrapper>
-                You are currently browsing <span className="site">GOOD DOLLAR</span>
-                <br /> on the <span className="network">{(NETWORK_LABEL as any)[chainId]}</span> network
+                {i18n._(t`You are currently browsing`)} <span className="site">GOOD DOLLAR</span>
+                <br /> {i18n._(t`on the`)} <span className="network">{(NETWORK_LABEL as any)[chainId]}</span>{' '}
+                {i18n._(t`network`)}
             </TextWrapper>
 
             <div className="flex flex-col space-y-5 overflow-y-auto mt-3">

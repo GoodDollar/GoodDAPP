@@ -217,7 +217,11 @@ export default function ClaimModal() {
                                         <TYPE.white fontWeight={500} color={theme.text1}>
                                             {i18n._(t`Your Claimable SUSHI this Week`)}
                                         </TYPE.white>
-                                        <QuestionHelper text="Your Vested SUSHI will be released each week for the next 6 months. The amount released each week is determined by your historical farming rewards. You do not need to harvest each week as unclaimed amounts from each week will continue to accrue onto the next." />
+                                        <QuestionHelper
+                                            text={i18n._(
+                                                t`Your Vested SUSHI will be released each week for the next 6 months. The amount released each week is determined by your historical farming rewards. You do not need to harvest each week as unclaimed amounts from each week will continue to accrue onto the next.`
+                                            )}
+                                        />
                                     </RowBetween>
                                     {/* <div style={{ display: 'flex', alignItems: 'baseline' }}> */}
                                     <div style={{ alignItems: 'baseline' }}>

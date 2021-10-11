@@ -1,7 +1,11 @@
 import React from 'react'
 import Badge from '../../components/Badge'
+import { t } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 
 const Menu = ({ section, setSection }: any) => {
+    const { i18n } = useLingui()
+
     return (
         <div className="overflow-x-auto">
             <div className="flex flex-row space-x-2 xs whitespace-nowrap  lg:flex-col lg:space-y-2 lg:space-x-0">
@@ -11,7 +15,7 @@ const Menu = ({ section, setSection }: any) => {
                         return setSection('portfolio')
                     }}
                 >
-                    Your Staked Farms
+                    {i18n._(t`Your Staked Farms`)}
                 </div>
                 <div
                     className={`cursor-pointer rounded flex items-center px-4 py-6 ${section === 'all' && ''}`}
@@ -19,7 +23,7 @@ const Menu = ({ section, setSection }: any) => {
                         return setSection('all')
                     }}
                 >
-                    All Yield Farms
+                    {i18n._(t`All Yield Farms`)}
                 </div>
                 <div
                     className={`cursor-pointer rounded flex items-center px-4 py-6 ${section === 'kmp' && ''}`}
@@ -27,7 +31,7 @@ const Menu = ({ section, setSection }: any) => {
                         return setSection('kmp')
                     }}
                 >
-                    Lending Yield Farms
+                    {i18n._(t`Lending Yield Farms`)}
                 </div>
                 <div
                     className={`cursor-pointer rounded flex items-center px-4 py-6 ${section === 'slp' && ''}`}
@@ -35,7 +39,7 @@ const Menu = ({ section, setSection }: any) => {
                         return setSection('slp')
                     }}
                 >
-                    Liquidity Yield Farms
+                    {i18n._(t`Liquidity Yield Farms`)}
                 </div>
                 <div
                     className={`cursor-pointer rounded flex justify-between items-center px-4 py-6 ${section ===
@@ -44,8 +48,8 @@ const Menu = ({ section, setSection }: any) => {
                         return setSection('mcv2')
                     }}
                 >
-                    Double Yield Farms
-                    <Badge color="blue">New</Badge>
+                    {i18n._(t`Double Yield Farms`)}
+                    <Badge color="blue">{i18n._(t`New`)}</Badge>
                 </div>
                 {/* <Card
                 className="h-full bg-dark-900"

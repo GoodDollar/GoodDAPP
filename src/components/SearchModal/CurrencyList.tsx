@@ -21,6 +21,8 @@ import { RowBetween, RowFixed } from '../Row'
 import { MouseoverTooltip } from '../Tooltip'
 import ImportRow from './ImportRow'
 import { MenuItem } from './styleds'
+import { t } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 
 function currencyKey(currency: Currency): string {
     return currency instanceof Token ? currency.address : currency === ETHER ? 'ETHER' : ''
@@ -112,6 +114,7 @@ function CurrencyRow({
     otherSelected: boolean
     style: CSSProperties
 }) {
+    const { i18n } = useLingui()
     const { account, chainId } = useActiveWeb3React()
     const key = currencyKey(currency)
     const selectedTokenList = useCombinedActiveList()
@@ -134,7 +137,7 @@ function CurrencyRow({
                     {currency.getSymbol(chainId)}
                 </Text>
                 <TYPE.darkGray className="description" ml="0px">
-                    {currency.getName(chainId)} {!isOnSelectedList && customAdded && '• Added by user'}
+                    {currency.getName(chainId)} {!isOnSelectedList && customAdded && i18n._(t`• Added by user`)}
                 </TYPE.darkGray>
             </Column>
             {<span /> || <TokenTags currency={currency} />}
@@ -168,6 +171,7 @@ export default function CurrencyList({
     setImportToken: (token: Token) => void
     breakIndex: number | undefined
 }) {
+    const { i18n } = useLingui()
     const itemData: (Currency | undefined)[] = useMemo(() => {
         let formatted: (Currency | undefined)[] = showETH ? [Currency.ETHER, ...currencies] : currencies
         if (breakIndex !== undefined) {
@@ -202,10 +206,14 @@ export default function CurrencyList({
                                 <RowFixed>
                                     <TokenListLogoWrapper src={TokenListLogo} />
                                     <TYPE.main ml="6px" fontSize="12px" color={theme.text1}>
-                                        Expanded results from inactive Token Lists
+                                        {i18n._(t`Expanded results from inactive Token Lists`)}
                                     </TYPE.main>
                                 </RowFixed>
-                                <QuestionHelper text="Tokens from inactive lists. Import specific tokens below or click 'Manage' to activate more lists." />
+                                <QuestionHelper
+                                    text={i18n._(
+                                        t`Tokens from inactive lists. Import specific tokens below or click 'Manage' to activate more lists.`
+                                    )}
+                                />
                             </RowBetween>
                         </LightGreyCard>
                     </FixedContentRow>

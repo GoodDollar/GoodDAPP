@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import { ExternalLink } from '../../components/Link'
 import ArrowIcon from '../../assets/images/arrow-up-right-blue.svg'
 import SortIcon from '../../assets/images/sort-icon.svg'
+import { t } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 
 const mock = {
     txs: [
@@ -166,24 +168,31 @@ const ColumnHeader = ({ className = '', children }: any) => (
 
 const Item = ({ children }: any) => <div className="h-12 mb-1 xs caption  font-normal ">{children}</div>
 
-const Transaction = ({ date, type, amount, txHash }: any) => (
-    <>
-        <Item>{date}</Item>
-        <Item>{type}</Item>
-        <Item>{amount.concat(' SUSHI')}</Item>
-        <Item>
-            <ExternalLink className="" href={`https://etherscan.io/tx/${txHash}`}>
-                <p className="hidden md:block relative -top-6 whitespace-nowrap  hover:underline">View On Etherscan</p>
-                <div className="flex items-center flex-nowrap md:hidden relative -top-4 whitespace-nowrap ">
-                    <p className="mr-1">Etherscan</p>
-                    <img src={ArrowIcon} alt="arrow" />
-                </div>
-            </ExternalLink>
-        </Item>
-    </>
-)
+const Transaction = ({ date, type, amount, txHash }: any) => {
+    const { i18n } = useLingui()
+
+    return (
+        <>
+            <Item>{date}</Item>
+            <Item>{type}</Item>
+            <Item>{amount.concat(' SUSHI')}</Item>
+            <Item>
+                <ExternalLink className="" href={`https://etherscan.io/tx/${txHash}`}>
+                    <p className="hidden md:block relative -top-6 whitespace-nowrap  hover:underline">
+                        {i18n._(t`View On`)} Etherscan
+                    </p>
+                    <div className="flex items-center flex-nowrap md:hidden relative -top-4 whitespace-nowrap ">
+                        <p className="mr-1">Etherscan</p>
+                        <img src={ArrowIcon} alt="arrow" />
+                    </div>
+                </ExternalLink>
+            </Item>
+        </>
+    )
+}
 
 export default function TransactionsPanel({}) {
+    const { i18n } = useLingui()
     const [pageIndex, setPageIndex] = useState<number>(0)
 
     const handleSortByAmount = () => {
@@ -208,19 +217,19 @@ export default function TransactionsPanel({}) {
                         >
                             <ColumnHeader>
                                 <div className="flex flex-nowrap h-8 cursor-pointer" onClick={handleSortByDate}>
-                                    <p>Date</p>
+                                    <p>{i18n._(t`Date`)}</p>
                                     <img className="h-4 mt-1.5 ml-2" src={SortIcon} alt="sort" />
                                 </div>
                             </ColumnHeader>
                             <ColumnHeader className="hidden lg:block">
-                                <p>Transfer Type</p>
+                                <p>{i18n._(t`Transfer Type`)}</p>
                             </ColumnHeader>
                             <ColumnHeader className="block lg:hidden">
-                                <p>Type</p>
+                                <p>{i18n._(t`Type`)}</p>
                             </ColumnHeader>
                             <ColumnHeader>
                                 <div className="flex flex-nowrap h-8 cursor-pointer" onClick={handleSortByAmount}>
-                                    <p>Amount</p>
+                                    <p>{i18n._(t`Amount`)}</p>
                                     <img className="h-4 mt-1.5 ml-2" src={SortIcon} alt="sort" />
                                 </div>
                             </ColumnHeader>

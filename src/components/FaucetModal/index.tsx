@@ -7,6 +7,8 @@ import { useModalOpen, useFaucetModalToggle } from '../../state/application/hook
 import { TYPE } from '../../theme'
 import Modal from '../Modal'
 import TransactionConfirmationModal, { TransactionErrorContent } from '../TransactionConfirmationModal'
+import { t } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 
 const Wrapper = styled.div`
     ${({ theme }) => theme.flexColumnNoWrap}
@@ -76,6 +78,7 @@ const LowerSection = styled.div`
 `
 
 export default function FaucetModal() {
+    const { i18n } = useLingui()
     const theme = useContext(ThemeContext)
 
     const faucetModalOpen = useModalOpen(ApplicationModal.FAUCET)
@@ -123,9 +126,9 @@ export default function FaucetModal() {
                 </CloseIcon>
                 <HeaderRow>Faucet</HeaderRow>
                 <LowerSection>
-                    <TYPE.body color={theme.text1}>Claim your test tokens here...</TYPE.body>
+                    <TYPE.body color={theme.text1}>{i18n._(t`Claim your test tokens here...`)}</TYPE.body>
                     <button onClick={claimFaucet} className="flex items-center w-full rounded p-3 cursor-pointer mt-5">
-                        <div className="  center w-full">Claim</div>
+                        <div className="  center w-full">{i18n._(t`Claim`)}</div>
                     </button>
                 </LowerSection>
             </UpperSection>

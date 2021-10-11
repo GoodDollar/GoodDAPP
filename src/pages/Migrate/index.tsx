@@ -50,11 +50,13 @@ const AmountInput = ({ state }: { state: MigrateState }) => {
         return (
             <>
                 <Typography variant="caption" className="">
-                    Amount of Tokens
+                    {i18n._(t`Amount of Tokens`)}
                 </Typography>
                 <div className="rounded p-3 cursor-not-allowed center">
                     <Typography variant="body" className="">
-                        {state.mode && state.lpTokens.length === 0 ? 'No LP tokens found' : 'Select an LP Token'}
+                        {state.mode && state.lpTokens.length === 0
+                            ? i18n._(t`No LP tokens found`)
+                            : i18n._(t`Select an LP Token`)}
                     </Typography>
                 </div>
             </>
@@ -186,7 +188,7 @@ const MigrateButtons = ({ state, exchange }: { state: MigrateState; exchange: st
     }, [state.selectedLPToken])
 
     if (!state.mode || state.lpTokens.length === 0 || !state.selectedLPToken || !state.amount) {
-        return <ButtonConfirmed disabled={true}>Migrate</ButtonConfirmed>
+        return <ButtonConfirmed disabled={true}>{i18n._(t`Migrate`)}</ButtonConfirmed>
     }
 
     const insufficientAmount = JSBI.lessThan(

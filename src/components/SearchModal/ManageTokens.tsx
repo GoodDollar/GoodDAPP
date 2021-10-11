@@ -14,6 +14,8 @@ import useTheme from '../../hooks/useTheme'
 import CurrencyModalView from './CurrencyModalView'
 import ImportRow from './ImportRow'
 import { PaddedColumn, SearchInput, Separator } from './styleds'
+import { t } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 
 const Wrapper = styled.div`
     width: 100%;
@@ -41,6 +43,7 @@ function ManageTokens({
     setModalView: (view: CurrencyModalView) => void
     setImportToken: (token: Token) => void
 }) {
+    const { i18n } = useLingui()
     const { chainId } = useActiveWeb3React()
 
     const [searchQuery, setSearchQuery] = useState<string>('')
@@ -108,7 +111,7 @@ function ManageTokens({
                         />
                     </Row>
                     {searchQuery !== '' && !isAddressSearch && (
-                        <TYPE.error error={true}>Enter valid token address</TYPE.error>
+                        <TYPE.error error={true}>{i18n._(t`Enter valid token address`)}</TYPE.error>
                     )}
                     {searchToken && (
                         <Card backgroundColor={theme.bg2} padding="10px 0">
@@ -129,7 +132,7 @@ function ManageTokens({
                         </TYPE.main>
                         {userAddedTokens.length > 0 && (
                             <ButtonText onClick={handleRemoveAll}>
-                                <TYPE.blue>Clear all</TYPE.blue>
+                                <TYPE.blue>{i18n._(t`Clear all`)}</TYPE.blue>
                             </ButtonText>
                         )}
                     </RowBetween>
@@ -137,7 +140,7 @@ function ManageTokens({
                 </PaddedColumn>
             </Column>
             <Footer>
-                <TYPE.darkGray>Tip: Custom tokens are stored locally in your browser</TYPE.darkGray>
+                <TYPE.darkGray>{i18n._(t`Tip: Custom tokens are stored locally in your browser`)}</TYPE.darkGray>
             </Footer>
         </Wrapper>
     )

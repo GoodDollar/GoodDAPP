@@ -1,14 +1,18 @@
 import React from 'react'
 import { AutoColumn } from '../Column'
 import { RowBetween, RowFixed } from '../Row'
+import { t } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 
 function TradeSummary() {
+    const { i18n } = useLingui()
+
     return (
         <>
             <AutoColumn style={{ padding: '0 16px' }} className="">
                 <RowBetween>
                     <RowFixed>
-                        <div className="">Your Pool Tokens</div>
+                        <div className="">{i18n._(t`Your Pool Tokens`)}</div>
                     </RowFixed>
                     <RowFixed>
                         <div className="white">
@@ -19,7 +23,7 @@ function TradeSummary() {
                 </RowBetween>
                 <RowBetween>
                     <RowFixed>
-                        <div className="">Your Pool Share</div>
+                        <div className="">{i18n._(t`Your Pool Share`)}</div>
                     </RowFixed>
                     <RowFixed>
                         <div className="white">
@@ -30,7 +34,7 @@ function TradeSummary() {
                 </RowBetween>
                 <RowBetween>
                     <RowFixed>
-                        <div className="">Liquidity Provider Fee</div>
+                        <div className="">{i18n._(t`Liquidity Provider Fee`)}</div>
                     </RowFixed>
                     <RowFixed>
                         <div className="white">0.00283 ETH</div>
@@ -38,7 +42,7 @@ function TradeSummary() {
                 </RowBetween>
                 <RowBetween>
                     <RowFixed>
-                        <div className="">Network Fee</div>
+                        <div className="">{i18n._(t`Network Fee`)}</div>
                     </RowFixed>
                     <RowFixed>
                         <div className="white">0.008654 ETH</div>

@@ -138,7 +138,11 @@ export default function InputGroup({
                         </div>
                         {approvalState === ApprovalState.NOT_APPROVED || approvalState === ApprovalState.PENDING ? (
                             <Button color="blue" disabled={approvalState === ApprovalState.PENDING} onClick={approve}>
-                                {approvalState === ApprovalState.PENDING ? <Dots>Approving </Dots> : 'Approve'}
+                                {approvalState === ApprovalState.PENDING ? (
+                                    <Dots>{i18n._(t`Approving`)} </Dots>
+                                ) : (
+                                    i18n._(t`Approve`)
+                                )}
                             </Button>
                         ) : (
                             <Button

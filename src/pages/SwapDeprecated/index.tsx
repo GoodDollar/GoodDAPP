@@ -282,7 +282,7 @@ export default function Swap() {
                 <title>{i18n._(t`Swap`)} | Sushi</title>
                 <meta
                     name="description"
-                    content="Sushi allows for swapping of ERC20 compatible tokens across multiple networks"
+                    content={i18n._(t`Sushi allows for swapping of ERC20 compatible tokens across multiple networks`)}}
                 />
             </Helmet>
             <TokenWarningModal
@@ -355,7 +355,7 @@ export default function Swap() {
                                 </button>
                                 {recipient === null && !showWrap && isExpertMode ? (
                                     <LinkStyledButton id="add-recipient-button" onClick={() => onChangeRecipient('')}>
-                                        + Add a send (optional)
+                                       {i18n._(t`+ Add a send (optional)`)} 
                                     </LinkStyledButton>
                                 ) : null}
                             </AutoRow>
@@ -456,7 +456,7 @@ export default function Swap() {
                                 >
                                     {approval === ApprovalState.PENDING ? (
                                         <AutoRow gap="6px" justify="center">
-                                            APPROVING <Loader stroke="white" />
+                                          {i18n._(t`APPROVING`)} <Loader stroke="white" />
                                         </AutoRow>
                                     ) : approvalSubmitted && approval === ApprovalState.APPROVED ? (
                                         i18n._(t`APPROVED`)

@@ -4,6 +4,8 @@ import Modal from '../../../components/Modal'
 import Title from '../../../components/gd/Title'
 import SwapTokensModalTokenRow from './SwapTokensModalTokenRow'
 import { Currency, Token } from '@sushiswap/sdk'
+import { t } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 
 export interface SwapTokensModalProps {
     className?: string
@@ -33,6 +35,7 @@ function SwapTokensModal({
     onTokenChange,
     tokenList = []
 }: SwapTokensModalProps) {
+    const { i18n } = useLingui()
     const [search, setSearch] = useState('')
     const [_search, _setSearch] = useState('')
     const timer = useRef<any>()
@@ -54,7 +57,7 @@ function SwapTokensModal({
                 <SwapTokensModalSearch>
                     <input
                         type="text"
-                        placeholder="Search name or paste the address"
+                        placeholder={i18n._(t`Search name or paste the address`)}
                         value={_search}
                         onChange={handleSearchChange}
                     />

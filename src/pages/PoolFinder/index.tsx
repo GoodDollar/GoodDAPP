@@ -93,8 +93,10 @@ export default function PoolFinder() {
                         <AutoColumn gap="10px">
                             <TYPE.link fontWeight={400} color={'primaryText1'}>
                                 <Trans>
-                                    <b>Tip:</b> Use this tool to find pairs that don&apos;t automatically appear in the
-                                    interface
+                                    <b>{i18n._(t`Tip`)}:</b>{' '}
+                                    {i18n._(
+                                        t`Use this tool to find pairs that don't automatically appear in the interface`
+                                    )}
                                 </Trans>
                             </TYPE.link>
                         </AutoColumn>

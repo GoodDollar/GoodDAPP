@@ -6,6 +6,8 @@ import { injected } from '../../connectors'
 import { SUPPORTED_WALLETS } from '../../constants'
 import Loader from '../Loader'
 import Option from './Option'
+import { t } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 
 const PendingSection = styled.div`
     ${({ theme }) => theme.flexColumnNoWrap};
@@ -74,6 +76,7 @@ export default function PendingView({
     setPendingError: (error: boolean) => void
     tryActivation: (connector: AbstractConnector) => void
 }) {
+    const { i18n } = useLingui()
     const isMetamask = window?.ethereum?.isMetaMask
 
     return (
@@ -82,20 +85,20 @@ export default function PendingView({
                 <LoadingWrapper>
                     {error ? (
                         <ErrorGroup>
-                            <div>Error connecting.</div>
+                            <div>{i18n._(t`Error connecting.`)}</div>
                             <ErrorButton
                                 onClick={() => {
                                     setPendingError(false)
                                     connector && tryActivation(connector)
                                 }}
                             >
-                                Try Again
+                                {i18n._(t`Try Again`)}
                             </ErrorButton>
                         </ErrorGroup>
                     ) : (
                         <>
                             <StyledLoader />
-                            Initializing...
+                            {i18n._(t`Initializing...`)}
                         </>
                     )}
                 </LoadingWrapper>

@@ -15,6 +15,8 @@ import useActiveWeb3React from '../../../hooks/useActiveWeb3React'
 import useWeb3 from '../../../hooks/useWeb3'
 import { Action } from '../../Stake/StakeDeposit'
 import { getExplorerLink } from '../../../utils'
+import { t } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 
 export interface SwapConfirmModalProps extends SwapDetailsFields {
     className?: string
@@ -56,6 +58,7 @@ function SwapConfirmModal({
     buying,
     meta
 }: SwapConfirmModalProps) {
+    const { i18n } = useLingui()
     const [from, to] = pair ?? []
     const globalDispatch = useDispatch()
     const { chainId } = useActiveWeb3React()
@@ -98,7 +101,7 @@ function SwapConfirmModal({
         case 'PREVIEW':
             content = (
                 <>
-                    <Title className="text-center mb-6">Confirm swap</Title>
+                    <Title className="text-center mb-6">{i18n._(t`Confirm swap`)}</Title>
                     <div className="diagram mb-6">
                         <div className="icon">
                             <CurrencyLogo currency={from?.token} size={'54px'} />
@@ -136,35 +139,43 @@ function SwapConfirmModal({
                         <div className="symbol">{to?.token?.getSymbol()}</div>
                     </div>
                     <div className="description">
-                        Output is estimated. You will receive at least {minimumReceived} or the transaction will revert
+                        {i18n._(
+                            t`Output is estimated. You will receive at least ${minimumReceived} or the transaction will revert`
+                        )}
                     </div>
                     <div className="mt-8 mb-8">
                         <SwapInfo title="Price" value={price} />
                         <SwapInfo
-                            title="Minimum received"
+                            title={i18n._(t`Minimum received`)}
                             value={minimumReceived}
-                            tip="Your transaction will revert if there is a large, unfavorable price movement before it is confirmed."
+                            tip={i18n._(
+                                t`Your transaction will revert if there is a large, unfavorable price movement before it is confirmed.`
+                            )}
                         />
                         <SwapInfo
-                            title="Price Impact"
+                            title={i18n._(t`Price Impact`)}
                             value={priceImpact}
-                            tip="Your transaction will revert if there is a large, unfavorable price movement before it is confirmed."
+                            tip={i18n._(
+                                t`Your transaction will revert if there is a large, unfavorable price movement before it is confirmed.`
+                            )}
                         />
                         <SwapInfo
-                            title="Liquidity Provider Fee"
+                            title={i18n._(t`Liquidity Provider Fee`)}
                             value={liquidityFee}
-                            tip="A portion of each trade (0.25%) goes to liquidity providers as a protocol incentive."
+                            tip={i18n._(
+                                t`A portion of each trade (0.25%) goes to liquidity providers as a protocol incentive.`
+                            )}
                         />
                         <SwapInfo
-                            title="Route"
+                            title={i18n._(t`Route`)}
                             value={route}
-                            tip="Routing through these tokens resulted in the best price for your trade."
+                            tip={i18n._(t`Routing through these tokens resulted in the best price for your trade.`)}
                         />
                         {GDX && <SwapInfo title="GDX" value={GDX} />}
                         {exitContribution && <SwapInfo title="EXIT CONTRIBUTION" value={exitContribution} />}
                     </div>
                     <ButtonAction onClick={handleSwap} disabled={false}>
-                        CONFIRM SWAP
+                        {i18n._(t`CONFIRM SWAP`)}
                     </ButtonAction>
                 </>
             )
@@ -172,16 +183,18 @@ function SwapConfirmModal({
         case 'CONFIRM':
             content = (
                 <>
-                    <Title className="text-center mt-6 mb-6">Waiting for Confirmation</Title>
-                    <div className="text-center">Swapping {price}</div>
-                    <div className="description text-center">Confirm this transaction in your wallet</div>
+                    <Title className="text-center mt-6 mb-6">{i18n._(t`Waiting for Confirmation`)}</Title>
+                    <div className="text-center">
+                        {i18n._(t`Swapping`)} {price}
+                    </div>
+                    <div className="description text-center">{i18n._(t`Confirm this transaction in your wallet`)}</div>
                 </>
             )
             break
         case 'SENT':
             content = (
                 <>
-                    <Title className="text-center mb-6 mb-6">Transaction Submitted</Title>
+                    <Title className="text-center mb-6 mb-6">{i18n._(t`Transaction Submitted`)}</Title>
                     {chainId && (
                         <div className="text-center">
                             <a
@@ -190,13 +203,13 @@ function SwapConfirmModal({
                                 target="_blank"
                                 rel="noreferrer"
                             >
-                                View on explorer
+                                {i18n._(t`View on explorer`)}
                             </a>
                         </div>
                     )}
                     <div className="flex justify-center mt-1">
                         <ButtonDefault width="auto" className="px-16" onClick={onClose}>
-                            Close
+                            {i18n._(t`Close`)}
                         </ButtonDefault>
                     </div>
                 </>

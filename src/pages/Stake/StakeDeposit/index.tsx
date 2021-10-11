@@ -16,6 +16,8 @@ import { getExplorerLink } from '../../../utils'
 import { ReactComponent as LinkSVG } from '../../../assets/images/link-blue.svg'
 import { Link } from 'react-router-dom'
 import { TransactionDetails } from '../../../sdk/constants/transactions'
+import { t } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 
 export interface StakeDepositModalProps {
     stake: Stake
@@ -42,6 +44,7 @@ const initialState = {
 }
 
 const StakeDeposit = ({ stake, onDeposit, onClose }: StakeDepositModalProps) => {
+    const { i18n } = useLingui()
     const { chainId, account } = useActiveWeb3React()
     const web3 = useWeb3()
 
@@ -131,8 +134,7 @@ const StakeDeposit = ({ stake, onDeposit, onClose }: StakeDepositModalProps) => 
         } catch (e) {
             dispatch({
                 type: 'SET_ERROR',
-                // @ts-ignore
-                payload: e
+                payload: e as Error
             })
         } finally {
             dispatch({ type: 'TOGGLE_LOADING' })
@@ -158,9 +160,9 @@ const StakeDeposit = ({ stake, onDeposit, onClose }: StakeDepositModalProps) => 
                         <span>{stake.tokens.A.symbol}</span>
                     </>
                 ) : depositing ? (
-                    'Deposit overview'
+                    i18n._(t`Deposit overview`)
                 ) : (
-                    'Success!'
+                    i18n._(t`Success!`)
                 )}
             </Title>
             {(approving || state.error) && (
@@ -177,7 +179,7 @@ const StakeDeposit = ({ stake, onDeposit, onClose }: StakeDepositModalProps) => 
             {approving ? (
                 <>
                     <div className="flex items-center justify-between mb-3">
-                        <span>How much would you like to deposit?</span>
+                        <span>{i18n._(t`How much would you like to deposit?`)}</span>
                         <div className="flex items-center space-x-1">
                             <span>{stake.tokens.A.symbol}</span>
                             <Switch>
@@ -234,13 +236,17 @@ const StakeDeposit = ({ stake, onDeposit, onClose }: StakeDepositModalProps) => 
                             })
                         }
                     >
-                        {state.loading ? 'APPROVING' : !account ? 'Connect wallet' : 'APPROVE'}
+                        {state.loading
+                            ? i18n._(t`APPROVING`)
+                            : !account
+                            ? i18n._(t`Connect wallet`)
+                            : i18n._(t`APPROVE`)}
                     </ButtonAction>
                 </>
             ) : depositing ? (
                 <>
                     <div className="flex justify-between items-start">
-                        <div className="amount">amount</div>
+                        <div className="amount">{i18n._(t`amount`)}</div>
                         <div className="flex flex-col">
                             <div className="flex items-center space-x-2 token">
                                 <AsyncTokenIcon
@@ -282,7 +288,7 @@ const StakeDeposit = ({ stake, onDeposit, onClose }: StakeDepositModalProps) => 
                                 })
                             }
                         >
-                            DEPOSIT
+                            {i18n._(t`DEPOSIT`)}
                         </ButtonAction>
                     </div>
                 </>
@@ -305,17 +311,17 @@ const StakeDeposit = ({ stake, onDeposit, onClose }: StakeDepositModalProps) => 
                     <div className="flex flex-col items-center mt-4 space-y-2">
                         <Link to="/portfolio">
                             <ButtonDefault className="uppercase px-6" width="auto">
-                                Back to Portfolio
+                                {i18n._(t`Back to portfolio`)}
                             </ButtonDefault>
                         </Link>
                         <ButtonText className="uppercase" onClick={onClose}>
-                            Close
+                            {i18n._(t`Close`)}
                         </ButtonText>
                     </div>
                 </>
             )}
             {state.loading && !state.signed && (
-                <div className="walletNotice mt-2">You need to sign the transaction in your wallet</div>
+                <div className="walletNotice mt-2">{i18n._(t`You need to sign the transaction in your wallet`)}</div>
             )}
         </StakeDepositSC>
     )

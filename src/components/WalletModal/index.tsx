@@ -17,6 +17,8 @@ import Modal from '../Modal'
 import Option from './Option'
 import PendingView from './PendingView'
 import Title from '../gd/Title'
+import { t } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 
 const CloseIcon = styled.div`
     position: absolute;
@@ -120,6 +122,7 @@ export default function WalletModal({
     confirmedTransactions: string[] // hashes of confirmed
     ENSName?: string
 }) {
+    const { i18n } = useLingui()
     // important that these are destructed from the account-specific web3-react context
     const { active, account, connector, activate, error } = useWeb3React()
 
@@ -279,13 +282,15 @@ export default function WalletModal({
                         <CloseColor />
                     </CloseIcon>
                     <HeaderRow>
-                        {error instanceof UnsupportedChainIdError ? 'Wrong Network' : 'Error connecting'}
+                        {error instanceof UnsupportedChainIdError
+                            ? i18n._(t`Wrong Network`)
+                            : i18n._(t`Error connecting`)}
                     </HeaderRow>
                     <ContentWrapper>
                         {error instanceof UnsupportedChainIdError ? (
-                            <h5>Please connect to the appropriate Ethereum network.</h5>
+                            <h5>{i18n._(t`Please connect to the appropriate Ethereum network.`)}</h5>
                         ) : (
-                            'Error connecting. Try refreshing the page.'
+                            i18n._(t`Error connecting. Try refreshing the page.`)
                         )}
                     </ContentWrapper>
                 </UpperSection>

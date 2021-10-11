@@ -12,6 +12,8 @@ import isEqual from 'lodash/isEqual'
 import SideBar from '../components/SideBar'
 import useTheme from '../hooks/useTheme'
 import styled from 'styled-components'
+import { t } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 
 export const Beta = styled.div`
     font-style: normal;
@@ -101,6 +103,7 @@ function App(): JSX.Element {
     }, [dispatch, search])
 
     const theme = useTheme()
+    const { i18n } = useLingui()
 
     return (
         <Suspense fallback={null}>
@@ -122,7 +125,7 @@ function App(): JSX.Element {
                                 <Routes />
                             </div>
                         </Web3ReactManager>
-                        <Beta className="mt-3 lg:mt-8">This project is in beta. Use at your own risk</Beta>
+                        <Beta className="mt-3 lg:mt-8">{i18n._(t`This project is in beta. Use at your own risk`)}</Beta>
                     </div>
                 </Wrapper>
             </div>

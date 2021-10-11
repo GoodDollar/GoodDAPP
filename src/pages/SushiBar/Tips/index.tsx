@@ -11,6 +11,8 @@ import BentoSquare from '../../../assets/images/bento-square.png'
 import AaveSquare from '../../../assets/images/aave-square.png'
 import CreamSquare from '../../../assets/images/aave-square.png'
 import Vote from '../../../assets/images/vote.png'
+import { t } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 
 interface Tip {
     title: string
@@ -66,6 +68,7 @@ const tips: readonly Tip[] = [
 ]
 
 export default function SushiBarTips() {
+    const { i18n } = useLingui()
     const theme = useContext(ThemeContext)
     const history = useHistory()
 
@@ -81,12 +84,13 @@ export default function SushiBarTips() {
             <div className="w-full max-w-2xl mb-4">
                 <Button size="small" className="flex items-center pl-0 mb-4" onClick={goBack}>
                     <ChevronLeft strokeWidth={2} size={18} color={theme.white} />
-                    <span className="ml-1">Go Back</span>
+                    <span className="ml-1">{i18n._(t`Go Back`)}</span>
                 </Button>
-                <div className=" h4">Make the most of your xSUSHI.</div>
+                <div className=" h4">{i18n._(t`Make the most of your`)} xSUSHI.</div>
                 <div className=" py-3">
-                    You can leave the bar and exchange your xSUSHI for SUSHI (as well as collect any earned interest) at
-                    any time. However, there are more ways to use xSUSHI to maximize your yield potential!
+                    {i18n._(
+                        t`You can leave the bar and exchange your xSUSHI for SUSHI (as well as collect any earned interest) at any time. However, there are more ways to use xSUSHI to maximize your yield potential!`
+                    )}
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-5">
                     {tips.map(({ title, image, description, href }, i) => (
@@ -106,7 +110,7 @@ export default function SushiBarTips() {
                                 <div className="caption  leading-6 mt-4 mb-3">{description}</div>
                             </div>
                             <Link to={href} className="caption body   pt-1">
-                                Learn More
+                                {i18n._(t`Learn More`)}
                             </Link>
                         </div>
                     ))}

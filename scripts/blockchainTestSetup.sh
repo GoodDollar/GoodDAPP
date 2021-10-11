@@ -1,5 +1,5 @@
 #!/bin/bash
 pushd node_modules/@gooddollar/goodprotocol
-yarn
+yarn --frozen-lockfile
 yarn deployTest
 popd

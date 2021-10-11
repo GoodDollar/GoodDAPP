@@ -2185,7 +2185,7 @@
   resolved "https://registry.yarnpkg.com/@gar/promisify/-/promisify-1.1.2.tgz#30aa825f11d438671d585bd44e7fd564535fc210"
   integrity sha512-82cpyJyKRoQoRi+14ibCeGPu0CwypgtBAdBhq1WfvagpCZNKqwXbKwXllYSMG91DhmG4jt9gN8eP6lGOtozuaw==
 
-"@gooddollar/goodcontracts@^2.6.0", "@gooddollar/goodcontracts@^2.6.1":
+"@gooddollar/goodcontracts@^2.6.0", "@gooddollar/goodcontracts@^2.6.2":
   version "2.6.2"
   resolved "https://registry.yarnpkg.com/@gooddollar/goodcontracts/-/goodcontracts-2.6.2.tgz#b8ed904e3126fb5a8a9d7bd48abf0e2da48c534b"
   integrity sha512-TfOF+t+vCbsGkh5hwWjLiWt6xwLhyhpNocf2LRAtGt2e21hy0H7sPIvaT/jIDUCgTJpVn5KcZ5+3ksCdc0kdyA==
@@ -2194,12 +2194,12 @@
     truffle-plugin-verify "^0.3.11"
     truffle-safe-hdwallet-provider "0.0.7"
 
-"@gooddollar/goodprotocol@^1.0.0-beta.24":
-  version "1.0.0-beta.42"
-  resolved "https://registry.yarnpkg.com/@gooddollar/goodprotocol/-/goodprotocol-1.0.0-beta.42.tgz#a54e957d05cee1f346cf92d1f8d069539564addb"
-  integrity sha512-3+s2TWl8VjpX1JMOoATIDKDutNoFNrgEo27NvQ6x0x71aI/QH3jwpqJnRN/Kwdsk2nqGNcW94HnTXDvfMfpHyA==
+"@gooddollar/goodprotocol@^1.0.0-beta.46":
+  version "1.0.0-beta.46"
+  resolved "https://registry.yarnpkg.com/@gooddollar/goodprotocol/-/goodprotocol-1.0.0-beta.46.tgz#5d2795e3d3b5c3f7488cb054a5c8c799fe13e6f2"
+  integrity sha512-eEtNbKURRkhcdJ5wn80fVi8mrTtfc2IzeMOjwLvA7k+D2nN/Gme6oHjkVbWWWAOxZoyClyLWYVh7krSzGAJ8iw==
   dependencies:
-    "@gooddollar/goodcontracts" "^2.6.1"
+    "@gooddollar/goodcontracts" "^2.6.2"
     "@jsier/retrier" "^1.2.4"
     "@openzeppelin/contracts-upgradeable" "^4.3.2"
     "@typechain/hardhat" "^2.2.0"

@@ -12,9 +12,9 @@ export default () => {
 
   useEffect(() => {
     const listener = () => setDimensions(getCurrentDimensions())
+    const subscription = Dimensions.addEventListener('change', listener)
 
-    Dimensions.addEventListener('change', listener)
-    return () => Dimensions.removeEventListener('change', listener)
+    return () => subscription.remove()
   }, [])
 
   return dimensions

@@ -16,8 +16,11 @@ export default (settings = {}) => {
       setAppState(nextAppState)
     }
 
-    AppState.addEventListener('change', handleAppStateChange)
-    return () => AppState.removeEventListener('change', handleAppStateChange)
+    const subscription = AppState.addEventListener('change', handleAppStateChange)
+
+    return () => {
+      subscription.remove()
+    }
   }, [appState, onChange, onForeground, onBackground])
 
   return { appState }

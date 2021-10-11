@@ -117,7 +117,7 @@ export default () => {
       }
     }
 
-    AppState.addEventListener('change', onAppStateChange)
+    const subscription = AppState.addEventListener('change', onAppStateChange)
 
     if (!isFirstCheckGun) {
       isGunConnection()
@@ -128,7 +128,7 @@ export default () => {
      */
     return () => {
       killLastConnectionCheck()
-      AppState.removeEventListener('change', onAppStateChange)
+      subscription.remove()
     }
   }, [isGunConnection, userStorage])
 

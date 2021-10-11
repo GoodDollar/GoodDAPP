@@ -84,6 +84,7 @@ const feedMutex = new Mutex()
 const Dashboard = props => {
   const balanceRef = useRef()
   const feedRef = useRef([])
+  const resizeSubscriptionRef = useRef()
   const { screenProps, styles, theme, navigation }: DashboardProps = props
   const [balanceBlockWidth, setBalanceBlockWidth] = useState(70)
   const [headerContentWidth, setHeaderContentWidth] = useState(initialHeaderContentWidth)
@@ -333,7 +334,7 @@ const Dashboard = props => {
     log.debug('initDashboard subscribed to feed')
 
     // InteractionManager.runAfterInteractions(handleFeedEvent)
-    Dimensions.addEventListener('change', handleResize)
+    resizeSubscriptionRef.current = Dimensions.addEventListener('change', handleResize)
 
     initBGFetch()
   }
@@ -470,7 +471,13 @@ const Dashboard = props => {
     initDashboard()
 
     return function() {
-      Dimensions.removeEventListener('change', handleResize)
+      const { current: subscription } = resizeSubscriptionRef
+
+      if (subscription) {
+        subscription.remove()
+      }
+
+      resizeSubscriptionRef.current = null
       userStorage.feedStorage.feedEvents.off('updated', onFeedUpdated)
     }
   }, [])

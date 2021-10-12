@@ -1,11 +1,6 @@
 import { GoodWallet } from '../WalletClassSelector'
 import adminWallet from './__util__/AdminWalletV1'
 
-// eslint-disable-next-line require-await
-const nextDay = async () => {
-  return adminWallet.web3.currentProvider.send('evm_increaseTime', [60 * 60 * 24])
-}
-
 describe('GoodWalletShare/ReceiveTokens', () => {
   jest.setTimeout(120000)
   const amount = 1
@@ -22,7 +17,6 @@ describe('GoodWalletShare/ReceiveTokens', () => {
     })
 
     await adminWallet.ready
-    await nextDay() //make sure ubi contract is started
     await testWallet.ready
 
     await testWallet2.ready
@@ -55,14 +49,17 @@ describe('GoodWalletShare/ReceiveTokens', () => {
     expect(gas).toBeTruthy()
   })
 
-  it('should claim and emit transfer event', async done => {
+  it('should claim and emit transfer event', done => {
     let eventId = testWallet.subscribeToEvent('balanceChanged', events => {
       expect(events).toBeFalsy()
       testWallet.unsubscribeFromEvent(eventId)
       done()
     })
-    expect(await testWallet.claim()).toBeTruthy()
-    expect(await testWallet.balanceOf()).toBeGreaterThan(0)
+    const run = async () => {
+      expect(await testWallet.claim()).toBeTruthy()
+      expect(await testWallet.balanceOf()).toBeGreaterThan(0)
+    }
+    run()
   })
 
   it('should allow token transfer', async () => {
@@ -114,44 +111,52 @@ describe('GoodWalletShare/ReceiveTokens', () => {
     expect(res2).toBeFalsy()
   })
 
-  it('should emit PaymentWithdraw and transfer event filtered by from block', async done => {
-    await adminWallet.topWallet(testWallet.account, 0, true)
-    await adminWallet.topWallet(testWallet2.account, 0, true)
-    expect(await testWallet2.claim()).toBeTruthy()
-    const linkData = testWallet2.generatePaymentLink(amount, reason)
-    expect(await linkData.txPromise.catch(_ => false)).toBeTruthy()
+  it('should emit PaymentWithdraw and transfer event filtered by from block', done => {
+    const run = async () => {
+      await adminWallet.topWallet(testWallet.account, 0, true)
+      await adminWallet.topWallet(testWallet2.account, 0, true)
+      expect(await testWallet2.claim()).toBeTruthy()
+      const linkData = testWallet2.generatePaymentLink(amount, reason)
+      expect(await linkData.txPromise.catch(_ => false)).toBeTruthy()
+      const withdrawRes = await testWallet.withdraw(linkData.code).catch(e => {
+        // console.log('withdraw failed', e.message, e)
+        return false
+      })
+      expect(withdrawRes).toBeTruthy()
+    }
+    run()
     let eventId = testWallet2.subscribeToEvent('receiptUpdated', receipt => {
-      if (receipt.logs[1].name !== 'PaymentWithdraw') {
+      expect(receipt).toBeTruthy()
+      const event = receipt.logs.find(_ => _.name === 'PaymentWithdraw')
+      if (!event) {
         return
       }
-      expect(receipt).toBeTruthy()
-      expect(receipt.logs[1].name).toBe('PaymentWithdraw')
+      expect(event.name).toBe('PaymentWithdraw')
       testWallet2.unsubscribeFromEvent(eventId)
       done()
     })
-    const withdrawRes = await testWallet.withdraw(linkData.code).catch(e => {
-      // console.log('withdraw failed', e.message, e)
-      return false
-    })
-    expect(withdrawRes).toBeTruthy()
   })
 
-  it('should emit PaymentCancel event', async done => {
-    expect(await testWallet2.claim().catch(_ => true)).toBeTruthy()
+  it('should emit PaymentCancel event', done => {
+    const run = async () => {
+      expect(await testWallet2.claim().catch(_ => true)).toBeTruthy()
 
-    const { txPromise, hashedCode } = testWallet2.generatePaymentLink(amount, reason)
-    await txPromise
+      const { txPromise, hashedCode } = testWallet2.generatePaymentLink(amount, reason)
+      await txPromise
+      const cancelTX = await testWallet2.cancelOTL(hashedCode).catch(_ => false)
+      expect(cancelTX).toBeTruthy()
+    }
+    run()
 
     let eventId = testWallet2.subscribeToEvent('receiptUpdated', receipt => {
-      if (receipt.logs[1].name !== 'PaymentCancel') {
+      expect(receipt).toBeTruthy()
+      const event = receipt.logs.find(_ => _.name === 'PaymentCancel')
+      if (!event) {
         return
       }
-      expect(receipt).toBeTruthy()
-      expect(receipt.logs[1].name).toBe('PaymentCancel')
+      expect(event.name).toBe('PaymentCancel')
       testWallet2.unsubscribeFromEvent(eventId)
       done()
     })
-    const cancelTX = await testWallet2.cancelOTL(hashedCode).catch(_ => false)
-    expect(cancelTX).toBeTruthy()
   })
 })

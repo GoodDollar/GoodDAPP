@@ -121,31 +121,12 @@ jobs:
 
       - name: install goodcontracts
         if: "steps.contractsCache.outputs.cache-hit != 'true' && matrix.chunk == env.WALLET_CHUNK"
-        run: npm run test:setup
-      #     pushd node_modules/@gooddollar/goodcontracts
-      #     npm ci
-      #     cd stakingModel
-      #     npm ci
-      #     popd
-
-      # - name: prepare blockchain for test
-      #   if: matrix.chunk == env.WALLET_CHUNK
-      #   run: |
-      #     pushd node_modules/@gooddollar/goodcontracts/stakingModel
-      #     #temporary test
-      #     npm i ganache-cli@latest
-      #     npm run ganache:test &
-      #     npm run wait
-      #     npm run start:withmain
-      #     popd
+        run: yarn test:setup
 
       - name: run tests and code coverage
         run: |
           cat node_modules/@gooddollar/goodcontracts/releases/deployment.json
-          echo $CHUNKS | jq '.[${{ matrix.chunk }}] | .[] | @text' | xargs npm run coverage
-          # npm run coverage
-          # npm run coveralls || true
-          # pkill -f ganache || true
+          echo $CHUNKS | jq '.[${{ matrix.chunk }}] | .[] | @text' | xargs yarn coverage
 
       - name: Coveralls
         uses: coverallsapp/github-action@master

@@ -92,7 +92,6 @@ function CustomApp() {
     const PASSWORD_HASH = '$2a$10$V9DPoPvZtRpg9t23wzl5c.jYYyG5VJdJx/pvBJy61WmN/01rkSfSm'
 
     useEffect(() => {
-        console.log(cookies.pwd)
         if (cookies.pwd === PASSWORD_HASH) setAuth(true)
         return () => {
             removeCookie('pwd')

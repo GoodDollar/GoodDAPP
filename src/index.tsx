@@ -5,9 +5,11 @@ import './bootstrap'
 
 import { createWeb3ReactRoot, Web3ReactProvider } from '@web3-react/core'
 import { KashiProvider } from 'kashi'
-import React, { StrictMode } from 'react'
+import React, { StrictMode, useState, useEffect } from 'react'
 import { isMobile } from 'react-device-detect'
 import ReactDOM from 'react-dom'
+import styled from 'styled-components'
+import { useCookies } from 'react-cookie'
 
 import { Provider } from 'react-redux'
 import { BrowserRouter as Router } from 'react-router-dom'
@@ -25,6 +27,9 @@ import getLibrary from './utils/getLibrary'
 import LanguageProvider from 'language'
 import { createGlobalStyle } from 'styled-components'
 import { Web3ContextProvider } from './hooks/useWeb3'
+import Modal from './components/Modal'
+import LogoImg from './assets/svg/logo_custom.svg'
+import { ButtonAction } from './components/gd/Button'
 
 const Web3ProviderNetwork = createWeb3ReactRoot(NetworkContextName)
 
@@ -44,6 +49,110 @@ function Updaters() {
             <UserUpdater />
             <ApplicationUpdater />
             <MulticallUpdater />
+        </>
+    )
+}
+
+const Input = styled.input<{ error?: boolean }>`
+    border-radius: 10px;
+    width: 100%;
+`
+const Img = styled.img`
+    height: 100px;
+`
+const Wrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    padding: 10%;
+    justify-content: center;
+    align-items: center;
+`
+const Text = styled.div<{ fontSize?: number }>`
+    font-style: normal;
+    font-size: ${({ fontSize }) => (fontSize ? fontSize + 'px' : '15px')};
+    line-height: 166%;
+    letter-spacing: 0.35px;
+    color: #787878;
+    text-align: center;
+
+    @media screen and (max-height: 720px) {
+        font-size: 12px;
+        margin-top: 30px;
+    }
+`
+const Link = styled.a`
+    color: blue;
+`
+
+function CustomApp() {
+    const [auth, setAuth] = useState(false)
+    const [cookies, setCookie, removeCookie] = useCookies(['pwd'])
+    const PASSWORD = 'gdbetatest'
+    const PASSWORD_HASH = '$2a$10$V9DPoPvZtRpg9t23wzl5c.jYYyG5VJdJx/pvBJy61WmN/01rkSfSm'
+
+    useEffect(() => {
+        console.log(cookies.pwd)
+        if (cookies.pwd === PASSWORD_HASH) setAuth(true)
+        return () => {
+            removeCookie('pwd')
+            setAuth(false)
+        }
+    }, [])
+
+    const [value, setValue] = useState('')
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+        setValue(e.target.value)
+    }
+
+    const handleSubmit = () => {
+        if (value) {
+            if (value === PASSWORD) {
+                setCookie('pwd', PASSWORD_HASH, { maxAge: 0 })
+                setAuth(true)
+            } else {
+                alert('Incorrect password')
+            }
+        }
+    }
+
+    return (
+        <>
+            {auth ? (
+                <App />
+            ) : (
+                <Modal isOpen={true} onDismiss={() => null}>
+                    <Wrapper>
+                        <Img src={LogoImg} alt="logo" />
+                        <Text>
+                            Enter password to continue to <b>GoodDollar</b>
+                        </Text>
+                        <Input
+                            type="password"
+                            autoComplete="off"
+                            autoCorrect="off"
+                            autoCapitalize="off"
+                            placeholder="Password"
+                            onChange={handleChange}
+                            value={value}
+                            onKeyDown={e => {
+                                e.key === 'Enter' && handleSubmit()
+                            }}
+                        />
+                        <ButtonAction onClick={handleSubmit} size="sm" width="50%">
+                            Login
+                        </ButtonAction>
+                        <Text fontSize={14}>
+                            Don&apos;t have password? Subscribe{' '}
+                            <Link href="https://www.gooddollar.org/#mauticform_wrapper_phase0newslettersubscription">
+                                here
+                            </Link>{' '}
+                            for the updates
+                        </Text>
+                    </Wrapper>
+                </Modal>
+            )}
         </>
     )
 }
@@ -83,7 +192,7 @@ ReactDOM.render(
                                     <GlobalStyle />
                                     <KashiProvider>
                                         <Router>
-                                            <App />
+                                            <CustomApp />
                                         </Router>
                                     </KashiProvider>
                                 </ThemeProvider>

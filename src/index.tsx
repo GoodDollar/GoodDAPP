@@ -147,7 +147,7 @@ function CustomApp() {
                             <Link href="https://www.gooddollar.org/#mauticform_wrapper_phase0newslettersubscription">
                                 here
                             </Link>{' '}
-                            for the updates
+                            for updates on the official release
                         </Text>
                     </Wrapper>
                 </Modal>

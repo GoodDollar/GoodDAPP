@@ -9,7 +9,7 @@ import React, { StrictMode, useState, useEffect } from 'react'
 import { isMobile } from 'react-device-detect'
 import ReactDOM from 'react-dom'
 import styled from 'styled-components'
-import { useCookies } from 'react-cookie'
+import { Text, Link, Image } from 'rebass'
 
 import { Provider } from 'react-redux'
 import { BrowserRouter as Router } from 'react-router-dom'
@@ -54,11 +54,8 @@ function Updaters() {
 }
 
 const Input = styled.input<{ error?: boolean }>`
-    border-radius: 10px;
+    border-radius: 5px;
     width: 100%;
-`
-const Img = styled.img`
-    height: 100px;
 `
 const Wrapper = styled.div`
     display: flex;
@@ -68,35 +65,20 @@ const Wrapper = styled.div`
     justify-content: center;
     align-items: center;
 `
-const Text = styled.div<{ fontSize?: number }>`
-    font-style: normal;
-    font-size: ${({ fontSize }) => (fontSize ? fontSize + 'px' : '15px')};
-    line-height: 166%;
-    letter-spacing: 0.35px;
-    color: #787878;
-    text-align: center;
-
-    @media screen and (max-height: 720px) {
-        font-size: 12px;
-        margin-top: 30px;
-    }
-`
-const Link = styled.a`
-    color: blue;
-`
 
 function CustomApp() {
     const [auth, setAuth] = useState(false)
-    const [cookies, setCookie, removeCookie] = useCookies(['pwd'])
     const PASSWORD = 'gdbetatest'
     const PASSWORD_HASH = '$2a$10$V9DPoPvZtRpg9t23wzl5c.jYYyG5VJdJx/pvBJy61WmN/01rkSfSm'
 
     useEffect(() => {
-        if (cookies.pwd === PASSWORD_HASH) setAuth(true)
-        return () => {
-            removeCookie('pwd')
-            setAuth(false)
-        }
+        const passMatch = window.location.search.match(/\bpass=\w+,\b/)
+        if (passMatch && passMatch[0]) {
+            let pass = passMatch[0].split('=')[1]
+            pass = pass.substring(0, pass.length - 1)
+
+            if (pass === PASSWORD) setAuth(true)
+        } else if (localStorage.getItem('pass') === PASSWORD_HASH) setAuth(true)
     }, [])
 
     const [value, setValue] = useState('')
@@ -108,7 +90,7 @@ function CustomApp() {
     const handleSubmit = () => {
         if (value) {
             if (value === PASSWORD) {
-                setCookie('pwd', PASSWORD_HASH, { maxAge: 0 })
+                localStorage.setItem('pass', PASSWORD_HASH)
                 setAuth(true)
             } else {
                 alert('Incorrect password')
@@ -123,7 +105,7 @@ function CustomApp() {
             ) : (
                 <Modal isOpen={true} onDismiss={() => null}>
                     <Wrapper>
-                        <Img src={LogoImg} alt="logo" />
+                        <Image src={LogoImg} alt="logo" width="100px" />
                         <Text>
                             Enter password to continue to <b>GoodDollar</b>
                         </Text>
@@ -144,7 +126,10 @@ function CustomApp() {
                         </ButtonAction>
                         <Text fontSize={14}>
                             Don&apos;t have password? Subscribe{' '}
-                            <Link href="https://www.gooddollar.org/#mauticform_wrapper_phase0newslettersubscription">
+                            <Link
+                                href="https://www.gooddollar.org/#mauticform_wrapper_phase0newslettersubscription"
+                                color="blue"
+                            >
                                 here
                             </Link>{' '}
                             for updates on the official release

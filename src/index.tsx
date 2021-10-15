@@ -79,7 +79,10 @@ function CustomApp() {
             let pass = passMatch[0].split('=')[1]
             pass = pass.replace('&', '')
 
-            if (pass === PASSWORD) setAuth(true)
+            if (pass === PASSWORD) {
+                localStorage.setItem('pass', PASSWORD_HASH)
+                setAuth(true)
+            }
         }
     }, [])
 

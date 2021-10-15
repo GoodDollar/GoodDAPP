@@ -74,10 +74,10 @@ function CustomApp() {
     useEffect(() => {
         if (localStorage.getItem('pass') === PASSWORD_HASH) return setAuth(true)
 
-        const passMatch = window.location.search.match(/\bpass=\w+,\b/)
+        const passMatch = window.location.search.match(/pass=(.+?)($|&)/)
         if (passMatch && passMatch[0]) {
             let pass = passMatch[0].split('=')[1]
-            pass = pass.substring(0, pass.length - 1)
+            pass = pass.replace('&', '')
 
             if (pass === PASSWORD) setAuth(true)
         }

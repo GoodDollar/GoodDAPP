@@ -72,13 +72,15 @@ function CustomApp() {
     const PASSWORD_HASH = '$2a$10$V9DPoPvZtRpg9t23wzl5c.jYYyG5VJdJx/pvBJy61WmN/01rkSfSm'
 
     useEffect(() => {
+        if (localStorage.getItem('pass') === PASSWORD_HASH) return setAuth(true)
+
         const passMatch = window.location.search.match(/\bpass=\w+,\b/)
         if (passMatch && passMatch[0]) {
             let pass = passMatch[0].split('=')[1]
             pass = pass.substring(0, pass.length - 1)
 
             if (pass === PASSWORD) setAuth(true)
-        } else if (localStorage.getItem('pass') === PASSWORD_HASH) setAuth(true)
+        }
     }, [])
 
     const [value, setValue] = useState('')

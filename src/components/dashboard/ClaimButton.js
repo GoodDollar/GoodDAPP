@@ -21,7 +21,7 @@ const ButtonAmountToClaim = ({ showLabelOnly = false, entitlement, isCitizen, st
         <Text
           style={{ letterSpacing: 0.28 }}
           color="white"
-          fontFamily="Roboto Slab"
+          fontFamily="slab"
           fontWeight="bold"
           fontSize={28}
           textAlign="center"
@@ -33,7 +33,7 @@ const ButtonAmountToClaim = ({ showLabelOnly = false, entitlement, isCitizen, st
           <Text
             style={{ letterSpacing: 0.28 }}
             color="white"
-            fontFamily="Roboto Slab"
+            fontFamily="slab"
             fontWeight="bold"
             fontSize={28}
             textAlign="center"
@@ -43,7 +43,7 @@ const ButtonAmountToClaim = ({ showLabelOnly = false, entitlement, isCitizen, st
           <Text
             style={{ letterSpacing: 0.28 }}
             color="white"
-            fontFamily="Roboto Slab"
+            fontFamily="slab"
             fontWeight="bold"
             fontSize={28}
             textAlign="center"

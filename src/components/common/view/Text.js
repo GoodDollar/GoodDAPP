@@ -1,9 +1,12 @@
 // @flow
 import React from 'react'
+import { StyleSheet } from 'react-native'
 import { Text as PaperText } from 'react-native-paper'
+import _ from 'lodash'
+
 import normalize from '../../../lib/utils/normalizeText'
 import { withStyles } from '../../../lib/styles'
-import { isMobileNative } from '../../../lib/utils/platform'
+import { isAndroidNative, isMobileNative } from '../../../lib/utils/platform'
 
 const LINE_HEIGHT_FACTOR = 1.2
 
@@ -75,23 +78,27 @@ const relatedLineSpacing = fontSize =>
  * }
  * @returns {string}
  */
+
+const FONT_WEIGHT_VALUE_PAIRS = {
+  extralight: '100',
+  thin: '200',
+  book: '300',
+  regular: '400',
+  medium: '500',
+  semibold: '600',
+  bold: '700',
+  black: '800',
+  fat: '900',
+}
+
 const calculateFontWeight = (fontWeight = 'regular') =>
-  ({
-    extralight: '100',
-    thin: '200',
-    book: '300',
-    regular: 'normal',
-    medium: '500',
-    semibold: '600',
-    bold: '700',
-    black: '800',
-    fat: '900',
-  }[fontWeight] || 'normal')
+  ({ ...FONT_WEIGHT_VALUE_PAIRS, regular: 'normal' }[fontWeight] || 'normal')
 
 const getStylesFromProps = ({
   theme,
   color,
   textAlign,
+  style,
   fontWeight,
   fontFamily,
   fontSize,
@@ -104,19 +111,28 @@ const getStylesFromProps = ({
   const calculatedFontSize = Number.isFinite(fontSize) ? fontSize : 16
   const calculatedLineHeight = lineHeight || relatedLineSpacing(calculatedFontSize)
   const calculatedFontWeight = isNaN(fontWeight) ? calculateFontWeight(fontWeight) : fontWeight
+  const calculatedInvertedFontWeight = selectedFontWeight =>
+    isNaN(selectedFontWeight) ? selectedFontWeight : _.invert(FONT_WEIGHT_VALUE_PAIRS)[selectedFontWeight]
 
   const calculatedFontFamily =
     theme.fonts[fontFamily] ||
     fontFamily ||
-    (fontWeight && isMobileNative && `Roboto-${fontWeight.charAt(0).toUpperCase()}${fontWeight.slice(1)}`) ||
+    (fontWeight && isMobileNative && `Roboto-${_.capitalize(fontWeight)}`) ||
     'Roboto'
+
+  const calculatedFontFamilyAndroid = fontFamily
+    ? `${theme.fonts[fontFamily] || fontFamily}-${_.capitalize(
+        calculatedInvertedFontWeight(StyleSheet.flatten(style)?.fontWeight || fontWeight),
+      ) || 'Regular'}`
+    : `Roboto-${_.capitalize(calculatedInvertedFontWeight(StyleSheet.flatten(style)?.fontWeight || fontWeight)) ||
+        'Regular'}`
 
   return {
     text: {
       color: theme.colors[color] || color || theme.colors.darkGray,
       textAlign: textAlign || 'center',
       fontWeight: calculatedFontWeight,
-      fontFamily: calculatedFontFamily,
+      fontFamily: isAndroidNative ? calculatedFontFamilyAndroid : calculatedFontFamily,
       fontSize: normalizeText ? normalize(calculatedFontSize) : calculatedFontSize,
       lineHeight: normalizeText ? normalize(calculatedLineHeight) : calculatedLineHeight,
       textTransform: textTransform || 'none',

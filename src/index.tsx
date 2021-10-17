@@ -75,11 +75,8 @@ function CustomApp() {
         if (localStorage.getItem('pass') === PASSWORD_HASH) return setAuth(true)
 
         const passMatch = window.location.search.match(/pass=(.+?)($|&)/)
-        if (passMatch && passMatch[0]) {
-            let pass = passMatch[0].split('=')[1]
-            pass = pass.replace('&', '')
-
-            if (pass === PASSWORD) {
+        if (passMatch && passMatch[1]) {
+            if (passMatch[1] === PASSWORD) {
                 localStorage.setItem('pass', PASSWORD_HASH)
                 setAuth(true)
             }

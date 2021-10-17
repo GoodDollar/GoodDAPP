@@ -1,9 +1,11 @@
 import 'fake-indexeddb/auto'
 import * as TextileCrypto from '@textile/crypto'
-import { assign } from 'lodash'
+import fromEntries from 'object.fromentries'
 import userStorage from '../UserStorage'
 import { FeedStorage, TxType } from '../FeedStorage'
 import { initUserStorage } from './__util__'
+
+fromEntries.shim()
 
 jest.setTimeout(20000)
 
@@ -25,19 +27,19 @@ const feedEvent = {
 describe('FeedStorage', () => {
   let feedStorage
   let profilePrivateKey
-  let getUserProfilePublickey
   const privateKey = TextileCrypto.PrivateKey.fromRandom()
 
   beforeAll(async () => {
     await initUserStorage()
-    ;({ getUserProfilePublickey, profilePrivateKey } = userStorage)
 
+    profilePrivateKey = userStorage.profilePrivateKey
     feedStorage = new FeedStorage(userStorage)
     await feedStorage.init()
   })
 
-  afterEach(() => {
-    assign(userStorage, { getUserProfilePublickey, profilePrivateKey })
+  beforeEach(() => {
+    jest.restoreAllMocks()
+    userStorage.profilePrivateKey = profilePrivateKey
     feedStorage.storage.privateKey = profilePrivateKey
   })
 
@@ -45,16 +47,16 @@ describe('FeedStorage', () => {
     const publicKey = privateKey.public.toString()
     const { storage } = feedStorage
 
-    // eslint-disable-next-line require-await
-    userStorage.getUserProfilePublickey = async () => publicKey
+    jest.spyOn(userStorage, 'getUserProfilePublickey').mockImplementation(() => publicKey)
     await feedStorage.addToOutbox(feedEvent)
 
     const savedItem = await storage._realmQuery(() => storage.inboxes.findOne({ txHash: feedEvent.id }))
     const userId = storage.user.id
+    const recipientPubkey = await feedStorage.userStorage.getUserProfilePublickey(feedEvent.data.to)
 
     expect(savedItem).toHaveProperty('user_id', userId)
     expect(savedItem).toHaveProperty('txHash', feedEvent.id)
-    expect(savedItem).toHaveProperty('recipientPublicKey', publicKey)
+    expect(savedItem).toHaveProperty('recipientPublicKey', recipientPubkey)
     expect(savedItem.encrypted).toBeDefined()
   })
 
@@ -73,7 +75,7 @@ describe('FeedStorage', () => {
   it('should delete record', async () => {
     const { storage } = feedStorage
 
-    await storage._realmQuery(() => storage.inboxes.findOneAndDelete({ txHash: feedEvent.id }))
+    await storage._realmQuery(() => storage.inboxes.deleteMany({ txHash: feedEvent.id }))
 
     const savedItem = await storage._realmQuery(() => storage.inboxes.findOne({ txHash: feedEvent.id }))
 

@@ -13,7 +13,7 @@ export const updateAll = async store => {
   let walletOperations
 
   try {
-    walletOperations = await Promise.all([goodWallet.balanceOf(), goodWallet.checkEntitlement()])
+    walletOperations = await goodWallet.getWalletAndClaimBalance()
   } catch (exception) {
     const { message } = exception
 

@@ -3807,6 +3807,11 @@
   resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.44.tgz#04585ff0b80d5e434a5f86f15e7964be4f775cba"
   integrity sha1-BFhf8LgNXkNKX4bxXnlkvk93XLo=
 
+"@types/lodash@^4.14.159":
+  version "4.14.175"
+  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.175.tgz#b78dfa959192b01fae0ad90e166478769b215f45"
+  integrity sha512-XmdEOrKQ8a1Y/yxQFOMbC47G/V2VDO1GvMRnl4O75M4GW/abC5tnfzadQYkqEveqRM1dEJGFFegfPNA2vvx2iw==
+
 "@types/minimatch@*":
   version "3.0.5"
   resolved "https://registry.yarnpkg.com/@types/minimatch/-/minimatch-3.0.5.tgz#1001cc5e6a3704b83c236027e77f2f58ea010f40"
@@ -9910,6 +9915,15 @@ eth-lib@^0.1.26:
     servify "^0.1.12"
     ws "^3.0.0"
     xhr-request-promise "^0.1.2"
+
+eth-multicall@^1.4.0:
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/eth-multicall/-/eth-multicall-1.4.0.tgz#cfd913157260fbaca6522c0cdac5c7ba82afd13e"
+  integrity sha512-qQEheqDy2cmVgCNIb/GWB+2vK4MB1DkyJYNEVtzR1mDWDcUZIdXdUAqr/QRequu0y2YTrre+ZPsFnS8tibGPDQ==
+  dependencies:
+    "@types/lodash" "^4.14.159"
+    lodash "^4.17.19"
+    web3 "^1.5.0"
 
 ethereum-bloom-filters@^1.0.6:
   version "1.0.10"
@@ -23634,7 +23648,7 @@ web3@^0.18.2, web3@^0.18.4:
     xhr2 "*"
     xmlhttprequest "*"
 
-web3@^1.5.1:
+web3@^1.5.0, web3@^1.5.1:
   version "1.6.0"
   resolved "https://registry.yarnpkg.com/web3/-/web3-1.6.0.tgz#d8fa0cd9e7bf252f9fe43bb77dc42bc6671affde"
   integrity sha512-rWpXnO88MiVX5yTRqMBCVKASxc7QDkXZZUl1D48sKlbX4dt3BAV+nVMVUKCBKiluZ5Bp8pDrVCUdPx/jIYai5Q==

@@ -29,6 +29,8 @@ jobs:
           architecture: 'x64'
       - name: Install npm dependencies
         uses: bahmutov/npm-install@v1
+        with:
+          install-command: yarn --frozen-lockfile
       - name: Cache Android
         id: cache-android
         uses: actions/cache@v1
@@ -58,7 +60,7 @@ jobs:
       - name: run detox build & test
         run: |
           $ANDROID_HOME/emulator/emulator -list-avds
-          npm run test:android
+          yarn test:android
   # This workflow contains a single job called "build"
   build:
     # The type of runner that the job will run on
@@ -107,7 +109,8 @@ jobs:
 
       - name: Cache & install npm dependencies
         uses: bahmutov/npm-install@v1
-
+        with:
+          install-command: yarn --frozen-lockfile
       - name: add .env secrets
         env:
           SENTRYRC: ${{ secrets.sentryrc_file }}
@@ -148,7 +151,7 @@ jobs:
       - name: Deploy to App Center
         run: |
           echo "deploying to ${{ env.APPCENTER_NAME }} ${{ env.INPUT_APK_PATH }}"
-          npm install appcenter-cli@^2.*
+          yarn add appcenter-cli@^2.*
           npx appcenter distribute release --token "${{ env.APPCENTER_TOKEN }}" --app "${{ env.APPCENTER_NAME }}" --group "Collaborators" --file "${{ env.UNIVERSAL_APK_PATH }}" --release-notes "$(git log -1 --pretty=format:'%h %s')" --debug
       # FIXME: removed condition temporarily to prevent publishing to play store until we republish the app
       # - name: Distribute to stores - QA & PROD ONLY

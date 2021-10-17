@@ -262,54 +262,36 @@ const Claim = props => {
   const gatherStats = useCallback(
     async (all = false) => {
       try {
-        const promises = [wrappedGoodWallet.getNextClaimTime()]
+        const promises = [wrappedGoodWallet.getClaimScreenStatsFuse()]
 
         if (all) {
-          promises.push(
-            wrappedGoodWallet.getAmountAndQuantityClaimedToday(),
-            wrappedGoodWallet.getActiveClaimers(),
-            wrappedGoodWallet.getAvailableDistribution(),
-            wrappedGoodWallet.getTotalFundsStaked(),
-            wrappedGoodWallet.getInterestCollected(),
-          )
+          promises.push(wrappedGoodWallet.getClaimScreenStatsMainnet())
         }
 
-        const [
-          [nextClaimMilis, entitlement],
-          amountAndQuantity,
-          activeClaimers,
-          availableDistribution,
-          stakingData,
-          interestCollected,
-        ] = await Promise.all(promises)
+        const [fuseData, mainnetData] = await Promise.all(promises)
 
         log.info('gatherStats:', {
           all,
-          amountAndQuantity,
-          nextClaimMilis,
-          entitlement,
-          activeClaimers,
-          availableDistribution,
-          stakingData,
-          interestCollected,
+          fuseData,
+          mainnetData,
         })
 
+        const { nextClaim, entitlement, activeClaimers, claimers, claimAmount, distribution } = fuseData
         setDailyUbi(entitlement)
-        setClaimCycleTime(moment(nextClaimMilis).format('HH:mm:ss'))
+        setClaimCycleTime(moment(nextClaim).format('HH:mm:ss'))
 
-        if (nextClaimMilis) {
-          updateTimer(nextClaimMilis)
+        if (nextClaim) {
+          updateTimer(nextClaim)
         }
 
         if (all) {
-          const { people, amount } = amountAndQuantity
-          setPeopleClaimed(people)
-          setTotalClaimed(amount)
+          setPeopleClaimed(claimers)
+          setTotalClaimed(claimAmount)
           setActiveClaimers(activeClaimers)
-          setAvailableDistribution(availableDistribution)
-          setTotalFundsStaked(stakingData.totalFundsStaked)
-          setInterestPending(stakingData.pendingInterest)
-          setInterestCollected(interestCollected)
+          setAvailableDistribution(distribution)
+          setTotalFundsStaked(mainnetData.totalFundsStaked)
+          setInterestPending(mainnetData.pendingInterest)
+          setInterestCollected(mainnetData.interestCollected)
         }
       } catch (exception) {
         const { message } = exception

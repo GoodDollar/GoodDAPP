@@ -13,11 +13,11 @@ import SimpleStakingABI from '@gooddollar/goodprotocol/artifacts/contracts/staki
 import FundManagerABI from '@gooddollar/goodprotocol/artifacts/contracts/staking/GoodFundManager.sol/GoodFundManager.json'
 import InvitesABI from '@gooddollar/goodcontracts/upgradables/build/contracts/InvitesV1.min.json'
 import FaucetABI from '@gooddollar/goodcontracts/upgradables/build/contracts/FuseFaucet.min.json'
-
+import { MultiCall } from 'eth-multicall'
 import Web3 from 'web3'
 import { BN, toBN } from 'web3-utils'
 import abiDecoder from 'abi-decoder'
-import { chunk, flatten, get, last, maxBy, range, sortBy, uniqBy, values } from 'lodash'
+import { chunk, flatten, get, last, mapValues, maxBy, range, sortBy, uniqBy, values } from 'lodash'
 import moment from 'moment'
 import bs58 from 'bs58'
 import * as TextileCrypto from '@textile/crypto'
@@ -105,7 +105,11 @@ const defaultPromiEvents: PromiEvents = {
   onConfirmation: () => {},
   onError: () => {},
 }
-
+const MultiCalls = {
+  3: '0xFa8d865A962ca8456dF331D78806152d3aC5B84F',
+  1: '0x5Eb3fa2DFECdDe21C950813C665E9364fa609bD2',
+  122: '0x2219bf813a0f8f28d801859c215a5a94cca90ed1',
+}
 export class GoodWallet {
   static WalletType = 'software'
 
@@ -176,6 +180,8 @@ export class GoodWallet {
         log.info(`networkId: ${this.networkId}`)
         this.gasPrice = wallet.utils.toWei('1', 'gwei')
         this.wallet.eth.defaultGasPrice = this.gasPrice
+        this.multicallFuse = new MultiCall(this.wallet, MultiCalls[this.networkId])
+        this.multicallMainnet = new MultiCall(this.web3Mainnet, MultiCalls[mainnetNetworkId])
 
         log.info('GoodWallet setting up contracts:')
 
@@ -534,61 +540,6 @@ export class GoodWallet {
     }
   }
 
-  async getNextClaimTime(): Promise<any> {
-    try {
-      const hasClaim = await this.checkEntitlement()
-        .then(_ => parseInt(_))
-        .catch(e => 0)
-
-      //if has current available amount to claim then he can claim  immediatly
-      if (hasClaim > 0) {
-        return [0, hasClaim]
-      }
-
-      const startRef = await this.UBIContract.methods
-        .periodStart()
-        .call()
-        .then(_ => moment(parseInt(_) * 1000).utc())
-      const curDay = await this.UBIContract.methods
-        .currentDay()
-        .call()
-        .then(parseInt)
-      if (startRef.isBefore(moment().utc())) {
-        startRef.add(curDay + 1, 'days')
-      }
-      return [startRef.valueOf(), 0]
-    } catch (e) {
-      log.error('getNextClaimTime failed', e.message, e, { category: ExceptionCategory.Blockhain })
-      return Promise.reject(e)
-    }
-  }
-
-  async getAmountAndQuantityClaimedToday(): Promise<any> {
-    try {
-      const ubiStart = await this.UBIContract.methods
-        .periodStart()
-        .call()
-        .then(_ => parseInt(_) * 1000)
-      const today = moment()
-        .utc()
-        .diff(ubiStart, 'days')
-
-      //we dont use getDailyStats because it returns stats for last day where claim happened
-      //if user is the first the stats he says are incorrect and will reset once he claims
-      const stats = await Promise.all([
-        this.UBIContract.methods.getClaimerCount(today).call(),
-        this.UBIContract.methods.getClaimAmount(today).call(),
-      ])
-      const [people, amount] = stats || ['0', '0']
-
-      return { amount, people }
-    } catch (e) {
-      log.error('getAmountAndQuantityClaimedToday failed', e.message, e, { category: ExceptionCategory.Blockhain })
-
-      return Promise.reject(e)
-    }
-  }
-
   checkEntitlement(): Promise<number> {
     try {
       return this.UBIContract.methods.checkEntitlement().call()
@@ -600,80 +551,86 @@ export class GoodWallet {
     }
   }
 
-  async getActiveClaimers(): Promise<number> {
-    try {
-      const activeUsersCount = await this.UBIContract.methods.activeUsersCount().call()
-      return parseInt(activeUsersCount)
-    } catch (exception) {
-      const { message } = exception
+  /**
+   * use multicall to get many stats
+   */
+  async getClaimScreenStatsFuse() {
+    const calls = [
+      {
+        periodStart: this.UBIContract.methods.periodStart(),
+        currentDay: this.UBIContract.methods.currentDay(),
+        entitlement: this.UBIContract.methods.checkEntitlement(),
+        activeClaimers: this.UBIContract.methods.activeUsersCount(),
+        distribution: this.UBIContract.methods.dailyCyclePool(),
+      },
+    ]
+    const [[res]] = await this.multicallFuse.all([calls])
+    const calls2 = [
+      {
+        claimers: this.UBIContract.methods.getClaimerCount(res.currentDay),
+        claimAmount: this.UBIContract.methods.getClaimAmount(res.currentDay),
+      },
+    ]
+    const [[res2]] = await this.multicallFuse.all([calls2])
 
-      log.warn('getActiveClaimers failed', message, exception)
-      throw exception
+    const result = mapValues({ ...res, ...res2 }, _ => (typeof _ === 'string' ? parseInt(_) : _.map(parseInt)))
+
+    const startRef = moment(result.periodStart * 1000).utc()
+    if (startRef.isBefore(moment().utc())) {
+      startRef.add(result.currentDay + 1, 'days')
     }
+    result.nextClaim = result.entitlement > 0 ? 0 : startRef.valueOf()
+
+    return result
   }
 
-  // eslint-disable-next-line require-await
-  async getAvailableDistribution(): Promise<number> {
-    try {
-      return this.UBIContract.methods
-        .dailyCyclePool()
-        .call()
-        .then(parseInt)
-    } catch (exception) {
-      const { message } = exception
-      log.warn('getTodayDistribution failed', message, exception)
-      throw exception
-    }
-  }
+  async getClaimScreenStatsMainnet() {
+    const fundManager = new this.web3Mainnet.eth.Contract(
+      FundManagerABI.abi,
+      get(ContractsAddress, `${this.network}-mainnet.GoodFundManager`),
+    )
+    const cdai = new this.web3Mainnet.eth.Contract(cERC20ABI.abi, get(ContractsAddress, `${this.network}-mainnet.cDAI`))
 
-  async getTotalFundsStaked(): Promise<number> {
-    try {
-      const stakingContracts = get(ContractsAddress, `${this.network}-mainnet.StakingContracts`)
-      const ps = stakingContracts.map(async ([addr, rewards]) => {
-        const stakingContract = new this.web3Mainnet.eth.Contract(SimpleStakingABI.abi, addr, { from: this.account })
+    const stakingContracts = get(ContractsAddress, `${this.network}-mainnet.StakingContracts`)
+    let gainCalls = stakingContracts.map(([addr, rewards]) => {
+      const stakingContract = new this.web3Mainnet.eth.Contract(SimpleStakingABI.abi, addr, { from: this.account })
 
-        const currentGains = await stakingContract.methods.currentGains(true, true).call()
-        return [parseInt(currentGains[3]) / 1e8, parseInt(currentGains[4]) / 1e8]
-      })
-      const res = await Promise.all(ps)
-      const totalFundsStaked = res.reduce((prev, cur) => prev + cur[0], 0)
-      const pendingInterest = res.reduce((prev, cur) => prev + cur[1], 0)
-      return { totalFundsStaked, pendingInterest }
-    } catch (exception) {
-      const { message } = exception
-      log.warn('getTotalFundsStaked failed', message, exception)
-      throw exception
-    }
-  }
+      return { currentGains: stakingContract.methods.currentGains(true, true) }
+    })
 
-  async getInterestCollected(): Promise<number> {
-    try {
-      const fundManager = new this.web3Mainnet.eth.Contract(
-        FundManagerABI.abi,
-        get(ContractsAddress, `${this.network}-mainnet.GoodFundManager`),
-      )
-      const cdai = new this.web3Mainnet.eth.Contract(
-        cERC20ABI.abi,
-        get(ContractsAddress, `${this.network}-mainnet.cDAI`),
-      )
-      const [collectInterestTimeThreshold, toBlock, cdaiExchangeRate] = await Promise.all([
-        fundManager.methods
-          .collectInterestTimeThreshold()
-          .call()
-          .then(parseInt),
-        this.web3Mainnet.eth.getBlockNumber(),
-        cdai.methods
-          .exchangeRateStored()
-          .call()
-          .then(_ => this.web3Mainnet.utils.fromWei(_.toString()) / 1e10), //convert to decimals exchange rate is in 28 decimals
+    const calls = [
+      {
+        lastCollectedInterest: fundManager.methods.lastCollectedInterest(),
+      },
+      { cdaiExchangeRate: cdai.methods.exchangeRateStored() },
+    ]
+
+    let [[stakeResult, interestResult], currentBlock] = await Promise.all([
+      this.multicallMainnet.all([gainCalls, calls]),
+      this.web3Mainnet.eth.getBlockNumber(),
+    ])
+
+    const result = {}
+    if (stakeResult) {
+      stakeResult = stakeResult.map(({ currentGains }) => [
+        parseInt(currentGains[3]) / 1e8,
+        parseInt(currentGains[4]) / 1e8,
       ])
 
-      const fromBlock = parseInt(toBlock) - ~~((collectInterestTimeThreshold * 2) / 15) //look for events since twice the collectInterestTimeThreshold time blocks ago. ~~ removes decimals.
-      const InterestCollectedEventsFilter = {
-        fromBlock,
-        toBlock,
-      }
+      // console.log({ stakeData, lastCollectData })
+      result.totalFundsStaked = stakeResult.reduce((prev, cur) => prev + cur[0], 0)
+      result.pendingInterest = stakeResult.reduce((prev, cur) => prev + cur[1], 0)
+    }
 
+    if (interestResult) {
+      let [{ lastCollectedInterest }, { cdaiExchangeRate }] = interestResult
+
+      cdaiExchangeRate = this.wallet.utils.fromWei(cdaiExchangeRate) / 1e10
+      const estimatedBlocksSince = (Date.now() / 1000 - lastCollectedInterest) / 15
+      const InterestCollectedEventsFilter = {
+        fromBlock: (currentBlock - estimatedBlocksSince - 5000).toFixed(0),
+        toBlock: (currentBlock - estimatedBlocksSince + 5000).toFixed(0),
+      }
       const events = await fundManager.getPastEvents('FundsTransferred', InterestCollectedEventsFilter).catch(e => {
         log.warn('InterestCollectedEvents failed:', e.message, e, {
           category: ExceptionCategory.Blockhain,
@@ -682,13 +639,10 @@ export class GoodWallet {
       })
       log.debug('getInterestCollected:', { events })
       let interesInCDAI = parseInt(get(last(events), 'returnValues.cDAIinterestEarned', '0')) / 1e8 //convert to decimals. cdai is 8 decimals
-      let interest = interesInCDAI * cdaiExchangeRate
-      return interest
-    } catch (exception) {
-      const { message } = exception
-      log.warn('getInterestCollected failed', message, exception)
-      throw exception
+      result.interestCollected = interesInCDAI * cdaiExchangeRate
     }
+
+    return result
   }
 
   /**
@@ -741,6 +695,16 @@ export class GoodWallet {
    */
   getBlockNumber(): Promise<number> {
     return this.wallet.eth.getBlockNumber()
+  }
+
+  async getWalletAndClaimBalance(): Promise<[number, number]> {
+    const calls = [
+      { balance: this.tokenContract.methods.balanceOf(this.account) },
+      { entitlement: this.UBIContract.methods.checkEntitlement() },
+    ]
+    const [[{ balance }, { entitlement }]] = await this.multicallFuse.all([calls])
+
+    return [balance, entitlement].map(_ => parseInt(_))
   }
 
   async balanceOf(): Promise<number> {

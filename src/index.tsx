@@ -5,9 +5,11 @@ import './bootstrap'
 
 import { createWeb3ReactRoot, Web3ReactProvider } from '@web3-react/core'
 import { KashiProvider } from 'kashi'
-import React, { StrictMode } from 'react'
+import React, { StrictMode, useState, useEffect } from 'react'
 import { isMobile } from 'react-device-detect'
 import ReactDOM from 'react-dom'
+import styled from 'styled-components'
+import { Text, Link, Image } from 'rebass'
 
 import { Provider } from 'react-redux'
 import { BrowserRouter as Router } from 'react-router-dom'
@@ -25,6 +27,9 @@ import getLibrary from './utils/getLibrary'
 import LanguageProvider from 'language'
 import { createGlobalStyle } from 'styled-components'
 import { Web3ContextProvider } from './hooks/useWeb3'
+import Modal from './components/Modal'
+import LogoImg from './assets/svg/logo_custom.svg'
+import { ButtonAction } from './components/gd/Button'
 
 const Web3ProviderNetwork = createWeb3ReactRoot(NetworkContextName)
 
@@ -44,6 +49,96 @@ function Updaters() {
             <UserUpdater />
             <ApplicationUpdater />
             <MulticallUpdater />
+        </>
+    )
+}
+
+const Input = styled.input<{ error?: boolean }>`
+    border-radius: 5px;
+    width: 100%;
+`
+const Wrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    padding: 10%;
+    justify-content: center;
+    align-items: center;
+`
+
+function CustomApp() {
+    const [auth, setAuth] = useState(false)
+    const PASSWORD = 'gdbetatest'
+    const PASSWORD_HASH = '$2a$10$V9DPoPvZtRpg9t23wzl5c.jYYyG5VJdJx/pvBJy61WmN/01rkSfSm'
+
+    useEffect(() => {
+        if (localStorage.getItem('pass') === PASSWORD_HASH) return setAuth(true)
+
+        const passMatch = window.location.search.match(/pass=(.+?)($|&)/)
+        if (passMatch && passMatch[1]) {
+            if (passMatch[1] === PASSWORD) {
+                localStorage.setItem('pass', PASSWORD_HASH)
+                setAuth(true)
+            }
+        }
+    }, [])
+
+    const [value, setValue] = useState('')
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+        setValue(e.target.value)
+    }
+
+    const handleSubmit = () => {
+        if (value) {
+            if (value === PASSWORD) {
+                localStorage.setItem('pass', PASSWORD_HASH)
+                setAuth(true)
+            } else {
+                alert('Incorrect password')
+            }
+        }
+    }
+
+    return (
+        <>
+            {auth ? (
+                <App />
+            ) : (
+                <Modal isOpen={true} onDismiss={() => null}>
+                    <Wrapper>
+                        <Image src={LogoImg} alt="logo" width="100px" />
+                        <Text>
+                            Enter password to continue to <b>GoodDollar</b>
+                        </Text>
+                        <Input
+                            type="password"
+                            autoComplete="off"
+                            autoCorrect="off"
+                            autoCapitalize="off"
+                            placeholder="Password"
+                            onChange={handleChange}
+                            value={value}
+                            onKeyDown={e => {
+                                e.key === 'Enter' && handleSubmit()
+                            }}
+                        />
+                        <ButtonAction onClick={handleSubmit} size="sm" width="50%">
+                            Login
+                        </ButtonAction>
+                        <Text fontSize={14}>
+                            Don&apos;t have password? Subscribe{' '}
+                            <Link
+                                href="https://www.gooddollar.org/#mauticform_wrapper_phase0newslettersubscription"
+                                color="blue"
+                            >
+                                here
+                            </Link>{' '}
+                            for updates on the official release
+                        </Text>
+                    </Wrapper>
+                </Modal>
+            )}
         </>
     )
 }
@@ -83,7 +178,7 @@ ReactDOM.render(
                                     <GlobalStyle />
                                     <KashiProvider>
                                         <Router>
-                                            <App />
+                                            <CustomApp />
                                         </Router>
                                     </KashiProvider>
                                 </ThemeProvider>

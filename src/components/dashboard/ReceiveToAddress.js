@@ -10,6 +10,7 @@ import { withStyles } from '../../lib/styles'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
 import normalize from '../../lib/utils/normalizeText'
 import CopyButton from '../common/buttons/CopyButton'
+import { theme } from '../theme/styles'
 import EventIcon from './FeedItems/EventIcon'
 
 export type TypeProps = {
@@ -58,7 +59,7 @@ export const GDTokensWarningBox = withStyles(warningBoxStyles)(({ styles, isSend
     </View>
     <Text
       fontSize={13.5}
-      fontFamily="Roboto Slab"
+      fontFamily={theme.fonts.slab}
       fontWeight="bold"
       textAlign="left"
       letterSpacing={0.14}

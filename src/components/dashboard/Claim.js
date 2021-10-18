@@ -489,7 +489,13 @@ const Claim = props => {
     <WrapperClaim style={dailyUbi ? styles.wrapperActive : styles.wrapperInactive}>
       <Section.Stack style={styles.mainContainer}>
         <View style={dailyUbi ? styles.headerContentContainer : styles.headerContentContainer2}>
-          <Section.Text color="surface" fontFamily="slab" fontWeight="bold" fontSize={28} style={styles.headerText}>
+          <Section.Text
+            color="surface"
+            fontFamily={theme.fonts.slab}
+            fontWeight="bold"
+            fontSize={28}
+            style={styles.headerText}
+          >
             {dailyUbi ? `Claim Your Share` : `Just A Little Longer...\nMore G$'s Coming Soon`}
           </Section.Text>
           <ClaimAmountBox dailyUbi={dailyUbi} />

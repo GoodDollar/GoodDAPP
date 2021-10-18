@@ -111,7 +111,7 @@ const BorderedBox = ({
         <Section.Stack style={[enableSideMode ? styles.boxShortContent : styles.boxContent, overrideStyles.boxContent]}>
           <Section.Text
             fontSize={18}
-            fontFamily="Roboto Slab"
+            fontFamily={theme.fonts.slab}
             fontWeight="bold"
             style={[enableSideMode ? styles.boxShortTitle : styles.boxTitle, enableSideMode && styles.textAlignLeft]}
           >

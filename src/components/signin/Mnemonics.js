@@ -23,6 +23,7 @@ import InputText from '../common/form/InputText'
 import { CLICK_BTN_RECOVER_WALLET, fireEvent, RECOVER_FAILED, RECOVER_SUCCESS } from '../../lib/analytics/analytics'
 import Wrapper from '../common/layout/Wrapper'
 import normalize from '../../lib/utils/normalizeText'
+import { theme } from '../theme/styles'
 
 const TITLE = 'Recover'
 const log = logger.child({ from: TITLE })
@@ -111,7 +112,7 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
           buttons: [{ text: 'Yay!' }],
           children: (
             <Text
-              fontFamily="slab"
+              fontFamily={theme.fonts.slab}
               fontWeight="bold"
               fontSize={Platform.select({ web: 46, default: 34 })}
               style={styles.dialogTitle}

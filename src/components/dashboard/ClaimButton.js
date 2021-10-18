@@ -11,6 +11,7 @@ import { withStyles } from '../../lib/styles'
 import { weiToGd } from '../../lib/wallet/utils'
 import { getDesignRelativeHeight, getDesignRelativeWidth, isSmallDevice } from '../../lib/utils/sizes'
 import { isMobileNative } from '../../lib/utils/platform'
+import { theme } from '../theme/styles'
 
 const flipPerspective = isMobileNative ? undefined : CardFlip.defaultProps.perspective
 
@@ -21,7 +22,7 @@ const ButtonAmountToClaim = ({ showLabelOnly = false, entitlement, isCitizen, st
         <Text
           style={{ letterSpacing: 0.28 }}
           color="white"
-          fontFamily="Roboto Slab"
+          fontFamily={theme.fonts.slab}
           fontWeight="bold"
           fontSize={28}
           textAlign="center"
@@ -33,7 +34,7 @@ const ButtonAmountToClaim = ({ showLabelOnly = false, entitlement, isCitizen, st
           <Text
             style={{ letterSpacing: 0.28 }}
             color="white"
-            fontFamily="Roboto Slab"
+            fontFamily={theme.fonts.slab}
             fontWeight="bold"
             fontSize={28}
             textAlign="center"
@@ -43,7 +44,7 @@ const ButtonAmountToClaim = ({ showLabelOnly = false, entitlement, isCitizen, st
           <Text
             style={{ letterSpacing: 0.28 }}
             color="white"
-            fontFamily="Roboto Slab"
+            fontFamily={theme.fonts.slab}
             fontWeight="bold"
             fontSize={28}
             textAlign="center"
@@ -103,7 +104,7 @@ export const ButtonCountdown = ({ styles, nextClaim }) => (
           <Text
             key={index}
             fontSize={30}
-            fontFamily="Roboto Slab"
+            fontFamily={theme.fonts.slab}
             fontWeight="bold"
             style={[styles.countdown, value === ':' ? styles.tallCountDown : null]}
             lineHeight={40}

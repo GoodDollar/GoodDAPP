@@ -2,6 +2,7 @@
 import React from 'react'
 import { Platform, View } from 'react-native'
 import { withStyles } from '../../../lib/styles'
+import { theme } from '../../theme/styles'
 import Text from './Text'
 
 /**
@@ -38,7 +39,7 @@ class BigNumber extends React.Component {
         unit ? (
           <Text
             key="big_number_unit"
-            fontFamily="slab"
+            fontFamily={theme.fonts.slab}
             fontSize={18}
             lineHeight={18}
             fontWeight="bold"
@@ -55,7 +56,7 @@ class BigNumber extends React.Component {
         spaceBetween ? <Text key="big_number_space"> </Text> : null,
         <Text
           key="big_number_amount"
-          fontFamily="slab"
+          fontFamily={theme.fonts.slab}
           fontSize={36}
           lineHeight={36}
           fontWeight="bold"
@@ -71,7 +72,7 @@ class BigNumber extends React.Component {
       components.push(
         <Text
           key="big_number_amount"
-          fontFamily="slab"
+          fontFamily={theme.fonts.slab}
           fontSize={36}
           fontWeight="bold"
           textAlign="right"
@@ -85,7 +86,7 @@ class BigNumber extends React.Component {
         unit ? (
           <Text
             key="big_number_unit"
-            fontFamily="slab"
+            fontFamily={theme.fonts.slab}
             fontSize={18}
             lineHeight={18}
             fontWeight="bold"

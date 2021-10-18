@@ -2,6 +2,7 @@
 import React from 'react'
 import { weiToMask } from '../../../lib/wallet/utils'
 import Section from '../layout/Section'
+import { theme } from '../../theme/styles'
 import BigNumber from './BigNumber'
 import Text from './Text'
 
@@ -39,7 +40,7 @@ const GDUnits = props => {
       <Text
         color={props.color || 'gray'}
         fontSize={goodSignFontSize}
-        fontFamily="slab"
+        fontFamily={theme.fonts.slab}
         fontWeight="bold"
         textAlign="right"
         lineHeight={props.lineHeight || 22}
@@ -50,7 +51,7 @@ const GDUnits = props => {
       <Text
         color={props.color || 'gray'}
         fontSize={dollarSignFontSize}
-        fontFamily="slab"
+        fontFamily={theme.fonts.slab}
         fontWeight="bold"
         textAlign="right"
         lineHeight={props.lineHeight || 22}

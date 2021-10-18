@@ -6,6 +6,7 @@ import Text from '../common/view/Text'
 import { withStyles } from '../../lib/styles'
 import MagicLinkSVG from '../../assets/Signup/maginLinkIllustration.svg'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
+import { theme } from '../theme/styles'
 import CustomWrapper from './signUpWrapper'
 
 const MagicLinkInfoComponent = props => {
@@ -19,7 +20,7 @@ const MagicLinkInfoComponent = props => {
           <Text
             fontWeight="bold"
             fontSize={28}
-            fontFamily="Roboto Slab"
+            fontFamily={theme.fonts.slab}
             color="primary"
             style={styles.headerText}
             lineHeight={28}

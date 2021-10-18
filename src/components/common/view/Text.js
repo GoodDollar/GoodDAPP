@@ -1,9 +1,11 @@
 // @flow
 import React from 'react'
+import { StyleSheet } from 'react-native'
 import { Text as PaperText } from 'react-native-paper'
+
 import normalize from '../../../lib/utils/normalizeText'
 import { withStyles } from '../../../lib/styles'
-import { isMobileNative } from '../../../lib/utils/platform'
+import { calculateFontFamily, calculateFontWeight } from '../../../lib/utils/fonts'
 
 const LINE_HEIGHT_FACTOR = 1.2
 
@@ -59,39 +61,11 @@ const relatedLineSpacing = fontSize =>
     42: 30,
   }[fontSize] || fontSize * LINE_HEIGHT_FACTOR)
 
-/**
- * Returns the proper value to apply for the fontWeight prop based on values provided in wireframes
- * @param {string} fontWeight - defaults to 'regular'
- * {
- *   extralight: 100,
- *   thin: 200,
- *   book: 300,
- *   regular: 400,
- *   medium: 500,
- *   semibold: 600,
- *   bold: 700,
- *   black: 800,
- *   fat: 900
- * }
- * @returns {string}
- */
-const calculateFontWeight = (fontWeight = 'regular') =>
-  ({
-    extralight: '100',
-    thin: '200',
-    book: '300',
-    regular: 'normal',
-    medium: '500',
-    semibold: '600',
-    bold: '700',
-    black: '800',
-    fat: '900',
-  }[fontWeight] || 'normal')
-
 const getStylesFromProps = ({
   theme,
   color,
   textAlign,
+  style,
   fontWeight,
   fontFamily,
   fontSize,
@@ -103,13 +77,12 @@ const getStylesFromProps = ({
 }) => {
   const calculatedFontSize = Number.isFinite(fontSize) ? fontSize : 16
   const calculatedLineHeight = lineHeight || relatedLineSpacing(calculatedFontSize)
-  const calculatedFontWeight = isNaN(fontWeight) ? calculateFontWeight(fontWeight) : fontWeight
 
-  const calculatedFontFamily =
-    theme.fonts[fontFamily] ||
-    fontFamily ||
-    (fontWeight && isMobileNative && `Roboto-${fontWeight.charAt(0).toUpperCase()}${fontWeight.slice(1)}`) ||
-    'Roboto'
+  const selectedFontFamily = theme.fonts[fontFamily] || fontFamily
+  const selectedFontWeight = StyleSheet.flatten(style)?.fontWeight || fontWeight
+
+  const calculatedFontWeight = isNaN(selectedFontWeight) ? calculateFontWeight(selectedFontWeight) : selectedFontWeight
+  const calculatedFontFamily = calculateFontFamily(selectedFontFamily, selectedFontWeight)
 
   return {
     text: {

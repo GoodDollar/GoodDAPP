@@ -65,7 +65,7 @@ const ExportWalletData = ({ navigation, styles, theme }: ExportWalletProps) => {
       <NavBar title="EXPORT MY WALLET" goBack={handleGoHome} />
       <ScrollView style={styles.container}>
         <Divider size={30} />
-        <Section.Text fontSize={28} fontWeight="bold" fontFamily="Roboto Slab" color="black">
+        <Section.Text fontSize={28} fontWeight="bold" fontFamily={theme.fonts.slab} color="black">
           My account details
         </Section.Text>
         <Divider size={10} />

@@ -13,6 +13,8 @@ import isEmail from '../../../lib/validators/isEmail'
 import normalize from '../../../lib/utils/normalizeText'
 import SurveySend from '../SurveySend'
 import useProfile from '../../../lib/userStorage/useProfile'
+import { theme } from '../../theme/styles'
+
 const SummaryGeneric = ({
   screenProps,
   styles,
@@ -141,7 +143,7 @@ const SummaryGeneric = ({
                 To
               </Section.Text>
               {address && !recipient ? (
-                <Section.Text fontFamily="Roboto Slab" fontSize={13} lineHeight={21} style={styles.toText}>
+                <Section.Text fontFamily={theme.fonts.slab} fontSize={13} lineHeight={21} style={styles.toText}>
                   {address}
                 </Section.Text>
               ) : (

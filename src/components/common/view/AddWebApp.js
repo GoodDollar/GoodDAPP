@@ -23,6 +23,7 @@ import {
 
 import { withStyles } from '../../../lib/styles'
 import AddAppSVG from '../../../assets/addApp.svg'
+import { theme } from '../../theme/styles'
 
 // import userStorage from '../../../lib/userStorage/UserStorage'
 // import API from '../../../lib/API/api'
@@ -114,7 +115,7 @@ const ExplanationDialog = withStyles(mapStylesToProps)(({ styles }) => {
   )
 })
 
-const AddWebApp = props => {
+const AddWebApp = () => {
   const store = SimpleStore.useStore()
   const [showDialog] = useDialog()
   const [show, setShow] = useState(false)
@@ -204,7 +205,7 @@ const AddWebApp = props => {
         {
           text: 'Later',
           mode: 'text',
-          color: props.theme.colors.gray80Percent,
+          color: theme.colors.gray80Percent,
           onPress: dismiss => {
             fireEvent(ADDTOHOME_LATER, { skipCount })
             dismiss()

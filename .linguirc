@@ -15,5 +15,9 @@
     pseudoLocale: '',
     rootDir: '.',
     runtimeConfigModule: ['@lingui/core', 'i18n'],
-    sourceLocale: ''
+    sourceLocale: '',
+    "service": {
+    "name": "TranslationIO",
+    "apiKey": "f88058bdb9324b85a1e60aef00dd67aa"
+  }
 }

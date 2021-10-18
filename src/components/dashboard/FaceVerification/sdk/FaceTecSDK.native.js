@@ -24,6 +24,10 @@ export const FaceTecSDK = new class {
     const { sdk, logger, serverUrl } = this
 
     try {
+      if (Config.env === 'development') {
+        logger.debug('FaceTec initialization', { serverUrl, serverKey: api.jwt, licenseKey, encryptionKey, license })
+      }
+
       return await sdk.initialize(serverUrl, api.jwt, licenseKey, encryptionKey, license)
     } catch (exception) {
       const { message } = exception

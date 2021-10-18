@@ -71,6 +71,7 @@ const mapPropsToStyles = ({ theme, compact }) => ({
     alignItems: 'center',
     display: 'flex',
     flexDirection: 'row',
+    minHeight: 22,
     flex: 1,
   },
   activityIndicator: {

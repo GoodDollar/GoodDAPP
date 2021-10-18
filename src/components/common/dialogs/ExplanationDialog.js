@@ -1,6 +1,6 @@
 // libraries
 import React, { useCallback, useContext, useMemo } from 'react'
-import { Image, Platform, View } from 'react-native'
+import { Image, View } from 'react-native'
 import { isEmpty, noop } from 'lodash'
 
 // components
@@ -163,11 +163,6 @@ const mapStylesToProps = ({ theme }) => ({
     marginLeft: 'auto',
   },
   centerImage: {
-    ...Platform.select({
-      native: {
-        flex: 1,
-      },
-    }),
     justifyContent: 'center',
     alignSelf: 'center',
   },

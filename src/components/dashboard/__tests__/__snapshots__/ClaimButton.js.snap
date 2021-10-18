@@ -103,7 +103,7 @@ exports[`ClaimButton matches snapshot for citizen with entitlement 1`] = `
               className="css-view-1dbjc4n r-marginHorizontal-1ybube5 r-marginVertical-712mwr"
             >
               <div
-                className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
+                className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz r-minHeight-12sks89"
               >
                 <div
                   className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flexDirection-eqz5dr r-justifyContent-1777fci"
@@ -261,7 +261,7 @@ exports[`ClaimButton matches snapshot for citizen with entitlement 1`] = `
               className="css-view-1dbjc4n r-marginHorizontal-1ybube5 r-marginVertical-712mwr"
             >
               <div
-                className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
+                className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz r-minHeight-12sks89"
               >
                 <div
                   className="css-view-1dbjc4n"
@@ -418,7 +418,7 @@ exports[`ClaimButton matches snapshot for citizen without entitlement 1`] = `
               className="css-view-1dbjc4n r-marginHorizontal-1ybube5 r-marginVertical-712mwr"
             >
               <div
-                className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
+                className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz r-minHeight-12sks89"
               >
                 <div
                   className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flexDirection-eqz5dr r-justifyContent-1777fci"
@@ -576,7 +576,7 @@ exports[`ClaimButton matches snapshot for citizen without entitlement 1`] = `
               className="css-view-1dbjc4n r-marginHorizontal-1ybube5 r-marginVertical-712mwr"
             >
               <div
-                className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
+                className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz r-minHeight-12sks89"
               >
                 <div
                   className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flexDirection-eqz5dr r-justifyContent-1777fci"
@@ -753,7 +753,7 @@ exports[`ClaimButton matches snapshot for non-citizen 1`] = `
               className="css-view-1dbjc4n r-marginHorizontal-1ybube5 r-marginVertical-712mwr"
             >
               <div
-                className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
+                className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz r-minHeight-12sks89"
               >
                 <div
                   className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flexDirection-eqz5dr r-justifyContent-1777fci"
@@ -911,7 +911,7 @@ exports[`ClaimButton matches snapshot for non-citizen 1`] = `
               className="css-view-1dbjc4n r-marginHorizontal-1ybube5 r-marginVertical-712mwr"
             >
               <div
-                className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
+                className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz r-minHeight-12sks89"
               >
                 <div
                   className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flexDirection-eqz5dr r-justifyContent-1777fci"

@@ -121,7 +121,7 @@ const SendReason = (props: AmountProps) => {
             lineHeight={32}
             letterSpacing={0.14}
             color={theme.colors.darkBlue}
-            fontFamily="Roboto Slab"
+            fontFamily={theme.fonts.slab}
             textTransform="capitalize"
           >
             {'What Is The\nTransaction For?'}

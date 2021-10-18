@@ -597,7 +597,7 @@ const Dashboard = props => {
               </TouchableOpacity>
             </Animated.View>
             <Animated.View style={[styles.headerFullName, fullNameAnimateStyles]}>
-              <Section.Text color="gray80Percent" fontFamily="slab" fontSize={18}>
+              <Section.Text color="gray80Percent" fontFamily={theme.fonts.slab} fontSize={18}>
                 {fullName || ' '}
               </Section.Text>
             </Animated.View>

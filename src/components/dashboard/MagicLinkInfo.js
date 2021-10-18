@@ -13,6 +13,7 @@ import { withStyles } from '../../lib/styles'
 import Illustration from '../../assets/Signup/maginLinkIllustration.svg'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import Wrapper from '../common/layout/Wrapper'
+import { theme } from '../theme/styles'
 
 const log = logger.child({ from: 'MagicLinkInfo' })
 
@@ -48,7 +49,7 @@ const MagicLinkInfoComponent = props => {
         <Section.Stack grow justifyContent="space-evenly">
           <Section.Row alignItems="center" justifyContent="center" style={styles.row}>
             <View style={styles.bottomContainer}>
-              <Text fontWeight="bold" fontSize={28} fontFamily="Roboto Slab" color="primary">
+              <Text fontWeight="bold" fontSize={28} fontFamily={theme.fonts.slab} color="primary">
                 {'Abracadabra\nAnd you’re in!'}
               </Text>
             </View>

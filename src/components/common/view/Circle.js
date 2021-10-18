@@ -20,7 +20,7 @@ class Circle extends React.Component {
     return (
       <View style={[styles.mainBlock, !!subText && styles.alignMainBlockCenter]}>
         <View style={styles.circle}>
-          <Text fontFamily="slab" style={styles.circleNumber} fontWeight="bold" fontSize={20}>
+          <Text fontFamily={theme.fonts.slab} style={styles.circleNumber} fontWeight="bold" fontSize={20}>
             {number}
           </Text>
         </View>

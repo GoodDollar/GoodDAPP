@@ -8,6 +8,7 @@ import { withStyles } from '../../lib/styles'
 import { getDesignRelativeWidth } from '../../lib/utils/sizes'
 import RoundIconButton from '../common/buttons/RoundIconButton'
 import { usePublicProfile } from '../../lib/userStorage/useProfile'
+import { theme } from '../theme/styles'
 import EditAvatar from './EditAvatar'
 import EditProfile from './EditProfile'
 import ProfileDataTable from './ProfileDataTable'
@@ -61,7 +62,7 @@ const ProfileWrapper = props => {
           imageSize={avatarSize - 6}
           unknownStyle={styles.userAvatar}
         />
-        <Text fontSize={22} fontFamily="Roboto Slab" lineHeight={29} style={styles.userName}>
+        <Text fontSize={22} fontFamily={theme.fonts.slab} lineHeight={29} style={styles.userName}>
           {!!profile && profile.fullName}
         </Text>
       </View>

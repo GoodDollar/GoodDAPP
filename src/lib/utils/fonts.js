@@ -1,5 +1,5 @@
 import { capitalize, invert, memoize } from 'lodash'
-import { isAndroidNative, isMobileNative } from './platform'
+import { isMobileNative } from './platform'
 
 const FONT_WEIGHTS = {
   extralight: '100',
@@ -52,7 +52,7 @@ export const calculateFontWeight = (fontWeight = defaultFontWeight) => {
 export const getPlatformFontFamily = memoize(fontFamily => {
   const family = fontFamily || defaultFontFamily
 
-  if (isAndroidNative && robotoSlabRegex.test(family)) {
+  if (isMobileNative && robotoSlabRegex.test(family)) {
     return family.replace(robotoSlabRegex, '$1$2')
   }
 
@@ -73,8 +73,11 @@ export const calculateFontFamily = memoize(
   (fontFamily, fontWeight = null) => {
     const calculatedFamily = getPlatformFontFamily(fontFamily)
 
-    if (isAndroidNative || (!fontFamily && isMobileNative && fontWeight)) {
-      const calculatedWeight = isAndroidNative ? invertedFontWeights[fontWeight] || defaultFontWeight : fontWeight
+    if (isMobileNative) {
+      //We need to check if fontWeight is not NAN before we search in the invertedFontWeights cus it only contains the non NaN keys.
+      const switchNumericWeightToName = isNaN(fontWeight) ? fontWeight : invertedFontWeights[fontWeight]
+
+      const calculatedWeight = isMobileNative ? switchNumericWeightToName || defaultFontWeight : fontWeight
 
       return `${calculatedFamily}-${capitalize(calculatedWeight)}`
     }

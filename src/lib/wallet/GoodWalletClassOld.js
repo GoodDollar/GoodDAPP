@@ -564,22 +564,23 @@ export class GoodWallet {
       {
         periodStart: this.UBIContract.methods.periodStart(),
         currentDay: this.UBIContract.methods.currentDay(),
-        entitlement: this.UBIContract.methods.checkEntitlement(),
         activeClaimers: this.UBIContract.methods.activeUsersCount(),
         distribution: this.UBIContract.methods.dailyCyclePool(),
+        dailyStats: this.UBIContract.methods.getDailyStats(),
       },
     ]
-    const [[res]] = await this.multicallFuse.all([calls])
 
-    const calls2 = [
-      {
-        claimers: this.UBIContract.methods.getClaimerCount(res.currentDay),
-        claimAmount: this.UBIContract.methods.getClaimAmount(res.currentDay),
-      },
-    ]
-    const [[res2]] = await this.multicallFuse.all([calls2])
+    //entitelment is separate because it depends on msg.sender
+    const [[[res]], entitlement] = await Promise.all([
+      this.multicallFuse.all([calls]),
+      this.UBIContract.methods.checkEntitlement().call(),
+    ])
+    res.entitlement = entitlement
+    res.claimers = res.dailyStats.count
+    res.claimAmount = res.dailyStats.amount
+    delete res.dailyStats
 
-    const result = mapValues({ ...res, ...res2 }, _ => (typeof _ === 'string' ? parseInt(_) : _.map(parseInt)))
+    const result = mapValues(res, _ => (typeof _ === 'string' ? parseInt(_) : _.map(parseInt)))
 
     const startRef = moment(result.periodStart * 1000).utc()
     if (startRef.isBefore(moment().utc())) {

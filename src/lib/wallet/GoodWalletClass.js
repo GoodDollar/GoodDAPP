@@ -571,8 +571,8 @@ export class GoodWallet {
       this.UBIContract.methods.checkEntitlement().call(),
     ])
     res.entitlement = entitlement
-    res.claimers = res.dailyStats.count
-    res.claimAmount = res.dailyStats.amount
+    res.claimers = res.dailyStats[0]
+    res.claimAmount = res.dailyStats[1]
     delete res.dailyStats
 
     const result = mapValues(res, _ => (typeof _ === 'string' ? parseInt(_) : _.map(parseInt)))

@@ -1,6 +1,7 @@
 
 # GoodDollar DApp
 We use [<img valign="middle" src="/bugsnag_logo.svg?raw=true&sanitize=1" width="100px"/>](https://bugsnag.com)
+[<img valign="middle" src="https://www.datocms-assets.com/31049/1618983297-powered-by-vercel.svg?raw=true&sanitize=1" width="100px"/>](https://vercel.com/?utm_source=[team-name]&utm_campaign=oss)
 
 [![Build Status](https://travis-ci.com/GoodDollar/GoodDAPP.svg?branch=master)](https://travis-ci.com/GoodDollar/GoodDAPP) [![Coverage Status](https://coveralls.io/repos/github/GoodDollar/GoodDAPP/badge.svg?branch=master)](https://coveralls.io/github/GoodDollar/GoodDAPP?branch=master)
 

@@ -74,10 +74,9 @@ export const calculateFontFamily = memoize(
     const calculatedFamily = getPlatformFontFamily(fontFamily)
 
     if (isMobileNative) {
-      //We need to check if fontWeight is not NAN before we search in the invertedFontWeights cus it only contains the non NaN keys.
-      const switchNumericWeightToName = isNaN(fontWeight) ? fontWeight : invertedFontWeights[fontWeight]
-
-      const calculatedWeight = switchNumericWeightToName || defaultFontWeight
+      //check if fontWeight is not NAN before we search in the invertedFontWeights
+      const fontWeightSuffix = isNaN(fontWeight) ? fontWeight : invertedFontWeights[fontWeight]
+      const calculatedWeight = fontWeightSuffix || defaultFontWeight
 
       return `${calculatedFamily}-${capitalize(calculatedWeight)}`
     }

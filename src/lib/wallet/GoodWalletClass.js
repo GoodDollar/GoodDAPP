@@ -593,7 +593,7 @@ export class GoodWallet {
     )
     const cdai = new this.web3Mainnet.eth.Contract(cERC20ABI.abi, get(ContractsAddress, `${this.network}-mainnet.cDAI`))
 
-    const stakingContracts = get(ContractsAddress, `${this.network}-mainnet.StakingContracts`)
+    const stakingContracts = get(ContractsAddress, `${this.network}-mainnet.StakingContracts`, [])
     let gainCalls = stakingContracts.map(([addr, rewards]) => {
       const stakingContract = new this.web3Mainnet.eth.Contract(SimpleStakingABI.abi, addr, { from: this.account })
 

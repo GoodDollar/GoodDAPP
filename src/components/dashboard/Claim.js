@@ -453,7 +453,7 @@ const Claim = props => {
 
       try {
         // if returned from FV with validated state
-        if (isValid && (await goodWallet.isCitizen())) {
+        if (isValid) {
           // claim & collect invite bonus
           await handleClaim()
 

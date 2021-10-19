@@ -699,16 +699,6 @@ export class GoodWallet {
     return this.wallet.eth.getBlockNumber()
   }
 
-  async getWalletAndClaimBalance(): Promise<[number, number]> {
-    const calls = [
-      { balance: this.tokenContract.methods.balanceOf(this.account) },
-      { entitlement: this.UBIContract.methods.checkEntitlement() },
-    ]
-    const [[{ balance }, { entitlement }]] = await this.multicallFuse.all([calls])
-
-    return [balance, entitlement].map(_ => parseInt(_))
-  }
-
   async balanceOf(): Promise<number> {
     try {
       const balance = await this.tokenContract.methods.balanceOf(this.account).call()

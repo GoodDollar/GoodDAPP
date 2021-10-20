@@ -3566,13 +3566,13 @@
   optionalDependencies:
     secp256k1 "^3.8.0"
 
-"@toruslabs/fetch-node-details@^2.7.1":
-  version "2.7.1"
-  resolved "https://registry.yarnpkg.com/@toruslabs/fetch-node-details/-/fetch-node-details-2.7.1.tgz#d234ac8cb232c51f1cc120f3370159ce9bc3d4d2"
-  integrity sha512-6TfTmApe2OoUyST5s1arTH0dGuh6ONvykuEBjT25nO64Qgwu7eJNVMnH+DDH5Kl9PyboEa74ofGqv54l7oHsuA==
+"@toruslabs/fetch-node-details@^3.0.2":
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/@toruslabs/fetch-node-details/-/fetch-node-details-3.0.2.tgz#8c91729e397580e3b45566e4c86e8dad9cce23c2"
+  integrity sha512-pDMK+eQaGsog+k+JoLzfan/xE1h50BJt/fQV9hpFBYrLE//OxHBX23mxY6t64If5UVOSOVAhDObp/sz62MxNug==
   dependencies:
-    web3-eth-contract "^1.5.2"
-    web3-utils "^1.5.2"
+    web3-eth-contract "^1.6.0"
+    web3-utils "^1.6.0"
 
 "@toruslabs/http-helpers@^1.4.0":
   version "1.4.0"
@@ -3581,31 +3581,32 @@
   dependencies:
     deepmerge "^4.2.2"
 
-"@toruslabs/torus-direct-react-native-sdk@^0.5.0":
+"@toruslabs/torus-direct-react-native-sdk@^0.5.1":
   version "0.5.1"
   resolved "https://registry.yarnpkg.com/@toruslabs/torus-direct-react-native-sdk/-/torus-direct-react-native-sdk-0.5.1.tgz#baebe1e8a159f32c6bb41b600190661aab33089e"
   integrity sha512-0wxaHe5RkMM9yeY35sQVFnwcTMxx7DAAyP3UJxJDr8yPB02iNP9LhdQyL5TR1lCIiOQqONpQk1fGGmbIlospDA==
 
-"@toruslabs/torus-direct-web-sdk@^4.15.0":
-  version "4.15.1"
-  resolved "https://registry.yarnpkg.com/@toruslabs/torus-direct-web-sdk/-/torus-direct-web-sdk-4.15.1.tgz#9d1011e8bf93c9d166f1b6d80f86706769159a4d"
-  integrity sha512-InNh2XwQKiFNEId8uEhO3ywDdXT/VMZFz3CZD8DAaUP73cM25kM8bSmS60xWeFsGRFHMULaPnL/4+N02eGzXMg==
+"@toruslabs/torus-direct-web-sdk@^5.0.2":
+  version "5.0.2"
+  resolved "https://registry.yarnpkg.com/@toruslabs/torus-direct-web-sdk/-/torus-direct-web-sdk-5.0.2.tgz#e6951070e1a0e5c6b9b4bdd42d43e0c98aefcb36"
+  integrity sha512-5b633xeWjDuXD/I0OrItecGdTFeYRYJ1KqZT4R9cKJzmXDjgEqXNVuN2xJdbPsn+vTiNd9/WVVEGzdVLjFQ3Hw==
   dependencies:
     "@chaitanyapotti/random-id" "^1.0.3"
     "@chaitanyapotti/register-service-worker" "^1.7.3"
-    "@toruslabs/fetch-node-details" "^2.7.1"
+    "@toruslabs/fetch-node-details" "^3.0.2"
     "@toruslabs/http-helpers" "^1.4.0"
-    "@toruslabs/torus.js" "^2.5.0"
-    broadcast-channel "^3.7.0"
+    "@toruslabs/torus.js" "^3.0.0"
+    broadcast-channel "^4.2.0"
     deepmerge "^4.2.2"
+    events "^3.3.0"
     jwt-decode "^3.1.2"
     loglevel "^1.7.1"
-    web3-utils "^1.5.2"
+    web3-utils "^1.6.0"
 
-"@toruslabs/torus.js@^2.5.0":
-  version "2.5.0"
-  resolved "https://registry.yarnpkg.com/@toruslabs/torus.js/-/torus.js-2.5.0.tgz#90f7cdfaa6f7b8de88595c97a8a402400d17cd83"
-  integrity sha512-w6gGl6YxJ9w3Kdcavjq5/QFsERe/fcEILsxowkh24NsP9v++ptRGP+Hu7g9ZbTjPyoxZfXbGOj02ToUWtO5x7A==
+"@toruslabs/torus.js@^3.0.0":
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/@toruslabs/torus.js/-/torus.js-3.0.0.tgz#f60a2e8df568367c9f00828e632ca37066a6b339"
+  integrity sha512-jNCqHJ8gPGQWxGSzdGDDgXovKaSFq7hvPtIdPzay+I1KlnVq/wJMZ6dX2ZU2nkFwKN0Ta9InRhdGdflGylzNBw==
   dependencies:
     "@toruslabs/eccrypto" "^1.1.7"
     "@toruslabs/http-helpers" "^1.4.0"
@@ -3614,7 +3615,7 @@
     json-stable-stringify "^1.0.1"
     loglevel "^1.7.1"
     memory-cache "^0.2.0"
-    web3-utils "^1.5.2"
+    web3-utils "^1.6.0"
 
 "@tradle/react-native-http@^2.0.1":
   version "2.0.1"
@@ -6438,10 +6439,10 @@ braces@^3.0.1, braces@~3.0.2:
   dependencies:
     fill-range "^7.0.1"
 
-broadcast-channel@^3.7.0:
-  version "3.7.0"
-  resolved "https://registry.yarnpkg.com/broadcast-channel/-/broadcast-channel-3.7.0.tgz#2dfa5c7b4289547ac3f6705f9c00af8723889937"
-  integrity sha512-cIAKJXAxGJceNZGTZSBzMxzyOn72cVgPnKx4dc6LRjQgbaJUQqhy5rzL3zbMxkMWsGKkv2hSFkPRMEXfoMZ2Mg==
+broadcast-channel@^4.2.0:
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/broadcast-channel/-/broadcast-channel-4.2.0.tgz#9ca93a23a31036266c2c9b0f8f55bd21594b8f82"
+  integrity sha512-XX9yNnIy/v2T+HR5EKIH7ziM2mYTefsrzZ2lkCmFZxwCDG7Ns7HLIooUXA114sCeFRJ4MEXEgdMapxfPDh9Xkg==
   dependencies:
     "@babel/runtime" "^7.7.2"
     detect-node "^2.1.0"
@@ -10134,7 +10135,7 @@ events@^1.0.0, events@^1.0.2, events@^1.1.1:
   resolved "https://registry.yarnpkg.com/events/-/events-1.1.1.tgz#9ebdb7635ad099c70dcc4c2a1f5004288e8bd924"
   integrity sha1-nr23Y1rQmccNzEwqH1AEKI6L2SQ=
 
-events@^3.0.0, events@^3.1.0:
+events@^3.0.0, events@^3.1.0, events@^3.3.0:
   version "3.3.0"
   resolved "https://registry.yarnpkg.com/events/-/events-3.3.0.tgz#31a95ad0a924e2d2c419a813aeb2c4e878ea7400"
   integrity sha512-mQw+2fkQbALzQ7V0MY0IqdnXNOeTtP4r0lN9z7AAawCXgqea7bDii20AYrIBrFd/Hx0M2Ocz6S111CaFkUcb0Q==
@@ -23484,7 +23485,7 @@ web3-eth-accounts@1.6.0:
     web3-core-method "1.6.0"
     web3-utils "1.6.0"
 
-web3-eth-contract@1.6.0, web3-eth-contract@^1.5.2:
+web3-eth-contract@1.6.0, web3-eth-contract@^1.6.0:
   version "1.6.0"
   resolved "https://registry.yarnpkg.com/web3-eth-contract/-/web3-eth-contract-1.6.0.tgz#deb946867ad86d32bcbba899d733b681b25ea674"
   integrity sha512-ZUtO77zFnxuFtrc+D+iJ3AzNgFXAVcKnhEYN7f1PNz/mFjbtE6dJ+ujO0mvMbxIZF02t9IZv0CIXRpK0rDvZAw==
@@ -23614,7 +23615,7 @@ web3-shh@1.6.0:
     web3-core-subscriptions "1.6.0"
     web3-net "1.6.0"
 
-web3-utils@1.6.0, web3-utils@^1.5.2:
+web3-utils@1.6.0, web3-utils@^1.5.2, web3-utils@^1.6.0:
   version "1.6.0"
   resolved "https://registry.yarnpkg.com/web3-utils/-/web3-utils-1.6.0.tgz#1975c5ee5b7db8a0836eb7004848a7cd962d1ddc"
   integrity sha512-bgCAWAeQnJF035YTFxrcHJ5mGEfTi/McsjqldZiXRwlHK7L1PyOqvXiQLE053dlzvy1kdAxWl/sSSfLMyNUAXg==

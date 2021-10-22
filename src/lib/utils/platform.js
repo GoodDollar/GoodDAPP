@@ -14,8 +14,9 @@ import {
 } from 'mobile-device-detect'
 import { isEmulator as isEmulatedDevice } from 'react-native-device-info'
 
-import { env } from './env'
 import isWebApp from './isWebApp'
+
+import { appEnv } from './env'
 
 export const isSafari = isMobileSafari || isSafariWeb
 
@@ -50,7 +51,7 @@ export const isEmulator = isMobileNative ? isEmulatedDevice() : Promise.resolve(
 export const isCypress =
   !isMobileReactNative && 'undefined' !== typeof window && get(window, 'navigator.userAgent', '').includes('Cypress')
 
-export const isE2ERunning = isCypress && 'development' === env
+export const isE2ERunning = isCypress && 'development' === appEnv
 
 export const useNativeDriverForAnimation = Platform.select({
   web: false,

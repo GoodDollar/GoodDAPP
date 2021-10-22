@@ -4,20 +4,18 @@ import { version as contractsVersion } from '../../node_modules/@gooddollar/good
 import { version } from '../../package.json'
 
 import { isWeb } from '../lib/utils/platform'
-import { env as devenv, fixNL, publicUrlForEnv } from '../lib/utils/env'
+import { appEnv, fixNL, appUrl as publicUrl } from '../lib/utils/env'
 import mustache from '../lib/utils/mustache'
 
 import env from './env'
 
 // E2E checker utility import
 //import { isE2ERunning } from '../lib/utils/platform'
-const { search: qs = '', origin } = isWeb ? window.location : {}
-let publicUrl = env.REACT_APP_PUBLIC_URL || origin
 
+const { search: qs = '' } = isWeb ? window.location : {}
 const forceLogLevel = qs.match(/level=(.*?)($|&)/)
 const forcePeer = qs.match(/gun=(.*?)($|&)/)
 
-const appEnv = devenv(env.REACT_APP_ENV)
 const phase = env.REACT_APP_RELEASE_PHASE || 1
 
 const isPhaseZero = 0 === phase
@@ -27,13 +25,6 @@ const isPhaseTwo = 2 === phase
 const alchemyKey = env.REACT_APP_ALCHEMY_KEY
 const isEToro = env.REACT_APP_ETORO === 'true' || env.REACT_APP_NETWORK === 'etoro'
 const ipfsGateways = env.REACT_APP_IPFS_GATEWAYS || 'https://cloudflare-ipfs.com/ipfs/{cid},https://ipfs.io/ipfs/{cid},https://{cid}.ipfs.dweb.link'
-
-if (!publicUrl) {
-  publicUrl = publicUrlForEnv(appEnv)
-} else if (!isWeb && publicUrl.includes(':localhost')) {
-  // hotfix REACT_APP_PUBLIC_URL from .env for the local native app run
-  publicUrl = publicUrlForEnv('development')
-}
 
 const Config = {
   env: appEnv,

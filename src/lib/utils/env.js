@@ -1,10 +1,11 @@
 // @flow
 
-export const env = env => env || 'development'
+import { Platform } from 'react-native'
+import env from '../../config/env'
 
-export const fixNL = envValue => (envValue || '').replace(/\\n/gm, '\n')
+const envUrl = env.REACT_APP_PUBLIC_URL
 
-export const publicUrlForEnv = env => {
+const getDefaultUrl = env => {
   switch (env) {
     case 'development':
       return 'https://gooddev.netlify.app'
@@ -16,3 +17,12 @@ export const publicUrlForEnv = env => {
       return
   }
 }
+
+export const fixNL = envValue => (envValue || '').replace(/\\n/gm, '\n')
+
+export const appEnv = env.REACT_APP_ENV || 'development'
+
+export const appUrl = Platform.select({
+  web: () => envUrl || window.location.origin,
+  default: () => (envUrl && !envUrl.includes(':localhost') ? envUrl : getDefaultUrl(appEnv)),
+})()

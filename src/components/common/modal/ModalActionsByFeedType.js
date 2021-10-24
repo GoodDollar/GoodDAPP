@@ -75,12 +75,11 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
     setCancellingPayment(true)
 
     try {
+      await userStorage.cancelOTPLEvent(item.id)
       goodWallet
         .cancelOTLByTransactionHash(item.id)
         .catch(exception => handleCancelFailed(exception, ExceptionCode.E10, Blockchain))
         .finally(() => setCancellingPayment(false))
-
-      await userStorage.cancelOTPLEvent(item.id)
     } catch (exception) {
       setCancellingPayment(false)
       handleCancelFailed(exception, ExceptionCode.E12)

@@ -95,7 +95,7 @@ const FeedList = ({
    */
   const handleFeedActionPress = useCallback(
     ({ id, status }: FeedEvent, actions: {}) => {
-      const cancelEvent = () => {
+      const cancelEvent = async () => {
         if (canceledFeeds.current.includes(id)) {
           log.info('Already cancelled', id)
           return
@@ -103,7 +103,7 @@ const FeedList = ({
 
         try {
           canceledFeeds.current.push(id)
-          userStorage.cancelOTPLEvent(id)
+          await userStorage.cancelOTPLEvent(id)
 
           goodWallet.cancelOTLByTransactionHash(id).catch(e => {
             const uiMessage = decorate(e, ExceptionCode.E11) + `\nTransaction: ${id}`

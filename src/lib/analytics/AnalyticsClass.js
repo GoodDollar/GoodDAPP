@@ -57,9 +57,11 @@ export class AnalyticsClass {
       this.isAmplitudeEnabled = success
       logger.info('License sent to Amplitude', { success })
 
-      const identity = new amplitude.Identify().setOnce('first_open_date', new Date().toString())
+      const identity = new amplitude.Identify()
 
+      identity.setOnce('first_open_date', new Date().toString())
       identity.append('phase', String(phase))
+
       amplitude.setVersionName(version)
       amplitude.identify(identity)
     }

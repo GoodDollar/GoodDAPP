@@ -17,8 +17,6 @@ import {
   values,
 } from 'lodash'
 
-import { isMobileReactNative } from '../utils/platform'
-
 import { cloneErrorObject, ExceptionCategory } from '../logger/exceptions'
 import { ANALYTICS_EVENT, ERROR_LOG } from './constants'
 
@@ -255,10 +253,7 @@ export class AnalyticsClass {
         resolve(true)
       }
 
-      //bug in amplitude causing true to fail in react native https://github.com/amplitude/Amplitude-JavaScript/issues/181
-      const includeReferrer = isMobileReactNative ? false : true
-
-      amplitude.init(key, null, { includeReferrer, includeUtm: true, onError }, onSuccess)
+      amplitude.init(key, null, { includeUtm: true, onError }, onSuccess)
     })
   }
 

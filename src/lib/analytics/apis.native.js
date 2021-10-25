@@ -1,6 +1,6 @@
 // @flow
-import * as SentryNative from '@sentry/react-native'
-import amplitude from 'amplitude-js'
+import * as sentry from '@sentry/react-native'
+import { Amplitude, Identify } from '@amplitude/react-native'
 import analytics from '@react-native-firebase/analytics'
 import { assign } from 'lodash'
 
@@ -16,8 +16,10 @@ class GoogleWrapper {
   }
 }
 
-export default () => ({
-  sentry: SentryNative,
-  amplitude: amplitude.getInstance(),
-  googleAnalytics: new GoogleWrapper(analytics()),
-})
+export default () => {
+  const amplitude = Amplitude.getInstance()
+  const googleAnalytics = new GoogleWrapper(analytics())
+
+  assign(amplitude, { Identify })
+  return { sentry, amplitude, googleAnalytics }
+}

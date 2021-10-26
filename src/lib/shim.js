@@ -27,3 +27,7 @@ shim(Promise.prototype, 'finally', function(fn) {
 shim(Array.prototype, 'flat', function(depth = null) {
   return flattenDepth(this, depth || 1)
 })
+
+shim(Array.prototype, 'flatMap', function(iteratee) {
+  return this.map(iteratee).flat()
+})

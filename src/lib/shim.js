@@ -1,4 +1,4 @@
-import { fromPairs } from 'lodash'
+import { flattenDepth, fromPairs } from 'lodash'
 import 'abortcontroller-polyfill/dist/polyfill-patch-fetch'
 
 const shim = (object, method, implementation) => {
@@ -22,4 +22,8 @@ shim(Promise.prototype, 'finally', function(fn) {
   const onFinally = callback => Promise.resolve(fn()).then(callback)
 
   return this.then(result => onFinally(() => result), reason => onFinally(() => Promise.reject(reason)))
+})
+
+shim(Array.prototype, 'flat', function(depth = null) {
+  return flattenDepth(this, depth || 1)
 })

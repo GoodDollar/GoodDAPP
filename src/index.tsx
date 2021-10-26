@@ -12,7 +12,7 @@ import styled from 'styled-components'
 import { Text, Link, Image } from 'rebass'
 
 import { Provider } from 'react-redux'
-import { BrowserRouter as Router } from 'react-router-dom'
+import { HashRouter as Router } from 'react-router-dom'
 import Blocklist from './components/Blocklist'
 import { NetworkContextName } from './constants'
 import App from './pages/App'

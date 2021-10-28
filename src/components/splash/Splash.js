@@ -90,12 +90,10 @@ const Splash = ({ animation, isLoggedIn }) => {
             <Section.Text fontSize={16} color="darkBlue" fontWeight="medium">
               {isPhaseZero && 'Demo '}V{version}
             </Section.Text>
-            <Section.Stack style={styles.footerContainer}>
-              <TouchableOpacity onPress={() => openLink(Config.vercelLogoURL)}>
-                <VercelLogo />
-              </TouchableOpacity>
-            </Section.Stack>
           </Section.Stack>
+          <TouchableOpacity style={styles.vercelLogo} onPress={() => openLink(Config.vercelLogoURL)}>
+            <VercelLogo />
+          </TouchableOpacity>
         </WavesBackground>
       </Section>
     </Wrapper>
@@ -137,10 +135,8 @@ const styles = StyleSheet.create({
     marginRight: 'auto',
     borderBottomColor: '#000',
   },
-  footerContainer: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'flex-end',
+  vercelLogo: {
+    transform: [{ rotateY: '180deg' }],
   },
   animation: {
     marginTop: -getDesignRelativeHeight(75),

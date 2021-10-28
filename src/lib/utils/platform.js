@@ -59,9 +59,9 @@ export const isE2ERunning = isCypress && 'development' === appEnv
 export const osVersion = (() => {
   const [name, version] = Platform.select({
     web: () => [detectedOS, detectedOSVersion],
-    default: over([getSystemName, getSystemVersion])
+    default: over([getSystemName, getSystemVersion]),
   })()
-  
+
   return `${name} ${version}`
 })()
 

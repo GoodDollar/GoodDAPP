@@ -18,6 +18,7 @@ import {
 } from 'lodash'
 
 import { cloneErrorObject, ExceptionCategory } from '../logger/exceptions'
+import { osVersion } from '../utils/platform'
 import { ANALYTICS_EVENT, ERROR_LOG } from './constants'
 
 export class AnalyticsClass {
@@ -64,6 +65,7 @@ export class AnalyticsClass {
 
       amplitude.setVersionName(version)
       amplitude.identify(identity)
+      amplitude.setUserProperties({ os_version: osVersion })
     }
 
     if (isSentryEnabled) {

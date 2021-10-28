@@ -251,6 +251,21 @@ export class GoodWallet {
         )
         abiDecoder.addABI(FaucetABI.abi)
 
+        // debug print contracts addresses
+        {
+          const { network, networkId } = this
+          const contractAddresses = ContractsAddress[network]
+          const mainnetAddresses = ContractsAddress[network + '-mainnet']
+
+          log.debug('GoodWallet initialized with addresses', {
+            networkId,
+            mainnetNetworkId,
+            network,
+            contractAddresses,
+            mainnetAddresses,
+          })
+        }
+
         log.info('GoodWallet Ready.', { account: this.account })
       })
       .catch(e => {

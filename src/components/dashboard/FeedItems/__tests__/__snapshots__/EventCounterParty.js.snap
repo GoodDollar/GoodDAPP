@@ -20,7 +20,7 @@ exports[`EventCounterParty receive matches snapshot 1`] = `
       From: 
     </span>
     <span
-      className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+      className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-lineHeight-1cwl3u0 r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
     >
       Misao Matimbo
     </span>
@@ -48,7 +48,7 @@ exports[`EventCounterParty send matches snapshot 1`] = `
       To: 
     </span>
     <span
-      className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+      className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-lineHeight-1cwl3u0 r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
     >
       Misao Matimbo
     </span>
@@ -76,7 +76,7 @@ exports[`EventCounterParty withdraw matches snapshot 1`] = `
       From: 
     </span>
     <span
-      className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+      className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-lineHeight-1cwl3u0 r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
     >
       Misao Matimbo
     </span>

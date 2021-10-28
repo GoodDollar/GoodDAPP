@@ -42,7 +42,7 @@ const EventCounterParty = ({ feedItem, styles, style, textStyle, subtitle, isSma
       <Text
         fontWeight="medium"
         textAlign={'left'}
-        lineHeight={hasSubtitle ? 19 : 38}
+        lineHeight={hasSubtitle ? 16 : 38}
         style={[styles.fullName, textStyle]}
       >
         {displayText}

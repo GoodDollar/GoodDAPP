@@ -2,6 +2,8 @@ import { Platform } from 'react-native'
 import { findKey, get } from 'lodash'
 
 import {
+  osName as detectOSName,
+  osVersion as detectOSVersion,
   isAndroid as isAndroidWeb,
   isBrowser as isBrowserWeb,
   isChrome,
@@ -11,8 +13,6 @@ import {
   isMobile as isMobileWeb,
   isSafari as isSafariWeb,
   isTablet,
-  osName,
-  osVersion,
 } from 'mobile-device-detect'
 import { isEmulator as isEmulatedDevice } from 'react-native-device-info'
 
@@ -55,7 +55,7 @@ export const isCypress =
 
 export const isE2ERunning = isCypress && 'development' === appEnv
 
-export const getOSVersion = `${osName} ${osVersion}`
+export const osVersion = `${detectOSName} ${detectOSVersion}`
 
 export const useNativeDriverForAnimation = Platform.select({
   web: false,

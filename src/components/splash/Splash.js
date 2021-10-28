@@ -1,6 +1,6 @@
 // libraries
 import React, { useEffect, useState } from 'react'
-import { Platform, StyleSheet } from 'react-native'
+import { Platform, StyleSheet, TouchableOpacity } from 'react-native'
 import moment from 'moment'
 
 // components
@@ -9,8 +9,11 @@ import Wrapper from '../common/layout/Wrapper'
 import Section from '../common/layout/Section'
 import WavesBackground from '../common/view/WavesBackground'
 
+import VercelLogo from '../../assets/Splash/vercelLogo.svg'
+
 // utils
 import Config from '../../config/config'
+import { openLink } from '../../lib/utils/linking'
 import { getDesignRelativeHeight, getMaxDeviceHeight } from '../../lib/utils/sizes'
 import { isMobile, isMobileNative } from '../../lib/utils/platform'
 import AsyncStorage from '../../lib/utils/asyncStorage'
@@ -87,6 +90,11 @@ const Splash = ({ animation, isLoggedIn }) => {
             <Section.Text fontSize={16} color="darkBlue" fontWeight="medium">
               {isPhaseZero && 'Demo '}V{version}
             </Section.Text>
+            <Section.Stack style={styles.footerContainer}>
+              <TouchableOpacity onPress={() => openLink(Config.vercelLogoURL)}>
+                <VercelLogo />
+              </TouchableOpacity>
+            </Section.Stack>
           </Section.Stack>
         </WavesBackground>
       </Section>
@@ -128,6 +136,11 @@ const styles = StyleSheet.create({
     marginLeft: 'auto',
     marginRight: 'auto',
     borderBottomColor: '#000',
+  },
+  footerContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'flex-end',
   },
   animation: {
     marginTop: -getDesignRelativeHeight(75),

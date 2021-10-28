@@ -37,6 +37,25 @@ exports[`Splash matches snapshot 1`] = `
           V
           1.0
         </div>
+        <div
+          className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-eqz5dr r-justifyContent-17s6mgv"
+        >
+          <div
+            className="css-view-1dbjc4n r-cursor-1loqt21 r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
+            onClick={[Function]}
+            onContextMenu={[Function]}
+            onKeyDown={[Function]}
+            style={
+              Object {
+                "WebkitTransitionDuration": "0s",
+                "transitionDuration": "0s",
+              }
+            }
+            tabIndex="0"
+          >
+            <vercelLogo.svg />
+          </div>
+        </div>
       </div>
     </div>
   </div>

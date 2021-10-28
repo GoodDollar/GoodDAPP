@@ -14,7 +14,7 @@ import {
   isSafari as isSafariWeb,
   isTablet,
 } from 'mobile-device-detect'
-import { isEmulator as isEmulatedDevice } from 'react-native-device-info'
+import { getSystemName, getSystemVersion, isEmulator as isEmulatedDevice } from 'react-native-device-info'
 
 import isWebApp from './isWebApp'
 
@@ -55,7 +55,7 @@ export const isCypress =
 
 export const isE2ERunning = isCypress && 'development' === appEnv
 
-export const osVersion = `${detectOSName} ${detectOSVersion}`
+export const osVersion = `${isWeb ? detectOSName : getSystemName()} ${isWeb ? detectOSVersion : getSystemVersion()}`
 
 export const useNativeDriverForAnimation = Platform.select({
   web: false,

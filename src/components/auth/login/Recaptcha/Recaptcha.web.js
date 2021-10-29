@@ -1,8 +1,9 @@
-import React, { forwardRef, useImperativeHandle, useRef } from 'react'
-import GoogleRecaptcha from 'react-google-recaptcha'
+import React, { forwardRef, useCallback, useImperativeHandle, useRef } from 'react'
+import Reaptcha from 'reaptcha'
 
-const Recaptcha = forwardRef(({ siteKey, baseUrl, onStatusChange, children, ...props }, ref) => {
+const Recaptcha = forwardRef(({ siteKey, onLoad, onStatusChange, children, ...props }, ref) => {
   const captchaRef = useRef()
+  const setCaptchaRef = useCallback(ref => (captchaRef.current = ref), [])
 
   useImperativeHandle(ref, () => ({
     launch: () => captchaRef.current.execute(),
@@ -10,14 +11,15 @@ const Recaptcha = forwardRef(({ siteKey, baseUrl, onStatusChange, children, ...p
 
   return (
     <>
-      <GoogleRecaptcha
+      <Reaptcha
         {...props}
-        ref={captchaRef}
+        ref={setCaptchaRef}
         sitekey={siteKey}
-        onChange={onStatusChange}
-        onErrored={onStatusChange}
-        onExpired={onStatusChange}
         size="invisible"
+        onLoad={onLoad}
+        onVerify={onStatusChange}
+        onError={onStatusChange}
+        onExpire={onStatusChange}
       />
       {children}
     </>

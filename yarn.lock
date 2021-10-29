@@ -18480,7 +18480,7 @@ prop-types@15.5.10:
     fbjs "^0.8.9"
     loose-envify "^1.3.1"
 
-prop-types@^15.5.0, prop-types@^15.5.10, prop-types@^15.5.8, prop-types@^15.6.0, prop-types@^15.6.1, prop-types@^15.6.2, prop-types@^15.7.2:
+prop-types@^15.5.10, prop-types@^15.5.8, prop-types@^15.6.0, prop-types@^15.6.1, prop-types@^15.6.2, prop-types@^15.7.2:
   version "15.7.2"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.7.2.tgz#52c41e75b8c87e72b9d9360e0206b99dcbffa6c5"
   integrity sha512-8QQikdH7//R2vurIJSutZ1smHYTcLpRWEOlHnzcWHmBYrOGUysKwSsrC89BCiFj3CbrfJ/nXFdJepOVrY1GCHQ==
@@ -18847,14 +18847,6 @@ react-art@^17.0.2:
     object-assign "^4.1.1"
     scheduler "^0.20.2"
 
-react-async-script@^1.1.1:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/react-async-script/-/react-async-script-1.2.0.tgz#ab9412a26f0b83f5e2e00de1d2befc9400834b21"
-  integrity sha512-bCpkbm9JiAuMGhkqoAiC0lLkb40DJ0HOEJIku+9JDjxX3Rcs+ztEOG13wbrOskt3n2DTrjshhaQ/iay+SnGg5Q==
-  dependencies:
-    hoist-non-react-statics "^3.3.0"
-    prop-types "^15.5.0"
-
 react-create-ref@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/react-create-ref/-/react-create-ref-1.0.1.tgz#c0cbeec9e05b608c9f9434fafbecbcc46750293d"
@@ -18927,14 +18919,6 @@ react-error-overlay@^6.0.9:
   version "6.0.9"
   resolved "https://registry.yarnpkg.com/react-error-overlay/-/react-error-overlay-6.0.9.tgz#3c743010c9359608c375ecd6bc76f35d93995b0a"
   integrity sha512-nQTTcUu+ATDbrSD1BZHr5kgSD4oF8OFjxun8uAaL8RwPBacGBNPf/yAuVVdx17N8XNzRDMrZ9XcKZHCjPW+9ew==
-
-react-google-recaptcha@^2.1.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/react-google-recaptcha/-/react-google-recaptcha-2.1.0.tgz#9f6f4954ce49c1dedabc2c532347321d892d0a16"
-  integrity sha512-K9jr7e0CWFigi8KxC3WPvNqZZ47df2RrMAta6KmRoE4RUi7Ys6NmNjytpXpg4HI/svmQJLKR+PncEPaNJ98DqQ==
-  dependencies:
-    prop-types "^15.5.0"
-    react-async-script "^1.1.1"
 
 react-hot-loader@^4.13.0:
   version "4.13.0"
@@ -19760,6 +19744,11 @@ realm-web@^1.3.0:
   optionalDependencies:
     abort-controller "^3.0.0"
     node-fetch "^2.6.0"
+
+reaptcha@^1.7.3:
+  version "1.7.3"
+  resolved "https://registry.yarnpkg.com/reaptcha/-/reaptcha-1.7.3.tgz#a773ce1fc5228de8a2bb28495dfc0be0bda7b30b"
+  integrity sha512-j2+JvHssw8FO43aDMrL+Ylb0nlDJDRZNK2olpIMO1SQBkZO2S9c3+oTTJJFPjHznkpfN9RahKBl8NIeL4VHrWA==
 
 recaptcha-v3-react@^3.0.3:
   version "3.0.3"

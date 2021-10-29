@@ -2,29 +2,6 @@
 <html lang="en">
   <head>
     <script>
-      (function() {
-        function errorListener(event) {
-          const error = event.error;
-          const filename = event.filename;
-          const location = window.location;
-
-          if (
-            0 === filename.indexOf(location.origin) &&
-            0 === error.message.indexOf("Unexpected token") &&
-            error.name == 'SyntaxError'
-          ) {
-            location.reload(true);
-          }
-        }
-
-        window.onJSBundleLoaded = function () {
-          window.removeEventListener('error', errorListener);
-        };
-
-        window.addEventListener('error', errorListener);
-      })()
-    </script>
-    <script>
       var exports = {}
     </script>
     <!-- Google Tag Manager -->

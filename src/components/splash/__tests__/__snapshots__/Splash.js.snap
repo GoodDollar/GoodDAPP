@@ -51,7 +51,7 @@ exports[`Splash matches snapshot 1`] = `
         }
         tabIndex="0"
       >
-        <vercelLogo.svg />
+        <poweredByLogo.svg />
       </div>
     </div>
   </div>

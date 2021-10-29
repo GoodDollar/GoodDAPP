@@ -1,5 +1,5 @@
 // libraries
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { Platform, StyleSheet, TouchableOpacity } from 'react-native'
 import moment from 'moment'
 
@@ -8,8 +8,6 @@ import AnimationsLogo from '../common/animations/Logo'
 import Wrapper from '../common/layout/Wrapper'
 import Section from '../common/layout/Section'
 import WavesBackground from '../common/view/WavesBackground'
-
-import VercelLogo from '../../assets/Splash/vercelLogo.svg'
 
 // utils
 import Config from '../../config/config'
@@ -20,6 +18,7 @@ import AsyncStorage from '../../lib/utils/asyncStorage'
 
 // assets
 // import wavePattern from '../../assets/splashWaves.svg'
+import PoweredByLogo from '../../assets/Splash/poweredByLogo.svg'
 
 const { isPhaseZero, version } = Config
 
@@ -41,6 +40,9 @@ export const resetLastSplash = async () => {
 const Splash = ({ animation, isLoggedIn }) => {
   const [checked, setChecked] = useState(false)
   const [shouldAnimate, setShouldAnimate] = useState(isLoggedIn !== true || isMobileNative)
+
+  const onPoweredByPress = useCallback(() => openLink(Config.poweredByUrl), [])
+
   useEffect(() => {
     if (shouldAnimate) {
       return
@@ -91,8 +93,8 @@ const Splash = ({ animation, isLoggedIn }) => {
               {isPhaseZero && 'Demo '}V{version}
             </Section.Text>
           </Section.Stack>
-          <TouchableOpacity style={styles.vercelLogo} onPress={() => openLink(Config.vercelLogoURL)}>
-            <VercelLogo />
+          <TouchableOpacity style={styles.poweredByLogo} onPress={onPoweredByPress}>
+            <PoweredByLogo />
           </TouchableOpacity>
         </WavesBackground>
       </Section>
@@ -135,7 +137,7 @@ const styles = StyleSheet.create({
     marginRight: 'auto',
     borderBottomColor: '#000',
   },
-  vercelLogo: {
+  poweredByLogo: {
     transform: [{ rotateY: '180deg' }],
   },
   animation: {

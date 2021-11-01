@@ -135,6 +135,7 @@ export default function SideBar({ mobile }: { mobile?: boolean }) {
     return (
         <SideBarSC className="flex flex-col justify-between" $mobile={mobile}>
             <nav>
+                <NavLink to={'/dashboard'}>{i18n._(t`Dashboard`)}</NavLink>
                 <NavLink to={'/swap'}>{i18n._(t`Swap`)}</NavLink>
                 <NavLink to={'/stakes'}>{i18n._(t`Stakes`)}</NavLink>
                 <NavLink to={'/portfolio'}>{i18n._(t`Portfolio`)}</NavLink>

@@ -9,7 +9,7 @@ import { ApplicationModal } from '../../state/application/types'
 export function RedirectHashRoutes({ location }: RouteComponentProps) {
     //console.log('location:', location.hash)
     if (!location.hash) {
-        return <Redirect to={{ ...location, pathname: '/swap' }} />
+        return <Redirect to={{ ...location, pathname: '/dashboard' }} />
     }
     return <Redirect to={location.hash.replace('#', '')} />
 }

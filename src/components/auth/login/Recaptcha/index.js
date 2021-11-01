@@ -36,7 +36,7 @@ const Recaptcha = React.forwardRef(({ onSuccess = noop, onFailure = noop, childr
         }
       }
     },
-    [onSuccess, onFailure],
+    [setIsPassed, onSuccess, onFailure],
   )
 
   useImperativeHandle(

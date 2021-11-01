@@ -1,8 +1,9 @@
-import React, { forwardRef, useImperativeHandle, useRef } from 'react'
+import React, { forwardRef, useCallback, useImperativeHandle, useRef } from 'react'
 import ReCAPTCHA from 'react-native-recaptcha-that-works'
 
-const Recaptcha = forwardRef(({ siteKey, baseUrl, onLoad, onStatusChange, children, ...props }, ref) => {
+const Recaptcha = forwardRef(({ siteKey, baseUrl, onLoad, onError, onVerify, children, ...props }, ref) => {
   const captchaRef = useRef()
+  const onExpired = useCallback(() => captchaRef.current.close(), [])
 
   useImperativeHandle(ref, () => ({
     launch: () => captchaRef.current.open(),
@@ -17,9 +18,9 @@ const Recaptcha = forwardRef(({ siteKey, baseUrl, onLoad, onStatusChange, childr
         baseUrl={baseUrl}
         size="normal"
         onLoad={onLoad}
-        onExpire={onStatusChange}
-        onError={onStatusChange}
-        onVerify={onStatusChange}
+        onExpire={onExpired}
+        onError={onError}
+        onVerify={onVerify}
       />
       {children}
     </>

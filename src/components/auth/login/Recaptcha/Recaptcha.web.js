@@ -1,9 +1,10 @@
 import React, { forwardRef, useCallback, useImperativeHandle, useRef } from 'react'
 import Reaptcha from 'reaptcha'
 
-const Recaptcha = forwardRef(({ siteKey, onLoad, onStatusChange, children, ...props }, ref) => {
+const Recaptcha = forwardRef(({ siteKey, onLoad, onVerify, onError, children, ...props }, ref) => {
   const captchaRef = useRef()
   const setCaptchaRef = useCallback(ref => (captchaRef.current = ref), [])
+  const onExpired = useCallback(() => captchaRef.current.reset(), [])
 
   useImperativeHandle(ref, () => ({
     launch: () => captchaRef.current.execute(),
@@ -17,9 +18,9 @@ const Recaptcha = forwardRef(({ siteKey, onLoad, onStatusChange, children, ...pr
         sitekey={siteKey}
         size="invisible"
         onLoad={onLoad}
-        onVerify={onStatusChange}
-        onError={onStatusChange}
-        onExpire={onStatusChange}
+        onVerify={onVerify}
+        onError={onError}
+        onExpire={onExpired}
       />
       {children}
     </>

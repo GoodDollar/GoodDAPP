@@ -15,7 +15,7 @@ const Recaptcha = React.forwardRef(({ onSuccess = noop, onFailure = noop, childr
   const [isPassed, setIsPassed] = useState(false)
   const [whenLoaded, setLoaded] = usePromise()
 
-  const onStatusChange = useCallback(
+  const onVerify = useCallback(
     async payload => {
       let hasPassed = false
       log.debug('Recaptcha payload', payload)
@@ -61,7 +61,8 @@ const Recaptcha = React.forwardRef(({ onSuccess = noop, onFailure = noop, childr
       siteKey={recaptchaSiteKey}
       baseUrl={publicUrl}
       onLoad={setLoaded}
-      onStatusChange={onStatusChange}
+      onError={onFailure}
+      onVerify={onVerify}
     >
       {children}
     </Captcha>

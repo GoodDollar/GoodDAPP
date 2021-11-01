@@ -1,8 +1,9 @@
-import { noop } from 'lodash'
-import React, { useCallback, useImperativeHandle, useRef } from 'react'
+import { get, noop } from 'lodash'
+import React, { useCallback, useImperativeHandle, useRef, useState } from 'react'
 import Config from '../../../../config/config'
 import logger from '../../../../lib/logger/js-logger'
 import API from '../../../../lib/API/api'
+import usePromise from '../../../../lib/hooks/usePromise'
 import Captcha from './Recaptcha'
 
 const log = logger.child({ from: 'init' })
@@ -10,46 +11,59 @@ const log = logger.child({ from: 'init' })
 const { recaptchaSiteKey, publicUrl } = Config
 
 const Recaptcha = React.forwardRef(({ onSuccess = noop, onFailure = noop, children }, ref) => {
-  const isPassedRef = useRef(false)
   const captchaRef = useRef()
+  const [isPassed, setIsPassed] = useState(false)
+  const [whenLoaded, setLoaded] = usePromise()
 
-  const onStatusChange = useCallback(
-    async result => {
-      log.debug('Recaptcha result', result)
-      let hasPassed
+  const onVerify = useCallback(
+    async payload => {
+      let hasPassed = false
+      log.debug('Recaptcha payload', payload)
+
       try {
-        const res = await API.verifyCaptcha(result)
-        log.debug('Recaptcha verify res', res)
+        const result = await API.verifyCaptcha(payload)
 
-        if (res.data.success) {
-          hasPassed = true
-        } else {
-          hasPassed = false
-        }
+        log.debug('Recaptcha verify result', result)
+        hasPassed = get(result, 'data.success', false)
       } catch (exception) {
-        log.error('recaptcha verification failed', exception.message, exception, result)
-        hasPassed = false
+        log.error('recaptcha verification failed', exception.message, exception, payload)
       } finally {
-        isPassedRef.current = hasPassed
-        ;(hasPassed ? onSuccess : onFailure)()
+        if (hasPassed) {
+          setIsPassed(true)
+          onSuccess()
+        } else {
+          onFailure()
+        }
       }
     },
-    [onSuccess, onFailure],
+    [setIsPassed, onSuccess, onFailure],
   )
 
-  useImperativeHandle(ref, () => ({
-    hasPassedCheck: () => isPassedRef.current,
-    launchCheck: () => {
-      if (isPassedRef.current) {
-        return
-      }
+  useImperativeHandle(
+    ref,
+    () => ({
+      hasPassedCheck: () => isPassed,
+      launchCheck: async () => {
+        if (isPassed) {
+          return
+        }
 
-      captchaRef.current.launch()
-    },
-  }))
+        await whenLoaded
+        captchaRef.current.launch()
+      },
+    }),
+    [isPassed, whenLoaded],
+  )
 
   return (
-    <Captcha ref={captchaRef} siteKey={recaptchaSiteKey} baseUrl={publicUrl} onStatusChange={onStatusChange}>
+    <Captcha
+      ref={captchaRef}
+      siteKey={recaptchaSiteKey}
+      baseUrl={publicUrl}
+      onLoad={setLoaded}
+      onError={onFailure}
+      onVerify={onVerify}
+    >
       {children}
     </Captcha>
   )

@@ -8,10 +8,6 @@ import './components/common/view/Icon/index.css'
 
 let ErrorBoundary = React.Fragment
 
-if (undefined !== typeof window) {
-  window.onJSBundleLoaded()
-}
-
 ReactDOM.render(
   <ErrorBoundary>
     <AppHolder />

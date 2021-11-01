@@ -222,7 +222,7 @@ exports[`AppNavigation matches snapshot 1`] = `
                     data-testid="amount_value"
                   >
                     <div
-                      className="css-text-901oao css-textMultiLine-cens5h r-alignSelf-1pz39u2 r-color-181bzza r-fontFamily-6jnb14 r-fontSize-111xbm8 r-fontWeight-b88u0q r-lineHeight-1gvhk8w r-marginRight-a5pmau r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                      className="css-text-901oao css-textMultiLine-cens5h r-alignSelf-1pz39u2 r-color-181bzza r-fontFamily-6jnb14 r-fontSize-111xbm8 r-fontWeight-b88u0q r-height-ur6pnr r-lineHeight-1gvhk8w r-marginRight-a5pmau r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                       dir="auto"
                       style={
                         Object {

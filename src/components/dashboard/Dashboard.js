@@ -791,6 +791,7 @@ const getStylesFromProps = ({ theme }) => ({
     fontSize: 42,
     fontWeight: '700',
     lineHeight: 42,
+    height: 42,
     textAlign: 'center',
 
     alignSelf: 'stretch',

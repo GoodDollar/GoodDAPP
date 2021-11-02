@@ -27,6 +27,12 @@ class BackButtonHandler {
   }
 
   handler = action => {
+    const now = Date.now()
+
+    if (now - this.lastPress <= 300) {
+      return BackHandler.exitApp()
+    }
+    this.lastPress = Date.now()
     this.defaultAction()
 
     return true

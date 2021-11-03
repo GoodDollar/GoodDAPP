@@ -427,7 +427,7 @@ const Dashboard = props => {
           useNativeDriver: false,
         }),
         Animated.timing(headerHeightAnimValue, {
-          toValue: 40,
+          toValue: Platform.select({ web: 40, default: 50 }),
           duration: timing,
           easing: easingIn,
           useNativeDriver: false,

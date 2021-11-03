@@ -6,7 +6,7 @@ name: Android CI/CD v1
 # events but only for the master branch
 on:
   push:
-    branches: [master, staging, production, next, react-native]
+    branches: [master, staging, production, next, next-android]
 
   workflow_dispatch:
 
@@ -85,7 +85,7 @@ jobs:
           echo "APPCENTER_TOKEN=${{ secrets.APPCENTER_ANDROID_STAGING }}" >> $GITHUB_ENV
 
       - name: Pre-checks - Env is PROD
-        if: ${{ endsWith(github.ref, '/next') }}
+        if: ${{ contains(github.ref, '/next') }}
         run: |
           echo "ENV=prod" >> $GITHUB_ENV
           echo "SECRET_NAME=PROD_ENV" >> $GITHUB_ENV
@@ -154,7 +154,7 @@ jobs:
           yarn add appcenter-cli@^2.*
           npx appcenter distribute release --token "${{ env.APPCENTER_TOKEN }}" --app "${{ env.APPCENTER_NAME }}" --group "Collaborators" --file "${{ env.UNIVERSAL_APK_PATH }}" --release-notes "$(git log -1 --pretty=format:'%h %s')" --debug
       # FIXME: removed condition temporarily to prevent publishing to play store until we republish the app
-      # - name: Distribute to stores - QA & PROD ONLY
-      # if: ${{ endsWith(github.ref, '/next') || endsWith(github.ref, '/staging') }}
-      # run: |
-      #   npx appcenter distribute stores publish --token "${{ env.APPCENTER_TOKEN }}" --app "${{ env.APPCENTER_NAME }}" --store "${{ env.APPCENTER_STORE }}" --file "${{ env.UNIVERSAL_APK_PATH }}" --release-notes "$(git log -1 --pretty=format:'%h %s')"
+      # - name: Distribute to stores - NEXT-ANDROID ONLY
+      #   if: ${{ endsWith(github.ref, '/next-android') }}
+      #   run: |
+      #     npx appcenter distribute stores publish --token "${{ env.APPCENTER_TOKEN }}" --app "${{ env.APPCENTER_NAME }}" --store "${{ env.APPCENTER_STORE }}" --file "${{ env.UNIVERSAL_APK_PATH }}" --release-notes "$(git log -1 --pretty=format:'%h %s')"

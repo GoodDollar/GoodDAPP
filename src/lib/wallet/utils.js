@@ -48,7 +48,7 @@ export const weiToMask = (wei: number, settings?: {}): string => toMask(weiToGd(
 export const maskToWei = (mask: string, settings?: {}): number => gdToWei(toRawValue(mask, settings))
 
 /**
- * generates abbreviate formatting funciton that returns
+ * generates function that formats numeric values to its abbreviation ie 1000 = 1k
  * @param {number} decPlaces
  * @returns {(wei: number) => string}
  */

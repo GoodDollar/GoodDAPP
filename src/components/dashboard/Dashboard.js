@@ -11,7 +11,7 @@ import API from '../../lib/API/api'
 import SimpleStore, { assertStore } from '../../lib/undux/SimpleStore'
 import { useDialog, useErrorDialog } from '../../lib/undux/utils/dialog'
 import { PAGE_SIZE } from '../../lib/undux/utils/feed'
-import { weiToMask } from '../../lib/wallet/utils'
+import { abbreviateValue, weiToMask } from '../../lib/wallet/utils'
 import { initBGFetch } from '../../lib/notifications/backgroundFetch'
 
 import { createStackNavigator } from '../appNavigation/stackNavigation'
@@ -107,7 +107,7 @@ const Dashboard = props => {
   const currentScreen = store.get('currentScreen')
   const loadingIndicator = store.get('loadingIndicator')
   const loadAnimShown = store.get('feedLoadAnimShown')
-  const { balance, entitlement } = gdstore.get('account')
+  let { balance, entitlement } = gdstore.get('account')
   const { avatar, fullName } = useProfile()
   const [feeds, setFeeds] = useState([])
   const [headerLarge, setHeaderLarge] = useState(true)
@@ -147,6 +147,14 @@ const Dashboard = props => {
     setHeaderContentWidth(newHeaderContentWidth)
     setAvatarCenteredPosition(newAvatarCenteredPosition)
   }, [setHeaderContentWidth, setAvatarCenteredPosition])
+
+  const calculateBalanceFormatter = useCallback(() => {
+    //abbreviate balance if the header shrank and if balance has more than 10 units.
+    if (!headerLarge && (balance / 100).toString().length > 10) {
+      return abbreviateValue(7)
+    }
+    return
+  }, [balance, headerLarge])
 
   const handleDeleteRedirect = useCallback(() => {
     if (navigation.state.key === 'Delete') {
@@ -607,6 +615,7 @@ const Dashboard = props => {
                   testID="amount_value"
                   number={balance}
                   bigNumberStyles={styles.bigNumberStyles}
+                  formatter={calculateBalanceFormatter()}
                   bigNumberUnitStyles={styles.bigNumberUnitStyles}
                   bigNumberProps={{
                     numberOfLines: 1,

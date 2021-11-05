@@ -129,6 +129,7 @@
     "moment": "^2.24.0",
     "moment-duration-format": "^2.3.2",
     "node-libs-react-native": "^1.0.3",
+    "number-abbreviate": "^2.0.0",
     "numeral": "^2.0.6",
     "patch-package": "^6.4.7",
     "path-browserify": "0.0.0",

@@ -148,7 +148,7 @@ const Dashboard = props => {
     setAvatarCenteredPosition(newAvatarCenteredPosition)
   }, [setHeaderContentWidth, setAvatarCenteredPosition])
 
-  const calculateBalanceFormatter = useCallback(() => {
+  const selectBalanceFormatter = useCallback(() => {
     //abbreviate balance if the header shrank and if balance has more than 10 units.
     if (!headerLarge && (balance / 100).toString().length > 10) {
       return abbreviateValue(7)
@@ -615,7 +615,7 @@ const Dashboard = props => {
                   testID="amount_value"
                   number={balance}
                   bigNumberStyles={styles.bigNumberStyles}
-                  formatter={calculateBalanceFormatter()}
+                  formatter={selectBalanceFormatter()}
                   bigNumberUnitStyles={styles.bigNumberUnitStyles}
                   bigNumberProps={{
                     numberOfLines: 1,

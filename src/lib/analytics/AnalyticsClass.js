@@ -70,12 +70,13 @@ export class AnalyticsClass {
     }
 
     if (isSentryEnabled) {
-      const sentryVersion = `${version}@${Platform.OS}`
+      const release = `${version}@${Platform.OS}`
 
       logger.info('initializing Sentry:', {
         dsn: sentryDSN,
         environment: env,
-        sentryVersion,
+        release,
+        version,
         network,
         phase,
       })
@@ -83,10 +84,11 @@ export class AnalyticsClass {
       sentry.init({
         dsn: sentryDSN,
         environment: env,
+        release,
       })
 
       sentry.configureScope(scope => {
-        scope.setTag('appVersion', sentryVersion)
+        scope.setTag('appVersion', version)
         scope.setTag('networkUsed', network)
         scope.setTag('phase', phase)
       })

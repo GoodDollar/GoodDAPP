@@ -16,6 +16,7 @@ import {
   toLower,
   values,
 } from 'lodash'
+import { Platform } from 'react-native'
 
 import { cloneErrorObject, ExceptionCategory } from '../logger/exceptions'
 import { osVersion } from '../utils/platform'
@@ -69,13 +70,15 @@ export class AnalyticsClass {
     }
 
     if (isSentryEnabled) {
+      const sentryVersion = `${version}-${Platform.OS}`
+
       sentry.init({
         dsn: sentryDSN,
         environment: env,
       })
 
       sentry.configureScope(scope => {
-        scope.setTag('appVersion', version)
+        scope.setTag('appVersion', sentryVersion)
         scope.setTag('networkUsed', network)
         scope.setTag('phase', phase)
       })

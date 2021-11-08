@@ -16,10 +16,9 @@ import {
   toLower,
   values,
 } from 'lodash'
-import { Platform } from 'react-native'
 
 import { cloneErrorObject, ExceptionCategory } from '../logger/exceptions'
-import { osVersion } from '../utils/platform'
+import { isWeb, osVersion } from '../utils/platform'
 import { ANALYTICS_EVENT, ERROR_LOG } from './constants'
 
 export class AnalyticsClass {
@@ -70,28 +69,25 @@ export class AnalyticsClass {
     }
 
     if (isSentryEnabled) {
-      const release = `${version}-${Platform.OS}`
-
-      logger.info('initializing Sentry:', {
+      const sentryOptions = {
         dsn: sentryDSN,
         environment: env,
-        release,
-        version,
-        network,
+      }
+
+      const sentryScope = {
+        appVersion: version,
+        networkUsed: network,
         phase,
-      })
+      }
 
-      sentry.init({
-        dsn: sentryDSN,
-        environment: env,
-        release,
-      })
+      if (isWeb) {
+        sentryOptions.release = `${version}+web`
+      }
 
-      sentry.configureScope(scope => {
-        scope.setTag('appVersion', version)
-        scope.setTag('networkUsed', network)
-        scope.setTag('phase', phase)
-      })
+      logger.info('initializing Sentry:', { sentryOptions, sentryScope })
+
+      sentry.init(sentryOptions)
+      sentry.configureScope(scope => forIn(sentryScope, (value, property) => scope.setTag(property, value)))
     }
 
     logger.debug('available analytics:', {

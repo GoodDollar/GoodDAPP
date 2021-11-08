@@ -70,7 +70,7 @@ export class AnalyticsClass {
     }
 
     if (isSentryEnabled) {
-      const release = `${version}@${Platform.OS}`
+      const release = `${version}-${Platform.OS}`
 
       logger.info('initializing Sentry:', {
         dsn: sentryDSN,

@@ -83,8 +83,8 @@
     "@react-native-firebase/app": "^12.8.0",
     "@react-navigation/core": "^3.5.1",
     "@react-navigation/web": "^1.0.0-alpha.9",
-    "@sentry/browser": "^6.13.3",
-    "@sentry/react-native": "^2.1.0",
+    "@sentry/browser": "^6.14.1",
+    "@sentry/react-native": "^3.2.3",
     "@textile/crypto": "^4.1.1",
     "@textile/threaddb": "^0.1.0",
     "@textile/threads-client": "^2.1.2",
@@ -209,6 +209,7 @@
     "reaptcha": "^1.7.3",
     "recaptcha-v3-react": "^3.0.3",
     "rxjs": "^6.4.0",
+    "source-map-explorer": "^2.5.2",
     "stream-browserify": "^1.0.0",
     "string_decoder": "^0.10.31",
     "timers-browserify": "^1.4.2",
@@ -221,6 +222,7 @@
     "web3": "^1.5.1",
     "web3-core": "^1.5.2",
     "web3-utils": "^1.5.2",
+    "webpack-bundle-analyzer": "^4.5.0",
     "websocket": "^1.0.31"
   },
   "devDependencies": {
@@ -302,11 +304,9 @@
     "sass-loader": "^9.0.3",
     "scoop": "0.0.2",
     "serve": "^11.0.0",
-    "source-map-explorer": "^2.2.2",
     "svg2png": "^4.1.1",
     "url-loader": "^4.1.1",
     "web-encoding": "^1.1.5",
-    "webpack-bundle-analyzer": "^3.6.0",
     "webpack-manifest-plugin": "^2.2.0",
     "workbox-webpack-plugin": "^4.3.1"
   },

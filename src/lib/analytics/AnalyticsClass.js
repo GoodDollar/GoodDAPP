@@ -16,6 +16,7 @@ import {
   toLower,
   values,
 } from 'lodash'
+import { Platform } from 'react-native'
 
 import { cloneErrorObject, ExceptionCategory } from '../logger/exceptions'
 import { osVersion } from '../utils/platform'
@@ -69,9 +70,21 @@ export class AnalyticsClass {
     }
 
     if (isSentryEnabled) {
+      const release = `${version}@${Platform.OS}`
+
+      logger.info('initializing Sentry:', {
+        dsn: sentryDSN,
+        environment: env,
+        release,
+        version,
+        network,
+        phase,
+      })
+
       sentry.init({
         dsn: sentryDSN,
         environment: env,
+        release,
       })
 
       sentry.configureScope(scope => {

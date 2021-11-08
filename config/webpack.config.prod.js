@@ -597,7 +597,7 @@ module.exports = {
     ('development' !== env.raw.REACT_APP_ENV) &&
       new SentryCliPlugin({
         rewrite: true,
-        release: env.raw.VERSION,
+        release: `${env.raw.VERSION}+web`,
         configFile: './sentry+web.properties',
         include: ['./build/static/js'],
       })

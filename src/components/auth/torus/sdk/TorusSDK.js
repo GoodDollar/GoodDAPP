@@ -51,9 +51,10 @@ class TorusSDK {
   }
 
   async getRedirectResult() {
-    const { result } = await this.torus.getRedirectResult()
+    const { torus } = this
+    const { result } = await torus.getRedirectResult()
 
-    return this.fetchTorusUser(result)
+    return this.fetchTorusUser(result).finally(() => torus.clearLoginDetails(result))
   }
 
   async triggerLogin(verifier, customLogger = null) {
@@ -69,7 +70,7 @@ class TorusSDK {
 
     const response = await strategies[withVerifier].triggerLogin()
 
-    //no response in case of redirect flow
+    // no response in case of redirect flow
     if (!this.popupMode) {
       return response
     }

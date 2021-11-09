@@ -1,9 +1,12 @@
 import DirectNativeSDK from '@toruslabs/torus-direct-react-native-sdk'
 import { defaults, get } from 'lodash'
+import { noop } from 'rxjs'
 
 import { isAndroidNative } from '../../../../lib/utils/platform'
 
 class Torus {
+  clearLoginDetails = noop
+
   constructor(Config, options) {
     const { publicUrl } = Config
     const redirectUri = 'gooddollar://org.gooddollar/redirect'

@@ -2234,24 +2234,26 @@
   dependencies:
     purgecss "^4.0.3"
 
-"@gooddollar/goodcontracts@^2.6.1":
-  version "2.6.1"
-  resolved "https://registry.npmjs.org/@gooddollar/goodcontracts/-/goodcontracts-2.6.1.tgz"
-  integrity sha512-MsD26V9dFI/v6884UbLL3CQv9X9me7X83CLKvnlQgqB/Yo0w6ZVaMq3im9Ogy9S4tAfEjluJvoWKf6L8hT0p+Q==
+"@gooddollar/goodcontracts@^2.6.2":
+  version "2.6.2"
+  resolved "https://registry.yarnpkg.com/@gooddollar/goodcontracts/-/goodcontracts-2.6.2.tgz#b8ed904e3126fb5a8a9d7bd48abf0e2da48c534b"
+  integrity sha512-TfOF+t+vCbsGkh5hwWjLiWt6xwLhyhpNocf2LRAtGt2e21hy0H7sPIvaT/jIDUCgTJpVn5KcZ5+3ksCdc0kdyA==
   dependencies:
     truffle-flattener "^1.4.4"
     truffle-plugin-verify "^0.3.11"
     truffle-safe-hdwallet-provider "0.0.7"
 
-"@gooddollar/goodprotocol@^1.0.0-beta.14":
-  version "1.0.0-beta.14"
-  resolved "https://registry.npmjs.org/@gooddollar/goodprotocol/-/goodprotocol-1.0.0-beta.14.tgz"
-  integrity sha512-arc/6edNwq8vJOZPjj90Epb7gUEWdQUAdhGwIhRe8OWbcshHc7Zv3OS/gpa2kxWVdNrAi71ZHv+XcyQJ5u+aAA==
+"@gooddollar/goodprotocol@^1.0.0-beta.53":
+  version "1.0.0-beta.53"
+  resolved "https://registry.yarnpkg.com/@gooddollar/goodprotocol/-/goodprotocol-1.0.0-beta.53.tgz#25768872af4a4b0831c58d034168377dafebd8a9"
+  integrity sha512-bhRt69bMJyhebxT21QbH1A8OExMexytjsAKkl9GUMNawbKweXCkUyiyQzqcNiZIybXepVCQYs/rQzLhZy4k3+g==
   dependencies:
-    "@gooddollar/goodcontracts" "^2.6.1"
-    "@openzeppelin/contracts-upgradeable" "^4.1.0"
+    "@gooddollar/goodcontracts" "^2.6.2"
+    "@jsier/retrier" "^1.2.4"
+    "@openzeppelin/contracts-upgradeable" "^4.3.2"
     "@typechain/hardhat" "^2.2.0"
-    openzeppelin-solidity "^4.0.0"
+    async-promise-pool "^1.0.4"
+    openzeppelin-solidity "^4.3.2"
     patch-package latest
     truffle-plugin-verify "^0.5.11"
 
@@ -2628,6 +2630,11 @@
     "@babel/runtime" "^7.7.2"
     regenerator-runtime "^0.13.3"
 
+"@jsier/retrier@^1.2.4":
+  version "1.2.4"
+  resolved "https://registry.yarnpkg.com/@jsier/retrier/-/retrier-1.2.4.tgz#368b4e6c058428f564408613cd5b4a28a0165244"
+  integrity sha512-gDrUdzQ4O0XJGp0PJO2EH0YN84glgLIU6xrvsOsgV4xjShgz9Eq0b1ts54un13AYYryJutQTd3JKweglS4OjGg==
+
 "@lingui/babel-plugin-extract-messages@^3.12.1":
   version "3.12.1"
   resolved "https://registry.yarnpkg.com/@lingui/babel-plugin-extract-messages/-/babel-plugin-extract-messages-3.12.1.tgz#fb1bedde143023b549cd04afcf518ab760820160"
@@ -2840,10 +2847,10 @@
     mkdirp "^1.0.4"
     rimraf "^3.0.2"
 
-"@openzeppelin/contracts-upgradeable@^4.1.0":
-  version "4.2.0"
-  resolved "https://registry.npmjs.org/@openzeppelin/contracts-upgradeable/-/contracts-upgradeable-4.2.0.tgz"
-  integrity sha512-vn0hoUqQzgOLzLZwFgh+w/D5hzJHX8F7X/7t/gZdSQYIEXMyGpXUwkr5A3eoAeoc42f/n7yDhwusvBmNknM41Q==
+"@openzeppelin/contracts-upgradeable@^4.3.2":
+  version "4.3.2"
+  resolved "https://registry.yarnpkg.com/@openzeppelin/contracts-upgradeable/-/contracts-upgradeable-4.3.2.tgz#92df481362e366c388fc02133cf793029c744cea"
+  integrity sha512-i/pOaOtcqDk4UqsrOv735uYyTbn6dvfiuVu5hstsgV6c4ZKUtu88/31zT2BzkCg+3JfcwOfgg2TtRKVKKZIGkQ==
 
 "@pmmmwh/react-refresh-webpack-plugin@0.4.3":
   version "0.4.3"
@@ -4971,6 +4978,13 @@ async-mutex@^0.2.6:
   integrity sha512-Hs4R+4SPgamu6rSGW8C7cV9gaWUKEHykfzCCvIRuaVv636Ju10ZdeUbvb4TBEW0INuq2DHZqXbK4Nd3yG4RaRw==
   dependencies:
     tslib "^2.0.0"
+
+async-promise-pool@^1.0.4:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/async-promise-pool/-/async-promise-pool-1.0.6.tgz#eea75c1bd4cef05225d5d1835b68b6ccb88ae595"
+  integrity sha512-44DZ4fOHtnioeblfWNgf2EoOFTf0B72t/j4vY4ZnG+3AcWOkQKaByUfDhZUz647zBZFvlGEBvJgbJJyg/lTWZw==
+  dependencies:
+    babel-runtime "^6.26.0"
 
 async@0.9.x:
   version "0.9.2"
@@ -13320,10 +13334,10 @@ open@^7.0.2, open@^7.3.1, open@^7.4.2:
   resolved "https://registry.npmjs.org/openzeppelin-solidity/-/openzeppelin-solidity-2.3.0.tgz"
   integrity sha512-QYeiPLvB1oSbDt6lDQvvpx7k8ODczvE474hb2kLXZBPKMsxKT1WxTCHBYrCU7kS7hfAku4DcJ0jqOyL+jvjwQw==
 
-openzeppelin-solidity@^4.0.0:
-  version "4.2.0"
-  resolved "https://registry.npmjs.org/openzeppelin-solidity/-/openzeppelin-solidity-4.2.0.tgz"
-  integrity sha512-b+VN5y9c0tdd4D/hFLHMH5QKBfj/V2mzKqQ5PyB4xXE7Y7UAf5Xia/nDzBZ5CHDCnkMGdQXlEg+iDV2cQnitfg==
+openzeppelin-solidity@^4.3.2:
+  version "4.3.2"
+  resolved "https://registry.yarnpkg.com/openzeppelin-solidity/-/openzeppelin-solidity-4.3.2.tgz#30ab3cb813166a070b8e46d7ac719aefa4571921"
+  integrity sha512-k20olEz9A58yq3zwFZgOJoe9vWodKaFsMjajpou1NiqzuxuDfIdaGL3/xLcn/48J0AmvqsxHrcgI3WHq370J+w==
 
 opn@^5.5.0:
   version "5.5.0"

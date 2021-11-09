@@ -17,13 +17,13 @@ export function G$ContractAddresses<T = ObjectLike>(chainId: SupportedChainId, n
 
     switch (chainId) {
         case SupportedChainId.MAINNET:
-            deploymentName = 'production'
+            deploymentName = 'production-mainnet'
             break
         case SupportedChainId.KOVAN:
             deploymentName = 'kovan-mainnet'
             break
         case SupportedChainId.FUSE:
-            deploymentName = 'fuse'
+            deploymentName = 'staging'
             break
     }
 

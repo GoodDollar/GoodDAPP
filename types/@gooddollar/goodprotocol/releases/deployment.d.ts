@@ -1,13 +1,22 @@
-declare module "@gooddollar/goodprotocol/releases/deployment.json" {
-  export type ObjectLike = { [key: string]: string | ObjectLike | Array<string[]> | string[] }
-  type JSON = {
-    "olddao": ObjectLike,
-    "develop": ObjectLike,
-    "develop-mainnet": ObjectLike,
-    "kovan-mainnet": ObjectLike,
-    [key: string]: ObjectLike
-  }
+declare module '@gooddollar/goodprotocol/releases/deployment.json' {
+    export type ObjectLike = { [key: string]: string | ObjectLike | Array<string[]> | string[] }
+    type JSON = {
+        olddao: ObjectLike
+        develop: ObjectLike
+        'develop-mainnet': ObjectLike
+        'kovan-mainnet': ObjectLike
+        fuse: ObjectLike
+        'fuse-mainnet': ObjectLike
+        dapptest: ObjectLike
+        'dapptest-mainnet': ObjectLike
+        'staging-mainnet': ObjectLike
+        staging: ObjectLike
+        test: ObjectLike
+        'test-mainnet': ObjectLike
+        production: ObjectLike
+        [key: string]: ObjectLike
+    }
 
-  const value: JSON
-  export default value
+    const value: JSON
+    export default value
 }

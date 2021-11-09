@@ -292,7 +292,7 @@ function ManageLists({
             fetchTempList()
         } else {
             setTempList(undefined)
-            listUrlInput !== '' && setAddError(i18n._(t`Enter valid list location`)))
+            listUrlInput !== '' && setAddError(i18n._(t`Enter valid list location`))
         }
 
         // reset error

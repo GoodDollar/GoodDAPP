@@ -1,6 +1,5 @@
 import DirectNativeSDK from '@toruslabs/torus-direct-react-native-sdk'
-import { defaults, get } from 'lodash'
-import { noop } from 'rxjs'
+import { defaults, get, noop } from 'lodash'
 
 import { isAndroidNative } from '../../../../lib/utils/platform'
 

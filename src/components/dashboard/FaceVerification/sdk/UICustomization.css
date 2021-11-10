@@ -37,6 +37,22 @@
   color: rgb(66, 69, 74) !important;
 }
 
+#DOM_FT_getReadyScreen {
+  /* background: blue !important; */
+}
+
+#DOM_FT_frameOvalBackground {
+  fill: white !important;
+}
+
+#DOM_FT_retryScreen {
+  background-color: white !important;
+}
+
+#DOM_FT_uploadAndResultContainer {
+  background: white !important;
+}
+
 #DOM_FT_getReadyScreen p {
   color: rgb(66, 69, 74) !important;
 }

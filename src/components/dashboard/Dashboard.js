@@ -11,8 +11,10 @@ import API from '../../lib/API/api'
 import SimpleStore, { assertStore } from '../../lib/undux/SimpleStore'
 import { useDialog, useErrorDialog } from '../../lib/undux/utils/dialog'
 import { PAGE_SIZE } from '../../lib/undux/utils/feed'
-import { abbreviateValue, weiToMask } from '../../lib/wallet/utils'
+import { weiToGd, weiToMask } from '../../lib/wallet/utils'
 import { initBGFetch } from '../../lib/notifications/backgroundFetch'
+import { formatWithAbbreviations } from '../../lib/utils/formatNumber'
+import { decreaseFontSizeBasedOnCharacterAmount } from '../../lib/utils/string'
 
 import { createStackNavigator } from '../appNavigation/stackNavigation'
 import { initTransferEvents } from '../../lib/undux/utils/account'
@@ -148,13 +150,13 @@ const Dashboard = props => {
     setAvatarCenteredPosition(newAvatarCenteredPosition)
   }, [setHeaderContentWidth, setAvatarCenteredPosition])
 
-  const selectBalanceFormatter = useCallback(() => {
-    //abbreviate balance if the header shrank and if balance has more than 10 units.
-    if (!headerLarge && (balance / 100).toString().length > 10) {
-      return abbreviateValue(7)
-    }
-    return
-  }, [balance, headerLarge])
+  const balanceFormatter = useMemo(
+    () =>
+      headerLarge || Math.floor(Math.log10(balance)) + 1 <= 12
+        ? null
+        : _balance => formatWithAbbreviations(weiToGd(_balance), 2),
+    [balance, headerLarge],
+  )
 
   const handleDeleteRedirect = useCallback(() => {
     if (navigation.state.key === 'Delete') {
@@ -614,8 +616,8 @@ const Dashboard = props => {
                 <BigGoodDollar
                   testID="amount_value"
                   number={balance}
-                  bigNumberStyles={styles.bigNumberStyles}
-                  formatter={selectBalanceFormatter()}
+                  bigNumberStyles={styles.bigNumberStyles(balance)}
+                  formatter={balanceFormatter}
                   bigNumberUnitStyles={styles.bigNumberUnitStyles}
                   bigNumberProps={{
                     numberOfLines: 1,
@@ -796,15 +798,14 @@ const getStylesFromProps = ({ theme }) => ({
     marginRight: normalize(-20),
     alignSelf: 'stretch',
   },
-  bigNumberStyles: {
-    fontSize: 42,
+  bigNumberStyles: balance => ({
     fontWeight: '700',
     lineHeight: 42,
     height: 42,
     textAlign: 'center',
-
+    fontSize: decreaseFontSizeBasedOnCharacterAmount(weiToGd(balance), 42, 12),
     alignSelf: 'stretch',
-  },
+  }),
   bigGoodDollar: {
     width: '100%',
   },

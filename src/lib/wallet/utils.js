@@ -1,6 +1,5 @@
 // @flow
 
-import numeral from 'numeral'
 import { MaskService } from 'react-native-masked-text'
 import { map, zipObject } from 'lodash'
 
@@ -46,14 +45,6 @@ export const toRawValue = (masked: string, settings?: {}): number =>
 
 export const weiToMask = (wei: number, settings?: {}): string => toMask(weiToGd(wei), settings)
 export const maskToWei = (mask: string, settings?: {}): number => gdToWei(toRawValue(mask, settings))
-
-/**
- * generates function that formats numeric values to its abbreviation ie 1000 = 1k
- * @param {number} decPlaces
- * @returns {(wei: number) => string}
- */
-export const abbreviateValue = (decPlaces = 1) => wei =>
-  numeral(weiToGd(wei)).format(`${'0.'}${'0'.repeat(decPlaces)}a`)
 
 export const getTxLogArgs = tx => {
   try {

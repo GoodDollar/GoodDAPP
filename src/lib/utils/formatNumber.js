@@ -17,6 +17,6 @@ export const formatWithThousandsSeparator = number => {
   return numeral(number).format('0[,]0.00')
 }
 
-export const formatWithabbreviations = number => {
-  return numeral(number).format('0.0a')
+export const formatWithAbbreviations = (number, decPlaces = 1) => {
+  return numeral(number).format(`${'0.'}${'0'.repeat(decPlaces)}a`)
 }

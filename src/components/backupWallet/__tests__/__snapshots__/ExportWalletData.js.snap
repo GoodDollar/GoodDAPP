@@ -5,7 +5,7 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
   className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
-    className="css-view-1dbjc4n r-backgroundColor-1b3fm86 r-display-6koalj r-flexDirection-eqz5dr r-flexGrow-16y2uox r-maxHeight-87ditf r-overflowX-lltvgl r-overflowY-1rnoaur r-padding-t60dpp r-position-bnwqim r-width-13qz1uu"
+    className="css-view-1dbjc4n r-display-6koalj r-flex-13awgt0 r-flexDirection-eqz5dr r-flexGrow-16y2uox r-maxHeight-87ditf r-overflowX-lltvgl r-overflowY-1rnoaur r-padding-t60dpp r-position-bnwqim r-width-13qz1uu"
     data-name="viewWrapper"
     style={
       Object {
@@ -14,7 +14,7 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
     }
   >
     <div
-      className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz"
+      className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-height-1w2pmg"
       style={
         Object {
           "WebkitBoxFlex": 0,
@@ -24,7 +24,6 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
           "boxShadow": "none, 0px 3px 4px rgba(0,0,0,0.24)",
           "flexGrow": 0,
           "flexShrink": 0,
-          "height": "56px",
           "msFlexNegative": 0,
           "msFlexPositive": 0,
           "paddingLeft": "4px",
@@ -33,16 +32,16 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
       }
     >
       <div
-        className="css-view-1dbjc4n r-alignItems-1awozwy r-cursor-1loqt21 r-flexDirection-eqz5dr r-justifyContent-1777fci r-marginLeft-1ozfoo7 r-touchAction-1otgn73 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-width-m0fvr6"
-        data-focusable={true}
+        className="css-view-1dbjc4n r-alignItems-1awozwy r-cursor-1loqt21 r-flexDirection-eqz5dr r-justifyContent-1777fci r-marginLeft-1ozfoo7 r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-width-m0fvr6"
+        onClick={[Function]}
+        onContextMenu={[Function]}
         onKeyDown={[Function]}
-        onKeyUp={[Function]}
-        onResponderGrant={[Function]}
-        onResponderMove={[Function]}
-        onResponderRelease={[Function]}
-        onResponderTerminate={[Function]}
-        onResponderTerminationRequest={[Function]}
-        onStartShouldSetResponder={[Function]}
+        style={
+          Object {
+            "WebkitTransitionDuration": "0s",
+            "transitionDuration": "0s",
+          }
+        }
         tabIndex="0"
       >
         <div
@@ -75,32 +74,29 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
         </div>
       </div>
       <div
-        className="css-view-1dbjc4n r-cursor-1loqt21 r-flex-13awgt0 r-paddingHorizontal-1e081e0 r-touchAction-1otgn73"
-        data-focusable={true}
+        aria-disabled={true}
+        className="css-view-1dbjc4n r-flex-13awgt0 r-paddingHorizontal-1e081e0"
+        onClick={[Function]}
+        onContextMenu={[Function]}
         onKeyDown={[Function]}
-        onKeyUp={[Function]}
-        onResponderGrant={[Function]}
-        onResponderMove={[Function]}
-        onResponderRelease={[Function]}
-        onResponderTerminate={[Function]}
-        onResponderTerminationRequest={[Function]}
-        onStartShouldSetResponder={[Function]}
         style={
           Object {
             "marginLeft": "8px",
           }
         }
-        tabIndex="0"
+        tabIndex="-1"
       >
         <h1
-          className="css-reset-4rbku5 css-text-901oao css-textOneLine-bfa6kz r-color-jwli3a r-fontSize-ubezar r-fontWeight-majxgm r-textAlign-q4m81j r-textTransform-tsynxw"
+          className="css-reset-4rbku5 css-text-901oao css-textMultiLine-cens5h r-color-jwli3a r-fontSize-hiw28u r-fontWeight-majxgm r-textAlign-q4m81j r-textTransform-tsynxw"
           dir="auto"
           role="heading"
           style={
             Object {
+              "WebkitLineClamp": 1,
               "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
             }
           }
+          tabIndex="0"
         >
           EXPORT MY WALLET
         </h1>
@@ -108,14 +104,9 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
       <div
         aria-disabled={true}
         className="css-view-1dbjc4n r-alignItems-1awozwy r-justifyContent-1777fci r-margin-5scogr r-overflow-1udh08x r-position-bnwqim"
-        disabled={true}
+        onClick={[Function]}
+        onContextMenu={[Function]}
         onKeyDown={[Function]}
-        onKeyUp={[Function]}
-        onResponderGrant={[Function]}
-        onResponderMove={[Function]}
-        onResponderTerminate={[Function]}
-        onResponderTerminationRequest={[Function]}
-        onStartShouldSetResponder={[Function]}
         role="button"
         style={
           Object {
@@ -127,18 +118,8 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
             "width": "36px",
           }
         }
+        tabIndex="-1"
       >
-        <span
-          className="css-hitSlop-mjp8i1"
-          style={
-            Object {
-              "bottom": "-10px",
-              "left": "-10px",
-              "right": "-10px",
-              "top": "-10px",
-            }
-          }
-        />
         <div
           className="css-view-1dbjc4n"
         >
@@ -152,15 +133,12 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
             }
           >
             <div
-              className="css-view-1dbjc4n r-position-u8s1d"
+              className="css-view-1dbjc4n r-bottom-1p0dtai r-left-1d2f490 r-position-u8s1d r-top-ipm5af"
               style={
                 Object {
                   "WebkitTransform": "rotate(0deg)",
-                  "bottom": "0px",
-                  "left": "0px",
                   "opacity": 1,
                   "right": "0px",
-                  "top": "0px",
                   "transform": "rotate(0deg)",
                 }
               }
@@ -170,409 +148,206 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
       </div>
     </div>
     <div
-      className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderRadius-1f0042m r-flexGrow-16y2uox r-paddingHorizontal-1e081e0 r-paddingVertical-1yzf0co"
+      className="css-view-1dbjc4n r-WebkitOverflowScrolling-150rngu r-backgroundColor-14lw9ot r-flexDirection-eqz5dr r-flexGrow-16y2uox r-flexShrink-1wbh5a2 r-overflowX-11yh6sk r-overflowY-1rnoaur r-paddingHorizontal-8wx0ln r-transform-1sncvnh"
+      onScroll={[Function]}
+      onTouchEnd={[Function]}
+      onTouchMove={[Function]}
+      onTouchStart={[Function]}
+      onWheel={[Function]}
     >
       <div
-        className="css-view-1dbjc4n r-display-6koalj r-flexGrow-16y2uox r-justifyContent-a2tzq0"
+        className="css-view-1dbjc4n"
       >
         <div
-          className="css-view-1dbjc4n r-alignItems-1awozwy r-borderColor-e397lv r-borderRadius-1f0042m r-borderStyle-1phboty r-borderWidth-rs99b7 r-display-6koalj r-flexDirection-eqz5dr r-justifyContent-1777fci r-padding-t60dpp r-position-bnwqim"
+          className="css-view-1dbjc4n"
+          style={
+            Object {
+              "backgroundColor": "rgba(0,0,0,0.00)",
+              "borderBottomLeftRadius": "15px",
+              "borderBottomRightRadius": "15px",
+              "borderTopLeftRadius": "15px",
+              "borderTopRightRadius": "15px",
+              "height": "30px",
+              "zIndex": -10,
+            }
+          }
+        />
+        <div
+          className="css-text-901oao r-color-cqee49 r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+          dir="auto"
         >
-          <div
-            className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-height-4v7adb r-position-u8s1d r-top-18nhz7w"
-            style={
-              Object {
-                "width": "70px",
-              }
-            }
-          />
-          <div
-            className="css-view-1dbjc4n r-alignItems-1awozwy r-position-u8s1d r-zIndex-184en5c"
-            style={
-              Object {
-                "borderBottomLeftRadius": "25px",
-                "borderBottomRightRadius": "25px",
-                "borderTopLeftRadius": "25px",
-                "borderTopRightRadius": "25px",
-                "height": "50px",
-                "top": "-25px",
-                "width": "50px",
-              }
-            }
-          >
-            <unknownProfile.svg />
-          </div>
-          <div
-            className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-justifyContent-1wtj0ep r-marginBottom-tjf2cy r-marginTop-fcs4qk r-padding-t60dpp"
-          >
-            <div
-              className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-1i10wst r-fontWeight-b88u0q r-lineHeight-135wba7 r-marginBottom-5oul0u r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
-              dir="auto"
-            >
-              My Private Key
-            </div>
-            <div
-              className="css-text-901oao r-color-vaa0vc r-fontFamily-vnw8o6 r-fontSize-n6v787 r-fontWeight-1it3c9n r-letterSpacing-rdxj0b r-lineHeight-w20frr r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
-              dir="auto"
-              letterSpacing={0.07}
-            >
-              fake-wallet-p...t-private-key
-            </div>
-          </div>
-          <div
-            className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-bottom-14bkmb3 r-height-4v7adb r-position-u8s1d r-width-1rhso5v"
-          />
-          <div
-            className="css-view-1dbjc4n r-bottom-wuw1bi r-height-eu3ka r-position-u8s1d r-width-1rhso5v r-zIndex-184en5c"
-          >
-            <div
-              className="css-view-1dbjc4n r-alignItems-1awozwy r-borderStyle-1phboty r-display-6koalj r-height-eu3ka r-justifyContent-1777fci r-padding-t60dpp"
-              style={
-                Object {
-                  "backgroundColor": "rgba(0,175,255,1.00)",
-                  "borderBottomColor": "rgba(0,175,255,1.00)",
-                  "borderBottomLeftRadius": "50px",
-                  "borderBottomRightRadius": "50px",
-                  "borderBottomWidth": "0px",
-                  "borderLeftColor": "rgba(0,175,255,1.00)",
-                  "borderLeftWidth": "0px",
-                  "borderRightColor": "rgba(0,175,255,1.00)",
-                  "borderRightWidth": "0px",
-                  "borderTopColor": "rgba(0,175,255,1.00)",
-                  "borderTopLeftRadius": "50px",
-                  "borderTopRightRadius": "50px",
-                  "borderTopWidth": "0px",
-                  "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
-                  "marginBottom": "0px",
-                  "marginLeft": "auto",
-                  "marginRight": "auto",
-                  "marginTop": "0px",
-                  "minHeight": "40px",
-                  "minWidth": "64px",
-                  "paddingLeft": "0px",
-                  "paddingRight": "0px",
-                  "width": "211.1111111111111px",
-                }
-              }
-            >
-              <div
-                className="css-cursor-18t94o4 css-view-1dbjc4n r-cursor-1loqt21 r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim r-touchAction-1otgn73"
-                data-focusable={true}
-                disabled={false}
-                onKeyDown={[Function]}
-                onKeyPress={[Function]}
-                onKeyUp={[Function]}
-                onResponderGrant={[Function]}
-                onResponderMove={[Function]}
-                onResponderRelease={[Function]}
-                onResponderTerminate={[Function]}
-                onResponderTerminationRequest={[Function]}
-                onStartShouldSetResponder={[Function]}
-                role="button"
-                style={
-                  Object {
-                    "WebkitAlignSelf": "stretch",
-                    "alignSelf": "stretch",
-                    "borderBottomLeftRadius": "50px",
-                    "borderBottomRightRadius": "50px",
-                    "borderTopLeftRadius": "50px",
-                    "borderTopRightRadius": "50px",
-                    "msFlexItemAlign": "stretch",
-                  }
-                }
-                tabIndex="0"
-              >
-                <div
-                  className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
-                  style={
-                    Object {
-                      "WebkitAlignSelf": "stretch",
-                      "alignSelf": "stretch",
-                      "msFlexItemAlign": "stretch",
-                    }
-                  }
-                >
-                  <div
-                    className="css-view-1dbjc4n r-marginHorizontal-1ydw1k6 r-marginVertical-712mwr"
-                  >
-                    <div
-                      className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
-                    >
-                      <div
-                        className="css-text-901oao r-alignItems-1awozwy r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-hbpseb r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
-                        dir="auto"
-                      >
-                        Copy Key
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+          My account details
         </div>
         <div
-          className="css-view-1dbjc4n r-alignItems-1awozwy r-borderColor-e397lv r-borderRadius-1f0042m r-borderStyle-1phboty r-borderWidth-rs99b7 r-display-6koalj r-flexDirection-eqz5dr r-justifyContent-1777fci r-padding-t60dpp r-position-bnwqim"
+          className="css-view-1dbjc4n r-borderRadius-1f0042m"
+          style={
+            Object {
+              "backgroundColor": "rgba(0,0,0,0.00)",
+              "height": "10px",
+              "zIndex": -10,
+            }
+          }
+        />
+        <div
+          className="css-text-901oao r-color-cqee49 r-fontFamily-vnw8o6 r-fontSize-a023e6 r-fontWeight-majxgm r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+          dir="auto"
         >
-          <div
-            className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-height-4v7adb r-position-u8s1d r-top-18nhz7w"
-            style={
-              Object {
-                "width": "70px",
-              }
-            }
-          />
-          <div
-            className="css-view-1dbjc4n r-alignItems-1awozwy r-position-u8s1d r-zIndex-184en5c"
-            style={
-              Object {
-                "borderBottomLeftRadius": "25px",
-                "borderBottomRightRadius": "25px",
-                "borderTopLeftRadius": "25px",
-                "borderTopRightRadius": "25px",
-                "height": "50px",
-                "top": "-25px",
-                "width": "50px",
-              }
-            }
-          >
-            <unknownProfile.svg />
-          </div>
-          <div
-            className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-justifyContent-1wtj0ep r-marginBottom-tjf2cy r-marginTop-fcs4qk r-padding-t60dpp"
-          >
-            <div
-              className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-1i10wst r-fontWeight-b88u0q r-lineHeight-135wba7 r-marginBottom-5oul0u r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
-              dir="auto"
-            >
-              My Wallet Address
-            </div>
-            <div
-              className="css-text-901oao r-color-vaa0vc r-fontFamily-vnw8o6 r-fontSize-n6v787 r-fontWeight-1it3c9n r-letterSpacing-rdxj0b r-lineHeight-w20frr r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
-              dir="auto"
-              letterSpacing={0.07}
-            >
-              fake-wallet-a...allet-address
-            </div>
-          </div>
-          <div
-            className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-bottom-14bkmb3 r-height-4v7adb r-position-u8s1d r-width-1rhso5v"
-          />
-          <div
-            className="css-view-1dbjc4n r-bottom-wuw1bi r-height-eu3ka r-position-u8s1d r-width-1rhso5v r-zIndex-184en5c"
-          >
-            <div
-              className="css-view-1dbjc4n r-alignItems-1awozwy r-borderStyle-1phboty r-display-6koalj r-height-eu3ka r-justifyContent-1777fci r-padding-t60dpp"
-              style={
-                Object {
-                  "backgroundColor": "rgba(0,175,255,1.00)",
-                  "borderBottomColor": "rgba(0,175,255,1.00)",
-                  "borderBottomLeftRadius": "50px",
-                  "borderBottomRightRadius": "50px",
-                  "borderBottomWidth": "0px",
-                  "borderLeftColor": "rgba(0,175,255,1.00)",
-                  "borderLeftWidth": "0px",
-                  "borderRightColor": "rgba(0,175,255,1.00)",
-                  "borderRightWidth": "0px",
-                  "borderTopColor": "rgba(0,175,255,1.00)",
-                  "borderTopLeftRadius": "50px",
-                  "borderTopRightRadius": "50px",
-                  "borderTopWidth": "0px",
-                  "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
-                  "marginBottom": "0px",
-                  "marginLeft": "auto",
-                  "marginRight": "auto",
-                  "marginTop": "0px",
-                  "minHeight": "40px",
-                  "minWidth": "64px",
-                  "paddingLeft": "0px",
-                  "paddingRight": "0px",
-                  "width": "211.1111111111111px",
-                }
-              }
-            >
-              <div
-                className="css-cursor-18t94o4 css-view-1dbjc4n r-cursor-1loqt21 r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim r-touchAction-1otgn73"
-                data-focusable={true}
-                disabled={false}
-                onKeyDown={[Function]}
-                onKeyPress={[Function]}
-                onKeyUp={[Function]}
-                onResponderGrant={[Function]}
-                onResponderMove={[Function]}
-                onResponderRelease={[Function]}
-                onResponderTerminate={[Function]}
-                onResponderTerminationRequest={[Function]}
-                onStartShouldSetResponder={[Function]}
-                role="button"
-                style={
-                  Object {
-                    "WebkitAlignSelf": "stretch",
-                    "alignSelf": "stretch",
-                    "borderBottomLeftRadius": "50px",
-                    "borderBottomRightRadius": "50px",
-                    "borderTopLeftRadius": "50px",
-                    "borderTopRightRadius": "50px",
-                    "msFlexItemAlign": "stretch",
-                  }
-                }
-                tabIndex="0"
-              >
-                <div
-                  className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
-                  style={
-                    Object {
-                      "WebkitAlignSelf": "stretch",
-                      "alignSelf": "stretch",
-                      "msFlexItemAlign": "stretch",
-                    }
-                  }
-                >
-                  <div
-                    className="css-view-1dbjc4n r-marginHorizontal-1ydw1k6 r-marginVertical-712mwr"
-                  >
-                    <div
-                      className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
-                    >
-                      <div
-                        className="css-text-901oao r-alignItems-1awozwy r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-hbpseb r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
-                        dir="auto"
-                      >
-                        Copy address
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+          All your information at a glance to easily import GoodDollar to MetaMask
         </div>
         <div
-          className="css-view-1dbjc4n r-alignItems-1awozwy r-borderColor-e397lv r-borderRadius-1f0042m r-borderStyle-1phboty r-borderWidth-rs99b7 r-display-6koalj r-flexDirection-eqz5dr r-justifyContent-1777fci r-padding-t60dpp r-position-bnwqim"
+          className="css-view-1dbjc4n"
+          style={
+            Object {
+              "backgroundColor": "rgba(0,0,0,0.00)",
+              "borderBottomLeftRadius": "15px",
+              "borderBottomRightRadius": "15px",
+              "borderTopLeftRadius": "15px",
+              "borderTopRightRadius": "15px",
+              "height": "30px",
+              "zIndex": -10,
+            }
+          }
+        />
+        <div
+          className="css-view-1dbjc4n"
+          style={
+            Object {
+              "marginLeft": "0px",
+              "marginRight": "0px",
+            }
+          }
         >
           <div
-            className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-height-4v7adb r-position-u8s1d r-top-18nhz7w"
+            className="css-view-1dbjc4n r-alignItems-1awozwy r-borderColor-e397lv r-borderStyle-1phboty r-borderWidth-rs99b7 r-display-6koalj r-flexDirection-eqz5dr r-justifyContent-1777fci r-padding-t60dpp r-position-bnwqim"
             style={
               Object {
-                "width": "70px",
+                "borderBottomLeftRadius": "10px",
+                "borderBottomRightRadius": "10px",
+                "borderTopLeftRadius": "10px",
+                "borderTopRightRadius": "10px",
               }
             }
-          />
-          <div
-            className="css-view-1dbjc4n r-alignItems-1awozwy r-position-u8s1d r-zIndex-184en5c"
-            style={
-              Object {
-                "borderBottomLeftRadius": "25px",
-                "borderBottomRightRadius": "25px",
-                "borderTopLeftRadius": "25px",
-                "borderTopRightRadius": "25px",
-                "height": "50px",
-                "top": "-25px",
-                "width": "50px",
-              }
-            }
-          >
-            <FuseLogo.svg />
-          </div>
-          <div
-            className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-justifyContent-1wtj0ep r-marginBottom-tjf2cy r-marginTop-fcs4qk r-padding-t60dpp"
           >
             <div
-              className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-1i10wst r-fontWeight-b88u0q r-lineHeight-135wba7 r-marginBottom-5oul0u r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
-              dir="auto"
+              className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-height-1w2pmg r-left-1d2f490 r-position-u8s1d r-top-ipm5af r-width-1h2t8mc"
+            />
+            <div
+              className="css-view-1dbjc4n r-alignItems-1awozwy r-height-1w2pmg r-left-1d2f490 r-position-u8s1d r-top-ipm5af r-width-1h2t8mc r-zIndex-184en5c"
+              style={
+                Object {
+                  "borderBottomLeftRadius": "0px",
+                  "borderBottomRightRadius": "0px",
+                  "borderTopLeftRadius": "0px",
+                  "borderTopRightRadius": "0px",
+                }
+              }
             >
-              Fuse Network RPC Address
+              <checkmark.svg
+                style={
+                  Object {
+                    "borderRadius": 0,
+                    "height": 0,
+                    "width": 0,
+                  }
+                }
+              />
             </div>
             <div
-              className="css-text-901oao r-color-vaa0vc r-fontFamily-vnw8o6 r-fontSize-n6v787 r-fontWeight-1it3c9n r-letterSpacing-rdxj0b r-lineHeight-w20frr r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
-              dir="auto"
-              letterSpacing={0.07}
+              className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-justifyContent-1wtj0ep r-marginBottom-p1pxzi r-marginTop-1mnahxq r-padding-t60dpp r-width-1akxima"
+            >
+              <div
+                className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-marginBottom-p1pxzi r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                dir="auto"
+              >
+                My Private Key
+              </div>
+              <div
+                className="css-text-901oao r-color-vaa0vc r-fontFamily-vnw8o6 r-fontSize-n6v787 r-fontWeight-1it3c9n r-letterSpacing-rdxj0b r-lineHeight-w20frr r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                dir="auto"
+              >
+                fake-wallet-p...t-private-key
+              </div>
+            </div>
+            <div
+              className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-bottom-1p0dtai r-height-1w2pmg r-position-u8s1d r-width-1h2t8mc"
             />
           </div>
           <div
-            className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-bottom-14bkmb3 r-height-4v7adb r-position-u8s1d r-width-1rhso5v"
-          />
-          <div
-            className="css-view-1dbjc4n r-bottom-wuw1bi r-height-eu3ka r-position-u8s1d r-width-1rhso5v r-zIndex-184en5c"
+            className="css-view-1dbjc4n r-alignItems-1awozwy r-bottom-1p0dtai r-display-6koalj r-height-1w2pmg r-justifyContent-1777fci r-maxHeight-46g5hj r-position-u8s1d r-width-13qz1uu"
           >
             <div
-              className="css-view-1dbjc4n r-alignItems-1awozwy r-borderStyle-1phboty r-display-6koalj r-height-eu3ka r-justifyContent-1777fci r-padding-t60dpp"
-              style={
-                Object {
-                  "backgroundColor": "rgba(0,175,255,1.00)",
-                  "borderBottomColor": "rgba(0,175,255,1.00)",
-                  "borderBottomLeftRadius": "50px",
-                  "borderBottomRightRadius": "50px",
-                  "borderBottomWidth": "0px",
-                  "borderLeftColor": "rgba(0,175,255,1.00)",
-                  "borderLeftWidth": "0px",
-                  "borderRightColor": "rgba(0,175,255,1.00)",
-                  "borderRightWidth": "0px",
-                  "borderTopColor": "rgba(0,175,255,1.00)",
-                  "borderTopLeftRadius": "50px",
-                  "borderTopRightRadius": "50px",
-                  "borderTopWidth": "0px",
-                  "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
-                  "marginBottom": "0px",
-                  "marginLeft": "auto",
-                  "marginRight": "auto",
-                  "marginTop": "0px",
-                  "minHeight": "40px",
-                  "minWidth": "64px",
-                  "paddingLeft": "0px",
-                  "paddingRight": "0px",
-                  "width": "211.1111111111111px",
-                }
-              }
+              className="css-view-1dbjc4n r-height-1w2pmg r-width-1h2t8mc"
             >
               <div
-                className="css-cursor-18t94o4 css-view-1dbjc4n r-cursor-1loqt21 r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim r-touchAction-1otgn73"
-                data-focusable={true}
-                disabled={false}
-                onKeyDown={[Function]}
-                onKeyPress={[Function]}
-                onKeyUp={[Function]}
-                onResponderGrant={[Function]}
-                onResponderMove={[Function]}
-                onResponderRelease={[Function]}
-                onResponderTerminate={[Function]}
-                onResponderTerminationRequest={[Function]}
-                onStartShouldSetResponder={[Function]}
-                role="button"
+                className="css-view-1dbjc4n r-alignItems-1awozwy r-borderStyle-1phboty r-display-6koalj r-height-1w2pmg r-justifyContent-1777fci r-marginBottom-p1pxzi r-marginTop-1mnahxq r-padding-t60dpp r-width-1h2t8mc"
                 style={
                   Object {
-                    "WebkitAlignSelf": "stretch",
-                    "alignSelf": "stretch",
+                    "backgroundColor": "rgba(0,175,255,1.00)",
+                    "borderBottomColor": "rgba(0,175,255,1.00)",
                     "borderBottomLeftRadius": "50px",
                     "borderBottomRightRadius": "50px",
+                    "borderBottomWidth": "0px",
+                    "borderLeftColor": "rgba(0,175,255,1.00)",
+                    "borderLeftWidth": "0px",
+                    "borderRightColor": "rgba(0,175,255,1.00)",
+                    "borderRightWidth": "0px",
+                    "borderTopColor": "rgba(0,175,255,1.00)",
                     "borderTopLeftRadius": "50px",
                     "borderTopRightRadius": "50px",
-                    "msFlexItemAlign": "stretch",
+                    "borderTopWidth": "0px",
+                    "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
+                    "marginLeft": "auto",
+                    "marginRight": "auto",
+                    "minHeight": "0px",
+                    "minWidth": "64px",
+                    "paddingLeft": "0px",
+                    "paddingRight": "0px",
                   }
                 }
-                tabIndex="0"
               >
                 <div
-                  className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
+                  className="css-cursor-18t94o4 css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
+                  onClick={[Function]}
+                  onContextMenu={[Function]}
+                  onKeyDown={[Function]}
+                  role="button"
                   style={
                     Object {
                       "WebkitAlignSelf": "stretch",
                       "alignSelf": "stretch",
+                      "borderBottomLeftRadius": "50px",
+                      "borderBottomRightRadius": "50px",
+                      "borderTopLeftRadius": "50px",
+                      "borderTopRightRadius": "50px",
                       "msFlexItemAlign": "stretch",
+                      "msGridRowAlign": "stretch",
                     }
                   }
+                  tabIndex="0"
                 >
                   <div
-                    className="css-view-1dbjc4n r-marginHorizontal-1ydw1k6 r-marginVertical-712mwr"
+                    className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
+                    style={
+                      Object {
+                        "WebkitAlignSelf": "stretch",
+                        "alignSelf": "stretch",
+                        "msFlexItemAlign": "stretch",
+                        "msGridRowAlign": "stretch",
+                      }
+                    }
                   >
                     <div
-                      className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
+                      className="css-view-1dbjc4n r-marginHorizontal-1ydw1k6 r-marginVertical-712mwr"
                     >
                       <div
-                        className="css-text-901oao r-alignItems-1awozwy r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-hbpseb r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
-                        dir="auto"
+                        className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
                       >
-                        Copy RPC
+                        <div
+                          className="css-text-901oao r-alignItems-1awozwy r-color-jwli3a r-display-6koalj r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-qvk6io r-minHeight-1ceczpf r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
+                          dir="auto"
+                        >
+                          Copy Key
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -581,6 +356,504 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
             </div>
           </div>
         </div>
+        <div
+          className="css-view-1dbjc4n"
+          style={
+            Object {
+              "backgroundColor": "rgba(0,0,0,0.00)",
+              "borderBottomLeftRadius": "25px",
+              "borderBottomRightRadius": "25px",
+              "borderTopLeftRadius": "25px",
+              "borderTopRightRadius": "25px",
+              "height": "50px",
+              "zIndex": -10,
+            }
+          }
+        />
+        <div
+          className="css-view-1dbjc4n"
+          style={
+            Object {
+              "marginLeft": "0px",
+              "marginRight": "0px",
+            }
+          }
+        >
+          <div
+            className="css-view-1dbjc4n r-alignItems-1awozwy r-borderColor-e397lv r-borderStyle-1phboty r-borderWidth-rs99b7 r-display-6koalj r-flexDirection-eqz5dr r-justifyContent-1777fci r-padding-t60dpp r-position-bnwqim"
+            style={
+              Object {
+                "borderBottomLeftRadius": "10px",
+                "borderBottomRightRadius": "10px",
+                "borderTopLeftRadius": "10px",
+                "borderTopRightRadius": "10px",
+              }
+            }
+          >
+            <div
+              className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-height-1w2pmg r-left-1d2f490 r-position-u8s1d r-top-ipm5af r-width-1h2t8mc"
+            />
+            <div
+              className="css-view-1dbjc4n r-alignItems-1awozwy r-height-1w2pmg r-left-1d2f490 r-position-u8s1d r-top-ipm5af r-width-1h2t8mc r-zIndex-184en5c"
+              style={
+                Object {
+                  "borderBottomLeftRadius": "0px",
+                  "borderBottomRightRadius": "0px",
+                  "borderTopLeftRadius": "0px",
+                  "borderTopRightRadius": "0px",
+                }
+              }
+            >
+              <checkmark.svg
+                style={
+                  Object {
+                    "borderRadius": 0,
+                    "height": 0,
+                    "width": 0,
+                  }
+                }
+              />
+            </div>
+            <div
+              className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-justifyContent-1wtj0ep r-marginBottom-p1pxzi r-marginTop-1mnahxq r-padding-t60dpp r-width-1akxima"
+            >
+              <div
+                className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-marginBottom-p1pxzi r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                dir="auto"
+              >
+                My Wallet Address
+              </div>
+              <div
+                className="css-text-901oao r-color-vaa0vc r-fontFamily-vnw8o6 r-fontSize-n6v787 r-fontWeight-1it3c9n r-letterSpacing-rdxj0b r-lineHeight-w20frr r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                dir="auto"
+              >
+                fake-wallet-a...allet-address
+              </div>
+            </div>
+            <div
+              className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-bottom-1p0dtai r-height-1w2pmg r-position-u8s1d r-width-1h2t8mc"
+            />
+          </div>
+          <div
+            className="css-view-1dbjc4n r-alignItems-1awozwy r-bottom-1p0dtai r-display-6koalj r-height-1w2pmg r-justifyContent-1777fci r-maxHeight-46g5hj r-position-u8s1d r-width-13qz1uu"
+          >
+            <div
+              className="css-view-1dbjc4n r-height-1w2pmg r-width-1h2t8mc"
+            >
+              <div
+                className="css-view-1dbjc4n r-alignItems-1awozwy r-borderStyle-1phboty r-display-6koalj r-height-1w2pmg r-justifyContent-1777fci r-marginBottom-p1pxzi r-marginTop-1mnahxq r-padding-t60dpp r-width-1h2t8mc"
+                style={
+                  Object {
+                    "backgroundColor": "rgba(0,175,255,1.00)",
+                    "borderBottomColor": "rgba(0,175,255,1.00)",
+                    "borderBottomLeftRadius": "50px",
+                    "borderBottomRightRadius": "50px",
+                    "borderBottomWidth": "0px",
+                    "borderLeftColor": "rgba(0,175,255,1.00)",
+                    "borderLeftWidth": "0px",
+                    "borderRightColor": "rgba(0,175,255,1.00)",
+                    "borderRightWidth": "0px",
+                    "borderTopColor": "rgba(0,175,255,1.00)",
+                    "borderTopLeftRadius": "50px",
+                    "borderTopRightRadius": "50px",
+                    "borderTopWidth": "0px",
+                    "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
+                    "marginLeft": "auto",
+                    "marginRight": "auto",
+                    "minHeight": "0px",
+                    "minWidth": "64px",
+                    "paddingLeft": "0px",
+                    "paddingRight": "0px",
+                  }
+                }
+              >
+                <div
+                  className="css-cursor-18t94o4 css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
+                  onClick={[Function]}
+                  onContextMenu={[Function]}
+                  onKeyDown={[Function]}
+                  role="button"
+                  style={
+                    Object {
+                      "WebkitAlignSelf": "stretch",
+                      "alignSelf": "stretch",
+                      "borderBottomLeftRadius": "50px",
+                      "borderBottomRightRadius": "50px",
+                      "borderTopLeftRadius": "50px",
+                      "borderTopRightRadius": "50px",
+                      "msFlexItemAlign": "stretch",
+                      "msGridRowAlign": "stretch",
+                    }
+                  }
+                  tabIndex="0"
+                >
+                  <div
+                    className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
+                    style={
+                      Object {
+                        "WebkitAlignSelf": "stretch",
+                        "alignSelf": "stretch",
+                        "msFlexItemAlign": "stretch",
+                        "msGridRowAlign": "stretch",
+                      }
+                    }
+                  >
+                    <div
+                      className="css-view-1dbjc4n r-marginHorizontal-1ydw1k6 r-marginVertical-712mwr"
+                    >
+                      <div
+                        className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
+                      >
+                        <div
+                          className="css-text-901oao r-alignItems-1awozwy r-color-jwli3a r-display-6koalj r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-qvk6io r-minHeight-1ceczpf r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
+                          dir="auto"
+                        >
+                          Copy address
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          className="css-view-1dbjc4n"
+          style={
+            Object {
+              "backgroundColor": "rgba(0,0,0,0.00)",
+              "borderBottomLeftRadius": "25px",
+              "borderBottomRightRadius": "25px",
+              "borderTopLeftRadius": "25px",
+              "borderTopRightRadius": "25px",
+              "height": "50px",
+              "zIndex": -10,
+            }
+          }
+        />
+        <div
+          className="css-view-1dbjc4n"
+          style={
+            Object {
+              "marginLeft": "0px",
+              "marginRight": "0px",
+            }
+          }
+        >
+          <div
+            className="css-view-1dbjc4n r-alignItems-1awozwy r-borderColor-e397lv r-borderStyle-1phboty r-borderWidth-rs99b7 r-display-6koalj r-flexDirection-eqz5dr r-justifyContent-1777fci r-padding-t60dpp r-position-bnwqim"
+            style={
+              Object {
+                "borderBottomLeftRadius": "10px",
+                "borderBottomRightRadius": "10px",
+                "borderTopLeftRadius": "10px",
+                "borderTopRightRadius": "10px",
+              }
+            }
+          >
+            <div
+              className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-height-1w2pmg r-left-1d2f490 r-position-u8s1d r-top-ipm5af r-width-1h2t8mc"
+            />
+            <div
+              className="css-view-1dbjc4n r-alignItems-1awozwy r-height-1w2pmg r-left-1d2f490 r-position-u8s1d r-top-ipm5af r-width-1h2t8mc r-zIndex-184en5c"
+              style={
+                Object {
+                  "borderBottomLeftRadius": "0px",
+                  "borderBottomRightRadius": "0px",
+                  "borderTopLeftRadius": "0px",
+                  "borderTopRightRadius": "0px",
+                }
+              }
+            >
+              <checkmark.svg
+                style={
+                  Object {
+                    "borderRadius": 0,
+                    "height": 0,
+                    "width": 0,
+                  }
+                }
+              />
+            </div>
+            <div
+              className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-justifyContent-1wtj0ep r-marginBottom-p1pxzi r-marginTop-1mnahxq r-padding-t60dpp r-width-1akxima"
+            >
+              <div
+                className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-marginBottom-p1pxzi r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                dir="auto"
+              >
+                Fuse Network RPC Address
+              </div>
+              <div
+                className="css-text-901oao r-color-vaa0vc r-fontFamily-vnw8o6 r-fontSize-n6v787 r-fontWeight-1it3c9n r-letterSpacing-rdxj0b r-lineHeight-w20frr r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                dir="auto"
+              />
+            </div>
+            <div
+              className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-bottom-1p0dtai r-height-1w2pmg r-position-u8s1d r-width-1h2t8mc"
+            />
+          </div>
+          <div
+            className="css-view-1dbjc4n r-alignItems-1awozwy r-bottom-1p0dtai r-display-6koalj r-height-1w2pmg r-justifyContent-1777fci r-maxHeight-46g5hj r-position-u8s1d r-width-13qz1uu"
+          >
+            <div
+              className="css-view-1dbjc4n r-height-1w2pmg r-width-1h2t8mc"
+            >
+              <div
+                className="css-view-1dbjc4n r-alignItems-1awozwy r-borderStyle-1phboty r-display-6koalj r-height-1w2pmg r-justifyContent-1777fci r-marginBottom-p1pxzi r-marginTop-1mnahxq r-padding-t60dpp r-width-1h2t8mc"
+                style={
+                  Object {
+                    "backgroundColor": "rgba(0,175,255,1.00)",
+                    "borderBottomColor": "rgba(0,175,255,1.00)",
+                    "borderBottomLeftRadius": "50px",
+                    "borderBottomRightRadius": "50px",
+                    "borderBottomWidth": "0px",
+                    "borderLeftColor": "rgba(0,175,255,1.00)",
+                    "borderLeftWidth": "0px",
+                    "borderRightColor": "rgba(0,175,255,1.00)",
+                    "borderRightWidth": "0px",
+                    "borderTopColor": "rgba(0,175,255,1.00)",
+                    "borderTopLeftRadius": "50px",
+                    "borderTopRightRadius": "50px",
+                    "borderTopWidth": "0px",
+                    "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
+                    "marginLeft": "auto",
+                    "marginRight": "auto",
+                    "minHeight": "0px",
+                    "minWidth": "64px",
+                    "paddingLeft": "0px",
+                    "paddingRight": "0px",
+                  }
+                }
+              >
+                <div
+                  className="css-cursor-18t94o4 css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
+                  onClick={[Function]}
+                  onContextMenu={[Function]}
+                  onKeyDown={[Function]}
+                  role="button"
+                  style={
+                    Object {
+                      "WebkitAlignSelf": "stretch",
+                      "alignSelf": "stretch",
+                      "borderBottomLeftRadius": "50px",
+                      "borderBottomRightRadius": "50px",
+                      "borderTopLeftRadius": "50px",
+                      "borderTopRightRadius": "50px",
+                      "msFlexItemAlign": "stretch",
+                      "msGridRowAlign": "stretch",
+                    }
+                  }
+                  tabIndex="0"
+                >
+                  <div
+                    className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
+                    style={
+                      Object {
+                        "WebkitAlignSelf": "stretch",
+                        "alignSelf": "stretch",
+                        "msFlexItemAlign": "stretch",
+                        "msGridRowAlign": "stretch",
+                      }
+                    }
+                  >
+                    <div
+                      className="css-view-1dbjc4n r-marginHorizontal-1ydw1k6 r-marginVertical-712mwr"
+                    >
+                      <div
+                        className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
+                      >
+                        <div
+                          className="css-text-901oao r-alignItems-1awozwy r-color-jwli3a r-display-6koalj r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-qvk6io r-minHeight-1ceczpf r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
+                          dir="auto"
+                        >
+                          Copy RPC
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          className="css-view-1dbjc4n"
+          style={
+            Object {
+              "backgroundColor": "rgba(0,0,0,0.00)",
+              "borderBottomLeftRadius": "25px",
+              "borderBottomRightRadius": "25px",
+              "borderTopLeftRadius": "25px",
+              "borderTopRightRadius": "25px",
+              "height": "50px",
+              "zIndex": -10,
+            }
+          }
+        />
+        <div
+          className="css-view-1dbjc4n"
+          style={
+            Object {
+              "marginLeft": "0px",
+              "marginRight": "0px",
+            }
+          }
+        >
+          <div
+            className="css-view-1dbjc4n r-alignItems-1awozwy r-borderColor-e397lv r-borderStyle-1phboty r-borderWidth-rs99b7 r-display-6koalj r-flexDirection-eqz5dr r-justifyContent-1777fci r-padding-t60dpp r-position-bnwqim"
+            style={
+              Object {
+                "borderBottomLeftRadius": "10px",
+                "borderBottomRightRadius": "10px",
+                "borderTopLeftRadius": "10px",
+                "borderTopRightRadius": "10px",
+              }
+            }
+          >
+            <div
+              className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-height-1w2pmg r-left-1d2f490 r-position-u8s1d r-top-ipm5af r-width-1h2t8mc"
+            />
+            <div
+              className="css-view-1dbjc4n r-alignItems-1awozwy r-height-1w2pmg r-left-1d2f490 r-position-u8s1d r-top-ipm5af r-width-1h2t8mc r-zIndex-184en5c"
+              style={
+                Object {
+                  "borderBottomLeftRadius": "0px",
+                  "borderBottomRightRadius": "0px",
+                  "borderTopLeftRadius": "0px",
+                  "borderTopRightRadius": "0px",
+                }
+              }
+            >
+              <checkmark.svg
+                style={
+                  Object {
+                    "borderRadius": 0,
+                    "height": 0,
+                    "width": 0,
+                  }
+                }
+              />
+            </div>
+            <div
+              className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-justifyContent-1wtj0ep r-marginBottom-p1pxzi r-marginTop-1mnahxq r-padding-t60dpp r-width-1akxima"
+            >
+              <div
+                className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-marginBottom-p1pxzi r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                dir="auto"
+              >
+                Fuse ID Chain
+              </div>
+              <div
+                className="css-text-901oao r-color-vaa0vc r-fontFamily-vnw8o6 r-fontSize-n6v787 r-fontWeight-1it3c9n r-letterSpacing-rdxj0b r-lineHeight-w20frr r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                dir="auto"
+              >
+                undefined
+              </div>
+            </div>
+            <div
+              className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-bottom-1p0dtai r-height-1w2pmg r-position-u8s1d r-width-1h2t8mc"
+            />
+          </div>
+          <div
+            className="css-view-1dbjc4n r-alignItems-1awozwy r-bottom-1p0dtai r-display-6koalj r-height-1w2pmg r-justifyContent-1777fci r-maxHeight-46g5hj r-position-u8s1d r-width-13qz1uu"
+          >
+            <div
+              className="css-view-1dbjc4n r-height-1w2pmg r-width-1h2t8mc"
+            >
+              <div
+                className="css-view-1dbjc4n r-alignItems-1awozwy r-borderStyle-1phboty r-display-6koalj r-height-1w2pmg r-justifyContent-1777fci r-marginBottom-p1pxzi r-marginTop-1mnahxq r-padding-t60dpp r-width-1h2t8mc"
+                style={
+                  Object {
+                    "backgroundColor": "rgba(0,175,255,1.00)",
+                    "borderBottomColor": "rgba(0,175,255,1.00)",
+                    "borderBottomLeftRadius": "50px",
+                    "borderBottomRightRadius": "50px",
+                    "borderBottomWidth": "0px",
+                    "borderLeftColor": "rgba(0,175,255,1.00)",
+                    "borderLeftWidth": "0px",
+                    "borderRightColor": "rgba(0,175,255,1.00)",
+                    "borderRightWidth": "0px",
+                    "borderTopColor": "rgba(0,175,255,1.00)",
+                    "borderTopLeftRadius": "50px",
+                    "borderTopRightRadius": "50px",
+                    "borderTopWidth": "0px",
+                    "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
+                    "marginLeft": "auto",
+                    "marginRight": "auto",
+                    "minHeight": "0px",
+                    "minWidth": "64px",
+                    "paddingLeft": "0px",
+                    "paddingRight": "0px",
+                  }
+                }
+              >
+                <div
+                  className="css-cursor-18t94o4 css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
+                  onClick={[Function]}
+                  onContextMenu={[Function]}
+                  onKeyDown={[Function]}
+                  role="button"
+                  style={
+                    Object {
+                      "WebkitAlignSelf": "stretch",
+                      "alignSelf": "stretch",
+                      "borderBottomLeftRadius": "50px",
+                      "borderBottomRightRadius": "50px",
+                      "borderTopLeftRadius": "50px",
+                      "borderTopRightRadius": "50px",
+                      "msFlexItemAlign": "stretch",
+                      "msGridRowAlign": "stretch",
+                    }
+                  }
+                  tabIndex="0"
+                >
+                  <div
+                    className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
+                    style={
+                      Object {
+                        "WebkitAlignSelf": "stretch",
+                        "alignSelf": "stretch",
+                        "msFlexItemAlign": "stretch",
+                        "msGridRowAlign": "stretch",
+                      }
+                    }
+                  >
+                    <div
+                      className="css-view-1dbjc4n r-marginHorizontal-1ydw1k6 r-marginVertical-712mwr"
+                    >
+                      <div
+                        className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
+                      >
+                        <div
+                          className="css-text-901oao r-alignItems-1awozwy r-color-jwli3a r-display-6koalj r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-qvk6io r-minHeight-1ceczpf r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
+                          dir="auto"
+                        >
+                          Copy ID Chain
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          className="css-view-1dbjc4n"
+          style={
+            Object {
+              "backgroundColor": "rgba(0,0,0,0.00)",
+              "borderBottomLeftRadius": "25px",
+              "borderBottomRightRadius": "25px",
+              "borderTopLeftRadius": "25px",
+              "borderTopRightRadius": "25px",
+              "height": "50px",
+              "zIndex": -10,
+            }
+          }
+        />
       </div>
     </div>
   </div>

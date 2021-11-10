@@ -1,7 +1,7 @@
 // @flow
 import type { Effects } from 'undux'
 
-import logger from '../../logger/pino-logger'
+import logger from '../../logger/js-logger'
 import type { State } from '../GDStore'
 
 export const log = logger.child({ from: 'undux' })

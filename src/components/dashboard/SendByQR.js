@@ -15,9 +15,10 @@ import SimpleStore from '../../lib/undux/SimpleStore'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
 
 // utils
-import logger from '../../lib/logger/pino-logger'
+import logger from '../../lib/logger/js-logger'
 import { decorate, ExceptionCode } from '../../lib/logger/exceptions'
-import { extractQueryParams, readCode } from '../../lib/share'
+import { readCode } from '../../lib/share'
+import { extractQueryParams } from '../../lib/utils/uri'
 import { wrapFunction } from '../../lib/undux/utils/wrapper'
 import { Permissions } from '../permissions/types'
 import { fireEvent, QR_SCAN } from '../../lib/analytics/analytics'
@@ -27,7 +28,7 @@ import { routeAndPathForCode } from './utils/routeAndPathForCode'
 
 const QR_DEFAULT_DELAY = 300
 
-const log = logger.child({ from: 'SendByQR.web' })
+const log = logger.child({ from: 'SendByQR' })
 
 type Props = {
   screenProps: any,
@@ -104,17 +105,14 @@ const SendByQR = ({ screenProps }: Props) => {
       <TopBar hideBalance={true} hideProfile={false} profileAsLink={false} push={push}>
         <View />
       </TopBar>
-      <Section style={styles.bottomSection}>
-        <Section.Row>
-          {hasCameraAccess && (
-            <QrReader
-              delay={qrDelay}
-              onError={handleError}
-              onScan={wrapFunction(handleScan, store, { onDismiss: onDismissDialog })}
-              styles={styles}
-            />
-          )}
-        </Section.Row>
+      <Section grow style={styles.bottomSection}>
+        {hasCameraAccess && (
+          <QrReader
+            delay={qrDelay}
+            onError={handleError}
+            onScan={wrapFunction(handleScan, store, { onDismiss: onDismissDialog })}
+          />
+        )}
       </Section>
     </Wrapper>
   )
@@ -123,9 +121,6 @@ const SendByQR = ({ screenProps }: Props) => {
 const styles = StyleSheet.create({
   bottomSection: {
     flex: 1,
-  },
-  centeredCamera: {
-    maxWidth: '100%',
   },
 })
 

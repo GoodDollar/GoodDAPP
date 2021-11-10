@@ -34,24 +34,20 @@ exports[`TabsView matches snapshot 1`] = `
     }
   >
     <div
-      className="css-view-1dbjc4n r-cursor-1loqt21 r-touchAction-1otgn73 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
-      data-focusable={true}
+      className="css-view-1dbjc4n r-cursor-1loqt21 r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
       data-testid="rewards_tab"
+      onClick={[Function]}
+      onContextMenu={[Function]}
       onKeyDown={[Function]}
-      onKeyUp={[Function]}
-      onResponderGrant={[Function]}
-      onResponderMove={[Function]}
-      onResponderRelease={[Function]}
-      onResponderTerminate={[Function]}
-      onResponderTerminationRequest={[Function]}
-      onStartShouldSetResponder={[Function]}
       style={
         Object {
           "WebkitAlignItems": "flex-start",
           "WebkitBoxAlign": "start",
+          "WebkitTransitionDuration": "0s",
           "alignItems": "flex-start",
           "marginLeft": "10px",
           "msFlexAlign": "start",
+          "transitionDuration": "0s",
           "width": "37px",
         }
       }
@@ -74,49 +70,42 @@ exports[`TabsView matches snapshot 1`] = `
       </div>
     </div>
     <div
-      className="css-view-1dbjc4n r-cursor-1loqt21 r-flex-13awgt0 r-paddingHorizontal-1e081e0 r-touchAction-1otgn73"
-      data-focusable={true}
+      aria-disabled={true}
+      className="css-view-1dbjc4n r-flex-13awgt0 r-paddingHorizontal-1e081e0"
+      onClick={[Function]}
+      onContextMenu={[Function]}
       onKeyDown={[Function]}
-      onKeyUp={[Function]}
-      onResponderGrant={[Function]}
-      onResponderMove={[Function]}
-      onResponderRelease={[Function]}
-      onResponderTerminate={[Function]}
-      onResponderTerminationRequest={[Function]}
-      onStartShouldSetResponder={[Function]}
-      tabIndex="0"
+      tabIndex="-1"
     >
       <h1
-        className="css-reset-4rbku5 css-text-901oao css-textOneLine-bfa6kz r-fontSize-adyw6z"
+        className="css-reset-4rbku5 css-text-901oao css-textMultiLine-cens5h r-fontSize-adyw6z"
         dir="auto"
         role="heading"
         style={
           Object {
+            "WebkitLineClamp": 1,
             "color": "rgba(255,255,255,1.00)",
             "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
             "fontWeight": "500",
             "textAlign": "left",
           }
         }
+        tabIndex="0"
       />
     </div>
     <div
-      className="css-view-1dbjc4n r-cursor-1loqt21 r-touchAction-1otgn73 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
-      data-focusable={true}
+      className="css-view-1dbjc4n r-cursor-1loqt21 r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
+      onClick={[Function]}
+      onContextMenu={[Function]}
       onKeyDown={[Function]}
-      onKeyUp={[Function]}
-      onResponderGrant={[Function]}
-      onResponderMove={[Function]}
-      onResponderRelease={[Function]}
-      onResponderTerminate={[Function]}
-      onResponderTerminationRequest={[Function]}
-      onStartShouldSetResponder={[Function]}
       style={
         Object {
           "WebkitAlignItems": "flex-end",
           "WebkitBoxAlign": "end",
+          "WebkitTransitionDuration": "0s",
           "alignItems": "flex-end",
           "msFlexAlign": "end",
+          "transitionDuration": "0s",
           "width": "37px",
         }
       }

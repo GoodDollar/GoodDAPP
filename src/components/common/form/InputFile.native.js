@@ -1,17 +1,12 @@
 // @flow
 import React from 'react'
-import { TouchableOpacity } from 'react-native'
 import ImagePicker from 'react-native-image-crop-picker'
-import { connectActionSheet, useActionSheet } from '@expo/react-native-action-sheet'
+import { useActionSheet } from '@expo/react-native-action-sheet'
+
 import useOnPress from '../../../lib/hooks/useOnPress'
+import { assembleDataUrl } from '../../../lib/utils/base64'
 
-type Props = {
-  onChange: Function,
-  style?: any,
-  children?: any,
-}
-
-const InputFile = ({ onChange, style, children, pickerOptions }: Props) => {
+export const useFileInput = ({ pickerOptions, onChange }) => {
   const { showActionSheetWithOptions } = useActionSheet()
 
   const handleSheetClick = async buttonIndex => {
@@ -22,10 +17,10 @@ const InputFile = ({ onChange, style, children, pickerOptions }: Props) => {
       return
     }
 
-    const image = await action(pickerOptions)
-    const imageData = `data:${image.mime};base64,${image.data}`
+    const { mime, data } = await action(pickerOptions)
+    const dataUrl = assembleDataUrl(data, mime)
 
-    onChange(imageData)
+    onChange(dataUrl)
   }
 
   const openSheet = useOnPress(() => {
@@ -37,11 +32,13 @@ const InputFile = ({ onChange, style, children, pickerOptions }: Props) => {
     showActionSheetWithOptions(sheetOptions, handleSheetClick)
   }, [handleSheetClick, showActionSheetWithOptions])
 
-  return (
-    <TouchableOpacity onPress={openSheet} style={style}>
-      {children}
-    </TouchableOpacity>
-  )
+  return openSheet
 }
 
-export default connectActionSheet(InputFile)
+const InputFile = ({ Component, pickerOptions, onChange }) => {
+  const trigger = useFileInput({ pickerOptions, onChange })
+
+  return <Component onPress={trigger} />
+}
+
+export default InputFile

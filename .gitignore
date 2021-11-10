@@ -68,15 +68,16 @@ android/app/google-services.json
 
 # Others
 .env
+*.sqlite
 secrets.json
 account.data.txt
 tree.txt
 radata/
 ios/assets/**
 android/app/src/main/assets/animations
+coverage/**
 
 .idea
-yarn.lock
 account.data.txt
 .gradle
 .png-cache

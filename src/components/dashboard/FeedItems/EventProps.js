@@ -7,9 +7,8 @@ export type FeedEventProps = {
       amount: number,
       endpoint: {
         title: string,
-        withdrawStatus: string,
         avatar: string,
-        fullName: string,
+        displayName: string,
       },
       message: string,
       processing?: boolean,

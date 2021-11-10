@@ -4,10 +4,11 @@ import { Platform, View } from 'react-native'
 import { get } from 'lodash'
 
 //components
-import Separator from '../../../common/layout/Separator'
+// import Separator from '../../../common/layout/Separator'
 import Text from '../../../common/view/Text'
 import { CustomButton, Section, Wrapper } from '../../../common'
-import FaceVerificationSmiley from '../../../common/animations/FaceVerificationSmiley'
+
+// import FaceVerificationSmiley from '../../../common/animations/FaceVerificationSmiley'
 
 // hooks
 import useOnPress from '../../../../lib/hooks/useOnPress'
@@ -16,40 +17,42 @@ import usePermissions from '../../../permissions/hooks/usePermissions'
 import useDisposingState from '../hooks/useDisposingState'
 
 // utils
-import UserStorage from '../../../../lib/gundb/UserStorage'
-import GDStore from '../../../../lib/undux/GDStore'
-import logger from '../../../../lib/logger/pino-logger'
+import UserStorage from '../../../../lib/userStorage/UserStorage'
+import logger from '../../../../lib/logger/js-logger'
 import { getFirstWord } from '../../../../lib/utils/getFirstWord'
 import {
   getDesignRelativeHeight,
   getDesignRelativeWidth,
-  isLargeDevice,
+
+  // isLargeDevice,
   isSmallDevice,
 } from '../../../../lib/utils/sizes'
 import { withStyles } from '../../../../lib/styles'
-import { isBrowser, isE2ERunning, isIOSWeb, isMobileSafari } from '../../../../lib/utils/platform'
+import { isBrowser, isE2ERunning, isEmulator, isIOSWeb, isMobileSafari } from '../../../../lib/utils/platform'
 import { openLink } from '../../../../lib/utils/linking'
 import Config from '../../../../config/config'
 import { Permissions } from '../../../permissions/types'
 import { showQueueDialog } from '../../../common/dialogs/showQueueDialog'
 import { fireEvent, FV_CAMERAPERMISSION, FV_CANTACCESSCAMERA, FV_INTRO } from '../../../../lib/analytics/analytics'
 
-import createABTesting from '../../../../lib/hooks/useABTesting'
+// import createABTesting from '../../../../lib/hooks/useABTesting'
 import useFaceTecSDK from '../hooks/useFaceTecSDK'
 
 // assets
 import wait24hourIllustration from '../../../../assets/Claim/wait24Hour.svg'
 import FashionShootSVG from '../../../../assets/FaceVerification/FashionPhotoshoot.svg'
+import useProfile from '../../../../lib/userStorage/useProfile'
 
 const log = logger.child({ from: 'FaceVerificationIntro' })
-const { useABTesting } = createABTesting()
 
-const commonTextStyles = {
-  textAlign: 'center',
-  color: 'primary',
-  fontSize: isLargeDevice ? 18 : 16,
-  lineHeight: 25,
-}
+// const { useABTesting } = createABTesting('FV_Intro_Screen')
+
+// const commonTextStyles = {
+//   textAlign: 'center',
+//   color: 'primary',
+//   fontSize: isLargeDevice ? 18 : 16,
+//   lineHeight: 25,
+// }
 
 const WalletDeletedPopupText = ({ styles }) => (
   <View style={styles.wrapper}>
@@ -68,43 +71,43 @@ const WalletDeletedPopupText = ({ styles }) => (
   </View>
 )
 
-const IntroScreenA = ({ styles, firstName, ready, onVerify, onLearnMore }) => (
-  <Wrapper>
-    <Section style={styles.topContainer} grow>
-      <View style={styles.mainContent}>
-        <Section.Title fontWeight="medium" textTransform="none" style={styles.mainTitle}>
-          {`${firstName},\nOnly a real live person\ncan claim G$’s`}
-        </Section.Title>
-        <View style={styles.illustration}>
-          <FaceVerificationSmiley />
-        </View>
-        <View>
-          <Separator width={2} />
-          <Text textAlign="center" style={styles.descriptionContainer}>
-            <Text {...commonTextStyles} fontWeight="bold">
-              {`Once in a while\n`}
-            </Text>
-            <Text {...commonTextStyles}>{`we'll need to take a short video of you\n`}</Text>
-            <Text {...commonTextStyles}>{`to prevent duplicate accounts.\n`}</Text>
-            <Text
-              {...commonTextStyles}
-              fontWeight="bold"
-              textDecorationLine="underline"
-              style={styles.descriptionUnderline}
-              onPress={onLearnMore}
-            >
-              {`Learn more`}
-            </Text>
-          </Text>
-          <Separator style={styles.bottomSeparator} width={2} />
-        </View>
-        <CustomButton style={styles.button} onPress={onVerify} disabled={!ready}>
-          OK, VERIFY ME
-        </CustomButton>
-      </View>
-    </Section>
-  </Wrapper>
-)
+// const IntroScreenA = ({ styles, firstName, ready, onVerify, onLearnMore }) => (
+//   <Wrapper>
+//     <Section style={styles.topContainer} grow>
+//       <View style={styles.mainContent}>
+//         <Section.Title fontWeight="medium" textTransform="none" style={styles.mainTitle}>
+//           {`${firstName},\nOnly a real live person\ncan claim G$’s`}
+//         </Section.Title>
+//         <View style={styles.illustration}>
+//           <FaceVerificationSmiley />
+//         </View>
+//         <View>
+//           <Separator width={2} />
+//           <Text textAlign="center" style={styles.descriptionContainer}>
+//             <Text {...commonTextStyles} fontWeight="bold">
+//               {`Once in a while\n`}
+//             </Text>
+//             <Text {...commonTextStyles}>{`we'll need to take a short video of you\n`}</Text>
+//             <Text {...commonTextStyles}>{`to prevent duplicate accounts.\n`}</Text>
+//             <Text
+//               {...commonTextStyles}
+//               fontWeight="bold"
+//               textDecorationLine="underline"
+//               style={styles.descriptionUnderline}
+//               onPress={onLearnMore}
+//             >
+//               {`Learn more`}
+//             </Text>
+//           </Text>
+//           <Separator style={styles.bottomSeparator} width={2} />
+//         </View>
+//         <CustomButton style={styles.button} onPress={onVerify} disabled={!ready}>
+//           OK, VERIFY ME
+//         </CustomButton>
+//       </View>
+//     </Section>
+//   </Wrapper>
+// )
 
 const IntroScreenB = ({ styles, firstName, ready, onVerify, onLearnMore }) => (
   <Wrapper>
@@ -142,15 +145,17 @@ const IntroScreenB = ({ styles, firstName, ready, onVerify, onLearnMore }) => (
 )
 
 const IntroScreen = ({ styles, screenProps }) => {
-  const store = GDStore.useStore()
-  const { fullName } = store.get('profile')
-  const { screenState, goToRoot, navigateTo, pop } = screenProps
+  const { fullName } = useProfile()
+  const { screenState, goToRoot, navigateTo, pop, push } = screenProps
   const isValid = get(screenState, 'isValid', false)
 
   const navigateToHome = useCallback(() => navigateTo('Home'), [navigateTo])
-  const [Intro, ab] = useABTesting(IntroScreenA, IntroScreenB)
+  const Intro = IntroScreenB
 
-  const disposing = useDisposingState({
+  // const [Intro, ab] = useABTesting(IntroScreenA, IntroScreenB)
+
+  const [disposing, checkDisposalState] = useDisposingState({
+    requestOnMounted: false,
     enrollmentIdentifier: UserStorage.getFaceIdentifier(),
     onComplete: isDisposing => {
       if (!isDisposing) {
@@ -165,7 +170,7 @@ const IntroScreen = ({ styles, screenProps }) => {
   })
 
   const openPrivacy = useOnPress(() => openLink(Config.faceVerificationPrivacyUrl), [])
-  const openFaceVerification = () => screenProps.push('FaceVerification')
+  const openFaceVerification = useCallback(() => push('FaceVerification'), [push])
 
   const [, requestCameraPermissions] = usePermissions(Permissions.Camera, {
     requestOnMounted: false,
@@ -181,10 +186,12 @@ const IntroScreen = ({ styles, screenProps }) => {
     onUnsupported: navigateToHome,
   })
 
-  const handleVerifyClick = useCallback(() => {
+  const handleVerifyClick = useCallback(async () => {
+    const isDeviceEmulated = await isEmulator
+
     // if cypress is running - just redirect to FR as we're skipping
-    // zoom component (which requires camera access) in this case
-    if (isE2ERunning) {
+    // zoom componet (which requires camera access) in this case
+    if (isE2ERunning || isDeviceEmulated) {
       openFaceVerification()
       return
     }
@@ -198,11 +205,12 @@ const IntroScreen = ({ styles, screenProps }) => {
 
   useEffect(() => {
     if (isValid) {
-      pop({ isValid: true })
+      pop({ isValid })
     } else {
-      fireEvent(FV_INTRO, { ab })
+      fireEvent(FV_INTRO)
+      checkDisposalState()
     }
-  }, [isValid])
+  }, [])
 
   return (
     <Intro

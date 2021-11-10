@@ -1,7 +1,7 @@
-import { first, omit } from 'lodash'
+import { defaults, first, omit, pad } from 'lodash'
 
 import Config from '../../../../config/config'
-import logger from '../../../../lib/logger/pino-logger'
+import logger from '../../../../lib/logger/js-logger'
 import Torus from './torus'
 
 import {
@@ -16,8 +16,8 @@ import {
 class TorusSDK {
   strategies = {}
 
-  static factory() {
-    const sdk = new TorusSDK(Config, logger.child({ from: 'TorusSDK' }))
+  static factory(options) {
+    const sdk = new TorusSDK(Config, options, logger.child({ from: 'TorusSDK' }))
 
     sdk.addStrategy('facebook', FacebookStrategy)
     sdk.addStrategy('google-old', GoogleLegacyStrategy)
@@ -29,24 +29,31 @@ class TorusSDK {
     return sdk
   }
 
-  constructor(config, logger) {
-    const { env, torusProxyContract, torusNetwork } = config
+  constructor(config, options, logger) {
+    const { env, torusProxyContract, torusNetwork, torusUxMode = 'popup' } = config
 
-    this.torus = new Torus(config, {
+    const torusOptions = defaults({}, options, {
       proxyContractAddress: torusProxyContract, // details for test net
       network: torusNetwork, // details for test net
       enableLogging: env === 'development',
+      uxMode: torusUxMode,
     })
 
+    this.torus = new Torus(config, torusOptions)
+    this.popupMode = torusOptions.uxMode === 'popup'
     this.config = config
     this.logger = logger
   }
 
   // eslint-disable-next-line require-await
   async initialize() {
-    const { torus } = this
+    return this.torus.init({ skipInit: !this.popupMode })
+  }
 
-    return torus.init()
+  async getRedirectResult() {
+    const { result } = await this.torus.getRedirectResult()
+
+    return this.fetchTorusUser(result)
   }
 
   async triggerLogin(verifier, customLogger = null) {
@@ -61,6 +68,11 @@ class TorusSDK {
     }
 
     const response = await strategies[withVerifier].triggerLogin()
+
+    //no response in case of redirect flow
+    if (!this.popupMode) {
+      return response
+    }
 
     return this.fetchTorusUser(response, customLogger)
   }
@@ -84,8 +96,9 @@ class TorusSDK {
       torusUser = { ...otherResponse, ...userInfo }
     }
 
-    const { name, email } = torusUser
+    const { name, email, privateKey = '' } = torusUser
     const isLoginPhoneNumber = /\+[0-9]+$/.test(name)
+    const leading = privateKey.length - 64
 
     if (isLoginPhoneNumber) {
       torusUser = { ...torusUser, mobile: name }
@@ -93,6 +106,16 @@ class TorusSDK {
 
     if (isLoginPhoneNumber || name === email) {
       torusUser = omit(torusUser, 'name')
+    }
+
+    if (leading > 0) {
+      // leading characters should be zeros, otherwise something went wrong
+      if (privateKey.substring(0, leading) !== pad('', leading, '0')) {
+        throw new Error('Invalid private key received:', { privateKey })
+      }
+
+      log.warn('Received private key with extra "0" padding:', privateKey)
+      torusUser = { ...torusUser, privateKey: privateKey.substring(leading) }
     }
 
     if ('production' !== config.env) {
@@ -103,4 +126,4 @@ class TorusSDK {
   }
 }
 
-export default TorusSDK.factory()
+export default TorusSDK

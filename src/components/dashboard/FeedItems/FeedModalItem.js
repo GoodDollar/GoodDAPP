@@ -1,6 +1,7 @@
 // @flow
 import React, { useCallback } from 'react'
-import { Platform, View } from 'react-native'
+import { View } from 'react-native'
+import { get, isNil } from 'lodash'
 import Avatar from '../../common/view/Avatar'
 import BigGoodDollar from '../../common/view/BigGoodDollar'
 import Text from '../../common/view/Text'
@@ -30,6 +31,7 @@ const FeedModalItem = (props: FeedEventProps) => {
   const mainColor = eventSettings.color
   const showJaggedEdge = ['claim', 'sendcompleted', 'withdraw', 'receive'].includes(itemType)
   const topImageExists = !!getImageByType(itemType)
+  const avatar = get(item, 'data.endpoint.avatar')
 
   return (
     <ModalWrapper
@@ -58,7 +60,7 @@ const FeedModalItem = (props: FeedEventProps) => {
                     </Text>
                   )}
                   <BigGoodDollar
-                    number={item.data.amount}
+                    number={get(item, 'data.amount', 0)}
                     color={mainColor}
                     bigNumberProps={{ fontSize: 24 }}
                     bigNumberStyles={styles.bigNumberStyles}
@@ -69,13 +71,7 @@ const FeedModalItem = (props: FeedEventProps) => {
             </React.Fragment>
           </View>
           <View style={[styles.transactionDetails, { borderColor: mainColor }]}>
-            {!eventSettings.withoutAvatar && (
-              <Avatar
-                source={item.data && item.data.endpoint && item.data.endpoint.avatar}
-                size={34}
-                style={styles.avatar}
-              />
-            )}
+            {!eventSettings.withoutAvatar && <Avatar source={avatar} size={34} imageSize={36} style={styles.avatar} />}
             {item.data && item.data.endpoint && (
               <EventCounterParty style={styles.feedItem} textStyle={styles.feedItemText} feedItem={item} />
             )}
@@ -86,17 +82,17 @@ const FeedModalItem = (props: FeedEventProps) => {
             )}
           </View>
           <View style={styles.messageContainer}>
-            {!!item.data.preMessageText && (
+            {!!get(item, 'data.preMessageText') && (
               <Text fontSize={14} textAlign="left" lineHeight={20} letterSpacing={0.14} fontWeight="bold">
                 {item.data.preMessageText}
                 {'\n\n'}
               </Text>
             )}
             <Text fontSize={14} textAlign="left">
-              {item.data.message || ''}
+              {get(item, 'data.message', '')}
             </Text>
           </View>
-          {item.status === 'pending' && (
+          {isNil(get(item, 'data.receiptHash')) && item.status === 'pending' && (
             <View style={styles.messageContainer}>
               <Text fontSize={14} color="gray50Percent">
                 Your balance will be updated in a minute
@@ -146,13 +142,7 @@ const getStylesFromProps = ({ theme }) => {
     },
     avatar: {
       backgroundColor: theme.colors.lightGray,
-      borderRadius: Platform.select({
-        web: '50%',
-        default: 34 / 2,
-      }),
-      height: 34,
       marginRight: 7,
-      width: 34,
     },
     iconContainer: {
       height: 36,

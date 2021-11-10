@@ -23,7 +23,7 @@ exports[`SendQRSummary matches snapshot 1`] = `
           className="css-view-1dbjc4n r-alignItems-1d09ksm r-display-6koalj r-flexDirection-18u37iz"
         >
           <div
-            className="css-text-901oao r-color-181bzza r-fontFamily-6jnb14 r-fontSize-3i2nvb r-fontWeight-b88u0q r-lineHeight-ueyrd6 r-marginRight-a5pmau r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+            className="css-text-901oao r-color-181bzza r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-marginRight-a5pmau r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
             dir="auto"
           >
             -.--
@@ -32,13 +32,13 @@ exports[`SendQRSummary matches snapshot 1`] = `
             className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
           >
             <div
-              className="css-text-901oao r-color-181bzza r-fontFamily-6jnb14 r-fontSize-1i10wst r-fontWeight-b88u0q r-lineHeight-hbpseb r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+              className="css-text-901oao r-color-181bzza r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
               dir="auto"
             >
               G
             </div>
             <div
-              className="css-text-901oao r-color-181bzza r-fontFamily-6jnb14 r-fontSize-1i10wst r-fontWeight-b88u0q r-lineHeight-hbpseb r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+              className="css-text-901oao r-color-181bzza r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
               dir="auto"
             >
               $
@@ -46,24 +46,19 @@ exports[`SendQRSummary matches snapshot 1`] = `
           </div>
         </div>
         <div
-          className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-qt01xk r-borderColor-y68mpx r-borderWidth-rs99b7 r-cursor-1loqt21 r-justifyContent-1777fci r-touchAction-1otgn73 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
-          data-focusable={true}
-          disabled={false}
+          className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-qt01xk r-borderColor-y68mpx r-borderWidth-rs99b7 r-cursor-1loqt21 r-justifyContent-1777fci r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
+          onClick={[Function]}
+          onContextMenu={[Function]}
           onKeyDown={[Function]}
-          onKeyUp={[Function]}
-          onResponderGrant={[Function]}
-          onResponderMove={[Function]}
-          onResponderRelease={[Function]}
-          onResponderTerminate={[Function]}
-          onResponderTerminationRequest={[Function]}
-          onStartShouldSetResponder={[Function]}
           style={
             Object {
+              "WebkitTransitionDuration": "0s",
               "borderBottomLeftRadius": "21px",
               "borderBottomRightRadius": "21px",
               "borderTopLeftRadius": "21px",
               "borderTopRightRadius": "21px",
               "height": "42px",
+              "transitionDuration": "0s",
               "width": "42px",
             }
           }
@@ -88,7 +83,7 @@ exports[`SendQRSummary matches snapshot 1`] = `
       className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderRadius-1f0042m r-flexGrow-16y2uox r-paddingHorizontal-1e081e0 r-paddingVertical-1yzf0co"
     >
       <div
-        className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1x35g6 r-fontWeight-1it3c9n r-lineHeight-17rnw9f r-marginVertical-c8eef1 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
+        className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-1it3c9n r-lineHeight-qvk6io r-marginVertical-c8eef1 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
         dir="auto"
       >
         Summary
@@ -97,7 +92,7 @@ exports[`SendQRSummary matches snapshot 1`] = `
         className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1777fci"
       >
         <div
-          className="css-text-901oao r-color-vaa0vc r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-lineHeight-hbpseb r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+          className="css-text-901oao r-color-vaa0vc r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
           dir="auto"
         >
           * the transaction may take
@@ -156,18 +151,10 @@ a few seconds to complete
             }
           >
             <div
-              className="css-cursor-18t94o4 css-view-1dbjc4n r-cursor-1loqt21 r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim r-touchAction-1otgn73"
-              data-focusable={true}
-              disabled={false}
+              className="css-cursor-18t94o4 css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
+              onClick={[Function]}
+              onContextMenu={[Function]}
               onKeyDown={[Function]}
-              onKeyPress={[Function]}
-              onKeyUp={[Function]}
-              onResponderGrant={[Function]}
-              onResponderMove={[Function]}
-              onResponderRelease={[Function]}
-              onResponderTerminate={[Function]}
-              onResponderTerminationRequest={[Function]}
-              onStartShouldSetResponder={[Function]}
               role="button"
               style={
                 Object {
@@ -178,6 +165,7 @@ a few seconds to complete
                   "borderTopLeftRadius": "50px",
                   "borderTopRightRadius": "50px",
                   "msFlexItemAlign": "stretch",
+                  "msGridRowAlign": "stretch",
                 }
               }
               tabIndex="0"
@@ -189,6 +177,7 @@ a few seconds to complete
                     "WebkitAlignSelf": "stretch",
                     "alignSelf": "stretch",
                     "msFlexItemAlign": "stretch",
+                    "msGridRowAlign": "stretch",
                   }
                 }
               >
@@ -199,7 +188,7 @@ a few seconds to complete
                     className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
                   >
                     <div
-                      className="css-text-901oao r-alignItems-1awozwy r-color-vaa0vc r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-hbpseb r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                      className="css-text-901oao r-alignItems-1awozwy r-color-vaa0vc r-display-6koalj r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-qvk6io r-minHeight-1ceczpf r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                       dir="auto"
                     >
                       Cancel
@@ -257,18 +246,10 @@ a few seconds to complete
             }
           >
             <div
-              className="css-cursor-18t94o4 css-view-1dbjc4n r-cursor-1loqt21 r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim r-touchAction-1otgn73"
-              data-focusable={true}
-              disabled={false}
+              className="css-cursor-18t94o4 css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
+              onClick={[Function]}
+              onContextMenu={[Function]}
               onKeyDown={[Function]}
-              onKeyPress={[Function]}
-              onKeyUp={[Function]}
-              onResponderGrant={[Function]}
-              onResponderMove={[Function]}
-              onResponderRelease={[Function]}
-              onResponderTerminate={[Function]}
-              onResponderTerminationRequest={[Function]}
-              onStartShouldSetResponder={[Function]}
               role="button"
               style={
                 Object {
@@ -279,6 +260,7 @@ a few seconds to complete
                   "borderTopLeftRadius": "50px",
                   "borderTopRightRadius": "50px",
                   "msFlexItemAlign": "stretch",
+                  "msGridRowAlign": "stretch",
                 }
               }
               tabIndex="0"
@@ -290,6 +272,7 @@ a few seconds to complete
                     "WebkitAlignSelf": "stretch",
                     "alignSelf": "stretch",
                     "msFlexItemAlign": "stretch",
+                    "msGridRowAlign": "stretch",
                   }
                 }
               >
@@ -300,7 +283,7 @@ a few seconds to complete
                     className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
                   >
                     <div
-                      className="css-text-901oao r-alignItems-1awozwy r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-hbpseb r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
+                      className="css-text-901oao r-alignItems-1awozwy r-color-jwli3a r-display-6koalj r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-qvk6io r-minHeight-1ceczpf r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
                       dir="auto"
                     >
                       Confirm

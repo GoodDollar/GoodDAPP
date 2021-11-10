@@ -3,8 +3,8 @@ import React, { useCallback } from 'react'
 import { Platform, View } from 'react-native'
 import { fireEvent } from '../../lib/analytics/analytics'
 import API, { getErrorMessage } from '../../lib/API/api'
-import userStorage from '../../lib/gundb/UserStorage'
-import logger from '../../lib/logger/pino-logger'
+import userStorage from '../../lib/userStorage/UserStorage'
+import logger from '../../lib/logger/js-logger'
 import { useDialog, useErrorDialog } from '../../lib/undux/utils/dialog'
 import { CustomButton } from '../common'
 import Section from '../common/layout/Section'
@@ -13,6 +13,7 @@ import { withStyles } from '../../lib/styles'
 import Illustration from '../../assets/Signup/maginLinkIllustration.svg'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import Wrapper from '../common/layout/Wrapper'
+import { theme } from '../theme/styles'
 
 const log = logger.child({ from: 'MagicLinkInfo' })
 
@@ -48,7 +49,7 @@ const MagicLinkInfoComponent = props => {
         <Section.Stack grow justifyContent="space-evenly">
           <Section.Row alignItems="center" justifyContent="center" style={styles.row}>
             <View style={styles.bottomContainer}>
-              <Text fontWeight="bold" fontSize={28} fontFamily="Roboto Slab" color="primary">
+              <Text fontWeight="bold" fontSize={28} fontFamily={theme.fonts.slab} color="primary">
                 {'Abracadabra\nAnd you’re in!'}
               </Text>
             </View>

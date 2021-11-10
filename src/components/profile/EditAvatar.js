@@ -2,29 +2,33 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { StyleSheet } from 'react-native'
 import { withTheme } from 'react-native-paper'
-import { useWrappedUserStorage } from '../../lib/gundb/useWrappedStorage'
-import GDStore from '../../lib/undux/GDStore'
+import { useWrappedUserStorage } from '../../lib/userStorage/useWrappedStorage'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
-import logger from '../../lib/logger/pino-logger'
+import logger from '../../lib/logger/js-logger'
 import { CustomButton, Section, Wrapper } from '../common'
 import ImageCropper from '../common/form/ImageCropper'
+import useAvatar, { useUploadedAvatar } from '../../lib/hooks/useAvatar'
+import useProfile from '../../lib/userStorage/useProfile'
 
 const log = logger.child({ from: 'EditAvatar' })
 
 const TITLE = 'Edit Avatar'
 
-const EditAvatar = ({ theme, navigation }) => {
-  const store = GDStore.useStore()
+const EditAvatar = ({ theme, screenProps }) => {
+  const [avatarJustUploaded] = useUploadedAvatar()
   const [showErrorDialog] = useErrorDialog()
 
   const user = useWrappedUserStorage()
-  const profile = store.get('profile')
+  const profile = useProfile()
+  const storedAvatar = useAvatar(profile.avatar)
 
-  const [isDirty, markAsDirty] = useState(false)
+  // if passed avatar mark as dirty so we save it by default
+  const [avatar, setAvatar] = useState(() => avatarJustUploaded || storedAvatar)
+  const [isDirty, markAsDirty] = useState(() => !!avatarJustUploaded)
   const [processing, setProcessing] = useState(false)
 
-  const [avatar, setAvatar] = useState(profile.avatar)
   const croppedRef = useRef(avatar)
+  const initializedRef = useRef(false)
 
   const updateAvatar = useCallback(async () => {
     setProcessing(true)
@@ -36,12 +40,13 @@ const EditAvatar = ({ theme, navigation }) => {
 
       log.error('saving image failed:', message, exception, { dialogShown: true })
       showErrorDialog('We could not capture all your beauty. Please try again.')
+      return
     } finally {
       setProcessing(false)
     }
 
-    navigation.navigate('ViewAvatar')
-  }, [navigation, markAsDirty, setProcessing, showErrorDialog, user])
+    screenProps.pop()
+  }, [screenProps, markAsDirty, setProcessing, showErrorDialog, user])
 
   const onCropped = useCallback(
     cropped => {
@@ -52,15 +57,22 @@ const EditAvatar = ({ theme, navigation }) => {
   )
 
   useEffect(() => {
-    if (!processing) {
-      const { avatar } = profile
-
-      setAvatar(avatar)
-      markAsDirty(false)
-
-      croppedRef.current = avatar
+    if (initializedRef.current) {
+      setAvatar(storedAvatar)
+      return
     }
-  }, [profile])
+
+    initializedRef.current = true
+  }, [setAvatar, storedAvatar])
+
+  useEffect(() => {
+    if (processing) {
+      return
+    }
+
+    markAsDirty(false)
+    croppedRef.current = avatar
+  }, [avatar, markAsDirty])
 
   return (
     <Wrapper>

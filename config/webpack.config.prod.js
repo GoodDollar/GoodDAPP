@@ -20,6 +20,7 @@ const ModuleNotFoundPlugin = require('react-dev-utils/ModuleNotFoundPlugin')
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin-alt')
 const typescriptFormatter = require('react-dev-utils/typescriptFormatter')
 const LodashModuleReplacementPlugin = require('lodash-webpack-plugin')
+const SentryCliPlugin = require('@sentry/webpack-plugin')
 
 // Webpack uses `publicPath` to determine where the app is being served from.
 // It requires a trailing slash, or the file assets will get an incorrect path.
@@ -65,28 +66,24 @@ const getStyleLoaders = (cssOptions, preProcessor) => {
       loader: require.resolve('css-loader'),
       options: cssOptions,
     },
-    {
-      // Options for PostCSS as we reference these options twice
+    {// Options for PostCSS as we reference these options twice
       // Adds vendor prefixing based on your specified browser support in
       // package.json
       loader: require.resolve('postcss-loader'),
       options: {
-        // Necessary for external CSS imports to work
-        // https://github.com/facebook/create-react-app/issues/2677
-        ident: 'postcss',
-        plugins: () => [
-          require('postcss-flexbugs-fixes'),
-          require('postcss-preset-env')({
-            autoprefixer: {
-              flexbox: 'no-2009',
-            },
-            stage: 3,
-          }),
-        ],
         sourceMap: shouldUseSourceMap,
+        postcssOptions: {
+          // Necessary for external CSS imports to work
+          // https://github.com/facebook/create-react-app/issues/2677
+          plugins: [
+            "postcss-flexbugs-fixes",
+            "postcss-preset-env",
+          ],
+        }
       },
     },
   ]
+
   if (preProcessor) {
     loaders.push({
       loader: require.resolve(preProcessor),
@@ -95,6 +92,7 @@ const getStyleLoaders = (cssOptions, preProcessor) => {
       },
     })
   }
+
   return loaders
 }
 
@@ -595,6 +593,14 @@ module.exports = {
         silent: true,
         formatter: typescriptFormatter,
       }),
+    // upload sourcemaps to Sentry (QA & prod only)
+    ('development' !== env.raw.REACT_APP_ENV) &&
+      new SentryCliPlugin({
+        rewrite: true,
+        release: `${env.raw.VERSION}+web`,
+        configFile: './sentry+web.properties',
+        include: ['./build/static/js'],
+      })
   ].filter(Boolean),
   // Some libraries import Node modules but don't use them in the browser.
   // Tell Webpack to provide empty mocks for them so importing them works.

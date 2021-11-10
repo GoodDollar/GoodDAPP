@@ -1,15 +1,15 @@
 import { useCallback, useRef } from 'react'
-import { v4 as uuid } from 'uuid'
 import { assign, noop } from 'lodash'
 
 // logger & utils
-import logger from '../../../../lib/logger/pino-logger'
-import { isAndroidNative, isE2ERunning } from '../../../../lib/utils/platform'
+import logger from '../../../../lib/logger/js-logger'
+import { isE2ERunning, isEmulator } from '../../../../lib/utils/platform'
 
 // Zoom SDK reference & helpers
 import api from '../api/FaceVerificationApi'
 import { FaceTecSDK } from '../sdk/FaceTecSDK'
 import { ExceptionType, kindOfSessionIssue } from '../utils/kindOfTheIssue'
+import { hideRedBoxIfNonCritical } from '../utils/redBox'
 import { MAX_RETRIES_ALLOWED, resultSuccessMessage } from '../sdk/FaceTecSDK.constants'
 import useRealtimeProps from '../../../../lib/hooks/useRealtimeProps'
 
@@ -23,7 +23,7 @@ const emptyBase64 = btoa(String.fromCharCode(0x20).repeat(40))
  * @property {string} config.enrollmentIdentifier Unique identifier string used for identify enrollment
  * @property {(lastMessage: string) => void} config.onSuccess Verification completion callback
  * @property @param {string} config.onSuccess.lastMessage Last status message (got from session status, server response or error thrown)
- * @property {(error: Error) => void} config.onError - Verfifcication error callback
+ * @property {(error: Error) => void} config.onError - Verification error callback
  *
  * @return {async () => Promise<void>} Function that starts verification/enrollment process
  */
@@ -47,21 +47,26 @@ export default (options = null) => {
   const accessors = useRealtimeProps([onUIReady, onCaptureDone, onRetry, onComplete, onError, maxRetries])
 
   // Starts verification/enrollment process
-  // Wrapped to useCallback for incapsulate session in a single call
+  // Wrapped to useCallback for encapsulate session in a single call
   // and execute corresponding callback on completion or error
   const startVerification = useCallback(async () => {
     // destructuring accessors keeping theirs names the
     // same like in the props for avoid code modifications
     const [onUIReady, onCaptureDone, onRetry, onComplete, onError, getMaxRetries] = accessors
+    const isDeviceEmulated = await isEmulator
 
     // if cypress is running
-    if (isE2ERunning || isAndroidNative) {
+    // isMobileNative is temporary check, will be removed once we'll deal with Zoom on native
+    if (isE2ERunning || isDeviceEmulated) {
+      log.debug('skipping fv ui for non real devices or IOS', { isE2ERunning, isDeviceEmulated })
+
       try {
-        // don't start session, just call enroll with fake data
-        // to whitelist user on server
-        await api.performFaceVerification({
-          sessionId: uuid(),
-          enrollmentIdentifier,
+        // don't start session, just call enroll with fake data to whitelist user on server
+        // btw we need a real session id, so we're calling Zoom API for it (bugfix by @sirpy)
+        const sessionId = await api.issueSessionToken()
+
+        await api.performFaceVerification(enrollmentIdentifier, {
+          sessionId,
           faceScan: emptyBase64,
           auditTrailImage: emptyBase64,
           lowQualityAuditTrailImage: emptyBase64,
@@ -79,7 +84,7 @@ export default (options = null) => {
       return
     }
 
-    // preparing varification options object
+    // preparing verification options object
     const maxRetries = getMaxRetries()
     const verificationOptions = { onUIReady, onCaptureDone, onRetry, maxRetries }
 
@@ -92,7 +97,7 @@ export default (options = null) => {
     try {
       const verificationStatus = await FaceTecSDK.faceVerification(enrollmentIdentifier, verificationOptions)
 
-      log.debug('Zoom verification successfull', { verificationStatus })
+      log.debug('Zoom verification successful', { verificationStatus })
       onComplete(verificationStatus)
     } catch (exception) {
       let { message, name } = exception
@@ -119,7 +124,9 @@ export default (options = null) => {
       const dialogShown = name === 'NotAllowedError'
 
       assign(exception, { type: ExceptionType.Session, name })
-      log.error('Zoom verification failed', message, exception, { dialogShown })
+      hideRedBoxIfNonCritical(exception, () =>
+        log.error('Zoom verification failed', message, exception, { dialogShown }),
+      )
 
       onError(exception)
     } finally {

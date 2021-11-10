@@ -1,8 +1,8 @@
 import React, { useCallback, useState } from 'react'
 import isEmail from '../../lib/validators/isEmail'
 import { BackButton, useScreenState } from '../appNavigation/stackNavigation'
-import userStorage from '../../lib/gundb/UserStorage'
-import logger from '../../lib/logger/pino-logger'
+import userStorage from '../../lib/userStorage/UserStorage'
+import logger from '../../lib/logger/js-logger'
 import InputRecipient from '../common/form/InputRecipient'
 import isMobilePhone from '../../lib/validators/isMobilePhone'
 import goodWallet from '../../lib/wallet/GoodWallet'
@@ -34,6 +34,7 @@ const validate = async to => {
     return null
   }
 
+  //TODO: fix usage of isUsername
   if (isMobilePhone(to) || isEmail(to) || (await userStorage.isUsername(to))) {
     return null
   }

@@ -1,14 +1,16 @@
 import React from 'react'
+import { get } from 'lodash'
 import { Text } from '../../common'
 import { withStyles } from '../../../lib/styles'
 
 const EventCounterParty = ({ feedItem, styles, style, textStyle, subtitle, isSmallDevice }) => {
   let direction = ''
-  let displayText =
-    feedItem.data.subtitle && subtitle ? `${feedItem.data.subtitle}` : `${feedItem.data.endpoint.fullName}`
+  let itemSubtitle = get(feedItem, 'data.subtitle', '')
+  let displayText = itemSubtitle && subtitle ? itemSubtitle : get(feedItem, 'data.endpoint.displayName')
 
-  let hasSubtitle = feedItem.data.readMore !== false
+  let hasSubtitle = get(feedItem, 'data.readMore') !== false
   switch (feedItem.type) {
+    case 'senddirect':
     case 'send':
       direction = 'To: '
       break
@@ -40,7 +42,7 @@ const EventCounterParty = ({ feedItem, styles, style, textStyle, subtitle, isSma
       <Text
         fontWeight="medium"
         textAlign={'left'}
-        lineHeight={hasSubtitle ? 19 : 38}
+        lineHeight={hasSubtitle ? 16 : 38}
         style={[styles.fullName, textStyle]}
       >
         {displayText}

@@ -1,7 +1,6 @@
 import React, { memo, useCallback, useEffect, useRef } from 'react'
 import { View } from 'react-native'
 import CardFlip from 'react-native-card-flip'
-import { noop } from 'lodash'
 
 import { CustomButton } from '../common'
 import Section from '../common/layout/Section'
@@ -12,6 +11,9 @@ import { withStyles } from '../../lib/styles'
 import { weiToGd } from '../../lib/wallet/utils'
 import { getDesignRelativeHeight, getDesignRelativeWidth, isSmallDevice } from '../../lib/utils/sizes'
 import { isMobileNative } from '../../lib/utils/platform'
+import { theme } from '../theme/styles'
+
+const flipPerspective = isMobileNative ? undefined : CardFlip.defaultProps.perspective
 
 const ButtonAmountToClaim = ({ showLabelOnly = false, entitlement, isCitizen, styles, isInQueue }) => (
   <View>
@@ -20,7 +22,7 @@ const ButtonAmountToClaim = ({ showLabelOnly = false, entitlement, isCitizen, st
         <Text
           style={{ letterSpacing: 0.28 }}
           color="white"
-          fontFamily="Roboto Slab"
+          fontFamily={theme.fonts.slab}
           fontWeight="bold"
           fontSize={28}
           textAlign="center"
@@ -32,7 +34,7 @@ const ButtonAmountToClaim = ({ showLabelOnly = false, entitlement, isCitizen, st
           <Text
             style={{ letterSpacing: 0.28 }}
             color="white"
-            fontFamily="Roboto Slab"
+            fontFamily={theme.fonts.slab}
             fontWeight="bold"
             fontSize={28}
             textAlign="center"
@@ -42,7 +44,7 @@ const ButtonAmountToClaim = ({ showLabelOnly = false, entitlement, isCitizen, st
           <Text
             style={{ letterSpacing: 0.28 }}
             color="white"
-            fontFamily="Roboto Slab"
+            fontFamily={theme.fonts.slab}
             fontWeight="bold"
             fontSize={28}
             textAlign="center"
@@ -96,23 +98,21 @@ export const ButtonCountdown = ({ styles, nextClaim }) => (
       Your Next Claim:
     </Text>
     {/* for some reason passing styles.countDownTimer doesnt work */}
-    <Section.Row grow style={styles.countDownTimer}>
+    <Section.Row style={styles.countDownTimer}>
       {nextClaim &&
-        nextClaim.split('').map((value, index) => {
-          return (
-            <Text
-              key={index}
-              fontSize={30}
-              fontFamily="Roboto Slab"
-              fontWeight="bold"
-              style={[styles.countdown, ~[2, 5].indexOf(index) && styles.tallCountDown]}
-              lineHeight={40}
-              textAlign={'center'}
-            >
-              {value}
-            </Text>
-          )
-        })}
+        nextClaim.split('').map((value, index) => (
+          <Text
+            key={index}
+            fontSize={30}
+            fontFamily={theme.fonts.slab}
+            fontWeight="bold"
+            style={[styles.countdown, value === ':' ? styles.tallCountDown : null]}
+            lineHeight={40}
+            textAlign={'center'}
+          >
+            {value}
+          </Text>
+        ))}
     </Section.Row>
   </View>
 )
@@ -154,7 +154,6 @@ const ClaimButton = ({ isCitizen, entitlement, nextClaim, onPress, styles, style
 )
 
 const ClaimAnimationButton = memo(({ styles, entitlement, nextClaim, onPress, isInQueue, ...buttonProps }) => {
-  //const [animEntitlement, setAnimEntitlement] = useState(0)
   const cardRef = useRef()
   const setCardRef = useCallback(ref => (cardRef.current = ref), [])
 
@@ -165,10 +164,9 @@ const ClaimAnimationButton = memo(({ styles, entitlement, nextClaim, onPress, is
   useEffect(() => {
     const card = cardRef.current
 
-    if (card && entitlement) {
+    if (card && entitlement && !card.entitlement) {
       card.flip()
-
-      // setAnimEntitlement(entitlement)
+      card.entitlement = entitlement
     }
   }, [entitlement])
 
@@ -184,8 +182,6 @@ const ClaimAnimationButton = memo(({ styles, entitlement, nextClaim, onPress, is
     },
     [entitlement, onPress],
   )
-
-  const flipPerspective = isMobileNative ? noop() : 0
 
   return (
     <CardFlip

@@ -6,7 +6,6 @@ exports[`CopyButton matches snapshot 1`] = `
 >
   <div
     className="css-view-1dbjc4n r-display-6koalj r-justifyContent-1777fci"
-    data-gdtype="copybutton"
     style={
       Object {
         "WebkitAlignItems": "stretch",
@@ -45,18 +44,10 @@ exports[`CopyButton matches snapshot 1`] = `
     }
   >
     <div
-      className="css-cursor-18t94o4 css-view-1dbjc4n r-cursor-1loqt21 r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim r-touchAction-1otgn73"
-      data-focusable={true}
-      disabled={false}
+      className="css-cursor-18t94o4 css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
+      onClick={[Function]}
+      onContextMenu={[Function]}
       onKeyDown={[Function]}
-      onKeyPress={[Function]}
-      onKeyUp={[Function]}
-      onResponderGrant={[Function]}
-      onResponderMove={[Function]}
-      onResponderRelease={[Function]}
-      onResponderTerminate={[Function]}
-      onResponderTerminationRequest={[Function]}
-      onStartShouldSetResponder={[Function]}
       role="button"
       style={
         Object {
@@ -67,6 +58,7 @@ exports[`CopyButton matches snapshot 1`] = `
           "borderTopLeftRadius": "50px",
           "borderTopRightRadius": "50px",
           "msFlexItemAlign": "stretch",
+          "msGridRowAlign": "stretch",
         }
       }
       tabIndex="0"
@@ -78,6 +70,7 @@ exports[`CopyButton matches snapshot 1`] = `
             "WebkitAlignSelf": "stretch",
             "alignSelf": "stretch",
             "msFlexItemAlign": "stretch",
+            "msGridRowAlign": "stretch",
           }
         }
       >
@@ -88,7 +81,7 @@ exports[`CopyButton matches snapshot 1`] = `
             className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
           >
             <div
-              className="css-text-901oao r-alignItems-1awozwy r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-hbpseb r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
+              className="css-text-901oao r-alignItems-1awozwy r-color-jwli3a r-display-6koalj r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-qvk6io r-minHeight-1ceczpf r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
               dir="auto"
             >
               Copy to Clipboard
@@ -107,7 +100,6 @@ exports[`CopyButton matches snapshot 2`] = `
 >
   <div
     className="css-view-1dbjc4n r-display-6koalj r-justifyContent-1777fci"
-    data-gdtype="copybutton"
     style={
       Object {
         "WebkitAlignItems": "stretch",
@@ -145,18 +137,10 @@ exports[`CopyButton matches snapshot 2`] = `
     }
   >
     <div
-      className="css-cursor-18t94o4 css-view-1dbjc4n r-cursor-1loqt21 r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim r-touchAction-1otgn73"
-      data-focusable={true}
-      disabled={false}
+      className="css-cursor-18t94o4 css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
+      onClick={[Function]}
+      onContextMenu={[Function]}
       onKeyDown={[Function]}
-      onKeyPress={[Function]}
-      onKeyUp={[Function]}
-      onResponderGrant={[Function]}
-      onResponderMove={[Function]}
-      onResponderRelease={[Function]}
-      onResponderTerminate={[Function]}
-      onResponderTerminationRequest={[Function]}
-      onStartShouldSetResponder={[Function]}
       role="button"
       style={
         Object {
@@ -167,6 +151,7 @@ exports[`CopyButton matches snapshot 2`] = `
           "borderTopLeftRadius": "50px",
           "borderTopRightRadius": "50px",
           "msFlexItemAlign": "stretch",
+          "msGridRowAlign": "stretch",
         }
       }
       tabIndex="0"
@@ -178,6 +163,7 @@ exports[`CopyButton matches snapshot 2`] = `
             "WebkitAlignSelf": "stretch",
             "alignSelf": "stretch",
             "msFlexItemAlign": "stretch",
+            "msGridRowAlign": "stretch",
           }
         }
       >
@@ -188,7 +174,7 @@ exports[`CopyButton matches snapshot 2`] = `
             className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
           >
             <div
-              className="css-text-901oao r-alignItems-1awozwy r-color-1q5uqvh r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-hbpseb r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
+              className="css-text-901oao r-alignItems-1awozwy r-color-1q5uqvh r-display-6koalj r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-qvk6io r-minHeight-1ceczpf r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
               dir="auto"
             >
               Title in CopyButton

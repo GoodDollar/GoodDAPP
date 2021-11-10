@@ -1,5 +1,6 @@
 import { memoize } from 'lodash'
 import SEA from '@gooddollar/gun/sea'
+import { isMobileNative } from '../utils/platform'
 
 // eslint-disable-next-line require-await
 export const getSecureKey = async node => {
@@ -21,7 +22,7 @@ export const flushSecureKey = node => {
 /**
  * @private
  */
-const getNodePath = node => {
+export const getNodePath = node => {
   let path = ''
 
   node.back(({ is, get }) => {
@@ -40,16 +41,38 @@ const getNodePath = node => {
  */
 const fetchKey = memoize(async (path, node) => {
   // memoize uses only first argument as cache key by default
-  const user = node.back(-1).user()
+  const gun = node.back(-1)
+  const user = gun.user()
   const pair = user.pair()
 
-  const encryptedKey = await user
+  const ownerPub = path.split('~').pop()
+
+  let encryptedKey = await gun
+    .get('~' + ownerPub)
     .get('trust')
     .get(pair.pub)
     .get(path)
     .then()
 
-  const secureKey = await SEA.decrypt(encryptedKey, pair)
+  if (encryptedKey == null) {
+    //retry fetch and increase wait
+    encryptedKey = await gun
+      .get('~' + ownerPub)
+      .get('trust')
+      .get(pair.pub)
+      .get(path)
+      .then(null, isMobileNative ? 2500 : 1000)
+  }
+  let secureKey
+
+  //check if we are trused by owner
+  if (ownerPub !== user.pair().pub) {
+    //generate shared secret
+    const shared = await SEA.secret(ownerPub, user.pair())
+    secureKey = await SEA.decrypt(encryptedKey, shared)
+  } else {
+    secureKey = await SEA.decrypt(encryptedKey, pair)
+  }
 
   if (!secureKey) {
     throw new Error(`Decrypting key missing`)

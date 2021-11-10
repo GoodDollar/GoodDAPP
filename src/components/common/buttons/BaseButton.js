@@ -9,6 +9,7 @@ import Icon from 'react-native-paper/lib/module/components/Icon'
 import color from 'color'
 import { noop } from 'lodash'
 import useOnPress from '../../../lib/hooks/useOnPress'
+import { useNativeDriverForAnimation } from '../../../lib/utils/platform'
 
 const { black, white } = Colors
 
@@ -39,6 +40,7 @@ const Button = ({
       Animated.timing(elevationAnim, {
         toValue: 8,
         duration: 200 * scale,
+        useNativeDriver: useNativeDriverForAnimation,
       }).start()
     }
   }
@@ -49,6 +51,7 @@ const Button = ({
       Animated.timing(elevationAnim, {
         toValue: 2,
         duration: 150 * scale,
+        useNativeDriver: useNativeDriverForAnimation,
       }).start()
     }
   }

@@ -1,9 +1,9 @@
 import { assign, get, isString } from 'lodash'
 
-import logger from '../../../../lib/logger/pino-logger'
+import logger from '../../../../lib/logger/js-logger'
 
 import FaceTec from '../../../../lib/facetec/FaceTecSDK'
-import { parseLicense, parseVerificationOptions } from '../utils/options'
+import { parseVerificationOptions } from '../utils/options'
 import { FACETEC_PUBLIC_PATH, UICustomization, UITextStrings } from './UICustomization'
 import { ProcessingSubscriber } from './ProcessingSubscriber'
 import { EnrollmentProcessor } from './EnrollmentProcessor'
@@ -15,7 +15,7 @@ export const {
   // Zoom session status codes enum
   FaceTecSessionStatus,
 
-  // Class which incapsulates all Zoom's customization options
+  // Class which encapsulates all Zoom's customization options
   FaceTecCustomization,
 } = FaceTec.FaceTecSDK
 
@@ -47,7 +47,7 @@ export const FaceTecSDK = new class {
     switch (sdkStatus) {
       case Initialized:
       case DeviceInLandscapeMode:
-        // we dont need to invoke initialize again if some non-unrecoverable errors occurred
+        // we don't need to invoke initialize again if some non-unrecoverable errors occurred
         this.configureLocalization()
         return true
 
@@ -77,10 +77,9 @@ export const FaceTecSDK = new class {
   /**
    * @private
    */
-  async initializationAttempt(licenseKey, encryptionKey, licenseText) {
+  async initializationAttempt(licenseKey, encryptionKey, license) {
     const { sdk, logger } = this
     const { NeverInitialized, KeyExpiredOrInvalid } = FaceTecSDKStatus
-    const license = parseLicense(licenseKey)
 
     logger.debug('FaceTec SDK initialization attempt', { licenseKey, encryptionKey, license })
 
@@ -105,7 +104,7 @@ export const FaceTecSDK = new class {
 
         try {
           // using one of two existing initialize() overloads depending of which mode is used
-          // (dev or prod) determined by the REACT_APP_ZOOM_LICENSE_TEXT envvar is set or not
+          // (dev or prod) determined by the REACT_APP_ZOOM_LICENSE_TEXT env var is set or not
           if (license) {
             sdk.initializeInProductionMode(license, licenseKey, encryptionKey, initializationCallback)
             return
@@ -119,7 +118,7 @@ export const FaceTecSDK = new class {
 
       // if Zoom was initialized successfully
       if (isInitialized) {
-        // customizing texts after initializaiton, according the docs
+        // customizing texts after initialization, according the docs
         this.configureLocalization()
 
         // resolving
@@ -150,7 +149,7 @@ export const FaceTecSDK = new class {
    * @private
    */
   configureLocalization() {
-    // customizing UI texts. This method should be invoked after successfull initializatoin, according the docs:
+    // customizing UI texts. This method should be invoked after successful initialization, according the docs:
     //
     // Note: configureLocalization() MUST BE called after initialize() or initializeWithLicense().
     // @see https://dev.facetec.com/#/string-customization-guide?link=overriding-system-settings (scroll back one paragraph)

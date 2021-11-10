@@ -17,10 +17,8 @@ import {
   values,
 } from 'lodash'
 
-import { isMobileReactNative } from '../utils/platform'
-
 import { cloneErrorObject, ExceptionCategory } from '../logger/exceptions'
-import { LogEvent } from '../logger/pino-logger'
+import { isWeb, osVersion } from '../utils/platform'
 import { ANALYTICS_EVENT, ERROR_LOG } from './constants'
 
 export class AnalyticsClass {
@@ -29,7 +27,7 @@ export class AnalyticsClass {
   apisFactory = null
 
   constructor(apisFactory, rootApi, Config, loggerApi) {
-    const logger = loggerApi.child({ from: 'analytics' })
+    const logger = loggerApi.get('analytics')
     const options = pick(Config, 'sentryDSN', 'amplitudeKey', 'version', 'env', 'phase')
 
     assign(this, options, { logger, apisFactory, rootApi, loggerApi })
@@ -60,24 +58,36 @@ export class AnalyticsClass {
       this.isAmplitudeEnabled = success
       logger.info('License sent to Amplitude', { success })
 
-      const identity = new amplitude.Identify().setOnce('first_open_date', new Date().toString())
+      const identity = new amplitude.Identify()
 
+      identity.setOnce('first_open_date', new Date().toString())
       identity.append('phase', String(phase))
+
       amplitude.setVersionName(version)
       amplitude.identify(identity)
+      amplitude.setUserProperties({ os_version: osVersion })
     }
 
     if (isSentryEnabled) {
-      sentry.init({
+      const sentryOptions = {
         dsn: sentryDSN,
         environment: env,
-      })
+      }
 
-      sentry.configureScope(scope => {
-        scope.setTag('appVersion', version)
-        scope.setTag('networkUsed', network)
-        scope.setTag('phase', phase)
-      })
+      const sentryScope = {
+        appVersion: version,
+        networkUsed: network,
+        phase,
+      }
+
+      if (isWeb) {
+        sentryOptions.release = `${version}+web`
+      }
+
+      logger.info('initializing Sentry:', { sentryOptions, sentryScope })
+
+      sentry.init(sentryOptions)
+      sentry.configureScope(scope => forIn(sentryScope, (value, property) => scope.setTag(property, value)))
     }
 
     logger.debug('available analytics:', {
@@ -91,7 +101,7 @@ export class AnalyticsClass {
     const { fireEvent, loggerApi } = this
     const debouncedFireEvent = debounce(fireEvent, 500, { leading: true })
 
-    loggerApi.on(LogEvent.Error, (...args) => this.onErrorLogged(debouncedFireEvent, args))
+    loggerApi.on(loggerApi.ERROR.name, (...args) => this.onErrorLogged(debouncedFireEvent, args))
   }
 
   identifyWith = (email, identifier = null) => {
@@ -256,10 +266,7 @@ export class AnalyticsClass {
         resolve(true)
       }
 
-      //bug in amplitude causing true to fail in react native https://github.com/amplitude/Amplitude-JavaScript/issues/181
-      const includeReferrer = isMobileReactNative ? false : true
-
-      amplitude.init(key, null, { includeReferrer, includeUtm: true, onError }, onSuccess)
+      amplitude.init(key, null, { includeUtm: true, onError }, onSuccess)
     })
   }
 
@@ -329,12 +336,11 @@ export class AnalyticsClass {
   }
 
   // @private
-  onErrorLogged(fireEvent, args) {
+  onErrorLogged(debouncedFireEvent, args) {
     const { apis, isSentryEnabled, isFullStoryEnabled, env } = this
     const isRunningTests = env === 'test'
     const { Unexpected, Network, Human } = ExceptionCategory
     const [logContext, logMessage, eMsg = '', errorObj, extra = {}] = args
-    const debouncedFireEvent = debounce(fireEvent, 500, { leading: true })
 
     let { dialogShown, category = Unexpected, ...context } = extra
     let categoryToPassIntoLog = category

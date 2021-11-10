@@ -1,17 +1,17 @@
 // @flow
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { Platform, View } from 'react-native'
 import moment from 'moment'
-import numeral from 'numeral'
+import { noop } from 'lodash'
 import AsyncStorage from '../../lib/utils/asyncStorage'
 
 import ClaimSvg from '../../assets/Claim/claim-footer.svg'
 
 // import useOnPress from '../../lib/hooks/useOnPress'
 // import { isBrowser } from '../../lib/utils/platform'
-import userStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
+import userStorage, { type TransactionEvent } from '../../lib/userStorage/UserStorage'
 import goodWallet from '../../lib/wallet/GoodWallet'
-import logger from '../../lib/logger/pino-logger'
+import logger from '../../lib/logger/js-logger'
 import { decorate, ExceptionCategory, ExceptionCode } from '../../lib/logger/exceptions'
 import GDStore from '../../lib/undux/GDStore'
 import SimpleStore from '../../lib/undux/SimpleStore'
@@ -19,7 +19,7 @@ import { useDialog } from '../../lib/undux/utils/dialog'
 import wrapper from '../../lib/undux/utils/wrapper'
 
 // import { openLink } from '../../lib/utils/linking'
-import { formatWithabbreviations, formatWithSIPrefix, formatWithThousandsSeparator } from '../../lib/utils/formatNumber'
+import { formatWithAbbreviations, formatWithSIPrefix, formatWithThousandsSeparator } from '../../lib/utils/formatNumber'
 import { weiToGd } from '../../lib/wallet/utils'
 import {
   getDesignRelativeHeight,
@@ -44,6 +44,10 @@ import { isMobileNative } from '../../lib/utils/platform'
 import { BigGoodDollar, Section, WrapperClaim } from '../common/'
 import useAppState from '../../lib/hooks/useAppState'
 import { WavesBox } from '../common/view/WavesBox'
+import useTimer from '../../lib/hooks/useTimer'
+
+import useInterval from '../../lib/hooks/useInterval'
+import { useInviteBonus } from '../invite/useInvites'
 import type { DashboardProps } from './Dashboard'
 import useClaimCounter from './Claim/useClaimCounter'
 import ButtonBlock from './Claim/ButtonBlock'
@@ -121,11 +125,14 @@ const gbStyles = {
     paddingLeft: mainTheme.sizes.default,
     marginTop: 2,
     marginRight: 4,
+    flex: 0,
   },
   symbol: {
     letterSpacing: 0,
+    flex: 0,
+    paddingBottom: Platform.select({ web: 0, default: 5 }),
   },
-  value: { justifyContent: 'flex-start', alignItems: 'baseline' },
+  value: { justifyContent: 'flex-start', alignItems: Platform.select({ default: 'flex-end', web: 'baseline' }) },
 }
 const claimAmountFormatter = value => formatWithThousandsSeparator(weiToGd(value))
 
@@ -209,23 +216,21 @@ const cbStyles = {
 
 const Claim = props => {
   const { screenProps, styles, theme }: ClaimProps = props
+  const { goToRoot, screenState, push: navigate } = screenProps
+
   const { appState } = useAppState()
   const store = SimpleStore.useStore()
   const gdstore = GDStore.useStore()
 
   const { entitlement } = gdstore.get('account')
-  const [dailyUbi, setDailyUbi] = useState((entitlement && entitlement.toNumber()) || 0)
+  const [dailyUbi, setDailyUbi] = useState((entitlement && parseInt(entitlement)) || 0)
   const isCitizen = gdstore.get('isLoggedInCitizen')
+  const { isValid } = screenState
 
   const [showDialog, , showErrorDialog] = useDialog()
 
   // use loading variable if required
   const [, setLoading] = useState(false)
-  const claimInterval = useRef(null)
-  const timerInterval = useRef(null)
-
-  const [nextClaim, setNextClaim] = useState()
-  const [nextClaimDate, setNextClaimDate] = useState()
 
   const [peopleClaimed, setPeopleClaimed] = useState('--')
   const [totalClaimed, setTotalClaimed] = useState('--')
@@ -235,10 +240,13 @@ const Claim = props => {
   const [claimCycleTime, setClaimCycleTime] = useState('00:00:00')
 
   const [totalFundsStaked, setTotalFundsStaked] = useState()
+  const [interestPending, setInterestPending] = useState()
+
   const [interestCollected, setInterestCollected] = useState()
 
   const wrappedGoodWallet = wrapper(goodWallet, store)
   const advanceClaimsCounter = useClaimCounter()
+  const [, , collectInviteBounty] = useInviteBonus()
 
   // A function which will open 'learn more' page in a new tab
   // const openLearnMoreLink = useOnPress(() => openLink(Config.learnMoreEconomyUrl), [])
@@ -247,158 +255,90 @@ const Claim = props => {
   const formattedNumberOfPeopleClaimedToday = useMemo(() => formatWithSIPrefix(peopleClaimed), [peopleClaimed])
 
   // Format transformer function for claimed G$ amount
-  const extraInfoAmountFormatter = number => formatWithSIPrefix(weiToGd(number))
+  const extraInfoAmountFormatter = useCallback(number => formatWithSIPrefix(weiToGd(number)), [])
 
-  // if we returned from face recognition then the isValid param would be set
-  // this happens only on first claim
-  const evaluateFRValidity = async () => {
-    const isValid = screenProps.screenState && screenProps.screenState.isValid
+  const [nextClaim, isReachedZero, updateTimer] = useTimer()
 
-    log.debug('from FR:', { isValid, screenProps })
-    try {
-      if (isValid && (await goodWallet.isCitizen())) {
-        //collect invite bonus
-        await handleClaim()
-        goodWallet.collectInviteBounty()
-      } else if (isValid === false) {
-        screenProps.goToRoot()
-      } else {
-        if (isCitizen === false) {
-          goodWallet.isCitizen().then(_ => gdstore.set('isLoggedInCitizen')(_))
+  const gatherStats = useCallback(
+    async (all = false) => {
+      try {
+        const promises = [wrappedGoodWallet.getClaimScreenStatsFuse()]
+
+        if (all) {
+          promises.push(wrappedGoodWallet.getClaimScreenStatsMainnet())
         }
+
+        const [fuseData, mainnetData] = await Promise.all(promises)
+
+        log.info('gatherStats:', {
+          all,
+          fuseData,
+          mainnetData,
+        })
+
+        const { nextClaim, entitlement, activeClaimers, claimers, claimAmount, distribution } = fuseData
+        setDailyUbi(entitlement)
+        setClaimCycleTime(moment(nextClaim).format('HH:mm:ss'))
+
+        if (nextClaim) {
+          updateTimer(nextClaim)
+        }
+
+        if (all) {
+          setPeopleClaimed(claimers)
+          setTotalClaimed(claimAmount)
+          setActiveClaimers(activeClaimers)
+          setAvailableDistribution(distribution)
+          setTotalFundsStaked(mainnetData.totalFundsStaked)
+          setInterestPending(mainnetData.pendingInterest)
+          setInterestCollected(mainnetData.interestCollected)
+        }
+      } catch (exception) {
+        const { message } = exception
+        const uiMessage = decorate(exception, ExceptionCode.E3)
+
+        log.error('gatherStats failed', message, exception, {
+          dialogShown: true,
+          category: ExceptionCategory.Blockchain,
+        })
+
+        showErrorDialog(uiMessage, '', {
+          onDismiss: goToRoot,
+        })
       }
-    } catch (exception) {
-      const { message } = exception
-      const uiMessage = decorate(exception, ExceptionCode.E1)
+    },
+    [
+      setDailyUbi,
+      setClaimCycleTime,
+      setPeopleClaimed,
+      setTotalClaimed,
+      setActiveClaimers,
+      setAvailableDistribution,
+      setTotalFundsStaked,
+      setInterestCollected,
+      updateTimer,
+      showErrorDialog,
+      goToRoot,
+    ],
+  )
 
-      log.error('evaluateFRValidity failed', message, exception, { dialogShown: true })
+  const handleFaceVerification = useCallback(() => navigate('FaceVerificationIntro', { from: 'Claim' }), [navigate])
 
-      showErrorDialog(uiMessage, '', {
-        onDismiss: () => {
-          screenProps.goToRoot()
-        },
-      })
-    }
-  }
-
-  const init = async () => {
-    // hack to make unit test pass, activity indicator in claim button causing
-    if (Config.nodeEnv !== 'test') {
-      setLoading(true)
-    }
-    await evaluateFRValidity()
-    setLoading(false)
-  }
-
-  useEffect(() => {
-    init()
-  }, [])
-
-  useEffect(() => {
-    //stop polling blockchain when in background
-    if (appState !== 'active') {
-      return
-    }
-
-    gatherStats(true) //refresh all stats when returning back to app or dailyUbi changed meaning a new cycle started
-    claimInterval.current = setInterval(gatherStats, 10000) //constantly update stats but only for some data
-    return () => claimInterval.current && clearInterval(claimInterval.current)
-  }, [appState, dailyUbi])
-
-  useEffect(() => {
-    updateTimer()
-    timerInterval.current = setInterval(updateTimer, 1000)
-    return () => timerInterval.current && clearInterval(timerInterval.current)
-  }, [nextClaimDate])
-
-  const updateTimer = useCallback(() => {
-    if (!nextClaimDate) {
-      return
-    }
-    let nextClaimTime = moment(nextClaimDate).diff(Date.now(), 'seconds')
-
-    //trigger getting stats if reached time to claim, to make sure everything is update since we refresh
-    //only each 10 secs
-    if (nextClaimTime <= 0) {
-      gatherStats()
-    }
-    let countDown = numeral(nextClaimTime).format('00:00:00')
-    countDown = countDown.length === 7 ? '0' + countDown : countDown //numeral will format with only 1 leading 0
-    setNextClaim(countDown)
-  }, [nextClaimDate])
-
-  const gatherStats = async (all = false) => {
-    try {
-      const [
-        [nextClaimMilis, entitlement],
-        { people, amount },
-        activeClaimers,
-        availableDistribution,
-        totalFundsStaked,
-        interestCollected,
-      ] = await Promise.all([
-        wrappedGoodWallet.getNextClaimTime(),
-        all && wrappedGoodWallet.getAmountAndQuantityClaimedToday(),
-        all && wrappedGoodWallet.getActiveClaimers(),
-        all && wrappedGoodWallet.getAvailableDistribution(),
-        all && wrappedGoodWallet.getTotalFundsStaked(),
-        all && wrappedGoodWallet.getInterestCollected(),
-      ])
-      log.info('gatherStats:', {
-        people,
-        amount,
-        nextClaimMilis,
-        entitlement,
-        activeClaimers,
-        availableDistribution,
-        totalFundsStaked,
-        interestCollected,
-      })
-
-      setDailyUbi(entitlement)
-      setClaimCycleTime(moment(nextClaimMilis).format('HH:mm:ss'))
-
-      if (nextClaimMilis) {
-        setNextClaimDate(nextClaimMilis)
-      }
-
-      all && setPeopleClaimed(people)
-      all && setTotalClaimed(amount)
-      all && setActiveClaimers(activeClaimers)
-      all && setAvailableDistribution(availableDistribution)
-      all && setTotalFundsStaked(totalFundsStaked)
-      all && setInterestCollected(interestCollected)
-    } catch (exception) {
-      const { message } = exception
-      const uiMessage = decorate(exception, ExceptionCode.E3)
-
-      log.error('gatherStats failed', message, exception, {
-        dialogShown: true,
-        category: ExceptionCategory.Blockchain,
-      })
-
-      showErrorDialog(uiMessage, '', {
-        onDismiss: () => {
-          screenProps.goToRoot()
-        },
-      })
-    }
-  }
-
-  const handleClaim = async () => {
+  const handleClaim = useCallback(async () => {
     setLoading(true)
 
     try {
       //recheck citizen status, just in case we are out of sync with blockchain
       if (!isCitizen) {
         const isCitizenRecheck = await goodWallet.isCitizen()
+
         if (!isCitizenRecheck) {
           return handleFaceVerification()
         }
       }
 
       //when we come back from FR entitlement might not be set yet
-      const curEntitlement = dailyUbi || (await goodWallet.checkEntitlement().then(_ => _.toNumber()))
+      const curEntitlement = dailyUbi || (await goodWallet.checkEntitlement().then(parseInt))
 
       if (!curEntitlement) {
         return
@@ -416,40 +356,39 @@ const Claim = props => {
 
       if (receipt.status) {
         const txHash = receipt.transactionHash
-
         const date = new Date()
         const transactionEvent: TransactionEvent = {
           id: txHash,
-          createdDate: date.toString(),
+          date: date.toISOString(),
+          createdDate: date.toISOString(),
           type: 'claim',
           data: {
             from: 'GoodDollar',
             amount: curEntitlement,
           },
         }
+
         userStorage.enqueueTX(transactionEvent)
-
         AsyncStorage.setItem('GD_AddWebAppLastClaim', date.toISOString())
-
         fireEvent(CLAIM_SUCCESS, { txHash, claimValue: curEntitlement })
 
         const claimsSoFar = await advanceClaimsCounter()
-        fireMauticEvent({ claim: claimsSoFar, last_claim: moment().format('YYYY-MM-DD') })
 
+        fireMauticEvent({ claim: claimsSoFar, last_claim: moment().format('YYYY-MM-DD') })
         fireGoogleAnalyticsEvent(CLAIM_GEO, {
           claimValue: weiToGd(curEntitlement),
-          eventLabel: goodWallet.UBIContract.address,
+          eventLabel: goodWallet.UBIContract._address,
         })
 
-        //legacy support for claim-geo event for UA. remove once we move to new dashboard and GA4
+        // legacy support for claim-geo event for UA. remove once we move to new dashboard and GA4
         if (isMobileNative === false) {
           fireGoogleAnalyticsEvent('claim-geo', {
             claimValue: weiToGd(curEntitlement),
-            eventLabel: goodWallet.UBIContract.address,
+            eventLabel: goodWallet.UBIContract._address,
           })
         }
 
-        //reset dailyUBI so statistics are shown after successful claim
+        // reset dailyUBI so statistics are shown after successful claim
         setDailyUbi(0)
 
         showDialog({
@@ -457,10 +396,12 @@ const Claim = props => {
           buttons: [{ text: 'Yay!' }],
           message: `You've claimed your daily G$\nsee you tomorrow.`,
           title: 'CHA-CHING!',
-          onDismiss: () => {},
+          onDismiss: noop,
         })
       } else {
         fireEvent(CLAIM_FAILED, { txhash: receipt.transactionHash, txNotCompleted: true })
+        showErrorDialog('Claim transaction failed', '', { boldMessage: 'Try again later.' })
+
         log.error('Claim transaction failed', '', new Error('Failed to execute claim transaction'), {
           txHash: receipt.transactionHash,
           entitlement: curEntitlement,
@@ -468,24 +409,93 @@ const Claim = props => {
           category: ExceptionCategory.Blockchain,
           dialogShown: true,
         })
-        showErrorDialog('Claim transaction failed', '', { boldMessage: 'Try again later.' })
       }
     } catch (e) {
       fireEvent(CLAIM_FAILED, { txError: true, eMsg: e.message })
-      log.error('claiming failed', e.message, e, { dialogShown: true })
       showErrorDialog('Claim request failed', '', { boldMessage: 'Try again later.' })
+
+      log.error('claiming failed', e.message, e, { dialogShown: true })
     } finally {
       setLoading(false)
     }
-  }
+  }, [setLoading, handleFaceVerification, dailyUbi, setDailyUbi, showDialog, showErrorDialog])
 
-  const handleFaceVerification = () => screenProps.push('FaceVerificationIntro', { from: 'Claim' })
+  // constantly update stats but only for some data
+  const [startPolling, stopPolling] = useInterval(gatherStats, 10000, false)
+
+  useEffect(() => {
+    // refresh stats when user comes back to app, timer state has changed or dailyUBI has changed
+    if (appState === 'active') {
+      // refresh all stats when returning back to app
+      // or dailyUbi changed meaning a new cycle started
+      gatherStats(true)
+      if (isReachedZero && dailyUbi === 0) {
+        //keep polling if timer is 0 but dailyubi still didnt update
+        startPolling()
+      }
+    }
+
+    return stopPolling
+  }, [appState, isReachedZero, dailyUbi])
+
+  useEffect(() => {
+    const init = async () => {
+      // hack to make unit test pass, activity indicator in claim button causing
+      if (Config.nodeEnv !== 'test') {
+        setLoading(true)
+      }
+
+      if ('undefined' !== typeof isValid) {
+        // if we returned from face recognition then the isValid param would be set
+        // this happens only on first claim
+        log.debug('from FR:', { isValid, screenState })
+      }
+
+      try {
+        // if returned from FV with validated state
+        if (isValid) {
+          // claim & collect invite bonus
+          await handleClaim()
+
+          // collect invite bonuses
+          await collectInviteBounty()
+        } else if (isValid === false) {
+          // with non-validated state
+          goToRoot()
+        } else {
+          // opened claim page (non-returned from FV)
+          if (isCitizen === false) {
+            goodWallet.isCitizen().then(_ => gdstore.set('isLoggedInCitizen')(_))
+          }
+        }
+      } catch (exception) {
+        const { message } = exception
+        const uiMessage = decorate(exception, ExceptionCode.E1)
+
+        log.error('evaluateFRValidity failed', message, exception, { dialogShown: true })
+
+        showErrorDialog(uiMessage, '', {
+          onDismiss: goToRoot,
+        })
+      }
+
+      setLoading(false)
+    }
+
+    init()
+  }, [])
 
   return (
     <WrapperClaim style={dailyUbi ? styles.wrapperActive : styles.wrapperInactive}>
       <Section.Stack style={styles.mainContainer}>
         <View style={dailyUbi ? styles.headerContentContainer : styles.headerContentContainer2}>
-          <Section.Text color="surface" fontFamily="slab" fontWeight="bold" fontSize={28} style={styles.headerText}>
+          <Section.Text
+            color="surface"
+            fontFamily={theme.fonts.slab}
+            fontWeight="bold"
+            fontSize={28}
+            style={styles.headerText}
+          >
             {dailyUbi ? `Claim Your Share` : `Just A Little Longer...\nMore G$'s Coming Soon`}
           </Section.Text>
           <ClaimAmountBox dailyUbi={dailyUbi} />
@@ -604,7 +614,7 @@ const Claim = props => {
           <Section.Row style={styles.statsRow}>
             <GrayBox
               title={'active\nclaimers'}
-              value={formatWithabbreviations(activeClaimers)}
+              value={formatWithAbbreviations(activeClaimers)}
               style={styles.leftGrayBox}
             />
             <GrayBox
@@ -616,16 +626,21 @@ const Claim = props => {
           <Section.Row style={styles.statsRow}>
             <GrayBox
               title={'Total funds\nstaked'}
-              value={formatWithabbreviations(totalFundsStaked)}
+              value={formatWithAbbreviations(totalFundsStaked)}
               symbol={'DAI'}
               style={styles.leftGrayBox}
             />
             <GrayBox
-              title={'Interest generated\nthis week'}
-              value={formatWithabbreviations(interestCollected)}
-              symbol={'DAI'}
+              title={'Last Interest\nCollected'}
+              value={formatWithAbbreviations(interestCollected)}
+              symbol={'$'}
             />
           </Section.Row>
+          {Config.env === 'development' && (
+            <Section.Row style={[styles.statsRow]}>
+              <GrayBox title={'Pending Interest'} value={formatWithAbbreviations(interestPending)} symbol={'$'} />
+            </Section.Row>
+          )}
         </Section.Stack>
       )}
       <Section.Stack style={styles.footerWrapper}>

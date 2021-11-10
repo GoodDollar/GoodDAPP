@@ -1,14 +1,16 @@
 // @flow
+import { useContext } from 'react'
 import type { Store } from 'undux'
 import SimpleStore, { assertStore } from '../SimpleStore'
 import { type DialogProps } from '../../../components/common/dialogs/CustomDialog'
-import pino from '../../logger/pino-logger'
+import pino from '../../logger/js-logger'
 import { fireEvent } from '../../analytics/analytics'
-
+import { GlobalTogglesContext } from '../../contexts/togglesContext'
 const log = pino.child({ from: 'dialogs' })
 
 export const showDialogForError = (
   store: Store,
+  setDialogBlur,
   humanError: string,
   error: Error | ResponseError,
   dialogProps?: DialogProps,
@@ -40,16 +42,17 @@ export const showDialogForError = (
   fireEvent('ERROR_DIALOG', { humanError, message })
   message = humanError ? humanError + '\n' + message : message
   const dialogData = { visible: true, title: 'Ooops ...', message, type: 'error', ...dialogProps }
-  showDialogWithData(store, dialogData)
+  showDialogWithData(store, setDialogBlur, dialogData)
 }
 
-export const showDialogWithData = (store: Store, dialogData: DialogProps) => {
-  log.debug('showDialogWithData', { dialogData })
+export const showDialogWithData = (store: Store, setDialogBlur, dialogData: DialogProps) => {
+  log.debug('showDialogWithData', { dialogData, setDialogBlur })
 
   if (!assertStore(store, log, 'showDialogWithData failed')) {
     return
   }
 
+  setDialogBlur(true)
   store.set('currentScreen')({
     ...store.get('currentScreen'),
     dialogData: {
@@ -59,8 +62,9 @@ export const showDialogWithData = (store: Store, dialogData: DialogProps) => {
   })
 }
 
-export const hideDialog = (store: Store) => {
+export const hideDialog = (store: Store, setDialogBlur) => {
   log.debug('hideDialog')
+  setDialogBlur(false)
 
   if (!assertStore(store, log, 'hideDialog failed')) {
     return
@@ -76,10 +80,16 @@ export const hideDialog = (store: Store) => {
 
 export const useDialog = () => {
   const store = SimpleStore.useStore()
-  return [showDialogWithData.bind(null, store), hideDialog.bind(null, store), showDialogForError.bind(null, store)]
+  const { setDialogBlur } = useContext(GlobalTogglesContext)
+  return [
+    showDialogWithData.bind(null, store, setDialogBlur),
+    hideDialog.bind(null, store, setDialogBlur),
+    showDialogForError.bind(null, store, setDialogBlur),
+  ]
 }
 
 export const useErrorDialog = () => {
   const store = SimpleStore.useStore()
-  return [showDialogForError.bind(null, store), hideDialog.bind(null, store)]
+  const { setDialogBlur } = useContext(GlobalTogglesContext)
+  return [showDialogForError.bind(null, store, setDialogBlur), hideDialog.bind(null, store, setDialogBlur)]
 }

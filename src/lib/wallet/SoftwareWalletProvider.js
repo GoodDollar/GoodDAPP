@@ -1,11 +1,12 @@
 // @flow
 import Web3 from 'web3'
 import bip39 from 'bip39-light'
-import type { HttpProvider, WebSocketProvider } from 'web3-providers'
+import type { HttpProvider, WebsocketProvider } from 'web3-core'
+import { assign } from 'lodash'
 import AsyncStorage from '../utils/asyncStorage'
 import Config from '../../config/config'
 import { GD_USER_MASTERSEED, GD_USER_MNEMONIC, GD_USER_PRIVATEKEYS } from '../constants/localStorage'
-import logger from '../logger/pino-logger'
+import logger from '../logger/js-logger'
 import type { WalletConfig } from './WalletFactory'
 import MultipleAddressWallet from './MultipleAddressWallet'
 
@@ -85,15 +86,17 @@ class SoftwareWalletProvider {
     //we start from addres 1, since from address 0 pubkey all public keys can  be generated
     //and we want privacy
     if (privateKeys == null) {
-      log.debug('Generating private keys from hdwallet')
       let mulWallet = new MultipleAddressWallet(pkey, 10)
-      privateKeys = mulWallet.addresses.map(addr => '0x' + mulWallet.wallets[addr].getPrivateKey().toString('hex'))
+      privateKeys = mulWallet.wallets
+      log.debug('Generating private keys from hdwallet', { privateKeys })
       AsyncStorage.setItem(GD_USER_PRIVATEKEYS, privateKeys)
     } else {
       log.debug('Existing private keys found')
     }
 
     let web3 = new Web3(provider, null, this.defaults)
+
+    assign(web3.eth, this.defaults)
     privateKeys.forEach(pkey => {
       let wallet = web3.eth.accounts.privateKeyToAccount(pkey)
       web3.eth.accounts.wallet.add(wallet)
@@ -104,7 +107,7 @@ class SoftwareWalletProvider {
 
   getWeb3TransportProvider(): HttpProvider | WebSocketProvider {
     let provider
-    let web3Provider
+    let web3Provider: WebsocketProvider | HttpProvider
     let transport = this.conf.web3Transport
     switch (transport) {
       case 'WebSocketProvider':

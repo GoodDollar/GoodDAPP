@@ -2,8 +2,7 @@
 import React, { useCallback, useState } from 'react'
 import { View } from 'react-native'
 import { get } from 'lodash'
-import logger from '../../lib/logger/pino-logger'
-import GDStore from '../../lib/undux/GDStore'
+import logger from '../../lib/logger/js-logger'
 import { withStyles } from '../../lib/styles'
 import { Section, Wrapper } from '../common'
 import Text from '../common/view/Text'
@@ -12,15 +11,15 @@ import normalize from '../../lib/utils/normalizeText'
 import CustomButton from '../common/buttons/CustomButton'
 import API from '../../lib/API/api'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
-import userStorage from '../../lib/gundb/UserStorage'
+import userStorage from '../../lib/userStorage/UserStorage'
+import useProfile from '../../lib/userStorage/useProfile'
 
 const log = logger.child({ from: 'Verify edit profile field' })
 
 const EditProfile = ({ screenProps, theme, styles, navigation }) => {
   const [loading, setLoading] = useState(false)
   const [showErrorDialog] = useErrorDialog()
-  const gdstore = GDStore.useStore()
-  const { fullName } = gdstore.get('profile')
+  const { fullName } = useProfile()
   const firstName = fullName && fullName.split(' ')[0]
   const field = get(navigation, 'state.params.field')
   const content = get(navigation, 'state.params.content')
@@ -54,7 +53,8 @@ const EditProfile = ({ screenProps, theme, styles, navigation }) => {
 
       const { data } = await API[sendCodeRequestFn]({ [fieldToSend]: content })
       if (data.alreadyVerified) {
-        await userStorage.setProfileField(field, content)
+        logger.debug('send code', { data, fieldToSend, content })
+        await userStorage.setProfileField(fieldToSend, content)
         screenProps.pop()
       } else {
         screenProps.push('VerifyEditCode', { field, content })

@@ -4,7 +4,6 @@ import { PixelRatio, View } from 'react-native'
 import { isBrowser, isMobileOnlyWeb } from '../../lib/utils/platform'
 import useNativeSharing from '../../lib/hooks/useNativeSharing'
 import { fireEvent } from '../../lib/analytics/analytics'
-import GDStore from '../../lib/undux/GDStore'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import { PushButton } from '../appNavigation/PushButton'
 import { CopyButton, CustomButton, QRCode, Section, Wrapper } from '../common'
@@ -12,6 +11,7 @@ import TopBar from '../common/view/TopBar'
 import { withStyles } from '../../lib/styles'
 import { getDesignRelativeHeight, getMaxDeviceHeight } from '../../lib/utils/sizes'
 import { generateCode, generateReceiveShareObject, isSharingAvailable } from '../../lib/share'
+import useProfile from '../../lib/userStorage/useProfile'
 
 export type ReceiveProps = {
   screenProps: any,
@@ -27,8 +27,7 @@ const amount = 0
 const reason = ''
 
 const Receive = ({ screenProps, styles }: ReceiveProps) => {
-  const store = GDStore.useStore()
-  const { fullName } = store.get('profile') || {}
+  const { fullName } = useProfile() || {}
 
   const share = useMemo(() => {
     const { account, networkId } = goodWallet
@@ -61,7 +60,7 @@ const Receive = ({ screenProps, styles }: ReceiveProps) => {
           <Section.Text fontSize={16} fontWeight="medium" style={styles.mainText}>
             Let someone scan your wallet address
           </Section.Text>
-          <QRCode value={shareLink} />
+          <QRCode value={share.url} />
         </Section.Stack>
         <Section.Stack grow justifyContent="center" alignItems="center" style={styles.orText}>
           <Section.Text fontSize={14}>- OR -</Section.Text>

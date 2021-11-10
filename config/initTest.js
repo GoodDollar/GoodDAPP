@@ -1,19 +1,26 @@
+import 'fake-indexeddb/auto'
+import any from 'promise.any'
+import { assign, noop } from 'lodash'
+import { Crypto } from 'node-webcrypto-ossl'
+import { TextEncoder, TextDecoder } from 'util'
+
 import initGunDB from '../src/lib/gundb/gundb'
+import '../src/lib/shim'
+
+if (typeof Promise.any !== 'function') {
+  any.shim()
+}
 
 if (typeof window !== 'undefined') {
-  const crypto = new (require('node-webcrypto-ossl'))()
-  const { TextEncoder, TextDecoder } = require('text-encoding', 1)
+  if (typeof HTMLCanvasElement !== 'undefined') {
+    HTMLCanvasElement.prototype.getContext = () => ({
+      fillRect: noop
+    })
+  }
 
-    if (typeof HTMLCanvasElement !== 'undefined') {
-    // taken from https://stackoverflow.com/questions/48828759/jest-and-jsdom-error-with-canvas
-      HTMLCanvasElement.prototype.getContext = () => {
-        // return whatever getContext has to return
-      };
-    }
-    window.matchMedia = () => ({ matches: true });
-    window.crypto = crypto
-    window.TextDecoder = TextDecoder
-    window.TextEncoder = TextEncoder
+  window.crypto = new Crypto()
+  window.matchMedia = () => ({ matches: true });
+  assign(window, { TextDecoder, TextEncoder })
 }
 
 if (typeof navigator !== 'undefined') {

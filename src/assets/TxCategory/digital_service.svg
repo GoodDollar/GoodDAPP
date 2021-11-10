@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="45.162" height="37.161" viewBox="0 0 45.162 37.161">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #3f3d56;
+      }
+
+      .cls-2 {
+        fill: #00afff;
+      }
+
+      .cls-3 {
+        fill: #f2f2f2;
+      }
+
+      .cls-4 {
+        fill: #fff;
+      }
+    </style>
+  </defs>
+  <g id="undraw_feeling_proud_qne1" transform="translate(-356.804 -120.456)">
+    <path id="Path_5273" data-name="Path 5273" class="cls-1" d="M644.785,235.615H602.8a1.588,1.588,0,0,0-1.588,1.588v28.283a1.588,1.588,0,0,0,1.588,1.588h15.938l-.6,3.812s-3.412,1.813-1.013,1.866,13.7,0,13.7,0,2.186,0-1.28-1.92l-.562-3.759h15.8a1.588,1.588,0,0,0,1.588-1.588V237.2a1.588,1.588,0,0,0-1.588-1.588Z" transform="translate(-244.406 -115.159)"/>
+    <rect id="Rectangle_2666" data-name="Rectangle 2666" class="cls-2" width="42.123" height="23.567" transform="translate(358.324 122.136)"/>
+    <circle id="Ellipse_851" data-name="Ellipse 851" class="cls-3" cx="0.267" cy="0.267" r="0.267" transform="translate(379.119 121.123)"/>
+    <circle id="Ellipse_852" data-name="Ellipse 852" class="cls-3" cx="1.013" cy="1.013" r="1.013" transform="translate(378.372 148.743)"/>
+    <g id="Group_13" data-name="Group 13" transform="translate(364.073 129.876)">
+      <rect id="Rectangle_55" data-name="Rectangle 55" class="cls-4" width="5.013" height="1.207" transform="translate(6.313 0)"/>
+      <rect id="Rectangle_56" data-name="Rectangle 56" class="cls-4" width="1.764" height="1.207" transform="translate(26.922 0)"/>
+      <rect id="Rectangle_57" data-name="Rectangle 57" class="cls-4" width="1.764" height="1.207" transform="translate(30.45 0)"/>
+      <rect id="Rectangle_58" data-name="Rectangle 58" class="cls-4" width="11.976" height="1.207" transform="translate(13.09 0)"/>
+      <rect id="Rectangle_59" data-name="Rectangle 59" class="cls-4" width="5.013" height="1.207" transform="translate(0 7.798)"/>
+      <rect id="Rectangle_60" data-name="Rectangle 60" class="cls-4" width="1.764" height="1.207" transform="translate(20.609 7.798)"/>
+      <rect id="Rectangle_61" data-name="Rectangle 61" class="cls-4" width="1.764" height="1.207" transform="translate(24.137 7.798)"/>
+      <rect id="Rectangle_62" data-name="Rectangle 62" class="cls-4" width="11.976" height="1.207" transform="translate(6.777 7.798)"/>
+      <rect id="Rectangle_63" data-name="Rectangle 63" class="cls-4" width="5.013" height="1.207" transform="translate(20.702 2.692)"/>
+      <rect id="Rectangle_64" data-name="Rectangle 64" class="cls-4" width="5.013" height="1.207" transform="translate(27.479 2.692)"/>
+      <rect id="Rectangle_66" data-name="Rectangle 66" class="cls-4" width="1.764" height="1.207" transform="translate(0 2.692)"/>
+      <rect id="Rectangle_67" data-name="Rectangle 67" class="cls-4" width="1.764" height="1.207" transform="translate(3.528 2.692)"/>
+      <rect id="Rectangle_68" data-name="Rectangle 68" class="cls-4" width="11.976" height="1.207" transform="translate(7.055 2.692)"/>
+      <rect id="Rectangle_69" data-name="Rectangle 69" class="cls-4" width="5.013" height="1.207" transform="translate(10.305 5.292)"/>
+      <rect id="Rectangle_70" data-name="Rectangle 70" class="cls-4" width="5.013" height="1.207" transform="translate(3.528 5.292)"/>
+      <rect id="Rectangle_71" data-name="Rectangle 71" class="cls-4" width="1.764" height="1.207" transform="translate(0 5.292)"/>
+      <rect id="Rectangle_73" data-name="Rectangle 73" class="cls-4" width="1.764" height="1.207" transform="translate(30.728 5.292)"/>
+      <rect id="Rectangle_74" data-name="Rectangle 74" class="cls-4" width="11.976" height="1.207" transform="translate(16.989 5.292)"/>
+    </g>
+  </g>
+</svg>

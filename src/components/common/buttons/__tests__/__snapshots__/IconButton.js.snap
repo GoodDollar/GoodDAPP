@@ -5,16 +5,16 @@ exports[`IconButton disabled matches snapshot 1`] = `
   className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
-    className="css-view-1dbjc4n r-alignItems-1awozwy r-cursor-1loqt21 r-flex-13awgt0 r-flexDirection-eqz5dr r-touchAction-1otgn73 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
-    data-focusable={true}
+    className="css-view-1dbjc4n r-alignItems-1awozwy r-cursor-1loqt21 r-flex-13awgt0 r-flexDirection-eqz5dr r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
+    onClick={[Function]}
+    onContextMenu={[Function]}
     onKeyDown={[Function]}
-    onKeyUp={[Function]}
-    onResponderGrant={[Function]}
-    onResponderMove={[Function]}
-    onResponderRelease={[Function]}
-    onResponderTerminate={[Function]}
-    onResponderTerminationRequest={[Function]}
-    onStartShouldSetResponder={[Function]}
+    style={
+      Object {
+        "WebkitTransitionDuration": "0s",
+        "transitionDuration": "0s",
+      }
+    }
     tabIndex="0"
   >
     <div
@@ -61,16 +61,16 @@ exports[`IconButton enabled matches snapshot 1`] = `
   className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
-    className="css-view-1dbjc4n r-alignItems-1awozwy r-cursor-1loqt21 r-flex-13awgt0 r-flexDirection-eqz5dr r-touchAction-1otgn73 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
-    data-focusable={true}
+    className="css-view-1dbjc4n r-alignItems-1awozwy r-cursor-1loqt21 r-flex-13awgt0 r-flexDirection-eqz5dr r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
+    onClick={[Function]}
+    onContextMenu={[Function]}
     onKeyDown={[Function]}
-    onKeyUp={[Function]}
-    onResponderGrant={[Function]}
-    onResponderMove={[Function]}
-    onResponderRelease={[Function]}
-    onResponderTerminate={[Function]}
-    onResponderTerminationRequest={[Function]}
-    onStartShouldSetResponder={[Function]}
+    style={
+      Object {
+        "WebkitTransitionDuration": "0s",
+        "transitionDuration": "0s",
+      }
+    }
     tabIndex="0"
   >
     <div

@@ -3,7 +3,7 @@ import { assign, isNil, isUndefined } from 'lodash'
 import AsyncStorage from '../../lib/utils/asyncStorage'
 import { retry } from '../../lib/utils/async'
 import { REGISTRATION_METHOD_SELF_CUSTODY } from '../constants/login'
-import pino from '../logger/pino-logger'
+import pino from '../logger/js-logger'
 
 const log = pino.child({ from: 'UserProperties' })
 
@@ -28,10 +28,10 @@ export default class UserProperties {
     showQuickActionHint: true,
     registered: false,
     startClaimingAdded: false,
-    lastBlock: 0,
-    joinedAtBlock: 6400000, // default block to start sync from
+    lastBlock: 6400000, // default block to start sync from
     lastTxSyncDate: 0,
     hasOpenedGoodMarket: false,
+    hasOpenedInviteScreen: false,
     goodMarketClicked: false,
     inviterInviteCode: null,
     inviteCode: null,
@@ -48,7 +48,7 @@ export default class UserProperties {
     'regMethod',
     'showQuickActionHint',
     'startClaimingAdded',
-    'joinedAtBlock',
+    'lastBlock',
     'lastTxSyncDate',
     'hasOpenedGoodMarket',
     'goodMarketClicked',
@@ -79,7 +79,7 @@ export default class UserProperties {
 
       try {
         //sync from storage
-        props = await retry(() => propsNode.then(() => propsNode.decrypt()), 3, 500) // init user storage
+        props = await retry(() => propsNode.then(() => propsNode.decrypt(), 1000), 3, 1000) // init user storage
       } catch (exception) {
         const { message } = exception
 
@@ -89,6 +89,7 @@ export default class UserProperties {
         if (message === 'Decrypting key missing') {
           this.reset()
         }
+
         props = {}
       }
 

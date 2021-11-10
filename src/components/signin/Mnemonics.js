@@ -7,7 +7,7 @@ import { get } from 'lodash'
 import bip39 from 'bip39-light'
 import AsyncStorage from '../../lib/utils/asyncStorage'
 import { IS_LOGGED_IN } from '../../lib/constants/localStorage'
-import logger from '../../lib/logger/pino-logger'
+import logger from '../../lib/logger/js-logger'
 import { ExceptionCategory } from '../../lib/logger/exceptions'
 import { withStyles } from '../../lib/styles'
 import { useDialog, useErrorDialog } from '../../lib/undux/utils/dialog'
@@ -23,6 +23,7 @@ import InputText from '../common/form/InputText'
 import { CLICK_BTN_RECOVER_WALLET, fireEvent, RECOVER_FAILED, RECOVER_SUCCESS } from '../../lib/analytics/analytics'
 import Wrapper from '../common/layout/Wrapper'
 import normalize from '../../lib/utils/normalizeText'
+import { theme } from '../theme/styles'
 
 const TITLE = 'Recover'
 const log = logger.child({ from: TITLE })
@@ -69,7 +70,7 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
     const showError = () => {
       const error = new Error('Incorrect pass phrase received')
 
-      log.error('Wallet recover failed', error.message, error, {
+      log.warn('Wallet recover failed', error.message, error, {
         mnemonics,
         category: ExceptionCategory.Human,
         dialogShown: true,
@@ -111,7 +112,7 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
           buttons: [{ text: 'Yay!' }],
           children: (
             <Text
-              fontFamily="slab"
+              fontFamily={theme.fonts.slab}
               fontWeight="bold"
               fontSize={Platform.select({ web: 46, default: 34 })}
               style={styles.dialogTitle}

@@ -12,3 +12,5 @@
 -dontwarn io.branch.**
 -keep class org.gooddollar.BuildConfig { *; }
 -keep public class com.horcrux.svg.** { *; }
+# this doesnt solve torus startupactivity crash with proguard enabled, so proguard should be off for now
+-keep public class org.torusresearch.** { *; }

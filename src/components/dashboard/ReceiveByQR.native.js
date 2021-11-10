@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react'
 import { StyleSheet } from 'react-native'
 import QRCodeScanner from 'react-native-qrcode-scanner'
 
-import logger from '../../lib/logger/pino-logger'
-import { extractQueryParams, readReceiveLink } from '../../lib/share'
+import logger from '../../lib/logger/js-logger'
+import { readReceiveLink } from '../../lib/share'
+import { extractQueryParams } from '../../lib/utils/uri'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import { wrapFunction } from '../../lib/undux/utils/wrapper'
 import { executeWithdraw } from '../../lib/undux/utils/withdraw'
@@ -19,6 +20,7 @@ const ReceiveByQR = ({ screenProps }) => {
   const handleScan = data => {
     if (data) {
       try {
+        log.debug('scan result:', data)
         const url = readReceiveLink(data)
 
         log.debug({ url })

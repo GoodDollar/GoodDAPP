@@ -1,11 +1,12 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { View } from 'react-native'
 
-// import logger from '../../lib/logger/pino-logger'
+// import logger from '../../lib/logger/js-logger'
 import { fireEvent, INVITEWELCOME_NEXT, INVITEWELCOME_SKIPPED } from '../../lib/analytics/analytics'
 import { withStyles } from '../../lib/styles'
 import { getShadowStyles } from '../../lib/utils/getStyles'
 import AsyncStorage from '../../lib/utils/asyncStorage'
+import { IS_FIRST_VISIT } from '../../lib/constants/localStorage'
 import CustomButton from '../common/buttons/CustomButton'
 import Wrapper from '../common/layout/Wrapper'
 import Text from '../common/view/Text'
@@ -14,7 +15,7 @@ import SelfieSVG from '../../assets/Invite/selfie.svg'
 import MobileSVG from '../../assets/Invite/mobile.svg'
 
 import Section from '../common/layout/Section'
-import { getDesignRelativeHeight, isShortDevice } from '../../lib/utils/sizes'
+import { getDesignRelativeHeight, isShortDevice, isVeryShortDevice } from '../../lib/utils/sizes'
 import NavBar from '../appNavigation/NavBar'
 import { theme } from '../theme/styles'
 
@@ -63,7 +64,7 @@ const InviteWelcome = ({ styles, screenProps, navigation }) => {
   }, [navigate, step])
 
   const done = () => {
-    AsyncStorage.setItem('isFirstTime', false)
+    AsyncStorage.setItem(IS_FIRST_VISIT, false)
 
     return navigate('Auth', { screen: 'signup' })
   }
@@ -77,7 +78,7 @@ const InviteWelcome = ({ styles, screenProps, navigation }) => {
   }, [navigate, step])
 
   useEffect(() => {
-    AsyncStorage.getItem('isFirstTime').then(isNew => {
+    AsyncStorage.getItem(IS_FIRST_VISIT).then(isNew => {
       if (isNew == null) {
         setShow(true)
       } else {
@@ -90,89 +91,87 @@ const InviteWelcome = ({ styles, screenProps, navigation }) => {
     show === true && (
       <Wrapper backgroundColor="#fff" style={styles.mainWrapper}>
         <NavBar title="Welcome" />
-        <Section.Stack style={{ flex: 1, justifyContent: 'center' }}>
-          <Section.Stack style={{ flex: 1, maxHeight: 640 }}>
-            <Section.Stack style={styles.topTextContainer}>
-              {step === 1 && (
-                <Text
-                  color={'darkBlue'}
-                  fontSize={16}
-                  lineHeight={30}
-                  letterSpacing={0.16}
-                  fontFamily="Roboto"
-                  fontWeight="medium"
-                >
-                  Welcome to the
-                </Text>
-              )}
+        <Section.Stack style={styles.contentContainer}>
+          <Section.Stack>
+            {step === 1 && (
               <Text
                 color={'darkBlue'}
-                fontSize={26}
-                lineHeight={30}
-                letterSpacing={0.26}
-                fontFamily="Roboto"
-                fontWeight="bold"
-              >
-                {steps[step].title}
-              </Text>
-              <Text
-                color={'darkGray'}
-                fontSize={15}
-                lineHeight={22}
-                letterSpacing={0.15}
+                fontSize={getDesignRelativeHeight(16)}
+                lineHeight={getDesignRelativeHeight(30)}
+                letterSpacing={0.16}
                 fontFamily="Roboto"
                 fontWeight="medium"
-                style={styles.subtitle}
               >
-                {steps[step].subtitle}
+                Welcome to the
               </Text>
-            </Section.Stack>
+            )}
+            <Text
+              color={'darkBlue'}
+              fontSize={getDesignRelativeHeight(26)}
+              lineHeight={getDesignRelativeHeight(30)}
+              letterSpacing={0.26}
+              fontFamily="Roboto"
+              fontWeight="bold"
+            >
+              {steps[step].title}
+            </Text>
+            <Text
+              color={'darkGray'}
+              fontSize={getDesignRelativeHeight(15)}
+              lineHeight={getDesignRelativeHeight(22)}
+              letterSpacing={0.15}
+              fontFamily="Roboto"
+              fontWeight="medium"
+              style={styles.subtitle}
+            >
+              {steps[step].subtitle}
+            </Text>
+          </Section.Stack>
 
-            <View style={styles.illustration}>
-              <SVG />
-            </View>
+          <View style={styles.illustration}>
+            <SVG />
+          </View>
 
-            <Section.Stack style={styles.bottomContainer}>
-              <>
-                <Section.Row style={styles.dots}>
-                  <Text style={step === 1 ? styles.activeDot : styles.dot} />
-                  <Text style={step === 2 ? styles.activeDot : styles.dot} />
-                  <Text style={step === 3 ? styles.activeDot : styles.dot} />
-                </Section.Row>
-                <Section.Stack alignItems="center" justifyContent="center">
+          <Section.Stack style={styles.bottomContainer}>
+            <>
+              <Section.Row style={styles.dots}>
+                <Text style={step === 1 ? styles.activeDot : styles.dot} />
+                <Text style={step === 2 ? styles.activeDot : styles.dot} />
+                <Text style={step === 3 ? styles.activeDot : styles.dot} />
+              </Section.Row>
+              <Section.Stack alignItems="center" justifyContent="center">
+                <CustomButton
+                  color={'primary'}
+                  style={styles.buttonLayout}
+                  textStyle={styles.buttonText}
+                  onPress={nextScreen}
+                >
+                  {step === 3 ? 'Create Wallet' : 'Next'}
+                </CustomButton>
+              </Section.Stack>
+              <Section.Stack>
+                {step === 3 ? (
+                  <Text letterSpacing={0.14} fontSize={14} fontWeight={'bold'} lineHeight={19} color={'darkGray'}>
+                    {"Let's go!"}
+                  </Text>
+                ) : (
                   <CustomButton
-                    color={'primary'}
-                    style={styles.buttonLayout}
-                    textStyle={styles.buttonText}
-                    onPress={nextScreen}
+                    textStyle={{
+                      letterSpacing: 0.14,
+                      textDecorationLine: 'underline',
+                      lineHeight: 19,
+                      fontSize: 14,
+                      fontWeight: 'bold',
+                    }}
+                    mode="text"
+                    onPress={skipIntro}
+                    color="darkGray"
                   >
-                    {step === 3 ? 'Create Wallet' : 'Next'}
+                    {'Skip and create wallet'}
                   </CustomButton>
-                </Section.Stack>
-                <Section.Stack>
-                  {step === 3 ? (
-                    <Text letterSpacing={0.14} fontSize={14} fontWeight={'bold'} lineHeight={19} color={'darkGray'}>
-                      {"Let's go!"}
-                    </Text>
-                  ) : (
-                    <CustomButton
-                      textStyle={{
-                        letterSpacing: 0.14,
-                        textDecorationLine: 'underline',
-                        lineHeight: 19,
-                        fontSize: 14,
-                        fontWeight: 'bold',
-                      }}
-                      mode="text"
-                      onPress={skipIntro}
-                      color="darkGray"
-                    >
-                      {'Skip and create wallet'}
-                    </CustomButton>
-                  )}
-                </Section.Stack>
-              </>
-            </Section.Stack>
+                )}
+              </Section.Stack>
+            </>
           </Section.Stack>
         </Section.Stack>
       </Wrapper>
@@ -188,17 +187,19 @@ const getStylesFromProps = ({ theme }) => {
       justifyContent: 'flex-start',
     },
     subtitle: {
-      marginTop: theme.sizes.default,
+      marginTop: getDesignRelativeHeight(theme.sizes.default),
     },
-    topTextContainer: {
-      marginTop: getDesignRelativeHeight(isShortDevice ? 30 : 45),
-      minHeight: 112,
+    contentContainer: {
+      flex: 1,
+      paddingBottom: isVeryShortDevice ? 20 : 0,
+      paddingTop: getDesignRelativeHeight(isShortDevice ? 35 : 45),
+      justifyContent: 'space-evenly',
     },
     dots: {
       width: 48,
       justifyContent: 'space-between',
       alignSelf: 'center',
-      marginVertical: getDesignRelativeHeight(24),
+      marginBottom: getDesignRelativeHeight(20),
     },
     activeDot: { width: 8, height: 8, borderRadius: 4, backgroundColor: theme.colors.darkBlue },
     dot: { width: 8, height: 8, borderRadius: 4, borderWidth: 1, borderColor: theme.colors.darkBlue },
@@ -206,8 +207,10 @@ const getStylesFromProps = ({ theme }) => {
       paddingHorizontal: theme.sizes.defaultDouble,
     },
     buttonLayout: {
-      marginBottom: theme.sizes.default * (isShortDevice ? 3 : 5),
+      marginBottom: theme.sizes.default * (isShortDevice ? 1 : 5),
       ...getShadowStyles('none', { elevation: 0 }),
+      minHeight: 40,
+      height: isShortDevice ? 40 : 44,
       width: '100%',
       maxWidth: 384,
     },
@@ -219,6 +222,12 @@ const getStylesFromProps = ({ theme }) => {
       height: 216,
       alignSelf: 'center',
       justifyContent: 'center',
+      transform: [
+        {
+          // Can't change width nor height because the SVG gets cut
+          scale: getDesignRelativeHeight(1.0),
+        },
+      ],
     },
   }
 }

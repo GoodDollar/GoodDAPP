@@ -1,3 +1,5 @@
+/* eslint no-console: "off" */
+
 import { findKey, get, mapValues } from 'lodash'
 import { FaceTecSDKStatus, FaceTecSessionStatus } from '../sdk/FaceTecSDK'
 
@@ -151,6 +153,9 @@ const kindOfSDKIssuesMap = mapValues(
 
       // The provided public encryption key is missing or invalid.
       'EncryptionKeyInvalid',
+
+      // FV has been passed but user hasn't been whitelisted in contracts
+      'UnableToWhitelist',
     ],
 
     ResourceLoadingError,
@@ -160,7 +165,6 @@ const kindOfSDKIssuesMap = mapValues(
 
 const licenceIssuesCodes = sdkStatusTransformer(LicenseError)
 const createPredicate = exception => codes => codes.includes(get(exception, 'code'))
-const criticalIssues = ['UnrecoverableError', 'NotSupportedError', 'ResourceLoadingError']
 
 export const ExceptionType = {
   SDK: 'sdk',
@@ -168,8 +172,6 @@ export const ExceptionType = {
 }
 
 export const isLicenseIssue = exception => createPredicate(exception)(licenceIssuesCodes)
-
-export const isCriticalIssue = exception => criticalIssues.includes(get(exception, 'name'))
 
 export const kindOfSessionIssue = exception => findKey(kindOfSessionIssuesMap, createPredicate(exception))
 

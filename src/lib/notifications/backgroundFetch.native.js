@@ -1,11 +1,13 @@
 import BackgroundFetch from 'react-native-background-fetch'
+// eslint-disable-next-line import/default
 import PushNotification from 'react-native-push-notification'
 import moment from 'moment'
-import { once } from 'lodash'
+import { get, once } from 'lodash'
+
 import AsyncStorage from '../utils/asyncStorage'
-import logger from '../logger/pino-logger'
+import logger from '../logger/js-logger'
 import { IS_LOGGED_IN } from '../constants/localStorage'
-import userStorage from '../gundb/UserStorage'
+import userStorage from '../userStorage/UserStorage'
 import goodWallet from '../wallet/GoodWallet'
 
 const options = {
@@ -41,7 +43,7 @@ const task = async taskId => {
     return BackgroundFetch.finish(taskId)
   }
 
-  const lastFeedCheck = await userStorage.feed.get('lastSeenDate').then()
+  const lastFeedCheck = userStorage.userProperties.get('lastSeenFeedNotification')
   const feed = await userStorage.getFeedPage(20, true)
 
   log.info('lastFeedCheck', lastFeedCheck)
@@ -62,7 +64,7 @@ const task = async taskId => {
     return newFeedItem && feedItem
   })
 
-  userStorage.feed.get('lastSeenDate').put(Date.now())
+  userStorage.userProperties.set('lastSeenFeedNotification', Date.now())
 
   log.info('new feed items', { newFeeds })
 
@@ -73,8 +75,8 @@ const task = async taskId => {
   log.info('pushing local notifications for feed items:', { total: newFeeds.length })
   newFeeds.map(feed =>
     PushNotification.localNotification({
-      title: `Payment from/to ${feed.data.counterPartyDisplayName} received/accepted`,
-      message: `G$ ${feed.data.amount}`,
+      title: `Payment from/to ${get(feed, 'data.counterPartyDisplayName', 'Unknown')} received/accepted`,
+      message: `G$ ${get(feed, 'data.amount', 0)}`,
       id: feed.id,
       userInfo: { id: feed.id },
     }),

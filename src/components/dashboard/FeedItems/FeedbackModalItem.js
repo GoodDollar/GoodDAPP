@@ -1,7 +1,7 @@
 // @flow
 import React, { useCallback } from 'react'
 import { Platform, View } from 'react-native'
-import { noop } from 'lodash'
+import { get, noop } from 'lodash'
 import CustomButton from '../../common/buttons/CustomButton'
 import Text from '../../common/view/Text'
 import { withStyles } from '../../../lib/styles'
@@ -52,7 +52,7 @@ const FeedModalItem = (props: FeedEventProps) => {
     <React.Fragment>
       <View style={styles.dateAndAmount}>
         <Text fontWeight="medium" fontSize={22}>
-          {item.data.message}
+          {get(item, 'data.message')}
         </Text>
       </View>
       <View style={[styles.numbersContainer, { borderColor: theme.colors.primary }]}>

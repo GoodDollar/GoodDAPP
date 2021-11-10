@@ -6,14 +6,7 @@ exports[`ModalWrapper matches snapshot 1`] = `
 >
   <div
     className="css-view-1dbjc4n r-WebkitOverflowScrolling-150rngu r-flexDirection-eqz5dr r-flexGrow-16y2uox r-flexShrink-1wbh5a2 r-overflowX-11yh6sk r-overflowY-1rnoaur r-transform-1sncvnh"
-    onResponderGrant={[Function]}
-    onResponderReject={[Function]}
-    onResponderRelease={[Function]}
-    onResponderTerminationRequest={[Function]}
     onScroll={[Function]}
-    onScrollShouldSetResponder={[Function]}
-    onStartShouldSetResponder={[Function]}
-    onStartShouldSetResponderCapture={[Function]}
     onTouchEnd={[Function]}
     onTouchMove={[Function]}
     onTouchStart={[Function]}
@@ -29,7 +22,7 @@ exports[`ModalWrapper matches snapshot 1`] = `
             "WebkitAlignSelf": "flex-start",
             "alignSelf": "flex-start",
             "backgroundColor": "rgba(0,0,0,0.00)",
-            "height": "768px",
+            "height": "0px",
             "msFlexItemAlign": "start",
           }
         }
@@ -40,10 +33,11 @@ exports[`ModalWrapper matches snapshot 1`] = `
             Object {
               "WebkitAlignSelf": "center",
               "alignSelf": "center",
-              "marginBottom": "88.51948051948051px",
-              "marginTop": "62.33766233766234px",
+              "marginBottom": "0px",
+              "marginTop": "0px",
               "maxWidth": "475px",
               "msFlexItemAlign": "center",
+              "msGridRowAlign": "center",
               "paddingLeft": "20px",
               "paddingRight": "20px",
             }
@@ -83,14 +77,7 @@ exports[`ModalWrapper matches snapshot with properties 1`] = `
 >
   <div
     className="css-view-1dbjc4n r-WebkitOverflowScrolling-150rngu r-flexDirection-eqz5dr r-flexGrow-16y2uox r-flexShrink-1wbh5a2 r-overflowX-11yh6sk r-overflowY-1rnoaur r-transform-1sncvnh"
-    onResponderGrant={[Function]}
-    onResponderReject={[Function]}
-    onResponderRelease={[Function]}
-    onResponderTerminationRequest={[Function]}
     onScroll={[Function]}
-    onScrollShouldSetResponder={[Function]}
-    onStartShouldSetResponder={[Function]}
-    onStartShouldSetResponderCapture={[Function]}
     onTouchEnd={[Function]}
     onTouchMove={[Function]}
     onTouchStart={[Function]}
@@ -106,7 +93,7 @@ exports[`ModalWrapper matches snapshot with properties 1`] = `
             "WebkitAlignSelf": "flex-start",
             "alignSelf": "flex-start",
             "backgroundColor": "rgba(0,0,0,0.00)",
-            "height": "768px",
+            "height": "0px",
             "msFlexItemAlign": "start",
           }
         }
@@ -117,10 +104,11 @@ exports[`ModalWrapper matches snapshot with properties 1`] = `
             Object {
               "WebkitAlignSelf": "center",
               "alignSelf": "center",
-              "marginBottom": "88.51948051948051px",
-              "marginTop": "62.33766233766234px",
+              "marginBottom": "0px",
+              "marginTop": "0px",
               "maxWidth": "475px",
               "msFlexItemAlign": "center",
+              "msGridRowAlign": "center",
               "paddingLeft": "20px",
               "paddingRight": "20px",
             }

@@ -15,7 +15,7 @@ exports[`Claim matches snapshot 1`] = `
           "backgroundColor": "rgba(0,175,255,1.00)",
           "borderBottomLeftRadius": "50%",
           "borderBottomRightRadius": "50%",
-          "height": "415px",
+          "height": "0px",
           "left": "-40%",
           "position": "absolute",
           "width": "180%",
@@ -26,10 +26,10 @@ exports[`Claim matches snapshot 1`] = `
       className="css-view-1dbjc4n r-alignItems-1oszu61 r-backgroundColor-1niwhzg r-flexDirection-eqz5dr r-flexGrow-18kxxzh r-justifyContent-1h0z5md r-paddingHorizontal-mk0yit r-paddingVertical-rjfia"
     >
       <div
-        className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flexDirection-eqz5dr r-marginTop-1v1z2uz"
+        className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flexDirection-eqz5dr r-marginTop-1x0uki6"
       >
         <div
-          className="css-text-901oao r-color-jwli3a r-fontFamily-6jnb14 r-fontSize-zz5t5d r-fontWeight-b88u0q r-letterSpacing-78pegb r-lineHeight-xnfwke r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+          className="css-text-901oao r-color-jwli3a r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-letterSpacing-78pegb r-lineHeight-xnfwke r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
           dir="auto"
         >
           Just A Little Longer...
@@ -37,7 +37,7 @@ More G$'s Coming Soon
         </div>
       </div>
       <div
-        className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-eqz5dr r-justifyContent-1wtj0ep r-marginLeft-1n0xq6e r-marginRight-zso239 r-marginTop-1mgf0y7"
+        className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-eqz5dr r-justifyContent-1wtj0ep r-marginLeft-1n0xq6e r-marginRight-zso239 r-marginTop-1mnahxq"
       >
         <div
           className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz r-flexGrow-16y2uox r-position-bnwqim r-width-13qz1uu"
@@ -71,13 +71,13 @@ More G$'s Coming Soon
             }
           >
             <div
-              className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-a023e6 r-fontWeight-1it3c9n r-lineHeight-rjixqe r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+              className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-a023e6 r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
               dir="auto"
             >
               Claim cycle restart every day
             </div>
             <div
-              className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-a023e6 r-fontWeight-b88u0q r-lineHeight-rjixqe r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+              className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-a023e6 r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
               dir="auto"
             >
               at 
@@ -118,9 +118,8 @@ More G$'s Coming Soon
             }
           >
             <div
-              className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-a023e6 r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-rjixqe r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
+              className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-a023e6 r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
               dir="auto"
-              letterSpacing={0}
             >
               So Far Today:
             </div>
@@ -128,13 +127,13 @@ More G$'s Coming Soon
               className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1777fci"
             >
               <div
-                className="css-text-901oao r-color-1q5uqvh r-fontFamily-vnw8o6 r-fontSize-a023e6 r-fontWeight-b88u0q r-lineHeight-rjixqe r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                className="css-text-901oao r-color-1q5uqvh r-fontFamily-vnw8o6 r-fontSize-a023e6 r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                 dir="auto"
               >
                 0
               </div>
               <div
-                className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-a023e6 r-fontWeight-1it3c9n r-lineHeight-rjixqe r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
+                className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-a023e6 r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
                 dir="auto"
               >
                  
@@ -145,7 +144,7 @@ More G$'s Coming Soon
                 className="css-view-1dbjc4n r-alignItems-1d09ksm r-display-s88bda r-flexDirection-18u37iz"
               >
                 <div
-                  className="css-text-901oao r-color-1q5uqvh r-fontFamily-vnw8o6 r-fontSize-a023e6 r-fontWeight-b88u0q r-lineHeight-rjixqe r-marginRight-a5pmau r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                  className="css-text-901oao r-color-1q5uqvh r-fontFamily-vnw8o6 r-fontSize-a023e6 r-fontWeight-b88u0q r-lineHeight-qvk6io r-marginRight-a5pmau r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                   dir="auto"
                 >
                   0
@@ -154,13 +153,13 @@ More G$'s Coming Soon
                   className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
                 >
                   <div
-                    className="css-text-901oao r-color-1q5uqvh r-fontFamily-vnw8o6 r-fontSize-a023e6 r-fontWeight-b88u0q r-lineHeight-hbpseb r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                    className="css-text-901oao r-color-1q5uqvh r-fontFamily-vnw8o6 r-fontSize-a023e6 r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                     dir="auto"
                   >
                     G
                   </div>
                   <div
-                    className="css-text-901oao r-color-1q5uqvh r-fontFamily-vnw8o6 r-fontSize-a023e6 r-fontWeight-b88u0q r-lineHeight-hbpseb r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                    className="css-text-901oao r-color-1q5uqvh r-fontFamily-vnw8o6 r-fontSize-a023e6 r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                     dir="auto"
                   >
                     $
@@ -172,7 +171,7 @@ More G$'s Coming Soon
               className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1777fci"
             >
               <div
-                className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-a023e6 r-fontWeight-1it3c9n r-lineHeight-rjixqe r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-a023e6 r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                 dir="auto"
               >
                 out of
@@ -182,7 +181,7 @@ More G$'s Coming Soon
                 className="css-view-1dbjc4n r-alignItems-1d09ksm r-display-s88bda r-flexDirection-18u37iz"
               >
                 <div
-                  className="css-text-901oao r-color-1q5uqvh r-fontFamily-vnw8o6 r-fontSize-a023e6 r-fontWeight-b88u0q r-lineHeight-rjixqe r-marginRight-a5pmau r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                  className="css-text-901oao r-color-1q5uqvh r-fontFamily-vnw8o6 r-fontSize-a023e6 r-fontWeight-b88u0q r-lineHeight-qvk6io r-marginRight-a5pmau r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                   dir="auto"
                 >
                   0
@@ -191,13 +190,13 @@ More G$'s Coming Soon
                   className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
                 >
                   <div
-                    className="css-text-901oao r-color-1q5uqvh r-fontFamily-vnw8o6 r-fontSize-a023e6 r-fontWeight-b88u0q r-lineHeight-hbpseb r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                    className="css-text-901oao r-color-1q5uqvh r-fontFamily-vnw8o6 r-fontSize-a023e6 r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                     dir="auto"
                   >
                     G
                   </div>
                   <div
-                    className="css-text-901oao r-color-1q5uqvh r-fontFamily-vnw8o6 r-fontSize-a023e6 r-fontWeight-b88u0q r-lineHeight-hbpseb r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                    className="css-text-901oao r-color-1q5uqvh r-fontFamily-vnw8o6 r-fontSize-a023e6 r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                     dir="auto"
                   >
                     $
@@ -205,7 +204,7 @@ More G$'s Coming Soon
                 </div>
               </div>
               <div
-                className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-a023e6 r-fontWeight-1it3c9n r-lineHeight-rjixqe r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
+                className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-a023e6 r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
                 dir="auto"
               >
                  
@@ -216,16 +215,16 @@ More G$'s Coming Soon
         </div>
       </div>
       <div
-        className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-eqz5dr r-justifyContent-1wtj0ep r-marginTop-1v1z2uz r-zIndex-184en5c"
+        className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-eqz5dr r-justifyContent-1wtj0ep r-marginTop-1mnahxq r-zIndex-184en5c"
       >
         <div
           className="css-view-1dbjc4n r-alignItems-1awozwy"
           style={
             Object {
               "WebkitTransform": "scale(1)",
-              "height": "166px",
+              "height": "140px",
               "transform": "scale(1)",
-              "width": "166px",
+              "width": "140px",
             }
           }
         >
@@ -233,25 +232,25 @@ More G$'s Coming Soon
             className="css-view-1dbjc4n r-flex-13awgt0 r-zIndex-184en5c"
             style={
               Object {
-                "WebkitTransform": "perspective(0px) rotateY(0deg)",
+                "WebkitTransform": "perspective(800px) rotateY(0deg)",
                 "bottom": "0px",
                 "left": "0px",
                 "opacity": 100,
                 "position": "absolute",
                 "right": "0px",
                 "top": "0px",
-                "transform": "perspective(0px) rotateY(0deg)",
+                "transform": "perspective(800px) rotateY(0deg)",
               }
             }
           >
             <div
-              className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flexDirection-eqz5dr r-justifyContent-1777fci r-padding-t60dpp"
+              className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flexDirection-eqz5dr r-justifyContent-1777fci r-marginLeft-11wrixw r-marginRight-61z16t r-marginTop-1mnahxq r-padding-t60dpp"
               style={
                 Object {
                   "backgroundColor": "rgba(248,175,64,1.00)",
                   "borderBottomColor": "rgba(255,255,255,1.00)",
-                  "borderBottomLeftRadius": "98px",
-                  "borderBottomRightRadius": "98px",
+                  "borderBottomLeftRadius": "70px",
+                  "borderBottomRightRadius": "70px",
                   "borderBottomStyle": "solid",
                   "borderBottomWidth": "8px",
                   "borderLeftColor": "rgba(255,255,255,1.00)",
@@ -261,47 +260,37 @@ More G$'s Coming Soon
                   "borderRightStyle": "solid",
                   "borderRightWidth": "8px",
                   "borderTopColor": "rgba(255,255,255,1.00)",
-                  "borderTopLeftRadius": "98px",
-                  "borderTopRightRadius": "98px",
+                  "borderTopLeftRadius": "70px",
+                  "borderTopRightRadius": "70px",
                   "borderTopStyle": "solid",
                   "borderTopWidth": "8px",
                   "boxShadow": "0px 0px 0px rgba(0,0,0,1.00)",
-                  "height": "166px",
+                  "height": "140px",
                   "marginBottom": "0px",
-                  "marginLeft": "0px",
-                  "marginRight": "0px",
-                  "marginTop": "0px",
                   "minHeight": "44px",
                   "minWidth": "auto",
                   "paddingLeft": "0px",
                   "paddingRight": "0px",
-                  "width": "166px",
+                  "width": "140px",
                 }
               }
             >
               <div
-                className="css-cursor-18t94o4 css-view-1dbjc4n r-cursor-1loqt21 r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim r-touchAction-1otgn73"
-                data-focusable={true}
-                disabled={false}
+                className="css-cursor-18t94o4 css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
+                onClick={[Function]}
+                onContextMenu={[Function]}
                 onKeyDown={[Function]}
-                onKeyPress={[Function]}
-                onKeyUp={[Function]}
-                onResponderGrant={[Function]}
-                onResponderMove={[Function]}
-                onResponderRelease={[Function]}
-                onResponderTerminate={[Function]}
-                onResponderTerminationRequest={[Function]}
-                onStartShouldSetResponder={[Function]}
                 role="button"
                 style={
                   Object {
                     "WebkitAlignSelf": "stretch",
                     "alignSelf": "stretch",
-                    "borderBottomLeftRadius": "98px",
-                    "borderBottomRightRadius": "98px",
-                    "borderTopLeftRadius": "98px",
-                    "borderTopRightRadius": "98px",
+                    "borderBottomLeftRadius": "70px",
+                    "borderBottomRightRadius": "70px",
+                    "borderTopLeftRadius": "70px",
+                    "borderTopRightRadius": "70px",
                     "msFlexItemAlign": "stretch",
+                    "msGridRowAlign": "stretch",
                   }
                 }
                 tabIndex="0"
@@ -313,6 +302,7 @@ More G$'s Coming Soon
                       "WebkitAlignSelf": "stretch",
                       "alignSelf": "stretch",
                       "msFlexItemAlign": "stretch",
+                      "msGridRowAlign": "stretch",
                     }
                   }
                 >
@@ -332,55 +322,55 @@ More G$'s Coming Soon
                           Your Next Claim:
                         </div>
                         <div
-                          className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-flexGrow-16y2uox r-justifyContent-1777fci"
+                          className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1777fci"
                         >
                           <div
-                            className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-nwxazl r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-ig0lrl"
+                            className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-1h2t8mc"
                             dir="auto"
                           >
-                            -
+                            0
                           </div>
                           <div
-                            className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-nwxazl r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-ig0lrl"
+                            className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-1h2t8mc"
                             dir="auto"
                           >
-                            -
+                            0
                           </div>
                           <div
-                            className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-nwxazl r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-5soawk"
+                            className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-5soawk"
                             dir="auto"
                           >
                             :
                           </div>
                           <div
-                            className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-nwxazl r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-ig0lrl"
+                            className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-1h2t8mc"
                             dir="auto"
                           >
-                            -
+                            0
                           </div>
                           <div
-                            className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-nwxazl r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-ig0lrl"
+                            className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-1h2t8mc"
                             dir="auto"
                           >
-                            -
+                            0
                           </div>
                           <div
-                            className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-nwxazl r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-5soawk"
+                            className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-5soawk"
                             dir="auto"
                           >
                             :
                           </div>
                           <div
-                            className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-nwxazl r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-ig0lrl"
+                            className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-1h2t8mc"
                             dir="auto"
                           >
-                            -
+                            0
                           </div>
                           <div
-                            className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-nwxazl r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-ig0lrl"
+                            className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-1h2t8mc"
                             dir="auto"
                           >
-                            -
+                            0
                           </div>
                         </div>
                       </div>
@@ -394,26 +384,26 @@ More G$'s Coming Soon
             className="css-view-1dbjc4n r-flex-13awgt0"
             style={
               Object {
-                "WebkitTransform": "perspective(0px) rotateY(-180deg)",
+                "WebkitTransform": "perspective(-800px) rotateY(-180deg)",
                 "bottom": "0px",
                 "left": "0px",
                 "opacity": 0,
                 "position": "absolute",
                 "right": "0px",
                 "top": "0px",
-                "transform": "perspective(0px) rotateY(-180deg)",
+                "transform": "perspective(-800px) rotateY(-180deg)",
                 "zIndex": 0,
               }
             }
           >
             <div
-              className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-justifyContent-1777fci r-padding-t60dpp"
+              className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-justifyContent-1777fci r-marginLeft-11wrixw r-marginRight-61z16t r-marginTop-1mnahxq r-padding-t60dpp"
               style={
                 Object {
                   "backgroundColor": "rgba(0,195,174,1.00)",
                   "borderBottomColor": "rgba(255,255,255,1.00)",
-                  "borderBottomLeftRadius": "98px",
-                  "borderBottomRightRadius": "98px",
+                  "borderBottomLeftRadius": "70px",
+                  "borderBottomRightRadius": "70px",
                   "borderBottomStyle": "solid",
                   "borderBottomWidth": "8px",
                   "borderLeftColor": "rgba(255,255,255,1.00)",
@@ -423,47 +413,37 @@ More G$'s Coming Soon
                   "borderRightStyle": "solid",
                   "borderRightWidth": "8px",
                   "borderTopColor": "rgba(255,255,255,1.00)",
-                  "borderTopLeftRadius": "98px",
-                  "borderTopRightRadius": "98px",
+                  "borderTopLeftRadius": "70px",
+                  "borderTopRightRadius": "70px",
                   "borderTopStyle": "solid",
                   "borderTopWidth": "8px",
                   "boxShadow": "0px 0px 0px rgba(0,0,0,1.00)",
-                  "height": "166px",
+                  "height": "140px",
                   "marginBottom": "0px",
-                  "marginLeft": "0px",
-                  "marginRight": "0px",
-                  "marginTop": "0px",
                   "minHeight": "44px",
                   "minWidth": "auto",
                   "paddingLeft": "0px",
                   "paddingRight": "0px",
-                  "width": "166px",
+                  "width": "140px",
                 }
               }
             >
               <div
-                className="css-cursor-18t94o4 css-view-1dbjc4n r-cursor-1loqt21 r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim r-touchAction-1otgn73"
-                data-focusable={true}
-                disabled={false}
+                className="css-cursor-18t94o4 css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
+                onClick={[Function]}
+                onContextMenu={[Function]}
                 onKeyDown={[Function]}
-                onKeyPress={[Function]}
-                onKeyUp={[Function]}
-                onResponderGrant={[Function]}
-                onResponderMove={[Function]}
-                onResponderRelease={[Function]}
-                onResponderTerminate={[Function]}
-                onResponderTerminationRequest={[Function]}
-                onStartShouldSetResponder={[Function]}
                 role="button"
                 style={
                   Object {
                     "WebkitAlignSelf": "stretch",
                     "alignSelf": "stretch",
-                    "borderBottomLeftRadius": "98px",
-                    "borderBottomRightRadius": "98px",
-                    "borderTopLeftRadius": "98px",
-                    "borderTopRightRadius": "98px",
+                    "borderBottomLeftRadius": "70px",
+                    "borderBottomRightRadius": "70px",
+                    "borderTopLeftRadius": "70px",
+                    "borderTopRightRadius": "70px",
                     "msFlexItemAlign": "stretch",
+                    "msGridRowAlign": "stretch",
                   }
                 }
                 tabIndex="0"
@@ -475,6 +455,7 @@ More G$'s Coming Soon
                       "WebkitAlignSelf": "stretch",
                       "alignSelf": "stretch",
                       "msFlexItemAlign": "stretch",
+                      "msGridRowAlign": "stretch",
                     }
                   }
                 >
@@ -494,55 +475,55 @@ More G$'s Coming Soon
                           Your Next Claim:
                         </div>
                         <div
-                          className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-flexGrow-16y2uox r-justifyContent-1777fci"
+                          className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1777fci"
                         >
                           <div
-                            className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-nwxazl r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-ig0lrl"
+                            className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-1h2t8mc"
                             dir="auto"
                           >
-                            -
+                            0
                           </div>
                           <div
-                            className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-nwxazl r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-ig0lrl"
+                            className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-1h2t8mc"
                             dir="auto"
                           >
-                            -
+                            0
                           </div>
                           <div
-                            className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-nwxazl r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-5soawk"
+                            className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-5soawk"
                             dir="auto"
                           >
                             :
                           </div>
                           <div
-                            className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-nwxazl r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-ig0lrl"
+                            className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-1h2t8mc"
                             dir="auto"
                           >
-                            -
+                            0
                           </div>
                           <div
-                            className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-nwxazl r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-ig0lrl"
+                            className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-1h2t8mc"
                             dir="auto"
                           >
-                            -
+                            0
                           </div>
                           <div
-                            className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-nwxazl r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-5soawk"
+                            className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-5soawk"
                             dir="auto"
                           >
                             :
                           </div>
                           <div
-                            className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-nwxazl r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-ig0lrl"
+                            className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-1h2t8mc"
                             dir="auto"
                           >
-                            -
+                            0
                           </div>
                           <div
-                            className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-1ra0lkn r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-nwxazl r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-ig0lrl"
+                            className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-1h2t8mc"
                             dir="auto"
                           >
-                            -
+                            0
                           </div>
                         </div>
                       </div>
@@ -556,13 +537,13 @@ More G$'s Coming Soon
       </div>
     </div>
     <div
-      className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-justifyContent-1wtj0ep r-marginLeft-1ul06mb r-marginRight-3691iy r-marginTop-6ity3w"
+      className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-justifyContent-1wtj0ep r-marginLeft-11wrixw r-marginRight-61z16t r-marginTop-1mnahxq"
     >
       <div
         className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1777fci"
       >
         <div
-          className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-adyw6z r-fontWeight-b88u0q r-lineHeight-10yl4k r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
+          className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
           dir="auto"
           style={
             Object {
@@ -588,13 +569,13 @@ More G$'s Coming Soon
         }
       />
       <div
-        className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep r-marginTop-11c0sde"
+        className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep r-marginTop-1mnahxq"
       >
         <div
           className="css-view-1dbjc4n r-alignItems-1oszu61 r-flex-13awgt0 r-flexDirection-eqz5dr r-justifyContent-1wtj0ep r-marginRight-mbgqwd"
         >
           <div
-            className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-a023e6 r-fontWeight-b88u0q r-lineHeight-hjklzo r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
+            className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-a023e6 r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
             dir="auto"
             style={
               Object {
@@ -617,12 +598,15 @@ claimers
             className="css-view-1dbjc4n r-alignItems-1d09ksm r-flexDirection-18u37iz r-justifyContent-1h0z5md"
           >
             <div
-              className="css-text-901oao r-color-1q5uqvh r-fontFamily-6jnb14 r-fontSize-1ui5ee8 r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-gg1ace r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-tsynxw"
+              className="css-text-901oao r-color-1q5uqvh r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-tsynxw"
               dir="auto"
               style={
                 Object {
+                  "WebkitFlex": 0,
+                  "flex": 0,
                   "marginRight": "4px",
                   "marginTop": "2px",
+                  "msFlex": "0 1 0%",
                   "paddingLeft": "8px",
                 }
               }
@@ -630,8 +614,16 @@ claimers
               0.0
             </div>
             <div
-              className="css-text-901oao r-color-1q5uqvh r-fontFamily-6jnb14 r-fontSize-a023e6 r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-rjixqe r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+              className="css-text-901oao r-color-1q5uqvh r-fontFamily-6jnb14 r-fontSize-a023e6 r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
               dir="auto"
+              style={
+                Object {
+                  "WebkitFlex": 0,
+                  "flex": 0,
+                  "msFlex": "0 1 0%",
+                  "paddingBottom": "0px",
+                }
+              }
             />
           </div>
         </div>
@@ -639,7 +631,7 @@ claimers
           className="css-view-1dbjc4n r-alignItems-1oszu61 r-flex-13awgt0 r-flexDirection-eqz5dr r-justifyContent-1wtj0ep"
         >
           <div
-            className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-a023e6 r-fontWeight-b88u0q r-lineHeight-hjklzo r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
+            className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-a023e6 r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
             dir="auto"
             style={
               Object {
@@ -662,12 +654,15 @@ Distribution
             className="css-view-1dbjc4n r-alignItems-1d09ksm r-flexDirection-18u37iz r-justifyContent-1h0z5md"
           >
             <div
-              className="css-text-901oao r-color-1q5uqvh r-fontFamily-6jnb14 r-fontSize-1ui5ee8 r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-gg1ace r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-tsynxw"
+              className="css-text-901oao r-color-1q5uqvh r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-tsynxw"
               dir="auto"
               style={
                 Object {
+                  "WebkitFlex": 0,
+                  "flex": 0,
                   "marginRight": "4px",
                   "marginTop": "2px",
+                  "msFlex": "0 1 0%",
                   "paddingLeft": "8px",
                 }
               }
@@ -675,8 +670,16 @@ Distribution
               0
             </div>
             <div
-              className="css-text-901oao r-color-1q5uqvh r-fontFamily-6jnb14 r-fontSize-a023e6 r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-rjixqe r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+              className="css-text-901oao r-color-1q5uqvh r-fontFamily-6jnb14 r-fontSize-a023e6 r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
               dir="auto"
+              style={
+                Object {
+                  "WebkitFlex": 0,
+                  "flex": 0,
+                  "msFlex": "0 1 0%",
+                  "paddingBottom": "0px",
+                }
+              }
             >
               G$
             </div>
@@ -684,13 +687,13 @@ Distribution
         </div>
       </div>
       <div
-        className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep r-marginTop-11c0sde"
+        className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep r-marginTop-1mnahxq"
       >
         <div
           className="css-view-1dbjc4n r-alignItems-1oszu61 r-flex-13awgt0 r-flexDirection-eqz5dr r-justifyContent-1wtj0ep r-marginRight-mbgqwd"
         >
           <div
-            className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-a023e6 r-fontWeight-b88u0q r-lineHeight-hjklzo r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
+            className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-a023e6 r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
             dir="auto"
             style={
               Object {
@@ -713,12 +716,15 @@ staked
             className="css-view-1dbjc4n r-alignItems-1d09ksm r-flexDirection-18u37iz r-justifyContent-1h0z5md"
           >
             <div
-              className="css-text-901oao r-color-1q5uqvh r-fontFamily-6jnb14 r-fontSize-1ui5ee8 r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-gg1ace r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-tsynxw"
+              className="css-text-901oao r-color-1q5uqvh r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-tsynxw"
               dir="auto"
               style={
                 Object {
+                  "WebkitFlex": 0,
+                  "flex": 0,
                   "marginRight": "4px",
                   "marginTop": "2px",
+                  "msFlex": "0 1 0%",
                   "paddingLeft": "8px",
                 }
               }
@@ -726,8 +732,16 @@ staked
               0.0
             </div>
             <div
-              className="css-text-901oao r-color-1q5uqvh r-fontFamily-6jnb14 r-fontSize-a023e6 r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-rjixqe r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+              className="css-text-901oao r-color-1q5uqvh r-fontFamily-6jnb14 r-fontSize-a023e6 r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
               dir="auto"
+              style={
+                Object {
+                  "WebkitFlex": 0,
+                  "flex": 0,
+                  "msFlex": "0 1 0%",
+                  "paddingBottom": "0px",
+                }
+              }
             >
               DAI
             </div>
@@ -737,7 +751,7 @@ staked
           className="css-view-1dbjc4n r-alignItems-1oszu61 r-flex-13awgt0 r-flexDirection-eqz5dr r-justifyContent-1wtj0ep"
         >
           <div
-            className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-a023e6 r-fontWeight-b88u0q r-lineHeight-hjklzo r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
+            className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-a023e6 r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
             dir="auto"
             style={
               Object {
@@ -753,19 +767,22 @@ staked
               }
             }
           >
-            Interest
-generated today
+            Last Interest
+Collected
           </div>
           <div
             className="css-view-1dbjc4n r-alignItems-1d09ksm r-flexDirection-18u37iz r-justifyContent-1h0z5md"
           >
             <div
-              className="css-text-901oao r-color-1q5uqvh r-fontFamily-6jnb14 r-fontSize-1ui5ee8 r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-gg1ace r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-tsynxw"
+              className="css-text-901oao r-color-1q5uqvh r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-tsynxw"
               dir="auto"
               style={
                 Object {
+                  "WebkitFlex": 0,
+                  "flex": 0,
                   "marginRight": "4px",
                   "marginTop": "2px",
+                  "msFlex": "0 1 0%",
                   "paddingLeft": "8px",
                 }
               }
@@ -773,22 +790,30 @@ generated today
               0.0
             </div>
             <div
-              className="css-text-901oao r-color-1q5uqvh r-fontFamily-6jnb14 r-fontSize-a023e6 r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-rjixqe r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+              className="css-text-901oao r-color-1q5uqvh r-fontFamily-6jnb14 r-fontSize-a023e6 r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
               dir="auto"
+              style={
+                Object {
+                  "WebkitFlex": 0,
+                  "flex": 0,
+                  "msFlex": "0 1 0%",
+                  "paddingBottom": "0px",
+                }
+              }
             >
-              DAI
+              $
             </div>
           </div>
         </div>
       </div>
     </div>
     <div
-      className="css-view-1dbjc4n r-alignItems-1oszu61 r-flex-13awgt0 r-flexDirection-eqz5dr r-flexGrow-16y2uox r-justifyContent-17s6mgv r-margin-crgep1 r-padding-t60dpp"
+      className="css-view-1dbjc4n r-alignItems-1oszu61 r-flex-13awgt0 r-flexDirection-eqz5dr r-flexGrow-16y2uox r-justifyContent-1h0z5md r-margin-crgep1 r-padding-t60dpp"
     >
       <claim-footer.svg
-        height={105.97402597402598}
+        height={0}
         viewBox="0 0 360.002 85"
-        width={475}
+        width={0}
       />
     </div>
   </div>

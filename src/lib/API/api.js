@@ -8,7 +8,7 @@ import { throttleAdapter } from '../utils/axios'
 import AsyncStorage from '../utils/asyncStorage'
 import Config from '../../config/config'
 import { JWT } from '../constants/localStorage'
-import logger from '../logger/pino-logger'
+import logger from '../logger/js-logger'
 
 import type { NameRecord } from '../../components/signup/NameForm'
 import type { EmailRecord } from '../../components/signup/EmailForm'
@@ -19,8 +19,8 @@ const log = logger.child({ from: 'API' })
 export type Credentials = {
   signature?: string, //signed with address used to login to the system
   gdSignature?: string, //signed with address of user wallet holding G$
-  profileSignature?: string, //signed with address of user profile on GunDB
-  profilePublickey?: string, //public key of user profile on gundb
+  profileSignature?: string, //signed with address of user profile
+  profilePublickey?: string, //public key used for storing user profile
   nonce?: string,
   jwt?: string,
 }
@@ -79,7 +79,6 @@ export class APIService {
     const { serverUrl, apiTimeout } = Config
 
     this.jwt = jwtToken
-    log.info('initializing api...', serverUrl, jwtToken)
 
     return (this.ready = (async () => {
       let { jwt } = this
@@ -88,6 +87,7 @@ export class APIService {
         jwt = await AsyncStorage.getItem(JWT)
         this.jwt = jwt
       }
+      log.info('initializing api...', serverUrl, jwt)
 
       // eslint-disable-next-line require-await
       const exceptionHandler = async error => {
@@ -148,7 +148,7 @@ export class APIService {
    * @param {UserRecord} user
    */
   addUser(user: UserRecord): AxiosPromise<any> {
-    return this.client.post('/user/add', { user }, { withCredentials: true })
+    return this.client.post('/user/add', { user })
   }
 
   /**
@@ -156,7 +156,7 @@ export class APIService {
    * @param {UserRecord} user
    */
   addSignupContact(user: UserRecord): AxiosPromise<any> {
-    return this.client.post('/user/start', { user }, { withCredentials: true })
+    return this.client.post('/user/start', { user })
   }
 
   /**
@@ -184,8 +184,8 @@ export class APIService {
    * `/verify/sendotp` post api call
    * @param {UserRecord} user
    */
-  sendOTP(user: UserRecord): AxiosPromise<any> {
-    return this.client.post('/verify/sendotp', { user })
+  sendOTP(user: UserRecord, onlyCheckAlreadyVerified: boolean = false): AxiosPromise<any> {
+    return this.client.post('/verify/sendotp', { user, onlyCheckAlreadyVerified })
   }
 
   /**
@@ -194,6 +194,10 @@ export class APIService {
    */
   verifyUser(verificationData: any): AxiosPromise<any> {
     return this.client.post('/verify/user', { verificationData })
+  }
+
+  verifyCaptcha(token: string): AxiosPromise<any> {
+    return this.client.post('/verify/recaptcha', { token })
   }
 
   /**
@@ -236,15 +240,6 @@ export class APIService {
   }
 
   /**
-   * `/send/linkemail` post api call
-   * @param {string} creds
-   * @param {string} sendLink
-   */
-  sendLinkByEmail(to: string, sendLink: string): Promise<$AxiosXHR<any>> {
-    return this.client.post('/send/linkemail', { to, sendLink })
-  }
-
-  /**
    * `/send/recoveryinstructions` post api call
    * @param {string} mnemonic
    */
@@ -269,15 +264,6 @@ export class APIService {
   //   return this.client.post('/send/magiccode', { to: mobile, magicCode })
   // }
 
-  /**
-   * `/send/linksms` post api call
-   * @param {string} to
-   * @param {string} sendLink
-   */
-  sendLinkBySMS(to: string, sendLink: string): Promise<$AxiosXHR<any>> {
-    return this.client.post('/send/linksms', { to, sendLink })
-  }
-
   /** @private */
   faceVerificationUrl = '/verify/face'
 
@@ -286,6 +272,15 @@ export class APIService {
     const { faceVerificationUrl } = this
 
     return `${faceVerificationUrl}/${encodeURIComponent(enrollmentIdentifier)}`
+  }
+
+  /**
+   * `/verify/face/license/:licenseType` post api call
+   */
+  getLicenseKey(licenseType: string): Promise<$AxiosXHR<any>> {
+    const { client, faceVerificationUrl } = this
+
+    return client.post(`${faceVerificationUrl}/license/${encodeURIComponent(licenseType)}`, {})
   }
 
   /**
@@ -335,22 +330,17 @@ export class APIService {
   }
 
   /**
-   * Get array buffer from image url
-   * @param {string} url - image url
-   */
-  getBase64FromImageUrl(url: string) {
-    return axios.get(url, { responseType: 'arraybuffer' }).then(response => {
-      let image = btoa(new Uint8Array(response.data).reduce((data, byte) => data + String.fromCharCode(byte), ''))
-
-      return `data:${response.headers['content-type'].toLowerCase()};base64,${image}`
-    })
-  }
-
-  /**
    * `/trust` get api call
    */
   getTrust() {
     return this.client.get('/trust', { throttle: false })
+  }
+
+  /**
+   * `/profileBy` get api call
+   */
+  getProfileBy(valueHash: string) {
+    return this.client.get('/profileBy', { params: { valueHash }, throttle: false })
   }
 
   /**
@@ -400,6 +390,17 @@ export class APIService {
     const { data } = await this.client.get('/verify/phase')
 
     return data.phase
+  }
+
+  // eslint-disable-next-line require-await
+  async notifyVendor(transactionId, vendorInfo) {
+    const { callbackUrl, invoiceId } = vendorInfo || {}
+
+    if (!callbackUrl) {
+      return // or throw error
+    }
+
+    return this.client.post(callbackUrl, { invoiceId, transactionId })
   }
 }
 

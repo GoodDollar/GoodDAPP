@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="58.772" height="37.23" viewBox="0 0 58.772 37.23">
+    <defs>
+        <style>
+            .cls-1{fill:#f55f44}.cls-2{opacity:.05}.cls-4{fill:#8b5889;opacity:.998}
+        </style>
+    </defs>
+    <g id="Group_3986" transform="translate(-45.39 -349.963)">
+        <g id="Group_3977" transform="translate(-4258 -13551)">
+            <path id="Rectangle_2691" d="M0 0H1.77V5.902H0z" class="cls-1" transform="rotate(39.547 -17216.229 12974.951)"/>
+            <path id="Rectangle_2692" d="M0 0H1.992V5.902H0z" class="cls-2" transform="rotate(-166.769 2968.617 6718.543)"/>
+            <path id="Rectangle_2693" d="M0 0H1.77V5.902H0z" class="cls-1" transform="rotate(-166.769 2968.617 6718.543)"/>
+            <path id="Rectangle_2695" d="M0 0H3.393V5.902H0z" class="cls-2" transform="rotate(26.389 -27541.127 16180.899)"/>
+            <path id="Rectangle_2696" d="M0 0H3.098V5.902H0z" class="cls-1" transform="rotate(26.389 -27541.204 16181.214)"/>
+            <path id="Rectangle_2697" d="M0 0H2.066V5.902H0z" class="cls-2" transform="rotate(26.389 -27541.423 16182.158)"/>
+            <path id="Rectangle_2698" d="M0 0H1.77V5.902H0z" class="cls-1" transform="rotate(26.389 -27541.496 16182.47)"/>
+            <path id="Path_5562" fill="#6c63ff" d="M385.215 446.292l-2.018 3.027s.673 3.111 15.555 3.027 16.059-3.027 16.059-3.027l-2.775-4.036-8.492-5.8z" transform="translate(3934.024 13481.386)"/>
+            <path id="Path_5563" d="M385.215 446.292l-2.018 3.027s.673 3.111 15.555 3.027 16.059-3.027 16.059-3.027l-2.775-4.036-8.492-5.8z" class="cls-4" transform="translate(3934.024 13481.386)"/>
+            <path id="Path_5565" d="M75.166 76.453L48.681 89.14 16.394 76.453 45.99 64z" class="cls-4" transform="translate(4286.996 13840)"/>
+            <path id="Path_5567" fill="#9f6a9d" d="M385.551 367.825l-2.351 14.294s16.9-5.465 31.614 0l-2.186-15.135s-19.762-2.438-27.077.841z" transform="translate(3934.024 13548.586)"/>
+        </g>
+        <path id="Path_5582" fill="none" stroke="#3f3d56" stroke-linecap="round" stroke-linejoin="round" d="M3466.533 14164.584l-13.349-4.605 27.686-11.723 28.025 11.723-13.548 5.728" transform="translate(-3406 -13797.793)"/>
+        <path id="Path_5583" fill="none" stroke="#3f3d56" d="M3496.611 14175.019c-9.919-4.635-30.887 0-30.887 0l1.763-13.394s3.484-2.646 13.512-2.414 13.889 2.414 13.889 2.414z" transform="translate(-3406 -13797)"/>
+    </g>
+</svg>

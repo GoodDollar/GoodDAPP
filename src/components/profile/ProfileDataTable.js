@@ -1,7 +1,7 @@
 import React, { Fragment, useCallback, useMemo } from 'react'
 import { Image, Platform, StyleSheet } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import { noop } from 'lodash'
+import { get, noop } from 'lodash'
 import { parsePhoneNumberFromString } from 'libphonenumber-js'
 import useCountryFlagUrl from '../../lib/hooks/useCountryFlagUrl'
 import Icon from '../common/view/Icon'
@@ -9,6 +9,7 @@ import InputRounded from '../common/form/InputRounded'
 import ErrorText from '../common/form/ErrorText'
 import Section from '../common/layout/Section'
 import { withStyles } from '../../lib/styles'
+import API from '../../lib/API/api'
 import PhoneInput from './PhoneNumberInput/PhoneNumberInput'
 
 const defaultErrors = {}
@@ -27,8 +28,8 @@ const ProfileDataTable = ({
   setLockSubmit = noop,
   showCustomFlag,
 }) => {
-  const phoneMeta = showCustomFlag && profile.mobile && parsePhoneNumberFromString(profile.mobile)
-  const countryFlagUrl = useCountryFlagUrl(phoneMeta && phoneMeta.country)
+  const phoneMeta = showCustomFlag && profile.mobile && parsePhoneNumberFromString(profile?.mobile)
+  const countryFlagUrl = useCountryFlagUrl(phoneMeta?.country)
 
   const verifyEdit = useCallback(
     (field, content) => {
@@ -43,31 +44,39 @@ const ProfileDataTable = ({
     }
   }, [verifyEdit, profile.email, storedProfile.email])
 
-  const verifyPhone = useCallback(() => {
-    if (profile.mobile !== storedProfile.mobile) {
+  const verifyPhone = useCallback(async () => {
+    if (!storedProfile.mobile) {
+      const onlyCheckAlreadyVerified = true
+      const res = await API.sendOTP({ mobile: profile.mobile }, onlyCheckAlreadyVerified)
+      if (!get(res, 'data.alreadyVerified', false)) {
+        verifyEdit('phone', profile.mobile)
+      }
+    } else if (profile.mobile !== storedProfile.mobile) {
       verifyEdit('phone', profile.mobile)
     }
   }, [verifyEdit, profile.mobile, storedProfile.mobile])
 
   // username handlers
-  const onUserNameChange = useCallback(username => onChange({ ...profile, username }), [onChange, profile])
+  const onUserNameChange = useCallback(username => onChange(profile.update({ username })), [onChange, profile])
 
   // phone handlers
   const onPhoneInputFocus = useCallback(() => setLockSubmit(true), [setLockSubmit])
-  const onPhoneInputChange = useCallback(value => onChange({ ...profile, mobile: value }), [onChange, profile])
+  const onPhoneInputChange = useCallback(value => onChange(profile.update({ mobile: value })), [onChange, profile])
   const onPhoneInputBlur = useCallback(() => {
     const { errors: _errors } = profile.validate()
+    const isValid = !_errors.mobile
 
-    if (!_errors.mobile) {
-      setLockSubmit(false)
+    setLockSubmit(!isValid)
+
+    if (isValid && profile.mobile) {
       verifyPhone()
     }
-  }, [setLockSubmit, verifyPhone, errors])
+  }, [setLockSubmit, verifyPhone, errors, onChange, profile])
   const phoneInputStyles = useMemo(() => StyleSheet.flatten(styles.phoneInput), [styles.phoneInput])
 
   // email handlers
   const onEmailFocus = useCallback(() => setLockSubmit(true), [setLockSubmit])
-  const onEmailChange = useCallback(email => onChange({ ...profile, email }), [onChange, profile])
+  const onEmailChange = useCallback(email => onChange(profile.update({ email })), [onChange, profile])
   const onEmailBlur = useCallback(() => {
     const { errors: _errors } = profile.validate()
 
@@ -120,7 +129,9 @@ const ProfileDataTable = ({
             </Section.Stack>
           ) : (
             <Fragment>
-              {showCustomFlag && countryFlagUrl && <Image source={{ uri: countryFlagUrl }} style={styles.flag} />}
+              {phoneMeta && showCustomFlag && countryFlagUrl && (
+                <Image source={{ uri: countryFlagUrl }} style={styles.flag} />
+              )}
               <InputRounded
                 containerStyle={countryFlagUrl && styles.disabledPhoneContainer}
                 disabled={true}

@@ -6,13 +6,14 @@ import FileAPI from 'promisify-file-reader'
 import useOnPress from '../../../lib/hooks/useOnPress'
 
 // utils
-import logger from '../../../lib/logger/pino-logger'
-import { constrainImage, createImage, MAX_AVATAR_HEIGHT, MAX_AVATAR_WIDTH } from '../../../lib/utils/image'
+import logger from '../../../lib/logger/js-logger'
+import { constrainImage } from '../../../lib/utils/image/constrain'
+import { createImage } from '../../../lib/utils/image/browser'
+import { MAX_AVATAR_HEIGHT, MAX_AVATAR_WIDTH } from '../../../lib/utils/image'
 
 const log = logger.child({ from: 'InputFile' })
 
-const InputFile = props => {
-  const { children, onChange } = props
+const InputFile = ({ Component, onChange }) => {
   const inputRef = useRef(null)
 
   // need to prevent default event - useOnPress does it
@@ -41,7 +42,7 @@ const InputFile = props => {
         onChange={handleInputChange}
       />
       <label htmlFor="file" style={styles.label}>
-        {children}
+        <Component />
       </label>
     </>
   )
@@ -50,6 +51,8 @@ const InputFile = props => {
 const styles = {
   input: {
     opacity: 0,
+    width: 0,
+    height: 0,
   },
   label: {
     display: 'inline-block',

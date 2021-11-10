@@ -2,13 +2,12 @@ import React, { useCallback, useEffect } from 'react'
 import { View } from 'react-native'
 
 import Text from '../../../common/view/Text'
-import Separator from '../../../common/layout/Separator'
 import { CustomButton, Section, Wrapper } from '../../../common'
-import FaceVerificationErrorSmiley from '../../../common/animations/FaceVerificationErrorSmiley'
 
 import { isMobileOnly } from '../../../../lib/utils/platform'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../../lib/utils/sizes'
 import { withStyles } from '../../../../lib/styles'
+import FVErrorTwinSVG from '../../../../assets/FaceVerification/FVErrorTwin.svg'
 
 import { fireEvent, FV_DUPLICATEERROR } from '../../../../lib/analytics/analytics'
 
@@ -27,30 +26,29 @@ const DuplicateFoundError = ({ styles, displayTitle, onRetry, nav, exception }) 
     <Wrapper>
       <View style={styles.topContainer}>
         <Section style={styles.descriptionContainer} justifyContent="space-evenly">
-          <Section.Title fontWeight="medium" textTransform="none" color="red">
-            {displayTitle}
-            {',\nUnfortunately,\nWe found your twin...'}
+          <Section.Title fontWeight="normal" textTransform="none" color="red">
+            <Section.Title fontWeight="bold" textTransform="none" color="red">
+              {displayTitle}
+            </Section.Title>
+            {',\nUnfortunately we found \nyour twin...'}
           </Section.Title>
-          <Section.Row justifyContent="space-evenly">
-            <View style={styles.halfIllustration}>
-              <FaceVerificationErrorSmiley />
+          <Section style={styles.errorSection}>
+            <View style={styles.descriptionWrapper}>
+              <Text>
+                <Text fontSize={18} lineHeight={25} fontWeight="bold">
+                  {'You can open ONLY ONE account \nper person. '}
+                </Text>
+                <Text fontSize={18} lineHeight={25}>
+                  {'If this is your only active \naccount - please contact our support'}
+                </Text>
+              </Text>
             </View>
-            <View style={styles.halfIllustration}>
-              <FaceVerificationErrorSmiley />
+          </Section>
+          <Section.Row justifyContent="space-evenly">
+            <View style={styles.errorImage}>
+              <FVErrorTwinSVG />
             </View>
           </Section.Row>
-          <Section style={styles.errorSection}>
-            <Separator width={2} />
-            <View style={styles.descriptionWrapper}>
-              <Text color="primary" fontWeight="bold" fontSize={18} lineHeight={25}>
-                You can open ONLY ONE account per person.
-              </Text>
-              <Text color="primary" fontSize={18} lineHeight={25}>
-                {'If this is your only active account\nplease contact our support'}
-              </Text>
-            </View>
-            <Separator width={2} />
-          </Section>
         </Section>
         <View style={styles.action}>
           <CustomButton onPress={onContactSupport} mode="outlined" style={styles.actionsSpace}>
@@ -80,13 +78,14 @@ const getStylesFromProps = ({ theme }) => {
       paddingTop: getDesignRelativeHeight(theme.sizes.defaultDouble),
       borderRadius: 5,
     },
-    halfIllustration: {
-      marginTop: isMobileOnly ? getDesignRelativeHeight(25) : 0,
-      marginBottom: isMobileOnly ? getDesignRelativeHeight(30) : 0,
-      width: getDesignRelativeWidth(130, false),
-      maxHeight: isMobileOnly ? getDesignRelativeHeight(97) : 'auto',
+    errorImage: {
+      marginTop: isMobileOnly ? getDesignRelativeHeight(15) : 0,
+      marginBottom: isMobileOnly ? getDesignRelativeHeight(20) : 0,
+      height: getDesignRelativeHeight(146, false),
+      width: '100%',
       display: 'flex',
       justifyContent: 'center',
+      alignItems: 'center',
       marginRight: 0,
       marginLeft: 0,
     },

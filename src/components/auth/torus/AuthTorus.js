@@ -1,10 +1,10 @@
 // @flow
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { Paragraph } from 'react-native-paper'
-import { View } from 'react-native'
+import { Platform, View } from 'react-native'
 import { get } from 'lodash'
 import AsyncStorage from '../../../lib/utils/asyncStorage'
-import logger from '../../../lib/logger/pino-logger'
+import logger from '../../../lib/logger/js-logger'
 import {
   fireEvent,
   SIGNIN_METHOD_SELECTED,
@@ -18,10 +18,11 @@ import {
   SIGNUP_STARTED,
   TORUS_FAILED,
   TORUS_POPUP_CLOSED,
+  TORUS_REDIRECT_SUCCESS,
   TORUS_SUCCESS,
 } from '../../../lib/analytics/analytics'
 import { GD_USER_MASTERSEED, GD_USER_MNEMONIC, IS_LOGGED_IN } from '../../../lib/constants/localStorage'
-import { REGISTRATION_METHOD_TORUS } from '../../../lib/constants/login'
+import { REGISTRATION_METHOD_SELF_CUSTODY, REGISTRATION_METHOD_TORUS } from '../../../lib/constants/login'
 import { withStyles } from '../../../lib/styles'
 import config from '../../../config/config'
 import { theme as mainTheme } from '../../theme/styles'
@@ -40,9 +41,9 @@ import SignUpIn from '../login/SignUpScreen'
 
 import LoadingIcon from '../../common/modal/LoadingIcon'
 
-// import SpinnerCheckMark from '../../common/animations/SpinnerCheckMark'
-
 import { timeout } from '../../../lib/utils/async'
+import DeepLinking from '../../../lib/utils/deepLinking'
+
 import useTorus from './hooks/useTorus'
 import { LoginStrategy } from './sdk/strategies'
 
@@ -110,51 +111,86 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
   const showAlreadySignedUp = useAlreadySignedUp()
   const [torusSDK, sdkInitialized] = useTorus()
   const { navigate } = navigation
-  const [authScreen, setAuthScreen] = useState(get(navigation, 'state.params.screen', 'signup'))
-  const isSignup = authScreen === 'signup'
+  const [authScreen, setAuthScreen] = useState(get(navigation, 'state.params.screen'))
+  const isSignup = authScreen !== 'signin' //default to signup
+
+  useEffect(() => {
+    if (authScreen == null) {
+      AsyncStorage.getItem('recallTorusRedirectScreen').then(screen => {
+        log.debug('recall authscreen for torus redirect flow', screen)
+        screen && setAuthScreen(screen)
+      })
+    }
+  }, [])
+
+  useEffect(() => {
+    if (sdkInitialized) {
+      getTorusUserRedirect()
+    }
+  }, [sdkInitialized])
+
+  const getTorusUserRedirect = async () => {
+    const isExpecting = await AsyncStorage.getItem('recallTorusRedirectStarted')
+
+    if (sdkInitialized && isExpecting && torusSDK.popupMode === false && (DeepLinking.hash || DeepLinking.query)) {
+      log.debug('triggering torus redirect callback flow')
+      AsyncStorage.removeItem('recallTorusRedirectStarted')
+      handleLoginMethod(null, torusSDK.getRedirectResult())
+    }
+  }
 
   const getTorusUser = useCallback(
+    // eslint-disable-next-line require-await
     async provider => {
-      let torusUser, replacing
+      if (['development', 'test'].includes(config.env)) {
+        const torusUser = await AsyncStorage.getItem('TorusTestUser')
 
-      try {
-        if (['development', 'test'].includes(config.env)) {
-          torusUser = await AsyncStorage.getItem('TorusTestUser')
-        }
-
-        if (torusUser == null) {
-          torusUser = await torusSDK.triggerLogin(provider)
-        }
-
-        fireEvent(TORUS_SUCCESS, { provider })
-
-        const curSeed = await AsyncStorage.getItem(GD_USER_MASTERSEED)
-        const curMnemonic = await AsyncStorage.getItem(GD_USER_MNEMONIC)
-
-        if (curMnemonic || (curSeed && curSeed !== torusUser.privateKey)) {
-          await AsyncStorage.clear()
-          replacing = true
-        }
-
-        //set masterseed so wallet can use it in 'ready' where we check if user exists
-        await AsyncStorage.setItem(GD_USER_MASTERSEED, torusUser.privateKey)
-        log.debug('torus login success', { torusUser, provider })
-      } catch (e) {
-        // store.set('loadingIndicator')({ loading: false })
-        fireEvent(TORUS_FAILED, { provider, error: e.message })
-        const cancelled = e.message.toLowerCase().includes('user closed')
-        if (cancelled) {
-          log.info(e.message, e)
-          fireEvent(TORUS_POPUP_CLOSED, { provider, reason: e.message })
-          throw e
-        } else {
-          log.error('torus login failed', e.message, e, { dialogShown: true })
+        if (torusUser != null) {
+          return torusUser
         }
       }
-      return { torusUser, replacing }
+
+      return torusSDK.triggerLogin(provider)
     },
     [torusSDK],
   )
+
+  const handleTorusResponse = async (torusUserPromise, provider) => {
+    let torusUser, replacing
+
+    try {
+      torusUser = await torusUserPromise
+
+      const curSeed = await AsyncStorage.getItem(GD_USER_MASTERSEED)
+      const curMnemonic = await AsyncStorage.getItem(GD_USER_MNEMONIC)
+
+      if (curMnemonic || (curSeed && curSeed !== torusUser.privateKey)) {
+        await AsyncStorage.clear()
+        replacing = true
+      }
+      if (!torusUser.privateKey) {
+        log.warn('Missing private key from torus response', { torusUser })
+        throw new Error('Missing privateKey from torus response')
+      }
+
+      //set masterseed so wallet can use it in 'ready' where we check if user exists
+      await AsyncStorage.setItem(GD_USER_MASTERSEED, torusUser.privateKey)
+      fireEvent(TORUS_SUCCESS, { provider })
+      log.debug('torus login success', { torusUser, provider })
+    } catch (e) {
+      // store.set('loadingIndicator')({ loading: false })
+      fireEvent(TORUS_FAILED, { provider, error: e.message })
+      const cancelled = e.message.toLowerCase().includes('user closed')
+      if (cancelled) {
+        log.info(e.message, e)
+        fireEvent(TORUS_POPUP_CLOSED, { provider, reason: e.message })
+        throw e
+      } else {
+        log.error('torus login failed', e.message, e, { dialogShown: true })
+      }
+    }
+    return { torusUser, replacing }
+  }
 
   const showLoadingDialog = () => {
     showDialog({
@@ -166,6 +202,25 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
       showCloseButtons: false,
     })
   }
+
+  const showSignupError = useCallback(
+    (exception = null) => {
+      let suggestion = 'Please try again.'
+      const { message = '' } = exception || {}
+
+      if (message.includes('NoAllowedBrowserFoundException')) {
+        const suggestedBrowser = Platform.select({
+          ios: 'Safari',
+          android: 'Chrome',
+        })
+
+        suggestion = `Your default browser isn't supported. Please, set ${suggestedBrowser} as default and try again.`
+      }
+
+      showErrorDialog(`We were unable to complete the signup. ${suggestion}`)
+    },
+    [showErrorDialog],
+  )
 
   const showNotSignedUp = provider => {
     let resolve
@@ -214,33 +269,100 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
     return promise
   }
 
+  const selfCustody = useCallback(async () => {
+    const curSeed = await AsyncStorage.getItem(GD_USER_MASTERSEED)
+    if (isSignup === false) {
+      fireEvent(SIGNIN_METHOD_SELECTED, { method: REGISTRATION_METHOD_SELF_CUSTODY })
+      return navigate('SigninInfo')
+    }
+
+    //in case user started torus signup but came back here we need to re-initialize wallet/storage with
+    //new credentials
+    if (curSeed) {
+      await AsyncStorage.clear()
+      await ready(true)
+    }
+    fireEvent(SIGNUP_METHOD_SELECTED, { method: REGISTRATION_METHOD_SELF_CUSTODY })
+    navigate('Signup', { regMethod: REGISTRATION_METHOD_SELF_CUSTODY })
+  }, [navigate, isSignup])
+
   const handleLoginMethod = async (
     provider: 'facebook' | 'google' | 'auth0' | 'auth0-pwdless-email' | 'auth0-pwdless-sms',
+    torusUserRedirectPromise,
   ) => {
-    fireEvent(isSignup ? SIGNUP_METHOD_SELECTED : SIGNIN_METHOD_SELECTED, { method: provider })
-
     showLoadingDialog()
+
+    //in case of redirect flow we need to recover the provider/login type
+    if (provider == null) {
+      provider = await AsyncStorage.getItem('recallTorusRedirectProvider')
+    }
+
+    //in case this is triggered as a callback after redirect we fire a different vent
+    if (torusUserRedirectPromise) {
+      fireEvent(TORUS_REDIRECT_SUCCESS, {
+        isSignup,
+        method: provider,
+        torusPopupMode: torusSDK.popupMode, //this should always be false in case of redirect
+      })
+    } else {
+      fireEvent(isSignup ? SIGNUP_METHOD_SELECTED : SIGNIN_METHOD_SELECTED, {
+        method: provider,
+        torusPopupMode: torusSDK.popupMode, //for a/b testing
+      })
+    }
+
     try {
-      const { torusUser, replacing } = await getTorusUser(provider)
-      if (torusUser == null) {
-        showErrorDialog('We were unable to complete the signup. Please try again.')
+      if (provider === 'selfCustody') {
+        return selfCustody()
+      }
+
+      //don't expect response if in redirect mode, this will be called again with response from effect
+      if (config.env !== 'test' && !torusSDK.popupMode && torusUserRedirectPromise == null) {
+        //just trigger the oauth and return
+        log.debug('trigger redirect flow')
+
+        //keep the provider and if user is signin/signup for recall
+        AsyncStorage.setItem('recallTorusRedirectStarted', true)
+        AsyncStorage.setItem('recallTorusRedirectProvider', provider)
+        authScreen && AsyncStorage.setItem('recallTorusRedirectScreen', authScreen)
+
+        await getTorusUser(provider).catch(showSignupError)
+        hideDialog() //we hide dialog because on safari pressing back doesnt reload page
         return
       }
 
+      let torusResponse
+
+      try {
+        torusResponse = await handleTorusResponse(torusUserRedirectPromise || getTorusUser(provider), provider)
+
+        if (get(torusResponse, 'torusUser') == null) {
+          throw new Error('Invalid Torus response.')
+        }
+      } catch (exception) {
+        showSignupError(exception)
+        return
+      }
+
+      const { torusUser, replacing } = torusResponse
       const existsResult = await userExists(torusUser)
-      log.debug('checking userAlreadyExist', { isSignup, existsResult })
       let selection = authScreen
+
+      log.debug('checking userAlreadyExist', { isSignup, existsResult })
+
       if (isSignup) {
-        //if user identifier exists or email/mobile found in another account
+        // if user identifier exists or email/mobile found in another account
         if (existsResult.exists) {
           selection = await showAlreadySignedUp(provider, existsResult)
+
           if (selection === 'signin') {
             return setAuthScreen('signin')
           }
         }
       } else if (isSignup === false && existsResult.identifier !== true) {
-        //no account with identifier found = user didnt signup
+        //no account with identifier found = user didn't signup
         selection = await showNotSignedUp(provider)
+
         return setAuthScreen(selection)
       }
 
@@ -248,7 +370,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
 
       //user chose to continue signup even though used on another provider
       //or user signed in and account exists
-      await Promise.race([ready(replacing), timeout(60000, 'initialiazing wallet timed out')])
+      await Promise.race([ready(replacing), timeout(60000, 'initializing wallet timed out')])
       hideDialog()
 
       if (isSignup) {
@@ -284,8 +406,6 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
       const uiMessage = decorate(e, ExceptionCode.E14)
       showSupportDialog(showErrorDialog, hideDialog, navigation.navigate, uiMessage)
       log.error('Failed to initialize wallet and storage', message, e)
-    } finally {
-      store.set('loadingIndicator')({ loading: false })
     }
   }
 

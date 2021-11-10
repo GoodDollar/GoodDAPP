@@ -10,10 +10,7 @@ exports[`NextButton matches snapshot 1`] = `
       Object {
         "WebkitAlignItems": "stretch",
         "WebkitBoxAlign": "stretch",
-        "WebkitBoxFlex": 2,
-        "WebkitFlexBasis": "0%",
-        "WebkitFlexGrow": 2,
-        "WebkitFlexShrink": 1,
+        "WebkitFlex": 2,
         "alignItems": "stretch",
         "backgroundColor": "rgba(0,0,0,0.12)",
         "borderBottomColor": "rgba(0,175,255,1.00)",
@@ -32,19 +29,15 @@ exports[`NextButton matches snapshot 1`] = `
         "borderTopRightRadius": "50px",
         "borderTopStyle": "solid",
         "borderTopWidth": "0px",
-        "flexBasis": "0%",
-        "flexGrow": 2,
-        "flexShrink": 1,
+        "flex": 2,
         "marginBottom": "0px",
         "marginLeft": "0px",
         "marginRight": "0px",
         "marginTop": "0px",
         "minHeight": "44px",
         "minWidth": "64px",
+        "msFlex": "2 1 0%",
         "msFlexAlign": "stretch",
-        "msFlexNegative": 1,
-        "msFlexPositive": 2,
-        "msFlexPreferredSize": "0%",
         "paddingBottom": "0px",
         "paddingLeft": "0px",
         "paddingRight": "0px",
@@ -55,14 +48,9 @@ exports[`NextButton matches snapshot 1`] = `
     <div
       aria-disabled={true}
       className="css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
-      disabled={true}
+      onClick={[Function]}
+      onContextMenu={[Function]}
       onKeyDown={[Function]}
-      onKeyUp={[Function]}
-      onResponderGrant={[Function]}
-      onResponderMove={[Function]}
-      onResponderTerminate={[Function]}
-      onResponderTerminationRequest={[Function]}
-      onStartShouldSetResponder={[Function]}
       role="button"
       style={
         Object {
@@ -73,8 +61,10 @@ exports[`NextButton matches snapshot 1`] = `
           "borderTopLeftRadius": "50px",
           "borderTopRightRadius": "50px",
           "msFlexItemAlign": "stretch",
+          "msGridRowAlign": "stretch",
         }
       }
+      tabIndex="-1"
     >
       <div
         className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
@@ -83,6 +73,7 @@ exports[`NextButton matches snapshot 1`] = `
             "WebkitAlignSelf": "stretch",
             "alignSelf": "stretch",
             "msFlexItemAlign": "stretch",
+            "msGridRowAlign": "stretch",
           }
         }
       >
@@ -93,7 +84,7 @@ exports[`NextButton matches snapshot 1`] = `
             className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
           >
             <div
-              className="css-text-901oao r-alignItems-1awozwy r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-hbpseb r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
+              className="css-text-901oao r-alignItems-1awozwy r-color-jwli3a r-display-6koalj r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-qvk6io r-minHeight-1ceczpf r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
               dir="auto"
             >
               Next
@@ -150,18 +141,10 @@ exports[`PushButton matches snapshot 1`] = `
     }
   >
     <div
-      className="css-cursor-18t94o4 css-view-1dbjc4n r-cursor-1loqt21 r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim r-touchAction-1otgn73"
-      data-focusable={true}
-      disabled={false}
+      className="css-cursor-18t94o4 css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
+      onClick={[Function]}
+      onContextMenu={[Function]}
       onKeyDown={[Function]}
-      onKeyPress={[Function]}
-      onKeyUp={[Function]}
-      onResponderGrant={[Function]}
-      onResponderMove={[Function]}
-      onResponderRelease={[Function]}
-      onResponderTerminate={[Function]}
-      onResponderTerminationRequest={[Function]}
-      onStartShouldSetResponder={[Function]}
       role="button"
       style={
         Object {
@@ -172,6 +155,7 @@ exports[`PushButton matches snapshot 1`] = `
           "borderTopLeftRadius": "50px",
           "borderTopRightRadius": "50px",
           "msFlexItemAlign": "stretch",
+          "msGridRowAlign": "stretch",
         }
       }
       tabIndex="0"
@@ -183,6 +167,7 @@ exports[`PushButton matches snapshot 1`] = `
             "WebkitAlignSelf": "stretch",
             "alignSelf": "stretch",
             "msFlexItemAlign": "stretch",
+            "msGridRowAlign": "stretch",
           }
         }
       >
@@ -193,7 +178,7 @@ exports[`PushButton matches snapshot 1`] = `
             className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
           >
             <div
-              className="css-text-901oao r-alignItems-1awozwy r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-hbpseb r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
+              className="css-text-901oao r-alignItems-1awozwy r-color-jwli3a r-display-6koalj r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-qvk6io r-minHeight-1ceczpf r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
               dir="auto"
             >
               Push

@@ -6,7 +6,7 @@ name: Android CI/CD v1
 # events but only for the master branch
 on:
   push:
-    branches: [master, staging, production, next, react-native]
+    branches: [master, staging, production, next, next-android]
 
   workflow_dispatch:
 
@@ -14,14 +14,14 @@ on:
 jobs:
   test:
     name: Detox Tests
-    runs-on: ubutnu-latest
+    runs-on: ubuntu-latest
     #disabled until we get it working again
     if: ${{ false && !contains(github.event.head_commit.message, 'skip ci') }}
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
         with:
-          node-version: 10.15.3
+          node-version: 14
       - name: Use specific Java version for sdkmanager to work
         uses: joschi/setup-jdk@v1
         with:
@@ -29,6 +29,8 @@ jobs:
           architecture: 'x64'
       - name: Install npm dependencies
         uses: bahmutov/npm-install@v1
+        with:
+          install-command: yarn --frozen-lockfile
       - name: Cache Android
         id: cache-android
         uses: actions/cache@v1
@@ -55,11 +57,10 @@ jobs:
           SENTRYRC: ${{ secrets.sentryrc_file }}
         run: |
           echo "$SENTRYRC" > android/sentry.properties
-          cp .env.dev .env
       - name: run detox build & test
         run: |
           $ANDROID_HOME/emulator/emulator -list-avds
-          npm run test:android
+          yarn test:android
   # This workflow contains a single job called "build"
   build:
     # The type of runner that the job will run on
@@ -67,61 +68,56 @@ jobs:
     if: "!contains(github.event.head_commit.message,'release:') && !contains(github.event.head_commit.message,'skip ci')"
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
+      - name: Pre-checks - Env is Dev
+        run: |
+          echo "ENV=development" >> $GITHUB_ENV
+          echo "SECRET_NAME=DEV_ENV" >> $GITHUB_ENV
+          echo "APPCENTER_NAME=GoodDollar/GoodDollar-Android-development" >> $GITHUB_ENV
+          echo "APPCENTER_TOKEN=${{ secrets.APPCENTER_ANDROID_DEV }}" >> $GITHUB_ENV
+
+      - name: Pre-checks - Env is QA
+        if: ${{ endsWith(github.ref, '/staging') }}
+        run: |
+          echo "ENV=staging" >> $GITHUB_ENV
+          echo "SECRET_NAME=STAGING_ENV" >> $GITHUB_ENV
+          echo "APPCENTER_NAME=GoodDollar/GoodDollar-Android-staging" >> $GITHUB_ENV
+          echo "APPCENTER_STORE=Alpha" >> $GITHUB_ENV
+          echo "APPCENTER_TOKEN=${{ secrets.APPCENTER_ANDROID_STAGING }}" >> $GITHUB_ENV
+
+      - name: Pre-checks - Env is PROD
+        if: ${{ contains(github.ref, '/next') }}
+        run: |
+          echo "ENV=prod" >> $GITHUB_ENV
+          echo "SECRET_NAME=PROD_ENV" >> $GITHUB_ENV
+          echo "APPCENTER_NAME=GoodDollar/GoodDollar-Android-production" >> $GITHUB_ENV
+          echo "APPCENTER_STORE=Beta" >> $GITHUB_ENV
+          echo "APPCENTER_TOKEN=${{ secrets.APPCENTER_ANDROID_PROD }}" >> $GITHUB_ENV
+
       - name: set branch name
         env:
           BUILD_NUMBER: ${{ github.run_number }}
         run: |
           echo "Creating release number ${BUILD_NUMBER}"
-          echo "ENV=development" >> $GITHUB_ENV
-          echo "BRANCH=${{ github.ref }}" >> $GITHUB_ENV
-          echo "SECRET_NAME=DEV_ENV" >> $GITHUB_ENV
-          echo "APPCENTER_NAME=GoodDollar/GoodDollar-Android-development" >> $GITHUB_ENV
-          echo "$GITHUB_HEAD_REF $GITHUB_REF ${{ env.BRANCH }} ${{ env.SECRET_NAME }} ${{ env.APPCENTER_NAME }}"
-
-      - name: Pre-checks - Env is QA
-        if: ${{ contains('staging',env.BRANCH) }}
-        run: |
-          echo "ENV=staging" >> $GITHUB_ENV
-          echo "SECRET_NAME=STAGING_ENV" >> $GITHUB_ENV
-          echo "APPCENTER_NAME=GoodDollar/GoodDollar-Android-staging" >> $GITHUB_ENV
-          echo "${{ env.BRANCH }} ${{ env.SECRET_NAME }} ${{ env.APPCENTER_NAME }}"
-
-      - name: Pre-checks - Env is PROD
-        if: ${{ contains('production next',env.BRANCH) }}
-        run: |
-          echo "ENV=prod" >> $GITHUB_ENV
-          echo "SECRET_NAME=PROD_ENV" >> $GITHUB_ENV
-          echo "APPCENTER_NAME=GoodDollar/GoodDollar-Android-production" >> $GITHUB_ENV
-          echo "${{ env.BRANCH }} ${{ env.SECRET_NAME }} ${{ env.APPCENTER_NAME }}"
+          echo "${ENV} ${GITHUB_REF} ${SECRET_NAME} ${APPCENTER_NAME}"
 
       - name: fix max_user_watches
         run: echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
         with:
-          node-version: 10.15.3
+          node-version: 14
 
-      - name: Cache node modules
-        uses: actions/cache@v1
-        env:
-          cache-name: cache-node-modules
+      - name: Cache & install npm dependencies
+        uses: bahmutov/npm-install@v1
         with:
-          path: node_modules
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
-      - name: Install npm dependencies
-        run: |
-          npm ci
-
+          install-command: yarn --frozen-lockfile
       - name: add .env secrets
         env:
           SENTRYRC: ${{ secrets.sentryrc_file }}
         run: |
           env_name="${{ env.ENV }}"
-          echo "adding secrets to .env file: ${{ env.SECRET_NAME }}"
+          cat .env.$env_name
+          echo "adding secrets to .env.$env_name file: ${{ env.SECRET_NAME }}"
           echo "$SENTRYRC" > android/sentry.properties
           echo "${{ secrets[env.SECRET_NAME] }}" >> .env.$env_name
 
@@ -139,7 +135,7 @@ jobs:
           ENVFILE: '.env.${{ env.ENV }}'
           BUILD_NUMBER: ${{ github.run_number }}
         run: |
-          BUILD_VERSION=`node -pe "require('./package.json')['version']"`          
+          BUILD_VERSION=`node -pe "require('./package.json')['version']"`
           echo "Creating release using env: ${ENVFILE} build:${BUILD_NUMBER} version:${BUILD_VERSION} ${GITHUB_RUN_NUMBER} ${{ github.run_number }}"
           cd android && ./gradlew bundleRelease
 
@@ -154,24 +150,11 @@ jobs:
 
       - name: Deploy to App Center
         run: |
-          token=${{ secrets.APPCENTER_ANDROID_DEV }}
-
-          if [ ${{ env.ENV }} == 'prod' ]
-          then
-            echo "setting appcenter production"
-            token=${{secrets.APPCENTER_ANDROID_PROD}}
-          fi
-          if [ ${{ env.ENV }} == 'staging' ]
-          then
-            echo "setting appcenter staging"
-            token=${{secrets.APPCENTER_ANDROID_STAGING}}
-          fi
           echo "deploying to ${{ env.APPCENTER_NAME }} ${{ env.INPUT_APK_PATH }}"
-          npm install appcenter-cli@^2.*
-          npx appcenter distribute release --token $token --app "${{ env.APPCENTER_NAME }}" --group "Collaborators" --file "${{ env.UNIVERSAL_APK_PATH }}" --release-notes "$(git log -1 --pretty=format:'%h %s')" --debug
-
-      - name: Distribute to stores - PROD ONLY
-        if: ${{ contains('production next', env.BRANCH) }}
-        run: |
-          token=${{secrets.APPCENTER_ANDROID_PROD}}
-          npx appcenter distribute stores publish --token $token --app "${{ env.APPCENTER_NAME }}" --store Beta --file "${{ env.UNIVERSAL_APK_PATH }}" --release-notes "$(git log -1 --pretty=format:'%h %s')"
+          yarn add appcenter-cli@^2.*
+          npx appcenter distribute release --token "${{ env.APPCENTER_TOKEN }}" --app "${{ env.APPCENTER_NAME }}" --group "Collaborators" --file "${{ env.UNIVERSAL_APK_PATH }}" --release-notes "$(git log -1 --pretty=format:'%h %s')" --debug
+      # FIXME: removed condition temporarily to prevent publishing to play store until we republish the app
+      # - name: Distribute to stores - NEXT-ANDROID ONLY
+      #   if: ${{ endsWith(github.ref, '/next-android') }}
+      #   run: |
+      #     npx appcenter distribute stores publish --token "${{ env.APPCENTER_TOKEN }}" --app "${{ env.APPCENTER_NAME }}" --store "${{ env.APPCENTER_STORE }}" --file "${{ env.UNIVERSAL_APK_PATH }}" --release-notes "$(git log -1 --pretty=format:'%h %s')"

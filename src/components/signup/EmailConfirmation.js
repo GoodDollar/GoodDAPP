@@ -2,7 +2,7 @@
 import React from 'react'
 import { KeyboardAvoidingView } from 'react-native'
 import { isIOS } from '../../lib/utils/platform'
-import logger from '../../lib/logger/pino-logger'
+import logger from '../../lib/logger/js-logger'
 import API from '../../lib/API/api'
 import { withStyles } from '../../lib/styles'
 import SpinnerCheckMark from '../common/animations/SpinnerCheckMark'
@@ -78,7 +78,7 @@ class EmailConfirmation extends React.Component<Props, State> {
 
         this.setState({
           ...this.state,
-          errorMessage: e.message || e,
+          errorMessage: e.error || e.message || e,
           loading: false,
         })
       }
@@ -91,10 +91,10 @@ class EmailConfirmation extends React.Component<Props, State> {
     }
   }
 
-  handleSubmit = async () => {
-    await this.props.screenProps.doneCallback({ isEmailConfirmed: true })
-
-    this.setState({ ...this.state, loading: false })
+  handleSubmit = () => {
+    this.setState({ ...this.state, loading: false }, () =>
+      this.props.screenProps.doneCallback({ isEmailConfirmed: true }),
+    )
   }
 
   // eslint-disable-next-line class-methods-use-this

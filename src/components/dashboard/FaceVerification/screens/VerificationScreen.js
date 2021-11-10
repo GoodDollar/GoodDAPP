@@ -1,11 +1,12 @@
 import React, { useCallback, useMemo } from 'react'
 
+import { identity } from 'lodash'
 import Instructions from '../components/Instructions'
 
-import UserStorage from '../../../../lib/gundb/UserStorage'
+import UserStorage from '../../../../lib/userStorage/UserStorage'
 import { useCurriedSetters } from '../../../../lib/undux/GDStore'
 import goodWallet from '../../../../lib/wallet/GoodWallet'
-import logger from '../../../../lib/logger/pino-logger'
+import logger from '../../../../lib/logger/js-logger'
 
 import useFaceTecSDK from '../hooks/useFaceTecSDK'
 import useFaceTecVerification from '../hooks/useFaceTecVerification'
@@ -22,6 +23,7 @@ import {
   FV_TRYAGAIN_ZOOM,
   FV_ZOOMFAILED,
 } from '../../../../lib/analytics/analytics'
+import { tryUntil } from '../../../../lib/utils/async'
 
 const log = logger.child({ from: 'FaceVerification' })
 
@@ -62,27 +64,6 @@ const FaceVerification = ({ screenProps }) => {
     [trackAttempt],
   )
 
-  // FaceTecSDK session completions handler
-  const completionHandler = useCallback(
-    async status => {
-      log.debug('FaceVerification completed', { status })
-
-      const isCitizen = await goodWallet.isCitizen()
-
-      // if session was successful
-      // 1. resetting attempts
-      resetAttempts()
-
-      // 2. whitelisting user
-      setIsCitizen(isCitizen)
-
-      // 3. returning success to the caller
-      screenProps.pop({ isValid: true })
-      fireEvent(FV_SUCCESS_ZOOM)
-    },
-    [screenProps, setIsCitizen, resetAttempts],
-  )
-
   // FaceTecSDK session exception handler
   const exceptionHandler = useCallback(
     exception => {
@@ -105,6 +86,40 @@ const FaceVerification = ({ screenProps }) => {
       showErrorScreen(exception)
     },
     [screenProps, showErrorScreen, trackAttempt],
+  )
+
+  // FaceTecSDK session completions handler
+  const completionHandler = useCallback(
+    async status => {
+      log.debug('FaceVerification completed', { status })
+
+      // polling contracts for the whitelisted flag up to 15sec or until got true
+      const isCitizen = await tryUntil(() => goodWallet.isCitizen(), identity, 5, 3000)
+
+      // if still non whitelisted - showing error screen
+      if (!isCitizen) {
+        const exception = new Error(
+          `Face verification has been passed, but we encountered with issues` +
+            `trying to allow claiming. Please try again a few minutes later`,
+        )
+
+        exception.name = 'UnableToWhitelist'
+        exceptionHandler(exception)
+        return
+      }
+
+      // if session was successful
+      // 1. resetting attempts
+      resetAttempts()
+
+      // 2. whitelisting user
+      setIsCitizen(isCitizen)
+
+      // 3. returning success to the caller
+      screenProps.pop({ isValid: true })
+      fireEvent(FV_SUCCESS_ZOOM)
+    },
+    [screenProps, setIsCitizen, resetAttempts, exceptionHandler],
   )
 
   // calculating retries allowed for FV session

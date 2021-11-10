@@ -3,7 +3,7 @@
 import React, { useEffect } from 'react'
 import { isString, noop } from 'lodash'
 
-import logger from '../../../lib/logger/pino-logger'
+import logger from '../../../lib/logger/js-logger'
 
 import useNativeSharing from '../../../lib/hooks/useNativeSharing'
 import { isSharingAvailable } from '../../../lib/share'

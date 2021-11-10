@@ -48,18 +48,10 @@ exports[`WrappedSaveButton matches snapshot 1`] = `
       }
     >
       <div
-        className="css-cursor-18t94o4 css-view-1dbjc4n r-cursor-1loqt21 r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim r-touchAction-1otgn73"
-        data-focusable={true}
-        disabled={false}
+        className="css-cursor-18t94o4 css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
+        onClick={[Function]}
+        onContextMenu={[Function]}
         onKeyDown={[Function]}
-        onKeyPress={[Function]}
-        onKeyUp={[Function]}
-        onResponderGrant={[Function]}
-        onResponderMove={[Function]}
-        onResponderRelease={[Function]}
-        onResponderTerminate={[Function]}
-        onResponderTerminationRequest={[Function]}
-        onStartShouldSetResponder={[Function]}
         role="button"
         style={
           Object {
@@ -70,6 +62,7 @@ exports[`WrappedSaveButton matches snapshot 1`] = `
             "borderTopLeftRadius": "50px",
             "borderTopRightRadius": "50px",
             "msFlexItemAlign": "stretch",
+            "msGridRowAlign": "stretch",
           }
         }
         tabIndex="0"
@@ -81,6 +74,7 @@ exports[`WrappedSaveButton matches snapshot 1`] = `
               "WebkitAlignSelf": "stretch",
               "alignSelf": "stretch",
               "msFlexItemAlign": "stretch",
+              "msGridRowAlign": "stretch",
             }
           }
         >
@@ -91,7 +85,7 @@ exports[`WrappedSaveButton matches snapshot 1`] = `
               className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
             >
               <div
-                className="css-text-901oao r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-majxgm r-lineHeight-rjixqe r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
+                className="css-text-901oao r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-majxgm r-lineHeight-qvk6io r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
                 dir="auto"
               >
                 Save
@@ -152,18 +146,10 @@ exports[`WrappedSaveButton matches snapshot 2`] = `
       }
     >
       <div
-        className="css-cursor-18t94o4 css-view-1dbjc4n r-cursor-1loqt21 r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim r-touchAction-1otgn73"
-        data-focusable={true}
-        disabled={false}
+        className="css-cursor-18t94o4 css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
+        onClick={[Function]}
+        onContextMenu={[Function]}
         onKeyDown={[Function]}
-        onKeyPress={[Function]}
-        onKeyUp={[Function]}
-        onResponderGrant={[Function]}
-        onResponderMove={[Function]}
-        onResponderRelease={[Function]}
-        onResponderTerminate={[Function]}
-        onResponderTerminationRequest={[Function]}
-        onStartShouldSetResponder={[Function]}
         role="button"
         style={
           Object {
@@ -174,6 +160,7 @@ exports[`WrappedSaveButton matches snapshot 2`] = `
             "borderTopLeftRadius": "50px",
             "borderTopRightRadius": "50px",
             "msFlexItemAlign": "stretch",
+            "msGridRowAlign": "stretch",
           }
         }
         tabIndex="0"
@@ -185,6 +172,7 @@ exports[`WrappedSaveButton matches snapshot 2`] = `
               "WebkitAlignSelf": "stretch",
               "alignSelf": "stretch",
               "msFlexItemAlign": "stretch",
+              "msGridRowAlign": "stretch",
             }
           }
         >
@@ -195,7 +183,7 @@ exports[`WrappedSaveButton matches snapshot 2`] = `
               className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
             >
               <div
-                className="css-text-901oao r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-majxgm r-lineHeight-rjixqe r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
+                className="css-text-901oao r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-majxgm r-lineHeight-qvk6io r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
                 dir="auto"
               >
                 Title in SaveButton
@@ -257,18 +245,10 @@ exports[`WrappedSaveButton matches snapshot 3`] = `
       }
     >
       <div
-        className="css-cursor-18t94o4 css-view-1dbjc4n r-cursor-1loqt21 r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim r-touchAction-1otgn73"
-        data-focusable={true}
-        disabled={false}
+        className="css-cursor-18t94o4 css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
+        onClick={[Function]}
+        onContextMenu={[Function]}
         onKeyDown={[Function]}
-        onKeyPress={[Function]}
-        onKeyUp={[Function]}
-        onResponderGrant={[Function]}
-        onResponderMove={[Function]}
-        onResponderRelease={[Function]}
-        onResponderTerminate={[Function]}
-        onResponderTerminationRequest={[Function]}
-        onStartShouldSetResponder={[Function]}
         role="button"
         style={
           Object {
@@ -279,6 +259,7 @@ exports[`WrappedSaveButton matches snapshot 3`] = `
             "borderTopLeftRadius": "50px",
             "borderTopRightRadius": "50px",
             "msFlexItemAlign": "stretch",
+            "msGridRowAlign": "stretch",
           }
         }
         tabIndex="0"
@@ -290,6 +271,7 @@ exports[`WrappedSaveButton matches snapshot 3`] = `
               "WebkitAlignSelf": "stretch",
               "alignSelf": "stretch",
               "msFlexItemAlign": "stretch",
+              "msGridRowAlign": "stretch",
             }
           }
         >
@@ -300,7 +282,7 @@ exports[`WrappedSaveButton matches snapshot 3`] = `
               className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
             >
               <div
-                className="css-text-901oao r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-majxgm r-lineHeight-rjixqe r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
+                className="css-text-901oao r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-majxgm r-lineHeight-qvk6io r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
                 dir="auto"
               >
                 SaveButton with color
@@ -362,18 +344,10 @@ exports[`WrappedSaveButton matches snapshot 4`] = `
       }
     >
       <div
-        className="css-cursor-18t94o4 css-view-1dbjc4n r-cursor-1loqt21 r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim r-touchAction-1otgn73"
-        data-focusable={true}
-        disabled={false}
+        className="css-cursor-18t94o4 css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
+        onClick={[Function]}
+        onContextMenu={[Function]}
         onKeyDown={[Function]}
-        onKeyPress={[Function]}
-        onKeyUp={[Function]}
-        onResponderGrant={[Function]}
-        onResponderMove={[Function]}
-        onResponderRelease={[Function]}
-        onResponderTerminate={[Function]}
-        onResponderTerminationRequest={[Function]}
-        onStartShouldSetResponder={[Function]}
         role="button"
         style={
           Object {
@@ -384,6 +358,7 @@ exports[`WrappedSaveButton matches snapshot 4`] = `
             "borderTopLeftRadius": "50px",
             "borderTopRightRadius": "50px",
             "msFlexItemAlign": "stretch",
+            "msGridRowAlign": "stretch",
           }
         }
         tabIndex="0"
@@ -395,6 +370,7 @@ exports[`WrappedSaveButton matches snapshot 4`] = `
               "WebkitAlignSelf": "stretch",
               "alignSelf": "stretch",
               "msFlexItemAlign": "stretch",
+              "msGridRowAlign": "stretch",
             }
           }
         >
@@ -405,7 +381,7 @@ exports[`WrappedSaveButton matches snapshot 4`] = `
               className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
             >
               <div
-                className="css-text-901oao r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-majxgm r-lineHeight-rjixqe r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
+                className="css-text-901oao r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-majxgm r-lineHeight-qvk6io r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
                 dir="auto"
               >
                 SaveButton with custom delay

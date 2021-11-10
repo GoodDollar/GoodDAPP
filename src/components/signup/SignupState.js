@@ -14,13 +14,14 @@ import {
   DESTINATION_PATH,
   GD_INITIAL_REG_METHOD,
   GD_USER_MNEMONIC,
+  INVITE_CODE,
   IS_LOGGED_IN,
 } from '../../lib/constants/localStorage'
 
 import { REGISTRATION_METHOD_SELF_CUSTODY, REGISTRATION_METHOD_TORUS } from '../../lib/constants/login'
 import NavBar from '../appNavigation/NavBar'
 import { navigationConfig } from '../appNavigation/navigationConfig'
-import logger from '../../lib/logger/pino-logger'
+import logger from '../../lib/logger/js-logger'
 import { decorate, ExceptionCode } from '../../lib/logger/exceptions'
 import API, { getErrorMessage } from '../../lib/API/api'
 import SimpleStore from '../../lib/undux/SimpleStore'
@@ -28,7 +29,7 @@ import { useDialog } from '../../lib/undux/utils/dialog'
 import BackButtonHandler from '../../lib/utils/handleBackButton'
 import retryImport from '../../lib/utils/retryImport'
 import { showSupportDialog } from '../common/dialogs/showSupportDialog'
-import { getUserModel, type UserModel } from '../../lib/gundb/UserModel'
+import { getUserModel, type UserModel } from '../../lib/userStorage/UserModel'
 import Config from '../../config/config'
 import { fireEvent, identifyOnUserSignup, identifyWith } from '../../lib/analytics/analytics'
 import { parsePaymentLinkParams } from '../../lib/share'
@@ -84,6 +85,11 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
   const isRegMethodSelfCustody = regMethod === REGISTRATION_METHOD_SELF_CUSTODY
   const skipEmail = !!torusUserFromProps.email
   const skipMobile = !!torusUserFromProps.mobile || Config.skipMobileVerification
+
+  const requiredFields = ['fullName', 'email']
+  if (Config.skipMobileVerification === false) {
+    requiredFields.push('mobile')
+  }
 
   const initialState: SignupState = {
     ...getUserModel({
@@ -142,7 +148,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
   }
 
   //keep privatekey from torus as master seed before initializing wallet
-  //so wallet can use it, if torus is enabled and we dont have pkey then require re-login
+  //so wallet can use it, if torus is enabled and we don't have pkey then require re-login
   //this is true in case of refresh
   const checkTorusLogin = () => {
     const masterSeed = torusUserFromProps.privateKey
@@ -154,8 +160,8 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
   }
 
   const verifyStartRoute = () => {
-    //we dont support refresh if regMethod param is missing then go back to Auth
-    //if regmethod is missing it means user did refresh on later steps then first 1
+    //we don't support refresh if regMethod param is missing then go back to Auth
+    //if regMethod is missing it means user did refresh on later steps then first 1
     if (!regMethod || (navigation.state.index > 0 && state.lastStep !== navigation.state.index)) {
       log.debug('redirecting to start, got index:', navigation.state.index, { regMethod, torusUserFromProps })
       return navigation.navigate('Auth')
@@ -163,7 +169,17 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
 
     // if we have name from torus we skip to phone
     if (state.fullName) {
-      return navigation.navigate('Phone')
+      // if skipping phone is disabled
+      if (!skipMobile) {
+        return navigation.navigate('Phone')
+      }
+
+      // if no email address and skipEmail is false (for example: when signup with facebook account that has no verified email)
+      if (!skipEmail) {
+        return navigateWithFocus('Email')
+      }
+
+      return navigation.navigate('SignupCompleted')
     }
   }
 
@@ -175,21 +191,18 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
     const params = get(destinationPath, 'params')
     const paymentParams = params && parsePaymentLinkParams(params)
 
-    return get(destinationPath, 'params.inviteCode') || get(paymentParams, 'inviteCode')
+    //get inviteCode from url or from payment link
+    return (
+      (await AsyncStorage.getItem(INVITE_CODE)) ||
+      get(destinationPath, 'params.inviteCode') ||
+      get(paymentParams, 'inviteCode')
+    )
   }
 
   useEffect(() => {
     const onMount = async () => {
       //if email from torus then identify user
       state.email && identifyOnUserSignup(state.email)
-
-      verifyStartRoute()
-
-      checkTorusLogin()
-
-      //get user country code for phone
-      //read torus seed
-      await getCountryCode()
 
       //lazy login in background while user starts registration
       const ready = (async () => {
@@ -215,9 +228,6 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
         identifyWith(null, goodWallet.getAccountForType('login'))
         fireSignupEvent('STARTED', { source })
 
-        // for QA
-        global.wallet = goodWallet
-
         const apiReady = async () => {
           await API.ready
           log.debug('ready: signupstate ready')
@@ -228,7 +238,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
         if (torusUserFromProps.privateKey) {
           log.debug('skipping ready initialization (already done in AuthTorus)')
 
-          // now that we are loggedin, reload api with JWT
+          // now that we are logged in, reload api with JWT
           return apiReady()
         }
 
@@ -247,6 +257,16 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
       })()
 
       setReady(ready)
+
+      //get user country code for phone
+      //read torus seed
+      if (state.skipPhone === false) {
+        await getCountryCode()
+      }
+
+      checkTorusLogin()
+
+      verifyStartRoute()
     }
 
     onMount()
@@ -266,7 +286,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
   useEffect(() => {
     const { email } = state
 
-    // perform this again for torus and on email change. torus has also mobile verification that doesnt set email
+    // perform this again for torus and on email change. torus has also mobile verification that doesn't set email
     if (!email) {
       return
     }
@@ -296,7 +316,8 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
       const inviteCode = await checkInviteCode()
 
       log.debug('invite code:', { inviteCode })
-      ;['email', 'fullName', 'mobile'].forEach(field => {
+
+      requiredFields.forEach(field => {
         if (!requestPayload[field]) {
           const fieldNames = { email: 'Email', fullName: 'Name', mobile: 'Mobile' }
 
@@ -307,6 +328,10 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
       if (inviteCode) {
         requestPayload.inviteCode = inviteCode
       }
+
+      requestPayload.regMethod = regMethod
+
+      let newUserData
 
       if (regMethod === REGISTRATION_METHOD_TORUS) {
         const { mobile, email, privateKey, accessToken, idToken } = torusUser
@@ -319,7 +344,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
         })
 
         if (torusProvider !== 'facebook') {
-          // if logged in via other provider that facebook - generating & signing proof
+          // if logged in via other provider than facebook - generating & signing proof
           const torusProofNonce = await API.ping()
             .then(_ => moment(get(_, 'data.ping', Date.now())))
             .catch(e => moment())
@@ -333,37 +358,6 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
           })
         }
       }
-
-      requestPayload.regMethod = regMethod
-
-      const [mnemonic] = await Promise.all([
-        AsyncStorage.getItem(GD_USER_MNEMONIC).then(_ => _ || ''),
-
-        //make sure profile is initialized, maybe solve gun bug where profile is undefined
-        userStorage.profile.putAck({ initialized: true }).catch(e => {
-          log.error('set profile initialized failed:', e.message, e)
-          throw e
-        }),
-
-        // Stores creationBlock number into 'lastBlock' feed's node
-        userStorage.saveJoinedBlockNumber(),
-        userStorage.userProperties.updateAll({ regMethod, inviterInviteCode: inviteCode }),
-      ])
-
-      // trying to update profile 2 times, if failed anyway - re-throwing exception
-      await defer(() =>
-        fromPromise(
-          userStorage.setProfile({
-            ...requestPayload,
-            walletAddress: goodWallet.account,
-            mnemonic,
-          }),
-        ),
-      )
-        .pipe(retry(1))
-        .toPromise()
-
-      let newUserData
 
       await API.addUser(requestPayload)
         .then(({ data }) => (newUserData = data))
@@ -381,12 +375,36 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
               exception.response = e
             }
 
-            // re-throwing exception to be catched in the parent try {}
+            // re-throwing exception to be caught in the parent try {}
             throw exception
           }
         })
 
-      //set tokens for other services returned from backedn
+      //refresh JWT
+      const login = retryImport(() => import('../../lib/login/GoodWalletLogin'))
+      const refresh = true
+      await login.then(l => l.default.auth(refresh))
+
+      await userStorage.initRegistered()
+      const [mnemonic] = await Promise.all([
+        AsyncStorage.getItem(GD_USER_MNEMONIC).then(_ => _ || ''),
+        userStorage.userProperties.updateAll({ regMethod, inviterInviteCode: inviteCode }),
+      ])
+
+      // trying to update profile 2 times, if failed anyway - re-throwing exception
+      await defer(() =>
+        fromPromise(
+          userStorage.setProfile({
+            ...requestPayload,
+            walletAddress: goodWallet.account,
+            mnemonic,
+          }),
+        ),
+      )
+        .pipe(retry(1))
+        .toPromise()
+
+      //set tokens for other services returned from backend
       await Promise.all(
         toPairs(pickBy(newUserData, (_, field) => field.endsWith('Token'))).map(([fieldName, fieldValue]) =>
           userStorage.setProfileField(fieldName, fieldValue, 'private'),
@@ -394,21 +412,13 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
       )
 
       await Promise.all([
-        userStorage.gunuser
-          .get('registered')
-          .putAck(true)
-          .catch(e => {
-            log.error('set user registered failed:', e.message, e)
-            throw e
-          }),
-
         userStorage.userProperties.set('registered', true),
 
         AsyncStorage.setItem(IS_LOGGED_IN, true),
         AsyncStorage.removeItem(GD_INITIAL_REG_METHOD),
       ])
 
-      fireSignupEvent('SUCCESS')
+      fireSignupEvent('SUCCESS', { torusProvider, inviteCode })
 
       log.debug('New user created')
       setLoading(false)
@@ -496,7 +506,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
     setLoading(true)
     fireSignupEvent()
 
-    //We can wait for ready later, when we need stuff, we dont need it until usage of API first in sendOTP(that needs to be logged in)
+    //We can wait for ready later, when we need stuff, we don't need it until usage of API first in sendOTP(that needs to be logged in)
     //and finally in finishRegistration
     // await ready
 
@@ -631,6 +641,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
 
   useEffect(() => {
     const backButtonHandler = new BackButtonHandler({ defaultAction: back })
+
     return () => {
       backButtonHandler.unregister()
     }

@@ -2,28 +2,28 @@
 import type { Store } from 'undux'
 import { throttle } from 'lodash'
 import Config from '../../../config/config'
-import userStorage from '../../gundb/UserStorage'
-import pino from '../../logger/pino-logger'
+import userStorage from '../../userStorage/UserStorage'
+import pino from '../../logger/js-logger'
 import { assertStore } from '../SimpleStore'
 
 const logger = pino.child({ from: 'feeds' })
 
-export const PAGE_SIZE = 10
+export const PAGE_SIZE = 20
 
 const getMockFeeds = () => {
   return Config.withMockedFeeds
     ? [
         {
           id: '111111111111111111111111111111111111111111111111111111111111333333',
-          date: new Date().getTime(),
+          date: new Date().toISOString(),
           type: 'message',
-          createdDate: 'Fri Aug 02 2019 15:15:44 GMT-0300 (Argentina Standard Time)',
+          createdDate: new Date('Fri Aug 02 2019 15:15:44 GMT-0300 (Argentina Standard Time)').toISOString(),
           status: 'completed',
           data: {
             message:
               '"I can buy food for my children!"\nNairobi, Kenya - 24,600 people are using GD today to buy essential commodities... ',
             endpoint: {
-              fullName: 'Maisao Matimbo (Kenya)',
+              displayName: 'Maisao Matimbo (Kenya)',
               avatar: null,
               address: null,
             },
@@ -31,23 +31,23 @@ const getMockFeeds = () => {
         },
         {
           id: '111111111111111111111111111111111111111111111111111111111111222222',
-          date: new Date().getTime(),
+          date: new Date().toISOString(),
           type: 'invite',
-          createdDate: 'Fri Aug 02 2019 15:15:44 GMT-0300 (Argentina Standard Time)',
+          createdDate: new Date('Fri Aug 02 2019 15:15:44 GMT-0300 (Argentina Standard Time)').toISOString(),
           status: 'completed',
           data: {
             message:
               'Send Invites to get more people connected on GoodDollar. You will earn GD and also Help other people to earn.',
             endpoint: {
-              fullName: 'Invite friends to GoodDollar',
+              displayName: 'Invite friends to GoodDollar',
             },
           },
         },
         {
           id: '111111111111111111111111111111111111111111111111111111111111444444',
-          date: new Date().getTime(),
+          date: new Date().toISOString(),
           type: 'feedback',
-          createdDate: 'Fri Aug 02 2019 15:15:44 GMT-0300 (Argentina Standard Time)',
+          createdDate: new Date('Fri Aug 02 2019 15:15:44 GMT-0300 (Argentina Standard Time)').toISOString(),
           status: 'completed',
           data: {
             message: 'How likely are you to recommend GoodDollar to a friend or colleague?',

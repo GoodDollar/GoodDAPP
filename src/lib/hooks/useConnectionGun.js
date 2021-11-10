@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { AppState } from 'react-native'
 import Config from '../../config/config'
-import logger from '../logger/pino-logger'
+import logger from '../logger/js-logger'
 import SimpleStore from '../undux/SimpleStore'
 
 let isFirstCheckGun = false
@@ -117,7 +117,7 @@ export default () => {
       }
     }
 
-    AppState.addEventListener('change', onAppStateChange)
+    const subscription = AppState.addEventListener('change', onAppStateChange)
 
     if (!isFirstCheckGun) {
       isGunConnection()
@@ -128,7 +128,7 @@ export default () => {
      */
     return () => {
       killLastConnectionCheck()
-      AppState.removeEventListener('change', onAppStateChange)
+      subscription.remove()
     }
   }, [isGunConnection, userStorage])
 

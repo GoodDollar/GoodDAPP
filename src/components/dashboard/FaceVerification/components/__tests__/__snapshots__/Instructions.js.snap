@@ -14,7 +14,7 @@ exports[`FaceVerification Instructions matches snapshot 1`] = `
     }
   >
     <div
-      className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-14lw9ot r-borderRadius-1f0042m r-display-6koalj r-flexDirection-eqz5dr r-flexGrow-16y2uox r-flexShrink-1q142lx r-justifyContent-1777fci r-paddingBottom-1l7z4oj r-paddingHorizontal-1e081e0 r-paddingLeft-1m04atk r-paddingRight-1pyaxff r-paddingTop-95jzfe r-paddingVertical-1yzf0co"
+      className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-14lw9ot r-borderRadius-1f0042m r-display-6koalj r-flexDirection-eqz5dr r-flexGrow-16y2uox r-flexShrink-1q142lx r-justifyContent-1777fci r-paddingBottom-1mdbw0j r-paddingHorizontal-1e081e0 r-paddingLeft-gy4na3 r-paddingRight-9aemit r-paddingTop-wk8lta r-paddingVertical-1yzf0co"
     >
       <div
         className="css-view-1dbjc4n r-flexGrow-16y2uox r-justifyContent-1wtj0ep r-width-13qz1uu"
@@ -23,8 +23,8 @@ exports[`FaceVerification Instructions matches snapshot 1`] = `
           className="css-view-1dbjc4n r-flexBasis-1mlwlqe r-overflow-1udh08x r-width-13qz1uu r-zIndex-417010"
           style={
             Object {
-              "height": "316.67532467532465px",
-              "marginTop": "18px",
+              "height": "0px",
+              "marginTop": "0px",
             }
           }
         >
@@ -35,6 +35,7 @@ exports[`FaceVerification Instructions matches snapshot 1`] = `
                 "backgroundImage": "url(\\"FRInstructions.png\\")",
               }
             }
+            suppressHydrationWarning={true}
           />
           <img
             alt=""
@@ -44,18 +45,17 @@ exports[`FaceVerification Instructions matches snapshot 1`] = `
           />
         </div>
         <div
-          className="css-view-1dbjc4n r-alignItems-1awozwy r-paddingHorizontal-s1qlax r-paddingVertical-1yzf0co"
+          className="css-view-1dbjc4n r-alignItems-1awozwy r-paddingHorizontal-mk0yit r-paddingVertical-rjfia"
         >
           <div
             className="css-view-1dbjc4n r-alignItems-1habvwh r-flexDirection-eqz5dr"
           >
             <div
-              className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-evnaw r-fontWeight-1it3c9n r-lineHeight-ueyrd6 r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+              className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-1it3c9n r-lineHeight-2agvir r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
               dir="auto"
             >
               <span
-                className="css-text-901oao css-textHasAncestor-16my406 r-color-1q5uqvh r-fontFamily-vnw8o6 r-fontSize-evnaw r-fontWeight-b88u0q r-lineHeight-ueyrd6 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
-                dir="auto"
+                className="css-text-901oao css-textHasAncestor-16my406 r-color-1q5uqvh r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
               >
                 •
                  
@@ -63,12 +63,11 @@ exports[`FaceVerification Instructions matches snapshot 1`] = `
               Hold Your Camera at Eye Level
             </div>
             <div
-              className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-evnaw r-fontWeight-1it3c9n r-lineHeight-ueyrd6 r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+              className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-1it3c9n r-lineHeight-2agvir r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
               dir="auto"
             >
               <span
-                className="css-text-901oao css-textHasAncestor-16my406 r-color-1q5uqvh r-fontFamily-vnw8o6 r-fontSize-evnaw r-fontWeight-b88u0q r-lineHeight-ueyrd6 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
-                dir="auto"
+                className="css-text-901oao css-textHasAncestor-16my406 r-color-1q5uqvh r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
               >
                 •
                  
@@ -76,12 +75,11 @@ exports[`FaceVerification Instructions matches snapshot 1`] = `
               Light Your Face Evenly
             </div>
             <div
-              className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-evnaw r-fontWeight-1it3c9n r-lineHeight-ueyrd6 r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+              className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-1it3c9n r-lineHeight-2agvir r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
               dir="auto"
             >
               <span
-                className="css-text-901oao css-textHasAncestor-16my406 r-color-1q5uqvh r-fontFamily-vnw8o6 r-fontSize-evnaw r-fontWeight-b88u0q r-lineHeight-ueyrd6 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
-                dir="auto"
+                className="css-text-901oao css-textHasAncestor-16my406 r-color-1q5uqvh r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
               >
                 •
                  
@@ -91,7 +89,7 @@ exports[`FaceVerification Instructions matches snapshot 1`] = `
           </div>
         </div>
         <div
-          className="css-view-1dbjc4n r-display-6koalj r-justifyContent-1777fci r-width-13qz1uu"
+          className="css-view-1dbjc4n r-display-6koalj r-justifyContent-1777fci r-paddingLeft-gy4na3 r-paddingRight-9aemit r-width-13qz1uu"
           data-testid="dismiss_button"
           style={
             Object {
@@ -131,18 +129,10 @@ exports[`FaceVerification Instructions matches snapshot 1`] = `
           }
         >
           <div
-            className="css-cursor-18t94o4 css-view-1dbjc4n r-cursor-1loqt21 r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim r-touchAction-1otgn73"
-            data-focusable={true}
-            disabled={false}
+            className="css-cursor-18t94o4 css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
+            onClick={[Function]}
+            onContextMenu={[Function]}
             onKeyDown={[Function]}
-            onKeyPress={[Function]}
-            onKeyUp={[Function]}
-            onResponderGrant={[Function]}
-            onResponderMove={[Function]}
-            onResponderRelease={[Function]}
-            onResponderTerminate={[Function]}
-            onResponderTerminationRequest={[Function]}
-            onStartShouldSetResponder={[Function]}
             role="button"
             style={
               Object {
@@ -153,6 +143,7 @@ exports[`FaceVerification Instructions matches snapshot 1`] = `
                 "borderTopLeftRadius": "50px",
                 "borderTopRightRadius": "50px",
                 "msFlexItemAlign": "stretch",
+                "msGridRowAlign": "stretch",
               }
             }
             tabIndex="0"
@@ -164,6 +155,7 @@ exports[`FaceVerification Instructions matches snapshot 1`] = `
                   "WebkitAlignSelf": "stretch",
                   "alignSelf": "stretch",
                   "msFlexItemAlign": "stretch",
+                  "msGridRowAlign": "stretch",
                 }
               }
             >
@@ -174,7 +166,7 @@ exports[`FaceVerification Instructions matches snapshot 1`] = `
                   className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
                 >
                   <div
-                    className="css-text-901oao r-alignItems-1awozwy r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-hbpseb r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
+                    className="css-text-901oao r-alignItems-1awozwy r-color-jwli3a r-display-6koalj r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-qvk6io r-minHeight-1ceczpf r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
                     dir="auto"
                   >
                     GOT IT

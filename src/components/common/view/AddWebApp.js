@@ -6,7 +6,7 @@ import Text from '../../common/view/Text'
 import Icon from '../view/Icon'
 
 import Config from '../../../config/config'
-import logger from '../../../lib/logger/pino-logger'
+import logger from '../../../lib/logger/js-logger'
 
 import AsyncStorage from '../../../lib/utils/asyncStorage'
 import { useDialog } from '../../../lib/undux/utils/dialog'
@@ -23,8 +23,9 @@ import {
 
 import { withStyles } from '../../../lib/styles'
 import AddAppSVG from '../../../assets/addApp.svg'
+import { theme } from '../../theme/styles'
 
-// import userStorage from '../../../lib/gundb/UserStorage'
+// import userStorage from '../../../lib/userStorage/UserStorage'
 // import API from '../../../lib/API/api'
 
 const log = logger.child({ from: 'AddWebApp' })
@@ -114,7 +115,7 @@ const ExplanationDialog = withStyles(mapStylesToProps)(({ styles }) => {
   )
 })
 
-const AddWebApp = props => {
+const AddWebApp = () => {
   const store = SimpleStore.useStore()
   const [showDialog] = useDialog()
   const [show, setShow] = useState(false)
@@ -204,7 +205,7 @@ const AddWebApp = props => {
         {
           text: 'Later',
           mode: 'text',
-          color: props.theme.colors.gray80Percent,
+          color: theme.colors.gray80Percent,
           onPress: dismiss => {
             fireEvent(ADDTOHOME_LATER, { skipCount })
             dismiss()
@@ -273,4 +274,4 @@ const AddWebApp = props => {
   return null
 }
 
-export default withStyles()(AddWebApp)
+export default AddWebApp

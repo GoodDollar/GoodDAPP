@@ -28,6 +28,7 @@ const InputText = ({
   style,
   getRef,
   onBlur,
+  placeholderTextColor,
   ...props
 }) => {
   const [setMobileSafariKeyboardShown, setMobileKeyboardShown] = useCurriedSetters([
@@ -81,7 +82,7 @@ const InputText = ({
           {...props}
           ref={getRef}
           style={[styles.input, { borderBottomColor: inputColor, color: inputColor }, style]}
-          placeholderTextColor={theme.colors.gray50Percent}
+          placeholderTextColor={placeholderTextColor || theme.colors.gray50Percent}
           onTouchStart={onTouchStart}
           onBlur={onBlurHandler}
         />

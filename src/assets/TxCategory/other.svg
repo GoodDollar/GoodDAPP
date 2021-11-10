@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="63" height="18" viewBox="0 0 63 18">
+    <defs>
+        <style>
+            .cls-1{fill:#006ea0}.cls-2,.cls-4{fill:none}.cls-2{stroke:#3f3d56}.cls-3{stroke:none}
+        </style>
+    </defs>
+    <g id="Group_3983" transform="translate(-255 -367)">
+        <g id="Group_3980" transform="translate(-1 7)">
+            <circle id="Ellipse_905" cx="8" cy="8" r="8" class="cls-1" transform="translate(256 362)"/>
+            <g id="Ellipse_904" class="cls-2" transform="translate(258 360)">
+                <circle cx="8" cy="8" r="8" class="cls-3"/>
+                <circle cx="8" cy="8" r="7.5" class="cls-4"/>
+            </g>
+        </g>
+        <g id="Group_3981" transform="translate(22 7)">
+            <circle id="Ellipse_905-2" cx="8" cy="8" r="8" class="cls-1" transform="translate(256 362)"/>
+            <g id="Ellipse_904-2" class="cls-2" transform="translate(258 360)">
+                <circle cx="8" cy="8" r="8" class="cls-3"/>
+                <circle cx="8" cy="8" r="7.5" class="cls-4"/>
+            </g>
+        </g>
+        <g id="Group_3982" transform="translate(44 7)">
+            <circle id="Ellipse_905-3" cx="8" cy="8" r="8" class="cls-1" transform="translate(256 362)"/>
+            <g id="Ellipse_904-3" class="cls-2" transform="translate(258 360)">
+                <circle cx="8" cy="8" r="8" class="cls-3"/>
+                <circle cx="8" cy="8" r="7.5" class="cls-4"/>
+            </g>
+        </g>
+    </g>
+</svg>

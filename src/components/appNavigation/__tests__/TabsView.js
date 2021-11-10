@@ -1,10 +1,10 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
-import TabsView from '../TabsView'
+import ImportedTabsView from '../TabsView'
 import Dashboard from '../../dashboard/Dashboard'
 import Profile from '../../profile/Profile'
-import SimpleStore from '../../../lib/undux/SimpleStore'
-import userStorage from '../../../lib/gundb/UserStorage'
+import userStorage from '../../../lib/userStorage/UserStorage'
+import { withStoresProvider } from '../../../__tests__/__util__/index'
 
 // Note: test renderer must be required after react-native.
 jest.setTimeout(20000)
@@ -24,21 +24,15 @@ describe('TabsView', () => {
     },
   }
 
+  const TabsView = withStoresProvider(ImportedTabsView)
+
   it('renders without errors', () => {
-    const tree = renderer.create(
-      <SimpleStore.Container>
-        <TabsView routes={routes} />
-      </SimpleStore.Container>,
-    )
+    const tree = renderer.create(<TabsView routes={routes} />)
     expect(tree.toJSON()).toBeTruthy()
   })
 
   it('matches snapshot', () => {
-    const component = renderer.create(
-      <SimpleStore.Container>
-        <TabsView routes={routes} />
-      </SimpleStore.Container>,
-    )
+    const component = renderer.create(<TabsView routes={routes} />)
     expect(component.toJSON()).toMatchSnapshot()
   })
 })

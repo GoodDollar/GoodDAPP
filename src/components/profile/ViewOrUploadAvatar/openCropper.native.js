@@ -1,21 +1,26 @@
-import ImagePicker from 'react-native-image-crop-picker'
 import { Platform } from 'react-native'
-import base64ToFile from '../../../lib/utils/base64ToFile'
+import ImagePicker from 'react-native-image-crop-picker'
 
-export default async ({ pickerOptions, wrappedUserStorage, showErrorDialog, avatar, log }) => {
+import userStorage from '../../../lib/userStorage/UserStorage'
+
+import { assembleDataUrl } from '../../../lib/utils/base64'
+import { withTemporaryFile } from '../../../lib/utils/fs'
+
+export default async ({ pickerOptions, showErrorDialog, avatar, log }) => {
+  // eslint-disable-next-line require-await
+  const crop = async path => ImagePicker.openCropper({ ...pickerOptions, path })
+
   // iOS supports reading from a base64 string, android does not.
-  let imageToCrop = avatar
+  const { mime, data } = await Platform.select({
+    // eslint-disable-next-line require-await
+    android: async () => withTemporaryFile(avatar, async ({ uri }) => crop(uri)),
+    // eslint-disable-next-line require-await
+    default: async () => crop(avatar),
+  })()
 
-  if (Platform.OS === 'android') {
-    const imageData = avatar.replace('data:image/jpeg;base64,', '')
+  const newAvatar = assembleDataUrl(data, mime)
 
-    imageToCrop = await base64ToFile(imageData, 'GD_AVATAR.jpg')
-  }
-
-  const image = await ImagePicker.openCropper({ ...pickerOptions, path: imageToCrop })
-  const newAvatar = `data:${image.mime};base64,${image.data}`
-
-  wrappedUserStorage.setAvatar(newAvatar).catch(e => {
+  userStorage.setAvatar(newAvatar).catch(e => {
     showErrorDialog('Could not save image. Please try again.')
     log.error('save image failed:', e.message, e)
   })

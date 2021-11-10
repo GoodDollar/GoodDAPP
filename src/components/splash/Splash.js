@@ -1,6 +1,6 @@
 // libraries
-import React, { useEffect, useState } from 'react'
-import { Platform, StyleSheet } from 'react-native'
+import React, { useCallback, useEffect, useState } from 'react'
+import { Platform, StyleSheet, TouchableOpacity } from 'react-native'
 import moment from 'moment'
 
 // components
@@ -11,12 +11,14 @@ import WavesBackground from '../common/view/WavesBackground'
 
 // utils
 import Config from '../../config/config'
+import { openLink } from '../../lib/utils/linking'
 import { getDesignRelativeHeight, getMaxDeviceHeight } from '../../lib/utils/sizes'
-import { isMobileNative } from '../../lib/utils/platform'
+import { isMobile, isMobileNative } from '../../lib/utils/platform'
 import AsyncStorage from '../../lib/utils/asyncStorage'
 
 // assets
 // import wavePattern from '../../assets/splashWaves.svg'
+import PoweredByLogo from '../../assets/Splash/poweredByLogo.svg'
 
 const { isPhaseZero, version } = Config
 
@@ -38,6 +40,9 @@ export const resetLastSplash = async () => {
 const Splash = ({ animation, isLoggedIn }) => {
   const [checked, setChecked] = useState(false)
   const [shouldAnimate, setShouldAnimate] = useState(isLoggedIn !== true || isMobileNative)
+
+  const onPoweredByPress = useCallback(() => openLink(Config.poweredByUrl), [])
+
   useEffect(() => {
     if (shouldAnimate) {
       return
@@ -56,7 +61,7 @@ const Splash = ({ animation, isLoggedIn }) => {
   }
 
   return (
-    <Wrapper style={styles.wrapper}>
+    <Wrapper style={isMobile ? styles.mobileWrapper : styles.wrapper}>
       <Section style={styles.container}>
         <WavesBackground>
           <Section.Stack style={styles.content} grow justifyContent="center">
@@ -88,6 +93,9 @@ const Splash = ({ animation, isLoggedIn }) => {
               {isPhaseZero && 'Demo '}V{version}
             </Section.Text>
           </Section.Stack>
+          <TouchableOpacity style={styles.poweredByLogo} onPress={onPoweredByPress}>
+            <PoweredByLogo />
+          </TouchableOpacity>
         </WavesBackground>
       </Section>
     </Wrapper>
@@ -102,6 +110,10 @@ const styles = StyleSheet.create({
   wrapper: {
     padding: 0,
     maxHeight: getMaxDeviceHeight(),
+  },
+  mobileWrapper: {
+    padding: 0,
+    flex: 1,
   },
   container: {
     alignItems: 'center',
@@ -124,6 +136,9 @@ const styles = StyleSheet.create({
     marginLeft: 'auto',
     marginRight: 'auto',
     borderBottomColor: '#000',
+  },
+  poweredByLogo: {
+    transform: [{ rotateY: '180deg' }],
   },
   animation: {
     marginTop: -getDesignRelativeHeight(75),

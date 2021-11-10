@@ -76,7 +76,11 @@ export default ({
         completeNumber = `+${countryCode}${number}`
       }
 
-      onChange(completeNumber)
+      // need to check phone number for empty value (exclude country code) to save value
+      const isEmptyPhone = (completeNumber && completeNumber.trim() === `+${countryCode}`) || !completeNumber
+
+      // need to pass undefined value to properly save empty phone number like in web
+      onChange(isEmptyPhone ? undefined : completeNumber)
     },
     [onChange],
   )
@@ -89,7 +93,7 @@ export default ({
   }
 
   if (!isUserTypingCountry && value) {
-    phoneNumber = value.replace(countryCode, '')
+    phoneNumber = String(value).replace(countryCode, '')
   }
 
   const handleSelectCountry = useCallback(() => {

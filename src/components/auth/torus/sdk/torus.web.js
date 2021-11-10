@@ -1,12 +1,19 @@
 import DirectWebSDK from '@toruslabs/torus-direct-web-sdk'
+import { defaults } from 'lodash'
 
 // should be non-arrow function to be invoked with new
 function Torus(Config, options) {
   const { publicUrl } = Config
-  const baseUrl = `${publicUrl}/torus/`
+  const popupMode = options.uxMode === 'popup'
+  const baseUrl = publicUrl + (popupMode ? '/torus' : '')
+  const redirectPathName = popupMode ? 'redirect' : 'Welcome/Auth'
+
+  // setting values for url & redirect if  aren't overridden
+  // doing this separately as we need to determine uxMode firstly
+  const torusOptions = defaults({}, options, { baseUrl, redirectPathName })
 
   // as i remember baseUrl is web only - please re-check this
-  return new DirectWebSDK({ ...options, baseUrl })
+  return new DirectWebSDK(torusOptions)
 }
 
 export default Torus

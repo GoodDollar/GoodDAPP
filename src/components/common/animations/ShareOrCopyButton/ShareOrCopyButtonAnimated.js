@@ -24,12 +24,15 @@ class ShareButton extends AnimationBase {
   onMount() {
     let isDone = false
     this.anim.onComplete = this.onAnimationFinish
-    if (Platform.OS === 'web') {
-      this.anim.onEnterFrame = e => {
-        if (isDone === false && e.currentTime >= this.playUntil && this.anim) {
-          isDone = true
-          this.anim.goToAndPlay(150, true)
-        }
+
+    if (Platform.OS !== 'web') {
+      return
+    }
+
+    this.anim.onEnterFrame = e => {
+      if (isDone === false && e.currentTime >= this.playUntil && this.anim) {
+        isDone = true
+        this.anim.goToAndPlay(150, true)
       }
     }
   }
@@ -53,8 +56,9 @@ class ShareButton extends AnimationBase {
       this.setState({
         disabled: true,
       })
+
       this.anim.play(0, this.playUntil)
-      setTimeout(onPress, 1000) //give animation chance to play
+      onPress()
     }
   }
 
@@ -93,7 +97,7 @@ export const ShareButtonAnimated = ({ type, shareObject, onShareOrCopy, ...props
   const shareOrCopy =
     isSharingAvailable || isString(shareObject) ? shareObject : [shareObject.message, shareObject.url].join('\n')
   const shareHandler = useNativeSharing(shareOrCopy, { onSharePress: onShareOrCopy })
-  const copyHandler = useClipboardCopy(shareOrCopy, onShareOrCopy)
+  const copyHandler = useClipboardCopy(shareOrCopy, onShareOrCopy, 1000) // give animation chance to play
 
   return <ShareButtonStyled type={type} onPress={isSharingAvailable ? shareHandler : copyHandler} {...props} />
 }

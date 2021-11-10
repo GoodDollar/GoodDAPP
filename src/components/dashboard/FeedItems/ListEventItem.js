@@ -1,6 +1,7 @@
 // @flow
 import React from 'react'
 import { Platform, View } from 'react-native'
+import { get } from 'lodash'
 import { isMobile } from '../../../lib/utils/platform'
 import normalize from '../../../lib/utils/normalizeText'
 import { getFormattedDateTime } from '../../../lib/utils/FormatDate'
@@ -10,7 +11,6 @@ import { getDesignRelativeWidth } from '../../../lib/utils/sizes'
 import Avatar from '../../common/view/Avatar'
 import BigGoodDollar from '../../common/view/BigGoodDollar'
 import { Icon, Section, Text } from '../../common'
-import userStorage from '../../../lib/gundb/UserStorage'
 import type { FeedEventProps } from './EventProps'
 import EventIcon from './EventIcon'
 import EventCounterParty from './EventCounterParty'
@@ -33,7 +33,7 @@ const InviteItem = ({ item, theme }) => {
           fontWeight="bold"
           letterSpacing={0.09}
         >
-          {item.data.subtitle}
+          {get(item, 'data.subtitle', '')}
         </Text>
         <Text
           color={theme.colors.white}
@@ -43,7 +43,7 @@ const InviteItem = ({ item, theme }) => {
           fontWeight="regular"
           letterSpacing={-0.07}
         >
-          {item.data.readMore}
+          {get(item, 'data.readMore', '')}
         </Text>
       </Section.Stack>
       <Section.Stack
@@ -60,17 +60,14 @@ const InviteItem = ({ item, theme }) => {
  * @param {FeedEventProps} feedEvent - feed event
  * @returns {HTMLElement}
  */
-const ListEvent = ({ item: feed, theme, styles }: FeedEventProps) => {
+const ListEvent = ({ item: feed, theme, index, styles }: FeedEventProps) => {
   const itemType = feed.displayType || feed.type
   const eventSettings = getEventSettingsByType(theme, itemType)
   const mainColor = eventSettings.color
   const isSmallDevice = isMobile && getScreenWidth() < 353
   const isFeedTypeClaiming = feed.type === 'claiming'
   const isErrorCard = ['senderror', 'withdrawerror'].includes(itemType)
-
-  const updateFeedEventAnimation = () => {
-    userStorage.updateFeedAnimationStatus(feed.id)
-  }
+  const avatar = get(feed, 'data.endpoint.avatar')
 
   if (itemType === 'empty') {
     return <EmptyEventFeed />
@@ -102,7 +99,7 @@ const ListEvent = ({ item: feed, theme, styles }: FeedEventProps) => {
                   </Text>
                 )}
                 <BigGoodDollar
-                  number={feed.data.amount}
+                  number={get(feed, 'data.amount', 0)}
                   color={mainColor}
                   bigNumberProps={{ fontSize: 20, lineHeight: 20 }}
                   bigNumberStyles={styles.bigNumberStyles}
@@ -112,11 +109,7 @@ const ListEvent = ({ item: feed, theme, styles }: FeedEventProps) => {
             )}
           </View>
           <View style={styles.transferInfo} alignItems="flex-start">
-            <Avatar
-              size={normalize(34)}
-              style={styles.avatarBottom}
-              source={feed.data && feed.data.endpoint && feed.data.endpoint.avatar}
-            />
+            <Avatar size={normalize(34)} imageSize={normalize(36)} style={styles.avatarBottom} source={avatar} />
             <View style={[styles.mainInfo, isFeedTypeClaiming && styles.claimingCardFeedText]}>
               {isErrorCard ? (
                 <>
@@ -147,9 +140,8 @@ const ListEvent = ({ item: feed, theme, styles }: FeedEventProps) => {
               animStyle={styles.typeAnimatedIcon}
               type={itemType}
               size={normalize(34)}
-              onAnimationFinish={updateFeedEventAnimation}
-              showAnim={!feed.animationExecuted}
-              delay={1000}
+              showAnim={index === 0}
+              delay={100}
             />
           </View>
         </View>
@@ -215,13 +207,17 @@ const getFeedTextStyles = () => ({
 
 const FeedText = withStyles(getFeedTextStyles)(({ styles, feed, isSmallDevice }) => {
   let result = ''
-  const readMore = feed.data.readMore || feed.data.smallReadMore
+  const readMore = get(feed, 'data.readMore', get(feed, 'data.smallReadMore', ''))
   if (readMore) {
     result = (
-      <ReadMoreText color="gray80Percent" text={readMore} buttonText={feed.data.readMore ? 'Learn more...' : ''} />
+      <ReadMoreText
+        color="gray80Percent"
+        text={readMore}
+        buttonText={get(feed, 'data.readMore') ? 'Learn more...' : ''}
+      />
     )
-  } else if (feed.data.readMore === false) {
-    //if readMore is exactly false we dont show anything
+  } else if (get(feed, 'data.readMore') === false) {
+    //if readMore is exactly false we don't show anything
     result = null
   } else {
     result = (
@@ -233,7 +229,7 @@ const FeedText = withStyles(getFeedTextStyles)(({ styles, feed, isSmallDevice })
         textTransform="capitalize"
         style={styles.message}
       >
-        {feed.data.message}
+        {get(feed, 'data.message')}
       </Text>
     )
   }

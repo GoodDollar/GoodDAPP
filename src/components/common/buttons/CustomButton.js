@@ -62,14 +62,15 @@ const mapPropsToStyles = ({ theme, compact }) => ({
     marginLeft: theme.sizes.defaultDouble,
   },
   buttonText: {
+    display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    paddingTop: 1,
     letterSpacing: 0,
+    minHeight: 24,
   },
   contentWrapper: {
-    alignItems: 'center',
     display: 'flex',
+    alignItems: 'center',
     flexDirection: 'row',
     flex: 1,
   },

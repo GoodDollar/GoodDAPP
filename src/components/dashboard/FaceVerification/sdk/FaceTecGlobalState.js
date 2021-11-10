@@ -1,5 +1,9 @@
-import { assign } from 'lodash'
+import { Platform } from 'react-native'
+
 import Config from '../../../../config/config'
+import { retry } from '../../../../lib/utils/async'
+
+import faceVerificationApi from '../api/FaceVerificationApi'
 import { FaceTecSDK } from './FaceTecSDK'
 
 // Zoom global state object
@@ -11,27 +15,34 @@ const FaceTecGlobalState = {
    */
   faceTecCriticalError: null,
   faceTecSDKInitializing: null,
+  faceTecLicense: null,
 
   /**
    * Convenience method to initialize the FaceTec SDK.
    */
   async initialize() {
-    let { faceTecSDKInitializing } = this
-    const { faceTecLicenseKey, faceTecLicenseText, faceTecEncryptionKey } = Config
+    const { faceTecLicenseKey, faceTecEncryptionKey, faceTecProductionMode } = Config
+    const platform = Platform.select({ web: Platform.OS, default: 'native' })
 
-    if (!faceTecSDKInitializing) {
+    const obtainLicense = async () => {
+      // if env is prod and no license set - obtain it from the server
+      if (faceTecProductionMode && !this.faceTecLicense) {
+        this.faceTecLicense = await retry(() => faceVerificationApi.getLicense(platform), 2, 500)
+      }
+
+      // for dev / qa it will return the default value (null)
+      return this.faceTecLicense
+    }
+
+    if (!this.faceTecSDKInitializing) {
       // if not initializing - calling initialize sdk
-      faceTecSDKInitializing = FaceTecSDK.initialize(
-        faceTecLicenseKey,
-        faceTecEncryptionKey,
-        faceTecLicenseText,
-      ).finally(() => (this.faceTecSDKInitializing = null))
-
-      assign(this, { faceTecSDKInitializing })
+      this.faceTecSDKInitializing = obtainLicense()
+        .then(license => FaceTecSDK.initialize(faceTecLicenseKey, faceTecEncryptionKey, license))
+        .finally(() => (this.faceTecSDKInitializing = null))
     }
 
     // awaiting previous or current initialize call
-    await faceTecSDKInitializing
+    await this.faceTecSDKInitializing
   },
 }
 

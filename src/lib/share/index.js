@@ -1,8 +1,7 @@
 // @flow
 import { Platform, Share } from 'react-native'
-import { fromPairs, isEmpty } from 'lodash'
+import { isBoolean, isEmpty, isNumber, pickBy } from 'lodash'
 import { decode, encode, isMNID } from 'mnid'
-import isURL from 'validator/lib/isURL'
 import isEmail from '../validators/isEmail'
 
 import { isMobileNative, isMobileWeb } from '../utils/platform'
@@ -10,7 +9,8 @@ import isMobilePhone from '../validators/isMobilePhone'
 import { weiToGd } from '../wallet/utils'
 
 import Config from '../../config/config'
-import logger from '../logger/pino-logger'
+import logger from '../logger/js-logger'
+import { isValidURI } from '../utils/uri'
 
 const log = logger.child({ from: 'share.index' })
 
@@ -20,12 +20,76 @@ export const isSharingAvailable = Platform.select({
 })
 
 /**
- * Generates a code contaning an MNID with an amount if specified
+ * Represents all of the metadata needed by a vendor to complete a linked transactions
+ */
+export class VendorMetadata {
+  callbackUrl: URL
+
+  invoiceId: string
+
+  website: URL
+
+  vendorName: string
+
+  static CALLBACK_URL_SHORT = 'cbu'
+
+  static INVOICE_DATA_SHORT = 'ind'
+
+  static WEBSITE_SHORT = 'web'
+
+  static VENDOR_SHORT = 'ven'
+
+  static DATA_SHORT = 'd'
+
+  constructor(callbackUrl: URL, invoiceId: string, website: URL, vendorName: string) {
+    this.callbackUrl = callbackUrl
+    this.invoiceId = invoiceId
+    this.website = website
+    this.vendorName = vendorName
+  }
+
+  /**
+   * Converts a [VendorMetadata] object to a concise form for shorter base64 compression
+   *
+   * @returns A concise form of the vendor metadata.
+   */
+  toConcise(): Object {
+    let response = {}
+    response[VendorMetadata.CALLBACK_URL_SHORT] = this.callbackUrl
+    response[VendorMetadata.INVOICE_DATA_SHORT] = this.invoiceId
+    response[VendorMetadata.WEBSITE_SHORT] = this.website
+    response[VendorMetadata.VENDOR_SHORT] = this.vendorName
+    response[VendorMetadata.DATA_SHORT] = this.data
+
+    return response
+  }
+
+  /**
+   * Creates a [VendorMetadata] object from its concise form.
+   *
+   * @param {*} concise
+   * @returns
+   */
+  static fromConcise(concise: Object): VendorMetadata {
+    return {
+      callbackUrl: concise[VendorMetadata.CALLBACK_URL_SHORT],
+      invoiceId: concise[VendorMetadata.INVOICE_DATA_SHORT],
+      website: concise[VendorMetadata.WEBSITE_SHORT],
+      vendorName: concise[VendorMetadata.VENDOR_SHORT],
+      data: concise[VendorMetadata.DATA_SHORT],
+    }
+  }
+}
+
+/**
+ * Generates a code containing an MNID with an amount if specified
  * @param address - address required to generate MNID
  * @param networkId - network identifier required to generate MNID
  * @param amount - amount to be attached to the generated MNID code
  * @param reason - reason to be attached to the generated MNID code
+ * @param category - category to be attached to the generated MNID code
  * @param counterPartyDisplayName
+ * @param vendorInfo - Optional vendor information when linking against a selling platform
  * @returns {string} - 'MNID|amount'|'MNID'
  */
 export function generateCode(
@@ -33,20 +97,35 @@ export function generateCode(
   networkId: number,
   amount: number,
   reason: string,
+  category: string,
   counterPartyDisplayName: string,
+  vendorInfo?: VendorMetadata,
 ) {
   const mnid = encode({ address, network: `0x${networkId.toString(16)}` })
 
   const codeObj = {
     m: mnid,
     a: amount,
-    r: reason,
+    r: reason || '',
+    cat: category,
+    ven: {},
   }
+
+  if (vendorInfo) {
+    codeObj.ven = vendorInfo.toConcise()
+  }
+
   if (counterPartyDisplayName) {
     codeObj.c = counterPartyDisplayName
   }
 
-  return codeObj
+  return pickBy(codeObj, propValue => {
+    if ([isNumber, isBoolean].some(fn => fn(propValue))) {
+      return !!propValue
+    }
+
+    return !isEmpty(propValue)
+  })
 }
 
 /**
@@ -56,7 +135,7 @@ export function generateCode(
  */
 export function readCode(code: string) {
   try {
-    let mnid, amount, reason, counterPartyDisplayName
+    let mnid, amount, reason, category, counterPartyDisplayName, vendorInfo
     const decoded = decodeURIComponent(code)
 
     try {
@@ -65,9 +144,11 @@ export function readCode(code: string) {
       mnid = codeObject.mnid || codeObject.m
       amount = codeObject.amount || codeObject.a
       reason = codeObject.reason || codeObject.r
+      category = codeObject.category || codeObject.cat
       counterPartyDisplayName = codeObject.counterPartyDisplayName || codeObject.c
+      vendorInfo = codeObject.vendorInfo || codeObject.ven
     } catch (e) {
-      ;[mnid, amount, reason, counterPartyDisplayName] = decoded.split('|')
+      ;[mnid, amount, reason, category, counterPartyDisplayName, vendorInfo] = decoded.split('|')
     }
 
     if (!isMNID(mnid)) {
@@ -77,13 +158,17 @@ export function readCode(code: string) {
     const { network, address } = decode(mnid)
     amount = amount && parseInt(amount)
     reason = reason === 'undefined' ? undefined : reason
+    category = category === 'undefined' ? undefined : category
     counterPartyDisplayName = counterPartyDisplayName === 'undefined' ? undefined : counterPartyDisplayName
+    vendorInfo = vendorInfo == null ? undefined : VendorMetadata.fromConcise(vendorInfo)
     return {
       networkId: parseInt(network),
       address,
       amount: amount ? amount : undefined,
       reason,
+      category,
       counterPartyDisplayName,
+      vendorInfo,
     }
   } catch (e) {
     log.error('readCode failed', e.message, e, { code })
@@ -102,30 +187,12 @@ export function readCode(code: string) {
 export function readReceiveLink(link: string) {
   // checks that the link has the expected strings in it
   const isValidReceiveLink = ['receiveLink', 'reason'].every(v => link.indexOf(v) !== -1)
-  const isUrlOptions = { require_tld: false }
 
-  if (!isURL(link, isUrlOptions) || !isValidReceiveLink) {
+  if (!isValidURI(link) || !isValidReceiveLink) {
     return null
   }
 
   return link
-}
-
-/**
- * Extracts query params values and returns them as a key-value pair
- * @param {string} link - url with queryParams
- * @returns {object} - {key: value}
- */
-export function extractQueryParams(link: string = ''): {} {
-  const queryParams = link.split('?')[1] || ''
-  const keyValuePairs: Array<[string, string]> = queryParams
-    .split('&')
-    .filter(_ => _)
-
-    // $FlowFixMe
-    .map(p => p.split('='))
-    .filter(p => p[0] !== '' && p[0] !== undefined)
-  return fromPairs(keyValuePairs)
 }
 
 type ShareObject = {
@@ -300,10 +367,11 @@ export const parsePaymentLinkParams = params => {
   if (paymentCode) {
     try {
       paymentParams = Buffer.from(decodeURIComponent(paymentCode), 'base64').toString()
-      const { p, r, reason: oldr, paymentCode: oldp, i } = JSON.parse(paymentParams)
+      const { p, r, reason: oldr, paymentCode: oldp, i, cat } = JSON.parse(paymentParams)
       paymentParams = {
         paymentCode: p || oldp,
         reason: r || oldr,
+        category: cat,
         inviteCode: i,
       }
     } catch (e) {

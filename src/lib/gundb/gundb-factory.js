@@ -5,13 +5,14 @@ import '@gooddollar/gun/lib/radix'
 import '@gooddollar/gun/lib/radisk'
 import '@gooddollar/gun/lib/store'
 import '@gooddollar/gun/lib/rindexed'
-import '@gooddollar/gun/nts'
+
+// import '@gooddollar/gun/nts'
 
 import { assign, findLastIndex } from 'lodash'
 
 import './gundb-extend'
 import Config from '../../config/config'
-import logger from '../logger/pino-logger'
+import logger from '../logger/js-logger'
 
 export default function createGun(options = {}) {
   const { gunPublicUrl, nodeEnv, peersProb, forcePeer } = Config

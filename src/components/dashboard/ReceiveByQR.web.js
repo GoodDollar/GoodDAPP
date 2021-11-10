@@ -14,9 +14,10 @@ import SimpleStore from '../../lib/undux/SimpleStore'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
 
 // utils
-import logger from '../../lib/logger/pino-logger'
+import logger from '../../lib/logger/js-logger'
 import { decorate, ExceptionCategory, ExceptionCode } from '../../lib/logger/exceptions'
-import { extractQueryParams, readReceiveLink } from '../../lib/share'
+import { readReceiveLink } from '../../lib/share'
+import { extractQueryParams } from '../../lib/utils/uri'
 import { wrapFunction } from '../../lib/undux/utils/wrapper'
 import { executeWithdraw } from '../../lib/undux/utils/withdraw'
 import { Permissions } from '../permissions/types'
@@ -61,7 +62,7 @@ const ReceiveByQR = ({ screenProps }) => {
         if (url === null) {
           const error = new Error('Invalid QR Code. Probably this QR code is for sending GD')
 
-          log.error('Wrong QR code received', error.message, error, {
+          log.warn('Wrong QR code received', error.message, error, {
             url,
             category: ExceptionCategory.Human,
             dialogShown: true,
@@ -73,13 +74,14 @@ const ReceiveByQR = ({ screenProps }) => {
           if (!receiveLink) {
             const error = new Error('Invalid QR Code. Probably this QR code is for sending GD')
 
-            log.error('Wrong QR code received', error.message, error, {
+            log.warn('Wrong QR code received', error.message, error, {
               url,
               receiveLink,
               reason,
               category: ExceptionCategory.Human,
               dialogShown: true,
             })
+
             showErrorDialog('Invalid QR Code. Probably this QR code is for sending GD')
           }
 

@@ -4,9 +4,10 @@ import { assign, noop } from 'lodash'
 import useRealtimeProps from '../../../../lib/hooks/useRealtimeProps'
 
 import { ExceptionType, kindOfSDKIssue } from '../utils/kindOfTheIssue'
+import { hideRedBoxIfNonCritical } from '../utils/redBox'
 
-import logger from '../../../../lib/logger/pino-logger'
-import { isE2ERunning } from '../../../../lib/utils/platform'
+import logger from '../../../../lib/logger/js-logger'
+import { isE2ERunning, isEmulator } from '../../../../lib/utils/platform'
 
 import FaceTecGlobalState from '../sdk/FaceTecGlobalState'
 import useCriticalErrorHandler from './useCriticalErrorHandler'
@@ -52,23 +53,24 @@ export default (eventHandlers = {}) => {
       // executing current onError callback
       onError(exception)
       setLastError(exception)
-      log.error('Zoom initialization failed', message, exception)
-    }
-
-    // Helper for handle initialzied state
-    const handleInitialized = () => {
-      onInitialized()
-      setInitialized(true)
+      hideRedBoxIfNonCritical(exception, () => log.error('Zoom initialization failed', message, exception))
     }
 
     const initializeSdk = async () => {
       try {
         // Initializing ZoOm
         log.debug('Initializing ZoomSDK')
-        await FaceTecGlobalState.initialize()
+
+        const isDeviceEmulated = await isEmulator
+
+        // if cypress is running - do nothing and immediately call success callback
+        if (!isE2ERunning && !isDeviceEmulated) {
+          await FaceTecGlobalState.initialize()
+        }
 
         // Executing onInitialized callback
-        handleInitialized()
+        onInitialized()
+        setInitialized(true)
         log.debug('ZoomSDK is ready')
       } catch (exception) {
         // the following code is needed to categorize exceptions
@@ -82,12 +84,6 @@ export default (eventHandlers = {}) => {
         // handling initialization exceptions
         handleException(exception)
       }
-    }
-
-    // if cypress is running - do nothing and immediately call success callback
-    if (isE2ERunning) {
-      handleInitialized()
-      return
     }
 
     const { faceTecCriticalError } = FaceTecGlobalState

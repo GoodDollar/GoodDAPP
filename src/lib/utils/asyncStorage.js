@@ -1,5 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { isFunction } from 'lodash'
+import { AB_TESTING, DESTINATION_PATH, INVITE_CODE, IS_FIRST_VISIT } from '../constants/localStorage'
 
 export default new class {
   constructor(storageApi) {
@@ -11,7 +12,7 @@ export default new class {
         let propertyValue
         let propertyTarget = storageApi
 
-        if (['get', 'set'].some(prefix => property.startsWith(prefix))) {
+        if (['get', 'set', 'clear'].some(prefix => property.startsWith(prefix))) {
           propertyTarget = this
         }
 
@@ -24,6 +25,12 @@ export default new class {
         return propertyValue
       },
     })
+  }
+
+  async clear() {
+    const toKeep = await this.storageApi.multiGet([IS_FIRST_VISIT, DESTINATION_PATH, AB_TESTING, INVITE_CODE])
+    await this.storageApi.clear()
+    this.storageApi.multiSet(toKeep.filter(_ => _[1] != null))
   }
 
   async setItem(key, value) {

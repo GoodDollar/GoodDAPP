@@ -117,16 +117,69 @@
       href="https://fonts.googleapis.com/css?family=Roboto:400,500,700|Roboto+Slab:400,700&display=swap"
       rel="stylesheet"
     />
+
+    <meta
+      name="description"
+      content="GoodDollar is a non-profit protocol and G$ digital coin to deliver universal basic income on a global scale."
+    />
+    <link rel="canonical" href="https://wallet.gooddollar.org/" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="A Basic Income Coin &amp; Wallet" />
+    <meta
+      property="og:description"
+      content="Join and receive your daily income! GoodDollar creates and distributes global basic income with real monetary value. Learn more and sign up now at wallet.gooddollar.org"
+    />
+    <meta property="og:url" content="https://wallet.gooddollar.org/" />
+    <meta property="og:site_name" content="GoodDollar Wallet" />
+    <meta property="og:image" content="https://www.gooddollar.org/wp-content/uploads/2020/09/gooddollar-share.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="628" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="A Basic Income Coin &amp; Wallet" />
+    <meta
+      name="twitter:description"
+      content="Join and receive your daily income! GoodDollar creates and distributes global basic income with real monetary value. Learn more and sign up now at wallet.gooddollar.org"
+    />
+    <script type="application/ld+json" class="yoast-schema-graph">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "WebApplication",
+            "@id": "https://wallet.gooddollar.org/#website",
+            "url": "https://wallet.gooddollar.org/",
+            "name": "GoodDollar Wallet",
+            "description": "Universal Basic Income",
+            "inLanguage": "en-US"
+          },
+          {
+            "@type": "WebPage",
+            "@id": "https://wallet.gooddollar.org/#webpage",
+            "url": "https://wallet.gooddollar.org/",
+            "name": "GoodDollar: Global UBI on Blockchain",
+            "isPartOf": { "@id": "https://wallet.gooddollar.org/#website" },
+            "datePublished": "2020-07-22T06:37:04+00:00",
+            "dateModified": "2020-12-08T11:50:28+00:00",
+            "description": "GoodDollar is a non-profit protocol and G$ digital coin to deliver universal basic income on a global scale.",
+            "inLanguage": "en-US",
+            "potentialAction": [{ "@type": "ReadAction", "target": ["https://wallet.gooddollar.org/"] }]
+          }
+        ]
+      }
+    </script>
     <title>Good Dollar</title>
   </head>
   <body>
     <noscript> You need to enable JavaScript to run this app. </noscript>
     <div id="root"></div>
+    <script>
+      var iOS = !!navigator.platform && /iPhone/.test(navigator.platform)
+
+      if (iOS) {
+        document.querySelector('link[rel="manifest"]').setAttribute('href', '/manifest-ios.json')
+      }
+    </script>
+
   </body>
-  <script>
-    var iOS = !!navigator.platform && /iPhone/.test(navigator.platform)
-    if (iOS) {
-      document.querySelector('link[rel="manifest"]').setAttribute('href', '/manifest-ios.json')
-    }
-  </script>
 </html>

@@ -8,18 +8,17 @@ import { Platform, View } from 'react-native'
 import Section from '../common/layout/Section'
 import CustomButton from '../common/buttons/CustomButton'
 import { PrivacyPolicy, TermsOfUse } from '../webView/webViewInstances'
+import { Wrapper } from '../common'
 
 // utils
 import { withStyles } from '../../lib/styles'
 import normalizeText from '../../lib/utils/normalizeText'
-import { getDesignRelativeHeight, getMaxDeviceHeight } from '../../lib/utils/sizes'
+import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 
 type Props = {
   styles: any,
   navigation: any,
 }
-
-const wHeight = getMaxDeviceHeight()
 
 const TERMS_OF_USE_TITLE = 'Terms of Use'
 const TERMS_OF_USE_KEY = 'tou'
@@ -86,19 +85,24 @@ const PrivacyPolicyAndTerms = ({ navigation, styles }: Props) => {
   }, [active])
 
   return (
-    <Section style={styles.wrapper}>
-      <Section.Row>{navButtons}</Section.Row>
-      <Section.Stack grow style={styles.scenesContainer}>
-        {scenes}
+    <Wrapper style={{ padding: 0 }}>
+      <Section.Stack style={styles.wrapper}>
+        <Section.Row>{navButtons}</Section.Row>
+        <Section.Stack grow style={styles.scenesContainer}>
+          {scenes}
+        </Section.Stack>
       </Section.Stack>
-    </Section>
+    </Wrapper>
   )
 }
 
 const styles = ({ theme }) => ({
   wrapper: {
-    height: wHeight,
-    paddingTop: getDesignRelativeHeight(8),
+    flex: 1,
+    flexBasis: 1,
+    backgroundColor: 'white',
+    padding: theme.sizes.defaultDouble,
+    paddingVertical: theme.sizes.default,
   },
   navButton: {
     width: '50%',
@@ -126,22 +130,17 @@ const styles = ({ theme }) => ({
     color: theme.colors.text,
   },
   scenesContainer: {
-    position: 'relative',
-    width: '100%',
-    overflow: 'hidden',
+    flex: 1,
     marginTop: getDesignRelativeHeight(32),
   },
   sceneWrapper: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    width: '100%',
-    height: '100%',
-    opacity: 0,
+    flex: 1,
+
+    display: 'none',
   },
   activeScene: {
     zIndex: 1,
-    opacity: 1,
+    display: 'flex',
   },
   ok: {
     marginTop: getDesignRelativeHeight(15),

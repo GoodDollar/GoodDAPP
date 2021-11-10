@@ -3,13 +3,12 @@ import { View } from 'react-native'
 import { get } from 'lodash'
 
 import Text from '../../../common/view/Text'
-import Separator from '../../../common/layout/Separator'
 import { CustomButton, Section, Wrapper } from '../../../common'
-import FaceVerificationErrorSmiley from '../../../common/animations/FaceVerificationErrorSmiley'
 
 import { withStyles } from '../../../../lib/styles'
 import { isBrowser, isMobileOnly } from '../../../../lib/utils/platform'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../../lib/utils/sizes'
+import FVErrorGeneralSVG from '../../../../assets/FaceVerification/FVErrorGeneral.svg'
 
 import { fireEvent, FV_GENERALERROR } from '../../../../lib/analytics/analytics'
 
@@ -28,25 +27,25 @@ const GeneralError = ({ styles, displayTitle, onRetry, exception }) => {
     <Wrapper>
       <View style={styles.topContainer}>
         <Section style={styles.descriptionContainer} justifyContent="space-evenly">
-          <Section.Title fontWeight="medium" textTransform="none" color="red">
-            {displayTitle}
+          <Section.Title fontWeight="normal" textTransform="none" color="red">
+            <Section.Title fontWeight="bold" textTransform="none" color="red">
+              {displayTitle}
+            </Section.Title>
             {',\nSomething went wrong\non our side...'}
           </Section.Title>
-          <View style={styles.illustration}>
-            <FaceVerificationErrorSmiley />
-          </View>
           <Section style={styles.errorSection}>
-            <Separator width={2} />
             <View style={styles.descriptionWrapper}>
-              <Text color="primary" fontSize={18} lineHeight={25}>
-                {"You see, it's not that easy\nto capture your beauty :)"}
+              <Text fontSize={18} lineHeight={25}>
+                {"You see, it's not that easy to \ncapture your beauty :)"}
               </Text>
-              <Text color="primary" fontWeight="bold" fontSize={18} lineHeight={25}>
+              <Text fontWeight="bold" fontSize={18} lineHeight={25}>
                 So, let`s give it another shot...
               </Text>
             </View>
-            <Separator width={2} />
           </Section>
+          <View style={styles.errorImage}>
+            <FVErrorGeneralSVG />
+          </View>
         </Section>
         <View style={styles.action}>
           <CustomButton onPress={onRetry}>TRY AGAIN</CustomButton>
@@ -73,11 +72,11 @@ const getStylesFromProps = ({ theme }) => {
       paddingTop: getDesignRelativeHeight(theme.sizes.defaultDouble),
       borderRadius: 5,
     },
-    illustration: {
-      height: getDesignRelativeWidth(isBrowser ? 220 : 130),
+    errorImage: {
+      height: getDesignRelativeWidth(isBrowser ? 220 : 166),
       width: '100%',
-      marginTop: isMobileOnly ? getDesignRelativeHeight(27) : 0,
-      marginBottom: isMobileOnly ? getDesignRelativeHeight(35) : 0,
+      marginTop: isMobileOnly ? getDesignRelativeHeight(15) : 0,
+      marginBottom: isMobileOnly ? getDesignRelativeHeight(20) : 0,
       marginRight: 'auto',
       marginLeft: 'auto',
       alignItems: 'center',

@@ -7,7 +7,8 @@ import useRealtimeStoreState from '../../../../lib/hooks/useRealtimeStoreState'
 
 import GDStore, { defaultVerificationState } from '../../../../lib/undux/GDStore'
 import { fireEvent, FV_TRYAGAINLATER } from '../../../../lib/analytics/analytics'
-import logger from '../../../../lib/logger/pino-logger'
+import logger from '../../../../lib/logger/js-logger'
+import { hideRedBox } from '../utils/redBox'
 
 const log = logger.child({ from: 'useVerificationAttempts' })
 
@@ -45,11 +46,13 @@ export default () => {
       resetAttempts()
 
       // 3. log for debug purposes
-      log.error(
-        `FaceVerification still failing after ${MAX_ATTEMPTS_ALLOWED} attempts - FV_TRY_AGAIN_LATER fired:`,
-        message,
-        exception,
-        { attemptsErrorMessages },
+      hideRedBox(() =>
+        log.error(
+          `FaceVerification still failing after ${MAX_ATTEMPTS_ALLOWED} attempts - FV_TRY_AGAIN_LATER fired:`,
+          message,
+          exception,
+          { attemptsErrorMessages },
+        ),
       )
 
       // 3. fire event and send error messages to the Amplitude

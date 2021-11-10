@@ -1,10 +1,7 @@
 import React, { useCallback, useEffect } from 'react'
 import { WebView } from 'react-native-webview'
 
-import { getMaxDeviceHeight } from '../../lib/utils/sizes'
 import useLoadingIndicator from '../../lib/hooks/useLoadingIndicator'
-
-const wHeight = getMaxDeviceHeight()
 
 const DOMLoadedDispatcher = `(function () {
     var messenger = window.ReactNativeWebView || parent;
@@ -48,14 +45,18 @@ export const Iframe = ({ src, title }) => {
     [hideLoading],
   )
 
-  useEffect(showLoading, [])
+  useEffect(() => {
+    showLoading()
+    return hideLoading
+  }, [])
 
   return (
     <WebView
       title={title}
       onLoad={hideLoading}
       source={{ uri: src }}
-      style={{ height: wHeight }}
+      scrollEnabled={true}
+      automaticallyAdjustContentInsets={false}
       originWhitelist={['*']}
       javaScriptEnabledAndroid={true}
       injectedJavaScript={DOMLoadedDispatcher}

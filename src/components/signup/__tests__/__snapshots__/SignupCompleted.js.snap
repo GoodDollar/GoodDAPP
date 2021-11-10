@@ -26,7 +26,7 @@ exports[`SignupCompleted matches snapshot 1`] = `
           }
         >
           <div
-            className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-evnaw r-fontWeight-majxgm r-lineHeight-17rnw9f r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+            className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-majxgm r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
             dir="auto"
           >
             Thanks Kevin
@@ -39,7 +39,7 @@ You're all set
               className="css-view-1dbjc4n"
               style={
                 Object {
-                  "marginTop": "-12.8px",
+                  "marginTop": "0px",
                   "width": "100%",
                 }
               }
@@ -91,18 +91,10 @@ You're all set
             }
           >
             <div
-              className="css-cursor-18t94o4 css-view-1dbjc4n r-cursor-1loqt21 r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim r-touchAction-1otgn73"
-              data-focusable={true}
-              disabled={false}
+              className="css-cursor-18t94o4 css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
+              onClick={[Function]}
+              onContextMenu={[Function]}
               onKeyDown={[Function]}
-              onKeyPress={[Function]}
-              onKeyUp={[Function]}
-              onResponderGrant={[Function]}
-              onResponderMove={[Function]}
-              onResponderRelease={[Function]}
-              onResponderTerminate={[Function]}
-              onResponderTerminationRequest={[Function]}
-              onStartShouldSetResponder={[Function]}
               role="button"
               style={
                 Object {
@@ -113,6 +105,7 @@ You're all set
                   "borderTopLeftRadius": "50px",
                   "borderTopRightRadius": "50px",
                   "msFlexItemAlign": "stretch",
+                  "msGridRowAlign": "stretch",
                 }
               }
               tabIndex="0"
@@ -124,6 +117,7 @@ You're all set
                     "WebkitAlignSelf": "stretch",
                     "alignSelf": "stretch",
                     "msFlexItemAlign": "stretch",
+                    "msGridRowAlign": "stretch",
                   }
                 }
               >
@@ -134,7 +128,7 @@ You're all set
                     className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
                   >
                     <div
-                      className="css-text-901oao r-alignItems-1awozwy r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-hbpseb r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
+                      className="css-text-901oao r-alignItems-1awozwy r-color-jwli3a r-display-6koalj r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-qvk6io r-minHeight-1ceczpf r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
                       dir="auto"
                     >
                       Let's start!

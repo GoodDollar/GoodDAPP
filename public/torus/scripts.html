@@ -112,6 +112,7 @@
           width: 12px;
         }
       }
+
     </style>
 </head>
 
@@ -127,53 +128,58 @@
     </div>
 </div>
 <script>
-        document.getElementById("message").style.visibility = "visible";
-        var navigateLink = document.getElementById("navigateLink");
-        var redirectText = document.getElementById("redirectText");
-        var linkToNavigate;
-        var instanceParams = {};
-        try {
-          var url = new URL(location.href);
-          var hash = url.hash.substr(1);
-          var hashParams = {};
-          if (hash) {
+    document.getElementById("message").style.visibility = "visible";
+    var navigateLink = document.getElementById("navigateLink");
+    var redirectText = document.getElementById("redirectText");
+    var linkToNavigate;
+    var instanceParams = {};
+    // Replace these urls with your app package urls
+    const whiteListedURLs = ["gooddollar://org.gooddollar/redirect"]
+    try {
+        var url = new URL(location.href);
+        var hash = url.hash.substr(1);
+        var hashParams = {};
+        if (hash) {
             hashParams = hash.split("&").reduce(function (result, item) {
-              var parts = item.split("=");
-              result[parts[0]] = parts[1];
-              return result;
+                var parts = item.split("=");
+                result[parts[0]] = parts[1];
+                return result;
             }, {});
-          }
-          var queryParams = {};
-          for (var key of url.searchParams.keys()) {
+        }
+        var queryParams = {};
+        for (var key of url.searchParams.keys()) {
             queryParams[key] = url.searchParams.get(key);
-          }
-          var error = "";
-          try {
+        }
+        var error = "";
+        try {
             if (Object.keys(hashParams).length > 0 && hashParams.state) {
-              instanceParams = JSON.parse(window.atob(decodeURIComponent(decodeURIComponent(hashParams.state)))) || {};
-              if (hashParams.error) error = hashParams.error;
+                instanceParams = JSON.parse(window.atob(decodeURIComponent(decodeURIComponent(hashParams.state)))) || {};
+                if (hashParams.error) error = hashParams.error;
             } else if (Object.keys(queryParams).length > 0 && queryParams.state) {
-              instanceParams = JSON.parse(window.atob(decodeURIComponent(decodeURIComponent(queryParams.state)))) || {};
-              if (queryParams.error) error = queryParams.error;
+                instanceParams = JSON.parse(window.atob(decodeURIComponent(decodeURIComponent(queryParams.state)))) || {};
+                if (queryParams.error) error = queryParams.error;
             }
-          } catch (e) {
+        } catch (e) {
             console.error(e);
-          }
-          if (instanceParams.redirectToAndroid) {
-            // communicate to android package
+        }
+
+        // communicate to android/ios package
+        if (whiteListedURLs.includes(instanceParams.redirectUri)) {
             linkToNavigate = instanceParams.redirectUri + location.search + location.hash;
             window.location.href = linkToNavigate;
             setTimeout(() => {
-              navigateLink.href = linkToNavigate;
-              redirectText.style.display = "block";
+                navigateLink.href = linkToNavigate;
+                redirectText.style.display = "block";
             }, 1000)
-          }
-        } catch (err) {
-          console.error(err, "error in redirect");
-          window.close();
         }
-
-
+        else {
+            console.error("Please whitelist, ", instanceParams.redirectUri, "or use whitelisted URLs")
+            // alert("Please whitelist, ", instanceParams.redirectUri, "or use whitelisted URLs")
+        }
+    } catch (err) {
+        console.error(err, "error in redirect");
+        window.close();
+    }
 </script>
 </body>
 </html>

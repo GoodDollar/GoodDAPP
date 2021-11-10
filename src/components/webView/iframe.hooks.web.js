@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef } from 'react'
 
-import logger from '../../lib/logger/pino-logger'
+import logger from '../../lib/logger/js-logger'
 import IframeManager from './iframe.manager'
 
 const log = logger.child('IframeTab.web')

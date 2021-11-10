@@ -1,7 +1,8 @@
 // @flow
+import { isNil } from 'lodash'
 import { getNetworkName } from '../../../lib/constants/network'
 import goodWallet from '../../../lib/wallet/GoodWallet'
-import userStorage from '../../../lib/gundb/UserStorage'
+import userStorage from '../../../lib/userStorage/UserStorage'
 import { ACTION_SEND_TO_ADDRESS } from './sendReceiveFlow'
 
 export type CodeType = {
@@ -21,11 +22,11 @@ export const routeAndPathForCode = async (
   screen: string,
   code: CodeType | null,
 ): Promise<{ route: any, params: any }> => {
-  if (code === null || !code.networkId || !code.address) {
+  if (code == null || !code.networkId || !code.address) {
     throw new Error('Invalid QR Code.')
   }
 
-  const { networkId, address, amount, reason } = code
+  const { networkId, address, amount, reason, category, vendorInfo } = code
 
   await goodWallet.ready
   const currentNetworkId = goodWallet.networkId
@@ -39,7 +40,7 @@ export const routeAndPathForCode = async (
     throw new Error("You can't send G$s to yourself, you already own your G$s")
   }
 
-  const profile = (await userStorage.getUserProfile(address)) || {}
+  const profile = (await userStorage.getPublicProfile(address)) || {}
 
   switch (screen) {
     case 'sendByQR':
@@ -47,9 +48,11 @@ export const routeAndPathForCode = async (
       const params = {
         address,
         reason,
+        category,
         amount,
         profile,
-        counterPartyDisplayName: profile.name,
+        vendorInfo,
+        counterPartyDisplayName: profile.fullName,
         action: ACTION_SEND_TO_ADDRESS,
         type: screen === 'sendByQR' ? 'QR' : 'receive',
       }
@@ -67,7 +70,7 @@ export const routeAndPathForCode = async (
         }
       }
 
-      if (!reason) {
+      if (isNil(reason) && isNil(category)) {
         return {
           route: 'Reason',
           params: {

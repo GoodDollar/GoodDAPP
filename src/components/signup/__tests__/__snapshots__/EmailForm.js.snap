@@ -37,7 +37,7 @@ exports[`EmailForm matches snapshot 1`] = `
             }
           >
             <div
-              className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-height-4d76ec r-minHeight-ql8eny r-paddingBottom-1l7z4oj"
+              className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-height-1w2pmg r-minHeight-ifefl9 r-paddingBottom-1l7z4oj"
               style={
                 Object {
                   "WebkitBoxPack": "start",
@@ -51,7 +51,7 @@ exports[`EmailForm matches snapshot 1`] = `
                 className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1777fci"
               >
                 <div
-                  className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-evnaw r-fontWeight-majxgm r-lineHeight-17rnw9f r-marginVertical-c8eef1 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                  className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-majxgm r-lineHeight-qvk6io r-marginVertical-c8eef1 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                   dir="auto"
                 >
                   Please enter your email
@@ -61,7 +61,7 @@ exports[`EmailForm matches snapshot 1`] = `
                 className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1777fci"
               >
                 <div
-                  className="css-text-901oao r-color-vaa0vc r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-1it3c9n r-lineHeight-rjixqe r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                  className="css-text-901oao r-color-vaa0vc r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                   dir="auto"
                 >
                   we will only notify you with important activity
@@ -81,15 +81,12 @@ exports[`EmailForm matches snapshot 1`] = `
                       autoComplete="on"
                       autoCorrect="on"
                       autoFocus={true}
-                      className="css-textinput-1cwyjr8 r-backgroundColor-14lw9ot r-borderBottomColor-1ny7kx0 r-borderBottomWidth-qklmqi r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-1i10wst r-paddingHorizontal-1dye5f7 r-paddingVertical-oyd9sg r-placeholderTextColor-1xktb6b r-textAlign-q4m81j"
-                      data-focusable={true}
+                      className="css-textinput-11aywtz r-backgroundColor-14lw9ot r-borderBottomColor-1ny7kx0 r-borderBottomWidth-qklmqi r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-hiw28u r-paddingHorizontal-1dye5f7 r-paddingVertical-oyd9sg r-placeholderTextColor-1xktb6b r-textAlign-q4m81j"
                       dir="auto"
-                      id="Component_input"
                       onBlur={[Function]}
                       onChange={[Function]}
                       onFocus={[Function]}
                       onKeyDown={[Function]}
-                      onKeyPress={[Function]}
                       onSelect={[Function]}
                       onTouchStart={[Function]}
                       readOnly={false}
@@ -98,17 +95,16 @@ exports[`EmailForm matches snapshot 1`] = `
                       value=""
                     />
                     <div
-                      className="css-view-1dbjc4n r-bottom-1ebgqk7 r-cursor-1loqt21 r-paddingTop-tskmnb r-position-u8s1d r-right-3mc0re r-touchAction-1otgn73 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-zIndex-184en5c"
-                      data-focusable={true}
-                      disabled={false}
+                      className="css-view-1dbjc4n r-bottom-1ebgqk7 r-cursor-1loqt21 r-paddingTop-tskmnb r-position-u8s1d r-right-3mc0re r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-zIndex-184en5c"
+                      onClick={[Function]}
+                      onContextMenu={[Function]}
                       onKeyDown={[Function]}
-                      onKeyUp={[Function]}
-                      onResponderGrant={[Function]}
-                      onResponderMove={[Function]}
-                      onResponderRelease={[Function]}
-                      onResponderTerminate={[Function]}
-                      onResponderTerminationRequest={[Function]}
-                      onStartShouldSetResponder={[Function]}
+                      style={
+                        Object {
+                          "WebkitTransitionDuration": "0s",
+                          "transitionDuration": "0s",
+                        }
+                      }
                       tabIndex="0"
                     >
                       <div
@@ -161,7 +157,7 @@ exports[`EmailForm matches snapshot 1`] = `
               }
             >
               <div
-                className="css-text-901oao r-color-vaa0vc r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-1it3c9n r-lineHeight-rjixqe r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                className="css-text-901oao r-color-vaa0vc r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                 dir="auto"
               >
                 We respect your privacy and will never sell or give away your info to any third party.
@@ -215,14 +211,9 @@ exports[`EmailForm matches snapshot 1`] = `
             <div
               aria-disabled={true}
               className="css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
-              disabled={true}
+              onClick={[Function]}
+              onContextMenu={[Function]}
               onKeyDown={[Function]}
-              onKeyUp={[Function]}
-              onResponderGrant={[Function]}
-              onResponderMove={[Function]}
-              onResponderTerminate={[Function]}
-              onResponderTerminationRequest={[Function]}
-              onStartShouldSetResponder={[Function]}
               role="button"
               style={
                 Object {
@@ -233,8 +224,10 @@ exports[`EmailForm matches snapshot 1`] = `
                   "borderTopLeftRadius": "50px",
                   "borderTopRightRadius": "50px",
                   "msFlexItemAlign": "stretch",
+                  "msGridRowAlign": "stretch",
                 }
               }
+              tabIndex="-1"
             >
               <div
                 className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
@@ -243,6 +236,7 @@ exports[`EmailForm matches snapshot 1`] = `
                     "WebkitAlignSelf": "stretch",
                     "alignSelf": "stretch",
                     "msFlexItemAlign": "stretch",
+                    "msGridRowAlign": "stretch",
                   }
                 }
               >
@@ -253,7 +247,7 @@ exports[`EmailForm matches snapshot 1`] = `
                     className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
                   >
                     <div
-                      className="css-text-901oao r-alignItems-1awozwy r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-hbpseb r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
+                      className="css-text-901oao r-alignItems-1awozwy r-color-jwli3a r-display-6koalj r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-qvk6io r-minHeight-1ceczpf r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
                       dir="auto"
                     >
                       Next

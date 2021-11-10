@@ -1,5 +1,6 @@
 // @flow
-
+//NOTICE: dont put any components that load wallet/userstorage here
+//so we can lazy load them
 import Address from './view/Address'
 import AmountInput from './view/AmountInput'
 import Avatar from './view/Avatar'
@@ -56,9 +57,9 @@ export {
   Section,
   ShareButton,
   Text,
-  UserAvatar,
   Wrapper,
   AwaitButton,
+  UserAvatar,
   WrapperClaim,
 }
 

@@ -1,19 +1,21 @@
 import { once } from 'lodash'
+import moment from 'moment'
 import { version as contractsVersion } from '../../node_modules/@gooddollar/goodcontracts/package.json'
 import { version } from '../../package.json'
+
 import { isWeb } from '../lib/utils/platform'
-import { env as devenv, fixNL } from '../lib/utils/env'
+import { appEnv, fixNL, appUrl as publicUrl } from '../lib/utils/env'
+import mustache from '../lib/utils/mustache'
 
 import env from './env'
 
 // E2E checker utility import
 //import { isE2ERunning } from '../lib/utils/platform'
-const { search: qs = '', origin } = isWeb ? window.location : {}
 
+const { search: qs = '' } = isWeb ? window.location : {}
 const forceLogLevel = qs.match(/level=(.*?)($|&)/)
 const forcePeer = qs.match(/gun=(.*?)($|&)/)
 
-const appEnv = devenv(env.REACT_APP_ENV)
 const phase = env.REACT_APP_RELEASE_PHASE || 1
 
 const isPhaseZero = 0 === phase
@@ -21,23 +23,8 @@ const isPhaseOne = 1 === phase
 const isPhaseTwo = 2 === phase
 
 const alchemyKey = env.REACT_APP_ALCHEMY_KEY
-let publicUrl = env.REACT_APP_PUBLIC_URL || origin
 const isEToro = env.REACT_APP_ETORO === 'true' || env.REACT_APP_NETWORK === 'etoro'
-
-if (!publicUrl) {
-  publicUrl = (() => {
-    switch (appEnv) {
-      case 'development':
-        return 'https://gooddev.netlify.app'
-      case 'staging':
-        return 'https://goodqa.netlify.app'
-      case 'production':
-        return 'https://wallet.gooddollar.org'
-      default:
-        return
-    }
-  })()
-}
+const ipfsGateways = env.REACT_APP_IPFS_GATEWAYS || 'https://cloudflare-ipfs.com/ipfs/{cid},https://ipfs.io/ipfs/{cid},https://{cid}.ipfs.dweb.link'
 
 const Config = {
   env: appEnv,
@@ -52,16 +39,20 @@ const Config = {
   logLevel: (forceLogLevel && forceLogLevel[1]) || env.REACT_APP_LOG_LEVEL || 'debug',
   serverUrl: env.REACT_APP_SERVER_URL || 'http://localhost:3003',
   gunPublicUrl: env.REACT_APP_GUN_PUBLIC_URL || 'http://localhost:3003/gun',
+  ipfsGateways: ipfsGateways.split(',').map(mustache),
+  ipfsLazyUpload: env.REACT_APP_IPFS_LAZY_UPLOAD === 'true',
+  pinataApiKey: env.REACT_APP_PINATA_API_KEY,
+  pinataSecret: env.REACT_APP_PINATA_SECRET,
+  pinataBaseUrl: env.REACT_APP_PINATA_API_URL || 'https://api.pinata.cloud',
   learnMoreEconomyUrl: env.REACT_APP_ECONOMY_URL || 'https://www.gooddollar.org/economic-model/',
   publicUrl,
   dashboardUrl: env.REACT_APP_DASHBOARD_URL || 'https://dashboard.gooddollar.org',
   infuraKey: env.REACT_APP_INFURA_KEY,
   network: env.REACT_APP_NETWORK || 'fuse',
-  networkMainnet: env.REACT_APP_NETWORK_MAINNET || 'fuse-mainnet',
   interestCollectedInterval: env.REACT_APP_INTEREST_BLOCKS_INTERVAL || 5760 * 7, // default is 1Week
-  marketUrl: env.REACT_APP_MARKET_URL || 'https://www.facebook.com/groups/gooddollarmarketplace',
+  marketUrl: env.REACT_APP_MARKET_URL || 'https://gooddollarmarketplace.sharetribe.com/en',
   torusEnabled: env.REACT_APP_USE_TORUS === 'true',
-  torusNetwork: env.REACT_APP_TORUS_NETWORK || 'ropsten',
+  torusNetwork: env.REACT_APP_TORUS_NETWORK || 'testnet',
   torusProxyContract: env.REACT_APP_TORUS_PROXY_CONTRACT || '0x4023d2a0D330bF11426B12C6144Cfb96B7fa6183',
   enableSelfCustody: env.REACT_APP_ENABLE_SELF_CUSTODY === 'true',
   googleClientId: env.REACT_APP_GOOGLE_CLIENT_ID,
@@ -70,10 +61,11 @@ const Config = {
   auth0SMSClientId: env.REACT_APP_AUTH0_SMS_CLIENT_ID,
   auth0Domain: env.REACT_APP_AUTH0_DOMAIN || 'https://gooddollar.eu.auth0.com',
   enableInvites: env.REACT_APP_ENABLE_INVITES !== 'false' || isEToro, // true by default
+  invitesUrl: env.REACT_APP_INVITES_URL || publicUrl,
   showRewards: env.REACT_APP_DASHBOARD_SHOW_REWARDS === 'true',
   faceTecEncryptionKey: fixNL(env.REACT_APP_ZOOM_ENCRYPTION_KEY),
   faceTecLicenseKey: env.REACT_APP_ZOOM_LICENSE_KEY,
-  faceTecLicenseText: fixNL(env.REACT_APP_ZOOM_LICENSE_TEXT),
+  faceTecProductionMode: env.REACT_APP_ZOOM_PRODUCTION_MODE === 'true',
   faceVerificationRequestTimeout: env.REACT_APP_ZOOM_REQUEST_TIMEOUT || 60000,
   faceVerificationMaxAttemptsAllowed: Number(env.REACT_APP_FACE_VERIFICATION_ATTEMPTS || 3),
   faceVerificationPrivacyUrl:
@@ -86,6 +78,7 @@ const Config = {
   skipEmailVerification: env.REACT_APP_SKIP_EMAIL_VERIFICATION === 'true',
   skipMobileVerification: env.REACT_APP_SKIP_MOBILE_VERIFICATION === 'true',
   withMockedFeeds: env.REACT_APP_WITH_MOCKED_FEEDS === 'true',
+  feedItemTtl: moment.duration(env.REACT_APP_FEEDITEM_TTL || '24:00:00').as('milliseconds'), // default for 1 day
   safariMobileKeyboardGuidedSize: env.REACT_APP_SAFARI_MOBILE_KEYBOARD_GUIDED_SIZE === 'true',
   receiveUrl: env.REACT_APP_RECEIVE_URL || `${publicUrl}`,
   enableShortUrl: env.REACT_APP_ENABLE_SHORTURL === 'true',
@@ -95,9 +88,10 @@ const Config = {
   backgroundReqsInterval: env.REACT_APP_BACKGROUND_REQS_INTERVAL || 10, // minutes
   sentryDSN: env.REACT_APP_SENTRY_DSN,
   delayMessageNetworkDisconnection: env.REACT_APP_DELAY_MSG_NETWORK_DISCONNECTION || 5000,
+  poweredByUrl: env.REACT_APP_POWERED_BY_URL || 'https://vercel.com/?utm_source=gooddollar&utm_campaign=oss',
   showSplashDesktop: env.REACT_APP_SPLASH_DESKTOP === 'true',
   showAddToHomeDesktop: env.REACT_APP_ADDTOHOME_DESKTOP === 'true',
-  flagsUrl: env.REACT_APP_FLAGS_URL || 'https://lipis.github.io/flag-icon-css/flags/4x3/',
+  flagsUrl: env.REACT_APP_FLAGS_URL || 'https://flagicons.lipis.dev/flags/4x3/',
   claimQueue: env.REACT_APP_CLAIM_QUEUE_ENABLED === 'true',
   mauticUrl: env.REACT_APP_MAUTIC_URL || 'https://go.gooddollar.org',
   mauticAddContractFormID: env.REACT_APP_MAUTIC_ADDCONTRACT_FORMID || '15',
@@ -107,8 +101,15 @@ const Config = {
   torusGoogleAuth0: env.REACT_APP_TORUS_GOOGLEAUTH0 || 'google-auth0-gooddollar',
   torusAuth0SMS: env.REACT_APP_TORUS_AUTH0SMS || 'gooddollar-auth0-sms-passwordless',
   torusEmailEnabled: env.REACT_APP_TORUS_AUTH0EMAIL_ENABLED === 'true',
+  torusUxMode: isWeb ? env.REACT_APP_TORUS_UXMODE || 'redirect' : 'popup',
   abTestPercentage: env.REACT_APP_AB_TEST_PERCENTAGE || 0.5,
+  smsRateLimit: env.REACT_APP_SMS_RATE_LIMIT || 60 * 1000, // rate limit for sms code verification resend
+  recaptchaSiteKey: env.REACT_APP_RECAPTCHA_SITE_KEY,
   alchemyKey,
+  textileKey: env.REACT_APP_TEXTILE_KEY,
+  textileSecret: env.REACT_APP_TEXTILE_SECRET,
+  web3Polling: env.REACT_APP_WEB3_POLLING || 30 * 1000, //poll every 30 seconds by default
+  realmAppID: env.REACT_APP_REALM_APP_ID || 'wallet_dev-dhiht',
   ethereum: {
     '1': {
       network_id: 1,
@@ -149,8 +150,8 @@ const Config = {
     },
     '4447': {
       network_id: 4447,
-      httpWeb3provider: 'http://localhost:9545/',
-      websocketWeb3Provider: 'ws://localhost:9545/ws',
+      httpWeb3provider: 'http://localhost:8545/',
+      websocketWeb3Provider: 'ws://localhost:8545/ws',
     },
   },
   nodeEnv: env.NODE_ENV,

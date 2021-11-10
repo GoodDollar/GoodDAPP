@@ -2,6 +2,7 @@ import React, { useCallback } from 'react'
 import { Platform, StyleSheet } from 'react-native'
 import GDStore from '../../../lib/undux/GDStore'
 import Section from '../layout/Section'
+import useProfile from '../../../lib/userStorage/useProfile'
 import Avatar from './Avatar'
 import BigGoodDollar from './BigGoodDollar'
 
@@ -25,7 +26,7 @@ const TopBar = ({
 }) => {
   const store = GDStore.useStore()
   const { balance } = store.get('account')
-  const { avatar } = store.get('profile')
+  const { smallAvatar: avatar } = useProfile()
 
   const redirectToProfile = useCallback(() => {
     if (!push || !profileAsLink) {

@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import { Animated, Easing, View } from 'react-native'
 import { withStyles } from '../../../lib/styles'
+import { useNativeDriverForAnimation } from '../../../lib/utils/platform'
 import LoadingIconSVG from './img/LoadingIcon.svg'
 
 const LoadingIcon = ({ styles, style, loadingIconStyle }) => {
@@ -14,6 +15,7 @@ const LoadingIcon = ({ styles, style, loadingIconStyle }) => {
         toValue: 1,
         easing: Easing.linear,
         delay: 0,
+        useNativeDriver: useNativeDriverForAnimation,
       }),
     ).start()
   }, [])

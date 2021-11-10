@@ -1,8 +1,11 @@
-import { useCallback, useEffect, useRef } from 'react'
+import { useCallback } from 'react'
 import { noop } from 'lodash'
 
+import { delay as waitFor } from '../utils/async'
 import Clipboard from '../utils/Clipboard'
-import logger from '../logger/pino-logger'
+
+import logger from '../logger/js-logger'
+import useRealtimeProps from './useRealtimeProps'
 import { preventPressed } from './useOnPress'
 
 const log = logger.child({ from: 'useClipboard Hook' })
@@ -47,19 +50,28 @@ export const useClipboardPaste = onPaste => {
   }, [onPaste, getString])
 }
 
-export const useClipboardCopy = (content, onCopy = noop) => {
-  const contentRef = useRef(content)
-  const onCopyRef = useRef(onCopy)
+export const useClipboardCopy = (content, onCopy = noop, delay = null) => {
+  const accessors = useRealtimeProps([onCopy, content, delay])
 
-  useEffect(() => {
-    contentRef.current = content
-    onCopyRef.current = onCopy
-  }, [content, onCopy])
+  return useCallback(
+    event => {
+      const [onCopy, getContent, getDelay] = accessors
 
-  return useCallback(event => {
-    writeString(contentRef.current).then(onCopyRef.current)
-    preventPressed(event)
-  }, [])
+      // optionally, awaiting for delay ms before fire onCopy
+      // this may be needed in some cases (e.g. aminated buttons)
+      // because postponing copy action with setTimeout will cause
+      // NotAllowedError as it won't be a direct user interaction
+      const copyToClipboard = async () => {
+        const [isSuccess] = await Promise.all([writeString(getContent()), waitFor(getDelay() || 0)])
+
+        onCopy(isSuccess)
+      }
+
+      copyToClipboard()
+      preventPressed(event)
+    },
+    [accessors],
+  )
 }
 
 export default useClipboard

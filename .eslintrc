@@ -6,10 +6,7 @@
     "plugin:import/recommended",
     "plugin:prettier/recommended",
     "plugin:react/recommended",
-    "prettier",
-    "prettier/babel",
-    "prettier/flowtype",
-    "prettier/react"
+    "prettier"
   ],
   "plugins": ["flowtype", "import", "prettier", "react", "react-hooks"],
   "settings": {
@@ -23,7 +20,10 @@
         "paths": ["src"],
         "extensions": [".js", ".android.js", ".ios.js", ".web.js", ".native.js"]
       }
-    }
+    },
+    "import/ignore": [
+      "node_modules/react-native/index\\.js$"
+    ]
   },
   "rules": {
     "prettier/prettier": "warn",
@@ -36,6 +36,8 @@
     "import/no-unresolved": "warn",
     "import/first": "warn",
     "import/no-duplicates": "warn",
+    "import/no-anonymous-default-export": "off",
+    "import/no-named-as-default-member": "off",
     "import/order": [
       "warn",
       {

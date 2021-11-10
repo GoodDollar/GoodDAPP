@@ -1,7 +1,7 @@
 // @flow
 import React, { Component, useEffect, useState } from 'react'
 import { Platform, SafeAreaView, ScrollView, StyleSheet, View } from 'react-native'
-import SideMenu from 'react-native-side-menu-gooddapp'
+import SideMenu from '@gooddollar/react-native-side-menu'
 import { createNavigator, Route, SceneView, SwitchRouter } from '@react-navigation/core'
 import { isEqualWith, isFunction, isNumber } from 'lodash'
 
@@ -11,10 +11,11 @@ import { isWeb } from '../../lib/utils/platform'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import normalize from '../../lib/utils/normalizeText'
 import SideMenuPanel from '../sidemenu/SideMenuPanel'
-import logger from '../../lib/logger/pino-logger'
+import logger from '../../lib/logger/js-logger'
 import CustomButton, { type ButtonProps } from '../common/buttons/CustomButton'
 import Blurred from '../common/view/Blurred'
 import BackButtonHandler from '../../lib/utils/handleBackButton'
+import { GlobalTogglesContext } from '../../lib/contexts/togglesContext'
 import NavBar from './NavBar'
 import { navigationOptions } from './navigationConfig'
 import { PushButton } from './PushButton'
@@ -98,10 +99,10 @@ class AppView extends Component<AppViewProps, AppViewState> {
   }
 
   handleClickOutside = event => {
-    const { sideMenuSwap, isMenuOpened } = this
+    const { setMenu, isMenuOpened } = this
 
-    if (isWeb && isMenuOpened() && event.target === document.documentElement) {
-      sideMenuSwap(false)
+    if (isWeb && isMenuOpened && event.target === document.documentElement) {
+      setMenu(false)
     }
   }
 
@@ -139,8 +140,8 @@ class AppView extends Component<AppViewProps, AppViewState> {
     const currentParams = navigation.state.routes[navigation.state.index].params
     if (currentParams && currentParams.backPage) {
       this.setState({ currentState: {}, stack: [] }, () => {
-        navigation.navigate(currentParams.backPage, currentParams.navigationParams)
         this.trans = false
+        navigation.navigate(currentParams.backPage, currentParams.navigationParams)
       })
       return
     }
@@ -150,8 +151,8 @@ class AppView extends Component<AppViewProps, AppViewState> {
       this.trans = true
       const navigationParams = nextRoute.state
       this.setState({ currentState: { ...navigationParams, ...params, route: nextRoute.route } }, () => {
-        navigation.navigate(nextRoute.route, navigationParams)
         this.trans = false
+        navigation.navigate(nextRoute.route, navigationParams)
       })
     } else if (navigation.state.index === 0) {
       this.goToParent()
@@ -183,8 +184,8 @@ class AppView extends Component<AppViewProps, AppViewState> {
         }
       },
       state => {
-        navigation.navigate(nextRoute, { ...navigationParams, route })
         this.trans = false
+        navigation.navigate(nextRoute, { ...navigationParams, route })
       },
     )
   }
@@ -200,20 +201,24 @@ class AppView extends Component<AppViewProps, AppViewState> {
         stack: [],
         currentState: {},
       },
-      () => {
-        const route = navigation.state.routes[0]
-        route.params = {
-          ...route.params,
-          ...DEFAULT_PARAMS,
-        }
-        navigation.navigate(route)
-        this.trans = false
-      },
+      () => {},
     )
+    const route = navigation.state.routes[0]
+    route.params = {
+      ...route.params,
+      ...DEFAULT_PARAMS,
+    }
+    this.trans = false
+
+    //NOTICE: for some reason this doesnt work when inside setState callback only in gotoRoot
+    //and when called from a page like SendLinkSummary when opening a payment request, ie not opening dashboard first
+    //not sure that we need to keep stack as state variable at all
+
+    navigation.navigate(route)
   }
 
   /**
-   * Navigates to specific screen with custom parameters as query string. and reseting the stack
+   * Navigates to specific screen with custom parameters as query string. and resetting the stack
    */
   navigateTo = (nextRoute: string, params: any) => {
     const { navigation } = this.props
@@ -256,30 +261,33 @@ class AppView extends Component<AppViewProps, AppViewState> {
     this.setState(state => ({ currentState: { ...state.currentState, ...data } }))
   }
 
-  /**
-   * Based on the value returned by the onChange callback sets the simpleStore sidemenu visibility value
-   * @param {boolean} visible
-   */
-  sideMenuSwap = visible => {
-    const { store } = this.props
+  // /**
+  //  * Based on the value returned by the onChange callback sets the simpleStore sidemenu visibility value
+  //  * @param {boolean} visible
+  //  */
+  // sideMenuSwap = visible => {
+  //   const { store } = this.props
 
-    store.set('sidemenu')({
-      ...(store.get('sidemenu') || {}),
-      visible,
-    })
-  }
+  //   store.set('sidemenu')({
+  //     ...(store.get('sidemenu') || {}),
+  //     visible,
+  //   })
+  // }
 
-  isMenuOpened = () => {
-    const { store } = this.props
+  // isMenuOpened = () => {
+  //   const { store } = this.props
 
-    if (!store) {
-      return false
-    }
+  //   if (!store) {
+  //     return false
+  //   }
 
-    return store.get('sidemenu').visible
-  }
+  //   return store.get('sidemenu').visible
+  // }
 
   render() {
+    const { isMenuOn, setMenu } = this.context
+    this.setMenu = setMenu
+    this.isMenuOpened = isMenuOn
     const { descriptors, navigation, navigationConfig, screenProps: incomingScreenProps } = this.props
     const activeKey = navigation.state.routes[navigation.state.index].key
     const descriptor = descriptors[activeKey]
@@ -305,20 +313,20 @@ class AppView extends Component<AppViewProps, AppViewState> {
       setScreenState: this.setScreenState,
     }
 
-    log.info('stackNavigation Render: FIXME rerender', descriptor, activeKey)
+    log.info('stackNavigation Render: FIXME rerender', descriptor, activeKey, isMenuOn)
 
     const Component = this.getComponent(descriptor.getComponent(), { screenProps })
     const pageTitle = title || activeKey
 
     return (
       <React.Fragment>
-        {this.isMenuOpened() && (
+        {isMenuOn && (
           <View style={[styles.sideMenuContainer, styles.menuOpenStyle]} ref={this.wrapperRef}>
             <SideMenu
               menuPosition="right"
               isOpen={true}
               disableGestures={true}
-              onChange={this.sideMenuSwap}
+              onChange={this.setMenu}
               menu={
                 <SafeAreaView style={styles.safeArea}>
                   <SideMenuPanel navigation={navigation} />
@@ -346,6 +354,8 @@ class AppView extends Component<AppViewProps, AppViewState> {
     )
   }
 }
+
+AppView.contextType = GlobalTogglesContext
 
 const styles = StyleSheet.create({
   scrollView: {

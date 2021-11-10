@@ -1,6 +1,6 @@
 // libraries
-import React, { useCallback, useMemo } from 'react'
-import { Image, Platform, View } from 'react-native'
+import React, { useCallback, useContext, useMemo } from 'react'
+import { Image, View } from 'react-native'
 import { isEmpty, noop } from 'lodash'
 
 // components
@@ -12,17 +12,19 @@ import { hideDialog } from '../../../lib/undux/utils/dialog'
 import { withStyles } from '../../../lib/styles'
 import { getDesignRelativeHeight } from '../../../lib/utils/sizes'
 import normalizeText from '../../../lib/utils/normalizeText'
+import { GlobalTogglesContext } from '../../../lib/contexts/togglesContext'
 
 const defaultCustomStyle = {}
 
 const ExplanationButton = ({ text = 'OK', action = noop, mode, styles, style = defaultCustomStyle }) => {
   const { buttonText, textModeButtonText, textModeButton } = styles
   const store = SimpleStore.useStore()
+  const { setDialogBlur } = useContext(GlobalTogglesContext)
   const isTextMode = mode === 'text'
 
   const handleActionPress = useCallback(() => {
     action()
-    hideDialog(store)
+    hideDialog(store, setDialogBlur)
   }, [action, store])
 
   return (
@@ -95,7 +97,7 @@ const ExplanationDialog = ({
         </View>
       )}
       {label && <Text style={[styles.label, labelStyle]}>{label}</Text>}
-      <Text fontSize={24} fontWeight="bold" fontFamily="Roboto Slab" style={[styles.title, titleStyle]}>
+      <Text fontSize={24} fontWeight="bold" fontFamily={theme.fonts.slab} style={[styles.title, titleStyle]}>
         {title}
       </Text>
       {text && <Text style={[styles.description, textStyle]}>{text}</Text>}
@@ -161,11 +163,6 @@ const mapStylesToProps = ({ theme }) => ({
     marginLeft: 'auto',
   },
   centerImage: {
-    ...Platform.select({
-      native: {
-        flex: 1,
-      },
-    }),
     justifyContent: 'center',
     alignSelf: 'center',
   },

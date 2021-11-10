@@ -6,7 +6,7 @@ import { showSupportDialog } from '../../../common/dialogs/showSupportDialog'
 
 import { useDialog } from '../../../../lib/undux/utils/dialog'
 import { isMobileOnly } from '../../../../lib/utils/platform'
-import logger from '../../../../lib/logger/pino-logger'
+import logger from '../../../../lib/logger/js-logger'
 
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../../lib/utils/sizes'
 import { withStyles } from '../../../../lib/styles'

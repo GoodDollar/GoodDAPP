@@ -1,12 +1,11 @@
 // @flow
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import AsyncStorage from '../utils/asyncStorage'
 import restart from '../utils/restart'
 
 // hooks
 import SimpleStore from '../undux/SimpleStore'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
-import { hideSidemenu, showSidemenu, toggleSidemenu } from '../undux/utils/sidemenu'
 
 // utils
 import { useWrappedApi } from '../API/useWrappedApi'
@@ -16,6 +15,7 @@ import Config from '../../config/config'
 
 // constants
 import { CLICK_DELETE_WALLET, fireEvent, LOGOUT } from '../../lib/analytics/analytics'
+import { GlobalTogglesContext } from '../../lib/contexts/togglesContext'
 import { REGISTRATION_METHOD_SELF_CUSTODY } from '../constants/login'
 import useDeleteAccountDialog from './useDeleteAccountDialog'
 
@@ -30,9 +30,10 @@ export default (props = {}) => {
   const showDeleteAccountDialog = useDeleteAccountDialog({ API, showErrorDialog, store, theme })
 
   const [isSelfCustody, setIsSelfCustody] = useState(false)
-  const slideToggle = useCallback(() => toggleSidemenu(store), [store])
-  const slideIn = useCallback(() => showSidemenu(store), [store])
-  const slideOut = useCallback(() => hideSidemenu(store), [store])
+  const { isMenuOn, setMenu } = useContext(GlobalTogglesContext)
+  const slideToggle = useCallback(() => setMenu(!isMenuOn), [isMenuOn, setMenu])
+  const slideIn = useCallback(() => !isMenuOn && setMenu(true), [isMenuOn, setMenu])
+  const slideOut = useCallback(() => isMenuOn && setMenu(false), [isMenuOn, setMenu])
 
   const getIsSelfCustody = () => {
     if (isLoggedIn) {
@@ -165,10 +166,9 @@ export default (props = {}) => {
       {
         icon: 'logout',
         name: 'Logout',
-        action: () => {
+        action: async () => {
           fireEvent(LOGOUT)
-          AsyncStorage.clear()
-          AsyncStorage.setItem('isFirstTime', false) //dont show welcome intro next time
+          await AsyncStorage.clear()
           slideOut()
           restart('/')
         },
@@ -182,7 +182,6 @@ export default (props = {}) => {
     slideIn,
     slideOut,
     slideToggle,
-
     topItems,
     bottomItems,
   }

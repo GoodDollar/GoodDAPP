@@ -7,6 +7,7 @@ import normalize from '../../lib/utils/normalizeText'
 import { getShadowStyles } from '../../lib/utils/getStyles'
 import { isMobile } from '../../lib/utils/platform'
 import { IconButton } from '../common'
+import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 
 /**
  * @type
@@ -66,10 +67,11 @@ const getStylesFromProps = ({ theme }) => ({
     textAlign: 'center',
     textTransform: 'uppercase',
     color: theme.colors.surface,
-    fontSize: normalize(16),
+    fontSize: getDesignRelativeHeight(normalize(16)),
     fontWeight: '500',
   },
   topbarStyles: {
+    height: getDesignRelativeHeight(55),
     flexGrow: 0,
     flexShrink: 0,
     ...getShadowStyles('none', { elevation: 0 }),

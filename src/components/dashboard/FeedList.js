@@ -1,19 +1,18 @@
 // @flow
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, { memo, useCallback, useEffect, useRef, useState } from 'react'
 import { Animated } from 'react-native'
-import { SwipeableFlatList } from 'react-native-swipeable-lists'
-import * as Animatable from 'react-native-animatable'
-import { get, isFunction } from 'lodash'
+import { SwipeableFlatList } from 'react-native-swipeable-lists-gd'
+import { get, isFunction, noop } from 'lodash'
 import moment from 'moment'
 
 import GDStore from '../../lib/undux/GDStore'
 import { withStyles } from '../../lib/styles'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
-import userStorage from '../../lib/gundb/UserStorage'
-import type { FeedEvent } from '../../lib/gundb/UserStorageClass'
+import userStorage from '../../lib/userStorage/UserStorage'
+import type { FeedEvent } from '../../lib/userStorage/UserStorageClass'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import ScrollToTopButton from '../common/buttons/ScrollToTopButton'
-import logger from '../../lib/logger/pino-logger'
+import logger from '../../lib/logger/js-logger'
 import { decorate, ExceptionCategory, ExceptionCode } from '../../lib/logger/exceptions'
 import FeedListItem from './FeedItems/FeedListItem'
 import FeedActions from './FeedActions'
@@ -35,15 +34,6 @@ export type FeedListProps = {
   onScroll: Function,
 }
 
-type ItemComponentProps = {
-  item: any,
-  separators: {
-    highlight: any,
-    unhighlight: any,
-  },
-  index: number,
-}
-
 const getItemLayout = (_: any, index: number) => {
   const [length, separator, header] = [72, 1, 30]
 
@@ -54,14 +44,19 @@ const getItemLayout = (_: any, index: number) => {
   }
 }
 
+const Item = memo(({ item, handleFeedSelection, index }) => {
+  return <FeedListItem key={keyExtractor(item)} item={item} handleFeedSelection={handleFeedSelection} index={index} />
+})
+
 const FeedList = ({
   data,
   handleFeedSelection,
   initialNumToRender,
   onEndReached,
   onEndReachedThreshold,
+  onScrollEnd: _onScrollEnd = noop,
   styles,
-  onScroll,
+  onScroll = noop,
   headerLarge,
   windowSize,
 }: FeedListProps) => {
@@ -73,6 +68,13 @@ const FeedList = ({
 
   const feeds = useFeeds(data)
 
+  const handleItemSelection = handleFeedSelection
+
+  //shouldnt be required with latest react-native-web
+  // const onScrollStart = useCallback(() => setAbleItemSelection(false), [setAbleItemSelection])
+
+  // const onScrollEnd = useCallback(() => setAbleItemSelection(true), [setAbleItemSelection])
+
   const scrollToTop = useCallback(() => {
     const list = get(flRef, 'current._component._flatListRef', {})
 
@@ -81,72 +83,73 @@ const FeedList = ({
     }
   }, [])
 
-  const renderItemComponent = ({ item, separators, index }: ItemComponentProps) => (
-    <FeedListItem
-      key={keyExtractor(item)}
-      item={item}
-      separators={separators}
-      fixedHeight
-      handleFeedSelection={handleFeedSelection}
-    />
+  const renderItemComponent = useCallback(
+    ({ item, index }) => <Item item={item} handleFeedSelection={handleItemSelection} index={index} />,
+    [handleItemSelection],
   )
 
   /**
-   * Calls proper action depening on the feed status
+   * Calls proper action depending on the feed status
    * @param {FeedEvent} item - feed item
    * @param {object} actions - wether to cancel/delete or any further action required
    */
   const handleFeedActionPress = useCallback(
     ({ id, status }: FeedEvent, actions: {}) => {
-      if (actions.canCancel) {
-        if (status === 'pending') {
-          // if status is 'pending' trying to cancel a tx that doesn't exist will fail and may confuse the user
-          log.error(
-            "Current transaction is still pending, it can't be cancelled right now",
-            'Pending - can`t be cancelled right now',
-            new Error('Transaction is still pending'),
-            {
-              id,
-              status,
-              category: ExceptionCategory.Human,
-              dialogShown: true,
-            },
-          )
-          showErrorDialog("Current transaction is still pending, it can't be cancelled right now")
-        } else if (canceledFeeds.current.includes(id)) {
+      const cancelEvent = async () => {
+        if (canceledFeeds.current.includes(id)) {
           log.info('Already cancelled', id)
-        } else {
-          try {
-            canceledFeeds.current.push(id)
-            userStorage.cancelOTPLEvent(id)
+          return
+        }
 
-            goodWallet.cancelOTLByTransactionHash(id).catch(e => {
-              const uiMessage = decorate(e, ExceptionCode.E11) + `\nTransaction: ${id}`
+        try {
+          canceledFeeds.current.push(id)
+          await userStorage.cancelOTPLEvent(id)
 
-              log.error('cancel payment failed - quick actions', e.message, e, {
-                category: ExceptionCategory.Blockhain,
-                dialogShown: true,
-                id,
-              })
-              userStorage.updateOTPLEventStatus(id, 'pending')
-              showErrorDialog(uiMessage, ExceptionCode.E11)
+          goodWallet.cancelOTLByTransactionHash(id).catch(e => {
+            const uiMessage = decorate(e, ExceptionCode.E11) + `\nTransaction: ${id}`
+
+            log.error('cancel payment failed - quick actions', e.message, e, {
+              category: ExceptionCategory.Blockhain,
+              dialogShown: true,
+              id,
             })
-          } catch (e) {
-            const uiMessage = decorate(e, ExceptionCode.E13)
 
-            log.error('cancel payment failed - quick actions', e.message, e, { dialogShown: true })
-            canceledFeeds.current.pop()
             userStorage.updateOTPLEventStatus(id, 'pending')
-            showErrorDialog(uiMessage, ExceptionCode.E13)
-          }
+            showErrorDialog(uiMessage, ExceptionCode.E11)
+          })
+        } catch (e) {
+          const uiMessage = decorate(e, ExceptionCode.E13)
+
+          log.error('cancel payment failed - quick actions', e.message, e, { dialogShown: true })
+
+          canceledFeeds.current.pop()
+          userStorage.updateOTPLEventStatus(id, 'pending')
+          showErrorDialog(uiMessage, ExceptionCode.E13)
         }
       }
 
-      if (actions.canDelete) {
+      if (actions.canCancel) {
+        cancelEvent()
+      } else if (actions.canDelete) {
         userStorage.deleteEvent(id).catch(e => log.error('delete event failed:', e.message, e))
+      } else {
+        // if status is 'pending' trying to cancel a tx that doesn't exist will fail and may confuse the user
+        log.warn(
+          "Current transaction is still pending, it can't be cancelled right now",
+          'Pending - can`t be cancelled right now',
+          new Error('Transaction is still pending'),
+          {
+            id,
+            status,
+            category: ExceptionCategory.Human,
+            dialogShown: true,
+          },
+        )
+
+        showErrorDialog("Current transaction is still pending, it can't be cancelled right now")
       }
 
-      userStorage.userProperties.set('showQuickActionHint', false)
+      userStorage.userProperties.setLocal('showQuickActionHint', false)
       setShowBounce(false)
     },
     [showErrorDialog, setShowBounce],
@@ -166,15 +169,14 @@ const FeedList = ({
       }
 
       return (
-        <Animatable.View animation="fadeIn" delay={750} style={styles.expandAction}>
-          <FeedActions
-            onPress={hasAction && (() => handleFeedActionPress(item, actions))}
-            actionIcon={actionIcon(actions)}
-            {...props}
-          >
-            {actionLabel(actions)}
-          </FeedActions>
-        </Animatable.View>
+        <FeedActions
+          onPress={hasAction && (() => handleFeedActionPress(item, actions))}
+          actionIcon={actionIcon(actions)}
+          {...props}
+          style={styles.expandAction}
+        >
+          {actionLabel(actions)}
+        </FeedActions>
       )
     },
     [feeds],
@@ -182,7 +184,7 @@ const FeedList = ({
 
   const manageDisplayQuickActionHint = useCallback(async () => {
     // Could be string containing date to show quick action hint after - otherwise boolean
-    const showQuickActionHintFlag = await userStorage.userProperties.get('showQuickActionHint')
+    const showQuickActionHintFlag = await userStorage.userProperties.getLocal('showQuickActionHint')
 
     const _showBounce =
       typeof showQuickActionHintFlag === 'string'
@@ -192,7 +194,7 @@ const FeedList = ({
     setShowBounce(_showBounce)
 
     if (_showBounce) {
-      await userStorage.userProperties.set(
+      await userStorage.userProperties.setLocal(
         'showQuickActionHint',
         moment()
           .add(24, 'hours')
@@ -223,6 +225,7 @@ const FeedList = ({
         numColumns={1}
         onEndReached={onEndReached}
         onEndReachedThreshold={onEndReachedThreshold}
+        onMomentumScrollEnd={_onScrollEnd}
         refreshing={false}
         renderItem={renderItemComponent}
         renderQuickActions={renderQuickActions}

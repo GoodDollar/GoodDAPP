@@ -1,15 +1,11 @@
 // @flow
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { FlatList, Platform, View } from 'react-native'
+import React, { useCallback, useMemo } from 'react'
+import { FlatList, View } from 'react-native'
 import { Portal } from 'react-native-paper'
-import { once } from 'lodash'
-import { isMobileOnly } from '../../lib/utils/platform'
 import { withStyles } from '../../lib/styles'
-import { getScreenHeight, getScreenWidth } from '../../lib/utils/orientation'
 import { getMaxDeviceWidth } from '../../lib/utils/sizes'
-import { CARD_SLIDE, fireEvent } from '../../lib/analytics/analytics'
 import FeedModalItem from './FeedItems/FeedModalItem'
-import { keyExtractor, useFeeds, VIEWABILITY_CONFIG } from './utils/feed'
+import { keyExtractor, useFeeds } from './utils/feed'
 
 export type FeedModalListProps = {
   data: any,
@@ -29,10 +25,21 @@ type ItemComponentProps = {
   index: number,
 }
 
-const screenWidth = Number(getScreenWidth())
 const maxScreenWidth = getMaxDeviceWidth()
 
-const getItemLayout = (_, index) => ({ index, length: screenWidth, offset: screenWidth * index })
+const getItemLayout = (_, index) => ({ index, length: maxScreenWidth, offset: maxScreenWidth * index })
+
+const Item = React.memo(({ item, handleFeedSelection, navigation }) => {
+  return (
+    <View
+      style={{
+        width: maxScreenWidth,
+      }}
+    >
+      <FeedModalItem navigation={navigation} item={item} onPress={() => handleFeedSelection(item, false)} />
+    </View>
+  )
+})
 
 const FeedModalList = ({
   data = [],
@@ -42,11 +49,7 @@ const FeedModalList = ({
   styles,
   navigation,
 }: FeedModalListProps) => {
-  const flatListRef = useRef()
-
   // Component is in loading state until matches the offset for the selected item
-  const [loading, setLoading] = useState(true)
-  const [offset, setOffset] = useState()
 
   const feeds = useFeeds(data, false) // get feeds without invites
 
@@ -55,82 +58,39 @@ const FeedModalList = ({
     selectedFeed,
   ])
 
-  // When screenWidth or selectedFeed changes needs to recalculate the offset
-  useEffect(() => {
-    if (selectedFeedIndex < 0) {
-      return
-    }
-
-    setOffset(screenWidth * selectedFeedIndex)
-  }, [selectedFeedIndex])
-
-  // When target offset changes (by the prev useEffect) scrollToOffset
-  useEffect(() => {
-    if (offset === undefined) {
-      return
-    }
-
-    // If offset is 0 we don't need to scroll, just set to false
-    if (offset <= 0) {
-      setLoading(false)
-    } else {
-      // Fire scrollToOffset within a delay to ensure the action is executed.
-      // https://stackoverflow.com/questions/40200660/react-native-scrollto-with-interactionmanager-not-working
-      setTimeout(() => {
-        flatListRef && flatListRef.current && flatListRef.current.scrollToOffset({ animated: false, offset })
-        setLoading(false)
-      }, 0)
-    }
-  }, [offset, flatListRef, setLoading])
-
-  const renderItemComponent = useCallback(
-    ({ item, separators }: ItemComponentProps) => (
-      <View style={styles.horizontalListItem}>
-        <FeedModalItem
-          navigation={navigation}
-          item={item}
-          separators={separators}
-          fixedHeight
-          onPress={() => handleFeedSelection(item, false)}
-        />
-      </View>
-    ),
-    [handleFeedSelection, navigation],
-  )
-
-  const initialNumToRender = useMemo(() => Math.abs(selectedFeedIndex), [selectedFeedIndex])
-  const slideEventRef = useRef(once(() => fireEvent(CARD_SLIDE)))
-
-  const handleScroll = useCallback(
-    ({ nativeEvent }) => {
-      slideEventRef.current()
-
-      // when nativeEvent contentOffset reaches target offset setLoading to false, we stopped scrolling
-      if (Math.abs(offset - nativeEvent.contentOffset.x) < 5) {
-        setLoading(false)
+  /**
+   * hack to fix https://github.com/necolas/react-native-web/issues/2030
+   */
+  const getFlatListRef = useCallback(
+    flatList => {
+      if (flatList) {
+        flatList.scrollToIndex({ animated: false, index: selectedFeedIndex })
       }
     },
-    [offset, setLoading],
+    [selectedFeedIndex],
+  )
+
+  const renderItemComponent = useCallback(
+    ({ item }: ItemComponentProps) => {
+      return <Item item={item} handleFeedSelection={handleFeedSelection} navigation={navigation} />
+    },
+    [handleFeedSelection, navigation],
   )
 
   return (
     <Portal>
-      <View style={[styles.horizontalContainer, { opacity: loading ? 0 : 1 }]}>
+      <View style={styles.horizontalContainer}>
         <FlatList
           keyExtractor={keyExtractor}
           style={styles.flatList}
-          onScroll={handleScroll}
-          contentContainerStyle={[styles.horizontalList, !isMobileOnly && { justifyContent: 'center' }]}
+          scrollEventThrottle={500}
           data={feeds}
           getItemLayout={getItemLayout}
-          initialNumToRender={initialNumToRender}
-          legacyImplementation={false}
-          numColumns={1}
+          initialNumToRender={5}
+          initialScrollIndex={selectedFeedIndex}
           onEndReached={onEndReached}
-          ref={flatListRef}
-          refreshing={false}
+          ref={getFlatListRef}
           renderItem={renderItemComponent}
-          viewabilityConfig={VIEWABILITY_CONFIG}
           horizontal
           pagingEnabled
         />
@@ -142,33 +102,13 @@ const FeedModalList = ({
 const getStylesFromProps = ({ theme }) => ({
   horizontalContainer: {
     backgroundColor: theme.modals.overlayBackgroundColor,
-    flex: 1,
-    top: 0,
-    left: 0,
     padding: 0,
-    position: Platform.select({
-      web: 'fixed',
-      default: 'absolute',
-    }),
-    height: Platform.select({
-      web: '100vh',
-      default: getScreenHeight(),
-    }),
     width: '100%',
   },
-  horizontalList: Platform.select({
-    web: {
-      width: '100%',
-      maxWidth: '100vw',
-      flex: 1,
-    },
-    default: {},
-  }),
   horizontalListItem: {
     width: maxScreenWidth,
   },
   flatList: {
-    // transform: 'translateY(1px)', //Do not delete, this repairs horizontal feed scrolling
     transform: [{ translateY: 1 }], //Do not delete, this repairs horizontal feed scrolling
   },
 })

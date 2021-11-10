@@ -101,6 +101,4 @@ export interface Subscribe<T> {
 export interface Shh {
   generateSymKeyFromPassword(password: string): Promise<string>;
   generateSymKeyFromPassword(password: string, callback: Callback<string>): void;
-
-  // TODO: type every method
 }

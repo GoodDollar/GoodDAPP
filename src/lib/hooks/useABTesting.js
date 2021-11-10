@@ -1,18 +1,48 @@
-import { useEffect } from 'react'
-
+import { useEffect, useState } from 'react'
+import { get, once } from 'lodash'
 import Config from '../../config/config'
 import { fireEvent } from '../analytics/analytics'
+import AsyncStorage from '../utils/asyncStorage'
+import { AB_TESTING } from '../constants/localStorage'
+import logger from '../logger/js-logger'
 
-const createABTesting = (percentage = Config.abTestPercentage) => {
-  const isCaseA = Math.random() < percentage
-  const ab = isCaseA ? 'A' : 'B'
+const log = logger.child({ from: 'useABTesting' })
+
+const loadPersistedVariants = once(async () => {
+  return (await AsyncStorage.getItem(AB_TESTING)) || {}
+})
+
+const createABTesting = (testName, percentage = Config.abTestPercentage, persistVariant = true) => {
+  const getTestVariant = once(async () => {
+    const tests = await loadPersistedVariants()
+    let test = tests[testName]
+    if (test == null) {
+      test = { name: testName }
+      test.random = Math.random()
+      test.isCaseA = test.random < percentage
+      test.ab = test.isCaseA ? 'A' : 'B'
+      tests[testName] = test
+      persistVariant && AsyncStorage.setItem(AB_TESTING, tests)
+    }
+    log.debug('got test variant', { tests, test, persistVariant })
+    return test
+  })
 
   const useABTesting = (componentA, componentB, event = null) => {
-    const component = isCaseA ? componentA : componentB
+    const [test, setTest] = useState()
+    const initialized = test != null
+    const component = initialized && test.isCaseA ? componentA : componentB
 
-    useEffect(() => void (event && fireEvent(event, { ab })), [])
+    useEffect(() => {
+      getTestVariant().then(test => {
+        const { ab } = test
+        void (event && fireEvent(event, { ab }))
+        setTest(test)
+        log.debug('hook ready', { test })
+      })
+    }, [])
 
-    return [component, ab]
+    return [component, get(test, 'ab'), initialized]
   }
 
   return { useABTesting }

@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { AppState } from 'react-native'
-import logger from '../logger/pino-logger'
+import logger from '../logger/js-logger'
 import SimpleStore from '../undux/SimpleStore'
 
 let isFirstCheckWeb3 = false
@@ -133,7 +133,7 @@ export default () => {
       }
     }
 
-    AppState.addEventListener('change', onAppStateChange)
+    const subscription = AppState.addEventListener('change', onAppStateChange)
 
     if (!isFirstCheckWeb3) {
       log.debug('web3 first')
@@ -145,7 +145,7 @@ export default () => {
      */
     return () => {
       killLastConnectionCheck()
-      AppState.removeEventListener('change', onAppStateChange)
+      subscription.remove()
     }
   }, [isWeb3Connection, wallet])
 

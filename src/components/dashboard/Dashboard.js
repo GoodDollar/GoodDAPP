@@ -1,55 +1,45 @@
 // @flow
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { Animated, Dimensions, Easing, Image, Platform, TouchableOpacity, View } from 'react-native'
-import { concat, debounce, get, uniqBy } from 'lodash'
+import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
+import { Animated, Dimensions, Easing, Platform, TouchableOpacity, View } from 'react-native'
+import { concat, debounce, get, noop, uniqBy } from 'lodash'
 import Mutex from 'await-mutex'
 import type { Store } from 'undux'
 import AsyncStorage from '../../lib/utils/asyncStorage'
-import { isBrowser } from '../../lib/utils/platform'
-import { fireEvent } from '../../lib/analytics/analytics'
-import { delay } from '../../lib/utils/async'
-import normalize from '../../lib/utils/normalizeText'
+import normalize, { normalizeByLength } from '../../lib/utils/normalizeText'
 import GDStore from '../../lib/undux/GDStore'
 import API from '../../lib/API/api'
 import SimpleStore, { assertStore } from '../../lib/undux/SimpleStore'
 import { useDialog, useErrorDialog } from '../../lib/undux/utils/dialog'
 import { PAGE_SIZE } from '../../lib/undux/utils/feed'
-import { executeWithdraw } from '../../lib/undux/utils/withdraw'
-import { weiToMask } from '../../lib/wallet/utils'
-import {
-  WITHDRAW_STATUS_COMPLETE,
-  WITHDRAW_STATUS_PENDING,
-  WITHDRAW_STATUS_UNKNOWN,
-} from '../../lib/wallet/GoodWalletClass'
+import { weiToGd, weiToMask } from '../../lib/wallet/utils'
 import { initBGFetch } from '../../lib/notifications/backgroundFetch'
+import { formatWithAbbreviations } from '../../lib/utils/formatNumber'
 
 import { createStackNavigator } from '../appNavigation/stackNavigation'
 import { initTransferEvents } from '../../lib/undux/utils/account'
 
-import userStorage from '../../lib/gundb/UserStorage'
-import goodWallet from '../../lib/wallet/GoodWallet'
+import userStorage from '../../lib/userStorage/UserStorage'
 import useAppState from '../../lib/hooks/useAppState'
 import { PushButton } from '../appNavigation/PushButton'
+import { useNativeDriverForAnimation } from '../../lib/utils/platform'
 import TabsView from '../appNavigation/TabsView'
 import BigGoodDollar from '../common/view/BigGoodDollar'
 import ClaimButton from '../common/buttons/ClaimButton'
 import Section from '../common/layout/Section'
 import Wrapper from '../common/layout/Wrapper'
-import logger from '../../lib/logger/pino-logger'
-import { decorate, ExceptionCategory, ExceptionCode } from '../../lib/logger/exceptions'
+import logger from '../../lib/logger/js-logger'
 import { Statistics, Support } from '../webView/webViewInstances'
 import { withStyles } from '../../lib/styles'
 import Mnemonics from '../signin/Mnemonics'
-import { parsePaymentLinkParams, readCode } from '../../lib/share'
 import useDeleteAccountDialog from '../../lib/hooks/useDeleteAccountDialog'
-import LoadingIcon from '../common/modal/LoadingIcon'
-import SuccessIcon from '../common/modal/SuccessIcon'
 import { getMaxDeviceWidth, measure } from '../../lib/utils/sizes'
 import { theme as _theme } from '../theme/styles'
-import DeepLinking from '../../lib/utils/deepLinking'
-import UnknownProfileSVG from '../../assets/unknownProfile.svg'
 import useOnPress from '../../lib/hooks/useOnPress'
 import Invite from '../invite/Invite'
+import Avatar from '../common/view/Avatar'
+import _debounce from '../../lib/utils/debounce'
+import useProfile from '../../lib/userStorage/useProfile'
+import { GlobalTogglesContext } from '../../lib/contexts/togglesContext'
 import PrivacyPolicyAndTerms from './PrivacyPolicyAndTerms'
 import Amount from './Amount'
 import Claim from './Claim'
@@ -58,6 +48,7 @@ import FeedModalList from './FeedModalList'
 import OutOfGasError from './OutOfGasError'
 import Reason from './Reason'
 import Receive from './Receive'
+import HandlePaymentLink from './HandlePaymentLink'
 
 // import MagicLinkInfo from './MagicLinkInfo'
 import Who from './Who'
@@ -66,11 +57,8 @@ import ReceiveToAddress from './ReceiveToAddress'
 import TransactionConfirmation from './TransactionConfirmation'
 import SendToAddress from './SendToAddress'
 import SendByQR from './SendByQR'
-import ReceiveByQR from './ReceiveByQR'
 import SendLinkSummary from './SendLinkSummary'
-import SendQRSummary from './SendQRSummary'
 import { ACTION_SEND } from './utils/sendReceiveFlow'
-import { routeAndPathForCode } from './utils/routeAndPathForCode'
 
 import FaceVerification from './FaceVerification/screens/VerificationScreen'
 import FaceVerificationIntro from './FaceVerification/screens/IntroScreen'
@@ -94,8 +82,12 @@ export type DashboardProps = {
 
 const feedMutex = new Mutex()
 
+const abbreviateBalance = _balance => formatWithAbbreviations(weiToGd(_balance), 2)
+
 const Dashboard = props => {
   const balanceRef = useRef()
+  const feedRef = useRef([])
+  const resizeSubscriptionRef = useRef()
   const { screenProps, styles, theme, navigation }: DashboardProps = props
   const [balanceBlockWidth, setBalanceBlockWidth] = useState(70)
   const [headerContentWidth, setHeaderContentWidth] = useState(initialHeaderContentWidth)
@@ -109,21 +101,22 @@ const Dashboard = props => {
   const [headerFullNameOpacityAnimValue] = useState(new Animated.Value(1))
   const store = SimpleStore.useStore()
   const gdstore = GDStore.useStore()
-  const [showDialog, hideDialog] = useDialog()
+  const [showDialog] = useDialog()
   const [showErrorDialog] = useErrorDialog()
   const showDeleteAccountDialog = useDeleteAccountDialog({ API, showErrorDialog, store, theme })
   const [update, setUpdate] = useState(0)
   const [showDelayedTimer, setShowDelayedTimer] = useState()
-  const currentFeed = store.get('currentFeed')
+  const [itemModal, setItemModal] = useState()
   const currentScreen = store.get('currentScreen')
   const loadingIndicator = store.get('loadingIndicator')
   const loadAnimShown = store.get('feedLoadAnimShown')
   const { balance, entitlement } = gdstore.get('account')
-  const { avatar, fullName } = gdstore.get('profile')
+  const { avatar, fullName } = useProfile()
   const [feeds, setFeeds] = useState([])
   const [headerLarge, setHeaderLarge] = useState(true)
   const { appState } = useAppState()
   const [animateMarket, setAnimateMarket] = useState(false)
+  const { setDialogBlur } = useContext(GlobalTogglesContext)
 
   const headerAnimateStyles = {
     position: 'relative',
@@ -158,37 +151,9 @@ const Dashboard = props => {
     setAvatarCenteredPosition(newAvatarCenteredPosition)
   }, [setHeaderContentWidth, setAvatarCenteredPosition])
 
-  const isTheSameUser = code => {
-    return String(code.address).toLowerCase() === goodWallet.account.toLowerCase()
-  }
-
-  const checkCode = useCallback(
-    async anyParams => {
-      try {
-        if (anyParams && anyParams.code) {
-          const code = readCode(decodeURIComponent(anyParams.code))
-
-          if (isTheSameUser(code) === false) {
-            try {
-              const { route, params } = await routeAndPathForCode('send', code)
-              screenProps.push(route, params)
-            } catch (e) {
-              log.error('Payment link is incorrect', e.message, e, {
-                code,
-                category: ExceptionCategory.Human,
-                dialogShown: true,
-              })
-              showErrorDialog('Payment link is incorrect. Please double check your link.', undefined, {
-                onDismiss: screenProps.goToRoot,
-              })
-            }
-          }
-        }
-      } catch (e) {
-        log.error('checkCode unexpected error:', e.message, e)
-      }
-    },
-    [screenProps, showErrorDialog],
+  const balanceFormatter = useMemo(
+    () => (headerLarge || Math.floor(Math.log10(balance)) + 1 <= 12 ? null : abbreviateBalance),
+    [balance, headerLarge],
   )
 
   const handleDeleteRedirect = useCallback(() => {
@@ -217,17 +182,19 @@ const Dashboard = props => {
           }
           res = (await feedPromise) || []
           res.length > 0 && !didRender && store.set('feedLoadAnimShown')(true)
+          feedRef.current = res
           res.length > 0 && setFeeds(res)
         } else {
           res = (await feedPromise) || []
-          const newFeed = uniqBy(concat(feeds, res), 'id')
+          const newFeed = uniqBy(concat(feedRef.current, res), 'id')
+          feedRef.current = newFeed
           res.length > 0 && setFeeds(newFeed)
         }
         log.debug('getFeedPage getFormattedEvents result:', {
           reset,
           res,
           resultSize: res.length,
-          feedItems: feeds.length,
+          feedItems: feedRef.current.length,
         })
       } catch (e) {
         log.warn('getFeedPage failed', e.message, e)
@@ -235,7 +202,7 @@ const Dashboard = props => {
         release()
       }
     },
-    [loadAnimShown, store, setFeeds, feeds],
+    [loadAnimShown, store, setFeeds, feedRef],
   )
 
   const [feedLoaded, setFeedLoaded] = useState(false)
@@ -243,31 +210,36 @@ const Dashboard = props => {
   //subscribeToFeed probably should be an effect that updates the feed items
   //as they come in, currently on each new item it simply reset the feed
   //currently it seems too complicated to make it its own effect as it both depends on "feeds" and changes them
-  //which would lead to many unwanted subscribe/unsubscribe to gun
+  //which would lead to many unwanted subscribe/unsubscribe
   const subscribeToFeed = async () => {
     await getFeedPage(true)
 
-    userStorage.feedEvents.on('updated', onFeedUpdated)
+    userStorage.feedStorage.feedEvents.on('updated', onFeedUpdated)
   }
 
-  const onFeedUpdated = event => {
-    log.debug('feed cache updated', { event })
-    getFeedPage(true)
-  }
+  const onFeedUpdated = useCallback(
+    debounce(
+      event => {
+        log.debug('feed cache updated', { event })
+        getFeedPage(true)
+      },
+      300,
+      { leading: false }, //this delay seems to solve error from dexie about indexeddb transaction
+    ),
+    [getFeedPage],
+  )
 
-  const handleAppLinks = () => {
-    const { params } = DeepLinking
+  const handleFeedEvent = () => {
+    const { params } = navigation.state || {}
 
-    log.debug('handle links effect dashboard', { params })
+    log.debug('handle event effect dashboard', { params })
+    if (!params) {
+      return
+    }
 
-    const { paymentCode, event } = params
-
-    if (paymentCode) {
-      handleWithdraw(params)
-    } else if (event) {
+    const { event } = params
+    if (event) {
       showNewFeedEvent(params)
-    } else {
-      checkCode(params)
     }
   }
 
@@ -287,18 +259,7 @@ const Dashboard = props => {
     }
   }, [appState, feedLoaded])
 
-  const animateClaim = useCallback(async () => {
-    const inQueue = await userStorage.userProperties.get('claimQueueAdded')
-
-    if (inQueue && inQueue.status === 'pending') {
-      return
-    }
-
-    const entitlement = await goodWallet
-      .checkEntitlement()
-      .then(_ => _.toNumber())
-      .catch(e => 0)
-
+  const animateClaim = useCallback(() => {
     if (!entitlement) {
       return
     }
@@ -310,15 +271,17 @@ const Dashboard = props => {
           duration: 750,
           easing: Easing.ease,
           delay: 1000,
+          useNativeDriver: useNativeDriverForAnimation,
         }),
         Animated.timing(claimAnimValue, {
           toValue: 1,
           duration: 750,
           easing: Easing.ease,
+          useNativeDriver: useNativeDriverForAnimation,
         }),
       ]).start(resolve),
     )
-  }, [])
+  }, [entitlement])
 
   const animateItems = useCallback(async () => {
     await animateClaim()
@@ -350,23 +313,23 @@ const Dashboard = props => {
     [setUpdate],
   )
 
+  // const nextFeed = x => console.log('end reached', { x })
   const nextFeed = useCallback(
     debounce(
-      () => {
-        if (feeds && feeds.length > 0) {
-          log.debug('getNextFeed called')
+      ({ distanceFromEnd }) => {
+        if (distanceFromEnd > 0 && feedRef.current.length > 0) {
+          log.debug('getNextFeed called', feedRef.current.length, { distanceFromEnd })
           return getFeedPage()
         }
       },
-      500,
-      { leading: true },
+      100,
+      { leading: false }, //this delay seems to solve error from dexie about indexeddb transaction
     ),
-    [feeds, getFeedPage],
+    [getFeedPage],
   )
 
   const initDashboard = async () => {
-    await userStorage.initRegistered()
-    await handleAppLinks()
+    await handleFeedEvent()
     handleDeleteRedirect()
     await subscribeToFeed().catch(e => log.error('initDashboard feed failed', e.message, e))
 
@@ -378,8 +341,8 @@ const Dashboard = props => {
 
     log.debug('initDashboard subscribed to feed')
 
-    // InteractionManager.runAfterInteractions(handleAppLinks)
-    Dimensions.addEventListener('change', handleResize)
+    // InteractionManager.runAfterInteractions(handleFeedEvent)
+    resizeSubscriptionRef.current = Dimensions.addEventListener('change', handleResize)
 
     initBGFetch()
   }
@@ -417,79 +380,95 @@ const Dashboard = props => {
     const balanceCalculatedLeftMargin = headerContentWidth - balanceBlockWidth - 20
 
     if (headerLarge) {
+      //useNativeDriver is always false because native doesnt support animating height
       Animated.parallel([
         Animated.timing(headerAvatarAnimValue, {
           toValue: 68,
           duration: timing,
           easing: easingOut,
+          useNativeDriver: false,
         }),
         Animated.timing(headerHeightAnimValue, {
           toValue: 176,
           duration: timing,
           easing: easingOut,
+          useNativeDriver: false,
         }),
         Animated.timing(headerAvatarLeftAnimValue, {
           toValue: 0,
           duration: timing,
           easing: easingOut,
+          useNativeDriver: false,
         }),
         Animated.timing(headerFullNameOpacityAnimValue, {
           toValue: 1,
           duration: fullNameOpacityTiming,
           easing: easingOut,
+          useNativeDriver: false,
         }),
         Animated.timing(headerBalanceBottomAnimValue, {
           toValue: 0,
           duration: timing,
           easing: easingOut,
+          useNativeDriver: false,
         }),
         Animated.timing(headerBalanceRightMarginAnimValue, {
           toValue: 0,
           duration: timing,
           easing: easingOut,
+          useNativeDriver: false,
         }),
         Animated.timing(headerBalanceLeftMarginAnimValue, {
           toValue: 0,
           duration: timing,
           easing: easingOut,
+          useNativeDriver: false,
         }),
       ]).start()
     } else {
+      //useNativeDriver is always false because native doesnt support animating height
       Animated.parallel([
         Animated.timing(headerAvatarAnimValue, {
           toValue: 42,
           duration: timing,
           easing: easingIn,
+          useNativeDriver: false,
         }),
         Animated.timing(headerHeightAnimValue, {
-          toValue: 40,
+          toValue: Platform.select({ web: 40, default: 50 }),
           duration: timing,
           easing: easingIn,
+          useNativeDriver: false,
         }),
         Animated.timing(headerAvatarLeftAnimValue, {
           toValue: initialAvatarLeftPosition,
           duration: timing,
           easing: easingIn,
+          useNativeDriver: false,
         }),
         Animated.timing(headerFullNameOpacityAnimValue, {
           toValue: 0,
           duration: fullNameOpacityTiming,
           easing: easingIn,
+          useNativeDriver: false,
         }),
         Animated.timing(headerBalanceBottomAnimValue, {
           toValue: Platform.select({ web: 68, default: 60 }),
           duration: timing,
           easing: easingIn,
+          useNativeDriver: false,
         }),
         Animated.timing(headerBalanceRightMarginAnimValue, {
           toValue: 24,
           duration: timing,
           easing: easingIn,
+          useNativeDriver: false,
         }),
         Animated.timing(headerBalanceLeftMarginAnimValue, {
           toValue: balanceCalculatedLeftMargin,
           duration: timing,
           easing: easingIn,
+          useNativeDriver: false,
         }),
       ]).start()
     }
@@ -500,8 +479,14 @@ const Dashboard = props => {
     initDashboard()
 
     return function() {
-      Dimensions.removeEventListener('change', handleResize)
-      userStorage.feedEvents.off('updated', onFeedUpdated)
+      const { current: subscription } = resizeSubscriptionRef
+
+      if (subscription) {
+        subscription.remove()
+      }
+
+      resizeSubscriptionRef.current = null
+      userStorage.feedStorage.feedEvents.off('updated', onFeedUpdated)
     }
   }, [])
 
@@ -509,18 +494,18 @@ const Dashboard = props => {
    * don't show delayed items such as add to home popup if some other dialog is showing
    */
   useEffect(() => {
-    const showingSomething = get(currentScreen, 'dialogData.visible') || get(loadingIndicator, 'loading') || currentFeed
+    const showingSomething = get(currentScreen, 'dialogData.visible') || get(loadingIndicator, 'loading') || itemModal
 
     if (showDelayedTimer !== true && showDelayedTimer && showingSomething) {
       setShowDelayedTimer(clearTimeout(showDelayedTimer))
     } else if (!showDelayedTimer) {
       showDelayed()
     }
-  }, [get(currentScreen, 'dialogData.visible'), get(loadingIndicator, 'loading'), currentFeed])
+  }, [get(currentScreen, 'dialogData.visible'), get(loadingIndicator, 'loading'), itemModal])
 
   const showEventModal = useCallback(
     currentFeed => {
-      store.set('currentFeed')(currentFeed)
+      setItemModal(currentFeed)
     },
     [store],
   )
@@ -535,14 +520,20 @@ const Dashboard = props => {
   }
 
   useEffect(() => {
-    if (feeds.length) {
-      getNotificationItem()
+    if (appState === 'active') {
+      if (feedRef.current.length) {
+        getNotificationItem()
+      }
     }
-  }, [feeds, appState])
+  }, [appState])
 
-  const handleFeedSelection = (receipt, horizontal) => {
-    showEventModal(horizontal ? receipt : null)
-  }
+  const handleFeedSelection = useCallback(
+    (receipt, horizontal) => {
+      showEventModal(horizontal ? receipt : null)
+      setDialogBlur(horizontal)
+    },
+    [showEventModal, setDialogBlur],
+  )
 
   const showNewFeedEvent = useCallback(
     async eventId => {
@@ -567,108 +558,15 @@ const Dashboard = props => {
     [showDialog, showEventModal],
   )
 
-  const handleWithdraw = useCallback(
-    async params => {
-      const paymentParams = parsePaymentLinkParams(params)
+  const goToProfile = useOnPress(() => screenProps.push('Profile'), [screenProps])
 
-      try {
-        showDialog({
-          title: 'Processing Payment Link...',
-          image: <LoadingIcon />,
-          message: 'please wait while processing...',
-          buttons: [
-            {
-              text: 'YAY!',
-              style: styles.disabledButton,
-              disabled: true,
-            },
-          ],
-        })
-
-        const { status, transactionHash } = await executeWithdraw(
-          store,
-          paymentParams.paymentCode,
-          paymentParams.reason,
-        )
-
-        if (transactionHash) {
-          fireEvent('WITHDRAW')
-
-          showDialog({
-            title: 'Payment Link Processed Successfully',
-            image: <SuccessIcon />,
-            message: "You received G$'s!",
-            buttons: [
-              {
-                text: 'YAY!',
-              },
-            ],
-          })
-          return
-        }
-
-        const withdrawnOrSendError = 'Payment already withdrawn or canceled by sender'
-        const wrongPaymentDetailsError = 'Wrong payment link or payment details'
-        switch (status) {
-          case WITHDRAW_STATUS_COMPLETE:
-            log.error('Failed to complete withdraw', withdrawnOrSendError, new Error(withdrawnOrSendError), {
-              status,
-              transactionHash,
-              paymentParams,
-              category: ExceptionCategory.Human,
-              dialogShown: true,
-            })
-            showErrorDialog(withdrawnOrSendError)
-            break
-          case WITHDRAW_STATUS_UNKNOWN:
-            for (let activeAttempts = 0; activeAttempts < 3; activeAttempts++) {
-              // eslint-disable-next-line no-await-in-loop
-              await delay(2000)
-              // eslint-disable-next-line no-await-in-loop
-              const { status } = await goodWallet.getWithdrawDetails(paymentParams.paymentCode)
-              if (status === WITHDRAW_STATUS_PENDING) {
-                // eslint-disable-next-line no-await-in-loop
-                return await handleWithdraw(params)
-              }
-            }
-            log.error('Could not find payment details', wrongPaymentDetailsError, new Error(wrongPaymentDetailsError), {
-              status,
-              transactionHash,
-              paymentParams,
-              category: ExceptionCategory.Human,
-              dialogShown: true,
-            })
-            showErrorDialog(`Could not find payment details.\nCheck your link or try again later.`)
-            break
-          default:
-            break
-        }
-      } catch (exception) {
-        const { message } = exception
-        let uiMessage = decorate(exception, ExceptionCode.E4)
-
-        if (message.includes('own payment')) {
-          uiMessage = message
-        }
-
-        log.error('withdraw failed:', message, exception, { dialogShown: true })
-        showErrorDialog(uiMessage)
-      } finally {
-        navigation.setParams({ paymentCode: undefined })
-      }
-    },
-    [showDialog, hideDialog, showErrorDialog, store, navigation],
-  )
-
-  // const avatarSource = useMemo(() => (avatar ? { uri: avatar } : UnknownProfile), [avatar])
-
-  const onScroll = useCallback(
+  const handleScrollEnd = useCallback(
     ({ nativeEvent }) => {
       const minScrollRequired = 150
       const scrollPosition = nativeEvent.contentOffset.y
       const minScrollRequiredISH = headerLarge ? minScrollRequired : minScrollRequired * 2
       const scrollPositionISH = headerLarge ? scrollPosition : scrollPosition + minScrollRequired
-      if (feeds && feeds.length && feeds.length > 10 && scrollPositionISH > minScrollRequiredISH) {
+      if (feedRef.current.length > 10 && scrollPositionISH > minScrollRequiredISH) {
         if (headerLarge) {
           setHeaderLarge(false)
         }
@@ -678,12 +576,24 @@ const Dashboard = props => {
         }
       }
     },
-    [headerLarge, feeds, setHeaderLarge],
+    [headerLarge, setHeaderLarge],
   )
 
-  const modalListData = useMemo(() => (isBrowser ? [currentFeed] : feeds), [currentFeed, feeds])
+  const handleScrollEndDebounced = useMemo(() => _debounce(handleScrollEnd, 300), [handleScrollEnd])
 
-  const goToProfile = useOnPress(() => screenProps.push('Profile'), [screenProps])
+  const calculateFontSize = useMemo(
+    () => ({
+      fontSize: normalizeByLength(weiToGd(balance), 42, 10),
+    }),
+    [balance],
+  )
+
+  // for native we able handle onMomentumScrollEnd, but for web we able to handle only onScroll event,
+  // so we need to imitate onMomentumScrollEnd for web
+  const onScroll = Platform.select({
+    web: handleScrollEndDebounced,
+    default: noop,
+  })
 
   return (
     <Wrapper style={styles.dashboardWrapper} withGradient={false}>
@@ -692,17 +602,17 @@ const Dashboard = props => {
           <Section.Stack alignItems="center" style={styles.headerWrapper}>
             <Animated.View style={avatarAnimStyles}>
               <TouchableOpacity onPress={goToProfile} style={styles.avatarWrapper}>
-                {avatar ? (
-                  <Image source={{ uri: avatar }} style={styles.avatar} />
-                ) : (
-                  <View style={styles.avatar}>
-                    <UnknownProfileSVG />
-                  </View>
-                )}
+                <Avatar
+                  source={avatar}
+                  style={styles.avatar}
+                  imageStyle={styles.avatar}
+                  unknownStyle={styles.avatar}
+                  plain
+                />
               </TouchableOpacity>
             </Animated.View>
             <Animated.View style={[styles.headerFullName, fullNameAnimateStyles]}>
-              <Section.Text color="gray80Percent" fontFamily="slab" fontSize={18}>
+              <Section.Text color="gray80Percent" fontFamily={theme.fonts.slab} fontSize={18}>
                 {fullName || ' '}
               </Section.Text>
             </Animated.View>
@@ -711,13 +621,13 @@ const Dashboard = props => {
                 <BigGoodDollar
                   testID="amount_value"
                   number={balance}
-                  bigNumberProps={{
-                    fontSize: 42,
-                    fontWeight: 'semibold',
-                    lineHeight: 42,
-                    textAlign: 'left',
-                  }}
+                  bigNumberStyles={[styles.bigNumberStyles, calculateFontSize]}
+                  formatter={balanceFormatter}
                   bigNumberUnitStyles={styles.bigNumberUnitStyles}
+                  bigNumberProps={{
+                    numberOfLines: 1,
+                  }}
+                  style={styles.bigGoodDollar}
                 />
               </View>
             </Animated.View>
@@ -734,7 +644,6 @@ const Dashboard = props => {
             contentStyle={styles.leftButtonContent}
             textStyle={styles.leftButtonText}
             params={{
-              nextRoutes: ['Reason', 'SendLinkSummary', 'TransactionConfirmation'],
               action: 'Send',
             }}
             compact
@@ -763,23 +672,24 @@ const Dashboard = props => {
         </Section.Row>
       </Section>
       <FeedList
-        data={feeds}
+        data={feedRef.current}
         handleFeedSelection={handleFeedSelection}
-        initialNumToRender={PAGE_SIZE}
+        initialNumToRender={10}
         onEndReached={nextFeed} // How far from the end the bottom edge of the list must be from the end of the content to trigger the onEndReached callback.
         // we can use decimal (from 0 to 1) or integer numbers. Integer - it is a pixels from the end. Decimal it is the percentage from the end
-        onEndReachedThreshold={0.7} // Determines the maximum number of items rendered outside of the visible area
-        windowSize={7}
+        onEndReachedThreshold={0.8}
+        windowSize={10} // Determines the maximum number of items rendered outside of the visible area
+        onScrollEnd={handleScrollEnd}
         onScroll={onScroll}
         headerLarge={headerLarge}
-        scrollEventThrottle={100}
+        scrollEventThrottle={300}
       />
-      {currentFeed && (
+      {itemModal && (
         <FeedModalList
-          data={modalListData}
+          data={feedRef.current}
           handleFeedSelection={handleFeedSelection}
           onEndReached={nextFeed}
-          selectedFeed={currentFeed}
+          selectedFeed={itemModal}
           navigation={navigation}
         />
       )}
@@ -840,12 +750,14 @@ const getStylesFromProps = ({ theme }) => ({
     width: '100%',
   },
   avatar: {
+    width: '100%',
+    height: '100%',
+    borderWidth: 0,
+    backgroundColor: 'transparent',
     borderRadius: Platform.select({
       web: '50%',
       default: 150 / 2,
     }),
-    height: '100%',
-    width: '100%',
   },
   buttonsRow: {
     alignItems: 'center',
@@ -887,11 +799,20 @@ const getStylesFromProps = ({ theme }) => ({
   bigNumberWrapper: {
     alignItems: 'baseline',
   },
-  disabledButton: {
-    backgroundColor: theme.colors.gray50Percent,
-  },
   bigNumberUnitStyles: {
     marginRight: normalize(-20),
+    alignSelf: 'stretch',
+  },
+  bigNumberStyles: {
+    fontWeight: '700',
+    fontSize: 42,
+    lineHeight: 42,
+    height: 42,
+    textAlign: 'center',
+    alignSelf: 'stretch',
+  },
+  bigGoodDollar: {
+    width: '100%',
   },
 })
 
@@ -927,7 +848,6 @@ export default createStackNavigator({
   },
   ReceiveToAddress,
   ReceiveSummary,
-  ReceiveByQR,
 
   SendLinkSummary,
   SendByQR,
@@ -936,8 +856,6 @@ export default createStackNavigator({
   FaceVerification,
   FaceVerificationIntro,
   FaceVerificationError,
-
-  SendQRSummary,
 
   TransactionConfirmation: {
     screen: TransactionConfirmation,
@@ -953,4 +871,5 @@ export default createStackNavigator({
   Recover: Mnemonics,
   OutOfGasError,
   Rewards: Invite,
+  HandlePaymentLink,
 })

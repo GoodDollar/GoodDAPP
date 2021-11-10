@@ -15,14 +15,11 @@ module.exports = {
   setupFiles: [
     'react-app-polyfill/jsdom',
     '<rootDir>/config/initTest.js',
-    'jest-canvas-mock',
   ],
   testMatch: [
     '<rootDir>/src/**/__tests__/**/*.{js,jsx,ts,tsx}',
     '<rootDir>/src/**/?(*.)(spec|test).{js,jsx,ts,tsx}'
   ],
-  testEnvironment: 'jsdom',
-  browser: true,
   testURL: 'http://localhost',
   transform: {
     '^.+\\.(js|jsx)$': 'babel-jest',
@@ -30,8 +27,8 @@ module.exports = {
     '^(?!.*\\.(js|jsx|css|json)$)': '<rootDir>/config/jest/fileTransform.js'
   },
   transformIgnorePatterns: [
-    '<rootDir>/src/lib/facetec/FaceTecSDK.web.js',
-    '<rootDir>/node_modules/(?!(jest-)?react-native|react-navigation|react-navigation-redux-helpers|react-phone-number-input|webrtc-adapter)',
+    '<rootDir>/src/lib/facetec',
+    '<rootDir>/node_modules/(?!(jest-)?nft.storage|react-native|react-navigation|react-navigation-redux-helpers|react-phone-number-input|webrtc-adapter)',
   ],
   moduleFileExtensions: [
     'web.js',
@@ -43,6 +40,7 @@ module.exports = {
   ],
   testPathIgnorePatterns: [
     "/__tests__/__util__/",
+    "/__tests__/__suites__/",
     "/__tests__/__mocks__/",
     "<rootDir>/src/.*/.*(android|ios|native)\.js",
     "<rootDir>/src/index.js",
@@ -52,6 +50,7 @@ module.exports = {
   ,
   coveragePathIgnorePatterns: [
     "/__tests__/__util__/",
+    "/__tests__/__suites__/",
     "<rootDir>/src/.*/.*(android|ios|native)\.js",
     "<rootDir>/src/index.js",
     "<rootDir>/src/init.js",

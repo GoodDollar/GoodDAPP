@@ -1,15 +1,16 @@
 // @flow
 import React, { useCallback } from 'react'
-import { TouchableHighlight, View } from 'react-native'
+import { Platform, TouchableHighlight, View } from 'react-native'
 import * as Animatable from 'react-native-animatable'
 
-import type { FeedEvent } from '../../../lib/gundb/UserStorageClass'
+import type { FeedEvent } from '../../../lib/userStorage/UserStorageClass'
 import { withStyles } from '../../../lib/styles'
 import useNavigationMacro from '../../../lib/hooks/useNavigationMacro'
 import wavePattern from '../../../assets/feedListItemPattern.svg'
 import SimpleStore from '../../../lib/undux/SimpleStore'
 import { CARD_OPEN, fireEvent } from '../../../lib/analytics/analytics'
 import useOnPress from '../../../lib/hooks/useOnPress'
+import { useNativeDriverForAnimation } from '../../../lib/utils/platform'
 import Config from '../../../config/config'
 import ListEventItem from './ListEventItem'
 import getEventSettingsByType from './EventSettingsByType'
@@ -17,6 +18,7 @@ import getEventSettingsByType from './EventSettingsByType'
 type FeedListItemProps = {
   item: FeedEvent,
   onPress: Function,
+  index: number,
   theme?: any,
   styles?: any,
 }
@@ -26,11 +28,13 @@ type FeedListItemProps = {
  * @param {FeedListItemProps} props
  * @param {FeedEvent} props.item - feed event
  * @param {function} props.onPress
+ * @param {number} index
  * @param {object} props.theme
  * @param {object} props.styles
  * @returns {React.Node}
  */
-const FeedListItem = (props: FeedListItemProps) => {
+const FeedListItem = React.memo((props: FeedListItemProps) => {
+  const disableAnimForTests = Config.env === 'test'
   const simpleStore = SimpleStore.useStore()
   const { theme, item, handleFeedSelection, styles } = props
   const { id, type, displayType, action } = item
@@ -38,7 +42,6 @@ const FeedListItem = (props: FeedListItemProps) => {
   const itemType = displayType || type
   const isItemEmpty = itemType === 'empty'
   const itemStyle = getEventSettingsByType(theme, itemType)
-  const disableAnimForTests = Config.env === 'test'
   const easing = 'ease-in'
 
   const imageStyle = {
@@ -83,7 +86,12 @@ const FeedListItem = (props: FeedListItemProps) => {
 
     return (
       <>
-        <Animatable.View animation={showLoadAnim ? animScheme : ''} duration={duration} easing={easing} useNativeDriver>
+        <Animatable.View
+          animation={showLoadAnim ? animScheme : ''}
+          duration={duration}
+          easing={easing}
+          useNativeDriver={useNativeDriverForAnimation}
+        >
           <View style={styles.row}>
             <View style={styles.rowContent}>
               <View style={[styles.rowContentBorder, imageStyle]} />
@@ -96,7 +104,7 @@ const FeedListItem = (props: FeedListItemProps) => {
           duration={duration}
           delay={200}
           easing={easing}
-          useNativeDriver
+          useNativeDriver={useNativeDriverForAnimation}
         >
           <View style={styles.row}>
             <View style={styles.rowContent}>
@@ -110,7 +118,7 @@ const FeedListItem = (props: FeedListItemProps) => {
           duration={duration}
           delay={550}
           easing={easing}
-          useNativeDriver
+          useNativeDriver={useNativeDriverForAnimation}
         >
           <View style={styles.row}>
             <View style={styles.rowContent}>
@@ -124,19 +132,17 @@ const FeedListItem = (props: FeedListItemProps) => {
   }
 
   return (
-    <Animatable.View animation={disableAnimForTests ? '' : 'fadeIn'} easing={easing} useNativeDriver>
-      <TouchableHighlight
-        activeOpacity={0.5}
-        onPress={onPress}
-        style={styles.row}
-        tvParallaxProperties={{ pressMagnification: 1.1 }}
-        underlayColor={theme.colors.lightGray}
-      >
-        <ListEventItem {...props} />
-      </TouchableHighlight>
-    </Animatable.View>
+    <TouchableHighlight
+      activeOpacity={0.5}
+      onPress={onPress}
+      style={[styles.row, styles.rowHasBeenAnimated]}
+      tvParallaxProperties={{ pressMagnification: 1.1 }}
+      underlayColor={theme.colors.lightGray}
+    >
+      <ListEventItem {...props} />
+    </TouchableHighlight>
   )
-}
+})
 
 const getStylesFromProps = ({ theme }) => ({
   row: {
@@ -148,7 +154,6 @@ const getStylesFromProps = ({ theme }) => ({
       width: 0,
       height: 2,
     },
-    elevation: 1,
 
     // height: theme.feedItems.height,
     marginHorizontal: theme.sizes.default,
@@ -156,6 +161,10 @@ const getStylesFromProps = ({ theme }) => ({
     shadowOpacity: 0.16,
     shadowRadius: 4,
   },
+  rowHasBeenAnimated: Platform.select({
+    android: { elevation: 1 },
+    default: {},
+  }),
   rowContent: {
     borderRadius: theme.feedItems.borderRadius,
     overflow: 'hidden',

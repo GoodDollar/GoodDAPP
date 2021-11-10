@@ -23,7 +23,7 @@ exports[`SendToAddress matches snapshot 1`] = `
           className="css-view-1dbjc4n r-alignItems-1d09ksm r-display-6koalj r-flexDirection-18u37iz"
         >
           <div
-            className="css-text-901oao r-color-181bzza r-fontFamily-6jnb14 r-fontSize-3i2nvb r-fontWeight-b88u0q r-lineHeight-ueyrd6 r-marginRight-a5pmau r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+            className="css-text-901oao r-color-181bzza r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-marginRight-a5pmau r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
             dir="auto"
           >
             -.--
@@ -32,13 +32,13 @@ exports[`SendToAddress matches snapshot 1`] = `
             className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
           >
             <div
-              className="css-text-901oao r-color-181bzza r-fontFamily-6jnb14 r-fontSize-1i10wst r-fontWeight-b88u0q r-lineHeight-hbpseb r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+              className="css-text-901oao r-color-181bzza r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
               dir="auto"
             >
               G
             </div>
             <div
-              className="css-text-901oao r-color-181bzza r-fontFamily-6jnb14 r-fontSize-1i10wst r-fontWeight-b88u0q r-lineHeight-hbpseb r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+              className="css-text-901oao r-color-181bzza r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
               dir="auto"
             >
               $
@@ -46,24 +46,19 @@ exports[`SendToAddress matches snapshot 1`] = `
           </div>
         </div>
         <div
-          className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-qt01xk r-borderColor-y68mpx r-borderWidth-rs99b7 r-cursor-1loqt21 r-justifyContent-1777fci r-touchAction-1otgn73 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
-          data-focusable={true}
-          disabled={false}
+          className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-qt01xk r-borderColor-y68mpx r-borderWidth-rs99b7 r-cursor-1loqt21 r-justifyContent-1777fci r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
+          onClick={[Function]}
+          onContextMenu={[Function]}
           onKeyDown={[Function]}
-          onKeyUp={[Function]}
-          onResponderGrant={[Function]}
-          onResponderMove={[Function]}
-          onResponderRelease={[Function]}
-          onResponderTerminate={[Function]}
-          onResponderTerminationRequest={[Function]}
-          onStartShouldSetResponder={[Function]}
           style={
             Object {
+              "WebkitTransitionDuration": "0s",
               "borderBottomLeftRadius": "21px",
               "borderBottomRightRadius": "21px",
               "borderTopLeftRadius": "21px",
               "borderTopRightRadius": "21px",
               "height": "42px",
+              "transitionDuration": "0s",
               "width": "42px",
             }
           }
@@ -88,7 +83,7 @@ exports[`SendToAddress matches snapshot 1`] = `
       className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderRadius-1f0042m r-flexGrow-16y2uox r-paddingHorizontal-1e081e0 r-paddingVertical-1yzf0co"
     >
       <div
-        className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-height-132bva r-minHeight-1hsi953"
+        className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-height-1w2pmg r-minHeight-ifefl9"
         style={
           Object {
             "WebkitBoxPack": "start",
@@ -99,7 +94,7 @@ exports[`SendToAddress matches snapshot 1`] = `
         }
       >
         <div
-          className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1x35g6 r-fontWeight-majxgm r-lineHeight-17rnw9f r-marginVertical-c8eef1 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
+          className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-majxgm r-lineHeight-qvk6io r-marginVertical-c8eef1 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
           dir="auto"
         >
           Send To?
@@ -115,15 +110,13 @@ exports[`SendToAddress matches snapshot 1`] = `
               autoComplete="on"
               autoCorrect="on"
               autoFocus={true}
-              className="css-textinput-1cwyjr8 r-backgroundColor-14lw9ot r-borderBottomColor-1ny7kx0 r-borderBottomWidth-qklmqi r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-1i10wst r-marginTop-1t01tom r-paddingHorizontal-1dye5f7 r-paddingVertical-oyd9sg r-placeholderTextColor-1xktb6b r-textAlign-q4m81j"
-              data-focusable={true}
+              className="css-textinput-11aywtz r-backgroundColor-14lw9ot r-borderBottomColor-1ny7kx0 r-borderBottomWidth-qklmqi r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-hiw28u r-marginTop-1t01tom r-paddingHorizontal-1dye5f7 r-paddingVertical-oyd9sg r-placeholderTextColor-1xktb6b r-textAlign-q4m81j"
               dir="auto"
               maxLength={128}
               onBlur={[Function]}
               onChange={[Function]}
               onFocus={[Function]}
               onKeyDown={[Function]}
-              onKeyPress={[Function]}
               onSelect={[Function]}
               onTouchStart={[Function]}
               placeholder="Enter Wallet Address"
@@ -132,26 +125,24 @@ exports[`SendToAddress matches snapshot 1`] = `
               type="text"
             />
             <div
-              className="css-view-1dbjc4n r-bottom-ky29hr r-cursor-1loqt21 r-paddingTop-tskmnb r-position-u8s1d r-right-3mc0re r-touchAction-1otgn73 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-zIndex-184en5c"
-              data-focusable={true}
-              disabled={false}
+              className="css-view-1dbjc4n r-bottom-ky29hr r-cursor-1loqt21 r-paddingTop-tskmnb r-position-u8s1d r-right-3mc0re r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-zIndex-184en5c"
+              onClick={[Function]}
+              onContextMenu={[Function]}
               onKeyDown={[Function]}
-              onKeyUp={[Function]}
-              onResponderGrant={[Function]}
-              onResponderMove={[Function]}
-              onResponderRelease={[Function]}
-              onResponderTerminate={[Function]}
-              onResponderTerminationRequest={[Function]}
-              onStartShouldSetResponder={[Function]}
+              style={
+                Object {
+                  "WebkitTransitionDuration": "0s",
+                  "transitionDuration": "0s",
+                }
+              }
               tabIndex="0"
             >
               <div
-                className="css-text-901oao r-color-cddv6f"
+                className="css-text-901oao r-color-cddv6f r-fontSize-hiw28u"
                 dir="auto"
                 style={
                   Object {
                     "fontFamily": "gooddollar",
-                    "fontSize": "32px",
                     "fontStyle": "normal",
                     "fontWeight": "normal",
                   }
@@ -186,19 +177,18 @@ exports[`SendToAddress matches snapshot 1`] = `
         className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderRadius-1f0042m r-flexGrow-16y2uox r-justifyContent-1777fci r-paddingHorizontal-1e081e0 r-paddingVertical-1yzf0co"
       >
         <div
-          className="css-view-1dbjc4n r-alignItems-1awozwy r-borderColor-17xuhkx r-borderRadius-1f0042m r-borderStyle-1phboty r-borderWidth-d045u9 r-display-6koalj r-flexDirection-18u37iz r-justifyContent-a2tzq0 r-marginBottom-117bsoe r-marginHorizontal-1jgb5lz r-paddingHorizontal-uekwnc r-paddingVertical-23eiwj r-width-iyfy8q"
+          className="css-view-1dbjc4n r-alignItems-1awozwy r-borderColor-17xuhkx r-borderRadius-1f0042m r-borderStyle-1phboty r-borderWidth-d045u9 r-display-6koalj r-flexDirection-18u37iz r-justifyContent-a2tzq0 r-marginBottom-p1pxzi r-marginHorizontal-1jgb5lz r-paddingHorizontal-mk0yit r-paddingVertical-rjfia r-width-iyfy8q"
         >
           <div
-            className="css-view-1dbjc4n r-display-6koalj r-flexDirection-eqz5dr r-height-chkelg r-justifyContent-1777fci r-marginRight-19einr3 r-transform-1aeo46e r-width-13nck5o"
+            className="css-view-1dbjc4n r-display-6koalj r-flexDirection-eqz5dr r-height-1w2pmg r-justifyContent-1777fci r-marginRight-61z16t r-transform-1aeo46e r-width-1h2t8mc"
           >
             <div
               className="css-view-1dbjc4n"
             />
           </div>
           <div
-            className="css-text-901oao r-color-11zaip3 r-flex-13awgt0 r-fontFamily-6jnb14 r-fontSize-vbi3md r-fontWeight-b88u0q r-letterSpacing-i0j7gm r-lineHeight-10yl4k r-paddingRight-1qortcd r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+            className="css-text-901oao r-color-11zaip3 r-flex-13awgt0 r-fontFamily-6jnb14 r-fontSize-vbi3md r-fontWeight-b88u0q r-letterSpacing-i0j7gm r-lineHeight-qvk6io r-paddingRight-1qortcd r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
             dir="auto"
-            letterSpacing={0.14}
           >
             Keep in mind - your G$ tokens are on an internal network and should be sent on the G$ network and not to Ethereum external wallets
           </div>
@@ -227,7 +217,7 @@ exports[`SendToAddress matches snapshot 1`] = `
           }
         >
           <div
-            className="css-view-1dbjc4n r-alignItems-1oszu61 r-borderColor-17xuhkx r-borderStyle-1phboty r-display-6koalj r-justifyContent-1777fci"
+            className="css-view-1dbjc4n r-alignItems-1oszu61 r-borderColor-17xuhkx r-borderStyle-1phboty r-display-6koalj r-justifyContent-1777fci r-marginBottom-p1pxzi r-marginRight-61z16t"
             style={
               Object {
                 "backgroundColor": "rgba(0,0,0,0.00)",
@@ -239,9 +229,7 @@ exports[`SendToAddress matches snapshot 1`] = `
                 "borderTopLeftRadius": "50px",
                 "borderTopRightRadius": "50px",
                 "borderTopWidth": "0px",
-                "marginBottom": "0px",
                 "marginLeft": "0px",
-                "marginRight": "0px",
                 "marginTop": "0px",
                 "minHeight": "44px",
                 "minWidth": "auto",
@@ -253,18 +241,10 @@ exports[`SendToAddress matches snapshot 1`] = `
             }
           >
             <div
-              className="css-cursor-18t94o4 css-view-1dbjc4n r-cursor-1loqt21 r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim r-touchAction-1otgn73"
-              data-focusable={true}
-              disabled={false}
+              className="css-cursor-18t94o4 css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
+              onClick={[Function]}
+              onContextMenu={[Function]}
               onKeyDown={[Function]}
-              onKeyPress={[Function]}
-              onKeyUp={[Function]}
-              onResponderGrant={[Function]}
-              onResponderMove={[Function]}
-              onResponderRelease={[Function]}
-              onResponderTerminate={[Function]}
-              onResponderTerminationRequest={[Function]}
-              onStartShouldSetResponder={[Function]}
               role="button"
               style={
                 Object {
@@ -275,6 +255,7 @@ exports[`SendToAddress matches snapshot 1`] = `
                   "borderTopLeftRadius": "50px",
                   "borderTopRightRadius": "50px",
                   "msFlexItemAlign": "stretch",
+                  "msGridRowAlign": "stretch",
                 }
               }
               tabIndex="0"
@@ -286,6 +267,7 @@ exports[`SendToAddress matches snapshot 1`] = `
                     "WebkitAlignSelf": "stretch",
                     "alignSelf": "stretch",
                     "msFlexItemAlign": "stretch",
+                    "msGridRowAlign": "stretch",
                   }
                 }
               >
@@ -296,7 +278,7 @@ exports[`SendToAddress matches snapshot 1`] = `
                     className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
                   >
                     <div
-                      className="css-text-901oao r-alignItems-1awozwy r-color-vaa0vc r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-hbpseb r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                      className="css-text-901oao r-alignItems-1awozwy r-color-vaa0vc r-display-6koalj r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-qvk6io r-minHeight-1ceczpf r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                       dir="auto"
                     >
                       Cancel
@@ -319,13 +301,10 @@ exports[`SendToAddress matches snapshot 1`] = `
           }
         >
           <div
-            className="css-view-1dbjc4n r-alignItems-1oszu61 r-borderColor-17xuhkx r-borderStyle-1phboty r-display-6koalj r-justifyContent-1777fci"
+            className="css-view-1dbjc4n r-alignItems-1oszu61 r-borderColor-17xuhkx r-borderStyle-1phboty r-display-6koalj r-justifyContent-1777fci r-marginBottom-p1pxzi r-marginRight-61z16t"
             style={
               Object {
-                "WebkitBoxFlex": 2,
-                "WebkitFlexBasis": "0%",
-                "WebkitFlexGrow": 2,
-                "WebkitFlexShrink": 1,
+                "WebkitFlex": 2,
                 "backgroundColor": "rgba(0,0,0,0.12)",
                 "borderBottomLeftRadius": "50px",
                 "borderBottomRightRadius": "50px",
@@ -335,18 +314,12 @@ exports[`SendToAddress matches snapshot 1`] = `
                 "borderTopLeftRadius": "50px",
                 "borderTopRightRadius": "50px",
                 "borderTopWidth": "0px",
-                "flexBasis": "0%",
-                "flexGrow": 2,
-                "flexShrink": 1,
-                "marginBottom": "0px",
+                "flex": 2,
                 "marginLeft": "0px",
-                "marginRight": "0px",
                 "marginTop": "0px",
                 "minHeight": "44px",
                 "minWidth": "64px",
-                "msFlexNegative": 1,
-                "msFlexPositive": 2,
-                "msFlexPreferredSize": "0%",
+                "msFlex": "2 1 0%",
                 "paddingBottom": "0px",
                 "paddingLeft": "0px",
                 "paddingRight": "0px",
@@ -357,14 +330,9 @@ exports[`SendToAddress matches snapshot 1`] = `
             <div
               aria-disabled={true}
               className="css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
-              disabled={true}
+              onClick={[Function]}
+              onContextMenu={[Function]}
               onKeyDown={[Function]}
-              onKeyUp={[Function]}
-              onResponderGrant={[Function]}
-              onResponderMove={[Function]}
-              onResponderTerminate={[Function]}
-              onResponderTerminationRequest={[Function]}
-              onStartShouldSetResponder={[Function]}
               role="button"
               style={
                 Object {
@@ -375,8 +343,10 @@ exports[`SendToAddress matches snapshot 1`] = `
                   "borderTopLeftRadius": "50px",
                   "borderTopRightRadius": "50px",
                   "msFlexItemAlign": "stretch",
+                  "msGridRowAlign": "stretch",
                 }
               }
+              tabIndex="-1"
             >
               <div
                 className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
@@ -385,6 +355,7 @@ exports[`SendToAddress matches snapshot 1`] = `
                     "WebkitAlignSelf": "stretch",
                     "alignSelf": "stretch",
                     "msFlexItemAlign": "stretch",
+                    "msGridRowAlign": "stretch",
                   }
                 }
               >
@@ -395,7 +366,7 @@ exports[`SendToAddress matches snapshot 1`] = `
                     className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
                   >
                     <div
-                      className="css-text-901oao r-alignItems-1awozwy r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-hbpseb r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
+                      className="css-text-901oao r-alignItems-1awozwy r-color-jwli3a r-display-6koalj r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-qvk6io r-minHeight-1ceczpf r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
                       dir="auto"
                     >
                       Next

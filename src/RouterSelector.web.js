@@ -2,91 +2,39 @@
 import React, { memo, useEffect, useState } from 'react'
 import { Platform } from 'react-native'
 import { pick } from 'lodash'
-import bip39 from 'bip39-light'
-import AsyncStorage from './lib/utils/asyncStorage'
 
 // components
 
 import Splash, { animationDuration, shouldAnimateSplash } from './components/splash/Splash'
 
 // hooks
-import useUpgradeDialog from './lib/hooks/useUpgradeDialog'
+import useUpdateDialog from './components/appUpdate/useUpdateDialog'
 import useBrowserSupport from './components/browserSupport/hooks/useBrowserSupport'
 import UnsupportedBrowser from './components/browserSupport/components/UnsupportedBrowser'
 
 // utils
 import SimpleStore from './lib/undux/SimpleStore'
-import { DESTINATION_PATH } from './lib/constants/localStorage'
 import { delay } from './lib/utils/async'
 import retryImport from './lib/utils/retryImport'
 import DeepLinking from './lib/utils/deepLinking'
 import InternetConnection from './components/common/connectionDialog/internetConnection'
 import isWebApp from './lib/utils/isWebApp'
-import logger from './lib/logger/pino-logger'
-import { APP_OPEN, fireEvent, initAnalytics, SIGNIN_FAILED, SIGNIN_SUCCESS } from './lib/analytics/analytics'
-import restart from './lib/utils/restart'
+import logger from './lib/logger/js-logger'
+import { APP_OPEN, fireEvent, initAnalytics } from './lib/analytics/analytics'
+import handleLinks from './lib/utils/handleLinks'
 
 const log = logger.child({ from: 'RouterSelector' })
 
+// identify the case user signup/in using torus redirect flow, so we want to load page asap
+const isAuthReload = DeepLinking.pathname.startsWith('/Welcome/Auth')
+
 const DisconnectedSplash = () => <Splash animation={false} />
-
-/**
- * handle in-app links for unsigned users such as magiclink and paymentlinks
- * magiclink proceed to signin other links we keep and pop once user is logged in
- *
- * @returns {Promise<boolean>}
- */
-const handleLinks = async () => {
-  const params = DeepLinking.params
-
-  try {
-    const { magiclink } = params
-
-    if (magiclink) {
-      let userNameAndPWD = Buffer.from(decodeURIComponent(magiclink), 'base64').toString()
-      let userNameAndPWDArray = userNameAndPWD.split('+')
-      log.debug('recoverByMagicLink', { magiclink, userNameAndPWDArray })
-      if (userNameAndPWDArray.length === 2) {
-        const userName = userNameAndPWDArray[0]
-        const userPwd = userNameAndPWDArray[1]
-        const UserStorage = await retryImport(() => import('./lib/gundb/UserStorageClass')).then(_ => _.UserStorage)
-
-        const mnemonic = await UserStorage.getMnemonic(userName, userPwd)
-
-        if (mnemonic && bip39.validateMnemonic(mnemonic)) {
-          const mnemonicsHelpers = retryImport(() => import('./lib/wallet/SoftwareWalletProvider'))
-          const { saveMnemonics } = await mnemonicsHelpers
-          await saveMnemonics(mnemonic)
-          await AsyncStorage.setItem('GD_isLoggedIn', true)
-          fireEvent(SIGNIN_SUCCESS)
-          restart('/')
-        }
-      }
-    } else {
-      let path = window.location.pathname.slice(1)
-      path = path.length === 0 ? 'AppNavigation/Dashboard/Home' : path
-
-      if (params && Object.keys(params).length > 0) {
-        const dest = { path, params }
-        log.debug('Saving destination url', dest)
-        await AsyncStorage.setItem(DESTINATION_PATH, dest)
-      }
-    }
-  } catch (e) {
-    if (params.magiclink) {
-      log.error('Magiclink signin failed', e.message, e)
-      fireEvent(SIGNIN_FAILED)
-    } else {
-      log.error('parsing in-app link failed', e.message, e, params)
-    }
-  }
-}
 
 let SignupRouter = React.lazy(async () => {
   const [module] = await Promise.all([
     retryImport(() => import(/* webpackChunkName: "signuprouter" */ './SignupRouter')),
-    handleLinks(),
-    delay(animationDuration),
+    handleLinks(log),
+    delay(isAuthReload ? 0 : animationDuration),
   ])
 
   return module
@@ -109,7 +57,7 @@ let AppRouter = React.lazy(async () => {
 })
 
 const NestedRouter = memo(({ isLoggedIn }) => {
-  useUpgradeDialog()
+  useUpdateDialog()
 
   useEffect(() => {
     let source, platform
@@ -164,10 +112,10 @@ const RouterSelector = () => {
     setCheckedForBrowserSupport(true)
   }, [isLoggedIn])
 
-  // statring anumation once we're checked for browser support and awaited
+  // starting animation once we're checked for browser support and awaited
   // the user dismissed warning dialog (if browser wasn't supported)
   return (
-    <React.Suspense fallback={<Splash animation={checkedForBrowserSupport} isLoggedIn={isLoggedIn} />}>
+    <React.Suspense fallback={<Splash animation={!isAuthReload && checkedForBrowserSupport} isLoggedIn={isLoggedIn} />}>
       {(supported || ignoreUnsupported) && <NestedRouter isLoggedIn={isLoggedIn} />}
     </React.Suspense>
   )

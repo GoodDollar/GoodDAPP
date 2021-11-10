@@ -2,7 +2,7 @@
 
 import React, { useCallback } from 'react'
 import { View } from 'react-native'
-import GoodWallet from '../../lib/wallet/GoodWallet'
+import goodWallet from '../../lib/wallet/GoodWallet'
 import InputText from '../common/form/InputText'
 import { Section, Text, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
@@ -10,6 +10,7 @@ import { withStyles } from '../../lib/styles'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
 import normalize from '../../lib/utils/normalizeText'
 import CopyButton from '../common/buttons/CopyButton'
+import { theme } from '../theme/styles'
 import EventIcon from './FeedItems/EventIcon'
 
 export type TypeProps = {
@@ -18,7 +19,7 @@ export type TypeProps = {
   styles: any,
 }
 
-const { account } = GoodWallet
+const { account } = goodWallet
 
 const warningBoxStyles = ({ theme }) => ({
   warningTextWrapper: {
@@ -58,7 +59,7 @@ export const GDTokensWarningBox = withStyles(warningBoxStyles)(({ styles, isSend
     </View>
     <Text
       fontSize={13.5}
-      fontFamily="Roboto Slab"
+      fontFamily={theme.fonts.slab}
       fontWeight="bold"
       textAlign="left"
       letterSpacing={0.14}

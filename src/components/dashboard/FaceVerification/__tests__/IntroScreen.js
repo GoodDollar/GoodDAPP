@@ -1,3 +1,5 @@
+// eslint-disable-next-line import/order
+import { initUserStorage } from '../../../../lib/userStorage/__tests__/__util__'
 import React from 'react'
 import renderer from 'react-test-renderer'
 import { withThemeProvider } from '../../../../__tests__/__util__'
@@ -8,7 +10,13 @@ const screenState = {
   isValid: true,
 }
 
+jest.setTimeout(20000)
+
 describe('FaceVerification IntroScreen', () => {
+  beforeAll(async () => {
+    await initUserStorage()
+  })
+
   it('renders without errors', () => {
     const tree = renderer.create(<IntroScreen screenProps={{ pop: () => {}, screenState }} />)
     expect(tree.toJSON()).toBeTruthy()

@@ -3,26 +3,23 @@
 exports[`Avatar matches snapshot 1`] = `
 <div
   aria-disabled={true}
-  className="css-view-1dbjc4n r-alignItems-1awozwy r-borderWidth-rs99b7 r-justifyContent-1777fci r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
-  disabled={true}
+  className="css-view-1dbjc4n r-alignItems-1awozwy r-borderWidth-rs99b7 r-justifyContent-1777fci r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
+  onClick={[Function]}
+  onContextMenu={[Function]}
   onKeyDown={[Function]}
-  onKeyUp={[Function]}
-  onResponderGrant={[Function]}
-  onResponderMove={[Function]}
-  onResponderRelease={[Function]}
-  onResponderTerminate={[Function]}
-  onResponderTerminationRequest={[Function]}
-  onStartShouldSetResponder={[Function]}
   style={
     Object {
+      "WebkitTransitionDuration": "0s",
       "borderBottomLeftRadius": "21px",
       "borderBottomRightRadius": "21px",
       "borderTopLeftRadius": "21px",
       "borderTopRightRadius": "21px",
       "height": "42px",
+      "transitionDuration": "0s",
       "width": "42px",
     }
   }
+  tabIndex="-1"
 >
   <div
     className="css-view-1dbjc4n"

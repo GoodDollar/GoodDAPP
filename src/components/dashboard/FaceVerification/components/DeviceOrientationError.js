@@ -2,17 +2,25 @@ import React, { useEffect } from 'react'
 import { View } from 'react-native'
 
 import Text from '../../../common/view/Text'
-import Separator from '../../../common/layout/Separator'
 import { CustomButton, Section, Wrapper } from '../../../common'
-import IllustrationSVG from '../../../../assets/FRPortraitModeError.svg'
 
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../../lib/utils/sizes'
 import { isMobileOnly } from '../../../../lib/utils/platform'
 import { withStyles } from '../../../../lib/styles'
+import FVErrorLandscapeSVG from '../../../../assets/FaceVerification/FVErrorLandscape.svg'
 
 import { fireEvent, FV_WRONGORIENTATION } from '../../../../lib/analytics/analytics'
+import useDeviceOrientation from '../../../../lib/hooks/useDeviceOrientation'
+
+const SVGHeight = {
+  portrait: getDesignRelativeHeight(176, false),
+  landscape: getDesignRelativeHeight(175, false),
+}
 
 const DeviceOrientationError = ({ styles, displayTitle, onRetry, exception }) => {
+  const orientation = useDeviceOrientation()
+  const svgHeight = SVGHeight[orientation]
+
   useEffect(() => {
     if (!exception) {
       return
@@ -25,28 +33,30 @@ const DeviceOrientationError = ({ styles, displayTitle, onRetry, exception }) =>
     <Wrapper>
       <View style={styles.topContainer}>
         <Section style={styles.descriptionContainer} justifyContent="space-evenly">
-          <Section.Title fontWeight="medium" textTransform="none" color="red">
-            {displayTitle}
-            {',\nplease turn your camera\nto portrait mode'}
+          <Section.Title fontWeight="normal" textTransform="none" color="red">
+            <Section.Title fontWeight="bold" textTransform="none" color="red">
+              {displayTitle}
+            </Section.Title>
+            {',\nPlease turn your camera\nto portrait mode'}
           </Section.Title>
-          <View style={styles.errorImage}>
-            <IllustrationSVG />
-          </View>
           <Section style={styles.errorSection}>
-            <Separator width={2} />
             <View style={styles.descriptionWrapper}>
-              <Text color="primary" fontSize={18} lineHeight={25}>
-                {'It’s a nice landscape,\nbut we need to see your face'}
-              </Text>
-              <Text color="primary" fontWeight="bold" fontSize={18} lineHeight={25}>
-                only in portrait mode
+              <Text>
+                <Text fontSize={18} lineHeight={25}>
+                  {'It’s a nice landscape, but we need \nto see your face '}
+                </Text>
+                <Text fontWeight="bold" fontSize={18} lineHeight={25}>
+                  {'only in portrait \nmode.'}
+                </Text>
               </Text>
             </View>
-            <Separator width={2} />
           </Section>
+          <View style={[styles.errorImage, { height: svgHeight }]}>
+            <FVErrorLandscapeSVG />
+          </View>
         </Section>
         <View style={styles.action}>
-          <CustomButton onPress={onRetry}>PLEASE TRY AGAIN</CustomButton>
+          <CustomButton onPress={onRetry}>TRY AGAIN</CustomButton>
         </View>
       </View>
     </Wrapper>
@@ -71,10 +81,10 @@ const getStylesFromProps = ({ theme }) => {
       borderRadius: 5,
     },
     errorImage: {
-      height: getDesignRelativeHeight(146, false),
-      marginTop: isMobileOnly ? getDesignRelativeHeight(32) : 0,
-      marginBottom: isMobileOnly ? getDesignRelativeHeight(40) : 0,
+      marginTop: isMobileOnly ? getDesignRelativeHeight(15) : 0,
+      marginBottom: isMobileOnly ? getDesignRelativeHeight(20) : 0,
       justifyContent: 'center',
+      alignItems: 'center',
     },
     descriptionContainer: {
       flex: 1,

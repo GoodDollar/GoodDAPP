@@ -1,16 +1,15 @@
 // @flow
 import { assign, noop, over } from 'lodash'
 
-import FaceTec, { FaceTecUxEvent } from 'react-native-facetec'
+import { FaceTecUxEvent, sdk } from '@gooddollar/react-native-facetec'
 
 import api from '../../../../lib/API/api'
 import Config from '../../../../config/config'
-import logger from '../../../../lib/logger/pino-logger'
+import logger from '../../../../lib/logger/js-logger'
 
-import { parseLicense } from '../utils/options'
 import { MAX_RETRIES_ALLOWED } from './FaceTecSDK.constants'
 
-export { FaceTecSDKStatus, FaceTecSessionStatus } from 'react-native-facetec'
+export { FaceTecSDKStatus, FaceTecSessionStatus } from '@gooddollar/react-native-facetec'
 
 // sdk class
 export const FaceTecSDK = new class {
@@ -21,11 +20,14 @@ export const FaceTecSDK = new class {
     this.requestTimeout = faceVerificationRequestTimeout
   }
 
-  async initialize(licenseKey, encryptionKey = null, licenseText = null) {
+  async initialize(licenseKey, encryptionKey = null, license = null) {
     const { sdk, logger, serverUrl } = this
-    const license = parseLicense(licenseText)
 
     try {
+      if (Config.env === 'development') {
+        logger.debug('FaceTec initialization', { serverUrl, serverKey: api.jwt, licenseKey, encryptionKey, license })
+      }
+
       return await sdk.initialize(serverUrl, api.jwt, licenseKey, encryptionKey, license)
     } catch (exception) {
       const { message } = exception
@@ -63,4 +65,4 @@ export const FaceTecSDK = new class {
       over(subscriptions)()
     }
   }
-}(Config, FaceTec.sdk, logger.child({ from: 'FaceTecSDK.native' })) // eslint-disable-line
+}(Config, sdk, logger.child({ from: 'FaceTecSDK.native' }))

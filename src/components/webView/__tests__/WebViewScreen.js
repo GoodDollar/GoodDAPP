@@ -1,7 +1,7 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
 import { FAQ, PrivacyPolicy, PrivacyPolicyAndTerms, Support, TermsOfUse } from '../webViewInstances'
-import { StoresWrapper } from '../../../lib/undux/utils/storeswrapper.js'
+import { StoresWrapper } from '../../../__tests__/__util__'
 
 // Note: test renderer must be required after react-native.
 

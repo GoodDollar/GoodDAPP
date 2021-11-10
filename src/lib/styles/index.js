@@ -1,10 +1,8 @@
 import React from 'react'
-import { withTheme } from 'react-native-paper'
+import { useTheme, withTheme } from 'react-native-paper'
 import { StyleSheet } from 'react-native'
 
-function isFunction(functionToCheck) {
-  return functionToCheck && {}.toString.call(functionToCheck) === '[object Function]'
-}
+import { isFunction } from 'lodash'
 
 /**
  * HOC that injects `theme` from `withTheme` and `styles` using theme values into the `Component`
@@ -60,4 +58,26 @@ export const withStyles = (mapThemeToStyles, withStyleSheet = true) => Component
   WrappedComponent.navigationOptions = Component.navigationOptions
 
   return withTheme(WrappedComponent)
+}
+
+export const makeStyles = (mapThemeToStyles, withStyleSheet = true) => {
+  const getUpdatedStyles = props => {
+    let styles = {}
+
+    if (isFunction(mapThemeToStyles)) {
+      const stylesObject = mapThemeToStyles(props)
+
+      styles = withStyleSheet ? StyleSheet.create(stylesObject) : stylesObject
+    }
+
+    return styles
+  }
+
+  const useStyles = props => {
+    const theme = useTheme()
+
+    return { theme, styles: getUpdatedStyles({ ...props, theme }) }
+  }
+
+  return useStyles
 }

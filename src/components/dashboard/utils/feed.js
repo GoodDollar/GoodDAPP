@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
-import { v4 as uuidv4 } from 'uuid'
 import { get, isArray, isEmpty } from 'lodash'
 
+import uuid from '../../../lib/utils/uuid'
 import Config from '../../../config/config'
 
 export const VIEWABILITY_CONFIG = {
@@ -27,7 +27,7 @@ export const keyExtractor = item => {
   }
 
   if (!itemKeyMap.has(item)) {
-    itemKeyMap.set(item, uuidv4())
+    itemKeyMap.set(item, uuid())
   }
 
   return itemKeyMap.get(item)

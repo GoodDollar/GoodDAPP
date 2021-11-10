@@ -1,5 +1,5 @@
 import retryImport from '../../lib/utils/retryImport'
-import logger from '../../lib/logger/pino-logger'
+import logger from '../../lib/logger/js-logger'
 
 const log = logger.child({ from: 'Ready' })
 
@@ -21,9 +21,6 @@ const ready = async replacing => {
     userStorage.init()
   }
 
-  // for QA
-  global.wallet = goodWallet
-
   await userStorage.ready
   log.debug('ready: userstorage ready')
 
@@ -32,7 +29,7 @@ const ready = async replacing => {
   log.debug('ready: got login', login)
 
   try {
-    await login.auth()
+    await login.auth(true)
   } catch (exception) {
     const { message } = exception
 

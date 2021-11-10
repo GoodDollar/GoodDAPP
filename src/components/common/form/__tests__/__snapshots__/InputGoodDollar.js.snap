@@ -14,21 +14,18 @@ exports[`InputGoodDollar matches snapshot 1`] = `
         autoCapitalize="sentences"
         autoComplete="on"
         autoCorrect="on"
-        className="css-textinput-1cwyjr8 r-backgroundColor-14lw9ot r-borderBottomColor-1ny7kx0 r-borderBottomWidth-qklmqi r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-1ui5ee8 r-fontWeight-vw2c0b r-letterSpacing-19r33im r-paddingHorizontal-1dye5f7 r-paddingVertical-oyd9sg r-placeholderTextColor-1xktb6b r-textAlign-q4m81j"
-        data-focusable={true}
+        className="css-textinput-11aywtz r-backgroundColor-14lw9ot r-borderBottomColor-1ny7kx0 r-borderBottomWidth-qklmqi r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-vw2c0b r-letterSpacing-19r33im r-paddingHorizontal-1dye5f7 r-paddingVertical-oyd9sg r-placeholderTextColor-1xktb6b r-textAlign-q4m81j"
         dir="auto"
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
         onKeyDown={[Function]}
-        onKeyPress={[Function]}
         onSelect={[Function]}
         onTouchStart={[Function]}
         placeholder="0 G$"
         readOnly={false}
         spellCheck={true}
         type="text"
-        wei={12002}
       />
     </div>
     <div
@@ -70,14 +67,12 @@ exports[`InputGoodDollar matches snapshot 2`] = `
         autoCapitalize="sentences"
         autoComplete="on"
         autoCorrect="on"
-        className="css-textinput-1cwyjr8 r-backgroundColor-14lw9ot r-borderBottomWidth-qklmqi r-fontFamily-6jnb14 r-fontSize-1ui5ee8 r-fontWeight-vw2c0b r-letterSpacing-19r33im r-paddingHorizontal-1dye5f7 r-paddingVertical-oyd9sg r-placeholderTextColor-1xktb6b r-textAlign-q4m81j"
-        data-focusable={true}
+        className="css-textinput-11aywtz r-backgroundColor-14lw9ot r-borderBottomWidth-qklmqi r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-vw2c0b r-letterSpacing-19r33im r-paddingHorizontal-1dye5f7 r-paddingVertical-oyd9sg r-placeholderTextColor-1xktb6b r-textAlign-q4m81j"
         dir="auto"
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
         onKeyDown={[Function]}
-        onKeyPress={[Function]}
         onSelect={[Function]}
         onTouchStart={[Function]}
         placeholder="0 G$"
@@ -90,7 +85,6 @@ exports[`InputGoodDollar matches snapshot 2`] = `
           }
         }
         type="text"
-        wei={12002}
       />
     </div>
     <div

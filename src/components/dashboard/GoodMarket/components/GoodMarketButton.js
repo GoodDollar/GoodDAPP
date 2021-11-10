@@ -47,6 +47,7 @@ const GoodMarketButton = ({ styles }) => {
       toValue: 0,
       duration: marketAnimationDuration,
       easing: Easing.ease,
+      useNativeDriver: false, //bottom not supported by native animation
     }).start()
   }, [])
 
@@ -74,6 +75,7 @@ const getStylesFromProps = ({ theme }) => ({
         justifyContent: 'center',
         zIndex: 0,
       },
+      default: { position: 'absolute', width: '100%' },
     }),
   },
   marketButton: {

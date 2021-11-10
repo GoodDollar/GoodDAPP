@@ -5,7 +5,7 @@ exports[`Splash matches snapshot 1`] = `
   className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
-    className="css-view-1dbjc4n r-display-6koalj r-flexDirection-eqz5dr r-flexGrow-16y2uox r-maxHeight-1vsf3e2 r-overflowX-lltvgl r-overflowY-1rnoaur r-padding-t60dpp r-position-bnwqim r-width-13qz1uu"
+    className="css-view-1dbjc4n r-display-6koalj r-flexDirection-eqz5dr r-flexGrow-16y2uox r-maxHeight-46g5hj r-overflowX-lltvgl r-overflowY-1rnoaur r-padding-t60dpp r-position-bnwqim r-width-13qz1uu"
     data-name="viewWrapper"
     style={
       Object {
@@ -31,12 +31,27 @@ exports[`Splash matches snapshot 1`] = `
           }
         />
         <div
-          className="css-text-901oao r-color-waoq6i r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-lineHeight-hbpseb r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+          className="css-text-901oao r-color-waoq6i r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
           dir="auto"
         >
           V
           1.0
         </div>
+      </div>
+      <div
+        className="css-view-1dbjc4n r-cursor-1loqt21 r-touchAction-1otgn73 r-transform-1defyd4 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
+        onClick={[Function]}
+        onContextMenu={[Function]}
+        onKeyDown={[Function]}
+        style={
+          Object {
+            "WebkitTransitionDuration": "0s",
+            "transitionDuration": "0s",
+          }
+        }
+        tabIndex="0"
+      >
+        <poweredByLogo.svg />
       </div>
     </div>
   </div>

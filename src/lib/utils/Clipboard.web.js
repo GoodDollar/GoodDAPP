@@ -3,7 +3,7 @@
 import writeText from 'clipboard-copy'
 import { bindKey } from 'lodash'
 
-import logger from '../../lib/logger/pino-logger'
+import logger from '../../lib/logger/js-logger'
 
 const log = logger.child({ from: 'Clipboard' })
 const readText = bindKey(navigator.clipboard, 'readText')

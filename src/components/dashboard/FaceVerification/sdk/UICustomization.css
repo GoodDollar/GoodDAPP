@@ -30,6 +30,22 @@
   color: rgb(66, 69, 74) !important;
 }
 
+#DOM_FT_overlayContainer {
+  background-color: rgba(255, 255, 255, 0.5) !important;
+}
+#DOM_FT_getReadyScreen h2 {
+  color: rgb(66, 69, 74) !important;
+}
+
+#DOM_FT_getReadyScreen p {
+  color: rgb(66, 69, 74) !important;
+}
+
+#DOM_FT_getReadyAndRetryScreenContainer button {
+  background-color: #cbcbcb !important;
+  color: white !important;
+}
+
 #DOM_FT_uploadAnimationContainer {
   /* Changing custom upload progress image size */
   width: 134px !important;
@@ -62,8 +78,8 @@
 
 #DOM_FT_uploadAnimationContainer::before {
   /* Add custom text above the progress loader */
-  content: "You need to stay on this screen\auntil the process completes.";
-  color: #F8AF40;
+  content: 'You need to stay on this screen\auntil the process completes.';
+  color: #f8af40;
   font-weight: bold;
   font-size: 18px;
   line-height: 26px;
@@ -83,9 +99,9 @@
 
 #DOM_FT_uploadAnimationContainer::after {
   /* Add custom text below the progress loader */
-  content: "This may take a minute.";
+  content: 'This may take a minute.';
   bottom: -210%;
-  color: #42454A;
+  color: #42454a;
   font-weight: 500;
   font-size: 16px;
   line-height: 22px;

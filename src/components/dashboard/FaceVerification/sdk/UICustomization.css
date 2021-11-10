@@ -37,10 +37,6 @@
   color: rgb(66, 69, 74) !important;
 }
 
-#DOM_FT_getReadyScreen {
-  /* background: blue !important; */
-}
-
 #DOM_FT_frameOvalBackground {
   fill: white !important;
 }
@@ -60,6 +56,10 @@
 #DOM_FT_getReadyAndRetryScreenContainer button {
   background-color: #cbcbcb !important;
   color: white !important;
+}
+
+#DOM_FT_ovalPathCombined {
+  fill: white !important;
 }
 
 #DOM_FT_uploadAnimationContainer {

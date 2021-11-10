@@ -11,7 +11,6 @@
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate, RCTBridgeDelegate, UNUserNotificationCenterDelegate>
 
-
 @property (nonatomic, strong) UIWindow *window;
 
 - (UIViewController *) initializeRootViewController:(RCTBridge *)bridge;
@@ -20,5 +19,9 @@
 - (void) initializeBranch:(NSDictionary *)launchOptions;
 - (void) initializeBackgroundFetch;
 - (void) initializeNotifications;
+
+#ifdef FB_SONARKIT_ENABLED
+- (void) initializeFlipper:(UIApplication *)application;
+#endif
 
 @end

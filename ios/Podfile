@@ -3,7 +3,8 @@ require_relative '../node_modules/@react-native-community/cli-platform-ios/nativ
 
 platform :ios, '11.0'
 
-target 'RnDiffApp' do
+target 'GoodDollar' do
+  use_modular_headers!
   config = use_native_modules!
 
   use_react_native!(
@@ -12,7 +13,7 @@ target 'RnDiffApp' do
     :hermes_enabled => false
   )
 
-  target 'RnDiffAppTests' do
+  target 'GoodDollarTests' do
     inherit! :complete
     # Pods for testing
   end

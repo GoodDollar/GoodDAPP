@@ -7,6 +7,7 @@
  *
  * @return string
  */
+
 export const truncateMiddle = (string, maxLength = null, ellipsis = '...') => {
   if (!maxLength) {
     return string

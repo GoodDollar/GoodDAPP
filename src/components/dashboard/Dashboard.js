@@ -5,14 +5,15 @@ import { concat, debounce, get, noop, uniqBy } from 'lodash'
 import Mutex from 'await-mutex'
 import type { Store } from 'undux'
 import AsyncStorage from '../../lib/utils/asyncStorage'
-import normalize from '../../lib/utils/normalizeText'
+import normalize, { normalizeByLength } from '../../lib/utils/normalizeText'
 import GDStore from '../../lib/undux/GDStore'
 import API from '../../lib/API/api'
 import SimpleStore, { assertStore } from '../../lib/undux/SimpleStore'
 import { useDialog, useErrorDialog } from '../../lib/undux/utils/dialog'
 import { PAGE_SIZE } from '../../lib/undux/utils/feed'
-import { weiToMask } from '../../lib/wallet/utils'
+import { weiToGd, weiToMask } from '../../lib/wallet/utils'
 import { initBGFetch } from '../../lib/notifications/backgroundFetch'
+import { formatWithAbbreviations } from '../../lib/utils/formatNumber'
 
 import { createStackNavigator } from '../appNavigation/stackNavigation'
 import { initTransferEvents } from '../../lib/undux/utils/account'
@@ -81,6 +82,8 @@ export type DashboardProps = {
 
 const feedMutex = new Mutex()
 
+const abbreviateBalance = _balance => formatWithAbbreviations(weiToGd(_balance), 2)
+
 const Dashboard = props => {
   const balanceRef = useRef()
   const feedRef = useRef([])
@@ -147,6 +150,11 @@ const Dashboard = props => {
     setHeaderContentWidth(newHeaderContentWidth)
     setAvatarCenteredPosition(newAvatarCenteredPosition)
   }, [setHeaderContentWidth, setAvatarCenteredPosition])
+
+  const balanceFormatter = useMemo(
+    () => (headerLarge || Math.floor(Math.log10(balance)) + 1 <= 12 ? null : abbreviateBalance),
+    [balance, headerLarge],
+  )
 
   const handleDeleteRedirect = useCallback(() => {
     if (navigation.state.key === 'Delete') {
@@ -573,6 +581,13 @@ const Dashboard = props => {
 
   const handleScrollEndDebounced = useMemo(() => _debounce(handleScrollEnd, 300), [handleScrollEnd])
 
+  const calculateFontSize = useMemo(
+    () => ({
+      fontSize: normalizeByLength(weiToGd(balance), 42, 10),
+    }),
+    [balance],
+  )
+
   // for native we able handle onMomentumScrollEnd, but for web we able to handle only onScroll event,
   // so we need to imitate onMomentumScrollEnd for web
   const onScroll = Platform.select({
@@ -606,7 +621,8 @@ const Dashboard = props => {
                 <BigGoodDollar
                   testID="amount_value"
                   number={balance}
-                  bigNumberStyles={styles.bigNumberStyles}
+                  bigNumberStyles={[styles.bigNumberStyles, calculateFontSize]}
+                  formatter={balanceFormatter}
                   bigNumberUnitStyles={styles.bigNumberUnitStyles}
                   bigNumberProps={{
                     numberOfLines: 1,
@@ -788,12 +804,11 @@ const getStylesFromProps = ({ theme }) => ({
     alignSelf: 'stretch',
   },
   bigNumberStyles: {
-    fontSize: 42,
     fontWeight: '700',
+    fontSize: 42,
     lineHeight: 42,
     height: 42,
     textAlign: 'center',
-
     alignSelf: 'stretch',
   },
   bigGoodDollar: {

@@ -19,7 +19,10 @@ on:
         description: 'release type'
         required: true
         default: 'qa'
-
+      targetbranch:
+        description: 'target deployment branch'
+        required: false
+        default: 'staging'
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   release:
@@ -44,20 +47,17 @@ jobs:
         if: "github.event.inputs.release == 'qa'"
         run: |
           npm version prerelease -m "chore: release qa version %s [skip build]"
-          git push https://${{ secrets.GIT_AUTH }}@github.com/GoodDollar/GoodDAPP master:staging --force --follow-tags
+          git push https://${{ secrets.GIT_AUTH }}@github.com/GoodDollar/GoodDAPP master:${{ github.event.inputs.targetbranch }} --force --follow-tags
           git push https://${{ secrets.GIT_AUTH }}@github.com/GoodDollar/GoodDAPP master --follow-tags
+
       - name: update version prod
-        if: "github.event.inputs.release == 'prod'"
+        if: "github.event.inputs.release != 'qa'"
         run: |
           npm version minor -m "chore: release prod version %s [skip build]"
-          git push https://${{ secrets.GIT_AUTH }}@github.com/GoodDollar/GoodDAPP staging:next --force --follow-tags
+          git push https://${{ secrets.GIT_AUTH }}@github.com/GoodDollar/GoodDAPP staging:${{ github.event.inputs.targetbranch }} --force --follow-tags
           git checkout master
           git merge staging
           git push https://${{ secrets.GIT_AUTH }}@github.com/GoodDollar/GoodDAPP master --follow-tags
-      - name: update version qa
-        if: "github.event.inputs.release == 'next-android'"
-        run: |
-          git push https://${{ secrets.GIT_AUTH }}@github.com/GoodDollar/GoodDAPP staging:next-android --force --follow-tags
 
   setup:
     runs-on: ubuntu-latest

@@ -58,9 +58,12 @@
   color: white !important;
 }
 
-#DOM_FT_getReadyAndRetryScreenContainer button:hover,
+#DOM_FT_getReadyAndRetryScreenContainer button:hover {
+  background: color #00afff !important;
+}
+
 #DOM_FT_getReadyAndRetryScreenContainer button:focus {
-  background-color: rgb(0, 175, 255) !important;
+  background-color: #00c3ae !important;
 }
 
 #DOM_FT_ovalPathCombined {

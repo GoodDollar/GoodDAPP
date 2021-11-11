@@ -1,6 +1,11 @@
 <svg 
- preserveAspectRatio="xMinYMin slice" 
- xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100%" height="191" viewBox="0 0 375 191">
+ preserveAspectRatio="xMidYMid slice" 
+ xmlns="http://www.w3.org/2000/svg" 
+ xmlns:xlink="http://www.w3.org/1999/xlink" 
+ width="100%" 
+ height="191"
+ viewBox="0 0 375 191"
+ >
   <defs>
     <filter id="Path_2329" x="3.5" y="2.5" width="371" height="187.405" filterUnits="userSpaceOnUse">
       <feOffset dx="1" dy="1" input="SourceAlpha"/>
@@ -43,7 +48,7 @@
       </g>
       <text id="Crypto_Literacy_NOVEMBER" data-name="Crypto 
 Literacy
-NOVEMBER" transform="translate(302 183)" fill="#fff" font-size="13" font-family="MuseoSansRounded-1000, Museo Sans Rounded" font-weight="100"><tspan x="-27.476" y="0">CRYPTO </tspan><tspan x="-30.342" y="15">LITERACY</tspan><tspan font-family="Monaco" font-weight="400"><tspan x="-31.205" y="30">NOVEMBER</tspan></tspan></text>
+NOVEMBER" transform="translate(302 183)" fill="#fff" font-size="13" font-family="Roboto" font-weight="bold"><tspan x="-27.476" y="0">CRYPTO </tspan><tspan x="-30.342" y="15">LITERACY</tspan><tspan font-family="Roboto" font-weight="400"><tspan x="-31.205" y="30">NOVEMBER</tspan></tspan></text>
       <rect id="Artboard_1_copy_5" data-name="Artboard 1 copy 5" width="120" height="120" transform="translate(242 61)" fill="url(#pattern)"/>
     </g>
   </g>

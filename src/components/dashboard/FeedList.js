@@ -15,7 +15,6 @@ import ScrollToTopButton from '../common/buttons/ScrollToTopButton'
 import logger from '../../lib/logger/js-logger'
 import { decorate, ExceptionCategory, ExceptionCode } from '../../lib/logger/exceptions'
 import FeedListItem from './FeedItems/FeedListItem'
-import CryptoLiteracyNovemberBanner from './FeedItems/CryptoLiteracyNovemberBanner'
 import FeedActions from './FeedActions'
 import { keyExtractor, useFeeds, VIEWABILITY_CONFIG } from './utils/feed'
 
@@ -58,6 +57,7 @@ const FeedList = ({
   onScrollEnd: _onScrollEnd = noop,
   styles,
   onScroll = noop,
+  listHeaderComponent,
   headerLarge,
   windowSize,
 }: FeedListProps) => {
@@ -84,7 +84,7 @@ const FeedList = ({
     }
   }, [])
 
-  const renderHeaderComponent = useCallback(() => <CryptoLiteracyNovemberBanner />)
+  const renderHeaderComponent = useCallback(listHeaderComponent)
 
   const renderItemComponent = useCallback(
     ({ item, index }) => <Item item={item} handleFeedSelection={handleItemSelection} index={index} />,
@@ -213,7 +213,6 @@ const FeedList = ({
   return displayContent ? (
     <>
       <AnimatedSwipeableFlatList
-        ListHeaderComponent={renderHeaderComponent}
         bounceFirstRowOnMount={showBounce}
         style={styles.scrollView}
         contentContainerStyle={styles.scrollableView}
@@ -232,6 +231,7 @@ const FeedList = ({
         onMomentumScrollEnd={_onScrollEnd}
         refreshing={false}
         renderItem={renderItemComponent}
+        ListHeaderComponent={renderHeaderComponent}
         renderQuickActions={renderQuickActions}
         viewabilityConfig={VIEWABILITY_CONFIG}
         onScroll={onScroll}

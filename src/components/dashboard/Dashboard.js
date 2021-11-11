@@ -40,6 +40,7 @@ import Avatar from '../common/view/Avatar'
 import _debounce from '../../lib/utils/debounce'
 import useProfile from '../../lib/userStorage/useProfile'
 import { GlobalTogglesContext } from '../../lib/contexts/togglesContext'
+import { isCryptLiteracyNovember } from '../../lib/utils/promotions'
 import PrivacyPolicyAndTerms from './PrivacyPolicyAndTerms'
 import Amount from './Amount'
 import Claim from './Claim'
@@ -65,6 +66,7 @@ import FaceVerificationIntro from './FaceVerification/screens/IntroScreen'
 import FaceVerificationError from './FaceVerification/screens/ErrorScreen'
 
 import GoodMarketButton from './GoodMarket/components/GoodMarketButton'
+import CryptoLiteracyNovemberBanner from './FeedItems/CryptoLiteracyNovemberBanner'
 
 const log = logger.child({ from: 'Dashboard' })
 
@@ -154,6 +156,11 @@ const Dashboard = props => {
   const balanceFormatter = useMemo(
     () => (headerLarge || Math.floor(Math.log10(balance)) + 1 <= 12 ? null : abbreviateBalance),
     [balance, headerLarge],
+  )
+
+  const listHeaderComponent = useCallback(
+    () => isCryptLiteracyNovember && <CryptoLiteracyNovemberBanner onPress={() => navigation.navigate('Rewards')} />,
+    [isCryptLiteracyNovember],
   )
 
   const handleDeleteRedirect = useCallback(() => {
@@ -677,6 +684,7 @@ const Dashboard = props => {
         initialNumToRender={10}
         onEndReached={nextFeed} // How far from the end the bottom edge of the list must be from the end of the content to trigger the onEndReached callback.
         // we can use decimal (from 0 to 1) or integer numbers. Integer - it is a pixels from the end. Decimal it is the percentage from the end
+        listHeaderComponent={listHeaderComponent}
         onEndReachedThreshold={0.8}
         windowSize={10} // Determines the maximum number of items rendered outside of the visible area
         onScrollEnd={handleScrollEnd}

@@ -54,7 +54,7 @@ jobs:
           git checkout master
           git merge staging
           git push https://${{ secrets.GIT_AUTH }}@github.com/GoodDollar/GoodDAPP master --follow-tags
-      - name: update version next-android
+      - name: update version qa
         if: "github.event.inputs.release == 'next-android'"
         run: |
           git push https://${{ secrets.GIT_AUTH }}@github.com/GoodDollar/GoodDAPP staging:next-android --force --follow-tags

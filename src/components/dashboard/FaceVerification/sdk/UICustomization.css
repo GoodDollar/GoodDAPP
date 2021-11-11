@@ -58,6 +58,11 @@
   color: white !important;
 }
 
+#DOM_FT_getReadyAndRetryScreenContainer button:hover,
+#DOM_FT_getReadyAndRetryScreenContainer button:focus {
+  background-color: rgb(0, 175, 255) !important;
+}
+
 #DOM_FT_ovalPathCombined {
   fill: white !important;
 }

@@ -15,6 +15,7 @@ import ScrollToTopButton from '../common/buttons/ScrollToTopButton'
 import logger from '../../lib/logger/js-logger'
 import { decorate, ExceptionCategory, ExceptionCode } from '../../lib/logger/exceptions'
 import FeedListItem from './FeedItems/FeedListItem'
+import CryptoLiteracyNovemberBanner from './FeedItems/CryptoLiteracyNovemberBanner'
 import FeedActions from './FeedActions'
 import { keyExtractor, useFeeds, VIEWABILITY_CONFIG } from './utils/feed'
 
@@ -82,6 +83,8 @@ const FeedList = ({
       list.scrollToOffset({ offset: 0 })
     }
   }, [])
+
+  const renderHeaderComponent = useCallback(() => <CryptoLiteracyNovemberBanner />)
 
   const renderItemComponent = useCallback(
     ({ item, index }) => <Item item={item} handleFeedSelection={handleItemSelection} index={index} />,
@@ -210,6 +213,7 @@ const FeedList = ({
   return displayContent ? (
     <>
       <AnimatedSwipeableFlatList
+        ListHeaderComponent={renderHeaderComponent}
         bounceFirstRowOnMount={showBounce}
         style={styles.scrollView}
         contentContainerStyle={styles.scrollableView}

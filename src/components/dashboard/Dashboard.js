@@ -4,6 +4,7 @@ import { Animated, Dimensions, Easing, Platform, TouchableOpacity, View } from '
 import { concat, debounce, get, noop, uniqBy } from 'lodash'
 import Mutex from 'await-mutex'
 import type { Store } from 'undux'
+
 import AsyncStorage from '../../lib/utils/asyncStorage'
 import normalize, { normalizeByLength } from '../../lib/utils/normalizeText'
 import GDStore from '../../lib/undux/GDStore'
@@ -14,6 +15,7 @@ import { PAGE_SIZE } from '../../lib/undux/utils/feed'
 import { weiToGd, weiToMask } from '../../lib/wallet/utils'
 import { initBGFetch } from '../../lib/notifications/backgroundFetch'
 import { formatWithAbbreviations } from '../../lib/utils/formatNumber'
+import { fireEvent, INVITE_BANNER } from '../../lib/analytics/analytics'
 
 import { createStackNavigator } from '../appNavigation/stackNavigation'
 import { initTransferEvents } from '../../lib/undux/utils/account'
@@ -158,7 +160,10 @@ const Dashboard = props => {
     [balance, headerLarge],
   )
 
-  const onPressCryptoLiteracyNovemberBanner = useOnPress(() => navigation.navigate('Rewards'), [screenProps])
+  const onPressCryptoLiteracyNovemberBanner = useOnPress(() => {
+    fireEvent(INVITE_BANNER)
+    navigation.navigate('Rewards')
+  }, [screenProps])
 
   const listHeaderComponent = useCallback(
     () => isCryptoLiteracyNovember && <CryptoLiteracyNovemberBanner onPress={onPressCryptoLiteracyNovemberBanner} />,

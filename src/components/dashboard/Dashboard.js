@@ -40,7 +40,7 @@ import Avatar from '../common/view/Avatar'
 import _debounce from '../../lib/utils/debounce'
 import useProfile from '../../lib/userStorage/useProfile'
 import { GlobalTogglesContext } from '../../lib/contexts/togglesContext'
-import { isCryptLiteracyNovember } from '../../lib/utils/promotions'
+import { isCryptoLiteracyNovember } from '../../lib/utils/promotions'
 import PrivacyPolicyAndTerms from './PrivacyPolicyAndTerms'
 import Amount from './Amount'
 import Claim from './Claim'
@@ -158,9 +158,11 @@ const Dashboard = props => {
     [balance, headerLarge],
   )
 
+  const onPressCryptoLiteracyNovemberBanner = useOnPress(() => navigation.navigate('Rewards'), [screenProps])
+
   const listHeaderComponent = useCallback(
-    () => isCryptLiteracyNovember && <CryptoLiteracyNovemberBanner onPress={() => navigation.navigate('Rewards')} />,
-    [isCryptLiteracyNovember],
+    () => isCryptoLiteracyNovember && <CryptoLiteracyNovemberBanner onPress={onPressCryptoLiteracyNovemberBanner} />,
+    [isCryptoLiteracyNovember],
   )
 
   const handleDeleteRedirect = useCallback(() => {

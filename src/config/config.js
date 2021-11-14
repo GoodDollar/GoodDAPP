@@ -49,7 +49,7 @@ const Config = {
   dashboardUrl: env.REACT_APP_DASHBOARD_URL || 'https://dashboard.gooddollar.org',
   infuraKey: env.REACT_APP_INFURA_KEY,
   network: env.REACT_APP_NETWORK || 'fuse',
-  interestCollectedInterval: env.REACT_APP_INTEREST_BLOCKS_INTERVAL || 5760 * 7, // default is 1Week
+  interestCollectedInterval: env.REACT_APP_INTEREST_BLOCKS_INTERVAL || 5760 * 8, // default is 1Week, add 1 day because its not exact
   marketUrl: env.REACT_APP_MARKET_URL || 'https://gooddollarmarketplace.sharetribe.com/en',
   torusEnabled: env.REACT_APP_USE_TORUS === 'true',
   torusNetwork: env.REACT_APP_TORUS_NETWORK || 'testnet',

@@ -1,5 +1,5 @@
 [build]
-command = "CI= yarn build"
+command = "CI= rm -f .env* && CI= yarn build"
 
 [[headers]]
   for = "*"

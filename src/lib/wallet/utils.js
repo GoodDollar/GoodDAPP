@@ -1,7 +1,7 @@
 // @flow
 
 import { MaskService } from 'react-native-masked-text'
-import { map, zipObject } from 'lodash'
+import { isArray, isNumber, isPlainObject, isString, map, mapValues, toNumber, zipObject } from 'lodash'
 
 const DECIMALS = 2
 
@@ -65,4 +65,39 @@ export const getTxLogArgs = tx => {
       args: {},
     }
   }
+}
+
+export const castStatsAsNumbers = (response, entitlement) => {
+  const { dailyStats, ...res } = response
+  const [claimers, claimAmount] = dailyStats || []
+
+  const asNumber = value => {
+    if (isNumber(value)) {
+      return value
+    }
+
+    if (isString(value)) {
+      return toNumber(value) || 0
+    }
+
+    if (isArray(value)) {
+      return value.map(asNumber)
+    }
+
+    if (isPlainObject(value)) {
+      return mapValues(value, asNumber)
+    }
+
+    return 0
+  }
+
+  return mapValues(
+    {
+      ...res,
+      entitlement,
+      claimers,
+      claimAmount,
+    },
+    asNumber,
+  )
 }

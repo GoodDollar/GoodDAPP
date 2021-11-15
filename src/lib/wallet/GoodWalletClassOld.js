@@ -15,7 +15,7 @@ import { MultiCall } from 'eth-multicall'
 import Web3 from 'web3'
 import { BN, toBN } from 'web3-utils'
 import abiDecoder from 'abi-decoder'
-import { chunk, flatten, get, last, mapValues, maxBy, range, result, sortBy, uniqBy, values } from 'lodash'
+import { chunk, flatten, get, last, maxBy, range, result, sortBy, uniqBy, values } from 'lodash'
 import moment from 'moment'
 import bs58 from 'bs58'
 import * as TextileCrypto from '@textile/crypto'
@@ -27,7 +27,7 @@ import API from '../API/api'
 import { delay } from '../utils/async'
 import { generateShareLink } from '../share'
 import WalletFactory from './WalletFactory'
-import { getTxLogArgs } from './utils'
+import { castStatsAsNumbers, getTxLogArgs } from './utils'
 
 const log = logger.child({ from: 'GoodWallet' })
 
@@ -590,12 +590,7 @@ export class GoodWallet {
 
     //entitelment is separate because it depends on msg.sender
     const [[[res]], entitlement] = await Promise.all([this.multicallFuse.all([calls]), this.checkEntitlement()])
-    res.entitlement = entitlement
-    res.claimers = res.dailyStats[0]
-    res.claimAmount = res.dailyStats[1]
-    delete res.dailyStats
-
-    const result = mapValues(res, _ => (typeof _ === 'string' ? parseInt(_) : _.map(parseInt)))
+    const result = castStatsAsNumbers(res, entitlement)
 
     const startRef = moment(result.periodStart * 1000).utc()
     if (startRef.isBefore(moment().utc())) {

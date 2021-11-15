@@ -16,6 +16,7 @@ import { weiToGd, weiToMask } from '../../lib/wallet/utils'
 import { initBGFetch } from '../../lib/notifications/backgroundFetch'
 import { formatWithAbbreviations } from '../../lib/utils/formatNumber'
 import { fireEvent, INVITE_BANNER } from '../../lib/analytics/analytics'
+import Config from '../../config/config'
 
 import { createStackNavigator } from '../appNavigation/stackNavigation'
 import { initTransferEvents } from '../../lib/undux/utils/account'
@@ -42,7 +43,6 @@ import Avatar from '../common/view/Avatar'
 import _debounce from '../../lib/utils/debounce'
 import useProfile from '../../lib/userStorage/useProfile'
 import { GlobalTogglesContext } from '../../lib/contexts/togglesContext'
-import { isCryptoLiteracyNovember } from '../../lib/utils/promotions'
 import PrivacyPolicyAndTerms from './PrivacyPolicyAndTerms'
 import Amount from './Amount'
 import Claim from './Claim'
@@ -76,6 +76,7 @@ let didRender = false
 const screenWidth = getMaxDeviceWidth()
 const initialHeaderContentWidth = screenWidth - _theme.sizes.default * 2 * 2
 const initialAvatarLeftPosition = -initialHeaderContentWidth / 2 + 34
+const { isCryptoLiteracy } = Config
 
 export type DashboardProps = {
   navigation: any,
@@ -163,12 +164,11 @@ const Dashboard = props => {
   const onPressCryptoLiteracyNovemberBanner = useOnPress(() => {
     fireEvent(INVITE_BANNER)
     navigation.navigate('Rewards')
-  }, [screenProps])
+  }, [navigation])
 
-  const listHeaderComponent = useCallback(
-    () => isCryptoLiteracyNovember && <CryptoLiteracyNovemberBanner onPress={onPressCryptoLiteracyNovemberBanner} />,
-    [isCryptoLiteracyNovember],
-  )
+  const listHeaderComponent = isCryptoLiteracy ? (
+    <CryptoLiteracyNovemberBanner onPress={onPressCryptoLiteracyNovemberBanner} />
+  ) : null
 
   const handleDeleteRedirect = useCallback(() => {
     if (navigation.state.key === 'Delete') {

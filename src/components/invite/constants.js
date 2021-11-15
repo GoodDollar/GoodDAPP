@@ -1,7 +1,8 @@
-import { isCryptoLiteracyNovember } from '../../lib/utils/promotions'
+import Config from '../../config/config'
+const { isCryptoLiteracy } = Config
 
 export const shareTitle = 'I signed up to GoodDollar. Join me.'
-export const shareMessage = isCryptoLiteracyNovember
+export const shareMessage = isCryptoLiteracy
   ? `If you believe in economic inclusion and the distribution of prosperity for all, then I invite you to sign up for GoodDollar and start collecting your daily digital UBI.
   \nUse my invite link and receive an extra 125 G$ bonus:\n\n`
   : `If you believe in economic inclusion and the distribution of prosperity for all, then I invite you to sign up for GoodDollar and start collecting your daily digital UBI.

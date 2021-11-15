@@ -84,8 +84,6 @@ const FeedList = ({
     }
   }, [])
 
-  const renderHeaderComponent = useCallback(listHeaderComponent)
-
   const renderItemComponent = useCallback(
     ({ item, index }) => <Item item={item} handleFeedSelection={handleItemSelection} index={index} />,
     [handleItemSelection],
@@ -231,7 +229,7 @@ const FeedList = ({
         onMomentumScrollEnd={_onScrollEnd}
         refreshing={false}
         renderItem={renderItemComponent}
-        ListHeaderComponent={renderHeaderComponent}
+        ListHeaderComponent={listHeaderComponent}
         renderQuickActions={renderQuickActions}
         viewabilityConfig={VIEWABILITY_CONFIG}
         onScroll={onScroll}

@@ -18,7 +18,6 @@ import { InfoIcon } from '../common/modal/InfoIcon'
 
 import goodWallet from '../../lib/wallet/GoodWallet'
 import { extractQueryParams } from '../../lib/utils/uri'
-import { isCryptoLiteracyNovember } from '../../lib/utils/promotions'
 import {
   registerForInvites,
   useCollectBounty,
@@ -35,6 +34,8 @@ import { shareMessage, shareTitle } from './constants'
 const log = logger.child({ from: 'Invite' })
 
 const Divider = ({ size = 10 }) => <Section.Separator color="transparent" width={size} style={{ zIndex: -10 }} />
+
+const { isCryptoLiteracy } = Config
 
 const InvitedUser = ({ address, status }) => {
   const profile = usePublicProfileOf(address)
@@ -467,7 +468,7 @@ const Invite = ({ screenProps }) => {
         >
           {`Get ${bounty}G$`}
         </Section.Text>
-        {isCryptoLiteracyNovember ? (
+        {isCryptoLiteracy ? (
           <Section.Text letterSpacing={0.1} fontWeight={'bold'} fontSize={20} color={theme.colors.text} lineHeight={34}>
             For{' '}
             <Section.Text

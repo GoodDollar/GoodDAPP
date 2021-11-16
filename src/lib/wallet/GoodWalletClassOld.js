@@ -552,7 +552,7 @@ export class GoodWallet {
    */
   claim(callbacks: PromiEvents): Promise<TransactionReceipt> {
     try {
-      return this.sendTransaction(this.UBIContract.methods.claim(), callbacks, { gas: 150000 })
+      return this.sendTransaction(this.UBIContract.methods.claim(), callbacks)
     } catch (e) {
       log.error('claim failed', e.message, e, { category: ExceptionCategory.Blockhain })
 

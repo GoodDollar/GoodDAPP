@@ -166,9 +166,7 @@ const Dashboard = props => {
     navigation.navigate('Rewards')
   }, [navigation])
 
-  const listHeaderComponent = isCryptoLiteracy ? (
-    <CryptoLiteracyBanner onPress={onBannerClicked} />
-  ) : null
+  const listHeaderComponent = isCryptoLiteracy ? <CryptoLiteracyBanner onPress={onBannerClicked} /> : null
 
   const handleDeleteRedirect = useCallback(() => {
     if (navigation.state.key === 'Delete') {

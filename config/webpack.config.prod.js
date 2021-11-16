@@ -39,6 +39,7 @@ const shouldInlineRuntimeChunk = process.env.INLINE_RUNTIME_CHUNK !== 'false'
 const publicUrl = publicPath.slice(0, -1)
 // Get environment variables to inject into our app.
 const env = getClientEnvironment(publicUrl)
+const reactEnv = env.raw.REACT_APP_ENV
 
 // Assert this just to be safe.
 // Development builds of React are slow and not intended for production.
@@ -594,10 +595,10 @@ module.exports = {
         formatter: typescriptFormatter,
       }),
     // upload sourcemaps to Sentry (QA & prod only)
-    ('development' !== env.raw.REACT_APP_ENV) &&
+    ('development' !== reactEnv) &&
       new SentryCliPlugin({
         rewrite: true,
-        release: `${env.raw.VERSION}+web`,
+        release: `${env.raw.VERSION}+${reactEnv}`,
         configFile: './sentry+web.properties',
         include: ['./build/static/js'],
       })

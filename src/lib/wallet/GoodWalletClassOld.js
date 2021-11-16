@@ -552,7 +552,7 @@ export class GoodWallet {
    */
   claim(callbacks: PromiEvents): Promise<TransactionReceipt> {
     try {
-      return this.sendTransaction(this.UBIContract.methods.claim(), callbacks)
+      return this.sendTransaction(this.UBIContract.methods.claim(), callbacks, { gas: 150000 })
     } catch (e) {
       log.error('claim failed', e.message, e, { category: ExceptionCategory.Blockhain })
 
@@ -562,7 +562,10 @@ export class GoodWallet {
 
   checkEntitlement(): Promise<number> {
     try {
-      return this.UBIContract.methods.checkEntitlement().call()
+      return this.UBIContract.methods
+        .checkEntitlement()
+        .call()
+        .then(parseInt)
     } catch (exception) {
       const { message } = exception
 
@@ -586,16 +589,13 @@ export class GoodWallet {
     ]
 
     //entitelment is separate because it depends on msg.sender
-    const [[[res]], entitlement] = await Promise.all([
-      this.multicallFuse.all([calls]),
-      this.UBIContract.methods.checkEntitlement().call(),
-    ])
+    const [[[res]], entitlement] = await Promise.all([this.multicallFuse.all([calls]), this.checkEntitlement()])
     res.entitlement = entitlement
     res.claimers = res.dailyStats[0]
     res.claimAmount = res.dailyStats[1]
     delete res.dailyStats
 
-    const result = mapValues(res, _ => (typeof _ === 'string' ? parseInt(_) : _.map(parseInt)))
+    const result = mapValues(res, parseInt)
 
     const startRef = moment(result.periodStart * 1000).utc()
     if (startRef.isBefore(moment().utc())) {

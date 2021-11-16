@@ -81,7 +81,7 @@ export class AnalyticsClass {
       }
 
       if (isWeb) {
-        sentryOptions.release = `${version}+web`
+        sentryOptions.release = `${version}+${env}`
       }
 
       logger.info('initializing Sentry:', { sentryOptions, sentryScope })

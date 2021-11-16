@@ -68,7 +68,7 @@ import FaceVerificationIntro from './FaceVerification/screens/IntroScreen'
 import FaceVerificationError from './FaceVerification/screens/ErrorScreen'
 
 import GoodMarketButton from './GoodMarket/components/GoodMarketButton'
-import CryptoLiteracyNovemberBanner from './FeedItems/CryptoLiteracyNovemberBanner'
+import CryptoLiteracyBanner from './FeedItems/CryptoLiteracyNovemberBanner'
 
 const log = logger.child({ from: 'Dashboard' })
 
@@ -161,13 +161,13 @@ const Dashboard = props => {
     [balance, headerLarge],
   )
 
-  const onPressCryptoLiteracyNovemberBanner = useOnPress(() => {
+  const onBannerClicked = useOnPress(() => {
     fireEvent(INVITE_BANNER)
     navigation.navigate('Rewards')
   }, [navigation])
 
   const listHeaderComponent = isCryptoLiteracy ? (
-    <CryptoLiteracyNovemberBanner onPress={onPressCryptoLiteracyNovemberBanner} />
+    <CryptoLiteracyBanner onPress={onBannerClicked} />
   ) : null
 
   const handleDeleteRedirect = useCallback(() => {

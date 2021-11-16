@@ -595,7 +595,7 @@ export class GoodWallet {
     res.claimAmount = res.dailyStats[1]
     delete res.dailyStats
 
-    const result = mapValues(res, _ => (typeof _ === 'string' ? parseInt(_) : _.map(parseInt)))
+    const result = mapValues(res, parseInt)
 
     const startRef = moment(result.periodStart * 1000).utc()
     if (startRef.isBefore(moment().utc())) {

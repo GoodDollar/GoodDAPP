@@ -37,6 +37,7 @@ import {
   fireEvent,
   fireGoogleAnalyticsEvent,
   fireMauticEvent,
+  INVITE_BOUNTY,
 } from '../../lib/analytics/analytics'
 
 import Config from '../../config/config'
@@ -459,6 +460,7 @@ const Claim = props => {
 
           // collect invite bonuses
           await collectInviteBounty()
+          fireEvent(INVITE_BOUNTY, { from: 'invitee' })
         } else if (isValid === false) {
           // with non-validated state
           goToRoot()

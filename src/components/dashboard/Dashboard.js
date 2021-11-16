@@ -4,6 +4,7 @@ import { Animated, Dimensions, Easing, Platform, TouchableOpacity, View } from '
 import { concat, debounce, get, noop, uniqBy } from 'lodash'
 import Mutex from 'await-mutex'
 import type { Store } from 'undux'
+
 import AsyncStorage from '../../lib/utils/asyncStorage'
 import normalize, { normalizeByLength } from '../../lib/utils/normalizeText'
 import GDStore from '../../lib/undux/GDStore'
@@ -14,6 +15,8 @@ import { PAGE_SIZE } from '../../lib/undux/utils/feed'
 import { weiToGd, weiToMask } from '../../lib/wallet/utils'
 import { initBGFetch } from '../../lib/notifications/backgroundFetch'
 import { formatWithAbbreviations } from '../../lib/utils/formatNumber'
+import { fireEvent, INVITE_BANNER } from '../../lib/analytics/analytics'
+import Config from '../../config/config'
 
 import { createStackNavigator } from '../appNavigation/stackNavigation'
 import { initTransferEvents } from '../../lib/undux/utils/account'
@@ -65,6 +68,7 @@ import FaceVerificationIntro from './FaceVerification/screens/IntroScreen'
 import FaceVerificationError from './FaceVerification/screens/ErrorScreen'
 
 import GoodMarketButton from './GoodMarket/components/GoodMarketButton'
+import CryptoLiteracyBanner from './FeedItems/CryptoLiteracyNovemberBanner'
 
 const log = logger.child({ from: 'Dashboard' })
 
@@ -72,6 +76,7 @@ let didRender = false
 const screenWidth = getMaxDeviceWidth()
 const initialHeaderContentWidth = screenWidth - _theme.sizes.default * 2 * 2
 const initialAvatarLeftPosition = -initialHeaderContentWidth / 2 + 34
+const { isCryptoLiteracy } = Config
 
 export type DashboardProps = {
   navigation: any,
@@ -155,6 +160,13 @@ const Dashboard = props => {
     () => (headerLarge || Math.floor(Math.log10(balance)) + 1 <= 12 ? null : abbreviateBalance),
     [balance, headerLarge],
   )
+
+  const onBannerClicked = useOnPress(() => {
+    fireEvent(INVITE_BANNER)
+    navigation.navigate('Rewards')
+  }, [navigation])
+
+  const listHeaderComponent = isCryptoLiteracy ? <CryptoLiteracyBanner onPress={onBannerClicked} /> : null
 
   const handleDeleteRedirect = useCallback(() => {
     if (navigation.state.key === 'Delete') {
@@ -677,6 +689,7 @@ const Dashboard = props => {
         initialNumToRender={10}
         onEndReached={nextFeed} // How far from the end the bottom edge of the list must be from the end of the content to trigger the onEndReached callback.
         // we can use decimal (from 0 to 1) or integer numbers. Integer - it is a pixels from the end. Decimal it is the percentage from the end
+        listHeaderComponent={listHeaderComponent}
         onEndReachedThreshold={0.8}
         windowSize={10} // Determines the maximum number of items rendered outside of the visible area
         onScrollEnd={handleScrollEnd}

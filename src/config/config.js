@@ -25,6 +25,7 @@ const isPhaseTwo = 2 === phase
 const alchemyKey = env.REACT_APP_ALCHEMY_KEY
 const isEToro = env.REACT_APP_ETORO === 'true' || env.REACT_APP_NETWORK === 'etoro'
 const ipfsGateways = env.REACT_APP_IPFS_GATEWAYS || 'https://cloudflare-ipfs.com/ipfs/{cid},https://ipfs.io/ipfs/{cid},https://{cid}.ipfs.dweb.link'
+const cryptoLiteracyEndDate = env.REACT_APP_CRYPTO_LITERACY_END_DATE || '2021-11-30'
 
 const Config = {
   env: appEnv,
@@ -89,6 +90,7 @@ const Config = {
   sentryDSN: env.REACT_APP_SENTRY_DSN,
   delayMessageNetworkDisconnection: env.REACT_APP_DELAY_MSG_NETWORK_DISCONNECTION || 5000,
   poweredByUrl: env.REACT_APP_POWERED_BY_URL || 'https://vercel.com/?utm_source=gooddollar&utm_campaign=oss',
+  isCryptoLiteracy: moment().isSameOrBefore(cryptoLiteracyEndDate, 'day'),
   showSplashDesktop: env.REACT_APP_SPLASH_DESKTOP === 'true',
   showAddToHomeDesktop: env.REACT_APP_ADDTOHOME_DESKTOP === 'true',
   flagsUrl: env.REACT_APP_FLAGS_URL || 'https://flagicons.lipis.dev/flags/4x3/',

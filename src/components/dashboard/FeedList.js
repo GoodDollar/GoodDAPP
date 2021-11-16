@@ -57,6 +57,7 @@ const FeedList = ({
   onScrollEnd: _onScrollEnd = noop,
   styles,
   onScroll = noop,
+  listHeaderComponent,
   headerLarge,
   windowSize,
 }: FeedListProps) => {
@@ -228,6 +229,7 @@ const FeedList = ({
         onMomentumScrollEnd={_onScrollEnd}
         refreshing={false}
         renderItem={renderItemComponent}
+        ListHeaderComponent={listHeaderComponent}
         renderQuickActions={renderQuickActions}
         viewabilityConfig={VIEWABILITY_CONFIG}
         onScroll={onScroll}

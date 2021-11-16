@@ -35,6 +35,8 @@ const log = logger.child({ from: 'Invite' })
 
 const Divider = ({ size = 10 }) => <Section.Separator color="transparent" width={size} style={{ zIndex: -10 }} />
 
+const { isCryptoLiteracy } = Config
+
 const InvitedUser = ({ address, status }) => {
   const profile = usePublicProfileOf(address)
   const isApproved = status === 'approved'
@@ -466,16 +468,33 @@ const Invite = ({ screenProps }) => {
         >
           {`Get ${bounty}G$`}
         </Section.Text>
-        <Section.Text
-          letterSpacing={0.1}
-          fontWeight={'bold'}
-          fontFamily={theme.fonts.slab}
-          fontSize={20}
-          color={theme.colors.primary}
-          lineHeight={34}
-        >
-          For Each Friend You Invite!
-        </Section.Text>
+        {isCryptoLiteracy ? (
+          <Section.Text letterSpacing={0.1} fontWeight={'bold'} fontSize={20} color={theme.colors.text} lineHeight={34}>
+            For{' '}
+            <Section.Text
+              letterSpacing={0.1}
+              fontWeight={'bold'}
+              fontSize={20}
+              color={theme.colors.red}
+              lineHeight={34}
+            >
+              EVERY FRIEND
+            </Section.Text>{' '}
+            you invite during {'\n'}
+            Crypto Literacy November
+          </Section.Text>
+        ) : (
+          <Section.Text
+            letterSpacing={0.1}
+            fontWeight={'bold'}
+            fontFamily={theme.fonts.slab}
+            fontSize={20}
+            color={theme.colors.primary}
+            lineHeight={34}
+          >
+            For Each Friend You Invite!
+          </Section.Text>
+        )}
       </Section.Stack>
       <Divider size={theme.sizes.defaultDouble} />
       <Section.Text letterSpacing={-0.07} lineHeight={20} fontSize={15} color={theme.colors.darkBlue}>

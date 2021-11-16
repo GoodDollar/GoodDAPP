@@ -154,7 +154,7 @@ export const useCollectBounty = () => {
       log.debug('useCollectBounty calling collectInviteBounties', { canCollect })
       await goodWallet.collectInviteBounties()
 
-      fireEvent(INVITE_BOUNTY, { numCollected: canCollect })
+      fireEvent(INVITE_BOUNTY, { from: 'inviter', numCollected: canCollect })
       userStorage.userProperties.set(collectedProp, true)
       setCollected(true)
 

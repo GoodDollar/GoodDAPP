@@ -118,7 +118,7 @@ function SwapSettings({ className, style }: SwapSettingsProps) {
                     <Title className="flex items-center" type="field" style={{ marginTop: 29 }}>
                         {i18n._(t`Transaction deadline`)}{' '}
                         <QuestionHelper
-                            text={i18n._(t`Your transaction will revert if it is pending for more than this long.`)}
+                            text={i18n._(t`Your transaction will revert if it is pending for more than this time.`)}
                         />
                     </Title>
                     <div className="flex items-center space-x-1.5">

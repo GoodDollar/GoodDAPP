@@ -401,7 +401,7 @@ PODS:
     - React-Core
   - react-native-contacts (5.2.8):
     - React-Core
-  - react-native-facetec (1.0.10):
+  - react-native-facetec (1.0.12):
     - React
   - react-native-get-random-values (1.7.0):
     - React-Core
@@ -894,7 +894,7 @@ SPEC CHECKSUMS:
   react-native-camera: b8cc03e2feec0c04403d0998e37cf519d8fd4c6f
   react-native-config: 72d948053a442779b3178fddd571e37f118ef606
   react-native-contacts: 7b5e16196278636030c3fbbb9505543984b01697
-  react-native-facetec: 52b689c3ddc44c83407c03e38087891c7905cebb
+  react-native-facetec: 9f5aba3c0906cad7f325e5f99e8700b4cf939c68
   react-native-get-random-values: 237bffb1c7e05fb142092681531810a29ba53015
   react-native-image-resizer: d9fb629a867335bdc13230ac2a58702bb8c8828f
   react-native-netinfo: 92e6e4476eb8bf6fc2d7c0a6ca0a1406f663d73a
@@ -947,6 +947,6 @@ SPEC CHECKSUMS:
   Yoga: aa0cb45287ebe1004c02a13f279c55a95f1572f4
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: 8eb562d07aec64f0ae2ed199eba07bbb15a51aaf
+PODFILE CHECKSUM: c187a3ce6d40b1808a11ef4ac7e4dee3b9cb590d
 
 COCOAPODS: 1.11.2

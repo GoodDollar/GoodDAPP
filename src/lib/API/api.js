@@ -2,7 +2,7 @@
 
 import axios from 'axios'
 import type { $AxiosXHR, AxiosInstance, AxiosPromise } from 'axios'
-import { identity, isObject, isString } from 'lodash'
+import { get, identity, isObject, isString } from 'lodash'
 
 import { throttleAdapter } from '../utils/axios'
 import AsyncStorage from '../utils/asyncStorage'
@@ -196,8 +196,23 @@ export class APIService {
     return this.client.post('/verify/user', { verificationData })
   }
 
-  verifyCaptcha(token: string): AxiosPromise<any> {
-    return this.client.post('/verify/recaptcha', { token })
+  async verifyCaptcha(token: string): AxiosPromise<any> {
+    const payload = { token }
+
+    try {
+      const ipv6Response = await axios('https://api64.ipify.org/?format=json')
+      const ip = get(ipv6Response, 'data.ip', '')
+
+      if (!ip.includes(':')) {
+        throw new Error("Client's ISP doesn't supports IPv6.")
+      }
+
+      payload.ipv6 = ip
+    } catch (exception) {
+      log.warn('Failed to determine client IPv6:', exception.message, exception)
+    }
+
+    return this.client.post('/verify/recaptcha', payload)
   }
 
   /**

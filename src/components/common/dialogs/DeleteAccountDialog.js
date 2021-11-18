@@ -1,0 +1,34 @@
+import React from 'react'
+import { Text } from 'react-native'
+
+import IconWrapper from '../modal/IconWrapper'
+import LoadingIcon from '../modal/LoadingIcon'
+
+import normalizeText from '../../../lib/utils/normalizeText'
+import { theme } from '../../theme/styles'
+import ExplanationDialog from './ExplanationDialog'
+
+const TrashIcon = () => <IconWrapper iconName="trash" color={theme.colors.error} size={50} />
+
+const MessageTextComponent = () => (
+  <Text style={{ color: theme.colors.error, fontSize: normalizeText(18) }}>
+    If you delete your account <br /> <Text style={{ fontWeight: 'bold' }}> you might lose access to your G$!</Text>
+  </Text>
+)
+
+const DeleteAccountDialog = ({ icon = 'trash' }) => (
+  <ExplanationDialog
+    image={icon === 'trash' ? TrashIcon : LoadingIcon}
+    label={<MessageTextComponent />}
+    text={'For security reasons, it might take up to 48 hours for your data to be completely removed.'}
+    textStyle={{
+      fontSize: normalizeText(16),
+      color: theme.colors.lighterGray,
+      lineHeight: normalizeText(18),
+      textAlign: 'center',
+    }}
+    labelStyle={{ textAlign: 'center', lineHeight: normalizeText(18) }}
+  />
+)
+
+export default DeleteAccountDialog

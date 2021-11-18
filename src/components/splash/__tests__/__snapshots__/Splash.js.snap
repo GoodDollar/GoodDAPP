@@ -38,21 +38,6 @@ exports[`Splash matches snapshot 1`] = `
           1.0
         </div>
       </div>
-      <div
-        className="css-view-1dbjc4n r-cursor-1loqt21 r-touchAction-1otgn73 r-transform-1defyd4 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
-        onClick={[Function]}
-        onContextMenu={[Function]}
-        onKeyDown={[Function]}
-        style={
-          Object {
-            "WebkitTransitionDuration": "0s",
-            "transitionDuration": "0s",
-          }
-        }
-        tabIndex="0"
-      >
-        <poweredByLogo.svg />
-      </div>
     </div>
   </div>
 </div>

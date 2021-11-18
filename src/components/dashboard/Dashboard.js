@@ -8,7 +8,6 @@ import type { Store } from 'undux'
 import AsyncStorage from '../../lib/utils/asyncStorage'
 import normalize, { normalizeByLength } from '../../lib/utils/normalizeText'
 import GDStore from '../../lib/undux/GDStore'
-import API from '../../lib/API/api'
 import SimpleStore, { assertStore } from '../../lib/undux/SimpleStore'
 import { useDialog, useErrorDialog } from '../../lib/undux/utils/dialog'
 import { PAGE_SIZE } from '../../lib/undux/utils/feed'
@@ -108,7 +107,7 @@ const Dashboard = props => {
   const gdstore = GDStore.useStore()
   const [showDialog] = useDialog()
   const [showErrorDialog] = useErrorDialog()
-  const showDeleteAccountDialog = useDeleteAccountDialog({ API, showErrorDialog, store, theme })
+  const showDeleteAccountDialog = useDeleteAccountDialog(showErrorDialog)
   const [update, setUpdate] = useState(0)
   const [showDelayedTimer, setShowDelayedTimer] = useState()
   const [itemModal, setItemModal] = useState()

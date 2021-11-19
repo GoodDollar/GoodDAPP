@@ -654,6 +654,7 @@ DEPENDENCIES:
   - RNSVG (from `../node_modules/react-native-svg`)
   - "RNTorusDirectSdk (from `../node_modules/@toruslabs/torus-direct-react-native-sdk`)"
   - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
+  - secp256k1.c (= 0.1.2)
   - TcpSockets (from `../node_modules/react-native-tcp`)
   - "toolbar-android (from `../node_modules/@react-native-community/toolbar-android`)"
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
@@ -947,6 +948,6 @@ SPEC CHECKSUMS:
   Yoga: aa0cb45287ebe1004c02a13f279c55a95f1572f4
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: fcacc9d6e525bbe8e897b3b3c71970937e482ee4
+PODFILE CHECKSUM: 4c5fdac3de4e2b20b4eb4f4a735662a93f2c8b3d
 
 COCOAPODS: 1.11.2

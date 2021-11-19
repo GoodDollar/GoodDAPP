@@ -4,11 +4,9 @@ require_relative '../node_modules/@react-native-community/cli-platform-ios/nativ
 platform :ios, '12.0'
 
 target 'GoodDollar' do
-  use_modular_headers!
   config = use_native_modules!
 
-  pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/glog.podspec', :modular_headers => false
-  pod 'RCT-Folly', :podspec => '../node_modules/react-native/third-party-podspecs/RCT-Folly.podspec', :modular_headers => false
+  pod 'secp256k1.c', '0.1.2', :modular_headers => true
 
   use_react_native!(
     :path => config[:reactNativePath],

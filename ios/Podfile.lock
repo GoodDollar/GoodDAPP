@@ -540,7 +540,7 @@ PODS:
     - Sentry/Core (= 7.5.1)
   - Sentry/Core (7.5.1)
   - Starscream (3.1.1)
-  - TcpSockets (3.3.2):
+  - TcpSockets (4.0.0):
     - React
   - TOCropViewController (2.6.0)
   - toolbar-android (0.2.1):
@@ -938,7 +938,7 @@ SPEC CHECKSUMS:
   secp256k1.c: db47b726585d80f027423682eb369729e61b3b20
   Sentry: 0718c3ad7a08e1107599610795adaf08864102f3
   Starscream: 4bb2f9942274833f7b4d296a55504dcfc7edb7b0
-  TcpSockets: 14306fb79f9750ea7d2ddd02d8bed182abb01797
+  TcpSockets: 4ef55305239923b343ed0a378b1fac188b1373b0
   TOCropViewController: 3105367e808b7d3d886a74ff59bf4804e7d3ab38
   toolbar-android: 2a73856e98b750d7e71ce4644d3f41cc98211719
   Torus-directSDK: c3f27906dcb539b129ca2e2a4451030ec9483c92

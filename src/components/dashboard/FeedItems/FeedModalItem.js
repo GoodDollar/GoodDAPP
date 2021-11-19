@@ -81,6 +81,12 @@ const FeedModalItem = (props: FeedEventProps) => {
               </View>
             )}
           </View>
+          <View style={[styles.transactionDetails, { borderTopWidth: 0, borderBottomWidth: 0, marginBottom: 18 }]}>
+            {!eventSettings.withoutAvatar && <Avatar source={avatar} size={34} imageSize={36} style={styles.avatar} />}
+            {item.data && item.data.endpoint && (
+              <EventCounterParty style={styles.feedItem} textStyle={styles.feedItemText} feedItem={item} />
+            )}
+          </View>
           <View style={styles.messageContainer}>
             {!!get(item, 'data.preMessageText') && (
               <Text fontSize={14} textAlign="left" lineHeight={20} letterSpacing={0.14} fontWeight="bold">
@@ -136,7 +142,6 @@ const getStylesFromProps = ({ theme }) => {
       display: 'flex',
       flexDirection: 'row',
       justifyContent: 'flex-start',
-      marginBottom: 18,
       paddingBottom: 14,
       paddingTop: 14,
     },

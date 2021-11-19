@@ -875,7 +875,20 @@ export class UserStorage {
     }
 
     const { date, id, status, createdDate, animationExecuted, action } = event
-    const { sender, preReasonText, reason, code: withdrawCode, subtitle, readMore, smallReadMore } = data
+    const {
+      sender,
+      preReasonText,
+      reason,
+      code: withdrawCode,
+      subtitle,
+      readMore,
+      smallReadMore,
+      senderEmail,
+      senderName,
+      invoiceId,
+      sellerWebsite,
+      sellerName,
+    } = data
     const { address, initiator, initiatorType, value, displayName, message, avatar } = this._extractData(event)
 
     // displayType is used by FeedItem and ModalItem to decide on colors/icons etc of tx feed card
@@ -904,6 +917,11 @@ export class UserStorage {
           avatar,
         },
         amount: value,
+        senderEmail,
+        senderName,
+        invoiceId,
+        sellerWebsite,
+        sellerName,
         preMessageText: preReasonText,
         message: reason || message,
         subtitle,

@@ -111,6 +111,11 @@ export function generateCode(
     ven: {},
   }
 
+  //todo: add env variable for creating paymentLinks with ven format
+  if (!vendorInfo) {
+    codeObj.ven = new VendorMetadata(null, 'test', 'www.hellomotto.com', 'josefa').toConcise()
+  }
+
   if (vendorInfo) {
     codeObj.ven = vendorInfo.toConcise()
   }

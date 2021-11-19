@@ -12,6 +12,9 @@ import { withStyles } from '../../lib/styles'
 import { getDesignRelativeHeight, getMaxDeviceHeight } from '../../lib/utils/sizes'
 import { generateCode, generateReceiveShareObject, isSharingAvailable } from '../../lib/share'
 import useProfile from '../../lib/userStorage/useProfile'
+import logger from '../../lib/logger/js-logger'
+
+const log = logger.child({ from: 'receive' })
 
 export type ReceiveProps = {
   screenProps: any,
@@ -33,7 +36,12 @@ const Receive = ({ screenProps, styles }: ReceiveProps) => {
     const { account, networkId } = goodWallet
     const code = generateCode(account, networkId, amount, reason)
 
-    return generateReceiveShareObject(code, amount, '', fullName)
+    log.debug('generatedCode', code)
+
+    const shareObject = generateReceiveShareObject(code, amount, '', fullName)
+
+    log.debug('shareObject', shareObject)
+    return shareObject
   }, [fullName])
 
   const shareLink = useMemo(() => {

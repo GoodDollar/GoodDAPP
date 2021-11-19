@@ -40,7 +40,8 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
   const [link, setLink] = useState('')
 
   const { goToRoot, navigateTo } = screenProps
-  const { fullName } = useProfile()
+  const { fullName, email } = useProfile()
+
   const {
     amount,
     reason = null,
@@ -75,6 +76,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
       const generatePaymentLinkResponse = goodWallet.generatePaymentLink(amount, reason, category, inviteCode, {
         onTransactionHash: hash => {
           txHash = hash
+          log.debug('senderName', fullName)
 
           // Save transaction
           const transactionEvent: TransactionEvent = {
@@ -85,6 +87,8 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
             status: 'pending',
             data: {
               counterPartyDisplayName,
+              senderEmail: email,
+              senderName: 'test',
               reason,
               category,
               amount,
@@ -173,6 +177,11 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
                 reason,
                 category,
                 amount,
+                senderEmail: email,
+                senderName: fullName,
+                invoiceId: vendorInfo.invoiceId,
+                sellerWebsite: vendorInfo.website,
+                sellerName: vendorInfo.vendorName,
               },
             }
 

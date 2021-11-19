@@ -6,7 +6,10 @@ import { withStyles } from '../../../lib/styles'
 const EventCounterParty = ({ feedItem, styles, style, textStyle, subtitle, isSmallDevice }) => {
   let direction = ''
   let itemSubtitle = get(feedItem, 'data.subtitle', '')
-  let displayText = itemSubtitle && subtitle ? itemSubtitle : get(feedItem, 'data.endpoint.displayName')
+  let displayText =
+    itemSubtitle && subtitle
+      ? itemSubtitle
+      : get(feedItem, 'data.endpoint.displayName') || get(feedItem, 'data.sellerWebsite')
 
   let hasSubtitle = get(feedItem, 'data.readMore') !== false
   switch (feedItem.type) {

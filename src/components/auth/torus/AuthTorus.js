@@ -115,6 +115,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
   const isSignup = authScreen !== 'signin' //default to signup
 
   useEffect(() => {
+    //helper to show user login/signup when he presses back or cancels login flow
     if (authScreen == null) {
       AsyncStorage.getItem('recallTorusRedirectScreen').then(screen => {
         log.debug('recall authscreen for torus redirect flow', screen)
@@ -124,18 +125,26 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
   }, [])
 
   useEffect(() => {
+    if (authScreen) {
+      //when user switches between login/signup we clear the recall
+      AsyncStorage.setItem('recallTorusRedirectScreen', authScreen)
+    }
+  }, [authScreen])
+
+  useEffect(() => {
     if (sdkInitialized) {
       getTorusUserRedirect()
     }
   }, [sdkInitialized])
 
   const getTorusUserRedirect = async () => {
-    const isExpecting = await AsyncStorage.getItem('recallTorusRedirectStarted')
+    //in case of redirect flow we need to recover the provider/login type
+    const provider = await AsyncStorage.getItem('recallTorusRedirectProvider')
 
-    if (sdkInitialized && isExpecting && torusSDK.popupMode === false && (DeepLinking.hash || DeepLinking.query)) {
+    if (sdkInitialized && provider && torusSDK.popupMode === false && (DeepLinking.hash || DeepLinking.query)) {
       log.debug('triggering torus redirect callback flow')
-      AsyncStorage.removeItem('recallTorusRedirectStarted')
-      handleLoginMethod(null, torusSDK.getRedirectResult())
+      AsyncStorage.removeItem('recallTorusRedirectProvider')
+      handleLoginMethod(provider, torusSDK.getRedirectResult())
     }
   }
 
@@ -292,11 +301,6 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
   ) => {
     showLoadingDialog()
 
-    //in case of redirect flow we need to recover the provider/login type
-    if (provider == null) {
-      provider = await AsyncStorage.getItem('recallTorusRedirectProvider')
-    }
-
     //in case this is triggered as a callback after redirect we fire a different vent
     if (torusUserRedirectPromise) {
       fireEvent(TORUS_REDIRECT_SUCCESS, {
@@ -322,9 +326,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
         log.debug('trigger redirect flow')
 
         //keep the provider and if user is signin/signup for recall
-        AsyncStorage.setItem('recallTorusRedirectStarted', true)
         AsyncStorage.setItem('recallTorusRedirectProvider', provider)
-        authScreen && AsyncStorage.setItem('recallTorusRedirectScreen', authScreen)
 
         await getTorusUser(provider).catch(showSignupError)
         hideDialog() //we hide dialog because on safari pressing back doesnt reload page

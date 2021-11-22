@@ -414,6 +414,7 @@ PODS:
   - react-native-safe-area-context (0.7.3):
     - React
   - react-native-udp (4.1.3):
+    - CocoaAsyncSocket
     - React-Core
   - react-native-version-check (3.4.2):
     - React
@@ -900,7 +901,7 @@ SPEC CHECKSUMS:
   react-native-netinfo: 92e6e4476eb8bf6fc2d7c0a6ca0a1406f663d73a
   react-native-randombytes: 421f1c7d48c0af8dbcd471b0324393ebf8fe7846
   react-native-safe-area-context: e200d4433aba6b7e60b52da5f37af11f7a0b0392
-  react-native-udp: be0d5dd4ba2ef5aa37bec98fa18188be8b970a0b
+  react-native-udp: f0fbf5386c45af5523dc143a86afe2cbf29f764e
   react-native-version-check: d8b8900e6ce03ae1568cb22ef9451f2508188883
   react-native-webview: d70bc760daaa0e2667dec569b93014882565819c
   React-perflogger: fd28ee1f2b5b150b00043f0301d96bd417fdc339

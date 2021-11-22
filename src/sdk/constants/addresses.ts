@@ -4,6 +4,8 @@ import contractsAddresses, { ObjectLike } from '@gooddollar/goodprotocol/release
 import { constructSameAddressMap } from '../utils/constructSameAddressMap'
 import { SupportedChainId } from './chains'
 
+const CURRENT_NETWORK = process.env.NETWORK || 'staging'
+
 type AddressMap = { [chainId: number]: string }
 
 /**
@@ -22,8 +24,11 @@ export function G$ContractAddresses<T = ObjectLike>(chainId: SupportedChainId, n
         case SupportedChainId.KOVAN:
             deploymentName = 'kovan-mainnet'
             break
+        case SupportedChainId.ROPSTEN:
+            deploymentName = 'staging-mainnet'
+            break
         case SupportedChainId.FUSE:
-            deploymentName = 'staging'
+            deploymentName = CURRENT_NETWORK
             break
     }
 

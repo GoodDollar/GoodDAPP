@@ -95,7 +95,7 @@ export const useInviteBonus = () => {
   const collectInviteBounty = useCallback(
     async (onUnableToCollect = noop) => {
       if (collected) {
-        return
+        return false
       }
 
       const canCollect = await getCanCollect()
@@ -104,7 +104,7 @@ export const useInviteBonus = () => {
 
       if (!canCollect) {
         onUnableToCollect()
-        return
+        return false
       }
 
       showDialog({
@@ -131,6 +131,7 @@ export const useInviteBonus = () => {
           },
         ],
       })
+      return true
     },
     [showDialog, collected],
   )

@@ -399,6 +399,12 @@ const Claim = props => {
           title: 'CHA-CHING!',
           onDismiss: noop,
         })
+
+        // collect invite bonuses
+        const didCollect = await collectInviteBounty()
+        if (didCollect) {
+          fireEvent(INVITE_BOUNTY, { from: 'invitee' })
+        }
       } else {
         fireEvent(CLAIM_FAILED, { txhash: receipt.transactionHash, txNotCompleted: true })
         showErrorDialog('Claim transaction failed', '', { boldMessage: 'Try again later.' })
@@ -457,10 +463,6 @@ const Claim = props => {
         if (isValid) {
           // claim & collect invite bonus
           await handleClaim()
-
-          // collect invite bonuses
-          await collectInviteBounty()
-          fireEvent(INVITE_BOUNTY, { from: 'invitee' })
         } else if (isValid === false) {
           // with non-validated state
           goToRoot()

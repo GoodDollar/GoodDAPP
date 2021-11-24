@@ -2,15 +2,12 @@ import React from 'react'
 import { get } from 'lodash'
 import { Text } from '../../common'
 import { withStyles } from '../../../lib/styles'
+import useProfile from '../../../lib/userStorage/useProfile'
 import useEventDirection from '../../../lib/hooks/useEventDirection'
 
-const EventCounterParty = ({ feedItem, styles, style, textStyle, subtitle, isSmallDevice }) => {
-  const direction = useEventDirection(feedItem.type)
-  let itemSubtitle = get(feedItem, 'data.subtitle', '')
-  let displayText =
-    itemSubtitle && subtitle
-      ? itemSubtitle
-      : get(feedItem, 'data.endpoint.displayName') || get(feedItem, 'data.sellerWebsite')
+const EventSelfParty = ({ feedItem, styles, style, textStyle, subtitle, isSmallDevice }) => {
+  const direction = useEventDirection(feedItem.type, true)
+  const { fullName } = useProfile()
 
   let hasSubtitle = get(feedItem, 'data.readMore') !== false
 
@@ -33,7 +30,7 @@ const EventCounterParty = ({ feedItem, styles, style, textStyle, subtitle, isSma
         lineHeight={hasSubtitle ? 16 : 38}
         style={[styles.fullName, textStyle]}
       >
-        {displayText}
+        {fullName}
       </Text>
     </Text>
   )
@@ -45,4 +42,4 @@ const getStylesFromProps = () => ({
   },
 })
 
-export default withStyles(getStylesFromProps)(EventCounterParty)
+export default withStyles(getStylesFromProps)(EventSelfParty)

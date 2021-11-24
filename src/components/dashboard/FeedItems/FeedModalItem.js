@@ -11,12 +11,14 @@ import ModalPaymentStatus from '../../common/modal/ModalPaymentStatus'
 import TopImage, { getImageByType } from '../../common/modal/ModalTopImage'
 import { getFormattedDateTime } from '../../../lib/utils/FormatDate'
 import { withStyles } from '../../../lib/styles'
+import useProfile from '../../../lib/userStorage/useProfile'
 import type { FeedEventProps } from './EventProps'
 import EventCounterParty from './EventCounterParty'
 import getEventSettingsByType from './EventSettingsByType'
 import EventIcon from './EventIcon'
 import FeedbackModalItem from './FeedbackModalItem'
 import SendModalItemWithError from './SendModalItemWithError'
+import EventSelfParty from './EventSelfParty'
 
 /**
  * Render modal item according to the type for feed list in horizontal view
@@ -26,7 +28,10 @@ import SendModalItemWithError from './SendModalItemWithError'
 const FeedModalItem = (props: FeedEventProps) => {
   const { item, onPress, styles, theme, navigation } = props
   const buttonPress = useCallback(() => onPress(item.id), [item, onPress])
+  const { avatar: selfAvatar, email } = useProfile()
+
   const itemType = item.displayType || item.type
+
   const eventSettings = getEventSettingsByType(theme, itemType)
   const mainColor = eventSettings.color
   const showJaggedEdge = ['claim', 'sendcompleted', 'withdraw', 'receive'].includes(itemType)
@@ -73,7 +78,10 @@ const FeedModalItem = (props: FeedEventProps) => {
           <View style={[styles.transactionDetails, { borderColor: mainColor }]}>
             {!eventSettings.withoutAvatar && <Avatar source={avatar} size={34} imageSize={36} style={styles.avatar} />}
             {item.data && item.data.endpoint && (
-              <EventCounterParty style={styles.feedItem} textStyle={styles.feedItemText} feedItem={item} />
+              <View style={{ alignItems: 'flex-start', flexDirection: 'column' }}>
+                <EventCounterParty style={styles.feedItem} textStyle={styles.feedItemText} feedItem={item} />
+                <FeedText>{get(item, 'data.sellerWebsite', '')}</FeedText>
+              </View>
             )}
             {!eventSettings.withoutAvatar && (
               <View style={styles.iconContainer}>
@@ -81,10 +89,15 @@ const FeedModalItem = (props: FeedEventProps) => {
               </View>
             )}
           </View>
-          <View style={[styles.transactionDetails, { borderTopWidth: 0, borderBottomWidth: 0, marginBottom: 18 }]}>
-            {!eventSettings.withoutAvatar && <Avatar source={avatar} size={34} imageSize={36} style={styles.avatar} />}
+          <View style={[styles.transactionDetails, { borderTopWidth: 0, borderBottomWidth: 0 }]}>
+            {!eventSettings.withoutAvatar && (
+              <Avatar source={selfAvatar} size={34} imageSize={36} style={styles.avatar} />
+            )}
             {item.data && item.data.endpoint && (
-              <EventCounterParty style={styles.feedItem} textStyle={styles.feedItemText} feedItem={item} />
+              <View style={{ flexDirection: 'column', alignItems: 'flex-start' }}>
+                <EventSelfParty style={styles.feedItem} textStyle={styles.feedItemText} feedItem={item} />
+                <FeedText>{email}</FeedText>
+              </View>
             )}
           </View>
           <View style={styles.messageContainer}>
@@ -98,6 +111,16 @@ const FeedModalItem = (props: FeedEventProps) => {
               {get(item, 'data.message', '')}
             </Text>
           </View>
+          <Text
+            fontSize={12}
+            color={theme.colors.gray50Percent}
+            textAlign="left"
+            lineHeight={20}
+            letterSpacing={0.14}
+            fontWeight="normal"
+          >
+            Invoice Number {item.data.invoiceId}
+          </Text>
           {isNil(get(item, 'data.receiptHash')) && item.status === 'pending' && (
             <View style={styles.messageContainer}>
               <Text fontSize={14} color="gray50Percent">
@@ -111,6 +134,26 @@ const FeedModalItem = (props: FeedEventProps) => {
     </ModalWrapper>
   )
 }
+
+const getFeedTextStyles = () => ({
+  message: {
+    paddingBottom: 0,
+    flexShrink: 0,
+  },
+})
+
+const FeedText = withStyles(getFeedTextStyles)(({ theme, styles, isSmallDevice, children }) => (
+  <Text
+    lineHeight={20}
+    numberOfLines={1}
+    color={theme.colors.text}
+    fontSize={10}
+    textTransform="capitalize"
+    style={styles.message}
+  >
+    {children}
+  </Text>
+))
 
 const getStylesFromProps = ({ theme }) => {
   return {

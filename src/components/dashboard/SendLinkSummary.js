@@ -161,7 +161,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
 
             // integrate with vendors callback, notifying payment has been made
             retry(() =>
-              API.notifyVendor(txhash, vendorInfo).catch(e =>
+              API.notifyVendor(txhash, { ...vendorInfo, senderEmail: email, senderName: fullName }).catch(e =>
                 log.error('failed notifying vendor callback', { vendorInfo }),
               ),
             )

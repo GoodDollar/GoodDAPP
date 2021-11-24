@@ -164,6 +164,7 @@ export default function NetworkModal(): JSX.Element | null {
     const { chainId, library, account } = useActiveWeb3React()
     const networkModalOpen = useModalOpen(ApplicationModal.NETWORK)
     const toggleNetworkModal = useNetworkModalToggle()
+    const allowedNetworks = [ChainId.KOVAN, AdditionalChainId.FUSE, ChainId.ROPSTEN, ChainId.MAINNET]
 
     if (!chainId) return null
 
@@ -177,7 +178,7 @@ export default function NetworkModal(): JSX.Element | null {
             </TextWrapper>
 
             <div className="flex flex-col space-y-5 overflow-y-auto mt-3">
-                {[ChainId.KOVAN, AdditionalChainId.FUSE].map((key: ChainId | AdditionalChainId) => {
+                {allowedNetworks.map((key: ChainId | AdditionalChainId) => {
                     return (
                         <Option
                             clickable={chainId !== key}

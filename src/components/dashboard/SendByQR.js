@@ -97,7 +97,7 @@ const SendByQR = ({ screenProps }: Props) => {
           //check if data is already a wallet address
           if (isAddress(address)) {
             //this address was already used on fuse, so it is ok
-            if (goodWallet.isKnownFuseAddress(address)) {
+            if (await goodWallet.isKnownFuseAddress(address)) {
               code = { address, networkId: 122 }
             } else {
               return showDialog({

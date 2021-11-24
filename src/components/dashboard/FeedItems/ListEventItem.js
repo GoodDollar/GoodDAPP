@@ -1,8 +1,7 @@
 // @flow
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Platform, View } from 'react-native'
 import { get } from 'lodash'
-import logger from '../../../lib/logger/js-logger'
 import { isMobile } from '../../../lib/utils/platform'
 import normalize from '../../../lib/utils/normalizeText'
 import { getFormattedDateTime } from '../../../lib/utils/FormatDate'
@@ -18,8 +17,6 @@ import EventCounterParty from './EventCounterParty'
 import getEventSettingsByType from './EventSettingsByType'
 import EmptyEventFeed from './EmptyEventFeed'
 import FeedListItemLeftBorder from './FeedListItemLeftBorder'
-
-const log = logger.child({ from: 'feedItems' })
 
 const InviteItem = ({ item, theme }) => {
   return (
@@ -71,10 +68,6 @@ const ListEvent = ({ item: feed, theme, index, styles }: FeedEventProps) => {
   const isFeedTypeClaiming = feed.type === 'claiming'
   const isErrorCard = ['senderror', 'withdrawerror'].includes(itemType)
   const avatar = get(feed, 'data.endpoint.avatar')
-
-  useEffect(() => {
-    log.debug('feedItem', feed)
-  }, [])
 
   if (itemType === 'empty') {
     return <EmptyEventFeed />

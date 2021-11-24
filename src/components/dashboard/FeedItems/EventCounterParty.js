@@ -1,20 +1,37 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { get } from 'lodash'
 import { Text } from '../../common'
 import { withStyles } from '../../../lib/styles'
-import useEventDirection from '../../../lib/hooks/useEventDirection'
+import useProfile from '../../../lib/userStorage/useProfile'
 
-const EventCounterParty = ({ feedItem, styles, style, textStyle, subtitle, isSmallDevice }) => {
-  const direction = useEventDirection(feedItem.type)
-  let itemSubtitle = get(feedItem, 'data.subtitle', '')
-  let displayText =
-    itemSubtitle && subtitle
-      ? itemSubtitle
-      : get(feedItem, 'data.endpoint.displayName') || get(feedItem, 'data.sellerWebsite')
+const useEventDirection = (feedItemType, reverse = false) => {
+  const [direction, setDirection] = useState('')
+  const sendCases = ['senddirect', 'send']
+  const receiveCases = ['claim', 'receive', 'withdraw', 'bonus']
 
-  let hasSubtitle = get(feedItem, 'data.readMore') !== false
+  useEffect(() => {
+    setDirection(() => {
+      if (receiveCases.includes(feedItemType)) {
+        return reverse ? 'to: ' : 'from: '
+      }
 
-  return (
+      if (sendCases.includes(feedItemType)) {
+        return reverse ? 'from: ' : 'to: '
+      }
+    })
+  }, [feedItemType])
+
+  return direction
+}
+
+const getStylesFromProps = () => ({
+  direction: {
+    marginRight: 3,
+  },
+})
+
+const EventContent = withStyles(getStylesFromProps)(
+  ({ style, styles, textStyle, direction, description, hasSubtitle }) => (
     <Text
       textTransform="capitalize"
       textAlign="left"
@@ -33,16 +50,32 @@ const EventCounterParty = ({ feedItem, styles, style, textStyle, subtitle, isSma
         lineHeight={hasSubtitle ? 16 : 38}
         style={[styles.fullName, textStyle]}
       >
-        {displayText}
+        {description}
       </Text>
     </Text>
-  )
+  ),
+)
+
+export const EventSelfParty = ({ feedItem, styles, style, textStyle, subtitle, isSmallDevice }) => {
+  const direction = useEventDirection(feedItem.type, true)
+  const { fullName } = useProfile()
+
+  let hasSubtitle = get(feedItem, 'data.readMore') !== false
+
+  return <EventContent description={fullName} hasSubtitle={hasSubtitle} direction={direction} />
 }
 
-const getStylesFromProps = () => ({
-  direction: {
-    marginRight: 3,
-  },
-})
+const EventCounterParty = ({ feedItem, styles, style, textStyle, subtitle, isSmallDevice }) => {
+  const direction = useEventDirection(feedItem.type)
+  let itemSubtitle = get(feedItem, 'data.subtitle', '')
+  let displayText =
+    itemSubtitle && subtitle
+      ? itemSubtitle
+      : get(feedItem, 'data.endpoint.displayName') || get(feedItem, 'data.sellerWebsite')
 
-export default withStyles(getStylesFromProps)(EventCounterParty)
+  let hasSubtitle = get(feedItem, 'data.readMore') !== false
+
+  return <EventContent description={displayText} hasSubtitle={hasSubtitle} direction={direction} />
+}
+
+export default EventCounterParty

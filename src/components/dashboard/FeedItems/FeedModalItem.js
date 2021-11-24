@@ -13,12 +13,11 @@ import { getFormattedDateTime } from '../../../lib/utils/FormatDate'
 import { withStyles } from '../../../lib/styles'
 import useProfile from '../../../lib/userStorage/useProfile'
 import type { FeedEventProps } from './EventProps'
-import EventCounterParty from './EventCounterParty'
+import EventCounterParty, { EventSelfParty } from './EventCounterParty'
 import getEventSettingsByType from './EventSettingsByType'
 import EventIcon from './EventIcon'
 import FeedbackModalItem from './FeedbackModalItem'
 import SendModalItemWithError from './SendModalItemWithError'
-import EventSelfParty from './EventSelfParty'
 
 /**
  * Render modal item according to the type for feed list in horizontal view

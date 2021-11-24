@@ -76,7 +76,6 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
       const generatePaymentLinkResponse = goodWallet.generatePaymentLink(amount, reason, category, inviteCode, {
         onTransactionHash: hash => {
           txHash = hash
-          log.debug('senderName', fullName)
 
           // Save transaction
           const transactionEvent: TransactionEvent = {
@@ -88,7 +87,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
             data: {
               counterPartyDisplayName,
               senderEmail: email,
-              senderName: 'test',
+              senderName: fullName,
               reason,
               category,
               amount,

@@ -92,7 +92,6 @@
     "@toruslabs/torus-direct-react-native-sdk": "^0.6.0",
     "@toruslabs/torus-direct-web-sdk": "^5.0.2",
     "@tradle/react-native-http": "^2.0.1",
-    "Base64": "^1.1.0",
     "FormData": "^0.10.1",
     "abi-decoder": "^1.2.0",
     "abortcontroller-polyfill": "^1.7.3",

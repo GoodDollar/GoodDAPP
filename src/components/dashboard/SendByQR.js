@@ -4,7 +4,7 @@
 import React, { useCallback, useState } from 'react'
 import { StyleSheet, View } from 'react-native'
 import { isAddress } from 'web3-utils'
-import { get } from 'lodash'
+import { get, noop } from 'lodash'
 
 // components
 import { Section, Wrapper } from '../common'
@@ -39,13 +39,13 @@ type Props = {
   screenProps: any,
 }
 
-const Dialog = ({ onConfirm }) => (
+const RecipientWarnDialog = ({ onConfirm }) => (
   <ExplanationDialog
     title={'Make sure your recipient is also using the Fuse network'}
     image={InfoIcon}
     imageHeight={124}
     buttons={[
-      { text: 'Cancel', onPress: () => {}, mode: 'text' },
+      { text: 'Cancel', onPress: noop, mode: 'text' },
       {
         text: 'Confirm',
         action: onConfirm,
@@ -98,12 +98,12 @@ const SendByQR = ({ screenProps }: Props) => {
           if (isAddress(address)) {
             //this address was already used on fuse, so it is ok
             if (await goodWallet.isKnownFuseAddress(address)) {
-              code = { address, networkId: 122 }
+              code = { address, networkId: goodWallet.networkId }
             } else {
               return showDialog({
                 showButtons: false,
-                onDismiss: () => {},
-                content: <Dialog onConfirm={() => gotoSend({ address: address, networkId: 122 })} />,
+                onDismiss: noop,
+                content: <RecipientWarnDialog onConfirm={() => gotoSend({ address: address, networkId: 122 })} />,
               })
             }
           } else {

@@ -103,7 +103,7 @@ const SendByQR = ({ screenProps }: Props) => {
               return showDialog({
                 showButtons: false,
                 onDismiss: noop,
-                content: <RecipientWarnDialog onConfirm={() => gotoSend({ address: address, networkId: 122 })} />,
+                content: <RecipientWarnDialog onConfirm={() => gotoSend({ address: address, networkId: goodWallet.networkId })} />,
               })
             }
           } else {

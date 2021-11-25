@@ -111,6 +111,15 @@ export function generateCode(
     ven: {},
   }
 
+  if (Config.addTestVendorData && !vendorInfo) {
+    codeObj.ven = new VendorMetadata(
+      'https://some-sellers-site.com/some_callback_url',
+      'asdfiv98a7sdn29asfy82na829akshf982',
+      'https://some-sellers-site.com',
+      'vendor name',
+    ).toConcise()
+  }
+
   if (vendorInfo) {
     codeObj.ven = vendorInfo.toConcise()
   }

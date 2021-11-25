@@ -79,7 +79,7 @@ const FeedModalItem = (props: FeedEventProps) => {
             {item.data && item.data.endpoint && (
               <View style={{ alignItems: 'flex-start', flexDirection: 'column' }}>
                 <EventCounterParty style={styles.feedItem} textStyle={styles.feedItemText} feedItem={item} />
-                <FeedText>{get(item, 'data.sellerWebsite', '')}</FeedText>
+                <EventInfoText>{get(item, 'data.sellerWebsite', '')}</EventInfoText>
               </View>
             )}
             {!eventSettings.withoutAvatar && (
@@ -95,7 +95,7 @@ const FeedModalItem = (props: FeedEventProps) => {
             {item.data && item.data.endpoint && (
               <View style={{ flexDirection: 'column', alignItems: 'flex-start' }}>
                 <EventSelfParty style={styles.feedItem} textStyle={styles.feedItemText} feedItem={item} />
-                <FeedText>{email}</FeedText>
+                <EventInfoText>{email}</EventInfoText>
               </View>
             )}
           </View>
@@ -141,7 +141,7 @@ const getFeedTextStyles = () => ({
   },
 })
 
-const FeedText = withStyles(getFeedTextStyles)(({ theme, styles, isSmallDevice, children }) => (
+const EventInfoText = withStyles(getFeedTextStyles)(({ theme, styles, isSmallDevice, children }) => (
   <Text
     lineHeight={20}
     numberOfLines={1}

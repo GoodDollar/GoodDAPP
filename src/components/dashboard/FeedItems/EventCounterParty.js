@@ -1,28 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React, { useMemo } from 'react'
 import { get } from 'lodash'
 import { Text } from '../../common'
 import { withStyles } from '../../../lib/styles'
+import { getEventDirection } from '../../../lib/userStorage/FeedStorage'
 import useProfile from '../../../lib/userStorage/useProfile'
-
-const useEventDirection = (feedItemType, reverse = false) => {
-  const [direction, setDirection] = useState('')
-  const sendCases = ['senddirect', 'send']
-  const receiveCases = ['claim', 'receive', 'withdraw', 'bonus']
-
-  useEffect(() => {
-    setDirection(() => {
-      if (receiveCases.includes(feedItemType)) {
-        return reverse ? 'to: ' : 'from: '
-      }
-
-      if (sendCases.includes(feedItemType)) {
-        return reverse ? 'from: ' : 'to: '
-      }
-    })
-  }, [feedItemType])
-
-  return direction
-}
 
 const getStylesFromProps = () => ({
   direction: {
@@ -57,7 +38,7 @@ const EventContent = withStyles(getStylesFromProps)(
 )
 
 export const EventSelfParty = ({ feedItem, styles, style, textStyle, subtitle, isSmallDevice }) => {
-  const direction = useEventDirection(feedItem.type, true)
+  const direction = useMemo(() => getEventDirection(feedItem, true), [feedItem])
   const { fullName } = useProfile()
 
   let hasSubtitle = get(feedItem, 'data.readMore') !== false
@@ -66,7 +47,7 @@ export const EventSelfParty = ({ feedItem, styles, style, textStyle, subtitle, i
 }
 
 const EventCounterParty = ({ feedItem, styles, style, textStyle, subtitle, isSmallDevice }) => {
-  const direction = useEventDirection(feedItem.type)
+  const direction = useMemo(() => getEventDirection(feedItem), [feedItem])
   let itemSubtitle = get(feedItem, 'data.subtitle', '')
   let displayText =
     itemSubtitle && subtitle

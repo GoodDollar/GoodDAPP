@@ -48,11 +48,13 @@ export const EventSelfParty = ({ feedItem, styles, style, textStyle, subtitle, i
 
 const EventCounterParty = ({ feedItem, styles, style, textStyle, subtitle, isSmallDevice }) => {
   const direction = useMemo(() => getEventDirection(feedItem), [feedItem])
-  let itemSubtitle = get(feedItem, 'data.subtitle', '')
-  let displayText =
-    itemSubtitle && subtitle
-      ? itemSubtitle
-      : get(feedItem, 'data.endpoint.displayName') || get(feedItem, 'data.sellerWebsite')
+  const itemSubtitle = get(feedItem, 'data.subtitle', '')
+  const selectDisplaySource =
+    get(feedItem, 'data.endpoint.displayName') === 'Unknown'
+      ? get(feedItem, 'data.sellerWebsite', 'Unknown')
+      : get(feedItem, 'data.endpoint.displayName')
+
+  let displayText = itemSubtitle && subtitle ? itemSubtitle : selectDisplaySource
 
   let hasSubtitle = get(feedItem, 'data.readMore') !== false
 

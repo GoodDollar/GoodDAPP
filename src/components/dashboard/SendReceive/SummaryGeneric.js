@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { Platform, View } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import { BackButton } from '../../appNavigation/stackNavigation'
+import { BackButton, useScreenState } from '../../appNavigation/stackNavigation'
 import { BigGoodDollar, CustomButton, Icon, InputRounded, Section, Wrapper } from '../../common'
 import BorderedBox from '../../common/view/BorderedBox'
 import TopBar from '../../common/view/TopBar'
@@ -29,6 +29,7 @@ const SummaryGeneric = ({
   vendorInfo = undefined,
 }) => {
   const { push } = screenProps
+  const [screenState, setScreenState] = useScreenState(screenProps)
   const [, setSurvey] = useState(undefined)
   const [loading, setLoading] = useState(false)
   const iconWrapperMargin = useMemo(() => {
@@ -76,6 +77,8 @@ const SummaryGeneric = ({
     } else {
       setNameError('')
     }
+
+    setScreenState({ ...screenState, email, name })
   }, [email, name, profile])
 
   // Custom verifier to ensure that we have all needed info

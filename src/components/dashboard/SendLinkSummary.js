@@ -13,9 +13,9 @@ import goodWallet from '../../lib/wallet/GoodWallet'
 import { retry } from '../../lib/utils/async'
 import API from '../../lib/API/api'
 
-import { useScreenState } from '../appNavigation/stackNavigation'
 import { generateSendShareObject, generateSendShareText } from '../../lib/share'
 import useProfile from '../../lib/userStorage/useProfile'
+import useCachedScreenState from '../../lib/hooks/useCachedScreenState'
 import { ACTION_SEND, ACTION_SEND_TO_ADDRESS, SEND_TITLE } from './utils/sendReceiveFlow'
 import SummaryGeneric from './SendReceive/SummaryGeneric'
 
@@ -33,7 +33,7 @@ export type AmountProps = {
  */
 const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
   const inviteCode = userStorage.userProperties.get('inviteCode')
-  const [screenState] = useScreenState(screenProps)
+  const screenState = useCachedScreenState(screenProps, `GD_sendLinkSummaryCache`)
   const [showDialog, hideDialog, showErrorDialog] = useDialog()
 
   const [shared, setShared] = useState(false)
@@ -41,6 +41,9 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
 
   const { goToRoot, navigateTo } = screenProps
   const { fullName, email } = useProfile()
+
+  log.debug('screenProps', screenProps)
+  log.debug('screenState', screenState)
 
   const {
     amount,
@@ -176,11 +179,11 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
                 reason,
                 category,
                 amount,
-                senderEmail: email,
-                senderName: fullName,
-                invoiceId: vendorInfo.invoiceId,
-                sellerWebsite: vendorInfo.website,
-                sellerName: vendorInfo.vendorName,
+                senderEmail: screenState?.email,
+                senderName: screenState?.name,
+                invoiceId: vendorInfo?.invoiceId,
+                sellerWebsite: vendorInfo?.website,
+                sellerName: vendorInfo?.vendorName,
               },
             }
 

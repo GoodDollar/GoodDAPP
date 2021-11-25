@@ -43,7 +43,7 @@ function Web3Faucet(): JSX.Element | null {
             return false
         })
 
-        if (!whitelisted) return new Error('Only whitelisted wallets can claim')
+        if (!whitelisted) return new Error('Only verified wallets can claim')
 
         const amount = await check(web3).catch(e => {
             console.error(e)

@@ -69,7 +69,7 @@ function PortfolioTableRow({ stake, onWithdraw }: PortfolioTableRowProps) {
                 <td>
                     <div className="flex justify-end">
                         <ButtonDefault size="sm" width="99px" onClick={handleWithdrawOpen}>
-                            {i18n._(t`Withdraw`)}
+                            {i18n._(t`Claim reward`)}
                         </ButtonDefault>
                     </div>
                 </td>
@@ -77,7 +77,7 @@ function PortfolioTableRow({ stake, onWithdraw }: PortfolioTableRowProps) {
             <tr className="mobile">
                 <td colSpan={8}>
                     <ButtonDefault size="sm" width="99px" onClick={handleWithdrawOpen}>
-                        {i18n._(t`Withdraw`)}
+                        {i18n._(t`Claim reward`)}
                     </ButtonDefault>
                 </td>
             </tr>

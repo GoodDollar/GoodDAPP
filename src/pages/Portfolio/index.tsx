@@ -92,7 +92,7 @@ const Portfolio = () => {
                         </PortfolioValueSC>
                     </div>
                     <div className="flex flex-col">
-                        <Title type="category">GDAO {i18n._(t`Rewards`)}</Title>
+                        <Title type="category">GOOD {i18n._(t`Rewards`)}</Title>
                         <PortfolioValueSC>
                             {data?.aggregated?.rewardsGDAO.toSignificant(6, { groupSeparator: ',' }) ?? '0.00'}{' '}
                             {data?.aggregated?.rewardsGDAO.currency.symbol}
@@ -132,7 +132,7 @@ const Portfolio = () => {
                         </PortfolioValueSC>
                     </div>
                     <div className="flex flex-col">
-                        <Title type="category">GDAO {i18n._(t`Rewards`)}</Title>
+                        <Title type="category">GOOD {i18n._(t`Rewards`)}</Title>
                         <PortfolioValueSC>
                             {data?.aggregated?.rewardsGDAOUnclaimed.toSignificant(6, { groupSeparator: ',' }) ?? '0.00'}{' '}
                             {data?.aggregated?.rewardsGDAOUnclaimed.currency.symbol}
@@ -141,7 +141,7 @@ const Portfolio = () => {
                     <div className="flex flex-col justify-center items-end">
                         <WithdrawRewards
                             onClaim={update}
-                            trigger={<ButtonDefault width={'156px'}>Withdraw rewards</ButtonDefault>}
+                            trigger={<ButtonDefault width={'156px'}>{i18n._(t`Claim rewards`)}</ButtonDefault>}
                         />
                     </div>
                 </PortfolioAnalyticSC>
@@ -177,10 +177,17 @@ const Portfolio = () => {
                                 <Title type={'category'}>G$ {i18n._(t`REWARDS`)}</Title>
                             </th>
                             <th>
-                                <Title type={'category'}>{i18n._(t`MULTIPLIER`)}</Title>
+                                <Title type={'category'}>
+                                    {i18n._(t`MULTIPLIER`)}
+                                    <QuestionHelper
+                                        text={i18n._(
+                                            t`Starting at 1.0, your multiplier will increase to 2.0 after one month of staking to the Trust, at which point you can claim more G$ every day! `
+                                        )}
+                                    />
+                                </Title>
                             </th>
                             <th>
-                                <Title type={'category'}>GDAO {i18n._(t`REWARDS`)}</Title>
+                                <Title type={'category'}>GOOD {i18n._(t`REWARDS`)}</Title>
                             </th>
                             <th></th>
                         </tr>

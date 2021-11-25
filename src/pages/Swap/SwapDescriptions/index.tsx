@@ -18,14 +18,19 @@ function SwapDescriptions({ className, style, gdx, exitContribution }: SwapDescr
         <SwapDescriptionsSC className={className} style={style}>
             {gdx && (
                 <div className="block">
-                    <div className="title">GDX is...</div>
-                    <div className="description">Some descriptive text goes here</div>
+                    <div className="title">{i18n._(t`GDX`)}</div>
+                    <div className="description">
+                        {i18n._(t`GDX is a token earned by directly buying G$ from the Reserve. Members with GDX do not pay the
+                        contribution exit.`)}
+                    </div>
                 </div>
             )}
             {exitContribution && (
                 <div className="block">
                     <div className="title">{i18n._(t`What's an exit contribution?`)}</div>
-                    <div className="description">Some descriptive text goes here</div>
+                    <div className="description">
+                        {i18n._(t`A contribution to the reserve paid by members for directly selling G$ tokens.`)}
+                    </div>
                 </div>
             )}
         </SwapDescriptionsSC>

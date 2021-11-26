@@ -569,8 +569,8 @@ export class GoodWallet {
     } catch (exception) {
       const { message } = exception
 
-      log.warn('checkEntitlement failed', message, exception)
-      throw exception
+      log.error('checkEntitlement failed', message, exception)
+      return 0
     }
   }
 
@@ -632,7 +632,7 @@ export class GoodWallet {
       return interest
     } catch (exception) {
       const { message } = exception
-      log.warn('getInterestCollected failed', message, exception)
+      log.error('getInterestCollected failed', message, exception)
       throw exception
     }
   }
@@ -720,8 +720,8 @@ export class GoodWallet {
     } catch (exception) {
       const { message } = exception
 
-      log.warn('BalanceOf failed', message, exception)
-      throw exception
+      log.error('BalanceOf failed', message, exception)
+      return 0
     }
   }
 
@@ -740,8 +740,8 @@ export class GoodWallet {
     } catch (exception) {
       const { message } = exception
 
-      log.warn('balanceOfNative failed', message, exception)
-      throw exception
+      log.error('balanceOfNative failed', message, exception)
+      return 0
     }
   }
 
@@ -782,8 +782,8 @@ export class GoodWallet {
     } catch (exception) {
       const { message } = exception
 
-      log.warn('isVerified failed', message, exception)
-      throw exception
+      log.error('isVerified failed', message, exception)
+      return false
     }
   }
 
@@ -797,8 +797,8 @@ export class GoodWallet {
     } catch (exception) {
       const { message } = exception
 
-      log.warn('lastVerified failed', message, exception)
-      throw exception
+      log.error('lastVerified failed', message, exception)
+      return 0
     }
   }
 
@@ -821,7 +821,7 @@ export class GoodWallet {
     } catch (exception) {
       const { message } = exception
 
-      log.warn('getTxFee failed', message, exception)
+      log.error('getTxFee failed', message, exception)
       throw exception
     }
   }
@@ -837,7 +837,7 @@ export class GoodWallet {
     } catch (exception) {
       const { message } = exception
 
-      log.warn('getTxFee failed', message, exception)
+      log.error('getTxFee failed', message, exception)
       throw exception
     }
   }
@@ -863,7 +863,7 @@ export class GoodWallet {
       return parseInt(amountWithFee) <= balance
     } catch (exception) {
       const { message } = exception
-      log.warn('canSend failed', message, exception)
+      log.error('canSend failed', message, exception)
     }
     return false
   }
@@ -950,8 +950,8 @@ export class GoodWallet {
     } catch (exception) {
       const { message } = exception
 
-      log.warn('isPaymentLinkAvailable failed', message, exception)
-      throw exception
+      log.error('isPaymentLinkAvailable failed', message, exception)
+      return false
     }
   }
 
@@ -988,7 +988,7 @@ export class GoodWallet {
     } catch (exception) {
       const { message } = exception
 
-      log.warn('getWithdrawDetails failed', message, exception)
+      log.error('getWithdrawDetails failed', message, exception)
       throw exception
     }
   }
@@ -1060,63 +1060,84 @@ export class GoodWallet {
 
   async collectInviteBounties() {
     const tx = this.invitesContract.methods.collectBounties()
-    const res = await this.sendTransaction(tx)
+    const gas = Math.min(800000, await this.balanceOfNative().then(b => b - 150000))
+    const res = await this.sendTransaction(tx, {}, { gas })
     return res
   }
 
   async collectInviteBounty(invitee) {
-    const bountyFor = invitee || this.account
-    const canCollect = await this.invitesContract.methods.canCollectBountyFor(bountyFor).call()
-    if (canCollect) {
-      const tx = this.invitesContract.methods.bountyFor(bountyFor)
-      const res = await this.sendTransaction(tx, {})
-      return res
+    try {
+      const bountyFor = invitee || this.account
+      const canCollect = await this.invitesContract.methods.canCollectBountyFor(bountyFor).call()
+      if (canCollect) {
+        const tx = this.invitesContract.methods.bountyFor(bountyFor)
+        const res = await this.sendTransaction(tx, {})
+        return res
+      }
+    } catch (e) {
+      log.error('collectInviteBounty failed:', e.message, e)
+      throw e
     }
   }
 
   async isInviterCodeValid(inviterCode) {
-    const byteCode = this.wallet.utils.fromUtf8(inviterCode)
-    const registered = await this.invitesContract.methods.codeToUser(byteCode).call()
-    return registered !== NULL_ADDRESS
+    try {
+      const byteCode = this.wallet.utils.fromUtf8(inviterCode)
+      const registered = await this.invitesContract.methods.codeToUser(byteCode).call()
+      return registered !== NULL_ADDRESS
+    } catch (e) {
+      log.error('isInviterCodeValid failed:', e.message, e)
+      return false
+    }
   }
 
-  async hasJoinedInvites() {
-    const user = await this.invitesContract.methods.users(this.account).call()
-    return [parseInt(user.joinedAt) > 0, user.invitedBy, user.inviteCode]
+  async hasJoinedInvites(): [boolean, string, string] {
+    try {
+      const user = await this.invitesContract.methods.users(this.account).call()
+      return [parseInt(user.joinedAt) > 0, user.invitedBy, user.inviteCode]
+    } catch (e) {
+      log.error('hasJoinedInvites failed:', e.message, e)
+      return false
+    }
   }
 
   async joinInvites(inviter, codeLength = 10) {
-    const [hasJoined, invitedBy, inviteCode] = await this.hasJoinedInvites()
+    try {
+      const [hasJoined, invitedBy, inviteCode] = await this.hasJoinedInvites()
 
-    let myCode = hasJoined
-      ? inviteCode
-      : this.wallet.utils.fromUtf8(bs58.encode(Buffer.from(this.account.slice(2), 'hex')).slice(0, codeLength))
+      let myCode = hasJoined
+        ? inviteCode
+        : this.wallet.utils.fromUtf8(bs58.encode(Buffer.from(this.account.slice(2), 'hex')).slice(0, codeLength))
 
-    //check under which account invitecode is registered, maybe we have a collission
-    const registered = !hasJoined && (await this.invitesContract.methods.codeToUser(myCode).call())
-    log.debug('joinInvites:', { inviter, myCode, codeLength, hasJoined, invitedBy, inviteCode })
+      //check under which account invitecode is registered, maybe we have a collission
+      const registered = !hasJoined && (await this.invitesContract.methods.codeToUser(myCode).call())
+      log.debug('joinInvites:', { inviter, myCode, codeLength, hasJoined, invitedBy, inviteCode })
 
-    //code collision
-    if (hasJoined === false && registered !== this.account && registered !== NULL_ADDRESS) {
-      log.warn('joinInvites code collision:', { inviter, myCode, codeLength, registered })
-      return this.joinInvites(inviter, codeLength + 1)
+      //code collision
+      if (hasJoined === false && registered !== this.account && registered !== NULL_ADDRESS) {
+        log.warn('joinInvites code collision:', { inviter, myCode, codeLength, registered })
+        return this.joinInvites(inviter, codeLength + 1)
+      }
+
+      //not registered or not marked inviter
+      if (!hasJoined || (inviter && invitedBy === NULL_ADDRESS)) {
+        const tx = this.invitesContract.methods.join(
+          myCode,
+          (inviter && this.wallet.utils.fromUtf8(inviter)) || '0x0'.padEnd(66, 0),
+        )
+        log.debug('joinInvites registering:', { inviter, myCode, inviteCode, hasJoined, codeLength, registered })
+        await this.sendTransaction(tx).catch(e => {
+          log.error('joinInvites failed:', e.message, e, { inviter, myCode, codeLength, registered })
+          throw e
+        })
+      }
+
+      //already registered
+      return this.wallet.utils.toUtf8(myCode)
+    } catch (e) {
+      log.error('joinInvites failed:', e.message, e)
+      throw e
     }
-
-    //not registered or not marked inviter
-    if (!hasJoined || (inviter && invitedBy === NULL_ADDRESS)) {
-      const tx = this.invitesContract.methods.join(
-        myCode,
-        (inviter && this.wallet.utils.fromUtf8(inviter)) || '0x0'.padEnd(66, 0),
-      )
-      log.debug('joinInvites registering:', { inviter, myCode, inviteCode, hasJoined, codeLength, registered })
-      await this.sendTransaction(tx).catch(e => {
-        log.error('joinInvites failed:', e.message, e, { inviter, myCode, codeLength, registered })
-        throw e
-      })
-    }
-
-    //already registered
-    return this.wallet.utils.toUtf8(myCode)
   }
 
   async getUserInviteBounty() {
@@ -1241,7 +1262,7 @@ export class GoodWallet {
         ok: data.ok && nativeBalance > minWei,
       }
     } catch (e) {
-      log.warn('verifyHasGas:', e.message, e, { minWei })
+      log.error('verifyHasGas failed:', e.message, e, { minWei })
       return {
         ok: false,
         error: false,

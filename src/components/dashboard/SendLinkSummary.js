@@ -152,7 +152,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
   )
 
   const sendViaAddress = useCallback(
-    async (to = {}) => {
+    async to => {
       try {
         let txhash
 

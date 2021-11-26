@@ -40,10 +40,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
   const [link, setLink] = useState('')
 
   const { goToRoot, navigateTo } = screenProps
-  const { fullName, email } = useProfile()
-
-  log.debug('screenProps', screenProps)
-  log.debug('screenState', screenState)
+  const { fullName } = useProfile()
 
   const {
     amount,
@@ -89,8 +86,8 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
             status: 'pending',
             data: {
               counterPartyDisplayName,
-              senderEmail: email,
-              senderName: fullName,
+              senderEmail: screenState?.email,
+              senderName: screenState?.name,
               reason,
               category,
               amount,
@@ -163,9 +160,11 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
 
             // integrate with vendors callback, notifying payment has been made
             retry(() =>
-              API.notifyVendor(txhash, { ...vendorInfo, senderEmail: email, senderName: fullName }).catch(e =>
-                log.error('failed notifying vendor callback', { vendorInfo }),
-              ),
+              API.notifyVendor(txhash, {
+                ...vendorInfo,
+                senderEmail: screenState?.email,
+                senderName: screenState?.name,
+              }).catch(e => log.error('failed notifying vendor callback', { vendorInfo })),
             )
 
             // Save transaction

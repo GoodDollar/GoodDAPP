@@ -3,7 +3,6 @@ import { get } from 'lodash'
 import { Text } from '../../common'
 import { withStyles } from '../../../lib/styles'
 import { getEventDirection } from '../../../lib/userStorage/FeedStorage'
-import useProfile from '../../../lib/userStorage/useProfile'
 
 const getStylesFromProps = () => ({
   direction: {
@@ -39,11 +38,10 @@ const EventContent = withStyles(getStylesFromProps)(
 
 export const EventSelfParty = ({ feedItem, styles, style, textStyle, subtitle, isSmallDevice }) => {
   const direction = useMemo(() => getEventDirection(feedItem, true), [feedItem])
-  const { fullName } = useProfile()
 
   let hasSubtitle = get(feedItem, 'data.readMore') !== false
 
-  return <EventContent description={fullName} hasSubtitle={hasSubtitle} direction={direction} />
+  return <EventContent description={feedItem?.data?.senderName} hasSubtitle={hasSubtitle} direction={direction} />
 }
 
 const EventCounterParty = ({ feedItem, styles, style, textStyle, subtitle, isSmallDevice }) => {

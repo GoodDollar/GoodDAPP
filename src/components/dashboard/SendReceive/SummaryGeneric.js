@@ -47,8 +47,8 @@ const SummaryGeneric = ({
 
   const profile = useProfile()
 
-  const [name, setName] = useState(profile.fullName)
-  const [email, setEmail] = useState(profile.email)
+  const [name, setName] = useState(screenProps.name || profile.fullName)
+  const [email, setEmail] = useState(screenState.email || profile.email)
   const [emailError, setEmailError] = useState()
   const [nameError, setNameError] = useState()
 
@@ -57,10 +57,10 @@ const SummaryGeneric = ({
       return
     }
     if (!name) {
-      setName(profile.fullName)
+      setName(screenProps.name || profile.fullName)
     }
     if (!email) {
-      setEmail(profile.email)
+      setEmail(screenProps.email || profile.email)
     }
   }, [profile])
 

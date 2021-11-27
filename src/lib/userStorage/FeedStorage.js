@@ -77,6 +77,28 @@ export type FeedEvent = {
 // const TX_RECEIVE_TOKEN = 'TX_RECEIVE_TOKEN'
 // const TX_SEND_TOKEN = 'TX_SEND_TOKEN'
 
+export const getEventDirection = (feedEvent, reverse = false) => {
+  const { type } = feedEvent
+  const sendCases = [FeedItemType.EVENT_TYPE_SENDDIRECT, FeedItemType.EVENT_TYPE_SEND]
+  const receiveCases = [
+    FeedItemType.EVENT_TYPE_CLAIM,
+    FeedItemType.EVENT_TYPE_RECEIVE,
+    FeedItemType.EVENT_TYPE_WITHDRAW,
+    FeedItemType.EVENT_TYPE_BONUS,
+  ]
+
+  log.debug('getCounterParty:', feedEvent.data.receiptEvent, feedEvent.id, feedEvent.txType)
+
+  if (receiveCases.includes(type)) {
+    return reverse ? 'to: ' : 'from: '
+  }
+
+  if (sendCases.includes(type)) {
+    return reverse ? 'from: ' : 'to: '
+  }
+  return ''
+}
+
 export class FeedStorage {
   // feedMutex = new Mutex()
 
@@ -457,23 +479,9 @@ export class FeedStorage {
   }
 
   async getCounterParty(feedEvent) {
-    let addressField
+    let addressField = getEventDirection(feedEvent)
 
     log.debug('getCounterParty:', feedEvent.data.receiptEvent, feedEvent.id, feedEvent.txType)
-
-    switch (feedEvent.type) {
-      case FeedItemType.EVENT_TYPE_SENDDIRECT:
-      case FeedItemType.EVENT_TYPE_SEND:
-        addressField = 'to'
-        break
-      case FeedItemType.EVENT_TYPE_WITHDRAW:
-      case FeedItemType.EVENT_TYPE_RECEIVE:
-        addressField = 'from'
-        break
-      default:
-        break
-    }
-
     const address = get(feedEvent, `data.receiptEvent.${addressField}`)
 
     if (!addressField || !address) {

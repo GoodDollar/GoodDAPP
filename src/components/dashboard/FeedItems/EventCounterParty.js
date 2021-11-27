@@ -1,32 +1,17 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { get } from 'lodash'
 import { Text } from '../../common'
 import { withStyles } from '../../../lib/styles'
+import { getEventDirection } from '../../../lib/userStorage/FeedStorage'
 
-const EventCounterParty = ({ feedItem, styles, style, textStyle, subtitle, isSmallDevice }) => {
-  let direction = ''
-  let itemSubtitle = get(feedItem, 'data.subtitle', '')
-  let displayText = itemSubtitle && subtitle ? itemSubtitle : get(feedItem, 'data.endpoint.displayName')
+const getStylesFromProps = () => ({
+  direction: {
+    marginRight: 3,
+  },
+})
 
-  let hasSubtitle = get(feedItem, 'data.readMore') !== false
-  switch (feedItem.type) {
-    case 'senddirect':
-    case 'send':
-      direction = 'To: '
-      break
-
-    case 'claim':
-    case 'receive':
-    case 'withdraw':
-    case 'bonus':
-      direction = 'From: '
-      break
-
-    default:
-      break
-  }
-
-  return (
+const EventContent = withStyles(getStylesFromProps)(
+  ({ style, styles, textStyle, direction, description, hasSubtitle }) => (
     <Text
       textTransform="capitalize"
       textAlign="left"
@@ -45,16 +30,33 @@ const EventCounterParty = ({ feedItem, styles, style, textStyle, subtitle, isSma
         lineHeight={hasSubtitle ? 16 : 38}
         style={[styles.fullName, textStyle]}
       >
-        {displayText}
+        {description}
       </Text>
     </Text>
-  )
+  ),
+)
+
+export const EventSelfParty = ({ feedItem, styles, style, textStyle, subtitle, isSmallDevice }) => {
+  const direction = useMemo(() => getEventDirection(feedItem, true), [feedItem])
+
+  let hasSubtitle = get(feedItem, 'data.readMore') !== false
+
+  return <EventContent description={feedItem?.data?.senderName} hasSubtitle={hasSubtitle} direction={direction} />
 }
 
-const getStylesFromProps = () => ({
-  direction: {
-    marginRight: 3,
-  },
-})
+const EventCounterParty = ({ feedItem, styles, style, textStyle, subtitle, isSmallDevice }) => {
+  const direction = useMemo(() => getEventDirection(feedItem), [feedItem])
+  const itemSubtitle = get(feedItem, 'data.subtitle', '')
+  const selectDisplaySource =
+    get(feedItem, 'data.endpoint.displayName') === 'Unknown'
+      ? get(feedItem, 'data.sellerWebsite', 'Unknown')
+      : get(feedItem, 'data.endpoint.displayName')
 
-export default withStyles(getStylesFromProps)(EventCounterParty)
+  let displayText = itemSubtitle && subtitle ? itemSubtitle : selectDisplaySource
+
+  let hasSubtitle = get(feedItem, 'data.readMore') !== false
+
+  return <EventContent description={displayText} hasSubtitle={hasSubtitle} direction={direction} />
+}
+
+export default EventCounterParty

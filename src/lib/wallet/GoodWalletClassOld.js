@@ -1060,7 +1060,7 @@ export class GoodWallet {
 
   async collectInviteBounties() {
     const tx = this.invitesContract.methods.collectBounties()
-    const gas = Math.min(800000, await this.balanceOfNative().then(b => b - 150000))
+    const gas = Math.min(900000, await this.balanceOfNative().then(b => b - 150000))
     const res = await this.sendTransaction(tx, {}, { gas })
     return res
   }
@@ -1071,7 +1071,7 @@ export class GoodWallet {
       const canCollect = await this.invitesContract.methods.canCollectBountyFor(bountyFor).call()
       if (canCollect) {
         const tx = this.invitesContract.methods.bountyFor(bountyFor)
-        const res = await this.sendTransaction(tx, {}, { gas: await tx.estimateGas().catch(e => 400000) })
+        const res = await this.sendTransaction(tx, {}, { gas: await tx.estimateGas().catch(e => 550000) })
         return res
       }
     } catch (e) {

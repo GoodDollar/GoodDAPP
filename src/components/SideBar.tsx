@@ -49,7 +49,7 @@ const SideBarSC = styled.aside<{ $mobile?: boolean }>`
   }
 
   .balance {
-    padding: 17px 7px 20px 22px;
+    padding: 17px 7px 5px 22px;
     margin: 0 26px 0 20px;
     ${({ theme, $mobile }) => (theme.darkMode && !$mobile ? 'border: 1px solid #A5A5A5;' : '')}
     box-shadow: ${({ theme, $mobile }) => (!$mobile ? theme.shadow.wallet : '')};
@@ -71,6 +71,14 @@ const SideBarSC = styled.aside<{ $mobile?: boolean }>`
         text-overflow: ellipsis;
         overflow: hidden;
       }
+    }
+
+    .importToMetamaskLink {
+        text-decoration: underline;
+        color: #0094ec;
+        font-size: 0.75em;
+        font-weight: 500;
+        cursor: pointer;
     }
   }
 
@@ -146,6 +154,61 @@ export default function SideBar({ mobile }: { mobile?: boolean }) {
     const gdxBalance = useTokenBalance(account, data?.gdx)
     const gdaoBalance = useTokenBalance(account, data?.gdao)
 
+    const importToMetamask = async () => {
+        const allTokens = []
+
+        if (data?.g$)
+            allTokens.push({
+                type: 'ERC20',
+                options: {
+                    address: data?.g$?.address,
+                    symbol: data?.g$?.symbol,
+                    decimals: data?.g$?.decimals
+                    // image: 'https://foo.io/token-image.svg'
+                }
+            })
+
+        if (data?.gdao)
+            allTokens.push({
+                type: 'ERC20',
+                options: {
+                    address: data?.gdao?.address,
+                    symbol: data?.gdao?.symbol,
+                    decimals: data?.gdao?.decimals
+                    // image: 'https://foo.io/token-image.svg'
+                }
+            })
+
+        if ((chainId as any) !== AdditionalChainId.FUSE && data?.gdx)
+            allTokens.push({
+                type: 'ERC20',
+                options: {
+                    address: data?.gdx?.address,
+                    symbol: data?.gdx?.symbol,
+                    decimals: data?.gdx?.decimals
+                    // image: 'https://foo.io/token-image.svg'
+                }
+            })
+
+        Promise.all(
+            allTokens.map(
+                token =>
+                    window.ethereum?.request &&
+                    window.ethereum.request({
+                        method: 'wallet_watchAsset',
+                        params: token
+                    })
+            )
+        )
+            .then(results => {
+                // console.log(results)
+                localStorage.setItem(`${chainId}_metamask_import_status`, 'true')
+            })
+            .catch(errors => {
+                // console.log(errors)
+            })
+    }
+
     return (
         <SideBarSC className="flex flex-col justify-between" $mobile={mobile}>
             <nav>
@@ -195,6 +258,13 @@ export default function SideBar({ mobile }: { mobile?: boolean }) {
                             <br />
                             GOOD {gdaoBalance?.toSignificant(6, { groupSeparator: ',' }) ?? '-'}
                         </div>
+                        <br />
+
+                        {localStorage.getItem(`${chainId}_metamask_import_status`) !== 'true' && (
+                            <div className="importToMetamaskLink" onClick={importToMetamask}>
+                                Import to Metamask
+                            </div>
+                        )}
                     </div>
                 </div>
                 <div className="social flex justify-between">

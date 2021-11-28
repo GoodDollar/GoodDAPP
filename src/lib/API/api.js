@@ -415,14 +415,14 @@ export class APIService {
   }
 
   // eslint-disable-next-line require-await
-  async notifyVendor(transactionId, vendorInfo) {
-    const { callbackUrl, invoiceId } = vendorInfo || {}
+  async notifyVendor(transactionId, transactionInfo) {
+    const { callbackUrl, invoiceId, senderEmail, senderName } = transactionInfo || {}
 
     if (!callbackUrl) {
       return // or throw error
     }
 
-    return this.client.post(callbackUrl, { invoiceId, transactionId })
+    return this.client.post(callbackUrl, { invoiceId, transactionId, senderEmail, senderName })
   }
 }
 

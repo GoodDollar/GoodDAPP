@@ -1071,7 +1071,7 @@ export class GoodWallet {
       const canCollect = await this.invitesContract.methods.canCollectBountyFor(bountyFor).call()
       if (canCollect) {
         const tx = this.invitesContract.methods.bountyFor(bountyFor)
-        const res = await this.sendTransaction(tx, {}, { gas: await tx.estimateGas().catch(e => 550000) })
+        const res = await this.sendTransaction(tx, {}, { gas: await tx.estimateGas().catch(e => 600000) })
         return res
       }
     } catch (e) {

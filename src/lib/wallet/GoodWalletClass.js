@@ -1331,6 +1331,11 @@ export class GoodWallet {
     })
     return res
   }
+
+  async isKnownFuseAddress(address) {
+    const nonce = await this.wallet.eth.getTransactionCount(address)
+    return nonce > 0
+  }
 }
 
 export const WalletType = GoodWallet.WalletType

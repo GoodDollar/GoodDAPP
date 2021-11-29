@@ -66,6 +66,7 @@ class SoftwareWalletProvider {
     transactionBlockTimeout: 2,
     transactionConfirmationBlocks: 1,
     transactionPollingTimeout: 30,
+    transactionPollingInterval: 3000,
   }
 
   conf: WalletConfig

@@ -4,7 +4,7 @@
 import React, { useCallback, useState } from 'react'
 import { StyleSheet, View } from 'react-native'
 import { isAddress } from 'web3-utils'
-import { get, noop } from 'lodash'
+import { noop } from 'lodash'
 
 // components
 import { Section, Wrapper } from '../common'
@@ -27,6 +27,7 @@ import { fireEvent, QR_SCAN } from '../../lib/analytics/analytics'
 import { InfoIcon } from '../common/modal/InfoIcon'
 import ExplanationDialog from '../common/dialogs/ExplanationDialog'
 import goodWallet from '../../lib/wallet/GoodWallet'
+import { extractEthAddress } from '../../lib/wallet/utils'
 import QrReader from './QR/QRScanner'
 import QRCameraPermissionDialog from './SendRecieveQRCameraPermissionDialog'
 import { routeAndPathForCode } from './utils/routeAndPathForCode'
@@ -91,8 +92,7 @@ const SendByQR = ({ screenProps }: Props) => {
         let code
         try {
           const decoded = decodeURI(data)
-
-          const address = get(decoded.match(/0x[a-fA-F0-9]{40}/), '0')
+          const address = extractEthAddress(decoded)
 
           //check if data is already a wallet address
           if (isAddress(address)) {
@@ -103,7 +103,11 @@ const SendByQR = ({ screenProps }: Props) => {
               return showDialog({
                 showButtons: false,
                 onDismiss: noop,
-                content: <RecipientWarnDialog onConfirm={() => gotoSend({ address: address, networkId: goodWallet.networkId })} />,
+                content: (
+                  <RecipientWarnDialog
+                    onConfirm={() => gotoSend({ address: address, networkId: goodWallet.networkId })}
+                  />
+                ),
               })
             }
           } else {

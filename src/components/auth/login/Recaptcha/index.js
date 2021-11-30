@@ -9,7 +9,7 @@ const log = logger.child({ from: 'init' })
 
 const { recaptchaSiteKey, publicUrl } = Config
 
-const Recaptcha = React.forwardRef(({ onSuccess = noop, onLoad = noop, onFailure = noop, children }, ref) => {
+const Recaptcha = React.forwardRef(({ onSuccess = noop, onFailure = noop, children }, ref) => {
   const captchaRef = useRef()
   const [isPassed, setIsPassed] = useState(false)
 
@@ -53,14 +53,7 @@ const Recaptcha = React.forwardRef(({ onSuccess = noop, onLoad = noop, onFailure
   )
 
   return (
-    <Captcha
-      ref={captchaRef}
-      onLoad={onLoad}
-      siteKey={recaptchaSiteKey}
-      baseUrl={publicUrl}
-      onError={onFailure}
-      onVerify={onVerify}
-    >
+    <Captcha ref={captchaRef} siteKey={recaptchaSiteKey} baseUrl={publicUrl} onError={onFailure} onVerify={onVerify}>
       {children}
     </Captcha>
   )

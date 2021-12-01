@@ -175,6 +175,14 @@ PODS:
   - nanopb/decode (2.30908.0)
   - nanopb/encode (2.30908.0)
   - OpenSSL-Universal (1.1.180)
+  - Permission-Camera (3.1.0):
+    - RNPermissions
+  - Permission-Contacts (3.1.0):
+    - RNPermissions
+  - Permission-LocationWhenInUse (3.1.0):
+    - RNPermissions
+  - Permission-PhotoLibrary (3.1.0):
+    - RNPermissions
   - PromiseKit (6.8.5):
     - PromiseKit/CorePromise (= 6.8.5)
     - PromiseKit/Foundation (= 6.8.5)
@@ -516,7 +524,7 @@ PODS:
     - TOCropViewController
   - RNOS (1.2.6):
     - React
-  - RNPermissions (2.2.2):
+  - RNPermissions (3.1.0):
     - React-Core
   - RNReanimated (1.13.3):
     - React-Core
@@ -595,6 +603,10 @@ DEPENDENCIES:
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
   - lottie-ios (from `../node_modules/lottie-ios`)
   - lottie-react-native (from `../node_modules/lottie-react-native`)
+  - Permission-Camera (from `../node_modules/react-native-permissions/ios/Camera`)
+  - Permission-Contacts (from `../node_modules/react-native-permissions/ios/Contacts`)
+  - Permission-LocationWhenInUse (from `../node_modules/react-native-permissions/ios/LocationWhenInUse`)
+  - Permission-PhotoLibrary (from `../node_modules/react-native-permissions/ios/PhotoLibrary`)
   - RCT-Folly (from `../node_modules/react-native/third-party-podspecs/RCT-Folly.podspec`)
   - RCTRequired (from `../node_modules/react-native/Libraries/RCTRequired`)
   - RCTRestart (from `../node_modules/react-native-restart/ios`)
@@ -718,6 +730,14 @@ EXTERNAL SOURCES:
     :path: "../node_modules/lottie-ios"
   lottie-react-native:
     :path: "../node_modules/lottie-react-native"
+  Permission-Camera:
+    :path: "../node_modules/react-native-permissions/ios/Camera"
+  Permission-Contacts:
+    :path: "../node_modules/react-native-permissions/ios/Contacts"
+  Permission-LocationWhenInUse:
+    :path: "../node_modules/react-native-permissions/ios/LocationWhenInUse"
+  Permission-PhotoLibrary:
+    :path: "../node_modules/react-native-permissions/ios/PhotoLibrary"
   RCT-Folly:
     :podspec: "../node_modules/react-native/third-party-podspecs/RCT-Folly.podspec"
   RCTRequired:
@@ -876,6 +896,10 @@ SPEC CHECKSUMS:
   lottie-react-native: b561920bba7ec727ec94a473b683cffba00faece
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
   OpenSSL-Universal: 1aa4f6a6ee7256b83db99ec1ccdaa80d10f9af9b
+  Permission-Camera: 0db4fd6e1c556c1cf47f38b989a8084cea3ec3dd
+  Permission-Contacts: c9c3306280576546619fc9ae7489012ed9fe091f
+  Permission-LocationWhenInUse: d98db702ec75e93a3ff94bc297d0b66ea04231e1
+  Permission-PhotoLibrary: 9dcf80d1353d81b9f1e210c34291591236aaf2b6
   PromiseKit: 9616b0afef31eae56ab9ce044c8ec2b8612a15cd
   PromisesObjC: 68159ce6952d93e17b2dfe273b8c40907db5ba58
   RCT-Folly: 0dd9e1eb86348ecab5ba76f910b56f4b5fef3c46
@@ -927,7 +951,7 @@ SPEC CHECKSUMS:
   RNGestureHandler: a479ebd5ed4221a810967000735517df0d2db211
   RNImageCropPicker: 73891a709e6fd8a47d32104d942757971f220aee
   RNOS: 6f2f9a70895bbbfbdad7196abd952e7b01d45027
-  RNPermissions: 5df468064df661a4c8c017e2791ce90d7695eea5
+  RNPermissions: 4b54095940aea8c03fa3e6c92d4ac3647b31ed4e
   RNReanimated: 514a11da3a2bcc6c3dfd9de32b38e2b9bf101926
   RNScreens: f7ad633b2e0190b77b6a7aab7f914fad6f198d8d
   RNSentry: 97bc62fa65b7d663daee16fbf9771470852217cf
@@ -948,6 +972,6 @@ SPEC CHECKSUMS:
   Yoga: aa0cb45287ebe1004c02a13f279c55a95f1572f4
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: 4c5fdac3de4e2b20b4eb4f4a735662a93f2c8b3d
+PODFILE CHECKSUM: 5e415bc517e25f8ecb01e464e4d39f61966da495
 
 COCOAPODS: 1.11.2

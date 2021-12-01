@@ -1074,7 +1074,7 @@ export class GoodWallet {
       const canCollect = await this.invitesContract.methods.canCollectBountyFor(bountyFor).call()
       if (canCollect) {
         const tx = this.invitesContract.methods.bountyFor(bountyFor)
-        const res = await this.sendTransaction(tx, {})
+        const res = await this.sendTransaction(tx, {}, { gas: await tx.estimateGas().catch(e => 600000) })
         return res
       }
     } catch (e) {
@@ -1292,7 +1292,7 @@ export class GoodWallet {
     { gas: setgas, gasPrice }: GasValues = { gas: undefined, gasPrice: undefined },
   ) {
     const { onTransactionHash, onReceipt, onConfirmation, onError } = { ...defaultPromiEvents, ...txCallbacks }
-    let gas = setgas || (await tx.estimateGas().catch(e => log.debug('estimate gas failed'))) || 200000
+    let gas = setgas || (await tx.estimateGas().catch(e => log.debug('estimate gas failed'))) || 300000
     gasPrice = gasPrice || this.gasPrice
     if (Config.network === 'develop' && setgas === undefined) {
       gas *= 2
@@ -1330,6 +1330,11 @@ export class GoodWallet {
         })
     })
     return res
+  }
+
+  async isKnownFuseAddress(address) {
+    const nonce = await this.wallet.eth.getTransactionCount(address)
+    return nonce > 0
   }
 }
 

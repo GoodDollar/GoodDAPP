@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import { Platform, View } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { BackButton } from '../../appNavigation/stackNavigation'
@@ -29,64 +29,58 @@ const SummaryGeneric = ({
   vendorInfo = undefined,
 }) => {
   const { push } = screenProps
+
   const [, setSurvey] = useState(undefined)
   const [loading, setLoading] = useState(false)
+
+  const { fullName, email: emailAddress } = useProfile()
+  const [name, setName] = useState(fullName)
+  const [email, setEmail] = useState(emailAddress)
+
+  const isSend = useMemo(() => action === 'send')
+
   const iconWrapperMargin = useMemo(() => {
     return isMobile ? styles.marginForNoCredsMobile : styles.marginForNoCreds
   }, [styles])
-  const isSend = action === 'send'
-  const _onPress = async e => {
+
+  const [emailError, nameError] = useMemo(() => {
+    let emailError = ''
+    let nameError = ''
+
+    if (vendorInfo) {
+      if (email && !isEmail(email)) {
+        emailError = 'Please enter a valid email address'
+      }
+
+      if (fullName && !name) {
+        nameError = 'Please enter a name'
+      }
+    }
+
+    return [emailError, nameError]
+  }, [email, name, fullName, vendorInfo])
+
+  const _onPress = useCallback(async () => {
+    const vendorFields = vendorInfo ? { name, email } : {}
+
     setLoading(true)
+
     try {
-      await onConfirm(e)
+      await onConfirm(vendorFields)
     } finally {
       setLoading(false)
     }
-  }
-
-  const profile = useProfile()
-
-  const [name, setName] = useState(profile.fullName)
-  const [email, setEmail] = useState(profile.email)
-  const [emailError, setEmailError] = useState()
-  const [nameError, setNameError] = useState()
-
-  useEffect(() => {
-    if (!profile) {
-      return
-    }
-    if (!name) {
-      setName(profile.fullName)
-    }
-    if (!email) {
-      setEmail(profile.email)
-    }
-  }, [profile])
-
-  useEffect(() => {
-    if (email) {
-      if (isEmail(email) === false) {
-        setEmailError('Please enter a valid email address')
-      } else {
-        setEmailError('')
-      }
-    }
-    if (profile.fullName && !name) {
-      setNameError('Please enter a name')
-    } else {
-      setNameError('')
-    }
-  }, [email, name, profile])
+  }, [name, email, vendorInfo])
 
   // Custom verifier to ensure that we have all needed info
-  const formHasErrors = () => {
+  const formHasErrors = useCallback(() => {
     // If we aren't sending, then there isn't anything that we will need to verify
-    if (isSend && !!vendorInfo) {
-      return !name || name.trim() === '' || !email || email.trim() === ''
+    if (!vendorInfo || !isSend) {
+      return false
     }
 
-    return false
-  }
+    return !name || name.trim() === '' || !email || email.trim() === ''
+  }, [name, email, vendorInfo])
 
   const vendorInfoText = !!vendorInfo && (
     <Section.Stack style={{ alignItems: 'center' }}>

@@ -25,7 +25,7 @@ export default (screenProps, cacheKey) => {
     })
 
     return dispose
-  }, [])
+  }, [screenProps])
 
   return screenState
 }

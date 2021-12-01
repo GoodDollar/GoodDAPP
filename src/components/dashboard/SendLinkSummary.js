@@ -1,6 +1,6 @@
 // @flow
 
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { get } from 'lodash'
 import { text } from 'react-native-communications'
 import { fireEvent } from '../../lib/analytics/analytics'
@@ -13,9 +13,9 @@ import goodWallet from '../../lib/wallet/GoodWallet'
 import { retry } from '../../lib/utils/async'
 import API from '../../lib/API/api'
 
-import { useScreenState } from '../appNavigation/stackNavigation'
 import { generateSendShareObject, generateSendShareText } from '../../lib/share'
 import useProfile from '../../lib/userStorage/useProfile'
+import { useScreenState } from '../appNavigation/stackNavigation'
 import { ACTION_SEND, ACTION_SEND_TO_ADDRESS, SEND_TITLE } from './utils/sendReceiveFlow'
 import SummaryGeneric from './SendReceive/SummaryGeneric'
 
@@ -41,6 +41,8 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
 
   const { goToRoot, navigateTo } = screenProps
   const { fullName } = useProfile()
+  const vendorFieldsRef = useRef({})
+
   const {
     amount,
     reason = null,
@@ -75,6 +77,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
       const generatePaymentLinkResponse = goodWallet.generatePaymentLink(amount, reason, category, inviteCode, {
         onTransactionHash: hash => {
           txHash = hash
+          const { current: vendorFields } = vendorFieldsRef
 
           // Save transaction
           const transactionEvent: TransactionEvent = {
@@ -85,6 +88,8 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
             status: 'pending',
             data: {
               counterPartyDisplayName,
+              senderEmail: vendorFields.email,
+              senderName: vendorFields.name,
               reason,
               category,
               amount,
@@ -150,16 +155,21 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
     async to => {
       try {
         let txhash
+
         await goodWallet.sendAmountWithData(to, amount, get(vendorInfo, 'data', get(vendorInfo, 'invoiceId')), {
           onTransactionHash: hash => {
             log.debug('Send G$ to address', { hash })
             txhash = hash
 
+            const { current: vendorFields } = vendorFieldsRef
+
             // integrate with vendors callback, notifying payment has been made
             retry(() =>
-              API.notifyVendor(txhash, vendorInfo).catch(e =>
-                log.error('failed notifying vendor callback', { vendorInfo }),
-              ),
+              API.notifyVendor(txhash, {
+                ...vendorInfo,
+                senderEmail: vendorFields.email,
+                senderName: vendorFields.name,
+              }).catch(e => log.error('failed notifying vendor callback', { vendorInfo })),
             )
 
             // Save transaction
@@ -173,6 +183,11 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
                 reason,
                 category,
                 amount,
+                senderEmail: vendorFields.email,
+                senderName: vendorFields.email,
+                invoiceId: vendorInfo?.invoiceId,
+                sellerWebsite: vendorInfo?.website,
+                sellerName: vendorInfo?.vendorName,
               },
             }
 
@@ -243,7 +258,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
       if (walletAddress) {
         sendViaAddress(walletAddress)
       } else {
-        const link = paymentLink ? paymentLink : getLink('contactsms')
+        const link = paymentLink || getLink('contactsms')
         const shareLink = generateSendShareText(link, amount, counterPartyDisplayName, fullName)
 
         text(contact.phoneNumber, shareLink)
@@ -265,13 +280,20 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
     setShared,
   ])
 
-  const handleConfirm = useCallback(async () => {
-    if (action === ACTION_SEND_TO_ADDRESS) {
-      await sendViaAddress(address)
-    } else {
-      handlePayment()
-    }
-  }, [action, handlePayment, sendViaAddress, address])
+  const handleConfirm = useCallback(
+    async vendorFields => {
+      // store fields received from the summary compomnent to the ref
+      // for access them immediately from the nested handlers
+      vendorFieldsRef.current = vendorFields || {}
+
+      if (action === ACTION_SEND_TO_ADDRESS) {
+        await sendViaAddress(address)
+      } else {
+        handlePayment()
+      }
+    },
+    [action, handlePayment, sendViaAddress, address],
+  )
 
   return (
     <SummaryGeneric

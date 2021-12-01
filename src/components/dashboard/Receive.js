@@ -32,8 +32,9 @@ const Receive = ({ screenProps, styles }: ReceiveProps) => {
   const share = useMemo(() => {
     const { account, networkId } = goodWallet
     const code = generateCode(account, networkId, amount, reason)
+    const shareObject = generateReceiveShareObject(code, amount, '', fullName)
 
-    return generateReceiveShareObject(code, amount, '', fullName)
+    return shareObject
   }, [fullName])
 
   const shareLink = useMemo(() => {

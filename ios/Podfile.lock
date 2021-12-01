@@ -401,7 +401,7 @@ PODS:
     - React-Core
   - react-native-contacts (5.2.8):
     - React-Core
-  - react-native-facetec (1.0.12):
+  - react-native-facetec (1.0.13):
     - React
   - react-native-get-random-values (1.7.0):
     - React-Core
@@ -895,7 +895,7 @@ SPEC CHECKSUMS:
   react-native-camera: b8cc03e2feec0c04403d0998e37cf519d8fd4c6f
   react-native-config: 72d948053a442779b3178fddd571e37f118ef606
   react-native-contacts: 7b5e16196278636030c3fbbb9505543984b01697
-  react-native-facetec: 9f5aba3c0906cad7f325e5f99e8700b4cf939c68
+  react-native-facetec: 0c3155c0cae277c0e7ee0f6a6f285e8ca980e39d
   react-native-get-random-values: 237bffb1c7e05fb142092681531810a29ba53015
   react-native-image-resizer: d9fb629a867335bdc13230ac2a58702bb8c8828f
   react-native-netinfo: 92e6e4476eb8bf6fc2d7c0a6ca0a1406f663d73a

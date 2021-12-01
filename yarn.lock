@@ -2259,10 +2259,10 @@
     emailjs "^2.2.0"
     text-encoding "^0.7.0"
 
-"@gooddollar/react-native-facetec@^1.0.12":
-  version "1.0.12"
-  resolved "https://registry.yarnpkg.com/@gooddollar/react-native-facetec/-/react-native-facetec-1.0.12.tgz#f81034912c9c76b7bbfca29fcc6708bb520eb5db"
-  integrity sha512-pINWkseMyWROd5xGQoLuhunZtF7ftNRUP+9RiC+U4M4yRDMEbJiU07BYjDZ4EF4TStq+O0lalGReheao4up3/A==
+"@gooddollar/react-native-facetec@^1.0.13":
+  version "1.0.13"
+  resolved "https://registry.yarnpkg.com/@gooddollar/react-native-facetec/-/react-native-facetec-1.0.13.tgz#7b1db1ed00cbf69adcf620739f17d7f7443ad452"
+  integrity sha512-bI0xhGn5BKdrKywveFNE3pLCd4594N4sHGs+3GMm0Bx0VaVb8dMHHBI4TXXRRKswBimdVmreWS1Kqlw3+igcyw==
 
 "@gooddollar/react-native-side-menu@^2.0.2":
   version "2.0.2"

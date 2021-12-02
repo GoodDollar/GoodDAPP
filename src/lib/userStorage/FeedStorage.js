@@ -90,11 +90,11 @@ export const getEventDirection = (feedEvent, reverse = false) => {
   log.debug('getCounterParty:', feedEvent.data.receiptEvent, feedEvent.id, feedEvent.txType)
 
   if (receiveCases.includes(type)) {
-    return reverse ? 'to: ' : 'from: '
+    return reverse ? 'To: ' : 'From: '
   }
 
   if (sendCases.includes(type)) {
-    return reverse ? 'from: ' : 'to: '
+    return reverse ? 'From: ' : 'To: '
   }
   return ''
 }

@@ -53,7 +53,22 @@ const ProfileAvatar = withStyles(() => ({
   return <Avatar source={avatar} style={[styles.avatar, style]} imageStyle={style} unknownStyle={style} plain />
 })
 
-const ProfilePrivacy = props => {
+const PrivacyOption = ({ title, value, field, setPrivacy }) => {
+  const handlePrivacyChange = useCallback(
+    value => {
+      setPrivacy(privacy => ({ ...privacy, [field]: value }))
+    },
+    [setPrivacy, field],
+  )
+
+  return (
+    <RadioButton.Group onValueChange={handlePrivacyChange} value={value}>
+      <OptionsRow title={title} />
+    </RadioButton.Group>
+  )
+}
+
+const ProfilePrivacy = ({ screenProps, styles, theme }) => {
   const [initialPrivacy, setInitialPrivacy] = useState(() => {
     const profile = userStorage.getProfile()
 
@@ -62,7 +77,6 @@ const ProfilePrivacy = props => {
 
   const [privacy, setPrivacy] = useState(initialPrivacy)
   const [loading, setLoading] = useState(false)
-  const { screenProps, styles, theme } = props
   const [showDialog] = useDialog()
 
   // bordered box required data
@@ -136,15 +150,13 @@ const ProfilePrivacy = props => {
           <Section.Stack justifyContent="flex-start" style={styles.optionsRowContainer}>
             <OptionsRow />
             {profileFields.map(field => (
-              <RadioButton.Group
-                onValueChange={value => {
-                  setPrivacy({ ...privacy, [field]: value })
-                }}
-                value={privacy[field]}
+              <PrivacyOption
                 key={field}
-              >
-                <OptionsRow title={titles[field]} />
-              </RadioButton.Group>
+                field={field}
+                title={titles[field]}
+                value={privacy[field]}
+                setPrivacy={setPrivacy}
+              />
             ))}
           </Section.Stack>
           <Section grow justifyContent="center">

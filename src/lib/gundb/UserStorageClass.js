@@ -25,6 +25,7 @@ import AsyncStorage from '../utils/asyncStorage'
 import IPFS from '../ipfs/IpfsStorage'
 import { getUserModel, type UserModel } from '../userStorage/UserModel'
 import { type StandardFeed } from '../userStorage/StandardFeed'
+import { maskField } from '../userStorage/utlis'
 import defaultGun from './gundb'
 import UserProperties from './UserPropertiesClass'
 import { FeedEvent, FeedItemType, FeedStorage, TxStatus } from './FeedStorage'
@@ -295,24 +296,6 @@ export class UserStorage {
       return sha3(value.replace(/[_-\s]+/g, ''))
     }
     return sha3(`${value}`.toLowerCase())
-  }
-
-  /**
-   * Returns phone with last 4 numbers, and before that ***,
-   * and hide email user characters leaving visible only first and last character
-   * @param {string} fieldType - (Email, mobile or phone) Field name
-   * @param {string} value - Field value
-   * @returns {string} - Returns masked value with *** to hide characters
-   */
-  static maskField = (fieldType: 'email' | 'mobile' | 'phone', value: string): string => {
-    if (fieldType === 'email') {
-      let parts = value.split('@')
-      return `${parts[0][0]}${'*'.repeat(parts[0].length - 2)}${parts[0][parts[0].length - 1]}@${parts[1]}`
-    }
-    if (['mobile', 'phone'].includes(fieldType)) {
-      return `${'*'.repeat(value.length - 4)}${value.slice(-4)}`
-    }
-    return value
   }
 
   /**
@@ -1067,7 +1050,7 @@ export class UserStorage {
         display = '******'
         break
       case 'masked':
-        display = UserStorage.maskField(field, value)
+        display = maskField(field, value)
 
         //undo invalid masked field
         if (display === value) {

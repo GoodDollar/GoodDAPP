@@ -220,28 +220,6 @@ sent to your phone
                       />
                     </div>
                   </div>
-                  <div
-                    className="css-text-901oao r-paddingHorizontal-1e081e0 r-textAlign-q4m81j"
-                    dir="auto"
-                    style={
-                      Object {
-                        "WebkitTransform": "translateY(0px)",
-                        "color": "rgba(250,108,119,1.00)",
-                        "direction": "ltr",
-                        "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                        "fontSize": "12px",
-                        "fontWeight": "400",
-                        "height": "18px",
-                        "opacity": 0,
-                        "paddingBottom": "0px",
-                        "paddingLeft": "0px",
-                        "paddingTop": "0px",
-                        "transform": "translateY(0px)",
-                      }
-                    }
-                  >
-                    
-                  </div>
                 </div>
               </div>
               <div

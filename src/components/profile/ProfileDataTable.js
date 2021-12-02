@@ -28,8 +28,12 @@ const ProfileDataTable = ({
   setLockSubmit = noop,
   showCustomFlag,
 }) => {
-  const phoneMeta = showCustomFlag && profile.mobile && parsePhoneNumberFromString(profile?.mobile)
-  const countryFlagUrl = useCountryFlagUrl(phoneMeta?.country)
+  const { mobile } = profile || {}
+  const phoneMeta = useMemo(() => (showCustomFlag && mobile ? parsePhoneNumberFromString(mobile) : null), [
+    showCustomFlag,
+    mobile,
+  ])
+  const countryFlagUrl = useCountryFlagUrl(phoneMeta ? phoneMeta.country : undefined)
 
   const verifyEdit = useCallback(
     (field, content) => {
@@ -47,14 +51,15 @@ const ProfileDataTable = ({
   const verifyPhone = useCallback(async () => {
     if (!storedProfile.mobile) {
       const onlyCheckAlreadyVerified = true
-      const res = await API.sendOTP({ mobile: profile.mobile }, onlyCheckAlreadyVerified)
+      const res = await API.sendOTP({ mobile }, onlyCheckAlreadyVerified)
+
       if (!get(res, 'data.alreadyVerified', false)) {
-        verifyEdit('phone', profile.mobile)
+        verifyEdit('phone', mobile)
       }
-    } else if (profile.mobile !== storedProfile.mobile) {
-      verifyEdit('phone', profile.mobile)
+    } else if (mobile !== storedProfile.mobile) {
+      verifyEdit('phone', mobile)
     }
-  }, [verifyEdit, profile.mobile, storedProfile.mobile])
+  }, [verifyEdit, mobile, storedProfile.mobile])
 
   // username handlers
   const onUserNameChange = useCallback(username => onChange(profile.update({ username })), [onChange, profile])
@@ -68,7 +73,7 @@ const ProfileDataTable = ({
 
     setLockSubmit(!isValid)
 
-    if (isValid && profile.mobile) {
+    if (isValid && mobile) {
       verifyPhone()
     }
   }, [setLockSubmit, verifyPhone, errors, onChange, profile])
@@ -106,13 +111,13 @@ const ProfileDataTable = ({
             <Section.Stack grow>
               <Section.Row>
                 <PhoneInput
-                  error={errors.mobile && errors.mobile !== ''}
+                  error={!!errors.mobile}
                   id="signup_phone"
                   onFocus={onPhoneInputFocus}
                   onChange={onPhoneInputChange}
                   onBlur={onPhoneInputBlur}
                   placeholder="Enter phone number"
-                  value={profile.mobile}
+                  value={mobile}
                   style={phoneInputStyles}
                   textStyle={{ color: errors.mobile && theme.colors.red }}
                 />
@@ -125,11 +130,11 @@ const ProfileDataTable = ({
                   />
                 </Section.Row>
               </Section.Row>
-              {!!errors.mobile && <ErrorText error={errors.mobile} style={styles.errorMargin} />}
+              <ErrorText error={errors.mobile} style={styles.errorMargin} />
             </Section.Stack>
           ) : (
             <Fragment>
-              {phoneMeta && showCustomFlag && countryFlagUrl && (
+              {!phoneMeta || !showCustomFlag || !countryFlagUrl ? null : (
                 <Image source={{ uri: countryFlagUrl }} style={styles.flag} />
               )}
               <InputRounded
@@ -140,7 +145,7 @@ const ProfileDataTable = ({
                 iconColor={theme.colors.primary}
                 iconSize={28}
                 placeholder="Add your Mobile"
-                value={profile.mobile}
+                value={mobile}
               />
             </Fragment>
           )}

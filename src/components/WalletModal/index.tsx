@@ -331,10 +331,20 @@ export default function WalletModal({
                             <>
                                 <h5 className="text-center">{i18n._(t`Please connect to the appropriate network.`)}</h5>
                                 <div className="flex flex-row align-center justify-around mt-5 pt-2">
-                                    <ButtonAction size="sm" width="40%" onClick={handleEthereumNetworkSwitch}>
+                                    <ButtonAction
+                                        size="sm"
+                                        width="40%"
+                                        onClick={handleEthereumNetworkSwitch}
+                                        borderRadius="6px"
+                                    >
                                         {i18n._(t`ETHEREUM`)}
                                     </ButtonAction>
-                                    <ButtonAction size="sm" width="40%" onClick={handleFuseNetworkSwitch}>
+                                    <ButtonAction
+                                        size="sm"
+                                        width="40%"
+                                        onClick={handleFuseNetworkSwitch}
+                                        borderRadius="6px"
+                                    >
                                         {i18n._(t`FUSE`)}
                                     </ButtonAction>
                                 </div>

@@ -3,7 +3,6 @@ import { UnsupportedChainIdError, useWeb3React } from '@web3-react/core'
 import { WalletConnectConnector } from '@web3-react/walletconnect-connector'
 import React, { useEffect, useState } from 'react'
 import { isMobile } from 'react-device-detect'
-
 import styled from 'styled-components'
 import MetamaskIcon from '../../assets/images/metamask.png'
 import { ReactComponent as Close } from '../../assets/images/x.svg'
@@ -11,7 +10,7 @@ import { injected } from '../../connectors'
 import { SUPPORTED_WALLETS } from '../../constants'
 import usePrevious from '../../hooks/usePrevious'
 import { ApplicationModal } from '../../state/application/types'
-import { useModalOpen, useWalletModalToggle } from '../../state/application/hooks'
+import { useModalOpen, useNetworkModalToggle, useWalletModalToggle } from '../../state/application/hooks'
 import AccountDetails from '../AccountDetails'
 import Modal from '../Modal'
 import Option from './Option'
@@ -19,6 +18,9 @@ import PendingView from './PendingView'
 import Title from '../gd/Title'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
+import { ButtonAction } from 'components/gd/Button'
+import NetworkModal from 'components/NetworkModal'
+import { ChainId } from '@sushiswap/sdk'
 
 const CloseIcon = styled.div`
     position: absolute;
@@ -134,9 +136,13 @@ export default function WalletModal({
 
     const walletModalOpen = useModalOpen(ApplicationModal.WALLET)
 
+    const toggleNetworkModal = useNetworkModalToggle()
+
     const toggleWalletModal = useWalletModalToggle()
 
     const previousAccount = usePrevious(account)
+
+    const { ethereum } = window
 
     // close on connection, when logged out before
     useEffect(() => {
@@ -274,6 +280,40 @@ export default function WalletModal({
         })
     }
 
+    const handleEthereumNetworkSwitch = () => {
+        const networkType = process.env.NETWORK || 'staging'
+        if (networkType === 'staging') {
+            toggleNetworkModal()
+        } else if (networkType === 'production') {
+            ;(ethereum as any).request({
+                method: 'wallet_switchEthereumChain',
+                params: [{ chainId: `0x${ChainId.MAINNET.toString(16)}` }]
+            })
+            toggleWalletModal()
+        }
+    }
+
+    const handleFuseNetworkSwitch = () => {
+        ;(ethereum as any).request({
+            method: 'wallet_addEthereumChain',
+            params: [
+                {
+                    chainId: '0x7a',
+                    chainName: 'Fuse',
+                    nativeCurrency: {
+                        name: 'FUSE Token',
+                        symbol: 'FUSE',
+                        decimals: 18
+                    },
+                    rpcUrls: ['https://rpc.fuse.io'],
+                    blockExplorerUrls: ['https://explorer.fuse.io']
+                },
+                account
+            ]
+        })
+        toggleWalletModal()
+    }
+
     function getModalContent() {
         if (error) {
             return (
@@ -281,14 +321,24 @@ export default function WalletModal({
                     <CloseIcon onClick={toggleWalletModal}>
                         <CloseColor />
                     </CloseIcon>
-                    <HeaderRow>
+                    <HeaderRow className="justify-center">
                         {error instanceof UnsupportedChainIdError
                             ? i18n._(t`Wrong Network`)
                             : i18n._(t`Error connecting`)}
                     </HeaderRow>
                     <ContentWrapper>
                         {error instanceof UnsupportedChainIdError ? (
-                            <h5>{i18n._(t`Please connect to the appropriate Ethereum network.`)}</h5>
+                            <>
+                                <h5 className="text-center">{i18n._(t`Please connect to the appropriate network.`)}</h5>
+                                <div className="flex flex-row align-center justify-around mt-5 pt-2">
+                                    <ButtonAction size="sm" width="40%" onClick={handleEthereumNetworkSwitch}>
+                                        {i18n._(t`ETHEREUM`)}
+                                    </ButtonAction>
+                                    <ButtonAction size="sm" width="40%" onClick={handleFuseNetworkSwitch}>
+                                        {i18n._(t`FUSE`)}
+                                    </ButtonAction>
+                                </div>
+                            </>
                         ) : (
                             i18n._(t`Error connecting. Try refreshing the page.`)
                         )}
@@ -336,8 +386,11 @@ export default function WalletModal({
     }
 
     return (
-        <Modal isOpen={walletModalOpen} onDismiss={toggleWalletModal} minHeight={false} maxHeight={90}>
-            <Wrapper>{getModalContent()}</Wrapper>
-        </Modal>
+        <>
+            <Modal isOpen={walletModalOpen} onDismiss={toggleWalletModal} minHeight={false} maxHeight={90}>
+                <Wrapper>{getModalContent()}</Wrapper>
+            </Modal>
+            <NetworkModal />
+        </>
     )
 }

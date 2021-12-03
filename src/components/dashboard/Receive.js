@@ -49,7 +49,7 @@ const Receive = ({ screenProps, styles }: ReceiveProps) => {
   return (
     <Wrapper>
       <TopBar hideBalance={false} push={screenProps.push}>
-        <View />
+        <View style={{ height: 44 }} />
       </TopBar>
       <Section grow>
         {isBrowser && <View style={styles.emptySpace} />}

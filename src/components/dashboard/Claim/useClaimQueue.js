@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { View } from 'react-native'
 import { get } from 'lodash'
 import Text from '../../common/view/Text'
@@ -13,6 +13,7 @@ import { showQueueDialog } from '../../common/dialogs/showQueueDialog'
 import Config from '../../../config/config'
 import logger from '../../../lib/logger/js-logger'
 import claimQueueIllustration from '../../../assets/Claim/claimQueue.svg'
+import { GlobalTogglesContext } from '../../../lib/contexts/togglesContext'
 
 const log = logger.child({ from: 'useClaimQueue' })
 const isQueueDisabled = !Config.claimQueue
@@ -38,6 +39,7 @@ export default () => {
   const [queueStatus, setQueueStatus] = useState(userProperties.get('claimQueueAdded'))
   const [showLoading, hideLoading] = useLoadingIndicator()
   const [, hideDialog, showErrorDialog] = useDialog()
+  const { setDialogBlur } = useContext(GlobalTogglesContext)
 
   const checkQueueStatus = useCallback(
     async (addToQueue = false) => {
@@ -92,18 +94,18 @@ export default () => {
       }
 
       const { status } = currentQueueStatus || {}
+      const isPending = status === 'pending'
 
       // this will only trigger the first time, since in subsequent loads claim button is disabled
-      if (status === 'pending') {
-        showQueueDialog(ClaimQueuePopupText, {
+      if (isPending) {
+        showQueueDialog(ClaimQueuePopupText, setDialogBlur, {
           buttonText: 'OK, I’ll WAIT',
           imageSource: claimQueueIllustration,
           imageProps: { width: '100%', height: '100%', viewBox: '0 0 177 119' },
         })
-        return false
       }
 
-      return true
+      return !isPending
     } catch (e) {
       log.error('handleClaimQueue failed', e.message, e, { dialogShown: true })
       showSupportDialog(showErrorDialog, hideDialog, null, 'We could not get the Claim queue status. Please try again')
@@ -111,7 +113,7 @@ export default () => {
     } finally {
       hideLoading()
     }
-  }, [queueStatus, showLoading, hideLoading, checkQueueStatus, showErrorDialog, hideDialog])
+  }, [queueStatus, showLoading, hideLoading, checkQueueStatus, showErrorDialog, hideDialog, setDialogBlur])
 
   useEffect(() => {
     const initializeQueue = async () => {

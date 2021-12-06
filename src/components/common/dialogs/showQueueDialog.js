@@ -47,6 +47,7 @@ const styles = () => ({
 
 export const showQueueDialog = (
   ContentComponent,
+  setDialogBlur,
   { imageSource, imageHeight, imageProps = {}, buttonText, ...dialogOptions } = {},
 ) => {
   const imageStyle = {
@@ -61,7 +62,7 @@ export const showQueueDialog = (
   const StylesWrappedContent = withStyles(styles)(ContentComponent)
   const Image = imageSource
 
-  showDialogWithData(store.getCurrentSnapshot(), {
+  showDialogWithData(store.getCurrentSnapshot(), setDialogBlur, {
     type: 'queue',
     isMinHeight: true,
     image: (

@@ -1,7 +1,7 @@
 import { AbstractConnector } from '@web3-react/abstract-connector'
 import { UnsupportedChainIdError, useWeb3React } from '@web3-react/core'
 import { WalletConnectConnector } from '@web3-react/walletconnect-connector'
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { isMobile } from 'react-device-detect'
 import styled from 'styled-components'
 import MetamaskIcon from '../../assets/images/metamask.png'
@@ -280,7 +280,7 @@ export default function WalletModal({
         })
     }
 
-    const handleEthereumNetworkSwitch = () => {
+    const handleEthereumNetworkSwitch = useCallback(() => {
         const networkType = process.env.NETWORK || 'staging'
         if (networkType === 'staging') {
             toggleNetworkModal()
@@ -291,9 +291,9 @@ export default function WalletModal({
             })
             toggleWalletModal()
         }
-    }
+    }, [ethereum, toggleNetworkModal, toggleWalletModal])
 
-    const handleFuseNetworkSwitch = () => {
+    const handleFuseNetworkSwitch = useCallback(() => {
         ;(ethereum as any).request({
             method: 'wallet_addEthereumChain',
             params: [
@@ -312,7 +312,7 @@ export default function WalletModal({
             ]
         })
         toggleWalletModal()
-    }
+    }, [account, ethereum, toggleWalletModal])
 
     function getModalContent() {
         if (error) {

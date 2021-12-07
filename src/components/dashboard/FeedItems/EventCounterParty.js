@@ -12,13 +12,7 @@ const getStylesFromProps = () => ({
 
 const EventContent = withStyles(getStylesFromProps)(
   ({ style, styles, textStyle, direction, description, hasSubtitle }) => (
-    <Text
-      textTransform="capitalize"
-      textAlign="left"
-      style={[{ height: '100%', flex: 1 }, style]}
-      numberOfLines={2}
-      ellipsizeMode="tail"
-    >
+    <Text textTransform="capitalize" textAlign="left" style={style} numberOfLines={2} ellipsizeMode="tail">
       {direction && (
         <Text fontSize={10} lineHeight={(textStyle && textStyle.lineHeight) || 16} style={styles.direction}>
           {direction}

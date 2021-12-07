@@ -78,7 +78,7 @@ export const calculateFontFamily = memoize(
       const fontWeightSuffix = isNaN(fontWeight) ? fontWeight : invertedFontWeights[fontWeight]
       const calculatedWeight = fontWeightSuffix || defaultFontWeight
 
-      return `${calculatedFamily}-${capitalize(calculatedWeight)}`
+      return `${calculatedFamily.split('-')[0]}-${capitalize(calculatedWeight)}`
     }
 
     return calculatedFamily

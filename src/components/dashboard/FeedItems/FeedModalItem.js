@@ -110,14 +110,7 @@ const FeedModalItem = (props: FeedEventProps) => {
               {get(item, 'data.message', '')}
             </Text>
           </View>
-          <Text
-            fontSize={12}
-            color={theme.colors.gray50Percent}
-            textAlign="left"
-            lineHeight={20}
-            letterSpacing={0.14}
-            fontWeight="normal"
-          >
+          <Text fontSize={12} color={theme.colors.gray50Percent} textAlign="left" lineHeight={20} letterSpacing={0.14}>
             Invoice Number {item.data.invoiceId}
           </Text>
           {isNil(get(item, 'data.receiptHash')) && item.status === 'pending' && (

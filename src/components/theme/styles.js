@@ -1,7 +1,7 @@
 import { DefaultTheme } from 'react-native-paper'
 
 import normalize from '../../lib/utils/normalizeText'
-import { getPlatformFontFamily } from '../../lib/utils/fonts'
+import { calculateFontFamily } from '../../lib/utils/fonts'
 
 export const theme = {
   ...DefaultTheme,
@@ -37,8 +37,8 @@ export const theme = {
   },
   fonts: {
     ...DefaultTheme.fonts,
-    default: getPlatformFontFamily('Roboto'),
-    slab: getPlatformFontFamily('Roboto Slab'),
+    default: calculateFontFamily('Roboto'),
+    slab: calculateFontFamily('Roboto Slab'),
   },
   paddings: {
     defaultMargin: 8,

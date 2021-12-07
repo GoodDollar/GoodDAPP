@@ -30,7 +30,6 @@
 		670FC1ABA9C54C1CA52E7B43 /* Roboto-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 12CAFADFA277443C9001EECC /* Roboto-ThinItalic.ttf */; };
 		78960B2119AC38CB55693BC2 /* libPods-GoodDollar.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 296B6CCB7C3072EA05268D50 /* libPods-GoodDollar.a */; };
 		7FA30B95B63940169D389363 /* RobotoSlab-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B41A081D208C4F11B70E1831 /* RobotoSlab-Thin.ttf */; };
-		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		8663785C851A40F09EDAAE23 /* RobotoSlab-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D11EE70BD14046B099CB21C6 /* RobotoSlab-ExtraLight.ttf */; };
 		A1EA9A99772440ABA619D4F9 /* gooddollar.woff2 in Resources */ = {isa = PBXBuildFile; fileRef = 74AA1BFFCDA447CAB2F46C3E /* gooddollar.woff2 */; };
 		A899B8D7269344DE8AFCD236 /* Roboto-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D1086647BF104227BE66D1EA /* Roboto-Light.ttf */; };
@@ -40,6 +39,7 @@
 		C2ACDB3381BCA51D40FA25A6 /* libPods-GoodDollar-GoodDollarTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D8096F930D7FCDFECB901E5 /* libPods-GoodDollar-GoodDollarTests.a */; };
 		C726B909C5AF4C5483297A33 /* RobotoSlab-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B7288696CA664B4AB10353AE /* RobotoSlab-SemiBold.ttf */; };
 		D2008D73257E7D7200BFAF1F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D2008D72257E7D7200BFAF1F /* GoogleService-Info.plist */; };
+		D726BAB22759C0550092D71C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D726BAB12759C0550092D71C /* LaunchScreen.storyboard */; };
 		DB9407204D574FE784DEFFBA /* RobotoSlab-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BD2413EB372049FEA212B762 /* RobotoSlab-ExtraBold.ttf */; };
 		DE74C6CCC3544EC195014935 /* gooddollar.woff in Resources */ = {isa = PBXBuildFile; fileRef = 93E02E113E3842B8892E0408 /* gooddollar.woff */; };
 		DE9FDC4E259411170087F005 /* apple-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = DE9FDC4D259411170087F005 /* apple-icon.png */; };
@@ -103,7 +103,6 @@
 		77E20F18A1D644E28CD22FBA /* RobotoSlab-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "RobotoSlab-Regular.ttf"; path = "../src/assets/fonts/Roboto Slab/RobotoSlab-Regular.ttf"; sourceTree = "<group>"; };
 		7EAE46A7BAAA4CB2A16C5F44 /* gooddollar.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = gooddollar.ttf; path = ../src/assets/fonts/gooddollar.ttf; sourceTree = "<group>"; };
 		7F78B2BBC61470D0D508D8B3 /* Pods-GoodDollar-GoodDollarTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GoodDollar-GoodDollarTests.release.xcconfig"; path = "Target Support Files/Pods-GoodDollar-GoodDollarTests/Pods-GoodDollar-GoodDollarTests.release.xcconfig"; sourceTree = "<group>"; };
-		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = GoodDollar/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8454EB4B6A0B4856ADECF695 /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialCommunityIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf"; sourceTree = "<group>"; };
 		87C6E460098F4D6485C02C84 /* Roboto-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-Bold.ttf"; path = "../src/assets/fonts/Roboto/Roboto-Bold.ttf"; sourceTree = "<group>"; };
 		8C4D974938974960825B8430 /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = SimpleLineIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; };
@@ -123,6 +122,7 @@
 		D1086647BF104227BE66D1EA /* Roboto-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-Light.ttf"; path = "../src/assets/fonts/Roboto/Roboto-Light.ttf"; sourceTree = "<group>"; };
 		D11EE70BD14046B099CB21C6 /* RobotoSlab-ExtraLight.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "RobotoSlab-ExtraLight.ttf"; path = "../src/assets/fonts/Roboto Slab/RobotoSlab-ExtraLight.ttf"; sourceTree = "<group>"; };
 		D2008D72257E7D7200BFAF1F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		D726BAB12759C0550092D71C /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = GoodDollar/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D75540B53F2F4826BE39A26E /* Roboto-Italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-Italic.ttf"; path = "../src/assets/fonts/Roboto/Roboto-Italic.ttf"; sourceTree = "<group>"; };
 		DE9FDC4D259411170087F005 /* apple-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "apple-icon.png"; path = "GoodDollar/Images.xcassets/AppIcon.appiconset/apple-icon.png"; sourceTree = "<group>"; };
 		DE9FDC57259413920087F005 /* AppIcon.appiconset */ = {isa = PBXFileReference; lastKnownFileType = folder; name = AppIcon.appiconset; path = GoodDollar/Images.xcassets/AppIcon.appiconset; sourceTree = "<group>"; };
@@ -186,12 +186,12 @@
 		13B07FAE1A68108700A75B9A /* GoodDollar */ = {
 			isa = PBXGroup;
 			children = (
+				D726BAB12759C0550092D71C /* LaunchScreen.storyboard */,
 				5453E5EE240AAFEB00E3DC92 /* GoodDollar.entitlements */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
-				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
 				13B07FB71A68108700A75B9A /* main.m */,
 				5453E5E82409C38B00E3DC92 /* RNBackgroundFetch+AppDelegate.m */,
 				5453E5EA2409D8E600E3DC92 /* RNPushNotificationIOS+AppDelegate.m */,
@@ -421,7 +421,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				5453E5F1240AD05900E3DC92 /* GoodDollar.entitlements in Resources */,
-				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				E632CC6023FAE3450096DF79 /* RocketShip_0@2x.png in Resources */,
 				DE9FDC58259413920087F005 /* AppIcon.appiconset in Resources */,
@@ -439,6 +438,7 @@
 				EF61EC78C5A945409D510E28 /* Roboto-Italic.ttf in Resources */,
 				A899B8D7269344DE8AFCD236 /* Roboto-Light.ttf in Resources */,
 				E137265E33804FE593F76DD1 /* Roboto-LightItalic.ttf in Resources */,
+				D726BAB22759C0550092D71C /* LaunchScreen.storyboard in Resources */,
 				0613FF83B35F4C5C877B0A13 /* Roboto-Medium.ttf in Resources */,
 				63FFB60986B04D0FAFABEABA /* Roboto-MediumItalic.ttf in Resources */,
 				AD667D3DF1084153B388B849 /* Roboto-Regular.ttf in Resources */,
@@ -659,6 +659,7 @@
 			baseConfigurationReference = 3FF1FDA4A685A95C73F6AE54 /* Pods-GoodDollar-GoodDollarTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -686,6 +687,7 @@
 			baseConfigurationReference = 7F78B2BBC61470D0D508D8B3 /* Pods-GoodDollar-GoodDollarTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				COPY_PHASE_STRIP = NO;
 				INFOPLIST_FILE = GoodDollarTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;

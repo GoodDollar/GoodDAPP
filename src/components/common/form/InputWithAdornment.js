@@ -5,6 +5,7 @@ import { isMobileWeb as isMobile, isMobileSafari } from '../../../lib/utils/plat
 import normalize from '../../../lib/utils/normalizeText'
 import { useCurriedSetters } from '../../../lib/undux/SimpleStore'
 import { withStyles } from '../../../lib/styles'
+import { calculateFontFamily, calculateFontWeight } from '../../../lib/utils/fonts'
 import Icon from '../view/Icon'
 import Config from '../../../config/config'
 import useOnPress from '../../../lib/hooks/useOnPress'
@@ -97,28 +98,37 @@ const InputText = ({
   )
 }
 
-const getStylesFromProps = ({ theme }) => ({
-  input: {
-    ...theme.fontStyle,
-    backgroundColor: theme.colors.surface,
-    borderBottomColor: theme.colors.darkGray,
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    color: theme.colors.darkGray,
-    fontFamily: theme.fonts.slab,
-    paddingHorizontal: theme.sizes.defaultQuadruple,
-    paddingVertical: theme.sizes.defaultHalf,
-  },
-  view: {
-    width: '100%',
-    marginBottom: theme.sizes.default,
-  },
-  adornment: {
-    paddingTop: theme.paddings.mainContainerPadding,
-    position: 'absolute',
-    right: theme.sizes.default,
-    zIndex: 1,
-    bottom: 10,
-  },
-})
+const getStylesFromProps = ({ theme, fontFamily, fontWeight, style }) => {
+  const selectedFontFamily = fontFamily || theme.fonts.slab
+  const selectedFontWeight = StyleSheet.flatten(style)?.fontWeight || fontWeight
+
+  const calculatedFontWeight = isNaN(selectedFontWeight) ? calculateFontWeight(selectedFontWeight) : selectedFontWeight
+  const calculatedFontFamily = calculateFontFamily(selectedFontFamily, selectedFontWeight)
+
+  return {
+    input: {
+      ...theme.fontStyle,
+      fontWeight: calculatedFontWeight,
+      backgroundColor: theme.colors.surface,
+      borderBottomColor: theme.colors.darkGray,
+      borderBottomWidth: StyleSheet.hairlineWidth,
+      color: theme.colors.darkGray,
+      fontFamily: calculatedFontFamily,
+      paddingHorizontal: theme.sizes.defaultQuadruple,
+      paddingVertical: theme.sizes.defaultHalf,
+    },
+    view: {
+      width: '100%',
+      marginBottom: theme.sizes.default,
+    },
+    adornment: {
+      paddingTop: theme.paddings.mainContainerPadding,
+      position: 'absolute',
+      right: theme.sizes.default,
+      zIndex: 1,
+      bottom: 10,
+    },
+  }
+}
 
 export default withStyles(getStylesFromProps)(InputText)

@@ -341,7 +341,7 @@ class AppView extends Component<AppViewProps, AppViewState> {
           {disableScroll ? (
             <SceneView navigation={descriptor.navigation} component={Component} screenProps={screenProps} />
           ) : (
-            <ScrollView style={styles.scrollView} contentContainerStyle={styles.scrollableView}>
+            <ScrollView bounces={false} style={styles.scrollView} contentContainerStyle={styles.scrollableView}>
               <SceneView navigation={descriptor.navigation} component={Component} screenProps={screenProps} />
             </ScrollView>
           )}

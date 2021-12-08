@@ -110,7 +110,7 @@ export const inviteFriendsMessage = {
   data: {
     counterPartyFullName: `Invite friends and earn G$'s`,
     subtitle: 'Invite your friends now',
-    readMore: 'Get 100G$ for each friend who signs up\nand they get 50G$!',
+    readMore: 'Get inviterAmount$ for each friend who signs up\nand they get inviteeAmount2G$!',
     receiptEvent: {
       from: NULL_ADDRESS,
     },
@@ -527,8 +527,8 @@ export class UserStorage {
         inviteFriendsMessage.id = INVITE_NEW_ID
         const bounty = await this.wallet.getUserInviteBounty()
         inviteFriendsMessage.data.readMore = inviteFriendsMessage.data.readMore
-          .replace('100', bounty)
-          .replace('50', bounty / 2)
+          .replace('inviterAmount', bounty)
+          .replace('inviteeAmount', bounty / 2)
         setTimeout(() => this.enqueueTX(inviteFriendsMessage), 60000) // 2 minutes
       } else if (
         !secondInviteCard &&

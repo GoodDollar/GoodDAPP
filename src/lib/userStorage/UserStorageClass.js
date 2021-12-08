@@ -23,6 +23,7 @@ import { GD_GUN_CREDENTIALS } from '../constants/localStorage'
 import AsyncStorage from '../utils/asyncStorage'
 import defaultGun from '../gundb/gundb'
 import { ThreadDB } from '../textile/ThreadDB'
+import mustache from '../utils/mustache'
 import { type StandardFeed } from './StandardFeed'
 import { type UserModel } from './UserModel'
 import UserProperties from './UserProperties'
@@ -110,7 +111,7 @@ export const inviteFriendsMessage = {
   data: {
     counterPartyFullName: `Invite friends and earn G$'s`,
     subtitle: 'Invite your friends now',
-    readMore: 'Get inviterAmount$ for each friend who signs up\nand they get inviteeAmount2G$!',
+    readMore: 'Get {inviterAmount}G$ for each friend who signs up\nand they get {inviteeAmount}G$!',
     receiptEvent: {
       from: NULL_ADDRESS,
     },
@@ -524,20 +525,35 @@ export class UserStorage {
       const secondInviteCard = await this.feedStorage.hasFeedItem(INVITE_REMINDER_ID)
 
       if (!firstInviteCard) {
-        inviteFriendsMessage.id = INVITE_NEW_ID
         const bounty = await this.wallet.getUserInviteBounty()
-        inviteFriendsMessage.data.readMore = inviteFriendsMessage.data.readMore
-          .replace('inviterAmount', bounty)
-          .replace('inviteeAmount', bounty / 2)
-        setTimeout(() => this.enqueueTX(inviteFriendsMessage), 60000) // 2 minutes
+        const { data } = inviteFriendsMessage
+        const { readMore } = data
+
+        setTimeout(
+          () =>
+            this.enqueueTX({
+              ...inviteFriendsMessage,
+              id: INVITE_NEW_ID,
+              data: {
+                ...data,
+                readMore: mustache(readMore, {
+                  inviterAmount: bounty,
+                  inviteeAmount: bounty / 2,
+                }),
+              },
+            }),
+          60000,
+        ) // 2 minutes
       } else if (
         !secondInviteCard &&
         moment(firstInviteCard.date)
           .add(2, 'weeks')
           .isBefore(moment())
       ) {
-        inviteFriendsMessage.id = INVITE_REMINDER_ID
-        this.enqueueTX(inviteFriendsMessage)
+        this.enqueueTX({
+          ...inviteFriendsMessage,
+          id: INVITE_REMINDER_ID,
+        })
       }
     }
 

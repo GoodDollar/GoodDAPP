@@ -19,9 +19,9 @@ import VerifyEditCode from './VerifyEditCode'
 
 const avatarSize = getDesignRelativeWidth(136)
 
-const ProfileWrapper = props => {
+const ProfileWrapper = ({ screenProps, styles }) => {
   const profile = usePublicProfile()
-  const { screenProps, styles } = props
+  const { fullName } = profile
 
   const handleAvatarPress = useCallback(() => screenProps.push(`ViewAvatar`), [screenProps])
 
@@ -62,9 +62,11 @@ const ProfileWrapper = props => {
           imageSize={avatarSize - 6}
           unknownStyle={styles.userAvatar}
         />
-        <Text fontSize={22} fontFamily={theme.fonts.slab} lineHeight={29} style={styles.userName}>
-          {!!profile && profile.fullName}
-        </Text>
+        {fullName ? (
+          <Text fontSize={22} fontFamily={theme.fonts.slab} lineHeight={29} style={styles.userName}>
+            {fullName}
+          </Text>
+        ) : null}
       </View>
     </Wrapper>
   )

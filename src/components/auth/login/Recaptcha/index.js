@@ -3,7 +3,6 @@ import React, { useCallback, useImperativeHandle, useRef, useState } from 'react
 import Config from '../../../../config/config'
 import logger from '../../../../lib/logger/js-logger'
 import API from '../../../../lib/API/api'
-import usePromise from '../../../../lib/hooks/usePromise'
 import Captcha from './Recaptcha'
 
 const log = logger.child({ from: 'init' })
@@ -13,7 +12,6 @@ const { recaptchaSiteKey, publicUrl } = Config
 const Recaptcha = React.forwardRef(({ onSuccess = noop, onFailure = noop, children }, ref) => {
   const captchaRef = useRef()
   const [isPassed, setIsPassed] = useState(false)
-  const [whenLoaded, setLoaded] = usePromise()
 
   const onVerify = useCallback(
     async payload => {
@@ -43,27 +41,19 @@ const Recaptcha = React.forwardRef(({ onSuccess = noop, onFailure = noop, childr
     ref,
     () => ({
       hasPassedCheck: () => isPassed,
-      launchCheck: async () => {
+      launchCheck: () => {
         if (isPassed) {
           return
         }
 
-        await whenLoaded
         captchaRef.current.launch()
       },
     }),
-    [isPassed, whenLoaded],
+    [isPassed],
   )
 
   return (
-    <Captcha
-      ref={captchaRef}
-      siteKey={recaptchaSiteKey}
-      baseUrl={publicUrl}
-      onLoad={setLoaded}
-      onError={onFailure}
-      onVerify={onVerify}
-    >
+    <Captcha ref={captchaRef} siteKey={recaptchaSiteKey} baseUrl={publicUrl} onError={onFailure} onVerify={onVerify}>
       {children}
     </Captcha>
   )

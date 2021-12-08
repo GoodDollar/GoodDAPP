@@ -26,7 +26,7 @@ type BackupWalletProps = {
 
 const BackupWallet = ({ screenProps, styles, theme }: BackupWalletProps) => {
   const API = useWrappedApi()
-  const [showDialogWithData] = useDialog()
+  const [showDialog] = useDialog()
   const [showErrorDialog] = useErrorDialog()
 
   const [mnemonics, setMnemonics] = useState('')
@@ -39,12 +39,12 @@ const BackupWallet = ({ screenProps, styles, theme }: BackupWalletProps) => {
       }
 
       fireEvent(PHRASE_BACKUP, { method: 'copy' })
-      showDialogWithData({
+      showDialog({
         title: 'Copy all to clipboard',
         message: 'The backup phrase has been copied to the clipboard',
       })
     },
-    [showDialogWithData],
+    [showDialog],
   )
 
   const setClipboard = useClipboardCopy(currentMnemonics, onCopied)
@@ -63,7 +63,7 @@ const BackupWallet = ({ screenProps, styles, theme }: BackupWalletProps) => {
       await API.sendRecoveryInstructionByEmail(currentMnemonics)
 
       fireEvent(PHRASE_BACKUP, { method: 'email' })
-      showDialogWithData({
+      showDialog({
         title: 'Backup Your Wallet',
         message: 'We sent an email with recovery instructions for your wallet',
       })
@@ -83,7 +83,7 @@ const BackupWallet = ({ screenProps, styles, theme }: BackupWalletProps) => {
     } else {
       await userStorage.userProperties.set('isMadeBackup', true)
     }
-  }, [currentMnemonics, showDialogWithData, showErrorDialog])
+  }, [currentMnemonics, showDialog, showErrorDialog])
 
   return (
     <Wrapper style={styles.mainWrapper}>

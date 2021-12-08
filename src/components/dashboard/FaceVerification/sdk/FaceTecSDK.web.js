@@ -30,6 +30,8 @@ export const FaceTecSDK = new class {
 
     // customize UI
     sdk.setCustomization(UICustomization)
+    sdk.setLowLightCustomization(UICustomization)
+    sdk.setDynamicDimmingCustomization(UICustomization)
 
     this.sdk = sdk
     this.logger = logger

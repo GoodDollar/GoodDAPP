@@ -3,6 +3,8 @@
 // libraries
 import React, { useCallback, useState } from 'react'
 import { StyleSheet, View } from 'react-native'
+import { isAddress } from 'web3-utils'
+import { noop } from 'lodash'
 
 // components
 import { Section, Wrapper } from '../common'
@@ -12,7 +14,7 @@ import TopBar from '../common/view/TopBar'
 import usePermissions from '../permissions/hooks/usePermissions'
 import useCameraSupport from '../browserSupport/hooks/useCameraSupport'
 import SimpleStore from '../../lib/undux/SimpleStore'
-import { useErrorDialog } from '../../lib/undux/utils/dialog'
+import { useDialog, useErrorDialog } from '../../lib/undux/utils/dialog'
 
 // utils
 import logger from '../../lib/logger/js-logger'
@@ -22,6 +24,10 @@ import { extractQueryParams } from '../../lib/utils/uri'
 import { wrapFunction } from '../../lib/undux/utils/wrapper'
 import { Permissions } from '../permissions/types'
 import { fireEvent, QR_SCAN } from '../../lib/analytics/analytics'
+import { InfoIcon } from '../common/modal/InfoIcon'
+import ExplanationDialog from '../common/dialogs/ExplanationDialog'
+import goodWallet from '../../lib/wallet/GoodWallet'
+import { extractEthAddress } from '../../lib/wallet/utils'
 import QrReader from './QR/QRScanner'
 import QRCameraPermissionDialog from './SendRecieveQRCameraPermissionDialog'
 import { routeAndPathForCode } from './utils/routeAndPathForCode'
@@ -34,10 +40,26 @@ type Props = {
   screenProps: any,
 }
 
+const RecipientWarnDialog = ({ onConfirm }) => (
+  <ExplanationDialog
+    title={'Make sure your recipient is also using the Fuse network'}
+    image={InfoIcon}
+    imageHeight={124}
+    buttons={[
+      { text: 'Cancel', onPress: noop, mode: 'text' },
+      {
+        text: 'Confirm',
+        action: onConfirm,
+      },
+    ]}
+  />
+)
+
 const SendByQR = ({ screenProps }: Props) => {
   const [qrDelay, setQRDelay] = useState(QR_DEFAULT_DELAY)
   const store = SimpleStore.useStore()
   const [showErrorDialog] = useErrorDialog()
+  const [showDialog] = useDialog()
   const { pop, push, navigateTo } = screenProps
 
   // check camera permission and show dialog if not allowed
@@ -55,18 +77,45 @@ const SendByQR = ({ screenProps }: Props) => {
 
   const onDismissDialog = () => setQRDelay(QR_DEFAULT_DELAY)
 
+  const gotoSend = useCallback(
+    async code => {
+      const { route, params } = await routeAndPathForCode('sendByQR', code)
+      log.info({ code })
+      fireEvent(QR_SCAN, { type: 'send' })
+      push(route, params)
+    },
+    [push],
+  )
   const handleScan = useCallback(
     async data => {
       if (data) {
+        let code
         try {
           const decoded = decodeURI(data)
-          const paramsUrl = extractQueryParams(decoded)
-          const code = readCode(paramsUrl.code)
-          const { route, params } = await routeAndPathForCode('sendByQR', code)
+          const address = extractEthAddress(decoded)
 
-          log.info({ code })
-          fireEvent(QR_SCAN, { type: 'send' })
-          push(route, params)
+          //check if data is already a wallet address
+          if (isAddress(address)) {
+            //this address was already used on fuse, so it is ok
+            if (await goodWallet.isKnownFuseAddress(address)) {
+              code = { address, networkId: goodWallet.networkId }
+            } else {
+              return showDialog({
+                showButtons: false,
+                onDismiss: noop,
+                content: (
+                  <RecipientWarnDialog
+                    onConfirm={() => gotoSend({ address: address, networkId: goodWallet.networkId })}
+                  />
+                ),
+              })
+            }
+          } else {
+            const paramsUrl = extractQueryParams(decoded)
+            code = readCode(paramsUrl.code)
+          }
+
+          gotoSend(code)
         } catch (e) {
           log.error('scan send code failed', e.message, e, { data })
           setQRDelay(false)
@@ -75,7 +124,7 @@ const SendByQR = ({ screenProps }: Props) => {
         }
       }
     },
-    [push, setQRDelay],
+    [push, setQRDelay, gotoSend],
   )
 
   const handleError = useCallback(

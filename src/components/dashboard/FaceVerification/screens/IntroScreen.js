@@ -1,5 +1,5 @@
 // libraries
-import React, { useCallback, useEffect } from 'react'
+import React, { useCallback, useContext, useEffect } from 'react'
 import { Platform, View } from 'react-native'
 import { get } from 'lodash'
 
@@ -42,6 +42,7 @@ import useFaceTecSDK from '../hooks/useFaceTecSDK'
 import wait24hourIllustration from '../../../../assets/Claim/wait24Hour.svg'
 import FashionShootSVG from '../../../../assets/FaceVerification/FashionPhotoshoot.svg'
 import useProfile from '../../../../lib/userStorage/useProfile'
+import { GlobalTogglesContext } from '../../../../lib/contexts/togglesContext'
 
 const log = logger.child({ from: 'FaceVerificationIntro' })
 
@@ -148,6 +149,7 @@ const IntroScreen = ({ styles, screenProps }) => {
   const { fullName } = useProfile()
   const { screenState, goToRoot, navigateTo, pop, push } = screenProps
   const isValid = get(screenState, 'isValid', false)
+  const { setDialogBlur } = useContext(GlobalTogglesContext)
 
   const navigateToHome = useCallback(() => navigateTo('Home'), [navigateTo])
   const Intro = IntroScreenB
@@ -162,7 +164,7 @@ const IntroScreen = ({ styles, screenProps }) => {
         return
       }
 
-      showQueueDialog(WalletDeletedPopupText, {
+      showQueueDialog(WalletDeletedPopupText, setDialogBlur, {
         onDismiss: goToRoot,
         imageSource: wait24hourIllustration,
       })

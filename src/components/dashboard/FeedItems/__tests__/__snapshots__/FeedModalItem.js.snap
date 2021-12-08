@@ -117,7 +117,7 @@ exports[`FeedModalItem - Invite matches snapshot 1`] = `
                   </div>
                 </div>
                 <div
-                  className="css-view-1dbjc4n r-alignItems-1awozwy r-borderBottomWidth-wgabs5 r-borderTopWidth-1jxfwug r-display-6koalj r-flexDirection-18u37iz r-justifyContent-1h0z5md r-marginBottom-le4sbl r-paddingBottom-i03k3n r-paddingTop-5t7p9m"
+                  className="css-view-1dbjc4n r-alignItems-1awozwy r-borderBottomWidth-wgabs5 r-borderTopWidth-1jxfwug r-display-6koalj r-flexDirection-18u37iz r-justifyContent-1h0z5md r-paddingBottom-i03k3n r-paddingTop-5t7p9m"
                   style={
                     Object {
                       "borderBottomColor": "rgba(0,175,255,1.00)",
@@ -128,20 +128,72 @@ exports[`FeedModalItem - Invite matches snapshot 1`] = `
                   }
                 >
                   <div
-                    className="css-text-901oao css-textMultiLine-cens5h r-alignItems-1d09ksm r-color-cddv6f r-display-6koalj r-flex-13awgt0 r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-height-16l9doz r-lineHeight-qvk6io r-marginRight-lchren r-paddingRight-1hvjb8t r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
-                    dir="auto"
-                    style={
-                      Object {
-                        "WebkitLineClamp": 2,
-                      }
-                    }
+                    className="css-view-1dbjc4n r-alignItems-1habvwh r-flexDirection-eqz5dr"
                   >
-                    
-                    <span
-                      className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-evnaw r-fontWeight-majxgm r-lineHeight-hbpseb r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                    <div
+                      className="css-text-901oao css-textMultiLine-cens5h r-alignItems-1d09ksm r-color-cddv6f r-display-6koalj r-flex-13awgt0 r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-height-16l9doz r-lineHeight-qvk6io r-marginRight-lchren r-paddingRight-1hvjb8t r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
+                      dir="auto"
+                      style={
+                        Object {
+                          "WebkitLineClamp": 2,
+                        }
+                      }
                     >
-                      Misao Matimbo
-                    </span>
+                      
+                      <span
+                        className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-lineHeight-1cwl3u0 r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                      >
+                        Misao Matimbo
+                      </span>
+                    </div>
+                    <div
+                      className="css-text-901oao css-textMultiLine-cens5h r-color-11t4n93 r-flexShrink-1q142lx r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-qvk6io r-paddingBottom-1mdbw0j r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
+                      dir="auto"
+                      style={
+                        Object {
+                          "WebkitLineClamp": 1,
+                        }
+                      }
+                    >
+                      
+                    </div>
+                  </div>
+                </div>
+                <div
+                  className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flexDirection-18u37iz r-justifyContent-1h0z5md r-paddingBottom-i03k3n r-paddingTop-5t7p9m"
+                  style={
+                    Object {
+                      "borderBottomWidth": "0px",
+                      "borderTopWidth": "0px",
+                    }
+                  }
+                >
+                  <div
+                    className="css-view-1dbjc4n r-alignItems-1habvwh r-flexDirection-eqz5dr"
+                  >
+                    <div
+                      className="css-text-901oao css-textMultiLine-cens5h r-color-cddv6f r-flex-13awgt0 r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-height-1pi2tsx r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
+                      dir="auto"
+                      style={
+                        Object {
+                          "WebkitLineClamp": 2,
+                        }
+                      }
+                    >
+                      
+                      <span
+                        className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-lineHeight-1cwl3u0 r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                      />
+                    </div>
+                    <div
+                      className="css-text-901oao css-textMultiLine-cens5h r-color-11t4n93 r-flexShrink-1q142lx r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-qvk6io r-paddingBottom-1mdbw0j r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
+                      dir="auto"
+                      style={
+                        Object {
+                          "WebkitLineClamp": 1,
+                        }
+                      }
+                    />
                   </div>
                 </div>
                 <div
@@ -153,6 +205,12 @@ exports[`FeedModalItem - Invite matches snapshot 1`] = `
                   >
                     aaa
                   </div>
+                </div>
+                <div
+                  className="css-text-901oao r-color-1rpk9v6 r-fontFamily-vnw8o6 r-fontSize-1enofrn r-fontWeight-1it3c9n r-letterSpacing-i0j7gm r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                  dir="auto"
+                >
+                  Invoice Number 
                 </div>
                 <div
                   className="css-view-1dbjc4n r-alignItems-1d09ksm r-display-6koalj r-flexDirection-18u37iz r-flexWrap-1w6e6rj r-justifyContent-1wtj0ep r-marginTop-14gqq1x r-width-13qz1uu"
@@ -390,7 +448,7 @@ exports[`FeedModalItem - Message matches snapshot 1`] = `
                   </div>
                 </div>
                 <div
-                  className="css-view-1dbjc4n r-alignItems-1awozwy r-borderBottomWidth-wgabs5 r-borderTopWidth-1jxfwug r-display-6koalj r-flexDirection-18u37iz r-justifyContent-1h0z5md r-marginBottom-le4sbl r-paddingBottom-i03k3n r-paddingTop-5t7p9m"
+                  className="css-view-1dbjc4n r-alignItems-1awozwy r-borderBottomWidth-wgabs5 r-borderTopWidth-1jxfwug r-display-6koalj r-flexDirection-18u37iz r-justifyContent-1h0z5md r-paddingBottom-i03k3n r-paddingTop-5t7p9m"
                   style={
                     Object {
                       "borderBottomColor": "rgba(159,106,157,1.00)",
@@ -461,20 +519,35 @@ exports[`FeedModalItem - Message matches snapshot 1`] = `
                     </div>
                   </div>
                   <div
-                    className="css-text-901oao css-textMultiLine-cens5h r-alignItems-1d09ksm r-color-cddv6f r-display-6koalj r-flex-13awgt0 r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-height-16l9doz r-lineHeight-qvk6io r-marginRight-lchren r-paddingRight-1hvjb8t r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
-                    dir="auto"
-                    style={
-                      Object {
-                        "WebkitLineClamp": 2,
-                      }
-                    }
+                    className="css-view-1dbjc4n r-alignItems-1habvwh r-flexDirection-eqz5dr"
                   >
-                    
-                    <span
-                      className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-evnaw r-fontWeight-majxgm r-lineHeight-hbpseb r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                    <div
+                      className="css-text-901oao css-textMultiLine-cens5h r-alignItems-1d09ksm r-color-cddv6f r-display-6koalj r-flex-13awgt0 r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-height-16l9doz r-lineHeight-qvk6io r-marginRight-lchren r-paddingRight-1hvjb8t r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
+                      dir="auto"
+                      style={
+                        Object {
+                          "WebkitLineClamp": 2,
+                        }
+                      }
                     >
-                      Misao Matimbo
-                    </span>
+                      
+                      <span
+                        className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-lineHeight-1cwl3u0 r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                      >
+                        Misao Matimbo
+                      </span>
+                    </div>
+                    <div
+                      className="css-text-901oao css-textMultiLine-cens5h r-color-11t4n93 r-flexShrink-1q142lx r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-qvk6io r-paddingBottom-1mdbw0j r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
+                      dir="auto"
+                      style={
+                        Object {
+                          "WebkitLineClamp": 1,
+                        }
+                      }
+                    >
+                      
+                    </div>
                   </div>
                   <div
                     className="css-view-1dbjc4n r-height-1r8g8re r-marginLeft-1jj8364 r-width-1acpoxo"
@@ -496,6 +569,75 @@ exports[`FeedModalItem - Message matches snapshot 1`] = `
                   </div>
                 </div>
                 <div
+                  className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flexDirection-18u37iz r-justifyContent-1h0z5md r-paddingBottom-i03k3n r-paddingTop-5t7p9m"
+                  style={
+                    Object {
+                      "borderBottomWidth": "0px",
+                      "borderTopWidth": "0px",
+                    }
+                  }
+                >
+                  <div
+                    aria-disabled={true}
+                    className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-l26x2w r-borderColor-y68mpx r-borderWidth-rs99b7 r-justifyContent-1777fci r-marginRight-12zb1j4 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
+                    onClick={[Function]}
+                    onContextMenu={[Function]}
+                    onKeyDown={[Function]}
+                    style={
+                      Object {
+                        "WebkitTransitionDuration": "0s",
+                        "borderBottomLeftRadius": "17px",
+                        "borderBottomRightRadius": "17px",
+                        "borderTopLeftRadius": "17px",
+                        "borderTopRightRadius": "17px",
+                        "height": "34px",
+                        "transitionDuration": "0s",
+                        "width": "34px",
+                      }
+                    }
+                    tabIndex="-1"
+                  >
+                    <div
+                      className="css-view-1dbjc4n r-backgroundColor-1niwhzg"
+                      style={
+                        Object {
+                          "height": "34px",
+                          "width": "34px",
+                        }
+                      }
+                    >
+                      <unknownProfile.svg />
+                    </div>
+                  </div>
+                  <div
+                    className="css-view-1dbjc4n r-alignItems-1habvwh r-flexDirection-eqz5dr"
+                  >
+                    <div
+                      className="css-text-901oao css-textMultiLine-cens5h r-color-cddv6f r-flex-13awgt0 r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-height-1pi2tsx r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
+                      dir="auto"
+                      style={
+                        Object {
+                          "WebkitLineClamp": 2,
+                        }
+                      }
+                    >
+                      
+                      <span
+                        className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-lineHeight-1cwl3u0 r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                      />
+                    </div>
+                    <div
+                      className="css-text-901oao css-textMultiLine-cens5h r-color-11t4n93 r-flexShrink-1q142lx r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-qvk6io r-paddingBottom-1mdbw0j r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
+                      dir="auto"
+                      style={
+                        Object {
+                          "WebkitLineClamp": 1,
+                        }
+                      }
+                    />
+                  </div>
+                </div>
+                <div
                   className="css-view-1dbjc4n r-flex-13awgt0"
                 >
                   <div
@@ -504,6 +646,12 @@ exports[`FeedModalItem - Message matches snapshot 1`] = `
                   >
                     aaa
                   </div>
+                </div>
+                <div
+                  className="css-text-901oao r-color-1rpk9v6 r-fontFamily-vnw8o6 r-fontSize-1enofrn r-fontWeight-1it3c9n r-letterSpacing-i0j7gm r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                  dir="auto"
+                >
+                  Invoice Number 
                 </div>
                 <div
                   className="css-view-1dbjc4n r-alignItems-1d09ksm r-display-6koalj r-flexDirection-18u37iz r-flexWrap-1w6e6rj r-justifyContent-1wtj0ep r-marginTop-14gqq1x r-width-13qz1uu"
@@ -757,7 +905,7 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                   </div>
                 </div>
                 <div
-                  className="css-view-1dbjc4n r-alignItems-1awozwy r-borderBottomWidth-wgabs5 r-borderTopWidth-1jxfwug r-display-6koalj r-flexDirection-18u37iz r-justifyContent-1h0z5md r-marginBottom-le4sbl r-paddingBottom-i03k3n r-paddingTop-5t7p9m"
+                  className="css-view-1dbjc4n r-alignItems-1awozwy r-borderBottomWidth-wgabs5 r-borderTopWidth-1jxfwug r-display-6koalj r-flexDirection-18u37iz r-justifyContent-1h0z5md r-paddingBottom-i03k3n r-paddingTop-5t7p9m"
                   style={
                     Object {
                       "borderBottomColor": "rgba(250,108,119,1.00)",
@@ -828,30 +976,118 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                     </div>
                   </div>
                   <div
-                    className="css-text-901oao css-textMultiLine-cens5h r-alignItems-1d09ksm r-color-cddv6f r-display-6koalj r-flex-13awgt0 r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-height-16l9doz r-lineHeight-qvk6io r-marginRight-lchren r-paddingRight-1hvjb8t r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
-                    dir="auto"
-                    style={
-                      Object {
-                        "WebkitLineClamp": 2,
-                      }
-                    }
+                    className="css-view-1dbjc4n r-alignItems-1habvwh r-flexDirection-eqz5dr"
                   >
-                    <span
-                      className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1cwl3u0 r-marginRight-1ifrmw8 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                    <div
+                      className="css-text-901oao css-textMultiLine-cens5h r-alignItems-1d09ksm r-color-cddv6f r-display-6koalj r-flex-13awgt0 r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-height-16l9doz r-lineHeight-qvk6io r-marginRight-lchren r-paddingRight-1hvjb8t r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
+                      dir="auto"
+                      style={
+                        Object {
+                          "WebkitLineClamp": 2,
+                        }
+                      }
                     >
-                      To: 
-                    </span>
-                    <span
-                      className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-evnaw r-fontWeight-majxgm r-lineHeight-hbpseb r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                      <span
+                        className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1cwl3u0 r-marginRight-1ifrmw8 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                      >
+                        To: 
+                      </span>
+                      <span
+                        className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-lineHeight-1cwl3u0 r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                      >
+                        Misao Matimbo
+                      </span>
+                    </div>
+                    <div
+                      className="css-text-901oao css-textMultiLine-cens5h r-color-11t4n93 r-flexShrink-1q142lx r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-qvk6io r-paddingBottom-1mdbw0j r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
+                      dir="auto"
+                      style={
+                        Object {
+                          "WebkitLineClamp": 1,
+                        }
+                      }
                     >
-                      Misao Matimbo
-                    </span>
+                      
+                    </div>
                   </div>
                   <div
                     className="css-view-1dbjc4n r-height-1r8g8re r-marginLeft-1jj8364 r-width-1acpoxo"
                   >
                     <div
                       className="css-view-1dbjc4n"
+                    />
+                  </div>
+                </div>
+                <div
+                  className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flexDirection-18u37iz r-justifyContent-1h0z5md r-paddingBottom-i03k3n r-paddingTop-5t7p9m"
+                  style={
+                    Object {
+                      "borderBottomWidth": "0px",
+                      "borderTopWidth": "0px",
+                    }
+                  }
+                >
+                  <div
+                    aria-disabled={true}
+                    className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-l26x2w r-borderColor-y68mpx r-borderWidth-rs99b7 r-justifyContent-1777fci r-marginRight-12zb1j4 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
+                    onClick={[Function]}
+                    onContextMenu={[Function]}
+                    onKeyDown={[Function]}
+                    style={
+                      Object {
+                        "WebkitTransitionDuration": "0s",
+                        "borderBottomLeftRadius": "17px",
+                        "borderBottomRightRadius": "17px",
+                        "borderTopLeftRadius": "17px",
+                        "borderTopRightRadius": "17px",
+                        "height": "34px",
+                        "transitionDuration": "0s",
+                        "width": "34px",
+                      }
+                    }
+                    tabIndex="-1"
+                  >
+                    <div
+                      className="css-view-1dbjc4n r-backgroundColor-1niwhzg"
+                      style={
+                        Object {
+                          "height": "34px",
+                          "width": "34px",
+                        }
+                      }
+                    >
+                      <unknownProfile.svg />
+                    </div>
+                  </div>
+                  <div
+                    className="css-view-1dbjc4n r-alignItems-1habvwh r-flexDirection-eqz5dr"
+                  >
+                    <div
+                      className="css-text-901oao css-textMultiLine-cens5h r-color-cddv6f r-flex-13awgt0 r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-height-1pi2tsx r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
+                      dir="auto"
+                      style={
+                        Object {
+                          "WebkitLineClamp": 2,
+                        }
+                      }
+                    >
+                      <span
+                        className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1cwl3u0 r-marginRight-1ifrmw8 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                      >
+                        From: 
+                      </span>
+                      <span
+                        className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-lineHeight-1cwl3u0 r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                      />
+                    </div>
+                    <div
+                      className="css-text-901oao css-textMultiLine-cens5h r-color-11t4n93 r-flexShrink-1q142lx r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-qvk6io r-paddingBottom-1mdbw0j r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
+                      dir="auto"
+                      style={
+                        Object {
+                          "WebkitLineClamp": 1,
+                        }
+                      }
                     />
                   </div>
                 </div>
@@ -864,6 +1100,12 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                   >
                     aaa
                   </div>
+                </div>
+                <div
+                  className="css-text-901oao r-color-1rpk9v6 r-fontFamily-vnw8o6 r-fontSize-1enofrn r-fontWeight-1it3c9n r-letterSpacing-i0j7gm r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                  dir="auto"
+                >
+                  Invoice Number 
                 </div>
                 <div
                   className="css-view-1dbjc4n r-alignItems-1d09ksm r-display-6koalj r-flexDirection-18u37iz r-flexWrap-1w6e6rj r-justifyContent-1wtj0ep r-marginTop-14gqq1x r-width-13qz1uu"
@@ -1117,7 +1359,7 @@ exports[`FeedModalItem - Send with Error status matches snapshot 1`] = `
                   </div>
                 </div>
                 <div
-                  className="css-view-1dbjc4n r-alignItems-1awozwy r-borderBottomWidth-wgabs5 r-borderTopWidth-1jxfwug r-display-6koalj r-flexDirection-18u37iz r-justifyContent-1h0z5md r-marginBottom-le4sbl r-paddingBottom-i03k3n r-paddingTop-5t7p9m"
+                  className="css-view-1dbjc4n r-alignItems-1awozwy r-borderBottomWidth-wgabs5 r-borderTopWidth-1jxfwug r-display-6koalj r-flexDirection-18u37iz r-justifyContent-1h0z5md r-paddingBottom-i03k3n r-paddingTop-5t7p9m"
                   style={
                     Object {
                       "borderBottomColor": "rgba(250,108,119,1.00)",
@@ -1188,30 +1430,118 @@ exports[`FeedModalItem - Send with Error status matches snapshot 1`] = `
                     </div>
                   </div>
                   <div
-                    className="css-text-901oao css-textMultiLine-cens5h r-alignItems-1d09ksm r-color-cddv6f r-display-6koalj r-flex-13awgt0 r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-height-16l9doz r-lineHeight-qvk6io r-marginRight-lchren r-paddingRight-1hvjb8t r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
-                    dir="auto"
-                    style={
-                      Object {
-                        "WebkitLineClamp": 2,
-                      }
-                    }
+                    className="css-view-1dbjc4n r-alignItems-1habvwh r-flexDirection-eqz5dr"
                   >
-                    <span
-                      className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1cwl3u0 r-marginRight-1ifrmw8 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                    <div
+                      className="css-text-901oao css-textMultiLine-cens5h r-alignItems-1d09ksm r-color-cddv6f r-display-6koalj r-flex-13awgt0 r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-height-16l9doz r-lineHeight-qvk6io r-marginRight-lchren r-paddingRight-1hvjb8t r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
+                      dir="auto"
+                      style={
+                        Object {
+                          "WebkitLineClamp": 2,
+                        }
+                      }
                     >
-                      To: 
-                    </span>
-                    <span
-                      className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-evnaw r-fontWeight-majxgm r-lineHeight-hbpseb r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                      <span
+                        className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1cwl3u0 r-marginRight-1ifrmw8 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                      >
+                        To: 
+                      </span>
+                      <span
+                        className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-lineHeight-1cwl3u0 r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                      >
+                        Misao Matimbo
+                      </span>
+                    </div>
+                    <div
+                      className="css-text-901oao css-textMultiLine-cens5h r-color-11t4n93 r-flexShrink-1q142lx r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-qvk6io r-paddingBottom-1mdbw0j r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
+                      dir="auto"
+                      style={
+                        Object {
+                          "WebkitLineClamp": 1,
+                        }
+                      }
                     >
-                      Misao Matimbo
-                    </span>
+                      
+                    </div>
                   </div>
                   <div
                     className="css-view-1dbjc4n r-height-1r8g8re r-marginLeft-1jj8364 r-width-1acpoxo"
                   >
                     <div
                       className="css-view-1dbjc4n"
+                    />
+                  </div>
+                </div>
+                <div
+                  className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flexDirection-18u37iz r-justifyContent-1h0z5md r-paddingBottom-i03k3n r-paddingTop-5t7p9m"
+                  style={
+                    Object {
+                      "borderBottomWidth": "0px",
+                      "borderTopWidth": "0px",
+                    }
+                  }
+                >
+                  <div
+                    aria-disabled={true}
+                    className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-l26x2w r-borderColor-y68mpx r-borderWidth-rs99b7 r-justifyContent-1777fci r-marginRight-12zb1j4 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
+                    onClick={[Function]}
+                    onContextMenu={[Function]}
+                    onKeyDown={[Function]}
+                    style={
+                      Object {
+                        "WebkitTransitionDuration": "0s",
+                        "borderBottomLeftRadius": "17px",
+                        "borderBottomRightRadius": "17px",
+                        "borderTopLeftRadius": "17px",
+                        "borderTopRightRadius": "17px",
+                        "height": "34px",
+                        "transitionDuration": "0s",
+                        "width": "34px",
+                      }
+                    }
+                    tabIndex="-1"
+                  >
+                    <div
+                      className="css-view-1dbjc4n r-backgroundColor-1niwhzg"
+                      style={
+                        Object {
+                          "height": "34px",
+                          "width": "34px",
+                        }
+                      }
+                    >
+                      <unknownProfile.svg />
+                    </div>
+                  </div>
+                  <div
+                    className="css-view-1dbjc4n r-alignItems-1habvwh r-flexDirection-eqz5dr"
+                  >
+                    <div
+                      className="css-text-901oao css-textMultiLine-cens5h r-color-cddv6f r-flex-13awgt0 r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-height-1pi2tsx r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
+                      dir="auto"
+                      style={
+                        Object {
+                          "WebkitLineClamp": 2,
+                        }
+                      }
+                    >
+                      <span
+                        className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1cwl3u0 r-marginRight-1ifrmw8 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                      >
+                        From: 
+                      </span>
+                      <span
+                        className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-lineHeight-1cwl3u0 r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                      />
+                    </div>
+                    <div
+                      className="css-text-901oao css-textMultiLine-cens5h r-color-11t4n93 r-flexShrink-1q142lx r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-qvk6io r-paddingBottom-1mdbw0j r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
+                      dir="auto"
+                      style={
+                        Object {
+                          "WebkitLineClamp": 1,
+                        }
+                      }
                     />
                   </div>
                 </div>
@@ -1224,6 +1554,12 @@ exports[`FeedModalItem - Send with Error status matches snapshot 1`] = `
                   >
                     aaa
                   </div>
+                </div>
+                <div
+                  className="css-text-901oao r-color-1rpk9v6 r-fontFamily-vnw8o6 r-fontSize-1enofrn r-fontWeight-1it3c9n r-letterSpacing-i0j7gm r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                  dir="auto"
+                >
+                  Invoice Number 
                 </div>
                 <div
                   className="css-view-1dbjc4n r-alignItems-1d09ksm r-display-6koalj r-flexDirection-18u37iz r-flexWrap-1w6e6rj r-justifyContent-1wtj0ep r-marginTop-14gqq1x r-width-13qz1uu"
@@ -1477,7 +1813,7 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                   </div>
                 </div>
                 <div
-                  className="css-view-1dbjc4n r-alignItems-1awozwy r-borderBottomWidth-wgabs5 r-borderTopWidth-1jxfwug r-display-6koalj r-flexDirection-18u37iz r-justifyContent-1h0z5md r-marginBottom-le4sbl r-paddingBottom-i03k3n r-paddingTop-5t7p9m"
+                  className="css-view-1dbjc4n r-alignItems-1awozwy r-borderBottomWidth-wgabs5 r-borderTopWidth-1jxfwug r-display-6koalj r-flexDirection-18u37iz r-justifyContent-1h0z5md r-paddingBottom-i03k3n r-paddingTop-5t7p9m"
                   style={
                     Object {
                       "borderBottomColor": "rgba(0,195,174,1.00)",
@@ -1548,30 +1884,118 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                     </div>
                   </div>
                   <div
-                    className="css-text-901oao css-textMultiLine-cens5h r-alignItems-1d09ksm r-color-cddv6f r-display-6koalj r-flex-13awgt0 r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-height-16l9doz r-lineHeight-qvk6io r-marginRight-lchren r-paddingRight-1hvjb8t r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
-                    dir="auto"
-                    style={
-                      Object {
-                        "WebkitLineClamp": 2,
-                      }
-                    }
+                    className="css-view-1dbjc4n r-alignItems-1habvwh r-flexDirection-eqz5dr"
                   >
-                    <span
-                      className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1cwl3u0 r-marginRight-1ifrmw8 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                    <div
+                      className="css-text-901oao css-textMultiLine-cens5h r-alignItems-1d09ksm r-color-cddv6f r-display-6koalj r-flex-13awgt0 r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-height-16l9doz r-lineHeight-qvk6io r-marginRight-lchren r-paddingRight-1hvjb8t r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
+                      dir="auto"
+                      style={
+                        Object {
+                          "WebkitLineClamp": 2,
+                        }
+                      }
                     >
-                      From: 
-                    </span>
-                    <span
-                      className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-evnaw r-fontWeight-majxgm r-lineHeight-hbpseb r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                      <span
+                        className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1cwl3u0 r-marginRight-1ifrmw8 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                      >
+                        From: 
+                      </span>
+                      <span
+                        className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-lineHeight-1cwl3u0 r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                      >
+                        Misao Matimbo
+                      </span>
+                    </div>
+                    <div
+                      className="css-text-901oao css-textMultiLine-cens5h r-color-11t4n93 r-flexShrink-1q142lx r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-qvk6io r-paddingBottom-1mdbw0j r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
+                      dir="auto"
+                      style={
+                        Object {
+                          "WebkitLineClamp": 1,
+                        }
+                      }
                     >
-                      Misao Matimbo
-                    </span>
+                      
+                    </div>
                   </div>
                   <div
                     className="css-view-1dbjc4n r-height-1r8g8re r-marginLeft-1jj8364 r-width-1acpoxo"
                   >
                     <div
                       className="css-view-1dbjc4n"
+                    />
+                  </div>
+                </div>
+                <div
+                  className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flexDirection-18u37iz r-justifyContent-1h0z5md r-paddingBottom-i03k3n r-paddingTop-5t7p9m"
+                  style={
+                    Object {
+                      "borderBottomWidth": "0px",
+                      "borderTopWidth": "0px",
+                    }
+                  }
+                >
+                  <div
+                    aria-disabled={true}
+                    className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-l26x2w r-borderColor-y68mpx r-borderWidth-rs99b7 r-justifyContent-1777fci r-marginRight-12zb1j4 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
+                    onClick={[Function]}
+                    onContextMenu={[Function]}
+                    onKeyDown={[Function]}
+                    style={
+                      Object {
+                        "WebkitTransitionDuration": "0s",
+                        "borderBottomLeftRadius": "17px",
+                        "borderBottomRightRadius": "17px",
+                        "borderTopLeftRadius": "17px",
+                        "borderTopRightRadius": "17px",
+                        "height": "34px",
+                        "transitionDuration": "0s",
+                        "width": "34px",
+                      }
+                    }
+                    tabIndex="-1"
+                  >
+                    <div
+                      className="css-view-1dbjc4n r-backgroundColor-1niwhzg"
+                      style={
+                        Object {
+                          "height": "34px",
+                          "width": "34px",
+                        }
+                      }
+                    >
+                      <unknownProfile.svg />
+                    </div>
+                  </div>
+                  <div
+                    className="css-view-1dbjc4n r-alignItems-1habvwh r-flexDirection-eqz5dr"
+                  >
+                    <div
+                      className="css-text-901oao css-textMultiLine-cens5h r-color-cddv6f r-flex-13awgt0 r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-height-1pi2tsx r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
+                      dir="auto"
+                      style={
+                        Object {
+                          "WebkitLineClamp": 2,
+                        }
+                      }
+                    >
+                      <span
+                        className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1cwl3u0 r-marginRight-1ifrmw8 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                      >
+                        To: 
+                      </span>
+                      <span
+                        className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-lineHeight-1cwl3u0 r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                      />
+                    </div>
+                    <div
+                      className="css-text-901oao css-textMultiLine-cens5h r-color-11t4n93 r-flexShrink-1q142lx r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-qvk6io r-paddingBottom-1mdbw0j r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
+                      dir="auto"
+                      style={
+                        Object {
+                          "WebkitLineClamp": 1,
+                        }
+                      }
                     />
                   </div>
                 </div>
@@ -1584,6 +2008,12 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                   >
                     aaa
                   </div>
+                </div>
+                <div
+                  className="css-text-901oao r-color-1rpk9v6 r-fontFamily-vnw8o6 r-fontSize-1enofrn r-fontWeight-1it3c9n r-letterSpacing-i0j7gm r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                  dir="auto"
+                >
+                  Invoice Number 
                 </div>
                 <div
                   className="css-view-1dbjc4n r-alignItems-1d09ksm r-display-6koalj r-flexDirection-18u37iz r-flexWrap-1w6e6rj r-justifyContent-1wtj0ep r-marginTop-14gqq1x r-width-13qz1uu"

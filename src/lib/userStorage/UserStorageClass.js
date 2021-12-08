@@ -252,24 +252,6 @@ export class UserStorage {
    */
   ready: Promise<boolean> = null
 
-  /**
-   * Returns phone with last 4 numbers, and before that ***,
-   * and hide email user characters leaving visible only first and last character
-   * @param {string} fieldType - (Email, mobile or phone) Field name
-   * @param {string} value - Field value
-   * @returns {string} - Returns masked value with *** to hide characters
-   */
-  static maskField = (fieldType: 'email' | 'mobile' | 'phone', value: string): string => {
-    if (fieldType === 'email') {
-      let parts = value.split('@')
-      return `${parts[0][0]}${'*'.repeat(parts[0].length - 2)}${parts[0][parts[0].length - 1]}@${parts[1]}`
-    }
-    if (['mobile', 'phone'].includes(fieldType)) {
-      return `${'*'.repeat(value.length - 4)}${value.slice(-4)}`
-    }
-    return value
-  }
-
   constructor(wallet: GoodWallet, database: DB, userProperties) {
     this.gun = defaultGun
     this.wallet = wallet
@@ -875,7 +857,20 @@ export class UserStorage {
     }
 
     const { date, id, status, createdDate, animationExecuted, action } = event
-    const { sender, preReasonText, reason, code: withdrawCode, subtitle, readMore, smallReadMore } = data
+    const {
+      sender,
+      preReasonText,
+      reason,
+      code: withdrawCode,
+      subtitle,
+      readMore,
+      smallReadMore,
+      senderEmail,
+      senderName,
+      invoiceId,
+      sellerWebsite,
+      sellerName,
+    } = data
     const { address, initiator, initiatorType, value, displayName, message, avatar } = this._extractData(event)
 
     // displayType is used by FeedItem and ModalItem to decide on colors/icons etc of tx feed card
@@ -904,6 +899,11 @@ export class UserStorage {
           avatar,
         },
         amount: value,
+        senderEmail,
+        senderName,
+        invoiceId,
+        sellerWebsite,
+        sellerName,
         preMessageText: preReasonText,
         message: reason || message,
         subtitle,

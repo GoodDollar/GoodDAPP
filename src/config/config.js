@@ -25,6 +25,7 @@ const isPhaseTwo = 2 === phase
 const alchemyKey = env.REACT_APP_ALCHEMY_KEY
 const isEToro = env.REACT_APP_ETORO === 'true' || env.REACT_APP_NETWORK === 'etoro'
 const ipfsGateways = env.REACT_APP_IPFS_GATEWAYS || 'https://cloudflare-ipfs.com/ipfs/{cid},https://ipfs.io/ipfs/{cid},https://{cid}.ipfs.dweb.link'
+const cryptoLiteracyEndDate = env.REACT_APP_CRYPTO_LITERACY_END_DATE || '2021-11-30'
 
 const Config = {
   env: appEnv,
@@ -49,7 +50,7 @@ const Config = {
   dashboardUrl: env.REACT_APP_DASHBOARD_URL || 'https://dashboard.gooddollar.org',
   infuraKey: env.REACT_APP_INFURA_KEY,
   network: env.REACT_APP_NETWORK || 'fuse',
-  interestCollectedInterval: env.REACT_APP_INTEREST_BLOCKS_INTERVAL || 5760 * 7, // default is 1Week
+  interestCollectedInterval: env.REACT_APP_INTEREST_BLOCKS_INTERVAL || 5760 * 8, // default is 1Week, add 1 day because its not exact
   marketUrl: env.REACT_APP_MARKET_URL || 'https://gooddollarmarketplace.sharetribe.com/en',
   torusEnabled: env.REACT_APP_USE_TORUS === 'true',
   torusNetwork: env.REACT_APP_TORUS_NETWORK || 'testnet',
@@ -89,6 +90,7 @@ const Config = {
   sentryDSN: env.REACT_APP_SENTRY_DSN,
   delayMessageNetworkDisconnection: env.REACT_APP_DELAY_MSG_NETWORK_DISCONNECTION || 5000,
   poweredByUrl: env.REACT_APP_POWERED_BY_URL || 'https://vercel.com/?utm_source=gooddollar&utm_campaign=oss',
+  isCryptoLiteracy: moment().isSameOrBefore(cryptoLiteracyEndDate, 'day'),
   showSplashDesktop: env.REACT_APP_SPLASH_DESKTOP === 'true',
   showAddToHomeDesktop: env.REACT_APP_ADDTOHOME_DESKTOP === 'true',
   flagsUrl: env.REACT_APP_FLAGS_URL || 'https://flagicons.lipis.dev/flags/4x3/',

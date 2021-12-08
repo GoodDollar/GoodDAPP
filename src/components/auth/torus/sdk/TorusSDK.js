@@ -1,4 +1,4 @@
-import { defaults, first, omit, pad } from 'lodash'
+import { defaults, first, omit, pad, padStart } from 'lodash'
 
 import Config from '../../../../config/config'
 import logger from '../../../../lib/logger/js-logger'
@@ -96,7 +96,7 @@ class TorusSDK {
       torusUser = { ...otherResponse, ...userInfo }
     }
 
-    const { name, email, privateKey = '' } = torusUser
+    let { name, email, privateKey = '' } = torusUser
     const isLoginPhoneNumber = /\+[0-9]+$/.test(name)
     const leading = privateKey.length - 64
 
@@ -115,7 +115,16 @@ class TorusSDK {
       }
 
       log.warn('Received private key with extra "0" padding:', privateKey)
-      torusUser = { ...torusUser, privateKey: privateKey.substring(leading) }
+      privateKey = privateKey.substring(leading)
+    }
+
+    if (leading < 0) {
+      log.warn('Private key must be 32 bytes long, adding extra "0" padding:', privateKey)
+      privateKey = padStart(privateKey, 64, '0')
+    }
+
+    if (leading !== 0) {
+      torusUser = { ...torusUser, privateKey }
     }
 
     if ('production' !== config.env) {

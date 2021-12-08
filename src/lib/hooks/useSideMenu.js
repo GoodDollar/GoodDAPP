@@ -8,7 +8,6 @@ import SimpleStore from '../undux/SimpleStore'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
 
 // utils
-import { useWrappedApi } from '../API/useWrappedApi'
 import { isMobileOnly, isMobileSafari, isWeb } from '../utils/platform'
 import { openLink } from '../utils/linking'
 import Config from '../../config/config'
@@ -22,12 +21,11 @@ import useDeleteAccountDialog from './useDeleteAccountDialog'
 const { dashboardUrl } = Config
 
 export default (props = {}) => {
-  const { navigation, theme } = props
-  const API = useWrappedApi()
+  const { navigation } = props
   const store = SimpleStore.useStore()
   const [showErrorDialog] = useErrorDialog()
   const isLoggedIn = store.get('isLoggedIn')
-  const showDeleteAccountDialog = useDeleteAccountDialog({ API, showErrorDialog, store, theme })
+  const showDeleteAccountDialog = useDeleteAccountDialog(showErrorDialog)
 
   const [isSelfCustody, setIsSelfCustody] = useState(false)
   const { isMenuOn, setMenu } = useContext(GlobalTogglesContext)

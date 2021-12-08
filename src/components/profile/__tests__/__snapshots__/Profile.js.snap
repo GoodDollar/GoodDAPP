@@ -59,13 +59,14 @@ exports[`Profile matches snapshot 1`] = `
             }
           >
             <div
-              className="css-text-901oao r-color-jwli3a r-fontWeight-1it3c9n"
+              className="css-text-901oao r-color-jwli3a"
               dir="auto"
               style={
                 Object {
                   "fontFamily": "gooddollar",
                   "fontSize": "22px",
                   "fontStyle": "normal",
+                  "fontWeight": "normal",
                 }
               }
             >
@@ -194,13 +195,14 @@ exports[`Profile matches snapshot 1`] = `
                   tabIndex="0"
                 >
                   <div
-                    className="css-text-901oao r-color-jwli3a r-fontWeight-1it3c9n"
+                    className="css-text-901oao r-color-jwli3a"
                     dir="auto"
                     style={
                       Object {
                         "fontFamily": "gooddollar",
                         "fontSize": "23px",
                         "fontStyle": "normal",
+                        "fontWeight": "normal",
                       }
                     }
                   >
@@ -231,13 +233,14 @@ exports[`Profile matches snapshot 1`] = `
                   tabIndex="0"
                 >
                   <div
-                    className="css-text-901oao r-color-jwli3a r-fontWeight-1it3c9n"
+                    className="css-text-901oao r-color-jwli3a"
                     dir="auto"
                     style={
                       Object {
                         "fontFamily": "gooddollar",
                         "fontSize": "25px",
                         "fontStyle": "normal",
+                        "fontWeight": "normal",
                       }
                     }
                   >
@@ -302,7 +305,7 @@ exports[`Profile matches snapshot 1`] = `
                             className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-height-1pi2tsx r-justifyContent-1777fci r-position-u8s1d r-right-zchlnj r-top-1jy2w8o r-width-1yvhtrz r-zIndex-184en5c"
                           >
                             <div
-                              className="css-text-901oao r-fontWeight-1it3c9n"
+                              className="css-text-901oao"
                               dir="auto"
                               style={
                                 Object {
@@ -310,6 +313,7 @@ exports[`Profile matches snapshot 1`] = `
                                   "fontFamily": "gooddollar",
                                   "fontSize": "22px",
                                   "fontStyle": "normal",
+                                  "fontWeight": "normal",
                                 }
                               }
                             >
@@ -349,7 +353,7 @@ exports[`Profile matches snapshot 1`] = `
                             className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-height-1pi2tsx r-justifyContent-1777fci r-position-u8s1d r-right-zchlnj r-top-1jy2w8o r-width-1yvhtrz r-zIndex-184en5c"
                           >
                             <div
-                              className="css-text-901oao r-fontWeight-1it3c9n"
+                              className="css-text-901oao"
                               dir="auto"
                               style={
                                 Object {
@@ -357,6 +361,7 @@ exports[`Profile matches snapshot 1`] = `
                                   "fontFamily": "gooddollar",
                                   "fontSize": "28px",
                                   "fontStyle": "normal",
+                                  "fontWeight": "normal",
                                 }
                               }
                             >
@@ -396,13 +401,14 @@ exports[`Profile matches snapshot 1`] = `
                             className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-height-1pi2tsx r-justifyContent-1777fci r-position-u8s1d r-right-zchlnj r-top-1jy2w8o r-width-1yvhtrz r-zIndex-184en5c"
                           >
                             <div
-                              className="css-text-901oao r-fontSize-adyw6z r-fontWeight-1it3c9n"
+                              className="css-text-901oao r-fontSize-adyw6z"
                               dir="auto"
                               style={
                                 Object {
                                   "color": "rgba(0,175,255,1.00)",
                                   "fontFamily": "gooddollar",
                                   "fontStyle": "normal",
+                                  "fontWeight": "normal",
                                 }
                               }
                             >
@@ -446,10 +452,6 @@ exports[`Profile matches snapshot 1`] = `
                   </div>
                 </div>
               </div>
-              <div
-                className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-1it3c9n r-lineHeight-qvk6io r-marginTop-knv0ih r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
-                dir="auto"
-              />
             </div>
           </div>
         </div>

@@ -1,6 +1,6 @@
 // libraries
-import React, { useCallback, useEffect, useState } from 'react'
-import { Platform, StyleSheet, TouchableOpacity } from 'react-native'
+import React, { useEffect, useState } from 'react'
+import { Platform, StyleSheet } from 'react-native'
 import moment from 'moment'
 
 // components
@@ -11,14 +11,13 @@ import WavesBackground from '../common/view/WavesBackground'
 
 // utils
 import Config from '../../config/config'
-import { openLink } from '../../lib/utils/linking'
 import { getDesignRelativeHeight, getMaxDeviceHeight } from '../../lib/utils/sizes'
 import { isMobile, isMobileNative } from '../../lib/utils/platform'
 import AsyncStorage from '../../lib/utils/asyncStorage'
 
 // assets
 // import wavePattern from '../../assets/splashWaves.svg'
-import PoweredByLogo from '../../assets/Splash/poweredByLogo.svg'
+// import PoweredByLogo from '../../assets/Splash/poweredByLogo.svg'
 
 const { isPhaseZero, version } = Config
 
@@ -41,7 +40,7 @@ const Splash = ({ animation, isLoggedIn }) => {
   const [checked, setChecked] = useState(false)
   const [shouldAnimate, setShouldAnimate] = useState(isLoggedIn !== true || isMobileNative)
 
-  const onPoweredByPress = useCallback(() => openLink(Config.poweredByUrl), [])
+  // const onPoweredByPress = useCallback(() => openLink(Config.poweredByUrl), [])
 
   useEffect(() => {
     if (shouldAnimate) {
@@ -93,9 +92,9 @@ const Splash = ({ animation, isLoggedIn }) => {
               {isPhaseZero && 'Demo '}V{version}
             </Section.Text>
           </Section.Stack>
-          <TouchableOpacity style={styles.poweredByLogo} onPress={onPoweredByPress}>
+          {/* <TouchableOpacity style={styles.poweredByLogo} onPress={onPoweredByPress}>
             <PoweredByLogo />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </WavesBackground>
       </Section>
     </Wrapper>
@@ -137,9 +136,10 @@ const styles = StyleSheet.create({
     marginRight: 'auto',
     borderBottomColor: '#000',
   },
-  poweredByLogo: {
-    transform: [{ rotateY: '180deg' }],
-  },
+
+  // poweredByLogo: {
+  //   transform: [{ rotateY: '180deg' }],
+  // },
   animation: {
     marginTop: -getDesignRelativeHeight(75),
     marginBottom: -getDesignRelativeHeight(120),

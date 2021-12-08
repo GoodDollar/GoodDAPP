@@ -19,7 +19,7 @@ import { useDialog } from '../../lib/undux/utils/dialog'
 import wrapper from '../../lib/undux/utils/wrapper'
 
 // import { openLink } from '../../lib/utils/linking'
-import { formatWithabbreviations, formatWithSIPrefix, formatWithThousandsSeparator } from '../../lib/utils/formatNumber'
+import { formatWithAbbreviations, formatWithSIPrefix, formatWithThousandsSeparator } from '../../lib/utils/formatNumber'
 import { weiToGd } from '../../lib/wallet/utils'
 import {
   getDesignRelativeHeight,
@@ -37,6 +37,7 @@ import {
   fireEvent,
   fireGoogleAnalyticsEvent,
   fireMauticEvent,
+  INVITE_BOUNTY,
 } from '../../lib/analytics/analytics'
 
 import Config from '../../config/config'
@@ -398,6 +399,12 @@ const Claim = props => {
           title: 'CHA-CHING!',
           onDismiss: noop,
         })
+
+        // collect invite bonuses
+        const didCollect = await collectInviteBounty()
+        if (didCollect) {
+          fireEvent(INVITE_BOUNTY, { from: 'invitee' })
+        }
       } else {
         fireEvent(CLAIM_FAILED, { txhash: receipt.transactionHash, txNotCompleted: true })
         showErrorDialog('Claim transaction failed', '', { boldMessage: 'Try again later.' })
@@ -456,9 +463,6 @@ const Claim = props => {
         if (isValid) {
           // claim & collect invite bonus
           await handleClaim()
-
-          // collect invite bonuses
-          await collectInviteBounty()
         } else if (isValid === false) {
           // with non-validated state
           goToRoot()
@@ -614,7 +618,7 @@ const Claim = props => {
           <Section.Row style={styles.statsRow}>
             <GrayBox
               title={'active\nclaimers'}
-              value={formatWithabbreviations(activeClaimers)}
+              value={formatWithAbbreviations(activeClaimers)}
               style={styles.leftGrayBox}
             />
             <GrayBox
@@ -626,19 +630,19 @@ const Claim = props => {
           <Section.Row style={styles.statsRow}>
             <GrayBox
               title={'Total funds\nstaked'}
-              value={formatWithabbreviations(totalFundsStaked)}
+              value={formatWithAbbreviations(totalFundsStaked)}
               symbol={'DAI'}
               style={styles.leftGrayBox}
             />
             <GrayBox
               title={'Last Interest\nCollected'}
-              value={formatWithabbreviations(interestCollected)}
+              value={formatWithAbbreviations(interestCollected)}
               symbol={'$'}
             />
           </Section.Row>
           {Config.env === 'development' && (
             <Section.Row style={[styles.statsRow]}>
-              <GrayBox title={'Pending Interest'} value={formatWithabbreviations(interestPending)} symbol={'$'} />
+              <GrayBox title={'Pending Interest'} value={formatWithAbbreviations(interestPending)} symbol={'$'} />
             </Section.Row>
           )}
         </Section.Stack>

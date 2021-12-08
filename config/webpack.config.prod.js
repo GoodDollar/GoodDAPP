@@ -20,6 +20,7 @@ const ModuleNotFoundPlugin = require('react-dev-utils/ModuleNotFoundPlugin')
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin-alt')
 const typescriptFormatter = require('react-dev-utils/typescriptFormatter')
 const LodashModuleReplacementPlugin = require('lodash-webpack-plugin')
+const SentryCliPlugin = require('@sentry/webpack-plugin')
 
 // Webpack uses `publicPath` to determine where the app is being served from.
 // It requires a trailing slash, or the file assets will get an incorrect path.
@@ -38,12 +39,13 @@ const shouldInlineRuntimeChunk = process.env.INLINE_RUNTIME_CHUNK !== 'false'
 const publicUrl = publicPath.slice(0, -1)
 // Get environment variables to inject into our app.
 const env = getClientEnvironment(publicUrl)
+const reactEnv = env.raw.REACT_APP_ENV
 
 // Assert this just to be safe.
 // Development builds of React are slow and not intended for production.
 if (env.stringified['process.env'].NODE_ENV !== '"production"') {
   throw new Error('Production builds must have NODE_ENV=production.')
-  }
+}
 
 // Check if TypeScript is setup
 const useTypeScript = fs.existsSync(paths.appTsConfig)
@@ -592,6 +594,14 @@ module.exports = {
         silent: true,
         formatter: typescriptFormatter,
       }),
+    // upload sourcemaps to Sentry (QA & prod only)
+    ('development' !== reactEnv) &&
+      new SentryCliPlugin({
+        rewrite: true,
+        release: `${env.raw.VERSION}+${reactEnv}`,
+        configFile: './sentry+web.properties',
+        include: ['./build/static/js'],
+      })
   ].filter(Boolean),
   // Some libraries import Node modules but don't use them in the browser.
   // Tell Webpack to provide empty mocks for them so importing them works.

@@ -4,15 +4,18 @@ import { Animated, Dimensions, Easing, Platform, TouchableOpacity, View } from '
 import { concat, debounce, get, noop, uniqBy } from 'lodash'
 import Mutex from 'await-mutex'
 import type { Store } from 'undux'
+
 import AsyncStorage from '../../lib/utils/asyncStorage'
-import normalize from '../../lib/utils/normalizeText'
+import normalize, { normalizeByLength } from '../../lib/utils/normalizeText'
 import GDStore from '../../lib/undux/GDStore'
-import API from '../../lib/API/api'
 import SimpleStore, { assertStore } from '../../lib/undux/SimpleStore'
 import { useDialog, useErrorDialog } from '../../lib/undux/utils/dialog'
 import { PAGE_SIZE } from '../../lib/undux/utils/feed'
-import { weiToMask } from '../../lib/wallet/utils'
+import { weiToGd, weiToMask } from '../../lib/wallet/utils'
 import { initBGFetch } from '../../lib/notifications/backgroundFetch'
+import { formatWithAbbreviations } from '../../lib/utils/formatNumber'
+import { fireEvent, INVITE_BANNER } from '../../lib/analytics/analytics'
+import Config from '../../config/config'
 
 import { createStackNavigator } from '../appNavigation/stackNavigation'
 import { initTransferEvents } from '../../lib/undux/utils/account'
@@ -64,6 +67,7 @@ import FaceVerificationIntro from './FaceVerification/screens/IntroScreen'
 import FaceVerificationError from './FaceVerification/screens/ErrorScreen'
 
 import GoodMarketButton from './GoodMarket/components/GoodMarketButton'
+import CryptoLiteracyBanner from './FeedItems/CryptoLiteracyNovemberBanner'
 
 const log = logger.child({ from: 'Dashboard' })
 
@@ -71,6 +75,7 @@ let didRender = false
 const screenWidth = getMaxDeviceWidth()
 const initialHeaderContentWidth = screenWidth - _theme.sizes.default * 2 * 2
 const initialAvatarLeftPosition = -initialHeaderContentWidth / 2 + 34
+const { isCryptoLiteracy } = Config
 
 export type DashboardProps = {
   navigation: any,
@@ -80,6 +85,8 @@ export type DashboardProps = {
 }
 
 const feedMutex = new Mutex()
+
+const abbreviateBalance = _balance => formatWithAbbreviations(weiToGd(_balance), 2)
 
 const Dashboard = props => {
   const balanceRef = useRef()
@@ -100,7 +107,7 @@ const Dashboard = props => {
   const gdstore = GDStore.useStore()
   const [showDialog] = useDialog()
   const [showErrorDialog] = useErrorDialog()
-  const showDeleteAccountDialog = useDeleteAccountDialog({ API, showErrorDialog, store, theme })
+  const showDeleteAccountDialog = useDeleteAccountDialog(showErrorDialog)
   const [update, setUpdate] = useState(0)
   const [showDelayedTimer, setShowDelayedTimer] = useState()
   const [itemModal, setItemModal] = useState()
@@ -147,6 +154,18 @@ const Dashboard = props => {
     setHeaderContentWidth(newHeaderContentWidth)
     setAvatarCenteredPosition(newAvatarCenteredPosition)
   }, [setHeaderContentWidth, setAvatarCenteredPosition])
+
+  const balanceFormatter = useMemo(
+    () => (headerLarge || Math.floor(Math.log10(balance)) + 1 <= 12 ? null : abbreviateBalance),
+    [balance, headerLarge],
+  )
+
+  const onBannerClicked = useOnPress(() => {
+    fireEvent(INVITE_BANNER)
+    navigation.navigate('Rewards')
+  }, [navigation])
+
+  const listHeaderComponent = isCryptoLiteracy ? <CryptoLiteracyBanner onPress={onBannerClicked} /> : null
 
   const handleDeleteRedirect = useCallback(() => {
     if (navigation.state.key === 'Delete') {
@@ -573,6 +592,13 @@ const Dashboard = props => {
 
   const handleScrollEndDebounced = useMemo(() => _debounce(handleScrollEnd, 300), [handleScrollEnd])
 
+  const calculateFontSize = useMemo(
+    () => ({
+      fontSize: normalizeByLength(weiToGd(balance), 42, 10),
+    }),
+    [balance],
+  )
+
   // for native we able handle onMomentumScrollEnd, but for web we able to handle only onScroll event,
   // so we need to imitate onMomentumScrollEnd for web
   const onScroll = Platform.select({
@@ -606,7 +632,8 @@ const Dashboard = props => {
                 <BigGoodDollar
                   testID="amount_value"
                   number={balance}
-                  bigNumberStyles={styles.bigNumberStyles}
+                  bigNumberStyles={[styles.bigNumberStyles, calculateFontSize]}
+                  formatter={balanceFormatter}
                   bigNumberUnitStyles={styles.bigNumberUnitStyles}
                   bigNumberProps={{
                     numberOfLines: 1,
@@ -661,6 +688,7 @@ const Dashboard = props => {
         initialNumToRender={10}
         onEndReached={nextFeed} // How far from the end the bottom edge of the list must be from the end of the content to trigger the onEndReached callback.
         // we can use decimal (from 0 to 1) or integer numbers. Integer - it is a pixels from the end. Decimal it is the percentage from the end
+        listHeaderComponent={listHeaderComponent}
         onEndReachedThreshold={0.8}
         windowSize={10} // Determines the maximum number of items rendered outside of the visible area
         onScrollEnd={handleScrollEnd}
@@ -788,12 +816,11 @@ const getStylesFromProps = ({ theme }) => ({
     alignSelf: 'stretch',
   },
   bigNumberStyles: {
-    fontSize: 42,
     fontWeight: '700',
+    fontSize: 42,
     lineHeight: 42,
     height: 42,
     textAlign: 'center',
-
     alignSelf: 'stretch',
   },
   bigGoodDollar: {

@@ -18,7 +18,7 @@ import {
 } from 'lodash'
 
 import { cloneErrorObject, ExceptionCategory } from '../logger/exceptions'
-import { osVersion } from '../utils/platform'
+import { isWeb, osVersion } from '../utils/platform'
 import { ANALYTICS_EVENT, ERROR_LOG } from './constants'
 
 export class AnalyticsClass {
@@ -69,16 +69,25 @@ export class AnalyticsClass {
     }
 
     if (isSentryEnabled) {
-      sentry.init({
+      const sentryOptions = {
         dsn: sentryDSN,
         environment: env,
-      })
+      }
 
-      sentry.configureScope(scope => {
-        scope.setTag('appVersion', version)
-        scope.setTag('networkUsed', network)
-        scope.setTag('phase', phase)
-      })
+      const sentryScope = {
+        appVersion: version,
+        networkUsed: network,
+        phase,
+      }
+
+      if (isWeb) {
+        sentryOptions.release = `${version}+${env}`
+      }
+
+      logger.info('initializing Sentry:', { sentryOptions, sentryScope })
+
+      sentry.init(sentryOptions)
+      sentry.configureScope(scope => forIn(sentryScope, (value, property) => scope.setTag(property, value)))
     }
 
     logger.debug('available analytics:', {

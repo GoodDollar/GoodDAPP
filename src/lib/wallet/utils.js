@@ -1,7 +1,7 @@
 // @flow
 
 import { MaskService } from 'react-native-masked-text'
-import { map, zipObject } from 'lodash'
+import { get, map, zipObject } from 'lodash'
 
 const DECIMALS = 2
 
@@ -12,6 +12,9 @@ const maskSettings = {
   unit: '',
   suffixUnit: '',
 }
+
+const ethAddressRegex = /0x[a-fA-F0-9]{40}/
+export const extractEthAddress = uri => get(uri.match(ethAddressRegex), '0', null)
 
 export const moneyRegexp = new RegExp(`^(?!0\\d)(0|([1-9])\\d*)([.,]?(\\d{0,${DECIMALS}}))$`)
 export const numberWithCommas = (gd: string): string => gd.replace(/,/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, ',')

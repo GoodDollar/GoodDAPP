@@ -1,5 +1,5 @@
 // @flow
-import React, { Component, useEffect, useState } from 'react'
+import React, { Component, memo, useEffect, useState } from 'react'
 import { Platform, SafeAreaView, ScrollView, StyleSheet, View } from 'react-native'
 import SideMenu from '@gooddollar/react-native-side-menu'
 import { createNavigator, Route, SceneView, SwitchRouter } from '@react-navigation/core'
@@ -115,15 +115,11 @@ class AppView extends Component<AppViewProps, AppViewState> {
    * @param {React.Component} Component
    * @param props
    */
-  getComponent = (Component, props) => {
-    const { shouldNavigateToComponent } = Component
-    if (shouldNavigateToComponent && !shouldNavigateToComponent(props)) {
-      return props => {
-        useEffect(() => props.screenProps.goToParent(), [])
-        return null
-      }
-    }
-    return Component
+  getComponent = (descriptor, screenProps) => {
+    const Component = descriptor.getComponent()
+    const { shouldNavigateToComponent = () => true } = Component
+
+    return shouldNavigateToComponent({ screenProps }) ? Component : ReturnBack
   }
 
   /**
@@ -315,7 +311,7 @@ class AppView extends Component<AppViewProps, AppViewState> {
 
     log.info('stackNavigation Render: FIXME rerender', descriptor, activeKey, isMenuOn)
 
-    const Component = this.getComponent(descriptor.getComponent(), { screenProps })
+    const Component = this.getComponent(descriptor, screenProps)
     const pageTitle = title || activeKey
 
     return (
@@ -416,6 +412,17 @@ export const createStackNavigator = (routes: any, navigationConfig: any) => {
     navigationOptions,
   })
 }
+
+const ReturnBack = memo(({ screenProps }) => {
+  const { goToParent } = screenProps
+
+  useEffect(() => {
+    goToParent()
+    log.debug('Redirecting to parent:', 'shouldNavigateToComponent() returned false')
+  }, [goToParent])
+
+  return null
+})
 
 type BackButtonProps = {
   ...ButtonProps,

@@ -95,7 +95,7 @@ export const useInviteBonus = () => {
   const collectInviteBounty = useCallback(
     async (onUnableToCollect = noop) => {
       if (collected) {
-        return
+        return false
       }
 
       const canCollect = await getCanCollect()
@@ -104,7 +104,7 @@ export const useInviteBonus = () => {
 
       if (!canCollect) {
         onUnableToCollect()
-        return
+        return false
       }
 
       showDialog({
@@ -131,6 +131,7 @@ export const useInviteBonus = () => {
           },
         ],
       })
+      return true
     },
     [showDialog, collected],
   )
@@ -154,7 +155,7 @@ export const useCollectBounty = () => {
       log.debug('useCollectBounty calling collectInviteBounties', { canCollect })
       await goodWallet.collectInviteBounties()
 
-      fireEvent(INVITE_BOUNTY, { numCollected: canCollect })
+      fireEvent(INVITE_BOUNTY, { from: 'inviter', numCollected: canCollect })
       userStorage.userProperties.set(collectedProp, true)
       setCollected(true)
 

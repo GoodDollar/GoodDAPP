@@ -40,7 +40,7 @@ const Config = {
   logLevel: (forceLogLevel && forceLogLevel[1]) || env.REACT_APP_LOG_LEVEL || 'debug',
   serverUrl: env.REACT_APP_SERVER_URL || 'http://localhost:3003',
   gunPublicUrl: env.REACT_APP_GUN_PUBLIC_URL || 'http://localhost:3003/gun',
-  ipfsGateways: ipfsGateways.split(',').map(mustache),
+  ipfsGateways: ipfsGateways.split(',').map(gatewayTmpl => mustache(gatewayTmpl)),
   ipfsLazyUpload: env.REACT_APP_IPFS_LAZY_UPLOAD === 'true',
   pinataApiKey: env.REACT_APP_PINATA_API_KEY,
   pinataSecret: env.REACT_APP_PINATA_SECRET,

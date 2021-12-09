@@ -521,10 +521,16 @@ export class UserStorage {
     this.addStartClaimingCard()
 
     if (Config.enableInvites) {
-      const firstInviteCard = await this.feedStorage.hasFeedItem('0.1')
+      const firstInviteCard = await this.feedStorage.hasFeedItem(INVITE_NEW_ID)
       const secondInviteCard = await this.feedStorage.hasFeedItem(INVITE_REMINDER_ID)
+      const shouldAddSecondCard =
+        firstInviteCard &&
+        !secondInviteCard &&
+        moment(firstInviteCard.date)
+          .add(2, 'weeks')
+          .isBefore(moment())
 
-      if (!firstInviteCard) {
+      if (!firstInviteCard || shouldAddSecondCard) {
         const bounty = await this.wallet.getUserInviteBounty()
         const { data } = inviteFriendsMessage
         const { readMore } = data
@@ -533,7 +539,7 @@ export class UserStorage {
           () =>
             this.enqueueTX({
               ...inviteFriendsMessage,
-              id: INVITE_NEW_ID,
+              id: shouldAddSecondCard ? INVITE_REMINDER_ID : INVITE_NEW_ID,
               data: {
                 ...data,
                 readMore: mustache(readMore, {
@@ -542,18 +548,8 @@ export class UserStorage {
                 }),
               },
             }),
-          60000,
-        ) // 2 minutes
-      } else if (
-        !secondInviteCard &&
-        moment(firstInviteCard.date)
-          .add(2, 'weeks')
-          .isBefore(moment())
-      ) {
-        this.enqueueTX({
-          ...inviteFriendsMessage,
-          id: INVITE_REMINDER_ID,
-        })
+          shouldAddSecondCard ? 0 : 60000, // 2nd immediately, first one in 2 minutes
+        )
       }
     }
 

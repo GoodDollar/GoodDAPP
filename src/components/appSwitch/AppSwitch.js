@@ -143,6 +143,12 @@ const AppSwitch = (props: LoadingProps) => {
     identifyWith(email, undefined)
   }
 
+  //TODO: should be removed once issue is resolved
+  const logoutTorusIssue = id => {
+    if (id.toLowerCase() === '0xb5f2f134a543d55c24eaa9ef441c2a699d660b6b') {
+      throw new Error('bad torus account bug')
+    }
+  }
   const init = async () => {
     log.debug('initializing')
 
@@ -158,8 +164,8 @@ const AppSwitch = (props: LoadingProps) => {
       gdstore.set('isLoggedInCitizen')(isLoggedInCitizen)
 
       //identify user asap for analytics
-
       const identifier = goodWallet.getAccountForType('login')
+      logoutTorusIssue(identifier)
       identifyWith(undefined, identifier)
       showOutOfGasError(props)
       await initReg
@@ -168,6 +174,15 @@ const AppSwitch = (props: LoadingProps) => {
 
       setReady(true)
     } catch (e) {
+      //TODO: remove once bug is resolvedß
+      if (e.message.includes('bad torus')) {
+        log.error('bad torus account bug', e.message, e, { seed: await localStorage.getItem('GD_masterSeed') })
+        await AsyncStorage.clear()
+        return showErrorDialog('We are sorry, please try to login again. We are working to resolve this issue.', '', {
+          onDismiss: () => restart('/'),
+        })
+      }
+
       const dialogShown = unsuccessfulLaunchAttempts > 3
 
       unsuccessfulLaunchAttempts += 1

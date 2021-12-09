@@ -27,6 +27,7 @@ export const TxType = {
   TX_REWARD: 'TX_REWARD',
   TX_MINT: 'TX_MINT',
   TX_ERROR: 'TX_ERROR',
+  TX_UKNOWN: 'TX_UNKNOWN',
 }
 
 export const FeedItemType = {
@@ -54,6 +55,7 @@ export const TxStatus = {
   COMPLETED: 'completed',
   PENDING: 'pending',
   CANCELED: 'cancelled',
+  DELETED: 'deleted',
   ERROR: 'error',
 }
 
@@ -290,6 +292,7 @@ export class FeedStorage {
         return TxType.TX_SEND_GD
       }
     }
+    return TxType.TX_UKNOWN
   }
 
   async handleReceipt(receipt) {
@@ -371,6 +374,9 @@ export class FeedStorage {
       let type = TxTypeToEventType[txType] || feedEvent.type
 
       switch (txType) {
+        case TxType.TX_UKNOWN:
+          status = TxStatus.DELETED //mark unknown txs as canceled so they are not shown
+          break
         case TxType.TX_ERROR:
           status = TxStatus.ERROR
           break

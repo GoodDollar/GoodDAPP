@@ -1,4 +1,4 @@
-import { defaults, first, omit, pad, padStart } from 'lodash'
+import { defaults, first, omit, padStart, repeat } from 'lodash'
 
 import Config from '../../../../config/config'
 import logger from '../../../../lib/logger/js-logger'
@@ -97,6 +97,16 @@ class TorusSDK {
     }
 
     let { name, email, privateKey = '' } = torusUser
+
+    const failWithInvalidKey = () => {
+      log.warn('Invalid private key received', privateKey)
+      throw new Error('Invalid private key received: ' + privateKey)
+    }
+
+    if (!privateKey || !/^[0-9a-f]+$/i.test(privateKey)) {
+      failWithInvalidKey()
+    }
+
     const isLoginPhoneNumber = /\+[0-9]+$/.test(name)
     const leading = privateKey.length - 64
 
@@ -110,8 +120,8 @@ class TorusSDK {
 
     if (leading > 0) {
       // leading characters should be zeros, otherwise something went wrong
-      if (privateKey.substring(0, leading) !== pad('', leading, '0')) {
-        throw new Error('Invalid private key received:', { privateKey })
+      if (privateKey.substring(0, leading) !== repeat('0', leading)) {
+        failWithInvalidKey()
       }
 
       log.warn('Received private key with extra "0" padding:', privateKey)

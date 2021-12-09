@@ -3593,16 +3593,16 @@
   resolved "https://registry.yarnpkg.com/@toruslabs/torus-direct-react-native-sdk/-/torus-direct-react-native-sdk-0.6.1.tgz#8b0c7b1d30bbff24d1270aa75a84179a443b43de"
   integrity sha512-DqoazXywztnw+lavHxfQsUerV4qKFHw5AiBoNrfX5g8ZLJ78EH3NFcF/1SgfFXYLHZjp9UrpnLxS0DWvjch/Ow==
 
-"@toruslabs/torus-direct-web-sdk@^5.0.3":
-  version "5.0.3"
-  resolved "https://registry.yarnpkg.com/@toruslabs/torus-direct-web-sdk/-/torus-direct-web-sdk-5.0.3.tgz#638d4d8c295e34b12d40be454b61d4689c4c9f77"
-  integrity sha512-yYwM0Y2iiFsFVqoHvj/IQw6Z9gcsGN9Lx75lLyN9ttMXlVvpKGFiaimmYBT2F8jv/bb9JygsylLEk1VFh9DaeQ==
+"@toruslabs/torus-direct-web-sdk@5.0.2":
+  version "5.0.2"
+  resolved "https://registry.yarnpkg.com/@toruslabs/torus-direct-web-sdk/-/torus-direct-web-sdk-5.0.2.tgz#e6951070e1a0e5c6b9b4bdd42d43e0c98aefcb36"
+  integrity sha512-5b633xeWjDuXD/I0OrItecGdTFeYRYJ1KqZT4R9cKJzmXDjgEqXNVuN2xJdbPsn+vTiNd9/WVVEGzdVLjFQ3Hw==
   dependencies:
     "@chaitanyapotti/random-id" "^1.0.3"
     "@chaitanyapotti/register-service-worker" "^1.7.3"
     "@toruslabs/fetch-node-details" "^3.0.2"
     "@toruslabs/http-helpers" "^1.4.0"
-    "@toruslabs/torus.js" "^3.1.0"
+    "@toruslabs/torus.js" "^3.0.0"
     broadcast-channel "^4.2.0"
     deepmerge "^4.2.2"
     events "^3.3.0"
@@ -3610,7 +3610,7 @@
     loglevel "^1.7.1"
     web3-utils "^1.6.0"
 
-"@toruslabs/torus.js@^3.1.0":
+"@toruslabs/torus.js@^3.0.0":
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/@toruslabs/torus.js/-/torus.js-3.1.0.tgz#4ab3a98818776be05e36ce41a261983b851c7f9d"
   integrity sha512-atP5UDjTLIYWSRw0dVdRvtBy5B2mY6eooZJGFqSWI1VQs7SknwGNCB/WhLREg7S6BictKzchgnG7Y+2wwXFtQA==

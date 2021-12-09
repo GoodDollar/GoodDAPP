@@ -523,6 +523,7 @@ export class UserStorage {
     if (Config.enableInvites) {
       const firstInviteCard = await this.feedStorage.hasFeedItem(INVITE_NEW_ID)
       const secondInviteCard = await this.feedStorage.hasFeedItem(INVITE_REMINDER_ID)
+
       const shouldAddSecondCard =
         firstInviteCard &&
         !secondInviteCard &&

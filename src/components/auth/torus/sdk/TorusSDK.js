@@ -97,18 +97,7 @@ class TorusSDK {
     }
 
     let { name, email, privateKey = '' } = torusUser
-
-    const failWithInvalidKey = () => {
-      log.warn('Invalid private key received', privateKey)
-      throw new Error('Invalid private key received: ' + privateKey)
-    }
-
-    if (!privateKey || !/^[0-9a-f]+$/i.test(privateKey)) {
-      failWithInvalidKey()
-    }
-
     const isLoginPhoneNumber = /\+[0-9]+$/.test(name)
-    const leading = privateKey.length - 64
 
     if (isLoginPhoneNumber) {
       torusUser = { ...torusUser, mobile: name }
@@ -118,23 +107,36 @@ class TorusSDK {
       torusUser = omit(torusUser, 'name')
     }
 
-    if (leading > 0) {
-      // leading characters should be zeros, otherwise something went wrong
-      if (privateKey.substring(0, leading) !== repeat('0', leading)) {
+    if (privateKey) {
+      const leading = privateKey.length - 64
+
+      const failWithInvalidKey = () => {
+        log.warn('Invalid private key received', privateKey)
+        throw new Error('Invalid private key received: ' + privateKey)
+      }
+
+      if (!/^[0-9a-f]+$/i.test(privateKey)) {
         failWithInvalidKey()
       }
 
-      log.warn('Received private key with extra "0" padding:', privateKey)
-      privateKey = privateKey.substring(leading)
-    }
+      if (leading > 0) {
+        // leading characters should be zeros, otherwise something went wrong
+        if (privateKey.substring(0, leading) !== repeat('0', leading)) {
+          failWithInvalidKey()
+        }
 
-    if (leading < 0) {
-      log.warn('Private key must be 32 bytes long, adding extra "0" padding:', privateKey)
-      privateKey = padStart(privateKey, 64, '0')
-    }
+        log.warn('Received private key with extra "0" padding:', privateKey)
+        privateKey = privateKey.substring(leading)
+      }
 
-    if (leading !== 0) {
-      torusUser = { ...torusUser, privateKey }
+      if (leading < 0) {
+        log.warn('Private key must be 32 bytes long, adding extra "0" padding:', privateKey)
+        privateKey = padStart(privateKey, 64, '0')
+      }
+
+      if (leading !== 0) {
+        torusUser = { ...torusUser, privateKey }
+      }
     }
 
     if ('production' !== config.env) {

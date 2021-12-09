@@ -618,7 +618,7 @@ export class GoodWallet {
       const events = await this.SimpleDaiStaking.getPastEvents(
         'InterestCollected',
         InterestCollectedEventsFilter,
-      ).catch(e => {
+      ).catch((e = {}) => {
         //just warn about block not  found which is recoverable
         const logFunc = e.code === -32000 ? log.warn : log.error
         logFunc('InterestCollectedEvents failed:', e.message, e, {

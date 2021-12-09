@@ -24,5 +24,5 @@ export const appEnv = env.REACT_APP_ENV || 'development'
 
 export const appUrl = Platform.select({
   web: () => envUrl || window.location.origin,
-  default: () => (envUrl && !envUrl.includes(':localhost') ? envUrl : getDefaultUrl(appEnv)),
+  default: () => (envUrl && !envUrl.includes('/localhost:') ? envUrl : getDefaultUrl(appEnv)),
 })()

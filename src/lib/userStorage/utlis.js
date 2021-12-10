@@ -3,6 +3,7 @@ import { sha3 } from 'web3-utils'
 import { ExceptionCategory } from '../logger/exceptions'
 import logging from '../logger/js-logger'
 import { isValidDataUrl } from '../utils/base64'
+import mustache from '../utils/mustache'
 
 const logger = logging.child({ from: 'UserProfileUtils' })
 
@@ -89,4 +90,22 @@ export const maskField = (fieldType: 'email' | 'mobile' | 'phone', value: string
   }
 
   return masked
+}
+
+export const prepareInviteCard = async (id, template, wallet) => {
+  const bounty = await wallet.getUserInviteBounty()
+  const { data } = template
+  const { readMore } = data
+
+  return {
+    ...template,
+    id,
+    data: {
+      ...data,
+      readMore: mustache(readMore, {
+        inviterAmount: bounty,
+        inviteeAmount: bounty / 2,
+      }),
+    },
+  }
 }

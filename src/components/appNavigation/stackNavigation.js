@@ -341,7 +341,7 @@ class AppView extends Component<AppViewProps, AppViewState> {
           {disableScroll ? (
             <SceneView navigation={descriptor.navigation} component={Component} screenProps={screenProps} />
           ) : (
-            <ScrollView style={styles.scrollView} contentContainerStyle={styles.scrollableView}>
+            <ScrollView bounces={false} style={styles.scrollView} contentContainerStyle={styles.scrollableView}>
               <SceneView navigation={descriptor.navigation} component={Component} screenProps={screenProps} />
             </ScrollView>
           )}
@@ -356,14 +356,10 @@ AppView.contextType = GlobalTogglesContext
 const styles = StyleSheet.create({
   scrollView: {
     display: 'flex',
-
-    // flexGrow: 1,
   },
   scrollableView: {
     flexGrow: 1,
     display: 'flex',
-
-    // height: '100%',
   },
   sideMenuContainer: {
     top: 0,

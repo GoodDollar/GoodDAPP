@@ -19,13 +19,28 @@
 #import <RNBranch/RNBranch.h>
 #import <Firebase.h>
 
+#ifdef FB_SONARKIT_ENABLED
+
+#import <FlipperKit/FlipperClient.h>
+#import <FlipperKitLayoutPlugin/FlipperKitLayoutPlugin.h>
+#import <FlipperKitUserDefaultsPlugin/FKUserDefaultsPlugin.h>
+#import <FlipperKitNetworkPlugin/FlipperKitNetworkPlugin.h>
+#import <SKIOSNetworkPlugin/SKIOSNetworkAdapter.h>
+#import <FlipperKitReactPlugin/FlipperKitReactPlugin.h>
+
+#endif
+
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+  #ifdef FB_SONARKIT_ENABLED
+  [self initializeFlipper:application];
+  #endif
+
   [self initializeAnalytics];
   [self initializeBranch:launchOptions];
-  
+
   RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
   UIViewController *rootViewController = [self initializeRootViewController:bridge];
 
@@ -33,7 +48,7 @@
 
   [self initializeBackgroundFetch];
   [self initializeNotifications];
-  
+
   return YES;
 }
 
@@ -51,16 +66,16 @@
   RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge moduleName:@"GoodDollar" initialProperties:nil];
   UIViewController *rootViewController = [UIViewController new];
 
-  rootView.backgroundColor = [[UIColor alloc] initWithRed:1.0f green:1.0f blue:1.0f alpha:1];
+  rootView.backgroundColor = [UIColor whiteColor]; // we do not support dark theme
   rootViewController.view = rootView;
-  
+
   return rootViewController;
 }
 
 - (UIWindow *) initializeWindow:(UIViewController *)rootViewController
 {
   UIWindow *window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-  
+
   window.rootViewController = rootViewController;
   [window makeKeyAndVisible];
 
@@ -90,8 +105,25 @@
 - (void) initializeNotifications
 {
   UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
-  
+
   center.delegate = self;
 }
+
+#ifdef FB_SONARKIT_ENABLED
+
+- (void) initializeFlipper:(UIApplication *)application
+{
+  FlipperClient *client = [FlipperClient sharedClient];
+  SKDescriptorMapper *layoutDescriptorMapper = [[SKDescriptorMapper alloc] initWithDefaults];
+
+  [client addPlugin:[[FlipperKitLayoutPlugin alloc] initWithRootNode:application withDescriptorMapper:layoutDescriptorMapper]];
+  [client addPlugin:[[FKUserDefaultsPlugin alloc] initWithSuiteName:nil]];
+  [client addPlugin:[FlipperKitReactPlugin new]];
+  [client addPlugin:[[FlipperKitNetworkPlugin alloc] initWithNetworkAdapter:[SKIOSNetworkAdapter new]]];
+
+  [client start];
+}
+
+#endif
 
 @end

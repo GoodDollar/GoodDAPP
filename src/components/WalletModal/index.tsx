@@ -115,93 +115,64 @@ const WALLET_VIEWS = {
     PENDING: 'pending'
 }
 
-export default function WalletModal({
-    pendingTransactions,
-    confirmedTransactions,
-    ENSName
-}: {
-    pendingTransactions: string[] // hashes of pending
-    confirmedTransactions: string[] // hashes of confirmed
-    ENSName?: string
-}) {
-    const { i18n } = useLingui()
-    // important that these are destructed from the account-specific web3-react context
-    const { active, account, connector, activate, error } = useWeb3React()
-
-    const [walletView, setWalletView] = useState(WALLET_VIEWS.ACCOUNT)
-
-    const [pendingWallet, setPendingWallet] = useState<AbstractConnector | undefined>()
-
-    const [pendingError, setPendingError] = useState<boolean>()
-
-    const walletModalOpen = useModalOpen(ApplicationModal.WALLET)
-
-    const toggleNetworkModal = useNetworkModalToggle()
-
-    const toggleWalletModal = useWalletModalToggle()
-
-    const previousAccount = usePrevious(account)
+const ModalContent = (props: any) => {
+    const {
+        error,
+        account,
+        toggleWalletModal,
+        i18n,
+        walletView,
+        pendingTransactions,
+        confirmedTransactions,
+        ENSName,
+        setWalletView,
+        pendingWallet,
+        pendingError,
+        setPendingError,
+        tryActivation,
+        connector
+    } = props
 
     const { ethereum } = window
+    const toggleNetworkModal = useNetworkModalToggle()
 
-    // close on connection, when logged out before
-    useEffect(() => {
-        if (account && !previousAccount && walletModalOpen) {
+    const handleEthereumNetworkSwitch = useCallback(() => {
+        const networkType = process.env.NETWORK || 'staging'
+        if (networkType === 'staging') {
+            toggleNetworkModal()
+        } else if (networkType === 'production') {
+            ;(ethereum as any).request({
+                method: 'wallet_switchEthereumChain',
+                params: [{ chainId: `0x${ChainId.MAINNET.toString(16)}` }]
+            })
             toggleWalletModal()
         }
-    }, [account, previousAccount, toggleWalletModal, walletModalOpen])
+    }, [ethereum, toggleNetworkModal, toggleWalletModal])
 
-    // always reset to account view
-    useEffect(() => {
-        if (walletModalOpen) {
-            setPendingError(false)
-            setWalletView(WALLET_VIEWS.ACCOUNT)
-        }
-    }, [walletModalOpen])
-
-    // close modal when a connection is successful
-    const activePrevious = usePrevious(active)
-    const connectorPrevious = usePrevious(connector)
-    useEffect(() => {
-        if (
-            walletModalOpen &&
-            ((active && !activePrevious) || (connector && connector !== connectorPrevious && !error))
-        ) {
-            setWalletView(WALLET_VIEWS.ACCOUNT)
-        }
-    }, [setWalletView, active, error, connector, walletModalOpen, activePrevious, connectorPrevious])
-
-    const tryActivation = async (connector: AbstractConnector | undefined) => {
-        let name = ''
-        Object.keys(SUPPORTED_WALLETS).map(key => {
-            if (connector === SUPPORTED_WALLETS[key].connector) {
-                return (name = SUPPORTED_WALLETS[key].name)
-            }
-            return true
+    const handleFuseNetworkSwitch = useCallback(() => {
+        ;(ethereum as any).request({
+            method: 'wallet_addEthereumChain',
+            params: [
+                {
+                    chainId: '0x7a',
+                    chainName: 'Fuse',
+                    nativeCurrency: {
+                        name: 'FUSE Token',
+                        symbol: 'FUSE',
+                        decimals: 18
+                    },
+                    rpcUrls: ['https://rpc.fuse.io'],
+                    blockExplorerUrls: ['https://explorer.fuse.io']
+                },
+                account
+            ]
         })
-        // log selected wallet
+        toggleWalletModal()
+    }, [account, ethereum, toggleWalletModal])
 
-        setPendingWallet(connector) // set wallet for pending view
-        setWalletView(WALLET_VIEWS.PENDING)
-
-        // if the connector is walletconnect and the user has already tried to connect, manually reset the connector
-        if (connector instanceof WalletConnectConnector && connector.walletConnectProvider?.wc?.uri) {
-            connector.walletConnectProvider = undefined
-        }
-
-        connector &&
-            activate(connector, undefined, true).catch(error => {
-                if (error instanceof UnsupportedChainIdError) {
-                    activate(connector) // a little janky...can't use setError because the connector isn't set
-                } else {
-                    setPendingError(true)
-                }
-            })
-    }
-
-    // get wallets user can switch too, depending on device/browser
     function getOptions() {
         const isMetamask = window.ethereum && window.ethereum.isMetaMask
+
         return Object.keys(SUPPORTED_WALLETS).map(key => {
             const option = SUPPORTED_WALLETS[key]
 
@@ -280,125 +251,185 @@ export default function WalletModal({
         })
     }
 
-    const handleEthereumNetworkSwitch = useCallback(() => {
-        const networkType = process.env.NETWORK || 'staging'
-        if (networkType === 'staging') {
-            toggleNetworkModal()
-        } else if (networkType === 'production') {
-            ;(ethereum as any).request({
-                method: 'wallet_switchEthereumChain',
-                params: [{ chainId: `0x${ChainId.MAINNET.toString(16)}` }]
-            })
-            toggleWalletModal()
-        }
-    }, [ethereum, toggleNetworkModal, toggleWalletModal])
-
-    const handleFuseNetworkSwitch = useCallback(() => {
-        ;(ethereum as any).request({
-            method: 'wallet_addEthereumChain',
-            params: [
-                {
-                    chainId: '0x7a',
-                    chainName: 'Fuse',
-                    nativeCurrency: {
-                        name: 'FUSE Token',
-                        symbol: 'FUSE',
-                        decimals: 18
-                    },
-                    rpcUrls: ['https://rpc.fuse.io'],
-                    blockExplorerUrls: ['https://explorer.fuse.io']
-                },
-                account
-            ]
-        })
-        toggleWalletModal()
-    }, [account, ethereum, toggleWalletModal])
-
-    function getModalContent() {
-        if (error) {
-            return (
-                <UpperSection>
-                    <CloseIcon onClick={toggleWalletModal}>
-                        <CloseColor />
-                    </CloseIcon>
-                    <HeaderRow className="justify-center">
-                        {error instanceof UnsupportedChainIdError
-                            ? i18n._(t`Wrong Network`)
-                            : i18n._(t`Error connecting`)}
-                    </HeaderRow>
-                    <ContentWrapper>
-                        {error instanceof UnsupportedChainIdError ? (
-                            <>
-                                <h5 className="text-center">{i18n._(t`Please connect to the appropriate network.`)}</h5>
-                                <div className="flex flex-row align-center justify-around mt-5 pt-2">
-                                    <ButtonAction
-                                        size="sm"
-                                        width="40%"
-                                        onClick={handleEthereumNetworkSwitch}
-                                        borderRadius="6px"
-                                    >
-                                        {i18n._(t`ETHEREUM`)}
-                                    </ButtonAction>
-                                    <ButtonAction
-                                        size="sm"
-                                        width="40%"
-                                        onClick={handleFuseNetworkSwitch}
-                                        borderRadius="6px"
-                                    >
-                                        {i18n._(t`FUSE`)}
-                                    </ButtonAction>
-                                </div>
-                            </>
-                        ) : (
-                            i18n._(t`Error connecting. Try refreshing the page.`)
-                        )}
-                    </ContentWrapper>
-                </UpperSection>
-            )
-        }
-        if (account && walletView === WALLET_VIEWS.ACCOUNT) {
-            return (
-                <AccountDetails
-                    toggleWalletModal={toggleWalletModal}
-                    pendingTransactions={pendingTransactions}
-                    confirmedTransactions={confirmedTransactions}
-                    ENSName={ENSName}
-                    openOptions={() => setWalletView(WALLET_VIEWS.OPTIONS)}
-                />
-            )
-        }
+    if (error) {
         return (
             <UpperSection>
                 <CloseIcon onClick={toggleWalletModal}>
                     <CloseColor />
                 </CloseIcon>
-                <Title className="text-center">Connect wallet</Title>
-                <ContentWrapper className="mt-8">
-                    {walletView === WALLET_VIEWS.PENDING ? (
-                        <PendingView
-                            connector={pendingWallet}
-                            error={pendingError}
-                            setPendingError={setPendingError}
-                            tryActivation={tryActivation}
-                        />
+                <HeaderRow className="justify-center">
+                    {error instanceof UnsupportedChainIdError ? i18n._(t`Wrong Network`) : i18n._(t`Error connecting`)}
+                </HeaderRow>
+                <ContentWrapper>
+                    {error instanceof UnsupportedChainIdError ? (
+                        <>
+                            <h5 className="text-center">{i18n._(t`Please connect to the appropriate network.`)}</h5>
+                            <div className="flex flex-row align-center justify-around mt-5 pt-2">
+                                <ButtonAction
+                                    size="sm"
+                                    width="40%"
+                                    onClick={handleEthereumNetworkSwitch}
+                                    borderRadius="6px"
+                                >
+                                    {i18n._(t`ETHEREUM`)}
+                                </ButtonAction>
+                                <ButtonAction
+                                    size="sm"
+                                    width="40%"
+                                    onClick={handleFuseNetworkSwitch}
+                                    borderRadius="6px"
+                                >
+                                    {i18n._(t`FUSE`)}
+                                </ButtonAction>
+                            </div>
+                        </>
                     ) : (
-                        <OptionGrid>{getOptions()}</OptionGrid>
+                        i18n._(t`Error connecting. Try refreshing the page.`)
                     )}
-                    {/*{walletView !== WALLET_VIEWS.PENDING && (
-                        <Blurb>
-                            <span>New to Ethereum? &nbsp;</span>{' '}
-                            <ExternalLink href="https://ethereum.org/wallets/">Learn more about wallets</ExternalLink>
-                        </Blurb>
-                    )}*/}
                 </ContentWrapper>
             </UpperSection>
         )
+    }
+    if (account && walletView === WALLET_VIEWS.ACCOUNT) {
+        return (
+            <AccountDetails
+                toggleWalletModal={toggleWalletModal}
+                pendingTransactions={pendingTransactions}
+                confirmedTransactions={confirmedTransactions}
+                ENSName={ENSName}
+                openOptions={() => setWalletView(WALLET_VIEWS.OPTIONS)}
+            />
+        )
+    }
+    return (
+        <UpperSection>
+            <CloseIcon onClick={toggleWalletModal}>
+                <CloseColor />
+            </CloseIcon>
+            <Title className="text-center">Connect wallet</Title>
+            <ContentWrapper className="mt-8">
+                {walletView === WALLET_VIEWS.PENDING ? (
+                    <PendingView
+                        connector={pendingWallet}
+                        error={pendingError}
+                        setPendingError={setPendingError}
+                        tryActivation={tryActivation}
+                    />
+                ) : (
+                    <OptionGrid>{getOptions()}</OptionGrid>
+                )}
+                {/*{walletView !== WALLET_VIEWS.PENDING && (
+                    <Blurb>
+                        <span>New to Ethereum? &nbsp;</span>{' '}
+                        <ExternalLink href="https://ethereum.org/wallets/">Learn more about wallets</ExternalLink>
+                    </Blurb>
+                )}*/}
+            </ContentWrapper>
+        </UpperSection>
+    )
+}
+
+export default function WalletModal({
+    pendingTransactions,
+    confirmedTransactions,
+    ENSName
+}: {
+    pendingTransactions: string[] // hashes of pending
+    confirmedTransactions: string[] // hashes of confirmed
+    ENSName?: string
+}): React.ReactElement {
+    const { i18n } = useLingui()
+    // important that these are destructed from the account-specific web3-react context
+    const { active, account, connector, activate, error } = useWeb3React()
+
+    const [walletView, setWalletView] = useState(WALLET_VIEWS.ACCOUNT)
+
+    const [pendingWallet, setPendingWallet] = useState<AbstractConnector | undefined>()
+
+    const [pendingError, setPendingError] = useState<boolean>()
+
+    const walletModalOpen = useModalOpen(ApplicationModal.WALLET)
+
+    const toggleWalletModal = useWalletModalToggle()
+
+    const previousAccount = usePrevious(account)
+
+    // close on connection, when logged out before
+    useEffect(() => {
+        if (account && !previousAccount && walletModalOpen) {
+            toggleWalletModal()
+        }
+    }, [account, previousAccount, toggleWalletModal, walletModalOpen])
+
+    // always reset to account view
+    useEffect(() => {
+        if (walletModalOpen) {
+            setPendingError(false)
+            setWalletView(WALLET_VIEWS.ACCOUNT)
+        }
+    }, [walletModalOpen])
+
+    // close modal when a connection is successful
+    const activePrevious = usePrevious(active)
+    const connectorPrevious = usePrevious(connector)
+    useEffect(() => {
+        if (
+            walletModalOpen &&
+            ((active && !activePrevious) || (connector && connector !== connectorPrevious && !error))
+        ) {
+            setWalletView(WALLET_VIEWS.ACCOUNT)
+        }
+    }, [setWalletView, active, error, connector, walletModalOpen, activePrevious, connectorPrevious])
+
+    const tryActivation = async (connector: AbstractConnector | undefined) => {
+        let name = ''
+        Object.keys(SUPPORTED_WALLETS).map(key => {
+            if (connector === SUPPORTED_WALLETS[key].connector) {
+                return (name = SUPPORTED_WALLETS[key].name)
+            }
+            return true
+        })
+        // log selected wallet
+
+        setPendingWallet(connector) // set wallet for pending view
+        setWalletView(WALLET_VIEWS.PENDING)
+
+        // if the connector is walletconnect and the user has already tried to connect, manually reset the connector
+        if (connector instanceof WalletConnectConnector && connector.walletConnectProvider?.wc?.uri) {
+            connector.walletConnectProvider = undefined
+        }
+
+        connector &&
+            activate(connector, undefined, true).catch(error => {
+                if (error instanceof UnsupportedChainIdError) {
+                    activate(connector) // a little janky...can't use setError because the connector isn't set
+                } else {
+                    setPendingError(true)
+                }
+            })
     }
 
     return (
         <>
             <Modal isOpen={walletModalOpen} onDismiss={toggleWalletModal} minHeight={false} maxHeight={90}>
-                <Wrapper>{getModalContent()}</Wrapper>
+                <Wrapper>
+                    <ModalContent
+                        error={error}
+                        account={account}
+                        toggleWalletModal={toggleWalletModal}
+                        i18n={i18n}
+                        walletView={walletView}
+                        setWalletView={setWalletView}
+                        pendingTransactions={pendingTransactions}
+                        confirmedTransactions={confirmedTransactions}
+                        ENSName={ENSName}
+                        pendingWallet={pendingWallet}
+                        pendingError={pendingError}
+                        setPendingError={setPendingError}
+                        tryActivation={tryActivation}
+                        connector={connector}
+                    />
+                </Wrapper>
             </Modal>
             <NetworkModal />
         </>

@@ -1,18 +1,14 @@
 import React from 'react'
-import { Platform, TouchableOpacity } from 'react-native'
+import { TouchableOpacity, View } from 'react-native'
 
 import { withStyles } from '../../../lib/styles'
-import CryptoLiteracyImageWeb from '../../../../src/assets/CryptoLiteracyNovember.web.svg'
-import CryptoLiteracyImageNative from '../../../../src/assets/CryptoLiteracyNovember.native.svg'
-
-const CryptoLiteracyImage = Platform.select({
-  web: CryptoLiteracyImageWeb,
-  native: CryptoLiteracyImageNative,
-})
+import CryptoLiteracyImage from '../../../../src/assets/CryptoLiteracyDecember.svg'
 
 const CryptoLiteracyBanner = ({ onPress, styles }) => (
   <TouchableOpacity style={styles.mainContainer} onPress={onPress}>
-    <CryptoLiteracyImage />
+    <View style={{ aspectRatio: 1024 / 507 }}>
+      <CryptoLiteracyImage width="100%" height="100%" />
+    </View>
   </TouchableOpacity>
 )
 

@@ -356,14 +356,10 @@ AppView.contextType = GlobalTogglesContext
 const styles = StyleSheet.create({
   scrollView: {
     display: 'flex',
-
-    // flexGrow: 1,
   },
   scrollableView: {
     flexGrow: 1,
     display: 'flex',
-
-    // height: '100%',
   },
   sideMenuContainer: {
     top: 0,
@@ -390,7 +386,6 @@ const styles = StyleSheet.create({
   safeArea: {
     padding: 0,
     paddingHorizontal: 0,
-    paddingVertical: 0,
     flex: 1,
   },
 })

@@ -47,6 +47,11 @@ exports[`Receive matches snapshot 1`] = `
         </div>
         <div
           className="css-view-1dbjc4n"
+          style={
+            Object {
+              "height": "44px",
+            }
+          }
         />
       </div>
     </div>

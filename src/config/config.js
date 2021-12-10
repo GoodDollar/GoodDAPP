@@ -25,7 +25,7 @@ const isPhaseTwo = 2 === phase
 const alchemyKey = env.REACT_APP_ALCHEMY_KEY
 const isEToro = env.REACT_APP_ETORO === 'true' || env.REACT_APP_NETWORK === 'etoro'
 const ipfsGateways = env.REACT_APP_IPFS_GATEWAYS || 'https://cloudflare-ipfs.com/ipfs/{cid},https://ipfs.io/ipfs/{cid},https://{cid}.ipfs.dweb.link'
-const cryptoLiteracyEndDate = env.REACT_APP_CRYPTO_LITERACY_END_DATE || '2022-01-01'
+const cryptoLiteracyEndDate = env.REACT_APP_CRYPTO_LITERACY_END_DATE || '2021-12-31'
 
 const Config = {
   env: appEnv,

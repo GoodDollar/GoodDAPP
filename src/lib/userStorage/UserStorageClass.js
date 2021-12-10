@@ -511,6 +511,23 @@ export class UserStorage {
     this.startSystemFeed().catch(e => logger.error('initfeed failed initializing startSystemFeed', e.message, e))
   }
 
+  async stampInviteFriendsMessage(id = '') {
+    const bounty = await this.wallet.getUserInviteBounty()
+    const { data } = inviteFriendsMessage
+    const { readMore } = data
+    return {
+      ...inviteFriendsMessage,
+      id,
+      data: {
+        ...data,
+        readMore: mustache(readMore, {
+          inviterAmount: bounty,
+          inviteeAmount: bounty / 2,
+        }),
+      },
+    }
+  }
+
   async startSystemFeed() {
     const userProperties = await this.userProperties.getAll()
     const firstVisitAppDate = userProperties.firstVisitApp
@@ -531,24 +548,13 @@ export class UserStorage {
           .add(2, 'weeks')
           .isBefore(moment())
 
-      if (!firstInviteCard || shouldAddSecondCard) {
-        const bounty = await this.wallet.getUserInviteBounty()
-        const { data } = inviteFriendsMessage
-        const { readMore } = data
+      const stampedInviteFriendsMessage = await this.stampInviteFriendsMessage(
+        shouldAddSecondCard ? INVITE_REMINDER_ID : INVITE_NEW_ID,
+      )
 
+      if (!firstInviteCard || shouldAddSecondCard) {
         setTimeout(
-          () =>
-            this.enqueueTX({
-              ...inviteFriendsMessage,
-              id: shouldAddSecondCard ? INVITE_REMINDER_ID : INVITE_NEW_ID,
-              data: {
-                ...data,
-                readMore: mustache(readMore, {
-                  inviterAmount: bounty,
-                  inviteeAmount: bounty / 2,
-                }),
-              },
-            }),
+          () => this.enqueueTX(stampedInviteFriendsMessage),
           shouldAddSecondCard ? 0 : 60000, // 2nd immediately, first one in 2 minutes
         )
       }
@@ -563,10 +569,10 @@ export class UserStorage {
     logger.debug('startSystemFeed: done')
   }
 
-  addAllCardsTest() {
-    ;[welcomeMessage, inviteFriendsMessage, startClaiming, longUseOfClaims].forEach(m => {
-      const copy = Object.assign({}, m, { id: String(Math.random()) })
-      this.feedStorage.enqueueTX(copy)
+  async addAllCardsTest() {
+    const stampedInviteFriendsMessage = await this.stampInviteFriendsMessage()
+    ;[welcomeMessage, stampedInviteFriendsMessage, startClaiming, longUseOfClaims].forEach(m => {
+      this.feedStorage.enqueueTX({ ...m, id: String(Math.random()) })
     })
   }
 

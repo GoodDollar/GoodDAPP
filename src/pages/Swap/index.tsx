@@ -305,7 +305,7 @@ function Swap() {
                             </ButtonAction>
                         ) : meta === null || (meta && balanceNotEnough) ? (
                             <ButtonAction style={{ marginTop: 22 }} disabled>
-                                Insufficient Trade
+                                Insufficient Funds
                             </ButtonAction>
                         ) : !(swapPair.value || swapValue) ? (
                             <ButtonAction style={{ marginTop: 22 }} disabled>

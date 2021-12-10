@@ -172,7 +172,9 @@ function SwapConfirmModal({
                             tip={i18n._(t`Routing through these tokens resulted in the best price for your trade.`)}
                         />
                         {GDX && <SwapInfo title="GDX" value={GDX} />}
-                        {exitContribution && <SwapInfo title="EXIT CONTRIBUTION" value={exitContribution} />}
+                        {exitContribution && exitContribution !== undefined && (
+                            <SwapInfo title="EXIT CONTRIBUTION" value={exitContribution} />
+                        )}
                     </div>
                     <ButtonAction onClick={handleSwap} disabled={false}>
                         {i18n._(t`CONFIRM SWAP`)}

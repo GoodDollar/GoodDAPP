@@ -162,20 +162,10 @@ const StakeDeposit = ({ stake, onDeposit, onClose }: StakeDepositModalProps) => 
                 ) : depositing ? (
                     i18n._(t`Deposit overview`)
                 ) : (
-                    i18n._(t`Success!`)
+                    i18n._(t`Awesome!`)
                 )}
             </Title>
-            {(approving || state.error) && (
-                <div className="error mb-2">
-                    {state.error ? (
-                        state.error
-                    ) : (
-                        <>
-                            Warning message goes here... <br /> Warning message goes here...
-                        </>
-                    )}
-                </div>
-            )}
+            {(approving || state.error) && <div className="error mb-2">{state.error ? state.error : null}</div>}
             {approving ? (
                 <>
                     <div className="flex items-center justify-between mb-3">
@@ -295,7 +285,7 @@ const StakeDeposit = ({ stake, onDeposit, onClose }: StakeDepositModalProps) => 
             ) : (
                 <>
                     <div className="text-center mt-4">
-                        Transaction was sent to the blockchain{' '}
+                        {i18n._(t`Did you just create UBI for thousands of people around the world?`)}{' '}
                         <a
                             href={
                                 state.transactionHash &&
@@ -311,7 +301,7 @@ const StakeDeposit = ({ stake, onDeposit, onClose }: StakeDepositModalProps) => 
                     <div className="flex flex-col items-center mt-4 space-y-2">
                         <Link to="/portfolio">
                             <ButtonDefault className="uppercase px-6" width="auto">
-                                {i18n._(t`Back to portfolio`)}
+                                {i18n._(t`Yes, I did!`)}
                             </ButtonDefault>
                         </Link>
                         <ButtonText className="uppercase" onClick={onClose}>

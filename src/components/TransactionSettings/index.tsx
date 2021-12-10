@@ -229,7 +229,7 @@ export default function SlippageTabs({ rawSlippage, setRawSlippage, deadline, se
                 <RowFixed>
                     <p className="sub-title">{i18n._(t`Transaction deadline`)}</p>
                     <QuestionHelper
-                        text={i18n._(t`Your transaction will revert if it is pending for more than this long.`)}
+                        text={i18n._(t`Your transaction will revert if it is pending for more than this time.`)}
                     />
                 </RowFixed>
                 <RowFixed>

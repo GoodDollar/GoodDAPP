@@ -113,6 +113,9 @@ function Withdraw({ token, protocol, totalStake, open, setOpen, onWithdraw, stak
                         />
 
                         <div className="flex flex-col items-center gap-1 relative mt-7">
+                            <p className="warning text-center mb-2 text-red">
+                                {i18n._(t`Claiming your rewards will reset your multiplier.`)}
+                            </p>
                             <ButtonAction className="withdraw" disabled={status === 'pending'} onClick={handleWithdraw}>
                                 {status === 'pending'
                                     ? i18n._(t`PENDING SIGN...`)

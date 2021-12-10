@@ -81,17 +81,10 @@ function WithdrawRewards({ trigger, onClaim, ...rest }: WithdrawRewardsProps) {
                             <Title className="flex flex-grow justify-center pt-3 mb-5">
                                 {i18n._(t`Claimable Rewards`)}
                             </Title>
-                            {
-                                <p className="warning mb-5">
-                                    {error ? (
-                                        error.message
-                                    ) : (
-                                        <>
-                                            Warning message goes here... <br /> Warning message goes here...
-                                        </>
-                                    )}
-                                </p>
-                            }
+                            {<p className="warning mb-5">{error ? error.message : ''}</p>}
+                            <p className="warning mb-5 text-center">
+                                {i18n._(t`Claiming your rewards will reset your multiplier.`)}
+                            </p>
                             <div className="flex flex-col items-center gap-1 relative">
                                 <ButtonAction
                                     className="claim-reward"

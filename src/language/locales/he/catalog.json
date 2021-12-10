@@ -352,7 +352,6 @@
   "Stakes": "ההימור",
   "Staking": "סטרינג",
   "Staking APR": "הימור בהימור של אפריל",
-  "Starting at 1.0, your multiplier will increase to 2.0 after one month of staking to the Trust, at which point you can claim more G$ every day!": "",
   "Submit Tool": "הגש את הכלי",
   "Success!": "הַצלָחָה!",
   "Supply APR": "ספק APR",
@@ -529,5 +528,10 @@
   "{0} Strategy": "{0} אסטרטגיה",
   "{0} per {1}": "{0} לכל {1}",
   "{label}": "",
-  "• Added by user": "• נוסף על ידי המשתמש"
+  "• Added by user": "• נוסף על ידי המשתמש",
+  "Staking could be of two types: UBI for funds staked on the GoodDollar trust for the generation of new G$ for universal income distribution, or Governance (to be enabled) for staking G$s for GOOD Rewards.": "Staking יכול להיות של שני סוגים: UBI עבור כספים staked על אמון gooddollar עבור הדור של חדש G $ עבור הפצה הכנסה אוניברסלית, או ממשל (להיות מופעל) עבור stakings $ עבור rewards טוב.",
+  "Total amount on value staked.": "הסכום הכולל על ערך staked.",
+  "How much value your stake has accumulated so far.": "כמה ערך המוקד שלך צבר עד כה.",
+  "Starting at 1.0, your multiplier will increase to 2.0 after one month of staking to the Trust, at which point you can claim more G$ every day!": "החל מ 1.0, מכפיל שלך יגדל ל 2.0 לאחר חודש אחד של staking לאמון, באיזו נקודה אתה יכול לטעון יותר G $ כל יום!",
+  "How many GOOD tokens you are accumulating by this stake position.": "כמה אסימונים טובים אתה מצטבר על ידי מיקום זה."
 }

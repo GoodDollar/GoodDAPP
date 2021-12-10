@@ -353,7 +353,6 @@
   "Stakes": "Miză",
   "Staking": "Staking.",
   "Staking APR": "Aprovizionare APR",
-  "Starting at 1.0, your multiplier will increase to 2.0 after one month of staking to the Trust, at which point you can claim more G$ every day!": "",
   "Submit Tool": "Instrumentul de trimitere",
   "Success!": "Succes!",
   "Supply APR": "Aprovizionare aprilie",
@@ -530,5 +529,10 @@
   "{0} Strategy": "{0} Strategie",
   "{0} per {1}": "{0} pe {1}",
   "{label}": "",
-  "• Added by user": "• Adăugat de către utilizator"
+  "• Added by user": "• Adăugat de către utilizator",
+  "Staking could be of two types: UBI for funds staked on the GoodDollar trust for the generation of new G$ for universal income distribution, or Governance (to be enabled) for staking G$s for GOOD Rewards.": "Păstrarea ar putea fi de două tipuri: UBI pentru fonduri acționate pe încrederea Gooddollar pentru generarea de noi G $ pentru distribuția veniturilor universale sau guvernanța (să fie activată) pentru a vă petrece G $ S pentru recompense bune.",
+  "Total amount on value staked.": "Suma totală pe valoarea stabilită.",
+  "How much value your stake has accumulated so far.": "Cât de mult valoarea dvs. sa acumulat până acum.",
+  "Starting at 1.0, your multiplier will increase to 2.0 after one month of staking to the Trust, at which point you can claim more G$ every day!": "Începând cu 1.0, multiplicatorul dvs. va crește la 2.0 după o lună de a se ține la încredere, moment în care puteți pretinde mai mult G $ în fiecare zi!",
+  "How many GOOD tokens you are accumulating by this stake position.": "Câte jetoane bune pe care îl acumulezi prin această poziție de miză."
 }

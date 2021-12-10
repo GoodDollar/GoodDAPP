@@ -354,7 +354,6 @@
   "Stakes": "Пакеты",
   "Staking": "Упоминание",
   "Staking APR": "Ставка годовых",
-  "Starting at 1.0, your multiplier will increase to 2.0 after one month of staking to the Trust, at which point you can claim more G$ every day!": "",
   "Submit Tool": "Отправить инструмент",
   "Success!": "Успех!",
   "Supply APR": "Поставка APR",
@@ -531,5 +530,10 @@
   "{0} Strategy": "{0} Стратегия",
   "{0} per {1}": "{0} за {1}",
   "{label}": "",
-  "• Added by user": "• Добавлено пользователем"
+  "• Added by user": "• Добавлено пользователем",
+  "Staking could be of two types: UBI for funds staked on the GoodDollar trust for the generation of new G$ for universal income distribution, or Governance (to be enabled) for staking G$s for GOOD Rewards.": "Упоминание может быть из двух типов: UBI для средств, поставленных на доверие GoodDollar для поколения новых G $ для универсального распределения доходов или управление (для включения) для ставки G $ S для хороших наград.",
+  "Total amount on value staked.": "Общая сумма по стоимости поставлена.",
+  "How much value your stake has accumulated so far.": "Сколько ценностей накоплено ваша доля.",
+  "Starting at 1.0, your multiplier will increase to 2.0 after one month of staking to the Trust, at which point you can claim more G$ every day!": "Начиная с 1.0, ваш множитель увеличится до 2,0 после одного месяца поставок доверия, в какой момент вы можете претендовать на большее количество G $ каждый день!",
+  "How many GOOD tokens you are accumulating by this stake position.": "Сколько хороших токенов вы накапливаете на эту позицию поставок."
 }

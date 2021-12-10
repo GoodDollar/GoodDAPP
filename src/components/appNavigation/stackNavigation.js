@@ -386,6 +386,7 @@ const styles = StyleSheet.create({
   safeArea: {
     padding: 0,
     paddingHorizontal: 0,
+    paddingVertical: 0,
     flex: 1,
   },
 })

@@ -23,7 +23,7 @@ import { GD_GUN_CREDENTIALS } from '../constants/localStorage'
 import AsyncStorage from '../utils/asyncStorage'
 import defaultGun from '../gundb/gundb'
 import { ThreadDB } from '../textile/ThreadDB'
-import mustache from '../utils/mustache'
+import uuid from '../utils/uuid'
 import { type StandardFeed } from './StandardFeed'
 import { type UserModel } from './UserModel'
 import UserProperties from './UserProperties'
@@ -31,6 +31,7 @@ import { UserProfileStorage } from './UserProfileStorage'
 import { FeedEvent, FeedItemType, FeedStorage, TxStatus } from './FeedStorage'
 import type { DB } from './UserStorage'
 import createAssetStorage, { type UserAssetStorage } from './UserAssetStorage'
+import { prepareInviteCard } from './utlis'
 
 const logger = pino.child({ from: 'UserStorage' })
 
@@ -511,23 +512,6 @@ export class UserStorage {
     this.startSystemFeed().catch(e => logger.error('initfeed failed initializing startSystemFeed', e.message, e))
   }
 
-  async stampInviteFriendsMessage(id = '') {
-    const bounty = await this.wallet.getUserInviteBounty()
-    const { data } = inviteFriendsMessage
-    const { readMore } = data
-    return {
-      ...inviteFriendsMessage,
-      id,
-      data: {
-        ...data,
-        readMore: mustache(readMore, {
-          inviterAmount: bounty,
-          inviteeAmount: bounty / 2,
-        }),
-      },
-    }
-  }
-
   async startSystemFeed() {
     const userProperties = await this.userProperties.getAll()
     const firstVisitAppDate = userProperties.firstVisitApp
@@ -548,15 +532,15 @@ export class UserStorage {
           .add(2, 'weeks')
           .isBefore(moment())
 
-      const stampedInviteFriendsMessage = await this.stampInviteFriendsMessage(
-        shouldAddSecondCard ? INVITE_REMINDER_ID : INVITE_NEW_ID,
-      )
-
       if (!firstInviteCard || shouldAddSecondCard) {
-        setTimeout(
-          () => this.enqueueTX(stampedInviteFriendsMessage),
-          shouldAddSecondCard ? 0 : 60000, // 2nd immediately, first one in 2 minutes
+        const inviteCard = await prepareInviteCard(
+          shouldAddSecondCard ? INVITE_REMINDER_ID : INVITE_NEW_ID,
+          inviteFriendsMessage,
+          this.wallet,
         )
+
+        // 2nd immediately, first one in 2 minutes
+        setTimeout(() => this.enqueueTX(inviteCard), shouldAddSecondCard ? 0 : 60000)
       }
     }
 
@@ -570,8 +554,9 @@ export class UserStorage {
   }
 
   async addAllCardsTest() {
-    const stampedInviteFriendsMessage = await this.stampInviteFriendsMessage()
-    ;[welcomeMessage, stampedInviteFriendsMessage, startClaiming, longUseOfClaims].forEach(m => {
+    const inviteCard = await prepareInviteCard(uuid(), inviteFriendsMessage, this.wallet)
+
+    ;[welcomeMessage, inviteCard, startClaiming, longUseOfClaims].forEach(m => {
       this.feedStorage.enqueueTX({ ...m, id: String(Math.random()) })
     })
   }

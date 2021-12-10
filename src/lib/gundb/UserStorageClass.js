@@ -25,8 +25,7 @@ import AsyncStorage from '../utils/asyncStorage'
 import IPFS from '../ipfs/IpfsStorage'
 import { getUserModel, type UserModel } from '../userStorage/UserModel'
 import { type StandardFeed } from '../userStorage/StandardFeed'
-import mustache from '../utils/mustache'
-import { maskField } from '../userStorage/utlis'
+import { maskField, prepareInviteCard } from '../userStorage/utlis'
 import defaultGun from './gundb'
 import UserProperties from './UserPropertiesClass'
 import { FeedEvent, FeedItemType, FeedStorage, TxStatus } from './FeedStorage'
@@ -654,7 +653,9 @@ export class UserStorage {
   async startSystemFeed() {
     const userProperties = await this.userProperties.getAll()
     const firstVisitAppDate = userProperties.firstVisitApp
+
     logger.debug('startSystemFeed', { userProperties, firstVisitAppDate })
+
     this.addBackupCard()
     this.addStartClaimingCard()
 
@@ -670,25 +671,14 @@ export class UserStorage {
           .isBefore(moment())
 
       if (!firstInviteCard || shouldAddSecondCard) {
-        const bounty = await this.wallet.getUserInviteBounty()
-        const { data } = inviteFriendsMessage
-        const { readMore } = data
-
-        setTimeout(
-          () =>
-            this.enqueueTX({
-              ...inviteFriendsMessage,
-              id: shouldAddSecondCard ? INVITE_REMINDER_ID : INVITE_NEW_ID,
-              data: {
-                ...data,
-                readMore: mustache(readMore, {
-                  inviterAmount: bounty,
-                  inviteeAmount: bounty / 2,
-                }),
-              },
-            }),
-          shouldAddSecondCard ? 0 : 60000, // 2nd immediately, first one in 2 minutes
+        const inviteCard = await prepareInviteCard(
+          shouldAddSecondCard ? INVITE_REMINDER_ID : INVITE_NEW_ID,
+          inviteFriendsMessage,
+          this.wallet,
         )
+
+        // 2nd immediately, first one in 2 minutes
+        setTimeout(() => this.enqueueTX(inviteCard), shouldAddSecondCard ? 0 : 60000)
       }
     }
 

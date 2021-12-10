@@ -1,6 +1,6 @@
 // @flow
 import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
-import { Animated, Dimensions, Easing, Platform, TouchableOpacity, View } from 'react-native'
+import { Animated, Dimensions, Easing, Linking, Platform, TouchableOpacity, View } from 'react-native'
 import { concat, debounce, get, noop, uniqBy } from 'lodash'
 import Mutex from 'await-mutex'
 import type { Store } from 'undux'
@@ -67,7 +67,7 @@ import FaceVerificationIntro from './FaceVerification/screens/IntroScreen'
 import FaceVerificationError from './FaceVerification/screens/ErrorScreen'
 
 import GoodMarketButton from './GoodMarket/components/GoodMarketButton'
-import CryptoLiteracyBanner from './FeedItems/CryptoLiteracyNovemberBanner'
+import CryptoLiteracyBanner from './FeedItems/CryptoLiteracyDecemberBanner'
 
 const log = logger.child({ from: 'Dashboard' })
 
@@ -162,7 +162,7 @@ const Dashboard = props => {
 
   const onBannerClicked = useOnPress(() => {
     fireEvent(INVITE_BANNER)
-    navigation.navigate('Rewards')
+    Linking.openURL('https://ubi.gd/give')
   }, [navigation])
 
   const listHeaderComponent = isCryptoLiteracy ? <CryptoLiteracyBanner onPress={onBannerClicked} /> : null

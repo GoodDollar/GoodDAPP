@@ -3593,10 +3593,10 @@
   resolved "https://registry.yarnpkg.com/@toruslabs/torus-direct-react-native-sdk/-/torus-direct-react-native-sdk-0.6.1.tgz#8b0c7b1d30bbff24d1270aa75a84179a443b43de"
   integrity sha512-DqoazXywztnw+lavHxfQsUerV4qKFHw5AiBoNrfX5g8ZLJ78EH3NFcF/1SgfFXYLHZjp9UrpnLxS0DWvjch/Ow==
 
-"@toruslabs/torus-direct-web-sdk@^5.0.3":
-  version "5.0.3"
-  resolved "https://registry.yarnpkg.com/@toruslabs/torus-direct-web-sdk/-/torus-direct-web-sdk-5.0.3.tgz#638d4d8c295e34b12d40be454b61d4689c4c9f77"
-  integrity sha512-yYwM0Y2iiFsFVqoHvj/IQw6Z9gcsGN9Lx75lLyN9ttMXlVvpKGFiaimmYBT2F8jv/bb9JygsylLEk1VFh9DaeQ==
+"@toruslabs/torus-direct-web-sdk@5.0.2":
+  version "5.0.2"
+  resolved "https://registry.yarnpkg.com/@toruslabs/torus-direct-web-sdk/-/torus-direct-web-sdk-5.0.2.tgz#e6951070e1a0e5c6b9b4bdd42d43e0c98aefcb36"
+  integrity sha512-5b633xeWjDuXD/I0OrItecGdTFeYRYJ1KqZT4R9cKJzmXDjgEqXNVuN2xJdbPsn+vTiNd9/WVVEGzdVLjFQ3Hw==
   dependencies:
     "@chaitanyapotti/random-id" "^1.0.3"
     "@chaitanyapotti/register-service-worker" "^1.7.3"
@@ -3610,7 +3610,7 @@
     loglevel "^1.7.1"
     web3-utils "^1.6.0"
 
-"@toruslabs/torus.js@^3.1.0":
+"@toruslabs/torus.js@^3.0.0":
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/@toruslabs/torus.js/-/torus.js-3.1.0.tgz#4ab3a98818776be05e36ce41a261983b851c7f9d"
   integrity sha512-atP5UDjTLIYWSRw0dVdRvtBy5B2mY6eooZJGFqSWI1VQs7SknwGNCB/WhLREg7S6BictKzchgnG7Y+2wwXFtQA==
@@ -23129,10 +23129,10 @@ validate-npm-package-license@^3.0.1:
     spdx-correct "^3.0.0"
     spdx-expression-parse "^3.0.0"
 
-validator@^10.11.0:
-  version "10.11.0"
-  resolved "https://registry.yarnpkg.com/validator/-/validator-10.11.0.tgz#003108ea6e9a9874d31ccc9e5006856ccd76b228"
-  integrity sha512-X/p3UZerAIsbBfN/IwahhYaBbY68EN/UQBWHtsbXGT5bfrH/p4NQzUCG1kF/rtKaNpnJ7jAu6NGTdSNtyNIXMw==
+validator@^13.7.0:
+  version "13.7.0"
+  resolved "https://registry.yarnpkg.com/validator/-/validator-13.7.0.tgz#4f9658ba13ba8f3d82ee881d3516489ea85c0857"
+  integrity sha512-nYXQLCBkpJ8X6ltALua9dRrZDHVYxjJ1wgskNt1lH9fzGjs3tgojGSCBjmEPwkWS1y29+DrizMTW19Pr9uB2nw==
 
 value-equal@^1.0.1:
   version "1.0.1"

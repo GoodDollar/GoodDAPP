@@ -1,4 +1,4 @@
-import { defaults, first, omit, pad } from 'lodash'
+import { defaults, first, omit, padStart, repeat } from 'lodash'
 
 import Config from '../../../../config/config'
 import logger from '../../../../lib/logger/js-logger'
@@ -96,9 +96,8 @@ class TorusSDK {
       torusUser = { ...otherResponse, ...userInfo }
     }
 
-    const { name, email, privateKey = '' } = torusUser
+    let { name, email, privateKey = '' } = torusUser
     const isLoginPhoneNumber = /\+[0-9]+$/.test(name)
-    const leading = privateKey.length - 64
 
     if (isLoginPhoneNumber) {
       torusUser = { ...torusUser, mobile: name }
@@ -108,14 +107,36 @@ class TorusSDK {
       torusUser = omit(torusUser, 'name')
     }
 
-    if (leading > 0) {
-      // leading characters should be zeros, otherwise something went wrong
-      if (privateKey.substring(0, leading) !== pad('', leading, '0')) {
-        throw new Error('Invalid private key received:', { privateKey })
+    if (privateKey) {
+      const leading = privateKey.length - 64
+
+      const failWithInvalidKey = () => {
+        log.warn('Invalid private key received', privateKey)
+        throw new Error('Invalid private key received: ' + privateKey)
       }
 
-      log.warn('Received private key with extra "0" padding:', privateKey)
-      torusUser = { ...torusUser, privateKey: privateKey.substring(leading) }
+      if (!/^[0-9a-f]+$/i.test(privateKey)) {
+        failWithInvalidKey()
+      }
+
+      if (leading > 0) {
+        // leading characters should be zeros, otherwise something went wrong
+        if (privateKey.substring(0, leading) !== repeat('0', leading)) {
+          failWithInvalidKey()
+        }
+
+        log.warn('Received private key with extra "0" padding:', privateKey)
+        privateKey = privateKey.substring(leading)
+      }
+
+      if (leading < 0) {
+        log.warn('Private key must be 32 bytes long, adding extra "0" padding:', privateKey)
+        privateKey = padStart(privateKey, 64, '0')
+      }
+
+      if (leading !== 0) {
+        torusUser = { ...torusUser, privateKey }
+      }
     }
 
     if ('production' !== config.env) {

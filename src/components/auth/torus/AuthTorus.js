@@ -191,11 +191,12 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
       fireEvent(TORUS_FAILED, { provider, error: e.message })
       const cancelled = e.message.toLowerCase().includes('user closed')
       if (cancelled) {
-        log.info(e.message, e)
+        log.warn('torus popup closed', e.message, e)
         fireEvent(TORUS_POPUP_CLOSED, { provider, reason: e.message })
         throw e
       } else {
         log.error('torus login failed', e.message, e, { dialogShown: true })
+        throw e
       }
     }
     return { torusUser, replacing }

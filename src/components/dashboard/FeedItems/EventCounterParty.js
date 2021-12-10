@@ -50,7 +50,7 @@ const EventCounterParty = ({ feedItem, styles, style, textStyle, subtitle, isSma
 
   let hasSubtitle = get(feedItem, 'data.readMore') !== false
 
-  return <EventContent description={displayText} hasSubtitle={hasSubtitle} direction={direction} />
+  return <EventContent style={style} description={displayText} hasSubtitle={hasSubtitle} direction={direction} />
 }
 
 export default EventCounterParty

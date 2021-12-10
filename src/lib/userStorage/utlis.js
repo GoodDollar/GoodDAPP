@@ -55,6 +55,15 @@ export const isValidValue = (field: string, value: string) => {
   return true
 }
 
+const maskPhone = phone => `${'*'.repeat(phone.length - 4)}${phone.slice(-4)}`
+
+const maskEmail = email => {
+  const [name, domain = ''] = email.split('@')
+  const nameLen = name.length
+
+  return `${name[0]}${'*'.repeat(nameLen - 2)}${name[nameLen - 1]}@${domain}`
+}
+
 /**
  * Returns phone with last 4 numbers, and before that ***,
  * and hide email user characters leaving visible only first and last character
@@ -63,15 +72,21 @@ export const isValidValue = (field: string, value: string) => {
  * @returns {string} - Returns masked value with *** to hide characters
  */
 export const maskField = (fieldType: 'email' | 'mobile' | 'phone', value: string): string => {
-  if (fieldType === 'email') {
-    let parts = value.split('@')
+  let masked = value
 
-    return `${parts[0][0]}${'*'.repeat(parts[0].length - 2)}${parts[0][parts[0].length - 1]}@${parts[1]}`
+  if (value) {
+    switch (fieldType) {
+      case 'mobile':
+      case 'phone':
+        masked = maskPhone(value)
+        break
+      case 'email':
+        masked = maskEmail(value)
+        break
+      default:
+        break
+    }
   }
 
-  if (['mobile', 'phone'].includes(fieldType)) {
-    return `${'*'.repeat(value.length - 4)}${value.slice(-4)}`
-  }
-
-  return value
+  return masked
 }

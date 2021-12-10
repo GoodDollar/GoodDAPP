@@ -74,6 +74,7 @@ jobs:
           echo "SECRET_NAME=DEV_ENV" >> $GITHUB_ENV
           echo "APPCENTER_NAME=GoodDollar/GoodDollar-Android-development" >> $GITHUB_ENV
           echo "APPCENTER_TOKEN=${{ secrets.APPCENTER_ANDROID_DEV }}" >> $GITHUB_ENV
+          echo "ANDROID_BUNDLE_PATH=./android/app/build/outputs/bundle/release/app-release.aab" >> $GITHUB_ENV
 
       - name: Pre-checks - Env is QA
         if: ${{ endsWith(github.ref, '/staging') }}
@@ -142,7 +143,7 @@ jobs:
       - name: Build Universal APK
         uses: skywall/universal-apk-builder@v1.0.1
         with:
-          aab_path: './android/app/build/outputs/bundle/release/app-release.aab'
+          aab_path: ${{ env.ANDROID_BUNDLE_PATH }}
           keystore_path: './android/app/release.keystore'
           keystore_password: ${{secrets.RELEASE_ANDROID_PASSPHRASE}}
           keystore_alias: 'release-alias'
@@ -153,8 +154,8 @@ jobs:
           echo "deploying to ${{ env.APPCENTER_NAME }} ${{ env.INPUT_APK_PATH }}"
           yarn add appcenter-cli@^2.*
           npx appcenter distribute release --token "${{ env.APPCENTER_TOKEN }}" --app "${{ env.APPCENTER_NAME }}" --group "Collaborators" --file "${{ env.UNIVERSAL_APK_PATH }}" --release-notes "$(git log -1 --pretty=format:'%h %s')" --debug
-      # FIXME: removed condition temporarily to prevent publishing to play store until we republish the app
-      # - name: Distribute to stores - QA & PROD ONLY
-      # if: ${{ endsWith(github.ref, '/next')
-      # run: |
-      #   npx appcenter distribute stores publish --token "${{ env.APPCENTER_TOKEN }}" --app "${{ env.APPCENTER_NAME }}" --store "${{ env.APPCENTER_STORE }}" --file "${{ env.UNIVERSAL_APK_PATH }}" --release-notes "$(git log -1 --pretty=format:'%h %s')"
+
+      - name: Distribute to stores - PROD ONLY
+        if: ${{ endsWith(github.ref, '/next') }}
+        run: |
+          npx appcenter distribute stores publish --token "${{ env.APPCENTER_TOKEN }}" --app "${{ env.APPCENTER_NAME }}" --store "${{ env.APPCENTER_STORE }}" --file "${{ env.ANDROID_BUNDLE_PATH }}" --release-notes "$(git log -1 --pretty=format:'%h %s')"

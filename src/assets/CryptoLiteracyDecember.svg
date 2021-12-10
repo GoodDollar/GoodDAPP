@@ -15,10 +15,10 @@
     <rect width="1024" height="507" fill="url(#linear-gradient)"/>
     <rect id="Rectangle_2136" data-name="Rectangle 2136" width="972" height="473" rx="30" transform="translate(25 14)" fill="url(#linear-gradient)"/>
     <text id="Give_G_to_a_good_cause" data-name="Give G$ to 
-a good cause" transform="translate(417 128)" fill="#fff" font-size="69" font-family="Inter-Bold, Inter" font-weight="700"><tspan x="85.276" y="67">Give G$ to </tspan><tspan x="37.642" y="133">a good cause</tspan></text>
+a good cause" transform="translate(417 128)" fill="#fff" font-size="69" font-family="Roboto" font-weight="700"><tspan x="85.276" y="67">Give G$ to </tspan><tspan x="37.642" y="133">a good cause</tspan></text>
     <g id="Group_3740" data-name="Group 3740" transform="translate(19 4.489)">
       <rect id="Rectangle_2135" data-name="Rectangle 2135" width="411" height="81" rx="40" transform="translate(444 340)" fill="#fff"/>
-      <text id="Start_giving" data-name="Start giving" transform="translate(650 398)" fill="#0075ff" font-size="50" font-family="Inter-Bold, Inter" font-weight="700"><tspan x="-142.454" y="0">Start giving</tspan></text>
+      <text id="Start_giving" data-name="Start giving" transform="translate(650 398)" fill="#0075ff" font-size="50" font-family="Roboto" font-weight="700"><tspan x="-142.454" y="0">Start giving</tspan></text>
     </g>
     <g id="Group_3741" data-name="Group 3741">
       <g id="Group_3734" data-name="Group 3734" transform="translate(-217.074 -102.918)">
@@ -46,7 +46,7 @@ a good cause" transform="translate(417 128)" fill="#fff" font-size="69" font-fam
           </g>
         </g>
       </g>
-      <text id="_GoodGiveback" data-name="#GoodGiveback" transform="translate(213.461 429.489)" fill="#fff" font-size="30" font-family="Inter-Medium, Inter" font-weight="500"><tspan x="-115.531" y="0">#GoodGiveback</tspan></text>
+      <text id="_GoodGiveback" data-name="#GoodGiveback" transform="translate(213.461 429.489)" fill="#fff" font-size="30" font-family="Roboto" font-weight="500"><tspan x="-115.531" y="0">#GoodGiveback</tspan></text>
     </g>
   </g>
 </svg>

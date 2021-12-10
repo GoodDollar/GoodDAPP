@@ -354,7 +354,6 @@
   "Stakes": "賭注",
   "Staking": "st",
   "Staking APR": "質押APR",
-  "Starting at 1.0, your multiplier will increase to 2.0 after one month of staking to the Trust, at which point you can claim more G$ every day!": "",
   "Submit Tool": "提交工具",
   "Success!": "成功！",
   "Supply APR": "存款APR",
@@ -531,5 +530,10 @@
   "{0} Strategy": "{0}策略",
   "{0} per {1}": "{0}每{1}",
   "{label}": "",
-  "• Added by user": "•由用戶添加"
+  "• Added by user": "•由用戶添加",
+  "Staking could be of two types: UBI for funds staked on the GoodDollar trust for the generation of new G$ for universal income distribution, or Governance (to be enabled) for staking G$s for GOOD Rewards.": "遏制可能是兩種類型：UBI用於在GoodoDolar信任的基金上賭注，用於為普遍收入分配的新的G $的生成，或治理（要啟用）用於獎勵的獎勵。",
+  "Total amount on value staked.": "價值總額托出來。",
+  "How much value your stake has accumulated so far.": "到目前為止，您的股權累計有多大價值。",
+  "Starting at 1.0, your multiplier will increase to 2.0 after one month of staking to the Trust, at which point you can claim more G$ every day!": "從1.0開始，您的乘數將在一個月的綁定到信任之後將增加到2.0，此時您可以每天申請更多G $！",
+  "How many GOOD tokens you are accumulating by this stake position.": "您通過此樁位置累積了多少個好令牌。"
 }

@@ -352,7 +352,6 @@
   "Stakes": "Stakes",
   "Staking": "Staking",
   "Staking APR": "Staking APR",
-  "Starting at 1.0, your multiplier will increase to 2.0 after one month of staking to the Trust, at which point you can claim more G$ every day!": "",
   "Submit Tool": "Submit Tool",
   "Success!": "Success!",
   "Supply APR": "Supply APR",
@@ -529,5 +528,10 @@
   "{0} Strategy": "{0} Strategy",
   "{0} per {1}": "{0} per {1}",
   "{label}": "",
-  "• Added by user": "• Added by user"
+  "• Added by user": "• Added by user",
+  "Staking could be of two types: UBI for funds staked on the GoodDollar trust for the generation of new G$ for universal income distribution, or Governance (to be enabled) for staking G$s for GOOD Rewards.": "Staking could be of two types: UBI for funds staked on the GoodDollar trust for the generation of new G$ for universal income distribution, or Governance (to be enabled) for staking G$s for GOOD Rewards.",
+  "Total amount on value staked.": "Total amount on value staked.",
+  "How much value your stake has accumulated so far.": "How much value your stake has accumulated so far.",
+  "Starting at 1.0, your multiplier will increase to 2.0 after one month of staking to the Trust, at which point you can claim more G$ every day!": "Starting at 1.0, your multiplier will increase to 2.0 after one month of staking to the Trust, at which point you can claim more G$ every day!",
+  "How many GOOD tokens you are accumulating by this stake position.": "How many GOOD tokens you are accumulating by this stake position."
 }

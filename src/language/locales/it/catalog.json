@@ -354,7 +354,6 @@
   "Stakes": "Pali",
   "Staking": "Staffamento",
   "Staking APR": "APR di staking",
-  "Starting at 1.0, your multiplier will increase to 2.0 after one month of staking to the Trust, at which point you can claim more G$ every day!": "",
   "Submit Tool": "Proponi strumento",
   "Success!": "Successo!",
   "Supply APR": "APR concessione",
@@ -531,5 +530,10 @@
   "{0} Strategy": "Strategia {0}",
   "{0} per {1}": "{0} per {1}",
   "{label}": "",
-  "• Added by user": "• Aggiunto dall'utente"
+  "• Added by user": "• Aggiunto dall'utente",
+  "Staking could be of two types: UBI for funds staked on the GoodDollar trust for the generation of new G$ for universal income distribution, or Governance (to be enabled) for staking G$s for GOOD Rewards.": "Pietraking potrebbe essere di due tipi: UBI per i fondi puntati sulla fiducia Gooddollar per la generazione di nuovi G $ per la distribuzione del reddito universale o la governance (da abilitare) per azionare G $ s per buoni premi.",
+  "Total amount on value staked.": "Importo totale sul valore puntato.",
+  "How much value your stake has accumulated so far.": "Quanto valore è accumulato il tuo gioco finora.",
+  "Starting at 1.0, your multiplier will increase to 2.0 after one month of staking to the Trust, at which point you can claim more G$ every day!": "A partire da 1,0, il tuo moltiplicatore aumenterà fino a 2.0 dopo un mese di picchettio per la fiducia, a quel punto puoi rivendicare più G $ tutti i giorni!",
+  "How many GOOD tokens you are accumulating by this stake position.": "Quanti buoni token stai accumulando con questa posizione di palo."
 }

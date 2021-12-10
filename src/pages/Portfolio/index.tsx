@@ -151,45 +151,48 @@ const Portfolio = () => {
                 <Table
                     header={
                         <tr>
-                            <th>
-                                <Title type={'category'}>TYPE</Title>
-                            </th>
-                            <th>
-                                <Title type={'category'} className="flex items-center">
-                                    {i18n._(t`TOKEN`)}{' '}
-                                    <QuestionHelper
-                                        text={i18n._(t`This is the token that is currently being staked.`)}
-                                    />
-                                </Title>
-                            </th>
-                            <th>
-                                <Title type={'category'} className="flex items-center">
-                                    {i18n._(t`PROTOCOL`)}{' '}
-                                    <QuestionHelper
-                                        text={i18n._(t`This is the protocol that the token is staked to.`)}
-                                    />
-                                </Title>
-                            </th>
-                            <th>
-                                <Title type={'category'}>{i18n._(t`STAKE`)}</Title>
-                            </th>
-                            <th>
-                                <Title type={'category'}>G$ {i18n._(t`REWARDS`)}</Title>
-                            </th>
-                            <th>
-                                <Title type={'category'}>
-                                    {i18n._(t`MULTIPLIER`)}
-                                    <QuestionHelper
-                                        text={i18n._(
-                                            t`Starting at 1.0, your multiplier will increase to 2.0 after one month of staking to the Trust, at which point you can claim more G$ every day! `
-                                        )}
-                                    />
-                                </Title>
-                            </th>
-                            <th>
-                                <Title type={'category'}>GOOD {i18n._(t`REWARDS`)}</Title>
-                            </th>
-                            <th></th>
+                            {[
+                                {
+                                    title: i18n._(t`TYPE`),
+                                    questionText: i18n._(
+                                        t`Staking could be of two types: UBI for funds staked on the GoodDollar trust for the generation of new G$ for universal income distribution, or Governance (to be enabled) for staking G$s for GOOD Rewards.`
+                                    )
+                                },
+                                {
+                                    title: i18n._(t`TOKEN`),
+                                    questionText: i18n._(t`This is the token that is currently being staked.`)
+                                },
+                                {
+                                    title: i18n._(t`PROTOCOL`),
+                                    questionText: i18n._(t`This is the protocol that the token is staked to.`)
+                                },
+                                {
+                                    title: i18n._(t`STAKE`),
+                                    questionText: i18n._(t`Total amount on value staked.`)
+                                },
+                                {
+                                    title: `G$ ${i18n._(t`REWARDS`)}`,
+                                    questionText: i18n._(t`How much value your stake has accumulated so far.`)
+                                },
+                                {
+                                    title: i18n._(t`MULTIPLIER`),
+                                    questionText: i18n._(
+                                        t`Starting at 1.0, your multiplier will increase to 2.0 after one month of staking to the Trust, at which point you can claim more G$ every day!`
+                                    )
+                                },
+                                {
+                                    title: `GOOD ${i18n._(t`REWARDS`)}`,
+                                    questionText: i18n._(
+                                        t`How many GOOD tokens you are accumulating by this stake position.`
+                                    )
+                                }
+                            ].map((item, index) => (
+                                <th key={index}>
+                                    <Title type="category" className="flex items-center">
+                                        {item.title} <QuestionHelper text={item.questionText || ''} />
+                                    </Title>
+                                </th>
+                            ))}
                         </tr>
                     }
                 >

@@ -353,7 +353,6 @@
   "Stakes": "Estacas",
   "Staking": "Apretón",
   "Staking APR": "APR de apuesta",
-  "Starting at 1.0, your multiplier will increase to 2.0 after one month of staking to the Trust, at which point you can claim more G$ every day!": "",
   "Submit Tool": "Enviar herramienta",
   "Success!": "¡Éxito!",
   "Supply APR": "APR de suministro",
@@ -530,5 +529,10 @@
   "{0} Strategy": "{0} Estrategia",
   "{0} per {1}": "{0} por {1}",
   "{label}": "",
-  "• Added by user": "• añadido por el usuario"
+  "• Added by user": "• añadido por el usuario",
+  "Staking could be of two types: UBI for funds staked on the GoodDollar trust for the generation of new G$ for universal income distribution, or Governance (to be enabled) for staking G$s for GOOD Rewards.": "La regulación podría ser de dos tipos: UBI para los fondos establecidos en la confianza de GoodDollar para la generación de nuevos G $ para la distribución de ingresos universales, o la gobernanza (que se habilitará) para sostener G $ S para las buenas recompensas.",
+  "Total amount on value staked.": "Cantidad total en valor estancado.",
+  "How much value your stake has accumulated so far.": "¿Cuánto valor ha acumulado su estaca hasta ahora?",
+  "Starting at 1.0, your multiplier will increase to 2.0 after one month of staking to the Trust, at which point you can claim more G$ every day!": "A partir de 1.0, su multiplicador aumentará a 2.0 después de un mes de estadía de la confianza, ¿en qué punto puede reclamar más G $ todos los días?",
+  "How many GOOD tokens you are accumulating by this stake position.": "Cuántas buenas tokens estás acumulando por esta posición de estaca."
 }

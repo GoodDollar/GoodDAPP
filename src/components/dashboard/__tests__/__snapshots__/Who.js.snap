@@ -68,14 +68,13 @@ exports[`Who matches snapshot 1`] = `
                 className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1uqle4r r-borderRadius-ieixw r-display-6koalj r-height-1g7fiml r-justifyContent-1777fci r-marginBottom-d0pm55 r-width-199wky7"
               >
                 <div
-                  className="css-text-901oao r-color-jwli3a"
+                  className="css-text-901oao r-color-jwli3a r-fontWeight-1it3c9n"
                   dir="auto"
                   style={
                     Object {
                       "fontFamily": "gooddollar",
                       "fontSize": "22px",
                       "fontStyle": "normal",
-                      "fontWeight": "normal",
                     }
                   }
                 >
@@ -123,7 +122,7 @@ exports[`Who matches snapshot 1`] = `
                 autoComplete="on"
                 autoCorrect="on"
                 autoFocus={true}
-                className="css-textinput-11aywtz r-backgroundColor-14lw9ot r-borderBottomColor-1ny7kx0 r-borderBottomWidth-qklmqi r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-hiw28u r-marginTop-1t01tom r-paddingHorizontal-1dye5f7 r-paddingVertical-oyd9sg r-placeholderTextColor-1xktb6b r-textAlign-q4m81j"
+                className="css-textinput-11aywtz r-backgroundColor-14lw9ot r-borderBottomColor-1ny7kx0 r-borderBottomWidth-qklmqi r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-1it3c9n r-marginTop-1t01tom r-paddingHorizontal-1dye5f7 r-paddingVertical-oyd9sg r-placeholderTextColor-1xktb6b r-textAlign-q4m81j"
                 dir="auto"
                 maxLength={128}
                 onBlur={[Function]}

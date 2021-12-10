@@ -135,7 +135,7 @@ exports[`ListEventItem receive matches snapshot 1`] = `
             className="css-view-1dbjc4n r-alignItems-1habvwh r-display-6koalj r-flexDirection-eqz5dr r-flexGrow-16y2uox r-flexShrink-1wbh5a2 r-justifyContent-17s6mgv r-marginBottom-p1pxzi r-marginRight-1kb76zh r-marginTop-1mnahxq"
           >
             <div
-              className="css-text-901oao css-textMultiLine-cens5h r-alignItems-obd0qt r-color-cddv6f r-display-6koalj r-flex-13awgt0 r-flexShrink-1q142lx r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-height-1pi2tsx r-lineHeight-qvk6io r-marginTop-kc8jnq r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
+              className="css-text-901oao css-textMultiLine-cens5h r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
               dir="auto"
               style={
                 Object {
@@ -146,7 +146,7 @@ exports[`ListEventItem receive matches snapshot 1`] = `
               <span
                 className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1cwl3u0 r-marginRight-1ifrmw8 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
               >
-                From: 
+                from: 
               </span>
               <span
                 className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-lineHeight-1cwl3u0 r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
@@ -311,7 +311,7 @@ exports[`ListEventItem send matches snapshot 1`] = `
             className="css-view-1dbjc4n r-alignItems-1habvwh r-display-6koalj r-flexDirection-eqz5dr r-flexGrow-16y2uox r-flexShrink-1wbh5a2 r-justifyContent-17s6mgv r-marginBottom-p1pxzi r-marginRight-1kb76zh r-marginTop-1mnahxq"
           >
             <div
-              className="css-text-901oao css-textMultiLine-cens5h r-alignItems-obd0qt r-color-cddv6f r-display-6koalj r-flex-13awgt0 r-flexShrink-1q142lx r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-height-1pi2tsx r-lineHeight-qvk6io r-marginTop-kc8jnq r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
+              className="css-text-901oao css-textMultiLine-cens5h r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
               dir="auto"
               style={
                 Object {
@@ -322,7 +322,7 @@ exports[`ListEventItem send matches snapshot 1`] = `
               <span
                 className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1cwl3u0 r-marginRight-1ifrmw8 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
               >
-                To: 
+                to: 
               </span>
               <span
                 className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-lineHeight-1cwl3u0 r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
@@ -487,7 +487,7 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
             className="css-view-1dbjc4n r-alignItems-1habvwh r-display-6koalj r-flexDirection-eqz5dr r-flexGrow-16y2uox r-flexShrink-1wbh5a2 r-justifyContent-17s6mgv r-marginBottom-p1pxzi r-marginRight-1kb76zh r-marginTop-1mnahxq"
           >
             <div
-              className="css-text-901oao css-textMultiLine-cens5h r-alignItems-obd0qt r-color-cddv6f r-display-6koalj r-flex-13awgt0 r-flexShrink-1q142lx r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-height-1pi2tsx r-lineHeight-qvk6io r-marginTop-kc8jnq r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
+              className="css-text-901oao css-textMultiLine-cens5h r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
               dir="auto"
               style={
                 Object {
@@ -498,7 +498,7 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
               <span
                 className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1cwl3u0 r-marginRight-1ifrmw8 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
               >
-                From: 
+                from: 
               </span>
               <span
                 className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-lineHeight-1cwl3u0 r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"

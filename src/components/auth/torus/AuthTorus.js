@@ -213,25 +213,6 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
     })
   }
 
-  const showSignupError = useCallback(
-    (exception = null) => {
-      let suggestion = 'Please try again.'
-      const { message = '' } = exception || {}
-
-      if (message.includes('NoAllowedBrowserFoundException')) {
-        const suggestedBrowser = Platform.select({
-          ios: 'Safari',
-          android: 'Chrome',
-        })
-
-        suggestion = `Your default browser isn't supported. Please, set ${suggestedBrowser} as default and try again.`
-      }
-
-      showErrorDialog(`We were unable to complete the signup. ${suggestion}`)
-    },
-    [showErrorDialog],
-  )
-
   const showNotSignedUp = provider => {
     let resolve
     const promise = new Promise((res, rej) => {
@@ -321,29 +302,48 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
         return selfCustody()
       }
 
-      //don't expect response if in redirect mode, this will be called again with response from effect
-      if (config.env !== 'test' && !torusSDK.popupMode && torusUserRedirectPromise == null) {
-        //just trigger the oauth and return
-        log.debug('trigger redirect flow')
-
-        //keep the provider and if user is signin/signup for recall
-        AsyncStorage.setItem('recallTorusRedirectProvider', provider)
-
-        await getTorusUser(provider).catch(showSignupError)
-        hideDialog() //we hide dialog because on safari pressing back doesnt reload page
-        return
-      }
-
       let torusResponse
-
       try {
+        //don't expect response if in redirect mode, this method will be called again with response from effect
+        if (config.env !== 'test' && !torusSDK.popupMode && torusUserRedirectPromise == null) {
+          //just trigger the oauth and return
+          log.debug('trigger redirect flow')
+
+          //keep the provider and if user is signin/signup for recall
+          AsyncStorage.setItem('recallTorusRedirectProvider', provider)
+
+          //here in redirect mode we are not waiting for response from torus
+          await getTorusUser(provider)
+          hideDialog() //we hide dialog because on safari pressing back doesnt reload page
+          return
+        }
+
+        //torusUserRedirectPromise - redirect mode
+        //getTorusUser(provider) - popup mode
         torusResponse = await handleTorusResponse(torusUserRedirectPromise || getTorusUser(provider), provider)
 
         if (get(torusResponse, 'torusUser') == null) {
           throw new Error('Invalid Torus response.')
         }
-      } catch (exception) {
-        showSignupError(exception)
+      } catch (e) {
+        log.error('torus signin failed:', e.message, e, {
+          provider,
+          fromRedirect: !!torusUserRedirectPromise,
+          dialogShown: true,
+        })
+        let suggestion = 'Please try again.'
+        const { message = '' } = e || {}
+
+        if (message.includes('NoAllowedBrowserFoundException')) {
+          const suggestedBrowser = Platform.select({
+            ios: 'Safari',
+            android: 'Chrome',
+          })
+
+          suggestion = `Your default browser isn't supported. Please, set ${suggestedBrowser} as default and try again.`
+        }
+
+        showErrorDialog(`We were unable to complete the signup. ${suggestion}`)
         return
       }
 

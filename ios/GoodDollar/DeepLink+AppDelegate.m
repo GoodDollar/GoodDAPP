@@ -20,11 +20,9 @@
       // handle torus redirect: "gooddollar://org.gooddollar/redirect"
       if ([url.host isEqualToString:@"org.gooddollar"] && [url.path isEqualToString:@"/redirect"]){
         NSString *urlString = url.absoluteString;
-       if (@available(iOS 11.0, *)) {
-         [RNTorusDirectSdk handle:urlString];
-       } else {
-         // Fallback on earlier versions
-       }
+       
+        // minimal iOS version supported is now 12 so we don't need to check it
+        [RNTorusDirectSdk handle:urlString];
       }
     }
     return YES;

@@ -25,7 +25,7 @@ import AsyncStorage from '../utils/asyncStorage'
 import IPFS from '../ipfs/IpfsStorage'
 import { getUserModel, type UserModel } from '../userStorage/UserModel'
 import { type StandardFeed } from '../userStorage/StandardFeed'
-import { maskField } from '../userStorage/utlis'
+import { maskField, prepareInviteCard } from '../userStorage/utlis'
 import defaultGun from './gundb'
 import UserProperties from './UserPropertiesClass'
 import { FeedEvent, FeedItemType, FeedStorage, TxStatus } from './FeedStorage'
@@ -127,7 +127,7 @@ export const inviteFriendsMessage = {
   data: {
     counterPartyFullName: `Invite friends and earn G$'s`,
     subtitle: 'Invite your friends now',
-    readMore: 'Get 100G$ for each friend who signs up\nand they get 50G$!',
+    readMore: 'Get {inviterAmount}G$ for each friend who signs up\nand they get {inviteeAmount}G$!',
     receiptEvent: {
       from: NULL_ADDRESS,
     },
@@ -653,26 +653,32 @@ export class UserStorage {
   async startSystemFeed() {
     const userProperties = await this.userProperties.getAll()
     const firstVisitAppDate = userProperties.firstVisitApp
+
     logger.debug('startSystemFeed', { userProperties, firstVisitAppDate })
+
     this.addBackupCard()
     this.addStartClaimingCard()
 
     if (Config.enableInvites) {
-      inviteFriendsMessage.id = INVITE_NEW_ID
-      const bounty = await this.wallet.getUserInviteBounty()
-      inviteFriendsMessage.data.readMore = inviteFriendsMessage.data.readMore
-        .replace('100', bounty)
-        .replace('50', bounty / 2)
-      setTimeout(() => this.enqueueTX(inviteFriendsMessage), 60000) // 2 minutes
-      const firstInviteCard = this.feedStorage.feedIds['0.1']
-      if (
+      const firstInviteCard = this.feedStorage.feedIds[INVITE_NEW_ID]
+      const secondInviteCard = this.feedStorage.feedIds[INVITE_REMINDER_ID]
+
+      const shouldAddSecondCard =
         firstInviteCard &&
+        !secondInviteCard &&
         moment(firstInviteCard.date)
           .add(2, 'weeks')
           .isBefore(moment())
-      ) {
-        inviteFriendsMessage.id = INVITE_REMINDER_ID
-        this.enqueueTX(inviteFriendsMessage)
+
+      if (!firstInviteCard || shouldAddSecondCard) {
+        const inviteCard = await prepareInviteCard(
+          shouldAddSecondCard ? INVITE_REMINDER_ID : INVITE_NEW_ID,
+          inviteFriendsMessage,
+          this.wallet,
+        )
+
+        // 2nd immediately, first one in 2 minutes
+        setTimeout(() => this.enqueueTX(inviteCard), shouldAddSecondCard ? 0 : 60000)
       }
     }
 

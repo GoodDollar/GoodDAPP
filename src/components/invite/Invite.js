@@ -532,6 +532,7 @@ const styles = {
     alignItems: 'center',
     flex: 1,
     flexBasis: 1,
+    paddingBottom: 50,
     height: '100%',
   },
   linkBoxStyle: {

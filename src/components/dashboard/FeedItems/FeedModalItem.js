@@ -74,20 +74,28 @@ const FeedModalItem = (props: FeedEventProps) => {
               )}
             </React.Fragment>
           </View>
-          <View style={[styles.transactionDetails, { borderColor: mainColor }]}>
-            {!eventSettings.withoutAvatar && <Avatar source={avatar} size={34} imageSize={36} style={styles.avatar} />}
-            {item.data && item.data.endpoint && (
-              <View style={{ flex: 1, alignItems: 'flex-start', flexDirection: 'column' }}>
-                <EventCounterParty style={[styles.feedItem]} textStyle={styles.feedItemText} feedItem={item} />
-                <EventInfoText>{get(item, 'data.sellerWebsite', '')}</EventInfoText>
-              </View>
-            )}
-            {!eventSettings.withoutAvatar && (
+          {!eventSettings.withoutAvatar ? (
+            <View style={[styles.transactionDetails, { borderColor: mainColor }]}>
+              <Avatar source={avatar} size={34} imageSize={36} style={styles.avatar} />
+              {item.data && item.data.endpoint && (
+                <View style={{ flex: 1, alignItems: 'flex-start', flexDirection: 'column' }}>
+                  <EventCounterParty style={[styles.feedItem]} textStyle={styles.feedItemText} feedItem={item} />
+                  {!eventSettings.withoutAvatar && <EventInfoText>{get(item, 'data.sellerWebsite', '')}</EventInfoText>}
+                </View>
+              )}
               <View style={styles.iconContainer}>
                 <EventIcon type={itemType} showAnim={!topImageExists} />
               </View>
-            )}
-          </View>
+            </View>
+          ) : (
+            <View style={[styles.transactionDetails, { borderColor: mainColor }]}>
+              {item.data && item.data.endpoint && (
+                <View style={{ height: 15, flex: 1, alignItems: 'flex-start', flexDirection: 'column' }}>
+                  <EventCounterParty style={[styles.feedItem]} textStyle={styles.feedItemText} feedItem={item} />
+                </View>
+              )}
+            </View>
+          )}
           <View style={[styles.transactionDetails, { borderTopWidth: 0, borderBottomWidth: 0 }]}>
             {!eventSettings.withoutAvatar && (
               <Avatar source={selfAvatar} size={34} imageSize={36} style={styles.avatar} />

@@ -128,14 +128,19 @@ exports[`FeedModalItem - Invite matches snapshot 1`] = `
                   }
                 >
                   <div
-                    className="css-view-1dbjc4n r-alignItems-1habvwh r-flexDirection-eqz5dr"
+                    className="css-view-1dbjc4n r-alignItems-1habvwh r-flex-13awgt0 r-flexDirection-eqz5dr"
+                    style={
+                      Object {
+                        "height": "15px",
+                      }
+                    }
                   >
                     <div
-                      className="css-text-901oao css-textMultiLine-cens5h r-alignItems-1d09ksm r-color-cddv6f r-display-6koalj r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-height-16l9doz r-lineHeight-qvk6io r-marginRight-lchren r-paddingRight-1hvjb8t r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
+                      className="css-text-901oao css-textMultiLine-cens5h r-alignItems-1d09ksm r-color-cddv6f r-display-6koalj r-flex-13awgt0 r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-height-16l9doz r-lineHeight-qvk6io r-marginRight-lchren r-paddingRight-1hvjb8t r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
                       dir="auto"
                       style={
                         Object {
-                          "WebkitLineClamp": 2,
+                          "WebkitLineClamp": 1,
                         }
                       }
                     >
@@ -145,17 +150,6 @@ exports[`FeedModalItem - Invite matches snapshot 1`] = `
                       >
                         Misao Matimbo
                       </span>
-                    </div>
-                    <div
-                      className="css-text-901oao css-textMultiLine-cens5h r-color-11t4n93 r-flexShrink-1q142lx r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-qvk6io r-paddingBottom-1mdbw0j r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
-                      dir="auto"
-                      style={
-                        Object {
-                          "WebkitLineClamp": 1,
-                        }
-                      }
-                    >
-                      
                     </div>
                   </div>
                 </div>
@@ -172,11 +166,11 @@ exports[`FeedModalItem - Invite matches snapshot 1`] = `
                     className="css-view-1dbjc4n r-alignItems-1habvwh r-flexDirection-eqz5dr"
                   >
                     <div
-                      className="css-text-901oao css-textMultiLine-cens5h r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
+                      className="css-text-901oao css-textMultiLine-cens5h r-color-cddv6f r-flex-13awgt0 r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-height-1pi2tsx r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
                       dir="auto"
                       style={
                         Object {
-                          "WebkitLineClamp": 2,
+                          "WebkitLineClamp": 1,
                         }
                       }
                     >
@@ -186,7 +180,7 @@ exports[`FeedModalItem - Invite matches snapshot 1`] = `
                       />
                     </div>
                     <div
-                      className="css-text-901oao css-textMultiLine-cens5h r-color-11t4n93 r-flexShrink-1q142lx r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-qvk6io r-paddingBottom-1mdbw0j r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
+                      className="css-text-901oao css-textMultiLine-cens5h r-color-11t4n93 r-flexShrink-1q142lx r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-qvk6io r-paddingBottom-1mdbw0j r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                       dir="auto"
                       style={
                         Object {
@@ -519,14 +513,14 @@ exports[`FeedModalItem - Message matches snapshot 1`] = `
                     </div>
                   </div>
                   <div
-                    className="css-view-1dbjc4n r-alignItems-1habvwh r-flexDirection-eqz5dr"
+                    className="css-view-1dbjc4n r-alignItems-1habvwh r-flex-13awgt0 r-flexDirection-eqz5dr"
                   >
                     <div
-                      className="css-text-901oao css-textMultiLine-cens5h r-alignItems-1d09ksm r-color-cddv6f r-display-6koalj r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-height-16l9doz r-lineHeight-qvk6io r-marginRight-lchren r-paddingRight-1hvjb8t r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
+                      className="css-text-901oao css-textMultiLine-cens5h r-alignItems-1d09ksm r-color-cddv6f r-display-6koalj r-flex-13awgt0 r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-height-16l9doz r-lineHeight-qvk6io r-marginRight-lchren r-paddingRight-1hvjb8t r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
                       dir="auto"
                       style={
                         Object {
-                          "WebkitLineClamp": 2,
+                          "WebkitLineClamp": 1,
                         }
                       }
                     >
@@ -538,7 +532,7 @@ exports[`FeedModalItem - Message matches snapshot 1`] = `
                       </span>
                     </div>
                     <div
-                      className="css-text-901oao css-textMultiLine-cens5h r-color-11t4n93 r-flexShrink-1q142lx r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-qvk6io r-paddingBottom-1mdbw0j r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
+                      className="css-text-901oao css-textMultiLine-cens5h r-color-11t4n93 r-flexShrink-1q142lx r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-qvk6io r-paddingBottom-1mdbw0j r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                       dir="auto"
                       style={
                         Object {
@@ -613,11 +607,11 @@ exports[`FeedModalItem - Message matches snapshot 1`] = `
                     className="css-view-1dbjc4n r-alignItems-1habvwh r-flexDirection-eqz5dr"
                   >
                     <div
-                      className="css-text-901oao css-textMultiLine-cens5h r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
+                      className="css-text-901oao css-textMultiLine-cens5h r-color-cddv6f r-flex-13awgt0 r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-height-1pi2tsx r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
                       dir="auto"
                       style={
                         Object {
-                          "WebkitLineClamp": 2,
+                          "WebkitLineClamp": 1,
                         }
                       }
                     >
@@ -627,7 +621,7 @@ exports[`FeedModalItem - Message matches snapshot 1`] = `
                       />
                     </div>
                     <div
-                      className="css-text-901oao css-textMultiLine-cens5h r-color-11t4n93 r-flexShrink-1q142lx r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-qvk6io r-paddingBottom-1mdbw0j r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
+                      className="css-text-901oao css-textMultiLine-cens5h r-color-11t4n93 r-flexShrink-1q142lx r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-qvk6io r-paddingBottom-1mdbw0j r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                       dir="auto"
                       style={
                         Object {
@@ -976,14 +970,14 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                     </div>
                   </div>
                   <div
-                    className="css-view-1dbjc4n r-alignItems-1habvwh r-flexDirection-eqz5dr"
+                    className="css-view-1dbjc4n r-alignItems-1habvwh r-flex-13awgt0 r-flexDirection-eqz5dr"
                   >
                     <div
-                      className="css-text-901oao css-textMultiLine-cens5h r-alignItems-1d09ksm r-color-cddv6f r-display-6koalj r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-height-16l9doz r-lineHeight-qvk6io r-marginRight-lchren r-paddingRight-1hvjb8t r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
+                      className="css-text-901oao css-textMultiLine-cens5h r-alignItems-1d09ksm r-color-cddv6f r-display-6koalj r-flex-13awgt0 r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-height-16l9doz r-lineHeight-qvk6io r-marginRight-lchren r-paddingRight-1hvjb8t r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
                       dir="auto"
                       style={
                         Object {
-                          "WebkitLineClamp": 2,
+                          "WebkitLineClamp": 1,
                         }
                       }
                     >
@@ -999,7 +993,7 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                       </span>
                     </div>
                     <div
-                      className="css-text-901oao css-textMultiLine-cens5h r-color-11t4n93 r-flexShrink-1q142lx r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-qvk6io r-paddingBottom-1mdbw0j r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
+                      className="css-text-901oao css-textMultiLine-cens5h r-color-11t4n93 r-flexShrink-1q142lx r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-qvk6io r-paddingBottom-1mdbw0j r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                       dir="auto"
                       style={
                         Object {
@@ -1063,11 +1057,11 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                     className="css-view-1dbjc4n r-alignItems-1habvwh r-flexDirection-eqz5dr"
                   >
                     <div
-                      className="css-text-901oao css-textMultiLine-cens5h r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
+                      className="css-text-901oao css-textMultiLine-cens5h r-color-cddv6f r-flex-13awgt0 r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-height-1pi2tsx r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
                       dir="auto"
                       style={
                         Object {
-                          "WebkitLineClamp": 2,
+                          "WebkitLineClamp": 1,
                         }
                       }
                     >
@@ -1081,7 +1075,7 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                       />
                     </div>
                     <div
-                      className="css-text-901oao css-textMultiLine-cens5h r-color-11t4n93 r-flexShrink-1q142lx r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-qvk6io r-paddingBottom-1mdbw0j r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
+                      className="css-text-901oao css-textMultiLine-cens5h r-color-11t4n93 r-flexShrink-1q142lx r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-qvk6io r-paddingBottom-1mdbw0j r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                       dir="auto"
                       style={
                         Object {
@@ -1430,14 +1424,14 @@ exports[`FeedModalItem - Send with Error status matches snapshot 1`] = `
                     </div>
                   </div>
                   <div
-                    className="css-view-1dbjc4n r-alignItems-1habvwh r-flexDirection-eqz5dr"
+                    className="css-view-1dbjc4n r-alignItems-1habvwh r-flex-13awgt0 r-flexDirection-eqz5dr"
                   >
                     <div
-                      className="css-text-901oao css-textMultiLine-cens5h r-alignItems-1d09ksm r-color-cddv6f r-display-6koalj r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-height-16l9doz r-lineHeight-qvk6io r-marginRight-lchren r-paddingRight-1hvjb8t r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
+                      className="css-text-901oao css-textMultiLine-cens5h r-alignItems-1d09ksm r-color-cddv6f r-display-6koalj r-flex-13awgt0 r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-height-16l9doz r-lineHeight-qvk6io r-marginRight-lchren r-paddingRight-1hvjb8t r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
                       dir="auto"
                       style={
                         Object {
-                          "WebkitLineClamp": 2,
+                          "WebkitLineClamp": 1,
                         }
                       }
                     >
@@ -1453,7 +1447,7 @@ exports[`FeedModalItem - Send with Error status matches snapshot 1`] = `
                       </span>
                     </div>
                     <div
-                      className="css-text-901oao css-textMultiLine-cens5h r-color-11t4n93 r-flexShrink-1q142lx r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-qvk6io r-paddingBottom-1mdbw0j r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
+                      className="css-text-901oao css-textMultiLine-cens5h r-color-11t4n93 r-flexShrink-1q142lx r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-qvk6io r-paddingBottom-1mdbw0j r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                       dir="auto"
                       style={
                         Object {
@@ -1517,11 +1511,11 @@ exports[`FeedModalItem - Send with Error status matches snapshot 1`] = `
                     className="css-view-1dbjc4n r-alignItems-1habvwh r-flexDirection-eqz5dr"
                   >
                     <div
-                      className="css-text-901oao css-textMultiLine-cens5h r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
+                      className="css-text-901oao css-textMultiLine-cens5h r-color-cddv6f r-flex-13awgt0 r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-height-1pi2tsx r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
                       dir="auto"
                       style={
                         Object {
-                          "WebkitLineClamp": 2,
+                          "WebkitLineClamp": 1,
                         }
                       }
                     >
@@ -1535,7 +1529,7 @@ exports[`FeedModalItem - Send with Error status matches snapshot 1`] = `
                       />
                     </div>
                     <div
-                      className="css-text-901oao css-textMultiLine-cens5h r-color-11t4n93 r-flexShrink-1q142lx r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-qvk6io r-paddingBottom-1mdbw0j r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
+                      className="css-text-901oao css-textMultiLine-cens5h r-color-11t4n93 r-flexShrink-1q142lx r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-qvk6io r-paddingBottom-1mdbw0j r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                       dir="auto"
                       style={
                         Object {
@@ -1884,14 +1878,14 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                     </div>
                   </div>
                   <div
-                    className="css-view-1dbjc4n r-alignItems-1habvwh r-flexDirection-eqz5dr"
+                    className="css-view-1dbjc4n r-alignItems-1habvwh r-flex-13awgt0 r-flexDirection-eqz5dr"
                   >
                     <div
-                      className="css-text-901oao css-textMultiLine-cens5h r-alignItems-1d09ksm r-color-cddv6f r-display-6koalj r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-height-16l9doz r-lineHeight-qvk6io r-marginRight-lchren r-paddingRight-1hvjb8t r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
+                      className="css-text-901oao css-textMultiLine-cens5h r-alignItems-1d09ksm r-color-cddv6f r-display-6koalj r-flex-13awgt0 r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-height-16l9doz r-lineHeight-qvk6io r-marginRight-lchren r-paddingRight-1hvjb8t r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
                       dir="auto"
                       style={
                         Object {
-                          "WebkitLineClamp": 2,
+                          "WebkitLineClamp": 1,
                         }
                       }
                     >
@@ -1907,7 +1901,7 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                       </span>
                     </div>
                     <div
-                      className="css-text-901oao css-textMultiLine-cens5h r-color-11t4n93 r-flexShrink-1q142lx r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-qvk6io r-paddingBottom-1mdbw0j r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
+                      className="css-text-901oao css-textMultiLine-cens5h r-color-11t4n93 r-flexShrink-1q142lx r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-qvk6io r-paddingBottom-1mdbw0j r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                       dir="auto"
                       style={
                         Object {
@@ -1971,11 +1965,11 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                     className="css-view-1dbjc4n r-alignItems-1habvwh r-flexDirection-eqz5dr"
                   >
                     <div
-                      className="css-text-901oao css-textMultiLine-cens5h r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
+                      className="css-text-901oao css-textMultiLine-cens5h r-color-cddv6f r-flex-13awgt0 r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-height-1pi2tsx r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
                       dir="auto"
                       style={
                         Object {
-                          "WebkitLineClamp": 2,
+                          "WebkitLineClamp": 1,
                         }
                       }
                     >
@@ -1989,7 +1983,7 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                       />
                     </div>
                     <div
-                      className="css-text-901oao css-textMultiLine-cens5h r-color-11t4n93 r-flexShrink-1q142lx r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-qvk6io r-paddingBottom-1mdbw0j r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
+                      className="css-text-901oao css-textMultiLine-cens5h r-color-11t4n93 r-flexShrink-1q142lx r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-qvk6io r-paddingBottom-1mdbw0j r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                       dir="auto"
                       style={
                         Object {

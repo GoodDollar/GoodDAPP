@@ -184,7 +184,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
                 category,
                 amount,
                 senderEmail: vendorFields.email,
-                senderName: vendorFields.email,
+                senderName: vendorFields.name,
                 invoiceId: vendorInfo?.invoiceId,
                 sellerWebsite: vendorInfo?.website,
                 sellerName: vendorInfo?.vendorName,

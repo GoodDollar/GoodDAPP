@@ -77,8 +77,8 @@ const FeedModalItem = (props: FeedEventProps) => {
           <View style={[styles.transactionDetails, { borderColor: mainColor }]}>
             {!eventSettings.withoutAvatar && <Avatar source={avatar} size={34} imageSize={36} style={styles.avatar} />}
             {item.data && item.data.endpoint && (
-              <View style={{ alignItems: 'flex-start', flexDirection: 'column' }}>
-                <EventCounterParty style={styles.feedItem} textStyle={styles.feedItemText} feedItem={item} />
+              <View style={{ flex: 1, alignItems: 'flex-start', flexDirection: 'column' }}>
+                <EventCounterParty style={[styles.feedItem]} textStyle={styles.feedItemText} feedItem={item} />
                 <EventInfoText>{get(item, 'data.sellerWebsite', '')}</EventInfoText>
               </View>
             )}
@@ -135,14 +135,7 @@ const getFeedTextStyles = () => ({
 })
 
 const EventInfoText = withStyles(getFeedTextStyles)(({ theme, styles, isSmallDevice, children }) => (
-  <Text
-    lineHeight={20}
-    numberOfLines={1}
-    color={theme.colors.text}
-    fontSize={10}
-    textTransform="capitalize"
-    style={styles.message}
-  >
+  <Text lineHeight={20} numberOfLines={1} color={theme.colors.text} fontSize={10} style={styles.message}>
     {children}
   </Text>
 ))

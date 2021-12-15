@@ -89,14 +89,14 @@ export const getEventDirection = (feedEvent, reverse = false) => {
     FeedItemType.EVENT_TYPE_BONUS,
   ]
 
-  log.debug('getCounterParty:', feedEvent.data.receiptEvent, feedEvent.id, feedEvent.txType)
+  log.debug('getCounterParty:', feedEvent?.data?.receiptEvent, feedEvent?.id, feedEvent?.txType)
 
   if (receiveCases.includes(type)) {
-    return reverse ? 'To: ' : 'From: '
+    return reverse ? 'to' : 'from'
   }
 
   if (sendCases.includes(type)) {
-    return reverse ? 'From: ' : 'To: '
+    return reverse ? 'from' : 'to'
   }
   return ''
 }
@@ -485,10 +485,11 @@ export class FeedStorage {
   }
 
   async getCounterParty(feedEvent) {
-    let addressField = getEventDirection(feedEvent)
+    const addressField = getEventDirection(feedEvent)
 
     log.debug('getCounterParty:', feedEvent.data.receiptEvent, feedEvent.id, feedEvent.txType)
-    const address = get(feedEvent, `data.receiptEvent.${addressField}`)
+
+    const address = get(feedEvent, `data.receiptEvent.${addressField.toLowerCase()}`)
 
     if (!addressField || !address) {
       return {}

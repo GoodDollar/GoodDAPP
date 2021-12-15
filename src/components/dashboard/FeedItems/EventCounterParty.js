@@ -20,8 +20,13 @@ const EventContent = withStyles(getStylesFromProps)(
       ellipsizeMode="tail"
     >
       {direction && (
-        <Text fontSize={10} lineHeight={(textStyle && textStyle.lineHeight) || 16} style={styles.direction}>
-          {direction}
+        <Text
+          textTransform="capitalize"
+          fontSize={10}
+          lineHeight={(textStyle && textStyle.lineHeight) || 16}
+          style={styles.direction}
+        >
+          {direction}:
         </Text>
       )}
       <Text

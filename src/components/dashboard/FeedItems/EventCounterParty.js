@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react'
-import { get } from 'lodash'
+import { capitalize, get } from 'lodash'
 import { Text } from '../../common'
 import { withStyles } from '../../../lib/styles'
 import useProfile from '../../../lib/userStorage/useProfile'
@@ -27,7 +27,7 @@ const EventContent = withStyles(getStylesFromProps)(
           lineHeight={(textStyle && textStyle.lineHeight) || 16}
           style={styles.direction}
         >
-          {direction}:
+          {capitalize(direction)}:
         </Text>
       )}
       <Text
@@ -47,10 +47,11 @@ export const EventSelfParty = ({ feedItem, styles, style, textStyle, subtitle, i
   const { fullName } = useProfile()
 
   const hasSubtitle = get(feedItem, 'data.readMore') !== false
+  const senderName = get(feedItem, 'data.senderName', fullName)
 
   return (
     <EventContent
-      description={feedItem?.data?.senderName || fullName}
+      description={senderName}
       hasSubtitle={hasSubtitle}
       direction={direction}
     />

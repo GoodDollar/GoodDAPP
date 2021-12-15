@@ -49,13 +49,7 @@ export const EventSelfParty = ({ feedItem, styles, style, textStyle, subtitle, i
   const hasSubtitle = get(feedItem, 'data.readMore') !== false
   const senderName = get(feedItem, 'data.senderName', fullName)
 
-  return (
-    <EventContent
-      description={senderName}
-      hasSubtitle={hasSubtitle}
-      direction={direction}
-    />
-  )
+  return <EventContent description={senderName} hasSubtitle={hasSubtitle} direction={direction} />
 }
 
 const EventCounterParty = ({ feedItem, styles, style, textStyle, subtitle, isSmallDevice }) => {

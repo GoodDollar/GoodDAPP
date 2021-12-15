@@ -141,6 +141,23 @@
       name="twitter:description"
       content="Join and receive your daily income! GoodDollar creates and distributes global basic income with real monetary value. Learn more and sign up now at wallet.gooddollar.org"
     />
+    <!-- Start SmartBanner configuration -->
+    <meta name="smartbanner:title" content="Smart Application" />
+    <meta name="smartbanner:author" content="SmartBanner Contributors" />
+    <meta name="smartbanner:price" content="FREE" />
+    <meta name="smartbanner:price-suffix-apple" content=" - On the App Store" />
+    <meta name="smartbanner:price-suffix-google" content=" - In Google Play" />
+    <meta name="smartbanner:icon-apple" content="https://url/to/apple-store-icon.png" />
+    <meta name="smartbanner:icon-google" content="https://url/to/google-play-icon.png" />
+    <meta name="smartbanner:button" content="VIEW" />
+    <meta name="smartbanner:button-url-google" content="https://play.google.com/store/apps/details?id=org.gooddollar" />
+    <meta name="smartbanner:enabled-platforms" content="android" />
+    <meta name="smartbanner:close-label" content="Close" />
+    <!-- End SmartBanner configuration -->
+
+    <link rel="stylesheet" href="node_modules/smartbanner.js/dist/smartbanner.min.css" />
+    <script src="node_modules/smartbanner.js/dist/smartbanner.min.js"></script>
+
     <script type="application/ld+json" class="yoast-schema-graph">
       {
         "@context": "https://schema.org",
@@ -180,6 +197,5 @@
         document.querySelector('link[rel="manifest"]').setAttribute('href', '/manifest-ios.json')
       }
     </script>
-
   </body>
 </html>

@@ -208,6 +208,7 @@
     "reaptcha": "^1.7.3",
     "recaptcha-v3-react": "^3.0.3",
     "rxjs": "^6.4.0",
+    "smartbanner.js": "^1.17.0",
     "source-map-explorer": "^2.5.2",
     "stream-browserify": "^1.0.0",
     "string_decoder": "^0.10.31",

@@ -982,9 +982,10 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                       }
                     >
                       <span
-                        className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1cwl3u0 r-marginRight-1ifrmw8 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                        className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1cwl3u0 r-marginRight-1ifrmw8 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
                       >
-                        To: 
+                        To
+                        :
                       </span>
                       <span
                         className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-lineHeight-1cwl3u0 r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
@@ -1066,9 +1067,10 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                       }
                     >
                       <span
-                        className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1cwl3u0 r-marginRight-1ifrmw8 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                        className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1cwl3u0 r-marginRight-1ifrmw8 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
                       >
-                        From: 
+                        From
+                        :
                       </span>
                       <span
                         className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-lineHeight-1cwl3u0 r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
@@ -1436,9 +1438,10 @@ exports[`FeedModalItem - Send with Error status matches snapshot 1`] = `
                       }
                     >
                       <span
-                        className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1cwl3u0 r-marginRight-1ifrmw8 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                        className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1cwl3u0 r-marginRight-1ifrmw8 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
                       >
-                        To: 
+                        To
+                        :
                       </span>
                       <span
                         className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-lineHeight-1cwl3u0 r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
@@ -1520,9 +1523,10 @@ exports[`FeedModalItem - Send with Error status matches snapshot 1`] = `
                       }
                     >
                       <span
-                        className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1cwl3u0 r-marginRight-1ifrmw8 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                        className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1cwl3u0 r-marginRight-1ifrmw8 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
                       >
-                        From: 
+                        From
+                        :
                       </span>
                       <span
                         className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-lineHeight-1cwl3u0 r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
@@ -1890,9 +1894,10 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                       }
                     >
                       <span
-                        className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1cwl3u0 r-marginRight-1ifrmw8 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                        className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1cwl3u0 r-marginRight-1ifrmw8 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
                       >
-                        From: 
+                        From
+                        :
                       </span>
                       <span
                         className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-lineHeight-1cwl3u0 r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
@@ -1974,9 +1979,10 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                       }
                     >
                       <span
-                        className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1cwl3u0 r-marginRight-1ifrmw8 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                        className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1cwl3u0 r-marginRight-1ifrmw8 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
                       >
-                        To: 
+                        To
+                        :
                       </span>
                       <span
                         className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-lineHeight-1cwl3u0 r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"

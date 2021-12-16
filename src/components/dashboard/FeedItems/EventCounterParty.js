@@ -5,37 +5,32 @@ import { withStyles } from '../../../lib/styles'
 import useProfile from '../../../lib/userStorage/useProfile'
 import { getEventDirection } from '../../../lib/userStorage/FeedStorage'
 
-const getStylesFromProps = ({ theme }) => ({})
-
-const EventContent = withStyles(getStylesFromProps)(
-  ({ style, styles, textStyle, direction, description, hasSubtitle }) => (
-    <Text
-      textTransform="capitalize"
-      textAlign="left"
-      style={[{ height: '100%', flex: 1 }, style]}
-      numberOfLines={1}
-      ellipsizeMode="tail"
-    >
-      {direction && (
-        <Text
-          textTransform="capitalize"
-          fontSize={10}
-          lineHeight={(textStyle && textStyle.lineHeight) || 16}
-          style={styles.direction}
-        >
-          {capitalize(direction)}:{' '}
-        </Text>
-      )}
+const EventContent = ({ style, textStyle, direction, description, hasSubtitle }) => (
+  <Text
+    textTransform="capitalize"
+    textAlign="left"
+    style={[{ height: '100%', flex: 1 }, style]}
+    numberOfLines={1}
+    ellipsizeMode="tail"
+  >
+    {direction && (
       <Text
-        fontWeight="medium"
-        textAlign={'left'}
-        lineHeight={hasSubtitle ? 16 : 38}
-        style={[styles.fullName, textStyle]}
+        textTransform="capitalize"
+        fontSize={10}
+        lineHeight={(textStyle && textStyle.lineHeight) || 16}
       >
-        {description}
+        {capitalize(direction)}:{' '}
       </Text>
+    )}
+    <Text
+      fontWeight="medium"
+      textAlign={'left'}
+      lineHeight={hasSubtitle ? 16 : 38}
+      style={textStyle}
+    >
+      {description}
     </Text>
-  ),
+  </Text>
 )
 
 export const EventSelfParty = ({ feedItem, styles, style, textStyle, subtitle, isSmallDevice }) => {

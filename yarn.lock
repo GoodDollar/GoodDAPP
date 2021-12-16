@@ -18937,6 +18937,11 @@ react-lifecycles-compat@^3.0.0, react-lifecycles-compat@^3.0.2, react-lifecycles
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
   integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
 
+react-meta-tags@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/react-meta-tags/-/react-meta-tags-1.0.1.tgz#be18e88adafca280d6bd12839b530f9cfb7edbab"
+  integrity sha512-uylBI9UOI0QCGDsl6PlZaHnp+MxEpwslTlicPjnlcD68I8Kl2hdbuAZBRih+yU5StArSMB6T0jBrgst6rAuDYQ==
+
 react-modal@^3.8.1:
   version "3.14.3"
   resolved "https://registry.yarnpkg.com/react-modal/-/react-modal-3.14.3.tgz#7eb7c5ec85523e5843e2d4737cc17fc3f6aeb1c0"
@@ -21033,6 +21038,11 @@ slice-ansi@^4.0.0:
     ansi-styles "^4.0.0"
     astral-regex "^2.0.0"
     is-fullwidth-code-point "^3.0.0"
+
+smartbanner.js@^1.17.0:
+  version "1.17.0"
+  resolved "https://registry.yarnpkg.com/smartbanner.js/-/smartbanner.js-1.17.0.tgz#f0ce2bc1067042a5ad049d1e686a142b4c356dbd"
+  integrity sha512-KT/psg/s2+LxoWLFVtt846eMcgjf4g6GYaTqzJ4xvBV9hAlhis8bd6J1LkVS3S8Ra9RhhjqOEP92XoTef3XZ4w==
 
 snapdragon-node@^2.0.1:
   version "2.1.1"

@@ -160,8 +160,8 @@ const Config = {
   forcePeer: forcePeer && forcePeer[1],
   peersProb: (env.REACT_APP_GUN_PEERS_PROB || '1,0.5').split(',').map(Number),
   isPatch: (version.match(/\d+\.\d+\.(\d+)/) || [])[1] !== '0',
-  storeAppIconAndroid: env.PLAY_STORE_BANNER_IMAGE || "https://play-lh.googleusercontent.com/gk-OPyXQYuX_gpNP8sXWyejO9R0d_mbCcnfvLd8RUQ0ml5UvY-U5-EarePSk1eWRoqI=s360-rw",
-  storeAppUrl: env.PLAY_STORE_URL || "https://play.google.com/store/apps/details?id=org.gooddollar"
+  storeAppIconAndroid: env.STORE_APP_ICON_ANDROID || "https://play-lh.googleusercontent.com/gk-OPyXQYuX_gpNP8sXWyejO9R0d_mbCcnfvLd8RUQ0ml5UvY-U5-EarePSk1eWRoqI=s360-rw",
+  storeAppUrlAndroid: env.STORE_APP_URL_ANDROID || "https://play.google.com/store/apps/details?id=org.gooddollar"
 }
 
 //get and override settings from server

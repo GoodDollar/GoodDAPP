@@ -12,7 +12,7 @@ const SmartBanner = () => (
     <meta name="smartbanner:price-suffix-google" content=" - In Google Play" />
     <meta name="smartbanner:icon-google" content={Config.storeAppIconAndroid} />
     <meta name="smartbanner:button" content="GET" />
-    <meta name="smartbanner:button-url-google" content={Config.storeAppUrl} />
+    <meta name="smartbanner:button-url-google" content={Config.storeAppUrlAndroid} />
     <meta name="smartbanner:enabled-platforms" content="android" />
     <meta name="smartbanner:close-label" content="Close" />
   </head>

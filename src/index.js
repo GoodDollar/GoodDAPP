@@ -4,12 +4,15 @@ import ReactDOM from 'react-dom'
 import fontMaterialIcons from 'react-native-vector-icons/Fonts/MaterialIcons.ttf'
 import './index.css'
 import AppHolder from './mainApp/AppHolder'
+import SmartBanner from './components/smartBanner/SmartBanner'
+
 import './components/common/view/Icon/index.css'
 
 let ErrorBoundary = React.Fragment
 
 ReactDOM.render(
   <ErrorBoundary>
+    <SmartBanner />
     <AppHolder />
     <style type="text/css">{`
             @font-face {

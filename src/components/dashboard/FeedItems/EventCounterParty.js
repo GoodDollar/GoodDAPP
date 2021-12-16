@@ -5,11 +5,7 @@ import { withStyles } from '../../../lib/styles'
 import useProfile from '../../../lib/userStorage/useProfile'
 import { getEventDirection } from '../../../lib/userStorage/FeedStorage'
 
-const getStylesFromProps = () => ({
-  direction: {
-    marginRight: 3,
-  },
-})
+const getStylesFromProps = ({ theme }) => ({})
 
 const EventContent = withStyles(getStylesFromProps)(
   ({ style, styles, textStyle, direction, description, hasSubtitle }) => (
@@ -27,7 +23,7 @@ const EventContent = withStyles(getStylesFromProps)(
           lineHeight={(textStyle && textStyle.lineHeight) || 16}
           style={styles.direction}
         >
-          {capitalize(direction)}:
+          {capitalize(direction)}:{' '}
         </Text>
       )}
       <Text

@@ -5,6 +5,7 @@ import Config from '../../config/config'
 
 import 'smartbanner.js/dist/smartbanner.min.js'
 import 'smartbanner.js/dist/smartbanner.min.css'
+import './smartbanner-custom-style.css'
 
 const SmartBanner = () => (
   <MetaTags>

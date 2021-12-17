@@ -77,7 +77,7 @@ export const UITextStrings = {
 }
 
 export const createBasicUICustomization = () => {
-  const UICustomization = new FaceTecCustomization()
+  const customization = new FaceTecCustomization()
 
   const {
     cancelButtonCustomization,
@@ -89,9 +89,9 @@ export const createBasicUICustomization = () => {
     guidanceCustomization,
     resultScreenCustomization,
     vocalGuidanceCustomization,
-  } = UICustomization
+  } = customization
 
-  assignIn(UICustomization, {
+  assignIn(customization, {
     // disabling camera permissions help screen
     // (as we have own ErrorScreen with corresponding message)
     enableCameraPermissionsHelpScreen: false,
@@ -211,16 +211,30 @@ export const createBasicUICustomization = () => {
 
 export const UICustomization = createBasicUICustomization()
 
-export const LowLightModeCustomization = createBasicUICustomization()
+export const LowLightModeCustomization = (() => {
+  const customization = createBasicUICustomization()
+  const { guidanceCustomization } = customization
+  
+  assignIn(guidanceCustomization, {
+    readyScreenHeaderTextColor: FaceTecColor(white),
+    readyScreenSubtextTextColor: FaceTecColor(white),
+  })
+  
+  return customization
+})()
 
-const DynamicModeCustomization = createBasicUICustomization()
-
-assignIn(DynamicModeUICustomization.cancelButtonCustomization, {
-  customImage: FaceTecImage('cancel_white.svg'),
-})
-
-assignIn(DynamicModeUICustomization.guidanceCustomization, {
-  readyScreenHeaderTextColor: FaceTecColor(white),
-  readyScreenSubtextTextColor: FaceTecColor(white),
-})
-
+export const DynamicModeCustomization = (() => {
+  const customization = createBasicUICustomization()
+  const { guidanceCustomization } = customization
+  
+  assignIn(cancelButtonCustomization, {
+    customImage: FaceTecImage('cancel_white.svg'),
+  })
+  
+  assignIn(guidanceCustomization, {
+    readyScreenHeaderTextColor: FaceTecColor(black),
+    readyScreenSubtextTextColor: FaceTecColor(black),
+  })
+  
+  return customization
+})()

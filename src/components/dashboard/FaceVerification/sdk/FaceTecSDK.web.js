@@ -35,9 +35,9 @@ export const FaceTecSDK = new class {
     sdk.setImagesDirectory(`${FACETEC_PUBLIC_PATH}/images`)
 
     // customize UI
-    sdk.setCustomization(NormalUICustomization)
-    sdk.setLowLightCustomization(LowLightModeUICustomization)
-    sdk.setDynamicDimmingCustomization(DynamicModeUICustomization)
+    sdk.setCustomization(UICustomization)
+    sdk.setLowLightCustomization(LowLightModeCustomization)
+    sdk.setDynamicDimmingCustomization(DynamicModeCustomization)
 
     this.sdk = sdk
     this.logger = logger

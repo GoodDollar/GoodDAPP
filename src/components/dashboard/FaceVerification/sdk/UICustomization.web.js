@@ -206,7 +206,7 @@ export const createBasicUICustomization = () => {
     mode: FaceTecVocalGuidanceMode.NO_VOCAL_GUIDANCE,
   })
 
-  return UICustomization
+  return customization
 }
 
 export const UICustomization = createBasicUICustomization()
@@ -214,27 +214,27 @@ export const UICustomization = createBasicUICustomization()
 export const LowLightModeCustomization = (() => {
   const customization = createBasicUICustomization()
   const { guidanceCustomization } = customization
-  
+
   assignIn(guidanceCustomization, {
     readyScreenHeaderTextColor: FaceTecColor(white),
     readyScreenSubtextTextColor: FaceTecColor(white),
   })
-  
+
   return customization
 })()
 
 export const DynamicModeCustomization = (() => {
   const customization = createBasicUICustomization()
   const { guidanceCustomization, cancelButtonCustomization } = customization
-  
+
   assignIn(cancelButtonCustomization, {
     customImage: FaceTecImage('cancel_white.svg'),
   })
-  
+
   assignIn(guidanceCustomization, {
     readyScreenHeaderTextColor: FaceTecColor(black),
     readyScreenSubtextTextColor: FaceTecColor(black),
   })
-  
+
   return customization
 })()

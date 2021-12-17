@@ -4,7 +4,13 @@ import logger from '../../../../lib/logger/js-logger'
 
 import FaceTec from '../../../../lib/facetec/FaceTecSDK'
 import { parseVerificationOptions } from '../utils/options'
-import { FACETEC_PUBLIC_PATH, UICustomization, UITextStrings } from './UICustomization'
+import {
+  DynamicModeUICustomization,
+  FACETEC_PUBLIC_PATH,
+  LowLightModeUICustomization,
+  NormalUICustomization,
+  UITextStrings,
+} from './UICustomization'
 import { ProcessingSubscriber } from './ProcessingSubscriber'
 import { EnrollmentProcessor } from './EnrollmentProcessor'
 
@@ -29,9 +35,9 @@ export const FaceTecSDK = new class {
     sdk.setImagesDirectory(`${FACETEC_PUBLIC_PATH}/images`)
 
     // customize UI
-    sdk.setCustomization(UICustomization)
-    sdk.setLowLightCustomization(UICustomization)
-    sdk.setDynamicDimmingCustomization(UICustomization)
+    sdk.setCustomization(NormalUICustomization)
+    sdk.setLowLightCustomization(LowLightModeUICustomization)
+    sdk.setDynamicDimmingCustomization(DynamicModeUICustomization)
 
     this.sdk = sdk
     this.logger = logger

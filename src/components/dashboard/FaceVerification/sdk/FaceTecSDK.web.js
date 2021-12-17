@@ -5,10 +5,10 @@ import logger from '../../../../lib/logger/js-logger'
 import FaceTec from '../../../../lib/facetec/FaceTecSDK'
 import { parseVerificationOptions } from '../utils/options'
 import {
-  DynamicModeUICustomization,
+  DynamicModeCustomization,
   FACETEC_PUBLIC_PATH,
-  LowLightModeUICustomization,
-  NormalUICustomization,
+  LowLightModeCustomization,
+  UICustomization,
   UITextStrings,
 } from './UICustomization'
 import { ProcessingSubscriber } from './ProcessingSubscriber'

@@ -209,11 +209,11 @@ export const createBasicUICustomization = () => {
   return UICustomization
 }
 
-const NormalUICustomization = createBasicUICustomization()
+export const UICustomization = createBasicUICustomization()
 
-const LowLightModeUICustomization = createBasicUICustomization()
+export const LowLightModeCustomization = createBasicUICustomization()
 
-const DynamicModeUICustomization = createBasicUICustomization()
+const DynamicModeCustomization = createBasicUICustomization()
 
 assignIn(DynamicModeUICustomization.cancelButtonCustomization, {
   customImage: FaceTecImage('cancel_white.svg'),
@@ -224,4 +224,3 @@ assignIn(DynamicModeUICustomization.guidanceCustomization, {
   readyScreenSubtextTextColor: FaceTecColor(white),
 })
 
-export { NormalUICustomization, LowLightModeUICustomization, DynamicModeUICustomization }

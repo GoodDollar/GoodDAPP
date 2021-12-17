@@ -225,7 +225,7 @@ export const LowLightModeCustomization = (() => {
 
 export const DynamicModeCustomization = (() => {
   const customization = createBasicUICustomization()
-  const { guidanceCustomization } = customization
+  const { guidanceCustomization, cancelButtonCustomization } = customization
   
   assignIn(cancelButtonCustomization, {
     customImage: FaceTecImage('cancel_white.svg'),

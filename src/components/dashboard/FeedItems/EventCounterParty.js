@@ -1,7 +1,6 @@
 import React, { useMemo } from 'react'
 import { capitalize, get } from 'lodash'
 import { Text } from '../../common'
-import { withStyles } from '../../../lib/styles'
 import useProfile from '../../../lib/userStorage/useProfile'
 import { getEventDirection } from '../../../lib/userStorage/FeedStorage'
 
@@ -14,20 +13,11 @@ const EventContent = ({ style, textStyle, direction, description, hasSubtitle })
     ellipsizeMode="tail"
   >
     {direction && (
-      <Text
-        textTransform="capitalize"
-        fontSize={10}
-        lineHeight={(textStyle && textStyle.lineHeight) || 16}
-      >
+      <Text textTransform="capitalize" fontSize={10} lineHeight={(textStyle && textStyle.lineHeight) || 16}>
         {capitalize(direction)}:{' '}
       </Text>
     )}
-    <Text
-      fontWeight="medium"
-      textAlign={'left'}
-      lineHeight={hasSubtitle ? 16 : 38}
-      style={textStyle}
-    >
+    <Text fontWeight="medium" textAlign={'left'} lineHeight={hasSubtitle ? 16 : 38} style={textStyle}>
       {description}
     </Text>
   </Text>

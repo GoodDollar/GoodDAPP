@@ -30,26 +30,6 @@
   color: rgb(66, 69, 74) !important;
 }
 
-#DOM_FT_overlayContainer {
-  background-color: rgba(255, 255, 255, 0.5) !important;
-}
-
-#DOM_FT_frameOvalBackground {
-  fill: white !important;
-}
-
-#DOM_FT_retryScreen {
-  background-color: white !important;
-}
-
-#DOM_FT_uploadAndResultContainer {
-  background: white !important;
-}
-
-#DOM_FT_ovalPathCombined {
-  fill: white !important;
-}
-
 #DOM_FT_uploadAnimationContainer {
   /* Changing custom upload progress image size */
   width: 134px !important;
@@ -82,8 +62,8 @@
 
 #DOM_FT_uploadAnimationContainer::before {
   /* Add custom text above the progress loader */
-  content: 'You need to stay on this screen\auntil the process completes.';
-  color: #f8af40;
+  content: "You need to stay on this screen\auntil the process completes.";
+  color: #F8AF40;
   font-weight: bold;
   font-size: 18px;
   line-height: 26px;
@@ -103,9 +83,9 @@
 
 #DOM_FT_uploadAnimationContainer::after {
   /* Add custom text below the progress loader */
-  content: 'This may take a minute.';
+  content: "This may take a minute.";
   bottom: -210%;
-  color: #42454a;
+  color: #42454A;
   font-weight: 500;
   font-size: 16px;
   line-height: 22px;

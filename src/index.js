@@ -2,10 +2,11 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import fontMaterialIcons from 'react-native-vector-icons/Fonts/MaterialIcons.ttf'
-import './index.css'
-import AppHolder from './mainApp/AppHolder'
-import SmartBanner from './components/smartBanner/SmartBanner'
 
+import AppHolder from './mainApp/AppHolder'
+import SmartBanner from './components/smartbanner/SmartBanner'
+
+import './index.css'
 import './components/common/view/Icon/index.css'
 
 let ErrorBoundary = React.Fragment

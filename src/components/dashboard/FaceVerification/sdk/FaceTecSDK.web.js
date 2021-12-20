@@ -133,8 +133,10 @@ export const FaceTecSDK = new class {
         return isInitialized
       }
     } catch (exception) {
-      // handle FaceTec Browser SDK Error Code 980897: Invalid publicEncryptionKey parameter passed to initialize
-      if (/invalid.+parameter.+passed/i.test(exception.message)) {
+      // Handle the following license key-related errors aren't reported in a generic way:
+      //   - FaceTec Browser SDK Error Code 980897: Invalid publicEncryptionKey parameter passed to initialize
+      //   - You are over the testing API device limit. Do not create multiple developer accounts, please contact us for a commercial license.
+      if ('devDeviceLimitReached' === exception.name || /invalid.+parameter.+passed/i.test(exception.message)) {
         this.throwExceptionFromStatus(KeyExpiredOrInvalid)
       }
 
@@ -170,6 +172,9 @@ export const FaceTecSDK = new class {
    */
   listenBrowserSDKErrors(callback) {
     const logStream = window.console
+    const http = window.XMLHttpRequest.prototype
+
+    // handle console logs produced by FaceTec SDK
     const { error: originalLogError } = logStream
     const faceTecErrorRegexp = /facetec.+browser.+sdk.+error.+code.+?(\d+).*?:\s*?(.+)$/i
 
@@ -188,7 +193,44 @@ export const FaceTecSDK = new class {
       return originalLogError.apply(logStream, loggedArgs)
     }
 
-    return () => void (logStream.error = originalLogError)
+    // handle XMLHttpRequest sent by FaceTec SDK
+    const { open: originalOpen } = http
+    const faceTecUrlMatch = 'facetec.com/api'
+
+    http.open = function(method, url, ...rest) {
+      if ((url || '').toLowerCase().includes(faceTecUrlMatch)) {
+        const onReadyStateChange = () => {
+          const { readyState, status, response, responseType } = this
+
+          if (readyState === 4 && status >= 400) {
+            let exception
+
+            if ('json' === responseType) {
+              const { message, subCode } = get(response, 'meta', {})
+
+              exception = new Error(message || 'Unknown HTTP exception during FaceTec SDK initialization.')
+
+              if (subCode) {
+                exception.name = subCode
+              }
+            } else {
+              exception = new Error(response.toString())
+            }
+
+            callback(exception)
+          }
+        }
+
+        this.addEventListener('readystatechange', onReadyStateChange, false)
+      }
+
+      return originalOpen.apply(this, [method, url, ...rest])
+    }
+
+    return () => {
+      logStream.error = originalLogError
+      http.open = originalOpen
+    }
   }
 
   /**

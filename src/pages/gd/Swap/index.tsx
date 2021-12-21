@@ -317,6 +317,7 @@ function Swap() {
                                     <ButtonAction
                                         className="flex-grow"
                                         style={{ marginTop: 22 }}
+                                        width={'auto'}
                                         onClick={handleApprove}
                                         disabled={!meta || approved || approving || balanceNotEnough}
                                     >
@@ -330,6 +331,7 @@ function Swap() {
                                 <ButtonAction
                                     className="flex-grow"
                                     style={{ marginTop: 22 }}
+                                    width={'auto'}
                                     disabled={
                                         !meta ||
                                         balanceNotEnough ||

@@ -62,7 +62,7 @@ const Config = {
   invitesUrl: env.REACT_APP_INVITES_URL || publicUrl,
   showRewards: env.REACT_APP_DASHBOARD_SHOW_REWARDS === 'true',
   faceTecEncryptionKey: fixNL(env.REACT_APP_ZOOM_ENCRYPTION_KEY, 'REACT_APP_ZOOM_ENCRYPTION_KEY'),
-  faceTecLicenseKey: fixNL(env.REACT_APP_ZOOM_LICENSE_KEY, 'REACT_APP_ZOOM_ENCRYPTION_KEY'),
+  faceTecLicenseKey: fixNL(env.REACT_APP_ZOOM_LICENSE_KEY, 'REACT_APP_ZOOM_LICENSE_KEY'),
   faceTecProductionMode: env.REACT_APP_ZOOM_PRODUCTION_MODE === 'true',
   faceVerificationRequestTimeout: env.REACT_APP_ZOOM_REQUEST_TIMEOUT || 60000,
   faceVerificationMaxAttemptsAllowed: Number(env.REACT_APP_FACE_VERIFICATION_ATTEMPTS || 3),

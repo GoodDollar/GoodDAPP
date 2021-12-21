@@ -2,7 +2,7 @@ import { Token, TokenAmount, WETH } from '@sushiswap/sdk'
 import React, { useContext } from 'react'
 import { Link, RouteComponentProps, withRouter } from 'react-router-dom'
 import { Text } from 'rebass'
-import { ThemeContext } from 'styled-components'
+import { useTheme } from 'styled-components'
 import { useActiveWeb3React } from '../../hooks/useActiveWeb3React'
 import { ButtonSecondary } from '../ButtonLegacy'
 import { AutoColumn } from '../Column'
@@ -19,7 +19,7 @@ interface PositionCardProps extends RouteComponentProps<{}> {
 
 function V1PositionCard({ token, V1LiquidityBalance }: PositionCardProps) {
     const { i18n } = useLingui()
-    const theme = useContext(ThemeContext)
+    const theme = useTheme()
 
     const { chainId } = useActiveWeb3React()
 
@@ -39,7 +39,7 @@ function V1PositionCard({ token, V1LiquidityBalance }: PositionCardProps) {
                             px="0.75rem"
                             py="0.25rem"
                             style={{ borderRadius: '1rem' }}
-                            backgroundColor={theme.yellow1}
+                            backgroundColor={theme && theme.yellow1}
                             color={'black'}
                         >
                             V1

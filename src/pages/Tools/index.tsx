@@ -2,7 +2,7 @@ import { transparentize } from 'polished'
 import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
 import { Text } from 'rebass'
-import styled, { ThemeContext } from 'styled-components'
+import styled, { useTheme } from 'styled-components'
 import { ButtonEmpty, ButtonPrimaryNormal, ButtonSecondary } from '../../components/ButtonLegacy'
 import { LightCard } from '../../components/CardLegacy'
 import { AutoColumn } from '../../components/Column'
@@ -23,13 +23,13 @@ const PageWrapper = styled(AutoColumn)`
     width: 100%;
 `
 
-export const CardSection = styled(AutoColumn)<{ disabled?: boolean }>`
+export const CardSection = styled(AutoColumn) <{ disabled?: boolean }>`
     padding: 1rem;
     z-index: 1;
     opacity: ${({ disabled }) => disabled && '0.4'};
 `
 
-export const DataCard = styled(AutoColumn)<{ disabled?: boolean }>`
+export const DataCard = styled(AutoColumn) <{ disabled?: boolean }>`
     background: radial-gradient(76.02% 75.41% at 1.84% 0%, #ff007a 0%, #0094ec 100%);
     border-radius: ${({ theme }) => theme.borderRadius};
     width: 100%;
@@ -73,14 +73,14 @@ const StyledPositionCard = styled(LightCard)`
   border: none;
   background: ${({ theme }) => transparentize(0.6, theme.bg1)};
   /* background: ${({ theme }) =>
-      `radial-gradient(91.85% 100% at 1.84% 0%, ${transparentize(0.8, theme.bg3)} 0%, ${theme.bg3} 100%) `}; */
+        `radial-gradient(91.85% 100% at 1.84% 0%, ${transparentize(0.8, theme.bg3)} 0%, ${theme.bg3} 100%) `}; */
   position: relative;
   overflow: hidden;
 `
 
 export default function Pool() {
     const { i18n } = useLingui()
-    const theme = useContext(ThemeContext)
+    const theme = useTheme()
     const { account } = useActiveWeb3React()
 
     return (

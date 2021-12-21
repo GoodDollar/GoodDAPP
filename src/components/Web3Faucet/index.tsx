@@ -34,11 +34,11 @@ const ClaimButton = styled(ButtonDefault).attrs(props => ({
 
 function Web3Faucet(): JSX.Element | null {
     const { i18n } = useLingui()
-    const { chainId } = useActiveWeb3React()
+    const { chainId, account } = useActiveWeb3React()
     const web3 = useWeb3()
     const [claimable, , , refetch] = usePromise(async () => {
-        if (!web3 || (chainId as any) !== SupportedChainId.FUSE) return false
-        const whitelisted = await isWhitelisted(web3).catch(e => {
+        if (!account || !web3 || (chainId as any) !== SupportedChainId.FUSE) return false
+        const whitelisted = await isWhitelisted(web3, account).catch(e => {
             console.error(e)
             return false
         })
@@ -50,12 +50,14 @@ function Web3Faucet(): JSX.Element | null {
             return ''
         })
         return /[^0.]/.test(amount)
-    }, [chainId, web3])
+    }, [chainId, web3, account])
 
     const handleClaim = useCallback(async () => {
-        await claim(web3!)
-        refetch()
-    }, [web3])
+        if (account && web3) {
+            await claim(web3, account)
+            refetch()
+        }
+    }, [web3, account, refetch])
 
     const claimActive = (chainId as any) === SupportedChainId.FUSE && claimable === true
 
@@ -67,8 +69,8 @@ function Web3Faucet(): JSX.Element | null {
                     (chainId as any) !== SupportedChainId.FUSE
                         ? i18n._(t`Please connect your Web3 wallet to the Fuse Network to Claim UBI.`)
                         : claimable instanceof Error
-                        ? claimable.message
-                        : i18n._(t`Click this button to Claim your Daily UBI in`) + 'G$'
+                            ? claimable.message
+                            : i18n._(t`Click this button to Claim your Daily UBI in`) + 'G$'
                 }
                 offset={[0, 12]}
             >

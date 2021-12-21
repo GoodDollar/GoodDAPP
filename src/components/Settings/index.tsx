@@ -2,7 +2,7 @@ import { MenuFlyout, StyledMenu, StyledMenuButton } from 'components/StyledMenu'
 import React, { useContext, useRef, useState } from 'react'
 import { Settings, X } from 'react-feather'
 import { Text } from 'rebass'
-import styled, { ThemeContext } from 'styled-components'
+import styled, { useTheme } from 'styled-components'
 import { useOnClickOutside } from '../../hooks/useOnClickOutside'
 import { ApplicationModal } from '../../state/application/types'
 import { useModalOpen, useToggleSettingsMenu } from '../../state/application/hooks'
@@ -103,7 +103,6 @@ export default function SettingsTab() {
     const open = useModalOpen(ApplicationModal.SETTINGS)
     const toggle = useToggleSettingsMenu()
 
-    const theme = useContext(ThemeContext)
     const [userSlippageTolerance, setUserslippageTolerance] = useUserSlippageTolerance()
 
     const [ttl, setTtl] = useUserTransactionTTL()

@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
-import { ThemeContext } from 'styled-components'
+import { useTheme } from 'styled-components'
 import { getExplorerLink, shortenAddress } from '../../utils'
 import LiquidityPositions from './LiquidityPositions'
 import { ExternalLink, User } from 'react-feather'
@@ -23,7 +23,7 @@ const mock = {
 
 export default function Positions() {
     const { i18n } = useLingui()
-    const theme = useContext(ThemeContext)
+    const theme = useTheme()
     const { account, chainId } = useActiveWeb3React()
     const userEthBalance = useETHBalances(account ? [account] : [])?.[account ?? '']
 

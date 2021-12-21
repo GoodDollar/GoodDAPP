@@ -4,7 +4,9 @@ import contractsAddresses, { ObjectLike } from '@gooddollar/goodprotocol/release
 import { constructSameAddressMap } from '../utils/constructSameAddressMap'
 import { SupportedChainId } from './chains'
 
-const CURRENT_NETWORK = process.env.NETWORK || 'staging'
+export const getNetworkEnv = () => {
+    return localStorage.getItem('GD_NETWORK') || process.env.REACT_APP_NETWORK || 'staging'
+}
 
 type AddressMap = { [chainId: number]: string }
 
@@ -16,16 +18,14 @@ type AddressMap = { [chainId: number]: string }
  */
 export function G$ContractAddresses<T = ObjectLike>(chainId: SupportedChainId, name: string): T {
     let deploymentName: string
-
+    const CURRENT_NETWORK = getNetworkEnv()
     switch (chainId) {
-        case SupportedChainId.MAINNET:
-            deploymentName = 'production-mainnet'
-            break
         case SupportedChainId.KOVAN:
             deploymentName = 'kovan-mainnet'
             break
+        case SupportedChainId.MAINNET:
         case SupportedChainId.ROPSTEN:
-            deploymentName = 'staging-mainnet'
+            deploymentName = CURRENT_NETWORK + '-mainnet'
             break
         case SupportedChainId.FUSE:
             deploymentName = CURRENT_NETWORK
@@ -33,11 +33,11 @@ export function G$ContractAddresses<T = ObjectLike>(chainId: SupportedChainId, n
     }
 
     if (!contractsAddresses[deploymentName]) {
-        throw new Error('Unsupported chain ID')
+        console.warn(`tokens: Unsupported chain ID ${deploymentName}`, CURRENT_NETWORK)
+        deploymentName = deploymentName.includes('mainnet') ? CURRENT_NETWORK + '-mainnet' : CURRENT_NETWORK
     }
-
     if (!contractsAddresses[deploymentName][name]) {
-        throw new Error(`Inappropriate contract name ${name}`)
+        throw new Error(`Inappropriate contract name ${name} in ${deploymentName} ${chainId}`)
     }
 
     return (contractsAddresses[deploymentName][name] as unknown) as T

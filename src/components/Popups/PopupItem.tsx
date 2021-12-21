@@ -2,7 +2,7 @@ import React, { useCallback, useContext, useEffect } from 'react'
 import { X } from 'react-feather'
 import { animated } from 'react-spring'
 import { useSpring } from 'react-spring'
-import styled, { ThemeContext } from 'styled-components'
+import styled, { useTheme } from 'styled-components'
 import { PopupContent } from '../../state/application/types'
 import { useRemovePopup } from '../../state/application/hooks'
 import ListUpdatePopup from './ListUpdatePopup'
@@ -69,7 +69,7 @@ export default function PopupItem({
         }
     }, [removeAfterMs, removeThisPopup])
 
-    const theme = useContext(ThemeContext)
+    const theme = useTheme()
 
     let popupContent
     if ('txn' in content) {

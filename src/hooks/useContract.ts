@@ -13,14 +13,7 @@ import {
     TIMELOCK_ADDRESS,
     WETH
 } from '@sushiswap/sdk'
-import {
-    BENTOBOX_ADDRESS,
-    BORING_HELPER_ADDRESS,
-    CHAINLINK_ORACLE_ADDRESS,
-    KASHI_ADDRESS,
-    SUSHISWAP_MULTISWAPPER_ADDRESS,
-    SUSHISWAP_SWAPPER_ADDRESS
-} from 'kashi'
+
 import { FAUCET_ABI, FAUCET_ADDRESS } from '../constants/abis/faucet'
 import { MERKLE_DISTRIBUTOR_ADDRESS, SUSHI } from '../constants'
 import { MIGRATOR_ABI, MIGRATOR_ADDRESS } from '../constants/abis/migrator'
@@ -151,11 +144,6 @@ export function useStakingContract(stakingAddress?: string, withSignerIfPossible
     return useContract(stakingAddress, STAKING_REWARDS_ABI, withSignerIfPossible)
 }
 
-export function useBoringHelperContract(): Contract | null {
-    const { chainId } = useActiveWeb3React()
-    return useContract(chainId && BORING_HELPER_ADDRESS[chainId], BORING_HELPER_ABI, false)
-}
-
 export function usePendingContract(): Contract | null {
     return useContract('0x9aeadfE6cd03A2b5730474bF6dd79802d5bCD029', PENDING_ABI, false)
 }
@@ -224,25 +212,6 @@ export function useMakerContract(): Contract | null {
 export function useTimelockContract(): Contract | null {
     const { chainId } = useActiveWeb3React()
     return useContract(chainId && TIMELOCK_ADDRESS[chainId], TIMELOCK_ABI, false)
-}
-
-export function useBentoBoxContract(withSignerIfPossible?: boolean): Contract | null {
-    const { chainId } = useActiveWeb3React()
-    return useContract(chainId && BENTOBOX_ADDRESS[chainId], BENTOBOX_ABI, withSignerIfPossible)
-}
-
-export function useKashiPairContract(withSignerIfPossible?: boolean): Contract | null {
-    const { chainId } = useActiveWeb3React()
-    return useContract(chainId && KASHI_ADDRESS[chainId], KASHIPAIR_ABI, withSignerIfPossible)
-}
-
-export function useSushiSwapSwapper(): Contract | null {
-    const { chainId } = useActiveWeb3React()
-    return useContract(chainId && SUSHISWAP_SWAPPER_ADDRESS[chainId], BASE_SWAPPER_ABI, false)
-}
-
-export function useChainlinkOracle(): Contract | null {
-    return useContract(CHAINLINK_ORACLE_ADDRESS, CHAINLINK_ORACLE_ABI, false)
 }
 
 // experimental:
@@ -440,11 +409,6 @@ export function useDashboard2Contract(): Contract | null {
         }
     }
     return useContract(address, DASHBOARD2_ABI, false)
-}
-
-export function useSushiSwapMultiSwapper(): Contract | null {
-    const { chainId } = useActiveWeb3React()
-    return useContract(chainId && SUSHISWAP_MULTISWAPPER_ADDRESS[chainId], SUSHISWAP_MULTISWAPPER_ABI)
 }
 
 export function useQuickSwapFactoryContract(): Contract | null {

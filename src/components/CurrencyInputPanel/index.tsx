@@ -5,7 +5,7 @@ import styled from 'styled-components'
 import { ReactComponent as DropDown } from '../../assets/images/dropdown.svg'
 import { t } from '@lingui/macro'
 import { useActiveWeb3React } from '../../hooks/useActiveWeb3React'
-import useTheme from '../../hooks/useTheme'
+import { useTheme } from 'styled-components'
 import { useCurrencyBalance } from '../../state/wallet/hooks'
 import CurrencyLogo from '../CurrencyLogo'
 import DoubleCurrencyLogo from '../DoubleLogo'
@@ -64,7 +64,7 @@ const Aligner = styled.span`
     justify-content: space-between;
 `
 
-const StyledDropDown = styled(DropDown)<{ selected: boolean }>`
+const StyledDropDown = styled(DropDown) <{ selected: boolean }>`
     margin: 0 0.25rem 0 0.5rem;
     height: 35%;
 
@@ -245,11 +245,11 @@ export default function CurrencyInputPanel({
                                         <div className="whitespace-nowrap currency">
                                             {(currency && currency.symbol && currency.symbol.length > 20
                                                 ? currency.symbol.slice(0, 4) +
-                                                  '...' +
-                                                  currency.symbol.slice(
-                                                      currency.symbol.length - 5,
-                                                      currency.symbol.length
-                                                  )
+                                                '...' +
+                                                currency.symbol.slice(
+                                                    currency.symbol.length - 5,
+                                                    currency.symbol.length
+                                                )
                                                 : currency?.getSymbol(chainId)) || <div>{i18n._(t`GOO`)}</div>}
                                         </div>
                                         {/* </StyledTokenName> */}
@@ -281,7 +281,7 @@ export default function CurrencyInputPanel({
                                     <div onClick={onMax} className=" cursor-pointer">
                                         {!hideBalance && !!currency && selectedCurrencyBalance
                                             ? (customBalanceText ?? 'Balance: ') +
-                                              selectedCurrencyBalance?.toSignificant(6)
+                                            selectedCurrencyBalance?.toSignificant(6)
                                             : ' -'}
                                     </div>
                                     {chainId === ChainId.MAINNET && <div className=" xs ">≈ {valueUSDC} USDC</div>}

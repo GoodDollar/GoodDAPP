@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { ThemeContext } from 'styled-components'
+import { useTheme } from 'styled-components'
 import BalanceCard from './BalanceCard'
 import { Button } from '../../components'
 import { ChevronLeft } from 'react-feather'
@@ -18,7 +18,7 @@ const mock = {
 
 export default function SushiBarTransactions() {
     const { i18n } = useLingui()
-    const theme = useContext(ThemeContext)
+    const theme = useTheme()
 
     const sushiBalance = useTokenBalance(SUSHI[ChainId.MAINNET]?.address ?? '')
     const xSushiBalance = useTokenBalance(XSUSHI?.address ?? '')

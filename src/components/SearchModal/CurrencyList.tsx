@@ -1,7 +1,7 @@
 import { Currency, CurrencyAmount, currencyEquals, ETHER, Token } from '@sushiswap/sdk'
 import { LightGreyCard } from 'components/CardLegacy'
 import QuestionHelper from 'components/QuestionHelper'
-import useTheme from 'hooks/useTheme'
+import { useTheme } from 'styled-components'
 import React, { CSSProperties, MutableRefObject, useCallback, useMemo } from 'react'
 import { FixedSizeList } from 'react-window'
 import { Text } from 'rebass'
@@ -205,7 +205,7 @@ export default function CurrencyList({
                             <RowBetween>
                                 <RowFixed>
                                     <TokenListLogoWrapper src={TokenListLogo} />
-                                    <TYPE.main ml="6px" fontSize="12px" color={theme.text1}>
+                                    <TYPE.main ml="6px" fontSize="12px" color={theme && theme.text1}>
                                         {i18n._(t`Expanded results from inactive Token Lists`)}
                                     </TYPE.main>
                                 </RowFixed>
@@ -251,7 +251,7 @@ export default function CurrencyList({
             setImportToken,
             showImportView,
             breakIndex,
-            theme.text1
+            theme && theme.text1
         ]
     )
 

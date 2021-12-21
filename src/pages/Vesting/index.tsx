@@ -11,7 +11,7 @@ import { transparentize } from 'polished'
 import React, { useContext, useEffect, useState } from 'react'
 import { ChevronRight } from 'react-feather'
 import { Link } from 'react-router-dom'
-import styled, { ThemeContext } from 'styled-components'
+import styled, { useTheme } from 'styled-components'
 import { formattedNum } from 'utils'
 import Fraction from '../../entities/Fraction'
 import { useActiveWeb3React } from '../../hooks/useActiveWeb3React'
@@ -51,13 +51,13 @@ const PageWrapper = styled(AutoColumn)`
     margin: 0 auto;
 `
 
-export const CardSection = styled(AutoColumn)<{ disabled?: boolean }>`
+export const CardSection = styled(AutoColumn) <{ disabled?: boolean }>`
     padding: 1rem;
     z-index: 1;
     opacity: ${({ disabled }) => disabled && '0.4'};
 `
 
-export const DataCard = styled(AutoColumn)<{ disabled?: boolean }>`
+export const DataCard = styled(AutoColumn) <{ disabled?: boolean }>`
     background: radial-gradient(76.02% 75.41% at 1.84% 0%, #ff007a 0%, #0094ec 100%);
     border-radius: ${({ theme }) => theme.borderRadius};
     width: 100%;
@@ -73,7 +73,7 @@ const VoteCard = styled(DataCard)`
 
 export default function ClaimModal() {
     const { i18n } = useLingui()
-    const theme = useContext(ThemeContext)
+    const theme = useTheme()
 
     const isOpen = useModalOpen(ApplicationModal.SELF_CLAIM)
     const toggleClaimModal = useToggleSelfClaimModal()

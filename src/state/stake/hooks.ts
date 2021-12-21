@@ -1,7 +1,7 @@
 import { ChainId, CurrencyAmount, JSBI, Pair, Token, TokenAmount, WETH } from '@sushiswap/sdk'
 import useCurrentBlockTimestamp from 'hooks/useCurrentBlockTimestamp'
 import { useMemo } from 'react'
-import { DAI, SUSHI, USDC, USDT, WBTC } from '../../constants'
+import { AdditionalChainId, DAI, SUSHI, USDC, USDT, WBTC } from '../../constants'
 import { STAKING_REWARDS_INTERFACE } from '../../constants/abis/staking-rewards'
 import { useActiveWeb3React } from '../../hooks/useActiveWeb3React'
 import { NEVER_RELOAD, useMultipleContractSingleData } from '../multicall/hooks'

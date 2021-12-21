@@ -3,7 +3,7 @@ import { transparentize } from 'polished'
 import React, { useContext, useMemo } from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import { Text } from 'rebass'
-import styled, { ThemeContext } from 'styled-components'
+import styled, { useTheme } from 'styled-components'
 import { ButtonPrimaryNormal, ButtonSecondary } from '../../components/ButtonLegacy'
 import Card from '../../components/Card'
 import { AutoColumn } from '../../components/Column'
@@ -11,7 +11,7 @@ import { SwapPoolTabs } from '../../components/NavigationTabs'
 import FullPositionCard from '../../components/PositionCard'
 import { RowBetween, RowFixed } from '../../components/Row'
 import { Dots } from '../../components/swap/styleds'
-import { BIG_INT_ZERO } from '../../constants'
+import { AdditionalChainId, BIG_INT_ZERO } from '../../constants'
 import { usePairs } from '../../data/Reserves'
 import { useActiveWeb3React } from '../../hooks/useActiveWeb3React'
 import { useStakingInfo } from '../../state/stake/hooks'
@@ -25,7 +25,7 @@ import Button from '../../components/Button'
 import { t, Trans } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
 
-const DataCard = styled(AutoColumn)<{ disabled?: boolean }>`
+const DataCard = styled(AutoColumn) <{ disabled?: boolean }>`
     background: radial-gradient(76.02% 75.41% at 1.84% 0%, #ff007a 0%, #0094ec 100%);
     border-radius: ${({ theme }) => theme.borderRadius};
     width: 100%;
@@ -33,7 +33,7 @@ const DataCard = styled(AutoColumn)<{ disabled?: boolean }>`
     overflow: hidden;
 `
 
-const CardSection = styled(AutoColumn)<{ disabled?: boolean }>`
+const CardSection = styled(AutoColumn) <{ disabled?: boolean }>`
     padding: 1rem;
     z-index: 1;
     opacity: ${({ disabled }) => disabled && '0.4'};
@@ -101,7 +101,7 @@ const migrateFrom: { [chainId in ChainId | AdditionalChainId]?: string } = {
 
 export default function Pool() {
     const { i18n } = useLingui()
-    const theme = useContext(ThemeContext)
+    const theme = useTheme()
     const history = useHistory()
     const { account, chainId } = useActiveWeb3React()
 

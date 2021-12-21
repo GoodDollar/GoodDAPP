@@ -10,7 +10,7 @@ import { updateUserDarkMode } from '../state/user/actions'
 import { parse } from 'qs'
 import isEqual from 'lodash/isEqual'
 import SideBar from '../components/SideBar'
-import useTheme from '../hooks/useTheme'
+import { useTheme } from 'styled-components'
 import styled from 'styled-components'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
@@ -102,7 +102,6 @@ function App(): JSX.Element {
         }
     }, [dispatch, search])
 
-    const theme = useTheme()
     const { i18n } = useLingui()
 
     return (

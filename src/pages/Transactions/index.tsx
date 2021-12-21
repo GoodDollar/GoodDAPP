@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
-import { ThemeContext } from 'styled-components'
+import { useTheme } from 'styled-components'
 import { getExplorerLink, shortenAddress } from '../../utils'
 import TransactionHistory from './TransactionHistory'
 import { ChevronLeft, User, Copy, ExternalLink } from 'react-feather'
@@ -24,7 +24,7 @@ const mock = {
 export default function Transactions() {
     const { i18n } = useLingui()
 
-    const theme = useContext(ThemeContext)
+    const theme = useTheme()
     const { account, chainId } = useActiveWeb3React()
     const userEthBalance = useETHBalances(account ? [account] : [])?.[account ?? '']
 

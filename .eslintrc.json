@@ -10,6 +10,11 @@
     },
     "ignorePatterns": ["node_modules/**/*"],
     "settings": {
+        "import/resolver": {
+            "node": {
+                "paths": ["src"]
+            }
+        },
         "react": {
             "version": "detect"
         }

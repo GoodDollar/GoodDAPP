@@ -5,7 +5,7 @@ import React, { useCallback, useContext, useEffect, useMemo, useState } from 're
 import { ArrowDown } from 'react-feather'
 
 import { Text } from 'rebass'
-import { ThemeContext } from 'styled-components'
+import { useTheme } from 'styled-components'
 import AddressInputPanel from '../../components/AddressInputPanel'
 import { ButtonConfirmed, ButtonError, ButtonLight, ButtonPrimary } from '../../components/ButtonLegacy'
 import Card, { GreyCard } from '../../components/CardLegacy'
@@ -70,7 +70,7 @@ export default function Swap() {
         })
 
     const { account, chainId } = useActiveWeb3React()
-    const theme = useContext(ThemeContext)
+    const theme = useTheme()
 
     // toggle wallet when disconnected
     const toggleWalletModal = useWalletModalToggle()
@@ -97,13 +97,13 @@ export default function Swap() {
 
     const parsedAmounts = showWrap
         ? {
-              [Field.INPUT]: parsedAmount,
-              [Field.OUTPUT]: parsedAmount
-          }
+            [Field.INPUT]: parsedAmount,
+            [Field.OUTPUT]: parsedAmount
+        }
         : {
-              [Field.INPUT]: independentField === Field.INPUT ? parsedAmount : trade?.inputAmount,
-              [Field.OUTPUT]: independentField === Field.OUTPUT ? parsedAmount : trade?.outputAmount
-          }
+            [Field.INPUT]: independentField === Field.INPUT ? parsedAmount : trade?.inputAmount,
+            [Field.OUTPUT]: independentField === Field.OUTPUT ? parsedAmount : trade?.outputAmount
+        }
 
     const { onSwitchTokens, onCurrencySelection, onUserInput, onChangeRecipient } = useSwapActionHandlers()
     const isValid = !swapInputError
@@ -147,8 +147,8 @@ export default function Swap() {
     const route = trade?.route
     const userHasSpecifiedInputOutput = Boolean(
         currencies[Field.INPUT] &&
-            currencies[Field.OUTPUT] &&
-            parsedAmounts[independentField]?.greaterThan(JSBI.BigInt(0))
+        currencies[Field.OUTPUT] &&
+        parsedAmounts[independentField]?.greaterThan(JSBI.BigInt(0))
     )
     const noRoute = !route
 
@@ -300,7 +300,7 @@ export default function Swap() {
                             otherCurrency={currencies[Field.OUTPUT]}
                             id="swap-currency-input"
                             cornerRadiusBottomNone={isExpertMode ? false : true}
-                            //containerBackground={'#101b31'}
+                        //containerBackground={'#101b31'}
                         />
                         {isExpertMode && !showWrap && (
                             <AutoColumn justify="space-between">
@@ -378,7 +378,7 @@ export default function Swap() {
                             otherCurrency={currencies[Field.INPUT]}
                             id="swap-currency-output"
                             cornerRadiusTopNone={isExpertMode ? false : true}
-                            //containerBackground={'#16182b'}
+                        //containerBackground={'#16182b'}
                         />
 
                         {recipient !== null && !showWrap ? (
@@ -411,8 +411,8 @@ export default function Swap() {
                                     (wrapType === WrapType.WRAP
                                         ? i18n._(t`Wrap`)
                                         : wrapType === WrapType.UNWRAP
-                                        ? i18n._(t`Unwrap`)
-                                        : null)}
+                                            ? i18n._(t`Unwrap`)
+                                            : null)}
                             </ButtonPrimary>
                         ) : noRoute && userHasSpecifiedInputOutput ? (
                             <GreyCard style={{ textAlign: 'center' }}>
@@ -467,8 +467,8 @@ export default function Swap() {
                                         {priceImpactSeverity > 3 && !isExpertMode
                                             ? i18n._(t`Price Impact High`)
                                             : priceImpactSeverity > 2
-                                            ? i18n._(t`Swap Anyway`)
-                                            : i18n._(t`Swap`)}
+                                                ? i18n._(t`Swap Anyway`)
+                                                : i18n._(t`Swap`)}
                                     </Text>
                                 </ButtonError>
                             </RowBetween>
@@ -495,10 +495,10 @@ export default function Swap() {
                                     {swapInputError
                                         ? swapInputError
                                         : priceImpactSeverity > 3 && !isExpertMode
-                                        ? i18n._(t`Price Impact Too High`)
-                                        : priceImpactSeverity > 2
-                                        ? i18n._(t`Swap Anyway`)
-                                        : i18n._(t`Swap`)}
+                                            ? i18n._(t`Price Impact Too High`)
+                                            : priceImpactSeverity > 2
+                                                ? i18n._(t`Swap Anyway`)
+                                                : i18n._(t`Swap`)}
                                 </Text>
                             </ButtonError>
                         )}

@@ -34,7 +34,7 @@ import Lottie from 'lottie-react'
 import SwapHeader from '../../components/ExchangeHeader'
 import { SwapPoolTabs } from '../../components/NavigationTabs'
 import { Text } from 'rebass'
-import { ThemeContext } from 'styled-components'
+import { useTheme } from 'styled-components'
 import TokenWarningModal from '../../components/TokenWarningModal'
 import TradePrice from '../../components/swap/TradePrice'
 import confirmPriceImpactWithoutFee from '../../components/swap/confirmPriceImpactWithoutFee'
@@ -78,7 +78,7 @@ export default function Swap() {
         })
 
     const { account, chainId } = useActiveWeb3React()
-    const theme = useContext(ThemeContext)
+    const theme = useTheme()
 
     // toggle wallet when disconnected
     const toggleWalletModal = useWalletModalToggle()
@@ -105,13 +105,13 @@ export default function Swap() {
 
     const parsedAmounts = showWrap
         ? {
-              [Field.INPUT]: parsedAmount,
-              [Field.OUTPUT]: parsedAmount
-          }
+            [Field.INPUT]: parsedAmount,
+            [Field.OUTPUT]: parsedAmount
+        }
         : {
-              [Field.INPUT]: independentField === Field.INPUT ? parsedAmount : trade?.inputAmount,
-              [Field.OUTPUT]: independentField === Field.OUTPUT ? parsedAmount : trade?.outputAmount
-          }
+            [Field.INPUT]: independentField === Field.INPUT ? parsedAmount : trade?.inputAmount,
+            [Field.OUTPUT]: independentField === Field.OUTPUT ? parsedAmount : trade?.outputAmount
+        }
 
     const { onSwitchTokens, onCurrencySelection, onUserInput, onChangeRecipient } = useSwapActionHandlers()
     const isValid = !swapInputError
@@ -155,8 +155,8 @@ export default function Swap() {
     const route = trade?.route
     const userHasSpecifiedInputOutput = Boolean(
         currencies[Field.INPUT] &&
-            currencies[Field.OUTPUT] &&
-            parsedAmounts[independentField]?.greaterThan(JSBI.BigInt(0))
+        currencies[Field.OUTPUT] &&
+        parsedAmounts[independentField]?.greaterThan(JSBI.BigInt(0))
     )
     const noRoute = !route
 
@@ -435,8 +435,8 @@ export default function Swap() {
                                     (wrapType === WrapType.WRAP
                                         ? i18n._(t`Wrap`)
                                         : wrapType === WrapType.UNWRAP
-                                        ? i18n._(t`Unwrap`)
-                                        : null)}
+                                            ? i18n._(t`Unwrap`)
+                                            : null)}
                             </ButtonAction>
                         ) : noRoute && userHasSpecifiedInputOutput ? (
                             <ButtonAction disabled>
@@ -490,8 +490,8 @@ export default function Swap() {
                                     {priceImpactSeverity > 3 && !isExpertMode
                                         ? i18n._(t`Price Impact High`)
                                         : priceImpactSeverity > 2
-                                        ? i18n._(t`Swap Anyway`)
-                                        : i18n._(t`SWAP`)}
+                                            ? i18n._(t`Swap Anyway`)
+                                            : i18n._(t`SWAP`)}
                                 </ButtonAction>
                             </RowBetween>
                         ) : (
@@ -511,16 +511,16 @@ export default function Swap() {
                                 }}
                                 id="swap-button"
                                 disabled={!isValid || (priceImpactSeverity > 3 && !isExpertMode) || !!swapCallbackError}
-                                // error={isValid && priceImpactSeverity > 2 && !swapCallbackError}
+                            // error={isValid && priceImpactSeverity > 2 && !swapCallbackError}
                             >
                                 <Text fontSize={20} fontWeight={500}>
                                     {swapInputError
                                         ? swapInputError
                                         : priceImpactSeverity > 3 && !isExpertMode
-                                        ? i18n._(t`Price Impact Too High`)
-                                        : priceImpactSeverity > 2
-                                        ? i18n._(t`Swap Anyway`)
-                                        : i18n._(t`Swap`)}
+                                            ? i18n._(t`Price Impact Too High`)
+                                            : priceImpactSeverity > 2
+                                                ? i18n._(t`Swap Anyway`)
+                                                : i18n._(t`Swap`)}
                                 </Text>
                             </ButtonAction>
                         )}

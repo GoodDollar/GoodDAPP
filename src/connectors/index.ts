@@ -47,7 +47,8 @@ export const injected = new InjectedConnector({
 // mainnet only
 export const walletconnect = new WalletConnectConnector({
     rpc: {
-        // [ChainId.MAINNET]: RPC[ChainId.MAINNET],
+        [ChainId.MAINNET]: RPC[ChainId.MAINNET],
+        [ChainId.ROPSTEN]: RPC[ChainId.ROPSTEN],
         [ChainId.KOVAN]: RPC[ChainId.KOVAN],
         [122]: RPC[122]
     },
@@ -55,3 +56,8 @@ export const walletconnect = new WalletConnectConnector({
     qrcode: true,
     pollingInterval: 15000
 })
+
+export const Fortmatic = {}
+export const fortmatic = {}
+export const Portis = {}
+export const portis = {}

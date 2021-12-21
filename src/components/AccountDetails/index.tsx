@@ -1,6 +1,6 @@
 import React, { useCallback, useContext } from 'react'
 import { useDispatch } from 'react-redux'
-import styled, { ThemeContext } from 'styled-components'
+import styled, { useTheme } from 'styled-components'
 import WalletConnectIcon from '../../assets/images/walletConnectIcon.svg'
 import { ReactComponent as Close } from '../../assets/images/x.svg'
 import { injected, walletconnect } from '../../connectors'
@@ -130,7 +130,7 @@ const AccountControl = styled.div`
     }
 `
 
-const AddressLink = styled(ExternalLink)<{ hasENS: boolean; isENS: boolean }>`
+const AddressLink = styled(ExternalLink) <{ hasENS: boolean; isENS: boolean }>`
     margin-left: 1rem;
     display: flex;
 
@@ -330,7 +330,7 @@ export default function AccountDetails({
                     <AutoRow mb={'1rem'} style={{ justifyContent: 'space-between' }}>
                         <Title type="category">{i18n._(t`Recent Transactions`)}</Title>
                         <ButtonOutlined className="px-2" size="sm" width="auto" onClick={clearAllTransactionsCallback}>
-                        {i18n._(t`Clear all`)}
+                            {i18n._(t`Clear all`)}
                         </ButtonOutlined>
                     </AutoRow>
                     {renderTransactions(pendingTransactions)}

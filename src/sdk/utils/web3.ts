@@ -1,12 +1,12 @@
-import Web3 from "web3";
-
+import Web3 from 'web3'
+import { result } from 'lodash'
 /**
  * Returns current chain ID based on web3 instance.
  * @param {Web3} web3 Web3 instance.
  * @returns {Promise<number>}
  */
 export async function getChainId(web3: Web3): Promise<number> {
-  return web3.eth.getChainId()
+    return web3.eth.getChainId()
 }
 
 /**
@@ -15,7 +15,7 @@ export async function getChainId(web3: Web3): Promise<number> {
  * @returns {Promise<number>}
  */
 export async function getAccount(web3: Web3): Promise<string> {
-  const [account] = await web3.eth.getAccounts()
+    const [account] = await web3.eth.getAccounts()
 
-  return account
+    return account
 }

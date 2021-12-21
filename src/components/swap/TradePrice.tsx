@@ -2,7 +2,7 @@ import { Price } from '@sushiswap/sdk'
 import React, { useContext } from 'react'
 import { Repeat } from 'react-feather'
 import { Text } from 'rebass'
-import { ThemeContext } from 'styled-components'
+import { useTheme } from 'styled-components'
 import { useActiveWeb3React } from '../../hooks/useActiveWeb3React'
 import { StyledBalanceMaxMini } from './styleds'
 
@@ -14,7 +14,7 @@ interface TradePriceProps {
 
 export default function TradePrice({ price, showInverted, setShowInverted }: TradePriceProps) {
     const { chainId } = useActiveWeb3React()
-    const theme = useContext(ThemeContext)
+    const theme = useTheme()
 
     const formattedPrice = showInverted ? price?.toSignificant(6) : price?.invert()?.toSignificant(6)
 

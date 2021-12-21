@@ -21,10 +21,6 @@ type AAVEStaking = {
  */
 export const compoundStaking = memoize<(chainId: number, tokenAddress: string) => Promise<AAVEStaking>>(
     async (chainId, tokenAddress): Promise<AAVEStaking> => {
-        if (!G$PRICE[chainId]) {
-            throw new UnsupportedChainId(chainId)
-        }
-
         let [supplyRate, compSupplyAPY] = await fetch(
             `https://api.compound.finance/api/v2/ctoken?addresses=${tokenAddress}&network=${NETWORK_LABELS[chainId]}`
         )

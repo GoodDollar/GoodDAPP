@@ -7,7 +7,7 @@ import ListLogo from 'components/ListLogo'
 import { AutoRow, RowBetween, RowFixed } from 'components/Row'
 import { SectionBreak } from 'components/swap/styleds'
 import { useActiveWeb3React } from 'hooks/useActiveWeb3React'
-import useTheme from 'hooks/useTheme'
+import { useTheme } from 'styled-components'
 import { transparentize } from 'polished'
 import React, { useState } from 'react'
 import { AlertTriangle, ArrowLeft } from 'react-feather'
@@ -27,7 +27,7 @@ const Wrapper = styled.div`
     overflow: auto;
 `
 
-const WarningWrapper = styled(Card)<{ highWarning: boolean }>`
+const WarningWrapper = styled(Card) <{ highWarning: boolean }>`
     background-color: ${({ theme, highWarning }) =>
         highWarning ? transparentize(0.8, theme.red1) : transparentize(0.8, theme.yellow2)};
     width: fit-content;

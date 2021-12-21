@@ -4,7 +4,7 @@ import { ChevronLeft } from 'react-feather'
 import { Link, useHistory } from 'react-router-dom'
 
 import { Button } from 'components'
-import { ThemeContext } from 'styled-components'
+import { useTheme } from 'styled-components'
 
 import BentoSquare from '../../../assets/images/bento-square.png'
 //import BaoSquare from '../../../assets/images/bao-square.png'
@@ -69,7 +69,7 @@ const tips: readonly Tip[] = [
 
 export default function SushiBarTips() {
     const { i18n } = useLingui()
-    const theme = useContext(ThemeContext)
+    const theme = useTheme()
     const history = useHistory()
 
     const goBack = useCallback(() => {

@@ -21,6 +21,7 @@ import SideBar from './SideBar'
 import usePromise from '../hooks/usePromise'
 import { g$Price } from '../sdk/apollo'
 import LanguageSwitch from "./LanguageSwitch";
+import NetworkModal from './NetworkModal'
 
 const AppBarWrapper = styled.header`
     background: ${({ theme }) => theme.color.main};
@@ -65,9 +66,8 @@ function AppBar(): JSX.Element {
     const { account, chainId, library } = useActiveWeb3React()
     const userEthBalance = useETHBalances(account ? [account] : [])?.[account ?? '']
     const [G$Price] = usePromise(async () => {
-        if (!chainId) return undefined
         try {
-            const data = await g$Price(chainId)
+            const data = await g$Price()
             return data.DAI
         } catch {
             return undefined
@@ -153,6 +153,7 @@ function AppBar(): JSX.Element {
 
                                             <LanguageSwitch />
                                             <MoreMenu />
+                                            <NetworkModal />
                                         </div>
                                     </div>
                                 </div>

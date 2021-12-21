@@ -1,7 +1,7 @@
 import { Trade, TradeType, ChainId } from '@sushiswap/sdk'
 import { useActiveWeb3React } from 'hooks/useActiveWeb3React'
 import React, { useContext } from 'react'
-import { ThemeContext } from 'styled-components'
+import { useTheme } from 'styled-components'
 import { Field } from '../../state/swap/actions'
 import { useUserSlippageTolerance } from '../../state/user/hooks'
 import { computeSlippageAdjustedAmounts, computeTradePriceBreakdown } from '../../utils/prices'
@@ -39,11 +39,11 @@ function TradeSummary({ trade, allowedSlippage }: { trade: Trade; allowedSlippag
                         <div className="  ">
                             {isExactIn
                                 ? `${slippageAdjustedAmounts[Field.OUTPUT]?.toSignificant(
-                                      4
-                                  )} ${trade.outputAmount.currency.getSymbol(chainId)}` ?? '-'
+                                    4
+                                )} ${trade.outputAmount.currency.getSymbol(chainId)}` ?? '-'
                                 : `${slippageAdjustedAmounts[Field.INPUT]?.toSignificant(
-                                      4
-                                  )} ${trade.inputAmount.currency.getSymbol(chainId)}` ?? '-'}
+                                    4
+                                )} ${trade.inputAmount.currency.getSymbol(chainId)}` ?? '-'}
                         </div>
                     </RowFixed>
                 </RowBetween>
@@ -119,11 +119,10 @@ export function AdvancedSwapDetails({ trade }: AdvancedSwapDetailsProps) {
                         ) && (
                             <div className="flex justify-center pt-3 px-4">
                                 <ExternalLink
-                                    href={`${
-                                        chainId && ANALYTICS_URL[chainId]
+                                    href={`${chainId && ANALYTICS_URL[chainId]
                                             ? ANALYTICS_URL[chainId]
                                             : 'https://analytics.sushi.com'
-                                    }/pairs/${trade.route.pairs[0].liquidityToken.address}`}
+                                        }/pairs/${trade.route.pairs[0].liquidityToken.address}`}
                                 >
                                     {i18n._(t`View pair analytics`)}
                                 </ExternalLink>

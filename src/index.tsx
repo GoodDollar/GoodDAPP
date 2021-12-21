@@ -4,7 +4,6 @@ import 'react-tabs/style/react-tabs.css'
 import './bootstrap'
 
 import { createWeb3ReactRoot, Web3ReactProvider } from '@web3-react/core'
-import { KashiProvider } from 'kashi'
 import React, { StrictMode, useState, useEffect } from 'react'
 import { isMobile } from 'react-device-detect'
 import ReactDOM from 'react-dom'
@@ -82,11 +81,9 @@ ReactDOM.render(
                                 <Updaters />
                                 <ThemeProvider>
                                     <GlobalStyle />
-                                    <KashiProvider>
-                                        <Router>
-                                            <App />
-                                        </Router>
-                                    </KashiProvider>
+                                    <Router>
+                                        <App />
+                                    </Router>
                                 </ThemeProvider>
                             </Blocklist>
                         </LanguageProvider>

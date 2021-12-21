@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { ArrowUpCircle } from 'react-feather'
-import styled, { ThemeContext } from 'styled-components'
+import styled, { useTheme } from 'styled-components'
 import Circle from '../../assets/images/blue-loader.svg'
 import { useActiveWeb3React } from '../../hooks/useActiveWeb3React'
 import { CloseIcon, CustomLightSpinner, TYPE } from '../../theme'
@@ -50,7 +50,7 @@ export function SubmittedView({
     hash: string | undefined
 }) {
     const { i18n } = useLingui()
-    const theme = useContext(ThemeContext)
+    const theme = useTheme()
     const { chainId } = useActiveWeb3React()
 
     return (
@@ -60,7 +60,7 @@ export function SubmittedView({
                 <CloseIcon onClick={onDismiss} />
             </RowBetween>
             <ConfirmedIcon>
-                <ArrowUpCircle strokeWidth={0.5} size={90} color={theme.primary1} />
+                <ArrowUpCircle strokeWidth={0.5} size={90} color={theme && theme.primary1} />
             </ConfirmedIcon>
             <AutoColumn gap="100px" justify={'center'}>
                 {children}

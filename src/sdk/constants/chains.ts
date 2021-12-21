@@ -6,6 +6,11 @@ export enum SupportedChainId {
     ROPSTEN = 3
 }
 
+export enum DAO_NETWORK {
+    MAINNET = 'mainnet',
+    FUSE = 'fuse'
+}
+
 /* List of supported chain's names. */
 export const NETWORK_LABELS: { [chainId in SupportedChainId | number]: string } = {
     [SupportedChainId.MAINNET]: 'mainnet',
@@ -14,5 +19,9 @@ export const NETWORK_LABELS: { [chainId in SupportedChainId | number]: string } 
     [SupportedChainId.ROPSTEN]: 'ropsten'
 }
 
-export const stakesSupportedAt: Array<number | undefined> = [SupportedChainId.KOVAN]
+export const stakesSupportedAt: Array<number | undefined> = [
+    SupportedChainId.KOVAN,
+    SupportedChainId.MAINNET,
+    SupportedChainId.ROPSTEN
+]
 export const portfolioSupportedAt: Array<number | undefined> = [SupportedChainId.KOVAN]

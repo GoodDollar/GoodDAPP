@@ -6,7 +6,7 @@ import useIsWindowVisible from '../../hooks/useIsWindowVisible'
 import { updateBlockNumber } from './actions'
 
 export default function Updater(): null {
-    const { library, chainId } = useActiveWeb3React()
+    const { library, chainId, account } = useActiveWeb3React()
     const dispatch = useDispatch()
 
     const windowVisible = useIsWindowVisible()
@@ -31,10 +31,9 @@ export default function Updater(): null {
 
     // attach/detach listeners
     useEffect(() => {
-        if (!library || !chainId || !windowVisible) return undefined
+        if (!account || !library || !chainId || !windowVisible) return undefined
 
         setState({ chainId, blockNumber: null })
-
         library
             .getBlockNumber()
             .then(blockNumberCallback)
@@ -44,7 +43,7 @@ export default function Updater(): null {
         return () => {
             library.removeListener('block', blockNumberCallback)
         }
-    }, [dispatch, chainId, library, blockNumberCallback, windowVisible])
+    }, [dispatch, chainId, library, blockNumberCallback, windowVisible, account])
 
     const debouncedState = useDebounce(state, 100)
 

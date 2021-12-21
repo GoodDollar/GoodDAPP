@@ -12,13 +12,10 @@ import { identityContract } from './contracts/IdentityContract'
  * @param {Web3} web3 Web3 instance.
  * @returns {Promise<boolean>}
  */
-export async function isWhitelisted(web3: Web3): Promise<boolean> {
-    await validateChaiId(web3)
-
+export async function isWhitelisted(web3: Web3, account: string): Promise<boolean> {
     const contract = await identityContract(web3)
-    const address = await getAccount(web3)
 
-    const result = await contract.methods.isWhitelisted(address).call()
+    const result = await contract.methods.isWhitelisted(account).call()
     debug('Wallet whitelisted', result)
 
     return result
@@ -30,8 +27,6 @@ export async function isWhitelisted(web3: Web3): Promise<boolean> {
  * @returns {Promise<string>} Amount of UBI tokens.
  */
 export async function check(web3: Web3): Promise<string> {
-    await validateChaiId(web3)
-
     const contract = await ubiSchemeContract(web3)
 
     const result = await contract.methods.checkEntitlement().call()
@@ -44,11 +39,10 @@ export async function check(web3: Web3): Promise<string> {
  * Claim UBI token.
  * @param {Web3} web3 Web3 instance.
  */
-export async function claim(web3: Web3): Promise<void> {
+export async function claim(web3: Web3, account: string): Promise<void> {
     await validateChaiId(web3)
 
     const contract = await ubiSchemeContract(web3)
-    const account = await getAccount(web3)
 
     return contract.methods.claim().send({ from: account })
 }

@@ -6,7 +6,7 @@ import { Dots } from '../../components'
 import DoubleCurrencyLogo from 'components/DoubleLogo'
 import { LinkStyledButton } from '../../theme'
 import { NETWORK_LABEL } from '../../constants/networks'
-import { ThemeContext } from 'styled-components'
+import { useTheme } from 'styled-components'
 import { getExplorerLink } from '../../utils'
 import { t } from '@lingui/macro'
 import { useActiveWeb3React } from '../../hooks/useActiveWeb3React'
@@ -19,7 +19,7 @@ import { useLingui } from '@lingui/react'
 export default function TransactionHistory({ transactions }: any) {
     const { i18n } = useLingui()
 
-    const theme = useContext(ThemeContext)
+    const theme = useTheme()
     const { account, chainId } = useActiveWeb3React()
     return (
         <>

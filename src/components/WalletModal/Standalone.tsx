@@ -8,7 +8,7 @@ import styled from 'styled-components'
 import MetamaskIcon from '../../assets/images/metamask.png'
 import { ReactComponent as Close } from '../../assets/images/x.svg'
 import { fortmatic, injected, portis } from '../../connectors'
-import { OVERLAY_READY } from '../../connectors/Fortmatic'
+// import { OVERLAY_READY } from 'connectors/Fortmatic'
 import { SUPPORTED_WALLETS } from '../../constants'
 import usePrevious from '../../hooks/usePrevious'
 import { ApplicationModal } from '../../state/application/actions'
@@ -19,6 +19,7 @@ import Option from './Option'
 import PendingView from './PendingView'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
+import { useTheme } from 'styled-components'
 
 const CloseIcon = styled.div`
     position: absolute;
@@ -196,11 +197,11 @@ export default function WalletStandalone({
     }
 
     // close wallet modal if fortmatic modal is active
-    useEffect(() => {
-        fortmatic.on(OVERLAY_READY, () => {
-            toggleWalletModal()
-        })
-    }, [toggleWalletModal])
+    // useEffect(() => {
+    //     fortmatic.on(OVERLAY_READY, () => {
+    //         toggleWalletModal()
+    //     })
+    // }, [toggleWalletModal])
 
     // get wallets user can switch too, depending on device/browser
     function getOptions() {

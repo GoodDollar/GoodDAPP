@@ -1,7 +1,7 @@
 import { Currency, ETHER, Token } from '@sushiswap/sdk'
 import useDebounce from 'hooks/useDebounce'
 import { useOnClickOutside } from 'hooks/useOnClickOutside'
-import useTheme from 'hooks/useTheme'
+import { useTheme } from 'styled-components'
 import useToggle from 'hooks/useToggle'
 import React, { KeyboardEvent, RefObject, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Edit } from 'react-feather'
@@ -228,7 +228,7 @@ export function CurrencySearch({
                 </div>
             ) : (
                 <Column style={{ padding: '20px', height: '100%' }}>
-                    <TYPE.main color={theme.text3} textAlign="center" mb="20px">
+                    <TYPE.main color={theme && theme.text3} textAlign="center" mb="20px">
                         {i18n._(t`No results found`)}
                     </TYPE.main>
                 </Column>

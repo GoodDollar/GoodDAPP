@@ -1,6 +1,6 @@
 import { transparentize } from 'polished'
 import React, { useContext } from 'react'
-import styled, { ThemeContext } from 'styled-components'
+import styled, { useTheme } from 'styled-components'
 import { AutoColumn } from '../../components/Column'
 import { RowBetween } from '../../components/Row'
 import { Wrapper } from '../../components/swap/styleds'
@@ -18,13 +18,13 @@ const PageWrapper = styled(AutoColumn)`
     width: 100%;
 `
 
-export const CardSection = styled(AutoColumn)<{ disabled?: boolean }>`
+export const CardSection = styled(AutoColumn) <{ disabled?: boolean }>`
     padding: 1rem;
     z-index: 1;
     opacity: ${({ disabled }) => disabled && '0.4'};
 `
 
-export const DataCard = styled(AutoColumn)<{ disabled?: boolean }>`
+export const DataCard = styled(AutoColumn) <{ disabled?: boolean }>`
     background: radial-gradient(76.02% 75.41% at 1.84% 0%, #ff007a 0%, #0094ec 100%);
     border-radius: ${({ theme }) => theme.borderRadius};
     width: 100%;
@@ -40,7 +40,7 @@ const VoteCard = styled(DataCard)`
 
 export default function Saave() {
     const { i18n } = useLingui()
-    const theme = useContext(ThemeContext)
+    const theme = useTheme()
     const darkMode = useDarkModeManager()
 
     return (

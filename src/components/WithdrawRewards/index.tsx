@@ -6,7 +6,7 @@ import Title from 'components/gd/Title'
 import { ButtonAction } from 'components/gd/Button'
 import Modal from 'components/Modal'
 import Button from 'components/Button'
-import { claim } from '../../sdk/staking'
+import { claim, claimGood } from '../../sdk/staking'
 import useWeb3 from '../../hooks/useWeb3'
 import { TransactionDetails } from '../../sdk/constants/transactions'
 import { useDispatch } from 'react-redux'
@@ -18,12 +18,13 @@ import { useLingui } from '@lingui/react'
 
 interface WithdrawRewardsProps {
     trigger: ReactElement<{ onClick: Function }>
+    type: 'GOOD' | 'G$',
     onClaim: () => void
 }
 
 type WithdrawRewardsState = 'none' | 'pending' | 'success'
 
-function WithdrawRewards({ trigger, onClaim, ...rest }: WithdrawRewardsProps) {
+function WithdrawRewards({ trigger, type, onClaim, ...rest }: WithdrawRewardsProps) {
     const { i18n } = useLingui()
     const [status, setStatus] = useState<WithdrawRewardsState>('none')
     const { chainId } = useActiveWeb3React()
@@ -35,7 +36,8 @@ function WithdrawRewards({ trigger, onClaim, ...rest }: WithdrawRewardsProps) {
         if (!web3) return
         try {
             setStatus('pending')
-            const transactions = await claim(web3, firstTransactionHash => {
+            const claimMethod = type === 'GOOD' ? claimGood : claim;
+            const transactions = await claimMethod(web3, firstTransactionHash => {
                 setTransactionHash(firstTransactionHash)
                 setStatus('success')
             })
@@ -53,7 +55,8 @@ function WithdrawRewards({ trigger, onClaim, ...rest }: WithdrawRewardsProps) {
             setStatus('none')
             setError(e as Error)
         }
-    }, [setStatus, onClaim])
+    }, [setStatus, onClaim, type])
+
     const [isModalOpen, setModalOpen] = useState(false)
     const handleClose = useCallback(() => {
         setModalOpen(false)
@@ -82,9 +85,9 @@ function WithdrawRewards({ trigger, onClaim, ...rest }: WithdrawRewardsProps) {
                                 {i18n._(t`Claimable Rewards`)}
                             </Title>
                             {<p className="warning mb-5">{error ? error.message : ''}</p>}
-                            <p className="warning mb-5 text-center">
+                            {type === 'G$' && <p className="warning mb-5 text-center">
                                 {i18n._(t`Claiming your rewards will reset your multiplier.`)}
-                            </p>
+                            </p>}
                             <div className="flex flex-col items-center gap-1 relative">
                                 <ButtonAction
                                     className="claim-reward"

@@ -2,7 +2,7 @@ import { ChainId } from '@sushiswap/sdk'
 import React, { useContext } from 'react'
 import { AlertTriangle, ArrowUpCircle } from 'react-feather'
 import { Text } from 'rebass'
-import styled, { ThemeContext } from 'styled-components'
+import styled, { useTheme } from 'styled-components'
 import Circle from '../../assets/images/blue-loader.svg'
 import { useActiveWeb3React } from '../../hooks/useActiveWeb3React'
 import { ExternalLink } from '../../theme'
@@ -72,7 +72,7 @@ function TransactionSubmittedContent({
     chainId: ChainId
 }) {
     const { i18n } = useLingui()
-    const theme = useContext(ThemeContext)
+    const theme = useTheme()
 
     return (
         <Wrapper>
@@ -140,7 +140,7 @@ export function ConfirmationModalContent({
 }
 
 export function TransactionErrorContent({ message, onDismiss }: { message: string; onDismiss: () => void }) {
-    const theme = useContext(ThemeContext)
+    const theme = useTheme()
     return (
         <Wrapper>
             <Section>

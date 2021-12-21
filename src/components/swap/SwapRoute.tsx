@@ -3,12 +3,12 @@ import { useActiveWeb3React } from 'hooks/useActiveWeb3React'
 import React, { Fragment, memo, useContext } from 'react'
 import { ChevronRight } from 'react-feather'
 import { Flex } from 'rebass'
-import { ThemeContext } from 'styled-components'
+import { useTheme } from 'styled-components'
 import { unwrappedToken } from 'utils/wrappedCurrency'
 import { TYPE } from '../../theme'
 
 export default memo(function SwapRoute({ trade }: { trade: Trade }) {
-    const theme = useContext(ThemeContext)
+    const theme = useTheme()
     const { chainId } = useActiveWeb3React()
     return (
         <Flex flexWrap="wrap" width="100%" justifyContent="flex-end" alignItems="center">

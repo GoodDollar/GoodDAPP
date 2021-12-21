@@ -1,8 +1,8 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react'
-import styled, { ThemeContext } from 'styled-components'
+import styled, { useTheme } from 'styled-components'
 import { ReactComponent as Close } from '../../assets/images/x.svg'
 import { useFaucetContract } from '../../hooks/useContract'
-import { ApplicationModal } from '../../state/application/actions'
+import { ApplicationModal } from '../../state/application/types'
 import { useModalOpen, useFaucetModalToggle } from '../../state/application/hooks'
 import { TYPE } from '../../theme'
 import Modal from '../Modal'
@@ -79,7 +79,7 @@ const LowerSection = styled.div`
 
 export default function FaucetModal() {
     const { i18n } = useLingui()
-    const theme = useContext(ThemeContext)
+    const theme = useTheme()
 
     const faucetModalOpen = useModalOpen(ApplicationModal.FAUCET)
     const toggleFaucetModal = useFaucetModalToggle()
@@ -126,7 +126,7 @@ export default function FaucetModal() {
                 </CloseIcon>
                 <HeaderRow>Faucet</HeaderRow>
                 <LowerSection>
-                    <TYPE.body color={theme.text1}>{i18n._(t`Claim your test tokens here...`)}</TYPE.body>
+                    <TYPE.body color={theme && theme.text1}>{i18n._(t`Claim your test tokens here...`)}</TYPE.body>
                     <button onClick={claimFaucet} className="flex items-center w-full rounded p-3 cursor-pointer mt-5">
                         <div className="  center w-full">{i18n._(t`Claim`)}</div>
                     </button>

@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { useFetchListCallback } from '../../hooks/useFetchListCallback'
 import { useOnClickOutside } from '../../hooks/useOnClickOutside'
-import useTheme from '../../hooks/useTheme'
+import { useTheme } from 'styled-components'
 import useToggle from '../../hooks/useToggle'
 import { AppDispatch, AppState } from '../../state'
 import { acceptListUpdate, disableList, enableList, removeList } from '../../state/lists/actions'
@@ -75,12 +75,12 @@ const StyledTitleText = styled.div<{ active: boolean }>`
     color: ${({ theme, active }) => (active ? theme.white : theme.text2)};
 `
 
-const StyledListUrlText = styled(TYPE.main)<{ active: boolean }>`
+const StyledListUrlText = styled(TYPE.main) <{ active: boolean }>`
     font-size: 12px;
     color: ${({ theme, active }) => (active ? theme.white : theme.text2)};
 `
 
-const RowWrapper = styled(Row)<{ bgColor: string; active: boolean }>`
+const RowWrapper = styled(Row) <{ bgColor: string; active: boolean }>`
     background-color: ${({ bgColor, active, theme }) => (active ? bgColor ?? 'transparent' : theme.bg2)};
     transition: 200ms;
     align-items: center;
@@ -268,8 +268,8 @@ function ManageLists({
                     return l1.name.toLowerCase() < l2.name.toLowerCase()
                         ? -1
                         : l1.name.toLowerCase() === l2.name.toLowerCase()
-                        ? 0
-                        : 1
+                            ? 0
+                            : 1
                 }
                 if (l1) return -1
                 if (l2) return 1

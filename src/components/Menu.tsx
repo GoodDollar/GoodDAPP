@@ -7,7 +7,7 @@ import { ReactComponent as MenuIcon } from '../assets/images/menu.svg'
 import { t } from '@lingui/macro'
 import { I18n } from '@lingui/core'
 import { useLingui } from '@lingui/react'
-import useTheme from '../hooks/useTheme'
+import { useTheme } from 'styled-components'
 import styled from 'styled-components'
 
 const items = (i18n: I18n) => [

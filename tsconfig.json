@@ -23,9 +23,9 @@
         "downlevelIteration": true,
         "allowSyntheticDefaultImports": true,
         "types": ["jest"],
-        "baseUrl": "src",
-        "typeRoots": ["./node_modules/@types", "./types", "./node_modules/@react-spring/types"]
+        "baseUrl": "./src",
+        "typeRoots": ["./node_modules/@types", "./types", "./node_modules/@react-spring/types", "./src"]
     },
     "exclude": ["node_modules", "cypress"],
-    "include": ["./src/index.tsx", "./src/**/*.d.ts", "./types"]
+    "include": ["./src", "./src/**/*.d.ts", "./types"]
 }

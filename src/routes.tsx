@@ -1,10 +1,10 @@
 import React from 'react'
 import { Route, Switch } from 'react-router-dom'
-import Stakes from './pages/Stake'
-import DatastudioDashboard from './pages/DatastudioDashboard'
-import Swap from './pages/Swap'
-import { RedirectHashRoutes, RedirectPathToSwapOnly } from './pages/SwapDeprecated/redirects'
-import Portfolio from './pages/Portfolio'
+import Stakes from 'pages/gd/Stake'
+import DatastudioDashboard from 'pages/gd/DatastudioDashboard'
+import Swap from 'pages/gd/Swap'
+import { RedirectHashRoutes, RedirectPathToSwapOnly } from 'pages/SwapDeprecated/redirects'
+import Portfolio from 'pages/gd/Portfolio'
 import { useWeb3React } from '@web3-react/core'
 
 function Routes(): JSX.Element {

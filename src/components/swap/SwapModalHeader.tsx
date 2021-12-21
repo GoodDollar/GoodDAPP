@@ -2,7 +2,7 @@ import { Trade, TradeType } from '@sushiswap/sdk'
 import React, { useContext, useMemo } from 'react'
 import { AlertTriangle, ArrowDown } from 'react-feather'
 import { Text } from 'rebass'
-import styled, { ThemeContext } from 'styled-components'
+import styled, { useTheme } from 'styled-components'
 import { useActiveWeb3React } from '../../hooks/useActiveWeb3React'
 import { Field } from '../../state/swap/actions'
 import { TYPE } from '../../theme'
@@ -53,7 +53,7 @@ export default function SwapModalHeader({
     const { priceImpactWithoutFee } = useMemo(() => computeTradePriceBreakdown(trade), [trade])
     const priceImpactSeverity = warningSeverity(priceImpactWithoutFee)
 
-    const theme = useContext(ThemeContext)
+    const theme = useTheme()
 
     return (
         <Wrapper gap={'md'} style={{ marginTop: '20px' }}>
@@ -94,8 +94,8 @@ export default function SwapModalHeader({
                             priceImpactSeverity > 2
                                 ? theme.red1
                                 : showAcceptChanges && trade.tradeType === TradeType.EXACT_INPUT
-                                ? theme.primary1
-                                : ''
+                                    ? theme.primary1
+                                    : ''
                         }
                     >
                         {trade.outputAmount.toSignificant(6)}

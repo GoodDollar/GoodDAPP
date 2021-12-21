@@ -6,7 +6,7 @@ import ListLogo from 'components/ListLogo'
 import { AutoRow, RowBetween, RowFixed } from 'components/Row'
 import { SectionBreak } from 'components/swap/styleds'
 import { useFetchListCallback } from 'hooks/useFetchListCallback'
-import useTheme from 'hooks/useTheme'
+import { useTheme } from 'styled-components'
 import { transparentize } from 'polished'
 import React, { useCallback, useState } from 'react'
 import { AlertTriangle, ArrowLeft } from 'react-feather'
@@ -79,7 +79,7 @@ function ImportList({ listURL, list, setModalView, onDismiss }: ImportProps) {
             <SectionBreak />
             <PaddedColumn gap="md">
                 <AutoColumn gap="md">
-                    <Card backgroundColor={theme.bg2} padding="12px 20px">
+                    <Card backgroundColor={theme && theme.bg2} padding="12px 20px">
                         <RowBetween>
                             <RowFixed>
                                 {list.logoURI && <ListLogo logoURI={list.logoURI} size="40px" />}

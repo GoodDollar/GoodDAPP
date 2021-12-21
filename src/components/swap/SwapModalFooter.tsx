@@ -2,7 +2,7 @@ import { Trade, TradeType } from '@sushiswap/sdk'
 import React, { useContext, useMemo, useState } from 'react'
 import { Repeat } from 'react-feather'
 import { Text } from 'rebass'
-import styled, { ThemeContext } from 'styled-components'
+import styled, { useTheme } from 'styled-components'
 import { useActiveWeb3React } from '../../hooks/useActiveWeb3React'
 import { Field } from '../../state/swap/actions'
 import { TYPE } from '../../theme'
@@ -43,7 +43,7 @@ export default function SwapModalFooter({
     const { i18n } = useLingui()
     const { chainId } = useActiveWeb3React()
     const [showInverted, setShowInverted] = useState<boolean>(false)
-    const theme = useContext(ThemeContext)
+    const theme = useTheme()
     const slippageAdjustedAmounts = useMemo(() => computeSlippageAdjustedAmounts(trade, allowedSlippage), [
         allowedSlippage,
         trade

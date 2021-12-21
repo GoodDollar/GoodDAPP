@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useEffect, useState } from 'react'
+import React, { memo, useCallback, useEffect, useState, useMemo } from 'react'
 import { WithdrawStyled } from 'components/Withdraw/styled'
 import Modal from 'components/Modal'
 import { ReactComponent as CrossSVG } from 'assets/images/x.svg'
@@ -25,7 +25,6 @@ function formatNumber(value: number) {
 interface WithdrawProps {
     token: string
     protocol: string
-    totalStake: number
     open: boolean
     setOpen: (value: boolean) => void
     onWithdraw: () => void
@@ -34,10 +33,11 @@ interface WithdrawProps {
 
 type WithdrawState = 'none' | 'pending' | 'success'
 
-function Withdraw({ token, protocol, totalStake, open, setOpen, onWithdraw, stake, ...rest }: WithdrawProps) {
+function Withdraw({ token, protocol, open, setOpen, onWithdraw, stake, ...rest }: WithdrawProps) {
     const { i18n } = useLingui()
     const [status, setStatus] = useState<WithdrawState>('none')
-
+    const totalStake = useMemo(() => parseFloat(stake.stake.amount.toExact()), [stake])
+    console.log({ totalStake })
     const [percentage, setPercentage] = useState<string>('50')
     const [withdrawAmount, setWithdrawAmount] = useState<number>(totalStake * (Number(percentage) / 100))
 
@@ -52,7 +52,7 @@ function Withdraw({ token, protocol, totalStake, open, setOpen, onWithdraw, stak
         if (!web3) return
         try {
             setStatus('pending')
-            const transactionDetails = await withdraw(web3, stake.address, parseFloat(percentage), transactionHash => {
+            const transactionDetails = await withdraw(web3, stake, percentage, transactionHash => {
                 setTransactionHash(transactionHash)
                 setStatus('success')
             })
@@ -114,7 +114,7 @@ function Withdraw({ token, protocol, totalStake, open, setOpen, onWithdraw, stak
 
                         <div className="flex flex-col items-center gap-1 relative mt-7">
                             <p className="warning text-center mb-2 text-red">
-                                {i18n._(t`Claiming your rewards will reset your multiplier.`)}
+                                {i18n._(t`Withdrawing your stake will reset your multiplier.`)}
                             </p>
                             <ButtonAction className="withdraw" disabled={status === 'pending'} onClick={handleWithdraw}>
                                 {status === 'pending'

@@ -1,5 +1,5 @@
 import React, { useCallback, useContext } from 'react'
-import styled, { ThemeContext } from 'styled-components'
+import styled, { useTheme } from 'styled-components'
 import { useActiveWeb3React } from '../../hooks/useActiveWeb3React'
 import useENS from '../../hooks/useENS'
 import { ExternalLink, TYPE } from '../../theme'
@@ -80,7 +80,7 @@ export default function AddressInputPanel({
 }) {
     const { i18n } = useLingui()
     const { chainId } = useActiveWeb3React()
-    const theme = useContext(ThemeContext)
+    const theme = useTheme()
 
     const { address, loading, name } = useENS(value)
 
@@ -101,7 +101,7 @@ export default function AddressInputPanel({
                 <InputContainer>
                     <AutoColumn gap="md">
                         <RowBetween>
-                            <TYPE.black color={theme.text2} fontWeight={500} fontSize={14}>
+                            <TYPE.black color={theme && theme.text2} fontWeight={500} fontSize={14}>
                                 {i18n._(t`Recipient`)}
                             </TYPE.black>
                             {address && chainId && (

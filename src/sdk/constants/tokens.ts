@@ -148,7 +148,13 @@ export const UNI: { [chainId: number]: Token } = {
 }
 
 export const G$: { [chainId: number]: Token } = {
-    // [SupportedChainId.MAINNET]: new Token(SupportedChainId.MAINNET, G$ContractAddresses(SupportedChainId.MAINNET, 'GoodDollar'), 2, 'G$', 'GoodDollar'),
+    [SupportedChainId.MAINNET]: new Token(
+        SupportedChainId.MAINNET,
+        G$ContractAddresses(SupportedChainId.MAINNET, 'GoodDollar'),
+        2,
+        'G$',
+        'GoodDollar'
+    ),
     [SupportedChainId.KOVAN]: new Token(
         SupportedChainId.KOVAN,
         G$ContractAddresses(SupportedChainId.KOVAN, 'GoodDollar'),
@@ -156,9 +162,16 @@ export const G$: { [chainId: number]: Token } = {
         'G$',
         'GoodDollar'
     ),
+    [SupportedChainId.ROPSTEN]: new Token(
+        SupportedChainId.KOVAN,
+        G$ContractAddresses(SupportedChainId.ROPSTEN, 'GoodDollar'),
+        2,
+        'G$',
+        'GoodDollar'
+    ),
     [SupportedChainId.FUSE]: new Token(
         SupportedChainId.FUSE,
-        '0x495d133B938596C9984d462F007B676bDc57eCEC',
+        G$ContractAddresses(SupportedChainId.FUSE, 'GoodDollar'),
         2,
         'G$',
         'GoodDollar'
@@ -166,10 +179,23 @@ export const G$: { [chainId: number]: Token } = {
 }
 
 export const GDX: { [chainId: number]: Token } = {
-    // [SupportedChainId.MAINNET]: new Token(SupportedChainId.MAINNET, G$ContractAddresses(SupportedChainId.MAINNET, 'GoodReserveCDai'), 2, 'G$X', 'GoodDollar X'),
+    [SupportedChainId.MAINNET]: new Token(
+        SupportedChainId.MAINNET,
+        G$ContractAddresses(SupportedChainId.MAINNET, 'GoodReserveCDai'),
+        2,
+        'G$X',
+        'GoodDollar X'
+    ),
     [SupportedChainId.KOVAN]: new Token(
         SupportedChainId.KOVAN,
         G$ContractAddresses(SupportedChainId.KOVAN, 'GoodReserveCDai'),
+        2,
+        'GDX',
+        'GoodDollar X'
+    ),
+    [SupportedChainId.ROPSTEN]: new Token(
+        SupportedChainId.ROPSTEN,
+        G$ContractAddresses(SupportedChainId.ROPSTEN, 'GoodReserveCDai'),
         2,
         'GDX',
         'GoodDollar X'
@@ -178,19 +204,32 @@ export const GDX: { [chainId: number]: Token } = {
 }
 
 export const GDAO: { [chainId: number]: Token } = {
-    // [SupportedChainId.MAINNET]: new Token(SupportedChainId.KOVAN, '0x67C5870b4A41D4Ebef24d2456547A03F1f3e094B', 2, 'G$X', 'GoodDollar X'),
+    [SupportedChainId.MAINNET]: new Token(
+        SupportedChainId.MAINNET,
+        G$ContractAddresses(SupportedChainId.MAINNET, 'GReputation'),
+        18,
+        'GOOD',
+        'GoodDollar Reputation'
+    ),
     [SupportedChainId.KOVAN]: new Token(
         SupportedChainId.KOVAN,
         G$ContractAddresses(SupportedChainId.KOVAN, 'GReputation'),
         18,
-        'GDAO',
+        'GOOD',
+        'GoodDollar Reputation'
+    ),
+    [SupportedChainId.ROPSTEN]: new Token(
+        SupportedChainId.ROPSTEN,
+        G$ContractAddresses(SupportedChainId.ROPSTEN, 'GReputation'),
+        18,
+        'GOOD',
         'GoodDollar Reputation'
     ),
     [SupportedChainId.FUSE]: new Token(
         SupportedChainId.FUSE,
         G$ContractAddresses(SupportedChainId.FUSE, 'GReputation'),
         18,
-        'GDAO',
+        'GOOD',
         'GoodDollar Reputation'
     )
 }
@@ -198,7 +237,7 @@ export const GDAO: { [chainId: number]: Token } = {
 export const DAI: { [chainId: number]: Token } = {
     [SupportedChainId.MAINNET]: new Token(
         SupportedChainId.MAINNET,
-        '0x6B175474E89094C44Da98b954EedeAC495271d0F',
+        G$ContractAddresses(SupportedChainId.MAINNET, 'DAI'),
         18,
         'DAI',
         'Dai Stablecoin'
@@ -209,6 +248,13 @@ export const DAI: { [chainId: number]: Token } = {
         18,
         'DAI',
         'Dai Stablecoin'
+    ),
+    [SupportedChainId.ROPSTEN]: new Token(
+        SupportedChainId.ROPSTEN,
+        G$ContractAddresses(SupportedChainId.ROPSTEN, 'DAI'),
+        18,
+        'DAI',
+        'Dai Stablecoin'
     )
     // [SupportedChainId.FUSE]: new Token(SupportedChainId.FUSE, G$ContractAddresses(SupportedChainId.FUSE, 'DAI'), 18, 'DAI', 'Dai Stablecoin'),
 }
@@ -216,7 +262,7 @@ export const DAI: { [chainId: number]: Token } = {
 export const CDAI: { [chainId: number]: Token } = {
     [SupportedChainId.MAINNET]: new Token(
         SupportedChainId.MAINNET,
-        '0x5d3a536e4d6dbd6114cc1ead35777bab948e3643',
+        G$ContractAddresses(SupportedChainId.MAINNET, 'cDAI'),
         8,
         'cDAI',
         'Compound DAI'
@@ -224,6 +270,13 @@ export const CDAI: { [chainId: number]: Token } = {
     [SupportedChainId.KOVAN]: new Token(
         SupportedChainId.KOVAN,
         G$ContractAddresses(SupportedChainId.KOVAN, 'cDAI'),
+        8,
+        'cDAI',
+        'Compound DAI'
+    ),
+    [SupportedChainId.ROPSTEN]: new Token(
+        SupportedChainId.ROPSTEN,
+        G$ContractAddresses(SupportedChainId.ROPSTEN, 'cDAI'),
         8,
         'cDAI',
         'Compound DAI'

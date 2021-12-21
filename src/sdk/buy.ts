@@ -269,7 +269,7 @@ async function getPriceImpact(
     cDAI: CurrencyAmount<Currency>,
     G$: CurrencyAmount<Currency>
 ): Promise<Fraction> {
-    const { cDAI: price } = await g$Price(await getChainId(web3))
+    const { cDAI: price } = await g$Price()
 
     const priceImpact = new Fraction(1).subtract(G$.divide(cDAI.divide(price)).multiply(1e6))
     debug('Price impact', priceImpact.toSignificant(6))

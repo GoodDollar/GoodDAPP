@@ -33,7 +33,7 @@ import { PoolPriceBar } from './PoolPriceBar'
 import { RouteComponentProps } from 'react-router-dom'
 import { TYPE } from '../../theme'
 import { Text } from 'rebass'
-import { ThemeContext } from 'styled-components'
+import { useTheme } from 'styled-components'
 import { TransactionResponse } from '@ethersproject/providers'
 import UnsupportedCurrencyFooter from 'components/swap/UnsupportedCurrencyFooter'
 import { currencyId } from '../../utils/currencyId'
@@ -55,15 +55,15 @@ export default function AddLiquidity({
 }: RouteComponentProps<{ currencyIdA?: string; currencyIdB?: string }>) {
     const { i18n } = useLingui()
     const { account, chainId, library } = useActiveWeb3React()
-    const theme = useContext(ThemeContext)
+    const theme = useTheme()
 
     const currencyA = useCurrency(currencyIdA)
     const currencyB = useCurrency(currencyIdB)
 
     const oneCurrencyIsWETH = Boolean(
         chainId &&
-            ((currencyA && currencyEquals(currencyA, WETH[chainId])) ||
-                (currencyB && currencyEquals(currencyB, WETH[chainId])))
+        ((currencyA && currencyEquals(currencyA, WETH[chainId])) ||
+            (currencyB && currencyEquals(currencyB, WETH[chainId])))
     )
 
     const toggleWalletModal = useWalletModalToggle() // toggle wallet when disconnected

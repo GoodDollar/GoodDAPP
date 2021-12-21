@@ -2,7 +2,7 @@ import Logger from 'js-logger'
 import EventEmitter from 'eventemitter3'
 import { assign } from 'lodash'
 
-import Config from '../../config/config'
+import { logLevel } from '../../config/options'
 
 const emitter = new EventEmitter()
 global.logger = Logger
@@ -10,7 +10,7 @@ global.logger = Logger
 // this isn't a hook, but eslint reports warning wrongly
 // eslint-disable-next-line react-hooks/rules-of-hooks
 Logger.useDefaults({
-  defaultLevel: Logger[Config.logLevel.toUpperCase()],
+  defaultLevel: Logger[logLevel.toUpperCase()],
   formatter: (messages, context) => {
     const { name, level } = context
 

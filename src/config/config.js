@@ -3,18 +3,15 @@ import moment from 'moment'
 import { version as contractsVersion } from '../../node_modules/@gooddollar/goodcontracts/package.json'
 import { version } from '../../package.json'
 
-import { isWeb } from '../lib/utils/platform'
 import { appEnv, fixNL, appUrl as publicUrl } from '../lib/utils/env'
 import mustache from '../lib/utils/mustache'
+import { isWeb } from '../lib/utils/platform'
 
 import env from './env'
+import { forcePeer, logLevel } from './options'
 
 // E2E checker utility import
 //import { isE2ERunning } from '../lib/utils/platform'
-
-const { search: qs = '' } = isWeb ? window.location : {}
-const forceLogLevel = qs.match(/level=(.*?)($|&)/)
-const forcePeer = qs.match(/gun=(.*?)($|&)/)
 
 const phase = env.REACT_APP_RELEASE_PHASE || 1
 
@@ -37,7 +34,7 @@ const Config = {
   isPhaseOne,
   isPhaseTwo,
   newVersionUrl: env.REACT_APP_NEW_VERSION_URL || 'https://whatsnew.gooddollar.org',
-  logLevel: (forceLogLevel && forceLogLevel[1]) || env.REACT_APP_LOG_LEVEL || 'debug',
+  logLevel,
   serverUrl: env.REACT_APP_SERVER_URL || 'http://localhost:3003',
   gunPublicUrl: env.REACT_APP_GUN_PUBLIC_URL || 'http://localhost:3003/gun',
   ipfsGateways: ipfsGateways.split(',').map(gatewayTmpl => mustache(gatewayTmpl)),
@@ -64,8 +61,8 @@ const Config = {
   enableInvites: env.REACT_APP_ENABLE_INVITES !== 'false' || isEToro, // true by default
   invitesUrl: env.REACT_APP_INVITES_URL || publicUrl,
   showRewards: env.REACT_APP_DASHBOARD_SHOW_REWARDS === 'true',
-  faceTecEncryptionKey: fixNL(env.REACT_APP_ZOOM_ENCRYPTION_KEY),
-  faceTecLicenseKey: env.REACT_APP_ZOOM_LICENSE_KEY,
+  faceTecEncryptionKey: fixNL(env.REACT_APP_ZOOM_ENCRYPTION_KEY, 'REACT_APP_ZOOM_ENCRYPTION_KEY'),
+  faceTecLicenseKey: fixNL(env.REACT_APP_ZOOM_LICENSE_KEY, 'REACT_APP_ZOOM_ENCRYPTION_KEY'),
   faceTecProductionMode: env.REACT_APP_ZOOM_PRODUCTION_MODE === 'true',
   faceVerificationRequestTimeout: env.REACT_APP_ZOOM_REQUEST_TIMEOUT || 60000,
   faceVerificationMaxAttemptsAllowed: Number(env.REACT_APP_FACE_VERIFICATION_ATTEMPTS || 3),

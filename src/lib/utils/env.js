@@ -2,7 +2,9 @@
 
 import { Platform } from 'react-native'
 import env from '../../config/env'
+import logger from '../logger/js-logger'
 
+const log = logger.child({ from: 'utils/env' })
 const envUrl = env.REACT_APP_PUBLIC_URL
 
 const getDefaultUrl = env => {
@@ -18,7 +20,12 @@ const getDefaultUrl = env => {
   }
 }
 
-export const fixNL = envValue => (envValue || '').replace(/\\n/gm, '\n')
+export const fixNL = (envValue, envVariable = null) => {
+  const fixedValue = (envValue || '').replace(/\\{1,2}n/gm, '\n')
+
+  log.debug('Fixed newlines in environment', { envVariable, envValue, fixedValue })
+  return fixedValue
+}
 
 export const appEnv = env.REACT_APP_ENV || 'development'
 

@@ -1,8 +1,5 @@
 blank_issues_enabled: false
 contact_links:
   - name: Support
-    url: https://discord.gg/EwFs3Pp
+    url: https://discord.gg/zBdetjHe
     about: Please ask and answer questions here
-  - name: List a token
-    url: https://github.com/Uniswap/default-token-list#adding-a-token
-    about: Any requests to add a token to Uniswap should go here

@@ -4,7 +4,7 @@ import { NavLink } from './Link'
 import { useLingui } from '@lingui/react'
 import { t } from '@lingui/macro'
 import TwitterLogo from '../assets/images/twitter.png'
-import TelegramLogo from '../assets/images/telegram.png'
+import DiscordLogo from '../assets/images/discord.png'
 import { getExplorerLink } from '../utils'
 import useActiveWeb3React from '../hooks/useActiveWeb3React'
 import usePromise from '../hooks/usePromise'
@@ -279,13 +279,13 @@ export default function SideBar({ mobile }: { mobile?: boolean }) {
                     </a>
 
                     <a
-                        href="https://t.me/GoodDollarX"
+                        href="https://discord.gg/RKVHwdQtme"
                         target="_blank"
                         className="flex items-center space-x-2"
                         rel="noreferrer"
                     >
-                        <img src={TelegramLogo} alt="telegram logo" width="24" height="24" />
-                        <span>Telegram</span>
+                        <img src={DiscordLogo} alt="discord logo" width="24" height="24" />
+                        <span>Discord</span>
                     </a>
                 </div>
             </div>

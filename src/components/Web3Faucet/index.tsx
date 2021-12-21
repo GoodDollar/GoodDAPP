@@ -62,7 +62,14 @@ function Web3Faucet(): JSX.Element | null {
     const claimActive = (chainId as any) === SupportedChainId.FUSE && claimable === true
 
     return (
-        <div>
+        <div className="flex flex-row space-x-2">
+            <ClaimButton
+                className="px-5"
+                borderRadius="6px"
+                onClick={() => window.location.replace("https://airdrop.gooddollar.org")}
+            >
+                <span>{i18n._(t`GOOD Airdrop`)}</span>
+            </ClaimButton >
             <MouseoverTooltip
                 placement="bottom"
                 text={
@@ -98,7 +105,8 @@ function Web3Faucet(): JSX.Element | null {
                     </div>
                 </ClaimButton>
             </MouseoverTooltip>
-        </div>
+
+        </div >
     )
 }
 

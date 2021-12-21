@@ -7,7 +7,6 @@ import { useActiveWeb3React } from 'hooks/useActiveWeb3React'
 import useSearchAndSort from 'hooks/useSearchAndSort'
 import { useLingui } from '@lingui/react'
 import Modal from 'components/Modal'
-import { ButtonAction } from 'components/gd/Button'
 import { ActionOrSwitchButton } from 'components/gd/Button/ActionOrSwitchButton'
 
 import Table from 'components/gd/Table'

@@ -343,7 +343,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
           suggestion = `Your default browser isn't supported. Please, set ${suggestedBrowser} as default and try again.`
         }
 
-        showErrorDialog(`We were unable to complete the signup. ${suggestion}`)
+        showErrorDialog(`We were unable to load the wallet. ${suggestion}`)
         return
       }
 

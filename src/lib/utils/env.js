@@ -20,7 +20,8 @@ const getDefaultUrl = env => {
   }
 }
 
-export const fixNL = (envValue, envVariable = null) => {
+export const getEnvMultiline = envVariable => {
+  const envValue = env[envVariable]
   const fixedValue = (envValue || '').replace(/\\{1,2}n/gm, '\n')
 
   log.debug('Fixed newlines in environment', { envVariable, envValue, fixedValue })

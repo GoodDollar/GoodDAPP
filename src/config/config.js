@@ -3,7 +3,7 @@ import moment from 'moment'
 import { version as contractsVersion } from '../../node_modules/@gooddollar/goodcontracts/package.json'
 import { version } from '../../package.json'
 
-import { appEnv, fixNL, appUrl as publicUrl } from '../lib/utils/env'
+import { appEnv, getEnvMultiline, appUrl as publicUrl } from '../lib/utils/env'
 import mustache from '../lib/utils/mustache'
 import { isWeb } from '../lib/utils/platform'
 
@@ -61,8 +61,8 @@ const Config = {
   enableInvites: env.REACT_APP_ENABLE_INVITES !== 'false' || isEToro, // true by default
   invitesUrl: env.REACT_APP_INVITES_URL || publicUrl,
   showRewards: env.REACT_APP_DASHBOARD_SHOW_REWARDS === 'true',
-  faceTecEncryptionKey: fixNL(env.REACT_APP_ZOOM_ENCRYPTION_KEY, 'REACT_APP_ZOOM_ENCRYPTION_KEY'),
-  faceTecLicenseKey: fixNL(env.REACT_APP_ZOOM_LICENSE_KEY, 'REACT_APP_ZOOM_LICENSE_KEY'),
+  faceTecEncryptionKey: getEnvMultiline('REACT_APP_ZOOM_ENCRYPTION_KEY'),
+  faceTecLicenseKey: env.REACT_APP_ZOOM_LICENSE_KEY,
   faceTecProductionMode: env.REACT_APP_ZOOM_PRODUCTION_MODE === 'true',
   faceVerificationRequestTimeout: env.REACT_APP_ZOOM_REQUEST_TIMEOUT || 60000,
   faceVerificationMaxAttemptsAllowed: Number(env.REACT_APP_FACE_VERIFICATION_ATTEMPTS || 3),

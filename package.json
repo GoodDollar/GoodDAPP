@@ -140,7 +140,7 @@
     "react": "^17.0.2",
     "react-add-to-homescreen": "^1.1.0",
     "react-app-rewire-hot-loader": "^2.0.1",
-    "react-app-rewired": "^2.1.8",
+    "react-app-rewired": "^2.1.9",
     "react-art": "^17.0.2",
     "react-cropper": "^1.2.0",
     "react-dev-utils": "^11.0.4",

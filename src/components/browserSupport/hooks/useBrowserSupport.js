@@ -6,6 +6,7 @@ import { isFunction, noop } from 'lodash'
 
 // components
 import SwitchToChromeOrSafari from '../components/SwitchToChromeOrSafari'
+import OutdatedOS from '../components/OutdatedOS'
 
 // hooks
 import useMountedState from '../../../lib/hooks/useMountedState'
@@ -13,7 +14,7 @@ import { useDialog } from '../../../lib/undux/utils/dialog'
 
 // utils
 import logger from '../../../lib/logger/js-logger'
-import { isAndroidWeb, isBrowser, isChrome, isIOSWeb, isSafari } from '../../../lib/utils/platform'
+import { isAndroidWeb, isBrowser, isChrome, isIOSWeb, isSafari, osVersion } from '../../../lib/utils/platform'
 
 const log = logger.child({ from: 'useBrowserSupport' })
 
@@ -25,12 +26,16 @@ export default (options = {}) => {
     onUnsupported = noop,
     checkOnMounted = true,
     unsupportedPopup = null,
+    outdatedPopup = null,
+    checkOutdated = true,
   } = options
 
   const [showDialog] = useDialog()
   const mountedState = useMountedState()
   const [isSupported, setSupported] = useState(false)
+  const [isOutdated, setIsOutdated] = useState(false)
   const UnsupportedPopup = unsupportedPopup || SwitchToChromeOrSafari
+  const OutdatedPopup = outdatedPopup || OutdatedOS
 
   const showPopup = useCallback(
     ({ onDismiss = noop, ...props }) =>
@@ -52,18 +57,21 @@ export default (options = {}) => {
     }
   }, [onChecked, onSupported, setSupported])
 
-  const handleUnsupported = useCallback(() => {
-    const onDismiss = () => {
-      onChecked(false)
-      onUnsupported()
-    }
+  const handleUnsupported = useCallback(
+    isOutdated => {
+      const onDismiss = () => {
+        onChecked(false)
+        onUnsupported()
+      }
 
-    showPopup({
-      type: 'error',
-      content: <UnsupportedPopup onDismiss={onDismiss} />,
-      onDismiss: onDismiss,
-    })
-  }, [onChecked, onUnsupported, showPopup])
+      showPopup({
+        type: 'error',
+        content: isOutdated ? <OutdatedPopup onDismiss={onDismiss} /> : <UnsupportedPopup onDismiss={onDismiss} />,
+        onDismiss: onDismiss,
+      })
+    },
+    [onChecked, onUnsupported, showPopup],
+  )
 
   const requestFlow = useCallback(() => {
     // re-checking mounted state after each delayed / async operation as send link
@@ -72,6 +80,7 @@ export default (options = {}) => {
       return
     }
 
+    let isOutdated = false
     let isSupported = (isIOSWeb && isSafari) || (isAndroidWeb && isChrome) || (isBrowser && (isSafari || isChrome))
 
     if (isFunction(onCheck)) {
@@ -80,7 +89,19 @@ export default (options = {}) => {
 
     log.debug({ isSupported })
 
-    isSupported ? handleSupported() : handleUnsupported()
+    if (isSupported && checkOutdated && isIOSWeb && isSafari) {
+      // TODO: check iOS version
+      const iosVersion = osVersion
+      const majoriOSVersion = iosVersion
+        .replace('iOS ', '')
+        .split('.')
+        .shift()
+      if (Number(majoriOSVersion) < 12) {
+        isOutdated = true
+        setIsOutdated(true)
+      }
+    }
+    isSupported && !isOutdated ? handleSupported() : handleUnsupported(isOutdated)
   }, [onChecked, onSupported, handleUnsupported, handleSupported])
 
   const checkForBrowserSupport = useCallback(() => {
@@ -95,5 +116,5 @@ export default (options = {}) => {
     }
   }, [])
 
-  return [isSupported, checkForBrowserSupport]
+  return [isSupported, checkForBrowserSupport, isOutdated]
 }

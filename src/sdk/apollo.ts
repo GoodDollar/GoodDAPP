@@ -8,6 +8,7 @@ import { decimalToFraction } from './utils/converter'
 import { debug, debugGroup, debugGroupEnd } from './utils/debug'
 import { delayedCacheClear } from './utils/memoize'
 import { isCompositeType } from 'graphql'
+import { Token } from '@uniswap/sdk-core'
 
 /**
  * Returns Apollo client to make GraphQL requests.
@@ -64,9 +65,9 @@ export const g$Price = memoize<() => Promise<{ DAI: Fraction; cDAI: Fraction }>>
     }
 )
 
-type AAVEStaking = {
-    percentDepositAPY: Fraction
-    percentDepositAPR: Fraction
+type StakingAPY = {
+    supplyAPY: Fraction
+    incentiveAPY: Fraction
 }
 
 /**
@@ -77,31 +78,49 @@ type AAVEStaking = {
  * @throws {UnsupportedChainId}
  */
 export const aaveStaking = memoize(
-    async (chainId: number, tokenSymbol: string): Promise<AAVEStaking> => {
+    async (chainId: number, token: Token): Promise<StakingAPY> => {
         const client = getClient(AAVE_STAKING[chainId])
 
         const {
             data: {
+                aave,
+                assetToken,
                 reserves: [{ aEmissionPerSecond, liquidityRate, totalATokenSupply }] = [
                     { aEmissionPerSecond: 0, liquidityRate: 0, totalATokenSupply: 0 }
                 ]
             } = {}
         } = await client.query({
-            query: gql`{ reserves( first: 1, where: { symbol: "${tokenSymbol}", liquidityRate_gt: 0 }, orderBy: liquidityRate, orderDirection: desc) { totalATokenSupply, aEmissionPerSecond, liquidityRate } }`
+            query: gql`{ 
+                aave:priceOracleAsset(id: "0x7fc66500c84a76ad7e9c93437bfc5ac33e2ddae9") {    
+                    priceInEth
+                  }
+                  assetToken:priceOracleAsset(id: "${token.address.toLowerCase()}") {    
+                    priceInEth
+                  }
+                reserves( first: 1, where: { underlyingAsset: "${token.address.toLowerCase()}", liquidityRate_gt: 0 }, orderBy: liquidityRate, orderDirection: desc) { totalATokenSupply, aEmissionPerSecond, liquidityRate } 
+            }`
         })
 
-        const percentDepositAPY = new Fraction(liquidityRate, 1e27).multiply(100)
-        const aEmissionPerYear = new Fraction(aEmissionPerSecond).multiply(31_536_000)
-        const percentDepositAPR = aEmissionPerYear.multiply(100).divide(new Fraction(totalATokenSupply))
+        //depositAPR = liquidityRate/RAY
+        //depositAPY = ((1 + (depositAPR / SECONDS_PER_YEAR)) ^ SECONDS_PER_YEAR) - 1
+        // const percentDepositAPR = new Fraction(1, 1)
+        const depositAPY = (1 + liquidityRate / (1e27 * 31_536_000)) ** 31_536_000 - 1
+        //incentiveDepositAPRPercent = 100 * (aEmissionPerYear * REWARD_PRICE_ETH * WEI_DECIMALS)/
+        //                  (totalATokenSupply * TOKEN_PRICE_ETH * UNDERLYING_TOKEN_DECIMALS)
 
-        debugGroup('AAVE Staking')
-        debug('percentDepositAPY', percentDepositAPY.toSignificant(6))
-        debug('percentDepositAPR', percentDepositAPR.toSignificant(6))
+        const aEmissionPerYear = new Fraction(aEmissionPerSecond).multiply(31_536_000)
+        const incentiveAPR = aEmissionPerYear
+            .multiply(aave.priceInEth)
+            .divide(totalATokenSupply * assetToken.priceInEth * 10 ** (18 - token.decimals))
+
+        debugGroup('AAVE Staking', { liquidityRate, aEmissionPerSecond, depositAPY, incentiveAPR })
+        debug('percentDepositAPY', depositAPY)
+        debug('percentDepositAPR', incentiveAPR.toSignificant(6))
         debugGroupEnd('AAVE Staking')
 
         delayedCacheClear(aaveStaking)
 
-        return { percentDepositAPY, percentDepositAPR }
+        return { supplyAPY: new Fraction((depositAPY * 10 ** 10).toFixed(0), 10 ** 10), incentiveAPY: incentiveAPR }
     },
-    (chainId, tokenSymbol) => chainId + tokenSymbol
+    (chainId, token) => chainId + token.address
 )

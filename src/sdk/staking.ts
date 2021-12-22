@@ -393,25 +393,22 @@ const getSocialAPY = memoize<(web3: Web3, protocol: string, token: Token, iToken
         const RR = await getReserveRatio(web3, chainId)
 
         let socialAPY = new Fraction(0)
+        let result = { supplyAPY: socialAPY, incentiveAPY: socialAPY }
         if (!RR.equalTo(0)) {
             if (protocol === LIQUIDITY_PROTOCOL.COMPOUND) {
-                const { supplyRate, compSupplyAPY } = await compoundStaking(chainId, iToken.address)
-
-                socialAPY = supplyRate
-                    .multiply(100)
-                    .add(compSupplyAPY)
-                    .divide(RR)
-                debug('Social APY', socialAPY.toFixed(2), '%')
+                result = await compoundStaking(chainId, iToken.address)
+                debug('compound Social APY', result)
             } else if (protocol === LIQUIDITY_PROTOCOL.AAVE) {
-                const { percentDepositAPY, percentDepositAPR } = await aaveStaking(chainId, token.symbol!)
-
-                socialAPY = percentDepositAPY.add(percentDepositAPR).divide(RR)
-                debug('Social APY', socialAPY.toFixed(2), '%')
+                result = await aaveStaking(chainId, token)
+                debug('Aave Social APY', result)
             }
-        } else {
-            debug('Social APY', 0, '%')
         }
-
+        const { supplyAPY, incentiveAPY } = result
+        socialAPY = supplyAPY
+            .multiply(100)
+            .add(incentiveAPY)
+            .divide(RR)
+        debug('Social APY', socialAPY.toFixed(2), '%')
         return socialAPY
     },
     (_, protocol, a, b) => protocol + a.address + b.address
@@ -641,7 +638,7 @@ const getYearlyRewardGDAO = memoize<(web3: Web3, address: string) => Promise<Cur
         const rewards = await contract.methods.rewardsPerBlock(address).call()
         const yearlyRewardGDAO = CurrencyAmount.fromRawAmount(GDAO[chainId], rewards.toString()).multiply(2_104_400)
 
-        debug('Yearly reward GDAO', rewards, yearlyRewardGDAO.toSignificant(6))
+        debug('Yearly reward GDAO', address, rewards, yearlyRewardGDAO.toSignificant(6))
 
         return yearlyRewardGDAO
     },

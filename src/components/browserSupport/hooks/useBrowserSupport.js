@@ -14,7 +14,8 @@ import { useDialog } from '../../../lib/undux/utils/dialog'
 
 // utils
 import logger from '../../../lib/logger/js-logger'
-import { isAndroidWeb, isBrowser, isChrome, isIOSWeb, isSafari, osVersion } from '../../../lib/utils/platform'
+import { isAndroidWeb, isBrowser, isChrome, isIOSWeb, isSafari, osVersionInfo } from '../../../lib/utils/platform'
+import Config from '../../../config/config'
 
 const log = logger.child({ from: 'useBrowserSupport' })
 
@@ -33,7 +34,6 @@ export default (options = {}) => {
   const [showDialog] = useDialog()
   const mountedState = useMountedState()
   const [isSupported, setSupported] = useState(false)
-  const [isOutdated, setIsOutdated] = useState(false)
   const UnsupportedPopup = unsupportedPopup || SwitchToChromeOrSafari
   const OutdatedPopup = outdatedPopup || OutdatedOS
 
@@ -89,20 +89,18 @@ export default (options = {}) => {
 
     log.debug({ isSupported })
 
-    if (isSupported && checkOutdated && isIOSWeb && isSafari) {
-      // TODO: check iOS version
-      const iosVersion = osVersion
-      const majoriOSVersion = iosVersion
-        .replace('iOS ', '')
-        .split('.')
-        .shift()
-      if (Number(majoriOSVersion) < 12) {
+    if (isSupported && checkOutdated && isIOSWeb) {
+      const { major: iOSVersionMajor } = osVersionInfo
+      if (iOSVersionMajor < Config.minimalIOSVersion) {
         isOutdated = true
-        setIsOutdated(true)
       }
     }
-    isSupported && !isOutdated ? handleSupported() : handleUnsupported(isOutdated)
-  }, [onChecked, onSupported, handleUnsupported, handleSupported])
+    if (isSupported && !isOutdated) {
+      handleSupported()
+    } else {
+      handleUnsupported(isOutdated)
+    }
+  }, [checkOutdated, onChecked, onSupported, handleUnsupported, handleSupported])
 
   const checkForBrowserSupport = useCallback(() => {
     if (!checkOnMounted) {
@@ -116,5 +114,5 @@ export default (options = {}) => {
     }
   }, [])
 
-  return [isSupported, checkForBrowserSupport, isOutdated]
+  return [isSupported, checkForBrowserSupport]
 }

@@ -158,7 +158,8 @@ const Config = {
   peersProb: (env.REACT_APP_GUN_PEERS_PROB || '1,0.5').split(',').map(Number),
   isPatch: (version.match(/\d+\.\d+\.(\d+)/) || [])[1] !== '0',
   storeAppIconAndroid: env.STORE_APP_ICON_ANDROID || "/store-app-icon-android.jpg",
-  storeAppUrlAndroid: env.STORE_APP_URL_ANDROID || "https://play.google.com/store/apps/details?id=org.gooddollar"
+  storeAppUrlAndroid: env.STORE_APP_URL_ANDROID || "https://play.google.com/store/apps/details?id=org.gooddollar",
+  minimalIOSVersion: env.MINIMAL_IOS_VERSION || 12
 }
 
 //get and override settings from server

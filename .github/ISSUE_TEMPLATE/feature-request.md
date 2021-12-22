@@ -1,6 +1,6 @@
 ---
 name: Feature Request
-about: Suggest an idea for improving the UX of the Uniswap Interface
+about: Suggest an idea for improving the UX of the GoodDollar UI
 title: ''
 labels: 'improvement'
 assignees: ''

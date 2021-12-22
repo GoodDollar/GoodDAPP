@@ -7,9 +7,9 @@ import { decimalToFraction } from './utils/converter'
 import { debug, debugGroup, debugGroupEnd } from './utils/debug'
 import { delayedCacheClear } from './utils/memoize'
 
-type AAVEStaking = {
-    supplyRate: Fraction
-    compSupplyAPY: Fraction
+type StakingAPY = {
+    supplyAPY: Fraction
+    incentiveAPY: Fraction
 }
 
 /**
@@ -19,8 +19,8 @@ type AAVEStaking = {
  * @returns {Fraction}
  * @throws {UnsupportedChainId}
  */
-export const compoundStaking = memoize<(chainId: number, tokenAddress: string) => Promise<AAVEStaking>>(
-    async (chainId, tokenAddress): Promise<AAVEStaking> => {
+export const compoundStaking = memoize<(chainId: number, tokenAddress: string) => Promise<StakingAPY>>(
+    async (chainId, tokenAddress): Promise<StakingAPY> => {
         let [supplyRate, compSupplyAPY] = await fetch(
             `https://api.compound.finance/api/v2/ctoken?addresses=${tokenAddress}&network=${NETWORK_LABELS[chainId]}`
         )
@@ -37,13 +37,13 @@ export const compoundStaking = memoize<(chainId: number, tokenAddress: string) =
         }
 
         const result = {
-            supplyRate: decimalToFraction(supplyRate),
-            compSupplyAPY: decimalToFraction(compSupplyAPY)
+            supplyAPY: decimalToFraction(supplyRate),
+            incentiveAPY: decimalToFraction(compSupplyAPY)
         }
 
         debugGroup('Compound Staking')
-        debug('Supply Rate', result.supplyRate.toSignificant(6))
-        debug('Compound Supply APY', result.compSupplyAPY.toSignificant(6))
+        debug('Supply Rate', result.supplyAPY.toSignificant(6))
+        debug('Compound Supply APY', result.incentiveAPY.toSignificant(6))
         debugGroupEnd('Compound Staking')
 
         delayedCacheClear(compoundStaking)

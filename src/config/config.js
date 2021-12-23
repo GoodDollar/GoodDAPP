@@ -61,6 +61,7 @@ const Config = {
   enableInvites: env.REACT_APP_ENABLE_INVITES !== 'false' || isEToro, // true by default
   invitesUrl: env.REACT_APP_INVITES_URL || publicUrl,
   showRewards: env.REACT_APP_DASHBOARD_SHOW_REWARDS === 'true',
+  suggestMobileApp: env.REACT_APP_SUGGEST_MOBILE_APP !== 'false',
   faceTecEncryptionKey: getEnvMultiline('REACT_APP_ZOOM_ENCRYPTION_KEY'),
   faceTecLicenseKey: env.REACT_APP_ZOOM_LICENSE_KEY,
   faceTecProductionMode: env.REACT_APP_ZOOM_PRODUCTION_MODE === 'true',

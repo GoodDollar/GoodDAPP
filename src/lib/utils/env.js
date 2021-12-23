@@ -18,7 +18,7 @@ const getDefaultUrl = env => {
   }
 }
 
-export const fixNL = envValue => (envValue || '').replace(/\\n/gm, '\n')
+export const fixNL = envValue => (envValue || '').replace(/\\{1,2}n/gm, '\n')
 
 export const appEnv = env.REACT_APP_ENV || 'development'
 

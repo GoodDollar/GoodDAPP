@@ -6,7 +6,7 @@ import { isFunction, noop } from 'lodash'
 
 // components
 import SwitchToChromeOrSafari from '../components/SwitchToChromeOrSafari'
-import OutdatedOS from '../components/OutdatedOS'
+import UpdateIOS from '../components/UpdateIOS'
 
 // hooks
 import useMountedState from '../../../lib/hooks/useMountedState'
@@ -35,7 +35,7 @@ export default (options = {}) => {
   const mountedState = useMountedState()
   const [isSupported, setSupported] = useState(false)
   const UnsupportedPopup = unsupportedPopup || SwitchToChromeOrSafari
-  const OutdatedPopup = outdatedPopup || OutdatedOS
+  const OutdatedPopup = outdatedPopup || UpdateIOS
 
   const showPopup = useCallback(
     ({ onDismiss = noop, ...props }) =>
@@ -59,6 +59,8 @@ export default (options = {}) => {
 
   const handleUnsupported = useCallback(
     isOutdated => {
+      const PopupComponent = isOutdated ? OutdatedPopup : UnsupportedPopup
+
       const onDismiss = () => {
         onChecked(false)
         onUnsupported()
@@ -66,7 +68,7 @@ export default (options = {}) => {
 
       showPopup({
         type: 'error',
-        content: isOutdated ? <OutdatedPopup onDismiss={onDismiss} /> : <UnsupportedPopup onDismiss={onDismiss} />,
+        content: <PopupComponent onDismiss={onDismiss} />,
         onDismiss: onDismiss,
       })
     },
@@ -91,6 +93,7 @@ export default (options = {}) => {
 
     if (isSupported && checkOutdated && isIOSWeb) {
       const { major: iOSVersionMajor } = osVersionInfo
+
       if (iOSVersionMajor < Config.minimalIOSVersion) {
         isOutdated = true
       }

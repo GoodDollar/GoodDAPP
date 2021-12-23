@@ -15,16 +15,20 @@ export default () => {
     const checkVersion = async () => {
       const currentVersion = VersionCheck.getCurrentVersion()
       const latestVersion = await VersionCheck.getLatestVersion()
+      const packageName = await VersionCheck.getPackageName()
+      const storeUrl = await VersionCheck.getStoreUrl({ packageName })
 
-      log.debug('Versions', { currentVersion, latestVersion })
+      log.debug('Versions', { currentVersion, latestVersion, storeUrl, packageName })
 
       const res = await VersionCheck.needUpdate({ currentVersion, latestVersion, depth: 3 })
+
+      log.debug('Response', res)
 
       if (!res || !res.isNeeded) {
         return
       }
 
-      const [onUpdate, onOpenUrl] = [res.storeUrl, Config.newVersionUrl].map(url => () => Linking.openURL(url))
+      const [onUpdate, onOpenUrl] = [storeUrl, Config.newVersionUrl].map(url => () => Linking.openURL(url))
 
       updateDialogRef.current(onUpdate, onOpenUrl)
     }

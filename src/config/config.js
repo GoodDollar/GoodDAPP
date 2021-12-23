@@ -63,7 +63,7 @@ const Config = {
   showRewards: env.REACT_APP_DASHBOARD_SHOW_REWARDS === 'true',
   suggestMobileApp: env.REACT_APP_SUGGEST_MOBILE_APP !== 'false',
   faceTecEncryptionKey: fixNL(env.REACT_APP_ZOOM_ENCRYPTION_KEY, 'REACT_APP_ZOOM_ENCRYPTION_KEY'),
-  faceTecLicenseKey: fixNL(env.REACT_APP_ZOOM_LICENSE_KEY, 'REACT_APP_ZOOM_LICENSE_KEY'),
+  faceTecLicenseKey: fixNL(env.REACT_APP_ZOOM_LICENSE_KEY, 'REACT_APP_ZOOM_ENCRYPTION_KEY'),
   faceTecProductionMode: env.REACT_APP_ZOOM_PRODUCTION_MODE === 'true',
   faceVerificationRequestTimeout: env.REACT_APP_ZOOM_REQUEST_TIMEOUT || 60000,
   faceVerificationMaxAttemptsAllowed: Number(env.REACT_APP_FACE_VERIFICATION_ATTEMPTS || 3),

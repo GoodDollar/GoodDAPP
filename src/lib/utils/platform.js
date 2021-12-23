@@ -62,7 +62,7 @@ export const osVersionInfo = (() => {
     default: over([getSystemName, getSystemVersion]),
   })()
 
-  const [major, minor = 0, patch = 0, build = 0] = version.split('.')
+  const [major, minor = 0, patch = 0, build = 0] = version.split('.').map(Number)
 
   return { osName, version, major, minor, patch, build }
 })()

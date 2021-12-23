@@ -11,6 +11,7 @@ import { AdditionalChainId } from '../../constants'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
 import { UnsupportedChainIdError, useWeb3React } from '@web3-react/core'
+import useActiveWeb3React from 'hooks/useActiveWeb3React'
 
 const PARAMS: {
     [chainId in ChainId | AdditionalChainId]?: {
@@ -161,6 +162,7 @@ const TextWrapper = styled.div`
 export default function NetworkModal(): JSX.Element | null {
     const { i18n } = useLingui()
     const { account, chainId, error } = useWeb3React()
+    const { library } = useActiveWeb3React()
     const networkModalOpen = useModalOpen(ApplicationModal.NETWORK)
     const toggleNetworkModal = useNetworkModalToggle()
 
@@ -186,6 +188,8 @@ export default function NetworkModal(): JSX.Element | null {
                 return [ChainId.KOVAN, AdditionalChainId.FUSE, ChainId.ROPSTEN, ChainId.MAINNET]
         }
     }, [error, network])
+
+    const isMetaMask = window.ethereum && window.ethereum.isMetaMask
 
     return (
         <Modal isOpen={networkModalOpen} onDismiss={toggleNetworkModal}>
@@ -224,15 +228,25 @@ export default function NetworkModal(): JSX.Element | null {
                                     ].includes(key as any)
                                 ) {
                                     console.log(key.toString(16))
-                                    ;(ethereum as any).request({
-                                        method: 'wallet_switchEthereumChain',
-                                        params: [{ chainId: `0x${key.toString(16)}` }]
-                                    })
+                                    if (isMetaMask) {
+                                        ;(ethereum as any).request({
+                                            method: 'wallet_switchEthereumChain',
+                                            params: [{ chainId: `0x${key.toString(16)}` }]
+                                        })
+                                    } else {
+                                        library?.send('wallet_switchEthereumChain', [
+                                            { chainId: `0x${key.toString(16)}` }
+                                        ])
+                                    }
                                 } else {
-                                    ;(ethereum as any).request({
-                                        method: 'wallet_addEthereumChain',
-                                        params: [params, account]
-                                    })
+                                    if (isMetaMask) {
+                                        ;(ethereum as any).request({
+                                            method: 'wallet_addEthereumChain',
+                                            params: [params, account]
+                                        })
+                                    } else {
+                                        library?.send('wallet_addEthereumChain', [params, account])
+                                    }
                                 }
                             }}
                         />

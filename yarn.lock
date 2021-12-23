@@ -19205,10 +19205,10 @@ react-app-rewire-hot-loader@^2.0.1:
   resolved "https://registry.yarnpkg.com/react-app-rewire-hot-loader/-/react-app-rewire-hot-loader-2.0.1.tgz#9b47d299dac4d861dafdf18b49c3698d0ff04a52"
   integrity sha512-XTUPOv5q0zJeEtXECfilDPfqCiktSVbIyupiqigIHOO8EMZec2YfNpwZzqDWMu3yfaEHRs54qRCcCgRR/1w3EQ==
 
-react-app-rewired@^2.1.9:
-  version "2.1.9"
-  resolved "https://registry.yarnpkg.com/react-app-rewired/-/react-app-rewired-2.1.9.tgz#20c432c6414d354547e232c4fa1ac1112615ca3e"
-  integrity sha512-eOIRsDXbRCA9x+vIABS+VFBXO78bUbZ1pIyOuAkbP0Y6NEfbr4v9lHAyGsix4DxNcKpPqKYtvDKKlbOxMUCxlw==
+react-app-rewired@^2.1.8:
+  version "2.1.8"
+  resolved "https://registry.yarnpkg.com/react-app-rewired/-/react-app-rewired-2.1.8.tgz#e192f93b98daf96889418d33d3e86cf863812b56"
+  integrity sha512-wjXPdKPLscA7mn0I1de1NHrbfWdXz4S1ladaGgHVKdn1hTgKK5N6EdGIJM0KrS6bKnJBj7WuqJroDTsPKKr66Q==
   dependencies:
     semver "^5.6.0"
 

@@ -16,7 +16,7 @@ export default () => {
       const currentVersion = VersionCheck.getCurrentVersion()
       const latestVersion = await VersionCheck.getLatestVersion()
       const packageName = await VersionCheck.getPackageName()
-      const storeUrl = await VersionCheck.getStoreUrl({ packageName: packageName })
+      const storeUrl = await VersionCheck.getStoreUrl({ packageName })
 
       log.debug('Versions', { currentVersion, latestVersion, storeUrl, packageName })
 

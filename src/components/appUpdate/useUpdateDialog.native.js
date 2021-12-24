@@ -7,6 +7,7 @@ import Config from '../../config/config'
 import useShowUpdateDialog from './UpdateDialog'
 
 const log = logger.child({ from: 'useUpdateDialog' })
+const { suggestMobileAppUpdate, newVersionUrl } = Config
 
 export default () => {
   const updateDialogRef = useShowUpdateDialog()
@@ -28,11 +29,13 @@ export default () => {
         return
       }
 
-      const [onUpdate, onOpenUrl] = [storeUrl, Config.newVersionUrl].map(url => () => Linking.openURL(url))
+      const [onUpdate, onOpenUrl] = [storeUrl, newVersionUrl].map(url => () => Linking.openURL(url))
 
       updateDialogRef.current(onUpdate, onOpenUrl)
     }
 
-    checkVersion()
+    if (suggestMobileAppUpdate) {
+      checkVersion()
+    }
   }, [])
 }

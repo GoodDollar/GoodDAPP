@@ -2,7 +2,7 @@ import Web3 from 'web3'
 import { BigNumber, ethers } from 'ethers'
 import { Currency, CurrencyAmount, Ether, Fraction, Percent, Token, TradeType } from '@uniswap/sdk-core'
 import { Trade } from '@uniswap/v2-sdk'
-
+import { MaxUint256 } from '@ethersproject/constants'
 import { getToken } from './methods/tokenLists'
 import { calculateExitContribution } from './methods/calculateExitContribution'
 import { decimalPercentToPercent, decimalToJSBI, g$FromDecimal } from './utils/converter'
@@ -495,11 +495,20 @@ export async function approve(web3: Web3, meta: BuyInfo): Promise<void> {
     } else {
         const account = await getAccount(web3)
         const { input } = prepareValues(meta)
+        const bigInput = BigNumber.from(input)
 
+        const erc20 = ERC20Contract(web3, G$[chainId].address)
+
+        const allowance = await erc20.methods
+            .allowance(account, G$ContractAddresses(chainId, 'ExchangeHelper'))
+            .call()
+            .then((_: string) => BigNumber.from(_))
+
+        if (bigInput.lte(allowance)) return
         console.log(G$ContractAddresses(chainId, 'ExchangeHelper'))
 
-        await ERC20Contract(web3, G$[chainId].address)
-            .methods.approve(G$ContractAddresses(chainId, 'ExchangeHelper'), input)
+        await erc20.methods
+            .approve(G$ContractAddresses(chainId, 'ExchangeHelper'), MaxUint256.toString())
             .send({ from: account })
     }
 }

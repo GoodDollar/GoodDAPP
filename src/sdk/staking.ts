@@ -1,8 +1,8 @@
 import Web3 from 'web3'
 import memoize from 'lodash/memoize'
 import { BigNumber } from 'ethers'
-import { Currency, CurrencyAmount, Fraction, Percent, Token } from '@uniswap/sdk-core'
-
+import { Currency, CurrencyAmount, Fraction, MaxUint256, Percent, Token } from '@uniswap/sdk-core'
+import { MaxUint256 as MaxApproveValue } from '@ethersproject/constants'
 import { getSimpleStakingContractAddresses, simpleStakingContract } from './contracts/SimpleStakingContract'
 import { governanceStakingContract } from './contracts/GovernanceStakingContract'
 import { goodFundManagerContract } from './contracts/GoodFundManagerContract'
@@ -726,11 +726,11 @@ export async function approve(
     const allowance = await erc20.methods
         .allowance(account, spender)
         .call()
-        .then((_: string) => _.toBigNumber(token.decimals))
+        .then((_: string) => BigNumber.from(_))
 
     if (tokenAmount.lte(allowance)) return
     const req = ERC20Contract(web3, token.address)
-        .methods.approve(spender, tokenAmount)
+        .methods.approve(spender, MaxApproveValue.toString())
         .send({ from: account })
 
     if (onSent) req.on('transactionHash', onSent)

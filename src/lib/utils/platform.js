@@ -56,13 +56,21 @@ export const isCypress =
 
 export const isE2ERunning = isCypress && 'development' === appEnv
 
-export const osVersion = (() => {
-  const [name, version] = Platform.select({
+export const osVersionInfo = (() => {
+  const [osName, version] = Platform.select({
     web: () => [detectedOS, detectedOSVersion],
     default: over([getSystemName, getSystemVersion]),
   })()
 
-  return `${name} ${version}`
+  const [major, minor = 0, patch = 0, build = 0] = version.split('.').map(Number)
+
+  return { osName, version, major, minor, patch, build }
+})()
+
+export const osVersion = (() => {
+  const { osName, version } = osVersionInfo
+
+  return `${osName} ${version}`
 })()
 
 export const useNativeDriverForAnimation = Platform.select({

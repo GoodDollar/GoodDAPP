@@ -98,6 +98,7 @@ export default (options = {}) => {
         isOutdated = true
       }
     }
+
     if (isSupported && !isOutdated) {
       handleSupported()
     } else {

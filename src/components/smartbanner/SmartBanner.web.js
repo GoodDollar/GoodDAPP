@@ -11,8 +11,25 @@ const { suggestMobileApp, storeAppIconAndroid, storeAppUrlAndroid } = Config
 
 const SmartBanner = () => {
   useEffect(() => {
+    const showSmartBanner = () => {
+      const { smartbanner } = window
+
+      if (smartbanner) {
+        window.smartbanner.publish()
+        return
+      }
+
+      setTimeout(showSmartBanner)
+    }
+
     if (suggestMobileApp) {
-      window.smartbanner.publish()
+      document.addEventListener('smartbanner.init', showSmartBanner)
+    }
+
+    return () => {
+      if (suggestMobileApp) {
+        document.removeEventListener('smartbanner.init', showSmartBanner)
+      }
     }
   }, [])
 

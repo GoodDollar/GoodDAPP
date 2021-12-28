@@ -3,7 +3,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { get } from 'lodash'
 import { text } from 'react-native-communications'
-import { fireEvent } from '../../lib/analytics/analytics'
+import { fireEvent, SEND_DONE } from '../../lib/analytics/analytics'
 import userStorage, { type TransactionEvent } from '../../lib/userStorage/UserStorage'
 import { FeedItemType } from '../../lib/userStorage/FeedStorage'
 import logger from '../../lib/logger/js-logger'
@@ -99,7 +99,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
             },
           }
 
-          fireEvent('SEND_DONE', { type: 'link' })
+          fireEvent(SEND_DONE, { type: 'link' })
 
           log.debug('generatePaymentLinkAndSend: enqueueTX', { transactionEvent })
 
@@ -195,7 +195,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
 
             userStorage.enqueueTX(transactionEvent)
 
-            fireEvent('SEND_DONE', { type: get(screenState, 'params.type', contact ? 'contact' : 'Address') }) //type can be QR, receive, contact, contactsms
+            fireEvent(SEND_DONE, { type: get(screenState, 'params.type', contact ? 'contact' : 'Address') }) //type can be QR, receive, contact, contactsms
 
             showDialog({
               visible: true,

@@ -4,7 +4,7 @@ import type { Store } from 'undux'
 import SimpleStore, { assertStore } from '../SimpleStore'
 import { type DialogProps } from '../../../components/common/dialogs/CustomDialog'
 import pino from '../../logger/js-logger'
-import { fireEvent } from '../../analytics/analytics'
+import { ERROR_DIALOG, fireEvent } from '../../analytics/analytics'
 import { GlobalTogglesContext } from '../../contexts/togglesContext'
 const log = pino.child({ from: 'dialogs' })
 
@@ -39,7 +39,7 @@ export const showDialogForError = (
     message = error.join('\n')
   }
 
-  fireEvent('ERROR_DIALOG', { humanError, message })
+  fireEvent(ERROR_DIALOG, { humanError, message })
   message = humanError ? humanError + '\n' + message : message
   const dialogData = { visible: true, title: 'Ooops ...', message, type: 'error', ...dialogProps }
   showDialogWithData(store, setDialogBlur, dialogData)

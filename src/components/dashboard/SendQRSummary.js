@@ -3,7 +3,7 @@
  * @file Displays a summary when sending G$ directly to a blockchain address
  */
 import React, { useEffect, useState } from 'react'
-import { fireEvent } from '../../lib/analytics/analytics'
+import { fireEvent, SEND_DONE } from '../../lib/analytics/analytics'
 import userStorage, { type TransactionEvent } from '../../lib/userStorage/UserStorage'
 import logger from '../../lib/logger/js-logger'
 import { ExceptionCategory } from '../../lib/logger/exceptions'
@@ -91,7 +91,7 @@ const SendQRSummary = ({ screenProps }: AmountProps, params) => {
 
           userStorage.enqueueTX(transactionEvent)
 
-          fireEvent('SEND_DONE', { type: screenState.params.type })
+          fireEvent(SEND_DONE, { type: screenState.params.type })
           showDialog({
             visible: true,
             title: 'SUCCESS!',

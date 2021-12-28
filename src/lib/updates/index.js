@@ -2,7 +2,7 @@ import { filter } from 'lodash'
 
 import userStorage from '../userStorage/UserStorage'
 import Config from '../../config/config'
-import { fireEvent } from '../analytics/analytics'
+import { fireEvent, UPDATE_FAILED, UPDATE_SUCCESS } from '../analytics/analytics'
 import logger from '../logger/js-logger'
 
 import uploadAvatars from './avatar'
@@ -38,11 +38,11 @@ const update = async () => {
             .then(_ => {
               doneUpdates[updateKey] = true
               log.info('update done:', updateKey)
-              fireEvent('UPDATE_SUCCESS', { key: upd.key })
+              fireEvent(UPDATE_SUCCESS, { key: upd.key })
             })
             .catch(e => {
               doneUpdates[updateKey] = false
-              fireEvent('UPDATE_FAILED', { key: upd.key, error: e.message })
+              fireEvent(UPDATE_FAILED, { key: upd.key, error: e.message })
               log.error('update failed:', e.message, e, { updKey: upd.key })
             })
             .then(_ => true),
@@ -57,8 +57,8 @@ const update = async () => {
     log.debug('waiting update tasks:', updatesTasks.length)
 
     // eslint-disable-next-line prettier/prettier
-    const results = await updatesTasks.reduce((promise, upd) =>
-      promise.then(acc => upd().then(res => [...acc, res])), Promise.resolve([]))
+    const results = await updatesTasks
+      .reduce((promise, upd) => promise.then(acc => upd().then(res => [...acc, res])), Promise.resolve([]))
       .then(filter)
 
     log.debug('done updates:', { results }, results.length)

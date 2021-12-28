@@ -6,7 +6,7 @@ import Wrapper from '../common/layout/Wrapper'
 import ShareOrCopyButton from '../common/animations/ShareOrCopyButton/ShareOrCopyButtonAnimated'
 import { withStyles } from '../../lib/styles'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
-import { fireEvent } from '../../lib/analytics/analytics'
+import { fireEvent, SEND_CONFIRMATION_SHARE } from '../../lib/analytics/analytics'
 import ConfirmTransactionSVG from '../../assets/confirmTransaction.svg'
 import useCachedScreenState from '../../lib/hooks/useCachedScreenState'
 import { isSharingAvailable } from '../../lib/share'
@@ -41,7 +41,7 @@ const TransactionConfirmation = ({ screenProps, styles }: ReceiveProps) => {
   const thirdTextPoint = isSending ? 'Recipient approves request' : 'Sender approves request'
 
   const fireShared = useCallback(() => {
-    fireEvent('SEND_CONFIRMATION_SHARE', { action, type: isSharingAvailable ? 'share' : 'copy' })
+    fireEvent(SEND_CONFIRMATION_SHARE, { action, type: isSharingAvailable ? 'share' : 'copy' })
   }, [action])
 
   return (

@@ -1213,7 +1213,7 @@ export class GoodWallet {
    * @param {object} options
    */
   async verifyHasGas(wei: number, options = {}) {
-    const TOP_GWEI = 103000 * 1e9 //the gas fee for topWallet faucet call
+    const TOP_GWEI = 110000 * 1e9 //the gas fee for topWallet faucet call
     const minWei = wei ? wei : 250000 * 1e9
     try {
       const { topWallet = true } = options
@@ -1235,7 +1235,7 @@ export class GoodWallet {
       if (nativeBalance >= TOP_GWEI && (await this.faucetContract.methods.canTop(this.account).call())) {
         log.info('verifyHasGas using faucet...')
         const toptx = this.faucetContract.methods.topWallet(this.account)
-        const ok = await this.sendTransaction(toptx)
+        const ok = await this.sendTransaction(toptx, undefined, { isVerifyHasGas: true })
           .then(_ => true)
           .catch(e => {
             log.warn('verifyHasGas faucet failed', e.message, e)
@@ -1291,7 +1291,11 @@ export class GoodWallet {
   async sendTransaction(
     tx: any,
     txCallbacks: PromiEvents = defaultPromiEvents,
-    { gas: setgas, gasPrice }: GasValues = { gas: undefined, gasPrice: undefined },
+    { gas: setgas, gasPrice, isVerifyHasGas }: GasValues = {
+      gas: undefined,
+      gasPrice: undefined,
+      isVerifyHasGas: false,
+    },
   ) {
     const { onTransactionHash, onReceipt, onConfirmation, onError } = { ...defaultPromiEvents, ...txCallbacks }
     let gas = setgas || (await tx.estimateGas().catch(e => log.debug('estimate gas failed'))) || 300000
@@ -1300,9 +1304,12 @@ export class GoodWallet {
       gas *= 2
     }
     log.debug('sendTransaction:', { gas, gasPrice })
-    const { ok } = await this.verifyHasGas(gas * gasPrice)
-    if (ok === false) {
-      return Promise.reject(new Error('Reached daily transactions limit or not a citizen')).catch(this.handleError)
+    if (isVerifyHasGas !== true) {
+      //prevent recursive endless loop when sendTransaction call came from verifyHasGas
+      const { ok } = await this.verifyHasGas(gas * gasPrice)
+      if (ok === false) {
+        return Promise.reject(new Error('Reached daily transactions limit or not a citizen')).catch(this.handleError)
+      }
     }
     const res = new Promise((res, rej) => {
       tx.send({ gas, gasPrice, chainId: this.networkId })

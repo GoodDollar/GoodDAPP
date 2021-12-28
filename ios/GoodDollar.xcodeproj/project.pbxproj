@@ -40,10 +40,10 @@
 		C726B909C5AF4C5483297A33 /* RobotoSlab-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B7288696CA664B4AB10353AE /* RobotoSlab-SemiBold.ttf */; };
 		D2008D73257E7D7200BFAF1F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D2008D72257E7D7200BFAF1F /* GoogleService-Info.plist */; };
 		D726BAB22759C0550092D71C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D726BAB12759C0550092D71C /* LaunchScreen.storyboard */; };
+		D73AC0FC277B5C8700DB2C7E /* AppIcon.appiconset in Resources */ = {isa = PBXBuildFile; fileRef = D73AC0FB277B5C8700DB2C7E /* AppIcon.appiconset */; };
+		D73AC0FE277B5D9C00DB2C7E /* apple-icon.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = D73AC0FD277B5D9C00DB2C7E /* apple-icon.jpeg */; };
 		DB9407204D574FE784DEFFBA /* RobotoSlab-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BD2413EB372049FEA212B762 /* RobotoSlab-ExtraBold.ttf */; };
 		DE74C6CCC3544EC195014935 /* gooddollar.woff in Resources */ = {isa = PBXBuildFile; fileRef = 93E02E113E3842B8892E0408 /* gooddollar.woff */; };
-		DE9FDC4E259411170087F005 /* apple-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = DE9FDC4D259411170087F005 /* apple-icon.png */; };
-		DE9FDC58259413920087F005 /* AppIcon.appiconset in Resources */ = {isa = PBXBuildFile; fileRef = DE9FDC57259413920087F005 /* AppIcon.appiconset */; };
 		E137265E33804FE593F76DD1 /* Roboto-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2AFDD16A39BB4A25A988E8B9 /* Roboto-LightItalic.ttf */; };
 		E621C99C23E83AC30047715D /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = E621C99A23E83AC30047715D /* File.swift */; };
 		E632CC5F23FAE3450096DF79 /* RocketShip_0.png in Resources */ = {isa = PBXBuildFile; fileRef = E632CC5C23FAE3450096DF79 /* RocketShip_0.png */; };
@@ -123,9 +123,9 @@
 		D11EE70BD14046B099CB21C6 /* RobotoSlab-ExtraLight.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "RobotoSlab-ExtraLight.ttf"; path = "../src/assets/fonts/Roboto Slab/RobotoSlab-ExtraLight.ttf"; sourceTree = "<group>"; };
 		D2008D72257E7D7200BFAF1F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		D726BAB12759C0550092D71C /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = GoodDollar/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		D73AC0FB277B5C8700DB2C7E /* AppIcon.appiconset */ = {isa = PBXFileReference; lastKnownFileType = folder; name = AppIcon.appiconset; path = ../../Desktop/appicons/iOS/AppIcon.appiconset; sourceTree = "<group>"; };
+		D73AC0FD277B5D9C00DB2C7E /* apple-icon.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = "apple-icon.jpeg"; path = "../../Desktop/appicons/apple-icon.jpeg"; sourceTree = "<group>"; };
 		D75540B53F2F4826BE39A26E /* Roboto-Italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-Italic.ttf"; path = "../src/assets/fonts/Roboto/Roboto-Italic.ttf"; sourceTree = "<group>"; };
-		DE9FDC4D259411170087F005 /* apple-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "apple-icon.png"; path = "GoodDollar/Images.xcassets/AppIcon.appiconset/apple-icon.png"; sourceTree = "<group>"; };
-		DE9FDC57259413920087F005 /* AppIcon.appiconset */ = {isa = PBXFileReference; lastKnownFileType = folder; name = AppIcon.appiconset; path = GoodDollar/Images.xcassets/AppIcon.appiconset; sourceTree = "<group>"; };
 		E177BA7F034F44F4A748FB5F /* Roboto-BoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-BoldItalic.ttf"; path = "../src/assets/fonts/Roboto/Roboto-BoldItalic.ttf"; sourceTree = "<group>"; };
 		E51AAC4C1A61478CB461B936 /* Feather.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Feather.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Feather.ttf"; sourceTree = "<group>"; };
 		E621C99A23E83AC30047715D /* File.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
@@ -203,8 +203,8 @@
 		2C4C1FF0C9A44611A84FAD12 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				DE9FDC57259413920087F005 /* AppIcon.appiconset */,
-				DE9FDC4D259411170087F005 /* apple-icon.png */,
+				D73AC0FB277B5C8700DB2C7E /* AppIcon.appiconset */,
+				D73AC0FD277B5D9C00DB2C7E /* apple-icon.jpeg */,
 				E68AD00923EC103E003F59C4 /* animations */,
 				9CCAFF4478E640FABF678756 /* AntDesign.ttf */,
 				669EF8BFFEBF4BA48B02FA6E /* Entypo.ttf */,
@@ -423,7 +423,7 @@
 				5453E5F1240AD05900E3DC92 /* GoodDollar.entitlements in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				E632CC6023FAE3450096DF79 /* RocketShip_0@2x.png in Resources */,
-				DE9FDC58259413920087F005 /* AppIcon.appiconset in Resources */,
+				D73AC0FC277B5C8700DB2C7E /* AppIcon.appiconset in Resources */,
 				AB8B506C5EA54364B15ED529 /* gooddollar.svg in Resources */,
 				E632CC6123FAE3450096DF79 /* RocketShip_0@3x.png in Resources */,
 				5EC81648CD3A42F0B75FB628 /* gooddollar.ttf in Resources */,
@@ -439,10 +439,10 @@
 				A899B8D7269344DE8AFCD236 /* Roboto-Light.ttf in Resources */,
 				E137265E33804FE593F76DD1 /* Roboto-LightItalic.ttf in Resources */,
 				D726BAB22759C0550092D71C /* LaunchScreen.storyboard in Resources */,
+				D73AC0FE277B5D9C00DB2C7E /* apple-icon.jpeg in Resources */,
 				0613FF83B35F4C5C877B0A13 /* Roboto-Medium.ttf in Resources */,
 				63FFB60986B04D0FAFABEABA /* Roboto-MediumItalic.ttf in Resources */,
 				AD667D3DF1084153B388B849 /* Roboto-Regular.ttf in Resources */,
-				DE9FDC4E259411170087F005 /* apple-icon.png in Resources */,
 				5453E5F0240ABC1400E3DC92 /* branch.json in Resources */,
 				1C070547A367412CA2FF3034 /* Roboto-Thin.ttf in Resources */,
 				670FC1ABA9C54C1CA52E7B43 /* Roboto-ThinItalic.ttf in Resources */,

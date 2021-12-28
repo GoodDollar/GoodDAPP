@@ -409,7 +409,7 @@ PODS:
     - React-Core
   - react-native-contacts (5.2.8):
     - React-Core
-  - react-native-facetec (1.0.13):
+  - react-native-facetec (1.0.14):
     - React
   - react-native-get-random-values (1.7.0):
     - React-Core
@@ -537,7 +537,7 @@ PODS:
     - React-Core
   - RNSVG (9.13.6):
     - React
-  - RNTorusDirectSdk (0.6.0):
+  - RNTorusDirectSdk (0.6.1):
     - React
     - secp256k1.c (= 0.1.2)
     - Torus-directSDK (~> 0.2.0)
@@ -919,7 +919,7 @@ SPEC CHECKSUMS:
   react-native-camera: b8cc03e2feec0c04403d0998e37cf519d8fd4c6f
   react-native-config: 72d948053a442779b3178fddd571e37f118ef606
   react-native-contacts: 7b5e16196278636030c3fbbb9505543984b01697
-  react-native-facetec: 0c3155c0cae277c0e7ee0f6a6f285e8ca980e39d
+  react-native-facetec: 9b349466808b48d22519206f2f941279271afedb
   react-native-get-random-values: 237bffb1c7e05fb142092681531810a29ba53015
   react-native-image-resizer: d9fb629a867335bdc13230ac2a58702bb8c8828f
   react-native-netinfo: 92e6e4476eb8bf6fc2d7c0a6ca0a1406f663d73a
@@ -957,7 +957,7 @@ SPEC CHECKSUMS:
   RNSentry: 97bc62fa65b7d663daee16fbf9771470852217cf
   RNSqlite2: df25f1fefd82da39a3f956504149fb32d23831fb
   RNSVG: 8ba35cbeb385a52fd960fd28db9d7d18b4c2974f
-  RNTorusDirectSdk: a98b993ddcb15023ec2174453418c9bf25003e44
+  RNTorusDirectSdk: 9c95cfeecf6a6324e33d0d0e58179c51758d7be6
   RNVectorIcons: 368d6d8b8301224e5ffb6254191f4f8876c2be0d
   secp256k1.c: db47b726585d80f027423682eb369729e61b3b20
   Sentry: 0718c3ad7a08e1107599610795adaf08864102f3

@@ -1,8 +1,8 @@
 import { assign, get, isString } from 'lodash'
 
+import FaceTec from '@gooddollar/react-native-facetec/web'
 import logger from '../../../../lib/logger/js-logger'
 
-import FaceTec from '../../../../lib/facetec/FaceTecSDK'
 import { parseVerificationOptions } from '../utils/options'
 import {
   DynamicModeCustomization,

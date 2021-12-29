@@ -1,7 +1,7 @@
 // @flow
 import type { Store } from 'undux'
 import logger from '../../logger/js-logger'
-import { ExceptionCategory } from '../../logger/exceptions'
+import { ExceptionCategory } from '../../exceptions/utils'
 import goodWallet from '../../wallet/GoodWallet'
 import userStorage from '../../userStorage/UserStorage'
 import { assertStore } from '../SimpleStore'

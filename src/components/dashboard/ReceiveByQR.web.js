@@ -15,7 +15,7 @@ import { useErrorDialog } from '../../lib/undux/utils/dialog'
 
 // utils
 import logger from '../../lib/logger/js-logger'
-import { decorate, ExceptionCategory, ExceptionCode } from '../../lib/logger/exceptions'
+import { decorate, ExceptionCategory, ExceptionCode } from '../../lib/exceptions/utils'
 import { readReceiveLink } from '../../lib/share'
 import { extractQueryParams } from '../../lib/utils/uri'
 import { wrapFunction } from '../../lib/undux/utils/wrapper'

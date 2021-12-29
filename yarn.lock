@@ -19538,6 +19538,11 @@ react-native-phone-input@^0.2.4:
     lodash "^4.17.4"
     prop-types "^15.5.10"
 
+react-native-promise-rejection-utils@^0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/react-native-promise-rejection-utils/-/react-native-promise-rejection-utils-0.0.1.tgz#29217d5b569cacccc2ca2a8d53806bef6fd4b8b3"
+  integrity sha512-ToQv5u8zzYf+c1TTBD18UwDozSWGkekSPJ44xovsWZMF5I21DzEbO3P9UStjMWiFuI24CZiRbOoZHlvgjMtP+A==
+
 react-native-push-notification@^8.1.0:
   version "8.1.1"
   resolved "https://registry.yarnpkg.com/react-native-push-notification/-/react-native-push-notification-8.1.1.tgz#a41d20c70ea5a7709417e96261b225461f8dc73a"

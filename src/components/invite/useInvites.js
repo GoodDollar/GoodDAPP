@@ -5,7 +5,7 @@ import userStorage from '../../lib/userStorage/UserStorage'
 import logger from '../../lib/logger/js-logger'
 import { useDialog } from '../../lib/undux/utils/dialog'
 import { fireEvent, INVITE_BOUNTY, INVITE_JOIN } from '../../lib/analytics/analytics'
-import { decorate, ExceptionCode } from '../../lib/logger/exceptions'
+import { decorate, ExceptionCode } from '../../lib/exceptions/utils'
 import AsyncStorage from '../../lib/utils/asyncStorage'
 import { INVITE_CODE } from '../../lib/constants/localStorage'
 

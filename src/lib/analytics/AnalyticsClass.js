@@ -17,7 +17,7 @@ import {
   values,
 } from 'lodash'
 
-import { cloneErrorObject, ExceptionCategory } from '../logger/exceptions'
+import { cloneErrorObject, ExceptionCategory } from '../exceptions/utils'
 import { isWeb, osVersion } from '../utils/platform'
 import { ANALYTICS_EVENT, ERROR_LOG } from './constants'
 

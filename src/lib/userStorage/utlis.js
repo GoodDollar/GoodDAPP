@@ -1,6 +1,6 @@
 // @flow
 import { sha3 } from 'web3-utils'
-import { ExceptionCategory } from '../logger/exceptions'
+import { ExceptionCategory } from '../exceptions/utils'
 import logging from '../logger/js-logger'
 import { isValidDataUrl } from '../utils/base64'
 import mustache from '../utils/mustache'

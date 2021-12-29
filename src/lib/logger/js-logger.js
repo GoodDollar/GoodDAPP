@@ -3,9 +3,9 @@ import EventEmitter from 'eventemitter3'
 import { assign } from 'lodash'
 
 import Config from '../../config/config'
+import { addLoggerMonitor } from './monitor'
 
 const emitter = new EventEmitter()
-global.logger = Logger
 
 // this isn't a hook, but eslint reports warning wrongly
 // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -33,5 +33,9 @@ assign(Logger, {
   // adding .child method to keep pino's interface
   child: ({ from }) => Logger.get(from),
 })
+
+// add logging of unhandled promise rejections and uncaught exceptions
+addLoggerMonitor(Logger)
+global.logger = Logger
 
 export default Logger

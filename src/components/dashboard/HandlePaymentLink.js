@@ -16,7 +16,7 @@ import {
   WITHDRAW_STATUS_PENDING,
   WITHDRAW_STATUS_UNKNOWN,
 } from '../../lib/wallet/GoodWalletClass'
-import { decorate, ExceptionCategory, ExceptionCode } from '../../lib/logger/exceptions'
+import { decorate, ExceptionCategory, ExceptionCode } from '../../lib/exceptions/utils'
 import { delay } from '../../lib/utils/async'
 import goodWallet from '../../lib/wallet/GoodWallet'
 

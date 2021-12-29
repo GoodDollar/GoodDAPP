@@ -22,7 +22,7 @@ import * as TextileCrypto from '@textile/crypto'
 
 import Config from '../../config/config'
 import logger from '../logger/js-logger'
-import { ExceptionCategory } from '../logger/exceptions'
+import { ExceptionCategory } from '../exceptions/utils'
 import API from '../API/api'
 import { delay } from '../utils/async'
 import { generateShareLink } from '../share'

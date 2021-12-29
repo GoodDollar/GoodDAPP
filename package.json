@@ -172,6 +172,7 @@
     "react-native-paper": "^3.4.0",
     "react-native-permissions": "^3.1.0",
     "react-native-phone-input": "^0.2.4",
+    "react-native-promise-rejection-utils": "^0.0.1",
     "react-native-push-notification": "^8.1.0",
     "react-native-qrcode-scanner": "^1.5.3",
     "react-native-qrcode-svg": "^6.0.1",

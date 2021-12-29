@@ -1298,7 +1298,13 @@ export class GoodWallet {
     },
   ) {
     const { onTransactionHash, onReceipt, onConfirmation, onError } = { ...defaultPromiEvents, ...txCallbacks }
-    let gas = setgas || (await tx.estimateGas().catch(e => log.debug('estimate gas failed'))) || 300000
+    let gas =
+      setgas ||
+      (await tx
+        .estimateGas()
+        .then(g => g * 1.2)
+        .catch(e => log.debug('estimate gas failed'))) ||
+      300000
     gasPrice = gasPrice || this.gasPrice
     if (Config.network === 'develop' && setgas === undefined) {
       gas *= 2

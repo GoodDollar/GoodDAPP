@@ -3,7 +3,7 @@ import React, { useCallback, useMemo } from 'react'
 import { PixelRatio, View } from 'react-native'
 import { isBrowser, isMobileOnlyWeb } from '../../lib/utils/platform'
 import useNativeSharing from '../../lib/hooks/useNativeSharing'
-import { fireEvent } from '../../lib/analytics/analytics'
+import { fireEvent, RECEIVE_DONE } from '../../lib/analytics/analytics'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import { PushButton } from '../appNavigation/PushButton'
 import { CopyButton, CustomButton, QRCode, Section, Wrapper } from '../common'
@@ -43,7 +43,7 @@ const Receive = ({ screenProps, styles }: ReceiveProps) => {
     return `${message} ${url}`
   }, [share])
 
-  const fireReceiveDoneEvent = useCallback(() => fireEvent('RECEIVE_DONE', { type: 'wallet' }), [])
+  const fireReceiveDoneEvent = useCallback(() => fireEvent(RECEIVE_DONE, { type: 'wallet' }), [])
   const shareHandler = useNativeSharing(share, { onSharePress: fireReceiveDoneEvent })
 
   return (

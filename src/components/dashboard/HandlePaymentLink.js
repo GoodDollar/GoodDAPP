@@ -9,7 +9,7 @@ import LoadingIcon from '../common/modal/LoadingIcon'
 import SuccessIcon from '../common/modal/SuccessIcon'
 import { executeWithdraw } from '../../lib/undux/utils/withdraw'
 import SimpleStore from '../../lib/undux/SimpleStore'
-import { fireEvent } from '../../lib/analytics/analytics'
+import { fireEvent, WITHDRAW } from '../../lib/analytics/analytics'
 import { withStyles } from '../../lib/styles'
 import {
   WITHDRAW_STATUS_COMPLETE,
@@ -138,7 +138,7 @@ const HandlePaymentLink = (props: HandlePaymentLinkProps) => {
         )
 
         if (transactionHash) {
-          fireEvent('WITHDRAW')
+          fireEvent(WITHDRAW)
 
           showDialog({
             onDismiss: screenProps.goToRoot,

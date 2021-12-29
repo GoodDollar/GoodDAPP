@@ -1,7 +1,7 @@
 // @flow
 import React, { useCallback } from 'react'
 import { Platform, View } from 'react-native'
-import { fireEvent } from '../../lib/analytics/analytics'
+import { fireEvent, RESENDING_MAGICLINK_SUCCESS } from '../../lib/analytics/analytics'
 import API, { getErrorMessage } from '../../lib/API/api'
 import userStorage from '../../lib/userStorage/UserStorage'
 import logger from '../../lib/logger/js-logger'
@@ -25,7 +25,7 @@ const MagicLinkInfoComponent = props => {
     API.sendMagicLinkByEmail(userStorage.getMagicLink())
       .then(r => {
         log.info('Resending magiclink')
-        fireEvent('RESENDING_MAGICLINK_SUCCESS')
+        fireEvent(RESENDING_MAGICLINK_SUCCESS)
         showDialog({
           title: 'Hocus Pocus!',
           message: 'We sent you an email with your Magic Link',

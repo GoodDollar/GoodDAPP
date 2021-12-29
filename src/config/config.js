@@ -164,7 +164,8 @@ const Config = {
   isPatch: (version.match(/\d+\.\d+\.(\d+)/) || [])[1] !== '0',
   storeAppIconAndroid: env.STORE_APP_ICON_ANDROID || "/store-app-icon-android.jpg",
   storeAppUrlAndroid: env.STORE_APP_URL_ANDROID || "https://play.google.com/store/apps/details?id=org.gooddollar",
-  minimalIOSVersion: env.MINIMAL_IOS_VERSION || 12
+  minimalIOSVersion: env.MINIMAL_IOS_VERSION || 12,
+  debugUserAgent: env.REACT_APP_DEBUG_USER_AGENT || false,
 }
 
 //get and override settings from server

@@ -12,6 +12,7 @@ import { APP_OPEN, fireEvent, initAnalytics } from './lib/analytics/analytics'
 
 import Config from './config/config'
 import logger from './lib/logger/js-logger'
+import './lib/utils/debugUserAgent'
 
 const log = logger.child({ from: 'RouterSelector' })
 

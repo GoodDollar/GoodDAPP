@@ -200,17 +200,30 @@ export class APIService {
     const { client } = this
     const payload = { token }
 
+    const parseCFResponse = ({ data }) => {
+      const [address] = (data || '').match(/ip=(.+?)\n/)
+
+      if (!address) {
+        throw new Error('Clouflare trace util returned empty IP.')
+      }
+
+      return address
+    }
+
+    const fallbackToIpify = async () => {
+      const ipv6Response = await axios.get('https://api64.ipify.org/?format=json')
+
+      return get(ipv6Response, 'data.ip', '')
+    }
+
     try {
       const ip = await axios
         .get('https://www.cloudflare.com/cdn-cgi/trace')
-        .then(_ => _.data.match(/ip=(.+?)\n/)[1])
-        .catch(async e => {
-          const ipv6Response = await axios.get('https://api64.ipify.org/?format=json')
-          const ip = get(ipv6Response, 'data.ip', '')
-          return ip
-        })
+        .then(parseCFResponse)
+        .catch(fallbackToIpify)
 
       log.info('ip for captcha:', { ip })
+
       if (!ip.includes(':')) {
         throw new Error("Client's ISP doesn't supports IPv6.")
       }

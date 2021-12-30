@@ -1,0 +1,37 @@
+diff --git a/node_modules/react-native-branch/android/src/main/java/io/branch/rnbranch/RNBranchModule.java b/node_modules/react-native-branch/android/src/main/java/io/branch/rnbranch/RNBranchModule.java
+index 24d593f..19bac68 100644
+--- a/node_modules/react-native-branch/android/src/main/java/io/branch/rnbranch/RNBranchModule.java
++++ b/node_modules/react-native-branch/android/src/main/java/io/branch/rnbranch/RNBranchModule.java
+@@ -103,6 +103,8 @@ public class RNBranchModule extends ReactContextBaseJavaModule {
+     public static void reInitSession(Activity reactActivity) {
+         Branch branch = Branch.getInstance();
+         Intent intent = reactActivity.getIntent();
++        setupNetworking(branch);
++
+         if (intent != null) {
+             intent.putExtra("branch_force_new_session", true);
+             notifyJSOfInitSessionStart(reactActivity, intent.getData());
+@@ -742,6 +744,7 @@ public class RNBranchModule extends ReactContextBaseJavaModule {
+ 
+     private static Branch setupBranch(Context context) {
+         Branch branch = Branch.getInstance(context);
++        setupNetworking(branch);
+ 
+         if (!mInitialized) {
+             Log.i(REACT_CLASS, "Initializing Branch SDK v. " + BuildConfig.VERSION_NAME);
+@@ -764,6 +767,15 @@ public class RNBranchModule extends ReactContextBaseJavaModule {
+         return branch;
+     }
+ 
++    private static void setupNetworking(Branch branch) {
++        int retryCount = 10;
++        int retryInterval = 3000;
++
++        branch.setRetryCount(retryCount);
++        branch.setRetryInterval(retryInterval);
++        branch.setNetworkTimeout(retryInterval * retryCount);
++    }
++
+     private BranchUniversalObject findUniversalObjectOrReject(final String ident, final Promise promise) {
+         BranchUniversalObject universalObject = mUniversalObjectMap.get(ident);
+ 

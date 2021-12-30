@@ -1302,7 +1302,7 @@ export class GoodWallet {
       setgas ||
       (await tx
         .estimateGas()
-        .then(g => g * 1.2)
+        .then(g => parseInt((g * 1.2).toFixed(0)))
         .catch(e => log.debug('estimate gas failed'))) ||
       300000
     gasPrice = gasPrice || this.gasPrice

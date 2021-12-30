@@ -5,7 +5,7 @@ exports[`SigninInfo matches snapshot 1`] = `
   className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
-    className="css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x"
+    className="css-view-1dbjc4n r-flex-13awgt0"
   >
     <div
       className="css-view-1dbjc4n r-bottom-1p0dtai r-display-6koalj r-flexDirection-eqz5dr r-flexGrow-16y2uox r-left-1d2f490 r-overflow-1udh08x r-position-u8s1d r-right-zchlnj r-top-ipm5af"

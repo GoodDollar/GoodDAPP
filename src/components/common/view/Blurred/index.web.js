@@ -22,7 +22,6 @@ const Blurred = ({ styles, children, whenDialog = false, whenSideMenu = false })
     <View
       style={{
         flex: 1,
-        overflow: 'hidden',
       }}
     >
       <View style={viewStyles}>{children}</View>

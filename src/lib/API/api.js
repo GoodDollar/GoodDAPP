@@ -201,9 +201,16 @@ export class APIService {
     const payload = { token }
 
     try {
-      const ipv6Response = await client.get('https://api64.ipify.org/?format=json')
-      const ip = get(ipv6Response, 'data.ip', '')
+      const ip = await client
+        .get('https://www.cloudflare.com/cdn-cgi/trace')
+        .then(_ => _.match(/ip=(.+?)\n/)[1])
+        .catch(async e => {
+          const ipv6Response = await client.get('https://api64.ipify.org/?format=json')
+          const ip = get(ipv6Response, 'data.ip', '')
+          return ip
+        })
 
+      log.info('ip for captcha:', { ip })
       if (!ip.includes(':')) {
         throw new Error("Client's ISP doesn't supports IPv6.")
       }

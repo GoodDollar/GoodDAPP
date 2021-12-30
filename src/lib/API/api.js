@@ -201,11 +201,11 @@ export class APIService {
     const payload = { token }
 
     try {
-      const ip = await client
+      const ip = await axios
         .get('https://www.cloudflare.com/cdn-cgi/trace')
-        .then(_ => _.match(/ip=(.+?)\n/)[1])
+        .then(_ => _.data.match(/ip=(.+?)\n/)[1])
         .catch(async e => {
-          const ipv6Response = await client.get('https://api64.ipify.org/?format=json')
+          const ipv6Response = await axios.get('https://api64.ipify.org/?format=json')
           const ip = get(ipv6Response, 'data.ip', '')
           return ip
         })

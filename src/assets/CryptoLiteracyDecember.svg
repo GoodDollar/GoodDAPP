@@ -15,10 +15,10 @@
     <rect width="1024" height="507" fill="url(#linear-gradient)"/>
     <rect id="Rectángulo_2136" data-name="Rectángulo 2136" width="972" height="473" rx="30" transform="translate(25 14)" fill="url(#linear-gradient)"/>
     <text id="Last_days_to_Give_" data-name="Last days to Give!
-" transform="translate(360 132)" fill="#fff" font-size="70" font-family="Inter-Bold, Inter" font-weight="700"><tspan x="4.358" y="68">Last days to Give!</tspan></text>
+" transform="translate(360 132)" fill="#fff" font-size="70" font-family="Roboto-Bold, Roboto" font-weight="700"><tspan x="4.358" y="68">Last days to Give!</tspan></text>
     <g id="Grupo_3740" data-name="Grupo 3740" transform="translate(19 4.489)">
       <rect id="Rectángulo_2135" data-name="Rectángulo 2135" width="411" height="81" rx="40" transform="translate(444 340)" fill="#fff"/>
-      <text id="Give_G_" data-name="Give G$" transform="translate(650 398)" fill="#0075ff" font-size="50" font-family="Inter-Bold, Inter" font-weight="700"><tspan x="-96.996" y="0">Give G$</tspan></text>
+      <text id="Give_G_" data-name="Give G$" transform="translate(650 398)" fill="#0075ff" font-size="50" font-family="Roboto-Bold, Roboto" font-weight="700"><tspan x="-96.996" y="0">Give G$</tspan></text>
     </g>
     <g id="Grupo_3741" data-name="Grupo 3741" transform="translate(-55 -11)">
       <g id="Grupo_3734" data-name="Grupo 3734" transform="translate(-217.074 -102.918)">
@@ -46,8 +46,8 @@
           </g>
         </g>
       </g>
-      <text id="_GoodGiveback" data-name="#GoodGiveback" transform="translate(213.461 429.489)" fill="#fff" font-size="30" font-family="Inter-Medium, Inter" font-weight="500"><tspan x="-115.526" y="0">#GoodGiveback</tspan></text>
+      <text id="_GoodGiveback" data-name="#GoodGiveback" transform="translate(213.461 429.489)" fill="#fff" font-size="30" font-family="Roboto-Bold, Roboto" font-weight="500"><tspan x="-115.526" y="0">#GoodGiveback</tspan></text>
     </g>
-    <text id="The_cause_you_support_will_also_get_a_share_of_eToro_s_10_000_USD" data-name="The cause you support will also get a share of eToro’s $10,000 USD" transform="translate(394 229)" fill="#fff" font-size="30" font-family="Inter-Bold, Inter" font-weight="700"><tspan x="3.818" y="29">The cause you support will also get a </tspan><tspan x="58.611" y="69">share of eToro’s $10,000 USD</tspan></text>
+    <text id="The_cause_you_support_will_also_get_a_share_of_eToro_s_10_000_USD" data-name="The cause you support will also get a share of eToro’s $10,000 USD" transform="translate(394 229)" fill="#fff" font-size="30" font-family="Roboto-Bold, Roboto" font-weight="700"><tspan x="3.818" y="29">The cause you support will also get a </tspan><tspan x="58.611" y="69">share of eToro’s $10,000 USD</tspan></text>
   </g>
 </svg>

@@ -65,7 +65,7 @@ export class Wallet {
     this.addresses = []
     this.filledAddresses = []
     this.wallets = {}
-    this.numberOfAdminWalletAccounts = 1
+    this.numberOfAdminWalletAccounts = 2
     this.mutex = new Mutex()
     this.ready = this.init()
   }
@@ -85,7 +85,7 @@ export class Wallet {
   }
 
   async init() {
-    log.debug('Initializing wallet:', { mnemonic: this.mnemonic, conf: conf.ethereum })
+    log.debug('Initializing wallet:', { mnemonic: this.mnemonic, conf: conf.ethereum, network })
 
     this.web3 = new Web3(this.getWeb3TransportProvider(), null, {
       defaultBlock: 'latest',
@@ -134,6 +134,7 @@ export class Wallet {
 
     // await this.topAdmins
     // log.info('topped admins ok')
+    log.info('checking admin addresses:', this.addresses)
     for (let addr of this.addresses) {
       // eslint-disable-next-line no-await-in-loop
       const balance = await this.web3.eth.getBalance(addr)

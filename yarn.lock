@@ -2568,10 +2568,10 @@
     truffle-plugin-verify "^0.3.11"
     truffle-safe-hdwallet-provider "0.0.7"
 
-"@gooddollar/goodprotocol@^1.0.3":
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/@gooddollar/goodprotocol/-/goodprotocol-1.0.3.tgz#12e48c7bef328c7ccfd75576da087f9efed473f4"
-  integrity sha512-KeBMBQeVQbWpCs6z8zrcHZm30VO35RU80faQPg7kMkKwhzEeLffOzgp9jV1MkcKqln0f/w4QnIEHuFFfSJIbfw==
+"@gooddollar/goodprotocol@^1.0.6":
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/@gooddollar/goodprotocol/-/goodprotocol-1.0.6.tgz#74dee07bad93d0b70b9bd1f38b5761d9e2c769e6"
+  integrity sha512-eMb4yq1j5NiioGBIOMlYG/bTYPg3gFt5IVkxpFkfFcGRQz6bqxOHy5LEuXGHg4VttncFTrK8geSzEr83U20e5A==
   dependencies:
     "@gooddollar/goodcontracts" "^2.6.2"
     "@jsier/retrier" "^1.2.4"
@@ -2581,6 +2581,7 @@
     ethers-multicall "^0.2.1"
     openzeppelin-solidity "^4.3.2"
     patch-package latest
+    press-any-key "^0.1.1"
     truffle-plugin-verify "^0.5.11"
     truffle-source-verify "^0.0.6"
 
@@ -18707,6 +18708,13 @@ present@^0.0.3:
   resolved "https://registry.yarnpkg.com/present/-/present-0.0.3.tgz#5aefb8a5ddf6b34c65743bf1cde53523aac1c05a"
   integrity sha1-Wu+4pd32s0xldDvxzeU1I6rBwFo=
 
+press-any-key@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/press-any-key/-/press-any-key-0.1.1.tgz#97cf184ae84f25858fe3d83ab824e9d1dce2cde8"
+  integrity sha512-TR722R9UpZjvOtyVcmS7hx2/1KzKIyeizIqHJ7sRcfXvCDzeSknS3UNLhmQMN7075Jd9gGUBdq98sHw2eqb86Q==
+  dependencies:
+    single-line-log "^1.1.2"
+
 prettier-linter-helpers@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/prettier-linter-helpers/-/prettier-linter-helpers-1.0.0.tgz#d23d41fe1375646de2d0104d3454a3008802cf7b"
@@ -21386,6 +21394,13 @@ simple-swizzle@^0.2.2:
   integrity sha1-pNprY1/8zMoz9w0Xy5JZLeleVXo=
   dependencies:
     is-arrayish "^0.3.1"
+
+single-line-log@^1.1.2:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/single-line-log/-/single-line-log-1.1.2.tgz#c2f83f273a3e1a16edb0995661da0ed5ef033364"
+  integrity sha1-wvg/Jzo+GhbtsJlWYdoO1e8DM2Q=
+  dependencies:
+    string-width "^1.0.1"
 
 sirv@^1.0.7:
   version "1.0.18"

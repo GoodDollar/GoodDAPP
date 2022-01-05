@@ -23,6 +23,7 @@ import {
   FV_TRYAGAIN_ZOOM,
   FV_ZOOMFAILED,
 } from '../../../../lib/analytics/analytics'
+
 import { tryUntil } from '../../../../lib/utils/async'
 
 const log = logger.child({ from: 'FaceVerification' })
@@ -94,7 +95,7 @@ const FaceVerification = ({ screenProps }) => {
       log.debug('FaceVerification completed', { status })
 
       // polling contracts for the whitelisted flag up to 15sec or until got true
-      const isCitizen = await tryUntil(() => goodWallet.isCitizen(), identity, 5, 3000)
+      const isCitizen = await tryUntil(() => goodWallet.isCitizen(), identity, 10, 3000).catch(() => false)
 
       // if still non whitelisted - showing error screen
       if (!isCitizen) {

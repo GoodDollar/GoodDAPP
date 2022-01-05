@@ -11,11 +11,14 @@ import App from './src/mainApp/AppHolder'
 import { name as appName } from './app.json'
 import 'react-native-gesture-handler'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
+import codePush from "react-native-code-push";
 import './src/pushNotifications'
 import './src/lib/utils/deepLinking'
 
 //shim indexdb
 setGlobalVars(window, { checkOrigin: false, win: SQLite })
+
+let codePushOptions = { checkFrequency: codePush.CheckFrequency.MANUAL };
 
 const DeApp = () => (
   <SafeAreaProvider>
@@ -26,4 +29,4 @@ const DeApp = () => (
 
 console.disableYellowBox = !!env.TEST_REACT_NATIVE
 
-AppRegistry.registerComponent(appName, () => DeApp)
+AppRegistry.registerComponent(appName, () => codePush(codePushOptions)(DeApp))

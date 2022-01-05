@@ -153,6 +153,7 @@
     "react-native-branch": "^5.1.0",
     "react-native-camera": "^3.42.0",
     "react-native-card-flip": "^1.0.7",
+    "react-native-code-push": "^7.0.4",
     "react-native-communications": "^2.2.1",
     "react-native-config": "^1.4.4",
     "react-native-contacts": "^5.0.7",

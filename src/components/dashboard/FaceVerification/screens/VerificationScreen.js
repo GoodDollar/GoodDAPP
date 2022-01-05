@@ -96,7 +96,7 @@ const FaceVerification = ({ screenProps }) => {
 
       // polling contracts for the whitelisted flag up to 30sec or until got true
       // fix: if still false, do not throw excetion, just return falsy status
-      const isCitizen = await tryUntil(() => goodWallet.isCitizen(), identity, 10, 3000).catch(() => false)
+      const isCitizen = await tryUntil(() => goodWallet.isCitizen(), identity, 5, 3000).catch(() => false)
 
       // if still non whitelisted - showing error screen
       if (!isCitizen) {

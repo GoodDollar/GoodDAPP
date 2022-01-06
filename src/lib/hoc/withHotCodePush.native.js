@@ -1,4 +1,4 @@
-let codePush = require('react-native-code-push').default
+import codePush, { CheckFrequency } from 'react-native-code-push'
 
 const defaultOptions = { checkFrequency: CheckFrequency.MANUAL }
 

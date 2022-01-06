@@ -534,5 +534,6 @@
   "Total amount on value staked.": "Tổng số tiền trên giá trị được đặt cược.",
   "How much value your stake has accumulated so far.": "Bao nhiêu giá trị cổ phần của bạn đã tích lũy cho đến nay.",
   "Starting at 1.0, your multiplier will increase to 2.0 after one month of staking to the Trust, at which point you can claim more G$ every day!": "Bắt đầu từ 1.0, hệ số nhân của bạn sẽ tăng lên 2.0 sau một tháng tập tin vào sự tin tưởng, tại thời điểm nào bạn có thể yêu cầu thêm G $ mỗi ngày!",
-  "How many GOOD tokens you are accumulating by this stake position.": "Có bao nhiêu mã thông báo tốt bạn đang tích lũy bởi vị trí cổ phần này."
+  "How many GOOD tokens you are accumulating by this stake position.": "Có bao nhiêu mã thông báo tốt bạn đang tích lũy bởi vị trí cổ phần này.",
+  "Switch to {network}": "Chuyển sang {network}"
 }

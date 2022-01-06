@@ -533,5 +533,6 @@
   "Total amount on value staked.": "Total amount on value staked.",
   "How much value your stake has accumulated so far.": "How much value your stake has accumulated so far.",
   "Starting at 1.0, your multiplier will increase to 2.0 after one month of staking to the Trust, at which point you can claim more G$ every day!": "Starting at 1.0, your multiplier will increase to 2.0 after one month of staking to the Trust, at which point you can claim more G$ every day!",
-  "How many GOOD tokens you are accumulating by this stake position.": "How many GOOD tokens you are accumulating by this stake position."
+  "How many GOOD tokens you are accumulating by this stake position.": "How many GOOD tokens you are accumulating by this stake position.",
+  "Switch to {network}": "Switch to {network}"
 }

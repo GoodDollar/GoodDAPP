@@ -534,5 +534,6 @@
   "Total amount on value staked.": "Cantidad total en valor estancado.",
   "How much value your stake has accumulated so far.": "¿Cuánto valor ha acumulado su estaca hasta ahora?",
   "Starting at 1.0, your multiplier will increase to 2.0 after one month of staking to the Trust, at which point you can claim more G$ every day!": "A partir de 1.0, su multiplicador aumentará a 2.0 después de un mes de estadía de la confianza, ¿en qué punto puede reclamar más G $ todos los días?",
-  "How many GOOD tokens you are accumulating by this stake position.": "Cuántas buenas tokens estás acumulando por esta posición de estaca."
+  "How many GOOD tokens you are accumulating by this stake position.": "Cuántas buenas tokens estás acumulando por esta posición de estaca.",
+  "Switch to {network}": "Cambiar a {network}"
 }

@@ -534,5 +534,6 @@
   "Total amount on value staked.": "Suma totală pe valoarea stabilită.",
   "How much value your stake has accumulated so far.": "Cât de mult valoarea dvs. sa acumulat până acum.",
   "Starting at 1.0, your multiplier will increase to 2.0 after one month of staking to the Trust, at which point you can claim more G$ every day!": "Începând cu 1.0, multiplicatorul dvs. va crește la 2.0 după o lună de a se ține la încredere, moment în care puteți pretinde mai mult G $ în fiecare zi!",
-  "How many GOOD tokens you are accumulating by this stake position.": "Câte jetoane bune pe care îl acumulezi prin această poziție de miză."
+  "How many GOOD tokens you are accumulating by this stake position.": "Câte jetoane bune pe care îl acumulezi prin această poziție de miză.",
+  "Switch to {network}": "Schimba cu {network}"
 }

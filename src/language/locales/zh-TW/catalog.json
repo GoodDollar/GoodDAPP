@@ -535,5 +535,6 @@
   "Total amount on value staked.": "價值總額托出來。",
   "How much value your stake has accumulated so far.": "到目前為止，您的股權累計有多大價值。",
   "Starting at 1.0, your multiplier will increase to 2.0 after one month of staking to the Trust, at which point you can claim more G$ every day!": "從1.0開始，您的乘數將在一個月的綁定到信任之後將增加到2.0，此時您可以每天申請更多G $！",
-  "How many GOOD tokens you are accumulating by this stake position.": "您通過此樁位置累積了多少個好令牌。"
+  "How many GOOD tokens you are accumulating by this stake position.": "您通過此樁位置累積了多少個好令牌。",
+  "Switch to {network}": "切換到 {network}"
 }

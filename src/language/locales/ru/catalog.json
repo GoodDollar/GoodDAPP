@@ -535,5 +535,6 @@
   "Total amount on value staked.": "Общая сумма по стоимости поставлена.",
   "How much value your stake has accumulated so far.": "Сколько ценностей накоплено ваша доля.",
   "Starting at 1.0, your multiplier will increase to 2.0 after one month of staking to the Trust, at which point you can claim more G$ every day!": "Начиная с 1.0, ваш множитель увеличится до 2,0 после одного месяца поставок доверия, в какой момент вы можете претендовать на большее количество G $ каждый день!",
-  "How many GOOD tokens you are accumulating by this stake position.": "Сколько хороших токенов вы накапливаете на эту позицию поставок."
+  "How many GOOD tokens you are accumulating by this stake position.": "Сколько хороших токенов вы накапливаете на эту позицию поставок.",
+  "Switch to {network}": "Переключить на {network}"
 }

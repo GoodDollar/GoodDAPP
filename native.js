@@ -11,22 +11,20 @@ import App from './src/mainApp/AppHolder'
 import { name as appName } from './app.json'
 import 'react-native-gesture-handler'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
-import codePush from "react-native-code-push";
 import './src/pushNotifications'
 import './src/lib/utils/deepLinking'
+import withHotCodePush from './src/lib/hoc/withHotCodePush'
 
 //shim indexdb
 setGlobalVars(window, { checkOrigin: false, win: SQLite })
 
-let codePushOptions = { checkFrequency: codePush.CheckFrequency.MANUAL };
-
-const DeApp = () => (
+const DeApp = withHotCodePush(() => (
   <SafeAreaProvider>
     <WebviewCrypto />
     <App />
   </SafeAreaProvider>
-)
+))
 
 console.disableYellowBox = !!env.TEST_REACT_NATIVE
 
-AppRegistry.registerComponent(appName, () => codePush(codePushOptions)(DeApp))
+AppRegistry.registerComponent(appName, () => DeApp)

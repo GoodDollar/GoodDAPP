@@ -1,6 +1,6 @@
 let codePush = require('react-native-code-push').default
 
-const defaultOptions = { checkFrequency: codePush.CheckFrequency.MANUAL }
+const defaultOptions = { checkFrequency: CheckFrequency.MANUAL }
 
 const withHotCodePush = (component, options = defaultOptions) => codePush(options)(component)
 

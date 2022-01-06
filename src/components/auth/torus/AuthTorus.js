@@ -3,6 +3,7 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { Paragraph } from 'react-native-paper'
 import { Platform, View } from 'react-native'
 import { get } from 'lodash'
+import { CeramicSDK } from '@gooddollar/ceramic-seed-sdk'
 import AsyncStorage from '../../../lib/utils/asyncStorage'
 import logger from '../../../lib/logger/js-logger'
 import {
@@ -183,7 +184,13 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
       }
 
       //set masterseed so wallet can use it in 'ready' where we check if user exists
-      await AsyncStorage.setItem(GD_USER_MASTERSEED, torusUser.privateKey)
+      // Initialize the sdk here
+      const ceramic = new CeramicSDK(config.cermaicNodeUrl)
+      log.debug('TORUS PRIVATE KEY ', torusUser.privateKey)
+      await ceramic.initialize(torusUser.privateKey, torusUser.publicAddress)
+      const masterSeed = await ceramic.getMasterSeed()
+      log.debug('Ceramic masterseed ', masterSeed)
+      await AsyncStorage.setItem(GD_USER_MASTERSEED, masterSeed)
       fireEvent(TORUS_SUCCESS, { provider })
       log.debug('torus login success', { torusUser, provider })
     } catch (e) {

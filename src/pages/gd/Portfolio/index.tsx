@@ -200,7 +200,7 @@ const Portfolio = () => {
                                 {
                                     title: i18n._(t`MULTIPLIER`),
                                     questionText: i18n._(
-                                        t`Starting at 1.0, your multiplier will increase to 2.0 after one month of staking to the Trust, at which point you can claim more G$ every day!`
+                                        t`Starting at 1.0, your multiplier will increase to 2.0 after one month of staking to the Trust, at which point you can be rewarded with more G$ every day!`
                                     )
                                 },
                                 {

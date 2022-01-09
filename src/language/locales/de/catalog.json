@@ -535,6 +535,7 @@
   "How much value your stake has accumulated so far.": "Wie viel Wert hat sich bisher angesammelt?",
   "Starting at 1.0, your multiplier will increase to 2.0 after one month of staking to the Trust, at which point you can be rewarded with more G$ every day!": "Ab 1.0 steigt Ihr Multiplikator nach einem Monat nach einem Monat zum Vertrauen auf 2.0, an diesem Punkt, an dem Sie jeden Tag mit mehr G $ belohnt werden können!",
   "How many GOOD tokens you are accumulating by this stake position.": "Wie viele gute Anhänge, die Sie anhäufen, sammeln Sie sich an dieser Pfahlstelle.",
+  "Swapping G$ against GoodReserve has no third party fees if you swap from/to cDAI as it's our reserve token. Swapping G$s from/to other assets implies a 0.3% of fee going to 3rd party AMM liquidity providers.": "Das Tauschen von G $ gegen Goodreserve hat keine Gebühren von Drittanbietern, wenn Sie von / nach CDAI tauschen, da es unser Reserve-Token ist. Das Tauschen von G $ S vom / zu anderen Vermögenswerten impliziert um 0,3% der Gebühr in Höhe von 3RD-AMM-Liquiditätsanbietern.",
   "You have just staked your G$s towards our GoodDAO, this action is gonna reward you with GOOD governance tokens, which are non-transferable so can't be traded.": "Sie haben gerade Ihre G $ S in Richtung unseres Gooddao gesteckt, diese Aktion wird Sie mit guten Governance-Token belohnen, die nicht übertragbar sind, also nicht gehandelt werden können.",
   "Go to Portfolio": "Gehe zum Portfolio.",
   "Switch to {network}": "Wechseln zu {network}"

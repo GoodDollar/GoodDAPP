@@ -302,8 +302,8 @@ export async function getMeta(
     let route: Token[]
     let trade: Trade<Currency, Currency, TradeType> | null = null
 
-    let priceImpact: Fraction = new Fraction(0)
-    let liquidityFee: Fraction = new Fraction(0)
+    let priceImpact = new Fraction(0)
+    let liquidityFee = CurrencyAmount.fromRawAmount(G$, '0')
     let GDXBalance: CurrencyAmount<Currency> | Fraction = new Fraction(0)
 
     let contribution = new Fraction(0)

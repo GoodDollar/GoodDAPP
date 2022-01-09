@@ -163,7 +163,7 @@ function SwapConfirmModal({
                             title={i18n._(t`Liquidity Provider Fee`)}
                             value={liquidityFee}
                             tip={i18n._(
-                                t`A portion of each trade (0.25%) goes to liquidity providers as a protocol incentive.`
+                                t`Swapping G$ against GoodReserve has no third party fees if you swap from/to cDAI as it's our reserve token. Swapping G$s from/to other assets implies a 0.3% of fee going to 3rd party AMM liquidity providers.`
                             )}
                         />
                         <SwapInfo

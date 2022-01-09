@@ -36,7 +36,7 @@ export type BuyInfo = {
     priceImpact: Fraction
     slippageTolerance: Percent
 
-    liquidityFee: Fraction
+    liquidityFee: CurrencyAmount<Currency>
     liquidityToken: Currency
 
     route: Token[]
@@ -282,12 +282,12 @@ async function getPriceImpact(
  * @param {Trade<Currency, Currency, TradeType>} trade Currency amount.
  * @returns {Fraction}
  */
-function getLiquidityFee(trade: Trade<Currency, Currency, TradeType>): Fraction {
+function getLiquidityFee(trade: Trade<Currency, Currency, TradeType>): CurrencyAmount<Currency> {
     const realizedLpFeePercent = computeRealizedLPFeePercent(trade)
 
     debug('Liquidity fee', realizedLpFeePercent.toSignificant(6))
-
-    return realizedLpFeePercent
+    const liquidityFee = trade.inputAmount.multiply(realizedLpFeePercent)
+    return liquidityFee
 }
 
 /**
@@ -339,7 +339,7 @@ export async function getMeta(
     let route: Token[]
     let trade: Trade<Currency, Currency, TradeType> | null = null
 
-    let liquidityFee = new Fraction(0)
+    let liquidityFee = CurrencyAmount.fromRawAmount(FROM, '0')
     let priceImpact = new Fraction(0)
 
     const slippageTolerancePercent = decimalPercentToPercent(slippageTolerance)
@@ -392,7 +392,6 @@ export async function getMeta(
                 slippageTolerancePercent
             ))
         } else {
-            console.log(FROM)
             inputAmount = CurrencyAmount.fromRawAmount(FROM, decimalToJSBI(amount, FROM.decimals))
 
             const g$trade = await xToDaiExactIn(web3, inputAmount, slippageTolerancePercent)

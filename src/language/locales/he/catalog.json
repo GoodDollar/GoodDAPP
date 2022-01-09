@@ -534,6 +534,7 @@
   "How much value your stake has accumulated so far.": "כמה ערך המוקד שלך צבר עד כה.",
   "Starting at 1.0, your multiplier will increase to 2.0 after one month of staking to the Trust, at which point you can be rewarded with more G$ every day!": "החל מ 1.0, מכפיל שלך יגדל ל 2.0 לאחר חודש אחד של staking לאמון, באיזו נקודה אתה יכול להיות מתוגמל עם יותר G $ כל יום!",
   "How many GOOD tokens you are accumulating by this stake position.": "כמה אסימונים טובים אתה מצטבר על ידי מיקום זה.",
+  "Swapping G$ against GoodReserve has no third party fees if you swap from/to cDAI as it's our reserve token. Swapping G$s from/to other assets implies a 0.3% of fee going to 3rd party AMM liquidity providers.": "החלפת G $ נגד Goodreserve אין דמי צד שלישי אם אתה להחליף מ / אל CDAI כפי שהוא האסימון שלנו מילואים. החלפת G $ S מ / אל נכסים אחרים מרמז על 0.3% של אגרה הולך 3 של ספקי נזילות AMM.",
   "You have just staked your G$s towards our GoodDAO, this action is gonna reward you with GOOD governance tokens, which are non-transferable so can't be traded.": "יש לך רק staked G שלך $ כלפי gooddao שלנו, פעולה זו היא הולך לתגמל אותך עם אסימוני ממשל טוב, אשר אינם ניתנים להעברה אז לא ניתן לסחור.",
   "Go to Portfolio": "עבור אל תיק הפורפוליו",
   "Switch to {network}": "לעבור ל {network}"

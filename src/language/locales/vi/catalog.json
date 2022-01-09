@@ -535,6 +535,7 @@
   "How much value your stake has accumulated so far.": "Bao nhiêu giá trị cổ phần của bạn đã tích lũy cho đến nay.",
   "Starting at 1.0, your multiplier will increase to 2.0 after one month of staking to the Trust, at which point you can be rewarded with more G$ every day!": "Bắt đầu từ 1.0, hệ số nhân của bạn sẽ tăng lên 2.0 sau một tháng tập tin vào sự tin tưởng, tại thời điểm nào bạn có thể được thưởng nhiều G $ mỗi ngày!",
   "How many GOOD tokens you are accumulating by this stake position.": "Có bao nhiêu mã thông báo tốt bạn đang tích lũy bởi vị trí cổ phần này.",
+  "Swapping G$ against GoodReserve has no third party fees if you swap from/to cDAI as it's our reserve token. Swapping G$s from/to other assets implies a 0.3% of fee going to 3rd party AMM liquidity providers.": "Hoán đổi G $ chống GoodReserve không có phí của bên thứ ba nếu bạn trao đổi từ / sang CDai vì đó là mã thông báo dự trữ của chúng tôi. Hoán đổi G $ S từ / đến các tài sản khác ngụ ý 0,3% phí chuyển đến các nhà cung cấp thanh khoản AMM của Bên thứ 3.",
   "You have just staked your G$s towards our GoodDAO, this action is gonna reward you with GOOD governance tokens, which are non-transferable so can't be traded.": "Bạn vừa đặt G $ S về hướng Gooddao của chúng tôi, hành động này sẽ thưởng cho bạn những thông báo quản trị tốt, không thể chuyển nhượng được để không thể giao dịch.",
   "Go to Portfolio": "Đi đến danh mục đầu tư",
   "Switch to {network}": "Chuyển sang {network}"

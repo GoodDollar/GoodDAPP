@@ -13,12 +13,7 @@ import { useCurrencyBalance } from 'state/wallet/hooks'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import useG$ from 'hooks/useG$'
 import useWeb3 from 'hooks/useWeb3'
-import {
-    approve as approveBuy,
-    BuyInfo,
-    getMeta as getBuyMeta,
-    getMetaReverse as getBuyMetaReverse
-} from 'sdk/buy'
+import { approve as approveBuy, BuyInfo, getMeta as getBuyMeta, getMetaReverse as getBuyMetaReverse } from 'sdk/buy'
 import {
     approve as approveSell,
     getMeta as getSellMeta,
@@ -180,8 +175,7 @@ function Swap() {
         minimumReceived:
             meta && `${meta.minimumOutputAmount.toSignificant(4, { groupSeparator: ',' })} ${outputSymbol}`,
         priceImpact: meta && `${meta.priceImpact.toFixed(2, { groupSeparator: ',' })}%`,
-        liquidityFee:
-            meta && `${meta.liquidityFee.toSignificant(6, { groupSeparator: ',' })} ${swapPair.token.getSymbol()}`,
+        liquidityFee: meta && `${meta.liquidityFee.toSignificant(6, { groupSeparator: ',' })} ${meta.liquidityFee.currency.symbol}`,
         route: route,
         GDX:
             (chainId as any) === SupportedChainId.FUSE
@@ -193,20 +187,13 @@ function Swap() {
                 : (meta as SellInfo)?.contribution?.toSignificant(6, { groupSeparator: ',' }),
         price:
             meta &&
-            `${buying
-                ? meta.outputAmount.greaterThan(0)
-                    ? meta.inputAmount
-                        .divide(meta.outputAmount.asFraction)
-                        .multiply(meta.outputAmount.decimalScale)
-                        .toSignificant(6, { groupSeparator: ',' })
-                    : '0'
-                : meta.inputAmount.greaterThan(0)
-                    ? meta.outputAmount
-                        .multiply(meta.inputAmount.decimalScale)
-                        .divide(meta.inputAmount.asFraction)
-                        .toSignificant(6, { groupSeparator: ',' })
-                    : '0'
-            } ${inputSymbol} PER ${outputSymbol} `
+            `${meta.inputAmount.greaterThan(0)
+                ? meta.outputAmount
+                    .multiply(meta.inputAmount.decimalScale)
+                    .divide(meta.inputAmount.asFraction)
+                    .toSignificant(6, { groupSeparator: ',' })
+                : '0'
+            } ${outputSymbol} PER ${inputSymbol} `
     }
 
     const pair: [
@@ -345,7 +332,11 @@ function Swap() {
                         )}
                     </SwapContentWrapperSC>
                 </SwapWrapperSC>
-                <SwapDetails open={Boolean(meta)} {...swapFields} />
+                <SwapDetails
+                    open={Boolean(meta)}
+                    buying={buying && [ETHER, FUSE].includes(swapPair.token)}
+                    {...swapFields}
+                />
                 <SwapDescriptions gdx={!!swapFields.GDX} exitContribution={!!swapFields.exitContribution} />
             </SwapCardSC>
             <SwapConfirmModal

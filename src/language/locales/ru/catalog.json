@@ -536,6 +536,7 @@
   "How much value your stake has accumulated so far.": "Сколько ценностей накоплено ваша доля.",
   "Starting at 1.0, your multiplier will increase to 2.0 after one month of staking to the Trust, at which point you can be rewarded with more G$ every day!": "Начиная с 1.0, ваш множитель увеличится до 2,0 после одного месяца по ухудшению доверия, в какой момент вы можете быть вознаграждены более G $ каждый день!",
   "How many GOOD tokens you are accumulating by this stake position.": "Сколько хороших токенов вы накапливаете на эту позицию поставок.",
+  "Swapping G$ against GoodReserve has no third party fees if you swap from/to cDAI as it's our reserve token. Swapping G$s from/to other assets implies a 0.3% of fee going to 3rd party AMM liquidity providers.": "Подключение G $ против GoodReserve не имеет сторонних сборов, если вы поменяете от / до CDAI, так как наш резервный токен. Подключение G $ S от / на другие активы подразумевает 0,3% от оплаты на 3-я сторонних поставщиков ликвидности AMM.",
   "You have just staked your G$s towards our GoodDAO, this action is gonna reward you with GOOD governance tokens, which are non-transferable so can't be traded.": "Вы только что поставили свои G $ в нашу Gooddao, это действие вознаграждает вас хорошим управлением токенами, которые не передаются, поэтому не могут быть проданы.",
   "Go to Portfolio": "Перейти к портфолио",
   "Switch to {network}": "Переключить на {network}"

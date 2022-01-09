@@ -535,6 +535,7 @@
   "How much value your stake has accumulated so far.": "Cât de mult valoarea dvs. sa acumulat până acum.",
   "Starting at 1.0, your multiplier will increase to 2.0 after one month of staking to the Trust, at which point you can be rewarded with more G$ every day!": "Începând cu 1.0, multiplicatorul dvs. va crește la 2.0 după o lună de a se ține la încredere, moment în care puteți fi recompensați cu mai mult G $ în fiecare zi!",
   "How many GOOD tokens you are accumulating by this stake position.": "Câte jetoane bune pe care îl acumulezi prin această poziție de miză.",
+  "Swapping G$ against GoodReserve has no third party fees if you swap from/to cDAI as it's our reserve token. Swapping G$s from/to other assets implies a 0.3% of fee going to 3rd party AMM liquidity providers.": "Swapping G $ împotriva Goodreservelor nu are taxe terțe dacă faceți schimb de la / la CDAI, deoarece este jetonul nostru de rezervă. Schimbarea G $ S de la / către alte active implică o taxă de 0,3%, ajungând la furnizorii de lichidități AMM terță parte.",
   "You have just staked your G$s towards our GoodDAO, this action is gonna reward you with GOOD governance tokens, which are non-transferable so can't be traded.": "Tocmai v-ați împărțit G $ S către Gooddao, această acțiune vă va răsplăti cu buni de guvernare, care sunt netransferabile, așa că nu pot fi tranzacționate.",
   "Go to Portfolio": "Du-te la portofoliu.",
   "Switch to {network}": "Schimba cu {network}"

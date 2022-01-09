@@ -43,7 +43,7 @@ const StakeTable = ({
     setActiveTableName: () => any
 }) => {
     const { i18n } = useLingui()
-    
+
     return (
         <Wrapper>
             <Table
@@ -231,10 +231,9 @@ const StakeTable = ({
 
 export default function Stakes(): JSX.Element | null {
     const { i18n } = useLingui()
-    const { chainId, account } = useActiveWeb3React()
     const governanceStaking = useGovernanceStaking()
     const web3 = useWeb3()
-    const [mainnetWeb3, mainnetChainId] = useEnvWeb3(DAO_NETWORK.MAINNET)
+    const [mainnetWeb3] = useEnvWeb3(DAO_NETWORK.MAINNET)
     const [stakes = [], loading, error, refetch] = usePromise(async () => {
         const [stakes] = await Promise.all([
             web3 && mainnetWeb3 ? getStakes(mainnetWeb3) : Promise.resolve([]),

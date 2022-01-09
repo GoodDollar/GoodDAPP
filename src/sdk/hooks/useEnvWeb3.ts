@@ -5,7 +5,7 @@ import { SupportedChainId, NETWORK_LABELS, DAO_NETWORK } from 'sdk/constants/cha
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import useWeb3 from 'hooks/useWeb3'
 import { getNetworkEnv } from 'sdk/constants/addresses'
-const RPC = {
+export const RPC = {
     [SupportedChainId.MAINNET]:
         process.env.REACT_APP_MAINNET_RPC ||
         (ethers.getDefaultProvider('mainnet') as any).providerConfigs[0].provider.connection.url,
@@ -17,7 +17,7 @@ const RPC = {
         (ethers.getDefaultProvider('kovan') as any).providerConfigs[0].provider.connection.url,
     [SupportedChainId.FUSE]: process.env.REACT_APP_FUSE_RPC || 'https://rpc.fuse.io'
 }
-console.log('env', process.env)
+
 /**
  * Returns provider for chain.
  * @param {number | string} chainId Chain ID.

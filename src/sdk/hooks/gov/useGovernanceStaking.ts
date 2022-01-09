@@ -14,10 +14,11 @@ import { getChainId } from 'sdk/utils/web3'
 type Stats = { [key: string]: BigNumber }
 export const useGovernanceStaking = (): Array<Stake> => {
     const [mainnetWeb3, mainnetChainId] = useEnvWeb3(DAO_NETWORK.MAINNET)
+    const [fuseWeb3] = useEnvWeb3(DAO_NETWORK.FUSE)
     const [stakes, setStakes] = useState<Array<Stake>>([])
     const stakingContract = useMemo(
-        () => getContract(SupportedChainId.FUSE, 'GovernanceStaking', GovernanceStaking.abi),
-        []
+        () => fuseWeb3 && getContract(SupportedChainId.FUSE, 'GovernanceStaking', GovernanceStaking.abi, fuseWeb3),
+        [fuseWeb3]
     )
 
     useEffect(() => {

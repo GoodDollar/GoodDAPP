@@ -1,6 +1,6 @@
 import Web3 from 'web3'
 import memoize from 'lodash/memoize'
-import { BigNumber } from 'ethers'
+import { BigNumber, ethers } from 'ethers'
 import { Currency, CurrencyAmount, Fraction, MaxUint256, Percent, Token } from '@uniswap/sdk-core'
 import { MaxUint256 as MaxApproveValue } from '@ethersproject/constants'
 import { getSimpleStakingContractAddresses, simpleStakingContract } from './contracts/SimpleStakingContract'
@@ -23,6 +23,7 @@ import { v2TradeExactIn } from './methods/v2TradeExactIn'
 import { cDaiPrice } from './methods/cDaiPrice'
 import { TransactionDetails } from './constants/transactions'
 import { DAO_NETWORK, SupportedChainId } from './constants/chains'
+import { getContract } from './utils/getContract'
 
 export type Stake = {
     APY?: Fraction
@@ -62,7 +63,7 @@ export async function getList(web3: Web3): Promise<Stake[]> {
     cacheClear(getTokenPriceInUSDC)
     cacheClear(getReserveRatio)
     cacheClear(getAPY)
-    cacheClear(getLiquidity)
+    cacheClear(getStakedValue)
     cacheClear(getYearlyRewardGDAO)
     cacheClear(getYearlyRewardG$)
 
@@ -128,7 +129,7 @@ async function metaStake(web3: Web3, address: string): Promise<Stake> {
     const [APY, socialAPY, liquidity, rewardG$, rewardGDAO] = await Promise.all([
         getAPY(web3, address, protocol, token),
         getSocialAPY(web3, protocol, token, iToken),
-        getLiquidity(web3, address, protocol, token),
+        getStakedValue(web3, address, protocol, token),
         getYearlyRewardG$(web3, address),
         getYearlyRewardGDAO(web3, address)
     ])
@@ -555,26 +556,22 @@ const getAPY = memoize<(web3: Web3, address: string, protocol: LIQUIDITY_PROTOCO
 
         const yearlyRewardG$ = await getYearlyRewardG$(web3, address)
 
-        const liquidity = await getLiquidity(web3, address, protocol, token)
-        if (!liquidity.equalTo(new Fraction(0))) {
-            const APY = yearlyRewardG$
-                .multiply(G$Ratio)
-                .multiply(yearlyRewardG$.decimalScale)
-                .divide(liquidity)
-                .multiply(1e6)
+        let stakedValue = await getStakedValue(web3, address, protocol, token, true)
 
-            debug('APY', APY.toSignificant(6), '%')
-            debugGroupEnd(`APY of ${protocol} for ${token.symbol}`)
+        stakedValue = stakedValue.equalTo(0)
+            ? CurrencyAmount.fromRawAmount(stakedValue.currency, 10 ** stakedValue.currency.decimals * 1000) //1000$
+            : stakedValue
 
-            return APY
-        }
+        const APY = yearlyRewardG$
+            .multiply(G$Ratio)
+            .multiply(yearlyRewardG$.decimalScale)
+            .divide(stakedValue)
+            .multiply(1e6)
 
-        const zero = new Fraction(0)
-
-        debug('APY', zero)
+        debug('APY', APY.toSignificant(6), '%')
         debugGroupEnd(`APY of ${protocol} for ${token.symbol}`)
 
-        return zero
+        return APY
     },
     (_, address, protocol, token) => address + protocol + token.address
 )
@@ -608,7 +605,7 @@ const getLiquidity = memoize<
 
         const USDC = (await getToken(chainId, 'USDC')) as Token
 
-        const { 1: totalProductivity } = await simpleStaking.methods.getProductivity(account).call()
+        const totalProductivity = await simpleStaking.methods.totalProductivity().call()
         debug('Total Productivity', totalProductivity)
 
         let liquidity = new Fraction(totalProductivity.toString(), 1).multiply(price).divide(10 ** token.decimals)
@@ -624,6 +621,63 @@ const getLiquidity = memoize<
     (_, address, protocol, token) => address + protocol + token.address
 )
 
+/**
+ * Return staked value in USD.
+ * @param {Web3} web3 Web3 instance.
+ * @param {string} address Stake address.
+ * @param {LIQUIDITY_PROTOCOL} protocol Liquidity protocol.
+ * @param {Token} token Token for calculation price from.
+ * @param {boolean} effectiveStake get effective stakes, not donated
+ * @returns {Promise<Fraction>>}
+ */
+const getStakedValue = memoize<
+    (
+        web3: Web3,
+        address: string,
+        protocol: LIQUIDITY_PROTOCOL,
+        token: Token,
+        effectiveStake?: boolean
+    ) => Promise<CurrencyAmount<Currency>>
+>(
+    async (web3, address, protocol, token, effectiveStake = false) => {
+        const chainId = await getChainId(web3)
+        const simpleStaking = getContract(
+            chainId,
+            address,
+            [
+                'function totalProductivity() view returns (uint256)',
+                'function totalEffectiveStakes() view returns (uint256)',
+                'function tokenUsdOracle() view returns (address)',
+                'function getTokenValueInUSD(address, uint256, uint256) view returns (uint256)',
+                'function tokenDecimalDifference() view returns (uint256)'
+            ],
+            web3
+        )
+
+        const USDC = (await getToken(chainId, 'USDC')) as Token
+
+        const [totalProductivity, usdOracle, tokenDecimalsDiffFrom18] = await Promise.all([
+            effectiveStake ? simpleStaking.totalEffectiveStakes() : simpleStaking.totalProductivity(),
+            simpleStaking.tokenUsdOracle(),
+            simpleStaking.tokenDecimalDifference()
+        ])
+
+        const usdValue = await simpleStaking.getTokenValueInUSD(
+            usdOracle,
+            totalProductivity,
+            18 - tokenDecimalsDiffFrom18.toNumber()
+        )
+
+        const liquidityUSDC = CurrencyAmount.fromRawAmount(USDC, usdValue.div(1e2).toString()) //token value in usd is in 8 decimals
+
+        debug('Liquidity staked', liquidityUSDC.toSignificant(6))
+
+        debugGroupEnd(`Liquidity for ${token.symbol} in ${protocol}`)
+
+        return liquidityUSDC
+    },
+    (_, address, protocol, token, effectiveStake) => address + protocol + token.address + effectiveStake
+)
 /**
  * GDAO yearly reward.
  * @param {Web3} web3 Web3 instance.

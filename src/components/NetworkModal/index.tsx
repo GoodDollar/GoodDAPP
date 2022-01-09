@@ -168,7 +168,8 @@ export default function NetworkModal(): JSX.Element | null {
 
     const { ethereum } = window
     const networkLabel: string | null = (NETWORK_LABEL as any)[chainId || (ethereum as any)?.networkVersion] || null
-    const network = process.env.NETWORK || 'staging'
+    const network = process.env.REACT_APP_NETWORK || 'staging'
+
 
     const allowedNetworks = useMemo(() => {
         switch (true) {
@@ -229,7 +230,7 @@ export default function NetworkModal(): JSX.Element | null {
                                 ) {
                                     console.log(key.toString(16))
                                     if (isMetaMask) {
-                                        ;(ethereum as any).request({
+                                        ; (ethereum as any).request({
                                             method: 'wallet_switchEthereumChain',
                                             params: [{ chainId: `0x${key.toString(16)}` }]
                                         })
@@ -240,7 +241,7 @@ export default function NetworkModal(): JSX.Element | null {
                                     }
                                 } else {
                                     if (isMetaMask) {
-                                        ;(ethereum as any).request({
+                                        ; (ethereum as any).request({
                                             method: 'wallet_addEthereumChain',
                                             params: [params, account]
                                         })

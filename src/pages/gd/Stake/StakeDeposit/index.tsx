@@ -24,6 +24,7 @@ export interface StakeDepositModalProps {
     stake: Stake
     onDeposit?: () => any
     onClose: () => any
+    activeTableName?: string
 }
 
 export type Action<T extends string, P = never> = [P] extends [never]
@@ -44,7 +45,7 @@ const initialState = {
     transactionHash: undefined as undefined | string
 }
 
-const StakeDeposit = ({ stake, onDeposit, onClose }: StakeDepositModalProps) => {
+const StakeDeposit = ({ stake, onDeposit, onClose, activeTableName }: StakeDepositModalProps) => {
     const { i18n } = useLingui()
     const { chainId, account } = useActiveWeb3React()
     const web3 = useWeb3()
@@ -170,25 +171,27 @@ const StakeDeposit = ({ stake, onDeposit, onClose }: StakeDepositModalProps) => 
                 <>
                     <div className="flex items-center justify-between mb-3">
                         <span>{i18n._(t`How much would you like to deposit?`)}</span>
-                        {stake.tokens.B !== stake.tokens.A && (<div className="flex items-center space-x-1">
-                            <span>{stake.tokens.A.symbol}</span>
-                            <Switch>
-                                <div className="area" />
-                                <input
-                                    type="checkbox"
-                                    checked={state.token === 'B'}
-                                    disabled={state.loading}
-                                    onChange={e =>
-                                        dispatch({
-                                            type: 'TOGGLE_TOKEN',
-                                            payload: e.currentTarget.checked
-                                        })
-                                    }
-                                />
-                                <div className="toggle" />
-                            </Switch>
-                            <span>{stake.tokens.B.symbol}</span>
-                        </div>)}
+                        {stake.tokens.B !== stake.tokens.A && (
+                            <div className="flex items-center space-x-1">
+                                <span>{stake.tokens.A.symbol}</span>
+                                <Switch>
+                                    <div className="area" />
+                                    <input
+                                        type="checkbox"
+                                        checked={state.token === 'B'}
+                                        disabled={state.loading}
+                                        onChange={e =>
+                                            dispatch({
+                                                type: 'TOGGLE_TOKEN',
+                                                payload: e.currentTarget.checked
+                                            })
+                                        }
+                                    />
+                                    <div className="toggle" />
+                                </Switch>
+                                <span>{stake.tokens.B.symbol}</span>
+                            </div>
+                        )}
                     </div>
                     <SwapInput
                         balance={tokenToDepositBalance?.toSignificant(6, { groupSeparator: ',' })}
@@ -229,8 +232,8 @@ const StakeDeposit = ({ stake, onDeposit, onClose }: StakeDepositModalProps) => 
                         {state.loading
                             ? i18n._(t`APPROVING`)
                             : !account
-                                ? i18n._(t`Connect wallet`)
-                                : i18n._(t`APPROVE`)}
+                            ? i18n._(t`Connect wallet`)
+                            : i18n._(t`APPROVE`)}
                     </ButtonAction>
                 </>
             ) : depositing ? (
@@ -258,7 +261,8 @@ const StakeDeposit = ({ stake, onDeposit, onClose }: StakeDepositModalProps) => 
                             disabled={state.loading}
                             onClick={() =>
                                 withLoading(async () => {
-                                    const depositMethod = stake.protocol === LIQUIDITY_PROTOCOL.GOODDAO ? depositGov : deposit;
+                                    const depositMethod =
+                                        stake.protocol === LIQUIDITY_PROTOCOL.GOODDAO ? depositGov : deposit
                                     const transactionDetails = await depositMethod(
                                         web3!,
                                         stake.address,
@@ -287,23 +291,31 @@ const StakeDeposit = ({ stake, onDeposit, onClose }: StakeDepositModalProps) => 
             ) : (
                 <>
                     <div className="text-center mt-4">
-                        {i18n._(t`Did you just create UBI for thousands of people around the world?`)}{' '}
-                        <a
-                            href={
-                                state.transactionHash &&
-                                chainId &&
-                                getExplorerLink(chainId, state.transactionHash, 'transaction')
-                            }
-                            target="_blank"
-                            rel="noreferrer"
-                        >
-                            <LinkSVG className="inline-block cursor-pointer" />
-                        </a>
+                        {activeTableName === 'GoodDAO Staking' ? (
+                            i18n._(
+                                t`You have just staked your G$s towards our GoodDAO, this action is gonna reward you with GOOD governance tokens, which are non-transferable so can't be traded.`
+                            )
+                        ) : (
+                            <>
+                                {i18n._(t`Did you just create UBI for thousands of people around the world?`)}{' '}
+                                <a
+                                    href={
+                                        state.transactionHash &&
+                                        chainId &&
+                                        getExplorerLink(chainId, state.transactionHash, 'transaction')
+                                    }
+                                    target="_blank"
+                                    rel="noreferrer"
+                                >
+                                    <LinkSVG className="inline-block cursor-pointer" />
+                                </a>
+                            </>
+                        )}
                     </div>
                     <div className="flex flex-col items-center mt-4 space-y-2">
                         <Link to="/portfolio">
                             <ButtonDefault className="uppercase px-6" width="auto">
-                                {i18n._(t`Yes, I did!`)}
+                                {i18n._(t`Go to Portfolio`)}
                             </ButtonDefault>
                         </Link>
                         <ButtonText className="uppercase" onClick={onClose}>

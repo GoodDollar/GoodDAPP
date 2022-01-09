@@ -137,11 +137,11 @@ const ModalContent = (props: any) => {
     const toggleNetworkModal = useNetworkModalToggle()
 
     const handleEthereumNetworkSwitch = useCallback(() => {
-        const networkType = process.env.NETWORK || 'staging'
+        const networkType = process.env.REACT_APP_NETWORK || 'staging'
         if (networkType === 'staging') {
             toggleNetworkModal()
         } else if (networkType === 'production') {
-            ;(ethereum as any).request({
+            ; (ethereum as any)?.request({
                 method: 'wallet_switchEthereumChain',
                 params: [{ chainId: `0x${ChainId.MAINNET.toString(16)}` }]
             })
@@ -150,7 +150,7 @@ const ModalContent = (props: any) => {
     }, [ethereum, toggleNetworkModal, toggleWalletModal])
 
     const handleFuseNetworkSwitch = useCallback(() => {
-        ;(ethereum as any).request({
+        ; (ethereum as any)?.request({
             method: 'wallet_addEthereumChain',
             params: [
                 {
@@ -251,6 +251,8 @@ const ModalContent = (props: any) => {
         })
     }
 
+    const isMetaMask = window.ethereum && window.ethereum.isMetaMask
+
     if (error) {
         return (
             <UpperSection>
@@ -264,24 +266,26 @@ const ModalContent = (props: any) => {
                     {error instanceof UnsupportedChainIdError ? (
                         <>
                             <h5 className="text-center">{i18n._(t`Please connect to the appropriate network.`)}</h5>
-                            <div className="flex flex-row align-center justify-around mt-5 pt-2">
-                                <ButtonAction
-                                    size="sm"
-                                    width="40%"
-                                    onClick={handleEthereumNetworkSwitch}
-                                    borderRadius="6px"
-                                >
-                                    {i18n._(t`ETHEREUM`)}
-                                </ButtonAction>
-                                <ButtonAction
-                                    size="sm"
-                                    width="40%"
-                                    onClick={handleFuseNetworkSwitch}
-                                    borderRadius="6px"
-                                >
-                                    {i18n._(t`FUSE`)}
-                                </ButtonAction>
-                            </div>
+                            {isMetaMask && (
+                                <div className="flex flex-row align-center justify-around mt-5 pt-2">
+                                    <ButtonAction
+                                        size="sm"
+                                        width="40%"
+                                        onClick={handleEthereumNetworkSwitch}
+                                        borderRadius="6px"
+                                    >
+                                        {i18n._(t`ETHEREUM`)}
+                                    </ButtonAction>
+                                    <ButtonAction
+                                        size="sm"
+                                        width="40%"
+                                        onClick={handleFuseNetworkSwitch}
+                                        borderRadius="6px"
+                                    >
+                                        {i18n._(t`FUSE`)}
+                                    </ButtonAction>
+                                </div>
+                            )}
                         </>
                     ) : (
                         i18n._(t`Error connecting. Try refreshing the page.`)

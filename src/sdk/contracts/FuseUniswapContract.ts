@@ -1,7 +1,9 @@
 import Web3 from 'web3'
+import { BigNumber } from 'ethers'
 import { AbiItem } from 'web3-utils'
 import Uniswap from '@uniswap/v2-periphery/build/IUniswapV2Router02.json'
 import { Router, Trade } from '@uniswap/v2-sdk'
+import { MaxUint256 } from '@ethersproject/constants'
 import { Currency, Percent, TradeType } from '@uniswap/sdk-core'
 import { DEFAULT_DEADLINE_FROM_NOW } from '../../constants'
 import { isZero } from '../../functions'
@@ -50,10 +52,16 @@ export async function approveBuy(web3: Web3, trade: Trade<Currency, Currency, Tr
     const contract = ERC20Contract(web3, trade.route.path[0].address)
 
     const contractDeploymentAddress = UNISWAP_CONTRACT_ADDRESS[chainId]
+    const input = BigNumber.from(trade.inputAmount.multiply(trade.inputAmount.decimalScale).toFixed(0))
 
-    await contract.methods
-        .approve(contractDeploymentAddress, trade.inputAmount.multiply(trade.inputAmount.decimalScale).toFixed(0))
-        .send({ from: account })
+    const allowance = await contract.methods
+        .allowance(account, contractDeploymentAddress)
+        .call()
+        .then((_: string) => BigNumber.from(_))
+
+    if (input.lte(allowance)) return
+
+    await contract.methods.approve(contractDeploymentAddress, MaxUint256.toString()).send({ from: account })
 }
 
 /**
@@ -69,9 +77,16 @@ export async function approveSell(web3: Web3, trade: Trade<Currency, Currency, T
 
     const contractDeploymentAddress = UNISWAP_CONTRACT_ADDRESS[chainId]
 
-    await contract.methods
-        .approve(contractDeploymentAddress, trade.inputAmount.multiply(trade.inputAmount.decimalScale).toFixed(0))
-        .send({ from: account })
+    const input = BigNumber.from(trade.inputAmount.multiply(trade.inputAmount.decimalScale).toFixed(0))
+
+    const allowance = await contract.methods
+        .allowance(account, contractDeploymentAddress)
+        .call()
+        .then((_: string) => BigNumber.from(_))
+
+    if (input.lte(allowance)) return
+
+    await contract.methods.approve(contractDeploymentAddress, MaxUint256.toString()).send({ from: account })
 }
 
 /**

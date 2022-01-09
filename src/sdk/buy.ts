@@ -2,7 +2,7 @@ import Web3 from 'web3'
 import { BigNumber, ethers } from 'ethers'
 import { Currency, CurrencyAmount, Ether, Fraction, Percent, Token, TradeType } from '@uniswap/sdk-core'
 import { Trade } from '@uniswap/v2-sdk'
-
+import { MaxUint256 } from '@ethersproject/constants'
 import { getToken } from './methods/tokenLists'
 import { decimalPercentToPercent, decimalToJSBI } from './utils/converter'
 import { CDAI, FUSE } from './constants/tokens'
@@ -36,7 +36,7 @@ export type BuyInfo = {
     priceImpact: Fraction
     slippageTolerance: Percent
 
-    liquidityFee: Fraction
+    liquidityFee: CurrencyAmount<Currency>
     liquidityToken: Currency
 
     route: Token[]
@@ -282,12 +282,12 @@ async function getPriceImpact(
  * @param {Trade<Currency, Currency, TradeType>} trade Currency amount.
  * @returns {Fraction}
  */
-function getLiquidityFee(trade: Trade<Currency, Currency, TradeType>): Fraction {
+function getLiquidityFee(trade: Trade<Currency, Currency, TradeType>): CurrencyAmount<Currency> {
     const realizedLpFeePercent = computeRealizedLPFeePercent(trade)
 
     debug('Liquidity fee', realizedLpFeePercent.toSignificant(6))
-
-    return realizedLpFeePercent
+    const liquidityFee = trade.inputAmount.multiply(realizedLpFeePercent)
+    return liquidityFee
 }
 
 /**
@@ -339,7 +339,7 @@ export async function getMeta(
     let route: Token[]
     let trade: Trade<Currency, Currency, TradeType> | null = null
 
-    let liquidityFee = new Fraction(0)
+    let liquidityFee = CurrencyAmount.fromRawAmount(FROM, '0')
     let priceImpact = new Fraction(0)
 
     const slippageTolerancePercent = decimalPercentToPercent(slippageTolerance)
@@ -392,7 +392,6 @@ export async function getMeta(
                 slippageTolerancePercent
             ))
         } else {
-            console.log(FROM)
             inputAmount = CurrencyAmount.fromRawAmount(FROM, decimalToJSBI(amount, FROM.decimals))
 
             const g$trade = await xToDaiExactIn(web3, inputAmount, slippageTolerancePercent)
@@ -545,9 +544,19 @@ export async function approve(web3: Web3, meta: BuyInfo): Promise<void> {
     } else {
         const account = await getAccount(web3)
         const { input } = prepareValues(meta)
+        const bigInput = BigNumber.from(input)
 
-        await ERC20Contract(web3, meta.route[0].address)
-            .methods.approve(G$ContractAddresses(chainId, 'ExchangeHelper'), input)
+        const erc20 = ERC20Contract(web3, meta.route[0].address)
+
+        const allowance = await erc20.methods
+            .allowance(account, G$ContractAddresses(chainId, 'ExchangeHelper'))
+            .call()
+            .then((_: string) => BigNumber.from(_))
+
+        if (bigInput.lte(allowance)) return
+
+        await erc20.methods
+            .approve(G$ContractAddresses(chainId, 'ExchangeHelper'), MaxUint256.toString())
             .send({ from: account })
     }
 }

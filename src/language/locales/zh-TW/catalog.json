@@ -534,6 +534,10 @@
   "Staking could be of two types: UBI for funds staked on the GoodDollar trust for the generation of new G$ for universal income distribution, or Governance (to be enabled) for staking G$s for GOOD Rewards.": "遏制可能是兩種類型：UBI用於在GoodoDolar信任的基金上賭注，用於為普遍收入分配的新的G $的生成，或治理（要啟用）用於獎勵的獎勵。",
   "Total amount on value staked.": "價值總額托出來。",
   "How much value your stake has accumulated so far.": "到目前為止，您的股權累計有多大價值。",
-  "Starting at 1.0, your multiplier will increase to 2.0 after one month of staking to the Trust, at which point you can claim more G$ every day!": "從1.0開始，您的乘數將在一個月的綁定到信任之後將增加到2.0，此時您可以每天申請更多G $！",
-  "How many GOOD tokens you are accumulating by this stake position.": "您通過此樁位置累積了多少個好令牌。"
+  "Starting at 1.0, your multiplier will increase to 2.0 after one month of staking to the Trust, at which point you can be rewarded with more G$ every day!": "從1.0開始，您的乘數將增加到2.0，在一個月的綁定到信任後，您可以每天更多G $獎勵！",
+  "How many GOOD tokens you are accumulating by this stake position.": "您通過此樁位置累積了多少個好令牌。",
+  "Swapping G$ against GoodReserve has no third party fees if you swap from/to cDAI as it's our reserve token. Swapping G$s from/to other assets implies a 0.3% of fee going to 3rd party AMM liquidity providers.": "如果您從/ To CDAI轉換為我們的儲備令牌，則交換G $兌換GoodReserve沒有第三方費用。 從/往其他資產交換至其他資產意味著第三方AMM流動資金提供商的0.3％的費用。",
+  "You have just staked your G$s towards our GoodDAO, this action is gonna reward you with GOOD governance tokens, which are non-transferable so can't be traded.": "你剛剛把你的g $ s走向我們的古德達，這一行動會獎勵你的良好治理代幣，這是不可轉讓的所以不能交易。",
+  "Go to Portfolio": "去投資組合",
+  "Switch to {network}": "切換到 {network}"
 }

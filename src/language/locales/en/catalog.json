@@ -532,8 +532,9 @@
   "Staking could be of two types: UBI for funds staked on the GoodDollar trust for the generation of new G$ for universal income distribution, or Governance (to be enabled) for staking G$s for GOOD Rewards.": "Staking could be of two types: UBI for funds staked on the GoodDollar trust for the generation of new G$ for universal income distribution, or Governance (to be enabled) for staking G$s for GOOD Rewards.",
   "Total amount on value staked.": "Total amount on value staked.",
   "How much value your stake has accumulated so far.": "How much value your stake has accumulated so far.",
-  "Starting at 1.0, your multiplier will increase to 2.0 after one month of staking to the Trust, at which point you can claim more G$ every day!": "Starting at 1.0, your multiplier will increase to 2.0 after one month of staking to the Trust, at which point you can claim more G$ every day!",
-  "How many GOOD tokens you are accumulating by this stake position.": "How many GOOD tokens you are accumulating by this stake position.",
   "Starting at 1.0, your multiplier will increase to 2.0 after one month of staking to the Trust, at which point you can be rewarded with more G$ every day!": "Starting at 1.0, your multiplier will increase to 2.0 after one month of staking to the Trust, at which point you can be rewarded with more G$ every day!",
+  "How many GOOD tokens you are accumulating by this stake position.": "How many GOOD tokens you are accumulating by this stake position.",
+  "You have just staked your G$s towards our GoodDAO, this action is gonna reward you with GOOD governance tokens, which are non-transferable so can't be traded.": "You have just staked your G$s towards our GoodDAO, this action is gonna reward you with GOOD governance tokens, which are non-transferable so can't be traded.",
+  "Go to Portfolio": "Go to Portfolio",
   "Switch to {network}": "Switch to {network}"
 }

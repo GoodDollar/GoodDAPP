@@ -534,8 +534,9 @@
   "Staking could be of two types: UBI for funds staked on the GoodDollar trust for the generation of new G$ for universal income distribution, or Governance (to be enabled) for staking G$s for GOOD Rewards.": "Упоминание может быть из двух типов: UBI для средств, поставленных на доверие GoodDollar для поколения новых G $ для универсального распределения доходов или управление (для включения) для ставки G $ S для хороших наград.",
   "Total amount on value staked.": "Общая сумма по стоимости поставлена.",
   "How much value your stake has accumulated so far.": "Сколько ценностей накоплено ваша доля.",
-  "Starting at 1.0, your multiplier will increase to 2.0 after one month of staking to the Trust, at which point you can claim more G$ every day!": "Начиная с 1.0, ваш множитель увеличится до 2,0 после одного месяца поставок доверия, в какой момент вы можете претендовать на большее количество G $ каждый день!",
-  "How many GOOD tokens you are accumulating by this stake position.": "Сколько хороших токенов вы накапливаете на эту позицию поставок.",
   "Starting at 1.0, your multiplier will increase to 2.0 after one month of staking to the Trust, at which point you can be rewarded with more G$ every day!": "Начиная с 1.0, ваш множитель увеличится до 2,0 после одного месяца по ухудшению доверия, в какой момент вы можете быть вознаграждены более G $ каждый день!",
+  "How many GOOD tokens you are accumulating by this stake position.": "Сколько хороших токенов вы накапливаете на эту позицию поставок.",
+  "You have just staked your G$s towards our GoodDAO, this action is gonna reward you with GOOD governance tokens, which are non-transferable so can't be traded.": "Вы только что поставили свои G $ в нашу Gooddao, это действие вознаграждает вас хорошим управлением токенами, которые не передаются, поэтому не могут быть проданы.",
+  "Go to Portfolio": "Перейти к портфолио",
   "Switch to {network}": "Переключить на {network}"
 }

@@ -532,8 +532,9 @@
   "Staking could be of two types: UBI for funds staked on the GoodDollar trust for the generation of new G$ for universal income distribution, or Governance (to be enabled) for staking G$s for GOOD Rewards.": "Staking יכול להיות של שני סוגים: UBI עבור כספים staked על אמון gooddollar עבור הדור של חדש G $ עבור הפצה הכנסה אוניברסלית, או ממשל (להיות מופעל) עבור stakings $ עבור rewards טוב.",
   "Total amount on value staked.": "הסכום הכולל על ערך staked.",
   "How much value your stake has accumulated so far.": "כמה ערך המוקד שלך צבר עד כה.",
-  "Starting at 1.0, your multiplier will increase to 2.0 after one month of staking to the Trust, at which point you can claim more G$ every day!": "החל מ 1.0, מכפיל שלך יגדל ל 2.0 לאחר חודש אחד של staking לאמון, באיזו נקודה אתה יכול לטעון יותר G $ כל יום!",
-  "How many GOOD tokens you are accumulating by this stake position.": "כמה אסימונים טובים אתה מצטבר על ידי מיקום זה.",
   "Starting at 1.0, your multiplier will increase to 2.0 after one month of staking to the Trust, at which point you can be rewarded with more G$ every day!": "החל מ 1.0, מכפיל שלך יגדל ל 2.0 לאחר חודש אחד של staking לאמון, באיזו נקודה אתה יכול להיות מתוגמל עם יותר G $ כל יום!",
+  "How many GOOD tokens you are accumulating by this stake position.": "כמה אסימונים טובים אתה מצטבר על ידי מיקום זה.",
+  "You have just staked your G$s towards our GoodDAO, this action is gonna reward you with GOOD governance tokens, which are non-transferable so can't be traded.": "יש לך רק staked G שלך $ כלפי gooddao שלנו, פעולה זו היא הולך לתגמל אותך עם אסימוני ממשל טוב, אשר אינם ניתנים להעברה אז לא ניתן לסחור.",
+  "Go to Portfolio": "עבור אל תיק הפורפוליו",
   "Switch to {network}": "לעבור ל {network}"
 }

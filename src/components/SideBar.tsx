@@ -163,8 +163,8 @@ export default function SideBar({ mobile }: { mobile?: boolean }) {
                 options: {
                     address: data?.g$?.address,
                     symbol: data?.g$?.symbol,
-                    decimals: data?.g$?.decimals
-                    // image: 'https://foo.io/token-image.svg'
+                    decimals: data?.g$?.decimals,
+                    image: 'https://raw.githubusercontent.com/GoodDollar/GoodProtocolUI/master/src/assets/images/tokens/gd-logo.png'
                 }
             })
 
@@ -174,8 +174,8 @@ export default function SideBar({ mobile }: { mobile?: boolean }) {
                 options: {
                     address: data?.gdao?.address,
                     symbol: data?.gdao?.symbol,
-                    decimals: data?.gdao?.decimals
-                    // image: 'https://foo.io/token-image.svg'
+                    decimals: data?.gdao?.decimals,
+                    image: 'https://raw.githubusercontent.com/GoodDollar/GoodProtocolUI/master/src/assets/images/tokens/good-logo.png'
                 }
             })
 
@@ -185,8 +185,8 @@ export default function SideBar({ mobile }: { mobile?: boolean }) {
                 options: {
                     address: data?.gdx?.address,
                     symbol: data?.gdx?.symbol,
-                    decimals: data?.gdx?.decimals
-                    // image: 'https://foo.io/token-image.svg'
+                    decimals: data?.gdx?.decimals,
+                    image: 'https://raw.githubusercontent.com/GoodDollar/GoodProtocolUI/master/src/assets/images/tokens/gdx-logo.png'
                 }
             })
 

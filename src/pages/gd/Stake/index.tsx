@@ -25,7 +25,7 @@ import { LIQUIDITY_PROTOCOL } from 'sdk/constants/protocols'
 
 const StakeTable = ({ list, error, loading, hasAPY = true, rewardsSortKey = 'rewards.G$', network, setActiveStake }: { list: any, error: Error | undefined, loading: boolean, hasAPY?: boolean, rewardsSortKey?: string, network: DAO_NETWORK, setActiveStake: any }) => {
     const { i18n } = useLingui()
-
+    
     return (
         <Wrapper>
             <Table
@@ -125,7 +125,7 @@ const StakeTable = ({ list, error, loading, hasAPY = true, rewardsSortKey = 'rew
                                         <div style={{ width: 48 }}>
                                             <AsyncTokenIcon
                                                 address={stake.tokens.A.address}
-                                                chainId={SupportedChainId.MAINNET as number}
+                                                chainId={stake.tokens.A.chainId as number}
                                                 className="block w-5 h-5 md:w-10 md:h-10 lg:w-12 lg:h-12 rounded-lg"
                                             />
                                         </div>

@@ -39,11 +39,11 @@ function TradeSummary({ trade, allowedSlippage }: { trade: Trade; allowedSlippag
                         <div className="  ">
                             {isExactIn
                                 ? `${slippageAdjustedAmounts[Field.OUTPUT]?.toSignificant(
-                                    4
-                                )} ${trade.outputAmount.currency.getSymbol(chainId)}` ?? '-'
+                                      4
+                                  )} ${trade.outputAmount.currency.getSymbol(chainId)}` ?? '-'
                                 : `${slippageAdjustedAmounts[Field.INPUT]?.toSignificant(
-                                    4
-                                )} ${trade.inputAmount.currency.getSymbol(chainId)}` ?? '-'}
+                                      4
+                                  )} ${trade.inputAmount.currency.getSymbol(chainId)}` ?? '-'}
                         </div>
                     </RowFixed>
                 </RowBetween>
@@ -64,7 +64,7 @@ function TradeSummary({ trade, allowedSlippage }: { trade: Trade; allowedSlippag
                         <div className=" ">{i18n._(t`Liquidity Provider Fee`)}</div>
                         <QuestionHelper
                             text={i18n._(
-                                t`A portion of each trade (0.25%) goes to liquidity providers as a protocol incentive.`
+                                t`Swapping G$ against GoodReserve has no third party fees if you swap from/to cDAI as it's our reserve token. Swapping G$s from/to other assets implies a 0.3% of fee going to 3rd party AMM liquidity providers.`
                             )}
                         />
                     </RowFixed>
@@ -119,10 +119,11 @@ export function AdvancedSwapDetails({ trade }: AdvancedSwapDetailsProps) {
                         ) && (
                             <div className="flex justify-center pt-3 px-4">
                                 <ExternalLink
-                                    href={`${chainId && ANALYTICS_URL[chainId]
+                                    href={`${
+                                        chainId && ANALYTICS_URL[chainId]
                                             ? ANALYTICS_URL[chainId]
                                             : 'https://analytics.sushi.com'
-                                        }/pairs/${trade.route.pairs[0].liquidityToken.address}`}
+                                    }/pairs/${trade.route.pairs[0].liquidityToken.address}`}
                                 >
                                     {i18n._(t`View pair analytics`)}
                                 </ExternalLink>

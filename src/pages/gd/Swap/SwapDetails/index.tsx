@@ -17,6 +17,7 @@ export interface SwapDetailsProps extends SwapDetailsFields {
     className?: string
     style?: CSSProperties
     open?: boolean
+    buying?: boolean
 }
 
 function SwapDetails({
@@ -28,7 +29,8 @@ function SwapDetails({
     liquidityFee,
     route,
     GDX,
-    exitContribution
+    exitContribution,
+    buying
 }: SwapDetailsProps) {
     const { i18n } = useLingui()
 
@@ -51,14 +53,16 @@ function SwapDetails({
             <SwapInfo
                 title={i18n._(t`Liquidity Provider Fee`)}
                 value={liquidityFee}
-                tip={i18n._(t`A portion of each trade (0.25%) goes to liquidity providers as a protocol incentive.`)}
+                tip={i18n._(
+                    t`Swapping G$ against GoodReserve has no third party fees if you swap from/to cDAI as it's our reserve token. Swapping G$s from/to other assets implies a 0.3% of fee going to 3rd party AMM liquidity providers.`
+                )}
             />
             <SwapInfo
                 title={i18n._(t`Route`)}
                 value={route}
                 tip={i18n._(t`Routing through these tokens resulted in the best price for your trade.`)}
             />
-            {GDX && <SwapInfo title="GDX" value={GDX} />}
+            {GDX && <SwapInfo title="GDX" value={buying !== undefined ? (buying ? '+' + GDX : '-' + GDX) : GDX} />}
             {exitContribution && <SwapInfo title="EXIT CONTRIBUTION" value={exitContribution} />}
         </SwapDetailsSC>
     )

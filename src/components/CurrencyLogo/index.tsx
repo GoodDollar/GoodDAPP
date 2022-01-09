@@ -20,6 +20,7 @@ import xDaiLogo from '../../assets/images/xdai-logo.png'
 import { AdditionalChainId, FUSE } from '../../constants'
 import { getFuseTokenLogoURL } from '../../constants/fuseTokenMapping'
 import { getKovanTokenLogoURL } from '../../constants/kovanTokenMapping'
+import { getRopstenTokenLogoURL } from '../../constants/ropstenTokenMapping'
 
 export const getTokenLogoURL = (address: string, chainId: any) => {
     let imageURL
@@ -29,8 +30,10 @@ export const getTokenLogoURL = (address: string, chainId: any) => {
         imageURL = `https://v1exchange.pancakeswap.finance/images/coins/${address}.png`
     } else if (chainId === AdditionalChainId.FUSE) {
         imageURL = getFuseTokenLogoURL(address)
-/*    } else if (chainId === AdditionalChainId.KOVAN) {
-        imageURL = getKovanTokenLogoURL(address)*/
+    } else if (chainId === ChainId.KOVAN) {
+        imageURL = getKovanTokenLogoURL(address)
+    } else if (chainId === ChainId.ROPSTEN) {
+        imageURL = getRopstenTokenLogoURL(address)
     } else {
         imageURL = `https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/${address}/logo.png`
     }

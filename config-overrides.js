@@ -13,8 +13,8 @@ module.exports = {
 
   jest: config => {
     config.transformIgnorePatterns = [
-      '<rootDir>/src/lib/facetec',
-      '<rootDir>/node_modules/(?!(jest-)?nft.storage|react-native|react-navigation|react-navigation-redux-helpers|react-phone-number-input|webrtc-adapter)',
+      '<rootDir>/node_modules/@gooddollar/react-native-facetec/web/sdk',
+      '<rootDir>/node_modules/(?!(jest-)?react-native|react-navigation|react-navigation-redux-helpers|react-phone-number-input|webrtc-adapter)',
     ]
 
     config.setupFiles = [
@@ -41,7 +41,7 @@ module.exports = {
       "<rootDir>/src/index.js",
       "<rootDir>/src/init.js",
       "<rootDir>/src/serviceWorker.js",
-      "<rootDir>/src/lib/facetec"
+      "<rootDir>/node_modules/@gooddollar/react-native-facetec/web/sdk"
     ]
 
     config.moduleNameMapper = {

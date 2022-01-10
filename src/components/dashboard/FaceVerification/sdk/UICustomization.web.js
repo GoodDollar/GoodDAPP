@@ -2,7 +2,7 @@ import hexToRgba from 'hex-to-rgba'
 import { Colors } from 'react-native-paper'
 import { assignIn, get, isFinite, isString, mapKeys, memoize, pickBy, snakeCase } from 'lodash'
 
-import FaceTec from '../../../../lib/facetec/FaceTecSDK'
+import FaceTec from '@gooddollar/react-native-facetec/web'
 
 import { resultFacescanUploadMessage, resultSuccessMessage } from '../sdk/FaceTecSDK.constants'
 import { isLargeDevice } from '../../../../lib/utils/sizes'

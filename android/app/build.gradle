@@ -256,7 +256,7 @@ dependencies {
     api "com.squareup.okhttp3:okhttp:4.9.0"
     api "com.squareup.okhttp3:logging-interceptor:4.9.0"
     api "com.squareup.okhttp3:okhttp-urlconnection:4.9.0"
-    compile project(':customauth-react-native-sdk')
+    implementation project(':customauth-react-native-sdk')
 
 
     // Add v8-android - prebuilt libv8android.so into APK

@@ -538,7 +538,6 @@ PODS:
     - React
   - RNVectorIcons (6.7.0):
     - React
-  - secp256k1.c (0.1.2)
   - secp256k1.swift (0.1.4)
   - Sentry (7.5.1):
     - Sentry/Core (= 7.5.1)
@@ -657,7 +656,6 @@ DEPENDENCIES:
   - RNSqlite2 (from `../node_modules/react-native-sqlite-2`)
   - RNSVG (from `../node_modules/react-native-svg`)
   - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
-  - secp256k1.c (= 0.1.2)
   - secp256k1.swift (= 0.1.4)
   - TcpSockets (from `../node_modules/react-native-tcp`)
   - "toolbar-android (from `../node_modules/@react-native-community/toolbar-android`)"
@@ -696,7 +694,6 @@ SPEC REPOS:
     - OpenSSL-Universal
     - PromiseKit
     - PromisesObjC
-    - secp256k1.c
     - secp256k1.swift
     - Sentry
     - TOCropViewController
@@ -937,7 +934,7 @@ SPEC CHECKSUMS:
   RNCAsyncStorage: 26f25150da507524a7815f2ada06ca0967f65633
   RNCClipboard: 41d8d918092ae8e676f18adada19104fa3e68495
   RNCPushNotificationIOS: 87b8d16d3ede4532745e05b03c42cff33a36cc45
-  RNCustomAuthSdk: b05181dc4718c426dc6d3f2bbdc3f15952f86b06
+  RNCustomAuthSdk: 93c0674a8edbed9dbcae9b70ddda3fe86b6c1e5e
   RNDeviceInfo: 9538a884f862fe4aa0d7cead9f34e292d41ba8f6
   RNFBAnalytics: 6bf7a27b94a795a688d837763d59090194e9f7c8
   RNFBApp: ece97bfe0a926247591c0aa0bdfe384f06cf46b5
@@ -952,7 +949,6 @@ SPEC CHECKSUMS:
   RNSqlite2: df25f1fefd82da39a3f956504149fb32d23831fb
   RNSVG: 8ba35cbeb385a52fd960fd28db9d7d18b4c2974f
   RNVectorIcons: 368d6d8b8301224e5ffb6254191f4f8876c2be0d
-  secp256k1.c: db47b726585d80f027423682eb369729e61b3b20
   secp256k1.swift: a7e7a214f6db6ce5db32cc6b2b45e5c4dd633634
   Sentry: 0718c3ad7a08e1107599610795adaf08864102f3
   TcpSockets: 4ef55305239923b343ed0a378b1fac188b1373b0
@@ -964,6 +960,6 @@ SPEC CHECKSUMS:
   Yoga: aa0cb45287ebe1004c02a13f279c55a95f1572f4
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: 90c79b6ce6f65a55eb247bbcf15ee5cc14bba838
+PODFILE CHECKSUM: 53e68cb7f6a41eb487639a0c9c5f418e1a0d6b19
 
 COCOAPODS: 1.11.2

@@ -334,7 +334,7 @@ function Swap() {
                 </SwapWrapperSC>
                 <SwapDetails
                     open={Boolean(meta)}
-                    buying={buying && [ETHER, FUSE].includes(swapPair.token)}
+                    buying={buying}
                     {...swapFields}
                 />
                 <SwapDescriptions gdx={!!swapFields.GDX} exitContribution={!!swapFields.exitContribution} />

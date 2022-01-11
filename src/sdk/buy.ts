@@ -260,18 +260,13 @@ export async function cDaiToG$(
 /**
  * Tries to convert token cDAI into G$.
  * @param {Web3} web3 Web3 instance.
- * @param {CurrencyAmount<Currency>} cDAI CDAI token amount.
- * @param {CurrencyAmount<Currency>} G$ G$ token amount.
+ * @param {CurrencyAmount<Currency>} executionPrice CDAI token amount.
  * @returns {Promise<Fraction>}
  */
-async function getPriceImpact(
-    web3: Web3,
-    cDAI: CurrencyAmount<Currency>,
-    G$: CurrencyAmount<Currency>
-): Promise<Fraction> {
+async function getPriceImpact(web3: Web3, executionPrice: CurrencyAmount<Currency>): Promise<Fraction> {
     const { cDAI: price } = await g$Price()
 
-    const priceImpact = new Fraction(1).subtract(G$.divide(cDAI.divide(price)).multiply(1e6))
+    const priceImpact = new Fraction(1).subtract(executionPrice.divide(price)).multiply(1e6)
     debug('Price impact', priceImpact.toSignificant(6))
 
     return priceImpact
@@ -413,7 +408,7 @@ export async function getMeta(
             trade = g$trade.trade
         }
 
-        priceImpact = await getPriceImpact(web3, cDAIAmount, minimumOutputAmount)
+        priceImpact = await getPriceImpact(web3, cDAIAmount)
     }
 
     debugGroupEnd(`Get meta ${amount} ${fromSymbol} to G$`)

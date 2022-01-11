@@ -3906,6 +3906,11 @@
   resolved "https://registry.yarnpkg.com/@tootallnate/once/-/once-1.1.2.tgz#ccb91445360179a04e7fe6aff78c00ffc1eeaf82"
   integrity sha512-RbzJvlNzmRq5c3O09UipeuXno4tA1FE6ikOjxZK0tuxVv3412l64l5t1W5pj4+rJq9vpkm/kwiR07aZXnsKPxw==
 
+"@toruslabs/customauth-react-native-sdk@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@toruslabs/customauth-react-native-sdk/-/customauth-react-native-sdk-1.0.1.tgz#3712b049994c3321a31de2da7a6f65ddf65d0823"
+  integrity sha512-EqOWCDlV9dSbKpz0KOYDMXoU+7CSbXUzgO6Z+4I6aY8vIoLcXjdwCzg1PiGfBbGDQV/2StiUSx9Fs5n/EvBggA==
+
 "@toruslabs/eccrypto@^1.1.7":
   version "1.1.8"
   resolved "https://registry.yarnpkg.com/@toruslabs/eccrypto/-/eccrypto-1.1.8.tgz#ce1eac9c3964a091cdc74956a62036b5719a41eb"
@@ -3932,11 +3937,6 @@
   integrity sha512-lPRhTWeChQunds2CGV70xvaoFMMebZAqZLpTYZjUJfziumQjT12w9HWLIzlRfGFVKoYUsUiZLpGHl0JEwHCcqg==
   dependencies:
     deepmerge "^4.2.2"
-
-"@toruslabs/torus-direct-react-native-sdk@^0.6.1":
-  version "0.6.1"
-  resolved "https://registry.yarnpkg.com/@toruslabs/torus-direct-react-native-sdk/-/torus-direct-react-native-sdk-0.6.1.tgz#8b0c7b1d30bbff24d1270aa75a84179a443b43de"
-  integrity sha512-DqoazXywztnw+lavHxfQsUerV4qKFHw5AiBoNrfX5g8ZLJ78EH3NFcF/1SgfFXYLHZjp9UrpnLxS0DWvjch/Ow==
 
 "@toruslabs/torus-direct-web-sdk@5.0.2":
   version "5.0.2"

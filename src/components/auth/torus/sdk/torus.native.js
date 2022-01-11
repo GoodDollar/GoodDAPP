@@ -1,4 +1,4 @@
-import DirectNativeSDK from '@toruslabs/torus-direct-react-native-sdk'
+import DirectNativeSDK from '@toruslabs/customauth-react-native-sdk'
 import { defaults, get } from 'lodash'
 
 import { isAndroidNative } from '../../../../lib/utils/platform'

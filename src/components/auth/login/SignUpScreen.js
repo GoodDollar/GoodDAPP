@@ -3,11 +3,10 @@ import React, { useCallback, useRef } from 'react'
 import { Platform, View } from 'react-native'
 import Wrapper from '../../common/layout/Wrapper'
 import Text from '../../common/view/Text'
-import NavBar from '../../appNavigation/NavBar'
+import AuthNavBar from '../../appNavigation/AuthNavBar'
+import AuthProgressBar from '../../appNavigation/AuthProgressBar'
 import { withStyles } from '../../../lib/styles'
 import { theme as mainTheme } from '../../theme/styles'
-import SignupIllu from '../../../assets/Signup/signup.svg'
-import SigninIllu from '../../../assets/Auth/Illustrations_woman_love.svg'
 
 import Section from '../../common/layout/Section'
 import CustomButton from '../../common/buttons/CustomButton'
@@ -17,9 +16,8 @@ import {
   getMaxDeviceHeight,
   isLongDevice,
 } from '../../../lib/utils/sizes'
-import googleBtnIcon from '../../../assets/Auth/btn_google.svg'
-import facebookBtnIcon from '../../../assets/Auth/btn_facebook.svg'
-import MobileBtnIcon from '../../../assets/Auth/btn_mobile.svg'
+import googleBtnIcon from '../../../assets/Auth/btn-google.svg'
+import facebookBtnIcon from '../../../assets/Auth/btn-facebook.svg'
 import Config from '../../../config/config'
 import logger from '../../../lib/logger/js-logger'
 import { LoginButton } from './LoginButton'
@@ -67,13 +65,11 @@ const SignupScreen = ({ isSignup, screenProps, styles, handleLoginMethod, sdkIni
 
   const _selfCustody = () => handleLoginMethod('selfCustody')
 
-  const Illustration = isSignup ? SignupIllu : SigninIllu
-
-  const buttonPrefix = isSignup ? 'Agree & Sign up' : 'Log in'
+  const buttonPrefix = 'Continue with'
 
   const SigninText = () => (
     <>
-      <Text fontSize={12} color="gray80Percent" style={styles.marginBottom}>
+      <Text fontSize={12} color="gray80Percent">
         {`Remember to login with the `}
         <Text fontSize={12} color="gray80Percent" fontWeight="bold">
           {`same login method\n`}
@@ -85,10 +81,10 @@ const SignupScreen = ({ isSignup, screenProps, styles, handleLoginMethod, sdkIni
 
   const SignupText = () => (
     <>
-      <Text fontSize={10} color="gray80Percent" style={styles.marginBottom}>
-        {`By Signing up you are accepting our `}
+      <Text fontSize={12} color="gray80Percent">
+        {`By Signing up you are accepting\n our `}
         <Text
-          fontSize={10}
+          fontSize={12}
           color="gray80Percent"
           fontWeight="bold"
           textDecorationLine="underline"
@@ -98,7 +94,7 @@ const SignupScreen = ({ isSignup, screenProps, styles, handleLoginMethod, sdkIni
         </Text>
         {' and '}
         <Text
-          fontSize={10}
+          fontSize={12}
           color="gray80Percent"
           fontWeight="bold"
           textDecorationLine="underline"
@@ -112,29 +108,48 @@ const SignupScreen = ({ isSignup, screenProps, styles, handleLoginMethod, sdkIni
 
   return (
     <Wrapper backgroundColor="#fff" style={styles.mainWrapper}>
-      <NavBar title={isSignup ? 'Signup' : 'Login'} />
+      <AuthNavBar />
+      <AuthProgressBar step={1} />
       <Section.Stack style={{ flex: 1, justifyContent: 'center' }}>
         <Section.Stack style={{ flex: 1, maxHeight: 640 }}>
           <Section.Stack style={{ flexGrow: 0 }}>
             <Text
-              style={styles.headerText}
-              fontSize={26}
-              lineHeight={34}
+              color={'primary'}
+              fontSize={getDesignRelativeHeight(12)}
+              lineHeight={getDesignRelativeHeight(21)}
               letterSpacing={0.26}
               fontFamily="Roboto"
               fontWeight="bold"
+              textTransform="uppercase"
             >
-              {isSignup ? `Welcome To GoodDollar!\nCreate a Wallet` : 'Welcome Back!'}
+              Choose Authentication Method
+            </Text>
+            <Text
+              color={'darkIndigo'}
+              fontSize={getDesignRelativeHeight(26)}
+              lineHeight={getDesignRelativeHeight(34)}
+              letterSpacing={0.26}
+              fontFamily="Roboto"
+              fontWeight="bold"
+              style={{ marginTop: getDesignRelativeHeight(15) }}
+            >
+              Simply Claim G$ Daily
+            </Text>
+            <Text
+              color={'darkIndigo'}
+              fontSize={getDesignRelativeHeight(18)}
+              lineHeight={getDesignRelativeHeight(23)}
+              letterSpacing={0.26}
+              fontFamily="Roboto"
+              style={{ marginTop: getDesignRelativeHeight(5) }}
+            >
+              {`Your security is important to us, so we\n need to verify you’re a real person.\n Continuing using Facebook or Google\n would make that easier.`}
             </Text>
           </Section.Stack>
-          <Section.Stack style={styles.illustration}>
-            <Illustration width={'100%'} height={'100%'} viewBox={isSignup ? `0 0 255 170` : `0 0 206.391 173.887`} />
-          </Section.Stack>
           <Section.Stack style={styles.bottomContainer}>
-            {isSignup ? <SignupText /> : <SigninText />}
             <View style={{ width: '100%' }}>
               <LoginButton
-                style={[styles.buttonLayout, { backgroundColor: mainTheme.colors.googleBlue }]}
+                style={[styles.buttonLayout, { backgroundColor: mainTheme.colors.googleRed }]}
                 onPress={_google}
                 disabled={!sdkInitialized}
                 testID="login_with_google"
@@ -165,36 +180,21 @@ const SignupScreen = ({ isSignup, screenProps, styles, handleLoginMethod, sdkIni
                     styles.buttonLayout,
                     styles.buttonsMargin,
                     {
-                      backgroundColor: mainTheme.colors.darkBlue,
+                      backgroundColor: mainTheme.colors.white,
+                      borderWidth: 1,
+                      borderColor: '#E9ECFF',
                     },
                   ]}
                   onPress={_mobile}
                   disabled={!sdkInitialized}
+                  textColor="#8499BB"
                   testID="login_with_auth0"
-                  icon={MobileBtnIcon}
-                  iconProps={{ viewBox: '0 0 14.001 26' }}
                 >
-                  {`${buttonPrefix}${isSignup ? '' : ' with'} Passwordless`}
+                  {`${buttonPrefix} Passwordless`}
                 </LoginButton>
               </Recaptcha>
             </View>
             <Section.Stack style={styles.textButtonContainer}>
-              <CustomButton
-                compact
-                mode={'text'}
-                color={mainTheme.colors.darkGray}
-                textStyle={{
-                  textDecorationLine: 'underline',
-                  fontSize: 14,
-                  fontWeight: 'bold',
-                  lineHeight: 16,
-                  letterSpacing: 0.14,
-                }}
-                onPress={goBack}
-                style={styles.textButton}
-              >
-                {isSignup ? `Already Have a Wallet? Log In >` : `Dont Have a Wallet? Create One >`}
-              </CustomButton>
               {Config.enableSelfCustody && (
                 <CustomButton
                   compact
@@ -214,6 +214,7 @@ const SignupScreen = ({ isSignup, screenProps, styles, handleLoginMethod, sdkIni
                 </CustomButton>
               )}
             </Section.Stack>
+            {isSignup ? <SignupText /> : <SigninText />}
           </Section.Stack>
         </Section.Stack>
       </Section.Stack>
@@ -232,7 +233,7 @@ const getStylesFromProps = ({ theme }) => {
     },
     bottomContainer: {
       flex: 1,
-      justifyContent: 'flex-start',
+      justifyContent: 'flex-end',
       paddingHorizontal: theme.sizes.defaultDouble,
       marginTop: getDesignRelativeHeight(theme.sizes.default * 3),
       maxWidth: 384,
@@ -240,7 +241,7 @@ const getStylesFromProps = ({ theme }) => {
       alignSelf: 'center',
     },
     buttonLayout: {
-      justifyContent: 'space-between',
+      justifyContent: 'center',
       flexDirection: 'row',
       alignItems: 'center',
       borderRadius: 50,

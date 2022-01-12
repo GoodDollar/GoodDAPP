@@ -11,9 +11,6 @@ import {
   SIGNIN_NOTEXISTS_LOGIN,
   SIGNIN_NOTEXISTS_SIGNUP,
   SIGNIN_TORUS_SUCCESS,
-  SIGNUP_EXISTS,
-  SIGNUP_EXISTS_CONTINUE,
-  SIGNUP_EXISTS_LOGIN,
   SIGNUP_METHOD_SELECTED,
   SIGNUP_STARTED,
   TORUS_FAILED,
@@ -45,66 +42,9 @@ import { timeout } from '../../../lib/utils/async'
 import DeepLinking from '../../../lib/utils/deepLinking'
 
 import useTorus from './hooks/useTorus'
-import { LoginStrategy } from './sdk/strategies'
+import { useAlreadySignedUp } from './hooks/useAlreadySignedUp'
 
 const log = logger.child({ from: 'AuthTorus' })
-
-export const useAlreadySignedUp = () => {
-  const [showDialog, hideDialog] = useDialog()
-
-  const show = (
-    provider,
-    existsResult: { provider: string, identifier: boolean, email: boolean, mobile: boolean },
-    fromSignupFlow,
-  ) => {
-    let resolve
-    const promise = new Promise((res, rej) => {
-      resolve = res
-    })
-
-    const registeredBy = LoginStrategy.getTitle(existsResult.provider)
-    const usedText = existsResult.identifier ? 'Account' : existsResult.email ? 'Email' : 'Mobile'
-    fireEvent(SIGNUP_EXISTS, { provider, existsResult, fromSignupFlow })
-    showDialog({
-      onDismiss: () => {
-        hideDialog()
-        resolve('signup')
-      },
-      content: (
-        <View style={alreadyStyles.paragraphContainer}>
-          <Paragraph
-            style={[alreadyStyles.paragraph, alreadyStyles.paragraphBold]}
-          >{`You Already Used\n This ${usedText}\n When You Signed Up\n With ${registeredBy}`}</Paragraph>
-        </View>
-      ),
-      buttons: [
-        {
-          text: `Login with ${registeredBy}`,
-          onPress: () => {
-            hideDialog()
-            fireEvent(SIGNUP_EXISTS_LOGIN, { provider, existsResult, fromSignupFlow })
-            resolve('signin')
-          },
-          style: [alreadyStyles.marginBottom, getShadowStyles('none')],
-        },
-        {
-          text: 'Continue Signup',
-          onPress: () => {
-            hideDialog()
-            fireEvent(SIGNUP_EXISTS_CONTINUE, { provider, existsResult, fromSignupFlow })
-            resolve('signup')
-          },
-          style: alreadyStyles.whiteButton,
-          textStyle: alreadyStyles.primaryText,
-        },
-      ],
-      buttonsContainerStyle: alreadyStyles.modalButtonsContainerStyle,
-      type: 'error',
-    })
-    return promise
-  }
-  return show
-}
 
 const AuthTorus = ({ screenProps, navigation, styles, store }) => {
   const [showDialog, hideDialog, showErrorDialog] = useDialog()
@@ -414,18 +354,6 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
 
   const goBack = () => (isSignup ? setAuthScreen('signin') : setAuthScreen('signup'))
 
-  // const auth0ButtonHandler = () => {
-  //   if (config.torusEmailEnabled) {
-  //     setPasswordless(true)
-  //     fireEvent(SIGNUP_METHOD_SELECTED, { method: 'auth0-pwdless' })
-  //   } else {
-  //     signupAuth0Mobile()
-  //   }
-  // }
-
-  // const signupAuth0Email = () => signupAuth0('email')
-  // const signupAuth0Mobile = () => signupAuth0('mobile')
-
   return (
     <SignUpIn
       isSignup={isSignup}
@@ -522,50 +450,11 @@ const getStylesFromProps = ({ theme }) => {
     },
   }
 }
+
 const Auth = withStyles(getStylesFromProps)(SimpleStore.withStore(AuthTorus))
 Auth.navigationOptions = {
   title: 'Auth',
   navigationBarHidden: true,
-}
-
-const alreadyStyles = {
-  paragraphContainer: {
-    flex: 1,
-    justifyContent: 'center',
-  },
-  modalButtonsContainerStyle: {
-    flexDirection: 'column',
-    justifyContent: 'flex-end',
-  },
-  whiteButton: {
-    backgroundColor: mainTheme.colors.white,
-    borderWidth: 1,
-    borderColor: mainTheme.colors.primary,
-    ...getShadowStyles('none'),
-  },
-  primaryText: {
-    color: mainTheme.colors.primary,
-  },
-  paragraphContent: {
-    fontSize: normalizeText(16),
-    lineHeight: 22,
-    color: mainTheme.colors.darkGray,
-    fontFamily: mainTheme.fonts.default,
-  },
-  paragraphBold: {
-    textAlign: 'center',
-    fontWeight: 'bold',
-  },
-  paragraph: {
-    fontSize: normalizeText(24),
-    textAlign: 'center',
-    color: mainTheme.colors.red,
-    lineHeight: 32,
-    fontFamily: mainTheme.fonts.slab,
-  },
-  marginBottom: {
-    marginBottom: getDesignRelativeHeight(mainTheme.sizes.defaultDouble),
-  },
 }
 
 export default Auth

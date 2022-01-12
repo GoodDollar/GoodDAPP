@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 
 import { useAlreadySignedUp } from '../../components/auth/torus/AuthTorus'
 import logger from '../../lib/logger/js-logger'
@@ -11,23 +11,26 @@ const useCheckExisting = (torusProvider, navigation) => {
   const [selection, setSelection] = useState('signup')
   const showAlreadySignedUp = useAlreadySignedUp()
 
-  const getResult = async searchBy => {
-    const existsResult = await userExists(searchBy).catch(e => {
-      log.warn('userExists check failed:', e.message, e)
-      return { exists: false }
-    })
+  const checkExisting = useCallback(
+    async searchBy => {
+      const existsResult = await userExists(searchBy).catch(e => {
+        log.warn('userExists check failed:', e.message, e)
+        return { exists: false }
+      })
 
-    log.debug('checking userAlreadyExist', { existsResult })
+      log.debug('checking userAlreadyExist', { existsResult })
 
-    if (existsResult.exists) {
-      setSelection(await showAlreadySignedUp(torusProvider, existsResult, searchBy.email ? 'email' : 'mobile'))
-      if (selection === 'signin') {
-        return navigation.navigate('Auth', { screen: 'signin' })
+      if (existsResult.exists) {
+        setSelection(await showAlreadySignedUp(torusProvider, existsResult, searchBy.email ? 'email' : 'mobile'))
+        if (selection === 'signin') {
+          return navigation.navigate('Auth', { screen: 'signin' })
+        }
       }
-    }
-  }
+    },
+    [navigation, showAlreadySignedUp],
+  )
 
-  return getResult
+  return checkExisting
 }
 
 export default useCheckExisting

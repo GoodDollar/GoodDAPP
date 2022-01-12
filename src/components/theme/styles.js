@@ -10,7 +10,7 @@ export const theme = {
   },
   colors: {
     ...DefaultTheme.colors,
-    facebookBlue: '#1877F3',
+    facebookBlue: '#0075FF',
     googleBlue: '#3367D6',
     blue: '#006EA0',
     darkBlue: '#0C263D',
@@ -30,7 +30,7 @@ export const theme = {
     primary: '#00AFFF',
     purple: '#9F6A9D',
     red: '#FA6C77',
-    googleRed: '#EA4335',
+    googleRed: '#D03737',
     error: '#FA6C77',
     text: '#222',
     white: '#ffffff',

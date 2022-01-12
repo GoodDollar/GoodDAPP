@@ -34,6 +34,7 @@ export const theme = {
     error: '#FA6C77',
     text: '#222',
     white: '#ffffff',
+    darkIndigo: '#173566',
   },
   fonts: {
     ...DefaultTheme.fonts,

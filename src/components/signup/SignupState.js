@@ -1,11 +1,13 @@
 // @flow
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Platform, ScrollView, StyleSheet, View } from 'react-native'
 import { createSwitchNavigator } from '@react-navigation/core'
 import { assign, get, isError, pickBy, toPairs } from 'lodash'
 import { defer, from as fromPromise } from 'rxjs'
 import { retry } from 'rxjs/operators'
 import moment from 'moment'
+
+import useCheckExisting from '../../lib/hooks/useCheckExisting'
 import AsyncStorage from '../../lib/utils/asyncStorage'
 import { isMobileSafari } from '../../lib/utils/platform'
 import restart from '../../lib/utils/restart'
@@ -33,8 +35,6 @@ import { getUserModel, type UserModel } from '../../lib/userStorage/UserModel'
 import Config from '../../config/config'
 import { fireEvent, identifyOnUserSignup, identifyWith } from '../../lib/analytics/analytics'
 import { parsePaymentLinkParams } from '../../lib/share'
-import { userExists } from '../../lib/login/userExists'
-import { useAlreadySignedUp } from '../auth/torus/AuthTorus'
 import type { SMSRecord } from './SmsForm'
 import SignupCompleted from './SignupCompleted'
 import EmailConfirmation from './EmailConfirmation'
@@ -67,8 +67,6 @@ const SignupWizardNavigator = createSwitchNavigator(routes, navigationConfig)
 
 const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
   const store = SimpleStore.useStore()
-  const showAlreadySignedUp = useAlreadySignedUp()
-
   const torusUserFromProps =
     get(navigation, 'state.params.torusUser') ||
     get(navigation.state.routes.find(route => get(route, 'params.torusUser')), 'params.torusUser', {})
@@ -82,6 +80,8 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
   const [regMethod] = useState(_regMethod)
   const [torusProvider] = useState(_torusProvider)
   const [torusUser] = useState(torusUserFromProps)
+  const checkExisting = useCheckExisting(torusProvider, navigation)
+
   const isRegMethodSelfCustody = regMethod === REGISTRATION_METHOD_SELF_CUSTODY
   const skipEmail = !!torusUserFromProps.email
   const skipMobile = !!torusUserFromProps.mobile || Config.skipMobileVerification
@@ -117,6 +117,10 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
   const [title, setTitle] = useState('Sign Up')
   const [, hideDialog, showErrorDialog] = useDialog()
   const shouldGrow = store.get && !store.get('isMobileSafariKeyboardShown')
+
+  useEffect(() => {
+    log.debug('is this running')
+  }, [])
 
   const navigateWithFocus = (routeKey: string) => {
     navigation.navigate(routeKey)
@@ -479,29 +483,6 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
     return prevRoute
   }
 
-  //check if email/mobile was used to register before and offer user to login instead
-  const checkExisting = useCallback(
-    async searchBy => {
-      const existsResult = await userExists(searchBy).catch(e => {
-        log.warn('userExists check failed:', e.message, e)
-        return { exists: false }
-      })
-
-      log.debug('checking userAlreadyExist', { existsResult })
-
-      let selection = 'signup'
-
-      if (existsResult.exists) {
-        selection = await showAlreadySignedUp(torusProvider, existsResult, searchBy.email ? 'email' : 'mobile')
-        if (selection === 'signin') {
-          return navigation.navigate('Auth', { screen: 'signin' })
-        }
-      }
-      return selection
-    },
-    [navigation, showAlreadySignedUp],
-  )
-
   const done = async (data: { [string]: string }) => {
     setLoading(true)
     fireSignupEvent()
@@ -527,7 +508,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
       }
     } else if (nextRoute && nextRoute.key === 'SMS') {
       try {
-        const result = await checkExisting({ mobile: newState.mobile })
+        const result = await checkExisting({ mobile: newState.mobile }, torusProvider)
 
         if (result !== 'signup') {
           return

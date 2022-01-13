@@ -15,15 +15,15 @@ import {
   isVeryShortDevice,
 } from '../../lib/utils/sizes'
 import { isBrowser } from '../../lib/utils/platform'
-import AuthNavBar from '../appNavigation/AuthNavBar'
-import AuthProgressBar from '../appNavigation/AuthProgressBar'
+import NavBar from '../appNavigation/NavBar'
 import Illustration from '../../assets/Auth/torusIllustration.svg'
+import AuthProgressBar from './AuthProgressBar'
 
 // const log = logger.child({ from: 'Welcome' })
 
 const GetStarted = ({ theme, styles, screenProps, navigation }) => (
   <Wrapper backgroundColor={theme.colors.white} style={styles.mainWrapper}>
-    <AuthNavBar />
+    <NavBar logo />
     <AuthProgressBar />
     <View style={styles.contentContainer}>
       <Text

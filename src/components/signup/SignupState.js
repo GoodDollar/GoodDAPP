@@ -21,8 +21,8 @@ import {
 } from '../../lib/constants/localStorage'
 
 import { REGISTRATION_METHOD_SELF_CUSTODY, REGISTRATION_METHOD_TORUS } from '../../lib/constants/login'
-import AuthNavBar from '../appNavigation/AuthNavBar'
-import AuthProgressBar from '../appNavigation/AuthProgressBar'
+import NavBar from '../appNavigation/NavBar'
+import AuthProgressBar from '../auth/AuthProgressBar'
 import { navigationConfig } from '../appNavigation/navigationConfig'
 import logger from '../../lib/logger/js-logger'
 import { decorate, ExceptionCode } from '../../lib/exceptions/utils'
@@ -626,7 +626,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
 
   return (
     <View style={{ flexGrow: shouldGrow ? 1 : 0 }}>
-      <AuthNavBar />
+      <NavBar logo />
       <AuthProgressBar step={2} />
       <ScrollView contentContainerStyle={scrollableContainer}>
         <View style={contentContainer}>

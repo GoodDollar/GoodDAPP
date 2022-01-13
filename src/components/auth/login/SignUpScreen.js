@@ -3,8 +3,8 @@ import React, { useCallback, useRef } from 'react'
 import { Platform, View } from 'react-native'
 import Wrapper from '../../common/layout/Wrapper'
 import Text from '../../common/view/Text'
-import AuthNavBar from '../../appNavigation/AuthNavBar'
-import AuthProgressBar from '../../appNavigation/AuthProgressBar'
+import NavBar from '../../appNavigation/NavBar'
+import AuthProgressBar from '../AuthProgressBar'
 import { withStyles } from '../../../lib/styles'
 import { theme as mainTheme } from '../../theme/styles'
 
@@ -108,7 +108,7 @@ const SignupScreen = ({ isSignup, screenProps, styles, handleLoginMethod, sdkIni
 
   return (
     <Wrapper backgroundColor="#fff" style={styles.mainWrapper}>
-      <AuthNavBar />
+      <NavBar logo />
       <AuthProgressBar step={1} />
       <Section.Stack style={{ flex: 1, justifyContent: 'center' }}>
         <Section.Stack style={{ flex: 1, maxHeight: 640 }}>

@@ -89,7 +89,7 @@
     "@textile/threaddb": "^0.1.0",
     "@textile/threads-client": "^2.1.2",
     "@textile/threads-id": "^0.5.1",
-    "@toruslabs/torus-direct-react-native-sdk": "^0.6.1",
+    "@toruslabs/customauth-react-native-sdk": "^1.0.1",
     "@toruslabs/torus-direct-web-sdk": "5.0.2",
     "@tradle/react-native-http": "^2.0.1",
     "FormData": "^0.10.1",

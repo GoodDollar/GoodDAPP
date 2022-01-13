@@ -8,7 +8,7 @@
 #import <Foundation/Foundation.h>
 #import "AppDelegate.h"
 #import <RNBranch/RNBranch.h>
-#import <RNTorusDirectSdk/RNTorus.h>
+#import <RNCustomAuthSdk/RNTorus.h>
 
 @implementation AppDelegate(AppDelegate)
 
@@ -22,7 +22,7 @@
         NSString *urlString = url.absoluteString;
        
         // minimal iOS version supported is now 12 so we don't need to check it
-        [RNTorusDirectSdk handle:urlString];
+        [RNCustomAuthSdk handle:urlString];
       }
     }
     return YES;

@@ -14,6 +14,7 @@ export const theme = {
     googleBlue: '#3367D6',
     blue: '#006EA0',
     darkBlue: '#0C263D',
+    lightBlue: '#8499BB',
     darkGray: '#42454A',
     gray: '#555',
     gray50Percent: '#CBCBCB',

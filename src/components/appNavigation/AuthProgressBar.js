@@ -7,13 +7,9 @@ import { withStyles } from '../../lib/styles'
 const AuthProgressBar = ({ step, styles, theme }) => {
   return (
     <View style={styles.mainContainer}>
-      <View style={[styles.step, { flex: 1 }, step === 1 && { backgroundColor: theme.colors.primary }]} />
+      <View style={[styles.step, { flex: 1 }, step >= 1 && { backgroundColor: theme.colors.primary }]} />
       <View
-        style={[
-          styles.step,
-          { flex: 2, marginHorizontal: 10 },
-          step === 2 && { backgroundColor: theme.colors.primary },
-        ]}
+        style={[styles.step, { flex: 2, marginHorizontal: 10 }, step >= 2 && { backgroundColor: theme.colors.primary }]}
       />
       <View style={[styles.step, { flex: 1 }, step === 3 && { backgroundColor: theme.colors.primary }]} />
     </View>

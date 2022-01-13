@@ -21,7 +21,8 @@ import {
 } from '../../lib/constants/localStorage'
 
 import { REGISTRATION_METHOD_SELF_CUSTODY, REGISTRATION_METHOD_TORUS } from '../../lib/constants/login'
-import NavBar from '../appNavigation/NavBar'
+import AuthNavBar from '../appNavigation/AuthNavBar'
+import AuthProgressBar from '../appNavigation/AuthProgressBar'
 import { navigationConfig } from '../appNavigation/navigationConfig'
 import logger from '../../lib/logger/js-logger'
 import { decorate, ExceptionCode } from '../../lib/exceptions/utils'
@@ -112,9 +113,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
   const [loading, setLoading] = useState(false)
   const [countryCode, setCountryCode] = useState(undefined)
   const [createError, setCreateError] = useState(false)
-  const [showNavBarGoBackButton, setShowNavBarGoBackButton] = useState(true)
   const [finishedPromise, setFinishedPromise] = useState(undefined)
-  const [title, setTitle] = useState('Sign Up')
   const [, hideDialog, showErrorDialog] = useDialog()
   const shouldGrow = store.get && !store.get('isMobileSafariKeyboardShown')
 
@@ -609,11 +608,6 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
       return
     }
 
-    if (curRoute && curRoute.key === 'MagicLinkInfo') {
-      setTitle('Magic Link')
-      setShowNavBarGoBackButton(false)
-    }
-
     if (curRoute && curRoute.key === 'SignupCompleted') {
       const finishedPromise = finishRegistration()
       setFinishedPromise(finishedPromise)
@@ -632,7 +626,8 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
 
   return (
     <View style={{ flexGrow: shouldGrow ? 1 : 0 }}>
-      <NavBar goBack={showNavBarGoBackButton ? back : undefined} title={title} />
+      <AuthNavBar />
+      <AuthProgressBar step={2} />
       <ScrollView contentContainerStyle={scrollableContainer}>
         <View style={contentContainer}>
           {!unrecoverableError && (

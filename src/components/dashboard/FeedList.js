@@ -77,7 +77,7 @@ const FeedList = ({
   // const onScrollEnd = useCallback(() => setAbleItemSelection(true), [setAbleItemSelection])
 
   const scrollToTop = useCallback(() => {
-    const list = get(flRef, 'current._component._flatListRef', {})
+    const list = get(flRef, 'current._flatListRef', {})
 
     if (isFunction(list.scrollToOffset)) {
       list.scrollToOffset({ offset: 0 })

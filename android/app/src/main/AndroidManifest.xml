@@ -1,5 +1,8 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-  package="org.gooddollar">
+<manifest
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
+  package="org.gooddollar"
+>
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.RECORD_AUDIO"/>
@@ -73,11 +76,21 @@
             </intent-filter>
       </activity>
 
+      <!-- RNBackgroundFetch -->
+      <receiver
+        android:name="com.transistorsoft.tsbackgroundfetch.BootReceiver"
+        android:exported="true"
+        tools:node="merge"
+      />
+
       <!-- RNPushNotification -->
       <meta-data android:name="com.dieam.reactnativepushnotification.notification_color" android:resource="@android:color/white"/>
       <receiver android:name="com.dieam.reactnativepushnotification.modules.RNPushNotificationActions" />
       <receiver android:name="com.dieam.reactnativepushnotification.modules.RNPushNotificationPublisher" />
-      <receiver android:name="com.dieam.reactnativepushnotification.modules.RNPushNotificationBootEventReceiver">
+      <receiver
+        android:name="com.dieam.reactnativepushnotification.modules.RNPushNotificationBootEventReceiver"
+        android:exported="true"
+      >
           <intent-filter>
               <action android:name="android.intent.action.BOOT_COMPLETED" />
               <action android:name="android.intent.action.QUICKBOOT_POWERON" />

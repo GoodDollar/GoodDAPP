@@ -2,13 +2,13 @@
 import React from 'react'
 import { debounce } from 'lodash'
 import SimpleStore from '../../lib/undux/SimpleStore'
-import { getScreenHeight } from '../../lib/utils/orientation'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import { userModelValidations } from '../../lib/userStorage/UserModel'
 
 import { withStyles } from '../../lib/styles'
 import InputText from '../common/form/InputText'
 import Section from '../common/layout/Section'
+import Text from '../common/view/Text'
 import CustomWrapper from './signUpWrapper'
 
 type Props = {
@@ -65,8 +65,7 @@ class EmailForm extends React.Component<Props, State> {
     const errorMessage = this.state.errorMessage || this.props.screenProps.error
     this.props.screenProps.error = undefined
     const { key } = this.props.navigation.state
-    const { styles, theme, store } = this.props
-    const isShowKeyboard = store.get && store.get('isMobileKeyboardShown')
+    const { styles } = this.props
 
     return (
       <CustomWrapper
@@ -76,17 +75,39 @@ class EmailForm extends React.Component<Props, State> {
       >
         <Section grow justifyContent="flex-start" style={styles.row}>
           <Section.Stack justifyContent="flex-start" style={styles.container}>
-            <Section.Row justifyContent="center">
-              <Section.Title textTransform="none" color="darkGray" fontSize={22} fontWeight="medium">
-                Please enter your email
+            <Text
+              color={'primary'}
+              fontSize={getDesignRelativeHeight(12)}
+              lineHeight={getDesignRelativeHeight(21)}
+              letterSpacing={0.26}
+              fontFamily="Roboto"
+              fontWeight="bold"
+              textTransform="uppercase"
+              style={{ marginBottom: getDesignRelativeHeight(14) }}
+            >
+              Personal Details
+            </Text>
+            <Section.Stack justifyContent="center">
+              <Section.Title
+                color="darkIndigo"
+                fontSize={getDesignRelativeHeight(18)}
+                fontWeight="400"
+                textTransform="none"
+                style={{ marginVertical: 0 }}
+              >
+                {`Nice to meet you, ${this.props.screenProps.data.fullName}`}
               </Section.Title>
-            </Section.Row>
-            <Section.Row justifyContent="center">
-              <Section.Text fontSize={14} color="gray80Percent">
-                we will only notify you with important activity
-              </Section.Text>
-            </Section.Row>
-            <Section.Row justifyContent="center" style={[styles.row, styles.bottomContent]}>
+              <Section.Title
+                color="darkIndigo"
+                fontSize={getDesignRelativeHeight(18)}
+                fontWeight="500"
+                textTransform="none"
+                style={{ marginVertical: 0 }}
+              >
+                {`What's your e-mail address?`}
+              </Section.Title>
+            </Section.Stack>
+            <Section.Stack justifyContent="center" style={[styles.inputWrapper, styles.bottomContent]}>
               <InputText
                 id={key + '_input'}
                 value={this.state.email}
@@ -99,22 +120,19 @@ class EmailForm extends React.Component<Props, State> {
                 onSubmitEditing={this.handleSubmit}
                 enablesReturnKeyAutomatically
               />
-            </Section.Row>
+              {!errorMessage ? (
+                <Text
+                  color={'lightBlue'}
+                  fontSize={getDesignRelativeHeight(14)}
+                  lineHeight={getDesignRelativeHeight(16)}
+                  letterSpacing={0.14}
+                  fontFamily="Roboto"
+                >
+                  A verification code will be sent t this e-mail
+                </Text>
+              ) : null}
+            </Section.Stack>
           </Section.Stack>
-          <Section.Row
-            justifyContent="flex-end"
-            style={{
-              marginTop: 'auto',
-
-              /*only for small screen (iPhone5 , etc.)*/
-              marginBottom: isShowKeyboard && getScreenHeight() <= 480 ? -30 : theme.sizes.default,
-            }}
-          >
-            {/*change fontSize only for small screen (iPhone5 , etc.)*/}
-            <Section.Text fontSize={isShowKeyboard && getScreenHeight() <= 480 ? 13 : 14} color="gray80Percent">
-              We respect your privacy and will never sell or give away your info to any third party.
-            </Section.Text>
-          </Section.Row>
         </Section>
       </CustomWrapper>
     )
@@ -124,6 +142,9 @@ class EmailForm extends React.Component<Props, State> {
 const getStylesFromProps = ({ theme }) => ({
   row: {
     marginVertical: theme.sizes.defaultDouble,
+  },
+  inputWrapper: {
+    marginVertical: getDesignRelativeHeight(50),
   },
   container: {
     minHeight: getDesignRelativeHeight(200),

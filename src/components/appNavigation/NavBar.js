@@ -44,7 +44,7 @@ const NavBar = ({ title, styles, goBack, backToWallet = false, logo = false }) =
           style={styles.backButton}
         />
       ) : null}
-      {!showLogo ? <Appbar.Content title={title} titleStyle={styles.titleStyle} /> : null}
+      {title && !showLogo ? <Appbar.Content title={title} titleStyle={styles.titleStyle} /> : null}
       {showBackButton && <Appbar.Action color="white" />}
       {showBackToWallet && (
         <IconButton

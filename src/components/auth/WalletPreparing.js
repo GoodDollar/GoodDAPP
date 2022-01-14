@@ -13,7 +13,7 @@ import {
 } from '../../lib/utils/sizes'
 import { isBrowser } from '../../lib/utils/platform'
 import NavBar from '../appNavigation/NavBar'
-import Illustration from '../../assets/Auth/torusIllustration.svg'
+import Illustration from '../../assets/Signup/illustration.svg'
 import AuthProgressBar from './AuthProgressBar'
 
 const WalletPreparing = ({ theme, styles, screenProps, navigation }) => (
@@ -39,7 +39,7 @@ const WalletPreparing = ({ theme, styles, screenProps, navigation }) => (
         letterSpacing={0.26}
         fontFamily="Roboto"
         fontWeight="bold"
-        style={{ marginTop: getDesignRelativeHeight(14) }}
+        style={{ marginTop: getDesignRelativeHeight(15) }}
       >
         {`We're Preparing\nYour Wallet`}
       </Text>
@@ -56,8 +56,8 @@ const WalletPreparing = ({ theme, styles, screenProps, navigation }) => (
       <View style={styles.illustration}>
         <Illustration
           width={getDesignRelativeWidth(isBrowser ? 331 : 276, false)}
-          height={getDesignRelativeHeight(217, false)}
-          viewBox="0 0 248.327 194.594"
+          height={getDesignRelativeHeight(177, false)}
+          viewBox="0 0 311.713 223.572"
         />
       </View>
     </View>

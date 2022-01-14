@@ -1,5 +1,7 @@
 // @flow
 import React, { useCallback, useEffect } from 'react'
+
+// import { Paragraph } from 'react-native-paper'
 import { Platform } from 'react-native'
 import { get } from 'lodash'
 import AsyncStorage from '../../../lib/utils/asyncStorage'
@@ -7,10 +9,12 @@ import logger from '../../../lib/logger/js-logger'
 import {
   fireEvent,
   SIGNIN_METHOD_SELECTED,
+
+  // SIGNIN_NOTEXISTS_LOGIN,
+  // SIGNIN_NOTEXISTS_SIGNUP,
   SIGNIN_TORUS_SUCCESS,
   SIGNUP_METHOD_SELECTED,
-
-  // SIGNUP_STARTED,
+  SIGNUP_STARTED,
   TORUS_FAILED,
   TORUS_POPUP_CLOSED,
   TORUS_REDIRECT_SUCCESS,
@@ -25,8 +29,7 @@ import SimpleStore from '../../../lib/undux/SimpleStore'
 import { useDialog } from '../../../lib/undux/utils/dialog'
 import { showSupportDialog } from '../../common/dialogs/showSupportDialog'
 import { decorate, ExceptionCode } from '../../../lib/exceptions/utils'
-
-// import { isWeb } from '../../../lib/utils/platform'
+import { isWeb } from '../../../lib/utils/platform'
 import { getDesignRelativeHeight, isSmallDevice } from '../../../lib/utils/sizes'
 import { getShadowStyles } from '../../../lib/utils/getStyles'
 import normalizeText from '../../../lib/utils/normalizeText'
@@ -37,7 +40,7 @@ import SignUpIn from '../login/SignUpScreen'
 
 import LoadingIcon from '../../common/modal/LoadingIcon'
 
-// import { timeout } from '../../../lib/utils/async'
+import { timeout } from '../../../lib/utils/async'
 import DeepLinking from '../../../lib/utils/deepLinking'
 
 import useTorus from './hooks/useTorus'
@@ -53,7 +56,26 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
   const [torusSDK, sdkInitialized] = useTorus()
   const { navigate } = navigation
 
+  // const [authScreen, setAuthScreen] = useState(get(navigation, 'state.params.screen'))
   const isSignup = true //authScreen !== 'signin' //default to signup
+
+  // useEffect(() => {
+  //   //helper to show user login/signup when he presses back or cancels login flow
+  //   if (authScreen == null) {
+  //     AsyncStorage.getItem('recallTorusRedirectScreen').then(screen => {
+  //       log.debug('recall authscreen for torus redirect flow', screen)
+
+  //       screen && setAuthScreen(screen)
+  //     })
+  //   }
+  // }, [])
+
+  // useEffect(() => {
+  //   if (authScreen) {
+  //     //when user switches between login/signup we clear the recall
+  //     AsyncStorage.setItem('recallTorusRedirectScreen', authScreen)
+  //   }
+  // }, [authScreen])
 
   useEffect(() => {
     if (sdkInitialized) {
@@ -271,42 +293,22 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
         return
       }
 
-      //get full name, email, number, userId
       const { torusUser, replacing } = torusResponse
-
-      log.debug('user data', torusUser, replacing)
-
-      //check if credential are associated with current wallet
-
-      // the useCheckExisting is incompatible with this usecase
       const existsResult = await userExists(torusUser)
-
-      log.debug('checking userAlreadyExist', { existsResult, torusUser })
 
       // let selection = authScreen
 
-      // credential is not associated with existing wallet
-      // no account with identifier found = user didn't signup
-      if (existsResult.identifier !== true) {
-        log.debug('user does not exists')
-
-        //create account
-        return navigate('Signup', {
-          regMethod: REGISTRATION_METHOD_TORUS,
-          torusUser,
-          torusProvider: provider,
-        })
-      }
+      log.debug('checking userAlreadyExist', { isSignup, existsResult })
 
       // if (isSignup) {
       //   // if user identifier exists or email/mobile found in another account
-      // if (existsResult.exists) {
-      //   selection = await showAlreadySignedUp(provider, existsResult)
+      //   if (existsResult.exists) {
+      //     selection = await showAlreadySignedUp(provider, existsResult)
 
-      //   if (selection === 'signin') {
-      //     return setAuthScreen('signin')
+      //     if (selection === 'signin') {
+      //       return setAuthScreen('signin')
+      //     }
       //   }
-      // }
       // } else if (isSignup === false && existsResult.identifier !== true) {
       //   //no account with identifier found = user didn't signup
       //   selection = await showNotSignedUp(provider)
@@ -314,31 +316,31 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
       //   return setAuthScreen(selection)
       // }
 
-      // showLoadingDialog() //continue show loading if we showed already signed up dialog
+      showLoadingDialog() //continue show loading if we showed already signed up dialog
 
       //user chose to continue signup even though used on another provider
       //or user signed in and account exists
-      // await Promise.race([ready(replacing), timeout(60000, 'initializing wallet timed out')])
-      // hideDialog()
+      await Promise.race([ready(replacing), timeout(60000, 'initializing wallet timed out')])
+      hideDialog()
 
-      // if (isSignup) {
-      //   fireEvent(SIGNUP_STARTED, { provider })
+      if (isSignup) {
+        fireEvent(SIGNUP_STARTED, { provider })
 
-      //   if (isWeb) {
-      //     //Hack to get keyboard up on mobile need focus from user event such as click
-      //     setTimeout(() => {
-      //       const el = document.getElementById('Name_input')
-      //       if (el) {
-      //         el.focus()
-      //       }
-      //     }, 500)
-      //   }
-      //   return navigate('Signup', {
-      //     regMethod: REGISTRATION_METHOD_TORUS,
-      //     torusUser,
-      //     torusProvider: provider,
-      //   })
-      // }
+        if (isWeb) {
+          //Hack to get keyboard up on mobile need focus from user event such as click
+          setTimeout(() => {
+            const el = document.getElementById('Name_input')
+            if (el) {
+              el.focus()
+            }
+          }, 500)
+        }
+        return navigate('Signup', {
+          regMethod: REGISTRATION_METHOD_TORUS,
+          torusUser,
+          torusProvider: provider,
+        })
+      }
 
       //case of sign-in
       fireEvent(SIGNIN_TORUS_SUCCESS, { provider })

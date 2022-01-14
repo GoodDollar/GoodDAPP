@@ -4,14 +4,32 @@ import { View } from 'react-native'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import { withStyles } from '../../lib/styles'
 
-const AuthProgressBar = ({ step, styles, theme }) => {
+const AuthProgressBar = ({ step, done, styles, theme }) => {
   return (
     <View style={styles.mainContainer}>
-      <View style={[styles.step, { flex: 1 }, step >= 1 && { backgroundColor: theme.colors.primary }]} />
       <View
-        style={[styles.step, { flex: 2, marginHorizontal: 10 }, step >= 2 && { backgroundColor: theme.colors.primary }]}
+        style={[
+          styles.step,
+          { flex: 1 },
+          {
+            backgroundColor: done ? theme.colors.lighterGreen : step >= 1 ? theme.colors.primary : '#EEF0F9',
+          },
+        ]}
       />
-      <View style={[styles.step, { flex: 1 }, step === 3 && { backgroundColor: theme.colors.primary }]} />
+      <View
+        style={[
+          styles.step,
+          { flex: 2, marginHorizontal: 10 },
+          { backgroundColor: done ? theme.colors.lighterGreen : step >= 2 ? theme.colors.primary : '#EEF0F9' },
+        ]}
+      />
+      <View
+        style={[
+          styles.step,
+          { flex: 1 },
+          { backgroundColor: done ? theme.colors.lighterGreen : step === 3 ? theme.colors.primary : '#EEF0F9' },
+        ]}
+      />
     </View>
   )
 }

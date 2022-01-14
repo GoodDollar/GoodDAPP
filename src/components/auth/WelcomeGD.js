@@ -13,16 +13,16 @@ import {
 } from '../../lib/utils/sizes'
 import { isBrowser } from '../../lib/utils/platform'
 import NavBar from '../appNavigation/NavBar'
-import Illustration from '../../assets/Signup/illustration.svg'
+import Illustration from '../../assets/Auth/Illustration.svg'
 import AuthProgressBar from './AuthProgressBar'
 
-const WalletPreparing = ({ theme, styles, screenProps, navigation }) => (
+const WelcomeGD = ({ theme, styles, screenProps, navigation }) => (
   <Wrapper backgroundColor={theme.colors.white} style={styles.mainWrapper}>
     <NavBar logo />
-    <AuthProgressBar step={3} />
+    <AuthProgressBar done />
     <View style={styles.contentContainer}>
       <Text
-        color={'primary'}
+        color={'lighterGreen'}
         fontSize={getDesignRelativeHeight(12)}
         lineHeight={getDesignRelativeHeight(21)}
         letterSpacing={0.26}
@@ -30,7 +30,7 @@ const WalletPreparing = ({ theme, styles, screenProps, navigation }) => (
         fontWeight="bold"
         textTransform="uppercase"
       >
-        Preparing the wallet
+        {`Congrats You're Done`}
       </Text>
       <Text
         color={'darkIndigo'}
@@ -39,25 +39,15 @@ const WalletPreparing = ({ theme, styles, screenProps, navigation }) => (
         letterSpacing={0.26}
         fontFamily="Roboto"
         fontWeight="bold"
-        style={{ marginTop: getDesignRelativeHeight(15) }}
+        style={{ marginTop: getDesignRelativeHeight(10) }}
       >
-        {`We're Preparing\nYour Wallet`}
-      </Text>
-      <Text
-        color={'darkIndigo'}
-        fontSize={getDesignRelativeHeight(18)}
-        lineHeight={getDesignRelativeHeight(23)}
-        letterSpacing={0.26}
-        fontFamily="Roboto"
-        style={{ marginTop: getDesignRelativeHeight(14) }}
-      >
-        It might take a few seconds
+        Welcome to GoodDollar!
       </Text>
       <View style={styles.illustration}>
         <Illustration
           width={getDesignRelativeWidth(isBrowser ? 331 : 276, false)}
           height={getDesignRelativeHeight(177, false)}
-          viewBox="0 0 311.713 223.572"
+          viewBox="0 0 284.793 192.715"
         />
       </View>
     </View>
@@ -74,20 +64,20 @@ const getStylesFromProps = ({ theme }) => {
     contentContainer: {
       flex: 1,
       paddingBottom: isVeryShortDevice ? 20 : 0,
-      paddingTop: getDesignRelativeHeight(isShortDevice ? 35 : 45),
+      paddingTop: getDesignRelativeHeight(isShortDevice ? 55 : 75),
     },
     illustration: {
       flex: 1,
-      marginTop: getDesignRelativeHeight(theme.sizes.default * 7, false),
+      marginTop: getDesignRelativeHeight(theme.sizes.default * 8, false),
       alignSelf: 'center',
     },
   }
 }
 
-const WalletPreparingScreen = withStyles(getStylesFromProps)(WalletPreparing)
+const WelcomeGDScreen = withStyles(getStylesFromProps)(WelcomeGD)
 
-WalletPreparingScreen.navigationOptions = {
+WelcomeGDScreen.navigationOptions = {
   navigationBarHidden: true,
 }
 
-export default WalletPreparingScreen
+export default WelcomeGDScreen

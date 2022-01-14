@@ -35,7 +35,7 @@ import { PrivacyPolicy, PrivacyPolicyAndTerms, Support } from '../../webView/web
 import { createStackNavigator } from '../../appNavigation/stackNavigation'
 import ready from '../ready'
 import Auth from '../../auth/Auth'
-import GetStarted from '../GetStarted'
+import GetStarted from '../WalletPreparing'
 import AuthTorus from '../../auth/torus/AuthTorus'
 
 // const log = logger.child({ from: 'Welcome' })

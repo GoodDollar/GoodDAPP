@@ -1,6 +1,6 @@
 //@flow
 import React from 'react'
-import { Platform } from 'react-native'
+import { Platform, View } from 'react-native'
 import { Appbar } from 'react-native-paper'
 
 import { IconButton } from '../common'
@@ -30,7 +30,9 @@ const NavBar = ({ title, styles, goBack, backToWallet = false, logo = false }) =
   return (
     <NavigationBar dark style={styles.topbarStyles}>
       {showLogo ? (
-        <HeaderLogoImage />
+        <View style={styles.logoWrapper}>
+          <HeaderLogoImage />
+        </View>
       ) : showBackButton ? (
         <IconButton
           name="arrow-back"
@@ -42,7 +44,7 @@ const NavBar = ({ title, styles, goBack, backToWallet = false, logo = false }) =
           style={styles.backButton}
         />
       ) : null}
-      <Appbar.Content title={title} titleStyle={styles.titleStyle} />
+      {!showLogo ? <Appbar.Content title={title} titleStyle={styles.titleStyle} /> : null}
       {showBackButton && <Appbar.Action color="white" />}
       {showBackToWallet && (
         <IconButton
@@ -83,6 +85,10 @@ const getStylesFromProps = ({ theme }) => ({
     position: 'absolute',
     right: 15,
     width: 33,
+  },
+  logoWrapper: {
+    flex: 1,
+    alignItems: 'center',
   },
 })
 

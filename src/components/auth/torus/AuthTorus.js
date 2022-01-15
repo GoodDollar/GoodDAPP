@@ -187,7 +187,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
       // Initialize the sdk here
       const ceramic = new CeramicSDK(config.cermaicNodeUrl)
       log.debug('TORUS PRIVATE KEY ', torusUser.privateKey)
-      await ceramic.initialize(torusUser.privateKey, torusUser.publicAddress)
+      await ceramic.initialize(torusUser.privateKey, torusUser.publicAddress, provider)
       const masterSeed = await ceramic.getMasterSeed()
       log.debug('Ceramic masterseed ', masterSeed)
       await AsyncStorage.setItem(GD_USER_MASTERSEED, masterSeed)

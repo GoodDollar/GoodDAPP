@@ -606,6 +606,14 @@ const Dashboard = props => {
     default: noop,
   })
 
+  useEffect(() => {
+    AsyncStorage.getItem('connectAccountsProviderLoginInitiated').then(value => {
+      if (value) {
+        navigation.navigate('ConnectedAccounts')
+      }
+    })
+  }, [])
+
   return (
     <Wrapper style={styles.dashboardWrapper} withGradient={false}>
       <Section style={[styles.topInfo]}>

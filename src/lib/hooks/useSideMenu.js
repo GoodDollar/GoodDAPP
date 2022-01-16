@@ -77,6 +77,17 @@ export default (props = {}) => {
         },
       },
       {
+        icon: 'profile',
+        name: 'Connected Accounts',
+        action: () => {
+          navigation.navigate({
+            routeName: 'ConnectedAccounts',
+            type: 'Navigation/NAVIGATE',
+          })
+          slideOut()
+        },
+      },
+      {
         icon: 'add',
         size: 18,
         name: 'Add App To Home',

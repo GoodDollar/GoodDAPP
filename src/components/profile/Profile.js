@@ -13,6 +13,7 @@ import EditAvatar from './EditAvatar'
 import EditProfile from './EditProfile'
 import ProfileDataTable from './ProfileDataTable'
 import ProfilePrivacy from './ProfilePrivacy'
+import ConnectedAccounts from './ConnectedAccounts'
 import ViewAvatar from './ViewOrUploadAvatar'
 import VerifyEdit from './VerifyEdit'
 import VerifyEditCode from './VerifyEditCode'
@@ -129,6 +130,7 @@ const Profile = withStyles(getStylesFromProps)(ProfileWrapper)
 
 const commonRoutes = {
   Profile,
+  ConnectedAccounts,
   EditProfile,
   ProfilePrivacy,
   ViewAvatar,

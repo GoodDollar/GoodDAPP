@@ -218,6 +218,7 @@ const OtpInput = (props: Props) => {
     isInputNum,
     containerStyle,
     placeholder,
+    placeholderTextColor,
     aside,
     styles,
     keyboardType,
@@ -347,6 +348,7 @@ const OtpInput = (props: Props) => {
           shouldAutoFocus={shouldAutoFocus}
           isInputNum={isInputNum}
           placeholder={customPlaceholder}
+          placeholderTextColor={placeholderTextColor}
           keyboardType={keyboardType || null}
           indexElement={i}
           aside={aside}

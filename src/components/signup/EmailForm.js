@@ -128,7 +128,7 @@ class EmailForm extends React.Component<Props, State> {
                   letterSpacing={0.14}
                   fontFamily="Roboto"
                 >
-                  A verification code will be sent t this e-mail
+                  A verification code will be sent to this e-mail
                 </Text>
               ) : null}
             </Section.Stack>

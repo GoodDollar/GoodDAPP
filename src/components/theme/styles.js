@@ -24,6 +24,7 @@ export const theme = {
     disabled: '#E3E3E2',
     green: '#00C3AE',
     lightGreen: '#00BBA5',
+    lighterGreen: '#04C899',
     lightGray: '#EEE',
     lighterGray: '#A3A3A3',
     secondary: '#A3A3A3',

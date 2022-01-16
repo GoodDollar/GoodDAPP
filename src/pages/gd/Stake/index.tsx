@@ -22,6 +22,7 @@ import { useGovernanceStaking } from 'sdk/hooks/gov/useGovernanceStaking'
 import { useEnvWeb3 } from 'sdk/hooks/useEnvWeb3'
 import { DAO_NETWORK, SupportedChainId } from 'sdk/constants/chains'
 import { LIQUIDITY_PROTOCOL } from 'sdk/constants/protocols'
+import useCallbackOnFocus from 'hooks/useCallbackOnFocus'
 
 const StakeTable = ({
     list,
@@ -254,6 +255,8 @@ export default function Stakes(): JSX.Element | null {
 
     const [activeStake, setActiveStake] = useState<Stake>()
     const [activeTableName, setActiveTableName] = useState<string>('')
+
+    useCallbackOnFocus(refetch)
 
     return (
         <Layout>

@@ -19,6 +19,7 @@ import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
 import { useEnvWeb3 } from 'sdk/hooks/useEnvWeb3'
 import { ActionOrSwitchButton } from 'components/gd/Button/ActionOrSwitchButton'
+import useCallbackOnFocus from 'hooks/useCallbackOnFocus'
 
 const Portfolio = () => {
     const { i18n } = useLingui()
@@ -35,44 +36,46 @@ const Portfolio = () => {
                 (acc, stake) => {
                     return !acc
                         ? {
-                            myStake: stake.stake.amount$,
-                            rewardsG$: stake.rewards.reward.claimed.add(stake.rewards.reward.unclaimed),
-                            rewardsG$$: stake.rewards.reward$.claimed.add(stake.rewards.reward$.unclaimed),
-                            rewardsG$Unclaimed: stake.rewards.reward.unclaimed,
-                            rewardsG$Unclaimed$: stake.rewards.reward$.unclaimed,
-                            rewardsGDAO: stake.rewards.GDAO.claimed.add(stake.rewards.GDAO.unclaimed),
-                            rewardsGDAOUnclaimed: stake.rewards.GDAO.unclaimed
-                        }
+                              myStake: stake.stake.amount$,
+                              rewardsG$: stake.rewards.reward.claimed.add(stake.rewards.reward.unclaimed),
+                              rewardsG$$: stake.rewards.reward$.claimed.add(stake.rewards.reward$.unclaimed),
+                              rewardsG$Unclaimed: stake.rewards.reward.unclaimed,
+                              rewardsG$Unclaimed$: stake.rewards.reward$.unclaimed,
+                              rewardsGDAO: stake.rewards.GDAO.claimed.add(stake.rewards.GDAO.unclaimed),
+                              rewardsGDAOUnclaimed: stake.rewards.GDAO.unclaimed
+                          }
                         : {
-                            myStake: acc.myStake.add(stake.stake.amount$),
-                            rewardsG$: acc.rewardsG$
-                                .add(stake.rewards.reward.claimed)
-                                .add(stake.rewards.reward.unclaimed),
-                            rewardsG$$: acc.rewardsG$$
-                                .add(stake.rewards.reward$.claimed)
-                                .add(stake.rewards.reward$.unclaimed),
-                            rewardsG$Unclaimed: acc.rewardsG$Unclaimed.add(stake.rewards.reward.unclaimed),
-                            rewardsG$Unclaimed$: acc.rewardsG$Unclaimed$.add(stake.rewards.reward$.unclaimed),
-                            rewardsGDAO: acc.rewardsGDAO
-                                .add(stake.rewards.GDAO.claimed)
-                                .add(stake.rewards.GDAO.unclaimed),
-                            rewardsGDAOUnclaimed: acc.rewardsGDAOUnclaimed.add(stake.rewards.GDAO.unclaimed)
-                        }
+                              myStake: acc.myStake.add(stake.stake.amount$),
+                              rewardsG$: acc.rewardsG$
+                                  .add(stake.rewards.reward.claimed)
+                                  .add(stake.rewards.reward.unclaimed),
+                              rewardsG$$: acc.rewardsG$$
+                                  .add(stake.rewards.reward$.claimed)
+                                  .add(stake.rewards.reward$.unclaimed),
+                              rewardsG$Unclaimed: acc.rewardsG$Unclaimed.add(stake.rewards.reward.unclaimed),
+                              rewardsG$Unclaimed$: acc.rewardsG$Unclaimed$.add(stake.rewards.reward$.unclaimed),
+                              rewardsGDAO: acc.rewardsGDAO
+                                  .add(stake.rewards.GDAO.claimed)
+                                  .add(stake.rewards.GDAO.unclaimed),
+                              rewardsGDAOUnclaimed: acc.rewardsGDAOUnclaimed.add(stake.rewards.GDAO.unclaimed)
+                          }
                 },
                 undefined as
-                | undefined
-                | {
-                    myStake: CurrencyAmount<Currency>
-                    rewardsG$: CurrencyAmount<Currency>
-                    rewardsG$$: CurrencyAmount<Currency>
-                    rewardsG$Unclaimed: CurrencyAmount<Currency>
-                    rewardsG$Unclaimed$: CurrencyAmount<Currency>
-                    rewardsGDAO: CurrencyAmount<Currency>
-                    rewardsGDAOUnclaimed: CurrencyAmount<Currency>
-                }
+                    | undefined
+                    | {
+                          myStake: CurrencyAmount<Currency>
+                          rewardsG$: CurrencyAmount<Currency>
+                          rewardsG$$: CurrencyAmount<Currency>
+                          rewardsG$Unclaimed: CurrencyAmount<Currency>
+                          rewardsG$Unclaimed$: CurrencyAmount<Currency>
+                          rewardsGDAO: CurrencyAmount<Currency>
+                          rewardsGDAOUnclaimed: CurrencyAmount<Currency>
+                      }
             )
         }
     }, [account, mainnetChainId, fuseChainId])
+
+    useCallbackOnFocus(update)
 
     const portfolio = (
         <>
@@ -146,24 +149,30 @@ const Portfolio = () => {
                         <div>
                             <WithdrawRewards
                                 onClaim={update}
-                                type='G$'
-                                trigger={<ActionOrSwitchButton
-                                    width="156px"
-                                    // noShadow={true}
-                                    requireNetwork={DAO_NETWORK.MAINNET}
-                                    ButtonEl={ButtonDefault}
-                                >
-                                    {i18n._(t`Claim G$ rewards`)}
-                                </ActionOrSwitchButton>}
-                            // trigger={<ButtonDefault width={'156px'}>{i18n._(t`Claim rewards`)}</ButtonDefault>}
+                                type="G$"
+                                trigger={
+                                    <ActionOrSwitchButton
+                                        width="156px"
+                                        // noShadow={true}
+                                        requireNetwork={DAO_NETWORK.MAINNET}
+                                        ButtonEl={ButtonDefault}
+                                    >
+                                        {i18n._(t`Claim G$ rewards`)}
+                                    </ActionOrSwitchButton>
+                                }
+                                // trigger={<ButtonDefault width={'156px'}>{i18n._(t`Claim rewards`)}</ButtonDefault>}
                             />
                         </div>
                         <div>
                             <WithdrawRewards
                                 onClaim={update}
-                                type='GOOD'
-                                trigger={<ButtonDefault className='mt-1' width={'156px'}>{i18n._(t`Claim GOOD rewards`)}</ButtonDefault>}
-                            // trigger={<ButtonDefault width={'156px'}>{i18n._(t`Claim rewards`)}</ButtonDefault>}
+                                type="GOOD"
+                                trigger={
+                                    <ButtonDefault className="mt-1" width={'156px'}>
+                                        {i18n._(t`Claim GOOD rewards`)}
+                                    </ButtonDefault>
+                                }
+                                // trigger={<ButtonDefault width={'156px'}>{i18n._(t`Claim rewards`)}</ButtonDefault>}
                             />
                         </div>
                     </div>
@@ -237,9 +246,10 @@ const Portfolio = () => {
                     <Placeholder className="mx-4">
                         {!portfolioSupportedAt.includes(chainId)
                             ? i18n._(
-                                t`Switch your network to ${SupportedChainId[portfolioSupportedAt[0] as any]
-                                    } to work with Portfolio`
-                            )
+                                  t`Switch your network to ${
+                                      SupportedChainId[portfolioSupportedAt[0] as any]
+                                  } to work with Portfolio`
+                              )
                             : i18n._(t`Connect to a wallet`)}
                     </Placeholder>
                 )}

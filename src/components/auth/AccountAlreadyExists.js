@@ -4,7 +4,7 @@ import { Text } from 'react-native'
 import Wrapper from '../common/layout/Wrapper'
 
 const AccountAlreadyExists = () => (
-  <Wrapper backgroundColor="blue">
+  <Wrapper>
     <Text>AccountAlreadyExists</Text>
   </Wrapper>
 )

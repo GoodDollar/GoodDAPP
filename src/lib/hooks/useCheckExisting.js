@@ -17,14 +17,15 @@ const useCheckExisting = () => {
     log.debug('checking userAlreadyExist', { exists })
 
     if (!exists) {
-      return false
+      return 'signup'
     }
 
+    // User exists an it is the correct login
     if (searchBy.typeOfLogin === provider) {
-      return true
+      return 'login'
     }
 
-    return 'AccountAlreadyExists'
+    return 'accountAlreadyExists'
   }, [])
 
   return checkExisting

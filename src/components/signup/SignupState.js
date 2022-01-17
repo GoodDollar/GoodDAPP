@@ -509,11 +509,11 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
       try {
         const result = await checkExisting(torusProvider, { mobile: newState.mobile })
 
-        if (result === 'AccountAlreadyExists') {
+        if (result === 'accountAlreadyExists') {
           navigation.navigate('AccountAlreadyExists')
         }
 
-        if (result) {
+        if (result === 'login') {
           return
         }
 
@@ -545,7 +545,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
           navigation.navigate('AccountAlreadyExists')
         }
 
-        if (result) {
+        if (result === 'login') {
           return
         }
 

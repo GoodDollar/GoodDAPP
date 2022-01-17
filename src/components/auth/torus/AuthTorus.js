@@ -302,7 +302,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
         })
       }
 
-      if (existsResult === 'AccountAlreadyExists') {
+      if (existsResult === 'accountAlreadyExists') {
         log.debug('account already Exists')
         return navigate('AccountAlreadyExists')
       }

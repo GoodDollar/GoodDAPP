@@ -291,7 +291,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
       // credential is not associated with existing wallet
       // no account with identifier found = user didn't signup
 
-      if (!existsResult) {
+      if (existsResult === 'singup') {
         log.debug('user does not exists')
 
         //create account

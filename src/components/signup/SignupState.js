@@ -509,6 +509,10 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
       try {
         const result = await checkExisting(torusProvider, { mobile: newState.mobile })
 
+        if (result === 'AccountAlreadyExists') {
+          navigation.navigate('AccountAlreadyExists')
+        }
+
         if (result) {
           return
         }
@@ -536,6 +540,10 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
       try {
         setLoading(true)
         const result = await checkExisting(torusProvider, { email: newState.email })
+
+        if (result === 'AccountAlreadyExists') {
+          navigation.navigate('AccountAlreadyExists')
+        }
 
         if (result) {
           return

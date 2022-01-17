@@ -48,7 +48,7 @@ const log = logger.child({ from: 'AuthTorus' })
 
 const AuthTorus = ({ screenProps, navigation, styles, store }) => {
   const [showDialog, hideDialog, showErrorDialog] = useDialog()
-  const checkExisting = useCheckExisting(navigation)
+  const checkExisting = useCheckExisting()
 
   // const showAlreadySignedUp = useAlreadySignedUp()
   const [torusSDK, sdkInitialized] = useTorus()
@@ -291,17 +291,20 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
       // credential is not associated with existing wallet
       // no account with identifier found = user didn't signup
 
-      log.debug('existsResult', existsResult)
-
       if (!existsResult) {
         log.debug('user does not exists')
 
         //create account
-        return navigate('AccountAlreadyExists', {
+        return navigate('Signup', {
           regMethod: REGISTRATION_METHOD_TORUS,
           torusUser,
           torusProvider: provider,
         })
+      }
+
+      if (existsResult === 'AccountAlreadyExists') {
+        log.debug('account already Exists')
+        return navigate('AccountAlreadyExists')
       }
 
       // if (isSignup) {

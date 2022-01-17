@@ -507,9 +507,9 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
       }
     } else if (nextRoute && nextRoute.key === 'SMS') {
       try {
-        const result = await checkExisting(torusProvider, { mobile: newState.mobile }, torusProvider)
+        const result = await checkExisting(torusProvider, { mobile: newState.mobile })
 
-        if (result !== 'signup') {
+        if (result) {
           return
         }
 
@@ -537,7 +537,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
         setLoading(true)
         const result = await checkExisting(torusProvider, { email: newState.email })
 
-        if (result !== 'signup') {
+        if (result) {
           return
         }
 

@@ -1,10 +1,12 @@
 import React from 'react'
-import { Text, View } from 'react-native'
+import { Text } from 'react-native'
+
+import Wrapper from '../common/layout/Wrapper'
 
 const AccountAlreadyExists = () => (
-  <View>
+  <Wrapper backgroundColor="blue">
     <Text>AccountAlreadyExists</Text>
-  </View>
+  </Wrapper>
 )
 
 export default AccountAlreadyExists

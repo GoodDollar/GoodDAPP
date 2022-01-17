@@ -30,7 +30,7 @@ import { decorate, ExceptionCode } from '../../../lib/exceptions/utils'
 import { getDesignRelativeHeight, isSmallDevice } from '../../../lib/utils/sizes'
 import { getShadowStyles } from '../../../lib/utils/getStyles'
 import normalizeText from '../../../lib/utils/normalizeText'
-import { userExists } from '../../../lib/login/userExists'
+import useCheckExisting from '../../../lib/hooks/useCheckExisting'
 
 import ready from '../ready'
 import SignUpIn from '../login/SignUpScreen'
@@ -48,6 +48,7 @@ const log = logger.child({ from: 'AuthTorus' })
 
 const AuthTorus = ({ screenProps, navigation, styles, store }) => {
   const [showDialog, hideDialog, showErrorDialog] = useDialog()
+  const checkExisting = useCheckExisting(navigation)
 
   // const showAlreadySignedUp = useAlreadySignedUp()
   const [torusSDK, sdkInitialized] = useTorus()
@@ -279,7 +280,9 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
       //check if credential are associated with current wallet
 
       // the useCheckExisting is incompatible with this usecase
-      const existsResult = await userExists(torusUser)
+      // const existsResult = await userExists(torusUser)
+
+      const existsResult = await checkExisting(provider, torusUser)
 
       log.debug('checking userAlreadyExist', { existsResult, torusUser })
 
@@ -287,11 +290,14 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
 
       // credential is not associated with existing wallet
       // no account with identifier found = user didn't signup
-      if (existsResult.identifier !== true) {
+
+      log.debug('existsResult', existsResult)
+
+      if (!existsResult) {
         log.debug('user does not exists')
 
         //create account
-        return navigate('Signup', {
+        return navigate('AccountAlreadyExists', {
           regMethod: REGISTRATION_METHOD_TORUS,
           torusUser,
           torusProvider: provider,

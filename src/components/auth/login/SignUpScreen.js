@@ -143,7 +143,7 @@ const SignupScreen = ({ screenProps, styles, handleLoginMethod, sdkInitialized, 
                 testID="login_with_google"
                 icon={googleBtnIcon}
               >
-                {`${buttonPrefix} with Google`}
+                {`${buttonPrefix} Google`}
               </LoginButton>
               <LoginButton
                 style={[
@@ -159,7 +159,7 @@ const SignupScreen = ({ screenProps, styles, handleLoginMethod, sdkInitialized, 
                 icon={facebookBtnIcon}
                 iconProps={{ viewBox: '0 0 11 22' }}
               >
-                {`${buttonPrefix} with Facebook`}
+                {`${buttonPrefix} Facebook`}
               </LoginButton>
 
               <Recaptcha ref={reCaptchaRef} onSuccess={onRecaptchaSuccess} onFailure={onRecaptchaFailed}>

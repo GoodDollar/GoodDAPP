@@ -21,6 +21,7 @@ const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin-alt')
 const typescriptFormatter = require('react-dev-utils/typescriptFormatter')
 const LodashModuleReplacementPlugin = require('lodash-webpack-plugin')
 const SentryCliPlugin = require('@sentry/webpack-plugin')
+const CopyPlugin = require("copy-webpack-plugin");
 
 // Webpack uses `publicPath` to determine where the app is being served from.
 // It requires a trailing slash, or the file assets will get an incorrect path.
@@ -459,6 +460,12 @@ module.exports = {
     ],
   },
   plugins: [
+    // copy FaceTec SDK resources
+    new CopyPlugin(['images', 'resources'].map(from => {
+      const context = 'node_modules/@gooddollar/react-native-facetec/web/sdk'
+
+      return { context, from, to: 'facetec/' + from }
+    })),
     // Generates an `index.html` file with the <script> injected.
     new HtmlWebpackPlugin({
       inject: true,

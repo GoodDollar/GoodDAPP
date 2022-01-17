@@ -1,6 +1,6 @@
 {
   "name": "@gooddollar/gooddapp",
-  "version": "1.36.1-5",
+  "version": "1.36.1-12",
   "engines": {
     "node": ">=14",
     "npm": "6.x"
@@ -69,7 +69,7 @@
     "@gooddollar/gun": "^0.2020.902",
     "@gooddollar/gun-asyncstorage": "^1.0.3",
     "@gooddollar/gun-pk-auth": "^1.1.0",
-    "@gooddollar/react-native-facetec": "^1.0.19",
+    "@gooddollar/react-native-facetec": "^1.0.20",
     "@gooddollar/react-native-side-menu": "^2.0.2",
     "@gooddollar/v8-android-jit-nointl": "^7.8.2",
     "@indexeddbshim/indexeddbshim": "^6.5.0",
@@ -89,7 +89,7 @@
     "@textile/threaddb": "^0.1.0",
     "@textile/threads-client": "^2.1.2",
     "@textile/threads-id": "^0.5.1",
-    "@toruslabs/torus-direct-react-native-sdk": "^0.6.1",
+    "@toruslabs/customauth-react-native-sdk": "^1.0.1",
     "@toruslabs/torus-direct-web-sdk": "5.0.2",
     "@tradle/react-native-http": "^2.0.1",
     "FormData": "^0.10.1",
@@ -254,6 +254,7 @@
     "babel-preset-react-native": "^5.0.2",
     "bundlesize": "^0.18.0",
     "case-sensitive-paths-webpack-plugin": "^2.3.0",
+    "copy-webpack-plugin": "5.1.2",
     "coveralls": "^3.0.3",
     "css-loader": "^4.3.0",
     "cypress": "^4.7.0",

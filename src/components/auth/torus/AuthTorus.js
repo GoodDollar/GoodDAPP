@@ -26,7 +26,7 @@ import { useDialog } from '../../../lib/undux/utils/dialog'
 import { showSupportDialog } from '../../common/dialogs/showSupportDialog'
 import { decorate, ExceptionCode } from '../../../lib/exceptions/utils'
 
-// import { isWeb } from '../../../lib/utils/platform'
+import { isWeb } from '../../../lib/utils/platform'
 import { getDesignRelativeHeight, isSmallDevice } from '../../../lib/utils/sizes'
 import { getShadowStyles } from '../../../lib/utils/getStyles'
 import normalizeText from '../../../lib/utils/normalizeText'
@@ -293,6 +293,16 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
 
       if (existsResult === 'singup') {
         log.debug('user does not exists')
+
+        if (isWeb) {
+          //Hack to get keyboard up on mobile need focus from user event such as click
+          setTimeout(() => {
+            const el = document.getElementById('Name_input')
+            if (el) {
+              el.focus()
+            }
+          }, 500)
+        }
 
         //create account
         return navigate('Signup', {

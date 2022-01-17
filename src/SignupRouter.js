@@ -11,6 +11,7 @@ import SigninInfo from './components/signin/SigninInfo'
 import Blurred from './components/common/view/Blurred'
 import Welcome from './components/auth/login/WelcomeScreen'
 import InviteWelcome from './components/inviteWelcome/InviteWelcome'
+import AccountAlreadyExists from './components/auth/AccountAlreadyExists'
 
 const log = logger.child({ from: 'SignupRouter' })
 
@@ -19,6 +20,7 @@ const generateRouter = () => {
   const { enableSelfCustody } = Config
 
   const routes = {
+    AccountAlreadyExists,
     Welcome,
     InviteWelcome,
     Signup,

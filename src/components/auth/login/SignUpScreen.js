@@ -25,7 +25,7 @@ import Recaptcha from './Recaptcha'
 
 const log = logger.child({ from: 'SignUpScreen' })
 
-const SignupScreen = ({ isSignup, screenProps, styles, handleLoginMethod, sdkInitialized, goBack }) => {
+const SignupScreen = ({ screenProps, styles, handleLoginMethod, sdkInitialized, goBack }) => {
   const { push } = screenProps
 
   const handleNavigateTermsOfUse = useCallback(() => push('PrivacyPolicyAndTerms'), [push])
@@ -67,22 +67,10 @@ const SignupScreen = ({ isSignup, screenProps, styles, handleLoginMethod, sdkIni
 
   const buttonPrefix = 'Continue with'
 
-  const SigninText = () => (
-    <>
-      <Text fontSize={12} color="gray80Percent">
-        {`Remember to login with the `}
-        <Text fontSize={12} color="gray80Percent" fontWeight="bold">
-          {`same login method\n`}
-        </Text>
-        that you’ve signed up with
-      </Text>
-    </>
-  )
-
   const SignupText = () => (
     <>
       <Text fontSize={12} color="gray80Percent">
-        {`By Signing up you are accepting\n our `}
+        {`By signing up and entering, you are accepting\nour`}
         <Text
           fontSize={12}
           color="gray80Percent"
@@ -210,11 +198,11 @@ const SignupScreen = ({ isSignup, screenProps, styles, handleLoginMethod, sdkIni
                   onPress={_selfCustody}
                   style={styles.textButton}
                 >
-                  {isSignup ? `Self Custody >` : `Recover from seed phrase >`}
+                  Self Custody
                 </CustomButton>
               )}
             </Section.Stack>
-            {isSignup ? <SignupText /> : <SigninText />}
+            <SignupText />
           </Section.Stack>
         </Section.Stack>
       </Section.Stack>

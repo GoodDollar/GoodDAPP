@@ -81,7 +81,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
   const [regMethod] = useState(_regMethod)
   const [torusProvider] = useState(_torusProvider)
   const [torusUser] = useState(torusUserFromProps)
-  const checkExisting = useCheckExisting(torusProvider, navigation)
+  const checkExisting = useCheckExisting(navigation)
 
   const isRegMethodSelfCustody = regMethod === REGISTRATION_METHOD_SELF_CUSTODY
   const skipEmail = !!torusUserFromProps.email
@@ -507,9 +507,9 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
       }
     } else if (nextRoute && nextRoute.key === 'SMS') {
       try {
-        const result = await checkExisting({ mobile: newState.mobile }, torusProvider)
+        const result = await checkExisting(torusProvider, { mobile: newState.mobile })
 
-        if (result !== 'signup') {
+        if (result) {
           return
         }
 
@@ -535,9 +535,9 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
     } else if (nextRoute && nextRoute.key === 'EmailConfirmation') {
       try {
         setLoading(true)
-        const result = await checkExisting({ email: newState.email })
+        const result = await checkExisting(torusProvider, { email: newState.email })
 
-        if (result !== 'signup') {
+        if (result) {
           return
         }
 

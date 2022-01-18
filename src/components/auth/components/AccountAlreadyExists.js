@@ -33,7 +33,7 @@ const AccountAlreadyExistsScreen = ({ screenProps, styles, checkResult, onContin
     fireEvent(SIGNUP_EXISTS_LOGIN, { checkResult })
 
     // TODO: implement login with provider
-  }, [checkResult, onContinueSignup])
+  }, [checkResult])
 
   const _onContinueSignup = useOnPress(() => {
     // TODO: need a way to pass provider we trying to log in and fromSignupFlow flag

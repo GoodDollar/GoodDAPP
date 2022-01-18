@@ -1,5 +1,5 @@
 // @flow
-import React, { useCallback, useEffect } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { Platform } from 'react-native'
 import { get } from 'lodash'
 import AsyncStorage from '../../../lib/utils/asyncStorage'
@@ -9,8 +9,6 @@ import {
   SIGNIN_METHOD_SELECTED,
   SIGNIN_TORUS_SUCCESS,
   SIGNUP_METHOD_SELECTED,
-
-  // SIGNUP_STARTED,
   TORUS_FAILED,
   TORUS_POPUP_CLOSED,
   TORUS_REDIRECT_SUCCESS,
@@ -34,27 +32,38 @@ import useCheckExisting from '../../../lib/hooks/useCheckExisting'
 
 import ready from '../ready'
 import SignUpIn from '../login/SignUpScreen'
+import WalletPreparing from '../WalletPreparing'
 
-import LoadingIcon from '../../common/modal/LoadingIcon'
-
-// import { timeout } from '../../../lib/utils/async'
 import DeepLinking from '../../../lib/utils/deepLinking'
 
 import useTorus from './hooks/useTorus'
 
-// import { useAlreadySignedUp } from './hooks/useAlreadySignedUp'
-
 const log = logger.child({ from: 'AuthTorus' })
 
 const AuthTorus = ({ screenProps, navigation, styles, store }) => {
-  const [showDialog, hideDialog, showErrorDialog] = useDialog()
+  const [, hideDialog, showErrorDialog] = useDialog()
+  const [preparingWallet, setPreparingWallet] = useState(false)
   const checkExisting = useCheckExisting()
-
-  // const showAlreadySignedUp = useAlreadySignedUp()
   const [torusSDK, sdkInitialized] = useTorus()
+  const [authScreen, setAuthScreen] = useState(get(navigation, 'state.params.screen'))
   const { navigate } = navigation
 
-  const isSignup = true //authScreen !== 'signin' //default to signup
+  useEffect(() => {
+    //helper to show user login/signup when he presses back or cancels login flow
+    if (authScreen == null) {
+      AsyncStorage.getItem('recallTorusRedirectScreen').then(screen => {
+        log.debug('recall authscreen for torus redirect flow', screen)
+        screen && setAuthScreen(screen)
+      })
+    }
+  }, [])
+
+  useEffect(() => {
+    if (authScreen) {
+      //when user switches between login/signup we clear the recall
+      AsyncStorage.setItem('recallTorusRedirectScreen', authScreen)
+    }
+  }, [authScreen])
 
   useEffect(() => {
     if (sdkInitialized) {
@@ -127,70 +136,13 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
     return { torusUser, replacing }
   }
 
-  const showLoadingDialog = () => {
-    showDialog({
-      image: <LoadingIcon />,
-      loading: true,
-      message: 'Please wait\nThis might take a few seconds...',
-      showButtons: false,
-      title: `PREPARING\nYOUR WALLET`,
-      showCloseButtons: false,
-    })
-  }
-
-  // const showNotSignedUp = provider => {
-  //   let resolve
-  //   const promise = new Promise((res, rej) => {
-  //     resolve = res
-  //   })
-  //   showDialog({
-  //     onDismiss: hideDialog,
-  //     content: (
-  //       <View style={styles.paragraphContainer}>
-  //         <Paragraph
-  //           style={[styles.paragraph, styles.paragraphBold]}
-  //         >{`Hi There,\n did You Mean\n to Signup?`}</Paragraph>
-  //         <View style={{ marginTop: mainTheme.sizes.defaultDouble }}>
-  //           <Paragraph
-  //             style={[styles.paragraph, styles.paragraphContent]}
-  //           >{`The account doesn’t exist\n or you signed up using`}</Paragraph>
-  //           <Paragraph style={[styles.paragraphContent, styles.paragraphBold]}>another method</Paragraph>
-  //         </View>
-  //       </View>
-  //     ),
-  //     buttons: [
-  //       {
-  //         text: 'Signup',
-  //         onPress: () => {
-  //           fireEvent(SIGNIN_NOTEXISTS_SIGNUP, { provider })
-  //           hideDialog()
-  //           resolve('signup')
-  //         },
-  //         style: [styles.whiteButton, { flex: 1 }],
-  //         textStyle: styles.primaryText,
-  //       },
-  //       {
-  //         text: 'Login',
-  //         onPress: () => {
-  //           fireEvent(SIGNIN_NOTEXISTS_LOGIN, { provider })
-  //           hideDialog()
-  //           resolve('signin')
-  //         },
-  //         style: { flex: 1 },
-  //       },
-  //     ],
-  //     buttonsContainerStyle: styles.modalButtonsContainerRow,
-  //     type: 'error',
-  //   })
-  //   return promise
-  // }
+  const selfCustodyLogin = useCallback(() => {
+    fireEvent(SIGNIN_METHOD_SELECTED, { method: REGISTRATION_METHOD_SELF_CUSTODY })
+    return navigate('SigninInfo')
+  })
 
   const selfCustody = useCallback(async () => {
     const curSeed = await AsyncStorage.getItem(GD_USER_MASTERSEED)
-    if (isSignup === false) {
-      fireEvent(SIGNIN_METHOD_SELECTED, { method: REGISTRATION_METHOD_SELF_CUSTODY })
-      return navigate('SigninInfo')
-    }
 
     //in case user started torus signup but came back here we need to re-initialize wallet/storage with
     //new credentials
@@ -200,23 +152,22 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
     }
     fireEvent(SIGNUP_METHOD_SELECTED, { method: REGISTRATION_METHOD_SELF_CUSTODY })
     navigate('Signup', { regMethod: REGISTRATION_METHOD_SELF_CUSTODY })
-  }, [navigate, isSignup])
+  }, [navigate])
 
   const handleLoginMethod = async (
     provider: 'facebook' | 'google' | 'auth0' | 'auth0-pwdless-email' | 'auth0-pwdless-sms',
     torusUserRedirectPromise,
   ) => {
-    showLoadingDialog()
+    setPreparingWallet(true)
 
     //in case this is triggered as a callback after redirect we fire a different vent
     if (torusUserRedirectPromise) {
       fireEvent(TORUS_REDIRECT_SUCCESS, {
-        isSignup,
         method: provider,
         torusPopupMode: torusSDK.popupMode, //this should always be false in case of redirect
       })
     } else {
-      fireEvent(isSignup ? SIGNUP_METHOD_SELECTED : SIGNIN_METHOD_SELECTED, {
+      fireEvent(SIGNIN_METHOD_SELECTED, {
         method: provider,
         torusPopupMode: torusSDK.popupMode, //for a/b testing
       })
@@ -225,6 +176,10 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
     try {
       if (provider === 'selfCustody') {
         return selfCustody()
+      }
+
+      if (provider === 'selfCustodyLogin') {
+        return selfCustodyLogin()
       }
 
       let torusResponse
@@ -239,7 +194,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
 
           //here in redirect mode we are not waiting for response from torus
           await getTorusUser(provider)
-          hideDialog() //we hide dialog because on safari pressing back doesnt reload page
+          setPreparingWallet(false)
           return
         }
 
@@ -273,25 +228,10 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
       }
 
       //get full name, email, number, userId
-      const { torusUser, replacing } = torusResponse
-
-      log.debug('user data', torusUser, replacing)
-
-      //check if credential are associated with current wallet
-
-      // the useCheckExisting is incompatible with this usecase
-      // const existsResult = await userExists(torusUser)
-
+      const { torusUser } = torusResponse
       const existsResult = await checkExisting(provider, torusUser)
 
-      log.debug('checking userAlreadyExist', { existsResult, torusUser })
-
-      // let selection = authScreen
-
-      // credential is not associated with existing wallet
-      // no account with identifier found = user didn't signup
-
-      if (existsResult === 'singup') {
+      if (existsResult === 'signup') {
         log.debug('user does not exists')
 
         if (isWeb) {
@@ -317,48 +257,6 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
         return navigate('AccountAlreadyExists')
       }
 
-      // if (isSignup) {
-      //   // if user identifier exists or email/mobile found in another account
-      // if (existsResult.exists) {
-      //   selection = await showAlreadySignedUp(provider, existsResult)
-
-      //   if (selection === 'signin') {
-      //     return setAuthScreen('signin')
-      //   }
-      // }
-      // } else if (isSignup === false && existsResult.identifier !== true) {
-      //   //no account with identifier found = user didn't signup
-      //   selection = await showNotSignedUp(provider)
-
-      //   return setAuthScreen(selection)
-      // }
-
-      // showLoadingDialog() //continue show loading if we showed already signed up dialog
-
-      //user chose to continue signup even though used on another provider
-      //or user signed in and account exists
-      // await Promise.race([ready(replacing), timeout(60000, 'initializing wallet timed out')])
-      // hideDialog()
-
-      // if (isSignup) {
-      //   fireEvent(SIGNUP_STARTED, { provider })
-
-      //   if (isWeb) {
-      //     //Hack to get keyboard up on mobile need focus from user event such as click
-      //     setTimeout(() => {
-      //       const el = document.getElementById('Name_input')
-      //       if (el) {
-      //         el.focus()
-      //       }
-      //     }, 500)
-      //   }
-      //   return navigate('Signup', {
-      //     regMethod: REGISTRATION_METHOD_TORUS,
-      //     torusUser,
-      //     torusProvider: provider,
-      //   })
-      // }
-
       //case of sign-in
       fireEvent(SIGNIN_TORUS_SUCCESS, { provider })
       await AsyncStorage.setItem(IS_LOGGED_IN, true)
@@ -366,7 +264,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
     } catch (e) {
       const cancelled = e.message.match(/user\s+closed/i)
       if (cancelled) {
-        hideDialog()
+        setPreparingWallet(false)
         return
       }
       const { message } = e
@@ -376,9 +274,9 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
     }
   }
 
-  // const goBack = () => (isSignup ? setAuthScreen('signin') : setAuthScreen('signup'))
-
-  return (
+  return preparingWallet ? (
+    <WalletPreparing />
+  ) : (
     <SignUpIn
       screenProps={screenProps}
       navigation={navigation}

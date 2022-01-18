@@ -64,6 +64,7 @@ const SignupScreen = ({ screenProps, styles, handleLoginMethod, sdkInitialized, 
   }, [])
 
   const _selfCustody = () => handleLoginMethod('selfCustody')
+  const _selfCustodyLogin = () => handleLoginMethod('selfCustodyLogin')
 
   const buttonPrefix = 'Continue with'
 
@@ -184,22 +185,40 @@ const SignupScreen = ({ screenProps, styles, handleLoginMethod, sdkInitialized, 
             </View>
             <Section.Stack style={styles.textButtonContainer}>
               {Config.enableSelfCustody && (
-                <CustomButton
-                  compact
-                  mode={'text'}
-                  color={mainTheme.colors.darkGray}
-                  textStyle={{
-                    textDecorationLine: 'underline',
-                    fontSize: 14,
-                    fontWeight: 'bold',
-                    lineHeight: 16,
-                    letterSpacing: 0.14,
-                  }}
-                  onPress={_selfCustody}
-                  style={styles.textButton}
-                >
-                  Self Custody
-                </CustomButton>
+                <View>
+                  <CustomButton
+                    compact
+                    mode={'text'}
+                    color={mainTheme.colors.darkGray}
+                    textStyle={{
+                      textDecorationLine: 'underline',
+                      fontSize: 14,
+                      fontWeight: 'bold',
+                      lineHeight: 16,
+                      letterSpacing: 0.14,
+                    }}
+                    onPress={_selfCustody}
+                    style={styles.textButton}
+                  >
+                    Self Custody SignUp
+                  </CustomButton>
+                  <CustomButton
+                    compact
+                    mode={'text'}
+                    color={mainTheme.colors.darkGray}
+                    textStyle={{
+                      textDecorationLine: 'underline',
+                      fontSize: 14,
+                      fontWeight: 'bold',
+                      lineHeight: 16,
+                      letterSpacing: 0.14,
+                    }}
+                    onPress={_selfCustodyLogin}
+                    style={styles.textButton}
+                  >
+                    Self Custody Login
+                  </CustomButton>
+                </View>
               )}
             </Section.Stack>
             <SignupText />

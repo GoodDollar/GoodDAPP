@@ -1,5 +1,5 @@
 // @flow
-import React, { useCallback, useRef } from 'react'
+import React, { useCallback, useContext, useRef } from 'react'
 import { Platform, View } from 'react-native'
 import Wrapper from '../../common/layout/Wrapper'
 import Text from '../../common/view/Text'
@@ -21,6 +21,7 @@ import facebookBtnIcon from '../../../assets/Auth/btn-facebook.svg'
 import Config from '../../../config/config'
 import logger from '../../../lib/logger/js-logger'
 import AuthStateWrapper from '../components/AuthStateWrapper'
+import AuthContext from '../context/AuthContext'
 import { LoginButton } from './LoginButton'
 import Recaptcha from './Recaptcha'
 
@@ -28,6 +29,7 @@ const log = logger.child({ from: 'SignUpScreen' })
 
 const SignupScreen = ({ screenProps, styles, handleLoginMethod, sdkInitialized, goBack }) => {
   const { push } = screenProps
+  const { success: signupSuccess } = useContext(AuthContext)
 
   const handleNavigateTermsOfUse = useCallback(() => push('PrivacyPolicyAndTerms'), [push])
 
@@ -99,7 +101,7 @@ const SignupScreen = ({ screenProps, styles, handleLoginMethod, sdkInitialized, 
   return (
     <Wrapper backgroundColor="#fff" style={styles.mainWrapper}>
       <NavBar logo />
-      <AuthProgressBar step={1} />
+      <AuthProgressBar step={1} done={signupSuccess} />
       <AuthStateWrapper>
         <Section.Stack style={{ flex: 1, justifyContent: 'center' }}>
           <Section.Stack style={{ flex: 1, maxHeight: 640 }}>

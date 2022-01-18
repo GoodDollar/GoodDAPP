@@ -1,5 +1,5 @@
 // @flow
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Platform, ScrollView, StyleSheet, View } from 'react-native'
 import { createSwitchNavigator } from '@react-navigation/core'
 import { assign, get, isError, pickBy, toPairs } from 'lodash'
@@ -11,6 +11,7 @@ import useCheckExisting from '../auth/hooks/useCheckExisting'
 import AsyncStorage from '../../lib/utils/asyncStorage'
 import { isMobileSafari } from '../../lib/utils/platform'
 import restart from '../../lib/utils/restart'
+import AuthContext from '../auth/context/AuthContext'
 
 import {
   DESTINATION_PATH,
@@ -69,6 +70,7 @@ const SignupWizardNavigator = createSwitchNavigator(routes, navigationConfig)
 
 const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
   const store = SimpleStore.useStore()
+  const { success: signupSuccess } = useContext(AuthContext)
   const torusUserFromProps =
     get(navigation, 'state.params.torusUser') ||
     get(navigation.state.routes.find(route => get(route, 'params.torusUser')), 'params.torusUser', {})
@@ -628,7 +630,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
   return (
     <View style={{ flexGrow: shouldGrow ? 1 : 0 }}>
       <NavBar logo />
-      <AuthProgressBar step={2} />
+      <AuthProgressBar step={2} done={signupSuccess} />
       <AuthStateWrapper>
         <ScrollView contentContainerStyle={scrollableContainer}>
           <View style={contentContainer}>

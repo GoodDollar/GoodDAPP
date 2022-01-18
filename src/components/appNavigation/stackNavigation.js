@@ -295,7 +295,6 @@ class AppView extends Component<AppViewProps, AppViewState> {
       backButtonHidden,
       disableScroll,
       backToWallet = false,
-      customBackScreen,
     } = descriptor.options
 
     const screenProps = {
@@ -340,13 +339,7 @@ class AppView extends Component<AppViewProps, AppViewState> {
               <>
                 <NavBar
                   backToWallet={backToWallet}
-                  goBack={
-                    customBackScreen || backButtonHidden
-                      ? customBackScreen
-                        ? () => this.navigateTo(customBackScreen)
-                        : undefined
-                      : this.pop
-                  }
+                  goBack={backButtonHidden ? undefined : this.pop}
                   title={pageTitle}
                 />
               </>

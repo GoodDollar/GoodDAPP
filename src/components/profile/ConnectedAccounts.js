@@ -21,16 +21,15 @@ const ConnectedAccounts = ({ screenProps, styles }) => {
   const [providers, setProviders] = useState([])
   const [authenticatorData, setAuthenticatorData] = useState({})
 
-  const initializeAccount = useCallback(async () => {
+  useEffect(() => {
     const privateAccountKey = JSON.parse(localStorage.getItem('GD_masterSeed'))
     const web3 = new Web3()
     const publicAccountKey = web3.eth.accounts.privateKeyToAccount(privateAccountKey)
-    await sdk.initialize(privateAccountKey.slice(0, privateAccountKey.length / 2), publicAccountKey.address)
+    sdk.initialize(privateAccountKey, publicAccountKey.address)
   }, [])
   const [showErrorDialog] = useErrorDialog()
 
   const fetchAuthProviders = useCallback(async () => {
-    await initializeAccount()
     const metaData = await sdk.getMeta()
     const authenticatorsObject = metaData?.state$?.state$?.value?.content?.authenticators || {}
     setProviders(Object.values(authenticatorsObject))
@@ -40,30 +39,24 @@ const ConnectedAccounts = ({ screenProps, styles }) => {
       {},
     )
     setAuthenticatorData(objectToSetAuthenticator)
-  }, [initializeAccount])
+  }, [])
 
-  const addAuthenticatedUser = useCallback(
-    async authProvider => {
-      const provider = await AsyncStorage.getItem('connectAccountsProviderLoginInitiated')
-      AsyncStorage.removeItem('connectAccountsProviderLoginInitiated')
-      if (provider) {
-        const redirectResult = await AsyncStorage.getItem('torusRedirectResult')
-        AsyncStorage.removeItem('torusRedirectResult')
-        if (redirectResult) {
-          const parsedResult = JSON.parse(redirectResult)
-          const { privateKey, typeOfLogin, publicAddress } = parsedResult
-          await initializeAccount()
-          await sdk
-            .addAuthenticator(privateKey.slice(0, privateKey.length / 2), publicAddress, typeOfLogin)
-            .catch(err => {
-              showErrorDialog('An error occurred while adding the authentication provider', '')
-            })
-          fetchAuthProviders()
-        }
+  const addAuthenticatedUser = useCallback(async () => {
+    const provider = await AsyncStorage.getItem('connectAccountsProviderLoginInitiated')
+    AsyncStorage.removeItem('connectAccountsProviderLoginInitiated')
+    if (provider) {
+      const redirectResult = await AsyncStorage.getItem('torusRedirectResult')
+      AsyncStorage.removeItem('torusRedirectResult')
+      if (redirectResult) {
+        const parsedResult = JSON.parse(redirectResult)
+        const { privateKey, typeOfLogin, publicAddress } = parsedResult
+        await sdk.addAuthenticator(privateKey, publicAddress, typeOfLogin).catch(err => {
+          showErrorDialog('An error occurred while adding the authentication provider', '')
+        })
+        fetchAuthProviders()
       }
-    },
-    [fetchAuthProviders],
-  )
+    }
+  }, [fetchAuthProviders])
 
   const [torusSDK, sdkInitialized] = useTorus()
 
@@ -168,7 +161,6 @@ const ConnectedAccounts = ({ screenProps, styles }) => {
 
 ConnectedAccounts.navigationOptions = {
   title: TITLE,
-  customBackScreen: 'Dashboard',
 }
 
 const getStylesFromProps = ({ theme }) => {

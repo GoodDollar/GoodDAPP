@@ -32,7 +32,7 @@ const AccountAlreadyExistsScreen = ({ screenProps, styles, checkResult, onContin
     //fireEvent(SIGNUP_EXISTS_LOGIN, { provider, existsResult, fromSignupFlow })
     fireEvent(SIGNUP_EXISTS_LOGIN, { checkResult })
 
-    // TODO: implement login with provider
+    // TODO: implement login with provider, mauybe call setAlreadySignedUp(false) here and setWalletPreparing()
   }, [checkResult])
 
   const _onContinueSignup = useOnPress(() => {

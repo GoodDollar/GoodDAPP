@@ -25,7 +25,7 @@ const WelcomeGD = ({ theme, styles, screenProps, navigation, showDelay, afterSho
     const callback = afterShown || defaultAfterShown
     const timeoutId = setTimeout(callback, delay)
 
-    return void clearTimeout(timeoutId)
+    return () => void clearTimeout(timeoutId)
   }, [showDelay, afterShown])
 
   return (

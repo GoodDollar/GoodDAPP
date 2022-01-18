@@ -21,10 +21,6 @@ const AuthStateWrapper = ({ children }) => {
   const successDelay = useMemo(() => get(successScreenOptions, 'delay'), [successScreenOptions])
   const successCallback = useMemo(() => get(successScreenOptions, 'callback'), [successScreenOptions])
 
-  if (preparing) {
-    return <WalletPreparing />
-  }
-
   if (alreadySignedUp) {
     return <AccountAlreadyExists checkResult={signedUpWithProvider} onDecision={signedUpDecisionCallback} />
   }
@@ -33,7 +29,7 @@ const AuthStateWrapper = ({ children }) => {
     return <WelcomeGDScreen showDelay={successDelay} onAfterShown={successCallback} />
   }
 
-  return children
+  return preparing ? <WalletPreparing /> : children
 }
 
 export default AuthStateWrapper

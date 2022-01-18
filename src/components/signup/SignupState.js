@@ -7,7 +7,7 @@ import { defer, from as fromPromise } from 'rxjs'
 import { retry } from 'rxjs/operators'
 import moment from 'moment'
 
-import useCheckExisting from '../../lib/hooks/useCheckExisting'
+import useCheckExisting from '../auth/hooks/useCheckExisting'
 import AsyncStorage from '../../lib/utils/asyncStorage'
 import { isMobileSafari } from '../../lib/utils/platform'
 import restart from '../../lib/utils/restart'
@@ -22,7 +22,7 @@ import {
 
 import { REGISTRATION_METHOD_SELF_CUSTODY, REGISTRATION_METHOD_TORUS } from '../../lib/constants/login'
 import NavBar from '../appNavigation/NavBar'
-import AuthProgressBar from '../auth/AuthProgressBar'
+import AuthProgressBar from '../auth/components/AuthProgressBar'
 import { navigationConfig } from '../appNavigation/navigationConfig'
 import logger from '../../lib/logger/js-logger'
 import { decorate, ExceptionCode } from '../../lib/exceptions/utils'
@@ -36,6 +36,7 @@ import { getUserModel, type UserModel } from '../../lib/userStorage/UserModel'
 import Config from '../../config/config'
 import { fireEvent, identifyOnUserSignup, identifyWith } from '../../lib/analytics/analytics'
 import { parsePaymentLinkParams } from '../../lib/share'
+import AuthStateWrapper from '../auth/components/AuthStateWrapper'
 import type { SMSRecord } from './SmsForm'
 import SignupCompleted from './SignupCompleted'
 import EmailConfirmation from './EmailConfirmation'
@@ -509,10 +510,6 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
       try {
         const result = await checkExisting(torusProvider, { mobile: newState.mobile })
 
-        if (result === 'accountAlreadyExists') {
-          navigation.navigate('AccountAlreadyExists')
-        }
-
         if (result === 'login') {
           return
         }
@@ -540,10 +537,6 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
       try {
         setLoading(true)
         const result = await checkExisting(torusProvider, { email: newState.email })
-
-        if (result === 'AccountAlreadyExists') {
-          navigation.navigate('AccountAlreadyExists')
-        }
 
         if (result === 'login') {
           return
@@ -636,20 +629,22 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
     <View style={{ flexGrow: shouldGrow ? 1 : 0 }}>
       <NavBar logo />
       <AuthProgressBar step={2} />
-      <ScrollView contentContainerStyle={scrollableContainer}>
-        <View style={contentContainer}>
-          {!unrecoverableError && (
-            <SignupWizardNavigator
-              navigation={navigation}
-              screenProps={{
-                data: { ...state, loading, createError, countryCode },
-                doneCallback: done,
-                back,
-              }}
-            />
-          )}
-        </View>
-      </ScrollView>
+      <AuthStateWrapper>
+        <ScrollView contentContainerStyle={scrollableContainer}>
+          <View style={contentContainer}>
+            {!unrecoverableError && (
+              <SignupWizardNavigator
+                navigation={navigation}
+                screenProps={{
+                  data: { ...state, loading, createError, countryCode },
+                  doneCallback: done,
+                  back,
+                }}
+              />
+            )}
+          </View>
+        </ScrollView>
+      </AuthStateWrapper>
     </View>
   )
 }

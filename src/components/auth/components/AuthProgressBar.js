@@ -1,8 +1,8 @@
 import React from 'react'
 import { View } from 'react-native'
 
-import { getDesignRelativeHeight } from '../../lib/utils/sizes'
-import { withStyles } from '../../lib/styles'
+import { getDesignRelativeHeight } from '../../../lib/utils/sizes'
+import { withStyles } from '../../../lib/styles'
 
 const AuthProgressBar = ({ step, done, styles, theme }) => {
   return (

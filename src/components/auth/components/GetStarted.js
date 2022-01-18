@@ -2,21 +2,21 @@ import React from 'react'
 import { View } from 'react-native'
 
 // import logger from '../../lib/logger/js-logger'
-import { withStyles } from '../../lib/styles'
-import { getShadowStyles } from '../../lib/utils/getStyles'
-import CustomButton from '../common/buttons/CustomButton'
-import Wrapper from '../common/layout/Wrapper'
-import Text from '../common/view/Text'
+import { withStyles } from '../../../lib/styles'
+import { getShadowStyles } from '../../../lib/utils/getStyles'
+import CustomButton from '../../common/buttons/CustomButton'
+import Wrapper from '../../common/layout/Wrapper'
+import Text from '../../common/view/Text'
 
 import {
   getDesignRelativeHeight,
   getDesignRelativeWidth,
   isShortDevice,
   isVeryShortDevice,
-} from '../../lib/utils/sizes'
-import { isBrowser } from '../../lib/utils/platform'
-import NavBar from '../appNavigation/NavBar'
-import Illustration from '../../assets/Auth/torusIllustration.svg'
+} from '../../../lib/utils/sizes'
+import { isBrowser } from '../../../lib/utils/platform'
+import NavBar from '../../appNavigation/NavBar'
+import Illustration from '../../../assets/Auth/torusIllustration.svg'
 import AuthProgressBar from './AuthProgressBar'
 
 // const log = logger.child({ from: 'Welcome' })

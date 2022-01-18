@@ -1,5 +1,5 @@
 // @flow
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { Platform } from 'react-native'
 import { get } from 'lodash'
 import AsyncStorage from '../../../lib/utils/asyncStorage'
@@ -28,21 +28,21 @@ import { isWeb } from '../../../lib/utils/platform'
 import { getDesignRelativeHeight, isSmallDevice } from '../../../lib/utils/sizes'
 import { getShadowStyles } from '../../../lib/utils/getStyles'
 import normalizeText from '../../../lib/utils/normalizeText'
-import useCheckExisting from '../../../lib/hooks/useCheckExisting'
+import useCheckExisting from '../hooks/useCheckExisting'
 
 import ready from '../ready'
 import SignUpIn from '../login/SignUpScreen'
-import WalletPreparing from '../WalletPreparing'
 
 import DeepLinking from '../../../lib/utils/deepLinking'
 
+import AuthContext from '../context/AuthContext'
 import useTorus from './hooks/useTorus'
 
 const log = logger.child({ from: 'AuthTorus' })
 
 const AuthTorus = ({ screenProps, navigation, styles, store }) => {
   const [, hideDialog, showErrorDialog] = useDialog()
-  const [preparingWallet, setPreparingWallet] = useState(false)
+  const { setWalletPreparing } = useContext(AuthContext)
   const checkExisting = useCheckExisting()
   const [torusSDK, sdkInitialized] = useTorus()
   const [authScreen, setAuthScreen] = useState(get(navigation, 'state.params.screen'))
@@ -158,7 +158,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
     provider: 'facebook' | 'google' | 'auth0' | 'auth0-pwdless-email' | 'auth0-pwdless-sms',
     torusUserRedirectPromise,
   ) => {
-    setPreparingWallet(true)
+    setWalletPreparing(true)
 
     //in case this is triggered as a callback after redirect we fire a different vent
     if (torusUserRedirectPromise) {
@@ -194,7 +194,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
 
           //here in redirect mode we are not waiting for response from torus
           await getTorusUser(provider)
-          setPreparingWallet(false)
+          setWalletPreparing(false)
           return
         }
 
@@ -252,11 +252,6 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
         })
       }
 
-      if (existsResult === 'accountAlreadyExists') {
-        log.debug('account already Exists')
-        return navigate('AccountAlreadyExists')
-      }
-
       //case of sign-in
       fireEvent(SIGNIN_TORUS_SUCCESS, { provider })
       await AsyncStorage.setItem(IS_LOGGED_IN, true)
@@ -264,7 +259,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
     } catch (e) {
       const cancelled = e.message.match(/user\s+closed/i)
       if (cancelled) {
-        setPreparingWallet(false)
+        setWalletPreparing(false)
         return
       }
       const { message } = e
@@ -274,9 +269,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
     }
   }
 
-  return preparingWallet ? (
-    <WalletPreparing />
-  ) : (
+  return (
     <SignUpIn
       screenProps={screenProps}
       navigation={navigation}

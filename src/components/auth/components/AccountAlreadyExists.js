@@ -21,24 +21,20 @@ import facebookBtnIcon from '../../../assets/Auth/btn-facebook.svg'
 
 import { fireEvent, SIGNUP_EXISTS, SIGNUP_EXISTS_CONTINUE, SIGNUP_EXISTS_LOGIN } from '../../../lib/analytics/analytics'
 
-const AccountAlreadyExistsScreen = ({ screenProps, styles, checkResult, onContinueSignup }) => {
+const AccountAlreadyExistsScreen = ({ screenProps, styles, checkResult, eventVars, onContinueSignup }) => {
   const { provider, email } = checkResult || {}
   const usedText = email ? 'Email' : 'Mobile'
   const registeredBy = LoginStrategy.getTitle(provider)
   const buttonPrefix = 'Continue with'
 
   const handleLoginMethod = useCallback(() => {
-    // TODO: need a way to pass provider we trying to log in and fromSignupFlow flag
-    //fireEvent(SIGNUP_EXISTS_LOGIN, { provider, existsResult, fromSignupFlow })
-    fireEvent(SIGNUP_EXISTS_LOGIN, { checkResult })
+    fireEvent(SIGNUP_EXISTS_LOGIN, { checkResult, ...eventVars })
 
     // TODO: implement login with provider, mauybe call setAlreadySignedUp(false) here and setWalletPreparing()
   }, [checkResult])
 
   const _onContinueSignup = useOnPress(() => {
-    // TODO: need a way to pass provider we trying to log in and fromSignupFlow flag
-    //fireEvent(SIGNUP_EXISTS_CONTINUE, { provider, existsResult, fromSignupFlow })
-    fireEvent(SIGNUP_EXISTS_CONTINUE, { checkResult })
+    fireEvent(SIGNUP_EXISTS_CONTINUE, { checkResult, ...eventVars })
     onContinueSignup('signup')
   }, [checkResult, onContinueSignup])
 
@@ -48,9 +44,7 @@ const AccountAlreadyExistsScreen = ({ screenProps, styles, checkResult, onContin
   }, [handleLoginMethod])
 
   useEffect(() => {
-    // TODO: need a way to pass provider we trying to log in and fromSignupFlow flag
-    //fireEvent(SIGNUP_EXISTS, { provider, existsResult, fromSignupFlow })
-    fireEvent(SIGNUP_EXISTS, { checkResult })
+    fireEvent(SIGNUP_EXISTS, { checkResult, ...eventVars })
   }, [checkResult])
 
   return (

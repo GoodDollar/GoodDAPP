@@ -10,7 +10,7 @@ const log = logger.child({ from: 'useCheckExisting' })
 const useCheckExisting = () => {
   const { setAlreadySignedUp } = useContext(AuthContext)
 
-  const checkExisting = useCallback(async (torusProvider, torusUser) => {
+  const checkExisting = useCallback(async (torusProvider, torusUser, eventVars = {}) => {
     const checkResult = (await userExists(torusUser).catch(e => {
       log.warn('userExists check failed:', e.message, e)
     })) || { exists: false }
@@ -28,7 +28,9 @@ const useCheckExisting = () => {
       return 'login'
     }
 
-    return new Promise(resolve => setAlreadySignedUp(checkResult, resolve))
+    const analyticsVars = { provider: torusProvider, ...eventVars }
+
+    return new Promise(resolve => setAlreadySignedUp(checkResult, analyticsVars, resolve))
   }, [])
 
   return checkExisting

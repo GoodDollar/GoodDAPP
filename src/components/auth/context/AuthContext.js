@@ -11,7 +11,7 @@ const AuthContext = React.createContext({
   alreadySignedUp: false,
   successDelay: Config.authSuccessDelay,
   setWalletPreparing: isPreparing => {},
-  setAlreadySignedUp: (withProvider, onDecision = null) => {},
+  setAlreadySignedUp: (withProvider, options, onDecision = null) => {},
   setSuccessfull: (callback = null, delay = null) => {},
 })
 
@@ -20,11 +20,13 @@ export const AuthContextProvider = ({ children }) => {
   const [successState, setSuccessState] = useState(null)
   const [existingState, setExistingState] = useState(null)
 
-  const alreadySignedUp = useMemo(() => !!existingState, [existingState])
-  const signedUpWithProvider = useMemo(() => get(existingState, 'withProvider', null), [existingState])
-  const signedUpDecisionCallback = useMemo(() => get(existingState, 'onDecision', null), [existingState])
-
   const success = useMemo(() => !!successState, [successState])
+  const alreadySignedUp = useMemo(() => !!existingState, [existingState])
+
+  const [signedUpWithProvider, signedUpDecisionCallback, signedUpOptions] = useMemo(
+    () => ['withProvider', 'onDecision', 'options'].map(prop => get(existingState, prop, null)),
+    [existingState],
+  )
 
   const successScreenOptions = useMemo( // eslint-disable-line
     () => successState || { delay: Config.authSuccessDelay, callback: null }, // eslint-disable-line
@@ -39,8 +41,8 @@ export const AuthContextProvider = ({ children }) => {
   )
 
   const setAlreadySignedUp = useCallback(
-    (withProvider, onDecision = null) => {
-      setExistingState({ withProvider, onDecision })
+    (withProvider, options, onDecision = null) => {
+      setExistingState({ withProvider, options, onDecision })
     },
     [setExistingState],
   )
@@ -53,6 +55,7 @@ export const AuthContextProvider = ({ children }) => {
       alreadySignedUp,
       signedUpWithProvider,
       signedUpDecisionCallback,
+      signedUpOptions,
       setAlreadySignedUp,
 
       success,
@@ -66,6 +69,7 @@ export const AuthContextProvider = ({ children }) => {
       alreadySignedUp,
       signedUpWithProvider,
       signedUpDecisionCallback,
+      signedUpOptions,
       setAlreadySignedUp,
 
       success,

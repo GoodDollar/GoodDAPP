@@ -252,6 +252,11 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
         })
       }
 
+      if (existsResult !== 'login') {
+        // login with other method has been selected, app will redirect
+        return
+      }
+
       //case of sign-in
       fireEvent(SIGNIN_TORUS_SUCCESS, { provider })
       await AsyncStorage.setItem(IS_LOGGED_IN, true)

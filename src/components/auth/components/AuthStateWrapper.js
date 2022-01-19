@@ -13,16 +13,25 @@ const AuthStateWrapper = ({ children }) => {
     alreadySignedUp,
     signedUpWithProvider,
     signedUpDecisionCallback,
+    signedUpOptions,
 
     success,
     successScreenOptions,
   } = useContext(AuthContext)
 
-  const successDelay = useMemo(() => get(successScreenOptions, 'delay'), [successScreenOptions])
-  const successCallback = useMemo(() => get(successScreenOptions, 'callback'), [successScreenOptions])
+  const [successDelay, successCallback] = useMemo(
+    () => ['delay', 'callback'].map(prop => get(successScreenOptions, prop)),
+    [successScreenOptions],
+  )
 
   if (alreadySignedUp) {
-    return <AccountAlreadyExists checkResult={signedUpWithProvider} onDecision={signedUpDecisionCallback} />
+    return (
+      <AccountAlreadyExists
+        checkResult={signedUpWithProvider}
+        eventVars={signedUpOptions}
+        onDecision={signedUpDecisionCallback}
+      />
+    )
   }
 
   if (success) {

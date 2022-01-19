@@ -510,9 +510,9 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
       }
     } else if (nextRoute && nextRoute.key === 'SMS') {
       try {
-        const result = await checkExisting(torusProvider, { mobile: newState.mobile })
+        const result = await checkExisting(torusProvider, { mobile: newState.mobile }, { fromSignupFlow: true })
 
-        if (result === 'login') {
+        if (result !== 'signup') {
           return
         }
 
@@ -538,9 +538,9 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
     } else if (nextRoute && nextRoute.key === 'EmailConfirmation') {
       try {
         setLoading(true)
-        const result = await checkExisting(torusProvider, { email: newState.email })
+        const result = await checkExisting(torusProvider, { email: newState.email }, { fromSignupFlow: true })
 
-        if (result === 'login') {
+        if (result !== 'signup') {
           return
         }
 

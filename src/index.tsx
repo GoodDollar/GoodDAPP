@@ -4,11 +4,8 @@ import 'react-tabs/style/react-tabs.css'
 import './bootstrap'
 
 import { createWeb3ReactRoot, Web3ReactProvider } from '@web3-react/core'
-import React, { StrictMode, useState, useEffect } from 'react'
-import { isMobile } from 'react-device-detect'
+import React, { StrictMode } from 'react'
 import ReactDOM from 'react-dom'
-import styled from 'styled-components'
-import { Text, Link, Image } from 'rebass'
 
 import { Provider } from 'react-redux'
 import { HashRouter as Router } from 'react-router-dom'

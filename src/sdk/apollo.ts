@@ -88,7 +88,7 @@ export const aaveStaking = memoize(
                 reserves: [{ aEmissionPerSecond, liquidityRate, totalATokenSupply }] = [
                     { aEmissionPerSecond: 0, liquidityRate: 0, totalATokenSupply: 0 }
                 ]
-            } = {}
+            }
         } = await client.query({
             query: gql`{ 
                 aave:priceOracleAsset(id: "0x7fc66500c84a76ad7e9c93437bfc5ac33e2ddae9") {    
@@ -100,6 +100,7 @@ export const aaveStaking = memoize(
                 reserves( first: 1, where: { underlyingAsset: "${token.address.toLowerCase()}", liquidityRate_gt: 0 }, orderBy: liquidityRate, orderDirection: desc) { totalATokenSupply, aEmissionPerSecond, liquidityRate } 
             }`
         })
+        debugGroup('AAVE Staking', { liquidityRate, aEmissionPerSecond, aave, totalATokenSupply })
 
         //depositAPR = liquidityRate/RAY
         //depositAPY = ((1 + (depositAPR / SECONDS_PER_YEAR)) ^ SECONDS_PER_YEAR) - 1
@@ -110,10 +111,9 @@ export const aaveStaking = memoize(
 
         const aEmissionPerYear = new Fraction(aEmissionPerSecond).multiply(31_536_000)
         const incentiveAPR = aEmissionPerYear
-            .multiply(aave.priceInEth)
+            .multiply(aave?.priceInEth || 0)
             .divide(totalATokenSupply * assetToken.priceInEth * 10 ** (18 - token.decimals))
 
-        debugGroup('AAVE Staking', { liquidityRate, aEmissionPerSecond, depositAPY, incentiveAPR })
         debug('percentDepositAPY', depositAPY)
         debug('percentDepositAPR', incentiveAPR.toSignificant(6))
         debugGroupEnd('AAVE Staking')

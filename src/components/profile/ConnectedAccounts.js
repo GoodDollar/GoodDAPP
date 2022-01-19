@@ -114,9 +114,16 @@ const ConnectedAccounts = ({ screenProps, styles }) => {
                 torusSDK.triggerLogin(value)
               } else {
                 if (providers.length !== 0) {
-                  await ceramicSDK.removeAuthenticator(authenticatorData[value]).then(() => {
-                    fetchAuthProviders()
-                  })
+                  await ceramicSDK
+                    .removeAuthenticator(authenticatorData[value])
+                    .then(() => {
+                      fetchAuthProviders()
+                    })
+                    .catch(err => {
+                      if (err.message === 'Key set version already exist') {
+                        showErrorDialog('Accounts can be removed only once a day, try again tomorrow .', '')
+                      }
+                    })
                 }
               }
             }}

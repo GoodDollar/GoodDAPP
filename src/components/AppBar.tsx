@@ -95,7 +95,7 @@ function AppBar(): JSX.Element {
                                 <div className="flex flex-row space-x-2">
                                     <div className="flex flex-row items-center space-x-2">
                                         <div className="whitespace-nowrap">
-                                            {G$Price ? `1,000G$ = ${G$Price.multiply(1000).toFixed(2)}USD` : ''}
+                                            {G$Price ? `1,000G$ = ${G$Price.multiply(1000).toFixed(3)}USD` : ''}
                                         </div>
                                         {chainId && <Web3Faucet />}
                                         <Disclosure.Button className="mobile-menu-button inline-flex items-center justify-center p-2 rounded-md  focus:outline-none">

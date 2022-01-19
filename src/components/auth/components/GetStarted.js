@@ -1,5 +1,5 @@
 import React from 'react'
-import { View } from 'react-native'
+import { Linking, View } from 'react-native'
 
 // import logger from '../../lib/logger/js-logger'
 import { withStyles } from '../../../lib/styles'
@@ -56,7 +56,7 @@ const GetStarted = ({ theme, styles, screenProps, navigation }) => (
         fontFamily="Roboto"
         style={{ marginTop: getDesignRelativeHeight(1) }}
       >
-        {`We use crypto to deliver basic income\n for the benefit of the world.`}
+        {`GoodDollar is a global community and\n a web application to help people join\n the digital economy.`}
       </Text>
       <Text
         color={'primary'}
@@ -67,6 +67,7 @@ const GetStarted = ({ theme, styles, screenProps, navigation }) => (
         fontWeight="bold"
         textDecorationLine="underline"
         style={{ marginTop: getDesignRelativeHeight(12) }}
+        onPress={() => Linking.openURL('https://www.gooddollar.org/im-claiming-gs-now-where-and-how-can-i-use-them/')}
       >
         Learn More
       </Text>

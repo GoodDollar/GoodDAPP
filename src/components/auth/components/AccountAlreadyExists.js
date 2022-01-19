@@ -9,7 +9,6 @@ import {
   getDesignRelativeWidth,
   getMaxDeviceHeight,
   isShortDevice,
-  isVeryShortDevice,
 } from '../../../lib/utils/sizes'
 import { isBrowser } from '../../../lib/utils/platform'
 import { LoginButton } from '../login/LoginButton'
@@ -64,7 +63,7 @@ const AccountAlreadyExistsScreen = ({ screenProps, styles, checkResult, onContin
           fontFamily="Roboto"
           fontWeight="bold"
         >
-          Something Went Wrong
+          {`You Already Have A\n G$ Account`}
         </Text>
         <Text
           color={'darkIndigo'}
@@ -78,9 +77,9 @@ const AccountAlreadyExistsScreen = ({ screenProps, styles, checkResult, onContin
         </Text>
         <View style={styles.illustration}>
           <Illustration
-            width={getDesignRelativeWidth(isBrowser ? 290 : 268)}
+            width={getDesignRelativeWidth(isBrowser ? 314 : 268)}
             height={getDesignRelativeHeight(217)}
-            viewBox="0 0 268 217"
+            viewBox="0 0 314 189"
           />
         </View>
       </View>
@@ -129,12 +128,12 @@ const getStylesFromProps = ({ theme }) => {
   return {
     contentContainer: {
       flex: 1,
-      paddingBottom: isVeryShortDevice ? 20 : 0,
+      paddingBottom: getDesignRelativeHeight(isShortDevice ? 35 : 45),
       paddingTop: getDesignRelativeHeight(isShortDevice ? 35 : 45),
+      justifyContent: 'space-between',
     },
     bottomContainer: {
       paddingHorizontal: theme.sizes.defaultDouble,
-      marginTop: getDesignRelativeHeight(theme.sizes.default * 4),
       maxWidth: 384,
       width: '100%',
       alignSelf: 'center',

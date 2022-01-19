@@ -16,7 +16,6 @@ import { useErrorDialog } from '../../lib/undux/utils/dialog'
 const TITLE = 'Connected Accounts'
 
 const ConnectedAccounts = ({ screenProps, styles }) => {
-  const [providers, setProviders] = useState([])
   const [authenticatorData, setAuthenticatorData] = useState({})
   const [ceramicSDK, ceramicInitialized] = useCeramicSDK()
   const [showErrorDialog] = useErrorDialog()
@@ -24,7 +23,6 @@ const ConnectedAccounts = ({ screenProps, styles }) => {
   const fetchAuthProviders = useCallback(async () => {
     const metaData = await ceramicSDK.getMeta()
     const authenticatorsObject = metaData?.content?.authenticators || {}
-    setProviders(Object.values(authenticatorsObject))
     let objectToSetAuthenticator = Object.entries(authenticatorsObject).reduce(
       // eslint-disable-next-line no-sequences
       (acc, [key, value]) => ((acc[value] = key), acc),
@@ -113,7 +111,7 @@ const ConnectedAccounts = ({ screenProps, styles }) => {
                 startLogin(value)
                 torusSDK.triggerLogin(value)
               } else {
-                if (providers.length !== 0) {
+                if (Object.keys(authenticatorData).length > 1) {
                   await ceramicSDK
                     .removeAuthenticator(authenticatorData[value])
                     .then(() => {
@@ -136,7 +134,7 @@ const ConnectedAccounts = ({ screenProps, styles }) => {
     {
       label: 'Facebook Provider',
       icon: <FacebookBtnIcon width="100%" iconprops={{ viewBox: '0 0 11 22' }} />,
-      checked: providers.includes('facebook'),
+      checked: Object.keys(authenticatorData).includes('facebook'),
       value: 'facebook',
     },
     {
@@ -146,13 +144,13 @@ const ConnectedAccounts = ({ screenProps, styles }) => {
           <GoogleBtnIcon width="100%" height="24" iconprops={{ viewBox: '0 0 11 24' }} />
         </View>
       ),
-      checked: providers.includes('google'),
+      checked: Object.keys(authenticatorData).includes('google'),
       value: 'google',
     },
     {
       label: 'Phone Provider',
       icon: <MobileBtnIcon width="100%" iconprops={{ viewBox: '0 0 11 22' }} />,
-      checked: providers.includes('auth0-pwdless-sms'),
+      checked: Object.keys(authenticatorData).includes('auth0-pwdless-sms'),
       value: 'auth0-pwdless-sms',
     },
   ]

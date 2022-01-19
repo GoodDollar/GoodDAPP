@@ -275,11 +275,12 @@ const AppSwitch = (props: LoadingProps) => {
     }
   }, [sdkInitialized])
 
-  const display = ready ? (
-    <SceneView navigation={descriptor.navigation} component={descriptor.getComponent()} />
-  ) : (
-    <Splash animation={false} />
-  )
+  const display =
+    ready && sdkInitialized ? (
+      <SceneView navigation={descriptor.navigation} component={descriptor.getComponent()} />
+    ) : (
+      <Splash animation={false} />
+    )
 
   return <React.Fragment>{display}</React.Fragment>
 }

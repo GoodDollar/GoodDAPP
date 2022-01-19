@@ -31,6 +31,7 @@ const Config = {
   env: appEnv,
   version: appEnv === 'test' ? '1.0' : version, //hard code for tests snapshots
   contractsVersion,
+  ceramicSdkUrl:env.REACT_APP_CERAMIC_SDK_URL || 'https://ceramic-clay.3boxlabs.com',
   isEToro,
   phase,
   isPhaseZero,

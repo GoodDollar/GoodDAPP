@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react'
 import { CeramicSDK } from '@gooddollar/ceramic-seed-sdk'
 import Web3 from 'web3'
-const sdk = new CeramicSDK('https://ceramic-clay.3boxlabs.com')
+import config from './../../config/config'
+
+const sdk = new CeramicSDK(config.ceramicSdkUrl)
 
 const useCeramicSDK = () => {
   const [initialized, setInitialized] = useState(false)

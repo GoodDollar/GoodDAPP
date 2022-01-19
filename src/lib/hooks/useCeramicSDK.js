@@ -10,7 +10,7 @@ const useCeramicSDK = () => {
     const privateAccountKey = JSON.parse(localStorage.getItem('GD_masterSeed'))
     const web3 = new Web3()
     const publicAccountKey = web3.eth.accounts.privateKeyToAccount(privateAccountKey)
-    sdk.initialize(privateAccountKey, publicAccountKey.address).then(() => {
+    sdk.initialize(privateAccountKey, publicAccountKey.address, 'label').then(() => {
       setCeramicSdk(sdk)
       setInitialized(true)
     })

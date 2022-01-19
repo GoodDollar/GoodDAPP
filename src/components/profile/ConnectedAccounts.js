@@ -41,9 +41,9 @@ const ConnectedAccounts = ({ screenProps, styles }) => {
       AsyncStorage.removeItem('torusRedirectResult')
       if (redirectResult) {
         const parsedResult = JSON.parse(redirectResult)
-        const { privateKey, typeOfLogin, publicAddress } = parsedResult
+        const { privateKey, publicAddress } = parsedResult
         await ceramicSDK
-          .addAuthenticator(privateKey, publicAddress, typeOfLogin)
+          .addAuthenticator(privateKey, publicAddress, provider)
           .catch(err => {
             showErrorDialog('An error occurred while adding the authentication provider', '')
           })
@@ -114,11 +114,9 @@ const ConnectedAccounts = ({ screenProps, styles }) => {
                 torusSDK.triggerLogin(value)
               } else {
                 if (providers.length !== 0) {
-                  await ceramicSDK
-                    .removeAuthenticator(authenticatorData[value === 'auth0-pwdless-sms' ? 'jwt' : value])
-                    .then(() => {
-                      fetchAuthProviders()
-                    })
+                  await ceramicSDK.removeAuthenticator(authenticatorData[value]).then(() => {
+                    fetchAuthProviders()
+                  })
                 }
               }
             }}
@@ -147,7 +145,7 @@ const ConnectedAccounts = ({ screenProps, styles }) => {
     {
       label: 'Phone Provider',
       icon: <MobileBtnIcon width="100%" iconprops={{ viewBox: '0 0 11 22' }} />,
-      checked: providers.includes('jwt'),
+      checked: providers.includes('auth0-pwdless-sms'),
       value: 'auth0-pwdless-sms',
     },
   ]

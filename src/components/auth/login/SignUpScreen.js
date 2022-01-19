@@ -1,5 +1,5 @@
 // @flow
-import React, { useCallback, useContext, useEffect, useMemo, useRef } from 'react'
+import React, { useContext, useEffect, useMemo } from 'react'
 import { Platform, View } from 'react-native'
 import Wrapper from '../../common/layout/Wrapper'
 import Text from '../../common/view/Text'
@@ -17,14 +17,10 @@ import {
   isLongDevice,
 } from '../../../lib/utils/sizes'
 import Config from '../../../config/config'
-import logger from '../../../lib/logger/js-logger'
 import AuthStateWrapper from '../components/AuthStateWrapper'
 import AuthContext from '../context/AuthContext'
 import { fireEvent, GOTO_CHOOSEAUTH } from '../../../lib/analytics/analytics'
-import { LoginButton } from './LoginButton'
-import Recaptcha from './Recaptcha'
-
-const log = logger.child({ from: 'SignUpScreen' })
+import LoginButton from '../components/LoginButton'
 
 const SignupText = ({ screenProps }) => {
   const { push } = screenProps
@@ -63,38 +59,12 @@ const SignupText = ({ screenProps }) => {
 }
 
 const SignupScreen = ({ screenProps, styles, handleLoginMethod, sdkInitialized, goBack }) => {
-  const reCaptchaRef = useRef()
   const { success: signupSuccess } = useContext(AuthContext)
 
-  const [_google, _facebook, _selfCustodySignup, _selfCustodyLogin] = useMemo(
-    () => ['google', 'facebook', 'selfCustody', 'selfCustodyLogin'].map(method => () => handleLoginMethod(method)),
+  const [_selfCustodySignup, _selfCustodyLogin] = useMemo(
+    () => ['selfCustody', 'selfCustodyLogin'].map(method => () => handleLoginMethod(method)),
     [handleLoginMethod],
   )
-
-  const _mobile = useCallback(() => {
-    const { current: captcha } = reCaptchaRef
-
-    if (!captcha) {
-      return
-    }
-
-    // If recaptcha has already been passed successfully, trigger torus right away
-    if (captcha.hasPassedCheck()) {
-      onRecaptchaSuccess()
-      return
-    }
-
-    captcha.launchCheck()
-  }, [onRecaptchaSuccess])
-
-  const onRecaptchaSuccess = useCallback(() => {
-    log.debug('Recaptcha successfull')
-    handleLoginMethod('auth0-pwdless-sms')
-  }, [handleLoginMethod])
-
-  const onRecaptchaFailed = useCallback(() => {
-    log.debug('Recaptcha failed')
-  }, [])
 
   useEffect(() => {
     fireEvent(GOTO_CHOOSEAUTH)
@@ -144,42 +114,8 @@ const SignupScreen = ({ screenProps, styles, handleLoginMethod, sdkInitialized, 
             <Section.Stack style={styles.bottomContainer}>
               <View style={{ width: '100%' }}>
                 <LoginButton.Google handleLoginMethod={handleLoginMethod} disabled={!sdkInitialized} />
-                <LoginButton
-                  style={[
-                    styles.buttonLayout,
-                    styles.buttonsMargin,
-                    {
-                      backgroundColor: mainTheme.colors.facebookBlue,
-                    },
-                  ]}
-                  onPress={_facebook}
-                  disabled={!sdkInitialized}
-                  testID="login_with_facebook"
-                  icon={facebookBtnIcon}
-                  iconProps={{ viewBox: '0 0 11 22' }}
-                >
-                  {`${buttonPrefix} Facebook`}
-                </LoginButton>
-
-                <Recaptcha ref={reCaptchaRef} onSuccess={onRecaptchaSuccess} onFailure={onRecaptchaFailed}>
-                  <LoginButton
-                    style={[
-                      styles.buttonLayout,
-                      styles.buttonsMargin,
-                      {
-                        backgroundColor: mainTheme.colors.white,
-                        borderWidth: 1,
-                        borderColor: '#E9ECFF',
-                      },
-                    ]}
-                    onPress={_mobile}
-                    disabled={!sdkInitialized}
-                    textColor="#8499BB"
-                    testID="login_with_auth0"
-                  >
-                    {`${buttonPrefix} Passwordless`}
-                  </LoginButton>
-                </Recaptcha>
+                <LoginButton.Facebook handleLoginMethod={handleLoginMethod} disabled={!sdkInitialized} />
+                <LoginButton.Passwordless handleLoginMethod={handleLoginMethod} disabled={!sdkInitialized} />
               </View>
               <Section.Stack style={styles.textButtonContainer}>
                 {Config.enableSelfCustody && (

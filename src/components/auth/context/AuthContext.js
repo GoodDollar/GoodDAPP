@@ -9,6 +9,7 @@ const AuthContext = React.createContext({
   successCallback: null,
   signedUpProvider: null,
   alreadySignedUp: false,
+  torusInitialized: false,
   handleLoginMethod: null,
   successDelay: Config.authSuccessDelay,
   setWalletPreparing: isPreparing => {},
@@ -23,10 +24,10 @@ export const AuthContextProvider = ({ children }) => {
   const [existingState, setExistingState] = useState(null)
   const [handleLoginMethod, setHandleLoginMethod] = useState(null)
 
-  const [success, alreadySignedUp] = useMemo(() => [successState, existingState].map(state => !!state), [
-    successState,
-    existingState,
-  ])
+  const [success, alreadySignedUp, torusInitialized] = useMemo(
+    () => [successState, existingState, handleLoginMethod].map(state => !!state),
+    [successState, existingState, handleLoginMethod],
+  )
 
   const [signedUpWithProvider, signedUpDecisionCallback, signedUpOptions] = useMemo(
     () => ['withProvider', 'onDecision', 'options'].map(prop => get(existingState, prop, null)),
@@ -53,42 +54,24 @@ export const AuthContextProvider = ({ children }) => {
     [setExistingState],
   )
 
-  const contextValue = useMemo(
-    () => ({
-      preparing,
-      setWalletPreparing,
+  const contextValue = {
+    preparing,
+    setWalletPreparing,
 
-      alreadySignedUp,
-      signedUpWithProvider,
-      signedUpDecisionCallback,
-      signedUpOptions,
-      setAlreadySignedUp,
+    alreadySignedUp,
+    signedUpWithProvider,
+    signedUpDecisionCallback,
+    signedUpOptions,
+    setAlreadySignedUp,
 
-      success,
-      successScreenOptions,
-      setSuccessfull,
+    success,
+    successScreenOptions,
+    setSuccessfull,
 
-      handleLoginMethod,
-      setHandleLoginMethod,
-    }),
-    [
-      preparing,
-      setWalletPreparing,
-
-      alreadySignedUp,
-      signedUpWithProvider,
-      signedUpDecisionCallback,
-      signedUpOptions,
-      setAlreadySignedUp,
-
-      success,
-      successScreenOptions,
-      setSuccessfull,
-
-      handleLoginMethod,
-      setHandleLoginMethod,
-    ],
-  )
+    handleLoginMethod,
+    torusInitialized,
+    setHandleLoginMethod,
+  }
 
   return <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>
 }

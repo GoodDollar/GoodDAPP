@@ -11,13 +11,17 @@ const AuthStateWrapper = ({ children }) => {
     preparing,
 
     alreadySignedUp,
+    setAlreadySignedUp,
     signedUpWithProvider,
     signedUpDecisionCallback,
     signedUpOptions,
 
+    setWalletPreparing,
+
     success,
     successScreenOptions,
 
+    torusInitialized,
     handleLoginMethod,
   } = useContext(AuthContext)
 
@@ -33,6 +37,9 @@ const AuthStateWrapper = ({ children }) => {
         eventVars={signedUpOptions}
         onDecision={signedUpDecisionCallback}
         handleLoginMethod={handleLoginMethod}
+        torusInitialized={torusInitialized}
+        setAlreadySignedUp={setAlreadySignedUp}
+        setWalletPreparing={setWalletPreparing}
       />
     )
   }

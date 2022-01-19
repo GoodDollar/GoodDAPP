@@ -60,10 +60,6 @@ const routes = {
   EmailConfirmation,
 }
 
-// if (Config.enableSelfCustody) {
-//   Object.assign(routes, { MagicLinkInfo })
-// }
-
 const SignupWizardNavigator = createSwitchNavigator(routes, navigationConfig)
 
 const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {

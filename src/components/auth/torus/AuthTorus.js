@@ -42,7 +42,7 @@ const log = logger.child({ from: 'AuthTorus' })
 
 const AuthTorus = ({ screenProps, navigation, styles, store }) => {
   const [, hideDialog, showErrorDialog] = useDialog()
-  const { setWalletPreparing, setHandleLoginMethod } = useContext(AuthContext)
+  const { setWalletPreparing, setHandleLoginMethod, setSuccessfull } = useContext(AuthContext)
   const checkExisting = useCheckExisting()
   const [torusSDK, sdkInitialized] = useTorus()
   const [authScreen, setAuthScreen] = useState(get(navigation, 'state.params.screen'))
@@ -137,22 +137,24 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
     provider: 'facebook' | 'google' | 'auth0' | 'auth0-pwdless-email' | 'auth0-pwdless-sms',
     torusUserRedirectPromise,
   ) => {
+    let torusResponse
+
     setWalletPreparing(true)
 
-    //in case this is triggered as a callback after redirect we fire a different vent
-    if (torusUserRedirectPromise) {
-      fireEvent(TORUS_REDIRECT_SUCCESS, {
-        method: provider,
-        torusPopupMode: torusSDK.popupMode, //this should always be false in case of redirect
-      })
-    } else {
-      fireEvent(SIGNIN_METHOD_SELECTED, {
-        method: provider,
-        torusPopupMode: torusSDK.popupMode, //for a/b testing
-      })
-    }
-
     try {
+      // in case this is triggered as a callback after redirect we fire a different vent
+      if (torusUserRedirectPromise) {
+        fireEvent(TORUS_REDIRECT_SUCCESS, {
+          method: provider,
+          torusPopupMode: torusSDK.popupMode, // this should always be false in case of redirect
+        })
+      } else {
+        fireEvent(SIGNIN_METHOD_SELECTED, {
+          method: provider,
+          torusPopupMode: torusSDK.popupMode, // for a/b testing
+        })
+      }
+
       if (provider === 'selfCustody') {
         return selfCustody()
       }
@@ -161,7 +163,6 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
         return selfCustodyLogin()
       }
 
-      let torusResponse
       try {
         //don't expect response if in redirect mode, this method will be called again with response from effect
         if (config.env !== 'test' && !torusSDK.popupMode && torusUserRedirectPromise == null) {
@@ -202,54 +203,57 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
           suggestion = `Your default browser isn't supported. Please, set ${suggestedBrowser} as default and try again.`
         }
 
+        setWalletPreparing(false)
         showErrorDialog(`We were unable to load the wallet. ${suggestion}`)
         return
       }
 
-      //get full name, email, number, userId
+      // get full name, email, number, userId
       const { torusUser } = torusResponse
       const existsResult = await checkExisting(provider, torusUser)
 
-      if (existsResult === 'signup') {
-        log.debug('user does not exists')
+      switch (existsResult) {
+        case 'login': {
+          // case of sign-in
+          fireEvent(SIGNIN_TORUS_SUCCESS, { provider })
+          await AsyncStorage.setItem(IS_LOGGED_IN, true)
 
-        if (isWeb) {
-          //Hack to get keyboard up on mobile need focus from user event such as click
-          setTimeout(() => {
-            const el = document.getElementById('Name_input')
-            if (el) {
-              el.focus()
-            }
-          }, 500)
+          setWalletPreparing(false)
+          setSuccessfull(() => store.set('isLoggedIn')(true))
+          return
         }
+        case 'signup': {
+          log.debug('user does not exists')
 
-        //create account
-        return navigate('Signup', {
-          regMethod: REGISTRATION_METHOD_TORUS,
-          torusUser,
-          torusProvider: provider,
-        })
-      }
+          if (isWeb) {
+            //Hack to get keyboard up on mobile need focus from user event such as click
+            setTimeout(() => {
+              const el = document.getElementById('Name_input')
+              if (el) {
+                el.focus()
+              }
+            }, 500)
+          }
 
-      if (existsResult !== 'login') {
-        // login with other method has been selected, app will redirect
-        return
+          // create account
+          return navigate('Signup', {
+            regMethod: REGISTRATION_METHOD_TORUS,
+            torusUser,
+            torusProvider: provider,
+          })
+        }
+        default:
+          // login with other method has been selected, app will redirect
+          break
       }
+    } catch (exception) {
+      const { message } = exception
+      const uiMessage = decorate(exception, ExceptionCode.E14)
 
-      //case of sign-in
-      fireEvent(SIGNIN_TORUS_SUCCESS, { provider })
-      await AsyncStorage.setItem(IS_LOGGED_IN, true)
-      store.set('isLoggedIn')(true)
-    } catch (e) {
-      const cancelled = e.message.match(/user\s+closed/i)
-      if (cancelled) {
-        setWalletPreparing(false)
-        return
-      }
-      const { message } = e
-      const uiMessage = decorate(e, ExceptionCode.E14)
       showSupportDialog(showErrorDialog, hideDialog, navigation.navigate, uiMessage)
-      log.error('Failed to initialize wallet and storage', message, e)
+      log.error('Failed to initialize wallet and storage', message, exception)
+    } finally {
+      setWalletPreparing(false)
     }
   }
 

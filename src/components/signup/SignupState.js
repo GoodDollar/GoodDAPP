@@ -39,7 +39,6 @@ import { fireEvent, identifyOnUserSignup, identifyWith } from '../../lib/analyti
 import { parsePaymentLinkParams } from '../../lib/share'
 import AuthStateWrapper from '../auth/components/AuthStateWrapper'
 import type { SMSRecord } from './SmsForm'
-import SignupCompleted from './SignupCompleted'
 import EmailConfirmation from './EmailConfirmation'
 import SmsForm from './SmsForm'
 import PhoneForm from './PhoneForm'
@@ -59,7 +58,6 @@ const routes = {
   SMS: SmsForm,
   Email: EmailForm,
   EmailConfirmation,
-  SignupCompleted,
 }
 
 // if (Config.enableSelfCustody) {
@@ -70,7 +68,6 @@ const SignupWizardNavigator = createSwitchNavigator(routes, navigationConfig)
 
 const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
   const store = SimpleStore.useStore()
-  const { success: signupSuccess } = useContext(AuthContext)
   const torusUserFromProps =
     get(navigation, 'state.params.torusUser') ||
     get(navigation.state.routes.find(route => get(route, 'params.torusUser')), 'params.torusUser', {})
@@ -113,12 +110,15 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
   const [unrecoverableError, setUnrecoverableError] = useState(null)
   const [ready, setReady]: [Ready, ((Ready => Ready) | Ready) => void] = useState()
   const [state, setState] = useState(initialState)
-  const [loading, setLoading] = useState(false)
   const [countryCode, setCountryCode] = useState(undefined)
   const [createError, setCreateError] = useState(false)
   const [finishedPromise, setFinishedPromise] = useState(undefined)
   const [, hideDialog, showErrorDialog] = useDialog()
   const shouldGrow = store.get && !store.get('isMobileSafariKeyboardShown')
+
+  const { preparing: walletPreparing, success: signupSuccess, setWallletPreparing, setSuccessfull } = useContext(
+    AuthContext,
+  )
 
   useEffect(() => {
     log.debug('is this running')
@@ -126,7 +126,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
 
   const navigateWithFocus = (routeKey: string) => {
     navigation.navigate(routeKey)
-    setLoading(false)
+    setWallletPreparing(false)
 
     if (Platform.OS === 'web' && (isMobileSafari || routeKey === 'Phone')) {
       setTimeout(() => {
@@ -185,7 +185,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
         return navigateWithFocus('Email')
       }
 
-      return navigation.navigate('SignupCompleted')
+      return done({ isEmailConfirmed: true })
     }
   }
 
@@ -313,7 +313,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
 
   const finishRegistration = async () => {
     setCreateError(false)
-    setLoading(true)
+    setWallletPreparing(true)
 
     log.info('Sending new user data', { state, regMethod, torusProvider })
     const { skipEmail, skipEmailConfirmation, skipMagicLinkInfo, ...requestPayload } = state
@@ -427,7 +427,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
       fireSignupEvent('SUCCESS', { torusProvider, inviteCode })
 
       log.debug('New user created')
-      setLoading(false)
+      setWallletPreparing(false)
 
       return true
     } catch (exception) {
@@ -443,7 +443,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
       setCreateError(true)
       return false
     } finally {
-      setLoading(false)
+      setWallletPreparing(false)
     }
   }
 
@@ -461,7 +461,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
       log.error('waiting for user registration failed', e.message, e)
       return false
     } finally {
-      setLoading(false)
+      setWallletPreparing(false)
     }
   }
 
@@ -486,7 +486,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
   }
 
   const done = async (data: { [string]: string }) => {
-    setLoading(true)
+    setWallletPreparing(true)
     fireSignupEvent()
 
     //We can wait for ready later, when we need stuff, we don't need it until usage of API first in sendOTP(that needs to be logged in)
@@ -504,9 +504,9 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
     if (nextRoute === undefined) {
       const ok = await waitForRegistrationToFinish()
 
-      //this will cause a re-render and move user to the dashboard route
+      // this will cause a re-render and move user to the dashboard route
       if (ok) {
-        store.set('isLoggedIn')(true)
+        setSuccessfull(() => store.set('isLoggedIn')(true))
       }
     } else if (nextRoute && nextRoute.key === 'SMS') {
       try {
@@ -533,11 +533,11 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
         log.error('Send mobile code failed', e.message, e, { dialogShown: true })
         return showErrorDialog('Could not send verification code. Please try again')
       } finally {
-        setLoading(false)
+        setWallletPreparing(false)
       }
     } else if (nextRoute && nextRoute.key === 'EmailConfirmation') {
       try {
-        setLoading(true)
+        setWallletPreparing(true)
         const result = await checkExisting(torusProvider, { email: newState.email }, { fromSignupFlow: true })
 
         if (result !== 'signup') {
@@ -574,7 +574,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
         log.error('email verification failed unexpected:', e.message, e, { dialogShown: true })
         return showErrorDialog('Could not send verification email. Please try again', ExceptionCode.E9)
       } finally {
-        setLoading(false)
+        setWallletPreparing(false)
       }
     } else if (nextRoute.key === 'MagicLinkInfo') {
       let ok = await waitForRegistrationToFinish()
@@ -638,7 +638,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
               <SignupWizardNavigator
                 navigation={navigation}
                 screenProps={{
-                  data: { ...state, loading, createError, countryCode },
+                  data: { ...state, loading: walletPreparing, createError, countryCode },
                   doneCallback: done,
                   back,
                 }}

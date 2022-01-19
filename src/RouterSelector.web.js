@@ -1,19 +1,16 @@
 // libraries
-import React, { memo, useCallback, useEffect, useState } from 'react'
+import React, { memo, useEffect, useState } from 'react'
 import { Platform } from 'react-native'
 import { pick } from 'lodash'
 
 // components
 
-import AsyncStorage from '@react-native-async-storage/async-storage'
 import Splash, { animationDuration, shouldAnimateSplash } from './components/splash/Splash'
 
 // hooks
 import useUpdateDialog from './components/appUpdate/useUpdateDialog'
 import useBrowserSupport from './components/browserSupport/hooks/useBrowserSupport'
 import UnsupportedBrowser from './components/browserSupport/components/UnsupportedBrowser'
-import useTorus from './components/auth/torus/hooks/useTorus'
-import { useErrorDialog } from './lib/undux/utils/dialog'
 
 // utils
 import SimpleStore from './lib/undux/SimpleStore'
@@ -59,33 +56,8 @@ let AppRouter = React.lazy(async () => {
   return module
 })
 
-const NestedRouter = memo(({ isLoggedIn }) => {
+const NestedRouter = memo(({ isLoggedIn, ...rest }) => {
   useUpdateDialog()
-  const [torusSDK, sdkInitialized] = useTorus()
-  const [showErrorDialog] = useErrorDialog()
-
-  //checking for redirect authentication result
-  const checkTorusRedirectResultAndAddAuthenticator = useCallback(async () => {
-    const provider = await AsyncStorage.getItem('connectAccountsProviderLoginInitiated')
-    if (provider) {
-      try {
-        const result = await torusSDK.getRedirectResult()
-        AsyncStorage.setItem('torusRedirectResult', JSON.stringify(result))
-      } catch (e) {
-        showErrorDialog('An error occurred while adding the authentication provider', '', {
-          onDismiss: () => {
-            AsyncStorage.removeItem('torusRedirectResult')
-          },
-        })
-      }
-    }
-  }, [torusSDK])
-
-  useEffect(() => {
-    if (sdkInitialized && isAuthReload) {
-      checkTorusRedirectResultAndAddAuthenticator()
-    }
-  }, [sdkInitialized, checkTorusRedirectResultAndAddAuthenticator])
 
   useEffect(() => {
     let source, platform

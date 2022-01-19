@@ -2,11 +2,10 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { Switch, Text, View } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { CeramicSDK } from '@gooddollar/ceramic-seed-sdk'
-import Web3 from 'web3'
 import { withStyles } from '../../lib/styles'
 import { Section, Wrapper } from '../common'
 
+import useCeramicSDK from '../../lib/hooks/useCeramicSDK'
 import useTorus from '../../components/auth/torus/hooks/useTorus'
 import GoogleBtnIcon from '../../assets/Auth/btn_google.svg'
 import FacebookBtnIcon from '../../assets/Auth/btn_facebook.svg'
@@ -15,23 +14,16 @@ import Recaptcha from '../../components/auth/login/Recaptcha/index'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
 
 const TITLE = 'Connected Accounts'
-const sdk = new CeramicSDK('https://ceramic-clay.3boxlabs.com')
 
 const ConnectedAccounts = ({ screenProps, styles }) => {
   const [providers, setProviders] = useState([])
   const [authenticatorData, setAuthenticatorData] = useState({})
-
-  useEffect(() => {
-    const privateAccountKey = JSON.parse(localStorage.getItem('GD_masterSeed'))
-    const web3 = new Web3()
-    const publicAccountKey = web3.eth.accounts.privateKeyToAccount(privateAccountKey)
-    sdk.initialize(privateAccountKey, publicAccountKey.address)
-  }, [])
+  const [ceramicSDK, ceramicInitialized] = useCeramicSDK()
   const [showErrorDialog] = useErrorDialog()
 
   const fetchAuthProviders = useCallback(async () => {
-    const metaData = await sdk.getMeta()
-    const authenticatorsObject = metaData?.state$?.state$?.value?.content?.authenticators || {}
+    const metaData = await ceramicSDK.getMeta()
+    const authenticatorsObject = metaData?.content?.authenticators || {}
     setProviders(Object.values(authenticatorsObject))
     let objectToSetAuthenticator = Object.entries(authenticatorsObject).reduce(
       // eslint-disable-next-line no-sequences
@@ -39,7 +31,7 @@ const ConnectedAccounts = ({ screenProps, styles }) => {
       {},
     )
     setAuthenticatorData(objectToSetAuthenticator)
-  }, [])
+  }, [ceramicSDK])
 
   const addAuthenticatedUser = useCallback(async () => {
     const provider = await AsyncStorage.getItem('connectAccountsProviderLoginInitiated')
@@ -50,25 +42,31 @@ const ConnectedAccounts = ({ screenProps, styles }) => {
       if (redirectResult) {
         const parsedResult = JSON.parse(redirectResult)
         const { privateKey, typeOfLogin, publicAddress } = parsedResult
-        await sdk.addAuthenticator(privateKey, publicAddress, typeOfLogin).catch(err => {
-          showErrorDialog('An error occurred while adding the authentication provider', '')
-        })
-        fetchAuthProviders()
+        await ceramicSDK
+          .addAuthenticator(privateKey, publicAddress, typeOfLogin)
+          .catch(err => {
+            showErrorDialog('An error occurred while adding the authentication provider', '')
+          })
+          .finally(() => {
+            fetchAuthProviders()
+          })
       }
     }
-  }, [fetchAuthProviders])
+  }, [fetchAuthProviders, ceramicSDK])
 
   const [torusSDK, sdkInitialized] = useTorus()
 
   useEffect(() => {
-    if (sdkInitialized) {
+    if (sdkInitialized && ceramicInitialized) {
       addAuthenticatedUser()
     }
-  }, [sdkInitialized, addAuthenticatedUser])
+  }, [sdkInitialized, ceramicInitialized, addAuthenticatedUser])
 
   useEffect(() => {
-    fetchAuthProviders()
-  }, [fetchAuthProviders])
+    if (ceramicInitialized) {
+      fetchAuthProviders()
+    }
+  }, [fetchAuthProviders, ceramicInitialized])
   const reCaptchaRef = useRef()
   const _mobile = () => {
     const { current: captcha } = reCaptchaRef
@@ -116,8 +114,11 @@ const ConnectedAccounts = ({ screenProps, styles }) => {
                 torusSDK.triggerLogin(value)
               } else {
                 if (providers.length !== 0) {
-                  await sdk.removeAuthenticator(authenticatorData[value === 'auth0-pwdless-sms' ? 'jwt' : value])
-                  fetchAuthProviders()
+                  await ceramicSDK
+                    .removeAuthenticator(authenticatorData[value === 'auth0-pwdless-sms' ? 'jwt' : value])
+                    .then(() => {
+                      fetchAuthProviders()
+                    })
                 }
               }
             }}

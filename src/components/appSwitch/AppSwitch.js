@@ -26,6 +26,7 @@ import DeepLinking from '../../lib/utils/deepLinking'
 import { isMobileNative } from '../../lib/utils/platform'
 import { useInviteCode } from '../invite/useInvites'
 import restart from '../../lib/utils/restart'
+import useTorus from '../../components/auth/torus/hooks/useTorus'
 
 type LoadingProps = {
   navigation: any,
@@ -261,6 +262,18 @@ const AppSwitch = (props: LoadingProps) => {
   const { descriptors, navigation } = props
   const activeKey = navigation.state.routes[navigation.state.index].key
   const descriptor = descriptors[activeKey]
+  const [torusSDK, sdkInitialized] = useTorus()
+  useEffect(() => {
+    if (sdkInitialized) {
+      AsyncStorage.getItem('connectAccountsProviderLoginInitiated').then(async value => {
+        if (value) {
+          const result = await torusSDK.getRedirectResult()
+          AsyncStorage.setItem('torusRedirectResult', result)
+          navigation.navigate('ConnectedAccounts')
+        }
+      })
+    }
+  }, [sdkInitialized])
 
   const display = ready ? (
     <SceneView navigation={descriptor.navigation} component={descriptor.getComponent()} />

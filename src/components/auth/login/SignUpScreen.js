@@ -126,7 +126,7 @@ const SignupScreen = ({ screenProps, styles, handleLoginMethod, sdkInitialized, 
                 fontWeight="bold"
                 style={{ marginTop: getDesignRelativeHeight(15) }}
               >
-                Simply Claim G$ Daily
+                Start Claiming G$ Daily
               </Text>
               <Text
                 color={'darkIndigo'}
@@ -136,7 +136,7 @@ const SignupScreen = ({ screenProps, styles, handleLoginMethod, sdkInitialized, 
                 fontFamily="Roboto"
                 style={{ marginTop: getDesignRelativeHeight(5) }}
               >
-                {`Your security is important to us, so we\n need to verify you’re a real person.\n Continuing using Facebook or Google\n would make that easier.`}
+                {`Begin receiving real crypto, totally for\n free, and without having to risk any\n money to start.`}
               </Text>
             </Section.Stack>
             <Section.Stack style={styles.bottomContainer}>

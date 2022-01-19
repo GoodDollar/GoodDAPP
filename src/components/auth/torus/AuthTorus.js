@@ -151,6 +151,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
       await AsyncStorage.clear()
       await ready(true)
     }
+
     fireEvent(SIGNUP_METHOD_SELECTED, { method: REGISTRATION_METHOD_SELF_CUSTODY })
     navigate('Signup', { regMethod: REGISTRATION_METHOD_SELF_CUSTODY })
   }, [navigate])

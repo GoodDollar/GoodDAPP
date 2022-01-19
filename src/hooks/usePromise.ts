@@ -51,7 +51,7 @@ export default function usePromise<T>(getPromise: () => Promise<T>, deps: any[] 
                 dispatch({ type: 'ERROR', payload: e })
             }
         )
-    }, [...deps, dependency, getPromise])
+    }, [...deps, dependency])
 
     return [state.value, state.loading, state.error, useCallback(() => setDependency({}), [])] as const
 }

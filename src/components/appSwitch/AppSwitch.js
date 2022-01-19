@@ -4,7 +4,12 @@ import { AppState } from 'react-native'
 import { SceneView } from '@react-navigation/core'
 import { debounce, isEmpty } from 'lodash'
 import AsyncStorage from '../../lib/utils/asyncStorage'
-import { DESTINATION_PATH, GD_USER_MASTERSEED } from '../../lib/constants/localStorage'
+import {
+  DESTINATION_PATH,
+  GD_CONNECTPROVIDER,
+  GD_CONNECTPROVIDER_STATEHASH,
+  GD_USER_MASTERSEED,
+} from '../../lib/constants/localStorage'
 import { REGISTRATION_METHOD_SELF_CUSTODY, REGISTRATION_METHOD_TORUS } from '../../lib/constants/login'
 
 import logger from '../../lib/logger/js-logger'
@@ -26,7 +31,6 @@ import DeepLinking from '../../lib/utils/deepLinking'
 import { isMobileNative } from '../../lib/utils/platform'
 import { useInviteCode } from '../invite/useInvites'
 import restart from '../../lib/utils/restart'
-import useTorus from '../../components/auth/torus/hooks/useTorus'
 
 type LoadingProps = {
   navigation: any,
@@ -144,12 +148,6 @@ const AppSwitch = (props: LoadingProps) => {
     identifyWith(email, undefined)
   }
 
-  //TODO: should be removed once issue is resolved
-  const logoutTorusIssue = id => {
-    if (id.toLowerCase() === '0xb5f2f134a543d55c24eaa9ef441c2a699d660b6b') {
-      throw new Error('bad torus account bug')
-    }
-  }
   const init = async () => {
     log.debug('initializing')
 
@@ -166,7 +164,6 @@ const AppSwitch = (props: LoadingProps) => {
 
       //identify user asap for analytics
       const identifier = goodWallet.getAccountForType('login')
-      logoutTorusIssue(identifier)
       identifyWith(undefined, identifier)
       showOutOfGasError(props)
       await initReg
@@ -242,6 +239,16 @@ const AppSwitch = (props: LoadingProps) => {
     init()
     navigateToUrlRef.current()
 
+    //handle the case user comes back from "connecting accounts"
+    AsyncStorage.getItem(GD_CONNECTPROVIDER).then(value => {
+      if (value) {
+        if (isMobileNative === false) {
+          AsyncStorage.setItem(GD_CONNECTPROVIDER_STATEHASH, DeepLinking.hash)
+        }
+        navigation.navigate('ConnectedAccounts')
+      }
+    })
+
     if (!isMobileNative) {
       return
     }
@@ -262,25 +269,12 @@ const AppSwitch = (props: LoadingProps) => {
   const { descriptors, navigation } = props
   const activeKey = navigation.state.routes[navigation.state.index].key
   const descriptor = descriptors[activeKey]
-  const [torusSDK, sdkInitialized] = useTorus()
-  useEffect(() => {
-    if (sdkInitialized) {
-      AsyncStorage.getItem('connectAccountsProviderLoginInitiated').then(async value => {
-        if (value) {
-          const result = await torusSDK.getRedirectResult()
-          AsyncStorage.setItem('torusRedirectResult', result)
-          navigation.navigate('ConnectedAccounts')
-        }
-      })
-    }
-  }, [sdkInitialized])
 
-  const display =
-    ready && sdkInitialized ? (
-      <SceneView navigation={descriptor.navigation} component={descriptor.getComponent()} />
-    ) : (
-      <Splash animation={false} />
-    )
+  const display = ready ? (
+    <SceneView navigation={descriptor.navigation} component={descriptor.getComponent()} />
+  ) : (
+    <Splash animation={false} />
+  )
 
   return <React.Fragment>{display}</React.Fragment>
 }

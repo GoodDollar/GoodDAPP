@@ -1,10 +1,11 @@
 // @flow
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { Switch, Text, View } from 'react-native'
-import AsyncStorage from '@react-native-async-storage/async-storage'
 import { withStyles } from '../../lib/styles'
-import { Section, Wrapper } from '../common'
+import AsyncStorage from '../../lib/utils/asyncStorage'
+import { GD_CONNECTPROVIDER, GD_CONNECTPROVIDER_STATEHASH } from '../../lib/constants/localStorage'
 
+import { LoadingIndicator, Section, Wrapper } from '../common'
 import useCeramicSDK from '../../lib/hooks/useCeramicSDK'
 import useTorus from '../../components/auth/torus/hooks/useTorus'
 import GoogleBtnIcon from '../../assets/Auth/btn_google.svg'
@@ -13,58 +14,76 @@ import MobileBtnIcon from '../../assets/Auth/btn_mobile.svg'
 import Recaptcha from '../../components/auth/login/Recaptcha/index'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
 
+import logger from '../../lib/logger/js-logger'
+
+const log = logger.child({ from: 'ConnectedAccounts' })
+
 const TITLE = 'Connected Accounts'
 
 const ConnectedAccounts = ({ screenProps, styles }) => {
-  const [authenticatorData, setAuthenticatorData] = useState({})
+  const [connectedAccounts, setAccounts] = useState({})
   const [ceramicSDK, ceramicInitialized] = useCeramicSDK()
   const [showErrorDialog] = useErrorDialog()
+  const [torusSDK, sdkInitialized] = useTorus()
+  const providers = Object.values(connectedAccounts)
 
   const fetchAuthProviders = useCallback(async () => {
     const metaData = await ceramicSDK.getMeta()
     const authenticatorsObject = metaData?.content?.authenticators || {}
-    let objectToSetAuthenticator = Object.entries(authenticatorsObject).reduce(
-      // eslint-disable-next-line no-sequences
-      (acc, [key, value]) => ((acc[value] = key), acc),
-      {},
-    )
-    setAuthenticatorData(objectToSetAuthenticator)
+    logger.debug('got connected providers', { authenticatorsObject })
+
+    setAccounts(authenticatorsObject)
   }, [ceramicSDK])
 
-  const addAuthenticatedUser = useCallback(async () => {
-    const provider = await AsyncStorage.getItem('connectAccountsProviderLoginInitiated')
-    AsyncStorage.removeItem('connectAccountsProviderLoginInitiated')
+  const init = useCallback(async () => {
+    const provider = await AsyncStorage.getItem(GD_CONNECTPROVIDER)
+    AsyncStorage.removeItem(GD_CONNECTPROVIDER)
     if (provider) {
-      const redirectResult = await AsyncStorage.getItem('torusRedirectResult')
-      AsyncStorage.removeItem('torusRedirectResult')
-      if (redirectResult) {
-        const parsedResult = JSON.parse(redirectResult)
-        const { privateKey, publicAddress } = parsedResult
-        await ceramicSDK
-          .addAuthenticator(privateKey, publicAddress, provider)
-          .catch(err => {
-            showErrorDialog('An error occurred while adding the authentication provider', '')
-          })
-          .finally(() => {
-            fetchAuthProviders()
-          })
+      try {
+        log.debug('found torus login.. fetching result', { provider })
+        const statehash = await AsyncStorage.getItem(GD_CONNECTPROVIDER_STATEHASH)
+        AsyncStorage.removeItem(GD_CONNECTPROVIDER_STATEHASH)
+        if (statehash) {
+          window.location.hash = statehash
+        }
+        const redirectResult = await torusSDK.getRedirectResult()
+        const { privateKey, publicAddress } = redirectResult
+        await ceramicSDK.addAuthenticator(privateKey, publicAddress, provider)
+      } catch (e) {
+        showErrorDialog('An error occurred while trying to connect the account.', '')
       }
     }
+    await fetchAuthProviders()
   }, [fetchAuthProviders, ceramicSDK])
 
-  const [torusSDK, sdkInitialized] = useTorus()
+  const onToggle = useCallback(
+    async (event, loginProvider) => {
+      if (event) {
+        AsyncStorage.setItem(GD_CONNECTPROVIDER, loginProvider)
+        torusSDK.triggerLogin(loginProvider)
+      } else {
+        if (providers.length !== 0) {
+          try {
+            await ceramicSDK.removeAuthenticator(Object.entries(connectedAccounts).find(_ => _[1] === loginProvider)[0])
+            await fetchAuthProviders()
+          } catch (e) {
+            if (e.message === 'Key set version already exist') {
+              showErrorDialog('Accounts can be removed only once a day, try again tomorrow.', '')
+            }
+          }
+        }
+      }
+    },
+    [connectedAccounts, torusSDK, fetchAuthProviders, ceramicSDK],
+  )
 
   useEffect(() => {
     if (sdkInitialized && ceramicInitialized) {
-      addAuthenticatedUser()
+      log.debug('sdks initialized.. fetching ceramic/torus data')
+      init()
     }
-  }, [sdkInitialized, ceramicInitialized, addAuthenticatedUser])
+  }, [sdkInitialized, ceramicInitialized, init])
 
-  useEffect(() => {
-    if (ceramicInitialized) {
-      fetchAuthProviders()
-    }
-  }, [fetchAuthProviders, ceramicInitialized])
   const reCaptchaRef = useRef()
   const _mobile = () => {
     const { current: captcha } = reCaptchaRef
@@ -78,14 +97,9 @@ const ConnectedAccounts = ({ screenProps, styles }) => {
     captcha.launchCheck()
   }
 
-  const startLogin = (loginProvider: string) => {
-    AsyncStorage.setItem('connectAccountsProviderLoginInitiated', loginProvider)
-  }
-
   const onRecaptchaSuccess = useCallback(() => {
-    startLogin('auth0-pwdless-sms')
-    torusSDK.triggerLogin('auth0-pwdless-sms')
-  }, [torusSDK])
+    onToggle(true, 'auth0-pwdless-sms')
+  }, [torusSDK, onToggle])
 
   const IconWithInfo = ({ icon, label, checked, value }) =>
     sdkInitialized ? (
@@ -96,36 +110,10 @@ const ConnectedAccounts = ({ screenProps, styles }) => {
         </View>
         {value === 'auth0-pwdless-sms' && !checked ? (
           <Recaptcha ref={reCaptchaRef} onSuccess={onRecaptchaSuccess}>
-            <Switch
-              value={checked}
-              onValueChange={event => {
-                _mobile()
-              }}
-            />
+            <Switch value={checked} onValueChange={_mobile} />
           </Recaptcha>
         ) : (
-          <Switch
-            value={checked}
-            onValueChange={async event => {
-              if (event) {
-                startLogin(value)
-                torusSDK.triggerLogin(value)
-              } else {
-                if (Object.keys(authenticatorData).length > 1) {
-                  await ceramicSDK
-                    .removeAuthenticator(authenticatorData[value])
-                    .then(() => {
-                      fetchAuthProviders()
-                    })
-                    .catch(err => {
-                      if (err.message === 'Key set version already exist') {
-                        showErrorDialog('Accounts can be removed only once a day, try again tomorrow .', '')
-                      }
-                    })
-                }
-              }
-            }}
-          />
+          <Switch value={checked} onValueChange={e => onToggle(e, value)} />
         )}
       </View>
     ) : null
@@ -134,7 +122,7 @@ const ConnectedAccounts = ({ screenProps, styles }) => {
     {
       label: 'Facebook Provider',
       icon: <FacebookBtnIcon width="100%" iconprops={{ viewBox: '0 0 11 22' }} />,
-      checked: Object.keys(authenticatorData).includes('facebook'),
+      checked: providers.includes('facebook'),
       value: 'facebook',
     },
     {
@@ -144,20 +132,23 @@ const ConnectedAccounts = ({ screenProps, styles }) => {
           <GoogleBtnIcon width="100%" height="24" iconprops={{ viewBox: '0 0 11 24' }} />
         </View>
       ),
-      checked: Object.keys(authenticatorData).includes('google'),
+      checked: providers.includes('google'),
       value: 'google',
     },
     {
       label: 'Phone Provider',
       icon: <MobileBtnIcon width="100%" iconprops={{ viewBox: '0 0 11 22' }} />,
-      checked: Object.keys(authenticatorData).includes('auth0-pwdless-sms'),
+      checked: providers.includes('auth0-pwdless-sms'),
       value: 'auth0-pwdless-sms',
     },
   ]
   return (
     <Wrapper>
       <Section style={styles.section}>
-        <View>{authOptions.map(data => IconWithInfo(data))}</View>
+        <View>
+          <LoadingIndicator force={!sdkInitialized || !ceramicInitialized} />
+          {authOptions.map(data => IconWithInfo(data))}
+        </View>
       </Section>
     </Wrapper>
   )

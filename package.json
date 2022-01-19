@@ -63,9 +63,8 @@
   "homepage": "https://gooddollar.org",
   "dependencies": {
     "@amplitude/react-native": "^2.5.0",
-    "@babel/preset-env": "^7.16.10",
     "@expo/react-native-action-sheet": "^3.9.0",
-    "@gooddollar/ceramic-seed-sdk": "^1.0.7",
+    "@gooddollar/ceramic-seed-sdk": "^1.0.8",
     "@gooddollar/goodcontracts": "^2.6.0",
     "@gooddollar/goodprotocol": "^1.0.6",
     "@gooddollar/gun": "^0.2020.902",

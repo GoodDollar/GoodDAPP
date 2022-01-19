@@ -35,12 +35,12 @@ const AccountAlreadyExistsScreen = ({ screenProps, styles, checkResult, eventVar
   const _onContinueSignup = useOnPress(() => {
     fireEvent(SIGNUP_EXISTS_CONTINUE, { checkResult, ...eventVars })
     onContinueSignup('signup')
-  }, [checkResult, onContinueSignup])
+  }, [checkResult])
 
   const _onLoginWithProvider = useOnPress(() => {
     onContinueSignup()
     handleLoginMethod()
-  }, [handleLoginMethod])
+  }, [onContinueSignup])
 
   useEffect(() => {
     fireEvent(SIGNUP_EXISTS, { checkResult, ...eventVars })

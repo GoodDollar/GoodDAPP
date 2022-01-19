@@ -1,5 +1,5 @@
 // @flow
-import React, { useCallback, useContext, useRef } from 'react'
+import React, { useCallback, useContext, useEffect, useMemo, useRef } from 'react'
 import { Platform, View } from 'react-native'
 import Wrapper from '../../common/layout/Wrapper'
 import Text from '../../common/view/Text'
@@ -22,24 +22,57 @@ import Config from '../../../config/config'
 import logger from '../../../lib/logger/js-logger'
 import AuthStateWrapper from '../components/AuthStateWrapper'
 import AuthContext from '../context/AuthContext'
+import { fireEvent, GOTO_CHOOSEAUTH } from '../../../lib/analytics/analytics'
 import { LoginButton } from './LoginButton'
 import Recaptcha from './Recaptcha'
 
 const log = logger.child({ from: 'SignUpScreen' })
 
-const SignupScreen = ({ screenProps, styles, handleLoginMethod, sdkInitialized, goBack }) => {
+const SignupText = ({ screenProps }) => {
   const { push } = screenProps
+
+  const [handleNavigateTermsOfUse, handleNavigatePrivacyPolicy] = useMemo(
+    () => ['PrivacyPolicyAndTerms', 'PrivacyPolicy'].map(screen => () => push(screen)),
+    [push],
+  )
+
+  return (
+    <>
+      <Text fontSize={12} color="gray80Percent">
+        {`By signing up and entering, you are accepting\nour`}
+        <Text
+          fontSize={12}
+          color="gray80Percent"
+          fontWeight="bold"
+          textDecorationLine="underline"
+          onPress={handleNavigateTermsOfUse}
+        >
+          {`Terms of Use`}
+        </Text>
+        {' and '}
+        <Text
+          fontSize={12}
+          color="gray80Percent"
+          fontWeight="bold"
+          textDecorationLine="underline"
+          onPress={handleNavigatePrivacyPolicy}
+        >
+          Privacy Policy
+        </Text>
+      </Text>
+    </>
+  )
+}
+
+const SignupScreen = ({ screenProps, styles, handleLoginMethod, sdkInitialized, goBack }) => {
+  const reCaptchaRef = useRef()
+  const buttonPrefix = 'Continue with'
   const { success: signupSuccess } = useContext(AuthContext)
 
-  const handleNavigateTermsOfUse = useCallback(() => push('PrivacyPolicyAndTerms'), [push])
-
-  const handleNavigatePrivacyPolicy = useCallback(() => push('PrivacyPolicy'), [push])
-
-  const reCaptchaRef = useRef()
-
   const _google = () => handleLoginMethod('google')
-
   const _facebook = () => handleLoginMethod('facebook')
+  const _selfCustodySignup = () => handleLoginMethod('selfCustody')
+  const _selfCustodyLogin = () => handleLoginMethod('selfCustodyLogin')
 
   const _mobile = () => {
     const { current: captcha } = reCaptchaRef
@@ -66,37 +99,9 @@ const SignupScreen = ({ screenProps, styles, handleLoginMethod, sdkInitialized, 
     log.debug('Recaptcha failed')
   }, [])
 
-  const _selfCustody = () => handleLoginMethod('selfCustody')
-  const _selfCustodyLogin = () => handleLoginMethod('selfCustodyLogin')
-
-  const buttonPrefix = 'Continue with'
-
-  const SignupText = () => (
-    <>
-      <Text fontSize={12} color="gray80Percent">
-        {`By signing up and entering, you are accepting\nour`}
-        <Text
-          fontSize={12}
-          color="gray80Percent"
-          fontWeight="bold"
-          textDecorationLine="underline"
-          onPress={handleNavigateTermsOfUse}
-        >
-          {`Terms of Use`}
-        </Text>
-        {' and '}
-        <Text
-          fontSize={12}
-          color="gray80Percent"
-          fontWeight="bold"
-          textDecorationLine="underline"
-          onPress={handleNavigatePrivacyPolicy}
-        >
-          Privacy Policy
-        </Text>
-      </Text>
-    </>
-  )
+  useEffect(() => {
+    fireEvent(GOTO_CHOOSEAUTH)
+  }, [])
 
   return (
     <Wrapper backgroundColor="#fff" style={styles.mainWrapper}>
@@ -201,7 +206,7 @@ const SignupScreen = ({ screenProps, styles, handleLoginMethod, sdkInitialized, 
                         lineHeight: 16,
                         letterSpacing: 0.14,
                       }}
-                      onPress={_selfCustody}
+                      onPress={_selfCustodySignup}
                       style={styles.textButton}
                     >
                       Self Custody SignUp
@@ -225,7 +230,7 @@ const SignupScreen = ({ screenProps, styles, handleLoginMethod, sdkInitialized, 
                   </View>
                 )}
               </Section.Stack>
-              <SignupText />
+              <SignupText screenProps={screenProps} />
             </Section.Stack>
           </Section.Stack>
         </Section.Stack>

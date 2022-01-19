@@ -38,6 +38,7 @@ import Auth from '../../auth/Auth'
 import GetStarted from '../components/GetStarted'
 import AuthTorus from '../../auth/torus/AuthTorus'
 
+// TODO: merge this component with GetStarted
 // const log = logger.child({ from: 'Welcome' })
 const AuthType = config.torusEnabled ? AuthTorus : Auth
 

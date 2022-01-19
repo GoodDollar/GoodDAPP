@@ -17,6 +17,8 @@ const AuthStateWrapper = ({ children }) => {
 
     success,
     successScreenOptions,
+
+    handleLoginMethod,
   } = useContext(AuthContext)
 
   const [successDelay, successCallback] = useMemo(
@@ -30,6 +32,7 @@ const AuthStateWrapper = ({ children }) => {
         checkResult={signedUpWithProvider}
         eventVars={signedUpOptions}
         onDecision={signedUpDecisionCallback}
+        handleLoginMethod={handleLoginMethod}
       />
     )
   }

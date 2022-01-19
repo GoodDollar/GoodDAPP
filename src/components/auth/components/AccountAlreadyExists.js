@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react'
+import React, { useCallback, useContext, useEffect } from 'react'
 import { View } from 'react-native'
 import Text from '../../common/view/Text'
 import { withStyles } from '../../../lib/styles'
@@ -19,32 +19,43 @@ import Illustration from '../../../assets/Auth/account_exist.svg'
 import facebookBtnIcon from '../../../assets/Auth/btn-facebook.svg'
 
 import { fireEvent, SIGNUP_EXISTS, SIGNUP_EXISTS_CONTINUE, SIGNUP_EXISTS_LOGIN } from '../../../lib/analytics/analytics'
+import AuthContext from '../context/AuthContext'
 
-const AccountAlreadyExistsScreen = ({ screenProps, styles, checkResult, eventVars, onContinueSignup }) => {
+const AccountAlreadyExistsScreen = ({
+  screenProps,
+  styles,
+  handleLoginMethod,
+  checkResult,
+  eventVars,
+  onContinueSignup,
+}) => {
+  const { setWalletPreparing, setAlreadySignedUp } = useContext(AuthContext)
   const { provider, email } = checkResult || {}
   const usedText = email ? 'Email' : 'Mobile'
   const registeredBy = LoginStrategy.getTitle(provider)
   const buttonPrefix = 'Continue with'
 
-  const handleLoginMethod = useCallback(() => {
+  const handleLogin = useCallback(() => {
     fireEvent(SIGNUP_EXISTS_LOGIN, { checkResult, ...eventVars })
+    setAlreadySignedUp(false)
+    setWalletPreparing(true)
 
-    // TODO: implement login with provider, mauybe call setAlreadySignedUp(false) here and setWalletPreparing()
-  }, [checkResult])
+    handleLoginMethod(provider)
+  }, [checkResult, eventVars, provider, setWalletPreparing, setAlreadySignedUp, handleLoginMethod])
 
   const _onContinueSignup = useOnPress(() => {
     fireEvent(SIGNUP_EXISTS_CONTINUE, { checkResult, ...eventVars })
     onContinueSignup('signup')
-  }, [checkResult])
+  }, [checkResult, eventVars])
 
   const _onLoginWithProvider = useOnPress(() => {
     onContinueSignup()
-    handleLoginMethod()
+    handleLogin()
   }, [onContinueSignup])
 
   useEffect(() => {
     fireEvent(SIGNUP_EXISTS, { checkResult, ...eventVars })
-  }, [checkResult])
+  }, [checkResult, eventVars])
 
   return (
     <View style={styles.contentContainer}>
@@ -88,7 +99,7 @@ const AccountAlreadyExistsScreen = ({ screenProps, styles, checkResult, eventVar
               },
             ]}
             onPress={_onLoginWithProvider}
-            testID="login_with_facebook"
+            testID={`login_with_${provider}`}
             icon={facebookBtnIcon}
             iconProps={{ viewBox: '0 0 11 22' }}
           >

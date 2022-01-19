@@ -9,19 +9,24 @@ const AuthContext = React.createContext({
   successCallback: null,
   signedUpProvider: null,
   alreadySignedUp: false,
+  handleLoginMethod: null,
   successDelay: Config.authSuccessDelay,
   setWalletPreparing: isPreparing => {},
   setAlreadySignedUp: (withProvider, options, onDecision = null) => {},
   setSuccessfull: (callback = null, delay = null) => {},
+  setHandleLoginMethod: callback => {},
 })
 
 export const AuthContextProvider = ({ children }) => {
   const [preparing, setWalletPreparing] = useState(false)
   const [successState, setSuccessState] = useState(null)
   const [existingState, setExistingState] = useState(null)
+  const [handleLoginMethod, setHandleLoginMethod] = useState(null)
 
-  const success = useMemo(() => !!successState, [successState])
-  const alreadySignedUp = useMemo(() => !!existingState, [existingState])
+  const [success, alreadySignedUp] = useMemo(() => [successState, existingState].map(state => !!state), [
+    successState,
+    existingState,
+  ])
 
   const [signedUpWithProvider, signedUpDecisionCallback, signedUpOptions] = useMemo(
     () => ['withProvider', 'onDecision', 'options'].map(prop => get(existingState, prop, null)),
@@ -62,6 +67,9 @@ export const AuthContextProvider = ({ children }) => {
       success,
       successScreenOptions,
       setSuccessfull,
+
+      handleLoginMethod,
+      setHandleLoginMethod,
     }),
     [
       preparing,
@@ -76,6 +84,9 @@ export const AuthContextProvider = ({ children }) => {
       success,
       successScreenOptions,
       setSuccessfull,
+
+      handleLoginMethod,
+      setHandleLoginMethod,
     ],
   )
 

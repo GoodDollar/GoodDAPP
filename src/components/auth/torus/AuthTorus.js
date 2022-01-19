@@ -42,34 +42,11 @@ const log = logger.child({ from: 'AuthTorus' })
 
 const AuthTorus = ({ screenProps, navigation, styles, store }) => {
   const [, hideDialog, showErrorDialog] = useDialog()
-  const { setWalletPreparing } = useContext(AuthContext)
+  const { setWalletPreparing, setHandleLoginMethod } = useContext(AuthContext)
   const checkExisting = useCheckExisting()
   const [torusSDK, sdkInitialized] = useTorus()
   const [authScreen, setAuthScreen] = useState(get(navigation, 'state.params.screen'))
   const { navigate } = navigation
-
-  useEffect(() => {
-    //helper to show user login/signup when he presses back or cancels login flow
-    if (authScreen == null) {
-      AsyncStorage.getItem('recallTorusRedirectScreen').then(screen => {
-        log.debug('recall authscreen for torus redirect flow', screen)
-        screen && setAuthScreen(screen)
-      })
-    }
-  }, [])
-
-  useEffect(() => {
-    if (authScreen) {
-      //when user switches between login/signup we clear the recall
-      AsyncStorage.setItem('recallTorusRedirectScreen', authScreen)
-    }
-  }, [authScreen])
-
-  useEffect(() => {
-    if (sdkInitialized) {
-      getTorusUserRedirect()
-    }
-  }, [sdkInitialized])
 
   const getTorusUserRedirect = async () => {
     //in case of redirect flow we need to recover the provider/login type
@@ -275,6 +252,30 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
       log.error('Failed to initialize wallet and storage', message, e)
     }
   }
+
+  useEffect(() => {
+    //helper to show user login/signup when he presses back or cancels login flow
+    if (authScreen == null) {
+      AsyncStorage.getItem('recallTorusRedirectScreen').then(screen => {
+        log.debug('recall authscreen for torus redirect flow', screen)
+        screen && setAuthScreen(screen)
+      })
+    }
+  }, [])
+
+  useEffect(() => {
+    if (authScreen) {
+      //when user switches between login/signup we clear the recall
+      AsyncStorage.setItem('recallTorusRedirectScreen', authScreen)
+    }
+  }, [authScreen])
+
+  useEffect(() => {
+    if (sdkInitialized) {
+      getTorusUserRedirect()
+      setHandleLoginMethod(handleLoginMethod)
+    }
+  }, [sdkInitialized])
 
   return (
     <SignUpIn

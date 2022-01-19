@@ -16,8 +16,6 @@ import {
   getMaxDeviceHeight,
   isLongDevice,
 } from '../../../lib/utils/sizes'
-import googleBtnIcon from '../../../assets/Auth/btn-google.svg'
-import facebookBtnIcon from '../../../assets/Auth/btn-facebook.svg'
 import Config from '../../../config/config'
 import logger from '../../../lib/logger/js-logger'
 import AuthStateWrapper from '../components/AuthStateWrapper'
@@ -66,15 +64,14 @@ const SignupText = ({ screenProps }) => {
 
 const SignupScreen = ({ screenProps, styles, handleLoginMethod, sdkInitialized, goBack }) => {
   const reCaptchaRef = useRef()
-  const buttonPrefix = 'Continue with'
   const { success: signupSuccess } = useContext(AuthContext)
 
-  const _google = () => handleLoginMethod('google')
-  const _facebook = () => handleLoginMethod('facebook')
-  const _selfCustodySignup = () => handleLoginMethod('selfCustody')
-  const _selfCustodyLogin = () => handleLoginMethod('selfCustodyLogin')
+  const [_google, _facebook, _selfCustodySignup, _selfCustodyLogin] = useMemo(
+    () => ['google', 'facebook', 'selfCustody', 'selfCustodyLogin'].map(method => () => handleLoginMethod(method)),
+    [handleLoginMethod],
+  )
 
-  const _mobile = () => {
+  const _mobile = useCallback(() => {
     const { current: captcha } = reCaptchaRef
 
     if (!captcha) {
@@ -88,7 +85,7 @@ const SignupScreen = ({ screenProps, styles, handleLoginMethod, sdkInitialized, 
     }
 
     captcha.launchCheck()
-  }
+  }, [onRecaptchaSuccess])
 
   const onRecaptchaSuccess = useCallback(() => {
     log.debug('Recaptcha successfull')
@@ -146,15 +143,7 @@ const SignupScreen = ({ screenProps, styles, handleLoginMethod, sdkInitialized, 
             </Section.Stack>
             <Section.Stack style={styles.bottomContainer}>
               <View style={{ width: '100%' }}>
-                <LoginButton
-                  style={[styles.buttonLayout, { backgroundColor: mainTheme.colors.googleRed }]}
-                  onPress={_google}
-                  disabled={!sdkInitialized}
-                  testID="login_with_google"
-                  icon={googleBtnIcon}
-                >
-                  {`${buttonPrefix} Google`}
-                </LoginButton>
+                <LoginButton.Google handleLoginMethod={handleLoginMethod} disabled={!sdkInitialized} />
                 <LoginButton
                   style={[
                     styles.buttonLayout,
@@ -257,13 +246,6 @@ const getStylesFromProps = ({ theme }) => {
       width: '100%',
       alignSelf: 'center',
     },
-    buttonLayout: {
-      justifyContent: 'center',
-      flexDirection: 'row',
-      alignItems: 'center',
-      borderRadius: 50,
-      padding: 3,
-    },
     illustration: {
       marginTop: getDesignRelativeHeight(theme.sizes.default * 3),
       height: getDesignRelativeHeight(170, false),
@@ -277,9 +259,6 @@ const getStylesFromProps = ({ theme }) => {
     },
     marginBottom: {
       marginBottom: getDesignRelativeHeight(shorterDevice ? theme.sizes.default : theme.sizes.defaultDouble),
-    },
-    buttonsMargin: {
-      marginTop: getDesignRelativeHeight(shorterDevice ? theme.sizes.default : theme.sizes.defaultDouble),
     },
     textButton: {
       height: 23,

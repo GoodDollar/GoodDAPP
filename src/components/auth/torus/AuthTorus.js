@@ -111,6 +111,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
         await AsyncStorage.clear()
         replacing = true
       }
+
       if (!torusUser.privateKey) {
         log.warn('Missing private key from torus response', { torusUser })
         throw new Error('Missing privateKey from torus response')

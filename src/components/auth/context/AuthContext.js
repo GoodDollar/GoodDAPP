@@ -28,7 +28,8 @@ export const AuthContextProvider = ({ children }) => {
     [existingState],
   )
 
-  const successScreenOptions = useMemo( // eslint-disable-line
+  const successScreenOptions = useMemo(
+    // eslint-disable-line
     () => successState || { delay: Config.authSuccessDelay, callback: null }, // eslint-disable-line
     [successState], // eslint-disable-line
   ) // eslint-disable-line

@@ -25,7 +25,7 @@ const AccountAlreadyExistsScreen = ({
   handleLoginMethod,
   checkResult,
   eventVars,
-  onContinueSignup: onDecision,
+  onDecision,
   setWalletPreparing,
   setAlreadySignedUp,
   torusInitialized,

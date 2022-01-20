@@ -12,6 +12,8 @@ const AuthContext = React.createContext({
   torusInitialized: false,
   handleLoginMethod: null,
   successDelay: Config.authSuccessDelay,
+  authNavigator: null,
+  setAuthNavigator: () => {},
   setWalletPreparing: isPreparing => {},
   setAlreadySignedUp: (withProvider, options, onDecision = null) => {},
   setSuccessfull: (callback = null, delay = null) => {},
@@ -23,6 +25,7 @@ export const AuthContextProvider = ({ children }) => {
   const [successState, setSuccessState] = useState(null)
   const [existingState, setExistingState] = useState(null)
   const [handleLoginMethod, setHandleLoginMethod] = useState(null)
+  const [authNavigator, setAuthNavigator] = useState(null)
 
   const [success, alreadySignedUp, torusInitialized] = useMemo(
     () => [successState, existingState, handleLoginMethod].map(state => !!state),
@@ -58,11 +61,13 @@ export const AuthContextProvider = ({ children }) => {
     preparing,
     setWalletPreparing,
 
+    authNavigator,
     alreadySignedUp,
     signedUpWithProvider,
     signedUpDecisionCallback,
     signedUpOptions,
     setAlreadySignedUp,
+    setAuthNavigator,
 
     success,
     successScreenOptions,

@@ -15,7 +15,7 @@ const AuthStateWrapper = ({ children }) => {
     signedUpWithProvider,
     signedUpDecisionCallback,
     signedUpOptions,
-
+    authNavigator,
     setWalletPreparing,
 
     success,
@@ -36,6 +36,7 @@ const AuthStateWrapper = ({ children }) => {
         checkResult={signedUpWithProvider}
         eventVars={signedUpOptions}
         onDecision={signedUpDecisionCallback}
+        onContinueSignup={authNavigator.navigate}
         handleLoginMethod={handleLoginMethod}
         torusInitialized={torusInitialized}
         setAlreadySignedUp={setAlreadySignedUp}

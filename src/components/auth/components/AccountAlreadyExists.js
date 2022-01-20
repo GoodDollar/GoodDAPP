@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useMemo } from 'react'
 import { View } from 'react-native'
 import { upperFirst } from 'lodash'
+import { REGISTRATION_METHOD_SELF_CUSTODY } from '../../../lib/constants/login'
 import Text from '../../common/view/Text'
 import { withStyles } from '../../../lib/styles'
 import { theme as mainTheme } from '../../theme/styles'
@@ -47,7 +48,7 @@ const AccountAlreadyExistsScreen = ({
   const _onContinueSignup = useCallback(() => {
     fireEvent(SIGNUP_EXISTS_CONTINUE, { checkResult, ...eventVars })
     setAlreadySignedUp(false)
-    onContinueSignup('signup')
+    onContinueSignup('Signup', { regMethod: REGISTRATION_METHOD_SELF_CUSTODY })
   }, [checkResult, eventVars])
 
   const _onLoginWithProvider = useCallback(() => {

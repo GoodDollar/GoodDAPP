@@ -115,6 +115,7 @@ const Config = {
   textileSecret: env.REACT_APP_TEXTILE_SECRET,
   web3Polling: env.REACT_APP_WEB3_POLLING || 30 * 1000, //poll every 30 seconds by default
   realmAppID: env.REACT_APP_REALM_APP_ID || 'wallet_dev-dhiht',
+  cermaicNodeUrl: env.REACT_APP_CERAMIC_NODE_URL || "https://ceramic-clay.3boxlabs.com",
   ethereum: {
     '1': {
       network_id: 1,

@@ -112,7 +112,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
   const [, hideDialog, showErrorDialog] = useDialog()
   const shouldGrow = store.get && !store.get('isMobileSafariKeyboardShown')
 
-  const { preparing: walletPreparing, success: signupSuccess, setWallletPreparing, setSuccessfull } = useContext(
+  const { preparing: walletPreparing, success: signupSuccess, setWalletPreparing, setSuccessfull } = useContext(
     AuthContext,
   )
 
@@ -122,7 +122,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
 
   const navigateWithFocus = (routeKey: string) => {
     navigation.navigate(routeKey)
-    setWallletPreparing(false)
+    setWalletPreparing(false)
 
     if (Platform.OS === 'web' && (isMobileSafari || routeKey === 'Phone')) {
       setTimeout(() => {
@@ -309,7 +309,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
 
   const finishRegistration = async () => {
     setCreateError(false)
-    setWallletPreparing(true)
+    setWalletPreparing(true)
 
     log.info('Sending new user data', { state, regMethod, torusProvider })
     const { skipEmail, skipEmailConfirmation, skipMagicLinkInfo, ...requestPayload } = state
@@ -423,7 +423,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
       fireSignupEvent('SUCCESS', { torusProvider, inviteCode })
 
       log.debug('New user created')
-      setWallletPreparing(false)
+      setWalletPreparing(false)
 
       return true
     } catch (exception) {
@@ -439,7 +439,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
       setCreateError(true)
       return false
     } finally {
-      setWallletPreparing(false)
+      setWalletPreparing(false)
     }
   }
 
@@ -457,7 +457,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
       log.error('waiting for user registration failed', e.message, e)
       return false
     } finally {
-      setWallletPreparing(false)
+      setWalletPreparing(false)
     }
   }
 
@@ -482,7 +482,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
   }
 
   const done = async (data: { [string]: string }) => {
-    setWallletPreparing(true)
+    setWalletPreparing(true)
     fireSignupEvent()
 
     //We can wait for ready later, when we need stuff, we don't need it until usage of API first in sendOTP(that needs to be logged in)
@@ -529,11 +529,11 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
         log.error('Send mobile code failed', e.message, e, { dialogShown: true })
         return showErrorDialog('Could not send verification code. Please try again')
       } finally {
-        setWallletPreparing(false)
+        setWalletPreparing(false)
       }
     } else if (nextRoute && nextRoute.key === 'EmailConfirmation') {
       try {
-        setWallletPreparing(true)
+        setWalletPreparing(true)
         const result = await checkExisting(torusProvider, { email: newState.email }, { fromSignupFlow: true })
 
         if (result !== 'signup') {
@@ -570,7 +570,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
         log.error('email verification failed unexpected:', e.message, e, { dialogShown: true })
         return showErrorDialog('Could not send verification email. Please try again', ExceptionCode.E9)
       } finally {
-        setWallletPreparing(false)
+        setWalletPreparing(false)
       }
     } else if (nextRoute.key === 'MagicLinkInfo') {
       let ok = await waitForRegistrationToFinish()

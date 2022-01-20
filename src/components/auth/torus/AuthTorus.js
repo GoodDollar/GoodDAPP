@@ -277,7 +277,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
   useEffect(() => {
     if (sdkInitialized) {
       getTorusUserRedirect()
-      setHandleLoginMethod(handleLoginMethod)
+      setHandleLoginMethod(() => handleLoginMethod)
     }
   }, [sdkInitialized])
 

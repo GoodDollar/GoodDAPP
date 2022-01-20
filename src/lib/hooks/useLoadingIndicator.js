@@ -1,15 +1,12 @@
-import { useCallback } from 'react'
+import { useCallback, useContext } from 'react'
 
-import SimpleStore from '../undux/SimpleStore'
-
-import { hideLoadingIndicator, showLoadingIndicator, toggleLoadingIndicator } from '../undux/utils/loading'
+import { GlobalTogglesContext } from '../contexts/togglesContext'
 
 export default () => {
-  const store = SimpleStore.useStore()
+  const { setLoading } = useContext(GlobalTogglesContext)
 
-  const showLoading = useCallback(() => showLoadingIndicator(store), [store])
-  const hideLoading = useCallback(() => hideLoadingIndicator(store), [store])
-  const toggleLoading = useCallback(loading => toggleLoadingIndicator(store, loading), [store])
+  const showLoading = useCallback(() => setLoading(true), [setLoading])
+  const hideLoading = useCallback(() => setLoading(false), [setLoading])
 
-  return [showLoading, hideLoading, toggleLoading]
+  return [showLoading, hideLoading]
 }

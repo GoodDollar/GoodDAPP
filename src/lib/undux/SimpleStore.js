@@ -26,19 +26,10 @@ type CurrentScreen = {
 }
 
 /**
- * Loading indicator screen status. In true means that there is a loading overlay over the current screen
- * @type {{loading: boolean}}
- */
-type LoadingIndicator = {
-  loading: boolean,
-}
-
-/**
  * Type definition for the global store
  * @type {
    {currentScreen: CurrentScreen},
    {destinationPath: string},
-   {loadingIndicator: LoadingIndicator},
    {isLoggedInCitizen: boolean},
    {isLoggedIn: boolean},
    {sidemenu: { visible: boolean }}
@@ -47,7 +38,6 @@ type LoadingIndicator = {
 export type State = {
   currentScreen: CurrentScreen,
   destinationPath: string,
-  loadingIndicator: LoadingIndicator,
   isLoggedInCitizen: boolean,
   isLoggedIn: boolean,
   feedLoadAnimShown: boolean,
@@ -82,9 +72,6 @@ const initialState: State = {
     loading: false,
   },
   destinationPath: '',
-  loadingIndicator: {
-    loading: false,
-  },
   sidemenu: {
     visible: false,
   },

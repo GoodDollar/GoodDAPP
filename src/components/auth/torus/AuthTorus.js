@@ -42,7 +42,7 @@ const log = logger.child({ from: 'AuthTorus' })
 
 const AuthTorus = ({ screenProps, navigation, styles, store }) => {
   const [, hideDialog, showErrorDialog] = useDialog()
-  const { setWalletPreparing, setTorusInitialized, setAuthNavigator, setSuccessfull } = useContext(AuthContext)
+  const { setWalletPreparing, setTorusInitialized, setSuccessfull } = useContext(AuthContext)
   const checkExisting = useCheckExisting()
   const [torusSDK, sdkInitialized] = useTorus()
   const [authScreen, setAuthScreen] = useState(get(navigation, 'state.params.screen'))
@@ -259,7 +259,6 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
 
   useEffect(() => {
     //helper to show user login/signup when he presses back or cancels login flow
-    setAuthNavigator(navigation)
     if (authScreen == null) {
       AsyncStorage.getItem('recallTorusRedirectScreen').then(screen => {
         log.debug('recall authscreen for torus redirect flow', screen)

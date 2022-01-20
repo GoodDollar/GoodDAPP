@@ -9,13 +9,13 @@ import WalletPreparing from './WalletPreparing'
 const AuthStateWrapper = ({ children }) => {
   const {
     preparing,
+    setWalletPreparing,
 
     alreadySignedUp,
     setAlreadySignedUp,
     signedUpWithProvider,
     signedUpDecisionCallback,
     signedUpOptions,
-    setWalletPreparing,
 
     success,
     successScreenOptions,

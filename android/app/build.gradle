@@ -266,7 +266,6 @@ dependencies {
 
 
     // Add v8-android - prebuilt libv8android.so into APK
-    implementation 'org.chromium:v8-android:+'
     implementation "androidx.annotation:annotation:1.1.0"
     androidTestImplementation('com.wix:detox:+') { transitive = true }
     androidTestImplementation 'junit:junit:4.12'

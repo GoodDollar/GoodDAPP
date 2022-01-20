@@ -31,7 +31,6 @@ const Config = {
   env: appEnv,
   version: appEnv === 'test' ? '1.0' : version, //hard code for tests snapshots
   contractsVersion,
-  ceramicSdkUrl:env.REACT_APP_CERAMIC_SDK_URL || 'https://ceramic-clay.3boxlabs.com',
   isEToro,
   phase,
   isPhaseZero,
@@ -116,6 +115,7 @@ const Config = {
   web3Polling: env.REACT_APP_WEB3_POLLING || 30 * 1000, //poll every 30 seconds by default
   realmAppID: env.REACT_APP_REALM_APP_ID || 'wallet_dev-dhiht',
   cermaicNodeUrl: env.REACT_APP_CERAMIC_NODE_URL || "https://ceramic-clay.3boxlabs.com",
+  ceramicEnabled: env.REACT_APP_CERAMIC_ENABLED || true,
   ethereum: {
     '1': {
       network_id: 1,

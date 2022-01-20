@@ -8,6 +8,9 @@ import config from '../../config/config'
 const fromDate = new Date('2022/01/20')
 
 const upadateWalletSeed = async (lastUpdate, prevVersion, log) => {
+  if (!config.ceramicEnabled) {
+    return
+  }
   const identifier = wallet.getAccountForType('login')
   const ceramic = new CeramicSDK(config.cermaicNodeUrl)
   const data = await API.userExistsCheck({ identifier })

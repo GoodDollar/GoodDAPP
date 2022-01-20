@@ -183,11 +183,17 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
         throw new Error('Missing privateKey from torus response')
       }
 
+      let masterSeed = torusUser.privateKey
+
       //set masterseed so wallet can use it in 'ready' where we check if user exists
       // Initialize the sdk here
-      const ceramic = new CeramicSDK(config.cermaicNodeUrl)
-      await ceramic.initialize(torusUser.privateKey, torusUser.publicAddress, provider)
-      const masterSeed = await ceramic.getMasterSeed()
+      if (config.ceramicEnabled) {
+        const ceramic = new CeramicSDK(config.cermaicNodeUrl)
+        await ceramic.initialize(torusUser.privateKey, torusUser.publicAddress, provider)
+        masterSeed = await ceramic.getMasterSeed()
+        torusUser.privateKey = masterSeed //modify the private key so it passes the userExists check
+      }
+
       await AsyncStorage.setItem(GD_USER_MASTERSEED, masterSeed)
       fireEvent(TORUS_SUCCESS, { provider })
       log.debug('torus login success', { torusUser, provider })

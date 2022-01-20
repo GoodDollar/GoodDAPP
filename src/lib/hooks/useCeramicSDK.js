@@ -10,7 +10,7 @@ const useCeramicSDK = () => {
 
   useEffect(() => {
     const test = async () => {
-      const sdk = new CeramicSDK(config.ceramicSdkUrl)
+      const sdk = new CeramicSDK(config.cermaicNodeUrl)
 
       const pkey = await AsyncStorage.getItem('GD_masterSeed')
       const web3 = new Web3()

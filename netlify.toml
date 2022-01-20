@@ -75,6 +75,7 @@ REACT_APP_IPFS_GATEWAYS = "https://gateway.pinata.cloud/ipfs/{cid},https://{cid}
 REACT_APP_IPFS_LAZY_UPLOAD = "false"
 REACT_APP_REALM_APP_ID = "wallet_dev-dhiht"
 REACT_APP_PUBLIC_URL = "https://gooddev.netlify.app"
+REACT_APP_CERAMIC_ENABLED=true
 
 [context.staging.environment]
 NODE_ENV = "staging"
@@ -96,7 +97,7 @@ REACT_APP_WEB3_SITE_URL = "https://w3.gooddollar.org"
 REACT_APP_USE_TORUS = "true"
 REACT_APP_REALM_APP_ID = "wallet_qa-iumgc"
 REACT_APP_PUBLIC_URL = "https://goodqa.netlify.app"
-
+REACT_APP_CERAMIC_ENABLED=false
 [context.next.environment]
 NODE_ENV = "production"
 REACT_APP_SERVICE_WORKER = "true"
@@ -126,3 +127,4 @@ REACT_APP_ENABLE_SELF_CUSTODY = "false"
 REACT_APP_AB_TEST_PERCENTAGE = "0.5"
 REACT_APP_REALM_APP_ID = "wallet_prod-obclo"
 REACT_APP_PUBLIC_URL = "https://wallet.gooddollar.org"
+REACT_APP_CERAMIC_ENABLED=false

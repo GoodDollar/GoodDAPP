@@ -42,7 +42,7 @@ const log = logger.child({ from: 'AuthTorus' })
 
 const AuthTorus = ({ screenProps, navigation, styles, store }) => {
   const [, hideDialog, showErrorDialog] = useDialog()
-  const { setWalletPreparing, setHandleLoginMethod, setAuthNavigator, setSuccessfull } = useContext(AuthContext)
+  const { setWalletPreparing, setTorusInitialized, setAuthNavigator, setSuccessfull } = useContext(AuthContext)
   const checkExisting = useCheckExisting()
   const [torusSDK, sdkInitialized] = useTorus()
   const [authScreen, setAuthScreen] = useState(get(navigation, 'state.params.screen'))
@@ -278,7 +278,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
   useEffect(() => {
     if (sdkInitialized) {
       getTorusUserRedirect()
-      setHandleLoginMethod(() => handleLoginMethod)
+      setTorusInitialized(handleLoginMethod)
     }
   }, [sdkInitialized])
 

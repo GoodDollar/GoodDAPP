@@ -25,7 +25,7 @@ const AccountAlreadyExistsScreen = ({
   handleLoginMethod,
   checkResult,
   eventVars,
-  onContinueSignup,
+  onContinueSignup: onDecision,
   setWalletPreparing,
   setAlreadySignedUp,
   torusInitialized,
@@ -44,18 +44,18 @@ const AccountAlreadyExistsScreen = ({
     return LoginButton[loginComponent]
   }, [provider])
 
-  const _onContinueSignup = useCallback(() => {
+  const onContinueSignup = useCallback(() => {
     fireEvent(SIGNUP_EXISTS_CONTINUE, { checkResult, ...eventVars })
     setAlreadySignedUp(false)
-    onContinueSignup('signup')
+    onDecision('signup')
   }, [checkResult, eventVars])
 
-  const _onLoginWithProvider = useCallback(() => {
+  const onLoginWithProvider = useCallback(() => {
     fireEvent(SIGNUP_EXISTS_LOGIN, { checkResult, ...eventVars })
     setWalletPreparing(true)
     setAlreadySignedUp(false)
-    onContinueSignup()
-  }, [checkResult, eventVars, onContinueSignup, setWalletPreparing, setAlreadySignedUp])
+    onDecision()
+  }, [checkResult, eventVars, onDecision, setWalletPreparing, setAlreadySignedUp])
 
   useEffect(() => {
     fireEvent(SIGNUP_EXISTS, { checkResult, ...eventVars })
@@ -95,7 +95,7 @@ const AccountAlreadyExistsScreen = ({
       <View style={styles.bottomContainer}>
         <View style={{ width: '100%' }}>
           <LoginButtonComponent
-            onPress={_onLoginWithProvider}
+            onPress={onLoginWithProvider}
             disabled={!torusInitialized}
             handleLoginMethod={handleLoginMethod}
           />
@@ -110,7 +110,7 @@ const AccountAlreadyExistsScreen = ({
               },
             ]}
             textColor="primary"
-            onPress={_onContinueSignup}
+            onPress={onContinueSignup}
             testID="continue_signup"
           >
             Create A New Account

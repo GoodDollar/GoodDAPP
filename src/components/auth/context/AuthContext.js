@@ -17,31 +17,39 @@ const AuthContext = React.createContext({
   setWalletPreparing: isPreparing => {},
   setAlreadySignedUp: (withProvider, options, onDecision = null) => {},
   setSuccessfull: (callback = null, delay = null) => {},
-  setHandleLoginMethod: callback => {},
+  setTorusInitialized: handleLoginMethod => {},
 })
 
 export const AuthContextProvider = ({ children }) => {
   const [preparing, setWalletPreparing] = useState(false)
   const [successState, setSuccessState] = useState(null)
   const [existingState, setExistingState] = useState(null)
-  const [handleLoginMethod, setHandleLoginMethod] = useState(null)
+  const [torusOptions, setTorusOptions] = useState(null)
   const [authNavigator, setAuthNavigator] = useState(null)
 
-  const [success, alreadySignedUp, torusInitialized] = useMemo(
-    () => [successState, existingState, handleLoginMethod].map(state => !!state),
-    [successState, existingState, handleLoginMethod],
-  )
+  const [success, alreadySignedUp] = useMemo(() => [successState, existingState].map(state => !!state), [
+    successState,
+    existingState,
+  ])
 
   const [signedUpWithProvider, signedUpDecisionCallback, signedUpOptions] = useMemo(
     () => ['withProvider', 'onDecision', 'options'].map(prop => get(existingState, prop, null)),
     [existingState],
   )
 
+  /* eslint-disable */
+
+  const { torusInitialized, handleLoginMethod } = useMemo(
+    () => torusOptions || { torusInitialized: false },
+    [torusOptions],
+  )
+
   const successScreenOptions = useMemo(
-    // eslint-disable-line
-    () => successState || { delay: Config.authSuccessDelay, callback: null }, // eslint-disable-line
-    [successState], // eslint-disable-line
-  ) // eslint-disable-line
+    () => successState || { delay: Config.authSuccessDelay, callback: null },
+    [successState],
+  )
+
+  /* eslint-enable */
 
   const setSuccessfull = useCallback(
     (callback = null, delay = null) => {
@@ -55,6 +63,13 @@ export const AuthContextProvider = ({ children }) => {
       setExistingState({ withProvider, options, onDecision })
     },
     [setExistingState],
+  )
+
+  const setTorusInitialized = useCallback(
+    handleLoginMethod => {
+      setTorusOptions({ torusInitialized: true, handleLoginMethod })
+    },
+    [setTorusOptions],
   )
 
   const contextValue = {
@@ -75,7 +90,7 @@ export const AuthContextProvider = ({ children }) => {
 
     handleLoginMethod,
     torusInitialized,
-    setHandleLoginMethod,
+    setTorusInitialized,
   }
 
   return <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>

@@ -137,11 +137,19 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
     provider: 'facebook' | 'google' | 'auth0' | 'auth0-pwdless-email' | 'auth0-pwdless-sms',
     torusUserRedirectPromise,
   ) => {
-    let torusResponse
+    if (provider === 'selfCustody') {
+      return selfCustody()
+    }
 
-    setWalletPreparing(true)
+    if (provider === 'selfCustodyLogin') {
+      return selfCustodyLogin()
+    }
 
     try {
+      let torusResponse
+
+      setWalletPreparing(true)
+
       // in case this is triggered as a callback after redirect we fire a different vent
       if (torusUserRedirectPromise) {
         fireEvent(TORUS_REDIRECT_SUCCESS, {
@@ -153,14 +161,6 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
           method: provider,
           torusPopupMode: torusSDK.popupMode, // for a/b testing
         })
-      }
-
-      if (provider === 'selfCustody') {
-        return selfCustody()
-      }
-
-      if (provider === 'selfCustodyLogin') {
-        return selfCustodyLogin()
       }
 
       try {

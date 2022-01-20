@@ -7,13 +7,12 @@
 
 const { getDefaultConfig } = require('metro-config')
 const nodeLibs = require('node-libs-react-native')
-
 module.exports = (async () => {
   const {
     resolver: { sourceExts, assetExts },
   } = await getDefaultConfig()
 
-  const defaultSourceExts = [...sourceExts, 'svg']
+  const defaultSourceExts = [...sourceExts, 'svg', 'cjs']
 
   return {
     resolver: {

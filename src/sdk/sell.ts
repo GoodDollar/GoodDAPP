@@ -1,6 +1,15 @@
 import Web3 from 'web3'
 import { BigNumber, ethers } from 'ethers'
-import { Currency, CurrencyAmount, Ether, Fraction, Percent, Token, TradeType } from '@uniswap/sdk-core'
+import {
+    computePriceImpact,
+    Currency,
+    CurrencyAmount,
+    Ether,
+    Fraction,
+    Percent,
+    Token,
+    TradeType
+} from '@uniswap/sdk-core'
 import { Trade } from '@uniswap/v2-sdk'
 import { MaxUint256 } from '@ethersproject/constants'
 import { getToken } from './methods/tokenLists'
@@ -25,6 +34,7 @@ import { v2TradeExactOut } from './methods/v2TradeExactOut'
 import { ZERO_PERCENT } from './constants/misc'
 import { TransactionDetails } from './constants/transactions'
 import * as fuse from './contracts/FuseUniswapContract'
+import { g$ReservePrice } from './methods/g$price'
 
 export type SellInfo = { contribution: Fraction } & BuyInfo
 
@@ -296,8 +306,9 @@ export async function getMeta(
     let DAIAmount: CurrencyAmount<Currency | Token> | null = null
     let cDAIAmount: CurrencyAmount<Currency | Token> | null = null
 
-    let inputAmount: CurrencyAmount<Currency> = await g$FromDecimal(chainId, amount)
+    const inputAmount: CurrencyAmount<Currency> = await g$FromDecimal(chainId, amount)
     let outputAmount: CurrencyAmount<Currency>
+    let outputCDAIValue: CurrencyAmount<Currency>
     let minimumOutputAmount: CurrencyAmount<Currency>
     let route: Token[]
     let trade: Trade<Currency, Currency, TradeType> | null = null
@@ -332,7 +343,7 @@ export async function getMeta(
 
             DAIAmount = CurrencyAmount.fromRawAmount(DAI, 0)
             cDAIAmount = minimumOutputAmount
-
+            outputCDAIValue = outputAmount
             route = [CDAI[chainId]]
         } else if (TO.symbol === 'DAI') {
             ;({ amount: outputAmount, minAmount: cDAIAmount } = await G$ToCDai(
@@ -341,9 +352,9 @@ export async function getMeta(
                 slippageTolerancePercent
             ))
 
+            outputCDAIValue = outputAmount
             minimumOutputAmount = DAIAmount = await cDaiToDai(web3, cDAIAmount)
             outputAmount = await cDaiToDai(web3, outputAmount)
-
             route = [DAI]
         } else {
             ;({ minAmount: cDAIAmount } = await G$ToCDai(web3, inputAmount, slippageTolerancePercent))
@@ -355,10 +366,16 @@ export async function getMeta(
                 return null
             }
 
+            //calcualte how much the output currency that we got, is worth in cDAI
+            outputCDAIValue = await daiToCDai(web3, DAIAmount.subtract(DAIAmount.multiply(daiTrade.trade.priceImpact)))
+
             trade = daiTrade.trade
             ;({ priceImpact, liquidityFee } = realizedLPFeePriceImpact(daiTrade.trade))
             ;({ amount: outputAmount, minAmount: minimumOutputAmount, route } = daiTrade)
         }
+
+        const { cDAI: price } = await g$ReservePrice(web3, chainId)
+        priceImpact = computePriceImpact(price.invert(), inputAmount, outputCDAIValue)
 
         GDXBalance = await tokenBalance(web3, 'GDX', account)
     }

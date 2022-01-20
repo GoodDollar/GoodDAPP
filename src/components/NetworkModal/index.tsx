@@ -12,6 +12,7 @@ import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
 import { UnsupportedChainIdError, useWeb3React } from '@web3-react/core'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
+import { getNetworkEnv } from 'sdk/constants/addresses'
 
 const PARAMS: {
     [chainId in ChainId | AdditionalChainId]?: {
@@ -168,8 +169,7 @@ export default function NetworkModal(): JSX.Element | null {
 
     const { ethereum } = window
     const networkLabel: string | null = (NETWORK_LABEL as any)[chainId || (ethereum as any)?.networkVersion] || null
-    const network = process.env.REACT_APP_NETWORK || 'staging'
-
+    const network = getNetworkEnv()
 
     const allowedNetworks = useMemo(() => {
         switch (true) {

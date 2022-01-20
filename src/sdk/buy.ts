@@ -1,6 +1,15 @@
 import Web3 from 'web3'
 import { BigNumber, ethers } from 'ethers'
-import { Currency, CurrencyAmount, Ether, Fraction, Percent, Token, TradeType } from '@uniswap/sdk-core'
+import {
+    Currency,
+    CurrencyAmount,
+    Ether,
+    Fraction,
+    Percent,
+    Token,
+    TradeType,
+    computePriceImpact
+} from '@uniswap/sdk-core'
 import { Trade } from '@uniswap/v2-sdk'
 import { MaxUint256 } from '@ethersproject/constants'
 import { getToken } from './methods/tokenLists'
@@ -23,6 +32,9 @@ import { v2TradeExactOut } from './methods/v2TradeExactOut'
 // eslint-disable-next-line import/no-cycle
 import { cDaiToDai, G$ToCDai } from './sell'
 import * as fuse from './contracts/FuseUniswapContract'
+import { exec } from 'child_process'
+import { Price } from '@uniswap/sdk-core'
+import { g$ReservePrice } from './methods/g$price'
 
 export type BuyInfo = {
     inputAmount: CurrencyAmount<Currency>
@@ -258,26 +270,6 @@ export async function cDaiToG$(
 }
 
 /**
- * Tries to convert token cDAI into G$.
- * @param {Web3} web3 Web3 instance.
- * @param {CurrencyAmount<Currency>} cDAI CDAI token amount.
- * @param {CurrencyAmount<Currency>} G$ G$ token amount.
- * @returns {Promise<Fraction>}
- */
-async function getPriceImpact(
-    web3: Web3,
-    cDAI: CurrencyAmount<Currency>,
-    G$: CurrencyAmount<Currency>
-): Promise<Fraction> {
-    const { cDAI: price } = await g$Price()
-
-    const priceImpact = new Fraction(1).subtract(G$.divide(cDAI.divide(price)).multiply(1e6))
-    debug('Price impact', priceImpact.toSignificant(6))
-
-    return priceImpact
-}
-
-/**
  * Calculates liquidity fee.
  * @param {Trade<Currency, Currency, TradeType>} trade Currency amount.
  * @returns {Fraction}
@@ -330,6 +322,7 @@ export async function getMeta(
 
     const DAI = (await getToken(chainId, 'DAI')) as Token
 
+    let inputCDAIValue
     let DAIAmount: CurrencyAmount<Currency> | null = null
     let cDAIAmount: CurrencyAmount<Currency> | null = null
 
@@ -372,7 +365,7 @@ export async function getMeta(
             inputAmount = CurrencyAmount.fromRawAmount(cDAI, decimalToJSBI(amount, cDAI.decimals))
 
             DAIAmount = CurrencyAmount.fromRawAmount(DAI, 0)
-            cDAIAmount = inputAmount
+            inputCDAIValue = cDAIAmount = inputAmount
             ;({ amount: outputAmount, minAmount: minimumOutputAmount } = await cDaiToG$(
                 web3,
                 inputAmount,
@@ -385,7 +378,7 @@ export async function getMeta(
             inputAmount = CurrencyAmount.fromRawAmount(DAI, decimalToJSBI(amount, DAI.decimals))
 
             DAIAmount = inputAmount
-            cDAIAmount = await daiToCDai(web3, DAIAmount)
+            inputCDAIValue = cDAIAmount = await daiToCDai(web3, DAIAmount)
             ;({ amount: outputAmount, minAmount: minimumOutputAmount } = await cDaiToG$(
                 web3,
                 cDAIAmount,
@@ -402,6 +395,12 @@ export async function getMeta(
 
             DAIAmount = g$trade.minAmount
             cDAIAmount = await daiToCDai(web3, DAIAmount)
+
+            inputCDAIValue = await daiToCDai(
+                web3,
+                g$trade.amount.add(g$trade.amount.multiply(g$trade.trade.priceImpact))
+            )
+
             route = g$trade.route
 
             liquidityFee = getLiquidityFee(g$trade.trade)
@@ -413,7 +412,8 @@ export async function getMeta(
             trade = g$trade.trade
         }
 
-        priceImpact = await getPriceImpact(web3, cDAIAmount, minimumOutputAmount)
+        const { cDAI: price } = await g$ReservePrice(web3, chainId)
+        priceImpact = computePriceImpact(price, inputCDAIValue, outputAmount)
     }
 
     debugGroupEnd(`Get meta ${amount} ${fromSymbol} to G$`)

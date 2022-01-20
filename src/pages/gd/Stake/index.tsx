@@ -22,6 +22,7 @@ import { useGovernanceStaking } from 'sdk/hooks/gov/useGovernanceStaking'
 import { useEnvWeb3 } from 'sdk/hooks/useEnvWeb3'
 import { DAO_NETWORK, SupportedChainId } from 'sdk/constants/chains'
 import { LIQUIDITY_PROTOCOL } from 'sdk/constants/protocols'
+import useCallbackOnFocus from 'hooks/useCallbackOnFocus'
 
 const StakeTable = ({
     list,
@@ -235,10 +236,8 @@ export default function Stakes(): JSX.Element | null {
     const web3 = useWeb3()
     const [mainnetWeb3] = useEnvWeb3(DAO_NETWORK.MAINNET)
     const [stakes = [], loading, error, refetch] = usePromise(async () => {
-        const [stakes] = await Promise.all([
-            web3 && mainnetWeb3 ? getStakes(mainnetWeb3) : Promise.resolve([]),
-            new Promise(resolve => setTimeout(resolve, 1000))
-        ])
+        const stakes = await (web3 && mainnetWeb3 ? getStakes(mainnetWeb3) : Promise.resolve([]))
+
         return stakes
     }, [web3, mainnetWeb3])
     const sorted = useSearchAndSort(
@@ -254,6 +253,8 @@ export default function Stakes(): JSX.Element | null {
 
     const [activeStake, setActiveStake] = useState<Stake>()
     const [activeTableName, setActiveTableName] = useState<string>('')
+
+    useCallbackOnFocus(refetch)
 
     return (
         <Layout>

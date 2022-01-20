@@ -46,7 +46,10 @@ export default function usePromise<T>(getPromise: () => Promise<T>, deps: any[] 
         else renderedRef.current = true
         getPromise().then(
             result => dispatch({ type: 'VALUE', payload: result }),
-            e => dispatch({ type: 'ERROR', payload: e })
+            e => {
+                console.error('usePromise:', { e })
+                dispatch({ type: 'ERROR', payload: e })
+            }
         )
     }, [...deps, dependency])
 

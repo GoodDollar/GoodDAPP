@@ -141,7 +141,7 @@ const ModalContent = (props: any) => {
         if (networkType === 'staging') {
             toggleNetworkModal()
         } else if (networkType === 'production') {
-            ; (ethereum as any)?.request({
+            ;(ethereum as any)?.request({
                 method: 'wallet_switchEthereumChain',
                 params: [{ chainId: `0x${ChainId.MAINNET.toString(16)}` }]
             })
@@ -150,7 +150,7 @@ const ModalContent = (props: any) => {
     }, [ethereum, toggleNetworkModal, toggleWalletModal])
 
     const handleFuseNetworkSwitch = useCallback(() => {
-        ; (ethereum as any)?.request({
+        ;(ethereum as any)?.request({
             method: 'wallet_addEthereumChain',
             params: [
                 {

@@ -171,12 +171,21 @@ const ModalContent = (props: any) => {
     }, [account, ethereum, toggleWalletModal])
 
     function getOptions() {
+      let provider;
         const isMetamask = window.ethereum && window.ethereum.isMetaMask
+
+        // temp quick fix for both metamask / coinbase existing
+        if (window.ethereum?.providers.length > 1){
+          provider = window.ethereum?.providers[2]
+          if (window.ethereum){
+            window.ethereum.selectedProvider = provider
+          } 
+        }
 
         return Object.keys(SUPPORTED_WALLETS).map(key => {
             const option = SUPPORTED_WALLETS[key]
-
-            // check for mobile options
+ 
+            // check for mobile options 
             if (isMobile) {
                 if (!window.web3 && !window.ethereum && option.mobile) {
                     return (

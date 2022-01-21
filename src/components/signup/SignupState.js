@@ -77,6 +77,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
   const [regMethod] = useState(_regMethod)
   const [torusProvider] = useState(_torusProvider)
   const [torusUser] = useState(torusUserFromProps)
+  const [currentRouteIndex, setCurrentRouteIndex] = useState()
   const checkExisting = useCheckExisting(navigation)
 
   const isRegMethodSelfCustody = regMethod === REGISTRATION_METHOD_SELF_CUSTODY
@@ -115,10 +116,6 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
   const { preparing: walletPreparing, success: signupSuccess, setWalletPreparing, setSuccessfull } = useContext(
     AuthContext,
   )
-
-  useEffect(() => {
-    log.debug('is this running')
-  }, [])
 
   const navigateWithFocus = (routeKey: string) => {
     navigation.navigate(routeKey)
@@ -463,6 +460,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
 
   function getNextRoute(routes, routeIndex, state) {
     let nextRoute = routes[routeIndex + 1]
+    setCurrentRouteIndex(routeIndex + 1)
 
     if (state[`skip${nextRoute && nextRoute.key}`]) {
       return getNextRoute(routes, routeIndex + 1, state)
@@ -499,8 +497,6 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
 
     if (nextRoute === undefined) {
       const ok = await waitForRegistrationToFinish()
-
-      // this will cause a re-render and move user to the dashboard route
       if (ok) {
         setSuccessfull(() => store.set('isLoggedIn')(true))
       }
@@ -601,17 +597,15 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
   }
 
   useEffect(() => {
-    const curRoute = navigation.state.routes[navigation.state.index]
-
     if (state === initialState) {
       return
     }
 
-    if (curRoute && curRoute.key === 'SignupCompleted') {
+    if (currentRouteIndex === 5) {
       const finishedPromise = finishRegistration()
       setFinishedPromise(finishedPromise)
     }
-  }, [navigation.state.index])
+  }, [currentRouteIndex])
 
   useEffect(() => {
     const backButtonHandler = new BackButtonHandler({ defaultAction: back })

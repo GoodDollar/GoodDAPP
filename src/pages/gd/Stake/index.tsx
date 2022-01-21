@@ -192,6 +192,7 @@ const StakeTable = ({
                                     </td>
                                     <td>
                                         <ActionOrSwitchButton
+                                            disabled={process.env.REACT_APP_NETWORK === 'production' && stake.protocol === LIQUIDITY_PROTOCOL.AAVE}
                                             size="sm"
                                             width="78px"
                                             borderRadius="6px"

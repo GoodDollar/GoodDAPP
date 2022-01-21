@@ -18,7 +18,8 @@ export const ActionOrSwitchButton = ({ requireNetwork, children, ButtonEl = Butt
     requireNetwork: DAO_NETWORK,
     children: any,
     onClick?: any,
-    ButtonEl?: any
+    ButtonEl?: any,
+    disabled?: boolean
 }) => {
     const toggleNetworkModal = useNetworkModalToggle()
     const { i18n } = useLingui()

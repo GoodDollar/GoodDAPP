@@ -191,6 +191,13 @@ export default function NetworkModal(): JSX.Element | null {
     }, [error, network])
 
     const isMetaMask = window.ethereum && window.ethereum.isMetaMask
+    const isOnlyMeta = window.ethereum?.providers?.length === 1
+    if (!isOnlyMeta) {
+      const provider = window.ethereum?.providers.find((isMetaMask: any) => isMetaMask.isMetaMask)
+      if (window.ethereum){
+        window.ethereum.selectedProvider = provider
+      }
+    }
 
     return (
         <Modal isOpen={networkModalOpen} onDismiss={toggleNetworkModal}>
@@ -229,21 +236,31 @@ export default function NetworkModal(): JSX.Element | null {
                                     ].includes(key as any)
                                 ) {
                                     console.log(key.toString(16))
-                                    if (isMetaMask) {
+                                    if (isMetaMask && isOnlyMeta) {
                                         ; (ethereum as any).request({
                                             method: 'wallet_switchEthereumChain',
                                             params: [{ chainId: `0x${key.toString(16)}` }]
                                         })
+                                    } else if (isMetaMask && !isOnlyMeta) {
+                                      ; (ethereum?.selectedProvider as any).request({
+                                        method: 'wallet_switchEthereumChain',
+                                        params: [{ chainId: `0x${key.toString(16)}` }]
+                                      })
                                     } else {
                                         library?.send('wallet_switchEthereumChain', [
                                             { chainId: `0x${key.toString(16)}` }
                                         ])
                                     }
                                 } else {
-                                    if (isMetaMask) {
+                                    if (isMetaMask && isOnlyMeta) {
                                         ; (ethereum as any).request({
                                             method: 'wallet_addEthereumChain',
                                             params: [params, account]
+                                        })
+                                      } else if (isMetaMask && !isOnlyMeta) {
+                                        ; (ethereum?.selectedProvider as any).request({
+                                          method: 'wallet_addEthereumChain',
+                                          params: [params, account]
                                         })
                                     } else {
                                         library?.send('wallet_addEthereumChain', [params, account])

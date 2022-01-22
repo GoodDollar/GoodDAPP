@@ -11,11 +11,21 @@ function useInactiveListener(suppress = false) {
 
     useEffect(() => {
         const { ethereum } = window
+        
+        const isOnlyMeta = window.ethereum?.providers?.length === 1
+        if (!isOnlyMeta) {
+          const provider = window.ethereum?.providers.find((isMetaMask: any) => isMetaMask.isMetaMask)
+          if (window.ethereum){
+            window.ethereum.selectedProvider = provider
+          }
+        }
 
-        if (ethereum && ethereum.on && !active && !error && !suppress) {
+        if ((ethereum && ethereum.on) || (ethereum && ethereum.selectedProvider.on) && !active && !error && !suppress) {
             const handleChainChanged = () => {
                 // eat errors
-                activate(injected, undefined, true).catch(error => {
+                activate(injected, undefined, true)
+                // .then(() => window.location.reload())
+                .catch(error => {
                     console.error('Failed to activate after chain changed', error)
                 })
             }
@@ -29,8 +39,13 @@ function useInactiveListener(suppress = false) {
                 }
             }
 
-            ethereum.on('chainChanged', handleChainChanged)
-            ethereum.on('accountsChanged', handleAccountsChanged)
+            if (isOnlyMeta && ethereum.on){
+              ethereum.on('chainChanged', handleChainChanged)
+              ethereum.on('accountsChanged', handleAccountsChanged)
+            } else {
+              ethereum.selectedProvider.on('chainChanged', handleChainChanged)
+              ethereum.selectedProvider.on('accountsChanged', handleAccountsChanged)
+            }
 
             return () => {
                 if (ethereum.removeListener) {

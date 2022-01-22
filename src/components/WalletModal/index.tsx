@@ -171,16 +171,7 @@ const ModalContent = (props: any) => {
     }, [account, ethereum, toggleWalletModal])
 
     function getOptions() {
-      let provider;
-        const isMetamask = window.ethereum && window.ethereum.isMetaMask
-
-        // temp quick fix for both metamask / coinbase existing
-        if (window.ethereum?.providers.length > 1){
-          provider = window.ethereum?.providers[2]
-          if (window.ethereum){
-            window.ethereum.selectedProvider = provider
-          } 
-        }
+        const isMetamask = window.ethereum && window.ethereum.isMetaMask 
 
         return Object.keys(SUPPORTED_WALLETS).map(key => {
             const option = SUPPORTED_WALLETS[key]
@@ -232,10 +223,28 @@ const ModalContent = (props: any) => {
                 }
                 // likewise for generic
                 else if (option.name === 'Injected' && isMetamask) {
-                    return null
+                  // return null
+                  // below adds alternative extension (ie. Coinbase for now)
+                  // TODO: add icon(s) if decided if Coinbase is only one supported for now
+                    return ( 
+                      <Option
+                        id={`connect-${key}`}
+                        onClick={() => {
+                            option.connector === connector
+                                ? setWalletView(WALLET_VIEWS.ACCOUNT)
+                                : !option.href && tryActivation(option.connector, true)
+                        }}
+                        key={key}
+                        active={option.connector === connector}
+                        color={option.color}
+                        link={option.href}
+                        header={option.name}
+                        subheader={null} //use option.descriptio to bring back multi-line
+                        icon={require('../../assets/images/' + option.iconName).default}
+                      />
+                    )
                 }
             }
-
             // return rest of options
             return (
                 !isMobile &&
@@ -394,8 +403,10 @@ export default function WalletModal({
         }
     }, [setWalletView, active, error, connector, walletModalOpen, activePrevious, connectorPrevious])
 
-    const tryActivation = async (connector: AbstractConnector | undefined) => {
+    const tryActivation = async (connector: AbstractConnector | undefined, isInjected?: boolean) => {
         let name = ''
+        let provider: any
+
         Object.keys(SUPPORTED_WALLETS).map(key => {
             if (connector === SUPPORTED_WALLETS[key].connector) {
                 return (name = SUPPORTED_WALLETS[key].name)
@@ -410,6 +421,19 @@ export default function WalletModal({
         // if the connector is walletconnect and the user has already tried to connect, manually reset the connector
         if (connector instanceof WalletConnectConnector && connector.walletConnectProvider?.wc?.uri) {
             connector.walletConnectProvider = undefined
+        }
+
+        // set selectedProvider manually to prevent multiple pop-ups 
+        if (window.ethereum?.providers.length > 1){
+          if (isInjected){
+            provider = window.ethereum?.providers.find((isCoinbaseWallet: boolean) => isCoinbaseWallet)
+          } else {
+            // this is done to get the isMetaMask from inside the proxy (which is MetaMask)
+            provider = window.ethereum?.providers.find((isMetaMask: any) => isMetaMask.isMetaMask)
+          }
+          if (window.ethereum){
+            window.ethereum.selectedProvider = provider
+          } 
         }
 
         connector &&

@@ -16518,9 +16518,9 @@ nano-time@1.0.0:
     big-integer "^1.6.16"
 
 nanoid@^3.1.28:
-  version "3.1.29"
-  resolved "https://registry.yarnpkg.com/nanoid/-/nanoid-3.1.29.tgz#214fb2d7a33e1a5bef4757b779dfaeb6a4e5aeb4"
-  integrity sha512-dW2pUSGZ8ZnCFIlBIA31SV8huOGCHb6OwzVCc7A69rb/a+SgPBwfmLvK5TKQ3INPbRkcI8a/Owo0XbiTNH19wg==
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/nanoid/-/nanoid-3.2.0.tgz#62667522da6673971cca916a6d3eff3f415ff80c"
+  integrity sha512-fmsZYa9lpn69Ad5eDn7FMcnnSR+8R34W9qJEijxYhTbfOWzr22n1QxCMzXLK+ODyW2973V3Fux959iQoUxzUIA==
 
 nanomatch@^1.2.9:
   version "1.2.13"
@@ -23609,6 +23609,11 @@ v8-android-jit-nointl@^9.93.0:
   version "9.93.0"
   resolved "https://registry.yarnpkg.com/v8-android-jit-nointl/-/v8-android-jit-nointl-9.93.0.tgz#1e20f1fbfece01ca9207956751f90a0e6171188c"
   integrity sha512-qBJZ63ioKwt7ziPEIkTSCOo1VAVhP4ECxJycP6x9jcVw+GsAzZCnti+EDqQsd4PnmB8FCGfVcJ530gD/GfLEuQ==
+
+v8-android-jit@~9.93.0:
+  version "9.93.0"
+  resolved "https://registry.yarnpkg.com/v8-android-jit/-/v8-android-jit-9.93.0.tgz#2e52d3878da97647959991cefc5b90e47449f51a"
+  integrity sha512-qSEnxj/7x2lqvAjRtdox0fx20J5ekcLg/O1/M4vNKUtbWG75+/ACspP3n0KD0RIYLhD8F2iGxERRbwu9FbjKRg==
 
 v8-compile-cache@^2.0.3:
   version "2.3.0"

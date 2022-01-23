@@ -3,7 +3,8 @@ import styled from 'styled-components'
 
 const DASHBOARD_URL =
     process.env.REACT_APP_DATASTUDIO_DASHBOARD_URL ||
-    'https://datastudio.google.com/embed/reporting/f1ce8f56-058c-4e31-bfd4-1a741482642a/page/p_miuw33ljnc'
+    'https://datastudio.google.com/embed/reporting/f1ce8f56-058c-4e31-bfd4-1a741482642a'
+
 
 const Wrapper = styled.div`
     width: 100%;

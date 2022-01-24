@@ -77,7 +77,6 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
   const [regMethod] = useState(_regMethod)
   const [torusProvider] = useState(_torusProvider)
   const [torusUser] = useState(torusUserFromProps)
-  const [currentRouteIndex, setCurrentRouteIndex] = useState()
   const checkExisting = useCheckExisting(navigation)
 
   const isRegMethodSelfCustody = regMethod === REGISTRATION_METHOD_SELF_CUSTODY
@@ -109,17 +108,15 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
   const [state, setState] = useState(initialState)
   const [countryCode, setCountryCode] = useState(undefined)
   const [createError, setCreateError] = useState(false)
-  const [finishedPromise, setFinishedPromise] = useState(undefined)
+  const [loading, setLoading] = useState(false)
   const [, hideDialog, showErrorDialog] = useDialog()
   const shouldGrow = store.get && !store.get('isMobileSafariKeyboardShown')
 
-  const { preparing: walletPreparing, success: signupSuccess, setWalletPreparing, setSuccessfull } = useContext(
-    AuthContext,
-  )
+  const { success: signupSuccess, setWalletPreparing, setSuccessfull } = useContext(AuthContext)
 
   const navigateWithFocus = (routeKey: string) => {
     navigation.navigate(routeKey)
-    setWalletPreparing(false)
+    setLoading(false)
 
     if (Platform.OS === 'web' && (isMobileSafari || routeKey === 'Phone')) {
       setTimeout(() => {
@@ -310,6 +307,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
 
     log.info('Sending new user data', { state, regMethod, torusProvider })
     const { skipEmail, skipEmailConfirmation, skipMagicLinkInfo, ...requestPayload } = state
+
     try {
       const { goodWallet, userStorage } = await ready
       const inviteCode = await checkInviteCode()
@@ -440,27 +438,8 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
     }
   }
 
-  const waitForRegistrationToFinish = async () => {
-    try {
-      let ok
-      if (createError) {
-        ok = await finishRegistration()
-      } else {
-        ok = await finishedPromise
-      }
-      log.debug('user registration synced and completed', { ok })
-      return ok
-    } catch (e) {
-      log.error('waiting for user registration failed', e.message, e)
-      return false
-    } finally {
-      setWalletPreparing(false)
-    }
-  }
-
   function getNextRoute(routes, routeIndex, state) {
     let nextRoute = routes[routeIndex + 1]
-    setCurrentRouteIndex(routeIndex + 1)
 
     if (state[`skip${nextRoute && nextRoute.key}`]) {
       return getNextRoute(routes, routeIndex + 1, state)
@@ -480,7 +459,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
   }
 
   const done = async (data: { [string]: string }) => {
-    setWalletPreparing(true)
+    setLoading(true)
     fireSignupEvent()
 
     //We can wait for ready later, when we need stuff, we don't need it until usage of API first in sendOTP(that needs to be logged in)
@@ -495,8 +474,11 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
     setState(newState)
     log.info('signup data:', { data, nextRoute, newState })
 
-    if (nextRoute === undefined) {
-      const ok = await waitForRegistrationToFinish()
+    if (!nextRoute) {
+      setLoading(false)
+
+      const ok = await finishRegistration()
+
       if (ok) {
         setSuccessfull(() => store.set('isLoggedIn')(true))
       }
@@ -525,11 +507,11 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
         log.error('Send mobile code failed', e.message, e, { dialogShown: true })
         return showErrorDialog('Could not send verification code. Please try again')
       } finally {
-        setWalletPreparing(false)
+        setLoading(false)
       }
     } else if (nextRoute && nextRoute.key === 'EmailConfirmation') {
       try {
-        setWalletPreparing(true)
+        setLoading(true)
         const result = await checkExisting(torusProvider, { email: newState.email }, { fromSignupFlow: true })
 
         if (result !== 'signup') {
@@ -566,13 +548,14 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
         log.error('email verification failed unexpected:', e.message, e, { dialogShown: true })
         return showErrorDialog('Could not send verification email. Please try again', ExceptionCode.E9)
       } finally {
-        setWalletPreparing(false)
+        setLoading(false)
       }
     } else if (nextRoute.key === 'MagicLinkInfo') {
-      let ok = await waitForRegistrationToFinish()
+      let ok = await finishRegistration()
 
       if (ok) {
         const { userStorage } = await ready
+
         if (isRegMethodSelfCustody) {
           API.sendMagicLinkByEmail(userStorage.getMagicLink())
             .then(r => log.info('magiclink sent'))
@@ -597,17 +580,6 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
   }
 
   useEffect(() => {
-    if (state === initialState) {
-      return
-    }
-
-    if (currentRouteIndex === 5) {
-      const finishedPromise = finishRegistration()
-      setFinishedPromise(finishedPromise)
-    }
-  }, [currentRouteIndex])
-
-  useEffect(() => {
     const backButtonHandler = new BackButtonHandler({ defaultAction: back })
 
     return () => {
@@ -628,7 +600,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
               <SignupWizardNavigator
                 navigation={navigation}
                 screenProps={{
-                  data: { ...state, loading: walletPreparing, createError, countryCode },
+                  data: { ...state, loading, createError, countryCode },
                   doneCallback: done,
                   back,
                 }}

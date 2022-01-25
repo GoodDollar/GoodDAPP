@@ -25,7 +25,7 @@ import { getRopstenTokenLogoURL } from '../../constants/ropstenTokenMapping'
 export const getTokenLogoURL = (address: string, chainId: any) => {
     let imageURL
     if (chainId === ChainId.MAINNET) {
-        imageURL = `https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/${address}/logo.png`
+        imageURL = getFuseTokenLogoURL(address) //defaults to trustwallet logos
     } else if (chainId === ChainId.BSC) {
         imageURL = `https://v1exchange.pancakeswap.finance/images/coins/${address}.png`
     } else if (chainId === AdditionalChainId.FUSE) {
@@ -45,7 +45,7 @@ const StyledNativeCurrencyLogo = styled.img<{ size: string }>`
     height: ${({ size }) => size};
 `
 
-const StyledLogo = styled(Logo)<{ size: string }>`
+const StyledLogo = styled(Logo) <{ size: string }>`
     width: ${({ size }) => size};
     height: ${({ size }) => size};
     // border-radius: ${({ size }) => size};

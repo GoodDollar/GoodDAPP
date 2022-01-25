@@ -213,11 +213,11 @@ async function metaMyStake(web3: Web3, address: string, account: string): Promis
         claimed: rewardG$.claimed
             .multiply(cDAI)
             .multiply(ratio)
-            .multiply(1e14),
+            .multiply(1e16),
         unclaimed: rewardG$.unclaimed
             .multiply(cDAI)
             .multiply(ratio)
-            .multiply(1e14)
+            .multiply(1e16)
     }
 
     const DAI = (await getToken(chainId, 'DAI')) as Token

@@ -63,20 +63,18 @@ export default function Transaction({ hash }: { hash: string }): any {
     const allTransactions = useAllTransactions()
 
     const tx = allTransactions?.[hash]
-    const pending = false
-    const success = true
+    const pending = !tx?.receipt
+    const success = !pending && tx && (tx.receipt?.status === 1 || typeof tx.receipt?.status === 'undefined')
+    const summary = tx?.summary
 
     if (!chainId) return null
-    const splitIn = Math.floor(hash.length / 2)
+    // const splitIn = Math.floor(hash.length / 2)
 
     return (
         <TransactionWrapper>
             <TransactionState href={getExplorerLink(chainId, hash, 'transaction')} pending={pending} success={success}>
                 <RowFixed className="transition">
-                    <TransactionStatusText>
-                        <span>{hash.slice(0, splitIn)}</span>
-                    </TransactionStatusText>
-                    <TransactionStatusText>{hash.slice(splitIn)} ↗</TransactionStatusText>
+                  <TransactionStatusText>{summary} ↗</TransactionStatusText>
                 </RowFixed>
                 <IconWrapper pending={pending} success={success}>
                     {pending ? <Loader /> : success ? <CheckCircle size="16" /> : <Triangle size="16" />}

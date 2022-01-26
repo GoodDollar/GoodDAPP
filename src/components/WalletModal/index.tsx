@@ -223,26 +223,26 @@ const ModalContent = (props: any) => {
                 }
                 // likewise for generic
                 else if (option.name === 'Injected' && isMetamask) {
-                  // return null
+                  return null
                   // below adds alternative extension (ie. Coinbase for now)
                   // TODO: add icon(s) if decided if Coinbase is only one supported for now
-                    return ( 
-                      <Option
-                        id={`connect-${key}`}
-                        onClick={() => {
-                            option.connector === connector
-                                ? setWalletView(WALLET_VIEWS.ACCOUNT)
-                                : !option.href && tryActivation(option.connector, true)
-                        }}
-                        key={key}
-                        active={option.connector === connector}
-                        color={option.color}
-                        link={option.href}
-                        header={option.name}
-                        subheader={null} //use option.descriptio to bring back multi-line
-                        icon={require('../../assets/images/' + option.iconName).default}
-                      />
-                    )
+                    // return ( 
+                    //   <Option
+                    //     id={`connect-${key}`}
+                    //     onClick={() => {
+                    //         option.connector === connector
+                    //             ? setWalletView(WALLET_VIEWS.ACCOUNT)
+                    //             : !option.href && tryActivation(option.connector, true)
+                    //     }}
+                    //     key={key}
+                    //     active={option.connector === connector}
+                    //     color={option.color}
+                    //     link={option.href}
+                    //     header={option.name}
+                    //     subheader={null} //use option.descriptio to bring back multi-line
+                    //     icon={require('../../assets/images/' + option.iconName).default}
+                    //   />
+                    // )
                 }
             }
             // return rest of options
@@ -403,9 +403,8 @@ export default function WalletModal({
         }
     }, [setWalletView, active, error, connector, walletModalOpen, activePrevious, connectorPrevious])
 
-    const tryActivation = async (connector: AbstractConnector | undefined, isInjected?: boolean) => {
+    const tryActivation = async (connector: AbstractConnector | undefined) => {
         let name = ''
-        let provider: any
 
         Object.keys(SUPPORTED_WALLETS).map(key => {
             if (connector === SUPPORTED_WALLETS[key].connector) {
@@ -423,17 +422,12 @@ export default function WalletModal({
             connector.walletConnectProvider = undefined
         }
 
-        // set selectedProvider manually to prevent multiple pop-ups 
-        if (window.ethereum?.providers.length > 1){
-          if (isInjected){
-            provider = window.ethereum?.providers.find((isCoinbaseWallet: boolean) => isCoinbaseWallet)
-          } else {
-            // this is done to get the isMetaMask from inside the proxy (which is MetaMask)
-            provider = window.ethereum?.providers.find((isMetaMask: any) => isMetaMask.isMetaMask)
-          }
-          if (window.ethereum){
-            window.ethereum.selectedProvider = provider
-          } 
+        // set selectedProvider manually to prevent multiple pop-ups
+        if (window.ethereum) {
+          const isMultiple = window.ethereum.providers?.length > 1 
+          const  provider = !isMultiple ? window.ethereum :  
+                            window.ethereum.providers.find((isMetaMask: any) => isMetaMask.isMetaMask)
+          window.ethereum.selectedProvider = provider
         }
 
         connector &&

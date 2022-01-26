@@ -7,20 +7,21 @@ import { injected } from '../connectors'
  * and out after checking what network theyre on
  */
 function useInactiveListener(suppress = false) {
-    const { active, error, activate } = useWeb3ReactCore() // specifically using useWeb3React because of what this hook does
+    const { active, error, activate, deactivate } = useWeb3ReactCore() // specifically using useWeb3React because of what this hook does
 
     useEffect(() => {
         const { ethereum } = window
         
-        const isOnlyMeta = window.ethereum?.providers?.length === 1
-        if (!isOnlyMeta) {
-          const provider = window.ethereum?.providers.find((isMetaMask: any) => isMetaMask.isMetaMask)
-          if (window.ethereum){
-            window.ethereum.selectedProvider = provider
-          }
+        const isMultiple = window.ethereum?.providers?.length > 1
+
+        if (window.ethereum) { 
+          let provider:any
+          !isMultiple ?  provider = ethereum :  
+                         provider = window.ethereum?.providers.find((isMetaMask: any) => isMetaMask.isMetaMask) 
+          window.ethereum.selectedProvider = provider  
         }
 
-        if ((ethereum && ethereum.on) || (ethereum && ethereum.selectedProvider.on) && !active && !error && !suppress) {
+        if (ethereum && ethereum.on && !active && !error && !suppress) {
             const handleChainChanged = () => {
                 // eat errors
                 activate(injected, undefined, true)
@@ -36,16 +37,13 @@ function useInactiveListener(suppress = false) {
                     activate(injected, undefined, true).catch(error => {
                         console.error('Failed to activate after accounts changed', error)
                     })
+                } else {
+                  deactivate()
                 }
             }
 
-            if (isOnlyMeta && ethereum.on){
-              ethereum.on('chainChanged', handleChainChanged)
-              ethereum.on('accountsChanged', handleAccountsChanged)
-            } else {
-              ethereum.selectedProvider.on('chainChanged', handleChainChanged)
-              ethereum.selectedProvider.on('accountsChanged', handleAccountsChanged)
-            }
+            ethereum.selectedProvider.on('chainChanged', handleChainChanged)
+            ethereum.selectedProvider.on('accountsChanged', handleAccountsChanged)
 
             return () => {
                 if (ethereum.removeListener) {
@@ -55,7 +53,7 @@ function useInactiveListener(suppress = false) {
             }
         }
         return undefined
-    }, [active, error, suppress, activate])
+    }, [active, error, suppress, activate, deactivate])
 }
 
 export default useInactiveListener

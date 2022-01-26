@@ -301,12 +301,12 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
       .catch(e => log.error('addSignupContact failed', e.message, e))
   }, [state.email])
 
-  const finishRegistration = async () => {
+  const finishRegistration = async newState => {
     setCreateError(false)
     setWalletPreparing(true)
 
     log.info('Sending new user data', { state, regMethod, torusProvider })
-    const { skipEmail, skipEmailConfirmation, skipMagicLinkInfo, ...requestPayload } = state
+    const { skipEmail, skipEmailConfirmation, skipMagicLinkInfo, ...requestPayload } = newState || state
 
     try {
       const { goodWallet, userStorage } = await ready
@@ -477,7 +477,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
     if (!nextRoute) {
       setLoading(false)
 
-      const ok = await finishRegistration()
+      const ok = await finishRegistration(newState)
 
       if (ok) {
         setSuccessfull(() => store.set('isLoggedIn')(true))

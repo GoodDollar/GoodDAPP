@@ -15,6 +15,7 @@ import {
   getDesignRelativeWidth,
   getMaxDeviceHeight,
   isLongDevice,
+  isShortDevice,
 } from '../../../lib/utils/sizes'
 import Config from '../../../config/config'
 import AuthStateWrapper from '../components/AuthStateWrapper'
@@ -76,7 +77,7 @@ const SignupScreen = ({ screenProps, styles, handleLoginMethod, sdkInitialized, 
       <AuthProgressBar step={1} done={signupSuccess} />
       <AuthStateWrapper>
         <Section.Stack style={{ flex: 1, justifyContent: 'center' }}>
-          <Section.Stack style={{ flex: 1, maxHeight: 640 }}>
+          <Section.Stack style={styles.contentWrapper}>
             <Section.Stack style={{ flexGrow: 0 }}>
               <Text
                 color={'primary'}
@@ -172,6 +173,11 @@ const getStylesFromProps = ({ theme }) => {
       paddingHorizontal: 0,
       paddingVertical: 0,
       flex: 1,
+    },
+    contentWrapper: {
+      flex: 1,
+      paddingBottom: getDesignRelativeHeight(isShortDevice ? 35 : 45),
+      paddingTop: getDesignRelativeHeight(isShortDevice ? 35 : 45),
     },
     bottomContainer: {
       flex: 1,

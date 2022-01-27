@@ -19,6 +19,7 @@ import { TransactionDetails } from 'sdk/constants/transactions'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
 import { LIQUIDITY_PROTOCOL } from 'sdk/constants/protocols'
+import Loader from 'components/Loader'
 
 export interface StakeDepositModalProps {
     stake: Stake
@@ -98,6 +99,8 @@ const StakeDeposit = ({ stake, onDeposit, onClose, activeTableName }: StakeDepos
                     return {
                         ...state,
                         done: true,
+                        // In case CHANGE_SIGNED is not triggered
+                        signed: true,
                         transactionHash: action.payload
                     }
             }
@@ -162,9 +165,10 @@ const StakeDeposit = ({ stake, onDeposit, onClose, activeTableName }: StakeDepos
                     </>
                 ) : depositing ? (
                     i18n._(t`Deposit overview`)
-                ) : (
+                ) : state.loading ? (
                     i18n._(t`Awesome!`)
-                )}
+                ) : i18n._(t`Congratulations!`)
+              }
             </Title>
             {(approving || state.error) && <div className="error mb-2">{state.error ? state.error : null}</div>}
             {approving ? (
@@ -263,23 +267,25 @@ const StakeDeposit = ({ stake, onDeposit, onClose, activeTableName }: StakeDepos
                                 withLoading(async () => {
                                     const depositMethod =
                                         stake.protocol === LIQUIDITY_PROTOCOL.GOODDAO ? depositGov : deposit
-                                    const transactionDetails = await depositMethod(
+                                    await depositMethod(
                                         web3!,
                                         stake.address,
                                         state.value,
                                         tokenToDeposit,
                                         state.token === 'B',
-                                        transactionHash => {
+                                        (transactionHash: string, from: string) => {
                                             dispatch({ type: 'DONE', payload: transactionHash })
+                                            reduxDispatch(
+                                              addTransaction({
+                                                  chainId: chainId!,
+                                                  hash: transactionHash,
+                                                  from: from,
+                                                  summary: i18n._(t`Staked ${tokenToDeposit.symbol} at ${stake.protocol} `)
+                                              })
+                                          )
                                         }
                                     )
-                                    reduxDispatch(
-                                        addTransaction({
-                                            chainId: chainId!,
-                                            hash: transactionDetails.transactionHash,
-                                            from: transactionDetails.from
-                                        })
-                                    )
+  
                                     if (onDeposit) onDeposit()
                                 })
                             }
@@ -293,11 +299,18 @@ const StakeDeposit = ({ stake, onDeposit, onClose, activeTableName }: StakeDepos
                     <div className="text-center mt-4">
                         {activeTableName === 'GoodDAO Staking' ? (
                             i18n._(
-                                t`You have just staked your G$s towards our GoodDAO, this action is gonna reward you with GOOD governance tokens, which are non-transferable so can't be traded.`
+                                t`You have just staked your G$s towards our GoodDAO, 
+                                this action is gonna reward you with GOOD governance tokens, 
+                                which are non-transferable so can't be traded.`
                             )
                         ) : (
                             <>
-                                {i18n._(t`Did you just create UBI for thousands of people around the world?`)}{' '}
+                                {state.loading ?
+                                i18n._(t`Your staking transaction will generate UBI for thousands of people around 
+                                         the world has just been broadcasted to the network. `)
+                              : i18n._(t`You are creating UBI to thousands of people around the world. `)
+                              }
+                                {' '} 
                                 <a
                                     href={
                                         state.transactionHash &&
@@ -313,20 +326,22 @@ const StakeDeposit = ({ stake, onDeposit, onClose, activeTableName }: StakeDepos
                         )}
                     </div>
                     <div className="flex flex-col items-center mt-4 space-y-2">
+                      {
+                        state.loading ? 
+                        <Loader stroke="#173046" size="32px" /> :
                         <Link to="/portfolio">
                             <ButtonDefault className="uppercase px-6" width="auto">
                                 {i18n._(t`Go to Portfolio`)}
                             </ButtonDefault>
-                        </Link>
-                        <ButtonText className="uppercase" onClick={onClose}>
-                            {i18n._(t`Close`)}
-                        </ButtonText>
+                        </Link> 
+                      }
                     </div>
                 </>
             )}
-            {state.loading && !state.signed && (
+            {state.loading && !state.signed ? 
                 <div className="walletNotice mt-2">{i18n._(t`You need to sign the transaction in your wallet`)}</div>
-            )}
+              : null
+            }
         </StakeDepositSC>
     )
 }

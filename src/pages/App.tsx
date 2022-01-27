@@ -14,6 +14,7 @@ import { useTheme } from 'styled-components'
 import styled from 'styled-components'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
+import TransactionUpdater from '../state/transactions/updater'
 
 export const Beta = styled.div`
     font-style: normal;
@@ -120,9 +121,10 @@ function App(): JSX.Element {
                         <Popups />
                         {/*<Polling />*/}
                         <Web3ReactManager>
-                            <div className="flex flex-col flex-glow w-full items-center justify-start">
+                          <div className="flex flex-col flex-glow w-full items-center justify-start">
                                 <Routes />
-                            </div>
+                                <TransactionUpdater />
+                          </div>
                         </Web3ReactManager>
                         <Beta className="mt-3 lg:mt-8">{i18n._(t`This project is in beta. Use at your own risk`)}</Beta>
                     </div>

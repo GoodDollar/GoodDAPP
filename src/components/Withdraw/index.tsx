@@ -17,6 +17,7 @@ import { TransactionDetails } from '../../sdk/constants/transactions'
 import { getExplorerLink } from '../../utils'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
+import Loader from 'components/Loader'
 
 function formatNumber(value: number) {
     return Intl.NumberFormat('en-US', { style: 'decimal', maximumFractionDigits: 4 }).format(value)
@@ -31,7 +32,7 @@ interface WithdrawProps {
     stake: MyStake
 }
 
-type WithdrawState = 'none' | 'pending' | 'success'
+type WithdrawState = 'none' | 'pending' | 'send' | 'success'
 
 function Withdraw({ token, protocol, open, setOpen, onWithdraw, stake, ...rest }: WithdrawProps) {
     const { i18n } = useLingui()
@@ -40,6 +41,7 @@ function Withdraw({ token, protocol, open, setOpen, onWithdraw, stake, ...rest }
     console.log({ totalStake })
     const [percentage, setPercentage] = useState<string>('50')
     const [withdrawAmount, setWithdrawAmount] = useState<number>(totalStake * (Number(percentage) / 100))
+    const [error, setError] = useState<Error>()
 
     useEffect(() => {
         setWithdrawAmount(totalStake * (Number(percentage) / 100))
@@ -52,17 +54,23 @@ function Withdraw({ token, protocol, open, setOpen, onWithdraw, stake, ...rest }
         if (!web3) return
         try {
             setStatus('pending')
-            const transactionDetails = await withdraw(web3, stake, percentage, transactionHash => {
+            await withdraw(web3, stake, percentage, (transactionHash: string, from: string) => {
                 setTransactionHash(transactionHash)
-                setStatus('success')
-            })
-            dispatch(
-                addTransaction({
-                    chainId: chainId!,
-                    hash: transactionDetails.transactionHash,
-                    from: transactionDetails.from
-                })
-            )
+                setStatus('send')
+                dispatch(
+                  addTransaction({
+                      chainId: chainId!,
+                      hash: transactionHash,
+                      from: from,
+                      summary: i18n._(t`Withdrew funds from ${stake.protocol} `)
+                  })
+                )
+            }, () => {setStatus('success')
+            }, (e) => {
+              setStatus('none')
+              setError(e as Error)
+            }
+            ,)
             onWithdraw()
         } catch (e) {
             console.error(e)
@@ -113,6 +121,7 @@ function Withdraw({ token, protocol, open, setOpen, onWithdraw, stake, ...rest }
                         />
 
                         <div className="flex flex-col items-center gap-1 relative mt-7">
+                        {<p className="warning mb-5">{error ? error.message : ''}</p>}
                             <p className="warning text-center mb-2 text-red">
                                 {i18n._(t`Withdrawing your stake will reset your multiplier.`)}
                             </p>
@@ -130,7 +139,9 @@ function Withdraw({ token, protocol, open, setOpen, onWithdraw, stake, ...rest }
                     <>
                         <Title className="flex flex-grow justify-center pt-3">{i18n._(t`Success!`)}</Title>
                         <div className="flex justify-center items-center gap-2 pt-7 pb-7">
-                            {i18n._(t`Transaction was sent to the blockchain`)}{' '}
+                        { status === 'send' ?
+                                  i18n._(t`Transaction was sent to the blockchain `) :
+                                  i18n._(t`You have successfully claimed your rewards `) } 
                             <a
                                 href={
                                     transactionHash &&
@@ -144,9 +155,12 @@ function Withdraw({ token, protocol, open, setOpen, onWithdraw, stake, ...rest }
                             </a>
                         </div>
                         <div className="flex justify-center">
+                          { status === 'send' ?
+                           <Loader stroke="#173046" size="32px" /> : 
                             <Button className="back-to-portfolio" onClick={handleClose}>
-                                {i18n._(t`Back to portfolio`)}
+                              {i18n._(t`Back to portfolio`)}
                             </Button>
+                           }
                         </div>
                     </>
                 )}

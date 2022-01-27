@@ -213,11 +213,11 @@ async function metaMyStake(web3: Web3, address: string, account: string): Promis
         claimed: rewardG$.claimed
             .multiply(cDAI)
             .multiply(ratio)
-            .multiply(1e14),
+            .multiply(1e16),
         unclaimed: rewardG$.unclaimed
             .multiply(cDAI)
             .multiply(ratio)
-            .multiply(1e14)
+            .multiply(1e16)
     }
 
     const DAI = (await getToken(chainId, 'DAI')) as Token
@@ -608,7 +608,7 @@ const getLiquidity = memoize<
         const totalProductivity = await simpleStaking.methods.totalProductivity().call()
         debug('Total Productivity', totalProductivity)
 
-        let liquidity = new Fraction(totalProductivity.toString(), 1).multiply(price).divide(10 ** token.decimals)
+        const liquidity = new Fraction(totalProductivity.toString(), 1).multiply(price).divide(10 ** token.decimals)
 
         const liquidityUSDC = CurrencyAmount.fromFractionalAmount(USDC, liquidity.numerator, liquidity.denominator)
 
@@ -807,7 +807,7 @@ export async function stakeGov(
     amount: string,
     token: Token,
     inInterestToken = false, //unused - only for compatability with the stake method
-    onSent?: (transactionHash: string) => void
+    onSent?: (transactionHash: string, from: string) => void
 ): Promise<TransactionDetails> {
     const contract = governanceStakingContract(web3, address)
     const account = await getAccount(web3)
@@ -815,7 +815,7 @@ export async function stakeGov(
     const tokenAmount = amount.toBigNumber(token.decimals)
     const req = contract.methods.stake(tokenAmount).send({ from: account })
 
-    if (onSent) req.on('transactionHash', onSent)
+    if (onSent) req.on('transactionHash', (hash: string) =>  onSent(hash, account))
 
     return req
 }
@@ -835,7 +835,7 @@ export async function stake(
     amount: string,
     token: Token,
     inInterestToken = false,
-    onSent?: (transactionHash: string) => void
+    onSent?: (transactionHash: string, from: string) => void
 ): Promise<TransactionDetails> {
     const contract = simpleStakingContract(web3, address)
     const account = await getAccount(web3)
@@ -846,7 +846,7 @@ export async function stake(
 
     const req = contract.methods.stake(tokenAmount, percentage.toFixed(0), inInterestToken).send({ from: account })
 
-    if (onSent) req.on('transactionHash', onSent)
+    if (onSent) req.on('transactionHash', (hash: string) =>  onSent(hash, account))
 
     return req
 }
@@ -863,7 +863,9 @@ export async function withdraw(
     web3: Web3,
     stake: MyStake,
     percentage: string,
-    onSent?: (transactionHash: string) => void
+    onSent?: (transactionHash: string, from: string) => void,
+    onReceipt?: () => void,
+    onError?: (e:any) => void
 ): Promise<TransactionDetails> {
     const contract =
         stake.protocol === LIQUIDITY_PROTOCOL.GOODDAO
@@ -882,7 +884,9 @@ export async function withdraw(
         req = contract.methods.withdrawStake(toWithdraw).send({ from: account })
     else req = contract.methods.withdrawStake(toWithdraw, false).send({ from: account })
 
-    if (onSent) req.on('transactionHash', onSent)
+    if (onSent) req.on('transactionHash', (hash: string) => onSent(hash, account))
+    if (onReceipt) req.on('receipt', onReceipt)
+    if (onError) req.on('error', onError)
 
     return req
 }
@@ -894,7 +898,9 @@ export async function withdraw(
  */
 export async function claimGood(
     web3: Web3,
-    onSent?: (firstTransactionHash: string) => void
+    onSent?: (firstTransactionHash: string, from: string, chainId: number) => void,
+    onReceipt?: () => void,
+    onError?: (e:any) => void
 ): Promise<TransactionDetails[]> {
     const chainId = await getChainId(web3)
     const account = await getAccount(web3)
@@ -908,7 +914,10 @@ export async function claimGood(
         const simpleStakingAddresses = await getSimpleStakingContractAddresses(web3)
         tx = stakersDistribution.methods.claimReputation(account, simpleStakingAddresses).send({ from: account })
     }
-    tx.on('transactionHash', onSent)
+     
+    if (onSent) tx.on('transactionHash', (hash: string) => onSent(hash, account, chainId))
+    if (onReceipt) tx.on('receipt', onReceipt)
+    if (onError) tx.on('error', onError)
     return [tx]
 }
 
@@ -919,7 +928,8 @@ export async function claimGood(
  */
 export async function claim(
     web3: Web3,
-    onSent?: (firstTransactionHash: string) => void
+    onSent?: (firstTransactionHash: string, from: string, chainId: number) => void,
+    onReceipt?: () => void
 ): Promise<TransactionDetails[]> {
     const chainId = await getChainId(web3)
     const account = await getAccount(web3)
@@ -944,11 +954,13 @@ export async function claim(
             transactions.map(
                 transaction =>
                     new Promise<string>((resolve, reject) => {
-                        transaction.on('transactionHash', resolve)
+                        transaction.on('transactionHash', (hash: string) => onSent(hash, account, chainId))
+                        transaction.on('receipt', onReceipt)
                         transaction.on('error', reject)
-                    })
+                        resolve('done')
+                    }) 
             )
-        ).then(hashes => onSent(hashes[0]))
+        )
     }
 
     return Promise.all(transactions)

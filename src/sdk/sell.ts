@@ -539,7 +539,7 @@ export async function approve(web3: Web3, meta: BuyInfo): Promise<void> {
 export async function sell(
     web3: Web3,
     meta: BuyInfo,
-    onSent?: (transactionHash: string) => void
+    onSent?: (transactionHash: string, from: string) => void
 ): Promise<TransactionDetails> {
     const chainId = await getChainId(web3)
 
@@ -565,7 +565,7 @@ export async function sell(
             )
             .send({ from: account })
 
-        if (onSent) req.on('transactionHash', onSent)
+        if (onSent) req.on('transactionHash', (hash: string) => onSent(hash, account))
         return req
     }
 }

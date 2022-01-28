@@ -13,7 +13,7 @@ import Text from '../Text'
 
 const { Container } = GDStore
 
-jest.setTimeout(20000)
+jest.setTimeout(30000)
 
 describe('TopBar', () => {
   const WrappedTopBar = withThemeProvider(TopBar)

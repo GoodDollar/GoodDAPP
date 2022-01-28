@@ -28,7 +28,7 @@ module.exports = {
   },
   transformIgnorePatterns: [
     '<rootDir>/node_modules/@gooddollar/react-native-facetec/web/sdk',
-    '<rootDir>/node_modules/(?!(jest-)?react-native|react-navigation|react-navigation-redux-helpers|react-phone-number-input|webrtc-adapter)',
+    '<rootDir>/node_modules/(?!(jest-)?react-native|react-navigation|react-navigation-redux-helpers|react-phone-number-input|webrtc-adapter|@gooddollar/react-native-facetec)',
   ],
   moduleFileExtensions: [
     'web.js',
@@ -55,7 +55,7 @@ module.exports = {
     "<rootDir>/src/index.js",
     "<rootDir>/src/init.js",
     "<rootDir>/src/serviceWorker.js",
-    "<rootDir>/node_modules/@gooddollar/react-native-facetec/web/sdk/FaceTecSDK.web.js",
+    '<rootDir>/node_modules/@gooddollar/react-native-facetec/web/sdk',
   ],
   globals: {
     "TZ" : "UTC"

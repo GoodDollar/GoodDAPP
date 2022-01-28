@@ -6,7 +6,7 @@ import userStorage from '../../../lib/userStorage/UserStorage'
 import { getWebRouterComponentWithMocks, getWebRouterComponentWithRoutes } from './__util__'
 const { Container } = GDStore
 
-jest.setTimeout(20000)
+jest.setTimeout(30000)
 describe('SendLinkSummary', () => {
   beforeAll(async () => {
     await userStorage.wallet.ready

@@ -14,7 +14,7 @@ module.exports = {
   jest: config => {
     config.transformIgnorePatterns = [
       '<rootDir>/node_modules/@gooddollar/react-native-facetec/web/sdk',
-      '<rootDir>/node_modules/(?!(jest-)?react-native|react-navigation|react-navigation-redux-helpers|react-phone-number-input|webrtc-adapter)',
+      '<rootDir>/node_modules/(?!(jest-)?react-native|react-navigation|react-navigation-redux-helpers|react-phone-number-input|webrtc-adapter|@gooddollar/react-native-facetec)',
     ]
 
     config.setupFiles = [

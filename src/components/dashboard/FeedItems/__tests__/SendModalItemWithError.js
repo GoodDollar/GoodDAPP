@@ -7,7 +7,7 @@ import { generateFeedItemProps } from '../../__tests__/__util__'
 import { withThemeProvider } from '../../../../__tests__/__util__'
 import userStorage from '../../../../lib/userStorage/UserStorage'
 
-jest.setTimeout(20000)
+jest.setTimeout(30000)
 
 describe('SendModalItemWithError', () => {
   beforeAll(async () => {

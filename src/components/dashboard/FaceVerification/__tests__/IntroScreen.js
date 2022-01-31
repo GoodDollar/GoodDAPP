@@ -10,7 +10,7 @@ const screenState = {
   isValid: true,
 }
 
-jest.setTimeout(20000)
+jest.setTimeout(30000)
 
 describe('FaceVerification IntroScreen', () => {
   beforeAll(async () => {

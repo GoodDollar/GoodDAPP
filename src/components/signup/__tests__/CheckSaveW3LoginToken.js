@@ -2,7 +2,7 @@
 import { initUserStorage } from '../../../lib/userStorage/__tests__/__util__'
 import userStorage from '../../../lib/userStorage/UserStorage'
 
-jest.setTimeout(20000)
+jest.setTimeout(30000)
 
 describe('Check W3 Login Token Save', () => {
   beforeAll(async () => {

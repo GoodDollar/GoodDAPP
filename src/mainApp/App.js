@@ -15,7 +15,7 @@ import useServiceWorker from '../lib/hooks/useServiceWorker'
 
 import SimpleStore from '../lib/undux/SimpleStore'
 
-import { isMobile } from '../lib/utils/platform'
+import { isAndroidNative, isMobile } from '../lib/utils/platform'
 import Config from '../config/config'
 import { GlobalTogglesContextProvider } from '../lib/contexts/togglesContext'
 import logger from '../lib/logger/js-logger'
@@ -58,7 +58,16 @@ export const App = () => {
 
   useCountryCode()
   useServiceWorker() // Only runs on Web
-  useEffect(() => log.debug({ Config }), [])
+
+  useEffect(() => {
+    const { _v8runtime: v8 } = global
+
+    log.debug({ Config })
+
+    if (isAndroidNative && v8) {
+      log.debug(`V8 version is ${v8().version}`)
+    }
+  }, [])
 
   return (
     <PaperProvider theme={theme}>

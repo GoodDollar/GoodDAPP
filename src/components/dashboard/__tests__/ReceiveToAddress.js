@@ -13,7 +13,7 @@ jest.doMock('../../../lib/wallet/GoodWallet', () => {
   }
 })
 
-jest.setTimeout(20000)
+jest.setTimeout(30000)
 
 describe('ReceiveToAddress', () => {
   beforeAll(async () => {

@@ -8,7 +8,7 @@ import SimpleStore from '../../../lib/undux/SimpleStore'
 
 // Note: test renderer must be required after react-native.
 
-jest.setTimeout(20000)
+jest.setTimeout(30000)
 
 describe('VerifyEdit', () => {
   beforeAll(async () => {

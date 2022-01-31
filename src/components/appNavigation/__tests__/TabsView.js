@@ -7,7 +7,7 @@ import userStorage from '../../../lib/userStorage/UserStorage'
 import { withStoresProvider } from '../../../__tests__/__util__/index'
 
 // Note: test renderer must be required after react-native.
-jest.setTimeout(20000)
+jest.setTimeout(30000)
 
 describe('TabsView', () => {
   beforeAll(async () => {

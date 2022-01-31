@@ -185,12 +185,16 @@ export class FeedStorage {
         )
       case TxType.TX_SEND_GD:
         return orderBy(receipt.logs, 'e.data.value', 'desc').find(
-          e => e.name === 'Transfer' && _from(e) === this.walletAddress,
+          e =>
+            e.address === this.wallet.erc20Contract._address &&
+            e.name === 'Transfer' &&
+            _from(e) === this.walletAddress,
         )
       case TxType.TX_MINT:
       case TxType.TX_RECEIVE_GD:
         return orderBy(receipt.logs, 'e.data.value', 'desc').find(
-          e => e.name === 'Transfer' && _to(e) === this.walletAddress,
+          e =>
+            e.address === this.wallet.erc20Contract._address && e.name === 'Transfer' && _to(e) === this.walletAddress,
         )
       case TxType.TX_CLAIM:
         return orderBy(receipt.logs, 'e.data.value', 'desc').find(

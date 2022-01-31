@@ -33,6 +33,7 @@ import useCheckExisting from '../hooks/useCheckExisting'
 import ready from '../ready'
 import SignUpIn from '../login/SignUpScreen'
 
+import { timeout } from '../../../lib/utils/async'
 import DeepLinking from '../../../lib/utils/deepLinking'
 
 import AuthContext from '../context/AuthContext'
@@ -209,7 +210,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
       }
 
       // get full name, email, number, userId
-      const { torusUser } = torusResponse
+      const { torusUser, replacing } = torusResponse
       const existsResult = await checkExisting(provider, torusUser)
 
       switch (existsResult) {
@@ -224,6 +225,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
         }
         case 'signup': {
           log.debug('user does not exists')
+          await Promise.race([ready(replacing), timeout(60000, 'initializing wallet timed out')])
 
           if (isWeb) {
             //Hack to get keyboard up on mobile need focus from user event such as click

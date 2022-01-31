@@ -33,7 +33,7 @@ import useCheckExisting from '../hooks/useCheckExisting'
 import ready from '../ready'
 import SignUpIn from '../login/SignUpScreen'
 
-import { timeout } from '../../../lib/utils/async'
+import { withTimeout } from '../../../lib/utils/async'
 import DeepLinking from '../../../lib/utils/deepLinking'
 
 import AuthContext from '../context/AuthContext'
@@ -225,15 +225,15 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
         }
         case 'signup': {
           log.debug('user does not exists')
-          await Promise.race([ready(replacing), timeout(60000, 'initializing wallet timed out')])
+
+          await withTimeout(() => ready(replacing), 60000, 'initializing wallet timed out')
 
           if (isWeb) {
-            //Hack to get keyboard up on mobile need focus from user event such as click
+            // Hack to get keyboard up on mobile need focus from user event such as click
             setTimeout(() => {
               const el = document.getElementById('Name_input')
-              if (el) {
-                el.focus()
-              }
+
+              el && el.focus()
             }, 500)
           }
 

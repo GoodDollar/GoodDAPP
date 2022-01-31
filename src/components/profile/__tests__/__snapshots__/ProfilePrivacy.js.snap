@@ -557,7 +557,7 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
             Object {
               "WebkitBoxFlex": 10,
               "WebkitFlexGrow": 10,
-              "backgroundColor": "rgba(0,0,0,0.12)",
+              "backgroundColor": "rgba(23,53,102,0.40)",
               "borderBottomColor": "rgba(0,175,255,1.00)",
               "borderBottomLeftRadius": "50px",
               "borderBottomRightRadius": "50px",

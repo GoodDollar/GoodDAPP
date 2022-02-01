@@ -129,7 +129,7 @@ exports[`Amount matches snapshot 1`] = `
                     autoComplete="on"
                     autoCorrect="on"
                     autoFocus={true}
-                    className="css-textinput-11aywtz r-backgroundColor-14lw9ot r-borderBottomColor-1ny7kx0 r-borderBottomWidth-qklmqi r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-vw2c0b r-letterSpacing-19r33im r-marginTop-1mnahxq r-paddingHorizontal-1dye5f7 r-paddingVertical-oyd9sg r-placeholderTextColor-1xktb6b r-textAlign-q4m81j"
+                    className="css-textinput-11aywtz r-backgroundColor-14lw9ot r-borderBottomColor-1htqvjr r-borderBottomWidth-qklmqi r-color-13sdq65 r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-vw2c0b r-letterSpacing-19r33im r-marginTop-1mnahxq r-paddingHorizontal-1dye5f7 r-paddingVertical-oyd9sg r-placeholderTextColor-1xktb6b r-textAlign-q4m81j"
                     dir="auto"
                     maxLength={20}
                     onBlur={[Function]}
@@ -462,7 +462,7 @@ exports[`Amount matches snapshot 1`] = `
               style={
                 Object {
                   "WebkitFlex": 2,
-                  "backgroundColor": "rgba(0,0,0,0.12)",
+                  "backgroundColor": "rgba(23,53,102,0.40)",
                   "borderBottomColor": "rgba(0,175,255,1.00)",
                   "borderBottomLeftRadius": "50px",
                   "borderBottomRightRadius": "50px",

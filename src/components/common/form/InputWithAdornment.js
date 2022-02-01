@@ -69,9 +69,9 @@ const InputText = ({
   }, [])
 
   const inputColor = useMemo(() => {
-    const { red, darkGray } = theme.colors
+    const { red, lightBlue } = theme.colors
 
-    return error ? red : darkGray
+    return error ? red : lightBlue
   }, [error])
 
   const _onPress = useOnPress(adornmentAction)
@@ -110,9 +110,9 @@ const getStylesFromProps = ({ theme, fontFamily, fontWeight, style }) => {
       ...theme.fontStyle,
       fontWeight: calculatedFontWeight,
       backgroundColor: theme.colors.surface,
-      borderBottomColor: theme.colors.darkGray,
+      borderBottomColor: theme.colors.lightBlue,
       borderBottomWidth: StyleSheet.hairlineWidth,
-      color: theme.colors.darkGray,
+      color: theme.colors.lightBlue,
       fontFamily: calculatedFontFamily,
       paddingHorizontal: theme.sizes.defaultQuadruple,
       paddingVertical: theme.sizes.defaultHalf,

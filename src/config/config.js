@@ -58,6 +58,7 @@ const Config = {
   enableSelfCustody: env.REACT_APP_ENABLE_SELF_CUSTODY === 'true',
   googleClientId: env.REACT_APP_GOOGLE_CLIENT_ID,
   facebookAppId: env.REACT_APP_FACEBOOK_APP_ID,
+  authSuccessDelay: Number(env.REACT_APP_SUCCESS_DELAY || 2000),
   auth0ClientId: env.REACT_APP_AUTH0_CLIENT_ID,
   auth0SMSClientId: env.REACT_APP_AUTH0_SMS_CLIENT_ID,
   auth0Domain: env.REACT_APP_AUTH0_DOMAIN || 'https://gooddollar.eu.auth0.com',

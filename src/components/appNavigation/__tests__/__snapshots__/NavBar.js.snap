@@ -28,27 +28,5 @@ exports[`NavBar matches snapshot 1`] = `
       "paddingRight": "4px",
     }
   }
->
-  <div
-    aria-disabled={true}
-    className="css-view-1dbjc4n r-flex-13awgt0 r-paddingHorizontal-1e081e0"
-    onClick={[Function]}
-    onContextMenu={[Function]}
-    onKeyDown={[Function]}
-    tabIndex="-1"
-  >
-    <h1
-      className="css-reset-4rbku5 css-text-901oao css-textMultiLine-cens5h r-color-jwli3a r-fontSize-hiw28u r-fontWeight-majxgm r-textAlign-q4m81j r-textTransform-tsynxw"
-      dir="auto"
-      role="heading"
-      style={
-        Object {
-          "WebkitLineClamp": 1,
-          "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-        }
-      }
-      tabIndex="0"
-    />
-  </div>
-</div>
+/>
 `;

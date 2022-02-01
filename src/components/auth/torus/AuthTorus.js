@@ -1,21 +1,14 @@
 // @flow
-import React, { useCallback, useEffect, useState } from 'react'
-import { Paragraph } from 'react-native-paper'
-import { Platform, View } from 'react-native'
+import React, { useCallback, useContext, useEffect, useState } from 'react'
+import { Platform } from 'react-native'
 import { get } from 'lodash'
 import AsyncStorage from '../../../lib/utils/asyncStorage'
 import logger from '../../../lib/logger/js-logger'
 import {
   fireEvent,
   SIGNIN_METHOD_SELECTED,
-  SIGNIN_NOTEXISTS_LOGIN,
-  SIGNIN_NOTEXISTS_SIGNUP,
   SIGNIN_TORUS_SUCCESS,
-  SIGNUP_EXISTS,
-  SIGNUP_EXISTS_CONTINUE,
-  SIGNUP_EXISTS_LOGIN,
   SIGNUP_METHOD_SELECTED,
-  SIGNUP_STARTED,
   TORUS_FAILED,
   TORUS_POPUP_CLOSED,
   TORUS_REDIRECT_SUCCESS,
@@ -30,112 +23,31 @@ import SimpleStore from '../../../lib/undux/SimpleStore'
 import { useDialog } from '../../../lib/undux/utils/dialog'
 import { showSupportDialog } from '../../common/dialogs/showSupportDialog'
 import { decorate, ExceptionCode } from '../../../lib/exceptions/utils'
+
 import { isWeb } from '../../../lib/utils/platform'
 import { getDesignRelativeHeight, isSmallDevice } from '../../../lib/utils/sizes'
 import { getShadowStyles } from '../../../lib/utils/getStyles'
 import normalizeText from '../../../lib/utils/normalizeText'
-import { userExists } from '../../../lib/login/userExists'
+import useCheckExisting from '../hooks/useCheckExisting'
 
 import ready from '../ready'
 import SignUpIn from '../login/SignUpScreen'
 
-import LoadingIcon from '../../common/modal/LoadingIcon'
-
-import { timeout } from '../../../lib/utils/async'
+import { withTimeout } from '../../../lib/utils/async'
 import DeepLinking from '../../../lib/utils/deepLinking'
 
+import AuthContext from '../context/AuthContext'
 import useTorus from './hooks/useTorus'
-import { LoginStrategy } from './sdk/strategies'
 
 const log = logger.child({ from: 'AuthTorus' })
 
-export const useAlreadySignedUp = () => {
-  const [showDialog, hideDialog] = useDialog()
-
-  const show = (
-    provider,
-    existsResult: { provider: string, identifier: boolean, email: boolean, mobile: boolean },
-    fromSignupFlow,
-  ) => {
-    let resolve
-    const promise = new Promise((res, rej) => {
-      resolve = res
-    })
-
-    const registeredBy = LoginStrategy.getTitle(existsResult.provider)
-    const usedText = existsResult.identifier ? 'Account' : existsResult.email ? 'Email' : 'Mobile'
-    fireEvent(SIGNUP_EXISTS, { provider, existsResult, fromSignupFlow })
-    showDialog({
-      onDismiss: () => {
-        hideDialog()
-        resolve('signup')
-      },
-      content: (
-        <View style={alreadyStyles.paragraphContainer}>
-          <Paragraph
-            style={[alreadyStyles.paragraph, alreadyStyles.paragraphBold]}
-          >{`You Already Used\n This ${usedText}\n When You Signed Up\n With ${registeredBy}`}</Paragraph>
-        </View>
-      ),
-      buttons: [
-        {
-          text: `Login with ${registeredBy}`,
-          onPress: () => {
-            hideDialog()
-            fireEvent(SIGNUP_EXISTS_LOGIN, { provider, existsResult, fromSignupFlow })
-            resolve('signin')
-          },
-          style: [alreadyStyles.marginBottom, getShadowStyles('none')],
-        },
-        {
-          text: 'Continue Signup',
-          onPress: () => {
-            hideDialog()
-            fireEvent(SIGNUP_EXISTS_CONTINUE, { provider, existsResult, fromSignupFlow })
-            resolve('signup')
-          },
-          style: alreadyStyles.whiteButton,
-          textStyle: alreadyStyles.primaryText,
-        },
-      ],
-      buttonsContainerStyle: alreadyStyles.modalButtonsContainerStyle,
-      type: 'error',
-    })
-    return promise
-  }
-  return show
-}
-
 const AuthTorus = ({ screenProps, navigation, styles, store }) => {
-  const [showDialog, hideDialog, showErrorDialog] = useDialog()
-  const showAlreadySignedUp = useAlreadySignedUp()
+  const [, hideDialog, showErrorDialog] = useDialog()
+  const { setWalletPreparing, setTorusInitialized, setSuccessfull } = useContext(AuthContext)
+  const checkExisting = useCheckExisting()
   const [torusSDK, sdkInitialized] = useTorus()
-  const { navigate } = navigation
   const [authScreen, setAuthScreen] = useState(get(navigation, 'state.params.screen'))
-  const isSignup = authScreen !== 'signin' //default to signup
-
-  useEffect(() => {
-    //helper to show user login/signup when he presses back or cancels login flow
-    if (authScreen == null) {
-      AsyncStorage.getItem('recallTorusRedirectScreen').then(screen => {
-        log.debug('recall authscreen for torus redirect flow', screen)
-        screen && setAuthScreen(screen)
-      })
-    }
-  }, [])
-
-  useEffect(() => {
-    if (authScreen) {
-      //when user switches between login/signup we clear the recall
-      AsyncStorage.setItem('recallTorusRedirectScreen', authScreen)
-    }
-  }, [authScreen])
-
-  useEffect(() => {
-    if (sdkInitialized) {
-      getTorusUserRedirect()
-    }
-  }, [sdkInitialized])
+  const { navigate } = navigation
 
   const getTorusUserRedirect = async () => {
     //in case of redirect flow we need to recover the provider/login type
@@ -177,6 +89,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
         await AsyncStorage.clear()
         replacing = true
       }
+
       if (!torusUser.privateKey) {
         log.warn('Missing private key from torus response', { torusUser })
         throw new Error('Missing privateKey from torus response')
@@ -202,70 +115,13 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
     return { torusUser, replacing }
   }
 
-  const showLoadingDialog = () => {
-    showDialog({
-      image: <LoadingIcon />,
-      loading: true,
-      message: 'Please wait\nThis might take a few seconds...',
-      showButtons: false,
-      title: `PREPARING\nYOUR WALLET`,
-      showCloseButtons: false,
-    })
-  }
-
-  const showNotSignedUp = provider => {
-    let resolve
-    const promise = new Promise((res, rej) => {
-      resolve = res
-    })
-    showDialog({
-      onDismiss: hideDialog,
-      content: (
-        <View style={styles.paragraphContainer}>
-          <Paragraph
-            style={[styles.paragraph, styles.paragraphBold]}
-          >{`Hi There,\n did You Mean\n to Signup?`}</Paragraph>
-          <View style={{ marginTop: mainTheme.sizes.defaultDouble }}>
-            <Paragraph
-              style={[styles.paragraph, styles.paragraphContent]}
-            >{`The account doesn’t exist\n or you signed up using`}</Paragraph>
-            <Paragraph style={[styles.paragraphContent, styles.paragraphBold]}>another method</Paragraph>
-          </View>
-        </View>
-      ),
-      buttons: [
-        {
-          text: 'Signup',
-          onPress: () => {
-            fireEvent(SIGNIN_NOTEXISTS_SIGNUP, { provider })
-            hideDialog()
-            resolve('signup')
-          },
-          style: [styles.whiteButton, { flex: 1 }],
-          textStyle: styles.primaryText,
-        },
-        {
-          text: 'Login',
-          onPress: () => {
-            fireEvent(SIGNIN_NOTEXISTS_LOGIN, { provider })
-            hideDialog()
-            resolve('signin')
-          },
-          style: { flex: 1 },
-        },
-      ],
-      buttonsContainerStyle: styles.modalButtonsContainerRow,
-      type: 'error',
-    })
-    return promise
-  }
+  const selfCustodyLogin = useCallback(() => {
+    fireEvent(SIGNIN_METHOD_SELECTED, { method: REGISTRATION_METHOD_SELF_CUSTODY })
+    return navigate('SigninInfo')
+  })
 
   const selfCustody = useCallback(async () => {
     const curSeed = await AsyncStorage.getItem(GD_USER_MASTERSEED)
-    if (isSignup === false) {
-      fireEvent(SIGNIN_METHOD_SELECTED, { method: REGISTRATION_METHOD_SELF_CUSTODY })
-      return navigate('SigninInfo')
-    }
 
     //in case user started torus signup but came back here we need to re-initialize wallet/storage with
     //new credentials
@@ -273,36 +129,41 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
       await AsyncStorage.clear()
       await ready(true)
     }
+
     fireEvent(SIGNUP_METHOD_SELECTED, { method: REGISTRATION_METHOD_SELF_CUSTODY })
     navigate('Signup', { regMethod: REGISTRATION_METHOD_SELF_CUSTODY })
-  }, [navigate, isSignup])
+  }, [navigate])
 
   const handleLoginMethod = async (
     provider: 'facebook' | 'google' | 'auth0' | 'auth0-pwdless-email' | 'auth0-pwdless-sms',
     torusUserRedirectPromise,
   ) => {
-    showLoadingDialog()
+    if (provider === 'selfCustody') {
+      return selfCustody()
+    }
 
-    //in case this is triggered as a callback after redirect we fire a different vent
-    if (torusUserRedirectPromise) {
-      fireEvent(TORUS_REDIRECT_SUCCESS, {
-        isSignup,
-        method: provider,
-        torusPopupMode: torusSDK.popupMode, //this should always be false in case of redirect
-      })
-    } else {
-      fireEvent(isSignup ? SIGNUP_METHOD_SELECTED : SIGNIN_METHOD_SELECTED, {
-        method: provider,
-        torusPopupMode: torusSDK.popupMode, //for a/b testing
-      })
+    if (provider === 'selfCustodyLogin') {
+      return selfCustodyLogin()
     }
 
     try {
-      if (provider === 'selfCustody') {
-        return selfCustody()
+      let torusResponse
+
+      setWalletPreparing(true)
+
+      // in case this is triggered as a callback after redirect we fire a different vent
+      if (torusUserRedirectPromise) {
+        fireEvent(TORUS_REDIRECT_SUCCESS, {
+          method: provider,
+          torusPopupMode: torusSDK.popupMode, // this should always be false in case of redirect
+        })
+      } else {
+        fireEvent(SIGNIN_METHOD_SELECTED, {
+          method: provider,
+          torusPopupMode: torusSDK.popupMode, // for a/b testing
+        })
       }
 
-      let torusResponse
       try {
         //don't expect response if in redirect mode, this method will be called again with response from effect
         if (config.env !== 'test' && !torusSDK.popupMode && torusUserRedirectPromise == null) {
@@ -314,7 +175,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
 
           //here in redirect mode we are not waiting for response from torus
           await getTorusUser(provider)
-          hideDialog() //we hide dialog because on safari pressing back doesnt reload page
+          setWalletPreparing(false)
           return
         }
 
@@ -343,97 +204,92 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
           suggestion = `Your default browser isn't supported. Please, set ${suggestedBrowser} as default and try again.`
         }
 
+        setWalletPreparing(false)
         showErrorDialog(`We were unable to load the wallet. ${suggestion}`)
         return
       }
 
+      // get full name, email, number, userId
       const { torusUser, replacing } = torusResponse
-      const existsResult = await userExists(torusUser)
-      let selection = authScreen
+      const existsResult = await checkExisting(provider, torusUser)
 
-      log.debug('checking userAlreadyExist', { isSignup, existsResult })
+      switch (existsResult) {
+        case 'login': {
+          // case of sign-in
+          fireEvent(SIGNIN_TORUS_SUCCESS, { provider })
+          await AsyncStorage.setItem(IS_LOGGED_IN, true)
 
-      if (isSignup) {
-        // if user identifier exists or email/mobile found in another account
-        if (existsResult.exists) {
-          selection = await showAlreadySignedUp(provider, existsResult)
+          setWalletPreparing(false)
+          setSuccessfull(() => store.set('isLoggedIn')(true))
+          return
+        }
+        case 'signup': {
+          log.debug('user does not exists')
 
-          if (selection === 'signin') {
-            return setAuthScreen('signin')
+          await withTimeout(() => ready(replacing), 60000, 'initializing wallet timed out')
+
+          if (isWeb) {
+            // Hack to get keyboard up on mobile need focus from user event such as click
+            setTimeout(() => {
+              const el = document.getElementById('Name_input')
+
+              el && el.focus()
+            }, 500)
           }
+
+          // create account
+          return navigate('Signup', {
+            regMethod: REGISTRATION_METHOD_TORUS,
+            torusUser,
+            torusProvider: provider,
+          })
         }
-      } else if (isSignup === false && existsResult.identifier !== true) {
-        //no account with identifier found = user didn't signup
-        selection = await showNotSignedUp(provider)
-
-        return setAuthScreen(selection)
+        default:
+          // login with other method has been selected, app will redirect
+          break
       }
+    } catch (exception) {
+      const { message } = exception
+      const uiMessage = decorate(exception, ExceptionCode.E14)
 
-      showLoadingDialog() //continue show loading if we showed already signed up dialog
-
-      //user chose to continue signup even though used on another provider
-      //or user signed in and account exists
-      await Promise.race([ready(replacing), timeout(60000, 'initializing wallet timed out')])
-      hideDialog()
-
-      if (isSignup) {
-        fireEvent(SIGNUP_STARTED, { provider })
-
-        if (isWeb) {
-          //Hack to get keyboard up on mobile need focus from user event such as click
-          setTimeout(() => {
-            const el = document.getElementById('Name_input')
-            if (el) {
-              el.focus()
-            }
-          }, 500)
-        }
-        return navigate('Signup', {
-          regMethod: REGISTRATION_METHOD_TORUS,
-          torusUser,
-          torusProvider: provider,
-        })
-      }
-
-      //case of sign-in
-      fireEvent(SIGNIN_TORUS_SUCCESS, { provider })
-      await AsyncStorage.setItem(IS_LOGGED_IN, true)
-      store.set('isLoggedIn')(true)
-    } catch (e) {
-      const cancelled = e.message.match(/user\s+closed/i)
-      if (cancelled) {
-        hideDialog()
-        return
-      }
-      const { message } = e
-      const uiMessage = decorate(e, ExceptionCode.E14)
       showSupportDialog(showErrorDialog, hideDialog, navigation.navigate, uiMessage)
-      log.error('Failed to initialize wallet and storage', message, e)
+      log.error('Failed to initialize wallet and storage', message, exception)
+    } finally {
+      setWalletPreparing(false)
     }
   }
 
-  const goBack = () => (isSignup ? setAuthScreen('signin') : setAuthScreen('signup'))
+  useEffect(() => {
+    //helper to show user login/signup when he presses back or cancels login flow
+    if (authScreen == null) {
+      AsyncStorage.getItem('recallTorusRedirectScreen').then(screen => {
+        log.debug('recall authscreen for torus redirect flow', screen)
+        screen && setAuthScreen(screen)
+      })
+    }
+  }, [])
 
-  // const auth0ButtonHandler = () => {
-  //   if (config.torusEmailEnabled) {
-  //     setPasswordless(true)
-  //     fireEvent(SIGNUP_METHOD_SELECTED, { method: 'auth0-pwdless' })
-  //   } else {
-  //     signupAuth0Mobile()
-  //   }
-  // }
+  useEffect(() => {
+    if (authScreen) {
+      //when user switches between login/signup we clear the recall
+      AsyncStorage.setItem('recallTorusRedirectScreen', authScreen)
+    }
+  }, [authScreen])
 
-  // const signupAuth0Email = () => signupAuth0('email')
-  // const signupAuth0Mobile = () => signupAuth0('mobile')
+  useEffect(() => {
+    if (sdkInitialized) {
+      getTorusUserRedirect()
+      setTorusInitialized(handleLoginMethod)
+    }
+  }, [sdkInitialized])
 
   return (
     <SignUpIn
-      isSignup={isSignup}
       screenProps={screenProps}
       navigation={navigation}
       handleLoginMethod={handleLoginMethod}
       sdkInitialized={sdkInitialized}
-      goBack={goBack}
+      goBack={'signup'}
     />
   )
 }
@@ -522,50 +378,11 @@ const getStylesFromProps = ({ theme }) => {
     },
   }
 }
+
 const Auth = withStyles(getStylesFromProps)(SimpleStore.withStore(AuthTorus))
 Auth.navigationOptions = {
   title: 'Auth',
   navigationBarHidden: true,
-}
-
-const alreadyStyles = {
-  paragraphContainer: {
-    flex: 1,
-    justifyContent: 'center',
-  },
-  modalButtonsContainerStyle: {
-    flexDirection: 'column',
-    justifyContent: 'flex-end',
-  },
-  whiteButton: {
-    backgroundColor: mainTheme.colors.white,
-    borderWidth: 1,
-    borderColor: mainTheme.colors.primary,
-    ...getShadowStyles('none'),
-  },
-  primaryText: {
-    color: mainTheme.colors.primary,
-  },
-  paragraphContent: {
-    fontSize: normalizeText(16),
-    lineHeight: 22,
-    color: mainTheme.colors.darkGray,
-    fontFamily: mainTheme.fonts.default,
-  },
-  paragraphBold: {
-    textAlign: 'center',
-    fontWeight: 'bold',
-  },
-  paragraph: {
-    fontSize: normalizeText(24),
-    textAlign: 'center',
-    color: mainTheme.colors.red,
-    lineHeight: 32,
-    fontFamily: mainTheme.fonts.slab,
-  },
-  marginBottom: {
-    marginBottom: getDesignRelativeHeight(mainTheme.sizes.defaultDouble),
-  },
 }
 
 export default Auth

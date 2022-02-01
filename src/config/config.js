@@ -167,6 +167,7 @@ const Config = {
   storeAppUrlAndroid: env.STORE_APP_URL_ANDROID || "https://play.google.com/store/apps/details?id=org.gooddollar",
   minimalIOSVersion: env.MINIMAL_IOS_VERSION || 12,
   debugUserAgent: env.REACT_APP_DEBUG_USER_AGENT || false,
+  reserveGraphQLUrl: env.REACT_APP_RESERVE_GRAPHQL_URL || 'https://api.thegraph.com/subgraphs/name/gooddollar/goodsubgraphs',
 }
 
 //get and override settings from server

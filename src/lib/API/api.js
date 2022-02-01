@@ -14,6 +14,8 @@ import type { NameRecord } from '../../components/signup/NameForm'
 import type { EmailRecord } from '../../components/signup/EmailForm'
 import type { MobileRecord } from '../../components/signup/PhoneForm'
 
+import query from '../../components/reserve/reserveQuery.gql'
+
 const log = logger.child({ from: 'API' })
 
 export type Credentials = {
@@ -443,6 +445,11 @@ export class APIService {
     }
 
     return this.client.post(callbackUrl, { invoiceId, transactionId, senderEmail, senderName })
+  }
+
+  // eslint-disable-next-line require-await
+  async getReservePrice() {
+    return axios.post(Config.reserveGraphQLUrl, { query })
   }
 }
 

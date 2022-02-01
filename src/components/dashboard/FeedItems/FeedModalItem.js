@@ -36,6 +36,7 @@ const FeedModalItem = (props: FeedEventProps) => {
   const showJaggedEdge = ['claim', 'sendcompleted', 'withdraw', 'receive'].includes(itemType)
   const topImageExists = !!getImageByType(itemType)
   const avatar = get(item, 'data.endpoint.avatar')
+  const sellerWebsite = get(item, 'data.sellerWebsite', '')
 
   return (
     <ModalWrapper
@@ -95,8 +96,8 @@ const FeedModalItem = (props: FeedEventProps) => {
               {item.data && item.data.endpoint && (
                 <View style={{ flex: 1, alignItems: 'flex-start', flexDirection: 'column' }}>
                   <EventCounterParty style={styles.feedItem} textStyle={styles.feedItemText} feedItem={item} />
-                  {!eventSettings.withoutAvatar && !!get(item, 'data.sellerWebsite', '') && (
-                    <EventInfoText>{get(item, 'data.sellerWebsite', '')}</EventInfoText>
+                  {!eventSettings.withoutAvatar && !!sellerWebsite && (
+                    <EventInfoText>{sellerWebsite}</EventInfoText>
                   )}
                 </View>
               )}

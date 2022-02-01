@@ -1,3 +1,5 @@
+import contractsAddresses from '@gooddollar/goodprotocol/releases/deployment.json'
+
 const map: Record<string, string | undefined> = {
     '0xE41d2489571d322189246DaFA5ebDe1F4699F498':
         'https://raw.githubusercontent.com/compound-finance/token-list/master/assets/asset_ZRX.svg',
@@ -35,7 +37,6 @@ const map: Record<string, string | undefined> = {
         'https://raw.githubusercontent.com/compound-finance/token-list/master/assets/asset_USDC.svg',
     '0x0cec1a9154ff802e7934fc916ed7ca50bde6844e':
         'https://raw.githubusercontent.com/compound-finance/token-list/master/assets/asset_POOL.svg',
-    '0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984': 'ipfs://QmXttGpZrECX5qCyXbBQiqgQNytVGeZW5Anewvh2jc4psg',
     '0xc0e2D7d9279846B80EacdEa57220AB2333BC049d':
         'https://raw.githubusercontent.com/compound-finance/token-list/master/assets/asset_ZRX.svg',
     '0x2973e69b20563bcc66dC63Bde153072c33eF37fe':
@@ -164,13 +165,28 @@ const map: Record<string, string | undefined> = {
         'https://raw.githubusercontent.com/compound-finance/token-list/master/assets/asset_USDC.svg',
     '0xe22da380ee6B445bb8273C81944ADEB6E8450422':
         'https://raw.githubusercontent.com/compound-finance/token-list/master/assets/asset_USDC.svg',
-    '0x46183b8822BB7Cbf27E10A1acc95DfB3b5f0ec79':
-        'https://raw.githubusercontent.com/GoodDollar/GoodProtocolUI/master/src/assets/images/tokens/gd-logo.png',
-    '0xEf0c1e6f98e433d81AE3e6611944bc06e533A47B':
-        'https://raw.githubusercontent.com/GoodDollar/GoodProtocolUI/master/src/assets/images/tokens/good-logo.png',
+    '0xAaF64BFCC32d0F15873a02163e7E500671a4ffcD':
+        'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x9f8F72aA9304c8B593d555F12eF6589cC3A579A2/logo.png',
+    '0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984':
+        'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984/logo.png',
+    '0xd0A1E359811322d97991E03f863a0C30C2cF029C':
+        'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2/logo.png',
+    '0xd3A691C852CDB01E281545A27064741F0B7f6825':
+        'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599/logo.png',
     '0xBE4fe98C9C4c0A8f3681c34C94cE2e462da5FC89':
         'https://raw.githubusercontent.com/GoodDollar/GoodProtocolUI/master/src/assets/images/tokens/gdx-logo.png'
 }
+
+Object.values(contractsAddresses).forEach(
+    _ =>
+        (map[_['GoodDollar'] as string] =
+            'https://raw.githubusercontent.com/GoodDollar/GoodProtocolUI/master/src/assets/images/tokens/gd-logo.png')
+)
+Object.values(contractsAddresses).forEach(
+    _ =>
+        (map[_['GReputation'] as string] =
+            'https://raw.githubusercontent.com/GoodDollar/GoodProtocolUI/master/src/assets/images/tokens/good-logo.png')
+)
 
 export const getKovanTokenLogoURL = (address: string): string =>
     map[address] ??

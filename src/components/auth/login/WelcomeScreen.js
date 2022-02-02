@@ -58,7 +58,7 @@ const WelcomeScreen = ({ theme, styles, screenProps, navigation }) => {
   return (
     <Wrapper backgroundColor={theme.colors.white} style={styles.mainWrapper}>
       <NavBar logo />
-      <AuthProgressBar />
+      <AuthProgressBar step={0} done={false} />
       <View style={styles.contentContainer}>
         <Text
           color={'primary'}

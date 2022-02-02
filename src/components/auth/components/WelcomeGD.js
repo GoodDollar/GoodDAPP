@@ -31,7 +31,7 @@ const WelcomeGD = ({ theme, styles, screenProps, navigation, showDelay, afterSho
 
   return (
     <>
-      <AuthProgressBar step={2} done={true} />
+      <AuthProgressBar step={3} done={true} />
       <View style={styles.contentContainer}>
         <Text
           color={'lighterGreen'}

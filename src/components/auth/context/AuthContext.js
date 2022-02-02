@@ -6,6 +6,7 @@ import Config from '../../../config/config'
 const AuthContext = React.createContext({
   success: false,
   preparing: false,
+  activeStep: 0,
   successCallback: null,
   signedUpProvider: null,
   alreadySignedUp: false,
@@ -19,6 +20,7 @@ const AuthContext = React.createContext({
 })
 
 export const AuthContextProvider = ({ children }) => {
+  const [activeStep, setStep] = useState(0)
   const [preparing, setWalletPreparing] = useState(false)
   const [successState, setSuccessState] = useState(null)
   const [existingState, setExistingState] = useState(null)
@@ -48,11 +50,24 @@ export const AuthContextProvider = ({ children }) => {
 
   /* eslint-enable */
 
+  const setActiveStep = useCallback(
+    step => {
+      let activeStep = step || 0
+
+      activeStep = Math.max(0, activeStep)
+      activeStep = Math.min(3, activeStep)
+
+      setStep(activeStep)
+    },
+    [setStep],
+  )
+
   const setSuccessfull = useCallback(
     (callback = null, delay = null) => {
+      setActiveStep(3)
       setSuccessState({ delay, callback })
     },
-    [setSuccessState],
+    [setSuccessState, setActiveStep],
   )
 
   const setAlreadySignedUp = useCallback(
@@ -82,6 +97,9 @@ export const AuthContextProvider = ({ children }) => {
     success,
     successScreenOptions,
     setSuccessfull,
+
+    activeStep,
+    setActiveStep,
 
     handleLoginMethod,
     torusInitialized,

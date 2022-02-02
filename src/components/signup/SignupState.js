@@ -642,8 +642,8 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
   return (
     <View style={{ flexGrow: shouldGrow ? 1 : 0 }}>
       <NavBar logo />
-      <AuthProgressBar step={2} done={signupSuccess} />
       <AuthStateWrapper>
+        <AuthProgressBar step={2} done={signupSuccess} />
         <ScrollView contentContainerStyle={scrollableContainer}>
           <View style={contentContainer}>
             {!unrecoverableError && (

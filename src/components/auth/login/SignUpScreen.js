@@ -74,8 +74,8 @@ const SignupScreen = ({ screenProps, styles, handleLoginMethod, sdkInitialized, 
   return (
     <Wrapper backgroundColor="#fff" style={styles.mainWrapper}>
       <NavBar logo />
-      <AuthProgressBar step={1} done={signupSuccess} />
       <AuthStateWrapper>
+        <AuthProgressBar step={1} done={signupSuccess} />
         <Section.Stack style={{ flex: 1, justifyContent: 'center' }}>
           <Section.Stack style={styles.contentWrapper}>
             <Section.Stack style={{ flexGrow: 0 }}>

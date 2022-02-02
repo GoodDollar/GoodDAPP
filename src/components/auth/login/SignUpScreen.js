@@ -34,7 +34,7 @@ const SignupText = ({ screenProps }) => {
   return (
     <>
       <Text fontSize={12} color="gray80Percent">
-        {`By signing up and entering, you are accepting\nour`}
+        {`By signing up and entering, you are accepting\nour `}
         <Text
           fontSize={12}
           color="gray80Percent"

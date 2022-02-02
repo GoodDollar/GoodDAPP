@@ -167,6 +167,7 @@ welcome.navigationOptions = {
 }
 
 const routes = {
+  welcome,
   Auth: AuthScreen,
   PrivacyPolicyAndTerms,
   PrivacyPolicy,

@@ -168,6 +168,7 @@ const Config = {
   minimalIOSVersion: env.MINIMAL_IOS_VERSION || 12,
   debugUserAgent: env.REACT_APP_DEBUG_USER_AGENT || false,
   reserveGraphQLUrl: env.REACT_APP_RESERVE_GRAPHQL_URL || 'https://api.thegraph.com/subgraphs/name/gooddollar/goodsubgraphs',
+  showGoodDollarPrice: env.REACT_APP_SHOW_GOODDOLLAR_PRICE !== false,
 }
 
 //get and override settings from server

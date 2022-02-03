@@ -14,7 +14,7 @@ import type { NameRecord } from '../../components/signup/NameForm'
 import type { EmailRecord } from '../../components/signup/EmailForm'
 import type { MobileRecord } from '../../components/signup/PhoneForm'
 
-import query from '../../components/reserve/reserveQuery.gql'
+import reserveQuery from '../../components/reserve/reserveQuery.gql'
 
 const log = logger.child({ from: 'API' })
 
@@ -463,7 +463,7 @@ export class APIService {
 
   // eslint-disable-next-line require-await
   async getGoodDollarReservePrice() {
-    return this.sharedClient.post(Config.reserveGraphQLUrl, { query })
+    return this.sharedClient.post(Config.reserveGraphQLUrl, { query: reserveQuery })
   }
 }
 

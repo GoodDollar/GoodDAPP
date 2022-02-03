@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 
+import Config from '../../config/config'
 import logger from '../../lib/logger/js-logger'
 
 import userStorage from '../../lib/userStorage/UserStorage'
@@ -32,7 +33,9 @@ const useGoodDollarPrice = () => {
       }
     }
 
-    fetchGoodDollarPrice()
+    if (Config.showGoodDollarPrice) {
+      fetchGoodDollarPrice()
+    }
   }, [setShowPriceChange, setTokenStats])
 
   return {

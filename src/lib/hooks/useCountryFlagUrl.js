@@ -58,7 +58,7 @@ export const useCountryCode = () => {
     API.getLocation()
       .catch(noop)
       .then(response => {
-        const code = get(response, 'data.country')
+        const code = get(response, 'country')
 
         if (code) {
           sharedCountryCode = code

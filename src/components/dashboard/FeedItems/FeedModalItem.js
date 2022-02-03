@@ -96,9 +96,7 @@ const FeedModalItem = (props: FeedEventProps) => {
               {item.data && item.data.endpoint && (
                 <View style={{ flex: 1, alignItems: 'flex-start', flexDirection: 'column' }}>
                   <EventCounterParty style={styles.feedItem} textStyle={styles.feedItemText} feedItem={item} />
-                  {!eventSettings.withoutAvatar && !!sellerWebsite && (
-                    <EventInfoText>{sellerWebsite}</EventInfoText>
-                  )}
+                  {!eventSettings.withoutAvatar && !!sellerWebsite && <EventInfoText>{sellerWebsite}</EventInfoText>}
                 </View>
               )}
               <View style={styles.iconContainer}>

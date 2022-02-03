@@ -17,7 +17,7 @@ export const timeout = async (millis, message = null) =>
 
 // eslint-disable-next-line require-await
 export const withTimeout = async (asyncFn, timeoutMs = 60000, errorMessage = 'Timed out') =>
-  Promise.race([asyncFn, timeout(timeoutMs, errorMessage)])
+  Promise.race([asyncFn(), timeout(timeoutMs, errorMessage)])
 
 // eslint-disable-next-line require-await
 export const retry = async (asyncFn, retries = 5, interval = 0) =>

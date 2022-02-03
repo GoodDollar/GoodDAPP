@@ -120,9 +120,7 @@ const RouterSelector = () => {
   // starting animation once we're checked for browser support and awaited
   // the user dismissed warning dialog (if browser wasn't supported)
   return (
-    <React.Suspense
-      fallback={<SplashSelector animation={!isAuthReload && checkedForBrowserSupport} isLoggedIn={isLoggedIn} />}
-    >
+    <React.Suspense fallback={<SplashSelector animation={checkedForBrowserSupport} isLoggedIn={isLoggedIn} />}>
       {(supported || ignoreUnsupported) && <NestedRouter isLoggedIn={isLoggedIn} />}
     </React.Suspense>
   )

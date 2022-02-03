@@ -5,7 +5,7 @@ import OneTimePaymentsABI from '@gooddollar/goodcontracts/build/contracts/OneTim
 import ContractsAddress from '@gooddollar/goodprotocol/releases/deployment.json'
 import StakingModelAddress from '@gooddollar/goodcontracts/stakingModel/releases/deployment.json'
 import cERC20ABI from '@gooddollar/goodprotocol/artifacts/contracts/Interfaces.sol/cERC20.json'
-import GoodReserveCDai from '@gooddollar/goodcontracts/stakingModel/build/contracts/GoodReserveCDai.min.json'
+import GoodReserveCDai from '@gooddollar/goodprotocol/artifacts/contracts/reserve/GoodReserveCDai.sol/GoodReserveCDai.json'
 import ERC20ABI from '@gooddollar/goodprotocol/artifacts/contracts/Interfaces.sol/ERC20.json'
 import UBIABI from '@gooddollar/goodcontracts/stakingModel/build/contracts/UBIScheme.min.json'
 import SimpleStakingABI from '@gooddollar/goodprotocol/artifacts/contracts/staking/SimpleStaking.sol/SimpleStaking.json'
@@ -612,7 +612,7 @@ export class GoodWallet {
 
     const price = await reserve.methods.currentPriceDAI().call()
 
-    return wallet.utils.fromWei(price) / 1e10
+    return wallet.utils.fromWei(price) * 100
   }
 
   async getClaimScreenStatsMainnet() {

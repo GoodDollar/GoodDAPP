@@ -22,6 +22,7 @@ import { initTransferEvents } from '../../lib/undux/utils/account'
 
 import userStorage from '../../lib/userStorage/UserStorage'
 import useAppState from '../../lib/hooks/useAppState'
+import useGoodDollarPrice from '../reserve/useGoodDollarPrice'
 import { PushButton } from '../appNavigation/PushButton'
 import { useNativeDriverForAnimation } from '../../lib/utils/platform'
 import TabsView from '../appNavigation/TabsView'
@@ -121,6 +122,9 @@ const Dashboard = props => {
   const { appState } = useAppState()
   const [animateMarket, setAnimateMarket] = useState(false)
   const { setDialogBlur } = useContext(GlobalTogglesContext)
+
+  // TODO: const { price, showPrice, ... } = useGoodDollarPrice()
+  useGoodDollarPrice()
 
   const headerAnimateStyles = {
     position: 'relative',

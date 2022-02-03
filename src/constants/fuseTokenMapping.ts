@@ -33,26 +33,22 @@ const map: Record<string, string | undefined> = {
     '0xa722c13135930332Eb3d749B2F0906559D2C5b99':
         'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2/logo.png',
     '0x0BE9e53fd7EDaC9F859882AfdDa116645287C629': 'https://fuselogo.s3.eu-central-1.amazonaws.com/wfuse.png',
-    '0xeE724540706296ebad65aeA2515Efe0949F97Ae6':
-        'https://raw.githubusercontent.com/GoodDollar/GoodProtocolUI/master/src/assets/images/tokens/gd-logo.png',
-    '0x100b8fd10ff8DC43fda45E636B4BB1eE6088270a':
-        'https://raw.githubusercontent.com/GoodDollar/GoodProtocolUI/master/src/assets/images/tokens/gd-logo.png',
-    '0x0Fce4a964F2b69a6cD82c3FB40C101863091A5a7':
-        'https://raw.githubusercontent.com/GoodDollar/GoodProtocolUI/master/src/assets/images/tokens/good-logo.png',
-    '0xf4467Ad0c9D7D0446B379fE6217111a4690066D1':
-        'https://raw.githubusercontent.com/GoodDollar/GoodProtocolUI/master/src/assets/images/tokens/good-logo.png',
     '0xA5B0631c5B393d4BF30D2974dF121ea7E8b0e934':
         'https://raw.githubusercontent.com/GoodDollar/GoodProtocolUI/master/src/assets/images/tokens/gd-logo.png',
     '0xe39236a9Cf13f65DB8adD06BD4b834C65c523d2b':
         'https://raw.githubusercontent.com/GoodDollar/GoodProtocolUI/master/src/assets/images/tokens/gd-logo.png',
     '0x495d133B938596C9984d462F007B676bDc57eCEC':
         'https://raw.githubusercontent.com/GoodDollar/GoodProtocolUI/master/src/assets/images/tokens/gd-logo.png',
-    '0xb9bEECD1A582768711dE1EE7B0A1d582D9d72a6C':
+    '0x0Fce4a964F2b69a6cD82c3FB40C101863091A5a7':
         'https://raw.githubusercontent.com/GoodDollar/GoodProtocolUI/master/src/assets/images/tokens/good-logo.png',
     '0x80312bad9dd71d3a159e794B7fb1B2386F82F07F':
         'https://raw.githubusercontent.com/GoodDollar/GoodProtocolUI/master/src/assets/images/tokens/good-logo.png',
+    '0xb9bEECD1A582768711dE1EE7B0A1d582D9d72a6C':
+        'https://raw.githubusercontent.com/GoodDollar/GoodProtocolUI/master/src/assets/images/tokens/good-logo.png',
     '0x3A9299BE789ac3730e4E4c49d6d2Ad1b8BC34DFf':
-        'https://raw.githubusercontent.com/GoodDollar/GoodProtocolUI/master/src/assets/images/tokens/good-logo.png'
+        'https://raw.githubusercontent.com/GoodDollar/GoodProtocolUI/master/src/assets/images/tokens/good-logo.png',
+    '0x2bF9b864cdc97b08B6D79ad4663e71B8aB65c45c':
+        'https://dynamic-assets.coinbase.com/5f5631a9a6a82c120576eda6fce54e7a479ef37c309bb5a0ec01a19c29ab845dd10522f2fd556da624d259f80de0ed8e8fd66e09a49672aec42cc513575ba500/asset_icons/4b097ad751d204647f629fe9a4af5169f2eecc610cfb3b18f3746537d8da858b.png'
 }
 
 Object.values(contractsAddresses).forEach(

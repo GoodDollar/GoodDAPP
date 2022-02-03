@@ -14,7 +14,7 @@ import {
 import { isBrowser } from '../../../lib/utils/platform'
 import Illustration from '../../../assets/Signup/illustration.svg'
 
-const WalletPreparing = ({ theme, styles, screenProps, navigation, activeStep = 1 }) => (
+const WalletPreparing = ({ theme, styles, activeStep = 1 }) => (
   <>
     <AuthProgressBar step={activeStep} done={false} />
     <View style={styles.contentContainer}>

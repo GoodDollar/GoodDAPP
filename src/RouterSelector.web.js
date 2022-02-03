@@ -6,6 +6,7 @@ import { pick } from 'lodash'
 // components
 
 import Splash, { animationDuration, shouldAnimateSplash } from './components/splash/Splash'
+import WalletPreparingScreen from './components/auth/components/WalletPreparing'
 
 // hooks
 import useUpdateDialog from './components/appUpdate/useUpdateDialog'
@@ -87,6 +88,10 @@ const NestedRouter = memo(({ isLoggedIn }) => {
   )
 })
 
+const SplashSelector = isAuthReload
+  ? props => <WalletPreparingScreen activeStep={1} {...props} />
+  : props => <Splash {...props} />
+
 const RouterSelector = () => {
   // we use global state for signup process to signal user has registered
   const store = SimpleStore.useStore()
@@ -115,7 +120,9 @@ const RouterSelector = () => {
   // starting animation once we're checked for browser support and awaited
   // the user dismissed warning dialog (if browser wasn't supported)
   return (
-    <React.Suspense fallback={<Splash animation={!isAuthReload && checkedForBrowserSupport} isLoggedIn={isLoggedIn} />}>
+    <React.Suspense
+      fallback={<SplashSelector animation={!isAuthReload && checkedForBrowserSupport} isLoggedIn={isLoggedIn} />}
+    >
       {(supported || ignoreUnsupported) && <NestedRouter isLoggedIn={isLoggedIn} />}
     </React.Suspense>
   )

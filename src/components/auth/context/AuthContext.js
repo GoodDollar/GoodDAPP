@@ -55,7 +55,7 @@ export const AuthContextProvider = ({ children }) => {
 
   const setAlreadySignedUp = useCallback(
     (withProvider, options, onDecision = null) => {
-      setExistingState(withProvider ? { withProvider, options, onDecision } : null)        
+      setExistingState(withProvider ? { withProvider, options, onDecision } : null)
     },
     [setExistingState],
   )

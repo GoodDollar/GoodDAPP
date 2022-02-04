@@ -11,7 +11,7 @@ import AuthTorus from '../../auth/torus/AuthTorus'
 
 import Recover from '../../signin/Mnemonics'
 import NavBar from '../../appNavigation/NavBar'
-import { PrivacyPolicy, PrivacyPolicyAndTerms, Support } from '../../webView/webViewInstances'
+import { PrivacyPolicy, Support, TermsOfUse } from '../../webView/webViewInstances'
 
 import useOnPress from '../../../lib/hooks/useOnPress'
 import SimpleStore from '../../../lib/undux/SimpleStore'
@@ -169,7 +169,7 @@ welcome.navigationOptions = {
 const routes = {
   welcome,
   Auth: AuthScreen,
-  PrivacyPolicyAndTerms,
+  TermsOfUse,
   PrivacyPolicy,
   Support,
 }

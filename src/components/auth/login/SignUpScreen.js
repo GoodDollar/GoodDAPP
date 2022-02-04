@@ -27,14 +27,14 @@ const SignupText = ({ screenProps }) => {
   const { push } = screenProps
 
   const [handleNavigateTermsOfUse, handleNavigatePrivacyPolicy] = useMemo(
-    () => ['PrivacyPolicyAndTerms', 'PrivacyPolicy'].map(screen => () => push(screen)),
+    () => ['TermsOfUse', 'PrivacyPolicy'].map(screen => () => push(screen)),
     [push],
   )
 
   return (
     <>
       <Text fontSize={12} color="gray80Percent">
-        {`By signing up and entering, you are accepting\nour `}
+        {`By signing up and entering, you are accepting our\n`}
         <Text
           fontSize={12}
           color="gray80Percent"

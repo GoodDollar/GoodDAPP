@@ -26,7 +26,7 @@ export const AuthContextProvider = ({ children }) => {
   const [existingState, setExistingState] = useState(null)
   const [torusOptions, setTorusOptions] = useState(null)
 
-  const [success, alreadySignedUp] = useMemo(() => [successState, existingState].map(state => !!state), [
+  const [success, alreadySignedUp] = useMemo(() => [successState, existingState].map(Boolean), [
     successState,
     existingState,
   ])
@@ -38,15 +38,13 @@ export const AuthContextProvider = ({ children }) => {
 
   /* eslint-disable */
 
-  const { torusInitialized, handleLoginMethod } = useMemo(
-    () => torusOptions || { torusInitialized: false },
-    [torusOptions],
-  )
+  const { torusInitialized, handleLoginMethod } = useMemo(() => torusOptions || { torusInitialized: false }, [
+    torusOptions,
+  ])
 
-  const successScreenOptions = useMemo(
-    () => successState || { delay: Config.authSuccessDelay, callback: null },
-    [successState],
-  )
+  const successScreenOptions = useMemo(() => successState || { delay: Config.authSuccessDelay, callback: null }, [
+    successState,
+  ])
 
   /* eslint-enable */
 
@@ -72,7 +70,7 @@ export const AuthContextProvider = ({ children }) => {
 
   const setAlreadySignedUp = useCallback(
     (withProvider, options, onDecision = null) => {
-      setExistingState({ withProvider, options, onDecision })
+      setExistingState(withProvider ? { withProvider, options, onDecision } : null)
     },
     [setExistingState],
   )

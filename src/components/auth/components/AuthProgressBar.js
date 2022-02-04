@@ -1,48 +1,51 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { View } from 'react-native'
+import { range } from 'lodash'
 
 import { getDesignRelativeHeight } from '../../../lib/utils/sizes'
 import { withStyles } from '../../../lib/styles'
 
+const steps = range(1, 4).map(id => ({ id, wide: id === 2 }))
+
 const AuthProgressBar = ({ step, done, styles, theme }) => {
+  const isStepActive = useCallback(id => step >= id, [step])
+
   return (
     <View style={styles.mainContainer}>
-      <View
-        style={[
-          styles.step,
-          { flex: 1 },
-          {
-            backgroundColor: done ? theme.colors.lighterGreen : step >= 1 ? theme.colors.primary : '#EEF0F9',
-          },
-        ]}
-      />
-      <View
-        style={[
-          styles.step,
-          { flex: 2, marginHorizontal: 10 },
-          { backgroundColor: done ? theme.colors.lighterGreen : step >= 2 ? theme.colors.primary : '#EEF0F9' },
-        ]}
-      />
-      <View
-        style={[
-          styles.step,
-          { flex: 1 },
-          { backgroundColor: done ? theme.colors.lighterGreen : step === 3 ? theme.colors.primary : '#EEF0F9' },
-        ]}
-      />
+      {steps.map(({ id, wide }) => (
+        <View
+          key={id}
+          style={[styles.step, wide && styles.wideStep, done ? styles.doneStep : isStepActive(id) && styles.activeStep]}
+        />
+      ))}
     </View>
   )
 }
 
-const getStylesFromProps = ({ theme }) => ({
-  mainContainer: {
-    flexDirection: 'row',
-    marginTop: getDesignRelativeHeight(5),
-  },
-  step: {
-    height: getDesignRelativeHeight(8),
-    backgroundColor: '#EEF0F9',
-  },
-})
+const getStylesFromProps = ({ theme }) => {
+  const { lighterGreen, primary } = theme.colors
+
+  return {
+    mainContainer: {
+      flexDirection: 'row',
+      marginTop: getDesignRelativeHeight(5),
+    },
+    step: {
+      height: getDesignRelativeHeight(8),
+      backgroundColor: '#EEF0F9',
+      flex: 1,
+    },
+    wideStep: {
+      flex: 2,
+      marginHorizontal: 10,
+    },
+    activeStep: {
+      backgroundColor: primary,
+    },
+    doneStep: {
+      backgroundColor: lighterGreen,
+    },
+  }
+}
 
 export default withStyles(getStylesFromProps)(AuthProgressBar)

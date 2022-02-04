@@ -43,7 +43,7 @@ const log = logger.child({ from: 'AuthTorus' })
 
 const AuthTorus = ({ screenProps, navigation, styles, store }) => {
   const [, hideDialog, showErrorDialog] = useDialog()
-  const { setWalletPreparing, setTorusInitialized, setSuccessfull } = useContext(AuthContext)
+  const { setWalletPreparing, setTorusInitialized, setSuccessfull, setActiveStep } = useContext(AuthContext)
   const checkExisting = useCheckExisting()
   const [torusSDK, sdkInitialized] = useTorus()
   const [authScreen, setAuthScreen] = useState(get(navigation, 'state.params.screen'))
@@ -209,6 +209,8 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
         return
       }
 
+      setActiveStep(2)
+
       // get full name, email, number, userId
       const { torusUser, replacing } = torusResponse
       const existsResult = await checkExisting(provider, torusUser)
@@ -216,6 +218,8 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
       switch (existsResult) {
         case 'login': {
           // case of sign-in
+          setActiveStep(3)
+
           fireEvent(SIGNIN_TORUS_SUCCESS, { provider })
           await AsyncStorage.setItem(IS_LOGGED_IN, true)
 
@@ -282,6 +286,10 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
       setTorusInitialized(handleLoginMethod)
     }
   }, [sdkInitialized])
+
+  useEffect(() => {
+    setActiveStep(1)
+  }, [setActiveStep])
 
   return (
     <SignUpIn

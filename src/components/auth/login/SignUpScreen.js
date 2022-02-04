@@ -60,7 +60,7 @@ const SignupText = ({ screenProps }) => {
 }
 
 const SignupScreen = ({ screenProps, styles, handleLoginMethod, sdkInitialized, goBack }) => {
-  const { success: signupSuccess } = useContext(AuthContext)
+  const { success: signupSuccess, activeStep } = useContext(AuthContext)
 
   const [_selfCustodySignup, _selfCustodyLogin] = useMemo(
     () => ['selfCustody', 'selfCustodyLogin'].map(method => () => handleLoginMethod(method)),
@@ -74,8 +74,8 @@ const SignupScreen = ({ screenProps, styles, handleLoginMethod, sdkInitialized, 
   return (
     <Wrapper backgroundColor="#fff" style={styles.mainWrapper}>
       <NavBar logo />
-      <AuthProgressBar step={1} done={signupSuccess} />
       <AuthStateWrapper>
+        <AuthProgressBar step={activeStep} done={signupSuccess} />
         <Section.Stack style={{ flex: 1, justifyContent: 'center' }}>
           <Section.Stack style={styles.contentWrapper}>
             <Section.Stack style={{ flexGrow: 0 }}>

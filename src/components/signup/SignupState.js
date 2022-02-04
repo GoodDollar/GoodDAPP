@@ -147,7 +147,9 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
   const [, hideDialog, showErrorDialog] = useDialog()
   const shouldGrow = store.get && !store.get('isMobileSafariKeyboardShown')
 
-  const { success: signupSuccess, setWalletPreparing, setSuccessfull } = useContext(AuthContext)
+  const { success: signupSuccess, setWalletPreparing, setSuccessfull, activeStep, setActiveStep } = useContext(
+    AuthContext,
+  )
 
   const navigateWithFocus = useCallback(
     (routeKey: string) => {
@@ -203,6 +205,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
       const { skipEmail, skipEmailConfirmation, skipMagicLinkInfo, ...requestPayload } = signupData
 
       setCreateError(false)
+      setActiveStep(3)
       setWalletPreparing(true)
 
       log.info('Sending new user data', { signupData, regMethod, torusProvider })
@@ -348,6 +351,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
       torusUser,
       torusProvider,
       navigation.navigate,
+      setActiveStep,
     ],
   )
 
@@ -491,12 +495,14 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
   )
 
   const verifyStartRoute = useCallback(() => {
-    //we don't support refresh if regMethod param is missing then go back to Auth
-    //if regMethod is missing it means user did refresh on later steps then first 1
+    // we don't support refresh if regMethod param is missing then go back to Auth
+    // if regMethod is missing it means user did refresh on later steps then first 1
     if (!regMethod || (navigation.state.index > 0 && signupData.lastStep !== navigation.state.index)) {
       log.debug('redirecting to start, got index:', navigation.state.index, { regMethod, torusUserFromProps })
       return navigation.navigate('Auth')
     }
+
+    setActiveStep(2)
 
     // if we have name from torus we skip to phone
     if (signupData.fullName) {
@@ -512,7 +518,17 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
 
       return done({ isEmailConfirmed: true })
     }
-  }, [regMethod, navigation, signupData, navigateWithFocus, skipEmail, skipMobile, torusUserFromProps, done])
+  }, [
+    regMethod,
+    navigation,
+    signupData,
+    navigateWithFocus,
+    skipEmail,
+    skipMobile,
+    torusUserFromProps,
+    setActiveStep,
+    done,
+  ])
 
   const back = useCallback(() => {
     const prevRoute = getPrevRoute(navigation.state.routes, navigation.state.index, signupData)
@@ -642,8 +658,8 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
   return (
     <View style={{ flexGrow: shouldGrow ? 1 : 0 }}>
       <NavBar logo />
-      <AuthProgressBar step={2} done={signupSuccess} />
       <AuthStateWrapper>
+        <AuthProgressBar step={activeStep} done={signupSuccess} />
         <ScrollView contentContainerStyle={scrollableContainer}>
           <View style={contentContainer}>
             {!unrecoverableError && (

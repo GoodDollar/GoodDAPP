@@ -20,6 +20,8 @@ const AuthStateWrapper = ({ children }) => {
     success,
     successScreenOptions,
 
+    activeStep,
+
     torusInitialized,
     handleLoginMethod,
   } = useContext(AuthContext)
@@ -47,7 +49,7 @@ const AuthStateWrapper = ({ children }) => {
     return <WelcomeGDScreen showDelay={successDelay} onAfterShown={successCallback} />
   }
 
-  return preparing ? <WalletPreparing /> : children
+  return preparing ? <WalletPreparing activeStep={activeStep} /> : children
 }
 
 export default AuthStateWrapper

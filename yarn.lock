@@ -23610,6 +23610,11 @@ v8-android-jit-nointl@^9.93.0:
   resolved "https://registry.yarnpkg.com/v8-android-jit-nointl/-/v8-android-jit-nointl-9.93.0.tgz#1e20f1fbfece01ca9207956751f90a0e6171188c"
   integrity sha512-qBJZ63ioKwt7ziPEIkTSCOo1VAVhP4ECxJycP6x9jcVw+GsAzZCnti+EDqQsd4PnmB8FCGfVcJ530gD/GfLEuQ==
 
+v8-android-jit@~9.93.0:
+  version "9.93.0"
+  resolved "https://registry.yarnpkg.com/v8-android-jit/-/v8-android-jit-9.93.0.tgz#2e52d3878da97647959991cefc5b90e47449f51a"
+  integrity sha512-qSEnxj/7x2lqvAjRtdox0fx20J5ekcLg/O1/M4vNKUtbWG75+/ACspP3n0KD0RIYLhD8F2iGxERRbwu9FbjKRg==
+
 v8-compile-cache@^2.0.3:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/v8-compile-cache/-/v8-compile-cache-2.3.0.tgz#2de19618c66dc247dcfb6f99338035d8245a2cee"

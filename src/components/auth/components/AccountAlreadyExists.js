@@ -129,7 +129,7 @@ const getStylesFromProps = ({ theme }) => {
       flex: 1,
       paddingBottom: getDesignRelativeHeight(isShortDevice ? 35 : 45),
       paddingTop: getDesignRelativeHeight(isShortDevice ? 35 : 45),
-      justifyContent: 'space-between',
+      justifyContent: 'space-around',
     },
     bottomContainer: {
       paddingHorizontal: theme.sizes.defaultDouble,

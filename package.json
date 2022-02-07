@@ -188,6 +188,7 @@
         "@types/react-text-mask": "^5.4.8",
         "@types/text-mask-addons": "^3.8.1",
         "@uniswap/sdk-core": "^3.0.0",
+        "@vitalets/google-translate-api": "^7.0.0",
         "react-text-mask": "^5.4.3",
         "text-mask-addons": "^3.8.0"
     }

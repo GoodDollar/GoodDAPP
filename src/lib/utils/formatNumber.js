@@ -17,6 +17,11 @@ export const formatWithThousandsSeparator = number => {
   return numeral(number).format('0[,]0.00')
 }
 
+export const parseSmallDecimal = number => {
+  const amountOfLeadingZeros = -Math.floor(Math.log10(number) + 1)
+  return parseFloat(number.toFixed(amountOfLeadingZeros + 3))
+}
+
 export const formatWithAbbreviations = (number, decPlaces = 1) => {
   return numeral(number).format(`${'0.'}${'0'.repeat(decPlaces)}a`)
 }

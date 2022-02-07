@@ -146,10 +146,7 @@ const AppSwitch = (props: LoadingProps) => {
   // TODO: should be removed once issue is resolved
   const logoutTorusIssue = id => {
     if (id.toLowerCase() === '0xb5f2f134a543d55c24eaa9ef441c2a699d660b6b') {
-      const exception = new Error('bad torus account bug')
-
-      exception.name = 'BadTorusAccountError'
-      throw exception
+      throw new Error('bad torus account bug')
     }
   }
 
@@ -197,7 +194,7 @@ const AppSwitch = (props: LoadingProps) => {
 
       setReady(true)
     } catch (e) {
-      if (['OutdatedProfileSignatureError', 'UnsignedJWTError'].includes(e.name)) {
+      if ('UnsignedJWTError' === e.name) {
         return restartWithMessage(
           "You haven't used GoodDollar app on this device for a long time. " +
             'You need to sign in again. Make sure to use the same account you previously signed in with.',
@@ -205,7 +202,7 @@ const AppSwitch = (props: LoadingProps) => {
       }
 
       // TODO: remove once bug is resolved
-      if (e.name === 'BadTorusAccountError') {
+      if (e.message.includes('bad torus')) {
         const seed = await localStorage.getItem('GD_masterSeed')
 
         log.error('bad torus account bug', e.message, e, { seed })

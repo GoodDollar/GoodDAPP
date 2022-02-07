@@ -306,7 +306,7 @@ const StakeDeposit = ({ stake, onDeposit, onClose, activeTableName }: StakeDepos
                         ) : (
                             <>
                                 {state.loading ?
-                                i18n._(t`Your staking transaction will generate UBI for thousands of people around 
+                                i18n._(t`Your staking transaction which will generate UBI for thousands of people around 
                                          the world has just been broadcasted to the network. `)
                               : i18n._(t`You are creating UBI to thousands of people around the world. `)
                               }

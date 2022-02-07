@@ -103,7 +103,7 @@ export async function swap(
     web3: Web3,
     trade: Trade<Currency, Currency, TradeType>, // trade to execute, required
     allowedSlippage: Percent, // in bips
-    onSent?: (transactionHash: string) => void,
+    onSent?: (transactionHash: string, from: string) => void,
     deadline: number = DEFAULT_DEADLINE_FROM_NOW // in seconds from now
 ): Promise<any> {
     const chainId = await getChainId(web3)
@@ -119,7 +119,7 @@ export async function swap(
         ...(value && !isZero(value) ? { value, from: account } : { from: account })
     })
 
-    if (onSent) req.on('transactionHash', onSent)
+    if (onSent) req.on('transactionHash', (hash: string) => onSent(hash, account))
 
     return req
 }

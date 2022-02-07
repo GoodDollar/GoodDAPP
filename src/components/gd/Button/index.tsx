@@ -44,7 +44,7 @@ export const ButtonDefault = styled.button<{
     justify-content: center;
     height: ${({ size }) => (size === 'sm' ? '32px' : '42px')};
     width: ${({ width = '100%' }) => width};
-    padding:5px;
+    padding:5px 10px 5px 10px;
     border-radius: ${({ borderRadius = '12px' }) => borderRadius};
     color: ${({ theme }) => theme.color.main};
 
@@ -61,12 +61,17 @@ export const ButtonDefault = styled.button<{
     line-height: 16px;
     text-align: center;
     user-select: none;
+    transition: background 0.25s;
 
     :disabled {
         opacity: 0.5;
         cursor: auto;
     }
 
+    :hover {
+      background: ${({ theme }) => theme.color.text2hover};  
+      transition: background 0.25s;
+    }
     @media ${({ theme }) => theme.media.md} {
         font-size: 12px;
         line-height: 14px;

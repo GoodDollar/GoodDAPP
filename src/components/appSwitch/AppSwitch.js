@@ -143,12 +143,26 @@ const AppSwitch = (props: LoadingProps) => {
     identifyWith(email, undefined)
   }
 
-  //TODO: should be removed once issue is resolved
+  // TODO: should be removed once issue is resolved
   const logoutTorusIssue = id => {
     if (id.toLowerCase() === '0xb5f2f134a543d55c24eaa9ef441c2a699d660b6b') {
       throw new Error('bad torus account bug')
     }
   }
+
+  const restartWithMessage = useCallback(
+    async (message, withLogout = true) => {
+      if (false !== withLogout) {
+        await AsyncStorage.clear()
+      }
+
+      showErrorDialog(message, '', {
+        onDismiss: () => restart('/'),
+      })
+    },
+    [showErrorDialog],
+  )
+
   const init = async () => {
     log.debug('initializing')
 
@@ -157,30 +171,42 @@ const AppSwitch = (props: LoadingProps) => {
       //initialize the citizen status and wallet status
       //create jwt token and initialize the API service
       updateWalletStatus(gdstore)
-      const { isLoggedInCitizen, isLoggedIn } = await getLoginState()
+
+      const [isLoggedInCitizen, isLoggedIn] = await getLoginState()
+
       log.debug('initialize ready', { isLoggedIn, isLoggedInCitizen })
+
       const initReg = userStorage.initRegistered()
+
       gdstore.set('isLoggedIn')(isLoggedIn)
       gdstore.set('isLoggedInCitizen')(isLoggedInCitizen)
 
       //identify user asap for analytics
       const identifier = goodWallet.getAccountForType('login')
+
       logoutTorusIssue(identifier)
       identifyWith(undefined, identifier)
       showOutOfGasError(props)
+
       await initReg
       initialize()
       runUpdates() //this needs to wait after initreg where we initialize the database
 
       setReady(true)
     } catch (e) {
-      //TODO: remove once bug is resolvedß
+      if ('UnsignedJWTError' === e.name) {
+        return restartWithMessage(
+          "You haven't used GoodDollar app on this device for a long time. " +
+            'You need to sign in again. Make sure to use the same account you previously signed in with.',
+        )
+      }
+
+      // TODO: remove once bug is resolved
       if (e.message.includes('bad torus')) {
-        log.error('bad torus account bug', e.message, e, { seed: await localStorage.getItem('GD_masterSeed') })
-        await AsyncStorage.clear()
-        return showErrorDialog('We are sorry, please try to login again. We are working to resolve this issue.', '', {
-          onDismiss: () => restart('/'),
-        })
+        const seed = await localStorage.getItem('GD_masterSeed')
+
+        log.error('bad torus account bug', e.message, e, { seed })
+        return restartWithMessage('We are sorry, please try to login again. We are working to resolve this issue.')
       }
 
       const dialogShown = unsuccessfulLaunchAttempts > 3
@@ -190,15 +216,15 @@ const AppSwitch = (props: LoadingProps) => {
       if (dialogShown) {
         //if error in realmdb logout the user, he needs to signin/signup again
         log.error('failed initializing app', e.message, e, { dialogShown })
+
         if (e.message.includes('realmdb')) {
-          await AsyncStorage.clear()
-          return showErrorDialog(
-            'We are sorry, but due to database upgrade, you need to perform the Signup process again. Make sure to use the same account you previously signed in with.',
-            '',
-            { onDismiss: () => restart('/') },
+          return restartWithMessage(
+            'We are sorry, but due to database upgrade, you need to perform the Signup process again. ' +
+              'Make sure to use the same account you previously signed in with.',
           )
         }
-        showErrorDialog('Wallet could not be loaded. Please refresh.', '', { onDismiss: () => restart('/') })
+
+        restartWithMessage('Wallet could not be loaded. Please refresh.', false)
       } else {
         await delay(1500)
         init()

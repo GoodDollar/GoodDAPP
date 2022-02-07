@@ -1,8 +1,7 @@
 // @flow
 import * as jsonwebtoken from 'jsonwebtoken'
 import AsyncStorage from '../utils/asyncStorage'
-import type { Credentials } from '../API/api'
-import API, { getErrorMessage } from '../API/api'
+import API, { type Credentials, getErrorMessage } from '../API/api'
 import { CREDS, JWT } from '../constants/localStorage'
 import logger from '../logger/js-logger'
 
@@ -92,6 +91,7 @@ class LoginService {
     try {
       let { jwt } = await this.validateJWTExistenceAndExpiration()
       log.debug('jwt validation result:', { jwt })
+
       if (!jwt) {
         const response = await API.auth(creds)
         const { status, data, statusText } = response
@@ -105,13 +105,13 @@ class LoginService {
         log.debug('Login success:', data)
         jwt = data.token
       }
+
       return { ...creds, jwt }
     } catch (e) {
       const message = getErrorMessage(e)
       const exception = new Error(message)
 
       log.error('Login service auth failed:', message, exception)
-
       throw exception
     }
   }

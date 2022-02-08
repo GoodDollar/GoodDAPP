@@ -13,7 +13,7 @@ import { useDialog, useErrorDialog } from '../../lib/undux/utils/dialog'
 import { PAGE_SIZE } from '../../lib/undux/utils/feed'
 import { weiToGd, weiToMask } from '../../lib/wallet/utils'
 import { initBGFetch } from '../../lib/notifications/backgroundFetch'
-import { formatWithAbbreviations, parseSmallDecimal } from '../../lib/utils/formatNumber'
+import { formatWithAbbreviations, formatWithFixedValueDigits } from '../../lib/utils/formatNumber'
 import { fireEvent, INVITE_BANNER } from '../../lib/analytics/analytics'
 import Config from '../../config/config'
 
@@ -124,7 +124,7 @@ const Dashboard = props => {
   const [animateMarket, setAnimateMarket] = useState(false)
   const { setDialogBlur } = useContext(GlobalTogglesContext)
 
-  const { price, showPrice } = useGoodDollarPrice()
+  const [price, showPrice] = useGoodDollarPrice()
 
   const headerAnimateStyles = {
     position: 'relative',
@@ -603,6 +603,11 @@ const Dashboard = props => {
     [balance],
   )
 
+  const calculateUSDWorthOfBalance = useMemo(
+    () => (showPrice ? formatWithFixedValueDigits(price * weiToGd(balance)) : null),
+    [showPrice, price, balance],
+  )
+
   // for native we able handle onMomentumScrollEnd, but for web we able to handle only onScroll event,
   // so we need to imitate onMomentumScrollEnd for web
   const onScroll = Platform.select({
@@ -647,7 +652,7 @@ const Dashboard = props => {
               </View>
               {headerLarge && showPrice && (
                 <Section.Text style={styles.gdPrice}>
-                  ≈ {parseSmallDecimal(price) * weiToGd(balance)} USD
+                  ≈ {calculateUSDWorthOfBalance} USD
                   <GoodDollarPriceInfo />
                 </Section.Text>
               )}

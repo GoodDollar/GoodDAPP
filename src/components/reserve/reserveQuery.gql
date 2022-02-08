@@ -1,6 +1,0 @@
-{
-  reserveHistories(orderBy: blockTimestamp orderDirection: desc first: 2) {
-    blockTimestamp
-    openPriceDAI
-  }
-}

@@ -5,7 +5,7 @@ export const formatWithSIPrefix = (number, customFormat = null) => {
   let format = customFormat
 
   if (!format) {
-    format = Math.floor(Math.log(number) / Math.LN10) % 3 === 2 ? '0a' : '0.[0]a'
+    format = Math.floor(Math.log10(number)) % 3 === 2 ? '0a' : '0.[0]a'
   }
 
   return numeral(number)
@@ -17,11 +17,24 @@ export const formatWithThousandsSeparator = number => {
   return numeral(number).format('0[,]0.00')
 }
 
-export const parseSmallDecimal = number => {
-  const amountOfLeadingZeros = -Math.floor(Math.log10(number) + 1)
-  return parseFloat(number.toFixed(amountOfLeadingZeros + 3))
+export const formatWithFixedValueDigits = (number, nonZeroDigits = 3) => {
+  const exponent10 = Math.floor(Math.log10(number))
+  const alignToPlaces = number < 1000 ? exponent10 : exponent10 % 3
+  const decPlaces = Math.max(nonZeroDigits - alignToPlaces - 1, 0)
+
+  return formatWithAbbreviations(number, decPlaces)
 }
 
 export const formatWithAbbreviations = (number, decPlaces = 1) => {
-  return numeral(number).format(`${'0.'}${'0'.repeat(decPlaces)}a`)
+  let format = '0'
+
+  if (decPlaces > 0) {
+    format += '.0'
+  }
+
+  if (decPlaces > 1) {
+    format += `[${'0'.repeat(decPlaces - 1)}]`
+  }
+
+  return numeral(number).format(format + 'a')
 }

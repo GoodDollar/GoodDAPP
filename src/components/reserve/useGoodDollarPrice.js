@@ -1,48 +1,38 @@
+import { isNumber } from 'lodash'
 import { useEffect, useMemo, useState } from 'react'
 
 import Config from '../../config/config'
 import logger from '../../lib/logger/js-logger'
 
-import userStorage from '../../lib/userStorage/UserStorage'
-import ReserveAPI from './api'
+import GoodWallet from '../../lib/wallet/GoodWallet'
 
-const ONE_DAY = 24 * 60 * 60 * 1000
 const log = logger.child({ from: 'useGoodDollarPrice' })
 
 const useGoodDollarPrice = () => {
-  const [showPriceChange, setShowPriceChange] = useState(false)
-  const [tokenStats, setTokenStats] = useState(null)
-  const showPrice = useMemo(() => Boolean(tokenStats), [tokenStats])
+  const [price, setPrice] = useState(null)
+  const showPrice = useMemo(() => isNumber(price), [price])
 
   useEffect(() => {
     const fetchGoodDollarPrice = async () => {
-      const firstVisitAppDate = userStorage.userProperties.get('firstVisitApp')
-      const showChange = firstVisitAppDate && Date.now() - firstVisitAppDate >= ONE_DAY
-
       try {
-        const stats = await ReserveAPI.getGoodDollarPrice(showChange)
+        const price = await GoodWallet.getReservePriceDAI()
 
-        log.debug('Got G$ price:', { showChange, stats })
+        log.debug('Got G$ price:', { price })
 
-        setTokenStats(stats)
-        setShowPriceChange(showChange)
+        setPrice(price)
       } catch (exception) {
         const { message } = exception
 
-        log.error('Error fetching G$ price:', message, exception, { showChange })
+        log.error('Error fetching G$ price:', message, exception)
       }
     }
 
     if (Config.showGoodDollarPrice) {
       fetchGoodDollarPrice()
     }
-  }, [setShowPriceChange, setTokenStats])
+  }, [setPrice])
 
-  return {
-    ...tokenStats,
-    showPrice,
-    showPriceChange,
-  }
+  return [price, showPrice]
 }
 
 export default useGoodDollarPrice

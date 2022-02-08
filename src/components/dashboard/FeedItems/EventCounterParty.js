@@ -25,7 +25,7 @@ const EventContent = ({ style, textStyle, direction, description, hasSubtitle })
       textTransform="capitalize"
       fontWeight="medium"
       textAlign={'left'}
-      lineHeight={hasSubtitle ? 17 : 38}
+      lineHeight={17}
       style={textStyle}
     >
       {description}

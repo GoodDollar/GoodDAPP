@@ -143,13 +143,6 @@ const AppSwitch = (props: LoadingProps) => {
     identifyWith(email, undefined)
   }
 
-  // TODO: should be removed once issue is resolved
-  const logoutTorusIssue = id => {
-    if (id.toLowerCase() === '0xb5f2f134a543d55c24eaa9ef441c2a699d660b6b') {
-      throw new Error('bad torus account bug')
-    }
-  }
-
   const restartWithMessage = useCallback(
     async (message, withLogout = true) => {
       if (false !== withLogout) {
@@ -184,7 +177,6 @@ const AppSwitch = (props: LoadingProps) => {
       //identify user asap for analytics
       const identifier = goodWallet.getAccountForType('login')
 
-      logoutTorusIssue(identifier)
       identifyWith(undefined, identifier)
       showOutOfGasError(props)
 
@@ -199,14 +191,6 @@ const AppSwitch = (props: LoadingProps) => {
           "You haven't used GoodDollar app on this device for a long time. " +
             'You need to sign in again. Make sure to use the same account you previously signed in with.',
         )
-      }
-
-      // TODO: remove once bug is resolved
-      if (e.message.includes('bad torus')) {
-        const seed = await localStorage.getItem('GD_masterSeed')
-
-        log.error('bad torus account bug', e.message, e, { seed })
-        return restartWithMessage('We are sorry, please try to login again. We are working to resolve this issue.')
       }
 
       const dialogShown = unsuccessfulLaunchAttempts > 3

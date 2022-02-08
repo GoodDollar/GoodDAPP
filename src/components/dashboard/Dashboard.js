@@ -647,7 +647,7 @@ const Dashboard = props => {
               </View>
               {headerLarge && showPrice && (
                 <Section.Text style={styles.gdPrice}>
-                  ≈ {parseSmallDecimal(price * weiToGd(balance))}
+                  ≈ {parseSmallDecimal(price) * weiToGd(balance)} USD
                   <GoodDollarPriceInfo />
                 </Section.Text>
               )}
@@ -827,7 +827,7 @@ const getStylesFromProps = ({ theme }) => ({
     marginLeft: theme.sizes.defaultDouble,
   },
   bigNumberWrapper: {
-    alignItems: 'baseline',
+    alignItems: 'center',
   },
   bigNumberUnitStyles: {
     marginRight: normalize(-20),

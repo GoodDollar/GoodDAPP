@@ -3,113 +3,11 @@
 exports[`ServiceWorkerUpdatedDialog NewReleaseDialog matches snapshot 1`] = `
 <div
   className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
->
-  <div
-    className="css-view-1dbjc4n"
-  >
-    <div
-      className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-paddingTop-wk8lta"
-    >
-      <div
-        className="css-view-1dbjc4n r-height-1w2pmg r-marginBottom-p1pxzi r-position-bnwqim r-top-ipm5af r-width-1h2t8mc"
-      >
-        <div
-          className="css-view-1dbjc4n r-width-13qz1uu"
-          style={
-            Object {
-              "WebkitBoxPack": "end",
-              "WebkitJustifyContent": "flex-end",
-              "height": "100px",
-              "justifyContent": "flex-end",
-              "marginTop": "0px",
-              "msFlexPack": "end",
-            }
-          }
-        >
-          <div
-            className="css-view-1dbjc4n"
-            style={
-              Object {
-                "marginBottom": "0px",
-                "width": "100%",
-              }
-            }
-          />
-        </div>
-      </div>
-      <div
-        className="css-text-901oao r-borderBottomColor-lpwvss r-borderBottomStyle-rull8r r-borderBottomWidth-wgabs5 r-borderTopColor-dw99bl r-borderTopStyle-1efd50x r-borderTopWidth-1jxfwug r-color-qjtdzx r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-marginBottom-p1pxzi r-paddingBottom-1mdbw0j r-paddingTop-wk8lta r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-13qz1uu"
-        dir="auto"
-      >
-        Good News: We’re Live!
-      </div>
-    </div>
-    <div
-      className="css-view-1dbjc4n r-minHeight-ifefl9"
-    >
-      <div
-        className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
-        dir="auto"
-      >
-        <span
-          className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
-        >
-          1.
-        </span>
-         Click ‘update’
-
-        <span
-          className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
-        >
-          2.
-        </span>
-         Sign up (one last time, we promise )
-
-        <span
-          className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
-        >
-          3.
-        </span>
-         Start claiming your free, REAL G$’s
-      </div>
-    </div>
-  </div>
-</div>
+/>
 `;
 
 exports[`ServiceWorkerUpdatedDialog RegularDialog matches snapshot 1`] = `
 <div
   className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
->
-  <div
-    className="css-view-1dbjc4n"
-  >
-    <div
-      className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-paddingTop-wk8lta"
-    >
-      <div
-        className="css-view-1dbjc4n r-height-1w2pmg r-justifyContent-1777fci r-marginBottom-p1pxzi r-textAlign-q4m81j r-width-1h2t8mc"
-      >
-        <updateversion.svg />
-      </div>
-      <div
-        className="css-text-901oao r-borderBottomColor-lpwvss r-borderBottomStyle-rull8r r-borderBottomWidth-wgabs5 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-marginBottom-p1pxzi r-paddingBottom-1mdbw0j r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-13qz1uu"
-        dir="auto"
-      >
-        Hip hip hooray!
-We have a new version :)
-      </div>
-    </div>
-    <div
-      className="css-view-1dbjc4n r-minHeight-ifefl9"
-    >
-      <div
-        className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
-        dir="auto"
-      >
-        Thanks to your awesome feedback we were able to improve our wallet. We hope now you’ll enjoy it even more.
-      </div>
-    </div>
-  </div>
-</div>
+/>
 `;

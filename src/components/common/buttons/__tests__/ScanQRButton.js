@@ -8,6 +8,8 @@ const ScanQRButton = withThemeProvider(ImportedScanQRButton)
 
 const { Container } = GDStore
 
+jest.setTimeout(20000)
+
 describe('ScanQRButton', () => {
   it(`should render without errors`, () => {
     // Given

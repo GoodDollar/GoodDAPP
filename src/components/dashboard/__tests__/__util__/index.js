@@ -7,7 +7,7 @@ import { withThemeProvider } from '../../../../__tests__/__util__'
 const { Container } = GDStore
 
 export const getComponentWithMocks = componentPath => {
-  // Will then mock the LocalizeContext module being used in our LanguageSelector component
+  //
   jest.doMock('../../../../lib/share', () => {
     return {
       ...libShare,

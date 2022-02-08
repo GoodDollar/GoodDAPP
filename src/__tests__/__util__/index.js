@@ -4,6 +4,7 @@ import { theme as defaultTheme } from '../../components/theme/styles'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import GDStore from '../../lib/undux/GDStore'
 import { GlobalTogglesContextProvider } from '../../lib/contexts/togglesContext'
+import LanguageProvider from '../../language/i18n'
 
 export const StoresWrapper = ({ children }) => {
   return (
@@ -34,5 +35,15 @@ export const withThemeProvider = (Component, theme = defaultTheme) => props => (
     <StoresWrapper>
       <Component {...props} />
     </StoresWrapper>
+  </PaperProvider>
+)
+
+export const withThemeAndLocalizationProvider = (Component, theme = defaultTheme) => props => (
+  <PaperProvider theme={theme}>
+    <LanguageProvider>
+      <StoresWrapper>
+        <Component {...props} />
+      </StoresWrapper>
+    </LanguageProvider>
   </PaperProvider>
 )

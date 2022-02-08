@@ -1,6 +1,7 @@
 // @flow
 import React, { useCallback, useState } from 'react'
 import { View } from 'react-native'
+import { Trans } from '@lingui/macro'
 import Wrapper from '../../common/layout/Wrapper'
 import Text from '../../common/view/Text'
 import NavBar from '../../appNavigation/NavBar'
@@ -46,7 +47,7 @@ const SigninScreen = ({ styles, store, handleLoginMethod, sdkInitialized, goBack
           fontFamily="Roboto"
           fontWeight="bold"
         >
-          Welcome Back!
+          <Trans>Welcome Back!</Trans>
         </Text>
       </Section.Stack>
       <View style={styles.illustration}>
@@ -58,13 +59,15 @@ const SigninScreen = ({ styles, store, handleLoginMethod, sdkInitialized, goBack
       </View>
 
       <Section.Stack style={styles.bottomContainer}>
-        <Text fontSize={12} color="gray80Percent" style={styles.privacyAndTerms}>
-          {`Remember to login with the `}
-          <Text fontSize={12} color="gray80Percent" fontWeight="bold">
-            {`same login method\n`}
+        <Trans>
+          <Text fontSize={12} color="gray80Percent" style={styles.privacyAndTerms}>
+            {`Remember to login with the `}
+            <Text fontSize={12} color="gray80Percent" fontWeight="bold">
+              {`same login method\n`}
+            </Text>
+            that you’ve signed up with
           </Text>
-          that you’ve signed up with
-        </Text>
+        </Trans>
         {isPasswordless === false && (
           <>
             <LoginButton
@@ -74,7 +77,7 @@ const SigninScreen = ({ styles, store, handleLoginMethod, sdkInitialized, goBack
               testID="login_with_google"
               icon={GoogleBtnIcon}
             >
-              Log in with Google
+              <Trans>Log in with Google</Trans>
             </LoginButton>
             <LoginButton
               style={[
@@ -90,7 +93,7 @@ const SigninScreen = ({ styles, store, handleLoginMethod, sdkInitialized, goBack
               icon={FacebookBtnIcon}
               iconProps={{ viewBox: '0 0 11 22' }}
             >
-              Log in with Facebook
+              <Trans>Log in with Facebook</Trans>
             </LoginButton>
           </>
         )}

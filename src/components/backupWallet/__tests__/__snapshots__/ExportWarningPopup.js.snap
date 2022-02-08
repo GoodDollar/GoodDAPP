@@ -41,16 +41,13 @@ exports[`ExportWarningPopup matches snapshot 1`] = `
       className="css-text-901oao r-color-11zaip3 r-fontFamily-6jnb14 r-fontSize-evnaw r-fontWeight-b88u0q r-lineHeight-1h1c4di r-marginBottom-1peese0 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
       dir="auto"
     >
-      Do Not Send Tokens
-From Ethereum Network
-To This Address
+      Do Not Send Tokens\\nFrom Ethereum Network\\nTo This Address
     </div>
     <div
       className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-lineHeight-hbpseb r-marginBottom-1peese0 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
       dir="auto"
     >
-      Keep in mind - This is an internal
-network address for G$ tokens only.
+      Keep in mind - This is an internal\\nnetwork address for G$ tokens only.
     </div>
     <div
       className="css-view-1dbjc4n r-display-6koalj r-flexDirection-18u37iz r-justifyContent-17s6mgv r-paddingLeft-gy4na3 r-paddingRight-9aemit"

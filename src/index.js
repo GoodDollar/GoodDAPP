@@ -9,12 +9,17 @@ import SmartBanner from './components/smartbanner/SmartBanner'
 import './index.css'
 import './components/common/view/Icon/index.css'
 
+// localization
+import LanguageProvider from './language/i18n'
+
 let ErrorBoundary = React.Fragment
 
 ReactDOM.render(
   <ErrorBoundary>
     <SmartBanner />
-    <AppHolder />
+    <LanguageProvider>
+      <AppHolder />
+    </LanguageProvider>
     <style type="text/css">{`
             @font-face {
               src: url(${fontMaterialIcons});

@@ -1,6 +1,7 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { View } from 'react-native'
 import { get } from 'lodash'
+import { t, Trans } from '@lingui/macro'
 import Text from '../../common/view/Text'
 import userStorage from '../../../lib/userStorage/UserStorage'
 import goodWallet from '../../../lib/wallet/GoodWallet'
@@ -22,13 +23,15 @@ const ClaimQueuePopupText = ({ styles }) => (
   <View style={styles.wrapper}>
     <View style={styles.title}>
       <Text textAlign="left" fontSize={22} lineHeight={28} fontWeight="medium">
-        You’re in the queue to start claiming GoodDollars!
+        <Trans>You’re in the queue to start claiming GoodDollars!</Trans>
       </Text>
     </View>
     <View style={styles.paddingVertical20}>
-      <Text style={styles.textStyle}>We’ll email you as soon as it’s your turn to claim G$’s.</Text>
+      <Text style={styles.textStyle}>
+        <Trans>We’ll email you as soon as it’s your turn to claim G$’s.</Trans>
+      </Text>
       <Text style={[styles.textStyle, styles.paddingTop20, styles.boldFont]}>
-        {'And always remember:\nGood things come to those who wait :)'}
+        <Trans>{'And always remember:\nGood things come to those who wait :)'}</Trans>
       </Text>
     </View>
   </View>
@@ -99,7 +102,7 @@ export default () => {
       // this will only trigger the first time, since in subsequent loads claim button is disabled
       if (isPending) {
         showQueueDialog(ClaimQueuePopupText, setDialogBlur, {
-          buttonText: 'OK, I’ll WAIT',
+          buttonText: t`OK, I’ll WAIT`,
           imageSource: claimQueueIllustration,
           imageProps: { width: '100%', height: '100%', viewBox: '0 0 177 119' },
         })
@@ -108,7 +111,7 @@ export default () => {
       return !isPending
     } catch (e) {
       log.error('handleClaimQueue failed', e.message, e, { dialogShown: true })
-      showSupportDialog(showErrorDialog, hideDialog, null, 'We could not get the Claim queue status. Please try again')
+      showSupportDialog(showErrorDialog, hideDialog, null, t`We could not get the Claim queue status. Please try again`)
       return false
     } finally {
       hideLoading()

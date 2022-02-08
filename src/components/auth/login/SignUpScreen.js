@@ -1,6 +1,7 @@
 // @flow
 import React, { useCallback, useRef } from 'react'
 import { Platform, View } from 'react-native'
+import { t, Trans } from '@lingui/macro'
 import Wrapper from '../../common/layout/Wrapper'
 import Text from '../../common/view/Text'
 import NavBar from '../../appNavigation/NavBar'
@@ -73,46 +74,50 @@ const SignupScreen = ({ isSignup, screenProps, styles, handleLoginMethod, sdkIni
 
   const SigninText = () => (
     <>
-      <Text fontSize={12} color="gray80Percent" style={styles.marginBottom}>
-        {`Remember to login with the `}
-        <Text fontSize={12} color="gray80Percent" fontWeight="bold">
-          {`same login method\n`}
+      <Trans>
+        <Text fontSize={12} color="gray80Percent" style={styles.marginBottom}>
+          {`Remember to login with the `}
+          <Text fontSize={12} color="gray80Percent" fontWeight="bold">
+            {`same login method\n`}
+          </Text>
+          that you’ve signed up with
         </Text>
-        that you’ve signed up with
-      </Text>
+      </Trans>
     </>
   )
 
   const SignupText = () => (
     <>
-      <Text fontSize={10} color="gray80Percent" style={styles.marginBottom}>
-        {`By Signing up you are accepting our `}
-        <Text
-          fontSize={10}
-          color="gray80Percent"
-          fontWeight="bold"
-          textDecorationLine="underline"
-          onPress={handleNavigateTermsOfUse}
-        >
-          {`Terms of Use`}
+      <Trans>
+        <Text fontSize={10} color="gray80Percent" style={styles.marginBottom}>
+          {`By Signing up you are accepting our `}
+          <Text
+            fontSize={10}
+            color="gray80Percent"
+            fontWeight="bold"
+            textDecorationLine="underline"
+            onPress={handleNavigateTermsOfUse}
+          >
+            {`Terms of Use`}
+          </Text>
+          {' and '}
+          <Text
+            fontSize={10}
+            color="gray80Percent"
+            fontWeight="bold"
+            textDecorationLine="underline"
+            onPress={handleNavigatePrivacyPolicy}
+          >
+            Privacy Policy
+          </Text>
         </Text>
-        {' and '}
-        <Text
-          fontSize={10}
-          color="gray80Percent"
-          fontWeight="bold"
-          textDecorationLine="underline"
-          onPress={handleNavigatePrivacyPolicy}
-        >
-          Privacy Policy
-        </Text>
-      </Text>
+      </Trans>
     </>
   )
 
   return (
     <Wrapper backgroundColor="#fff" style={styles.mainWrapper}>
-      <NavBar title={isSignup ? 'Signup' : 'Login'} />
+      <NavBar title={isSignup ? t`Signup` : t`Login`} />
       <Section.Stack style={{ flex: 1, justifyContent: 'center' }}>
         <Section.Stack style={{ flex: 1, maxHeight: 640 }}>
           <Section.Stack style={{ flexGrow: 0 }}>
@@ -124,7 +129,7 @@ const SignupScreen = ({ isSignup, screenProps, styles, handleLoginMethod, sdkIni
               fontFamily="Roboto"
               fontWeight="bold"
             >
-              {isSignup ? `Welcome To GoodDollar!\nCreate a Wallet` : 'Welcome Back!'}
+              {isSignup ? t`Welcome To GoodDollar!\nCreate a Wallet` : t`Welcome Back!`}
             </Text>
           </Section.Stack>
           <Section.Stack style={styles.illustration}>
@@ -140,7 +145,7 @@ const SignupScreen = ({ isSignup, screenProps, styles, handleLoginMethod, sdkIni
                 testID="login_with_google"
                 icon={googleBtnIcon}
               >
-                {`${buttonPrefix} with Google`}
+                {t`${buttonPrefix} with Google`}
               </LoginButton>
               <LoginButton
                 style={[
@@ -156,7 +161,7 @@ const SignupScreen = ({ isSignup, screenProps, styles, handleLoginMethod, sdkIni
                 icon={facebookBtnIcon}
                 iconProps={{ viewBox: '0 0 11 22' }}
               >
-                {`${buttonPrefix} with Facebook`}
+                {t`${buttonPrefix} with Facebook`}
               </LoginButton>
 
               <Recaptcha ref={reCaptchaRef} onSuccess={onRecaptchaSuccess} onFailure={onRecaptchaFailed}>
@@ -174,7 +179,7 @@ const SignupScreen = ({ isSignup, screenProps, styles, handleLoginMethod, sdkIni
                   icon={MobileBtnIcon}
                   iconProps={{ viewBox: '0 0 14.001 26' }}
                 >
-                  {`${buttonPrefix}${isSignup ? '' : ' with'} Passwordless`}
+                  {t`${buttonPrefix}${isSignup ? '' : t` with`} Passwordless`}
                 </LoginButton>
               </Recaptcha>
             </View>
@@ -193,7 +198,7 @@ const SignupScreen = ({ isSignup, screenProps, styles, handleLoginMethod, sdkIni
                 onPress={goBack}
                 style={styles.textButton}
               >
-                {isSignup ? `Already Have a Wallet? Log In >` : `Dont Have a Wallet? Create One >`}
+                {isSignup ? t`Already Have a Wallet? Log In >` : t`Dont Have a Wallet? Create One >`}
               </CustomButton>
               {Config.enableSelfCustody && (
                 <CustomButton
@@ -210,7 +215,7 @@ const SignupScreen = ({ isSignup, screenProps, styles, handleLoginMethod, sdkIni
                   onPress={_selfCustody}
                   style={styles.textButton}
                 >
-                  {isSignup ? `Self Custody >` : `Recover from seed phrase >`}
+                  {isSignup ? t`Self Custody >` : t`Recover from seed phrase >`}
                 </CustomButton>
               )}
             </Section.Stack>

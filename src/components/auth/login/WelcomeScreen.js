@@ -2,6 +2,7 @@ import React, { useCallback } from 'react'
 import { View } from 'react-native'
 
 // import logger from '../../../lib/logger/js-logger'
+import { t, Trans } from '@lingui/macro'
 import {
   fireEvent,
   SIGNIN_METHOD_SELECTED,
@@ -76,7 +77,7 @@ const WelcomeScreen = ({ styles, screenProps, navigation }) => {
 
   return (
     <Wrapper backgroundColor="#fff" style={styles.mainWrapper}>
-      <NavBar title="Welcome to gooddollar!" />
+      <NavBar title={t`Welcome to gooddollar!`} />
       <Text
         style={styles.headerText}
         fontSize={26}
@@ -85,10 +86,12 @@ const WelcomeScreen = ({ styles, screenProps, navigation }) => {
         fontFamily="Roboto"
         fontWeight="bold"
       >
-        Join and Claim G$ Daily.
-        <Text fontSize={26} lineHeight={34} letterSpacing={0.26} fontFamily="Roboto">
-          {"\nYes, it's that simple."}
-        </Text>
+        <Trans>Join and Claim G$ Daily.</Trans>
+        <Trans>
+          <Text fontSize={26} lineHeight={34} letterSpacing={0.26} fontFamily="Roboto">
+            {"\nYes, it's that simple."}
+          </Text>
+        </Trans>
       </Text>
       <View style={styles.illustration}>
         <Illustration
@@ -107,7 +110,7 @@ const WelcomeScreen = ({ styles, screenProps, navigation }) => {
                 mode="text"
                 onPress={goToManualRegistration}
               >
-                Agree & Continue with self custody wallet
+                <Trans>Agree & Continue with self custody wallet</Trans>
               </CustomButton>
             </Section.Row>
             <Section.Row alignItems="center" justifyContent="center" style={styles.signInLink}>
@@ -117,7 +120,7 @@ const WelcomeScreen = ({ styles, screenProps, navigation }) => {
                 mode="text"
                 onPress={goToSignInInfo}
               >
-                Sign in
+                <Trans>Sign in</Trans>
               </CustomButton>
             </Section.Row>
           </>
@@ -125,7 +128,7 @@ const WelcomeScreen = ({ styles, screenProps, navigation }) => {
         <>
           <Section.Row alignItems="center" justifyContent="center" style={styles.buttonSpace}>
             <CustomButton style={styles.buttonLayout} textStyle={styles.buttonText} onPress={goToSignUp}>
-              Sign up (Create new wallet)
+              <Trans>Sign up (Create new wallet)</Trans>
             </CustomButton>
           </Section.Row>
           <Section.Row alignItems="center" justifyContent="center">
@@ -136,7 +139,7 @@ const WelcomeScreen = ({ styles, screenProps, navigation }) => {
               onPress={goToSignIn}
               color="darkGray"
             >
-              {'Already Have a Wallet? Log In >'}
+              <Trans>{'Already Have a Wallet? Log In >'}</Trans>
             </CustomButton>
           </Section.Row>
         </>
@@ -193,7 +196,7 @@ const getStylesFromProps = ({ theme }) => {
 const welcome = withStyles(getStylesFromProps)(SimpleStore.withStore(WelcomeScreen))
 
 welcome.navigationOptions = {
-  title: 'Welcome to GoodDollar!',
+  title: t`Welcome to GoodDollar!`,
   navigationBarHidden: true,
 }
 

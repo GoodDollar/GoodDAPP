@@ -1,6 +1,7 @@
 // @flow
 import React from 'react'
 import { TouchableOpacity, View } from 'react-native'
+import { Trans } from '@lingui/macro'
 import Icon from '../view/Icon'
 import Text from '../view/Text'
 import { withStyles } from '../../../lib/styles'
@@ -26,7 +27,7 @@ const ReceiveToAddressButton = ({ onPress, styles, theme, disabled, style = defa
           <Icon name="receive-to-address" color="white" size={20} />
         </View>
         <Text color="darkBlue" fontSize={10} fontWeight="medium" lineHeight={11} style={styles.text}>
-          Receive to address
+          <Trans>Receive to address</Trans>
         </Text>
       </View>
     </TouchableOpacity>

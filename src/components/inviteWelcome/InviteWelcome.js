@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { View } from 'react-native'
 
 // import logger from '../../lib/logger/js-logger'
+import { t, Trans } from '@lingui/macro'
 import { fireEvent, INVITEWELCOME_NEXT, INVITEWELCOME_SKIPPED } from '../../lib/analytics/analytics'
 import { withStyles } from '../../lib/styles'
 import { getShadowStyles } from '../../lib/utils/getStyles'
@@ -23,26 +24,26 @@ import { theme } from '../theme/styles'
 
 const steps = {
   1: {
-    title: 'GoodDollar Wallet',
-    subtitle: 'You are a few steps away from\nreceiving FREE basic income',
+    title: t`GoodDollar Wallet`,
+    subtitle: t`You are a few steps away from\nreceiving FREE basic income`,
     illustration: WalletSVG,
   },
   2: {
-    title: 'How To Use',
+    title: t`How To Use`,
     subtitle: (
       <>
-        {'Collect free income every day\nby pressing the '}
+        {t`Collect free income every day\nby pressing the `}
         <Text color={theme.colors.green} fontSize={15} fontWeight={'bold'}>
-          CLAIM
+          <Trans>CLAIM</Trans>
         </Text>
-        {' button in\nyour GoodDollar wallet'}
+        {t` button in\nyour GoodDollar wallet`}
       </>
     ),
     illustration: MobileSVG,
   },
   3: {
-    title: "What's next?",
-    subtitle: 'Sign up and do a video selfie\nto ensure you are a real live person\nand not a bot : )',
+    title: t`What's next?`,
+    subtitle: t`Sign up and do a video selfie\nto ensure you are a real live person\nand not a bot : )`,
     illustration: SelfieSVG,
   },
 }
@@ -90,7 +91,7 @@ const InviteWelcome = ({ styles, screenProps, navigation }) => {
   return (
     show === true && (
       <Wrapper backgroundColor="#fff" style={styles.mainWrapper}>
-        <NavBar title="Welcome" />
+        <NavBar title={t`Welcome`} />
         <Section.Stack style={styles.contentContainer}>
           <Section.Stack>
             {step === 1 && (
@@ -152,7 +153,7 @@ const InviteWelcome = ({ styles, screenProps, navigation }) => {
               <Section.Stack>
                 {step === 3 ? (
                   <Text letterSpacing={0.14} fontSize={14} fontWeight={'bold'} lineHeight={19} color={'darkGray'}>
-                    {"Let's go!"}
+                    {t`Let's go!`}
                   </Text>
                 ) : (
                   <CustomButton
@@ -167,7 +168,7 @@ const InviteWelcome = ({ styles, screenProps, navigation }) => {
                     onPress={skipIntro}
                     color="darkGray"
                   >
-                    {'Skip and create wallet'}
+                    {t`Skip and create wallet`}
                   </CustomButton>
                 )}
               </Section.Stack>
@@ -235,7 +236,7 @@ const getStylesFromProps = ({ theme }) => {
 const Welcome = withStyles(getStylesFromProps)(InviteWelcome)
 
 Welcome.navigationOptions = {
-  title: 'Welcome to GoodDollar!',
+  title: t`Welcome to GoodDollar!`,
   navigationBarHidden: true,
 }
 

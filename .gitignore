@@ -83,6 +83,9 @@ account.data.txt
 .png-cache
 .DS_Store
 
+# Localization build files
+src/language/locales/*/*.js
+
 # Bundle artifact
 *.jsbundle
 

@@ -1,6 +1,7 @@
 // @flow
 import React, { useCallback, useState } from 'react'
 import { TouchableOpacity, View } from 'react-native'
+import { t } from '@lingui/macro'
 import { withStyles } from '../../../lib/styles'
 import Text from '../view/Text'
 import Icon from '../view/Icon'
@@ -64,7 +65,7 @@ const SaveButton = ({ children, onPress, onPressDone, doneDelay, styles, theme, 
             fontWeight="medium"
             style={styles.customButtonText}
           >
-            {children || 'Save'}
+            {children || t`Save`}
           </Text>
         </CustomButton>
       )}

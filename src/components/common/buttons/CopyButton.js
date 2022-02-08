@@ -1,5 +1,6 @@
 import { noop } from 'lodash'
 import React, { useCallback, useEffect, useState } from 'react'
+import { t } from '@lingui/macro'
 import Icon from '../view/Icon'
 import { useClipboardCopy } from '../../../lib/hooks/useClipboard'
 import CustomButton from './CustomButton'
@@ -62,7 +63,7 @@ const CopyButton = ({ toCopy, children, onPress = noop, onPressDone = noop, icon
     default: {
       return (
         <CustomButton data={{ gdtype: 'copybutton' }} mode={mode} onPress={onPressHandler} {...props}>
-          {children || 'Copy to Clipboard'}
+          {children || t`Copy to Clipboard`}
         </CustomButton>
       )
     }

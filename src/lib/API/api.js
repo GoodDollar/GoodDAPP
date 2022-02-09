@@ -14,6 +14,8 @@ import type { NameRecord } from '../../components/signup/NameForm'
 import type { EmailRecord } from '../../components/signup/EmailForm'
 import type { MobileRecord } from '../../components/signup/PhoneForm'
 
+import reserveQuery from '../../components/reserve/reserveQuery.gql'
+
 const log = logger.child({ from: 'API' })
 
 export type Credentials = {
@@ -66,9 +68,22 @@ export class APIService {
 
   client: AxiosInstance
 
+  sharedClient: AxiosInstance
+
   mauticJS: any
 
   constructor(jwt = null) {
+    const shared = axios.create()
+
+    shared.interceptors.response.use(
+      ({ data }) => data,
+      // eslint-disable-next-line require-await
+      async exception => {
+        throw exception
+      },
+    )
+
+    this.sharedClient = shared
     this.init(jwt)
   }
 
@@ -87,6 +102,7 @@ export class APIService {
         jwt = await AsyncStorage.getItem(JWT)
         this.jwt = jwt
       }
+
       log.info('initializing api...', serverUrl, jwt)
 
       // eslint-disable-next-line require-await
@@ -197,10 +213,10 @@ export class APIService {
   }
 
   async verifyCaptcha(token: string): AxiosPromise<any> {
-    const { client } = this
+    const { client, sharedClient } = this
     const payload = { token }
 
-    const parseCFResponse = ({ data }) => {
+    const parseCFResponse = data => {
       const [address] = (data || '').match(/ip=(.+?)\n/)
 
       if (!address) {
@@ -211,13 +227,13 @@ export class APIService {
     }
 
     const fallbackToIpify = async () => {
-      const ipv6Response = await axios.get('https://api64.ipify.org/?format=json')
+      const ipv6Response = await sharedClient.get('https://api64.ipify.org/?format=json')
 
-      return get(ipv6Response, 'data.ip', '')
+      return get(ipv6Response, 'ip', '')
     }
 
     try {
-      const ip = await axios
+      const ip = await sharedClient
         .get('https://www.cloudflare.com/cdn-cgi/trace')
         .then(parseCFResponse)
         .catch(fallbackToIpify)
@@ -246,7 +262,7 @@ export class APIService {
    * `ip-api.com/json` get location api call
    */
   getLocation(): AxiosPromise<any> {
-    return axios.get('https://get.geojs.io/v1/ip/country.json', { throttle: false })
+    return this.sharedClient.get('https://get.geojs.io/v1/ip/country.json', { throttle: false })
   }
 
   /**
@@ -443,6 +459,11 @@ export class APIService {
     }
 
     return this.client.post(callbackUrl, { invoiceId, transactionId, senderEmail, senderName })
+  }
+
+  // eslint-disable-next-line require-await
+  async getGoodDollarReservePrice() {
+    return this.sharedClient.post(Config.reserveGraphQLUrl, { query: reserveQuery })
   }
 }
 

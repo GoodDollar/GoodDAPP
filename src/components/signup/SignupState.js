@@ -178,7 +178,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
 
   const getCountryCode = useCallback(async () => {
     try {
-      const { data } = await API.getLocation()
+      const data = await API.getLocation()
 
       data && setCountryCode(data.country)
     } catch (e) {

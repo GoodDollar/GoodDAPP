@@ -4,6 +4,7 @@ import { BigNumber, ethers } from 'ethers'
 import { Currency, CurrencyAmount, Fraction, MaxUint256, Percent, Token } from '@uniswap/sdk-core'
 import { MaxUint256 as MaxApproveValue } from '@ethersproject/constants'
 import { getSimpleStakingContractAddresses, simpleStakingContract } from './contracts/SimpleStakingContract'
+import { getSimpleStakingContractAddressesV2, simpleStakingContractV2, getUsdOracle } from './contracts/SimpleStakingContractV2'
 import { governanceStakingContract } from './contracts/GovernanceStakingContract'
 import { goodFundManagerContract } from './contracts/GoodFundManagerContract'
 import { goodMarketMakerContract } from './contracts/GoodMarketMakerContract'
@@ -33,6 +34,7 @@ export type Stake = {
     rewards: { G$: CurrencyAmount<Currency>; GDAO: CurrencyAmount<Currency> }
     socialAPY: Fraction
     tokens: { A: Token; B: Token }
+    isV2?: boolean
 }
 
 type MyReward = { claimed: CurrencyAmount<Currency>; unclaimed: CurrencyAmount<Currency> }
@@ -48,7 +50,8 @@ export type MyStake = {
     }
     stake: { amount: CurrencyAmount<Currency>; amount$: CurrencyAmount<Currency> }
     tokens: { A: Token; B: Token }
-    network: DAO_NETWORK
+    network: DAO_NETWORK,
+    isV2?: boolean
 }
 
 /**
@@ -58,6 +61,7 @@ export type MyStake = {
  */
 export async function getList(web3: Web3): Promise<Stake[]> {
     const simpleStakingAddresses = await getSimpleStakingContractAddresses(web3)
+    const simpleStakingAddressesV2 = await getSimpleStakingContractAddressesV2(web3)
 
     cacheClear(getSocialAPY)
     cacheClear(getTokenPriceInUSDC)
@@ -66,16 +70,14 @@ export async function getList(web3: Web3): Promise<Stake[]> {
     cacheClear(getStakedValue)
     cacheClear(getYearlyRewardGDAO)
     cacheClear(getYearlyRewardG$)
-
-    if (DEBUG_ENABLED) {
-        const result = []
-        for (const address of simpleStakingAddresses) {
-            result.push(await metaStake(web3, address))
-        }
-        return result
-    } else {
-        return Promise.all(simpleStakingAddresses.map(address => metaStake(web3, address)))
+    
+    const result = []
+    result.push(await metaStake(web3, simpleStakingAddresses[0], false))
+    for (const address of simpleStakingAddressesV2){
+      result.push(await metaStake(web3, address, true))
     }
+
+    return result
 }
 
 /**
@@ -86,15 +88,18 @@ export async function getList(web3: Web3): Promise<Stake[]> {
  */
 export async function getMyList(mainnetWeb3: Web3, fuseWeb3: Web3, account: string): Promise<MyStake[]> {
     const simpleStakingAddresses = await getSimpleStakingContractAddresses(mainnetWeb3)
+    const simpleStakingAddressesv2 = await getSimpleStakingContractAddressesV2(mainnetWeb3)
 
     cacheClear(getTokenPriceInUSDC)
 
     let stakes: MyStake[] = []
     try {
         const govStake = metaMyGovStake(fuseWeb3, account)
-        const ps = simpleStakingAddresses.map(address => metaMyStake(mainnetWeb3, address, account))
-        ps.push(govStake)
-        const stakesRawList = await Promise.all(ps)
+        const ps = metaMyStake(mainnetWeb3, simpleStakingAddresses[0], account, false)
+        const simpleStakev2 = simpleStakingAddressesv2.map(address => metaMyStake(mainnetWeb3, address, account, true))
+        simpleStakev2.push(ps)
+        simpleStakev2.push(govStake)
+        const stakesRawList = await Promise.all(simpleStakev2)
         stakes = stakesRawList.filter(Boolean) as MyStake[]
     } catch (e) {
         console.log(e)
@@ -108,47 +113,44 @@ export async function getMyList(mainnetWeb3: Web3, fuseWeb3: Web3, account: stri
  * @param {string} address Stake address.
  * @returns {Promise<Stake>}
  */
-async function metaStake(web3: Web3, address: string): Promise<Stake> {
-    debugGroup(`Stake for ${address}`)
+async function metaStake(web3: Web3, address: string, isV2: boolean): Promise<Stake> {
+  const simpleStaking = isV2 ? simpleStakingContractV2(web3, address) : simpleStakingContract(web3, address)
 
-    const simpleStaking = simpleStakingContract(web3, address)
+  const [tokenAddress, iTokenAddress, protocolName] = await Promise.all([
+    simpleStaking?.methods.token().call(),
+    simpleStaking?.methods.iToken().call(),
+    simpleStaking?.methods.name().call()
+  ])
 
-    const [tokenAddress, iTokenAddress, protocolName] = await Promise.all([
-        simpleStaking.methods.token().call(),
-        simpleStaking.methods.iToken().call(),
-        simpleStaking.methods.name().call()
-    ])
+  const [token, iToken] = (await Promise.all([
+    getTokenByAddress(web3, tokenAddress),
+    getTokenByAddress(web3, iTokenAddress)
+  ])) as [Token, Token]
 
-    const [token, iToken] = (await Promise.all([
-        getTokenByAddress(web3, tokenAddress),
-        getTokenByAddress(web3, iTokenAddress)
-    ])) as [Token, Token]
+  const protocol = getProtocol(protocolName)
 
-    const protocol = getProtocol(protocolName)
+  const [APY, socialAPY, liquidity, rewardG$, rewardGDAO] = await Promise.all([
+    getAPY(web3, address, protocol, token, isV2),
+    getSocialAPY(web3, protocol, token, iToken),
+    isV2 ? getStakedValuev2(web3, address, protocol, token) : getStakedValue(web3, address, protocol, token),
+    getYearlyRewardG$(web3, address),
+    getYearlyRewardGDAO(web3, address)
+  ])
 
-    const [APY, socialAPY, liquidity, rewardG$, rewardGDAO] = await Promise.all([
-        getAPY(web3, address, protocol, token),
-        getSocialAPY(web3, protocol, token, iToken),
-        getStakedValue(web3, address, protocol, token),
-        getYearlyRewardG$(web3, address),
-        getYearlyRewardGDAO(web3, address)
-    ])
+  const result = {
+    APY,
+    address,
+    protocol,
+    liquidity,
+    rewards: { G$: rewardG$, GDAO: rewardGDAO },
+    socialAPY,
+    tokens: { A: token, B: iToken },
+    isV2: isV2
+  }
 
-    const result = {
-        APY,
-        address,
-        protocol,
-        liquidity,
-        rewards: { G$: rewardG$, GDAO: rewardGDAO },
-        socialAPY,
-        tokens: { A: token, B: iToken }
-    }
+  debugGroupEnd(`Stake for ${address}`)
 
-    debug('Result', result)
-
-    debugGroupEnd(`Stake for ${address}`)
-
-    return result
+  return result
 }
 
 /**
@@ -158,10 +160,10 @@ async function metaStake(web3: Web3, address: string): Promise<Stake> {
  *  @param {string} account account details to fetch.
  * @returns {Promise<Stake | null>}
  */
-async function metaMyStake(web3: Web3, address: string, account: string): Promise<MyStake | null> {
+async function metaMyStake(web3: Web3, address: string, account: string, isV2: boolean): Promise<MyStake | null> {
     debugGroup(`My stake for ${address}`)
 
-    const simpleStaking = await simpleStakingContract(web3, address)
+    const simpleStaking = isV2 ? simpleStakingContractV2(web3, address) : simpleStakingContract(web3, address)
 
     const chainId = await getChainId(web3)
 
@@ -171,12 +173,14 @@ async function metaMyStake(web3: Web3, address: string, account: string): Promis
         debugGroupEnd(`My stake for ${address}`)
         return null
     }
+    
+    const {6: _maxMultiplierThreshold} = isV2 ? await simpleStaking.methods.getStats().call() : null
 
     const [tokenAddress, iTokenAddress, protocolName, threshold] = await Promise.all([
         simpleStaking.methods.token().call(),
         simpleStaking.methods.iToken().call(),
         simpleStaking.methods.name().call(),
-        simpleStaking.methods.maxMultiplierThreshold().call()
+        isV2 ? _maxMultiplierThreshold :  simpleStaking.methods.maxMultiplierThreshold().call()
     ])
 
     const [token, iToken] = (await Promise.all([
@@ -202,7 +206,7 @@ async function metaMyStake(web3: Web3, address: string, account: string): Promis
     debug('Amount USDC', amount$.toSignificant(6))
 
     const [rewardG$, rewardGDAO] = await Promise.all([
-        getRewardG$(web3, address, account),
+        getRewardG$(web3, address, account, isV2),
         getRewardGDAO(web3, address, account)
     ])
 
@@ -244,7 +248,8 @@ async function metaMyStake(web3: Web3, address: string, account: string): Promis
         },
         stake: { amount, amount$ },
         tokens: { A: token, B: iToken },
-        network: DAO_NETWORK.MAINNET
+        network: DAO_NETWORK.MAINNET,
+        isV2: isV2
     }
 
     debug('Reward $ claimed', result.rewards.reward$.claimed.toSignificant(6))
@@ -336,8 +341,8 @@ const getProtocol = memoize<(protocolName: string) => LIQUIDITY_PROTOCOL>(
  * @param {string} account User's account address.
  * @returns {Promise<MyReward>}
  */
-async function getRewardG$(web3: Web3, address: string, account: string): Promise<MyReward> {
-    const simpleStaking = await simpleStakingContract(web3, address)
+async function getRewardG$(web3: Web3, address: string, account: string, isV2: boolean): Promise<MyReward> {
+    const simpleStaking = isV2 ? simpleStakingContractV2(web3, address) : simpleStakingContract(web3, address)
 
     const { 0: claimed, 1: unclaimed } = await simpleStaking.methods.getUserMintedAndPending(account).call()
 
@@ -548,15 +553,18 @@ export const getReserveRatio = memoize<(web3: Web3, chainId: number) => Promise<
  * @param {Token} token Token for calculation price from.
  * @returns {Promise<Fraction>>}
  */
-const getAPY = memoize<(web3: Web3, address: string, protocol: LIQUIDITY_PROTOCOL, token: Token) => Promise<Fraction>>(
-    async (web3, address, protocol, token) => {
+const getAPY = memoize<(web3: Web3, address: string, protocol: LIQUIDITY_PROTOCOL, token: Token, isV2: boolean) => Promise<Fraction>>(
+    
+  async (web3, address, protocol, token, isV2) => {
         debugGroup(`APY of ${protocol} for ${token.symbol}`)
 
         const { DAI: G$Ratio } = await g$Price()
 
         const yearlyRewardG$ = await getYearlyRewardG$(web3, address)
+        let stakedValue:CurrencyAmount<Currency>
 
-        let stakedValue = await getStakedValue(web3, address, protocol, token, true)
+        stakedValue = isV2 ? await getStakedValuev2(web3, address, protocol, token, true) : 
+        await getStakedValue(web3, address, protocol, token, true)
 
         stakedValue = stakedValue.equalTo(0)
             ? CurrencyAmount.fromRawAmount(stakedValue.currency, 10 ** stakedValue.currency.decimals * 1000) //1000$
@@ -621,6 +629,71 @@ const getLiquidity = memoize<
     (_, address, protocol, token) => address + protocol + token.address
 )
 
+/**
+ * Return staked value in USD for SimpleStaking V2.
+ * @param {Web3} web3 Web3 instance.
+ * @param {string} address Stake address.
+ * @param {LIQUIDITY_PROTOCOL} protocol Liquidity protocol.
+ * @param {Token} token Token for calculation price from.
+ * @param {boolean} effectiveStake get effective stakes, not donated
+ * @returns {Promise<Fraction>>}
+ */
+const getStakedValuev2 = memoize<
+    (
+      web3: Web3,
+      address: string,
+      protocol: LIQUIDITY_PROTOCOL,
+      token: Token,
+      effectiveStake?: boolean
+    ) => Promise<CurrencyAmount<Currency>>
+> (
+  async (web3, address, protocol, token, effectiveStake = false) => {
+    const chainId = await getChainId(web3)
+    const simpleStakingv2 = getContract(
+        chainId,
+        address,
+        [
+          'function getStats() view returns ('+
+            'uint256,uint128,uint128,uint128,'+
+            'uint128,uint128,uint64,uint8)',
+          'function tokenUsdOracle() view returns (address)',
+          'function getTokenValueInUSD(address, uint256, uint256) view returns (uint256)'
+        ],
+        web3
+    )
+
+    debug(`current address staking v2 --> ${address}`)
+
+    const {0: _accAmountPerShare,
+           1: _mintedRewards,
+           2: _totalProductivity,
+           3: _totalEffectiveStakes,
+           4: _accumulatedRewards,
+           5: _lastRewardBlock,
+           6: _maxMultiplierThreshold,
+           7: _tokenDecimalDifference} = await simpleStakingv2.getStats()
+
+    const USDC = (await getToken(chainId, 'USDC')) as Token
+    const tempOracle =  getUsdOracle(protocol, web3)
+
+    const totalProductivity = effectiveStake ? _totalEffectiveStakes : _totalProductivity
+
+    const usdValue = await simpleStakingv2.getTokenValueInUSD(
+        tempOracle,
+        totalProductivity,
+        18 - _tokenDecimalDifference
+    )
+
+    const liquidityUSDC = CurrencyAmount.fromRawAmount(USDC, usdValue.div(1e2).toString()) //token value in usd is in 8 decimals
+
+    debug('Liquidity staked', liquidityUSDC.toSignificant(6))
+
+    debugGroupEnd(`Liquidity for ${token.symbol} in ${protocol}`)
+
+    return liquidityUSDC
+  },
+  (_, address, protocol, token, effectiveStake) => address + protocol + token.address + effectiveStake
+)
 /**
  * Return staked value in USD.
  * @param {Web3} web3 Web3 instance.
@@ -837,7 +910,7 @@ export async function stake(
     inInterestToken = false,
     onSent?: (transactionHash: string, from: string) => void
 ): Promise<TransactionDetails> {
-    const contract = simpleStakingContract(web3, address)
+    const contract = simpleStakingContractV2(web3, address)
     const account = await getAccount(web3)
 
     const percentage = decimalPercentToPercent(0)
@@ -869,8 +942,9 @@ export async function withdraw(
 ): Promise<TransactionDetails> {
     const contract =
         stake.protocol === LIQUIDITY_PROTOCOL.GOODDAO
-            ? governanceStakingContract(web3, stake.address)
-            : simpleStakingContract(web3, stake.address)
+            ? governanceStakingContract(web3, stake.address) :
+        stake.isV2 ? simpleStakingContractV2(web3, stake.address) :
+                     simpleStakingContract(web3, stake.address)
 
     const account = await getAccount(web3)
 
@@ -905,20 +979,34 @@ export async function claimGood(
     const chainId = await getChainId(web3)
     const account = await getAccount(web3)
 
-    let tx
+    const transactions: any[] = []
     if (chainId === SupportedChainId.FUSE) {
         const contract = governanceStakingContract(web3)
-        tx = contract.methods.withdrawRewards().send({ from: account })
+        transactions.push(contract.methods.withdrawRewards().send({ from: account }))
     } else {
         const stakersDistribution = await stakersDistributionContract(web3)
         const simpleStakingAddresses = await getSimpleStakingContractAddresses(web3)
-        tx = stakersDistribution.methods.claimReputation(account, simpleStakingAddresses).send({ from: account })
+        const simpleStakingAddressesV2 = await getSimpleStakingContractAddressesV2(web3)
+        for (const address of simpleStakingAddressesV2) {
+          simpleStakingAddresses.push(address)
+        }
+        transactions.push(stakersDistribution.methods.claimReputation(account, simpleStakingAddresses).send({ from: account }))
     }
-     
-    if (onSent) tx.on('transactionHash', (hash: string) => onSent(hash, account, chainId))
-    if (onReceipt) tx.on('receipt', onReceipt)
-    if (onError) tx.on('error', onError)
-    return [tx]
+    
+    if (onSent)
+      Promise.all(
+        transactions.map(
+          transaction => 
+            new Promise<string>((resolve, reject) => {
+              transaction.on('transactionHash', (hash: string) => onSent(hash, account, chainId))
+              transaction.on('receipt', onReceipt)
+              transaction.on('error', reject)
+              resolve('done')
+          }) 
+        )
+      )
+
+    return Promise.all(transactions)
 }
 
 /**
@@ -935,11 +1023,13 @@ export async function claim(
     const account = await getAccount(web3)
 
     const simpleStakingAddresses = await getSimpleStakingContractAddresses(web3)
+    const simpleStakingAddressesv2 = await getSimpleStakingContractAddressesV2(web3)
 
+    // todo: dry up
     const transactions: any[] = []
     for (const address of simpleStakingAddresses) {
         const [rewardG$, rewardGDAO] = await Promise.all([
-            getRewardG$(web3, address, account),
+            getRewardG$(web3, address, account, false),
             getRewardGDAO(web3, address, account)
         ])
 
@@ -947,6 +1037,18 @@ export async function claim(
             const simpleStaking = simpleStakingContract(web3, address)
             transactions.push(simpleStaking.methods.withdrawRewards().send({ from: account }))
         }
+    }
+
+    for (const address of simpleStakingAddressesv2) {
+      const [rewardG$, rewardGDAO] = await Promise.all([
+        getRewardG$(web3, address, account, true),
+        getRewardGDAO(web3, address, account) // why is this here?
+      ])
+
+      if (!rewardG$.unclaimed.equalTo(0)) {
+          const simpleStaking = simpleStakingContractV2(web3, address)
+          transactions.push(simpleStaking.methods.withdrawRewards().send({ from: account }))
+      }
     }
 
     if (onSent) {

@@ -2,7 +2,7 @@
 import React, { useContext, useEffect, useMemo } from 'react'
 import { Platform, View } from 'react-native'
 
-//import { t, Trans } from '@lingui/macro'
+import { Trans } from '@lingui/macro'
 import Wrapper from '../../common/layout/Wrapper'
 import Text from '../../common/view/Text'
 import NavBar from '../../appNavigation/NavBar'
@@ -35,28 +35,30 @@ const SignupText = ({ screenProps }) => {
 
   return (
     <>
-      <Text fontSize={12} color="gray80Percent">
-        {`By signing up and entering, you are accepting our\n`}
-        <Text
-          fontSize={12}
-          color="gray80Percent"
-          fontWeight="bold"
-          textDecorationLine="underline"
-          onPress={handleNavigateTermsOfUse}
-        >
-          {`Terms of Use`}
+      <Trans>
+        <Text fontSize={12} color="gray80Percent">
+          {`By signing up and entering, you are accepting our\n`}
+          <Text
+            fontSize={12}
+            color="gray80Percent"
+            fontWeight="bold"
+            textDecorationLine="underline"
+            onPress={handleNavigateTermsOfUse}
+          >
+            {`Terms of Use`}
+          </Text>
+          {' and '}
+          <Text
+            fontSize={12}
+            color="gray80Percent"
+            fontWeight="bold"
+            textDecorationLine="underline"
+            onPress={handleNavigatePrivacyPolicy}
+          >
+            Privacy Policy
+          </Text>
         </Text>
-        {' and '}
-        <Text
-          fontSize={12}
-          color="gray80Percent"
-          fontWeight="bold"
-          textDecorationLine="underline"
-          onPress={handleNavigatePrivacyPolicy}
-        >
-          Privacy Policy
-        </Text>
-      </Text>
+      </Trans>
     </>
   )
 }
@@ -90,7 +92,7 @@ const SignupScreen = ({ screenProps, styles, handleLoginMethod, sdkInitialized, 
                 fontWeight="bold"
                 textTransform="uppercase"
               >
-                Choose Authentication Method
+                <Trans>Choose Authentication Method</Trans>
               </Text>
               <Text
                 color={'darkIndigo'}
@@ -101,7 +103,7 @@ const SignupScreen = ({ screenProps, styles, handleLoginMethod, sdkInitialized, 
                 fontWeight="bold"
                 style={{ marginTop: getDesignRelativeHeight(15) }}
               >
-                Start Claiming G$ Daily
+                <Trans>Start Claiming G$ Daily</Trans>
               </Text>
               <Text
                 color={'darkIndigo'}
@@ -111,7 +113,9 @@ const SignupScreen = ({ screenProps, styles, handleLoginMethod, sdkInitialized, 
                 fontFamily="Roboto"
                 style={{ marginTop: getDesignRelativeHeight(5) }}
               >
-                {`Begin receiving real crypto, totally for\n free, and without having to risk any\n money to start.`}
+                <Trans>
+                  {`Begin receiving real crypto, totally for\n free, and without having to risk any\n money to start.`}
+                </Trans>
               </Text>
             </Section.Stack>
             <Section.Stack style={styles.bottomContainer}>
@@ -137,7 +141,7 @@ const SignupScreen = ({ screenProps, styles, handleLoginMethod, sdkInitialized, 
                       onPress={_selfCustodySignup}
                       style={styles.textButton}
                     >
-                      Self Custody SignUp
+                      <Trans>Self Custody SignUp</Trans>
                     </CustomButton>
                     <CustomButton
                       compact
@@ -153,7 +157,7 @@ const SignupScreen = ({ screenProps, styles, handleLoginMethod, sdkInitialized, 
                       onPress={_selfCustodyLogin}
                       style={styles.textButton}
                     >
-                      Self Custody Login
+                      <Trans>Self Custody Login</Trans>
                     </CustomButton>
                   </View>
                 )}

@@ -6,6 +6,7 @@ import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import { withStyles } from '../../lib/styles'
 import InputText from '../common/form/InputText'
 import Section from '../common/layout/Section'
+import Text from '../common/view/Text'
 import CustomWrapper from './signUpWrapper'
 
 type Props = {
@@ -82,12 +83,39 @@ class NameForm extends React.Component<Props, State> {
       >
         <Section grow justifyContent="flex-start" style={styles.transparentBackground}>
           <Section.Stack justifyContent="flex-start" style={styles.container}>
-            <Section.Row justifyContent="center" style={styles.row}>
-              <Section.Title color="darkGray" fontSize={22} fontWeight="medium" textTransform="none">
-                {'Hi, nice to meet you.\n Please enter your full name'}
+            <Text
+              color={'primary'}
+              fontSize={getDesignRelativeHeight(12)}
+              lineHeight={getDesignRelativeHeight(21)}
+              letterSpacing={0.26}
+              fontFamily="Roboto"
+              fontWeight="bold"
+              textTransform="uppercase"
+              style={{ marginBottom: getDesignRelativeHeight(14) }}
+            >
+              Personal Details
+            </Text>
+            <Section.Stack justifyContent="center" style={styles.row}>
+              <Section.Title
+                color="darkIndigo"
+                fontSize={18}
+                fontWeight="400"
+                textTransform="none"
+                style={{ marginVertical: 0 }}
+              >
+                Thanks, we verified your phone.
               </Section.Title>
-            </Section.Row>
-            <Section.Row justifyContent="center" style={styles.bottomRow}>
+              <Section.Title
+                color="darkIndigo"
+                fontSize={18}
+                fontWeight="500"
+                textTransform="none"
+                style={{ marginVertical: 0 }}
+              >
+                What is your full name?
+              </Section.Title>
+            </Section.Stack>
+            <Section.Stack justifyContent="center" style={styles.bottomRow}>
               <InputText
                 id={key + '_input'}
                 value={fullName}
@@ -100,7 +128,18 @@ class NameForm extends React.Component<Props, State> {
                 enablesReturnKeyAutomatically
                 onSubmitEditing={this.handleSubmit}
               />
-            </Section.Row>
+              {!errorMessage ? (
+                <Text
+                  color={'lightBlue'}
+                  fontSize={getDesignRelativeHeight(14)}
+                  lineHeight={getDesignRelativeHeight(16)}
+                  letterSpacing={0.14}
+                  fontFamily="Roboto"
+                >
+                  {`This can't be changed later.`}
+                </Text>
+              ) : null}
+            </Section.Stack>
           </Section.Stack>
         </Section>
       </CustomWrapper>

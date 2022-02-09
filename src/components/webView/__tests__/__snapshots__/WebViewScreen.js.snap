@@ -1,23 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`WebViewScreen Instances FAQ matches snapshot 1`] = `
-<iframe
-  allowFullScreen={true}
-  frameBorder="0"
-  height="100%"
-  onLoad={[Function]}
-  seamless={true}
-  src="https://community.gooddollar.org/faq"
-  style={
-    Object {
-      "height": 0,
-    }
-  }
-  title="FAQ"
-  width="100%"
-/>
-`;
-
 exports[`WebViewScreen Instances PrivacyPolicy matches snapshot 1`] = `
 <iframe
   allowFullScreen={true}
@@ -32,24 +14,6 @@ exports[`WebViewScreen Instances PrivacyPolicy matches snapshot 1`] = `
     }
   }
   title="Privacy Policy"
-  width="100%"
-/>
-`;
-
-exports[`WebViewScreen Instances PrivacyPolicyAndTerms matches snapshot 1`] = `
-<iframe
-  allowFullScreen={true}
-  frameBorder="0"
-  height="100%"
-  onLoad={[Function]}
-  seamless={true}
-  src="https://community.gooddollar.org/tou/"
-  style={
-    Object {
-      "height": 0,
-    }
-  }
-  title="Privacy Policy & Terms"
   width="100%"
 />
 `;

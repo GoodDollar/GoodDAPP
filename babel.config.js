@@ -21,6 +21,8 @@ module.exports = function(api) {
       ["@babel/plugin-proposal-private-methods", {loose: true}],
       ["@babel/plugin-proposal-private-property-in-object", {loose: true}]
     ],
-    ignore: [/src\/lib\/facetec/i]
+    ignore: [
+      /react\-native\-facetec\/web\/sdk/i,
+    ]
   }
 }

@@ -3,5 +3,246 @@
 exports[`SplashDesktop matches snapshot 1`] = `
 <div
   className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
-/>
+>
+  <div
+    className="css-view-1dbjc4n r-display-6koalj r-flexDirection-eqz5dr r-flexGrow-16y2uox r-maxHeight-46g5hj r-overflowX-lltvgl r-overflowY-1rnoaur r-padding-t60dpp r-position-bnwqim r-width-13qz1uu"
+    data-name="viewWrapper"
+    style={
+      Object {
+        "backgroundImage": "linear-gradient(3.141592653589793rad,#00AFFF,#2DC0F7,#28C0EF,#23C0E7,#1EC1DF,#19C1D7,#14C1CF,#0FC2C7,#0FC2C7,#0AC2BF,#05C2B7,#00C3AF)",
+      }
+    }
+  >
+    <div
+      className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1niwhzg r-borderRadius-1f0042m r-flex-13awgt0 r-justifyContent-1777fci r-paddingHorizontal-1e081e0 r-paddingVertical-1yzf0co r-position-bnwqim r-transform-1defyd4"
+    >
+      <div
+        className="css-view-1dbjc4n r-backgroundImage-c8yqqa r-backgroundRepeat-1w25a1u r-height-1pi2tsx r-opacity-5m1il8 r-position-u8s1d r-width-13qz1uu"
+      />
+      <div
+        className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-flexGrow-16y2uox r-justifyContent-1wtj0ep r-marginTop-1mnahxq r-transform-1defyd4 r-width-13qz1uu"
+      >
+        <div
+          className="css-text-901oao r-color-waoq6i r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+          dir="auto"
+        >
+          <span
+            className="css-text-901oao css-textHasAncestor-16my406 r-color-waoq6i r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+          >
+            Welcome to GoodDollar Wallet
+
+          </span>
+          For best experience
+please scan and continue
+on your mobile device.
+        </div>
+        <div
+          className="css-view-1dbjc4n r-alignItems-1awozwy r-justifyContent-1777fci"
+        >
+          <div
+            className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderColor-17xuhkx r-borderRadius-1f0042m r-borderWidth-d045u9 r-padding-nsbfu8 r-transform-1defyd4"
+          >
+            <canvas
+              height={150}
+              style={
+                Object {
+                  "height": 150,
+                  "width": 150,
+                }
+              }
+              theme={
+                Object {
+                  "animation": Object {
+                    "scale": 1,
+                  },
+                  "backdrop": Object {
+                    "backgroundColor": "rgba(255, 0, 0, 0.8)",
+                  },
+                  "borders": Object {
+                    "defaultBorderColor": "#c9c8c9",
+                  },
+                  "colors": Object {
+                    "accent": "#03dac4",
+                    "backdrop": "rgba(0, 0, 0, 0.5)",
+                    "background": "#f6f6f6",
+                    "blue": "#006EA0",
+                    "darkBlue": "#0C263D",
+                    "darkGray": "#42454A",
+                    "darkIndigo": "#173566",
+                    "disabled": "#E3E3E2",
+                    "error": "#FA6C77",
+                    "extraLighterGray": "#707070",
+                    "facebookBlue": "#0075FF",
+                    "googleBlue": "#3367D6",
+                    "googleRed": "#D03737",
+                    "gray": "#555",
+                    "gray50Percent": "#CBCBCB",
+                    "gray80Percent": "#A3A3A3",
+                    "grayBox": "#E5E5E5",
+                    "green": "#00C3AE",
+                    "lightBlue": "#8499BB",
+                    "lightGray": "#EEE",
+                    "lightGreen": "#00BBA5",
+                    "lighterGray": "#A3A3A3",
+                    "lighterGreen": "#04C899",
+                    "notification": "#f50057",
+                    "onBackground": "#000000",
+                    "onSurface": "#000000",
+                    "orange": "#F8AF40",
+                    "placeholder": "#CBCBCB",
+                    "primary": "#00AFFF",
+                    "purple": "#9F6A9D",
+                    "red": "#FA6C77",
+                    "secondary": "#A3A3A3",
+                    "surface": "#ffffff",
+                    "text": "#222",
+                    "white": "#ffffff",
+                  },
+                  "dark": false,
+                  "feedItems": Object {
+                    "borderRadius": 8,
+                    "height": 0,
+                    "itemBackgroundColor": "#fff",
+                  },
+                  "fontStyle": Object {
+                    "color": "#555",
+                    "fontSize": 0,
+                    "textAlign": "center",
+                  },
+                  "fonts": Object {
+                    "default": "Roboto",
+                    "light": Object {
+                      "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                      "fontWeight": "300",
+                    },
+                    "medium": Object {
+                      "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                      "fontWeight": "500",
+                    },
+                    "regular": Object {
+                      "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                      "fontWeight": "400",
+                    },
+                    "slab": "Roboto Slab",
+                    "thin": Object {
+                      "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                      "fontWeight": "100",
+                    },
+                  },
+                  "modals": Object {
+                    "activityIndicatorBackgroundColor": "rgba(255, 255, 255, 0.8)",
+                    "backgroundColor": "#fff",
+                    "borderLeftWidth": 10,
+                    "borderRadius": 5,
+                    "contentPadding": 16,
+                    "jaggedEdgeSize": 16,
+                    "overlayBackgroundColor": "transparent",
+                    "overlayHorizontalPadding": 20,
+                    "overlayVerticalPadding": 65,
+                  },
+                  "paddings": Object {
+                    "defaultMargin": 8,
+                    "mainContainerPadding": 8,
+                  },
+                  "roundness": 4,
+                  "sizes": Object {
+                    "borderRadius": 5,
+                    "default": 8,
+                    "defaultDouble": 16,
+                    "defaultHalf": 4,
+                    "defaultQuadruple": 32,
+                    "maxContentHeightForTabletAndDesktop": 788,
+                    "maxHeightForTabletAndDesktop": 844,
+                    "maxWidthForTabletAndDesktop": 475,
+                    "minHeightForDialogMessage": 350,
+                  },
+                }
+              }
+              width={150}
+            />
+          </div>
+        </div>
+        <div
+          className="css-view-1dbjc4n r-alignItems-1awozwy r-minHeight-1vsu8ta r-width-13qz1uu"
+        >
+          <goodDollar.svg />
+        </div>
+        <div
+          className="css-view-1dbjc4n r-alignItems-1oszu61 r-backgroundColor-1niwhzg r-borderWidth-rs99b7 r-display-6koalj r-justifyContent-1777fci r-marginTop-1mnahxq r-padding-t60dpp"
+          style={
+            Object {
+              "borderBottomColor": "rgba(255,255,255,1.00)",
+              "borderBottomLeftRadius": "50px",
+              "borderBottomRightRadius": "50px",
+              "borderBottomStyle": "solid",
+              "borderLeftColor": "rgba(255,255,255,1.00)",
+              "borderLeftStyle": "solid",
+              "borderRightColor": "rgba(255,255,255,1.00)",
+              "borderRightStyle": "solid",
+              "borderTopColor": "rgba(255,255,255,1.00)",
+              "borderTopLeftRadius": "50px",
+              "borderTopRightRadius": "50px",
+              "borderTopStyle": "solid",
+              "marginBottom": "0px",
+              "marginLeft": "0px",
+              "marginRight": "0px",
+              "minHeight": "44px",
+              "minWidth": "64px",
+              "paddingLeft": "0px",
+              "paddingRight": "0px",
+            }
+          }
+        >
+          <div
+            className="css-cursor-18t94o4 css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
+            onClick={[Function]}
+            onContextMenu={[Function]}
+            onKeyDown={[Function]}
+            role="button"
+            style={
+              Object {
+                "WebkitAlignSelf": "stretch",
+                "alignSelf": "stretch",
+                "borderBottomLeftRadius": "50px",
+                "borderBottomRightRadius": "50px",
+                "borderTopLeftRadius": "50px",
+                "borderTopRightRadius": "50px",
+                "msFlexItemAlign": "stretch",
+                "msGridRowAlign": "stretch",
+              }
+            }
+            tabIndex="0"
+          >
+            <div
+              className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
+              style={
+                Object {
+                  "WebkitAlignSelf": "stretch",
+                  "alignSelf": "stretch",
+                  "msFlexItemAlign": "stretch",
+                  "msGridRowAlign": "stretch",
+                }
+              }
+            >
+              <div
+                className="css-view-1dbjc4n r-marginHorizontal-1ydw1k6 r-marginVertical-712mwr"
+              >
+                <div
+                  className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
+                >
+                  <div
+                    className="css-text-901oao r-alignItems-1awozwy r-color-jwli3a r-display-6koalj r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-qvk6io r-minHeight-1ceczpf r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
+                    dir="auto"
+                  >
+                    Continue on Web
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 `;

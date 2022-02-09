@@ -1,14 +1,17 @@
 // @flow
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { Platform, ScrollView, StyleSheet, View } from 'react-native'
 import { createSwitchNavigator } from '@react-navigation/core'
-import { assign, get, isError, pickBy, toPairs } from 'lodash'
+import { assign, get, identity, isError, pickBy, toPairs } from 'lodash'
 import { defer, from as fromPromise } from 'rxjs'
 import { retry } from 'rxjs/operators'
 import moment from 'moment'
+
+import useCheckExisting from '../auth/hooks/useCheckExisting'
 import AsyncStorage from '../../lib/utils/asyncStorage'
 import { isMobileSafari } from '../../lib/utils/platform'
 import restart from '../../lib/utils/restart'
+import AuthContext from '../auth/context/AuthContext'
 
 import {
   DESTINATION_PATH,
@@ -20,6 +23,7 @@ import {
 
 import { REGISTRATION_METHOD_SELF_CUSTODY, REGISTRATION_METHOD_TORUS } from '../../lib/constants/login'
 import NavBar from '../appNavigation/NavBar'
+import AuthProgressBar from '../auth/components/AuthProgressBar'
 import { navigationConfig } from '../appNavigation/navigationConfig'
 import logger from '../../lib/logger/js-logger'
 import { decorate, ExceptionCode } from '../../lib/exceptions/utils'
@@ -33,10 +37,8 @@ import { getUserModel, type UserModel } from '../../lib/userStorage/UserModel'
 import Config from '../../config/config'
 import { fireEvent, identifyOnUserSignup, identifyWith } from '../../lib/analytics/analytics'
 import { parsePaymentLinkParams } from '../../lib/share'
-import { userExists } from '../../lib/login/userExists'
-import { useAlreadySignedUp } from '../auth/torus/AuthTorus'
+import AuthStateWrapper from '../auth/components/AuthStateWrapper'
 import type { SMSRecord } from './SmsForm'
-import SignupCompleted from './SignupCompleted'
 import EmailConfirmation from './EmailConfirmation'
 import SmsForm from './SmsForm'
 import PhoneForm from './PhoneForm'
@@ -56,42 +58,72 @@ const routes = {
   SMS: SmsForm,
   Email: EmailForm,
   EmailConfirmation,
-  SignupCompleted,
 }
 
-// if (Config.enableSelfCustody) {
-//   Object.assign(routes, { MagicLinkInfo })
-// }
+const requiredFields = ['fullName', 'email', Config.skipMobileVerification === false ? 'mobile' : null].filter(identity)
+
+/**
+ * check if user arrived with invite code
+ */
+const checkInviteCode = async () => {
+  const destinationPath = await AsyncStorage.getItem(DESTINATION_PATH)
+  const params = get(destinationPath, 'params')
+  const paymentParams = params && parsePaymentLinkParams(params)
+
+  //get inviteCode from url or from payment link
+  return (
+    (await AsyncStorage.getItem(INVITE_CODE)) ||
+    get(destinationPath, 'params.inviteCode') ||
+    get(paymentParams, 'inviteCode')
+  )
+}
+
+function getNextRoute(routes, routeIndex, state) {
+  let nextRoute = routes[routeIndex + 1]
+
+  if (state[`skip${nextRoute && nextRoute.key}`]) {
+    return getNextRoute(routes, routeIndex + 1, state)
+  }
+
+  return nextRoute
+}
+
+function getPrevRoute(routes, routeIndex, state) {
+  let prevRoute = routes[routeIndex - 1]
+
+  if (state[`skip${prevRoute && prevRoute.key}`]) {
+    return getPrevRoute(routes, routeIndex - 1, state)
+  }
+
+  return prevRoute
+}
 
 const SignupWizardNavigator = createSwitchNavigator(routes, navigationConfig)
 
 const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
-  const store = SimpleStore.useStore()
-  const showAlreadySignedUp = useAlreadySignedUp()
-
   const torusUserFromProps =
     get(navigation, 'state.params.torusUser') ||
     get(navigation.state.routes.find(route => get(route, 'params.torusUser')), 'params.torusUser', {})
+
   const _regMethod =
     get(navigation, 'state.params.regMethod') ||
     get(navigation.state.routes.find(route => get(route, 'params.regMethod')), 'params.regMethod', undefined)
+
   const _torusProvider =
     get(navigation, 'state.params.torusProvider') ||
     get(navigation.state.routes.find(route => get(route, 'params.torusProvider')), 'params.torusProvider', undefined)
 
+  const store = SimpleStore.useStore()
   const [regMethod] = useState(_regMethod)
   const [torusProvider] = useState(_torusProvider)
   const [torusUser] = useState(torusUserFromProps)
+  const checkExisting = useCheckExisting(navigation)
+
   const isRegMethodSelfCustody = regMethod === REGISTRATION_METHOD_SELF_CUSTODY
   const skipEmail = !!torusUserFromProps.email
   const skipMobile = !!torusUserFromProps.mobile || Config.skipMobileVerification
 
-  const requiredFields = ['fullName', 'email']
-  if (Config.skipMobileVerification === false) {
-    requiredFields.push('mobile')
-  }
-
-  const initialState: SignupState = {
+  const initialSignupData: SignupState = {
     ...getUserModel({
       email: torusUserFromProps.email || '',
       fullName: torusUserFromProps.name || '',
@@ -108,67 +140,372 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
 
   const [unrecoverableError, setUnrecoverableError] = useState(null)
   const [ready, setReady]: [Ready, ((Ready => Ready) | Ready) => void] = useState()
-  const [state, setState] = useState(initialState)
-  const [loading, setLoading] = useState(false)
+  const [signupData, setSignupData] = useState(initialSignupData)
   const [countryCode, setCountryCode] = useState(undefined)
   const [createError, setCreateError] = useState(false)
-  const [showNavBarGoBackButton, setShowNavBarGoBackButton] = useState(true)
-  const [finishedPromise, setFinishedPromise] = useState(undefined)
-  const [title, setTitle] = useState('Sign Up')
+  const [loading, setLoading] = useState(false)
   const [, hideDialog, showErrorDialog] = useDialog()
   const shouldGrow = store.get && !store.get('isMobileSafariKeyboardShown')
 
-  const navigateWithFocus = (routeKey: string) => {
-    navigation.navigate(routeKey)
-    setLoading(false)
+  const { success: signupSuccess, setWalletPreparing, setSuccessfull, activeStep, setActiveStep } = useContext(
+    AuthContext,
+  )
 
-    if (Platform.OS === 'web' && (isMobileSafari || routeKey === 'Phone')) {
-      setTimeout(() => {
-        const el = document.getElementById(routeKey + '_input')
-        if (el) {
-          el.focus()
-        }
-      }, 300)
-    }
-  }
+  const navigateWithFocus = useCallback(
+    (routeKey: string) => {
+      navigation.navigate(routeKey)
+      setLoading(false)
 
-  const fireSignupEvent = (event?: string, data) => {
-    let curRoute = navigation.state.routes[navigation.state.index]
+      if (Platform.OS === 'web' && (isMobileSafari || routeKey === 'Phone')) {
+        setTimeout(() => {
+          const el = document.getElementById(routeKey + '_input')
 
-    fireEvent(`SIGNUP_${event || curRoute.key}`, data)
-  }
+          el && el.focus()
+        }, 300)
+      }
+    },
+    [navigation],
+  )
 
-  const getCountryCode = async () => {
+  const fireSignupEvent = useCallback(
+    (event?: string, data) => {
+      let curRoute = navigation.state.routes[navigation.state.index]
+
+      fireEvent(`SIGNUP_${event || curRoute.key}`, data)
+    },
+    [navigation.state.routes, navigation.state.index],
+  )
+
+  const getCountryCode = useCallback(async () => {
     try {
-      const { data } = await API.getLocation()
+      const data = await API.getLocation()
+
       data && setCountryCode(data.country)
     } catch (e) {
       log.error('Could not get user location', e.message, e)
     }
-  }
+  }, [setCountryCode])
 
   //keep privatekey from torus as master seed before initializing wallet
   //so wallet can use it, if torus is enabled and we don't have pkey then require re-login
   //this is true in case of refresh
-  const checkTorusLogin = () => {
+  const checkTorusLogin = useCallback(() => {
     const masterSeed = torusUserFromProps.privateKey
+
     if (regMethod === REGISTRATION_METHOD_TORUS && masterSeed === undefined) {
       log.debug('torus user information missing', { torusUserFromProps })
       return navigation.navigate('Auth')
     }
-    return !!masterSeed
-  }
 
-  const verifyStartRoute = () => {
-    //we don't support refresh if regMethod param is missing then go back to Auth
-    //if regMethod is missing it means user did refresh on later steps then first 1
-    if (!regMethod || (navigation.state.index > 0 && state.lastStep !== navigation.state.index)) {
+    return !!masterSeed
+  }, [torusUserFromProps, regMethod, navigation.navigate])
+
+  const finishRegistration = useCallback(
+    async signupData => {
+      const { skipEmail, skipEmailConfirmation, skipMagicLinkInfo, ...requestPayload } = signupData
+
+      setCreateError(false)
+      setActiveStep(3)
+      setWalletPreparing(true)
+
+      log.info('Sending new user data', { signupData, regMethod, torusProvider })
+
+      try {
+        const { goodWallet, userStorage } = await ready
+        const inviteCode = await checkInviteCode()
+
+        log.debug('invite code:', { inviteCode })
+
+        requiredFields.forEach(field => {
+          if (!requestPayload[field]) {
+            const fieldNames = { email: 'Email', fullName: 'Name', mobile: 'Mobile' }
+
+            throw new Error(`Seems like you didn't fill your ${fieldNames[field]}`)
+          }
+        })
+
+        if (inviteCode) {
+          requestPayload.inviteCode = inviteCode
+        }
+
+        requestPayload.regMethod = regMethod
+
+        let newUserData
+
+        if (regMethod === REGISTRATION_METHOD_TORUS) {
+          const { mobile, email, privateKey, accessToken, idToken } = torusUser
+
+          // create proof that email/mobile is the same one verified by torus
+          assign(requestPayload, {
+            torusProvider,
+            torusAccessToken: accessToken,
+            torusIdToken: idToken,
+          })
+
+          if (torusProvider !== 'facebook') {
+            // if logged in via other provider than facebook - generating & signing proof
+            const torusProofNonce = await API.ping()
+              .then(_ => moment(get(_, 'data.ping', Date.now())))
+              .catch(e => moment())
+              .then(_ => Math.max(Date.now(), _.valueOf()))
+            const msg = (mobile || email) + String(torusProofNonce)
+            const proof = goodWallet.wallet.eth.accounts.sign(msg, '0x' + privateKey)
+
+            assign(requestPayload, {
+              torusProof: proof.signature,
+              torusProofNonce,
+            })
+          }
+        }
+
+        await API.addUser(requestPayload)
+          .then(({ data }) => (newUserData = data))
+          .catch(e => {
+            const message = getErrorMessage(e)
+            const exception = new Error(message)
+
+            // if user already exists just log.warn then continue signup
+            if ('You cannot create more than 1 account with the same credentials' === message) {
+              log.warn('User already exists during addUser() call:', message, exception)
+            } else {
+              // otherwise:
+              // completing exception with response object received from axios
+              if (!isError(e)) {
+                exception.response = e
+              }
+
+              // re-throwing exception to be caught in the parent try {}
+              throw exception
+            }
+          })
+
+        //refresh JWT
+        const login = retryImport(() => import('../../lib/login/GoodWalletLogin'))
+        const refresh = true
+
+        await login.then(l => l.default.auth(refresh))
+        await userStorage.initRegistered()
+
+        const [mnemonic] = await Promise.all([
+          AsyncStorage.getItem(GD_USER_MNEMONIC).then(_ => _ || ''),
+          userStorage.userProperties.updateAll({ regMethod, inviterInviteCode: inviteCode }),
+        ])
+
+        // trying to update profile 2 times, if failed anyway - re-throwing exception
+        await defer(() =>
+          fromPromise(
+            userStorage.setProfile({
+              ...requestPayload,
+              walletAddress: goodWallet.account,
+              mnemonic,
+            }),
+          ),
+        )
+          .pipe(retry(1))
+          .toPromise()
+
+        //set tokens for other services returned from backend
+        await Promise.all(
+          toPairs(pickBy(newUserData, (_, field) => field.endsWith('Token'))).map(([fieldName, fieldValue]) =>
+            userStorage.setProfileField(fieldName, fieldValue, 'private'),
+          ),
+        )
+
+        await Promise.all([
+          userStorage.userProperties.set('registered', true),
+
+          AsyncStorage.setItem(IS_LOGGED_IN, true),
+          AsyncStorage.removeItem(GD_INITIAL_REG_METHOD),
+        ])
+
+        fireSignupEvent('SUCCESS', { torusProvider, inviteCode })
+
+        log.debug('New user created')
+        setWalletPreparing(false)
+
+        return true
+      } catch (exception) {
+        const { message } = exception
+        const uiMessage = decorate(exception, ExceptionCode.E8)
+
+        log.error('New user failure', message, exception, {
+          dialogShown: true,
+          requestPayload,
+        })
+
+        showSupportDialog(showErrorDialog, hideDialog, navigation.navigate, uiMessage)
+        setCreateError(true)
+        return false
+      } finally {
+        setWalletPreparing(false)
+      }
+    },
+    [
+      setCreateError,
+      setWalletPreparing,
+      showErrorDialog,
+      fireSignupEvent,
+      hideDialog,
+      ready,
+      regMethod,
+      torusUser,
+      torusProvider,
+      navigation.navigate,
+      setActiveStep,
+    ],
+  )
+
+  const done = useCallback(
+    async (data: { [string]: string }) => {
+      log.info('signup data:', { data })
+
+      setLoading(true)
+      fireSignupEvent()
+
+      let nextRoute = getNextRoute(navigation.state.routes, navigation.state.index, signupData)
+
+      const _signupData = { ...signupData, ...data, lastStep: navigation.state.index }
+
+      setSignupData(_signupData)
+      log.info('signup data:', { data, nextRoute, mergedData: _signupData })
+
+      if (!nextRoute) {
+        setLoading(false)
+
+        const ok = await finishRegistration(_signupData)
+
+        if (ok) {
+          setSuccessfull(() => store.set('isLoggedIn')(true))
+        }
+      } else if (nextRoute && nextRoute.key === 'SMS') {
+        try {
+          const result = await checkExisting(torusProvider, { mobile: _signupData.mobile }, { fromSignupFlow: true })
+
+          if (result !== 'signup') {
+            return
+          }
+
+          let { data } = await API.sendOTP(_signupData)
+
+          if (!data.ok) {
+            const errorMessage =
+              data.error === 'mobile_already_exists' ? 'Mobile already exists, please use a different one' : data.error
+
+            log.error('Send mobile code failed', errorMessage, new Error(errorMessage), {
+              data,
+              dialogShown: true,
+            })
+
+            return showSupportDialog(showErrorDialog, hideDialog, navigation.navigate, errorMessage)
+          }
+
+          return navigateWithFocus(nextRoute.key)
+        } catch (e) {
+          log.error('Send mobile code failed', e.message, e, { dialogShown: true })
+          return showErrorDialog('Could not send verification code. Please try again')
+        } finally {
+          setLoading(false)
+        }
+      } else if (nextRoute && nextRoute.key === 'EmailConfirmation') {
+        try {
+          setLoading(true)
+
+          const result = await checkExisting(torusProvider, { email: _signupData.email }, { fromSignupFlow: true })
+
+          if (result !== 'signup') {
+            return
+          }
+
+          const { data } = await API.sendVerificationEmail(_signupData)
+
+          if (data.ok === 0) {
+            const error = new Error('Some error occurred on server')
+
+            log.error('Send verification code failed', error.message, error, {
+              data,
+              dialogShown: true,
+            })
+
+            return showErrorDialog('Could not send verification email. Please try again')
+          }
+
+          log.debug('skipping email verification?', { ...data, skip: Config.skipEmailVerification })
+
+          if (Config.skipEmailVerification || data.onlyInEnv) {
+            // Server is using onlyInEnv middleware (probably dev mode), email verification is not sent.
+
+            // Skip EmailConfirmation screen
+            nextRoute = navigation.state.routes[navigation.state.index + 2]
+
+            // Set email as confirmed
+            setSignupData({ ..._signupData, isEmailConfirmed: true })
+          }
+
+          return navigateWithFocus(nextRoute.key)
+        } catch (e) {
+          // we need to assign our custom error code for the received error object which will be sent to the sentry
+          // the general error message not required
+          decorate(e, ExceptionCode.E9)
+
+          log.error('email verification failed unexpected:', e.message, e, { dialogShown: true })
+          return showErrorDialog('Could not send verification email. Please try again', ExceptionCode.E9)
+        } finally {
+          setLoading(false)
+        }
+      } else if (nextRoute.key === 'MagicLinkInfo') {
+        setLoading(false)
+
+        let ok = await finishRegistration(_signupData)
+
+        if (ok) {
+          const { userStorage } = await ready
+
+          if (isRegMethodSelfCustody) {
+            API.sendMagicLinkByEmail(userStorage.getMagicLink())
+              .then(r => log.info('magiclink sent'))
+              .catch(e => log.error('failed sendMagicLinkByEmail', e.message, e))
+          }
+
+          setSuccessfull(() => navigateWithFocus(nextRoute.key))
+          return
+        }
+      } else if (nextRoute) {
+        return navigateWithFocus(nextRoute.key)
+      }
+    },
+    [
+      setLoading,
+      fireSignupEvent,
+      navigateWithFocus,
+      finishRegistration,
+      showErrorDialog,
+      hideDialog,
+      setSignupData,
+      checkExisting,
+      setSuccessfull,
+      navigation.navigate,
+      signupData,
+      isRegMethodSelfCustody,
+      ready,
+      store,
+      torusProvider,
+      navigation.state.index,
+      navigation.state.routes,
+    ],
+  )
+
+  const verifyStartRoute = useCallback(() => {
+    // we don't support refresh if regMethod param is missing then go back to Auth
+    // if regMethod is missing it means user did refresh on later steps then first 1
+    if (!regMethod || (navigation.state.index > 0 && signupData.lastStep !== navigation.state.index)) {
       log.debug('redirecting to start, got index:', navigation.state.index, { regMethod, torusUserFromProps })
       return navigation.navigate('Auth')
     }
 
+    setActiveStep(2)
+
     // if we have name from torus we skip to phone
-    if (state.fullName) {
+    if (signupData.fullName) {
       // if skipping phone is disabled
       if (!skipMobile) {
         return navigation.navigate('Phone')
@@ -179,30 +516,34 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
         return navigateWithFocus('Email')
       }
 
-      return navigation.navigate('SignupCompleted')
+      return done({ isEmailConfirmed: true })
     }
-  }
+  }, [
+    regMethod,
+    navigation,
+    signupData,
+    navigateWithFocus,
+    skipEmail,
+    skipMobile,
+    torusUserFromProps,
+    setActiveStep,
+    done,
+  ])
 
-  /**
-   * check if user arrived with invite code
-   */
-  const checkInviteCode = async () => {
-    const destinationPath = await AsyncStorage.getItem(DESTINATION_PATH)
-    const params = get(destinationPath, 'params')
-    const paymentParams = params && parsePaymentLinkParams(params)
+  const back = useCallback(() => {
+    const prevRoute = getPrevRoute(navigation.state.routes, navigation.state.index, signupData)
 
-    //get inviteCode from url or from payment link
-    return (
-      (await AsyncStorage.getItem(INVITE_CODE)) ||
-      get(destinationPath, 'params.inviteCode') ||
-      get(paymentParams, 'inviteCode')
-    )
-  }
+    if (prevRoute) {
+      navigateWithFocus(prevRoute.key)
+    } else {
+      navigation.navigate('Auth')
+    }
+  }, [navigateWithFocus, navigation, signupData])
 
   useEffect(() => {
     const onMount = async () => {
       //if email from torus then identify user
-      state.email && identifyOnUserSignup(state.email)
+      signupData.email && identifyOnUserSignup(signupData.email)
 
       //lazy login in background while user starts registration
       const ready = (async () => {
@@ -260,12 +601,11 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
 
       //get user country code for phone
       //read torus seed
-      if (state.skipPhone === false) {
+      if (signupData.skipPhone === false) {
         await getCountryCode()
       }
 
       checkTorusLogin()
-
       verifyStartRoute()
     }
 
@@ -280,11 +620,11 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
 
     // eslint-disable-next-line no-restricted-globals
     showErrorDialog('Wallet could not be loaded. Please refresh.', '', { onDismiss: restart })
-  }, [unrecoverableError])
+  }, [unrecoverableError, showErrorDialog])
 
   // listening to the email changes in the state
   useEffect(() => {
-    const { email } = state
+    const { email } = signupData
 
     // perform this again for torus and on email change. torus has also mobile verification that doesn't set email
     if (!email) {
@@ -296,348 +636,14 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
 
     //if we are not skipping email confirmation, then the call to send confirmation email will add user to mautic
     //otherwise calling also addSignupContact can lead to duplicate mautic contact
-    if (state.skipEmailConfirmation === false) {
+    if (signupData.skipEmailConfirmation === false) {
       return
     }
 
-    API.addSignupContact(state)
-      .then(r => log.info('addSignupContact success', { state }))
+    API.addSignupContact(signupData)
+      .then(r => log.info('addSignupContact success', { state: signupData }))
       .catch(e => log.error('addSignupContact failed', e.message, e))
-  }, [state.email])
-
-  const finishRegistration = async () => {
-    setCreateError(false)
-    setLoading(true)
-
-    log.info('Sending new user data', { state, regMethod, torusProvider })
-    const { skipEmail, skipEmailConfirmation, skipMagicLinkInfo, ...requestPayload } = state
-    try {
-      const { goodWallet, userStorage } = await ready
-      const inviteCode = await checkInviteCode()
-
-      log.debug('invite code:', { inviteCode })
-
-      requiredFields.forEach(field => {
-        if (!requestPayload[field]) {
-          const fieldNames = { email: 'Email', fullName: 'Name', mobile: 'Mobile' }
-
-          throw new Error(`Seems like you didn't fill your ${fieldNames[field]}`)
-        }
-      })
-
-      if (inviteCode) {
-        requestPayload.inviteCode = inviteCode
-      }
-
-      requestPayload.regMethod = regMethod
-
-      let newUserData
-
-      if (regMethod === REGISTRATION_METHOD_TORUS) {
-        const { mobile, email, privateKey, accessToken, idToken } = torusUser
-
-        // create proof that email/mobile is the same one verified by torus
-        assign(requestPayload, {
-          torusProvider,
-          torusAccessToken: accessToken,
-          torusIdToken: idToken,
-        })
-
-        if (torusProvider !== 'facebook') {
-          // if logged in via other provider than facebook - generating & signing proof
-          const torusProofNonce = await API.ping()
-            .then(_ => moment(get(_, 'data.ping', Date.now())))
-            .catch(e => moment())
-            .then(_ => Math.max(Date.now(), _.valueOf()))
-          const msg = (mobile || email) + String(torusProofNonce)
-          const proof = goodWallet.wallet.eth.accounts.sign(msg, '0x' + privateKey)
-
-          assign(requestPayload, {
-            torusProof: proof.signature,
-            torusProofNonce,
-          })
-        }
-      }
-
-      await API.addUser(requestPayload)
-        .then(({ data }) => (newUserData = data))
-        .catch(e => {
-          const message = getErrorMessage(e)
-          const exception = new Error(message)
-
-          // if user already exists just log.warn then continue signup
-          if ('You cannot create more than 1 account with the same credentials' === message) {
-            log.warn('User already exists during addUser() call:', message, exception)
-          } else {
-            // otherwise:
-            // completing exception with response object received from axios
-            if (!isError(e)) {
-              exception.response = e
-            }
-
-            // re-throwing exception to be caught in the parent try {}
-            throw exception
-          }
-        })
-
-      //refresh JWT
-      const login = retryImport(() => import('../../lib/login/GoodWalletLogin'))
-      const refresh = true
-      await login.then(l => l.default.auth(refresh))
-
-      await userStorage.initRegistered()
-      const [mnemonic] = await Promise.all([
-        AsyncStorage.getItem(GD_USER_MNEMONIC).then(_ => _ || ''),
-        userStorage.userProperties.updateAll({ regMethod, inviterInviteCode: inviteCode }),
-      ])
-
-      // trying to update profile 2 times, if failed anyway - re-throwing exception
-      await defer(() =>
-        fromPromise(
-          userStorage.setProfile({
-            ...requestPayload,
-            walletAddress: goodWallet.account,
-            mnemonic,
-          }),
-        ),
-      )
-        .pipe(retry(1))
-        .toPromise()
-
-      //set tokens for other services returned from backend
-      await Promise.all(
-        toPairs(pickBy(newUserData, (_, field) => field.endsWith('Token'))).map(([fieldName, fieldValue]) =>
-          userStorage.setProfileField(fieldName, fieldValue, 'private'),
-        ),
-      )
-
-      await Promise.all([
-        userStorage.userProperties.set('registered', true),
-
-        AsyncStorage.setItem(IS_LOGGED_IN, true),
-        AsyncStorage.removeItem(GD_INITIAL_REG_METHOD),
-      ])
-
-      fireSignupEvent('SUCCESS', { torusProvider, inviteCode })
-
-      log.debug('New user created')
-      setLoading(false)
-
-      return true
-    } catch (exception) {
-      const { message } = exception
-      const uiMessage = decorate(exception, ExceptionCode.E8)
-
-      log.error('New user failure', message, exception, {
-        dialogShown: true,
-        requestPayload,
-      })
-
-      showSupportDialog(showErrorDialog, hideDialog, navigation.navigate, uiMessage)
-      setCreateError(true)
-      return false
-    } finally {
-      setLoading(false)
-    }
-  }
-
-  const waitForRegistrationToFinish = async () => {
-    try {
-      let ok
-      if (createError) {
-        ok = await finishRegistration()
-      } else {
-        ok = await finishedPromise
-      }
-      log.debug('user registration synced and completed', { ok })
-      return ok
-    } catch (e) {
-      log.error('waiting for user registration failed', e.message, e)
-      return false
-    } finally {
-      setLoading(false)
-    }
-  }
-
-  function getNextRoute(routes, routeIndex, state) {
-    let nextRoute = routes[routeIndex + 1]
-
-    if (state[`skip${nextRoute && nextRoute.key}`]) {
-      return getNextRoute(routes, routeIndex + 1, state)
-    }
-
-    return nextRoute
-  }
-
-  function getPrevRoute(routes, routeIndex, state) {
-    let prevRoute = routes[routeIndex - 1]
-
-    if (state[`skip${prevRoute && prevRoute.key}`]) {
-      return getPrevRoute(routes, routeIndex - 1, state)
-    }
-
-    return prevRoute
-  }
-
-  //check if email/mobile was used to register before and offer user to login instead
-  const checkExisting = useCallback(
-    async searchBy => {
-      const existsResult = await userExists(searchBy).catch(e => {
-        log.warn('userExists check failed:', e.message, e)
-        return { exists: false }
-      })
-
-      log.debug('checking userAlreadyExist', { existsResult })
-
-      let selection = 'signup'
-
-      if (existsResult.exists) {
-        selection = await showAlreadySignedUp(torusProvider, existsResult, searchBy.email ? 'email' : 'mobile')
-        if (selection === 'signin') {
-          return navigation.navigate('Auth', { screen: 'signin' })
-        }
-      }
-      return selection
-    },
-    [navigation, showAlreadySignedUp],
-  )
-
-  const done = async (data: { [string]: string }) => {
-    setLoading(true)
-    fireSignupEvent()
-
-    //We can wait for ready later, when we need stuff, we don't need it until usage of API first in sendOTP(that needs to be logged in)
-    //and finally in finishRegistration
-    // await ready
-
-    log.info('signup data:', { data })
-
-    let nextRoute = getNextRoute(navigation.state.routes, navigation.state.index, state)
-
-    const newState = { ...state, ...data, lastStep: navigation.state.index }
-    setState(newState)
-    log.info('signup data:', { data, nextRoute, newState })
-
-    if (nextRoute === undefined) {
-      const ok = await waitForRegistrationToFinish()
-
-      //this will cause a re-render and move user to the dashboard route
-      if (ok) {
-        store.set('isLoggedIn')(true)
-      }
-    } else if (nextRoute && nextRoute.key === 'SMS') {
-      try {
-        const result = await checkExisting({ mobile: newState.mobile })
-
-        if (result !== 'signup') {
-          return
-        }
-
-        let { data } = await API.sendOTP(newState)
-        if (data.ok === 0) {
-          const errorMessage =
-            data.error === 'mobile_already_exists' ? 'Mobile already exists, please use a different one' : data.error
-          log.error('Send mobile code failed', errorMessage, new Error(errorMessage), {
-            data,
-            dialogShown: true,
-          })
-
-          return showSupportDialog(showErrorDialog, hideDialog, navigation.navigate, errorMessage)
-        }
-
-        return navigateWithFocus(nextRoute.key)
-      } catch (e) {
-        log.error('Send mobile code failed', e.message, e, { dialogShown: true })
-        return showErrorDialog('Could not send verification code. Please try again')
-      } finally {
-        setLoading(false)
-      }
-    } else if (nextRoute && nextRoute.key === 'EmailConfirmation') {
-      try {
-        setLoading(true)
-        const result = await checkExisting({ email: newState.email })
-
-        if (result !== 'signup') {
-          return
-        }
-
-        const { data } = await API.sendVerificationEmail(newState)
-        if (data.ok === 0) {
-          const error = new Error('Some error occurred on server')
-          log.error('Send verification code failed', error.message, error, {
-            data,
-            dialogShown: true,
-          })
-          return showErrorDialog('Could not send verification email. Please try again')
-        }
-
-        log.debug('skipping email verification?', { ...data, skip: Config.skipEmailVerification })
-        if (Config.skipEmailVerification || data.onlyInEnv) {
-          // Server is using onlyInEnv middleware (probably dev mode), email verification is not sent.
-
-          // Skip EmailConfirmation screen
-          nextRoute = navigation.state.routes[navigation.state.index + 2]
-
-          // Set email as confirmed
-          setState({ ...newState, isEmailConfirmed: true })
-        }
-
-        return navigateWithFocus(nextRoute.key)
-      } catch (e) {
-        // we need to assign our custom error code for the received error object which will be sent to the sentry
-        // the general error message not required
-        decorate(e, ExceptionCode.E9)
-
-        log.error('email verification failed unexpected:', e.message, e, { dialogShown: true })
-        return showErrorDialog('Could not send verification email. Please try again', ExceptionCode.E9)
-      } finally {
-        setLoading(false)
-      }
-    } else if (nextRoute.key === 'MagicLinkInfo') {
-      let ok = await waitForRegistrationToFinish()
-
-      if (ok) {
-        const { userStorage } = await ready
-        if (isRegMethodSelfCustody) {
-          API.sendMagicLinkByEmail(userStorage.getMagicLink())
-            .then(r => log.info('magiclink sent'))
-            .catch(e => log.error('failed sendMagicLinkByEmail', e.message, e))
-        }
-
-        return navigateWithFocus(nextRoute.key)
-      }
-    } else if (nextRoute) {
-      return navigateWithFocus(nextRoute.key)
-    }
-  }
-
-  const back = () => {
-    const prevRoute = getPrevRoute(navigation.state.routes, navigation.state.index, state)
-
-    if (prevRoute) {
-      navigateWithFocus(prevRoute.key)
-    } else {
-      navigation.navigate('Auth')
-    }
-  }
-
-  useEffect(() => {
-    const curRoute = navigation.state.routes[navigation.state.index]
-
-    if (state === initialState) {
-      return
-    }
-
-    if (curRoute && curRoute.key === 'MagicLinkInfo') {
-      setTitle('Magic Link')
-      setShowNavBarGoBackButton(false)
-    }
-
-    if (curRoute && curRoute.key === 'SignupCompleted') {
-      const finishedPromise = finishRegistration()
-      setFinishedPromise(finishedPromise)
-    }
-  }, [navigation.state.index])
+  }, [signupData.email])
 
   useEffect(() => {
     const backButtonHandler = new BackButtonHandler({ defaultAction: back })
@@ -651,21 +657,24 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
 
   return (
     <View style={{ flexGrow: shouldGrow ? 1 : 0 }}>
-      <NavBar goBack={showNavBarGoBackButton ? back : undefined} title={title} />
-      <ScrollView contentContainerStyle={scrollableContainer}>
-        <View style={contentContainer}>
-          {!unrecoverableError && (
-            <SignupWizardNavigator
-              navigation={navigation}
-              screenProps={{
-                data: { ...state, loading, createError, countryCode },
-                doneCallback: done,
-                back,
-              }}
-            />
-          )}
-        </View>
-      </ScrollView>
+      <NavBar logo />
+      <AuthStateWrapper>
+        <AuthProgressBar step={activeStep} done={signupSuccess} />
+        <ScrollView contentContainerStyle={scrollableContainer}>
+          <View style={contentContainer}>
+            {!unrecoverableError && (
+              <SignupWizardNavigator
+                navigation={navigation}
+                screenProps={{
+                  data: { ...signupData, loading, createError, countryCode },
+                  doneCallback: done,
+                  back,
+                }}
+              />
+            )}
+          </View>
+        </ScrollView>
+      </AuthStateWrapper>
     </View>
   )
 }

@@ -228,8 +228,7 @@ android {
     }
 
     packagingOptions {
-        pickFirst 'lib/x86_64/libjsc.so'
-        pickFirst 'lib/arm64-v8a/libjsc.so'
+        exclude "**/libjsc.so"
     }
 }
 
@@ -239,6 +238,13 @@ dependencies {
     implementation 'com.google.firebase:firebase-messaging:21.1.0'
     implementation 'com.google.firebase:firebase-analytics:17.4.0'
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
+    implementation 'org.chromium:v8-android:9.93.+'
+
+    implementation ("androidx.appcompat:appcompat:1.3.1") {
+        version {
+            strictly '1.3.1'
+        }
+    }
 
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {
       exclude group:'com.facebook.fbjni'
@@ -256,11 +262,10 @@ dependencies {
     api "com.squareup.okhttp3:okhttp:4.9.0"
     api "com.squareup.okhttp3:logging-interceptor:4.9.0"
     api "com.squareup.okhttp3:okhttp-urlconnection:4.9.0"
-    implementation project(':toruslabs_torus-direct-react-native-sdk')
+    implementation project(':customauth-react-native-sdk')
 
 
     // Add v8-android - prebuilt libv8android.so into APK
-    implementation 'org.chromium:v8-android:+'
     implementation "androidx.annotation:annotation:1.1.0"
     androidTestImplementation('com.wix:detox:+') { transitive = true }
     androidTestImplementation 'junit:junit:4.12'

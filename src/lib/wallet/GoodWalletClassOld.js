@@ -5,6 +5,7 @@ import IdentityABI from '@gooddollar/goodcontracts/build/contracts/Identity.min.
 import OneTimePaymentsABI from '@gooddollar/goodcontracts/build/contracts/OneTimePayments.min.json'
 import ContractsAddress from '@gooddollar/goodcontracts/releases/deployment.json'
 import StakingModelAddress from '@gooddollar/goodcontracts/stakingModel/releases/deployment.json'
+import GoodReserveCDai from '@gooddollar/goodprotocol/artifacts/contracts/reserve/GoodReserveCDai.sol/GoodReserveCDai.json'
 import UpgradablesAddress from '@gooddollar/goodcontracts/upgradables/releases/deployment.json'
 import ERC20ABI from '@gooddollar/goodcontracts/build/contracts/ERC20.min.json'
 import UBIABI from '@gooddollar/goodcontracts/stakingModel/build/contracts/UBIScheme.min.json'
@@ -359,6 +360,19 @@ export class GoodWallet {
         }),
       )
     })
+  }
+
+  async getReservePriceDAI() {
+    const { network, wallet, web3Mainnet } = this
+
+    const reserve = new web3Mainnet.eth.Contract(
+      GoodReserveCDai.abi,
+      get(ContractsAddress, `${network}-mainnet.GoodReserveCDai`),
+    )
+
+    const price = await reserve.methods.currentPriceDAI().call()
+
+    return wallet.utils.fromWei(price) * 100
   }
 
   async syncTxWithBlockchain(startBlock) {

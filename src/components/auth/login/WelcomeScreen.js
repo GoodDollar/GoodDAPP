@@ -1,194 +1,162 @@
-import React, { useCallback } from 'react'
-import { View } from 'react-native'
+import React, { useCallback, useEffect } from 'react'
+import { Linking, View } from 'react-native'
 
-// import logger from '../../../lib/logger/js-logger'
-import { t, Trans } from '@lingui/macro'
-import {
-  fireEvent,
-  SIGNIN_METHOD_SELECTED,
-  SIGNIN_SELECTED,
-  SIGNUP_METHOD_SELECTED,
-  SIGNUP_SELECTED,
-} from '../../../lib/analytics/analytics'
-import { GD_USER_MASTERSEED } from '../../../lib/constants/localStorage'
-import AsyncStorage from '../../../lib/utils/asyncStorage'
-import { isBrowser } from '../../../lib/utils/platform'
-import { withStyles } from '../../../lib/styles'
-import { getShadowStyles } from '../../../lib/utils/getStyles'
-import { REGISTRATION_METHOD_SELF_CUSTODY } from '../../../lib/constants/login'
 import CustomButton from '../../common/buttons/CustomButton'
 import Wrapper from '../../common/layout/Wrapper'
 import Text from '../../common/view/Text'
-import Illustration from '../../../assets/Auth/torusIllustration.svg'
-import config from '../../../config/config'
-import Section from '../../common/layout/Section'
+
+import Auth from '../../auth/Auth'
+import AuthProgressBar from '../components/AuthProgressBar'
+import AuthTorus from '../../auth/torus/AuthTorus'
+
+import Recover from '../../signin/Mnemonics'
+import NavBar from '../../appNavigation/NavBar'
+import { PrivacyPolicy, Support, TermsOfUse } from '../../webView/webViewInstances'
+
+import useOnPress from '../../../lib/hooks/useOnPress'
 import SimpleStore from '../../../lib/undux/SimpleStore'
+import Config from '../../../config/config'
+
+import { createStackNavigator } from '../../appNavigation/stackNavigation'
+import { getShadowStyles } from '../../../lib/utils/getStyles'
+import { isBrowser } from '../../../lib/utils/platform'
+
+import { CLICK_GETSTARTED, CLICK_LEARNMORE, fireEvent, GOTO_WELCOME } from '../../../lib/analytics/analytics'
+
 import {
   getDesignRelativeHeight,
   getDesignRelativeWidth,
-  getMaxDeviceHeight,
-  isSmallDevice,
+  isShortDevice,
+  isVeryShortDevice,
 } from '../../../lib/utils/sizes'
-import Recover from '../../signin/Mnemonics'
-import normalizeText from '../../../lib/utils/normalizeText'
-import NavBar from '../../appNavigation/NavBar'
-import { PrivacyPolicy, PrivacyPolicyAndTerms, Support } from '../../webView/webViewInstances'
-import { createStackNavigator } from '../../appNavigation/stackNavigation'
-import ready from '../ready'
-import Auth from '../../auth/Auth'
-import AuthTorus from '../../auth/torus/AuthTorus'
 
-// const log = logger.child({ from: 'Welcome' })
-const AuthType = config.torusEnabled ? AuthTorus : Auth
+import { withStyles } from '../../../lib/styles'
+import Illustration from '../../../assets/Auth/torusIllustration.svg'
 
-const WelcomeScreen = ({ styles, screenProps, navigation }) => {
+const AuthScreen = Config.torusEnabled ? AuthTorus : Auth
+
+const WelcomeScreen = ({ theme, styles, screenProps, navigation }) => {
   const { navigate } = navigation
 
-  const goToSignUp = useCallback(() => {
-    fireEvent(SIGNUP_SELECTED)
-
-    const options = { screen: 'signup' }
-
-    return navigate('Auth', options)
+  const onGetStarted = useCallback(() => {
+    fireEvent(CLICK_GETSTARTED)
+    navigate('Auth', { screen: 'signup' })
   }, [navigate])
 
-  const goToSignIn = useCallback(() => {
-    fireEvent(SIGNIN_SELECTED)
-    return navigate('Auth', { screen: 'signin' })
-  }, [navigate])
+  const onLearnMore = useCallback(() => {
+    fireEvent(CLICK_LEARNMORE)
+    Linking.openURL('https://www.gooddollar.org/im-claiming-gs-now-where-and-how-can-i-use-them/')
+  }, [])
 
-  const goToManualRegistration = useCallback(async () => {
-    const curSeed = await AsyncStorage.getItem(GD_USER_MASTERSEED)
+  const handleGetStarted = useOnPress(onGetStarted)
+  const handleLearnMore = useOnPress(onLearnMore)
 
-    //in case user started torus signup but came back here we need to re-initialize wallet/storage with
-    //new credentials
-    if (curSeed) {
-      await AsyncStorage.clear()
-      await ready(true)
-    }
-    fireEvent(SIGNUP_METHOD_SELECTED, { method: REGISTRATION_METHOD_SELF_CUSTODY })
-    navigate('Signup', { regMethod: REGISTRATION_METHOD_SELF_CUSTODY })
-  }, [navigate])
-
-  const goToSignInInfo = useCallback(() => {
-    fireEvent(SIGNIN_METHOD_SELECTED, { method: REGISTRATION_METHOD_SELF_CUSTODY })
-    navigate('SigninInfo')
-  }, [navigate])
+  useEffect(() => {
+    fireEvent(GOTO_WELCOME)
+  }, [])
 
   return (
-    <Wrapper backgroundColor="#fff" style={styles.mainWrapper}>
-      <NavBar title={t`Welcome to gooddollar!`} />
-      <Text
-        style={styles.headerText}
-        fontSize={26}
-        lineHeight={34}
-        letterSpacing={0.26}
-        fontFamily="Roboto"
-        fontWeight="bold"
-      >
-        <Trans>Join and Claim G$ Daily.</Trans>
-        <Trans>
-          <Text fontSize={26} lineHeight={34} letterSpacing={0.26} fontFamily="Roboto">
-            {"\nYes, it's that simple."}
-          </Text>
-        </Trans>
-      </Text>
-      <View style={styles.illustration}>
-        <Illustration
-          width={getDesignRelativeWidth(isBrowser ? 331 : 276, false)}
-          height={getDesignRelativeHeight(217, false)}
-          viewBox="0 0 248.327 194.594"
-        />
+    <Wrapper backgroundColor={theme.colors.white} style={styles.mainWrapper}>
+      <NavBar logo />
+      <AuthProgressBar step={0} done={false} />
+      <View style={styles.contentContainer}>
+        <Text
+          color={'primary'}
+          fontSize={getDesignRelativeHeight(12)}
+          lineHeight={getDesignRelativeHeight(21)}
+          letterSpacing={0.26}
+          fontFamily="Roboto"
+          fontWeight="bold"
+          textTransform="uppercase"
+        >
+          Get started
+        </Text>
+        <Text
+          color={'darkIndigo'}
+          fontSize={getDesignRelativeHeight(26)}
+          lineHeight={getDesignRelativeHeight(34)}
+          letterSpacing={0.26}
+          fontFamily="Roboto"
+          fontWeight="bold"
+          style={{ marginTop: getDesignRelativeHeight(14) }}
+        >
+          Welcome to GoodDollar
+        </Text>
+        <Text
+          color={'darkIndigo'}
+          fontSize={getDesignRelativeHeight(18)}
+          lineHeight={getDesignRelativeHeight(23)}
+          letterSpacing={0.26}
+          fontFamily="Roboto"
+          style={{ marginTop: getDesignRelativeHeight(1) }}
+        >
+          {`GoodDollar is a global community and\n a web application to help people join\n the digital economy.`}
+        </Text>
+        <Text
+          color={'primary'}
+          fontSize={getDesignRelativeHeight(16)}
+          lineHeight={getDesignRelativeHeight(16)}
+          letterSpacing={0.26}
+          fontFamily="Roboto"
+          fontWeight="bold"
+          textDecorationLine="underline"
+          style={{ marginTop: getDesignRelativeHeight(12), width: 'fit-content' }}
+          onPress={handleLearnMore}
+        >
+          Learn More
+        </Text>
+        <View style={styles.illustration}>
+          <Illustration
+            width={getDesignRelativeWidth(isBrowser ? 331 : 276, false)}
+            height={getDesignRelativeHeight(217, false)}
+            viewBox="0 0 248.327 194.594"
+          />
+        </View>
+        <View style={{ alignItems: 'center' }}>
+          <CustomButton
+            color={'primary'}
+            style={styles.buttonLayout}
+            textStyle={styles.buttonText}
+            onPress={handleGetStarted}
+          >
+            Get Started
+          </CustomButton>
+        </View>
       </View>
-      <Section.Stack style={styles.bottomContainer}>
-        {config.enableSelfCustody && (
-          <>
-            <Section.Row alignItems="center" justifyContent="center">
-              <CustomButton
-                textStyle={{ textDecorationLine: 'underline', fontSize: 14, fontWeight: '500' }}
-                style={styles.minSpace}
-                mode="text"
-                onPress={goToManualRegistration}
-              >
-                <Trans>Agree & Continue with self custody wallet</Trans>
-              </CustomButton>
-            </Section.Row>
-            <Section.Row alignItems="center" justifyContent="center" style={styles.signInLink}>
-              <CustomButton
-                textStyle={{ textDecorationLine: 'underline', fontSize: 14, fontWeight: '500' }}
-                style={styles.recoverText}
-                mode="text"
-                onPress={goToSignInInfo}
-              >
-                <Trans>Sign in</Trans>
-              </CustomButton>
-            </Section.Row>
-          </>
-        )}
-        <>
-          <Section.Row alignItems="center" justifyContent="center" style={styles.buttonSpace}>
-            <CustomButton style={styles.buttonLayout} textStyle={styles.buttonText} onPress={goToSignUp}>
-              <Trans>Sign up (Create new wallet)</Trans>
-            </CustomButton>
-          </Section.Row>
-          <Section.Row alignItems="center" justifyContent="center">
-            <CustomButton
-              textStyle={{ textDecorationLine: 'underline', fontSize: 14, fontWeight: 'bold' }}
-              style={styles.recoverText}
-              mode="text"
-              onPress={goToSignIn}
-              color="darkGray"
-            >
-              <Trans>{'Already Have a Wallet? Log In >'}</Trans>
-            </CustomButton>
-          </Section.Row>
-        </>
-      </Section.Stack>
     </Wrapper>
   )
 }
 
 const getStylesFromProps = ({ theme }) => {
-  const buttonFontSize = normalizeText(isSmallDevice ? 13 : 16)
-  const shorterDevice = getMaxDeviceHeight() <= 622
-
   return {
     mainWrapper: {
       paddingHorizontal: 0,
       paddingVertical: 0,
-      flexGrow: 1,
-    },
-    bottomContainer: {
-      marginTop: getDesignRelativeHeight(theme.sizes.default * 7, false),
-      paddingHorizontal: theme.sizes.defaultDouble,
       justifyContent: 'flex-start',
+    },
+    contentContainer: {
       flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      paddingBottom: isVeryShortDevice ? 20 : 0,
+      paddingTop: getDesignRelativeHeight(isShortDevice ? 35 : 45),
     },
     buttonLayout: {
-      marginTop: getDesignRelativeHeight(theme.sizes.default),
-      marginBottom: getDesignRelativeHeight(theme.sizes.default),
-      flex: 1,
+      marginBottom: theme.sizes.default * (isShortDevice ? 1 : 5),
       ...getShadowStyles('none', { elevation: 0 }),
+      minHeight: 40,
+      height: isShortDevice ? 40 : 44,
+      width: '100%',
+      maxWidth: 384,
     },
     buttonText: {
-      fontSize: buttonFontSize,
+      fontSize: 16,
+      fontWeight: '700',
     },
     illustration: {
       flex: 1,
       marginTop: getDesignRelativeHeight(theme.sizes.default * 7, false),
       alignSelf: 'center',
-    },
-    headerText: {
-      marginTop: getDesignRelativeHeight(!shorterDevice ? 45 : 30),
-    },
-    buttonSpace: {
-      marginBottom: getDesignRelativeHeight(5),
-    },
-    recoverText: {
-      marginBottom: getDesignRelativeHeight(5),
-    },
-    minSpace: {
-      marginBottom: 0,
     },
   }
 }
@@ -196,18 +164,19 @@ const getStylesFromProps = ({ theme }) => {
 const welcome = withStyles(getStylesFromProps)(SimpleStore.withStore(WelcomeScreen))
 
 welcome.navigationOptions = {
-  title: t`Welcome to GoodDollar!`,
+  title: `Welcome to GoodDollar!`,
   navigationBarHidden: true,
 }
 
 const routes = {
-  Auth: AuthType,
-  PrivacyPolicyAndTerms,
+  welcome,
+  Auth: AuthScreen,
+  TermsOfUse,
   PrivacyPolicy,
   Support,
 }
 
-if (config.enableSelfCustody) {
+if (Config.enableSelfCustody) {
   Object.assign(routes, { Recover })
 }
 

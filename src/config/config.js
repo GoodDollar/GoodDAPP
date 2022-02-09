@@ -51,6 +51,7 @@ const Config = {
   infuraKey: env.REACT_APP_INFURA_KEY,
   network: env.REACT_APP_NETWORK || 'fuse',
   interestCollectedInterval: env.REACT_APP_INTEREST_BLOCKS_INTERVAL || 5760 * 8, // default is 1Week, add 1 day because its not exact
+  goodDollarPriceInfoUrl: env.REACT_APP_PRICE_INFO_URL || 'https://www.gooddollar.org/im-claiming-gs-now-where-and-how-can-i-use-them/?',
   marketUrl: env.REACT_APP_MARKET_URL || 'https://gooddollarmarketplace.sharetribe.com/en',
   torusEnabled: env.REACT_APP_USE_TORUS === 'true',
   torusNetwork: env.REACT_APP_TORUS_NETWORK || 'testnet',
@@ -58,6 +59,7 @@ const Config = {
   enableSelfCustody: env.REACT_APP_ENABLE_SELF_CUSTODY === 'true',
   googleClientId: env.REACT_APP_GOOGLE_CLIENT_ID,
   facebookAppId: env.REACT_APP_FACEBOOK_APP_ID,
+  authSuccessDelay: Number(env.REACT_APP_SUCCESS_DELAY || 2000),
   auth0ClientId: env.REACT_APP_AUTH0_CLIENT_ID,
   auth0SMSClientId: env.REACT_APP_AUTH0_SMS_CLIENT_ID,
   auth0Domain: env.REACT_APP_AUTH0_DOMAIN || 'https://gooddollar.eu.auth0.com',
@@ -166,6 +168,7 @@ const Config = {
   storeAppUrlAndroid: env.STORE_APP_URL_ANDROID || "https://play.google.com/store/apps/details?id=org.gooddollar",
   minimalIOSVersion: env.MINIMAL_IOS_VERSION || 12,
   debugUserAgent: env.REACT_APP_DEBUG_USER_AGENT || false,
+  showGoodDollarPrice: env.REACT_APP_SHOW_GOODDOLLAR_PRICE !== false,
 }
 
 //get and override settings from server

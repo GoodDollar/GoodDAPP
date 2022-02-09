@@ -9,7 +9,7 @@ import AnimationsPeopleFlying from '../common/animations/PeopleFlying'
 import { PushButton } from '../appNavigation/PushButton'
 import Wrapper from '../common/layout/Wrapper'
 import Text from '../common/view/Text'
-import { PrivacyPolicy, PrivacyPolicyAndTerms, Support } from '../webView/webViewInstances'
+import { PrivacyPolicy, Support, TermsOfUse } from '../webView/webViewInstances'
 import { createStackNavigator } from '../appNavigation/stackNavigation'
 import { withStyles } from '../../lib/styles'
 import Section from '../common/layout/Section'
@@ -52,7 +52,7 @@ const Auth = (props: Props) => {
     props.navigation.navigate('SigninInfo')
   }
 
-  const handleNavigateTermsOfUse = () => props.screenProps.push('PrivacyPolicyAndTerms')
+  const handleNavigateTermsOfUse = () => props.screenProps.push('TermsOfUse')
 
   const handleNavigatePrivacyPolicy = () => props.screenProps.push('PrivacyPolicy')
 
@@ -175,7 +175,7 @@ auth.navigationOptions = {
 
 const routes = {
   Login: auth,
-  PrivacyPolicyAndTerms,
+  TermsOfUse,
   PrivacyPolicy,
   Support,
   Recover,

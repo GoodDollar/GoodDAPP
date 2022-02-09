@@ -100,7 +100,7 @@ const WelcomeScreen = ({ theme, styles, screenProps, navigation }) => {
           fontFamily="Roboto"
           fontWeight="bold"
           textDecorationLine="underline"
-          style={{ marginTop: getDesignRelativeHeight(12) }}
+          style={{ marginTop: getDesignRelativeHeight(12), width: 'fit-content' }}
           onPress={handleLearnMore}
         >
           Learn More
@@ -136,6 +136,8 @@ const getStylesFromProps = ({ theme }) => {
     },
     contentContainer: {
       flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
       paddingBottom: isVeryShortDevice ? 20 : 0,
       paddingTop: getDesignRelativeHeight(isShortDevice ? 35 : 45),
     },

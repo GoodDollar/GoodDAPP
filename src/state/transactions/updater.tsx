@@ -51,32 +51,39 @@ export default function Updater(): null {
                 library
                     .getTransactionReceipt(hash)
                     .then(receipt => {
-                      let confirmedSummary = transactions[hash]?.summary
+                      const confirmedSummary = transactions[hash]?.summary
                         if (receipt) {
-                          if (transactions[hash]?.tradeInfo) {
-                            const receiptData = receipt.logs[receipt.logs.length - 1].data
-                            const txInput = transactions[hash]?.tradeInfo?.input
-                            const txOutput = transactions[hash]?.tradeInfo?.output
+                          // if (transactions[hash]?.tradeInfo) {
+                          //   const receiptData = receipt.logs[receipt.logs.length - 1].data
+                          //   const txInput = transactions[hash]?.tradeInfo?.input
+                          //   const txOutput = transactions[hash]?.tradeInfo?.output
+                          //   console.log('transactions hash -->', transactions[hash])
+                          //   console.log('receiptData -->', receiptData)
 
-                            let decoded 
-                            const buying = txInput?.symbol !== 'G$'
-                            if (buying){
-                              // Buying G$
-                              decoded = utils.defaultAbiCoder.decode(['uint256', 'uint256'], receiptData)
-                            } else {
-                              // Selling G$
-                              decoded = utils.defaultAbiCoder.decode(['uint256', 'uint256', 'uint256'], receiptData)
-                            }
+                          //   let decoded 
+                          //   const buying = txInput?.symbol !== 'G$'
+                          //   if (buying){
+                          //     console.log('buying now')
+                          //     // Buying G$
+                          //     decoded = utils.defaultAbiCoder.decode(['uint256', 'uint256'], receiptData)
+                          //   } else {
+                          //     console.log('selling now')
+                          //     // Selling G$
+                          //     decoded = utils.defaultAbiCoder.decode(['uint256', 'uint256', 'uint256'], receiptData)
+                          //   }
 
-                            const format = FixedNumber.fromString(utils.formatUnits(
-                              decoded[buying ? 0 : 2], buying ? txInput?.decimals : txOutput?.decimals)).round(5).toString()
+                          //   const format = FixedNumber.fromString(utils.formatUnits(
+                          //     decoded[buying ? 0 : 2], buying ? txInput?.decimals : txOutput?.decimals)).round(5).toString()
 
-                            const commify = utils.commify(utils.formatUnits(
-                              decoded[buying ? 1 : 0], buying ? txOutput?.decimals : txInput?.decimals))
+                          //     console.log('formating now')
+                          //   const commify = utils.commify(utils.formatUnits(
+                          //     decoded[buying ? 1 : 0], buying ? txOutput?.decimals : txInput?.decimals))
+                          //    console.log('comify now')
+                          //   confirmedSummary = i18n._(t`Swapped  ${buying ? format : commify} ${txInput?.symbol}
+                          //                               to ${buying ? commify : format} ${txOutput?.symbol}`) 
 
-                            confirmedSummary = i18n._(t`Swapped  ${buying ? format : commify} ${txInput?.symbol}
-                                                        to ${buying ? commify : format} ${txOutput?.symbol}`) 
-                          }
+                          //   console.log('confirmed')
+                          // }
                           dispatch(
                               finalizeTransaction({
                                   chainId,

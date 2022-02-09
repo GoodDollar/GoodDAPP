@@ -104,7 +104,7 @@ const WelcomeScreen = ({ theme, styles, screenProps, navigation }) => {
             fontFamily="Roboto"
             fontWeight="bold"
             textDecorationLine="underline"
-            style={{ marginTop: getDesignRelativeHeight(12), width: 'fit-content' }}
+            style={{ marginTop: getDesignRelativeHeight(12) }}
             onPress={handleLearnMore}
           >
             <Trans>Learn More</Trans>

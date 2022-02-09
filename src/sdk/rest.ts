@@ -13,7 +13,7 @@ type StakingAPY = {
 }
 
 /**
- * Returns AAVE staking meta intormation from GraphQL request.
+ * Returns COMPOUND staking meta intormation from GraphQL request.
  * @param {number} chainId Chain ID.
  * @param {string} tokenAddress Token address.
  * @returns {Fraction}

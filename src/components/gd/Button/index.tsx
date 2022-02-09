@@ -12,7 +12,7 @@ export const ButtonAction = styled.button<{
     justify-content: center;
     height: ${({ size }) => (size === 'sm' ? '32px' : '71px')};
     min-width: ${({ width = '100%' }) => width};
-    padding:5px;
+    padding:5px 10px 5px 10px;
     border-radius: ${({ borderRadius = '20px' }) => borderRadius};
     color: ${({ theme }) => theme.color.main};
     background: ${({ theme }) => theme.color.text2};
@@ -26,8 +26,16 @@ export const ButtonAction = styled.button<{
     text-align: center;
     text-transform: capitalize;
     user-select: none;
+    transition: background 0.25s;
+
+    :hover {
+      background-color: ${({ theme }) => theme.color.text2hover};
+      transition: background 0.25s;
+    }
 
     :disabled {
+      background-color: ${({ theme }) => theme.color.text2};
+        transition: none;
         opacity: 0.5;
         cursor: auto;
     }

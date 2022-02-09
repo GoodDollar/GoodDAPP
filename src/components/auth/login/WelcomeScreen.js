@@ -95,19 +95,21 @@ const WelcomeScreen = ({ theme, styles, screenProps, navigation }) => {
         >
           {t`GoodDollar is a global community and\n a web application to help people join\n the digital economy.`}
         </Text>
-        <Text
-          color={'primary'}
-          fontSize={getDesignRelativeHeight(16)}
-          lineHeight={getDesignRelativeHeight(16)}
-          letterSpacing={0.26}
-          fontFamily="Roboto"
-          fontWeight="bold"
-          textDecorationLine="underline"
-          style={{ marginTop: getDesignRelativeHeight(12), width: 'fit-content' }}
-          onPress={handleLearnMore}
-        >
-          <Trans>Learn More</Trans>
-        </Text>
+        <View>
+          <Text
+            color={'primary'}
+            fontSize={getDesignRelativeHeight(16)}
+            lineHeight={getDesignRelativeHeight(16)}
+            letterSpacing={0.26}
+            fontFamily="Roboto"
+            fontWeight="bold"
+            textDecorationLine="underline"
+            style={{ marginTop: getDesignRelativeHeight(12), width: 'fit-content' }}
+            onPress={handleLearnMore}
+          >
+            <Trans>Learn More</Trans>
+          </Text>
+        </View>
         <View style={styles.illustration}>
           <Illustration
             width={getDesignRelativeWidth(isBrowser ? 331 : 276, false)}

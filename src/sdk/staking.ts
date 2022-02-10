@@ -95,12 +95,18 @@ export async function getMyList(mainnetWeb3: Web3, fuseWeb3: Web3, account: stri
     let stakes: MyStake[] = []
     try {
         const govStake = metaMyGovStake(fuseWeb3, account)
-        const ps = metaMyStake(mainnetWeb3, simpleStakingAddresses[0], account, false)
+        const ps = simpleStakingAddresses.map(address => metaMyStake(mainnetWeb3, address, account, false))
         const simpleStakev2 = simpleStakingAddressesv2.map(address => metaMyStake(mainnetWeb3, address, account, true))
-        simpleStakev2.push(ps)
+        // simpleStakev2.push(ps)
         simpleStakev2.push(govStake)
+        const simpleStakesV1 = await Promise.all(ps)
         const stakesRawList = await Promise.all(simpleStakev2)
         stakes = stakesRawList.filter(Boolean) as MyStake[]
+        for (const simpleStake of simpleStakesV1) {
+          if (simpleStake) {
+            stakes.push(simpleStake)
+          }
+        }
     } catch (e) {
         console.log(e)
     }
@@ -174,13 +180,13 @@ async function metaMyStake(web3: Web3, address: string, account: string, isV2: b
         return null
     }
     
-    const {6: _maxMultiplierThreshold} = isV2 ? await simpleStaking.methods.getStats().call() : null
+    const maxMultiplierThreshold = isV2 ? await simpleStaking.methods.getStats().call() : null
 
     const [tokenAddress, iTokenAddress, protocolName, threshold] = await Promise.all([
         simpleStaking.methods.token().call(),
         simpleStaking.methods.iToken().call(),
         simpleStaking.methods.name().call(),
-        isV2 ? _maxMultiplierThreshold :  simpleStaking.methods.maxMultiplierThreshold().call()
+        isV2 ? maxMultiplierThreshold[6] :  simpleStaking.methods.maxMultiplierThreshold().call()
     ])
 
     const [token, iToken] = (await Promise.all([
@@ -726,9 +732,6 @@ const getStakedValue = memoize<
             ],
             web3
         )
-
-        const USDC = (await getToken(chainId, 'USDC')) as Token
-
         const [totalProductivity, usdOracle, tokenDecimalsDiffFrom18] = await Promise.all([
             effectiveStake ? simpleStaking.totalEffectiveStakes() : simpleStaking.totalProductivity(),
             simpleStaking.tokenUsdOracle(),
@@ -741,13 +744,14 @@ const getStakedValue = memoize<
             18 - tokenDecimalsDiffFrom18.toNumber()
         )
 
-        const liquidityUSDC = CurrencyAmount.fromRawAmount(USDC, usdValue.div(1e2).toString()) //token value in usd is in 8 decimals
+        const token1 = new Token(1, '0x0000000000000000000000000000000000000001', 6)
+        const liquidityUsdValue = CurrencyAmount.fromRawAmount(token1, usdValue.div(1e2).toString())
 
-        debug('Liquidity staked', liquidityUSDC.toSignificant(6))
+        debug('Liquidity staked', liquidityUsdValue.toSignificant(6))
 
         debugGroupEnd(`Liquidity for ${token.symbol} in ${protocol}`)
 
-        return liquidityUSDC
+        return liquidityUsdValue
     },
     (_, address, protocol, token, effectiveStake) => address + protocol + token.address + effectiveStake
 )

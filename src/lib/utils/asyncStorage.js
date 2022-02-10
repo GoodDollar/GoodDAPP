@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { isFunction } from 'lodash'
+import { isArray, isEmpty, isFunction } from 'lodash'
 
 import { AB_TESTING, DESTINATION_PATH, INVITE_CODE, IS_FIRST_VISIT } from '../constants/localStorage'
 import logger from '../logger/js-logger'
@@ -66,6 +66,10 @@ export default new class {
   }
 
   async multiSet(keyValuePairs) {
+    if (!isArray(keyValuePairs) || isEmpty(keyValuePairs)) {
+      return
+    }
+
     const stringifiedPairs = keyValuePairs.map(([key, value]) => [key, JSON.stringify(value)])
 
     await this.storageApi.multiSet(stringifiedPairs)

@@ -26,18 +26,14 @@ export function simpleStakingContractV2(web3: Web3, address: string) {
  */
 export async function getSimpleStakingContractAddressesV2(web3: Web3): Promise<string[]> {
     const chainId = await getChainId(web3) // doesn't return proper chainId?
-    const CURRENT_NETWORK = getNetworkEnv()
-    if ((CURRENT_NETWORK === 'staging' || CURRENT_NETWORK === 'fuse')){
-      return []
-    }
     const _addresses = G$ContractAddresses<Array<string[] | string>>(chainId, 'StakingContractsV2')
 
     const addresses = []
     for (const rawAddress of _addresses) {
         if (Array.isArray(rawAddress)) {
-          addresses.push(rawAddress[0])
+            addresses.push(rawAddress[0])
         } else {
-          addresses.push(rawAddress)
+            addresses.push(rawAddress)
         }
     }
 

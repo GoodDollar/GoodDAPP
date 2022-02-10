@@ -652,8 +652,7 @@ const Dashboard = props => {
               </View>
               {headerLarge && showPrice && (
                 <Section.Text style={styles.gdPrice}>
-                  ≈ {calculateUSDWorthOfBalance} USD
-                  <GoodDollarPriceInfo />
+                  ≈ {calculateUSDWorthOfBalance} USD <GoodDollarPriceInfo />
                 </Section.Text>
               )}
             </Animated.View>

@@ -13,7 +13,7 @@ const GoodDollarPriceInfo = ({ theme }) => {
     openLink(Config.goodDollarPriceInfoUrl)
   })
   return (
-    <TouchableOpacity style={{ marginLeft: theme.sizes.default }} onPress={handleLearnMore}>
+    <TouchableOpacity onPress={handleLearnMore}>
       <InfoIcon color={theme.colors.secondary} />
     </TouchableOpacity>
   )

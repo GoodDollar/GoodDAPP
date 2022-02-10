@@ -6,6 +6,7 @@ import restart from '../utils/restart'
 // hooks
 import SimpleStore from '../undux/SimpleStore'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
+import logger from '../../lib/logger/js-logger'
 
 // utils
 import { isMobileOnly, isMobileSafari, isWeb } from '../utils/platform'
@@ -17,6 +18,8 @@ import { CLICK_DELETE_WALLET, fireEvent, LOGOUT } from '../../lib/analytics/anal
 import { GlobalTogglesContext } from '../../lib/contexts/togglesContext'
 import { REGISTRATION_METHOD_SELF_CUSTODY } from '../constants/login'
 import useDeleteAccountDialog from './useDeleteAccountDialog'
+
+const log = logger.child({ from: 'useSideMenu' })
 
 const { dashboardUrl } = Config
 
@@ -166,7 +169,11 @@ export default (props = {}) => {
         name: 'Logout',
         action: async () => {
           fireEvent(LOGOUT)
-          await AsyncStorage.clear()
+          try {
+            await AsyncStorage.clear()
+          } catch (e) {
+            log.error('AsyncStorage Error', e?.message, e)
+          }
           slideOut()
           restart('/')
         },

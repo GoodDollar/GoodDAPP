@@ -32,7 +32,7 @@ export const formatWithAbbreviations = (number, decPlaces = 1) => {
     format += '.0'
   }
 
-  if (decPlaces > 1) {
+  if (decPlaces > 1 && isFinite(decPlaces)) {
     format += `[${'0'.repeat(decPlaces - 1)}]`
   }
 

@@ -95,12 +95,18 @@ export async function getMyList(mainnetWeb3: Web3, fuseWeb3: Web3, account: stri
     let stakes: MyStake[] = []
     try {
         const govStake = metaMyGovStake(fuseWeb3, account)
-        const ps = metaMyStake(mainnetWeb3, simpleStakingAddresses[0], account, false)
+        const ps = simpleStakingAddresses.map(address => metaMyStake(mainnetWeb3, address, account, false))
         const simpleStakev2 = simpleStakingAddressesv2.map(address => metaMyStake(mainnetWeb3, address, account, true))
-        simpleStakev2.push(ps)
         simpleStakev2.push(govStake)
+        const stakesV1 = await Promise.all(ps)
         const stakesRawList = await Promise.all(simpleStakev2)
         stakes = stakesRawList.filter(Boolean) as MyStake[]
+        
+        for (const stakeV1 of stakesV1) {
+          if (stakeV1) {
+            stakes.push(stakeV1)
+          }
+        }
     } catch (e) {
         console.log(e)
     }
@@ -173,14 +179,14 @@ async function metaMyStake(web3: Web3, address: string, account: string, isV2: b
         debugGroupEnd(`My stake for ${address}`)
         return null
     }
-    
-    const {6: _maxMultiplierThreshold} = isV2 ? await simpleStaking.methods.getStats().call() : null
+
+    const maxMultiplierThreshold = isV2 ? await simpleStaking.methods.getStats().call() : null
 
     const [tokenAddress, iTokenAddress, protocolName, threshold] = await Promise.all([
         simpleStaking.methods.token().call(),
         simpleStaking.methods.iToken().call(),
         simpleStaking.methods.name().call(),
-        isV2 ? _maxMultiplierThreshold :  simpleStaking.methods.maxMultiplierThreshold().call()
+        isV2 ? maxMultiplierThreshold[6] : simpleStaking.methods.maxMultiplierThreshold().call()
     ])
 
     const [token, iToken] = (await Promise.all([
@@ -193,7 +199,6 @@ async function metaMyStake(web3: Web3, address: string, account: string, isV2: b
     const multiplier = Math.round(Date.now() / 1000) - parseInt(users.multiplierResetTime) > threshold
 
     const tokenPrice = await getTokenPriceInUSDC(web3, protocol, token)
-
     let amount$: CurrencyAmount<Currency>
     if (tokenPrice) {
         const _amountUSDC = amount.multiply(tokenPrice).divide(10 ** token.decimals)

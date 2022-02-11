@@ -8,7 +8,6 @@ import { G$ContractAddresses, getNetworkEnv } from '../constants/addresses'
 import { getChainId } from '../utils/web3'
 import { LIQUIDITY_PROTOCOL } from 'sdk/constants/protocols'
 
-
 /**
  * Returns instance of SimpleStaking contract.
  * @param {Web3} web3 Web3 instance.
@@ -25,19 +24,22 @@ export function simpleStakingContractV2(web3: Web3, address: string) {
  * @returns {Promise<string[]>}
  */
 export async function getSimpleStakingContractAddressesV2(web3: Web3): Promise<string[]> {
-    const chainId = await getChainId(web3) // doesn't return proper chainId?
-    const _addresses = G$ContractAddresses<Array<string[] | string>>(chainId, 'StakingContractsV2')
-
-    const addresses = []
-    for (const rawAddress of _addresses) {
-        if (Array.isArray(rawAddress)) {
-            addresses.push(rawAddress[0])
-        } else {
-            addresses.push(rawAddress)
-        }
+    const chainId = await getChainId(web3)
+  
+    try {
+      const _addresses = G$ContractAddresses<Array<string[] | string>>(chainId, 'StakingContractsV2')
+      const addresses = []
+      for (const rawAddress of _addresses) {
+          if (Array.isArray(rawAddress)) {
+              addresses.push(rawAddress[0])
+          } else {
+              addresses.push(rawAddress)
+          }
+      }
+      return addresses
+    } catch(error) {
+      return []
     }
-
-    return addresses
 }
 
 /**

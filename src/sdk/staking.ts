@@ -96,17 +96,10 @@ export async function getMyList(mainnetWeb3: Web3, fuseWeb3: Web3, account: stri
     try {
         const govStake = metaMyGovStake(fuseWeb3, account)
         const ps = simpleStakingAddresses.map(address => metaMyStake(mainnetWeb3, address, account, false))
-        const simpleStakev2 = simpleStakingAddressesv2.map(address => metaMyStake(mainnetWeb3, address, account, true))
-        // simpleStakev2.push(ps)
-        simpleStakev2.push(govStake)
-        const simpleStakesV1 = await Promise.all(ps)
-        const stakesRawList = await Promise.all(simpleStakev2)
+        ps.push(govStake)
+        simpleStakingAddressesv2.map(address => ps.push(metaMyStake(mainnetWeb3, address, account, true)))
+        const stakesRawList = await Promise.all(ps)
         stakes = stakesRawList.filter(Boolean) as MyStake[]
-        for (const simpleStake of simpleStakesV1) {
-          if (simpleStake) {
-            stakes.push(simpleStake)
-          }
-        }
     } catch (e) {
         console.log(e)
     }
@@ -180,13 +173,14 @@ async function metaMyStake(web3: Web3, address: string, account: string, isV2: b
         return null
     }
     
-    const maxMultiplierThreshold = isV2 ? await simpleStaking.methods.getStats().call() : null
+    const maxMultiplierThreshold = isV2 ? (await simpleStaking.methods.getStats().call())[6] :
+      simpleStaking.methods.maxMultiplierThreshold().call()
 
     const [tokenAddress, iTokenAddress, protocolName, threshold] = await Promise.all([
         simpleStaking.methods.token().call(),
         simpleStaking.methods.iToken().call(),
         simpleStaking.methods.name().call(),
-        isV2 ? maxMultiplierThreshold[6] :  simpleStaking.methods.maxMultiplierThreshold().call()
+        maxMultiplierThreshold  
     ])
 
     const [token, iToken] = (await Promise.all([

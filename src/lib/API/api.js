@@ -222,11 +222,15 @@ export class APIService {
       if (!address.includes(':')) {
         throw new Error("Client's ISP doesn't supports IPv6.")
       }
+
+      return address
     }
 
     const requestCloudflare = async () => {
       const trace = await sharedClient.get('https://www.cloudflare.com/cdn-cgi/trace')
       const [, address] = /ip=(.+?)\n/.exec(trace || '') || []
+
+      log.info('CF response', { trace })
 
       return address
     }
@@ -234,6 +238,7 @@ export class APIService {
     const fallbackToIpify = async () => {
       const ipv6Response = await sharedClient.get('https://api64.ipify.org/?format=json')
 
+      log.info('Ipify response', { ipv6Response })
       return get(ipv6Response, 'ip', '')
     }
 

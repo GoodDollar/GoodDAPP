@@ -197,9 +197,9 @@ async function metaMyStake(web3: Web3, address: string, account: string, isV2: b
     let amount$: CurrencyAmount<Currency>
     if (tokenPrice) {
         const _amountUSDC = amount.multiply(tokenPrice).divide(10 ** token.decimals)
-        amount$ = CurrencyAmount.fromFractionalAmount(USDC[chainId], _amountUSDC.numerator, _amountUSDC.denominator)
+        amount$ = CurrencyAmount.fromFractionalAmount(USDC[SupportedChainId.MAINNET], _amountUSDC.numerator, _amountUSDC.denominator)
     } else {
-        amount$ = CurrencyAmount.fromRawAmount(USDC[chainId], 0)
+        amount$ = CurrencyAmount.fromRawAmount(USDC[SupportedChainId.MAINNET], 0)
     }
 
     debug('Amount', amount.toSignificant(6))
@@ -216,15 +216,14 @@ async function metaMyStake(web3: Web3, address: string, account: string, isV2: b
     const rewardUSDC = {
         claimed: rewardG$.claimed
             .multiply(cDAI)
-            .multiply(ratio)
-            .multiply(1e16),
+            .multiply(ratio),
         unclaimed: rewardG$.unclaimed
             .multiply(cDAI)
-            .multiply(ratio)
-            .multiply(1e16)
+            .multiply(ratio),
     }
 
-    const DAI = (await getToken(chainId, 'DAI')) as Token
+    // const DAI = (await getToken(SupportedChainId.MAINNET, 'DAI')) as Token
+    const G$MainNet = G$[SupportedChainId.MAINNET]
 
     const result = {
         address,
@@ -234,12 +233,12 @@ async function metaMyStake(web3: Web3, address: string, account: string, isV2: b
             reward: rewardG$,
             reward$: {
                 claimed: CurrencyAmount.fromFractionalAmount(
-                    DAI,
+                  G$MainNet,
                     rewardUSDC.claimed.numerator,
                     rewardUSDC.claimed.denominator
                 ),
                 unclaimed: CurrencyAmount.fromFractionalAmount(
-                    DAI,
+                    G$MainNet,
                     rewardUSDC.unclaimed.numerator,
                     rewardUSDC.unclaimed.denominator
                 )
@@ -272,6 +271,7 @@ async function metaMyGovStake(web3: Web3, account: string): Promise<MyStake | nu
     const govStaking = governanceStakingContract(web3)
 
     const G$Token = G$[SupportedChainId.FUSE] //gov is always on fuse
+    const usdcToken = USDC[SupportedChainId.MAINNET]
     const users = await govStaking.methods.users(account).call()
     if (!users || parseInt(users.amount.toString()) === 0) {
         return null
@@ -283,28 +283,31 @@ async function metaMyGovStake(web3: Web3, account: string): Promise<MyStake | nu
 
     let amount$ = CurrencyAmount.fromRawAmount(G$Token, 0)
     if (tokenPrice) {
-        const value = tokenPrice.DAI.multiply(users.amount.toString())
-        amount$ = CurrencyAmount.fromFractionalAmount(G$Token, value.numerator, value.denominator)
+      const value = amount.multiply(tokenPrice.DAI).multiply(1e4)
+      amount$ = CurrencyAmount.fromFractionalAmount(usdcToken, value.numerator, value.denominator)
+    } else {
+      amount$ = CurrencyAmount.fromRawAmount(usdcToken, 0)
     }
 
     const unclaimed = await govStaking.methods.getUserPendingReward(account).call()
     const rewardGDAO = {
-        claimed: CurrencyAmount.fromRawAmount(GDAO[SupportedChainId.FUSE], users.rewardMinted.toString()),
-        unclaimed: CurrencyAmount.fromRawAmount(GDAO[SupportedChainId.FUSE], unclaimed.toString())
+        claimed: CurrencyAmount.fromRawAmount(GDAO[SupportedChainId.MAINNET], users.rewardMinted.toString()),
+        unclaimed: CurrencyAmount.fromRawAmount(GDAO[SupportedChainId.MAINNET], unclaimed.toString())
     }
 
+    const G$MainToken = G$[SupportedChainId.MAINNET] as Token
     const result = {
         address: (govStaking as any)._address,
         protocol: LIQUIDITY_PROTOCOL.GOODDAO,
         multiplier: false,
         rewards: {
             reward: {
-                claimed: CurrencyAmount.fromRawAmount(G$Token, 0),
-                unclaimed: CurrencyAmount.fromRawAmount(G$Token, 0)
+                claimed: CurrencyAmount.fromRawAmount(G$MainToken, 0),
+                unclaimed: CurrencyAmount.fromRawAmount(G$MainToken, 0)
             },
             reward$: {
-                claimed: CurrencyAmount.fromRawAmount(G$Token, 0),
-                unclaimed: CurrencyAmount.fromRawAmount(G$Token, 0)
+                claimed: CurrencyAmount.fromRawAmount(G$MainToken, 0),
+                unclaimed: CurrencyAmount.fromRawAmount(G$MainToken, 0)
             },
             GDAO: rewardGDAO
         },
@@ -461,12 +464,6 @@ export const getTokenPriceInUSDC = memoize<
             }
         }
 
-        const USDC = await getToken(chainId, 'USDC')
-        if (!USDC) {
-            debug('Price', null)
-            debugGroupEnd(name)
-            return null
-        }
 
         debug('Protocol', protocol)
         debug('Token', token)
@@ -479,8 +476,10 @@ export const getTokenPriceInUSDC = memoize<
         }
 
         let price = null
+
         if (protocol === LIQUIDITY_PROTOCOL.COMPOUND) {
-            const trade = await v2TradeExactIn(amount, USDC, { chainId, maxHops: 2 })
+            const usdcT = USDC[SupportedChainId.MAINNET]       
+            const trade = await v2TradeExactIn(amount, usdcT, { chainId, maxHops: 2 })
             debug('Trade', trade)
 
             if (trade) {

@@ -2,7 +2,6 @@ import React, { memo, useEffect, useMemo, useReducer } from 'react'
 import { StakeDepositSC } from './styled'
 import Title from 'components/gd/Title'
 import AsyncTokenIcon from 'components/gd/sushi/AsyncTokenIcon'
-import { Switch } from '../styled'
 import SwapInput from 'pages/gd/Swap/SwapInput'
 import { ButtonAction, ButtonDefault, ButtonText } from 'components/gd/Button'
 import { Stake, approve, stake as deposit, stakeGov as depositGov, getTokenPriceInUSDC } from 'sdk/staking'
@@ -20,6 +19,7 @@ import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
 import { LIQUIDITY_PROTOCOL } from 'sdk/constants/protocols'
 import Loader from 'components/Loader'
+import Switch from 'components/Switch'
 
 export interface StakeDepositModalProps {
     stake: Stake
@@ -152,7 +152,7 @@ const StakeDeposit = ({ stake, onDeposit, onClose, activeTableName }: StakeDepos
 
     return (
         <StakeDepositSC className="p-4">
-            <Title className="flex space-x-2 items-center justify-center mb-2">
+            <Title className="flex items-center justify-center mb-2 space-x-2">
                 {approving ? (
                     <>
                         <span>STAKE</span>
@@ -167,10 +167,11 @@ const StakeDeposit = ({ stake, onDeposit, onClose, activeTableName }: StakeDepos
                     i18n._(t`Deposit overview`)
                 ) : state.loading ? (
                     i18n._(t`Awesome!`)
-                ) : i18n._(t`Congratulations!`)
-              }
+                ) : (
+                    i18n._(t`Congratulations!`)
+                )}
             </Title>
-            {(approving || state.error) && <div className="error mb-2">{state.error ? state.error : null}</div>}
+            {(approving || state.error) && <div className="mb-2 error">{state.error ? state.error : null}</div>}
             {approving ? (
                 <>
                     <div className="flex items-center justify-between mb-3">
@@ -178,21 +179,16 @@ const StakeDeposit = ({ stake, onDeposit, onClose, activeTableName }: StakeDepos
                         {stake.tokens.B !== stake.tokens.A && (
                             <div className="flex items-center space-x-1">
                                 <span>{stake.tokens.A.symbol}</span>
-                                <Switch>
-                                    <div className="area" />
-                                    <input
-                                        type="checkbox"
-                                        checked={state.token === 'B'}
-                                        disabled={state.loading}
-                                        onChange={e =>
-                                            dispatch({
-                                                type: 'TOGGLE_TOKEN',
-                                                payload: e.currentTarget.checked
-                                            })
-                                        }
-                                    />
-                                    <div className="toggle" />
-                                </Switch>
+                                <Switch
+                                    checked={state.token === 'B'}
+                                    onChange={value => {
+                                        dispatch({
+                                            type: 'TOGGLE_TOKEN',
+                                            payload: value
+                                        })
+                                    }}
+                                    disabled={state.loading}
+                                />
                                 <span>{stake.tokens.B.symbol}</span>
                             </div>
                         )}
@@ -242,7 +238,7 @@ const StakeDeposit = ({ stake, onDeposit, onClose, activeTableName }: StakeDepos
                 </>
             ) : depositing ? (
                 <>
-                    <div className="flex justify-between items-start">
+                    <div className="flex items-start justify-between">
                         <div className="amount">{i18n._(t`amount`)}</div>
                         <div className="flex flex-col">
                             <div className="flex items-center space-x-2 token">
@@ -254,7 +250,7 @@ const StakeDeposit = ({ stake, onDeposit, onClose, activeTableName }: StakeDepos
                                 <span>{state.value}</span>
                                 <span>{tokenToDeposit.symbol}</span>
                             </div>
-                            <div className="dollar-equivalent self-end">
+                            <div className="self-end dollar-equivalent">
                                 {state.dollarEquivalent && `$${state.dollarEquivalent}`}
                             </div>
                         </div>
@@ -276,16 +272,18 @@ const StakeDeposit = ({ stake, onDeposit, onClose, activeTableName }: StakeDepos
                                         (transactionHash: string, from: string) => {
                                             dispatch({ type: 'DONE', payload: transactionHash })
                                             reduxDispatch(
-                                              addTransaction({
-                                                  chainId: chainId!,
-                                                  hash: transactionHash,
-                                                  from: from,
-                                                  summary: i18n._(t`Staked ${tokenToDeposit.symbol} at ${stake.protocol} `)
-                                              })
-                                          )
+                                                addTransaction({
+                                                    chainId: chainId!,
+                                                    hash: transactionHash,
+                                                    from: from,
+                                                    summary: i18n._(
+                                                        t`Staked ${tokenToDeposit.symbol} at ${stake.protocol} `
+                                                    )
+                                                })
+                                            )
                                         }
                                     )
-  
+
                                     if (onDeposit) onDeposit()
                                 })
                             }
@@ -296,7 +294,7 @@ const StakeDeposit = ({ stake, onDeposit, onClose, activeTableName }: StakeDepos
                 </>
             ) : (
                 <>
-                    <div className="text-center mt-4">
+                    <div className="mt-4 text-center">
                         {activeTableName === 'GoodDAO Staking' ? (
                             i18n._(
                                 t`You have just staked your G$s towards our GoodDAO, 
@@ -305,12 +303,10 @@ const StakeDeposit = ({ stake, onDeposit, onClose, activeTableName }: StakeDepos
                             )
                         ) : (
                             <>
-                                {state.loading ?
-                                i18n._(t`Your staking transaction which will generate UBI for thousands of people around 
+                                {state.loading
+                                    ? i18n._(t`Your staking transaction which will generate UBI for thousands of people around 
                                          the world has just been broadcasted to the network. `)
-                              : i18n._(t`You are creating UBI to thousands of people around the world. `)
-                              }
-                                {' '} 
+                                    : i18n._(t`You are creating UBI to thousands of people around the world. `)}{' '}
                                 <a
                                     href={
                                         state.transactionHash &&
@@ -326,22 +322,21 @@ const StakeDeposit = ({ stake, onDeposit, onClose, activeTableName }: StakeDepos
                         )}
                     </div>
                     <div className="flex flex-col items-center mt-4 space-y-2">
-                      {
-                        state.loading ? 
-                        <Loader stroke="#173046" size="32px" /> :
-                        <Link to="/portfolio">
-                            <ButtonDefault className="uppercase px-6" width="auto">
-                                {i18n._(t`Go to Portfolio`)}
-                            </ButtonDefault>
-                        </Link> 
-                      }
+                        {state.loading ? (
+                            <Loader stroke="#173046" size="32px" />
+                        ) : (
+                            <Link to="/portfolio">
+                                <ButtonDefault className="px-6 uppercase" width="auto">
+                                    {i18n._(t`Go to Portfolio`)}
+                                </ButtonDefault>
+                            </Link>
+                        )}
                     </div>
                 </>
             )}
-            {state.loading && !state.signed ? 
-                <div className="walletNotice mt-2">{i18n._(t`You need to sign the transaction in your wallet`)}</div>
-              : null
-            }
+            {state.loading && !state.signed ? (
+                <div className="mt-2 walletNotice">{i18n._(t`You need to sign the transaction in your wallet`)}</div>
+            ) : null}
         </StakeDepositSC>
     )
 }

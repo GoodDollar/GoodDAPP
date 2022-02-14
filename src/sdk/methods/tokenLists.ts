@@ -109,9 +109,11 @@ export async function getTokens(
         tokenListByAddress.set(ethers.constants.AddressZero, FUSE)
     }
 
-    const tokens = flatMap(await Promise.all([UniswapTokenList.tokens, FuseTokenList.tokens, ...list.map(fetchURL)]))
+    const tokens = flatMap(
+        await Promise.all([UniswapTokenList.tokens, FuseTokenList.tokens, ...list.map(fetchURL)])
+    ).filter(Boolean)
 
-    for (let token of tokens) {
+    for (const token of tokens) {
         const { chainId, address, decimals, name, symbol, isDeprecated } = token as TokenType
         if (isDeprecated) {
             continue

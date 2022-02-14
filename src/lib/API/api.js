@@ -214,12 +214,19 @@ export class APIService {
     const { client, sharedClient } = this
     const payload = { token }
 
-    const parseCFResponse = data => {
-      const [address] = (data || '').match(/ip=(.+?)\n/)
-
+    const validateIpV6 = address => {
       if (!address) {
-        throw new Error('Clouflare trace util returned empty IP.')
+        throw new Error('Empty IP has been returned.')
       }
+
+      if (!address.includes(':')) {
+        throw new Error("Client's ISP doesn't supports IPv6.")
+      }
+    }
+
+    const requestCloudflare = async () => {
+      const trace = await sharedClient.get('https://www.cloudflare.com/cdn-cgi/trace')
+      const [, address] = /ip=(.+?)\n/.exec(trace || '') || []
 
       return address
     }
@@ -231,23 +238,21 @@ export class APIService {
     }
 
     try {
-      const ip = await sharedClient
-        .get('https://www.cloudflare.com/cdn-cgi/trace')
-        .then(parseCFResponse)
+      const ip = await requestCloudflare()
+        .then(validateIpV6)
         .catch(fallbackToIpify)
 
       log.info('ip for captcha:', { ip })
 
-      if (!ip.includes(':')) {
-        throw new Error("Client's ISP doesn't supports IPv6.")
-      }
-
+      validateIpV6(ip)
       payload.ipv6 = ip
     } catch (errorOrStatus) {
       let exception = errorOrStatus
 
       if (!isError(errorOrStatus)) {
-        exception = new Error(isString(errorOrStatus) ? errorOrStatus : 'Http exception during Ipify API call')
+        exception = new Error(
+          isString(errorOrStatus) ? errorOrStatus : 'Unexpected exception while getting IPv6 address',
+        )
       }
 
       log.warn('Failed to determine client IPv6:', exception.message, exception)

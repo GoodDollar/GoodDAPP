@@ -5,7 +5,6 @@ import { ReactComponent as CrossSVG } from 'assets/images/x.svg'
 import Title from 'components/gd/Title'
 import { ButtonAction } from 'components/gd/Button'
 import { ReactComponent as LinkSVG } from 'assets/images/link-blue.svg'
-
 import PercentInputControls from 'components/Withdraw/PercentInputControls'
 import Button from 'components/Button'
 import { MyStake, withdraw } from '../../sdk/staking'
@@ -17,6 +16,11 @@ import { TransactionDetails } from '../../sdk/constants/transactions'
 import { getExplorerLink } from '../../utils'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
+import { getSimpleStakingContractAddresses, simpleStakingContract } from 'sdk/contracts/SimpleStakingContract'
+import { Currency, CurrencyAmount, Fraction } from '@uniswap/sdk-core'
+import Switch from 'components/Switch'
+import { getTokenByAddress } from 'sdk/methods/tokenLists'
+import { useTokenContract } from 'hooks/useContract'
 import Loader from 'components/Loader'
 
 function formatNumber(value: number) {
@@ -38,9 +42,11 @@ function Withdraw({ token, protocol, open, setOpen, onWithdraw, stake, ...rest }
     const { i18n } = useLingui()
     const [status, setStatus] = useState<WithdrawState>('none')
     const totalStake = useMemo(() => parseFloat(stake.stake.amount.toExact()), [stake])
-    console.log({ totalStake })
+    const [withdrawInInterestToken, setWithdrawInInterestToken] = useState(false)
+    const web3 = useWeb3()
     const [percentage, setPercentage] = useState<string>('50')
     const [withdrawAmount, setWithdrawAmount] = useState<number>(totalStake * (Number(percentage) / 100))
+    const { chainId } = useActiveWeb3React()
     const [error, setError] = useState<Error>()
 
     useEffect(() => {
@@ -48,29 +54,35 @@ function Withdraw({ token, protocol, open, setOpen, onWithdraw, stake, ...rest }
     }, [percentage])
     const dispatch = useDispatch()
     const [transactionHash, setTransactionHash] = useState<string>()
-    const { chainId } = useActiveWeb3React()
-    const web3 = useWeb3()
     const handleWithdraw = useCallback(async () => {
         if (!web3) return
         try {
             setStatus('pending')
-            await withdraw(web3, stake, percentage, (transactionHash: string, from: string) => {
-                setTransactionHash(transactionHash)
-                setStatus('send')
-                dispatch(
-                  addTransaction({
-                      chainId: chainId!,
-                      hash: transactionHash,
-                      from: from,
-                      summary: i18n._(t`Withdrew funds from ${stake.protocol} `)
-                  })
-                )
-            }, () => {setStatus('success')
-            }, (e) => {
-              setStatus('none')
-              setError(e as Error)
-            }
-            ,)
+            await withdraw(
+                web3,
+                stake,
+                percentage,
+                withdrawInInterestToken,
+                (transactionHash: string, from: string) => {
+                    setTransactionHash(transactionHash)
+                    setStatus('send')
+                    dispatch(
+                        addTransaction({
+                            chainId: chainId!,
+                            hash: transactionHash,
+                            from: from,
+                            summary: i18n._(t`Withdrew funds from ${stake.protocol} `)
+                        })
+                    )
+                },
+                () => {
+                    setStatus('success')
+                },
+                e => {
+                    setStatus('none')
+                    setError(e as Error)
+                }
+            )
             onWithdraw()
         } catch (e) {
             console.error(e)
@@ -93,36 +105,40 @@ function Withdraw({ token, protocol, open, setOpen, onWithdraw, stake, ...rest }
     return (
         <Modal isOpen={open} noPadding onDismiss={handleClose}>
             <WithdrawStyled {...rest}>
-                <div className="flex flex-grow justify-end">
+                <div className="flex justify-end flex-grow">
                     <CrossSVG className="cursor-pointer" onClick={handleClose} />
                 </div>
                 {status === 'none' || status === 'pending' ? (
                     <>
-                        <Title className="flex flex-grow justify-center pt-3 pb-3">{i18n._(t`Withdraw`)}</Title>
-                        <div className="details-row flex justify-between">
+                        <Title className="flex justify-center flex-grow pt-3 pb-3">{i18n._(t`Withdraw`)}</Title>
+                        <div className="flex justify-between details-row">
                             <div>{i18n._(t`Token`)}</div>
                             <div>{token}</div>
                         </div>
-                        <div className="details-row flex justify-between">
+                        <div className="flex justify-between details-row">
                             <div>{i18n._(t`Protocol`)}</div>
                             <div>{protocol}</div>
                         </div>
-                        <div className="details-row flex justify-between">
+                        <div className="flex justify-between details-row">
                             <div>{i18n._(t`Total stake`)}</div>
                             <div>{`${formatNumber(totalStake)} ${token}`}</div>
                         </div>
 
-                        <div className="horizontal mt-4 mb-2" />
+                        <div className="mt-4 mb-2 horizontal" />
 
+                        <div className="flex justify-between mb-2 details-row">
+                            <div>{i18n._(t`Withdraw into interest token?`)}</div>
+                            <Switch checked={withdrawInInterestToken} onChange={setWithdrawInInterestToken} />
+                        </div>
                         <PercentInputControls
                             value={percentage}
                             onPercentChange={setPercentage}
                             disabled={status === 'pending'}
                         />
 
-                        <div className="flex flex-col items-center gap-1 relative mt-7">
-                        {<p className="warning mb-5">{error ? error.message : ''}</p>}
-                            <p className="warning text-center mb-2 text-red">
+                        <div className="relative flex flex-col items-center gap-1 mt-7">
+                            <p className="mb-5 warning">{error ? error.message : ''}</p>
+                            <p className="mb-2 text-center warning text-red">
                                 {i18n._(t`Withdrawing your stake will reset your multiplier.`)}
                             </p>
                             <ButtonAction className="withdraw" disabled={status === 'pending'} onClick={handleWithdraw}>
@@ -137,11 +153,11 @@ function Withdraw({ token, protocol, open, setOpen, onWithdraw, stake, ...rest }
                     </>
                 ) : (
                     <>
-                        <Title className="flex flex-grow justify-center pt-3">{i18n._(t`Success!`)}</Title>
-                        <div className="flex justify-center items-center gap-2 pt-7 pb-7">
-                        { status === 'send' ?
-                                  i18n._(t`Transaction was sent to the blockchain `) :
-                                  i18n._(t`You have successfully claimed your rewards `) } 
+                        <Title className="flex justify-center flex-grow pt-3">{i18n._(t`Success!`)}</Title>
+                        <div className="flex items-center justify-center gap-2 pt-7 pb-7">
+                            {status === 'send'
+                                ? i18n._(t`Transaction was sent to the blockchain `)
+                                : i18n._(t`You have successfully claimed your rewards `)}
                             <a
                                 href={
                                     transactionHash &&
@@ -155,12 +171,13 @@ function Withdraw({ token, protocol, open, setOpen, onWithdraw, stake, ...rest }
                             </a>
                         </div>
                         <div className="flex justify-center">
-                          { status === 'send' ?
-                           <Loader stroke="#173046" size="32px" /> : 
-                            <Button className="back-to-portfolio" onClick={handleClose}>
-                              {i18n._(t`Back to portfolio`)}
-                            </Button>
-                           }
+                            {status === 'send' ? (
+                                <Loader stroke="#173046" size="32px" />
+                            ) : (
+                                <Button className="back-to-portfolio" onClick={handleClose}>
+                                    {i18n._(t`Back to portfolio`)}
+                                </Button>
+                            )}
                         </div>
                     </>
                 )}

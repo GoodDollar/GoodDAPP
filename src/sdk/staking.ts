@@ -933,6 +933,7 @@ export async function withdraw(
     web3: Web3,
     stake: MyStake,
     percentage: string,
+    withdrawIntoInterestToken?: boolean,
     onSent?: (transactionHash: string, from: string) => void,
     onReceipt?: () => void,
     onError?: (e:any) => void
@@ -953,7 +954,7 @@ export async function withdraw(
     let req
     if (stake.protocol === LIQUIDITY_PROTOCOL.GOODDAO)
         req = contract.methods.withdrawStake(toWithdraw).send({ from: account })
-    else req = contract.methods.withdrawStake(toWithdraw, false).send({ from: account })
+    else req = contract.methods.withdrawStake(toWithdraw, withdrawIntoInterestToken).send({ from: account })
 
     if (onSent) req.on('transactionHash', (hash: string) => onSent(hash, account))
     if (onReceipt) req.on('receipt', onReceipt)

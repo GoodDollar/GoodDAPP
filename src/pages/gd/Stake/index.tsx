@@ -45,6 +45,9 @@ const StakeTable = ({
 }) => {
     const { i18n } = useLingui()
 
+    // TODO: look into loading variable, it's not updating properly (loading text doesn't appear now)
+    // console.log('stake loading table -->', loading)
+
     return (
         <Wrapper>
             <Table
@@ -192,7 +195,7 @@ const StakeTable = ({
                                     </td>
                                     <td>
                                         <ActionOrSwitchButton
-                                            disabled={process.env.REACT_APP_NETWORK === 'production' && stake.protocol === LIQUIDITY_PROTOCOL.AAVE}
+                                            disabled={!stake.isV2 && (stake.protocol !== LIQUIDITY_PROTOCOL.GOODDAO && hasAPY)}
                                             size="sm"
                                             width="78px"
                                             borderRadius="6px"
@@ -202,14 +205,17 @@ const StakeTable = ({
                                                 setActiveStake(stake)
                                                 setActiveTableName()
                                             }}
-                                        >
-                                            {i18n._(t`Stake`)}
+                                        > {!stake.isV2 && (stake.protocol !== LIQUIDITY_PROTOCOL.GOODDAO && hasAPY) ?
+                                          i18n._(t`Discontinued`) :
+                                          i18n._(t`Stake`)
+                                        }
                                         </ActionOrSwitchButton>
                                     </td>
                                 </tr>
                                 <tr className="mobile">
                                     <td colSpan={8}>
                                         <ActionOrSwitchButton
+                                            disabled={!stake.isV2 && (stake.protocol !== LIQUIDITY_PROTOCOL.GOODDAO && hasAPY)}
                                             size="sm"
                                             borderRadius="6px"
                                             noShadow={true}
@@ -218,8 +224,11 @@ const StakeTable = ({
                                                 setActiveStake(stake)
                                                 setActiveTableName()
                                             }}
-                                        >
-                                            {i18n._(t`Stake`)}
+                                        > { !stake.isV2 && (stake.protocol !== LIQUIDITY_PROTOCOL.GOODDAO && hasAPY) ?
+                                            i18n._(t`Discontinued`) :
+                                            i18n._(t`Stake`)
+                                          }
+                                            
                                         </ActionOrSwitchButton>
                                     </td>
                                 </tr>

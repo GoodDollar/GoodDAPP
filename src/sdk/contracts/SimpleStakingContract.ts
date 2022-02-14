@@ -21,7 +21,7 @@ export function simpleStakingContract(web3: Web3, address: string) {
  * @returns {Promise<string[]>}
  */
 export async function getSimpleStakingContractAddresses(web3: Web3): Promise<string[]> {
-    const chainId = await getChainId(web3)
+    const chainId = await getChainId(web3) // doesn't return correct chainId
     const _addresses = G$ContractAddresses<Array<string[] | string>>(chainId, 'StakingContracts')
 
     const addresses = []

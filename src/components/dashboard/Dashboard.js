@@ -798,7 +798,7 @@ const getStylesFromProps = ({ theme }) => ({
     alignItems: 'center',
     fontSize: 14,
     color: theme.colors.secondary,
-    fontWeight: '600',
+    fontWeight: 'bold',
   },
   leftButton: {
     flex: 1,

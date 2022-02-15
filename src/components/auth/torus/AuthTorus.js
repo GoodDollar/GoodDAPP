@@ -50,10 +50,15 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
   const { navigate } = navigation
 
   const getTorusUserRedirect = async () => {
-    //in case of redirect flow we need to recover the provider/login type
-    const provider = await AsyncStorage.getItem('recallTorusRedirectProvider')
+    if (!sdkInitialized || torusSDK.popupMode) {
+      return
+    }
 
-    if (sdkInitialized && provider && torusSDK.popupMode === false && (DeepLinking.hash || DeepLinking.query)) {
+    // in case of redirect flow we need to recover the provider/login type
+    const provider = await AsyncStorage.getItem('recallTorusRedirectProvider')
+    const { hash, query } = DeepLinking
+
+    if (provider && (hash || query)) {
       log.debug('triggering torus redirect callback flow')
       AsyncStorage.removeItem('recallTorusRedirectProvider')
       handleLoginMethod(provider, torusSDK.getRedirectResult())
@@ -115,6 +120,30 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
     return { torusUser, replacing }
   }
 
+  const handleTorusError = (e, options) => {
+    const { provider, fromRedirect = false } = options || {}
+    const { message = '' } = e || {}
+    let suggestion = 'Please try again.'
+
+    log.error('torus signin failed:', message, e, {
+      provider,
+      fromRedirect,
+      dialogShown: true,
+    })
+
+    if (message.includes('NoAllowedBrowserFoundException')) {
+      const suggestedBrowser = Platform.select({
+        ios: 'Safari',
+        android: 'Chrome',
+      })
+
+      suggestion = `Your default browser isn't supported. Please, set ${suggestedBrowser} as default and try again.`
+    }
+
+    setWalletPreparing(false)
+    showErrorDialog(`We were unable to load the wallet. ${suggestion}`)
+  }
+
   const selfCustodyLogin = useCallback(() => {
     fireEvent(SIGNIN_METHOD_SELECTED, { method: REGISTRATION_METHOD_SELF_CUSTODY })
     return navigate('SigninInfo')
@@ -138,6 +167,15 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
     provider: 'facebook' | 'google' | 'auth0' | 'auth0-pwdless-email' | 'auth0-pwdless-sms',
     torusUserRedirectPromise,
   ) => {
+    const fromRedirect = !!torusUserRedirectPromise
+    const torusPopupMode = config.env === 'test' || torusSDK.popupMode
+    const onTorusError = e => handleTorusError(e, { fromRedirect, provider })
+
+    // calling with redirect promise in popup mode is a nonsense
+    if (torusSDK.popupMode && torusUserRedirectPromise) {
+      return
+    }
+
     if (provider === 'selfCustody') {
       return selfCustody()
     }
@@ -152,60 +190,39 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
       setWalletPreparing(true)
 
       // in case this is triggered as a callback after redirect we fire a different vent
-      if (torusUserRedirectPromise) {
-        fireEvent(TORUS_REDIRECT_SUCCESS, {
-          method: provider,
-          torusPopupMode: torusSDK.popupMode, // this should always be false in case of redirect
-        })
-      } else {
-        fireEvent(SIGNIN_METHOD_SELECTED, {
-          method: provider,
-          torusPopupMode: torusSDK.popupMode, // for a/b testing
-        })
-      }
+      fireEvent(fromRedirect ? TORUS_REDIRECT_SUCCESS : SIGNIN_METHOD_SELECTED, {
+        method: provider,
+        torusPopupMode, // for a/b testing, it always be false in case of redirect
+      })
 
       try {
-        //don't expect response if in redirect mode, this method will be called again with response from effect
-        if (config.env !== 'test' && !torusSDK.popupMode && torusUserRedirectPromise == null) {
-          //just trigger the oauth and return
+        // don't expect response if in redirect mode, this method will be called again with response from effect
+        if (!torusPopupMode && !torusUserRedirectPromise) {
+          // just trigger the oauth and return
           log.debug('trigger redirect flow')
 
-          //keep the provider and if user is signin/signup for recall
+          // keep the provider and if user is signin/signup for recall
           AsyncStorage.setItem('recallTorusRedirectProvider', provider)
 
-          //here in redirect mode we are not waiting for response from torus
-          await getTorusUser(provider)
-          setWalletPreparing(false)
+          // here in redirect mode we are not waiting for response from torus
+          getTorusUser(provider)
+            .then(() => setWalletPreparing(false))
+            .catch(onTorusError)
+
           return
         }
 
-        //torusUserRedirectPromise - redirect mode
-        //getTorusUser(provider) - popup mode
-        torusResponse = await handleTorusResponse(torusUserRedirectPromise || getTorusUser(provider), provider)
+        // torusUserRedirectPromise - redirect mode
+        // getTorusUser(provider) - popup mode
+        const torusUserPromise = torusPopupMode ? getTorusUser(provider) : torusUserRedirectPromise
 
-        if (get(torusResponse, 'torusUser') == null) {
+        torusResponse = await handleTorusResponse(torusUserPromise, provider)
+
+        if (!get(torusResponse, 'torusUser')) {
           throw new Error('Invalid Torus response.')
         }
       } catch (e) {
-        log.error('torus signin failed:', e.message, e, {
-          provider,
-          fromRedirect: !!torusUserRedirectPromise,
-          dialogShown: true,
-        })
-        let suggestion = 'Please try again.'
-        const { message = '' } = e || {}
-
-        if (message.includes('NoAllowedBrowserFoundException')) {
-          const suggestedBrowser = Platform.select({
-            ios: 'Safari',
-            android: 'Chrome',
-          })
-
-          suggestion = `Your default browser isn't supported. Please, set ${suggestedBrowser} as default and try again.`
-        }
-
-        setWalletPreparing(false)
-        showErrorDialog(`We were unable to load the wallet. ${suggestion}`)
+        onTorusError(e)
         return
       }
 

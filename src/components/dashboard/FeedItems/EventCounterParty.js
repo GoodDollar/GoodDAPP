@@ -10,14 +10,20 @@ const EventContent = ({ style, textStyle, direction, description, hasSubtitle })
     numberOfLines={1}
     style={[
       {
-        minWidth: 400,
         flexDirection: 'row',
       },
       style,
     ]}
   >
     {!!direction && (
-      <Text numberOfLines={1} textTransform="capitalize" fontSize={10}>
+      <Text
+        style={{
+          minWidth: 10,
+        }}
+        umberOfLines={1}
+        textTransform="capitalize"
+        fontSize={10}
+      >
         {capitalize(direction)}:{' '}
       </Text>
     )}

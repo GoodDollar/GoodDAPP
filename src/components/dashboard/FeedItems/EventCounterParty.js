@@ -10,6 +10,7 @@ const EventContent = ({ style, textStyle, direction, description, hasSubtitle })
     numberOfLines={1}
     style={[
       {
+        minWidth: 400,
         flexDirection: 'row',
       },
       style,

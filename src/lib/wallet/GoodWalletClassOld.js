@@ -372,7 +372,7 @@ export class GoodWallet {
 
     const price = await reserve.methods.currentPriceDAI().call()
 
-    return wallet.utils.fromWei(price) * 100
+    return Number(wallet.utils.fromWei(price))
   }
 
   async syncTxWithBlockchain(startBlock) {

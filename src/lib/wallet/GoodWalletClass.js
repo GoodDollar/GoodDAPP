@@ -611,8 +611,9 @@ export class GoodWallet {
     )
 
     const price = await reserve.methods.currentPriceDAI().call()
+    const koeff = (Config.env || '').startsWith('prod') ? 1 : 100
 
-    return wallet.utils.fromWei(price) * 100
+    return wallet.utils.fromWei(price) * koeff
   }
 
   async getClaimScreenStatsMainnet() {

@@ -206,11 +206,11 @@ export default function AccountDetails({
 }: AccountDetailsProps): any {
     const { i18n } = useLingui()
     const { chainId, account, connector } = useActiveWeb3React()
-    const dispatch = useDispatch<AppDispatch>()
+    const dispatch = useDispatch<AppDispatch>() 
+    const { ethereum } = window
 
-    function formatConnectorName() {
-        const { ethereum } = window
-        const isMetaMask = !!(ethereum && ethereum.isMetaMask)
+    function formatConnectorName() { 
+        const isMetaMask = !!(ethereum && ethereum.selectedProvider?.isMetaMask) || window.walletLinkExtension
         const name = Object.keys(SUPPORTED_WALLETS)
             .filter(
                 k =>

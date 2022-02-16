@@ -6,6 +6,7 @@ import { injected } from '../connectors'
  * Use for network and injected - logs user in
  * and out after checking what network theyre on
  */
+/** @deprecated use src/hooks/index {useInactiveListener} instead */ 
 function useInactiveListener(suppress = false) {
     const { active, error, activate, deactivate } = useWeb3ReactCore() // specifically using useWeb3React because of what this hook does
 
@@ -42,8 +43,8 @@ function useInactiveListener(suppress = false) {
                 }
             }
 
-            ethereum.selectedProvider.on('chainChanged', handleChainChanged)
-            ethereum.selectedProvider.on('accountsChanged', handleAccountsChanged)
+            // ethereum.selectedProvider.on('chainChanged', handleChainChanged)
+            // ethereum.selectedProvider.on('accountsChanged', handleAccountsChanged)
 
             return () => {
                 if (ethereum.removeListener) {

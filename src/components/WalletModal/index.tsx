@@ -7,7 +7,7 @@ import styled from 'styled-components'
 import MetamaskIcon from '../../assets/images/metamask.png'
 import { ReactComponent as Close } from '../../assets/images/x.svg'
 import { injected } from '../../connectors'
-import { SUPPORTED_WALLETS } from '../../constants'
+import { ExternalProvider, SUPPORTED_WALLETS } from '../../constants'
 import usePrevious from '../../hooks/usePrevious'
 import { ApplicationModal } from '../../state/application/types'
 import { useModalOpen, useNetworkModalToggle, useWalletModalToggle } from '../../state/application/hooks'
@@ -21,6 +21,8 @@ import { useLingui } from '@lingui/react'
 import { ButtonAction } from 'components/gd/Button'
 import NetworkModal from 'components/NetworkModal'
 import { ChainId } from '@sushiswap/sdk'
+import useActiveWeb3React from 'hooks/useActiveWeb3React'
+import useSelectedProvider from 'hooks/useSelectedProvider'
 
 const CloseIcon = styled.div`
     position: absolute;
@@ -135,44 +137,44 @@ const ModalContent = (props: any) => {
 
     const { ethereum } = window
     const toggleNetworkModal = useNetworkModalToggle()
-
+    const isMultiple = useSelectedProvider()
     const handleEthereumNetworkSwitch = useCallback(() => {
         const networkType = process.env.REACT_APP_NETWORK || 'staging'
         if (networkType === 'staging') {
             toggleNetworkModal()
         } else if (networkType === 'production') {
-            ;(ethereum as any)?.request({
+              ;(isMultiple ? ethereum?.selectedProvider as any : ethereum as any)?.request({
                 method: 'wallet_switchEthereumChain',
                 params: [{ chainId: `0x${ChainId.MAINNET.toString(16)}` }]
-            })
+              })
             toggleWalletModal()
         }
     }, [ethereum, toggleNetworkModal, toggleWalletModal])
 
     const handleFuseNetworkSwitch = useCallback(() => {
-        ;(ethereum as any)?.request({
-            method: 'wallet_addEthereumChain',
-            params: [
-                {
-                    chainId: '0x7a',
-                    chainName: 'Fuse',
-                    nativeCurrency: {
-                        name: 'FUSE Token',
-                        symbol: 'FUSE',
-                        decimals: 18
-                    },
-                    rpcUrls: ['https://rpc.fuse.io'],
-                    blockExplorerUrls: ['https://explorer.fuse.io']
+      ;(isMultiple ? ethereum?.selectedProvider as any : ethereum as any).request({
+        method: 'wallet_addEthereumChain',
+        params: [
+            {
+                chainId: '0x7a',
+                chainName: 'Fuse',
+                nativeCurrency: {
+                    name: 'FUSE Token',
+                    symbol: 'FUSE',
+                    decimals: 18
                 },
-                account
-            ]
-        })
-        toggleWalletModal()
+                rpcUrls: ['https://rpc.fuse.io'],
+                blockExplorerUrls: ['https://explorer.fuse.io']
+            },
+            account
+        ]
+      })
+      toggleWalletModal()
     }, [account, ethereum, toggleWalletModal])
 
     function getOptions() {
-        const isMetamask = window.ethereum && window.ethereum.isMetaMask 
-
+      const isMetaMask = window.ethereum && (window.ethereum.isMetaMask 
+                                         || window.ethereum.selectedProvider?.isMetaMask) 
         return Object.keys(SUPPORTED_WALLETS).map(key => {
             const option = SUPPORTED_WALLETS[key]
  
@@ -200,7 +202,7 @@ const ModalContent = (props: any) => {
             // overwrite injected when needed
             if (option.connector === injected) {
                 // don't show injected if there's no injected provider
-                if (!(window.web3 || window.ethereum)) {
+                if (!(window.web3 || window.ethereum) || !isMetaMask) {
                     if (option.name === 'MetaMask') {
                         return (
                             <Option
@@ -217,35 +219,14 @@ const ModalContent = (props: any) => {
                         return null //dont want to return install twice
                     }
                 }
+
                 // don't return metamask if injected provider isn't metamask
-                else if (option.name === 'MetaMask' && !isMetamask) {
-                    return null
-                }
-                // likewise for generic
-                else if (option.name === 'Injected' && isMetamask) {
+                else if (option.name === 'MetaMask' && !isMetaMask) {
                   return null
-                  // below adds alternative extension (ie. Coinbase for now)
-                  // TODO: add icon(s) if decided if Coinbase is only one supported for now
-                    // return ( 
-                    //   <Option
-                    //     id={`connect-${key}`}
-                    //     onClick={() => {
-                    //         option.connector === connector
-                    //             ? setWalletView(WALLET_VIEWS.ACCOUNT)
-                    //             : !option.href && tryActivation(option.connector, true)
-                    //     }}
-                    //     key={key}
-                    //     active={option.connector === connector}
-                    //     color={option.color}
-                    //     link={option.href}
-                    //     header={option.name}
-                    //     subheader={null} //use option.descriptio to bring back multi-line
-                    //     icon={require('../../assets/images/' + option.iconName).default}
-                    //   />
-                    // )
                 }
             }
-            // return rest of options
+
+            // return rest of options (WalletConnect / Walletlink(ie. coinbase))
             return (
                 !isMobile &&
                 !option.mobileOnly && (
@@ -269,7 +250,7 @@ const ModalContent = (props: any) => {
         })
     }
 
-    const isMetaMask = window.ethereum && window.ethereum.isMetaMask
+    const isMetaMask = ethereum && (ethereum.isMetaMask || ethereum.selectedProvider?.isMetaMask)
 
     if (error) {
         return (
@@ -420,14 +401,6 @@ export default function WalletModal({
         // if the connector is walletconnect and the user has already tried to connect, manually reset the connector
         if (connector instanceof WalletConnectConnector && connector.walletConnectProvider?.wc?.uri) {
             connector.walletConnectProvider = undefined
-        }
-
-        // set selectedProvider manually to prevent multiple pop-ups
-        if (window.ethereum) {
-          const isMultiple = window.ethereum.providers?.length > 1 
-          const  provider = !isMultiple ? window.ethereum :  
-                            window.ethereum.providers.find((isMetaMask: any) => isMetaMask.isMetaMask)
-          window.ethereum.selectedProvider = provider
         }
 
         connector &&

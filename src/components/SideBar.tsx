@@ -11,9 +11,9 @@ import usePromise from '../hooks/usePromise'
 import { getTokens } from '../sdk/methods/tokenLists'
 import { Token } from '@sushiswap/sdk'
 import { useTokenBalance } from '../state/wallet/hooks'
-import { useWeb3React } from '@web3-react/core'
 import { AdditionalChainId } from '../constants'
 import { portfolioSupportedAt, stakesSupportedAt } from '../sdk/constants/chains'
+import useSelectedProvider from '../hooks/useSelectedProvider'
 
 const SideBarSC = styled.aside<{ $mobile?: boolean }>`
   width: ${({ $mobile }) => ($mobile ? 'auto' : '268px')};
@@ -134,8 +134,9 @@ const ExternalLink: React.FC<{ label: string; url: string }> = ({ label, url }) 
 
 export default function SideBar({ mobile }: { mobile?: boolean }) {
     const { i18n } = useLingui()
-    const { chainId: currentChainId } = useWeb3React()
+    const { ethereum } = window
     const { chainId, account } = useActiveWeb3React()
+    const isMultiple = useSelectedProvider()
     const [data] = usePromise(async () => {
         if (!chainId) return {}
         const [tokens] = await getTokens(chainId as any)
@@ -196,10 +197,17 @@ export default function SideBar({ mobile }: { mobile?: boolean }) {
         Promise.all(
             allTokens.map(
                 token =>
-                    window.ethereum?.request &&
-                    window.ethereum.request({
+                isMultiple ?
+                    ethereum?.selectedProvider?.request &&
+                    ethereum.selectedProvider.request({
                         method: 'wallet_watchAsset',
                         params: token
+                    })
+                    :
+                    ethereum?.request &&
+                    ethereum.request({
+                      method: 'wallet_watchAsset',
+                      params: token
                     })
             )
         )

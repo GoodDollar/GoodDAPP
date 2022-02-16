@@ -2,7 +2,7 @@ import { AbstractConnector } from '@web3-react/abstract-connector'
 import { darken } from 'polished'
 import React from 'react'
 import styled from 'styled-components'
-import { injected } from '../../connectors'
+import { injected, walletlink } from '../../connectors'
 import { SUPPORTED_WALLETS } from '../../constants'
 import Loader from '../Loader'
 import Option from './Option'
@@ -77,7 +77,10 @@ export default function PendingView({
     tryActivation: (connector: AbstractConnector) => void
 }) {
     const { i18n } = useLingui()
-    const isMetamask = window?.ethereum?.isMetaMask
+ 
+    const { ethereum } = window
+    const isMetamask = ethereum && (ethereum.isMetaMask || ethereum.selectedProvider?.isMetaMask)
+    const isCoinbase = window.walletLinkExtension
 
     return (
         <PendingSection>
@@ -107,12 +110,20 @@ export default function PendingView({
                 const option = SUPPORTED_WALLETS[key]
                 if (option.connector === connector) {
                     if (option.connector === injected) {
-                        if (isMetamask && option.name !== 'MetaMask') {
+                        if (isMetamask && option.name !== 'MetaMask')  {
                             return null
                         }
                         if (!isMetamask && option.name === 'MetaMask') {
                             return null
                         }
+                    }
+                    if (option.connector === walletlink) {
+                      if (isCoinbase && option.name !== 'Coinbase') {
+                        return null
+                      }
+                      if (!isCoinbase && option.name === 'Coinbase') {
+                        return null
+                      }
                     }
                     return (
                         <Option

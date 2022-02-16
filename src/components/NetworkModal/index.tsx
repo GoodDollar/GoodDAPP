@@ -7,7 +7,7 @@ import ModalHeader from '../ModalHeader'
 import React, { useMemo } from 'react'
 import Option from '../WalletModal/Option'
 import styled from 'styled-components'
-import { AdditionalChainId } from '../../constants'
+import { AdditionalChainId, ExternalProvider } from '../../constants'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
 import { UnsupportedChainIdError, useWeb3React } from '@web3-react/core'
@@ -166,12 +166,16 @@ export default function NetworkModal(): JSX.Element | null {
     const { library } = useActiveWeb3React()
     const networkModalOpen = useModalOpen(ApplicationModal.NETWORK)
     const toggleNetworkModal = useNetworkModalToggle()
+    const cLibrary = library?.provider as ExternalProvider
 
-    const { ethereum } = window
-    const networkLabel: string | null = (NETWORK_LABEL as any)[chainId || (ethereum as any)?.networkVersion] || null
+    const { ethereum } = window 
+
+    const networkLabel: string | null = (NETWORK_LABEL as any)
+      [chainId || (ethereum as any)?.networkVersion || 
+        (ethereum?.selectedProvider as any)?.networkVersion] || window.walletLinkExtension?.chainId || null
     const network = getNetworkEnv()
 
-    const allowedNetworks = useMemo(() => {
+    const allowedNetworks = useMemo(() => { 
         switch (true) {
             case network === 'production' && !error:
                 return [ChainId.MAINNET, AdditionalChainId.FUSE]
@@ -189,15 +193,6 @@ export default function NetworkModal(): JSX.Element | null {
                 return [ChainId.KOVAN, AdditionalChainId.FUSE, ChainId.ROPSTEN, ChainId.MAINNET]
         }
     }, [error, network])
-
-    const isMetaMask = window.ethereum && window.ethereum.isMetaMask
-
-    if (window.ethereum) {
-      const isMultiple = window.ethereum.providers?.length > 1
-      const provider = !isMultiple ? window.ethereum : 
-                       window.ethereum.providers.find((isMetaMask: any) => isMetaMask.isMetaMask)
-      window.ethereum.selectedProvider = provider
-    } 
 
     return (
         <Modal isOpen={networkModalOpen} onDismiss={toggleNetworkModal}>
@@ -236,22 +231,22 @@ export default function NetworkModal(): JSX.Element | null {
                                     ].includes(key as any)
                                 ) {
                                     console.log(key.toString(16))
-                                    if (isMetaMask && ethereum) {
-                                        ; (ethereum.selectedProvider as any).request({
-                                            method: 'wallet_switchEthereumChain',
-                                            params: [{ chainId: `0x${key.toString(16)}` }]
-                                        })
+                                    if (cLibrary.isMetaMask) {
+                                      ; (cLibrary as any).request({
+                                          method: 'wallet_switchEthereumChain',
+                                          params: [{ chainId: `0x${key.toString(16)}` }]
+                                      })
                                     } else {
                                         library?.send('wallet_switchEthereumChain', [
                                             { chainId: `0x${key.toString(16)}` }
                                         ])
                                     }
                                 } else {
-                                    if (isMetaMask && ethereum) {
-                                        ; (ethereum.selectedProvider as any).request({
-                                            method: 'wallet_addEthereumChain',
-                                            params: [params, account]
-                                        })
+                                    if (cLibrary.isMetaMask) {
+                                      ; (cLibrary as any).request({
+                                          method: 'wallet_addEthereumChain',
+                                          params: [params, account]
+                                      })
                                     } else {
                                         library?.send('wallet_addEthereumChain', [params, account])
                                     }

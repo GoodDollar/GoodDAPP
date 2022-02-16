@@ -1,4 +1,4 @@
-import { once } from 'lodash'
+import { noop, once } from 'lodash'
 import moment from 'moment'
 import { version as contractsVersion } from '../../node_modules/@gooddollar/goodcontracts/package.json'
 import { version } from '../../package.json'
@@ -13,7 +13,9 @@ import env from './env'
 //import { isE2ERunning } from '../lib/utils/platform'
 
 const { search: qs = '' } = isWeb ? window.location : {}
-const forceLogLevel = qs.match(/level=(.*?)($|&)/)
+const webStorage = isWeb ? window.localStorage : { getItem: noop }
+
+const forceLogLevel = qs.match(/level=(.*?)($|&)/) || webStorage.getItem('GD_LogLevel')
 const forcePeer = qs.match(/gun=(.*?)($|&)/)
 
 const phase = env.REACT_APP_RELEASE_PHASE || 1

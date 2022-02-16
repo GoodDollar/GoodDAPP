@@ -481,6 +481,7 @@
   "What's an exit contribution?": "Care este o contribuție de ieșire?",
   "When creating a pair you are the first liquidity provider. The ratio of tokens you add will set the price of this pool. Once you are happy with the rate, click supply to review": "Când creați o pereche, sunteți primul furnizor de lichidități. Raportul de jetoane pe care îl adăugați va stabili prețul acestui pool. După ce sunteți mulțumit de tarif, faceți clic pe furnizare pentru a examina",
   "Withdraw": "Retrage",
+  "Withdraw as {0}?": "",
   "Withdraw {assetSymbol}": "Retrase {assetSymbol}",
   "Withdrawing your stake will reset your multiplier.": "",
   "Withdrew funds from {0}": "A retras fonduri de la {0}",

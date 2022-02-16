@@ -127,7 +127,7 @@ function Withdraw({ token, protocol, open, setOpen, onWithdraw, stake, ...rest }
                         <div className="mt-4 mb-2 horizontal" />
 
                         <div className="flex justify-between mb-2 details-row">
-                            <div>{i18n._(t`Withdraw into interest token?`)}</div>
+                            <div>{i18n._(t`Withdraw as ${stake.tokens.B.symbol || 'interest token'}?`)}</div>
                             <Switch checked={withdrawInInterestToken} onChange={setWithdrawInInterestToken} />
                         </div>
                         <PercentInputControls

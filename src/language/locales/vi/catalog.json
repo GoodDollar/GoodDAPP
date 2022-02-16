@@ -481,6 +481,7 @@
   "What's an exit contribution?": "Đóng góp xuất cảnh là gì?",
   "When creating a pair you are the first liquidity provider. The ratio of tokens you add will set the price of this pool. Once you are happy with the rate, click supply to review": "Khi tạo một cặp, bạn là nhà cung cấp thanh khoản đầu tiên. Tỷ lệ mã thông báo bạn thêm vào sẽ thiết lập giá của nhóm này. Khi bạn hài lòng với tỷ lệ, hãy nhấp vào cung cấp để xem xét",
   "Withdraw": "Rút tiền",
+  "Withdraw as {0}?": "",
   "Withdraw {assetSymbol}": "Rút tiền {assetSymbol}",
   "Withdrawing your stake will reset your multiplier.": "",
   "Withdrew funds from {0}": "Đã rút tiền từ {0}",

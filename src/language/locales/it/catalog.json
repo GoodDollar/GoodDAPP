@@ -482,6 +482,7 @@
   "What's an exit contribution?": "Qual è un contributo di uscita?",
   "When creating a pair you are the first liquidity provider. The ratio of tokens you add will set the price of this pool. Once you are happy with the rate, click supply to review": "Quando crei una coppia sei il primo fornitore di liquidità. Il rapporto dei  token che aggiungi determinerà il prezzo di questa pool. Quando sei soddisfatto con il prezzo clicca su fornisci per verificare",
   "Withdraw": "Preleva",
+  "Withdraw as {0}?": "",
   "Withdraw {assetSymbol}": "Preleva{assetSymbol}",
   "Withdrawing your stake will reset your multiplier.": "",
   "Withdrew funds from {0}": "Ritirato i fondi da {0}",

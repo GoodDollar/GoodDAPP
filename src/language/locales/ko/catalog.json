@@ -479,6 +479,7 @@
   "What's an exit contribution?": "",
   "When creating a pair you are the first liquidity provider. The ratio of tokens you add will set the price of this pool. Once you are happy with the rate, click supply to review": "쌍을 만들 때 귀하는 최초의 유동성 공급자입니다. 추가하는 토큰의 비율이이 풀의 가격을 설정합니다. 요금에 만족하면 공급을 클릭하여 검토하십시오.",
   "Withdraw": "빼다",
+  "Withdraw as {0}?": "",
   "Withdraw {assetSymbol}": "{assetSymbol} 인출",
   "Withdrawing your stake will reset your multiplier.": "",
   "Withdrew funds from {0}": "{0}에서 철수 된 자금",

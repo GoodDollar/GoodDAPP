@@ -481,6 +481,7 @@
   "What's an exit contribution?": "Was ist ein Austrittsbeitrag?",
   "When creating a pair you are the first liquidity provider. The ratio of tokens you add will set the price of this pool. Once you are happy with the rate, click supply to review": "Beim Erstellen eines Paares sind Sie der erste Liquiditätsanbieter. Das Verhältnis der von Ihnen hinzugefügten Token bestimmt den Preis für diesen Pool. Wenn Sie mit der Rate zufrieden sind, klicken Sie auf \"Bereitstellen\", um sie zu überprüfen",
   "Withdraw": "Abheben",
+  "Withdraw as {0}?": "",
   "Withdraw {assetSymbol}": "{assetSymbol}",
   "Withdrawing your stake will reset your multiplier.": "",
   "Withdrew funds from {0}": "Rücknahme von Mitteln von {0}",

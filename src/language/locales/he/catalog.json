@@ -480,6 +480,7 @@
   "What's an exit contribution?": "מהי תרומת יציאה?",
   "When creating a pair you are the first liquidity provider. The ratio of tokens you add will set the price of this pool. Once you are happy with the rate, click supply to review": "בעת יצירת זוג אתה ספק הנזילות הראשון. היחס בין אסימונים שתוסיף יקבע את המחיר של ברכה זו. ברגע שאתה מרוצה עם שיעור, לחץ על האספקה כדי לסקור",
   "Withdraw": "לסגת",
+  "Withdraw as {0}?": "",
   "Withdraw {assetSymbol}": "משוך {assetSymbol}",
   "Withdrawing your stake will reset your multiplier.": "",
   "Withdrew funds from {0}": "משכו כספים מ {0}",

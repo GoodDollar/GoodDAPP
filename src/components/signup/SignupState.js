@@ -591,7 +591,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
           .catch(e => {
             log.error('failed auth:', e.message, e)
 
-            // showErrorDialog('Failed authenticating with server', e)
+            throw e
           })
 
         return apiReady()

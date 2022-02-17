@@ -515,8 +515,6 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
       if (!skipEmail) {
         return navigateWithFocus('Email')
       }
-
-      return done({ isEmailConfirmed: true })
     }
   }, [
     regMethod,

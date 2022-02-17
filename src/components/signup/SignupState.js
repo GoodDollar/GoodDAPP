@@ -249,7 +249,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
               .catch(e => moment())
               .then(_ => Math.max(Date.now(), _.valueOf()))
             const msg = (mobile || email) + String(torusProofNonce)
-            const proof = goodWallet.wallet.eth.accounts.sign(msg, '0x' + privateKey)
+            const proof = goodWallet?.wallet?.eth?.accounts?.sign(msg, '0x' + privateKey)
 
             assign(requestPayload, {
               torusProof: proof.signature,

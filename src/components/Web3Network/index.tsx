@@ -4,36 +4,42 @@ import { useNetworkModalToggle } from '../../state/application/hooks'
 import { NETWORK_ICON, NETWORK_LABEL } from '../../constants/networks'
 import NetworkModal from '../NetworkModal'
 import { ButtonOutlined } from '../gd/Button'
+import useMetaMask from 'hooks/useMetaMask'
 
 function Web3Network(): JSX.Element | null {
     const { chainId } = useActiveWeb3React()
+    const isMetaMask = useMetaMask() 
 
     const toggleNetworkModal = useNetworkModalToggle()
 
     if (!chainId) return null
 
     return (
-        <div
-            className="flex items-center rounded p-0.5 whitespace-nowrap   cursor-pointer select-none pointer-events-auto"
-            onClick={() => toggleNetworkModal()}
-        >
-            <ButtonOutlined>
-                <div className="grid grid-flow-col auto-cols-max items-center rounded-lg   py-2 px-3 pointer-events-auto">
-                    <img
-                        src={NETWORK_ICON[chainId]}
-                        alt="Switch Network"
-                        className="rounded-md mr-2"
-                        style={{ width: 22, height: 22 }}
-                    />
-                    <div className="">{NETWORK_LABEL[chainId]}</div>
-                </div>
-            </ButtonOutlined>
-            {/* <div
-                className="bg-cover bg-no-repeat bg-chain-static hover:bg-chain-animated"
-                style={{ width: 22, height: 22 }}
-            /> */}
-            <NetworkModal />
-        </div>
+      <>      
+        { isMetaMask && (
+              <div
+              className="flex items-center rounded p-0.5 whitespace-nowrap   cursor-pointer select-none pointer-events-auto"
+              onClick={() => toggleNetworkModal()}
+          >
+              <ButtonOutlined>
+                  <div className="grid grid-flow-col auto-cols-max items-center rounded-lg   py-2 px-3 pointer-events-auto">
+                      <img
+                          src={NETWORK_ICON[chainId]}
+                          alt="Switch Network"
+                          className="rounded-md mr-2"
+                          style={{ width: 22, height: 22 }}
+                      />
+                      <div className="">{NETWORK_LABEL[chainId]}</div>
+                  </div>
+              </ButtonOutlined>
+              {/* <div
+                  className="bg-cover bg-no-repeat bg-chain-static hover:bg-chain-animated"
+                  style={{ width: 22, height: 22 }}
+              /> */}
+                <NetworkModal />
+          </div>
+        )}
+      </>
     )
 }
 

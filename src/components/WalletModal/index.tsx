@@ -6,8 +6,8 @@ import { isMobile } from 'react-device-detect'
 import styled from 'styled-components'
 import MetamaskIcon from '../../assets/images/metamask.png'
 import { ReactComponent as Close } from '../../assets/images/x.svg'
-import { injected } from '../../connectors'
-import { SUPPORTED_WALLETS } from '../../constants'
+import { injected, walletlink } from '../../connectors'
+import { ExternalProvider, SUPPORTED_WALLETS } from '../../constants'
 import usePrevious from '../../hooks/usePrevious'
 import { ApplicationModal } from '../../state/application/types'
 import { useModalOpen, useNetworkModalToggle, useWalletModalToggle } from '../../state/application/hooks'
@@ -21,6 +21,8 @@ import { useLingui } from '@lingui/react'
 import { ButtonAction } from 'components/gd/Button'
 import NetworkModal from 'components/NetworkModal'
 import { ChainId } from '@sushiswap/sdk'
+import useActiveWeb3React from 'hooks/useActiveWeb3React'
+import useMetaMask, { metaMaskRequests } from '../../hooks/useMetaMask'
 
 const CloseIcon = styled.div`
     position: absolute;
@@ -135,48 +137,27 @@ const ModalContent = (props: any) => {
 
     const { ethereum } = window
     const toggleNetworkModal = useNetworkModalToggle()
-
+    const metaMaskInfo = useMetaMask()
     const handleEthereumNetworkSwitch = useCallback(() => {
         const networkType = process.env.REACT_APP_NETWORK || 'staging'
         if (networkType === 'staging') {
             toggleNetworkModal()
         } else if (networkType === 'production') {
-            ;(ethereum as any)?.request({
-                method: 'wallet_switchEthereumChain',
-                params: [{ chainId: `0x${ChainId.MAINNET.toString(16)}` }]
-            })
+              metaMaskRequests(metaMaskInfo, 'switch')
             toggleWalletModal()
         }
     }, [ethereum, toggleNetworkModal, toggleWalletModal])
 
     const handleFuseNetworkSwitch = useCallback(() => {
-        ;(ethereum as any)?.request({
-            method: 'wallet_addEthereumChain',
-            params: [
-                {
-                    chainId: '0x7a',
-                    chainName: 'Fuse',
-                    nativeCurrency: {
-                        name: 'FUSE Token',
-                        symbol: 'FUSE',
-                        decimals: 18
-                    },
-                    rpcUrls: ['https://rpc.fuse.io'],
-                    blockExplorerUrls: ['https://explorer.fuse.io']
-                },
-                account
-            ]
-        })
-        toggleWalletModal()
+      metaMaskRequests(metaMaskInfo, 'add', account)
+      toggleWalletModal()
     }, [account, ethereum, toggleWalletModal])
 
-    function getOptions() {
-        const isMetamask = window.ethereum && window.ethereum.isMetaMask
-
+    function getOptions() { 
         return Object.keys(SUPPORTED_WALLETS).map(key => {
             const option = SUPPORTED_WALLETS[key]
-
-            // check for mobile options
+ 
+            // check for mobile options 
             if (isMobile) {
                 if (!window.web3 && !window.ethereum && option.mobile) {
                     return (
@@ -200,7 +181,7 @@ const ModalContent = (props: any) => {
             // overwrite injected when needed
             if (option.connector === injected) {
                 // don't show injected if there's no injected provider
-                if (!(window.web3 || window.ethereum)) {
+                if (!(window.web3 || window.ethereum) || !metaMaskInfo.isMetaMask) {
                     if (option.name === 'MetaMask') {
                         return (
                             <Option
@@ -217,17 +198,18 @@ const ModalContent = (props: any) => {
                         return null //dont want to return install twice
                     }
                 }
+
                 // don't return metamask if injected provider isn't metamask
-                else if (option.name === 'MetaMask' && !isMetamask) {
-                    return null
-                }
-                // likewise for generic
-                else if (option.name === 'Injected' && isMetamask) {
-                    return null
+                else if (option.name === 'MetaMask' && !metaMaskInfo.isMetaMask) {
+                  return null
                 }
             }
 
-            // return rest of options
+            if (option.connector === walletlink){
+              return null
+            }
+
+            // return rest of options (WalletConnect / Walletlink(ie. coinbase))
             return (
                 !isMobile &&
                 !option.mobileOnly && (
@@ -251,7 +233,7 @@ const ModalContent = (props: any) => {
         })
     }
 
-    const isMetaMask = window.ethereum && window.ethereum.isMetaMask
+    // const isMetaMask = ethereum && (ethereum.isMetaMask || ethereum.selectedProvider?.isMetaMask)
 
     if (error) {
         return (
@@ -266,7 +248,7 @@ const ModalContent = (props: any) => {
                     {error instanceof UnsupportedChainIdError ? (
                         <>
                             <h5 className="text-center">{i18n._(t`Please connect to the appropriate network.`)}</h5>
-                            {isMetaMask && (
+                            {metaMaskInfo.isMetaMask || window.walletLinkExtension && (
                                 <div className="flex flex-row align-center justify-around mt-5 pt-2">
                                     <ButtonAction
                                         size="sm"
@@ -387,6 +369,7 @@ export default function WalletModal({
 
     const tryActivation = async (connector: AbstractConnector | undefined) => {
         let name = ''
+
         Object.keys(SUPPORTED_WALLETS).map(key => {
             if (connector === SUPPORTED_WALLETS[key].connector) {
                 return (name = SUPPORTED_WALLETS[key].name)

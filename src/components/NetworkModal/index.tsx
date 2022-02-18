@@ -13,6 +13,7 @@ import { useLingui } from '@lingui/react'
 import { UnsupportedChainIdError, useWeb3React } from '@web3-react/core'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import { getNetworkEnv } from 'sdk/constants/addresses'
+import useMetaMask, { metaMaskRequests } from 'hooks/useMetaMask'
 
 const PARAMS: {
     [chainId in ChainId | AdditionalChainId]?: {
@@ -167,11 +168,17 @@ export default function NetworkModal(): JSX.Element | null {
     const networkModalOpen = useModalOpen(ApplicationModal.NETWORK)
     const toggleNetworkModal = useNetworkModalToggle()
 
-    const { ethereum } = window
-    const networkLabel: string | null = (NETWORK_LABEL as any)[chainId || (ethereum as any)?.networkVersion] || null
+    const metaMaskInfo = useMetaMask()
+    const { ethereum } = window 
+
+    const networkLabel: string | null = (NETWORK_LABEL as any)
+      [chainId || 
+      (metaMaskInfo.isMetaMask && 
+      (metaMaskInfo.isMultiple ? ethereum?.selectedProvider as any 
+                               : ethereum as any)?.networkVersion)] || null
     const network = getNetworkEnv()
 
-    const allowedNetworks = useMemo(() => {
+    const allowedNetworks = useMemo(() => { 
         switch (true) {
             case network === 'production' && !error:
                 return [ChainId.MAINNET, AdditionalChainId.FUSE]
@@ -189,8 +196,6 @@ export default function NetworkModal(): JSX.Element | null {
                 return [ChainId.KOVAN, AdditionalChainId.FUSE, ChainId.ROPSTEN, ChainId.MAINNET]
         }
     }, [error, network])
-
-    const isMetaMask = window.ethereum && window.ethereum.isMetaMask
 
     return (
         <Modal isOpen={networkModalOpen} onDismiss={toggleNetworkModal}>
@@ -223,30 +228,25 @@ export default function NetworkModal(): JSX.Element | null {
                                     [
                                         ChainId.MAINNET,
                                         ChainId.KOVAN,
-                                        ChainId.RINKEBY,
+                                        ChainId.RINKEBY, 
                                         ChainId.GÖRLI,
                                         ChainId.ROPSTEN
                                     ].includes(key as any)
                                 ) {
                                     console.log(key.toString(16))
-                                    if (isMetaMask) {
-                                        ; (ethereum as any).request({
-                                            method: 'wallet_switchEthereumChain',
-                                            params: [{ chainId: `0x${key.toString(16)}` }]
-                                        })
-                                    } else {
+                                    if (metaMaskInfo.isMetaMask) {
+                                      metaMaskRequests(metaMaskInfo, 'switch')
+                                    }
+                                    else {
                                         library?.send('wallet_switchEthereumChain', [
-                                            { chainId: `0x${key.toString(16)}` }
+                                          { chainId: `0x${key.toString(16)}` }
                                         ])
                                     }
                                 } else {
-                                    if (isMetaMask) {
-                                        ; (ethereum as any).request({
-                                            method: 'wallet_addEthereumChain',
-                                            params: [params, account]
-                                        })
+                                    if (metaMaskInfo.isMetaMask) {
+                                      metaMaskRequests(metaMaskInfo, 'add', account)
                                     } else {
-                                        library?.send('wallet_addEthereumChain', [params, account])
+                                      library?.send('wallet_addEthereumChain', [params, account])
                                     }
                                 }
                             }}

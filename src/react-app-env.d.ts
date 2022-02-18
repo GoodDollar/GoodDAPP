@@ -14,13 +14,26 @@ interface RequestArguments {
 }
 
 interface Window {
+    walletLinkExtension?: any,
     ethereum?: {
-        isMetaMask?: true
-        on?: (...args: any[]) => void
-        removeListener?: (...args: any[]) => void
-        autoRefreshOnNetworkChange?: boolean
-        request?: (args: RequestArguments) => Promise<unknown>
-    }
+        isMetaMask?: boolean, 
+        on?: (...args: any[]) => void,
+        off?: (...args: any[]) => void,
+        removeListener?: (...args: any[]) => void,
+        removeAllListeners?: (...args: any[]) => void,
+        autoRefreshOnNetworkChange?: boolean,
+        request?: (args: RequestArguments) => Promise<unknown>,
+        providers?: array,
+        selectedProvider: { 
+          isMetaMask?: boolean, 
+          on?: (...args: any[]) => void,
+          off?: (...args: any[]) => void,
+          removeListener?: (...args: any[]) => void,
+          removeAllListeners?: (...args: any[]) => void,
+          autoRefreshOnNetworkChange?: boolean,
+          request?: (args: RequestArguments) => Promise<unknown>,
+        } | null
+    },
     web3?: {}
 }
 

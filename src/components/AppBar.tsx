@@ -22,6 +22,7 @@ import usePromise from '../hooks/usePromise'
 import { g$Price } from '../sdk/apollo'
 import LanguageSwitch from "./LanguageSwitch";
 import NetworkModal from './NetworkModal'
+// import { ExternalProvider } from '../constants'
 
 const AppBarWrapper = styled.header`
     background: ${({ theme }) => theme.color.main};
@@ -64,6 +65,7 @@ function AppBar(): JSX.Element {
     const [theme, setTheme] = useApplicationTheme()
     const { i18n } = useLingui()
     const { account, chainId, library } = useActiveWeb3React()
+    // const cLibrary = library?.provider as ExternalProvider // this to add access to isWalletLink on type
     const userEthBalance = useETHBalances(account ? [account] : [])?.[account ?? '']
     const [G$Price] = usePromise(async () => {
         try {

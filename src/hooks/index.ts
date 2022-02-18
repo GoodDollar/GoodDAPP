@@ -2,7 +2,7 @@ import { useWeb3React as useWeb3ReactCore } from '@web3-react/core'
 import { useEffect, useState } from 'react'
 import { isMobile } from 'react-device-detect'
 import { injected, walletlink } from '../connectors'
-import useSelectedProvider from './useSelectedProvider' 
+import useMetaMask from '../hooks/useMetaMask'
 
 export function useEagerConnect() {
     const { activate, active } = useWeb3ReactCore() // specifically using useWeb3ReactCore because of what this hook does
@@ -57,10 +57,11 @@ export function useEagerConnect() {
  */
 export function useInactiveListener(suppress = false) {
   const { active, error, activate, deactivate } = useWeb3ReactCore() // specifically using useWeb3React because of what this hook does
-  const isMultiple = useSelectedProvider()
+  const metaMaskInfo = useMetaMask()
   const { ethereum } = window
     useEffect(() => {
         if (ethereum && !active && !error && !suppress) {
+          // todo: add activators for coinbase
             const handleChainChanged = () => {
                 // eat errors
                 activate(injected, undefined, true).catch(error => {
@@ -77,10 +78,13 @@ export function useInactiveListener(suppress = false) {
                     })
                 } else {
                   deactivate()
+                  if (metaMaskInfo.isMultiple) {
+                    window.location.reload()
+                  }
                 }
             }
 
-            if (isMultiple && ethereum.selectedProvider?.on) {
+            if (metaMaskInfo.isMultiple && ethereum.selectedProvider?.on) {
               ethereum.selectedProvider.on('chainChanged', handleChainChanged) 
               ethereum.selectedProvider.on('accountsChanged', handleAccountsChanged)  
             } else if (ethereum.on){
@@ -90,7 +94,7 @@ export function useInactiveListener(suppress = false) {
 
 
             return () => { 
-                if (isMultiple && ethereum.selectedProvider?.off){
+                if (metaMaskInfo.isMultiple && ethereum.selectedProvider?.off){
                   ethereum.selectedProvider.off('chainChanged', handleChainChanged)
                   ethereum.selectedProvider.off('accountsChanged', handleAccountsChanged)
                 } else if (ethereum.off) {

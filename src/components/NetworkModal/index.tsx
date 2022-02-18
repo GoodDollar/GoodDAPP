@@ -7,12 +7,13 @@ import ModalHeader from '../ModalHeader'
 import React, { useMemo } from 'react'
 import Option from '../WalletModal/Option'
 import styled from 'styled-components'
-import { AdditionalChainId, ExternalProvider } from '../../constants'
+import { AdditionalChainId } from '../../constants'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
 import { UnsupportedChainIdError, useWeb3React } from '@web3-react/core'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import { getNetworkEnv } from 'sdk/constants/addresses'
+import useMetaMask, { metaMaskRequests } from 'hooks/useMetaMask'
 
 const PARAMS: {
     [chainId in ChainId | AdditionalChainId]?: {
@@ -166,13 +167,18 @@ export default function NetworkModal(): JSX.Element | null {
     const { library } = useActiveWeb3React()
     const networkModalOpen = useModalOpen(ApplicationModal.NETWORK)
     const toggleNetworkModal = useNetworkModalToggle()
-    const cLibrary = library?.provider as ExternalProvider
 
+    const metaMaskInfo = useMetaMask()
     const { ethereum } = window 
 
+    // todo: find active provider
+
     const networkLabel: string | null = (NETWORK_LABEL as any)
-      [chainId || (ethereum as any)?.networkVersion || 
-        (ethereum?.selectedProvider as any)?.networkVersion] || window.walletLinkExtension?.chainId || null
+      [chainId || 
+      (metaMaskInfo.isMetaMask && 
+      (metaMaskInfo.isMultiple ? ethereum?.selectedProvider as any 
+                               : ethereum as any)?.networkVersion)] ||
+      window.walletLinkExtension?.chainId || null
     const network = getNetworkEnv()
 
     const allowedNetworks = useMemo(() => { 
@@ -231,24 +237,19 @@ export default function NetworkModal(): JSX.Element | null {
                                     ].includes(key as any)
                                 ) {
                                     console.log(key.toString(16))
-                                    if (cLibrary.isMetaMask) {
-                                      ; (cLibrary as any).request({
-                                          method: 'wallet_switchEthereumChain',
-                                          params: [{ chainId: `0x${key.toString(16)}` }]
-                                      })
-                                    } else {
+                                    if (metaMaskInfo.isMetaMask) {
+                                      metaMaskRequests(metaMaskInfo, 'switch')
+                                    }
+                                    else {
                                         library?.send('wallet_switchEthereumChain', [
-                                            { chainId: `0x${key.toString(16)}` }
+                                          { chainId: `0x${key.toString(16)}` }
                                         ])
                                     }
                                 } else {
-                                    if (cLibrary.isMetaMask) {
-                                      ; (cLibrary as any).request({
-                                          method: 'wallet_addEthereumChain',
-                                          params: [params, account]
-                                      })
+                                    if (metaMaskInfo.isMetaMask) {
+                                      metaMaskRequests(metaMaskInfo, 'add', account)
                                     } else {
-                                        library?.send('wallet_addEthereumChain', [params, account])
+                                      library?.send('wallet_addEthereumChain', [params, account])
                                     }
                                 }
                             }}

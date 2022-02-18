@@ -22,7 +22,7 @@ import { ButtonAction } from 'components/gd/Button'
 import NetworkModal from 'components/NetworkModal'
 import { ChainId } from '@sushiswap/sdk'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
-import useSelectedProvider from 'hooks/useSelectedProvider'
+import useMetaMask, { metaMaskRequests } from '../../hooks/useMetaMask'
 
 const CloseIcon = styled.div`
     position: absolute;
@@ -137,44 +137,23 @@ const ModalContent = (props: any) => {
 
     const { ethereum } = window
     const toggleNetworkModal = useNetworkModalToggle()
-    const isMultiple = useSelectedProvider()
+    const metaMaskInfo = useMetaMask()
     const handleEthereumNetworkSwitch = useCallback(() => {
         const networkType = process.env.REACT_APP_NETWORK || 'staging'
         if (networkType === 'staging') {
             toggleNetworkModal()
         } else if (networkType === 'production') {
-              ;(isMultiple ? ethereum?.selectedProvider as any : ethereum as any)?.request({
-                method: 'wallet_switchEthereumChain',
-                params: [{ chainId: `0x${ChainId.MAINNET.toString(16)}` }]
-              })
+              metaMaskRequests(metaMaskInfo, 'switch')
             toggleWalletModal()
         }
     }, [ethereum, toggleNetworkModal, toggleWalletModal])
 
     const handleFuseNetworkSwitch = useCallback(() => {
-      ;(isMultiple ? ethereum?.selectedProvider as any : ethereum as any).request({
-        method: 'wallet_addEthereumChain',
-        params: [
-            {
-                chainId: '0x7a',
-                chainName: 'Fuse',
-                nativeCurrency: {
-                    name: 'FUSE Token',
-                    symbol: 'FUSE',
-                    decimals: 18
-                },
-                rpcUrls: ['https://rpc.fuse.io'],
-                blockExplorerUrls: ['https://explorer.fuse.io']
-            },
-            account
-        ]
-      })
+      metaMaskRequests(metaMaskInfo, 'add', account)
       toggleWalletModal()
     }, [account, ethereum, toggleWalletModal])
 
-    function getOptions() {
-      const isMetaMask = window.ethereum && (window.ethereum.isMetaMask 
-                                         || window.ethereum.selectedProvider?.isMetaMask) 
+    function getOptions() { 
         return Object.keys(SUPPORTED_WALLETS).map(key => {
             const option = SUPPORTED_WALLETS[key]
  
@@ -202,7 +181,7 @@ const ModalContent = (props: any) => {
             // overwrite injected when needed
             if (option.connector === injected) {
                 // don't show injected if there's no injected provider
-                if (!(window.web3 || window.ethereum) || !isMetaMask) {
+                if (!(window.web3 || window.ethereum) || !metaMaskInfo.isMetaMask) {
                     if (option.name === 'MetaMask') {
                         return (
                             <Option
@@ -221,7 +200,7 @@ const ModalContent = (props: any) => {
                 }
 
                 // don't return metamask if injected provider isn't metamask
-                else if (option.name === 'MetaMask' && !isMetaMask) {
+                else if (option.name === 'MetaMask' && !metaMaskInfo.isMetaMask) {
                   return null
                 }
             }
@@ -250,7 +229,7 @@ const ModalContent = (props: any) => {
         })
     }
 
-    const isMetaMask = ethereum && (ethereum.isMetaMask || ethereum.selectedProvider?.isMetaMask)
+    // const isMetaMask = ethereum && (ethereum.isMetaMask || ethereum.selectedProvider?.isMetaMask)
 
     if (error) {
         return (
@@ -265,7 +244,7 @@ const ModalContent = (props: any) => {
                     {error instanceof UnsupportedChainIdError ? (
                         <>
                             <h5 className="text-center">{i18n._(t`Please connect to the appropriate network.`)}</h5>
-                            {isMetaMask && (
+                            {metaMaskInfo.isMetaMask || window.walletLinkExtension && (
                                 <div className="flex flex-row align-center justify-around mt-5 pt-2">
                                     <ButtonAction
                                         size="sm"

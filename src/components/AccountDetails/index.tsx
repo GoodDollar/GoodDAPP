@@ -18,6 +18,7 @@ import Title from '../gd/Title'
 import { ButtonOutlined } from '../gd/Button'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
+// import useSelectedProvider from 'hooks/useSelectedProvider'
 
 const UpperSection = styled.div`
     position: relative;
@@ -207,18 +208,17 @@ export default function AccountDetails({
     const { i18n } = useLingui()
     const { chainId, account, connector } = useActiveWeb3React()
     const dispatch = useDispatch<AppDispatch>() 
-    const { ethereum } = window
 
-    function formatConnectorName() { 
-        const isMetaMask = !!(ethereum && ethereum.selectedProvider?.isMetaMask) || window.walletLinkExtension
-        const name = Object.keys(SUPPORTED_WALLETS)
-            .filter(
-                k =>
-                    SUPPORTED_WALLETS[k].connector === connector &&
-                    (connector !== injected || isMetaMask === (k === 'METAMASK'))
-            )
-            .map(k => SUPPORTED_WALLETS[k].name)[0]
-        return `${i18n._(t`Connected with`)} ${name}`
+    function formatConnectorName() {
+      let name =  ''
+      Object.keys(SUPPORTED_WALLETS).map(key => {
+        if (connector === SUPPORTED_WALLETS[key].connector) {
+          return (name = SUPPORTED_WALLETS[key].name)
+        }
+        return true
+      }) 
+
+      return `${i18n._(t`Connected with`)} ${name}`
     }
 
     const clearAllTransactionsCallback = useCallback(() => {

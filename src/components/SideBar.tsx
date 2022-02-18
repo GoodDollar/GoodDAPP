@@ -13,7 +13,7 @@ import { Token } from '@sushiswap/sdk'
 import { useTokenBalance } from '../state/wallet/hooks'
 import { AdditionalChainId } from '../constants'
 import { portfolioSupportedAt, stakesSupportedAt } from '../sdk/constants/chains'
-import useSelectedProvider from '../hooks/useSelectedProvider'
+import useMetaMask from '../hooks/useMetaMask'
 
 const SideBarSC = styled.aside<{ $mobile?: boolean }>`
   width: ${({ $mobile }) => ($mobile ? 'auto' : '268px')};
@@ -136,7 +136,7 @@ export default function SideBar({ mobile }: { mobile?: boolean }) {
     const { i18n } = useLingui()
     const { ethereum } = window
     const { chainId, account } = useActiveWeb3React()
-    const isMultiple = useSelectedProvider()
+    const metaMaskInfo = useMetaMask()
     const [data] = usePromise(async () => {
         if (!chainId) return {}
         const [tokens] = await getTokens(chainId as any)
@@ -197,7 +197,7 @@ export default function SideBar({ mobile }: { mobile?: boolean }) {
         Promise.all(
             allTokens.map(
                 token =>
-                isMultiple ?
+                metaMaskInfo.isMultiple ?
                     ethereum?.selectedProvider?.request &&
                     ethereum.selectedProvider.request({
                         method: 'wallet_watchAsset',

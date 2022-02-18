@@ -8,6 +8,7 @@ import Loader from '../Loader'
 import Option from './Option'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
+import useMetaMask from '../../hooks/useMetaMask'
 
 const PendingSection = styled.div`
     ${({ theme }) => theme.flexColumnNoWrap};
@@ -79,8 +80,8 @@ export default function PendingView({
     const { i18n } = useLingui()
  
     const { ethereum } = window
-    const isMetamask = ethereum && (ethereum.isMetaMask || ethereum.selectedProvider?.isMetaMask)
-    const isCoinbase = window.walletLinkExtension
+    const metaMaskInfo = useMetaMask()
+    // const isCoinbase = window.walletLinkExtension
 
     return (
         <PendingSection>
@@ -110,20 +111,18 @@ export default function PendingView({
                 const option = SUPPORTED_WALLETS[key]
                 if (option.connector === connector) {
                     if (option.connector === injected) {
-                        if (isMetamask && option.name !== 'MetaMask')  {
-                            return null
-                        }
-                        if (!isMetamask && option.name === 'MetaMask') {
+                        if (!metaMaskInfo.isMetaMask && option.name === 'MetaMask') {
                             return null
                         }
                     }
                     if (option.connector === walletlink) {
-                      if (isCoinbase && option.name !== 'Coinbase') {
-                        return null
-                      }
-                      if (!isCoinbase && option.name === 'Coinbase') {
-                        return null
-                      }
+                      return null
+                      // if (isCoinbase && option.name !== 'Coinbase') {
+                      //   return null
+                      // }
+                      // if (!isCoinbase && option.name === 'Coinbase') {
+                      //   return null
+                      // }
                     }
                     return (
                         <Option

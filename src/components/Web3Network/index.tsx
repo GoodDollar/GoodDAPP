@@ -4,12 +4,11 @@ import { useNetworkModalToggle } from '../../state/application/hooks'
 import { NETWORK_ICON, NETWORK_LABEL } from '../../constants/networks'
 import NetworkModal from '../NetworkModal'
 import { ButtonOutlined } from '../gd/Button'
+import useMetaMask from 'hooks/useMetaMask'
 
 function Web3Network(): JSX.Element | null {
     const { chainId } = useActiveWeb3React()
-    const { ethereum } = window
-    const isMetaOrCoin = ethereum && (
-      ethereum.isMetaMask || ethereum.selectedProvider?.isMetaMask || window.walletLinkExtension) 
+    const isMetaMask = useMetaMask() 
 
     const toggleNetworkModal = useNetworkModalToggle()
 
@@ -17,7 +16,7 @@ function Web3Network(): JSX.Element | null {
 
     return (
       <>      
-        { isMetaOrCoin && (
+        { isMetaMask && (
               <div
               className="flex items-center rounded p-0.5 whitespace-nowrap   cursor-pointer select-none pointer-events-auto"
               onClick={() => toggleNetworkModal()}

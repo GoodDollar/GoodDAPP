@@ -10,7 +10,7 @@ export function useEagerConnect() {
 
     const { ethereum } = window
 
-    const isCoinbase = window.walletLinkExtension
+    // const isCoinbase = window.walletLinkExtension
 
     useEffect(() => {
         injected.isAuthorized().then(isAuthorized => {
@@ -19,21 +19,21 @@ export function useEagerConnect() {
                 .catch(() => {
                     setTried(true)
                 })
-                if (window.ethereum?.removeAllListeners){
-                  window?.ethereum?.removeAllListeners(['networkChanged'])
-                }
+                // if (window.ethereum?.removeAllListeners){
+                //   window?.ethereum?.removeAllListeners(['networkChanged'])
+                // }
           } else {
               if (isMobile && ethereum) {
                   activate(injected, undefined, true).catch(() => {
                       setTried(true)
                   })
-                  if (window.ethereum?.removeAllListeners){
-                    window?.ethereum?.removeAllListeners(['networkChanged'])
-                  }
-              } else if (isCoinbase && isCoinbase._addresses.length > 0){
-                  activate(walletlink, undefined, true).catch(() => {
-                    setTried(true)
-                  })
+              //     if (window.ethereum?.removeAllListeners){
+              //       window?.ethereum?.removeAllListeners(['networkChanged'])
+              //     }
+              // } else if (isCoinbase && isCoinbase._addresses.length > 0){
+              //     activate(walletlink, undefined, true).catch(() => {
+              //       setTried(true)
+              //     })
               } else {
                 setTried(true)
               }

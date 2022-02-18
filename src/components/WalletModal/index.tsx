@@ -6,7 +6,7 @@ import { isMobile } from 'react-device-detect'
 import styled from 'styled-components'
 import MetamaskIcon from '../../assets/images/metamask.png'
 import { ReactComponent as Close } from '../../assets/images/x.svg'
-import { injected } from '../../connectors'
+import { injected, walletlink } from '../../connectors'
 import { ExternalProvider, SUPPORTED_WALLETS } from '../../constants'
 import usePrevious from '../../hooks/usePrevious'
 import { ApplicationModal } from '../../state/application/types'
@@ -203,6 +203,10 @@ const ModalContent = (props: any) => {
                 else if (option.name === 'MetaMask' && !metaMaskInfo.isMetaMask) {
                   return null
                 }
+            }
+
+            if (option.connector === walletlink){
+              return null
             }
 
             // return rest of options (WalletConnect / Walletlink(ie. coinbase))

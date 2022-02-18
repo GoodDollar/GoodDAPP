@@ -171,14 +171,11 @@ export default function NetworkModal(): JSX.Element | null {
     const metaMaskInfo = useMetaMask()
     const { ethereum } = window 
 
-    // todo: find active provider
-
     const networkLabel: string | null = (NETWORK_LABEL as any)
       [chainId || 
       (metaMaskInfo.isMetaMask && 
       (metaMaskInfo.isMultiple ? ethereum?.selectedProvider as any 
-                               : ethereum as any)?.networkVersion)] ||
-      window.walletLinkExtension?.chainId || null
+                               : ethereum as any)?.networkVersion)] || null
     const network = getNetworkEnv()
 
     const allowedNetworks = useMemo(() => { 

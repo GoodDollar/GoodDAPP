@@ -22,7 +22,7 @@ import usePromise from '../hooks/usePromise'
 import { g$Price } from '../sdk/apollo'
 import LanguageSwitch from "./LanguageSwitch";
 import NetworkModal from './NetworkModal'
-import { ExternalProvider } from '../constants'
+// import { ExternalProvider } from '../constants'
 
 const AppBarWrapper = styled.header`
     background: ${({ theme }) => theme.color.main};
@@ -65,7 +65,7 @@ function AppBar(): JSX.Element {
     const [theme, setTheme] = useApplicationTheme()
     const { i18n } = useLingui()
     const { account, chainId, library } = useActiveWeb3React()
-    const cLibrary = library?.provider as ExternalProvider // this to add access to isWalletLink on type
+    // const cLibrary = library?.provider as ExternalProvider // this to add access to isWalletLink on type
     const userEthBalance = useETHBalances(account ? [account] : [])?.[account ?? '']
     const [G$Price] = usePromise(async () => {
         try {
@@ -111,7 +111,7 @@ function AppBar(): JSX.Element {
                                     </div>
                                     <div className="flex flex-row items-center justify-center w-full lg:w-auto p-4 fixed left-0 bottom-0 lg:relative lg:p-0 actions-wrapper ">
                                         <div className="flex items-center justify-end sm:justify-end space-x-2 w-full">
-                                            {cLibrary && (cLibrary.isMetaMask || cLibrary.isWalletLink) && (
+                                            {library && library.provider.isMetaMask && (
                                                 <div className="hidden sm:inline-block">
                                                     <Web3Network />
                                                 </div>

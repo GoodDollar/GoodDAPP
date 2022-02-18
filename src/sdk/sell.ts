@@ -379,7 +379,7 @@ export async function getMeta(
 
         GDXBalance = await tokenBalance(web3, 'GDX', account)
     }
-
+    
     debugGroupEnd(`Get meta ${amount} G$ to ${toSymbol}`)
 
     return {

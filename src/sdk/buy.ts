@@ -413,7 +413,7 @@ export async function getMeta(
         }
 
         const { cDAI: price } = await g$ReservePrice(web3, chainId)
-        priceImpact = computePriceImpact(price, inputCDAIValue, outputAmount)
+        priceImpact = computePriceImpact(price, inputCDAIValue, minimumOutputAmount)
     }
 
     debugGroupEnd(`Get meta ${amount} ${fromSymbol} to G$`)

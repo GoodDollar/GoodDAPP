@@ -8,7 +8,7 @@ import { RowBetween, RowFixed } from '../Row'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
 
-enum SlippageError {
+export enum SlippageError {
     InvalidInput = 'InvalidInput',
     RiskyLow = 'RiskyLow',
     RiskyHigh = 'RiskyHigh'
@@ -69,7 +69,7 @@ const OptionCustom = styled(FancyButton) <{ active?: boolean; warning?: boolean 
     }
 `
 
-const SlippageEmojiContainer = styled.span`
+export const SlippageEmojiContainer = styled.span`
     color: #f3841e;
     ${({ theme }) => theme.mediaWidth.upToSmall`
     display: none;  

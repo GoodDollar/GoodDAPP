@@ -34,8 +34,8 @@ export default function Web3ReactManager({ children }: { children: JSX.Element }
         }
     }, [triedEager, networkActive, networkError, activateNetwork, active])
 
-    // when there's no account connected, react to logins (broadly speaking) on the injected provider, if it exists
-    useInactiveListener(!triedEager)
+    // always listen for events, also when account is connected
+    useInactiveListener()
 
     // handle delayed loader state
     const [showLoader, setShowLoader] = useState(false)

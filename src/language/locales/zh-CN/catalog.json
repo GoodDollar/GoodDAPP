@@ -481,6 +481,7 @@
   "What's an exit contribution?": "退出贡献是什么？",
   "When creating a pair you are the first liquidity provider. The ratio of tokens you add will set the price of this pool. Once you are happy with the rate, click supply to review": "当创建一个交易对时，您是第一个流动性提供者。您添加的代币比例将决定这个池子的价格。一旦您对该比率满意，点击供应进行查看",
   "Withdraw": "提取",
+  "Withdraw as {0}?": "",
   "Withdraw {assetSymbol}": "提现{assetSymbol}",
   "Withdrawing your stake will reset your multiplier.": "",
   "Withdrew funds from {0}": "退出{0}的资金",

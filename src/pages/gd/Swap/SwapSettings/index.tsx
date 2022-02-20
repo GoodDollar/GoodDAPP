@@ -9,6 +9,7 @@ import createNumberMask from 'text-mask-addons/dist/createNumberMask'
 import { useSwap } from '../hooks'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
+import { SlippageError, SlippageEmojiContainer} from 'components/TransactionSettings/'
 
 const settingsIcon = (
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -43,6 +44,14 @@ function SwapSettings({ className, style }: SwapSettingsProps) {
     const open = useModalOpen(ApplicationModal.SETTINGS)
     const handleClick = useToggleSettingsMenu()
     const { slippageTolerance, setSlippageTolerance } = useSwap()
+    let slippageError: SlippageError | undefined
+    if (parseFloat(slippageTolerance.value) < 0.05) {
+      slippageError = SlippageError.RiskyLow
+    } else if (parseFloat(slippageTolerance.value) > 1) {
+      slippageError = SlippageError.RiskyHigh
+    } else {
+      slippageError = undefined
+    }
 
     return (
         <>
@@ -105,7 +114,8 @@ function SwapSettings({ className, style }: SwapSettingsProps) {
                                 size={3}
                                 guide={false}
                                 mask={percentageMask}
-                                value={slippageTolerance.custom ? slippageTolerance.value : ''}
+                                value={slippageTolerance.custom ? slippageTolerance.value : ''
+                                }
                                 onChange={event =>
                                     setSlippageTolerance({
                                         custom: true,
@@ -115,6 +125,17 @@ function SwapSettings({ className, style }: SwapSettingsProps) {
                             />
                         </div>
                     </div>
+                    {!!slippageError && (
+                      <div style={{ fontSize: '14px', paddingTop: '7px',color: '#F3841E'}}>
+                              <SlippageEmojiContainer>
+                                <span role="img" aria-label="warning" style={{
+                                }}>⚠️</span>
+                              </SlippageEmojiContainer>
+                          {slippageError === SlippageError.RiskyLow
+                                  ? i18n._(t`Your transaction may fail`)
+                                  : i18n._(t`Your transaction may be frontrun`)}
+                      </div>
+                    )}
                     <Title className="flex items-center" type="field" style={{ marginTop: 29 }}>
                         {i18n._(t`Transaction deadline`)}{' '}
                         <QuestionHelper

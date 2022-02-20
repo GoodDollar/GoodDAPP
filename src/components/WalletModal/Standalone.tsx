@@ -9,7 +9,7 @@ import MetamaskIcon from '../../assets/images/metamask.png'
 import { ReactComponent as Close } from '../../assets/images/x.svg'
 import { fortmatic, injected, portis } from '../../connectors'
 // import { OVERLAY_READY } from 'connectors/Fortmatic'
-import { SUPPORTED_WALLETS } from '../../constants'
+import { SUPPORTED_WALLETS, WalletInfo } from '../../constants'
 import usePrevious from '../../hooks/usePrevious'
 import { ApplicationModal } from '../../state/application/actions'
 import { useModalOpen, useWalletModalToggle } from '../../state/application/hooks'
@@ -117,6 +117,9 @@ const WALLET_VIEWS = {
     PENDING: 'pending'
 }
 
+// Potentially @deprecated?
+// Changes not relevant for issue#93
+
 export default function WalletStandalone({
     pendingTransactions,
     confirmedTransactions,
@@ -188,7 +191,7 @@ export default function WalletStandalone({
 
         connector &&
             activate(connector, undefined, true).catch(error => {
-                if (error instanceof UnsupportedChainIdError) {
+                if (error instanceof UnsupportedChainIdError && connector) {
                     activate(connector) // a little janky...can't use setError because the connector isn't set
                 } else {
                     setPendingError(true)

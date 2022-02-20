@@ -2,7 +2,9 @@ import { ChainId } from '@sushiswap/sdk'
 import { InjectedConnector } from '@web3-react/injected-connector'
 import { NetworkConnector } from './NetworkConnector'
 import { WalletConnectConnector } from '@web3-react/walletconnect-connector'
+import { WalletLinkConnector } from '@web3-react/walletlink-connector'
 import { Web3Provider } from '@ethersproject/providers'
+import Logo from '../assets/images/logo.png' 
 
 const RPC = {
     [ChainId.MAINNET]: 'https://eth-mainnet.alchemyapi.io/v2/q1gSNoSMEzJms47Qn93f9-9Xg5clkmEC',
@@ -55,6 +57,13 @@ export const walletconnect = new WalletConnectConnector({
     bridge: 'https://bridge.walletconnect.org',
     qrcode: true,
     pollingInterval: 15000
+})
+
+export const walletlink = new WalletLinkConnector({
+  url: RPC[ChainId.MAINNET],
+  appName: 'GoodDollar',
+  appLogoUrl: Logo,
+  darkMode: true,
 })
 
 export const Fortmatic = {}

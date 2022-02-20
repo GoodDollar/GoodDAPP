@@ -317,7 +317,7 @@ export async function getMeta(
     let liquidityFee = CurrencyAmount.fromRawAmount(G$, '0')
     let GDXBalance: CurrencyAmount<Currency> | Fraction = new Fraction(0)
 
-    let contribution = new Fraction(0)
+    let contribution = CurrencyAmount.fromRawAmount(G$, '0')
 
     const slippageTolerancePercent = decimalPercentToPercent(slippageTolerance)
 
@@ -332,12 +332,13 @@ export async function getMeta(
         ;({ amount: outputAmount, minAmount: minimumOutputAmount, route } = g$trade)
     } else {
         contribution = await calculateExitContribution(web3, inputAmount, account)
+        const inputWithoutContribution = inputAmount.subtract(contribution)
         if (TO.symbol === 'G$') {
             return null
         } else if (TO.symbol === 'cDAI') {
             ;({ amount: outputAmount, minAmount: minimumOutputAmount } = await G$ToCDai(
                 web3,
-                inputAmount,
+                inputWithoutContribution,
                 slippageTolerancePercent
             ))
 
@@ -348,7 +349,7 @@ export async function getMeta(
         } else if (TO.symbol === 'DAI') {
             ;({ amount: outputAmount, minAmount: cDAIAmount } = await G$ToCDai(
                 web3,
-                inputAmount,
+                inputWithoutContribution,
                 slippageTolerancePercent
             ))
 
@@ -357,7 +358,7 @@ export async function getMeta(
             outputAmount = await cDaiToDai(web3, outputAmount)
             route = [DAI]
         } else {
-            ;({ minAmount: cDAIAmount } = await G$ToCDai(web3, inputAmount, slippageTolerancePercent))
+            ;({ minAmount: cDAIAmount } = await G$ToCDai(web3, inputWithoutContribution, slippageTolerancePercent))
 
             DAIAmount = await cDaiToDai(web3, cDAIAmount)
 
@@ -375,7 +376,7 @@ export async function getMeta(
         }
 
         const { cDAI: price } = await g$ReservePrice(web3, chainId)
-        priceImpact = computePriceImpact(price.invert(), inputAmount, outputCDAIValue)
+        priceImpact = computePriceImpact(price.invert(), inputWithoutContribution, outputCDAIValue)
 
         GDXBalance = await tokenBalance(web3, 'GDX', account)
     }

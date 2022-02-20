@@ -15,7 +15,7 @@ const AZ = ethers.constants.AddressZero
  * @param {string} account Account's address.
  * @returns {CurrencyAmount} Exit contribution ratio.
  */
-export async function calculateExitContribution(web3: Web3, G$Currency: CurrencyAmount<Currency>, account: string): Promise<Fraction> {
+export async function calculateExitContribution(web3: Web3, G$Currency: CurrencyAmount<Currency>, account: string): Promise<CurrencyAmount<Currency>> {
   const goodReserveCDai = await ContributionCalcContract(web3)
 
   debugGroup('Exit contribution')
@@ -31,11 +31,12 @@ export async function calculateExitContribution(web3: Web3, G$Currency: Currency
 
   if (G$CurrencyDiscount.equalTo(0)) {
     debugGroupEnd('Exit contribution')
-    return new Fraction(0)
+    return CurrencyAmount.fromRawAmount(G$Currency.currency, '0')
   }
 
   const contributionRaw = await goodReserveCDai.methods.calculateContribution(AZ, AZ, AZ, AZ, G$CurrencyDiscount.multiply(G$CurrencyDiscount.decimalScale).toExact()).call() as BigNumber
 
   debugGroupEnd('Exit contribution')
-  return new Fraction(contributionRaw.toString(), G$Currency.decimalScale)
+  const contribution = CurrencyAmount.fromRawAmount(G$Currency.currency, contributionRaw.toString())
+  return contribution
 }

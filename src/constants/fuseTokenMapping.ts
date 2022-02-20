@@ -48,7 +48,18 @@ const map: Record<string, string | undefined> = {
     '0x3A9299BE789ac3730e4E4c49d6d2Ad1b8BC34DFf':
         'https://raw.githubusercontent.com/GoodDollar/GoodProtocolUI/master/src/assets/images/tokens/good-logo.png',
     '0x2bF9b864cdc97b08B6D79ad4663e71B8aB65c45c':
-        'https://dynamic-assets.coinbase.com/5f5631a9a6a82c120576eda6fce54e7a479ef37c309bb5a0ec01a19c29ab845dd10522f2fd556da624d259f80de0ed8e8fd66e09a49672aec42cc513575ba500/asset_icons/4b097ad751d204647f629fe9a4af5169f2eecc610cfb3b18f3746537d8da858b.png'
+        'https://dynamic-assets.coinbase.com/5f5631a9a6a82c120576eda6fce54e7a479ef37c309bb5a0ec01a19c29ab845dd10522f2fd556da624d259f80de0ed8e8fd66e09a49672aec42cc513575ba500/asset_icons/4b097ad751d204647f629fe9a4af5169f2eecc610cfb3b18f3746537d8da858b.png',
+    '0xC11b1268C1A384e55C48c2391d8d480264A3A7F4':
+        'https://raw.githubusercontent.com/compound-finance/token-list/master/assets/ctoken_wbtc.svg',
+    '0xf650C3d88D12dB855b8bf7D11Be6C55A4e07dCC9':
+        'https://raw.githubusercontent.com/compound-finance/token-list/master/assets/ctoken_usdt.svg',
+    '0x70e36f6BF80a52b3B46b3aF8e106CC0ed743E8e4':
+        'https://tokens.1inch.io/0x70e36f6bf80a52b3b46b3af8e106cc0ed743e8e4.png',
+    '0x35A18000230DA775CAc24873d00Ff85BccdeD550':
+        'https://tokens.1inch.io/0x35a18000230da775cac24873d00ff85bccded550.png',
+    '0x6C35677206ae7FF1bf753877649cF57cC30D1c42':
+        'https://raw.githubusercontent.com/GoodDollar/GoodProtocolUI/master/src/assets/images/tokens/gdx-logo.png',
+    '0x12392F67bdf24faE0AF363c24aC620a2f67DAd86': 'https://cdn.furucombo.app/assets/img/token/cTUSD.svg'
 }
 
 Object.values(contractsAddresses).forEach(

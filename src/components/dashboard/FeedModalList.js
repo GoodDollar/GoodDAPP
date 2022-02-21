@@ -87,7 +87,6 @@ const FeedModalList = ({
           data={feeds}
           getItemLayout={getItemLayout}
           initialNumToRender={5}
-          initialScrollIndex={selectedFeedIndex}
           onEndReached={onEndReached}
           ref={getFlatListRef}
           renderItem={renderItemComponent}

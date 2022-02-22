@@ -632,14 +632,14 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
     // once email appears in the state - identifying and setting 'identified' flag
     identifyOnUserSignup(email)
 
-    //if we are not skipping email confirmation, then the call to send confirmation email will add user to mautic
-    //otherwise calling also addSignupContact can lead to duplicate mautic contact
+    // if we are not skipping email confirmation, then the call to send confirmation email will add user to mautic
+    // otherwise calling also addSignupContact can lead to duplicate mautic contact
     if (signupData.skipEmailConfirmation === false) {
       return
     }
 
     API.addSignupContact(signupData)
-      .then(r => log.info('addSignupContact success', { state: signupData }))
+      .then(() => log.info('addSignupContact success', { state: signupData }))
       .catch(e => log.error('addSignupContact failed', e.message, e))
   }, [signupData.email])
 

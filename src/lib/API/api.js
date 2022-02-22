@@ -68,8 +68,6 @@ export class APIService {
 
   sharedClient: AxiosInstance
 
-  mauticJS: any
-
   constructor(jwt = null) {
     const shared = axios.create()
 
@@ -171,6 +169,10 @@ export class APIService {
    */
   addSignupContact(user: UserRecord): AxiosPromise<any> {
     return this.client.post('/user/start', { user })
+  }
+
+  updateClaims(claimData: { claim_counter: number, last_claim: string }): AxiosPromise<any> {
+    return this.client.post('/user/claim', { ...claimData })
   }
 
   /**
@@ -415,41 +417,6 @@ export class APIService {
    */
   checkQueueStatus() {
     return this.client.post('/user/enqueue')
-  }
-
-  /**
-   * adds a first time registering user to mautic
-   * @param {*} userData usually just {email}
-   */
-  addMauticContact(userData: { email: string }) {
-    const { email } = userData
-    const { MauticJS } = global
-    const { mauticAddContractFormID, mauticUrl } = Config
-
-    if (!MauticJS || !mauticUrl || !email) {
-      log.warn('addMauticContact not called:', {
-        hasMauticAPI: !!MauticJS,
-        mautic: mauticUrl,
-        hasEmail: !!email,
-      })
-
-      return
-    }
-
-    const payload = {
-      'mauticform[formId]': mauticAddContractFormID,
-      'mauticform[email]': email,
-      'mauticform[messenger]': 1,
-    }
-
-    MauticJS.makeCORSRequest(
-      'POST',
-      `${mauticUrl}/form/submit`,
-      payload,
-      () => log.info('addMauticContact success'),
-      ({ content }, xhr) =>
-        log.error('addMauticContact call failed:', '', new Error('Error received from Mautic API'), { content }),
-    )
   }
 
   async getActualPhase() {

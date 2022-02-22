@@ -3609,15 +3609,14 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
               </div>
             </div>
             <div
-              className="css-text-901oao r-fontWeight-16dba41 r-paddingTop-wk8lta"
+              className="css-text-901oao r-fontSize-1b43r93 r-fontWeight-16dba41 r-paddingTop-wk8lta"
               dir="auto"
               style={
                 Object {
                   "WebkitTransform": "translateY(0px)",
-                  "color": "rgba(250,108,119,1.00)",
+                  "color": "rgba(208,55,55,1.00)",
                   "direction": "ltr",
                   "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                  "fontSize": "12px",
                   "height": "18px",
                   "marginBottom": "8px",
                   "marginTop": "8px",
@@ -3682,17 +3681,17 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
               </div>
             </div>
             <div
-              className="css-text-901oao r-color-11zaip3 r-fontWeight-16dba41 r-paddingTop-wk8lta"
+              className="css-text-901oao r-fontSize-1b43r93 r-fontWeight-16dba41 r-paddingTop-wk8lta"
               dir="auto"
               style={
                 Object {
                   "WebkitTransform": "translateY(0px)",
+                  "color": "rgba(208,55,55,1.00)",
                   "direction": "ltr",
                   "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                  "fontSize": "12px",
                   "height": "18px",
                   "marginBottom": "8px",
-                  "marginTop": "8px",
+                  "marginTop": "12px",
                   "opacity": 1,
                   "paddingBottom": "0px",
                   "paddingLeft": "0px",

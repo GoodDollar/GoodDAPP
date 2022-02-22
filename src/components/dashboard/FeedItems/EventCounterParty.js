@@ -1,26 +1,43 @@
 import React, { useMemo } from 'react'
+import { View } from 'react-native'
 import { capitalize, get } from 'lodash'
 import { Text } from '../../common'
 import useProfile from '../../../lib/userStorage/useProfile'
 import { getEventDirection } from '../../../lib/userStorage/FeedStorage'
 
 const EventContent = ({ style, textStyle, direction, description, hasSubtitle }) => (
-  <Text
-    textTransform="capitalize"
-    textAlign="left"
-    style={[{ height: '100%', flex: 1 }, style]}
+  <View
     numberOfLines={1}
-    ellipsizeMode="tail"
+    style={[
+      {
+        flexDirection: 'row',
+      },
+      style,
+    ]}
   >
-    {direction && (
-      <Text textTransform="capitalize" fontSize={10} lineHeight={(textStyle && textStyle.lineHeight) || 16}>
+    {!!direction && (
+      <Text
+        style={{
+          minWidth: 10,
+        }}
+        umberOfLines={1}
+        textTransform="capitalize"
+        fontSize={10}
+      >
         {capitalize(direction)}:{' '}
       </Text>
     )}
-    <Text fontWeight="medium" textAlign={'left'} lineHeight={hasSubtitle ? 16 : 38} style={textStyle}>
+    <Text
+      numberOfLines={1}
+      textTransform="capitalize"
+      fontWeight="medium"
+      textAlign={'left'}
+      lineHeight={17}
+      style={textStyle}
+    >
       {description}
     </Text>
-  </Text>
+  </View>
 )
 
 export const EventSelfParty = ({ feedItem, styles, style, textStyle, subtitle, isSmallDevice }) => {

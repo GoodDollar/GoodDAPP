@@ -1672,7 +1672,7 @@ so we could verify you
             className="css-view-1dbjc4n r-alignItems-1oszu61 r-display-6koalj r-flex-13awgt0 r-justifyContent-1777fci r-padding-t60dpp"
             style={
               Object {
-                "backgroundColor": "rgba(0,0,0,0.12)",
+                "backgroundColor": "rgba(23,53,102,0.40)",
                 "borderBottomColor": "rgba(0,175,255,1.00)",
                 "borderBottomLeftRadius": "50px",
                 "borderBottomRightRadius": "50px",

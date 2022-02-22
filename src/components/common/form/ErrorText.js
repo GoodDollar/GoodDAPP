@@ -11,7 +11,10 @@ const ErrorText = ({ error, styles, style }) =>
 
 const getStylesFromProps = ({ theme }) => ({
   error: {
+    color: theme.colors.googleRed,
+    fontSize: 14,
     height: 18,
+    marginTop: 12,
     paddingLeft: 0,
     paddingTop: 0,
     paddingBottom: 0,

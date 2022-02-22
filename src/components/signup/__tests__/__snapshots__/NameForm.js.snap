@@ -48,18 +48,46 @@ exports[`NameForm matches snapshot 1`] = `
               }
             >
               <div
-                className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1777fci r-marginVertical-1r5su4o"
+                className="css-text-901oao r-color-1q5uqvh r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-b88u0q r-letterSpacing-1rt434i r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
+                dir="auto"
+                style={
+                  Object {
+                    "marginBottom": "0px",
+                  }
+                }
+              >
+                Personal Details
+              </div>
+              <div
+                className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-justifyContent-1777fci r-marginVertical-1r5su4o"
               >
                 <div
-                  className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-majxgm r-lineHeight-qvk6io r-marginVertical-c8eef1 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                  className="css-text-901oao r-color-x96u7p r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-16dba41 r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                   dir="auto"
+                  style={
+                    Object {
+                      "marginBottom": "0px",
+                      "marginTop": "0px",
+                    }
+                  }
                 >
-                  Hi, nice to meet you.
- Please enter your full name
+                  Thanks, we verified your phone.
+                </div>
+                <div
+                  className="css-text-901oao r-color-x96u7p r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-majxgm r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                  dir="auto"
+                  style={
+                    Object {
+                      "marginBottom": "0px",
+                      "marginTop": "0px",
+                    }
+                  }
+                >
+                  What is your full name?
                 </div>
               </div>
               <div
-                className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1777fci r-marginBottom-5oul0u r-marginTop-1t01tom"
+                className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-justifyContent-1777fci r-marginBottom-5oul0u r-marginTop-1t01tom"
               >
                 <div
                   className="css-view-1dbjc4n r-marginBottom-5oul0u r-width-13qz1uu"
@@ -72,7 +100,7 @@ exports[`NameForm matches snapshot 1`] = `
                       autoComplete="on"
                       autoCorrect="on"
                       autoFocus={true}
-                      className="css-textinput-11aywtz r-backgroundColor-1niwhzg r-borderBottomColor-1ny7kx0 r-borderBottomWidth-qklmqi r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-1it3c9n r-paddingHorizontal-1dye5f7 r-paddingVertical-oyd9sg r-placeholderTextColor-1xktb6b r-textAlign-q4m81j"
+                      className="css-textinput-11aywtz r-backgroundColor-1niwhzg r-borderBottomColor-1htqvjr r-borderBottomWidth-qklmqi r-color-13sdq65 r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-1it3c9n r-paddingHorizontal-1dye5f7 r-paddingVertical-oyd9sg r-placeholderTextColor-1xktb6b r-textAlign-q4m81j"
                       dir="auto"
                       onBlur={[Function]}
                       onChange={[Function]}
@@ -86,6 +114,12 @@ exports[`NameForm matches snapshot 1`] = `
                       value="Kevin Bardi"
                     />
                   </div>
+                </div>
+                <div
+                  className="css-text-901oao r-color-13sdq65 r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-1it3c9n r-letterSpacing-i0j7gm r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                  dir="auto"
+                >
+                  This can't be changed later.
                 </div>
               </div>
             </div>
@@ -238,18 +272,46 @@ exports[`NameForm matches snapshot with empty value 1`] = `
               }
             >
               <div
-                className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1777fci r-marginVertical-1r5su4o"
+                className="css-text-901oao r-color-1q5uqvh r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-b88u0q r-letterSpacing-1rt434i r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
+                dir="auto"
+                style={
+                  Object {
+                    "marginBottom": "0px",
+                  }
+                }
+              >
+                Personal Details
+              </div>
+              <div
+                className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-justifyContent-1777fci r-marginVertical-1r5su4o"
               >
                 <div
-                  className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-majxgm r-lineHeight-qvk6io r-marginVertical-c8eef1 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                  className="css-text-901oao r-color-x96u7p r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-16dba41 r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                   dir="auto"
+                  style={
+                    Object {
+                      "marginBottom": "0px",
+                      "marginTop": "0px",
+                    }
+                  }
                 >
-                  Hi, nice to meet you.
- Please enter your full name
+                  Thanks, we verified your phone.
+                </div>
+                <div
+                  className="css-text-901oao r-color-x96u7p r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-majxgm r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                  dir="auto"
+                  style={
+                    Object {
+                      "marginBottom": "0px",
+                      "marginTop": "0px",
+                    }
+                  }
+                >
+                  What is your full name?
                 </div>
               </div>
               <div
-                className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1777fci r-marginBottom-5oul0u r-marginTop-1t01tom"
+                className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-justifyContent-1777fci r-marginBottom-5oul0u r-marginTop-1t01tom"
               >
                 <div
                   className="css-view-1dbjc4n r-marginBottom-5oul0u r-width-13qz1uu"
@@ -262,7 +324,7 @@ exports[`NameForm matches snapshot with empty value 1`] = `
                       autoComplete="on"
                       autoCorrect="on"
                       autoFocus={true}
-                      className="css-textinput-11aywtz r-backgroundColor-1niwhzg r-borderBottomColor-1ny7kx0 r-borderBottomWidth-qklmqi r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-1it3c9n r-paddingHorizontal-1dye5f7 r-paddingVertical-oyd9sg r-placeholderTextColor-1xktb6b r-textAlign-q4m81j"
+                      className="css-textinput-11aywtz r-backgroundColor-1niwhzg r-borderBottomColor-1htqvjr r-borderBottomWidth-qklmqi r-color-13sdq65 r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-1it3c9n r-paddingHorizontal-1dye5f7 r-paddingVertical-oyd9sg r-placeholderTextColor-1xktb6b r-textAlign-q4m81j"
                       dir="auto"
                       onBlur={[Function]}
                       onChange={[Function]}
@@ -276,6 +338,12 @@ exports[`NameForm matches snapshot with empty value 1`] = `
                       value=""
                     />
                   </div>
+                </div>
+                <div
+                  className="css-text-901oao r-color-13sdq65 r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-1it3c9n r-letterSpacing-i0j7gm r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                  dir="auto"
+                >
+                  This can't be changed later.
                 </div>
               </div>
             </div>
@@ -296,7 +364,7 @@ exports[`NameForm matches snapshot with empty value 1`] = `
             className="css-view-1dbjc4n r-alignItems-1oszu61 r-display-6koalj r-flex-13awgt0 r-justifyContent-1777fci r-padding-t60dpp"
             style={
               Object {
-                "backgroundColor": "rgba(0,0,0,0.12)",
+                "backgroundColor": "rgba(23,53,102,0.40)",
                 "borderBottomColor": "rgba(0,175,255,1.00)",
                 "borderBottomLeftRadius": "50px",
                 "borderBottomRightRadius": "50px",

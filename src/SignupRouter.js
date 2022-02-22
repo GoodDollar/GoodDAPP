@@ -10,17 +10,16 @@ import Signup from './components/signup/SignupState'
 import SigninInfo from './components/signin/SigninInfo'
 import Blurred from './components/common/view/Blurred'
 import Welcome from './components/auth/login/WelcomeScreen'
-import InviteWelcome from './components/inviteWelcome/InviteWelcome'
+import { AuthContextProvider } from './components/auth/context/AuthContext'
 
 const log = logger.child({ from: 'SignupRouter' })
 
 const generateRouter = () => {
-  const initialRouteName = 'InviteWelcome'
+  const initialRouteName = 'Welcome'
   const { enableSelfCustody } = Config
 
   const routes = {
     Welcome,
-    InviteWelcome,
     Signup,
   }
 
@@ -43,7 +42,9 @@ const Router = () => {
   return (
     <>
       <Blurred whenDialog>
-        <RouterWrapper onNavigationStateChange={navigationStateHandler} />
+        <AuthContextProvider>
+          <RouterWrapper onNavigationStateChange={navigationStateHandler} />
+        </AuthContextProvider>
       </Blurred>
     </>
   )

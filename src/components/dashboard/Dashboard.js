@@ -13,7 +13,7 @@ import { useDialog, useErrorDialog } from '../../lib/undux/utils/dialog'
 import { PAGE_SIZE } from '../../lib/undux/utils/feed'
 import { weiToGd, weiToMask } from '../../lib/wallet/utils'
 import { initBGFetch } from '../../lib/notifications/backgroundFetch'
-import { formatWithAbbreviations } from '../../lib/utils/formatNumber'
+import { formatWithAbbreviations, formatWithFixedValueDigits } from '../../lib/utils/formatNumber'
 import { fireEvent, INVITE_BANNER } from '../../lib/analytics/analytics'
 import Config from '../../config/config'
 
@@ -22,6 +22,7 @@ import { initTransferEvents } from '../../lib/undux/utils/account'
 
 import userStorage from '../../lib/userStorage/UserStorage'
 import useAppState from '../../lib/hooks/useAppState'
+import useGoodDollarPrice from '../reserve/useGoodDollarPrice'
 import { PushButton } from '../appNavigation/PushButton'
 import { useNativeDriverForAnimation } from '../../lib/utils/platform'
 import TabsView from '../appNavigation/TabsView'
@@ -68,6 +69,7 @@ import FaceVerificationError from './FaceVerification/screens/ErrorScreen'
 
 import GoodMarketButton from './GoodMarket/components/GoodMarketButton'
 import CryptoLiteracyBanner from './FeedItems/CryptoLiteracyDecemberBanner'
+import GoodDollarPriceInfo from './GoodDollarPriceInfo/GoodDollarPriceInfo'
 
 const log = logger.child({ from: 'Dashboard' })
 
@@ -121,6 +123,8 @@ const Dashboard = props => {
   const { appState } = useAppState()
   const [animateMarket, setAnimateMarket] = useState(false)
   const { setDialogBlur } = useContext(GlobalTogglesContext)
+
+  const [price, showPrice] = useGoodDollarPrice()
 
   const headerAnimateStyles = {
     position: 'relative',
@@ -599,6 +603,11 @@ const Dashboard = props => {
     [balance],
   )
 
+  const calculateUSDWorthOfBalance = useMemo(
+    () => (showPrice ? formatWithFixedValueDigits(price * weiToGd(balance)) : null),
+    [showPrice, price, balance],
+  )
+
   // for native we able handle onMomentumScrollEnd, but for web we able to handle only onScroll event,
   // so we need to imitate onMomentumScrollEnd for web
   const onScroll = Platform.select({
@@ -641,6 +650,11 @@ const Dashboard = props => {
                   style={styles.bigGoodDollar}
                 />
               </View>
+              {headerLarge && showPrice && (
+                <Section.Text style={styles.gdPrice}>
+                  ≈ {calculateUSDWorthOfBalance} USD <GoodDollarPriceInfo />
+                </Section.Text>
+              )}
             </Animated.View>
           </Section.Stack>
         </Animated.View>
@@ -714,7 +728,7 @@ const getStylesFromProps = ({ theme }) => ({
   headerWrapper: {
     height: '100%',
     paddingBottom: Platform.select({
-      web: theme.sizes.defaultDouble,
+      web: theme.sizes.defaultHalf,
       default: theme.sizes.default,
     }),
   },
@@ -778,6 +792,14 @@ const getStylesFromProps = ({ theme }) => ({
     marginBottom: 0,
     marginTop: 1,
   },
+  gdPrice: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    fontSize: 14,
+    color: theme.colors.secondary,
+    fontWeight: 'bold',
+  },
   leftButton: {
     flex: 1,
     height: 44,
@@ -809,7 +831,7 @@ const getStylesFromProps = ({ theme }) => ({
     marginLeft: theme.sizes.defaultDouble,
   },
   bigNumberWrapper: {
-    alignItems: 'baseline',
+    alignItems: 'center',
   },
   bigNumberUnitStyles: {
     marginRight: normalize(-20),

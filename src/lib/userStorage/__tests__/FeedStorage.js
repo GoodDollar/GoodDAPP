@@ -7,7 +7,7 @@ import { initUserStorage } from './__util__'
 
 fromEntries.shim()
 
-jest.setTimeout(20000)
+jest.setTimeout(30000)
 
 const feedEvent = {
   id: '0x2eb0e2cdd80b2f61e81d3b0d7eea84276f1831e2dff4c49d2bc8f9cee673b73b',

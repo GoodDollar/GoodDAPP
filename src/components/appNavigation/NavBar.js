@@ -1,21 +1,17 @@
 //@flow
 import React from 'react'
-import { Platform } from 'react-native'
+import { Platform, View } from 'react-native'
 import { Appbar } from 'react-native-paper'
-import { withStyles } from '../../lib/styles'
-import normalize from '../../lib/utils/normalizeText'
-import { getShadowStyles } from '../../lib/utils/getStyles'
-import { isMobile } from '../../lib/utils/platform'
+
 import { IconButton } from '../common'
+
+import normalize from '../../lib/utils/normalizeText'
+import { isMobile } from '../../lib/utils/platform'
+import { getShadowStyles } from '../../lib/utils/getStyles'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 
-/**
- * @type
- */
-type NavBarProps = {
-  goBack?: () => void,
-  title: string,
-}
+import { withStyles } from '../../lib/styles'
+import HeaderLogoImage from '../../assets/header-logo.svg'
 
 /**
  * NavigationBar shows title and back button
@@ -25,41 +21,44 @@ type NavBarProps = {
 
 const NavigationBar = isMobile ? Appbar.Header : Appbar
 
-class NavBar extends React.Component<NavBarProps> {
-  render() {
-    const { styles, goBack, backToWallet = false } = this.props
-    const showBackButton = goBack && !backToWallet
-    const showBackToWallet = goBack && backToWallet
+const NavBar = ({ title, styles, goBack, backToWallet = false, logo = false }) => {
+  const showLogo = !!logo
+  const showBack = !logo && !!goBack
+  const showBackButton = showBack && !backToWallet
+  const showBackToWallet = showBack && !!backToWallet
 
-    return (
-      <NavigationBar dark style={styles.topbarStyles}>
-        {showBackButton && (
-          <IconButton
-            name="arrow-back"
-            onPress={goBack}
-            color="white"
-            reverse={false}
-            reverseColor={'transparent'}
-            size={22}
-            style={styles.backButton}
-          />
-        )}
-        <Appbar.Content title={this.props.title} titleStyle={styles.titleStyle} />
-        {showBackButton && <Appbar.Action color="white" />}
-        {showBackToWallet && (
-          <IconButton
-            name="wallet"
-            reverse={false}
-            reverseColor={'transparent'}
-            onPress={goBack}
-            color="white"
-            size={36}
-            style={styles.walletButton}
-          />
-        )}
-      </NavigationBar>
-    )
-  }
+  return (
+    <NavigationBar dark style={styles.topbarStyles}>
+      {showLogo ? (
+        <View style={styles.logoWrapper}>
+          <HeaderLogoImage />
+        </View>
+      ) : showBackButton ? (
+        <IconButton
+          name="arrow-back"
+          onPress={goBack}
+          color="white"
+          reverse={false}
+          reverseColor={'transparent'}
+          size={22}
+          style={styles.backButton}
+        />
+      ) : null}
+      {title && !showLogo ? <Appbar.Content title={title} titleStyle={styles.titleStyle} /> : null}
+      {showBackButton && <Appbar.Action color="white" />}
+      {showBackToWallet && (
+        <IconButton
+          name="wallet"
+          reverse={false}
+          reverseColor={'transparent'}
+          onPress={goBack}
+          color="white"
+          size={36}
+          style={styles.walletButton}
+        />
+      )}
+    </NavigationBar>
+  )
 }
 
 const getStylesFromProps = ({ theme }) => ({
@@ -86,6 +85,10 @@ const getStylesFromProps = ({ theme }) => ({
     position: 'absolute',
     right: 15,
     width: 33,
+  },
+  logoWrapper: {
+    flex: 1,
+    alignItems: 'center',
   },
 })
 

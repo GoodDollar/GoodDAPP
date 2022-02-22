@@ -14,7 +14,15 @@ import { useDialog } from '../../../lib/undux/utils/dialog'
 
 // utils
 import logger from '../../../lib/logger/js-logger'
-import { isAndroidWeb, isBrowser, isChrome, isIOSWeb, isSafari, osVersionInfo } from '../../../lib/utils/platform'
+import {
+  iosSupportedWeb,
+  isAndroidWeb,
+  isBrowser,
+  isChrome,
+  isIOSWeb,
+  isSafari,
+  osVersionInfo,
+} from '../../../lib/utils/platform'
 import Config from '../../../config/config'
 
 const log = logger.child({ from: 'useBrowserSupport' })
@@ -83,7 +91,7 @@ export default (options = {}) => {
     }
 
     let isOutdated = false
-    let isSupported = (isIOSWeb && isSafari) || (isAndroidWeb && isChrome) || (isBrowser && (isSafari || isChrome))
+    let isSupported = iosSupportedWeb || (isAndroidWeb && isChrome) || (isBrowser && (isSafari || isChrome))
 
     if (isFunction(onCheck)) {
       isSupported = onCheck(isSupported)

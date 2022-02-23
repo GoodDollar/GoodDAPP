@@ -2,11 +2,10 @@
 import { initUserStorage } from '../../../../lib/userStorage/__tests__/__util__'
 import React from 'react'
 import renderer from 'react-test-renderer'
-import { withThemeProvider } from '../../../../__tests__/__util__'
+import { withThemeAndLocalizationProvider } from '../../../../__tests__/__util__'
 import ImportedIntroScreen from '../screens/IntroScreen'
-import LanguageProvider from '../../../../language/i18n'
 
-const IntroScreen = withThemeProvider(ImportedIntroScreen)
+const IntroScreen = withThemeAndLocalizationProvider(ImportedIntroScreen)
 const screenState = {
   isValid: true,
 }
@@ -19,20 +18,12 @@ describe('FaceVerification IntroScreen', () => {
   })
 
   it('renders without errors', () => {
-    const tree = renderer.create(
-      <LanguageProvider>
-        <IntroScreen screenProps={{ pop: () => {}, screenState }} />
-      </LanguageProvider>,
-    )
+    const tree = renderer.create(<IntroScreen screenProps={{ pop: () => {}, screenState }} />)
     expect(tree.toJSON()).toBeTruthy()
   })
 
   it('matches snapshot', () => {
-    const component = renderer.create(
-      <LanguageProvider>
-        <IntroScreen screenProps={{ pop: () => {}, screenState }} />
-      </LanguageProvider>,
-    )
+    const component = renderer.create(<IntroScreen screenProps={{ pop: () => {}, screenState }} />)
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })

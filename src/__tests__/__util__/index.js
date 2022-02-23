@@ -30,13 +30,15 @@ export const withSimpleStateProvider = Component => props => (
   </GlobalTogglesContextProvider>
 )
 
-export const withThemeProvider = (Component, theme = defaultTheme) => props => (
-  <PaperProvider theme={theme}>
-    <StoresWrapper>
-      <Component {...props} />
-    </StoresWrapper>
-  </PaperProvider>
-)
+export const withThemeProvider = (Component, theme = defaultTheme) => props => {
+  return (
+    <PaperProvider theme={theme}>
+      <StoresWrapper>
+        <Component {...props} />
+      </StoresWrapper>
+    </PaperProvider>
+  )
+}
 
 export const withThemeAndLocalizationProvider = (Component, theme = defaultTheme) => props => (
   <PaperProvider theme={theme}>

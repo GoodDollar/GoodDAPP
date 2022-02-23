@@ -4,6 +4,7 @@ import React from 'react'
 import renderer from 'react-test-renderer'
 import { withThemeProvider } from '../../../../__tests__/__util__'
 import ImportedIntroScreen from '../screens/IntroScreen'
+import LanguageProvider from '../../../../language/i18n'
 
 const IntroScreen = withThemeProvider(ImportedIntroScreen)
 const screenState = {
@@ -18,12 +19,20 @@ describe('FaceVerification IntroScreen', () => {
   })
 
   it('renders without errors', () => {
-    const tree = renderer.create(<IntroScreen screenProps={{ pop: () => {}, screenState }} />)
+    const tree = renderer.create(
+      <LanguageProvider>
+        <IntroScreen screenProps={{ pop: () => {}, screenState }} />
+      </LanguageProvider>,
+    )
     expect(tree.toJSON()).toBeTruthy()
   })
 
   it('matches snapshot', () => {
-    const component = renderer.create(<IntroScreen screenProps={{ pop: () => {}, screenState }} />)
+    const component = renderer.create(
+      <LanguageProvider>
+        <IntroScreen screenProps={{ pop: () => {}, screenState }} />
+      </LanguageProvider>,
+    )
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })

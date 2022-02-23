@@ -6,6 +6,7 @@ import { forIn } from 'lodash'
 
 import { NewReleaseDialog, RegularDialog } from '../ServiceWorkerUpdatedDialog'
 import { withThemeProvider } from '../../../../__tests__/__util__'
+import LanguageProvider from '../../../../language/i18n'
 
 describe('ServiceWorkerUpdatedDialog', () => {
   forIn({ RegularDialog, NewReleaseDialog }, (component, name) =>
@@ -15,12 +16,23 @@ describe('ServiceWorkerUpdatedDialog', () => {
       it(`renders without errors`, () => {
         let tree
 
-        expect(() => (tree = renderer.create(<WrappedComponent />))).not.toThrow()
+        expect(
+          () =>
+            (tree = renderer.create(
+              <LanguageProvider>
+                <WrappedComponent />
+              </LanguageProvider>,
+            )),
+        ).not.toThrow()
         expect(tree.toJSON()).toBeTruthy()
       })
 
       it(`matches snapshot`, () => {
-        const tree = renderer.create(<WrappedComponent />)
+        const tree = renderer.create(
+          <LanguageProvider>
+            <WrappedComponent />
+          </LanguageProvider>,
+        )
 
         expect(tree.toJSON()).toMatchSnapshot()
       })

@@ -4,6 +4,7 @@ import { createBrowserApp } from '@react-navigation/web'
 import * as libShare from '../../../../lib/share'
 import GDStore from '../../../../lib/undux/GDStore'
 import { withThemeProvider } from '../../../../__tests__/__util__'
+import LanguageProvider from '../../../../language/i18n'
 const { Container } = GDStore
 
 export const getComponentWithMocks = componentPath => {
@@ -17,6 +18,14 @@ export const getComponentWithMocks = componentPath => {
 
   // you need to re-require after calling jest.doMock.
   return require(`../${componentPath}`).default
+}
+
+const withLanguage = Component => props => {
+  return (
+    <LanguageProvider>
+      <Component {...props} />
+    </LanguageProvider>
+  )
 }
 
 const withContainer = Component => props => {
@@ -39,7 +48,7 @@ export const getWebRouterComponentWithRoutes = routes => {
       return <AppNavigator navigation={this.props.navigation} screenProps={{ routes }} />
     }
   }
-  return withContainer(createBrowserApp(createSwitchNavigator({ AppNavigation })))
+  return withLanguage(withContainer(createBrowserApp(createSwitchNavigator({ AppNavigation }))))
 }
 
 export const getWebRouterComponentWithMocks = componentPath => {

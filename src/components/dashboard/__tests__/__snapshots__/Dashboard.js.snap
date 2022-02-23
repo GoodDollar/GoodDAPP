@@ -206,7 +206,7 @@ exports[`Dashboard matches snapshot 1`] = `
                 </div>
               </div>
               <div
-                className="css-view-1dbjc4n r-alignItems-1d09ksm r-bottom-1p0dtai"
+                className="css-view-1dbjc4n r-alignItems-1awozwy r-bottom-1p0dtai"
                 style={
                   Object {
                     "marginLeft": "0px",

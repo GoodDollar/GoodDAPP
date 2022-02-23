@@ -2,12 +2,12 @@
 
 exports[`ServiceWorkerUpdatedDialog NewReleaseDialog matches snapshot 1`] = `
 <div
-  className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
+  className="css-view-1dbjc4n"
 />
 `;
 
 exports[`ServiceWorkerUpdatedDialog RegularDialog matches snapshot 1`] = `
 <div
-  className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
+  className="css-view-1dbjc4n"
 />
 `;

@@ -4,6 +4,7 @@ import renderer from 'react-test-renderer'
 import GDStore from '../../../../lib/undux/GDStore'
 import ImportedReceiveToAddressButton from '../ReceiveToAddressButton'
 import { withThemeProvider } from '../../../../__tests__/__util__'
+import LanguageProvider from '../../../../language/i18n'
 const ReceiveToAddressButton = withThemeProvider(ImportedReceiveToAddressButton)
 
 const { Container } = GDStore
@@ -13,7 +14,9 @@ describe('SendToAddressButton', () => {
     // Given
     const component = renderer.create(
       <Container>
-        <ReceiveToAddressButton onPress={() => {}} />
+        <LanguageProvider>
+          <ReceiveToAddressButton onPress={() => {}} />
+        </LanguageProvider>
       </Container>,
     )
 
@@ -28,7 +31,9 @@ describe('SendToAddressButton', () => {
     // Given
     const component = renderer.create(
       <Container>
-        <ReceiveToAddressButton onPress={() => {}} />
+        <LanguageProvider>
+          <ReceiveToAddressButton onPress={() => {}} />
+        </LanguageProvider>
       </Container>,
     )
 

@@ -4,6 +4,7 @@ import renderer from 'react-test-renderer'
 import GDStore from '../../../../lib/undux/GDStore'
 import ImportedScanQRButton from '../ScanQRButton'
 import { withThemeProvider } from '../../../../__tests__/__util__'
+import LanguageProvider from '../../../../language/i18n'
 const ScanQRButton = withThemeProvider(ImportedScanQRButton)
 
 const { Container } = GDStore
@@ -15,7 +16,9 @@ describe('ScanQRButton', () => {
     // Given
     const component = renderer.create(
       <Container>
-        <ScanQRButton onPress={() => {}} />
+        <LanguageProvider>
+          <ScanQRButton onPress={() => {}} />
+        </LanguageProvider>
       </Container>,
     )
 
@@ -30,7 +33,9 @@ describe('ScanQRButton', () => {
     // Given
     const component = renderer.create(
       <Container>
-        <ScanQRButton onPress={() => {}} />
+        <LanguageProvider>
+          <ScanQRButton onPress={() => {}} />
+        </LanguageProvider>
       </Container>,
     )
 

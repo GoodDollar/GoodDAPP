@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { I18nProvider } from '@lingui/react'
 import { i18n } from '@lingui/core'
 import { Helmet } from 'react-helmet'
+import { View } from 'react-native'
 
 // This array should equal the array set in .linguirc
 export const locales = ['de', 'en', 'es-AR', 'es', 'it', 'he', 'ro', 'ru', 'vi', 'zh-CN', 'zh-TW', 'ko', 'ja']
@@ -56,7 +57,7 @@ const LanguageProvider = ({ children }) => {
   }, [])
 
   if (init) {
-    return <></>
+    return <View />
   }
 
   return (

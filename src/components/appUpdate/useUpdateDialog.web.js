@@ -1,17 +1,14 @@
-import { useEffect } from 'react'
-
-import SimpleStore from '../../lib/undux/SimpleStore'
+import { useContext, useEffect } from 'react'
 
 import Config from '../../config/config'
 import logger from '../../lib/logger/js-logger'
+import { GlobalTogglesContext } from '../../lib/contexts/togglesContext'
 import useShowUpdateDialog from './UpdateDialog'
-
 const log = logger.child({ from: 'useUpdateDialog' })
 
 export default () => {
+  const { serviceWorkerUpdated } = useContext(GlobalTogglesContext)
   const updateDialogRef = useShowUpdateDialog()
-  const store = SimpleStore.useStore()
-  const serviceWorkerUpdated = store.get('serviceWorkerUpdated')
 
   useEffect(() => {
     log.info('service worker updated', {

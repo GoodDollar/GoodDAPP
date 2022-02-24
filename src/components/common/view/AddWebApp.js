@@ -1,5 +1,5 @@
 import moment from 'moment'
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { Platform, View } from 'react-native'
 
 import Text from '../../common/view/Text'
@@ -12,7 +12,7 @@ import AsyncStorage from '../../../lib/utils/asyncStorage'
 import { useDialog } from '../../../lib/undux/utils/dialog'
 import SimpleStore, { assertStore } from '../../../lib/undux/SimpleStore'
 import { isMobileSafari, isMobileWeb } from '../../../lib/utils/platform'
-
+import { GlobalTogglesContext } from '../../../lib/contexts/togglesContext'
 import {
   ADDTOHOME,
   ADDTOHOME_LATER,
@@ -120,18 +120,16 @@ const AddWebApp = () => {
   const [showDialog] = useDialog()
   const [show, setShow] = useState(false)
   const [showAddWebAppDialog, setShowAddWebAppDialog] = useState(false)
-  const [installPrompt, setInstallPrompt] = useState(false)
+  const { installPrompt, setInstallPrompt } = useContext(GlobalTogglesContext)
 
   const fetchStoreData = useCallback(() => {
     if (assertStore(store, log, 'Failed to fetch show status to display AddWebApp modal')) {
       const { show: _show, showAddWebAppDialog: _showAddWebAppDialog } = store.get('addWebApp')
-      const _installPrompt = store.get('installPrompt')
 
       setShow(_show)
       setShowAddWebAppDialog(_showAddWebAppDialog)
-      setInstallPrompt(_installPrompt)
     }
-  }, [store, setShow, setShowAddWebAppDialog, setInstallPrompt])
+  }, [store, setShow, setShowAddWebAppDialog])
 
   const showExplanationDialog = () => {
     showDialog({
@@ -174,7 +172,7 @@ const AddWebApp = () => {
     }
 
     // Remove the event reference
-    store.set('installPrompt')(null)
+    setInstallPrompt(null)
   }
 
   const handleInstallApp = () => {

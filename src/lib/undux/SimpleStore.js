@@ -3,6 +3,8 @@ import { createConnectedStore } from 'undux'
 import { isString, over } from 'lodash'
 
 import pinoLogger from '../logger/js-logger'
+import { IS_LOGGED_IN } from '../../lib/constants/localStorage'
+import AsyncStorage from '../../lib/utils/asyncStorage'
 import createStoreEffects, { unduxLogger } from './plugins'
 import { createUseCurriedSettersHook, createUseStorePropHook } from './utils/props'
 
@@ -71,7 +73,6 @@ export type State = {
  * @constant
  */
 const initialState: State = {
-  installPrompt: null,
   isLoggedInCitizen: false,
   isLoggedIn: false,
   feedLoadAnimShown: false,
@@ -97,7 +98,6 @@ const initialState: State = {
   },
   wallet: null,
   userStorage: null,
-  serviceWorkerUpdated: null,
   regMethod: 'torus',
 }
 
@@ -107,14 +107,9 @@ const { storeAccessor, storeEffects } = createStoreEffects()
  * default exported instance of our global Undux Store
  * @module
  */
-const SimpleStore: UnduxStore = createConnectedStore(initialState, storeEffects) // default value for tests
+let SimpleStore: UnduxStore = createConnectedStore(initialState, storeEffects) // default value for tests
 
 // functions which set userStorage and wallet to simple storage in init.js
-let setWallet, setUserStorage
-const setInitFunctions = (_setWallet, _setUserStorage) => {
-  setWallet = _setWallet
-  setUserStorage = _setUserStorage
-}
 
 const storeAssertion = (condition, logger, message) => {
   let log = logger
@@ -139,14 +134,19 @@ const assertStore = (store, logger = unduxLogger, message = 'Operation failed') 
 const assertStoreSnapshot = (store, logger = unduxLogger, message = 'Operation failed') =>
   storeAssertion(() => !store || !store.storeSnapshot, logger, message)
 
+const initStore = async () => {
+  let isLoggedIn = await AsyncStorage.getItem(IS_LOGGED_IN)
+  const newState = { ...initialState, isLoggedIn }
+  SimpleStore = createConnectedStore(newState, storeEffects)
+  return SimpleStore
+}
+
 export {
+  initStore,
   storeAccessor as store,
   assertStore,
   assertStoreSnapshot,
   SimpleStore as default,
-  setInitFunctions,
-  setWallet,
-  setUserStorage,
   useCurriedSetters,
   useStoreProp,
 }

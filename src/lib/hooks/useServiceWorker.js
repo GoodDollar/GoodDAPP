@@ -1,24 +1,23 @@
 // @flow
-import { useEffect, useRef } from 'react'
-import SimpleStore, { setInitFunctions } from '../undux/SimpleStore'
+import { useContext, useEffect, useRef } from 'react'
 import logger from '../logger/js-logger'
 import isWebApp from '../utils/isWebApp'
 import { isMobile } from '../utils/platform'
 import { resetLastSplash } from '../../components/splash/Splash'
-
+import { GlobalTogglesContext } from '../contexts/togglesContext'
 const log = logger.child({ from: 'App' })
 let serviceWorkerRegistred = false
 
 export default () => {
-  const store = SimpleStore.useStore()
+  const { setServiceWorkerUpdated, setInstallPrompt } = useContext(GlobalTogglesContext)
   const interval = useRef()
 
   useEffect(() => {
-    if (!isMobile) {
+    if ((!isMobile && setInstallPrompt, setServiceWorkerUpdated)) {
       const serviceWorker = require('../../serviceWorker')
 
       const onUpdate = reg => {
-        store.set('serviceWorkerUpdated')(reg)
+        setServiceWorkerUpdated(reg)
         navigator.serviceWorker.addEventListener('controllerchange', async () => {
           log.debug('service worker: controllerchange')
           await resetLastSplash() // show full splash animation
@@ -48,12 +47,11 @@ export default () => {
           // For older browsers
           e.preventDefault()
           log.debug('Install Prompt fired')
-          store.set('installPrompt')(e)
+          setInstallPrompt(e)
         })
       }
     }
 
-    setInitFunctions(store.set('wallet'), store.set('userStorage'))
     return () => interval.current && clearInterval(interval.current)
-  }, [])
+  }, [setInstallPrompt, setServiceWorkerUpdated])
 }

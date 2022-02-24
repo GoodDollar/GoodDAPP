@@ -13,7 +13,7 @@ import goodWallet from '../../lib/wallet/GoodWallet'
 import GDStore from '../../lib/undux/GDStore'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
 import { updateAll as updateWalletStatus } from '../../lib/undux/utils/account'
-import { checkAuthStatus as getLoginState } from '../../lib/login/checkAuthStatus'
+import { useCheckAuthStatus } from '../../lib/login/checkAuthStatus'
 import userStorage from '../../lib/userStorage/UserStorage'
 import runUpdates from '../../lib/updates'
 import useAppState from '../../lib/hooks/useAppState'
@@ -66,6 +66,10 @@ const AppSwitch = (props: LoadingProps) => {
   const store = SimpleStore.useStore()
   const [showErrorDialog] = useErrorDialog()
   const [ready, setReady] = useState(false)
+  const {
+    authStatus: [isLoggedInCitizen, isLoggedIn],
+    refresh,
+  } = useCheckAuthStatus()
 
   /*
   Check if user is incoming with a URL with action details, such as payment link or email confirmation
@@ -164,9 +168,6 @@ const AppSwitch = (props: LoadingProps) => {
       //initialize the citizen status and wallet status
       //create jwt token and initialize the API service
       updateWalletStatus(gdstore)
-
-      const [isLoggedInCitizen, isLoggedIn] = await getLoginState()
-
       log.debug('initialize ready', { isLoggedIn, isLoggedInCitizen })
 
       const initReg = userStorage.initRegistered()
@@ -234,10 +235,10 @@ const AppSwitch = (props: LoadingProps) => {
       // in user storage class designed to be called from outside
       userStorage.database._syncFromRemote()
       userStorage.userProperties._syncFromRemote()
-      getLoginState() //this will refresh the jwt token if wasnt active for a long time
+      refresh() //this will refresh the jwt token if wasnt active for a long time
       showOutOfGasError(props)
     }
-  }, [gdstore, ready])
+  }, [gdstore, ready, refresh])
 
   const backgroundUpdates = useCallback(() => {}, [ready])
 
@@ -248,6 +249,9 @@ const AppSwitch = (props: LoadingProps) => {
   useAppState({ onForeground: recheck, onBackground: backgroundUpdates })
 
   useEffect(() => {
+    if (isLoggedIn == null || isLoggedInCitizen == null) {
+      return
+    }
     init()
     navigateToUrlRef.current()
 
@@ -266,7 +270,7 @@ const AppSwitch = (props: LoadingProps) => {
     })
 
     return () => DeepLinking.unsubscribe()
-  }, [])
+  }, [isLoggedIn, isLoggedInCitizen])
 
   const { descriptors, navigation } = props
   const activeKey = navigation.state.routes[navigation.state.index].key

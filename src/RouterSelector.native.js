@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { useContext, useMemo } from 'react'
 
 import Splash, { animationDuration } from './components/splash/Splash'
 import useUpdateDialog from './components/appUpdate/useUpdateDialog'
@@ -13,6 +13,7 @@ import { APP_OPEN, fireEvent, initAnalytics } from './lib/analytics/analytics'
 import Config from './config/config'
 import logger from './lib/logger/js-logger'
 import './lib/utils/debugUserAgent'
+import { GoodWalletContext } from './lib/wallet/GoodWalletProvider'
 
 const log = logger.child({ from: 'RouterSelector' })
 
@@ -34,13 +35,10 @@ let SignupRouter = React.lazy(async () => {
 let AppRouter = React.lazy(() => {
   log.debug('initializing storage and wallet...')
   let p1 = initAnalytics().then(() => fireEvent(APP_OPEN, { platform: 'native', isLoggedIn: true }))
-  let walletAndStorageReady = retryImport(() => import(/* webpackChunkName: "init" */ './init'))
-  let p2 = walletAndStorageReady.then(({ init, _ }) => init()).then(_ => log.debug('storage and wallet ready'))
 
   //always wait for full splash on native
   return Promise.all([
     retryImport(() => import(/* webpackChunkName: "router" */ './Router')),
-    p2,
     p1,
     delay(animationDuration),
   ])
@@ -53,6 +51,8 @@ let AppRouter = React.lazy(() => {
 
 const RouterSelector = () => {
   const store = SimpleStore.useStore()
+  const { initWalletAndStorage } = useContext(GoodWalletContext)
+
   useUpdateDialog()
 
   //we use global state for signup process to signal user has registered
@@ -60,6 +60,10 @@ const RouterSelector = () => {
 
   const Router = useMemo(() => {
     log.debug('RouterSelector Rendered', { isLoggedIn })
+
+    if (isLoggedIn) {
+      initWalletAndStorage(undefined, 'SEED').then(() => log.debug('storage and wallet ready'))
+    }
     return isLoggedIn ? AppRouter : SignupRouter
   }, [isLoggedIn])
 

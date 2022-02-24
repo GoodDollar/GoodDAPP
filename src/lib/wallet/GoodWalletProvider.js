@@ -19,8 +19,7 @@ export const GoodWalletContext = React.createContext({
 })
 
 export const GoodWalletProvider = ({ children }) => {
-  const [goodWallet, setWallet] = useState()
-  const [userStorage, setUserStorage] = useState()
+  const [{ goodWallet, userStorage }, setWalletAndStorage] = useState({})
   const [web3Provider, setWeb3] = useState()
   const [isLoggedInJWT, setLoggedInJWT] = useState()
 
@@ -41,33 +40,34 @@ export const GoodWalletProvider = ({ children }) => {
     [web3Provider],
   )
 
-  const initWallet = useCallback(async (seedOrWeb3, type: 'SEED' | 'METAMASK' | 'WALLETCONNECT' | 'OTHER') => {
-    try {
-      const wallet = new GoodWallet({
-        mnemonic: type === 'SEED' ? seedOrWeb3 : undefined,
-        web3: type !== 'SEED' ? seedOrWeb3 : undefined,
-        web3Transport: Config.web3TransportProvider,
-      })
-      await wallet.init()
-      const userStorage = new UserStorage(wallet, db, new UserProperties(db))
-      await UserStorage.ready
-      setUserStorage(userStorage)
-      log.debug('initWalletAndStorage done')
+  const initWalletAndStorage = useCallback(
+    async (seedOrWeb3, type: 'SEED' | 'METAMASK' | 'WALLETCONNECT' | 'OTHER') => {
+      try {
+        const wallet = new GoodWallet({
+          mnemonic: type === 'SEED' ? seedOrWeb3 : undefined,
+          web3: type !== 'SEED' ? seedOrWeb3 : undefined,
+          web3Transport: Config.web3TransportProvider,
+        })
+        await wallet.init()
+        const userStorage = new UserStorage(wallet, db, new UserProperties(db))
+        await UserStorage.ready
+        setWalletAndStorage({ goodWallet: wallet, userStorage })
+        log.debug('initWalletAndStorage done')
 
-      setWallet(wallet)
+        return wallet
+      } catch (e) {
+        log.error('failed initializing wallet and userstorage:', e.message, e)
 
-      return wallet
-    } catch (e) {
-      log.error('failed initializing wallet and userstorage:', e.message, e)
-
-      throw e
-    }
-  }, [])
+        throw e
+      }
+    },
+    [],
+  )
 
   const login = useCallback(
     async refresh => {
       if ((!refresh && isLoggedInJWT) || !goodWallet || !userStorage) {
-        return
+        return isLoggedInJWT
       }
       await userStorage.ready
       const walletLogin = new GoodWalletLogin(goodWallet, userStorage)
@@ -78,15 +78,19 @@ export const GoodWalletProvider = ({ children }) => {
 
         throw e
       })
-      setLoggedInJWT(true)
-      log.debug('walletLogin', await walletLogin.getJWT())
+      setLoggedInJWT(walletLogin)
+      log.debug('walletLogin', await walletLogin.getJWT(), { refresh })
+      return walletLogin
     },
-    [goodWallet, userStorage, isLoggedInJWT],
+    [goodWallet, userStorage, isLoggedInJWT, setLoggedInJWT],
   )
 
   //perform login on wallet change
   useEffect(() => {
-    login()
+    if (goodWallet && userStorage) {
+      log.debug('on wallet ready')
+      login()
+    }
   }, [goodWallet, userStorage])
 
   return (
@@ -94,7 +98,7 @@ export const GoodWalletProvider = ({ children }) => {
       value={{
         userStorage,
         goodWallet,
-        init: initWallet,
+        initWalletAndStorage,
         web3Provider,
         switchWeb3ProviderNetwork,
         login,

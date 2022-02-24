@@ -40,7 +40,7 @@ import useTorus from './hooks/useTorus'
 const log = logger.child({ from: 'AuthTorus' })
 
 const AuthTorus = ({ screenProps, navigation, styles, store }) => {
-  const { init } = useContext(GoodWalletContext)
+  const { initWalletAndStorage } = useContext(GoodWalletContext)
   const [, hideDialog, showErrorDialog] = useDialog()
   const { setWalletPreparing, setTorusInitialized, setSuccessfull, setActiveStep } = useContext(AuthContext)
   const checkExisting = useCheckExisting()
@@ -176,7 +176,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
     }
 
     if (provider === 'selfCustody') {
-      init(undefined, 'SEED') //initialize the wallet (it will generate a mnemonic)
+      initWalletAndStorage(undefined, 'SEED') //initialize the wallet (it will generate a mnemonic)
       return selfCustody()
     }
 
@@ -230,7 +230,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
 
       // get full name, email, number, userId
       const { torusUser } = torusResponse
-      init(torusUser.privateKey, 'SEED') //initialize in background (no await)
+      initWalletAndStorage(torusUser.privateKey, 'SEED') //initialize in background (no await)
       const existsResult = await checkExisting(provider, torusUser)
 
       switch (existsResult) {

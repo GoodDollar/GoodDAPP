@@ -8,7 +8,8 @@ import { mapValues, pick, startCase } from 'lodash'
 
 // custom components
 import Wrapper from '../common/layout/Wrapper'
-import { Avatar, CustomButton, Icon, Section, Text } from '../common'
+import { CustomButton, Icon, Section, Text } from '../common'
+import Avatar from '../common/view/Avatar'
 import { BackButton } from '../appNavigation/stackNavigation'
 import BorderedBox from '../common/view/BorderedBox'
 

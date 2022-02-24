@@ -1,5 +1,4 @@
 // @flow
-
 import React, { Fragment, useCallback, useEffect, useState } from 'react'
 import { SafeAreaView, StyleSheet } from 'react-native'
 import { Provider as PaperProvider } from 'react-native-paper'
@@ -21,6 +20,7 @@ import { GlobalTogglesContextProvider } from '../lib/contexts/togglesContext'
 import logger from '../lib/logger/js-logger'
 
 import { theme } from '../components/theme/styles'
+import { GoodWalletProvider } from '../lib/wallet/GoodWalletProvider'
 
 const log = logger.child({ from: 'App' })
 
@@ -74,9 +74,11 @@ export const App = () => {
       <AppWrapper {...wrapperProps}>
         <Fragment>
           <GlobalTogglesContextProvider>
-            <SimpleStoreDialog />
-            <LoadingIndicator />
-            <SplashOrRouter store={store} />
+            <GoodWalletProvider>
+              <SimpleStoreDialog />
+              <LoadingIndicator />
+              <SplashOrRouter store={store} />
+            </GoodWalletProvider>
           </GlobalTogglesContextProvider>
         </Fragment>
       </AppWrapper>

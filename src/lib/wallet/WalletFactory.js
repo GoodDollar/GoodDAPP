@@ -19,21 +19,18 @@ const networkToId = network => {
       return '4447'
   }
 }
+
 export default class WalletFactory {
-  static create(walletType: string, walletConf: WalletConfig): Promise<Web3> {
+  static create(walletConf: WalletConfig): Promise<Web3> {
     if (Config.httpWeb3provider) {
       walletConf.websocketWeb3Provider = walletConf.httpWeb3provider =
         walletConf.httpWeb3provider || Config.httpWeb3provider
     }
-    switch (walletType) {
-      case 'software':
-      default: {
-        let provider: SoftwareWalletProvider = new SoftwareWalletProvider({
-          ...Config.ethereum[networkToId(Config.network)],
-          ...walletConf,
-        })
-        return provider.ready
-      }
-    }
+
+    let provider: SoftwareWalletProvider = new SoftwareWalletProvider({
+      ...Config.ethereum[networkToId(Config.network)],
+      ...walletConf,
+    })
+    return provider.ready
   }
 }

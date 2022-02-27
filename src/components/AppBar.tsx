@@ -78,7 +78,7 @@ function AppBar(): JSX.Element {
 
     return (
         <AppBarWrapper className="flex flex-row flex-nowrap justify-between w-screen relative z-10">
-            <Disclosure as="nav" className="w-screen gradiant-z-10 backdrop-filter backdrop-blur">
+            <Disclosure as="nav" className="w-screen gradiant-z-10">
                 {({ open }) => (
                     <>
                         <div className="px-4 py-1.5">

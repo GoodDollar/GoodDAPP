@@ -1,5 +1,5 @@
 // @flow
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useRef, useState } from 'react'
 import { AppState } from 'react-native'
 import { SceneView } from '@react-navigation/core'
 import { debounce, isEmpty } from 'lodash'
@@ -9,7 +9,6 @@ import { REGISTRATION_METHOD_SELF_CUSTODY, REGISTRATION_METHOD_TORUS } from '../
 
 import logger from '../../lib/logger/js-logger'
 import { getErrorMessage } from '../../lib/API/api'
-import goodWallet from '../../lib/wallet/GoodWallet'
 import GDStore from '../../lib/undux/GDStore'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
 import { updateAll as updateWalletStatus } from '../../lib/undux/utils/account'
@@ -26,6 +25,7 @@ import DeepLinking from '../../lib/utils/deepLinking'
 import { isMobileNative } from '../../lib/utils/platform'
 import { useInviteCode } from '../invite/useInvites'
 import restart from '../../lib/utils/restart'
+import { GoodWalletContext } from '../../lib/wallet/GoodWalletProvider'
 
 type LoadingProps = {
   navigation: any,
@@ -36,17 +36,17 @@ const log = logger.child({ from: 'AppSwitch' })
 
 const GAS_CHECK_DEBOUNCE_TIME = 1000
 const showOutOfGasError = debounce(
-  async props => {
+  async ({ navigation, goodWallet }) => {
     const gasResult = await goodWallet.verifyHasGas().catch(e => {
       const message = getErrorMessage(e)
       const exception = new Error(message)
 
       log.error('verifyTopWallet failed', message, exception)
     })
-    log.debug('outofgaserror:', { gasResult })
+    log.debug('outofgas check result:', { gasResult })
 
     if (gasResult.ok === false && gasResult.error !== false) {
-      props.navigation.navigate('OutOfGasError')
+      navigation.navigate('OutOfGasError')
     }
   },
   GAS_CHECK_DEBOUNCE_TIME,
@@ -70,6 +70,7 @@ const AppSwitch = (props: LoadingProps) => {
     authStatus: [isLoggedInCitizen, isLoggedIn],
     refresh,
   } = useCheckAuthStatus()
+  const { goodWallet } = useContext(GoodWalletContext)
 
   /*
   Check if user is incoming with a URL with action details, such as payment link or email confirmation
@@ -179,7 +180,7 @@ const AppSwitch = (props: LoadingProps) => {
       const identifier = goodWallet.getAccountForType('login')
 
       identifyWith(undefined, identifier)
-      showOutOfGasError(props)
+      showOutOfGasError({ navigation: props.navigation, goodWallet })
 
       await initReg
       initialize()
@@ -236,9 +237,9 @@ const AppSwitch = (props: LoadingProps) => {
       userStorage.database._syncFromRemote()
       userStorage.userProperties._syncFromRemote()
       refresh() //this will refresh the jwt token if wasnt active for a long time
-      showOutOfGasError(props)
+      showOutOfGasError({ navigation: props.navigation, goodWallet })
     }
-  }, [gdstore, ready, refresh])
+  }, [gdstore, ready, refresh, props, goodWallet])
 
   const backgroundUpdates = useCallback(() => {}, [ready])
 

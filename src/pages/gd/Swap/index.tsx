@@ -290,7 +290,7 @@ function Swap() {
                             {meta && <SwapInfo title="Price" value={swapFields.price} />}
                         </div>
 
-                        {securityNotice ? ( <ButtonAction style={{marginTop: 22}} disabled>Unavailable</ButtonAction> ) :
+                        {(securityNotice && (chainId as any)  === SupportedChainId.MAINNET) ? ( <ButtonAction style={{marginTop: 22}} disabled>Unavailable</ButtonAction> ) :
                          !account ? (
                             <ButtonAction style={{ marginTop: 22 }} disabled>
                                 Connect wallet

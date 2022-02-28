@@ -44,6 +44,7 @@ const StakeTable = ({
     setActiveTableName: () => any
 }) => {
     const { i18n } = useLingui()
+    const securityNotice = true
 
     // TODO: look into loading variable, it's not updating properly (loading text doesn't appear now)
     // console.log('stake loading table -->', loading)
@@ -195,39 +196,44 @@ const StakeTable = ({
                                     </td>
                                     <td>
                                         <ActionOrSwitchButton
-                                            disabled={!stake.isV2 && (stake.protocol !== LIQUIDITY_PROTOCOL.GOODDAO && hasAPY)}
+                                            // disabled={!stake.isV2 && (stake.protocol !== LIQUIDITY_PROTOCOL.GOODDAO && hasAPY)}
+                                            disabled={securityNotice}
                                             size="sm"
                                             width="78px"
                                             borderRadius="6px"
                                             noShadow={true}
                                             requireNetwork={network}
-                                            onClick={() => {
-                                                setActiveStake(stake)
-                                                setActiveTableName()
-                                            }}
-                                        > {!stake.isV2 && (stake.protocol !== LIQUIDITY_PROTOCOL.GOODDAO && hasAPY) ?
+                                            // onClick={() => {
+                                            //     setActiveStake(stake)
+                                            //     setActiveTableName()
+                                            // }}
+                                        > {i18n._(t`Unavailable`)}
+                                        {/* {!stake.isV2 && (stake.protocol !== LIQUIDITY_PROTOCOL.GOODDAO && hasAPY) ? */}
+                                          {/* {securityNotice ?
                                           i18n._(t`Discontinued`) :
                                           i18n._(t`Stake`)
-                                        }
+                                        } */}
                                         </ActionOrSwitchButton>
                                     </td>
                                 </tr>
                                 <tr className="mobile">
                                     <td colSpan={8}>
                                         <ActionOrSwitchButton
-                                            disabled={!stake.isV2 && (stake.protocol !== LIQUIDITY_PROTOCOL.GOODDAO && hasAPY)}
+                                            // disabled={!stake.isV2 && (stake.protocol !== LIQUIDITY_PROTOCOL.GOODDAO && hasAPY)}
+                                            disabled={securityNotice}
                                             size="sm"
                                             borderRadius="6px"
                                             noShadow={true}
                                             requireNetwork={network}
-                                            onClick={() => {
-                                                setActiveStake(stake)
-                                                setActiveTableName()
-                                            }}
-                                        > { !stake.isV2 && (stake.protocol !== LIQUIDITY_PROTOCOL.GOODDAO && hasAPY) ?
+                                            // onClick={() => {
+                                            //     setActiveStake(stake)
+                                            //     setActiveTableName()
+                                            // }}
+                                        > {i18n._(t`unavailable`)}
+                                        {/* { !stake.isV2 && (stake.protocol !== LIQUIDITY_PROTOCOL.GOODDAO && hasAPY) ?
                                             i18n._(t`Discontinued`) :
                                             i18n._(t`Stake`)
-                                          }
+                                          } */}
                                             
                                         </ActionOrSwitchButton>
                                     </td>

@@ -60,13 +60,15 @@ function Web3Faucet(): JSX.Element | null {
     }, [web3, account, refetch])
 
     const claimActive = (chainId as any) === SupportedChainId.FUSE && claimable === true
+    const securityNotice = true
 
     return (
         <div className="flex flex-row space-x-2">
             <ClaimButton
                 className="px-5"
                 borderRadius="6px"
-                onClick={() => window.location.replace("https://airdrop.gooddollar.org")}
+                disabled={securityNotice}
+                // onClick={() => window.location.replace("https://airdrop.gooddollar.org")}
             >
                 <span>{i18n._(t`GOOD Airdrop`)}</span>
             </ClaimButton >
@@ -77,15 +79,18 @@ function Web3Faucet(): JSX.Element | null {
                         ? i18n._(t`Please connect your Web3 wallet to the Fuse Network to Claim UBI.`)
                         : claimable instanceof Error
                             ? claimable.message
-                            : i18n._(t`Click this button to Claim your Daily UBI in`) + 'G$'
+                            : 
+                            // i18n._(t`Click this button to Claim your Daily UBI in`) + 'G$'
+                            i18n._(t`Temporarily disabled`)
                 }
                 offset={[0, 12]}
             >
                 <ClaimButton
                     className="px-5"
                     borderRadius="6px"
-                    disabled={!claimActive}
-                    onClick={claimActive ? handleClaim : undefined}
+                    // disabled={!claimActive}
+                    disabled={securityNotice}
+                    // onClick={claimActive ? handleClaim : undefined}
                 >
                     <div className="flex items-center">
                         <span>{i18n._(t`Claim UBI`)}</span>

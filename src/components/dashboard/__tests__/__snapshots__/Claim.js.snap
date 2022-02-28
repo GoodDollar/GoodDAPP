@@ -5,7 +5,817 @@ exports[`Claim matches snapshot 1`] = `
   className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
-    className="css-view-1dbjc4n"
-  />
+    className="css-view-1dbjc4n r-flexGrow-16y2uox r-height-1pi2tsx r-maxHeight-pm9dpa r-position-bnwqim r-width-13qz1uu"
+    data-name="viewWrapper"
+  >
+    <div
+      className="css-view-1dbjc4n"
+      style={
+        Object {
+          "backgroundColor": "rgba(0,175,255,1.00)",
+          "borderBottomLeftRadius": "50%",
+          "borderBottomRightRadius": "50%",
+          "height": "0px",
+          "left": "-40%",
+          "position": "absolute",
+          "width": "180%",
+        }
+      }
+    />
+    <div
+      className="css-view-1dbjc4n r-alignItems-1oszu61 r-backgroundColor-1niwhzg r-flexDirection-eqz5dr r-flexGrow-18kxxzh r-justifyContent-1h0z5md r-paddingHorizontal-mk0yit r-paddingVertical-rjfia"
+    >
+      <div
+        className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flexDirection-eqz5dr r-marginTop-1x0uki6"
+      >
+        <div
+          className="css-text-901oao r-color-jwli3a r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-letterSpacing-78pegb r-lineHeight-xnfwke r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+          dir="auto"
+        >
+          Just A Little Longer...
+More G$'s Coming Soon
+        </div>
+      </div>
+      <div
+        className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-eqz5dr r-justifyContent-1wtj0ep r-marginLeft-1n0xq6e r-marginRight-zso239 r-marginTop-1mnahxq"
+      >
+        <div
+          className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz r-flexGrow-16y2uox r-position-bnwqim r-width-13qz1uu"
+          style={
+            Object {
+              "borderBottomLeftRadius": "10px",
+              "borderBottomRightRadius": "10px",
+              "borderTopLeftRadius": "10px",
+              "borderTopRightRadius": "10px",
+              "boxShadow": "0px 2px 4px #00000029",
+            }
+          }
+        >
+          <div
+            className="css-view-1dbjc4n r-backgroundImage-o7i658 r-backgroundRepeat-1w25a1u r-borderBottomLeftRadius-re1h2s r-borderTopLeftRadius-1as3g83 r-flexGrow-16y2uox r-flexShrink-1q142lx r-maxWidth-1akpm2g r-minWidth-t66pp7 r-position-bnwqim r-zIndex-pezta"
+            style={
+              Object {
+                "backgroundColor": "rgba(12,38,61,1.00)",
+              }
+            }
+          />
+          <div
+            className="css-view-1dbjc4n r-flexGrow-16y2uox r-flexShrink-1wbh5a2 r-paddingBottom-1mi0q7o r-paddingTop-m611by"
+            style={
+              Object {
+                "borderBottomRightRadius": "10px",
+                "borderTopRightRadius": "10px",
+                "paddingLeft": "12px",
+                "paddingRight": "12px",
+              }
+            }
+          >
+            <div
+              className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-a023e6 r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+              dir="auto"
+            >
+              Claim cycle restart every day
+            </div>
+            <div
+              className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-a023e6 r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+              dir="auto"
+            >
+              at 
+              00:00:00
+            </div>
+          </div>
+        </div>
+        <div
+          className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz r-flexGrow-16y2uox r-position-bnwqim r-width-13qz1uu"
+          style={
+            Object {
+              "borderBottomLeftRadius": "10px",
+              "borderBottomRightRadius": "10px",
+              "borderTopLeftRadius": "10px",
+              "borderTopRightRadius": "10px",
+              "boxShadow": "0px 2px 4px #00000029",
+              "marginTop": "10px",
+            }
+          }
+        >
+          <div
+            className="css-view-1dbjc4n r-backgroundImage-o7i658 r-backgroundRepeat-1w25a1u r-borderBottomLeftRadius-re1h2s r-borderTopLeftRadius-1as3g83 r-flexGrow-16y2uox r-flexShrink-1q142lx r-maxWidth-1akpm2g r-minWidth-t66pp7 r-position-bnwqim r-zIndex-pezta"
+            style={
+              Object {
+                "backgroundColor": "rgba(12,38,61,1.00)",
+              }
+            }
+          />
+          <div
+            className="css-view-1dbjc4n r-flexGrow-16y2uox r-flexShrink-1wbh5a2 r-paddingBottom-1mi0q7o r-paddingTop-m611by"
+            style={
+              Object {
+                "borderBottomRightRadius": "10px",
+                "borderTopRightRadius": "10px",
+                "paddingLeft": "12px",
+                "paddingRight": "12px",
+              }
+            }
+          >
+            <div
+              className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-a023e6 r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
+              dir="auto"
+            >
+              So Far Today:
+            </div>
+            <div
+              className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1777fci"
+            >
+              <div
+                className="css-text-901oao r-color-1q5uqvh r-fontFamily-vnw8o6 r-fontSize-a023e6 r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                dir="auto"
+              >
+                0
+              </div>
+              <div
+                className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-a023e6 r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
+                dir="auto"
+              >
+                 
+                Claimers Received
+                 
+              </div>
+              <div
+                className="css-view-1dbjc4n r-alignItems-1d09ksm r-display-s88bda r-flexDirection-18u37iz"
+              >
+                <div
+                  className="css-text-901oao r-color-1q5uqvh r-fontFamily-vnw8o6 r-fontSize-a023e6 r-fontWeight-b88u0q r-lineHeight-qvk6io r-marginRight-a5pmau r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                  dir="auto"
+                >
+                  0
+                </div>
+                <div
+                  className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
+                >
+                  <div
+                    className="css-text-901oao r-color-1q5uqvh r-fontFamily-vnw8o6 r-fontSize-a023e6 r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                    dir="auto"
+                  >
+                    G
+                  </div>
+                  <div
+                    className="css-text-901oao r-color-1q5uqvh r-fontFamily-vnw8o6 r-fontSize-a023e6 r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                    dir="auto"
+                  >
+                    $
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1777fci"
+            >
+              <div
+                className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-a023e6 r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                dir="auto"
+              >
+                out of
+                 
+              </div>
+              <div
+                className="css-view-1dbjc4n r-alignItems-1d09ksm r-display-s88bda r-flexDirection-18u37iz"
+              >
+                <div
+                  className="css-text-901oao r-color-1q5uqvh r-fontFamily-vnw8o6 r-fontSize-a023e6 r-fontWeight-b88u0q r-lineHeight-qvk6io r-marginRight-a5pmau r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                  dir="auto"
+                >
+                  0
+                </div>
+                <div
+                  className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
+                >
+                  <div
+                    className="css-text-901oao r-color-1q5uqvh r-fontFamily-vnw8o6 r-fontSize-a023e6 r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                    dir="auto"
+                  >
+                    G
+                  </div>
+                  <div
+                    className="css-text-901oao r-color-1q5uqvh r-fontFamily-vnw8o6 r-fontSize-a023e6 r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                    dir="auto"
+                  >
+                    $
+                  </div>
+                </div>
+              </div>
+              <div
+                className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-a023e6 r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
+                dir="auto"
+              >
+                 
+                available
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-eqz5dr r-justifyContent-1wtj0ep r-marginTop-1mnahxq r-zIndex-184en5c"
+      >
+        <div
+          className="css-view-1dbjc4n r-alignItems-1awozwy"
+          style={
+            Object {
+              "WebkitTransform": "scale(1)",
+              "height": "140px",
+              "transform": "scale(1)",
+              "width": "140px",
+            }
+          }
+        >
+          <div
+            className="css-view-1dbjc4n r-flex-13awgt0 r-zIndex-184en5c"
+            style={
+              Object {
+                "WebkitTransform": "perspective(800px) rotateY(0deg)",
+                "bottom": "0px",
+                "left": "0px",
+                "opacity": 100,
+                "position": "absolute",
+                "right": "0px",
+                "top": "0px",
+                "transform": "perspective(800px) rotateY(0deg)",
+              }
+            }
+          >
+            <div
+              className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flexDirection-eqz5dr r-justifyContent-1777fci r-marginLeft-11wrixw r-marginRight-61z16t r-marginTop-1mnahxq r-padding-t60dpp"
+              style={
+                Object {
+                  "backgroundColor": "rgba(248,175,64,1.00)",
+                  "borderBottomColor": "rgba(255,255,255,1.00)",
+                  "borderBottomLeftRadius": "70px",
+                  "borderBottomRightRadius": "70px",
+                  "borderBottomStyle": "solid",
+                  "borderBottomWidth": "8px",
+                  "borderLeftColor": "rgba(255,255,255,1.00)",
+                  "borderLeftStyle": "solid",
+                  "borderLeftWidth": "8px",
+                  "borderRightColor": "rgba(255,255,255,1.00)",
+                  "borderRightStyle": "solid",
+                  "borderRightWidth": "8px",
+                  "borderTopColor": "rgba(255,255,255,1.00)",
+                  "borderTopLeftRadius": "70px",
+                  "borderTopRightRadius": "70px",
+                  "borderTopStyle": "solid",
+                  "borderTopWidth": "8px",
+                  "boxShadow": "0px 0px 0px rgba(0,0,0,1.00)",
+                  "height": "140px",
+                  "marginBottom": "0px",
+                  "minHeight": "44px",
+                  "minWidth": "auto",
+                  "paddingLeft": "0px",
+                  "paddingRight": "0px",
+                  "width": "140px",
+                }
+              }
+            >
+              <div
+                className="css-cursor-18t94o4 css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
+                onClick={[Function]}
+                onContextMenu={[Function]}
+                onKeyDown={[Function]}
+                role="button"
+                style={
+                  Object {
+                    "WebkitAlignSelf": "stretch",
+                    "alignSelf": "stretch",
+                    "borderBottomLeftRadius": "70px",
+                    "borderBottomRightRadius": "70px",
+                    "borderTopLeftRadius": "70px",
+                    "borderTopRightRadius": "70px",
+                    "msFlexItemAlign": "stretch",
+                    "msGridRowAlign": "stretch",
+                  }
+                }
+                tabIndex="0"
+              >
+                <div
+                  className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
+                  style={
+                    Object {
+                      "WebkitAlignSelf": "stretch",
+                      "alignSelf": "stretch",
+                      "msFlexItemAlign": "stretch",
+                      "msGridRowAlign": "stretch",
+                    }
+                  }
+                >
+                  <div
+                    className="css-view-1dbjc4n r-marginHorizontal-1ybube5 r-marginVertical-712mwr"
+                  >
+                    <div
+                      className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
+                    >
+                      <div
+                        className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flexDirection-eqz5dr r-justifyContent-1777fci"
+                      >
+                        <div
+                          className="css-text-901oao r-color-waoq6i r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-5fcqz0 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
+                          dir="auto"
+                        >
+                          Your Next Claim:
+                        </div>
+                        <div
+                          className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1777fci"
+                        >
+                          <div
+                            className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-1h2t8mc"
+                            dir="auto"
+                          >
+                            0
+                          </div>
+                          <div
+                            className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-1h2t8mc"
+                            dir="auto"
+                          >
+                            0
+                          </div>
+                          <div
+                            className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-5soawk"
+                            dir="auto"
+                          >
+                            :
+                          </div>
+                          <div
+                            className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-1h2t8mc"
+                            dir="auto"
+                          >
+                            0
+                          </div>
+                          <div
+                            className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-1h2t8mc"
+                            dir="auto"
+                          >
+                            0
+                          </div>
+                          <div
+                            className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-5soawk"
+                            dir="auto"
+                          >
+                            :
+                          </div>
+                          <div
+                            className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-1h2t8mc"
+                            dir="auto"
+                          >
+                            0
+                          </div>
+                          <div
+                            className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-1h2t8mc"
+                            dir="auto"
+                          >
+                            0
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            className="css-view-1dbjc4n r-flex-13awgt0"
+            style={
+              Object {
+                "WebkitTransform": "perspective(-800px) rotateY(-180deg)",
+                "bottom": "0px",
+                "left": "0px",
+                "opacity": 0,
+                "position": "absolute",
+                "right": "0px",
+                "top": "0px",
+                "transform": "perspective(-800px) rotateY(-180deg)",
+                "zIndex": 0,
+              }
+            }
+          >
+            <div
+              className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-justifyContent-1777fci r-marginLeft-11wrixw r-marginRight-61z16t r-marginTop-1mnahxq r-padding-t60dpp"
+              style={
+                Object {
+                  "backgroundColor": "rgba(0,195,174,1.00)",
+                  "borderBottomColor": "rgba(255,255,255,1.00)",
+                  "borderBottomLeftRadius": "70px",
+                  "borderBottomRightRadius": "70px",
+                  "borderBottomStyle": "solid",
+                  "borderBottomWidth": "8px",
+                  "borderLeftColor": "rgba(255,255,255,1.00)",
+                  "borderLeftStyle": "solid",
+                  "borderLeftWidth": "8px",
+                  "borderRightColor": "rgba(255,255,255,1.00)",
+                  "borderRightStyle": "solid",
+                  "borderRightWidth": "8px",
+                  "borderTopColor": "rgba(255,255,255,1.00)",
+                  "borderTopLeftRadius": "70px",
+                  "borderTopRightRadius": "70px",
+                  "borderTopStyle": "solid",
+                  "borderTopWidth": "8px",
+                  "boxShadow": "0px 0px 0px rgba(0,0,0,1.00)",
+                  "height": "140px",
+                  "marginBottom": "0px",
+                  "minHeight": "44px",
+                  "minWidth": "auto",
+                  "paddingLeft": "0px",
+                  "paddingRight": "0px",
+                  "width": "140px",
+                }
+              }
+            >
+              <div
+                className="css-cursor-18t94o4 css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
+                onClick={[Function]}
+                onContextMenu={[Function]}
+                onKeyDown={[Function]}
+                role="button"
+                style={
+                  Object {
+                    "WebkitAlignSelf": "stretch",
+                    "alignSelf": "stretch",
+                    "borderBottomLeftRadius": "70px",
+                    "borderBottomRightRadius": "70px",
+                    "borderTopLeftRadius": "70px",
+                    "borderTopRightRadius": "70px",
+                    "msFlexItemAlign": "stretch",
+                    "msGridRowAlign": "stretch",
+                  }
+                }
+                tabIndex="0"
+              >
+                <div
+                  className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
+                  style={
+                    Object {
+                      "WebkitAlignSelf": "stretch",
+                      "alignSelf": "stretch",
+                      "msFlexItemAlign": "stretch",
+                      "msGridRowAlign": "stretch",
+                    }
+                  }
+                >
+                  <div
+                    className="css-view-1dbjc4n r-marginHorizontal-1ybube5 r-marginVertical-712mwr"
+                  >
+                    <div
+                      className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
+                    >
+                      <div
+                        className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flexDirection-eqz5dr r-justifyContent-1777fci"
+                      >
+                        <div
+                          className="css-text-901oao r-color-waoq6i r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-5fcqz0 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
+                          dir="auto"
+                        >
+                          Your Next Claim:
+                        </div>
+                        <div
+                          className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1777fci"
+                        >
+                          <div
+                            className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-1h2t8mc"
+                            dir="auto"
+                          >
+                            0
+                          </div>
+                          <div
+                            className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-1h2t8mc"
+                            dir="auto"
+                          >
+                            0
+                          </div>
+                          <div
+                            className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-5soawk"
+                            dir="auto"
+                          >
+                            :
+                          </div>
+                          <div
+                            className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-1h2t8mc"
+                            dir="auto"
+                          >
+                            0
+                          </div>
+                          <div
+                            className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-1h2t8mc"
+                            dir="auto"
+                          >
+                            0
+                          </div>
+                          <div
+                            className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-5soawk"
+                            dir="auto"
+                          >
+                            :
+                          </div>
+                          <div
+                            className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-1h2t8mc"
+                            dir="auto"
+                          >
+                            0
+                          </div>
+                          <div
+                            className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-1h2t8mc"
+                            dir="auto"
+                          >
+                            0
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-justifyContent-1wtj0ep r-marginLeft-11wrixw r-marginRight-61z16t r-marginTop-1mnahxq"
+    >
+      <div
+        className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1777fci"
+      >
+        <div
+          className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
+          dir="auto"
+          style={
+            Object {
+              "letterSpacing": "0.1px",
+              "marginBottom": "4px",
+            }
+          }
+        >
+          GoodDollar Stats
+        </div>
+      </div>
+      <div
+        className="css-view-1dbjc4n"
+        style={
+          Object {
+            "backgroundColor": "rgba(0,175,255,1.00)",
+            "borderBottomLeftRadius": "1px",
+            "borderBottomRightRadius": "1px",
+            "borderTopLeftRadius": "1px",
+            "borderTopRightRadius": "1px",
+            "height": "2px",
+          }
+        }
+      />
+      <div
+        className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep r-marginTop-1mnahxq"
+      >
+        <div
+          className="css-view-1dbjc4n r-alignItems-1oszu61 r-flex-13awgt0 r-flexDirection-eqz5dr r-justifyContent-1wtj0ep r-marginRight-mbgqwd"
+        >
+          <div
+            className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-a023e6 r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
+            dir="auto"
+            style={
+              Object {
+                "backgroundColor": "rgba(229,229,229,1.00)",
+                "borderBottomLeftRadius": "5px",
+                "borderBottomRightRadius": "5px",
+                "borderTopLeftRadius": "5px",
+                "borderTopRightRadius": "5px",
+                "letterSpacing": "0.07px",
+                "paddingBottom": "4px",
+                "paddingLeft": "8px",
+                "paddingTop": "8px",
+              }
+            }
+          >
+            active
+claimers
+          </div>
+          <div
+            className="css-view-1dbjc4n r-alignItems-1d09ksm r-flexDirection-18u37iz r-justifyContent-1h0z5md"
+          >
+            <div
+              className="css-text-901oao r-color-1q5uqvh r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-tsynxw"
+              dir="auto"
+              style={
+                Object {
+                  "WebkitFlex": 0,
+                  "flex": 0,
+                  "marginRight": "4px",
+                  "marginTop": "2px",
+                  "msFlex": "0 1 0%",
+                  "paddingLeft": "8px",
+                }
+              }
+            >
+              0.0
+            </div>
+            <div
+              className="css-text-901oao r-color-1q5uqvh r-fontFamily-6jnb14 r-fontSize-a023e6 r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+              dir="auto"
+              style={
+                Object {
+                  "WebkitFlex": 0,
+                  "flex": 0,
+                  "msFlex": "0 1 0%",
+                  "paddingBottom": "0px",
+                }
+              }
+            />
+          </div>
+        </div>
+        <div
+          className="css-view-1dbjc4n r-alignItems-1oszu61 r-flex-13awgt0 r-flexDirection-eqz5dr r-justifyContent-1wtj0ep"
+        >
+          <div
+            className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-a023e6 r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
+            dir="auto"
+            style={
+              Object {
+                "backgroundColor": "rgba(229,229,229,1.00)",
+                "borderBottomLeftRadius": "5px",
+                "borderBottomRightRadius": "5px",
+                "borderTopLeftRadius": "5px",
+                "borderTopRightRadius": "5px",
+                "letterSpacing": "0.07px",
+                "paddingBottom": "4px",
+                "paddingLeft": "8px",
+                "paddingTop": "8px",
+              }
+            }
+          >
+            Today's G$
+Distribution
+          </div>
+          <div
+            className="css-view-1dbjc4n r-alignItems-1d09ksm r-flexDirection-18u37iz r-justifyContent-1h0z5md"
+          >
+            <div
+              className="css-text-901oao r-color-1q5uqvh r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-tsynxw"
+              dir="auto"
+              style={
+                Object {
+                  "WebkitFlex": 0,
+                  "flex": 0,
+                  "marginRight": "4px",
+                  "marginTop": "2px",
+                  "msFlex": "0 1 0%",
+                  "paddingLeft": "8px",
+                }
+              }
+            >
+              0
+            </div>
+            <div
+              className="css-text-901oao r-color-1q5uqvh r-fontFamily-6jnb14 r-fontSize-a023e6 r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+              dir="auto"
+              style={
+                Object {
+                  "WebkitFlex": 0,
+                  "flex": 0,
+                  "msFlex": "0 1 0%",
+                  "paddingBottom": "0px",
+                }
+              }
+            >
+              G$
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep r-marginTop-1mnahxq"
+      >
+        <div
+          className="css-view-1dbjc4n r-alignItems-1oszu61 r-flex-13awgt0 r-flexDirection-eqz5dr r-justifyContent-1wtj0ep r-marginRight-mbgqwd"
+        >
+          <div
+            className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-a023e6 r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
+            dir="auto"
+            style={
+              Object {
+                "backgroundColor": "rgba(229,229,229,1.00)",
+                "borderBottomLeftRadius": "5px",
+                "borderBottomRightRadius": "5px",
+                "borderTopLeftRadius": "5px",
+                "borderTopRightRadius": "5px",
+                "letterSpacing": "0.07px",
+                "paddingBottom": "4px",
+                "paddingLeft": "8px",
+                "paddingTop": "8px",
+              }
+            }
+          >
+            Total funds
+staked
+          </div>
+          <div
+            className="css-view-1dbjc4n r-alignItems-1d09ksm r-flexDirection-18u37iz r-justifyContent-1h0z5md"
+          >
+            <div
+              className="css-text-901oao r-color-1q5uqvh r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-tsynxw"
+              dir="auto"
+              style={
+                Object {
+                  "WebkitFlex": 0,
+                  "flex": 0,
+                  "marginRight": "4px",
+                  "marginTop": "2px",
+                  "msFlex": "0 1 0%",
+                  "paddingLeft": "8px",
+                }
+              }
+            >
+              0.0
+            </div>
+            <div
+              className="css-text-901oao r-color-1q5uqvh r-fontFamily-6jnb14 r-fontSize-a023e6 r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+              dir="auto"
+              style={
+                Object {
+                  "WebkitFlex": 0,
+                  "flex": 0,
+                  "msFlex": "0 1 0%",
+                  "paddingBottom": "0px",
+                }
+              }
+            >
+              DAI
+            </div>
+          </div>
+        </div>
+        <div
+          className="css-view-1dbjc4n r-alignItems-1oszu61 r-flex-13awgt0 r-flexDirection-eqz5dr r-justifyContent-1wtj0ep"
+        >
+          <div
+            className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-a023e6 r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
+            dir="auto"
+            style={
+              Object {
+                "backgroundColor": "rgba(229,229,229,1.00)",
+                "borderBottomLeftRadius": "5px",
+                "borderBottomRightRadius": "5px",
+                "borderTopLeftRadius": "5px",
+                "borderTopRightRadius": "5px",
+                "letterSpacing": "0.07px",
+                "paddingBottom": "4px",
+                "paddingLeft": "8px",
+                "paddingTop": "8px",
+              }
+            }
+          >
+            Last Interest
+Collected
+          </div>
+          <div
+            className="css-view-1dbjc4n r-alignItems-1d09ksm r-flexDirection-18u37iz r-justifyContent-1h0z5md"
+          >
+            <div
+              className="css-text-901oao r-color-1q5uqvh r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-tsynxw"
+              dir="auto"
+              style={
+                Object {
+                  "WebkitFlex": 0,
+                  "flex": 0,
+                  "marginRight": "4px",
+                  "marginTop": "2px",
+                  "msFlex": "0 1 0%",
+                  "paddingLeft": "8px",
+                }
+              }
+            >
+              0.0
+            </div>
+            <div
+              className="css-text-901oao r-color-1q5uqvh r-fontFamily-6jnb14 r-fontSize-a023e6 r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+              dir="auto"
+              style={
+                Object {
+                  "WebkitFlex": 0,
+                  "flex": 0,
+                  "msFlex": "0 1 0%",
+                  "paddingBottom": "0px",
+                }
+              }
+            >
+              $
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      className="css-view-1dbjc4n r-alignItems-1oszu61 r-flex-13awgt0 r-flexDirection-eqz5dr r-flexGrow-16y2uox r-justifyContent-1h0z5md r-margin-crgep1 r-padding-t60dpp"
+    >
+      <claim-footer.svg
+        height={0}
+        viewBox="0 0 360.002 85"
+        width={0}
+      />
+    </div>
+  </div>
 </div>
 `;

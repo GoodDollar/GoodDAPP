@@ -3,14 +3,18 @@ import React, { useEffect, useState } from 'react'
 import { I18nProvider } from '@lingui/react'
 import { i18n } from '@lingui/core'
 import { Helmet } from 'react-helmet'
-import { View } from 'react-native'
+import { messages as defaultMessages } from './locales/en/catalog'
 
 // This array should equal the array set in .linguirc
 export const locales = ['de', 'en', 'es-AR', 'es', 'it', 'he', 'ro', 'ru', 'vi', 'zh-CN', 'zh-TW', 'ko', 'ja']
 export const defaultLocale = 'en'
 
-// Don't load plurals
-locales.map(locale => i18n.loadLocaleData(locale, { plurals: () => null }))
+locales.map(locale => i18n.loadLocaleData(locale, { plurals: () => null })) // Doesn't load plurals. This is a list used for implementing a language selector.
+
+//Loading english as default to prevent async loading problems.
+i18n.loadLocaleData(defaultLocale, { plurals: () => null })
+i18n.load(defaultLocale, defaultMessages)
+i18n.activate(defaultLocale)
 
 //const isLocaleValid = locale => locales.includes(locale)
 const getInitialLocale = () => {
@@ -20,7 +24,7 @@ const getInitialLocale = () => {
   return defaultLocale
 }
 
-async function activate(locale) {
+async function dynamicActivate(locale) {
   const { messages } = await import(`@lingui/loader!./locales/${locale}/catalog.json`)
   i18n.load(locale, messages)
   i18n.activate(locale)
@@ -37,7 +41,7 @@ const LanguageProvider = ({ children }) => {
 
   const _setLanguage = language => {
     if (!init) {
-      activate(language).then(() => {
+      dynamicActivate(language).then(() => {
         localStorage.setItem('lang', language)
         setLanguage(language)
       })
@@ -49,17 +53,26 @@ const LanguageProvider = ({ children }) => {
 
   useEffect(() => {
     const load = async () => {
-      await activate(language)
+      await dynamicActivate(language)
       setInit(false)
     }
 
     load()
   }, [])
 
+  //render if async loading is not completed
   if (init) {
-    return <View />
+    return (
+      <I18nProvider i18n={i18n} forceRenderOnLocaleChange={false}>
+        <Helmet htmlAttributes={{ lang: defaultLocale }} />
+        <LanguageContext.Provider value={{ setLanguage: _setLanguage, defaultLocale }}>
+          {children}
+        </LanguageContext.Provider>
+      </I18nProvider>
+    )
   }
 
+  //render if async loading is completed
   return (
     <I18nProvider i18n={i18n} forceRenderOnLocaleChange={false}>
       <Helmet htmlAttributes={{ lang: language }} />

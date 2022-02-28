@@ -5,7 +5,291 @@ exports[`VerifyEditCode matches snapshot 1`] = `
   className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
-    className="css-view-1dbjc4n"
-  />
+    className="css-view-1dbjc4n r-width-13qz1uu"
+  >
+    <div
+      className="css-view-1dbjc4n r-flex-13awgt0 r-paddingBottom-97e31f r-paddingLeft-bv2aro r-paddingRight-hxflta r-paddingTop-10xqauy"
+    >
+      <div
+        className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-display-6koalj r-flexDirection-eqz5dr r-flexGrow-16y2uox r-maxHeight-87ditf r-overflowX-lltvgl r-overflowY-1rnoaur r-padding-nsbfu8 r-position-bnwqim r-width-13qz1uu"
+        data-name="viewWrapper"
+      >
+        <div
+          className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-borderRadius-1f0042m r-flexGrow-16y2uox r-padding-t60dpp r-paddingHorizontal-1e081e0 r-paddingVertical-1yzf0co"
+        >
+          <div
+            className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-flexGrow-16y2uox r-justifyContent-1d7fvdj"
+          >
+            <div
+              className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderRadius-1f0042m r-flexGrow-16y2uox r-paddingHorizontal-1e081e0 r-paddingVertical-1yzf0co"
+              style={
+                Object {
+                  "WebkitBoxPack": "start",
+                  "WebkitJustifyContent": "flex-start",
+                  "justifyContent": "flex-start",
+                  "msFlexPack": "start",
+                }
+              }
+            >
+              <div
+                className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr"
+                style={
+                  Object {
+                    "WebkitBoxPack": "start",
+                    "WebkitJustifyContent": "flex-start",
+                    "justifyContent": "flex-start",
+                    "msFlexPack": "start",
+                  }
+                }
+              >
+                <div
+                  className="css-text-901oao r-color-1q5uqvh r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-b88u0q r-letterSpacing-1rt434i r-lineHeight-qvk6io r-marginBottom-p1pxzi r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
+                  dir="auto"
+                >
+                  Email Verification
+                </div>
+                <div
+                  className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr"
+                  style={
+                    Object {
+                      "WebkitBoxPack": "center",
+                      "WebkitJustifyContent": "center",
+                      "justifyContent": "center",
+                      "msFlexPack": "center",
+                    }
+                  }
+                >
+                  <div
+                    className="css-text-901oao r-color-x96u7p r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-16dba41 r-lineHeight-qvk6io r-marginVertical-r0h9e2 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                    dir="auto"
+                  >
+                    Got it, thanks.
+                  </div>
+                  <div
+                    className="css-text-901oao r-color-x96u7p r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-majxgm r-lineHeight-qvk6io r-marginVertical-r0h9e2 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                    dir="auto"
+                  >
+                    Please enter the verification code sent
+ to your e-mail.
+                  </div>
+                </div>
+                <div
+                  className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-marginBottom-1ifxtd0 r-marginTop-1mnahxq"
+                  style={
+                    Object {
+                      "WebkitBoxPack": "center",
+                      "WebkitJustifyContent": "center",
+                      "justifyContent": "center",
+                      "msFlexPack": "center",
+                    }
+                  }
+                >
+                  <div
+                    className="css-view-1dbjc4n r-display-6koalj r-flexDirection-18u37iz r-justifyContent-1d7fvdj r-marginBottom-5oul0u"
+                  >
+                    <div
+                      className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-paddingHorizontal-mk0yit"
+                    >
+                      <input
+                        autoCapitalize="sentences"
+                        autoComplete="on"
+                        autoCorrect="on"
+                        className="css-textinput-11aywtz r-borderBottomColor-1htqvjr r-borderBottomWidth-wgabs5 r-borderLeftWidth-gxnn5r r-borderRightWidth-fnigne r-borderTopWidth-13yce4e r-color-13sdq65 r-fontSize-hiw28u r-marginBottom-p1pxzi r-marginVertical-r0h9e2 r-paddingVertical-rjfia r-placeholderTextColor-7xl6jx r-textAlign-q4m81j r-width-13qz1uu"
+                        dir="auto"
+                        disabled={false}
+                        enterKeyHint="next"
+                        maxLength={1}
+                        onBlur={[Function]}
+                        onChange={[Function]}
+                        onFocus={[Function]}
+                        onKeyDown={[Function]}
+                        onSelect={[Function]}
+                        placeholder="*"
+                        readOnly={false}
+                        spellCheck={true}
+                        type="tel"
+                        value=""
+                      />
+                    </div>
+                    <div
+                      className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-paddingHorizontal-mk0yit"
+                    >
+                      <input
+                        autoCapitalize="sentences"
+                        autoComplete="on"
+                        autoCorrect="on"
+                        className="css-textinput-11aywtz r-borderBottomColor-1htqvjr r-borderBottomWidth-wgabs5 r-borderLeftWidth-gxnn5r r-borderRightWidth-fnigne r-borderTopWidth-13yce4e r-color-13sdq65 r-fontSize-hiw28u r-marginBottom-p1pxzi r-marginVertical-r0h9e2 r-paddingVertical-rjfia r-placeholderTextColor-7xl6jx r-textAlign-q4m81j r-width-13qz1uu"
+                        dir="auto"
+                        disabled={false}
+                        enterKeyHint="next"
+                        maxLength={1}
+                        onBlur={[Function]}
+                        onChange={[Function]}
+                        onFocus={[Function]}
+                        onKeyDown={[Function]}
+                        onSelect={[Function]}
+                        placeholder="*"
+                        readOnly={false}
+                        spellCheck={true}
+                        type="tel"
+                        value=""
+                      />
+                    </div>
+                    <div
+                      className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-paddingHorizontal-mk0yit"
+                    >
+                      <input
+                        autoCapitalize="sentences"
+                        autoComplete="on"
+                        autoCorrect="on"
+                        className="css-textinput-11aywtz r-borderBottomColor-1htqvjr r-borderBottomWidth-wgabs5 r-borderLeftWidth-gxnn5r r-borderRightWidth-fnigne r-borderTopWidth-13yce4e r-color-13sdq65 r-fontSize-hiw28u r-marginBottom-p1pxzi r-marginVertical-r0h9e2 r-paddingVertical-rjfia r-placeholderTextColor-7xl6jx r-textAlign-q4m81j r-width-13qz1uu"
+                        dir="auto"
+                        disabled={false}
+                        enterKeyHint="next"
+                        maxLength={1}
+                        onBlur={[Function]}
+                        onChange={[Function]}
+                        onFocus={[Function]}
+                        onKeyDown={[Function]}
+                        onSelect={[Function]}
+                        placeholder="*"
+                        readOnly={false}
+                        spellCheck={true}
+                        type="tel"
+                        value=""
+                      />
+                    </div>
+                    <div
+                      className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-marginLeft-1ozfoo7 r-paddingHorizontal-mk0yit"
+                    >
+                      <input
+                        autoCapitalize="sentences"
+                        autoComplete="on"
+                        autoCorrect="on"
+                        className="css-textinput-11aywtz r-borderBottomColor-1htqvjr r-borderBottomWidth-wgabs5 r-borderLeftWidth-gxnn5r r-borderRightWidth-fnigne r-borderTopWidth-13yce4e r-color-13sdq65 r-fontSize-hiw28u r-marginBottom-p1pxzi r-marginVertical-r0h9e2 r-paddingVertical-rjfia r-placeholderTextColor-7xl6jx r-textAlign-q4m81j r-width-13qz1uu"
+                        dir="auto"
+                        disabled={false}
+                        enterKeyHint="next"
+                        maxLength={1}
+                        onBlur={[Function]}
+                        onChange={[Function]}
+                        onFocus={[Function]}
+                        onKeyDown={[Function]}
+                        onSelect={[Function]}
+                        placeholder="*"
+                        readOnly={false}
+                        spellCheck={true}
+                        type="tel"
+                        value=""
+                      />
+                    </div>
+                    <div
+                      className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-paddingHorizontal-mk0yit"
+                    >
+                      <input
+                        autoCapitalize="sentences"
+                        autoComplete="on"
+                        autoCorrect="on"
+                        className="css-textinput-11aywtz r-borderBottomColor-1htqvjr r-borderBottomWidth-wgabs5 r-borderLeftWidth-gxnn5r r-borderRightWidth-fnigne r-borderTopWidth-13yce4e r-color-13sdq65 r-fontSize-hiw28u r-marginBottom-p1pxzi r-marginVertical-r0h9e2 r-paddingVertical-rjfia r-placeholderTextColor-7xl6jx r-textAlign-q4m81j r-width-13qz1uu"
+                        dir="auto"
+                        disabled={false}
+                        enterKeyHint="next"
+                        maxLength={1}
+                        onBlur={[Function]}
+                        onChange={[Function]}
+                        onFocus={[Function]}
+                        onKeyDown={[Function]}
+                        onSelect={[Function]}
+                        placeholder="*"
+                        readOnly={false}
+                        spellCheck={true}
+                        type="tel"
+                        value=""
+                      />
+                    </div>
+                    <div
+                      className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-paddingHorizontal-mk0yit"
+                    >
+                      <input
+                        autoCapitalize="sentences"
+                        autoComplete="on"
+                        autoCorrect="on"
+                        className="css-textinput-11aywtz r-borderBottomColor-1htqvjr r-borderBottomWidth-wgabs5 r-borderLeftWidth-gxnn5r r-borderRightWidth-fnigne r-borderTopWidth-13yce4e r-color-13sdq65 r-fontSize-hiw28u r-marginBottom-p1pxzi r-marginVertical-r0h9e2 r-paddingVertical-rjfia r-placeholderTextColor-7xl6jx r-textAlign-q4m81j r-width-13qz1uu"
+                        dir="auto"
+                        disabled={false}
+                        enterKeyHint="next"
+                        maxLength={1}
+                        onBlur={[Function]}
+                        onChange={[Function]}
+                        onFocus={[Function]}
+                        onKeyDown={[Function]}
+                        onSelect={[Function]}
+                        placeholder="*"
+                        readOnly={false}
+                        spellCheck={true}
+                        type="tel"
+                        value=""
+                      />
+                    </div>
+                  </div>
+                  <div
+                    className="css-text-901oao r-color-x96u7p r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                    dir="auto"
+                    style={
+                      Object {
+                        "marginTop": "12px",
+                      }
+                    }
+                  >
+                    Please wait a few seconds until the email arrives
+                  </div>
+                </div>
+              </div>
+              <div
+                className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-marginBottom-zd98yo r-marginTop-1v1z2uz"
+                style={
+                  Object {
+                    "WebkitBoxPack": "center",
+                    "WebkitJustifyContent": "center",
+                    "justifyContent": "center",
+                    "msFlexPack": "center",
+                  }
+                }
+              >
+                <div
+                  className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-justifyContent-1wtj0ep"
+                >
+                  <div
+                    className="css-text-901oao r-color-19bl0xb r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                    dir="auto"
+                  >
+                    (0:00)
+                  </div>
+                  <div
+                    className="css-text-901oao r-color-1q5uqvh r-cursor-1loqt21 r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-majxgm r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-1ddef8g r-textTransform-3twk1y"
+                    dir="auto"
+                    onClick={[Function]}
+                  >
+                    Send me the code again
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz"
+            style={
+              Object {
+                "WebkitBoxPack": "end",
+                "WebkitJustifyContent": "flex-end",
+                "justifyContent": "flex-end",
+                "msFlexPack": "end",
+              }
+            }
+          />
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 `;

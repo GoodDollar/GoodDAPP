@@ -5,7 +5,857 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
   className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
-    className="css-view-1dbjc4n"
-  />
+    className="css-view-1dbjc4n r-display-6koalj r-flex-13awgt0 r-flexDirection-eqz5dr r-flexGrow-16y2uox r-maxHeight-87ditf r-overflowX-lltvgl r-overflowY-1rnoaur r-padding-t60dpp r-position-bnwqim r-width-13qz1uu"
+    data-name="viewWrapper"
+    style={
+      Object {
+        "backgroundImage": "linear-gradient(3.141592653589793rad,#00AFFF,#2DC0F7,#28C0EF,#23C0E7,#1EC1DF,#19C1D7,#14C1CF,#0FC2C7,#0FC2C7,#0AC2BF,#05C2B7,#00C3AF)",
+      }
+    }
+  >
+    <div
+      className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-height-1w2pmg"
+      style={
+        Object {
+          "WebkitBoxFlex": 0,
+          "WebkitFlexGrow": 0,
+          "WebkitFlexShrink": 0,
+          "backgroundColor": "rgba(0,175,255,1.00)",
+          "boxShadow": "none, 0px 3px 4px rgba(0,0,0,0.24)",
+          "flexGrow": 0,
+          "flexShrink": 0,
+          "msFlexNegative": 0,
+          "msFlexPositive": 0,
+          "paddingLeft": "4px",
+          "paddingRight": "4px",
+        }
+      }
+    >
+      <div
+        className="css-view-1dbjc4n r-alignItems-1awozwy r-cursor-1loqt21 r-flexDirection-eqz5dr r-justifyContent-1777fci r-marginLeft-1ozfoo7 r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-width-m0fvr6"
+        onClick={[Function]}
+        onContextMenu={[Function]}
+        onKeyDown={[Function]}
+        style={
+          Object {
+            "WebkitTransitionDuration": "0s",
+            "transitionDuration": "0s",
+          }
+        }
+        tabIndex="0"
+      >
+        <div
+          className="css-view-1dbjc4n r-alignItems-1awozwy r-justifyContent-1777fci"
+          style={
+            Object {
+              "backgroundColor": "rgba(0,0,0,0.00)",
+              "borderBottomLeftRadius": "16px",
+              "borderBottomRightRadius": "16px",
+              "borderTopLeftRadius": "16px",
+              "borderTopRightRadius": "16px",
+              "height": "32px",
+              "width": "32px",
+            }
+          }
+        >
+          <div
+            className="css-text-901oao r-color-jwli3a r-fontWeight-1it3c9n"
+            dir="auto"
+            style={
+              Object {
+                "fontFamily": "gooddollar",
+                "fontSize": "22px",
+                "fontStyle": "normal",
+              }
+            }
+          >
+            
+          </div>
+        </div>
+      </div>
+      <div
+        aria-disabled={true}
+        className="css-view-1dbjc4n r-flex-13awgt0 r-paddingHorizontal-1e081e0"
+        onClick={[Function]}
+        onContextMenu={[Function]}
+        onKeyDown={[Function]}
+        style={
+          Object {
+            "marginLeft": "8px",
+          }
+        }
+        tabIndex="-1"
+      >
+        <h1
+          className="css-reset-4rbku5 css-text-901oao css-textMultiLine-cens5h r-color-jwli3a r-fontSize-hiw28u r-fontWeight-majxgm r-textAlign-q4m81j r-textTransform-tsynxw"
+          dir="auto"
+          role="heading"
+          style={
+            Object {
+              "WebkitLineClamp": 1,
+              "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+            }
+          }
+          tabIndex="0"
+        >
+          EXPORT MY WALLET
+        </h1>
+      </div>
+      <div
+        aria-disabled={true}
+        className="css-view-1dbjc4n r-alignItems-1awozwy r-justifyContent-1777fci r-margin-5scogr r-overflow-1udh08x r-position-bnwqim"
+        onClick={[Function]}
+        onContextMenu={[Function]}
+        onKeyDown={[Function]}
+        role="button"
+        style={
+          Object {
+            "borderBottomLeftRadius": "18px",
+            "borderBottomRightRadius": "18px",
+            "borderTopLeftRadius": "18px",
+            "borderTopRightRadius": "18px",
+            "height": "36px",
+            "width": "36px",
+          }
+        }
+        tabIndex="-1"
+      >
+        <div
+          className="css-view-1dbjc4n"
+        >
+          <div
+            className="css-view-1dbjc4n r-alignItems-1awozwy r-justifyContent-1777fci"
+            style={
+              Object {
+                "height": "24px",
+                "width": "24px",
+              }
+            }
+          >
+            <div
+              className="css-view-1dbjc4n r-bottom-1p0dtai r-left-1d2f490 r-position-u8s1d r-top-ipm5af"
+              style={
+                Object {
+                  "WebkitTransform": "rotate(0deg)",
+                  "opacity": 1,
+                  "right": "0px",
+                  "transform": "rotate(0deg)",
+                }
+              }
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      className="css-view-1dbjc4n r-WebkitOverflowScrolling-150rngu r-backgroundColor-14lw9ot r-flexDirection-eqz5dr r-flexGrow-16y2uox r-flexShrink-1wbh5a2 r-overflowX-11yh6sk r-overflowY-1rnoaur r-paddingHorizontal-8wx0ln r-transform-1sncvnh"
+      onScroll={[Function]}
+      onTouchEnd={[Function]}
+      onTouchMove={[Function]}
+      onTouchStart={[Function]}
+      onWheel={[Function]}
+    >
+      <div
+        className="css-view-1dbjc4n"
+      >
+        <div
+          className="css-view-1dbjc4n"
+          style={
+            Object {
+              "backgroundColor": "rgba(0,0,0,0.00)",
+              "borderBottomLeftRadius": "15px",
+              "borderBottomRightRadius": "15px",
+              "borderTopLeftRadius": "15px",
+              "borderTopRightRadius": "15px",
+              "height": "30px",
+              "zIndex": -10,
+            }
+          }
+        />
+        <div
+          className="css-text-901oao r-color-cqee49 r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+          dir="auto"
+        >
+          My account details
+        </div>
+        <div
+          className="css-view-1dbjc4n r-borderRadius-1f0042m"
+          style={
+            Object {
+              "backgroundColor": "rgba(0,0,0,0.00)",
+              "height": "10px",
+              "zIndex": -10,
+            }
+          }
+        />
+        <div
+          className="css-text-901oao r-color-cqee49 r-fontFamily-vnw8o6 r-fontSize-a023e6 r-fontWeight-majxgm r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+          dir="auto"
+        >
+          All your information at a glance to easily import GoodDollar to MetaMask
+        </div>
+        <div
+          className="css-view-1dbjc4n"
+          style={
+            Object {
+              "backgroundColor": "rgba(0,0,0,0.00)",
+              "borderBottomLeftRadius": "15px",
+              "borderBottomRightRadius": "15px",
+              "borderTopLeftRadius": "15px",
+              "borderTopRightRadius": "15px",
+              "height": "30px",
+              "zIndex": -10,
+            }
+          }
+        />
+        <div
+          className="css-view-1dbjc4n"
+          style={
+            Object {
+              "marginLeft": "0px",
+              "marginRight": "0px",
+            }
+          }
+        >
+          <div
+            className="css-view-1dbjc4n r-alignItems-1awozwy r-borderColor-e397lv r-borderStyle-1phboty r-borderWidth-rs99b7 r-display-6koalj r-flexDirection-eqz5dr r-justifyContent-1777fci r-padding-t60dpp r-position-bnwqim"
+            style={
+              Object {
+                "borderBottomLeftRadius": "10px",
+                "borderBottomRightRadius": "10px",
+                "borderTopLeftRadius": "10px",
+                "borderTopRightRadius": "10px",
+              }
+            }
+          >
+            <div
+              className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-height-1w2pmg r-left-1d2f490 r-position-u8s1d r-top-ipm5af r-width-1h2t8mc"
+            />
+            <div
+              className="css-view-1dbjc4n r-alignItems-1awozwy r-height-1w2pmg r-left-1d2f490 r-position-u8s1d r-top-ipm5af r-width-1h2t8mc r-zIndex-184en5c"
+              style={
+                Object {
+                  "borderBottomLeftRadius": "0px",
+                  "borderBottomRightRadius": "0px",
+                  "borderTopLeftRadius": "0px",
+                  "borderTopRightRadius": "0px",
+                }
+              }
+            >
+              <checkmark.svg
+                style={
+                  Object {
+                    "borderRadius": 0,
+                    "height": 0,
+                    "width": 0,
+                  }
+                }
+              />
+            </div>
+            <div
+              className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-justifyContent-1wtj0ep r-marginBottom-p1pxzi r-marginTop-1mnahxq r-padding-t60dpp r-width-1akxima"
+            >
+              <div
+                className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-marginBottom-p1pxzi r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                dir="auto"
+              >
+                My Private Key
+              </div>
+              <div
+                className="css-text-901oao r-color-vaa0vc r-fontFamily-vnw8o6 r-fontSize-n6v787 r-fontWeight-1it3c9n r-letterSpacing-rdxj0b r-lineHeight-w20frr r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                dir="auto"
+              >
+                fake-wallet-p...t-private-key
+              </div>
+            </div>
+            <div
+              className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-bottom-1p0dtai r-height-1w2pmg r-position-u8s1d r-width-1h2t8mc"
+            />
+          </div>
+          <div
+            className="css-view-1dbjc4n r-alignItems-1awozwy r-bottom-1p0dtai r-display-6koalj r-height-1w2pmg r-justifyContent-1777fci r-maxHeight-46g5hj r-position-u8s1d r-width-13qz1uu"
+          >
+            <div
+              className="css-view-1dbjc4n r-height-1w2pmg r-width-1h2t8mc"
+            >
+              <div
+                className="css-view-1dbjc4n r-alignItems-1awozwy r-borderStyle-1phboty r-display-6koalj r-height-1w2pmg r-justifyContent-1777fci r-marginBottom-p1pxzi r-marginTop-1mnahxq r-padding-t60dpp r-width-1h2t8mc"
+                style={
+                  Object {
+                    "backgroundColor": "rgba(0,175,255,1.00)",
+                    "borderBottomColor": "rgba(0,175,255,1.00)",
+                    "borderBottomLeftRadius": "50px",
+                    "borderBottomRightRadius": "50px",
+                    "borderBottomWidth": "0px",
+                    "borderLeftColor": "rgba(0,175,255,1.00)",
+                    "borderLeftWidth": "0px",
+                    "borderRightColor": "rgba(0,175,255,1.00)",
+                    "borderRightWidth": "0px",
+                    "borderTopColor": "rgba(0,175,255,1.00)",
+                    "borderTopLeftRadius": "50px",
+                    "borderTopRightRadius": "50px",
+                    "borderTopWidth": "0px",
+                    "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
+                    "marginLeft": "auto",
+                    "marginRight": "auto",
+                    "minHeight": "0px",
+                    "minWidth": "64px",
+                    "paddingLeft": "0px",
+                    "paddingRight": "0px",
+                  }
+                }
+              >
+                <div
+                  className="css-cursor-18t94o4 css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
+                  onClick={[Function]}
+                  onContextMenu={[Function]}
+                  onKeyDown={[Function]}
+                  role="button"
+                  style={
+                    Object {
+                      "WebkitAlignSelf": "stretch",
+                      "alignSelf": "stretch",
+                      "borderBottomLeftRadius": "50px",
+                      "borderBottomRightRadius": "50px",
+                      "borderTopLeftRadius": "50px",
+                      "borderTopRightRadius": "50px",
+                      "msFlexItemAlign": "stretch",
+                      "msGridRowAlign": "stretch",
+                    }
+                  }
+                  tabIndex="0"
+                >
+                  <div
+                    className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
+                    style={
+                      Object {
+                        "WebkitAlignSelf": "stretch",
+                        "alignSelf": "stretch",
+                        "msFlexItemAlign": "stretch",
+                        "msGridRowAlign": "stretch",
+                      }
+                    }
+                  >
+                    <div
+                      className="css-view-1dbjc4n r-marginHorizontal-1ydw1k6 r-marginVertical-712mwr"
+                    >
+                      <div
+                        className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
+                      >
+                        <div
+                          className="css-text-901oao r-alignItems-1awozwy r-color-jwli3a r-display-6koalj r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-qvk6io r-minHeight-1ceczpf r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
+                          dir="auto"
+                        >
+                          Copy Key
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          className="css-view-1dbjc4n"
+          style={
+            Object {
+              "backgroundColor": "rgba(0,0,0,0.00)",
+              "borderBottomLeftRadius": "25px",
+              "borderBottomRightRadius": "25px",
+              "borderTopLeftRadius": "25px",
+              "borderTopRightRadius": "25px",
+              "height": "50px",
+              "zIndex": -10,
+            }
+          }
+        />
+        <div
+          className="css-view-1dbjc4n"
+          style={
+            Object {
+              "marginLeft": "0px",
+              "marginRight": "0px",
+            }
+          }
+        >
+          <div
+            className="css-view-1dbjc4n r-alignItems-1awozwy r-borderColor-e397lv r-borderStyle-1phboty r-borderWidth-rs99b7 r-display-6koalj r-flexDirection-eqz5dr r-justifyContent-1777fci r-padding-t60dpp r-position-bnwqim"
+            style={
+              Object {
+                "borderBottomLeftRadius": "10px",
+                "borderBottomRightRadius": "10px",
+                "borderTopLeftRadius": "10px",
+                "borderTopRightRadius": "10px",
+              }
+            }
+          >
+            <div
+              className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-height-1w2pmg r-left-1d2f490 r-position-u8s1d r-top-ipm5af r-width-1h2t8mc"
+            />
+            <div
+              className="css-view-1dbjc4n r-alignItems-1awozwy r-height-1w2pmg r-left-1d2f490 r-position-u8s1d r-top-ipm5af r-width-1h2t8mc r-zIndex-184en5c"
+              style={
+                Object {
+                  "borderBottomLeftRadius": "0px",
+                  "borderBottomRightRadius": "0px",
+                  "borderTopLeftRadius": "0px",
+                  "borderTopRightRadius": "0px",
+                }
+              }
+            >
+              <checkmark.svg
+                style={
+                  Object {
+                    "borderRadius": 0,
+                    "height": 0,
+                    "width": 0,
+                  }
+                }
+              />
+            </div>
+            <div
+              className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-justifyContent-1wtj0ep r-marginBottom-p1pxzi r-marginTop-1mnahxq r-padding-t60dpp r-width-1akxima"
+            >
+              <div
+                className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-marginBottom-p1pxzi r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                dir="auto"
+              >
+                My Wallet Address
+              </div>
+              <div
+                className="css-text-901oao r-color-vaa0vc r-fontFamily-vnw8o6 r-fontSize-n6v787 r-fontWeight-1it3c9n r-letterSpacing-rdxj0b r-lineHeight-w20frr r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                dir="auto"
+              >
+                fake-wallet-a...allet-address
+              </div>
+            </div>
+            <div
+              className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-bottom-1p0dtai r-height-1w2pmg r-position-u8s1d r-width-1h2t8mc"
+            />
+          </div>
+          <div
+            className="css-view-1dbjc4n r-alignItems-1awozwy r-bottom-1p0dtai r-display-6koalj r-height-1w2pmg r-justifyContent-1777fci r-maxHeight-46g5hj r-position-u8s1d r-width-13qz1uu"
+          >
+            <div
+              className="css-view-1dbjc4n r-height-1w2pmg r-width-1h2t8mc"
+            >
+              <div
+                className="css-view-1dbjc4n r-alignItems-1awozwy r-borderStyle-1phboty r-display-6koalj r-height-1w2pmg r-justifyContent-1777fci r-marginBottom-p1pxzi r-marginTop-1mnahxq r-padding-t60dpp r-width-1h2t8mc"
+                style={
+                  Object {
+                    "backgroundColor": "rgba(0,175,255,1.00)",
+                    "borderBottomColor": "rgba(0,175,255,1.00)",
+                    "borderBottomLeftRadius": "50px",
+                    "borderBottomRightRadius": "50px",
+                    "borderBottomWidth": "0px",
+                    "borderLeftColor": "rgba(0,175,255,1.00)",
+                    "borderLeftWidth": "0px",
+                    "borderRightColor": "rgba(0,175,255,1.00)",
+                    "borderRightWidth": "0px",
+                    "borderTopColor": "rgba(0,175,255,1.00)",
+                    "borderTopLeftRadius": "50px",
+                    "borderTopRightRadius": "50px",
+                    "borderTopWidth": "0px",
+                    "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
+                    "marginLeft": "auto",
+                    "marginRight": "auto",
+                    "minHeight": "0px",
+                    "minWidth": "64px",
+                    "paddingLeft": "0px",
+                    "paddingRight": "0px",
+                  }
+                }
+              >
+                <div
+                  className="css-cursor-18t94o4 css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
+                  onClick={[Function]}
+                  onContextMenu={[Function]}
+                  onKeyDown={[Function]}
+                  role="button"
+                  style={
+                    Object {
+                      "WebkitAlignSelf": "stretch",
+                      "alignSelf": "stretch",
+                      "borderBottomLeftRadius": "50px",
+                      "borderBottomRightRadius": "50px",
+                      "borderTopLeftRadius": "50px",
+                      "borderTopRightRadius": "50px",
+                      "msFlexItemAlign": "stretch",
+                      "msGridRowAlign": "stretch",
+                    }
+                  }
+                  tabIndex="0"
+                >
+                  <div
+                    className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
+                    style={
+                      Object {
+                        "WebkitAlignSelf": "stretch",
+                        "alignSelf": "stretch",
+                        "msFlexItemAlign": "stretch",
+                        "msGridRowAlign": "stretch",
+                      }
+                    }
+                  >
+                    <div
+                      className="css-view-1dbjc4n r-marginHorizontal-1ydw1k6 r-marginVertical-712mwr"
+                    >
+                      <div
+                        className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
+                      >
+                        <div
+                          className="css-text-901oao r-alignItems-1awozwy r-color-jwli3a r-display-6koalj r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-qvk6io r-minHeight-1ceczpf r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
+                          dir="auto"
+                        >
+                          Copy address
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          className="css-view-1dbjc4n"
+          style={
+            Object {
+              "backgroundColor": "rgba(0,0,0,0.00)",
+              "borderBottomLeftRadius": "25px",
+              "borderBottomRightRadius": "25px",
+              "borderTopLeftRadius": "25px",
+              "borderTopRightRadius": "25px",
+              "height": "50px",
+              "zIndex": -10,
+            }
+          }
+        />
+        <div
+          className="css-view-1dbjc4n"
+          style={
+            Object {
+              "marginLeft": "0px",
+              "marginRight": "0px",
+            }
+          }
+        >
+          <div
+            className="css-view-1dbjc4n r-alignItems-1awozwy r-borderColor-e397lv r-borderStyle-1phboty r-borderWidth-rs99b7 r-display-6koalj r-flexDirection-eqz5dr r-justifyContent-1777fci r-padding-t60dpp r-position-bnwqim"
+            style={
+              Object {
+                "borderBottomLeftRadius": "10px",
+                "borderBottomRightRadius": "10px",
+                "borderTopLeftRadius": "10px",
+                "borderTopRightRadius": "10px",
+              }
+            }
+          >
+            <div
+              className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-height-1w2pmg r-left-1d2f490 r-position-u8s1d r-top-ipm5af r-width-1h2t8mc"
+            />
+            <div
+              className="css-view-1dbjc4n r-alignItems-1awozwy r-height-1w2pmg r-left-1d2f490 r-position-u8s1d r-top-ipm5af r-width-1h2t8mc r-zIndex-184en5c"
+              style={
+                Object {
+                  "borderBottomLeftRadius": "0px",
+                  "borderBottomRightRadius": "0px",
+                  "borderTopLeftRadius": "0px",
+                  "borderTopRightRadius": "0px",
+                }
+              }
+            >
+              <checkmark.svg
+                style={
+                  Object {
+                    "borderRadius": 0,
+                    "height": 0,
+                    "width": 0,
+                  }
+                }
+              />
+            </div>
+            <div
+              className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-justifyContent-1wtj0ep r-marginBottom-p1pxzi r-marginTop-1mnahxq r-padding-t60dpp r-width-1akxima"
+            >
+              <div
+                className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-marginBottom-p1pxzi r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                dir="auto"
+              >
+                Fuse Network RPC Address
+              </div>
+              <div
+                className="css-text-901oao r-color-vaa0vc r-fontFamily-vnw8o6 r-fontSize-n6v787 r-fontWeight-1it3c9n r-letterSpacing-rdxj0b r-lineHeight-w20frr r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                dir="auto"
+              />
+            </div>
+            <div
+              className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-bottom-1p0dtai r-height-1w2pmg r-position-u8s1d r-width-1h2t8mc"
+            />
+          </div>
+          <div
+            className="css-view-1dbjc4n r-alignItems-1awozwy r-bottom-1p0dtai r-display-6koalj r-height-1w2pmg r-justifyContent-1777fci r-maxHeight-46g5hj r-position-u8s1d r-width-13qz1uu"
+          >
+            <div
+              className="css-view-1dbjc4n r-height-1w2pmg r-width-1h2t8mc"
+            >
+              <div
+                className="css-view-1dbjc4n r-alignItems-1awozwy r-borderStyle-1phboty r-display-6koalj r-height-1w2pmg r-justifyContent-1777fci r-marginBottom-p1pxzi r-marginTop-1mnahxq r-padding-t60dpp r-width-1h2t8mc"
+                style={
+                  Object {
+                    "backgroundColor": "rgba(0,175,255,1.00)",
+                    "borderBottomColor": "rgba(0,175,255,1.00)",
+                    "borderBottomLeftRadius": "50px",
+                    "borderBottomRightRadius": "50px",
+                    "borderBottomWidth": "0px",
+                    "borderLeftColor": "rgba(0,175,255,1.00)",
+                    "borderLeftWidth": "0px",
+                    "borderRightColor": "rgba(0,175,255,1.00)",
+                    "borderRightWidth": "0px",
+                    "borderTopColor": "rgba(0,175,255,1.00)",
+                    "borderTopLeftRadius": "50px",
+                    "borderTopRightRadius": "50px",
+                    "borderTopWidth": "0px",
+                    "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
+                    "marginLeft": "auto",
+                    "marginRight": "auto",
+                    "minHeight": "0px",
+                    "minWidth": "64px",
+                    "paddingLeft": "0px",
+                    "paddingRight": "0px",
+                  }
+                }
+              >
+                <div
+                  className="css-cursor-18t94o4 css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
+                  onClick={[Function]}
+                  onContextMenu={[Function]}
+                  onKeyDown={[Function]}
+                  role="button"
+                  style={
+                    Object {
+                      "WebkitAlignSelf": "stretch",
+                      "alignSelf": "stretch",
+                      "borderBottomLeftRadius": "50px",
+                      "borderBottomRightRadius": "50px",
+                      "borderTopLeftRadius": "50px",
+                      "borderTopRightRadius": "50px",
+                      "msFlexItemAlign": "stretch",
+                      "msGridRowAlign": "stretch",
+                    }
+                  }
+                  tabIndex="0"
+                >
+                  <div
+                    className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
+                    style={
+                      Object {
+                        "WebkitAlignSelf": "stretch",
+                        "alignSelf": "stretch",
+                        "msFlexItemAlign": "stretch",
+                        "msGridRowAlign": "stretch",
+                      }
+                    }
+                  >
+                    <div
+                      className="css-view-1dbjc4n r-marginHorizontal-1ydw1k6 r-marginVertical-712mwr"
+                    >
+                      <div
+                        className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
+                      >
+                        <div
+                          className="css-text-901oao r-alignItems-1awozwy r-color-jwli3a r-display-6koalj r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-qvk6io r-minHeight-1ceczpf r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
+                          dir="auto"
+                        >
+                          Copy RPC
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          className="css-view-1dbjc4n"
+          style={
+            Object {
+              "backgroundColor": "rgba(0,0,0,0.00)",
+              "borderBottomLeftRadius": "25px",
+              "borderBottomRightRadius": "25px",
+              "borderTopLeftRadius": "25px",
+              "borderTopRightRadius": "25px",
+              "height": "50px",
+              "zIndex": -10,
+            }
+          }
+        />
+        <div
+          className="css-view-1dbjc4n"
+          style={
+            Object {
+              "marginLeft": "0px",
+              "marginRight": "0px",
+            }
+          }
+        >
+          <div
+            className="css-view-1dbjc4n r-alignItems-1awozwy r-borderColor-e397lv r-borderStyle-1phboty r-borderWidth-rs99b7 r-display-6koalj r-flexDirection-eqz5dr r-justifyContent-1777fci r-padding-t60dpp r-position-bnwqim"
+            style={
+              Object {
+                "borderBottomLeftRadius": "10px",
+                "borderBottomRightRadius": "10px",
+                "borderTopLeftRadius": "10px",
+                "borderTopRightRadius": "10px",
+              }
+            }
+          >
+            <div
+              className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-height-1w2pmg r-left-1d2f490 r-position-u8s1d r-top-ipm5af r-width-1h2t8mc"
+            />
+            <div
+              className="css-view-1dbjc4n r-alignItems-1awozwy r-height-1w2pmg r-left-1d2f490 r-position-u8s1d r-top-ipm5af r-width-1h2t8mc r-zIndex-184en5c"
+              style={
+                Object {
+                  "borderBottomLeftRadius": "0px",
+                  "borderBottomRightRadius": "0px",
+                  "borderTopLeftRadius": "0px",
+                  "borderTopRightRadius": "0px",
+                }
+              }
+            >
+              <checkmark.svg
+                style={
+                  Object {
+                    "borderRadius": 0,
+                    "height": 0,
+                    "width": 0,
+                  }
+                }
+              />
+            </div>
+            <div
+              className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-justifyContent-1wtj0ep r-marginBottom-p1pxzi r-marginTop-1mnahxq r-padding-t60dpp r-width-1akxima"
+            >
+              <div
+                className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-marginBottom-p1pxzi r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                dir="auto"
+              >
+                Fuse ID Chain
+              </div>
+              <div
+                className="css-text-901oao r-color-vaa0vc r-fontFamily-vnw8o6 r-fontSize-n6v787 r-fontWeight-1it3c9n r-letterSpacing-rdxj0b r-lineHeight-w20frr r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                dir="auto"
+              >
+                undefined
+              </div>
+            </div>
+            <div
+              className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-bottom-1p0dtai r-height-1w2pmg r-position-u8s1d r-width-1h2t8mc"
+            />
+          </div>
+          <div
+            className="css-view-1dbjc4n r-alignItems-1awozwy r-bottom-1p0dtai r-display-6koalj r-height-1w2pmg r-justifyContent-1777fci r-maxHeight-46g5hj r-position-u8s1d r-width-13qz1uu"
+          >
+            <div
+              className="css-view-1dbjc4n r-height-1w2pmg r-width-1h2t8mc"
+            >
+              <div
+                className="css-view-1dbjc4n r-alignItems-1awozwy r-borderStyle-1phboty r-display-6koalj r-height-1w2pmg r-justifyContent-1777fci r-marginBottom-p1pxzi r-marginTop-1mnahxq r-padding-t60dpp r-width-1h2t8mc"
+                style={
+                  Object {
+                    "backgroundColor": "rgba(0,175,255,1.00)",
+                    "borderBottomColor": "rgba(0,175,255,1.00)",
+                    "borderBottomLeftRadius": "50px",
+                    "borderBottomRightRadius": "50px",
+                    "borderBottomWidth": "0px",
+                    "borderLeftColor": "rgba(0,175,255,1.00)",
+                    "borderLeftWidth": "0px",
+                    "borderRightColor": "rgba(0,175,255,1.00)",
+                    "borderRightWidth": "0px",
+                    "borderTopColor": "rgba(0,175,255,1.00)",
+                    "borderTopLeftRadius": "50px",
+                    "borderTopRightRadius": "50px",
+                    "borderTopWidth": "0px",
+                    "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
+                    "marginLeft": "auto",
+                    "marginRight": "auto",
+                    "minHeight": "0px",
+                    "minWidth": "64px",
+                    "paddingLeft": "0px",
+                    "paddingRight": "0px",
+                  }
+                }
+              >
+                <div
+                  className="css-cursor-18t94o4 css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
+                  onClick={[Function]}
+                  onContextMenu={[Function]}
+                  onKeyDown={[Function]}
+                  role="button"
+                  style={
+                    Object {
+                      "WebkitAlignSelf": "stretch",
+                      "alignSelf": "stretch",
+                      "borderBottomLeftRadius": "50px",
+                      "borderBottomRightRadius": "50px",
+                      "borderTopLeftRadius": "50px",
+                      "borderTopRightRadius": "50px",
+                      "msFlexItemAlign": "stretch",
+                      "msGridRowAlign": "stretch",
+                    }
+                  }
+                  tabIndex="0"
+                >
+                  <div
+                    className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
+                    style={
+                      Object {
+                        "WebkitAlignSelf": "stretch",
+                        "alignSelf": "stretch",
+                        "msFlexItemAlign": "stretch",
+                        "msGridRowAlign": "stretch",
+                      }
+                    }
+                  >
+                    <div
+                      className="css-view-1dbjc4n r-marginHorizontal-1ydw1k6 r-marginVertical-712mwr"
+                    >
+                      <div
+                        className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
+                      >
+                        <div
+                          className="css-text-901oao r-alignItems-1awozwy r-color-jwli3a r-display-6koalj r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-qvk6io r-minHeight-1ceczpf r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
+                          dir="auto"
+                        >
+                          Copy ID Chain
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          className="css-view-1dbjc4n"
+          style={
+            Object {
+              "backgroundColor": "rgba(0,0,0,0.00)",
+              "borderBottomLeftRadius": "25px",
+              "borderBottomRightRadius": "25px",
+              "borderTopLeftRadius": "25px",
+              "borderTopRightRadius": "25px",
+              "height": "50px",
+              "zIndex": -10,
+            }
+          }
+        />
+      </div>
+    </div>
+  </div>
 </div>
 `;

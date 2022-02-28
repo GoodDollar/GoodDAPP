@@ -5,7 +5,458 @@ exports[`Profile matches snapshot 1`] = `
   className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
-    className="css-view-1dbjc4n"
-  />
+    className="css-view-1dbjc4n r-flex-13awgt0"
+  >
+    <div
+      className="css-view-1dbjc4n r-bottom-1p0dtai r-display-6koalj r-flexDirection-eqz5dr r-flexGrow-16y2uox r-left-1d2f490 r-overflow-1udh08x r-position-u8s1d r-right-zchlnj r-top-ipm5af"
+      style={
+        Object {
+          "minHeight": "480px",
+        }
+      }
+    >
+      <div
+        className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-height-1w2pmg"
+        style={
+          Object {
+            "WebkitBoxFlex": 0,
+            "WebkitFlexGrow": 0,
+            "WebkitFlexShrink": 0,
+            "backgroundColor": "rgba(0,175,255,1.00)",
+            "boxShadow": "none, 0px 3px 4px rgba(0,0,0,0.24)",
+            "flexGrow": 0,
+            "flexShrink": 0,
+            "msFlexNegative": 0,
+            "msFlexPositive": 0,
+            "paddingLeft": "4px",
+            "paddingRight": "4px",
+          }
+        }
+      >
+        <div
+          className="css-view-1dbjc4n r-alignItems-1awozwy r-cursor-1loqt21 r-flexDirection-eqz5dr r-justifyContent-1777fci r-marginLeft-1ozfoo7 r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-width-m0fvr6"
+          onClick={[Function]}
+          onContextMenu={[Function]}
+          onKeyDown={[Function]}
+          style={
+            Object {
+              "WebkitTransitionDuration": "0s",
+              "transitionDuration": "0s",
+            }
+          }
+          tabIndex="0"
+        >
+          <div
+            className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1niwhzg r-justifyContent-1777fci r-width-1yvhtrz"
+            style={
+              Object {
+                "borderBottomLeftRadius": "16px",
+                "borderBottomRightRadius": "16px",
+                "borderTopLeftRadius": "16px",
+                "borderTopRightRadius": "16px",
+                "height": "32px",
+              }
+            }
+          >
+            <div
+              className="css-text-901oao r-color-jwli3a"
+              dir="auto"
+              style={
+                Object {
+                  "fontFamily": "gooddollar",
+                  "fontSize": "22px",
+                  "fontStyle": "normal",
+                  "fontWeight": "normal",
+                }
+              }
+            >
+              
+            </div>
+          </div>
+        </div>
+        <div
+          aria-disabled={true}
+          className="css-view-1dbjc4n r-flex-13awgt0 r-paddingHorizontal-1e081e0"
+          onClick={[Function]}
+          onContextMenu={[Function]}
+          onKeyDown={[Function]}
+          style={
+            Object {
+              "marginLeft": "8px",
+            }
+          }
+          tabIndex="-1"
+        >
+          <h1
+            className="css-reset-4rbku5 css-text-901oao css-textMultiLine-cens5h r-color-jwli3a r-fontSize-hiw28u r-fontWeight-majxgm r-textAlign-q4m81j r-textTransform-tsynxw"
+            dir="auto"
+            role="heading"
+            style={
+              Object {
+                "WebkitLineClamp": 1,
+                "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+              }
+            }
+            tabIndex="0"
+          >
+            My Profile
+          </h1>
+        </div>
+        <div
+          aria-disabled={true}
+          className="css-view-1dbjc4n r-alignItems-1awozwy r-justifyContent-1777fci r-margin-5scogr r-overflow-1udh08x r-position-bnwqim"
+          onClick={[Function]}
+          onContextMenu={[Function]}
+          onKeyDown={[Function]}
+          role="button"
+          style={
+            Object {
+              "borderBottomLeftRadius": "18px",
+              "borderBottomRightRadius": "18px",
+              "borderTopLeftRadius": "18px",
+              "borderTopRightRadius": "18px",
+              "height": "36px",
+              "width": "36px",
+            }
+          }
+          tabIndex="-1"
+        >
+          <div
+            className="css-view-1dbjc4n"
+          >
+            <div
+              className="css-view-1dbjc4n r-alignItems-1awozwy r-justifyContent-1777fci"
+              style={
+                Object {
+                  "height": "24px",
+                  "width": "24px",
+                }
+              }
+            >
+              <div
+                className="css-view-1dbjc4n r-bottom-1p0dtai r-left-1d2f490 r-position-u8s1d r-right-zchlnj r-top-ipm5af"
+                style={
+                  Object {
+                    "WebkitTransform": "rotate(0deg)",
+                    "opacity": 1,
+                    "transform": "rotate(0deg)",
+                  }
+                }
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        className="css-view-1dbjc4n r-WebkitOverflowScrolling-150rngu r-display-6koalj r-flexDirection-eqz5dr r-flexGrow-16y2uox r-flexShrink-1wbh5a2 r-overflowX-11yh6sk r-overflowY-1rnoaur r-transform-1sncvnh"
+        onScroll={[Function]}
+        onTouchEnd={[Function]}
+        onTouchMove={[Function]}
+        onTouchStart={[Function]}
+        onWheel={[Function]}
+      >
+        <div
+          className="css-view-1dbjc4n r-display-6koalj r-flexGrow-16y2uox"
+        >
+          <div
+            className="css-view-1dbjc4n r-display-6koalj r-flexDirection-eqz5dr r-flexGrow-16y2uox r-maxHeight-87ditf r-overflowX-lltvgl r-overflowY-1rnoaur r-padding-edyy15 r-position-bnwqim r-width-13qz1uu"
+            data-name="viewWrapper"
+            style={
+              Object {
+                "backgroundImage": "linear-gradient(3.141592653589793rad,#00AFFF,#2DC0F7,#28C0EF,#23C0E7,#1EC1DF,#19C1D7,#14C1CF,#0FC2C7,#0FC2C7,#0AC2BF,#05C2B7,#00C3AF)",
+              }
+            }
+          >
+            <div
+              className="css-view-1dbjc4n r-display-6koalj r-flexDirection-18u37iz r-height-1w2pmg r-justifyContent-1777fci r-position-bnwqim r-zIndex-184en5c"
+              style={
+                Object {
+                  "WebkitAlignItems": "flex-start",
+                  "WebkitBoxAlign": "start",
+                  "alignItems": "flex-start",
+                  "msFlexAlign": "start",
+                }
+              }
+            >
+              <div
+                className="css-view-1dbjc4n r-left-1d2f490 r-position-u8s1d"
+              >
+                <div
+                  className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1uqle4r r-borderRadius-10jnvle r-cursor-1loqt21 r-display-6koalj r-height-ur6pnr r-justifyContent-1777fci r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-width-1mhb1uw"
+                  onClick={[Function]}
+                  onContextMenu={[Function]}
+                  onKeyDown={[Function]}
+                  style={
+                    Object {
+                      "WebkitTransitionDuration": "0s",
+                      "transitionDuration": "0s",
+                    }
+                  }
+                  tabIndex="0"
+                >
+                  <div
+                    className="css-text-901oao r-color-jwli3a"
+                    dir="auto"
+                    style={
+                      Object {
+                        "fontFamily": "gooddollar",
+                        "fontSize": "23px",
+                        "fontStyle": "normal",
+                        "fontWeight": "normal",
+                      }
+                    }
+                  >
+                    
+                  </div>
+                </div>
+                <div
+                  className="css-text-901oao r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-majxgm r-lineHeight-1p6fy00 r-marginTop-19qrga8 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                  dir="auto"
+                >
+                  Privacy
+                </div>
+              </div>
+              <div
+                className="css-view-1dbjc4n r-position-u8s1d r-right-zchlnj"
+              >
+                <div
+                  className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1uqle4r r-borderRadius-10jnvle r-cursor-1loqt21 r-display-6koalj r-height-ur6pnr r-justifyContent-1777fci r-touchAction-1otgn73 r-transform-1defyd4 r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-width-1mhb1uw"
+                  onClick={[Function]}
+                  onContextMenu={[Function]}
+                  onKeyDown={[Function]}
+                  style={
+                    Object {
+                      "WebkitTransitionDuration": "0s",
+                      "transitionDuration": "0s",
+                    }
+                  }
+                  tabIndex="0"
+                >
+                  <div
+                    className="css-text-901oao r-color-jwli3a"
+                    dir="auto"
+                    style={
+                      Object {
+                        "fontFamily": "gooddollar",
+                        "fontSize": "25px",
+                        "fontStyle": "normal",
+                        "fontWeight": "normal",
+                      }
+                    }
+                  >
+                    
+                  </div>
+                </div>
+                <div
+                  className="css-text-901oao r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-majxgm r-lineHeight-1p6fy00 r-marginTop-19qrga8 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                  dir="auto"
+                >
+                  Edit
+                </div>
+              </div>
+            </div>
+            <div
+              className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderRadius-1f0042m r-flexGrow-16y2uox r-padding-nsbfu8 r-paddingHorizontal-1e081e0 r-paddingVertical-1yzf0co"
+            >
+              <div
+                className="css-view-1dbjc4n r-height-1ewlvqg r-width-13qz1uu"
+              />
+              <div
+                className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-flexGrow-16y2uox r-justifyContent-1wtj0ep"
+              >
+                <div
+                  className="css-view-1dbjc4n r-WebkitOverflowScrolling-150rngu r-flexDirection-eqz5dr r-flexGrow-16y2uox r-flexShrink-1wbh5a2 r-overflowX-11yh6sk r-overflowY-buy8e9 r-touchAction-19z077z r-transform-1sncvnh"
+                  onScroll={[Function]}
+                  onTouchEnd={[Function]}
+                  onTouchMove={[Function]}
+                  onTouchStart={[Function]}
+                  onWheel={[Function]}
+                >
+                  <div
+                    className="css-view-1dbjc4n"
+                  >
+                    <div
+                      className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
+                    >
+                      <div
+                        className="css-view-1dbjc4n r-display-6koalj r-flex-13awgt0"
+                      >
+                        <div
+                          className="css-view-1dbjc4n r-borderBottomColor-oucylx r-borderLeftColor-855088 r-borderRadius-1fuqb1j r-borderRightColor-114ovsg r-borderTopColor-18grtmt r-borderTopLeftRadius-ou6ah9 r-borderTopRightRadius-t12b5v r-borderWidth-rs99b7 r-marginBottom-zl2h9q r-marginTop-1bymd8e r-paddingBottom-l4nmg1 r-paddingHorizontal-1dye5f7 r-paddingTop-vmopo1 r-paddingVertical-rjfia r-position-bnwqim"
+                        >
+                          <input
+                            autoCapitalize="sentences"
+                            autoComplete="on"
+                            autoCorrect="on"
+                            className="css-textinput-11aywtz r-backgroundColor-1niwhzg r-color-cddv6f r-flex-13awgt0 r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-16dba41 r-justifyContent-1777fci r-paddingVertical-23eiwj r-placeholderTextColor-1xktb6b"
+                            dir="auto"
+                            disabled={true}
+                            onBlur={[Function]}
+                            onChange={[Function]}
+                            onFocus={[Function]}
+                            onKeyDown={[Function]}
+                            onSelect={[Function]}
+                            placeholder="Choose a Username"
+                            readOnly={true}
+                            spellCheck={true}
+                            type="text"
+                          />
+                          <div
+                            className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-height-1pi2tsx r-justifyContent-1777fci r-position-u8s1d r-right-zchlnj r-top-1jy2w8o r-width-1yvhtrz r-zIndex-184en5c"
+                          >
+                            <div
+                              className="css-text-901oao"
+                              dir="auto"
+                              style={
+                                Object {
+                                  "color": "rgba(0,175,255,1.00)",
+                                  "fontFamily": "gooddollar",
+                                  "fontSize": "22px",
+                                  "fontStyle": "normal",
+                                  "fontWeight": "normal",
+                                }
+                              }
+                            >
+                              
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
+                    >
+                      <div
+                        className="css-view-1dbjc4n r-display-6koalj r-flex-13awgt0"
+                      >
+                        <div
+                          className="css-view-1dbjc4n r-borderBottomColor-oucylx r-borderLeftColor-855088 r-borderRadius-1fuqb1j r-borderRightColor-114ovsg r-borderTopColor-18grtmt r-borderTopLeftRadius-ou6ah9 r-borderTopRightRadius-t12b5v r-borderWidth-rs99b7 r-marginBottom-zl2h9q r-marginTop-1bymd8e r-paddingBottom-l4nmg1 r-paddingHorizontal-1dye5f7 r-paddingTop-vmopo1 r-paddingVertical-rjfia r-position-bnwqim"
+                        >
+                          <input
+                            autoCapitalize="sentences"
+                            autoComplete="on"
+                            autoCorrect="on"
+                            className="css-textinput-11aywtz r-backgroundColor-1niwhzg r-color-cddv6f r-flex-13awgt0 r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-16dba41 r-justifyContent-1777fci r-paddingVertical-23eiwj r-placeholderTextColor-1xktb6b"
+                            dir="auto"
+                            disabled={true}
+                            onBlur={[Function]}
+                            onChange={[Function]}
+                            onFocus={[Function]}
+                            onKeyDown={[Function]}
+                            onSelect={[Function]}
+                            placeholder="Add your Mobile"
+                            readOnly={true}
+                            spellCheck={true}
+                            type="text"
+                          />
+                          <div
+                            className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-height-1pi2tsx r-justifyContent-1777fci r-position-u8s1d r-right-zchlnj r-top-1jy2w8o r-width-1yvhtrz r-zIndex-184en5c"
+                          >
+                            <div
+                              className="css-text-901oao"
+                              dir="auto"
+                              style={
+                                Object {
+                                  "color": "rgba(0,175,255,1.00)",
+                                  "fontFamily": "gooddollar",
+                                  "fontSize": "28px",
+                                  "fontStyle": "normal",
+                                  "fontWeight": "normal",
+                                }
+                              }
+                            >
+                              
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      className="css-view-1dbjc4n r-alignItems-1awozwy r-borderBottomColor-1fn3lry r-borderBottomWidth-qklmqi r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
+                    >
+                      <div
+                        className="css-view-1dbjc4n r-display-6koalj r-flex-13awgt0"
+                      >
+                        <div
+                          className="css-view-1dbjc4n r-borderBottomColor-oucylx r-borderLeftColor-855088 r-borderRadius-1fuqb1j r-borderRightColor-114ovsg r-borderTopColor-18grtmt r-borderTopLeftRadius-ou6ah9 r-borderTopRightRadius-t12b5v r-borderWidth-rs99b7 r-marginBottom-zl2h9q r-marginTop-1bymd8e r-paddingBottom-l4nmg1 r-paddingHorizontal-1dye5f7 r-paddingTop-vmopo1 r-paddingVertical-rjfia r-position-bnwqim"
+                        >
+                          <input
+                            autoCapitalize="sentences"
+                            autoComplete="on"
+                            autoCorrect="on"
+                            className="css-textinput-11aywtz r-backgroundColor-1niwhzg r-color-cddv6f r-flex-13awgt0 r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-16dba41 r-justifyContent-1777fci r-paddingVertical-23eiwj r-placeholderTextColor-1xktb6b"
+                            dir="auto"
+                            disabled={true}
+                            onBlur={[Function]}
+                            onChange={[Function]}
+                            onFocus={[Function]}
+                            onKeyDown={[Function]}
+                            onSelect={[Function]}
+                            placeholder="Add your Email"
+                            readOnly={true}
+                            spellCheck={true}
+                            type="text"
+                          />
+                          <div
+                            className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-height-1pi2tsx r-justifyContent-1777fci r-position-u8s1d r-right-zchlnj r-top-1jy2w8o r-width-1yvhtrz r-zIndex-184en5c"
+                          >
+                            <div
+                              className="css-text-901oao r-fontSize-adyw6z"
+                              dir="auto"
+                              style={
+                                Object {
+                                  "color": "rgba(0,175,255,1.00)",
+                                  "fontFamily": "gooddollar",
+                                  "fontStyle": "normal",
+                                  "fontWeight": "normal",
+                                }
+                              }
+                            >
+                              
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              className="css-view-1dbjc4n r-alignItems-1awozwy r-alignSelf-1kihuf0 r-justifyContent-1777fci r-position-u8s1d r-zIndex-184en5c"
+            >
+              <div
+                className="css-view-1dbjc4n r-flexDirection-18u37iz r-justifyContent-1777fci r-width-1h2t8mc"
+              >
+                <div
+                  className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-eqz5dr"
+                >
+                  <div
+                    className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-qt01xk r-borderColor-11mg6pl r-borderRadius-17gur6a r-borderWidth-1d6rzhh r-cursor-1loqt21 r-height-1w2pmg r-justifyContent-1777fci r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-width-1h2t8mc"
+                    onClick={[Function]}
+                    onContextMenu={[Function]}
+                    onKeyDown={[Function]}
+                    style={
+                      Object {
+                        "WebkitTransitionDuration": "0s",
+                        "transitionDuration": "0s",
+                      }
+                    }
+                    tabIndex="0"
+                  >
+                    <div
+                      className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1niwhzg r-borderColor-11mg6pl r-borderRadius-17gur6a r-borderWidth-1d6rzhh r-height-1w2pmg r-justifyContent-1777fci r-width-1h2t8mc"
+                    >
+                      <unknownProfile.svg />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 `;

@@ -5,7 +5,255 @@ exports[`Auth matches snapshot 1`] = `
   className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
-    className="css-view-1dbjc4n"
-  />
+    className="css-view-1dbjc4n r-flex-13awgt0"
+  >
+    <div
+      className="css-view-1dbjc4n r-bottom-1p0dtai r-display-6koalj r-flexDirection-eqz5dr r-flexGrow-16y2uox r-left-1d2f490 r-overflow-1udh08x r-position-u8s1d r-right-zchlnj r-top-ipm5af"
+      style={
+        Object {
+          "minHeight": "480px",
+        }
+      }
+    >
+      <div
+        className="css-view-1dbjc4n r-WebkitOverflowScrolling-150rngu r-display-6koalj r-flexDirection-eqz5dr r-flexGrow-16y2uox r-flexShrink-1wbh5a2 r-overflowX-11yh6sk r-overflowY-1rnoaur r-transform-1sncvnh"
+        onScroll={[Function]}
+        onTouchEnd={[Function]}
+        onTouchMove={[Function]}
+        onTouchStart={[Function]}
+        onWheel={[Function]}
+      >
+        <div
+          className="css-view-1dbjc4n r-display-6koalj r-flexGrow-16y2uox"
+        >
+          <div
+            className="css-view-1dbjc4n r-flex-13awgt0 r-justifyContent-1wtj0ep r-padding-t60dpp r-paddingBottom-97e31f r-paddingHorizontal-mk0yit r-paddingLeft-bv2aro r-paddingRight-hxflta r-paddingTop-10xqauy r-paddingVertical-rjfia"
+          >
+            <div
+              className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-display-6koalj r-flex-13awgt0 r-flexDirection-eqz5dr r-flexGrow-16y2uox r-justifyContent-1wtj0ep r-maxHeight-87ditf r-overflowX-lltvgl r-overflowY-1rnoaur r-padding-t60dpp r-paddingHorizontal-mk0yit r-paddingVertical-rjfia r-position-bnwqim r-width-13qz1uu"
+              data-name="viewWrapper"
+            >
+              <div
+                className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-majxgm r-lineHeight-qvk6io r-marginBottom-p1pxzi r-marginTop-1mnahxq r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                data-testid="welcomeLabel"
+                dir="auto"
+              >
+                Welcome toGoodDollar Wallet
+              </div>
+              <div
+                className="css-view-1dbjc4n"
+              >
+                <div
+                  className="css-view-1dbjc4n"
+                  style={
+                    Object {
+                      "width": "100%",
+                    }
+                  }
+                />
+              </div>
+              <div
+                className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderRadius-1f0042m r-paddingBottom-1l7z4oj r-paddingHorizontal-ymttw5 r-paddingVertical-1yzf0co"
+              >
+                <div
+                  className="css-text-901oao r-color-vaa0vc r-fontFamily-vnw8o6 r-fontSize-1enofrn r-fontWeight-1it3c9n r-lineHeight-1cwl3u0 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                  dir="auto"
+                >
+                  By clicking the 'Create a wallet' button,you are accepting our
+                  <span
+                    className="css-text-901oao css-textHasAncestor-16my406 r-color-vaa0vc r-cursor-1loqt21 r-fontFamily-vnw8o6 r-fontSize-1enofrn r-fontWeight-b88u0q r-lineHeight-1cwl3u0 r-textAlign-q4m81j r-textDecorationLine-1ddef8g r-textTransform-3twk1y"
+                    onClick={[Function]}
+                  >
+                    Terms of Use
+                  </span>
+                  and 
+                  <span
+                    className="css-text-901oao css-textHasAncestor-16my406 r-color-vaa0vc r-cursor-1loqt21 r-fontFamily-vnw8o6 r-fontSize-1enofrn r-fontWeight-b88u0q r-lineHeight-1cwl3u0 r-textAlign-q4m81j r-textDecorationLine-1ddef8g r-textTransform-3twk1y"
+                    onClick={[Function]}
+                  >
+                    Privacy Policy
+                  </span>
+                </div>
+                <div
+                  className="css-view-1dbjc4n r-display-6koalj r-justifyContent-1777fci r-padding-t60dpp"
+                  data-testid="firstButton"
+                  style={
+                    Object {
+                      "WebkitAlignItems": "stretch",
+                      "WebkitBoxAlign": "stretch",
+                      "alignItems": "stretch",
+                      "backgroundColor": "rgba(0,175,255,1.00)",
+                      "borderBottomColor": "rgba(0,175,255,1.00)",
+                      "borderBottomLeftRadius": "50px",
+                      "borderBottomRightRadius": "50px",
+                      "borderBottomStyle": "solid",
+                      "borderBottomWidth": "0px",
+                      "borderLeftColor": "rgba(0,175,255,1.00)",
+                      "borderLeftStyle": "solid",
+                      "borderLeftWidth": "0px",
+                      "borderRightColor": "rgba(0,175,255,1.00)",
+                      "borderRightStyle": "solid",
+                      "borderRightWidth": "0px",
+                      "borderTopColor": "rgba(0,175,255,1.00)",
+                      "borderTopLeftRadius": "50px",
+                      "borderTopRightRadius": "50px",
+                      "borderTopStyle": "solid",
+                      "borderTopWidth": "0px",
+                      "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
+                      "marginBottom": "20px",
+                      "marginLeft": "0px",
+                      "marginRight": "0px",
+                      "marginTop": "20px",
+                      "minHeight": "44px",
+                      "minWidth": "64px",
+                      "msFlexAlign": "stretch",
+                      "paddingLeft": "0px",
+                      "paddingRight": "0px",
+                    }
+                  }
+                >
+                  <div
+                    className="css-cursor-18t94o4 css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
+                    onClick={[Function]}
+                    onContextMenu={[Function]}
+                    onKeyDown={[Function]}
+                    role="button"
+                    style={
+                      Object {
+                        "WebkitAlignSelf": "stretch",
+                        "alignSelf": "stretch",
+                        "borderBottomLeftRadius": "50px",
+                        "borderBottomRightRadius": "50px",
+                        "borderTopLeftRadius": "50px",
+                        "borderTopRightRadius": "50px",
+                        "msFlexItemAlign": "stretch",
+                        "msGridRowAlign": "stretch",
+                      }
+                    }
+                    tabIndex="0"
+                  >
+                    <div
+                      className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
+                      style={
+                        Object {
+                          "WebkitAlignSelf": "stretch",
+                          "alignSelf": "stretch",
+                          "msFlexItemAlign": "stretch",
+                          "msGridRowAlign": "stretch",
+                        }
+                      }
+                    >
+                      <div
+                        className="css-view-1dbjc4n r-marginHorizontal-1ydw1k6 r-marginVertical-712mwr"
+                      >
+                        <div
+                          className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
+                        >
+                          <div
+                            className="css-text-901oao r-alignItems-1awozwy r-color-jwli3a r-display-6koalj r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-qvk6io r-minHeight-1ceczpf r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
+                            dir="auto"
+                          >
+                            Create a wallet
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  className="css-view-1dbjc4n r-display-6koalj r-justifyContent-1777fci r-marginBottom-p1pxzi r-marginTop-1mnahxq r-padding-t60dpp"
+                  data-testid="signInButton"
+                  style={
+                    Object {
+                      "WebkitAlignItems": "stretch",
+                      "WebkitBoxAlign": "stretch",
+                      "alignItems": "stretch",
+                      "backgroundColor": "rgba(0,0,0,0.00)",
+                      "borderBottomColor": "rgba(0,175,255,1.00)",
+                      "borderBottomLeftRadius": "50px",
+                      "borderBottomRightRadius": "50px",
+                      "borderBottomStyle": "solid",
+                      "borderBottomWidth": "1px",
+                      "borderLeftColor": "rgba(0,175,255,1.00)",
+                      "borderLeftStyle": "solid",
+                      "borderLeftWidth": "1px",
+                      "borderRightColor": "rgba(0,175,255,1.00)",
+                      "borderRightStyle": "solid",
+                      "borderRightWidth": "1px",
+                      "borderTopColor": "rgba(0,175,255,1.00)",
+                      "borderTopLeftRadius": "50px",
+                      "borderTopRightRadius": "50px",
+                      "borderTopStyle": "solid",
+                      "borderTopWidth": "1px",
+                      "marginLeft": "0px",
+                      "marginRight": "0px",
+                      "minHeight": "44px",
+                      "minWidth": "64px",
+                      "msFlexAlign": "stretch",
+                      "paddingLeft": "0px",
+                      "paddingRight": "0px",
+                    }
+                  }
+                >
+                  <div
+                    className="css-cursor-18t94o4 css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
+                    onClick={[Function]}
+                    onContextMenu={[Function]}
+                    onKeyDown={[Function]}
+                    role="button"
+                    style={
+                      Object {
+                        "WebkitAlignSelf": "stretch",
+                        "alignSelf": "stretch",
+                        "borderBottomLeftRadius": "50px",
+                        "borderBottomRightRadius": "50px",
+                        "borderTopLeftRadius": "50px",
+                        "borderTopRightRadius": "50px",
+                        "msFlexItemAlign": "stretch",
+                        "msGridRowAlign": "stretch",
+                      }
+                    }
+                    tabIndex="0"
+                  >
+                    <div
+                      className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
+                      style={
+                        Object {
+                          "WebkitAlignSelf": "stretch",
+                          "alignSelf": "stretch",
+                          "msFlexItemAlign": "stretch",
+                          "msGridRowAlign": "stretch",
+                        }
+                      }
+                    >
+                      <div
+                        className="css-view-1dbjc4n r-marginHorizontal-1ydw1k6 r-marginVertical-712mwr"
+                      >
+                        <div
+                          className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
+                        >
+                          <div
+                            className="css-text-901oao r-alignItems-1awozwy r-color-1q5uqvh r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-qvk6io r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                            dir="auto"
+                          >
+                            ALREADY REGISTERED?
+                            <span
+                              className="css-text-901oao css-textHasAncestor-16my406 r-alignItems-1awozwy r-color-1q5uqvh r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1vr29t4 r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-qvk6io r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
+                            >
+                              SIGN IN
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 `;

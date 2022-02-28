@@ -20,7 +20,7 @@
     "build": "react-app-rewired build --analyze",
     "animation:assets": "node ./animationAssets.js",
     "copy:gdfont": "cp src/assets/fonts/*.ttf android/app/src/main/assets/fonts/",
-    "test": "npm run test:web && npm run test:native",
+    "test": "npm run test:web --testTimeout=25000 && npm run test:native --testTimeout=25000",
     "test:setup": "./scripts/blockchainTestSetup.sh",
     "test:web-watch": "npm run link && node scripts/test.js --watch --config \"./config/web.jest.config.js\"",
     "test:web": "react-app-rewired test --forceExit",
@@ -384,5 +384,8 @@
       }
     },
     "test-runner": "jest"
+  },
+  "jest":{
+    "testTimeout": 25000
   }
 }

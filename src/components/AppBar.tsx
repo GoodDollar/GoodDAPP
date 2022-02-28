@@ -61,6 +61,21 @@ const AppBarWrapper = styled.header`
     }
 `
 
+const SecurityNotice = styled.div`
+  display: flex;
+  justify-content: center;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  background-color: #f8af40;
+  font-size: 18px;
+  line-height: 1.2;
+  font-family: 'Roboto',sans-serif;
+  font-weight: 700;
+  font-style: normal;
+  text-decoration: none;
+  color: #0c263d;
+`
+
 function AppBar(): JSX.Element {
     const [theme, setTheme] = useApplicationTheme()
     const { i18n } = useLingui()
@@ -77,7 +92,13 @@ function AppBar(): JSX.Element {
     }, [chainId])
 
     return (
-        <AppBarWrapper className="flex flex-row flex-nowrap justify-between w-screen relative z-10">
+        <AppBarWrapper className="flex flex-row flex-nowrap justify-between w-screen relative z-10" style={{flexDirection: 'column'}}>
+          <SecurityNotice id="security-notice"> 
+            GoodDollar is undergoing a security upgrade and several features are currently inactive  
+            <a href="https://www.gooddollar.org/gooddollar-critical-system-upgrade-february-27-2022/" 
+               target="_blank" 
+               rel="noreferrer" style={{color: 'blue', paddingLeft: '10px'}}> → (read more) </a>
+          </SecurityNotice>
             <Disclosure as="nav" className="w-screen gradiant-z-10">
                 {({ open }) => (
                     <>

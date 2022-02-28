@@ -104,6 +104,7 @@ function Swap() {
     const [approving, setApproving] = useState(false)
     const [showConfirm, setShowConfirm] = useState(false)
     const [approved, setApproved] = useState(false)
+    const securityNotice = 1
     const handleApprove = async () => {
         if (!meta || !web3) return
         try {
@@ -288,7 +289,9 @@ function Swap() {
                             />
                             {meta && <SwapInfo title="Price" value={swapFields.price} />}
                         </div>
-                        {!account ? (
+
+                        {(securityNotice && (chainId as any)  === SupportedChainId.MAINNET) ? ( <ButtonAction style={{marginTop: 22}} disabled>Unavailable</ButtonAction> ) :
+                         !account ? (
                             <ButtonAction style={{ marginTop: 22 }} disabled>
                                 Connect wallet
                             </ButtonAction>

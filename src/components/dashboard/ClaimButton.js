@@ -168,7 +168,12 @@ const ClaimButton = ({ isCitizen, entitlement, nextClaim, onPress, styles, style
     compact={true}
     mode="contained"
     onPress={CLAIM_DISABLED ? noop : onPress}
-    style={[styles.minButtonHeight, (isCitizen && !entitlement) || isInQueue ? styles.buttonCountdown : {}, style]}
+    style={[
+      styles.minButtonHeight,
+      (isCitizen && !entitlement) || isInQueue ? styles.buttonCountdown : {},
+      style,
+      { backgroundColor: theme.colors.googleRed }, //Remove this after fix of the protocol
+    ]}
   >
     {CLAIM_DISABLED ? (
       <ButtonDisabled styles={styles} />

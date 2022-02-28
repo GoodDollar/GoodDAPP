@@ -1,7 +1,7 @@
 import React, { memo, useCallback, useEffect, useRef } from 'react'
 import { View } from 'react-native'
 import CardFlip from 'react-native-card-flip'
-
+import { noop } from 'lodash'
 import { CustomButton } from '../common'
 import Section from '../common/layout/Section'
 import Text from '../common/view/Text'
@@ -86,6 +86,33 @@ const ButtonAmountToClaim = ({ showLabelOnly = false, entitlement, isCitizen, st
   </View>
 )
 
+const ButtonDisabled = ({ styles }) => (
+  <View>
+    <>
+      <Text
+        style={{ letterSpacing: 0.28 }}
+        color="white"
+        fontFamily={theme.fonts.slab}
+        fontWeight="bold"
+        fontSize={28}
+        textAlign="center"
+      >
+        Be Back
+      </Text>
+      <Text
+        style={{ letterSpacing: 0.28 }}
+        color="white"
+        fontFamily={theme.fonts.slab}
+        fontWeight="bold"
+        fontSize={28}
+        textAlign="center"
+      >
+        SOON
+      </Text>
+    </>
+  </View>
+)
+
 export const ButtonCountdown = ({ styles, nextClaim }) => (
   <View style={styles.countdownContainer}>
     <Text
@@ -134,22 +161,27 @@ const ButtonContent = ({ isCitizen, entitlement, nextClaim, styles, showLabelOnl
   return <ButtonCountdown styles={styles} nextClaim={nextClaim} />
 }
 
+const CLAIM_DISABLED = true
 const ClaimButton = ({ isCitizen, entitlement, nextClaim, onPress, styles, style, showLabelOnly, isInQueue }) => (
   <CustomButton
     testId="claim_button"
     compact={true}
     mode="contained"
-    onPress={onPress}
+    onPress={CLAIM_DISABLED ? noop : onPress}
     style={[styles.minButtonHeight, (isCitizen && !entitlement) || isInQueue ? styles.buttonCountdown : {}, style]}
   >
-    <ButtonContent
-      isCitizen={isCitizen}
-      showLabelOnly={showLabelOnly}
-      entitlement={entitlement}
-      nextClaim={nextClaim}
-      styles={styles}
-      isInQueue={isInQueue}
-    />
+    {CLAIM_DISABLED ? (
+      <ButtonDisabled styles={styles} />
+    ) : (
+      <ButtonContent
+        isCitizen={isCitizen}
+        showLabelOnly={showLabelOnly}
+        entitlement={entitlement}
+        nextClaim={nextClaim}
+        styles={styles}
+        isInQueue={isInQueue}
+      />
+    )}
   </CustomButton>
 )
 

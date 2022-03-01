@@ -2697,10 +2697,10 @@
     truffle-plugin-verify "^0.3.11"
     truffle-safe-hdwallet-provider "0.0.7"
 
-"@gooddollar/goodprotocol@^1.0.12":
-  version "1.0.12"
-  resolved "https://registry.yarnpkg.com/@gooddollar/goodprotocol/-/goodprotocol-1.0.12.tgz#87725c514b8d1e4364b3086aecb6def9adab16e1"
-  integrity sha512-EiQA+/czQ8vIahpjU+ujINYuW9cQ+tMeGJjpssqnUAT6oG/DjeD2VsgKMSbDZtuWGzsYd47586ny5cvodp+WXQ==
+"@gooddollar/goodprotocol@^1.0.13":
+  version "1.0.13"
+  resolved "https://registry.yarnpkg.com/@gooddollar/goodprotocol/-/goodprotocol-1.0.13.tgz#03a13ee17cdc10a36deb7c822cb21b515d7d5f26"
+  integrity sha512-nd2uI7HWbhH25A+qTKZNwdgT6c2SeCXIPEaHwk5tBKOeaAdQ9i7F4T0SuYg7lNHad2CGvpqBY8os6MRtTX0l8g==
   dependencies:
     "@gooddollar/goodcontracts" "^2.6.2"
     "@jsier/retrier" "^1.2.4"

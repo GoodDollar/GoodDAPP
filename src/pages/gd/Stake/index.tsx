@@ -151,7 +151,7 @@ const StakeTable = ({
                                             <AsyncTokenIcon
                                                 address={stake.tokens.A.address}
                                                 chainId={stake.tokens.A.chainId as number}
-                                                className="block w-5 h-5 md:w-10 md:h-10 lg:w-12 lg:h-12 rounded-lg"
+                                                className="block w-5 h-5 rounded-lg md:w-10 md:h-10 lg:w-12 lg:h-12"
                                             />
                                         </div>
                                     </td>

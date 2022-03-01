@@ -79,18 +79,15 @@ function Web3Faucet(): JSX.Element | null {
                         ? i18n._(t`Please connect your Web3 wallet to the Fuse Network to Claim UBI.`)
                         : claimable instanceof Error
                             ? claimable.message
-                            : 
-                            // i18n._(t`Click this button to Claim your Daily UBI in`) + 'G$'
-                            i18n._(t`Temporarily disabled`)
+                            : i18n._(t`Click this button to Claim your Daily UBI in`) + 'G$'
                 }
                 offset={[0, 12]}
             >
                 <ClaimButton
                     className="px-5"
                     borderRadius="6px"
-                    // disabled={!claimActive}
-                    disabled={securityNotice}
-                    // onClick={claimActive ? handleClaim : undefined}
+                    disabled={!claimActive}
+                    onClick={claimActive ? handleClaim : undefined}
                 >
                     <div className="flex items-center">
                         <span>{i18n._(t`Claim UBI`)}</span>

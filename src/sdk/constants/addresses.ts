@@ -32,6 +32,10 @@ export function G$ContractAddresses<T = ObjectLike>(chainId: SupportedChainId, n
             break
     }
 
+    // Temporary until GReputation is live
+    if (chainId === 1 && name === 'GReputation'){
+      return (contractsAddresses['production-mainnet-bug']['GReputation'] as unknown) as T
+    }
     if (!contractsAddresses[deploymentName]) {
       console.warn(`tokens: Unsupported chain ID ${deploymentName}`, CURRENT_NETWORK)
       deploymentName = deploymentName.includes('mainnet') ? CURRENT_NETWORK + '-mainnet' : CURRENT_NETWORK

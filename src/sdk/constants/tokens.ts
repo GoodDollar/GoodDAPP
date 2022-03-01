@@ -211,20 +211,20 @@ export const GDAO: { [chainId: number]: Token } = {
         'GOOD',
         'GoodDollar Reputation'
     ),
-    [SupportedChainId.KOVAN]: new Token(
-        SupportedChainId.KOVAN,
-        G$ContractAddresses(SupportedChainId.KOVAN, 'GReputation'),
-        18,
-        'GOOD',
-        'GoodDollar Reputation'
-    ),
-    [SupportedChainId.ROPSTEN]: new Token(
-        SupportedChainId.ROPSTEN,
-        G$ContractAddresses(SupportedChainId.ROPSTEN, 'GReputation'),
-        18,
-        'GOOD',
-        'GoodDollar Reputation'
-    ),
+    // [SupportedChainId.KOVAN]: new Token(
+    //     SupportedChainId.KOVAN,
+    //     G$ContractAddresses(SupportedChainId.KOVAN, 'GReputation'),
+    //     18,
+    //     'GOOD',
+    //     'GoodDollar Reputation'
+    // ),
+    // [SupportedChainId.ROPSTEN]: new Token(
+    //     SupportedChainId.ROPSTEN,
+    //     G$ContractAddresses(SupportedChainId.ROPSTEN, 'GReputation'),
+    //     18,
+    //     'GOOD',
+    //     'GoodDollar Reputation'
+    // ),
     [SupportedChainId.FUSE]: new Token(
         SupportedChainId.FUSE,
         G$ContractAddresses(SupportedChainId.FUSE, 'GReputation'),

@@ -22,6 +22,7 @@ import usePromise from '../hooks/usePromise'
 import { g$Price } from '../sdk/apollo'
 import LanguageSwitch from "./LanguageSwitch";
 import NetworkModal from './NetworkModal'
+import AppNotice from './AppNotice'
 // import { ExternalProvider } from '../constants'
 
 const AppBarWrapper = styled.header`
@@ -61,21 +62,6 @@ const AppBarWrapper = styled.header`
     }
 `
 
-const SecurityNotice = styled.div`
-  display: flex;
-  justify-content: center;
-  padding-top: 20px;
-  padding-bottom: 20px;
-  background-color: #f8af40;
-  font-size: 18px;
-  line-height: 1.2;
-  font-family: 'Roboto',sans-serif;
-  font-weight: 700;
-  font-style: normal;
-  text-decoration: none;
-  color: #0c263d;
-`
-
 function AppBar(): JSX.Element {
     const [theme, setTheme] = useApplicationTheme()
     const { i18n } = useLingui()
@@ -92,13 +78,9 @@ function AppBar(): JSX.Element {
     }, [chainId])
 
     return (
-        <AppBarWrapper className="flex flex-row flex-nowrap justify-between w-screen relative z-10" style={{flexDirection: 'column'}}>
-          <SecurityNotice id="security-notice"> 
-            GoodDollar is undergoing a security upgrade and several features are currently inactive  
-            <a href="https://www.gooddollar.org/gooddollar-critical-system-upgrade-february-27-2022/" 
-               target="_blank" 
-               rel="noreferrer" style={{color: 'blue', paddingLeft: '10px'}}> → (read more) </a>
-          </SecurityNotice>
+        <AppBarWrapper className="relative z-10 flex flex-row justify-between w-screen flex-nowrap" style={{flexDirection: 'column'}}>
+            <AppNotice text={i18n._(t`GoodDollar is undergoing a security upgrade and several features are currently inactive`)} 
+                       link='https://www.gooddollar.org/gooddollar-critical-system-upgrade-february-27-2022/' show={true}></AppNotice> 
             <Disclosure as="nav" className="w-screen gradiant-z-10">
                 {({ open }) => (
                     <>
@@ -109,9 +91,9 @@ function AppBar(): JSX.Element {
                                         <img
                                             src={theme === 'dark' ? LogoDark : Logo}
                                             alt="Sushi"
-                                            className="site-logo w-auto hidden lg:block"
+                                            className="hidden w-auto site-logo lg:block"
                                         />
-                                        <img src={LogoMobile} alt="Sushi" className="site-logo w-auto lg:hidden" />
+                                        <img src={LogoMobile} alt="Sushi" className="w-auto site-logo lg:hidden" />
                                     </div>
                                 </div>
 
@@ -121,17 +103,17 @@ function AppBar(): JSX.Element {
                                             {G$Price ? `1,000G$ = ${G$Price.multiply(1000).toFixed(3)}USD` : ''}
                                         </div>
                                         {chainId && <Web3Faucet />}
-                                        <Disclosure.Button className="mobile-menu-button inline-flex items-center justify-center p-2 rounded-md  focus:outline-none">
+                                        <Disclosure.Button className="inline-flex items-center justify-center p-2 rounded-md mobile-menu-button focus:outline-none">
                                             <span className="sr-only">{i18n._(t`Open main menu`)}</span>
                                             {open ? (
-                                                <X title="Close" className="block h-6 w-6" aria-hidden="true" />
+                                                <X title="Close" className="block w-6 h-6" aria-hidden="true" />
                                             ) : (
-                                                <Burger title="Burger" className="block h-6 w-6" aria-hidden="true" />
+                                                <Burger title="Burger" className="block w-6 h-6" aria-hidden="true" />
                                             )}
                                         </Disclosure.Button>
                                     </div>
-                                    <div className="flex flex-row items-center justify-center w-full lg:w-auto p-4 fixed left-0 bottom-0 lg:relative lg:p-0 actions-wrapper ">
-                                        <div className="flex items-center justify-end sm:justify-end space-x-2 w-full">
+                                    <div className="fixed bottom-0 left-0 flex flex-row items-center justify-center w-full p-4 lg:w-auto lg:relative lg:p-0 actions-wrapper ">
+                                        <div className="flex items-center justify-end w-full space-x-2 sm:justify-end">
                                             {library && library.provider.isMetaMask && (
                                                 <div className="hidden sm:inline-block">
                                                     <Web3Network />
@@ -140,7 +122,7 @@ function AppBar(): JSX.Element {
                                             {account && chainId && userEthBalance ? (
                                                 <ButtonOutlined className="pr-1">
                                                     <div className="w-auto flex items-center rounded p-0.5 whitespace-nowrap   cursor-pointer select-none pointer-events-auto">
-                                                        <div className="py-2 px-3  bold">
+                                                        <div className="px-3 py-2 bold">
                                                             {userEthBalance?.toSignificant(4)}{' '}
                                                             {Currency.getNativeCurrencySymbol(chainId)}
                                                         </div>

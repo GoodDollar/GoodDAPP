@@ -104,7 +104,7 @@ function Swap() {
     const [approving, setApproving] = useState(false)
     const [showConfirm, setShowConfirm] = useState(false)
     const [approved, setApproved] = useState(false)
-    const securityNotice = 1
+    
     const handleApprove = async () => {
         if (!meta || !web3) return
         try {
@@ -237,7 +237,7 @@ function Swap() {
         >
             <SwapCardSC open={Boolean(meta)}>
                 <SwapWrapperSC>
-                    <div className="flex justify-between items-center">
+                    <div className="flex items-center justify-between">
                         <Title className="pl-4">{i18n._(t`Swap`)}</Title>
                         <SwapSettings />
                     </div>
@@ -290,8 +290,7 @@ function Swap() {
                             {meta && <SwapInfo title="Price" value={swapFields.price} />}
                         </div>
 
-                        {(securityNotice && (chainId as any)  === SupportedChainId.MAINNET) ? ( <ButtonAction style={{marginTop: 22}} disabled>Unavailable</ButtonAction> ) :
-                         !account ? (
+                        {!account ? (
                             <ButtonAction style={{ marginTop: 22 }} disabled>
                                 Connect wallet
                             </ButtonAction>

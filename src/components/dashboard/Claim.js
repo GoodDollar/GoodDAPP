@@ -647,11 +647,6 @@ const Claim = props => {
           )}
         </Section.Stack>
       )}
-      <Section.Stack style={styles.statsWrapper}>
-        <Section.Text fontWeight="bold">Claiming is down due to a security upgrade. </Section.Text>
-        <Section.Text>You can still send and receive your G$.</Section.Text>
-        <Section.Text>Come back soon to claim again.</Section.Text>
-      </Section.Stack>
       <Section.Stack style={styles.footerWrapper}>
         <ClaimSvg
           height={getDesignRelativeHeight(85, false)}

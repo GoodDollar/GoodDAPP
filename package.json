@@ -64,8 +64,8 @@
   "dependencies": {
     "@amplitude/react-native": "^2.5.0",
     "@expo/react-native-action-sheet": "^3.9.0",
-    "@gooddollar/goodcontracts": "^2.6.0",
-    "@gooddollar/goodprotocol": "^1.0.6",
+    "@gooddollar/goodcontracts": "^2.6.2",
+    "@gooddollar/goodprotocol": "^1.0.14",
     "@gooddollar/gun": "^0.2020.902",
     "@gooddollar/gun-asyncstorage": "^1.0.3",
     "@gooddollar/gun-pk-auth": "^1.1.0",

@@ -19,6 +19,11 @@ const WorkboxWebpackPlugin = require('workbox-webpack-plugin')
 const LodashModuleReplacementPlugin = require('lodash-webpack-plugin')
 const CopyPlugin = require("copy-webpack-plugin")
 
+const aliasPathJoin = (moduleFolders) => {
+  const final = path.join(process.cwd(), 'node_modules', path.join(...moduleFolders))
+  return final
+};
+
 // Webpack uses `publicPath` to determine where the app is being served from.
 // In development, we always serve from the root. This makes config easier.
 const publicPath = '/'
@@ -147,6 +152,7 @@ module.exports = {
       WebView: 'react-native-web-webview',
       'lottie-react-native': 'react-native-web-lottie',
       'react-native-linear-gradient': 'react-native-web-linear-gradient',
+      'react-native-svg': aliasPathJoin(['react-native-svg', 'lib', 'module', 'ReactNativeSVG.web.js'])
     },
     plugins: [
       // Adds support for installing with Plug'n'Play, leading to faster installs and adding

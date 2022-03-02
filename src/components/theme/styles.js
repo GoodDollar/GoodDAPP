@@ -12,6 +12,8 @@ export const theme = {
     ...DefaultTheme.colors,
     facebookBlue: '#0075FF',
     googleBlue: '#3367D6',
+    walletConnectBlue: '#3999FB',
+    metamMaskOrange: '#F6851B',
     blue: '#006EA0',
     darkBlue: '#0C263D',
     lightBlue: '#8499BB',

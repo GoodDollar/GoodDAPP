@@ -7,6 +7,8 @@ import '../lib/gundb/gundb'
 import { IS_LOGGED_IN } from '../lib/constants/localStorage'
 import AsyncStorage from '../lib/utils/asyncStorage'
 
+import WalletConnectProvider from '../lib/login/WalletConnectProvider'
+
 import Config from '../config/config'
 
 import SimpleStore, { useCurriedSetters } from '../lib/undux/SimpleStore'
@@ -69,6 +71,8 @@ const AppHolder = () => {
 
 export default () => (
   <SimpleStore.Container>
-    <AppHolder />
+    <WalletConnectProvider>
+      <AppHolder />
+    </WalletConnectProvider>
   </SimpleStore.Container>
 )

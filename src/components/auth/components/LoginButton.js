@@ -1,5 +1,8 @@
-import React, { useCallback, useRef } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { TouchableOpacity } from 'react-native'
+
+import { useWalletConnect } from '@walletconnect/react-native-dapp'
+import detectEthereumProvider from '@metamask/detect-provider'
 
 import { noop } from 'lodash'
 import Text from '../../common/view/Text'
@@ -20,6 +23,10 @@ import { theme as mainTheme } from '../../theme/styles'
 import googleBtnIcon from '../../../assets/Auth/btn-google.svg'
 import facebookBtnIcon from '../../../assets/Auth/btn-facebook.svg'
 import logger from '../../../lib/logger/js-logger'
+
+import * as metamask from '../../../lib/connectors/metamask'
+import { useErrorDialog } from '../../../lib/undux/utils/dialog'
+
 import Recaptcha from './Recaptcha'
 
 const log = logger.child({ from: 'LoginButton' })
@@ -189,6 +196,128 @@ LoginButton.Passwordless = withStyles(getStylesFromProps)(
           {`${buttonPrefix} Passwordless`}
         </LoginButton>
       </Recaptcha>
+    )
+  },
+)
+
+LoginButton.WalletConnect = withStyles(getStylesFromProps)(
+  ({ styles, disabled, onPress = noop, handleLoginMethod, ...props }) => {
+    // const onAuth = useCallback(() => {
+    //   onPress()
+    //   handleLoginMethod('wallet-connect')
+    // }, [handleLoginMethod, onPress])
+
+    const connector = useWalletConnect()
+    const [connected, setConnected] = useState(connector.connected)
+
+    // connector events:
+    // 'session_request',
+    // 'session_update',
+    // 'exchange_key',
+    // 'connect',
+    // 'disconnect',
+    // 'display_uri',
+    // 'modal_closed',
+    // 'transport_open',
+    // 'transport_close',
+    // 'transport_error',
+    connector.on('connect', (err, { event, params }) => {
+      log.debug('WalletConnect connected')
+
+      // temporary fix for walletconnect
+      connector.connected = true
+      connector.peerId = params?.[0]?.peerId
+      connector.peerMeta = params?.[0]?.peerMeta
+      connector.chainId = params?.[0]?.chainId
+
+      setConnected(true)
+    })
+
+    connector.on('disconnect', () => {
+      log.debug('WalletConnect disconnected')
+
+      setConnected(false)
+    })
+
+    return (
+      <LoginButton
+        style={[
+          styles.buttonLayout,
+          styles.buttonsMargin,
+          {
+            backgroundColor: mainTheme.colors.walletConnectBlue,
+          },
+        ]}
+        onPress={() => {
+          if (connected) {
+            connector.killSession(null)
+          } else {
+            connector.connect()
+          }
+        }}
+        disabled={!handleLoginMethod || disabled}
+        testID="login_with_walletConnect"
+        iconProps={{ viewBox: '0 0 11 22' }}
+      >
+        {connected ? 'Disconnect' : `${buttonPrefix} WalletConnect`}
+      </LoginButton>
+    )
+  },
+)
+
+LoginButton.MetaMask = withStyles(getStylesFromProps)(
+  ({ styles, disabled, onPress = noop, handleLoginMethod, ...props }) => {
+    // const onAuth = useCallback(() => {
+    //   onPress()
+    //   handleLoginMethod('metamask')
+    // }, [handleLoginMethod, onPress])
+
+    const [metamaskInstalled, setMetamaskInstalled] = useState(false)
+
+    useEffect(() => {
+      detectEthereumProvider().then(provider => {
+        if (provider) {
+          setMetamaskInstalled(true)
+        } else {
+          log.debug('MetaMask is not installed')
+        }
+      })
+    }, [])
+
+    const [showErrorDialog] = useErrorDialog()
+
+    const { useError, useIsActive } = metamask.hooks
+    const connector = metamask.metaMask
+    const error = useError()
+
+    const isActive = useIsActive()
+
+    useEffect(() => {
+      if (error) {
+        showErrorDialog(error.message, error)
+      }
+    }, [error])
+
+    if (!metamaskInstalled) {
+      return null
+    }
+
+    return (
+      <LoginButton
+        style={[
+          styles.buttonLayout,
+          styles.buttonsMargin,
+          {
+            backgroundColor: mainTheme.colors.metamMaskOrange,
+          },
+        ]}
+        onPress={isActive ? () => connector.deactivate() : () => connector.activate()}
+        disabled={!handleLoginMethod || disabled}
+        testID="login_with_metamask"
+        iconProps={{ viewBox: '0 0 11 22' }}
+      >
+        {isActive ? `Disconnect` : `${buttonPrefix} MetaMask`}
+      </LoginButton>
     )
   },
 )

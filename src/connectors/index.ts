@@ -7,7 +7,7 @@ import { Web3Provider } from '@ethersproject/providers'
 import Logo from '../assets/images/logo.png' 
 
 const RPC = {
-    [ChainId.MAINNET]: process.env.REACTP_APP_MAINNET_RPC,
+    [ChainId.MAINNET]: process.env.REACTP_APP_MAINNET_RPC ?? '',
     [ChainId.ROPSTEN]: 'https://eth-ropsten.alchemyapi.io/v2/cidKix2Xr-snU3f6f6Zjq_rYdalKKHmW',
     [ChainId.RINKEBY]: 'https://eth-rinkeby.alchemyapi.io/v2/XVLwDlhGP6ApBXFz_lfv0aZ6VmurWhYD',
     [ChainId.GÖRLI]: 'https://eth-goerli.alchemyapi.io/v2/Dkk5d02QjttYEoGmhZnJG37rKt8Yl3Im',

@@ -1,4 +1,4 @@
-import { once } from 'lodash'
+import { noop, once } from 'lodash'
 import moment from 'moment'
 import { version as contractsVersion } from '../../node_modules/@gooddollar/goodcontracts/package.json'
 import { version } from '../../package.json'
@@ -13,7 +13,9 @@ import env from './env'
 //import { isE2ERunning } from '../lib/utils/platform'
 
 const { search: qs = '' } = isWeb ? window.location : {}
-const forceLogLevel = qs.match(/level=(.*?)($|&)/)
+const webStorage = isWeb ? window.localStorage : { getItem: noop }
+
+const forceLogLevel = qs.match(/level=(.*?)($|&)/) || webStorage.getItem('GD_LogLevel')
 const forcePeer = qs.match(/gun=(.*?)($|&)/)
 
 const phase = env.REACT_APP_RELEASE_PHASE || 1
@@ -51,7 +53,7 @@ const Config = {
   infuraKey: env.REACT_APP_INFURA_KEY,
   network: env.REACT_APP_NETWORK || 'fuse',
   interestCollectedInterval: env.REACT_APP_INTEREST_BLOCKS_INTERVAL || 5760 * 8, // default is 1Week, add 1 day because its not exact
-  goodDollarPriceInfoUrl: env.REACT_APP_PRICE_INFO_URL || 'https://www.gooddollar.org/im-claiming-gs-now-where-and-how-can-i-use-them/?',
+  goodDollarPriceInfoUrl: env.REACT_APP_PRICE_INFO_URL || 'https://datastudio.google.com/u/0/reporting/f1ce8f56-058c-4e31-bfd4-1a741482642a/page/p_97jwocmrmc',
   marketUrl: env.REACT_APP_MARKET_URL || 'https://gooddollarmarketplace.sharetribe.com/en',
   torusEnabled: env.REACT_APP_USE_TORUS === 'true',
   torusNetwork: env.REACT_APP_TORUS_NETWORK || 'testnet',

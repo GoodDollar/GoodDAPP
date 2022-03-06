@@ -15,9 +15,9 @@ const ready = async replacing => {
 
   if (replacing) {
     log.debug('reinitializing wallet and storage with new user')
-
     goodWallet.init()
     await goodWallet.ready
+    log.debug('ready: goodWallet', goodWallet)
     userStorage.init()
   }
 
@@ -32,7 +32,6 @@ const ready = async replacing => {
     await login.auth(true)
   } catch (exception) {
     const { message } = exception
-
     log.error('failed auth:', message, exception)
   } finally {
     log.debug('ready: login ready')

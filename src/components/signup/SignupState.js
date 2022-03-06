@@ -249,7 +249,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
               .catch(e => moment())
               .then(_ => Math.max(Date.now(), _.valueOf()))
             const msg = (mobile || email) + String(torusProofNonce)
-            const proof = goodWallet.wallet.eth.accounts.sign(msg, '0x' + privateKey)
+            const proof = goodWallet?.wallet?.eth?.accounts?.sign(msg, '0x' + privateKey)
 
             assign(requestPayload, {
               torusProof: proof.signature,
@@ -515,8 +515,6 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
       if (!skipEmail) {
         return navigateWithFocus('Email')
       }
-
-      return done({ isEmailConfirmed: true })
     }
   }, [
     regMethod,
@@ -591,7 +589,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
           .catch(e => {
             log.error('failed auth:', e.message, e)
 
-            // showErrorDialog('Failed authenticating with server', e)
+            throw e
           })
 
         return apiReady()
@@ -634,14 +632,14 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
     // once email appears in the state - identifying and setting 'identified' flag
     identifyOnUserSignup(email)
 
-    //if we are not skipping email confirmation, then the call to send confirmation email will add user to mautic
-    //otherwise calling also addSignupContact can lead to duplicate mautic contact
+    // if we are not skipping email confirmation, then the call to send confirmation email will add user to mautic
+    // otherwise calling also addSignupContact can lead to duplicate mautic contact
     if (signupData.skipEmailConfirmation === false) {
       return
     }
 
     API.addSignupContact(signupData)
-      .then(r => log.info('addSignupContact success', { state: signupData }))
+      .then(() => log.info('addSignupContact success', { state: signupData }))
       .catch(e => log.error('addSignupContact failed', e.message, e))
   }, [signupData.email])
 

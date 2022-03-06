@@ -11,9 +11,10 @@ const GoodDollarPriceInfo = ({ theme }) => {
   const handleLearnMore = useCallback(() => {
     fireEvent(GOTO_TOKENDASHBOARD)
     openLink(Config.goodDollarPriceInfoUrl)
-  })
+  }, [])
+
   return (
-    <TouchableOpacity style={{ marginLeft: theme.sizes.default }} onPress={handleLearnMore}>
+    <TouchableOpacity onPress={handleLearnMore}>
       <InfoIcon color={theme.colors.secondary} />
     </TouchableOpacity>
   )

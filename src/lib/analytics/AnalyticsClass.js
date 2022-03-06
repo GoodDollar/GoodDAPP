@@ -37,7 +37,7 @@ export class AnalyticsClass {
     const { apis, apisFactory, sentryDSN, amplitudeKey, version, network, logger, env, phase } = this
 
     const apisDetected = apisFactory()
-    const { fullStory, amplitude, sentry, mautic, googleAnalytics } = apisDetected
+    const { fullStory, amplitude, sentry, googleAnalytics } = apisDetected
 
     const isSentryEnabled = sentry && sentryDSN
     const isAmplitudeEnabled = amplitude && amplitudeKey
@@ -94,7 +94,6 @@ export class AnalyticsClass {
       FS: isFullStoryEnabled,
       Sentry: isSentryEnabled,
       Amplitude: isAmplitudeEnabled,
-      Mautic: !!mautic,
       Google: !!googleAnalytics,
     })
 
@@ -106,7 +105,7 @@ export class AnalyticsClass {
 
   identifyWith = (email, identifier = null) => {
     const { apis, version, phase, logger } = this
-    const { amplitude, sentry, fullStory, mautic } = apis
+    const { amplitude, sentry, fullStory } = apis
     const { isAmplitudeEnabled, isSentryEnabled, isFullStoryEnabled } = this
 
     if (isAmplitudeEnabled && identifier) {
@@ -136,7 +135,6 @@ export class AnalyticsClass {
       {
         FS: isFullStoryEnabled,
         Sentry: isSentryEnabled,
-        Mautic: !(!mautic || !email),
         Amplitude: isAmplitudeEnabled,
       },
     )
@@ -144,16 +142,10 @@ export class AnalyticsClass {
 
   // eslint-disable-next-line require-await
   identifyOnUserSignup = async email => {
-    const { logger, apis } = this
+    const { logger } = this
     const { isSentryEnabled, isAmplitudeEnabled, isFullStoryEnabled } = this
-    const { mautic } = apis
 
     this.setUserEmail(email)
-
-    // disable for now, to see if it solves the duplicate contact issue
-    // if (email && ['staging', 'production'].includes(env)) {
-    //   await rootApi.addMauticContact({ email })
-    // }
 
     logger.debug(
       'Analytics services identified during new user signup:',
@@ -161,7 +153,6 @@ export class AnalyticsClass {
       {
         FS: isFullStoryEnabled,
         Sentry: isSentryEnabled,
-        Mautic: !(!mautic || !email),
         Amplitude: isAmplitudeEnabled,
       },
     )
@@ -194,24 +185,6 @@ export class AnalyticsClass {
     }
 
     logger.debug('fired event', { event, data })
-  }
-
-  fireMauticEvent = (data: any = {}) => {
-    const { mautic } = this.apis
-
-    if (!mautic) {
-      return
-    }
-
-    const { userId } = mautic
-    let eventData = data
-
-    if (userId) {
-      // do not mutate source params
-      eventData = { ...data, email: userId }
-    }
-
-    mautic('send', 'pageview', eventData)
   }
 
   /**
@@ -273,7 +246,7 @@ export class AnalyticsClass {
   /** @private */
   setUserEmail(email) {
     const { isAmplitudeEnabled, isSentryEnabled, isFullStoryEnabled, apis } = this
-    const { amplitude, sentry, fullStory, mautic } = apis
+    const { amplitude, sentry, fullStory } = apis
 
     if (!email) {
       return
@@ -293,10 +266,6 @@ export class AnalyticsClass {
 
         scope.setUser({ ...(_user || {}), email })
       })
-    }
-
-    if (mautic) {
-      mautic.userId = email
     }
   }
 

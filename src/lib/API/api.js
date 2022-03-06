@@ -68,8 +68,6 @@ export class APIService {
 
   sharedClient: AxiosInstance
 
-  mauticJS: any
-
   constructor(jwt = null) {
     const shared = axios.create()
 
@@ -173,6 +171,10 @@ export class APIService {
     return this.client.post('/user/start', { user })
   }
 
+  updateClaims(claimData: { claim_counter: number, last_claim: string }): AxiosPromise<any> {
+    return this.client.post('/user/claim', { ...claimData })
+  }
+
   /**
    * `/user/delete` post api call
    */
@@ -214,12 +216,23 @@ export class APIService {
     const { client, sharedClient } = this
     const payload = { token }
 
-    const parseCFResponse = data => {
-      const [address] = (data || '').match(/ip=(.+?)\n/)
-
+    const validateIpV6 = address => {
       if (!address) {
-        throw new Error('Clouflare trace util returned empty IP.')
+        throw new Error('Empty IP has been returned.')
       }
+
+      if (!address.includes(':')) {
+        throw new Error("Client's ISP doesn't supports IPv6.")
+      }
+
+      return address
+    }
+
+    const requestCloudflare = async () => {
+      const trace = await sharedClient.get('https://www.cloudflare.com/cdn-cgi/trace')
+      const [, address] = /ip=(.+?)\n/.exec(trace || '') || []
+
+      log.info('CF response', { trace })
 
       return address
     }
@@ -227,27 +240,26 @@ export class APIService {
     const fallbackToIpify = async () => {
       const ipv6Response = await sharedClient.get('https://api64.ipify.org/?format=json')
 
+      log.info('Ipify response', { ipv6Response })
       return get(ipv6Response, 'ip', '')
     }
 
     try {
-      const ip = await sharedClient
-        .get('https://www.cloudflare.com/cdn-cgi/trace')
-        .then(parseCFResponse)
+      const ip = await requestCloudflare()
+        .then(validateIpV6)
         .catch(fallbackToIpify)
 
       log.info('ip for captcha:', { ip })
 
-      if (!ip.includes(':')) {
-        throw new Error("Client's ISP doesn't supports IPv6.")
-      }
-
+      validateIpV6(ip)
       payload.ipv6 = ip
     } catch (errorOrStatus) {
       let exception = errorOrStatus
 
       if (!isError(errorOrStatus)) {
-        exception = new Error(isString(errorOrStatus) ? errorOrStatus : 'Http exception during Ipify API call')
+        exception = new Error(
+          isString(errorOrStatus) ? errorOrStatus : 'Unexpected exception while getting IPv6 address',
+        )
       }
 
       log.warn('Failed to determine client IPv6:', exception.message, exception)
@@ -405,41 +417,6 @@ export class APIService {
    */
   checkQueueStatus() {
     return this.client.post('/user/enqueue')
-  }
-
-  /**
-   * adds a first time registering user to mautic
-   * @param {*} userData usually just {email}
-   */
-  addMauticContact(userData: { email: string }) {
-    const { email } = userData
-    const { MauticJS } = global
-    const { mauticAddContractFormID, mauticUrl } = Config
-
-    if (!MauticJS || !mauticUrl || !email) {
-      log.warn('addMauticContact not called:', {
-        hasMauticAPI: !!MauticJS,
-        mautic: mauticUrl,
-        hasEmail: !!email,
-      })
-
-      return
-    }
-
-    const payload = {
-      'mauticform[formId]': mauticAddContractFormID,
-      'mauticform[email]': email,
-      'mauticform[messenger]': 1,
-    }
-
-    MauticJS.makeCORSRequest(
-      'POST',
-      `${mauticUrl}/form/submit`,
-      payload,
-      () => log.info('addMauticContact success'),
-      ({ content }, xhr) =>
-        log.error('addMauticContact call failed:', '', new Error('Error received from Mautic API'), { content }),
-    )
   }
 
   async getActualPhase() {

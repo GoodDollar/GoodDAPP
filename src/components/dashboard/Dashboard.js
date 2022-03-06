@@ -652,8 +652,7 @@ const Dashboard = props => {
               </View>
               {headerLarge && showPrice && (
                 <Section.Text style={styles.gdPrice}>
-                  ≈ {calculateUSDWorthOfBalance} USD
-                  <GoodDollarPriceInfo />
+                  ≈ {calculateUSDWorthOfBalance} USD <GoodDollarPriceInfo />
                 </Section.Text>
               )}
             </Animated.View>
@@ -799,7 +798,7 @@ const getStylesFromProps = ({ theme }) => ({
     alignItems: 'center',
     fontSize: 14,
     color: theme.colors.secondary,
-    fontWeight: '600',
+    fontWeight: 'bold',
   },
   leftButton: {
     flex: 1,

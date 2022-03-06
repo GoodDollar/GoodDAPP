@@ -1,6 +1,11 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { isFunction } from 'lodash'
+import { isArray, isEmpty, isFunction } from 'lodash'
+
 import { AB_TESTING, DESTINATION_PATH, INVITE_CODE, IS_FIRST_VISIT } from '../constants/localStorage'
+import logger from '../logger/js-logger'
+
+const backupProps = [IS_FIRST_VISIT, DESTINATION_PATH, AB_TESTING, INVITE_CODE]
+const log = logger.child({ from: 'AsyncStorage' })
 
 export default new class {
   constructor(storageApi) {
@@ -12,7 +17,8 @@ export default new class {
         let propertyValue
         let propertyTarget = storageApi
 
-        if (['get', 'set', 'clear'].some(prefix => property.startsWith(prefix))) {
+        // override methods clear, getItem, setItem, multiGet, multiSet
+        if ('clear' === property || property.match(/(get|set)/i)) {
           propertyTarget = this
         }
 
@@ -28,9 +34,23 @@ export default new class {
   }
 
   async clear() {
-    const toKeep = await this.storageApi.multiGet([IS_FIRST_VISIT, DESTINATION_PATH, AB_TESTING, INVITE_CODE])
+    let backup = []
+
+    try {
+      const pairs = await this.multiGet(backupProps)
+
+      backup = pairs.filter(([, value]) => value !== null)
+    } catch (e) {
+      log.warn('Error backing up AsyncStorage before cleanup:', e.message, e)
+    }
+
     await this.storageApi.clear()
-    this.storageApi.multiSet(toKeep.filter(_ => _[1] != null))
+
+    try {
+      await this.multiSet(backup)
+    } catch (e) {
+      log.warn('Error restoring AsyncStorage after cleanup:', e.message, e)
+    }
   }
 
   async setItem(key, value) {
@@ -42,6 +62,26 @@ export default new class {
   async getItem(key) {
     const jsonValue = await this.storageApi.getItem(key)
 
+    return this._parseValue(jsonValue)
+  }
+
+  async multiSet(keyValuePairs) {
+    if (!isArray(keyValuePairs) || isEmpty(keyValuePairs)) {
+      return
+    }
+
+    const stringifiedPairs = keyValuePairs.map(([key, value]) => [key, JSON.stringify(value)])
+
+    await this.storageApi.multiSet(stringifiedPairs)
+  }
+
+  async multiGet(keys) {
+    const keyJsonValuePairs = await this.storageApi.multiGet(keys)
+
+    return keyJsonValuePairs.map(([key, jsonValue]) => [key, this._parseValue(jsonValue)])
+  }
+
+  _parseValue(jsonValue) {
     if (jsonValue === null) {
       return null
     }

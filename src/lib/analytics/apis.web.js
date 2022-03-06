@@ -56,10 +56,9 @@ class GoogleWrapper {
 }
 
 export default () => {
-  const { mt, FS, dataLayer } = window
+  const { FS, dataLayer } = window
 
   return pickBy({
-    mautic: mt,
     sentry: SentryWeb,
     googleAnalytics: dataLayer ? new GoogleWrapper() : null,
     amplitude: amplitude.getInstance(),

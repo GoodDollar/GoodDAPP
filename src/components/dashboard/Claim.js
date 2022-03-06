@@ -17,6 +17,7 @@ import GDStore from '../../lib/undux/GDStore'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import { useDialog } from '../../lib/undux/utils/dialog'
 import wrapper from '../../lib/undux/utils/wrapper'
+import API from '../../lib/API/api'
 
 // import { openLink } from '../../lib/utils/linking'
 import { formatWithAbbreviations, formatWithSIPrefix, formatWithThousandsSeparator } from '../../lib/utils/formatNumber'
@@ -36,7 +37,6 @@ import {
   CLAIM_SUCCESS,
   fireEvent,
   fireGoogleAnalyticsEvent,
-  fireMauticEvent,
   INVITE_BOUNTY,
 } from '../../lib/analytics/analytics'
 
@@ -375,7 +375,7 @@ const Claim = props => {
 
         const claimsSoFar = await advanceClaimsCounter()
 
-        fireMauticEvent({ claim: claimsSoFar, last_claim: moment().format('YYYY-MM-DD') })
+        API.updateClaims({ claim_counter: claimsSoFar, last_claim: moment().format('YYYY-MM-DD') })
         fireGoogleAnalyticsEvent(CLAIM_GEO, {
           claimValue: weiToGd(curEntitlement),
           eventLabel: goodWallet.UBIContract._address,

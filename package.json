@@ -1,6 +1,6 @@
 {
   "name": "@gooddollar/gooddapp",
-  "version": "1.36.1-17",
+  "version": "1.37.1-3",
   "engines": {
     "node": ">=14",
     "npm": "6.x"
@@ -70,12 +70,12 @@
   "dependencies": {
     "@amplitude/react-native": "^2.5.0",
     "@expo/react-native-action-sheet": "^3.9.0",
-    "@gooddollar/goodcontracts": "^2.6.0",
-    "@gooddollar/goodprotocol": "^1.0.6",
+    "@gooddollar/goodcontracts": "^2.6.2",
+    "@gooddollar/goodprotocol": "^1.0.14",
     "@gooddollar/gun": "^0.2020.902",
     "@gooddollar/gun-asyncstorage": "^1.0.3",
     "@gooddollar/gun-pk-auth": "^1.1.0",
-    "@gooddollar/react-native-facetec": "^1.0.20",
+    "@gooddollar/react-native-facetec": "^1.0.21",
     "@gooddollar/react-native-side-menu": "^2.0.2",
     "@indexeddbshim/indexeddbshim": "^6.5.0",
     "@lingui/react": "^3.13.0",

@@ -4,18 +4,19 @@ import { useEffect, useMemo, useState } from 'react'
 import Config from '../../config/config'
 import logger from '../../lib/logger/js-logger'
 
-import GoodWallet from '../../lib/wallet/GoodWallet'
+import { useWallet } from '../../lib/wallet/GoodWalletProvider'
 
 const log = logger.child({ from: 'useGoodDollarPrice' })
 
 const useGoodDollarPrice = () => {
+  const goodWallet = useWallet()
   const [price, setPrice] = useState(null)
   const showPrice = useMemo(() => isNumber(price), [price])
 
   useEffect(() => {
     const fetchGoodDollarPrice = async () => {
       try {
-        const price = await GoodWallet.getReservePriceDAI()
+        const price = await goodWallet.getReservePriceDAI()
 
         log.debug('Got G$ price:', { price })
 
@@ -30,7 +31,7 @@ const useGoodDollarPrice = () => {
     if (Config.showGoodDollarPrice) {
       fetchGoodDollarPrice()
     }
-  }, [setPrice])
+  }, [setPrice, goodWallet])
 
   return [price, showPrice]
 }

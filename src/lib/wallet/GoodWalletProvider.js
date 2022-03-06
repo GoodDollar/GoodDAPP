@@ -1,5 +1,5 @@
 // @flow
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useState } from 'react'
 import Config from '../../config/config'
 import logger from '../logger/js-logger'
 import GoodWalletLogin from '../login/GoodWalletLoginClass'
@@ -108,4 +108,9 @@ export const GoodWalletProvider = ({ children }) => {
       {children}
     </GoodWalletContext.Provider>
   )
+}
+
+export const useWallet = () => {
+  const { goodWallet } = useContext(GoodWalletContext)
+  return goodWallet
 }

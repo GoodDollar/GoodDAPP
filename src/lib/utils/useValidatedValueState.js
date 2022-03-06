@@ -26,7 +26,6 @@ const initialErrorState = { dirty: false, value: null, error: null, isValid: fal
 
 const useValidatedValueState = (initialValue: State, getError: (value: any) => Error) => {
   const getErrorStateForValue = (state: State, value: any): ErrorState => {
-    console.info({ state, value })
     const dirty: boolean = Boolean((state && state.dirty) || !!value)
 
     const error: Error = dirty ? getError(value) : null

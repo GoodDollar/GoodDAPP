@@ -10,13 +10,11 @@ import ClaimSvg from '../../assets/Claim/claim-footer.svg'
 // import useOnPress from '../../lib/hooks/useOnPress'
 // import { isBrowser } from '../../lib/utils/platform'
 import userStorage, { type TransactionEvent } from '../../lib/userStorage/UserStorage'
-import goodWallet from '../../lib/wallet/GoodWallet'
+import { useWallet } from '../../lib/wallet/GoodWalletProvider'
 import logger from '../../lib/logger/js-logger'
 import { decorate, ExceptionCategory, ExceptionCode } from '../../lib/exceptions/utils'
 import GDStore from '../../lib/undux/GDStore'
-import SimpleStore from '../../lib/undux/SimpleStore'
 import { useDialog } from '../../lib/undux/utils/dialog'
-import wrapper from '../../lib/undux/utils/wrapper'
 import API from '../../lib/API/api'
 
 // import { openLink } from '../../lib/utils/linking'
@@ -218,9 +216,8 @@ const cbStyles = {
 const Claim = props => {
   const { screenProps, styles, theme }: ClaimProps = props
   const { goToRoot, screenState, push: navigate } = screenProps
-
+  const goodWallet = useWallet()
   const { appState } = useAppState()
-  const store = SimpleStore.useStore()
   const gdstore = GDStore.useStore()
 
   const { entitlement } = gdstore.get('account')
@@ -245,7 +242,6 @@ const Claim = props => {
 
   const [interestCollected, setInterestCollected] = useState()
 
-  const wrappedGoodWallet = wrapper(goodWallet, store)
   const advanceClaimsCounter = useClaimCounter()
   const [, , collectInviteBounty] = useInviteBonus()
 
@@ -263,10 +259,10 @@ const Claim = props => {
   const gatherStats = useCallback(
     async (all = false) => {
       try {
-        const promises = [wrappedGoodWallet.getClaimScreenStatsFuse()]
+        const promises = [goodWallet.getClaimScreenStatsFuse()]
 
         if (all) {
-          promises.push(wrappedGoodWallet.getClaimScreenStatsMainnet())
+          promises.push(goodWallet.getClaimScreenStatsMainnet())
         }
 
         const [fuseData, mainnetData] = await Promise.all(promises)
@@ -320,6 +316,7 @@ const Claim = props => {
       updateTimer,
       showErrorDialog,
       goToRoot,
+      goodWallet,
     ],
   )
 
@@ -425,7 +422,7 @@ const Claim = props => {
     } finally {
       setLoading(false)
     }
-  }, [setLoading, handleFaceVerification, dailyUbi, setDailyUbi, showDialog, showErrorDialog])
+  }, [setLoading, handleFaceVerification, dailyUbi, setDailyUbi, showDialog, showErrorDialog, goodWallet])
 
   // constantly update stats but only for some data
   const [startPolling, stopPolling] = useInterval(gatherStats, 10000, false)
@@ -487,7 +484,7 @@ const Claim = props => {
     }
 
     init()
-  }, [])
+  }, [goodWallet])
 
   return (
     <WrapperClaim style={dailyUbi ? styles.wrapperActive : styles.wrapperInactive}>

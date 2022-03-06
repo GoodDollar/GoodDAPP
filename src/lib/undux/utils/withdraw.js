@@ -1,6 +1,5 @@
 // @flow
 import type { Store } from 'undux'
-import goodWallet from '../../wallet/GoodWallet'
 import pino from '../../logger/js-logger'
 import { ExceptionCategory } from '../../exceptions/utils'
 import userStorage from '../../userStorage/UserStorage'
@@ -33,6 +32,7 @@ export const executeWithdraw = async (
   code: string,
   reason: string,
   category: string,
+  goodWallet: GoodWallet,
 ): Promise<ReceiptType | { status: boolean }> => {
   try {
     const { amount, sender, status, hashedCode } = await goodWallet.getWithdrawDetails(code)

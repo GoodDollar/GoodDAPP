@@ -6,7 +6,7 @@ import logger from '../../lib/logger/js-logger'
 import { AmountInput, ScanQRButton, Section, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
 import { BackButton, NextButton, useScreenState } from '../appNavigation/stackNavigation'
-import goodWallet from '../../lib/wallet/GoodWallet'
+import { useWallet } from '../../lib/wallet/GoodWalletProvider'
 import { gdToWei, weiToGd } from '../../lib/wallet/utils'
 import { isIOS } from '../../lib/utils/platform'
 import { ACTION_RECEIVE, navigationOptions } from './utils/sendReceiveFlow'
@@ -36,6 +36,8 @@ const Amount = (props: AmountProps) => {
   const [GDAmount, setGDAmount] = useState(amount > 0 ? weiToGd(amount) : '')
   const [loading, setLoading] = useState(amount <= 0)
   const [error, setError] = useState()
+  const goodWallet = useWallet()
+
   const isReceive = params && params.action === ACTION_RECEIVE
 
   const handlePressQR = useCallback(() => push('SendByQR'), [push])

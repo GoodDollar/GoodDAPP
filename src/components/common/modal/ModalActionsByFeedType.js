@@ -13,7 +13,7 @@ import logger from '../../../lib/logger/js-logger'
 import { decorate, ExceptionCategory, ExceptionCode } from '../../../lib/exceptions/utils'
 import normalize from '../../../lib/utils/normalizeText'
 import userStorage from '../../../lib/userStorage/UserStorage'
-import goodWallet from '../../../lib/wallet/GoodWallet'
+import { useWallet } from '../../../lib/wallet/GoodWalletProvider'
 import { openLink } from '../../../lib/utils/linking'
 import { withStyles } from '../../../lib/styles'
 import Section from '../../common/layout/Section'
@@ -34,6 +34,7 @@ const ModalButton = ({ children, ...props }) => (
 
 const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigation }) => {
   const [showErrorDialog] = useErrorDialog()
+  const goodWallet = useWallet()
 
   const _handleModalClose = useCallback(handleModalClose)
   const inviteCode = userStorage.userProperties.get('inviteCode')
@@ -86,7 +87,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
     }
 
     handleModalClose()
-  }, [item, handleCancelFailed, setCancellingPayment, handleModalClose])
+  }, [item, handleCancelFailed, setCancellingPayment, handleModalClose, goodWallet])
 
   const generatePaymentLinkForShare = useCallback(() => {
     const { withdrawCode, message, amount, endpoint = {} } = item.data || {}

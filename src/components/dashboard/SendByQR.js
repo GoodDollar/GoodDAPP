@@ -26,7 +26,7 @@ import { Permissions } from '../permissions/types'
 import { fireEvent, QR_SCAN } from '../../lib/analytics/analytics'
 import { InfoIcon } from '../common/modal/InfoIcon'
 import ExplanationDialog from '../common/dialogs/ExplanationDialog'
-import goodWallet from '../../lib/wallet/GoodWallet'
+import { useWallet } from '../../lib/wallet/GoodWalletProvider'
 import { extractEthAddress } from '../../lib/wallet/utils'
 import QrReader from './QR/QRScanner'
 import QRCameraPermissionDialog from './SendRecieveQRCameraPermissionDialog'
@@ -60,6 +60,8 @@ const SendByQR = ({ screenProps }: Props) => {
   const store = SimpleStore.useStore()
   const [showErrorDialog] = useErrorDialog()
   const [showDialog] = useDialog()
+  const goodWallet = useWallet()
+
   const { pop, push, navigateTo } = screenProps
 
   // check camera permission and show dialog if not allowed
@@ -79,12 +81,12 @@ const SendByQR = ({ screenProps }: Props) => {
 
   const gotoSend = useCallback(
     async code => {
-      const { route, params } = await routeAndPathForCode('sendByQR', code)
+      const { route, params } = await routeAndPathForCode('sendByQR', code, goodWallet)
       log.info({ code })
       fireEvent(QR_SCAN, { type: 'send' })
       push(route, params)
     },
-    [push],
+    [push, goodWallet],
   )
   const handleScan = useCallback(
     async data => {
@@ -124,7 +126,7 @@ const SendByQR = ({ screenProps }: Props) => {
         }
       }
     },
-    [push, setQRDelay, gotoSend],
+    [push, setQRDelay, gotoSend, goodWallet],
   )
 
   const handleError = useCallback(

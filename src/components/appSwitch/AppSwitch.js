@@ -1,5 +1,5 @@
 // @flow
-import React, { useCallback, useContext, useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { AppState } from 'react-native'
 import { SceneView } from '@react-navigation/core'
 import { debounce, isEmpty } from 'lodash'
@@ -25,7 +25,7 @@ import DeepLinking from '../../lib/utils/deepLinking'
 import { isMobileNative } from '../../lib/utils/platform'
 import { useInviteCode } from '../invite/useInvites'
 import restart from '../../lib/utils/restart'
-import { GoodWalletContext } from '../../lib/wallet/GoodWalletProvider'
+import { useWallet } from '../../lib/wallet/GoodWalletProvider'
 
 type LoadingProps = {
   navigation: any,
@@ -70,7 +70,7 @@ const AppSwitch = (props: LoadingProps) => {
     authStatus: [isLoggedInCitizen, isLoggedIn],
     refresh,
   } = useCheckAuthStatus()
-  const { goodWallet } = useContext(GoodWalletContext)
+  const goodWallet = useWallet()
 
   /*
   Check if user is incoming with a URL with action details, such as payment link or email confirmation

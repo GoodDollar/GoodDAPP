@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { View } from 'react-native'
 import { get } from 'lodash'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
-import goodWallet from '../../lib/wallet/GoodWallet'
+import { useWallet } from '../../lib/wallet/GoodWalletProvider'
 import { AwaitButton, CustomButton, Section, Wrapper } from '../common'
 import Separator from '../common/layout/Separator'
 import Text from '../common/view/Text'
@@ -24,6 +24,8 @@ Don’t worry, we’ll take care off you.\n`
   if (isValid) {
     props.screenProps.pop({ isValid })
   }
+
+  const goodWallet = useWallet()
 
   const [isLoading, setLoading] = useState(false)
   const [isCheatError, setCheatError] = useState(false)

@@ -18,7 +18,7 @@ import {
 } from '../../lib/wallet/GoodWalletClass'
 import { decorate, ExceptionCategory, ExceptionCode } from '../../lib/exceptions/utils'
 import { delay } from '../../lib/utils/async'
-import goodWallet from '../../lib/wallet/GoodWallet'
+import { useWallet } from '../../lib/wallet/GoodWalletProvider'
 
 import { routeAndPathForCode } from './utils/routeAndPathForCode'
 
@@ -36,6 +36,7 @@ const HandlePaymentLink = (props: HandlePaymentLinkProps) => {
   const [showDialog, hideDialog] = useDialog()
   const [showErrorDialog] = useErrorDialog()
   const store = SimpleStore.useStore()
+  const goodWallet = useWallet()
 
   const isTheSameUser = code => {
     return String(code.address).toLowerCase() === goodWallet.account.toLowerCase()
@@ -67,7 +68,7 @@ const HandlePaymentLink = (props: HandlePaymentLinkProps) => {
           })
 
           try {
-            const { route, params } = await routeAndPathForCode('send', code)
+            const { route, params } = await routeAndPathForCode('send', code, goodWallet)
 
             hideDialog()
             screenProps.push(route, params)
@@ -89,7 +90,7 @@ const HandlePaymentLink = (props: HandlePaymentLinkProps) => {
         log.error('checkCode unexpected error:', e.message, e)
       }
     },
-    [screenProps, showErrorDialog],
+    [screenProps, showErrorDialog, goodWallet],
   )
 
   const handleAppLinks = () => {
@@ -135,6 +136,7 @@ const HandlePaymentLink = (props: HandlePaymentLinkProps) => {
           paymentParams.paymentCode,
           paymentParams.reason,
           paymentParams.category,
+          goodWallet,
         )
 
         if (transactionHash) {
@@ -206,7 +208,7 @@ const HandlePaymentLink = (props: HandlePaymentLinkProps) => {
         navigation.setParams({ paymentCode: undefined })
       }
     },
-    [showDialog, hideDialog, showErrorDialog, store, navigation],
+    [showDialog, hideDialog, showErrorDialog, store, navigation, goodWallet],
   )
 
   useEffect(() => {

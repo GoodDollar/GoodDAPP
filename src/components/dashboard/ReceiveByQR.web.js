@@ -20,6 +20,8 @@ import { readReceiveLink } from '../../lib/share'
 import { extractQueryParams } from '../../lib/utils/uri'
 import { wrapFunction } from '../../lib/undux/utils/wrapper'
 import { executeWithdraw } from '../../lib/undux/utils/withdraw'
+import { useWallet } from '../../lib/wallet/GoodWalletProvider'
+
 import { Permissions } from '../permissions/types'
 import { fireEvent, QR_SCAN } from '../../lib/analytics/analytics'
 import QRCameraPermissionDialog from './SendRecieveQRCameraPermissionDialog'
@@ -33,6 +35,8 @@ const ReceiveByQR = ({ screenProps }) => {
   const [withdrawParams, setWithdrawParams] = useState({ receiveLink: '', reason: '' })
   const store = SimpleStore.useStore()
   const [showErrorDialog] = useErrorDialog()
+  const goodWallet = useWallet()
+
   const { navigateTo, push } = screenProps
 
   // check camera permission and show dialog if not allowed
@@ -102,7 +106,7 @@ const ReceiveByQR = ({ screenProps }) => {
 
     if (receiveLink) {
       try {
-        const receipt = await executeWithdraw(store, receiveLink)
+        const receipt = await executeWithdraw(store, receiveLink, undefined, undefined, goodWallet)
 
         navigateTo('Home', {
           event: receipt.transactionHash,
@@ -121,7 +125,7 @@ const ReceiveByQR = ({ screenProps }) => {
         showErrorDialog(uiMessage)
       }
     }
-  }, [navigateTo, withdrawParams, store, showErrorDialog])
+  }, [navigateTo, withdrawParams, store, showErrorDialog, goodWallet])
 
   useEffect(() => {
     runWithdraw()

@@ -8,6 +8,8 @@ import { extractQueryParams } from '../../lib/utils/uri'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import { wrapFunction } from '../../lib/undux/utils/wrapper'
 import { executeWithdraw } from '../../lib/undux/utils/withdraw'
+import { useWallet } from '../../lib/wallet/GoodWalletProvider'
+
 import { Section, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
 
@@ -15,6 +17,7 @@ const log = logger.child({ from: 'ReceiveByQR' })
 
 const ReceiveByQR = ({ screenProps }) => {
   const [withdrawParams, setWithdrawParams] = useState({ receiveLink: '', reason: '' })
+  const goodWallet = useWallet()
   const store = SimpleStore.useStore()
 
   const handleScan = data => {
@@ -45,7 +48,7 @@ const ReceiveByQR = ({ screenProps }) => {
 
   const runWithdraw = async () => {
     if (withdrawParams.receiveLink) {
-      const receipt = await executeWithdraw(store, withdrawParams.receiveLink)
+      const receipt = await executeWithdraw(store, withdrawParams.receiveLink, undefined, undefined, goodWallet)
       screenProps.navigateTo('Home', {
         event: receipt.transactionHash,
         receiveLink: undefined,
@@ -56,7 +59,7 @@ const ReceiveByQR = ({ screenProps }) => {
 
   useEffect(() => {
     runWithdraw()
-  }, [withdrawParams])
+  }, [withdrawParams, runWithdraw])
 
   return (
     <React.Fragment>

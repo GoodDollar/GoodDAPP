@@ -1,7 +1,6 @@
 // @flow
 import { isNil } from 'lodash'
 import { getNetworkName } from '../../../lib/constants/network'
-import goodWallet from '../../../lib/wallet/GoodWallet'
 import userStorage from '../../../lib/userStorage/UserStorage'
 import { ACTION_SEND_TO_ADDRESS } from './sendReceiveFlow'
 
@@ -21,6 +20,7 @@ export type CodeType = {
 export const routeAndPathForCode = async (
   screen: string,
   code: CodeType | null,
+  goodWallet,
 ): Promise<{ route: any, params: any }> => {
   if (code == null || !code.networkId || !code.address) {
     throw new Error('Invalid QR Code.')
@@ -28,7 +28,6 @@ export const routeAndPathForCode = async (
 
   const { networkId, address, amount, reason, category, vendorInfo } = code
 
-  await goodWallet.ready
   const currentNetworkId = goodWallet.networkId
   if (networkId !== currentNetworkId) {
     const networkName = getNetworkName(networkId)

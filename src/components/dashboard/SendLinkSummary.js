@@ -9,7 +9,7 @@ import { FeedItemType } from '../../lib/userStorage/FeedStorage'
 import logger from '../../lib/logger/js-logger'
 import { ExceptionCategory } from '../../lib/exceptions/utils'
 import { useDialog } from '../../lib/undux/utils/dialog'
-import goodWallet from '../../lib/wallet/GoodWallet'
+import { useWallet } from '../../lib/wallet/GoodWalletProvider'
 import { retry } from '../../lib/utils/async'
 import API from '../../lib/API/api'
 
@@ -38,6 +38,8 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
 
   const [shared, setShared] = useState(false)
   const [link, setLink] = useState('')
+
+  const goodWallet = useWallet()
 
   const { goToRoot, navigateTo } = screenProps
   const { fullName } = useProfile()
@@ -148,7 +150,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
         return paymentLink
       }
     },
-    [amount, reason, category, inviteCode, showErrorDialog, setLink, link, goToRoot, navigateTo],
+    [amount, reason, category, inviteCode, showErrorDialog, setLink, link, goToRoot, navigateTo, goodWallet],
   )
 
   const sendViaAddress = useCallback(
@@ -227,7 +229,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
         })
       }
     },
-    [address, amount, reason, showDialog, showErrorDialog, goToRoot],
+    [address, amount, reason, showDialog, showErrorDialog, goToRoot, goodWallet],
   )
 
   const sendViaLink = useCallback(() => {

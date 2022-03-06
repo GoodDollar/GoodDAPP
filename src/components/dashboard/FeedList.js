@@ -10,7 +10,7 @@ import { withStyles } from '../../lib/styles'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
 import userStorage from '../../lib/userStorage/UserStorage'
 import type { FeedEvent } from '../../lib/userStorage/UserStorageClass'
-import goodWallet from '../../lib/wallet/GoodWallet'
+import { useWallet } from '../../lib/wallet/GoodWalletProvider'
 import ScrollToTopButton from '../common/buttons/ScrollToTopButton'
 import logger from '../../lib/logger/js-logger'
 import { decorate, ExceptionCategory, ExceptionCode } from '../../lib/exceptions/utils'
@@ -66,7 +66,7 @@ const FeedList = ({
   const canceledFeeds = useRef([])
   const [showBounce, setShowBounce] = useState(true)
   const [displayContent, setDisplayContent] = useState(false)
-
+  const goodWallet = useWallet()
   const feeds = useFeeds(data)
 
   const handleItemSelection = handleFeedSelection
@@ -153,7 +153,7 @@ const FeedList = ({
       userStorage.userProperties.setLocal('showQuickActionHint', false)
       setShowBounce(false)
     },
-    [showErrorDialog, setShowBounce],
+    [showErrorDialog, setShowBounce, goodWallet],
   )
 
   const renderQuickActions = useCallback(

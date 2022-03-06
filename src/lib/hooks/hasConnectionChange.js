@@ -1,9 +1,9 @@
-import { useCallback, useContext, useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useNetInfo } from '@react-native-community/netinfo'
 import { get } from 'lodash'
 import API from '../API/api'
 import { delay } from '../utils/async'
-import { GoodWalletContext } from '../wallet/GoodWalletProvider'
+import { useWallet } from '../wallet/GoodWalletProvider'
 import logger from '../logger/js-logger'
 import useAppState from './useAppState'
 const log = logger.child({ from: 'hasConnectionChange' })
@@ -16,7 +16,7 @@ export const useConnection = () => {
 
 export const useWeb3Polling = () => {
   const { appState } = useAppState()
-  const { goodWallet: wallet } = useContext(GoodWalletContext)
+  const wallet = useWallet()
 
   useEffect(() => {
     if (wallet) {
@@ -32,7 +32,7 @@ export const useWeb3Polling = () => {
 export const useConnectionWeb3 = () => {
   const [isConnection, setIsConnection] = useState(true)
   const { appState } = useAppState()
-  const { goodWallet: wallet } = useContext(GoodWalletContext)
+  const wallet = useWallet()
 
   const isWeb3Connection = useCallback(async () => {
     if (wallet) {

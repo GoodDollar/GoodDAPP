@@ -5,7 +5,7 @@
     "private": true,
     "scripts": {
         "analyze": "source-map-explorer 'build/static/js/*.js' --only-mapped --html analysis/index.html",
-        "prebuild": "lingui compile && yarn install --frozen-lockfile",
+        "prebuild": "yarn install --frozen-lockfile && lingui compile",
         "prestart": "lingui compile",
         "start": "cross-env PORT=3000 react-app-rewired start",
         "dev": "cross-env PORT=3000 react-app-rewired start",

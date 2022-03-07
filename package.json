@@ -63,6 +63,8 @@
   "homepage": "https://gooddollar.org",
   "dependencies": {
     "@amplitude/react-native": "^2.5.0",
+    "@ceramicnetwork/http-client": "^1.5.7",
+    "@ceramicnetwork/stream-tile": "^1.5.7",
     "@expo/react-native-action-sheet": "^3.9.0",
     "@gooddollar/goodcontracts": "^2.6.2",
     "@gooddollar/goodprotocol": "^1.0.14",

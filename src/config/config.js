@@ -171,6 +171,9 @@ const Config = {
   minimalIOSVersion: env.MINIMAL_IOS_VERSION || 12,
   debugUserAgent: env.REACT_APP_DEBUG_USER_AGENT || false,
   showGoodDollarPrice: env.REACT_APP_SHOW_GOODDOLLAR_PRICE !== false,
+  ceramicNodeURL: env.REACT_APP_CERAMIC_NODE_URL || 'https://ceramic-clay.3boxlabs.com',
+  ceramicFeedIndex: env.REACT_APP_CERAMIC_FEED_INDEX,
+  ceramicPostsIndex: env.REACT_APP_CERAMIC_POSTS_INDEX,
 }
 
 //get and override settings from server

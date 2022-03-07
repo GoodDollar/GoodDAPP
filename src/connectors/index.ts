@@ -29,7 +29,7 @@ const RPC = {
     [ChainId.HARMONY_TESTNET]: 'https://explorer.pops.one',
     [ChainId.OKEX]: 'https://exchainrpc.okex.org',
     [ChainId.OKEX_TESTNET]: 'https://exchaintestrpc.okex.org',
-    [122]: 'https://rpc.fuse.io'
+    [122]: process.env.REACT_APP_FUSE_RPC ?? 'https://rpc.fuse.io'
 }
 
 export const network = new NetworkConnector({

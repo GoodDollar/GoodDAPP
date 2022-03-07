@@ -4,7 +4,7 @@ import { BigNumber, ethers } from 'ethers'
 import { Currency, CurrencyAmount, Fraction, MaxUint256, Percent, Token } from '@uniswap/sdk-core'
 import { MaxUint256 as MaxApproveValue } from '@ethersproject/constants'
 import { getSimpleStakingContractAddresses, simpleStakingContract } from './contracts/SimpleStakingContract'
-import { getSimpleStakingContractAddressesV2, simpleStakingContractV2, getUsdOracle } from './contracts/SimpleStakingContractV2'
+import { getSimpleStakingContractAddressesV2, getSimpleStakingContractAddressesV3, simpleStakingContractV2, getUsdOracle } from './contracts/SimpleStakingContractV3'
 import { governanceStakingContract } from './contracts/GovernanceStakingContract'
 import { goodFundManagerContract } from './contracts/GoodFundManagerContract'
 import { goodMarketMakerContract } from './contracts/GoodMarketMakerContract'
@@ -60,8 +60,7 @@ export type MyStake = {
  * @returns {Promise<Stake[]>}
  */
 export async function getList(web3: Web3): Promise<Stake[]> {
-    const simpleStakingAddresses = await getSimpleStakingContractAddresses(web3)
-    const simpleStakingAddressesV2 = await getSimpleStakingContractAddressesV2(web3)
+    const simpleStakingAddressesV3 = await getSimpleStakingContractAddressesV3(web3)
 
     cacheClear(getSocialAPY)
     cacheClear(getTokenPriceInUSDC)
@@ -72,8 +71,7 @@ export async function getList(web3: Web3): Promise<Stake[]> {
     cacheClear(getYearlyRewardG$)
     
     const result = []
-    result.push(await metaStake(web3, simpleStakingAddresses[0], false))
-    for (const address of simpleStakingAddressesV2){
+    for (const address of simpleStakingAddressesV3){
       result.push(await metaStake(web3, address, true))
     }
 
@@ -89,6 +87,7 @@ export async function getList(web3: Web3): Promise<Stake[]> {
 export async function getMyList(mainnetWeb3: Web3, fuseWeb3: Web3, account: string): Promise<MyStake[]> {
     const simpleStakingAddresses = await getSimpleStakingContractAddresses(mainnetWeb3)
     const simpleStakingAddressesv2 = await getSimpleStakingContractAddressesV2(mainnetWeb3)
+    const simpleStakingAddressesv3 = await getSimpleStakingContractAddressesV3(mainnetWeb3)
 
     cacheClear(getTokenPriceInUSDC)
 
@@ -98,6 +97,7 @@ export async function getMyList(mainnetWeb3: Web3, fuseWeb3: Web3, account: stri
         const ps = simpleStakingAddresses.map(address => metaMyStake(mainnetWeb3, address, account, false))
         ps.push(govStake)
         simpleStakingAddressesv2.map(address => ps.push(metaMyStake(mainnetWeb3, address, account, true)))
+        simpleStakingAddressesv3.map(address => ps.push(metaMyStake(mainnetWeb3, address, account, true)))
         const stakesRawList = await Promise.all(ps)
         stakes = stakesRawList.filter(Boolean) as MyStake[]
     } catch (e) {
@@ -144,7 +144,7 @@ async function metaStake(web3: Web3, address: string, isV2: boolean): Promise<St
     rewards: { G$: rewardG$, GDAO: rewardGDAO },
     socialAPY,
     tokens: { A: token, B: iToken },
-    isV2: isV2
+    isV2_V3: isV2
   }
 
   debugGroupEnd(`Stake for ${address}`)

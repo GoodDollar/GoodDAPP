@@ -2,7 +2,7 @@ import Web3 from 'web3'
 import { Eth } from 'web3-eth'
 
 import { AbiItem } from 'web3-utils'
-import GovernanceStaking from '@gooddollar/goodprotocol/artifacts/contracts/governance/GovarnanceStaking.sol/GovernanceStaking.json'
+import GovernanceStaking from '@gooddollar/goodprotocol/artifacts/contracts/governance/GovernanceStaking.sol/GovernanceStaking.json'
 
 import { G$ContractAddresses } from '../constants/addresses'
 import { getChainId } from '../utils/web3'

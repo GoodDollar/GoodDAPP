@@ -34,7 +34,7 @@ export default function Updater(): null {
     useEffect(() => {
         if (!account || !library || !chainId || !windowVisible) return undefined
 
-        console.log('library -->', library)
+        // console.log('library -->', library)
 
         setState({ chainId, blockNumber: null })
         library

@@ -105,9 +105,9 @@ const Portfolio = () => {
                             {data?.aggregated?.rewardsGDAO.currency.symbol}
                         </PortfolioValueSC>
                     </div>
-                    <div className="flex flex-col justify-between lg:items-center items-start">
+                    <div className="flex flex-col items-start justify-between lg:items-center">
                         <Title type="category">{i18n._(t`Your social contribution from:`)}</Title>
-                        <div className="social-contribution flex flex-grow">
+                        <div className="flex flex-grow social-contribution">
                             <div className="flex flex-col items-center mr-8">
                                 <PortfolioValueSC>–</PortfolioValueSC>
                                 <Title type="category">{i18n._(t`Staking`)}</Title>
@@ -145,7 +145,7 @@ const Portfolio = () => {
                             {data?.aggregated?.rewardsGDAOUnclaimed.currency.symbol}
                         </PortfolioValueSC>
                     </div>
-                    <div className="flex flex-col justify-center items-end">
+                    <div className="flex flex-col items-end justify-center">
                         <div>
                             <WithdrawRewards
                                 onClaim={update}
@@ -178,7 +178,7 @@ const Portfolio = () => {
                     </div>
                 </PortfolioAnalyticSC>
             </Card>
-            <PortfolioTitleSC className="mb-3 pl-2">{i18n._(`Positions`)}</PortfolioTitleSC>
+            <PortfolioTitleSC className="pl-2 mb-3">{i18n._(`Positions`)}</PortfolioTitleSC>
             <Card contentWrapped={false}>
                 <Table
                     header={
@@ -239,7 +239,7 @@ const Portfolio = () => {
     return (
         <Layout>
             <PortfolioSC>
-                <Title className="mb-6 pl-4">Portfolio</Title>
+                <Title className="pl-4 mb-6">Portfolio</Title>
                 {account ? (
                     portfolio
                 ) : (

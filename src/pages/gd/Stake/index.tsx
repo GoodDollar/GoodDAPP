@@ -44,7 +44,7 @@ const StakeTable = ({
     setActiveTableName: () => any
 }) => {
     const { i18n } = useLingui()
-    const securityNotice = true
+    const securityNotice = false
 
     // TODO: look into loading variable, it's not updating properly (loading text doesn't appear now)
     // console.log('stake loading table -->', loading)
@@ -196,45 +196,41 @@ const StakeTable = ({
                                     </td>
                                     <td>
                                         <ActionOrSwitchButton
-                                            // disabled={!stake.isV2 && (stake.protocol !== LIQUIDITY_PROTOCOL.GOODDAO && hasAPY)}
-                                            disabled={securityNotice}
+                                          disabled={stake.protocol === LIQUIDITY_PROTOCOL.GOODDAO}
+                                            // disabled={securityNotice}
                                             size="sm"
                                             width="78px"
                                             borderRadius="6px"
                                             noShadow={true}
                                             requireNetwork={network}
-                                            // onClick={() => {
-                                            //     setActiveStake(stake)
-                                            //     setActiveTableName()
-                                            // }}
-                                        > {i18n._(t`Unavailable`)}
-                                        {/* {!stake.isV2 && (stake.protocol !== LIQUIDITY_PROTOCOL.GOODDAO && hasAPY) ? */}
-                                          {/* {securityNotice ?
-                                          i18n._(t`Discontinued`) :
+                                            onClick={() => {
+                                                setActiveStake(stake)
+                                                setActiveTableName()
+                                            }}
+                                        > { stake.protocol === LIQUIDITY_PROTOCOL.GOODDAO ?
+                                          i18n._(t`Unavailable`) : 
                                           i18n._(t`Stake`)
-                                        } */}
+                                          }
                                         </ActionOrSwitchButton>
                                     </td>
                                 </tr>
                                 <tr className="mobile">
                                     <td colSpan={8}>
                                         <ActionOrSwitchButton
-                                            // disabled={!stake.isV2 && (stake.protocol !== LIQUIDITY_PROTOCOL.GOODDAO && hasAPY)}
-                                            disabled={securityNotice}
+                                            disabled={stake.protocol === LIQUIDITY_PROTOCOL.GOODDAO}
+                                            // disabled={securityNotice}
                                             size="sm"
                                             borderRadius="6px"
                                             noShadow={true}
                                             requireNetwork={network}
-                                            // onClick={() => {
-                                            //     setActiveStake(stake)
-                                            //     setActiveTableName()
-                                            // }}
-                                        > {i18n._(t`unavailable`)}
-                                        {/* { !stake.isV2 && (stake.protocol !== LIQUIDITY_PROTOCOL.GOODDAO && hasAPY) ?
-                                            i18n._(t`Discontinued`) :
+                                            onClick={() => {
+                                                setActiveStake(stake)
+                                                setActiveTableName()
+                                            }}
+                                        > { stake.protocol === LIQUIDITY_PROTOCOL.GOODDAO ?
+                                            i18n._(t`Unavailable`) : 
                                             i18n._(t`Stake`)
-                                          } */}
-                                            
+                                          }                                           
                                         </ActionOrSwitchButton>
                                     </td>
                                 </tr>

@@ -46,7 +46,7 @@ export function metaMaskRequests(info: MetaMaskInfo, type: string, account?:stri
                   symbol: 'FUSE',
                   decimals: 18
               },
-              rpcUrls: [process.env.REACT_APP_FUSE_RPC],
+              rpcUrls: [process.env.REACT_APP_FUSE_RPC ?? 'https://rpc.fuse.io'],
               blockExplorerUrls: ['https://explorer.fuse.io']
           },
           account

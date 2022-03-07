@@ -10,8 +10,8 @@ const log = logger.child({ from: 'useCheckExisting' })
 const useCheckExisting = () => {
   const { setAlreadySignedUp } = useContext(AuthContext)
 
-  const checkExisting = useCallback(async (torusProvider, torusUser, eventVars = {}) => {
-    const checkResult = (await userExists(torusUser).catch(e => {
+  const checkExisting = useCallback(async (torusProvider, torusUser, goodWallet, eventVars = {}) => {
+    const checkResult = (await userExists(torusUser, goodWallet).catch(e => {
       log.warn('userExists check failed:', e.message, e)
     })) || { exists: false }
 

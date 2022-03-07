@@ -163,7 +163,14 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
   }, [navigate])
 
   const handleLoginMethod = async (
-    provider: 'facebook' | 'google' | 'auth0' | 'auth0-pwdless-email' | 'auth0-pwdless-sms',
+    provider:
+      | 'facebook'
+      | 'google'
+      | 'auth0'
+      | 'auth0-pwdless-email'
+      | 'auth0-pwdless-sms'
+      | 'wallet-connect'
+      | 'metamask',
     torusUserRedirectPromise,
   ) => {
     const fromRedirect = !!torusUserRedirectPromise
@@ -184,16 +191,22 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
       return selfCustodyLogin()
     }
 
-    try {
+    let web3Provider, torusUser
+    setWalletPreparing(true)
+
+    // in case this is triggered as a callback after redirect we fire a different vent
+    fireEvent(fromRedirect ? TORUS_REDIRECT_SUCCESS : SIGNIN_METHOD_SELECTED, {
+      method: provider,
+      torusPopupMode, // for a/b testing, it always be false in case of redirect
+    })
+
+    if (['metamask', 'walletconnect'].includes(provider)) {
+      // web3Provider = await otherWalletLogin(provider)
+      torusUser = {
+        publicAddress: web3Provider.address,
+      }
+    } else {
       let torusResponse
-
-      setWalletPreparing(true)
-
-      // in case this is triggered as a callback after redirect we fire a different vent
-      fireEvent(fromRedirect ? TORUS_REDIRECT_SUCCESS : SIGNIN_METHOD_SELECTED, {
-        method: provider,
-        torusPopupMode, // for a/b testing, it always be false in case of redirect
-      })
 
       try {
         // don't expect response if in redirect mode, this method will be called again with response from effect
@@ -221,17 +234,22 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
         if (!get(torusResponse, 'torusUser')) {
           throw new Error('Invalid Torus response.')
         }
+        torusUser = torusResponse.torusUser
       } catch (e) {
         onTorusError(e)
         return
       }
-
+    }
+    try {
       setActiveStep(2)
 
       // get full name, email, number, userId
-      const { torusUser } = torusResponse
-      initWalletAndStorage(torusUser.privateKey, 'SEED') //initialize in background (no await)
-      const existsResult = await checkExisting(provider, torusUser)
+
+      const goodWallet = await initWalletAndStorage(
+        web3Provider ? web3Provider : torusUser.privateKey,
+        web3Provider ? provider.toUpperCase() : 'SEED',
+      )
+      const existsResult = await checkExisting(provider, torusUser, goodWallet)
 
       switch (existsResult) {
         case 'login': {
@@ -273,7 +291,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
       const uiMessage = decorate(exception, ExceptionCode.E14)
 
       showSupportDialog(showErrorDialog, hideDialog, navigation.navigate, uiMessage)
-      log.error('Failed to initialize wallet and storage', message, exception)
+      log.error('Failed to initialize wallet and storage', message, exception, { provider })
     } finally {
       setWalletPreparing(false)
     }

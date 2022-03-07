@@ -1,5 +1,5 @@
 import { ChainId, Currency, JSBI, Percent, Token, WETH } from '@sushiswap/sdk'
-import { injected, walletconnect, walletlink } from '../connectors'
+import { injected, walletconnect } from '../connectors'
 
 import { AbstractConnector } from '@web3-react/abstract-connector'
 
@@ -46,7 +46,7 @@ Object.defineProperty(WETH, 122, {
 })
 
 export enum AdditionalChainId {
-    FUSE = 122,
+    FUSE = 122
     //KOVAN = 42
 }
 
@@ -346,18 +346,21 @@ export interface WalletInfo {
 }
 
 /*
-* Override to be used as cast for @ethers library.provider
-* added isWalletLink 
-*/
+ * Override to be used as cast for @ethers library.provider
+ * added isWalletLink
+ */
 export type ExternalProvider = {
-  isMetaMask?: boolean;
-  isWalletLink?: boolean;
-  isStatus?: boolean;
-  host?: string;
-  path?: string;
-  sendAsync?: (request: { method: string, params?: Array<any> }, callback: (error: any, response: any) => void) => void
-  send?: (request: { method: string, params?: Array<any> }, callback: (error: any, response: any) => void) => void
-  request?: (request: { method: string, params?: Array<any> }) => Promise<any>
+    isMetaMask?: boolean
+    isWalletLink?: boolean
+    isStatus?: boolean
+    host?: string
+    path?: string
+    sendAsync?: (
+        request: { method: string; params?: Array<any> },
+        callback: (error: any, response: any) => void
+    ) => void
+    send?: (request: { method: string; params?: Array<any> }, callback: (error: any, response: any) => void) => void
+    request?: (request: { method: string; params?: Array<any> }) => Promise<any>
 }
 
 export const SUPPORTED_WALLETS: { [key: string]: WalletInfo } = {
@@ -377,15 +380,15 @@ export const SUPPORTED_WALLETS: { [key: string]: WalletInfo } = {
         href: null,
         color: '#4196FC',
         mobile: true
-    },
-    WALLET_LINK: {
-      connector: walletlink,
-      name: 'Coinbase',
-      iconName: 'coinbaseWalletIcon.svg',
-      description: 'Use Coinbase Wallet app on mobile device',
-      href: null,
-      color: '#315CF5',
-    },
+    }
+    // WALLET_LINK: {
+    //   connector: walletlink,
+    //   name: 'Coinbase',
+    //   iconName: 'coinbaseWalletIcon.svg',
+    //   description: 'Use Coinbase Wallet app on mobile device',
+    //   href: null,
+    //   color: '#315CF5',
+    // },
 }
 
 export const NetworkContextName = 'NETWORK'

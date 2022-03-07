@@ -1,7 +1,7 @@
 import { useWeb3React as useWeb3ReactCore } from '@web3-react/core'
 import { useEffect, useState } from 'react'
 import { isMobile } from 'react-device-detect'
-import { injected, walletlink } from '../connectors'
+import { injected } from '../connectors'
 import useMetaMask from '../hooks/useMetaMask'
 
 export function useEagerConnect() {
@@ -14,37 +14,36 @@ export function useEagerConnect() {
 
     useEffect(() => {
         injected.isAuthorized().then(isAuthorized => {
-          if (isAuthorized) {
-              activate(injected, undefined, true)
-                .catch(() => {
+            if (isAuthorized) {
+                activate(injected, undefined, true).catch(() => {
                     setTried(true)
                 })
                 // if (window.ethereum?.removeAllListeners){
                 //   window?.ethereum?.removeAllListeners(['networkChanged'])
                 // }
-          } else {
-              if (isMobile && ethereum) {
-                  activate(injected, undefined, true).catch(() => {
-                      setTried(true)
-                  })
-              //     if (window.ethereum?.removeAllListeners){
-              //       window?.ethereum?.removeAllListeners(['networkChanged'])
-              //     }
-              // } else if (isCoinbase && isCoinbase._addresses.length > 0){
-              //     activate(walletlink, undefined, true).catch(() => {
-              //       setTried(true)
-              //     })
-              } else {
-                setTried(true)
-              }
-          }
+            } else {
+                if (isMobile && ethereum) {
+                    activate(injected, undefined, true).catch(() => {
+                        setTried(true)
+                    })
+                    //     if (window.ethereum?.removeAllListeners){
+                    //       window?.ethereum?.removeAllListeners(['networkChanged'])
+                    //     }
+                    // } else if (isCoinbase && isCoinbase._addresses.length > 0){
+                    //     activate(walletlink, undefined, true).catch(() => {
+                    //       setTried(true)
+                    //     })
+                } else {
+                    setTried(true)
+                }
+            }
         })
     }, [activate]) // intentionally only running on mount (make sure it's only mounted once :))
 
     // if the connection worked, wait until we get confirmation of that to flip the flag
     useEffect(() => {
         if (active) {
-          setTried(true)
+            setTried(true)
         }
     }, [active])
 
@@ -56,19 +55,19 @@ export function useEagerConnect() {
  * and out after checking what network theyre on
  */
 export function useInactiveListener(suppress = false) {
-  const { active, error, activate, deactivate } = useWeb3ReactCore() // specifically using useWeb3React because of what this hook does
-  const metaMaskInfo = useMetaMask()
-  const { ethereum } = window
+    const { active, error, activate, deactivate } = useWeb3ReactCore() // specifically using useWeb3React because of what this hook does
+    const metaMaskInfo = useMetaMask()
+    const { ethereum } = window
     useEffect(() => {
         if (ethereum && !active && !error && !suppress) {
-          // todo: add activators for coinbase
+            // todo: add activators for coinbase
             const handleChainChanged = () => {
                 // eat errors
                 activate(injected, undefined, true).catch(error => {
                     console.error('Failed to activate after chain changed', error)
                 })
                 // .then(() => window.location.reload()) // suggested by MetaMask Docs
-            } 
+            }
 
             const handleAccountsChanged = (accounts: string[]) => {
                 if (accounts.length > 0) {
@@ -77,32 +76,31 @@ export function useInactiveListener(suppress = false) {
                         console.error('Failed to activate after accounts changed', error)
                     })
                 } else {
-                  deactivate()
-                  if (metaMaskInfo.isMultiple) {
-                    window.location.reload()
-                  }
+                    deactivate()
+                    if (metaMaskInfo.isMultiple) {
+                        window.location.reload()
+                    }
                 }
             }
 
             if (metaMaskInfo.isMultiple && ethereum.selectedProvider?.on) {
-              ethereum.selectedProvider.on('chainChanged', handleChainChanged) 
-              ethereum.selectedProvider.on('accountsChanged', handleAccountsChanged)  
-            } else if (ethereum.on){
-              ethereum.on('chainChanged', handleChainChanged)
-              ethereum.on('accountsChanged', handleAccountsChanged)
+                ethereum.selectedProvider.on('chainChanged', handleChainChanged)
+                ethereum.selectedProvider.on('accountsChanged', handleAccountsChanged)
+            } else if (ethereum.on) {
+                ethereum.on('chainChanged', handleChainChanged)
+                ethereum.on('accountsChanged', handleAccountsChanged)
             }
 
-
-            return () => { 
-                if (metaMaskInfo.isMultiple && ethereum.selectedProvider?.off){
-                  ethereum.selectedProvider.off('chainChanged', handleChainChanged)
-                  ethereum.selectedProvider.off('accountsChanged', handleAccountsChanged)
+            return () => {
+                if (metaMaskInfo.isMultiple && ethereum.selectedProvider?.off) {
+                    ethereum.selectedProvider.off('chainChanged', handleChainChanged)
+                    ethereum.selectedProvider.off('accountsChanged', handleAccountsChanged)
                 } else if (ethereum.off) {
-                  ethereum.off('chainChanged', handleChainChanged)
-                  ethereum.off('accountsChanged', handleAccountsChanged)
+                    ethereum.off('chainChanged', handleChainChanged)
+                    ethereum.off('accountsChanged', handleAccountsChanged)
                 }
             }
-        } 
+        }
         return undefined
     }, [active, error, suppress, activate, deactivate, ethereum])
 }

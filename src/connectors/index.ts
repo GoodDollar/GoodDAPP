@@ -2,12 +2,13 @@ import { ChainId } from '@sushiswap/sdk'
 import { InjectedConnector } from '@web3-react/injected-connector'
 import { NetworkConnector } from './NetworkConnector'
 import { WalletConnectConnector } from '@web3-react/walletconnect-connector'
-import { WalletLinkConnector } from '@web3-react/walletlink-connector'
+// import { WalletLinkConnector } from '@web3-react/walletlink-connector'
 import { Web3Provider } from '@ethersproject/providers'
-import Logo from '../assets/images/logo.png' 
+import Logo from '../assets/images/logo.png'
 
 const RPC = {
-    [ChainId.MAINNET]: process.env.REACT_APP_MAINNET_RPC ?? 'https://eth-mainnet.alchemyapi.io/v2/2kSbx330Sc8S3QRwD9nutr9XST_DfeJh',
+    [ChainId.MAINNET]:
+        process.env.REACT_APP_MAINNET_RPC ?? 'https://eth-mainnet.alchemyapi.io/v2/2kSbx330Sc8S3QRwD9nutr9XST_DfeJh',
     [ChainId.ROPSTEN]: 'https://eth-ropsten.alchemyapi.io/v2/cidKix2Xr-snU3f6f6Zjq_rYdalKKHmW',
     [ChainId.RINKEBY]: 'https://eth-rinkeby.alchemyapi.io/v2/XVLwDlhGP6ApBXFz_lfv0aZ6VmurWhYD',
     [ChainId.GÖRLI]: 'https://eth-goerli.alchemyapi.io/v2/Dkk5d02QjttYEoGmhZnJG37rKt8Yl3Im',
@@ -52,19 +53,19 @@ export const walletconnect = new WalletConnectConnector({
         [ChainId.MAINNET]: RPC[ChainId.MAINNET],
         [ChainId.ROPSTEN]: RPC[ChainId.ROPSTEN],
         [ChainId.KOVAN]: RPC[ChainId.KOVAN],
-        [122]: RPC[122]
+        122: RPC[122]
     },
     bridge: 'https://bridge.walletconnect.org',
     qrcode: true,
     pollingInterval: 15000
 })
 
-export const walletlink = new WalletLinkConnector({
-  url: RPC[ChainId.MAINNET],
-  appName: 'GoodDollar',
-  appLogoUrl: Logo,
-  darkMode: true,
-})
+// export const walletlink = new WalletLinkConnector({
+//   url: RPC[ChainId.MAINNET],
+//   appName: 'GoodDollar',
+//   appLogoUrl: Logo,
+//   darkMode: true,
+// })
 
 export const Fortmatic = {}
 export const fortmatic = {}

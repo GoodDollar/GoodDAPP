@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { groupBy, keyBy, noop } from 'lodash'
-import goodWallet from '../../lib/wallet/GoodWallet'
+import { useWallet } from '../../lib/wallet/GoodWalletProvider'
 import userStorage from '../../lib/userStorage/UserStorage'
 import logger from '../../lib/logger/js-logger'
 import { useDialog } from '../../lib/undux/utils/dialog'
@@ -19,7 +19,7 @@ const log = logger.child({ from: 'useInvites' })
 const collectedProp = 'inviteBonusCollected'
 const wasOpenedProp = 'hasOpenedInviteScreen'
 
-export const registerForInvites = async inviterInviteCode => {
+export const registerForInvites = async (inviterInviteCode, goodWallet) => {
   let code = userStorage.userProperties.get('inviteCode')
   let usedInviterCode = userStorage.userProperties.get('inviterInviteCodeUsed')
 
@@ -46,10 +46,10 @@ export const registerForInvites = async inviterInviteCode => {
   }
 }
 
-const getInviteCode = async () => {
+const getInviteCode = async goodWallet => {
   const inviterInviteCode =
     userStorage.userProperties.get('inviterInviteCode') || (await AsyncStorage.getItem(INVITE_CODE))
-  const code = await registerForInvites(inviterInviteCode)
+  const code = await registerForInvites(inviterInviteCode, goodWallet)
 
   return code
 }
@@ -57,6 +57,7 @@ const getInviteCode = async () => {
 let _inviteCodePromise
 export const useInviteCode = () => {
   const [inviteCode, setInviteCode] = useState(userStorage.userProperties.get('inviteCode'))
+  const goodWallet = useWallet()
 
   //return user invite code or register him with a new code
 
@@ -65,7 +66,7 @@ export const useInviteCode = () => {
 
     if (Config.enableInvites) {
       if (!_inviteCodePromise) {
-        _inviteCodePromise = getInviteCode()
+        _inviteCodePromise = getInviteCode(goodWallet)
       }
 
       _inviteCodePromise.then(code => {
@@ -74,7 +75,7 @@ export const useInviteCode = () => {
         _inviteCodePromise = undefined
       })
     }
-  }, [])
+  }, [goodWallet])
 
   return inviteCode
 }
@@ -82,6 +83,7 @@ export const useInviteCode = () => {
 export const useInviteBonus = () => {
   const [showDialog] = useDialog()
   const collected = useUserProperty(collectedProp)
+  const goodWallet = useWallet()
 
   const getCanCollect = useCallback(async () => {
     try {
@@ -90,7 +92,7 @@ export const useInviteBonus = () => {
       log.error('useInviteBonus: failed to get canCollect:', e.message, e)
       return false
     }
-  }, [])
+  }, [goodWallet])
 
   const collectInviteBounty = useCallback(
     async (onUnableToCollect = noop) => {
@@ -133,7 +135,7 @@ export const useInviteBonus = () => {
       })
       return true
     },
-    [showDialog, collected],
+    [showDialog, collected, goodWallet],
   )
 
   return [collected, getCanCollect, collectInviteBounty]
@@ -143,6 +145,7 @@ export const useCollectBounty = () => {
   const [showDialog, , showErrorDialog] = useDialog()
   const [canCollect, setCanCollect] = useState(undefined)
   const [collected, setCollected] = useState(undefined)
+  const goodWallet = useWallet()
 
   const collect = async () => {
     try {
@@ -216,6 +219,8 @@ export const useCollectBounty = () => {
 export const useInvited = () => {
   const [data, setData] = useState()
   const [invites, setInvites] = useState([])
+  const goodWallet = useWallet()
+
   const { level, totalEarned } = data || {}
 
   const updateData = useCallback(async () => {
@@ -231,7 +236,7 @@ export const useInvited = () => {
       log.error('set invitesData failed:', e.message, e)
       throw e
     }
-  }, [setData])
+  }, [setData, goodWallet])
 
   const updateInvited = useCallback(async () => {
     try {
@@ -256,7 +261,7 @@ export const useInvited = () => {
     } catch (e) {
       log.error('updateInvited failed:', e.message, e)
     }
-  }, [setInvites, updateData])
+  }, [setInvites, updateData, goodWallet])
 
   useEffect(() => {
     updateInvited()

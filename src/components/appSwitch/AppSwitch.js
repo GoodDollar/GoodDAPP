@@ -9,11 +9,10 @@ import { REGISTRATION_METHOD_SELF_CUSTODY, REGISTRATION_METHOD_TORUS } from '../
 
 import logger from '../../lib/logger/js-logger'
 import { getErrorMessage } from '../../lib/API/api'
-import goodWallet from '../../lib/wallet/GoodWallet'
 import GDStore from '../../lib/undux/GDStore'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
 import { updateAll as updateWalletStatus } from '../../lib/undux/utils/account'
-import { checkAuthStatus as getLoginState } from '../../lib/login/checkAuthStatus'
+import { useCheckAuthStatus } from '../../lib/login/checkAuthStatus'
 import userStorage from '../../lib/userStorage/UserStorage'
 import runUpdates from '../../lib/updates'
 import useAppState from '../../lib/hooks/useAppState'
@@ -26,6 +25,7 @@ import DeepLinking from '../../lib/utils/deepLinking'
 import { isMobileNative } from '../../lib/utils/platform'
 import { useInviteCode } from '../invite/useInvites'
 import restart from '../../lib/utils/restart'
+import { useWallet } from '../../lib/wallet/GoodWalletProvider'
 
 type LoadingProps = {
   navigation: any,
@@ -36,17 +36,17 @@ const log = logger.child({ from: 'AppSwitch' })
 
 const GAS_CHECK_DEBOUNCE_TIME = 1000
 const showOutOfGasError = debounce(
-  async props => {
+  async ({ navigation, goodWallet }) => {
     const gasResult = await goodWallet.verifyHasGas().catch(e => {
       const message = getErrorMessage(e)
       const exception = new Error(message)
 
       log.error('verifyTopWallet failed', message, exception)
     })
-    log.debug('outofgaserror:', { gasResult })
+    log.debug('outofgas check result:', { gasResult })
 
     if (gasResult.ok === false && gasResult.error !== false) {
-      props.navigation.navigate('OutOfGasError')
+      navigation.navigate('OutOfGasError')
     }
   },
   GAS_CHECK_DEBOUNCE_TIME,
@@ -66,6 +66,11 @@ const AppSwitch = (props: LoadingProps) => {
   const store = SimpleStore.useStore()
   const [showErrorDialog] = useErrorDialog()
   const [ready, setReady] = useState(false)
+  const {
+    authStatus: [isLoggedInCitizen, isLoggedIn],
+    refresh,
+  } = useCheckAuthStatus()
+  const goodWallet = useWallet()
 
   /*
   Check if user is incoming with a URL with action details, such as payment link or email confirmation
@@ -164,9 +169,6 @@ const AppSwitch = (props: LoadingProps) => {
       //initialize the citizen status and wallet status
       //create jwt token and initialize the API service
       updateWalletStatus(gdstore)
-
-      const [isLoggedInCitizen, isLoggedIn] = await getLoginState()
-
       log.debug('initialize ready', { isLoggedIn, isLoggedInCitizen })
 
       const initReg = userStorage.initRegistered()
@@ -178,7 +180,7 @@ const AppSwitch = (props: LoadingProps) => {
       const identifier = goodWallet.getAccountForType('login')
 
       identifyWith(undefined, identifier)
-      showOutOfGasError(props)
+      showOutOfGasError({ navigation: props.navigation, goodWallet })
 
       await initReg
       initialize()
@@ -234,10 +236,10 @@ const AppSwitch = (props: LoadingProps) => {
       // in user storage class designed to be called from outside
       userStorage.database._syncFromRemote()
       userStorage.userProperties._syncFromRemote()
-      getLoginState() //this will refresh the jwt token if wasnt active for a long time
-      showOutOfGasError(props)
+      refresh() //this will refresh the jwt token if wasnt active for a long time
+      showOutOfGasError({ navigation: props.navigation, goodWallet })
     }
-  }, [gdstore, ready])
+  }, [gdstore, ready, refresh, props, goodWallet])
 
   const backgroundUpdates = useCallback(() => {}, [ready])
 
@@ -248,6 +250,9 @@ const AppSwitch = (props: LoadingProps) => {
   useAppState({ onForeground: recheck, onBackground: backgroundUpdates })
 
   useEffect(() => {
+    if (isLoggedIn == null || isLoggedInCitizen == null) {
+      return
+    }
     init()
     navigateToUrlRef.current()
 
@@ -266,7 +271,7 @@ const AppSwitch = (props: LoadingProps) => {
     })
 
     return () => DeepLinking.unsubscribe()
-  }, [])
+  }, [isLoggedIn, isLoggedInCitizen])
 
   const { descriptors, navigation } = props
   const activeKey = navigation.state.routes[navigation.state.index].key

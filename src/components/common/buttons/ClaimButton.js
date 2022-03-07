@@ -4,9 +4,6 @@ import { Animated, Platform, View } from 'react-native'
 import { noop } from 'lodash'
 
 import { PushButton } from '../../appNavigation/PushButton'
-
-// import useClaimQueue from '../../dashboard/Claim/useClaimQueue'
-
 import { withStyles } from '../../../lib/styles'
 
 const getStylesFromProps = ({ theme }) => ({
@@ -43,8 +40,6 @@ const getStylesFromProps = ({ theme }) => ({
 })
 
 const ClaimButton = withStyles(getStylesFromProps)(({ screenProps, styles, style = {}, onStatusChange = noop }) => {
-  // const { queueStatus, handleClaim } = useClaimQueue()
-  // const { status } = queueStatus || {}
   const isPending = false
   const canContinue = () => true
 

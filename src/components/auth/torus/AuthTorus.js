@@ -30,18 +30,17 @@ import { getShadowStyles } from '../../../lib/utils/getStyles'
 import normalizeText from '../../../lib/utils/normalizeText'
 import useCheckExisting from '../hooks/useCheckExisting'
 
-import ready from '../ready'
 import SignUpIn from '../login/SignUpScreen'
 
-import { withTimeout } from '../../../lib/utils/async'
 import DeepLinking from '../../../lib/utils/deepLinking'
+import { GoodWalletContext } from '../../../lib/wallet/GoodWalletProvider'
 
 import AuthContext from '../context/AuthContext'
 import useTorus from './hooks/useTorus'
-
 const log = logger.child({ from: 'AuthTorus' })
 
 const AuthTorus = ({ screenProps, navigation, styles, store }) => {
+  const { initWalletAndStorage } = useContext(GoodWalletContext)
   const [, hideDialog, showErrorDialog] = useDialog()
   const { setWalletPreparing, setTorusInitialized, setSuccessfull, setActiveStep } = useContext(AuthContext)
   const checkExisting = useCheckExisting()
@@ -150,13 +149,13 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
   })
 
   const selfCustody = useCallback(async () => {
-    const curSeed = await AsyncStorage.getItem(GD_USER_MASTERSEED)
+    const curSeed = (await AsyncStorage.getItem(GD_USER_MASTERSEED)) || (await AsyncStorage.getItem(GD_USER_MNEMONIC))
 
     //in case user started torus signup but came back here we need to re-initialize wallet/storage with
     //new credentials
     if (curSeed) {
+      log.debug('selfcustody clear storage')
       await AsyncStorage.clear()
-      await ready(true)
     }
 
     fireEvent(SIGNUP_METHOD_SELECTED, { method: REGISTRATION_METHOD_SELF_CUSTODY })
@@ -177,6 +176,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
     }
 
     if (provider === 'selfCustody') {
+      initWalletAndStorage(undefined, 'SEED') //initialize the wallet (it will generate a mnemonic)
       return selfCustody()
     }
 
@@ -229,7 +229,8 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
       setActiveStep(2)
 
       // get full name, email, number, userId
-      const { torusUser, replacing } = torusResponse
+      const { torusUser } = torusResponse
+      initWalletAndStorage(torusUser.privateKey, 'SEED') //initialize in background (no await)
       const existsResult = await checkExisting(provider, torusUser)
 
       switch (existsResult) {
@@ -246,8 +247,6 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
         }
         case 'signup': {
           log.debug('user does not exists')
-
-          await withTimeout(() => ready(replacing), 60000, 'initializing wallet timed out')
 
           if (isWeb) {
             // Hack to get keyboard up on mobile need focus from user event such as click

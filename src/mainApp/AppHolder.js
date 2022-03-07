@@ -4,19 +4,17 @@ import React, { useEffect, useState } from 'react'
 import { Platform } from 'react-native'
 import '../lib/shim'
 import '../lib/gundb/gundb'
-import { IS_LOGGED_IN } from '../lib/constants/localStorage'
 import AsyncStorage from '../lib/utils/asyncStorage'
 
 import WalletConnectProvider from '../lib/login/WalletConnectProvider'
 
 import Config from '../config/config'
 
-import SimpleStore, { useCurriedSetters } from '../lib/undux/SimpleStore'
+import SimpleStore, { initStore } from '../lib/undux/SimpleStore'
 import AppHot from './AppHot'
 
 const AppHolder = () => {
   const [ready, setReady] = useState(false)
-  const [setIsLoggedIn] = useCurriedSetters(['isLoggedIn'])
 
   useEffect(() => {
     /**
@@ -36,12 +34,6 @@ const AppHolder = () => {
       AsyncStorage.setItem('GD_version', current) // required for mnemonic recovery
     }
 
-    const initStore = async () => {
-      const isLoggedIn = await AsyncStorage.getItem(IS_LOGGED_IN)
-
-      setIsLoggedIn(!!isLoggedIn)
-    }
-
     const initializeApp = async () => {
       if (Platform.OS === 'web') {
         await upgradeVersion()
@@ -56,23 +48,21 @@ const AppHolder = () => {
     }
 
     initializeApp()
-  }, [ready, setReady, setIsLoggedIn])
+  }, [ready, setReady])
 
   if (!ready) {
     return null
   }
 
   return (
-    <ActionSheetProvider>
-      <AppHot />
-    </ActionSheetProvider>
+    <SimpleStore.Container>
+      <WalletConnectProvider>
+        <ActionSheetProvider>
+          <AppHot />
+        </ActionSheetProvider>
+      </WalletConnectProvider>
+    </SimpleStore.Container>
   )
 }
 
-export default () => (
-  <SimpleStore.Container>
-    <WalletConnectProvider>
-      <AppHolder />
-    </WalletConnectProvider>
-  </SimpleStore.Container>
-)
+export default () => <AppHolder />

@@ -110,8 +110,6 @@ const MultiCalls = {
   122: '0x2219bf813a0f8f28d801859c215a5a94cca90ed1',
 }
 export class GoodWallet {
-  static WalletType = 'software'
-
   static AccountUsageToPath = {
     gd: 0,
     gundb: 1,
@@ -166,7 +164,7 @@ export class GoodWallet {
     const mainnetNetworkId = get(ContractsAddress, Config.network + '-mainnet.networkId', 122)
     const mainnethttpWeb3provider = Config.ethereum[mainnetNetworkId].httpWeb3provider
     this.web3Mainnet = new Web3(mainnethttpWeb3provider)
-    const ready = WalletFactory.create(GoodWallet.WalletType, this.config)
+    const ready = WalletFactory.create(this.config)
     this.ready = ready
       .then(wallet => {
         log.info('GoodWallet initial wallet created.')

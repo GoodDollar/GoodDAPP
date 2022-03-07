@@ -5,7 +5,7 @@ import Instructions from '../components/Instructions'
 
 import UserStorage from '../../../../lib/userStorage/UserStorage'
 import { useCurriedSetters } from '../../../../lib/undux/GDStore'
-import goodWallet from '../../../../lib/wallet/GoodWallet'
+import { useWallet } from '../../../../lib/wallet/GoodWalletProvider'
 import logger from '../../../../lib/logger/js-logger'
 
 import useFaceTecSDK from '../hooks/useFaceTecSDK'
@@ -31,6 +31,7 @@ const log = logger.child({ from: 'FaceVerification' })
 const FaceVerification = ({ screenProps }) => {
   const [setIsCitizen] = useCurriedSetters(['isLoggedInCitizen'])
   const { attemptsCount, trackAttempt, resetAttempts } = useVerificationAttempts()
+  const goodWallet = useWallet()
 
   // Redirects to the error screen, passing exception
   // object and allowing to show/hide retry button (hides it by default)
@@ -121,7 +122,7 @@ const FaceVerification = ({ screenProps }) => {
       screenProps.pop({ isValid: true })
       fireEvent(FV_SUCCESS_ZOOM)
     },
-    [screenProps, setIsCitizen, resetAttempts, exceptionHandler],
+    [screenProps, setIsCitizen, resetAttempts, exceptionHandler, goodWallet],
   )
 
   // calculating retries allowed for FV session

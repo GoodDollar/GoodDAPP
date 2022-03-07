@@ -10,9 +10,7 @@ import moment from 'moment'
 import useCheckExisting from '../auth/hooks/useCheckExisting'
 import AsyncStorage from '../../lib/utils/asyncStorage'
 import { isMobileSafari } from '../../lib/utils/platform'
-import restart from '../../lib/utils/restart'
 import AuthContext from '../auth/context/AuthContext'
-
 import {
   DESTINATION_PATH,
   GD_INITIAL_REG_METHOD,
@@ -31,13 +29,13 @@ import API, { getErrorMessage } from '../../lib/API/api'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import { useDialog } from '../../lib/undux/utils/dialog'
 import BackButtonHandler from '../../lib/utils/handleBackButton'
-import retryImport from '../../lib/utils/retryImport'
 import { showSupportDialog } from '../common/dialogs/showSupportDialog'
 import { getUserModel, type UserModel } from '../../lib/userStorage/UserModel'
 import Config from '../../config/config'
 import { fireEvent, identifyOnUserSignup, identifyWith } from '../../lib/analytics/analytics'
 import { parsePaymentLinkParams } from '../../lib/share'
 import AuthStateWrapper from '../auth/components/AuthStateWrapper'
+import { GoodWalletContext } from '../../lib/wallet/GoodWalletProvider'
 import type { SMSRecord } from './SmsForm'
 import EmailConfirmation from './EmailConfirmation'
 import SmsForm from './SmsForm'
@@ -138,7 +136,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
     skipMagicLinkInfo: true, //isRegMethodSelfCustody === false,
   }
 
-  const [unrecoverableError, setUnrecoverableError] = useState(null)
+  const { goodWallet, userStorage, login: loginWithWallet, isLoggedInJWT } = useContext(GoodWalletContext)
   const [ready, setReady]: [Ready, ((Ready => Ready) | Ready) => void] = useState()
   const [signupData, setSignupData] = useState(initialSignupData)
   const [countryCode, setCountryCode] = useState(undefined)
@@ -200,6 +198,13 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
     return !!masterSeed
   }, [torusUserFromProps, regMethod, navigation.navigate])
 
+  //trigger finishRegistration
+  useEffect(() => {
+    if (goodWallet && userStorage && ready && signupData.finished) {
+      finishRegistration(signupData).then(ok => ok & setSuccessfull(() => store.set('isLoggedIn')(true)))
+    }
+  }, [goodWallet, userStorage, ready, signupData.finished])
+
   const finishRegistration = useCallback(
     async signupData => {
       const { skipEmail, skipEmailConfirmation, skipMagicLinkInfo, ...requestPayload } = signupData
@@ -211,7 +216,6 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
       log.info('Sending new user data', { signupData, regMethod, torusProvider })
 
       try {
-        const { goodWallet, userStorage } = await ready
         const inviteCode = await checkInviteCode()
 
         log.debug('invite code:', { inviteCode })
@@ -279,11 +283,9 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
             }
           })
 
-        //refresh JWT
-        const login = retryImport(() => import('../../lib/login/GoodWalletLogin'))
-        const refresh = true
+        //refresh JWT for a signed up one, server will sign it with permission to use realmdb
+        await loginWithWallet(true)
 
-        await login.then(l => l.default.auth(refresh))
         await userStorage.initRegistered()
 
         const [mnemonic] = await Promise.all([
@@ -364,7 +366,8 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
 
       let nextRoute = getNextRoute(navigation.state.routes, navigation.state.index, signupData)
 
-      const _signupData = { ...signupData, ...data, lastStep: navigation.state.index }
+      //setting finished to true will trigger finishRegistration effect
+      const _signupData = { ...signupData, ...data, lastStep: navigation.state.index, finished: !nextRoute }
 
       setSignupData(_signupData)
       log.info('signup data:', { data, nextRoute, mergedData: _signupData })
@@ -372,11 +375,8 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
       if (!nextRoute) {
         setLoading(false)
 
-        const ok = await finishRegistration(_signupData)
-
-        if (ok) {
-          setSuccessfull(() => store.set('isLoggedIn')(true))
-        }
+        //do nothing here
+        //because setting finished to true (!nextRoute) will trigger finishRegistration effect
       } else if (nextRoute && nextRoute.key === 'SMS') {
         try {
           const result = await checkExisting(torusProvider, { mobile: _signupData.mobile }, { fromSignupFlow: true })
@@ -452,23 +452,6 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
         } finally {
           setLoading(false)
         }
-      } else if (nextRoute.key === 'MagicLinkInfo') {
-        setLoading(false)
-
-        let ok = await finishRegistration(_signupData)
-
-        if (ok) {
-          const { userStorage } = await ready
-
-          if (isRegMethodSelfCustody) {
-            API.sendMagicLinkByEmail(userStorage.getMagicLink())
-              .then(r => log.info('magiclink sent'))
-              .catch(e => log.error('failed sendMagicLinkByEmail', e.message, e))
-          }
-
-          setSuccessfull(() => navigateWithFocus(nextRoute.key))
-          return
-        }
       } else if (nextRoute) {
         return navigateWithFocus(nextRoute.key)
       }
@@ -491,6 +474,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
       torusProvider,
       navigation.state.index,
       navigation.state.routes,
+      userStorage,
     ],
   )
 
@@ -538,64 +522,29 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
     }
   }, [navigateWithFocus, navigation, signupData])
 
+  //this effect will finish initializing when login, wallet and userstorage are available
+  useEffect(() => {
+    const source = '' //TODO: get this from somewhere
+    if (!ready && goodWallet && userStorage) {
+      //lazy login in background while user starts registration
+      ;(async () => {
+        log.debug('ready: Starting initialization', { isRegMethodSelfCustody, torusUserFromProps })
+
+        identifyWith(signupData.email, goodWallet.getAccountForType('login'))
+        fireSignupEvent('STARTED', { source })
+
+        await API.ready
+        log.debug('ready: signupstate ready')
+        setReady(true)
+      })()
+    }
+  }, [goodWallet, userStorage, signupData.email, ready])
+
+  //on mount effect to do some basi checks and init
   useEffect(() => {
     const onMount = async () => {
       //if email from torus then identify user
       signupData.email && identifyOnUserSignup(signupData.email)
-
-      //lazy login in background while user starts registration
-      const ready = (async () => {
-        log.debug('ready: Starting initialization', { isRegMethodSelfCustody, torusUserFromProps })
-
-        const { init } = await retryImport(() => import('../../init'))
-        const { goodWallet, userStorage, source } = await init().catch(exception => {
-          const { message } = exception
-
-          // we've already awaited for userStorage.ready in init()
-          // so here we just handling init exception
-
-          // if initialization failed, logging exception
-          log.error('failed initializing UserStorage', message, exception, { dialogShown: true })
-
-          // and setting unrecoverable error in the state to trigger show "reload app" dialog
-          setUnrecoverableError(exception)
-
-          // re-throw exception
-          throw exception
-        })
-
-        identifyWith(null, goodWallet.getAccountForType('login'))
-        fireSignupEvent('STARTED', { source })
-
-        const apiReady = async () => {
-          await API.ready
-          log.debug('ready: signupstate ready')
-
-          return { goodWallet, userStorage }
-        }
-
-        if (torusUserFromProps.privateKey) {
-          log.debug('skipping ready initialization (already done in AuthTorus)')
-
-          // now that we are logged in, reload api with JWT
-          return apiReady()
-        }
-
-        const login = retryImport(() => import('../../lib/login/GoodWalletLogin'))
-
-        // the login also re-initialize the api with new jwt
-        await login
-          .then(l => l.default.auth())
-          .catch(e => {
-            log.error('failed auth:', e.message, e)
-
-            throw e
-          })
-
-        return apiReady()
-      })()
-
-      setReady(ready)
 
       //get user country code for phone
       //read torus seed
@@ -610,16 +559,6 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
     onMount()
   }, [])
 
-  // listening to the unrecoverable exception could happened if user storage fails to init
-  useEffect(() => {
-    if (!unrecoverableError) {
-      return
-    }
-
-    // eslint-disable-next-line no-restricted-globals
-    showErrorDialog('Wallet could not be loaded. Please refresh.', '', { onDismiss: restart })
-  }, [unrecoverableError, showErrorDialog])
-
   // listening to the email changes in the state
   useEffect(() => {
     const { email } = signupData
@@ -632,16 +571,11 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
     // once email appears in the state - identifying and setting 'identified' flag
     identifyOnUserSignup(email)
 
-    // if we are not skipping email confirmation, then the call to send confirmation email will add user to mautic
-    // otherwise calling also addSignupContact can lead to duplicate mautic contact
-    if (signupData.skipEmailConfirmation === false) {
-      return
-    }
-
+    //add user to crm once we have his email
     API.addSignupContact(signupData)
       .then(() => log.info('addSignupContact success', { state: signupData }))
       .catch(e => log.error('addSignupContact failed', e.message, e))
-  }, [signupData.email])
+  }, [signupData.email, isLoggedInJWT])
 
   useEffect(() => {
     const backButtonHandler = new BackButtonHandler({ defaultAction: back })
@@ -660,7 +594,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
         <AuthProgressBar step={activeStep} done={signupSuccess} />
         <ScrollView contentContainerStyle={scrollableContainer}>
           <View style={contentContainer}>
-            {!unrecoverableError && (
+            {
               <SignupWizardNavigator
                 navigation={navigation}
                 screenProps={{
@@ -669,7 +603,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
                   back,
                 }}
               />
-            )}
+            }
           </View>
         </ScrollView>
       </AuthStateWrapper>

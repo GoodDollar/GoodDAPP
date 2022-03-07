@@ -10,6 +10,9 @@ import { IS_LOGGED_IN } from '../constants/localStorage'
 import userStorage from '../userStorage/UserStorage'
 import goodWallet from '../wallet/GoodWallet'
 
+//TODO: how would this handle metamask accounts??
+//TODO: can we now import goodWallet directly?
+
 const options = {
   minimumFetchInterval: 15,
   forceAlarmManager: false,

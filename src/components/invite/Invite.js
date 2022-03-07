@@ -1,7 +1,8 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { Image, TextInput, View } from 'react-native'
 import { get, isNaN, isNil, noop } from 'lodash'
-import { Avatar, CustomButton, Icon, Section, ShareButton, Text, Wrapper } from '../common'
+import { CustomButton, Icon, Section, ShareButton, Text, Wrapper } from '../common'
+import Avatar from '../common/view/Avatar'
 import { WavesBox } from '../common/view/WavesBox'
 import { theme } from '../theme/styles'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
@@ -16,7 +17,7 @@ import { useDialog } from '../../lib/undux/utils/dialog'
 import LoadingIcon from '../common/modal/LoadingIcon'
 import { InfoIcon } from '../common/modal/InfoIcon'
 
-import goodWallet from '../../lib/wallet/GoodWallet'
+import { useWallet } from '../../lib/wallet/GoodWalletProvider'
 import { extractQueryParams } from '../../lib/utils/uri'
 import {
   registerForInvites,
@@ -134,6 +135,7 @@ const InputCodeBox = ({ navigateTo }) => {
   const [showDialog, hideDialog] = useDialog()
   const inviteCodeUsed = useUserProperty('inviterInviteCodeUsed')
   const [collected, getCanCollect, collectInviteBounty] = useInviteBonus()
+  const goodWallet = useWallet()
 
   const [code, setCode] = useState(userStorage.userProperties.get('inviterInviteCode') || '')
 
@@ -171,7 +173,7 @@ const InputCodeBox = ({ navigateTo }) => {
         },
       ],
     })
-  }, [navigateTo, showDialog])
+  }, [navigateTo, showDialog, goodWallet])
 
   const onSubmit = useCallback(async () => {
     showDialog({
@@ -185,13 +187,13 @@ const InputCodeBox = ({ navigateTo }) => {
     })
 
     try {
-      await registerForInvites(extractedCode)
+      await registerForInvites(extractedCode, goodWallet)
       await collectInviteBounty(onUnableToCollect)
     } catch (e) {
       log.warn('collectInviteBounty failed', e.message, e)
       hideDialog()
     }
-  }, [extractedCode, showDialog, hideDialog, onUnableToCollect, collectInviteBounty])
+  }, [extractedCode, showDialog, hideDialog, onUnableToCollect, collectInviteBounty, goodWallet])
 
   //manages the get reward button state (disabled/enabled)
   useEffect(() => {
@@ -232,7 +234,7 @@ const InputCodeBox = ({ navigateTo }) => {
       log.debug('updating disabled state:', { canCollect })
       setDisabled(!canCollect)
     })
-  }, [extractedCode, isValidCode, inviteCodeUsed, collected, setDisabled, getCanCollect])
+  }, [extractedCode, isValidCode, inviteCodeUsed, collected, setDisabled, getCanCollect, goodWallet])
 
   if (collected) {
     return null

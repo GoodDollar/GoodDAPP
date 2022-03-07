@@ -4,7 +4,7 @@ import { PixelRatio, View } from 'react-native'
 import { isBrowser, isMobileOnlyWeb } from '../../lib/utils/platform'
 import useNativeSharing from '../../lib/hooks/useNativeSharing'
 import { fireEvent, RECEIVE_DONE } from '../../lib/analytics/analytics'
-import goodWallet from '../../lib/wallet/GoodWallet'
+import { useWallet } from '../../lib/wallet/GoodWalletProvider'
 import { PushButton } from '../appNavigation/PushButton'
 import { CopyButton, CustomButton, QRCode, Section, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
@@ -28,14 +28,14 @@ const reason = ''
 
 const Receive = ({ screenProps, styles }: ReceiveProps) => {
   const { fullName } = useProfile() || {}
-
+  const goodWallet = useWallet()
   const share = useMemo(() => {
     const { account, networkId } = goodWallet
     const code = generateCode(account, networkId, amount, reason)
     const shareObject = generateReceiveShareObject(code, amount, '', fullName)
 
     return shareObject
-  }, [fullName])
+  }, [fullName, goodWallet])
 
   const shareLink = useMemo(() => {
     const { url, message } = share || {}

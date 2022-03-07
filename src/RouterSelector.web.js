@@ -1,5 +1,5 @@
 // libraries
-import React, { memo, useEffect, useState } from 'react'
+import React, { memo, useContext, useEffect, useState } from 'react'
 import { Platform } from 'react-native'
 import { pick } from 'lodash'
 
@@ -23,7 +23,7 @@ import isWebApp from './lib/utils/isWebApp'
 import logger from './lib/logger/js-logger'
 import { APP_OPEN, fireEvent, initAnalytics } from './lib/analytics/analytics'
 import handleLinks from './lib/utils/handleLinks'
-
+import { GoodWalletContext } from './lib/wallet/GoodWalletProvider'
 const log = logger.child({ from: 'RouterSelector' })
 
 // identify the case user signup/in using torus redirect flow, so we want to load page asap
@@ -47,9 +47,6 @@ let AppRouter = React.lazy(async () => {
 
   const [module] = await Promise.all([
     retryImport(() => import(/* webpackChunkName: "router" */ './Router')),
-    retryImport(() => import(/* webpackChunkName: "init" */ './init'))
-      .then(({ init }) => init())
-      .then(() => log.debug('storage and wallet ready')),
     delay(animateSplash ? animationDuration : 0),
   ])
 
@@ -93,6 +90,8 @@ const SplashSelector = isAuthReload
   : props => <Splash {...props} />
 
 const RouterSelector = () => {
+  const { initWalletAndStorage } = useContext(GoodWalletContext)
+
   // we use global state for signup process to signal user has registered
   const store = SimpleStore.useStore()
   const isLoggedIn = store.get('isLoggedIn')
@@ -105,8 +104,17 @@ const RouterSelector = () => {
   })
 
   useEffect(() => {
+    log.debug('on mount')
     initAnalytics()
   }, [])
+
+  useEffect(() => {
+    if (!isLoggedIn) {
+      return
+    }
+    log.debug('initWalletStorage', isLoggedIn)
+    return initWalletAndStorage(undefined, 'SEED').then(() => log.debug('storage and wallet ready'))
+  }, [isLoggedIn])
 
   useEffect(() => {
     //once user is logged in check if their browser is supported and show warning if not

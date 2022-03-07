@@ -1,3 +1,4 @@
+import web3Utils from 'web3-utils'
 import React, { useCallback, useState } from 'react'
 import isEmail from '../../lib/validators/isEmail'
 import { BackButton, useScreenState } from '../appNavigation/stackNavigation'
@@ -5,7 +6,6 @@ import userStorage from '../../lib/userStorage/UserStorage'
 import logger from '../../lib/logger/js-logger'
 import InputRecipient from '../common/form/InputRecipient'
 import isMobilePhone from '../../lib/validators/isMobilePhone'
-import goodWallet from '../../lib/wallet/GoodWallet'
 import { CustomButton, IconButton, Section, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
 
@@ -39,7 +39,7 @@ const validate = async to => {
     return null
   }
 
-  if (goodWallet.wallet.utils.isAddress(to)) {
+  if (web3Utils.isAddress(to)) {
     return null
   }
 
@@ -53,14 +53,14 @@ const ContinueButton = ({ push, to, disabled, checkError }) => {
     }
 
     const address = await userStorage.getUserAddress(to).catch(e => undefined)
-    if (address || goodWallet.wallet.utils.isAddress(to)) {
+    if (address || web3Utils.isAddress(to)) {
       return push('Amount', { to: address || to, nextRoutes: ['Reason', 'SendLinkSummary'] })
     }
     if (to && (isMobilePhone(to) || isEmail(to))) {
       return push('Amount', { to, nextRoutes: ['Reason', 'SendLinkSummary'] })
     }
     log.debug(`Oops, no error and no action`)
-  }, [checkError, goodWallet, push, to])
+  }, [checkError, push, to])
 
   return (
     <CustomButton onPress={onContinue} disabled={disabled} style={{ flex: 2 }}>

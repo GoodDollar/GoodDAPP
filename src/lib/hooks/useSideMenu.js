@@ -31,7 +31,7 @@ export default (props = {}) => {
   const showDeleteAccountDialog = useDeleteAccountDialog(showErrorDialog)
 
   const [isSelfCustody, setIsSelfCustody] = useState(false)
-  const { isMenuOn, setMenu } = useContext(GlobalTogglesContext)
+  const { isMenuOn, setMenu, installPrompt } = useContext(GlobalTogglesContext)
   const slideToggle = useCallback(() => setMenu(!isMenuOn), [isMenuOn, setMenu])
   const slideIn = useCallback(() => !isMenuOn && setMenu(true), [isMenuOn, setMenu])
   const slideOut = useCallback(() => isMenuOn && setMenu(false), [isMenuOn, setMenu])
@@ -65,8 +65,6 @@ export default (props = {}) => {
   )
 
   const topItems = useMemo(() => {
-    const installPrompt = store.get('installPrompt')
-
     let items = [
       {
         icon: 'profile',
@@ -181,7 +179,7 @@ export default (props = {}) => {
     ]
 
     return items
-  }, [isSelfCustody, slideOut, navigation, store])
+  }, [isSelfCustody, slideOut, navigation, installPrompt])
 
   return {
     slideIn,

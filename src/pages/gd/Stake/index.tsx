@@ -196,7 +196,8 @@ const StakeTable = ({
                                     </td>
                                     <td>
                                         <ActionOrSwitchButton
-                                            disabled={securityNotice}
+                                          disabled={stake.protocol === LIQUIDITY_PROTOCOL.GOODDAO}
+                                            // disabled={securityNotice}
                                             size="sm"
                                             width="78px"
                                             borderRadius="6px"
@@ -206,14 +207,18 @@ const StakeTable = ({
                                                 setActiveStake(stake)
                                                 setActiveTableName()
                                             }}
-                                        > {i18n._(t`Stake`)}
+                                        > { stake.protocol === LIQUIDITY_PROTOCOL.GOODDAO ?
+                                          i18n._(t`Unavailable`) : 
+                                          i18n._(t`Stake`)
+                                          }
                                         </ActionOrSwitchButton>
                                     </td>
                                 </tr>
                                 <tr className="mobile">
                                     <td colSpan={8}>
                                         <ActionOrSwitchButton
-                                            disabled={securityNotice}
+                                            disabled={stake.protocol === LIQUIDITY_PROTOCOL.GOODDAO}
+                                            // disabled={securityNotice}
                                             size="sm"
                                             borderRadius="6px"
                                             noShadow={true}
@@ -222,7 +227,10 @@ const StakeTable = ({
                                                 setActiveStake(stake)
                                                 setActiveTableName()
                                             }}
-                                        > {i18n._(t`Stake`)}                                            
+                                        > { stake.protocol === LIQUIDITY_PROTOCOL.GOODDAO ?
+                                            i18n._(t`Unavailable`) : 
+                                            i18n._(t`Stake`)
+                                          }                                           
                                         </ActionOrSwitchButton>
                                     </td>
                                 </tr>

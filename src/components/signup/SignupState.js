@@ -379,7 +379,9 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
         //because setting finished to true (!nextRoute) will trigger finishRegistration effect
       } else if (nextRoute && nextRoute.key === 'SMS') {
         try {
-          const result = await checkExisting(torusProvider, { mobile: _signupData.mobile }, { fromSignupFlow: true })
+          const result = await checkExisting(torusProvider, { mobile: _signupData.mobile }, undefined, {
+            fromSignupFlow: true,
+          })
 
           if (result !== 'signup') {
             return
@@ -410,7 +412,9 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
         try {
           setLoading(true)
 
-          const result = await checkExisting(torusProvider, { email: _signupData.email }, { fromSignupFlow: true })
+          const result = await checkExisting(torusProvider, { email: _signupData.email }, undefined, {
+            fromSignupFlow: true,
+          })
 
           if (result !== 'signup') {
             return

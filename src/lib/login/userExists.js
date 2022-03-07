@@ -1,14 +1,10 @@
 // @flow
 import { default as API } from '../API/api'
-import { GoodWallet } from '../wallet/WalletClassSelector'
 
-export const userExists = async ({ mnemonics, privateKey, email, mobile }): Promise<any> => {
-  const walletSeed = mnemonics || privateKey
+export const userExists = async ({ mnemonics, privateKey, email, mobile }, goodWallet): Promise<any> => {
   let identifier
-  if (walletSeed) {
-    const wallet = new GoodWallet({ mnemonic: walletSeed })
-    await wallet.ready
-    identifier = wallet.getAccountForType('login')
+  if (goodWallet) {
+    identifier = goodWallet.getAccountForType('login')
   }
 
   if (![identifier, email, mobile].find(_ => _)) {

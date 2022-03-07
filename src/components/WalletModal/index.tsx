@@ -6,7 +6,7 @@ import { isMobile } from 'react-device-detect'
 import styled from 'styled-components'
 import MetamaskIcon from '../../assets/images/metamask.png'
 import { ReactComponent as Close } from '../../assets/images/x.svg'
-import { injected } from '../../connectors'
+import { injected, walletlink } from '../../connectors'
 import { ExternalProvider, SUPPORTED_WALLETS } from '../../constants'
 import usePrevious from '../../hooks/usePrevious'
 import { ApplicationModal } from '../../state/application/types'
@@ -143,20 +143,20 @@ const ModalContent = (props: any) => {
         if (networkType === 'staging') {
             toggleNetworkModal()
         } else if (networkType === 'production') {
-            metaMaskRequests(metaMaskInfo, 'switch')
+              metaMaskRequests(metaMaskInfo, 'switch')
             toggleWalletModal()
         }
-    }, [toggleNetworkModal, toggleWalletModal, metaMaskInfo])
+    }, [ethereum, toggleNetworkModal, toggleWalletModal])
 
     const handleFuseNetworkSwitch = useCallback(() => {
-        metaMaskRequests(metaMaskInfo, 'add', account)
-        toggleWalletModal()
-    }, [account, toggleWalletModal, metaMaskInfo])
+      metaMaskRequests(metaMaskInfo, 'add', account)
+      toggleWalletModal()
+    }, [account, ethereum, toggleWalletModal])
 
-    function getOptions() {
+    function getOptions() { 
         return Object.keys(SUPPORTED_WALLETS).map(key => {
             const option = SUPPORTED_WALLETS[key]
-
+ 
             // check for mobile options 
             if (isMobile) {
                 if (!window.web3 && !window.ethereum && option.mobile) {
@@ -201,13 +201,13 @@ const ModalContent = (props: any) => {
 
                 // don't return metamask if injected provider isn't metamask
                 else if (option.name === 'MetaMask' && !metaMaskInfo.isMetaMask) {
-                    return null
+                  return null
                 }
             }
 
-            // if (option.connector === walletlink) {
-            //     return null
-            // }
+            if (option.connector === walletlink){
+              return null
+            }
 
             // return rest of options (WalletConnect / Walletlink(ie. coinbase))
             return (

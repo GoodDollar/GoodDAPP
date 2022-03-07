@@ -2,7 +2,7 @@ import { AbstractConnector } from '@web3-react/abstract-connector'
 import { darken } from 'polished'
 import React from 'react'
 import styled from 'styled-components'
-import { injected } from '../../connectors'
+import { injected, walletlink } from '../../connectors'
 import { SUPPORTED_WALLETS } from '../../constants'
 import Loader from '../Loader'
 import Option from './Option'
@@ -78,7 +78,7 @@ export default function PendingView({
     tryActivation: (connector: AbstractConnector) => void
 }) {
     const { i18n } = useLingui()
-
+ 
     const { ethereum } = window
     const metaMaskInfo = useMetaMask()
     // const isCoinbase = window.walletLinkExtension
@@ -115,15 +115,15 @@ export default function PendingView({
                             return null
                         }
                     }
-                    // if (option.connector === walletlink) {
-                    //   return null
-                    //   // if (isCoinbase && option.name !== 'Coinbase') {
-                    //   //   return null
-                    //   // }
-                    //   // if (!isCoinbase && option.name === 'Coinbase') {
-                    //   //   return null
-                    //   // }
-                    // }
+                    if (option.connector === walletlink) {
+                      return null
+                      // if (isCoinbase && option.name !== 'Coinbase') {
+                      //   return null
+                      // }
+                      // if (!isCoinbase && option.name === 'Coinbase') {
+                      //   return null
+                      // }
+                    }
                     return (
                         <Option
                             id={`connect-${key}`}

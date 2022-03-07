@@ -19,15 +19,39 @@ export function simpleStakingContractV2(web3: Web3, address: string) {
 }
 
 /**
- * Returns staking all available addresses.
+ * Returns staking all available addresses for V2.
  * @param {Web3} web3 Web3 instance.
  * @returns {Promise<string[]>}
  */
-export async function getSimpleStakingContractAddressesV2(web3: Web3): Promise<string[]> {
+ export async function getSimpleStakingContractAddressesV2(web3: Web3): Promise<string[]> {
+  const chainId = await getChainId(web3)
+
+  try {
+    const _addresses = G$ContractAddresses<Array<string[] | string>>(chainId, 'StakingContractsV2')
+    const addresses = []
+    for (const rawAddress of _addresses) {
+        if (Array.isArray(rawAddress)) {
+            addresses.push(rawAddress[0])
+        } else {
+            addresses.push(rawAddress)
+        }
+    }
+    return addresses
+  } catch(error) {
+    return []
+  }
+}
+
+/**
+ * Returns staking all available addresses for V3.
+ * @param {Web3} web3 Web3 instance.
+ * @returns {Promise<string[]>}
+ */
+export async function getSimpleStakingContractAddressesV3(web3: Web3): Promise<string[]> {
     const chainId = await getChainId(web3)
   
     try {
-      const _addresses = G$ContractAddresses<Array<string[] | string>>(chainId, 'StakingContractsV2')
+      const _addresses = G$ContractAddresses<Array<string[] | string>>(chainId, 'StakingContractsV3')
       const addresses = []
       for (const rawAddress of _addresses) {
           if (Array.isArray(rawAddress)) {

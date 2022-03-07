@@ -138,7 +138,7 @@ const PARAMS: {
             symbol: 'FUSE',
             decimals: 18
         },
-        rpcUrls: ['https://rpc.fuse.io'],
+        rpcUrls: [process.env.REACT_APP_FUSE_RPC ?? 'https://rpc.fuse.io'],
         blockExplorerUrls: ['https://explorer.fuse.io']
     }
 }
@@ -210,7 +210,7 @@ export default function NetworkModal(): JSX.Element | null {
                 )}
             </TextWrapper>
 
-            <div className="flex flex-col space-y-5 overflow-y-auto mt-3">
+            <div className="flex flex-col mt-3 space-y-5 overflow-y-auto">
                 {allowedNetworks.map((key: ChainId | AdditionalChainId) => {
                     return (
                         <Option

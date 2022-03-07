@@ -1,7 +1,7 @@
 import { useEffect, useState, useMemo } from 'react'
 import { BigNumber } from '@ethersproject/bignumber'
 import { getContract } from 'sdk/utils/getContract'
-import GovernanceStaking from '@gooddollar/goodprotocol/artifacts/contracts/governance/GovarnanceStaking.sol/GovernanceStaking.json'
+import GovernanceStaking from '@gooddollar/goodprotocol/artifacts/contracts/governance/GovernanceStaking.sol/GovernanceStaking.json'
 import { DAO_NETWORK, SupportedChainId } from 'sdk/constants/chains'
 import { getReserveRatio, Stake, getReserveSocialAPY } from 'sdk/staking'
 import { G$, GDAO } from 'sdk/constants/tokens'
@@ -19,6 +19,11 @@ export const useGovernanceStaking = (): Array<Stake> => {
     const stakingContract = useMemo(
         () => fuseWeb3 && getContract(SupportedChainId.FUSE, 'GovernanceStaking', GovernanceStaking.abi, fuseWeb3),
         [fuseWeb3]
+    )
+
+    const stakingContractV2 = useMemo(
+      () => fuseWeb3 && getContract(SupportedChainId.FUSE, 'GovernanceStakingV2', GovernanceStaking.abi, fuseWeb3),
+      [fuseWeb3]
     )
 
     useEffect(() => {

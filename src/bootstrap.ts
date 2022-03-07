@@ -1,13 +1,12 @@
 // Bootstrap...
 
-import { BigNumber, BigNumberish } from '@ethersproject/bignumber'
+import { BigNumber, BigNumberish, parseFixed } from '@ethersproject/bignumber'
 import { Zero } from '@ethersproject/constants'
-import { parseUnits } from '@ethersproject/units'
 import Fraction from './entities/Fraction'
 
 String.prototype.toBigNumber = function(decimals: BigNumberish): BigNumber {
     try {
-        return parseUnits(this as string, decimals)
+        return parseFixed(this as string, decimals)
     } catch (error) {
         console.debug(`Failed to parse input amount: "${this}"`, error)
     }

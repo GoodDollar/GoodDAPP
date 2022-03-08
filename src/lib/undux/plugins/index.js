@@ -1,4 +1,6 @@
+import { withReduxDevtools } from 'undux'
 import { compose } from 'lodash/fp'
+import { appEnv } from '../../utils/env'
 import withPinoLogger from './logger'
 import createStoreAccessor from './storeAccessor'
 
@@ -12,6 +14,7 @@ export default () => {
     storeEffects: compose(
       withPinoLogger,
       withStoreAccessor,
+      appEnv && withReduxDevtools,
     ),
   }
 }

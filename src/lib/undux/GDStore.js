@@ -1,7 +1,9 @@
 // @flow
-import { createConnectedStore, type StoreDefinition } from 'undux'
+import { createConnectedStore, type StoreDefinition, withReduxDevtools } from 'undux'
 import { compose } from 'lodash/fp'
 import type { StandardFeed } from '../userStorage/StandardFeed'
+import { appEnv } from '../utils/env'
+
 import withPinoLogger from './plugins/logger'
 import { createUseCurriedSettersHook, createUseStorePropHook } from './utils/props'
 
@@ -79,7 +81,13 @@ const initialState: State = {
  * default exported instance of our global Undux Store
  * @module
  */
-const GDStore: StoreDefinition<State> = createConnectedStore(initialState, compose(withPinoLogger))
+const GDStore: StoreDefinition<State> = createConnectedStore(
+  initialState,
+  compose(
+    withPinoLogger,
+    appEnv && withReduxDevtools,
+  ),
+)
 
 export const useCurriedSetters = createUseCurriedSettersHook(() => GDStore)
 

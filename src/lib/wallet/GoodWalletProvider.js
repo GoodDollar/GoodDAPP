@@ -28,14 +28,23 @@ export const GoodWalletProvider = ({ children }) => {
   //when new wallet set the web3provider for future use with usedapp
   useEffect(() => {
     if (goodWallet) {
-      setWeb3(new HDWalletProvider(goodWallet.accounts, goodWallet.wallet._provider.host))
+      // FIXME: acquire rpcHost for metamask / walletconnect
+      const rpcHost = goodWallet.wallet._provider.host
+      if (!rpcHost) {
+        return
+      }
+      setWeb3(new HDWalletProvider(goodWallet.accounts, rpcHost))
     }
   }, [goodWallet])
 
   const switchWeb3ProviderNetwork = useCallback(
     // eslint-disable-next-line require-await
     async id => {
-      setWeb3(new HDWalletProvider(goodWallet.accounts, goodWallet.wallet._provider.host))
+      const rpcHost = goodWallet.wallet._provider.host
+      if (!rpcHost) {
+        return
+      }
+      setWeb3(new HDWalletProvider(goodWallet.accounts, rpcHost))
     },
     [web3Provider],
   )

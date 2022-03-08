@@ -2,6 +2,8 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { Platform } from 'react-native'
 import { get } from 'lodash'
+import Web3 from 'web3'
+
 import AsyncStorage from '../../../lib/utils/asyncStorage'
 import logger from '../../../lib/logger/js-logger'
 import {
@@ -15,7 +17,12 @@ import {
   TORUS_SUCCESS,
 } from '../../../lib/analytics/analytics'
 import { GD_USER_MASTERSEED, GD_USER_MNEMONIC, IS_LOGGED_IN } from '../../../lib/constants/localStorage'
-import { REGISTRATION_METHOD_SELF_CUSTODY, REGISTRATION_METHOD_TORUS } from '../../../lib/constants/login'
+import {
+  REGISTRATION_METHOD_OTHERS,
+  REGISTRATION_METHOD_SELF_CUSTODY,
+  REGISTRATION_METHOD_TORUS,
+} from '../../../lib/constants/login'
+
 import { withStyles } from '../../../lib/styles'
 import config from '../../../config/config'
 import { theme as mainTheme } from '../../theme/styles'
@@ -35,9 +42,30 @@ import SignUpIn from '../login/SignUpScreen'
 import DeepLinking from '../../../lib/utils/deepLinking'
 import { GoodWalletContext } from '../../../lib/wallet/GoodWalletProvider'
 
+import * as metamask from '../../../lib/connectors/metamask'
+
 import AuthContext from '../context/AuthContext'
 import useTorus from './hooks/useTorus'
+
 const log = logger.child({ from: 'AuthTorus' })
+
+async function otherWalletLogin(provider) {
+  if (provider === 'metamask') {
+    await metamask.metaMask.activate()
+
+    const web3 = new Web3(Web3.givenProvider)
+    if (!web3.eth.defaultAccount) {
+      web3.eth.defaultAccount = metamask.metaMask.provider.selectedAddress
+    }
+
+    return web3
+  } else if (provider === 'walletconnect') {
+    //
+  } else {
+    log.error('unknown provider', provider)
+    throw new Error('unknown provider: ' + provider)
+  }
+}
 
 const AuthTorus = ({ screenProps, navigation, styles, store }) => {
   const { initWalletAndStorage } = useContext(GoodWalletContext)
@@ -169,7 +197,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
       | 'auth0'
       | 'auth0-pwdless-email'
       | 'auth0-pwdless-sms'
-      | 'wallet-connect'
+      | 'walletconnect'
       | 'metamask',
     torusUserRedirectPromise,
   ) => {
@@ -200,12 +228,16 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
       torusPopupMode, // for a/b testing, it always be false in case of redirect
     })
 
+    let regMethod
+
     if (['metamask', 'walletconnect'].includes(provider)) {
-      // web3Provider = await otherWalletLogin(provider)
+      regMethod = REGISTRATION_METHOD_OTHERS
+      web3Provider = await otherWalletLogin(provider)
       torusUser = {
         publicAddress: web3Provider.address,
       }
     } else {
+      regMethod = REGISTRATION_METHOD_TORUS
       let torusResponse
 
       try {
@@ -277,7 +309,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
 
           // create account
           return navigate('Signup', {
-            regMethod: REGISTRATION_METHOD_TORUS,
+            regMethod,
             torusUser,
             torusProvider: provider,
           })

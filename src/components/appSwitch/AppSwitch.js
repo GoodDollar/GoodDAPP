@@ -139,6 +139,7 @@ const AppSwitch = (props: LoadingProps) => {
   const initialize = async () => {
     AsyncStorage.setItem('GD_version', 'phase' + config.phase)
 
+    // FIXME: add REGISTRATION_METHOD_OTHERS case
     const regMethod = (await AsyncStorage.getItem(GD_USER_MASTERSEED).then(_ => !!_))
       ? REGISTRATION_METHOD_TORUS
       : REGISTRATION_METHOD_SELF_CUSTODY

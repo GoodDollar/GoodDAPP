@@ -204,7 +204,7 @@ LoginButton.WalletConnect = withStyles(getStylesFromProps)(
   ({ styles, disabled, onPress = noop, handleLoginMethod, ...props }) => {
     // const onAuth = useCallback(() => {
     //   onPress()
-    //   handleLoginMethod('wallet-connect')
+    //   handleLoginMethod('walletconnect')
     // }, [handleLoginMethod, onPress])
 
     const connector = useWalletConnect()
@@ -267,10 +267,10 @@ LoginButton.WalletConnect = withStyles(getStylesFromProps)(
 
 LoginButton.MetaMask = withStyles(getStylesFromProps)(
   ({ styles, disabled, onPress = noop, handleLoginMethod, ...props }) => {
-    // const onAuth = useCallback(() => {
-    //   onPress()
-    //   handleLoginMethod('metamask')
-    // }, [handleLoginMethod, onPress])
+    const onAuth = useCallback(() => {
+      onPress()
+      handleLoginMethod('metamask')
+    }, [handleLoginMethod, onPress])
 
     const [metamaskInstalled, setMetamaskInstalled] = useState(false)
 
@@ -287,7 +287,7 @@ LoginButton.MetaMask = withStyles(getStylesFromProps)(
     const [showErrorDialog] = useErrorDialog()
 
     const { useError, useIsActive } = metamask.hooks
-    const connector = metamask.metaMask
+
     const error = useError()
 
     const isActive = useIsActive()
@@ -311,7 +311,7 @@ LoginButton.MetaMask = withStyles(getStylesFromProps)(
             backgroundColor: mainTheme.colors.metamMaskOrange,
           },
         ]}
-        onPress={isActive ? () => connector.deactivate() : () => connector.activate()}
+        onPress={onAuth}
         disabled={!handleLoginMethod || disabled}
         testID="login_with_metamask"
         iconProps={{ viewBox: '0 0 11 22' }}

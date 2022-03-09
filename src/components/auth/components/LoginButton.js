@@ -202,12 +202,13 @@ LoginButton.Passwordless = withStyles(getStylesFromProps)(
 
 LoginButton.WalletConnect = withStyles(getStylesFromProps)(
   ({ styles, disabled, onPress = noop, handleLoginMethod, ...props }) => {
-    // const onAuth = useCallback(() => {
-    //   onPress()
-    //   handleLoginMethod('walletconnect')
-    // }, [handleLoginMethod, onPress])
+    const onAuth = useCallback(() => {
+      onPress()
+      handleLoginMethod('walletconnect')
+    }, [handleLoginMethod, onPress])
 
     const connector = useWalletConnect()
+
     const [connected, setConnected] = useState(connector.connected)
 
     // connector events:
@@ -225,10 +226,13 @@ LoginButton.WalletConnect = withStyles(getStylesFromProps)(
       log.debug('WalletConnect connected')
 
       // temporary fix for walletconnect
-      connector.connected = true
+      connector._connected = true
       connector.peerId = params?.[0]?.peerId
       connector.peerMeta = params?.[0]?.peerMeta
       connector.chainId = params?.[0]?.chainId
+      connector.accounts = params?.[0]?.accounts
+
+      onAuth()
 
       setConnected(true)
     })

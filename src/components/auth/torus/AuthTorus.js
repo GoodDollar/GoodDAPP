@@ -4,6 +4,10 @@ import { Platform } from 'react-native'
 import { get } from 'lodash'
 import Web3 from 'web3'
 
+import type WalletConnect from '@walletconnect/client'
+import WalletConnectProvider from '@walletconnect/web3-provider'
+import { useWalletConnect } from '@walletconnect/react-native-dapp'
+
 import AsyncStorage from '../../../lib/utils/asyncStorage'
 import logger from '../../../lib/logger/js-logger'
 import {
@@ -18,9 +22,10 @@ import {
 } from '../../../lib/analytics/analytics'
 import { GD_USER_MASTERSEED, GD_USER_MNEMONIC, IS_LOGGED_IN } from '../../../lib/constants/localStorage'
 import {
-  REGISTRATION_METHOD_OTHERS,
+  REGISTRATION_METHOD_METAMASK,
   REGISTRATION_METHOD_SELF_CUSTODY,
   REGISTRATION_METHOD_TORUS,
+  REGISTRATION_METHOD_WALLETCONNECT,
 } from '../../../lib/constants/login'
 
 import { withStyles } from '../../../lib/styles'
@@ -49,22 +54,33 @@ import useTorus from './hooks/useTorus'
 
 const log = logger.child({ from: 'AuthTorus' })
 
-async function otherWalletLogin(provider) {
-  if (provider === 'metamask') {
-    await metamask.metaMask.activate()
-
-    const web3 = new Web3(Web3.givenProvider)
-    if (!web3.eth.defaultAccount) {
-      web3.eth.defaultAccount = metamask.metaMask.provider.selectedAddress
-    }
-
-    return web3
-  } else if (provider === 'walletconnect') {
-    //
-  } else {
-    log.error('unknown provider', provider)
-    throw new Error('unknown provider: ' + provider)
+async function metamaskLogin() {
+  await metamask.metaMask.activate()
+  const web3 = new Web3(Web3.givenProvider)
+  if (!web3.eth.defaultAccount) {
+    web3.eth.defaultAccount = metamask.metaMask.provider.selectedAddress
   }
+
+  return web3
+}
+
+async function walletconnectLogin(connector: WalletConnect) {
+  const provider = new WalletConnectProvider({
+    bridge: connector.bridge,
+    chainId: connector.chainId,
+    clientMeta: connector.clientMeta,
+    connector,
+    infuraId: config.infuraKey,
+    rpc: connector.rpcUrl,
+  })
+  await provider.enable()
+  const web3 = new Web3(provider)
+
+  if (!web3.eth.defaultAccount) {
+    web3.eth.defaultAccount = web3.currentProvider.accounts?.[0]
+  }
+
+  return web3
 }
 
 const AuthTorus = ({ screenProps, navigation, styles, store }) => {
@@ -75,6 +91,8 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
   const [torusSDK, sdkInitialized] = useTorus()
   const [authScreen, setAuthScreen] = useState(get(navigation, 'state.params.screen'))
   const { navigate } = navigation
+
+  const walletConnectConnector = useWalletConnect()
 
   const getTorusUserRedirect = async () => {
     if (!sdkInitialized || torusSDK.popupMode) {
@@ -219,7 +237,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
       return selfCustodyLogin()
     }
 
-    let web3Provider, torusUser
+    let web3, torusUser
     setWalletPreparing(true)
 
     // in case this is triggered as a callback after redirect we fire a different vent
@@ -230,11 +248,17 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
 
     let regMethod
 
-    if (['metamask', 'walletconnect'].includes(provider)) {
-      regMethod = REGISTRATION_METHOD_OTHERS
-      web3Provider = await otherWalletLogin(provider)
+    if (provider === 'walletconnect') {
+      regMethod = REGISTRATION_METHOD_WALLETCONNECT
+      web3 = await walletconnectLogin(walletConnectConnector)
       torusUser = {
-        publicAddress: web3Provider.address,
+        publicAddress: web3.currentProvider.accounts[0],
+      }
+    } else if (provider === 'metamask') {
+      regMethod = REGISTRATION_METHOD_METAMASK
+      web3 = await metamaskLogin()
+      torusUser = {
+        publicAddress: web3.address,
       }
     } else {
       regMethod = REGISTRATION_METHOD_TORUS
@@ -278,8 +302,8 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
       // get full name, email, number, userId
 
       const goodWallet = await initWalletAndStorage(
-        web3Provider ? web3Provider : torusUser.privateKey,
-        web3Provider ? provider.toUpperCase() : 'SEED',
+        web3 ? web3 : torusUser.privateKey,
+        web3 ? provider.toUpperCase() : 'SEED',
       )
       const existsResult = await checkExisting(provider, torusUser, goodWallet)
 

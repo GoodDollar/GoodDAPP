@@ -84,7 +84,7 @@ class SoftwareWalletProvider {
     if (web3) {
       // https://github.com/ChainSafe/web3.js/issues/4780
       // use web3.eth.personal.sign as workaround for metamask
-      const sign = web3.currentProvider.isMetaMask ? web3.eth.personal.sign : web3.eth.sign
+      const sign = web3.currentProvider?.isMetaMask ? web3.eth.personal.sign : web3.eth.sign
       pkey = await sign('GD_IDENTIFIERS', web3.eth.defaultAccount).then(_ => _.slice(2, 66)) //32 bytes psuedo key
     } else {
       pkey = this.conf.mnemonic || (await getMnemonics())

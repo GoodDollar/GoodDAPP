@@ -9,6 +9,7 @@ import { updateFeedEventAvatar } from '../updates/utils/feed'
 
 import Config from '../../config/config'
 import logger from '../../lib/logger/js-logger'
+import CeramicFeed from '../ceramic/CeramicFeed'
 import type { UserStorage } from './UserStorageClass'
 import { asLogRecord } from './utlis'
 
@@ -157,6 +158,20 @@ export class FeedStorage {
     //mark as initialized, ie resolve ready promise
     await this.storage.ready
     this.storage.on(data => this.emitUpdate(data))
+
+    // this is just the demo stub about how to read fead
+    try {
+      const feeds = await CeramicFeed.getFeeds() // get feeds to fulfill tabs
+      const feed = await CeramicFeed.getMainFeed() // get main news feed
+      const posts = await CeramicFeed.getPosts(feed.id) // get main news feed
+
+      log.debug('Ceramic feed', { feeds, feed, posts })
+    } catch (e) {
+      log.error('Ceramic error', e.message, e)
+    }
+
+    // end demo stub
+
     this.feedInitialized = true
     this.setReady()
   }

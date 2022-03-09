@@ -29,12 +29,12 @@ export const serializeDocument = (document: any) => {
 }
 
 export const serializeCollection = (documents: any[]) => {
-  return documents.map(this.serializeDocument)
+  return documents.map(serializeDocument)
 }
 
 export const serializePagination = (pagination: any) => {
   let { items } = pagination
-  items = items.map(this._serializeDocument)
+  items = items.map(serializeDocument)
 
   return {
     ...pagination,

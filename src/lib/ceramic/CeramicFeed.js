@@ -51,7 +51,7 @@ class CeramicFeed {
     const document = documentOrFeed
     let { picture } = document
 
-    if (!isValidCID(picture)) {
+    if (isValidCID(picture)) {
       picture = await IPFS.load(picture)
     }
 

@@ -64,6 +64,11 @@ async function metamaskLogin() {
 }
 
 async function walletconnectLogin() {
+  const rpc = Object.keys(config.ethereum).reduce((acc, key) => {
+    acc[key] = config.ethereum[key].httpWeb3provider
+    return acc
+  }, {})
+
   const provider = new WalletConnectProvider({
     bridge: 'https://bridge.walletconnect.org',
     clientMeta: {
@@ -74,9 +79,7 @@ async function walletconnectLogin() {
     },
     infuraId: config.infuraKey,
     qrcodeModal: QRCodeModal,
-    rpc: {
-      '122': 'https://rpc.fuse.io',
-    },
+    rpc,
   })
 
   const connector = provider.connector

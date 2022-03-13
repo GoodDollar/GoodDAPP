@@ -72,10 +72,11 @@ async function walletconnectLogin() {
   const provider = new WalletConnectProvider({
     bridge: 'https://bridge.walletconnect.org',
     clientMeta: {
-      description: 'Connect with WalletConnect',
-      url: 'https://walletconnect.org',
-      icons: ['https://walletconnect.org/walletconnect-logo.png'],
-      name: 'WalletConnect',
+      name: 'GoodDollar Wallet',
+      url: 'https://wallet.gooddollar.org/',
+      icons: ['https://wallet.gooddollar.org/apple-icon.png'],
+      description:
+        'GoodDollar is a non-profit protocol and G$ digital coin to deliver universal basic income on a global scale.',
     },
     infuraId: config.infuraKey,
     qrcodeModal: QRCodeModal,

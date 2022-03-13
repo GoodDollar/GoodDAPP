@@ -11,6 +11,8 @@ export type WalletConfig = {
 }
 const networkToId = network => {
   switch (network) {
+    case 'ethereum':
+      return '1'
     case 'fuse':
     case 'staging':
     case 'production':

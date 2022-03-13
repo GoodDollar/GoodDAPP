@@ -4,9 +4,8 @@ import { Platform } from 'react-native'
 import { get } from 'lodash'
 import Web3 from 'web3'
 
-import type WalletConnect from '@walletconnect/client'
 import WalletConnectProvider from '@walletconnect/web3-provider'
-import { useWalletConnect } from '@walletconnect/react-native-dapp'
+import QRCodeModal from '@walletconnect/qrcode-modal'
 
 import AsyncStorage from '../../../lib/utils/asyncStorage'
 import logger from '../../../lib/logger/js-logger'
@@ -64,20 +63,34 @@ async function metamaskLogin() {
   return web3
 }
 
-async function walletconnectLogin(connector: WalletConnect) {
+async function walletconnectLogin() {
   const provider = new WalletConnectProvider({
-    bridge: connector.bridge,
-    chainId: connector.chainId,
-    clientMeta: connector.clientMeta,
-    connector,
+    bridge: 'https://bridge.walletconnect.org',
+    clientMeta: {
+      description: 'Connect with WalletConnect',
+      url: 'https://walletconnect.org',
+      icons: ['https://walletconnect.org/walletconnect-logo.png'],
+      name: 'WalletConnect',
+    },
     infuraId: config.infuraKey,
-    rpc: connector.rpcUrl,
+    qrcodeModal: QRCodeModal,
+    rpc: {
+      '122': 'https://rpc.fuse.io',
+    },
   })
+
+  const connector = provider.connector
+
+  // force reconnect to trigger qr code modal
+  if (connector.connected) {
+    await connector.killSession()
+  }
+  await connector.connect()
   await provider.enable()
   const web3 = new Web3(provider)
 
   if (!web3.eth.defaultAccount) {
-    web3.eth.defaultAccount = web3.currentProvider.accounts?.[0]
+    web3.eth.defaultAccount = connector.accounts?.[0]
   }
 
   return web3
@@ -91,8 +104,6 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
   const [torusSDK, sdkInitialized] = useTorus()
   const [authScreen, setAuthScreen] = useState(get(navigation, 'state.params.screen'))
   const { navigate } = navigation
-
-  const walletConnectConnector = useWalletConnect()
 
   const getTorusUserRedirect = async () => {
     if (!sdkInitialized || torusSDK.popupMode) {
@@ -250,7 +261,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
 
     if (provider === 'walletconnect') {
       regMethod = REGISTRATION_METHOD_WALLETCONNECT
-      web3 = await walletconnectLogin(walletConnectConnector)
+      web3 = await walletconnectLogin()
       torusUser = {
         publicAddress: web3.currentProvider.accounts[0],
       }

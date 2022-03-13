@@ -6,8 +6,6 @@ import '../lib/shim'
 import '../lib/gundb/gundb'
 import AsyncStorage from '../lib/utils/asyncStorage'
 
-import WalletConnectProvider from '../lib/login/WalletConnectProvider'
-
 import Config from '../config/config'
 
 import SimpleStore, { initStore } from '../lib/undux/SimpleStore'
@@ -56,11 +54,9 @@ const AppHolder = () => {
 
   return (
     <SimpleStore.Container>
-      <WalletConnectProvider>
-        <ActionSheetProvider>
-          <AppHot />
-        </ActionSheetProvider>
-      </WalletConnectProvider>
+      <ActionSheetProvider>
+        <AppHot />
+      </ActionSheetProvider>
     </SimpleStore.Container>
   )
 }

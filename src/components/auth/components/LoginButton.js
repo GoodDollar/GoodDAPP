@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { TouchableOpacity } from 'react-native'
 
-import { useWalletConnect } from '@walletconnect/react-native-dapp'
 import detectEthereumProvider from '@metamask/detect-provider'
 
 import { noop } from 'lodash'
@@ -207,42 +206,6 @@ LoginButton.WalletConnect = withStyles(getStylesFromProps)(
       handleLoginMethod('walletconnect')
     }, [handleLoginMethod, onPress])
 
-    const connector = useWalletConnect()
-
-    const [connected, setConnected] = useState(connector.connected)
-
-    // connector events:
-    // 'session_request',
-    // 'session_update',
-    // 'exchange_key',
-    // 'connect',
-    // 'disconnect',
-    // 'display_uri',
-    // 'modal_closed',
-    // 'transport_open',
-    // 'transport_close',
-    // 'transport_error',
-    connector.on('connect', (err, { event, params }) => {
-      log.debug('WalletConnect connected')
-
-      // temporary fix for walletconnect
-      connector._connected = true
-      connector.peerId = params?.[0]?.peerId
-      connector.peerMeta = params?.[0]?.peerMeta
-      connector.chainId = params?.[0]?.chainId
-      connector.accounts = params?.[0]?.accounts
-
-      onAuth()
-
-      setConnected(true)
-    })
-
-    connector.on('disconnect', () => {
-      log.debug('WalletConnect disconnected')
-
-      setConnected(false)
-    })
-
     return (
       <LoginButton
         style={[
@@ -252,18 +215,12 @@ LoginButton.WalletConnect = withStyles(getStylesFromProps)(
             backgroundColor: mainTheme.colors.walletConnectBlue,
           },
         ]}
-        onPress={() => {
-          if (connected) {
-            connector.killSession(null)
-          } else {
-            connector.connect()
-          }
-        }}
+        onPress={onAuth}
         disabled={!handleLoginMethod || disabled}
         testID="login_with_walletConnect"
         iconProps={{ viewBox: '0 0 11 22' }}
       >
-        {connected ? 'Disconnect' : `${buttonPrefix} WalletConnect`}
+        {`${buttonPrefix} WalletConnect`}
       </LoginButton>
     )
   },

@@ -52,12 +52,14 @@ export const GoodWalletProvider = ({ children }) => {
   const initWalletAndStorage = useCallback(
     async (seedOrWeb3, type: 'SEED' | 'METAMASK' | 'WALLETCONNECT' | 'OTHER') => {
       try {
+        const web3 = type !== 'SEED' ? seedOrWeb3 : undefined
         const wallet = new GoodWallet({
           mnemonic: type === 'SEED' ? seedOrWeb3 : undefined,
-          web3: type !== 'SEED' ? seedOrWeb3 : undefined,
+          web3,
           web3Transport: Config.web3TransportProvider,
+          httpWeb3provider: web3 !== undefined ? web3.currentProvider?.http?.url : undefined,
         })
-        await wallet.init()
+        await wallet.ready
         const userStorage = new UserStorage(wallet, db, new UserProperties(db))
         await UserStorage.ready
         setWalletAndStorage({ goodWallet: wallet, userStorage })

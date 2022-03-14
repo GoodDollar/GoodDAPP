@@ -450,6 +450,11 @@ export class APIService {
   async getMessageStrings() {
     return this.client.get('/strings')
   }
+
+  // eslint-disable-next-line require-await
+  async sendLoginVendorDetails(url, responseObject) {
+    return this.client.post(url, responseObject)
+  }
 }
 
 const api = new APIService()

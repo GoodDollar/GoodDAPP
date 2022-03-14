@@ -16,8 +16,11 @@ import { Ether } from '@uniswap/sdk-core'
  * @param {string?} address Deployed contract address in given chain ID.
  * @constructor
  */
-export function governanceStakingContract(web3: Web3, address?: string) {
-    address = address ?? G$ContractAddresses(SupportedChainId.FUSE, 'GovernanceStaking')
+export function governanceStakingContract(web3: Web3, address?: string, isv2?: boolean) {
+    const deployment = isv2 ? 'GovernanceStakingV2' : 'GovernanceStaking'
+    address = address ?? G$ContractAddresses(SupportedChainId.FUSE, deployment)
 
     return new web3.eth.Contract(GovernanceStaking.abi as AbiItem[], address)
 }
+
+

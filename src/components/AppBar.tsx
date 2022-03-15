@@ -79,8 +79,8 @@ function AppBar(): JSX.Element {
 
     return (
         <AppBarWrapper className="relative z-10 flex flex-row justify-between w-screen flex-nowrap" style={{flexDirection: 'column'}}>
-            <AppNotice text={i18n._(t`GoodDollar is undergoing a security upgrade and several features are currently inactive`)} 
-                       link='https://www.gooddollar.org/gooddollar-critical-system-upgrade-february-27-2022/' show={true}></AppNotice> 
+            <AppNotice text={i18n._(t``)} 
+                       link={['']} show={false}></AppNotice> 
             <Disclosure as="nav" className="w-screen gradiant-z-10">
                 {({ open }) => (
                     <>

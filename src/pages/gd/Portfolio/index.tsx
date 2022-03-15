@@ -20,6 +20,8 @@ import { useLingui } from '@lingui/react'
 import { useEnvWeb3 } from 'sdk/hooks/useEnvWeb3'
 import { ActionOrSwitchButton } from 'components/gd/Button/ActionOrSwitchButton'
 import useCallbackOnFocus from 'hooks/useCallbackOnFocus'
+import AppNotice from 'components/AppNotice'
+import { isMobile } from 'react-device-detect'
 
 const Portfolio = () => {
     const { i18n } = useLingui()
@@ -27,6 +29,10 @@ const Portfolio = () => {
     const { chainId, account } = useActiveWeb3React()
     const [mainnetWeb3, mainnetChainId] = useEnvWeb3(DAO_NETWORK.MAINNET)
     const [fuseWeb3, fuseChainId] = useEnvWeb3(DAO_NETWORK.FUSE)
+
+    const newGovString = isMobile ? 
+      <span>Please withdraw your {" "} Governance V1 stake and use {" "} our new</span> :
+      'Please withdraw your Governance V1 stake and use our new' 
 
     const [data, , , update] = usePromise(async () => {
         const list = account && mainnetWeb3 && fuseWeb3 ? await getMyList(mainnetWeb3, fuseWeb3, account) : []
@@ -179,7 +185,10 @@ const Portfolio = () => {
                 </PortfolioAnalyticSC>
             </Card>
             <PortfolioTitleSC className="pl-2 mb-3">{i18n._(`Positions`)}</PortfolioTitleSC>
-            <Card contentWrapped={false}>
+            <Card contentWrapped={false} style={{position:'relative'}}>
+            <AppNotice text={newGovString} 
+                       link={['https://goodswap.xyz/#/stakes','https://www.gooddollar.org/gooddollar-critical-system-upgrade-february-27-2022/']} 
+                       show={true}></AppNotice> 
                 <Table
                     header={
                         <tr>

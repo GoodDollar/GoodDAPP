@@ -31,7 +31,7 @@ justify-content: center;
     text-align: center;
   }
   div {
-    width: 200px
+    width: 180px
   }
 }
 `
@@ -58,8 +58,8 @@ function AppNotice(props: AppNoticeProps): JSX.Element {
           {props.link && (
               <AppNoticeLink href={props.link[0]}
               target="_blank"
-              rel="noreferrer"> Governance V2</AppNoticeLink>)
-          } contract. 
+              rel="noreferrer"> Contracts</AppNoticeLink>)
+          }.
           {props.link && (
             <AppNoticeLink href={props.link[1]} style={{lineHeight: '2.2'}}
               target="_blank" 

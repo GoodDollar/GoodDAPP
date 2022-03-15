@@ -31,10 +31,6 @@ const Portfolio = () => {
     const [mainnetWeb3, mainnetChainId] = useEnvWeb3(DAO_NETWORK.MAINNET)
     const [fuseWeb3, fuseChainId] = useEnvWeb3(DAO_NETWORK.FUSE)
 
-    const newGovString = isMobile ? 
-      <span>Please withdraw your {" "} Governance V1 stake and use {" "}{" "} our new</span> :
-      'Please withdraw your Governance V1 stake and use our new' 
-
     const [data, , , update] = usePromise(async () => {
         const list = account && mainnetWeb3 && fuseWeb3 ? await getMyList(mainnetWeb3, fuseWeb3, account) : []
         return {
@@ -81,6 +77,12 @@ const Portfolio = () => {
             )
         }
     }, [account, mainnetChainId, fuseChainId])
+
+    const showNotice = data?.list.map(stake => {
+      return (stake.protocol === LIQUIDITY_PROTOCOL.GOODDAO && !stake.isV2
+              && stake.protocol === LIQUIDITY_PROTOCOL.GOODDAO && !stake.isV3
+        )
+    })
 
     useCallbackOnFocus(update)
 
@@ -187,12 +189,11 @@ const Portfolio = () => {
             </Card>
             <PortfolioTitleSC className="pl-2 mb-3">{i18n._(`Positions`)}</PortfolioTitleSC>
             <Card contentWrapped={false} style={{position:'relative'}}>
-            {data?.list.map(stake => (
-               stake.protocol === LIQUIDITY_PROTOCOL.GOODDAO && !stake.isV2 && (
-                  <AppNotice text={newGovString} 
+            {showNotice?.indexOf(true) !== -1 && (
+                  <AppNotice text={'Please withdraw your funds from all deprecated contracts and use our new' } 
                     link={['https://goodswap.xyz/#/stakes','https://www.gooddollar.org/gooddollar-critical-system-upgrade-february-27-2022/']} 
                     show={true}></AppNotice> 
-               )))}
+               )}
                 <Table
                     header={
                         <tr>

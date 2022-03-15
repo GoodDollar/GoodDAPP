@@ -51,7 +51,8 @@ export type MyStake = {
     stake: { amount: CurrencyAmount<Currency>; amount$: CurrencyAmount<Currency> }
     tokens: { A: Token; B: Token }
     network: DAO_NETWORK,
-    isV2?: boolean
+    isV2?: boolean,
+    isV3?: boolean
 }
 
 /**
@@ -97,7 +98,7 @@ export async function getMyList(mainnetWeb3: Web3, fuseWeb3: Web3, account: stri
         const govStake = governanceStakingAddresses.map(stake => metaMyGovStake(fuseWeb3, account, stake.address, stake.release))
         simpleStakingAddresses.map(address => govStake.push(metaMyStake(mainnetWeb3, address, account, false)))
         simpleStakingAddressesv2.map(address => govStake.push(metaMyStake(mainnetWeb3, address, account, true)))
-        simpleStakingAddressesv3.map(address => govStake.push(metaMyStake(mainnetWeb3, address, account, true))) 
+        simpleStakingAddressesv3.map(address => govStake.push(metaMyStake(mainnetWeb3, address, account, true, true))) 
         const stakesRawList = await Promise.all(govStake)
         stakes = stakesRawList.filter(Boolean) as MyStake[]
     } catch (e) {
@@ -159,7 +160,7 @@ async function metaStake(web3: Web3, address: string, isV2: boolean): Promise<St
  *  @param {string} account account details to fetch.
  * @returns {Promise<Stake | null>}
  */
-async function metaMyStake(web3: Web3, address: string, account: string, isV2: boolean): Promise<MyStake | null> {
+async function metaMyStake(web3: Web3, address: string, account: string, isV2: boolean, isV3?: boolean): Promise<MyStake | null> {
     debugGroup(`My stake for ${address}`)
 
     const simpleStaking = isV2 ? simpleStakingContractV2(web3, address) : simpleStakingContract(web3, address)
@@ -248,7 +249,8 @@ async function metaMyStake(web3: Web3, address: string, account: string, isV2: b
         stake: { amount, amount$ },
         tokens: { A: token, B: iToken },
         network: DAO_NETWORK.MAINNET,
-        isV2: isV2
+        isV2: isV2,
+        isV3: isV3
     }
 
     debug('Reward $ claimed', result.rewards.reward$.claimed.toSignificant(6))

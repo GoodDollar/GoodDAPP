@@ -49,7 +49,7 @@ export type AppNoticeProps = {
 }
 
 function AppNotice(props: AppNoticeProps): JSX.Element {
-  const learnMore = isMobile ? <span>{" "}{" "} Learn more here.</span> : ' Learn more here. '
+  // const learnMore = isMobile ? <span>{" "}{" "} Learn more here.</span> : ' Learn more here. '
   return (
     <>
       { props.show && (
@@ -59,12 +59,12 @@ function AppNotice(props: AppNoticeProps): JSX.Element {
               <AppNoticeLink href={props.link[0]}
               target="_blank"
               rel="noreferrer"> Contracts</AppNoticeLink>)
-          }.
+          }. Learn more
           {props.link && (
             <AppNoticeLink href={props.link[1]} style={{lineHeight: '2.2'}}
               target="_blank" 
-              rel="noreferrer">{learnMore}</AppNoticeLink>
-          )} 
+              rel="noreferrer"> here</AppNoticeLink>
+          )}.
           </div>
 
         </AppNoticeBanner>)}

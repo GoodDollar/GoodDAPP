@@ -29,7 +29,9 @@ function PortfolioTableRow({ stake, onWithdraw }: PortfolioTableRowProps) {
                 stake={stake}
             />
             <tr>
-                <td>{stake.protocol === LIQUIDITY_PROTOCOL.GOODDAO ? "Governance" : "UBI"}</td>
+                <td>{
+                stake.protocol === LIQUIDITY_PROTOCOL.GOODDAO ? stake.isV2 ? "Governance V2" : "Governance V1" 
+                  : "UBI"}</td>
                 <td>
                     {stake.tokens.A.symbol}{stake.tokens.A.address !== stake.tokens.B.address ?? `/ ${stake.tokens.B.symbol}`}
                 </td>

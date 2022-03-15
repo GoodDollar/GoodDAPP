@@ -5,7 +5,7 @@ import { Currency, CurrencyAmount, Fraction, MaxUint256, Percent, Token } from '
 import { MaxUint256 as MaxApproveValue } from '@ethersproject/constants'
 import { getSimpleStakingContractAddresses, simpleStakingContract } from './contracts/SimpleStakingContract'
 import { getSimpleStakingContractAddressesV2, getSimpleStakingContractAddressesV3, simpleStakingContractV2, getUsdOracle } from './contracts/SimpleStakingContractV3'
-import { governanceStakingContract } from './contracts/GovernanceStakingContract'
+import { governanceStakingContract, getGovernanceStakingContracts } from './contracts/GovernanceStakingContract'
 import { goodFundManagerContract } from './contracts/GoodFundManagerContract'
 import { goodMarketMakerContract } from './contracts/GoodMarketMakerContract'
 import { getToken, getTokenByAddress } from './methods/tokenLists'
@@ -88,22 +88,18 @@ export async function getMyList(mainnetWeb3: Web3, fuseWeb3: Web3, account: stri
     const simpleStakingAddresses = await getSimpleStakingContractAddresses(mainnetWeb3)
     const simpleStakingAddressesv2 = await getSimpleStakingContractAddressesV2(mainnetWeb3)
     const simpleStakingAddressesv3 = await getSimpleStakingContractAddressesV3(mainnetWeb3)
+    const governanceStakingAddresses = await getGovernanceStakingContracts()
 
     cacheClear(getTokenPriceInUSDC)
 
     let stakes: MyStake[] = []
     try {
-        const govStake = await metaMyGovStake(fuseWeb3, account)
-        const ps = simpleStakingAddresses.map(address => metaMyStake(mainnetWeb3, address, account, false))
-        simpleStakingAddressesv2.map(address => ps.push(metaMyStake(mainnetWeb3, address, account, true)))
-        simpleStakingAddressesv3.map(address => ps.push(metaMyStake(mainnetWeb3, address, account, true))) 
-        const stakesRawList = await Promise.all(ps)
+        const govStake = governanceStakingAddresses.map(stake => metaMyGovStake(fuseWeb3, account, stake.address, stake.release))
+        simpleStakingAddresses.map(address => govStake.push(metaMyStake(mainnetWeb3, address, account, false)))
+        simpleStakingAddressesv2.map(address => govStake.push(metaMyStake(mainnetWeb3, address, account, true)))
+        simpleStakingAddressesv3.map(address => govStake.push(metaMyStake(mainnetWeb3, address, account, true))) 
+        const stakesRawList = await Promise.all(govStake)
         stakes = stakesRawList.filter(Boolean) as MyStake[]
-        if (govStake){
-          for (const [version, stake] of Object.entries(govStake)){
-            stakes = [...stakes, stake]
-          }
-        }
     } catch (e) {
         console.log(e)
     }
@@ -271,71 +267,54 @@ async function metaMyStake(web3: Web3, address: string, account: string, isV2: b
  *  @param {string} account account details to fetch.
  * @returns {Promise<Stake | null>}
  */
-async function metaMyGovStake(web3: Web3, account: string): Promise<MyStake[] | null> {
-    const govStaking = governanceStakingContract(web3)
-    const govStakingV2 = governanceStakingContract(web3, undefined, true)
+async function metaMyGovStake(web3: Web3, account: string, address?: string, release?: string): Promise<MyStake | null> {
+  const govStaking = governanceStakingContract(web3, address)
 
-    const G$Token = G$[SupportedChainId.FUSE] //gov is always on fuse
-    const usdcToken = USDC[SupportedChainId.MAINNET]
-    const users = await govStaking.methods.users(account).call()
-    const usersv2 = await govStakingV2.methods.users(account).call()
-
-    const stakes = {
-      v1: (!users || parseInt(users.amount.toString()) === 0),
-      v2: (!usersv2 || parseInt(usersv2.amount.toString()) === 0)
-    }
-
-    if (stakes.v1 && stakes.v2){
+  const G$Token = G$[SupportedChainId.FUSE] //gov is always on fuse
+  const usdcToken = USDC[SupportedChainId.MAINNET]
+  const users = await govStaking.methods.users(account).call()
+  if (!users || parseInt(users.amount.toString()) === 0) {
       return null
-    }
+  }
 
-    let result:MyStake[] = []
+  const amount = CurrencyAmount.fromRawAmount(G$Token, users.amount.toString())
 
-    for (const [version, noStake] of Object.entries(stakes)){
-      if (!noStake){
-        const contract = version === 'v2' ? govStakingV2 : govStaking
-        const user = version === 'v2' ? usersv2 : users
-        const amount = CurrencyAmount.fromRawAmount(G$Token, user.amount.toString())
+  const tokenPrice = await g$Price()
 
-        const tokenPrice = await g$Price()
-    
-        let amount$ = CurrencyAmount.fromRawAmount(G$Token, 0)
-        if (tokenPrice) {
-          const value = amount.multiply(tokenPrice.DAI).multiply(1e4)
-          amount$ = CurrencyAmount.fromFractionalAmount(usdcToken, value.numerator, value.denominator)
-        } else {
-          amount$ = CurrencyAmount.fromRawAmount(usdcToken, 0)
-        }
-    
-        const unclaimed = await contract.methods.getUserPendingReward(account).call()
-        const rewardGDAO = {
-            claimed: CurrencyAmount.fromRawAmount(GDAO[SupportedChainId.MAINNET], user.rewardMinted.toString()),
-            unclaimed: CurrencyAmount.fromRawAmount(GDAO[SupportedChainId.MAINNET], unclaimed.toString())
-        }
-    
-        const G$MainToken = G$[SupportedChainId.MAINNET] as Token
-        const stake = {
-          address: (contract as any)._address,
-          protocol: LIQUIDITY_PROTOCOL.GOODDAO,
-          multiplier: false,
-          rewards: {
-              reward: {
-                  claimed: CurrencyAmount.fromRawAmount(G$MainToken, 0),
-                  unclaimed: CurrencyAmount.fromRawAmount(G$MainToken, 0)
-              },
-              reward$: {
-                  claimed: CurrencyAmount.fromRawAmount(G$MainToken, 0),
-                  unclaimed: CurrencyAmount.fromRawAmount(G$MainToken, 0)
-              },
-              GDAO: rewardGDAO
+  let amount$ = CurrencyAmount.fromRawAmount(G$Token, 0)
+  if (tokenPrice) {
+    const value = amount.multiply(tokenPrice.DAI).multiply(1e4)
+    amount$ = CurrencyAmount.fromFractionalAmount(usdcToken, value.numerator, value.denominator)
+  } else {
+    amount$ = CurrencyAmount.fromRawAmount(usdcToken, 0)
+  }
+
+  const unclaimed = await govStaking.methods.getUserPendingReward(account).call()
+  const rewardGDAO = {
+      claimed: CurrencyAmount.fromRawAmount(GDAO[SupportedChainId.MAINNET], users.rewardMinted.toString()),
+      unclaimed: CurrencyAmount.fromRawAmount(GDAO[SupportedChainId.MAINNET], unclaimed.toString())
+  }
+
+  const G$MainToken = G$[SupportedChainId.MAINNET] as Token
+  const result = {
+      address: (govStaking as any)._address,
+      protocol: LIQUIDITY_PROTOCOL.GOODDAO,
+      multiplier: false,
+      rewards: {
+          reward: {
+              claimed: CurrencyAmount.fromRawAmount(G$MainToken, 0),
+              unclaimed: CurrencyAmount.fromRawAmount(G$MainToken, 0)
           },
-          stake: { amount, amount$ },
-          tokens: { A: G$Token, B: G$Token },
-          network: DAO_NETWORK.FUSE,
-          isV2: version === 'v2'
-        }
-        result = [...result, stake]
-      }
+          reward$: {
+              claimed: CurrencyAmount.fromRawAmount(G$MainToken, 0),
+              unclaimed: CurrencyAmount.fromRawAmount(G$MainToken, 0)
+          },
+          GDAO: rewardGDAO
+      },
+      stake: { amount, amount$ },
+      tokens: { A: G$Token, B: G$Token },
+      network: DAO_NETWORK.FUSE,
+      isV2: release === 'v2',
     }
     return result
 }
@@ -901,7 +880,7 @@ export async function stakeGov(
     inInterestToken = false, //unused - only for compatability with the stake method
     onSent?: (transactionHash: string, from: string) => void
 ): Promise<TransactionDetails> {
-    const contract = governanceStakingContract(web3, address, true)
+    const contract = governanceStakingContract(web3, address)
     const account = await getAccount(web3)
 
     const tokenAmount = amount.toBigNumber(token.decimals)

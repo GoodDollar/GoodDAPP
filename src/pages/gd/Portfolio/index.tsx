@@ -22,6 +22,7 @@ import { ActionOrSwitchButton } from 'components/gd/Button/ActionOrSwitchButton'
 import useCallbackOnFocus from 'hooks/useCallbackOnFocus'
 import AppNotice from 'components/AppNotice'
 import { isMobile } from 'react-device-detect'
+import { LIQUIDITY_PROTOCOL } from 'sdk/constants/protocols'
 
 const Portfolio = () => {
     const { i18n } = useLingui()
@@ -31,7 +32,7 @@ const Portfolio = () => {
     const [fuseWeb3, fuseChainId] = useEnvWeb3(DAO_NETWORK.FUSE)
 
     const newGovString = isMobile ? 
-      <span>Please withdraw your {" "} Governance V1 stake and use {" "} our new</span> :
+      <span>Please withdraw your {" "} Governance V1 stake and use {" "}{" "} our new</span> :
       'Please withdraw your Governance V1 stake and use our new' 
 
     const [data, , , update] = usePromise(async () => {
@@ -186,9 +187,12 @@ const Portfolio = () => {
             </Card>
             <PortfolioTitleSC className="pl-2 mb-3">{i18n._(`Positions`)}</PortfolioTitleSC>
             <Card contentWrapped={false} style={{position:'relative'}}>
-            <AppNotice text={newGovString} 
-                       link={['https://goodswap.xyz/#/stakes','https://www.gooddollar.org/gooddollar-critical-system-upgrade-february-27-2022/']} 
-                       show={true}></AppNotice> 
+            {data?.list.map(stake => (
+               stake.protocol === LIQUIDITY_PROTOCOL.GOODDAO && !stake.isV2 && (
+                  <AppNotice text={newGovString} 
+                    link={['https://goodswap.xyz/#/stakes','https://www.gooddollar.org/gooddollar-critical-system-upgrade-february-27-2022/']} 
+                    show={true}></AppNotice> 
+               )))}
                 <Table
                     header={
                         <tr>

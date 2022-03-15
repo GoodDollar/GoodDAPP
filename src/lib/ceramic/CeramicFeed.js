@@ -1,26 +1,24 @@
 // @flow
 /* eslint-disable require-await */
 
-import { isValidCID } from '../ipfs/utils'
+import { isArray, noop } from 'lodash'
+import Config from '../../config/config'
+
 import IPFS from '../ipfs/IpfsStorage'
-import { Feed, Post } from './models'
-import { isPagination, serializeCollection, serializeDocument, serializePagination } from './client'
+import { isValidCID } from '../ipfs/utils'
+import { CeramicModel, serializeCollection, serializeDocument } from './client'
+
+class Post extends CeramicModel {
+  static index = Config.ceramicIndex
+
+  static liveIndex = Config.ceramicLiveIndex
+}
 
 class CeramicFeed {
+  subscriptions = new WeakMap()
+
   get client() {
-    return Feed.client
-  }
-
-  async getFeeds() {
-    const feeds = await Feed.all()
-
-    return serializeCollection(feeds)
-  }
-
-  async getMainFeed() {
-    const [mainFeed] = await Feed.all()
-
-    return serializeDocument(mainFeed)
+    return Post.client
   }
 
   async getPost(postId: string) {
@@ -30,22 +28,45 @@ class CeramicFeed {
     return this._loadPostPictures(serialized)
   }
 
-  async getPosts(feedId: string, page: number = 1, count: number = 10) {
-    const feedPosts = await Post.paginateBy('feed', feedId, page, count)
-    const serialized = serializePagination(feedPosts)
+  async getPosts() {
+    const feedPosts = await Post.all()
+    const serialized = serializeCollection(feedPosts)
 
     return this._loadPostPictures(serialized)
   }
 
+  async subscribe(onAction = noop) {
+    const liveIndex = await Post.getLiveIndex()
+    const subscription = liveIndex.subscribe(({ content }) => {
+      const { action, item } = content
+
+      onAction(action, item)
+    })
+
+    this.subscriptions.set(onAction, subscription)
+    return subscription
+  }
+
+  unsubscribe(onAction = noop) {
+    const { subscriptions } = this
+
+    if (!subscriptions.has(onAction)) {
+      return
+    }
+
+    const subscription = subscriptions.get(onAction)
+
+    if (!subscription.closed) {
+      subscriptions.get(onAction).unsubscribe()
+    }
+
+    subscriptions.delete(onAction)
+  }
+
   /** @private */
   async _loadPostPictures(documentOrFeed: any) {
-    if (isPagination(documentOrFeed)) {
-      const feed = documentOrFeed
-      let { items } = feed
-
-      items = await Promise.all(items.map(async (document: object) => this._loadPostPictures(document)))
-
-      return { ...feed, items }
+    if (isArray(documentOrFeed)) {
+      return Promise.all(documentOrFeed.map(async (document: object) => this._loadPostPictures(document)))
     }
 
     const document = documentOrFeed

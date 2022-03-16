@@ -994,14 +994,15 @@ export async function claimGood(
     } else {
         const stakersDistribution = await stakersDistributionContract(web3)
         const simpleStakingReleases = await getSimpleStakingContractAddressesV3(web3)
+        
         const simpleStakingAddresses: any[] = []
-        for (const releases of simpleStakingReleases){
-          if (releases.release){
-            for (const [key, address] of Object.entries(releases.addresses)){
-              simpleStakingAddresses.push(address)
-            }
+        const stakeV3 = simpleStakingReleases.find(releases => releases.release === "v3")
+        if (stakeV3){
+          for (const [key, address] of Object.entries(stakeV3.addresses)){
+            simpleStakingAddresses.push(address)
           }
         }
+
         transactions.push(stakersDistribution.methods.claimReputation(account, simpleStakingAddresses).send({ from: account }))
     }
     
@@ -1037,19 +1038,18 @@ export async function claim(
     const simpleStakingReleases = await getSimpleStakingContractAddressesV3(web3)
 
     const transactions: any[] = []
-    for (const releases of simpleStakingReleases) {
-      if (releases.release){
-        const isDeprecated = releases.release !== "v3"
-        for (const [key, address] of Object.entries(releases.addresses)){
-          const [rewardG$, rewardGDAO] = await Promise.all([
-            getRewardG$(web3, address, account, isDeprecated),
-            getRewardGDAO(web3, address, account)
-          ])
-  
-          if (!rewardG$.unclaimed.equalTo(0)) {
-            const simpleStaking = !isDeprecated ? simpleStakingContractV2(web3, address) : simpleStakingContract(web3, address)
-            transactions.push(simpleStaking.methods.withdrawRewards().send({ from: account }))
-          }
+    const stakeV3 = simpleStakingReleases.find(releases => releases.release === "v3")
+
+    if (stakeV3) {
+      for (const [key, address] of Object.entries(stakeV3.addresses)){
+        const [rewardG$, rewardGDAO] = await Promise.all([
+          getRewardG$(web3, address, account, false),
+          getRewardGDAO(web3, address, account)
+        ])
+
+        if (!rewardG$.unclaimed.equalTo(0)) {
+          const simpleStaking = simpleStakingContractV2(web3, address)
+          transactions.push(simpleStaking.methods.withdrawRewards().send({ from: account }))
         }
       }
     }

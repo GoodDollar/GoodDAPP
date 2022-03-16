@@ -78,11 +78,8 @@ const Portfolio = () => {
         }
     }, [account, mainnetChainId, fuseChainId])
 
-    const showNotice = data?.list.map(stake => {
-      return (stake.protocol === LIQUIDITY_PROTOCOL.GOODDAO && !stake.isV2
-              && stake.protocol === LIQUIDITY_PROTOCOL.GOODDAO && !stake.isV3
-        )
-    })
+
+    const showNotice = data?.list.find(stake => stake.isDeprecated)
 
     useCallbackOnFocus(update)
 
@@ -189,7 +186,7 @@ const Portfolio = () => {
             </Card>
             <PortfolioTitleSC className="pl-2 mb-3">{i18n._(`Positions`)}</PortfolioTitleSC>
             <Card contentWrapped={false} style={{position:'relative'}}>
-            {showNotice?.indexOf(true) !== -1 && (
+            {showNotice && (
                   <AppNotice text={'Please withdraw your funds from all deprecated contracts and use our new' } 
                     link={['https://goodswap.xyz/#/stakes','https://www.gooddollar.org/gooddollar-critical-system-upgrade-february-27-2022/']} 
                     show={true}></AppNotice> 

@@ -16,10 +16,6 @@ export const useGovernanceStaking = (): Array<Stake> => {
     const [mainnetWeb3, mainnetChainId] = useEnvWeb3(DAO_NETWORK.MAINNET)
     const [fuseWeb3] = useEnvWeb3(DAO_NETWORK.FUSE)
     const [stakes, setStakes] = useState<Array<Stake>>([])
-    const stakingContract = useMemo(
-        () => fuseWeb3 && getContract(SupportedChainId.FUSE, 'GovernanceStaking', GovernanceStaking.abi, fuseWeb3),
-        [fuseWeb3]
-    )
 
     const stakingContractV2 = useMemo(
       () => fuseWeb3 && getContract(SupportedChainId.FUSE, 'GovernanceStakingV2', GovernanceStaking.abi, fuseWeb3),
@@ -28,16 +24,16 @@ export const useGovernanceStaking = (): Array<Stake> => {
 
     useEffect(() => {
         const readData = async () => {
-            if (mainnetWeb3 && stakingContract) {
+            if (mainnetWeb3 && stakingContractV2) {
                 const [goodRewardsPerYear, totalStaked] = await Promise.all([
-                    stakingContract.getRewardsPerBlock().then((_: BigNumber) => _.mul(12 * 60 * 24 * 365)),
-                    stakingContract.totalSupply()
+                  stakingContractV2.getRewardsPerBlock().then((_: BigNumber) => _.mul(12 * 60 * 24 * 365)),
+                  stakingContractV2.totalSupply()
                 ])
 
                 const socialAPY = await getReserveSocialAPY(mainnetWeb3, mainnetChainId)
 
                 const stakeData: Stake = {
-                    address: stakingContract.address,
+                    address: stakingContractV2.address,
                     socialAPY: socialAPY,
                     protocol: LIQUIDITY_PROTOCOL.GOODDAO,
                     rewards: {
@@ -51,7 +47,7 @@ export const useGovernanceStaking = (): Array<Stake> => {
             }
         }
         readData()
-    }, [stakingContract, setStakes, mainnetWeb3])
+    }, [stakingContractV2, setStakes, mainnetWeb3])
     // const [balance, setBalance] = useState<string>('0')
     return stakes
     // const masterChefV2Contract = useMasterChefV2Contract()

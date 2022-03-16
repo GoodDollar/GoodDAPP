@@ -196,8 +196,6 @@ const StakeTable = ({
                                     </td>
                                     <td>
                                         <ActionOrSwitchButton
-                                          disabled={stake.protocol === LIQUIDITY_PROTOCOL.GOODDAO}
-                                            // disabled={securityNotice}
                                             size="sm"
                                             width="78px"
                                             borderRadius="6px"
@@ -207,8 +205,7 @@ const StakeTable = ({
                                                 setActiveStake(stake)
                                                 setActiveTableName()
                                             }}
-                                        > { stake.protocol === LIQUIDITY_PROTOCOL.GOODDAO ?
-                                          i18n._(t`Unavailable`) : 
+                                        > { 
                                           i18n._(t`Stake`)
                                           }
                                         </ActionOrSwitchButton>
@@ -217,8 +214,6 @@ const StakeTable = ({
                                 <tr className="mobile">
                                     <td colSpan={8}>
                                         <ActionOrSwitchButton
-                                            disabled={stake.protocol === LIQUIDITY_PROTOCOL.GOODDAO}
-                                            // disabled={securityNotice}
                                             size="sm"
                                             borderRadius="6px"
                                             noShadow={true}
@@ -227,8 +222,7 @@ const StakeTable = ({
                                                 setActiveStake(stake)
                                                 setActiveTableName()
                                             }}
-                                        > { stake.protocol === LIQUIDITY_PROTOCOL.GOODDAO ?
-                                            i18n._(t`Unavailable`) : 
+                                        > { 
                                             i18n._(t`Stake`)
                                           }                                           
                                         </ActionOrSwitchButton>

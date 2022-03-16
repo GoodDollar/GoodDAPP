@@ -48,11 +48,15 @@ export class CeramicModel {
   }
 
   static async find(id: string): Promise<TileDocument> {
-    return TileDocument.load(this.ceramic, id)
+    return this.loadDocument(id)
   }
 
   static async getLiveIndex(): Promise<TileDocument> {
     return this._getIndex(true)
+  }
+
+  static async loadDocument(id: string): Promise<TileDocument> {
+    return TileDocument.load(this.ceramic, id)
   }
 
   /** @private */
@@ -63,7 +67,7 @@ export class CeramicModel {
       throw new Error(`${forLiveUpdates ? 'Primary' : 'Live'} index isn't defined`)
     }
 
-    return this.find(indexID)
+    return this.loadDocument(indexID)
   }
 
   /** @private */

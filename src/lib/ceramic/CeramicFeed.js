@@ -1,13 +1,17 @@
 // @flow
 /* eslint-disable require-await */
 
-import { isArray, isEmpty, noop, pick } from 'lodash'
+import { isArray, isEmpty, negate } from 'lodash'
 import Config from '../../config/config'
 
 import IPFS from '../ipfs/IpfsStorage'
 import { isValidCID } from '../ipfs/utils'
+import logger from '../../lib/logger/js-logger'
 import { CeramicModel, serializeCollection, serializeDocument } from './client'
 
+const log = logger.child({ from: 'CeramicFeed' })
+
+// TODO: add logging
 class Post extends CeramicModel {
   static index = Config.ceramicIndex
 
@@ -35,74 +39,99 @@ class CeramicFeed {
     return this._loadPostPictures(serialized)
   }
 
-  async getHistory(afterHistoryId) {
-    let history = []
+  async getHistory(afterHistoryId = null) {
     const { allCommitIds, commitId } = await Post.getLiveIndex()
+    let commitIds = allCommitIds.map(String)
+    let history = []
 
     if (afterHistoryId) {
       const afterId = String(afterHistoryId)
-      let afterIndex = allCommitIds.findIndex(commitId => String(commitId) === afterId)
+      let afterIndex = allCommitIds.findIndex(commitId => commitId === afterId)
 
-      if (afterIndex >= 0) {
-        const commits = await Promise.all(
-          allCommitIds.slice(afterIndex + 1).map(async commitId => CeramicModel.loadDocument(commitId)),
-        )
-          .filter(({ content }) => !isEmpty(content))
-          .map(({ content }) => pick(content, 'item', 'action'))
-
-        // prepare state map
-        const map = commits.reduce((acc, { item, action }) => {
-          const itemState = item in acc ? { ...acc[item] } : {}
-
-          itemState[action] = true
-          return { ...acc, [item]: itemState }
-        }, {})
-
-        history = commits.filter(({ item, action }) => {
-          switch (action) {
-            case 'added':
-              // if item was added then removed during last changes - don't need to fetch it
-              return !map[item].removed
-            case 'updated':
-              // getting item will return latest content - don't need to refetch it on each update
-              return !map[item].added
-            default:
-              // always return 'removed' actions
-              return true
-          }
-        })
+      if (afterIndex < 0) {
+        throw new Error(`Couldn't find history id '${afterId}'`)
       }
+
+      commitIds = commitIds.slice(afterIndex + 1)
     }
 
-    return { historyId: commitId, history }
-  }
+    log.debug('Got commit IDs:', { commitIds })
 
-  async subscribe(onAction = noop) {
-    const liveIndex = await Post.getLiveIndex()
-    const subscription = liveIndex.subscribe(({ content }) => {
-      const { action, item } = content
+    const commits = await Promise.all(
+      commitIds.map(async cid => {
+        const { content, commitId } = await CeramicModel.loadDocument(cid)
 
-      onAction(action, item)
+        log.debug('Got commit document:', { commitId: String(commitId), content })
+        return content
+      }),
+    ).then(documents => documents.filter(negate(isEmpty)))
+
+    log.debug('Got commits:', { commits })
+
+    // prepare state map
+    const map = commits.reduce((itemStates, { item, action }) => {
+      const itemState = item in itemStates ? { ...itemStates[item] } : {}
+
+      itemState[action] = true
+      return { ...itemStates, [item]: itemState }
+    }, {})
+
+    history = commits.filter(({ item, action }) => {
+      switch (action) {
+        case 'added':
+          // if item was added then removed during last changes - don't need to fetch it
+          return !map[item].removed
+        case 'updated':
+          // getting item will return latest content - don't need to refetch it on each update
+          return !map[item].added
+        default:
+          // always return 'removed' actions
+          return true
+      }
     })
 
-    this.subscriptions.set(onAction, subscription)
+    return { historyId: String(commitId), history }
+  }
+
+  /**
+   * //TODO: maybe unused ?
+   * @deprecated
+   */
+  async subscribe(onAction) {
+    const { subscriptions } = this
+    const liveIndex = await Post.getLiveIndex()
+
+    const subscription = liveIndex.subscribe(({ content }) => {
+      const { action, item } = content || {}
+
+      if (!isEmpty(content)) {
+        onAction(action, item)
+      }
+    })
+
+    const unsubscribe = subscription.unsubscribe.bind(subscription)
+
+    subscription.unsubscribe = () => {
+      subscriptions.delete(onAction)
+      return unsubscribe()
+    }
+
+    subscriptions.set(onAction, subscription)
     return subscription
   }
 
-  unsubscribe(onAction = noop) {
+  /**
+   * //TODO: maybe unused ?
+   * @deprecated
+   */
+  unsubscribe(onAction) {
     const { subscriptions } = this
 
     if (!subscriptions.has(onAction)) {
       return
     }
 
-    const subscription = subscriptions.get(onAction)
-
-    if (!subscription.closed) {
-      subscriptions.get(onAction).unsubscribe()
-    }
-
-    subscriptions.delete(onAction)
+    subscriptions.get(onAction).unsubscribe()
   }
 
   /** @private */

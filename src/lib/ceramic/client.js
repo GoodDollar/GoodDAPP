@@ -48,6 +48,7 @@ export class CeramicModel {
   }
 
   static async find(id: string): Promise<TileDocument> {
+    //TODO: load index check existence
     return this.loadDocument(id)
   }
 

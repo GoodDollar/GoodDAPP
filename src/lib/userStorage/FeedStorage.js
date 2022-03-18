@@ -162,9 +162,10 @@ export class FeedStorage {
     // this is just the demo stub about how to read fead
     try {
       const posts = await CeramicFeed.getPosts() // get main news feed
-      const history = await CeramicFeed.getHistory() // get history
+      const { history } = await CeramicFeed.getHistory() // get history
+      const historyId = await CeramicFeed.getHistoryId() // get history
 
-      log.debug('Ceramic feed', { posts, history })
+      log.debug('Ceramic feed', { posts, history, historyId })
     } catch (e) {
       log.error('Ceramic error', e.message, e)
     }

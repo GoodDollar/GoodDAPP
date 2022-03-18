@@ -99,47 +99,6 @@ class CeramicFeed {
     return { historyId: String(commitId), history }
   }
 
-  /**
-   * //TODO: maybe unused ?
-   * @deprecated
-   */
-  async subscribe(onAction) {
-    const { subscriptions } = this
-    const liveIndex = await Post.getLiveIndex()
-
-    const subscription = liveIndex.subscribe(({ content }) => {
-      const { action, item } = content || {}
-
-      if (!isEmpty(content)) {
-        onAction(action, item)
-      }
-    })
-
-    const unsubscribe = subscription.unsubscribe.bind(subscription)
-
-    subscription.unsubscribe = () => {
-      subscriptions.delete(onAction)
-      return unsubscribe()
-    }
-
-    subscriptions.set(onAction, subscription)
-    return subscription
-  }
-
-  /**
-   * //TODO: maybe unused ?
-   * @deprecated
-   */
-  unsubscribe(onAction) {
-    const { subscriptions } = this
-
-    if (!subscriptions.has(onAction)) {
-      return
-    }
-
-    subscriptions.get(onAction).unsubscribe()
-  }
-
   /** @private */
   async _loadPostPictures(documentOrFeed: any) {
     if (isArray(documentOrFeed)) {

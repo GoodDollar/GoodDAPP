@@ -47,8 +47,13 @@ export class CeramicModel {
     return this._loadEntities(content.items)
   }
 
-  static async find(id: string): Promise<TileDocument> {
-    //TODO: load index check existence
+  static async find(id: any): Promise<TileDocument> {
+    const { content } = await this._getIndex()
+
+    if (!content.items.includes(String(id))) {
+      throw new Error(`Ceramic document with '${id}' ID doesn't exists or have been removed`)
+    }
+
     return this.loadDocument(id)
   }
 
@@ -56,7 +61,7 @@ export class CeramicModel {
     return this._getIndex(true)
   }
 
-  static async loadDocument(id: string): Promise<TileDocument> {
+  static async loadDocument(id: any): Promise<TileDocument> {
     return TileDocument.load(this.ceramic, id)
   }
 
@@ -73,6 +78,6 @@ export class CeramicModel {
 
   /** @private */
   static async _loadEntities(ids: string[]): Promise<TileDocument[]> {
-    return Promise.all(ids.map(async id => this.find(id)))
+    return Promise.all(ids.map(async id => this.loadDocument(id)))
   }
 }

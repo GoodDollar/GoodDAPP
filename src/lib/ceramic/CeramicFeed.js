@@ -39,6 +39,12 @@ class CeramicFeed {
     return this._loadPostPictures(serialized)
   }
 
+  async getHistoryId() {
+    const { commitId } = await Post.getLiveIndex()
+
+    return String(commitId)
+  }
+
   async getHistory(afterHistoryId = null) {
     const { allCommitIds, commitId } = await Post.getLiveIndex()
     let commitIds = allCommitIds.map(String)

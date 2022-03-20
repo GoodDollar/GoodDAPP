@@ -7,7 +7,7 @@ import StakingModelAddress from '@gooddollar/goodcontracts/stakingModel/releases
 import cERC20ABI from '@gooddollar/goodprotocol/artifacts/contracts/Interfaces.sol/cERC20.json'
 import GoodReserveCDai from '@gooddollar/goodprotocol/artifacts/contracts/reserve/GoodReserveCDai.sol/GoodReserveCDai.json'
 import ERC20ABI from '@gooddollar/goodprotocol/artifacts/contracts/Interfaces.sol/ERC20.json'
-import UBIABI from '@gooddollar/goodcontracts/stakingModel/build/contracts/UBIScheme.min.json'
+import UBIABI from '@gooddollar/goodprotocol/artifacts/contracts/ubi/UBIScheme.sol/UBIScheme.json'
 import SimpleStakingABI from '@gooddollar/goodprotocol/artifacts/contracts/staking/SimpleStaking.sol/SimpleStaking.json'
 import FundManagerABI from '@gooddollar/goodprotocol/artifacts/contracts/staking/GoodFundManager.sol/GoodFundManager.json'
 import InvitesABI from '@gooddollar/goodcontracts/upgradables/build/contracts/InvitesV1.min.json'

@@ -9,9 +9,7 @@ import { REGISTRATION_METHOD_SELF_CUSTODY, REGISTRATION_METHOD_TORUS } from '../
 
 import logger from '../../lib/logger/js-logger'
 import { getErrorMessage } from '../../lib/API/api'
-import GDStore from '../../lib/undux/GDStore'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
-import { updateAll as updateWalletStatus } from '../../lib/undux/utils/account'
 import { useCheckAuthStatus } from '../../lib/login/checkAuthStatus'
 import userStorage from '../../lib/userStorage/UserStorage'
 import runUpdates from '../../lib/updates'
@@ -62,7 +60,6 @@ let unsuccessfulLaunchAttempts = 0
  */
 const AppSwitch = (props: LoadingProps) => {
   const { router, state } = props.navigation
-  const gdstore = GDStore.useStore()
   const store = SimpleStore.useStore()
   const [showErrorDialog] = useErrorDialog()
   const [ready, setReady] = useState(false)
@@ -168,13 +165,9 @@ const AppSwitch = (props: LoadingProps) => {
       //after dynamic routes update, if user arrived here, then he is already loggedin
       //initialize the citizen status and wallet status
       //create jwt token and initialize the API service
-      updateWalletStatus(gdstore)
       log.debug('initialize ready', { isLoggedIn, isLoggedInCitizen })
 
       const initReg = userStorage.initRegistered()
-
-      gdstore.set('isLoggedIn')(isLoggedIn)
-      gdstore.set('isLoggedInCitizen')(isLoggedInCitizen)
 
       //identify user asap for analytics
       const identifier = goodWallet.getAccountForType('login')
@@ -231,7 +224,7 @@ const AppSwitch = (props: LoadingProps) => {
       deepLinkingRef.current = null
     }
 
-    if (ready && gdstore) {
+    if (ready) {
       // TODO: do not call private methods, create single method sync()
       // in user storage class designed to be called from outside
       userStorage.database._syncFromRemote()
@@ -239,7 +232,7 @@ const AppSwitch = (props: LoadingProps) => {
       refresh() //this will refresh the jwt token if wasnt active for a long time
       showOutOfGasError({ navigation: props.navigation, goodWallet })
     }
-  }, [gdstore, ready, refresh, props, goodWallet])
+  }, [ready, refresh, props, goodWallet])
 
   const backgroundUpdates = useCallback(() => {}, [ready])
 

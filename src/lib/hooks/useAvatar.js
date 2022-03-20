@@ -50,6 +50,7 @@ const useAvatar = avatar => {
   return dataUrl
 }
 
+//TODO: dont use store
 export const useUploadedAvatar = () => {
   const [uploadedAvatar, setUploadedAvatar] = useStoreProp('uploadedAvatar')
   const [avatarPassed, setAvatarPassed] = useState(() => uploadedAvatar)

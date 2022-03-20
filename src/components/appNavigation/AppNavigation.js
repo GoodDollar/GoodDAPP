@@ -38,7 +38,6 @@ const AppNavigation = ({ navigation }: AppNavigationProps) => {
   return <AppNavigator navigation={navigation} screenProps={{ routes }} />
 }
 
-// const appNavigation = GDStore.withStore(AppNavigation)
 AppNavigation.router = AppNavigator.router
 AppNavigation.navigationOptions = navigationOptions
 

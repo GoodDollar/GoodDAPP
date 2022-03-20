@@ -5,7 +5,6 @@ import { SwipeableFlatList } from 'react-native-swipeable-lists-gd'
 import { get, isFunction, noop } from 'lodash'
 import moment from 'moment'
 
-import GDStore from '../../lib/undux/GDStore'
 import { withStyles } from '../../lib/styles'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
 import userStorage from '../../lib/userStorage/UserStorage'
@@ -26,7 +25,6 @@ export type FeedListProps = {
   data: any,
   onEndReached: any,
   initialNumToRender: ?number,
-  store: GDStore,
   handleFeedSelection: Function,
   horizontal: boolean,
   selectedFeed: ?string,
@@ -278,4 +276,4 @@ const actionIcon = ({ canDelete, canCancel }) => {
   return null
 }
 
-export default GDStore.withStore(withStyles(getStylesFromProps)(FeedList))
+export default withStyles(getStylesFromProps)(FeedList)

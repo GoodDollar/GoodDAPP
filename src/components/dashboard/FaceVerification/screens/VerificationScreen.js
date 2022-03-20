@@ -4,7 +4,6 @@ import { identity } from 'lodash'
 import Instructions from '../components/Instructions'
 
 import UserStorage from '../../../../lib/userStorage/UserStorage'
-import { useCurriedSetters } from '../../../../lib/undux/GDStore'
 import { useWallet } from '../../../../lib/wallet/GoodWalletProvider'
 import logger from '../../../../lib/logger/js-logger'
 
@@ -29,7 +28,6 @@ import { tryUntil } from '../../../../lib/utils/async'
 const log = logger.child({ from: 'FaceVerification' })
 
 const FaceVerification = ({ screenProps }) => {
-  const [setIsCitizen] = useCurriedSetters(['isLoggedInCitizen'])
   const { attemptsCount, trackAttempt, resetAttempts } = useVerificationAttempts()
   const goodWallet = useWallet()
 
@@ -116,13 +114,13 @@ const FaceVerification = ({ screenProps }) => {
       resetAttempts()
 
       // 2. whitelisting user
-      setIsCitizen(isCitizen)
+      // setIsCitizen(isCitizen)
 
       // 3. returning success to the caller
       screenProps.pop({ isValid: true })
       fireEvent(FV_SUCCESS_ZOOM)
     },
-    [screenProps, setIsCitizen, resetAttempts, exceptionHandler, goodWallet],
+    [screenProps, resetAttempts, exceptionHandler, goodWallet],
   )
 
   // calculating retries allowed for FV session

@@ -10,10 +10,9 @@ import ClaimSvg from '../../assets/Claim/claim-footer.svg'
 // import useOnPress from '../../lib/hooks/useOnPress'
 // import { isBrowser } from '../../lib/utils/platform'
 import userStorage, { type TransactionEvent } from '../../lib/userStorage/UserStorage'
-import { useWallet } from '../../lib/wallet/GoodWalletProvider'
+import { useWallet, useWalletData } from '../../lib/wallet/GoodWalletProvider'
 import logger from '../../lib/logger/js-logger'
 import { decorate, ExceptionCategory, ExceptionCode } from '../../lib/exceptions/utils'
-import GDStore from '../../lib/undux/GDStore'
 import { useDialog } from '../../lib/undux/utils/dialog'
 import API from '../../lib/API/api'
 
@@ -217,12 +216,10 @@ const Claim = props => {
   const { screenProps, styles, theme }: ClaimProps = props
   const { goToRoot, screenState, push: navigate } = screenProps
   const goodWallet = useWallet()
+  const { dailyUBI: entitlement, isCitizen } = useWalletData()
   const { appState } = useAppState()
-  const gdstore = GDStore.useStore()
 
-  const { entitlement } = gdstore.get('account')
   const [dailyUbi, setDailyUbi] = useState((entitlement && parseInt(entitlement)) || 0)
-  const isCitizen = gdstore.get('isLoggedInCitizen')
   const { isValid } = screenState
 
   const [showDialog, , showErrorDialog] = useDialog()
@@ -463,12 +460,14 @@ const Claim = props => {
         } else if (isValid === false) {
           // with non-validated state
           goToRoot()
-        } else {
-          // opened claim page (non-returned from FV)
-          if (isCitizen === false) {
-            goodWallet.isCitizen().then(_ => gdstore.set('isLoggedInCitizen')(_))
-          }
         }
+
+        //  else {
+        //   // opened claim page (non-returned from FV)
+        //   if (isCitizen === false) {
+        //     goodWallet.isCitizen().then(_ => gdstore.set('isLoggedInCitizen')(_))
+        //   }
+        // }
       } catch (exception) {
         const { message } = exception
         const uiMessage = decorate(exception, ExceptionCode.E1)

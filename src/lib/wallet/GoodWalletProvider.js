@@ -51,9 +51,9 @@ export const GoodWalletProvider = ({ children }) => {
           web3: type !== 'SEED' ? seedOrWeb3 : undefined,
           web3Transport: Config.web3TransportProvider,
         })
-        await wallet.init()
+        await wallet.ready
         const userStorage = new UserStorage(wallet, db, new UserProperties(db))
-        await UserStorage.ready
+        await userStorage.ready
         setWalletAndStorage({ goodWallet: wallet, userStorage })
         log.debug('initWalletAndStorage done')
 
@@ -118,15 +118,22 @@ export const GoodWalletProvider = ({ children }) => {
     goodWallet.watchEvents(parseInt(lastBlock), toBlock =>
       userStorage.userProperties.set('lastBlock', parseInt(toBlock)),
     )
-    goodWallet.balanceChanged(event => update())
+    const eventId = goodWallet.balanceChanged(event => update())
+    return eventId
   }, [goodWallet, userStorage])
 
   //perform login on wallet change
   useEffect(() => {
+    let eventId
     if (goodWallet && userStorage) {
       log.debug('on wallet ready')
       login()
-      watchBalanceAndTXs()
+      eventId = watchBalanceAndTXs()
+    }
+    return () => {
+      log.debug('stop watching', eventId)
+      goodWallet && goodWallet.setIsPollEvents(false)
+      eventId && goodWallet.unsubscribeFromEvent(eventId)
     }
   }, [goodWallet, userStorage])
 

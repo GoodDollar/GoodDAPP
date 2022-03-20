@@ -282,6 +282,9 @@ export class GoodWallet {
 
   setIsPollEvents(active) {
     this.isPollEvents = active
+    if (!active) {
+      this.pollEventsTimeout && clearTimeout(this.pollEventsTimeout)
+    }
   }
 
   async pollEvents(fn, time, lastBlockCallback) {
@@ -319,11 +322,12 @@ export class GoodWallet {
     } catch (e) {
       log.warn('pollEvents failed:', e.message, e, { category: ExceptionCategory.Blockhain })
     }
-    setTimeout(() => this.pollEvents(fn, time, lastBlockCallback), time)
+    this.pollEventsTimeout = setTimeout(() => this.pollEvents(fn, time, lastBlockCallback), time)
   }
 
   //eslint-disable-next-line require-await
   async watchEvents(fromBlock, lastBlockCallback) {
+    this.setIsPollEvents(true)
     const lastBlock = await this.syncTxWithBlockchain(fromBlock).catch(_ => fromBlock)
     lastBlockCallback(lastBlock)
     this.lastEventsBlock = lastBlock

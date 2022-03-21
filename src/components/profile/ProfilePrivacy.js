@@ -18,7 +18,7 @@ import useOnPress from '../../lib/hooks/useOnPress'
 import { useDialog } from '../../lib/undux/utils/dialog'
 
 // utils
-import userStorage from '../../lib/userStorage/UserStorage'
+import { useUserStorage } from '../../lib/wallet/GoodWalletProvider'
 import logger from '../../lib/logger/js-logger'
 import { withStyles } from '../../lib/styles'
 import { fireEvent, PROFILE_PRIVACY } from '../../lib/analytics/analytics'
@@ -70,6 +70,7 @@ const PrivacyOption = ({ title, value, field, setPrivacy }) => {
 }
 
 const ProfilePrivacy = ({ screenProps, styles, theme }) => {
+  const userStorage = useUserStorage()
   const [initialPrivacy, setInitialPrivacy] = useState(() => {
     const profile = userStorage.getProfile()
 
@@ -136,7 +137,7 @@ const ProfilePrivacy = ({ screenProps, styles, theme }) => {
     } finally {
       setLoading(false)
     }
-  }, [setLoading, valuesToBeUpdated, setInitialPrivacy, privacy])
+  }, [setLoading, valuesToBeUpdated, setInitialPrivacy, privacy, userStorage])
 
   return (
     <Wrapper style={styles.mainWrapper}>

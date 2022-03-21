@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { groupBy, keyBy, noop } from 'lodash'
-import { useWallet } from '../../lib/wallet/GoodWalletProvider'
-import userStorage from '../../lib/userStorage/UserStorage'
+import { useUserStorage, useWallet } from '../../lib/wallet/GoodWalletProvider'
 import logger from '../../lib/logger/js-logger'
 import { useDialog } from '../../lib/undux/utils/dialog'
 import { fireEvent, INVITE_BOUNTY, INVITE_JOIN } from '../../lib/analytics/analytics'
@@ -19,7 +18,7 @@ const log = logger.child({ from: 'useInvites' })
 const collectedProp = 'inviteBonusCollected'
 const wasOpenedProp = 'hasOpenedInviteScreen'
 
-export const registerForInvites = async (inviterInviteCode, goodWallet) => {
+export const registerForInvites = async (inviterInviteCode, goodWallet, userStorage) => {
   let code = userStorage.userProperties.get('inviteCode')
   let usedInviterCode = userStorage.userProperties.get('inviterInviteCodeUsed')
 
@@ -46,17 +45,18 @@ export const registerForInvites = async (inviterInviteCode, goodWallet) => {
   }
 }
 
-const getInviteCode = async goodWallet => {
+const getInviteCode = async (goodWallet, userStorage) => {
   const inviterInviteCode =
     userStorage.userProperties.get('inviterInviteCode') || (await AsyncStorage.getItem(INVITE_CODE))
-  const code = await registerForInvites(inviterInviteCode, goodWallet)
+  const code = await registerForInvites(inviterInviteCode, goodWallet, userStorage)
 
   return code
 }
 
 let _inviteCodePromise
 export const useInviteCode = () => {
-  const [inviteCode, setInviteCode] = useState(userStorage.userProperties.get('inviteCode'))
+  const userStorage = useUserStorage()
+  const [inviteCode, setInviteCode] = useState(() => userStorage.userProperties.get('inviteCode'))
   const goodWallet = useWallet()
 
   //return user invite code or register him with a new code
@@ -66,7 +66,7 @@ export const useInviteCode = () => {
 
     if (Config.enableInvites) {
       if (!_inviteCodePromise) {
-        _inviteCodePromise = getInviteCode(goodWallet)
+        _inviteCodePromise = getInviteCode(goodWallet, userStorage)
       }
 
       _inviteCodePromise.then(code => {
@@ -75,7 +75,7 @@ export const useInviteCode = () => {
         _inviteCodePromise = undefined
       })
     }
-  }, [goodWallet])
+  }, [])
 
   return inviteCode
 }
@@ -84,6 +84,7 @@ export const useInviteBonus = () => {
   const [showDialog] = useDialog()
   const collected = useUserProperty(collectedProp)
   const goodWallet = useWallet()
+  const userStorage = useUserStorage()
 
   const getCanCollect = useCallback(async () => {
     try {
@@ -135,7 +136,7 @@ export const useInviteBonus = () => {
       })
       return true
     },
-    [showDialog, collected, goodWallet],
+    [showDialog, collected, goodWallet, userStorage],
   )
 
   return [collected, getCanCollect, collectInviteBounty]
@@ -146,6 +147,7 @@ export const useCollectBounty = () => {
   const [canCollect, setCanCollect] = useState(undefined)
   const [collected, setCollected] = useState(undefined)
   const goodWallet = useWallet()
+  const userStorage = useUserStorage()
 
   const collect = async () => {
     try {
@@ -273,6 +275,8 @@ export const useInvited = () => {
 }
 
 export const useInviteScreenOpened = () => {
+  const userStorage = useUserStorage()
+
   const { userProperties } = userStorage
 
   const [wasOpened, setWasOpened] = useState(userProperties.get(wasOpenedProp))

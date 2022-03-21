@@ -12,13 +12,22 @@ import logger from '../logger/js-logger'
 
 import type { ThreadDB } from '../textile/ThreadDB'
 import type { ProfileDB } from '../userStorage/UserProfileStorage'
-import type { DB } from '../userStorage/UserStorage'
 import type { Profile } from '../userStorage/UserStorageClass'
 import type { TransactionDetails } from '../userStorage/FeedStorage'
 import { retry } from '../utils/async'
 
 const log = logger.child({ from: 'RealmDB' })
 const _retry = fn => retry(fn, 1, 2000)
+
+export interface DB {
+  init(db: ThreadDB): void;
+  write(feeditem): Promise<void>;
+  read(id: string): Promise<any>;
+  readByPaymentId(paymentId: string): Promise<any>;
+  encryptSettings(settings: object): Promise<any>;
+  decryptSettings(): Promise<object>;
+  getFeedPage(numResults, offset): Promise<Array<object>>;
+}
 
 class RealmDB implements DB, ProfileDB {
   app: Realm.App

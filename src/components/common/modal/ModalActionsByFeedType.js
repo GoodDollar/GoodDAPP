@@ -12,8 +12,7 @@ import { useErrorDialog } from '../../../lib/undux/utils/dialog'
 import logger from '../../../lib/logger/js-logger'
 import { decorate, ExceptionCategory, ExceptionCode } from '../../../lib/exceptions/utils'
 import normalize from '../../../lib/utils/normalizeText'
-import userStorage from '../../../lib/userStorage/UserStorage'
-import { useWallet } from '../../../lib/wallet/GoodWalletProvider'
+import { useUserStorage, useWallet } from '../../../lib/wallet/GoodWalletProvider'
 import { openLink } from '../../../lib/utils/linking'
 import { withStyles } from '../../../lib/styles'
 import Section from '../../common/layout/Section'
@@ -35,6 +34,7 @@ const ModalButton = ({ children, ...props }) => (
 const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigation }) => {
   const [showErrorDialog] = useErrorDialog()
   const goodWallet = useWallet()
+  const userStorage = useUserStorage()
 
   const _handleModalClose = useCallback(handleModalClose)
   const inviteCode = userStorage.userProperties.get('inviteCode')
@@ -56,7 +56,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
       showErrorDialog('The payment could not be canceled at this time. Please try again.', code)
       log.error('cancel payment failed', message, exception, pickBy({ dialogShown: true, code, category }))
     },
-    [item, setCancellingPayment, showErrorDialog],
+    [item, setCancellingPayment, showErrorDialog, userStorage],
   )
 
   const cancelPayment = useCallback(async () => {
@@ -87,7 +87,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
     }
 
     handleModalClose()
-  }, [item, handleCancelFailed, setCancellingPayment, handleModalClose, goodWallet])
+  }, [item, handleCancelFailed, setCancellingPayment, handleModalClose, goodWallet, userStorage])
 
   const generatePaymentLinkForShare = useCallback(() => {
     const { withdrawCode, message, amount, endpoint = {} } = item.data || {}

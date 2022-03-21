@@ -1,6 +1,5 @@
 /* eslint require-await: "off" */
 import SEA from '@gooddollar/gun/sea'
-import userStorage from '../userStorage/UserStorage'
 import { gunPublicKeyTrust, processGunNode } from './utils'
 
 const fromDate = new Date('2021/07/06')
@@ -9,28 +8,28 @@ const fromDate = new Date('2021/07/06')
  * import feed and properties from gundb to realmdb
  * @returns {Promise<void>}
  */
-const upgradeRealmDB = async (lastUpdate, prevVersion, log) => {
+const upgradeRealmDB = async (lastUpdate, prevVersion, log, goodWallet, userStorage) => {
   await userStorage.ready
   await userStorage.initGun()
 
   const { gunuser } = userStorage
-  const keys = await gunPublicKeyTrust()
+  const keys = await gunPublicKeyTrust(userStorage)
 
   await Promise.all([
     processGunNode(gunuser.get('feed').get('byid'), async data => {
       delete data._
-      await setFeedItems(data, keys, log)
+      await setFeedItems(data, keys, log, userStorage)
     }),
 
     processGunNode(gunuser.get('properties'), async data => {
-      await setProperties(data, keys, log)
+      await setProperties(data, keys, log, userStorage)
     }),
   ])
 
   log.info('done upgradeRealmdb')
 }
 
-const setFeedItems = (data, keys, log) => {
+const setFeedItems = (data, keys, log, userStorage) => {
   const pubkey = userStorage.gunuser.pair().pub
 
   const promisses = Object.entries(data).map(async ([k, v]) => {
@@ -54,7 +53,7 @@ const setFeedItems = (data, keys, log) => {
   return Promise.all(promisses)
 }
 
-const setProperties = async (data, keys, log) => {
+const setProperties = async (data, keys, log, userStorage) => {
   let decrypted
   const pubkey = userStorage.gunuser.pair().pub
   const encryptedKey = keys['properties~' + pubkey]

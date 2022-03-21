@@ -25,9 +25,6 @@ import { withStyles } from '../../../lib/styles'
 import AddAppSVG from '../../../assets/addApp.svg'
 import { theme } from '../../theme/styles'
 
-// import userStorage from '../../../lib/userStorage/UserStorage'
-// import API from '../../../lib/API/api'
-
 const log = logger.child({ from: 'AddWebApp' })
 
 const mapStylesToProps = ({ theme }) => {

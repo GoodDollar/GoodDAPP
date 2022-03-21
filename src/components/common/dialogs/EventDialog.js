@@ -2,8 +2,9 @@
 import React, { useCallback } from 'react'
 import { StyleSheet, View } from 'react-native'
 import { Dialog, Paragraph, Portal } from 'react-native-paper'
-import type { TransactionEvent } from '../../../lib/userStorage/UserStorage'
-import { Avatar, BigGoodDollar } from '..'
+import type { TransactionEvent } from '../../../lib/userStorage/UserStorageClass'
+import { BigGoodDollar } from '..'
+import Avatar from '../view/Avatar'
 import CustomButton from '../buttons/CustomButton'
 import Section from '../layout/Section'
 

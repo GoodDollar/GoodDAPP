@@ -10,14 +10,13 @@ import logger from '../../lib/logger/js-logger'
 import { fireEvent, INVITE_HOWTO, INVITE_SHARE } from '../../lib/analytics/analytics'
 import Config from '../../config/config'
 import { generateShareObject, isSharingAvailable } from '../../lib/share'
-import userStorage from '../../lib/userStorage/UserStorage'
 import { usePublicProfileOf, useUserProperty } from '../../lib/userStorage/useProfile'
 import ModalLeftBorder from '../common/modal/ModalLeftBorder'
 import { useDialog } from '../../lib/undux/utils/dialog'
 import LoadingIcon from '../common/modal/LoadingIcon'
 import { InfoIcon } from '../common/modal/InfoIcon'
 
-import { useWallet } from '../../lib/wallet/GoodWalletProvider'
+import { useUserStorage, useWallet } from '../../lib/wallet/GoodWalletProvider'
 import { extractQueryParams } from '../../lib/utils/uri'
 import {
   registerForInvites,
@@ -136,6 +135,7 @@ const InputCodeBox = ({ navigateTo }) => {
   const inviteCodeUsed = useUserProperty('inviterInviteCodeUsed')
   const [collected, getCanCollect, collectInviteBounty] = useInviteBonus()
   const goodWallet = useWallet()
+  const userStorage = useUserStorage()
 
   const [code, setCode] = useState(userStorage.userProperties.get('inviterInviteCode') || '')
 
@@ -187,13 +187,13 @@ const InputCodeBox = ({ navigateTo }) => {
     })
 
     try {
-      await registerForInvites(extractedCode, goodWallet)
+      await registerForInvites(extractedCode, goodWallet, userStorage)
       await collectInviteBounty(onUnableToCollect)
     } catch (e) {
       log.warn('collectInviteBounty failed', e.message, e)
       hideDialog()
     }
-  }, [extractedCode, showDialog, hideDialog, onUnableToCollect, collectInviteBounty, goodWallet])
+  }, [extractedCode, showDialog, hideDialog, onUnableToCollect, collectInviteBounty, goodWallet, userStorage])
 
   //manages the get reward button state (disabled/enabled)
   useEffect(() => {
@@ -436,6 +436,7 @@ const Invite = ({ screenProps }) => {
   const { wasOpened } = useInviteScreenOpened()
   const [showHowTo, setShowHowTo] = useState(!wasOpened)
   const [invitees, refresh, level, inviteState] = useInvited()
+  const userStorage = useUserStorage()
 
   const totalEarned = parseInt(get(inviteState, 'totalEarned', 0))
   const bounty = parseInt(get(level, 'bounty', 0)) / 100

@@ -4,11 +4,13 @@
  */
 import React, { useEffect, useState } from 'react'
 import { fireEvent, SEND_DONE } from '../../lib/analytics/analytics'
-import userStorage, { type TransactionEvent } from '../../lib/userStorage/UserStorage'
+import { type TransactionEvent } from '../../lib/userStorage/UserStorageClass'
 import logger from '../../lib/logger/js-logger'
 import { ExceptionCategory } from '../../lib/exceptions/utils'
 import { useDialog } from '../../lib/undux/utils/dialog'
 import { useWrappedGoodWallet } from '../../lib/wallet/useWrappedWallet'
+import { useUserStorage } from '../../lib/wallet/GoodWalletProvider'
+
 import { BackButton, useScreenState } from '../appNavigation/stackNavigation'
 import { CustomButton, Section, Wrapper } from '../common'
 import SummaryTable from '../common/view/SummaryTable'
@@ -31,11 +33,14 @@ const log = logger.child({ from: 'SendQRSummary' })
 const SendQRSummary = ({ screenProps }: AmountProps, params) => {
   const [screenState] = useScreenState(screenProps)
   const goodWallet = useWrappedGoodWallet()
+  const userStorage = useUserStorage()
+
   const [showDialog, , showErrorDialog] = useDialog()
   const [loading, setLoading] = useState(false)
   const [isValid, setIsValid] = useState(screenState.isValid)
   const { amount, reason, to } = screenState
   const [profile, setProfile] = useState({})
+
   const updateRecepientProfile = async () => {
     const profile = await userStorage.getPublicProfile(to)
 

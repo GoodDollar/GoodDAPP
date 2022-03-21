@@ -9,17 +9,15 @@ import AsyncStorage from '../../lib/utils/asyncStorage'
 import normalize, { normalizeByLength } from '../../lib/utils/normalizeText'
 import SimpleStore, { assertStore } from '../../lib/undux/SimpleStore'
 import { useDialog, useErrorDialog } from '../../lib/undux/utils/dialog'
-import { PAGE_SIZE } from '../../lib/undux/utils/feed'
 import { weiToGd, weiToMask } from '../../lib/wallet/utils'
 import { initBGFetch } from '../../lib/notifications/backgroundFetch'
 import { formatWithAbbreviations, formatWithFixedValueDigits } from '../../lib/utils/formatNumber'
 import { fireEvent, INVITE_BANNER } from '../../lib/analytics/analytics'
 import Config from '../../config/config'
-import { useWalletData } from '../../lib/wallet/GoodWalletProvider'
+import { useUserStorage, useWalletData } from '../../lib/wallet/GoodWalletProvider'
 
 import { createStackNavigator } from '../appNavigation/stackNavigation'
 
-import userStorage from '../../lib/userStorage/UserStorage'
 import useAppState from '../../lib/hooks/useAppState'
 import useGoodDollarPrice from '../reserve/useGoodDollarPrice'
 import { PushButton } from '../appNavigation/PushButton'
@@ -42,6 +40,7 @@ import Avatar from '../common/view/Avatar'
 import _debounce from '../../lib/utils/debounce'
 import useProfile from '../../lib/userStorage/useProfile'
 import { GlobalTogglesContext } from '../../lib/contexts/togglesContext'
+import { PAGE_SIZE } from './utils/feed'
 import PrivacyPolicyAndTerms from './PrivacyPolicyAndTerms'
 import Amount from './Amount'
 import Claim from './Claim'
@@ -121,7 +120,7 @@ const Dashboard = props => {
   const { appState } = useAppState()
   const [animateMarket, setAnimateMarket] = useState(false)
   const { setDialogBlur } = useContext(GlobalTogglesContext)
-
+  const userStorage = useUserStorage()
   const [price, showPrice] = useGoodDollarPrice()
 
   const headerAnimateStyles = {
@@ -215,7 +214,7 @@ const Dashboard = props => {
         release()
       }
     },
-    [loadAnimShown, store, setFeeds, feedRef],
+    [loadAnimShown, store, setFeeds, feedRef, userStorage],
   )
 
   const [feedLoaded, setFeedLoaded] = useState(false)
@@ -566,7 +565,7 @@ const Dashboard = props => {
         })
       }
     },
-    [showDialog, showEventModal],
+    [showDialog, showEventModal, userStorage],
   )
 
   const goToProfile = useOnPress(() => screenProps.push('Profile'), [screenProps])

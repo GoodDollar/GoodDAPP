@@ -26,7 +26,7 @@ import { Permissions } from '../permissions/types'
 import { fireEvent, QR_SCAN } from '../../lib/analytics/analytics'
 import { InfoIcon } from '../common/modal/InfoIcon'
 import ExplanationDialog from '../common/dialogs/ExplanationDialog'
-import { useWallet } from '../../lib/wallet/GoodWalletProvider'
+import { useUserStorage, useWallet } from '../../lib/wallet/GoodWalletProvider'
 import { extractEthAddress } from '../../lib/wallet/utils'
 import QrReader from './QR/QRScanner'
 import QRCameraPermissionDialog from './SendRecieveQRCameraPermissionDialog'
@@ -61,6 +61,7 @@ const SendByQR = ({ screenProps }: Props) => {
   const [showErrorDialog] = useErrorDialog()
   const [showDialog] = useDialog()
   const goodWallet = useWallet()
+  const userStorage = useUserStorage()
 
   const { pop, push, navigateTo } = screenProps
 
@@ -81,7 +82,7 @@ const SendByQR = ({ screenProps }: Props) => {
 
   const gotoSend = useCallback(
     async code => {
-      const { route, params } = await routeAndPathForCode('sendByQR', code, goodWallet)
+      const { route, params } = await routeAndPathForCode('sendByQR', code, goodWallet, userStorage)
       log.info({ code })
       fireEvent(QR_SCAN, { type: 'send' })
       push(route, params)

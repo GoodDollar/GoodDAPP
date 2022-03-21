@@ -9,8 +9,8 @@ import ClaimSvg from '../../assets/Claim/claim-footer.svg'
 
 // import useOnPress from '../../lib/hooks/useOnPress'
 // import { isBrowser } from '../../lib/utils/platform'
-import userStorage, { type TransactionEvent } from '../../lib/userStorage/UserStorage'
-import { useWallet, useWalletData } from '../../lib/wallet/GoodWalletProvider'
+import { type TransactionEvent } from '../../lib/userStorage/UserStorageClass'
+import { useUserStorage, useWallet, useWalletData } from '../../lib/wallet/GoodWalletProvider'
 import logger from '../../lib/logger/js-logger'
 import { decorate, ExceptionCategory, ExceptionCode } from '../../lib/exceptions/utils'
 import { useDialog } from '../../lib/undux/utils/dialog'
@@ -218,6 +218,7 @@ const Claim = props => {
   const goodWallet = useWallet()
   const { dailyUBI: entitlement, isCitizen } = useWalletData()
   const { appState } = useAppState()
+  const userStorage = useUserStorage()
 
   const [dailyUbi, setDailyUbi] = useState((entitlement && parseInt(entitlement)) || 0)
   const { isValid } = screenState
@@ -419,7 +420,7 @@ const Claim = props => {
     } finally {
       setLoading(false)
     }
-  }, [setLoading, handleFaceVerification, dailyUbi, setDailyUbi, showDialog, showErrorDialog, goodWallet])
+  }, [setLoading, handleFaceVerification, dailyUbi, setDailyUbi, showDialog, showErrorDialog, goodWallet, userStorage])
 
   // constantly update stats but only for some data
   const [startPolling, stopPolling] = useInterval(gatherStats, 10000, false)

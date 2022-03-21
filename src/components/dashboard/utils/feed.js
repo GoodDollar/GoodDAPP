@@ -9,6 +9,7 @@ export const VIEWABILITY_CONFIG = {
   viewAreaCoveragePercentThreshold: 100,
   waitForInteraction: true,
 }
+export const PAGE_SIZE = 20
 
 export const emptyFeed = { type: 'empty', data: {} }
 

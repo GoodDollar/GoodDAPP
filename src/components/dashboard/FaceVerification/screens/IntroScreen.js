@@ -17,7 +17,7 @@ import usePermissions from '../../../permissions/hooks/usePermissions'
 import useDisposingState from '../hooks/useDisposingState'
 
 // utils
-import UserStorage from '../../../../lib/userStorage/UserStorage'
+import { useUserStorage } from '../../../../lib/wallet/GoodWalletProvider'
 import logger from '../../../../lib/logger/js-logger'
 import { getFirstWord } from '../../../../lib/utils/getFirstWord'
 import {
@@ -150,6 +150,7 @@ const IntroScreen = ({ styles, screenProps }) => {
   const { screenState, goToRoot, navigateTo, pop, push } = screenProps
   const isValid = get(screenState, 'isValid', false)
   const { setDialogBlur } = useContext(GlobalTogglesContext)
+  const userStorage = useUserStorage()
 
   const navigateToHome = useCallback(() => navigateTo('Home'), [navigateTo])
   const Intro = IntroScreenB
@@ -158,7 +159,7 @@ const IntroScreen = ({ styles, screenProps }) => {
 
   const [disposing, checkDisposalState] = useDisposingState({
     requestOnMounted: false,
-    enrollmentIdentifier: UserStorage.getFaceIdentifier(),
+    enrollmentIdentifier: userStorage.getFaceIdentifier(),
     onComplete: isDisposing => {
       if (!isDisposing) {
         return

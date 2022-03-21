@@ -2,8 +2,7 @@
 import type { Store } from 'undux'
 import pino from '../../logger/js-logger'
 import { ExceptionCategory } from '../../exceptions/utils'
-import userStorage from '../../userStorage/UserStorage'
-import type { TransactionEvent } from '../../userStorage/UserStorage'
+import type { TransactionEvent } from '../../userStorage/UserStorageClass'
 import { WITHDRAW_STATUS_PENDING } from '../../wallet/GoodWalletClass'
 
 const log = pino.child({ from: 'withdraw' })
@@ -33,6 +32,7 @@ export const executeWithdraw = async (
   reason: string,
   category: string,
   goodWallet: GoodWallet,
+  userStorage: UserStorage,
 ): Promise<ReceiptType | { status: boolean }> => {
   try {
     const { amount, sender, status, hashedCode } = await goodWallet.getWithdrawDetails(code)

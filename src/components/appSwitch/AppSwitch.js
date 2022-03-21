@@ -11,7 +11,6 @@ import logger from '../../lib/logger/js-logger'
 import { getErrorMessage } from '../../lib/API/api'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
 import { useCheckAuthStatus } from '../../lib/login/checkAuthStatus'
-import userStorage from '../../lib/userStorage/UserStorage'
 import runUpdates from '../../lib/updates'
 import useAppState from '../../lib/hooks/useAppState'
 import { identifyWith } from '../../lib/analytics/analytics'
@@ -23,7 +22,7 @@ import DeepLinking from '../../lib/utils/deepLinking'
 import { isMobileNative } from '../../lib/utils/platform'
 import { useInviteCode } from '../invite/useInvites'
 import restart from '../../lib/utils/restart'
-import { useWallet } from '../../lib/wallet/GoodWalletProvider'
+import { useUserStorage, useWallet } from '../../lib/wallet/GoodWalletProvider'
 
 type LoadingProps = {
   navigation: any,
@@ -68,6 +67,7 @@ const AppSwitch = (props: LoadingProps) => {
     refresh,
   } = useCheckAuthStatus()
   const goodWallet = useWallet()
+  const userStorage = useUserStorage()
 
   /*
   Check if user is incoming with a URL with action details, such as payment link or email confirmation
@@ -224,7 +224,7 @@ const AppSwitch = (props: LoadingProps) => {
       deepLinkingRef.current = null
     }
 
-    if (ready) {
+    if (ready && userStorage && goodWallet) {
       // TODO: do not call private methods, create single method sync()
       // in user storage class designed to be called from outside
       userStorage.database._syncFromRemote()
@@ -232,7 +232,7 @@ const AppSwitch = (props: LoadingProps) => {
       refresh() //this will refresh the jwt token if wasnt active for a long time
       showOutOfGasError({ navigation: props.navigation, goodWallet })
     }
-  }, [ready, refresh, props, goodWallet])
+  }, [ready, refresh, props, goodWallet, userStorage])
 
   const backgroundUpdates = useCallback(() => {}, [ready])
 

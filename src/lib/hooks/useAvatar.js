@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
-import userStorage from '../userStorage/UserStorage'
+import { useUserStorage } from '../wallet/GoodWalletProvider'
 
 import { isValidCID } from '../ipfs/utils'
 import { isValidDataUrl } from '../utils/base64'
@@ -8,6 +8,7 @@ import { useStoreProp } from '../undux/GDStore'
 import AsyncStorage from '../utils/asyncStorage'
 
 const useAvatar = avatar => {
+  const userStorage = useUserStorage()
   const cachedDataUrl = useMemo(() => {
     // checking is it base64 data url
     if (isValidDataUrl(avatar)) {

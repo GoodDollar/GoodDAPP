@@ -10,7 +10,7 @@ import InputText from '../common/form/InputWithAdornment'
 import { withStyles } from '../../lib/styles'
 import normalize from '../../lib/utils/normalizeText'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
-import userStorage from '../../lib/userStorage/UserStorage'
+import { useUserStorage } from '../../lib/wallet/GoodWalletProvider'
 import FeedContactItem from './FeedContactItem'
 import ItemSeparator from './ItemSeparator'
 
@@ -18,6 +18,7 @@ const Contacts = promisify(contacts.getAll)
 const log = logger.child({ from: 'Who' })
 
 const WhoContent = ({ styles, setContact, error, text, value, next, state, showNext, setValue }) => {
+  const userStorage = useUserStorage()
   const [contacts, setContacts] = useState([])
   const [recentFeedItems, setRecentFeedItems] = useState([])
   const [recentlyUsedList, setRecentlyUsedList] = useState([])

@@ -56,7 +56,8 @@ export const GoodWalletProvider = ({ children }) => {
         await userStorage.ready
         setWalletAndStorage({ goodWallet: wallet, userStorage })
         log.debug('initWalletAndStorage done')
-
+        global.userStorage = userStorage
+        global.wallet = wallet
         return wallet
       } catch (e) {
         log.error('failed initializing wallet and userstorage:', e.message, e)

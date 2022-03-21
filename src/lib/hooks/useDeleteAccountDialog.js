@@ -3,16 +3,16 @@ import React, { useCallback } from 'react'
 import logger from '../logger/js-logger'
 
 import DeleteAccountDialog from '../../components/common/dialogs/DeleteAccountDialog'
-
+import { useUserStorage } from '../wallet/GoodWalletProvider'
 import AsyncStorage from '../utils/asyncStorage'
-import retryImport from '../utils/retryImport'
 import restart from '../utils/restart'
 
 import { theme } from '../../components/theme/styles'
 
 const log = logger.child({ from: 'useDeleteAccountDialog' })
 
-export default showErrorDialog =>
+export default showErrorDialog => {
+  const userStorage = useUserStorage()
   useCallback(() => {
     const deleteHandler = async () => {
       showErrorDialog('', '', {
@@ -22,8 +22,6 @@ export default showErrorDialog =>
       })
 
       try {
-        const userStorage = await retryImport(() => import('../userStorage/UserStorage')).then(_ => _.default)
-
         const isDeleted = await userStorage.deleteAccount()
         log.debug('deleted account', isDeleted)
 
@@ -60,4 +58,5 @@ export default showErrorDialog =>
         },
       ],
     })
-  }, [showErrorDialog])
+  }, [showErrorDialog, userStorage])
+}

@@ -14,7 +14,7 @@ import { initBGFetch } from '../../lib/notifications/backgroundFetch'
 import { formatWithAbbreviations, formatWithFixedValueDigits } from '../../lib/utils/formatNumber'
 import { fireEvent, INVITE_BANNER } from '../../lib/analytics/analytics'
 import Config from '../../config/config'
-import { useUserStorage, useWalletData } from '../../lib/wallet/GoodWalletProvider'
+import { useUserStorage, useWallet, useWalletData } from '../../lib/wallet/GoodWalletProvider'
 
 import { createStackNavigator } from '../appNavigation/stackNavigation'
 
@@ -121,6 +121,7 @@ const Dashboard = props => {
   const [animateMarket, setAnimateMarket] = useState(false)
   const { setDialogBlur } = useContext(GlobalTogglesContext)
   const userStorage = useUserStorage()
+  const goodWallet = useWallet()
   const [price, showPrice] = useGoodDollarPrice()
 
   const headerAnimateStyles = {
@@ -354,7 +355,7 @@ const Dashboard = props => {
     // InteractionManager.runAfterInteractions(handleFeedEvent)
     resizeSubscriptionRef.current = Dimensions.addEventListener('change', handleResize)
 
-    initBGFetch()
+    initBGFetch(goodWallet, userStorage)
   }
 
   useEffect(() => {

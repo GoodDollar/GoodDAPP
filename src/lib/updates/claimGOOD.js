@@ -1,4 +1,5 @@
 import API from '../API/api'
+import { fireEvent, GOOD_AIRDROP } from '../analytics/analytics'
 
 const fromDate = new Date('2022/03/19')
 
@@ -32,6 +33,7 @@ const claimGOOD = async (lastUpdate, prevVersion, log, goodWallet, userStorage) 
           ),
         )
       }
+      fireEvent(GOOD_AIRDROP, { hasClaimed })
       log.info('claimGOOD success', { hasClaimed })
     }
   } catch (e) {

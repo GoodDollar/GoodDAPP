@@ -177,7 +177,8 @@ const AppSwitch = (props: LoadingProps) => {
 
       await initReg
       initialize()
-      runUpdates() //this needs to wait after initreg where we initialize the database
+      runUpdates(goodWallet, userStorage) //this needs to wait after initreg where we initialize the database
+      log.debug('initialize done')
 
       setReady(true)
     } catch (e) {
@@ -243,7 +244,7 @@ const AppSwitch = (props: LoadingProps) => {
   useAppState({ onForeground: recheck, onBackground: backgroundUpdates })
 
   useEffect(() => {
-    if (isLoggedIn == null || isLoggedInCitizen == null) {
+    if (isLoggedIn == null || isLoggedInCitizen == null || userStorage == null) {
       return
     }
     init()
@@ -264,7 +265,7 @@ const AppSwitch = (props: LoadingProps) => {
     })
 
     return () => DeepLinking.unsubscribe()
-  }, [isLoggedIn, isLoggedInCitizen])
+  }, [isLoggedIn, isLoggedInCitizen, userStorage])
 
   const { descriptors, navigation } = props
   const activeKey = navigation.state.routes[navigation.state.index].key

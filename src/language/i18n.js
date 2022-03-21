@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { I18nProvider } from '@lingui/react'
 import { i18n } from '@lingui/core'
 import { Helmet } from 'react-helmet'
-import { messages as defaultMessages } from './locales/en/catalog'
+import { messages as defaultMessages } from '../../localization/locales/en/catalog'
 
 // This array should equal the array set in .linguirc
 export const locales = ['de', 'en', 'es-AR', 'es', 'it', 'he', 'ro', 'ru', 'vi', 'zh-CN', 'zh-TW', 'ko', 'ja']

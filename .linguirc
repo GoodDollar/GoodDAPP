@@ -1,8 +1,8 @@
 {
     catalogs: [
         {
-            path: '<rootDir>/src/language/locales/{locale}/catalog',
-            include: ['<rootDir>/src'],
+            path: '<rootDir>/localization/locales/{locale}/catalog',
+            include: ['<rootDir>/src','<rootDir>/localization'],
             exclude: ['**/node_modules/**', '**/build/**']
         }
     ],

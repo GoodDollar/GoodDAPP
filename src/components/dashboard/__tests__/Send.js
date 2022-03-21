@@ -8,6 +8,8 @@ import renderer from 'react-test-renderer'
 
 import { getWebRouterComponentWithMocks } from './__util__'
 
+jest.setTimeout(25000)
+
 describe('Send', () => {
   beforeAll(async () => {
     await initUserStorage()

@@ -32,6 +32,7 @@ export type FeedListProps = {
   selectedFeed: ?string,
   styles: Object,
   onScroll: Function,
+  listFooterComponent: React.ReactNode,
 }
 
 const getItemLayout = (_: any, index: number) => {
@@ -58,6 +59,7 @@ const FeedList = ({
   styles,
   onScroll = noop,
   listHeaderComponent,
+  listFooterComponent,
   headerLarge,
   windowSize,
 }: FeedListProps) => {
@@ -230,6 +232,7 @@ const FeedList = ({
         refreshing={false}
         renderItem={renderItemComponent}
         ListHeaderComponent={listHeaderComponent}
+        ListFooterComponent={listFooterComponent}
         renderQuickActions={renderQuickActions}
         viewabilityConfig={VIEWABILITY_CONFIG}
         onScroll={onScroll}

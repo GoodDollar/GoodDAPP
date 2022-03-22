@@ -52,7 +52,7 @@ class CeramicFeed {
 
     if (afterHistoryId) {
       const afterId = String(afterHistoryId)
-      let afterIndex = allCommitIds.findIndex(commitId => commitId === afterId)
+      let afterIndex = commitIds.findIndex(commitId => commitId === afterId)
 
       if (afterIndex < 0) {
         throw new Error(`Couldn't find history id '${afterId}'`)

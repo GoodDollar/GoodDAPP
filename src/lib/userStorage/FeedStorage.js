@@ -7,6 +7,7 @@ import * as TextileCrypto from '@textile/crypto'
 import delUndefValNested from '../utils/delUndefValNested'
 import { updateFeedEventAvatar } from '../updates/utils/feed'
 
+import AsyncStorage from '../../lib/utils/asyncStorage'
 import Config from '../../config/config'
 import logger from '../../lib/logger/js-logger'
 import CeramicFeed from '../ceramic/CeramicFeed'
@@ -111,6 +112,11 @@ export class FeedStorage {
    * current feed item
    */
   cursor: number = 0
+
+  /**
+   * current ceramic feed item
+   */
+  ceramicCursor: number = 0
 
   /**
    * In memory array. keep number of events per day
@@ -751,9 +757,77 @@ export class FeedStorage {
     }
   }
 
+  fromCeramicToStorage(ceramicPost) {
+    return {
+      id: ceramicPost.id,
+      createdDate: ceramicPost.published,
+      date: new Date(ceramicPost.published).getTime(),
+      displayType: 'news',
+      status: 'completed',
+      type: 'news',
+      data: {
+        message: ceramicPost.content,
+        subtitle: ceramicPost.title,
+        picture: ceramicPost.picture,
+      },
+    }
+  }
+
+  async getCeramicFeedPage(numResult: number) {
+    let ceramicPostsCached = await AsyncStorage.getItem('GD_CERAMIC_DATA')
+    log.debug('Ceramic cached posts', ceramicPostsCached)
+
+    if (!ceramicPostsCached) {
+      const ceramicPosts = await CeramicFeed.getPosts()
+      log.debug('Ceramic fetched posts', ceramicPosts)
+
+      const historyId = await CeramicFeed.getHistoryId()
+      await AsyncStorage.setItem('GD_CERAMIC_DATA', { posts: ceramicPosts, historyId })
+      ceramicPostsCached = { posts: ceramicPosts, historyId }
+    } else {
+      const { history, historyId } = await CeramicFeed.getHistory(ceramicPostsCached.historyId)
+      log.debug('Ceramic history', { history, historyId })
+
+      await Promise.all(
+        history.map(async ({ item: postId, action }) => {
+          log.debug('update feed item', { postId, action })
+
+          switch (action) {
+            case 'added': {
+              const post = await CeramicFeed.getPost(postId)
+              ceramicPostsCached.posts.push(post)
+              break
+            }
+            case 'updated': {
+              const post = await CeramicFeed.getPost(postId)
+              ceramicPostsCached.posts = ceramicPostsCached.posts.map(cachedItem =>
+                cachedItem.id === postId ? { ...cachedItem, post } : cachedItem,
+              )
+              break
+            }
+            default: {
+              ceramicPostsCached.posts = ceramicPostsCached.posts.filter(cachedItem => cachedItem.id !== postId)
+              break
+            }
+          }
+        }),
+      )
+
+      await AsyncStorage.setItem('GD_CERAMIC_DATA', {
+        ...ceramicPostsCached,
+        historyId,
+      })
+    }
+
+    const start = this.ceramicCursor
+    const end = this.ceramicCursor + numResult
+    return ceramicPostsCached.posts.slice(start, end).map(this.fromCeramicToStorage)
+  }
+
   async getFeedPage(numResult: number, reset?: boolean) {
     if (reset || isUndefined(this.cursor)) {
       this.cursor = 0
+      this.ceramicCursor = 0
     }
 
     await this.ready
@@ -765,6 +839,16 @@ export class FeedStorage {
     log.debug('getFeedPage', {
       items,
     })
+
+    const ceramicItems = items.length < numResult ? await this.getCeramicFeedPage(numResult - items.length) : []
+
+    log.debug('getCeramicFeedPage', {
+      ceramicItems,
+    })
+
+    this.ceramicCursor += ceramicItems.length
+
+    items.push(...ceramicItems)
 
     const events = await Promise.all(
       items.map(async item => {

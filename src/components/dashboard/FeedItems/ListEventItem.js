@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { Platform, View } from 'react-native'
+import { Image, Platform, View } from 'react-native'
 import { get } from 'lodash'
 import { isMobile } from '../../../lib/utils/platform'
 import normalize from '../../../lib/utils/normalizeText'
@@ -18,42 +18,124 @@ import getEventSettingsByType from './EventSettingsByType'
 import EmptyEventFeed from './EmptyEventFeed'
 import FeedListItemLeftBorder from './FeedListItemLeftBorder'
 
-const InviteItem = ({ item, theme }) => {
-  return (
-    <Section.Row style={{ flex: 1, paddingVertical: theme.sizes.default * 1.5 }}>
-      <Section.Stack>
-        <Icon color={theme.colors.white} name="invite" size={30} />
-      </Section.Stack>
-      <Section.Stack style={{ marginLeft: getDesignRelativeWidth(theme.sizes.default) }}>
-        <Text
-          color={theme.colors.white}
-          textAlign={'left'}
-          fontSize={18}
-          lineHeight={18}
-          fontWeight="bold"
-          letterSpacing={0.09}
-        >
-          {get(item, 'data.subtitle', '')}
-        </Text>
-        <Text
-          color={theme.colors.white}
-          textAlign={'left'}
-          fontSize={13}
-          lineHeight={18}
-          fontWeight="regular"
-          letterSpacing={-0.07}
-        >
-          {get(item, 'data.readMore', '')}
-        </Text>
-      </Section.Stack>
-      <Section.Stack
-        style={{ flex: 1, alignItems: 'flex-end', marginRight: getDesignRelativeWidth(theme.sizes.defaultDouble) }}
+const InviteItem = ({ item, theme }) => (
+  <Section.Row style={{ flex: 1, paddingVertical: theme.sizes.default * 1.5 }}>
+    <Section.Stack>
+      <Icon color={theme.colors.white} name="invite" size={30} />
+    </Section.Stack>
+    <Section.Stack style={{ marginLeft: getDesignRelativeWidth(theme.sizes.default) }}>
+      <Text
+        color={theme.colors.white}
+        textAlign={'left'}
+        fontSize={18}
+        lineHeight={18}
+        fontWeight="bold"
+        letterSpacing={0.09}
       >
-        <Icon color={theme.colors.white} name="arrow-back" size={20} style={{ transform: [{ rotateY: '180deg' }] }} />
-      </Section.Stack>
-    </Section.Row>
-  )
-}
+        {get(item, 'data.subtitle', '')}
+      </Text>
+      <Text
+        color={theme.colors.white}
+        textAlign={'left'}
+        fontSize={13}
+        lineHeight={18}
+        fontWeight="regular"
+        letterSpacing={-0.07}
+      >
+        {get(item, 'data.readMore', '')}
+      </Text>
+    </Section.Stack>
+    <Section.Stack
+      style={{ flex: 1, alignItems: 'flex-end', marginRight: getDesignRelativeWidth(theme.sizes.defaultDouble) }}
+    >
+      <Icon color={theme.colors.white} name="arrow-back" size={20} style={{ transform: [{ rotateY: '180deg' }] }} />
+    </Section.Stack>
+  </Section.Row>
+)
+
+const NewsItem: React.FC = ({ item, eventSettings, styles }) => (
+  <View style={styles.rowContent}>
+    <FeedListItemLeftBorder style={styles.rowContentBorder} color={eventSettings.color} />
+
+    <View style={{ height: 400, width: '100%' }}>
+      <Image source={{ uri: item.data.picture }} style={{ height: 131, width: '100%', backgroundColor: 'red' }} />
+
+      <View style={styles.innerRow}>
+        <View style={styles.emptySpace} />
+        <View grow style={styles.mainContents}>
+          <View style={[styles.dateAndValue, { borderBottomColor: eventSettings.color }]}>
+            <Text fontSize={10} color="gray80Percent" lineHeight={17}>
+              {getFormattedDateTime(item.date)}
+            </Text>
+            {!eventSettings.withoutAmount && (
+              <React.Fragment>
+                {eventSettings && eventSettings.actionSymbol && (
+                  <Text
+                    fontSize={15}
+                    lineHeight={18}
+                    fontWeight="bold"
+                    color={eventSettings.color}
+                    style={styles.actionSymbol}
+                  >
+                    {eventSettings.actionSymbol}
+                  </Text>
+                )}
+                <BigGoodDollar
+                  number={get(item, 'data.amount', 0)}
+                  color={eventSettings.color}
+                  bigNumberProps={{ fontSize: 20, lineHeight: 20 }}
+                  bigNumberStyles={styles.bigNumberStyles}
+                  bigNumberUnitProps={{ fontSize: 10, lineHeight: 11 }}
+                />
+              </React.Fragment>
+            )}
+          </View>
+          <View style={styles.transferInfo} alignItems="flex-start">
+            <Avatar
+              size={normalize(34)}
+              imageSize={normalize(36)}
+              style={styles.avatarBottom}
+              source={get(item, 'data.endpoint.avatar')}
+            />
+            <View style={[styles.mainInfo, item.type === 'claiming' && styles.claimingCardFeedText]}>
+              {['senderror', 'withdrawerror'].includes(item.displayType || item.type) ? (
+                <>
+                  <Text fontWeight="medium" lineHeight={19} style={styles.mainText} color="primary">
+                    {`We're sorry.`}
+                  </Text>
+                  <ReadMoreText
+                    text="This transaction failed"
+                    buttonText="Read why..."
+                    style={styles.failTransaction}
+                    color="primary"
+                  />
+                </>
+              ) : (
+                <>
+                  <EventCounterParty
+                    style={styles.feedItem}
+                    feedItem={item}
+                    subtitle={true}
+                    isSmallDevice={isMobile && getScreenWidth() < 353}
+                  />
+                  <FeedText feed={item} isSmallDevice={isMobile && getScreenWidth() < 353} />
+                </>
+              )}
+            </View>
+            <EventIcon
+              style={styles.typeIcon}
+              animStyle={styles.typeAnimatedIcon}
+              type={item.type}
+              size={normalize(34)}
+              showAnim={false}
+              delay={100}
+            />
+          </View>
+        </View>
+      </View>
+    </View>
+  </View>
+)
 
 /**
  * Render list withdraw item for feed list
@@ -80,6 +162,9 @@ const ListEvent = ({ item: feed, theme, index, styles }: FeedEventProps) => {
         </View>
       </View>
     )
+  }
+  if (itemType === 'news') {
+    return <NewsItem item={feed} eventSettings={eventSettings} styles={styles} />
   }
   return (
     <View style={styles.rowContent}>

@@ -28,6 +28,7 @@ import { useNativeDriverForAnimation } from '../../lib/utils/platform'
 import TabsView from '../appNavigation/TabsView'
 import BigGoodDollar from '../common/view/BigGoodDollar'
 import ClaimButton from '../common/buttons/ClaimButton'
+import TabButton from '../common/buttons/TabButton'
 import Section from '../common/layout/Section'
 import Wrapper from '../common/layout/Wrapper'
 import logger from '../../lib/logger/js-logger'
@@ -43,6 +44,7 @@ import Avatar from '../common/view/Avatar'
 import _debounce from '../../lib/utils/debounce'
 import useProfile from '../../lib/userStorage/useProfile'
 import { GlobalTogglesContext } from '../../lib/contexts/togglesContext'
+import Separator from '../common/layout/Separator'
 import PrivacyPolicyAndTerms from './PrivacyPolicyAndTerms'
 import Amount from './Amount'
 import Claim from './Claim'
@@ -85,6 +87,14 @@ export type DashboardProps = {
   store: Store,
   styles?: any,
 }
+
+const FeedTabs = {
+  All: 'All',
+  Transactions: 'Transactions',
+  News: 'News',
+}
+
+const TABS_ARRAY = [FeedTabs.All, FeedTabs.Transactions, FeedTabs.News]
 
 const feedMutex = new Mutex()
 
@@ -170,6 +180,8 @@ const Dashboard = props => {
   }, [navigation])
 
   const listHeaderComponent = isCryptoLiteracy ? <CryptoLiteracyBanner onPress={onBannerClicked} /> : null
+
+  const listFooterComponent = <Separator color="transparent" width={50} />
 
   const handleDeleteRedirect = useCallback(() => {
     if (navigation.state.key === 'Delete') {
@@ -615,6 +627,8 @@ const Dashboard = props => {
     default: noop,
   })
 
+  const [activeTab, setActiveTab] = useState(FeedTabs.All)
+
   return (
     <Wrapper style={styles.dashboardWrapper} withGradient={false}>
       <Section style={[styles.topInfo]}>
@@ -696,6 +710,28 @@ const Dashboard = props => {
           </PushButton>
         </Section.Row>
       </Section>
+
+      <Section style={{ marginHorizontal: 8, backgroundColor: undefined, paddingHorizontal: 0, paddingBottom: 6 }}>
+        <Section.Row>
+          {TABS_ARRAY.map((tab, index) => {
+            const onTabPress = () => setActiveTab(tab)
+            return (
+              <TabButton
+                key={tab}
+                flex={tab === FeedTabs.Transactions ? 2 : 1}
+                isActive={tab === activeTab}
+                roundnessLeft={index === 0 ? 5 : 0}
+                roundnessRight={TABS_ARRAY.length - 1 === index ? 5 : 0}
+                hasLeftBorder={index !== 0}
+                onPress={onTabPress}
+              >
+                {tab}
+              </TabButton>
+            )
+          })}
+        </Section.Row>
+      </Section>
+
       <FeedList
         data={feedRef.current}
         handleFeedSelection={handleFeedSelection}
@@ -703,6 +739,7 @@ const Dashboard = props => {
         onEndReached={nextFeed} // How far from the end the bottom edge of the list must be from the end of the content to trigger the onEndReached callback.
         // we can use decimal (from 0 to 1) or integer numbers. Integer - it is a pixels from the end. Decimal it is the percentage from the end
         listHeaderComponent={listHeaderComponent}
+        listFooterComponent={listFooterComponent}
         onEndReachedThreshold={0.8}
         windowSize={10} // Determines the maximum number of items rendered outside of the visible area
         onScrollEnd={handleScrollEnd}

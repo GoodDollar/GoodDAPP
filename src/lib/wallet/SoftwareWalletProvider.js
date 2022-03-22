@@ -1,7 +1,6 @@
 // @flow
 import Web3 from 'web3'
 import bip39 from 'bip39-light'
-import type { HttpProvider, WebsocketProvider } from 'web3-core'
 import { assign } from 'lodash'
 import AsyncStorage from '../utils/asyncStorage'
 import Config from '../../config/config'
@@ -11,6 +10,7 @@ import type { WalletConfig } from './WalletFactory'
 import MultipleAddressWallet from './MultipleAddressWallet'
 
 const log = logger.child({ from: 'SoftwareWalletProvider' })
+const { WebsocketProvider, HttpProvider } = Web3.providers
 
 /**
  * save mnemonics (secret phrase) to user device
@@ -107,28 +107,37 @@ class SoftwareWalletProvider {
   }
 
   getWeb3TransportProvider(): HttpProvider | WebSocketProvider {
-    let provider
-    let web3Provider: WebsocketProvider | HttpProvider
-    let transport = this.conf.web3Transport
-    switch (transport) {
-      case 'WebSocketProvider':
-        provider = this.conf.websocketWeb3Provider
-        web3Provider = new Web3.providers.WebsocketProvider(provider, { timeout: 10000, reconnectDelay: 2000 })
-        break
+    const { web3Transport, websocketWeb3Provider } = this.conf
+    const wsOptions = { timeout: 10000, reconnectDelay: 2000 }
 
-      case 'HttpProvider': {
-        const infuraKey = this.conf.httpWeb3provider.indexOf('infura') === -1 ? '' : Config.infuraKey
-        provider = this.conf.httpWeb3provider + infuraKey
-        web3Provider = new Web3.providers.HttpProvider(provider)
-        break
-      }
+    switch (web3Transport) {
+      case 'WebSocketProvider':
+        return new WebsocketProvider(websocketWeb3Provider, wsOptions)
       default:
-        provider = this.conf.httpWeb3provider + Config.infuraKey
-        web3Provider = new Web3.providers.HttpProvider(provider)
+        return this._createHttpProvider()
+    }
+  }
+
+  /** @private */
+  _createHttpProvider() {
+    const { httpWeb3provider } = this.conf
+    const backend = ['infura', 'pokt'].find(server => httpWeb3provider.includes(server))
+
+    let provider = httpWeb3provider
+    let options = {}
+
+    switch (backend) {
+      case 'infura':
+        provider += Config.infuraKey
+        break
+      case 'pokt':
+        options = { headers: [{ name: 'X-Wallet-Application', value: 'GoodDollarWallet' }] }
+        break
+      default:
         break
     }
 
-    return web3Provider
+    return new HttpProvider(provider, options)
   }
 }
 

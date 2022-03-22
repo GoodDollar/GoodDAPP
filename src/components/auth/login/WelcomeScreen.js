@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect } from 'react'
 import { Linking, View } from 'react-native'
 
-import { Trans as _, t } from '@lingui/macro'
+import { t } from '@lingui/macro'
 import CustomButton from '../../common/buttons/CustomButton'
 import Wrapper from '../../common/layout/Wrapper'
 import Text from '../../common/view/Text'
@@ -70,7 +70,7 @@ const WelcomeScreen = ({ theme, styles, screenProps, navigation }) => {
           fontWeight="bold"
           textTransform="uppercase"
         >
-          <_>Get started</_>
+          {t`Get started`}
         </Text>
         <Text
           color={'darkIndigo'}
@@ -81,7 +81,7 @@ const WelcomeScreen = ({ theme, styles, screenProps, navigation }) => {
           fontWeight="bold"
           style={{ marginTop: getDesignRelativeHeight(14) }}
         >
-          <_>Welcome to GoodDollar</_>
+          {t`Welcome to GoodDollar`}
         </Text>
         <Text
           color={'darkIndigo'}
@@ -105,7 +105,7 @@ const WelcomeScreen = ({ theme, styles, screenProps, navigation }) => {
             style={{ marginTop: getDesignRelativeHeight(12) }}
             onPress={handleLearnMore}
           >
-            <_>Learn More</_>
+            {t`Learn More`}
           </Text>
         </View>
         <View style={styles.illustration}>
@@ -122,7 +122,7 @@ const WelcomeScreen = ({ theme, styles, screenProps, navigation }) => {
             textStyle={styles.buttonText}
             onPress={handleGetStarted}
           >
-            <_>Get Started</_>
+            {t`Get Started`}
           </CustomButton>
         </View>
       </View>
@@ -167,7 +167,7 @@ const getStylesFromProps = ({ theme }) => {
 const welcome = withStyles(getStylesFromProps)(SimpleStore.withStore(WelcomeScreen))
 
 welcome.navigationOptions = {
-  title: t`Welcome to GoodDollar!`,
+  title: `Welcome to GoodDollar!`,
   navigationBarHidden: true,
 }
 

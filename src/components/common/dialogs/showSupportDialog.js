@@ -3,7 +3,7 @@
 import { noop } from 'lodash'
 import React from 'react'
 import { View } from 'react-native'
-import { Trans as _, t } from '@lingui/macro'
+import { t, Trans } from '@lingui/macro'
 import Text from '../view/Text'
 
 export const showSupportDialog = (
@@ -24,7 +24,7 @@ export const showSupportDialog = (
     onDismiss: onDismiss || noop,
     boldMessage: (
       <View style={wrapperStyles}>
-        <_>
+        <Trans>
           <Text fontWeight="inherit" color="inherit">
             {'Or contact '}
           </Text>
@@ -39,7 +39,7 @@ export const showSupportDialog = (
           >
             support
           </Text>
-        </_>
+        </Trans>
       </View>
     ),
   })

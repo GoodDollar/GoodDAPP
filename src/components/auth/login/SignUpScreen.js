@@ -2,7 +2,7 @@
 import React, { useContext, useEffect, useMemo } from 'react'
 import { Platform, View } from 'react-native'
 
-import { Trans as _ } from '@lingui/macro'
+import { t, Trans } from '@lingui/macro'
 import Wrapper from '../../common/layout/Wrapper'
 import Text from '../../common/view/Text'
 import NavBar from '../../appNavigation/NavBar'
@@ -35,7 +35,7 @@ const SignupText = ({ screenProps }) => {
 
   return (
     <>
-      <_>
+      <Trans>
         <Text fontSize={12} color="gray80Percent">
           {`By signing up and entering, you are accepting our\n`}
           <Text
@@ -58,7 +58,7 @@ const SignupText = ({ screenProps }) => {
             Privacy Policy
           </Text>
         </Text>
-      </_>
+      </Trans>
     </>
   )
 }
@@ -92,7 +92,7 @@ const SignupScreen = ({ screenProps, styles, handleLoginMethod, sdkInitialized, 
                 fontWeight="bold"
                 textTransform="uppercase"
               >
-                <_>Choose Authentication Method</_>
+                {t`Choose Authentication Method`}
               </Text>
               <Text
                 color={'darkIndigo'}
@@ -103,7 +103,7 @@ const SignupScreen = ({ screenProps, styles, handleLoginMethod, sdkInitialized, 
                 fontWeight="bold"
                 style={{ marginTop: getDesignRelativeHeight(15) }}
               >
-                <_>Start Claiming G$ Daily</_>
+                {t`Start Claiming G$ Daily`}
               </Text>
               <Text
                 color={'darkIndigo'}
@@ -113,9 +113,7 @@ const SignupScreen = ({ screenProps, styles, handleLoginMethod, sdkInitialized, 
                 fontFamily="Roboto"
                 style={{ marginTop: getDesignRelativeHeight(5) }}
               >
-                <_>
-                  {`Begin receiving real crypto, totally for\n free, and without having to risk any\n money to start.`}
-                </_>
+                {t`Begin receiving real crypto, totally for\n free, and without having to risk any\n money to start.`}
               </Text>
             </Section.Stack>
             <Section.Stack style={styles.bottomContainer}>
@@ -141,7 +139,7 @@ const SignupScreen = ({ screenProps, styles, handleLoginMethod, sdkInitialized, 
                       onPress={_selfCustodySignup}
                       style={styles.textButton}
                     >
-                      <_>Self Custody SignUp</_>
+                      {t`Self Custody SignUp`}
                     </CustomButton>
                     <CustomButton
                       compact
@@ -157,7 +155,7 @@ const SignupScreen = ({ screenProps, styles, handleLoginMethod, sdkInitialized, 
                       onPress={_selfCustodyLogin}
                       style={styles.textButton}
                     >
-                      <_>Self Custody Login</_>
+                      {t`Self Custody Login`}
                     </CustomButton>
                   </View>
                 )}

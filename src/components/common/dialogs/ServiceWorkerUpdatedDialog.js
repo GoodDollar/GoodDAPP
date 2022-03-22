@@ -3,7 +3,7 @@ import React from 'react'
 import { Platform, View } from 'react-native'
 
 // components
-import { Trans as _, t } from '@lingui/macro'
+import { t } from '@lingui/macro'
 import Text from '../../common/view/Text'
 import JumpingPeopleAnimation from '../animations/JumpingPeople'
 
@@ -85,9 +85,7 @@ export const RegularDialog = withStyles(dialogStyles)(({ styles, theme }) => (
     </View>
     <View style={styles.description}>
       <Text fontSize={14} lineHeight={20} textAlign="left" color={theme.colors.darkGray}>
-        <_>
-          Thanks to your awesome feedback we were able to improve our wallet. We hope now you’ll enjoy it even more.
-        </_>
+        {t`Thanks to your awesome feedback we were able to improve our wallet. We hope now you’ll enjoy it even more.`}
       </Text>
     </View>
   </View>
@@ -110,7 +108,7 @@ export const NewReleaseDialog = withStyles(dialogStyles)(({ styles, theme }) => 
           color={theme.colors.green}
           style={[styles.title, styles.phase1Title]}
         >
-          <_>Good News: We’re Live!</_>
+          {t`Good News: We’re Live!`}
         </Text>
       </View>
       <View style={styles.description}>

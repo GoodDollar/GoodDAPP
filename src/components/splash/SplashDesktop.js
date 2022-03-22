@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react'
 import { Platform, StyleSheet, View } from 'react-native'
-import { Trans as _ } from '@lingui/macro'
+import { t } from '@lingui/macro'
 import GoodDollarImageSVG from '../../assets/Splash/goodDollar.svg'
 
 import wavePattern from '../../assets/splashWaves.svg'
@@ -19,16 +19,16 @@ const SplashDesktop = ({ onContinue, urlForQR }) => {
         <Section.Stack style={styles.content} grow justifyContent="space-between">
           <Section.Text fontSize={22} color="darkBlue">
             <Section.Text fontSize={22} color="darkBlue">
-              <_>{'Welcome to GoodDollar Wallet\n'}</_>
+              {t`Welcome to GoodDollar Wallet\n`}
             </Section.Text>
-            <_>{'For best experience\nplease scan and continue\non your mobile device.'}</_>
+            {t`For best experience\nplease scan and continue\non your mobile device.`}
           </Section.Text>
           <QRCode value={urlForQR} size={150} qrStyles={styles.qrStyles} />
           <View style={styles.goodDollar}>
             <GoodDollarImageSVG />
           </View>
           <CustomButton mode="outlined" color="white" style={styles.buttonContinue} onPress={_onContinue}>
-            <_>Continue on Web</_>
+            {t`Continue on Web`}
           </CustomButton>
         </Section.Stack>
       </Section>

@@ -38,7 +38,7 @@ exports[`Auth matches snapshot 1`] = `
                 data-testid="welcomeLabel"
                 dir="auto"
               >
-                Welcome toGoodDollar Wallet
+                Welcome to\\nGoodDollar Wallet
               </div>
               <div
                 className="css-view-1dbjc4n"

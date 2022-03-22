@@ -5,7 +5,7 @@ import { get } from 'lodash'
 
 //components
 // import Separator from '../../../common/layout/Separator'
-import { Trans as _ } from '@lingui/macro'
+import { t } from '@lingui/macro'
 import Text from '../../../common/view/Text'
 import { CustomButton, Section, Wrapper } from '../../../common'
 
@@ -61,20 +61,14 @@ const log = logger.child({ from: 'FaceVerificationIntro' })
 const WalletDeletedPopupText = ({ styles }) => (
   <View style={styles.wrapper}>
     <View style={styles.title}>
-      <_>
-        <Text textAlign="left" fontSize={22} lineHeight={28} fontWeight="medium">
-          {'New Wallet?\nYou’ll need to wait 24 hours'}
-        </Text>
-      </_>
+      <Text textAlign="left" fontSize={22} lineHeight={28} fontWeight="medium">
+        {t`New Wallet?\nYou’ll need to wait 24 hours`}
+      </Text>
     </View>
     <View style={styles.paddingVertical20}>
-      <_>
-        <Text style={styles.textStyle}>
-          {
-            'We see you recently deleted your wallet and have opened a new one.\nThis delay is to prevent misuse, thanks for understanding!'
-          }
-        </Text>
-      </_>
+      <Text style={styles.textStyle}>
+        {t`We see you recently deleted your wallet and have opened a new one.\nThis delay is to prevent misuse, thanks for understanding!`}
+      </Text>
     </View>
   </View>
 )
@@ -128,10 +122,7 @@ const IntroScreenB = ({ styles, firstName, ready, onVerify, onLearnMore }) => (
           </Section.Text>
         </Section.Title>
         <Section.Text fontSize={18} lineHeight={25} letterSpacing={0.18} style={styles.mainTextB}>
-          <_>
-            Your image is only used to prevent the creation of duplicate accounts and will never be transferred to any
-            third party
-          </_>
+          {t`Your image is only used to prevent the creation of duplicate accounts and will never be transferred to any third party`}
         </Section.Text>
         <Section.Text
           fontWeight="bold"
@@ -141,13 +132,13 @@ const IntroScreenB = ({ styles, firstName, ready, onVerify, onLearnMore }) => (
           style={styles.learnMore}
           onPress={onLearnMore}
         >
-          <_>Learn More</_>
+          {t`Learn More`}
         </Section.Text>
         <View style={styles.illustrationB}>
           <FashionShootSVG />
         </View>
         <CustomButton style={[styles.button]} onPress={onVerify} disabled={!ready}>
-          <_>OK, VERIFY ME</_>
+          {t`OK, VERIFY ME`}
         </CustomButton>
       </View>
     </Section>

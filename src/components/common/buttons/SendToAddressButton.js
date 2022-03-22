@@ -1,7 +1,7 @@
 // @flow
 import React from 'react'
 import { TouchableOpacity, View } from 'react-native'
-import { Trans as _ } from '@lingui/macro'
+import { t } from '@lingui/macro'
 import Icon from '../view/Icon'
 import Text from '../view/Text'
 import { withStyles } from '../../../lib/styles'
@@ -25,7 +25,7 @@ const ScanQRButton = ({ onPress, styles, theme, disabled, style = {} }: Props) =
           <Icon name="send-to-address" color="white" size={20} />
         </View>
         <Text color="darkBlue" fontSize={10} fontWeight="medium" lineHeight={11} style={styles.text}>
-          <_>Send to address</_>
+          {t`Send to address`}
         </Text>
       </View>
     </TouchableOpacity>

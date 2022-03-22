@@ -1,7 +1,7 @@
 // @flow
 import React, { useCallback, useEffect, useState } from 'react'
 import { Platform } from 'react-native'
-import { Trans as _, t } from '@lingui/macro'
+import { t, Trans } from '@lingui/macro'
 import { useClipboardCopy } from '../../lib/hooks/useClipboard'
 import { useWrappedApi } from '../../lib/API/useWrappedApi'
 import { withStyles } from '../../lib/styles'
@@ -89,28 +89,26 @@ const BackupWallet = ({ screenProps, styles, theme }: BackupWalletProps) => {
   return (
     <Wrapper style={styles.mainWrapper}>
       <Section grow={5} style={styles.wrapper}>
-        <_>
+        <Trans>
           <Text grow fontWeight="bold" fontSize={16} style={styles.instructions}>
             {'please save your 12-word pass phrase\n'}
             <Text fontSize={16} style={styles.instructions}>
               {'and keep it in a secure location\nso you can recover your wallet anytime'}
             </Text>
           </Text>
-        </_>
+        </Trans>
         <Section.Stack grow justifyContent="space-between" style={styles.inputsContainer}>
           <MnemonicInput recoveryMode={mnemonics} />
         </Section.Stack>
         <Section.Stack style={styles.bottomContainer} justifyContent="space-between" alignItems="stretch">
           <CustomButton textStyle={styles.resendButton} mode="text" compact={true} onPress={setClipboard}>
-            <_>Copy all to clipboard</_>
+            {t`Copy all to clipboard`}
           </CustomButton>
           <CustomButton textStyle={styles.resendButton} mode="text" compact={true} onPress={sendRecoveryEmail}>
-            <_>Send me a backup email</_>
+            {t`Send me a backup email`}
           </CustomButton>
         </Section.Stack>
-        <CustomButton onPress={screenProps.pop}>
-          <_>Done</_>
-        </CustomButton>
+        <CustomButton onPress={screenProps.pop}>{t`Done`}</CustomButton>
       </Section>
     </Wrapper>
   )

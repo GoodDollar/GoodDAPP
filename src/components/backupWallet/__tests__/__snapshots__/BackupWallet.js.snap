@@ -469,7 +469,12 @@ exports[`BackupWallet matches snapshot 1`] = `
                 <div
                   className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
                 >
-                  Copy all to clipboard
+                  <div
+                    className="css-text-901oao r-alignItems-1awozwy r-color-1q5uqvh r-display-6koalj r-fontFamily-vnw8o6 r-fontSize-a023e6 r-fontWeight-1it3c9n r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-qvk6io r-minHeight-1ceczpf r-textAlign-q4m81j r-textDecorationLine-1ddef8g r-textTransform-3twk1y"
+                    dir="auto"
+                  >
+                    Copy all to clipboard
+                  </div>
                 </div>
               </div>
             </div>
@@ -542,7 +547,12 @@ exports[`BackupWallet matches snapshot 1`] = `
                 <div
                   className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
                 >
-                  Send me a backup email
+                  <div
+                    className="css-text-901oao r-alignItems-1awozwy r-color-1q5uqvh r-display-6koalj r-fontFamily-vnw8o6 r-fontSize-a023e6 r-fontWeight-1it3c9n r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-qvk6io r-minHeight-1ceczpf r-textAlign-q4m81j r-textDecorationLine-1ddef8g r-textTransform-3twk1y"
+                    dir="auto"
+                  >
+                    Send me a backup email
+                  </div>
                 </div>
               </div>
             </div>
@@ -616,7 +626,12 @@ exports[`BackupWallet matches snapshot 1`] = `
               <div
                 className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
               >
-                Done
+                <div
+                  className="css-text-901oao r-alignItems-1awozwy r-color-jwli3a r-display-6koalj r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-qvk6io r-minHeight-1ceczpf r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
+                  dir="auto"
+                >
+                  Done
+                </div>
               </div>
             </div>
           </div>

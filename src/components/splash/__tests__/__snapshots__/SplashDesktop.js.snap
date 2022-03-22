@@ -29,11 +29,9 @@ exports[`SplashDesktop matches snapshot 1`] = `
           <span
             className="css-text-901oao css-textHasAncestor-16my406 r-color-waoq6i r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
           >
-            Welcome to GoodDollar Wallet
+            Welcome to GoodDollar Wallet\\n
           </span>
-          For best experience
-please scan and continue
-on your mobile device.
+          For best experience\\nplease scan and continue\\non your mobile device.
         </div>
         <div
           className="css-view-1dbjc4n r-alignItems-1awozwy r-justifyContent-1777fci"
@@ -229,7 +227,12 @@ on your mobile device.
                 <div
                   className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
                 >
-                  Continue on Web
+                  <div
+                    className="css-text-901oao r-alignItems-1awozwy r-color-jwli3a r-display-6koalj r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-qvk6io r-minHeight-1ceczpf r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
+                    dir="auto"
+                  >
+                    Continue on Web
+                  </div>
                 </div>
               </div>
             </div>

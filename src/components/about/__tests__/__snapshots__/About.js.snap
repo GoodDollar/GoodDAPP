@@ -62,7 +62,7 @@ exports[`About matches snapshot 1`] = `
           <span
             className="css-text-901oao css-textHasAncestor-16my406 r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
           >
-            Let's change the world, for good.
+            \\nLet's change the world, for good.
           </span>
         </div>
       </div>

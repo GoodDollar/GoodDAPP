@@ -4,7 +4,7 @@ import { Platform, StyleSheet } from 'react-native'
 import moment from 'moment'
 
 // components
-import { Trans as _ } from '@lingui/macro'
+import { t, Trans } from '@lingui/macro'
 import AnimationsLogo from '../common/animations/Logo'
 import Wrapper from '../common/layout/Wrapper'
 import Section from '../common/layout/Section'
@@ -77,16 +77,16 @@ const Splash = ({ animation, isLoggedIn }) => {
                   lineHeight={32}
                   style={styles.title}
                 >
-                  <_>GoodDollar Demo</_>
+                  {t`GoodDollar Demo`}
                 </Section.Text>
-                <_>
+                <Trans>
                   <Section.Text fontSize={16} color="white" letterSpacing={0.24} lineHeight={22} fontWeight="medium">
                     {'All G$ coins in the demo\nare for test purposes only.\nOnce all feedback is incorporated,\n'}
                     <Section.Text fontSize={16} color="white" letterSpacing={0.24} lineHeight={22} fontWeight="bold">
                       all demo G$ coins will be deleted.
                     </Section.Text>
                   </Section.Text>
-                </_>
+                </Trans>
               </Section.Stack>
             )}
             <AnimationsLogo

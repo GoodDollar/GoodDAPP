@@ -6,7 +6,7 @@ import { ScrollView } from 'react-native'
 import { get, noop } from 'lodash'
 
 // components
-import { Trans as _ } from '@lingui/macro'
+import { t } from '@lingui/macro'
 import Wrapper from '../common/layout/Wrapper'
 import { Section } from '../common'
 import BorderedBox from '../common/view/BorderedBox'
@@ -69,11 +69,11 @@ const ExportWalletData = ({ navigation, styles, theme }: ExportWalletProps) => {
       <ScrollView style={styles.container}>
         <Divider size={30} />
         <Section.Text fontSize={28} fontWeight="bold" fontFamily={theme.fonts.slab} color="black">
-          <_>My account details</_>
+          {t`My account details`}
         </Section.Text>
         <Divider size={10} />
         <Section.Text fontSize={15} fontWeight="medium" fontFamily="Roboto" color="black">
-          <_>All your information at a glance to easily import GoodDollar to MetaMask</_>
+          {t`All your information at a glance to easily import GoodDollar to MetaMask`}
         </Section.Text>
         <Divider size={30} />
         <BorderedBox

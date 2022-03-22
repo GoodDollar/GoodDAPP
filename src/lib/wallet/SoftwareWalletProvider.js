@@ -6,6 +6,7 @@ import AsyncStorage from '../utils/asyncStorage'
 import Config from '../../config/config'
 import { GD_USER_MASTERSEED, GD_USER_MNEMONIC, GD_USER_PRIVATEKEYS } from '../constants/localStorage'
 import logger from '../logger/js-logger'
+import { isMobileNative, osVersionInfo } from '../utils/platform'
 import type { WalletConfig } from './WalletFactory'
 import MultipleAddressWallet from './MultipleAddressWallet'
 
@@ -131,7 +132,13 @@ class SoftwareWalletProvider {
         provider += Config.infuraKey
         break
       case 'pokt':
-        options = { headers: [{ name: 'X-Wallet-Application', value: 'GoodDollarWallet' }] }
+        if (isMobileNative) {
+          const { osName, version } = osVersionInfo
+          const { version: appVersion } = Config
+          const userAgentString = `Mozilla/5.0 (${osName} ${version}) GoodDollar Wallet/${appVersion}`
+
+          options = { headers: [{ name: 'User-Agent', value: userAgentString }] }
+        }
         break
       default:
         break

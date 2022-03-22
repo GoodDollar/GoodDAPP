@@ -2,7 +2,7 @@ import moment from 'moment'
 import React, { useCallback, useEffect, useState } from 'react'
 import { Platform, View } from 'react-native'
 
-import { t, Trans } from '@lingui/macro'
+import { Trans as _, t } from '@lingui/macro'
 import Text from '../../common/view/Text'
 import Icon from '../view/Icon'
 
@@ -91,11 +91,11 @@ const InitialDialog = withStyles(mapStylesToProps)(({ showDesc, styles }) => {
     <View style={styles.container}>
       <DialogImage styles={styles} />
       <DiaglogTitle>
-        <Trans>Add icon to home screen for easy access</Trans>
+        <_>Add icon to home screen for easy access</_>
       </DiaglogTitle>
       {showDesc && (
         <Text textAlign="left" color="gray80Percent" fontSize={14}>
-          <Trans>You can collect your daily GoodDollars with ease by adding this shortcut to your home screen.</Trans>
+          <_>You can collect your daily GoodDollars with ease by adding this shortcut to your home screen.</_>
         </Text>
       )}
     </View>
@@ -105,7 +105,7 @@ const InitialDialog = withStyles(mapStylesToProps)(({ showDesc, styles }) => {
 const ExplanationDialog = withStyles(mapStylesToProps)(({ styles }) => {
   return (
     <View style={styles.explanationDialogContainer}>
-      <Trans>
+      <_>
         <Text fontSize={14} style={styles.explanationDialogText}>
           {'Add this web-app to your iPhone:'}
         </Text>
@@ -115,7 +115,7 @@ const ExplanationDialog = withStyles(mapStylesToProps)(({ styles }) => {
             {'“Add to home screen"'}
           </Text>
         </Text>
-      </Trans>
+      </_>
     </View>
   )
 })

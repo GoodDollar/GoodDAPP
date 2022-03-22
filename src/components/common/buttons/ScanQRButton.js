@@ -1,7 +1,7 @@
 // @flow
 import React from 'react'
 import { Platform, TouchableOpacity, View } from 'react-native'
-import { Trans } from '@lingui/macro'
+import { Trans as _ } from '@lingui/macro'
 import Icon from '../view/Icon'
 import Text from '../view/Text'
 import { withStyles } from '../../../lib/styles'
@@ -25,7 +25,7 @@ const ScanQRButton = ({ onPress, styles, theme, disabled, style = {} }: Props) =
           <Icon name="qrcode" color="white" size={22} />
         </View>
         <Text color="darkBlue" fontSize={10} fontWeight="medium" lineHeight={11} style={styles.text}>
-          <Trans>Scan QR Code</Trans>
+          <_>Scan QR Code</_>
         </Text>
       </View>
     </TouchableOpacity>

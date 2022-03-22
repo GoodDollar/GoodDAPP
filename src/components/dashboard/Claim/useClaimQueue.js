@@ -1,7 +1,7 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { View } from 'react-native'
 import { get } from 'lodash'
-import { t, Trans } from '@lingui/macro'
+import { Trans as _, t } from '@lingui/macro'
 import Text from '../../common/view/Text'
 import userStorage from '../../../lib/userStorage/UserStorage'
 import goodWallet from '../../../lib/wallet/GoodWallet'
@@ -23,15 +23,15 @@ const ClaimQueuePopupText = ({ styles }) => (
   <View style={styles.wrapper}>
     <View style={styles.title}>
       <Text textAlign="left" fontSize={22} lineHeight={28} fontWeight="medium">
-        <Trans>You’re in the queue to start claiming GoodDollars!</Trans>
+        <_>You’re in the queue to start claiming GoodDollars!</_>
       </Text>
     </View>
     <View style={styles.paddingVertical20}>
       <Text style={styles.textStyle}>
-        <Trans>We’ll email you as soon as it’s your turn to claim G$’s.</Trans>
+        <_>We’ll email you as soon as it’s your turn to claim G$’s.</_>
       </Text>
       <Text style={[styles.textStyle, styles.paddingTop20, styles.boldFont]}>
-        <Trans>{'And always remember:\nGood things come to those who wait :)'}</Trans>
+        <_>{'And always remember:\nGood things come to those who wait :)'}</_>
       </Text>
     </View>
   </View>

@@ -1,7 +1,7 @@
 // @flow
 import React from 'react'
 import { Platform, SafeAreaView } from 'react-native'
-import { t, Trans } from '@lingui/macro'
+import { Trans as _, t } from '@lingui/macro'
 import Recover from '../signin/Mnemonics'
 import { fireEvent, SIGNUP_METHOD_SELECTED } from '../../lib/analytics/analytics'
 import CustomButton from '../common/buttons/CustomButton'
@@ -63,7 +63,7 @@ const Auth = (props: Props) => {
   return (
     <SafeAreaView style={styles.mainWrapper}>
       <Wrapper backgroundColor="#fff" style={styles.mainWrapper}>
-        <Trans>
+        <_>
           <Text
             testID="welcomeLabel"
             style={styles.headerText}
@@ -74,10 +74,10 @@ const Auth = (props: Props) => {
           >
             {'Welcome to\nGoodDollar Wallet'}
           </Text>
-        </Trans>
+        </_>
         <AnimationsPeopleFlying />
         <Section style={styles.bottomContainer}>
-          <Trans>
+          <_>
             <Text fontSize={12} color="gray80Percent">
               {`By clicking the 'Create a wallet' button,\nyou are accepting our\n`}
               <Text
@@ -100,21 +100,21 @@ const Auth = (props: Props) => {
                 Privacy Policy
               </Text>
             </Text>
-          </Trans>
+          </_>
 
           <CustomButton style={styles.buttonLayout} onPress={firstButtonHandler} testID="firstButton">
             {firstButtonText}
           </CustomButton>
 
           <PushButton testID="signInButton" dark={false} mode="outlined" onPress={handleSignIn}>
-            <Trans>
+            <_>
               <Text style={styles.buttonText} fontWeight="regular" color={'primary'}>
                 ALREADY REGISTERED?
                 <Text textTransform={'uppercase'} style={styles.buttonText} color={'primary'} fontWeight="black">
                   {' SIGN IN'}
                 </Text>
               </Text>
-            </Trans>
+            </_>
           </PushButton>
         </Section>
       </Wrapper>

@@ -2,7 +2,7 @@
 import React, { useCallback } from 'react'
 import { StyleSheet, View } from 'react-native'
 import { Dialog, Paragraph, Portal } from 'react-native-paper'
-import { Trans } from '@lingui/macro'
+import { Trans as _ } from '@lingui/macro'
 import type { TransactionEvent } from '../../../lib/userStorage/UserStorage'
 import { Avatar, BigGoodDollar } from '..'
 import CustomButton from '../buttons/CustomButton'
@@ -51,7 +51,7 @@ const EventDialog = ({ visible, event, onDismiss, reason }: EventDialogProps) =>
           <Section style={styles.gdSection}>
             <Section.Row>
               <Section.Text color="gray" fontSize={18} fontWeight="bold">
-                <Trans>Sent G$</Trans>
+                <_>Sent G$</_>
               </Section.Text>
               <Section.Text color="gray" fontWeight="bold">
                 + <BigGoodDollar number={amount} />

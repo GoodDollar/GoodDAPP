@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect } from 'react'
 import { Linking, View } from 'react-native'
 
-import { t, Trans } from '@lingui/macro'
+import { Trans as _, t } from '@lingui/macro'
 import CustomButton from '../../common/buttons/CustomButton'
 import Wrapper from '../../common/layout/Wrapper'
 import Text from '../../common/view/Text'
@@ -30,8 +30,6 @@ import {
   isShortDevice,
   isVeryShortDevice,
 } from '../../../lib/utils/sizes'
-
-// localization
 
 import { withStyles } from '../../../lib/styles'
 import Illustration from '../../../assets/Auth/torusIllustration.svg'
@@ -72,7 +70,7 @@ const WelcomeScreen = ({ theme, styles, screenProps, navigation }) => {
           fontWeight="bold"
           textTransform="uppercase"
         >
-          <Trans>Get started</Trans>
+          <_>Get started</_>
         </Text>
         <Text
           color={'darkIndigo'}
@@ -83,7 +81,7 @@ const WelcomeScreen = ({ theme, styles, screenProps, navigation }) => {
           fontWeight="bold"
           style={{ marginTop: getDesignRelativeHeight(14) }}
         >
-          <Trans>Welcome to GoodDollar</Trans>
+          <_>Welcome to GoodDollar</_>
         </Text>
         <Text
           color={'darkIndigo'}
@@ -107,7 +105,7 @@ const WelcomeScreen = ({ theme, styles, screenProps, navigation }) => {
             style={{ marginTop: getDesignRelativeHeight(12) }}
             onPress={handleLearnMore}
           >
-            <Trans>Learn More</Trans>
+            <_>Learn More</_>
           </Text>
         </View>
         <View style={styles.illustration}>
@@ -124,7 +122,7 @@ const WelcomeScreen = ({ theme, styles, screenProps, navigation }) => {
             textStyle={styles.buttonText}
             onPress={handleGetStarted}
           >
-            <Trans>Get Started</Trans>
+            <_>Get Started</_>
           </CustomButton>
         </View>
       </View>

@@ -1,6 +1,6 @@
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
-import { Trans } from '@lingui/macro'
+import { Trans as _ } from '@lingui/macro'
 import SplashSVG from '../../assets/Splash/logo.svg'
 import GoodDollarSVG from '../../assets/Splash/goodDollar.svg'
 import Wrapper from '../common/layout/Wrapper'
@@ -15,7 +15,7 @@ const About = () => (
       <WavesBackground>
         <Section.Stack style={styles.content} grow justifyContent="space-between">
           <Section.Text fontSize={22} color="darkBlue">
-            <Trans>Welcome to</Trans>
+            <_>Welcome to</_>
           </Section.Text>
           <Section.Row style={styles.imageContainer}>
             <View style={styles.logo}>
@@ -29,14 +29,12 @@ const About = () => (
             </Section.Text>
           </Section.Row>
           <Section.Text fontSize={18} color="surface" style={styles.aboutDescription}>
-            <Trans>
-              GoodDollar is a payment system with a built-in small basic income based on blockchain technology.
-            </Trans>
-            <Trans>
+            <_>GoodDollar is a payment system with a built-in small basic income based on blockchain technology.</_>
+            <_>
               <Section.Text fontSize={18} fontWeight="bold" color="surface">
                 {`\nLet's change the world, for good.`}
               </Section.Text>
-            </Trans>
+            </_>
           </Section.Text>
         </Section.Stack>
       </WavesBackground>

@@ -56,21 +56,19 @@ exports[`ServiceWorkerUpdatedDialog NewReleaseDialog matches snapshot 1`] = `
         >
           1.
         </span>
-         Click ‘update’
-
+        Click ‘update’\\n
         <span
           className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
         >
           2.
         </span>
-         Sign up (one last time, we promise )
-
+        Sign up (one last time, we promise )\\n
         <span
           className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
         >
           3.
         </span>
-         Start claiming your free, REAL G$’s
+        Start claiming your free, REAL G$’s
       </div>
     </div>
   </div>
@@ -96,8 +94,7 @@ exports[`ServiceWorkerUpdatedDialog RegularDialog matches snapshot 1`] = `
         className="css-text-901oao r-borderBottomColor-lpwvss r-borderBottomStyle-rull8r r-borderBottomWidth-wgabs5 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-marginBottom-p1pxzi r-paddingBottom-1mdbw0j r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-13qz1uu"
         dir="auto"
       >
-        Hip hip hooray!
-We have a new version :)
+        Hip hip hooray!\\nWe have a new version :)
       </div>
     </div>
     <div

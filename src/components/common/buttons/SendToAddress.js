@@ -1,6 +1,7 @@
 // @flow
 import React from 'react'
 import { Platform, TouchableOpacity, View } from 'react-native'
+import { t } from '@lingui/macro'
 import Icon from '../view/Icon'
 import Text from '../view/Text'
 import { withStyles } from '../../../lib/styles'
@@ -22,7 +23,7 @@ const SendToAddress = ({ onPress, styles, theme, ...screenProps }: Props) => {
         <Icon name="send" color="white" size={28} />
       </View>
       <Text color="darkBlue" fontSize={14} fontWeight="medium">
-        Send to Address
+        {t`Send to Address`}
       </Text>
     </TouchableOpacity>
   )

@@ -1,6 +1,7 @@
 // @flow
 import React from 'react'
 import { Platform, SafeAreaView } from 'react-native'
+import { t, Trans } from '@lingui/macro'
 import Recover from '../signin/Mnemonics'
 import { fireEvent, SIGNUP_METHOD_SELECTED } from '../../lib/analytics/analytics'
 import CustomButton from '../common/buttons/CustomButton'
@@ -57,7 +58,7 @@ const Auth = (props: Props) => {
 
   const { styles } = props
   const firstButtonHandler = handleSignUp
-  const firstButtonText = 'Create a wallet'
+  const firstButtonText = t`Create a wallet`
 
   return (
     <SafeAreaView style={styles.mainWrapper}>
@@ -70,44 +71,48 @@ const Auth = (props: Props) => {
           fontFamily="Roboto"
           fontWeight="medium"
         >
-          {'Welcome to\nGoodDollar Wallet'}
+          {t`Welcome to\nGoodDollar Wallet`}
         </Text>
         <AnimationsPeopleFlying />
         <Section style={styles.bottomContainer}>
-          <Text fontSize={12} color="gray80Percent">
-            {`By clicking the 'Create a wallet' button,\nyou are accepting our\n`}
-            <Text
-              fontSize={12}
-              color="gray80Percent"
-              fontWeight="bold"
-              textDecorationLine="underline"
-              onPress={handleNavigateTermsOfUse}
-            >
-              Terms of Use
+          <Trans>
+            <Text fontSize={12} color="gray80Percent">
+              {`By clicking the 'Create a wallet' button,\nyou are accepting our\n`}
+              <Text
+                fontSize={12}
+                color="gray80Percent"
+                fontWeight="bold"
+                textDecorationLine="underline"
+                onPress={handleNavigateTermsOfUse}
+              >
+                Terms of Use
+              </Text>
+              {' and '}
+              <Text
+                fontSize={12}
+                color="gray80Percent"
+                fontWeight="bold"
+                textDecorationLine="underline"
+                onPress={handleNavigatePrivacyPolicy}
+              >
+                Privacy Policy
+              </Text>
             </Text>
-            {' and '}
-            <Text
-              fontSize={12}
-              color="gray80Percent"
-              fontWeight="bold"
-              textDecorationLine="underline"
-              onPress={handleNavigatePrivacyPolicy}
-            >
-              Privacy Policy
-            </Text>
-          </Text>
+          </Trans>
 
           <CustomButton style={styles.buttonLayout} onPress={firstButtonHandler} testID="firstButton">
             {firstButtonText}
           </CustomButton>
 
           <PushButton testID="signInButton" dark={false} mode="outlined" onPress={handleSignIn}>
-            <Text style={styles.buttonText} fontWeight="regular" color={'primary'}>
-              ALREADY REGISTERED?
-              <Text textTransform={'uppercase'} style={styles.buttonText} color={'primary'} fontWeight="black">
-                {' SIGN IN'}
+            <Trans>
+              <Text style={styles.buttonText} fontWeight="regular" color={'primary'}>
+                ALREADY REGISTERED?
+                <Text textTransform={'uppercase'} style={styles.buttonText} color={'primary'} fontWeight="black">
+                  {' SIGN IN'}
+                </Text>
               </Text>
-            </Text>
+            </Trans>
           </PushButton>
         </Section>
       </Wrapper>

@@ -3,6 +3,7 @@ import React from 'react'
 import { Platform, View } from 'react-native'
 
 // components
+import { t } from '@lingui/macro'
 import Text from '../../common/view/Text'
 import JumpingPeopleAnimation from '../animations/JumpingPeople'
 
@@ -13,6 +14,8 @@ import { isBrowser } from '../../../lib/utils/platform'
 
 // assets
 import UpdateVersionSVG from '../../../assets/updateversion.svg'
+
+// localization
 
 const dialogStyles = ({ theme }) => {
   const topPosition = isBrowser ? 0 : isSmallDevice ? 40 : 80
@@ -77,12 +80,12 @@ export const RegularDialog = withStyles(dialogStyles)(({ styles, theme }) => (
         color={theme.colors.darkGray}
         style={styles.title}
       >
-        {`Hip hip hooray!\nWe have a new version :)`}
+        {t`Hip hip hooray!\nWe have a new version :)`}
       </Text>
     </View>
     <View style={styles.description}>
       <Text fontSize={14} lineHeight={20} textAlign="left" color={theme.colors.darkGray}>
-        Thanks to your awesome feedback we were able to improve our wallet. We hope now you’ll enjoy it even more.
+        {t`Thanks to your awesome feedback we were able to improve our wallet. We hope now you’ll enjoy it even more.`}
       </Text>
     </View>
   </View>
@@ -105,7 +108,7 @@ export const NewReleaseDialog = withStyles(dialogStyles)(({ styles, theme }) => 
           color={theme.colors.green}
           style={[styles.title, styles.phase1Title]}
         >
-          Good News: We’re Live!
+          {t`Good News: We’re Live!`}
         </Text>
       </View>
       <View style={styles.description}>
@@ -113,15 +116,15 @@ export const NewReleaseDialog = withStyles(dialogStyles)(({ styles, theme }) => 
           <Text {...textStyles} fontWeight="bold">
             1.
           </Text>
-          {' Click ‘update’\n'}
+          {t` Click ‘update’\n`}
           <Text {...textStyles} fontWeight="bold">
             2.
           </Text>
-          {` Sign up (one last time, we promise ${isSmallDevice ? '' : ':)'})\n`}
+          {t` Sign up (one last time, we promise ${isSmallDevice ? '' : ':)'})\n`}
           <Text {...textStyles} fontWeight="bold">
             3.
           </Text>
-          {' Start claiming your free, REAL G$’s'}
+          {t` Start claiming your free, REAL G$’s`}
         </Text>
       </View>
     </View>

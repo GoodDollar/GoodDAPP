@@ -1,6 +1,7 @@
 import React from 'react'
 import { Text } from 'react-native'
 
+import { t } from '@lingui/macro'
 import IconWrapper from '../modal/IconWrapper'
 import LoadingIcon from '../modal/LoadingIcon'
 
@@ -20,7 +21,7 @@ const DeleteAccountDialog = ({ icon = 'trash' }) => (
   <ExplanationDialog
     image={icon === 'trash' ? TrashIcon : LoadingIcon}
     label={<MessageTextComponent />}
-    text={'For security reasons, it might take up to 48 hours for your data to be completely removed.'}
+    text={t`For security reasons, it might take up to 48 hours for your data to be completely removed.`}
     textStyle={{
       fontSize: normalizeText(16),
       color: theme.colors.lighterGray,

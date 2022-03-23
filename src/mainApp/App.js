@@ -21,6 +21,7 @@ import { GlobalTogglesContextProvider } from '../lib/contexts/togglesContext'
 import logger from '../lib/logger/js-logger'
 
 import { theme } from '../components/theme/styles'
+import { UserContextProvider } from '../lib/contexts/userContext'
 
 const log = logger.child({ from: 'App' })
 
@@ -74,9 +75,11 @@ export const App = () => {
       <AppWrapper {...wrapperProps}>
         <Fragment>
           <GlobalTogglesContextProvider>
-            <SimpleStoreDialog />
-            <LoadingIndicator />
-            <SplashOrRouter store={store} />
+            <UserContextProvider>
+              <SimpleStoreDialog />
+              <LoadingIndicator />
+              <SplashOrRouter store={store} />
+            </UserContextProvider>
           </GlobalTogglesContextProvider>
         </Fragment>
       </AppWrapper>

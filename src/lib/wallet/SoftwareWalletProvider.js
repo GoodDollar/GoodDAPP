@@ -135,7 +135,7 @@ class SoftwareWalletProvider {
         if (isMobileNative) {
           const { osName, version } = osVersionInfo
           const { version: appVersion } = Config
-          const userAgentString = `Mozilla/5.0 (${osName} ${version}) GoodDollar Wallet/${appVersion}`
+          const userAgentString = `Mozilla/5.0 GoodDollar Wallet`
 
           options = { headers: [{ name: 'User-Agent', value: userAgentString }] }
         }

@@ -1,29 +1,40 @@
-import React, { createContext } from 'react'
-import GDStore from '../undux/GDStore'
-import SimpleStore from '../undux/SimpleStore'
+import React, { createContext, useCallback, useRef } from 'react'
+import { defaultAccountValue } from '../constants/user'
 
 export const UserContext = createContext()
 
 export const UserContextProvider = props => {
-  const gdstore = GDStore.useStore()
-  const store = SimpleStore.useStore()
+  const isLoggedIn = useRef(false)
+  const isLoggedInCitizen = useRef(false)
+  const account = useRef(defaultAccountValue)
+  const invitesData = useRef({})
 
-  const account = gdstore.get('account')
-  const inviteCode = gdstore.get('inviteCode')
-  const invitesData = gdstore.get('invitesData')
-  const uploadedAvatar = gdstore.get('uploadedAvatar')
+  const updateIsLoggedIn = useCallback(value => {
+    isLoggedIn.current = value
+  }, [])
 
-  const isLoggedIn = store.get('isLoggedIn')
-  const isLoggedInCitizen = store.get('isLoggedInCitizen')
+  const updateIsLoggedInCitizen = useCallback(value => {
+    isLoggedInCitizen.current = value
+  }, [])
 
-  const profileData = {
-    invitesData,
-    uploadedAvatar,
-    account,
-    inviteCode,
+  const setAccountData = useCallback(value => {
+    account.current = value
+  }, [])
+
+  const setInvitesData = useCallback(value => {
+    invitesData.current = value
+  }, [])
+
+  const userContextData = {
     isLoggedIn,
     isLoggedInCitizen,
+    account,
+    invitesData,
+    updateIsLoggedIn,
+    updateIsLoggedInCitizen,
+    setAccountData,
+    setInvitesData,
   }
 
-  return <UserContext.Provider value={{ ...profileData }}>{props.children}</UserContext.Provider>
+  return <UserContext.Provider value={userContextData}>{props.children}</UserContext.Provider>
 }

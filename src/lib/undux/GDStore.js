@@ -61,8 +61,6 @@ const initialState: State = {
   verification: {
     ...defaultVerificationState,
   },
-  isLoggedInCitizen: false,
-  isLoggedIn: false,
   destinationPath: '',
   feeds: [],
   currentFeed: undefined,

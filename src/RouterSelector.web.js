@@ -13,7 +13,6 @@ import useBrowserSupport from './components/browserSupport/hooks/useBrowserSuppo
 import UnsupportedBrowser from './components/browserSupport/components/UnsupportedBrowser'
 
 // utils
-import SimpleStore from './lib/undux/SimpleStore'
 import { delay } from './lib/utils/async'
 import retryImport from './lib/utils/retryImport'
 import DeepLinking from './lib/utils/deepLinking'
@@ -22,6 +21,7 @@ import isWebApp from './lib/utils/isWebApp'
 import logger from './lib/logger/js-logger'
 import { APP_OPEN, fireEvent, initAnalytics } from './lib/analytics/analytics'
 import handleLinks from './lib/utils/handleLinks'
+import { useLoggedIn } from './lib/hooks/useLoggedIn'
 
 const log = logger.child({ from: 'RouterSelector' })
 
@@ -90,8 +90,8 @@ const SplashSelector = isAuthReload
 
 const RouterSelector = () => {
   // we use global state for signup process to signal user has registered
-  const store = SimpleStore.useStore()
-  const isLoggedIn = store.get('isLoggedIn')
+  const { isLoggedIn } = useLoggedIn()
+
   const [ignoreUnsupported, setIgnoreUnsupported] = useState(false)
   const [checkedForBrowserSupport, setCheckedForBrowserSupport] = useState(false)
 

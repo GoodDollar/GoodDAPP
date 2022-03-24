@@ -1,5 +1,5 @@
 // @flow
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useRef, useState } from 'react'
 import { AppState } from 'react-native'
 import { SceneView } from '@react-navigation/core'
 import { debounce, isEmpty } from 'lodash'
@@ -25,6 +25,7 @@ import SimpleStore from '../../lib/undux/SimpleStore'
 import DeepLinking from '../../lib/utils/deepLinking'
 import { isMobileNative } from '../../lib/utils/platform'
 import restart from '../../lib/utils/restart'
+import { UserContext } from '../../lib/contexts/userContext'
 
 type LoadingProps = {
   navigation: any,
@@ -65,6 +66,7 @@ const AppSwitch = (props: LoadingProps) => {
   const store = SimpleStore.useStore()
   const [showErrorDialog] = useErrorDialog()
   const [ready, setReady] = useState(false)
+  const { updateIsLoggedIn, updateIsLoggedInCitizen } = useContext(UserContext)
 
   /*
   Check if user is incoming with a URL with action details, such as payment link or email confirmation
@@ -170,8 +172,8 @@ const AppSwitch = (props: LoadingProps) => {
 
       const initReg = userStorage.initRegistered()
 
-      gdstore.set('isLoggedIn')(isLoggedIn)
-      gdstore.set('isLoggedInCitizen')(isLoggedInCitizen)
+      updateIsLoggedIn(isLoggedIn)
+      updateIsLoggedInCitizen(isLoggedInCitizen)
 
       //identify user asap for analytics
       const identifier = goodWallet.getAccountForType('login')

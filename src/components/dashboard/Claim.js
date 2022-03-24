@@ -1,5 +1,5 @@
 // @flow
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import { Platform, View } from 'react-native'
 import moment from 'moment'
 import { noop } from 'lodash'
@@ -50,6 +50,8 @@ import useTimer from '../../lib/hooks/useTimer'
 
 import useInterval from '../../lib/hooks/useInterval'
 import { useInviteBonus } from '../invite/useInvites'
+import { UserContext } from '../../lib/contexts/userContext'
+import { useLoggedIn } from '../../lib/hooks/useLoggedIn'
 import type { DashboardProps } from './Dashboard'
 import useClaimCounter from './Claim/useClaimCounter'
 import ButtonBlock from './Claim/ButtonBlock'
@@ -71,7 +73,7 @@ const LoadingAnimation = ({ success, speed = 3 }) => (
 
 const EmulateButtonSpace = () => <View style={{ paddingTop: 16, minHeight: 44, visibility: 'hidden' }} />
 
-const GrayBox = ({ title, value, symbol, theme, style }) => {
+const GrayBox = ({ title, value, symbol, style }) => {
   return (
     <Section.Stack style={[{ flex: 1 }, style]}>
       <Section.Text
@@ -219,6 +221,8 @@ const cbStyles = {
 const Claim = props => {
   const { screenProps, styles, theme }: ClaimProps = props
   const { goToRoot, screenState, push: navigate } = screenProps
+  const { isLoggedInCitizen: isCitizen } = useLoggedIn()
+  const { updateIsLoggedInCitizen } = useContext(UserContext)
 
   const { appState } = useAppState()
   const store = SimpleStore.useStore()
@@ -226,7 +230,6 @@ const Claim = props => {
 
   const { entitlement } = gdstore.get('account')
   const [dailyUbi, setDailyUbi] = useState((entitlement && parseInt(entitlement)) || 0)
-  const isCitizen = gdstore.get('isLoggedInCitizen')
   const { isValid } = screenState
 
   const [showDialog, , showErrorDialog] = useDialog()
@@ -470,7 +473,7 @@ const Claim = props => {
         } else {
           // opened claim page (non-returned from FV)
           if (isCitizen === false) {
-            goodWallet.isCitizen().then(_ => gdstore.set('isLoggedInCitizen')(_))
+            goodWallet.isCitizen().then(_ => updateIsLoggedInCitizen(_))
           }
         }
       } catch (exception) {

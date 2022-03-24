@@ -43,6 +43,7 @@ import Avatar from '../common/view/Avatar'
 import _debounce from '../../lib/utils/debounce'
 import useProfile from '../../lib/userStorage/useProfile'
 import { GlobalTogglesContext } from '../../lib/contexts/togglesContext'
+import { useInviteCode } from '../invite/useInvites'
 import PrivacyPolicyAndTerms from './PrivacyPolicyAndTerms'
 import Amount from './Amount'
 import Claim from './Claim'
@@ -125,6 +126,8 @@ const Dashboard = props => {
   const { setDialogBlur } = useContext(GlobalTogglesContext)
 
   const [price, showPrice] = useGoodDollarPrice()
+
+  useInviteCode() //preload user invite code
 
   const headerAnimateStyles = {
     position: 'relative',

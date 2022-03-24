@@ -17,8 +17,8 @@ export const UserContextProvider = props => {
     isLoggedInCitizen.current = value
   }, [])
 
-  const setAccountData = useCallback(value => {
-    account.current = value
+  const updateAccountData = useCallback(value => {
+    account.current = { ...account.current, ...value }
   }, [])
 
   const setInvitesData = useCallback(value => {
@@ -28,11 +28,11 @@ export const UserContextProvider = props => {
   const userContextData = {
     isLoggedIn,
     isLoggedInCitizen,
-    account,
+    account: account.current,
     invitesData,
     updateIsLoggedIn,
     updateIsLoggedInCitizen,
-    setAccountData,
+    updateAccountData,
     setInvitesData,
   }
 

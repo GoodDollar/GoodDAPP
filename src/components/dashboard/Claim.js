@@ -14,7 +14,6 @@ import userStorage, { type TransactionEvent } from '../../lib/userStorage/UserSt
 import goodWallet from '../../lib/wallet/GoodWallet'
 import logger from '../../lib/logger/js-logger'
 import { decorate, ExceptionCategory, ExceptionCode } from '../../lib/exceptions/utils'
-import GDStore from '../../lib/undux/GDStore'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import { useDialog } from '../../lib/undux/utils/dialog'
 import wrapper from '../../lib/undux/utils/wrapper'
@@ -52,6 +51,7 @@ import useInterval from '../../lib/hooks/useInterval'
 import { useInviteBonus } from '../invite/useInvites'
 import { UserContext } from '../../lib/contexts/userContext'
 import { useLoggedIn } from '../../lib/hooks/useLoggedIn'
+import { useAccount } from '../../lib/hooks/useAccount'
 import type { DashboardProps } from './Dashboard'
 import useClaimCounter from './Claim/useClaimCounter'
 import ButtonBlock from './Claim/ButtonBlock'
@@ -226,9 +226,8 @@ const Claim = props => {
 
   const { appState } = useAppState()
   const store = SimpleStore.useStore()
-  const gdstore = GDStore.useStore()
 
-  const { entitlement } = gdstore.get('account')
+  const { entitlement } = useAccount()
   const [dailyUbi, setDailyUbi] = useState((entitlement && parseInt(entitlement)) || 0)
   const { isValid } = screenState
 

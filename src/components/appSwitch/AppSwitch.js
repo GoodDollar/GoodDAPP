@@ -26,6 +26,7 @@ import DeepLinking from '../../lib/utils/deepLinking'
 import { isMobileNative } from '../../lib/utils/platform'
 import restart from '../../lib/utils/restart'
 import { UserContext } from '../../lib/contexts/userContext'
+import { useAccount } from '../../lib/hooks/useAccount'
 
 type LoadingProps = {
   navigation: any,
@@ -66,7 +67,8 @@ const AppSwitch = (props: LoadingProps) => {
   const store = SimpleStore.useStore()
   const [showErrorDialog] = useErrorDialog()
   const [ready, setReady] = useState(false)
-  const { updateIsLoggedIn, updateIsLoggedInCitizen } = useContext(UserContext)
+  const { updateIsLoggedIn, updateIsLoggedInCitizen, updateAccountData } = useContext(UserContext)
+  const account = useAccount()
 
   /*
   Check if user is incoming with a URL with action details, such as payment link or email confirmation
@@ -164,7 +166,7 @@ const AppSwitch = (props: LoadingProps) => {
       //after dynamic routes update, if user arrived here, then he is already loggedin
       //initialize the citizen status and wallet status
       //create jwt token and initialize the API service
-      updateWalletStatus(gdstore)
+      updateWalletStatus(gdstore, updateAccountData, account)
 
       const [isLoggedInCitizen, isLoggedIn] = await getLoginState()
 

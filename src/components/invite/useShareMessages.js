@@ -10,9 +10,9 @@ const useShareMessages = () => {
 
   useEffect(() => {
     const loadMessages = async () => {
-      const strings = await API.getMessageStrings()
+      const { data } = await API.getMessageStrings()
 
-      setMessages(pick(strings, shareMessagesStrings))
+      setMessages(pick(data, shareMessagesStrings))
     }
 
     loadMessages()

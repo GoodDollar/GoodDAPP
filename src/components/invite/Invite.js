@@ -81,13 +81,21 @@ const InvitedUser = ({ address, status }) => {
 
 const ShareBox = ({ level }) => {
   const [{ shareMessage, shareTitle }] = useShareMessages()
-  const abTestOption = useOption([{ value: shareMessage, chance: 1, id: 'basic' }])
+  const abTestOptions = useMemo(() => [{ value: shareMessage, chance: 1, id: 'basic' }], [shareMessage])
+  const abTestOption = useOption(abTestOptions)
   const inviteCode = useInviteCode()
   const shareUrl =
     inviteCode && abTestOption ? `${Config.invitesUrl}?inviteCode=${inviteCode}&campaign=${abTestOption.id}` : ''
   const bounty = level?.bounty ? parseInt(level.bounty) / 100 : ''
-  const abTestMessage = abTestOption?.value.replace(/<reward>/, bounty / 2).replace(/<bounty>/, bounty)
-  const share = useMemo(() => generateShareObject(shareTitle, abTestMessage, shareUrl), [shareUrl, abTestMessage])
+  const abTestMessage = useMemo(
+    () => (abTestOption?.value || '').replace(/<reward>/, bounty / 2).replace(/<bounty>/, bounty),
+    [abTestOption, bounty],
+  )
+  const share = useMemo(() => generateShareObject(shareTitle, abTestMessage, shareUrl), [
+    shareTitle,
+    shareUrl,
+    abTestMessage,
+  ])
 
   return (
     <WavesBox primarycolor={theme.colors.primary} style={styles.linkBoxStyle} title={'Share Your Invite Link'}>

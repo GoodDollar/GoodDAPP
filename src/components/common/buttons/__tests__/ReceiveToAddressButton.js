@@ -3,8 +3,8 @@ import renderer from 'react-test-renderer'
 
 import GDStore from '../../../../lib/undux/GDStore'
 import ImportedReceiveToAddressButton from '../ReceiveToAddressButton'
-import { withThemeProvider } from '../../../../__tests__/__util__'
-const ReceiveToAddressButton = withThemeProvider(ImportedReceiveToAddressButton)
+import { withThemeAndLocalizationProvider } from '../../../../__tests__/__util__'
+const ReceiveToAddressButton = withThemeAndLocalizationProvider(ImportedReceiveToAddressButton)
 
 const { Container } = GDStore
 

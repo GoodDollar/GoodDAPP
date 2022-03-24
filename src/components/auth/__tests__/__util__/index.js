@@ -3,7 +3,7 @@ import { createSwitchNavigator } from '@react-navigation/core'
 import { createBrowserApp } from '@react-navigation/web'
 import * as libShare from '../../../../lib/share'
 import GDStore from '../../../../lib/undux/GDStore'
-import { withThemeProvider } from '../../../../__tests__/__util__'
+import { withThemeAndLocalizationProvider } from '../../../../__tests__/__util__'
 const { Container } = GDStore
 
 export const getComponentWithMocks = componentPath => {
@@ -20,7 +20,7 @@ export const getComponentWithMocks = componentPath => {
 }
 
 const withContainer = Component => props => {
-  const WrappedComponent = withThemeProvider(Component)
+  const WrappedComponent = withThemeAndLocalizationProvider(Component)
   return (
     <Container>
       <WrappedComponent {...props} />

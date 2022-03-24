@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { StyleSheet, View } from 'react-native'
+import { t } from '@lingui/macro'
 import Icon from '../view/Icon'
 import CustomButton from './CustomButton'
 
@@ -38,7 +39,7 @@ const ButtonWithDoneState = ({ toCopy, children, onPress, onPressDone, iconColor
     case DONE: {
       return (
         <CustomButton mode={mode} onPress={done} {...props}>
-          Done
+          {t`Done`}
         </CustomButton>
       )
     }
@@ -54,7 +55,7 @@ const ButtonWithDoneState = ({ toCopy, children, onPress, onPressDone, iconColor
     default: {
       return (
         <CustomButton mode={mode} onPress={handlePressExecute} {...props}>
-          {children || 'Confirm'}
+          {children || t`Confirm`}
         </CustomButton>
       )
     }

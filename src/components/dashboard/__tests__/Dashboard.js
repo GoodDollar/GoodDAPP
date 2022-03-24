@@ -27,7 +27,6 @@ class AppNavigation extends React.Component<AppNavigationProps, AppNavigationSta
 
 describe('Dashboard', () => {
   beforeAll(async () => {
-    jest.setTimeout(15000)
     await initUserStorage()
   })
 

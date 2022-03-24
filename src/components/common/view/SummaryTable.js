@@ -1,4 +1,5 @@
 import React from 'react'
+import { t } from '@lingui/macro'
 import Section from '../layout/Section'
 import { withStyles } from '../../../lib/styles'
 import BigGoodDollar from './BigGoodDollar'
@@ -7,7 +8,7 @@ const WhoRow = ({ styles, counterPartyDisplayName, actionReceive, marginTop }) =
   counterPartyDisplayName ? (
     <Section.Row style={[styles.tableRow, { marginTop }]}>
       <Section.Text fontSize={14} color="gray80Percent">
-        {actionReceive ? 'From:' : 'To:'}
+        {actionReceive ? t`From:` : t`To:`}
       </Section.Text>
       <Section.Text fontSize={24}>{counterPartyDisplayName}</Section.Text>
     </Section.Row>

@@ -2,6 +2,7 @@
 import React, { useCallback } from 'react'
 import { StyleSheet, View } from 'react-native'
 import { Dialog, Paragraph, Portal } from 'react-native-paper'
+import { t } from '@lingui/macro'
 import type { TransactionEvent } from '../../../lib/userStorage/UserStorageClass'
 import { BigGoodDollar } from '..'
 import Avatar from '../view/Avatar'
@@ -51,7 +52,7 @@ const EventDialog = ({ visible, event, onDismiss, reason }: EventDialogProps) =>
           <Section style={styles.gdSection}>
             <Section.Row>
               <Section.Text color="gray" fontSize={18} fontWeight="bold">
-                Sent G$
+                {t`Sent G$`}
               </Section.Text>
               <Section.Text color="gray" fontWeight="bold">
                 + <BigGoodDollar number={amount} />
@@ -63,7 +64,9 @@ const EventDialog = ({ visible, event, onDismiss, reason }: EventDialogProps) =>
               <Section.Row>
                 <Avatar style={styles.avatar} />
                 <Section.Text color="gray">
-                  <Section.Text color="gray">From: {sender}</Section.Text>
+                  <Section.Text color="gray">
+                    {t`From:`} {sender}
+                  </Section.Text>
                   <Section.Text color="gray">{`\n${name}`}</Section.Text>
                 </Section.Text>
               </Section.Row>
@@ -73,7 +76,7 @@ const EventDialog = ({ visible, event, onDismiss, reason }: EventDialogProps) =>
         </Dialog.Content>
         <Dialog.Actions>
           <CustomButton mode="contained" onPress={_onDismiss}>
-            Ok
+            {t`Ok`}
           </CustomButton>
         </Dialog.Actions>
       </Dialog>

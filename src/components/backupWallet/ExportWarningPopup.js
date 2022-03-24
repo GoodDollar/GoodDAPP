@@ -1,6 +1,7 @@
 import React from 'react'
 import { noop } from 'lodash'
 
+import { t } from '@lingui/macro'
 import ExplanationDialog from '../common/dialogs/ExplanationDialog'
 
 import { withStyles } from '../../lib/styles'
@@ -11,8 +12,8 @@ import { InfoIcon } from '../common/modal/InfoIcon'
 const ExportWarningPopup = ({ styles, onDismiss = noop, ...dialogProps }) => (
   <ExplanationDialog
     {...dialogProps}
-    title={`Do Not Send Tokens\nFrom Ethereum Network\nTo This Address`}
-    text={`Keep in mind - This is an internal\nnetwork address for G$ tokens only.`}
+    title={t`Do Not Send Tokens\nFrom Ethereum Network\nTo This Address`}
+    text={t`Keep in mind - This is an internal\nnetwork address for G$ tokens only.`}
     image={InfoIcon}
     titleStyle={styles.title}
     textStyle={styles.text}
@@ -21,7 +22,7 @@ const ExportWarningPopup = ({ styles, onDismiss = noop, ...dialogProps }) => (
     imageHeight={100}
     buttons={[
       {
-        text: 'I UNDERSTAND',
+        text: t`I UNDERSTAND`,
         style: styles.button,
         action: onDismiss,
       },

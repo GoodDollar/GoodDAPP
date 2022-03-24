@@ -2,6 +2,7 @@ import moment from 'moment'
 import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { Platform, View } from 'react-native'
 
+import { t, Trans } from '@lingui/macro'
 import Text from '../../common/view/Text'
 import Icon from '../view/Icon'
 
@@ -86,10 +87,10 @@ const InitialDialog = withStyles(mapStylesToProps)(({ showDesc, styles }) => {
   return (
     <View style={styles.container}>
       <DialogImage styles={styles} />
-      <DiaglogTitle>Add icon to home screen for easy access</DiaglogTitle>
+      <DiaglogTitle>t`Add icon to home screen for easy access`</DiaglogTitle>
       {showDesc && (
         <Text textAlign="left" color="gray80Percent" fontSize={14}>
-          You can collect your daily GoodDollars with ease by adding this shortcut to your home screen.
+          t`You can collect your daily GoodDollars with ease by adding this shortcut to your home screen.`
         </Text>
       )}
     </View>
@@ -99,15 +100,17 @@ const InitialDialog = withStyles(mapStylesToProps)(({ showDesc, styles }) => {
 const ExplanationDialog = withStyles(mapStylesToProps)(({ styles }) => {
   return (
     <View style={styles.explanationDialogContainer}>
-      <Text fontSize={14} style={styles.explanationDialogText}>
-        {'Add this web-app to your iPhone:'}
-      </Text>
-      <Text fontSize={14} style={styles.explanationDialogText}>
-        {'tap'} <Icon name="ios-share" size={20} /> {'then '}
-        <Text fontSize={14} style={[styles.explanationDialogText, styles.explanationDialogTextBold]}>
-          {'“Add to home screen"'}
+      <Trans>
+        <Text fontSize={14} style={styles.explanationDialogText}>
+          {'Add this web-app to your iPhone:'}
         </Text>
-      </Text>
+        <Text fontSize={14} style={styles.explanationDialogText}>
+          {'tap'} <Icon name="ios-share" size={20} /> {'then '}
+          <Text fontSize={14} style={[styles.explanationDialogText, styles.explanationDialogTextBold]}>
+            {'“Add to home screen"'}
+          </Text>
+        </Text>
+      </Trans>
     </View>
   )
 })
@@ -198,7 +201,7 @@ const AddWebApp = () => {
       },
       buttons: [
         {
-          text: 'Later',
+          text: t`Later`,
           mode: 'text',
           color: theme.colors.gray80Percent,
           onPress: dismiss => {
@@ -208,7 +211,7 @@ const AddWebApp = () => {
           },
         },
         {
-          text: 'Add Icon',
+          text: t`Add Icon`,
           onPress: dismiss => {
             fireEvent(ADDTOHOME, { skipCount })
             dismiss()

@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect } from 'react'
 import { Linking, View } from 'react-native'
 
+import { t } from '@lingui/macro'
 import CustomButton from '../../common/buttons/CustomButton'
 import Wrapper from '../../common/layout/Wrapper'
 import Text from '../../common/view/Text'
@@ -69,7 +70,7 @@ const WelcomeScreen = ({ theme, styles, screenProps, navigation }) => {
           fontWeight="bold"
           textTransform="uppercase"
         >
-          Get started
+          {t`Get started`}
         </Text>
         <Text
           color={'darkIndigo'}
@@ -80,7 +81,7 @@ const WelcomeScreen = ({ theme, styles, screenProps, navigation }) => {
           fontWeight="bold"
           style={{ marginTop: getDesignRelativeHeight(14) }}
         >
-          Welcome to GoodDollar
+          {t`Welcome to GoodDollar`}
         </Text>
         <Text
           color={'darkIndigo'}
@@ -90,7 +91,7 @@ const WelcomeScreen = ({ theme, styles, screenProps, navigation }) => {
           fontFamily="Roboto"
           style={{ marginTop: getDesignRelativeHeight(1) }}
         >
-          {`GoodDollar is a global community and\n a web application to help people join\n the digital economy.`}
+          {t`GoodDollar is a global community and\n a web application to help people join\n the digital economy.`}
         </Text>
         <View>
           <Text
@@ -104,7 +105,7 @@ const WelcomeScreen = ({ theme, styles, screenProps, navigation }) => {
             style={{ marginTop: getDesignRelativeHeight(12) }}
             onPress={handleLearnMore}
           >
-            Learn More
+            {t`Learn More`}
           </Text>
         </View>
         <View style={styles.illustration}>
@@ -121,7 +122,7 @@ const WelcomeScreen = ({ theme, styles, screenProps, navigation }) => {
             textStyle={styles.buttonText}
             onPress={handleGetStarted}
           >
-            Get Started
+            {t`Get Started`}
           </CustomButton>
         </View>
       </View>
@@ -166,7 +167,7 @@ const getStylesFromProps = ({ theme }) => {
 const welcome = withStyles(getStylesFromProps)(SimpleStore.withStore(WelcomeScreen))
 
 welcome.navigationOptions = {
-  title: 'Welcome to GoodDollar!',
+  title: `Welcome to GoodDollar!`,
   navigationBarHidden: true,
 }
 

@@ -8,10 +8,11 @@ import uploadAvatars from './avatar'
 import upgradeRealmDB from './upgradeRealmdb'
 import upgradeProfileRealmDB from './upgradeProfileRealmdb'
 import upgradeProfile from './restoreProfile'
+import claimGOOD from './claimGOOD'
 
 const log = logger.child({ from: 'updates' })
 
-const updates = [upgradeRealmDB, upgradeProfileRealmDB, upgradeProfile, uploadAvatars]
+const updates = [upgradeRealmDB, upgradeProfileRealmDB, upgradeProfile, uploadAvatars, claimGOOD]
 
 const update = async (goodWallet, userStorage) => {
   const updatesData = (await userStorage.userProperties.get('updates')) || {

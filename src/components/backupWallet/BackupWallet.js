@@ -1,6 +1,7 @@
 // @flow
 import React, { useCallback, useEffect, useState } from 'react'
 import { Platform } from 'react-native'
+import { t, Trans } from '@lingui/macro'
 import { useClipboardCopy } from '../../lib/hooks/useClipboard'
 import { useWrappedApi } from '../../lib/API/useWrappedApi'
 import { withStyles } from '../../lib/styles'
@@ -41,8 +42,8 @@ const BackupWallet = ({ screenProps, styles, theme }: BackupWalletProps) => {
 
       fireEvent(PHRASE_BACKUP, { method: 'copy' })
       showDialog({
-        title: 'Copy all to clipboard',
-        message: 'The backup phrase has been copied to the clipboard',
+        title: t`Copy all to clipboard`,
+        message: t`The backup phrase has been copied to the clipboard`,
       })
     },
     [showDialog],
@@ -65,8 +66,8 @@ const BackupWallet = ({ screenProps, styles, theme }: BackupWalletProps) => {
 
       fireEvent(PHRASE_BACKUP, { method: 'email' })
       showDialog({
-        title: 'Backup Your Wallet',
-        message: 'We sent an email with recovery instructions for your wallet',
+        title: t`Backup Your Wallet`,
+        message: t`We sent an email with recovery instructions for your wallet`,
       })
     } catch (e) {
       log.error('backup email failed:', e.message, e, { dialogShown: true })
@@ -89,24 +90,26 @@ const BackupWallet = ({ screenProps, styles, theme }: BackupWalletProps) => {
   return (
     <Wrapper style={styles.mainWrapper}>
       <Section grow={5} style={styles.wrapper}>
-        <Text grow fontWeight="bold" fontSize={16} style={styles.instructions}>
-          {'please save your 12-word pass phrase\n'}
-          <Text fontSize={16} style={styles.instructions}>
-            {'and keep it in a secure location\nso you can recover your wallet anytime'}
+        <Trans>
+          <Text grow fontWeight="bold" fontSize={16} style={styles.instructions}>
+            {'please save your 12-word pass phrase\n'}
+            <Text fontSize={16} style={styles.instructions}>
+              {'and keep it in a secure location\nso you can recover your wallet anytime'}
+            </Text>
           </Text>
-        </Text>
+        </Trans>
         <Section.Stack grow justifyContent="space-between" style={styles.inputsContainer}>
           <MnemonicInput recoveryMode={mnemonics} />
         </Section.Stack>
         <Section.Stack style={styles.bottomContainer} justifyContent="space-between" alignItems="stretch">
           <CustomButton textStyle={styles.resendButton} mode="text" compact={true} onPress={setClipboard}>
-            Copy all to clipboard
+            {t`Copy all to clipboard`}
           </CustomButton>
           <CustomButton textStyle={styles.resendButton} mode="text" compact={true} onPress={sendRecoveryEmail}>
-            Send me a backup email
+            {t`Send me a backup email`}
           </CustomButton>
         </Section.Stack>
-        <CustomButton onPress={screenProps.pop}>Done</CustomButton>
+        <CustomButton onPress={screenProps.pop}>{t`Done`}</CustomButton>
       </Section>
     </Wrapper>
   )

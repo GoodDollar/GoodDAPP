@@ -182,7 +182,7 @@ const AppSwitch = (props: LoadingProps) => {
 
       await initReg
       initialize()
-      runUpdates() //this needs to wait after initreg where we initialize the database
+      runUpdates(goodWallet, userStorage) //this needs to wait after initreg where we initialize the database
 
       setReady(true)
     } catch (e) {

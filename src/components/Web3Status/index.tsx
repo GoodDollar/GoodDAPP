@@ -18,6 +18,9 @@ import WalletModal from '../WalletModal'
 import { ReactComponent as Chef } from '../../assets/images/chef.svg'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
+import { useActiveOnboard } from '../../hooks/useActiveOnboard'
+import { BlockNativeStatus } from '../BlockNativeOnboard'
+import useActiveWeb3React from 'hooks/useActiveWeb3React'
 
 const IconWrapper = styled.div<{ size?: number }>`
     ${({ theme }) => theme.flexColumnNoWrap};
@@ -100,14 +103,15 @@ function newTransactionsFirst(a: TransactionDetails, b: TransactionDetails) {
 
 const Web3StatusInnerSC = styled.div`
     background: ${({ theme }) => theme.color.bg1};
-    color: ${({ theme }) => theme.color.input};
+    color: ${({ theme }) => theme.color.input}; 
     box-shadow: ${({ theme }) => theme.shadow.settings};
     border-radius: 3px;
 `
 
 function Web3StatusInner() {
     const { i18n } = useLingui()
-    const { account, error } = useWeb3React()
+    // const { error } = useWeb3React()
+    const { account, error } = useActiveOnboard() 
 
     const { ENSName } = useENSName(account ?? undefined)
 
@@ -128,11 +132,11 @@ function Web3StatusInner() {
         return (
             <Web3StatusInnerSC
                 id="web3-status-connected"
-                className="flex items-center rounded-lg py-2 px-3"
+                className="flex items-center px-3 py-2 rounded-lg"
                 onClick={toggleWalletModal}
             >
                 {hasPendingTransactions ? (
-                    <div className="flex justify-between items-center">
+                    <div className="flex items-center justify-between">
                         <div className="pr-2">
                             {pending?.length} {i18n._(t`Pending`)}
                         </div>{' '}
@@ -148,7 +152,8 @@ function Web3StatusInner() {
             <Web3StatusError onClick={toggleWalletModal}>
                 <NetworkIcon />
                 <Text>
-                    {error instanceof UnsupportedChainIdError
+                    {
+                    error instanceof UnsupportedChainIdError
                         ? i18n._(t`You are on the wrong network`)
                         : i18n._(t`Error`)}
                 </Text>
@@ -156,16 +161,18 @@ function Web3StatusInner() {
         )
     } else {
         return (
-            <Web3StatusConnect id="connect-wallet" onClick={toggleWalletModal} faded={!account}>
-                <Text>{i18n._(t`Connect to a wallet`)}</Text>
-            </Web3StatusConnect>
+          <BlockNativeStatus />
+            // <Web3StatusConnect id="connect-wallet" onClick={toggleWalletModal} faded={!account}>
+            //     <Text>{i18n._(t`Connect to a wallet`)}</Text>
+            // </Web3StatusConnect>
         )
     }
 }
 
 export default function Web3Status() {
-    const { active, account } = useWeb3React()
-    const contextNetwork = useWeb3React(NetworkContextName)
+    // const { active, account } = useWeb3React()
+    const { active, account } = useActiveOnboard()
+    // const contextNetwork = useWeb3React(NetworkContextName)
 
     const { ENSName } = useENSName(account ?? undefined)
 
@@ -179,9 +186,9 @@ export default function Web3Status() {
     const pending = sortedRecentTransactions.filter((tx) => !tx.receipt).map((tx) => tx.hash)
     const confirmed = sortedRecentTransactions.filter((tx) => tx.receipt).map((tx) => tx.hash)
     
-    if (!contextNetwork.active && !active) {
-        return null
-    }
+    // if (!active) {
+    //     return null
+    // }
 
     return (
         <>

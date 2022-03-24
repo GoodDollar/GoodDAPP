@@ -143,20 +143,20 @@ const ModalContent = (props: any) => {
         if (networkType === 'staging') {
             toggleNetworkModal()
         } else if (networkType === 'production') {
-              metaMaskRequests(metaMaskInfo, 'switch')
+            metaMaskRequests(metaMaskInfo, 'switch')
             toggleWalletModal()
         }
     }, [ethereum, toggleNetworkModal, toggleWalletModal])
 
     const handleFuseNetworkSwitch = useCallback(() => {
-      metaMaskRequests(metaMaskInfo, 'add', account)
-      toggleWalletModal()
+        metaMaskRequests(metaMaskInfo, 'add', account)
+        toggleWalletModal()
     }, [account, ethereum, toggleWalletModal])
 
-    function getOptions() { 
+    function getOptions() {
         return Object.keys(SUPPORTED_WALLETS).map(key => {
             const option = SUPPORTED_WALLETS[key]
- 
+
             // check for mobile options 
             if (isMobile) {
                 if (!window.web3 && !window.ethereum && option.mobile) {
@@ -201,12 +201,12 @@ const ModalContent = (props: any) => {
 
                 // don't return metamask if injected provider isn't metamask
                 else if (option.name === 'MetaMask' && !metaMaskInfo.isMetaMask) {
-                  return null
+                    return null
                 }
             }
 
-            if (option.connector === walletlink){
-              return null
+            if (option.connector === walletlink) {
+                return null
             }
 
             // return rest of options (WalletConnect / Walletlink(ie. coinbase))

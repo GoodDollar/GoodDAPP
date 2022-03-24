@@ -11,7 +11,7 @@ import Web3 from 'web3'
  */
 export function getProvider(chainId: SupportedChainId, web3?: Web3): BaseProvider {
     if (chainId === SupportedChainId.FUSE) {
-        return new ethers.providers.JsonRpcProvider('https://rpc.fuse.io/')
+        return new ethers.providers.JsonRpcProvider(process.env.REACT_APP_FUSE_RPC)
     }
     return web3
         ? new ethers.providers.Web3Provider(web3.currentProvider as any)

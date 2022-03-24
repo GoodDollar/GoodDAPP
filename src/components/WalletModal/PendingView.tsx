@@ -78,7 +78,7 @@ export default function PendingView({
     tryActivation: (connector: AbstractConnector) => void
 }) {
     const { i18n } = useLingui()
- 
+
     const { ethereum } = window
     const metaMaskInfo = useMetaMask()
     // const isCoinbase = window.walletLinkExtension
@@ -116,13 +116,13 @@ export default function PendingView({
                         }
                     }
                     if (option.connector === walletlink) {
-                      return null
-                      // if (isCoinbase && option.name !== 'Coinbase') {
-                      //   return null
-                      // }
-                      // if (!isCoinbase && option.name === 'Coinbase') {
-                      //   return null
-                      // }
+                        return null
+                        // if (isCoinbase && option.name !== 'Coinbase') {
+                        //   return null
+                        // }
+                        // if (!isCoinbase && option.name === 'Coinbase') {
+                        //   return null
+                        // }
                     }
                     return (
                         <Option

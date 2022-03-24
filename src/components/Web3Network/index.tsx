@@ -1,5 +1,6 @@
 import React from 'react'
 import { useActiveWeb3React } from 'hooks/useActiveWeb3React'
+// import { useActiveOnboard } from 'hooks/useActiveOnboard'
 import { useNetworkModalToggle } from '../../state/application/hooks'
 import { NETWORK_ICON, NETWORK_LABEL } from '../../constants/networks'
 import NetworkModal from '../NetworkModal'
@@ -8,7 +9,8 @@ import useMetaMask from 'hooks/useMetaMask'
 
 function Web3Network(): JSX.Element | null {
     const { chainId } = useActiveWeb3React()
-    const isMetaMask = useMetaMask() 
+
+    const isMetaMask = useMetaMask()
 
     const toggleNetworkModal = useNetworkModalToggle()
 
@@ -22,18 +24,18 @@ function Web3Network(): JSX.Element | null {
               onClick={() => toggleNetworkModal()}
           >
               <ButtonOutlined>
-                  <div className="grid grid-flow-col auto-cols-max items-center rounded-lg   py-2 px-3 pointer-events-auto">
+                  <div className="grid items-center grid-flow-col px-3 py-2 rounded-lg pointer-events-auto auto-cols-max">
                       <img
                           src={NETWORK_ICON[chainId]}
                           alt="Switch Network"
-                          className="rounded-md mr-2"
+                          className="mr-2 rounded-md"
                           style={{ width: 22, height: 22 }}
                       />
                       <div className="">{NETWORK_LABEL[chainId]}</div>
                   </div>
               </ButtonOutlined>
               {/* <div
-                  className="bg-cover bg-no-repeat bg-chain-static hover:bg-chain-animated"
+                  className="bg-no-repeat bg-cover bg-chain-static hover:bg-chain-animated"
                   style={{ width: 22, height: 22 }}
               /> */}
                 <NetworkModal />

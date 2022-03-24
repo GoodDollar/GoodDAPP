@@ -23,7 +23,6 @@ import { g$Price } from '../sdk/apollo'
 import LanguageSwitch from "./LanguageSwitch";
 import NetworkModal from './NetworkModal'
 import AppNotice from './AppNotice'
-// import { ExternalProvider } from '../constants'
 
 const AppBarWrapper = styled.header`
     background: ${({ theme }) => theme.color.main};
@@ -78,9 +77,9 @@ function AppBar(): JSX.Element {
     }, [chainId])
 
     return (
-        <AppBarWrapper className="relative z-10 flex flex-row justify-between w-screen flex-nowrap" style={{flexDirection: 'column'}}>
-            <AppNotice text={i18n._(t``)} 
-                       link={['']} show={false}></AppNotice> 
+        <AppBarWrapper className="relative z-10 flex flex-row justify-between w-screen flex-nowrap" style={{ flexDirection: 'column' }}>
+            <AppNotice text={i18n._(t``)}
+                link={['']} show={false}></AppNotice>
             <Disclosure as="nav" className="w-screen gradiant-z-10">
                 {({ open }) => (
                     <>

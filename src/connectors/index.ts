@@ -6,6 +6,17 @@ import { WalletLinkConnector } from '@web3-react/walletlink-connector'
 import { Web3Provider } from '@ethersproject/providers'
 import Logo from '../assets/images/logo.png' 
 
+// ** blocknative update ** //
+import Onboard from '@web3-onboard/core'
+import injectedModule, { ProviderLabel } from '@web3-onboard/injected-wallets'
+import walletConnectModule from '@web3-onboard/walletconnect'
+import type { InitOptions } from '@web3-onboard/core'
+// ** blockNative update **//
+import { init } from '@web3-onboard/react'
+
+enum NewChainId {
+  FUSE = 122
+}
 const RPC = {
     [ChainId.MAINNET]: process.env.REACT_APP_MAINNET_RPC ?? 'https://eth-mainnet.alchemyapi.io/v2/2kSbx330Sc8S3QRwD9nutr9XST_DfeJh',
     [ChainId.ROPSTEN]: 'https://eth-ropsten.alchemyapi.io/v2/cidKix2Xr-snU3f6f6Zjq_rYdalKKHmW',
@@ -29,7 +40,7 @@ const RPC = {
     [ChainId.HARMONY_TESTNET]: 'https://explorer.pops.one',
     [ChainId.OKEX]: 'https://exchainrpc.okex.org',
     [ChainId.OKEX_TESTNET]: 'https://exchaintestrpc.okex.org',
-    [122]: process.env.REACT_APP_FUSE_RPC ?? 'https://rpc.fuse.io'
+    [NewChainId.FUSE]: process.env.REACT_APP_FUSE_RPC ?? 'https://rpc.fuse.io'
 }
 
 export const network = new NetworkConnector({
@@ -52,7 +63,7 @@ export const walletconnect = new WalletConnectConnector({
         [ChainId.MAINNET]: RPC[ChainId.MAINNET],
         [ChainId.ROPSTEN]: RPC[ChainId.ROPSTEN],
         [ChainId.KOVAN]: RPC[ChainId.KOVAN],
-        [122]: RPC[122]
+        [NewChainId.FUSE]: RPC[NewChainId.FUSE]
     },
     bridge: 'https://bridge.walletconnect.org',
     qrcode: true,
@@ -70,3 +81,82 @@ export const Fortmatic = {}
 export const fortmatic = {}
 export const Portis = {}
 export const portis = {}
+
+
+// ** blocknative update ** //
+const injectedBN = injectedModule({
+  filter: {
+    ["Binance Smart Wallet"]: false
+  }
+})
+const walletConnectBN = walletConnectModule({
+  bridge: 'https://bridge.walletconnect.org',
+  qrcodeModalOptions: {
+    mobileLinks: ['metamask', 'trust']
+  }
+})
+
+export const onboard = init({
+  wallets: [injectedBN, walletConnectBN],
+  chains: [
+    {
+      id: '0x1',
+      token: 'ETH',
+      label: 'Ethereum Mainnet',
+      rpcUrl: process.env.REACT_APP_MAINNET_RPC ?? 'https://eth-mainnet.alchemyapi.io/v2/2kSbx330Sc8S3QRwD9nutr9XST_DfeJh'
+    },
+    {
+      id: '0x7a',
+      token: 'FUSE',
+      label: 'Fuse Network',
+      rpcUrl: process.env.REACT_APP_FUSE_RPC ?? 'https://fuse-mainnet.gateway.pokt.network/v1/lb/6238bcde27bdef003b45720c'
+    }
+  ],
+  appMetadata: {
+    name: 'GoodSwap',
+    icon: Logo,
+    description: 'GoodDollar Swap Interface',
+    recommendedInjectedWallets: [
+      { name: 'MetaMask', url: 'https://metamask.io'}
+    ]
+  },
+  i18n: {
+    en: {
+      connect: {
+        selectingWallet: {
+          header: 'Testing blocknative',
+          sidebar: {
+            heading: "Get Started",
+            subheading: "Connect your wallet",
+            paragraph: "Connecting your wallet is like “logging in” to Web3. Select your wallet from the options to get started."
+          },
+        },
+        connectingWallet: {
+          header: "{connectionRejected, select, false {Connecting to {wallet}...} other {Connection Rejected}}",
+          sidebar: {
+            heading: "This is heading",
+            subheading: "Approve Connection",
+            paragraph: "Please approve the connection in your wallet and authorize access to continue."
+          },
+          mainText: "Connecting...",
+          paragraph: "Make sure to select all accounts that you want to grant access to.",
+          rejectedText: "Connection Rejected!",
+          rejectedCTA: "Click here to try again",
+          primaryButton: "Back to wallets"
+        },
+        connectedWallet: {
+          header: "Connection Successful",
+          sidebar: {
+            heading: "This is heading",
+            subheading: "Connection Successful!",
+            paragraph: "Your wallet is now connected to {app}"
+          },
+          mainText: "Connected"
+        }
+      }
+    }
+  }
+})
+
+// TODO: connect i18n options to the specific ui areas!
+// ** blocknative update **//

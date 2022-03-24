@@ -362,7 +362,7 @@ export type ExternalProvider = {
 
 export const SUPPORTED_WALLETS: { [key: string]: WalletInfo } = {
     METAMASK: {
-        connector: injected,
+        // connector: injected,
         name: 'MetaMask',
         iconName: 'metamask.png',
         description: 'Easy-to-use browser extension.',
@@ -370,7 +370,7 @@ export const SUPPORTED_WALLETS: { [key: string]: WalletInfo } = {
         color: '#E8831D'
     },
     WALLET_CONNECT: {
-        connector: walletconnect,
+        // connector: walletconnect,
         name: 'WalletConnect',
         iconName: 'walletConnectIcon.svg',
         description: 'Connect to Trust Wallet, Rainbow Wallet and more...',
@@ -379,7 +379,7 @@ export const SUPPORTED_WALLETS: { [key: string]: WalletInfo } = {
         mobile: true
     },
     WALLET_LINK: {
-      connector: walletlink,
+      // connector: walletlink,
       name: 'Coinbase',
       iconName: 'coinbaseWalletIcon.svg',
       description: 'Use Coinbase Wallet app on mobile device',

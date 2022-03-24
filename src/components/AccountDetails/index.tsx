@@ -206,19 +206,19 @@ export default function AccountDetails({
     openOptions
 }: AccountDetailsProps): any {
     const { i18n } = useLingui()
-    const { chainId, account, connector } = useActiveWeb3React()
-    const dispatch = useDispatch<AppDispatch>() 
+    const { chainId, account, label } = useActiveWeb3React()
+    const dispatch = useDispatch<AppDispatch>()
 
     function formatConnectorName() {
-      let name =  ''
-      Object.keys(SUPPORTED_WALLETS).map(key => {
-        if (connector === SUPPORTED_WALLETS[key].connector) {
-          return (name = SUPPORTED_WALLETS[key].name)
-        }
-        return true
-      }) 
+        let name = ''
+        Object.keys(SUPPORTED_WALLETS).map(key => {
+            if (label === SUPPORTED_WALLETS[key].name) {
+                return (name = SUPPORTED_WALLETS[key].name)
+            }
+            return true
+        })
 
-      return `${i18n._(t`Connected with`)} ${name}`
+        return `${i18n._(t`Connected with`)} ${name}`
     }
 
     const clearAllTransactionsCallback = useCallback(() => {
@@ -231,7 +231,7 @@ export default function AccountDetails({
                 <CloseIcon onClick={toggleWalletModal}>
                     <CloseColor />
                 </CloseIcon>
-                <Title className="text-center mb-8">{i18n._(t`Account`)}</Title>
+                <Title className="mb-8 text-center">{i18n._(t`Account`)}</Title>
                 <AccountSection>
                     <YourAccount>
                         <InfoCard>

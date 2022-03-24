@@ -40,6 +40,14 @@ function Swap() {
         token: SupportedChainId[Number(chainId)] === 'FUSE' ? FUSE : ETHER,
         value: ''
     })
+
+    useEffect(() => {
+        setSwapPair({
+            token: SupportedChainId[Number(chainId)] === 'FUSE' ? FUSE : ETHER,
+            value: ''
+        })
+    }, [chainId]) // on first render chainId is undefined
+
     const handleSetPair = useCallback(
         (value: Partial<SwapVariant>) =>
             setSwapPair(current => ({
@@ -69,8 +77,8 @@ function Swap() {
                 ? getBuyMeta
                 : getBuyMetaReverse
             : field === 'internal'
-            ? getSellMeta
-            : getSellMetaReverse
+                ? getSellMeta
+                : getSellMetaReverse
         const value = field === 'external' ? swapPair.value : swapValue
         const symbol = swapPair.token.getSymbol()
         const setOtherValue = field === 'external' ? setSwapValue : handleSetPairValue
@@ -95,8 +103,8 @@ function Swap() {
                         ? meta.outputAmount.toExact()
                         : meta.inputAmount.toExact()
                     : field === 'external'
-                    ? meta.inputAmount.toExact()
-                    : meta.outputAmount.toExact()
+                        ? meta.inputAmount.toExact()
+                        : meta.outputAmount.toExact()
             )
             setMeta(meta)
         }, 400))
@@ -104,7 +112,7 @@ function Swap() {
     const [approving, setApproving] = useState(false)
     const [showConfirm, setShowConfirm] = useState(false)
     const [approved, setApproved] = useState(false)
-    
+
     const handleApprove = async () => {
         if (!meta || !web3) return
         try {
@@ -160,16 +168,16 @@ function Swap() {
                     ? 'FUSE'
                     : meta.inputAmount.currency.symbol
                 : meta.inputAmount.currency.symbol === 'WETH9'
-                ? 'ETH'
-                : meta.inputAmount.currency.symbol
+                    ? 'ETH'
+                    : meta.inputAmount.currency.symbol
         outputSymbol =
             SupportedChainId[Number(chainId)] === 'FUSE'
                 ? meta.outputAmount.currency.symbol === 'WETH9'
                     ? 'FUSE'
                     : meta.outputAmount.currency.symbol
                 : meta.outputAmount.currency.symbol === 'WETH9'
-                ? 'ETH'
-                : meta.outputAmount.currency.symbol
+                    ? 'ETH'
+                    : meta.outputAmount.currency.symbol
     }
 
     const swapFields = {
@@ -190,13 +198,12 @@ function Swap() {
                 : (meta as SellInfo)?.contribution?.toSignificant(6, { groupSeparator: ',' }),
         price:
             meta &&
-            `${
-                meta.inputAmount.greaterThan(0)
-                    ? meta.outputAmount
-                          .multiply(meta.inputAmount.decimalScale)
-                          .divide(meta.inputAmount.asFraction)
-                          .toSignificant(6, { groupSeparator: ',' })
-                    : '0'
+            `${meta.inputAmount.greaterThan(0)
+                ? meta.outputAmount
+                    .multiply(meta.inputAmount.decimalScale)
+                    .divide(meta.inputAmount.asFraction)
+                    .toSignificant(6, { groupSeparator: ',' })
+                : '0'
             } ${outputSymbol} PER ${inputSymbol} `
     }
 
@@ -210,15 +217,15 @@ function Swap() {
             token?: Currency
         }
     ] = [
-        {
-            token: swapPair.token,
-            value: swapPair.value
-        },
-        {
-            token: G$,
-            value: swapValue
-        }
-    ]
+            {
+                token: swapPair.token,
+                value: swapPair.value
+            },
+            {
+                token: G$,
+                value: swapValue
+            }
+        ]
 
     if (!buying) pair.reverse()
 
@@ -283,9 +290,8 @@ function Swap() {
                         <div style={{ marginTop: 14, padding: '0 4px' }}>
                             <SwapInfo
                                 title={i18n._(t`Slippage Tolerance`)}
-                                value={`${slippageTolerance.value || '0'}${
-                                    slippageTolerance.value.endsWith('%') ? '' : '%'
-                                }`}
+                                value={`${slippageTolerance.value || '0'}${slippageTolerance.value.endsWith('%') ? '' : '%'
+                                    }`}
                             />
                             {meta && <SwapInfo title="Price" value={swapFields.price} />}
                         </div>
@@ -317,8 +323,8 @@ function Swap() {
                                         {approving
                                             ? i18n._(t`Approving`)
                                             : approved
-                                            ? i18n._(t`Approved`)
-                                            : i18n._(t`Approve`)}
+                                                ? i18n._(t`Approved`)
+                                                : i18n._(t`Approve`)}
                                     </ButtonAction>
                                 )}
                                 <ButtonAction

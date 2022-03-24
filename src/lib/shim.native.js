@@ -3,11 +3,21 @@ import './shim.common'
 ;(() => {
   const { prototype: __proto__ } = XHR2
   const { setRequestHeader } = __proto__
+
   __proto__.setRequestHeader = function(name, value) {
-    this._restrictedHeaders.origin = false
-    if ('user-agent' === name.toLowerCase()) {
-      this._userAgent = value
-      return
+    const { _restrictedHeaders } = this
+
+    switch (name.toLowerCase()) {
+      case 'user-agent':
+        this._userAgent = value
+        return
+      case 'origin':
+        if ('origin' in _restrictedHeaders) {
+          delete _restrictedHeaders.origin
+        }
+        break
+      default:
+        break
     }
 
     setRequestHeader.call(this, name, value)

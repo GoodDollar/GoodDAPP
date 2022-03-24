@@ -1,3 +1,4 @@
+//@flow
 import { useEffect, useState } from 'react'
 import { get, once } from 'lodash'
 import Config from '../../config/config'
@@ -38,14 +39,30 @@ const createABTesting = (testName, percentage = Config.abTestPercentage, persist
         const { ab } = test
         void (event && fireEvent(event, { ab }))
         setTest(test)
-        log.debug('hook ready', { test })
+        log.debug('useABTesting ready', { test })
       })
     }, [])
 
     return [component, get(test, 'ab'), initialized]
   }
 
-  return { useABTesting }
+  const useOption = (options: [{ value: any, chance: number }], event = null) => {
+    const [option, setOption] = useState()
+
+    useEffect(() => {
+      getTestVariant().then(test => {
+        const { ab } = test
+        void (event && fireEvent(event, { ab }))
+        const option = options.find((opt, idx) => idx === options.length - 1 || test.random <= opt.chance)
+        setOption(option)
+        log.debug('useOption ready', { option, test })
+      })
+    }, [])
+
+    return option
+  }
+
+  return { useABTesting, useOption }
 }
 
 export default createABTesting

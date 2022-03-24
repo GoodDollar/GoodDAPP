@@ -15,6 +15,7 @@ import ModalLeftBorder from '../common/modal/ModalLeftBorder'
 import { useDialog } from '../../lib/undux/utils/dialog'
 import LoadingIcon from '../common/modal/LoadingIcon'
 import { InfoIcon } from '../common/modal/InfoIcon'
+import createABTesting from '../../lib/hooks/useABTesting'
 
 import goodWallet from '../../lib/wallet/GoodWallet'
 import { extractQueryParams } from '../../lib/utils/uri'
@@ -36,6 +37,8 @@ const log = logger.child({ from: 'Invite' })
 const Divider = ({ size = 10 }) => <Section.Separator color="transparent" width={size} style={{ zIndex: -10 }} />
 
 const { isCryptoLiteracy } = Config
+
+const { useOption } = createABTesting('INVITE_CAMPAIGNS')
 
 const InvitedUser = ({ address, status }) => {
   const profile = usePublicProfileOf(address)
@@ -77,10 +80,13 @@ const InvitedUser = ({ address, status }) => {
 }
 
 const ShareBox = ({ level }) => {
+  const abTestOption = useOption([{ value: shareMessage, chance: 1, id: 'basic' }])
   const inviteCode = useInviteCode()
-  const shareUrl = inviteCode ? `${Config.invitesUrl}?inviteCode=${inviteCode}` : ''
+  const shareUrl =
+    inviteCode && abTestOption ? `${Config.invitesUrl}?inviteCode=${inviteCode}&campaign=${abTestOption.id}` : ''
   const bounty = level?.bounty ? parseInt(level.bounty) / 100 : ''
-  const share = useMemo(() => generateShareObject(shareTitle, shareMessage, shareUrl), [shareUrl])
+  const abTestMessage = abTestOption?.value.replace(/<reward>/, bounty / 2).replace(/<bounty>/, bounty)
+  const share = useMemo(() => generateShareObject(shareTitle, abTestMessage, shareUrl), [shareUrl, abTestMessage])
 
   return (
     <WavesBox primarycolor={theme.colors.primary} style={styles.linkBoxStyle} title={'Share Your Invite Link'}>

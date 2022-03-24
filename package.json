@@ -2,7 +2,7 @@
   "name": "@gooddollar/gooddapp",
   "version": "1.37.1-5",
   "engines": {
-    "node": ">=14",
+    "node": ">=12",
     "npm": "6.x"
   },
   "scripts": {

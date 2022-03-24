@@ -24,7 +24,6 @@ import { delay } from '../../lib/utils/async'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import DeepLinking from '../../lib/utils/deepLinking'
 import { isMobileNative } from '../../lib/utils/platform'
-import { useInviteCode } from '../invite/useInvites'
 import restart from '../../lib/utils/restart'
 
 type LoadingProps = {
@@ -240,8 +239,6 @@ const AppSwitch = (props: LoadingProps) => {
   }, [gdstore, ready])
 
   const backgroundUpdates = useCallback(() => {}, [ready])
-
-  useInviteCode()
 
   useEffect(() => void (navigateToUrlRef.current = navigateToUrlAction), [navigateToUrlAction])
 

@@ -30,7 +30,7 @@ import {
 import FriendsSVG from './friends.svg'
 import EtoroPNG from './etoro.png'
 import ShareIcons from './ShareIcons'
-import { shareMessage, shareTitle } from './constants'
+import useShareMessages from './useShareMessages'
 
 const log = logger.child({ from: 'Invite' })
 
@@ -80,6 +80,7 @@ const InvitedUser = ({ address, status }) => {
 }
 
 const ShareBox = ({ level }) => {
+  const [{ shareMessage, shareTitle }] = useShareMessages()
   const abTestOption = useOption([{ value: shareMessage, chance: 1, id: 'basic' }])
   const inviteCode = useInviteCode()
   const shareUrl =

@@ -90,10 +90,10 @@ const InitialDialog = withStyles(mapStylesToProps)(({ showDesc, styles }) => {
   return (
     <View style={styles.container}>
       <DialogImage styles={styles} />
-      <DiaglogTitle>t`Add icon to home screen for easy access`</DiaglogTitle>
+      <DiaglogTitle>{t`Add icon to home screen for easy access`}</DiaglogTitle>
       {showDesc && (
         <Text textAlign="left" color="gray80Percent" fontSize={14}>
-          t`You can collect your daily GoodDollars with ease by adding this shortcut to your home screen.`
+          {t`You can collect your daily GoodDollars with ease by adding this shortcut to your home screen.`}
         </Text>
       )}
     </View>

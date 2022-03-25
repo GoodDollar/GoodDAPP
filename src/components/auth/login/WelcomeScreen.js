@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect } from 'react'
 import { Linking, View } from 'react-native'
 
-import { t } from '@lingui/macro'
+import { t, Trans } from '@lingui/macro'
 import CustomButton from '../../common/buttons/CustomButton'
 import Wrapper from '../../common/layout/Wrapper'
 import Text from '../../common/view/Text'
@@ -91,7 +91,9 @@ const WelcomeScreen = ({ theme, styles, screenProps, navigation }) => {
           fontFamily="Roboto"
           style={{ marginTop: getDesignRelativeHeight(1) }}
         >
-          {t`GoodDollar is a global community and\n a web application to help people join\n the digital economy.`}
+          <Trans>
+            GoodDollar is a global community and\n a web application to help people join\n the digital economy.
+          </Trans>
         </Text>
         <View>
           <Text
@@ -167,7 +169,7 @@ const getStylesFromProps = ({ theme }) => {
 const welcome = withStyles(getStylesFromProps)(SimpleStore.withStore(WelcomeScreen))
 
 welcome.navigationOptions = {
-  title: `Welcome to GoodDollar!`,
+  title: t`Welcome to GoodDollar!`,
   navigationBarHidden: true,
 }
 

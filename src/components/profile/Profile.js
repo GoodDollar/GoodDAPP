@@ -1,6 +1,7 @@
 // @flow
 import React, { useCallback } from 'react'
 import { Platform, View } from 'react-native'
+import { t } from '@lingui/macro'
 import { createStackNavigator } from '../appNavigation/stackNavigation'
 import { Section, Text, Wrapper } from '../common'
 import UserAvatar from '../common/view/UserAvatar'
@@ -73,7 +74,7 @@ const ProfileWrapper = ({ screenProps, styles }) => {
 }
 
 ProfileWrapper.navigationOptions = {
-  title: 'My Profile',
+  title: t`My Profile`,
 }
 
 const getStylesFromProps = ({ theme }) => {

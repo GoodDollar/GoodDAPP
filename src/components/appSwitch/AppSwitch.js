@@ -1,5 +1,5 @@
 // @flow
-import React, { useCallback, useContext, useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { AppState } from 'react-native'
 import { SceneView } from '@react-navigation/core'
 import { debounce, isEmpty } from 'lodash'
@@ -25,8 +25,7 @@ import SimpleStore from '../../lib/undux/SimpleStore'
 import DeepLinking from '../../lib/utils/deepLinking'
 import { isMobileNative } from '../../lib/utils/platform'
 import restart from '../../lib/utils/restart'
-import { UserContext } from '../../lib/contexts/userContext'
-import { useAccount } from '../../lib/hooks/useAccount'
+import { useProfileContext } from '../../lib/hooks/useProfileContext'
 
 type LoadingProps = {
   navigation: any,
@@ -67,8 +66,10 @@ const AppSwitch = (props: LoadingProps) => {
   const store = SimpleStore.useStore()
   const [showErrorDialog] = useErrorDialog()
   const [ready, setReady] = useState(false)
-  const { updateIsLoggedIn, updateIsLoggedInCitizen, updateAccountData } = useContext(UserContext)
-  const { accountData: account } = useAccount()
+  const {
+    userState: { account },
+    updateUserState,
+  } = useProfileContext()
 
   /*
   Check if user is incoming with a URL with action details, such as payment link or email confirmation
@@ -166,7 +167,7 @@ const AppSwitch = (props: LoadingProps) => {
       //after dynamic routes update, if user arrived here, then he is already loggedin
       //initialize the citizen status and wallet status
       //create jwt token and initialize the API service
-      updateWalletStatus(gdstore, updateAccountData, account)
+      updateWalletStatus(gdstore, updateUserState, account)
 
       const [isLoggedInCitizen, isLoggedIn] = await getLoginState()
 
@@ -174,8 +175,7 @@ const AppSwitch = (props: LoadingProps) => {
 
       const initReg = userStorage.initRegistered()
 
-      updateIsLoggedIn(isLoggedIn)
-      updateIsLoggedInCitizen(isLoggedInCitizen)
+      updateUserState({ isLoggedIn, isLoggedInCitizen })
 
       //identify user asap for analytics
       const identifier = goodWallet.getAccountForType('login')

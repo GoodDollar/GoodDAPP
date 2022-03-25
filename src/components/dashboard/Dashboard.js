@@ -44,7 +44,7 @@ import Avatar from '../common/view/Avatar'
 import _debounce from '../../lib/utils/debounce'
 import useProfile from '../../lib/userStorage/useProfile'
 import { GlobalTogglesContext } from '../../lib/contexts/togglesContext'
-import { useAccount } from '../../lib/hooks/useAccount'
+import { useProfileContext } from '../../lib/hooks/useProfileContext'
 import { useInviteCode } from '../invite/useInvites'
 import PrivacyPolicyAndTerms from './PrivacyPolicyAndTerms'
 import Amount from './Amount'
@@ -108,7 +108,9 @@ const Dashboard = props => {
   const [headerBalanceRightMarginAnimValue] = useState(new Animated.Value(0))
   const [headerBalanceLeftMarginAnimValue] = useState(new Animated.Value(0))
   const [headerFullNameOpacityAnimValue] = useState(new Animated.Value(1))
-  const { accountData: account } = useAccount()
+  const {
+    userState: { account },
+  } = useProfileContext()
   const store = SimpleStore.useStore()
   const gdstore = GDStore.useStore()
   const [showDialog] = useDialog()

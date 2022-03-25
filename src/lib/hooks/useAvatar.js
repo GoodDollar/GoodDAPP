@@ -1,12 +1,11 @@
-import { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 import userStorage from '../userStorage/UserStorage'
 
 import { isValidCID } from '../ipfs/utils'
 import { isValidDataUrl } from '../utils/base64'
 import AsyncStorage from '../utils/asyncStorage'
-import { UserContext } from '../contexts/userContext'
-import { useAccount } from './useAccount'
+import useProfile from '../userStorage/useProfile'
 
 const useAvatar = avatar => {
   const cachedDataUrl = useMemo(() => {
@@ -52,14 +51,16 @@ const useAvatar = avatar => {
 }
 
 export const useUploadedAvatar = () => {
-  const { uploadedAvatar } = useAccount()
-  const { updateUploadedAvatar } = useContext(UserContext)
+  const {
+    userState: { uploadedAvatar },
+    updateUserState,
+  } = useProfile()
   const [avatarPassed, setAvatarPassed] = useState(() => uploadedAvatar)
   const initialAvatarPassedRef = useRef(avatarPassed)
 
   const setAvatarJustUploaded = useCallback(async avatar => {
     setAvatarPassed(avatar)
-    updateUploadedAvatar(avatar)
+    updateUserState({ avatar })
     await AsyncStorage.setItem('GD_uploadedAvatar', avatar)
   }, [])
 

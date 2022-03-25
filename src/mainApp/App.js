@@ -21,12 +21,14 @@ import { GlobalTogglesContextProvider } from '../lib/contexts/togglesContext'
 import logger from '../lib/logger/js-logger'
 
 import { theme } from '../components/theme/styles'
-import { useLoggedIn } from '../lib/hooks/useLoggedIn'
+import { useProfileContext } from '../lib/hooks/useProfileContext'
 
 const log = logger.child({ from: 'App' })
 
 const SplashOrRouter = ({ store }) => {
-  const { isLoggedIn } = useLoggedIn()
+  const {
+    userState: { isLoggedIn },
+  } = useProfileContext()
 
   const [showDesktopSplash, setShowDesktopSplash] = useState(() => {
     if (isMobile) {

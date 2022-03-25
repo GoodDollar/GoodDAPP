@@ -19,7 +19,7 @@ import { CLICK_DELETE_WALLET, fireEvent, LOGOUT } from '../../lib/analytics/anal
 import { GlobalTogglesContext } from '../../lib/contexts/togglesContext'
 import { REGISTRATION_METHOD_SELF_CUSTODY } from '../constants/login'
 import useDeleteAccountDialog from './useDeleteAccountDialog'
-import { useLoggedIn } from './useLoggedIn'
+import { useProfileContext } from './useProfileContext'
 
 const log = logger.child({ from: 'useSideMenu' })
 
@@ -29,7 +29,9 @@ export default (props = {}) => {
   const { navigation } = props
   const store = SimpleStore.useStore()
   const [showErrorDialog] = useErrorDialog()
-  const { isLoggedIn } = useLoggedIn()
+  const {
+    userState: { isLoggedIn },
+  } = useProfileContext()
   const showDeleteAccountDialog = useDeleteAccountDialog(showErrorDialog)
 
   const [isSelfCustody, setIsSelfCustody] = useState(false)

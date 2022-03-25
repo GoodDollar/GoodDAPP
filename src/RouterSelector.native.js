@@ -10,7 +10,7 @@ import { APP_OPEN, fireEvent, initAnalytics } from './lib/analytics/analytics'
 import Config from './config/config'
 import logger from './lib/logger/js-logger'
 import './lib/utils/debugUserAgent'
-import { useLoggedIn } from './lib/hooks/useLoggedIn'
+import { useProfileContext } from './lib/hooks/useProfileContext'
 
 const log = logger.child({ from: 'RouterSelector' })
 
@@ -51,7 +51,9 @@ let AppRouter = React.lazy(() => {
 
 const RouterSelector = () => {
   useUpdateDialog()
-  const { isLoggedIn } = useLoggedIn()
+  const {
+    userState: { isLoggedIn },
+  } = useProfileContext()
 
   const Router = useMemo(() => {
     log.debug('RouterSelector Rendered', { isLoggedIn })

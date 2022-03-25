@@ -1,6 +1,6 @@
 // @flow
 import { ActionSheetProvider } from '@expo/react-native-action-sheet'
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Platform } from 'react-native'
 import '../lib/shim'
 import '../lib/gundb/gundb'
@@ -12,11 +12,12 @@ import Config from '../config/config'
 import { UserContext } from '../lib/contexts/userContext'
 import SimpleStore, { useCurriedSetters } from '../lib/undux/SimpleStore'
 import LanguageProvider from '../language/i18n'
+import { useProfileContext } from '../lib/hooks/useProfileContext'
 import AppHot from './AppHot'
 
 const AppHolder = () => {
   const [ready, setReady] = useState(false)
-  const { updateIsLoggedIn } = useContext(UserContext)
+  const { updateUserState } = useProfileContext()
 
   useEffect(() => {
     /**
@@ -39,7 +40,7 @@ const AppHolder = () => {
     const initStore = async () => {
       const isLoggedIn = await AsyncStorage.getItem(IS_LOGGED_IN)
 
-      updateIsLoggedIn(!!isLoggedIn)
+      updateUserState({ isLoggedIn })
     }
 
     const initializeApp = async () => {

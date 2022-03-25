@@ -9,3 +9,11 @@ export const defaultVerificationState = {
   attemptsHistory: [],
   reachedMaxAttempts: false,
 }
+
+export const defaultUserState = {
+  isLoggedIn: false,
+  isLoggedInCitizen: false,
+  account: defaultAccountValue,
+  uploadedAvatar: undefined,
+  verification: defaultVerificationState,
+}

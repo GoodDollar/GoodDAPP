@@ -2,7 +2,7 @@ import React, { useCallback } from 'react'
 import { Platform, StyleSheet } from 'react-native'
 import Section from '../layout/Section'
 import useProfile from '../../../lib/userStorage/useProfile'
-import { useAccount } from '../../../lib/hooks/useAccount'
+import { useProfileContext } from '../../../lib/hooks/useProfileContext'
 import Avatar from './Avatar'
 import BigGoodDollar from './BigGoodDollar'
 
@@ -26,7 +26,7 @@ const TopBar = ({
 }) => {
   const {
     accountData: { balance },
-  } = useAccount()
+  } = useProfileContext()
   const { smallAvatar: avatar } = useProfile()
 
   const redirectToProfile = useCallback(() => {

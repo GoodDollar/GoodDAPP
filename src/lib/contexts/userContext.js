@@ -1,50 +1,14 @@
-import React, { createContext, useCallback, useMemo, useState } from 'react'
-import { defaultAccountValue, defaultVerificationState } from '../constants/user'
+import React, { createContext, useCallback, useState } from 'react'
+import { defaultUserState } from '../constants/user'
 
 export const UserContext = createContext()
 
 export const UserContextProvider = props => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
-  const [isLoggedInCitizen, setIsLoggedInCitizen] = useState(false)
-  const [account, setAccount] = useState(defaultAccountValue)
-  const [uploadedAvatar, setUploadedAvatar] = useState()
-  const [verification, setVerification] = useState(defaultVerificationState)
+  const [userState, setUserState] = useState(defaultUserState)
 
-  const updateIsLoggedIn = useCallback(value => {
-    setIsLoggedIn(value)
+  const updateUserState = useCallback(value => {
+    setUserState({ ...userState, ...value })
   }, [])
 
-  const updateIsLoggedInCitizen = useCallback(value => {
-    setIsLoggedInCitizen(value)
-  }, [])
-
-  const updateAccountData = useCallback(value => {
-    setAccount({ ...account, ...value })
-  }, [])
-
-  const updateVerificationData = useCallback(value => {
-    setVerification(value)
-  }, [])
-
-  const updateUploadedAvatar = useCallback(value => {
-    setUploadedAvatar(value)
-  }, [])
-
-  const userContextData = useMemo(
-    () => ({
-      isLoggedIn,
-      isLoggedInCitizen,
-      account,
-      verification,
-      uploadedAvatar,
-      updateIsLoggedIn,
-      updateIsLoggedInCitizen,
-      updateAccountData,
-      updateUploadedAvatar,
-      updateVerificationData,
-    }),
-    [isLoggedIn, isLoggedInCitizen, account, verification, uploadedAvatar],
-  )
-
-  return <UserContext.Provider value={userContextData}>{props.children}</UserContext.Provider>
+  return <UserContext.Provider value={{ userState, updateUserState }}>{props.children}</UserContext.Provider>
 }

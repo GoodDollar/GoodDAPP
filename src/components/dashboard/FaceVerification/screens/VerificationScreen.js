@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useMemo } from 'react'
+import React, { useCallback, useMemo } from 'react'
 
 import { identity } from 'lodash'
 import Instructions from '../components/Instructions'
@@ -24,12 +24,12 @@ import {
 } from '../../../../lib/analytics/analytics'
 
 import { tryUntil } from '../../../../lib/utils/async'
-import { UserContext } from '../../../../lib/contexts/userContext'
+import { useProfileContext } from '../../../../lib/hooks/useProfileContext'
 
 const log = logger.child({ from: 'FaceVerification' })
 
 const FaceVerification = ({ screenProps }) => {
-  const { updateIsLoggedInCitizen } = useContext(UserContext)
+  const { updateUserState } = useProfileContext()
   const { attemptsCount, trackAttempt, resetAttempts } = useVerificationAttempts()
 
   // Redirects to the error screen, passing exception
@@ -115,7 +115,7 @@ const FaceVerification = ({ screenProps }) => {
       resetAttempts()
 
       // 2. whitelisting user
-      updateIsLoggedInCitizen(isCitizen)
+      updateUserState(isCitizen)
 
       // 3. returning success to the caller
       screenProps.pop({ isValid: true })

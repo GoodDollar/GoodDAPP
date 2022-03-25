@@ -9,7 +9,7 @@ import { assertStore } from '../SimpleStore'
 let subscribed = false
 const log = logger.child({ from: 'undux/utils/account' })
 
-export const updateAll = async (store, updateAccountData, account) => {
+export const updateAll = async (store, updateUserState, account) => {
   let walletOperations
 
   try {
@@ -32,7 +32,7 @@ export const updateAll = async (store, updateAccountData, account) => {
     const entitlementChanged = !account.entitlement || account.entitlement !== entitlement
 
     if (balanceChanged || entitlementChanged || account.ready === false) {
-      updateAccountData({ balance, entitlement, ready: true })
+      updateUserState({ account: { balance, entitlement, ready: true } })
     }
     log.debug('updateAll done', { balance, entitlement })
   } catch (exception) {

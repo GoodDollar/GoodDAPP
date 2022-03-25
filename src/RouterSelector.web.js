@@ -1,5 +1,5 @@
 // libraries
-import React, { memo, useEffect, useState } from 'react'
+import React, { memo, useContext, useEffect, useState } from 'react'
 import { pick } from 'lodash'
 
 // components
@@ -21,7 +21,7 @@ import isWebApp from './lib/utils/isWebApp'
 import logger from './lib/logger/js-logger'
 import { APP_OPEN, fireEvent, initAnalytics } from './lib/analytics/analytics'
 import handleLinks from './lib/utils/handleLinks'
-import { useLoggedIn } from './lib/hooks/useLoggedIn'
+import { UserContext } from './lib/contexts/userContext'
 
 const log = logger.child({ from: 'RouterSelector' })
 
@@ -90,8 +90,9 @@ const SplashSelector = isAuthReload
 
 const RouterSelector = () => {
   // we use global state for signup process to signal user has registered
-  const { isLoggedIn } = useLoggedIn()
-
+  const {
+    userState: { isLoggedIn },
+  } = useContext(UserContext)
   const [ignoreUnsupported, setIgnoreUnsupported] = useState(false)
   const [checkedForBrowserSupport, setCheckedForBrowserSupport] = useState(false)
 

@@ -1,5 +1,5 @@
 // @flow
-import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { Platform, View } from 'react-native'
 import moment from 'moment'
 import { noop } from 'lodash'
@@ -49,9 +49,7 @@ import useTimer from '../../lib/hooks/useTimer'
 
 import useInterval from '../../lib/hooks/useInterval'
 import { useInviteBonus } from '../invite/useInvites'
-import { UserContext } from '../../lib/contexts/userContext'
-import { useLoggedIn } from '../../lib/hooks/useLoggedIn'
-import { useAccount } from '../../lib/hooks/useAccount'
+import { useProfileContext } from '../../lib/hooks/useProfileContext'
 import type { DashboardProps } from './Dashboard'
 import useClaimCounter from './Claim/useClaimCounter'
 import ButtonBlock from './Claim/ButtonBlock'
@@ -221,15 +219,17 @@ const cbStyles = {
 const Claim = props => {
   const { screenProps, styles, theme }: ClaimProps = props
   const { goToRoot, screenState, push: navigate } = screenProps
-  const { isLoggedInCitizen: isCitizen } = useLoggedIn()
-  const { updateIsLoggedInCitizen } = useContext(UserContext)
+  const {
+    userState: {
+      isLoggedInCitizen: isCitizen,
+      account: { entitlement },
+    },
+    updateUserState,
+  } = useProfileContext()
 
   const { appState } = useAppState()
   const store = SimpleStore.useStore()
 
-  const {
-    accountData: { entitlement },
-  } = useAccount()
   const [dailyUbi, setDailyUbi] = useState((entitlement && parseInt(entitlement)) || 0)
   const { isValid } = screenState
 
@@ -474,7 +474,7 @@ const Claim = props => {
         } else {
           // opened claim page (non-returned from FV)
           if (isCitizen === false) {
-            goodWallet.isCitizen().then(_ => updateIsLoggedInCitizen(_))
+            goodWallet.isCitizen().then(value => updateUserState({ isLoggedInCitizen: value }))
           }
         }
       } catch (exception) {

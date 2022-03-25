@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react'
-import { get, once } from 'lodash'
+//@flow
+import { useEffect, useRef, useState } from 'react'
+import { get, isUndefined, once, pick } from 'lodash'
 import Config from '../../config/config'
 import { fireEvent } from '../analytics/analytics'
 import AsyncStorage from '../utils/asyncStorage'
@@ -38,14 +39,45 @@ const createABTesting = (testName, percentage = Config.abTestPercentage, persist
         const { ab } = test
         void (event && fireEvent(event, { ab }))
         setTest(test)
-        log.debug('hook ready', { test })
+        log.debug('useABTesting ready', { test })
       })
     }, [])
 
     return [component, get(test, 'ab'), initialized]
   }
 
-  return { useABTesting }
+  const useOption = (options: [{ value: any, chance: number }], event = null) => {
+    const [option, setOption] = useState()
+    const optionSelectedRef = useRef(false)
+
+    useEffect(() => {
+      const isEmpty = !options || options.some(({ value }) => isUndefined(value))
+
+      const loadOption = async () => {
+        const test = await getTestVariant()
+        const option = options.find((opt, idx) => idx === options.length - 1 || test.random <= opt.chance)
+
+        if (event) {
+          fireEvent(event, pick(test, 'ab'))
+        }
+
+        optionSelectedRef.current = true
+        setOption(option)
+
+        log.debug('useOption ready', { option, test })
+      }
+
+      if (optionSelectedRef.current || isEmpty) {
+        return
+      }
+
+      loadOption()
+    }, [options])
+
+    return option
+  }
+
+  return { useABTesting, useOption }
 }
 
 export default createABTesting

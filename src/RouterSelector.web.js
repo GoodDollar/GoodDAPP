@@ -1,6 +1,5 @@
 // libraries
 import React, { memo, useEffect, useState } from 'react'
-import { Platform } from 'react-native'
 import { pick } from 'lodash'
 
 // components
@@ -61,18 +60,15 @@ const NestedRouter = memo(({ isLoggedIn }) => {
   useUpdateDialog()
 
   useEffect(() => {
-    let source, platform
-    if (Platform.OS === 'web') {
-      const params = DeepLinking.params
+    let source, platform, params
+    params = DeepLinking.params
 
-      source = document.referrer.match(/^https:\/\/(www\.)?gooddollar\.org/) == null ? source : 'web3'
-      source = Object.keys(pick(params, ['inviteCode', 'paymentCode', 'code'])).pop() || source
-      platform = isWebApp ? 'webapp' : 'web'
-    } else {
-      platform = 'native'
-    }
-    fireEvent(APP_OPEN, { source, platform, isLoggedIn })
-    log.debug('RouterSelector Rendered', { isLoggedIn })
+    source = document.referrer.match(/^https:\/\/(www\.)?gooddollar\.org/) == null ? source : 'web3'
+    source = Object.keys(pick(params, ['inviteCode', 'paymentCode', 'code'])).pop() || source
+    platform = isWebApp ? 'webapp' : 'web'
+
+    fireEvent(APP_OPEN, { source, platform, isLoggedIn, params })
+    log.debug('RouterSelector Rendered', { isLoggedIn, params, source, platform })
 
     if (isLoggedIn) {
       document.cookie = 'hasWallet=1;Domain=.gooddollar.org'

@@ -35,7 +35,7 @@ export const registerForInvites = async inviterInviteCode => {
     userStorage.userProperties.set('inviteCode', inviteCode)
 
     //in case we were invited fire event
-    if (inviterInviteCode) {
+    if (inviterInviteCode && !usedInviterCode) {
       fireEvent(INVITE_JOIN, { inviterInviteCode })
       userStorage.userProperties.updateAll({ inviterInviteCodeUsed: true, inviterInviteCode: inviterInviteCode })
     }

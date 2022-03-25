@@ -435,6 +435,11 @@ export class APIService {
 
     return this.client.post(callbackUrl, { invoiceId, transactionId, senderEmail, senderName })
   }
+
+  // eslint-disable-next-line require-await
+  async getMessageStrings() {
+    return this.client.get('/strings')
+  }
 }
 
 const api = new APIService()

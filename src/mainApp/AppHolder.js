@@ -10,6 +10,7 @@ import AsyncStorage from '../lib/utils/asyncStorage'
 import Config from '../config/config'
 
 import SimpleStore, { useCurriedSetters } from '../lib/undux/SimpleStore'
+import LanguageProvider from '../language/i18n'
 import AppHot from './AppHot'
 
 const AppHolder = () => {
@@ -62,13 +63,17 @@ const AppHolder = () => {
 
   return (
     <ActionSheetProvider>
-      <AppHot />
+      <LanguageProvider>
+        <AppHot />
+      </LanguageProvider>
     </ActionSheetProvider>
   )
 }
 
 export default () => (
   <SimpleStore.Container>
-    <AppHolder />
+    <LanguageProvider>
+      <AppHolder />
+    </LanguageProvider>
   </SimpleStore.Container>
 )

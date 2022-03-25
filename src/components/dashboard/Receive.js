@@ -1,6 +1,7 @@
 // @flow
 import React, { useCallback, useMemo } from 'react'
 import { PixelRatio, View } from 'react-native'
+import { t } from '@lingui/macro'
 import { isBrowser, isMobileOnlyWeb } from '../../lib/utils/platform'
 import useNativeSharing from '../../lib/hooks/useNativeSharing'
 import { fireEvent, RECEIVE_DONE } from '../../lib/analytics/analytics'
@@ -22,7 +23,7 @@ export type ReceiveProps = {
 // This condition recognizes the devices which resolution is higher than Iphone 6/7/8 Plus
 const useTopSpaceForMobile = isMobileOnlyWeb && PixelRatio.get() >= 2 && getMaxDeviceHeight() >= 622
 
-const SHARE_TEXT = 'Receive via wallet link'
+const SHARE_TEXT = t`Receive via wallet link`
 const amount = 0
 const reason = ''
 
@@ -59,7 +60,7 @@ const Receive = ({ screenProps, styles }: ReceiveProps) => {
           style={useTopSpaceForMobile ? styles.emptySpaceMobile : undefined}
         >
           <Section.Text fontSize={16} fontWeight="medium" style={styles.mainText}>
-            Let someone scan your wallet address
+            {t`Let someone scan your wallet address`}
           </Section.Text>
           <QRCode value={share.url} />
         </Section.Stack>
@@ -77,7 +78,7 @@ const Receive = ({ screenProps, styles }: ReceiveProps) => {
               action: 'Receive',
             }}
           >
-            Request specific amount
+            {t`Request specific amount`}
           </PushButton>
           <View style={styles.space} />
           {isSharingAvailable ? (
@@ -99,7 +100,7 @@ const Receive = ({ screenProps, styles }: ReceiveProps) => {
 }
 
 Receive.navigationOptions = {
-  title: 'Receive G$',
+  title: t`Receive G$`,
 }
 
 const getStylesFromProps = ({ theme }) => ({

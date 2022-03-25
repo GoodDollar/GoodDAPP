@@ -41,7 +41,7 @@ const About = () => (
 )
 
 About.navigationOptions = {
-  title: 'About',
+  title: t`About`,
 }
 
 const styles = StyleSheet.create({

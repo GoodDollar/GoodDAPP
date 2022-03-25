@@ -169,7 +169,7 @@ const getStylesFromProps = ({ theme }) => {
 const welcome = withStyles(getStylesFromProps)(SimpleStore.withStore(WelcomeScreen))
 
 welcome.navigationOptions = {
-  title: `Welcome to GoodDollar!`,
+  title: t`Welcome to GoodDollar!`,
   navigationBarHidden: true,
 }
 

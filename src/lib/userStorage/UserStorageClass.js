@@ -6,6 +6,7 @@ import moment from 'moment'
 import Gun from '@gooddollar/gun'
 import { gunAuth as gunPKAuth } from '@gooddollar/gun-pk-auth'
 
+import { t } from '@lingui/macro'
 import isEmail from '../../lib/validators/isEmail'
 
 import { retry } from '../utils/async'
@@ -77,15 +78,15 @@ export const welcomeMessage = {
   type: 'welcome',
   status: 'completed',
   data: {
-    counterPartyFullName: 'Welcome to GoodDollar!',
-    subtitle: 'Welcome to GoodDollar!',
-    readMore: 'Claim free G$ coins daily.',
+    counterPartyFullName: t`Welcome to GoodDollar!`,
+    subtitle: t`Welcome to GoodDollar!`,
+    readMore: t`Claim free G$ coins daily.`,
     receiptEvent: {
       from: NULL_ADDRESS,
     },
     reason: Config.isPhaseZero
-      ? 'This is where you will claim UBI in\nGoodDollar coins every day.\nThis is a demo version - please note that all\ndemo G$ coins collected have no value\noutside of this pilot, and will be destroyed\nupon completion of the demo period.'
-      : 'Right here is where you will claim your basic income in GoodDollar coins every day.\n\nTogether, we will build a better financial future for all of us!',
+      ? t`This is where you will claim UBI in\nGoodDollar coins every day.\nThis is a demo version - please note that all\ndemo G$ coins collected have no value\noutside of this pilot, and will be destroyed\nupon completion of the demo period.`
+      : t`Right here is where you will claim your basic income in GoodDollar coins every day.\n\nTogether, we will build a better financial future for all of us!`,
   },
 }
 
@@ -94,14 +95,13 @@ export const welcomeMessageOnlyEtoro = {
   type: 'welcome',
   status: 'completed',
   data: {
-    counterPartyFullName: 'Welcome to GoodDollar!',
-    subtitle: 'Welcome to GoodDollar!',
+    counterPartyFullName: t`Welcome to GoodDollar!`,
+    subtitle: t`Welcome to GoodDollar!`,
     readMore: false,
     receiptEvent: {
       from: NULL_ADDRESS,
     },
-    reason:
-      'Start collecting your income by claiming GoodDollars every day. Since this is a test version - all coins are “play” coins and have no value outside of this pilot, you can use them to buy goods during the trail, at the end of it, they will be returned to the system.',
+    reason: t`Start collecting your income by claiming GoodDollars every day. Since this is a test version - all coins are “play” coins and have no value outside of this pilot, you can use them to buy goods during the trail, at the end of it, they will be returned to the system.`,
   },
 }
 
@@ -110,14 +110,13 @@ export const inviteFriendsMessage = {
   type: 'invite',
   status: 'completed',
   data: {
-    counterPartyFullName: `Invite friends and earn G$'s`,
-    subtitle: 'Invite your friends now',
-    readMore: 'Get {inviterAmount}G$ for each friend who signs up\nand they get {inviteeAmount}G$!',
+    counterPartyFullName: t`Invite friends and earn G$'s`,
+    subtitle: t`Invite your friends now`,
+    readMore: `Get {inviterAmount}G$ for each friend who signs up\nand they get {inviteeAmount}G$!`,
     receiptEvent: {
       from: NULL_ADDRESS,
     },
-    reason:
-      'Help expand the network by inviting family, friends, and colleagues to participate and claim their daily income.\nThe more people join, the more effective GoodDollar will be, for everyone.',
+    reason: t`Help expand the network by inviting family, friends, and colleagues to participate and claim their daily income.\nThe more people join, the more effective GoodDollar will be, for everyone.`,
   },
   action: `navigate("Rewards")`,
 }
@@ -129,14 +128,13 @@ export const backupMessage = {
   type: 'backup',
   status: 'completed',
   data: {
-    counterPartyFullName: 'Backup your wallet. Now.',
-    subtitle: 'You need to backup your',
-    readMore: 'wallet pass phrase.',
+    counterPartyFullName: t`Backup your wallet. Now.`,
+    subtitle: t`You need to backup your`,
+    readMore: t`wallet pass phrase.`,
     receiptEvent: {
       from: NULL_ADDRESS,
     },
-    reason:
-      'Your pass phrase is the only key to your wallet, this is why our wallet is super secure. Only you have access to your wallet and money. But if you won’t backup your pass phrase or if you lose it — you won’t be able to access your wallet and all your money will be lost forever.',
+    reason: t`Your pass phrase is the only key to your wallet, this is why our wallet is super secure. Only you have access to your wallet and money. But if you won’t backup your pass phrase or if you lose it — you won’t be able to access your wallet and all your money will be lost forever.`,
   },
 }
 
@@ -145,8 +143,8 @@ export const startClaiming = {
   type: 'claiming',
   status: 'completed',
   data: {
-    counterPartyFullName: `Claim your G$'s today!`, //title in modal
-    subtitle: `Claim your G$'s today!`, //title in feed list
+    counterPartyFullName: t`Claim your G$'s today!`, //title in modal
+    subtitle: t`Claim your G$'s today!`, //title in feed list
     readMore: false,
     receiptEvent: {
       from: NULL_ADDRESS,
@@ -154,8 +152,8 @@ export const startClaiming = {
 
     // preReasonText: 'Claim 14 days & secure a spot in the live upcoming version.',
     reason: Config.isPhaseZero
-      ? `Hey, just a reminder to claim your daily G$’s.\nRemember, claim for 14 days and secure\na spot for GoodDollar’s live launch.`
-      : `GoodDollar gives every active member a small daily income.\n\nEvery day, sign in and claim free GoodDollars and use them to pay for goods and services.`,
+      ? t`Hey, just a reminder to claim your daily G$’s.\nRemember, claim for 14 days and secure\na spot for GoodDollar’s live launch.`
+      : t`GoodDollar gives every active member a small daily income.\n\nEvery day, sign in and claim free GoodDollars and use them to pay for goods and services.`,
   },
 }
 
@@ -164,15 +162,15 @@ export const longUseOfClaims = {
   type: 'claimsThreshold',
   status: 'completed',
   data: {
-    counterPartyFullName: 'Woohoo! You’ve made it!', //title in modal
-    subtitle: 'Woohoo! You’ve made it!',
-    smallReadMore: 'Congrats! You claimed G$ for 14 days.',
+    counterPartyFullName: t`Woohoo! You’ve made it!`, //title in modal
+    subtitle: t`Woohoo! You’ve made it!`,
+    smallReadMore: t`Congrats! You claimed G$ for 14 days.`,
     receiptEvent: {
       from: NULL_ADDRESS,
     },
-    reason: `Nice work. You’ve claimed demo G$’s for\n14 days and your spot is now secured for\nGoodDollar’s live launch.\nLive G$ coins are coming your way soon!`,
+    reason: t`Nice work. You’ve claimed demo G$’s for\n14 days and your spot is now secured for\nGoodDollar’s live launch.\nLive G$ coins are coming your way soon!`,
     endpoint: {
-      displayName: 'Congrats! You’ve made it!',
+      displayName: t`Congrats! You’ve made it!`,
     },
   },
 }

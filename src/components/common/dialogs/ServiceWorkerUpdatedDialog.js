@@ -117,11 +117,11 @@ export const NewReleaseDialog = withStyles(dialogStyles)(({ styles, theme }) => 
           <Text {...textStyles} fontWeight="bold">
             1.
           </Text>
-          {t` Click ‘update’\n`}
+          {t` Click ‘update’`}
           <Text {...textStyles} fontWeight="bold">
             2.
           </Text>
-          {t` Sign up (one last time, we promise ${isSmallDevice ? '' : ':)'})\n`}
+          {t` Sign up (one last time, we promise ${isSmallDevice ? '' : ':)'})`}
           <Text {...textStyles} fontWeight="bold">
             3.
           </Text>

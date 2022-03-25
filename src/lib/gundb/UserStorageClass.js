@@ -100,8 +100,15 @@ export const welcomeMessage = {
       from: NULL_ADDRESS,
     },
     reason: Config.isPhaseZero
-      ? t`This is where you will claim UBI in\nGoodDollar coins every day.\nThis is a demo version - please note that all\ndemo G$ coins collected have no value\noutside of this pilot, and will be destroyed\nupon completion of the demo period.`
-      : t`Right here is where you will claim your basic income in GoodDollar coins every day.\n\nTogether, we will build a better financial future for all of us!`,
+      ? t`This is where you will claim UBI in
+      GoodDollar coins every day.
+      This is a demo version - please note that all
+      demo G$ coins collected have no value
+      outside of this pilot, and will be destroyed
+      upon completion of the demo period.`
+      : t`Right here is where you will claim your basic income in GoodDollar coins every day.
+      
+      Together, we will build a better financial future for all of us!`,
   },
 }
 
@@ -131,7 +138,8 @@ export const inviteFriendsMessage = {
     receiptEvent: {
       from: NULL_ADDRESS,
     },
-    reason: t`Help expand the network by inviting family, friends, and colleagues to participate and claim their daily income.\nThe more people join, the more effective GoodDollar will be, for everyone.`,
+    reason: t`Help expand the network by inviting family, friends, and colleagues to participate and claim their daily income.
+    The more people join, the more effective GoodDollar will be, for everyone.`,
   },
   action: `navigate("Rewards")`,
 }
@@ -167,8 +175,11 @@ export const startClaiming = {
 
     // preReasonText: 'Claim 14 days & secure a spot in the live upcoming version.',
     reason: Config.isPhaseZero
-      ? t`Hey, just a reminder to claim your daily G$’s.\nRemember, claim for 14 days and secure\na spot for GoodDollar’s live launch.`
-      : t`GoodDollar gives every active member a small daily income.\n\nEvery day, sign in and claim free GoodDollars and use them to pay for goods and services.`,
+      ? t`Hey, just a reminder to claim your daily G$’s.
+      Remember, claim for 14 days and secure\na spot for GoodDollar’s live launch.`
+      : t`GoodDollar gives every active member a small daily income.
+      
+      Every day, sign in and claim free GoodDollars and use them to pay for goods and services.`,
   },
 }
 
@@ -183,7 +194,10 @@ export const longUseOfClaims = {
     receiptEvent: {
       from: NULL_ADDRESS,
     },
-    reason: t`Nice work. You’ve claimed demo G$’s for\n14 days and your spot is now secured for\nGoodDollar’s live launch.\nLive G$ coins are coming your way soon!`,
+    reason: t`Nice work. You’ve claimed demo G$’s for
+    14 days and your spot is now secured for
+    GoodDollar’s live launch.
+    Live G$ coins are coming your way soon!`,
     endpoint: {
       displayName: t`Congrats! You’ve made it!`,
     },

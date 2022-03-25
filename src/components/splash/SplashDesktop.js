@@ -19,9 +19,12 @@ const SplashDesktop = ({ onContinue, urlForQR }) => {
         <Section.Stack style={styles.content} grow justifyContent="space-between">
           <Section.Text fontSize={22} color="darkBlue">
             <Section.Text fontSize={22} color="darkBlue">
-              {t`Welcome to GoodDollar Wallet\n`}
+              {t`Welcome to GoodDollar Wallet`}
+              {`\n`}
             </Section.Text>
-            {t`For best experience\nplease scan and continue\non your mobile device.`}
+            {t`For best experience
+            please scan and continue
+            on your mobile device.`}
           </Section.Text>
           <QRCode value={urlForQR} size={150} qrStyles={styles.qrStyles} />
           <View style={styles.goodDollar}>

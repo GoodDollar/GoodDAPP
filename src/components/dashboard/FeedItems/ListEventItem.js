@@ -76,7 +76,7 @@ const NewsItem: React.FC = ({ item, eventSettings, styles }) => (
                 lineHeight={20}
                 numberOfLines={3}
                 color="gray80Percent"
-                fontSize={10}
+                fontSize={12}
                 textTransform="capitalize"
                 style={styles.newsMessage}
               >

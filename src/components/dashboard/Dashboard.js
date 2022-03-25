@@ -81,17 +81,23 @@ const initialHeaderContentWidth = screenWidth - _theme.sizes.default * 2 * 2
 const initialAvatarLeftPosition = -initialHeaderContentWidth / 2 + 34
 const { isCryptoLiteracy } = Config
 
+const FeedTabs = {
+  All: 'All',
+  Transactions: 'Transactions',
+  News: 'News',
+}
+
+const tabFilter = {
+  [FeedTabs.All]: () => true,
+  [FeedTabs.Transactions]: feedItem => feedItem.type !== 'news',
+  [FeedTabs.News]: feedItem => feedItem.type === 'news',
+}
+
 export type DashboardProps = {
   navigation: any,
   screenProps: any,
   store: Store,
   styles?: any,
-}
-
-const FeedTabs = {
-  All: 'All',
-  Transactions: 'Transactions',
-  News: 'News',
 }
 
 const TABS_ARRAY = [FeedTabs.All, FeedTabs.Transactions, FeedTabs.News]
@@ -132,6 +138,7 @@ const Dashboard = props => {
   const [headerLarge, setHeaderLarge] = useState(true)
   const { appState } = useAppState()
   const [animateMarket, setAnimateMarket] = useState(false)
+  const [activeTab, setActiveTab] = useState(FeedTabs.All)
   const { setDialogBlur } = useContext(GlobalTogglesContext)
 
   const [price, showPrice] = useGoodDollarPrice()
@@ -190,12 +197,12 @@ const Dashboard = props => {
   }, [navigation, showDeleteAccountDialog])
 
   const getFeedPage = useCallback(
-    async (reset = false) => {
+    async (reset = false, tab = activeTab) => {
       const release = await feedMutex.lock()
       try {
-        log.debug('getFeedPage:', { reset, feeds, loadAnimShown, didRender })
+        log.debug('getFeedPage:', { reset, feeds, loadAnimShown, didRender, activeTab })
         const feedPromise = userStorage
-          .getFormattedEvents(PAGE_SIZE, reset)
+          .getFormattedEvents(PAGE_SIZE, reset, tabFilter[tab])
           .catch(e => log.error('getInitialFeed failed:', e.message, e))
 
         let res = []
@@ -229,7 +236,7 @@ const Dashboard = props => {
         release()
       }
     },
-    [loadAnimShown, store, setFeeds, feedRef],
+    [loadAnimShown, store, setFeeds, feedRef, activeTab],
   )
 
   const [feedLoaded, setFeedLoaded] = useState(false)
@@ -627,8 +634,6 @@ const Dashboard = props => {
     default: noop,
   })
 
-  const [activeTab, setActiveTab] = useState(FeedTabs.All)
-
   return (
     <Wrapper style={styles.dashboardWrapper} withGradient={false}>
       <Section style={[styles.topInfo]}>
@@ -714,7 +719,11 @@ const Dashboard = props => {
       <Section style={{ marginHorizontal: 8, backgroundColor: undefined, paddingHorizontal: 0, paddingBottom: 6 }}>
         <Section.Row>
           {TABS_ARRAY.map((tab, index) => {
-            const onTabPress = () => setActiveTab(tab)
+            const onTabPress = () => {
+              log.debug('feed category selected', { tab })
+              setActiveTab(tab)
+              getFeedPage(true, tab)
+            }
             return (
               <TabButton
                 key={tab}

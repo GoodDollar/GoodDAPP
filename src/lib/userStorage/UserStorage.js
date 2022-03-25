@@ -17,7 +17,7 @@ export interface DB {
   readByPaymentId(paymentId: string): Promise<any>;
   encryptSettings(settings: object): Promise<any>;
   decryptSettings(): Promise<object>;
-  getFeedPage(numResults, offset): Promise<Array<object>>;
+  getFeedPage(numResults, offset, filterCallback): Promise<Array<object>>;
 }
 
 export default userStorage

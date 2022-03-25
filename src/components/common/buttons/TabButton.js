@@ -120,7 +120,7 @@ const TabButton = (props: TabButtonProps) => {
     <BaseButton
       mode={mode}
       contentStyle={[styles.contentStyle, contentStyle]}
-      theme={{ ...theme }}
+      theme={{ ...theme, roundness: undefined }}
       uppercase={uppercase}
       onPress={onButtonPressed}
       {...buttonProps}

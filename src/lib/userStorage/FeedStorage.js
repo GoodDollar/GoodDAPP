@@ -7,10 +7,8 @@ import * as TextileCrypto from '@textile/crypto'
 import delUndefValNested from '../utils/delUndefValNested'
 import { updateFeedEventAvatar } from '../updates/utils/feed'
 
-import AsyncStorage from '../../lib/utils/asyncStorage'
 import Config from '../../config/config'
 import logger from '../../lib/logger/js-logger'
-import CeramicFeed from '../ceramic/CeramicFeed'
 import type { UserStorage } from './UserStorageClass'
 import { asLogRecord } from './utlis'
 
@@ -114,11 +112,6 @@ export class FeedStorage {
   cursor: number = 0
 
   /**
-   * current ceramic feed item
-   */
-  ceramicCursor: number = 0
-
-  /**
    * In memory array. keep number of events per day
    * @instance {Gun}
    */
@@ -167,11 +160,10 @@ export class FeedStorage {
 
     // this is just the demo stub about how to read fead
     try {
-      const posts = await CeramicFeed.getPosts() // get main news feed
-      const { history } = await CeramicFeed.getHistory() // get history
-      const historyId = await CeramicFeed.getHistoryId() // get history
-
-      log.debug('Ceramic feed', { posts, history, historyId })
+      // const posts = await CeramicFeed.getPosts() // get main news feed
+      // const { history } = await CeramicFeed.getHistory() // get history
+      // const historyId = await CeramicFeed.getHistoryId() // get history
+      // log.debug('Ceramic feed', { posts, history, historyId })
     } catch (e) {
       log.error('Ceramic error', e.message, e)
     }
@@ -757,82 +749,14 @@ export class FeedStorage {
     }
   }
 
-  fromCeramicToStorage(ceramicPost) {
-    return {
-      id: ceramicPost.id,
-      createdDate: ceramicPost.published,
-      date: new Date(ceramicPost.published).getTime(),
-      displayType: 'news',
-      status: 'completed',
-      type: 'news',
-      data: {
-        message: ceramicPost.content,
-        subtitle: ceramicPost.title,
-        picture: ceramicPost.picture,
-      },
-    }
-  }
-
-  async getCeramicFeedPage(numResult: number) {
-    let ceramicPostsCached = await AsyncStorage.getItem('GD_CERAMIC_DATA')
-    log.debug('Ceramic cached posts', ceramicPostsCached)
-
-    if (!ceramicPostsCached) {
-      const ceramicPosts = await CeramicFeed.getPosts()
-      log.debug('Ceramic fetched posts', ceramicPosts)
-
-      const historyId = await CeramicFeed.getHistoryId()
-      await AsyncStorage.setItem('GD_CERAMIC_DATA', { posts: ceramicPosts, historyId })
-      ceramicPostsCached = { posts: ceramicPosts, historyId }
-    } else {
-      const { history, historyId } = await CeramicFeed.getHistory(ceramicPostsCached.historyId)
-      log.debug('Ceramic history', { history, historyId })
-
-      await Promise.all(
-        history.map(async ({ item: postId, action }) => {
-          log.debug('update feed item', { postId, action })
-
-          switch (action) {
-            case 'added': {
-              const post = await CeramicFeed.getPost(postId)
-              ceramicPostsCached.posts.push(post)
-              break
-            }
-            case 'updated': {
-              const post = await CeramicFeed.getPost(postId)
-              ceramicPostsCached.posts = ceramicPostsCached.posts.map(cachedItem =>
-                cachedItem.id === postId ? { ...cachedItem, post } : cachedItem,
-              )
-              break
-            }
-            default: {
-              ceramicPostsCached.posts = ceramicPostsCached.posts.filter(cachedItem => cachedItem.id !== postId)
-              break
-            }
-          }
-        }),
-      )
-
-      await AsyncStorage.setItem('GD_CERAMIC_DATA', {
-        ...ceramicPostsCached,
-        historyId,
-      })
-    }
-
-    const start = this.ceramicCursor
-    const end = this.ceramicCursor + numResult
-    return ceramicPostsCached.posts.slice(start, end).map(this.fromCeramicToStorage)
-  }
-
-  async getFeedPage(numResult: number, reset?: boolean) {
+  async getFeedPage(numResult: number, reset?: boolean, filterCallback?: (item: any) => boolean) {
     if (reset || isUndefined(this.cursor)) {
       this.cursor = 0
-      this.ceramicCursor = 0
     }
 
     await this.ready
 
-    const items = await this.storage.getFeedPage(numResult, this.cursor)
+    const items = await this.storage.getFeedPage(numResult, this.cursor, filterCallback)
 
     this.cursor += items.length
 
@@ -840,22 +764,12 @@ export class FeedStorage {
       items,
     })
 
-    const ceramicItems = items.length < numResult ? await this.getCeramicFeedPage(numResult - items.length) : []
-
-    log.debug('getCeramicFeedPage', {
-      ceramicItems,
-    })
-
-    this.ceramicCursor += ceramicItems.length
-
-    items.push(...ceramicItems)
-
     const events = await Promise.all(
       items.map(async item => {
         const { id } = item
         log.debug('getFeedPage got item', { id: item.id, item })
 
-        if (!item.receiptReceived && id.startsWith('0x')) {
+        if (!item.receiptReceived && id.startsWith('0x') && item.type !== 'news') {
           const receipt = await this.wallet.getReceiptWithLogs(id).catch(e => {
             log.warn('getFeedPage no receipt found for id:', id, e.message, e)
           })

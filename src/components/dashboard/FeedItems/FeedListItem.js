@@ -157,7 +157,6 @@ const getStylesFromProps = ({ theme }) => ({
 
     // height: theme.feedItems.height,
     marginHorizontal: theme.sizes.default,
-    maxHeight: theme.feedItems.height,
     shadowOpacity: 0.16,
     shadowRadius: 4,
   },

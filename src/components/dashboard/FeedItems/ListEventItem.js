@@ -57,79 +57,37 @@ const NewsItem: React.FC = ({ item, eventSettings, styles }) => (
   <View style={styles.rowContent}>
     <FeedListItemLeftBorder style={styles.rowContentBorder} color={eventSettings.color} />
 
-    <View style={{ height: 400, width: '100%' }}>
-      <Image source={{ uri: item.data.picture }} style={{ height: 131, width: '100%', backgroundColor: 'red' }} />
+    <View style={styles.newsContent}>
+      {item.data.picture && <Image source={{ uri: item.data.picture }} style={styles.newsPicture} />}
 
       <View style={styles.innerRow}>
-        <View style={styles.emptySpace} />
         <View grow style={styles.mainContents}>
-          <View style={[styles.dateAndValue, { borderBottomColor: eventSettings.color }]}>
+          <View style={{ ...styles.transferInfo, height: undefined }} alignItems="flex-start">
+            <View style={[styles.mainInfo, item.type === 'claiming' && styles.claimingCardFeedText]}>
+              <EventCounterParty
+                style={styles.feedItem}
+                feedItem={item}
+                subtitle
+                isSmallDevice={isMobile && getScreenWidth() < 353}
+                numberOfLines={2}
+              />
+
+              <Text
+                lineHeight={20}
+                numberOfLines={3}
+                color="gray80Percent"
+                fontSize={10}
+                textTransform="capitalize"
+                style={styles.newsMessage}
+              >
+                {get(item, 'data.message')}
+              </Text>
+            </View>
+          </View>
+          <View style={styles.dateContainer}>
             <Text fontSize={10} color="gray80Percent" lineHeight={17}>
               {getFormattedDateTime(item.date)}
             </Text>
-            {!eventSettings.withoutAmount && (
-              <React.Fragment>
-                {eventSettings && eventSettings.actionSymbol && (
-                  <Text
-                    fontSize={15}
-                    lineHeight={18}
-                    fontWeight="bold"
-                    color={eventSettings.color}
-                    style={styles.actionSymbol}
-                  >
-                    {eventSettings.actionSymbol}
-                  </Text>
-                )}
-                <BigGoodDollar
-                  number={get(item, 'data.amount', 0)}
-                  color={eventSettings.color}
-                  bigNumberProps={{ fontSize: 20, lineHeight: 20 }}
-                  bigNumberStyles={styles.bigNumberStyles}
-                  bigNumberUnitProps={{ fontSize: 10, lineHeight: 11 }}
-                />
-              </React.Fragment>
-            )}
-          </View>
-          <View style={styles.transferInfo} alignItems="flex-start">
-            <Avatar
-              size={normalize(34)}
-              imageSize={normalize(36)}
-              style={styles.avatarBottom}
-              source={get(item, 'data.endpoint.avatar')}
-            />
-            <View style={[styles.mainInfo, item.type === 'claiming' && styles.claimingCardFeedText]}>
-              {['senderror', 'withdrawerror'].includes(item.displayType || item.type) ? (
-                <>
-                  <Text fontWeight="medium" lineHeight={19} style={styles.mainText} color="primary">
-                    {`We're sorry.`}
-                  </Text>
-                  <ReadMoreText
-                    text="This transaction failed"
-                    buttonText="Read why..."
-                    style={styles.failTransaction}
-                    color="primary"
-                  />
-                </>
-              ) : (
-                <>
-                  <EventCounterParty
-                    style={styles.feedItem}
-                    feedItem={item}
-                    subtitle={true}
-                    isSmallDevice={isMobile && getScreenWidth() < 353}
-                  />
-                  <FeedText feed={item} isSmallDevice={isMobile && getScreenWidth() < 353} />
-                </>
-              )}
-            </View>
-            <EventIcon
-              style={styles.typeIcon}
-              animStyle={styles.typeAnimatedIcon}
-              type={item.type}
-              size={normalize(34)}
-              showAnim={false}
-              delay={100}
-            />
           </View>
         </View>
       </View>
@@ -369,6 +327,14 @@ const getStylesFromProps = ({ theme }) => ({
     justifyContent: 'space-between',
     paddingBottom: 5,
   },
+  dateContainer: {
+    alignItems: 'center',
+    display: 'flex',
+    flexDirection: 'row',
+    flexShrink: 1,
+    justifyContent: 'space-between',
+    paddingBottom: 5,
+  },
   actionSymbol: {
     marginLeft: 'auto',
   },
@@ -424,6 +390,20 @@ const getStylesFromProps = ({ theme }) => ({
   },
   mainText: {
     paddingTop: 5,
+  },
+  newsPicture: {
+    width: '100%',
+    aspectRatio: 2.55,
+    resizeMode: 'contain',
+  },
+  newsContent: {
+    flex: 1,
+    paddingLeft: 2,
+  },
+  newsMessage: {
+    textAlign: 'left',
+    paddingTop: 9,
+    marginBottom: 15,
   },
 })
 

@@ -27,6 +27,7 @@ class CeramicFeed {
 
   async getPost(postId: string) {
     const post = await Post.find(postId)
+    log.debug('get ceramic post', { post })
     const serialized = serializeDocument(post)
 
     return this._loadPostPictures(serialized)
@@ -35,13 +36,13 @@ class CeramicFeed {
   async getPosts() {
     const feedPosts = await Post.all()
     const serialized = serializeCollection(feedPosts)
-
+    log.debug('get ceramic posts collection', { feedPosts })
     return this._loadPostPictures(serialized)
   }
 
   async getHistoryId() {
     const { commitId } = await Post.getLiveIndex()
-
+    log.debug('get history id', { commitId })
     return String(commitId)
   }
 
@@ -49,7 +50,7 @@ class CeramicFeed {
     const { allCommitIds, commitId } = await Post.getLiveIndex()
     let commitIds = allCommitIds.map(String)
     let history = []
-
+    log.debug('get history', { commitId, commitIds, afterHistoryId })
     if (afterHistoryId) {
       const afterId = String(afterHistoryId)
       let afterIndex = commitIds.findIndex(commitId => commitId === afterId)
@@ -83,6 +84,7 @@ class CeramicFeed {
     }, {})
 
     history = commits.filter(({ item, action }) => {
+      log.debug('commits filter', { item, action })
       switch (action) {
         case 'added':
           // if item was added then removed during last changes - don't need to fetch it
@@ -101,6 +103,7 @@ class CeramicFeed {
 
   /** @private */
   async _loadPostPictures(documentOrFeed: any) {
+    log.debug('load post picture', { documentOrFeed })
     if (isArray(documentOrFeed)) {
       return Promise.all(documentOrFeed.map(async (document: object) => this._loadPostPictures(document)))
     }

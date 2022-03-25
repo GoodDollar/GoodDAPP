@@ -698,8 +698,12 @@ export class UserStorage {
    * @returns {Promise} Promise with an array of feed events
    */
   // eslint-disable-next-line require-await
-  async getFeedPage(numResults: number, reset?: boolean): Promise<Array<FeedEvent>> {
-    return this.feedStorage.getFeedPage(numResults, reset)
+  async getFeedPage(
+    numResults: number,
+    reset?: boolean,
+    filterCallback?: (item: any) => boolean,
+  ): Promise<Array<FeedEvent>> {
+    return this.feedStorage.getFeedPage(numResults, reset, filterCallback)
   }
 
   /**
@@ -707,8 +711,12 @@ export class UserStorage {
    * @returns {Promise} Promise with array of standardized feed events
    * @todo Add pagination
    */
-  async getFormattedEvents(numResults: number, reset?: boolean): Promise<Array<StandardFeed>> {
-    const feed = await this.getFeedPage(numResults, reset)
+  async getFormattedEvents(
+    numResults: number,
+    reset?: boolean,
+    filterCallback?: (item: any) => boolean,
+  ): Promise<Array<StandardFeed>> {
+    const feed = await this.getFeedPage(numResults, reset, filterCallback)
 
     logger.debug('getFormattedEvents page result:', {
       numResults,
@@ -874,6 +882,7 @@ export class UserStorage {
       invoiceId,
       sellerWebsite,
       sellerName,
+      picture,
     } = data
     const { address, initiator, initiatorType, value, displayName, message, avatar } = this._extractData(event)
 
@@ -914,6 +923,7 @@ export class UserStorage {
         readMore,
         smallReadMore,
         withdrawCode,
+        picture,
       },
     }
 

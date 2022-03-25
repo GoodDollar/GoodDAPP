@@ -383,7 +383,7 @@ class RealmDB implements DB, ProfileDB {
    * @returns
    */
   // eslint-disable-next-line require-await
-  async getFeedPage(numResults, offset): Promise<any> {
+  async getFeedPage(numResults, offset, filterCallback = () => true): Promise<any> {
     try {
       // use dexie directly because mongoify only sorts results and not all documents
       const res = await this.db.Feed.table
@@ -393,7 +393,8 @@ class RealmDB implements DB, ProfileDB {
         .filter(
           i =>
             ['deleted', 'cancelled', 'canceled'].includes(i.status) === false &&
-            ['deleted', 'cancelled', 'canceled'].includes(i.otplStatus) === false,
+            ['deleted', 'cancelled', 'canceled'].includes(i.otplStatus) === false &&
+            filterCallback(i),
         )
         .limit(numResults)
         .toArray()

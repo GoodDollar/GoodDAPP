@@ -19,6 +19,7 @@ import createABTesting from '../../lib/hooks/useABTesting'
 
 import goodWallet from '../../lib/wallet/GoodWallet'
 import { extractQueryParams } from '../../lib/utils/uri'
+import mustache from '../../lib/utils/mustache'
 import {
   registerForInvites,
   useCollectBounty,
@@ -82,20 +83,34 @@ const InvitedUser = ({ address, status }) => {
 const ShareBox = ({ level }) => {
   const [{ shareMessage, shareTitle }] = useShareMessages()
   const abTestOptions = useMemo(() => [{ value: shareMessage, chance: 1, id: 'basic' }], [shareMessage])
-  const abTestOption = useOption(abTestOptions)
+
   const inviteCode = useInviteCode()
-  const shareUrl =
-    inviteCode && abTestOption ? `${Config.invitesUrl}?inviteCode=${inviteCode}&campaign=${abTestOption.id}` : ''
-  const bounty = level?.bounty ? parseInt(level.bounty) / 100 : ''
-  const abTestMessage = useMemo(
-    () => (abTestOption?.value || '').replace(/<reward>/, bounty / 2).replace(/<bounty>/, bounty),
-    [abTestOption, bounty],
+  const abTestOption = useOption(abTestOptions)
+  const bounty = useMemo(() => (level?.bounty ? parseInt(level.bounty) / 100 : ''), [level])
+
+  const shareUrl = useMemo(
+    () =>
+      inviteCode && abTestOption ? `${Config.invitesUrl}?inviteCode=${inviteCode}&campaign=${abTestOption.id}` : '',
+    [inviteCode, abTestOption],
   )
+
+  const abTestMessage = useMemo(() => {
+    const { value } = abTestOption || {}
+
+    if (value) {
+      const reward = bounty / 2
+
+      return mustache(value, { bounty, reward })
+    }
+  }, [abTestOption, bounty])
+
   const share = useMemo(() => generateShareObject(shareTitle, abTestMessage, shareUrl), [
     shareTitle,
     shareUrl,
     abTestMessage,
   ])
+
+  useEffect(() => log.debug('Generated share object', { share }), [share])
 
   return (
     <WavesBox primarycolor={theme.colors.primary} style={styles.linkBoxStyle} title={'Share Your Invite Link'}>

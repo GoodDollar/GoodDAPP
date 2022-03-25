@@ -1,6 +1,6 @@
 //@flow
-import { useEffect, useRef, useState } from 'react'
-import { get, isUndefined, once, pick } from 'lodash'
+import { useEffect, useState } from 'react'
+import { get, once, pick } from 'lodash'
 import Config from '../../config/config'
 import { fireEvent } from '../analytics/analytics'
 import AsyncStorage from '../utils/asyncStorage'
@@ -48,31 +48,27 @@ const createABTesting = (testName, percentage = Config.abTestPercentage, persist
 
   const useOption = (options: [{ value: any, chance: number }], event = null) => {
     const [option, setOption] = useState()
-    const optionSelectedRef = useRef(false)
+    const [optionIndex, setOptionIndex] = useState(-1)
 
     useEffect(() => {
-      const isEmpty = !options || options.some(({ value }) => isUndefined(value))
-
-      const loadOption = async () => {
-        const test = await getTestVariant()
-        const option = options.find((opt, idx) => idx === options.length - 1 || test.random <= opt.chance)
+      getTestVariant().then(test => {
+        const optionIndex = options.findIndex((opt, idx) => idx === options.length - 1 || test.random <= opt.chance)
 
         if (event) {
           fireEvent(event, pick(test, 'ab'))
         }
 
-        optionSelectedRef.current = true
-        setOption(option)
+        log.debug('useOption ready', { optionIndex, test })
+        setOptionIndex(optionIndex)
+      })
+    }, [setOptionIndex])
 
-        log.debug('useOption ready', { option, test })
-      }
+    useEffect(() => {
+      const option = options[optionIndex]
 
-      if (optionSelectedRef.current || isEmpty) {
-        return
-      }
-
-      loadOption()
-    }, [options])
+      log.debug('useOption updated', { option })
+      setOption(option)
+    }, [options, optionIndex])
 
     return option
   }

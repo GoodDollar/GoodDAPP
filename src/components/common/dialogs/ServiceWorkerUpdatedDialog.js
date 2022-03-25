@@ -80,7 +80,8 @@ export const RegularDialog = withStyles(dialogStyles)(({ styles, theme }) => (
         color={theme.colors.darkGray}
         style={styles.title}
       >
-        {t`Hip hip hooray!\nWe have a new version :)`}
+        {t`Hip hip hooray!
+        We have a new version :)`}
       </Text>
     </View>
     <View style={styles.description}>

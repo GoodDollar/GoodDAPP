@@ -118,11 +118,11 @@ const ShareBox = ({ level }) => {
       <Section.Stack style={{ alignItems: 'flex-start', marginTop: 11, marginBottom: 11 }}>
         <Trans>
           <Section.Text fontSize={14} textAlign={'left'} lineHeight={19}>
-            {`You’ll get `}
+            You’ll get{' '}
             <Section.Text fontWeight={'bold'} fontSize={14} textAlign={'left'} lineHeight={19}>
-              {`${bounty}G$ `}
+              {` ${bounty}G$ `}
             </Section.Text>
-            {` and they will get`}
+            and they will get{' '}
             <Section.Text fontWeight={'bold'} fontSize={14} textAlign={'left'} lineHeight={19}>
               {` ${bounty / 2}G$`}
             </Section.Text>

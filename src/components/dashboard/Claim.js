@@ -227,7 +227,9 @@ const Claim = props => {
   const { appState } = useAppState()
   const store = SimpleStore.useStore()
 
-  const { entitlement } = useAccount()
+  const {
+    accountData: { entitlement },
+  } = useAccount()
   const [dailyUbi, setDailyUbi] = useState((entitlement && parseInt(entitlement)) || 0)
   const { isValid } = screenState
 

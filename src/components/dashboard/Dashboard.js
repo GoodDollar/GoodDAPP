@@ -108,7 +108,7 @@ const Dashboard = props => {
   const [headerBalanceRightMarginAnimValue] = useState(new Animated.Value(0))
   const [headerBalanceLeftMarginAnimValue] = useState(new Animated.Value(0))
   const [headerFullNameOpacityAnimValue] = useState(new Animated.Value(1))
-  const account = useAccount()
+  const { accountData: account } = useAccount()
   const store = SimpleStore.useStore()
   const gdstore = GDStore.useStore()
   const [showDialog] = useDialog()

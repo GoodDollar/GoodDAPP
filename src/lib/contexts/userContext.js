@@ -1,40 +1,50 @@
-import React, { createContext, useCallback, useRef } from 'react'
-import { defaultAccountValue } from '../constants/user'
+import React, { createContext, useCallback, useMemo, useState } from 'react'
+import { defaultAccountValue, defaultVerificationState } from '../constants/user'
 
 export const UserContext = createContext()
 
 export const UserContextProvider = props => {
-  const isLoggedIn = useRef(false)
-  const isLoggedInCitizen = useRef(false)
-  const account = useRef(defaultAccountValue)
-  const invitesData = useRef({})
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [isLoggedInCitizen, setIsLoggedInCitizen] = useState(false)
+  const [account, setAccount] = useState(defaultAccountValue)
+  const [uploadedAvatar, setUploadedAvatar] = useState()
+  const [verification, setVerification] = useState(defaultVerificationState)
 
   const updateIsLoggedIn = useCallback(value => {
-    isLoggedIn.current = value
+    setIsLoggedIn(value)
   }, [])
 
   const updateIsLoggedInCitizen = useCallback(value => {
-    isLoggedInCitizen.current = value
+    setIsLoggedInCitizen(value)
   }, [])
 
   const updateAccountData = useCallback(value => {
-    account.current = { ...account.current, ...value }
+    setAccount({ ...account, ...value })
   }, [])
 
-  const setInvitesData = useCallback(value => {
-    invitesData.current = value
+  const updateVerificationData = useCallback(value => {
+    setVerification(value)
   }, [])
 
-  const userContextData = {
-    isLoggedIn,
-    isLoggedInCitizen,
-    account: account.current,
-    invitesData,
-    updateIsLoggedIn,
-    updateIsLoggedInCitizen,
-    updateAccountData,
-    setInvitesData,
-  }
+  const updateUploadedAvatar = useCallback(value => {
+    setUploadedAvatar(value)
+  }, [])
+
+  const userContextData = useMemo(
+    () => ({
+      isLoggedIn,
+      isLoggedInCitizen,
+      account,
+      verification,
+      uploadedAvatar,
+      updateIsLoggedIn,
+      updateIsLoggedInCitizen,
+      updateAccountData,
+      updateUploadedAvatar,
+      updateVerificationData,
+    }),
+    [isLoggedIn, isLoggedInCitizen, account, verification, uploadedAvatar],
+  )
 
   return <UserContext.Provider value={userContextData}>{props.children}</UserContext.Provider>
 }

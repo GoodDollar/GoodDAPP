@@ -68,7 +68,7 @@ const AppSwitch = (props: LoadingProps) => {
   const [showErrorDialog] = useErrorDialog()
   const [ready, setReady] = useState(false)
   const { updateIsLoggedIn, updateIsLoggedInCitizen, updateAccountData } = useContext(UserContext)
-  const account = useAccount()
+  const { accountData: account } = useAccount()
 
   /*
   Check if user is incoming with a URL with action details, such as payment link or email confirmation

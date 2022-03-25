@@ -3,3 +3,9 @@ export const defaultAccountValue = {
   entitlement: undefined,
   ready: false,
 }
+
+export const defaultVerificationState = {
+  attemptsCount: 0,
+  attemptsHistory: [],
+  reachedMaxAttempts: false,
+}

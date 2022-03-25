@@ -1,6 +1,6 @@
 // @flow
 
-import React, { Fragment, useCallback, useContext, useEffect, useState } from 'react'
+import React, { Fragment, useCallback, useEffect, useState } from 'react'
 import { SafeAreaView, StyleSheet } from 'react-native'
 import { Provider as PaperProvider } from 'react-native-paper'
 
@@ -21,12 +21,13 @@ import { GlobalTogglesContextProvider } from '../lib/contexts/togglesContext'
 import logger from '../lib/logger/js-logger'
 
 import { theme } from '../components/theme/styles'
-import { UserContext, UserContextProvider } from '../lib/contexts/userContext'
+import { useLoggedIn } from '../lib/hooks/useLoggedIn'
 
 const log = logger.child({ from: 'App' })
 
 const SplashOrRouter = ({ store }) => {
-  const { isLoggedIn } = useContext(UserContext)
+  const { isLoggedIn } = useLoggedIn()
+
   const [showDesktopSplash, setShowDesktopSplash] = useState(() => {
     if (isMobile) {
       return false
@@ -76,11 +77,9 @@ export const App = () => {
       <AppWrapper {...wrapperProps}>
         <Fragment>
           <GlobalTogglesContextProvider>
-            <UserContextProvider>
-              <SimpleStoreDialog />
-              <LoadingIndicator />
-              <SplashOrRouter store={store} />
-            </UserContextProvider>
+            <SimpleStoreDialog />
+            <LoadingIndicator />
+            <SplashOrRouter store={store} />
           </GlobalTogglesContextProvider>
         </Fragment>
       </AppWrapper>

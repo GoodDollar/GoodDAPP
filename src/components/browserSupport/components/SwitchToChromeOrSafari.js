@@ -18,9 +18,19 @@ import illustration from '../../../assets/UnsuportedBrowser.svg'
 export default () => (
   <ExplanationDialog
     title={
-      isIOSWeb ? t`Please switch to\nSafari browser` : t`For best user\nexperience switch to\nChrome or Safari browsers`
+      isIOSWeb
+        ? t`Please switch to
+      Safari browser`
+        : t`For best user
+      experience switch to
+      Chrome or Safari browsers`
     }
-    text={isIOSWeb ? t`This browser doesn’t support\ncamera access on iOS devices. Sorry!` : null}
+    text={
+      isIOSWeb
+        ? t`This browser doesn’t support
+    camera access on iOS devices. Sorry!`
+        : null
+    }
     textStyle={{
       fontSize: normalizeText(16),
       marginVertical: getDesignRelativeHeight(25, false),

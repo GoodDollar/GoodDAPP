@@ -62,12 +62,14 @@ const WalletDeletedPopupText = ({ styles }) => (
   <View style={styles.wrapper}>
     <View style={styles.title}>
       <Text textAlign="left" fontSize={22} lineHeight={28} fontWeight="medium">
-        {t`New Wallet?\nYou’ll need to wait 24 hours`}
+        {t`New Wallet?`}
+        {t`You’ll need to wait 24 hours`}
       </Text>
     </View>
     <View style={styles.paddingVertical20}>
       <Text style={styles.textStyle}>
-        {t`We see you recently deleted your wallet and have opened a new one.\nThis delay is to prevent misuse, thanks for understanding!`}
+        {t`We see you recently deleted your wallet and have opened a new one.`}
+        {t`This delay is to prevent misuse, thanks for understanding!`}
       </Text>
     </View>
   </View>

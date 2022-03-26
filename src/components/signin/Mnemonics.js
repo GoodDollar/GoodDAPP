@@ -76,10 +76,15 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
         category: ExceptionCategory.Human,
         dialogShown: true,
       })
-      showErrorDialog(t`Your pass phrase appears\nto be incorrect.`, undefined, {
-        title: t`Ooops ...`,
-        boldMessage: t`Please check it and try again.`,
-      })
+      showErrorDialog(
+        t`Your pass phrase appears
+      to be incorrect.`,
+        undefined,
+        {
+          title: t`Ooops ...`,
+          boldMessage: t`Please check it and try again.`,
+        },
+      )
     }
 
     if (!mnemonics || !bip39.validateMnemonic(mnemonics)) {

@@ -20,7 +20,8 @@ const OutOfGasError = props => {
 you need ‘Gas’ which is a virtual money.
 Don’t worry, we’ll take care off you.\n`
   const ERROR_BOLD = t`We're giving it to you for FREE, FOREVER.`
-  const TITLE = t`Ooops,\nYou're out of gas...`
+  const TITLE = t`Ooops,
+  You're out of gas...`
   const ERROR_CHEAT = `Something went wrong try again later`
   if (isValid) {
     props.screenProps.pop({ isValid })

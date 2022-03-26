@@ -80,7 +80,8 @@ export const RegularDialog = withStyles(dialogStyles)(({ styles, theme }) => (
         color={theme.colors.darkGray}
         style={styles.title}
       >
-        {t`Hip hip hooray!\nWe have a new version :)`}
+        {t`Hip hip hooray!
+        We have a new version :)`}
       </Text>
     </View>
     <View style={styles.description}>
@@ -116,11 +117,11 @@ export const NewReleaseDialog = withStyles(dialogStyles)(({ styles, theme }) => 
           <Text {...textStyles} fontWeight="bold">
             1.
           </Text>
-          {t` Click ‘update’\n`}
+          {t` Click ‘update’`}
           <Text {...textStyles} fontWeight="bold">
             2.
           </Text>
-          {t` Sign up (one last time, we promise ${isSmallDevice ? '' : ':)'})\n`}
+          {t` Sign up (one last time, we promise ${isSmallDevice ? '' : ':)'})`}
           <Text {...textStyles} fontWeight="bold">
             3.
           </Text>

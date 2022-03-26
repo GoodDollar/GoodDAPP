@@ -31,7 +31,8 @@ const About = () => (
           <Section.Text fontSize={18} color="surface" style={styles.aboutDescription}>
             {t`GoodDollar is a payment system with a built-in small basic income based on blockchain technology.`}
             <Section.Text fontSize={18} fontWeight="bold" color="surface">
-              {t`\nLet's change the world, for good.`}
+              {`\n`}
+              {t`Let's change the world, for good.`}
             </Section.Text>
           </Section.Text>
         </Section.Stack>

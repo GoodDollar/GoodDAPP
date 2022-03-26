@@ -25,7 +25,7 @@ const getInitialLocale = () => {
 }
 
 async function dynamicActivate(locale) {
-  const { messages } = await import(`@lingui/loader!./locales/${locale}/catalog.json`)
+  const { messages } = await import(`./locales/${locale}/catalog.js`)
   i18n.load(locale, messages)
   i18n.activate(locale)
 }

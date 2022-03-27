@@ -1,10 +1,9 @@
 // @flow
 import { createConnectedStore } from 'undux'
-import { isString, over } from 'lodash'
+import { isString } from 'lodash'
 
 import pinoLogger from '../logger/js-logger'
 import createStoreEffects, { unduxLogger } from './plugins'
-import { createUseCurriedSettersHook, createUseStorePropHook } from './utils/props'
 
 /**
  * Dialog data. This is being used to show a dialog across the app
@@ -26,14 +25,6 @@ type CurrentScreen = {
 }
 
 /**
- * Loading indicator screen status. In true means that there is a loading overlay over the current screen
- * @type {{loading: boolean}}
- */
-type LoadingIndicator = {
-  loading: boolean,
-}
-
-/**
  * Type definition for the global store
  * @type {
    {currentScreen: CurrentScreen},
@@ -46,7 +37,6 @@ type LoadingIndicator = {
 export type State = {
   currentScreen: CurrentScreen,
   destinationPath: string,
-  loadingIndicator: LoadingIndicator,
   isLoggedIn: boolean,
   feedLoadAnimShown: boolean,
   wallet: any,
@@ -72,9 +62,6 @@ const initialState: State = {
     loading: false,
   },
   destinationPath: '',
-  loadingIndicator: {
-    loading: false,
-  },
   sidemenu: {
     visible: false,
   },
@@ -109,8 +96,6 @@ const storeAssertion = (condition, logger, message) => {
   return !assertionFailed
 }
 
-const [useCurriedSetters, useStoreProp] = over([createUseCurriedSettersHook, createUseStorePropHook])(() => SimpleStore)
-
 const assertStore = (store, logger = unduxLogger, message = 'Operation failed') =>
   storeAssertion(() => !store, logger, message)
 
@@ -123,12 +108,4 @@ const initStore = () => {
   return SimpleStore
 }
 
-export {
-  initStore,
-  storeAccessor as store,
-  assertStore,
-  assertStoreSnapshot,
-  SimpleStore as default,
-  useCurriedSetters,
-  useStoreProp,
-}
+export { initStore, storeAccessor as store, assertStore, assertStoreSnapshot, SimpleStore as default }

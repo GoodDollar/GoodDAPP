@@ -112,7 +112,6 @@ const Dashboard = props => {
   const [showDelayedTimer, setShowDelayedTimer] = useState()
   const [itemModal, setItemModal] = useState()
   const currentScreen = store.get('currentScreen')
-  const loadingIndicator = store.get('loadingIndicator')
   const loadAnimShown = store.get('feedLoadAnimShown')
   const { balance, dailyUBI: entitlement } = useWalletData()
   const { avatar, fullName } = useProfile()
@@ -120,7 +119,7 @@ const Dashboard = props => {
   const [headerLarge, setHeaderLarge] = useState(true)
   const { appState } = useAppState()
   const [animateMarket, setAnimateMarket] = useState(false)
-  const { setDialogBlur, setAddWebApp } = useContext(GlobalTogglesContext)
+  const { setDialogBlur, setAddWebApp, isLoadingIndicator } = useContext(GlobalTogglesContext)
   const userStorage = useUserStorage()
   const goodWallet = useWallet()
   const [price, showPrice] = useGoodDollarPrice()
@@ -504,14 +503,14 @@ const Dashboard = props => {
    * don't show delayed items such as add to home popup if some other dialog is showing
    */
   useEffect(() => {
-    const showingSomething = get(currentScreen, 'dialogData.visible') || get(loadingIndicator, 'loading') || itemModal
+    const showingSomething = get(currentScreen, 'dialogData.visible') || isLoadingIndicator || itemModal
 
     if (showDelayedTimer !== true && showDelayedTimer && showingSomething) {
       setShowDelayedTimer(clearTimeout(showDelayedTimer))
     } else if (!showDelayedTimer) {
       showDelayed()
     }
-  }, [get(currentScreen, 'dialogData.visible'), get(loadingIndicator, 'loading'), itemModal])
+  }, [get(currentScreen, 'dialogData.visible'), isLoadingIndicator, itemModal])
 
   const showEventModal = useCallback(
     currentFeed => {

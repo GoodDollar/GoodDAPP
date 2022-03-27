@@ -12,6 +12,7 @@ export const GlobalTogglesContextProvider = props => {
   const [addWebApp, setAddWebApp] = useState({ showInitial: false, showDialog: false })
   const [isMobileKeyboardShown, setMobileKeyboardShown] = useState()
   const [isMobileSafariKeyboardShown, setMobileSafariKeyboardShown] = useState()
+  const [isLoadingIndicator, setLoadingIndicator] = useState()
 
   useEffect(() => {
     if (isLoggedInRouter != null) {
@@ -34,6 +35,7 @@ export const GlobalTogglesContextProvider = props => {
         addWebApp,
         isMobileKeyboardShown,
         isMobileSafariKeyboardShown,
+        isLoadingIndicator,
         setServiceWorkerUpdated,
         setInstallPrompt,
         setDialogBlur,
@@ -42,6 +44,7 @@ export const GlobalTogglesContextProvider = props => {
         setAddWebApp,
         setMobileKeyboardShown,
         setMobileSafariKeyboardShown,
+        setLoadingIndicator,
       }}
     >
       {props.children}

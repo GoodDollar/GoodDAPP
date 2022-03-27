@@ -5,6 +5,12 @@ import { i18n } from '@lingui/core'
 import { Helmet } from 'react-helmet'
 import { messages as defaultMessages } from './locales/en/catalog'
 
+export const localeFiles = {
+  de: () => import(`./locales/de/catalog.js`),
+  en: () => import(`./locales/en/catalog.js`),
+  'es-AR': () => import(`./locales/es-AR/catalog.js`),
+}
+
 // This array should equal the array set in .linguirc
 export const locales = ['de', 'en', 'es-AR', 'es', 'it', 'he', 'ro', 'ru', 'vi', 'zh-CN', 'zh-TW', 'ko', 'ja']
 export const defaultLocale = 'en'
@@ -25,7 +31,7 @@ const getInitialLocale = () => {
 }
 
 async function dynamicActivate(locale) {
-  const { messages } = await import(`./locales/${locale}/catalog.js`)
+  const { messages } = await localeFiles[locale]()
   i18n.load(locale, messages)
   i18n.activate(locale)
 }

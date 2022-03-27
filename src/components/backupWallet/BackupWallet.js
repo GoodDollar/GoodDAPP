@@ -17,7 +17,7 @@ import { fireEvent, PHRASE_BACKUP } from '../../lib/analytics/analytics'
 import Wrapper from '../common/layout/Wrapper'
 
 const log = logger.child({ from: 'BackupWallet' })
-const TITLE = 'Backup my wallet'
+const TITLE = t`Backup my wallet`
 
 type BackupWalletProps = {
   styles: {},

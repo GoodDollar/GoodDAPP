@@ -12,8 +12,11 @@ import { InfoIcon } from '../common/modal/InfoIcon'
 const ExportWarningPopup = ({ styles, onDismiss = noop, ...dialogProps }) => (
   <ExplanationDialog
     {...dialogProps}
-    title={t`Do Not Send Tokens\nFrom Ethereum Network\nTo This Address`}
-    text={t`Keep in mind - This is an internal\nnetwork address for G$ tokens only.`}
+    title={t`Do Not Send Tokens
+    From Ethereum Network
+    To This Address`}
+    text={t`Keep in mind - This is an internal
+    network address for G$ tokens only.`}
     image={InfoIcon}
     titleStyle={styles.title}
     textStyle={styles.text}

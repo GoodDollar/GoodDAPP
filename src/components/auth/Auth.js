@@ -71,7 +71,8 @@ const Auth = (props: Props) => {
           fontFamily="Roboto"
           fontWeight="medium"
         >
-          {t`Welcome to\nGoodDollar Wallet`}
+          {t`Welcome to
+          GoodDollar Wallet`}
         </Text>
         <AnimationsPeopleFlying />
         <Section style={styles.bottomContainer}>

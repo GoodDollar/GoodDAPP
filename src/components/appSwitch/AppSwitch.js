@@ -20,7 +20,6 @@ import { delay } from '../../lib/utils/async'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import DeepLinking from '../../lib/utils/deepLinking'
 import { isMobileNative } from '../../lib/utils/platform'
-import { useInviteCode } from '../invite/useInvites'
 import restart from '../../lib/utils/restart'
 import { useUserStorage, useWallet } from '../../lib/wallet/GoodWalletProvider'
 
@@ -236,8 +235,6 @@ const AppSwitch = (props: LoadingProps) => {
   }, [ready, refresh, props, goodWallet, userStorage])
 
   const backgroundUpdates = useCallback(() => {}, [ready])
-
-  useInviteCode()
 
   useEffect(() => void (navigateToUrlRef.current = navigateToUrlAction), [navigateToUrlAction])
 

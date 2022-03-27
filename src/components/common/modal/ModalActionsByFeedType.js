@@ -3,6 +3,7 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { View } from 'react-native'
 import { get, pickBy } from 'lodash'
+import { t } from '@lingui/macro'
 
 import CustomButton from '../buttons/CustomButton'
 import ShareButton from '../buttons/ShareButton'
@@ -160,7 +161,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
         <View style={styles.buttonsView}>
           <View style={styles.rightButtonContainer}>
             <ModalButton fontWeight="medium" onPress={_handleModalClose}>
-              {config.isPhaseZero ? 'OK' : 'LET`S DO IT'}
+              {config.isPhaseZero ? t`OK` : t`LET\`S DO IT`}
             </ModalButton>
           </View>
         </View>
@@ -178,7 +179,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
               loading={cancellingPayment}
               textStyle={styles.smallButtonTextStyle}
             >
-              Cancel link
+              {t`Cancel link`}
             </CustomButton>
             <ShareButton
               disabled={!paymentLinkForShare}
@@ -195,7 +196,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
           <View style={styles.buttonsView}>
             <View style={styles.rightButtonContainer}>
               <CustomButton mode="contained" style={styles.rightButton} fontWeight="medium" onPress={_handleModalClose}>
-                Ok
+                {t`Ok`}
               </CustomButton>
             </View>
           </View>
@@ -206,12 +207,12 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
         <View style={styles.buttonsView}>
           <View style={styles.rightButtonContainer}>
             <ModalButton fontWeight="medium" mode="outlined" onPress={readMore}>
-              Read more
+              {t`Read more`}
             </ModalButton>
           </View>
           <View style={styles.rightButtonContainer}>
             <ModalButton fontWeight="medium" onPress={shareMessage}>
-              Share
+              {t`Share`}
             </ModalButton>
           </View>
         </View>
@@ -221,7 +222,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
         <View style={styles.buttonsView}>
           <View style={styles.rightButtonContainer}>
             <ModalButton fontWeight="medium" mode="text" color="gray80Percent" onPress={_handleModalClose}>
-              LATER
+              {t`LATER`}
             </ModalButton>
           </View>
           <View style={styles.rightButtonContainer}>
@@ -234,7 +235,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
               iconStyle={styles.iconStyle}
               fontWeight="medium"
             >
-              INVITE
+              {t`INVITE`}
             </ModalButton>
           </View>
         </View>
@@ -245,7 +246,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
         <View style={styles.buttonsView}>
           <View style={styles.rightButtonContainer}>
             <ModalButton fontWeight="medium" onPress={backupPage}>
-              {"LET'S BACKUP"}
+              {t`LET'S BACKUP`}
             </ModalButton>
           </View>
         </View>
@@ -256,7 +257,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
         <View style={styles.buttonsView}>
           <View style={styles.rightButtonContainer}>
             <ModalButton fontWeight="medium" onPress={goToClaimPage}>
-              CLAIM G$
+              {t`CLAIM G$`}
             </ModalButton>
           </View>
         </View>
@@ -266,7 +267,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
       return (
         <View style={styles.buttonsView}>
           <ModalButton fontWeight="medium" onPress={_handleModalClose}>
-            Later
+            {t`Later`}
           </ModalButton>
         </View>
       )
@@ -301,7 +302,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
             </Section.Stack>
           )}
           <ModalButton fontWeight="medium" mode="contained" onPress={_handleModalClose}>
-            Ok
+            {t`Ok`}
           </ModalButton>
         </Section.Row>
       )

@@ -1,6 +1,7 @@
 import React, { useCallback, useRef } from 'react'
 import { TouchableOpacity } from 'react-native'
 
+import { t } from '@lingui/macro'
 import { noop } from 'lodash'
 import Text from '../../common/view/Text'
 
@@ -105,7 +106,7 @@ LoginButton.Google = withStyles(getStylesFromProps)(
         testID="login_with_google"
         icon={googleBtnIcon}
       >
-        {`${buttonPrefix} Google`}
+        {t`${buttonPrefix} Google`}
       </LoginButton>
     )
   },
@@ -133,7 +134,7 @@ LoginButton.Facebook = withStyles(getStylesFromProps)(
         icon={facebookBtnIcon}
         iconProps={{ viewBox: '0 0 11 22' }}
       >
-        {`${buttonPrefix} Facebook`}
+        {t`${buttonPrefix} Facebook`}
       </LoginButton>
     )
   },
@@ -186,7 +187,7 @@ LoginButton.Passwordless = withStyles(getStylesFromProps)(
           textColor="#8499BB"
           testID="login_with_auth0"
         >
-          {`${buttonPrefix} Passwordless`}
+          {t`${buttonPrefix} Passwordless`}
         </LoginButton>
       </Recaptcha>
     )

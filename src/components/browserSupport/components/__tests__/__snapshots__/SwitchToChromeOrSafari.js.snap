@@ -25,7 +25,9 @@ exports[`SwitchToChromeOrSafari matches snapshot 1`] = `
       className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-marginBottom-1peese0 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
       dir="auto"
     >
-      For best user\\nexperience switch to\\nChrome or Safari browsers
+      For best user
+experience switch to
+Chrome or Safari browsers
     </div>
   </div>
 </div>

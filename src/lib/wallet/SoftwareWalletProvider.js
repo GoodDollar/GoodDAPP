@@ -128,6 +128,7 @@ class SoftwareWalletProvider {
 
   /** @private */
   _createHttpProvider() {
+    const { infuraKey, publicUrl } = Config
     const { httpWeb3provider } = this.conf
     const backend = ['infura', 'pokt'].find(server => httpWeb3provider.includes(server))
 
@@ -136,17 +137,14 @@ class SoftwareWalletProvider {
 
     switch (backend) {
       case 'infura':
-        provider += Config.infuraKey
+        provider += infuraKey
         break
       case 'pokt':
         if (isMobileNative) {
           const userAgentString = `Mozilla/5.0 GoodDollar Wallet`
 
           options = {
-            headers: [
-              { name: 'User-Agent', value: userAgentString },
-              [{ name: 'origin', value: 'https://wallet.gooddollar.org' }],
-            ],
+            headers: [{ name: 'User-Agent', value: userAgentString }, { name: 'Origin', value: publicUrl }],
           }
         }
         break

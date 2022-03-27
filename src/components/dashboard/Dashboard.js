@@ -40,6 +40,7 @@ import Avatar from '../common/view/Avatar'
 import _debounce from '../../lib/utils/debounce'
 import useProfile from '../../lib/userStorage/useProfile'
 import { GlobalTogglesContext } from '../../lib/contexts/togglesContext'
+import { useInviteCode } from '../invite/useInvites'
 import { PAGE_SIZE } from './utils/feed'
 import PrivacyPolicyAndTerms from './PrivacyPolicyAndTerms'
 import Amount from './Amount'
@@ -123,6 +124,8 @@ const Dashboard = props => {
   const userStorage = useUserStorage()
   const goodWallet = useWallet()
   const [price, showPrice] = useGoodDollarPrice()
+
+  useInviteCode() //preload user invite code
 
   const headerAnimateStyles = {
     position: 'relative',

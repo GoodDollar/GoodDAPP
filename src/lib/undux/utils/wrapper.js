@@ -18,16 +18,6 @@ const wrapperFunction = (origMethod, target, handler) => {
 function Handler(store, params) {
   const { onDismiss } = params || {}
 
-  // this.beforeFetching = () =>
-  //   store.set('currentScreen')({
-  //     loading: true
-  //   })
-
-  // this.afterFetching = () =>
-  //   store.set('currentScreen')({
-  //     loading: false
-  //   })
-
   this.errorHandler = error => {
     let message = 'Unknown Error'
     if (error.response && error.response.data) {

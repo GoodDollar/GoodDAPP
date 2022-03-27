@@ -462,13 +462,6 @@ const Claim = props => {
           // with non-validated state
           goToRoot()
         }
-
-        //  else {
-        //   // opened claim page (non-returned from FV)
-        //   if (isCitizen === false) {
-        //     goodWallet.isCitizen().then(_ => gdstore.set('isLoggedInCitizen')(_))
-        //   }
-        // }
       } catch (exception) {
         const { message } = exception
         const uiMessage = decorate(exception, ExceptionCode.E1)

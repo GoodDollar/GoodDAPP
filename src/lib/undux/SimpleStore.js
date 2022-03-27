@@ -54,8 +54,6 @@ export type State = {
   sidemenu: {
     visible: boolean,
   },
-  isMobileSafariKeyboardShown: boolean,
-  isMobileKeyboardShown: boolean,
   currentFeed: any,
   serviceWorkerUpdated: any,
 }
@@ -80,8 +78,6 @@ const initialState: State = {
   sidemenu: {
     visible: false,
   },
-  isMobileSafariKeyboardShown: false,
-  isMobileKeyboardShown: false,
   currentFeed: null,
   wallet: null,
   userStorage: null,

@@ -1,9 +1,9 @@
 // @flow
-import React, { useCallback, useEffect, useMemo } from 'react'
+import React, { useCallback, useContext, useEffect, useMemo } from 'react'
 import { StyleSheet, TextInput, TouchableOpacity, View } from 'react-native'
 import { isMobileWeb as isMobile, isMobileSafari } from '../../../lib/utils/platform'
 import normalize from '../../../lib/utils/normalizeText'
-import { useCurriedSetters } from '../../../lib/undux/SimpleStore'
+import { GlobalTogglesContext } from '../../../lib/contexts/togglesContext'
 import { withStyles } from '../../../lib/styles'
 import { calculateFontFamily, calculateFontWeight } from '../../../lib/utils/fonts'
 import Icon from '../view/Icon'
@@ -32,10 +32,7 @@ const InputText = ({
   placeholderTextColor,
   ...props
 }) => {
-  const [setMobileSafariKeyboardShown, setMobileKeyboardShown] = useCurriedSetters([
-    'isMobileSafariKeyboardShown',
-    'isMobileKeyboardShown',
-  ])
+  const { setMobileSafariKeyboardShown, setMobileKeyboardShown } = useContext(GlobalTogglesContext)
 
   const onTouchStart = useCallback(() => {
     if (shouldChangeSizeOnKeyboardShown) {

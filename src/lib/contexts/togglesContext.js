@@ -10,6 +10,8 @@ export const GlobalTogglesContextProvider = props => {
   const [installPrompt, setInstallPrompt] = useState()
   const [isLoggedInRouter, setLoggedInRouter] = useState() //switch between signup router and logged in router
   const [addWebApp, setAddWebApp] = useState({ showInitial: false, showDialog: false })
+  const [isMobileKeyboardShown, setMobileKeyboardShown] = useState()
+  const [isMobileSafariKeyboardShown, setMobileSafariKeyboardShown] = useState()
 
   useEffect(() => {
     if (isLoggedInRouter != null) {
@@ -28,14 +30,18 @@ export const GlobalTogglesContextProvider = props => {
         isMenuOn,
         serviceWorkerUpdated,
         installPrompt,
+        isLoggedInRouter,
+        addWebApp,
+        isMobileKeyboardShown,
+        isMobileSafariKeyboardShown,
         setServiceWorkerUpdated,
         setInstallPrompt,
         setDialogBlur,
         setMenu,
-        isLoggedInRouter,
         setLoggedInRouter,
-        addWebApp,
         setAddWebApp,
+        setMobileKeyboardShown,
+        setMobileSafariKeyboardShown,
       }}
     >
       {props.children}

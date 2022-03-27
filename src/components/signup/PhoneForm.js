@@ -8,7 +8,6 @@ import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import { userModelValidations } from '../../lib/userStorage/UserModel'
 import { getScreenHeight } from '../../lib/utils/orientation'
 import logger from '../../lib/logger/js-logger'
-import SimpleStore from '../../lib/undux/SimpleStore'
 import { withStyles } from '../../lib/styles'
 import Config from '../../config/config'
 import { getFirstWord } from '../../lib/utils/getFirstWord'
@@ -40,19 +39,16 @@ class PhoneForm extends React.Component<Props, State> {
     errorMessage: '',
     countryCode: this.props.screenProps.data.countryCode,
     isValid: false,
+    isMobileKeyboardShown: false,
   }
 
   onFocus = () => {
-    const { store } = this.props
-    if (isMobile) {
-      store.set('isMobileKeyboardShown')(true)
-    }
+    this.setState({ ...this.state, isMobileKeyboardShown: true })
   }
 
   onBlur = () => {
-    const { store } = this.props
     if (isMobile) {
-      store.set('isMobileKeyboardShown')(false)
+      this.setState({ ...this.state, isMobileKeyboardShown: false })
     }
   }
 
@@ -111,9 +107,9 @@ class PhoneForm extends React.Component<Props, State> {
     this.props.screenProps.error = undefined
 
     const { key } = this.props.navigation.state
-    const { styles, store, theme } = this.props
+    const { styles, theme } = this.props
     const { fullName, loading } = this.props.screenProps.data
-    const isShowKeyboard = store.get && store.get('isMobileKeyboardShown')
+    const isShowKeyboard = this.state.isMobileKeyboardShown
     return (
       <CustomWrapper valid={this.state.isValid} handleSubmit={this.handleSubmit} loading={loading}>
         <Section grow justifyContent="flex-start" style={styles.transparentBackground}>
@@ -186,4 +182,4 @@ const getStylesFromProps = ({ theme }) => ({
   },
 })
 
-export default withStyles(getStylesFromProps)(SimpleStore.withStore(PhoneForm))
+export default withStyles(getStylesFromProps)(PhoneForm)

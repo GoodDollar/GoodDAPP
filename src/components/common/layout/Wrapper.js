@@ -1,16 +1,14 @@
 // @flow
-import React from 'react'
+import React, { useContext } from 'react'
 import { Platform, View } from 'react-native'
 import LinearGradient from 'react-native-linear-gradient'
 import { isMobileOnly } from '../../../lib/utils/platform'
 import { withStyles } from '../../../lib/styles'
-import SimpleStore from '../../../lib/undux/SimpleStore'
-
+import { GlobalTogglesContext } from '../../../lib/contexts/togglesContext'
 const Wrapper = props => {
-  const simpleStore = SimpleStore.useStore()
-  const shouldGrow = simpleStore.get && !simpleStore.get('isMobileSafariKeyboardShown')
+  const { isMobileSafariKeyboardShown } = useContext(GlobalTogglesContext)
 
-  const growStyle = { flexGrow: shouldGrow ? 1 : 0 }
+  const growStyle = { flexGrow: isMobileSafariKeyboardShown ? 1 : 0 }
 
   const { withGradient, backgroundColor, children, style, styles, ...rest } = props
 

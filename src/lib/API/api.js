@@ -212,6 +212,14 @@ export class APIService {
     return this.client.post('/verify/user', { verificationData })
   }
 
+  /**
+   * `/user/verifyCRM` post api call
+   * @param {any} profile - user email/mobile/name to be added to CRM if doesnt exists
+   */
+  verifyCRM(profile): AxiosPromise<any> {
+    return this.client.post('/user/verifyCRM', { user: profile })
+  }
+
   async verifyCaptcha(token: string): AxiosPromise<any> {
     const { client, sharedClient } = this
     const payload = { token }

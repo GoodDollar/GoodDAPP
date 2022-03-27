@@ -162,7 +162,7 @@ export const useWallet = () => {
   const { goodWallet } = useContext(GoodWalletContext)
   return goodWallet
 }
-export const useUserStorage = () => {
+export const useUserStorage = (): UserStorage => {
   const { userStorage } = useContext(GoodWalletContext)
   return userStorage
 }

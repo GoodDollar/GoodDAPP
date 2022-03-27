@@ -14,12 +14,11 @@ import {
   TORUS_REDIRECT_SUCCESS,
   TORUS_SUCCESS,
 } from '../../../lib/analytics/analytics'
-import { GD_USER_MASTERSEED, GD_USER_MNEMONIC, IS_LOGGED_IN } from '../../../lib/constants/localStorage'
+import { GD_USER_MASTERSEED, GD_USER_MNEMONIC } from '../../../lib/constants/localStorage'
 import { REGISTRATION_METHOD_SELF_CUSTODY, REGISTRATION_METHOD_TORUS } from '../../../lib/constants/login'
 import { withStyles } from '../../../lib/styles'
 import config from '../../../config/config'
 import { theme as mainTheme } from '../../theme/styles'
-import SimpleStore from '../../../lib/undux/SimpleStore'
 import { useDialog } from '../../../lib/undux/utils/dialog'
 import { showSupportDialog } from '../../common/dialogs/showSupportDialog'
 import { decorate, ExceptionCode } from '../../../lib/exceptions/utils'
@@ -34,13 +33,14 @@ import SignUpIn from '../login/SignUpScreen'
 
 import DeepLinking from '../../../lib/utils/deepLinking'
 import { GoodWalletContext } from '../../../lib/wallet/GoodWalletProvider'
-
+import { GlobalTogglesContext } from '../../../lib/contexts/togglesContext'
 import AuthContext from '../context/AuthContext'
 import useTorus from './hooks/useTorus'
 const log = logger.child({ from: 'AuthTorus' })
 
-const AuthTorus = ({ screenProps, navigation, styles, store }) => {
+const AuthTorus = ({ screenProps, navigation, styles }) => {
   const { initWalletAndStorage } = useContext(GoodWalletContext)
+  const { setLoggedInRouter } = useContext(GlobalTogglesContext)
   const [, hideDialog, showErrorDialog] = useDialog()
   const { setWalletPreparing, setTorusInitialized, setSuccessfull, setActiveStep } = useContext(AuthContext)
   const checkExisting = useCheckExisting()
@@ -104,7 +104,6 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
       fireEvent(TORUS_SUCCESS, { provider })
       log.debug('torus login success', { torusUser, provider })
     } catch (e) {
-      // store.set('loadingIndicator')({ loading: false })
       fireEvent(TORUS_FAILED, { provider, error: e.message })
       const cancelled = e.message.toLowerCase().includes('user closed')
       if (cancelled) {
@@ -257,10 +256,9 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
           setActiveStep(3)
 
           fireEvent(SIGNIN_TORUS_SUCCESS, { provider })
-          await AsyncStorage.setItem(IS_LOGGED_IN, true)
 
           setWalletPreparing(false)
-          setSuccessfull(() => store.set('isLoggedIn')(true))
+          setSuccessfull(() => setLoggedInRouter(true))
           return
         }
         case 'signup': {
@@ -421,7 +419,7 @@ const getStylesFromProps = ({ theme }) => {
   }
 }
 
-const Auth = withStyles(getStylesFromProps)(SimpleStore.withStore(AuthTorus))
+const Auth = withStyles(getStylesFromProps)(AuthTorus)
 Auth.navigationOptions = {
   title: 'Auth',
   navigationBarHidden: true,

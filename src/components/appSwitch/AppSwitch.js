@@ -4,8 +4,7 @@ import { AppState } from 'react-native'
 import { SceneView } from '@react-navigation/core'
 import { debounce, isEmpty } from 'lodash'
 import AsyncStorage from '../../lib/utils/asyncStorage'
-import { DESTINATION_PATH, GD_USER_MASTERSEED } from '../../lib/constants/localStorage'
-import { REGISTRATION_METHOD_SELF_CUSTODY, REGISTRATION_METHOD_TORUS } from '../../lib/constants/login'
+import { DESTINATION_PATH } from '../../lib/constants/localStorage'
 
 import logger from '../../lib/logger/js-logger'
 import { getErrorMessage } from '../../lib/API/api'
@@ -17,7 +16,6 @@ import { identifyWith } from '../../lib/analytics/analytics'
 import Splash from '../splash/Splash'
 import config from '../../config/config'
 import { delay } from '../../lib/utils/async'
-import SimpleStore from '../../lib/undux/SimpleStore'
 import DeepLinking from '../../lib/utils/deepLinking'
 import { isMobileNative } from '../../lib/utils/platform'
 import restart from '../../lib/utils/restart'
@@ -58,7 +56,6 @@ let unsuccessfulLaunchAttempts = 0
  */
 const AppSwitch = (props: LoadingProps) => {
   const { router, state } = props.navigation
-  const store = SimpleStore.useStore()
   const [showErrorDialog] = useErrorDialog()
   const [ready, setReady] = useState(false)
   const {
@@ -134,11 +131,6 @@ const AppSwitch = (props: LoadingProps) => {
    */
   const initialize = async () => {
     AsyncStorage.setItem('GD_version', 'phase' + config.phase)
-
-    const regMethod = (await AsyncStorage.getItem(GD_USER_MASTERSEED).then(_ => !!_))
-      ? REGISTRATION_METHOD_TORUS
-      : REGISTRATION_METHOD_SELF_CUSTODY
-    store.set('regMethod')(regMethod)
 
     const email = await userStorage.getProfileFieldValue('email')
     identifyWith(email, undefined)

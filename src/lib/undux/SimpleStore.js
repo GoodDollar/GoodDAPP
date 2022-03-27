@@ -3,8 +3,6 @@ import { createConnectedStore } from 'undux'
 import { isString, over } from 'lodash'
 
 import pinoLogger from '../logger/js-logger'
-import { IS_LOGGED_IN } from '../../lib/constants/localStorage'
-import AsyncStorage from '../../lib/utils/asyncStorage'
 import createStoreEffects, { unduxLogger } from './plugins'
 import { createUseCurriedSettersHook, createUseStorePropHook } from './utils/props'
 
@@ -59,10 +57,6 @@ export type State = {
   isMobileSafariKeyboardShown: boolean,
   isMobileKeyboardShown: boolean,
   currentFeed: any,
-  addWebApp: {
-    show: boolean,
-    showAddWebAppDialog: boolean,
-  },
   serviceWorkerUpdated: any,
 }
 
@@ -89,10 +83,6 @@ const initialState: State = {
   isMobileSafariKeyboardShown: false,
   isMobileKeyboardShown: false,
   currentFeed: null,
-  addWebApp: {
-    show: false,
-    showAddWebAppDialog: false,
-  },
   wallet: null,
   userStorage: null,
   regMethod: 'torus',
@@ -131,9 +121,8 @@ const assertStore = (store, logger = unduxLogger, message = 'Operation failed') 
 const assertStoreSnapshot = (store, logger = unduxLogger, message = 'Operation failed') =>
   storeAssertion(() => !store || !store.storeSnapshot, logger, message)
 
-const initStore = async () => {
-  let isLoggedIn = await AsyncStorage.getItem(IS_LOGGED_IN)
-  const newState = { ...initialState, isLoggedIn }
+const initStore = () => {
+  const newState = { ...initialState }
   SimpleStore = createConnectedStore(newState, storeEffects)
   return SimpleStore
 }

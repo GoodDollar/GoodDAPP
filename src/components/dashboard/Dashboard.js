@@ -7,7 +7,7 @@ import type { Store } from 'undux'
 
 import AsyncStorage from '../../lib/utils/asyncStorage'
 import normalize, { normalizeByLength } from '../../lib/utils/normalizeText'
-import SimpleStore, { assertStore } from '../../lib/undux/SimpleStore'
+import SimpleStore from '../../lib/undux/SimpleStore'
 import { useDialog, useErrorDialog } from '../../lib/undux/utils/dialog'
 import { weiToGd, weiToMask } from '../../lib/wallet/utils'
 import { initBGFetch } from '../../lib/notifications/backgroundFetch'
@@ -120,7 +120,7 @@ const Dashboard = props => {
   const [headerLarge, setHeaderLarge] = useState(true)
   const { appState } = useAppState()
   const [animateMarket, setAnimateMarket] = useState(false)
-  const { setDialogBlur } = useContext(GlobalTogglesContext)
+  const { setDialogBlur, setAddWebApp } = useContext(GlobalTogglesContext)
   const userStorage = useUserStorage()
   const goodWallet = useWallet()
   const [price, showPrice] = useGoodDollarPrice()
@@ -305,18 +305,14 @@ const Dashboard = props => {
   }, [animateClaim, setAnimateMarket])
 
   const showDelayed = useCallback(() => {
-    if (!assertStore(store, log, 'Failed to show AddWebApp modal')) {
-      return
-    }
-
     const id = setTimeout(() => {
       //wait until not loading and not showing other modal (see use effect)
       //mark as displayed
       setShowDelayedTimer(true)
-      store.set('addWebApp')({ show: true })
+      setAddWebApp({ showInitial: true, showDialog: false })
     }, 2000)
     setShowDelayedTimer(id)
-  }, [setShowDelayedTimer, store])
+  }, [setShowDelayedTimer, setAddWebApp])
 
   /**
    * rerender on screen size change

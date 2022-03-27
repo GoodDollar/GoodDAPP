@@ -13,7 +13,6 @@ import useBrowserSupport from './components/browserSupport/hooks/useBrowserSuppo
 import UnsupportedBrowser from './components/browserSupport/components/UnsupportedBrowser'
 
 // utils
-import SimpleStore from './lib/undux/SimpleStore'
 import { delay } from './lib/utils/async'
 import retryImport from './lib/utils/retryImport'
 import DeepLinking from './lib/utils/deepLinking'
@@ -23,6 +22,8 @@ import logger from './lib/logger/js-logger'
 import { APP_OPEN, fireEvent, initAnalytics } from './lib/analytics/analytics'
 import handleLinks from './lib/utils/handleLinks'
 import { GoodWalletContext } from './lib/wallet/GoodWalletProvider'
+import { GlobalTogglesContext } from './lib/contexts/togglesContext'
+
 const log = logger.child({ from: 'RouterSelector' })
 
 // identify the case user signup/in using torus redirect flow, so we want to load page asap
@@ -87,10 +88,10 @@ const SplashSelector = isAuthReload
 
 const RouterSelector = () => {
   const { initWalletAndStorage } = useContext(GoodWalletContext)
+  const { isLoggedInRouter } = useContext(GlobalTogglesContext)
 
   // we use global state for signup process to signal user has registered
-  const store = SimpleStore.useStore()
-  const isLoggedIn = store.get('isLoggedIn')
+
   const [ignoreUnsupported, setIgnoreUnsupported] = useState(false)
   const [checkedForBrowserSupport, setCheckedForBrowserSupport] = useState(false)
 
@@ -105,27 +106,27 @@ const RouterSelector = () => {
   }, [])
 
   useEffect(() => {
-    if (!isLoggedIn) {
+    if (!isLoggedInRouter) {
       return
     }
-    log.debug('initWalletStorage', isLoggedIn)
+    log.debug('initWalletStorage', isLoggedInRouter)
     return initWalletAndStorage(undefined, 'SEED').then(() => log.debug('storage and wallet ready'))
-  }, [isLoggedIn])
+  }, [isLoggedInRouter])
 
   useEffect(() => {
     //once user is logged in check if their browser is supported and show warning if not
-    if (isLoggedIn) {
+    if (isLoggedInRouter) {
       checkBrowser()
     }
     setIgnoreUnsupported(true)
     setCheckedForBrowserSupport(true)
-  }, [isLoggedIn])
+  }, [isLoggedInRouter])
 
   // starting animation once we're checked for browser support and awaited
   // the user dismissed warning dialog (if browser wasn't supported)
   return (
-    <React.Suspense fallback={<SplashSelector animation={checkedForBrowserSupport} isLoggedIn={isLoggedIn} />}>
-      {(supported || ignoreUnsupported) && <NestedRouter isLoggedIn={isLoggedIn} />}
+    <React.Suspense fallback={<SplashSelector animation={checkedForBrowserSupport} isLoggedIn={isLoggedInRouter} />}>
+      {(supported || ignoreUnsupported) && <NestedRouter isLoggedIn={isLoggedInRouter} />}
     </React.Suspense>
   )
 }

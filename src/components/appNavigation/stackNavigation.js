@@ -257,29 +257,6 @@ class AppView extends Component<AppViewProps, AppViewState> {
     this.setState(state => ({ currentState: { ...state.currentState, ...data } }))
   }
 
-  // /**
-  //  * Based on the value returned by the onChange callback sets the simpleStore sidemenu visibility value
-  //  * @param {boolean} visible
-  //  */
-  // sideMenuSwap = visible => {
-  //   const { store } = this.props
-
-  //   store.set('sidemenu')({
-  //     ...(store.get('sidemenu') || {}),
-  //     visible,
-  //   })
-  // }
-
-  // isMenuOpened = () => {
-  //   const { store } = this.props
-
-  //   if (!store) {
-  //     return false
-  //   }
-
-  //   return store.get('sidemenu').visible
-  // }
-
   render() {
     const { isMenuOn, setMenu } = this.context
     this.setMenu = setMenu

@@ -1,12 +1,12 @@
 // @flow
-import { useCallback, useContext, useEffect, useMemo, useState } from 'react'
+import { useCallback, useContext, useMemo } from 'react'
 import { t } from '@lingui/macro'
 import AsyncStorage from '../utils/asyncStorage'
 import restart from '../utils/restart'
 
 // hooks
-import SimpleStore from '../undux/SimpleStore'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
+import { useUserStorage } from '../wallet/GoodWalletProvider'
 import logger from '../../lib/logger/js-logger'
 
 // utils
@@ -26,28 +26,14 @@ const { dashboardUrl } = Config
 
 export default (props = {}) => {
   const { navigation } = props
-  const store = SimpleStore.useStore()
   const [showErrorDialog] = useErrorDialog()
-  const isLoggedIn = store.get('isLoggedIn')
   const showDeleteAccountDialog = useDeleteAccountDialog(showErrorDialog)
-
-  const [isSelfCustody, setIsSelfCustody] = useState(false)
-  const { isMenuOn, setMenu, installPrompt } = useContext(GlobalTogglesContext)
+  const userStorage = useUserStorage()
+  const { isMenuOn, setMenu, installPrompt, setAddWebApp } = useContext(GlobalTogglesContext)
   const slideToggle = useCallback(() => setMenu(!isMenuOn), [isMenuOn, setMenu])
   const slideIn = useCallback(() => !isMenuOn && setMenu(true), [isMenuOn, setMenu])
   const slideOut = useCallback(() => isMenuOn && setMenu(false), [isMenuOn, setMenu])
-
-  const getIsSelfCustody = () => {
-    if (isLoggedIn) {
-      const regMethod = store.get('regMethod')
-
-      setIsSelfCustody(regMethod === REGISTRATION_METHOD_SELF_CUSTODY)
-    }
-  }
-
-  useEffect(() => {
-    getIsSelfCustody()
-  }, [isLoggedIn])
+  const isSelfCustody = userStorage.userProperties.get('regMethod') === REGISTRATION_METHOD_SELF_CUSTODY
 
   const bottomItems = useMemo(
     () => [
@@ -84,7 +70,7 @@ export default (props = {}) => {
         name: t`Add App To Home`,
         hidden: !installPrompt && !isMobileSafari,
         action: () => {
-          store.set('addWebApp')({ showAddWebAppDialog: true })
+          setAddWebApp({ showInitial: false, showDialog: true })
           slideOut()
         },
       },

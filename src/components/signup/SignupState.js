@@ -16,7 +16,6 @@ import {
   GD_INITIAL_REG_METHOD,
   GD_USER_MNEMONIC,
   INVITE_CODE,
-  IS_LOGGED_IN,
 } from '../../lib/constants/localStorage'
 
 import { REGISTRATION_METHOD_SELF_CUSTODY, REGISTRATION_METHOD_TORUS } from '../../lib/constants/login'
@@ -36,6 +35,7 @@ import { fireEvent, identifyOnUserSignup, identifyWith } from '../../lib/analyti
 import { parsePaymentLinkParams } from '../../lib/share'
 import AuthStateWrapper from '../auth/components/AuthStateWrapper'
 import { GoodWalletContext } from '../../lib/wallet/GoodWalletProvider'
+import { GlobalTogglesContext } from '../../lib/contexts/togglesContext'
 import type { SMSRecord } from './SmsForm'
 import EmailConfirmation from './EmailConfirmation'
 import SmsForm from './SmsForm'
@@ -137,13 +137,13 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
   }
 
   const { goodWallet, userStorage, login: loginWithWallet, isLoggedInJWT } = useContext(GoodWalletContext)
+  const { setLoggedInRouter, isMobileSafariKeyboardShown } = useContext(GlobalTogglesContext)
   const [ready, setReady]: [Ready, ((Ready => Ready) | Ready) => void] = useState()
   const [signupData, setSignupData] = useState(initialSignupData)
   const [countryCode, setCountryCode] = useState(undefined)
   const [createError, setCreateError] = useState(false)
   const [loading, setLoading] = useState(false)
   const [, hideDialog, showErrorDialog] = useDialog()
-  const shouldGrow = store.get && !store.get('isMobileSafariKeyboardShown')
 
   const { success: signupSuccess, setWalletPreparing, setSuccessfull, activeStep, setActiveStep } = useContext(
     AuthContext,
@@ -201,9 +201,9 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
   //trigger finishRegistration
   useEffect(() => {
     if (goodWallet && userStorage && ready && signupData.finished) {
-      finishRegistration(signupData).then(ok => ok & setSuccessfull(() => store.set('isLoggedIn')(true)))
+      finishRegistration(signupData).then(ok => ok & setSuccessfull(() => setLoggedInRouter(true)))
     }
-  }, [goodWallet, userStorage, ready, signupData.finished])
+  }, [goodWallet, userStorage, ready, signupData.finished, setLoggedInRouter])
 
   const finishRegistration = useCallback(
     async signupData => {
@@ -315,8 +315,6 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
 
         await Promise.all([
           userStorage.userProperties.set('registered', true),
-
-          AsyncStorage.setItem(IS_LOGGED_IN, true),
           AsyncStorage.removeItem(GD_INITIAL_REG_METHOD),
         ])
 
@@ -568,7 +566,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
     const { email } = signupData
 
     // perform this again for torus and on email change. torus has also mobile verification that doesn't set email
-    if (!email) {
+    if (!email || !isLoggedInJWT) {
       return
     }
 
@@ -592,7 +590,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
   const { scrollableContainer, contentContainer } = styles
 
   return (
-    <View style={{ flexGrow: shouldGrow ? 1 : 0 }}>
+    <View style={{ flexGrow: isMobileSafariKeyboardShown ? 1 : 0 }}>
       <NavBar logo />
       <AuthStateWrapper>
         <AuthProgressBar step={activeStep} done={signupSuccess} />

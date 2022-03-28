@@ -3,7 +3,23 @@ import React, { useEffect, useState } from 'react'
 import { I18nProvider } from '@lingui/react'
 import { i18n } from '@lingui/core'
 import { Helmet } from 'react-helmet'
+import { detect, fromNavigator, fromStorage } from '@lingui/detect-locale'
 import { messages as defaultMessages } from './locales/en/catalog'
+
+export const localeFiles = {
+  de: () => import(`./locales/de/catalog.js`),
+  en: () => import(`./locales/en/catalog.js`),
+  'es-AR': () => import(`./locales/es-AR/catalog.js`),
+  it: () => import(`./locales/it/catalog.js`),
+  he: () => import(`./locales/he/catalog.js`),
+  ro: () => import(`./locales/ro/catalog.js`),
+  ru: () => import(`./locales/ru/catalog.js`),
+  vi: () => import(`./locales/vi/catalog.js`),
+  'zh-CN': () => import(`./locales/zh-CN/catalog.js`),
+  'zh-TW': () => import(`./locales/zh-TW/catalog.js`),
+  ko: () => import(`./locales/ko/catalog.js`),
+  ja: () => import(`./locales/ja/catalog.js`),
+}
 
 // This array should equal the array set in .linguirc
 export const locales = ['de', 'en', 'es-AR', 'es', 'it', 'he', 'ro', 'ru', 'vi', 'zh-CN', 'zh-TW', 'ko', 'ja']
@@ -16,16 +32,14 @@ i18n.loadLocaleData(defaultLocale, { plurals: () => null })
 i18n.load(defaultLocale, defaultMessages)
 i18n.activate(defaultLocale)
 
-//const isLocaleValid = locale => locales.includes(locale)
+const isLocaleValid = locale => locales.includes(locale)
 const getInitialLocale = () => {
-  // const detectedLocale = detect(fromStorage('lang'), fromNavigator(), () => defaultLocale)
-  // return detectedLocale && isLocaleValid(detectedLocale) ? detectedLocale : defaultLocale
-
-  return defaultLocale
+  const detectedLocale = detect(fromStorage('lang'), fromNavigator(), () => defaultLocale)
+  return detectedLocale && isLocaleValid(detectedLocale) ? detectedLocale : defaultLocale
 }
 
 async function dynamicActivate(locale) {
-  const { messages } = await import(`@lingui/loader!./locales/${locale}/catalog.json`)
+  const { messages } = await localeFiles[locale]()
   i18n.load(locale, messages)
   i18n.activate(locale)
 }

@@ -1,9 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useCallback, useEffect, useState } from 'react'
+import { NativeModules } from 'react-native'
 import { I18nProvider } from '@lingui/react'
 import { i18n } from '@lingui/core'
 import { Helmet } from 'react-helmet'
-import { detect } from '@lingui/detect-locale'
+import { detect, fromNavigator } from '@lingui/detect-locale'
 import { assign } from 'lodash'
 import AsyncStorage from '../lib/utils/asyncStorage'
 import { messages as defaultMessages } from './locales/en/catalog'
@@ -52,8 +53,12 @@ const I18n = new class {
     const detectedLocale = await detect(
       // eslint-disable-next-line require-await
       async () => AsyncStorage.getItem('lang'),
-
-      // TODO: insert platform-specific (web/android) system locale detection here
+      // eslint-disable-next-line require-await
+      async () => fromNavigator(), //Browser detection
+      // eslint-disable-next-line require-await
+      async () => NativeModules.I18nManager.localeIdentifier, //React Native Android detection
+      // eslint-disable-next-line require-await
+      async () => NativeModules.SettingsManager.settings.AppleLocale, //React Native iOS detection
       // eslint-disable-next-line require-await
       async () => defaultLocale,
     )
@@ -97,9 +102,14 @@ const LanguageProvider = ({ children }) => {
   const { defaultLocale } = I18n
   const contextValue = { setLanguage, language, defaultLocale }
 
-  // do not render if async loading is not completed
+  // render if async loading is not completed to prevent empty renders on Jest
   if (!language) {
-    return null
+    return (
+      <I18nProvider i18n={i18n} forceRenderOnLocaleChange={false}>
+        <Helmet htmlAttributes={{ lang: defaultLocale }} />
+        <LanguageContext.Provider value={contextValue}>{children}</LanguageContext.Provider>
+      </I18nProvider>
+    )
   }
 
   return (

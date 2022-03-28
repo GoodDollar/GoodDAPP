@@ -210,7 +210,13 @@ const InputCodeBox = ({ navigateTo }) => {
     showDialog({
       image: <LoadingIcon />,
       loading: true,
-      message: <Trans>{'Please wait\nThis might take a few seconds...'}</Trans>,
+      message: (
+        <Text styles="text-align:center">
+          {t`Please wait`}
+          {`\n`}
+          {t`This might take a few seconds`}
+        </Text>
+      ),
       showButtons: false,
       title: t`Collecting Invite Reward`,
       showCloseButtons: false,

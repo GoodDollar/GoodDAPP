@@ -84,7 +84,7 @@ account.data.txt
 .DS_Store
 
 # Localization build files
-# src/language/locales/*/*.js
+src/language/locales/*/*.js
 
 # Bundle artifact
 *.jsbundle

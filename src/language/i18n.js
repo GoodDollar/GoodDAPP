@@ -144,7 +144,7 @@ export const LanguageContext = React.createContext({
 })
 
 const LanguageProvider = ({ children }) => {
-  const [language, setCurrentLanguage] = useState(null)
+  const [currentLanguage, setCurrentLanguage] = useState(null)
 
   const setLanguage = useCallback(
     async language => {
@@ -159,12 +159,9 @@ const LanguageProvider = ({ children }) => {
   }, [setLanguage])
 
   const { defaultLocale } = I18n
+  // use default locale if async loading is not completed
+  const language = currentLanguage || defaultLocale
   const contextValue = { setLanguage, language, defaultLocale }
-
-  // do not render if async loading is not completed
-  if (!language) {
-    return null
-  }
 
   return (
     <I18nProvider i18n={i18n} forceRenderOnLocaleChange={false}>

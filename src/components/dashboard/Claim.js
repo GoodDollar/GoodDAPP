@@ -3,6 +3,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { Platform, View } from 'react-native'
 import moment from 'moment'
 import { noop } from 'lodash'
+import { t } from '@lingui/macro'
 import AsyncStorage from '../../lib/utils/asyncStorage'
 
 import ClaimSvg from '../../assets/Claim/claim-footer.svg'
@@ -347,9 +348,9 @@ const Claim = props => {
 
       showDialog({
         image: <LoadingAnimation />,
-        message: 'please wait while processing...\n ',
+        message: t`please wait while processing...` + `\n`,
         buttons: [{ mode: 'custom', Component: EmulateButtonSpace }],
-        title: `YOUR MONEY\nIS ON ITS WAY...`,
+        title: t`YOUR MONEY` + `\n` + t`IS ON ITS WAY...`,
         showCloseButtons: false,
       })
 
@@ -394,9 +395,9 @@ const Claim = props => {
 
         showDialog({
           image: <LoadingAnimation success speed={2} />,
-          buttons: [{ text: 'Yay!' }],
-          message: `You've claimed your daily G$\nsee you tomorrow.`,
-          title: 'CHA-CHING!',
+          buttons: [{ text: t`Yay!` }],
+          message: t`You've claimed your daily G$` + `\n` + t`see you tomorrow.`,
+          title: t`CHA-CHING!`,
           onDismiss: noop,
         })
 

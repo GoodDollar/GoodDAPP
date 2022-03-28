@@ -5,6 +5,7 @@ import { concat, debounce, get, noop, uniqBy } from 'lodash'
 import Mutex from 'await-mutex'
 import type { Store } from 'undux'
 
+import { t } from '@lingui/macro'
 import AsyncStorage from '../../lib/utils/asyncStorage'
 import normalize, { normalizeByLength } from '../../lib/utils/normalizeText'
 import GDStore from '../../lib/undux/GDStore'
@@ -562,14 +563,14 @@ const Dashboard = props => {
           showEventModal(item)
         } else {
           showDialog({
-            title: 'Error',
-            message: 'Event does not exist',
+            title: t`Error`,
+            message: t`Event does not exist`,
           })
         }
       } catch (e) {
         showDialog({
-          title: 'Error',
-          message: 'Event does not exist',
+          title: t`Error`,
+          message: t`Event does not exist`,
         })
       }
     },

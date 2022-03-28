@@ -2,6 +2,7 @@
 import React, { useEffect } from 'react'
 
 // components
+import { t } from '@lingui/macro'
 import ExplanationDialog from '../../../common/dialogs/ExplanationDialog'
 
 // hooks
@@ -23,8 +24,8 @@ const CameraNotAllowedError = ({ onRetry, exception }) => {
 
   useEffect(() => {
     const buttons = []
-    let errorMessage = "We can't find your camera.."
-    let title = `Please connect yours\nor\ntry a different device`
+    let errorMessage = t`We can't find your camera..`
+    let title = t`Please try a different device`
     let text = null
 
     if (!cameraDoesNotExist) {
@@ -41,9 +42,9 @@ const CameraNotAllowedError = ({ onRetry, exception }) => {
           },
       })*/
 
-      errorMessage = 'We can’t access your camera...'
-      title = 'Please enable camera permission'
-      text = 'Change it via your device settings'
+      errorMessage = t`We can't access your camera...`
+      title = t`Please enable camera permission`
+      text = t`Change it via your device settings`
     }
 
     if (exception) {

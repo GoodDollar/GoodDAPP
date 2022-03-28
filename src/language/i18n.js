@@ -159,6 +159,7 @@ const LanguageProvider = ({ children }) => {
   }, [setLanguage])
 
   const { defaultLocale } = I18n
+
   // use default locale if async loading is not completed
   const language = currentLanguage || defaultLocale
   const contextValue = { setLanguage, language, defaultLocale }

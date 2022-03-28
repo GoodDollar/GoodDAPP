@@ -2,6 +2,7 @@
 import React from 'react'
 
 // components
+import { t } from '@lingui/macro'
 import ExplanationDialog from '../../common/dialogs/ExplanationDialog'
 
 export default ({ onDismiss, navigate, ...dialogProps }) => (
@@ -9,7 +10,7 @@ export default ({ onDismiss, navigate, ...dialogProps }) => (
     {...dialogProps}
     buttons={[
       {
-        text: 'How to do that?',
+        text: t`How to do that?`,
         action: () => {
           onDismiss()
           navigate('Support')

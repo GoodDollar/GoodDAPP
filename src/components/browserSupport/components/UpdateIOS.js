@@ -2,7 +2,7 @@
 import React from 'react'
 
 // components
-import { t, Trans } from '@lingui/macro'
+import { t } from '@lingui/macro'
 import ExplanationDialog from '../../common/dialogs/ExplanationDialog'
 
 // assets
@@ -15,10 +15,10 @@ export default ({ onDismiss }) => (
   <ExplanationDialog
     title={t`Oops! Your iOS is outdated`}
     text={
-      <>
-        <Trans style={{ textAlign: 'center' }}>
-          {`Please update your iOS to access GoodDollar.\nMinimum version required: iOS`}
-        </Trans>
+      <>        
+        {t`Please update your iOS to access GoodDollar.`}
+        {`\n`}
+        {t`Minimum version required: iOS`}        
         {Config.minimalIOSVersion}
       </>
     }

@@ -163,7 +163,12 @@ const LanguageProvider = ({ children }) => {
 
   // do not render if async loading is not completed
   if (!language) {
-    return null
+    return (
+      <I18nProvider i18n={i18n} forceRenderOnLocaleChange={false}>
+        <Helmet htmlAttributes={{ lang: defaultLocale }} />
+        <LanguageContext.Provider value={contextValue}>{children}</LanguageContext.Provider>
+      </I18nProvider>
+    )
   }
 
   return (

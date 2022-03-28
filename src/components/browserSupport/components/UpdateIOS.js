@@ -16,7 +16,8 @@ export default ({ onDismiss }) => (
     title={t`Oops! Your iOS is outdated`}
     text={
       <Trans>
-        {'Please update your iOS to access GoodDollar.\nMinimum version required: iOS ' + Config.minimalIOSVersion}
+        {'Please update your iOS to access GoodDollar.\nMinimum version required: iOS '}
+        {Config.minimalIOSVersion}
       </Trans>
     }
     image={illustration}

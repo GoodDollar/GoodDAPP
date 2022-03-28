@@ -1,9 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { I18nProvider } from '@lingui/react'
 import { i18n } from '@lingui/core'
 import { Helmet } from 'react-helmet'
-import { detect, fromNavigator, fromStorage } from '@lingui/detect-locale'
+import { detect } from '@lingui/detect-locale'
+import { assign } from 'lodash'
+import AsyncStorage from '../lib/utils/asyncStorage'
 import { messages as defaultMessages } from './locales/en/catalog'
 
 export const localeFiles = {
@@ -25,24 +27,50 @@ export const localeFiles = {
 export const locales = ['de', 'en', 'es-AR', 'es', 'it', 'he', 'ro', 'ru', 'vi', 'zh-CN', 'zh-TW', 'ko', 'ja']
 export const defaultLocale = 'en'
 
-locales.map(locale => i18n.loadLocaleData(locale, { plurals: () => null })) // Doesn't load plurals. This is a list used for implementing a language selector.
+const I18n = new class {
+  constructor(i18n, options) {
+    assign(this, { i18n, ...options })
 
-//Loading english as default to prevent async loading problems.
-i18n.loadLocaleData(defaultLocale, { plurals: () => null })
-i18n.load(defaultLocale, defaultMessages)
-i18n.activate(defaultLocale)
+    // Doesn't load plurals. This is a list used for implementing a language selector.
+    this.locales.map(locale => i18n.loadLocaleData(locale, { plurals: () => null }))
 
-const isLocaleValid = locale => locales.includes(locale)
-const getInitialLocale = () => {
-  const detectedLocale = detect(fromStorage('lang'), fromNavigator(), () => defaultLocale)
-  return detectedLocale && isLocaleValid(detectedLocale) ? detectedLocale : defaultLocale
-}
+    const { defaultLocale } = this
 
-async function dynamicActivate(locale) {
-  const { messages } = await localeFiles[locale]()
-  i18n.load(locale, messages)
-  i18n.activate(locale)
-}
+    // Loading english as default to prevent async loading problems.
+    i18n.loadLocaleData(defaultLocale, { plurals: () => null })
+    i18n.load(defaultLocale, defaultMessages)
+    i18n.activate(defaultLocale)
+  }
+
+  isLocaleValid(locale) {
+    return this.locales.includes(locale)
+  }
+
+  async getInitialLocale() {
+    const { defaultLocale } = this
+
+    const detectedLocale = await detect(
+      // eslint-disable-next-line require-await
+      async () => AsyncStorage.getItem('lang'),
+
+      // TODO: insert platform-specific (web/android) system locale detection here
+      // eslint-disable-next-line require-await
+      async () => defaultLocale,
+    )
+
+    return detectedLocale && this.isLocaleValid(detectedLocale) ? detectedLocale : defaultLocale
+  }
+
+  async dynamicActivate(locale) {
+    const { messages } = await this.localeFiles[locale]()
+    const { i18n } = this
+
+    i18n.load(locale, messages)
+    i18n.activate(locale)
+
+    await AsyncStorage.setItem('lang', locale)
+  }
+}()(i18n, { locales, defaultLocale, localeFiles })
 
 export const LanguageContext = React.createContext({
   setLanguage: _ => null,
@@ -50,47 +78,32 @@ export const LanguageContext = React.createContext({
 })
 
 const LanguageProvider = ({ children }) => {
-  const [language, setLanguage] = useState(getInitialLocale())
-  const [init, setInit] = useState(true)
+  const [language, setCurrentLanguage] = useState(null)
 
-  const _setLanguage = language => {
-    if (!init) {
-      dynamicActivate(language).then(() => {
-        localStorage.setItem('lang', language)
-        setLanguage(language)
-      })
-    } else {
-      localStorage.setItem('lang', language)
-      setLanguage(language)
-    }
-  }
+  const setLanguage = useCallback(
+    async language => {
+      await I18n.dynamicActivate(language)
+      setCurrentLanguage(language)
+    },
+    [setCurrentLanguage],
+  )
 
   useEffect(() => {
-    const load = async () => {
-      await dynamicActivate(language)
-      setInit(false)
-    }
+    I18n.getInitialLocale().then(setLanguage)
+  }, [setLanguage])
 
-    load()
-  }, [])
+  const { defaultLocale } = I18n
+  const contextValue = { setLanguage, language, defaultLocale }
 
-  //render if async loading is not completed
-  if (init) {
-    return (
-      <I18nProvider i18n={i18n} forceRenderOnLocaleChange={false}>
-        <Helmet htmlAttributes={{ lang: defaultLocale }} />
-        <LanguageContext.Provider value={{ setLanguage: _setLanguage, defaultLocale }}>
-          {children}
-        </LanguageContext.Provider>
-      </I18nProvider>
-    )
+  // do not render if async loading is not completed
+  if (!language) {
+    return null
   }
 
-  //render if async loading is completed
   return (
     <I18nProvider i18n={i18n} forceRenderOnLocaleChange={false}>
       <Helmet htmlAttributes={{ lang: language }} />
-      <LanguageContext.Provider value={{ setLanguage: _setLanguage, language }}>{children}</LanguageContext.Provider>
+      <LanguageContext.Provider value={contextValue}>{children}</LanguageContext.Provider>
     </I18nProvider>
   )
 }
